@@ -116,7 +116,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/sling_bullet/aalloy
 	name = "decrepit sling bullet"
-	desc = "A pellet of frayed bronze. The alloy flakes apart in your grasp, staining the palm with flecks of brown-and-red."
+	desc = "A pellet of rotted metal. The alloy flakes apart in your grasp, staining the palm with flecks of brown-and-red."
 	projectile_type = /obj/projectile/bullet/reusable/sling_bullet/aalloy
 	icon_state = "ancient_sling_bullet"
 	color = "#bb9696"
@@ -374,12 +374,6 @@
 
 
 //mob projectiles
-/obj/projectile/bullet/reusable/arrow/orc
-	armor_penetration = PEN_LIGHT
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
-	embedchance = 100
-	speed = 2 // I guess slower to be slightly more forgiving to players since they're otherwise aimbots
-
 /obj/projectile/bullet/reusable/arrow/ancient
 	damage = 10
 	armor_penetration = PEN_LIGHT

@@ -55,12 +55,11 @@
 /datum/outfit/job/roguetown/sexton/groundskeeper/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	armor = /obj/item/clothing/suit/roguetown/armor/workervest
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
-	gloves = /obj/item/clothing/gloves/roguetown/leather
-	pants = /obj/item/clothing/under/roguetown/trou
-	belt = /obj/item/storage/belt/rogue/leather/sash
-	shoes = /obj/item/clothing/shoes/roguetown/simpleshoes
+	head = /obj/item/clothing/head/roguetown/roguehood/undividedcleric
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/undividedcleric
+	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	beltl = /obj/item/rogueweapon/shovel/small
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -115,7 +114,7 @@
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
 	)
-	subclass_skills = list( 
+	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
@@ -157,9 +156,9 @@
 
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Church Funding.")
-		
+
 	var/prev_real_name = H.real_name
 	var/prev_name = H.name
 	var/prefix = "Gravetender" // similar to Big Man: prefix so it's easier to tell who this guy is.
 	H.real_name = "[prefix] [prev_real_name]"
-	H.name = "[prefix] [prev_name]"	
+	H.name = "[prefix] [prev_name]"

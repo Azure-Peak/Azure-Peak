@@ -10,21 +10,23 @@
 */
 
 // Admins: please don't molest my lists. You can't add new types at runtime anyways. Kisses! - Zoktiik
-GLOBAL_LIST_EMPTY(cmode_tracks_by_type)
 GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
+GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 
-// People make mistakes. This should help catch when that happens.
-/proc/cmode_track_to_namelist(datum/combat_music/track)
-	if(!track)
-		return
-	if(!track.name)
-		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
-		CRASH("CMODE MUSIC: type [track.type] has no name!")
-	if(GLOB.cmode_tracks_by_name[track.name])
-		LAZYREMOVE(GLOB.cmode_tracks_by_type, track.type)
-		CRASH("CMODE MUSIC: type [track.type] has duplicate name \"[track.name]\"!")
-	GLOB.cmode_tracks_by_name[track.name] = track
-	return
+/proc/build_cmode_tracks()
+	. = list()
+	for(var/path in subtypesof(/datum/combat_music))
+		var/datum/combat_music/track = new path()
+		// People make mistakes. This should help catch when that happens.
+		if(!track.name)
+			stack_trace("CMODE MUSIC: type [track.type] has no name!")
+			continue
+		if(LAZYACCESS(GLOB.cmode_tracks_by_name, track.name))
+			stack_trace("CMODE MUSIC: type [track.type] has duplicate name \"[track.name]\"!")
+			continue
+
+		.[path] = track
+		LAZYSET(GLOB.cmode_tracks_by_name, track.name, track)
 
 /datum/combat_music
 	var/name
@@ -32,6 +34,15 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	var/shortname
 	var/credits
 	var/musicpath = list()
+
+/datum/combat_music/proc/constant_ui_data()
+	return list(
+		"type" = type,
+		"name" = name,
+		"desc" = desc,
+		"shortname" = shortname,
+		"credits" = credits,
+	)
 
 // Shit WILL break if you change /default's typepath. Don't do it.
 /datum/combat_music/default
@@ -123,6 +134,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	shortname = "Bandit Rogue"
 	credits = "T-87 SULFURHEAD - Cutpurse (https://www.youtube.com/@T87-Sulfurhead)"
 	musicpath = list('sound/music/cmode/antag/combat_cutpurse.ogg')
+
+/datum/combat_music/bandit_mage
+	name = "Bandit Mage (Hedge Mage)"
+	desc = "I probably wouldn't shove a lucid memory of my mynd being torn apart in a stranger's face, if I didn't want to get skullcracked."
+	shortname = "Bandit Mage"
+	credits = "corru.works - Timestopper Tactics (https://corruworks.bandcamp.com)"
+	musicpath = list('sound/music/cmode/antag/combat_timestopper.ogg')
 
 /datum/combat_music/barbarian
 	name = "Barbarian"
@@ -258,6 +276,13 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	credits = "Ben_19M - THE WHOLE BODY IS BULLETPROOF (https://www.youtube.com/@Ben_19M)"
 	musicpath = list('sound/music/combat_bloodrage.ogg')
 
+/datum/combat_music/heretic_psydon
+	name = "Heretic - Psydon"
+	desc = "THERE IS A TUMOR DIRECTLY BEHIND MY LEFT EYEBALL."
+	shortname = "Psy-Heretic"
+	credits = "corru.works - BSTRD (https://corruworks.bandcamp.com)"
+	musicpath = list('sound/music/cmode/antag/combat_adonai.ogg')
+
 /datum/combat_music/heretic_baotha
 	name = "Heretic - Baotha"
 	desc = ""
@@ -384,7 +409,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 	musicpath = list('sound/music/cmode/church/combat_necra.ogg')
 
 /datum/combat_music/noble
-	name = "Noble (Merchant/Freifechter)"
+	name = "Noble (Merchant)"
 	desc = ""
 	shortname = "Noble"
 	musicpath = list('sound/music/combat_noble.ogg')
@@ -550,7 +575,7 @@ GLOBAL_LIST_EMPTY(cmode_tracks_by_name)
 
 /datum/combat_music/aavshepherd
 	name = "Aavnic Shepherd"
-	desc = "\"No saber in hand, they crush bones with their fokos!\""
+	desc = "\"No sabre in hand, they crush bones with their fokos!\""
 	shortname = "Shepherd"
 	credits = "MusicImaginary - Yendrek"
 	musicpath = list('sound/music/frei_shepherd.ogg')

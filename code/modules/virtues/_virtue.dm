@@ -5,6 +5,8 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/name
 	/// A brief, in-character description of what the virtue does.
 	var/desc
+	/// FontAwesome icon name to display in the PreferencesMenu UI
+	var/ui_fa_icon = null
 	/// Description for origins, allowed to be a bit wordy.
 	var/origin_desc
 	/// Name for origins - used for the nation's name, not a denonym!
@@ -199,6 +201,92 @@ GLOBAL_LIST_EMPTY(virtues)
 		if(istype(recipient.client?.prefs?.virtue, recipient.client?.prefs?.virtuetwo))
 			stacked = TRUE
 		record_featured_object_stat(FEATURED_STATS_VIRTUES, (stacked ? "[virtue_type.name] (Stacked)" : virtue_type.name), stacked ? 0.5 : 1)
+
 /datum/virtue/none
 	name = "None"
 	desc = "Without virtue."
+	ui_fa_icon = "ban"
+	stackable = TRUE
+
+/// Dynamic UI data for TGUI to display these in the prefs menu
+/datum/virtue/ui_data(mob/user)
+	var/list/data = ..()
+
+	data["name"] = name
+	data["max_choices"] = max_choices
+
+	var/amount_picked = LAZYLEN(picked_choices)
+
+	var/tricost = 0
+	if(LAZYLEN(extra_choices))
+		for(var/i in 1 to amount_picked)
+			tricost += choice_costs[i]
+	data["tricost"] = tricost
+
+	var/next_cost = 0
+	if(amount_picked < max_choices)
+		next_cost = choice_costs[(amount_picked + 1)]
+	data["next_cost"] = next_cost
+
+	var/list/picked_choices_data = list()
+	for(var/i in 1 to LAZYLEN(picked_choices))
+		var/choice = picked_choices[i]
+		UNTYPED_LIST_ADD(picked_choices_data, list(
+			"index" = i,
+			"choice" = "[choice]",
+			"tooltip" = LAZYACCESS(choice_tooltips, choice)
+		))
+	data["picked_choices"] = picked_choices_data
+
+	return data
+
+/// Constant UI data for TGUI to display these in the prefs menu
+/datum/virtue/proc/constant_ui_data()
+	var/list/data = list(
+		"name" = name,
+		"desc" = desc,
+		"icon" = ui_fa_icon,
+		"softcap" = softcap,
+		"is_origin" = istype(src, /datum/virtue/origin),
+		"origin_desc" = origin_desc,
+		"custom_text" = custom_text,
+		"stackable" = stackable,
+		"added_skills" = null,
+		"added_traits" = null,
+		"added_stashed_items" = null,
+		"added_languages" = null,
+	)
+
+	var/list/added_skills_data = list()
+	for(var/list/L in added_skills)
+		var/name
+		if(ispath(L[1],/datum/skill))
+			var/datum/skill/S = L[1]
+			name = initial(S.name)
+		UNTYPED_LIST_ADD(added_skills_data, list(
+			"name" = name,
+			"level" = L[2],
+			"max_level" = SSskills.level_names_plain[L[3]],
+		))
+	data["added_skills"] = added_skills_data
+
+	var/list/added_traits_data = list()
+	for(var/TR in added_traits)
+		UNTYPED_LIST_ADD(added_traits_data, list(
+			"name" = TR,
+			"desc" = GLOB.roguetraits[TR],
+		))
+	data["added_traits"] = added_traits_data
+
+	var/list/added_stashed_items_data = list()
+	for(var/I in added_stashed_items)
+		UNTYPED_LIST_ADD(added_stashed_items_data, I)
+	data["added_stashed_items"] = added_stashed_items_data
+
+	var/list/added_languages_data = list()
+	for(var/L in added_languages)
+		var/datum/language/lang = L
+		UNTYPED_LIST_ADD(added_languages_data, initial(lang.name))
+	data["added_languages"] = added_languages_data
+
+	return data

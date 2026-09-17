@@ -49,6 +49,7 @@ type FundingSource = 'pledge' | 'crown' | 'directive';
 type SubTab = 'compose' | 'history';
 const RECOVERY_TYPE = 'Recovery';
 const BLOCKADE_TYPE = 'Blockade Defense';
+const HOARD_RECOVERY_TYPE = 'Hoard Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
 
 const COMMISSION_LABELS: Record<string, string> = {
@@ -256,11 +257,10 @@ const ComposeView = () => {
   const cost = data.defense_costs?.[type] ?? 0;
   const needsDestination = type === RECOVERY_TYPE;
   const isBlockade = type === BLOCKADE_TYPE;
-  // The picked blockade's recall entry, if any. Present when a writ is already in
-  // circulation for that region - the entry tells us whether it is still recallable
-  // and drives the Recall button below.
+  const isHoardRecovery = type === HOARD_RECOVERY_TYPE;
+  const isWrit = isBlockade || isHoardRecovery;
   const recallEntry =
-    isBlockade && region
+    isWrit && region
       ? (data.blockade_recall_list || []).find((e) => e.region === region)
       : undefined;
   const regionHasActiveWrit = !!recallEntry;
@@ -320,9 +320,11 @@ const ComposeView = () => {
       : !region
         ? isBlockade
           ? 'No blockade to clear.'
-          : 'Pick a region.'
-        : isBlockade && regionHasActiveWrit
-          ? 'A writ is already in circulation for this blockade.'
+          : isHoardRecovery
+            ? 'No hoard is large enough.'
+            : 'Pick a region.'
+        : isWrit && regionHasActiveWrit
+          ? 'A writ is already in circulation for this region.'
           : needsDestination && !destination
             ? 'Pick the shipment destination.'
             : fundingDisabledReason;
@@ -335,8 +337,8 @@ const ComposeView = () => {
       type,
       region,
       destination: needsDestination ? destination : null,
-      // Blockade + directive writs are always bearer-bond; ignore the mode control.
-      in_hands: isBlockade || isDirective ? 1 : mode === 'hands' ? 1 : 0,
+      // Blockade, hoard recovery, and directive writs are always bearer-bond; ignore the mode control.
+      in_hands: isWrit || isDirective ? 1 : mode === 'hands' ? 1 : 0,
       // Directives skip the levy-exempt stamp (no reward to exempt).
       levy_exempt: isDirective ? 0 : levyExempt ? 1 : 0,
       // Bonus Pay forced off for Requests (directive) server-side as well.
@@ -366,7 +368,11 @@ const ComposeView = () => {
         </select>
       </FormRow>
 
-      <FormRow label={isBlockade ? 'Blockaded Region' : 'Region'}>
+      <FormRow
+        label={
+          isBlockade ? 'Blockaded Region' : isHoardRecovery ? 'Hoard Region' : 'Region'
+        }
+      >
         <select
           className="ContractLedger__InnkeeperSelect"
           value={region}
@@ -377,17 +383,19 @@ const ComposeView = () => {
             {regionsForType.length === 0
               ? isBlockade
                 ? 'No blockades are active.'
-                : 'No region will host this type'
+                : isHoardRecovery
+                  ? 'No hoard is large enough.'
+                  : 'No region will host this type'
               : isBlockade
                 ? '- pick a blockade -'
                 : '- pick a region -'}
           </option>
           {regionsForType.map((r) => {
             const mult = data.region_tp_multipliers?.[r];
-            // Only annotate non-blockade regions - blockade rows route through economic
-            // regions, which don't carry a TP multiplier.
+            // Only annotate non-writ regions - blockade rows route through economic
+            // regions, which don't carry a TP multiplier, and writ rewards are flat.
             const suffix =
-              !isBlockade && typeof mult === 'number' && mult !== 1
+              !isWrit && typeof mult === 'number' && mult !== 1
                 ? ` (×${mult} reward)`
                 : '';
             const label = isBlockade
@@ -403,7 +411,7 @@ const ComposeView = () => {
         </select>
       </FormRow>
 
-      {!isBlockade &&
+      {!isWrit &&
         region &&
         (() => {
           const flavor = regionRewardFlavor(
@@ -527,7 +535,7 @@ const ComposeView = () => {
         </FormRow>
       )}
 
-      {!isBlockade && funding !== 'directive' && (
+      {!isWrit && funding !== 'directive' && (
         <FormRow label="Deliver As">
           <div className="ContractLedger__InnkeeperModeRow">
             <ModeRadio
@@ -563,7 +571,19 @@ const ComposeView = () => {
         </div>
       )}
 
-      {isBlockade && recallEntry && (
+      {isHoardRecovery && funding !== 'directive' && (
+        // TODO: flavor - plain placeholder, rewrite
+        <div className="ContractLedger__InnkeeperFlavor">
+          Hoard recovery writs are always drawn to your hand and work like
+          blockade writs: pin to the Grand Contract Ledger to require a
+          Fellowship of three, or hand to a trusted party directly. On top of
+          the standard blockade reward, the bearer seizes the region&apos;s
+          banditry hoard, taxed as Recovered Spoils. No trade route is blocked
+          by the writ.
+        </div>
+      )}
+
+      {isWrit && recallEntry && (
         <div className="ContractLedger__InnkeeperFlavor">
           {recallEntry.recall_eligible
             ? `A writ is in circulation for ${recallEntry.region} and has gone unanswered. It can be recalled now${
@@ -585,11 +605,11 @@ const ComposeView = () => {
         >
           {funding === 'directive'
             ? 'Submit Request'
-            : isBlockade
+            : isWrit
               ? `Print Writ (${coin(effectiveCost)})`
               : `Commission (${coin(effectiveCost)})`}
         </button>
-        {isBlockade && !!recallEntry?.recall_eligible && (
+        {isWrit && !!recallEntry?.recall_eligible && (
           <button
             type="button"
             className="ContractLedger__SignButton"

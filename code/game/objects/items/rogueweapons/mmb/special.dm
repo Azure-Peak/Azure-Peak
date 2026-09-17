@@ -25,22 +25,22 @@
 
 	var/obj/item/rogueweapon/W = user.get_active_held_item()
 	var/datum/special_intent/active_special
-	var/skillreq
+	var/skill_level = SKILL_LEVEL_NONE
 
 	if(istype(W, /obj/item/rogueweapon) && W.special)
 		active_special = W.special
-		skillreq = W.associated_skill
+		skill_level = user.get_wskill(W)
 	else if(!W && ishuman(user))
 		var/mob/living/carbon/human/HU = user
 		if(HU.unarmed_special)
 			active_special = HU.unarmed_special
-			skillreq = /datum/skill/combat/unarmed
+			skill_level = user.get_skill_level(/datum/skill/combat/unarmed)
 
 	if(active_special)
 		if(active_special.custom_skill)
-			skillreq = active_special.custom_skill
+			skill_level = user.get_skill_level(active_special.custom_skill)
 		if(!HAS_TRAIT(user, TRAIT_BATTLEMASTER))
-			if(user.get_skill_level(skillreq) < SKILL_LEVEL_JOURNEYMAN)
+			if(skill_level < SKILL_LEVEL_JOURNEYMAN)
 				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
 				return
 		var/atom/parent = W ? W : user

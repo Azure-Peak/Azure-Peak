@@ -2,10 +2,10 @@
 	return length(alt_grips) > 0
 
 /obj/item/proc/knows_altgrip(mob/user)
-	if(!associated_skill || !istype(user, /mob/living/carbon))
+	if(!istype(user, /mob/living/carbon))
 		return FALSE
 	var/mob/living/carbon/carbon_user = user
-	return carbon_user.get_skill_level(associated_skill) >= SKILL_LEVEL_JOURNEYMAN
+	return carbon_user.get_wskill(src, null, FALSE) >= SKILL_LEVEL_JOURNEYMAN
 
 /obj/item/proc/get_altgrip_holder()
 	if(istype(loc, /mob/living/carbon))
@@ -57,19 +57,26 @@
 		var/datum/alt_grip/grip = get_altgrip_state(index)
 		if(!grip)
 			continue
+		var/usable = grip.usable_by(src, user)
 		var/list/parts = list()
 		parts += "<span style='margin-left: 1.2em'>- <b>[altgrip_name(grip, user)]</b></span>"
+		var/datum/skill/grip_skilltype = grip.grip_skilltype(src, user)
+		if(grip_skilltype)
+			var/skilltag = "\[[uppertext(initial(grip_skilltype.name))] ([grip.skill_factor(src, grip_skilltype)]x)\]"
+			parts += usable ? span_info(skilltag) : skilltag
 		parts += "<span class='info'><a href='?src=[REF(link_source)];[href_key]=[index]'>{?}</a></span>"
-		if(grip.is_two_handed(src))
-			parts += span_danger("(2H)")
+		var/hands = grip.is_two_handed(src) ? "(2H)" : "(1H)"
+		if(!usable)
+			parts += hands
+		else if(grip.is_two_handed(src))
+			parts += span_danger(hands)
 		else
-			parts += span_notice("(1H)")
+			parts += span_notice(hands)
 		var/required_traits_text = grip.get_trait_text()
 		if(required_traits_text)
-			parts += span_info(required_traits_text)
-		if(!grip.usable_by(src, user))
-			parts += span_danger("(Unavailable)")
-		lines += jointext(parts, " ")
+			parts += usable ? span_info(required_traits_text) : required_traits_text
+		var/line = jointext(parts, " ")
+		lines += usable ? line : span_danger(line)
 	if(!length(lines))
 		return null
 	return lines
@@ -100,8 +107,6 @@
 	text += "<br><b>Hands:</b> [grip.is_two_handed(src) ? "Two-handed" : "One-handed"]"
 	var/trait_text = grip.get_trait_text()
 	text += "<br><b>Required Trait:</b> [trait_text ? trait_text : "None"]"
-	var/skill_text = grip.get_skill_text(src)
-	text += "<br><b>Weapon Skill:</b> [skill_text ? skill_text : "None"]"
 	text += "<br><b>Intents:</b> [format_altgrip_intents(grip.get_grip_intents(src))]"
 	text += "<br><b>Weapon Stat Changes:</b> [format_altgrip_stats(grip, overrides)]"
 	return text.Join("")
@@ -323,6 +328,8 @@
 	var/list/trait_applied = null
 	/// Minimum associated weapon skill level required to use this grip. SKILL_LEVEL_NONE means unrestricted.
 	var/skill_req = SKILL_LEVEL_NONE
+	/// Associated skill for that grip. grip_skill's used when doing calcs with that grip on.
+	var/list/grip_skill
 	/// On-mob sprite prop overrides keyed by the requested getonmobprop tag.
 	var/list/onmobprop_overrides
 	/// Map of item var names to replacement override values applied while this state is active.
@@ -349,30 +356,49 @@
 				break
 		if(!has_trait)
 			return FALSE
-	if(skill_req)
-		if(!user || !source?.associated_skill)
+	var/skill_gate = skill_req
+	if(!skill_gate && length(grip_skill))
+		skill_gate = SKILL_LEVEL_JOURNEYMAN
+	if(skill_gate)
+		if(!user)
 			return FALSE
-		if(user.get_skill_level(source.associated_skill) < skill_req)
+		if(grip_wskill(source, user) < skill_gate)
 			return FALSE
 	return TRUE
+
+/datum/alt_grip/proc/skill_factor(obj/item/source, skill)
+	if(length(grip_skill) && (skill in grip_skill))
+		var/defined = grip_skill[skill]
+		if(!isnull(defined))
+			return defined
+	return source ? source.wskill_factor(skill) : 1
+
+/datum/alt_grip/proc/grip_skilltype(obj/item/source, mob/user)
+	if(!length(grip_skill))
+		return user ? user.get_wskill_type(source, FALSE) : source?.associated_skill
+	if(!user)
+		return grip_skill[1]
+	var/best_type
+	var/best = SKILL_LEVEL_NONE
+	for(var/skill in grip_skill)
+		var/scaled = user.get_skill_level(skill) * skill_factor(source, skill)
+		if(!best_type || scaled > best)
+			best = scaled
+			best_type = skill
+	return best_type
+
+/datum/alt_grip/proc/grip_wskill(obj/item/source, mob/user)
+	if(!user || !source)
+		return SKILL_LEVEL_NONE
+	if(!length(grip_skill))
+		return user.get_wskill(source, null, FALSE)
+	var/winner = grip_skilltype(source, user)
+	return winner ? user.get_skill_level(winner) * skill_factor(source, winner) : SKILL_LEVEL_NONE
 
 /datum/alt_grip/proc/get_trait_text()
 	if(!length(trait_applied))
 		return null
 	return "([jointext(trait_applied, "/")])"
-
-/datum/alt_grip/proc/get_skill_text(obj/item/source)
-	if(!skill_req)
-		return null
-	if(!source?.associated_skill)
-		return skill_to_string(skill_req)
-	if(ispath(source.associated_skill, /datum/skill))
-		var/datum/skill/skill_path = source.associated_skill
-		return "[initial(skill_path.name)]: [skill_to_string(skill_req)]"
-	if(istype(source.associated_skill, /datum/skill))
-		var/datum/skill/skill_datum = source.associated_skill
-		return "[skill_datum.name]: [skill_to_string(skill_req)]"
-	return skill_to_string(skill_req)
 
 /datum/alt_grip/proc/getonmobprop(obj/item/source, tag)
 	if(!tag || !onmobprop_overrides)
@@ -461,11 +487,11 @@
 		),
 	)
 	var_overrides = list(
-		"wlength" = WLENGTH_SHORT,
+		"wlength" = WLENGTH_SHORT
+	)
+	additive_var_overrides = list(
 		"wdefense" = -2
 	)
-
-/datum/alt_grip/mordhau/sword/frei
 
 /datum/alt_grip/mordhau/broadsword
 	grip_intents = list(
@@ -659,52 +685,29 @@
 	)
 
 /datum/alt_grip/halfsword/frei
+	name = "mezza spada"
 	trait_applied = list(TRAIT_LONGSWORDSMAN)
 	additive_var_overrides = list(
-		"wdefense" = 3
+		"wdefense" = 2
 	)
 	grip_intents = list(
-		/datum/intent/sword/thrust/long/halfsword/frei,
-		/datum/intent/effect/daze/longsword2h,
-		/datum/intent/shield/block
+		/datum/intent/sword/thrust/long/halfsword/jab,
+		/datum/intent/shield/block,
+		/datum/intent/sword/thrust/long/deep/halfsword/frei,
+		/datum/intent/sword/thrust/long/halfsword/frei
 	)
 
-/datum/alt_grip/roof_guard
-	name = "roof guard"
+/datum/alt_grip/mordhau/sword/frei
+	name = "abrazare"
 	two_handed = TRUE
 	additive_var_overrides = list(
-		wdefense = -1 //HOWEVER. this gives me the idea that using roof guard will reduce your parry by a little. glass cannon mode against swift players kind of
+		"wdefense" = -4
 	)
 	trait_applied = list(TRAIT_LONGSWORDSMAN)
 	grip_intents = list(
-		/datum/intent/sword/cut/master,
-		/datum/intent/sword/thrust/long/master,
+		/datum/intent/sword/strike/bash/mordhau,
+		/datum/intent/sword/strike/bash/mordhau/smash,
 		/datum/intent/effect/daze/longsword
-	)
-	onmobprop_overrides = list(
-		"altgrip" = list(
-			"shrink" = 0.6,
-			"sx" = -2,
-			"sy" = 9,
-			"nx" = 5,
-			"ny" = 5,
-			"wx" = 0,
-			"wy" = 7,
-			"ex" = -2,
-			"ey" = 7,
-			"northabove" = 0,
-			"southabove" = 1,
-			"eastabove" = 1,
-			"westabove" = 0,
-			"nturn" = 117,
-			"sturn" = -301,
-			"wturn" = -75,
-			"eturn" = -110,
-			"nflip" = 8,
-			"sflip" = 8,
-			"wflip" = 1,
-			"eflip" = 0,
-		),
 	)
 
 /datum/alt_grip/halfsword/greatsword

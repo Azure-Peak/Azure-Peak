@@ -887,6 +887,10 @@
 	repair_cost_second = /obj/item/ingot/iron
 	repair_skill = /datum/skill/craft/carpentry
 
+/obj/structure/mineral_door/wood/donjon/OnCrafted(dirin)
+	dir = turn(dirin, 180)
+	viewportdir = dir
+
 /obj/structure/mineral_door/wood/donjon/stone
 	name = "stone door"
 	desc = "A thick, heavy door built into a carved stone frame. It looks durable."
@@ -1048,6 +1052,10 @@
 /obj/structure/mineral_door/wood/towner/miner
 	resident_advclass = list(/datum/advclass/miner, /datum/advclass/minermaster)
 	lockid = "towner_miner"
+
+/obj/structure/mineral_door/wood/towner/potter
+	resident_advclass = list(/datum/advclass/potter)
+	lockid = "towner_potter"
 
 /obj/structure/mineral_door/wood/towner/seamstress
 	resident_advclass = list(/datum/advclass/seamstress)

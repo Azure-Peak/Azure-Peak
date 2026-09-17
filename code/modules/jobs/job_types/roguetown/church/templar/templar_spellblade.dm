@@ -10,7 +10,7 @@
 	allowed_patrons = list(/datum/patron/divine/noc)
 	maximum_possible_slots = 2 // The Special Snowflake And Their Friend
 	subclass_languages = list(/datum/language/grenzelhoftian)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ARCYNE, TRAIT_UNCONVERTIBLE)
 	tempo_capable = FALSE
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -50,10 +50,10 @@
 	..()
 
 	// Equipment — medium armor templar with Noc theming
-	wrists = /obj/item/clothing/neck/roguetown/psicross/noc
 	cloak = /obj/item/clothing/cloak/tabard/devotee/noc
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/holysee
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	pants = /obj/item/clothing/under/roguetown/chainlegs
@@ -61,10 +61,12 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	backr = /obj/item/rogueweapon/shield/heater
 	backl = /obj/item/storage/backpack/rogue/satchel
-	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
-	id = /obj/item/clothing/ring/silver
+	beltl = /obj/item/clothing/neck/roguetown/psicross/noc
+	id = /obj/item/clothing/ring/silver/cleric
 	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/ritechalk = 1,
+		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/keyring/acolyte = 1,
 		/obj/item/rogueweapon/spellbook = 1,

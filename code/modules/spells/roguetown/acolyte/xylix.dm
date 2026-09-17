@@ -39,20 +39,24 @@
 	antimagic_allowed = TRUE
 	recharge_time = 30 SECONDS
 	var/firstcast = TRUE
-	var/icon/clone_icon
 	ignore_combat_tag = TRUE
 
 /obj/effect/proc_holder/spell/invoked/mastersillusion/cast(list/targets, mob/living/carbon/human/user = usr)
 	if(firstcast)
 		to_chat(user, span_italics("...Oh, oh, thy visage is so grand! Let us prepare it for tricks!"))
-		clone_icon = get_flat_human_icon("[user.real_name] decoy", null, null, DUMMY_HUMAN_SLOT_MANIFEST, GLOB.cardinals, TRUE, user, TRUE) // We can only set our decoy icon once. This proc is sort of expensive on generation.
 		firstcast = FALSE
 		name = "Master's Illusion"
 		to_chat(user, "There we are... Perfect.")
 		revert_cast()
 		return
 	var/turf/T = get_turf(user)
-	new /mob/living/simple_animal/hostile/rogue/xylixdouble(T, user, clone_icon)
+	var/saved_alpha = user.alpha
+	user.alpha = 255
+	var/mob/living/simple_animal/hostile/rogue/xylixdouble/double = new(T, user)
+	double.appearance = user.appearance
+	double.name = user.name
+	double.summoner = user.name
+	user.alpha = saved_alpha
 	animate(user, alpha = 0, time = 0 SECONDS, easing = EASE_IN)
 	user.mob_timers[MT_INVISIBILITY] = world.time + 7 SECONDS
 	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living/carbon/human, update_sneak_invis), TRUE), 7 SECONDS)
@@ -71,9 +75,7 @@
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = TRUE
 	loot = list(/obj/item/bomb/smoke/decoy)
-	can_have_ai = FALSE
-	AIStatus = AI_OFF
-	ai_controller = /datum/ai_controller/mudcrab // doesnt really matter
+	ai_controller = /datum/ai_controller/rat/undead/summoned
 
 
 /obj/item/bomb/smoke/decoy/Initialize(mapload)
@@ -81,11 +83,9 @@
 	playsound(loc, 'sound/magic/decoylaugh.ogg', 50)
 	explode()
 
-/mob/living/simple_animal/hostile/rogue/xylixdouble/Initialize(mapload, mob/living/carbon/human/copycat, icon/I)
+/mob/living/simple_animal/hostile/rogue/xylixdouble/Initialize(mapload, mob/living/carbon/human/copycat)
 	. = ..()
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal, death), TRUE), 7 SECONDS)
-	icon = I
-	name = copycat.name
 
 
 /obj/effect/proc_holder/spell/self/xylixslip

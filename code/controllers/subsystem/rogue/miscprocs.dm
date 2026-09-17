@@ -255,7 +255,7 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	var/picked_name = input(src, "Choose how your SECOND voice is described:", "VIRTUE") as null|anything in voice_options
 	if(!picked_name)
 		return FALSE
-	V.second_color = sanitize_hexcolor(newcolor)
+	V.second_color = sanitize_hexcolor(newcolor, 6, TRUE)
 	V.second_desc_path = voice_options[picked_name]
 	to_chat(src, span_notice("Second voice configured: Color [V.second_color] with the '[picked_name]' description."))
 	remove_verb(src, /mob/living/carbon/human/proc/changevoice)

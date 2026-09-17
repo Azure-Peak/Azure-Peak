@@ -105,11 +105,11 @@ GLOBAL_LIST_INIT(deadite_animal_migration_points, list())
 	if(controller.blackboard[BB_DEADITE_TRAVEL_TARGET])
 		//Safety check that will crash the behavior if we SOMEHOW end up here whilst we have a travel behavior going (bad)
 		//This will also make any mobs that have been sufficiently distracted far enough from the migration path to stop following it.
-		finish_action(controller, FALSE, path_key, target_key)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/list/path = controller.blackboard[path_key]
 	if(!LAZYLEN(path))
-		finish_action(controller, FALSE, path_key, target_key)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/atom/current_blackboard_target = controller.blackboard[target_key]
 	var/current_index = 0
@@ -132,11 +132,11 @@ GLOBAL_LIST_INIT(deadite_animal_migration_points, list())
 	var/turf/next_turf = next_ref.resolve()
 
 	if(QDELETED(next_turf))
-		finish_action(controller, FALSE, path_key, target_key)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	controller.set_blackboard_key(target_key, next_turf)
 	controller.set_blackboard_key(BB_DEADITE_TRAVEL_TARGET, next_turf)
-	finish_action(controller, TRUE, path_key, target_key)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_planning_subtree/deadite_migration
 	var/travel_behavior = /datum/ai_behavior/travel_towards/stop_on_arrival

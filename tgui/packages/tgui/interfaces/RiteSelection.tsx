@@ -16,7 +16,7 @@ type Data = {
   rites: Rite[];
 };
 
-export const RiteSelection = (props) => {
+export const RiteSelection = () => {
   const { data, act } = useBackend<Data>();
   const { rites = [] } = data;
   const [selectedIndex, setSelectedIndex] = useState(0);

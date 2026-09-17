@@ -435,7 +435,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			to_chat(user, span_warning("This spell can only be cast by physical beings!"))
 			return FALSE
 
-	if(req_items.len)
+	if(req_items.len && !HAS_TRAIT(user, TRAIT_HALLOWED))
 		var/list/missing_names = list()
 		var/met_requirement = FALSE
 		for(var/I in req_items)

@@ -147,6 +147,8 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 /obj/structure/lever/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click the lever to actuate whatever might be connected to it. The time needed to complete this action scales with your character's Strength.")
+	. += span_info("A skilled Engineer could use a wrench to link this to a device.")
+	. += span_info("The Master of the Guild of Craft can unlink devices from each other by using their special wrench.")
 
 /obj/structure/lever/attack_hand(mob/user)
 	if(isliving(user))
@@ -274,6 +276,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	anchored = TRUE
 	redstone_structure = TRUE
 
+/obj/structure/pressure_plate/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A skilled Engineer could use a wrench to link this to a device.")
+	. += span_info("The Master of the Guild of Craft can unlink devices from each other by using their special wrench.")
+
 /obj/structure/pressure_plate/Crossed(atom/movable/AM)
 	. = ..()
 	if(!anchored)
@@ -344,7 +351,6 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/triggered = FALSE
 
 /obj/structure/pressure_plate/once/Crossed(atom/movable/AM)
-	. = ..()
 	if(triggered)
 		return
 	if(!anchored)
@@ -368,7 +374,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
-	max_integrity = 45 // so it gets destroyed when used to explode a bomb
+	max_integrity = 750 // raised to make it more durable in large wars and events, where they are primarily used
 	//w_class = WEIGHT_CLASS_HUGE // mechanical stuff is usually pretty heavy.
 	density = TRUE
 	anchored = TRUE
@@ -563,9 +569,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 
 	// Quivers: allow all ammo types including javelins; block only slings
 	if(!ammo && istype(I, /obj/item/quiver))
+		/*removing sling ammo restriction, seeing if this gives more versatility
 		if(istype(I, /obj/item/quiver/sling))
 			to_chat(user, span_warning("The launcher can't fire sling bullets."))
 			return TRUE
+		*/
 		if(!user.transferItemToLoc(I, src))
 			return
 		playsound(src, 'sound/misc/chestclose.ogg', 25)
@@ -762,6 +770,18 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	animate(pixel_x = oldx-1, time = 0.5)
 	animate(pixel_x = oldx, time = 0.5)
 
+//pop things out when destroyed.
+/obj/structure/englauncher/Destroy()
+	if(containment)
+		playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		containment.forceMove(get_turf(src))
+		containment = null
+	if(ammo)
+		playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		ammo.forceMove(get_turf(src))
+		ammo = null
+	return ..()
+
 /obj/structure/floordoor
 	name = "floorhatch"
 	desc = "A handy floor hatch for people who need privacy upstairs."
@@ -780,6 +800,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	AddComponent(/datum/component/squeak, list('sound/foley/footsteps/FTMET_A1.ogg','sound/foley/footsteps/FTMET_A2.ogg','sound/foley/footsteps/FTMET_A3.ogg','sound/foley/footsteps/FTMET_A4.ogg'), 100)
 	return ..()
 */
+/obj/structure/floordoor/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A skilled Engineer could use a wrench to link this to a device.")
+	. += span_info("The Master of the Guild of Craft can unlink devices from each other by using their special wrench.")
+
 /obj/structure/floordoor/obj_break(damage_flag)
 	set_is_platform(FALSE)
 	obj_flags &= ~BLOCK_Z_IN_UP

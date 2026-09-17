@@ -47,6 +47,10 @@
 		SSdroning.kill_loop(client)
 		SSdroning.kill_rain(client)
 
+	if(!gibbed && HAS_TRAIT(src, TRAIT_SKELETAL_GIB_ON_DEATH))
+		playsound(src, pick('sound/vo/mobs/skel/skeleton_death (1).ogg','sound/vo/mobs/skel/skeleton_death (2).ogg','sound/vo/mobs/skel/skeleton_death (3).ogg','sound/vo/mobs/skel/skeleton_death (4).ogg','sound/vo/mobs/skel/skeleton_death (5).ogg'), 60, TRUE)
+		gib(no_brain = TRUE, no_organs = TRUE)
+
 	if(!gibbed && HAS_TRAIT(src, TRAIT_DUSTABLE))
 		if(HAS_TRAIT(src, TRAIT_DUST_LEAVE_HEAD))
 			var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)

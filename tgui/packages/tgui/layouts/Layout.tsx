@@ -38,6 +38,11 @@ export function Layout(props: Props) {
 
   useEffect(() => {
     document.documentElement.className = themeClass;
+    // workaround for https://www.byond.com/forum/post/2964419 to make it less eye-blinding when browser flashes
+    const computed_bg = window
+      .getComputedStyle(document.body)
+      .getPropertyValue('--color-base');
+    Byond.winset(Byond.windowId, { 'background-color': computed_bg });
   }, [themeClass]);
 
   return (

@@ -153,5 +153,5 @@
 		. += span_info("Right-click the mirror to scry with it.")
 		. += span_info("You can only scry people if you know them, or if they are in the bog.")
 
-/obj/item/handmirror/hag/rmb_self(mob/user)
+/obj/item/handmirror/hag/rmb_self(mob/user, keybind = FALSE)
 	src.attack_right(user)

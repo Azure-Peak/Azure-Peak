@@ -177,7 +177,7 @@
 	maxHealth = DRAGON_BROODMOTHER_HEALTH
 	retreat_health = 0.05
 	name = "drakkyn aspirant"
-	desc = "Want-to-be True Drakyn. Primordial wealth has crawled and infused into this one's scales in reverence of ancestor-was and will-be. Minaret of gilded power starburst from a firmament torn thousands of years ago. Although True Drakkyn are immortal, these are not; not after a hundred-hundred offspring "
+	desc = "Want-to-be True Drakkyn. Primordial wealth has crawled and infused into this one's scales in reverence of ancestor-was and will-be. Minaret of gilded power starburst from a firmament torn thousands of years ago. Although True Drakkyn are immortal, these are not; not after a hundred-hundred offspring "
 	icon_state = "dragon_cool"
 	icon_living = "dragon_cool"
 	icon_dead = "dragon_cool_dead"

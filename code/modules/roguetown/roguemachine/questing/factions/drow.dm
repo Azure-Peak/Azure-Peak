@@ -14,8 +14,7 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5,
 	)
 	boss_mob_types = list(
-		/mob/living/carbon/human/species/elf/dark/drowraider/sword_test = 60,
-		/mob/living/carbon/human/species/elf/dark/drowraider/spear_test = 40,
+		/mob/living/carbon/human/species/elf/dark/drowraider/scourge = 100,
 	)
 	boss_title_templates = list(
 		"%N the Venomed",

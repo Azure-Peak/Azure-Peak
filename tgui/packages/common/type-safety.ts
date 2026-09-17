@@ -37,7 +37,7 @@ export function smoothMerge<TObj extends Record<string, unknown>>(
 ): TObj {
   if (Object.keys(input.source).length === 0) return input.target;
 
-  const validated = {};
+  const validated: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(input.source)) {
     // Skip keys that are not in the schema

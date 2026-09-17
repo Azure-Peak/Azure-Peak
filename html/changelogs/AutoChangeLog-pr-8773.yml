@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Storage, Weapons and Clothings on spawn are marked as worn with 5% value. Worn modifier don't show on the name and only show on examine."
-  - rscadd: "Lowered Tithebound mammons threshold to account for reduction in worn items value."

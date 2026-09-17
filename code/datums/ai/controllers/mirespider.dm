@@ -106,12 +106,12 @@
 	var/mob/living/simple_animal/hostile/rogue/mirespider_lurker/target_target = target.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
 
 	if (target_target)
-		return	// Stop following if the target has a target
+		return AI_BEHAVIOR_DELAY	// Stop following if the target has a target
 
 	if (QDELETED(target))
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
-	return
+	return AI_BEHAVIOR_DELAY
 
 /datum/ai_planning_subtree/basic_ranged_attack_subtree/mirespider_lurker
 	ranged_attack_behavior = /datum/ai_behavior/basic_ranged_attack
@@ -150,28 +150,25 @@
 	set_movement_target(controller, (target))
 
 /datum/ai_behavior/cocoon_target/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
-	. = ..()
 	var/mob/living/simple_animal/pawn = controller.pawn
 	var/mob/living/target = controller.blackboard[target_key]
 	if (!target || QDELETED(target) || !isliving(target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if (istype(target.loc, /obj/structure/spider/cocoon))
-		finish_action(controller, TRUE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 	if (target.stat)
 		if (do_after(pawn, 5 SECONDS, FALSE, target))
 			if (istype(target.loc, /obj/structure/spider/cocoon))
-				finish_action(controller, TRUE, target_key)
-				return
+				return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 			var/turf/T = get_turf(target)
 			var/cocoon = new /obj/structure/spider/cocoon(T)
 			target.forceMove(cocoon)
 			// Very gentle healing effect that restores a lot of bloodloss. Allows the target to break out later.
 			target.apply_status_effect(/datum/status_effect/buff/healing/spider_cocoon, 0.25)
-			finish_action(controller, TRUE, target_key)
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+	return AI_BEHAVIOR_DELAY
 
 /datum/ai_behavior/cocoon_target/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	. = ..()

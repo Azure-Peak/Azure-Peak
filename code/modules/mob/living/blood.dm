@@ -189,8 +189,10 @@
 
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				var/oxy_amt = blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1
-				if(!client)
+				if(!mind)
 					oxy_amt *= 3
+					if(has_status_effect(/datum/status_effect/debuff/bloody_mess))
+						oxy_amt *= 6
 				adjustOxyLoss(oxy_amt)
 				if(world.time >= last_gasp)
 					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
@@ -200,7 +202,7 @@
 						if(H.mind && H.mind.key) // NPC filter
 							H.deathgasp_visual()
 							if(prob(50)) // mostly to halve the potential chatlog spam, we don't care if it never appears or always appear, on the former, tough luck, on the latter, drama queen
-								emote(pick("struggles to breathe, deathly pale!"))
+								H.emote(pick("struggles to breathe, deathly pale!"))
 
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
@@ -528,4 +530,4 @@
 		gaspnoise = pick('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
 
 	if(gaspnoise && !(HAS_TRAIT(src, TRAIT_NOBREATH)))
-		playsound(get_turf(src), gaspnoise, 90, FALSE)
+		playsound(get_turf(src), gaspnoise, vol = 50, ignore_walls = FALSE, quiet = TRUE) //Only if you can SEE said-dying person.

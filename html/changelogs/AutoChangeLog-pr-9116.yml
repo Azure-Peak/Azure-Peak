@@ -1,0 +1,4 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - qol: "bedrock is named bedrock, its also darker so you can tell at a glance."

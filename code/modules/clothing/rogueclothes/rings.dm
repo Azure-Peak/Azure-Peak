@@ -35,7 +35,7 @@
 
 /obj/item/clothing/ring/aalloy
 	name = "decrepit ring"
-	desc = "A coil of frayed bronze."
+	desc = "A coil of rotted metal."
 	icon_state = "ring_a"
 
 /obj/item/clothing/ring/bronze

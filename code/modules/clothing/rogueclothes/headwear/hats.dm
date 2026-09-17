@@ -407,6 +407,12 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_RED
 
+/obj/item/clothing/head/roguetown/duelisthat //vanderlin sprite
+	name = "dashing feathered hat"
+	desc = "A feathered leather hat, for a daring rogue."
+	icon_state = "duelisthat"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/flamboyant
 	name = "flamboyant hat"
 	desc = "A luxurious purple feathered hat with wide brim."
@@ -701,3 +707,26 @@
 	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
 	icon_state = "maidband"
 	body_parts_covered = NONE
+
+/obj/item/clothing/head/roguetown/rosa
+	name = "scarlet hat"
+	desc = "A finely crafted hat of silk and leather, adorned with rosas. It continues the tradition of wide brimmed Otavan hats."
+	icon_state = "rosahat2"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+
+/obj/item/clothing/head/roguetown/rosa/three
+	name = "velvet hat"
+	icon_state = "rosahat3"
+
+/obj/item/clothing/head/roguetown/rosa/four
+	name = "obsidian hat"
+	icon_state = "rosahat4"
+
+/obj/item/clothing/head/roguetown/rosa/five
+	name = "sable hat"
+	icon_state = "rosahat5"
+
+/obj/item/clothing/head/roguetown/rosa/six
+	name = "maroon cap"
+	icon_state = "rosahat6"

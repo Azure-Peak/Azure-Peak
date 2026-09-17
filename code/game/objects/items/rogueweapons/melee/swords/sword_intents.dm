@@ -85,11 +85,21 @@
 	damfactor = 0.8
 	swingdelay = 0.6 SECONDS
 
-/datum/intent/sword/thrust/long/halfsword // Longsword halfsword - DOES NOT crit through armor like the Freifechter version.
+/datum/intent/sword/thrust/long/deep/halfsword/frei
+	name = "stoccato profondo"
+	desc = "A precise thrust over the opponent's weapon aimed for the gaps in one's armor instead of damaging the armor. Leaves you exposed during the swing."
+	icon_state = "inlunge"
+	// Same as standard frei grip's deep lunge.
+	penfactor = PEN_HEAVY
+	swingdelay_type = SWINGDELAY_PENALTY
+	intent_intdamage_factor = 0.5
+
+/datum/intent/sword/thrust/long/halfsword
 	name = "halfsword thrust"
 	icon_state = "inimpale"
 	clickcd = CLICK_CD_CHARGED
 	penfactor = PEN_HEAVY
+	attack_verb = list("skewers", "impales")
 	damfactor = 1
 	swingdelay = 1 SECONDS
 	candodge = FALSE
@@ -188,42 +198,65 @@
 
 // Freifechter Longsword intents //
 /datum/intent/sword/cut/master
-	name = "fendente"
+	name = "mandritto"
 	icon_state = "incutmaster"
-	desc = "Strike the opponent with the true edge of the sword and penetrate lighter armour. A cut so perfect requires precision and time."
-	attack_verb = list("masterfully tears", "artfully slits", "adroitly hacks")
+	desc = "Strike the opponent with the true edge of the sword and penetrate the lightest armors. Poor at damaging armor."
+	attack_verb = list("masterfully cuts", "artfully slits", "adroitly slashes")
+	// You do more damage to exposed areas than stabbing, but your damage to armor is slightly less effective than a normal longsword.
+	// This effectively means you do 1.2x damage to flesh, but 0.9x damage to armor.
 	damfactor = 1.2
-	penfactor = PEN_LIGHT // Master cut — cuts are for damaging armor, not penning it. Leave pen to the stabbin'
-	max_intent_damage = 36
-	swingdelay = 2 //sure
+	penfactor = PEN_LIGHT
+	intent_intdamage_factor = 0.75
 
 /datum/intent/sword/thrust/long/master
 	name = "stoccato"
 	icon_state = "instabmaster"
 	desc = "Enter a long guard and thrust forward with your entire upper body while advancing, maximizing the effectiveness of the thrust."
-	attack_verb =	list("skillfully perforates", "artfully punctures", "deftly sticks")
-	damfactor = 1.2
-	max_intent_damage = 36 //they do the same damage. one is for bleeding, the other is for critfishing. feels weird but they get a lot of toys
+	attack_verb =  list("skillfully impales", "artfully punctures", "deftly stabs")
+	// Your stabs are more effective at breaking heavy armor, and penetrating light armor like a rapier. But do less damage.
+	// This effectively means you do 1.2x damage to armor, but 0.8x damage to flesh.
+	penfactor = PEN_MEDIUM
+	damfactor = 0.8
+	intent_intdamage_factor = 1.5
+
+/datum/intent/sword/chop/long/master
+	name = "fendente"
+	icon_state = "inchop"
+	desc = "Swing your sword in a wide arc, striking them with the true edge of the blade but exposing yourself. Damages shields more and penetrates even hardened leather."
+	attack_verb = list("furiously chops", "powerfully cleaves", "fiercely hacks")
+	// This is almost x2 slower than a regular longsword's chop, giving the opponent more time to riposte you.
+	// This however will penetrate all Light AC armor except for brigandine parts. Also does x2 damage to shields.
+	penfactor = PEN_MEDIUM
+	demolition_mod = 2.0
+	swingdelay = 0.8 SECONDS
+	clickcd = CLICK_CD_CHARGED
+
+/datum/intent/sword/thrust/long/deep/master
+	name = "stoccato profondo"
+	icon_state = "inlunge"
+	desc = "A precise thrust over the opponent's weapon aimed for the gaps in one's armor instead of damaging the armor. Leaves you exposed during the swing."
+	attack_verb = list("carefully pierces", "precisely thrusts", "accurately impales")
+	// Stab someone directly. 50% damage to armor.
+	// Best used like an estoc.
+	penfactor = PEN_HEAVY
+	swingdelay_type = SWINGDELAY_PENALTY
+	damfactor = 1.1
+	swingdelay = 0.6 SECONDS
+	intent_intdamage_factor = 0.5
 
 /datum/intent/effect/daze/longsword/clinch
 	name = "clinch & swipe"
 	desc = "Get too close to your opponent for them to attack you easily, slamming the pommel of your sword into their face. Very briefly reduces opponent's strength and constitution, making it more difficult for them to escape grabs. Can only be performed one-handed. Works on the head, skull, nose, and mouth."
 	icon_state = "inpunish"
 	attack_verb = list("forcibly clinches and swipes")
-	animname = "strike"
-	target_parts = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_SKULL)
+	target_parts = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_SKULL, BODY_ZONE_PRECISE_L_EYE, BODY_ZONE_PRECISE_R_EYE)
 	blade_class = BCLASS_BLUNT
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	damfactor = 0.7
-	max_intent_damage = 22
-	swingdelay = 3
+	// This is dagger punch but with a longsword.
+	damfactor = 0.5
+	clickcd = 14
+	recovery = 10
 	swingdelay_type = SWINGDELAY_NORMAL
-	clickcd = CLICK_CD_QUICK
-	recovery = 6
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-	canparry = FALSE
-	candodge = FALSE
 	intent_effect = /datum/status_effect/debuff/dazed/swipe
 
 /datum/intent/sword/thrust/long/halfsword/frei
@@ -232,17 +265,11 @@
 	desc = "Grip the dull portion of your longsword with either hand and use it as leverage to deliver precise, powerful strikes that can dig into gaps in plate and push past maille. Can only be performed half-sworded."
 	attack_verb = list("skewers", "impales")
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = PEN_HEAVY
-	clickcd = CLICK_CD_MELEE
-	swingdelay = 1.2 SECONDS
-	damfactor = 0.95 //slightly nerfed. go use your debuffs dude
-	blade_class = BCLASS_PICK //This can crit through armor
-	max_intent_damage = 30
-
-	// If someone feels like reworking Freifechter for the 4th time, I suggest making this a RIGID swing intent
-	candodge = TRUE
-	canparry = TRUE
-	swingdelay_type = SWINGDELAY_NORMAL
+	// This does the exact same damage through steel armor as a normal longsword but can crit through armor.
+	// You're going to be disappointed if you use it on anything without armor. 0.8x damage to unarmored body parts.
+	penfactor = PEN_BSTEEL
+	blade_class = BCLASS_PICK
+	damfactor = 0.8
 
 /datum/intent/sword/thrust/long/halfsword/lesser
 	name = "halbschwert"
@@ -253,11 +280,10 @@
 	desc = "Quickly flip your weapon around to the blunt end and slam an opponent in the throat, mouth, or nose, affecting their ability to breathe properly. Slow, and can be cancelled by being hit, but applies a long-lasting debuff. Can only be performed in roof guard."
 	attack_verb = list("masterfully pummels")
 	intent_effect = /datum/status_effect/debuff/dazed/longsword
+	// Compared to regular daze, this attack is slower and requires you hit harder to reach zones.
+	// The debuff is, however, -3 PER/INT instead of -2.
 	target_parts = list(BODY_ZONE_PRECISE_NOSE, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_NECK)
-	damfactor = 0.3
-	clickcd = 20
-	swingdelay = 10
-	swingdelay_type = SWINGDELAY_CANCEL //that debuff is fucking terrifying, and this should mostly be used when you have a big opening or are confident in your ability to dodge one or more attacks.
+	swingdelay = 15
 
 /datum/intent/effect/daze/longsword2h
 	name = "zorn ort"
@@ -266,22 +292,13 @@
 	intent_effect = /datum/status_effect/debuff/dazed/longsword2h
 	target_parts = list(BODY_ZONE_PRECISE_R_EYE, BODY_ZONE_PRECISE_L_EYE)
 	blade_class = BCLASS_STAB
-	damfactor = 0.7 //they're stabbing you and it's going to hurt a little
 	clickcd = 20
-	swingdelay = 10
+	swingdelay = 1 SECONDS
 	swingdelay_type = SWINGDELAY_PENALTY //less scary but still debilitating debuff. you should be riposting against these on reaction if you can
 
 // A weaker strike for sword with high damage so that it don't end up becoming better than mace
 /datum/intent/sword/strike/bad
 	damfactor = 0.5
-
-/datum/intent/sword/strike/master //unused
-	name = "ganvale"
-	desc = "Hit your opponent with your sword's special crossguard, dealing slightly more damage than a regular sword's bash."
-	attack_verb = list("deftly slams")
-	damfactor = 0.75 //replaces clinch as the actual blunt damage dealer
-	max_intent_damage = 24
-
 
 /datum/intent/sword/chop
 	name = "chop"
@@ -460,9 +477,8 @@
 /datum/intent/sword/thrust/estoc
 	name = "thrust"
 	penfactor = PEN_HEAVY	// Penetrates mail/plate at same-tier 20%. Estoc's purpose — point blank, telegraphed.
-	swingdelay_type = SWINGDELAY_PENALTY
-	damfactor = 1.3
-	swingdelay = 0.6 SECONDS
+	damfactor = 1.2
+	swingdelay = 0.5 SECONDS
 
 /datum/intent/sword/thrust/estoc/lunge
 	name = "lunge"

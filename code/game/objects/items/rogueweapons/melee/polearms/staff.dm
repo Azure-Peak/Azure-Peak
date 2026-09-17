@@ -41,6 +41,7 @@
 	anvilrepair = /datum/skill/craft/carpentry
 	resistance_flags = FLAMMABLE
 	twirly = SKILL_LEVEL_JOURNEYMAN
+	twirl_speed = 6
 
 /obj/item/rogueweapon/woodstaff/getonmobprop(tag)
 	. = ..()
@@ -121,6 +122,12 @@
 	// silver items
 	if(isitem(A))
 		var/obj/item/I = A
+
+		// haha hey guys its me profane dagger im just gonna sneak on in here!
+		if(istype(I, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
+			destroy_that_dagger(user, I)
+			return
+
 		var/datum/component/silverbless/CP = I.GetComponent(/datum/component/silverbless)
 
 		if(!CP)
@@ -153,6 +160,44 @@
 				return list("shrink" = 0.6,"sx" = -6,"sy" = -1,"nx" = 8,"ny" = 0,"wx" = -4,"wy" = 0,"ex" = 2,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 32,"eturn" = -23,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 4,"sy" = -2,"nx" = -3,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+// this is such a shitty way to do it im sorry
+/obj/item/rogueweapon/woodstaff/aries/proc/destroy_that_dagger(mob/user, obj/item/target)
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = target
+	// assassin must be dead
+	if(!pissdagger.is_my_owner_dead())
+		to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
+		return
+	// im so fucking sorry for the if chain. conceptually we're invoking ravox & necra verus graggar in a tiny battle.
+	user.visible_message(span_warning("[user] begins reciting a prayer over [pissdagger]..."), span_info("I begin to recite a prayer over [pissdagger]... this will take some time."))
+	playsound(user, 'sound/magic/censercharging.ogg', 100)
+	if(do_after(user, 7 SECONDS))
+		user.say("VISAGE: RAVOX - 4:6... HE travels the lands. RAVOX's justice falls upon the thief, a hand taken, by HIS ADJUDICATORS.")
+		playsound(user, 'sound/magic/censercharging.ogg', 100)
+		if(do_after(user, 7 SECONDS))
+			user.say("VISAGE: NECRA - 1:2... To her arms did she call the dead and dying, to save them from their empty and wandering fate did they rest forevermore in her embrace!")
+			pissdagger.say(span_gamedeadsay("NECRA, FREE US!!"))
+			playsound(user, 'sound/misc/carriage2.ogg', 100)
+			if(do_after(user, 7 SECONDS))
+				user.say("DECA: NECRA - 5:4... The dead shall rest eternum. Within HER grasp. The FAITHFUL have NAUGHT to fear of HER realm.")
+				pissdagger.say(span_cult("MASTER! SAVE ME!! I DON'T WANT TO GO!!")) // dagger is not happy
+				playsound(user, 'sound/magic/battle_cry_graggar.ogg', 60)
+				pissdagger.visible_message(span_warning("[pissdagger] begins thrashing around on the ground! Souls scream from within! The metal begins to twist!"))
+				if(do_after(user, 5 SECONDS))
+					user.say("DECA: RAVOX - 7:1... Though outmatched, outnumbered and with inferior weapons, there the man stood... and He gave him the strength to see the fight to the end, for Justice is its own armor!")
+					pissdagger.visible_message(span_warning("CURSED METAL TWISTS INTO NAUGHT! THE HILTED GLUT TREMBLES, NEARLY FALLING OUT OF IT'S METAL EMPLACEMENT!"))
+					pissdagger.say(span_cult("IT HUUURTS!!")) // hes so fucking sad
+					playsound(user, 'sound/magic/bloodcurse.ogg', 60)
+					if(do_after(user, 5 SECONDS))
+						user.say("DAWN: RAVOX - 6:1... The warrior had just enough strength to see the fight through, finally DRIVING HIS BLADE through the WRETCHED HIDE OF THE BEAST and saving all, NO MATTER THE COST!!")
+						pissdagger.say(span_cult("MAAAASTER!! PLEAAAASE!!"))
+						playsound(user, 'sound/magic/battle_cry_undivided.ogg', 70) // gaggar loses
+						if(do_after(user, 7	 SECONDS))
+							user.say("UNDERMAIDEN! JUSTICAR! FREE THOSE TRAPPED WITHIN! BY THE GODS' LIGHT I SMITE YOU!")
+							playsound(user, 'sound/magic/undivided_solemnity.ogg', 80)
+							pissdagger.release_profane_souls(user)
+							pissdagger.shatter_dagger()
+
 
 /obj/item/churcharticles/litany
 	name = "litany of the Ten"

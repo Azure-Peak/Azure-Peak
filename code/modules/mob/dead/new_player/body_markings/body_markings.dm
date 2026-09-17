@@ -42,6 +42,14 @@
 
 	return colors
 
+/datum/body_marking/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		"type" = type,
+		"icon" = REF(icon),
+		"icon_state" = icon_state,
+	)
+
 /datum/body_marking/nose
 	icon = 'icons/mob/body_markings/other_markings.dmi'
 	name = "Nose"
@@ -361,14 +369,14 @@
 	icon_state = "bangs"
 	default_color = "FFFFFF"
 	affected_bodyparts = HEAD
-	
+
 /datum/body_marking/small/bangs
 	icon = 'icons/mob/body_markings/other_markings.dmi'
 	name = "Bangs (Volk)"
 	icon_state = "bangs_s"
 	default_color = "FFFFFF"
 	affected_bodyparts = HEAD
-	
+
 /datum/body_marking/bun
 	icon = 'icons/mob/body_markings/other_markings.dmi'
 	name = "Bun"

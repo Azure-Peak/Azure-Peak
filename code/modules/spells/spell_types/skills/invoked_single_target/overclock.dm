@@ -9,6 +9,7 @@
 	movement_interrupt = FALSE
 	sound = 'sound/misc/clockloop.ogg'
 	action_icon = 'icons/mob/actions/engineer_skills.dmi'
+	overlay_icon = 'icons/mob/actions/engineer_skills.dmi'
 	invocation_type = "none"
 	associated_skill = /datum/skill/craft/engineering
 	antimagic_allowed = TRUE
@@ -60,7 +61,7 @@
 		if(!overload_chance)
 			continue
 		if(prob(overload_chance))
-			BP.take_damage(100, BRUTE, "blunt", FALSE)
+			BP.receive_damage(brute = 100)
 			H.visible_message(
 				span_danger("[H]'s [BP.name] sparks violently from the overload!"),
 				span_danger("My [BP.name] screams with stress — something inside just broke!")

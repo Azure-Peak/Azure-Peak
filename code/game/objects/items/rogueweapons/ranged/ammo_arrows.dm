@@ -1,5 +1,5 @@
 //arrows ฅ^•ﻌ•^ฅ
-#define MIN_ARROW_RANGE		3
+#define MIN_ARROW_RANGE		2
 #define MAX_ARROW_RANGE		14
 #define DAM_FALLOFF_ARROW	0.5
 #define MIN_SPLINTER_RANGE	1
@@ -12,14 +12,9 @@
 	Consult your gods."
 	projectile_type = /obj/projectile/bullet/reusable/arrow
 	caliber = "arrow"
-	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
+	icon = 'icons/roguetown/weapons/ranged/arrow_mob32.dmi'
 	icon_state = "arrow"
 	force = 10
-	pixel_x = -25
-	pixel_y = -25
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = TRUE
 	dropshrink = 0.6
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	max_integrity = 10
@@ -58,7 +53,7 @@
 
 /obj/item/ammo_casing/caseless/rogue/arrow/iron/aalloy
 	name = "decrepit broadhead arrow"
-	desc = "An arrow; one end, tipped with flattened and frayed bronze - the other, \
+	desc = "An arrow; one end, tipped with flattened and rotted metal - the other, \
 	inlaid with decayed feathers. The alloy's decrepity forces it to burst into \
 	shrapnel upon impact, shredding flesh."
 	icon_state = "ancientarrow"
@@ -85,7 +80,6 @@
 	damage = 20
 	damage_type = BRUTE
 	armor_penetration = PEN_NONE
-	//accuracy = 65 // Default defined by projectile.dm
 	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
@@ -129,7 +123,6 @@
 	name = "stone arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/stone
 	damage = 30
-	accuracy = 60
 
 // Broadheads are high damage, low AP. Very high base damage - relies on breaking armor
 // Broadheads check against slash armor instead of piercing.
@@ -156,7 +149,6 @@
 /obj/projectile/bullet/reusable/arrow/steel
 	name = "bodkin arrow"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow/steel
-	accuracy = 75
 	damage = 30
 	armor_penetration = PEN_HEAVY
 	embedchance = 80 // Easy embeds!
@@ -250,7 +242,6 @@
 /obj/item/ammo_casing/caseless/rogue/arrow/elemental
 	name = "elemental arrow"
 	desc = "An iron broadhead arrow coated with an alchemical tincture."
-	icon = 'icons/roguetown/weapons/ranged/arrow_mob.dmi'
 	caliber = "arrow"
 	ammo_weight = 1
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
@@ -276,7 +267,7 @@
 	name = "fire arrow"
 	desc = "An iron broadhead drenched in a flammable tincture. It smolders faintly."
 	projectile_type = /obj/projectile/bullet/arrow/elemental/fire
-	icon_state = "arrow_pyroclastic"
+	icon_state = "arrow_pyro"
 
 /obj/projectile/bullet/arrow/elemental/fire
 	name = "fire arrow"
@@ -431,7 +422,6 @@
 	armor_penetration = PEN_HEAVY
 	icon_state = "blacksteelarrow_proj"
 	embedchance = 80
-	accuracy = 100
 
 /obj/projectile/bullet/reusable/arrow/iron/paint
 	name = "painted arrow"

@@ -203,19 +203,20 @@
 	var/obj/effect/ink_trail/existing_trail = locate(/obj/effect/ink_trail) in T
 
 	if(existing_trail)
-		existing_trail.buff_payload = paint_payload_buff
-		existing_trail.debuff_payload = paint_payload_debuff
-		existing_trail.icon_state = "paint_gray"
-		existing_trail.color = paint_color
-		existing_trail.consume_buff = paint_consume_buff
-		existing_trail.deny_buff = paint_deny_buff
-		existing_trail.apply_to_pulled = paint_apply_to_pulled
+		var/new_dur = (howner && HAS_TRAIT(howner, TRAIT_INK_AFFINITY)) ? 15 SECONDS : 8 SECONDS
 		if(howner)
 			existing_trail.caster_ref = WEAKREF(howner)
-		if(HAS_TRAIT(howner, TRAIT_INK_AFFINITY))
-			existing_trail.refresh_lifetime(15 SECONDS)
-		else
-			existing_trail.refresh_lifetime(8 SECONDS)
+
+		existing_trail.apply_custom_effect(
+			new_buff = paint_payload_buff,
+			new_debuff = paint_payload_debuff,
+			new_icon_state = "paint_gray",
+			new_color = paint_color,
+			consume = paint_consume_buff,
+			deny = paint_deny_buff,
+			new_duration = new_dur,
+			to_pulled = paint_apply_to_pulled
+		)
 	else
 		new /obj/effect/ink_trail(T, howner)
 

@@ -734,6 +734,8 @@
 	update_inv_hands()
 
 
+#define CMODE_SHAKE_ANIMATION "cmode_shake"
+
 /mob/verb/toggle_cmode()
 	set name = "cmode-change"
 	set hidden = 1
@@ -741,15 +743,17 @@
 	if(SSticker.current_state >= GAME_STATE_FINISHED)
 		return
 
-	var/mob/living/L
-	if(isliving(src))
-		L = src
+	if(!isliving(src))
+		return
+	var/mob/living/L = src
 	var/client/client = L.client
 	if(L.IsSleeping() || L.surrendering)
 		if(cmode)
 			playsound_local(src, 'sound/misc/comboff.ogg', 100)
 			SSdroning.play_area_sound(get_area(src), client)
 			cmode = FALSE
+			if(client)
+				animate(client, tag = CMODE_SHAKE_ANIMATION)
 		if(hud_used)
 			if(hud_used.cmode_button)
 				hud_used.cmode_button.update_icon()
@@ -758,8 +762,8 @@
 		playsound_local(src, 'sound/misc/comboff.ogg', 100)
 		SSdroning.play_area_sound(get_area(src), client)
 		cmode = FALSE
-		if(client && HAS_TRAIT(src, TRAIT_SCREENSHAKE))
-			animate(client, pixel_y)
+		if(client)
+			animate(client, tag = CMODE_SHAKE_ANIMATION)
 	else
 		cmode = TRUE
 		playsound_local(src, 'sound/misc/combon.ogg', 100)
@@ -767,13 +771,19 @@
 			SSdroning.play_combat_music(L.cmode_music_override, client)
 		else if(L.cmode_music)
 			SSdroning.play_combat_music(L.cmode_music, client)
-		if(client && HAS_TRAIT(src, TRAIT_PSYCHOSIS))
-			animate(client, pixel_y = 1, time = 1, loop = -1, flags = ANIMATION_RELATIVE)
+		if(client && (HAS_TRAIT(src, TRAIT_PSYCHOSIS) || HAS_TRAIT(src, TRAIT_SCREENSHAKE)))
+			animate(client, pixel_y = 1, time = 1, loop = -1, flags = ANIMATION_RELATIVE, tag = CMODE_SHAKE_ANIMATION)
 			animate(pixel_y = -1, time = 1, flags = ANIMATION_RELATIVE)
+			if(HAS_TRAIT(src, TRAIT_PSYCHOSIS) && !HAS_TRAIT(src, TRAIT_SCREENSHAKE))
+				spawn(4 SECONDS)
+					if(cmode && client)
+						animate(client, tag = CMODE_SHAKE_ANIMATION)
 	if(hud_used)
 		if(hud_used.cmode_button)
 			hud_used.cmode_button.update_icon()
 	on_cmode()
+
+#undef CMODE_SHAKE_ANIMATION
 
 /mob/proc/on_cmode()
 	return
@@ -970,8 +980,7 @@
 		if(source)
 			var/atom/movable/screen/alert/notify_action/A = O.throw_alert("[REF(source)]_notify_action", /atom/movable/screen/alert/notify_action)
 			if(A)
-				if(O.client.prefs && O.client.prefs.UI_style)
-					A.icon = ui_style2icon(O.client.prefs.UI_style)
+				A.icon = 'icons/mob/roguehud.dmi'
 				if (header)
 					A.name = header
 				A.desc = message

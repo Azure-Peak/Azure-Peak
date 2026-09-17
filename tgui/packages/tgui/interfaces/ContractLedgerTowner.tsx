@@ -129,7 +129,11 @@ const ActivePostingCard = (props: {
       {varieties.length > 1 && (
         <div
           className="ContractLedger__CardRow"
-          style={{ marginTop: 8, flexWrap: 'wrap', justifyContent: 'flex-start' }}
+          style={{
+            marginTop: 8,
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+          }}
         >
           {varieties.map((v) => (
             <Button
@@ -299,7 +303,8 @@ export const TownerPostingPanel = () => {
         </span>
       </div>
       <div style={blurbStyle}>
-        Post a contract with your own mammons. Whomever takes it must deliver the parcel to you, who is the only one that can open the package.
+        Post a contract with your own mammons. Whomever takes it must deliver
+        the parcel to you, who is the only one that can open the package.
       </div>
 
       {yourPostings.length > 0 && (

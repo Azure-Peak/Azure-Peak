@@ -22,6 +22,19 @@
 ///Flags for ai_behavior new()
 #define AI_CONTROLLER_INCOMPATIBLE (1<<0)
 
+//Return flags for ai_behavior/perform()
+///Update this behavior's cooldown
+#define AI_BEHAVIOR_DELAY (1<<0)
+///Finish the behavior successfully
+#define AI_BEHAVIOR_SUCCEEDED (1<<1)
+///Finish the behavior unsuccessfully
+#define AI_BEHAVIOR_FAILED (1<<2)
+
+#define AI_BEHAVIOR_INSTANT (NONE)
+
+///How long a behavior stuck inside perform() blocks re-entry before we assume it died to a runtime
+#define AI_BEHAVIOR_REENTRY_TIMEOUT (30 SECONDS)
+
 ///Does this task require movement from the AI before it can be performed?
 #define AI_BEHAVIOR_REQUIRE_MOVEMENT (1<<0)
 ///Does this require the current_movement_target to be adjacent and in reach?
@@ -142,6 +155,7 @@
 #define BB_ARCHER_NPC_REPOSITION_UNTIL	"archer_reposition_until" // world.time the post-shot juke commitment expires
 #define BB_ARCHER_NPC_AIM_LOCK_TURF		"archer_aim_lock_turf"	// Where the target was when the shot is fired
 #define BB_ARCHER_NPC_AIM_RELEASE		"archer_aim_release"		// The time where it was actually shot
+#define BB_ARCHER_NPC_HOLD_UNTIL		"archer_hold_until"
 #define BB_INVENTORY_MAP		"inventory_map"		// list(category = list(item_ref = slot_name))
 #define BB_CONTAINER_REFS		"container_refs"		// list(slot_name = item_ref)
 #define BB_INVENTORY_DIRTY		"inventory_dirty"		// bool, triggers reappraisal
@@ -167,10 +181,12 @@
 // actual mechanical limiter
 #define ARCHER_NPC_NOCK_TIME			(1.5 SECONDS)
 #define ARCHER_NPC_MIN_AIM_TIME			(0.4 SECONDS)
-#define ARCHER_NPC_ROF_PENALTY			1.6
+#define ARCHER_NPC_ROF_PENALTY			1.3
 #define ARCHER_NPC_RETREAT_PROJECT		4
 #define ARCHER_NPC_JUKE_MIN_DIST		4
 #define ARCHER_NPC_REPOSITION_TIME		(0.6 SECONDS) // how long a post-shot random juke commits before the straight retreat resumes
+#define ARCHER_NPC_BURST_PER_TILE		(0.6 SECONDS)
+#define ARCHER_NPC_PLANT_TIME			(1 SECONDS)
 #define ARCHER_NPC_ARROW_SEARCH_RANGE	9
 #define ARCHER_NPC_SIMULATED_CHARGETIME 1.5 SECONDS // fallback bow charge time
 #define ARCHER_NPC_AIM_BASELINE			10

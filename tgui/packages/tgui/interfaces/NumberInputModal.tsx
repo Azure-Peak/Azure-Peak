@@ -25,7 +25,7 @@ type Data = {
   title: string;
 };
 
-export function NumberInputModal(props) {
+export function NumberInputModal() {
   const { act, data } = useBackend<Data>();
   const {
     init_value,

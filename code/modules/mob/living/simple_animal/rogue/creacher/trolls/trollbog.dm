@@ -22,6 +22,8 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)	// bogtroll does not mind kneestingers
+	if(prob(50))
+		src.hide()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/after_creation()
 	..()
@@ -31,3 +33,17 @@
 		QDEL_NULL(eyes)
 	eyes = new /obj/item/organ/eyes/night_vision/nightmare
 	eyes.Insert(src)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/LoseTarget()
+	..()
+	if(stat != DEAD)
+		hide()
+
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/GiveTarget()
+	..()
+	ambush()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Moved()
+	ambush()
+	. = ..()

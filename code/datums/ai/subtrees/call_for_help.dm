@@ -15,6 +15,8 @@
 		return
 
 	var/mob/living/living_pawn = controller.pawn
+	if(living_pawn.stat != CONSCIOUS)
+		return
 
 	controller.set_blackboard_key("bb_call_for_help_cooldown", world.time + 5 SECONDS)
 
@@ -38,8 +40,9 @@
 	behavior_flags = AI_BEHAVIOR_MOVE_AND_PERFORM | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION | AI_BEHAVIOR_EXECUTE_ALONGSIDE
 
 /datum/ai_behavior/call_for_help/perform(delta_time, datum/ai_controller/controller, target_key)
-	. = ..()
 	var/mob/living/living_pawn = controller.pawn
+	if(living_pawn.stat != CONSCIOUS)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	living_pawn.emote("scream")
 	living_pawn.visible_message(span_danger("[living_pawn] shouts for aid!"))
 	var/atom/current_target = controller.blackboard[target_key]
@@ -65,4 +68,4 @@
 			ally_ctrl.wake_for_combat()
 			ally_ctrl.CancelActions()
 
-	finish_action(controller, TRUE, target_key)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED

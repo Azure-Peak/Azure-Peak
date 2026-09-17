@@ -102,6 +102,7 @@
 	out += chronicle_kv("	Headeater levy", "[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]")
 	out += chronicle_kv("	Import tariff", "[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]")
 	out += chronicle_kv("	Export duty", "[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]")
+	out += chronicle_kv("	Recovered spoils", "[GLOB.azure_round_stats[STATS_REVENUE_RECOVERED_SPOILS]]")
 	out += chronicle_kv("Poll tax collected", "[GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]")
 	out += chronicle_kv("Taxes evaded", "[GLOB.azure_round_stats[STATS_TAXES_EVADED]]")
 	var/exempt_total = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF] + GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY] + GLOB.azure_round_stats[STATS_EXEMPTED_FINE] + GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
@@ -109,6 +110,7 @@
 	out += chronicle_kv("Wages paid", "[GLOB.azure_round_stats[STATS_WAGES_PAID]]")
 	out += chronicle_kv("Fines income", "[GLOB.azure_round_stats[STATS_FINES_INCOME]]")
 	out += chronicle_kv("Banditry losses", "[GLOB.azure_round_stats[STATS_BANDITRY_LOSSES]]")
+	out += chronicle_kv("Banditry hoard outstanding", "[GLOB.azure_round_stats[STATS_BANDITRY_HOARD_OUTSTANDING]]")
 	out += chronicle_kv("Direct treasury transfers", "[GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]")
 	out += "\n"
 	return jointext(out, "")

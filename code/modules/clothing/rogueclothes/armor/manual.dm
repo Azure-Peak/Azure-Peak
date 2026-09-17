@@ -53,7 +53,25 @@
 /obj/item/clothing/suit/roguetown/armor/manual/proc/worn_on_body(mob/living/carbon/human/user)
 	return user?.wear_armor == src || user?.wear_shirt == src
 
-//35% repair per proc, procs taking ~10-11s for sewing, pushup set, or meditation emote. Thus ~30-33s to fullrepair.
+/*
+ * DESIGN VISION - Fen
+ */
+//TIME
+//Repair time is roughly based on apprentice armor repair, with a slight penalty. Ballpark 20-30s for a single layer, 35-40s for two.
+//Pushup skin repairs in 2 sets (20-22s), but only one layer, the other needs resting. If both were on pushup repair, 3 sets (~30s) because stamina management etc is already a drawback.
+//Sewable skin repairs in ~21s, but only one layer at a time, so ~42s total. Slow, but anywhere and can focus-repair a specific layer on demand.
+//Resting skin repairs in 20s, both layers simultaniously, making it the fastest to mend, but also most restrictive on mending conditions.
+//Meditation skin repairs in 40s, both layers simultaniously. Tattoo armors drop this to 30s (one meditation cycle) because they suffer honorbound restrictions.
+
+//STATS
+//The default skin armor is equivalent to a full-body gambeson + chest-only leather armor. This makes it decent, but outclassed by real light armor that upgrades to heavy gambeson/arming jacket and leather coat/light brigadine.
+//Skin armor should be easier to use and more convenient than using actual armor, usually by having better coverage at roundstart, but never be able to reach the heights that a proper/high end light armor setup can, for most roles. Essentially, they are not optimal, but are comfortable.
+//Roles that have on-spawn access to high quality armor / faction wealth can have their gambeson layer be a heavy gambeson without issue (disciple).
+//Theoretically, skin armors with medium/heavy typing could have a similar relationship to generic armor of those tiers.
+
+//UNIQUE CASES
+//If a role has a gimmick (rage, miracles, magic etc), or is on a limited power budget (advent, noncombatant) the above should always apply.
+//However, if the role's  gimmick is its skin armor (most notably ruma, partially mistwalker), then it can step away from that baseline to a degree. Note that Honorbound or equivalent is advised to manage layering potential on full-body skins with advanced protection types (plate, maille etc), or head coverage (skin + helm + coif + arming cap all on the same zone is pain, and also makes chest the boring easy target again).
 
 
 /*
@@ -85,6 +103,7 @@
 	name = "harmonious skin"
 	desc = "Exotic skin armor that can be renewed via meditation. If you see this ingame, something went wrong."
 	blocking_behavior = SAMEWEAR
+	repair_fraction = 0.25 //mends both layers at once, so is a bit slower.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/equipped(mob/user, slot, initial = FALSE)
 	. = ..()
@@ -113,6 +132,12 @@
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/body
 	body_parts_covered = COVERAGE_FULL //everything but head and it's subzones (neck, skull, ears, eyes, nose, mouth)
 	body_parts_inherent = COVERAGE_FULL
+	armor = ARMOR_PADDED
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM //defaults to a gambeson
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/body/monk
+	name = "tough skin"
+	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/disciple //alternative repair option for sojourner.
 	name = "enduring skin"
@@ -122,10 +147,10 @@
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
 	</br>Happiness must be fought for."
-	armor = ARMOR_PADDED
+	repair_fraction = 0.35 //Single layer, so back to default rate.
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //a heavy gambeson.
 
-/obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats //Only for roles with Honorbound, as the restrictions offset the better head coverage.
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/body/easttats //Only for roles with Honorbound, as the restrictions offset the better head coverage & repair rate.
 	icon_state = "easttats"
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
@@ -133,6 +158,7 @@
 	body_parts_covered = COVERAGE_FULL | COVERAGE_HEAD | NECK //This does not cover eyes/nose/mouth. Use a mask.
 	body_parts_inherent = COVERAGE_FULL | COVERAGE_HEAD | NECK
 	//allowed_race = NON_DWARVEN_RACE_TYPES
+	repair_fraction = 0.35 //It fully mends within a 30s meditation cycle.
 	repairmsg_end = "The tattoos flow more calmly, as the meditation renews their strength."
 	repairmsg_continue = "The tattoos mend some of their abuse..."
 
@@ -162,8 +188,15 @@
 	body_parts_covered = COVERAGE_VEST
 	body_parts_inherent = COVERAGE_VEST
 	blocksound = SOFTHIT
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //defaults to a leather armor
 
-/obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/monk
+	name = "tough chest"
+	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats //Again, only for honorbound roles.
+	repair_fraction = 0.35
 	repairmsg_end = "The tattoos flow more calmly, as the meditation renews their strength."
 	repairmsg_continue = "The tattoos mend some of their abuse..."
 
@@ -174,10 +207,8 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER //Identical to a suit of light brig.
 
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/chest/easttats/mistwalker
-	name = "seon-mul core"
+	name = "seon-mul core" //Baseline for shoring up chest integ, less flashy than ruma since mistwalker power budget is in Journey's End.
 	desc = "The flowing clouds of the Ruma are but fleeting shadow across the plains, pale imitation of Xinyi's spiritual alchemy. Imperfect, impotent. Their legend is one writ in avarice and hate.</br></br>Recount yours in love."
-	armor = ARMOR_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //A leather armor.
 
 
 /*
@@ -185,7 +216,7 @@
  */
 
 /obj/item/clothing/suit/roguetown/armor/manual/tool
-	repair_fraction = 0.35 //35% per 7s of sewing, ~21s to full. Have to mend both layers seperately.
+	repair_fraction = 0.35 //35% per 7s of sewing, ~21s to full. Have to mend both layers seperately, so ~42s total.
 	var/list/repair_items[] = list(
 		/obj/item/needle = 'sound/foley/sewflesh.ogg',
 		/obj/item/needle/thorn = 'sound/foley/sewflesh.ogg',
@@ -310,7 +341,6 @@
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
 	</br>Happiness must be fought for."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //a leather armor.
 
 /*
  * EMOTE ARMOUR
@@ -377,12 +407,6 @@
 /obj/item/clothing/suit/roguetown/armor/manual/emote/prayer
 	repair_emotes = list("pray")
 
-/obj/item/clothing/suit/roguetown/armor/manual/emote/prayer/monk
-	name = "tough skin"
-	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
-	armor = ARMOR_PADDED
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //A light gambeson.
-
 /*
  * REST ARMOUR
  */
@@ -447,7 +471,6 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/body/thug
 	name = "calloused skin"
 	desc = "A brawler's hide, thickened by a hard life. A spell of rest is enough to knit it whole again."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //a light gambeson.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/body/barbarian
 	name = "hardened skin"
@@ -473,12 +496,6 @@
 /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/thug
 	name = "calloused chest"
 	desc = "A brawler's hide, thickened by a hard life. A spell of rest is enough to knit it whole again."
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //A leather armor with light gambeson integ.
-
-/obj/item/clothing/suit/roguetown/armor/manual/resting/chest/monk
-	name = "tough chest"
-	desc = "Do you forsake protection for enlightenment, or in repentance for past transgressions?"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE //A leather armor with light gambeson integ.
 
 /obj/item/clothing/suit/roguetown/armor/manual/resting/chest/barbarian
 	name = "hardened chest"

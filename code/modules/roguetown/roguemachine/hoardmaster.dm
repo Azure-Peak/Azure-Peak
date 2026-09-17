@@ -70,6 +70,7 @@
 			hmasteritem.flags_1 |= HOARDMASTER_SPAWNED_1
 			if(istype(hmasteritem, /obj/item))
 				var/obj/item/newitem = hmasteritem
+				newitem.mark_as_worn()
 				newitem.sellprice = 0
 				if(newitem.smeltresult)
 					newitem.smeltresult = /obj/item/ash

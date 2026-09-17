@@ -64,8 +64,8 @@
 	ship_qty_min = 2
 	ship_qty_max = 4
 
-/datum/supply_pack/rogue/raneshen/shalal_saber
-	name = "Shalal Saber"
+/datum/supply_pack/rogue/raneshen/shalal_sabre
+	name = "Shalal sabre"
 	cost = 130
 	contains = list(/obj/item/rogueweapon/sword/long/marlin)
 	ship_qty_min = 1

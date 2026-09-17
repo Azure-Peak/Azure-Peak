@@ -32,6 +32,7 @@
 	. = ..()
 	. += span_smallnotice("Can be unlocked with a [keycontrol] key.")
 	. += span_smallnotice("You can add reagents and alchemical vials to this machine by interacting with it while unlocked.")
+	. += span_smallnotice("Right-click to bulk-load all nearby containers.")
 
 // For university mage
 /obj/structure/roguemachine/potionseller/university
@@ -107,6 +108,49 @@
 		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
 		return attack_hand(user)
 
+/obj/structure/roguemachine/potionseller/proc/bulk_insert(obj/item/P, mob/living/user)
+	if(!istype(P, /obj/item/reagent_containers/glass))
+		return FALSE
+
+	var/obj/item/reagent_containers/B = P
+
+	if(istype(B, /obj/item/reagent_containers/glass/bottle))
+		if(!B.reagents.total_volume)
+			if(B.type == /obj/item/reagent_containers/glass/bottle/alchemical)
+				vials_held++
+			else if(B.type == /obj/item/reagent_containers/glass/bottle || istype(B, /obj/item/reagent_containers/glass/bottle/rogue))
+				bottles_held++
+			else
+				return FALSE
+			qdel(B)
+			return TRUE
+
+	if(!B.reagents.total_volume)
+		return FALSE
+
+	if(reagents.maximum_volume < B.reagents.total_volume + reagents.total_volume)
+		return FALSE
+
+	for(var/datum/reagent/to_add in B.reagents.reagent_list)
+		var/already_exists = FALSE
+		if(length(reagents.reagent_list))
+			for(var/datum/reagent/existing in reagents.reagent_list)
+				if(existing.type == to_add.type)
+					already_exists = TRUE
+					break
+		if(!already_exists)
+			held_items[to_add.type] = list()
+			held_items[to_add.type]["NAME"] = to_add.name
+			held_items[to_add.type]["PRICE"] = 0
+	B.reagents.trans_to(src, B.reagents.total_volume, transfered_by = user)
+	if(istype(B, /obj/item/reagent_containers/glass/bottle/alchemical))
+		vials_held++
+		qdel(B)
+	else if(istype(B, /obj/item/reagent_containers/glass/bottle))
+		bottles_held++
+		qdel(B)
+	return TRUE
+
 /obj/structure/roguemachine/potionseller/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguecoin/aalloy))
 		return
@@ -147,6 +191,29 @@
 			return
 
 	..()
+
+/obj/structure/roguemachine/potionseller/attack_right(mob/user, list/modifiers)
+	if(locked)
+		to_chat(user, span_warning("The vendor is locked!"))
+		return
+	if(!ishuman(user))
+		return
+	if(!user.Adjacent(src))
+		return
+	var/count = 0
+	for(var/obj/item/I in get_turf(src))
+		if(bulk_insert(I, user))
+			count++
+	for(var/direction in list(NORTH, SOUTH))
+		var/turf/T = get_step(src, direction)
+		for(var/obj/item/I in T)
+			if(bulk_insert(I, user))
+				count++
+	if(count > 0)
+		say("Bulk loading complete. [count] container\s processed.")
+		playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
+		attack_hand(user)
 
 /obj/structure/roguemachine/potionseller/proc/dispense(mob/living/user, datum/reagent/R, quantity, price = 0)
 	if(!user || !ismob(user) || !user.Adjacent(src))

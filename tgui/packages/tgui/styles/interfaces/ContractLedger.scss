@@ -36,10 +36,6 @@
   margin: 0 14px;
 }
 
-.ContractLedger__HeaderStatic {
-  color: rgba(200, 170, 100, 0.45);
-}
-
 // Tab bar
 .ContractLedger__TabBar {
   display: flex;
@@ -66,7 +62,9 @@
   letter-spacing: 1px;
   color: rgba(200, 180, 130, 0.5);
   border-bottom: 1px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
   user-select: none;
 
   &:hover {
@@ -119,12 +117,20 @@
   box-shadow:
     0 4px 10px hsla(0, 0%, 0%, 0.5),
     inset 0 0 18px hsla(32, 50%, 45%, 0.15);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
   user-select: none;
 
-  &:nth-child(3n + 1) { transform: rotate(-1deg); }
-  &:nth-child(3n + 2) { transform: rotate(0.7deg); }
-  &:nth-child(3n)     { transform: rotate(-0.4deg); }
+  &:nth-child(3n + 1) {
+    transform: rotate(-1deg);
+  }
+  &:nth-child(3n + 2) {
+    transform: rotate(0.7deg);
+  }
+  &:nth-child(3n) {
+    transform: rotate(-0.4deg);
+  }
 
   &:hover {
     transform: translateY(-2px) rotate(0);
@@ -154,9 +160,18 @@
   z-index: 2;
 }
 
-.ContractLedger__Pin--easy   { background-color: hsl(120, 45%, 42%); }
-.ContractLedger__Pin--medium { background-color: hsl(44, 80%, 52%); }
-.ContractLedger__Pin--hard   { background-color: hsl(0, 65%, 44%); }
+.ContractLedger__Pin--easy {
+  background-color: hsl(120, 45%, 42%);
+}
+.ContractLedger__Pin--medium {
+  background-color: hsl(44, 80%, 52%);
+}
+.ContractLedger__Pin--hard {
+  background-color: hsl(0, 65%, 44%);
+}
+.ContractLedger__Pin--notorious {
+  background-color: hsl(0, 100%, 20%);
+}
 
 .ContractLedger__Stamp {
   position: absolute;
@@ -267,7 +282,9 @@
   padding: 3px 12px;
   cursor: pointer;
   box-shadow: 0 2px 3px hsla(0, 0%, 0%, 0.45);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 
   &:hover:not(:disabled) {
     transform: translateY(-1px);
@@ -461,7 +478,9 @@
   letter-spacing: 1px;
   color: hsla(30, 35%, 35%, 0.7);
   border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
   user-select: none;
 
   &:hover {

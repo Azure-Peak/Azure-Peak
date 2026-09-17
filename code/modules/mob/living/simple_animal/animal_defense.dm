@@ -1,8 +1,7 @@
 /mob/living/simple_animal/proc/resolve_melee_zone(mob/living/user, obj/item/I, datum/intent/attack_intent)
 	if(!user || user.zone_selected == BODY_ZONE_CHEST)
 		return BODY_ZONE_CHEST
-	var/skill = I ? I.associated_skill : /datum/skill/combat/unarmed
-	var/zone = melee_accuracy_check(user.zone_selected, user, src, skill, attack_intent || user.used_intent, I) || BODY_ZONE_CHEST
+	var/zone = melee_accuracy_check(user.zone_selected, user, src, I ? null : /datum/skill/combat/unarmed, attack_intent || user.used_intent, I) || BODY_ZONE_CHEST
 	return resolve_reachable_zone(zone, user)
 
 /mob/living/simple_animal/attacked_by(obj/item/I, mob/living/user)

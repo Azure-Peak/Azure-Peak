@@ -36,6 +36,10 @@
 #define HERESYDESC_DREAMWALKER_WEAPON "An enchanced weapon from Abyssor's dream, wielded by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
 #define HERESYDESC_DREAMWALKER_ARMOR "An armor piece from Abyssor's dream, worn by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
 
+// Pestran Herecy
+#define HERESYDESC_PESTRA_WEAPON "An unsanctioned weapon created by heretical Pestran secrets to spread the black rot"
+#define HERESYDESC_BLACK_ROT "A stabilised form of the black rot, it is extremely dangerous should not be seen outside of sanctified hands"
+
 // Misc items / Donor
 #define HERESYDESC_GRONN "A symbol of the North's archaic beliefs"
 #define HERESYDESC_GILBRANZE_ARTIFICE "A blade of polished gilbranze in extraordinary quality. Someone's Artifice..?" // ATICIUS DONOR

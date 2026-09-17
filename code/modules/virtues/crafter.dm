@@ -10,6 +10,7 @@
 /datum/virtue/utility/skilled
 	name = "Skilled Apprentice"
 	desc = "In my youth I had the privilege of being an apprentice to a notable craftsman, learning much and more from them."
+	ui_fa_icon = "school"
 	max_choices = 2
 	stackable = TRUE
 	softcap = TRUE
@@ -120,6 +121,7 @@
 /datum/virtue/utility/apprentice
 	name = "Labourious Apprentice"
 	desc = "I've toiled away a part of my lyfe at the behest of another labourer, learning a thing or two."
+	ui_fa_icon = "trowel"
 	added_stashed_items = list("Lamptern" = /obj/item/flashlight/flare/torch/lantern)
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
 	max_choices = 4

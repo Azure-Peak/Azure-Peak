@@ -44,15 +44,6 @@
 	set name = "ChangeMusicPower"
 
 	if(prefs)
-/*		if(blacklisted() == 1)
-			var/vol = input(usr, "Current music power: [prefs.musicvol]",, 100) as null|num
-			vol = 100
-			prefs.musicvol = vol
-			prefs.save_preferences()
-			mob.update_music_volume(CHANNEL_MUSIC, prefs.musicvol)
-			mob.update_music_volume(CHANNEL_LOBBYMUSIC, prefs.musicvol)
-			mob.update_music_volume(CHANNEL_ADMIN, prefs.musicvol)
-		else*/
 		var/vol = input(usr, "Current music power: [prefs.musicvol]",, 100) as null|num
 		if(!vol)
 			if(vol != 0)

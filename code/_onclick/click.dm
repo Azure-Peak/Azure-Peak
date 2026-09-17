@@ -335,8 +335,8 @@
 						return
 */
 
-	// Allows you to click on a box's contents, if that box is on the ground, but no deeper than that
-	if(isturf(A) || isturf(A.loc) || (A.loc && isturf(A.loc.loc)))
+	// Allows you to click on a box's contents, if that box is on the ground or held by something on the ground, but no deeper than that
+	if(isturf(A) || isturf(A.loc) || isturf(A.loc?.loc) || isturf(A.loc?.loc?.loc))
 		var/can_reach = CanReach(A, W)
 		if(can_reach)
 			if(isopenturf(A))
@@ -460,17 +460,17 @@
 		return FALSE
 	if(offhand.wlength >= WLENGTH_GREAT)
 		return FALSE
-	if(mainhand.associated_skill)
-		if(get_skill_level(mainhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
+	if(mainhand.has_wskill())
+		if(get_wskill(mainhand) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
-	if(offhand.associated_skill)
-		if(get_skill_level(offhand.associated_skill) < SKILL_LEVEL_JOURNEYMAN)
+	if(offhand.has_wskill())
+		if(get_wskill(offhand) < SKILL_LEVEL_JOURNEYMAN)
 			return FALSE
 	if(mainhand.force <= 9 || offhand.force <= 9) // should prevent things that have tiny damage from being used, those are often tools anyway.
 		return FALSE
 	return TRUE
 
-/mob/living/proc/process_dualwield(atom/A, obj/item/attack_weapon, params)
+/mob/living/proc/process_dualwield(obj/item/attack_weapon)
 	if(!HAS_TRAIT(src, TRAIT_DUALWIELDER))
 		return
 
@@ -506,24 +506,9 @@
 
 	dualwield_resets_in = world.time + 3 SECONDS
 
-	// Finisher attack
 	if(dualwield_finisher)
 		dualwield_finisher = FALSE
-		dualwield_processing = TRUE
-
-		if(stamina_add(3))
-			balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
-			to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
-			to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
-			if(attack_weapon && offhand)
-				offhand.melee_attack_chain(src, A, params)
-			else
-				UnarmedAttack(A, TRUE, params)
-		playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
-		playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
-		dualwield_processing = FALSE
-		swap_hand()
-		return
+		return swap_hand()
 
 	// Build combo
 	dualwield_attack_count++
@@ -535,6 +520,29 @@
 	// Swap only after everything else is finished
 	if(attack_weapon)
 		swap_hand()
+
+/mob/living/proc/fire_dualwield_paired(atom/A, params)
+	if(dualwield_processing)
+		return
+	if(QDELETED(src) || QDELETED(A))
+		return
+	dualwield_processing = TRUE
+	if(stamina_add(3))
+		balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
+		to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
+		to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
+		if(a_intent)
+			used_intent = a_intent
+		dualwield_twoswing = TRUE
+		var/obj/item/paired_weapon = get_active_held_item()
+		if(paired_weapon)
+			paired_weapon.melee_attack_chain(src, A, params)
+		else
+			UnarmedAttack(A, TRUE, params)
+		dualwield_twoswing = FALSE
+	playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
+	playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
+	dualwield_processing = FALSE
 
 //Branching path for Adjacent clicks with or without items
 //DOES NOT ACTUALLY KNOW IF YOU'RE ADJACENT, DO NOT CALL ON IT'S OWN
@@ -904,9 +912,11 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 /atom/proc/face_atom(atom/A, location, control, params)
 	if(!A)
 		return FALSE
-	if(!A.xyoverride && (!x || !y || !A.x || !A.y))
+	if(!x || !y)
 		return
 	var/atom/holder = A.face_me(location, control, params)
+	if(holder && !holder.xyoverride && (!holder.x || !holder.y))
+		holder = get_turf(holder)
 	if(!holder)
 		return FALSE
 	var/dx = holder.x - x
@@ -1040,14 +1050,6 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 
 /mob/dead/observer/MouseWheelOn(atom/A, delta_x, delta_y, params)
 	return
-/*	var/list/modifier = params2list(params)
-	if(modifier["shift"])
-		var/view = 0
-		if(delta_y > 0)
-			view = -1
-		else
-			view = 1
-		add_view_range(view)*/
 
 /mob/proc/check_click_intercept(params,A)
 	//Client level intercept

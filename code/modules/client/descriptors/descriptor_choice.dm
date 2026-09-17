@@ -4,6 +4,13 @@
 	var/default_descriptor
 	var/list/descriptors = list()
 
+/datum/descriptor_choice/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		// json_encode(list(/datum)) == ["/datum"] just as we want
+		"descriptors" = descriptors
+	)
+
 /datum/descriptor_choice/face
 	name = "Face"
 	default_descriptor = /datum/mob_descriptor/face/unremarkable

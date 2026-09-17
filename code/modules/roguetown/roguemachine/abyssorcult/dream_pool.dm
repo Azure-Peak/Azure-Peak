@@ -34,6 +34,74 @@
 		. += "\n<span class='notice'>Incredibly heavy, rusty doors obscure the contents of this elaborate metallic indentation. It looks very old.</span>"
 	else
 		. += "\n<span class='notice'>The gate doors have retracted. A swirling vortex bombards you with imagery of a strange realm. Just looking into it makes you dizzy, best not to stare... Especially as something gazes back from beneath the surface.</span>"
+		INVOKE_ASYNC(src, PROC_REF(do_patron_gaze), user)
+
+/obj/structure/roguemachine/dream_pool/proc/do_patron_gaze(mob/user)
+	if(!user || !user.client)
+		return
+
+	to_chat(user, span_notice("You begin to peer deeper into the vortex, listening to the whispers beneath the swirling paints... A shallow vision begins to be painted as the swirls and ripples even out."))
+
+	if(!do_after(user, 4 SECONDS, target = src))
+		to_chat(user, span_warning("You pull your gaze away before the image manages to form, the paints drift apart again."))
+		return
+
+	if(!ishuman(user))
+		to_chat(user, span_notice("The swirling visions remain a nonsensical blur of colors and noise."))
+		return
+
+	var/mob/living/carbon/human/H = user
+	var/datum/patron/P = H.patron
+
+	if(!P)
+		to_chat(user, span_notice("You gaze into the depths, but without a patron to guide your mind, you feel only a hollow sensation in your lux."))
+		return
+
+	var/out_text = ""
+
+	switch(P.type)
+		// Divine Patrons
+		if(/datum/patron/divine/abyssor)
+			out_text = skill_check_text("Abyssor", TRUE, "It is like gazing into the depths, shimmers of the ocean floor seen through the darkness. Ancient civilizations lay at rest down here, the artefacts of their people, the ruins of their shelter. Strange creatures behold you, as if questioning what an interloper is doing down here.")
+		if(/datum/patron/divine/astrata)
+			out_text = skill_check_text("Astrata", TRUE, "A blinding spike of golden light pierces the vortex. The harsh brilliance burns away the shadows, filling your mind with a strict, unrelenting command to conquer the unholy, to banish the fiends that threaten her royal order.")
+		if(/datum/patron/divine/dendor)
+			out_text = skill_check_text("Dendor", TRUE, "The pool smells faintly of damp earth. Visions of endless meadows occasionally divided by ancient heartwoods. You are the mind's eye of an avian, beholding nature.")
+		if(/datum/patron/divine/eora)
+			out_text = skill_check_text("Eora", TRUE, "The swirling vortex softens into a soothing, warm glow. A profound sense of unconditional comfort washes over you, shielding your mind from the dizzying abyss. Do not peer into the unknown, for it may harm you, my child.")
+		if(/datum/patron/divine/malum)
+			out_text = skill_check_text("Malum", TRUE, "The cool air of the pool swells to searing oppression. The inner hollow of Psydonia, deep underground. Yet none of the riches shine as bright as the hot metal poised upon the anvil in the center of it all. Pick up the hammer, work, do not bother me again.")
+		if(/datum/patron/divine/necra)
+			out_text = skill_check_text("Necra", TRUE, "A cold mist drifts from the pool. A veiled silhouette beckons as whispy tethers of fog surround you, reassuring you that whatever lies beyond the pool is merely the natural end of all things. Countless eyes shall awaken, all will return to the undermaiden.")
+		if(/datum/patron/divine/noc)
+			out_text = skill_check_text("Noc", TRUE, "Faint, glowing scripts of forgotten arcana float within the swirling mist. Whispers of lost, ancient knowledge buried underneath the sea. Sights of deep ones hoarding artefacts of distant lands.")
+		if(/datum/patron/divine/pestra)
+			out_text = skill_check_text("Pestra", TRUE, "You feel ill from the scent alone, it's like the water has grown vile and corrupted. Yet within, you see the cry of a woman in despair, sipping the edges of the fluid. The black in her veins retracts.")
+		if(/datum/patron/divine/ravox)
+			out_text = skill_check_text("Ravox", TRUE, "The warble of clashing blades is heard through the muffling lens of an underwater spectacle. A glorious bout, templar in shining regalia cut off the hands of fiends. Yet, a thief at the heart of it all asks for mercy, remaining unpunished.")
+		if(/datum/patron/divine/undivided)
+			out_text = skill_check_text("Undivided", TRUE, "You feel ten voices, ten forces, countless eyes. Hands that tug and pull. All vie for your devotion. Feverish fingers pass through the still surface, the tumult upsetting the faint image forming in the liquid.")
+		if(/datum/patron/divine/xylix)
+			out_text = skill_check_text("Xylix", TRUE, "Cards backed with stars are shuffled by the waves. Faint laughter rings out. A crowd of fish, each fin holding a card, showing their prophecy. They demand a great a play, to be mocked, to be disarmed, so that the hidden seeds of truth may be planted in their minds.")
+
+		// Inhumen Patrons
+		if(/datum/patron/inhumen/baotha)
+			out_text = skill_check_text("Baotha", TRUE, "The agony of forgotten souls, countless drowned sailors bereft of even the chance to have their remains wash ashore. Yet, in that collective pain, you feel a sweet, reassuring murmur telling you that you are not alone.")
+		if(/datum/patron/inhumen/graggar)
+			out_text = skill_check_text("Graggar", TRUE, "The pool bubbles with the stench of copper and a hue of scarlet. The chain of an anchor binds itself around your wrist. A figure embedded on the sharp metal below taunts you, pulling on the chain. Control, or be controlled, there is no in between.")
+		if(/datum/patron/inhumen/matthios)
+			out_text = skill_check_text("Matthios", TRUE, "Thousands of little lights in the depths. Mammon. So- numerous, yet so far away. The sea is a masterful scoundrel, stealing with no recourse.")
+		if(/datum/patron/inhumen/zizo)
+			out_text = skill_check_text("Zizo", TRUE, "The pool freezes over into a thick layer of ice. The reflection shows tiny hints of a lost age. The clank of machinery, a grand metropolish filled with countless shadowy figures. The ice cracks violently, splintering the opportunity to garner real knowledge from the vision.")
+
+		// Old God Patrons
+		if(/datum/patron/old_god)
+			out_text = skill_check_text("Psydon", TRUE, "The pool remains perfectly still for a moment. An extremely faint silouette of something- terrifying... Lurks underneath in the darkwater depths. You feel watched. Judged. Doubted.")
+
+		else
+			out_text = skill_check_text(P.name, FALSE, "My devotion is too weak, the whispers of the void remain silent.")
+
+	to_chat(user, out_text)
 
 /obj/structure/roguemachine/dream_pool/attack_hand(mob/user, list/modifiers)
 	. = ..()

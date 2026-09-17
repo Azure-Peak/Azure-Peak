@@ -11,6 +11,8 @@
 	var/datum/admins/holder = null
 	///Needs to implement InterceptClickOn(user,params,atom) proc
 	var/datum/click_intercept = null
+	///The game master panel this client currently has open
+	var/datum/game_master/game_master_menu
 	///Used for admin AI interaction
 	var/AI_Interact = FALSE
 
@@ -120,8 +122,13 @@
 	///these persist between logins/logouts during the same round.
 	var/datum/player_details/player_details
 
-	///Should only be a key-value list of north/south/east/west = atom/movable/screen.
-	var/list/char_render_holders
+	/**
+	 * Assoc list with all the active maps - when a screen obj is added to
+	 * a map, it's put in here as well.
+	 *
+	 * Format: list(<mapname> = list(/atom/movable/screen))
+	 */
+	var/list/screen_maps = list()
 
 	///Amount of keydowns in the last keysend checking interval
 	var/client_keysend_amount = 0

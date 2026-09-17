@@ -85,7 +85,7 @@
 		/datum/supply_pack/rogue/raneshen/megarmach_coat,
 		/datum/supply_pack/rogue/raneshen/tower_shield,
 		/datum/supply_pack/rogue/raneshen/shamshir,
-		/datum/supply_pack/rogue/raneshen/shalal_saber,
+		/datum/supply_pack/rogue/raneshen/shalal_sabre,
 		/datum/supply_pack/rogue/raneshen/navaja,
 		/datum/supply_pack/rogue/raneshen/grand_mace,
 		/datum/supply_pack/rogue/raneshen/spear,
