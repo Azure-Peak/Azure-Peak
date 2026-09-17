@@ -93,7 +93,7 @@
 #define LIGHT_RANGE_FIRE			3
 #define LIGHT_RANGE_LAMPTERN		5
 #define LIGHT_RANGE_TORCH			6
-#define LIGHT_RANGE_BRAZIER			10
+#define LIGHT_RANGE_BRAZIER			12
 
 ///How strong light is and overpower others.
 #define	LIGHT_POWER_ENVIROMENTAL	0.75
