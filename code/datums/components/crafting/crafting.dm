@@ -1,3 +1,6 @@
+// Bonuse % to craft per INT.
+#define CRAFT_BONUS_PER_INT 1.6
+
 /datum/component/personal_crafting/Initialize(mapload)
 	if(!ismob(parent))
 		return COMPONENT_INCOMPATIBLE
@@ -292,7 +295,7 @@
 					if(isliving(user))
 						var/mob/living/L = user
 						if(L.STAINT > 10)
-							prob2craft += ((10-L.STAINT)*-1)*2
+							prob2craft += round((((10 - L.STAINT) * -1) * CRAFT_BONUS_PER_INT), 0.1)
 						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
 							prob2craft += 5
 						if(HAS_TRAIT(L, TRAIT_MALUMCHOSEN))
@@ -300,12 +303,29 @@
 					prob2craft = CLAMP(prob2craft, 0, 99)
 					if(i == 100 && prob2craft > 0)
 						prob2craft = 100
+
+					// Pseudorandomization!
+					var/datum/skill_holder/holder = user.ensure_skills()
+					if(holder.last_recipe != R)
+						holder.last_recipe = R
+						holder.pseudo_craft_chance = prob2craft
+					else if(prob2craft > holder.pseudo_craft_chance)
+						holder.pseudo_craft_chance = prob2craft
+					else
+						prob2craft = holder.pseudo_craft_chance
+
 					if(!prob(prob2craft))
+						if(prob2craft > 0)
+							var/factor = HAS_TRAIT(user, TRAIT_MALUM_CRAFTER) ? 0.2 : 0.1
+							holder.pseudo_craft_chance = min(pseudorandomize_increase(holder.pseudo_craft_chance, factor), 100)
+
 						if(user.client?.prefs.showrolls)
 							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
-							continue
-						to_chat(user, span_danger("I've failed to craft \the [R.name]."))
+						else
+							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
 						continue
+
+					holder.reset_pseudo_chance()
 					var/list/quality_capture = R.skip_quality ? list() : null
 					var/list/parts = del_reqs(R, user, quality_capture)
 					var/inherited_quality = quality_capture?["min_quality"]
@@ -666,4 +686,4 @@
 		return
 	learned_recipes -= R
 
-
+#undef CRAFT_BONUS_PER_INT
