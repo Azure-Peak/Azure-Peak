@@ -63,8 +63,8 @@
 	name = "condensed light"
 	desc = "An orb of condensed light. (Right click to turn off.)"
 	w_class = WEIGHT_CLASS_SMALL
-	light_outer_range = LIGHT_RANGE_LAMPTERN + 2
-	light_color = LIGHT_COLOR_WHITE
+	light_outer_range = LIGHT_RANGE_LAMPTERN + 3
+	light_color = LIGHT_COLOR_FIRE
 	force = 10
 	icon = 'icons/roguetown/rav/obj/cult.dmi'
 	icon_state = "sphere0"
