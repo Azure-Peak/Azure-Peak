@@ -1,6 +1,4 @@
 GLOBAL_LIST_EMPTY(quirks)
-GLOBAL_LIST_EMPTY(quirks_lesser)
-GLOBAL_LIST_EMPTY(quirks_greater)
 
 /datum/quirk
 	var/name					// name of the quirk
