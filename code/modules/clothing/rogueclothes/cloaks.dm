@@ -2082,6 +2082,7 @@
 	name = "regal cloak"
 	desc = "A finely crafted cloak of silk adorned with rosas."
 	icon_state = "rosacloak7"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
@@ -2098,8 +2099,8 @@
 	item_state = "dupatta"
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+	altdetail_tag = "_detailalt"
 	altdetail_color = CLOTHING_WHITE
-	altdetail_tag = "_detailalt"//has more details for more colours
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
 	sleevetype = "shirt"
 

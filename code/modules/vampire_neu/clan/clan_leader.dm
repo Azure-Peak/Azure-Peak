@@ -33,7 +33,9 @@
 
 /datum/clan_leader/proc/make_new_leader(mob/living/carbon/human/H)
 	ADD_TRAIT(H, TRAIT_CLAN_LEADER, "clan")
-	if(H.job == "Stray")
+	if(H.get_vampire_generation() == GENERATION_THINNERBLOOD) //vagabonds "lords" have no place. You don't even run a clan you vagrant.
+		return
+	if(H.get_vampire_generation() == GENERATION_THINBLOOD) //stray thrall "lords" have no place. You don't even run a clan you vagrant.
 		return
 	// Add lord spells
 	for(var/spell_type in lord_spells)
@@ -51,9 +53,11 @@
 	var/datum/antagonist/vampire/vamp_datum = H.mind?.has_antag_datum(/datum/antagonist/vampire)
 	var/datum/antagonist/vampire/vamp_lord_datum = H.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 	H.maxbloodpool += vitae_bonus
+
 	if(vamp_datum && !vamp_lord_datum)
 		vamp_datum.name = "[lord_title]"
 		vamp_datum.antag_hud_name = "vamp_lord_hud"
+
 	if(vamp_lord_datum) //Vlord (as in the ancient calamity one) gets a unique HUD Icon
 		vamp_datum.name = "Methuselah" //And are recognised by blood, it is worthy of a title.
 		vamp_datum.antag_hud_name = "vamp_lord_ancient_hud"

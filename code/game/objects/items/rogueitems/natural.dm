@@ -23,7 +23,7 @@
 			if(B.amount < B.maxamount)
 				B.amount++
 				B.update_bundle()
-				user.visible_message("[user] adds [src] to [W].")
+				user.visible_message(span_info("[user] adds [src] to [W]."))
 				qdel(src)
 			else
 				to_chat(user, "There's not enough space in [W].")
@@ -32,7 +32,7 @@
 		var/obj/item/natural/B = W
 		if(B.bundletype == src.bundletype && src.bundletype != null)
 			var/obj/item/natural/bundle/N = new bundletype(src.loc)
-			to_chat(user, "You tie the [N.stackname] into a bundle.")
+			to_chat(user, span_info("You tie the [N.stackname] into a bundle."))
 			qdel(B)
 			qdel(src)
 			user.put_in_hands(N)
@@ -46,7 +46,7 @@
 		return
 	if(user.get_active_held_item())
 		return
-	to_chat(user, span_notice("I begin to collect [src]."))
+	to_chat(user, span_info("I begin to collect [src]."))
 	if(move_after(user, bundling_time, target = src))
 		// we're basically always just going to bundle the same kind of item. easier check.
 		var/bundletype = src.type
@@ -113,13 +113,13 @@
 				src.amount = maxamount
 				src.update_bundle()
 				B.update_bundle()
-				to_chat(user, "There's not enough space in [src].")
+				to_chat(user, span_warning("There's not enough space in [src]."))
 				if(B.amount == 1)
 					var/obj/H = new stacktype(src.loc)
 					user.put_in_hands(H)
 					qdel(B)
 			else
-				to_chat(user, "I add the [W] to the [src].")
+				to_chat(user, span_info("I add the [W.name] to the [src.name]."))
 				src.amount += B.amount
 				update_bundle()
 				qdel(B)
@@ -127,12 +127,12 @@
 		if(item_flags & IN_STORAGE)
 			return
 		if(src.amount < src.maxamount)
-			to_chat(user, "I add the [W] to the [src].")
+			to_chat(user, span_info("I add the [W.name] to the [src.name]."))
 			src.amount++
 			update_bundle()
 			qdel(W)
 		else
-			to_chat(user, "There's not enough space in [src].")
+			to_chat(user, span_warning("There's not enough space in [src]."))
 	else
 		return ..()
 
@@ -166,7 +166,7 @@
 			amount -= 1
 			var/obj/F = new stacktype(src.loc)
 			H.put_in_hands(F)
-			user.visible_message("[user] removes [F] from [src].", "I remove [F] from [src].")
+			user.visible_message(span_info("[user] removes [F] from [src]."), span_info("I remove [F] from [src]."))
 	update_bundle()
 
 /obj/item/natural/bundle/attack_turf(turf/T, mob/living/user)

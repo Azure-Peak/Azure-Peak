@@ -742,6 +742,8 @@ SUBSYSTEM_DEF(job)
 	if(related_policy)
 		to_chat(M,related_policy)
 	if(job && H)
+		if(H.client && H.mind)
+			H.mind.job_subprefs = H.client.prefs?.job_subprefs.Copy()
 		job.after_spawn(H, M, joined_late) // note: this happens before the mob has a key! M will always have a client, H might not.
 
 	if(ishuman(H))
@@ -917,9 +919,9 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/JobDebug(message)
 	log_job_debug(message)
 
-/datum/controller/subsystem/job/proc/bitflag_to_department(department_flag, obsfuscated = FALSE)
+/datum/controller/subsystem/job/proc/bitflag_to_department(department_flag, obfuscated = FALSE)
 	var/key = "Wanderers"
-	if(obsfuscated)
+	if(obfuscated)
 		return key
 	switch(department_flag) // Omega tier slop.
 		if(NOBLEMEN)

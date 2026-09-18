@@ -206,7 +206,8 @@
 					backr = /obj/item/rogueweapon/shield/heater
 				if("Naginata")
 					r_hand = /obj/item/rogueweapon/spear/naginata
-					armor = /obj/item/clothing/suit/roguetown/armor/basiceast
+					if(armor_choice == "Discretion (Spellblade Disguise)")
+						armor = /obj/item/clothing/suit/roguetown/armor/basiceast
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 		if("macebearer")
 			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")

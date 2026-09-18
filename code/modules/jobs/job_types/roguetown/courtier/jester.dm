@@ -64,6 +64,7 @@
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/telltragedy)
 	add_verb(H, /mob/living/carbon/human/proc/ventriloquate)
 	add_verb(H, /mob/living/carbon/human/proc/ear_trick)
+	add_verb(H, /mob/living/carbon/human/proc/jester_flip)
 	if(!istype(H.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
 		H.internal_organs_slot[ORGAN_SLOT_TONGUE] = new /obj/item/organ/tongue/wild_tongue
 	if(prob(50))

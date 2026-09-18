@@ -56,6 +56,10 @@
 			else
 				if (loot_spawned)
 					spawned_loot.pixel_x = spawned_loot.pixel_y = ((!(loot_spawned%2)*loot_spawned/2)*-1)+((loot_spawned%2)*(loot_spawned+1)/2*1)
+			if(istype(spawned_loot, /obj/item/clothing))
+				var/obj/structure/mannequin/mannequin_on_turf = locate() in T
+				if(mannequin_on_turf)
+					mannequin_on_turf.TryAutoEquip(spawned_loot)
 		loot_spawned++
 	do_spawn()
 

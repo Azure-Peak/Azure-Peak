@@ -121,16 +121,23 @@
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
 	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
 	var/specific_render_zone = aux ? aux_zone : body_zone
+
 	for(var/key in specific_markings)
 		var/color = specific_markings[key]
 		var/datum/body_marking/BM = GLOB.body_markings[key]
 
 		var/render_limb_string = specific_render_zone
+		var/pixel_y_offset = 0
 		if(BM.gendered && (!BM.gender_only_chest || specific_render_zone == BODY_ZONE_CHEST))
-			var/gendaar = (human_owner.gender == FEMALE) ? "f" : "m"
+			var/gendaar = human_owner.is_bulky_body() ? "m" : "f"
 			render_limb_string = "[render_limb_string]_[gendaar]"
+			// Only gendered markings need this: one drawn as a single shared sprite was never drawn against her
+			// body to begin with. The per-zone amounts live on the build, as marking_offsets.
+			if(gendaar == "f" && human_owner.gender == MALE)
+				pixel_y_offset = human_owner.get_marking_offset(specific_render_zone)
 
 		var/mutable_appearance/accessory_overlay = mutable_appearance(BM.icon, "[BM.icon_state]_[render_limb_string]", -specific_layer)
+		accessory_overlay.pixel_y += pixel_y_offset
 		if(override_color)
 			accessory_overlay.color = "#[override_color]"
 		else
@@ -523,10 +530,7 @@
 		return
 	var/datum/species/S = H.dna.species
 	species_id = S.limbs_id
-	if(H.gender == MALE)
-		species_icon = S.limbs_icon_m
-	else
-		species_icon = S.limbs_icon_f
+	species_icon = S.get_limbs_icon(H)
 	species_flags_list = H.dna.species.species_traits
 
 

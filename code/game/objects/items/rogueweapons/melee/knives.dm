@@ -566,7 +566,7 @@
 	name = "corroded dagger"
 	desc = "A wicked deliverer of poison, serrated and notched. Curved steel cradles the knuckles, ensuring that the wielder doesn't inflict the fatal dose on themselves. </br>I can coat this dagger in most poisons, ensuring that my next strike leaves a festering surprise."
 	icon_state = "pdagger"
-	sheathe_icon = "pdagger"
+	sheathe_icon = "spdagger"
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/Initialize(mapload)
 	. = ..()
