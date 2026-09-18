@@ -2,6 +2,7 @@
 /// Uses a name-keyed associative list (gear_list) with per-item metadata for color, custom name, and custom description.
 /// Based on Bay / Eris / Sojourn loadout menu with a different UI but the same save format.
 #define LOADOUT_MAX_POINTS 10
+#define LOADOUT_MAX_NAME_LEN 64
 #define LOADOUT_MAX_DESC_LEN 1024
 #define LOADOUT_TRIUMPH_DISCOUNT 3 // donators get this many triumph points free in loadout
 #define LOADOUT_DONATOR_BONUS 5 // donators get this many extra loadout points
@@ -183,9 +184,12 @@
 			if(!islist(meta))
 				meta = list()
 				gear_list[item_name] = meta
+			custom_name = replacetext(custom_name, "\n", "")
 			if(custom_name)
-				meta["custom_name"] = copytext(custom_name, 1, MAX_NAME_LEN)
-				meta["custom_name_parsed"] = parsemarkdown_basic(html_encode(meta["custom_name"]))
+				meta["custom_name"] = copytext(custom_name, 1, LOADOUT_MAX_NAME_LEN + 1)
+				meta["custom_name_parsed"] = parsemarkdown_basic(html_encode(meta["custom_name"]), limited = TRUE)
+				if(findtext(meta["custom_name_parsed"], "\\improper") == 1) // \improper at the start of a string - convert it to a byond macro
+					meta["custom_name_parsed"] = ("\improper"+copytext(meta["custom_name_parsed"], 10)) // this is useful for when you have lowercase text encased in markdown tags
 			else
 				meta -= "custom_name"
 				meta -= "custom_name_parsed"
@@ -201,7 +205,7 @@
 				meta = list()
 				gear_list[item_name] = meta
 			if(custom_desc)
-				meta["custom_desc"] = copytext(custom_desc, 1, LOADOUT_MAX_DESC_LEN)
+				meta["custom_desc"] = copytext(custom_desc, 1, LOADOUT_MAX_DESC_LEN + 1)
 				meta["custom_desc_parsed"] = parsemarkdown_basic(html_encode(meta["custom_desc"]))
 				meta["custom_desc_parsed"] = replacetext(meta["custom_desc_parsed"], "\n", "<br/>") // markdown processor eats newlines otherwise
 			else
@@ -225,6 +229,7 @@
 			preview = !preview
 
 #undef LOADOUT_MAX_POINTS
+#undef LOADOUT_MAX_NAME_LEN
 #undef LOADOUT_MAX_DESC_LEN
 #undef LOADOUT_TRIUMPH_DISCOUNT
 #undef LOADOUT_DONATOR_BONUS

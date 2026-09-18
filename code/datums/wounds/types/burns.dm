@@ -8,7 +8,7 @@
 	sewn_clotting_rate = 0.01
 	clotting_threshold = 0.15
 	sewn_clotting_threshold = 0.1
-	sew_threshold = 10
+	sew_threshold = 20
 	can_sew = TRUE
 	can_cauterize = FALSE
 	passive_healing = 0.1
@@ -24,6 +24,7 @@
 	)
 
 #define BURN_UPG_WHPRATE 1.2
+#define BURN_UPG_SEWRATE 0.65
 #define BURN_UPG_PAINRATE 0.25
 #define BURN_CHAR_THRESHOLD 120
 // flat floor + a capped damage term, so a fireball (90) bleeds more than a spitfire (40) without the old runaway clamp
@@ -40,6 +41,7 @@
 
 /datum/wound/dynamic/burn/upgrade(dam, armor, exposed)
 	whp += (dam * BURN_UPG_WHPRATE)
+	sew_threshold += (dam * BURN_UPG_SEWRATE)
 	woundpain += (dam * BURN_UPG_PAINRATE)
 	if(bodypart_owner?.can_bloody_wound())
 		set_bleed_rate(bleed_rate + BURN_UPG_BLEED_FLAT + clamp(dam * BURN_UPG_BLEED_SCALE, 0, BURN_UPG_BLEED_SCALE_CAP))
@@ -57,6 +59,7 @@
 	..()
 
 #undef BURN_UPG_WHPRATE
+#undef BURN_UPG_SEWRATE
 #undef BURN_UPG_PAINRATE
 #undef BURN_CHAR_THRESHOLD
 #undef BURN_UPG_BLEED_FLAT

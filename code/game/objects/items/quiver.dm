@@ -15,7 +15,7 @@
 	bloody_icon_state = "bodyblood"
 	alternate_worn_layer = UNDER_CLOAK_LAYER
 	strip_delay = STRIP_DELAY_FAST
-	var/max_storage = 20 // Weight budget. Regular ammo = 1 weight each.
+	var/max_storage = QUIVER_CAPACITY_SHEAF // Weight budget. Regular ammo = 1 weight each.
 	var/list/arrows = list()
 	var/preferred_ammo_type
 	var/allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
@@ -421,7 +421,7 @@
 	desc = "A leather canister that can be used to carry bolts. Smaller, sleeker, yet nevertheless spacious enough to pack enough ammunition for a full nite's hunt."
 	icon_state = "boltpouch0"
 	item_state = "boltpouch"
-	max_storage = 16
+	max_storage = QUIVER_CAPACITY_BOLT
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
 
 /obj/item/quiver/bolt/getonmobprop(tag)
@@ -596,7 +596,7 @@
 	desc = "A heavy leather canister that can be used to carry heavier bolts. Casketed inside are the missiles that, whether launched from a mounted ballista or handheld siegebow, will devastate without quarter."
 	icon_state = "boltpouch0"
 	item_state = "boltpouch"
-	max_storage = 8
+	max_storage = QUIVER_CAPACITY_SIEGE
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
 
 /obj/item/quiver/bolt/heavy/attack_turf(turf/T, mob/living/user)
@@ -680,7 +680,7 @@
 	desc = "A light leather canister with specially-tailored hoops on the inside, made for carrying heat-treated shotstakes by the dozens."
 	icon_state = "stakepouch0"
 	item_state = "stakepouch"
-	max_storage = 24
+	max_storage = QUIVER_CAPACITY_SHEAF
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/stake
 
 /obj/item/quiver/bolt/stake/attack_turf(turf/T, mob/living/user)
@@ -722,7 +722,7 @@
 	desc = "A heavy, hip-hookable sleeve that can carry javelins. It has yet to reclaim the same love it once had, during the wars of pre-Syonic antiquity."
 	icon_state = "javelinbag0"
 	item_state = "javelinbag"
-	max_storage = 20 // Javelins weigh 5 each, so 4 javelins at full capacity
+	max_storage = QUIVER_CAPACITY_JAVELIN // Javelins weigh 5 each, so 4 javelins at full capacity
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/javelin
 
 /obj/item/quiver/javelin/attack_turf(turf/T, mob/living/user)
@@ -787,7 +787,7 @@
 	icon_state = "slingpouch"
 	item_state = "slingpouch"
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_NECK
-	max_storage = 40
+	max_storage = QUIVER_CAPACITY_SLING
 	w_class = WEIGHT_CLASS_NORMAL
 	grid_height = 64
 	grid_width = 32
@@ -1069,7 +1069,7 @@
 	name = "mechanized bow quiver"
 	desc = "A mechanical quiver for bows and arrows, it will suck up arrows off the ground and hold a bow!"
 	icon_state = "mechquiver0"
-	max_storage = 20
+	max_storage = QUIVER_CAPACITY_SHEAF
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow
 	valid_weapon = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 
@@ -1088,7 +1088,7 @@
 	name = "mechanized bolt quiver"
 	desc = "A mechanical bolt pouch for crossbows and bolts. It will suck up bolts off the ground and hold a crossbow!"
 	icon_state = "mechboltpouch0"
-	max_storage = 16
+	max_storage = QUIVER_CAPACITY_BOLT
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt
 	valid_weapon = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	var/slurbow_mode = FALSE
@@ -1218,7 +1218,7 @@
 	desc = "A mechanical heavy bolt pouch for siegebows and heavy bolts. It will suck up heavy bolts off the ground and hold a siegebow!"
 	icon_state = "mechboltpouch0"
 	w_class = WEIGHT_CLASS_HUGE
-	max_storage = 8
+	max_storage = QUIVER_CAPACITY_SIEGE
 	allowed_ammo_type = /obj/item/ammo_casing/caseless/rogue/heavy_bolt
 	valid_weapon = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
 

@@ -8,6 +8,7 @@
 	soundenv = 8
 	deathsight_message = "a dark cave where Abyssor's dream echoes"
 	detail_text = DETAIL_TEXT_UNDERCOAST
+	area_sniff_message = "You smell the sea and the damp, murky depths."
 
 /area/rogue/indoors/cave/underhamlet
 	name = "The Underhamlet"
@@ -32,6 +33,12 @@
 /area/rogue/indoors/cave/southern
 	name = "Southern Undercoast"
 	first_time_text = "Southern Undercoast"
+
+/area/rogue/indoors/cave/bog
+	icon_state = "bog"
+	name = "Flooded Caves"
+	first_time_text = "Flooded Caves"
+	deathsight_message = "dank, moldy caverns flowing with foul water from a rotten swamp"
 
 /area/rogue/under/cave/mazedungeon
 	name = "Temple of the Shattered God"

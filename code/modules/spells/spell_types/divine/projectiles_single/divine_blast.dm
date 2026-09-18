@@ -12,9 +12,9 @@
 	cast_range = SPELL_RANGE_PROJECTILE
 
 	primary_resource_type = SPELL_COST_DEVOTION
-	primary_resource_cost = 25
+	primary_resource_cost = SPELLCOST_MIRACLE
 	secondary_resource_type = SPELL_COST_ENERGY
-	secondary_resource_cost = 75
+	secondary_resource_cost = SPELLCOST_MINOR_SKILL
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
 	charge_time = CHARGETIME_MINOR + (0.25 SECONDS)
@@ -31,7 +31,7 @@
 	var/current_mode = 1
 	var/list/modes = list(
 		list("name" = "Focus", "tag" = "", "proj" = /obj/projectile/energy/divineblast, "invocation" = "Sakral Strahl!"),
-		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/divineblast/arc, "invocation" = "Sakral Strahl!"),
+		list("name" = "Arc", "tag" = "ARC", "proj" = /obj/projectile/energy/divineblast/arc, "invocation" = "Sakral Strahlum!"),
 	)
 
 /obj/projectile/energy/divineblast
