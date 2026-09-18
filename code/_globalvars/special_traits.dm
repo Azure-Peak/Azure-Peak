@@ -254,11 +254,11 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 				return FALSE
 			if(prefs.statpack.virtuous && prefs.virtuetwo && (prefs.virtuetwo.type in quirk.restricted_virtues))
 				return FALSE
-		return TRUE
 		if(LAZYLEN(quirk.allowed_species) && !(prefs.pref_species.type in quirk.allowed_species))
 			if(LAZYLEN(quirk.allowed_virtues) && ((prefs.virtue.type in quirk.allowed_virtues) || (prefs.virtuetwo.type in quirk.allowed_virtues)))
 				return TRUE
 			return FALSE
+		return TRUE
 	return FALSE
 
 /proc/apply_charflaw_equipment(mob/living/carbon/human/character, client/player)
