@@ -1,6 +1,6 @@
 /datum/job/roguetown/lamplighter
 	title = "Lamplighter"
-	vice_restrictions = list()
+	vice_restrictions = list(/datum/charflaw/targeted, /datum/charflaw/hunted, /datum/charflaw/wanted) // The guild of Not Starting Shit does not allow you in their ranks if you're Going To Cause Shit
 	virtue_restrictions = list(/datum/virtue/combat/magical_potential, /datum/virtue/combat/devotee)
 	flag = LAMPLIGHTER
 	department_flag = WANDERERS
