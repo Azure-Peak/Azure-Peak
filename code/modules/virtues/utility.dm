@@ -57,7 +57,7 @@
 		NOTABLE_RESIDENCY,
 	)
 	choice_tooltips = list(
-		NOTABLE_SHREWD = "I've managed to secure a Meister account and a lump sum within it. Grants Secular Appraise -- a spell that allows you to tell how much wealth someone has on them, and in their Meister.",
+		NOTABLE_SHREWD = "I've managed to secure a Meister account and a lump sum within it. I also know enough to determinate people's wealth at a glance, as well as the accurate price of items.",
 		NOTABLE_RESIDENCY = "I am a Resident of Azure Peak, with access to one of its buildings all to myself.",
 	)
 
@@ -68,7 +68,7 @@
 		switch(choice)
 			if(NOTABLE_SHREWD)
 				ADD_TRAIT(recipient, TRAIT_SEEPRICES, TRAIT_VIRTUE)
-				recipient.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
+				ADD_TRAIT(recipient, TRAIT_SEEWEALTH, TRAIT_VIRTUE)
 				if(HAS_TRAIT(recipient, TRAIT_OUTLAW))
 					recipient.mind?.special_items["Weighty Coinpurse"] = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
 				else
