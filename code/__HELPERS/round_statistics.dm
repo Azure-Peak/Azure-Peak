@@ -289,6 +289,7 @@ GLOBAL_LIST_EMPTY(patron_follower_counts)
 #define FEATURED_STATS_STORYTELLERS "storytellers"
 #define FEATURED_STATS_VIRTUES	"virtues"
 #define FEATURED_STATS_SUBVIRTUES	"subvirtues"
+#define FEATURED_STATS_QUIRKS	"quirks"
 #define FEATURED_STATS_ORIGINS	"origins"
 #define FEATURED_STATS_STATPACKS "statpacks"
 #define FEATURED_STATS_VICES	"vices"
