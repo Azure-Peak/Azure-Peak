@@ -458,6 +458,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		var/datum/quirk/lesserpath = quirklesser_type
 		if(!lesserpath::greater) // juuuust in case something gets retroactively maid greater, or someone messes with the savefiles
 			quirklesser = new quirklesser_type
+		else
+			quirklesser = new /datum/quirk/none
 
 	if(ispath(quirkgreater_type, /datum/quirk))
 		quirkgreater = new quirkgreater_type
