@@ -26,7 +26,7 @@
 		if(length(Q.restricted_virtues))
 			if(virtue.type in Q.restricted_virtues)
 				unavailable = "Restricted from virtue \"[virtue.name]\"."
-			if(virtuetwo.type in Q.restricted_virtues)
+			if(statpack.virtuous && (virtuetwo.type in Q.restricted_virtues))
 				unavailable = "Restricted from virtue \"[virtuetwo.name]\"."
 		UNTYPED_LIST_ADD(quirk_availability, list(
 			"path" = path,
