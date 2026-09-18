@@ -422,6 +422,13 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		"object_stat" = TRUE,
 		"admin_only" = TRUE
 	),
+	FEATURED_STATS_QUIRKS = list(
+		"name" = "TOP Quirks",
+		"color" = "#f09fd6",
+		"entries" = list(),
+		"object_stat" = TRUE,
+		"admin_only" = TRUE
+	),
 	FEATURED_STATS_STATPACKS = list(
 		"name" = "TOP Statpacks",
 		"color" = "#3aa4e2",
