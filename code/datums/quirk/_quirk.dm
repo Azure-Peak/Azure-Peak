@@ -1,17 +1,28 @@
 GLOBAL_LIST_EMPTY(quirks)
 
 /datum/quirk
-	var/name					// name of the quirk
-	var/desc					// ic description; shows on hover in the selection menu, and printed to chat when it's picked
-	var/mechdesc				// mechanical description; if present, printed after the IC desc in chat
-	var/list/restricted_species	// if present, these species will not be able to pick the quirk
-	var/list/allowed_species	// if present, ONLY these species will be able to pick the quirk
-	var/list/allowed_virtues	// if present, and the character has this virtue selected, they can roll the quirk even if they aren't in allowed_species. this is entirely to let second chancers take uncanny beauty
-	var/list/restricted_virtues	// if present, these virtues will block the quirk from being picked/applied - useful when they overlap
-	var/list/restricted_traits	// if present, these traits will block the quirk from being applied. prefer other options, as this won't prevent it being picked in character creation!
-	var/greater	= FALSE			// if this is a 'greater' quirk only accessible if you take virtuous/fated AND two vices
-	var/list/added_traits		// traits always applied by the quirk
-	var/ui_fa_icon = null		// FontAwesome icon name to display in the PreferencesMenu UI
+	///name of the quirk
+	var/name
+	///ic description; shows on hover in the selection menu, and printed to chat when it's picked
+	var/desc
+	///mechanical description; if present, printed after the IC desc in chat
+	var/mechdesc
+	///if present, these species will not be able to pick the quirk
+	var/list/restricted_species
+	///if present, ONLY these species will be able to pick the quirk
+	var/list/allowed_species
+	///if present, and the character has this virtue selected, they can roll the quirk even if they aren't in allowed_species. this is entirely to let second chancers take uncanny beauty
+	var/list/allowed_virtues
+	///if present, these virtues will block the quirk from being picked/applied - useful when they overlap
+	var/list/restricted_virtues
+	///if present, these traits will block the quirk from being applied. prefer other options, as this won't prevent it being picked in character creation!
+	var/list/restricted_traits
+	///if this is a 'greater' quirk only accessible if you take virtuous/fated AND two vices
+	var/greater	= FALSE
+	///traits always applied by the quirk
+	var/list/added_traits
+	///FontAwesome icon name to display in the PreferencesMenu UI
+	var/ui_fa_icon = null
 
 /datum/quirk/proc/apply_to_human(mob/living/carbon/human/recipient)
 	return
