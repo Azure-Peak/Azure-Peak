@@ -239,7 +239,7 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name], Virtue 2: [player.client.prefs.virtuetwo?.name]")
 			continue
 
-		if(length(job.quirk_restrictions) && ((player.client.prefs.quirklesser?.type in job.virtue_restrictions) || (player.client.prefs.quirkgreater?.type in job.virtue_restrictions)))
+		if(length(job.quirk_restrictions) && ((player.client.prefs.quirklesser?.type in job.quirk_restrictions) || (player.client.prefs.quirkgreater?.type in job.quirk_restrictions)))
 			JobDebug("GRJ incompatible with quirks, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
 			continue
 
