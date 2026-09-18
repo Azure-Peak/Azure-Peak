@@ -456,12 +456,14 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(ispath(quirklesser_type, /datum/quirk))
 		var/datum/quirk/lesserpath = quirklesser_type
+		QDEL_NULL(quirklesser)
 		if(!lesserpath::greater) // juuuust in case something gets retroactively maid greater, or someone messes with the savefiles
 			quirklesser = new quirklesser_type
 		else
 			quirklesser = new /datum/quirk/none
 
 	if(ispath(quirkgreater_type, /datum/quirk))
+		QDEL_NULL(quirkgreater)
 		quirkgreater = new quirkgreater_type
 
 /datum/preferences/proc/_load_gear_list(savefile/S)
