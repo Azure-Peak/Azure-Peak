@@ -285,9 +285,9 @@
 	icon_state = "voidlamp"
 	item_state = "voidlamp"
 	desc = "An old lamptern that seems darker and darker the longer you look at it."
-	light_outer_range = 8
-	light_color = "#000000"
-	light_power = -3
+	light_outer_range = LIGHT_RANGE_LAMPTERN + 3
+	light_color = LIGHT_COLOR_BLACK
+	light_power = LIGHT_POWER_VOID
 	on = FALSE
 
 /obj/item/clothing/ring/active/shimmeringlens

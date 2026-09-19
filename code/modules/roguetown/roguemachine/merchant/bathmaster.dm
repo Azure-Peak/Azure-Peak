@@ -347,8 +347,8 @@
 	name = "PURITY"
 	desc = "A pillar of the bathhouse's solace, in Eora's name."
 	icon_state = "purity"
-	light_outer_range = 6
-	light_color = "#ff13d8ff"
+	light_outer_range = LIGHT_RANGE_TORCH
+	light_color = LIGHT_COLOR_PINK
 	is_public = TRUE
 	locked = FALSE
 	motto = "PURITY - Solace for the Lonely and Weary."
@@ -368,7 +368,7 @@
 	if(obj_broken)
 		set_light(0)
 		return
-	set_light(1, 1, 1, l_color = "#1b7bf1")
+	set_light(1, 1, 1, l_color = LIGHT_COLOR_DARK_BLUE)
 	add_overlay(mutable_appearance(icon, "vendor-drug"))
 
 /obj/structure/roguemachine/bathvend/public/Initialize(mapload)

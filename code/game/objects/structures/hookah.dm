@@ -196,7 +196,7 @@
 	slot_flags = ITEM_SLOT_HIP
 	light_system = MOVABLE_LIGHT
 	light_outer_range = 1
-	light_color = "#f5a885"
+	light_color = LIGHT_COLOR_FIRE
 	light_on = FALSE
 	var/lit = FALSE
 

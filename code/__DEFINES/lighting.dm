@@ -48,7 +48,7 @@
 /// More-saturated cyan. rgb(64, 206, 255)
 #define LIGHT_COLOR_LIGHT_CYAN "#40CEFF"
 /// Saturated blue. rgb(51, 117, 248)
-#define LIGHT_COLOR_DARK_BLUE	"#6496FA"
+#define LIGHT_COLOR_DARK_BLUE	"#3375F8"
 /// Diluted, mid-warmth pink. rgb(225, 125, 225)
 #define LIGHT_COLOR_PINK		"#E17DE1"
 /// Dimmed yellow, leaning kaki. rgb(225, 225, 125)
@@ -61,6 +61,10 @@
 #define LIGHT_COLOR_PURPLE		"#952CF4"
 /// Less-saturated light purple. rgb(155, 81, 255)
 #define LIGHT_COLOR_LAVENDER	"#9B51FF"
+/// Grey RGB (138, 138, 138)
+#define LIGHT_COLOR_GREY "#8A8A8A"
+/// Black RGB (0, 0, 0)
+#define LIGHT_COLOR_BLACK "#000000"
 
 ///slightly desaturated bright yellow.
 #define LIGHT_COLOR_HOLY_MAGIC	"#FFF743"
@@ -80,9 +84,23 @@
 #define LIGHT_COLOR_TUNGSTEN	"#FAE1AF"
 /// Barely visible cyan-ish hue, as the doctor prescribed. rgb(240, 250, 250)
 #define LIGHT_COLOR_HALOGEN	"#F0FAFA"
+/// bronze color, greenish. RGB(74, 199, 126)
+#define LIGHT_COLOR_BRONZE "#4AC77E"
+/// Holy Color Light RGB(245, 237, 218)
+#define LIGHT_COLOR_HOLY "#F5EDDA"
 
 ///How many tiles standard fires glow.
-#define LIGHT_RANGE_FIRE		3
+#define LIGHT_RANGE_FIRE			3
+#define LIGHT_RANGE_LAMPTERN		5
+#define LIGHT_RANGE_TORCH			6
+#define LIGHT_RANGE_BRAZIER			12
+
+///How strong light is and overpower others.
+#define	LIGHT_POWER_ENVIROMENTAL	0.75
+#define	LIGHT_POWER_WEAK			0.9
+#define LIGHT_POWER_BASE			1
+#define LIGHT_POWER_MAGIC			1.5
+#define LIGHT_POWER_VOID			-8
 
 #define LIGHTING_PLANE_ALPHA_VISIBLE 255
 #define LIGHTING_PLANE_ALPHA_LESSER_NV_TRAIT 192

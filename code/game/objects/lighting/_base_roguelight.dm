@@ -1,10 +1,10 @@
 /obj/machinery/light/rogue
 	icon = 'icons/roguetown/misc/lighting.dmi'
-	brightness = 8
+	brightness = LIGHT_RANGE_TORCH + 2
 	nightshift_allowed = FALSE
 	fueluse = 60 MINUTES
-	bulb_colour = "#f9ad80"
-	bulb_power = 1
+	bulb_colour = LIGHT_COLOR_ORANGE
+	bulb_power = LIGHT_POWER_BASE
 	var/datum/looping_sound/soundloop = null // = /datum/looping_sound/fireloop
 	pass_flags = LETPASSTHROW
 	flags_1 = NODECONSTRUCT_1
