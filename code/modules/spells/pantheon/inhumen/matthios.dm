@@ -61,9 +61,31 @@
 			return FALSE
 	if(path == "Greed")
 		var/list/choices = list("Sunfyre", "Thievery", "Malchemy")
-		path = tgui_input_list(H, "Choose your tool", "Freeman's Tools", choices)
-		if(!path)
+		var/greed_choice = tgui_input_list(H, "Choose your tool", "Freeman's Tools", choices)
+		if(!greed_choice)
 			return FALSE
+		switch(greed_choice)
+			if("Sunfyre")
+				var/obj/item/flashlight/flare/light/astrata/fire_orb = new /obj/item/flashlight/flare/light/astrata(H.drop_location())
+				if(!fire_orb)
+					return FALSE
+				H.put_in_hands(fire_orb)
+				H.say("Divine fyre, to me!")
+			if("Thievery")
+				var/obj/item/lockpick/gilded/lockpick = new /obj/item/lockpick/gilded(H.drop_location())
+				if(!lockpick)
+					return FALSE
+				H.put_in_hands(lockpick)
+				H.say("#Lord of Freedom, I beseeth a tool of liberation!")
+			if("Malchemy")
+				var/obj/item/matthios_canister/firstlaw/malchem = new /obj/item/matthios_canister/firstlaw(H.drop_location())
+				if(!malchem)
+					return FALSE
+				H.put_in_hands(malchem)
+				H.say("#Lord of Exchange, I shall finish thy work!")
+		StartCooldown()
+		return TRUE
+
 	switch(path)
 		if("Sunfyre")
 			if(skill < SKILL_LEVEL_EXPERT)
