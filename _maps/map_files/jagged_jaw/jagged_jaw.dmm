@@ -34712,6 +34712,14 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grim)
+"ekW" = (
+/obj/structure/fermentation_keg/random,
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 0;
+	pixel_y = 10
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/indoors/town/magician)
 "ekZ" = (
 /obj/structure/table/finestone,
 /obj/effect/spawner/lootdrop/valuable_candle_spawner,
@@ -63160,6 +63168,16 @@
 /obj/structure/roguetent,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/druidsgrove/grim)
+"hKu" = (
+/obj/structure/rack/rogue/shelf/big{
+	pixel_y = 5
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = -4;
+	pixel_y = 5
+	},
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/indoors/town/magician)
 "hKv" = (
 /obj/structure/fluff/railing/border{
 	dir = 6
@@ -88281,7 +88299,7 @@
 	dir = 4
 	},
 /obj/structure/roguemachine/mail/r{
-	mailtag = "Inquisitorial Basement"
+	mailtag = "Inquisition's Basement Hallway"
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
@@ -197337,9 +197355,11 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/grim)
 "xUw" = (
-/obj/structure/fermentation_keg/coffee,
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/indoors/town/magician)
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Inquisition's Basement"
+	},
+/turf/open/floor/rogue/herringbone,
+/area/rogue/indoors/inq/basement)
 "xUx" = (
 /obj/structure/table/optable,
 /turf/open/floor/rogue/blocks,
@@ -351851,7 +351871,7 @@ sIx
 dpW
 dpW
 fPW
-kWW
+xUw
 kWW
 cbq
 dpW
@@ -356015,8 +356035,8 @@ xql
 xql
 xql
 xql
-oBD
-oBD
+xql
+xql
 ipG
 ipG
 mzQ
@@ -356398,8 +356418,8 @@ xql
 xql
 xql
 xql
-oBD
-oBD
+xql
+xql
 ipG
 ipG
 mzQ
@@ -393835,7 +393855,7 @@ wvm
 rOV
 luJ
 cKG
-fdk
+hXa
 diz
 xAn
 yly
@@ -394599,7 +394619,7 @@ wvm
 rOV
 qLB
 ihM
-hXa
+fdk
 rOV
 wTi
 rYq
@@ -633370,8 +633390,8 @@ jGh
 jGh
 jGh
 wOa
-keq
-kKm
+smA
+viL
 kbS
 gEP
 sDd
@@ -633751,9 +633771,9 @@ jGh
 jGh
 jGh
 jGh
-xVb
-yjh
-yjh
+wOa
+keq
+kKm
 eUN
 eMq
 kbS
@@ -634133,11 +634153,11 @@ jGh
 jGh
 jGh
 jGh
-jGh
-jGh
-jGh
-jGh
-jGh
+xVb
+yjh
+yjh
+yjh
+yjh
 pzB
 oEX
 oEX
@@ -654499,11 +654519,11 @@ qem
 wvm
 wvm
 wvm
+wvm
+ekW
 uSQ
 uSQ
-uSQ
-uSQ
-uSQ
+hKu
 wvm
 wvm
 wvm
@@ -654880,8 +654900,8 @@ qem
 qem
 qem
 wvm
-uSQ
-uSQ
+wvm
+wvm
 wvm
 wvm
 wvm
@@ -655262,8 +655282,8 @@ jOj
 aEW
 fAV
 wvm
-xUw
-uSQ
+wvm
+wvm
 wvm
 wvm
 wvm

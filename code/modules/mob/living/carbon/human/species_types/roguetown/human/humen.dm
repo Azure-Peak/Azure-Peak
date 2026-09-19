@@ -74,7 +74,7 @@
 
 /datum/species/human/northern/check_roundstart_eligible()
 	return TRUE
-	
+
 
 /datum/species/human/northern/get_skin_list()
 	return list(
@@ -90,6 +90,8 @@
 		"East Raneshen (Nshkormh)" = SKIN_COLOR_LALVESTINE,
 		"Naledi" = SKIN_COLOR_NALEDI,
 		"Naledi South" = SKIN_COLOR_NALEDI_LIGHT,
+		"Naledi West" = SKIN_COLOR_NALEDI_B,
+		"Naledi East" = SKIN_COLOR_NALEDI_D,
 		"Kazengun" = SKIN_COLOR_KAZENGUN
 	)
 

@@ -814,3 +814,21 @@
       well as feeling the effects of critical sunders slightly longer than regular
       silver-weak.
   - qol: bedrock is named bedrock, its also darker so you can tell at a glance.
+2026-09-19:
+  KatTheFox:
+  - bugfix: Characters with special characters - such as apostrophes - in their names
+      can now be mailed, instead of letters sent to them being silently redirected
+      to the coast.
+  - bugfix: Latejoining no longer runtimes if you never set roleprefs on a character
+      slot
+  MortoSasye:
+  - bugfix: Dukes no longer magically duplicate things they spawn with.
+  - rscadd: Two new skintones are available to be selected for humens and demihumans.
+  OrbisAnima:
+  - code_imp: Clamps the precision of ligthing cache values for sunlight so we have
+      more cached types in the ligthing system instead of infinite stuff due to how
+      long numbers can be in byond. Conservative Values were used to avoid artifacts.
+  WeNeedMorePhoron:
+  - bugfix: Burn wounds should now take longer to sew the more severe the wound is.
+  mumblemancer:
+  - rscadd: jesters can now flip thru their Japes
