@@ -31,7 +31,6 @@
 	ADD_TRAIT(H, TRAIT_CRITICAL_WEAKNESS, TRAIT_GENERIC) // You are disposable, your entire role is to fight and die.
 	ADD_TRAIT(H, TRAIT_SKELETAL_GIB_ON_DEATH, TRAIT_GENERIC) // No corpse, lets you get back to lobby rapidly.
 	H.cmode_music = 'sound/music/combat_weird.ogg' //Same as regular deadites
-	H.can_do_sex = FALSE //I know what you are
 
 	change_origin(H, /datum/virtue/origin/unselectable/skeleton, "Legion")
 
