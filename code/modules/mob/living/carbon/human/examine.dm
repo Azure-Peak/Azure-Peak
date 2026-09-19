@@ -782,8 +782,16 @@
 		var/used_title = get_role_title()
 		if(HAS_TRAIT(src, TRAIT_RESIDENT) && used_title == "Licker" && licker_subclass)
 			used_title = licker_subclass.name
-		if(SSticker.regentmob == src)
-			used_title = "[used_title]" + " Regent"
+		if(SSticker.rulermob != src)
+			if(SSticker.regentmob == src)
+				if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+					used_title = "Ancient Lord Regent"
+				else
+					used_title = "[used_title] Regent"
+			else if(src.mind?.has_antag_datum(/datum/antagonist/lich))
+				used_title = "Lich"
+			else if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+				used_title = "Ancient Lord"
 		var/display_as_wanderer = FALSE
 		if(observer_privilege)
 			used_name = real_name
@@ -795,6 +803,10 @@
 			var/datum/job/J = SSjob.GetJob(job)
 			if(!J || (J.wanderer_examine && !(HAS_TRAIT(src, TRAIT_RESIDENT))))
 				display_as_wanderer = TRUE
+		if(src.mind?.has_antag_datum(/datum/antagonist/lich))
+			display_as_wanderer = FALSE
+		if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord) && SSticker.rulermob != src && SSticker.regentmob != src)
+			display_as_wanderer = TRUE
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		var/datum/antagonist/lich/lichplayer = src.mind?.has_antag_datum(/datum/antagonist/lich)
@@ -1106,7 +1118,7 @@
 						. += span_danger("Their body holds not even a glimmer of life. No miracle or medicine can bring them back.")
 				// if theyre alive, you dont have deathsight, but youre an expert at medicine, you can tell.
 				else if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT)
-					. += span_danger("Their fifth-humor is visibly unbalanced. This will be their only chance at lyfe.")
+					. += span_danger("Their humors are visibly unbalanced. This will be their only chance at lyfe.")
 			// deathsight always works even on the living.
 			else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
 				if(HAS_TRAIT_FROM_ONLY(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
@@ -1116,7 +1128,7 @@
 
 
 
-	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_VAMP_DREAMS)) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
+	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
 		if(isliving(user))
 			var/mob/living/L = user
 			if(L.STAINT > 9 && L.STAPER > 9)

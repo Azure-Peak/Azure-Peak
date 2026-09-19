@@ -323,6 +323,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		body_parts_covered_dynamic = body_parts_covered
 	update_transform()
 
+	if(max_integrity && integrity_failure && integrity_failure == GENERIC_INTEG_FAILURE)
+		max_integrity += (max_integrity * 0.11142857143)	// don't ask
+		obj_integrity = max_integrity
+
 
 /obj/item/proc/update_transform()
 	transform = null
@@ -999,7 +1003,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
 
-		to_chat(M, span_userdanger("I can't pick up the silver, it is my BANE!"))
+		to_chat(M, span_silver("I can't pick up the silver, it is my BANE!"))
 		M.Knockdown(10)
 		M.Paralyze(10)
 		M.adjustFireLoss(25)

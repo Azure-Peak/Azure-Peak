@@ -606,7 +606,7 @@
 				/obj/item/natural/wood/plank = 3,
 				/obj/item/natural/stoneblock = 3)
 	skillcraft = /datum/skill/craft/carpentry
-	craftdiff = 5
+	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/mortar
 	name = "alchemical mortar"

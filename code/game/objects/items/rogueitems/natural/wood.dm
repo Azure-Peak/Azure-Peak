@@ -336,7 +336,7 @@
 		/datum/crafting_recipe/roguetown/survival/wickercloak,
 		/datum/crafting_recipe/roguetown/survival/torch,
 		/datum/crafting_recipe/roguetown/survival/stonearrow,
-		/datum/crafting_recipe/roguetown/survival/stonearrow_five,
+		/datum/crafting_recipe/roguetown/survival/stonearrow_six,
 		/datum/crafting_recipe/roguetown/survival/wood_stake
 		)
 
@@ -349,30 +349,6 @@
 	user.visible_message(span_warning("[user] snaps [src]."))
 	playsound(user,'sound/items/seedextract.ogg', 100, FALSE)
 	qdel(src)
-
-/obj/item/grown/log/tree/stick/attack_right(mob/living/user)
-	. = ..()
-	if(user.get_active_held_item())
-		return
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, 4 SECONDS, target = src))
-		var/stackcount = 0
-		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			stackcount++
-		while(stackcount > 0)
-			if(stackcount == 1)
-				var/obj/item/grown/log/tree/stick/S = new(get_turf(user))
-				user.put_in_hands(S)
-				stackcount--
-			else if(stackcount >= 2)
-				var/obj/item/natural/bundle/stick/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 10)
-				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 10)
-				user.put_in_hands(B)
-		for(var/obj/item/grown/log/tree/stick/F in get_turf(src))
-			qdel(F)
-		playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 100)
 
 
 /obj/item/grown/log/tree/stick/attackby(obj/item/I, mob/living/user, params)
@@ -393,7 +369,7 @@
 	if(istype(I, /obj/item/grown/log/tree/stick))
 		var/obj/item/natural/B = I
 		var/obj/item/natural/bundle/stick/N = new(src.loc)
-		to_chat(user, "I tie the sticks into a bundle.")
+		to_chat(user, span_info("I tie the sticks into a bundle."))
 		qdel(B)
 		qdel(src)
 		user.put_in_hands(N)
@@ -403,11 +379,40 @@
 			if(B.amount < B.maxamount)
 				B.amount++
 				B.update_bundle()
-				user.visible_message("[user] adds [src] to [I].", "I add [src] to [I].")
+				user.visible_message(span_info("[user] adds [src] to [I]."), span_info("I add [src] to [I]."))
 				qdel(src)
 			else
-				to_chat(user, "I can't add any more sticks to the bundle without it falling apart.")
+				to_chat(user, span_info("I can't add any more sticks to the bundle without it falling apart."))
 			return
+
+// FOR SOME GODDAMN REASON STICKS ARENT A NATURAL AND ARE THEIR OWN THING. UGH.
+/obj/item/grown/log/tree/stick/attack_right(mob/user)
+	if(user.get_active_held_item())
+		return
+	to_chat(user, span_notice("I begin to collect [src]."))
+	if(move_after(user, 4 SECONDS, target = src))
+		// list that contains all items we're going to try to bundle.
+		var/list/bundle_jutsu = list()
+		// search for items of the stacktype in the src turf.
+		for(var/obj/item/grown/log/tree/stick/S in get_turf(src))
+			bundle_jutsu += S
+		// bundlecount is now = bundle_jutsu.len for easy counting purposes.
+		var/bundlecount = bundle_jutsu.len
+		while(bundlecount > 0)
+			if(bundlecount == 1)
+				var/obj/item/grown/log/tree/stick/N = bundle_jutsu[1]
+				bundle_jutsu.Remove(N)
+				bundlecount--
+			else if(bundlecount >= 2)
+				var/obj/item/natural/bundle/B = new /obj/item/natural/bundle/stick(get_turf(user))
+				var/add_amount_clamped = clamp(bundlecount, 2, B.maxamount)
+				B.amount = add_amount_clamped
+				B.update_bundle()
+				bundlecount -= add_amount_clamped
+				user.put_in_hands(B)
+		playsound(user, drop_sound, 70, FALSE, -4)
+		for(var/obj/O in bundle_jutsu)
+			qdel(O)
 
 /obj/item/grown/log/tree/stake
 	name = "stake"
@@ -505,28 +510,6 @@
 	bundletype = /obj/item/natural/bundle/plank
 	smeltresult = /obj/item/ash
 
-/obj/item/natural/wood/plank/attack_right(mob/living/user)
-	if(user.get_active_held_item())
-		return
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, 4 SECONDS, target = src))
-		var/stackcount = 0
-		for(var/obj/item/natural/wood/plank/F in get_turf(src))
-			stackcount++
-		while(stackcount > 0)
-			if(stackcount == 1)
-				var/obj/item/natural/wood/plank/S = new(get_turf(user))
-				user.put_in_hands(S)
-				stackcount--
-			else if(stackcount >= 2)
-				var/obj/item/natural/bundle/plank/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 6)
-				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 6)
-				user.put_in_hands(B)
-		for(var/obj/item/natural/wood/plank/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/wooden_drop.ogg', 80)
-			qdel(F)
 
 /obj/item/natural/bundle/plank
 	name = "stack of wooden planks"

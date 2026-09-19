@@ -197,8 +197,11 @@
 				if(get_dist(get_turf(user), get_turf(M)) <= user.used_intent.reach)
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
+	var/dualwield_armed = FALSE
 	if(HAS_TRAIT(user, TRAIT_DUALWIELDER))
-		user.process_dualwield(M, src, null)
+		var/datum/intent/dualwield_cached_intent = user.used_intent
+		dualwield_armed = user.process_dualwield(src)
+		user.used_intent = dualwield_cached_intent
 
 	M.on_attacked_as_pacifist(user)
 
@@ -237,6 +240,7 @@
 
 	if(override_status != ATTACK_OVERRIDE_NODEFENSE)
 		if(M.checkdefense(user.used_intent, user))
+			// Defended, so an armed paired swing is simply never thrown.
 			return
 
 	if(user.mind)
@@ -275,6 +279,9 @@
 	log_combat(user, M, "attacked", src.name, zone=user.zone_selected, intent=user.used_intent.name, damtype=damtype)
 
 	execute_cleave(user, get_turf(M), M)
+
+	if(dualwield_armed)
+		user.fire_dualwield_paired(M, null)
 
 	add_fingerprint(user)
 
@@ -684,11 +691,11 @@
 			var/datum/component/silverbless/blesscomp = GetComponent(/datum/component/silverbless)
 			if(blesscomp?.is_blessed)
 				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder))
-					to_chat(victim, span_danger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+					to_chat(victim, span_silver("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 			else
 				if(!victim.has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed))
-					to_chat(victim, span_danger("Blessed silver rebukes my presence! These fires are lashing at my very soul!"))
+					to_chat(victim, span_silver("Blessed silver rebukes my presence! These fires are lashing at my very soul!"))
 				victim.adjust_fire_stacks(thrown ? 1 : 3, /datum/status_effect/fire_handler/fire_stacks/sunder)
 			victim.ignite_mob()
 
