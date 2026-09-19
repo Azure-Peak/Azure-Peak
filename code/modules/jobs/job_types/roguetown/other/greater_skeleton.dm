@@ -87,6 +87,8 @@ NECRO SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/necro/legionnaire/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
+
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.STASTR = 12
@@ -167,6 +169,8 @@ NECRO SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/necro/ballistiare/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
+
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.STASTR = 8
@@ -244,6 +248,8 @@ NECRO SKELETONS
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/bulwark/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
 
 	H.STASTR = 12
 	H.STAPER = 10
@@ -346,6 +352,8 @@ NECRO SKELETONS
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/sapper/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC) //sidegrade here

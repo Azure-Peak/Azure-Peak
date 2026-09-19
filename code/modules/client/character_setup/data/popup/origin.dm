@@ -10,7 +10,7 @@
 		if(!V.name || !istype(V, /datum/virtue/origin))
 			continue
 		// Skip familiar origins
-		if(istype(V, /datum/virtue/origin/familiar))
+		if(istype(V, /datum/virtue/origin/unselectable))
 			continue
 		// Restricted uses races as a blacklist
 		if(V.restricted == TRUE)
