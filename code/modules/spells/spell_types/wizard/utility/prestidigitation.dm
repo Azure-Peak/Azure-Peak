@@ -37,12 +37,20 @@
 
 	switch(caster.used_intent.type)
 		if(/datum/intent/hand/clean)
+			if(ishuman(victim))
+				var/mob/living/carbon/human/human_victim = victim
+				if(human_victim == caster && human_victim.has_status_effect(/datum/status_effect/prestidigitation_light))
+					human_victim.remove_status_effect(/datum/status_effect/prestidigitation_light)
+					to_chat(caster, span_notice("I channel my arcyne power inward, snuffing out the magelight."))
 			if(presti_hand.clean_thing(victim, caster))
 				handle_presti_cost(caster, PRESTI_CLEAN)
 		if(/datum/intent/hand/spark)
 			if(presti_hand.create_spark(caster, victim))
 				handle_presti_cost(caster, PRESTI_SPARK)
 		if(/datum/intent/hand/light)
+			if(victim != caster)
+				to_chat(caster, span_warning("I can only channel magelight upon myself!"))
+				return FALSE
 			if(presti_hand.handle_mote(caster))
 				handle_presti_cost(caster, PRESTI_MOTE)
 		if(/datum/intent/hand/sense)
@@ -194,20 +202,12 @@
 
 	var/int_bonus = max(user.STAINT - 10, 0)
 	var/mote_power = 5 + FLOOR(int_bonus * 0.3, 1)
-	mote.set_light_range(mote_power)
-	if(mote.light_system == STATIC_LIGHT)
-		mote.update_light()
 
-	if(mote.loc == src)
-		user.visible_message(span_notice("[user] holds open the palm of [user.p_their()] hand and concentrates..."), span_notice("I hold open the palm of my hand and concentrate on my arcyne power..."))
-		if(do_after(user, initial(motespeed) * get_int_speed_mult(user), target = user))
-			mote.orbit(user, 1, TRUE, 0, 48, TRUE)
-			return TRUE
-		return FALSE
-	else
-		user.visible_message(span_notice("[user] wills \the [mote.name] back into [user.p_their()] hand and closes it, extinguishing its light."), span_notice("I will \the [mote.name] back into my palm and close it."))
-		mote.forceMove(src)
+	user.visible_message(span_notice("[user] holds open the palm of [user.p_their()] hand and concentrates..."), span_notice("I hold open the palm of my hand and concentrate on my arcyne power..."))
+	if(do_after(user, initial(motespeed) * get_int_speed_mult(user), target = user))
+		user.apply_status_effect(/datum/status_effect/prestidigitation_light, mote_power)
 		return TRUE
+	return FALSE
 
 /obj/item/melee/new_touch_attack/prestidigitation/proc/create_spark(mob/living/carbon/human/user, atom/thing)
 	var/actual_sparkspeed = initial(sparkspeed) * get_int_speed_mult(user)
@@ -281,6 +281,54 @@
 	if(istype(rune) && rune.active)
 		return FALSE
 	return TRUE
+
+/atom/movable/screen/alert/status_effect/prestidigitation_light
+	name = "Magelight"
+	desc = "A mote of arcyne light dances around me."
+	icon_state = "stressvg"
+
+/datum/status_effect/prestidigitation_light
+	id = "prestidigitation_light_buff"
+	alert_type = /atom/movable/screen/alert/status_effect/prestidigitation_light
+	duration = 5 MINUTES
+	status_type = STATUS_EFFECT_REFRESH
+	examine_text = "SUBJECTPRONOUN is surrounded by a faint arcyne glow."
+	/// The object attached to the mob that emits light
+	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+	/// Amount of light our buff emits, scales with INT
+	var/magelight_power = 5
+	/// The mote orbiting the owner
+	var/obj/effect/wisp/prestidigitation/linked_mote
+
+/datum/status_effect/prestidigitation_light/on_creation(mob/living/new_owner, light_power)
+	if(light_power > magelight_power)
+		magelight_power = light_power
+	return ..()
+
+/datum/status_effect/prestidigitation_light/refresh(mob/living/owner, light_power)
+	duration += initial(duration)
+	if(light_power > magelight_power)
+		magelight_power = light_power
+		if(mob_light_obj)
+			mob_light_obj.light_power = magelight_power
+
+/datum/status_effect/prestidigitation_light/on_apply()
+	. = ..()
+	if(!.)
+		return
+	playsound(owner, 'sound/magic/whiteflame.ogg', 50, FALSE)
+	to_chat(owner, span_notice("A mote of magelight flickers to life around me!"))
+	mob_light_obj = owner.mob_light(magelight_power, magelight_power, _color = "#3FBAFD")
+	mob_light_obj.light_power = magelight_power
+	linked_mote = new(get_turf(owner))
+	linked_mote.orbit(owner, 1, TRUE, 0, 48, TRUE)
+	return TRUE
+
+/datum/status_effect/prestidigitation_light/on_remove()
+	playsound(owner, 'sound/items/firesnuff.ogg', 50, FALSE)
+	to_chat(owner, span_notice("The magelight fades from around me..."))
+	QDEL_NULL(mob_light_obj)
+	QDEL_NULL(linked_mote)
 
 /obj/effect/wisp/prestidigitation
 	name = "minor magelight mote"
