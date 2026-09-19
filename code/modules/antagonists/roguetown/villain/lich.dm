@@ -131,7 +131,7 @@
 /datum/outfit/job/roguetown/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
 
-	change_origin(H, /datum/virtue/origin/unselectable/skeleton, "Origin") //its a lich, not of this era probably.
+	change_origin(H, /datum/virtue/origin/unselectable/skeleton, "ancestry") //its a lich, not of this era probably.
 
 	//Skilled upto, so we don't have legendary wrestling crit resist fullplate lich or legendary riding lich that nobody can keep up with
 	//Some of these will be replaced by class, but its a much healthier lich balance, all in in.
