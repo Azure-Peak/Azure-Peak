@@ -235,7 +235,7 @@
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/polearms
 	walking_stick = TRUE
-	wdefense = 5
+	wdefense = 4.5
 	thrown_bclass = BCLASS_STAB
 	throwforce = 25
 	resistance_flags = FLAMMABLE
@@ -309,7 +309,7 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/polearms
-	wdefense = 5
+	wdefense = 4
 	thrown_bclass = BCLASS_STAB
 	throwforce = 22
 	resistance_flags = FLAMMABLE
@@ -547,7 +547,7 @@
 	smeltresult = /obj/item/ingot/steel
 	max_blade_int = 230
 	minstr = 8
-	wdefense = 6
+	wdefense = 4.5
 	throwforce = 15
 
 /obj/item/rogueweapon/spear/billhook/avantyne
@@ -787,13 +787,14 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	wbalance = WBALANCE_HEAVY
 	minstr = 9
-	max_blade_int = 200
+	max_blade_int = 280
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	associated_skill = /datum/skill/combat/polearms
 	walking_stick = TRUE
-	wdefense = 6
+	wdefense = 4
 	special = /datum/special_intent/polearm_backstep
 
 /obj/item/rogueweapon/halberd/getonmobprop(tag)
@@ -872,6 +873,7 @@
 	force = 20
 	force_wielded = 35
 	max_blade_int = 400
+	wdefense = 5
 	wdefense_wbonus = 3 //+3 over the traditional spear, once wielded.
 	var/used = FALSE
 	var/list/selection = list(
@@ -956,7 +958,7 @@
 	force = 15
 	force_wielded = 25
 	minstr = 11
-	wdefense = 7
+	wdefense = 5
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -979,7 +981,7 @@
 	force = 15
 	force_wielded = 25
 	minstr = 11
-	wdefense = 7
+	wdefense = 5.5
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -1013,8 +1015,8 @@
 	icon_state = "glaive"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
-	max_blade_int = 160
-	wdefense = 9
+	max_blade_int = 200
+	wdefense = 4.5
 
 /obj/item/rogueweapon/halberd/glaive/getonmobprop(tag)
 	. = ..()
@@ -1072,7 +1074,7 @@
 	associated_skill = /datum/skill/combat/polearms
 	sharpness = IS_BLUNT
 	walking_stick = TRUE
-	wdefense = 5
+	wdefense = 4
 	wbalance = WBALANCE_HEAVY
 	max_integrity = 250 //So there is actual difference between the two
 
@@ -1216,7 +1218,7 @@
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	minstr = 10
 	max_blade_int = 200
-	wdefense = 8 // It IS a parrying spear after all.
+	wdefense = 5 // It IS a parrying spear after all.
 	throwforce = 12	//Not a throwing weapon. Too heavy!
 	icon_angle_wielded = 50
 	smeltresult = /obj/item/ingot/steel
@@ -1237,7 +1239,7 @@
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "boarspear"
 	force_wielded = 33 // 10% base damage increase
-	wdefense = 6 // A little bit extra
+	wdefense = 5 // A little bit extra
 	max_blade_int = 200
 	smeltresult = /obj/item/ingot/steel
 
@@ -1254,7 +1256,6 @@
 	icon_state = "blacksteelspear"
 	force_wielded = 35
 	wdefense = 6
-	wdefense_wbonus = 3
 	max_blade_int = 400
 	smeltresult = /obj/item/ingot/blacksteel
 
