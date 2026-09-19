@@ -8,6 +8,7 @@
 	zone = BODY_ZONE_PRECISE_SKULL
 	slot = ORGAN_SLOT_BRAIN
 	organ_flags = ORGAN_VITAL
+	medical_organ = TRUE
 	attack_verb = list("attacked", "slapped", "whacked")
 
 	///The brain's organ variables are significantly more different than the other organs, with half the decay rate for balance reasons, and twice the maxHealth
@@ -178,10 +179,53 @@
 	return ..()
 
 /obj/item/organ/brain/on_life()
-	if(damage >= BRAIN_DAMAGE_DEATH) //rip
+	..()	//base medical on_life; the brain's injury effects (garble, skill-1) live in the Hear / get_skill_level overrides
+	//Oxygen starvation (cardiac arrest / no circulation / suffocation) walks the brain up the injury
+	//tiers via chronic strain (garbled -> skill-capped -> dead), recovering if oxygen returns in time.
+	if(owner)
+		var/oxy = owner.getOxyLoss()
+		if(oxy >= BRAIN_OXYGEN_STARVE)
+			adjust_strain(1 + round((oxy - BRAIN_OXYGEN_STARVE) / 30))	//the deeper the oxygen debt, the faster the brain dies
+		else if(oxy < (BRAIN_OXYGEN_STARVE * 0.5))
+			adjust_strain(-1)
+	if(damage >= BRAIN_DAMAGE_DEATH) //legacy damage-based death (brute brain damage / traumas)
 		to_chat(owner, span_danger("The last spark of life in your brain fizzles out..."))
 		owner.death()
 		brain_death = TRUE
+
+// Minor: garbled hearing. Severe: skills lowered and capped to Apprentice. Dead/missing: death.
+/obj/item/organ/brain/on_injury_changed()
+	if(!owner)
+		return
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			to_chat(owner, span_warning("My thoughts swim; the voices around me reach me garbled and strange."))
+		if(ORGAN_INJURY_SEVERE)
+			to_chat(owner, span_danger("My mind dulls - skill and memory slip from my grasp."))
+		if(ORGAN_INJURY_DEAD)
+			to_chat(owner, span_userdanger("The last spark of thought goes dark..."))
+			owner.death()
+			brain_death = TRUE
+		if(ORGAN_INJURY_NONE)
+			to_chat(owner, span_info("My head clears, my wits returning."))
+
+// An injured brain (minor+) scrambles some of what its owner hears.
+/mob/living/carbon/Hear(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, message_mode, original_message)
+	if(client && raw_message && speaker != src)
+		var/obj/item/organ/brain/brain = getorganslot(ORGAN_SLOT_BRAIN)
+		if(brain && brain.injury >= ORGAN_INJURY_MINOR)
+			var/severe = (brain.injury >= ORGAN_INJURY_SEVERE)
+			if(prob(severe ? 50 : 25))
+				raw_message = Gibberish(raw_message, FALSE, severe ? 45 : 30)
+	return ..(message, speaker, message_language, raw_message, radio_freq, spans, message_mode, original_message)
+
+// A severely (or worse) injured brain dulls the mind: every skill is read one level lower (min none).
+/mob/living/carbon/get_skill_level(skill)
+	. = ..()
+	if(. > SKILL_LEVEL_NONE)
+		var/obj/item/organ/brain/brain = getorganslot(ORGAN_SLOT_BRAIN)
+		if(brain && brain.injury >= ORGAN_INJURY_SEVERE)
+			return max(. - 1, SKILL_LEVEL_NONE)
 
 /obj/item/organ/brain/check_damage_thresholds(mob/M)
 	. = ..()
@@ -223,6 +267,7 @@
 	name = "construct brain"
 	desc = "The centre of thought for a construct. It crackles with knowledge... and something more sinister."
 	icon_state = "brain-con"
+	two_state = TRUE	//a metal mind: whole, or shattered
 
 ////////////////////////////////////TRAUMAS////////////////////////////////////////
 
