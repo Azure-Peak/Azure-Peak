@@ -301,7 +301,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 /datum/virtue/origin/unselectable/skeleton
 	name = "Ancient Times"
 	origin_name = "The Forgotten Empires"
-	origin_desc = "Long ago in Psydonia there were many, many great empires that stood the test of aeon's grip; most notably there was the Holy Celestrial Empyre, \
+	origin_desc = "In Psydonia there are many, many great empires that stood the test of aeon's grip; most notably there was the Holy Celestrial Empyre, \
 	which stood for yills upon yills as the largest and most notable during Psydonia's Golden eras of the Ten, whom sheparded by the Ten displaying their divinity \
 	and true power against the Psydonic worshippers of past, brought upon a new era of worship and the rise of Celestia as the world's \
 	largest empire to stand the test of aeon. Notably one of the most tolerant empires of the many yills in the history of Psydonia which accepted the worship of Psydon \
