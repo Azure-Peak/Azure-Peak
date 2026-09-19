@@ -161,7 +161,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/current_alt_grip_index = 0
 	/// Original values for vars overridden by the active alt grip state.
 	var/list/alt_grip_restore_vars
-	///intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
+	/// TRUE while a timed shift into an alt grip is in progress.
+	var/gripswapping = FALSE
+	/// TRUE when swapping is interrupted.
+	var/gripswap_interrupt = FALSE
+	/// Intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
 	var/list/gripped_intents
 	var/force_wielded = 0
 	var/gripsprite = FALSE //use alternate grip sprite for inhand
@@ -1546,8 +1550,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/cycle_altgrip(mob/living/carbon/user, direction = 1)
 	if(!length(alt_grips) || !direction)
 		return FALSE
+	if(gripswapping)
+		return FALSE
 
-	var/message
 	var/next_index
 	var/datum/alt_grip/next_state
 	var/index_step = 1
@@ -1576,12 +1581,24 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 	if(next_state.is_two_handed(src) && !can_wield_two_handed(user))
 		return FALSE
+	INVOKE_ASYNC(src, PROC_REF(swap_altgrip), user, next_index, next_state)
+	return TRUE
+
+/obj/item/proc/swap_altgrip(mob/living/carbon/user, next_index, datum/alt_grip/next_state)
+	if(!do_altgrip_swap(user, next_state))
+		return FALSE
+	if(next_index > length(alt_grips) || get_altgrip_state(next_index) != next_state || !next_state.usable_by(src, user))
+		return FALSE
+	if(next_state.is_two_handed(src) && !can_wield_two_handed(user))
+		return FALSE
+	if(wielded && !altgripped)
+		ungrip(user, FALSE)
 	if(!set_altgrip_state(next_index))
 		return FALSE
 	altgripped = TRUE
 	update_transform()
 	user.update_inv_hands()
-	message = get_altgrip_message(user)
+	var/message = get_altgrip_message(user)
 	to_chat(user, span_notice(message))
 	show_altgrip_balloon(user)
 	if(user.get_active_held_item() == src)
