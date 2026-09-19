@@ -119,7 +119,7 @@
 		src.slot_flags = initial(C.slot_flags)
 		// I'm not implementing this yet for brevity.
 		src.wrist_display = initial(C.wrist_display)
-		
+
 		to_chat(user, span_notice("The strange cross shudders, mimicking the weight and presence of \a [name]."))
 
 	// Ensure the floor and in-hand sprites update
