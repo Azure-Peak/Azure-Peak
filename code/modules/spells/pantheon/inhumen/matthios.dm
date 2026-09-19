@@ -34,7 +34,8 @@
 	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	button_icon_state = "lockpick"
 	name = "Freeman's Tools"
-	desc = "A simple prayer to the Free-God Matthios, for tools of liberation or transaction.<br><br>His will manifests in three forms: gutter-born tricks of want, gilded tools of blessed liberation, or by granting the bases of Malchem, a form of primordial alchemy so impossible it is oft mistaken for sorcery."
+	desc = "A simple prayer to the Free-God, granting the faithful a choice of three humble tools: an orb of Sacred Fyre, the most reliable tool for thievery, or the first secrets of Malchemy."
+	fluff_desc = "The first lesson of any servant of Matthios is a simple one: freedom means being given the means to choose. This humble miracle offers just that, a choice of tools to begin walking one's own path. Whether fire stolen from Astrata, the implements of a thief, or the first instruments of Malchemy, the choice is yours. Matthios merely opens the door; what you do with what lies beyond is your own."
 	associated_skill = /datum/skill/magic/holy
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
@@ -43,269 +44,54 @@
 	charge_required = FALSE
 	cooldown_time = 10 SECONDS
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	var/list/options = list(
-		//basically just lesser knock
-		"Gilded Lockpick" = list(
-			path = /obj/item/melee/touch_attack/lesserknock/matthios,
-			m_cooldown = 5 SECONDS,
-			m_devotion = 10,
-			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Rogue Arts",
-			lines = list("#By thine hands...", "#No locks shall bar the free!", "#Thine tool shall bring liberation!", "#Shatter my locks!")
-		),
-		//a simple 'blinds u for 1 sec' throwable
-		"Pocket Sand" = list(
-			path = /obj/item/impact_grenade/pocketsand,
-			m_cooldown = 60 SECONDS,
-			m_devotion = 10,
-			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Rogue Arts",
-			lines = list("Dust to blind thee!", "A handful of freedom!", "A gift for thee!", "Mind yer eyes!", "This always works like a miracle!")
-		),
-		//same as aetherknife but blingy
-		"Gilded Tossblade" = list(
-			path = /obj/item/rogueweapon/huntingknife/throwingknife/matthios,
-			m_cooldown = 30 SECONDS,
-			m_devotion = 25,
-			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Rogue Arts",
-			lines = list("#I borrow from thine vaults, my Lord!", "#Grant me thy blade!", "#The claws of a Dragon!", "#The means to tip the scales!")
-		),
-		//rip the bag of bribery, say hello to pouch of smuggling
-		"Pouch of Smuggling" = list(
-			path = /obj/item/storage/belt/rogue/pouch/matthios,
-			m_cooldown = 10 MINUTES,
-			m_devotion = 100,
-			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Rogue Arts",
-			lines = list("#Let me begin your work!", "#Protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Ordain me your blessed storage!")
-		),
-		//like a pouch of smuggling, but smugglier
-		"Bag of Smuggling" = list(
-			path = /obj/item/storage/backpack/rogue/backpack/matthios,
-			m_cooldown = -1,
-			m_devotion = 200,
-			m_rank = SKILL_LEVEL_APPRENTICE,
-			category = "Rogue Arts",
-			lines = list("#Let me begin your work!", "#Protect my well-deserved goods!", "#Grant me protection against those tyrant knaves!", "#Ordain me your blessed storage!")
-		),
-		//makes failed lockpicking attempts muffled
-		"Gilded Dexterous Gloves" = list(
-			path = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
-			m_cooldown = 5 MINUTES,
-			m_devotion = 100,
-			m_rank = SKILL_LEVEL_JOURNEYMAN,
-			category = "Gilded Tools",
-			lines = list("#Hands of trade, be silent.", "#Let fingers dance for thy amusement.", "#Dexterity bought in faith.")
-		),
-		//makes your footsteps muffled
-		"Gilded Muffled Boots" = list(
-			path = /obj/item/clothing/shoes/roguetown/boots/muffle_matthios,
-			m_cooldown = 5 MINUTES,
-			m_devotion = 100,
-			m_rank = SKILL_LEVEL_APPRENTICE,
-			category = "Gilded Tools",
-			lines = list("#Steps unheard, as I walk in thy shadow.", "#Silent as coin slipping, for thy hoard.", "#No sound, no chain, no better wisdom, O' Lord.")
-		),
-		//enables piss night vision and sets your lockpick timer to 1.5 secs, makes you insane over time and prolonged use and ofc, will burn you the fuck down, it will also not really increase success chance only pick speed, and if you break those? rip, no refunds, as HE ordained
-		"Gilded Lockpicking Specs" = list(
-			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
-			m_cooldown = -1, // this is too stronk, so only 1 allowed now
-			m_devotion = 200,
-			m_rank = SKILL_LEVEL_EXPERT,
-			category = "Gilded Tools",
-			lines = list("#Guide my sight, O' Lord.","#Through pins and wards, thy Free eyes see.","#No door shall be between me and truth.")
-		),
-		//normal chains that bind nobility faster
-		"Gilded Chains" = list(
-			path = /obj/item/rope/chain/matthios,
-			m_cooldown = 10 MINUTES,
-			m_devotion = 200,
-			m_rank = SKILL_LEVEL_JOURNEYMAN,
-			category = "Gilded Tools",
-			lines = list("Chains for the tyrants!", "Transact me thy chains!", "Lord of Freedom, chains for the unworthy!")
-		),
-		//enables thieves' cant when worn on neck
-		"Gilded Amulet of Matthios" = list(
-			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
-			m_cooldown = 1 MINUTES,
-			m_devotion = 50,
-			m_rank = SKILL_LEVEL_NONE,
-			category = "Gilded Tools",
-			lines = list("#Hide me in light, mine Lord.", "#Lord of Exchange, my soul is yours.", "#God of the Stolen Fyre, thou will be done.")
-		),
-		//miralchemy mode on
-		"Vial of Firstlaw" = list(
-			path = /obj/item/matthios_canister/firstlaw,
-			m_cooldown = 1 MINUTES,
-			m_devotion = 75,
-			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Malchem Vials",
-			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
-		),
-		//turns 10 organic items into 1 rich food of choice (that will often be burned mess or bread if you're not starving to death)
-		"Vial of Kingsfeast Base" = list(
-			path = /obj/item/matthios_canister/kingsfeast,
-			m_cooldown = 2 MINUTES,
-			m_devotion = 25,
-			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Malchem Vials",
-			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
-		),
-		//basically turns water or fruits into wine, if used with blood or lux instead, becomes Kingsblood
-		"Vial of Kingswine Base" = list(
-			path = /obj/item/matthios_canister/kingswine,
-			m_cooldown = 2 MINUTES,
-			m_devotion = 25,
-			m_rank = SKILL_LEVEL_NOVICE,
-			category = "Malchem Vials",
-			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
-		),
-		//makes you honk shoo mimimi, while restoring energy over time
-		"Vial of Goodnite Base" = list(
-			path = /obj/item/matthios_canister/goodnite,
-			m_cooldown = 2 MINUTES,
-			m_devotion = 50,
-			m_rank = SKILL_LEVEL_APPRENTICE,
-			category = "Malchem Vials",
-			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
-		),
-		//a 4 use vial of mending
-		"Vial of Warsmith Base" = list(
-			path = /obj/item/matthios_canister/warsmith,
-			m_cooldown = 2 MINUTES,
-			m_devotion = 50,
-			m_rank = SKILL_LEVEL_JOURNEYMAN,
-			category = "Malchem Vials",
-			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
-		),
-		// a spicy, explosive, very, very difficult-to-make revive vial, uses all herbs in the world and 1 of any lux type
-		"Vial of Lyfestruth Base" = list(
-			path = /obj/item/matthios_canister/lyfestruth,
-			m_cooldown = 30 MINUTES,
-			m_devotion = 100,
-			m_rank = SKILL_LEVEL_EXPERT,
-			category = "Malchem Vials",
-			lines = list("#Provide the base, I shall complete thy work!", "#Deliver unto me the truth of alchemy!", "#Lord of Exchange, I shall finish thy work!")
-		),
-	)
-
-	var/list/item_cooldowns = list()
+	var/path = null
 
 /datum/action/cooldown/spell/matthios/freemans_tools/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
-
 	var/skill = H.get_skill_level(associated_skill)
-
-	// FILTER VALID OPTIONS
-	var/list/valid = list()
-	for(var/name in options)
-		var/list/entry = options[name]
-		if(!islist(entry))
-			continue
-		if(skill >= entry["m_rank"])
-			valid[name] = entry
-
-	if(!valid.len)
-		return FALSE
-
-	// CATEGORY SELECTION
-	var/list/categories = list(
-		"Rogue Arts",
-		"Gilded Tools",
-		"Malchem Vials"
-	)
-
-	var/category = tgui_input_list(H, "Choose your path", "Freeman's Tools", categories)
-	if(!category)
-		return FALSE
-
-	// BUILD DISPLAY LIST
-	var/list/display = list()
-
-	for(var/name in valid)
-		var/list/entry = valid[name]
-
-		if(entry["category"] != category)
-			continue
-
-		var/cd = item_cooldowns[name]
-		var/display_name
-
-		var/devotion_cost = entry["m_devotion"] || 0
-
-		if(cd == -1)
-			display_name = "[name] (UNAVAILABLE)"
-		else
-			var/time_left = cd ? max(0, cd - world.time) : 0
-			if(time_left > 0)
-				display_name = "[name] ([round(time_left/10, 1)]s | [devotion_cost] Devotion)"
-			else
-				display_name = "[name] ([devotion_cost] Devotion)"
-
-		display[display_name] = name
-
-	if(!display.len)
-		to_chat(H, span_warning("Nothing available in this category."))
-		return FALSE
-
-	// CHOICE
-	var/choice_display = tgui_input_list(H, "Choose your tool", "Freeman's Tools", display)
-	if(!choice_display)
-		return FALSE
-
-	var/choice = display[choice_display]
-	if(!choice)
-		return FALSE
-
-	var/list/entry = valid[choice]
-	var/item_path = entry["path"]
-	var/m_cd = entry["m_cooldown"]
-	var/list/lines = entry["lines"]
-	var/devotion_cost = entry["m_devotion"] || 0
-
-	if(!item_path)
-		return FALSE
-
-	// COOLDOWN CHECK
-	if(item_cooldowns[choice] == -1)
-		to_chat(H, span_warning("[choice] cannot be used again."))
-		return FALSE
-
-	if(item_cooldowns[choice] && world.time < item_cooldowns[choice])
-		to_chat(H, span_warning("[choice] is on cooldown for [round((item_cooldowns[choice] - world.time)/10, 1)] seconds."))
-		return FALSE
-
-	// DEVOTION CHECK
-	if(devotion_cost > 0)
-		src.devotion_cost = devotion_cost
-		if(!H.devotion?.check_devotion(src))
-			to_chat(H, span_warning("Your connection to the Free God is faint. Don't ask favors you cannot pay for."))
+	if(!path)
+		var/list/paths = list("Sunfyre", "Thievery", "Malchemy")
+		if(skill >= SKILL_LEVEL_EXPERT)
+			paths += "Greed"
+		path = tgui_input_list(H, "Choose your path", "Freeman's Tools", paths)
+		if(!path)
 			return FALSE
-
-	// SPAWN ITEM
-	var/obj/item/I = new item_path(H.drop_location())
-	if(!I)
-		return FALSE
-
-	H.put_in_hands(I)
-
-	if(lines && lines.len)
-		H.say(pick(lines), language = /datum/language/common)
-
-	// APPLY DEVOTION COST
-	if(devotion_cost > 0)
-		H.devotion.update_devotion(-devotion_cost)
-
-	// APPLY COOLDOWN
-	if(m_cd == -1)
-		item_cooldowns[choice] = -1
-	else
-		item_cooldowns[choice] = world.time + m_cd
-
+	if(path == "Greed")
+		var/list/choices = list("Sunfyre", "Thievery", "Malchemy")
+		path = tgui_input_list(H, "Choose your tool", "Freeman's Tools", choices)
+		if(!path)
+			return FALSE
+	switch(path)
+		if("Sunfyre")
+			if(skill < SKILL_LEVEL_EXPERT)
+				var/failure_chance = max(0, (70 - (skill * 10)))
+				if(prob(failure_chance))
+					H.adjust_fire_stacks(5, /datum/status_effect/fire_handler/fire_stacks)
+					H.ignite_mob()
+					var/fail = pick("ARGH", "OW", "OUCH", "CARK", "HOT, HOT", "MY HAND", "EOWCH")
+					H.say("Divine fyre, to me-- [fail]!")
+					StartCooldown()
+					return TRUE
+			var/obj/item/flashlight/flare/light/astrata/fire_orb = new /obj/item/flashlight/flare/light/astrata(H.drop_location())
+			if(!fire_orb)
+				return FALSE
+			H.put_in_hands(fire_orb)
+			H.say("Divine fyre, to me!")
+		if("Thievery")
+			var/obj/item/lockpick/gilded/lockpick = new /obj/item/lockpick/gilded(H.drop_location())
+			if(!lockpick)
+				return FALSE
+			H.put_in_hands(lockpick)
+			H.say("#Lord of Freedom, I beseeth a tool of liberation!")
+		if("Malchemy")
+			var/obj/item/matthios_canister/firstlaw/fl = new /obj/item/matthios_canister/firstlaw(H.drop_location())
+			if(!fl)
+				return FALSE
+			H.put_in_hands(fl)
+			H.say("#Lord of Exchange, I shall finish thy work!")
 	StartCooldown()
 	return TRUE
 
