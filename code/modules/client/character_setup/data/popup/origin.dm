@@ -9,7 +9,7 @@
 		var/datum/virtue/V = GLOB.virtues[path]
 		if(!V.name || !istype(V, /datum/virtue/origin))
 			continue
-		// Skip familiar origins
+		// Skip familiar origins + other unselectables
 		if(istype(V, /datum/virtue/origin/unselectable))
 			continue
 		// Restricted uses races as a blacklist
