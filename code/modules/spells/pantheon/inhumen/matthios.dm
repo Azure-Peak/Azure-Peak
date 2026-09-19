@@ -310,106 +310,78 @@
 	name = "Mammonite"
 	desc = "Invoke Matthios's name and invest 10 to 200 mammon from your possessions and treasury into your next strike (based on your intent, min. 'Weak', max. 'Strong'). The attack penetrates armor equal to 75% of the mammon spent and grows stronger with the value of the offering. Offering over 80 mammon in one strike has a chance to obliterate the mindless."
 	fluff_desc = "The faithful tell of a merchant cornered by death, bereft of allies, steel, and hope. With nothing left but his fortune and his faith in Matthios, he offered both in desperate prayer. The coins vanished, and in their place came strength enough to fell those who would have slain him. Thus Mammonite serves as a reminder that wealth is never truly powerless in the hands of the devoted. Through greed, you proliferate His ambition, His name."
-
 	button_icon_state = "mammonite"
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	click_to_activate = FALSE
-	self_cast_possible = TRUE
-
 	primary_resource_cost = SPELLCOST_MIRACLE
-
 	secondary_resource_cost = SPELLCOST_MIRACLE
-
 	invocation_type = "shout"
 	charge_required = FALSE
 	cooldown_time = 25 SECONDS
-
 	associated_skill = /datum/skill/magic/holy
 	spell_tier = 0
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
-
 	var/min_mammon = 10
 	var/max_mammon = 200
 
 /datum/action/cooldown/spell/matthios/mammonite/cast(atom/cast_on)
 	. = ..()
-
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
-
 	if(!H.cmode)
 		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
 		return FALSE
-
 	if(H.has_status_effect(/datum/status_effect/buff/mammonite))
 		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
 		return FALSE
+	var/datum/status_effect/buff/matthios_loan/loan = H.has_status_effect(/datum/status_effect/buff/matthios_loan)
+	var/mammon_used
+	if(loan)
+		mammon_used = max_mammon
+		H.devotion.devotion -= 200 // ka-chim!
+		to_chat(H, span_warning("DEVOTION for DEVASTATION! Matthios, my GREED is YOURS!! (-200 Devotion)"))
+	else
+		var/bank = 0
+		if(SStreasury.has_account(H))
+			bank = SStreasury.get_balance(H)
+		var/onhand = get_mammons_in_atom(H)
+		var/total = bank + onhand
+		var/list/range = get_investment_range(H)
+		var/min_invest = range[1]
+		var/max_invest = range[2]
+		if(total < min_invest)
+			to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor... ([min_invest] mammon needed for [H.rmb_intent.name] stance.)"))
+			return FALSE
+		mammon_used = min(rand(min_invest, max_invest), total)
+		var/remaining = mammon_used
+		var/from_inventory = 0
+		var/from_bank = 0
+		var/drained_onhand = min(onhand, remaining)
+		if(drained_onhand > 0)
+			from_inventory = remove_mammons_from_atom(H, drained_onhand)
+			remaining -= from_inventory
+		if(remaining > 0 && SStreasury.has_account(H))
+			from_bank = min(remaining, SStreasury.get_balance(H))
+			if(from_bank > 0)
+				SStreasury.burn(SStreasury.get_account(H), from_bank, "A worthy Transaction. Is this true?")
 
-	var/bank = 0
-	if(SStreasury.has_account(H))
-		bank = SStreasury.get_balance(H)
-
-	var/onhand = get_mammons_in_atom(H)
-	var/total = bank + onhand
-
-	var/list/range = get_investment_range(H)
-	var/min_invest = range[1]
-	var/max_invest = range[2]
-
-	if(total < min_invest)
-		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor... ([min_invest] mammon needed for [H.rmb_intent.name] stance.)"))
-		return FALSE
-
-	var/mammon_used = rand(min_invest, max_invest)
-	mammon_used = min(mammon_used, total)
-
-	var/list/invocations = list(
-		"Gold to glory, Matthios guide my hand!",
-		"Wealth be spent, and power be gained!",
-		"My hoard bleeds for strength, in His name!",
-		"Matthios! A king's ransom for a single blow!",
-		"Grant the weight of mine greed, Matthios!",
-	)
-
-	H.say(pick(invocations), forced = invocation_type)
-
-	var/remaining = mammon_used
-
-	var/from_inventory = 0
-	var/from_bank = 0
-
-	var/drained_onhand = min(onhand, remaining)
-	if(drained_onhand > 0)
-		from_inventory = remove_mammons_from_atom(H, drained_onhand)
-		remaining -= from_inventory
-
-	if(remaining > 0 && SStreasury.has_account(H))
-		from_bank = min(remaining, SStreasury.get_balance(H))
-
-		if(from_bank > 0)
-			SStreasury.burn(SStreasury.get_account(H), from_bank, "Meister reports the Mammon is missing. Is this true?")
-
-		remaining -= from_bank
-
+		var/source_text = ""
+		if(from_inventory > 0 && from_bank > 0)
+			source_text = " MATTHIOS claims [from_inventory] from my possessions and [from_bank] from my treasury!"
+		else if(from_inventory > 0)
+			source_text = " MATTHIOS claims [from_inventory] from my possessions!"
+		else if(from_bank > 0)
+			source_text = " MATTHIOS claims [from_bank] from my treasury!"
+		H.visible_message(span_danger("[H]'s weapon gleams with a greedy golden light!"), span_notice("I invest [mammon_used] mammon into my next strike.[source_text]"))
+	if(loan)
+		H.remove_status_effect(/datum/status_effect/buff/matthios_loan)
+		H.visible_message(span_danger("[H]'s weapon erupts with a brilliant golden light!"), span_notice("Matthios extends His credit. I invest [mammon_used] mammon without spending a single coin!"))
 	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
 	if(E)
 		E.bonus_damage = round(mammon_used * 3)
 		E.cap = max_mammon
-
-	var/source_text = ""
-
-	if(from_inventory > 0 && from_bank > 0)
-		source_text = "MATTHIOS claims [from_inventory] from my possessions and [from_bank] from my treasury!"
-	else if(from_inventory > 0)
-		source_text = "MATTHIOS claims [from_inventory] from my possessions!"
-	else if(from_bank > 0)
-		source_text = "MATTHIOS claims [from_bank] from my treasury!"
-
-	H.visible_message(span_danger("[H]'s weapon gleams with a greedy golden light!"), span_notice("I invest [mammon_used] mammon into my next strike. [source_text]"))
-
-	playsound(get_turf(H), 'sound/magic/antimagic.ogg', 60, TRUE)
-
+	playsound(get_turf(H), loan ? 'sound/magic/blade_burst.ogg' : 'sound/magic/antimagic.ogg', 60, TRUE)
 	return TRUE
 
 ///////////////////
@@ -581,6 +553,166 @@
 /datum/action/cooldown/spell/matthios/barter/proc/process_barter(mammon, mob/user, turf/target_turf)
 	playsound(target_turf, 'sound/effects/matth_barter.ogg', 100, TRUE)
 	budget2change(mammon, user, putinhands = FALSE, custom_turf = target_turf)
+
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames
+	background_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
+	button_icon_state = "flames"
+
+	name = "Gilded Flames"
+	desc = "Wield the fire Matthios stole from the heavens in three forms: a searing beam, a roaring breath, or a protective ward. Toggle form (Shift+G): Beam, Breath, or Ward."
+	fluff_desc = "Astrata ever held fire as Her birthright, but Matthios stole it and gave it to mankind. And men proved what the heavens could not: fire burns brighter in mortal hands. What was once the weapon of gods shall now serve the will, ambition, and mandate of man."
+
+	sound = 'sound/magic/fireball.ogg'
+	spell_color = GLOW_COLOR_ASTRATA
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+	attunement_school = null
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MIRACLE
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
+
+	invocation_type = INVOCATION_SHOUT
+	invocations = list("Judge, divine flames!")
+
+	charge_required = TRUE
+	charge_time = CHARGETIME_MINOR
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_sound = 'sound/magic/holycharging.ogg'
+
+	cooldown_time = 30 SECONDS
+	associated_skill = /datum/skill/magic/holy
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+	spell_requirements = SPELL_REQUIRES_HUMAN
+
+	var/current_mode = 1
+
+	var/list/modes = list(
+		list(
+			"name" = "Beam",
+			"tag" = "BEAM",
+			"icon" = "flames",
+			"proj" = /obj/projectile/magic/sacred_flame/matthios,
+			"primary_cost" = SPELLCOST_MIRACLE,
+			"secondary_cost" = SPELLCOST_MAJOR_PROJECTILE,
+			"charge" = TRUE,
+			"charge_time" = CHARGETIME_MINOR,
+			"slowdown" = CHARGING_SLOWDOWN_SMALL,
+			"sound" = 'sound/magic/holycharging.ogg',
+			"selfcast" = FALSE,
+			"invocation" = "Judge, divine flames!",
+			"selfcast" = FALSE,
+		),
+
+		list(
+			"name" = "Breath",
+			"tag" = "BREATH",
+			"icon" = "breath",
+			"proj" = null,
+			"primary_cost" = SPELLCOST_MIRACLE,
+			"secondary_cost" = SPELLCOST_MINOR_AOE,
+			"charge" = TRUE,
+			"charge_time" = CHARGETIME_MINOR,
+			"slowdown" = CHARGING_SLOWDOWN_SMALL,
+			"sound" = 'sound/magic/holycharging.ogg',
+			"invocation" = "RRrrrRraaAHHHhhh!!",
+			"selfcast" = FALSE,
+		),
+
+		list(
+			"name" = "Ward",
+			"tag" = "WARD",
+			"icon" = "ward",
+			"proj" = null,
+			"primary_cost" = SPELLCOST_MINOR_PROJECTILE,
+			"secondary_cost" = SPELLCOST_MINOR_PROJECTILE,
+			"charge" = FALSE,
+			"charge_time" = 0,
+			"slowdown" = 0,
+			"sound" = 'sound/magic/fireball.ogg',
+			"invocation" = "Bask in Our radiance!",
+			"selfcast" = TRUE,
+		)
+	)
+
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames/Grant(mob/grant_to)
+	. = ..()
+	apply_mode(current_mode)
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames/proc/apply_mode(index)
+	var/list/mode = modes[index]
+	projectile_type = mode["proj"]
+	button_icon_state = mode["icon"]
+	primary_resource_cost = mode["primary_cost"]
+	secondary_resource_cost = mode["secondary_cost"]
+	charge_required = mode["charge"]
+	charge_time = mode["charge_time"]
+	charge_slowdown = mode["slowdown"]
+	charge_sound = mode["sound"]
+	self_cast_possible = mode["selfcast"]
+	invocations = list(mode["invocation"])
+	build_all_button_icons()
+	update_mode_maptext(mode["tag"])
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames/toggle_arc_mode(mob/user)
+	current_mode = (current_mode % length(modes)) + 1
+	apply_mode(current_mode)
+	var/list/mode = modes[current_mode]
+	to_chat(user, span_notice("[name]: [mode["name"]] form."))
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames/fire_projectile(atom/target)
+	var/mob/living/carbon/human/H = owner
+	if(!H)
+		return FALSE
+
+	if(H.devotion.devotion >= 200)
+		H.apply_status_effect(/datum/status_effect/buff/matthios_loan) // This is for setting up that Mammonite one-two combo! But only if we have at least 200 Devotion. Yes, it'll make Mammonite cost its Devotion + 200, but hey free armor-slamming strike.
+
+	switch(current_mode)
+		if(1)
+			return ..()
+		if(2)
+			return fire_breath(target)
+		if(3)
+			return fire_ward(target)
+	return FALSE
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames/proc/fire_breath(atom/target)
+	var/datum/action/cooldown/spell/telegraphed_strike/dragons_breath/matthios/breath = new
+	breath.owner = owner
+	breath.primary_resource_type = SPELL_COST_NONE
+	breath.primary_resource_cost = 0
+	breath.secondary_resource_type = SPELL_COST_NONE
+	breath.secondary_resource_cost = 0
+	breath.cooldown_time = 0
+	breath.charge_required = FALSE
+	return breath.cast(target)
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames/proc/fire_ward(atom/target)
+	if(!ishuman(target))
+		return FALSE
+
+	var/mob/living/carbon/human/H = target
+	H.apply_status_effect(/datum/status_effect/buff/gilded_ward, 5)
+	return TRUE
+
+/datum/action/cooldown/spell/projectile/matthios/gilded_flames/proc/update_mode_maptext(tag)
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/B = viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+			holder = existing
+			break
+		if(!holder)
+			holder = new(B)
+			B.vis_contents.Add(holder)
+		holder.maptext = MAPTEXT(tag)
+		holder.color = "#ffd45a"
 
 /datum/action/cooldown/spell/matthios/barter_secular
 	name = "Secular Barter" //rebased, mostly copypasta but with some differences
