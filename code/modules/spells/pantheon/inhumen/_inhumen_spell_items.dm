@@ -2087,3 +2087,190 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/melee/touch_attack/lesserknock/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
+
+/obj/item/lockpick/gilded
+	name = "gilded lockpick"
+	desc = "A lockpick that glimmers with an unmistakable sheen of gold. Rejected by mortal locks and useless to unskilled hands, it is meant to be wielded by the faithful. Yet its true purpose is not to open mortal doors, but to open the vaults of Matthios Himself, allowing His chosen to borrow His tools more intimately. Of course, even the Free-God expects something in return."
+	icon_state = "lockpick"
+	icon = 'icons/roguetown/items/keys.dmi'
+	w_class = WEIGHT_CLASS_TINY
+	color = "#fff89d"
+	aura_color = "#ffe75e"
+	dropshrink = 0.75
+	throwforce = 0
+	max_integrity = 10
+	picklvl = 1
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
+	destroy_sound = 'sound/items/pickbreak.ogg'
+	resistance_flags = FIRE_PROOF
+	associated_skill = /datum/skill/misc/lockpicking
+	always_destroy = TRUE
+	grid_width = 32
+	grid_height = 64
+
+/obj/item/lockpick/gilded/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+
+/obj/item/lockpick/gilded/proc/on_moved()
+	if(!loc)
+		return
+	if(!ismob(loc) && !isturf(loc))
+		return
+	if(ismob(loc))
+		return
+	qdel(src)
+
+/obj/item/lockpick/gilded/attack_self(mob/living/user)
+	if(!istype(user, /mob/living/carbon/human))
+		return
+	var/mob/living/carbon/human/H = user
+	if(!HAS_TRAIT(H, TRAIT_FREEMAN))
+		to_chat(H, span_warning("The gilded lockpick refuses your hand."))
+		return
+	var/list/vault_tools = list(
+		"Return Tool" = list(
+			path = null,
+			cost = 0
+		),
+		"Gilded Dexterous Gloves - 100 Mammon" = list(
+			path = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
+			cost = 100
+		),
+		"Gilded Muffled Boots - 100 Mammon" = list(
+			path = /obj/item/clothing/shoes/roguetown/boots/muffle_matthios,
+			cost = 100
+		),
+		"Gilded Lockpicking Specs - 200 Mammon" = list(
+			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
+			cost = 200
+		),
+		"Gilded Chains - 50 Mammon" = list(
+			path = /obj/item/rope/chain/matthios,
+			cost = 50
+		),
+		"Gilded Amulet of Matthios - 5 Mammon" = list(
+			path = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
+			cost = 5
+		)
+	)
+	var/choice = tgui_input_list(H, "Choose something to borrow from Matthios' vault.", "Matthios' Vault", vault_tools)
+	if(!choice || QDELETED(src) || QDELETED(H))
+		return
+	if(choice == "Return Tool")
+		var/obj/item/tool = H.get_inactive_held_item()
+		if(!tool || tool == src)
+			to_chat(H, span_warning("You have nothing in your other hand to return."))
+			return
+		user.visible_message(span_notice("[user] tries to put [tool] away through a mysterious golden portal..."), span_notice("You rummage through Matthios' vault, returning up \the [tool]."))
+		if(!do_after(H, 2 SECONDS))
+			return
+		if(QDELETED(src) || QDELETED(H) || QDELETED(tool))
+			return
+		if(H.get_inactive_held_item() != tool)
+			return
+		qdel(tool)
+		return
+	var/list/selection = vault_tools[choice]
+	var/cost = selection["cost"]
+	var/paid = remove_debt_mammon(H, cost)
+	if(paid < cost)
+		to_chat(H, span_warning("The vault rejects your bargain. You lack the Mammon to pay its price."))
+		return
+	user.visible_message(span_notice("[user] rummages through a mysterious golden portal..."), span_notice("You rummage through Matthios' vault, searching for [choice]."))
+	if(!do_after(H, 2 SECONDS))
+		return
+	if(QDELETED(src) || QDELETED(H))
+		return
+	var/path = selection["path"]
+	var/obj/item/reward = new path(H.drop_location())
+	if(!reward)
+		return
+	H.put_in_hands(reward)
+	qdel(src)
+
+/obj/item/lockpick/gilded/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag)
+		return
+	if(istype(target, /obj/structure/roguemachine/vaultbank))
+		var/obj/structure/roguemachine/vaultbank/J = target
+		var/mob/living/carbon/human/H = user
+		var/skill = H.get_skill_level(/datum/skill/magic/holy)
+		if(!istype(H))
+			return
+		if(!HAS_TRAIT(H, TRAIT_FREEMAN))
+			to_chat(H, span_warning("What the hell am I supposed to do with this?"))
+			return
+		var/datum/fund/F = J.get_linked_fund()
+		if(!F)
+			to_chat(H, span_warning("[J] has no treasury to plunder."))
+			return
+		if(F.balance <= J.bash_floor)
+			to_chat(H, span_warning("[J] has nothing worth stealing."))
+			return
+		H.visible_message(span_warning("[H] begins working the gilded lockpick into [J]'s mechanisms."), span_notice("You carefully work the gilded lockpick into the JAWBANK's mechanisms."))
+		var/lockpick_time = max(1.5 SECONDS, 7 SECONDS - (skill * 1 SECONDS))
+		if(!do_after(H, lockpick_time, J))
+			return
+		if(QDELETED(src) || QDELETED(J))
+			return
+		F = J.get_linked_fund()
+		if(!F)
+			return
+		var/bashable = max(0, F.balance - J.bash_floor)
+		if(bashable <= 0)
+			to_chat(H, span_warning("The JAWBANK has nothing left to surrender."))
+			return
+		var/taken = min(rand(5, 90), bashable)
+		var/turf/budget_turf = get_turf(J)
+		budget2change(taken, custom_turf = budget_turf)
+		SStreasury.burn(F, taken, "!GI$%#!LD$%%$ED T##$HEF¨%#T!!")
+		playsound(J, 'sound/misc/coindispense.ogg', 70, TRUE)
+		visible_message(span_danger("The gilded lockpick clicks inside [J], and [taken] mammon spills loose!"), span_notice("You feel the lock give. [taken] mammon spills from the JAWBANK."))
+		if(skill > SKILL_LEVEL_JOURNEYMAN)
+			if(prob(50))
+				J.anguish()
+			if(prob(50))
+				J.announce_robbery(taken)
+		J.total_extorted += taken
+		J.hits_since_lump += 1
+		J.update_icon()
+		return
+	return ..()
+
+/obj/item/flashlight/flare/light/astrata
+	name = "sacred fyre"
+	desc = "A condensed sphere of divine flame. This... Should this be in the hands of mortals?..."
+	color = "#ffbb00"
+
+/obj/item/flashlight/flare/light/astrata/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FYRE")
+
+/obj/item/flashlight/flare/light/astrata/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	. = ..()
+	if(QDELETED(src))
+		return
+	var/turf/impact_turf = get_turf(hit_atom)
+	if(!impact_turf)
+		return
+	playsound(impact_turf, 'sound/magic/fireball.ogg', 100, TRUE)
+	explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1)
+	qdel(src)
+
+/obj/item/lockpick/gilded/equipped(mob/user, slot)
+	. = ..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	if(H.get_skill_level(/datum/skill/magic/holy) < SKILL_LEVEL_EXPERT)
+		return
+	ADD_TRAIT(H, TRAIT_SILENT_LOCKPICK, "[REF(src)]")
+	ADD_TRAIT(H, TRAIT_GILDED_SIGHT, "[REF(src)]")
+
+/obj/item/lockpick/gilded/dropped(mob/user)
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		REMOVE_TRAIT(H, TRAIT_SILENT_LOCKPICK, "[REF(src)]")
+		REMOVE_TRAIT(H, TRAIT_GILDED_SIGHT, "[REF(src)]")
+	return ..()
