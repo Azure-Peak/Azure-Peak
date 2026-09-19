@@ -34,14 +34,14 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			return TRUE
 	return FALSE
 
-/// Helper: get threat_point from an ambush_mobs entry (either a mob path or an ambush_config instance)
+/// Helper: get threat_point from an ambush_mobs entry (either a mob path or a warband path)
 /proc/get_threat_point(entry)
 	if(ispath(entry, /mob/living))
 		var/mob/living/M = entry
 		return initial(M.threat_point)
-	if(istype(entry, /datum/ambush_config))
-		var/datum/ambush_config/AC = entry
-		return AC.threat_point
+	var/datum/npc_warband/warband = get_npc_part(entry)
+	if(warband)
+		return warband.threat_point
 	return 0
 
 /// Helper: get faction_tag from an ambush_mobs entry
@@ -49,9 +49,9 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	if(ispath(entry, /mob/living))
 		var/mob/living/M = entry
 		return initial(M.ambush_faction)
-	if(istype(entry, /datum/ambush_config))
-		var/datum/ambush_config/AC = entry
-		return AC.faction_tag
+	var/datum/npc_warband/warband = get_npc_part(entry)
+	if(warband)
+		return warband.faction_tag
 	return ""
 
 // Instead of setting it on area and hoping no one forgets it on area we're just doing this
@@ -240,16 +240,14 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		shake_camera(src, 2, 2)
 	return TRUE
 
-/// Expands an ambush purchase (mob path or ambush_config) into the flat mobs_to_spawn list.
+/// Expands an ambush purchase (mob path or warband path) into the flat mobs_to_spawn list.
 /proc/add_ambush_purchase(entry, list/mobs_to_spawn)
 	if(ispath(entry, /mob/living))
 		mobs_to_spawn += entry
-	else if(istype(entry, /datum/ambush_config))
-		var/datum/ambush_config/AC = entry
-		for(var/type_path in AC.mob_types)
-			var/amt = AC.mob_types[type_path]
-			for(var/i in 1 to amt)
-				mobs_to_spawn += type_path
+		return
+	var/datum/npc_warband/warband = get_npc_part(entry)
+	if(warband)
+		mobs_to_spawn += warband.expand()
 
 // Return whether a mob is blocked from being ambushed
 /mob/living/proc/get_will_block_ambush()

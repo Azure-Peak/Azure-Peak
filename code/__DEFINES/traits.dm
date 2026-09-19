@@ -1003,6 +1003,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define INNATE_TRAIT "innate"
 #define POULTICE_TRAIT "poultice"
 #define TRAIT_INFUSION "infusion"
+#define NPC_LOADOUT_TRAIT "npc_loadout"
 
 // unique trait sources, still defines
 #define TRAIT_FORTITUDE "Fortitude"

@@ -13,15 +13,15 @@
 				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
 				// Packs
-				new /datum/ambush_config/pair_of_direbear = 10,
-				new /datum/ambush_config/trio_of_highwaymen = 10,
-				new /datum/ambush_config/road_knight_escort = 5,
-				new /datum/ambush_config/singular_minotaur = 10,
-				new /datum/ambush_config/duo_minotaur = 5,
-				new /datum/ambush_config/solo_treasure_hunter = 15,
-				new /datum/ambush_config/duo_treasure_hunter = 2,
-				new /datum/ambush_config/medium_skeleton_party = 10,
-				new /datum/ambush_config/heavy_skeleton_party = 5,
+				/datum/npc_warband/pair_of_direbear = 10,
+				/datum/npc_warband/trio_of_highwaymen = 10,
+				/datum/npc_warband/road_knight_escort = 5,
+				/datum/npc_warband/singular_minotaur = 10,
+				/datum/npc_warband/duo_minotaur = 5,
+				/datum/npc_warband/solo_treasure_hunter = 15,
+				/datum/npc_warband/duo_treasure_hunter = 2,
+				/datum/npc_warband/medium_skeleton_party = 10,
+				/datum/npc_warband/heavy_skeleton_party = 5,
 				)
 	droning_sound = 'sound/music/area/decap.ogg'
 	droning_sound_dusk = null
@@ -61,15 +61,15 @@
 				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
 				// Packs
-				new /datum/ambush_config/pair_of_direbear = 10,
-				new /datum/ambush_config/trio_of_highwaymen = 10,
-				new /datum/ambush_config/road_knight_escort = 4,
-				new /datum/ambush_config/singular_minotaur = 10,
-				new /datum/ambush_config/duo_minotaur = 5,
-				new /datum/ambush_config/solo_treasure_hunter = 5,
-				new /datum/ambush_config/duo_treasure_hunter = 1,
-				new /datum/ambush_config/medium_skeleton_party = 20,
-				new /datum/ambush_config/heavy_skeleton_party = 10,
+				/datum/npc_warband/pair_of_direbear = 10,
+				/datum/npc_warband/trio_of_highwaymen = 10,
+				/datum/npc_warband/road_knight_escort = 4,
+				/datum/npc_warband/singular_minotaur = 10,
+				/datum/npc_warband/duo_minotaur = 5,
+				/datum/npc_warband/solo_treasure_hunter = 5,
+				/datum/npc_warband/duo_treasure_hunter = 1,
+				/datum/npc_warband/medium_skeleton_party = 20,
+				/datum/npc_warband/heavy_skeleton_party = 10,
 				)
 	droning_sound = 'sound/music/area/decap_deeper.ogg'
 	droning_sound_dusk = null
@@ -87,7 +87,7 @@
 	loot_pool_key = "gundu_zirak"
 	icon_state = "decap"
 	ambush_mobs = list(
-				new /datum/ambush_config/treasure_hunter_posse = 1,
+				/datum/npc_warband/treasure_hunter_posse = 1,
 				/mob/living/carbon/human/species/dwarfskeleton/ambush = 30,
 				)
 	droning_sound = 'sound/music/area/prospector.ogg'
@@ -244,15 +244,15 @@
 				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
 				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
 				// Packs
-				new /datum/ambush_config/pair_of_direbear = 10,
-				new /datum/ambush_config/trio_of_highwaymen = 10,
-				new /datum/ambush_config/road_knight_escort = 5,
-				new /datum/ambush_config/singular_minotaur = 10,
-				new /datum/ambush_config/duo_minotaur = 5,
-				new /datum/ambush_config/solo_treasure_hunter = 15,
-				new /datum/ambush_config/duo_treasure_hunter = 2,
-				new /datum/ambush_config/medium_skeleton_party = 10,
-				new /datum/ambush_config/heavy_skeleton_party = 5,
+				/datum/npc_warband/pair_of_direbear = 10,
+				/datum/npc_warband/trio_of_highwaymen = 10,
+				/datum/npc_warband/road_knight_escort = 5,
+				/datum/npc_warband/singular_minotaur = 10,
+				/datum/npc_warband/duo_minotaur = 5,
+				/datum/npc_warband/solo_treasure_hunter = 15,
+				/datum/npc_warband/duo_treasure_hunter = 2,
+				/datum/npc_warband/medium_skeleton_party = 10,
+				/datum/npc_warband/heavy_skeleton_party = 5,
 				)
 	droning_sound = 'sound/music/area/grimspire.ogg'
 	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'

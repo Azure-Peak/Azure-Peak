@@ -94,6 +94,9 @@
 	GLOB.human_list += src
 	unarmed_special = new /datum/special_intent/upper_cut()
 
+	if(npc_archetype)
+		init_npc_archetype()
+
 /mob/living/carbon/human/Login()
 	. = ..()
 	if(!GetComponent(/datum/component/arousal))

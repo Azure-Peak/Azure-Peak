@@ -17,7 +17,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	bodyparts = list(/obj/item/bodypart/chest, /obj/item/bodypart/head, /obj/item/bodypart/l_arm,
 						/obj/item/bodypart/r_arm, /obj/item/bodypart/r_leg, /obj/item/bodypart/l_leg)
 	faction = list(FACTION_UNDEAD)
-	var/skel_outfit = /datum/outfit/job/roguetown/npc/skeleton
 	var/skel_fragile = FALSE
 	var/skel_untamable = FALSE
 	ambushable = FALSE
@@ -34,12 +33,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	skel_fragile = TRUE
 	blood_toll_bucket = STATS_KILLED_DEADITES
-	var/list/skel_outfit_spread
-
-/mob/living/carbon/human/species/skeleton/npc/Initialize(mapload)
-	if(length(skel_outfit_spread))
-		skel_outfit = pick(skel_outfit_spread)
-	return ..()
 
 /mob/living/carbon/human/species/skeleton/npc/after_creation()
 	..()
@@ -53,17 +46,67 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 /mob/living/carbon/human/species/skeleton/npc/ambush
 	threat_point = THREAT_MODERATE
 
+// Ultra easy tier skeleton with no armor and just a single weapon.
+/mob/living/carbon/human/species/skeleton/npc/supereasy
+	threat_point = THREAT_LOW
+	npc_archetype = /datum/npc_archetype/skeleton/supereasy
+
+// Easy tier skeleton, with only incomplete chainmail and kilt
+// Ambushes people in "safe" route. A replacement for old skeletons that were effectively naked.
+/mob/living/carbon/human/species/skeleton/npc/easy
+	threat_point = THREAT_MODERATE
+	npc_archetype = /datum/npc_archetype/skeleton/easy
+
+// Also an "easy" tier skeleton, pirate themed, with a free hand to grab you
+/mob/living/carbon/human/species/skeleton/npc/pirate
+	threat_point = THREAT_MODERATE
+	npc_archetype = /datum/npc_archetype/skeleton/pirate/mixed
+
+// Medium tier skeleton, 3 skills.
+/mob/living/carbon/human/species/skeleton/npc/medium
+	threat_point = THREAT_LOW
+	npc_archetype = /datum/npc_archetype/skeleton/medium
+
+// High tier skeleton, 4 skills. Heavy Armor.
+/mob/living/carbon/human/species/skeleton/npc/hard
+	threat_point = THREAT_TOUGH
+	npc_archetype = /datum/npc_archetype/skeleton/hard/mixed
+
+// Medium tier skeleton archer, bow skill 3.
+/mob/living/carbon/human/species/skeleton/npc/archer
+	threat_point = THREAT_LOW
+	npc_archetype = /datum/npc_archetype/skeleton/archer
+
+// For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!
+/mob/living/carbon/human/species/skeleton/npc/mediumspread
+	threat_point = THREAT_MODERATE
+	npc_archetype = /datum/npc_archetype/skeleton/mediumspread
+
+// For underdark lich-miniboss + contracts - Cannot tame + different Spread
+/mob/living/carbon/human/species/skeleton/npc/mediumspread/lich
+	faction = list(FACTION_LICH)
+	skel_untamable = TRUE //No taming this group w/ tame undead
+	npc_archetype = /datum/npc_archetype/skeleton/mediumspread/lich
+
+// for Lich Dungeon, albeit I think not entirely exclusive, so we don't add untamable
+//They're not re-factionised either unlike the above, sire.
+/mob/living/carbon/human/species/skeleton/npc/hardspread
+	threat_point = THREAT_TOUGH
+	npc_archetype = /datum/npc_archetype/skeleton/hardspread
+
 /mob/living/carbon/human/species/skeleton/npc/fallenduke
 	threat_point = THREAT_ELITE
-	skel_outfit = /datum/outfit/job/roguetown/skeleton/npc/fallenduke
+	npc_archetype = /datum/npc_archetype/skeleton/fallenduke
 
 /mob/living/carbon/human/species/skeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()
-	spawn(10)
-		after_creation()
+	if(!npc_archetype)
+		spawn(10) // To prevent dropping weapons
+			after_creation()
 
 /mob/living/carbon/human/species/skeleton/after_creation()
+	skeletonize()
 	..()
 	if(ai_controller)
 		AddComponent(/datum/component/ai_aggro_system)
@@ -99,11 +142,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	else
 		ADD_TRAIT(src, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC) // If not fragile, then you're summoned by a real antag
 		// Therefore you get the trait to grind up to Jman.
-	skeletonize()
-	if(skel_outfit)
-		var/datum/outfit/OU = new skel_outfit
-		if(OU)
-			equipOutfit(OU)
 
 /mob/living/carbon/human/species/skeleton/fully_heal(admin_revive = FALSE, break_restraints = FALSE)
 	. = ..()
@@ -132,7 +170,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	update_body()
 
 /mob/living/carbon/human/species/skeleton/npc/no_equipment
-	skel_outfit = null
 
 /mob/living/carbon/human/species/skeleton/npc/no_equipment/after_creation()
 	..()
@@ -144,7 +181,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 
 /mob/living/carbon/human/species/skeleton/no_equipment
-	skel_outfit = null
 	var/datum/weakref/crystal
 
 /mob/living/carbon/human/species/skeleton/no_equipment/death(gibbed, nocutscene = FALSE)
@@ -168,7 +204,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	faction = list()
 	ambushable = FALSE
 	skel_fragile = TRUE
-	skel_outfit = null
 
 	var/loadout = "sword_shield"
 	var/arcane_scale = 3
