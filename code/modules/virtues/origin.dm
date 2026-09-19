@@ -302,7 +302,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	name = "Ancient Times"
 	origin_name = "The Forgotten Empires"
 	origin_desc = "Long ago in Psydonia there were many, many great empires that stood the test of aeon's grip; most notably there was the Holy Celestrial Empyre, \
-	which stood for yills upon yills as the largest and most notable during Psydonia's Golden eras of the Ten, whom sheparded by the Ten, displaying their divinity \
+	which stood for yills upon yills as the largest and most notable during Psydonia's Golden eras of the Ten, whom sheparded by the Ten displaying their divinity \
 	and true power against the Psydonic worshippers of past, brought upon a new era of worship and the rise of Celestia as the world's \
 	largest empire to stand the test of aeon. Notably one of the most tolerant empires of the many yills in the history of Psydonia which accepted the worship of Psydon \
 	and the Ten's faithful alyke, yet when Zizo rose and ascended to divinity, everything crumbled apart.\n<br><br>\
@@ -315,6 +315,6 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	Some say Zizo weeps for the lost, others say She still continues without much regards to break free beyond her failings of the past, either way nothing changes what was left \
 	as most of them shamble the empty halls, the wylds or under word and pact to a master. Those who don't remain unbound and decaying lyke the rest of long-past before them, \
 	but all of them feel the calling from the empty halls of these forgotten ruins, these desecrated lands of once-paradice. Humenity's greatest acheivements buried \
-	in rot, rust, rubble and decay. never to see the lite of dae, lest you be branded and cast out a heretic from the leyman's superstition from Her Hubris.\n<br><br><br>\
+	in rot, rust, rubble and decay. never to see the lite of dae, lest you be branded and cast out as a heretic from the leyman's superstition from Her Hubris.\n<br><br><br>\
 	\
 	And for the so-called lucky-few to ascend to the greater works, before or after Zizo's ascension remain shattered in mynd by their hubris; to touch the filament and yet only be left with a sliver of the divinity promised."
