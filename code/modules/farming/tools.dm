@@ -272,17 +272,7 @@
 			work_time = 0.5 SECONDS //if legendary skill, do_afters take half a second instead of 3
 
 		user.changeNext_move(CLICK_CD_INTENTCAP)
-		if(istype(T, /turf/open/floor/rogue/snow) || istype(T, /turf/open/floor/rogue/snowrough) || istype(T, /turf/open/floor/rogue/snowpatchy))
-			playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
-			if (do_after(user, work_time, target = src))
-				apply_farming_fatigue(user, 10)
-				if(hoe_damage)
-					to_chat(user,span_warning("[src] degrades."))
-					src.take_damage(hoe_damage, BRUTE, "blunt")
-				T.ChangeTurf(/turf/open/floor/rogue/grasscold, flags = CHANGETURF_INHERIT_AIR)
-				playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
-			return
-		if(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/grassred) || istype(T, /turf/open/floor/rogue/grassyel) || istype(T, /turf/open/floor/rogue/grasscold))
+		if(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/grassred) || istype(T, /turf/open/floor/rogue/grassyel) || istype(T, /turf/open/floor/rogue/grasscold) || istype(T, /turf/open/floor/rogue/snow) || istype(T, /turf/open/floor/rogue/snowrough) || istype(T, /turf/open/floor/rogue/snowpatchy))
 			playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
 			if (do_after(user, work_time, target = src))
 				apply_farming_fatigue(user, 10)
