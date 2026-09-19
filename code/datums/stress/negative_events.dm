@@ -303,6 +303,11 @@
 	desc = span_red("Eating such a meal without a table? How churlish!")
 	timer = 2 MINUTES
 
+/datum/stressevent/nistean
+	stressadd = 1
+	desc = span_red("That dish had meat in it...")
+	timer = 2 MINUTES
+
 /datum/stressevent/graggar_culling_unfinished
 	stressadd = 1
 	desc = span_red("I must eat my opponent's heart before they eat MINE!")
@@ -329,7 +334,7 @@
 	desc = span_red("Putrid stinking water!")
 
 /datum/stressevent/unseemly
-	stressadd = 3
+	stressadd = 0
 	desc = span_red("Their face is unbearable!")
 	timer = 3 MINUTES
 
