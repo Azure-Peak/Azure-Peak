@@ -1149,7 +1149,7 @@ Inquisitorial armory down here
 	. = ..()
 	if(istype(I, /obj/item/rope/inqarticles/inquirycord))
 		user.visible_message(span_warning("[user] starts to rethread the [src] using the [I]."))
-		if(do_after(user, 8 SECONDS))
+		if(do_after(user, 8 SECONDS, TRUE, src))
 			qdel(I)
 			obj_broken = FALSE
 			obj_integrity = max_integrity

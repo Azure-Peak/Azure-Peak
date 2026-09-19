@@ -150,7 +150,7 @@
 	cooked_type = null
 	foodtype = GRAIN
 	bitesize = 1
-	rotprocess = SHELFLIFE_DECENT
+	rotprocess = null
 
 // -------------- BREAD WITH FOOD ON IT (not american sandwich) -----------------
 /obj/item/reagent_containers/food/snacks/rogue/sandwich

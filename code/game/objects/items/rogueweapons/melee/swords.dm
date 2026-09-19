@@ -1345,14 +1345,13 @@
 	)
 
 /obj/item/rogueweapon/sword/short/messer
-	name = "messer"
-	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use. It excels at slicing and chopping, and it's made of steel. \
-	It can fill the exact function of a hunting sword, this one is more durable."
+	name = "steel messer"
+	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use. It excels at slicing and chopping, and it's made of steel."
 	icon_state = "smesser"
 	sheathe_icon = "smesser"
-	force = 22	//Same damage as the iron messer
-	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/axe/chop)
-	minstr = 5
+	force = 25
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/axe/chop, /datum/intent/sword/strike)
+	minstr = 6
 	wdefense = 4
 
 /obj/item/rogueweapon/sword/short/messer/duelist
@@ -1362,21 +1361,56 @@
 	wbalance = WBALANCE_SWIFT
 
 /obj/item/rogueweapon/sword/short/messer/iron
-	name = "hunting sword"
+	name = "iron messer"
+	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use."
+	icon_state = "dmesser"
+	force = 22
+	minstr = 4
+	wdefense = 3
+	max_integrity = 100
+	smeltresult = /obj/item/ingot/iron
+
+/obj/item/rogueweapon/sword/short/messer/hunting
+	name = "iron hunting sword"
 	desc = "A basic single-edge sword that is usually used to finish off hunted game. It excels at slicing and chopping, and it's made of iron. \
-	It's a fairly reliable and affordable self-defense weapon."
-	icon_state = "imesser"
+	It's a fairly reliable and affordable self-defense weapon. And, unlike other swords, it can be used to butcher animals."
+	icon_state = "ihunting"
 	sheathe_icon = "imesser"
+	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/chop/, /datum/intent/sword/thrust, /datum/intent/sword/strike)	//Gets sword chop VS the messer's evil ass axe chop.
+	force = 22
 	minstr = 4
 	wdefense = 2
-	wlength = WLENGTH_NORMAL
+	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = /obj/item/ingot/iron
+	max_blade_int = 150
 	max_integrity = 100
+
+/obj/item/rogueweapon/sword/short/messer/hunting/steel
+	name = "steel hunting sword"
+	desc = "A basic single-edge sword that is usually used to finish off hunted game. It excels at slicing and chopping, and it's made of steel. \
+	It's a fairly reliable and affordable self-defense weapon. And, unlike other swords, it can be used to butcher animals."
+	force = 25
+	minstr = 6
+	smeltresult = /obj/item/ingot/steel
+	icon_state = "shunting"
+	sheathe_icon = "smesser"
+	max_blade_int = 200
+	max_integrity = 150
+
+/obj/item/rogueweapon/sword/short/messer/hunting/steel/towner
+	name = "Azurian hunting sword"
+	desc = "A finely crafted hunting sword borne of Azurian artisanship. It's very popular with local hunters thanks to its shaped blackhorn antler handle - with a flared guard and a large thumb groove for precision. \
+	Unlike other swords, it can be used to butcher animals with ease. It even features a gut hook for dressing animals and cleaning fish."
+	icon_state = "townerhunting"
+	sheathe_icon = "smesser"
+	max_blade_int = 225
+	max_integrity = 185
+	sellprice = 70
 
 /obj/item/rogueweapon/sword/short/messer/iron/virtue
 	name = "iron dueling messer"
-	desc = "A basic single-edge iron hunting sword that has been modified for the express purpose of dueling, with an added guard and a leaner grip for comfort and speed."
+	desc = "A \"Großesmesser\" of disputed Grenzel origin, meaning greatknife. It's a basic single-edge sword for civilian and military use. It has been modified for the express purpose of dueling, with an added guard and a leaner grip for comfort and speed."
 	icon_state = "dmesser"
 	sheathe_icon = "dmesser"
 	swingsound = BLADEWOOSH_SMALL
@@ -1384,9 +1418,9 @@
 	wbalance = WBALANCE_SWIFT
 
 /obj/item/rogueweapon/sword/short/messer/alt
-	name = "steel hunting sword"
+	name = "noble's hunting sword"
 	desc = "A noble single-edge sword that can hack through a saiga's neck like timberwood. It excels at slicing and chopping, and it's made of steel. \
-	It's a reliable self-defense weapon, and a status symbol amongst the peasantry; if a yeoman has this upon their hip, they mean business."
+	It's a reliable self-defense weapon, and a status symbol amongst the peasantry; if a yeoman has this upon their hip, they mean business. Unlike other hunting swords, it is unfit for butchering."
 	icon_state = "smesseralt"
 	sheathe_icon = "smesseralt"
 	wdefense = 3

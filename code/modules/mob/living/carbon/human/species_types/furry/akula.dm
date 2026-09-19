@@ -173,11 +173,3 @@
 		var/suffix = pick(world.file2list("strings/names/roguetown/axiansuffix.txt"))
 		randname = "[randname] [suffix]"
 	return randname
-
-/datum/species/akula/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
-/datum/species/akula/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)

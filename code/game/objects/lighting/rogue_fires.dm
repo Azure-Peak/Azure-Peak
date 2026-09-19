@@ -250,6 +250,16 @@
 	color = "#f858b5ff"
 	bulb_colour = "#ff13d8ff"
 
+/obj/machinery/light/rogue/candle/floorcandle/blue
+	color = "#3E43C7"
+	bulb_colour = "#3E43C7"
+
+/obj/machinery/light/rogue/candle/floorcandle/alt/blue
+	icon_state = "floorcandlee1"
+	base_state = "floorcandlee"
+	color = "#3E43C7"
+	bulb_colour = "#3E43C7"
+
 /obj/machinery/light/rogue/torchholder
 	name = "sconce"
 	desc = "A wall-mounted fixture that allows a torch to illuminate the area while freeing the hands for other tasks."

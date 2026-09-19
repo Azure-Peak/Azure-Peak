@@ -36,3 +36,5 @@
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon/human, choose_pronouns_and_body)), 7 SECONDS)
 		else
 			client.prefs.copy_to(src, TRUE, FALSE, FALSE, TRUE)
+		if(clan)
+			clan.apply_vampire_look(src)

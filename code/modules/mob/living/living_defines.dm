@@ -250,9 +250,13 @@
 	var/dualwield_finisher = FALSE
 	var/dualwield_resets_in = 0
 	var/dualwield_buff_cd = 0
+	var/dualwield_twoswing = FALSE
 
 	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
 	var/in_combat_until
 
 	/// Bypasses positioning and exposure checks entirely
 	var/freeuse = FALSE
+
+	/// Inquisition trauma should only happen once per examined.
+	var/list/examined_inquisitors = list()

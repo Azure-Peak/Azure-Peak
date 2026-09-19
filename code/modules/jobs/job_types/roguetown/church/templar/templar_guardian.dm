@@ -50,6 +50,7 @@
 	backr = /obj/item/rogueweapon/shield/tower/holysee
 	backpack_contents = list(
 		/obj/item/ritechalk = 1,
+		/obj/item/rope/chain = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/mid = 1,
 		/obj/item/storage/keyring/acolyte = 1
@@ -58,7 +59,6 @@
 	switch(H.patron?.type)
 		if(/datum/patron/divine/undivided)
 			beltr = /obj/item/clothing/neck/roguetown/psicross/undivided
-			head = /obj/item/clothing/head/roguetown/helmet/heavy/undivided_alt
 			if(H.mind)
 				var/cloaks = list("Cloak", "Tabard")
 				var/cloakchoice = input(H,"Choose your covering", "TAKE UP FASHION") as anything in cloaks
@@ -67,6 +67,13 @@
 						cloak = /obj/item/clothing/cloak/undivided
 					if("Tabard")
 						cloak = /obj/item/clothing/cloak/templar/undivided_alt
+				var/helms = list("Bucket Helmet", "Barbute")
+				var/helmchoice = input(H, "Choose your headwear", "TAKE UP NOGGIN PROTECTION") as anything in helms
+				switch(helmchoice)
+					if("Bucket Helmet")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/undivided_alt
+					if("Barbute")
+						head = /obj/item/clothing/head/roguetown/helmet/heavy/holyseebarbute
 		if(/datum/patron/divine/astrata)
 			beltr = /obj/item/clothing/neck/roguetown/psicross/astrata
 			head = /obj/item/clothing/head/roguetown/helmet/heavy/astratan

@@ -3,7 +3,7 @@
 // PORT TO AZURE COMMENT: When I originally added this to vanderlin, I had to axe existing teas, In good conciousness I refuse to touch it here because it doest conflict and I refuse to refactor entire thing. Goodluck to whoever does tho.
 /datum/reagent/consumable/tea/
 	drink_type = DRINKTYPE_CAFFEINE
-	name = "Generic tea"
+	name = "generic tea"
 	description = "A common concept of a generic tea made from whatever, by whoever."
 	reagent_state = LIQUID
 	color = "#c38553"
@@ -23,7 +23,7 @@
 
 /datum/reagent/consumable/tea/taraxamint
 	cuisine = CUISINE_SOUTHEASTERN
-	name = "Taraxacum-Mentha tea"
+	name = "taraxacum-mentha tea"
 	description = "Soothing herbal green tea, rumored to help ease burns, liver issues and help with head traumas"
 	color = "#acaf01"
 	nutriment_factor = 2
@@ -46,7 +46,7 @@
 
 /datum/reagent/consumable/tea/utricasalvia
 	cuisine = CUISINE_SOUTHEASTERN
-	name = "Urtica-Salvia tea"
+	name = "urtica-salvia tea"
 	description = "Deep, velvet tea. Taste of tingling sour fruits. Used by a traditional remedy by common folk to recover from bruises and burns. Some even say it can heal wounds."
 	color = "#451853"
 	nutriment_factor = 2
@@ -108,7 +108,7 @@
 	return ..()
 
 /datum/reagent/consumable/tea/manabloom
-	name = "Manabloom tea"
+	name = "manabloom tea"
 	description = "Manabloom flower is tossed into hot, boiling water. A crude, inefficient but cheap method to extract its properties."
 	color = "#5986b1"
 	nutriment_factor = 2
@@ -133,7 +133,7 @@
 /datum/reagent/consumable/tea/compot
 	cuisine = CUISINE_NORTHERN
 	drink_type = DRINKTYPE_JUICE
-	name = "Compot"
+	name = "compot"
 	description = "Drink of Gronnic origin, dried fruit is made into nutritious sweet delicacy they partake regardless of status."
 	color = "#cca358"
 	nutriment_factor = 2
@@ -150,7 +150,7 @@
 
 /datum/reagent/consumable/tea/sbiten
 	cuisine = CUISINE_NORTHERN
-	name = "Sbiten" //not a typo
+	name = "sbiten" //not a typo
 	description = "Marvel of Gronnic cuisine, rivals even well aged liquors in how enjoyable it is. Honey is infused with spices and then diluted in hot water. Highly luxurious item in the North."
 	reagent_state = LIQUID
 	color = "#f0dba3"

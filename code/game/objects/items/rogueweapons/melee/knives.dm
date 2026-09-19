@@ -566,7 +566,7 @@
 	name = "corroded dagger"
 	desc = "A wicked deliverer of poison, serrated and notched. Curved steel cradles the knuckles, ensuring that the wielder doesn't inflict the fatal dose on themselves. </br>I can coat this dagger in most poisons, ensuring that my next strike leaves a festering surprise."
 	icon_state = "pdagger"
-	sheathe_icon = "pdagger"
+	sheathe_icon = "spdagger"
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/corroded/Initialize(mapload)
 	. = ..()
@@ -639,7 +639,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/baotha
 	name = "saccharine misericorde"
-	desc = "<font color='bf64d0'>Does thou not wish to live deliciously?</font>"
+	desc = "<font color='bf64d0'>Those closest to you are oft the ones that most easily scar you.</font>"
 	icon_state = "baothamisericorde"
 	sheathe_icon = "baothamisericorde"
 	force = 25
@@ -885,7 +885,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/stake/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/deaditeslayer, time = 15 SECONDS)
+	AddComponent(/datum/component/deaditeslayer, time = 7 SECONDS)
 
 /obj/item/rogueweapon/huntingknife/idagger/stake/get_mechanics_examine(mob/user)
 	. = ..()
@@ -919,7 +919,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed/ComponentInitialize()
 	AddComponent(\
@@ -931,7 +931,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/get_mechanics_examine(mob/user)
 	. = ..()
@@ -952,7 +952,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/preblessed/ComponentInitialize()
 	AddComponent(\
@@ -964,7 +964,7 @@
 		added_int = 0,\
 		added_def = 0,\
 	)
-	AddComponent(/datum/component/deaditeslayer, time = 10 SECONDS) // these r anti undead weapons so they get to be slightly better at it
+	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
 /obj/item/rogueweapon/huntingknife/idagger/stake/inq
 	name = "otavan stake"

@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - balance: "Knight Banneret can no longer request someone to be outlawed, the marshal/sergeant retain this as garrison leading roles."
-  - bugfix: "Knight Banneret no longer gets a redundant order-rehersing ability that they physically cannot use."

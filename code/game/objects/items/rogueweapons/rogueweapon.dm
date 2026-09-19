@@ -24,7 +24,7 @@
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK
 	blade_dulling = null
 	max_integrity = 250
-	integrity_failure = 0.2
+	integrity_failure = GENERIC_INTEG_FAILURE
 	wdefense = 3
 	wdefense_wbonus = 3 //Default is 3.
 	experimental_onhip = TRUE

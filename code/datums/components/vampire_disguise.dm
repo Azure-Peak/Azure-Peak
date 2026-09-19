@@ -13,7 +13,7 @@
 	/// Bloodpool cost per life tick while disguised
 	var/disguise_upkeep = 0
 	/// Minimum bloodpool required to maintain disguise
-	var/min_bloodpool = 50
+	var/min_bloodpool = 100
 
 /datum/component/vampire_disguise/Initialize(upkeep = 0, min_blood = 50)
 	if(!ishuman(parent))
@@ -119,7 +119,7 @@
 	if(!disguised || (H.get_vampire_generation() >= GENERATION_METHUSELAH))
 		return FALSE
 
-	H.visible_message("<font color='white'>[H]'s curse manifests!</font>", ignored_mobs = list(H))
+	H.visible_message(span_silver("[H]'s curse manifests!"), ignored_mobs = list(H))
 	remove_disguise(H)
 	to_chat(H, span_danger("My disguise is forcibly broken!"))
 	return TRUE

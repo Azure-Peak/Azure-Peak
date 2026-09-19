@@ -236,6 +236,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/list/examine_effects = list()
 
+	/// For giving donor items highlights.
+	var/examine_highlight_severity = null
+	var/examine_highlight_desc = null
+
 	///played when an item that is equipped blocks a hit
 	var/list/blocksound
 
@@ -318,6 +322,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(body_parts_covered)
 		body_parts_covered_dynamic = body_parts_covered
 	update_transform()
+
+	if(max_integrity && integrity_failure && integrity_failure == GENERIC_INTEG_FAILURE)
+		max_integrity += (max_integrity * 0.11142857143)	// don't ask
+		obj_integrity = max_integrity
 
 
 /obj/item/proc/update_transform()
@@ -997,7 +1005,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
 
-		to_chat(M, span_userdanger("I can't pick up the silver, it is my BANE!"))
+		to_chat(M, span_silver("I can't pick up the silver, it is my BANE!"))
 		M.Knockdown(10)
 		M.Paralyze(10)
 		M.adjustFireLoss(25)
@@ -1882,8 +1890,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
 *
+* Types that cannot override this proc (i.e. one reskinned by a morphing elixir, which keeps its own
+* type) can instead set `examine_highlight_severity` and `examine_highlight_desc`.
+*
 * If this returns null, the item will not be shown as heretical.*/
 /obj/item/proc/get_examine_highlight_status()
+	if(examine_highlight_severity && examine_highlight_desc)
+		return list(examine_highlight_severity, examine_highlight_desc)
 	return null
 
 /** Returns an HTML-formatted string explaining how/why this item has the highlight status it does.
