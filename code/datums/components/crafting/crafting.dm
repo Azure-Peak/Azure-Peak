@@ -1,3 +1,6 @@
+// Bonuse % to craft per INT.
+#define CRAFT_BONUS_PER_INT 1.5
+
 /datum/component/personal_crafting/Initialize(mapload)
 	if(!ismob(parent))
 		return COMPONENT_INCOMPATIBLE
@@ -286,13 +289,23 @@
 						prob2craft -= (25*R.craftdiff)
 					if(R.skillcraft)
 						if(user.mind)
-							prob2craft += (user.get_skill_level(R.skillcraft) * 25)
+							var/user_skill = user.get_skill_level(R.skillcraft)
+							prob2craft += (user_skill * 25)
+							// Extra bonus for experts!
+							if(user_skill >= R.craftdiff)
+								switch(user_skill)
+									if(4)
+										prob2craft += 5
+									if(5)
+										prob2craft += 15
+									if(6)
+										prob2craft += 25
 					else
 						prob2craft = 100
 					if(isliving(user))
 						var/mob/living/L = user
 						if(L.STAINT > 10)
-							prob2craft += ((10-L.STAINT)*-1)*2
+							prob2craft += round((((10 - L.STAINT) * -1) * CRAFT_BONUS_PER_INT), 0.1)
 						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
 							prob2craft += 5
 						if(HAS_TRAIT(L, TRAIT_MALUMCHOSEN))
@@ -300,12 +313,28 @@
 					prob2craft = CLAMP(prob2craft, 0, 99)
 					if(i == 100 && prob2craft > 0)
 						prob2craft = 100
+
+					// Pseudorandomization!
+					var/datum/skill_holder/holder = user.ensure_skills()
+					if(holder.last_recipe != R.type)
+						holder.last_recipe = R.type
+						holder.pseudo_craft_chance = prob2craft
+					else if(prob2craft > holder.pseudo_craft_chance)
+						holder.pseudo_craft_chance = prob2craft
+					else
+						prob2craft = holder.pseudo_craft_chance
+
 					if(!prob(prob2craft))
+						if(prob2craft > 0)
+							var/factor = HAS_TRAIT(user, TRAIT_MALUM_CRAFTER) ? 0.2 : 0.1
+							holder.pseudo_craft_chance = min(pseudorandomize_increase(holder.pseudo_craft_chance, factor), 100)
+
 						if(user.client?.prefs.showrolls)
 							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
-							continue
-						to_chat(user, span_danger("I've failed to craft \the [R.name]."))
+						else
+							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
 						continue
+
 					var/list/quality_capture = R.skip_quality ? list() : null
 					var/list/parts = del_reqs(R, user, quality_capture)
 					var/inherited_quality = quality_capture?["min_quality"]
@@ -365,6 +394,7 @@
 							amt2raise = round(amt2raise * R.xp_modifier)
 							if(amt2raise > 0)
 								user.mind.add_sleep_experience(R.skillcraft, amt2raise, FALSE)
+					holder.reset_pseudo_chance()
 					return TRUE
 				return FALSE
 			return FALSE
@@ -666,4 +696,4 @@
 		return
 	learned_recipes -= R
 
-
+#undef CRAFT_BONUS_PER_INT
