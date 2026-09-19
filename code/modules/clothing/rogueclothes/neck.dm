@@ -1332,15 +1332,16 @@
 
 /obj/item/clothing/neck/roguetown/luckcharm/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	if(slot == SLOT_NECK)
-		user.change_stat(STATKEY_LCK, 1) //how much luck stat it gives when equipped
-		goodluckactivated = TRUE
+	if(slot == ITEM_SLOT_HANDS)
+		return
+	user.change_stat(STATKEY_LCK, 2)
+	goodluckactivated = TRUE
 	return
 
 /obj/item/clothing/neck/roguetown/luckcharm/dropped(mob/living/carbon/human/user)
 	. = ..()
-	if(goodluckactivated == TRUE)
-		user.change_stat(STATKEY_LCK, -1) //how much luck stat taken away when unequipped
+	if(goodluckactivated)
+		user.change_stat(STATKEY_LCK, -2)
 		goodluckactivated = FALSE
 	return
 
