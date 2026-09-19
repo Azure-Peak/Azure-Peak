@@ -81,6 +81,10 @@
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
 			D.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_2)
 			D.max_devotion *= 0.5
+			if (istype (H.patron, /datum/patron/inhumen/zizo))
+				if(H.mind)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
 			backl = /obj/item/storage/backpack/rogue/satchel
 			backpack_contents = list(

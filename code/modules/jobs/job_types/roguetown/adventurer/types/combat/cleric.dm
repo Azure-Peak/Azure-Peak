@@ -403,6 +403,10 @@
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 	else
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)
+		if (istype (H.patron, /datum/patron/inhumen/zizo))
+			if(H.mind)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
