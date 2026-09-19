@@ -29,6 +29,9 @@ export const SubtabVillain = () => {
         <Stack.Item grow>
           <BountySettings />
         </Stack.Item>
+        <Stack.Item grow>
+          <SkeletonSettings />
+        </Stack.Item>
         <SubtabVillainDownstream />
       </Stack>
     </Section>
@@ -246,6 +249,28 @@ const BountySettings = () => {
             </LabeledGridList.Item>
           </>
         ) : null}
+      </LabeledGridList>
+    </Section>
+  );
+};
+
+const SkeletonSettings = () => {
+  const { act, data } = useBackendStrict<VillainData>();
+  const { preset_skeleton_skull } = data;
+
+  return (
+    <Section title="Skelelon Settings">
+      <LabeledGridList>
+        <LabeledGridList.Item label="Choose Skelelon Skull">
+          <Button
+            ellipsis
+            fluid
+            tooltip={preset_skeleton_skull || 'None'}
+            onClick={() => act('preset_skeleton_skull')}
+          >
+            {preset_skeleton_skull || 'None'}
+          </Button>
+        </LabeledGridList.Item>
       </LabeledGridList>
     </Section>
   );

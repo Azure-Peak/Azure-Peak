@@ -185,6 +185,15 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preset_bounty_severity_v_key
 	var/preset_bounty_crime
 
+	// SKELETON SELECTIONS
+	// if all goes well these will be localized per character slot & will auto-matically select whatever bullshit
+	// you picked for your tail adn skull or whatever
+
+	var/preset_skeleton_pronouns = null
+	var/preset_skeleton_skull_name = null
+	var/preset_skeleton_skull_type = null
+	var/preset_skeleton_body = null
+
 
 	var/averse_chosen_faction = "Inquisition"
 

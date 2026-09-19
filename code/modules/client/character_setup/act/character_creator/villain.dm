@@ -150,3 +150,16 @@
 			verbose_pref_log_change(user, "notice", "Bounty Crime", "[length(preset_bounty_crime)] characters", "[length(new_crime)] characters")
 			preset_bounty_crime = new_crime
 			return CHARACTER_ACT_DATA_UPDATE
+
+		if("preset_skeleton_skull")
+			var/list/valid_skulls = list("None" = null, "Humen" = "Humen")
+			for(var/skull_path in subtypesof(/datum/sprite_accessory/snout/skeleton))
+				var/datum/sprite_accessory/skull = new skull_path()
+				valid_skulls[skull.name] = skull_path
+			var/choice = tgui_input_list(user, "SELECT YOUR SKULL", "BONEHEAD", valid_skulls)
+			if(choice)
+				verbose_pref_log_change(user, "notice", "Skeleton Skull", "[preset_skeleton_skull]", "[valid_skulls[choice]]")
+				preset_skeleton_skull = valid_skulls[choice]
+				preset_skeleton_skull_name = choice
+
+			return CHARACTER_ACT_DATA_UPDATE

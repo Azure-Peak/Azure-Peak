@@ -604,6 +604,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["preset_bounty_severity_v_key"]	>> preset_bounty_severity_v_key
 	S["preset_bounty_crime"]			>> preset_bounty_crime
 
+	S["preset_skeleton_body"]			>> preset_skeleton_body
+	S["preset_skeleton_pronouns"]		>> preset_skeleton_pronouns
+	S["preset_skeleton_skull"]			>> preset_skeleton_skull
+
+
 	S["img_gallery"]		>> img_gallery
 	S["nsfw_img_gallery"]	>> nsfw_img_gallery
 
@@ -867,6 +872,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["preset_bounty_severity_b_key"] , preset_bounty_severity_b_key)
 	WRITE_FILE(S["preset_bounty_severity_v_key"] , preset_bounty_severity_v_key)
 	WRITE_FILE(S["preset_bounty_crime"] , preset_bounty_crime)
+
+	WRITE_FILE(S["preset_skeleton_skull_name"] , preset_skeleton_skull_name)
+	WRITE_FILE(S["preset_skeleton_skull_type"] , preset_skeleton_skull_type)
+	WRITE_FILE(S["preset_skeleton_pronouns"] , preset_skeleton_pronouns)
+	WRITE_FILE(S["preset_skeleton_body"] , preset_skeleton_body)
+
+
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
 	WRITE_FILE(S["ooc_extra"] ,	ooc_extra)
