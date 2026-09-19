@@ -280,14 +280,11 @@
 	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/mace/steel/silver
-	force = 30
-	force_wielded = 35
 	name = "silver mace"
 	desc = "A long and heavy flanged mace, forged from pure silver. For a lord, it's the perfect symbol of authority; a decorative piece for the courts. For a paladin, however, there's no better implement for shattering avantyne-maille into a putrid pile of debris."
 	icon_state = "silvermace"
 	smeltresult = /obj/item/ingot/silver
 	minstr = 10
-	wdefense = 5
 	smelt_bar_num = 2
 	swingsound = BLUNTWOOSH_LARGE
 	is_silver = TRUE
@@ -465,9 +462,7 @@
 	for the world you love. </br>'Please do not wait for me..' \ </br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' \
 	</br>'Hear my song being sung by the bards..' </br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' \
 	</br>'..and know that my spirit will always be with you..' </br>'..woven into the very fabric of the world we cherished together.'"
-	force = 30
 	minstr = 9
-	wdefense = 5
 	resistance_flags = FIRE_PROOF
 	icon_state = "psyflangedmace"
 	swingsound = BLUNTWOOSH_LARGE
@@ -498,9 +493,7 @@
 	no matter the weather nor odds. </br>'Please do not wait for me..' \ </br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' \
 	</br>'Hear my song being sung by the bards..' </br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' \
 	</br>'..and know that my spirit will always be with you..' </br>'..woven into the very fabric of the world we cherished together.'"
-	force = 30
 	minstr = 9
-	wdefense = 5
 	resistance_flags = FIRE_PROOF
 	icon_state = "psyflangedmace"
 	swingsound = BLUNTWOOSH_LARGE
@@ -544,7 +537,6 @@
 	</br>'For though I depart, my magic will never die..' </br>'Listen to my laughter in the babbling brook..' </br>'Hear my song being sung by the bards..' \
 	</br>'Feel my warmth in the rays of the morning sun..' </br>'See my light in the twinkling stars at night..' </br>'..and know that my spirit will always be with you..' \
 	</br>'..woven into the very fabric of the world we cherished together.'"
-	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
 	icon_state = "opsyflangedmace"
 	smeltresult = /obj/item/ingot/iron
@@ -559,11 +551,8 @@
 	desc = "A shorter variant of the flanged silver mace, rebalanced for one-handed usage. It isn't uncommon for these sidearms to mysteriously 'vanish' from an Adjudicator's belt, only to be 'rediscovered' - and subsequently kept - by a Confessor."
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop)
 	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop, /datum/intent/mace/smash, /datum/intent/effect/daze)
-	force = 25
-	force_wielded = 30
 	minstr = 7
-	wdefense = 5
-	wbalance = WBALANCE_SWIFT
+	wbalance = WBALANCE_SWIFT //We keep this for the confessors (weasels)
 	resistance_flags = FIRE_PROOF
 	icon_state = "psycudgel"
 	is_silver = TRUE
@@ -594,8 +583,6 @@
 /obj/item/rogueweapon/mace/cudgel/psy/old
 	name = "enduring handmace"
 	desc = "A flanged mace, well-balanced for usage in one hand. It radiates with a strange energy: familiar, yet ever-so-distant."
-	force = 20
-	force_wielded = 25
 	wbalance = WBALANCE_NORMAL
 	icon_state = "opsycudgel"
 	is_silver = FALSE
@@ -761,10 +748,10 @@
 	name = "psydonic mace"
 	desc = "An ornate mace, plated in a ceremonial veneer of silver. Do not go quietly into the darkness; shatter your chains, roar with all your might, and bring the whole damndable temple down with you. </br>Even the unholy aren't immune to discombobulation."
 	icon_state = "psymace"
-	force = 30
-	force_wielded = 35
 	minstr = 12
-	wdefense = 6
+	force = 15
+	force_wielded = 35
+	wdefense_wbonus = 5
 	wbalance = WBALANCE_HEAVY
 	smelt_bar_num = 2
 	is_silver = TRUE
@@ -814,7 +801,7 @@
 	max_integrity = 200
 
 /obj/item/rogueweapon/mace/warhammer/bronze
-	force = 25
+	force = 25 //Same damage as steel, better throw force, can apparently fucking embed. I'm not tweaking this too much beyond standardizing the damage.
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
 	name = "bronze warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with bronze. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
@@ -824,7 +811,6 @@
 	throwforce = 25
 	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 50, "embedded_fall_chance" = 20)
 	smeltresult = /obj/item/ingot/bronze
-	wdefense = 3
 	max_integrity = 180
 	sharpness = IS_SHARP
 
@@ -840,14 +826,13 @@
 	max_integrity = 120
 
 /obj/item/rogueweapon/mace/warhammer/bronze/steel
-	force = 28 //just a little better than the bronze club but barely
+	force = 25 //Same damage as the steel warhammer, better drip.
 	name = "steel warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with steel. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "steelclub"
 	max_blade_int = 175
 	throwforce = 25
 	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
 	max_integrity = 200
 
 /obj/item/rogueweapon/mace/warhammer/bronze/silver
@@ -860,9 +845,9 @@
 	is_silver = TRUE
 
 /obj/item/rogueweapon/mace/warhammer/bronze/decorated
-	force = 30 // this requires GOLD to make, its going to be a bit more heavy.
+	force = 25 //All the drip in the world cannot buy you more damage. Blacksteel exists for that.
 	name = "decorated bronze warclub"
-	desc = "beads, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
+	desc = "Beads, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
@@ -922,10 +907,7 @@
 	name = "silver warhammer"
 	desc = "A heavy warhammer, forged from pure silver. It follows the Otavan design of a 'lucerene'; a shortened polehammer with a pronounced spike, rebalanced for one-handed usage. Resplendent in presentation, righteous in purpose."
 	icon_state = "silverhammer"
-	force = 30
-	force_wielded = 30
 	minstr = 10
-	wdefense = 5
 	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 2
 	is_silver = TRUE
@@ -1023,6 +1005,7 @@
 	smeltresult = /obj/item/ingot/steel
 	wdefense_wbonus = 4 // from 6
 	smelt_bar_num = 3
+	max_integrity = 370 //Up from 350 inherited from mace.
 
 //Malumite maul. Intended for Templars.
 /obj/item/rogueweapon/mace/maul/grand/malum
@@ -1065,14 +1048,12 @@
 //Psydonite reliquary maul. Intended for FUCKING SHIT UP.
 /obj/item/rogueweapon/mace/maul/grand/psy
 	name = "psydonic maul"
-	gripped_intents = list(/datum/intent/mace/strike/reach, /datum/intent/mace/sweep, /datum/intent/mace/demolish, /datum/intent/effect/hobble)
+	gripped_intents = list(/datum/intent/mace/strike/grand, /datum/intent/mace/sweep, /datum/intent/mace/demolish, /datum/intent/effect/hobble) //This has to use its own intents instead of inheriting because of the special demolish intent. I'm not touching it, beyond making the strike the same as the normal maul.
 	desc = "A rune-forged maul inspired by dwarven rock-hammers. Created as the faithful's answer to heretics hiding behind walls, it provides the impure with a sermon of exceptional concussive clarity. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
 	icon_state = "psyhammer"
 	smeltresult = /obj/item/ingot/silverblessed
 	minstr = 8
-	wdefense_wbonus = 8
 	is_silver = TRUE
-	max_integrity = 600 // need a lil more cause destroying walls takes a bit of this
 
 /obj/item/rogueweapon/mace/maul/grand/psy/pickup(mob/living/user)
 	if(HAS_TRAIT(user, TRAIT_PSYDONITE))

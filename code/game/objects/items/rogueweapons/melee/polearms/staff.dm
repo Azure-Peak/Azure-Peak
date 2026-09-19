@@ -331,10 +331,10 @@
 	name = "silver quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian \
 	warscholars. Durable enough to catch-and-disarm avantyne to the shaft, without so much as a splinter - or so, they say."
-	force = 20
-	force_wielded = 27
+	force = 18
+	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 250
+	max_integrity = 200
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -353,9 +353,9 @@
 	name = "psydonic quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs \
 	oft-carried by Naledian warscholars. Durable enough to catch avantyne to the shaft, without so much as a splinter - or so, they say."
-	force_wielded = 27
+	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 250
+	max_integrity = 200
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 

@@ -563,14 +563,8 @@
 	icon_state = "silvershovelwaraxe"
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, SPEAR_BASH) //bash is for nonlethal takedowns, only targets limbs
 	gripped_intents = list(/datum/intent/rend/reach, /datum/intent/axe/chop/long, SPEAR_BASH)
-	force = 15
-	force_wielded = 25
-	minstr = 11
-	max_blade_int = 200
 	anvilrepair = /datum/skill/craft/carpentry
 	smeltresult = /obj/item/ingot/silver
-	wdefense = 6
-	wbalance = WBALANCE_HEAVY
 	is_silver = TRUE
 
 /obj/item/rogueweapon/greataxe/militia/silver/ComponentInitialize()
@@ -979,9 +973,6 @@
 			</br>'Here we stand, to turn and face the odds; sacrifice yourself, or bow to lesser gods!'"
 	smeltresult = /obj/item/ingot/silver
 	icon_state = "silverclaws"
-	wdefense = 5
-	max_blade_int = 300
-	max_integrity = 225
 	is_silver = TRUE
 
 /obj/item/rogueweapon/handclaw/gronn/silver/ComponentInitialize()
