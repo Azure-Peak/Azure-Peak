@@ -258,6 +258,10 @@
 	name = "Gift - Kit, Long Jacketed Gambeson"
 	path = /obj/item/enchantingkit/donator_jacketed_gambeson_long
 
+/datum/loadout_item/donator/universal/donator_heavybrig
+	name = "Gift - Brigandine with Plate"
+	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
+
 /datum/loadout_item/donator/universal/armorpiece_decapauldron
 	name = "Gift - Armor Cosmetic, Decablessed Pauldrons"
 	path = /obj/item/enchantingkit/donator_universal_decapauldron

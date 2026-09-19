@@ -129,7 +129,7 @@
 /datum/status_effect/hamstring
 	id = "hamstring"
 	status_type = STATUS_EFFECT_UNIQUE
-	duration = 15 SECONDS
+	duration = 10 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/buff/hamstring
 	on_remove_on_mob_delete = TRUE
 	var/datum/weakref/buffed_item
@@ -188,8 +188,7 @@
 /datum/status_effect/debuff/hamstring
 	id = "hamstring_debuff"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/hamstring
-	effectedstats = list(STATKEY_SPD = -2)
-	duration = 15 SECONDS
+	duration = 10 SECONDS
 
 /datum/status_effect/debuff/hamstring/on_apply()
 	. = ..()
