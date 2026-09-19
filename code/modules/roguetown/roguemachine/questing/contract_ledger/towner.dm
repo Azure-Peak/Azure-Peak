@@ -238,6 +238,11 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		to_chat(poster, span_warning("No landmark could bear that contract. Funds refunded."))
 		return
 
+	if(crown_funded)
+		dispatched.add_funding(SStreasury.discretionary_fund, cost)
+	else
+		dispatched.add_funding(poster_account, cost, SStreasury.discretionary_fund)
+
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/purse_note = crown_funded ? " Drawn on the Crown's Purse." : ""
 	if(to_hand)

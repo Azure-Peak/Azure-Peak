@@ -29,8 +29,7 @@
 		if(!SStreasury.has_account(user))
 			to_chat(user, span_warning("No account on record - register with a Meister before taking a contract, lest there be no purse to pay you."))
 			return
-		Q.quest_receiver_reference = WEAKREF(user)
-		Q.quest_receiver_name = user.real_name
+		Q.on_claim(user)
 		to_chat(user, span_notice("You take up the blockade writ. Travel to the marked region - the waves will begin when you arrive."))
 		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 		if(landmark)
