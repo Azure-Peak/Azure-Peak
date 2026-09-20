@@ -310,7 +310,6 @@ export type ConstantQuirk = {
   mechdesc: TrustedHTML;
   greater: boolean;
   icon: string | null;
-  restricted_traits: string[];
   added_traits: Trait[];
 };
 

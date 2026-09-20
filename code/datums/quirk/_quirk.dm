@@ -15,8 +15,6 @@ GLOBAL_LIST_EMPTY(quirks)
 	var/list/allowed_virtues
 	///if present, these virtues will block the quirk from being picked/applied - useful when they overlap
 	var/list/restricted_virtues
-	///if present, these traits will block the quirk from being applied. prefer other options, as this won't prevent it being picked in character creation!
-	var/list/restricted_traits
 	///if this is a 'greater' quirk only accessible if you take virtuous/fated AND two vices
 	var/greater	= FALSE
 	///traits always applied by the quirk
@@ -58,17 +56,8 @@ GLOBAL_LIST_EMPTY(quirks)
 		"desc" = desc,
 		"mechdesc" = mechdesc,
 		"icon" = ui_fa_icon,
-		"restricted_traits" = null,
 		"added_traits" = null,
 	)
-
-	var/list/restricted_traits_data = list()
-	for(var/TR in restricted_traits)
-		UNTYPED_LIST_ADD(restricted_traits_data, list(
-			"name" = TR,
-			"desc" = GLOB.roguetraits[TR],
-		))
-	data["restricted_traits"] = restricted_traits_data
 
 	var/list/added_traits_data = list()
 	for(var/TR in added_traits)

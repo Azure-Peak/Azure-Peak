@@ -156,24 +156,12 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 	if(slots && lesser)
 		if(quirk_check(lesser, player.prefs))
-			var/trait_blocked = FALSE
-			for(var/T in character.status_traits)
-				if(T in lesser.restricted_traits)
-					to_chat(character, "Incorrect Lesser Quirk parameters! It will not be applied.")
-					trait_blocked = TRUE
-			if(!trait_blocked)
-				apply_quirk(character, lesser)
+			apply_quirk(character, lesser)
 		else
 			to_chat(character, "Incorrect Lesser Quirk parameters! It will not be applied.")
 	if((slots >= 2) && greater)
 		if(quirk_check(greater, player.prefs))
-			var/trait_blocked = FALSE
-			for(var/T in character.status_traits)
-				if(T in greater.restricted_traits)
-					to_chat(character, "Incorrect Greater Quirk parameters! It will not be applied.")
-					trait_blocked = TRUE
-			if(!trait_blocked)
-				apply_quirk(character, greater)
+			apply_quirk(character, greater)
 		else
 			to_chat(character, "Incorrect Greater Quirk parameters! It will not be applied.")
 

@@ -37,7 +37,6 @@
 	added_traits = list(TRAIT_NOBLE)
 	greater = TRUE
 	restricted_species = list(/datum/species/construct/metal, /datum/species/dullahan, /datum/species/ooze)
-	restricted_traits = list(TRAIT_OUTLAW) // just like noble virtue you can't take this on wretches and thelike
 	ui_fa_icon = "crown"
 
 /datum/quirk/wyldeater // not quite as good as inhumen digestion but maybe slightly less likely to get you flagged as a graggarite?
