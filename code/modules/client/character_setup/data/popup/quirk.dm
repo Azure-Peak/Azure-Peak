@@ -39,6 +39,15 @@
 				unavailable = "Restricted from virtue \"[virtue.name]\"."
 			if(statpack.virtuous && (virtuetwo.type in Q.restricted_virtues))
 				unavailable = "Restricted from virtue \"[virtuetwo.name]\"."
+		if(length(job_preferences))
+			var/highest_title = null
+			for(var/title in job_preferences)
+				if(job_preferences[title] == JP_HIGH)
+					highest_title = title
+			if(highest_title)
+				var/datum/job/J = SSjob.GetJob(highest_title)
+				if(J && length(J.quirk_restrictions) && (Q.type in J.quirk_restrictions))
+					unavailable = "Disallowed for role [highest_title]."
 		UNTYPED_LIST_ADD(quirk_availability, list(
 			"path" = path,
 			"unavailable" = unavailable,
