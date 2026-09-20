@@ -317,4 +317,4 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	all of the undead risen by Zizo, feel the calling from the empty halls of these forgotten ruins, these desecrated lands of once-paradice. Humenity's greatest acheivements buried \
 	in rot, rust, rubble and decay. never to see the lite of dae, lest you be branded and cast out from the pantheon's embrace as a heretic from the leyman's superstition borne from Her Hubris.\n<br><br><br>\
 	\
-	And for the so-called lucky-few to ascend beyond simple unlyfe to the greater works, before or after Zizo's ascension remain shattered in mynd by their hubris; to touch the filament and yet only be left with a sliver of the divinity promised."
+	And for the so-called lucky-few to ascend beyond simple unlyfe to the greater works of lychdom, before or after Zizo's ascension remain shattered in mynd by their hubris; to touch the filament and yet only be left with a sliver of the divinity promised."
