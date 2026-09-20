@@ -21,7 +21,7 @@
 	name = "Otherworldly"
 	desc = "No-one can quite seem to decide whether I'm mesmerizing or horrifying."
 	added_traits = list(TRAIT_BEAUTIFUL_UNCANNY)
-	allowed_species = list(/datum/species/aasimar, /datum/species/dullahan, /datum/species/construct/metal)
+	allowed_species = list(/datum/species/aasimar, /datum/species/dullahan, /datum/species/construct/metal, /datum/species/ooze)
 	allowed_virtues = list(/datum/virtue/combat/second_chance) // hacky, but w/e
 	ui_fa_icon = "person-rays"
 
