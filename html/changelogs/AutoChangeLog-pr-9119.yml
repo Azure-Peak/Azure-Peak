@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - refactor: "Weapon integrity values have all been slightly increased to reflect the backend values more accurately."

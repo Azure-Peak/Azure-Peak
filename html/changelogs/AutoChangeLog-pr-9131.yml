@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "chat auto-scroll should work fine during heavy combat/chatspam"

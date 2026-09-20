@@ -185,6 +185,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Iron Breastplate, an Iron Halfplate, or a set of Iron Plate Armor."
 	target_items = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/donator_gothic,
+		/obj/item/clothing/suit/roguetown/armor/plate/scale/iron		= /obj/item/clothing/suit/roguetown/armor/plate/iron/donator_gothic,
 		/obj/item/clothing/suit/roguetown/armor/plate/full/iron			= /obj/item/clothing/suit/roguetown/armor/plate/full/iron/donator_gothic,
 		/obj/item/clothing/suit/roguetown/armor/plate/iron				= /obj/item/clothing/suit/roguetown/armor/plate/iron/donator_gothic
 	)
@@ -205,6 +206,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/full/donator_gothic,
 		/obj/item/clothing/suit/roguetown/armor/plate/fluted					= /obj/item/clothing/suit/roguetown/armor/plate/fluted/donator_gothic,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass					= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_gothic,
+		/obj/item/clothing/suit/roguetown/armor/plate/scale						= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/donator_gothic,
 		/obj/item/clothing/suit/roguetown/armor/plate/full						= /obj/item/clothing/suit/roguetown/armor/plate/full/donator_gothic,
 		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/donator_gothic
 	)
@@ -470,18 +472,20 @@
 
 /obj/item/enchantingkit/donator_jacketed_gambeson_short
 	name = "'Short Jacketed Gambeson' morphing elixr"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson or Gambeson."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson, Gambeson, or Light Gambeson.."
 	target_items = list(
 		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy				= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_arming,
+		/obj/item/clothing/suit/roguetown/armor/gambeson/light				= /obj/item/clothing/suit/roguetown/armor/gambeson/light/donator_arming,
 		/obj/item/clothing/suit/roguetown/armor/gambeson					= /obj/item/clothing/suit/roguetown/armor/gambeson/donator_arming
 	)
 	result_item = null
 
 /obj/item/enchantingkit/donator_jacketed_gambeson_long
 	name = "'Long Jacketed Gambeson' morphing elixr"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson or Gambeson."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson, Gambeson, or Light Gambeson."
 	target_items = list(
 		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy				= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/donator_jacket,
+		/obj/item/clothing/suit/roguetown/armor/gambeson/light				= /obj/item/clothing/suit/roguetown/armor/gambeson/light/donator_jacket,
 		/obj/item/clothing/suit/roguetown/armor/gambeson					= /obj/item/clothing/suit/roguetown/armor/gambeson/donator_jacket
 	)
 	result_item = null
@@ -532,7 +536,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of \
 	Steel or IronPlate-and-Maille."
 	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy	= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/rockhill/iron,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy	= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/rockhill,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy			= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/rockhill
 	)
 	result_item = null
@@ -1059,7 +1063,7 @@
 	)
 	result_item = null
 
-//MortoSasye - Ice Staffs
+//MortoSasye - Ice Staffs + Azure Crown
 /obj/item/enchantingkit/morto_staff
 	name = "'Frozen Vow' morphing elixir"
 	target_items = list(
@@ -1069,6 +1073,15 @@
 		/obj/item/rogueweapon/woodstaff/implement/amethyst			=	/obj/item/rogueweapon/woodstaff/implement/amethyst/morto
 	)
 	result_item = null
+
+/obj/item/enchantingkit/morto_crown
+	name = "'Sun Crown' morphing elixir"
+	target_items = list(
+		/obj/item/clothing/head/roguetown/crown/serpcrown
+	)
+	result_item = /obj/item/clothing/head/roguetown/crown/serpcrown/mortosuncrown
+
+//Tyesca
 
 /obj/item/enchantingkit/weapon/tyesca_sword
 	name = "'Szöréndnížine montante' morphing elixir"

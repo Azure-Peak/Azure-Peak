@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "DB/UB values now adhere to the defines."

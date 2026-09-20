@@ -1239,7 +1239,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/rockhill/iron
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/rockhill
 	name = "jacketed iron plate-and-maille"
 	desc = "A maille-aketon of iron, comfortably fitted beneath a matching cuirass and a thick clothspun jacket. Originating from Rockhill's \
 	armories, this slightly-less-expensive alternative to plate armor was fashioned to ensure every man-at-arms could stand and face the fief's \
@@ -1251,6 +1251,19 @@
 	item_state = "irockhillmaille"
 	detail_tag = "_detail"
 	detail_color = COLOR_WHITE
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/rockhill/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron/heavy/rockhill/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 //
 
@@ -2868,6 +2881,38 @@ As Excaliber."
 	color = null
 	allowed_sex = list(FEMALE)
 
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_sunrisegown
+	name = "sunrise gown"
+	desc = "A beautiful gown that seems to shimmer with the light of a rising sun, almost abnormally radiant."
+	icon_state = "mortosasye_sunrisegown"
+	item_state = "mortosasye_sunrisegown"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	color = null
+	allowed_sex = list(FEMALE)
+
+/obj/item/clothing/head/roguetown/crown/serpcrown/mortosuncrown
+	name = "sun crown"
+	article = null // prevents it becoming the the sun crown.
+	desc = "A far too extravagant crown made of gold, sporting a rontz at the center. The metal has been shaped to resemble sunrays."
+	replace_existing_roguemachine_crown = TRUE
+	icon_state = "mortosasye_suncrown"
+	item_state = "mortosasye_suncrown"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+
+/obj/item/clothing/head/roguetown/circlet/donator_mortosasye_golddiadem
+	name = "gold diadem"
+	desc = "A simple diadem sporting a diamond-shape at the center, made of gold. It is a simple, yet elegant piece of jewelry - passed down through generations of the Xulu noble house."
+	icon_state = "mortosasye_golddiadem"
+	item_state = "mortosasye_golddiadem"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+
 // RACOBIO
 /obj/item/rogueweapon/woodstaff/implement/grand/racobio
 
@@ -3260,10 +3305,12 @@ As Excaliber."
 	desc = "Noble lapels for a noble coat."
 	item_state = "broche"
 	icon_state = "broche"
-	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_ARMOR
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	color = null
+	body_parts_covered = CHEST
+	slot_flags = ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK | ITEM_SLOT_MASK
 	grid_width = 32
 	grid_height = 32
 
@@ -4059,6 +4106,14 @@ As Excaliber."
 					H.update_inv_armor()
 			return
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/light/donator_arming
+	name = "light jacketed gambeson"
+	icon_state = "darming"
+	item_state = "darming"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/donator_jacket
 	name = "jacketed gambeson"
 	icon_state = "djacket"
@@ -4130,6 +4185,14 @@ As Excaliber."
 					H.update_inv_shirt()
 					H.update_inv_armor()
 			return
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/light/donator_jacket
+	name = "light jacketed gambeson"
+	icon_state = "djacket"
+	item_state = "djacket"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
 // LAGOMORPHICA + STALKERINO
 /obj/item/rogueweapon/example/lagomorphica_obligatoire
@@ -4644,11 +4707,26 @@ As Excaliber."
 	icon_state = "rezasword"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 
+// LIMETEASE
 /obj/item/rogueweapon/sword/sabre/donator_limetease
 	name = "Malevolent Sabre"
 	desc = "A sinister-looking sabre with a deep malevolent aura. Its blade seems to pulse with an otherworldly energy only a god could imbue."
 	icon_state = "limesaber"
 	icon = 'icons/obj/items/donor_weapons.dmi'
+
+// LIMETEASE
+/obj/item/rogue/instrument/guitar/rosa_silveredguitar
+	name = "Silvered Rosa Guitar"
+	desc = "A guitar adorned with rosas, silvered strings, and a mauve body, crafted by the finest luthiers of Rosawood. Its sound resonates with a clarity that can soothe even the most troubled soul."
+	icon = 'icons/obj/items/donor_music.dmi'
+	icon_state = "rosa_silveredguitar"
+
+// LIMETEASE
+/obj/item/rogue/instrument/guitar/silveredguitar
+	name = "Silvered Guitar"
+	desc = "A guitar adorned with silvered strings and a mauve body, crafted by the finest luthiers of Rosawood. Its sound resonates with a clarity that can soothe even the most troubled soul."
+	icon = 'icons/obj/items/donor_music.dmi'
+	icon_state = "silveredguitar"
 
 // Mystogen
 /obj/item/clothing/mask/rogue/facemask/goldmask/radiant

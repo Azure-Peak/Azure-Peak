@@ -763,3 +763,91 @@
   - bugfix: fixed typo in release familiar spell
   - qol: Items in cosmetic clots properly cover your body now
   - bugfix: Hallowed trait actually works now
+2026-09-18:
+  FreeStylaLT:
+  - refactor: Weapon integrity values have all been slightly increased to reflect
+      the backend values more accurately.
+  KatTheFox:
+  - bugfix: Roleprefs checked during a specific period - only court agent afaik -
+      now work on latejoin as well as roundstart rolling
+  NonQueueingMatt:
+  - rscadd: Absolvers can now spawn in as Azurians.
+  Ollanius:
+  - bugfix: Fixes an edge case where jacketed maille could retain its higher-end stats
+      if its morphing elixir was used with iron equipment.
+  - bugfix: Light gambeson equivalent to long- and short-jacketed gambeson reskins,
+      to avoid potential unintended consequences.
+  - bugfix: Broches now properly render in all circumstances.
+  - rscadd: (In a previous PR..) Steel and decablessed pauldrons, available to donators,
+      courtesy of Aroliacue and Zydras!
+  - rscadd: (In a previous PR..) Heartplate and plackart morphing elixirs can now
+      be applied (with new results) to studded leather armor, heavy leather armor,
+      and steel half-plate.
+  - rscadd: Scalemail can now be morphed by Gothic Steel and Iron armor elixirs, defaulting
+      to the nearest equivalent without arm coverage.
+  borneblood:
+  - bugfix: DB/UB values now adhere to the defines.
+  mumblemancer:
+  - qol: you can search "bag" in the crafting menu and it'll show you sack
+  nauticall:
+  - rscadd: Body Type in character creation is now a dropdown with four options -
+      Masculine (Bulky), Masculine (Slim), Feminine (Bulky) and Feminine (Slim) -
+      instead of a Masculine/Feminine toggle.
+  - rscadd: The bulky and slim bodies are now available to Humen, Half-Elf, Half-Kin,
+      Tiefling, Aasimar, Revenant, Murkling, Elf, Sun Elf and Dark Elf.
+  - rscadd: Masculine (Elven) body type remains available exclusively to elves/sun
+      elves/dark elves.
+  - qol: Underwear, stockings and body markings now pick their cut from the body you're
+      actually wearing rather than from your gender.
+  - bugfix: Orc and Half-Orc females now wear properly-sized underewar.
+  - bugfix: Elf males now wear properly-sized underwear.
+  - bugfix: Eoran Briefs should be visible again on all body types.
+  - bugfix: Cloak sleeves checked for the shirt offset while applying the cloak one.
+  - refactor: Body shape is now a 'build' shared between races, so clothing offsets
+      follow the body instead of the species.
+  radarseas:
+  - balance: sunderstacks and debuffs moved around, it should be noticably less punishing
+      at one and more at several. Unless you're a vampire, then you feel the full
+      brunt of it.
+  - balance: vampires take (60) vs (40) sunderstacks. - This means they die in 3 to
+      4 blows vs 4 to 6 blows if you can keep the pressure with blessed silver. As
+      well as feeling the effects of critical sunders slightly longer than regular
+      silver-weak.
+  - qol: bedrock is named bedrock, its also darker so you can tell at a glance.
+2026-09-19:
+  KatTheFox:
+  - bugfix: Characters with special characters - such as apostrophes - in their names
+      can now be mailed, instead of letters sent to them being silently redirected
+      to the coast.
+  - bugfix: Latejoining no longer runtimes if you never set roleprefs on a character
+      slot
+  MortoSasye:
+  - bugfix: Dukes no longer magically duplicate things they spawn with.
+  - rscadd: Two new skintones are available to be selected for humens and demihumans.
+  OrbisAnima:
+  - code_imp: Clamps the precision of ligthing cache values for sunlight so we have
+      more cached types in the ligthing system instead of infinite stuff due to how
+      long numbers can be in byond. Conservative Values were used to avoid artifacts.
+  WeNeedMorePhoron:
+  - bugfix: Burn wounds should now take longer to sew the more severe the wound is.
+  mumblemancer:
+  - rscadd: jesters can now flip thru their Japes
+2026-09-20:
+  BurpleBineapple:
+  - rscadd: adds a heavy AC reskin of the brigandine as a triumph/donor item.
+  KatTheFox:
+  - bugfix: Knights/VLs with long names are no longer unmailable
+  Lamasmaster:
+  - balance: Makes both divine strike and hamstring last 10 seconds instead of 15,
+      hamstring no longer takes away 2 SPD resulting in 40% instead of intended 20%
+      dodge sap.
+  OrbisAnima:
+  - qol: Removes random chance to fail picking bushes, swampweed, wild firitus and
+      wild pumpkin.
+  ToasterStrudes:
+  - bugfix: you can now unbind keys that were previously bugged and unable to be unbound
+      in keybindings.
+  eirenxiv:
+  - bugfix: removed second_chance virtue from mistwalker
+  racobio:
+  - rscadd: Added three new dark elf skin tones

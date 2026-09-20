@@ -596,6 +596,17 @@
 	effectedstats = list(STATKEY_PER = -1, STATKEY_INT = -2, STATKEY_SPD = -1)
 	duration = 1 MINUTES
 
+/datum/status_effect/debuff/jester_flip_dazed
+	id = "flip_cooldown"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/jester_flip_dazed
+	duration = 5 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/jester_flip_dazed
+	name = "Hazy"
+	desc = "...woah...! I feel a little uneasy!"
+	icon_state = "dazed"
+
 /atom/movable/screen/alert/status_effect/debuff/dazed
 	name = "Dazed"
 	desc = "You've been smacked on the head very hard. Which way is left, again?"
