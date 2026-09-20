@@ -20,9 +20,11 @@
 		"bandit_severities" = GLOB.bandit_severities[preset_bounty_severity_b_key],
 		"vagabond_severities" = GLOB.vagabond_severities[preset_bounty_severity_v_key],
 
+		"preset_skeleton_enabled" = preset_skeleton_enabled,
 		"preset_skeleton_pronouns" = preset_skeleton_pronouns,
 		"preset_skeleton_skull" = preset_skeleton_skull,
-		"preset_skeleton_body" = preset_skeleton_body
+		"preset_skeleton_body" = preset_skeleton_body,
+		"preset_skeleton_tail" = preset_skeleton_tail,
 	)
 
 	return data

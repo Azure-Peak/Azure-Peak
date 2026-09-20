@@ -330,6 +330,7 @@
 #include "code\_globalvars\lists\objects.dm"
 #include "code\_globalvars\lists\particles.dm"
 #include "code\_globalvars\lists\poll_ignore.dm"
+#include "code\_globalvars\lists\skeleton_preferences.dm"
 #include "code\_globalvars\lists\surgery.dm"
 #include "code\_globalvars\lists\typecache.dm"
 #include "code\_globalvars\lists\wounds.dm"

@@ -604,9 +604,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["preset_bounty_severity_v_key"]	>> preset_bounty_severity_v_key
 	S["preset_bounty_crime"]			>> preset_bounty_crime
 
-	S["preset_skeleton_body"]			>> preset_skeleton_body
+	S["preset_skeleton_enabled"]			>> preset_skeleton_enabled
 	S["preset_skeleton_pronouns"]		>> preset_skeleton_pronouns
 	S["preset_skeleton_skull"]			>> preset_skeleton_skull
+	S["preset_skeleton_tail"]			>> preset_skeleton_tail
+	S["preset_skeleton_body"]			>> preset_skeleton_body
 
 
 	S["img_gallery"]		>> img_gallery
@@ -873,10 +875,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["preset_bounty_severity_v_key"] , preset_bounty_severity_v_key)
 	WRITE_FILE(S["preset_bounty_crime"] , preset_bounty_crime)
 
-	WRITE_FILE(S["preset_skeleton_skull_name"] , preset_skeleton_skull_name)
-	WRITE_FILE(S["preset_skeleton_skull_type"] , preset_skeleton_skull_type)
+	WRITE_FILE(S["preset_skeleton_enabled"] , preset_skeleton_enabled)
 	WRITE_FILE(S["preset_skeleton_pronouns"] , preset_skeleton_pronouns)
+	WRITE_FILE(S["preset_skeleton_skull"] , preset_skeleton_skull)
+	WRITE_FILE(S["preset_skeleton_tail"] , preset_skeleton_tail)
 	WRITE_FILE(S["preset_skeleton_body"] , preset_skeleton_body)
+
 
 
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))

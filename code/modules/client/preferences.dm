@@ -188,10 +188,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	// SKELETON SELECTIONS
 	// if all goes well these will be localized per character slot & will auto-matically select whatever bullshit
 	// you picked for your tail adn skull or whatever
-
+	var/preset_skeleton_enabled = FALSE
 	var/preset_skeleton_pronouns = null
-	var/preset_skeleton_skull_name = null
-	var/preset_skeleton_skull_type = null
+	/// A STRING assigned to a typepath in a GLOB. list. TO BE COMPARED!!!
+	var/preset_skeleton_skull = null
+	/// A STRING assigned to a typepath in a GLOB. list. TO BE COMPARED!!!
+	var/preset_skeleton_tail = null
 	var/preset_skeleton_body = null
 
 

@@ -151,15 +151,47 @@
 			preset_bounty_crime = new_crime
 			return CHARACTER_ACT_DATA_UPDATE
 
-		if("preset_skeleton_skull")
-			var/list/valid_skulls = list("None" = null, "Humen" = "Humen")
-			for(var/skull_path in subtypesof(/datum/sprite_accessory/snout/skeleton))
-				var/datum/sprite_accessory/skull = new skull_path()
-				valid_skulls[skull.name] = skull_path
-			var/choice = tgui_input_list(user, "SELECT YOUR SKULL", "BONEHEAD", valid_skulls)
-			if(choice)
-				verbose_pref_log_change(user, "notice", "Skeleton Skull", "[preset_skeleton_skull]", "[valid_skulls[choice]]")
-				preset_skeleton_skull = valid_skulls[choice]
-				preset_skeleton_skull_name = choice
+		if("preset_skeleton_enabled")
+			preset_skeleton_enabled = !preset_skeleton_enabled
+			verbose_pref_log_change(user, "notice", "Use Skeleton Preferences Enabled", !preset_skeleton_enabled ? "Yes" : "No", preset_skeleton_enabled ? "Yes" : "No")
+			return CHARACTER_ACT_DATA_UPDATE
 
+		if("preset_skeleton_pronouns")
+			var/choice = tgui_input_list(user, "SELECT YOUR PRONOUNS", "PROGRESS", GLOB.pronouns_list)
+			if(choice)
+				verbose_pref_log_change(user, "notice", "Pronouns", "[preset_skeleton_pronouns]", "[choice]")
+				preset_skeleton_pronouns = choice
+			else
+				verbose_pref_log_change(user, "notice", "Pronouns", "[preset_skeleton_pronouns]", "NONE!")
+				preset_skeleton_pronouns = null
+			return CHARACTER_ACT_DATA_UPDATE
+
+		if("preset_skeleton_skull")
+			var/choice = tgui_input_list(user, "SELECT YOUR SKULL", "BONEHEAD", GLOB.skeleton_head_choices)
+			if(choice)
+				verbose_pref_log_change(user, "notice", "Skeleton Skull", "[preset_skeleton_skull]", "[choice]")
+				preset_skeleton_skull = choice
+			else
+				verbose_pref_log_change(user, "notice", "Skeleton Skull", "[preset_skeleton_skull]", "NONE!")
+				preset_skeleton_skull = null
+			return CHARACTER_ACT_DATA_UPDATE
+
+		if("preset_skeleton_body")
+			var/choice = tgui_input_list(user, "SELECT YOUR BODY TYPE", "PROGRESS", list("MASCULINE", "FEMININE"))
+			if(choice)
+				verbose_pref_log_change(user, "notice", "FRAME", "[preset_skeleton_body]", "[choice]")
+				preset_skeleton_body = choice
+			else
+				verbose_pref_log_change(user, "notice", "FRAME", "[preset_skeleton_body]", "NONE!")
+				preset_skeleton_body = null
+			return CHARACTER_ACT_DATA_UPDATE
+
+		if("preset_skeleton_tail")
+			var/choice = tgui_input_list(user, "SELECT YOUR TAIL", "FISHBONE", GLOB.skeleton_tail_choices)
+			if(choice)
+				verbose_pref_log_change(user, "notice", "Skeleton Tail", "[preset_skeleton_tail]", "[choice]")
+				preset_skeleton_tail = choice
+			else
+				verbose_pref_log_change(user, "notice", "Skeleton Tail", "[preset_skeleton_tail]", "NONE!")
+				preset_skeleton_tail = null
 			return CHARACTER_ACT_DATA_UPDATE
