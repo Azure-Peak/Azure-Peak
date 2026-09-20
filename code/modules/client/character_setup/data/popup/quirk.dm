@@ -22,7 +22,18 @@
 		if(length(Q.allowed_species))
 			if(!(pref_species.type in Q.allowed_species))
 				if(!(length(Q.allowed_virtues) && ((virtue.type in Q.allowed_virtues) || (virtuetwo.type in Q.allowed_virtues))))
-					unavailable = "Restricted from species \"[pref_species.name]\"[length(Q.allowed_virtues)?" without an exempting virtue":""]."
+					var/out = "Only allowed for species: "
+					for(var/datum/species/S as anything in Q.allowed_species)
+						if(ispath(S, /datum/species))
+							out += "[S::name], "
+					out = copytext(out, 1, -2)
+					if(length(Q.allowed_virtues))
+						out += ", without an exempting virtue: "
+						to_chat(world, out)
+						for(var/datum/virtue/V as anything in Q.allowed_virtues)
+							out += "[V::name], "
+						out = copytext(out, 1, -2)
+					unavailable = (out + ".")
 		if(length(Q.restricted_virtues))
 			if(virtue.type in Q.restricted_virtues)
 				unavailable = "Restricted from virtue \"[virtue.name]\"."
