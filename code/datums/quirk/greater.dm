@@ -36,7 +36,7 @@
 	mechdesc = "Grants the noble trait, but no other benefits."
 	added_traits = list(TRAIT_NOBLE)
 	greater = TRUE
-	restricted_species = list(/datum/species/construct, /datum/species/dullahan, /datum/species/ooze)
+	restricted_species = list(/datum/species/construct/metal, /datum/species/dullahan, /datum/species/ooze)
 	restricted_traits = list(TRAIT_OUTLAW) // just like noble virtue you can't take this on wretches and thelike
 	ui_fa_icon = "crown"
 
