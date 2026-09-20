@@ -37,6 +37,7 @@
 	desc = "My lux bears some manner of curse; it cannot be safely transplanted."
 	mechdesc = "You will be unable to donate lux to revive others."
 	added_traits = list(TRAIT_TAINTEDLUX)
+	restricted_species = list(/datum/species/tieberian, /datum/species/construct/metal)
 	ui_fa_icon = "circle-half-stroke"
 
 /datum/quirk/outdoorsman
