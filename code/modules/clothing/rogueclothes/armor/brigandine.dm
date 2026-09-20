@@ -68,6 +68,7 @@
 	return ..()
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/ComponentInitialize()
+	. = ..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/light
