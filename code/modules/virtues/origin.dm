@@ -309,8 +309,8 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	\
 	Now all that remains is but hollow shells, rubble and ruins of the greatest empyre that stood the test of time; hundreds and thousands of the fallen; \
 	legionnaries, soldiers, warriors, toilers, heros, champions and forgotten souls were given lyfe anew, \
-	yet from such hubris came nothing but legions upon legions of myndless, gibbering deadites in what grew into an endless rage \
-	against the lyving; as their lyfelux withered and with it, their mynds and purpose from steps towards Progress to make it matter, into endless war without reason.\n<br><br>\
+	yet from such hubris came nothing but legions upon legions of myndless, gibbering deadites in what was a second chance in lyfe, quickly turned into a war of rage \
+	against the lyving; as their lyfelux withered and with it, their mynds and purpose turned from steps towards Progress into endless war without reason.\n<br><br>\
 	\
 	Some say Zizo weeps for the lost, others say She still continues without much regards to break free beyond her failings of the past, either way nothing changes what was left \
 	as most of them shamble the empty halls, the wylds or under word and pact to a master. Those who don't remain unbound and decaying lyke the rest of long-past before them, \
