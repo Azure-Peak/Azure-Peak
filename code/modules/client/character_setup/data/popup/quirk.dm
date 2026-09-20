@@ -29,7 +29,6 @@
 					out = copytext(out, 1, -2)
 					if(length(Q.allowed_virtues))
 						out += ", without an exempting virtue: "
-						to_chat(world, out)
 						for(var/datum/virtue/V as anything in Q.allowed_virtues)
 							out += "[V::name], "
 						out = copytext(out, 1, -2)
