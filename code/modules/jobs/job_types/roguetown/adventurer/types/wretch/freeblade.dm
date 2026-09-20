@@ -8,7 +8,7 @@
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
 	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_FREEBLADE, TRAIT_FREEBLADEDEXTERITY)
-	allowed_patrons = /datum/patron/inhumen/matthios
+	allowed_patrons = list(/datum/patron/inhumen/matthios)
 	maximum_possible_slots = 1
 
 	subclass_stats = list(

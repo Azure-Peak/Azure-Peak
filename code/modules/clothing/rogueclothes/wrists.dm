@@ -318,6 +318,8 @@
 	sewrepair = FALSE
 
 /obj/item/clothing/wrists/roguetown/bracers/splint/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/iron
@@ -448,6 +450,8 @@
 		wrapped = FALSE
 
 /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
@@ -486,6 +490,8 @@
 		wrapped = FALSE
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/iron/chain
@@ -524,6 +530,8 @@
 		wrapped = FALSE
 
 /obj/item/clothing/wrists/roguetown/bracers/iron/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/bronze/chain
@@ -563,6 +571,8 @@
 		wrapped = FALSE
 
 /obj/item/clothing/wrists/roguetown/bracers/bronze/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/chain
@@ -601,6 +611,8 @@
 		wrapped = FALSE
 
 /obj/item/clothing/wrists/roguetown/bracers/chain/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 //
