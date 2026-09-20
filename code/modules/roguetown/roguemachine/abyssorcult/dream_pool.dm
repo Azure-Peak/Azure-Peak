@@ -280,7 +280,8 @@
 		/mob/living/simple_animal/hostile/rogue/deepone,
 		/mob/living/simple_animal/hostile/rogue/deepone/arm,
 		/mob/living/simple_animal/hostile/rogue/deepone/spit,
-		/mob/living/simple_animal/hostile/rogue/deepone/wiz
+		/mob/living/simple_animal/hostile/rogue/deepone/wiz,
+		/mob/living/simple_animal/hostile/rogue/deepone/hound
 	)
 
 	var/deep_one_path = pick(deep_ones_pool)

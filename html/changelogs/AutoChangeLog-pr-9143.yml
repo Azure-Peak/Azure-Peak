@@ -1,4 +1,0 @@
-author: "ToasterStrudes"
-delete-after: True
-changes:
-  - bugfix: "you can now unbind keys that were previously bugged and unable to be unbound in keybindings."

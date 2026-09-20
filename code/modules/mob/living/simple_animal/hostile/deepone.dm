@@ -126,3 +126,58 @@
 	clickcd = DEEPONE_ATTACK_SPEED
 	penfactor = PEN_NONE
 	chargetime = 2
+
+/mob/living/simple_animal/hostile/rogue/deepone/hound
+	anatomy_type = /datum/anatomy/quadruped/standard
+	name = "depth hound"
+	desc = "Fish? Beast? How about both. It is said deep ones throw these dogs at birds to obtain such a rare delicacy."
+	icon = 'icons/roguetown/mob/monster/fishman.dmi'
+	icon_state = "deep_hound"
+	icon_living = "deep_hound"
+	icon_dead = "deep_hound_dead"
+	gender = MALE
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	STACON = 10
+	STASTR = 12
+	STASPD = 12
+	health = DEEPONE_HOUND_HEALTH
+	maxHealth = DEEPONE_HOUND_HEALTH
+	harm_intent_damage = 18
+	melee_damage_lower = 12
+	melee_damage_upper = 32
+	move_base_delay = MOVEMENT_DELAY_SPD_17
+	ai_controller = /datum/ai_controller/deepone_hound
+	var/pounce_type = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/deepone_pounce
+
+/mob/living/simple_animal/hostile/rogue/deepone/hound/Initialize(mapload)
+	. = ..()
+	var/datum/action/cooldown/spell/telegraphed_strike/mob_ability/deepone_pounce/pounce = new pounce_type(src)
+	pounce.Grant(src)
+
+/mob/living/simple_animal/pet/depth_hound
+	anatomy_type = /datum/anatomy/quadruped/standard
+	name = "depth doggy"
+	desc = "Good boy?"
+	icon = 'icons/roguetown/mob/monster/fishman.dmi'
+	icon_state = "deep_hound"
+	icon_living = "deep_hound"
+	icon_dead = "deep_hound_dead"
+	gender = MALE
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	speak = list("Gurgle...", "Chrk-chrk!", "Glub!", "Squeeech!")
+	speak_emote = list("gurgles", "clicks its teeth", "snarls softly")
+	emote_hear = list("clicks its jaws.", "makes a low wet gurgle.")
+	emote_see = list("shakes sea foam from its back.", "scratches its webbed ears.")
+	speak_chance = 2
+	turns_per_move = 4
+	see_in_dark = 6
+	health = DEEPONE_HOUND_HEALTH
+	maxHealth = DEEPONE_HOUND_HEALTH
+	response_help_continuous = "pets"
+	response_help_simple = "pet"
+	response_disarm_continuous = "gently pushes aside"
+	response_disarm_simple = "gently push aside"
+	response_harm_continuous = "kicks"
+	response_harm_simple = "kick"
+	gold_core_spawnable = FRIENDLY_SPAWN
+	footstep_type = FOOTSTEP_MOB_CLAW

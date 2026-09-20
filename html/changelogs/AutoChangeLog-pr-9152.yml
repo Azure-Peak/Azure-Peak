@@ -1,0 +1,4 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscadd: "Zardmen can now pick bodytypes like non anthro races."

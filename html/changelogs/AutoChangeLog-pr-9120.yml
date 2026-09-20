@@ -1,0 +1,7 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "New deep one variant."
+  - balance: "Catching abyssal fish in abyssal waters is now 20% more likely."
+  - balance: "Mobs that are fished up now spawn in with a small delay."
+  - bugfix: "Aquatic compulsion no longer gravitates towards one type of fish per pool permanently."

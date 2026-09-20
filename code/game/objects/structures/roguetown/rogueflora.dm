@@ -417,7 +417,7 @@
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
 				loot_replenish()
-			if(prob(50) && looty.len)
+			if(looty.len)
 				if(looty.len == 1)
 					res_replenish = world.time + 8 MINUTES
 				var/obj/item/B = pick_n_take(looty)
@@ -717,7 +717,7 @@
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
 				loot_replenish2()
-			if(prob(50) && looty.len)
+			if(looty.len)
 				if(looty.len == 1)
 					res_replenish = world.time + 8 MINUTES
 				var/obj/item/B = pick_n_take(looty)
@@ -769,7 +769,7 @@
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
 				loot_replenish3()
-			if(prob(50) && looty.len)
+			if(looty.len)
 				if(looty.len == 1)
 					res_replenish = world.time + 8 MINUTES
 				var/obj/item/B = pick_n_take(looty)
@@ -828,7 +828,7 @@
 		user.changeNext_move(CLICK_CD_INTENTCAP)
 		playsound(src.loc, "plantcross", 80, FALSE, -1)
 		if(do_after(L, SEARCHTIME, target = src))
-			if(looty.len && prob(75))
+			if(looty.len)
 				var/obj/item/B = pick_n_take(looty)
 				if(B)
 					B = new B(user.loc)

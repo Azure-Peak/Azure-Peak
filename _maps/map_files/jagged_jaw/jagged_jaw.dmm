@@ -7641,12 +7641,9 @@
 /area/rogue/indoors/town/grim)
 "aVX" = (
 /obj/structure/fluff/railing/border,
-/obj/structure/table/wood/long_table/right,
+/obj/structure/table/wood/betting,
 /obj/item/toy/cards/deck/syndicate,
-/turf/open/floor/rogue/ruinedwood{
-	dir = 1;
-	icon_state = "vertw"
-	},
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
 "aVY" = (
 /obj/structure/rack/rogue{
@@ -13740,7 +13737,8 @@
 /area/rogue/under/cave/water_temple/lootroom)
 "bHL" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -34986,14 +34984,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food,
 /turf/open/water/sewer,
 /area/rogue/indoors/cave/underhamlet)
-"emO" = (
-/obj/structure/fluff/railing/border/north,
-/obj/structure/table/wood/long_table,
-/turf/open/floor/rogue/ruinedwood{
-	dir = 1;
-	icon_state = "vertw"
-	},
-/area/rogue/indoors/town/tavern/grim)
 "emP" = (
 /obj/structure/fluff/railing/border{
 	dir = 4
@@ -49109,7 +49099,7 @@
 "fZG" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
-	lockid = "manor"
+	lockid = "walls"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/town/grim)
@@ -55622,7 +55612,8 @@
 /area/rogue/under/cave/goblinfort)
 "gPh" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -82872,7 +82863,8 @@
 /area/rogue/under/cave/mazedungeon)
 "kdw" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -85716,7 +85708,8 @@
 /area/rogue/indoors/town/church/chapel/grim)
 "kvZ" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
@@ -96015,12 +96008,9 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena)
 "lJs" = (
 /obj/structure/fluff/railing/border/north,
-/obj/structure/table/wood/long_table/mid/alt,
+/obj/structure/table/wood/betting,
 /obj/item/toy/cards/deck,
-/turf/open/floor/rogue/ruinedwood{
-	dir = 1;
-	icon_state = "vertw"
-	},
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
 "lJt" = (
 /obj/structure/fluff/railing/border,
@@ -98214,7 +98204,8 @@
 /area/rogue/under/cave/licharena/grim)
 "lZn" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -102916,14 +102907,6 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/cave/licharena/grim)
-"mDu" = (
-/obj/structure/fluff/railing/border,
-/obj/structure/table/wood/long_table,
-/turf/open/floor/rogue/ruinedwood{
-	dir = 1;
-	icon_state = "vertw"
-	},
-/area/rogue/indoors/town/tavern/grim)
 "mDv" = (
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/woods/grim/southwest)
@@ -120584,7 +120567,8 @@
 /area/rogue/indoors/shelter/woods/grim/northeast/wardenscheckpoint)
 "oMo" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -130302,7 +130286,8 @@
 /area/rogue/outdoors/exposed/under/sewer/grim)
 "pTq" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f"
@@ -132080,6 +132065,13 @@
 /obj/item/natural/saddle,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/grim)
+"qeE" = (
+/obj/structure/bars/grille{
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
+	},
+/turf/open/transparent/openspace,
+/area/rogue/outdoors/town/grim)
 "qeF" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6;
@@ -139199,11 +139191,8 @@
 /area/rogue/indoors/town/church/basement/grim)
 "qYm" = (
 /obj/structure/fluff/railing/border/north,
-/obj/structure/table/wood/long_table/right,
-/turf/open/floor/rogue/ruinedwood{
-	dir = 1;
-	icon_state = "vertw"
-	},
+/obj/structure/table/wood/betting,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
 "qYq" = (
 /obj/structure/fluff/walldeco/sign/merchantsign{
@@ -166748,7 +166737,8 @@
 /area/rogue/under/cave/spider/grim)
 "upz" = (
 /obj/structure/bars/grille{
-	max_integrity = 2000
+	max_integrity = 2000;
+	redstone_id = "arenagrilles"
 	},
 /obj/effect/decal/edge_corner{
 	color = "#3f3f3f";
@@ -170595,11 +170585,8 @@
 /area/rogue/outdoors/rtfield/eora/grim)
 "uLx" = (
 /obj/structure/fluff/railing/border,
-/obj/structure/table/wood/long_table/mid/alt,
-/turf/open/floor/rogue/ruinedwood{
-	dir = 1;
-	icon_state = "vertw"
-	},
+/obj/structure/table/wood/betting,
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
 "uLy" = (
 /obj/structure/roguemachine/atm{
@@ -489883,7 +489870,7 @@ gRB
 gRB
 gRB
 dfx
-vOU
+dfx
 oFh
 dUW
 vOU
@@ -490147,7 +490134,7 @@ yhz
 iNn
 qem
 qem
-qem
+iCd
 qem
 agE
 khd
@@ -490264,13 +490251,13 @@ gRB
 gRB
 gRB
 gRB
-goK
-khd
 dfx
 dfx
-sqX
-vOU
-qem
+dfx
+dfx
+dfx
+dfx
+iCd
 xnz
 xnz
 dcB
@@ -490647,11 +490634,11 @@ dfx
 gRB
 goK
 qfL
-vOU
+khd
 vOU
 khd
 dfx
-vOU
+sqX
 qem
 qem
 xnz
@@ -495944,7 +495931,7 @@ qem
 qem
 xnz
 xnz
-qem
+xnz
 agE
 rra
 jNS
@@ -496326,7 +496313,7 @@ vOU
 qem
 qem
 qem
-qem
+iCd
 qem
 qoF
 gRB
@@ -507013,7 +507000,7 @@ gRB
 aDp
 aDp
 oMo
-nUo
+qeE
 kvZ
 aDp
 aDp
@@ -525343,7 +525330,7 @@ tGo
 cYS
 gRB
 dfx
-vOU
+dfx
 ujQ
 pJa
 sqX
@@ -525725,7 +525712,7 @@ ykP
 ykP
 veb
 aJT
-vOU
+dfx
 aJT
 kQi
 vOU
@@ -526489,7 +526476,7 @@ ujQ
 bOe
 sqX
 sqX
-ujQ
+dfx
 vOU
 vOU
 vOU
@@ -526871,7 +526858,7 @@ qTI
 sqX
 qem
 agE
-qem
+iCd
 qem
 aKQ
 aJT
@@ -623109,11 +623096,11 @@ dHo
 fLM
 wGv
 exf
-mDu
+uLx
 jcK
 eKL
 jcK
-emO
+qYm
 icI
 rFg
 vzM

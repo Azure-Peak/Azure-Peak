@@ -832,3 +832,22 @@
   - bugfix: Burn wounds should now take longer to sew the more severe the wound is.
   mumblemancer:
   - rscadd: jesters can now flip thru their Japes
+2026-09-20:
+  BurpleBineapple:
+  - rscadd: adds a heavy AC reskin of the brigandine as a triumph/donor item.
+  KatTheFox:
+  - bugfix: Knights/VLs with long names are no longer unmailable
+  Lamasmaster:
+  - balance: Makes both divine strike and hamstring last 10 seconds instead of 15,
+      hamstring no longer takes away 2 SPD resulting in 40% instead of intended 20%
+      dodge sap.
+  OrbisAnima:
+  - qol: Removes random chance to fail picking bushes, swampweed, wild firitus and
+      wild pumpkin.
+  ToasterStrudes:
+  - bugfix: you can now unbind keys that were previously bugged and unable to be unbound
+      in keybindings.
+  eirenxiv:
+  - bugfix: removed second_chance virtue from mistwalker
+  racobio:
+  - rscadd: Added three new dark elf skin tones
