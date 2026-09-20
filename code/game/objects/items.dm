@@ -323,6 +323,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		body_parts_covered_dynamic = body_parts_covered
 	update_transform()
 
+	if(max_integrity && integrity_failure && integrity_failure == GENERIC_INTEG_FAILURE)
+		max_integrity += (max_integrity * 0.11142857143)	// don't ask
+		obj_integrity = max_integrity
+
 
 /obj/item/proc/update_transform()
 	transform = null

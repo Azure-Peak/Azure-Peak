@@ -1,0 +1,4 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - admin: "Admin ban panel is no longer missing Inquisition as an option and all are now within the longform list to be easier to read in fullscreen window."

@@ -1,6 +1,0 @@
-author: "Juubo"
-delete-after: True
-changes:
-  - qol: "reduced the skill level needed to make a repair kit."
-  - qol: "any can use repair kits now, as was intended, instead of requiring they get one skill level"
-  - code_imp: "changed to makke repaired doors and bars more consistent with opacity"
