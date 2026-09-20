@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "An \"issued\" tabs show quests you have issued. You can cancel / take back any quests that has not been taken up. Once it is taken up but not started (i.e. they didn't  arrive at the point), you can revoke it after 30 minutes."
+  - rscadd: "You can \"top up\" Burgher's Pledge with Crown's Purse as the Steward if you are short on issuing say, a blockade quest. For example if you have 600 pledge and 750 cost you can top up the remaining 150 from the purse."
+  - rscadd: "Lapsed quests will refund to the pool. Canceled quests also refund to the pool. I.e. canceling a 500 pledge quests should refund properly."
+  - rscadd: "Blockade Writs now goes into the \"Issued\" tab for recalling purpose and no longer have a 15 minutes timer but the same 30 minutes rules as everyone else."

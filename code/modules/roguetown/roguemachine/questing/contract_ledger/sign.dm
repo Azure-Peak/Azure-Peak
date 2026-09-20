@@ -71,7 +71,10 @@
 	Q.quest_scroll_ref = WEAKREF(spawned_scroll)
 	spawned_scroll.update_quest_text()
 
-	SStreasury.burn(SStreasury.get_account(user), deposit, "quest deposit")
+	var/datum/fund/deposit_account = SStreasury.get_account(user)
+	if(SStreasury.burn(deposit_account, deposit, "quest deposit"))
+		Q.deposit_payer = deposit_account
+		Q.deposit_paid = deposit
 
 /obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
 	if(user in scroll.get_quest_assignees(user, TRUE))

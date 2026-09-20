@@ -258,6 +258,10 @@
 	name = "Gift - Kit, Long Jacketed Gambeson"
 	path = /obj/item/enchantingkit/donator_jacketed_gambeson_long
 
+/datum/loadout_item/donator/universal/donator_heavybrig
+	name = "Gift - Brigandine with Plate"
+	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
+
 /datum/loadout_item/donator/universal/armorpiece_decapauldron
 	name = "Gift - Armor Cosmetic, Decablessed Pauldrons"
 	path = /obj/item/enchantingkit/donator_universal_decapauldron
@@ -890,6 +894,21 @@
 /datum/loadout_item/donator/mortosasye_deepcutdress
 	name = "Donator Item - Deep Cut Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
+	ckeywhitelist = list("mortosasye")
+
+/datum/loadout_item/donator/mortosasye_sunrisegown
+	name = "Donator Item - Sunrise Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_sunrisegown
+	ckeywhitelist = list("mortosasye")
+
+/datum/loadout_item/donator/mortosasye_goldendiadem
+	name = "Donator Item - Golden Diadem"
+	path = /obj/item/clothing/head/roguetown/circlet/donator_mortosasye_golddiadem
+	ckeywhitelist = list("mortosasye", "flybrokenwings")
+
+/datum/loadout_item/donator/morto_crown
+	name = "Donator Kit - Sun Crown"
+	path = /obj/item/enchantingkit/morto_crown
 	ckeywhitelist = list("mortosasye")
 
 /datum/loadout_item/donator/racobio_staff
