@@ -454,6 +454,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["quirklesser"] >> quirklesser_type
 	S["quirkgreater"] >> quirkgreater_type
 
+	if(!quirklesser_type)
+		quirklesser_type = /datum/quirk/none
+	if(!quirkgreater_type)
+		quirkgreater_type = /datum/quirk/none
+
 	if(ispath(quirklesser_type, /datum/quirk))
 		var/datum/quirk/lesserpath = quirklesser_type
 		QDEL_NULL(quirklesser)
