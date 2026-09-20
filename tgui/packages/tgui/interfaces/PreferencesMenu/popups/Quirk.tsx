@@ -204,7 +204,7 @@ const isQuirkAvailable = (
     disabledData.reason = 'This quirk is already selected in this slot.';
     disabledData.disabled = true;
     disabledData.icon = 'check';
-  } else if (selectedInAnySlot) {
+  } else if (selectedInAnySlot && quirk.path !== '/datum/quirk/none') {
     disabledData.color = 'average';
     disabledData.reason = `This quirk is already selected in another slot.`;
     disabledData.disabled = true;

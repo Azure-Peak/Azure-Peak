@@ -20,7 +20,7 @@
 		return CHARACTER_ACT_DATA_UPDATE
 
 	var/list/already_taken = get_all_quirk_names()
-	if(Q.name in already_taken)
+	if(Q.name in already_taken && !istype(Q, /datum/quirk/none))
 		return CHARACTER_ACT_DATA_UPDATE
 
 	if(!quirk_check(Q, src))
