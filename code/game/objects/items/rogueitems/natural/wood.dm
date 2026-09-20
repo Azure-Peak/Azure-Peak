@@ -336,7 +336,7 @@
 		/datum/crafting_recipe/roguetown/survival/wickercloak,
 		/datum/crafting_recipe/roguetown/survival/torch,
 		/datum/crafting_recipe/roguetown/survival/stonearrow,
-		/datum/crafting_recipe/roguetown/survival/stonearrow_five,
+		/datum/crafting_recipe/roguetown/survival/stonearrow_six,
 		/datum/crafting_recipe/roguetown/survival/wood_stake
 		)
 

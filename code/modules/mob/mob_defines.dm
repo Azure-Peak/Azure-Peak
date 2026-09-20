@@ -308,6 +308,8 @@
 	/// Tracker for amount of turfs we sprinted over, for things like bumping and charging
 	var/sprinted_tiles = 0
 	var/sprint_dir = 1
+	/// Coordinates the current sprint started from, for charge attack logs
+	var/sprint_start_coord
 
 	/// Whether the mob is pixel shifted or not
 	var/is_shifted = FALSE

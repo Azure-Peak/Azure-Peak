@@ -22,12 +22,14 @@
 				/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5,
 				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 10)
 	converted_type = /area/rogue/outdoors/caves
+	area_sniff_message = "You smell the distant stench of the sewer, muddied by a damp and murky scent."
 
 /area/rogue/under/cave/peace
 	icon_state = "caves"
 	droning_sound = 'sound/music/area/peace.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	area_sniff_message = "You smell sweetly scenter water and old roots."
 
 // Shameless copy of peace cave since someone liked it so much.
 /area/rogue/under/cave/abyssor
@@ -36,11 +38,13 @@
 	droning_sound = 'sound/music/area/peace.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	area_sniff_message = "You smell strange chemicals and paints."
 
 // Can use the normal caves music
 /area/rogue/under/cave/abyssor/inner
 	name = "inner abyssal grotto"
 	first_time_text = "THE ABYSSAL GROTTO"
+	area_sniff_message = "You smell strange chemicals and paints."
 
 /area/rogue/outdoors/caves
 	icon_state = "caves"
@@ -58,6 +62,7 @@
 	droning_sound_night = null
 	converted_type = /area/rogue/outdoors/spidercave
 	loot_budget = LOOT_BUDGET_ARAIGNEE
+	area_sniff_message = "You smell raw spidersilk and corpses since long preserved."
 
 /area/rogue/outdoors/spidercave
 	icon_state = "spidercave"

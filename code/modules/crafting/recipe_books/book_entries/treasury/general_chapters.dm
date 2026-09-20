@@ -237,9 +237,12 @@
 		<p>Untaken board postings reroll on a timer:</p>
 		<ul>
 			<li><b>Guild contracts</b> - [QUEST_POOL_STALE_THRESHOLD / 600] minutes.</li>
-			<li><b>Steward commissions and Innkeeper rumors</b> - [QUEST_PLAYER_STALE_THRESHOLD / 600] minutes. Player-paid postings get a longer window to find a taker.</li>
+			<li><b>Steward commissions, Innkeeper rumors and Towner postings</b> - [QUEST_PLAYER_STALE_THRESHOLD / 600] minutes. Player-paid postings get a longer window to find a taker. A player-posted contract that lapses will refunds its full cost to whoever paid for it.</li>
 			<li><b>Direct-handed scrolls</b> - do not expire on the board timer. Kill writs still carry a hunt timer once active; other types stay valid until completed or abandoned.</li>
 		</ul>
+
+		<h3>Withdrawal</h3>
+		<p>Any of the tavern staff may withdraw a rumor, anyone with commission authority may withdraw a commission or blockade writ, from the Issued tab of the ledger. A contract can be withdrawn at once while no one has taken it up. Once taken, its bearer has [QUEST_ISSUER_CANCEL_WINDOW / 600] minutes before it can be withdrawn, and it cannot be withdrawn once the contract has begun. The full cost and deposit is returned. A Request's daily slot is not restored.</p>
 
 		<h3>Signing and Active Cap</h3>
 		<p>Each player may hold up to [QUEST_MAX_ACTIVE_PER_PLAYER] active contracts at a time. Some jobs override this cap upward. A fellowship leader gains <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR]</b> with one fellow in the band and <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND]</b> with two or more, so a led fellowship of three can run [QUEST_MAX_ACTIVE_PER_PLAYER + QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND] simultaneous contracts.</p>
