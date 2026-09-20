@@ -15,4 +15,10 @@ GLOBAL_LIST_INIT(skeleton_tail_choices, list(
 	"None" = null,
 ))
 
+// unforch. i cnat f igure out a better way to do this one in a way that can be sanitized so these also end up in a list :(
+
+GLOBAL_LIST_INIT(skeleton_body_choices, list(
+	"Masculine",
+	"Feminine"
+))
 // I got a bone to pick with you

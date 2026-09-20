@@ -177,7 +177,7 @@
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("preset_skeleton_body")
-			var/choice = tgui_input_list(user, "SELECT YOUR BODY TYPE", "PROGRESS", list("MASCULINE", "FEMININE"))
+			var/choice = tgui_input_list(user, "SELECT YOUR BODY TYPE", "PROGRESS", GLOB.skeleton_body_choices)
 			if(choice)
 				verbose_pref_log_change(user, "notice", "FRAME", "[preset_skeleton_body]", "[choice]")
 				preset_skeleton_body = choice
