@@ -4080,7 +4080,7 @@
 /obj/item/rogueweapon/huntingknife/scissors,
 /obj/item/recipe_book/sewing,
 /obj/item/recipe_book/leatherworking,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/town/dwarfin)
 "aPs" = (
 /obj/effect/decal/cobbleedge{
@@ -5673,8 +5673,11 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "bcX" = (
-/obj/machinery/loom,
 /obj/machinery/light/rogue/candle/r,
+/obj/structure/lever/wall{
+	pixel_x = 12;
+	redstone_id = "tailor_shutter"
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/dwarfin)
 "bcZ" = (
@@ -7982,18 +7985,6 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/town/sewer)
-"bzD" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
-	},
-/obj/structure/bed/rogue/inn/wool{
-	dir = 1
-	},
-/obj/item/bedsheet/rogue/pelt{
-	dir = 1
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/underdark)
 "bzJ" = (
 /mob/living/carbon/human/species/skeleton/npc/easy,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -15676,15 +15667,6 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
-"cSE" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
-	},
-/obj/machinery/light/rogue/torchholder{
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/underdark)
 "cSH" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 8;
@@ -24012,6 +23994,10 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
+"etw" = (
+/obj/structure/flora/roguegrass/herb/matricaria,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/town)
 "etx" = (
 /turf/open/transparent/openspace,
 /area/rogue/under/cave)
@@ -30313,6 +30299,14 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/one)
+"fzy" = (
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/structure/fluff/railing/border/east,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors/town)
 "fzz" = (
 /obj/structure/rack/rogue/shelf,
 /obj/item/reagent_containers/glass/cup/wooden{
@@ -42495,14 +42489,6 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
-"hLR" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
-	},
-/obj/structure/bed/rogue/inn/wool,
-/obj/item/bedsheet/rogue/pelt,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/underdark)
 "hLW" = (
 /obj/structure/fluff/railing/fence{
 	dir = 4
@@ -47133,6 +47119,22 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/inq/basement)
+"iBz" = (
+/obj/machinery/loom,
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 5
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/dwarfin)
 "iBD" = (
 /obj/effect/spawner/lootdrop/roguetown/dream_material,
 /turf/open/floor/rogue/churchrough,
@@ -56518,10 +56520,6 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault/four)
-"kiM" = (
-/obj/machinery/tanningrack,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/dwarfin)
 "kiN" = (
 /obj/structure/fluff/walldeco/rpainting/crown{
 	pixel_x = -32
@@ -60413,6 +60411,7 @@
 	pixel_x = 5;
 	pixel_y = 38
 	},
+/obj/machinery/gear_painter,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/dwarfin)
 "kSh" = (
@@ -80751,6 +80750,21 @@
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
+"oxF" = (
+/obj/machinery/tanningrack,
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f"
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 9
+	},
+/turf/open/floor/rogue/wood,
+/area/rogue/indoors/town/dwarfin)
 "oxH" = (
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/mazedungeon)
@@ -97174,10 +97188,6 @@
 /obj/structure/bars/pipe,
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/under/underdark/north)
-"rrf" = (
-/obj/machinery/gear_painter,
-/turf/open/floor/carpet/red,
-/area/rogue/indoors/town/dwarfin)
 "rrh" = (
 /obj/structure/fluff/grindwheel,
 /turf/open/floor/rogue/blocks/stonered/tiny,
@@ -106429,6 +106439,10 @@
 /obj/effect/decal/cleanable/debris/woody,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"sWh" = (
+/obj/structure/flora/roguegrass/herb/rosa,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/town)
 "sWi" = (
 /obj/structure/mineral_door/swing_door,
 /turf/open/floor/rogue/concrete,
@@ -123054,8 +123068,8 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/woods/north)
 "vUv" = (
-/obj/structure/chair/stool/rogue,
 /obj/machinery/light/rogue/candle/r,
+/obj/structure/chair/stool/rogue,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/dwarfin)
 "vUw" = (
@@ -130854,16 +130868,16 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/shop)
 "xqg" = (
-/obj/item/natural/cloth,
-/obj/item/needle,
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
-/obj/structure/table/wood/long_table/mid/alt,
 /obj/structure/roguemachine/noticeboard/wall{
 	pixel_y = -32
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
+/obj/structure/table/wood/long_table/mid/alt,
+/obj/item/natural/cloth,
+/obj/item/needle,
+/turf/open/floor/carpet/red,
 /area/rogue/indoors/town/dwarfin)
 "xqi" = (
 /obj/effect/decal/cobbleedge{
@@ -131454,12 +131468,6 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
-"xvm" = (
-/obj/structure/curtain/bounty{
-	color = "grey"
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/underdark)
 "xvq" = (
 /obj/structure/stairs{
 	dir = 8
@@ -265509,11 +265517,11 @@ uDO
 pLZ
 pLZ
 gHj
-bzD
+sIg
 wJj
 czp
 wJj
-bzD
+sIg
 gHj
 pLZ
 pLZ
@@ -265962,9 +265970,9 @@ pLZ
 pLZ
 xqn
 fyQ
-xvm
 wJj
-xvm
+wJj
+wJj
 wNP
 xqn
 pLZ
@@ -266413,11 +266421,11 @@ uDO
 pLZ
 pLZ
 gHj
-hLR
+xIz
 wJj
 hdc
 wJj
-hLR
+xIz
 gHj
 pLZ
 pLZ
@@ -276355,9 +276363,9 @@ uDO
 pLZ
 gHj
 sIg
-cSE
+czp
 wJj
-cSE
+czp
 sIg
 gHj
 pLZ
@@ -276807,9 +276815,9 @@ uDO
 pLZ
 xqn
 ctR
-xvm
 wJj
-xvm
+wJj
+wJj
 tyZ
 xqn
 pLZ
@@ -277259,9 +277267,9 @@ uDO
 pLZ
 gHj
 xIz
-xvm
+wJj
 hdc
-xvm
+wJj
 xIz
 gHj
 pLZ
@@ -293789,8 +293797,8 @@ cSI
 elr
 iPN
 exD
-exD
-pED
+yhU
+fzy
 sOR
 ykk
 aeh
@@ -294241,8 +294249,8 @@ njP
 suF
 wAB
 exD
-exD
-exD
+uTJ
+etw
 oxN
 fSu
 dtV
@@ -294693,12 +294701,12 @@ daQ
 daQ
 wAB
 exD
-exD
-exD
+uTJ
+sWh
 oxN
 bww
 dtV
-dtV
+oxF
 dtV
 skD
 udc
@@ -295145,13 +295153,13 @@ giP
 loN
 eCz
 exD
-exD
-exD
+lHQ
+gVQ
 oxN
 dSj
-kiM
 dtV
-rrf
+iBz
+lel
 aPq
 udc
 kun
