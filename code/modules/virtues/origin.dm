@@ -312,9 +312,9 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	yet from such hubris came nothing but legions upon legions of myndless, gibbering deadites in what was a second chance in lyfe, quickly turned into a war of rage \
 	against the lyving; as their lyfelux withered and with it, their mynds and purpose turned from steps towards Progress into endless war without reason.\n<br><br>\
 	\
-	Some say Zizo weeps for the lost, others say She still continues without much regards to break free beyond her failings of the past, either way nothing changes what was left \
-	as most of them shamble the empty halls, the wylds or under word and pact to a master. Those who don't remain unbound and decaying lyke the rest of long-past before them, \
-	but all of them feel the calling from the empty halls of these forgotten ruins, these desecrated lands of once-paradice. Humenity's greatest acheivements buried \
-	in rot, rust, rubble and decay. never to see the lite of dae, lest you be branded and cast out as a heretic from the leyman's superstition from Her Hubris.\n<br><br><br>\
+	Some say Zizo weeps for the lost, others say She still continues without much regards to break free beyond her failings of the past, either way nothing changes what was left behind from her hubris \
+	as most of the dead shamble these now empty halls, the wylds or under word and pact to a master. Those who don't remain unbound and decaying into ferals that will one dae too fight anything that lyves lyke the rest of long-past before them, \
+	all of the undead risen by Zizo, feel the calling from the empty halls of these forgotten ruins, these desecrated lands of once-paradice. Humenity's greatest acheivements buried \
+	in rot, rust, rubble and decay. never to see the lite of dae, lest you be branded and cast out from the pantheon's embrace as a heretic from the leyman's superstition borne from Her Hubris.\n<br><br><br>\
 	\
-	And for the so-called lucky-few to ascend to the greater works, before or after Zizo's ascension remain shattered in mynd by their hubris; to touch the filament and yet only be left with a sliver of the divinity promised."
+	And for the so-called lucky-few to ascend beyond simple unlyfe to the greater works, before or after Zizo's ascension remain shattered in mynd by their hubris; to touch the filament and yet only be left with a sliver of the divinity promised."
