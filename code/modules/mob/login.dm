@@ -36,9 +36,9 @@
 
 	if(!hud_used)
 		create_mob_hud()
-	if(hud_used && client && client.prefs)
+	if(hud_used)
 		hud_used.show_hud(hud_used.hud_version)
-		hud_used.update_ui_style(ui_style2icon(client.prefs.UI_style))
+		hud_used.update_ui_style('icons/mob/roguehud.dmi')
 
 	// Re-show any actions that were granted before the hud existed (e.g. during mind transfer)
 	for(var/datum/action/action as anything in actions)

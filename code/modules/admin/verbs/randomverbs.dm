@@ -219,6 +219,25 @@
 	admin_ticket_log(M, msg)
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Godmode", "[M.status_flags & GODMODE ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/client/proc/cmd_admin_godmode_targetable(mob/M in GLOB.mob_list)
+	set category = null
+	set name = "Toggle Godmode"
+	if(!check_rights(R_ADMIN))
+		return
+
+	if(M.status_flags & GODMODE_TARGETABLE)
+		M.status_flags &= ~(GODMODE|GODMODE_TARGETABLE)
+	else
+		M.status_flags |= (GODMODE|GODMODE_TARGETABLE)
+	var/enabled = (M.status_flags & GODMODE_TARGETABLE)
+	to_chat(usr, span_adminnotice("Toggled GODMODE [enabled ? "ON" : "OFF"]"))
+
+	log_admin("[key_name(usr)] has toggled [key_name(M)]'s targetable nodamage to [enabled ? "On" : "Off"]")
+	var/msg = "[key_name_admin(usr)] has toggled [ADMIN_LOOKUPFLW(M)]'s targetable nodamage to [enabled ? "On" : "Off"]"
+	message_admins(msg)
+	admin_ticket_log(M, msg)
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Godmode Targetable", "[enabled ? "Enabled" : "Disabled"]"))
+
 
 /proc/cmd_admin_mute(whom, mute_type, automute = 0)
 	if(!whom)

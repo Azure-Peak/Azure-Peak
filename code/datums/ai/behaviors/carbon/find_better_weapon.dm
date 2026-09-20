@@ -2,6 +2,8 @@
 
 /datum/ai_behavior/find_and_set/better_weapon/search_tactic(datum/ai_controller/controller, locate_path, search_range)
 	var/mob/living/carbon/human/living_pawn = controller.pawn
+	if(living_pawn.incapacitated())
+		return
 	if(ai_npc_has_weapon(living_pawn))
 		return
 	var/obj/item/held_item = living_pawn.get_active_held_item()
@@ -26,6 +28,8 @@
 		return FALSE
 	var/mob/living/carbon/human/living_pawn = pawn
 	if(!living_pawn?.ai_controller)
+		return FALSE
+	if(living_pawn.incapacitated())
 		return FALSE
 	if(ai_npc_has_weapon(living_pawn))
 		return FALSE

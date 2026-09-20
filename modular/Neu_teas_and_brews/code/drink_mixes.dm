@@ -1,6 +1,6 @@
 //defines for tea mix items, a workaround pots using only one input
 /obj/item/reagent_containers/food/snacks/mix_taraxamint
-	name = "Taraxacum-Mentha tea mix"
+	name = "taraxacum-mentha tea mix"
 	desc = "A tea mix consisting of smothered herbs of Taraxacum and Mentha"
 	icon = 'modular/Neu_teas_and_brews/icons/obj/tea_mixes.dmi'
 	icon_state = "mix_taraxamint"
@@ -13,7 +13,7 @@
 	foodtype = GROSS
 
 /obj/item/reagent_containers/food/snacks/mix_utricasalvia
-	name = "Urtica-Salvia tea mix"
+	name = "urtica-salvia tea mix"
 	desc = "A tea mix consisting of smothered herbs of Urtica and Salvia"
 	icon = 'modular/Neu_teas_and_brews/icons/obj/tea_mixes.dmi'
 	icon_state = "mix_utricasalvia"
@@ -27,7 +27,7 @@
 
 /obj/item/reagent_containers/food/snacks/mix_sbiten
 	cuisine = CUISINE_NORTHERN
-	name = "Sbiten honey mix"
+	name = "sbiten honey mix"
 	desc = "a brick of crystallized honey, infused with spices for extra comfort"
 	icon = 'modular/Neu_teas_and_brews/icons/obj/tea_mixes.dmi'
 	icon_state = "sbiten_brick"
@@ -42,7 +42,7 @@
 //NOT REALLY A TEA, but it kinda expands on smoking options and is a derivative of, so I think its kinda coolish
 // also maybe in future someone will make tea bricks to use in the teapots and etc
 /obj/item/reagent_containers/food/snacks/grown/tar_brick
-	name = "Westleach Tar Brick"
+	name = "westleach tar brick"
 	desc = "A brick of dark-brown tar made by separating boiled leaf residue from water, used by the travellers and the poor as a substitute for a quality leaf smokes. Use a knife to slice a piece off to smoke, you may try to smoke whole thing too however..."
 	icon = 'modular/Neu_teas_and_brews/icons/obj/tar_brick.dmi'
 	icon_state = "Tar_Brick4"
@@ -77,7 +77,7 @@
 			changefood(slice_path, eater)
 
 /obj/item/reagent_containers/food/snacks/grown/tar_slice //the thing you are ACTUALLY supposed to smoke
-	name = "Westleach Tar slice"
+	name = "westleach tar slice"
 	icon = 'modular/Neu_teas_and_brews/icons/obj/tar_brick.dmi'
 	icon_state = "tar_slice"
 	bitesize = 1

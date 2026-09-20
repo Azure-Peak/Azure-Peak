@@ -234,7 +234,6 @@
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	max_integrity = 300
 	experimental_inhand = FALSE
-	slot_flags = ITEM_SLOT_BACK_R
 
 /obj/item/rogueweapon/shield/atgervi/getonmobprop(tag)
 	. = ..()

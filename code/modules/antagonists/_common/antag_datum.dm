@@ -23,7 +23,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/antagpanel_category = "Uncategorized"	//Antagpanel will display these together, REQUIRED
 	var/show_name_in_check_antagonists = FALSE //Will append antagonist name in admin listings - use for categories that share more than one antag type
 	var/increase_votepwr = TRUE
-	var/rogue_enabled = FALSE
+	var/rogue_enabled = FALSE // this also determines whether it shows up in the panel! i dont know why!
 
 	///flags used by storytellers
 	var/antag_flags = NONE

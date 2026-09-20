@@ -68,6 +68,8 @@
 	)
 	var/is_public = FALSE // Whether it is a public access vendor.
 	var/extra_fee = 0 // Public-tier Porters/Gnomes margin tacked onto base price. Meant to make publicface very unprofitable until Gnomes are unlocked and the margin flows to the Merchant Fund.
+	/// Icon file used for the vendor-merch overlay in update_icon(). Separate from icon so subtypes can use a different base sprite without breaking the overlay.
+	var/overlay_icon = 'icons/roguetown/misc/machines.dmi'
 	/// Running tally of Crown import tariff actually collected via this specific machine.
 	var/tariff_collected_here = 0
 	/// Running tally of Crown import tariff that WOULD have been owed but was dodged
@@ -214,7 +216,7 @@
 		set_light(0)
 		return
 	set_light(1, 1, 1, l_color = "#1b7bf1")
-	add_overlay(mutable_appearance(icon, "vendor-merch"))
+	add_overlay(mutable_appearance(overlay_icon, "vendor-merch"))
 
 
 /obj/structure/roguemachine/goldface/attackby(obj/item/P, mob/user, params)

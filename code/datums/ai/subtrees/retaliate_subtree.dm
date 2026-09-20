@@ -35,7 +35,6 @@
 	var/vision_range = 9
 
 /datum/ai_behavior/target_from_retaliate_list/perform(seconds_per_tick, datum/ai_controller/controller, shitlist_key, target_key, targetting_datum_key, hiding_location_key, ignore_faction, tame_key)
-	. = ..()
 	var/mob/living/living_mob = controller.pawn
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 	var/tamed = controller.blackboard[tame_key]
@@ -51,18 +50,15 @@
 			controller.clear_blackboard_key(shitlist_key)
 			controller.clear_blackboard_key(target_key)
 			controller.CancelActions() // Otherwise they will try and get one last attack
-			finish_action(controller, succeeded = TRUE)
-			return
+			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 	var/list/shitlist = controller.blackboard[shitlist_key]
 	if (!length(shitlist))
-		finish_action(controller, succeeded = FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	//If we're good with our current target - in enemies list and ok with targetting datum
 	if (!QDELETED(targetted) && (locate(targetted) in shitlist) && targetting_datum.can_attack(living_mob, targetted, vision_range))
-		finish_action(controller, succeeded = TRUE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 	var/list/enemies_list = list() //use shitlist to make new list of potentials
 	for(var/mob/living/living_target in shitlist)
@@ -78,8 +74,7 @@
 	if (!length(enemies_list)) // no valid targets, not shitlist or target so just clear everything. start again
 		controller.clear_blackboard_key(shitlist_key)
 		controller.clear_blackboard_key(target_key)
-		finish_action(controller, succeeded = FALSE)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	var/atom/new_target = pick_final_target(controller, enemies_list)
 	controller.set_blackboard_key(target_key, new_target)
 
@@ -88,7 +83,7 @@
 	if(potential_hiding_location) //If they're hiding inside of something, we need to know so we can go for that instead initially.
 		controller.set_blackboard_key(hiding_location_key, potential_hiding_location)
 
-	finish_action(controller, succeeded = TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /// Returns true if this target is valid for attacking based on current conditions
 /datum/ai_behavior/target_from_retaliate_list/proc/can_attack_target(mob/living/living_mob, atom/target, datum/targetting_datum/targetting_datum)

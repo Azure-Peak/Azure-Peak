@@ -55,14 +55,7 @@
 		adjustToxLoss(2)
 	else if(leprosy == 2)
 		if(client)
-			if(check_blacklist(client.ckey))
-				ADD_TRAIT(src, TRAIT_NOPAIN, TRAIT_GENERIC)
-				leprosy = 1
-				var/obj/item/bodypart/B = get_bodypart(BODY_ZONE_HEAD)
-				if(B)
-					B.sellprice = rand(16, 33)
-			else
-				leprosy = 3
+			leprosy = 3
 	//heart attack stuff
 	handle_heart()
 	update_energy()

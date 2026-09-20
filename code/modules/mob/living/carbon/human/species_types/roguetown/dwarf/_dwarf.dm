@@ -10,17 +10,9 @@
 		/datum/language/dwarvish
 	)
 
-/datum/species/dwarf/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
 /datum/species/dwarf/after_creation(mob/living/carbon/C)
 	..()
 	to_chat(C, "<span class='info'>I can speak Dwarfish with ,d before my speech.</span>")
-
-/datum/species/dwarf/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)
 
 /datum/species/dwarf/qualifies_for_rank(rank, list/features)
 	return TRUE

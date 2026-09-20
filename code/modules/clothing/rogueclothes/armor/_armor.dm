@@ -35,8 +35,8 @@
 		parent_mob.update_inv_armor()
 
 /datum/component/storage/concrete/roguetown/armor/can_be_inserted(obj/item/storing, stop_messages, mob/user, worn_check = FALSE, params, storage_click = FALSE)
-	// we only want aesthetically armor/cloak items, like tabards and shirts, to be addable
-	if(!(storing.slot_flags & (ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT)))
+	// we only want aesthetically armor/cloak items, like tabards and shirts, to be addable - undies count too, worn as a peek-over layer
+	if(!(storing.slot_flags & (ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT)) && !istype(storing, /obj/item/undies))
 		return FALSE
 	// any sort of armoured item is forbidden, it's aesthetic only
 	if(storing.armor?.stab > 0 || storing.armor?.blunt > 0)
@@ -145,6 +145,32 @@
 			for(var/obj/item/thing as anything in our_component.item_to_grid_coordinates)
 				if(thing.item_flags & NOT_SHOW_IN_STORAGE)
 					continue
+
+//-------- Undies Code Starts here
+				if(istype(thing, /obj/item/undies))
+					var/mob/living/carbon/human/wearer = loc
+					if(!istype(wearer))
+						continue
+					var/obj/item/undies/undies = thing
+					var/datum/sprite_accessory/underwear/accessory = undies.sprite_acc ? SPRITE_ACCESSORY(undies.sprite_acc) : null
+					var/obj/item/bodypart/chest_bp = wearer.get_bodypart(BODY_ZONE_CHEST)
+					if(!accessory || !chest_bp)
+						continue
+
+					var/icon_state_to_use = accessory.get_icon_state(null, chest_bp, wearer)
+					if(!icon_state_to_use)
+						continue
+					var/list/undies_appearances = accessory.get_overlay(icon_state_to_use, undies.color)
+					accessory.adjust_appearance_list(undies_appearances, null, chest_bp, wearer)
+					if(!undies_appearances)
+						continue
+					for(var/piece in undies_appearances)
+						var/image/undies_piece = piece
+						undies_piece.pixel_x += standing.pixel_x
+						undies_piece.pixel_y += standing.pixel_y
+						standing.add_overlay(undies_piece)
+					continue
+//-------- Undies Code finishes here
 				var/mutable_appearance/thing_appearance = thing.build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, clip_mask)
 				thing_appearance.appearance_flags = RESET_COLOR
 				thing_appearance.pixel_x += standing.pixel_x

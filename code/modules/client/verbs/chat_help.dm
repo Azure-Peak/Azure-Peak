@@ -9,6 +9,9 @@
 		<b>#</b> - Whisper. Quiet speech, only heard within 1 tile. Others can see you whispering.<br>
 		<b>%</b> - Singing. Wraps your message in musical notes.<br>
 		<br>
+		<b>Languages:</b><br>
+		<b>,langprefix(text) - This allows you to insert languages partially in your sentences. Can be used with any other languages.
+		<br>
 		<b>Custom Emotes:</b><br>
 		<b>Say</b> - Type your message in the command bar, or use T to open the chat input.<br>
 		<b>LOOC</b> - Local OOC, heard within 7 tiles. Use Y to open.<br>

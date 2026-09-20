@@ -3,6 +3,7 @@
 /datum/action/cooldown/spell/void_beam
 	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
 	name = "Void Beam"
+	expose_caster_on_deflect = FALSE
 	desc = "Fire a lance of raw arcyne force that exposes your foe. It is well telegraphed and does a decent amount of damage."
 	button_icon_state = "void_beam"
 	sound = 'sound/magic/soulshot.ogg'
@@ -123,7 +124,7 @@
 		qdel(old)
 	warnings.Cut()
 	for(var/turf/T in line)
-		warnings += new /obj/effect/temp_visual/trap/telomancy(T)
+		warnings += new /obj/effect/temp_visual/telegraph/telomancy(T)
 
 /datum/action/cooldown/spell/void_beam/proc/finish_windup(mob/living/carbon/human/H, list/warnings)
 	for(var/obj/effect/old in warnings)
@@ -165,15 +166,16 @@
 				L.visible_message(span_warning("The beam splinters against [L]!"))
 				playsound(T, 'sound/magic/magic_nulled.ogg', 100)
 				continue
-			if(guard_source && !QDELETED(guard_source) && guard_source.spell_guard_check(L, TRUE, deflected ? null : caster))
+			if(guard_source && !QDELETED(guard_source) && guard_source.spell_guard_check(L, TRUE, caster, punish_caster = deflected ? FALSE : null))
 				deflected = TRUE
 				L.visible_message(span_warning("[L] turns the beam aside!"))
 				continue
 			if(istype(caster) && !QDELETED(caster) && ishuman(L))
-				arcyne_strike(caster, L, null, damage, caster.zone_selected, \
+				if(arcyne_strike(caster, L, null, damage, caster.zone_selected, \
 					BCLASS_PIERCE, spell_name = spell_name, \
-					damage_type = BRUTE, npc_simple_damage_mult = 1, \
-					skip_animation = TRUE)
+					damage_type = BRUTE, \
+					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					continue
 			else
 				L.adjustBruteLoss(damage)
 				SEND_SIGNAL(L, COMSIG_ATOM_WAS_ATTACKED, caster, damage)

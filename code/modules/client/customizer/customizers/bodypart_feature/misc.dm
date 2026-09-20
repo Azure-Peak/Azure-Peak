@@ -27,6 +27,7 @@
 		/datum/sprite_accessory/face_detail/burneye_r,
 		/datum/sprite_accessory/face_detail/burneye_l,
 		/datum/sprite_accessory/face_detail/scarhead,
+		/datum/sprite_accessory/face_detail/eyebags,
 		)
 
 /datum/customizer/bodypart_feature/accessory
@@ -40,10 +41,15 @@
 	feature_type = /datum/bodypart_feature/accessory
 	allows_accessory_color_customization = TRUE
 	sprite_accessories = list(
+		/datum/sprite_accessory/accessory/earrings,
+		/datum/sprite_accessory/accessory/earrings/sil,
+		/datum/sprite_accessory/accessory/earrings/hoop,
+		/datum/sprite_accessory/accessory/earrings/hoop/sil,
 		/datum/sprite_accessory/accessory/eyepierce,
 		/datum/sprite_accessory/accessory/eyepierce/alt,
 		/datum/sprite_accessory/accessory/harlequin,
 		/datum/sprite_accessory/accessory/warpaint,
+		/datum/sprite_accessory/accessory/warpaint_stripes,
 		)
 
 /datum/customizer/bodypart_feature/accessory

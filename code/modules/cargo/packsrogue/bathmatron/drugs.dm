@@ -31,12 +31,6 @@
 	contains = list(/obj/item/reagent_containers/powder/spice)
 	contraband = TRUE
 
-/*
-/datum/supply_pack/rogue/drugs/trippyzig
-	name = "Trippy Zig"
-	cost = 10
-	contains = list(/obj/item/clothing/mask/cigarette/rollie/trippy)
-*/
 /datum/supply_pack/rogue/drugs/starsugar
 	name = "Starsugar"
 	cost = 50

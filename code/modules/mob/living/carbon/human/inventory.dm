@@ -158,8 +158,6 @@
 		if(SLOT_GLASSES)
 			glasses = I
 			var/obj/item/clothing/glasses/G = I
-			if(G.glass_colour_type)
-				update_glasses_color(G, 1)
 			if(G.tint)
 				update_tint()
 			if(G.vision_correction)
@@ -330,8 +328,6 @@
 	else if(I == glasses)
 		glasses = null
 		var/obj/item/clothing/glasses/G = I
-		if(G.glass_colour_type)
-			update_glasses_color(G, 0)
 		if(G.tint)
 			update_tint()
 		if(G.vision_correction)
@@ -501,6 +497,12 @@
 		if(I.no_loot_taint)
 			continue
 		I.mark_as_looted()
+
+/mob/living/carbon/human/proc/flag_gear_as_worn()
+	for(var/obj/item/I in get_all_gear())
+		if(!istype(I, /obj/item/clothing) && !istype(I, /obj/item/rogueweapon) && !istype(I, /obj/item/gun) && !istype(I, /obj/item/storage))
+			continue
+		I.mark_as_worn()
 
 
 //delete all equipment without dropping anything

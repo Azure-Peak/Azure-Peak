@@ -51,6 +51,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		//ORGAN_SLOT_TESTICLES = /obj/item/organ/testicles,
 		//ORGAN_SLOT_PENIS = /obj/item/organ/penis,
 		//ORGAN_SLOT_BREASTS = /obj/item/organ/breasts,
@@ -134,12 +135,3 @@
 		"Hadal" = SKIN_COLOR_HADAL,
 		"Pea" = SKIN_COLOR_PEA,
 	)
-
-/datum/species/goblinp/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	..()
-	C.cmode_music = 'sound/music/combat_gronn.ogg'
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
-/datum/species/goblinp/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)

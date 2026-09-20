@@ -1155,6 +1155,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	VV_DROPDOWN_OPTION(VV_HK_GIVE_SPELL, "Give Spell")
 	VV_DROPDOWN_OPTION(VV_HK_REMOVE_SPELL, "Remove Spell")
 	VV_DROPDOWN_OPTION(VV_HK_GODMODE, "Toggle Godmode")
+	VV_DROPDOWN_OPTION(VV_HK_GODMODE_TARGETABLE, "Toggle Godmode (Targetable)")
 	VV_DROPDOWN_OPTION(VV_HK_DROP_ALL, "Drop Everything")
 	VV_DROPDOWN_OPTION(VV_HK_REGEN_ICONS, "Regenerate Icons")
 	VV_DROPDOWN_OPTION(VV_HK_PLAYER_PANEL, "Show player panel")
@@ -1175,6 +1176,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(!check_rights(R_ADMIN,0))
 			return
 		usr.client.cmd_admin_godmode(src)
+	if(href_list[VV_HK_GODMODE_TARGETABLE])
+		if(!check_rights(R_ADMIN,0))
+			return
+		usr.client.cmd_admin_godmode_targetable(src)
 	if(href_list[VV_HK_GIVE_SPELL])
 		if(!check_rights(NONE))
 			return
@@ -1221,6 +1226,28 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	var/datum/language_holder/H = get_language_holder()
 	H.open_language_menu(usr)
+
+///Show the sleep level up screen if available
+/mob/living/verb/open_sleep_adv_menu()
+	set name = "Open Dream Menu"
+	set category = "IC"
+	set hidden = FALSE
+
+	if(!mind || !mind.sleep_adv)
+		to_chat(src, span_warning("You have no dreams to contemplate."))
+		return
+
+	if(!IsSleeping())
+		to_chat(src, span_warning("You must be asleep to enter your dreams."))
+		return
+
+	var/datum/sleep_adv/SA = mind.sleep_adv
+
+	if(SA.sleep_adv_points <= 0)
+		to_chat(src, span_warning("You lack the inspiration granted by a proper rest in order to contemplate your dreams."))
+		return
+
+	SA.show_ui(src)
 
 /// Custom pose setting
 /mob/living/carbon/human/verb/set_pose()
@@ -1348,7 +1375,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	SEND_SIGNAL(src, COMSIG_MOB_GET_STATUS_TAB_ITEMS, .)
 	if(client)
 		. += list(list("IC DATE: ", "[get_current_ic_date_as_string()] (CLICK FOR CALENDAR)", "src=[REF(client)];statbrowser_calendar=1"))
-		. += list(list("tod", GLOB.tod, "IC TIME: [get_current_ic_time_as_string()]"))
+		. += list(list("tod", get_current_ic_tod_as_string(), "IC TIME: [get_current_ic_time_as_string()]"))
 	return .
 
 /mob/proc/get_stats_tab_items()

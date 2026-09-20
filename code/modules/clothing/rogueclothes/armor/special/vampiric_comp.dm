@@ -132,6 +132,7 @@
 		landing_turf = locate(spawn_location.x + 1, spawn_location.y, spawn_location.z)
 	var/obj/effect/temp_visual/dream_shard/vampiric/S = new shard_type(spawn_location, 10 SECONDS, shard_repair_value, landing_turf)
 	S.creator_ref = WEAKREF(parent)
+	S.setup_owner_outline(parent)
 
 /datum/component/vampiric_striker/proc/on_shard_crossed(obj/effect/temp_visual/dream_shard/S, atom/movable/AM)
 	SIGNAL_HANDLER
@@ -192,6 +193,8 @@
 	/// Weak reference to the player mob who spawned this shard
 	var/datum/weakref/creator_ref
 	effect_color = "#440101"
+	/// Client image overlay given exclusively to the creator to show an outline
+	var/image/outline_image
 
 /obj/effect/temp_visual/dream_shard/vampiric/Crossed(atom/movable/AM)
 	if(!creator_ref)
@@ -223,3 +226,27 @@
 	E.color = effect_color
 	playsound(creator, 'sound/magic/magic_nulled.ogg', 70, TRUE)
 	qdel(src)
+
+/obj/effect/temp_visual/dream_shard/vampiric/proc/setup_owner_outline(mob/living/owner)
+	if(!owner?.client)
+		return
+
+	var/alpha_hex = "BF"
+	var/final_color = effect_color ? effect_color : "#d40000"
+	if(length(final_color) == 7 && copytext(final_color, 1, 2) == "#")
+		final_color = "[final_color][alpha_hex]"
+
+	var/image/I = image(icon = icon, loc = src, icon_state = icon_state, layer = layer + 0.05)
+	I.filters += filter(type = "outline", size = 2, color = final_color)
+
+	outline_image = I
+	owner.client.images += outline_image
+
+/obj/effect/temp_visual/dream_shard/vampiric/Destroy()
+	if(outline_image)
+		var/mob/living/creator = creator_ref?.resolve()
+		if(creator?.client)
+			creator.client.images -= outline_image
+		qdel(outline_image)
+		outline_image = null
+	return ..()

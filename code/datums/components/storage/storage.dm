@@ -36,6 +36,7 @@
 
 	var/collection_mode = COLLECT_EVERYTHING
 
+	var/insert_verb = "tuck"						//you "tuck" things into a bag
 	var/insert_preposition = "in"					//you put things "in" a bag, but "on" a tray.
 
 	var/display_numerical_stacking = FALSE			//stack things of the same type and show as a single object with a number.
@@ -65,6 +66,9 @@
 
 	var/intercept_parent_attack = TRUE
 	var/intercept_parent_mousedrop = TRUE
+
+	// Suppresses liquid spilling behavior for reagent containers held within
+	var/does_not_spill = FALSE
 
 /datum/component/storage/Initialize(datum/component/storage/concrete/master)
 	if(!isatom(parent))
@@ -171,7 +175,8 @@
 	for(var/mob/living/L in can_see_contents())
 		if(!L.CanReach(A))
 			hide_from(L)
-	spill_contents(A)
+	if(!does_not_spill)
+		spill_contents(A)
 
 /datum/component/storage/proc/spill_contents(atom/A)
 	for(var/obj/item/reagent_containers/I in A.contents)
@@ -440,6 +445,7 @@
 
 /datum/component/storage/proc/close(mob/M)
 	hide_from(M)
+	SEND_SIGNAL(parent, COMSIG_STORAGE_CLOSED, M)
 
 /datum/component/storage/proc/close_all()
 	. = FALSE
@@ -734,17 +740,19 @@
 	. = master.handle_item_insertion_from_slave(src, I, prevent_warning, M)
 
 /datum/component/storage/proc/mob_item_insertion_feedback(mob/user, mob/M, obj/item/I, override = FALSE)
+	if(!length(is_using))
+		SEND_SIGNAL(parent, COMSIG_STORAGE_CLOSED, M)
 	if(silent && !override)
 		return
 	if(rustle_sound)
 		playsound(parent, "rustle", 50, TRUE, -5)
 	for(var/mob/viewing in viewers(user, null))
 		if(M == viewing)
-			to_chat(usr, span_notice("I tuck [I] [insert_preposition]to [parent]."))
+			to_chat(usr, span_smallnotice("I [insert_verb] [I] [insert_preposition]to [parent]."))
 		else if(in_range(M, viewing)) //If someone is standing close enough, they can tell what it is...
-			viewing.show_message(span_notice("[M] tucks [I] [insert_preposition]to [parent]."), MSG_VISUAL)
+			viewing.show_message(span_smallnotice("[M] [insert_verb]s [I] [insert_preposition]to [parent]."), MSG_VISUAL)
 		else
-			viewing.show_message(span_notice("[M] tucks something [insert_preposition]to [parent]."), MSG_VISUAL)
+			viewing.show_message(span_smallnotice("[M] [insert_verb]s something [insert_preposition]to [parent]."), MSG_VISUAL)
 
 /datum/component/storage/proc/update_icon()
 	if(isobj(parent))

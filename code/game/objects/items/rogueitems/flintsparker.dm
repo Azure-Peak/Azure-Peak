@@ -41,7 +41,7 @@
 	flintcd = world.time
 	playsound(user, 'sound/items/flint.ogg', 100, FALSE)
 	flick("flintstrike", src)
-	if(prob(50))
+	if(prob(90))
 		A.spark_act()
 		user.flash_fullscreen("whiteflash")
 		to_chat(user, span_notice("\The [src] produces an igniting spark!"))

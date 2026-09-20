@@ -178,7 +178,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/malum/secret = 1,
 		/obj/item/clothing/neck/roguetown/psicross/weeping = 1,
 		/obj/item/heelkit = 1,
-		/obj/clothing/neck/roguetown/carved/goldjade = 2,
+		/obj/item/clothing/neck/roguetown/carved/goldjade = 2,
 		/obj/item/clothing/neck/roguetown/carved/goldshell = 6,
 		/obj/item/clothing/neck/roguetown/carved/goldturq = 3,
 		/obj/item/clothing/neck/roguetown/carved/goldopal = 1,

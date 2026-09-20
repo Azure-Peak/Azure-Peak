@@ -1,8 +1,3 @@
-
-
-
-
-
 /mob/proc/show_triumphs_list()
 	return SStriumphs.show_triumph_leaderboard(src.client)
 

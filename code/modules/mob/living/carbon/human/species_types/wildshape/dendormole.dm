@@ -47,7 +47,6 @@
 		TRAIT_PIERCEIMMUNE, //Prevents weapon dusting and caltrop effects due to them transforming when killed/stepping on shards.
 		TRAIT_LONGSTRIDER,
 		TRAIT_PERFECT_TRACKER,
-		TRAIT_NOPAINSTUN, //This bad boy ENDVRES
 		TRAIT_BIGGUY,
 	)
 	inherent_biotypes = MOB_HUMANOID
@@ -66,6 +65,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		)
 
 	languages = list(
@@ -82,10 +82,6 @@
 	H.icon_state = "mole_briars"
 	H.update_damage_overlays()
 	return TRUE
-
-/datum/species/dendormole/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	. = ..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
 /datum/species/dendormole/update_damage_overlays(mob/living/carbon/human/H)
 	H.remove_overlay(DAMAGE_LAYER)
@@ -118,7 +114,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "slashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bladewooshmed"
 	item_d_type = "slash"
 	demolition_mod = 2.5 //I'M A MOLE AND I'M DIGGING A HOLE
 
@@ -136,7 +132,7 @@
 	candodge = TRUE
 	canparry = TRUE
 	miss_text = "smashes the air!"
-	miss_sound = "bluntswoosh"
+	miss_sound = "bluntwooshlarge"
 	item_d_type = "blunt"
 
 /obj/item/rogueweapon/mole_claw //Like a less defense dagger

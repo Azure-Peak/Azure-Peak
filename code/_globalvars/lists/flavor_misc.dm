@@ -3,38 +3,6 @@ GLOBAL_LIST_EMPTY(socks_list)		//stores /datum/sprite_accessory/socks indexed by
 	//Lizard Bits (all datum lists indexed by name)
 GLOBAL_LIST_EMPTY(legs_list)
 
-GLOBAL_LIST_INIT(color_list_ethereal, list("F Class(Green)" = "97ee63", "F2 Class (Light Green)" = "00fa9a", "F3 Class (Dark Green)" = "37835b", "M Class (Red)" = "9c3030", "M1 Class (Purple)" = "ee82ee", "G Class (Yellow)" = "fbdf56", "O Class (Blue)" = "3399ff", "A Class (Cyan)" = "00ffff"))
-
-GLOBAL_LIST_INIT(ghost_forms_with_directions_list, list(
-	"ghost",
-	"ghostian",
-	"ghostian2",
-	"ghostking",
-	"ghost_red",
-	"ghost_black",
-	"ghost_blue",
-	"ghost_yellow",
-	"ghost_green",
-	"ghost_pink",
-	"ghost_cyan",
-	"ghost_dblue",
-	"ghost_dred",
-	"ghost_dgreen",
-	"ghost_dcyan",
-	"ghost_grey",
-	"ghost_dyellow",
-	"ghost_dpink",
-	"skeleghost",
-	"ghost_purpleswirl",
-	"ghost_rainbow",
-	"ghost_fire",
-	"ghost_funkypurp",
-	"ghost_pinksherbert",
-	"ghost_blazeit",
-	"ghost_mellow",
-	"ghost_camo",
-	"catghost")) //stores the ghost forms that support directional sprites
-
 GLOBAL_LIST_INIT(unarmed_swingmiss, list(
 	'sound/blank.ogg',
 	'sound/blank.ogg',
@@ -44,9 +12,6 @@ GLOBAL_LIST_INIT(unarmed_parrysound, list(
 	'sound/blank.ogg',
 	'sound/blank.ogg',
 	'sound/blank.ogg'))
-
-
-GLOBAL_LIST_INIT(ghost_forms_with_accessories_list, list("ghost")) //stores the ghost forms that support hair and other such things
 
 GLOBAL_LIST_INIT(ai_core_display_screens, sortList(list(
 	":thinking:",
@@ -111,12 +76,6 @@ GLOBAL_LIST_INIT(backpacklist, list(DBACKPACK, DSATCHEL, DDUFFELBAG, GBACKPACK, 
 #define PREF_SUIT "Jumpsuit"
 #define PREF_SKIRT "Jumpskirt"
 GLOBAL_LIST_INIT(jumpsuitlist, list(PREF_SUIT, PREF_SKIRT))
-
-//Uplink spawn loc
-#define UPLINK_PDA		"PDA"
-#define UPLINK_RADIO	"Radio"
-#define UPLINK_PEN		"Pen" //like a real spy!
-GLOBAL_LIST_INIT(uplink_spawn_loc_list, list(UPLINK_PDA, UPLINK_RADIO, UPLINK_PEN))
 
 	//Female Uniforms
 GLOBAL_LIST_EMPTY(female_clothing_icons)

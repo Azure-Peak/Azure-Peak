@@ -27,6 +27,28 @@
 		//doesn't have an object argument because this is "Stacking" with the animate call above
 		//3 billion% intentional
 
+/atom/proc/SpinAnimationAround(offset_x = 0, offset_y = 0, speed = 10, loops = -1, clockwise = 1, segments = 12)
+	if(!segments)
+		return
+	if(!offset_x && !offset_y)
+		return SpinAnimation(speed, loops, clockwise, segments)
+	var/segment = 360/segments
+	if(!clockwise)
+		segment = -segment
+	var/list/matrices = list()
+	for(var/i in 1 to segments)
+		var/matrix/M = matrix()
+		M.Translate(-offset_x, -offset_y)
+		M.Turn(segment*i)
+		M.Translate(offset_x, offset_y)
+		matrices += M
+
+	speed /= segments
+
+	animate(src, transform = matrices[1], time = speed, loops, flags = ANIMATION_PARALLEL)
+	for(var/i in 2 to segments)
+		animate(transform = matrices[i], time = speed)
+
 //Dumps the matrix data in format a-f
 /matrix/proc/tolist()
 	. = list()

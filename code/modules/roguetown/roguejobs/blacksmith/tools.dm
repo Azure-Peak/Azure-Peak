@@ -157,7 +157,7 @@
 		if(attacked_item.obj_integrity >= attacked_item.max_integrity)
 			break
 
-	while(do_after(user, CLICK_CD_FAST, target = attacked_item))
+	while(do_after(user, CLICK_CD_QUICK, target = attacked_item))
 	repair_busy = FALSE
 
 /obj/item/rogueweapon/hammer/proc/repair_structure(obj/structure/attacked_structure, mob/living/user)
@@ -420,7 +420,7 @@
 
 /obj/item/rogueweapon/hammer/paalloy
 	name = "ancient hammer"
-	desc = "A hammer of polished gilbronze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaries and great works.."
+	desc = "A hammer of polished gilbranze. Remade masterfully upon a smooth handle, it shall make forth the armaments of Her legionnaries and great works.."
 	icon_state = "ahammer"
 	force = 21
 	smeltresult = /obj/item/ingot/aaslag

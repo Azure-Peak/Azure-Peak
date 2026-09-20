@@ -1,8 +1,3 @@
-// No Arcana recipes gives XP, to prevent grinding a combat skills
-// Through crafting. However, all of them are gated at only Craft Diff 2 
-// Aka Apprentice, so high int novice can gate it. And every magic 
-// Role can engage competently, thus removing the need to legitimately
-// Grind crafting recipes for XP / crafting purpose.
 /datum/crafting_recipe/roguetown/arcana
 	req_table = TRUE
 	tools = list()
@@ -11,7 +6,6 @@
 	skillcraft = /datum/skill/magic/arcane
 	subtype_reqs = TRUE
 	display_category = ITEM_CAT_ARCYNE_GEARS
-	xp_modifier = 0
 	craftdiff = SKILL_LEVEL_APPRENTICE
 
 /datum/crafting_recipe/roguetown/arcana/amethyst
@@ -200,7 +194,7 @@
 	result = /obj/item/magic/elemental/relic
 	reqs = list(/obj/item/magic/elemental/fragment = 2)
 
-// Runed Artifacts are only found in bog and run out soon so this is a 
+// Runed Artifacts are only found in bog and run out soon so this is a
 // Loreful way of "replicating" it but requires you to go out at least once
 
 /datum/crafting_recipe/roguetown/arcana/runed_artifact_replication

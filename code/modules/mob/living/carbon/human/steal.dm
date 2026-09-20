@@ -16,10 +16,10 @@
 	if(user.STAPER < target_human.STAPER)
 		steal_timer += ((target_human.STAPER - user.STAPER) * 3)
 	if(user.Adjacent(target))
-		to_chat(user, span_notice("I try to steal from [target_human]..."))	
+		to_chat(user, span_notice("I try to steal from [target_human]..."))
 		if(do_after(user, steal_timer, target = target_human, progress = 0))
 			if(!user.Adjacent(target))
-				return to_chat(user, span_warning("They moved away!"))	
+				return to_chat(user, span_warning("They moved away!"))
 			if(stealroll > targetperception)
 				if(target_human.cmode && target_human.stat == CONSCIOUS)
 					to_chat(user, span_warning("[target_human] is alert. I am not getting my chance against them."))
@@ -63,7 +63,6 @@
 							record_featured_stat(FEATURED_STATS_THIEVES, user_human)
 							record_featured_stat(FEATURED_STATS_CRIMINALS, user_human)
 							GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
-						user.sate_addiction(/datum/charflaw/addiction/kleptomaniac)
 					else
 						exp_to_gain /= 2 // these can be removed or changed on reviewer's discretion
 						to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))

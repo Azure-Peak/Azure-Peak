@@ -31,28 +31,6 @@
 		playsound(src, 'sound/foley/glassbreak.ogg', 90, TRUE)
 		qdel(src)
 
-/obj/item/natural/glass/attack_right(mob/user)
-	if(user.get_active_held_item())
-		return
-	to_chat(user, span_warning("I start to collect [src]..."))
-	if(move_after(user, 4 SECONDS, target = src))
-		var/stackcount = 0
-		for(var/obj/item/natural/glass/F in get_turf(src))
-			stackcount++
-		while(stackcount > 0)
-			if(stackcount == 1)
-				new /obj/item/natural/glass(get_turf(user))
-				stackcount--
-			else if(stackcount >= 2)
-				var/obj/item/natural/bundle/glass/B = new(get_turf(user))
-				B.amount = clamp(stackcount, 2, 3)
-				B.update_bundle()
-				stackcount -= clamp(stackcount, 2, 3)
-				user.put_in_hands(B)
-		for(var/obj/item/natural/glass/F in get_turf(src))
-			playsound(get_turf(user.loc), 'sound/foley/dropsound/glass_drop.ogg', 90)
-			qdel(F)
-
 //................	Glass panes stack	............... //
 /obj/item/natural/bundle/glass
 	name = "stack of glass"

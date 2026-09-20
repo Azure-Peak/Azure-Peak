@@ -63,7 +63,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.3,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 4,
 			_evergreen_target = 3
 		),
@@ -85,7 +85,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.2,
 			_delivery_reward_multiplier = 1.8,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_COAST
 		),
@@ -108,7 +108,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		),
@@ -131,7 +131,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.2,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		)
@@ -191,3 +191,33 @@ SUBSYSTEM_DEF(regionthreat)
 		TRS.ic_description = TR.get_ic_description()
 		threat_region_displays += TRS
 	return threat_region_displays
+
+/datum/controller/subsystem/regionthreat/proc/build_scout_region_rows()
+	var/list/blockade_by_threat_name = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		if(B.threat_region_name)
+			blockade_by_threat_name[B.threat_region_name] = B
+	var/list/rows = list()
+	for(var/datum/threat_region/TR as anything in threat_regions)
+		var/list/row = list()
+		row["region_name"] = TR.region_name
+		row["danger_level"] = TR.get_danger_level()
+		row["danger_color"] = TR.get_danger_color()
+		row["ic_descriptions"] = TR.get_ic_description()
+		var/datum/blockade/B = blockade_by_threat_name[TR.region_name]
+		if(B)
+			var/datum/quest_faction/F = B.get_faction()
+			var/datum/economic_region/ER = B.get_region()
+			row["blockaded"] = TRUE
+			row["blockade_writ_out"] = B.has_active_scroll() ? TRUE : FALSE
+			row["blockade_faction_label"] = F ? "[F.group_word] of [F.name_plural]" : (B.faction_id || "")
+			row["blockade_region_label"] = ER ? ER.name : (B.region_id || "")
+			row["blockade_days_active"] = max(0, GLOB.dayspassed - B.day_started)
+		else
+			row["blockaded"] = FALSE
+			row["blockade_writ_out"] = FALSE
+			row["blockade_faction_label"] = ""
+			row["blockade_region_label"] = ""
+			row["blockade_days_active"] = 0
+		rows += list(row)
+	return rows

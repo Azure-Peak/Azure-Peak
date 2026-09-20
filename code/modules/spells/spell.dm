@@ -41,6 +41,7 @@
 	var/ignore_armor_penalty = FALSE
 
 	var/skipcharge = FALSE
+	var/breaks_invisibility = TRUE
 
 /obj/effect/proc_holder/Initialize(mapload)
 	. = ..()
@@ -156,6 +157,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 
 	var/cost = 0 //how many points it costs to learn this spell
 	var/xp_gain = FALSE
+	var/expose_caster_on_deflect = TRUE
 
 	var/school = "evocation" //not relevant at now, but may be important later if there are changes to how spells work. the ones I used for now will probably be changed... maybe spell presets? lacking flexibility but with some other benefit?
 
@@ -434,7 +436,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			to_chat(user, span_warning("This spell can only be cast by physical beings!"))
 			return FALSE
 
-	if(req_items.len)
+	if(req_items.len && !HAS_TRAIT(user, TRAIT_HALLOWED))
 		var/list/missing_names = list()
 		var/met_requirement = FALSE
 		for(var/I in req_items)
@@ -607,14 +609,15 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	before_cast(targets, user = user)
 	if(user && user.ckey)
 		user.log_message(span_danger("cast the spell [name]."), LOG_ATTACK)
-	if(user.mob_timers[MT_INVISIBILITY] > world.time)
-		user.mob_timers[MT_INVISIBILITY] = world.time
-		user.update_sneak_invis(reset = TRUE)
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.rogue_sneaking)
-			L.mob_timers[MT_FOUNDSNEAK] = world.time
-			L.update_sneak_invis(reset = TRUE)
+	if(breaks_invisibility)
+		if(user.mob_timers[MT_INVISIBILITY] > world.time)
+			user.mob_timers[MT_INVISIBILITY] = world.time
+			user.update_sneak_invis(reset = TRUE)
+		if(isliving(user))
+			var/mob/living/L = user
+			if(L.rogue_sneaking)
+				L.mob_timers[MT_FOUNDSNEAK] = world.time
+				L.update_sneak_invis(reset = TRUE)
 	if(cast(targets, user = user))
 		// Self spells bypass the ranged_ability click pipeline, which is where
 		// releasedrain stamina cost is normally applied (via mob_helpers.dm).
@@ -936,14 +939,16 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 /// Returns FALSE if the spell should proceed normally.
 /// The caster is Exposed when guard deflects (pseudo-melee punishment); pass attacker to override who is punished.
 /// Usage in cast(): if(spell_guard_check(L)) continue
-/obj/effect/proc_holder/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker)
+/obj/effect/proc_holder/spell/proc/spell_guard_check(mob/living/target, no_message = FALSE, mob/living/attacker, punish_caster)
 	if(!isliving(target))
 		return FALSE
 	if(target == (ranged_ability_user || action?.owner))
 		return FALSE
 	if(isnull(attacker))
 		attacker = ranged_ability_user || action?.owner
-	return target.guard_deflect_spell(name, no_message, attacker)
+	if(isnull(punish_caster))
+		punish_caster = expose_caster_on_deflect
+	return target.guard_deflect_spell(name, no_message, attacker, punish_caster)
 
 /obj/effect/proc_holder/spell/proc/generate_wiki_html(mob/user)
 	var/s_range

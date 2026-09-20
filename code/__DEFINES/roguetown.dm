@@ -448,10 +448,6 @@ GLOBAL_LIST_EMPTY(accused)
 GLOBAL_LIST_EMPTY(confessors)
 
 //preference stuff
-#define FAMILY_NONE 1
-#define FAMILY_PARTIAL 2
-#define FAMILY_FULL 3
-
 GLOBAL_LIST_EMPTY(head_bounties)
 GLOBAL_LIST_EMPTY(noticeboard_notices)
 GLOBAL_LIST_EMPTY(noticeboard_listings)

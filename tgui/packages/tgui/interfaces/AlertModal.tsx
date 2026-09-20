@@ -22,7 +22,7 @@ enum DIRECTION {
   Decrement = -1,
 }
 
-export function AlertModal(props) {
+export function AlertModal() {
   const { act, data } = useBackend<Data>();
   const {
     autofocus,

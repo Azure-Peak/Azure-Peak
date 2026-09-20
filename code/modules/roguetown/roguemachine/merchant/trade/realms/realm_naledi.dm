@@ -111,7 +111,7 @@
 		"Two of my passengers travel veiled head to toe. They are Warscholars returning from the Otavan houses. Do not address them. Do not stare. They have killed more than thirty Djinn each, and the habit of vigilance does not lift at a friendly pier.",
 		"My hold smells of sand and hibiscus. I will not apologize for either. Pay fair and you may take a cup of the second before I depart.",
 		"You will hear no priests of the Ten preaching from my deck. If you wish to bring symbols of them aboard, leave them at the gangway - my crew will not pass them, and neither shall I.",
-		"My helmsman is Bilamak, sworn to the Crown, returning home after service abroad. His saber is sheathed in gilded silk; do not test him into drawing it. His blade dances faster than your eye, I promise you.",
+		"My helmsman is Bilamak, sworn to the Crown, returning home after service abroad. His sabre is sheathed in gilded silk; do not test him into drawing it. His blade dances faster than your eye, I promise you.",
 		"The Arisole sandstorms have closed three southern passes. My route was thirty days longer than last season. The fee should reflect the dunes' temper - not mine.",
 		"We are a welcoming people, factor. We will share bread and tea with anyone who asks honestly. But know that we do not share court with those who came here to convert us. Trade openly, drink openly, pray quietly.",
 		"A wandering Vizier-scholar rides with me, bound for your Avisa boards to study how foreign justice is recorded. She pays in knowledge, not coin. Direct her kindly when she asks, and she will write your magistrate's name well in her journals.",

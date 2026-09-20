@@ -341,7 +341,7 @@
 	new /obj/item/clothing/shoes/roguetown/boots/leather/reinforced(src)
 	new /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick(src)
 	new /obj/item/rogueweapon/huntingknife/idagger/warden_machete(src)
-	new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/warden(src)
+	new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden(src)
 	new /obj/item/quiver/arrows(src)
 	new /obj/item/storage/belt/rogue/leather(src)
 	new /obj/item/storage/keyring/warden(src)//Different ring to the rest

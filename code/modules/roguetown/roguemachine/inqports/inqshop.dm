@@ -238,6 +238,20 @@
 	. = ..()
 	new /obj/item/psydonmusicbox(src)
 
+/datum/inqports/articles/psymaul
+	name = "Relic - The Maul, Evershattering"
+	item_type = /obj/structure/closet/crate/chest/inqreliquary/relic/psymaul/
+	marquescost = 6 //its meant to be easy to aquire, even solo orthodoxist can get it. unique weapon/wall leveling tool, marq shop keeps it from being stolen until you get the thing.
+	maximum = 1
+	//it does 15% of max structure integ as damage, get siegebows if you want more leveling walls and faster.
+
+//Intended to exist seperate to inquisitor.
+
+/obj/structure/closet/crate/chest/inqreliquary/relic/psymaul/Initialize(mapload)
+	. = ..()
+	new /obj/item/rogueweapon/mace/maul/grand/psy(src)
+	new /obj/item/rogueweapon/scabbard/gwstrap(src) //so you can lug it around
+
 /datum/inqports/articles/bmirror
 	name = "Relic - The Mirrors, Everseeing"
 	item_type = /obj/structure/closet/crate/chest/inqreliquary/relic/bmirror/

@@ -25,6 +25,18 @@
 		return TRUE
 	..()
 
+/obj/item/storage/belt/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Middle-clicking a belt adjusts its layer..")
+
+/obj/item/storage/belt/rogue/MiddleClick(mob/user)
+	if(!ishuman(user))
+		return
+	var/under_tabard = (alternate_worn_layer != UNDER_TABARD_LAYER)
+	alternate_worn_layer = under_tabard ? UNDER_TABARD_LAYER : initial(alternate_worn_layer)
+	to_chat(user, span_info("I wear [src] [under_tabard ? "under" : "over"] my tabard."))
+	user.update_inv_belt()
+
 /obj/item/storage/belt/rogue/leather
 	name = "belt"
 	desc = "A fine leather strap notched with holes for a buckle to secure itself."
@@ -305,7 +317,7 @@
 	component_type = /datum/component/storage/concrete/roguetown/backpack
 
 /obj/item/storage/backpack/rogue/artibackpack
-	name = "Cooling backpack"
+	name = "cooling backpack"
 	desc = "A leather backpack with complex pipework coursing through it. It hums and vibrates constantly."
 	icon_state = "artibackpack"
 	item_state = "artibackpack"
@@ -317,6 +329,7 @@
 	equip_sound = 'sound/blank.ogg'
 	bloody_icon_state = "bodyblood"
 	sewrepair = FALSE
+	anvilrepair = /datum/skill/craft/engineering
 	component_type = /datum/component/storage/concrete/roguetown/backpack
 
 /obj/item/storage/backpack/rogue/backpack/bagpack

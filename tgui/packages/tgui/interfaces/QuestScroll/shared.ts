@@ -169,6 +169,30 @@ export const failedStamp: CSSProperties = {
   marginTop: '14px',
 };
 
+export const bountyHeader: CSSProperties = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'baseline',
+  justifyContent: 'center',
+  gap: '6px',
+  background: 'var(--p-card-bg)',
+  border: '1px solid var(--p-ink-faint)',
+  borderRadius: '2px',
+  padding: '6px 12px',
+  marginBottom: '16px',
+  fontSize: '0.95em',
+};
+
+export const netReward = (
+  reward: number,
+  levyRate: number,
+  levyExempt: boolean,
+  guildCutRate: number,
+) => {
+  const effectiveLevy = !levyExempt && levyRate > 0 ? levyRate : 0;
+  return Math.round(reward * (1 - effectiveLevy - guildCutRate));
+};
+
 export const titleHint: CSSProperties = {
   fontSize: '0.78em',
   textAlign: 'center',

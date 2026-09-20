@@ -6,6 +6,7 @@
 	icon_state = "rosamatter"
 	tastes = list("mild sweetness" = 1)
 	bitesize = 1
+	seed = /obj/item/herbseed/rosa
 	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/medicine/antidote = 1) //Extraordinarily minor.
 	rotprocess = null
 	w_class = WEIGHT_CLASS_TINY
@@ -17,6 +18,7 @@
 	icon_state = "rosamatter_dried"
 	tastes = list("mild sweetness" = 1)
 	bitesize = 1
+	seed = /obj/item/herbseed/rosa
 	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/medicine/antidote = 1)
 	rotprocess = null
 	w_class = WEIGHT_CLASS_TINY
@@ -28,6 +30,7 @@
 	icon_state = "rosamatter_spiced"
 	tastes = list("mild sweetness" = 1, "a mouthful of cough-inducing powderiness" = 1)
 	bitesize = 1
+	seed = /obj/item/herbseed/rosa
 	list_reagents = list(/datum/reagent/consumable/nutriment = 2, /datum/reagent/medicine/antidote = 1)
 	rotprocess = null
 	w_class = WEIGHT_CLASS_TINY
@@ -69,7 +72,7 @@
 
 /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
 	name = "dried tea leaves"
-	desc = "Dried tea leaves. Edible. Seeds can be extracted from them. Needs to be processed in a millstone." 
+	desc = "Dried tea leaves. Edible. Seeds can be extracted from them. Needs to be processed in a millstone."
 	icon = 'modular/Neu_Food/icons/drinks.dmi'
 	icon_state = "teadry"
 	tastes = list("bitterness" = 1)

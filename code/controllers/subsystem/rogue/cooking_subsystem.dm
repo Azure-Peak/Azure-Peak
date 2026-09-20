@@ -67,17 +67,14 @@ SUBSYSTEM_DEF(cooking)
 	var/obj/item/reagent_containers/food/snacks/parent_proto = ispath(parent_type, /obj/item/reagent_containers/food/snacks) ? parent_type : null
 	var/baked = initial(proto.cooked_type)
 	var/fried = initial(proto.fried_type)
-	var/deep = initial(proto.deep_fried_type)
 	var/sliced = initial(proto.slice_path)
-	var/boiled = initial(proto.boiled_type)
+	var/smoked = initial(proto.smoked_type)
 	if(baked == snack_type)
 		baked = null
 	if(fried == snack_type)
 		fried = null
-	if(deep == snack_type)
-		deep = null
-	if(boiled == snack_type)
-		boiled = null
+	if(smoked == snack_type)
+		smoked = null
 	if(sliced == snack_type)
 		sliced = null
 	if(parent_proto)
@@ -85,10 +82,8 @@ SUBSYSTEM_DEF(cooking)
 			baked = null
 		if(fried && initial(parent_proto.fried_type) == fried)
 			fried = null
-		if(deep && initial(parent_proto.deep_fried_type) == deep)
-			deep = null
-		if(boiled && initial(parent_proto.boiled_type) == boiled)
-			boiled = null
+		if(smoked && initial(parent_proto.smoked_type) == smoked)
+			smoked = null
 		if(sliced && initial(parent_proto.slice_path) == sliced)
 			sliced = null
 	if(baked && baked == fried)
@@ -98,10 +93,8 @@ SUBSYSTEM_DEF(cooking)
 			out += list(list("result" = baked, "method" = COOK_BAKE, "category" = FOOD_CAT_OVEN))
 		if(fried)
 			out += list(list("result" = fried, "method" = COOK_FRY, "category" = FOOD_CAT_PAN))
-	if(deep)
-		out += list(list("result" = deep, "method" = COOK_DEEPFRY, "category" = FOOD_CAT_DEEPFRIED))
-	if(boiled)
-		out += list(list("result" = boiled, "method" = COOK_BOIL, "category" = FOOD_CAT_BOILED))
+	if(smoked)
+		out += list(list("result" = smoked, "method" = COOK_SMOKE, "category" = FOOD_CAT_SMOKED))
 	if(sliced)
 		var/slice_cat = (producer_category["[snack_type]"] == FOOD_CAT_DOUGHS) ? FOOD_CAT_DOUGHS : FOOD_CAT_BASICS
 		out += list(list("result" = sliced, "category" = slice_cat, "amount" = max(1, initial(proto.slices_num)), "extra" = "Slice it on a table with a knife (CUT or CHOP intent)"))

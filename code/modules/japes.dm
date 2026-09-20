@@ -3,7 +3,7 @@
 /mob/living/carbon/human/proc/ventriloquate()
 	set name = "Ventriloquism"
 	set category = "RoleUnique.Japes"
-	
+
 	var/obj/item/grabbing/I = get_active_held_item()
 	if(!I)
 		to_chat(src, span_warning("I need to be holding or grabbing something!"))
@@ -53,6 +53,55 @@
 		/obj/item/natural/feather,
 		/obj/item/natural/worms/leech,
 		)
-	
+
 	var/japery = pick(japery_list)
 	return japery
+
+
+/mob/living/carbon/human/proc/jester_flip()
+	set name = "Flip"
+	set category = "RoleUnique.Japes"
+
+
+	if(!src)
+		return
+	if(!ishuman(src))
+		return
+
+	var/mob/living/carbon/human/H = src
+
+	if(!isliving(H))
+		return
+	if(H.restrained(FALSE))
+		to_chat(H, span_warning("I can't flip while restrained!"))
+		return
+
+	if(H.has_status_effect(/datum/status_effect/debuff/jester_flip_dazed))
+		to_chat(H, span_warning("TOO FAST!"))
+		return
+
+	if(!(H.mobility_flags & MOBILITY_STAND))
+		to_chat(H, span_warning("I can't flip while on the ground!"))
+		return
+
+
+	var/user_for = H.STALUC
+	var/crit_fail_chance = 1
+	if(user_for < 10)
+		crit_fail_chance = 10-user_for
+	// animate
+	H.do_flip_animation()
+	// msg
+	H.visible_message(span_notice("[H] does a flip!"))
+	H.apply_status_effect(/datum/status_effect/debuff/jester_flip_dazed)
+	// check for crit fail chance. always possible.
+	if(prob(crit_fail_chance))
+		var/obj/item/bodypart/head = H.get_bodypart(BODY_ZONE_HEAD)
+		head?.add_wound(/datum/wound/fracture/neck/shatter)
+		H.visible_message(span_warning("[H] flubs the landing, falling over! Their NECK snaps with a SICKENING sound!"))
+		return
+	// if no crit fail, check to see if it fails normally. if it does, knock 'em down and whatever. if not, just do nothin
+	else if(prob(5))
+		H.Knockdown(2)
+		H.Immobilize(1)
+		H.visible_message(span_warning("[H] flubs the landing, falling over!"))

@@ -112,11 +112,7 @@
 			var/obj/projectile/magic/M = P
 			M.spell_impact_intensity = spell_impact_intensity
 		P.def_zone = user.zone_selected
-		// Accuracy modification code, same as bow rebalance PR
-		P.accuracy += (user.STAPER - 9) * 4
-		P.bonus_accuracy += (user.STAPER - 8) * 3
-		if(user.mind)
-			P.bonus_accuracy += (user.get_skill_level(associated_skill) * 5) // +5% per level
+		user.apply_spell_accuracy(P)
 		P.firer = user
 		P.preparePixelProjectile(target, user)
 		for(var/V in projectile_var_overrides)
@@ -185,7 +181,6 @@
 	var/proj_range = initial(projectile_type:range)
 	var/proj_speed = initial(projectile_type:speed)
 	var/proj_ap = initial(projectile_type:armor_penetration)
-	var/proj_npc_mult = initial(projectile_type:npc_simple_damage_mult)
 	var/proj_nodamage = initial(projectile_type:nodamage)
 	var/proj_guard = initial(projectile_type:guard_deflectable)
 
@@ -202,10 +197,6 @@
 		html += {"
 			<tr><th>Damage</th><td>[proj_damage] [proj_damage_type]</td></tr>
 		"}
-		if(proj_npc_mult != 1)
-			html += {"
-				<tr><th>NPC Damage Mult</th><td>[proj_npc_mult]x</td></tr>
-			"}
 
 	if(proj_ap)
 		html += {"

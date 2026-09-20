@@ -4,19 +4,24 @@
 /datum/ai_planning_subtree/retrieve_arrows/SelectBehaviors(datum/ai_controller/controller, delta_time)
 	if(!validate_archer_equipment(controller))
 		return
-	var/obj/item/gun/ballistic/revolver/grenadelauncher/bow/bow = controller.blackboard[BB_ARCHER_NPC_BOW]
 	var/obj/item/quiver/Q = controller.blackboard[BB_ARCHER_NPC_QUIVER]
 
-	if(bow.chambered)
+	if(Q.get_current_weight() >= (Q.max_storage - ARCHER_NPC_SCAVENGE_RESERVE))
 		return
-	if(Q.get_current_weight() >= Q.max_storage)
-		return
+	var/mob/living/threat = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+	if(isliving(threat) && threat.stat != DEAD)
+		var/threat_dist = get_dist(controller.pawn, threat)
+		if(threat_dist <= ARCHER_NPC_SCAVENGE_SAFE_DIST)
+			return
+		if(threat_dist <= ARCHER_NPC_SHOOT_RANGE && length(Q.arrows) >= ARCHER_NPC_SCAVENGE_COMBAT_FLOOR)
+			return
 	if(!controller.blackboard[BB_ARCHER_NPC_TARGET_ARROW])
 		var/obj/item/arrow = _find_nearby_arrow(get_turf(controller.pawn), Q)
 		if(!arrow)
 			return
 		controller.set_blackboard_key(BB_ARCHER_NPC_TARGET_ARROW, arrow)
 
+	AI_THINK(controller.pawn, "SCAVENGE: quiver [Q.get_current_weight()]/[Q.max_storage] (cap [Q.max_storage - ARCHER_NPC_SCAVENGE_RESERVE]), [length(Q.arrows)] loose - going for [controller.blackboard[BB_ARCHER_NPC_TARGET_ARROW]]")
 	controller.queue_behavior(/datum/ai_behavior/retrieve_arrow, BB_ARCHER_NPC_TARGET_ARROW)
 	return SUBTREE_RETURN_FINISH_PLANNING
 
@@ -48,12 +53,11 @@
 	var/obj/item/ammo_casing/arrow = controller.blackboard[arrow_key]
 
 	if(!arrow || QDELETED(arrow))
-		finish_action(controller, FALSE, arrow_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(!pawn.CanReach(arrow))
-		finish_action(controller, FALSE, arrow_key)
-		return
+		AI_THINK(pawn, "SCAVENGE: can't reach [arrow], dropping it")
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	// Find the quiver again at perform time in case equipment changed
 	var/obj/item/quiver/Q = null
@@ -62,17 +66,16 @@
 			Q = worn
 			break
 
-	if(!Q || Q.get_current_weight() >= Q.max_storage)
-		finish_action(controller, FALSE, arrow_key)
-		return
+	if(!Q || Q.get_current_weight() >= (Q.max_storage - ARCHER_NPC_SCAVENGE_RESERVE))
+		AI_THINK(pawn, "SCAVENGE: quiver full or missing, aborting")
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
-	// Pick up the arrow and store directly into quiver
-	// Mirrors ammo_holder/attackby logic but without needing a mob intermediary since we want this to just work
-	arrow.forceMove(Q)
-	Q.arrows += arrow
-	Q.update_icon()
+	if(!Q.eatarrow(arrow))
+		AI_THINK(pawn, "SCAVENGE: [arrow] wouldn't fit, aborting")
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
-	finish_action(controller, TRUE, arrow_key)
+	AI_THINK(pawn, "SCAVENGE: stowed [arrow] - now [Q.get_current_weight()]/[Q.max_storage], [length(Q.arrows)] loose")
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/retrieve_arrow/finish_action(datum/ai_controller/controller, succeeded, arrow_key)
 	. = ..()

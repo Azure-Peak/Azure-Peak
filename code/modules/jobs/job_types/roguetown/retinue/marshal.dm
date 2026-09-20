@@ -54,6 +54,10 @@
 	add_verb(H, list(/mob/living/carbon/human/proc/request_outlaw, /mob/living/carbon/human/proc/request_law, /mob/living/carbon/human/proc/request_law_removal, /mob/living/carbon/human/proc/request_purge))
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/movemovemove)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/takeaim)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/hold)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/order/onfeet)
 
 /datum/advclass/marshal/classic
 	name = "Marshal"

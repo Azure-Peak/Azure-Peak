@@ -1,5 +1,6 @@
 
 /datum/charflaw/limbloss
+	abstract_type = /datum/charflaw/limbloss
 	var/lost_zone
 
 /datum/charflaw/limbloss/on_mob_creation(mob/user)
@@ -15,6 +16,7 @@
 /datum/charflaw/limbloss/arm_r
 	name = "Wood Arm (R)"
 	desc = "I lost my right arm long ago, but the wooden arm doesn't bleed as much... but it is flammable.<br><i>(Incompatible with Bronze Arm (R) virtue)</i>"
+	ui_fa_icon = "handshake-simple-slash-flip"
 	lost_zone = BODY_ZONE_R_ARM
 	restricted_species = list(/datum/species/ooze)
 
@@ -29,6 +31,7 @@
 /datum/charflaw/limbloss/arm_l
 	name = "Wood Arm (L)"
 	desc = "I lost my left arm long ago, but the wooden arm doesn't bleed as much... but it is flammable.<br><i>(Incompatible with Bronze Arm (L) virtue)</i>"
+	ui_fa_icon = "handshake-simple-slash"
 	lost_zone = BODY_ZONE_L_ARM
 	restricted_species = list(/datum/species/ooze)
 

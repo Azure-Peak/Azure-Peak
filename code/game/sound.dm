@@ -233,6 +233,7 @@
 						update_sound_volume(DS, S.volume)
 						if(client.played_loops[D]["MUTESTATUS"]) //we have sound so turn this off
 							client.played_loops[D]["MUTESTATUS"] = null
+			return TRUE
 		else
 			D.thingshearing += our_ref
 			client.played_loops[D] = list()
@@ -415,10 +416,20 @@
 				soundin = pick('sound/combat/hits/bladed/genslash (1).ogg','sound/combat/hits/bladed/genslash (2).ogg','sound/combat/hits/bladed/genslash (3).ogg')
 			if("bladewooshsmall")
 				soundin = pick('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
+			if("bladewooshmed")
+				soundin = pick(BLADEWOOSH_MED)
+			if("bladewooshlarge")
+				soundin = pick(BLADEWOOSH_LARGE)
+			if("bladewooshhuge")
+				soundin = pick(BLADEWOOSH_HUGE)
 			if("bluntwooshmed")
 				soundin = pick('sound/combat/wooshes/blunt/wooshmed (1).ogg','sound/combat/wooshes/blunt/wooshmed (2).ogg','sound/combat/wooshes/blunt/wooshmed (3).ogg')
 			if("bluntwooshlarge")
 				soundin = pick('sound/combat/wooshes/blunt/wooshlarge (1).ogg','sound/combat/wooshes/blunt/wooshlarge (2).ogg','sound/combat/wooshes/blunt/wooshlarge (3).ogg')
+			if("bluntwooshhuge")
+				soundin = pick(BLUNTWOOSH_HUGE)
+			if("whipwoosh")
+				soundin = pick(WHIPWOOSH)
 			if("punchwoosh")
 				soundin = pick('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 			if(SFX_CHAIN_STEP)
@@ -458,5 +469,16 @@
 							'sound/foley/footsteps/highheel2.ogg',
 							'sound/foley/footsteps/highheel3.ogg',
 							'sound/foley/footsteps/highheel4.ogg',
+							)
+			if(SFX_TRICK)
+				soundin = pick(
+							'sound/misc/trick/trick1.ogg',
+							'sound/misc/trick/trick2.ogg',
+							'sound/misc/trick/trick3.ogg',
+							'sound/misc/trick/trick4.ogg',
+							'sound/misc/trick/trick5.ogg',
+							'sound/misc/trick/trick6.ogg',
+							'sound/misc/trick/trick7.ogg',
+							'sound/misc/trick/trick8.ogg',
 							)
 	return soundin

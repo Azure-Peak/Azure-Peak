@@ -114,7 +114,7 @@
 		"My helmsman is a thane's heir-apparent, finishing his yil and his ten raids before he may inherit. Do not provoke him - the Atgervi do not start fights, but they do finish them.",
 		"By PSYDON who slumbers and stirs, the wind held all the way past the Otavan capes. I will pay my chaplain a bonus and you will pay a fair price. Let it be a good day.",
 		"I bear word from a Greycoat warden of the Granite Fort: the dwarf-kings honor the old pact, the underdeep is quiet this season. Trade with us as Harlond traded with them.",
-		"Look at the gilbronze fittings of my hold and tell me my craftsmen lie. Norwardine guild work, every plate. Worth the long crossing to bring them south.",
+		"Look at the gilbranze fittings of my hold and tell me my craftsmen lie. Norwardine guild work, every plate. Worth the long crossing to bring them south.",
 		"My grandfather sailed this run before the harbor was dredged. He lost two teeth to your magistrate. I have come for the rest of his coin.",
 		"A pilgrim of the Bán rides with us. He has not spoken since Walnut Grove. The forest there has a way with quiet men - do not ask after him.",
 		"There is a tale on the Mountainhomes road - a man in Ravoxian plate, fighting alone, walking out of his own grave. The crew thinks it nonsense. I am less certain. Pay quickly and let me sail before I must think on it longer.",

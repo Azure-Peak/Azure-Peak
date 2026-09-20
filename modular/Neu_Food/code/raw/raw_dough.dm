@@ -433,7 +433,6 @@
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "eggdoughnoodle"
 	color = "#feffc1"
-	boiled_type = /obj/item/reagent_containers/food/snacks/rogue/noodles
 	cooked_smell = /datum/pollutant/food/pasta
 	w_class = WEIGHT_CLASS_NORMAL
 
@@ -447,7 +446,6 @@
 	icon_state = "eggdoughsheetnoodle"
 	color = "#feffc1"
 	slices_num = 0
-	boiled_type = /obj/item/reagent_containers/food/snacks/rogue/sheetnoodles
 	cooked_smell = /datum/pollutant/food/pasta
 	w_class = WEIGHT_CLASS_NORMAL
 

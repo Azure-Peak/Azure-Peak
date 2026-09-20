@@ -1,14 +1,3 @@
-/client/proc/forcerandomrotate()
-	set name = "Trigger Random Map Rotation"
-	set hidden = 1 // Only one map
-	var/rotate = alert(usr, "Force a random map rotation to trigger?", "Rotate map?", "Yes", "Cancel")
-	if (rotate != "Yes")
-		return
-	message_admins("[key_name_admin(usr)] is forcing a random map rotation.")
-	log_admin("[key_name(usr)] is forcing a random map rotation.")
-	SSticker.maprotatechecked = 1
-	SSmapping.maprotate()
-
 /client/proc/adminchangemap()
 	set category = "Server"
 	set name = "Change Map"
@@ -37,7 +26,6 @@
 	if (!chosenmap)
 		return
 
-	SSticker.maprotatechecked = 1
 	if(chosenmap == "Custom")
 		message_admins("[key_name_admin(usr)] is changing the map to a custom map")
 		log_admin("[key_name(usr)] is changing the map to a custom map")

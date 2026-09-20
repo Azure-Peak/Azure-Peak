@@ -112,8 +112,8 @@
 				var/extra = "!"
 				if(knowledgable)
 					extra = ", I sense the caster was [user]!"
-				to_chat(target, "<font color='white'>The silver psycross shines and protects me from unholy magic[extra]</font>")
-				to_chat(user, span_userdanger("[target] has my BANE! It causes me to fail to ensnare their mind!"))
+				to_chat(target, span_silver("The silver cross shines and protects me from unholy magic[extra]"))
+				to_chat(user, span_silver("[target] has my BANE! It causes me to fail to ensnare their mind!"))
 				break
 
 		if(bloodroll >= willroll)

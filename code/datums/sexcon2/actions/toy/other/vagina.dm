@@ -15,6 +15,8 @@
 		return FALSE
 	if(check_sex_lock(target, ORGAN_SLOT_VAGINA))
 		return FALSE
+	if(target.freeuse)
+		return TRUE
 	if(!check_location_accessible(user, target, BODY_ZONE_PRECISE_GROIN, TRUE))
 		return FALSE
 
@@ -30,7 +32,9 @@
 
 /datum/sex_action/toy/other/vagina/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] pulls [user.p_their()] dildo from [target]'s cunt."))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] [do_subtle ? "subtly " : ""]pulls [user.p_their()] dildo from [target]'s cunt."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/toy/other/vagina/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -38,20 +42,25 @@
 
 /datum/sex_action/toy/other/vagina/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] slides a dildo into [target]'s cunt!"))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] [do_subtle ? "subtly " : ""]slides a dildo into [target]'s cunt!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/toy/other/vagina/get_start_sound(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	return list('sound/misc/mat/insert (1).ogg','sound/misc/mat/insert (2).ogg')
 
 /datum/sex_action/toy/other/vagina/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] fucks [target]'s cunt with a dildo!"))
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective(do_subtle)] fucks [target]'s cunt with a dildo!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/toy/other/vagina/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
 	var/obj/item/dildo/used_item = user.get_active_held_item()
 	playsound(target, sex_session.get_force_sound(), 50, TRUE, -2, ignore_walls = FALSE)
-	do_onomatopoeia(target)
+	if(!do_subtle)
+		do_onomatopoeia(target)
 
-	sex_session.perform_sex_action(target, 2, used_item.pleasure, TRUE)
+	sex_session.perform_sex_action(target, 2, used_item.pleasure, TRUE, sex_session.speed, sex_session.force)
 	sex_session.handle_passive_ejaculation()

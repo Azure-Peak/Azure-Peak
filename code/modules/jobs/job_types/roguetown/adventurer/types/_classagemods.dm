@@ -10,7 +10,7 @@
 	if(H.age == target_age)
 		if(length(stat_mods))
 			for(var/stat in stat_mods)
-				H.change_stat(stat_mods[stat])
+				H.change_stat(stat, stat_mods[stat])
 		if(length(skill_mods))
 			for(var/S in skill_mods)
 				var/datum/skill/skill = S

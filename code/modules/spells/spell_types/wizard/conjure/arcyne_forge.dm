@@ -50,6 +50,7 @@
 		"Hammer" = /obj/item/rogueweapon/hammer/iron,
 		"Shovel" = /obj/item/rogueweapon/shovel,
 		"Handsaw" = /obj/item/rogueweapon/handsaw,
+		"Broom" = /obj/item/broom,
 		"Scissors" = /obj/item/rogueweapon/huntingknife/scissors,
 		"Fishing Rod" = /obj/item/fishingrod,
 		"Frying Pan" = /obj/item/cooking/pan,

@@ -46,6 +46,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		ORGAN_SLOT_ANTENNAS = /obj/item/organ/antennas/moth,
 		ORGAN_SLOT_NECK_FEATURE = /obj/item/organ/neck_feature/moth_fluff,
 		ORGAN_SLOT_WINGS = /obj/item/organ/wings/moth,
@@ -150,14 +151,6 @@
 
 /datum/species/moth/qualifies_for_rank(rank, list/features)
 	return TRUE
-
-/datum/species/moth/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	. = ..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
-/datum/species/moth/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)
 
 /datum/species/moth/get_random_body_markings(list/passed_features)
 	return assemble_body_markings_from_set(GLOB.body_marking_sets_by_type[pick(body_marking_sets)], passed_features, src)

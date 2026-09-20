@@ -14,6 +14,21 @@
 	warming = 5 MINUTES
 	dropshrink = 0.6
 
+/obj/item/reagent_containers/food/snacks/rogue/smokefish
+	name = "smoked fish"
+	desc = "Heavens and seas met to bring you this smoked, aquatic treat."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood.dmi'
+	icon_state = "fish_smoked"
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_SEAFOOD
+	trash = null
+	list_reagents = list(/datum/reagent/consumable/nutriment = 10)
+	tastes = list("smoky fish" = 1)
+	faretype = FARE_NEUTRAL
+	foodtype = MEAT
+	warming = 5 MINUTES
+	dropshrink = 0.8
+
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/carp
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	name = "cooked carp"

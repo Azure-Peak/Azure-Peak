@@ -63,6 +63,11 @@
 	icon_state = "feldgloves"
 	item_state = "feldgloves"
 
+/obj/item/clothing/gloves/roguetown/angle/phys/cleric
+	name = "thin physicker's gloves"
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_SIDE_LEATHER
+
 /obj/item/clothing/gloves/roguetown/angle/phys
 	name = "physicker's gloves"
 	desc = "Are you sure this will work?! </br>I have no idea!"

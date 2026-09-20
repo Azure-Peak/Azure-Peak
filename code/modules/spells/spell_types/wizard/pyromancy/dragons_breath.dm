@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Dragon's Breath"
+	expose_caster_on_deflect = FALSE
 	desc = "Let loose a wide cone of flame that erupts forward, burning everything in its path and pushing back anyone it hits. \
 	The windup leaves you committed and wide open.\n\
 	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
@@ -21,32 +22,37 @@
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	damage = 60
+	damage = 65
 	strike_damage_type = BURN
 	blade_class = BCLASS_BURN
-	npc_simple_damage_mult = 2
 	committed_strike = TRUE
 	interruptible = FALSE
-	charging_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	windup_time = TELEGRAPH_AREA_DENIAL
 	sweep_step = 0
 	strike_sound = 'sound/magic/fireball.ogg'
 	detonate_sound = 'sound/misc/explode/incendiary (1).ogg'
 
 	var/cone_range = 4
+	var/cone_half_width = 0
+	var/sweep_by_ring = FALSE
+	var/ignite_pattern = TRUE
 	var/push_dist = 2
+	var/scorch_stacks = 1
 
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/proc/cone_rings()
 	var/list/rings = list()
 	for(var/d in 1 to cone_range)
 		var/list/ring = list()
-		var/half = max(1, round(d / 2))
+		var/half = cone_half_width || max(1, round(d / 2))
 		for(var/lat in -half to half)
 			ring += list(list(lat, d))
 		rings += list(ring)
 	return rings
 
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/get_sweep_bands()
+	if(sweep_by_ring)
+		return cone_rings()
 	return list(get_pattern_offsets())
 
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/get_pattern_offsets()
@@ -55,24 +61,20 @@
 		flat += ring
 	return flat
 
-/datum/action/cooldown/spell/telegraphed_strike/dragons_breath/on_hit_target(mob/living/carbon/human/H, mob/living/L, facing)
-	apply_scorch_stack(L, 1)
+/datum/action/cooldown/spell/telegraphed_strike/dragons_breath/on_hit_target(mob/living/H, mob/living/L, facing)
+	if(scorch_stacks)
+		apply_scorch_stack(L, scorch_stacks)
+	if(!push_dist)
+		return
 	var/push_dir = get_dir(H, L)
 	if(!push_dir)
 		push_dir = facing
 	L.safe_throw_at(get_ranged_target_turf(L, push_dir, push_dist), push_dist, 2, H, force = MOVE_FORCE_STRONG)
 
-/datum/action/cooldown/spell/telegraphed_strike/dragons_breath/on_impact(mob/living/carbon/human/H, facing, atom/movable/visual)
-	var/turf/origin = get_turf(H)
-	if(!origin)
+/datum/action/cooldown/spell/telegraphed_strike/dragons_breath/on_impact(mob/living/H, facing, atom/movable/visual)
+	if(!ignite_pattern)
 		return
-	for(var/list/off in get_pattern_offsets())
-		var/list/r = rotate_offset(off[1], off[2], facing)
-		var/turf/T = locate(origin.x + r[1], origin.y + r[2], origin.z)
-		if(!T || T.density)
-			continue
-		if(stop_at_dense && path_blocked(origin, T))
-			continue
+	for(var/turf/T in get_pattern_turfs(H, facing))
 		new /obj/effect/temp_visual/dragonfire(T)
 		for(var/atom/movable/A in T)
 			if(ismob(A))

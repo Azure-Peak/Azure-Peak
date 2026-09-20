@@ -80,7 +80,7 @@
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
 		if("Bow")
 			H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
-			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve)
+			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/bow)
 			H.equip_to_slot_or_del(new /obj/item/quiver/arrows, SLOT_BELT_L, TRUE)
 	var/armors = list("Heavy Armor","Medium Armor")
 	var/armor_choice = input(H, "Choose your armor.", "...THE TONGUE MUST STAY QUIET.") as anything in armors

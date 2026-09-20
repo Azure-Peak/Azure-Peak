@@ -1,8 +1,8 @@
 /datum/action/cooldown/spell/gravity
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Gravity"
-	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced. Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against conseuctive hit.\n\n\
-	Deals 100% more damage to simple-minded creechurs."
+	expose_caster_on_deflect = FALSE
+	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced. Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against conseuctive hit."
 	button_icon_state = "gravity"
 	sound = 'sound/magic/gravity.ogg'
 	spell_color = GLOW_COLOR_KINESIS
@@ -46,7 +46,6 @@
 	var/offbalance_time = 10
 	/// STR threshold — at or below this, full knockdown. Above, off-balanced only
 	var/str_threshold = 15
-	var/simple_npc_damage_modifier = 2
 
 /datum/action/cooldown/spell/gravity/cast(atom/cast_on)
 	. = ..()
@@ -90,9 +89,10 @@
 			var/remaining = round((L.mob_timers[MT_GRAVITY_ADAPTATION] + GRAVITY_ADAPTATION_COOLDOWN - world.time) / 10)
 			L.balloon_alert_to_viewers("<font color='#7B68EE'>gravity adapted ([remaining]s)!</font>")
 		if(L.STASTR <= str_threshold)
-			arcyne_strike(owner, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
+			if(arcyne_strike(owner, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
 				spell_name = "Gravity", damage_type = BRUTE, \
-				npc_simple_damage_mult = simple_npc_damage_modifier, skip_animation = TRUE)
+				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				continue
 			if(!adapted)
 				L.Knockdown(knockdown_time)
 				L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time
@@ -100,9 +100,10 @@
 			else
 				to_chat(L, span_userdanger("The gravity crushes me, but I keep my footing!"))
 		else
-			arcyne_strike(owner, L, null, resisted_damage, target_zone, BCLASS_BLUNT, \
+			if(arcyne_strike(owner, L, null, resisted_damage, target_zone, BCLASS_BLUNT, \
 				spell_name = "Gravity", damage_type = BRUTE, \
-				npc_simple_damage_mult = simple_npc_damage_modifier, skip_animation = TRUE)
+				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				continue
 			if(!adapted)
 				L.OffBalance(offbalance_time)
 				L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time

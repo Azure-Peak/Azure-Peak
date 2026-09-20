@@ -22,6 +22,7 @@
 	converted_type = /area/rogue/outdoors/caves
 	deathsight_message = "root-bound caverns"
 	detail_text = DETAIL_TEXT_UNDERGROVE
+	area_sniff_message = "You smell roots and the murky depths."
 
 /area/rogue/under/cavewet/bogcaves
 	name = "The Undergrove"

@@ -44,6 +44,12 @@
 /datum/customizer/proc/is_allowed(datum/preferences/prefs)
 	return TRUE
 
+/datum/customizer/proc/constant_ui_data()
+	return list(
+		"name" = name,
+		"choices" = customizer_choices,
+	)
+
 /datum/customizer/organ
 	abstract_type = /datum/customizer/organ
 	name = "Organ"

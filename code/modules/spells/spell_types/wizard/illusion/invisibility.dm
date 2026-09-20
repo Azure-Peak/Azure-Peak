@@ -18,8 +18,8 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = TRUE
-	charge_swingdelay_type = NONE
-	charge_time = CHARGETIME_MINOR
+	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_time = 2 SECONDS
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	cooldown_time = 30 SECONDS
@@ -30,6 +30,8 @@
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/fade_time = 2 SECONDS
 
 /datum/action/cooldown/spell/invisibility/cast(atom/cast_on)
 	. = ..()
@@ -44,8 +46,9 @@
 		return FALSE
 	target.visible_message(span_warning("[target] starts to fade into thin air!"), span_notice("You start to become invisible!"))
 	var/dur = 15 + min(max(user.STAINT - 10, 0) * 2.5, 12.5)
-	animate(target, alpha = 0, time = 1 SECONDS, easing = EASE_IN)
-	target.mob_timers[MT_INVISIBILITY] = world.time + dur SECONDS
-	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), dur SECONDS)
-	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] fades back into view."), span_notice("You become visible again.")), dur SECONDS)
+	var/total_dur = fade_time + (dur SECONDS)
+	animate(target, alpha = 0, time = fade_time, easing = EASE_IN)
+	target.mob_timers[MT_INVISIBILITY] = world.time + total_dur
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/mob/living, update_sneak_invis), TRUE), total_dur)
+	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom/movable, visible_message), span_warning("[target] fades back into view."), span_notice("You become visible again.")), total_dur)
 	return TRUE

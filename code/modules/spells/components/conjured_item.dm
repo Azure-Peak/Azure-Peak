@@ -9,8 +9,9 @@ by Arcyne user after a duration
 	var/noglow = FALSE
 	var/dispelling = FALSE
 	var/decay_timer
+	var/nodecay = FALSE
 
-/datum/component/conjured_item/Initialize(outline_color_override, no_glow = FALSE, mob/caster, datum/conjure_source)
+/datum/component/conjured_item/Initialize(outline_color_override, no_glow = FALSE, mob/caster, datum/conjure_source, do_not_decay = FALSE)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -34,7 +35,7 @@ by Arcyne user after a duration
 	I.craft_blocked = TRUE
 	I.sellprice = 0
 	I.static_price = TRUE
-
+	nodecay = do_not_decay
 	update_decay_timer()
 
 /datum/component/conjured_item/Destroy()
@@ -52,6 +53,8 @@ by Arcyne user after a duration
 	update_decay_timer()
 
 /datum/component/conjured_item/proc/update_decay_timer()
+	if(nodecay)
+		return
 	if(dispelling)
 		return
 	var/obj/item/I = parent

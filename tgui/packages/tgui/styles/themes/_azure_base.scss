@@ -110,8 +110,9 @@
     background-image: none;
     background-color: #{map.get($colors, 'base-dark')};
     border-bottom: 2px solid #{map.get($colors, 'accent')};
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5),
-                0 1px 0 #{map.get($colors, 'accent-bright')};
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.5),
+      0 1px 0 #{map.get($colors, 'accent-bright')};
 
     &__title {
       font-size: 1.6rem;
@@ -169,7 +170,9 @@
   }
 
   .Button {
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease;
     --color-text: #{map.get($colors, 'btn-text')};
     min-height: 1.667em;
     line-height: 1.667em;
@@ -180,12 +183,18 @@
     box-shadow: none;
 
     &:hover {
-      background-color: color.adjust(map.get($colors, 'border'), $lightness: 6%);
+      background-color: color.adjust(
+        map.get($colors, 'border'),
+        $lightness: 6%
+      );
       border-color: map.get($colors, 'accent-bright');
     }
 
     &:active {
-      background-color: color.adjust(map.get($colors, 'border'), $lightness: -3%);
+      background-color: color.adjust(
+        map.get($colors, 'border'),
+        $lightness: -3%
+      );
     }
 
     &.Button--selected {
@@ -254,7 +263,8 @@
 
   // ── Input Buttons ───────────────────────────────────────────────
   .input-button {
-    &__submit, &__cancel {
+    &__submit,
+    &__cancel {
       color: #ae3636;
       font-weight: 600;
     }

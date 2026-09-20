@@ -30,7 +30,12 @@
 #define CLEAR_REAGENTS	4	// all reagents were cleared
 #define REACT_REAGENTS	5	// a reaction occured
 
-#define MIMEDRINK_SILENCE_DURATION 30	//ends up being 60 seconds given 1 tick every 2 seconds
+///The smallest amount of volume allowed - prevents tiny numbers
+#define CHEMICAL_VOLUME_MINIMUM 0.001
+///The maximum temperature a reagent holder can attain
+#define CHEMICAL_MAXIMUM_TEMPERATURE 99999
+
+#define MIMEDRINK_SILENCE_DURATION 30  //ends up being 60 seconds given 1 tick every 2 seconds
 //used by chem masters and pill presses
 #define PILL_STYLE_COUNT 22 //Update this if you add more pill icons or you die
 #define RANDOM_PILL_STYLE 22 //Dont change this one though

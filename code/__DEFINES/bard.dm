@@ -24,6 +24,9 @@
 // Rhythm shared cooldown group
 #define RHYTHM_SHARED_COOLDOWN "bardic_rhythm"
 
+// Not bard feature but no idea where else to put it rn and I am not making a new file for it
+#define LEADERSHIP_ORDER_SHARED_COOLDOWN "leadership_order_cooldown"
+
 // Rhythm picks per tier
 #define RHYTHM_PICKS_T1 2
 #define RHYTHM_PICKS_T2 2

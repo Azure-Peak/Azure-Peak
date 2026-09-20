@@ -14,7 +14,7 @@ type Data = {
   carvings: Carving[];
 };
 
-export const Carving = (props) => {
+export const Carving = () => {
   const { data } = useBackend<Data>();
 
   if (!data.carvings) {
@@ -36,7 +36,7 @@ export const Carving = (props) => {
   );
 };
 
-export const Carveless = (props) => {
+export const Carveless = () => {
   return (
     <Stack align="center" justify="center" fill>
       <Stack.Item>
@@ -59,7 +59,7 @@ export const SearchBar = (props: {
   return <Input value={search} onChange={setSearch} fluid />;
 };
 
-export const CarvingDisplay = (props) => {
+export const CarvingDisplay = () => {
   const [search, setSearch] = useState('');
 
   const { act, data } = useBackend<Data>();

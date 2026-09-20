@@ -320,7 +320,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	var/list/forsaken = list()
 
 	for(var/mob/living/carbon/C in GLOB.dead_mob_list)
-		if(QDELETED(C) || C.burialrited)
+		if(QDELETED(C) || C.burialrited || C.contract_spawned)
 			continue
 
 		// --- classification ---

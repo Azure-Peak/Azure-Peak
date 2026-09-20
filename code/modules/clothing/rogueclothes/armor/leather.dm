@@ -182,6 +182,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven/loadout/Initialize(mapload)
 	. = ..()
+	loadoutize()
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/steppe/loadout
 	name = "aesthetic fur-woven hatanga coat"
@@ -225,7 +226,7 @@
 	desc = "A light, flexible button-up leather jacket that will keep your vitals out of harm's way."
 	icon_state = "freijacket"
 	item_state = "freijacket"
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM + ARMOR_INT_LIGHT_FENCER_MODIFIER
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER + ARMOR_INT_LIGHT_FENCER_MODIFIER
 	detail_tag = "_detail"
 	color = "#5E4440"
 	detail_color = "#c08955"

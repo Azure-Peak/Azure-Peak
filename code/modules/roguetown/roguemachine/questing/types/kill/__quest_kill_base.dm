@@ -69,6 +69,8 @@
 		var/mob/living/M = A
 		if(M.stat == DEAD)
 			continue
+		if(M.client)
+			M.ghostize(FALSE)
 		qdel(M)
 
 /datum/quest/kill/proc/any_guardians_alive()

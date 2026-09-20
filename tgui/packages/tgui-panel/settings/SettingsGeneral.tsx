@@ -15,7 +15,7 @@ import { FONTS } from './constants';
 import { exportChatSettings, importChatSettings } from './settingsImExport';
 import { useSettings } from './use-settings';
 
-export function SettingsGeneral(props) {
+export function SettingsGeneral() {
   const { settings, updateSettings } = useSettings();
   const [freeFont, setFreeFont] = useState(false);
 

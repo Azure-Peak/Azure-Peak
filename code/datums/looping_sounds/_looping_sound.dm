@@ -268,7 +268,7 @@ GLOBAL_LIST_EMPTY(created_sound_groups)
 	if(persistent_loop)
 		GLOB.persistent_sound_loops -= src
 	if(!direct)
-		for(var/datum/weakref/listener_ref in thingshearing)
+		for(var/datum/weakref/listener_ref in thingshearing.Copy())
 			var/mob/M = listener_ref.resolve()
 			if (!M)
 				continue

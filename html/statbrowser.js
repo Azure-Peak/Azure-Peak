@@ -71,7 +71,8 @@ function createStatusTab(name) {
   button.textContent = name;
   button.className = 'button';
   //ORDERING ALPHABETICALLY
-  button.style.order = { 'Round Info': 1, Stats: 2, MC: 3 }[name] || name.charCodeAt(0);
+  button.style.order =
+    { 'Round Info': 1, Stats: 2, MC: 3 }[name] || name.charCodeAt(0);
   //END ORDERING
   menu.appendChild(button);
   SendTabToByond(name);
@@ -348,6 +349,7 @@ function draw_status() {
         var todWord = part[1].charAt(0).toUpperCase() + part[1].slice(1);
         var todText = part[2];
         var todIdx = todText.indexOf(todWord);
+        if (todWord === 'Dae') todIdx = todText.indexOf(todWord, todIdx + 1);
         if (todIdx === -1) {
           div.textContent = todText;
         } else {
@@ -708,7 +710,9 @@ function draw_verbs(cat) {
 
 function filterVerbs() {
   var q = (verbSearch || '').toLowerCase();
-  var items = document.getElementById('statcontent').getElementsByClassName('grid-item');
+  var items = document
+    .getElementById('statcontent')
+    .getElementsByClassName('grid-item');
   for (var i = 0; i < items.length; i++) {
     var show = !q || items[i].textContent.toLowerCase().indexOf(q) !== -1;
     items[i].style.display = show ? '' : 'none';
@@ -795,11 +799,15 @@ function add_verb_list(payload) {
 document.addEventListener('mouseup', restoreFocus);
 document.addEventListener('keyup', restoreFocus);
 
-document.addEventListener('wheel', (e) => {
-  if (e.ctrlKey) {
-    e.preventDefault();
-  }
-}, { passive: false });
+document.addEventListener(
+  'wheel',
+  (e) => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+    }
+  },
+  { passive: false },
+);
 
 if (!current_tab) {
   addPermanentTab(defaultTab);

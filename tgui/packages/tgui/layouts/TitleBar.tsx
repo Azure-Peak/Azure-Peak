@@ -10,8 +10,8 @@ type TitleBarProps = Partial<{
   title: string;
   status: number;
   canClose: BooleanLike;
-  onClose: (e) => void;
-  onDragStart: (e) => void;
+  onClose: (e: any) => void;
+  onDragStart: (e: any) => void;
 }> &
   PropsWithChildren;
 

@@ -79,12 +79,9 @@
 	erase_all_macros()
 	update_movement_keys()
 	// First, collect sets. Make sure to COPY, as we are modifying these!
-	var/list/macrosets = prefs_override.hotkeys? list(
-			SKIN_MACROSET_HOTKEYS = SSinput.macroset_hotkey.Copy()
-		) : list(
-			SKIN_MACROSET_CLASSIC_INPUT = SSinput.macroset_classic_input.Copy(),
-			SKIN_MACROSET_CLASSIC_HOTKEYS = SSinput.macroset_classic_hotkey.Copy()
-		)
+	var/list/macrosets = list(
+		SKIN_MACROSET_HOTKEYS = SSinput.macroset_hotkey.Copy()
+	)
 	// Collect special clientside keybinds
 	var/list/clientside = update_special_keybinds(prefs_override)
 	// ANTI COLLISION SYSTEM:
@@ -93,57 +90,32 @@
 	// Then, we set all the permutations BUT the actual binding to nonsensical things to force BYOND to not
 	// be "greedy" with key matching, aka matching Shift+T for T when Shift+T isn't EXPLICITLY defined.
 	// This is extremely ugly, but the alternative is arguably worse (manually binding every key instead of using ANY)
-	if(prefs_override.hotkeys)
-		for(var/keybind in clientside)
-			var/command = clientside[keybind]
-			var/alt = findtext(keybind, "Alt")
-			if(alt)
-				keybind = copytext(keybind, 1, alt) + copytext(keybind, alt + 3, 0)
-			var/ctrl = findtext(keybind, "Ctrl")
-			if(ctrl)
-				keybind = copytext(keybind, 1, ctrl) + copytext(keybind, ctrl + 4, 0)
-			var/shift = findtext(keybind, "Shift")
-			if(shift)
-				keybind = copytext(keybind, 1, shift) + copytext(keybind, shift + 5, 0)
-			var/actual = "[alt? "Alt+" : ""][ctrl? "Ctrl+" : ""][shift? "Shift+" : ""][keybind]"
-			var/list/overriding = keybind_modifier_permutation(keybind, alt, ctrl, shift, TRUE)
-			overriding -= actual
-			for(var/macroset in macrosets)
-				var/list/the_set = macrosets[macroset]
-				the_set[actual] = command
-				for(var/i in overriding)
-					the_set[i] = NONSENSICAL_VERB
-	else
-		// For classic mode, we just directly set things because BYOND is so jank why do we even bother?
-		// What we want is to force Ctrl on for all keybinds without Ctrl or Alt set, to preserve old behavior
-		for(var/keybind in clientside)
-			var/command = clientside[keybind]
-			var/alt = findtext(keybind, "Alt")
-			if(alt)
-				keybind = copytext(keybind, 1, alt) + copytext(keybind, alt + 3, 0)
-			var/ctrl = findtext(keybind, "Ctrl")
-			if(ctrl)
-				keybind = copytext(keybind, 1, ctrl) + copytext(keybind, ctrl + 4, 0)
-			var/shift = findtext(keybind, "Shift")
-			if(shift)
-				keybind = copytext(keybind, 1, shift) + copytext(keybind, shift + 5, 0)
-			var/actual
-			if(!alt && !ctrl)
-				actual = "Ctrl+[keybind]"
-			else
-				actual = "[alt? "Alt+" : ""][ctrl? "Ctrl+" : ""][shift? "Shift+" : ""][keybind]"
-			macrosets[SKIN_MACROSET_CLASSIC_HOTKEYS]["[alt? "Alt+" : ""][ctrl? "Ctrl+" : ""][shift? "Shift+" : ""][keybind]"] = command
-			macrosets[SKIN_MACROSET_CLASSIC_INPUT][actual] = command
-			for(var/macroset in macrosets)
-				var/list/the_set = macrosets[macroset]
-				the_set[actual] = command
+	for(var/keybind in clientside)
+		var/command = clientside[keybind]
+		var/alt = findtext(keybind, "Alt")
+		if(alt)
+			keybind = copytext(keybind, 1, alt) + copytext(keybind, alt + 3, 0)
+		var/ctrl = findtext(keybind, "Ctrl")
+		if(ctrl)
+			keybind = copytext(keybind, 1, ctrl) + copytext(keybind, ctrl + 4, 0)
+		var/shift = findtext(keybind, "Shift")
+		if(shift)
+			keybind = copytext(keybind, 1, shift) + copytext(keybind, shift + 5, 0)
+		var/actual = "[alt? "Alt+" : ""][ctrl? "Ctrl+" : ""][shift? "Shift+" : ""][keybind]"
+		var/list/overriding = keybind_modifier_permutation(keybind, alt, ctrl, shift, TRUE)
+		overriding -= actual
+		for(var/macroset in macrosets)
+			var/list/the_set = macrosets[macroset]
+			the_set[actual] = command
+			for(var/i in overriding)
+				the_set[i] = NONSENSICAL_VERB
 
 	apply_macro_set(SKIN_MACROSET_HOTKEYS, SSinput.macroset_hotkey)
 	apply_macro_set(SKIN_MACROSET_CLASSIC_HOTKEYS, SSinput.macroset_classic_hotkey)
 	apply_macro_set(SKIN_MACROSET_CLASSIC_INPUT, SSinput.macroset_classic_input)
 
 	set_hotkeys_preference()
-	set_hotkeys_button(prefs_override.hotkeys)
+	set_hotkeys_button(TRUE)
 
 /proc/keybind_modifier_permutation(key, alt = FALSE, ctrl = FALSE, shift = FALSE, self = TRUE)
 	var/list/permutations = list()
@@ -166,11 +138,8 @@
 		. += "[mod]+[key]"
 		do_keybind_modifier_permutations("[mod]+[key]", permutations.Copy(), .)
 
-/client/proc/set_hotkeys_preference(datum/preferences/prefs_override = prefs)
-	if(prefs_override.hotkeys)
-		winset(src, null, "map.focus=true input.background-color=[COLOR_INPUT_DISABLED] mainwindow.macro=[SKIN_MACROSET_HOTKEYS]")
-	else
-		winset(src, null, "input.focus=true input.background-color=[COLOR_INPUT_ENABLED] mainwindow.macro=[SKIN_MACROSET_CLASSIC_INPUT]")
+/client/proc/set_hotkeys_preference()
+	winset(src, null, "map.focus=true input.background-color=[COLOR_INPUT_DISABLED] mainwindow.macro=[SKIN_MACROSET_HOTKEYS]")
 
 /client/proc/set_hotkeys_button(toggled)
 	winset(src, "hotkey_toggle", "is-checked=[toggled? "true" : "false"]")

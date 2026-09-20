@@ -1,3 +1,5 @@
+import { netReward } from './shared';
+
 const deductionsLabel = (
   showLevy: boolean,
   showGuildCut: boolean,
@@ -17,8 +19,7 @@ export const RewardClause = (props: {
   const { reward, levyRate, levyExempt, guildCutRate } = props;
   const showLevy = !levyExempt && levyRate > 0;
   const showGuildCut = guildCutRate > 0;
-  const effectiveLevy = showLevy ? levyRate : 0;
-  const net = Math.round(reward * (1 - effectiveLevy - guildCutRate));
+  const net = netReward(reward, levyRate, levyExempt, guildCutRate);
   const deductions = deductionsLabel(showLevy, showGuildCut);
   return (
     <>

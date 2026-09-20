@@ -75,7 +75,6 @@
 	blocksound = SOFTHIT
 	body_parts_covered = COVERAGE_TORSO
 	max_integrity = ARMOR_INT_CHEST_PLATE_BRIGANDINE - ARMOR_INT_CHEST_PLATE_BRIGANDINE_WEIGHT_MODIFIER
-	smeltresult = /obj/item/ingot/iron
 	equip_delay_self = 40
 	armor_class = ARMOR_CLASS_LIGHT//steel version of the studded leather armor now
 	w_class = WEIGHT_CLASS_BULKY

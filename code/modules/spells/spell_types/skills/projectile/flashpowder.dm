@@ -18,7 +18,6 @@
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "spark"
 	damage = 25 //ever get hit with a cherry bomb? shit hurts a bit. this is a little less than spitfire, with no ignite
-	npc_simple_damage_mult = 2 //multiple people said the spell wasn't as useful in pve
 	damage_type = BURN
 	woundclass = BCLASS_BURN
 	nodamage = FALSE
@@ -26,7 +25,6 @@
 	speed = MAGE_PROJ_MEDIUM
 	range = 7
 	hitsound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
-	accuracy = 40
 	guard_deflectable = FALSE //is powder
 
 /obj/projectile/magic/flashpowder/on_hit(target, blocked = FALSE)

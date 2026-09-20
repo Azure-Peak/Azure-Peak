@@ -57,7 +57,7 @@
 	if(newdur)
 		duration = newdur
 	. = ..()
-	
+
 /datum/status_effect/swingdelay/on_apply()
 	. = ..()
 	owner.swing_state = TRUE
@@ -69,6 +69,7 @@
 	icon_state = "swingdelay"
 
 /datum/status_effect/swingdelay/penalty
+	id = "swingdelay_penalty"
 	alert_type = /atom/movable/screen/alert/status_effect/swingdelay/penalty
 	mob_effect_icon_state = "eff_swingdelay_penalty"
 

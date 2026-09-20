@@ -1,26 +1,31 @@
 @use 'azure_base' as *;
 
 .theme-parchment-vellum:root {
-  @include azure-theme((
-    'base':            #f4e7c6,
-    'base-light':      #faf2dc,
-    'base-dark':       #e6d4a3,
-    'section':         rgba(255, 248, 220, 0.45),
-    'section-title':   #281a07,
-    'text':            #281a07,
-    'label':           #563d1e,
-    'accent':          rgba(122, 86, 22, 0.35),
-    'accent-bright':   rgba(181, 148, 64, 0.65),
-    'border':          rgba(138, 114, 80, 0.45),
-    'btn-text':        #281a07,
-    'btn-selected':    rgba(122, 86, 22, 0.25),
-    'btn-disabled':    #a89677,
-    'scrollbar-thumb': rgba(122, 86, 22, 0.45),
-    'glow':            rgba(181, 148, 64, 0.18),
-    'link':            #6e1414,
-    'link-visited':    #8b1a1a,
-    'link-hover':      #b42a24,
-  ), '../assets/azure_default/topbar_red.svg');
+  @include azure-theme(
+    (
+      'base': #f4e7c6,
+      'base-light': #faf2dc,
+      'base-dark': #e6d4a3,
+      'section': rgba(255, 248, 220, 0.45),
+      'section-title': #281a07,
+      'text': #281a07,
+      'label': #563d1e,
+      'accent': rgba(122, 86, 22, 0.35),
+      'accent-bright': rgba(181, 148, 64, 0.65),
+      'border': rgba(138, 114, 80, 0.45),
+      'btn-text': #281a07,
+      'btn-selected': rgba(122, 86, 22, 0.25),
+      'btn-disabled': #a89677,
+      'scrollbar-thumb': rgba(122, 86, 22, 0.45),
+      'glow': rgba(181, 148, 64, 0.18),
+      'link': #6e1414,
+      'link-visited': #8b1a1a,
+      'link-hover': #b42a24,
+    ),
+    '../assets/azure_default/topbar_red.svg'
+  );
+
+  --tooltip-background: var(--color-base);
 
   --font-family: 'Lora', Georgia, serif;
 
@@ -53,7 +58,12 @@
   --p-banner-bg-soft: rgba(180, 60, 40, 0.12);
   --p-badge-text: #f7eccb;
 
-  &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content,
+  &,
+  .Window,
+  .Layout,
+  .Layout__content,
+  .Window__rest,
+  .Window__content,
   .Window__contentPadding {
     background: #f4e7c6 !important;
     background-image: none !important;

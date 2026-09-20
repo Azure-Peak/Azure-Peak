@@ -1,27 +1,31 @@
 @use 'azure_base' as *;
 
 .theme-parchment:root {
-  @include azure-theme((
-    'base':            #c2ad7c,
-    'base-light':      #ceba8c,
-    'base-dark':       #a8915f,
-    'section':         rgba(230, 210, 165, 0.3),
-    'section-title':   #281a07,
-    'text':            #281a07,
-    'label':           #563d1e,
-    'accent':          rgba(122, 86, 22, 0.35),
-    'accent-bright':   rgba(181, 148, 64, 0.65),
-    'border':          rgba(138, 114, 80, 0.45),
-    'btn-text':        #3a2a14,
-    'btn-selected':    rgba(122, 86, 22, 0.25),
-    'btn-disabled':    #a89677,
-    'scrollbar-thumb': rgba(122, 86, 22, 0.45),
-    'glow':            rgba(181, 148, 64, 0.18),
-    'link':            #6e1414,
-    'link-visited':    #8b1a1a,
-    'link-hover':      #b42a24,
-  ), '../assets/azure_default/topbar_red.svg');
+  @include azure-theme(
+    (
+      'base': #c2ad7c,
+      'base-light': #ceba8c,
+      'base-dark': #a8915f,
+      'section': rgba(230, 210, 165, 0.3),
+      'section-title': #281a07,
+      'text': #281a07,
+      'label': #563d1e,
+      'accent': rgba(122, 86, 22, 0.35),
+      'accent-bright': rgba(181, 148, 64, 0.65),
+      'border': rgba(138, 114, 80, 0.45),
+      'btn-text': #3a2a14,
+      'btn-selected': rgba(122, 86, 22, 0.25),
+      'btn-disabled': #a89677,
+      'scrollbar-thumb': rgba(122, 86, 22, 0.45),
+      'glow': rgba(181, 148, 64, 0.18),
+      'link': #6e1414,
+      'link-visited': #8b1a1a,
+      'link-hover': #b42a24,
+    ),
+    '../assets/azure_default/topbar_red.svg'
+  );
 
+  --tooltip-background: var(--color-base);
   --font-family: 'Lora', Georgia, serif;
 
   --p-font-tiny: 12px;
@@ -53,7 +57,12 @@
   --p-banner-bg-soft: rgba(180, 60, 40, 0.12);
   --p-badge-text: #f7eccb;
 
-  &, .Window, .Layout, .Layout__content, .Window__rest, .Window__content,
+  &,
+  .Window,
+  .Layout,
+  .Layout__content,
+  .Window__rest,
+  .Window__content,
   .Window__contentPadding {
     background: #c2ad7c !important;
     background-image: none !important;
@@ -62,7 +71,6 @@
     margin: 0;
     height: 100%;
   }
-
 
   .TitleBar {
     background-color: #a8915f;
@@ -120,6 +128,88 @@
       background: rgba(122, 86, 22, 0.35);
       border-color: rgba(80, 50, 10, 0.6);
     }
+  }
+
+  .NumberInput {
+    border: 1px solid rgba(122, 86, 22, 0.45);
+    background: rgba(122, 86, 22, 0.12);
+    color: #281a07;
+  }
+
+  .NumberInput__content {
+    color: #281a07;
+  }
+
+  .NumberInput__bar {
+    background: rgba(122, 86, 22, 0.45);
+  }
+
+  .NumberInput__input {
+    background: #c2ad7c;
+    color: #281a07;
+    border: none;
+    text-align: center;
+
+    &::selection {
+      background: rgba(122, 86, 22, 0.45);
+      color: #281a07;
+    }
+  }
+
+  .Input {
+    border: 1px solid rgba(122, 86, 22, 0.45);
+    background: rgba(122, 86, 22, 0.12);
+    color: #281a07;
+  }
+
+  .Input__input {
+    color: #281a07;
+
+    &::placeholder {
+      color: #563d1e;
+      opacity: 1;
+    }
+  }
+
+  .Dropdown__control,
+  .Dropdown__input {
+    border: 1px solid rgba(122, 86, 22, 0.45);
+    background: rgba(122, 86, 22, 0.12);
+    color: #281a07;
+    box-shadow: none;
+
+    &:hover {
+      border-color: rgba(110, 20, 20, 0.65);
+      background: rgba(122, 86, 22, 0.22);
+    }
+  }
+
+  .Dropdown__input::placeholder {
+    color: #281a07;
+    opacity: 1;
+  }
+
+  .Dropdown__menu {
+    border: 1px solid rgba(122, 86, 22, 0.45);
+    background: #c2ad7c;
+    color: #281a07;
+  }
+
+  .Dropdown__menu--entry {
+    color: #281a07;
+
+    &:hover {
+      background: rgba(122, 86, 22, 0.22);
+    }
+
+    &.selected {
+      background: rgba(122, 86, 22, 0.35);
+    }
+  }
+
+  ::selection {
+    background: rgba(122, 86, 22, 0.45);
+    color: #281a07;
   }
 
   .LabeledList__label {

@@ -50,6 +50,8 @@
 	/// Whether this organ has ever been inside a mob
 	var/had_owner = FALSE
 
+	embedding = list("embed_chance" = 0) // ...they're not sharp
+
 	grid_width = 32
 	grid_height = 32
 

@@ -90,11 +90,15 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/tail/tiefling,
 		/datum/sprite_accessory/tail/tiefling/heart,
+		/datum/sprite_accessory/tail/tiefling/drake,
+		/datum/sprite_accessory/tail/tiefling/spear,
 		/datum/sprite_accessory/tail/large_snake,
 		/datum/sprite_accessory/tail/large_snake_plain,
 		/datum/sprite_accessory/tail/batl,
 		/datum/sprite_accessory/tail/bats,
 		/datum/sprite_accessory/tail/murid,
+		/datum/sprite_accessory/tail/murid_alt,
+		/datum/sprite_accessory/tail/murid_dormouse,
 		/datum/sprite_accessory/tail/guilmon
 		)
 
@@ -131,6 +135,8 @@
 		/datum/sprite_accessory/tail/kitsune,
 		/datum/sprite_accessory/tail/lab,
 		/datum/sprite_accessory/tail/murid,
+		/datum/sprite_accessory/tail/murid_alt,
+		/datum/sprite_accessory/tail/murid_dormouse,
 		/datum/sprite_accessory/tail/orca,
 		/datum/sprite_accessory/tail/otie,
 		/datum/sprite_accessory/tail/rabbit,
@@ -205,6 +211,8 @@
 		/datum/sprite_accessory/tail/kitsune,
 		/datum/sprite_accessory/tail/lab,
 		/datum/sprite_accessory/tail/murid,
+		/datum/sprite_accessory/tail/murid_alt,
+		/datum/sprite_accessory/tail/murid_dormouse,
 		/datum/sprite_accessory/tail/orca,
 		/datum/sprite_accessory/tail/otie,
 		/datum/sprite_accessory/tail/rabbit,
@@ -257,8 +265,10 @@
 	organ_type = /obj/item/organ/tail/dullahan
 	generic_random_pick = TRUE
 	sprite_accessories = list(
-		/datum/sprite_accessory/tail/dullahan,
-		/datum/sprite_accessory/tail/dullahan/heart,
+		/datum/sprite_accessory/tail/tiefling,
+		/datum/sprite_accessory/tail/tiefling/heart,
+		/datum/sprite_accessory/tail/tiefling/drake,
+		/datum/sprite_accessory/tail/tiefling/spear,
 		/datum/sprite_accessory/tail/cat,
 		/datum/sprite_accessory/tail/monkey,
 		/datum/sprite_accessory/tail/axolotl,
@@ -283,6 +293,8 @@
 		/datum/sprite_accessory/tail/kitsune,
 		/datum/sprite_accessory/tail/lab,
 		/datum/sprite_accessory/tail/murid,
+		/datum/sprite_accessory/tail/murid_alt,
+		/datum/sprite_accessory/tail/murid_dormouse,
 		/datum/sprite_accessory/tail/orca,
 		/datum/sprite_accessory/tail/otie,
 		/datum/sprite_accessory/tail/rabbit,
@@ -353,6 +365,8 @@
 		/datum/sprite_accessory/tail/kitsune,
 		/datum/sprite_accessory/tail/lab,
 		/datum/sprite_accessory/tail/murid,
+		/datum/sprite_accessory/tail/murid_alt,
+		/datum/sprite_accessory/tail/murid_dormouse,
 		/datum/sprite_accessory/tail/orca,
 		/datum/sprite_accessory/tail/otie,
 		/datum/sprite_accessory/tail/rabbit,
@@ -419,4 +433,6 @@
 		/datum/sprite_accessory/tail/goblin4,
 		/datum/sprite_accessory/tail/tiefling,
 		/datum/sprite_accessory/tail/tiefling/heart,
+		/datum/sprite_accessory/tail/tiefling/drake,
+		/datum/sprite_accessory/tail/tiefling/spear
 		)

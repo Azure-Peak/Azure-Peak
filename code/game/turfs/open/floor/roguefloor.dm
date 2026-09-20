@@ -1369,6 +1369,22 @@
 /turf/open/floor/rogue/tile/brownbrick
 	icon_state = "brown"
 
+/turf/open/floor/rogue/tile/brownbrick/browner
+	icon_state = "browner"
+
+/turf/open/floor/rogue/tile/brownbrick/browner/Initialize(mapload)
+	. = ..()
+	icon_state = "browner"
+	dir = pick(GLOB.cardinals)
+
+/turf/open/floor/rogue/tile/bluebrick
+	icon_state = "bluebrick"
+
+/turf/open/floor/rogue/tile/bluebrick/Initialize(mapload)
+	. = ..()
+	icon_state = "bluebrick"
+	dir = pick(GLOB.cardinals)
+
 /turf/open/floor/rogue/tile/harem
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "harem"
@@ -1588,10 +1604,10 @@
 	if(prob(40))
 		var/list/possible_turfs = list()
 		for(var/turf/T in range(1, H))
-			if(T.density)
+			if(isclosedturf(T) || T.density)
 				continue
 			possible_turfs += T
-		H.forceMove(pick(possible_turfs))
+		step_towards(H, pick(possible_turfs))
 		to_chat(H, span_warning("You slip on [src]!"))
 
 /turf/open/floor/rogue/dark_ice/regular/proc/ice_crack()

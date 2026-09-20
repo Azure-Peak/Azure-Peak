@@ -14,3 +14,4 @@
 	first_time_text = "ABYSSOR'S GRASP"
 	deathsight_message = "amidst abyssor's grasp"
 	detail_text = DETAIL_TEXT_ABYSSORS_GRASP
+	area_sniff_message = "You smell the sea and wet stone."

@@ -7,7 +7,7 @@ export function setDebugHotKeys(): void {
   acquireHotKey(KEY_F11);
   acquireHotKey(KEY_F12); // Just to avoid the HUD disappearing on F12
 
-  globalEvents.on('keydown', (evt) => {
+  globalEvents.on('keydown', (evt: any) => {
     if (evt.code === KEY_F11) {
       store.set(kitchenSinkAtom, (prev) => !prev);
     }

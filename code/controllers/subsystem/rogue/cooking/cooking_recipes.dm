@@ -105,6 +105,8 @@
 			return "<li><b>Deep-fry</b> it in a pot of hot oil</li>"
 		if(COOK_BOIL)
 			return "<li><b>Boil</b> it in a pot of water</li>"
+		if(COOK_SMOKE)
+			return "<li><b>Smoke</b> it in a smoker</li>"
 	if(needs_cooking)
 		return "<li><b>Cook</b> it over a hearth, or in an oven</li>"
 	return ""
@@ -120,6 +122,8 @@
 			cook_label = "Deep-fry it in a pot of hot oil"
 		if(COOK_BOIL)
 			cook_label = "Boil it in a pot of water"
+		if(COOK_SMOKE)
+			cook_label = "Smoke it in a smoker"
 	if(!cook_label && needs_cooking)
 		cook_label = "Cook it over a hearth, or in an oven"
 	if(!cook_label)
@@ -341,13 +345,10 @@
 			lines += "Bakes into [initial(baked_target.name)]."
 		if(fried_target)
 			lines += "Fries into [initial(fried_target.name)]."
-	var/atom/deep_target = proto.deep_fried_type
-	if(deep_target && deep_target != proto.type)
-		lines += "Deep-fries into [initial(deep_target.name)]."
 
-	var/atom/boil_target = proto.boiled_type
-	if(boil_target && boil_target != proto.type)
-		lines += "Boils into [initial(boil_target.name)]."
+	var/atom/smoke_target = proto.smoked_type
+	if(smoke_target && smoke_target != proto.type)
+		lines += "Smokes into [initial(smoke_target.name)]."
 
 	var/atom/slice_target = proto.slice_path
 	if(slice_target)

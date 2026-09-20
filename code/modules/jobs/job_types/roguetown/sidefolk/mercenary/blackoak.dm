@@ -136,14 +136,14 @@
 
 /datum/outfit/job/roguetown/mercenary/blackoak_ranger/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/weapons = list("Elvish Dagger", "Elvish Saber", "Elvish Shortsword")
+	var/weapons = list("Elvish Dagger", "Elvish sabre", "Elvish Shortsword")
 	var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 	switch(weapon_choice)
 		if("Elvish Dagger")
 			H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 			H.put_in_hands(new /obj/item/rogueweapon/huntingknife/idagger/silver/elvish)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sheath, SLOT_BELT_R, TRUE)
-		if("Elvish Saber")
+		if("Elvish sabre")
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE) //I think it will be fair for the silver and high defense
 			H.put_in_hands(new /obj/item/rogueweapon/sword/sabre/elf)
 			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword, SLOT_BELT_R, TRUE)
@@ -288,14 +288,14 @@
 
 	switch(subclass_selected)
 		if("blade")
-			var/weapons = list("Elvish Longsword", "Elvish Saber", "Elvish Curveblade", "Elvish Dirk")
+			var/weapons = list("Elvish Longsword", "Elvish sabre", "Elvish Curveblade", "Elvish Dirk")
 			var/weapon_choice = input(H, "Choose your WEAPON.", "FOR THE OAKS AND THE PEAKS.") as anything in weapons
 			switch(weapon_choice)
 				if("Elvish Longsword")
 					r_hand = /obj/item/rogueweapon/sword/long/elvish
 					beltr = /obj/item/rogueweapon/scabbard/sword
 					backr = /obj/item/rogueweapon/shield/wood
-				if("Elvish Saber")
+				if("Elvish sabre")
 					r_hand = /obj/item/rogueweapon/sword/sabre/elf
 					beltr = /obj/item/rogueweapon/scabbard/sword
 					backr = /obj/item/rogueweapon/shield/wood

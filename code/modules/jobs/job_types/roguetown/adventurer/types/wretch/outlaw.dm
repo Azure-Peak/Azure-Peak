@@ -34,6 +34,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 
 /datum/outfit/job/roguetown/wretch/outlaw/pre_equip(mob/living/carbon/human/H)
@@ -99,7 +100,6 @@
 				ADD_TRAIT(H, TRAIT_DARKVISION, TRAIT_GENERIC)
 			if("Master-Tracker")
 				H.adjust_skillrank_up_to(/datum/skill/misc/tracking, SKILL_LEVEL_LEGENDARY, TRUE)
-				ADD_TRAIT(H, TRAIT_SLEUTH, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_PERFECT_TRACKER, TRAIT_GENERIC)
 			if("Dualist")//Yes the typo is intentional
 				ADD_TRAIT(H, TRAIT_DUALWIELDER, TRAIT_GENERIC)

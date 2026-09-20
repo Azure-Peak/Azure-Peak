@@ -35,7 +35,7 @@ LINEN BINS
 	coverup(user)
 	add_fingerprint(user)
 
-/obj/item/bedsheet/rmb_self(mob/living/user)
+/obj/item/bedsheet/rmb_self(mob/living/user, keybind = FALSE)
 	setDir(turn(dir,180))
 	update_icon()
 	to_chat(user, span_notice("I flip [src]."))

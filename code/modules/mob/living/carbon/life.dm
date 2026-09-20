@@ -376,32 +376,31 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 //WE HANDLE SUNDERSTACKS HERE
 	if(sunder_stacks)
 		sunder_stacks = max(sunder_stacks - 1, 0) //Takes a bit to shrug off
-		if(cultslurring < 5) //Fucks up our ability to talk, completely until all sunderstacks are gone
-			cultslurring += 1.2
+
+		apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
 
 		if(sunder_stacks >= 21)
-			apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
+			if(cultslurring < 5) //Fucks up our ability to talk, completely until we're below 20 stacks
+				cultslurring += 1.2
 
-		if(sunder_stacks >= 41)
+		if(sunder_stacks >= 31)
 			adjustBruteLoss(1)
-			if(prob(3)) //5% chance of random dizziness
-				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire. No immobilise yet.
-				Dizzy(3)
+			if(prob(3)) //3% chance of blood vomiting
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
+				Dizzy(5) //Tiny bit of Dizzy
 
-		if(sunder_stacks >= 71) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
+		if(sunder_stacks >= 41) //At this point you've taken (2) blows (or are a vampire) or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(1)
 			if(prob(12)) //12% chance to have random movement + stun + dizziness
 				confused += 8
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
-				Dizzy(15)
-			if(prob(5)) //5% chance to collapse randomly
-				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
-				Knockdown(15)
+				Dizzy(5)
 
 		if(sunder_stacks >= 101) //We are beyond the point of lethal, somehow. This will cripple you severely.
 			adjustBruteLoss(1)
 			if(prob(50))
 				blur_eyes(5)
+				Knockdown(5) //can't stand at all hardly, mortality almost forced upon a form that cannot sustain it.
 			Dizzy(25)//You are completely fucked up at this point, any more stacks of SUNDER and you're DEAD.
 
 
@@ -614,7 +613,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				blood_volume = min(blood_volume + (4 * sleepy_mod), BLOOD_VOLUME_NORMAL)
 			for(var/obj/item/bodypart/affecting as anything in bodyparts)
 				//for context, it takes 5 small cuts (0.2 x 5) or 3 normal cuts (0.4 x 3) for a bodypart to not be able to heal itself
-				if(affecting.get_bleed_rate() >= 1)
+				if(affecting.get_bleed_rate() >= 1 && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)) // however, if you're undead - and therefore won't deadite - we let you get back up after a VERY long time, bcs otherwise any artery can be an RR
 					continue
 				if(affecting.heal_damage(sleepy_mod, sleepy_mod, required_status = BODYPART_ORGANIC))
 					src.update_damage_overlays()

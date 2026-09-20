@@ -28,6 +28,7 @@
 	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_NONE
+	charge_required = FALSE
 	cooldown_time = 1 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane

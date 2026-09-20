@@ -9,7 +9,7 @@
 	for(var/datum/ai_controller/controller as anything in moving_controllers)
 		if(!COOLDOWN_FINISHED(controller, movement_cooldown))
 			continue
-		COOLDOWN_START(controller, movement_cooldown, controller.movement_delay)
+		controller.advance_movement_cooldown()
 
 		var/atom/movable/movable_pawn = controller.pawn
 		if(!controller.can_move())
@@ -34,12 +34,14 @@
 						if(M.density && M.climbable)
 							M.climb_structure(movable_pawn)
 							break
-			step_to(movable_pawn, controller.current_movement_target, controller.blackboard[BB_CURRENT_MIN_MOVE_DISTANCE], controller.movement_delay)
+			step_to(movable_pawn, controller.current_movement_target, controller.blackboard[BB_CURRENT_MIN_MOVE_DISTANCE])
 
 		if(current_loc == get_turf(movable_pawn)) //Did we even move after trying to move?
 			controller.pathing_attempts++
 			if(controller.pathing_attempts >= max_pathing_attempts)
 				controller.CancelActions()
+		else
+			charge_diagonal_step(controller, current_loc)
 
 /datum/ai_movement/basic_avoidance/backstep
 	//move_flags = MOVEMENT_LOOP_START_FAST

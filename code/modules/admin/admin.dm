@@ -267,7 +267,7 @@
 		body += "<br>"
 		body += "</body></html>"
 
-	usr << browse(body, "window=adminplayeropts-[REF(M)];size=800x600")
+	usr << browse(body, "window=adminplayeropts-[REF(M)];size=1000x800")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Player Panel") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/admin_heal(mob/living/M in GLOB.mob_list)
@@ -481,7 +481,7 @@
 	if(!check_rights(0))
 		return
 
-	var/message = input(usr, "Global message to send:", "Admin Announce", null, null)	as message
+	var/message = input(usr, "Global message to send:", "Admin Announce", null)	as message
 	if(message)
 		if(!check_rights(R_SERVER,0))
 			message = adminscrub(message,500)

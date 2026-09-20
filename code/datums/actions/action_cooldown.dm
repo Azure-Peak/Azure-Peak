@@ -18,10 +18,21 @@
 	/// Multiplier applied to the cooldown handed to the OTHER abilities in this shared group when
 	/// this ability triggers it. 1 = they get the same cooldown; 0.5 = they get half of it.
 	var/shared_cooldown_mult = 1
+	/// Flat cooldown handed to the OTHER abilities in this shared group, and only when it would
+	/// extend theirs. Takes precedence over shared_cooldown_mult. 0 disables it.
+	var/lockout_time = 0
 
 	// These are only used for click_to_activate actions
 	/// Setting for intercepting clicks before activating the ability
 	var/click_to_activate = FALSE
+	/// AI targeting contract
+	var/use_chance = 0
+	var/npc_min_range = 0
+	var/npc_max_range = 1
+	var/npc_requires_los = TRUE
+	var/self_targetable = FALSE
+	/// Anatomy gate - the ability is unavailable while any of these zones is broken.
+	var/list/required_zones
 	/// The cooldown added onto the user's next click.
 	var/click_cd_override = CLICK_CD_CLICK_ABILITY
 	/// If TRUE, we will unset after using our click intercept.
@@ -103,7 +114,21 @@
 	return click_to_activate && current_button.our_hud?.mymob?.click_intercept == src
 
 /datum/action/cooldown/IsAvailable()
-	return ..() && (next_use_time <= world.time)
+	return ..() && (next_use_time <= world.time) && !crippled()
+
+/// TRUE when a body part this ability depends on has been broken off.
+/datum/action/cooldown/proc/crippled()
+	if(!isanimal(owner))
+		return FALSE
+	if(!length(required_zones))
+		return FALSE
+	var/mob/living/simple_animal/beast = owner
+	if(!length(beast.broken_parts))
+		return FALSE
+	for(var/zone in required_zones)
+		if(zone in beast.broken_parts)
+			return TRUE
+	return FALSE
 
 /datum/action/cooldown/Grant(mob/granted_to)
 	. = ..()
@@ -126,6 +151,10 @@
 	if(shared_cooldown)
 		for(var/datum/action/cooldown/shared_ability in owner.actions - src)
 			if(shared_cooldown != shared_ability.shared_cooldown)
+				continue
+			if(lockout_time)
+				if(shared_ability.next_use_time < world.time + lockout_time)
+					shared_ability.StartCooldownSelf(lockout_time)
 				continue
 			var/shared_time = override_cooldown_time
 			if(shared_cooldown_mult != 1 && isnum(shared_time))
@@ -193,6 +222,33 @@
 	UnregisterSignal(owner, COMSIG_MOB_SPELL_ACTIVATED)
 
 	deltimer(retrigger_timer)
+
+/datum/action/cooldown/proc/npc_controlled()
+	return !owner?.client
+
+// Default to 0 to prevent an AI from using it
+/datum/action/cooldown/proc/npc_use_chance(atom/target)
+	return use_chance
+
+/datum/action/cooldown/proc/set_ai_aim_lock(turf/locked_turf)
+	return
+
+/// How long this ability keeps the caster committed once triggered. While committed the AI closes on
+/// its quarry instead of spacing off it, so a telegraphed pattern still lands where it was aimed.
+/datum/action/cooldown/proc/ai_commit_time()
+	return 0
+
+/datum/action/cooldown/proc/can_use(atom/target)
+	if(QDELETED(target))
+		return FALSE
+	if(target == owner)
+		return self_targetable
+	var/dist = get_dist(owner, target)
+	if(dist < npc_min_range || dist > npc_max_range)
+		return FALSE
+	if(npc_requires_los && !can_see(owner, target, npc_max_range))
+		return FALSE
+	return TRUE
 
 /datum/action/cooldown/Trigger(trigger_flags, atom/target)
 	. = ..()

@@ -155,14 +155,16 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 	var/headeater_levy = GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY] || 0
 	var/import_tariff = GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF] || 0
 	var/export_duty = GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY] || 0
+	var/recovered_spoils = GLOB.azure_round_stats[STATS_REVENUE_RECOVERED_SPOILS] || 0
 	var/royal_taxes_total = GLOB.azure_round_stats[STATS_TAXES_COLLECTED] || 0
-	var/other_fees = max(0, royal_taxes_total - (contract_levy + headeater_levy + import_tariff + export_duty))
+	var/other_fees = max(0, royal_taxes_total - (contract_levy + headeater_levy + import_tariff + export_duty + recovered_spoils))
 	var/list/royal = list(
 		"total" = royal_taxes_total,
 		"contract_levy" = contract_levy,
 		"headeater_levy" = headeater_levy,
 		"import_tariff" = import_tariff,
 		"export_duty" = export_duty,
+		"recovered_spoils" = recovered_spoils,
 		"other_fees" = other_fees,
 	)
 	var/exempt_contract = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY] || 0
@@ -209,6 +211,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"standing" = standing,
 		"shortages_ended" = GLOB.azure_round_stats[STATS_SHORTAGES_ENDED] || 0,
 		"banditry_owed" = GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] || 0,
+		"banditry_hoard" = GLOB.azure_round_stats[STATS_BANDITRY_HOARD_OUTSTANDING] || 0,
 		"treasury_debt_repaid" = GLOB.azure_round_stats[STATS_TREASURY_DEBT_REPAID] || 0,
 		"treasury_debt_owed" = GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] || 0,
 		"bankruptcy_count" = GLOB.azure_round_stats[STATS_BANKRUPTCY_DECLARED] || 0,

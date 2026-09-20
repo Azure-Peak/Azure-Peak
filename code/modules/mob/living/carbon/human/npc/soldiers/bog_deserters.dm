@@ -177,7 +177,7 @@
 	//Weapons
 	if(prob(30)) // ranged
 		belt = /obj/item/storage/belt/rogue/leather
-		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+		backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 		backl = /obj/item/quiver/npc
 		r_hand = /obj/item/rogueweapon/sword/iron
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
@@ -463,7 +463,7 @@
 
 /datum/outfit/job/roguetown/human/northern/bog_deserters/archer/pre_equip(mob/living/carbon/human/H)
 	..()
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backl = /obj/item/quiver/npc
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags

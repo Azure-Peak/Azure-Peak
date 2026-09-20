@@ -173,7 +173,7 @@
 
 /datum/outfit/job/roguetown/human/species/human/northern/mad_touched_treasure_hunter/archer/pre_equip(mob/living/carbon/human/H)
 	..()
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	backl = /obj/item/quiver/randomfill/highwayman
 	armor = /obj/item/clothing/suit/roguetown/shirt/rags
 	head = null

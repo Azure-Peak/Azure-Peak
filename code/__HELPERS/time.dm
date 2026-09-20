@@ -1,4 +1,5 @@
 GLOBAL_LIST_INIT(time_change_tips, world.file2list("strings/rt/timechangetips.txt"))
+GLOBAL_LIST_INIT(time_change_quotes, world.file2list("strings/rt/timechangequotes.txt"))
 
 //Returns the world time in english
 /proc/worldtime2text()
@@ -165,8 +166,17 @@ GLOBAL_VAR_INIT(date_override_offset, 0)
 		playsound_local(src, 'sound/misc/newday.ogg', 60, FALSE)
 		animate(T, alpha = 255, time = 10, easing = EASE_IN)
 		addtimer(CALLBACK(src, PROC_REF(clear_area_text), T), 35)
-		var/time_change_tips_random = pick(GLOB.time_change_tips)
-		to_chat(client, span_notice("<b>[time_change_tips_random]</b>"))
+		// thanks to kat for the idea here :)
+		var/static/list/tip_or_quote_list = list(
+			GLOB.time_change_tips,
+			GLOB.time_change_quotes
+		)
+		// needed for ternary in addition to accessing list #
+		var/modulo_day = (day_number%2)
+		// OK. we're going to do an even-odd system. you alternate between tips or quotes. minimizes chat-spam, maximizes FLAVOR *AND* UTILITY!
+		var/rumor_or_tip = pick(tip_or_quote_list[(modulo_day + 1)])
+
+		to_chat(client, span_notice("[modulo_day ? "<b>" : "<i>"][rumor_or_tip][modulo_day ? "</b>" : "</i>"]"))
 	else if(GLOB.tod == "day")
 		playsound_local(src, 'sound/misc/midday.ogg', 100, FALSE)
 	else if(GLOB.tod == "night")

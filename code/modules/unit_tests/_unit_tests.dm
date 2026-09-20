@@ -63,6 +63,7 @@
 // BEGIN_INCLUDE
 #include "anchored_mobs.dm"
 #include "component_tests.dm"
+#include "container_collision.dm"
 #include "craftable_hardset_sellprice.dm"
 #include "create_and_destroy.dm"
 #include "focus_only_tests.dm"

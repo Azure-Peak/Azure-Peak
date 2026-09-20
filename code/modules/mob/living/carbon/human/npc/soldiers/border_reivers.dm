@@ -476,7 +476,7 @@
 	name = "hack"
 	icon_state = "instrike"
 	attack_verb = list("hacks at", "chops at", "bashes")
-	animname = "blank22"
+	animname = "cut"
 	blade_class = BCLASS_CUT
 	hitsound = list("genchop", "genslash")
 	chargetime = 0

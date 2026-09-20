@@ -12,7 +12,7 @@ import { SettingsStatPanel } from './SettingsStatPanel';
 import { TextHighlightSettings } from './TextHighlight';
 import { useSettings } from './use-settings';
 
-export function SettingsPanel(props) {
+export function SettingsPanel() {
   const {
     settings: { view },
     updateSettings,

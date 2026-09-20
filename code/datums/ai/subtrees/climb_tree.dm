@@ -42,16 +42,14 @@
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/obj/structure/flora/newtree/trunk = controller.blackboard[trunk_key]
 	if(!trunk || QDELETED(trunk))
-		finish_action(controller, FALSE, trunk_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	var/turf/above = get_step_multiz(pawn, UP)
 	if(!istype(above, /turf/open/transparent/openspace))
-		finish_action(controller, FALSE, trunk_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	controller.ai_movement.stop_moving_towards(controller)
 	walk(pawn, 0)
 	trunk.attack_hand(pawn)
-	finish_action(controller, TRUE, trunk_key)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/human_npc_climb_tree/finish_action(datum/ai_controller/controller, succeeded, trunk_key)
 	. = ..()

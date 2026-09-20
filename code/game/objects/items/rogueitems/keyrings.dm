@@ -262,7 +262,7 @@
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/apothecary, /obj/item/roguekey/mage, /obj/item/roguekey/university, /obj/item/roguekey/university_secure)
 
 /obj/item/storage/keyring/seneschal //Housekeeper, more of a reason to attack them too by antags
-	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/garrison)
+	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/royal, /obj/item/roguekey/heir, /obj/item/roguekey/garrison, /obj/item/roguekey/seneschal)
 
 /obj/item/storage/keyring/jester //Might infact be hilarious, might be horrid, who knows
 	keys = list(/obj/item/roguekey/manor, /obj/item/roguekey/university, /obj/item/roguekey/walls)

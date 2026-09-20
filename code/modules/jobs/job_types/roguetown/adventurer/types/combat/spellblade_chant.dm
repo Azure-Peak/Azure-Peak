@@ -18,7 +18,7 @@
 	var/mace_weapons
 	switch(faction)
 		if("blackoak")
-			blade_weapons = "Elvish Longsword / Elvish Saber / Elvish Curveblade / Steel Dagger"
+			blade_weapons = "Elvish Longsword / Elvish sabre / Elvish Curveblade / Steel Dagger"
 			phalanx_weapons = "Elvish Glaive"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("zizite")
@@ -30,7 +30,7 @@
 			phalanx_weapons = "Halberd / Bardiche / Boar Spear / Dory & Shield / Naginata"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("almah")
-			blade_weapons = "Dual Shamshirs / Shalal Saber & Shield"
+			blade_weapons = "Dual Shamshirs / Shalal sabre & Shield"
 			phalanx_weapons = "Spear / Dory & Shield"
 			mace_weapons = "Steel Mace / Steel Warhammer & Shield / Grand Mace / Battle Axe / Steel Greataxe"
 		if("undead")
@@ -354,7 +354,7 @@ a.choose-btn:hover {
 <li><b>Maximum (10)</b> — Unleash an empowered version of your ultimate ability.</li>
 <li><b>Empower Weapon</b> — Requires 5+ momentum. Burns ALL momentum to empower your next melee attack, bypassing parry and dodge. Visible red glow warns enemies. 30s cooldown. 8s duration.</li>
 <li><b>Arcyne Surge</b> — Certain non-ultimate abilities that strike 2 or more targets grant 1 bonus Momentum.</li>
-<li><b>Precision</b> — Arcyne strikes use the same zone accuracy system as ranged attacks. Hands and feet are capped at 50%, limbs and head at 75%, face zones at 30%. Perception and Intelligence above 10 each improve your base accuracy.</li>
+<li><b>Precision</b> — Arcyne strikes roll to place their blow the same way a melee swing does. Skill and Perception above ten both improve where it lands. A blow aimed at the chest always connects.</li>
 </ul>
 </div>
 <div class="preamble">

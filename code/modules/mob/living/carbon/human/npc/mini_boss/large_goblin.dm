@@ -63,29 +63,24 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 	H.STAPER = 6
 	H.STAINT = 8 // I am Evil
 	H.STALUC = 4
+	// Gives it armor for some much needed buff
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
+	head = /obj/item/clothing/head/roguetown/helmet/goblin
+	belt = /obj/item/storage/belt/rogue/leather
 	var/loadout = rand(1, 4)
 	switch(loadout)
 		if(1) // mace brute
-			r_hand = /obj/item/rogueweapon/mace
-			l_hand = /obj/item/rogueweapon/shield/wood
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+			r_hand = /obj/item/rogueweapon/mace/steel
+			l_hand = /obj/item/rogueweapon/shield/heater
 		if(2) // greataxe berserker
-			r_hand = /obj/item/rogueweapon/greataxe/militia
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+			r_hand = /obj/item/rogueweapon/greataxe
+			backl = /obj/item/rogueweapon/scabbard/gwstrap
 		if(3) // flail and shield
 			r_hand = /obj/item/rogueweapon/flail
-			l_hand = /obj/item/rogueweapon/shield/wood
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
+			l_hand = /obj/item/rogueweapon/shield/heater
 		if(4) // bottle bomber
-			r_hand = /obj/item/rogueweapon/mace
+			r_hand = /obj/item/rogueweapon/mace/steel
 			neck = /obj/item/storage/belt/rogue/pouch/bombs
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-			head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	gloves = /obj/item/clothing/gloves/roguetown/leather
 	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)

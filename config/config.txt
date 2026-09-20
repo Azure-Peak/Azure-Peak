@@ -393,21 +393,6 @@ ANNOUNCE_ADMIN_LOGOUT
 ## Uncomment to have an admin message sent anytime an admin connects to a round in play, you can edit the messages in admin.dm
 #ANNOUNCE_ADMIN_LOGIN
 
-## Map rotation
-## You should edit maps.txt to match your configuration when you enable this.
-#MAPROTATION
-
-## Map voting
-## Allows players to vote with their preffered map setting
-## When it's set to zero, the map will be randomly picked each round
-PREFERENCE_MAP_VOTING 0
-
-## Map rotate chance delta
-## This is the chance of map rotation factored to the round length.
-## A value of 1 would mean the map rotation chance is the round length in minutes (hour long round == 60% rotation chance)
-## A value of 0.5 would mean the map rotation chance is half of the round length in minutes (hour long round == 30% rotation chance)
-#MAPROTATIONCHANCEDELTA 0.75
-
 ## AUTOADMIN
 ## The default admin rank
 AUTOADMIN_RANK Game Master

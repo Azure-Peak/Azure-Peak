@@ -21,6 +21,7 @@
 
 	grid_width = 32
 	grid_height = 64
+	is_tool = TRUE
 
 /obj/item/rogueweapon/surgery/Initialize(mapload)
 	. = ..()

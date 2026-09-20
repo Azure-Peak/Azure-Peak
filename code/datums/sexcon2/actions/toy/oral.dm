@@ -16,6 +16,8 @@
 		return FALSE
 	if(check_sex_lock(user, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
+	if(target.freeuse)
+		return TRUE
 	if(!check_location_accessible(user, user, BODY_ZONE_PRECISE_MOUTH))
 		return FALSE
 
@@ -31,11 +33,15 @@
 
 /datum/sex_action/toy/oral/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] starts sucking off a dildo..."))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] [do_subtle ? "subtly " : ""]starts sucking off a dildo..."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/toy/oral/on_finish(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
-	user.visible_message(span_warning("[user] stops sucking off a dildo."))
+	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(span_warning("[user] [do_subtle ? "subtly " : ""]stops sucking off a dildo."), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/toy/oral/lock_sex_object(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	. = ..()
@@ -43,10 +49,12 @@
 
 /datum/sex_action/toy/oral/on_perform_message(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
-	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective()] sucks off a dildo!"))
+	var/do_subtle = sex_session.doing_subtly
+	user.visible_message(sex_session.spanify_force("[user] [sex_session.get_generic_force_adjective(do_subtle)] sucks off a dildo!"), vision_distance = (do_subtle ? 1 : DEFAULT_MESSAGE_RANGE))
 
 /datum/sex_action/toy/oral/on_perform(mob/living/carbon/human/user, mob/living/carbon/human/target)
-	user.make_sucking_noise()
 	var/datum/sex_session/sex_session = get_sex_session(user, target)
+	var/do_subtle = sex_session.doing_subtly
+	user.make_sucking_noise(do_subtle)
 	var/obj/item/dildo/used_item = user.get_active_held_item()
-	sex_session.perform_sex_action(user, 0, used_item.pleasure, TRUE)
+	sex_session.perform_sex_action(user, 0, used_item.pleasure, TRUE, sex_session.speed, sex_session.force)

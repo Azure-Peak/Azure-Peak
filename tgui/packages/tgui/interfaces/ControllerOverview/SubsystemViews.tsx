@@ -34,18 +34,28 @@ export function SubsystemViews(props: Props) {
         return false;
       }
 
+      const value = subsystem[propName];
+
       // Filters out based on small values
-      if (smallValues && subsystem[propName] < 1) {
+      if (typeof value === 'number' && smallValues && value < 1) {
         return false;
       }
 
       return nameMatchesQuery;
     })
     .sort((a, b) => {
+      const aValue =
+        typeof a[propName] === 'number' || typeof a[propName] === 'string'
+          ? a[propName]
+          : '';
+      const bValue =
+        typeof b[propName] === 'number' || typeof b[propName] === 'string'
+          ? b[propName]
+          : '';
       if (ascending) {
-        return a[propName] > b[propName] ? 1 : -1;
+        return aValue > bValue ? 1 : -1;
       } else {
-        return b[propName] > a[propName] ? 1 : -1;
+        return bValue > aValue ? 1 : -1;
       }
     });
 

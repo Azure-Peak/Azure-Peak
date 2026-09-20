@@ -39,7 +39,13 @@ GLOBAL_LIST_EMPTY(used_colors)
 			/obj/item/kitchen/spoon/carved/porcelain,
 			/obj/item/kitchen/fork/carved/porcelain,
 			/obj/item/cooking/platter/carved/porcelain,
-			/obj/item/reagent_containers/glass/bucket/pot/porcelain
+			/obj/item/reagent_containers/glass/bucket/pot/porcelain,
+			/obj/item/reagent_containers/glass/bottle/claytallbaked,
+			/obj/item/reagent_containers/glass/bottle/clayfootbaked,
+			/obj/item/reagent_containers/glass/bottle/claybamanabaked,
+			/obj/item/reagent_containers/glass/bottle/clayamphorabaked,
+			/obj/item/reagent_containers/glass/bottle/clayskinnybaked,
+			/obj/item/reagent_containers/glass/carafe/porcelain
 			)
 
 /obj/machinery/gear_painter/Initialize(mapload)
@@ -376,7 +382,8 @@ GLOBAL_LIST_EMPTY(used_colors)
 
 	var/static/list/glaze_finishes = list(
 		"Clear glaze" = "glazed",
-		"Kintsugi glaze" = "shattergold"
+		"Kintsugi glaze" = "shattergold",
+		"Lakkarian glaze" = "naled"
 	)
 
 	var/list/choices = list()
@@ -459,4 +466,3 @@ GLOBAL_LIST_EMPTY(used_colors)
 		return
 	dye = null
 	update_icon()
-

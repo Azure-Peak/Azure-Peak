@@ -19,6 +19,9 @@
 	var/list/allowed_quest_types
 	var/kill_target_floor = 2
 	var/evergreen_target = 0
+	// Mammons the region have stolen, for recovery
+	var/banditry_hoard = 0
+	var/datum/weakref/active_hoard_recovery_ref
 
 /datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _ambush_budget_pct = AMBUSH_BUDGET_PCT_REGULAR, _faction_weights, _tp_budget_multiplier = 1.0, _allowed_quest_types, _kill_target_floor = 2, _evergreen_target = 0, _delivery_reward_multiplier = 1.0, _payout_multiplier = 1.0, _blockade_travel_fee = 0)
 	region_name = _region_name
@@ -38,9 +41,15 @@
 	if(_allowed_quest_types)
 		allowed_quest_types = _allowed_quest_types
 	else
-		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY)
+		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_NOTORIOUS_BOUNTY)
 	kill_target_floor = _kill_target_floor
 	evergreen_target = _evergreen_target
+
+/datum/threat_region/proc/has_active_blockade()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		if(B.threat_region_name == region_name)
+			return TRUE
+	return FALSE
 
 /datum/threat_region/proc/get_kill_target(pop)
 	var/scaled = round(pop * QUEST_KILL_FRACTION)
@@ -123,6 +132,8 @@
 	sortTim(shares, /proc/cmp_numeric_dsc, associative = TRUE)
 	for(var/datum/quest_faction/F as anything in shares)
 		result += F.describe_group_count(shares[F])
+	if(banditry_hoard > 0)
+		result += "a hoard of around [banditry_hoard] mammons"
 	return result
 
 /datum/threat_region/proc/get_danger_color(level)

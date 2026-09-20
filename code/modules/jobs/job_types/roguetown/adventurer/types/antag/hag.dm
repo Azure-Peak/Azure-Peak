@@ -16,7 +16,7 @@
 	min_pq = 50
 	max_pq = null
 
-	obsfuscated_job = TRUE
+	obfuscated_job = TRUE
 
 	advclass_cat_rolls = list(CTAG_HAG = 20)
 	PQ_boost_divider = 10
@@ -36,8 +36,6 @@
 		/datum/virtue/utility/bronzelimbs, //They should feel pain in their limbs given their state
 		/datum/virtue/movement/acrobatic, //This should be given to them when they are actually after a Hunted
 		/datum/virtue/utility/woodwalker, //This should be given to them when they are actually after a Hunted
-		/datum/virtue/combat/crossbowman,	//Absolutely not on a class like this
-		/datum/virtue/combat/bowman, // I'd rather not see combat Hags
 		/datum/virtue/utility/feytouched, // They are already FAE
 		/datum/virtue/utility/riding, // Hags literally get a teleportation mechanic, it doesn't make much sense.
 		)

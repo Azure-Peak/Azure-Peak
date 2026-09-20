@@ -204,7 +204,7 @@
 	name = "otherworldly fullplate"
 	desc = "Strange iridescent full plate. It reflects light as if covered in shiny oil."
 	icon_state = "dreamplate"
-	max_integrity = ARMOR_INT_CHEST_PLATE_ANTAG
+	max_integrity = ARMOR_INT_CHEST_PLATE_BLACKSTEEL
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
@@ -216,7 +216,7 @@
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/under/roguetown/platelegs/dreamwalker
-	max_integrity = ARMOR_INT_LEG_ANTAG
+	max_integrity = ARMOR_INT_LEG_BLACKSTEEL
 	name = "otherworldly legplate"
 	desc = "Strange iridescent leg plate. It reflects light as if covered in shiny oil."
 	icon_state = "dreamlegs"
@@ -232,7 +232,7 @@
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_DREAMWALKER_ARMOR)
 
 /obj/item/clothing/shoes/roguetown/boots/armor/dreamwalker
-	max_integrity = ARMOR_INT_SIDE_ANTAG
+	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
 	name = "otherworldly boots"
 	desc = "Strange iridescent plated boots. It reflects light as if covered in shiny oil."
 	icon_state = "dreamboots"
@@ -251,7 +251,7 @@
 	name = "otherworldly gauntlets"
 	desc = "Strange iridescent plated gauntlets. It reflects light as if covered in shiny oil."
 	icon_state = "dreamgauntlets"
-	max_integrity = ARMOR_INT_SIDE_ANTAG
+	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
@@ -266,7 +266,7 @@
 	name = "otherworldly bevor"
 	desc = "Strange iridescent plated bevor. It reflects light as if covered in shiny oil."
 	icon_state = "dbevor"
-	max_integrity = ARMOR_INT_SIDE_ANTAG
+	max_integrity = ARMOR_INT_SIDE_BLACKSTEEL
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 
@@ -312,7 +312,7 @@
 	desc = "A otherworldly squid helm. It reflects light as if covered in shiny oil."
 	adjustable = CAN_CADJUST
 	icon_state = "dreamsquidhelm"
-	max_integrity = ARMOR_INT_HELMET_ANTAG
+	max_integrity = ARMOR_INT_HELMET_BLACKSTEEL
 	item_flags = DREAM_ITEM
 	unenchantable = TRUE //Please sire, it has self-repairing plus antag-durability. YOU DO NOT NEED MORE.
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x48/head.dmi'
@@ -338,7 +338,7 @@
 	/// How much damage it takes before we spawn a repair shard
 	var/shard_threshold = 100
 	/// How much damage our repair shard repairs
-	var/shard_repair_value = 50
+	var/shard_repair_value = 25
 	/// Type of shard to spawn
 	var/obj/effect/temp_visual/dream_shard/shard_type = /obj/effect/temp_visual/dream_shard
 

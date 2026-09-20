@@ -30,7 +30,9 @@
 	if(iscarbon(user))
 		var/mob/living/carbon/c = user
 		if(c.patron.type == /datum/patron/divine/eora)
-			. += span_info(effect_desc)
+			. += skill_check_text("Eora", TRUE, effect_desc)
+		else
+			. += skill_check_text("Eora", FALSE, "My devotion to Eora is too weak, the whispers of the void remain silent.")
 
 /obj/item/reagent_containers/food/snacks/eoran_aril/proc/apply_effects(mob/living/carbon/eater)
 	return

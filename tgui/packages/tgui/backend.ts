@@ -1,6 +1,7 @@
+//! WARNING: This file is not the same as /tg/'s! Be careful when updating!
 import { sendAct } from './events/act';
 import { backendStateAtom, sharedAtom, store } from './events/store';
-import type { BackendState } from './events/types';
+import type { BackendState, BackendStateStrict } from './events/types';
 
 /**
  * Reactive backend state hook. Please use a type to define what the data is
@@ -25,6 +26,21 @@ export function useBackend<
     act: sendAct,
     ...state,
     data: state.data as TData,
+  };
+}
+
+/**
+ * @see {@link useBackend}
+ *
+ * This is useBackend, but with stricter typing on the return type's data.
+ */
+export function useBackendStrict<TData>(): BackendStateStrict<TData> {
+  const state = store.get(backendStateAtom);
+
+  return {
+    act: sendAct,
+    ...state,
+    data: state.data as any as TData,
   };
 }
 

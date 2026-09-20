@@ -156,6 +156,11 @@
 				else
 					recoil_mult = 0.05
 
+			// if armor broke, your toof dont broke, ya git
+			var/obj/item/clothing/armor = src.get_item_by_slot(def_zone)
+			if(armor?.obj_broken)
+				recoil_mult = 0.05
+
 			var/recoil = round(dam2do * recoil_mult)
 			user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH)// cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor
 		if(prob(25)) // 1/4 of the time you'll overextend and be exposed, giving your opponent a room to strike back hard
@@ -189,9 +194,14 @@
 				if(HAS_TRAIT(src, TRAIT_SILVER_BLESSED))
 					to_chat(user, span_warning("BLEH! [bite_victim] tastes of SILVER! My gift cannot take hold."))
 				else
-					caused_wound?.werewolf_infect_attempt()
-					if(prob(50))
-						user.werewolf_feed(bite_victim, 10)
+					if(user.mind.has_antag_datum(/datum/antagonist/werewolf/noinfect)) //they can't infect anyone
+						to_chat(user, span_warning("My curse is not strong enough to infect [bite_victim]."))
+						if(prob(50))
+							user.werewolf_feed(bite_victim, 10)
+					else
+						caused_wound?.werewolf_infect_attempt()
+						if(prob(50))
+							user.werewolf_feed(bite_victim, 10)
 			if(istype(user.dna.species, /datum/species/gnoll))
 				if(prob(30))
 					user.gnoll_feed(bite_victim, 10)
@@ -332,6 +342,11 @@
 				recoil_mult = 0.50
 			else
 				recoil_mult = 0.05
+
+		// if armor broke, your toof dont broke, ya git
+		var/obj/item/clothing/armor = C.get_item_by_slot(sublimb_grabbed)
+		if(armor?.obj_broken)
+			recoil_mult = 0.05
 
 		var/recoil = round(damage * recoil_mult)
 		user.apply_damage(recoil, BRUTE, BODY_ZONE_PRECISE_MOUTH) // cleaner, basically! this will recoil 25% damage to your mouth if you bite flesh, and 50% if you bite armor

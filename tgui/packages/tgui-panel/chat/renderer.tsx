@@ -5,11 +5,12 @@
  */
 
 import { createRoot } from 'react-dom/client';
-import { TooltipHTML } from 'tgui/components/TooltipHTML';
 import { createLogger } from 'tgui/logging';
 import { Tooltip } from 'tgui-core/components';
 import { EventEmitter } from 'tgui-core/events';
 import { classes } from 'tgui-core/react';
+import type { HighlightSetting } from 'tgui-panel/settings/types';
+import { TooltipHTML } from '../chat_components/TooltipHTML';
 import { store } from '../events/store';
 import { scrollTrackingAtom } from './atom';
 import {
@@ -25,7 +26,12 @@ import {
   MESSAGE_TYPE_UNKNOWN,
   MESSAGE_TYPES,
 } from './constants';
-import { canPageAcceptType, createMessage, isSameMessage } from './model';
+import {
+  canPageAcceptType,
+  createMessage,
+  isSameMessage,
+  type SerializedMessage,
+} from './model';
 import { highlightNode } from './replaceInTextNode';
 
 const logger = createLogger('chatRenderer');
@@ -35,7 +41,7 @@ const logger = createLogger('chatRenderer');
 const SCROLL_TRACKING_TOLERANCE = 24;
 
 // List of injectable component names to the actual type
-export const TGUI_CHAT_COMPONENTS = {
+export const TGUI_CHAT_COMPONENTS: Record<string, React.ComponentType<any>> = {
   Tooltip,
   TooltipHTML,
 };
@@ -45,7 +51,7 @@ export const TGUI_CHAT_COMPONENTS = {
 // Use this is the automatic "-a" -> "-A" replacer doesn't work for you.
 export const TGUI_CHAT_ATTRIBUTE_REMAPS: Record<string, string> = {};
 
-function createHighlightNode(text, color) {
+function createHighlightNode(text: string, color: string) {
   const node = document.createElement('span');
   node.className = 'Chat__highlight';
   node.setAttribute('style', `background-color:${color}`);
@@ -94,29 +100,29 @@ function handleLinkClick(e: MouseEvent) {
   logger.log('blocked navigation to an untrusted chat link', href);
 }
 
-function handleImageError(e) {
+function handleImageError(e: ErrorEvent) {
   setTimeout(() => {
-    /** @type {HTMLImageElement} */
-    const node = e.target;
+    const node = e.target as HTMLImageElement;
     if (!node) {
       return;
     }
-    const attempts = parseInt(node.getAttribute('data-reload-n'), 10) || 0;
+    const attempts =
+      parseInt(node.getAttribute('data-reload-n') || '', 10) || 0;
     if (attempts >= IMAGE_RETRY_LIMIT) {
       logger.error(`failed to load an image after ${attempts} attempts`);
       return;
     }
     const src = node.src;
-    node.src = null;
+    node.src = '';
     node.src = `${src}#${attempts}`;
-    node.setAttribute('data-reload-n', attempts + 1);
+    node.setAttribute('data-reload-n', `${attempts + 1}`);
   }, IMAGE_RETRY_DELAY);
 }
 
 /**
  * Assigns a "times-repeated" badge to the message.
  */
-function updateMessageBadge(message) {
+function updateMessageBadge(message: any) {
   const { node, times } = message;
   if (!node || !times) {
     // Nothing to update
@@ -145,7 +151,7 @@ class ChatRenderer {
   scrollNode: HTMLElement | null;
   scrollTracking: boolean;
   lastScrollHeight: number;
-  highlightParsers: Array<any> | null;
+  highlightParsers: Array<any> | null = null;
   handleScroll: (type: any) => void;
 
   constructor() {
@@ -187,7 +193,7 @@ class ChatRenderer {
     return this.loaded && this.rootNode && this.page;
   }
 
-  mount(node) {
+  mount(node: HTMLElement) {
     // Mount existing root node on top of the new node
     if (this.rootNode) {
       node.appendChild(this.rootNode);
@@ -218,13 +224,16 @@ class ChatRenderer {
     }
   }
 
-  assignStyle(style = {}) {
+  assignStyle(style: Record<string, string | null> = {}) {
     for (const key of Object.keys(style)) {
       this.rootNode!.style.setProperty(key, style[key]);
     }
   }
 
-  setHighlight(highlightSettings, highlightSettingById) {
+  setHighlight(
+    highlightSettings: string[],
+    highlightSettingById: Record<string, HighlightSetting>,
+  ) {
     this.highlightParsers = null;
     if (!highlightSettings) {
       return;
@@ -293,9 +302,9 @@ class ChatRenderer {
         if (regexStr) {
           highlightRegex = new RegExp(`(${regexStr})`, flags);
         } else {
-          const pattern = `${matchWord ? '\\b' : ''}(${highlightWords.join(
-            '|',
-          )})${matchWord ? '\\b' : ''}`;
+          const pattern = `${matchWord ? '\\b' : ''}(${
+            highlightWords ? highlightWords.join('|') : ''
+          })${matchWord ? '\\b' : ''}`;
           highlightRegex = new RegExp(pattern, flags);
         }
       } catch {
@@ -322,7 +331,7 @@ class ChatRenderer {
     this.scrollNode!.scrollTop = this.scrollNode!.scrollHeight;
   }
 
-  changePage(page) {
+  changePage(page: any) {
     if (!this.isReady()) {
       this.page = page;
       this.tryFlushQueue();
@@ -348,7 +357,7 @@ class ChatRenderer {
     }
   }
 
-  getCombinableMessage(predicate) {
+  getCombinableMessage(predicate: SerializedMessage) {
     const now = Date.now();
     const len = this.visibleMessages.length;
     const from = len - 1;
@@ -371,7 +380,7 @@ class ChatRenderer {
   }
 
   processBatch(
-    batch,
+    batch: any[],
     options: { prepend?: boolean; notifyListeners?: boolean } = {},
   ) {
     const { prepend, notifyListeners = true } = options;
@@ -391,7 +400,7 @@ class ChatRenderer {
     }
     // Insert messages
     const fragment = document.createDocumentFragment();
-    const countByType = {};
+    const countByType: Record<string, number> = {};
     let node: HTMLElement;
     let insertedAnyNode = false;
     for (const payload of batch) {
@@ -436,7 +445,7 @@ class ChatRenderer {
             continue;
           }
           // Let's pull out the attibute info we need
-          const outputProps = {};
+          const outputProps: Record<string, string> = {};
           for (let j = 0; j < childNode.attributes.length; j++) {
             const attribute = childNode.attributes[j];
 

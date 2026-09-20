@@ -38,6 +38,13 @@
 	extra_range = 0
 	vary = TRUE
 
+/datum/looping_sound/frying
+	mid_sounds = list('sound/misc/frying.ogg')
+	mid_length = 69
+	volume = 50
+	extra_range = 2
+	vary = TRUE
+
 /datum/looping_sound/streetlamp1
 	mid_sounds = list('sound/misc/loops/StLight1.ogg')
 	mid_length = 60

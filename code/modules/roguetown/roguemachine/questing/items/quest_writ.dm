@@ -157,8 +157,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		if(!SStreasury.has_account(user))
 			to_chat(user, span_warning("No account on record - register with a Meister before taking a contract, lest there be no purse to pay you."))
 			return
-		assigned_quest.quest_receiver_reference = WEAKREF(user)
-		assigned_quest.quest_receiver_name = user.real_name
+		assigned_quest.on_claim(user)
 		to_chat(user, span_notice("You claim this contract for yourself!"))
 		update_quest_text()
 
@@ -167,7 +166,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	refresh_compass(user)
 	ui_interact(user)
 
-/obj/item/quest_writ/rmb_self(mob/user)
+/obj/item/quest_writ/rmb_self(mob/user, keybind = FALSE)
 	if(!assigned_quest || !opened)
 		return
 	opened = FALSE
@@ -217,7 +216,6 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["fetch_item"] = Q.target_item_type ? initial(Q.target_item_type.name) : null
 	data["fetch_count"] = Q.progress_required
 	data["recovery_shipment"] = Q.get_recovery_shipment_name()
-	data["reward"] = Q.reward_amount
 	data["levy_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = (Q.source == QUEST_SOURCE_DEFENSE) ? 0 : GUILD_REFERRAL_FEE_PCT
 	data["progress_required"] = Q.progress_required
@@ -236,6 +234,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["compass_direction"] = last_compass_direction
 	data["z_hint"] = last_z_level_hint
 	data["objective"] = assigned_quest.get_objective_text()
+	data["reward"] = assigned_quest.reward_amount
 	data["progress_current"] = assigned_quest.progress_current
 	data["complete"] = assigned_quest.complete
 	data["levy_exempt"] = assigned_quest.levy_exempt

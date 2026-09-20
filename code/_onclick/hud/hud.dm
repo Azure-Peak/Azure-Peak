@@ -4,13 +4,6 @@
 	including inventories and item quick actions.
 */
 
-// The default UI style is the first one in the list
-GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
-	"Rogue" = 'icons/mob/roguehud.dmi')))
-
-/proc/ui_style2icon(ui_style)
-	return GLOB.available_ui_styles[ui_style] || GLOB.available_ui_styles[GLOB.available_ui_styles[1]]
-
 /datum/hud
 	var/mob/mymob
 
@@ -46,6 +39,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	var/atom/movable/screen/stress/stressies
 	var/atom/movable/screen/cmode_button
 	var/atom/movable/screen/rmbintent/rmb_intent
+	var/atom/movable/screen/action_button_toggle
 
 	var/list/static_inventory = list() //the screen objects which are static
 	var/list/toggleable_inventory = list() //the screen objects which can be hidden
@@ -82,10 +76,11 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 
 /datum/hud/New(mob/owner)
 	mymob = owner
+	action_button_toggle = new /atom/movable/screen/action_button_toggle(null, src)
 
 	if (!ui_style)
 		// will fall back to the default if any of these are null
-		ui_style = ui_style2icon(owner.client && owner.client.prefs && owner.client.prefs.UI_style)
+		ui_style = 'icons/mob/roguehud.dmi'
 
 	if(!hand_slots)
 		hand_slots = list()
@@ -122,6 +117,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	QDEL_NULL(bloodpool)
 	QDEL_NULL(vis_holder)
 	QDEL_NULL(module_store_icon)
+	QDEL_NULL(action_button_toggle)
 	QDEL_LIST(static_inventory)
 
 	inv_slots.Cut()
@@ -185,6 +181,8 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 				screenmob.client.screen += hotkeybuttons
 			if(infodisplay.len)
 				screenmob.client.screen += infodisplay
+			if(action_button_toggle && screenmob.actions.len)
+				screenmob.client.screen += action_button_toggle
 
 
 			if(action_intent)

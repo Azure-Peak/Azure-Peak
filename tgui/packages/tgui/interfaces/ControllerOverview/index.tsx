@@ -9,7 +9,7 @@ import { SubsystemDialog } from './SubsystemDialog';
 import { SubsystemViews } from './SubsystemViews';
 import { SortType, type SubsystemData } from './types';
 
-export function ControllerOverview(props) {
+export function ControllerOverview() {
   return (
     <Window title="Controller Overview" height={600} width={500}>
       <Window.Content>
@@ -19,7 +19,7 @@ export function ControllerOverview(props) {
   );
 }
 
-export function ControllerContent(props) {
+export function ControllerContent() {
   const [state, dispatch] = useReducer(filterReducer, {
     ascending: true,
     inactive: true,

@@ -1,7 +1,10 @@
 /datum/ai_behavior/basic_melee_attack
 	action_cooldown = 0.2 SECONDS // We gotta check unfortunately often because we're in a race condition with nextmove
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
-	var/sidesteps_after = FALSE
+	var/sidesteps_after = TRUE
+	var/sidestep_chance = 15
+	var/list/sidestep_offsets
+	var/sidestep_seeks_flank = FALSE
 
 /datum/ai_behavior/basic_melee_attack/setup(datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
@@ -19,52 +22,39 @@
 	if (isliving(controller.pawn))
 		var/mob/living/pawn = controller.pawn
 		if (world.time < pawn.melee_cooldown)
-			return
+			return AI_BEHAVIOR_INSTANT
 
-	. = ..()
 	var/mob/living/simple_animal/basic_mob = controller.pawn
 	//targetting datum will kill the action if not real anymore
 	var/atom/target = controller.blackboard[target_key]
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 
 	if(!targetting_datum.can_attack(basic_mob, target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
 
 	controller.set_blackboard_key(hiding_location_key, hiding_target)
 
 	if(target == basic_mob)
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	basic_mob.face_atom(target)
 	var/forced_zone = controller.blackboard[BB_FORCED_ATTACK_ZONE]
 	if(forced_zone)
 		basic_mob.zone_selected = forced_zone
 	basic_mob.a_intent = pick(basic_mob.possible_a_intents) //randomized intent
 
-	if(hiding_target) //Slap it!
-		basic_mob.ClickOn(hiding_target, list())
-	else
-		basic_mob.ClickOn(target, list())
+	var/atom/swing_at = resolve_swing_target(controller, basic_mob, target, target_key, hiding_target)
+	if(!swing_at)
+		return AI_BEHAVIOR_DELAY
+	basic_mob.ClickOn(swing_at, list())
 
-	if(sidesteps_after && prob(33)) //this is so fucking hacky, but going off og code this is exactly how it goes ignoring movetimers
-		if(!target || !isturf(target.loc) || !isturf(basic_mob.loc) || basic_mob.stat == DEAD)
-			return
-		var/target_dir = get_dir(basic_mob,target)
+	if(sidesteps_after && prob(sidestep_chance))
+		basic_mob.combat_sidestep(target, sidestep_offsets, sidestep_seeks_flank)
+	return AI_BEHAVIOR_DELAY
 
-		var/static/list/cardinal_sidestep_directions = list(-90,-45,0,45,90)
-		var/static/list/diagonal_sidestep_directions = list(-45,0,45)
-		var/chosen_dir = 0
-		if (target_dir & (target_dir - 1))
-			chosen_dir = pick(diagonal_sidestep_directions)
-		else
-			chosen_dir = pick(cardinal_sidestep_directions)
-		if(chosen_dir)
-			chosen_dir = turn(target_dir,chosen_dir)
-			basic_mob.Move(get_step(basic_mob,chosen_dir))
-			basic_mob.face_atom(target) //Looks better if they keep looking at you when dodging
+/datum/ai_behavior/basic_melee_attack/circler
+	sidestep_seeks_flank = TRUE
 
 /datum/ai_behavior/basic_melee_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
@@ -72,6 +62,48 @@
 		// Don't clear target if the aggro board still tracks a valid threat — let find_aggro re-evaluate instead
 		if(!controller.blackboard[BB_HIGHEST_THREAT_MOB])
 			controller.clear_blackboard_key(target_key)
+
+/datum/ai_behavior/basic_melee_attack/proc/resolve_swing_target(datum/ai_controller/controller, mob/living/pawn, atom/target, target_key, atom/hiding_target)
+	var/turf/locked_turf = get_turf(target)
+	// Hates using sleep but it works, timer spam is worse anyway
+	sleep(max(MELEE_NPC_REACTION_TIME_MIN, MELEE_NPC_REACTION_TIME_BASE - round((pawn.STAPER + pawn.STAINT) / MELEE_NPC_REACTION_PER_STAT_POINT)))
+
+	if(QDELETED(pawn) || QDELETED(target) || QDELETED(controller) || controller.pawn != pawn)
+		return null
+
+	var/swing_reach = pawn.used_intent?.reach || 1
+	if(!pawn.CanReach(target, pawn.get_active_held_item()) && locked_turf && get_dist(pawn, locked_turf) > swing_reach)
+		finish_action(controller, FALSE, target_key)
+		return null
+
+	if(hiding_target)
+		return hiding_target
+	if(!locked_turf || get_dist(pawn, locked_turf) > swing_reach)
+		return target
+
+	if(get_turf(target) != locked_turf)
+		if(AI_INT_SCALE_PROB(pawn, MELEE_NPC_TRACK_CEILING_CHANCE))
+			AI_THINK(pawn, "WHIFF: target moved but we tracked - hit anyway")
+			return target
+		AI_THINK(pawn, "WHIFF: target stepped off [locked_turf], swinging at empty tile")
+		return locked_turf
+
+	if(AI_INT_SCALE_PROB(pawn, 100 - MELEE_NPC_WHIFF_FLOOR_CHANCE))
+		return target
+
+	var/list/nearby = list()
+	for(var/turf/candidate in range(1, locked_turf))
+		if(candidate == locked_turf || candidate.density)
+			continue
+		if(get_dist(pawn, candidate) > swing_reach)
+			continue
+		nearby += candidate
+	if(!length(nearby))
+		return target
+
+	var/turf/sloppy = pick(nearby)
+	AI_THINK(pawn, "WHIFF: sloppy swing, hit [sloppy] instead of target")
+	return sloppy
 
 /datum/ai_behavior/basic_ranged_attack
 	action_cooldown = 0.6 SECONDS
@@ -87,7 +119,6 @@
 
 
 /datum/ai_behavior/basic_ranged_attack/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	. = ..()
 	var/mob/living/simple_animal/basic_mob = controller.pawn
 	//targetting datum will kill the action if not real anymore
 	var/atom/target = controller.blackboard[target_key]
@@ -95,11 +126,9 @@
 
 
 	if(!targetting_datum.can_attack(basic_mob, target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	if(target == basic_mob)
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/atom/hiding_target = targetting_datum.find_hidden_mobs(basic_mob, target) //If this is valid, theyre hidden in something!
 
@@ -110,6 +139,7 @@
 		basic_mob.RangedAttack(hiding_target)
 	else
 		basic_mob.RangedAttack(target)
+	return AI_BEHAVIOR_DELAY
 
 /datum/ai_behavior/basic_ranged_attack/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)
 	. = ..()
@@ -126,16 +156,14 @@
 	return !QDELETED(target)
 
 /datum/ai_behavior/opportunistic_ranged_attack/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	. = ..()
 	var/mob/living/simple_animal/hostile/basic_mob = controller.pawn
 	var/atom/target = controller.blackboard[target_key]
 	var/datum/targetting_datum/targetting_datum = controller.blackboard[targetting_datum_key]
 	if(!istype(basic_mob) || QDELETED(target) || target == basic_mob || !targetting_datum?.can_attack(basic_mob, target))
-		finish_action(controller, FALSE, target_key)
-		return
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	basic_mob.face_atom(target)
 	basic_mob.RangedAttack(target)
-	finish_action(controller, TRUE, target_key)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 
 /datum/ai_behavior/basic_melee_attack/bog_troll/finish_action(datum/ai_controller/controller, succeeded, target_key, targetting_datum_key, hiding_location_key)

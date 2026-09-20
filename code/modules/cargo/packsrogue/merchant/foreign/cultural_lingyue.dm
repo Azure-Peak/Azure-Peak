@@ -14,7 +14,7 @@
 /datum/supply_pack/rogue/lingyue/iwodao
 	name = "Iron Wodao"
 	cost = 60
-	contains = list(/obj/item/rogueweapon/sword/saber/iron/wodao)
+	contains = list(/obj/item/rogueweapon/sword/sabre/iron/wodao)
 	ship_qty_min = 1
 	ship_qty_max = 4
 

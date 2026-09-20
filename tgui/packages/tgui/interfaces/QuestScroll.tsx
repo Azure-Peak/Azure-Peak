@@ -21,6 +21,7 @@ import {
 } from './QuestScroll/Seals';
 import type { QuestScrollData } from './QuestScroll/shared';
 import {
+  bountyHeader,
   completionStamp,
   divider,
   FACTION_CAT_BEAST,
@@ -29,7 +30,9 @@ import {
   FACTION_CAT_GRONN,
   FACTION_CAT_UNDEAD,
   failedStamp,
+  marginaliaLabel,
   marginaliaLine,
+  netReward,
   parchment,
   titleHint,
   WRIT_TYPE_CARRIAGE,
@@ -39,6 +42,23 @@ import {
 } from './QuestScroll/shared';
 import { TownerWrit } from './QuestScroll/TownerWrit';
 import { UndeadWrit } from './QuestScroll/UndeadWrit';
+
+const BountyHeader = (props: {
+  reward: number;
+  levyRate: number;
+  levyExempt: boolean;
+  guildCutRate: number;
+}) => {
+  const { reward, levyRate, levyExempt, guildCutRate } = props;
+  const net = netReward(reward, levyRate, levyExempt, guildCutRate);
+  return (
+    <div style={bountyHeader}>
+      <span style={marginaliaLabel}>Bounty as it now stands:</span>
+      <b>{reward} mammon</b>
+      {net !== reward && <span>({net} in hand after deductions)</span>}
+    </div>
+  );
+};
 
 type MarginaliaSectionProps = {
   data: QuestScrollData;
@@ -326,6 +346,15 @@ export const QuestScroll = () => {
       <Window.Content scrollable>
         <div style={parchment}>
           {data.title && <div style={titleHint}>{data.title}</div>}
+
+          {!!bearer && (
+            <BountyHeader
+              reward={reward}
+              levyRate={levyRate}
+              levyExempt={levyExempt}
+              guildCutRate={guildCutRate}
+            />
+          )}
 
           <div style={writBody}>
             <WritBody

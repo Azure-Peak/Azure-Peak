@@ -46,6 +46,20 @@
 			var/datum/advclass/target_job = departing_mob.get_advclass_datum()
 			if(target_job)
 				SSrole_class_handler.adjust_class_amount(target_job, -1)
+			if(istype(mob_job, /datum/job/roguetown/adventurer/courtagent))
+				GLOB.court_agents -= departing_mob.real_name
+				if(length(GLOB.court_spymaster))
+					for(var/name in GLOB.court_spymaster)
+						var/mob/living/carbon/human/hand = GLOB.court_spymaster[name]
+						if(hand)
+							to_chat(hand, span_notice("[departing_mob.real_name] has left the vicinity of [SSticker.realm_name]."))
+			if(istype(mob_job, /datum/job/roguetown/hand))
+				GLOB.court_spymaster -= departing_mob.real_name
+				if(length(GLOB.court_agents))
+					for(var/name in GLOB.court_agents)
+						var/mob/living/carbon/human/agent = GLOB.court_agents[name]
+						if(agent)
+							to_chat(agent, span_notice("[departing_mob.real_name] has left the vicinity of [SSticker.realm_name]."))
 	if(!length(departing_mob.contents))
 		dat += " none."
 	else

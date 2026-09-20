@@ -5,8 +5,7 @@
 	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
 	name = "Frost Shards"
 	desc = "Loose a concentrated spray of frozen shards. The shards lose damage and efffects past 4 paces . \
-	The first shard to hit a foe deals full damage and applies a stack of frost - further shards from the same volley deals slight damage, and do not stack more frost. \
-	Damage is increased by 100% versus simple-minded creechurs."
+	The first shard to hit a foe deals full damage and applies a stack of frost - further shards from the same volley deals slight damage, and do not stack more frost."
 	button_icon_state = "frost_bolt"
 	sound = 'sound/spellbooks/icicle.ogg'
 	spell_color = GLOW_COLOR_ICE
@@ -55,7 +54,6 @@
 	expose_caster_on_deflect = TRUE
 	icon_state = "ice_2"
 	damage = 35
-	npc_simple_damage_mult = 2
 	damage_type = BURN
 	woundclass = BCLASS_BURN
 	flag = "fire"
@@ -117,13 +115,11 @@
 	expose_caster_on_deflect = TRUE
 	icon_state = "ice_2"
 	damage = 30
-	npc_simple_damage_mult = 2
 	damage_type = BURN
 	woundclass = BCLASS_BURN
 	flag = "fire"
 	range = SPELL_RANGE_PROJECTILE
 	speed = MAGE_PROJ_FAST
-	accuracy = 40
 	nodamage = FALSE
 
 /obj/projectile/magic/frostbolt/arc

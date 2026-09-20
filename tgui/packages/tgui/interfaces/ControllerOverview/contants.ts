@@ -1,6 +1,8 @@
+import type { SubsystemData } from './types';
+
 type SortType = {
   label: string;
-  propName: string;
+  propName: keyof SubsystemData;
   inDeciseconds: boolean;
 };
 

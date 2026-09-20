@@ -11,7 +11,6 @@
 	response_help_simple = "pass through"
 	a_intent = INTENT_HARM
 	healable = 0
-	speed = 0
 	maxHealth = 40
 	health = 40
 	harm_intent_damage = 10
@@ -75,7 +74,6 @@
 	base_intents = list(/datum/intent/simple/claw)
 	a_intent = INTENT_HARM
 	healable = 0
-	speed = 0
 	maxHealth = 40
 	health = 40
 	harm_intent_damage = 10

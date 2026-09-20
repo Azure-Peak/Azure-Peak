@@ -6,12 +6,27 @@
 	health = CAVETROLL_HEALTH
 	maxHealth = CAVETROLL_HEALTH
 	ai_controller = /datum/ai_controller/troll_cave
+	move_base_delay = MOVEMENT_DELAY_SPD_17
 	head_butcher = /obj/item/natural/head/troll/cave
 
-	defprob = 15
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/cave/Initialize(mapload)
 	. = ..()
-	var/datum/action/cooldown/mob_cooldown/stone_throw/throwstone = new(src)
+	var/datum/action/cooldown/spell/telegraphed_strike/mob_ability/ground/hurled_rock/stone_throw/throwstone = new(src)
 	throwstone.Grant(src)
-	ai_controller.set_blackboard_key(BB_TARGETED_ACTION, throwstone)
+	if(prob(50))
+		src.hide()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave/LoseTarget()
+	..()
+	if(stat != DEAD)
+		hide()
+
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave/GiveTarget()
+	..()
+	ambush()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave/Moved()
+	ambush()
+	. = ..()

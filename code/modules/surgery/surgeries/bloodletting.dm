@@ -68,17 +68,31 @@
 	skill_median = SKILL_LEVEL_EXPERT
 	preop_sound = 'sound/surgery/organ1.ogg'
 	success_sound = 'sound/surgery/organ2.ogg'
+	repeating = TRUE
 
 /datum/surgery_step/bloodlet/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
+	if(target.blood_volume <= BLOOD_VOLUME_SURVIVE)
+		to_chat(user, span_warning("There's not enough blood to force out!"))
+		return FALSE
 	display_results(user, target, span_notice("I begin to force the blood out of [target]'s vein in [parse_zone(target_zone)]..."),
 		span_notice("[user] begins to force the blood out of [target]'s vein in [parse_zone(target_zone)]!"),
 		span_notice("[user] begins to force the blood out of [target]'s vein in [parse_zone(target_zone)]!"))
 	return TRUE
 
 /datum/surgery_step/bloodlet/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
+	var/surgeon_level = user.get_skill_level(skill_used)
+
 	display_results(user, target, span_notice("I force blood out [target]'s vein in [parse_zone(target_zone)]."),
 		span_notice("[user] forces blood out [target]'s vein in [parse_zone(target_zone)]!"),
 		span_notice("[user] forces blood out [target]'s vein in [parse_zone(target_zone)]!"))
-	target.adjustToxLoss (-25, 0)
-	target.blood_volume -=50
+	target.adjustToxLoss (-15, 0)
+	target.blood_volume -= (50 - (surgeon_level*2))
+	// bloodletting will also allow you to remove "infection" reagent from people.
+	// roundabout and hacky solution for people that somehow get like 400 of the thing from ppl's shitty surgery.
+	// that makes them unrevivable, btw. they spawn and die again.
+	if(target.reagents)
+		for(var/datum/reagent/R in target.reagents.reagent_list)
+			if(istype(R, /datum/reagent/infection))
+				// removes an amount = to ur level so up to 6. which is actually a good bit.
+				target.reagents.remove_reagent(R.type, surgeon_level)
 	return TRUE

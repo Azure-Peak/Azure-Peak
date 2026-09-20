@@ -18,8 +18,7 @@
 	var/mob/living/living_pawn = controller.pawn
 	living_pawn.ai_controller.set_blackboard_key(BB_RESISTING, TRUE)
 	living_pawn.execute_resist()
-	finish_action(controller, TRUE)
-	return TRUE
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /datum/ai_behavior/resist/finish_action(datum/ai_controller/controller, succeeded, ...)
 	. = ..()

@@ -1,16 +1,28 @@
 /obj/item/storage/equipped(mob/user, slot)
 	. = ..()
-	for(var/obj/item/reagent_containers/I in contents)
-		if(I.reagents && I.spillable)
-			RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(check_spill), override = TRUE)
-			break
+	var/datum/component/storage/concrete/storage = GetComponent(/datum/component/storage/concrete)
+	if(!storage?.does_not_spill)
+		for(var/obj/item/reagent_containers/I in contents)
+			if(I.reagents && I.spillable)
+				RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(check_spill), override = TRUE)
+				break
 
 /obj/item/storage/proc/check_spill()
 	var/mob/living/L = loc
-	if(istype(L))
-		for(var/obj/item/reagent_containers/I in contents)
-			if(I.reagents && I.spillable)
-				I.reagents.remove_all(3)
+	if(!istype(L))
+		return
+	for(var/obj/item/reagent_containers/I in contents)
+		if(I.spillable && I.reagents?.total_volume)
+			L.warn_spilling()
+			I.reagents.remove_all(3)
+	return
+
+/mob/living/proc/warn_spilling()
+	if(mob_timers["spilling_warning"] && (world.time < (mob_timers["spilling_warning"] + 10 SECONDS)))
+		return
+	to_chat(src, span_warning("A damp wetness soaks through my bags."))
+	mob_timers["spilling_warning"] = world.time
+	return
 
 /obj/item/storage/dropped(mob/user)
 	. = ..()

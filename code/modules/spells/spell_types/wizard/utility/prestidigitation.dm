@@ -297,3 +297,10 @@
 #undef PRESTI_SPARK
 #undef PRESTI_MOTE
 #undef PRESTI_SENSE
+
+/obj/effect/temp_visual/cleaning_pulse
+	name = "cleaning pulse"
+	icon = 'icons/effects/wizard_spell_effects.dmi'
+	icon_state = "cleaning_pulse"
+	duration = 8
+	randomdir = 0

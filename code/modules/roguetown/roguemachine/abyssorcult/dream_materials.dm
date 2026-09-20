@@ -3,6 +3,28 @@
 	desc = "you shouldn't see this."
 	w_class = WEIGHT_CLASS_TINY
 	icon =	'icons/roguetown/misc/dream_materials.dmi'
+	var/is_parchment = FALSE
+	var/examine_blurb
+
+/obj/item/dream_material/examine(mob/user)
+	. = ..()
+	if(examine_blurb)
+		. += span_notice("[examine_blurb]")
+
+/obj/item/dream_material/attack_self(mob/user)
+	. = ..()
+	if(.)
+		return
+
+	if(!is_parchment)
+		return
+
+	var/obj/structure/roguemachine/ritual_rune/R = locate() in range(1, user)
+	if(!R)
+		to_chat(user, span_warning("There is no focal rune nearby to channel this parchment."))
+		return
+
+	R.try_activate_rune(user, src)
 
 // Tier 1
 /obj/item/dream_material/dream_spike
@@ -52,16 +74,22 @@
 	name = "quicksilver parchment"
 	desc = "A piece of parchment treated with a quicksilver like paint. The paint binds visions, or so they say."
 	icon_state = "tier1_open"
+	is_parchment = TRUE
+	examine_blurb = "Can be used near or on a dream ritual rune by the dream pool to receive a vision. Only works for those who follow Abyssor, or are attuned to Abyssorite paints by an Abyssorite."
 
 /obj/item/dream_material/parchment_gold
 	name = "auric parchment"
 	desc = "A piece of parchment treated with a flakey, gold-like substance. Said to hold greater visions without warping the words."
 	icon_state = "tier2_open"
+	is_parchment = TRUE
+	examine_blurb = "Can be used near or on a dream ritual rune by the dream pool to receive a vision. Only works for those who follow Abyssor, or are attuned to Abyssorite paints by an Abyssorite."
 
 /obj/item/dream_material/parchment_dream
 	name = "sylveric parchment"
 	desc = "A piece of parchment treated with sylveric based paint. The stuff of dreams. Said to muddy present, past and future, so that it may appear to us... In a dream."
 	icon_state = "tier3_open"
+	is_parchment = TRUE
+	examine_blurb = "Can be used near or on a dream ritual rune by the dream pool to receive a vision. Only works for those who follow Abyssor, or are attuned to Abyssorite paints by an Abyssorite."
 
 /obj/item/dream_material/dream_seed
 	name = "seed of intelligence"
@@ -76,6 +104,12 @@
 	var/datum/status_effect/infusion/infusion_type = /datum/status_effect/infusion/intelligence
 	/// Color hex code applied to the seed, pylon overlay, and outline filters.
 	var/pylon_color
+	/// The geyser pylon structure type spawned by this seed (if this is a geyser seed)
+	var/obj/structure/dream_pylon/geyser/pylon_type
+	/// The trail/paint type associated with this geyser seed
+	var/obj/effect/ink_trail/trail_type
+	/// Amount of puddles differing from the default to override on geyser pylons.
+	var/ink_puddle_spawn_amount
 
 /obj/item/dream_material/dream_seed/get_mechanics_examine(mob/user)
 	. = ..()
@@ -89,17 +123,48 @@
 		color = pylon_color
 
 /obj/item/dream_material/dream_seed/proc/apply_to_pylon(obj/structure/dream_pylon/P, mob/user)
+	// Geyser Seed Logic
+	if(pylon_type)
+		if(!istype(P, /obj/structure/dream_pylon/geyser))
+			to_chat(user, span_warning("[src] can only be used on geyser pylons!"))
+			return FALSE
+
+		var/obj/structure/dream_pylon/geyser/G = P
+
+		// Recharging the exact same geyser type
+		if(G.trail_type == trail_type)
+			if(G.charge >= G.max_charge)
+				to_chat(user, span_warning("[G] is already fully charged!"))
+				return FALSE
+
+			G.charge = min(G.max_charge, G.charge + charge_grant)
+			G.update_pylon_appearance()
+			to_chat(user, span_notice("You channel [src] into [G], replenishing its charge."))
+			qdel(src)
+			return TRUE
+
+		// Reconfigure existing geyser in-place
+		G.set_geyser_type(trail_type, max_charge_grant, charge_grant, pylon_color, ink_puddle_spawn_amount)
+		to_chat(user, span_notice("You reconfigure [G] using the essence of [src]!"))
+		qdel(src)
+		return TRUE
+
+	// Standard Infusion Seed Logic
+	if(istype(P, /obj/structure/dream_pylon/geyser))
+		to_chat(user, span_warning("[src] cannot be used on a geyser pylon!"))
+		return FALSE
+
 	if(P.infusion_payload == infusion_type)
 		if(P.charge >= P.max_charge)
-			to_chat(user, "<span class='warning'>[P] is already fully charged!</span>")
+			to_chat(user, span_warning("[P] is already fully charged!"))
 			return FALSE
 
 		P.charge = min(P.max_charge, P.charge + charge_grant)
 		P.update_pylon_appearance()
-		to_chat(user, "<span class='notice'>You channel [src] into [P], replenishing its charge.</span>")
+		to_chat(user, span_notice("You channel [src] into [P], replenishing its charge."))
 	else
 		P.set_infusion(infusion_type, max_charge_grant, charge_grant, pylon_color)
-		to_chat(user, "<span class='notice'>You overwrite the core of [P] with the essence of [src]!</span>")
+		to_chat(user, span_notice("You overwrite the core of [P] with the essence of [src]!"))
 
 	qdel(src)
 	return TRUE
@@ -124,14 +189,20 @@
 			to_chat(user, span_warning("Something is in the way."))
 			return
 
-	if(!do_after(user, 10 SECONDS))
+	if(!do_after(user, 6.5 SECONDS))
 		to_chat(user, span_warning("I was interrupted!"))
 		return
 
-	to_chat(user, "<span class='purple'>You channel energy through [src], manifesting a pulsating pylon...</span>")
+	to_chat(user, span_purple("You channel energy through [src], manifesting a pylon..."))
 
-	var/obj/structure/dream_pylon/P = new /obj/structure/dream_pylon(T)
-	P.set_infusion(infusion_type, max_charge_grant, charge_grant, pylon_color)
+	if(pylon_type)
+		var/obj/structure/dream_pylon/geyser/G = new pylon_type(T)
+		G.charge = charge_grant
+		G.max_charge = max_charge_grant
+		G.update_pylon_appearance()
+	else
+		var/obj/structure/dream_pylon/P = new /obj/structure/dream_pylon(T)
+		P.set_infusion(infusion_type, max_charge_grant, charge_grant, pylon_color)
 
 	qdel(src)
 
@@ -169,6 +240,45 @@
 	max_charge_grant = 100
 	infusion_type = /datum/status_effect/infusion/ambush_trait
 	pylon_color = "#001611"
+
+/obj/item/dream_material/dream_seed/geyser
+	name = "geyser seed"
+	desc = "A crystalline seed bursting with raw paint energy. Suitable for cultivating or modifying geyser pylons."
+	infusion_type = null
+	pylon_color = "#333749"
+	pylon_type = /obj/structure/dream_pylon/geyser
+	trail_type = /obj/effect/ink_trail
+	charge_grant = 300
+	max_charge_grant = 300
+
+/obj/item/dream_material/dream_seed/geyser/healing
+	name = "soothing geyser seed"
+	desc = "A crystalline seed radiating a warm, soothing green."
+	pylon_color = "#b6e6b6"
+	pylon_type = /obj/structure/dream_pylon/geyser/healing
+	trail_type = /obj/effect/ink_trail/healing
+	ink_puddle_spawn_amount = 12
+	charge_grant = 150
+	max_charge_grant = 150
+
+/obj/item/dream_material/dream_seed/geyser/invigorating
+	name = "invigorating geyser seed"
+	desc = "A crystalline seed humming with brilliant blue."
+	pylon_color = "#3a86ff"
+	pylon_type = /obj/structure/dream_pylon/geyser/invigorating
+	trail_type = /obj/effect/ink_trail/invigorating
+	charge_grant = 125
+	max_charge_grant = 125
+
+/obj/item/dream_material/dream_seed/geyser/spiked
+	name = "spiked geyser seed"
+	desc = "A dark, ominous seed oozing crimson paint."
+	pylon_color = "#580000"
+	pylon_type = /obj/structure/dream_pylon/geyser/spiked
+	trail_type = /obj/effect/ink_trail/evil
+	ink_puddle_spawn_amount = 15
+	charge_grant = 100
+	max_charge_grant = 100
 
 /obj/effect/spawner/lootdrop/roguetown/dream_material
 	name = "dream material spawner"
@@ -215,6 +325,16 @@
 		/obj/item/dream_material/dream_seed/strength = 15,
 		/obj/item/dream_material/dream_seed/speed = 15,
 		/obj/item/dream_material/dream_seed/sneaky = 10
+	)
+
+// Geyser Seeds Spawner
+/obj/effect/spawner/lootdrop/roguetown/dream_material/geyser
+	name = "geyser dream seed spawner"
+	loot = list(
+		/obj/item/dream_material/dream_seed/geyser = 5,
+		/obj/item/dream_material/dream_seed/geyser/healing = 25,
+		/obj/item/dream_material/dream_seed/geyser/invigorating = 25,
+		/obj/item/dream_material/dream_seed/geyser/spiked = 15
 	)
 
 // Parchments Spawner

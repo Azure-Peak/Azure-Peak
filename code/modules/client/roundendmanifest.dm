@@ -4,7 +4,7 @@
 	for(var/X in GLOB.character_list)
 		dat += "[GLOB.character_list[X]]"
 
-	var/datum/browser/popup = new(src, "actors", "<center>Inhabitants of Azure Peak</center>", 387, 420)
+	var/datum/browser/popup = new(src, "actors", "<center>Inhabitants of Azure Peak</center>", 500, 600)
 	popup.set_content(dat)
 	popup.open(FALSE)
 
@@ -29,6 +29,6 @@
 		var/list/character_data = actor_data["data"]
 		dat += "<b>[character_data["name"]]</b> as <b>[character_data["rank"]]</b><br>"
 
-	var/datum/browser/popup = new(src, "actors", "<center>This Story's Actors</center>", 387, 420)
+	var/datum/browser/popup = new(src, "actors", "<center>This Story's Actors</center>", 500, 600)
 	popup.set_content(dat)
 	popup.open(FALSE)

@@ -566,3 +566,12 @@
 	name = "Undivided Camaraderie"
 	desc = span_undivided("WE STAND TOGETHER!")
 	icon_state = "ten_united"
+
+/datum/action/cooldown/spell/miracle/anastasis/undivided
+	name = "Lesser Anastasis"
+	desc = "Resurrect a person that is free of rot and decay, deadites (such as lyckers / skeletons) instead explode when it is attempted."
+	fluff_desc = "The greatest feat any priest can manage is reversion of death, a true rebirth unlike the perversion Necromancers aspire to."
+	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
+	spell_color = GLOW_COLOR_UNDIVIDED
+	cooldown_time = 15 MINUTES

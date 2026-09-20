@@ -21,7 +21,7 @@ plus talkstatue_tgui.dm (TGUI surface shared across all three roles).
 
 /obj/structure/roguemachine/talkstatue/mercenary
 	name = "mercenary statue"
-	desc = "A gilbronze warrior erupts from the stone bell that homes them; foreign garb, horns of stone, claws of deathly metals. The perfect central-point of a proud warrior extrinsic to this place and tyme."
+	desc = "A gilbranze warrior erupts from the stone bell that homes them; foreign garb, horns of stone, claws of deathly metals. The perfect central-point of a proud warrior extrinsic to this place and tyme."
 	var/static/list/mercenary_status = list()
 	var/static/list/pending_registrations = list()
 	var/static/list/pending_message_links = list()

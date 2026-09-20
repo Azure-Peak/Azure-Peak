@@ -72,7 +72,7 @@
 
 /datum/skill/combat/bows
 	name = "Archery"
-	desc = "Alongside perception, increases the speed you draw back a bow and have it ready to shoot. Does not influence damage or chance to hit."
+	desc = "Increases the maximum accuracy of your shots, and increases the speed you draw back a bow. Bows with a heavy draw are slower to pull if your strength is below 10. Does not influence damage."
 	dreams = list(
 	"...the cold wind on the balcony bristles against your left so you adjust your aim towards it. Your fingers relax and your bow exhales a quiet sigh. Moments later, your mark drops to the cobblestone streets below. Dead...",
 	"...your fingers sting as you let loose another arrow and it glances off the pale knight's breastplate. You aim at their visor and pray to whatever gods you hold dear that this one will make it through...",
@@ -82,7 +82,7 @@
 
 /datum/skill/combat/crossbows
 	name = "Crossbows"
-	desc = "Alongside perception, increases the speed you ready a crossbow and have it ready to shoot as well its draw speed. Does not influence damage or chance to hit."
+	desc = "Increases the maximum accuracy of your shots, and alongside strength, increases the speed you cock and draw a crossbow. Does not influence damage."
 	dreams = list(
 	"...you put your foot down and pull on the string. You wind the crossbow back with all your might. It feels like the thing is mocking you, impossible to pull taut. Only when a seasoned arbalist reminds you to pull from your back, and not your knees, do you make progress...",
 	"...the crossbow is a deadly marvel of engineering, waiting for your guidance. You steady your breath, finger poised on the trigger. The world narrows as you take aim, the perfect shot soon to come..."
@@ -118,7 +118,7 @@
 
 /datum/skill/combat/slings
 	name = "Slings"
-	desc = "Alongside perception, increases the speed you ready a sling and have it ready to shoot. Does not influence damage or chance to hit."
+	desc = "Increases the maximum accuracy of your shots, and increases the speed you ready and swing a sling. Does not influence damage."
 	dreams = list(
 	"...you recall an old maxim you read in a dusty tome within the archives: if you can throw, you can sling...",
 	"...the perched archers ruthlessly repel the peasant rebellion. Hope for fairness is almost forlorn, until with a soft crack, a hailing of iron bullets clatter against the foe's helmets...",

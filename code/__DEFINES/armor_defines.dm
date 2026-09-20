@@ -12,8 +12,8 @@
 #define PEN_NONE			0	// No penetration. Training weapons, base cuts/chops.
 #define PEN_LIGHT			1	// Falx cut, axe chop. Penetrates trash armor (NPC cloth/bad leather).
 #define PEN_MEDIUM			2	// Sword thrusts, longsword chop. Penetrates player light armor (gambeson, hardened leather).
-#define PEN_HEAVY			3	// Spear, estoc. Penetrates mail/brigandine/plate.alist
-#define PEN_BSTEEL			4	// Halfsword, dagger pick. Penetrates plate fully, blacksteel.
+#define PEN_HEAVY			3	// Halfsword, spear, estoc. Penetrates mail/brigandine/plate.alist
+#define PEN_BSTEEL			4	// Frei halfsword, dagger pick. Penetrates plate fully, blacksteel.
 
 // Damage Blocking tiers (0-4). Armor clothing.
 #define DBLOCK_NONE			0	// No blocking. Unarmored skin.
@@ -59,7 +59,7 @@
 // For now. Steel vs Iron will be a difference of 75% integrity without rating differences.
 // So Iron will actually be pretty decent and there shouldn't be a compulsive need to upgrade.
 
-#define ARMOR_INTEG_FAILURE 0.1	//Percentage of damage the armor breaks at. 0.1 = 10%
+#define GENERIC_INTEG_FAILURE 0.1	//Percentage of damage the item breaks at. 0.1 = 10%
 
 // Helmet
 #define ARMOR_INT_HELMET_ANTAG 600

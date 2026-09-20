@@ -15,7 +15,7 @@ import {
 import { MESSAGE_TYPES } from './constants';
 import { useChatPages } from './use-chat-pages';
 
-export function ChatPageSettings(props) {
+export function ChatPageSettings() {
   const {
     page,
     moveChatLeft,

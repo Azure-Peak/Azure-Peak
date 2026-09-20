@@ -14,6 +14,7 @@
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
 	converted_type = /area/rogue/indoors/shelter/rtfield
 	deathsight_message = "somewhere in the wilds, next to towering walls"
+	area_sniff_message = "You smell the faint scent of the town together with that of fresh grass."
 	warden_area = TRUE
 	threat_region = THREAT_REGION_AZURE_BASIN
 	detail_text = DETAIL_TEXT_AZURE_BASIN
@@ -26,3 +27,4 @@
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = list ('sound/ambience/rivernight (1).ogg','sound/ambience/rivernight (2).ogg','sound/ambience/rivernight (3).ogg' )
 	detail_text = DETAIL_TEXT_DRUIDS_GROVE
+	area_sniff_message = "You smell old roots and plenty of burnt swampweed."

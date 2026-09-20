@@ -202,12 +202,12 @@
 			if("Crossbow")
 				beltr = /obj/item/quiver/bolt/standard
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-			if("Bow") // They can head down to the armory to sideshift into one of the other bows.
+			if("Bow")
 				beltr = /obj/item/quiver/arrows
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/watchman
 			if("Sling")
 				beltr = /obj/item/quiver/sling/iron
-				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling // Both are belt slots and it's not worth setting where the cudgel goes for everyone else, sad.
+				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 
 		switch(armor_choice)
 			if("Leather Armor") //OG more or less RT guardsman archer
@@ -425,8 +425,8 @@
 	traits_applied = list(TRAIT_STANDARD_BEARER, TRAIT_MEDIUMARMOR)
 	subclass_stats = list(
 		STATKEY_STR = 2, // Wielding the banner gives +3 fortune and +2 Perception, as seen in special.dm
-		STATKEY_CON = 2,
-		STATKEY_WIL = 3 // Flag must never fall.
+		STATKEY_CON = 3,
+		STATKEY_WIL = 2 // Flag must never fall.
 	)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT, // SWING THAT THING.

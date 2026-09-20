@@ -45,9 +45,10 @@
 	maximum_antags = 2
 
 	earliest_start = 0 SECONDS
-	max_occurrences = 2
-
-	weight = 10
+	// solo assassin is kill due to various balance fuckeries and plans for the future.
+	// IF YOU ARE RE-ENABLING THIS MAKE 100% SURE IT RESPECTS PREFERENCES!!!!!!!!!!!!!!!!!!!!!!
+	max_occurrences = 0
+	weight = 0
 
 	typepath = /datum/round_event/antagonist/solo/assassins
 	antag_datum = /datum/antagonist/assassin
@@ -61,6 +62,17 @@
 	if(is_storyteller_soft_antag_blocked())
 		return EVENT_CANT_RUN
 	return ..()
+
+// override that includes removal of targeted & hunted individuals. i'm pretty sure it works.
+/datum/round_event_control/antagonist/solo/assassins/trim_candidates(list/candidates)
+	candidates = ..()
+	for(var/mob/living/candidate in candidates)
+		if(candidate.has_flaw(/datum/charflaw/targeted) || candidate.has_flaw(/datum/charflaw/hunted))
+			candidates -= candidate
+		// needs to be a gaggarite
+		if(istype(candidate.patron, /datum/patron/inhumen/graggar))
+			candidates -= candidate
+	return candidates
 
 /datum/round_event/antagonist/solo/assassins/start()
 	var/datum/job/assassin_job = SSjob.GetJob("Assassin")

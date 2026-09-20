@@ -231,6 +231,7 @@
 	verbage_simple = "dry"
 	verbage = "dries"
 	craftsound = null
+	subtype_reqs = FALSE
 
 /datum/crafting_recipe/roguetown/cooking/sigsweet/cheroot
 	name = "cheroot - swampweed"

@@ -20,15 +20,31 @@ SUBSYSTEM_DEF(communications)
 	if(is_silicon)
 		if(user.job)
 			var/used_title = user.get_role_title()
-			if(SSticker.regentmob == user)
-				used_title = "[used_title]" + " Regent"
+			if(SSticker.rulermob != user)
+				if(SSticker.regentmob == user)
+					if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+						used_title = "Ancient Lord Regent"
+					else
+						used_title = "[used_title]" + " Regent"
+				else if(user.mind?.has_antag_datum(/datum/antagonist/lich))
+					used_title = "Lich"
+				else if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+					used_title = "Ancient Lord"
 			priority_announce(html_decode(user.treat_message(input)), "The [used_title] Decrees", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), sender = user)
 			silicon_message_cooldown = world.time + 5 SECONDS
 	else
 		if(user.job)
 			var/used_title = user.get_role_title()
-			if(SSticker.regentmob == user)
-				used_title = "[used_title]" + " Regent"
+			if(SSticker.rulermob != user)
+				if(SSticker.regentmob == user)
+					if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+						used_title = "Ancient Lord Regent"
+					else
+						used_title = "[used_title]" + " Regent"
+				else if(user.mind?.has_antag_datum(/datum/antagonist/lich))
+					used_title = "Lich"
+				else if(user.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
+					used_title = "Ancient Lord"
 			priority_announce(html_decode(user.treat_message(input)), "The [used_title] Speaks", 'sound/misc/bell.ogg', sender = user)
 			nonsilicon_message_cooldown = world.time + 5 SECONDS
 		else

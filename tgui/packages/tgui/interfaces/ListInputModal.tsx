@@ -24,7 +24,7 @@ type ListInputData = {
   title: string;
 };
 
-export const ListInputModal = (props) => {
+export const ListInputModal = () => {
   const { act, data } = useBackend<ListInputData>();
   const {
     items = [],
@@ -194,11 +194,18 @@ export const ListInputModal = (props) => {
   );
 };
 
+type ListDisplayProps = Pick<ListInputData, 'descriptions'> & {
+  filteredItems: string[];
+  onClick: (idx: number) => void;
+  onFocusSearch: () => void;
+  searchBarVisible: boolean;
+  selected: number;
+};
 /**
  * Displays the list of selectable items.
  * If a search query is provided, filters the items.
  */
-const ListDisplay = (props) => {
+const ListDisplay = (props: ListDisplayProps) => {
   const { act } = useBackend<ListInputData>();
   const {
     descriptions,
@@ -227,7 +234,7 @@ const ListDisplay = (props) => {
             className="candystripe"
             color="transparent"
             fluid
-            id={index}
+            id={`${index}`}
             key={index}
             onClick={() => onClick(index)}
             onDoubleClick={(event) => {

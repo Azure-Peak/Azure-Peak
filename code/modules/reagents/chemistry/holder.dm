@@ -685,7 +685,7 @@
 
 /datum/reagents/proc/adjust_thermal_energy(J, min_temp = 2.7, max_temp = 1000)
 	var/S = specific_heat()
-	chem_temp = CLAMP(chem_temp + (J / (S * total_volume)), 2.7, 1000)
+	set_temperature(CLAMP(chem_temp + (J / (S * total_volume)), 2.7, 1000))
 
 /datum/reagents/proc/add_reagent(reagent, amount, list/data=null, reagtemp = 300, no_react = 0)
 	if(!isnum(amount) || !amount)
@@ -718,7 +718,7 @@
 		thermal_energy += R.specific_heat * R.volume * cached_temp
 	specific_heat += D.specific_heat * (amount / new_total)
 	thermal_energy += D.specific_heat * amount * reagtemp
-	chem_temp = thermal_energy / (specific_heat * new_total)
+	set_temperature(thermal_energy / (specific_heat * new_total))
 	////
 
 	//add the reagent to the existing if it exists
@@ -967,17 +967,34 @@
 
 	return english_list(out, "something")
 
+/** Sets the temperature of this reagent container to a new value.
+ *
+ * Handles setter signals.
+ *
+ * Arguments:
+ * - _temperature: The new temperature value.
+ */
+/datum/reagents/proc/set_temperature(_temperature)
+	var/new_temperature = clamp(_temperature, 0, CHEMICAL_MAXIMUM_TEMPERATURE)
+	if(new_temperature == chem_temp)
+		return
+
+	. = chem_temp
+	chem_temp = new_temperature
+	SEND_SIGNAL(src, COMSIG_REAGENTS_TEMP_CHANGE, new_temperature, .)
+
 /datum/reagents/proc/expose_temperature(temperature, coeff=0.02)
 	if(istype(my_atom,/obj/item/reagent_containers))
 		var/obj/item/reagent_containers/RCs = my_atom
 		if(RCs.reagent_flags & NO_REACT) //stasis holders IE cryobeaker
 			return
 	var/temp_delta = (temperature - chem_temp) * coeff
+	var/new_temperature
 	if(temp_delta > 0)
-		chem_temp = min(chem_temp + max(temp_delta, 1), temperature)
+		new_temperature = min(chem_temp + max(temp_delta, 1), temperature)
 	else
-		chem_temp = max(chem_temp + min(temp_delta, -1), temperature)
-	chem_temp = round(chem_temp)
+		new_temperature = max(chem_temp + min(temp_delta, -1), temperature)
+	set_temperature(round(new_temperature))
 	for(var/i in reagent_list)
 		var/datum/reagent/R = i
 		R.on_temp_change()

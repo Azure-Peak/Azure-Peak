@@ -30,7 +30,8 @@
 		return
 
 	var/withdrawal_amount = calculate_withdrawal_amount(beast.language_tier)
-	var/success = SStreasury.withdraw_money_treasury(withdrawal_amount, beast.heart_beast)
+	var/thief_alias = pick("a bunch of tendrils in a longcoat", "a foreign monarch", "a greedy goblin", "a corrupt magistrate", "the tentacular menace", "the tendril of evil")
+	var/success = SStreasury.withdraw_money_treasury(withdrawal_amount, thief_alias)
 
 	if(success)
 		convert_mammon_to_coins(withdrawal_amount, beast)

@@ -123,6 +123,27 @@
 		if(deny_buff)
 			consume()
 
+/obj/effect/ink_trail/proc/apply_custom_effect(
+	new_buff = buff_payload,
+	new_debuff = debuff_payload,
+	new_icon_state = icon_state,
+	new_color = color,
+	consume = consume_buff,
+	deny = deny_buff,
+	new_duration = duration,
+	to_pulled = apply_to_pulled
+)
+	buff_payload = new_buff
+	debuff_payload = new_debuff
+	if(new_icon_state)
+		icon_state = new_icon_state
+	if(new_color)
+		color = new_color
+	consume_buff = consume
+	deny_buff = deny
+	apply_to_pulled = to_pulled
+	refresh_lifetime(new_duration)
+
 // ==========================================
 // STATUS EFFECT DEFINITIONS
 // ==========================================

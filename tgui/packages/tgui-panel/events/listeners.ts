@@ -27,4 +27,4 @@ const listeners = {
   update: handleTelemetryData,
 } as const;
 
-export const bus = new EventBus(listeners);
+export const bus = new EventBus(listeners as any);
