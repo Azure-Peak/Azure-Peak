@@ -832,8 +832,24 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	totalmammon = get_mammons_in_atom(user) + SStreasury.get_balance(user)
 
 	if(totalmammon < selected_threshold)
-		to_chat(user, span_warning("Your greed cannot afford the fare you selected. The mixture simplifies itself into bread."))
-		new /obj/item/reagent_containers/food/snacks/rogue/bread(get_turf(src))
+		var/list/fallback_foods = list(/obj/item/reagent_containers/food/snacks/rogue/bread)
+		for(var/food_path in subtypesof(/obj/item/reagent_containers/food/snacks/rogue))
+			var/obj/item/reagent_containers/food/snacks/rogue/food_type = food_path
+			if(initial(food_type.faretype) != FARE_IMPOVERISHED)
+				continue
+			var/food_name = LOWER_TEXT(initial(food_type.name))
+			var/blacklisted = FALSE
+			var/list/blacklisted_words = list("raw", "uncooked", "slab of", "unfinished", "half-done", "base", "unbaked", "plucked", "meat", "filet", "sliced", "venison", "deadite", "pale", "belly", "mince", "minced", "pie", "dough", "butterdough", "piece")
+			for(var/word in blacklisted_words)
+				if(findtextEx(food_name, word))
+					blacklisted = TRUE
+					break
+			if(blacklisted)
+				continue
+			fallback_foods += food_type
+		var/fallback_type = pick(fallback_foods)
+		var/obj/item/reagent_containers/food/snacks/rogue/fallback_food = new fallback_type(get_turf(src))
+		to_chat(user, span_warning("Your greed is weak and lacking. The mixture simplifies itself into [fallback_food.name]."))
 		funny_smoke(src)
 		qdel(src)
 		return
