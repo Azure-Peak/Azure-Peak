@@ -29,5 +29,5 @@
 		/datum/sprite_accessory/pits/trim,
 		/datum/sprite_accessory/pits/moderate,
 		/datum/sprite_accessory/pits/hairy,
-		//datum/sprite_accessory/pits/extreme excluded from this port for aesthetic sensibilits, still present in the .dmi
+		//datum/sprite_accessory/pits/extreme excluded from this port for aesthetic sensibilities, still present in the .dmi
 	)
