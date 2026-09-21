@@ -775,13 +775,10 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/matthios_canister/kingsfeast/alch_transform(mob/user)
 	var/miraclecheck = user.get_skill_level(/datum/skill/magic/holy)
-	var/mammonsonperson = get_mammons_in_atom(user)
-	var/mammonsinbank = SStreasury.get_balance(user)
-	var/totalmammon = mammonsonperson + mammonsinbank
+	var/totalmammon = get_mammons_in_atom(user) + SStreasury.get_balance(user)
 
 	to_chat(user, span_notice("You begin channeling your greed into the mixture..."))
-
-	if(!do_after(user, 15, src))
+	if(!do_after(user, 20, src))
 		return
 
 	var/burnchance = max(0, 30 - (5 * miraclecheck))
@@ -814,16 +811,12 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(totalmammon >= lavishthreshold)
 		highest_fare = FARE_LAVISH
 
-	if(highest_fare < FARE_NEUTRAL)
-		to_chat(user, span_warning("The mixture shifts... simplifying itself into something more befitting your greed."))
-		new /obj/item/reagent_containers/food/snacks/rogue/bread(get_turf(src))
-		if(prob(20))
-			user.emote(pick("sigh", "groan"))
-		funny_smoke(src)
-		qdel(src)
-		return
+	var/list/fare_options = list(
+		"Impoverished" = FARE_IMPOVERISHED
+	)
 
-	var/list/fare_options = list()
+	if(highest_fare >= FARE_POOR)
+		fare_options["Poor"] = FARE_POOR
 	if(highest_fare >= FARE_NEUTRAL)
 		fare_options["Neutral"] = FARE_NEUTRAL
 	if(highest_fare >= FARE_FINE)
@@ -836,13 +829,38 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 
 	var/selected_fare_type = fare_options[selected_fare]
+
+	var/selected_threshold = 0
+	switch(selected_fare_type)
+		if(FARE_POOR)
+			selected_threshold = poorthreshold
+		if(FARE_NEUTRAL)
+			selected_threshold = neutralthreshold
+		if(FARE_FINE)
+			selected_threshold = finethreshold
+		if(FARE_LAVISH)
+			selected_threshold = lavishthreshold
+
+	totalmammon = get_mammons_in_atom(user) + SStreasury.get_balance(user)
+
+	if(totalmammon < selected_threshold)
+		to_chat(user, span_warning("Your greed cannot afford the fare you selected. The mixture simplifies itself into bread."))
+		new /obj/item/reagent_containers/food/snacks/rogue/bread(get_turf(src))
+		funny_smoke(src)
+		qdel(src)
+		return
+
 	var/list/foods = list()
 
-	for(var/path in subtypesof(/obj/item/reagent_containers/food/snacks/rogue))
-		var/obj/item/reagent_containers/food/snacks/rogue/food = path
-		if(initial(food.faretype) != selected_fare_type)
+	for(var/food_path in subtypesof(/obj/item/reagent_containers/food/snacks/rogue))
+		var/obj/item/reagent_containers/food/snacks/rogue/food_type = food_path
+		if(initial(food_type.faretype) != selected_fare_type)
 			continue
-		foods[initial(food.name)] = path
+		foods[initial(food_type.name)] = food_type
+
+	if(!length(foods))
+		to_chat(user, span_warning("The mixture cannot find a suitable dish for this fare."))
+		return
 
 	var/choice = input(user, "What form shall your greed take?", "Kingsfeast") as null|anything in foods
 	if(!choice)
