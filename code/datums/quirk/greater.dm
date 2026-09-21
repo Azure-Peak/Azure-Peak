@@ -10,26 +10,6 @@
 	greater = TRUE
 	ui_fa_icon = "hammer"
 
-/datum/quirk/feytouched
-	name = "Feytouched"
-	desc = "While I may not be as changed as some, I'm bound by pact or nature to the hag's cause."
-	mechdesc = "You and the hag will know each other automatically and can communicate. You're expected to cooperate with them."
-	greater = TRUE
-	ui_fa_icon = "ghost"
-
-/datum/quirk/feytouched/apply_to_human(mob/living/carbon/human/recipient)
-	if(!recipient.mind)
-		return
-	for(var/mob/living/hag_mob in GLOB.active_hags)
-		var/datum/mind/hag_mind = hag_mob.mind
-		if(!hag_mind)
-			continue
-		hag_mind.i_know_person(recipient)
-		recipient.mind.i_know_person(hag_mind)
-		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name] is walking the lands this week."))
-	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
-
 /datum/quirk/noble
 	name = "Unlanded Noble"
 	desc = "By birth or deeds, I've a high place in Astrata's order. My holdings, however, are too small or too far away to grant much benefit beyond a title."
