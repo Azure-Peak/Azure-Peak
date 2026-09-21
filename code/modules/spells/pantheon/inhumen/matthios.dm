@@ -100,7 +100,7 @@
 		),
 		//enables piss night vision and sets your lockpick timer to 1.5 secs, makes you insane over time and prolonged use and ofc, will burn you the fuck down, it will also not really increase success chance only pick speed, and if you break those? rip, no refunds, as HE ordained
 		"Gilded Lockpicking Specs" = list(
-			path = /obj/item/clothing/mask/rogue/spectacles/matthios,
+			path = /obj/item/clothing/mask/rogue/spectacles/duelist/matthios,
 			m_cooldown = -1, // this is too stronk, so only 1 allowed now
 			m_devotion = 200,
 			m_rank = SKILL_LEVEL_EXPERT,

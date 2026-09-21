@@ -928,7 +928,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_REFUSED_VAMP_CONVERT "refused_vampire_conversion"
 /// makes your footsteps completely silent
 #define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
-/// reduces sharply the noise of failed lockpicking attempts
+/// reduces sharply the noise of failed lockpicking attempts & lets you climb anything
 #define TRAIT_SILENT_LOCKPICK "silent_lockpick"
 /// makes you pick locks as if you are legendary and see in the darkness, BUT...
 #define TRAIT_GILDED_SIGHT "gilded_sight"

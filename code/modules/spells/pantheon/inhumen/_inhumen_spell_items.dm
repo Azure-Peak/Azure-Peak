@@ -1562,6 +1562,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	slot_flags = ITEM_SLOT_NECK | ITEM_SLOT_RING
 	smeltresult = /obj/item/ash
 	aura_color = "#ffe761"
+	is_important = TRUE // so this can't be sold in the navigator lol!!
 	var/stolen_fyre = FALSE
 	var/grant_chant = FALSE
 	var/active_item = FALSE
@@ -1604,6 +1605,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	swap_type = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded
 	swap_message = "The gilded amulet settles back into familiar weight. You feel a grin, as He commends you for your boldness."
 	stolen_fyre = TRUE
+	is_important = TRUE // so this can't be sold in the navigator lol!!
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/astrata/get_examine_highlight_status()
 	return null
@@ -1642,6 +1644,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	armor = ARMOR_LEATHER
 	color = "#fce517" // we golden
 	aura_color = "#fff385"
+	is_important = TRUE // so this can't be sold in the navigator lol!!
 	var/active_item = FALSE
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
@@ -1651,6 +1654,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(slot == SLOT_GLOVES && HAS_TRAIT(user, TRAIT_FREEMAN))
 		active_item = TRUE
 		to_chat(user, span_info("Like Him, my hands ready to grasp the impossible."))
+		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
 		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/get_examine_highlight_status()
@@ -1663,32 +1667,42 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	active_item = FALSE
 	to_chat(user, span_info("Once again, these hands are supplicant."))
 	REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
+	REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
 
-/obj/item/clothing/mask/rogue/spectacles/matthios
-	name = "gilded spectacles"
+/// This has way too much telegraphing already, so letting it be harder to detect being worn.
+/obj/item/clothing/mask/rogue/spectacles/duelist/matthios
+	name = "tinted duelist goggles"
 	desc = "A drakkyne's eyes are oft blindsided by greed, yet such vision does hold some merit."
 	armor = ARMOR_LEATHER
 	color = "#faf5cb"
 	aura_color = "#fffb00"
+	icon_state = "sduelist"
+	max_integrity = 150
+	is_important = TRUE
 	var/active_item = FALSE
 
-/obj/item/clothing/mask/rogue/spectacles/matthios/equipped(mob/living/carbon/human/user, slot)
+/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/attack_right(mob/user, slot)
 	. = ..()
-	if(obj_broken || active_item)
+	if(obj_broken)
 		return
-	if(slot == SLOT_WEAR_MASK || slot == SLOT_HEAD)
-		if(HAS_TRAIT(user, TRAIT_FREEMAN))
-			active_item = TRUE
-			if(!user.has_status_effect(/datum/status_effect/buff/matthios_vision))
-				to_chat(user, span_info("Gold gleams where truth once hid."))
-				user.apply_status_effect(/datum/status_effect/buff/matthios_vision)
-		else
-			to_chat(user, span_warning("You look ridiculous and stupid. You are an amateur and a fool!"))
+	if(slot != SLOT_WEAR_MASK && slot != SLOT_HEAD)
+		return
+	var/mob/living/carbon/human/H = user
+	if(!istype(H))
+		return
+	if(!HAS_TRAIT(H, TRAIT_FREEMAN))
+		to_chat(H, span_warning("You look ridiculous and stupid. You are an amateur and a fool!"))
+		return
+	if(active_item)
+		active_item = FALSE
+		to_chat(H, span_info("The gleam fades from my sight."))
+		H.remove_status_effect(/datum/status_effect/buff/matthios_vision)
+		return
+	active_item = TRUE
+	to_chat(H, span_info("Gold gleams where truth once hid."))
+	H.apply_status_effect(/datum/status_effect/buff/matthios_vision)
 
-/obj/item/clothing/mask/rogue/spectacles/matthios/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
-
-/obj/item/clothing/mask/rogue/spectacles/matthios/dropped(mob/living/carbon/human/user)
+/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/dropped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(!active_item)
 		return
@@ -1733,7 +1747,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/halluc_chance = clamp(100 - (weightedLV * (100 / 6)), 0, 100)
 
 	// === HALLUCINATIONS ===
-	if(prob(halluc_chance))
+	if(prob(halluc_chance) && holyLV < SKILL_LEVEL_EXPERT)
 		if(C.hallucination < 400)
 			C.hallucination = min(400, C.hallucination + rand(5, 15))
 			to_chat(C, span_warning(pick("This sight was not made for me.","I can feel my thoughts peeling apart.","The world looks wrong.","I should remove this.","My mind recoils from what it sees.","Too much truth presses inward.","Matthios, is this true?!","Matthios, is this TRVE?!","I regret everything.","Something broke.","DAFUQ?","What is that?!","What is this?!","Where am I??","I see it clearly now.","The truth is fine. Everything is fine.","I'm fine... I'm fine... I'm fine...","I can see Matthios. He is grinning.","I can see Astrata. She is furious.","Is this right?","What is wrong?","Behind me.","Behind you.","Free is watching you.","Grand Liege...?","La li lu le lo?","There are too many angles here.","Why does the floor have veins?","I can hear colors.","The walls know my name.","This was hidden for a reason.","I understand less each second.","The shadows are explaining things.","Who moved the horizon?","The stars are too close.","My teeth feel observant.","Why is the silence screaming?","I looked too far.","Everything has a second face.","The room blinked.","Truth tastes metallic.","I can smell geometry.","Someone is standing inside my reflection.","I should not know this.","The corners are whispering.","I remember tomorrow.","My heartbeat is counting backwards.","Why are there footprints on the ceiling?","The light is lying.","There is another sky above this one.","Numbers keep crawling away.","The door was never a door.","I have too many hands.","Did the world always breathe?","I can see where prayers go.","Something old just noticed me.","The dust is watching.","My bones disagree.","Reality feels temporary.","I found the seam.","Don't turn around.","Too late.","I was always behind me.")))
@@ -1764,6 +1778,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_info("Like Him, I slink into the shadows."))
 		ADD_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
 		ADD_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
+		ADD_TRAIT(user, TRAIT_FREERUNNING, "matthiosboon")
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
@@ -1771,233 +1786,10 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_info("Once again, I am under Her gaze."))
 		REMOVE_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
 		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
+		REMOVE_TRAIT(user, TRAIT_FREERUNNING, "matthiosboon")
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR) //These were always meant to be valid I don't get why this was forgotten about
-
-//THROWABLES
-/obj/item/impact_grenade/truthsnuke/lesser
-	name = "Incomplete TRUTHSNUKE"
-	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. The fire of Astrata does not seem to be imbuing it, but..."
-
-/obj/item/impact_grenade/truthsnuke/lesser/explodes()
-	STOP_PROCESSING(SSfastprocess, src)
-
-	var/turf/T = get_turf(src)
-	if(!T)
-		qdel(src)
-		return
-
-	// Affect mobs
-	for(var/mob/living/target in range(3, T))
-
-		if(QDELETED(target))
-			continue
-
-		if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CLERGY))
-			target.visible_message(
-				span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"),
-				span_userdanger("MY LIMBS BURN IN AGONY...")
-			)
-
-			target.Stun(8 SECONDS)
-			target.emote("agony")
-			target.adjustFireLoss(50)
-			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.ignite_mob()
-
-			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-
-			addtimer(CALLBACK(src, PROC_REF(truthsnuke_transmute_target), target), 8 SECONDS)
-			continue
-
-		var/is_heretic = HAS_TRAIT(target, TRAIT_FREEMAN) || HAS_TRAIT(target, TRAIT_CABAL) || HAS_TRAIT(target, TRAIT_HORDE) || HAS_TRAIT(target, TRAIT_DEPRAVED)
-
-		target.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
-
-		if(is_heretic)
-			to_chat(target, span_artery("They called us Inhumen. They called this Heresy. Yet here we stand—unbroken, unburned. Let the world choke on truth."))
-			target.visible_message(span_notice("[target] stands untouched amidst the inferno."))
-			target.emote("laugh")
-		else
-			target.emote("agony")
-			target.Stun(2 SECONDS)
-			target.Knockdown(2 SECONDS)
-			target.adjustFireLoss(40)
-			to_chat(target, span_artery("IT BURNS! THE TRUTH! IT BURNS!!!"))
-
-	// Affect structures / turfs
-	for(var/turf/affected in range(3, T))
-
-		for(var/obj/structure/mineral_door/D in affected)
-			if(!(D.resistance_flags & INDESTRUCTIBLE))
-				qdel(D)
-
-		for(var/obj/structure/roguewindow/W in affected)
-			if(!(W.resistance_flags & INDESTRUCTIBLE))
-				qdel(W)
-
-		for(var/obj/O in affected)
-			if(QDELETED(O))
-				continue
-			if(O == src)
-				continue
-			if(!(O.resistance_flags & INDESTRUCTIBLE))
-				O.visible_message(span_danger("[O] is torn apart by the blast!"))
-				qdel(O)
-
-		if(istype(affected, /turf/closed) && !istype(affected, /turf/closed/indestructible))
-			var/turf/closed/C = affected
-			C.ChangeTurf(/turf/open/floor/rogue/dirt)
-			continue
-
-		if(istype(affected, /turf/open) && !istype(affected, /turf/open/floor/rogue/dirt))
-			var/turf/open/O = affected
-			O.ChangeTurf(/turf/open/floor/rogue/dirt)
-
-	// Throw mobs outward
-	for(var/mob/living/M in range(3, T))
-		if(QDELETED(M))
-			continue
-		var/dir = get_dir(T, M)
-		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
-
-	explosion(T,devastation_range = 0,heavy_impact_range = 0,light_impact_range = 4,flame_range = 8,flash_range = 8,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-
-	qdel(src)
-
-//I'll leave it as an admin spawnable cause why not, but as is right now there's no way anything can get access to this.
-/obj/item/impact_grenade/truthsnuke
-	name = "TRUTHSNUKE"
-	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. It glows with a divine might, and once again stolen fire."
-	aura_color = "#fbff00"
-
-/obj/item/impact_grenade/truthsnuke/explodes()
-	STOP_PROCESSING(SSfastprocess, src)
-
-	var/turf/T = get_turf(src)
-	if(!T)
-		qdel(src)
-		return
-
-	// Affect mobs
-	for(var/mob/living/target in range(15, T))
-
-		if(QDELETED(target))
-			continue
-
-		// Nobility / clergy are transmuted violently
-		if(HAS_TRAIT(target, TRAIT_NOBLE) || HAS_TRAIT(target, TRAIT_CLERGY))
-			target.visible_message(
-				span_danger("[target]'s skin begins to SLOUGH AND BURN HORRIFICALLY, glowing like molten metal!"),
-				span_userdanger("MY LIMBS BURN IN AGONY...")
-			)
-
-			target.Stun(8 SECONDS)
-			target.emote("agony")
-			target.adjustFireLoss(50)
-			target.adjust_fire_stacks(9, /datum/status_effect/fire_handler/fire_stacks/divine)
-			target.ignite_mob()
-
-			playsound(target, 'sound/magic/churn.ogg', 100, TRUE)
-			explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-
-			addtimer(CALLBACK(src, PROC_REF(truthsnuke_transmute_target), target), 8 SECONDS)
-			continue
-
-		var/is_heretic = HAS_TRAIT(target, TRAIT_FREEMAN) || HAS_TRAIT(target, TRAIT_CABAL) || HAS_TRAIT(target, TRAIT_HORDE) || HAS_TRAIT(target, TRAIT_DEPRAVED)
-
-		target.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
-
-		if(is_heretic)
-			to_chat(target, span_artery("They called us Inhumen. They called this Heresy. Yet here we stand—unbroken, unburned. Let the world choke on truth."))
-			target.visible_message(span_notice("[target] stands untouched amidst the inferno."))
-			target.emote("laugh")
-		else
-			target.emote("agony")
-			target.Stun(2 SECONDS)
-			target.Knockdown(2 SECONDS)
-			target.adjustFireLoss(40)
-			to_chat(target, span_artery("IT BURNS! THE TRUTH! IT BURNS!!!"))
-
-	// Affect structures / turfs
-	for(var/turf/affected in range(15, T))
-
-		for(var/obj/structure/mineral_door/D in affected)
-			if(!(D.resistance_flags & INDESTRUCTIBLE))
-				qdel(D)
-
-		for(var/obj/structure/roguewindow/W in affected)
-			if(!(W.resistance_flags & INDESTRUCTIBLE))
-				qdel(W)
-
-		for(var/obj/O in affected)
-			if(QDELETED(O))
-				continue
-			if(O == src)
-				continue
-			if(!(O.resistance_flags & INDESTRUCTIBLE))
-				O.visible_message(span_danger("[O] is torn apart by the blast!"))
-				qdel(O)
-
-		if(istype(affected, /turf/closed) && !istype(affected, /turf/closed/indestructible))
-			var/turf/closed/C = affected
-			C.ChangeTurf(/turf/open/floor/rogue/dirt)
-			continue
-
-		if(istype(affected, /turf/open) && !istype(affected, /turf/open/floor/rogue/dirt))
-			var/turf/open/O = affected
-			O.ChangeTurf(/turf/open/floor/rogue/dirt)
-
-	// Throw mobs outward
-	for(var/mob/living/M in range(12, T))
-		if(QDELETED(M))
-			continue
-		var/dir = get_dir(T, M)
-		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
-
-	explosion(T,devastation_range = 0,heavy_impact_range = 0,light_impact_range = 10,flame_range = 15,flash_range = 15,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-
-	qdel(src)
-
-/obj/item/impact_grenade/truthsnuke/proc/truthsnuke_transmute_target(mob/living/target)
-	if(!target || QDELETED(target))
-		return
-
-	var/turf/TT = get_turf(target)
-	if(!TT)
-		return
-
-	target.visible_message(span_danger("[target]'s limbs REND into coin and gem!"),span_userdanger("WEALTH. POWER. THE FINAL SIGHT UPON MYNE EYE IS A DRAGON'S MAW TEARING ME IN TWAIN. MY ENTRAILS ARE OF GOLD AND SILVER."))
-
-	playsound(TT, 'sound/magic/churn.ogg', 100, TRUE)
-	playsound(TT, 'sound/magic/whiteflame.ogg', 100, TRUE)
-	explosion(TT, light_impact_range = 1, flame_range = 1, smoke = FALSE)
-
-	new /obj/item/roguecoin/silver/pile(TT)
-	new /obj/item/roguecoin/gold/pile(TT)
-	new /obj/item/roguegem/random(TT)
-	new /obj/item/roguegem/random(TT)
-
-	var/list/possible_limbs = list()
-
-	for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
-		var/obj/item/bodypart/limb = target.get_bodypart(zone)
-		if(limb)
-			possible_limbs += limb
-
-	var/limbs_to_gib = min(rand(1,4), possible_limbs.len)
-
-	for(var/i in 1 to limbs_to_gib)
-		var/obj/item/bodypart/selected_limb = pick(possible_limbs)
-		possible_limbs -= selected_limb
-
-		if(selected_limb?.drop_limb())
-			var/turf/limb_turf = get_turf(selected_limb) || TT
-			new /obj/effect/decal/cleanable/blood/gibs/limb(limb_turf)
-
-	target.death()
 
 /obj/item/impact_grenade/pocketsand
 	name = "pocket sand"
@@ -2018,8 +1810,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				target.blind_eyes(1.5)
 			target.visible_message(
 				span_warning("[target] is blasted with a cloud of sand!"),
-				span_warning("Sand gets into my eyes! I can't see!")
-			)
+				span_warning("Sand gets into my eyes! I can't see!"))
 			target.emote("pain")
 			target.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
 		qdel(src)
