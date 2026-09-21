@@ -68,6 +68,7 @@
 		else
 			M.emote(pick("twitch_s","chuckle"))
 	M.apply_status_effect(/datum/status_effect/debuff/vampbite)
+	M.sate_addiction(/datum/charflaw/addiction/junkie)
 	..()
 
 /atom/movable/screen/fullscreen/vampsolution

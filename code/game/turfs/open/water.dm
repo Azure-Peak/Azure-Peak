@@ -580,7 +580,7 @@
 	swim_skill = TRUE
 	water_color = "#5d7e84"
 
-/turf/open/water/cleanshallow/deep/Initialize()
+/turf/open/water/cleanshallow/deep/Initialize(mapload)
 	. = ..()
 	icon_state = "rock"
 	water_color = "#5d7e84"
@@ -610,7 +610,7 @@
 	swim_skill = TRUE
 	water_color = "#5a7a80"
 
-/turf/open/water/river/flow/deep/Initialize()
+/turf/open/water/river/flow/deep/Initialize(mapload)
 	. = ..()
 	icon_state = "rock"
 	update_icon()
@@ -634,7 +634,7 @@
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
 
-/turf/open/water/river/flow/murk/Initialize()
+/turf/open/water/river/flow/murk/Initialize(mapload)
 	. = ..()
 	icon_state = "rock"
 	update_icon()
@@ -810,7 +810,7 @@
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
 
-/turf/open/water/river/flow/murk/deep/Initialize()
+/turf/open/water/river/flow/murk/deep/Initialize(mapload)
 	. = ..()
 	icon_state = "rock"
 	update_icon()

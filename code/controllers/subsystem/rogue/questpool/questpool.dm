@@ -208,6 +208,8 @@ SUBSYSTEM_DEF(questpool)
 	for(var/datum/quest/Q as anything in stale)
 		adjust_region_count(Q, -1)
 		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
+		if(Q.source != QUEST_SOURCE_POOL)
+			refund_lapsed_posting(Q)
 		qdel(Q)
 		record_round_statistic(STATS_CONTRACTS_REROLLED)
 	for(var/i in 1 to kill_replacements_needed)
@@ -218,6 +220,26 @@ SUBSYSTEM_DEF(questpool)
 		if(!type)
 			continue
 		generate_one(type, TR, is_replacement = TRUE)
+
+/datum/controller/subsystem/questpool/proc/refund_lapsed_posting(datum/quest/Q)
+	var/label = Q.get_title() || Q.quest_type
+	var/refund_text = Q.refund_issuer_funding("Lapsed posting refund")
+	Q.mark_issue_log(QUEST_ISSUE_STATUS_LAPSED, refund_text)
+	if(!refund_text)
+		return
+	record_round_statistic(STATS_CONTRACTS_LAPSE_REFUNDED)
+	log_event("lapse_refund", "[Q.source] [Q.quest_type] \"[label]\" by [Q.quest_giver_name || "unknown"] refunded [refund_text]")
+	log_game("Contract posting \"[label]\" ([Q.source], issued by [Q.quest_giver_name || "unknown"]) lapsed untaken - refunded [refund_text].")
+	var/mob/poster = Q.quest_giver_reference?.resolve()
+	if(poster)
+		to_chat(poster, span_notice("Your posting <b>[label]</b> lapsed untaken. Refunded [refund_text]."))
+
+/datum/controller/subsystem/questpool/proc/remove_from_pool(datum/quest/Q)
+	if(!(Q in pool))
+		return FALSE
+	pool -= Q
+	adjust_region_count(Q, -1)
+	return TRUE
 
 /datum/controller/subsystem/questpool/proc/issue_rumor_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/innkeeper = null)
 	if(!type || !(type in GLOB.rumor_point_costs))
@@ -329,7 +351,7 @@ SUBSYSTEM_DEF(questpool)
 
 /// Bearer-bond scroll is spawned straight into the Steward's hand. Wave 1 materializes
 /// on first scroll-open, not at issue time — see quest_scroll_blockade.attack_self.
-/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward, datum/fund/source_fund, cost = 0)
+/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward)
 	if(!B || !steward)
 		return null
 	if(B.has_active_scroll())
@@ -354,8 +376,6 @@ SUBSYSTEM_DEF(questpool)
 		qdel(Q)
 		return null
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
-	Q.funding_fund = source_fund
-	Q.funding_cost = cost
 	Q.issued_at = world.time
 	var/obj/item/quest_writ/blockade/scroll = new(get_turf(steward))
 	scroll.base_icon_state = Q.get_scroll_icon()
@@ -375,8 +395,8 @@ SUBSYSTEM_DEF(questpool)
 /// hoard-bearing regions without an economic region (Terrorbog) work. Raised either by a
 /// fellowship's own pledge (is_commission = FALSE, fellowship-gated at issue) or drafted
 /// by the Steward like any defense writ (is_commission = TRUE, fellowship-gated only when
-/// pinned to the ledger). source_fund/cost feed the standard recall-refund machinery.
-/datum/controller/subsystem/questpool/proc/issue_hoard_recovery_request(datum/threat_region/TR, mob/living/carbon/human/requester, datum/fund/source_fund, cost = 0, is_commission = FALSE)
+/// pinned to the ledger).
+/datum/controller/subsystem/questpool/proc/issue_hoard_recovery_request(datum/threat_region/TR, mob/living/carbon/human/requester, is_commission = FALSE)
 	if(!TR || !requester)
 		return null
 	var/fid = SSeconomy.pick_blockade_faction_for(TR)
@@ -392,8 +412,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.deposit_amount = 0
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
 	Q.required_fellowship_size = is_commission ? 0 : BLOCKADE_FELLOWSHIP_REQUIREMENT
-	Q.funding_fund = source_fund
-	Q.funding_cost = cost
+	Q.raised_by_fellowship = !is_commission
 	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name, Q)
 	if(!landmark)
 		qdel(Q)

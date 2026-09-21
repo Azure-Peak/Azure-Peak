@@ -6,7 +6,7 @@
 	faction = "Station"
 	total_positions = 0
 	spawn_positions = 0
-	min_pq = 10		// was going to put this higher but realized bandit's only 3 pq and wretch is fucking 10 so whatever
+	min_pq = 10
 	max_pq = null
 	antag_job = TRUE
 
@@ -37,10 +37,13 @@
 	// JOB TRAITS == prev. job traits are now granted on datum-gain.
 
 	virtue_restrictions = list(
+		// graggar doesn't fuck with hags. he would Rather You Die than be subservient to a Faerie Motherfucker!!
 		/datum/virtue/utility/feytouched
 	)
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
-	// Choices between: Ranged build, pioson knife-fighter w/ poison knife, garrote user/kidnapper build
+	// ASSASSIN CURRENTLY USES THESE ADVCLASSES FOR ALL THE ACTUAL STUFF.
+	// EVERY CLASS SHOULD HAVE AT LEAST 2 SPD, 1 WIL, 1 INT (6WT). 14 POINTS MAX.
+	// 1 WIL for STAMINA. 2 SPD bc DODGE EXPERTS. 1 INT for CRAFTING & CHICANERY.
 	job_subclasses = list(
 		/datum/advclass/assassin_ranger,
 		/datum/advclass/assassin_poisoner,
@@ -48,14 +51,6 @@
 	)
 
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
-
-/datum/job/roguetown/assassin/after_spawn(mob/living/L, mob/M, latejoin = TRUE)
-	..()
-	if(L)
-		var/mob/living/carbon/human/H = L
-		if(!H.mind)
-			return
-		H.ambushable = FALSE
 
 /datum/outfit/job/roguetown/assassin/post_equip(mob/living/carbon/human/H)
 	..()

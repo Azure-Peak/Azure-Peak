@@ -557,3 +557,297 @@
   voidwytch:
   - bugfix: high society cloak issue
   - bugfix: velvet dress two electric boogaloo rename
+2026-09-14:
+  KatTheFox:
+  - bugfix: Roundstart known characters will no longer have their role title show
+      up as "unknown".
+  - rscadd: Clicking the name of a known character in the known menu will now trigger
+      their headshot/flavortext/ooc notes window. You can do this from anywhere, allowing
+      you to read the OOC notes of all the people that are supposed to, icly, know
+      and work with you. If they have rumors/gossip, a ? will show up next to their
+      name that you can click to view that as well.
+  OrbisAnima:
+  - bugfix: Makes it so the Ride with backdoor action uses the same logic as the regular
+      riding action in the ERP panel
+  Ryan180602:
+  - bugfix: dual wield proccing instant red intents
+  - bugfix: Advance spell works diagonally now.
+  anything86:
+  - qol: Players no longer drop on the floor paralyzed when trying to extinguish themselves
+      if their combat mode is on
+  borneblood:
+  - image: Changed Divine/Profane Blast's spell icon.
+  - spellcheck: Changed Profane Blast's chant.
+  radarseas:
+  - rscadd: Necrans now flip off deadites with taunting, sovl. This does not include
+      vampires, so no metagaming.
+2026-09-15:
+  Juubo:
+  - qol: reduced the skill level needed to make a repair kit.
+  - qol: any can use repair kits now, as was intended, instead of requiring they get
+      one skill level
+  - code_imp: changed to makke repaired doors and bars more consistent with opacity
+  - qol: small mechanics examine update for the wrench.
+  - bugfix: fixes rollers to be more consistent when setup and takke a single power
+      source per axis
+  - bugfix: removed sound loop from grinders
+  - rscadd: Adds porthole doors as a recipe
+  MortoSasye:
+  - image: Updated the underwear sprites for briefs, panties, leotards, and bikini's.
+  OrbisAnima:
+  - bugfix: Removes the ability from Bats and Zads (crows) to go through bars, while
+      leaving their ability to go thrrough people and windows unnafected. Rous (rats)
+      forms are unnafected, and can still go through bars as usual, as they dont have
+      a flying ability like the aforementioned forms do.
+  mumblemancer:
+  - balance: all assassin classes have received a passover. ranger (now headhunter)
+      is less stupidly powerful, hitman (now snickersnacker) is now more glass-cannon
+      melee. poisoner is now able to actually fake being a doctor better. please check
+      out their adv-class previews for more info.
+  - bugfix: corroded dagger sheathe icon is fixed
+  - code_imp: moved main assassin.dm into the assassin folder.
+  radarseas:
+  - rscadd: Added proper mechanics to show who you listen to in chat for vampire converts
+  - balance: Vampire lord pre-emptively has stage 1 ascension benefits (grab immunity
+      + 1000 vitae -> 4000 vitae extra over regular vampires +4 to all stats vs +2
+      beforehand. to make them feel less compelled to rush power. + can buy champions
+      w/out grind for rituals.)
+  - balance: regular vampire servants cost less now.
+  - balance: Vampire lord is now Godless instead of a Zizo worshipper. Making the
+      first and only exception currently to a true godless antag role.
+  - balance: Vampire lord only has to do 3 rites to ascend instead of 4. Less grind,
+      more roleplaying leeway.
+  - balance: turning into a vampire via conversion stuns you for 15 less seconds,
+      but knocks you out instead.
+  - qol: vamp has a lot of tuneups over-the-board
+  - balance: other clan trait adjustments that aren't mentioned here.
+  - balance: Dying gasps can only be heard if you're close enough to reasonably see
+      it happen.
+  - bugfix: Dying gasps bypassing walls/z levels an entire screen away. They're only
+      audiable up close/with LOS.
+  - balance: vamp clans can ALL burn under sunlight without disguise. They use different
+      levels of vitae drains + damages in turn.
+  - balance: vamp clans have recieved a shift-around in traits, Thronleer is no longer
+      bad mood cursed but instead sunlight scorned, its only the only clan w/ fae
+      potency now nosferato lost it ages ago.
+  - image: added re-palettes of pre-existing sprites for vamp hud stuff
+  - refactor: made it clearer on sun hater component that the values are set on init
+      instead of lying above.
+  - refactor: vagabond thrall now uses its generation instead of making Stray as a
+      job. Masquerade/vlord bypass this by generation checks.
+  - admin: Vlord RRing punishment is logged correctly.
+  - admin: vagabonds/wretches at Neonate or Lower in vampire generation, will be forced
+      to cattiff clans. Code-Related Restriction unfortunately for now.
+  zRainbowcat:
+  - bugfix: fixed hag having ability to become roundstart ww
+  - bugfix: athletics skill description is no longer psyop
+  - bugfix: fixed nodrop items from conjured summons
+2026-09-16:
+  DmitriyPershukov:
+  - rscadd: added bulk pure moondust recipe
+  - balance: lowered pure moondust recipe difficulty to expert from master
+  - balance: changed recipes for pure moondust, starsugar and herozium
+  Draganfrukts:
+  - rscadd: Added new hunting swords that can thrust but have no axe chop. They are
+      sidegrades to messers, with the difference that they can also butcher animals.
+  - rscadd: Added two towner-exclusive bows. The hunting flatbow has a 1.1x accuracy
+      modifier, and the hunting longbow has half the damage multiplier (.15x) while
+      retaining its 1x accuracy multiplier.
+  - bugfix: Made the Steppesman and Warden bows use the correct colors again.
+  - image: Changed the appearance of the noble hunting sword.
+  - balance: Towner hunters get JOURNEYMAN atthletics. Towner bow-hunters get JOURNEYMAN
+      swords and an unique hunting sword. Towner hunters get NOVICE LUMBERJACKING
+      (And bow-hunter loses its redundant novice axe skill)
+  - balance: Spear-Hunter towners spawn with a boar spear.
+  Fi:
+  - rscadd: Added a button (located left of the action buttons on the Castlevania
+      pillar), keybind, and verb for toggling the action buttons' visibility.
+  Juubo:
+  - rscadd: engineer launcher can now fire sling bullets
+  - rscadd: quiver now ejects when the launcher is destroyed.
+  - balance: increased integrity
+  KatTheFox:
+  - bugfix: Swampweed no longer needs to be maid into tea to sate junkie for whatever
+      reason; the normal swampweed reagent does as well.
+  - rscadd: Vamp solution now sates junkie.
+  Moku-Mok:
+  - rscadd: Added helmet choice (2 helmets instead of 1) to Undivided Guardians.
+  Ollanius:
+  - rscadd: Visored sallets can now be combined with a regular Grenzelhoftian beret.
+  - rscdel: Crafting recipes involving the Triumph-specific Grenzelhoftian beret have
+      been removed, as it can already be worn on the cosmetic slot of most helmets
+      as-is.
+  - rscadd: Rhynn's unique jacketed brigandine and longcloak sprite.
+  - rscadd: Lizzy's unique apron, pants, boots, gloves, and blouse.
+  - rscadd: Universal goggles and scarfs for donators.
+  - rscadd: Avantyne-threaded barbute as a cosmetic option, courtesy of Dakken.
+  - rscadd: Unique maille and armet reskin, available through Triumph-purchased reskin
+      kits as well.
+  - bugfix: Undestroys the recent Donor PR's item access point.
+  - rscadd: Iron variants of the new maille-and-armets.
+  WeNeedMorePhoron:
+  - rscadd: You can no longer fine yourself
+  mumblemancer:
+  - balance: non-unbound skeletons get swift back
+  - balance: unbound skeletons also got swift back for consistency
+  tmyqlfpir:
+  - bugfix: Ice slipping letting mobs clip through solid objects
+2026-09-17:
+  FreeStylaLT:
+  - refactor: Added more PQ ranks.
+  IHaveNoOriginality:
+  - rscadd: Added a new weapon choice for confessors, the psydonic whip
+  Juubo:
+  - bugfix: fixes overclock damage to come up as limb damage and not item damage on
+      prosthetics
+  Lamasmaster:
+  - balance: Avatar of Rage (graggar T4) now fully works on gnolls, can be actually
+      used while incapacitated (except when you get full on knocked out), works on
+      off balance, reduced cast time to 1 second.
+  Ollanius:
+  - rscadd: (From a previous PR..) Adds the Jacketed Plate-and-Maille and Knight-Errant's
+      Armet, touched-up versions of Ratwood's watchmen armor. Comes in both iron-
+      and steel variants, and can be obtained as reskins via the Triumph menu.
+  - bugfix: (From a previous PR..) Reduces the lightness of Gothic Iron Armor to be
+      much more in line with other iron-paletted items.
+  - rscadd: Mystogen's radiant gold mask, Thistle's poncho, and Rhynn's broche.
+  - bugfix: Scarfed shawls should now properly render.
+  - bugfix: Cased satchels no longer cover the hands when worn.
+  - bugfix: Jacketed brigandine and decorated coat-of-plates now properly dye on all
+      sides.
+  - bugfix: The ladylike longcloak can now be dyed in both independant ways, with
+      the broche as an added connector.
+  - bugfix: Jacketed plate-and-maille now properly renders sleeve sprites.
+  Pokebutt:
+  - rscadd: new milling recipes
+  Ryan180602:
+  - bugfix: reverts 9045 to fix items with cosmetic storage hiding hair
+  - balance: Dueling goggles lose the armour.
+  - bugfix: Limetease's saber is now locked to the ckey.
+  WeNeedMorePhoron:
+  - balance: Archery and Slings skill is now the sole determinant of ranged rate of
+      fire and also drives accuracy. Perception now only scales ranged damage for
+      Sling and Bows.
+  - balance: STR below 10 reduce ROF of Longbow. No longer does anything else as it
+      was largely a cosmetic change anyway.
+  - balance: Draw times are properly floored and capped - bows range from 0.8 to 4.4
+      seconds, slings roughly 0.8 to 1.6. Crossbows no longer scale off Perception
+      at all.
+  - balance: Bows and slings now charge their stamina on release instead of draining
+      while held. Cancelling a draw costs the same as loosing the shot. Holding beyond
+      2 - 3 seconds (Scaling from 10 to 15 PER linearly) will strain you with a strain
+      emote and cost you accuracy and stamina.
+  - balance: Ranged accuracy reworked to 15 + 15 per skill level, minus 10 per tile
+      past your view range and minus 20 when shooting across Z levels. Shots below
+      a weapon's minimum or above its maximum range hit the chest. Aimed limb shot
+      cap at 75% at before, ultra precise zone like hand or feet 50, and face 30.
+  - balance: Removed the aim modifier from spells and retooled mage projectile accuracy.
+  - balance: Quivers now hold 24 arrows and 16 bolts, with arrow and bolt recipes
+      producing even number that fill them up.
+  - balance: Ranged NPCs retreat a bit longer while kiting, pause for a second after
+      firing, and had their ROF penalty cut from 1.6 to 1.3x.
+  - bugfix: A barely drawn shot no longer deals near-full damage while a fully drawn
+      one deals almost none.
+  - bugfix: NPCs can no longer parry / dodge while drawing a ranged weapon.
+  - code_imp: Archery, sling and crossbow tuning moved into defines, and the ranged
+      damage, accuracy and spread formulas split into shared procs.
+  - balance: Maximum accuracy vs a limb has been raised to 90% from 75%, given it
+      is now dependent on having high ranged skills and maintaining sweet spot.
+  anything86:
+  - qol: kick now defaults to chest when attempting to hit head without relevant traits
+  changelingonberry:
+  - qol: custom loadout item names can now be up to 64 characters long
+  - bugfix: custom loadout items can no longer use special formatting like linebreaks
+  zRainbowcat:
+  - qol: longcoat can now be put in cosmetics
+  - bugfix: fixed typo in release familiar spell
+  - qol: Items in cosmetic clots properly cover your body now
+  - bugfix: Hallowed trait actually works now
+2026-09-18:
+  FreeStylaLT:
+  - refactor: Weapon integrity values have all been slightly increased to reflect
+      the backend values more accurately.
+  KatTheFox:
+  - bugfix: Roleprefs checked during a specific period - only court agent afaik -
+      now work on latejoin as well as roundstart rolling
+  NonQueueingMatt:
+  - rscadd: Absolvers can now spawn in as Azurians.
+  Ollanius:
+  - bugfix: Fixes an edge case where jacketed maille could retain its higher-end stats
+      if its morphing elixir was used with iron equipment.
+  - bugfix: Light gambeson equivalent to long- and short-jacketed gambeson reskins,
+      to avoid potential unintended consequences.
+  - bugfix: Broches now properly render in all circumstances.
+  - rscadd: (In a previous PR..) Steel and decablessed pauldrons, available to donators,
+      courtesy of Aroliacue and Zydras!
+  - rscadd: (In a previous PR..) Heartplate and plackart morphing elixirs can now
+      be applied (with new results) to studded leather armor, heavy leather armor,
+      and steel half-plate.
+  - rscadd: Scalemail can now be morphed by Gothic Steel and Iron armor elixirs, defaulting
+      to the nearest equivalent without arm coverage.
+  borneblood:
+  - bugfix: DB/UB values now adhere to the defines.
+  mumblemancer:
+  - qol: you can search "bag" in the crafting menu and it'll show you sack
+  nauticall:
+  - rscadd: Body Type in character creation is now a dropdown with four options -
+      Masculine (Bulky), Masculine (Slim), Feminine (Bulky) and Feminine (Slim) -
+      instead of a Masculine/Feminine toggle.
+  - rscadd: The bulky and slim bodies are now available to Humen, Half-Elf, Half-Kin,
+      Tiefling, Aasimar, Revenant, Murkling, Elf, Sun Elf and Dark Elf.
+  - rscadd: Masculine (Elven) body type remains available exclusively to elves/sun
+      elves/dark elves.
+  - qol: Underwear, stockings and body markings now pick their cut from the body you're
+      actually wearing rather than from your gender.
+  - bugfix: Orc and Half-Orc females now wear properly-sized underewar.
+  - bugfix: Elf males now wear properly-sized underwear.
+  - bugfix: Eoran Briefs should be visible again on all body types.
+  - bugfix: Cloak sleeves checked for the shirt offset while applying the cloak one.
+  - refactor: Body shape is now a 'build' shared between races, so clothing offsets
+      follow the body instead of the species.
+  radarseas:
+  - balance: sunderstacks and debuffs moved around, it should be noticably less punishing
+      at one and more at several. Unless you're a vampire, then you feel the full
+      brunt of it.
+  - balance: vampires take (60) vs (40) sunderstacks. - This means they die in 3 to
+      4 blows vs 4 to 6 blows if you can keep the pressure with blessed silver. As
+      well as feeling the effects of critical sunders slightly longer than regular
+      silver-weak.
+  - qol: bedrock is named bedrock, its also darker so you can tell at a glance.
+2026-09-19:
+  KatTheFox:
+  - bugfix: Characters with special characters - such as apostrophes - in their names
+      can now be mailed, instead of letters sent to them being silently redirected
+      to the coast.
+  - bugfix: Latejoining no longer runtimes if you never set roleprefs on a character
+      slot
+  MortoSasye:
+  - bugfix: Dukes no longer magically duplicate things they spawn with.
+  - rscadd: Two new skintones are available to be selected for humens and demihumans.
+  OrbisAnima:
+  - code_imp: Clamps the precision of ligthing cache values for sunlight so we have
+      more cached types in the ligthing system instead of infinite stuff due to how
+      long numbers can be in byond. Conservative Values were used to avoid artifacts.
+  WeNeedMorePhoron:
+  - bugfix: Burn wounds should now take longer to sew the more severe the wound is.
+  mumblemancer:
+  - rscadd: jesters can now flip thru their Japes
+2026-09-20:
+  BurpleBineapple:
+  - rscadd: adds a heavy AC reskin of the brigandine as a triumph/donor item.
+  KatTheFox:
+  - bugfix: Knights/VLs with long names are no longer unmailable
+  Lamasmaster:
+  - balance: Makes both divine strike and hamstring last 10 seconds instead of 15,
+      hamstring no longer takes away 2 SPD resulting in 40% instead of intended 20%
+      dodge sap.
+  OrbisAnima:
+  - qol: Removes random chance to fail picking bushes, swampweed, wild firitus and
+      wild pumpkin.
+  ToasterStrudes:
+  - bugfix: you can now unbind keys that were previously bugged and unable to be unbound
+      in keybindings.
+  eirenxiv:
+  - bugfix: removed second_chance virtue from mistwalker
+  racobio:
+  - rscadd: Added three new dark elf skin tones

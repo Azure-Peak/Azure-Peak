@@ -638,7 +638,7 @@
 	icon_state = "vinez"
 	mouse_opacity = 1
 
-/obj/structure/fluff/walldeco/vinez/glow/Initialize()
+/obj/structure/fluff/walldeco/vinez/glow/Initialize(mapload)
 	. = ..()
 	set_light(4, 0, 1, l_color = "#75a35b", l_on = TRUE)
 
@@ -652,7 +652,7 @@
 	name = "blue glowing ivy"
 	icon_state = "vinez_blue"
 
-/obj/structure/fluff/walldeco/vinez/glow/blue/Initialize()
+/obj/structure/fluff/walldeco/vinez/glow/blue/Initialize(mapload)
 	. = ..()
 	set_light(4, 0, 1, l_color = "#5a83b8", l_on = TRUE)
 
@@ -666,7 +666,7 @@
 	name = "red glowing ivy"
 	icon_state = "vinez_red"
 
-/obj/structure/fluff/walldeco/vinez/glow/red/Initialize()
+/obj/structure/fluff/walldeco/vinez/glow/red/Initialize(mapload)
 	. = ..()
 	set_light(4, 0, 1, l_color = "#a84d4d", l_on = TRUE)
 

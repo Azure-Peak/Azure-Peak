@@ -298,7 +298,6 @@
 	armor_penetration = PEN_BSTEEL
 	range = SPELL_RANGE_PROJECTILE
 	speed = 1.5
-	accuracy = 40
 	var/embed_chance = 100
 
 /obj/projectile/magic/profane/on_hit(atom/target, blocked)
