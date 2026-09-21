@@ -28,9 +28,9 @@
 
 /mob/living/proc/update_energy()
 	calculate_energy()
-	if(cmode)
-		if(!HAS_TRAIT(src, TRAIT_BREADY))
-			energy_add(-2)
+	//if(cmode)
+		//if(!HAS_TRAIT(src, TRAIT_BREADY))
+			//energy_add(-2)
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		energy = max_energy
 	if(HAS_TRAIT(src, TRAIT_BREADY))
