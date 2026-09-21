@@ -96,7 +96,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/kettle/aalloy
 	name = "decrepit kettle helmet"
-	desc = "A frayed, bronze helmet which protects the top and sides of the head. Atop a resurrected levyman's scalp, it's a sign that forces-most-foul are soon to besiege; and atop a fleshless ballistaeman's skull, it's a sign that you should probably duck."
+	desc = "A rotted metal helmet which protects the top and sides of the head. Atop a resurrected levyman's scalp, it's a sign that forces-most-foul are soon to besiege; and atop a fleshless ballistaeman's skull, it's a sign that you should probably duck."
 	icon_state = "ancientkettle"
 	body_parts_covered = HEAD|HAIR|EARS
 	color = "#bb9696"

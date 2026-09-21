@@ -65,7 +65,7 @@
 /datum/status_effect/judgement
 	id = "judgement"
 	status_type = STATUS_EFFECT_UNIQUE
-	duration = 15 SECONDS
+	duration = 10 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/buff/judgement
 	on_remove_on_mob_delete = TRUE
 	var/datum/weakref/buffed_item
@@ -138,7 +138,7 @@
 /datum/status_effect/debuff/judgement
 	id = "judgement_debuff"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/judgement
-	duration = 15 SECONDS
+	duration = 10 SECONDS
 
 /datum/status_effect/debuff/judgement/on_apply()
 	. = ..()

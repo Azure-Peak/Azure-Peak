@@ -106,7 +106,7 @@ What it does:
 
 /obj/item/cooking/platter/aalloy
 	name = "decrepit platter"
-	desc = "Wrought bronze, flattened to serve. The edge remains wet with red; spilled merlot, meaty juices, or blood?"
+	desc = "Rotted metal, flattened to serve. The edge remains wet with red; spilled merlot, meaty juices, or blood?"
 	icon_state = "aplatter"
 	color = "#bb9696"
 

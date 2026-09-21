@@ -172,11 +172,11 @@
 
 /datum/loadout_item/donator/universal/greatcoat
 	name = "Gift - Greatcoat"
-	path = /obj/item/clothing/cloak/donator_greatcoat
+	path = /obj/item/clothing/suit/roguetown/armor/donator_greatcoat
 
 /datum/loadout_item/donator/universal/greatcoat_dyeable
 	name = "Gift - Greatcoat, Dyeable"
-	path = /obj/item/clothing/cloak/donator_greatcoat/dyeable
+	path = /obj/item/clothing/suit/roguetown/armor/donator_greatcoat/dyeable
 
 /datum/loadout_item/donator/universal/shadedhat
 	name = "Gift - Shaded Hat"
@@ -257,6 +257,10 @@
 /datum/loadout_item/donator/universal/donator_jacketed_gambeson_long
 	name = "Gift - Kit, Long Jacketed Gambeson"
 	path = /obj/item/enchantingkit/donator_jacketed_gambeson_long
+
+/datum/loadout_item/donator/universal/donator_heavybrig
+	name = "Gift - Brigandine with Plate"
+	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
 
 /datum/loadout_item/donator/universal/armorpiece_decapauldron
 	name = "Gift - Armor Cosmetic, Decablessed Pauldrons"
@@ -892,6 +896,21 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
 	ckeywhitelist = list("mortosasye")
 
+/datum/loadout_item/donator/mortosasye_sunrisegown
+	name = "Donator Item - Sunrise Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_sunrisegown
+	ckeywhitelist = list("mortosasye")
+
+/datum/loadout_item/donator/mortosasye_goldendiadem
+	name = "Donator Item - Golden Diadem"
+	path = /obj/item/clothing/head/roguetown/circlet/donator_mortosasye_golddiadem
+	ckeywhitelist = list("mortosasye", "flybrokenwings")
+
+/datum/loadout_item/donator/morto_crown
+	name = "Donator Kit - Sun Crown"
+	path = /obj/item/enchantingkit/morto_crown
+	ckeywhitelist = list("mortosasye")
+
 /datum/loadout_item/donator/racobio_staff
 	name = "Donator Kit - Obsidian Tower"
 	path = /obj/item/enchantingkit/racobio_staff
@@ -1257,10 +1276,20 @@
 	name = "Donator Kit - The Enclave Blade"
 	path = /obj/item/enchantingkit/weapon/donator_rezathedwarf_blade
 
-/datum/loadout_item/donator/limetease/limesaber
+/datum/loadout_item/donator/lime_saber
 	name = "Donator Kit - Malignant Blade"
 	path = /obj/item/enchantingkit/weapon/limesaber
+	ckeywhitelist = list("limetease")
 
+/datum/loadout_item/donator/rosa_silveredguitar
+	name = "Donator Item - Silvered Rosa Guitar"
+	path = /obj/item/rogue/instrument/guitar/rosa_silveredguitar
+	ckeywhitelist = list("limetease", "simplypoodle", "gentlemanlyheadcrab")
+
+/datum/loadout_item/donator/silvered_guitar
+	name = "Donator Item - Silvered Guitar"
+	path = /obj/item/rogue/instrument/guitar/silveredguitar
+	ckeywhitelist = list("limetease", "simplypoodle", "gentlemanlyheadcrab")
 /datum/loadout_item/donator/mystogan_radiantmask
 	name = "Donator Item - Radiant Golden Mask"
 	path = /obj/item/clothing/mask/rogue/facemask/goldmask/radiant

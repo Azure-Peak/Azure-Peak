@@ -396,6 +396,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_slimmedsteel
+	name = "Triumph Kit - Brigandine with Plate"
+	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_armorkit_drow
 	name = "Triumph Kit - Drowcraft Armor"
 	path = /obj/item/enchantingkit/triumph_armorkit_drow

@@ -741,6 +741,31 @@
 	allowed_race = ALL_RACES_TYPES
 	armor = ARMOR_PLATE
 
+/obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels
+	name = "inquisitorial heels"
+	desc = "Elegantly crafted heeled boots inlaid with silver clasps and blacksteel. They clack rhythmically with every stride, made to stomp out darkness."
+	icon_state = "inqheels"
+	item_state = "inqheels"
+
+/obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	stepnoise_flag = STEPNOISE_HEELS
+
+/obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels/attack_self(mob/living/user)
+	. = ..()
+	user.visible_message(span_notice("[user] begins carefully detaching the heavy blacksteel heels from [src]..."))
+	if(do_after(user, 3 SECONDS, target = src))
+		var/obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/B = new /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots(get_turf(src.loc))
+		if(user.is_holding(src))
+			user.dropItemToGround(src)
+			user.put_in_hands(B)
+		B.obj_integrity = src.obj_integrity
+		user.visible_message(span_notice("[user] snaps off the heels of [src], turning them back into standard inquisitorial boots."))
+		qdel(src)
+	else
+		user.visible_message(span_notice("[user] stops adjusting [src]."))
+		return
 
 // ----------------- BLACKSTEEL -----------------------
 
@@ -879,7 +904,6 @@
 /obj/item/clothing/shoes/courtphysician/female/Initialize(mapload)
 	. = ..()
 	update_icon()
-
 
 /obj/item/clothing/shoes/courtphysician/female/ComponentInitialize()
 	. = ..()

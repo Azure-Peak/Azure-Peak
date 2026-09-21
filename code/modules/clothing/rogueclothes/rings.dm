@@ -373,7 +373,7 @@
 
 /obj/item/clothing/ring/band/aalloy
 	name = "decrepit weddingband"
-	desc = "A decaying weddingband of tarnished bronze, ornately decorated with the engravings of a lover's name."
+	desc = "A decaying weddingband of rotted metal, ornately decorated with the engravings of a lover's name."
 	icon_state = "a_ring_wedding"
 	color = "#bb9696"
 	anvilrepair = null
