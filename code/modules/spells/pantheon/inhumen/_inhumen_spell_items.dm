@@ -747,6 +747,10 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			var/obj/item/natural/bundle/fibers/B = I
 			for(var/i = 1 to B.amount)
 				inserted_ingredients += /obj/item/natural/fibers
+		else if(istype(I, /obj/item/natural/bundle/bone))
+			var/obj/item/natural/bundle/bone/B = I
+			for(var/i = 1 to B.amount)
+				inserted_ingredients += /obj/item/natural/bone
 		else
 			inserted_ingredients += I.type
 
@@ -778,7 +782,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/totalmammon = get_mammons_in_atom(user) + SStreasury.get_balance(user)
 
 	to_chat(user, span_notice("You begin channeling your greed into the mixture..."))
-	if(!do_after(user, 20, src))
+	if(!do_after(user, 25, src))
 		return
 
 	var/burnchance = max(0, 30 - (5 * miraclecheck))
@@ -860,10 +864,14 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 		switch(selected_fare_type) // i hate it here (a little less, thanks ryon!!!)
 			if(FARE_IMPOVERISHED)
-				var/list/blacklisted_words = list("raw", "uncooked", "slab of", "unfinished", "half-done", "base", "unbaked", "plucked", "meat", "filet", "sliced", "venison", "deadite", "pale", "belly", "mince", "minced", "pie", "dough", "butterdough", "piece")
+				var/list/blacklisted_words = list("snack", "flatbread", "pesto", "raw", "uncooked", "slab of", "unfinished", "half-done", "base", "unbaked", "plucked", "meat", "filet", "sliced", "venison", "deadite", "pale", "belly", "mince", "minced", "pie", "dough", "butterdough", "piece")
+				var/blacklisted = FALSE
 				for(var/word in blacklisted_words)
-					if(findtext(food_name, word))
-						continue
+					if(findtextEx(food_name, word))
+						blacklisted = TRUE
+						break
+				if(blacklisted)
+					continue
 
 		foods[initial(food_type.name)] = food_type
 
