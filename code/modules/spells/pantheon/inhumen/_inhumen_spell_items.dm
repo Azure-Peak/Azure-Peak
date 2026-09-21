@@ -860,7 +860,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		if(initial(food_type.faretype) != selected_fare_type)
 			continue
 
-		var/food_name = lowertext(initial(food_type.name))
+		var/food_name = LOWER_TEXT(initial(food_type.name))
 
 		switch(selected_fare_type) // i hate it here (a little less, thanks ryon!!!)
 			if(FARE_IMPOVERISHED)
