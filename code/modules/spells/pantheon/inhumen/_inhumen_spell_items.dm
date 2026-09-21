@@ -811,9 +811,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(totalmammon >= lavishthreshold)
 		highest_fare = FARE_LAVISH
 
-	var/list/fare_options = list(
-		"Impoverished" = FARE_IMPOVERISHED
-	)
+	var/list/fare_options = list("Impoverished" = FARE_IMPOVERISHED)
 
 	if(highest_fare >= FARE_POOR)
 		fare_options["Poor"] = FARE_POOR
@@ -854,8 +852,16 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	for(var/food_path in subtypesof(/obj/item/reagent_containers/food/snacks/rogue))
 		var/obj/item/reagent_containers/food/snacks/rogue/food_type = food_path
+
 		if(initial(food_type.faretype) != selected_fare_type)
 			continue
+
+		var/food_name = lowertext(initial(food_type.name))
+
+		if(selected_fare_type == FARE_IMPOVERISHED) // i hate it here
+			if(findtext(food_name, "raw") || findtext(food_name, "uncooked") || findtext(food_name, "slab of") || findtext(food_name, "unfinished") || findtext(food_name, "half-done") || findtext(food_name, "base") || findtext(food_name, "unbaked") || findtext(food_name, "plucked") || findtext(food_name, "meat") || findtext(food_name, "filet") || findtext(food_name, "sliced") || findtext(food_name, "venison") || findtext(food_name, "deadite") || findtext(food_name, "pale") || findtext(food_name, "belly") || findtext(food_name, "mince") || findtext(food_name, "minced") || findtext(food_name, "pie") || findtext(food_name, "dough") || findtext(food_name, "butterdough") || findtext(food_name, "piece"))
+				continue
+
 		foods[initial(food_type.name)] = food_type
 
 	if(!length(foods))
