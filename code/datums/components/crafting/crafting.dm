@@ -367,7 +367,7 @@
 											temp_fail_r.reqs[picked_key] = min(R.reqs[picked_key], 1)
 											del_reqs(temp_fail_r, user)
 											qdel(temp_fail_r)
-										to_chat(user, span_danger("You fumbled crafting and wasted \the [wasted_name]! [prob2craft]%"))
+										to_chat(user, span_danger("You fumbled crafting and wasted \the [wasted_name]! [failure_chance]%"))
 										return FALSE
 
 						if(user.client?.prefs.showrolls)
