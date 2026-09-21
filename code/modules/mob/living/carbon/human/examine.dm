@@ -67,17 +67,6 @@
 	if(user.client?.prefs?.top_examine)
 		. += generate_main_examine_body(user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, unknown_names)
 
-	if(user != src && HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
-		var/atom/item = get_most_expensive()
-		if(item)
-			. += span_notice("You get the feeling [src]'s most valuable possession is \a [item].")
-		var/mammonsonperson = get_mammons_in_atom(src)
-		var/mammonsinbank = SStreasury.get_balance(src)
-		var/totalvalue = mammonsonperson + mammonsinbank
-		if(totalvalue && HAS_TRAIT(user, TRAIT_GILDED_SIGHT))
-			. += span_notice("They carry [mammonsonperson] mammons, with [mammonsinbank] stored away, totaling [totalvalue].")
-		else if(mammonsonperson && mammonsonperson >= 100) // worth a whole mission board!
-			. += span_notice("They carry about [mammonsonperson] mammons with them.")
 	var/obscured = check_obscured_slots()
 	var/skipface = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
 	if(HAS_TRAIT(user, TRAIT_ROYALSERVANT))
@@ -517,6 +506,60 @@
 			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [minutes] minute[minutes == 1 ? "" : "s"], [seconds] second[seconds == 1 ? "" : "s"].</font>"
 		else
 			msg += "<font color='#ffbd09'>A temporary ward surrounds them. It will last for [seconds] second[seconds == 1 ? "" : "s"].</font>"
+
+	if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
+		var/assassinated = HAS_TRAIT_FROM(src, TRAIT_DNR, GRAGGAR_ASSASSINATED)
+		var/permanent_assassination = assassinated && HAS_TRAIT_NOT_FROM(src, TRAIT_DNR, GRAGGAR_ASSASSINATED)
+
+		if(permanent_assassination)
+			msg += span_cult("<i>A ghastly red mist spills from their chest, but there is no tether between their soul and body. Their soul has been reaped beyond return.")
+		else if(assassinated)
+			msg += span_cult("<i>A ghastly red mist spills from their chest. Their soul yearns to be returned to their body...")
+		else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
+			if(src.stat == DEAD)
+				msg += span_artery("<i>Their aura is no more. They are irreversibly gone...")
+			else
+				msg += span_artery("<i>They extrude a pale aura. This is their only chance at lyfe.")
+		else if(HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && user.get_skill_level(/datum/skill/magic/holy) >= SKILL_LEVEL_EXPERT)
+			if(src.stat == DEAD)
+				msg += span_artery("<i>You sense no value on that body. They are irreversibly gone...")
+			else
+				msg += span_artery("<i>Their Lux holds no value for a rekindled exchange. This is their only chance at lyfe.")
+		else if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT)
+			if(src.stat == DEAD)
+				msg += span_artery("<i>Their body is withering rather than rotting. They are irreversibly gone...")
+			else
+				msg += span_artery("<i>Their humors are dangerously unbalanced. Their body will not survive death.")
+		else if(src.stat == DEAD)
+			msg += span_artery("<i>Their body is withering rather than rotting. They are irreversibly gone...")
+
+	if(HAS_TRAIT(src, TRAIT_DUSTRUNNER) && src != user)
+		var/mob/living/living_examiner = user
+		if(HAS_TRAIT(user, TRAIT_DUSTRUNNER))
+			. += span_notice("Fellow runner. The dust moves.")
+		if(HAS_TRAIT(user, TRAIT_FREEMAN))
+			to_chat(user, span_notice("You sense the eyes of [src], a Thieves' Guild runner!"))
+		else if(living_examiner?.patron?.type == /datum/patron/inhumen/matthios)
+			. += span_notice("A Thieves' Guild runner, by the look of them.")
+		else if(user.job in GLOB.bathhouse_positions)
+			. += span_notice("One of the Thieves' Guild runners. I know the signs.")
+
+	if(HAS_TRAIT(src, TRAIT_FREEMAN) && src != user)
+		if(HAS_TRAIT(user, TRAIT_FREEMAN))
+			. += span_notice("A fellow Free Man! Together we ride.")
+			to_chat(user, span_notice("You sense the eyes of [src], a fellow Free Man!"))
+
+	if(user != src && HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
+		var/atom/item = get_most_expensive()
+		if(item)
+			. += span_notice("You get the feeling [src]'s most valuable possession is \a [item].")
+		var/mammonsonperson = get_mammons_in_atom(src)
+		var/mammonsinbank = SStreasury.get_balance(src)
+		var/totalvalue = mammonsonperson + mammonsinbank
+		if(totalvalue && HAS_TRAIT(user, TRAIT_GILDED_SIGHT))
+			. += span_notice("They carry [mammonsonperson] mammons, with [mammonsinbank] stored away, totaling [totalvalue].")
+		else if(mammonsonperson && mammonsonperson >= 100) // worth a whole mission board!
+			. += span_notice("They carry about [mammonsonperson] mammons with them.")
 
 	if(!appears_dead)
 		if(!skipface)
@@ -1105,29 +1148,6 @@
 					carbs.Jitter(10)
 					carbs.stuttering += 25
 
-		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
-			// if you have deathsight, you get the deathsight message. always.
-			if(!HAS_TRAIT(user, TRAIT_DEATHSIGHT))
-				// everyone can tell if someone is DNR if they're actually dead.
-				if(src.stat == DEAD)
-					// if you ONLY have DNR from being assasinatd, that is, you can be brought back, display this.
-					if(HAS_TRAIT_FROM_ONLY(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
-						. += span_cult("A ghastly red-mist spills from their chest. Their soul yearns to be returned to their body...")
-						// else ur permagone so tell ppl that
-					else
-						. += span_danger("Their body holds not even a glimmer of life. No miracle or medicine can bring them back.")
-				// if theyre alive, you dont have deathsight, but youre an expert at medicine, you can tell.
-				else if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT)
-					. += span_danger("Their humors are visibly unbalanced. This will be their only chance at lyfe.")
-			// deathsight always works even on the living.
-			else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
-				if(HAS_TRAIT_FROM_ONLY(src, TRAIT_DNR, GRAGGAR_ASSASSINATED))
-					. += span_cult("Their soul is screaming! It's been stolen by an Assassin of Graggar! Find and destroy the dagger that contains it to bring them back!")
-				else
-					. += span_danger("They extrude a pale aura. Their soul [stat == DEAD ? "was not" : "is not"] clean. This [stat == DEAD ? "was" : "is"] their only chance at lyfe.")
-
-
-
 	if (HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
 		if(isliving(user))
 			var/mob/living/L = user
@@ -1198,22 +1218,6 @@
 	if(HAS_TRAIT(examiner, TRAIT_HERETIC_SEER))
 		seer = TRUE
 
-	if(HAS_TRAIT(src, TRAIT_DUSTRUNNER))
-		var/mob/living/living_examiner = examiner
-		if(HAS_TRAIT(examiner, TRAIT_DUSTRUNNER))
-			heretic_text += "Fellow runner. The dust moves."
-		else if(living_examiner?.patron?.type == /datum/patron/inhumen/matthios)
-			heretic_text += "A Guild runner, by the look of them."
-		else if(examiner.job in GLOB.bathhouse_positions)
-			heretic_text += "One of the Guild's runners. I know the signs."
-
-	if(HAS_TRAIT(src, TRAIT_FREEMAN))
-		if(seer)
-			heretic_text += "Matthiosian."
-			if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
-				heretic_text += " To share with. To take with. For all, and us."
-		else if(HAS_TRAIT(examiner, TRAIT_FREEMAN))
-			heretic_text += "Fellow Free Man!"
 	else if((HAS_TRAIT(src, TRAIT_CABAL)))
 		if(seer)
 			heretic_text += "A member of Zizo's cabal."

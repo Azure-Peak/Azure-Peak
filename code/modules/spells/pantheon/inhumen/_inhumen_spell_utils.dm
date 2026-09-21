@@ -447,16 +447,21 @@
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
 	target.apply_status_effect(/datum/status_effect/debuff/doom)
 	target.safe_throw_at(target, 3, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
+	target.Knockdown(5)
 
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
 	if(QDELETED(owner) || QDELETED(target))
 		return
 
 	var/damage = bonus_damage
-	var/apen = damage * 0.75
+	var/mammon_spent = round(bonus_damage / 3)
+	var/npc_mult = target.mind ? 1 : 2
+	var/apen = mammon_spent < 80 ? PEN_NONE : PEN_BSTEEL
+	var/bclass = mammon_spent < 80 ? BCLASS_BLUNT : BCLASS_BURN
+	var/damtype = mammon_spent < 80 ? BRUTE : BURN
 
-	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, BCLASS_SMASH, apen, "Mammonite", FALSE, FALSE, FALSE, BRUTE, 1)
-	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of greed!"), span_notice("My investment pays off in full!"))
+	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, npc_mult, 1)
+	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of their greed!"), span_notice("My investment pays off in full!"))
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
 

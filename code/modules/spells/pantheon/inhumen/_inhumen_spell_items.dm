@@ -109,7 +109,9 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(!result_path)
 		return
 	to_chat(user, span_notice("The mixture stabilizes successfully."))
-	new result_path(get_turf(src))
+	var/obj/item/alchserum/matthios_lyfestruth/lyfestruth = new result_path(get_turf(src))
+	if(istype(lyfestruth))
+		lyfestruth.benefactor = user
 	funny_smoke(src)
 	qdel(src)
 
@@ -399,62 +401,69 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	current_color = "#ff9d00"
 	aura_color = "#fffaad"
 	w_class = WEIGHT_CLASS_TINY
-
+	var/mob/benefactor
 
 /obj/item/alchserum/matthios_lyfestruth/attack(mob/living/target, mob/user)
 	if(!istype(target, /mob/living/carbon))
+		to_chat(user, "Strangely, the fluid crystalizes when you try, only to become viscous again as you pull away.")
 		return
 	if(target.stat != DEAD)
-		to_chat(user, span_notice("They are not dead!"))
+		to_chat(user, "Strangely, the fluid crystalizes when you try, only to become viscous again as you pull away. There's too much lyfe in that Lux.")
 		return
 	if(!target.mind || !target.mind.active)
-		to_chat(user, "Strangely, the fluid seems a little colder when you try.")
+		to_chat(user, "Strangely, the fluid crystalizes when you try, only to become viscous again as you pull away.")
 		return
 	if(HAS_TRAIT(target, TRAIT_DNR))
-		to_chat(user, span_danger("The Geald within the vial does not react to them at all. Strange."))
+		to_chat(user, "Strangely, the fluid crystalizes when you try, only to become viscous again as you pull away. There's not a spec left of lyfe to rekindle on that one.")
+		return
+	if(!benefactor)
+		to_chat(user, span_warning("The vial has no benefactor to anchor its exchange, rendering it useless."))
+		return
+	if(!target.revive_check(user))
 		return
 
-	to_chat(user, span_notice("You begin pouring the lyfestruth over [target.name]..."))
+	to_chat(user, span_notice("You begin pouring the mysterious vial over [target.name]..."))
 
 	if(do_after(user, 6 SECONDS, target))
-		if(!target || target.stat != DEAD)
+		if(QDELETED(src) || QDELETED(target) || target.stat != DEAD)
+			return
+		if(!target.revive_check(user))
 			return
 		apply_effect(target, user)
 
 /obj/item/alchserum/matthios_lyfestruth/proc/apply_effect(mob/living/carbon/target, mob/user)
-	if(!target)
+	if(!target || !benefactor)
 		return
+	var/debt = rand(100, 200)
+	if(target.patron in ALL_INHUMEN_PATRONS)
+		debt *= 0.5
+	else if(HAS_TRAIT(target, TRAIT_NOBLE) && !HAS_TRAIT(target, TRAIT_FREEMAN))
+		debt *= 3
+	debt = round(debt)
+	target.apply_status_effect(/datum/status_effect/debuff/matthios_debt, debt, benefactor)
+	target.adjustOxyLoss(-target.getOxyLoss())
+	if(!target.revive(full_heal = FALSE))
+		to_chat(user, span_warning("Nothing happens."))
+		return
+	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
+	if(underworld_spirit)
+		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
+		qdel(underworld_spirit)
+		ghost.mind.transfer_to(target, TRUE)
+	target.grab_ghost(force = TRUE)
+	target.emote("breathgasp")
+	target.Jitter(100)
+	target.update_body()
+	target.visible_message(span_astrata("[target] is rekindled by a burst of primordial fyre!"), span_green("I awake from the void."))
+	target.mind.remove_antag_datum(/datum/antagonist/zombie)
+	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
+	target.apply_status_effect(/datum/status_effect/debuff/revived)
+	to_chat(user, span_userdanger("Surely no consequences will come from using this, right?..."))
+	to_chat(target, span_userdanger("Your soul returns, but it feels as if your Patron demands compensation..."))
 
-	var/choice
-	if(target.client)
-		choice = alert(target, "You feel divine warmth offering you freedom from the shackles of Necra...", "Revival", "I need to wake up! Freedom!", "I'd rather be dead than free.")
-	else
-		choice = "I'd rather be dead than free."
-
-	var/accepted = (choice == "I need to wake up! Freedom!")
-
-	if(accepted)
-		target.revive(full_heal = TRUE)
-		to_chat(target, span_warning("Your body is violently forced back to life, as a searing heat floods from within— IT BURNS!!"))
-		target.visible_message(span_warning("[target.name]'s body rewinds to life... only for a massive shockwave of fire to burst from them!"))
-		target.adjust_fire_stacks(5)
-		target.ignite_mob()
-		target.emote("superagony", forced = TRUE)
-	else
-		to_chat(target, span_warning("You refuse the call... but the warmth curdles into something volatile."))
-		target.visible_message(span_warning("[target.name] does not rise. The Geald within them destabilizes violently!"))
-
-	var/turf/T = get_turf(target)
-	if(T)
-		explosion(T, devastation_range = null, heavy_impact_range = null, light_impact_range = 4, flame_range = 8, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-
-	for(var/mob/living/M in range(4, target))
-		if(M == target)
-			continue
-		var/dir = get_dir(target, M)
-		var/turf/throw_target = get_edge_target_turf(M, dir)
-		if(throw_target)
-			M.throw_at(throw_target, 4, 2)
+	if(HAS_TRAIT(target, TRAIT_IRONMAN))
+		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
+		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
 
 	qdel(src)
 
@@ -615,13 +624,45 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		to_chat(user, span_warning("The vial contains no transactable value."))
 		return
 
-	var/choice = input(user, "How shall the First Law resolve?", "First Law") as null|anything in list(
+	var/list/choices = list(
 		"Coin begets Coin!",
 		"Return as Stones",
+		"Morph Serum",
 		"Cancel"
 	)
 
+	var/choice = input(user, "How shall the First Law resolve?", "First Law") as null|anything in choices
+
 	if(!choice || choice == "Cancel")
+		return
+
+	if(choice == "Morph Serum")
+		var/list/serums = list()
+		for(var/serum_type in subtypesof(/obj/item/matthios_canister))
+			if(serum_type == type)
+				continue
+			var/obj/item/matthios_canister/S = serum_type
+			serums[initial(S.name)] = serum_type
+		if(!serums.len)
+			to_chat(user, span_warning("The First Law knows no such draught forms."))
+			return
+		var/serum_choice = tgui_input_list(user, "What shall the First Law translate to?", "First Law", serums)
+		if(!serum_choice)
+			return
+		if(stored_value < 10)
+			to_chat(user, span_warning("There is not enough stored entropic dust to create this."))
+			return
+		if(!do_after(user, 2 SECONDS, target = user, same_direction = TRUE))
+			return
+		if(QDELETED(src) || QDELETED(user) || stored_value < 10)
+			return
+		var/serum_path = serums[serum_choice]
+		var/obj/item/alchserum/serum = new serum_path(get_turf(src))
+		stored_value -= 10
+		user.put_in_inactive_hand(serum)
+		playsound(loc, 'sound/magic/swap.ogg', 100, TRUE, -2)
+		to_chat(user, span_notice("The draught condenses 10 entropic dust into [serum]. (Remaining Value: [stored_value])"))
+		update_icon()
 		return
 
 	if(!do_after(user, 2 SECONDS, target = user, same_direction = TRUE))
@@ -1723,6 +1764,13 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	icon_state = "sduelist"
 	max_integrity = 150
 	is_important = TRUE
+	body_parts_covered = FULL_HEAD
+	flags_inv = HIDEFACE
+	flags_cover = HIDEFACE
+
+/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/adjustable_clothing/matthicat, FULL_HEAD, 0, 0, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))
 
 /obj/item/clothing/mask/rogue/spectacles/duelist/matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -1732,9 +1780,6 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/clothing/mask/rogue/spectacles/duelist/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
 	user.remove_status_effect(/datum/status_effect/buff/matthios_vision)
-
-/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/ComponentInitialize()
-	AddComponent(/datum/component/adjustable_clothing/matthicat, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))
 
 /datum/component/adjustable_clothing/matthicat
 
@@ -1864,36 +1909,52 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 //MISC
 
-/datum/component/storage/concrete/roguetown/pouch/matthios
-	screen_max_rows = 4
-	screen_max_columns = 2
-
-/obj/item/storage/belt/rogue/pouch/matthios
-	aura_color = "#fff385"
-	desc = "A small sack with a drawstring that allows it to be worn around the neck. Or at the hips, provided you have a belt. It has a strange, gilded glow to it."
-	component_type = /datum/component/storage/concrete/roguetown/pouch/matthios
-
-/obj/item/storage/belt/rogue/pouch/matthios/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED POUCH")
-
-/obj/item/storage/belt/rogue/pouch/matthios/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
-
-/obj/item/storage/backpack/rogue/backpack/matthios
-	name = "smuggling bag"
-	desc = "A sack tied with some 'blessed' rope. There is a carving of a grinning symbol within the side of it. It has a strange, gilded glow to it."
-	aura_color = "#fff385"
-	icon_state = "rucksack_untied"
-	item_state = "rucksack"
+/obj/item/storage/backpack/rogue/satchel/beltpack/matthios
+	name = "smuggling beltpack"
+	desc = "A lighter satchel that rests against the rump, freeing the shoulders from any weight. It's traditionally worn in place of a belt or cloak."
+	icon_state = "buttpack"
+	item_state = "buttpack"
+	icon = 'icons/roguetown/clothing/storage.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi'
+	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_BELT
+	edelay_type = 1
+	equip_delay_self = 10
+	max_integrity = 300
 	component_type = /datum/component/storage/concrete/roguetown/backpack
-	max_integrity = 100
+	var/fakename = "beltpack"
 
-/obj/item/storage/backpack/rogue/backpack/matthios/Initialize(mapload)
+/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/equipped(mob/user, slot)
 	. = ..()
-	AddComponent(/datum/component/cursed_item, (TRAIT_FREEMAN||TRAIT_XYLIX), "BLESSED RUCKSACK")
+	if(slot == SLOT_BELT || slot == SLOT_CLOAK)
+		name = fakename
 
-/obj/item/storage/backpack/rogue/backpack/matthios/get_examine_highlight_status()
+/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/dropped(mob/user, silent)
+	. = ..()
+	name = initial(name)
+
+/obj/item/mattcoin/pickup(mob/living/user)
+	if(!HAS_TRAIT(user, TRAIT_FREEMAN) && !HAS_TRAIT(user, TRAIT_XYLIX) && !HAS_TRAIT(user, TRAIT_CABAL) && !HAS_TRAIT(user, TRAIT_HORDE) && !HAS_TRAIT(user, TRAIT_DEPRAVED))
+		to_chat(user, "[src] turns to ash in my hands!")
+		playsound(user.loc, 'sound/items/firesnuff.ogg', 100, FALSE, -1)
+		for(var/obj/item/I in contents)
+			I.forceMove(get_turf(src))
+		qdel(src)
+		return FALSE
+	. = ..()
+
+/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/doStrip(mob/stripper, mob/owner)
+	if(!HAS_TRAIT(owner, TRAIT_FREEMAN) && !HAS_TRAIT(owner, TRAIT_CABAL) && !HAS_TRAIT(owner, TRAIT_DEPRAVED) && !HAS_TRAIT(owner, TRAIT_HORDE) && !HAS_TRAIT(owner, TRAIT_XYLIX))
+		to_chat(owner, "[src] turns to ash in my hands!")
+		playsound(owner.loc, 'sound/items/firesnuff.ogg', 100, FALSE, -1)
+		for(var/obj/item/I in contents)
+			I.forceMove(get_turf(src))
+		qdel(src)
+		return FALSE
+	. = ..()
+
+/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/get_examine_highlight_status()
+	if(ismob(loc))
+		return null
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
 
 /obj/item/rope/chain/matthios
@@ -1907,21 +1968,371 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/rope/chain/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
 
-/obj/item/melee/touch_attack/lesserknock/matthios
-	name = "gilded lockpick"
-	desc = "A golden, glowing lockpick that appears to be held together by the truth of Matthios. To dispel it, simply use it on anything that isn't a door."
-	catchphrase = null
-	possible_item_intents = list(/datum/intent/use)
-	icon = 'icons/roguetown/items/keys.dmi'
-	icon_state = "lockpick"
-	color = "#eeff00" // we golden now, bij
-	max_integrity = 20
-	destroy_sound = 'sound/items/pickbreak.ogg'
-	resistance_flags = FIRE_PROOF
-	aura_color = "#ffe761"
+/obj/item/flashlight/flare/torch/lantern/astrata
+	name = "sacred fyre"
+	light_color = "#fff4e5"
+	light_outer_range = 10
+	icon_state = "astratawisp"
+	item_state = "astratawisp"
+	desc = "A condensed sphere of... what looks like the very flames from the heavens above at daetyme. This... Should this be in the hands of mortals?..."
 
-/obj/item/melee/touch_attack/lesserknock/attack_self()
+/obj/item/flashlight/flare/torch/lantern/astrata/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_WEIRD, HERESYDESC_ASTRATA_MISC)
+
+/obj/item/flashlight/flare/torch/lantern/astrata/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FYRE")
+	spark_act()
+
+/obj/item/flashlight/flare/torch/lantern/astrata/attack_self(mob/user)
+	return
+
+/obj/item/flashlight/flare/torch/lantern/astrata/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	. = ..()
+	if(QDELETED(src))
+		return
+	var/turf/impact_turf = get_turf(hit_atom)
+	if(!impact_turf)
+		return
+	playsound(impact_turf, 'sound/magic/fireball.ogg', 100, TRUE)
+	explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1)
 	qdel(src)
 
-/obj/item/melee/touch_attack/lesserknock/matthios/get_examine_highlight_status()
+/obj/item/lockpick/gilded
+	name = "gilded lockpick"
+	desc = "A lockpick that glimmers with an unmistakable sheen of tempered gold. You feel watched by an unseen force while holding this."
+	icon_state = "lockpick"
+	icon = 'icons/roguetown/items/keys.dmi'
+	w_class = WEIGHT_CLASS_TINY
+	color = "#fff89d"
+	aura_color = "#ffe75e"
+	dropshrink = 0.75
+	throwforce = 0
+	max_integrity = 10
+	picklvl = 1
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
+	destroy_sound = 'sound/items/pickbreak.ogg'
+	resistance_flags = FIRE_PROOF
+	associated_skill = /datum/skill/misc/lockpicking
+	always_destroy = TRUE
+	grid_width = 32
+	grid_height = 64
+	var/using = FALSE
+
+/obj/item/lockpick/gilded/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
+
+/obj/item/lockpick/gilded/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+
+/obj/item/lockpick/gilded/proc/on_moved()
+	if(!loc)
+		return
+	if(!ismob(loc) && !isturf(loc))
+		return
+	if(ismob(loc))
+		return
+	qdel(src)
+
+/obj/item/lockpick/gilded/attack_self(mob/living/user)
+	if(using)
+		return
+	if(!ishuman(user))
+		return
+
+	var/mob/living/carbon/human/H = user
+	if(!HAS_TRAIT(H, TRAIT_FREEMAN))
+		to_chat(H, span_warning("The gilded lockpick refuses your hand."))
+		return
+
+	var/datum/action/cooldown/spell/matthios/freemans_tools/freeman_tools
+	for(var/datum/action/cooldown/spell/matthios/freemans_tools/F in H.actions)
+		freeman_tools = F
+		break
+
+	if(!freeman_tools)
+		to_chat(H, span_warning("The gilded lockpick has no connection to Matthios' vault."))
+		return
+
+	using = TRUE
+
+	user.visible_message(
+		span_notice("[user] inserts the gilded lockpick into thin air, twisting an invisible lock..."),
+		span_notice("You feel around for an unseen lock, turning the gilded lockpick until you hear a faint click.")
+	)
+
+	if(!do_after(H, 2 SECONDS))
+		using = FALSE
+		return
+
+	if(QDELETED(src) || QDELETED(H))
+		using = FALSE
+		return
+
+	var/list/vault_tools = list(
+		"Return Tool" = list(
+			"path" = null,
+			"devotion_used" = 0,
+			"mammon_used" = 0,
+			"cooldown" = 0
+		),
+		"Smuggling Bag - 100 Devotion, 10 Mammon" = list(
+			"path" = /obj/item/storage/backpack/rogue/satchel/beltpack/matthios,
+			"devotion_used" = 100,
+			"mammon_used" = 10,
+			"cooldown" = 5 MINUTES
+		),
+		"Gilded Dexterous Gloves - 400 Devotion, 10 Mammon" = list(
+			"path" = /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios,
+			"devotion_used" = 400,
+			"mammon_used" = 10,
+			"cooldown" = 5 MINUTES
+		),
+		"Gilded Muffled Boots - 250 Devotion, 10 Mammon" = list(
+			"path" = /obj/item/clothing/shoes/roguetown/boots/muffle_matthios,
+			"devotion_used" = 250,
+			"mammon_used" = 10,
+			"cooldown" = 5 MINUTES
+		),
+		"Gilded Lockpicking Specs - 500 Devotion, 10 Mammon" = list(
+			"path" = /obj/item/clothing/mask/rogue/spectacles/duelist/matthios,
+			"devotion_used" = 500,
+			"mammon_used" = 10,
+			"cooldown" = 10 MINUTES
+		),
+		"Gilded Chains - 50 Devotion, 10 Mammon" = list(
+			"path" = /obj/item/rope/chain/matthios,
+			"devotion_used" = 50,
+			"mammon_used" = 10,
+			"cooldown" = 2 MINUTES
+		),
+		"Gilded Amulet of Matthios - 50 Devotion, 10 Mammon" = list(
+			"path" = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded,
+			"devotion_used" = 50,
+			"mammon_used" = 10,
+			"cooldown" = 30 SECONDS
+		)
+	)
+
+	var/choice = tgui_input_list(H, "Choose something to borrow from Matthios' vault.", "Matthios' Vault", vault_tools)
+	if(!choice || QDELETED(src) || QDELETED(H))
+		using = FALSE
+		return
+
+	var/list/selection = vault_tools[choice]
+	if(!selection)
+		using = FALSE
+		return
+
+	if(choice == "Return Tool")
+		var/obj/item/tool = H.get_inactive_held_item()
+		if(!tool || tool == src)
+			using = FALSE
+			to_chat(H, span_warning("You have nothing in your other hand to return."))
+			return
+
+		user.visible_message(
+			span_notice("[user] stuffs \the [tool] through a mysterious golden portal..."),
+			span_notice("You rummage through Matthios' vault, returning up \the [tool].")
+		)
+
+		if(!do_after(H, 1 SECONDS))
+			using = FALSE
+			return
+
+		if(QDELETED(src) || QDELETED(H) || QDELETED(tool))
+			using = FALSE
+			return
+
+		if(H.get_inactive_held_item() != tool)
+			using = FALSE
+			return
+
+		qdel(tool)
+
+		var/skill = H.get_skill_level(freeman_tools.associated_skill)
+		if(skill == SKILL_LEVEL_JOURNEYMAN)
+			var/obj/item/roguecoin/silver/coin = new /obj/item/roguecoin/silver(H.drop_location())
+			H.put_in_hands(coin)
+			to_chat(H, span_warning("The FREE GOD is most generous! A small refund!"))
+		else if(skill > SKILL_LEVEL_JOURNEYMAN)
+			var/obj/item/roguecoin/gold/coin = new /obj/item/roguecoin/gold(H.drop_location())
+			H.put_in_hands(coin)
+			to_chat(H, span_warning("The FREE GOD is most generous! Full refund!"))
+		else
+			to_chat(H, span_warning("NO REFUNDS!!"))
+
+		using = FALSE
+		return
+
+	var/cooldown = selection["cooldown"]
+	var/devotion_used = selection["devotion_used"]
+	var/mammon_used = selection["mammon_used"]
+
+	if(freeman_tools.item_cooldowns[choice] > world.time)
+		using = FALSE
+
+		var/time_left = freeman_tools.item_cooldowns[choice] - world.time
+		var/minutes = round(time_left / (1 MINUTES))
+		var/seconds = round((time_left % (1 MINUTES)) / (1 SECONDS))
+		var/time_text
+
+		if(minutes)
+			time_text = "[minutes] minute\s[seconds ? " and [seconds] second\s" : ""]"
+		else
+			time_text = "[seconds] second\s"
+
+		to_chat(H, span_warning("Your gilded loan is still in effect. Try again in [time_text]."))
+		return
+
+	if(H.devotion?.devotion < devotion_used)
+		using = FALSE
+		user.visible_message(
+			span_notice("The portal rudely closes!"),
+			span_notice("Your connection to the Free God is too faint to ask for this favor.")
+		)
+		return
+
+	if(remove_debt_mammon(H, mammon_used) < mammon_used)
+		using = FALSE
+		user.visible_message(
+			span_notice("The portal rudely closes!"),
+			span_notice("You lack the Mammon to tithe for His attention.")
+		)
+		return
+
+	var/reward_path = selection["path"]
+	if(!reward_path || !ispath(reward_path, /obj/item))
+		using = FALSE
+		to_chat(H, span_warning("The vault fails to produce the requested tool."))
+		return
+
+	user.visible_message(
+		span_notice("[user] rummages through a mysterious golden portal that suddenly appeared..."),
+		span_notice("You rummage through Matthios' vault, searching for \the [choice].")
+	)
+
+	if(!do_after(H, 2 SECONDS))
+		using = FALSE
+		return
+
+	if(QDELETED(src) || QDELETED(H) || QDELETED(freeman_tools))
+		using = FALSE
+		return
+
+	if(freeman_tools.item_cooldowns[choice] > world.time)
+		using = FALSE
+		return
+
+	H.devotion.update_devotion(-devotion_used)
+
+	var/obj/item/reward = new reward_path(H.drop_location())
+	if(!reward)
+		using = FALSE
+		return
+
+	H.put_in_hands(reward)
+	freeman_tools.item_cooldowns[choice] = world.time + cooldown
+
+	using = FALSE
+	qdel(src)
+
+/obj/item/lockpick/gilded/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(using)
+		return
+	if(!proximity_flag)
+		return
+
+	if(istype(target, /obj/structure/roguemachine/vaultbank))
+		var/obj/structure/roguemachine/vaultbank/J = target
+		if(!ishuman(user))
+			return
+
+		var/mob/living/carbon/human/H = user
+		if(!HAS_TRAIT(H, TRAIT_FREEMAN))
+			to_chat(H, span_warning("What the hell am I supposed to do with this?"))
+			return
+
+		var/datum/fund/F = J.get_linked_fund()
+		if(!F)
+			to_chat(H, span_warning("[J] has no treasury to plunder."))
+			return
+
+		if(F.balance <= J.bash_floor)
+			to_chat(H, span_warning("[J] has nothing worth stealing."))
+			return
+
+		using = TRUE
+
+		var/skill = H.get_skill_level(/datum/skill/magic/holy)
+		H.visible_message(
+			span_warning("[H] begins working the gilded lockpick into [J]'s mechanisms."),
+			span_notice("You carefully work the gilded lockpick into the JAWBANK's mechanisms.")
+		)
+
+		var/lockpick_time = max(1 SECONDS, 6 SECONDS - (skill * 1 SECONDS))
+		if(!do_after(H, lockpick_time, J))
+			using = FALSE
+			return
+
+		if(QDELETED(src) || QDELETED(J))
+			using = FALSE
+			return
+
+		F = J.get_linked_fund()
+		if(!F)
+			using = FALSE
+			return
+
+		var/bashable = max(0, F.balance - J.bash_floor)
+		if(bashable <= 0)
+			using = FALSE
+			to_chat(H, span_warning("The JAWBANK has nothing left to surrender."))
+			return
+
+		var/taken = min(rand(5, 90), bashable)
+		var/turf/budget_turf = get_turf(J)
+
+		budget2change(taken, custom_turf = budget_turf)
+		SStreasury.burn(F, taken, "!GI$%#!LD$%%$ED T##$HEF¨%#T!!")
+		playsound(J, 'sound/misc/coindispense.ogg', 70, TRUE)
+
+		visible_message(
+			span_danger("The gilded lockpick clicks inside [J], and [taken] mammon spills loose!"),
+			span_notice("You feel the lock give. [taken] mammon spills from the JAWBANK.")
+		)
+
+		if(skill > SKILL_LEVEL_JOURNEYMAN)
+			if(prob(50))
+				J.anguish()
+			if(prob(50))
+				J.announce_robbery(taken)
+
+		J.total_extorted += taken
+		J.hits_since_lump += 1
+		J.update_icon()
+
+		using = FALSE
+		return
+
+	using = FALSE
+	return ..()
+
+/obj/item/lockpick/gilded/equipped(mob/user, slot)
+	. = ..()
+	if(!ishuman(user))
+		return
+
+	var/mob/living/carbon/human/H = user
+	if(H.get_skill_level(/datum/skill/magic/holy) < SKILL_LEVEL_EXPERT)
+		return
+
+	ADD_TRAIT(H, TRAIT_SILENT_LOCKPICK, "[REF(src)]")
+
+/obj/item/lockpick/gilded/dropped(mob/user)
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		REMOVE_TRAIT(H, TRAIT_SILENT_LOCKPICK, "[REF(src)]")
+	return ..()
+
