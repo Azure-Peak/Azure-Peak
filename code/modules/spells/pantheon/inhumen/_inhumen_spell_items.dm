@@ -1650,6 +1650,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	var/active_item = FALSE
 	unarmed_bonus = 10 // better than steel, worse than blacksteel, shitty durability
 	unarmed_weapon_effects = TRUE
+	equip_delay_self = 2 SECONDS // COMMIT
+	unequip_delay_self = 2 SECONDS
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -1658,8 +1660,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(slot == SLOT_GLOVES && HAS_TRAIT(user, TRAIT_FREEMAN))
 		active_item = TRUE
 		to_chat(user, span_info("Like Him, my hands ready to grasp the impossible."))
-		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
-		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
+		ADD_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthios_gloves")
+		user.change_stat(STATKEY_LCK, 1, "matthios_gloves")
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR)
@@ -1670,8 +1672,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 	active_item = FALSE
 	to_chat(user, span_info("Once again, these hands are supplicant."))
-	REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
-	REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
+	REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthios_gloves")
+	user.change_stat(STATKEY_LCK, 0, "matthios_gloves")
 
 /// This has way too much telegraphing already, so letting it be harder to detect being worn.
 
@@ -1775,22 +1777,26 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	armor = ARMOR_LEATHER
 	color = "#fff9c0" // we golden
 	aura_color = "#ffe600"
+	equip_delay_self = 2 SECONDS // COMMIT
+	unequip_delay_self = 2 SECONDS
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	if(slot == SLOT_SHOES && HAS_TRAIT(user, TRAIT_FREEMAN))
 		to_chat(user, span_info("Like Him, I slink into the shadows."))
-		ADD_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
-		ADD_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
-		ADD_TRAIT(user, TRAIT_FREERUNNING, "matthiosboon")
+		ADD_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthios_boots")
+		ADD_TRAIT(user, TRAIT_LIGHT_STEP, "matthios_boots")
+		ADD_TRAIT(user, TRAIT_FREERUNNING, "matthios_boots")
+		user.change_stat(STATKEY_SPD, 1, "matthios_boots")
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
 	if(istype(user) && user?.shoes == src)
 		to_chat(user, span_info("Once again, I am under Her gaze."))
-		REMOVE_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthiosboon")
-		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "matthiosboon")
-		REMOVE_TRAIT(user, TRAIT_FREERUNNING, "matthiosboon")
+		REMOVE_TRAIT(user, TRAIT_SILENT_FOOTSTEPS, "matthios_boots")
+		REMOVE_TRAIT(user, TRAIT_LIGHT_STEP, "matthios_boots")
+		REMOVE_TRAIT(user, TRAIT_FREERUNNING, "matthios_boots")
+		user.change_stat(STATKEY_SPD, 0, "matthios_boots")
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR) //These were always meant to be valid I don't get why this was forgotten about
