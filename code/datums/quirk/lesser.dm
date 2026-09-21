@@ -29,7 +29,7 @@
 	name = "Disfigured"
 	desc = "My face is distressing to look upon."
 	mechdesc = "This will grant no mechanical stress."
-	added_traits = list(TRAIT_DISFIGURED)
+	added_traits = list(TRAIT_UNSEEMLY)
 	ui_fa_icon = "eye-slash"
 
 /datum/quirk/tainted
