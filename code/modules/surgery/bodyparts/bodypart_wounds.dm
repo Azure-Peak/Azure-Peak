@@ -564,7 +564,7 @@
 						attempted_wounds +=/datum/wound/fracture/head/nose
 					else
 						attempted_wounds += /datum/wound/facial/disfigurement/nose
-				else if(zone_precise in knockout_zones) //shameless stab buff so you can kill the deathless
+				else if(zone_precise in knockout_zones) //because vampires/skeletons exist
 					if(has_wound(/datum/wound/fracture/head/brain))
 						attempted_wounds += /datum/wound/fracture/head/brain/shatter
 					else
