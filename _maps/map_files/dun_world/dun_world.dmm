@@ -27207,6 +27207,11 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave)
+"eYm" = (
+/obj/structure/closet/dirthole/grave,
+/obj/item/rogueweapon/shovel,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/beach/forest/north)
 "eYp" = (
 /obj/structure/stairs/stone{
 	dir = 1
@@ -31750,6 +31755,11 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
+"fNc" = (
+/obj/item/rogueweapon/shovel,
+/obj/structure/closet/dirthole/grave,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/beach/forest/north)
 "fNh" = (
 /obj/machinery/light/rogue/oven/east,
 /turf/open/floor/rogue/cobble,
@@ -120623,12 +120633,6 @@
 /obj/structure/vine,
 /turf/closed/wall/mineral/rogue/stone/unbreakable,
 /area/rogue/under/cave/his_vault)
-"vwS" = (
-/obj/structure/fluff/sign{
-	name = "DANGER: PIT"
-	},
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/beach/forest/north)
 "vwT" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/north,
@@ -438112,8 +438116,8 @@ cEi
 kTK
 kTK
 eDr
-mRp
 eDr
+eYm
 eDr
 kpS
 kpS
@@ -438563,8 +438567,8 @@ xLD
 xLD
 kTK
 kTK
-mRp
-mRp
+eDr
+eDr
 eDr
 kpS
 kpS
@@ -439015,9 +439019,9 @@ xLD
 kTK
 kTK
 kTK
-mRp
-mRp
-mRp
+eDr
+fNc
+eDr
 eDr
 kpS
 kpS
@@ -439468,8 +439472,8 @@ xLD
 kTK
 eDr
 eDr
-mRp
-vwS
+eDr
+eDr
 eDr
 kpS
 kpS
