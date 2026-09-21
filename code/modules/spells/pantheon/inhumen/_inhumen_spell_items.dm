@@ -858,9 +858,12 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 		var/food_name = lowertext(initial(food_type.name))
 
-		if(selected_fare_type == FARE_IMPOVERISHED) // i hate it here
-			if(findtext(food_name, "raw") || findtext(food_name, "uncooked") || findtext(food_name, "slab of") || findtext(food_name, "unfinished") || findtext(food_name, "half-done") || findtext(food_name, "base") || findtext(food_name, "unbaked") || findtext(food_name, "plucked") || findtext(food_name, "meat") || findtext(food_name, "filet") || findtext(food_name, "sliced") || findtext(food_name, "venison") || findtext(food_name, "deadite") || findtext(food_name, "pale") || findtext(food_name, "belly") || findtext(food_name, "mince") || findtext(food_name, "minced") || findtext(food_name, "pie") || findtext(food_name, "dough") || findtext(food_name, "butterdough") || findtext(food_name, "piece"))
-				continue
+		switch(selected_fare_type) // i hate it here (a little less, thanks ryon!!!)
+			if(FARE_IMPOVERISHED)
+				var/list/blacklisted_words = list("raw", "uncooked", "slab of", "unfinished", "half-done", "base", "unbaked", "plucked", "meat", "filet", "sliced", "venison", "deadite", "pale", "belly", "mince", "minced", "pie", "dough", "butterdough", "piece")
+				for(var/word in blacklisted_words)
+					if(findtext(food_name, word))
+						continue
 
 		foods[initial(food_type.name)] = food_type
 
