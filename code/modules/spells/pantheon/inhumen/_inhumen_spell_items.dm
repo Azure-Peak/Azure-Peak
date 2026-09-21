@@ -714,7 +714,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	)
 
 /obj/item/matthios_canister/kingsfeast/freeman_truth()
-	return "A primal alchemical reduction tincture. All organic input is stripped to its nutritional and experiential essence, then recomposed into perfected sustenance. It does not cook, it outright defines what it means to be food."
+	return "A primal tincture of eld. Organic matter is stripped to its nutritional and experiential essence, then reshaped into perfected sustenance. It does not cook; it transforms under one law which governs its malchemations: 'Thou greed shalt feed.' It'll be wise to have a sufficiently rich hoard before trying it."
 
 /obj/item/matthios_canister/kingsfeast/freeman_progress(mob/user)
 	var/remaining = max_ingredients - inserted_ingredients.len
@@ -759,21 +759,9 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		if(color_to_use)
 			current_color = color_to_use
 
-		var/list/absorb_flavor = list(
-			"The mixture's vapors overtake the [I] at once, breaking it down into a fine, formless draught...",
-			"A faint hiss rises as the [I] is rendered to its base components, drawn into the brew...",
-			"The [I] loses all shape, reduced to a pale suspension within the thickened mixture...",
-			"The [I] slackens and falls apart, its substance wholly undone and folded into the draught...",
-			"The brew strips the [I] to its essence, leaving no trace of its former form...",
-			"A subtle reaction passes through the vessel as the [I] is reduced and made one with it...",
-			"The [I] collapses into a fine residue, its nature thoroughly dissolved into the mixture...",
-			"The [I] is unmade in moments, rendered down and claimed by the alchemical base...",
-			"The draught clouds as the [I] is broken to its simplest form and drawn within...",
-			"The [I] yields entirely, reduced and recomposed within the vessel's thick contents..."
-		)
 		qdel(I)
 		playsound(user, pick(GLOB.da_bubbles), 30, FALSE)
-		to_chat(user, span_notice(pick(absorb_flavor)))
+		to_chat(user, span_warning("A faint hiss rises as the [I] is rendered to its base components, drawn into the brew..."))
 		update_icon()
 		check_completion(user)
 
@@ -786,55 +774,92 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	alch_transform(user)
 
 /obj/item/matthios_canister/kingsfeast/alch_transform(mob/user)
-	var/ishungry = user.nutrition < NUTRITION_LEVEL_HUNGRY
-	var/miraclecheck = 10 * user.get_skill_level(/datum/skill/magic/holy)
+	var/miraclecheck = user.get_skill_level(/datum/skill/magic/holy)
+	var/mammonsonperson = get_mammons_in_atom(user)
+	var/mammonsinbank = SStreasury.get_balance(user)
+	var/totalmammon = mammonsonperson + mammonsinbank
+
 	to_chat(user, span_notice("You begin channeling your greed into the mixture..."))
 
-	var/list/options = list(
-		"Ducal Peppersteak" = /obj/item/reagent_containers/food/snacks/rogue/peppersteak/ducal,
-		"Lobster Meal" = /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster/meal,
-		"Crabcake" = /obj/item/reagent_containers/food/snacks/rogue/crabcake,
-		"Chocolate" = /obj/item/reagent_containers/food/snacks/chocolate,
-		"Meat Tomatoplate" = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate,
-		"Broth Brique" = /obj/item/reagent_containers/food/snacks/rogue/meat/brothbrique,
-		"Strawberry Cake" = /obj/item/reagent_containers/food/snacks/rogue/strawberrycake,
-		"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookiec,
-		"Meat Handpie" = /obj/item/reagent_containers/food/snacks/rogue/handpie/meat,
-	)
-
-	var/choice = input(user, "What form shall your greed take?", "Kingsfeast") as null|anything in options
-	if(!choice)
+	if(!do_after(user, 15, src))
 		return
 
-	var/result_type = options[choice]
-
-	if(prob(25) && !ishungry)
+	var/burnchance = max(0, 30 - (5 * miraclecheck))
+	if(prob(burnchance))
 		to_chat(user, span_warning("The mixture ignites violently, collapsing into useless slag and bitter disappointment. It... technically is edible. I guess?"))
 		new /obj/item/reagent_containers/food/snacks/badrecipe(get_turf(src))
 		funny_smoke(src)
 		qdel(src)
 		return
 
-	if(!ishungry && prob(80 - miraclecheck)) // bread troll
+	var/poorthreshold = 50
+	var/neutralthreshold = 100
+	var/finethreshold = 200
+	var/lavishthreshold = 400
+
+	if(miraclecheck >= SKILL_LEVEL_EXPERT)
+		poorthreshold *= 0.5
+		neutralthreshold *= 0.5
+		finethreshold *= 0.5
+		lavishthreshold *= 0.5
+
+	var/highest_fare = FARE_IMPOVERISHED
+
+	if(totalmammon >= poorthreshold)
+		highest_fare = FARE_POOR
+	if(totalmammon >= neutralthreshold)
+		highest_fare = FARE_NEUTRAL
+	if(totalmammon >= finethreshold)
+		highest_fare = FARE_FINE
+	if(totalmammon >= lavishthreshold)
+		highest_fare = FARE_LAVISH
+
+	if(highest_fare < FARE_NEUTRAL)
 		to_chat(user, span_warning("The mixture shifts... simplifying itself into something more befitting your greed."))
 		new /obj/item/reagent_containers/food/snacks/rogue/bread(get_turf(src))
 		if(prob(20))
-			user.emote(pick("sigh","groan"))
+			user.emote(pick("sigh", "groan"))
 		funny_smoke(src)
 		qdel(src)
 		return
 
-	if(ishungry && prob(25))
-		to_chat(user, span_notice("Matthios takes pity on your mortal limitations. You compulsively shout in gratitude!"))
-		user.say(pick("PRAISE YOU, O' GENEROUS MATTHIOS!!","AT LAST, THE TRUE GOLD OF CULINARY ALCHEMY!!","BLESSED BE THY HANDS WHICH GRANT ME SUSTENANCE, MATTHIOS!!","I SHALL GIVE ALL FOR THY SMILE, LORD OF FREEDOM!!"), language = /datum/language/common)
+	var/list/fare_options = list()
+	if(highest_fare >= FARE_NEUTRAL)
+		fare_options["Neutral"] = FARE_NEUTRAL
+	if(highest_fare >= FARE_FINE)
+		fare_options["Fine"] = FARE_FINE
+	if(highest_fare >= FARE_LAVISH)
+		fare_options["Lavish"] = FARE_LAVISH
+
+	var/selected_fare = input(user, "What fare shall your greed take?", "Kingsfeast") as null|anything in fare_options
+	if(!selected_fare)
+		return
+
+	var/selected_fare_type = fare_options[selected_fare]
+	var/list/foods = list()
+
+	for(var/path in subtypesof(/obj/item/reagent_containers/food/snacks/rogue))
+		var/obj/item/reagent_containers/food/snacks/rogue/food = path
+		if(initial(food.faretype) != selected_fare_type)
+			continue
+		foods[initial(food.name)] = path
+
+	var/choice = input(user, "What form shall your greed take?", "Kingsfeast") as null|anything in foods
+	if(!choice)
+		return
+
+	var/result_type = foods[choice]
 
 	to_chat(user, span_notice("The mixture responds to your greed, shaping and taking the desired form. It feels warm and tasty!"))
-
 	new result_type(get_turf(src))
 	funny_smoke(src)
 	qdel(src)
 
 /obj/item/matthios_canister/kingsfeast/attack_self(mob/user)
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		to_chat(user, span_warning("This is worthless junk."))
+		return
+
 	if(inserted_ingredients.len < max_ingredients)
 		to_chat(user, span_warning("It is not yet ready."))
 		return
@@ -845,9 +870,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/matthios_canister/goodnite
 	name = "vial of goodnite base"
 	desc = "A dim, cloudy fluid rests inside, barely moving. Occasionally, something viscous streaks through it— like diluted brain matter. The glass feels warm, almost comforting. Staring at too long makes your eyelids heavy, and you get an odd compulsion to drink it."
-
 	var/max_ingredients = 5
-
 	required_ingredients = list(
 		/obj/item/alch/bonemeal,
 		/obj/item/alch/mentha,
@@ -855,8 +878,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/reagent_containers/powder,
 		/obj/item/natural/bone,
 		/obj/item/natural/bundle/bone,
+		/obj/item/natural/dirtclod,
 	)
-
 	ingredient_colors = list(
 		/obj/item/alch/bonemeal = "#ffffff",
 		/obj/item/alch/mentha = "#3aff7a",
@@ -864,6 +887,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		/obj/item/reagent_containers/powder = "#ff00b3",
 		/obj/item/natural/bone = "#e8e2cf",
 		/obj/item/natural/bundle/bone = "#e8e2cf",
+		/obj/item/natural/dirtclod = "#913a00",
 	)
 
 /obj/item/matthios_canister/goodnite/freeman_truth()
@@ -871,64 +895,43 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/matthios_canister/goodnite/freeman_progress(mob/user)
 	var/remaining = max_ingredients - inserted_ingredients.len
-
 	if(remaining <= 0)
 		return "The mixture has reached perfect stillness."
-
 	return "It requires further refinement with any powdered drugs (such as ozium), bonemeal, manabloom dust or whole menthas. ([remaining] infusions remaining)"
 
 /obj/item/matthios_canister/goodnite/attackby(obj/item/I, mob/user)
 	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
 		to_chat(user, span_warning("The hell do I do with this? This is no alchemy!"))
 		return TRUE
-
 	var/valid = FALSE
 	for(var/T in required_ingredients)
 		if(istype(I, T))
 			valid = TRUE
 			break
-
 	if(!valid)
 		return TRUE
-
 	if(inserted_ingredients.len >= max_ingredients)
 		to_chat(user, span_warning("The vial will accept no more. It rests at perfect equilibrium."))
 		return TRUE
-
 	if(do_after(user, 1.5 SECONDS))
 		inserted_ingredients += I.type
-
 		var/color_to_use = null
 		for(var/T in ingredient_colors)
 			if(istype(I, T))
 				color_to_use = ingredient_colors[T]
 				break
-
 		if(color_to_use)
 			current_color = color_to_use
-
 		qdel(I)
 		playsound(user, pick(GLOB.da_bubbles), 30, FALSE)
-
-		var/list/absorb_flavor = list(
-			"The mixture receives [I], its form dissolving into a calm, pale suspension...",
-			"[I] softens and unravels, drawn quietly into the resting fluid...",
-			"A faint stillness follows as [I] is reduced and folded into the mixture...",
-			"[I] loses all distinction, rendered into a smooth, somnolent draught...",
-			"The vial clouds gently as [I] is broken down and made one with it..."
-		)
-
-		to_chat(user, span_notice(pick(absorb_flavor)))
-
+		to_chat(user, span_warning("A faint hiss rises as the [I] is rendered to its base components, drawn into the brew..."))
 		update_icon()
 		check_completion(user)
-
 	return TRUE
 
 /obj/item/matthios_canister/goodnite/check_completion(mob/user)
 	if(inserted_ingredients.len < max_ingredients)
 		return
-
 	alch_transform(user)
 
 /obj/item/matthios_canister/goodnite/alch_transform(mob/user)
@@ -1031,8 +1034,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/matthios_canister/warsmith
 	name = "vial of warsmith base"
 	desc = "A biting liquor gnaws within the vial, as though it would eat iron itself. Flecks of metal drift and vanish, then return as if unmade and remade. It reeks of rust and sharp ruin. No forge would suffer this thing near its works."
-
-	var/needed_scrap = 3
+	var/needed_scrap = 1
 	var/current_scrap = 0
 	var/has_needle = FALSE
 	var/current_fibers = 0
@@ -1595,7 +1597,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	swap_form(user)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ICON)
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_ICON)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/astrata
 	name = "ornate amulet of Astrata"
@@ -1646,6 +1648,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	aura_color = "#fff385"
 	is_important = TRUE // so this can't be sold in the navigator lol!!
 	var/active_item = FALSE
+	unarmed_bonus = 10 // better than steel, worse than blacksteel, shitty durability
+	unarmed_weapon_effects = TRUE
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -1670,6 +1674,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	REMOVE_TRAIT(user, TRAIT_SILENT_LOCKPICK, "matthiosboon")
 
 /// This has way too much telegraphing already, so letting it be harder to detect being worn.
+
 /obj/item/clothing/mask/rogue/spectacles/duelist/matthios
 	name = "tinted duelist goggles"
 	desc = "A drakkyne's eyes are oft blindsided by greed, yet such vision does hold some merit."
@@ -1679,36 +1684,35 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	icon_state = "sduelist"
 	max_integrity = 150
 	is_important = TRUE
-	var/active_item = FALSE
 
-/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/attack_right(mob/user, slot)
+/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
-	if(obj_broken)
-		return
-	if(slot != SLOT_WEAR_MASK && slot != SLOT_HEAD)
-		return
-	var/mob/living/carbon/human/H = user
-	if(!istype(H))
-		return
-	if(!HAS_TRAIT(H, TRAIT_FREEMAN))
-		to_chat(H, span_warning("You look ridiculous and stupid. You are an amateur and a fool!"))
-		return
-	if(active_item)
-		active_item = FALSE
-		to_chat(H, span_info("The gleam fades from my sight."))
-		H.remove_status_effect(/datum/status_effect/buff/matthios_vision)
-		return
-	active_item = TRUE
-	to_chat(H, span_info("Gold gleams where truth once hid."))
-	H.apply_status_effect(/datum/status_effect/buff/matthios_vision)
+	if((slot == SLOT_WEAR_MASK || slot == SLOT_HEAD) && HAS_TRAIT(user, TRAIT_FREEMAN))
+		user.apply_status_effect(/datum/status_effect/buff/matthios_vision)
 
-/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/dropped(mob/living/carbon/human/user, slot)
+/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/dropped(mob/living/carbon/human/user)
 	. = ..()
-	if(!active_item)
-		return
-	active_item = FALSE
-	to_chat(user, span_info("The gleam fades from my sight."))
 	user.remove_status_effect(/datum/status_effect/buff/matthios_vision)
+
+/obj/item/clothing/mask/rogue/spectacles/duelist/matthios/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing/matthicat, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))
+
+/datum/component/adjustable_clothing/matthicat
+
+/datum/component/adjustable_clothing/matthicat/toggle_open(obj/item/clothing/C, forced = FALSE)
+	. = ..()
+	var/mob/living/carbon/human/user = C.loc
+	if(!user)
+		return
+	user.remove_status_effect(/datum/status_effect/buff/matthios_vision)
+
+/datum/component/adjustable_clothing/matthicat/toggle_closed(obj/item/clothing/C, forced = FALSE)
+	. = ..()
+	var/mob/living/carbon/human/user = C.loc
+	if(!user)
+		return
+	if(C.loc == user && (C in list(user.wear_mask, user.head)) && HAS_TRAIT(user, TRAIT_FREEMAN))
+		user.apply_status_effect(/datum/status_effect/buff/matthios_vision)
 
 /atom/movable/screen/alert/status_effect/buff/matthios_vision
 	name = "Gilded True Sight"
