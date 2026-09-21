@@ -82,8 +82,10 @@
 /datum/quirk/feytouched
 	name = "Feytouched"
 	desc = "While I may not be as changed as some, I'm bound by pact or nature to the hag's cause."
-	mechdesc = "You and the hag will know each other automatically and can communicate. You're expected to cooperate with them."
+	mechdesc = "You and the hag will know each other automatically and can communicate; however, you don't get the mechanical effects of the feybound virtue. You can reach out to the hag by interacting with a heartroot tree and whispering to the roots. You're expected to cooperate with them."
 	ui_fa_icon = "ghost"
+	added_traits = list(TRAIT_FEYTOUCHED)
+	restricted_virtues = list(/datum/virtue/utility/feytouched)
 
 /datum/quirk/feytouched/apply_to_human(mob/living/carbon/human/recipient)
 	if(!recipient.mind)
@@ -95,5 +97,5 @@
 		hag_mind.i_know_person(recipient)
 		recipient.mind.i_know_person(hag_mind)
 		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a lesser feytouched, is walking the lands this week."))
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a feytouched, is walking the lands this week."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))

@@ -19,7 +19,7 @@
 /obj/structure/mirror/fancy/hag/get_mechanics_examine(mob/user)
 	. = ..()
 
-	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYTOUCHED))
+	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYBOUND))
 		. += span_info("Right-click the mirror to scry with it.")
 
 /obj/structure/mirror/fancy/hag/attack_right(mob/user, list/modifiers)
@@ -32,26 +32,26 @@
 	if(!fed)
 		to_chat(user, span_warning("The roots hunger. Feed them any moss or herb to peer through them once more."))
 		return
-	
+
 	if (world.time < (last_scry + cooldown))
 		return
 
 	var/mob/living/carbon/human/H = user
-	
+
 	if(obj_broken || !Adjacent(user))
 		return
-	
-	if(!HAS_TRAIT(H, TRAIT_ANCIENT_HAG) && !HAS_TRAIT(H, TRAIT_FEYTOUCHED))
+
+	if(!HAS_TRAIT(H, TRAIT_ANCIENT_HAG) && !HAS_TRAIT(H, TRAIT_FEYBOUND))
 		return
-	
+
 	var/input = input(user, "WHO DO YOU SEEK?", "THE ROOTS SEE ALL") as text|null
 	if(!input)
 		return
 	if(!user.key)
 		return
-	
+
 	var/mob/living/carbon/human/target = null
-	for(var/mob/living/carbon/human/HL in GLOB.mob_list) 
+	for(var/mob/living/carbon/human/HL in GLOB.mob_list)
 		if(HL.real_name == input)
 			if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
 				to_chat(user, span_warning("They are not within the gaze of the mirror."))
@@ -90,13 +90,13 @@
 /obj/item/handmirror/hag/attack_right(mob/user)
 	if(!ishuman(user))
 		return
-	
+
 	var/mob/living/carbon/human/H = user
-	
+
 	if (world.time < (last_scry + cooldown))
 		return
-	
-	if(!HAS_TRAIT(H, TRAIT_ANCIENT_HAG) && !HAS_TRAIT(H, TRAIT_FEYTOUCHED))
+
+	if(!HAS_TRAIT(H, TRAIT_ANCIENT_HAG) && !HAS_TRAIT(H, TRAIT_FEYBOUND))
 		return
 
 	if(!length(H.mind.known_people + GLOB.bogged_players))
@@ -113,9 +113,9 @@
 		return
 	if(!H.key)
 		return
-	
+
 	var/mob/living/carbon/human/target = null
-	for(var/mob/living/carbon/human/HL in GLOB.mob_list) 
+	for(var/mob/living/carbon/human/HL in GLOB.mob_list)
 		if(HL.real_name == input)
 			if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
 				to_chat(user, span_warning("The gaze of the roots is rebuffed by a ward!"))
@@ -149,7 +149,7 @@
 /obj/item/handmirror/hag/get_mechanics_examine(mob/user)
 	. = ..()
 
-	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYTOUCHED))
+	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYBOUND))
 		. += span_info("Right-click the mirror to scry with it.")
 		. += span_info("You can only scry people if you know them, or if they are in the bog.")
 
