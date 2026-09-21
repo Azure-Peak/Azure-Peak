@@ -765,7 +765,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 		qdel(I)
 		playsound(user, pick(GLOB.da_bubbles), 30, FALSE)
-		to_chat(user, span_warning("A faint hiss rises as the [I] is rendered to its base components, drawn into the brew..."))
+		to_chat(user, span_warning("A faint hiss rises as the [I] is rendered to its base components, drawn into the brew... ([inserted_ingredients.len]/[max_ingredients])"))
 		update_icon()
 		check_completion(user)
 
@@ -804,27 +804,13 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		finethreshold *= 0.5
 		lavishthreshold *= 0.5
 
-	var/highest_fare = FARE_IMPOVERISHED
-
-	if(totalmammon >= poorthreshold)
-		highest_fare = FARE_POOR
-	if(totalmammon >= neutralthreshold)
-		highest_fare = FARE_NEUTRAL
-	if(totalmammon >= finethreshold)
-		highest_fare = FARE_FINE
-	if(totalmammon >= lavishthreshold)
-		highest_fare = FARE_LAVISH
-
-	var/list/fare_options = list("Impoverished" = FARE_IMPOVERISHED)
-
-	if(highest_fare >= FARE_POOR)
-		fare_options["Poor"] = FARE_POOR
-	if(highest_fare >= FARE_NEUTRAL)
-		fare_options["Neutral"] = FARE_NEUTRAL
-	if(highest_fare >= FARE_FINE)
-		fare_options["Fine"] = FARE_FINE
-	if(highest_fare >= FARE_LAVISH)
-		fare_options["Lavish"] = FARE_LAVISH
+	var/list/fare_options = list(
+		"Impoverished" = FARE_IMPOVERISHED,
+		"Poor" = FARE_POOR,
+		"Neutral" = FARE_NEUTRAL,
+		"Fine" = FARE_FINE,
+		"Lavish" = FARE_LAVISH
+	)
 
 	var/selected_fare = input(user, "What fare shall your greed take?", "Kingsfeast") as null|anything in fare_options
 	if(!selected_fare)
