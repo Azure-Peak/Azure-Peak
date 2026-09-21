@@ -103,6 +103,8 @@
 	var/datum/crafting_recipe/last_recipe = null
 	/// Current pseudorandomized craft chance float
 	var/pseudo_craft_chance = 0
+	/// Counter of low skill failures. Reset upon failure, if higher than 10, can cause crafting failures.
+	var/craft_failure_count = 0
 
 /datum/skill_holder/New()
 	. = ..()

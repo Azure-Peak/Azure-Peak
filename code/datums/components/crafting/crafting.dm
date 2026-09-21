@@ -329,6 +329,47 @@
 							var/factor = HAS_TRAIT(user, TRAIT_MALUM_CRAFTER) ? 0.2 : 0.1
 							holder.pseudo_craft_chance = min(pseudorandomize_increase(holder.pseudo_craft_chance, factor), 100)
 
+						if(R.skillcraft)
+							var/user_skill_b = user.get_skill_level(R.skillcraft)
+							if(prob2craft > 0 && user_skill_b < R.craftdiff)
+								holder.craft_failure_count++
+								if(holder.craft_failure_count > 10)
+									var/failure_chance = 0
+									if(isliving(user))
+										var/mob/living/U = user
+										failure_chance = ((prob2craft * 2) - round((((10 - U.STAINT) * -1) * CRAFT_BONUS_PER_INT), 0.1))
+									else
+										failure_chance = (prob2craft * 2)
+									failure_chance = clamp(failure_chance, 1, 99)
+									if(prob(failure_chance))
+										holder.craft_failure_count = 0
+										var/wasted_name = "material"
+										if(length(R.reqs))
+											var/picked_key = pick(R.reqs)
+
+											var/atom/movable/target_item = locate(picked_key) in get_environment(user)
+											if(target_item)
+												wasted_name = target_item.name
+											else if(ispath(picked_key, /datum/reagent))
+												var/datum/reagent/RG = new picked_key
+												wasted_name = RG.name
+												qdel(RG)
+											else if(ispath(picked_key, /obj))
+												var/obj/O = picked_key
+												wasted_name = initial(O.name)
+											else
+												wasted_name = "[picked_key]"
+
+											var/datum/crafting_recipe/temp_fail_r = new()
+											temp_fail_r.subtype_reqs = R.subtype_reqs
+											temp_fail_r.blacklist = R.blacklist
+											temp_fail_r.reqs = list()
+											temp_fail_r.reqs[picked_key] = min(R.reqs[picked_key], 1)
+											del_reqs(temp_fail_r, user)
+											qdel(temp_fail_r)
+										to_chat(user, span_danger("You fumbled crafting and wasted \the [wasted_name]! [prob2craft]%"))
+										return FALSE
+
 						if(user.client?.prefs.showrolls)
 							to_chat(user, span_danger("I've failed to craft \the [R.name]... [prob2craft]%"))
 						else
