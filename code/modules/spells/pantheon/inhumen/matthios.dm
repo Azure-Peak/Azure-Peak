@@ -108,6 +108,17 @@
 				var/obj/item/lockpick/gilded/lockpick = new /obj/item/lockpick/gilded(H.drop_location())
 				if(!lockpick)
 					return FALSE
+				var/picklvl = 0
+				var/max_integrity = 10
+				if(skill >= SKILL_LEVEL_JOURNEYMAN)
+					picklvl = 1
+					max_integrity += 10
+				if(skill >= SKILL_LEVEL_EXPERT)
+					picklvl = 2
+					max_integrity += 90
+				lockpick.picklvl = picklvl
+				lockpick.max_integrity = max_integrity
+				lockpick.obj_integrity = max_integrity
 				H.put_in_hands(lockpick)
 				H.say("#Lord of Freedom, I beseeth a tool of liberation!")
 
@@ -145,6 +156,17 @@
 			var/obj/item/lockpick/gilded/lockpick = new /obj/item/lockpick/gilded(H.drop_location())
 			if(!lockpick)
 				return FALSE
+			var/picklvl = 0
+			var/max_integrity = 10
+			if(skill >= SKILL_LEVEL_JOURNEYMAN)
+				picklvl = 1
+				max_integrity += 10
+			if(skill >= SKILL_LEVEL_EXPERT)
+				picklvl = 2
+				max_integrity += 90
+			lockpick.picklvl = picklvl
+			lockpick.max_integrity = max_integrity
+			lockpick.obj_integrity = max_integrity
 			H.put_in_hands(lockpick)
 			H.say("#Lord of Freedom, I beseeth a tool of liberation!")
 

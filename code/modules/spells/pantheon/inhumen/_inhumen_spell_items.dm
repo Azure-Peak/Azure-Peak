@@ -649,8 +649,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		var/serum_choice = tgui_input_list(user, "What shall the First Law translate to?", "First Law", serums)
 		if(!serum_choice)
 			return
-		if(stored_value < 10)
-			to_chat(user, span_warning("There is not enough stored entropic dust to create this."))
+		if(stored_value < 5)
+			to_chat(user, span_warning("There is not enough stored entropic dust to create this. (5 required)"))
 			return
 		if(!do_after(user, 2 SECONDS, target = user, same_direction = TRUE))
 			return
@@ -658,10 +658,10 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			return
 		var/serum_path = serums[serum_choice]
 		var/obj/item/alchserum/serum = new serum_path(get_turf(src))
-		stored_value -= 10
+		stored_value -= 5
 		user.put_in_inactive_hand(serum)
 		playsound(loc, 'sound/magic/swap.ogg', 100, TRUE, -2)
-		to_chat(user, span_notice("The draught condenses 10 entropic dust into [serum]. (Remaining Value: [stored_value])"))
+		to_chat(user, span_notice("The draught condenses 5 entropic dust into [serum]. (Remaining Value: [stored_value])"))
 		update_icon()
 		return
 
@@ -2009,7 +2009,6 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	dropshrink = 0.75
 	throwforce = 0
 	max_integrity = 10
-	picklvl = 1
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
 	destroy_sound = 'sound/items/pickbreak.ogg'
 	resistance_flags = FIRE_PROOF

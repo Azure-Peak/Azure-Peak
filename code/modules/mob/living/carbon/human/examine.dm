@@ -538,7 +538,7 @@
 		if(HAS_TRAIT(user, TRAIT_DUSTRUNNER))
 			. += span_notice("<i>Fellow runner! The dust moves.</i>")
 		if(HAS_TRAIT(user, TRAIT_FREEMAN))
-			to_chat(user, span_notice("<i>You sense the eyes of [src], a Thieves' Guild runner!</i>"))
+			to_chat(src, span_notice("<font color='#fffb00'><i>You sense the eyes of [user] upon you, a Thieves' Guild runner!</i></font>"))
 		else if(living_examiner?.patron?.type == /datum/patron/inhumen/matthios)
 			. += span_notice("<i>A Thieves' Guild runner, by the look of them.</i>")
 		else if(user.job in GLOB.bathhouse_positions)
@@ -547,7 +547,7 @@
 	if(HAS_TRAIT(src, TRAIT_FREEMAN) && src != user)
 		if(HAS_TRAIT(user, TRAIT_FREEMAN))
 			. += span_notice("<i>A fellow Free Man! Together we ride.</i>")
-			to_chat(user, span_notice("<i>You sense the eyes of [src], a fellow Free Man!</i>"))
+			to_chat(src, span_warning("<font color='#fffb00'><i>You sense the eyes of [user] upon you, a fellow Free Man!</i></font>"))
 
 	if(user != src && HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && !HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 		var/atom/item = get_most_expensive()
