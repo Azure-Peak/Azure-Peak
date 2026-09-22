@@ -596,8 +596,6 @@
 #include "code\datums\achievements\boss_achievements.dm"
 #include "code\datums\achievements\misc_achievements.dm"
 #include "code\datums\actions\mobs\deepone_pounce.dm"
-#include "code\datums\anatomy\_anatomy.dm"
-#include "code\datums\anatomy\anatomy_profiles.dm"
 #include "code\datums\actions\action.dm"
 #include "code\datums\actions\action_cooldown.dm"
 #include "code\datums\actions\action_innate.dm"
