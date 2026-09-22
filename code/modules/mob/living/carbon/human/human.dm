@@ -985,7 +985,11 @@
 
 	updateappearance(mutcolor_update = TRUE)
 
-	job = target.job // NOT assigned_role
+	// 9/22 edit : adding "advjob" to whats stolen bc otherwise assassins keep showing up as "poisoner" or whatever on examine.
+	// our examine code doesent allow for fake jobs very well & i cant be bothered to snowflake it so we're gonna do this. this MIGHT
+	// break something..????
+	job = target.job
+	advjob = target.advjob
 	faction = target.faction
 	deathsound = target.deathsound
 	gender = target.gender
@@ -1002,7 +1006,13 @@
 	socks = target.socks
 	has_stubble = target.has_stubble
 	headshot_link = target.headshot_link
-	flavortext = target.flavortext
+	// i dont want NPCs to make you a guy w/ no flavortext
+	if(flavortext)
+		flavortext = target.flavortext
+	if(flavortext_cached)
+		// this might be a bad idea. i dont know.
+		flavortext_cached = target.flavortext_cached
+	copy_descriptors(target)
 
 	var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
 	if(!isnull(target_head))
@@ -1010,6 +1020,13 @@
 		user_head.bodypart_features = target_head.bodypart_features
 
 	regenerate_icons()
+
+
+/mob/living/carbon/human/proc/copy_descriptors(mob/living/carbon/human/target)
+	if(!ishuman(target))
+		return
+	mob_descriptors = target.mob_descriptors?.Copy()
+	custom_descriptors = target.custom_descriptors.Copy()
 
 
 /mob/living/carbon/human/proc/copy_bodyparts(mob/living/carbon/human/target)
