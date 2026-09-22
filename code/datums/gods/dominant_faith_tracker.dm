@@ -30,19 +30,19 @@
 	// these are shown to people of a given pantheon (the first index) when a given pantheon (the second index) ascends
 	var/list/reign_messages = list(
 		/datum/faith/divine = list(
-			/datum/faith/divine = "$patron shines bright in your soul! The Pantheon feels in their rightful place.",
-			/datum/faith/inhumen = "The firmament feels thick. The Ten's influence wanes as the Inhumen amasses.",
+			/datum/faith/divine  = "$patron shines bright within your soul! The Pantheon stands in its rightful order.",
+			/datum/faith/inhumen = "The firmament feels heavy. The Ten's influence wanes at the rise of the Inhumen.",
 			/datum/faith/old_god = "The world is quiet. A soft wind blows. The divines rest, for now.",
 		),
 		/datum/faith/inhumen = list(
-			/datum/faith/inhumen = "$patron outshines the mendacity of the Pantheon! Mortalkind ascend!",
-			/datum/faith/divine = "The firmanent feels thick. The Ten's influence is overpowering!",
+			/datum/faith/inhumen = "$patron outshines the mendacity of the Pantheon! Mortalkind shall become as gods!",
+			/datum/faith/divine  = "The firmament feels heavy. The Pantheon's wretched influence interferes with my blessings.",
 			/datum/faith/old_god = "The world is quiet. A soft wind blows. The divines rest, for now.",
 		),
 		/datum/faith/old_god = list( // psydonites can only tell whether they're dominant or not, here
-			/datum/faith/divine = "The world is quiet. The wind has an ominous twinge.",
+			/datum/faith/divine  = "The world is quiet. The wind has an ominous twinge.",
 			/datum/faith/inhumen = "The world is quiet. The wind has an ominous twinge.",
-			/datum/faith/old_god = "The world is quiet. The wind is calm and reassuring.",
+			/datum/faith/old_god = "The world is quiet. The wind is calm and reassuring. Only HE could bring about such absolute peace.",
 		)
 	)
 	var/datum/faith/dominant_faith = /datum/faith/old_god
