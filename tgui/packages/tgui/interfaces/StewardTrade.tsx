@@ -73,7 +73,7 @@ export const StewardTrade = () => {
             </span>{' '}
             <span
               style={{ cursor: 'help' }}
-              title="A modest stipend from the countryside reeves, sent while the Steward's own hand is thin on the ground. It dwindles as the realm's presence grows - once enough hands are about to see to trade and tribute themselves, the shires keep what they raise."
+              title="A modest stipend from the countryside manors, sent while the Steward's own hand is thin on the ground. It dwindles as the realm's presence grows - once enough hands are about to see to trade and tribute themselves, the lands keep what they raise."
             >
               rural subsidy
             </span>{' '}
