@@ -186,23 +186,26 @@
 	H.STAWIL -= 1
 	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
 
-/datum/ambush_config/solo_treasure_hunter
-	mob_types = list(
+/datum/npc_warband/solo_treasure_hunter
+	name = "Lone Treasure Hunter"
+	category = FACTION_MADMEN
+	faction_tag = "treasure_hunters"
+	members = list(
 		/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush = 1,
 	)
-	threat_point = THREAT_ELITE
-	faction_tag = "treasure_hunters"
 
-/datum/ambush_config/duo_treasure_hunter
-	mob_types = list(
+/datum/npc_warband/duo_treasure_hunter
+	name = "Treasure Hunter Pair"
+	category = FACTION_MADMEN
+	faction_tag = "treasure_hunters"
+	members = list(
 		/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush = 2,
 	)
-	threat_point = 2 * THREAT_ELITE
-	faction_tag = "treasure_hunters"
 
-/datum/ambush_config/treasure_hunter_posse
-	mob_types = list(
+/datum/npc_warband/treasure_hunter_posse
+	name = "Treasure Hunter Posse"
+	category = FACTION_MADMEN
+	faction_tag = "treasure_hunters"
+	members = list(
 		/mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush = 3,
 	)
-	threat_point = 3 * THREAT_ELITE
-	faction_tag = "treasure_hunters"

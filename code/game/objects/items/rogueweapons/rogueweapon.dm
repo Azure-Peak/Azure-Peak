@@ -24,7 +24,7 @@
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK
 	blade_dulling = null
 	max_integrity = 250
-	integrity_failure = 0.2
+	integrity_failure = GENERIC_INTEG_FAILURE
 	wdefense = 3
 	wdefense_wbonus = 3 //Default is 3.
 	experimental_onhip = TRUE
@@ -57,6 +57,12 @@
 
 	if(ispath(special))
 		special = new special()
+
+	if(!length(materia)) // some weapons will want custom aspects
+		if(is_tool)
+			materia = list(/datum/materia_aspect/tool)
+		else
+			materia = list(/datum/materia_aspect/weapon)
 
 /obj/item/rogueweapon/dropped(mob/user, silent)
 	. = ..()

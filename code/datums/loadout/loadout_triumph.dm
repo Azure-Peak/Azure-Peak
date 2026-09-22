@@ -396,6 +396,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_slimmedsteel
+	name = "Triumph Kit - Brigandine with Plate"
+	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_armorkit_drow
 	name = "Triumph Kit - Drowcraft Armor"
 	path = /obj/item/enchantingkit/triumph_armorkit_drow
@@ -615,6 +621,18 @@
 /datum/loadout_item/triumph_weaponkit_pata
 	name = "Triumph Kit - Pata"
 	path = /obj/item/enchantingkit/triumph_weaponkit_pata
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_rockhillarmet
+	name = "Triumph Kit - Knight-Errant's Armet"
+	path = /obj/item/enchantingkit/donator_rockhillarmet
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_rockhillmaille
+	name = "Triumph Kit - Jacketed Plate-and-Maille"
+	path = /obj/item/enchantingkit/donator_rockhillmaille
 	triumph_cost = 3
 	sort_category = "Triumphs"
 

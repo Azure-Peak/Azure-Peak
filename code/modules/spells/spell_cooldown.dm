@@ -797,14 +797,15 @@
 			return FALSE
 
 	if(LAZYLEN(required_items))
-		var/found = FALSE
-		for(var/obj/item/I in owner.contents)
-			if(is_type_in_list(I, required_items) || HAS_TRAIT(owner, TRAIT_HALLOWED))
-				found = TRUE
-				break
-		if(!found && feedback)
-			owner.balloon_alert(owner, "Missing something to cast!")
-			return FALSE
+		if(!HAS_TRAIT(owner, TRAIT_HALLOWED))
+			var/found = FALSE
+			for(var/obj/item/I in owner.contents)
+				if(is_type_in_list(I, required_items))
+					found = TRUE
+					break
+			if(!found && feedback)
+				owner.balloon_alert(owner, "Missing something to cast!")
+				return FALSE
 
 	return TRUE
 
@@ -1153,6 +1154,7 @@
 
 /// When we start charging the spell called from set_click_ability or start_casting
 /datum/action/cooldown/spell/proc/on_start_charge()
+	set waitfor = 0
 	currently_charging = TRUE
 	fully_charged = FALSE
 	fully_charged_at = 0

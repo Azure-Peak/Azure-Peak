@@ -1,0 +1,6 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscdel: "Malum Mending no longer produces sparks."
+  - balance: "Ignite can no longer be used on living beings at all, it now has 2 second CD (6 for undivided) serving as glorified ranged flint."
+  - bugfix: "Bishop selection has the updated T4s."

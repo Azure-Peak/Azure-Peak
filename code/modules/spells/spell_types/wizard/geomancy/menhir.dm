@@ -185,7 +185,6 @@
 	intdamfactor = SPELL_BLUNT_INT_DAMAGEFACTOR
 	range = SPELL_RANGE_PROJECTILE
 	speed = 3.5
-	accuracy = 30
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
 	object_damage_multiplier = 2

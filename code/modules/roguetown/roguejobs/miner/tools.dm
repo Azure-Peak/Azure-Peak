@@ -92,7 +92,7 @@
 
 /obj/item/rogueweapon/pick/aalloy
 	name = "decrepit pick"
-	desc = "A chisel of wrought bronze, which once labored to gather the ores necessary for an ancient alloy; such was lost in the aftermath of Her ascension."
+	desc = "A chisel of rotted metal, which once labored to gather the ores necessary for an ancient alloy; such was lost in the aftermath of Her ascension."
 	force = 12
 	force_wielded = 17
 	icon_state = "apick"

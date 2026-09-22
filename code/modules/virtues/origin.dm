@@ -276,22 +276,45 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	recipient.dna.species.origin = origin_name
 
 // Familiar origins
-/datum/virtue/origin/familiar/fae
+/datum/virtue/origin/unselectable/fae
 	name = "Fae"
 	origin_name = "The Faewyld"
 	origin_desc = "Little and less is known about where the fae come from. Some say another plane, layered over Psydonia; others say merely hidden groves, tucked far away from mortal sight. All that is certain is that wherever they come from, they rarely seem to leave."
 
-/datum/virtue/origin/familiar/elemental
+/datum/virtue/origin/unselectable/elemental
 	name = "Elemental"
 	origin_name = "The Depths"
 	origin_desc = "Little and less is known about where elementals come from. Some say another plane, layered over Psydonia; others say they're merely deep underground, far below the caves-and-tunnels of mortals. All that is certain is that wherever they come from, they rarely seem to leave."
 
-/datum/virtue/origin/familiar/void
+/datum/virtue/origin/unselectable/void
 	name = "Voidborn"
 	origin_name = "The Void"
 	origin_desc = "Little and less is known about the origin of void beings. Some magi claim it is the space between realms, filled with unfathomable predators; others claim it is the far past. Whatever the case, seeing a voidborn being can only mean two things: a powerful magos has been at work here, and you are in danger."
 
-/datum/virtue/origin/familiar/infernal
+/datum/virtue/origin/unselectable/infernal
 	name = "Infernal"
 	origin_name = "The Hells"
 	origin_desc = "Infernals are tight-lipped about their home, and mortals tend to prefer sylver'd blades to questions. All that is known is that every being that crawls out of the hellish pits bears a deep-rooted malice towards Psydonia and all that dwell upon it."
+
+// Inherent to Lich/Skeletons, they aren't of this era. Ancient kynds.
+
+/datum/virtue/origin/unselectable/skeleton
+	name = "Ancient Times"
+	origin_name = "The Forgotten Empires"
+	origin_desc = "Throughout the history of Psydonia there were are many, many great empires that once stood the test of aeon's grip; most notably there was the Holy Celestrial Empyre, \
+	which stood for yills upon yills as the largest and most notable during Psydonia's Golden eras of the Ten, whom sheparded by the Ten displaying their divinity \
+	and true power against the Psydonic worshippers of past, brought upon a new era of worship and the rise of Celestia as the world's \
+	largest empire to stand the test of aeon. Notably one of the most tolerant empires of the many yills in the history of Psydonia which accepted the worship of Psydon \
+	and the Ten's faithful alyke, yet when Zizo rose and ascended to divinity, everything crumbled apart.\n<br><br>\
+	\
+	Now all that remains is but hollow shells, rubble and ruins of the greatest empyre that stood the test of time; hundreds and thousands of the fallen; \
+	legionnaries, soldiers, warriors, toilers, heros, champions and forgotten souls were given lyfe anew, \
+	yet from such hubris came nothing but legions upon legions of myndless, gibbering deadites in what was a second chance in lyfe, quickly turned into a war of rage \
+	against the lyving; as their lyfelux withered and with it, their mynds and purpose turned from steps towards Progress into endless war without reason.\n<br><br>\
+	\
+	Some say Zizo weeps for the lost, others say She still continues without much regards to break free beyond her failings of the past, either way nothing changes what was left behind from her hubris \
+	as most of the dead shamble these now empty halls, the wylds or under word and pact to a master. Those who don't remain unbound and decaying into ferals that will one dae too fight anything that lyves lyke the rest of long-past before them, \
+	all of the undead risen by Zizo, feel the calling from the empty halls of these forgotten ruins, these desecrated lands of once-paradice. Humenity's greatest acheivements buried \
+	in rot, rust, rubble and decay. never to see the lite of dae, lest you be branded and cast out from the pantheon's embrace as a heretic from the leyman's superstition borne from Her Hubris.\n<br><br><br>\
+	\
+	And for the so-called lucky-few to ascend beyond simple unlyfe to the greater works of lychdom, before or after Zizo's ascension remain shattered in mynd by their hubris; to touch the filament and yet only be left with a sliver of the divinity promised."

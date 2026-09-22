@@ -9,13 +9,6 @@
 	real_name = "[real_name] [pick("the Scourge", "the Lasher", "the Venomed", "the Spiderkin", "the Flenser")]"
 	name = real_name
 	ADD_TRAIT(src, TRAIT_BADTRAINER, TRAIT_GENERIC)
-	for(var/obj/item/gear in get_equipped_items() + held_items)
-		lock_gear_piece(gear, "drow_scourge_gear")
-
-/mob/living/carbon/human/species/elf/dark/drowraider/scourge/death(gibbed, nocutscene = FALSE)
-	. = ..()
-	for(var/obj/item/gear in get_equipped_items() + held_items)
-		REMOVE_TRAIT(gear, TRAIT_NODROP, "drow_scourge_gear")
 
 /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/scourge/pre_equip(mob/living/carbon/human/H)
 	..()

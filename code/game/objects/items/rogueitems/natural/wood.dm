@@ -18,6 +18,7 @@
 	var/quality = SMELTERY_LEVEL_NORMAL // For it not to ruin recipes that need it
 	var/lumber = /obj/item/grown/log/tree/small //These are solely for lumberjack calculations
 	var/lumber_amount = 1
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/grown/log/tree/get_mechanics_examine(mob/user)
 	. = ..()
@@ -336,7 +337,7 @@
 		/datum/crafting_recipe/roguetown/survival/wickercloak,
 		/datum/crafting_recipe/roguetown/survival/torch,
 		/datum/crafting_recipe/roguetown/survival/stonearrow,
-		/datum/crafting_recipe/roguetown/survival/stonearrow_five,
+		/datum/crafting_recipe/roguetown/survival/stonearrow_six,
 		/datum/crafting_recipe/roguetown/survival/wood_stake
 		)
 

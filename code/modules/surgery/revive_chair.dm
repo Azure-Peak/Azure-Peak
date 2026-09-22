@@ -327,13 +327,7 @@
 
 		// Apply debuffs
 		occupant.mind.remove_antag_datum(/datum/antagonist/zombie)
-		addtimer(CALLBACK(src, PROC_REF(deathmark), occupant), DEATHMARK_GRACE_PERIOD) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
+		addtimer(CALLBACK(src, GLOBAL_PROC_REF(deathmark), occupant), DEATHMARK_GRACE_PERIOD) //Performs a check after the listed time has elapsed, post-resurrection. If the target is still alive by then, it'll apply the 'DNR' trait.
 		return TRUE
-
-/obj/structure/chair/frankenstein/proc/deathmark(mob/living/victim)
-	if(victim.stat != DEAD)
-		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
-		victim.play_permadeath_indicator()
-		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
 #undef WEATHER_RAIN

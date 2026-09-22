@@ -1,0 +1,5 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - balance: "adds a bash intent to shortswords. so you can nonlethally incapacitate people."
+  - balance: "gronnic shortsword subtype gets the worse 50% vs 60% bash intents since its a lethality orientated weapon."

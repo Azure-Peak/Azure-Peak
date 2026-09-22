@@ -327,9 +327,12 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"completed_defense" = GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE] || 0,
 		"abandoned" = GLOB.azure_round_stats[STATS_CONTRACTS_ABANDONED] || 0,
 		"rerolled" = GLOB.azure_round_stats[STATS_CONTRACTS_REROLLED] || 0,
+		"lapse_refunded" = GLOB.azure_round_stats[STATS_CONTRACTS_LAPSE_REFUNDED] || 0,
+		"withdrawn" = GLOB.azure_round_stats[STATS_CONTRACTS_WITHDRAWN] || 0,
 		"mammons_paid" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_PAID] || 0,
 		"mammons_taxed" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_TAXED] || 0,
 		"mammons_forfeited" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_FORFEITED] || 0,
+		"mammons_refunded" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_REFUNDED] || 0,
 	)
 
 /datum/economic_chronicle/proc/build_royal_favors_snapshot()
