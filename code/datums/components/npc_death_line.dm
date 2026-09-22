@@ -25,4 +25,5 @@ GLOBAL_LIST_INIT(npc_death_lines_goblin, world.file2list("strings/rt/npc_death_l
 		return
 	var/mob/living/owner = parent
 	var/message = pick(messages)
+	owner.stuttering += 100
 	owner.visible_message(span_say("[owner] gasps, \"[message]\""))
