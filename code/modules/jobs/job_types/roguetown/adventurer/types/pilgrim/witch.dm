@@ -18,9 +18,6 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
 	)
@@ -45,16 +42,40 @@
 		witchprefs = prefs["Towner"]
 	var/classchoice
 	var/shapeshiftchoice
+	var/skillchoice
 	if(witchprefs && witchprefs["witch_type"])
 		classchoice = witchprefs["witch_type"]
 	if(witchprefs && witchprefs["witch_form"])
 		shapeshiftchoice = witchprefs["witch_form"]
+	if(witchprefs && witchprefs["witch_skills"])
+		skillchoice = witchprefs["witch_skills"]
 	if(!classchoice)
 		var/classes = list("Old Magick", "Godsblood", "Mystagogue")
 		classchoice = input(H, "How do your powers manifest?", "THE OLD WAYS") as anything in classes
 	if(!shapeshiftchoice)
 		var/shapeshifts = list("Zad", "Cat", "Cat (Black)", "Bat", "Lesser Volf", "Cabbit", "Small Rous", "Lesser Venard")
 		shapeshiftchoice = input(H, "What form does your second skin take?", "THE OLD WAYS") as anything in shapeshifts
+	if(!skillchoice)
+		var/skillsets = list("Herbalist", "Forager")
+		skillchoice = input(H, "Which practical skills have you learned?", "THE OLD WAYS") as anything in skillsets
+
+	switch(skillchoice)
+		if("Herbalist")
+			H.adjust_skillrank_up_to(/datum/skill/craft/cooking, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/farming, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/butchering, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/lumberjacking, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/tanning, SKILL_LEVEL_NOVICE, TRUE)
+		if("Forager")
+			H.adjust_skillrank_up_to(/datum/skill/labor/fishing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/labor/butchering, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/tracking, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/tanning, SKILL_LEVEL_NOVICE, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
 
 	switch (classchoice)
 		if("Old Magick")
