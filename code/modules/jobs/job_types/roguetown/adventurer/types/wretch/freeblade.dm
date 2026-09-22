@@ -7,7 +7,7 @@
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
 	class_select_category = CLASS_CAT_WARRIOR
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_FREEBLADE, TRAIT_FREEBLADEDEXTERITY)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_FREEBLADE, TRAIT_FREEBLADEDEXTERITY, TRAIT_BADTRAINER)
 	allowed_patrons = list(/datum/patron/inhumen/matthios)
 	maximum_possible_slots = 1
 
