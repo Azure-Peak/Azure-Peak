@@ -477,12 +477,12 @@
 /// CRITICAL INJURY DEBUFF - Higher cmode drain, for those cleric-healable.
 
 /datum/status_effect/debuff/critwounded
-	id = "fatally_dazed" //For crits + revival - you did suffer fatal damage, this one is a shorter time. - Meant to punish people who linger in combat after they've been already beaten, even if healers got you up.
+	id = "critically_dazed" //For crits + revival - you did suffer fatal damage, this one is a shorter time. - Meant to punish people who linger in combat after they've been already beaten, even if healers got you up.
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/critwounded
 	duration = CRITICAL_WOUNDED_DEBUFF_DURATION
 
 /atom/movable/screen/alert/status_effect/debuff/critwounded
-	name = "Fatally Dazed" //Effectively a 'Critical Sickness' designed to prevent people bumrushing back into fights. - Undead do not suffer this, nor does anyone with supernatural means to ignore bloodloss, or fatigue.
+	name = "Critically Dazed" //Effectively a 'Critical Sickness' designed to prevent people bumrushing back into fights. - Undead do not suffer this, nor does anyone with supernatural means to ignore bloodloss, or fatigue.
 	desc = "My body has taken a crippling blow, I feel increasingly sluggish, my head spins and my feet are unsteady. I must give myself tyme to recover from fighting as being in a defensive stance is more exhausting."
 	icon_state = "critwounded"
 
