@@ -1140,7 +1140,7 @@
 	desc = "The arming sword's shorter and much older brother. Despite being centuries older than the swords of todae, it remains in use as a \
 	cheap sidearm for shieldbearers and archers."
 	alt_grips = null
-	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short)
+	possible_item_intents = list(/datum/intent/sword/cut/short, /datum/intent/sword/thrust/short, /datum/intent/sword/strike)
 	icon_state = "swordshort"
 	sheathe_icon = "swordshort"
 	gripped_intents = null
@@ -2624,7 +2624,7 @@
 	name = "gronnic hinterblade"
 	desc = "Due to the shortage of forged steel in Gronn, their iron blades have become hardier and thicker than what one may see elsewhere. The \
 	favoured weapon of choice for any able-bodied northman of Gronn, the hinterblade is the heftier, unwieldy cousin of the arming sword."
-	possible_item_intents = list(/datum/intent/sword/cut/militia, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/short)
+	possible_item_intents = list(/datum/intent/sword/cut/militia, /datum/intent/sword/chop/militia, /datum/intent/sword/thrust/short, /datum/intent/sword/strike/bad)
 	icon_state = "gronnsword"
 	sheathe_icon = "swordshort"
 	gripped_intents = null

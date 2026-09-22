@@ -369,7 +369,7 @@
 // one); the feminine keys are the fm.dmi values every human-shaped species already shared. Males on this
 // build read the masculine keys and females the feminine ones, as elves have always done.
 #define OFFSET_FEATURES_SLIM_REFERENCE list(\
-	OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,1), OFFSET_WRISTS = list(0,1), OFFSET_HANDS = list(0,0), \
+	OFFSET_ID = list(0,0), OFFSET_GLOVES = list(0,-1), OFFSET_WRISTS = list(0,-1), OFFSET_HANDS = list(0,0), \
 	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), \
 	OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), \
 	OFFSET_NECK = list(0,0), OFFSET_MOUTH = list(0,0), OFFSET_PANTS = list(0,0), \
@@ -381,12 +381,12 @@
 	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
 	)
 
-// Offset table for the elven build: the slim table raised a pixel, except on the legs. A raised body lifts
+// Offset table for the elven build: the slim table raised a pixel, except on the legs and arms. A raised body lifts
 // the torso but leaves the feet planted, so the leg slots keep their slim values while everything hanging
 // off the body moves up with it. Written out in full so it reads the same way as its two neighbours.
 #define OFFSET_FEATURES_ELVEN_REFERENCE list(\
-	OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,2), OFFSET_WRISTS = list(0,2), \
-	OFFSET_HANDS = list(0,1), OFFSET_CLOAK = list(0,2), OFFSET_FACEMASK = list(0,1), \
+	OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,0), OFFSET_WRISTS = list(0,0), \
+	OFFSET_HANDS = list(0,0), OFFSET_CLOAK = list(0,2), OFFSET_FACEMASK = list(0,1), \
 	OFFSET_HEAD = list(0,1), OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), \
 	OFFSET_BACK = list(0,1), OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), \
 	OFFSET_PANTS = list(0,0), OFFSET_SHIRT = list(0,2), OFFSET_ARMOR = list(0,2), \

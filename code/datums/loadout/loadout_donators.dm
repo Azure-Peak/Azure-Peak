@@ -172,11 +172,11 @@
 
 /datum/loadout_item/donator/universal/greatcoat
 	name = "Gift - Greatcoat"
-	path = /obj/item/clothing/cloak/donator_greatcoat
+	path = /obj/item/clothing/suit/roguetown/armor/donator_greatcoat
 
 /datum/loadout_item/donator/universal/greatcoat_dyeable
 	name = "Gift - Greatcoat, Dyeable"
-	path = /obj/item/clothing/cloak/donator_greatcoat/dyeable
+	path = /obj/item/clothing/suit/roguetown/armor/donator_greatcoat/dyeable
 
 /datum/loadout_item/donator/universal/shadedhat
 	name = "Gift - Shaded Hat"

@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed an instance where sharp weapons with very low remaining sharpness treated bare skin like impenetrable armor."

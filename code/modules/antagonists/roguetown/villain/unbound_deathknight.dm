@@ -105,6 +105,9 @@
 
 /datum/outfit/job/roguetown/unbound_deathknight/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	change_origin(H, /datum/virtue/origin/unselectable/skeleton, "Legion")
+
 	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/maces, 3, TRUE)

@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed blood miracle increasing its restored blood volume with every cast."

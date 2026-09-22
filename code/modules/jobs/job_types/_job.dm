@@ -305,7 +305,8 @@
 	if(!H.islatejoin)
 		H.adjust_triumphs(1)
 		H.apply_status_effect(/datum/status_effect/buff/mealbuff)
-		H.hydration = 1000 // Set higher hydration
+		H.hydration = HYDRATION_LEVEL_FULL
+		H.nutrition = NUTRITION_LEVEL_FULL
 
 		if(H.mind)
 			H.mind?.special_items["Pouch of Coins"] = /obj/item/storage/belt/rogue/pouch/coins/readyuppouch

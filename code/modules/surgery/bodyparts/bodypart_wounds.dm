@@ -143,18 +143,7 @@
 		return null
 	var/do_crit = TRUE
 	var/debuff_applies = !no_debuff && !istype(weapon, /obj/projectile)
-	var/acheck_dflag
-	switch(bclass)
-		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PUNCH)
-			acheck_dflag = "blunt"
-		if(BCLASS_CHOP, BCLASS_CUT, BCLASS_LASHING, BCLASS_PUNISH)
-			acheck_dflag = "slash"
-		if(BCLASS_PICK, BCLASS_STAB, BCLASS_BITE)
-			acheck_dflag = "stab"
-		if(BCLASS_PIERCE)
-			acheck_dflag = "piercing"
-		if(BCLASS_BURN)
-			acheck_dflag = "fire"
+	var/acheck_dflag = bclass_to_armor_rating(bclass)
 	if(!armor)
 		armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	if(ishuman(owner) && bclass != BCLASS_PICK)

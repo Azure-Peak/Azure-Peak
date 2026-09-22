@@ -23,8 +23,8 @@
 		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 15,
-		new /datum/ambush_config/triple_deepone = 30,
-		new /datum/ambush_config/deepone_party = 20,
+		/datum/npc_warband/triple_deepone = 30,
+		/datum/npc_warband/deepone_party = 20,
 	)
 	first_time_text = "CENTRAL COAST"
 	threat_region = THREAT_REGION_AZURE_GROVE
@@ -40,7 +40,7 @@
 		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/carbon/human/species/orc/npc/berserker = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40,
-		new /datum/ambush_config/huscarl_raiding_party = 3
+		/datum/npc_warband/huscarl_raiding_party = 3
 	)
 	first_time_text = "NORTHERN COAST"
 	threat_region = THREAT_REGION_AZUREAN_COAST
@@ -55,8 +55,8 @@
 		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 15,
-		new /datum/ambush_config/triple_deepone = 30,
-		new /datum/ambush_config/deepone_party = 20,
+		/datum/npc_warband/triple_deepone = 30,
+		/datum/npc_warband/deepone_party = 20,
 	)
 	first_time_text = "SOUTHERN COAST"
 	detail_text = DETAIL_TEXT_CITY_COAST
@@ -90,7 +90,7 @@
 		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/carbon/human/species/orc/npc/berserker = 10,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40,
-		new /datum/ambush_config/huscarl_raiding_party = 3
+		/datum/npc_warband/huscarl_raiding_party = 3
 	)
 	first_time_text = "BILEWATER COAST"
 	droning_sound = 'sound/music/area/grimcoast.ogg'
@@ -108,8 +108,8 @@
 		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
 		/mob/living/simple_animal/hostile/rogue/deepone = 15,
-		new /datum/ambush_config/triple_deepone = 30,
-		new /datum/ambush_config/deepone_party = 20,
+		/datum/npc_warband/triple_deepone = 30,
+		/datum/npc_warband/deepone_party = 20,
 	)
 	first_time_text = "JAGGEDJAW COAST"
 	droning_sound = list('sound/music/area/townstreets.ogg', 'sound/music/area/townchill.ogg', 'sound/music/area/townstroll.ogg', 'sound/music/area/townwander.ogg')

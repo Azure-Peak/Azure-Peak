@@ -1,4 +1,0 @@
-author: "MortoSasye"
-delete-after: True
-changes:
-  - bugfix: "fixed naledi light skin color characters from ending up whitewashed."

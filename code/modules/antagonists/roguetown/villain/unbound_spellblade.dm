@@ -117,6 +117,8 @@
 /datum/outfit/job/roguetown/unbound_spellblade/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	change_origin(H, /datum/virtue/origin/unselectable/skeleton, "Legion")
+
 	H.change_stat(STATKEY_STR, -2)
 	H.change_stat(STATKEY_SPD, -3)
 	H.change_stat(STATKEY_CON, -5)

@@ -10,6 +10,7 @@
 	possible_item_intents = list(INTENT_POUR, INTENT_FILL, INTENT_SPLASH, INTENT_GENERIC)
 	resistance_flags = ACID_PROOF
 	var/is_infinite = FALSE
+	materia = list(/datum/materia_aspect/water)
 	var/closed = FALSE // DO NOT rely on this, use reagent_flags/spillable instead. Originally from /bottle, moved here to reduce istype() checks.
 
 /obj/item/reagent_containers/glass/get_mechanics_examine(mob/user)

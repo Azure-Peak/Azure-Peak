@@ -29,6 +29,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 	var/list/pinned_factions = list()
 	var/selected_filter = GM_FILTER_ALL
 	var/selected_mob_name
+	var/selected_warband_name
 	var/selected_faction = ""
 	var/spawn_count = GM_DEFAULT_SPAWN_COUNT
 	var/spawn_ai = TRUE
@@ -36,6 +37,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 	var/spawn_dust = FALSE
 	var/spawn_dust_leave_head = FALSE
 	var/spawn_dust_delete_gear = FALSE
+	var/spawn_spread = TRUE
 	var/spawn_click_intercept = FALSE
 
 /datum/game_master/New(client/using_client)
@@ -44,7 +46,9 @@ GLOBAL_LIST_EMPTY(game_masters)
 	game_master_client = using_client
 
 	get_gm_spawn_roster()
+	get_gm_warband_roster()
 	selected_mob_name = get_first_mob_name()
+	selected_warband_name = get_first_warband_name()
 
 	GLOB.game_masters |= game_master_client
 
@@ -76,6 +80,46 @@ GLOBAL_LIST_EMPTY(game_masters)
 /datum/game_master/proc/get_selected_mob_type()
 	return get_gm_spawn_roster()[selected_mob_name]
 
+/datum/game_master/proc/get_filtered_warband_names()
+	var/list/names = list()
+	for(var/display_name in get_gm_warband_roster())
+		if(selected_filter != GM_FILTER_ALL && GLOB.gm_warband_factions[display_name] != selected_filter)
+			continue
+		names += display_name
+	return names
+
+/datum/game_master/proc/get_first_warband_name()
+	for(var/display_name in get_filtered_warband_names())
+		return display_name
+
+/datum/game_master/proc/get_selected_warband()
+	return get_npc_part(get_gm_warband_roster()[selected_warband_name])
+
+/datum/game_master/proc/get_selected_warband_detail()
+	var/datum/npc_warband/warband = get_selected_warband()
+	if(!warband)
+		return null
+
+	var/list/members = list()
+	var/size = 0
+	for(var/mob/living/member as anything in warband.members)
+		var/count = warband.members[member]
+		size += count
+		members += list(list(
+			"name" = gm_roster_name_for_type(member),
+			"count" = count,
+			"threat" = initial(member.threat_point),
+		))
+
+	return list(
+		"name" = warband.name,
+		"category" = GLOB.gm_warband_factions[selected_warband_name],
+		"threat" = warband.threat_point,
+		"path" = "[warband.type]",
+		"size" = size,
+		"members" = members,
+	)
+
 /datum/game_master/proc/get_selected_detail()
 	var/mob/living/selected_type = get_selected_mob_type()
 	if(!selected_type)
@@ -94,8 +138,10 @@ GLOBAL_LIST_EMPTY(game_masters)
 /datum/game_master/ui_data(mob/user)
 	var/list/data = list()
 
+	var/warband_view = selected_view == GM_VIEW_WARBAND
+
 	data["selected_filter"] = selected_filter
-	data["selected_mob_name"] = selected_mob_name
+	data["selected_mob_name"] = warband_view ? selected_warband_name : selected_mob_name
 	data["selected_faction"] = selected_faction
 	data["spawn_count"] = spawn_count
 	data["spawn_ai"] = spawn_ai
@@ -103,14 +149,15 @@ GLOBAL_LIST_EMPTY(game_masters)
 	data["spawn_dust"] = spawn_dust
 	data["spawn_dust_leave_head"] = spawn_dust_leave_head
 	data["spawn_dust_delete_gear"] = spawn_dust_delete_gear
+	data["spawn_spread"] = spawn_spread
 	data["spawn_click_intercept"] = spawn_click_intercept
 
 	data["selected_view"] = selected_view
 	data["pinned_factions"] = pinned_factions
-	data["selectable_mobs"] = selected_view == GM_VIEW_WARBAND ? list() : get_filtered_mob_names()
-	data["selected_detail"] = selected_view == GM_VIEW_WARBAND ? null : get_selected_detail()
-	data["spawn_filters"] = GLOB.gm_spawn_filters
-	data["filter_counts"] = GLOB.gm_spawn_filter_counts
+	data["selectable_mobs"] = warband_view ? get_filtered_warband_names() : get_filtered_mob_names()
+	data["selected_detail"] = warband_view ? get_selected_warband_detail() : get_selected_detail()
+	data["spawn_filters"] = warband_view ? GLOB.gm_warband_filters : GLOB.gm_spawn_filters
+	data["filter_counts"] = warband_view ? GLOB.gm_warband_filter_counts : GLOB.gm_spawn_filter_counts
 	data["max_pinned"] = GM_MAX_PINNED_FACTIONS
 
 	return data
@@ -119,7 +166,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 	var/list/data = list()
 
 	data["spawn_factions"] = GLOB.gm_spawn_factions
-	data["mob_threats"] = GLOB.gm_spawn_roster_threats
+	data["mob_threats"] = GLOB.gm_spawn_roster_threats + GLOB.gm_warband_threats
 
 	return data
 
@@ -141,11 +188,18 @@ GLOBAL_LIST_EMPTY(game_masters)
 			if(!(new_view in list(GM_VIEW_INDIVIDUAL, GM_VIEW_WARBAND)))
 				return
 			selected_view = new_view
+			var/list/view_filters = selected_view == GM_VIEW_WARBAND ? GLOB.gm_warband_filters : GLOB.gm_spawn_filters
+			if(!(selected_filter in view_filters))
+				selected_filter = GM_FILTER_ALL
+				if(!(selected_mob_name in get_filtered_mob_names()))
+					selected_mob_name = get_first_mob_name()
+				if(!(selected_warband_name in get_filtered_warband_names()))
+					selected_warband_name = get_first_warband_name()
 			return TRUE
 
 		if("toggle_pin_faction")
 			var/faction = params["faction"]
-			if(faction == GM_FILTER_ALL || !(faction in GLOB.gm_spawn_filters))
+			if(faction == GM_FILTER_ALL || !gm_filter_known(faction))
 				return
 			if(faction in pinned_factions)
 				pinned_factions -= faction
@@ -158,14 +212,21 @@ GLOBAL_LIST_EMPTY(game_masters)
 
 		if("set_selected_filter")
 			var/new_filter = params["new_filter"]
-			if(!(new_filter in GLOB.gm_spawn_filters))
+			if(!gm_filter_known(new_filter))
 				return
 			selected_filter = new_filter
 			if(!(selected_mob_name in get_filtered_mob_names()))
 				selected_mob_name = get_first_mob_name()
+			if(!(selected_warband_name in get_filtered_warband_names()))
+				selected_warband_name = get_first_warband_name()
 			return TRUE
 
 		if("set_selected_mob")
+			if(selected_view == GM_VIEW_WARBAND)
+				if(!get_gm_warband_roster()[params["new_mob"]])
+					return
+				selected_warband_name = params["new_mob"]
+				return TRUE
 			if(!get_gm_spawn_roster()[params["new_mob"]])
 				return
 			selected_mob_name = params["new_mob"]
@@ -203,6 +264,10 @@ GLOBAL_LIST_EMPTY(game_masters)
 			spawn_dust_delete_gear = !spawn_dust_delete_gear
 			if(spawn_dust_delete_gear)
 				spawn_dust = TRUE
+			return TRUE
+
+		if("toggle_spawn_spread")
+			spawn_spread = !spawn_spread
 			return TRUE
 
 		if("toggle_click_spawn")
@@ -298,7 +363,24 @@ GLOBAL_LIST_EMPTY(game_masters)
 				return FALSE
 
 			if(selected_view == GM_VIEW_WARBAND)
-				to_chat(user, span_warning("Warband spawning is not built yet."))
+				var/datum/npc_warband/warband = get_selected_warband()
+				if(!warband)
+					to_chat(user, span_warning("No warband selected."))
+					return TRUE
+
+				var/turf/warband_turf = get_turf(object)
+				if(!warband_turf)
+					return TRUE
+
+				var/list/members = list()
+				for(var/i in 1 to spawn_count)
+					members += warband.expand()
+				var/list/turfs = spawn_spread ? gm_spread_turfs(warband_turf, length(members)) : null
+				for(var/i in 1 to length(members))
+					spawn_gm_mob(members[i], turfs ? turfs[i] : warband_turf)
+
+				log_admin("[key_name(user)] spawned [spawn_count]ea warband [warband.type] at [AREACOORD(warband_turf)][selected_faction ? " with faction [selected_faction]" : ""]")
+				spawn_message_admins("[key_name_admin(user)] spawned [spawn_count]ea [warband.name] at [AREACOORD(warband_turf)][selected_faction ? " with faction [selected_faction]" : ""]")
 				return TRUE
 
 			var/mob/living/spawning_type = get_selected_mob_type()
@@ -316,6 +398,35 @@ GLOBAL_LIST_EMPTY(game_masters)
 			log_admin("[key_name(user)] spawned [spawn_count]ea [spawning_type] at [AREACOORD(spawn_turf)][selected_faction ? " with faction [selected_faction]" : ""]")
 			spawn_message_admins("[key_name_admin(user)] spawned [spawn_count]ea [spawning_type] at [AREACOORD(spawn_turf)][selected_faction ? " with faction [selected_faction]" : ""]")
 			return TRUE
+
+/proc/gm_spread_turfs(turf/center, needed)
+	var/list/open = list()
+	var/list/frontier = list(center)
+	var/list/seen = list()
+	seen[center] = TRUE
+	if(!center.is_blocked_turf(TRUE))
+		open += center
+
+	var/wanted = max(needed * 3, 9)
+	while(length(frontier) && length(open) < wanted)
+		var/turf/current = frontier[1]
+		frontier.Cut(1, 2)
+		for(var/turf/next as anything in get_adjacent_turfs(current))
+			if(seen[next] || get_dist(center, next) > GM_SPAWN_SPREAD_RADIUS)
+				continue
+			seen[next] = TRUE
+			if(next.is_blocked_turf(TRUE) || current.LinkBlockedWithAccess(next, null))
+				continue
+			open += next
+			frontier += next
+
+	if(!length(open))
+		open += center
+
+	var/list/pool = shuffle(open)
+	. = list()
+	for(var/i in 1 to needed)
+		. += pool[((i - 1) % length(pool)) + 1]
 
 /datum/game_master/proc/spawn_gm_mob(mob/living/spawning_type, turf/spawn_turf)
 	var/mob/living/spawned_mob = new spawning_type(spawn_turf)
