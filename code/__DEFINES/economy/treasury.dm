@@ -1,4 +1,7 @@
-#define RURAL_TAX 200 // Cut to 200 to make economy not too easy.
+// Rural Subsidy: lowpop safety net. Full BASE at pop 0, tapering to FLOOR by REFERENCE_POP.
+#define RURAL_SUBSIDY_BASE 600
+#define RURAL_SUBSIDY_FLOOR 200
+#define RURAL_SUBSIDY_REFERENCE_POP 30
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
 #define HERMES_FREE_COOLDOWN (5 MINUTES)
