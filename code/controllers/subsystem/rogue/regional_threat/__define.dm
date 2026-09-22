@@ -10,3 +10,7 @@
 
 #define THREAT_HIGHPOP_TICK_RATE 0.1
 #define THREAT_LOWPOP_TICK_RATE 0.05
+
+// Below LOWPOP_THRESHOLD, the lowpop tick rate interpolates down further instead of applying
+// flat, floored at this fraction so pop 29 and pop 3 aren't treated identically.
+#define THREAT_LOWPOP_TICK_MIN_MULT 0.5

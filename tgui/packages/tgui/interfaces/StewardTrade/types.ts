@@ -58,6 +58,9 @@ export type Order = {
   has_stockpile: BooleanLike;
   days_left: number;
   payout: number;
+  // base_payout * (1 + scarcity_bonus_pct/100) == payout. Bonus is 0 at/above reference pop.
+  base_payout: number;
+  scarcity_bonus_pct: number;
   items: OrderItem[];
   can_fulfill: BooleanLike;
   shortfall_text: string;

@@ -250,6 +250,8 @@
 			"has_stockpile" = has_stockpile,
 			"days_left" = days_left,
 			"payout" = O.total_payout,
+			"base_payout" = O.base_payout,
+			"scarcity_bonus_pct" = O.scarcity_bonus_pct,
 			"items" = items,
 			"can_fulfill" = can_fulfill,
 			"shortfall_text" = shortfall,

@@ -138,14 +138,17 @@ SUBSYSTEM_DEF(regionthreat)
 	)
 
 /datum/controller/subsystem/regionthreat/fire(resumed)
-	var/player_count = GLOB.player_list.len
-	var/ishighpop = player_count >= LOWPOP_THRESHOLD
+	// Respects simulated_player_scalar so admin testing can drive it, matching SSeconomy's own checks.
+	var/pop = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : get_active_player_count()
+	var/ishighpop = pop >= LOWPOP_THRESHOLD
 	for(var/T in threat_regions)
 		var/datum/threat_region/TR = T
 		if(ishighpop)
 			TR.increase_latent_ambush(TR.highpop_tick)
 		else
-			TR.increase_latent_ambush(TR.lowpop_tick)
+			// Interpolate the tick rate continuously below the threshold instead of one flat rate.
+			var/tick_mult = clamp(pop / LOWPOP_THRESHOLD, THREAT_LOWPOP_TICK_MIN_MULT, 1.0)
+			TR.increase_latent_ambush(TR.lowpop_tick * tick_mult)
 
 /datum/controller/subsystem/regionthreat/proc/get_region(region_name)
 	for(var/T in threat_regions)

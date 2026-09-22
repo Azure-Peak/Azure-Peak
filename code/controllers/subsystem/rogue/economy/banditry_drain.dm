@@ -1,22 +1,54 @@
 /datum/controller/subsystem/economy/proc/preview_banditry_drain()
 	var/list/result = list("total" = 0, "lines" = list(), "debt" = SStreasury?.banditry_debt || 0, "by_region" = list(), "hoard_total" = 0)
-	var/pop = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+	// Respects simulated_player_scalar so admin testing can drive it, matching get_effective_player_count().
+	var/pop = (simulated_player_scalar > 0) ? simulated_player_scalar : get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+	var/flat_mult = clamp(pop / BANDITRY_DRAIN_POP_REFERENCE, BANDITRY_DRAIN_FLAT_MIN_MULT, 1.0)
+	var/raw_total = 0
+	var/list/raw_lines = list() // region_name -> uncapped breakdown text, for the cap step below to annotate
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
 		result["hoard_total"] += TR.banditry_hoard
 		var/level = TR.get_danger_level()
-		var/cost = 0
+		var/base_cost = 0
+		var/per_player = 0
 		switch(level)
 			if(DANGER_LEVEL_DANGEROUS)
-				cost = BANDITRY_DRAIN_DANGEROUS_FLAT + (BANDITRY_DRAIN_DANGEROUS_PER_PLAYER * pop)
+				base_cost = BANDITRY_DRAIN_DANGEROUS_FLAT
+				per_player = BANDITRY_DRAIN_DANGEROUS_PER_PLAYER
 			if(DANGER_LEVEL_BLEAK)
-				cost = BANDITRY_DRAIN_BLEAK_FLAT + (BANDITRY_DRAIN_BLEAK_PER_PLAYER * pop)
+				base_cost = BANDITRY_DRAIN_BLEAK_FLAT
+				per_player = BANDITRY_DRAIN_BLEAK_PER_PLAYER
+		if(base_cost <= 0 && per_player <= 0)
+			continue
+		var/scaled_base = round(base_cost * flat_mult)
+		var/cost = scaled_base + (per_player * pop)
 		if(cost <= 0)
 			continue
-		var/base_cost = (level == DANGER_LEVEL_BLEAK) ? BANDITRY_DRAIN_BLEAK_FLAT : BANDITRY_DRAIN_DANGEROUS_FLAT
-		var/per_player = (level == DANGER_LEVEL_BLEAK) ? BANDITRY_DRAIN_BLEAK_PER_PLAYER : BANDITRY_DRAIN_DANGEROUS_PER_PLAYER
-		result["total"] += cost
+		raw_total += cost
 		result["by_region"][TR.region_name] = cost
-		result["lines"] += "[TR.region_name] ([level]) -[cost]m ([base_cost] base + [per_player]m/head x [pop])"
+		raw_lines[TR.region_name] = "[TR.region_name] ([level]) -[cost]m ([scaled_base] base + [per_player]m/head x [pop])"
+
+	// Global cap so several regions going Dangerous/Bleak at once can't stack without bound.
+	// If it binds, shrink each region's share proportionally (keeps by_region consistent for
+	// burn/hoard crediting below) and annotate the math rather than hiding it.
+	var/daily_cap = BANDITRY_DRAIN_DAILY_CAP_BASE + (BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER * pop)
+	result["raw_total"] = raw_total
+	result["cap"] = daily_cap
+	var/list/by_region = result["by_region"]
+	var/list/lines = list()
+	if(raw_total > daily_cap && raw_total > 0)
+		var/scale = daily_cap / raw_total
+		lines += "Bandits are scarce - stolen funds are currently capped."
+		for(var/region_name in by_region)
+			var/capped_cost = round(by_region[region_name] * scale)
+			by_region[region_name] = capped_cost
+			lines += "[raw_lines[region_name]] -> CAPPED to -[capped_cost]m"
+		lines += "TOTAL: -[raw_total]m raw drain capped to -[daily_cap]m (daily cap: [BANDITRY_DRAIN_DAILY_CAP_BASE] base + [BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER]m/head x [pop] pop)"
+		result["total"] = daily_cap
+	else
+		for(var/region_name in by_region)
+			lines += raw_lines[region_name]
+		result["total"] = raw_total
+	result["lines"] = lines
 	return result
 
 /datum/controller/subsystem/economy/proc/total_banditry_hoard()
