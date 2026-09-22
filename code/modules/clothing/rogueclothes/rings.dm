@@ -16,6 +16,7 @@
 	alternate_worn_layer = NECK_LAYER
 	no_loot_taint = TRUE
 	var/overarmor
+	materia = list(/datum/materia_aspect/solar) // in absence of other traits, they're valuable
 
 /obj/item/clothing/ring/MiddleClick(mob/user, params)
 	. = ..()
@@ -41,6 +42,7 @@
 	name = "bronze ring"
 	desc = "A ring of bronzen resiliance."
 	icon_state = "ring_b"
+	materia = list(/datum/materia_aspect/motion)
 
 /obj/item/clothing/ring/silver
 	name = "silver ring"
@@ -48,6 +50,7 @@
 	icon_state = "ring_s"
 	is_silver = TRUE
 	is_lesser_silver = TRUE
+	materia = list(/datum/materia_aspect/lunar)
 
 /obj/item/clothing/ring/silver/cleric
 	name = "clerical silver ring"
@@ -64,6 +67,7 @@
 	name = "blacksteel ring"
 	desc = "A ring of mythical blacksteel."
 	icon_state = "ring_bs"
+	materia = list(/datum/materia_aspect/defense)
 
 /obj/item/clothing/ring/jade
 	name = "jade ring"

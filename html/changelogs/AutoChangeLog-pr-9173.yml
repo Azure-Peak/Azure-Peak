@@ -1,0 +1,8 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - qol: "SCOM middle-click now immediately opens a garrison line if you have a garrison ring equipped."
+  - qol: "SCOMs now have a mechanics examine, telling you of their basic mechanics."
+  - rscadd: "Jabberlines have been moved to right-click."
+  - rscadd: "Decrees have been moved to Examine, under the laws."
+  - image: "RCOMs now have a unique sprite."

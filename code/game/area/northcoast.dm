@@ -31,7 +31,7 @@
 				/mob/living/carbon/human/species/goblin/npc/ambush/sea = 40,
 				/mob/living/carbon/human/species/hobgoblin/npc/ambush = 12,
 				/mob/living/carbon/human/species/goblin/npc/archer/sea = 10,
-				new /datum/ambush_config/huscarl_raiding_party = 4)
+				/datum/npc_warband/huscarl_raiding_party = 4)
 	first_time_text = "THE AZURE COAST"
 	converted_type = /area/rogue/indoors/shelter/woods
 	deathsight_message = "somewhere betwixt Abyssor's realm and Dendor's bounty"
@@ -102,7 +102,7 @@
 				/mob/living/carbon/human/species/goblin/npc/ambush/sea = 40,
 				/mob/living/carbon/human/species/hobgoblin/npc/ambush = 12,
 				/mob/living/carbon/human/species/goblin/npc/archer/sea = 10,
-				new /datum/ambush_config/huscarl_raiding_party = 4)
+				/datum/npc_warband/huscarl_raiding_party = 4)
 	first_time_text = "BILEWOOD"
 	converted_type = /area/rogue/indoors/shelter/woods/grim
 	deathsight_message = "somewhere betwixt Abyssor's realm and Dendor's bounty"

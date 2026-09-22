@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - code_imp: "Refactored how NPC loadouts are composed and made in the backend to make it more reusable and composable"
+  - code_imp: "Improved the Game Master Panel to add in \"Warband\", premade squads of NPC"
+  - code_imp: "Warband mode now have \"Spread\" which allows them to be spread on nearby open tile on spawn"

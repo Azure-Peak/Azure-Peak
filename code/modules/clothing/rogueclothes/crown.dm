@@ -18,6 +18,7 @@
 	var/messagereceivedsound = 'sound/misc/scom.ogg'
 	var/hearrange = 0 // Only hearable by wearer
 	is_important = TRUE
+	materia = list(/datum/materia_aspect/solar) // i don't think i have to explain this one
 	var/register_as_roguemachine_crown = TRUE // New vars to allow custom donor crowns. Does not prevent custom crowns from being replaced by the original, though.
 	var/replace_existing_roguemachine_crown = FALSE
 

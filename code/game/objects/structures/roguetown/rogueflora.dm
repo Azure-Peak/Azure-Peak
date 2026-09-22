@@ -386,7 +386,12 @@
 	..()
 	if(isliving(AM))
 		var/mob/living/L = AM
-		if(L.m_intent == MOVE_INTENT_RUN && (L.mobility_flags & MOBILITY_STAND))
+		var/thorn_inmune = FALSE
+		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(L, TRAIT_AZURENATIVE))
+			thorn_inmune = TRUE
+		if (!thorn_inmune && !(L.movement_type & (FLYING|FLOATING)) && !(L.is_jumping) && !(L.pulledby))
+			L.Slowdown(1)
+		if(!thorn_inmune && L.m_intent == MOVE_INTENT_RUN && (L.mobility_flags & MOBILITY_STAND))
 			if(!ishuman(L))
 				to_chat(L, span_warning("I'm cut on a thorn!"))
 				L.apply_damage(5, BRUTE)
@@ -483,8 +488,6 @@
 		return 0
 	if(istype(mover) && (mover.pass_flags & PASSGRILLE))
 		return 1
-	if(get_dir(loc, target) == dir)
-		return 0
 	return 1
 
 /obj/structure/flora/roguegrass/bush/onkick(mob/user)
