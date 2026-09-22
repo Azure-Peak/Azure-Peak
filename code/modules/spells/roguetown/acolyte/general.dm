@@ -430,15 +430,15 @@
 
 /datum/action/cooldown/spell/miracle/ignition
 	name = "Ignition"
-	desc = "Ignites target, living or object."
+	desc = "Ignite an object."
 	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
 	button_icon_state = "ignite"
 	sound = 'sound/items/firelight.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
-	sparks_amt = 2
+	sparks_amt = 1
 
 	click_to_activate = TRUE
-	cast_range = 2
+	cast_range = 4
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
 
@@ -446,14 +446,10 @@
 
 	invocation_type = INVOCATION_NONE //It has seperate message ON USE
 
-	charge_required = TRUE
-	charge_time = CHARGETIME_POKE
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/holycharging.ogg'
-	cooldown_time = 15 SECONDS
+	charge_required = FALSE
+	cooldown_time = 2 SECONDS
 
-	spell_flags = SPELL_PSYDON
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/miracle/ignition/cast(atom/cast_on)
 	. = ..()
@@ -472,20 +468,7 @@
 			to_chat(owner, span_warning("You attempt to ignite [spelltarget], but it fails to catch fire."))
 			return FALSE
 	else
-		owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
-		if(spelltarget.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		if(spell_guard_check(spelltarget, TRUE))
-			spelltarget.visible_message(span_warning("[spelltarget] shields against the divine flame!"))
-			return TRUE
-		if(spelltarget.fire_stacks < 1)
-			spelltarget.adjust_fire_stacks(1)
-			spelltarget.ignite_mob()
-			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]", zone=owner.zone_selected)
-			return TRUE
-		else
-			spelltarget.visible_message(span_warning("[spelltarget] is already engulfed in flames!"))
-			return TRUE
+		return FALSE
 
 /////////////////////////////////
 // MIRACLE - SACRED ASCENDANCE //
@@ -515,11 +498,11 @@
 		/obj/effect/proc_holder/spell/invoked/immolation::name				= /obj/effect/proc_holder/spell/invoked/immolation,
 		/obj/effect/proc_holder/spell/self/howl/call_of_the_moon::name		= /obj/effect/proc_holder/spell/self/howl/call_of_the_moon,
 		/obj/effect/proc_holder/spell/invoked/pomegranate::name				= /obj/effect/proc_holder/spell/invoked/pomegranate,
-		//Malum lacks one for the time being.
+		/datum/action/cooldown/spell/malum/fortress::name					= /datum/action/cooldown/spell/malum/fortress,
 		/obj/effect/proc_holder/spell/invoked/deaths_door::name				= /obj/effect/proc_holder/spell/invoked/deaths_door,
-		//Noc gets one after the rework passes.
+		/datum/action/cooldown/spell/noc/moonlight::name					= /datum/action/cooldown/spell/noc/moonlight,
 		//Pestra has actually nothing, son 😢
-		//Ravox will get something else.
+		/datum/action/cooldown/spell/ravox/challenge::name					= /datum/action/cooldown/spell/ravox/challenge,
 		/datum/action/cooldown/spell/undivided/undivided_battlecry::name	= /datum/action/cooldown/spell/undivided/undivided_battlecry,
 		/obj/effect/proc_holder/spell/invoked/abscond::name					= /obj/effect/proc_holder/spell/invoked/abscond
 	)

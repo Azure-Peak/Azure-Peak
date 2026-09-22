@@ -905,3 +905,77 @@
   nauticall:
   - image: (Donor) Greatcoats now layer on top of most articles of clothing, similarly
       to the longcoat.
+2026-09-22:
+  BurpleBineapple:
+  - bugfix: Fixes missing sleeves on side sprites for the heavy brigandine triumph
+      skin
+  KatTheFox:
+  - rscadd: Transmutation, a new crafting system not overmuch like its predecessor
+  - balance: Transmutation can only be performed by alchemy experts who are also mages,
+      and requires a rare and expensive workstation
+  - balance: Transmutation labs are only given to the Academy and witches, by default.
+  - rscadd: Transmutation allows you to transform many things using a new resource,
+      'prima materia', which is present within certain items and only visible to transmuters
+  - rscadd: Check the excellent Encyclopedia via the verb in the OOC tab for recipes
+      and more info!
+  - balance: Transmutation requires catalysts, which are created using a unique system.
+      Inspect a transmutation lab for details, if you're a transmuter
+  - rscadd: Tier 2 potions, a mage-exclusive alchemy product. Instead of giving combat-oriented
+      stat boosts, these temporarily give utility traits with a quasi-divine flavor
+      - with the exception of one, which is instead applied to items. Making them
+      requires a rubedo catalyst.
+  - rscadd: Enchanting has been slightly reflavored. Enchanting scrolls are now 'runic
+      tinctures', which can be applied to items by mages. The framework is in place
+      for enchantments to have effects on things other than items; currently, this
+      only applies to revealing light, which can be used to conjure a stable light
+      source on a turf.
+  - qol: The scholar's pouch that mages spawn with can now hold fyritius, since it's
+      used in alchemy
+  - balance: Alchemist associate is removed. Mage apprentice is now closer to mage
+      associate, losing arcyne power for improved mundane skills. Mage associates
+      and apprentices can now select a specialty that gives them a minor boost to
+      ease roundstart grind, without differentiating them fully into separate roles.
+  - rscadd: Soothing soap, a soap variant with a slight healing effect. Has an enhanced
+      calming effect compared to normal soap when properly bathing with it (i.e. in
+      a bath or hot spring). Only obtainable through high-level transmutation or the
+      brassface (not the purity). Normal bathhouse soap can also be bought at the
+      brassface, because the bathhouse not having a way to restock their soap is silly.
+  - rscadd: Alchemical diffusers, transmuted bath bombs you can throw into hot springs
+      or bathwater to slightly improve the effects of a bath, as well as making them
+      smell nice. These can be transmuted, or bought from the brassface for bathhouse
+      use.
+  - rscdel: Removed the lightning enchant, as the last great offender of the combat
+      enchantments. Lightning whips and such were fairly intolerable.
+  Ollanius:
+  - bugfix: Visored sallets and sallets should now properly render with plumes.
+  - bugfix: Sallets and their derivates should now be able to wear both orles and
+      plumes at the same time.
+  - bugfix: Sweetglass no longer prints a visible error overlay when created through
+      natural means.
+  - bugfix: Sconces are no longer mysteriously offset when detorchified.
+  - bugfix: Courtesy of RadiantFlash, snouted armets now properly merge with head
+      decorations.
+  OrbisAnima:
+  - qol: Removes the Directional pass check for bushes, they can be passed from any
+      direction now.
+  - balance: Adds a slowdown (1 second) when walking through bushes, unless you have
+      the Dendor gift or you are a native azurean.
+  WeNeedMorePhoron:
+  - code_imp: Refactored how NPC loadouts are composed and made in the backend to
+      make it more reusable and composable
+  - code_imp: Improved the Game Master Panel to add in "Warband", premade squads of
+      NPC
+  - code_imp: Warband mode now have "Spread" which allows them to be spread on nearby
+      open tile on spawn
+  changelingonberry:
+  - bugfix: werewolfs & gnolls don't draw messed-up bloody hand sprites anymore
+  nauticall:
+  - qol: SCOM middle-click now immediately opens a garrison line if you have a garrison
+      ring equipped.
+  - qol: SCOMs now have a mechanics examine, telling you of their basic mechanics.
+  - rscadd: Jabberlines have been moved to right-click.
+  - rscadd: Decrees have been moved to Examine, under the laws.
+  - image: RCOMs now have a unique sprite.
+  zRainbowcat:
+  - bugfix: fixed grenzelhat sallet crafting making it steel while asking iron
+  - qol: cosmetic revamp is back

@@ -1,0 +1,6 @@
+author: "radarseas"
+delete-after: True
+changes:
+  - rscadd: "Added new origin - The Forgotten Empires - Exclusive to Lich/Unbound/Siege Skeletons."
+  - code_imp: "Cleaned up Siege skeleton descriptions a little bit."
+  - refactor: "refactored /familar -> /unselectable, for origins that won't show in the char menu"

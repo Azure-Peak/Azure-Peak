@@ -1,0 +1,4 @@
+author: "anything86"
+delete-after: True
+changes:
+  - bugfix: "fixes a trait doing nothing before"

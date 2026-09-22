@@ -1,5 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - qol: "Removes the Directional pass check for bushes, they can be passed from any direction now."
-  - balance: "Adds a slowdown (1 second) when walking through bushes, unless you have the Dendor gift or you are a native azurean."

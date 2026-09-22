@@ -52,7 +52,7 @@
 		TRAIT_UNCONVERTIBLE,
 	)
 	origin = "The Faewyld"
-	origin_default = /datum/virtue/origin/familiar/fae
+	origin_default = /datum/virtue/origin/unselectable/fae
 
 /mob/living/carbon/human/species/familiar/fae/Initialize(mapload)
 	. = ..()

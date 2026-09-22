@@ -203,7 +203,6 @@
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon_state = "repair"
 	spell_color = GLOW_COLOR_MALUM
-	sparks_amt = 1
 
 	invocations = list("Reforge")
 	invocation_type = INVOCATION_SHOUT

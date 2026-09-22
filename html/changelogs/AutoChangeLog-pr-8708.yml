@@ -1,0 +1,9 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Fixed mining drill not consuming any fuel on mob hits."
+  - balance: "Militia steel warpick stab now has 2 pen rather than 3."
+  - balance: "Lowered most Polearm wdef."
+  - balance: "Slightly lowered mage implement wdef."
+  - balance: "Halberd is now Heavy Balanced with more sharpness."
+  - balance: "Grand Mace stab is now delayed and has lower damage values."
