@@ -512,26 +512,26 @@
 		var/permanent_assassination = assassinated && HAS_TRAIT_NOT_FROM(src, TRAIT_DNR, GRAGGAR_ASSASSINATED)
 
 		if(permanent_assassination)
-			msg += span_cult("<i>A ghastly red mist spills from their chest, but there is no tether between their soul and body. Their soul has been reaped beyond return.")
+			msg += span_cult("<i>A ghastly red mist spills from their chest, but there is no tether between their soul and body. Their soul has been reaped beyond return.</i>")
 		else if(assassinated)
-			msg += span_cult("<i>A ghastly red mist spills from their chest. Their soul yearns to be returned to their body...")
+			msg += span_cult("<i>A ghastly red mist spills from their chest. Their soul yearns to be returned to their body...</i>")
 		else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
 			if(src.stat == DEAD)
-				msg += span_artery("<i>Their aura is no more. They are irreversibly gone...")
+				msg += span_artery("<i>Their aura is no more. They are irreversibly gone...</i>")
 			else
-				msg += span_artery("<i>They extrude a pale aura. This is their only chance at lyfe.")
+				msg += span_artery("<i>They extrude a pale aura. This is their only chance at lyfe.</i>")
 		else if(HAS_TRAIT(user, TRAIT_MATTHIOS_EYES) && user.get_skill_level(/datum/skill/magic/holy) >= SKILL_LEVEL_EXPERT)
 			if(src.stat == DEAD)
-				msg += span_artery("<i>You sense no value on that body. They are irreversibly gone...")
+				msg += span_artery("<i>You sense no value on that body. They are irreversibly gone...</i>")
 			else
-				msg += span_artery("<i>Their Lux holds no value for a rekindled exchange. This is their only chance at lyfe.")
+				msg += span_artery("<i>Their Lux holds no value for a rekindled exchange. This is their only chance at lyfe.</i>")
 		else if(user.get_skill_level(/datum/skill/misc/medicine) >= SKILL_LEVEL_EXPERT)
 			if(src.stat == DEAD)
-				msg += span_artery("<i>Their body is withering rather than rotting. They are irreversibly gone...")
+				msg += span_artery("<i>Their body is withering rather than rotting. They are irreversibly gone...</i>")
 			else
-				msg += span_artery("<i>Their humors are dangerously unbalanced. Their body will not survive death.")
+				msg += span_artery("<i>Their humors are dangerously unbalanced. Their body will not survive death.</i>")
 		else if(src.stat == DEAD)
-			msg += span_artery("<i>Their body is withering rather than rotting. They are irreversibly gone...")
+			msg += span_artery("<i>Their body is withering rather than rotting. They are irreversibly gone...</i>")
 
 	if(HAS_TRAIT(src, TRAIT_DUSTRUNNER) && src != user)
 		var/mob/living/living_examiner = user
