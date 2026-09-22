@@ -11,15 +11,11 @@
 // - Decals: map-placed decorative decals with a winter_icon_state get a direct icon_state swap.
 //   See sync_seasonal_decals().
 
-/// Should SSseason treat this turf as open to the sky? Checked live at conversion time (not
-/// cached) so a roof built/removed mid-round is honored. Both checks matter: is_weatherproof()
-/// alone misreads an indoor garden under open sky above as exposed, since it tests the TOP
-/// turf's area when one exists; the area check alone misses an outdoor area roofed over.
+/// Should SSseason treat this turf as open to the sky? Area-only - no per-tile roof check, so an
+/// outdoor area snows uniformly instead of patchwork under overhangs.
 /turf/proc/is_seasonally_exposed()
 	var/area/turf_area = loc
-	if(!turf_area?.outdoors)
-		return FALSE
-	return !is_weatherproof()
+	return !!turf_area?.outdoors
 
 /// Shuffles `things` in SEASON_SHUFFLE_CHUNK-tile blocks instead of tile-by-tile, so a
 /// conversion scatters across the map without scattering each tile's ChangeTurf() neighbors
