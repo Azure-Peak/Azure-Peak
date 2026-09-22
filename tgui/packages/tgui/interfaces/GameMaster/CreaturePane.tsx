@@ -32,6 +32,7 @@ export function CreaturePane(props: Props) {
   const shown = selectable_mobs.filter((name) =>
     name.toLowerCase().includes(needle),
   );
+  const scope = filterLabel(selected_filter, warband).toLowerCase();
 
   return (
     <Section
@@ -52,7 +53,7 @@ export function CreaturePane(props: Props) {
           <Button
             compact
             selected={warband}
-            tooltip="Not built yet - reserved for the ambush config rework."
+            tooltip="Spawn a whole squad per click."
             onClick={() => {
               act('set_selected_view', { new_view: VIEW_WARBAND });
             }}
@@ -66,7 +67,7 @@ export function CreaturePane(props: Props) {
         <Stack.Item>
           <Input
             fluid
-            placeholder={`Search ${filterLabel(selected_filter).toLowerCase()}...`}
+            placeholder={`Search ${scope}...`}
             value={query}
             onChange={onQuery}
           />
@@ -76,13 +77,7 @@ export function CreaturePane(props: Props) {
           mt={0.5}
           style={{ overflowY: 'auto', overflowX: 'hidden', minWidth: 0 }}
         >
-          {warband ? (
-            <Box color="label" mt={1} textAlign="center">
-              No warbands yet.
-              <br />
-              Reserved for the ambush config rework.
-            </Box>
-          ) : shown.length === 0 ? (
+          {shown.length === 0 ? (
             <Box color="label" mt={1} textAlign="center">
               Nothing matches.
             </Box>

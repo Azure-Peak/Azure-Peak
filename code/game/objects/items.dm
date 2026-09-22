@@ -303,6 +303,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
+	/// aspects of prima materia for alchemical use. see prima_materia.dm
+	var/list/materia = list()
 
 /obj/item/Initialize(mapload)
 	. = ..()
@@ -322,6 +324,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(body_parts_covered)
 		body_parts_covered_dynamic = body_parts_covered
 	update_transform()
+
+	if(max_integrity && integrity_failure && integrity_failure == GENERIC_INTEG_FAILURE)
+		max_integrity += (max_integrity * 0.11142857143)	// don't ask
+		obj_integrity = max_integrity
 
 
 /obj/item/proc/update_transform()

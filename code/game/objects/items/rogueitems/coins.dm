@@ -212,6 +212,7 @@
 	sellprice = 0
 	base_type = CTYPE_ICOIN
 	plural_name = "otavan marques"
+	materia = list(/datum/materia_aspect/lunar)
 
 /obj/item/roguecoin/inqcoin/get_mechanics_examine(mob/user)
 	. = ..()
@@ -227,6 +228,7 @@
 	sellprice = 10
 	base_type = CTYPE_GOLD
 	plural_name = "zenarii"
+	materia = list(/datum/materia_aspect/solar)
 
 
 // SILVER
@@ -237,6 +239,7 @@
 	sellprice = 5
 	base_type = CTYPE_SILV
 	plural_name = "ziliquae"
+	materia = list(/datum/materia_aspect/lunar)
 
 // COPPER
 /obj/item/roguecoin/copper
@@ -246,6 +249,7 @@
 	sellprice = 1
 	base_type = CTYPE_COPP
 	plural_name = "zennies"
+	materia = list(/datum/materia_aspect/change)
 
 // ANCIENT
 /obj/item/roguecoin/aalloy
@@ -255,6 +259,7 @@
 	sellprice = 3 //Dungeon-specific coinage - valued by historians, collectors, and smelters.
 	base_type = CTYPE_ANCIENT
 	plural_name = "psila"
+	materia = list(/datum/materia_aspect/aalloy)
 
 /obj/item/roguecoin/inqcoin/pile/Initialize(mapload)
 	. = ..()

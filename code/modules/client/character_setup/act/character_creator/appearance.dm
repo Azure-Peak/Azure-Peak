@@ -17,10 +17,28 @@
 
 	switch(action)
 		if("bodytype")
-			var/static/list/friendlyGenders = list("male" = "masculine", "female" = "feminine")
-			var/pickedGender = gender == "male" ? "female" : "male"
-			verbose_pref_log_change(user, "notice", "Body Type", friendlyGenders[gender], friendlyGenders[pickedGender])
-			gender = pickedGender
+			if(AGENDER in pref_species.species_traits)
+				var/pickedGender = gender == MALE ? FEMALE : MALE
+				gender = pickedGender
+				genderize_customizer_entries()
+				return CHARACTER_ACT_PREVIEW_UPDATE
+
+			var/list/valid_options = ui_data_bodytype_options()
+			var/chosen = params["body_type"]
+			if(!(chosen in valid_options))
+				return CHARACTER_ACT_DATA_UPDATE
+
+			var/old_bodytype = ui_data_bodytype()
+			if(chosen == old_bodytype)
+				return CHARACTER_ACT_DATA_UPDATE
+
+			// Keys are "masculine"/"feminine" on species without builds, or "<gender>_<build>" with one. Split on
+			// the first underscore only, so a build whose own id contains one still round-trips intact.
+			var/split = findtext(chosen, "_")
+			gender = (copytext(chosen, 1, split || 0) == "masculine") ? MALE : FEMALE
+			features["body_build"] = split ? copytext(chosen, split + 1) : null
+
+			verbose_pref_log_change(user, "notice", "Body Type", valid_options[old_bodytype], valid_options[chosen])
 			genderize_customizer_entries()
 			return CHARACTER_ACT_PREVIEW_UPDATE
 		if("race_bonus_select")

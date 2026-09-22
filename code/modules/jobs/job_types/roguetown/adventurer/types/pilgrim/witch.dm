@@ -34,8 +34,8 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	gloves = /obj/item/clothing/gloves/roguetown/leather/black
 	belt = /obj/item/storage/belt/rogue/leather/black
-	beltr = /obj/item/storage/belt/rogue/pouch/coins/poor
-	beltl = /obj/item/storage/magebag/starter
+	beltr = /obj/item/storage/belt/rogue/pouch/coins/aalloy
+	beltl = /obj/item/storage/magebag/witch
 	pants = /obj/item/clothing/under/roguetown/trou
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 
@@ -71,7 +71,8 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
+								/obj/item/chalk = 1,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_APPRENTICE, TRUE)
@@ -81,12 +82,16 @@
 			H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_APPRENTICE, TRUE)
 			D.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WITCH, devotion_limit = CLERIC_REQ_2)
 			D.max_devotion *= 0.5
+			if (istype (H.patron, /datum/patron/inhumen/zizo))
+				if(H.mind)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
 			backl = /obj/item/storage/backpack/rogue/satchel
 			backpack_contents = list(
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
-								/obj/item/candle/yellow = 2,
+								/obj/item/candle/yellow = 2
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/holy, SKILL_LEVEL_NOVICE, TRUE)
@@ -107,7 +112,8 @@
 								/obj/item/reagent_containers/glass/mortar = 1,
 								/obj/item/pestle = 1,
 								/obj/item/candle/yellow = 2,
-								/obj/item/chalk = 1
+								/obj/item/chalk = 1,
+								/obj/item/trans_table_upgrade = 1
 								)
 			if (H.age == AGE_OLD)
 				H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
