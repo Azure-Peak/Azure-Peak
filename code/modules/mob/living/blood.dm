@@ -188,6 +188,9 @@
 						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
 
 			if(blood_volume <= BLOOD_VOLUME_BAD)
+				if(mind && !has_status_effect(/datum/status_effect/debuff/critwounded)) //check if we have a mind and lack the status effect before we do our four trait condition check. - So every NPC isn't running this.
+					if(!HAS_TRAIT(src, TRAIT_BREADY) || !HAS_TRAIT(src, TRAIT_INFINITE_ENERGY) || !HAS_TRAIT(src, TRAIT_INFINITE_STAMINA) || !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE)) //uniquely rituos users/vampires don't care for bloodloss, they do on arteries though.
+						apply_status_effect(/datum/status_effect/debuff/critwounded) //apply critically wounded - more energy in cmode cost. Until fixed.
 				var/oxy_amt = blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1
 				if(!mind)
 					oxy_amt *= 3

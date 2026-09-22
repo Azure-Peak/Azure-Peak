@@ -31,6 +31,8 @@
 	if(cmode)
 		if(!HAS_TRAIT(src, TRAIT_BREADY) || !HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 			energy_add(-1)
+			if(HAS_TRAIT(src, TRAIT_HIGHER_CMODE_DRAIN))
+				energy_add(-2) //(total of -3 per cycle)
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		energy = max_energy
 	if(HAS_TRAIT(src, TRAIT_BREADY))
