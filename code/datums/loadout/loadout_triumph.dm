@@ -746,13 +746,13 @@
 
 /datum/loadout_item/paper_parasol
 	name = "Paper Parasol"
-	triumph_cost = 3
+	triumph_cost = 2
 	path = /obj/item/rogueweapon/mace/parasol
 	sort_category = "Triumphs"
 
 /datum/loadout_item/fine_parasol
 	name = "Fine Parasol"
-	triumph_cost = 5
+	triumph_cost = 3
 	path = /obj/item/rogueweapon/mace/parasol/noble
 	sort_category = "Triumphs"
 

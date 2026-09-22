@@ -19,19 +19,13 @@
 
 /datum/loadout_item/needle_thorn // 5 uses, vs normal 25
 	name = "Needle, Thorn"
-	cost = 2
+	cost = 1
 	path = /obj/item/needle/thorn
-	sort_category = "Tools"
-
-/datum/loadout_item/needle_cleric // 10 uses, vs normal needle of 25
-	name = "Needle, Clerical"
-	triumph_cost = 2
-	path = /obj/item/needle/thorn/cleric
 	sort_category = "Tools"
 
 /datum/loadout_item/whetstone_bad // just a rock, does sharpening the same as whetstone anyway
 	name = "Grindstone, Rock"
-	cost = 2
+	cost = 1
 	path = /obj/item/natural/stone
 	sort_category = "Tools"
 
