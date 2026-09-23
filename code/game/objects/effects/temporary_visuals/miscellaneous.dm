@@ -252,27 +252,57 @@
 
 /obj/effect/temp_visual/zizorite
 	name = "profane magic"
-	icon_state = "purplesparkles"
+	icon_state = "zizosparkles"
 	duration = 6
 
+/obj/effect/temp_visual/zizoriteglow
+	name = "profane magic"
+	icon_state = "zizosparkles"
+	light_outer_range = 1
+	light_color = GLOW_COLOR_ZIZO
+	duration = 10
+
 /obj/effect/temp_visual/matthiosrite
-	name = "gilded magic"
+	name = "gilded light"
 	icon_state = "gildedsparkles"
 	duration = 6
+
+/obj/effect/temp_visual/matthiosriteglow
+	name = "gilded light"
+	icon_state = "gildedsparkles"
+	light_outer_range = 1
+	light_color = GLOW_COLOR_MATTHIOS
+	duration = 10
 
 /obj/effect/temp_visual/graggarrite
 	name = "motive violence" //fuck you and your magic
 	icon_state = "graggarsparkles"
 	duration = 6
 
+/obj/effect/temp_visual/graggarriteglow
+	name = "motive violence"
+	icon_state = "graggarsparkles"
+	light_outer_range = 1
+	light_color = GLOW_COLOR_GRAGGAR
+	duration = 10
+
 /obj/effect/temp_visual/baotharite
 	name = "saccharine aura"
 	icon_state = "baothasparkles"
 	duration = 6
 
+/obj/effect/temp_visual/baothariteglow
+	name = "saccharine aura"
+	icon_state = "baothasparkles"
+	light_outer_range = 1
+	light_color = GLOW_COLOR_BAOTHA
+	duration = 6
+
 /obj/effect/temp_visual/psyrite
 	name = "lux essence"
 	icon_state = "shieldsparkles"
+	light_outer_range = LIGHT_RANGE_FIRE
+	light_color = GLOW_COLOR_ICE //icy-colored
 	duration = 6
 
 /obj/effect/temp_visual/revenant/cracks
