@@ -23,8 +23,7 @@
 	if(in_use) // Someone's already going in.
 		return
 	var/mob/living/carbon/human/departing_mob = dropping
-	var/obj/effect/proc_holder/spell/invoked/possess_vessel/spell = departing_mob.mind?.get_spell(/obj/effect/proc_holder/spell/invoked/possess_vessel)
-	if(spell?.original) // no fartravelling while possessing someone please
+	if(HAS_TRAIT(user, TRAIT_POSSESSED)) // no fartravelling while possessing someone please
 		to_chat(user, span_warning("It'd be awfully rude to just leave with this body."))
 		return
 	var/datum/job/mob_job

@@ -513,8 +513,6 @@
 	overlay_icon = 'icons/mob/actions/hagspells.dmi'
 	action_icon = 'icons/mob/actions/hagspells.dmi'
 	overlay_state = "hand_down"
-	var/mob/living/carbon/human/original	// if this is null, we're in our original body. otherwise, it stores a ref to our original body
-	var/datum/mind/vessel_orig_mind			// oh gods. oh fuck. this might go horribly wrong i hope it does not
 	var/mob/dead/observer/eye/screye/displaced_soul/soul	// self explanatory
 
 /obj/effect/proc_holder/spell/invoked/possess_vessel/cast(list/targets, mob/living/user)
@@ -523,7 +521,7 @@
 		to_chat(user, span_warning("You lack the connection needed to take control of a vessel."))
 		return FALSE
 	var/mob/living/carbon/human/H = user
-	if(!original) // we're casting this from our original body: possess a vessel.
+	if(!soul) // we're casting this from our original body: possess a vessel.
 		var/list/vessels = list()
 		for(var/mob/living/carbon/human/candidate in GLOB.fey_vessels)
 			if(GLOB.fey_vessels[candidate])
@@ -538,46 +536,89 @@
 			to_chat(user, span_warning("That vessel is inaccessible to me, for now."))
 			revert_cast()
 			return FALSE
-		original = H
-		vessel_orig_mind = choice.mind
-		vessel_orig_mind.current = null
-		soul = H.possess_vessel(choice)
+		if(!check_vessel(H, choice))
+			revert_cast()
+			return FALSE
+		GLOB.fey_vessels[choice] = FALSE // in case there are two hags somehow
+		soul = H.possess_vessel(choice, TRAIT_HAG_BOON)
 		if(!soul)
 			revert_cast()
 			return FALSE
+		choice.TakeComponent(HCT)
+		RegisterSignal(choice, COMSIG_MOB_POSSESS_RELEASE, PROC_REF(release_vessel))
 		return TRUE
 	// we're casting this from a vessel: restore them, and return to our original body
-	release_vessel(H, HCT)
+	var/mob/living/carbon/human/vessel = soul.vessel // soul gets QDEL'd in release_vessel so we store a ref to the vessel here
+	if(!vessel.release_vessel())
+		revert_cast()
+		return FALSE
+	UnregisterSignal(vessel, COMSIG_MOB_POSSESS_RELEASE) // they're not possessed by us anymore
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/release_vessel(mob/living/carbon/human/H, datum/component/hag_curio_tracker/HCT)
-	GLOB.fey_vessels[H] = TRUE															// make them possessable again
-	original.TakeComponent(HCT)															// transfer the hag curio tracker back
-	H.mind.transfer_to(original) 														// then transfer the mind back
-	H.custom_descriptors[9] = soul.original_identity.custom_voice 						// reset the vessel's voice to the non-possessed one
-	H.remove_mob_descriptor(H.get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE))
-	H.add_mob_descriptor(soul.original_identity.descriptor_voice)
-	H.voice_color = soul.original_identity.name_color
-	vessel_orig_mind.transfer_to(H)														// this should automatically set the key and thereby transfer the client - edit I WAS VERY WRONG
-	H.key = soul.key																	// ????????
-	QDEL_NULL(soul)
-	original = null																		// reset the spell state
-	vessel_orig_mind = null
+/obj/effect/proc_holder/spell/invoked/possess_vessel/after_cast(list/targets, mob/user)
+	. = ..()
+	if(soul)				// we don't want them to be trapped in a body for the spell cooldown period if they possess someone on accident or similar
+		revert_cast(user)	// so the cooldown only starts after they RETURN to their main body i.e. they release the vessel and soul is null
 
-/mob/living/carbon/human/proc/possess_vessel(mob/living/carbon/human/vessel)
-	var/datum/component/hag_curio_tracker/HCT = GetComponent(/datum/component/hag_curio_tracker)
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/check_vessel(mob/living/carbon/human/hag, mob/living/carbon/human/vessel)
+	var/datum/component/hag_curio_tracker/HCT = hag.GetComponent(/datum/component/hag_curio_tracker)
 	if(!HCT) // don't add this spell to nonhags kthxbye
 		return FALSE
 	if(!istype(vessel) || !vessel.key || vessel.GetComponent(/datum/component/hag_curio_tracker)) // you should never be able to possess other hags. lmao
-		to_chat(src, span_warning("Invalid vessel!"))
+		to_chat(hag, span_warning("Invalid vessel!"))
 		return FALSE
 	if(!(vessel in GLOB.fey_vessels)) // shouldn't happen, but just in case there's an edge case
-		to_chat(src, span_warning("They are not a vessel!"))
+		to_chat(hag, span_warning("They are not a vessel!"))
+		return FALSE
+	if(HAS_TRAIT(vessel, TRAIT_POSSESSED))
+		to_chat(src, span_warning("They are already under the sway of another power!"))
 		return FALSE
 	if(!GLOB.fey_vessels[vessel] || !vessel.mind || vessel.stat)
-		to_chat(src, span_warning("They are beyond your grasp, for now at least.")) // they're probably sceneing. or they're SSD, or incapacitated
+		to_chat(hag, span_warning("They are beyond your grasp, for now at least.")) // they're probably sceneing. or they're SSD, or incapacitated
 		return FALSE
-	GLOB.fey_vessels[vessel] = FALSE // in case there are two hags somehow
+	return TRUE
+
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/release_vessel(mob/living/carbon/human/vessel, mob/dead/observer/eye/screye/displaced_soul/soul, mob/living/carbon/human/original)
+	GLOB.fey_vessels[vessel] = TRUE														// make them possessable again
+	var/datum/component/hag_curio_tracker/HCT = vessel.GetComponent(/datum/component/hag_curio_tracker)
+	if(HCT)
+		original.TakeComponent(HCT)														// transfer the hag curio tracker back
+	soul = null																			// this'll be QDEL'd shortly
+	return TRUE
+
+///src is the vessel, currently-possessed, that we want to restore
+/mob/living/carbon/human/proc/release_vessel()
+	var/mob/dead/observer/eye/screye/displaced_soul/estranged_lux
+	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.dead_mob_list)
+		if(one_among_many.vessel == src)
+			estranged_lux = one_among_many
+	if(!estranged_lux) // where's your soul, sire
+		return FALSE
+	var/mob/living/carbon/human/original = estranged_lux.possessor
+	if(!SEND_SIGNAL(src, COMSIG_MOB_POSSESS_RELEASE, estranged_lux, original))					// handle things like HCT transfer
+		return FALSE
+	if(devotion)
+		devotion.holder = original
+		original.devotion = devotion
+	devotion = estranged_lux.vessel_devotion													// swap the devotion objs back around
+	patron = estranged_lux.vessel_patron														// and reset their patron
+	mind.transfer_to(original) 																	// then transfer the mind back
+	custom_descriptors[9] = estranged_lux.original_identity.custom_voice 						// reset the vessel's voice to the non-possessed one
+	remove_mob_descriptor(get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE))
+	add_mob_descriptor(estranged_lux.original_identity.descriptor_voice)
+	voice_color = estranged_lux.original_identity.name_color
+	estranged_lux.vessel_orig_mind.transfer_to(src)												// this should automatically set the key and thereby transfer the client - edit I WAS VERY WRONG
+	key = estranged_lux.key																		// ????????
+	REMOVE_TRAIT(src, TRAIT_POSSESSED, null)													// we don't know what trait_source was, just clear it all
+	QDEL_NULL(estranged_lux)																	// resets the state and clears the slate
+	return TRUE
+
+///src is the possessing mob, vessel is the mob to be possessed. role-agnostic and can be called on non-hags safely, have fun.
+/mob/living/carbon/human/proc/possess_vessel(mob/living/carbon/human/vessel, trait_source = TRAIT_GENERIC)
+	if(!vessel || QDELING(vessel) || HAS_TRAIT(vessel, TRAIT_POSSESSED)) // we want to make EXTRA sure nobody does anything stupid, here
+		return FALSE
+	var/datum/mind/vessel_orig_mind = vessel.mind // save this reference early incase make_observer fucks with it
+	vessel.mind.current = null // don't do anything funky while we execute
 	// before ANYTHING else we need to clear the mob's spells so the hag won't have access to them. they'll get re-added when the hag
 	// goes back to their original body and the vessel's original mind transfers back in
 	for(var/X in vessel.mind.spell_list)
@@ -599,9 +640,18 @@
 	var/mob/dead/observer/eye/screye/displaced_soul/dsoul = make_observer(/mob/dead/observer/eye/screye/displaced_soul, FALSE)
 	if(!dsoul)
 		return FALSE
+	dsoul.vessel_devotion = vessel.devotion
+	dsoul.vessel_patron = vessel.patron
+	vessel.patron = src.patron
+	if(devotion)					// this is nigh-useless for the case of hags specifically. however, given that this is a generic proc...
+		devotion.holder = vessel
+		vessel.devotion = devotion
+		devotion = null
 	dsoul.ManualFollow(vessel)
 	dsoul.vessel = vessel
-	dsoul.original_identity = vessel.make_hag_identity()
+	dsoul.vessel_orig_mind = vessel_orig_mind
+	dsoul.possessor = src
+	dsoul.original_identity = vessel.make_hag_identity() // this is safe to use for more than just hags; it's just a datum primarily used to store identity for hag stuff
 	dsoul.key = vessel.key
 	// we've already archived the original identity, so it's safe to make destructive changes here. something something yuri
 	vessel.voice_color = voice_color
@@ -609,5 +659,6 @@
 	vessel.add_mob_descriptor(get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, mob_descriptors))
 	vessel.custom_descriptors[9] = custom_descriptors[9] // this is the voice. i hate that custom descriptor code uses magic numbers
 	mind.transfer_to(vessel)
-	vessel.TakeComponent(HCT)
+	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
+	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
 	return dsoul
