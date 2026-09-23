@@ -2199,15 +2199,17 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "baotha_active"
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			ADD_TRAIT(target, TRAIT_NOPAIN, TRAIT_RITUAL)
-			ADD_TRAIT(target, TRAIT_DODGEEXPERT, TRAIT_RITUAL)
-			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
-			if(is_heretic)
-				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			baothaarmaments(target)
-			spawn(120)
-				icon_state = "baotha_chalky"
+			baothablast()
+			sleep(10)
+				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+				ADD_TRAIT(target, TRAIT_NOPAIN, TRAIT_RITUAL)
+				ADD_TRAIT(target, TRAIT_DODGEEXPERT, TRAIT_RITUAL)
+				var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
+				if(is_heretic)
+					user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
+				baothaarmaments(target)
+				spawn(120)
+					icon_state = "baotha_chalky"
 		if("Joybringer")
 			if(!do_after(user, 5 SECONDS))
 				return FALSE
@@ -2227,13 +2229,22 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			playsound(user, 'sound/magic/baotha_blessdrink.ogg', 70, FALSE, -1)
 			if(!do_after(user, 3 SECONDS))
 				return FALSE
-			new /obj/effect/temp_visual/baotharite(get_turf(user))
 			user.say("Baotha, fill my cup with endless mirth!")
-			playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
+			baothablast()
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			user.apply_status_effect(/datum/status_effect/joybringer)
 
 			return TRUE
+
+/obj/structure/ritualcircle/baotha/proc/baothablast(src)
+	playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
+	var/ritualtargets = view(10, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		new /obj/effect/temp_visual/baotharite(get_turf(target)) //aurafarming
+		shake_camera(target, 4, 1)
+		target.Jitter(20)
+		target.apply_status_effect(/datum/status_effect/debuff/baothariteeffect)
+	loc.visible_message(span_hypnophrase("Suddenly the air floods thick with a prismatic smoke from the rune."))
 
 /obj/structure/ritualcircle/baotha/proc/baothaarmaments(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_DEPRAVED))
