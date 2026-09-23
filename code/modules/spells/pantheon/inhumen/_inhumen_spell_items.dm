@@ -2270,8 +2270,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			to_chat(H, span_warning("[J] has no treasury to plunder."))
 			return
 
-		if(F.balance <= J.bash_floor)
-			to_chat(H, span_warning("[J] has nothing worth stealing."))
+		if(F.balance <= 500)
+			to_chat(H, span_warning("[J] is too devoid of mammon for this trickery to work."))
 			return
 
 		using = TRUE
@@ -2282,7 +2282,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			span_notice("You carefully work the gilded lockpick into the JAWBANK's mechanisms.")
 		)
 
-		var/lockpick_time = max(1 SECONDS, 6 SECONDS - (skill * 1 SECONDS))
+		var/lockpick_time = max(1 SECONDS, 5 SECONDS - (skill * 1 SECONDS))
 		if(!do_after(H, lockpick_time, J))
 			using = FALSE
 			return
@@ -2296,25 +2296,26 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 			using = FALSE
 			return
 
-		var/bashable = max(0, F.balance - J.bash_floor)
+		var/bashable = max(0, F.balance - 500)
 		if(bashable <= 0)
 			using = FALSE
 			to_chat(H, span_warning("The JAWBANK has nothing left to surrender."))
 			return
 
-		var/taken = min(rand(5, 90), bashable)
+		var/taken = min(rand(25, 100), bashable)
 		var/turf/budget_turf = get_turf(J)
 
 		budget2change(taken, custom_turf = budget_turf)
 		SStreasury.burn(F, taken, "!GI$%#!LD$%%$ED T##$HEF¨%#T!!")
-		playsound(J, 'sound/misc/coindispense.ogg', 70, TRUE)
+		if(skill < SKILL_LEVEL_JOURNEYMAN)
+			playsound(J, 'sound/misc/coindispense.ogg', 70, TRUE)
 
 		visible_message(
 			span_danger("The gilded lockpick clicks inside [J], and [taken] mammon spills loose!"),
 			span_notice("You feel the lock give. [taken] mammon spills from the JAWBANK.")
 		)
 
-		if(skill > SKILL_LEVEL_JOURNEYMAN)
+		if(skill < SKILL_LEVEL_JOURNEYMAN)
 			if(prob(50))
 				J.anguish()
 			if(prob(50))
