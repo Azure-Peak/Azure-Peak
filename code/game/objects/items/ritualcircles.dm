@@ -1782,7 +1782,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			spawn(120)
 				icon_state = "matthios_chalky"
 
-/obj/structure/ritualcircle/zizo/proc/matthiosritualexchange(src) //post ritual effects.
+/obj/structure/ritualcircle/matthios/proc/matthiosritualexchange(src) //post ritual effects.
 	var/ritualtargets = view(10, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		new /obj/effect/temp_visual/matthiosriteglow(get_turf(target)) //aurafarming
