@@ -255,6 +255,26 @@
 	icon_state = "purplesparkles"
 	duration = 6
 
+/obj/effect/temp_visual/matthiosrite
+	name = "gilded magic"
+	icon_state = "gildedsparkles"
+	duration = 6
+
+/obj/effect/temp_visual/graggarrite
+	name = "motive violence" //fuck you and your magic
+	icon_state = "graggarsparkles"
+	duration = 6
+
+/obj/effect/temp_visual/baotharite
+	name = "saccharine aura"
+	icon_state = "baothasparkles"
+	duration = 6
+
+/obj/effect/temp_visual/psyrite
+	name = "lux essence"
+	icon_state = "shieldsparkles"
+	duration = 6
+
 /obj/effect/temp_visual/revenant/cracks
 	name = "glowing cracks"
 	icon_state = "purplecrack"
