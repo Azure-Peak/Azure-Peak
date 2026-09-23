@@ -979,3 +979,52 @@
   zRainbowcat:
   - bugfix: fixed grenzelhat sallet crafting making it steel while asking iron
   - qol: cosmetic revamp is back
+2026-09-23:
+  FreeStylaLT:
+  - bugfix: Fixed blood miracle increasing its restored blood volume with every cast.
+  - bugfix: Fixed an instance where sharp weapons with very low remaining sharpness
+      treated bare skin like impenetrable armor.
+  - bugfix: Fixed mining drill not consuming any fuel on mob hits.
+  - balance: Militia steel warpick stab now has 2 pen rather than 3.
+  - balance: Lowered most Polearm wdef.
+  - balance: Slightly lowered mage implement wdef.
+  - balance: Halberd is now Heavy Balanced with more sharpness.
+  - balance: Grand Mace stab is now delayed and has lower damage values.
+  Guidesu:
+  - rscadd: Witches can select small skill-sets to aid their routines.
+  Lamasmaster:
+  - rscdel: Malum Mending no longer produces sparks.
+  - balance: Ignite can no longer be used on living beings at all, it now has 2 second
+      CD (6 for undivided) serving as glorified ranged flint.
+  - bugfix: Bishop selection has the updated T4s.
+  MortoSasye:
+  - bugfix: Zorgoia and Bat tails no longer mysteriously hover next to its owner side.
+  Quinalion:
+  - bugfix: Fixes Elf/Slim bodytype offset.
+  ToasterStrudes:
+  - rscadd: Magicians Brick can now be twirled, non-magos will bonk their head with
+      the brick.
+  anything86:
+  - balance: Matthiosite gilded flail actually has integrity now
+  - bugfix: fixes a trait doing nothing before
+  changelingonberry:
+  - balance: readying-up gives you full nutrition now
+  nauticall:
+  - rscadd: Grass and leaves now change with the season. Mapped-in grass colorations
+      were left unaffected.
+  - rscadd: Weather distribution is now seasonal rather than storyteller-dependent.
+      Snow is once again added to the weather pool. Falling petals (sakura) now happen
+      randomly in the Spring, while falling leaves will happen randomly in Autumn.
+  - code_imp: Added a new season subsystem to track and modify seasonal changes.
+  radarseas:
+  - balance: adds a bash intent to shortswords. so you can nonlethally incapacitate
+      people.
+  - balance: gronnic shortsword subtype gets the worse 50% vs 60% bash intents since
+      its a lethality orientated weapon.
+  - rscadd: Added new origin - The Forgotten Empires - Exclusive to Lich/Unbound/Siege
+      Skeletons.
+  - code_imp: Cleaned up Siege skeleton descriptions a little bit.
+  - refactor: refactored /familar -> /unselectable, for origins that won't show in
+      the char menu
+  zRainbowcat:
+  - bugfix: mounts no longer get stuck if send away from maneaters
