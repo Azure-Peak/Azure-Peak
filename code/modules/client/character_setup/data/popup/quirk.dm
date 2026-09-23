@@ -21,16 +21,23 @@
 				unavailable = "Restricted from species \"[pref_species.name]\"."
 		if(length(Q.allowed_species))
 			if(!(pref_species.type in Q.allowed_species))
-				if(!(length(Q.allowed_virtues) && ((virtue.type in Q.allowed_virtues) || (virtuetwo.type in Q.allowed_virtues))))
+				if(!((length(Q.allowed_virtues) && (((virtue.type in Q.allowed_virtues) || (statpack.virtuous && (virtuetwo.type in Q.allowed_virtues)))) || (length(Q.allowed_quirks) && ((quirklesser.type in Q.allowed_quirks) || ((get_quirk_slots(src) == 2) && (quirkgreater.type in Q.allowed_quirks)))))))
 					var/out = "Only allowed for species: "
 					for(var/datum/species/S as anything in Q.allowed_species)
 						if(ispath(S, /datum/species))
 							out += "[S::name], "
 					out = copytext(out, 1, -2)
+					var/without = "without"
 					if(length(Q.allowed_virtues))
 						out += ", without an exempting virtue: "
 						for(var/datum/virtue/V as anything in Q.allowed_virtues)
 							out += "[V::name], "
+						out = copytext(out, 1, -2)
+						without = "or"
+					if(length(Q.allowed_quirks))
+						out += ", [without] an exempting quirk: "
+						for(var/datum/quirk/QU as anything in Q.allowed_quirks)
+							out += "[QU::name], "
 						out = copytext(out, 1, -2)
 					unavailable = (out + ".")
 		if(length(Q.restricted_virtues))

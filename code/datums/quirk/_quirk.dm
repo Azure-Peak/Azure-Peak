@@ -13,6 +13,8 @@ GLOBAL_LIST_EMPTY(quirks)
 	var/list/allowed_species
 	///if present, and the character has this virtue selected, they can roll the quirk even if they aren't in allowed_species. this is entirely to let second chancers take uncanny beauty
 	var/list/allowed_virtues
+	///if present, and the character has this quirk selected, they can roll the quirk even if they aren't in allowed_species. this is entirely to let feytouched take uncanny beauty
+	var/list/allowed_quirks
 	///if present, these virtues will block the quirk from being picked/applied - useful when they overlap
 	var/list/restricted_virtues
 	///if this is a 'greater' quirk only accessible if you take virtuous/fated AND two vices

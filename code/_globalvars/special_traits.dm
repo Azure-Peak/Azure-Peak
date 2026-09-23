@@ -240,7 +240,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			if(prefs.statpack.virtuous && prefs.virtuetwo && (prefs.virtuetwo.type in quirk.restricted_virtues))
 				return FALSE
 		if(LAZYLEN(quirk.allowed_species) && !(prefs.pref_species.type in quirk.allowed_species))
-			if(LAZYLEN(quirk.allowed_virtues) && ((prefs.virtue.type in quirk.allowed_virtues) || (prefs.virtuetwo.type in quirk.allowed_virtues)))
+			if(LAZYLEN(quirk.allowed_virtues) && ((prefs.virtue.type in quirk.allowed_virtues) || (prefs.statpack.virtuous && (prefs.virtuetwo.type in quirk.allowed_virtues))))
+				return TRUE
+			if(LAZYLEN(quirk.allowed_quirks) && ((prefs.quirklesser.type in quirk.allowed_quirks) || ((get_quirk_slots(prefs) == 2) && (prefs.quirkgreater.type in quirk.allowed_quirks))))
 				return TRUE
 			return FALSE
 		return TRUE
