@@ -129,6 +129,7 @@
 		GLOB.alive_mob_list += zombie// in both cure rot and medicine.
 
 		zombie.cmode_music = cmode_music
+		zombie.can_do_sex = initial(zombie.can_do_sex)
 
 		for(var/trait in traits_zombie)
 			REMOVE_TRAIT(zombie, trait, "[type]")

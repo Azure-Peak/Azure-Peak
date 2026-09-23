@@ -234,6 +234,11 @@
 	var/datum/advclass/AC = user.mind.picked_advclass
 	if(!QDELETED(AC) && AC.townie_contract_gate_exempt)
 		return TRUE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/datum/migrant_role/role = MIGRANT_ROLE(H.migrant_type)
+		if(role?.townie_contract_gate_exempt)
+			return TRUE
 	return FALSE
 
 
