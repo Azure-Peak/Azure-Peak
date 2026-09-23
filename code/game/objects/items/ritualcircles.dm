@@ -2201,15 +2201,15 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			icon_state = "baotha_active"
 			baothablast()
 			sleep(10)
-				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-				ADD_TRAIT(target, TRAIT_NOPAIN, TRAIT_RITUAL)
-				ADD_TRAIT(target, TRAIT_DODGEEXPERT, TRAIT_RITUAL)
-				var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
-				if(is_heretic)
-					user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-				baothaarmaments(target)
-				spawn(120)
-					icon_state = "baotha_chalky"
+			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+			ADD_TRAIT(target, TRAIT_NOPAIN, TRAIT_RITUAL)
+			ADD_TRAIT(target, TRAIT_DODGEEXPERT, TRAIT_RITUAL)
+			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
+			if(is_heretic)
+				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
+			baothaarmaments(target)
+			spawn(120)
+				icon_state = "baotha_chalky"
 		if("Joybringer")
 			if(!do_after(user, 5 SECONDS))
 				return FALSE

@@ -994,7 +994,7 @@
 			PM.backdrop(owner)
 
 /atom/movable/screen/alert/status_effect/debuff/vampbite
-	name = "Vampyrebiten"
+	name = "Vampyre Bitten"
 	desc = "You are feeling something... Interesting.."
 	icon_state = "acid"
 
@@ -1033,7 +1033,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/baothariteeffect
 	name = "Saccharine Aura"
-	desc = "You are feeling something... Blissful..."
+	desc = "You are feeling... Bliss.."
 	icon_state = "acid"
 
 /datum/status_effect/debuff/joybringer_druqks
