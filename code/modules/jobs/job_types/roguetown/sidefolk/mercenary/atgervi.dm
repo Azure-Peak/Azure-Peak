@@ -132,6 +132,8 @@
 	switch(H.patron?.type)
 		if(/datum/patron/inhumen/zizo)
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
 		if(/datum/patron/inhumen/graggar)
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
 		if(/datum/patron/inhumen/matthios)

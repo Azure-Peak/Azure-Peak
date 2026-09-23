@@ -294,6 +294,13 @@
 	icon_state = "decabun_raw"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/decabun
 
+// Zizo variant
+/obj/item/reagent_containers/food/snacks/rogue/foodbase/zbun_raw
+	name = "raw zun"
+	desc = "A piece of raw dough with Zizo's mark pressed onto it."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "zbun_raw"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/zbun
 /*	.................   Crossbuns   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/crossbun
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
@@ -441,6 +448,71 @@
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	foodtype = GRAIN | FRUIT
 
+
+/obj/item/reagent_containers/food/snacks/rogue/zbun
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_BREAD
+	name = "zun"
+	// You have to push the buttons with the food on them. It's sodium chloride. That's what I said. It's sodium chloride.
+	desc = "A bun bearing the terryble symbol of our Dame De L'oubli. It could be progressed with jam, marmalade, or a piece of dried westleach."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "zbun"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
+	faretype = FARE_NEUTRAL // Having nobles vomit from eating holy buns is not a good idea
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("bread" = 1)
+	bitesize = 3
+	rotprocess = SHELFLIFE_EXTREME
+
+
+/obj/item/reagent_containers/food/snacks/rogue/zbun_jamtallow
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
+	name = "jamtallowed zun"
+	desc = "A zun, cruelly parted to be slathered with a spread of jamtallow. For it's sacrifice of being cut open and its \
+	internals stuffed with jam, it has become far, far more delicious."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "zbun_jamtallow"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
+	faretype = FARE_LAVISH
+	w_class = WEIGHT_CLASS_NORMAL
+	bitesize = 4
+	rotprocess = SHELFLIFE_EXTREME
+	tastes = list("sweet-tarty jamminess" = 1, "decadent sweetness" = 1)
+	eat_effect = /datum/status_effect/buff/greatsnackbuff
+	foodtype = GRAIN | FRUIT
+
+/obj/item/reagent_containers/food/snacks/rogue/zbun_marmalade
+	cuisine = CUISINE_NORTH_IMPERIAL
+	dish_type = DISH_BREAD
+	name = "marmaladed zun"
+	desc = "A zun, cruelly parted to be slathered with a spread of marmalade. For it's sacrifice of being cut open and its \
+	internals stuffed with marm, it has become far, far more delicious."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "zbun_marmalade"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
+	faretype = FARE_NEUTRAL
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("bread" = 1)
+	bitesize = 3
+	rotprocess = SHELFLIFE_EXTREME
+
+/obj/item/reagent_containers/food/snacks/rogue/zbun_zyn
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
+	dish_type = DISH_BREAD
+	// blame tea
+	name = "zyn"
+	desc = "A peculiar creation invented by Ecclescials who ran out of parchments. A zun has been cleaved in half, and a westleach-leaf \
+	stuffed within. It looks terrible, but surely tastes fine...?"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "zbun_zyn"
+	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION,
+						/datum/reagent/drug/westleach = 5)
+	faretype = FARE_NEUTRAL // Having nobles vomit from eating holy buns is not a good idea
+	w_class = WEIGHT_CLASS_NORMAL
+	tastes = list("bread" = 1, "pipeweed" = 1)
+	bitesize = 3
+	rotprocess = SHELFLIFE_EXTREME
 /*	.................   Raisin Bread   ................... */
 /obj/item/reagent_containers/food/snacks/rogue/rbread_half
 	name = "half-done raisin dough"

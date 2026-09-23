@@ -22,12 +22,12 @@
 				/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 10,
 				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,
 				// Packs — big-ticket purchases for high budgets
-				new /datum/ambush_config/bog_guard_deserters = 50,
-				new /datum/ambush_config/bog_guard_deserters/hard = 25,
-				new /datum/ambush_config/mirespiders_ambush = 110,
-				new /datum/ambush_config/mirespiders_crawlers = 25,
-				new /datum/ambush_config/mirespiders_aragn = 10,
-				new /datum/ambush_config/mirespiders_unfair = 5)
+				/datum/npc_warband/bog_guard_deserters = 50,
+				/datum/npc_warband/bog_guard_deserters/hard = 25,
+				/datum/npc_warband/mirespiders_ambush = 110,
+				/datum/npc_warband/mirespiders_crawlers = 25,
+				/datum/npc_warband/mirespiders_aragn = 10,
+				/datum/npc_warband/mirespiders_unfair = 5)
 	first_time_text = "THE TERRORBOG"
 	converted_type = /area/rogue/indoors/shelter/bog
 	threat_region = THREAT_REGION_TERRORBOG

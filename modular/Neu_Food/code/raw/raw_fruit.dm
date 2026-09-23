@@ -7,6 +7,7 @@
 	faretype = FARE_FINE
 	tastes = list("airy apple" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced
 	name = "pumpkin slice"
@@ -19,6 +20,7 @@
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/preserved/pumpkin_mashed
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	rotprocess = SHELFLIFE_LONG
+	materia = list(/datum/materia_aspect/plant)
 
 //
 
@@ -37,6 +39,7 @@
 	rotprocess = null
 	eat_effect = /datum/status_effect/buff/snackbuff
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS, /datum/reagent/medicine/stronghealth = 12)
+	materia = list(/datum/materia_aspect/plant, /datum/materia_aspect/solar)
 
 /obj/item/reagent_containers/food/snacks/grown/apple/gold/Initialize(mapload)
 	..()

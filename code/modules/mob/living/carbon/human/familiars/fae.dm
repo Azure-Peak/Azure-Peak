@@ -53,7 +53,8 @@
 		TRAIT_NONAMESTEAL
 	)
 	origin = "The Faewyld"
-	origin_default = /datum/virtue/origin/familiar/fae
+	origin_default = /datum/virtue/origin/unselectable/fae
+	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOBLOOD, NOSTOMACH)
 
 /mob/living/carbon/human/species/familiar/fae/Initialize(mapload)
 	. = ..()
@@ -142,6 +143,11 @@
 				if(!istype(ing,/obj/item/alch))
 					continue
 				var/obj/item/alch/alching = ing
+				if(alching.complete_pot != null)
+					if(outcomes[alching.complete_pot] != null)
+						outcomes[alching.complete_pot] += 5
+					else
+						outcomes[alching.complete_pot] = 5
 				if(alching.major_pot != null)
 					if(outcomes[alching.major_pot] != null)
 						outcomes[alching.major_pot] += 3

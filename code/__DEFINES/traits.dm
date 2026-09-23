@@ -24,6 +24,7 @@
 #define TRAIT_PACIFISM	"Pacifism"
 #define TRAIT_NOSLEEP "Sleepless"
 #define TRAIT_FASTSLEEP "Fast Sleeper"
+#define TRAIT_GOODSLEEP "Restful"
 #define TRAIT_GOODLOVER "Fabled Lover"
 #define TRAIT_UNSATISFIED "Unsatisfactory Act"
 #define TRAIT_SEEDKNOW "Seed Knower"
@@ -220,6 +221,7 @@
 
 //ZIZO
 #define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness + Does Necra's soulcheck thing.
+#define TRAIT_WARLOCK "Warlock" // Cancels out weapon w/ casting penalities, exclusive to rituos
 //Baotha
 #define TRAIT_CRACKHEAD "Blessing of Baotha" //will never overdose
 #define TRAIT_BAOTHAN_CALM "Baothan Calm" //no freakout! :3
@@ -300,6 +302,7 @@
 //Magic Related
 #define TRAIT_ARCYNE "Arcyne Training" //enables full-mage interactions
 #define TRAIT_LEYLINE_ATTUNEMENT "Leyline Attunement" //enables echanting
+#define TRAIT_LEYLINE_EXPERTISE "Leyline Expertise" // gives more leyline charges
 
 //Antagonist role unique
 #define TRAIT_DREAMWALKER "Dreamwalker"
@@ -485,6 +488,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WEBWALK = "I can move freely between webs.",
 	TRAIT_NOSTINK = span_dead("My nose is numb to the smell of decay."),
 	TRAIT_ZJUMP = "Time to reach a new high.",
+	TRAIT_WARLOCK = span_dead("My arcane conduits are re-adjusted, I no longer suffer fatigue drawback from casting with a weapon."),
 	TRAIT_JESTERPHOBIA = span_warning("I have a severe irrational fear of Jesters"),
 	TRAIT_XENOPHOBIC = span_warning("Lesser races pollute our land"),
 	TRAIT_TOLERANT = span_info("I dream of an ideal future, one with peace between all races"),
@@ -551,6 +555,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ANTISCRYING = "I am immune to most forms of magical divination.",
 	TRAIT_SHOCKIMMUNE = "I am immune to electrical shocks.",
 	TRAIT_NOSLEEP = span_warning("I can't sleep."),
+	TRAIT_GOODSLEEP = span_info("I feel relaxed, yet my mind is stimulated. My dreams will be fruitful tonite."),
 	TRAIT_ROT_EATER = span_necrosis("I can eat rotten food."),
 	TRAIT_ORGAN_EATER = span_bloody("I can eat organs and raw flesh."),
 	TRAIT_KNEESTINGER_IMMUNITY = "I am immune to the shock of kneestingers and vines.",
@@ -654,6 +659,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can stand on leaves in trees safely."),
 	TRAIT_ARCYNE = span_notice("I am trained in the Arcyne arts, allowing me to wield magyck."),
 	TRAIT_LEYLINE_ATTUNEMENT = span_notice("I am attuned to the leylines, allowing me to imbue enchantments into objects."),
+	TRAIT_LEYLINE_EXPERTISE = span_notice("I am particularly experienced with summoning, allowing me to draw upon the leylines more frequently."),
 	TRAIT_INFINITE_ENERGY = span_notice ("I don't need rest; I won't ever feel fatigue."),
 	TRAIT_PERMAMUTE = span_notice("I am a mute. I cannot speak."),
 	TRAIT_STRENGTH_UNCAPPED = span_warning("MY STRENGTH IS UNBOUND!"),
@@ -1006,6 +1012,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define INNATE_TRAIT "innate"
 #define POULTICE_TRAIT "poultice"
 #define TRAIT_INFUSION "infusion"
+#define NPC_LOADOUT_TRAIT "npc_loadout"
 
 // unique trait sources, still defines
 #define TRAIT_FORTITUDE "Fortitude"

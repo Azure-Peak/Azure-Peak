@@ -83,15 +83,18 @@
 		return
 	if(lucrative)
 		dispatched.reward_amount = round(dispatched.reward_amount * RUMOR_LUCRATIVE_MULT)
+	dispatched.funding_rumor_points = cost
 	SStreasury.rumor_issued_today[dup_key] = GLOB.dayspassed
-	SStreasury.rumor_log += list(list(
+	var/list/log_entry = list(
 		"title" = dispatched.title || dispatched.quest_type,
 		"type" = dispatched.quest_type,
 		"region" = chosen_region.region_name,
 		"in_hands" = in_hands,
 		"lucrative" = lucrative,
 		"day" = GLOB.dayspassed,
-	))
+	)
+	SStreasury.rumor_log += list(log_entry)
+	dispatched.issue_log_entry = log_entry
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/lucrative_tail = lucrative ? " - <i>lucrative</i>" : ""
 	if(in_hands)

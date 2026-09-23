@@ -1,0 +1,9 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Becoming a deadite and then being cured no longer permanently revokes your panel privileges."
+  - bugfix: "Wretch aliases are now respected by the mercenary statue in all cases. Sending messages, receiving messages, responding to sent messages, the works. If you set an alias, you'll show up as that alias, to everyone. Simple as."
+  - bugfix: "Sandals can now be repaired with a sewing needle, and scrapped with scissors."
+  - bugfix: "Migrant mercs now count as mercs for purposes of accessing the statue, responding to messages, etc. Migrant mercs and advs can now access contracts before the 1 hour mark."
+  - bugfix: "Hitting iron ingots with a wooden stake now works to scrap them, again."
+  - bugfix: "Fae familiars can no longer dispense vampire fang juice after being bitten. As funny as that was."

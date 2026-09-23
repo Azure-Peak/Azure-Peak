@@ -1,0 +1,4 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - bugfix: "Greatcoat has been re-repathed to being a cloak again, fixing several side effects that came as a result of a previous PR adjusting it."
