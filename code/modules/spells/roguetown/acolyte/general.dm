@@ -430,7 +430,7 @@
 
 /datum/action/cooldown/spell/miracle/ignition
 	name = "Ignition"
-	desc = "Ignite an object."
+	desc = "Ignite an object. If you cast on yourself, you'll borrow a sliver of Astrata's grace to illuminate the path."
 	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
 	button_icon_state = "ignite"
 	sound = 'sound/items/firelight.ogg'
@@ -441,7 +441,6 @@
 	cast_range = 4
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
-
 	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 
 	invocation_type = INVOCATION_NONE //It has seperate message ON USE
@@ -450,25 +449,50 @@
 	cooldown_time = 2 SECONDS
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
+	var/sacred_fyre_cd
 
 /datum/action/cooldown/spell/miracle/ignition/cast(atom/cast_on)
 	. = ..()
+
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
+
+	if(cast_on == H)
+		if(sacred_fyre_cd > world.time)
+			var/remaining = max(0, sacred_fyre_cd - world.time)
+			var/minutes = floor(remaining / 600)
+			var/seconds = floor((remaining % 600) / 10)
+
+			if(minutes)
+				to_chat(H, span_warning("Do not abuse Her good graces. Wait [minutes]m [seconds]s longer."))
+			else
+				to_chat(H, span_warning("Do not abuse Her good graces. Wait [seconds]s longer."))
+			return FALSE
+
+		var/obj/item/flashlight/flare/torch/lantern/astrata/fire_orb = new(H.drop_location())
+		if(!fire_orb)
+			return FALSE
+
+		fire_orb.volatile = TRUE
+		fire_orb.aura_color = "#fff346"
+		H.put_in_hands(fire_orb)
+		H.say("Divine fyre, to me!")
+
+		sacred_fyre_cd = world.time + 2 MINUTES
+		return TRUE
 
 	var/mob/living/spelltarget = cast_on
 
 	if(!isliving(spelltarget))
 		if(spelltarget.fire_act())
 			owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
-			spelltarget.fire_act()
 			return TRUE
-		else
-			to_chat(owner, span_warning("You attempt to ignite [spelltarget], but it fails to catch fire."))
-			return FALSE
-	else
+
+		to_chat(owner, span_warning("You attempt to ignite [spelltarget], but it fails to catch fire."))
 		return FALSE
+
+	return FALSE
 
 /////////////////////////////////
 // MIRACLE - SACRED ASCENDANCE //

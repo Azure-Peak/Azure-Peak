@@ -1974,7 +1974,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	light_outer_range = 10
 	icon_state = "astratawisp"
 	item_state = "astratawisp"
-	desc = "A condensed sphere of... what looks like the very flames from the heavens above at daetyme. This... Should this be in the hands of mortals?..."
+	desc = "A condensed sphere of... what looks like the very flames from the heavens above at daetyme. A gift from the beneficent Sun-Tyrant to a loyal subject, or a wretched usurpation of Her power?"
+	var/volatile
 
 /obj/item/flashlight/flare/torch/lantern/astrata/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_WEIRD, HERESYDESC_ASTRATA_MISC)
@@ -2002,7 +2003,11 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(!impact_turf)
 		return
 	playsound(impact_turf, 'sound/magic/fireball.ogg', 100, TRUE)
-	explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1)
+	var/mob/living/carbon/human/H = hit_atom
+	if(istype(H) && !H.mind)
+		H.fire_act(10,10)
+	if(volatile)
+		explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1)
 	qdel(src)
 
 /obj/item/lockpick/gilded
