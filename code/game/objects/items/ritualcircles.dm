@@ -1645,7 +1645,6 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 
 /datum/outfit/job/roguetown/darksteelrite
 	var/obj/item/clothing/head/roguetown/helmet/heavy/selected_helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
-	var/selected_weapon_choice = "Avantyne Longsword"
 
 /datum/outfit/job/roguetown/darksteelrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
@@ -1685,6 +1684,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
+	head = selected_helm_path
 	r_hand = /obj/item/rogueweapon/sword/zizo
 	l_hand = /obj/item/rogueweapon/shield/tower/metal/zizo
 

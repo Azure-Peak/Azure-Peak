@@ -258,7 +258,7 @@
 /obj/effect/temp_visual/zizoriteglow
 	name = "profane magic"
 	icon_state = "zizosparkles"
-	light_outer_range = 1
+	light_outer_range = LIGHT_RANGE_FIRE
 	light_color = GLOW_COLOR_ZIZO
 	duration = 10
 
@@ -270,7 +270,7 @@
 /obj/effect/temp_visual/matthiosriteglow
 	name = "gilded light"
 	icon_state = "gildedsparkles"
-	light_outer_range = 1
+	light_outer_range = LIGHT_RANGE_FIRE
 	light_color = GLOW_COLOR_MATTHIOS
 	duration = 10
 
@@ -282,7 +282,7 @@
 /obj/effect/temp_visual/graggarriteglow
 	name = "motive violence"
 	icon_state = "graggarsparkles"
-	light_outer_range = 1
+	light_outer_range = LIGHT_RANGE_FIRE
 	light_color = GLOW_COLOR_GRAGGAR
 	duration = 10
 
@@ -294,7 +294,7 @@
 /obj/effect/temp_visual/baothariteglow
 	name = "saccharine aura"
 	icon_state = "baothasparkles"
-	light_outer_range = 1
+	light_outer_range = LIGHT_RANGE_FIRE
 	light_color = GLOW_COLOR_BAOTHA
 	duration = 6
 
