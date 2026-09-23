@@ -1950,6 +1950,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			return "Blessed"
 		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD)
 			return "ALARMINGLY ODD"
+		if(EXAMINEHIGHLIGHT_HERESYSEVERITY_WEIRD)
+			return "Strange"
 	return null
 
 /// See `proc/get_examine_highlight_status()` and `code\__DEFINES\highlight_examine_defines.dm`.

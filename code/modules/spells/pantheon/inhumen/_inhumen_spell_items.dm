@@ -1981,7 +1981,14 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/flashlight/flare/torch/lantern/astrata/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/cursed_item, TRAIT_FREEMAN, "FYRE")
+	AddComponent(/datum/component/cursed_item, list(
+		TRAIT_FREEMAN,
+		TRAIT_APRICITY,
+		TRAIT_UNDIVIDED,
+		TRAIT_ASTRATAN_AFFINITY,
+		TRAIT_FORGEBLESSED,
+		TRAIT_XYLIX
+	), "CONDENSED SUNFYRE")
 	spark_act()
 
 /obj/item/flashlight/flare/torch/lantern/astrata/attack_self(mob/user)
