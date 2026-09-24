@@ -114,7 +114,6 @@
 		H.charflaws.Remove(leper)
 		QDEL_NULL(leper)
 	var/list/regenerable_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_TAUR)
-	var/list/prosthetic_parts = list()
 	for(var/obj/item/bodypart/BP in H.bodyparts)
 		if(BP.is_prosthetic_limb())
 			BP.dismember(skip_checks = TRUE)
