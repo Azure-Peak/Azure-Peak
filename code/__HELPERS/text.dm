@@ -666,7 +666,7 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 			continue
 		cursor += 1
 
-		var/tag = lowertext(copytext(msg, tag_start + 1, tag_end))
+		var/tag = LOWER_TEXT(copytext(msg, tag_start + 1, tag_end))
 		var/content
 		var/after
 

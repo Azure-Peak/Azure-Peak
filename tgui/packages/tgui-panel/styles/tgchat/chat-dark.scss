@@ -691,120 +691,123 @@ h2.alert {
   color: #f9b362;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .undivided {
   color: #28908c;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .abyssor {
   color: #4a6193;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .dendor {
   color: #43622e;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .eora {
   color: #a95650;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .malum {
   color: #884610;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .necra {
   color: #30203a;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .noc {
   color: #9acdff;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .pestra {
   color: #838341;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .ravox {
   color: #7a1e30;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .xylix {
   color: #e2ddae;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .baotha {
   color: #bb48a9;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .graggar {
   color: #19345e;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .matthios {
   color: #e1c457;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .zizo {
   color: #b76bff;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 .vheslyn {
-  color: #710113;
+  background: linear-gradient(90deg, #ffa600, #ff0099);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px #ffa600,
+    0 0 6px #ff0099;
 }
 .mossmother {
   color: #a6b074;
   font-weight: bold;
   text-shadow:
-    0 0 4px currentColor,
-    0 0 8px currentColor;
+    0 0 2px currentColor,
+    0 0 6px currentColor;
 }
 
 .divine {
@@ -818,8 +821,6 @@ h2.alert {
   font-style: italic;
   text-decoration: underline;
 }
-
-
 .gamedeadsay {
   color: #3b2842;
   font-size: 75%;
