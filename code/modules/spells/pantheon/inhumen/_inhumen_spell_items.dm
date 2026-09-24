@@ -1899,6 +1899,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	aura_color = "#ffe600"
 	equip_delay_self = 2 SECONDS // COMMIT
 	unequip_delay_self = 2 SECONDS
+	is_important = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
