@@ -1156,9 +1156,9 @@
 		for(var/obj/item/I in get_equipped_items())
 			if((I.item_quality != ITEM_QUALITY_WORN) && (I.item_quality < ITEM_QUALITY_STANDARD))
 				any_bad = TRUE
-			if(HAS_BLOOD_DNA(I) || I.GetComponent(/datum/component/decal/blood))
+			if(!cmode && (HAS_BLOOD_DNA(I) || I.GetComponent(/datum/component/decal/blood)))
 				any_bloody = TRUE
-			if(any_bad && any_bloody)
+			if(any_bad && (cmode || any_bloody))
 				break
 		if(any_bad && !has_stress_event(/datum/stressevent/unlanded_noble_shitty_equipment))
 			add_stress(/datum/stressevent/unlanded_noble_shitty_equipment)
