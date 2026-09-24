@@ -464,8 +464,6 @@
 	if(!held_item)
 		to_chat(owner, span_info("I need something of value to make a transaction..."))
 		return FALSE
-	if(!validate_matthios_item(held_item, owner))
-		return FALSE
 	if(held_item.GetComponent(/datum/component/holster))
 		var/datum/component/holster/SC = held_item.GetComponent(/datum/component/holster)
 		if(SC.sheathed)
