@@ -3,13 +3,6 @@
  * You need to give up your statpack AND take a second vice to get access so they get to be _slightly_ stronger.
 */
 
-/datum/quirk/goodcrafter
-	name = "Deft Hands"
-	desc = "I've kept my hands busy and my mind sharp. I can craft things quicker than most."
-	added_traits = list(TRAIT_GOODCRAFTER)
-	greater = TRUE
-	ui_fa_icon = "hammer"
-
 /datum/quirk/noble
 	name = "Unlanded Noble"
 	desc = "By birth or deeds, I've a high place in Astrata's order. My holdings, however, are too small or too far away to grant much benefit beyond a title."
