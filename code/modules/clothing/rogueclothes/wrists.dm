@@ -52,7 +52,6 @@
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
-	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/gold
 	name = "golden bracers"
@@ -168,7 +167,6 @@
 /obj/item/clothing/wrists/roguetown/bracers/leather/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
-	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
@@ -302,7 +300,6 @@
 /obj/item/clothing/wrists/roguetown/bracers/brigandine/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
-	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/wrists/roguetown/bracers/splint
