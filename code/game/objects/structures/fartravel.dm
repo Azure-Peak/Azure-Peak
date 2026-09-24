@@ -41,6 +41,7 @@
 		return
 	in_use = FALSE
 	update_icon()
+	departing_mob.roundremove_restore_name()
 	var/dat = "[ADMIN_LOOKUPFLW(user)] has despawned [departing_mob == user ? "themselves" : departing_mob], job [departing_mob.job], at [AREACOORD(src)]. Contents despawned along:"
 	if(departing_mob.mind)
 		mob_job = SSjob.GetJob(departing_mob.mind.assigned_role)

@@ -46,6 +46,10 @@
 	RegisterSignal(src, COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED, PROC_REF(handle_curse_cleared))
 	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(handle_death))
 	GLOB.active_hags |= parent
+	if(LAZYLEN(GLOB.orphaned_names)) // the round-removal failsafe triggered
+		prepared_boons[/datum/hag_boon/name] += GLOB.orphaned_names.len
+		stored_names |= GLOB.orphaned_names
+		GLOB.orphaned_names.Remove(GLOB.orphaned_names)
 
 	// Let's avoid lagging the server on round start.
 	addtimer(CALLBACK(src, PROC_REF(recognize_fey)), 10 SECONDS)
@@ -58,6 +62,7 @@
 
 /datum/component/hag_curio_tracker/Destroy()
 	GLOB.active_hags -= parent
+	GLOB.orphaned_names |= stored_names // leave them for the next hag instead of voiding them
 	return ..()
 
 /datum/component/hag_curio_tracker/proc/recognize_fey()

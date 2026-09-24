@@ -102,3 +102,29 @@
 		if(victim)
 			qdel(victim.GetComponent(/datum/component/hag_name))
 		qdel(name_component)
+
+GLOBAL_LIST_EMPTY(orphaned_names)
+
+///called on round-removal, i.e. fartravelling, gibbing, etc. failsafe to make sure someone's name isn't just gone forever. gives it back to the hag if they're around, or the original owner if the hag's gone. as a last resort, adds it to a list of names that can be claimed by the next hag to enter the round
+/mob/living/carbon/human/proc/roundremove_restore_name()
+	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
+	if(!ID || (ID.identity.name == "Unknown")) // safe to call on people who don't actually need it
+		return
+	if(LAZYLEN(GLOB.active_hags))
+		var/mob/living/carbon/human/hag = pick(GLOB.active_hags) // usually only one of these so i wouldn't bother adding a bespoke method to choose which if admins open multiple slots
+		var/datum/component/hag_curio_tracker/HCT = hag.GetComponent(/datum/component/hag_curio_tracker) // guaranteed to exist for anything in that list as it's what controls mobs being added to/removed from the list
+		HCT.stored_names[ID.identity.name] = ID.identity
+		HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 0) + 1
+		QDEL_NULL(ID)
+	else // no hag, so we'll ping the original owner about it
+		var/mob/living/carbon/human/H
+		for(var/mob/living/carbon/human/candidate in GLOB.player_list)
+			if(candidate.real_name == ID.identity.name) // found them
+				H = candidate
+		// even if they are around, they might have been given a name they like better!
+		if(!H || (alert(H, "The bearer of your stolen name is no more. Reclaim it?", "ONOMASTIC GRACE", "Yes", "No, I like my current name") != "Yes")) // time for our last resort
+			GLOB.orphaned_names[ID.identity.name] = ID.identity
+			QDEL_NULL(ID)
+			return
+		qdel(H.GetComponent(/datum/component/hag_name))
+		QDEL_NULL(ID)
