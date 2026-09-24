@@ -31,6 +31,7 @@
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN
 	)
+	virtue_limits = list(/datum/virtue/combat/dualwielder)
 	adv_stat_ceiling = list(STAT_STRENGTH = 12, STAT_CONSTITUTION = 13, STAT_SPEED = 12, STAT_WILLPOWER = 14)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
