@@ -62,12 +62,6 @@
 	added_traits = list(TRAIT_NIGHT_OWL_LESSER)
 	ui_fa_icon = "moon"
 
-/datum/quirk/nostink
-	name = "Deadened Nose"
-	desc = "Whether used to filth, or simply a quirk of biology, horrid smells don't bother me."
-	added_traits = list(TRAIT_NOSTINK)
-	ui_fa_icon = "cloud"
-
 /datum/quirk/nistean
 	name = "Nistean"
 	desc = "For religious or digestive reasons, I've sworn off meat. Abyssor's gifts, however, are fair game."
