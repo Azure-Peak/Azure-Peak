@@ -55,7 +55,7 @@
 	var/skill = H.get_skill_level(associated_skill)
 
 	if(!path)
-		var/list/paths = list("Sunfyre", "Thievery", "Malchemy")
+		var/list/paths = list("Thievery", "Malchemy")
 		if(skill >= SKILL_LEVEL_JOURNEYMAN)
 			paths += "Greed"
 		path = tgui_input_list(H, "Commit to a path (NOTE: ONLY ONE CHOICE!)", "Freeman's Tools", paths)
@@ -63,10 +63,6 @@
 			return FALSE
 
 		switch(path)
-			if("Sunfyre")
-				name = "Sunfyre"
-				desc = "Call upon the stolen fire of Astrata and shape it into an obedient little tool for lighting the path, or, in dire circumstances, a quick getaway by blinding your enemies with an unexpected flash."
-				fluff_desc = "Matthios stole fire from the Sun-Tyrant and placed it into mortal hands. You need not understand the theft to benefit from it. Ask, and the flame comes forth."
 			if("Thievery")
 				name = "Thievery"
 				desc = "Call upon the Free-God for a tool fit to bypass locks and open what was meant to remain closed. It can also be used to open access into Matthios's hoard, where you can draw a few extra tools to help your endeavors."
@@ -76,36 +72,16 @@
 				desc = "Invoke the First Law and receive a vessel through which all value of Psydonia may be dissolved, stored, and exchanged into other substances."
 				fluff_desc = "The First Law is simple: nothing is created and nothing is lost. Value merely changes shape. What distant alchemists spent lifetimes pursuing, Malchem once accomplished with casual certainty. Matthios preserves a fragment of that old truth for those willing to use it."
 			if("Greed")
-				desc = "Take freely from the three humble tools of Matthios, choosing whichever serves your immediate purpose."
+				desc = "Take freely from the two aspects of Matthios, choosing whichever serves your immediate purpose."
 				fluff_desc = "The Free-God does not begrudge the ambitious. Why choose one road when you possess the means to walk all three? Take what you need, and let Matthios collect His due in time."
 
 	if(path == "Greed")
-		var/list/choices = list("Sunfyre", "Thievery", "Malchemy")
+		var/list/choices = list("Thievery", "Malchemy")
 		var/greed_choice = tgui_input_list(H, "Choose your tool", "Freeman's Tools", choices)
 		if(!greed_choice)
 			return FALSE
 
 		switch(greed_choice)
-			if("Sunfyre")
-				if(item_cooldowns["Greed Sunfyre"] > world.time)
-					var/remaining = round((item_cooldowns["Greed Sunfyre"] - world.time) / 10)
-					var/minutes = floor(remaining / 60)
-					var/seconds = remaining % 60
-					if(minutes)
-						to_chat(H, span_warning("This tool is still cooling down for [minutes]m [seconds]s!"))
-					else
-						to_chat(H, span_warning("This tool is still cooling down for [seconds]s!"))
-					return FALSE
-
-				var/obj/item/flashlight/flare/torch/lantern/astrata/fire_orb = new /obj/item/flashlight/flare/torch/lantern/astrata(H.drop_location())
-				if(!fire_orb)
-					return FALSE
-				fire_orb.volatile = TRUE
-				fire_orb.aura_color = "#fff346"
-				H.put_in_hands(fire_orb)
-				H.say("Divine fyre, to me!")
-				item_cooldowns["Greed Sunfyre"] = world.time + 2 MINUTES
-
 			if("Thievery")
 				var/obj/item/lockpick/gilded/lockpick = new /obj/item/lockpick/gilded(H.drop_location())
 				if(!lockpick)
@@ -135,17 +111,6 @@
 		return TRUE
 
 	switch(path)
-		if("Sunfyre")
-			var/obj/item/flashlight/flare/torch/lantern/astrata/fire_orb = new /obj/item/flashlight/flare/torch/lantern/astrata(H.drop_location())
-			if(!fire_orb)
-				return FALSE
-			if(skill >= SKILL_LEVEL_EXPERT)
-				fire_orb.volatile = TRUE
-				fire_orb.aura_color = "#fff346"
-			H.put_in_hands(fire_orb)
-			H.say("Divine fyre, to me!")
-			cooldown_time = 2 MINUTES
-
 		if("Thievery")
 			var/obj/item/lockpick/gilded/lockpick = new /obj/item/lockpick/gilded(H.drop_location())
 			if(!lockpick)

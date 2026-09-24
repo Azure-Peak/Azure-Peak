@@ -1723,7 +1723,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	swap_type = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded
 	swap_message = "The gilded amulet settles back into familiar weight. You feel a grin, as He commends you for your boldness."
 	stolen_fyre = TRUE
-	is_important = TRUE // so this can't be sold in the navigator lol!!
+	is_important = TRUE
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/astrata/get_examine_highlight_status()
 	return null
