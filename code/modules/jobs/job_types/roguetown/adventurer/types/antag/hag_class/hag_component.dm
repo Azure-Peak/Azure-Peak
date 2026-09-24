@@ -49,7 +49,7 @@
 	if(LAZYLEN(GLOB.orphaned_names)) // the round-removal failsafe triggered
 		prepared_boons[/datum/hag_boon/name] += GLOB.orphaned_names.len
 		stored_names |= GLOB.orphaned_names
-		GLOB.orphaned_names.Remove(GLOB.orphaned_names)
+		GLOB.orphaned_names.Remove(GLOB.orphaned_names) // i know this looks awful it's just how you clear a list in DM
 
 	// Let's avoid lagging the server on round start.
 	addtimer(CALLBACK(src, PROC_REF(recognize_fey)), 10 SECONDS)
