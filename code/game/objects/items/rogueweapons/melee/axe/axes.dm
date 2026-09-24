@@ -452,6 +452,7 @@
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop)
 	resistance_flags = FLAMMABLE
 	anvilrepair = /datum/skill/craft/weaponsmithing
+	materia = list(/datum/materia_aspect/tool, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver
 	name = "silver war axe"
@@ -762,8 +763,9 @@
 	minstr = 12
 	force = 20
 	force_wielded = 40
-	max_blade_int = 270
-	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
+	wdefense_wbonus = 4 //7 wdef wielded, considerably less than other ritual weapons, glass cannon specially vs. swift/master skill.
+	max_blade_int = 300 //100 less than zizo longsword
+	gripped_intents = list(/datum/intent/axe/cut/long/vicious, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
 	smeltresult = /obj/item/ingot/component/graggar
 	special = /datum/special_intent/vicious_swipe
 

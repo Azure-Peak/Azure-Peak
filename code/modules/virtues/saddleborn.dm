@@ -226,8 +226,12 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	user.visible_message(span_info("[user] starts fussing with [honse], preparing to send them away..."), span_notice("I start preparing to send [honse] away to roam freely and safely for a time..."))
 	honse.Immobilize(11 SECONDS)
 	honse.unbuckle_all_mobs(TRUE)
+	if(honse.buckled)
+		honse.buckled.unbuckle_mob(honse, TRUE)
 	if (do_mob(user, honse, 7 SECONDS, double_progress = TRUE) && check_mount(user))
 		honse.unbuckle_all_mobs(TRUE)
+		if(honse.buckled)
+			honse.buckled.unbuckle_mob(honse, TRUE)
 		if (!honse.has_buckled_mobs()) // just really super make sure we can't nullspace riders with this
 			honse.moveToNullspace() // BANISHED TO THE NULL DIMENSION!! hopefully this doesn't cause problems
 		else
@@ -300,6 +304,8 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	var/honse_base_loc = honse.loc
 	var/area/rogue/honse_place = get_area(honse.loc)
 	honse.unbuckle_all_mobs(TRUE)
+	if(honse.buckled)
+		honse.buckled.unbuckle_mob(honse, TRUE)
 	if (!back_from_the_void && honse_place.outdoors)
 		honse.visible_message(span_notice("[honse] perks its ears up in response to a distant whistle, and darts off..."))
 		playsound(honse, 'sound/magic/saddleborn-call.ogg', 50, FALSE) // distant spooky whistle OooOOOo

@@ -1033,12 +1033,14 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = FALSE
-	alternate_worn_layer = TABARD_LAYER
-	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_BACK_R
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_CLOAK|ITEM_SLOT_BACK_R
 	flags_inv = HIDEBOOB
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
 	var/flipped = FALSE
+
+/obj/item/clothing/cloak/donator_greatcoat/MiddleClick(mob/user)
+	return
 
 /obj/item/clothing/cloak/donator_greatcoat/attack_right(mob/user)
 	if(!flipped)

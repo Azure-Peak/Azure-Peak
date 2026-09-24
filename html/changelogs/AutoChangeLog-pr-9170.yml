@@ -1,0 +1,5 @@
+author: "zRainbowcat"
+delete-after: True
+changes:
+  - bugfix: "fixed atgervi shaman, cantor and witch (miracle focused variants) not having order and gravemark if zizo is chosen"
+  - refactor: "changed logic for giving skeleton's controlling abilities"

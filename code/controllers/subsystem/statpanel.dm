@@ -52,6 +52,8 @@ SUBSYSTEM_DEF(statpanels)
 			var/time_left = SSgamemode.round_ends_at - world.time
 			global_data += "Round End: [DisplayTimeText(time_left, 1)]"
 
+		global_data += "Round Type: [SSgamemode.current_storyteller ? SSgamemode.current_storyteller.name : "Unknown"]"
+
 		if(SSticker.ready_for_reboot)
 			global_data += "Reboot: DELAYED"
 
