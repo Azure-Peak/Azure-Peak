@@ -180,17 +180,19 @@
 /obj/item/paper/proc/read(mob/user)
 //	var/datum/asset/assets = get_asset_datum(/datum/asset/spritesheet/simple/paper)
 //	assets.send(user)
-	if(!user.client || !user.hud_used)
-		return
-	if(!user.hud_used.reads)
-		return
-	if(!user.can_read(src))
-		if(info)
-			add_sleep_experience(user, /datum/skill/misc/reading, 2)
-		return
-	if(mailer)
-		return
-	if(in_range(user, src) || isobserver(user))
+	var/ghost = isobserver(user)
+	if (!ghost)
+		if(!user.client || !user.hud_used)
+			return
+		if(!user.hud_used.reads)
+			return
+		if(!user.can_read(src))
+			if(info)
+				add_sleep_experience(user, /datum/skill/misc/reading, 2)
+			return
+		if(mailer)
+			return
+	if(in_range(user, src) || ghost)
 //		var/obj/screen/read/R = user.hud_used.reads
 		user << browse_rsc('html/book.png')
 		var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
@@ -393,11 +395,12 @@
 			user << browse(null, "window=reading")
 
 	var/literate = usr.is_literate()
-	if(!usr.canUseTopic(src, BE_CLOSE, literate))
+	var/ghost = isobserver(usr)
+	if(!ghost && !usr.canUseTopic(src, BE_CLOSE, literate))
 		return
 
 	if(href_list["read"])
-		if(trapped)
+		if(trapped && !ghost)
 			var/mob/living/victim = usr
 			victim.visible_message(span_notice("[usr] opens the [src]."))
 			to_chat(usr, span_warning("This parchment is full of strange symbols that start to glow. How odd. Wait-"))
@@ -601,8 +604,9 @@
 
 /obj/item/smallDelivery/examine(mob/user)
 	. = ..()
+	var/ghost = isobserver(user)
 	if(note && length(note.info))
-		if(!in_range(user, src))
+		if(!in_range(user, src) && !ghost)
 			. += "There's a [note.name] attached to it. You can't read it from here."
 		else
 			. += "There's a [note.name] attached to it..."

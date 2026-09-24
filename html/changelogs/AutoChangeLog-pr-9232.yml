@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - code_imp: "Cursed Items can receive more than one Trait now, use a list (or defined list) for that."

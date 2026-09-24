@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "Netted had an oversight that prevented it properly executing. Using nets to ensnare people is now back on the menu."

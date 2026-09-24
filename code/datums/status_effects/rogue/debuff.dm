@@ -289,9 +289,9 @@
 	. = ..()
 
 /datum/status_effect/debuff/netted/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
+	. = ..()
+	var/mob/living/carbon/C = owner
+	C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
 
 /datum/status_effect/debuff/netted/on_remove()
 	. = ..()

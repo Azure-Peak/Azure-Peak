@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - bugfix: "Broken weapons can no longer have their Specials be used."

@@ -1,0 +1,4 @@
+author: "zRainbowcat"
+delete-after: True
+changes:
+  - bugfix: "porthole doors now do not spawn with premade keyholes"
