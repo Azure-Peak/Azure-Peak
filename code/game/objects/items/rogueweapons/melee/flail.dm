@@ -338,6 +338,7 @@
 	possible_item_intents = list(/datum/intent/flail/strike/matthiosflail)
 	no_loot_taint = TRUE
 	gripped_intents = list(/datum/intent/flail/strike/matthiosflail, /datum/intent/flail/smash/matthiosflail, /datum/intent/flail/sweep)
+	max_integrity = 400 //You're supposed to be parrying with this, I guess. 7 defense, so 400 integrity is the bare minimum for this to be usable without having to turn combat mode off after 60 seconds.
 	associated_skill = /datum/skill/combat/whipsflails
 	slot_flags = ITEM_SLOT_BACK
 	anvilrepair = /datum/skill/craft/weaponsmithing
