@@ -2,6 +2,7 @@
 	name = "Name"
 	desc = "Bestows a name you've been taken to another. Be sure to take theirs first! They'll inherit the name, masked name, voice color, and vocal descriptor of the person you took the name from initially."
 	points = 20
+	ignores_antag_checks = TRUE
 
 // the checks for this boon mean L is guaranteed to be a human with a "nameless" name component
 /datum/hag_boon/name/apply_boon_effect(mob/living/L)

@@ -121,6 +121,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 /mob/dead/observer/eye/screye/Move(n, direct)
 	return
 
+GLOBAL_LIST_EMPTY(displaced_souls)
+
 /mob/dead/observer/eye/screye/displaced_soul
 	var/mob/living/carbon/human/vessel			// the vessel mob we came from
 	var/datum/mind/vessel_orig_mind				// original mind datum of the vessel. this is DIFFERENT from the mind datum of the ghost
@@ -128,6 +130,14 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	var/datum/hag_identity/original_identity	// we use this to store voice color and descriptor, nothing more
 	var/datum/devotion/vessel_devotion			// storing this, because the possessor can have devotion and in that case we transfer it over
 	var/datum/patron/vessel_patron				// ditto
+
+/mob/dead/observer/eye/screye/displaced_soul/Initialize(mapload)
+	. = ..()
+	GLOB.displaced_souls += src
+
+/mob/dead/observer/eye/screye/displaced_soul/Destroy()
+	GLOB.displaced_souls -= src
+	. = ..()
 
 /mob/dead/observer/eye/screye/displaced_soul/say_verb(message as text)
 	set name = "Say"

@@ -2849,3 +2849,6 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	if(QDELETED(src) || stat != DEAD) // skip if it was somehow revived in the meantime
 		return
 	dust()
+
+/mob/living/proc/get_unmasked_name()
+	return real_name

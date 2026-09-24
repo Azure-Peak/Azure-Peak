@@ -219,6 +219,9 @@
 	var/has_scar_20 = FALSE
 
 	for(var/t_name in boon_registry)
+		var/mob/living/carbon/target = find_target(t_name)
+		if(target && iscarbon(target) && target.extra_boon_budget) // cursed feybound DO NOT count towards tiering up
+			continue
 		var/datum/hag_boon/curse_scar/S = find_boon_by_type(t_name, /datum/hag_boon/curse_scar)
 		if(!S)
 			continue

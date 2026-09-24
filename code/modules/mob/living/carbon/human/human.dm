@@ -1147,3 +1147,10 @@
 	vocal_pitch_range = client.prefs.bark_variance
 	apply_voicepacks(src, client)
 	return TRUE
+
+// so that hag-renamed people don't show up as masked forever; used in several places
+/mob/living/carbon/human/get_unmasked_name()
+	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
+	if(ID)
+		return ID.identity.name
+	return real_name

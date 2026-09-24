@@ -578,8 +578,9 @@
 		return FALSE
 	return TRUE
 
-/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/release_vessel(mob/living/carbon/human/vessel, mob/dead/observer/eye/screye/displaced_soul/soul, mob/living/carbon/human/original)
-	GLOB.fey_vessels[vessel] = TRUE														// make them possessable again
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/release_vessel(mob/living/carbon/human/vessel, mob/dead/observer/eye/screye/displaced_soul/dsoul, mob/living/carbon/human/original, dying)
+	if(!dying)
+		GLOB.fey_vessels[vessel] = TRUE													// make them possessable again
 	var/datum/component/hag_curio_tracker/HCT = vessel.GetComponent(/datum/component/hag_curio_tracker)
 	if(HCT)
 		original.TakeComponent(HCT)														// transfer the hag curio tracker back
@@ -587,15 +588,15 @@
 	return TRUE
 
 ///src is the vessel, currently-possessed, that we want to restore
-/mob/living/carbon/human/proc/release_vessel()
+/mob/living/carbon/human/proc/release_vessel(dying = FALSE)
 	var/mob/dead/observer/eye/screye/displaced_soul/estranged_lux
-	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.dead_mob_list)
+	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.displaced_souls)
 		if(one_among_many.vessel == src)
 			estranged_lux = one_among_many
 	if(!estranged_lux) // where's your soul, sire
 		return FALSE
 	var/mob/living/carbon/human/original = estranged_lux.possessor
-	if(!SEND_SIGNAL(src, COMSIG_MOB_POSSESS_RELEASE, estranged_lux, original))					// handle things like HCT transfer
+	if(!SEND_SIGNAL(src, COMSIG_MOB_POSSESS_RELEASE, estranged_lux, original, dying))			// handle things like HCT transfer
 		return FALSE
 	if(devotion)
 		devotion.holder = original
@@ -611,6 +612,8 @@
 	key = estranged_lux.key																		// ????????
 	REMOVE_TRAIT(src, TRAIT_POSSESSED, null)													// we don't know what trait_source was, just clear it all
 	QDEL_NULL(estranged_lux)																	// resets the state and clears the slate
+	original.reset_perspective()																// needed for revs and such
+	reset_perspective()
 	return TRUE
 
 ///src is the possessing mob, vessel is the mob to be possessed. role-agnostic and can be called on non-hags safely, have fun.
@@ -637,7 +640,7 @@
 	// when the hag relinquishes control, we remove the hag spells, transfer the hag curio tracker back, reset the name and voice colors
 	// then transfer the hag back into the original mob, then move the ghostmob back into the vessel. i sincerely hope nothing breaks in that.
 	// update 2026-08-25: how very glib. things did, in fact, break in that.
-	var/mob/dead/observer/eye/screye/displaced_soul/dsoul = make_observer(/mob/dead/observer/eye/screye/displaced_soul, FALSE)
+	var/mob/dead/observer/eye/screye/displaced_soul/dsoul = vessel.make_observer(/mob/dead/observer/eye/screye/displaced_soul, FALSE)
 	if(!dsoul)
 		return FALSE
 	dsoul.vessel_devotion = vessel.devotion
@@ -659,6 +662,7 @@
 	vessel.add_mob_descriptor(get_descriptor_of_slot(MOB_DESCRIPTOR_SLOT_VOICE, mob_descriptors))
 	vessel.custom_descriptors[9] = custom_descriptors[9] // this is the voice. i hate that custom descriptor code uses magic numbers
 	mind.transfer_to(vessel)
+	vessel.reset_perspective() // needed for revs and such
 	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
 	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
 	return dsoul

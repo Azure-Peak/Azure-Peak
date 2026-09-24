@@ -18,6 +18,7 @@
 	var/hag_is_valid = TRUE
 	var/hag_trait = FALSE
 	var/mob/living/carbon/human/granter // hag that granted us
+	var/ignores_antag_checks = FALSE // for names: which need to be given to faetouched and antags and such
 
 /datum/hag_boon/curse_scar
 	name = "Curse Scar"

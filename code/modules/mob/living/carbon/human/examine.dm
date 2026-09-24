@@ -58,7 +58,7 @@
 		"Unknown Man",
 		"Unknown Woman",
 	)
-	if(get_face_name() != real_name)
+	if(get_face_name() != get_unmasked_name())
 		obscure_name = TRUE
 
 	if(observer_privilege)
@@ -721,7 +721,7 @@
 
 	if(show_descriptors)
 		var/list/lines
-		if((get_face_name() != real_name) && !observer_privilege)
+		if((get_face_name() != get_unmasked_name()) && !observer_privilege)
 			lines = build_cool_description_unknown(get_mob_descriptors_unknown(obscure_name, user), src)
 		else
 			lines = build_cool_description(get_mob_descriptors(obscure_name, user), src)
@@ -794,7 +794,7 @@
 				used_title = "Ancient Lord"
 		var/display_as_wanderer = FALSE
 		if(observer_privilege)
-			used_name = real_name
+			used_name = get_unmasked_name()
 		if(migrant_type)
 			var/datum/migrant_role/migrant = MIGRANT_ROLE(migrant_type)
 			if(migrant.show_wanderer_examine)
