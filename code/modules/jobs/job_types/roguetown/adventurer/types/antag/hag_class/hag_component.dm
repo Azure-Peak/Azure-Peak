@@ -265,7 +265,7 @@
 		return FALSE
 
 	var/mob/living/L = find_target(name_to_check)
-	if(L && !antag_check(L))
+	if(!ispath(/datum/hag_boon/name) && L && !antag_check(L)) // restoring names DOES need to be possible to do to antags and feybound
 		to_chat(parent, span_warning("[name_to_check] can't hold your ancient magycks, they are already blessed by another force."))
 		return FALSE
 
@@ -337,7 +337,7 @@
 
 	// Individual capacity check
 	var/new_boon_points = initial(checking.points)
-	if((current_total_points + new_boon_points) > max_points)
+	if(!ispath(boon_path, /datum/hag_boon/name) && (current_total_points + new_boon_points) > max_points) // names can be 0 points we can't know that yet
 		to_chat(parent, span_warning("This blessing is too heavy. [name_to_check] only has room for [max_points - current_total_points] more points of power."))
 		return FALSE
 

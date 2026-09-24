@@ -27,4 +27,3 @@
 	H.AddComponent(/datum/component/hag_name, ID)
 
 	HCT.stored_names -= name2give
-	HCT.prepared_boons[type] = (HCT.prepared_boons[type] || 1) - 1
