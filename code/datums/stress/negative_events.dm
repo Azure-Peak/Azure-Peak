@@ -319,6 +319,11 @@
 	desc = span_red("I can't get any decent sleep in such uncomfortable conditions...")
 	timer = 999 MINUTES // removed via code
 
+/datum/stressevent/unlanded_noble_scandal_in_the_making
+	stressadd = 1
+	desc = span_red("This was unwise... what if others find out?")
+	timer = 5 MINUTES // removed via code
+
 /datum/stressevent/nistean
 	stressadd = 1
 	desc = span_red("That dish had meat in it...")
