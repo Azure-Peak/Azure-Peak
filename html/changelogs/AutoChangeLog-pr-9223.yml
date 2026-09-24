@@ -1,0 +1,4 @@
+author: "Fi"
+delete-after: True
+changes:
+  - bugfix: "Restored the black mirror's previous opening and closing requirement when held."

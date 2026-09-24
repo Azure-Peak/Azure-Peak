@@ -3,6 +3,8 @@
 	name = "Massage"
 	desc = "Massage a client, working out the soreness in their muscles"
 	overlay_state = "massage"
+	overlay_icon = 'icons/mob/actions/townerspells.dmi'
+	action_icon = 'icons/mob/actions/townerspells.dmi'
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0

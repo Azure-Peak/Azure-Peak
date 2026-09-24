@@ -1028,3 +1028,34 @@
       the char menu
   zRainbowcat:
   - bugfix: mounts no longer get stuck if send away from maneaters
+2026-09-24:
+  KatTheFox:
+  - bugfix: Becoming a deadite and then being cured no longer permanently revokes
+      your panel privileges.
+  - bugfix: Wretch aliases are now respected by the mercenary statue in all cases.
+      Sending messages, receiving messages, responding to sent messages, the works.
+      If you set an alias, you'll show up as that alias, to everyone. Simple as.
+  - bugfix: Sandals can now be repaired with a sewing needle, and scrapped with scissors.
+  - bugfix: Migrant mercs now count as mercs for purposes of accessing the statue,
+      responding to messages, etc. Migrant mercs and advs can now access contracts
+      before the 1 hour mark.
+  - bugfix: Hitting iron ingots with a wooden stake now works to scrap them, again.
+  - bugfix: Fae familiars can no longer dispense vampire fang juice after being bitten.
+      As funny as that was.
+  Lamasmaster:
+  - spellcheck: Changes invocations of Malum ritual/miracles to be bit more "soulful"
+  anything86:
+  - balance: changes how psydonian healing works, reduces its effectiveness on constructs
+      and revenants
+  - balance: Endure miracle no longer permanently stops bleeding, instead is temporary
+  nauticall:
+  - bugfix: Greatcoat has been re-repathed to being a cloak again, fixing several
+      side effects that came as a result of a previous PR adjusting it.
+  radarseas:
+  - rscadd: TRAIT_WARLOCK, given exclusively to people who have done Rituos, it prevents
+      you suffering the massive stamina + fatigue penalties with a weapon, which you
+      will be using 90% of the time anyway. Admins can also adminbuse this trait in.
+  - balance: Zizo Rituos users have lost their ice shotgun blast, its replaced with
+      a 2 spell utility pick with the other 4 cantrips, we can adjust as needed.
+  - balance: Arcayne Diagnosis/Analyze now have whisper incantations when cast, to
+      make it subtly obvious you're using unusual magic over talent.
