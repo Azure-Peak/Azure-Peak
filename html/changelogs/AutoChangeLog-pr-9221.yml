@@ -1,0 +1,5 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - rscadd: "Round type now shows in round info."
+  - admin: "Reshuffled some verbs, also Whom to OOC"

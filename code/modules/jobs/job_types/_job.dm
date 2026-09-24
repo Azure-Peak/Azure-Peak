@@ -235,6 +235,11 @@
 	var/datum/advclass/AC = user.mind.picked_advclass
 	if(!QDELETED(AC) && AC.townie_contract_gate_exempt)
 		return TRUE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/datum/migrant_role/role = MIGRANT_ROLE(H.migrant_type)
+		if(role?.townie_contract_gate_exempt)
+			return TRUE
 	return FALSE
 
 
@@ -306,7 +311,8 @@
 	if(!H.islatejoin)
 		H.adjust_triumphs(1)
 		H.apply_status_effect(/datum/status_effect/buff/mealbuff)
-		H.hydration = 1000 // Set higher hydration
+		H.hydration = HYDRATION_LEVEL_FULL
+		H.nutrition = NUTRITION_LEVEL_FULL
 
 		if(H.mind)
 			H.mind?.special_items["Pouch of Coins"] = /obj/item/storage/belt/rogue/pouch/coins/readyuppouch

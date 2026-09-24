@@ -27,6 +27,8 @@
 	var/list/banned_flaws
 	/// Restricts the virtues a person can have if list != null
 	var/list/banned_virtues
+	/// If they can take contracts before the 1-hour mark
+	var/townie_contract_gate_exempt = FALSE
 
 /datum/migrant_role/proc/after_spawn(mob/living/carbon/human/character)
 	return
@@ -39,6 +41,7 @@
 	name = "Adventurer"
 	role_category = "Adventurer"
 	advclass_cat_rolls = list(CTAG_ADVENTURER = 20)
+	townie_contract_gate_exempt = TRUE
 
 /datum/migrant_role/bandit
 	name = "Bandit"

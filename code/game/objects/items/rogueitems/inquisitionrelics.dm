@@ -1381,6 +1381,7 @@ Inquisitorial armory down here
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bmirror"
 	item_state = "bmirror"
+	possible_item_intents = list(/datum/intent/use, /datum/intent/style)
 	grid_height = 64
 	grid_width = 32
 	throw_speed = 3
@@ -1413,6 +1414,7 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right click to open or close the BLACK MIRROR.")
+	. += span_info("While opened, use the 'STYLE' intent while targeting someone's head or skull to style their hair.")
 	. += span_info("Once opened, left-clicking yourself with the BLACK MIRROR will anoint its spike in your blood. This can be dangerous, if used while you're already suffering from blood loss.")
 	. += span_info("Activate the BLACK MIRROR in your hand, once bloodied, to scry whoever's name you enter into the following prompt.")
 
@@ -1509,6 +1511,20 @@ Inquisitorial armory down here
 	return
 
 /obj/item/inqarticles/bmirror/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
+	if(user.used_intent.type == /datum/intent/style)
+		if(user.zone_selected != BODY_ZONE_HEAD && user.zone_selected != BODY_ZONE_PRECISE_SKULL)
+			return TRUE
+		if(!opened)
+			to_chat(user, span_warning("I need to open it first."))
+			return TRUE
+		if(broken)
+			to_chat(user, span_warning("The mirror has shattered, rendering it unusable."))
+			return TRUE
+		if(bloody)
+			to_chat(user, span_warning("The mirror is fogged over. I need to clean it with cloth before reuse."))
+			return TRUE
+		perform_mirror_styling(user, M, src)
+		return TRUE
 	if(!user.mind)
 		return
 	if(opened)
@@ -1571,6 +1587,9 @@ Inquisitorial armory down here
 				bloody = FALSE
 				update_icon()
 		return
+
+/obj/item/inqarticles/bmirror/rmb_self(mob/user, keybind = FALSE)
+	src.attack_right(user)
 
 /obj/item/inqarticles/bmirror/attack_right(mob/user, obj/item/T)
 	..()

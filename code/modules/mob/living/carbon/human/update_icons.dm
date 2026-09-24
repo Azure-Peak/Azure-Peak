@@ -462,7 +462,7 @@ There are several things that need to be remembered:
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[SLOT_GLOVES]
 		inv.update_icon()
 
-	if(!gloves && bloody_hands)
+	if(!gloves && bloody_hands && !isgnoll(src) && !iswerewolf(src))
 		var/hand_state = "bloodyhands"
 		if(get_num_arms(FALSE) < 2)
 			if(has_left_hand(FALSE))

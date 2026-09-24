@@ -730,6 +730,63 @@
 /turf/proc/Melt()
 	return ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 
+/atom/proc/set_adj_in_dir(direction, direction_flag, list/smoothing_list, new_junction)
+	. = new_junction
+	var/smooth_border = (smooth & SMOOTH_BORDER)
+	var/smooth_obj = (smooth & SMOOTH_OBJ)
+	var/smooth_edge = (smooth & SMOOTH_EDGE)
+
+	var/turf/neighbor = get_step(src, direction);
+	if(!neighbor) {
+		if(smooth_border) {
+			. |= direction_flag;
+		};
+		return
+	};
+	if(smooth_edge && type == neighbor.type) {
+		return
+	};
+	if(smooth_obj) {
+		for(var/atom/movable/thing as anything in neighbor) {
+			if(!thing.anchored) {
+				continue;
+			};
+			if(!smoothing_list) {
+				if(type == thing.type) {
+					. |= direction_flag;
+					return
+				};
+				continue;
+			};
+			var/thing_smoothing_groups = thing.smoothing_groups;
+			if(!thing_smoothing_groups) {
+				continue;
+			};
+			for(var/target in smoothing_list) {
+				if(smoothing_list[target] & thing_smoothing_groups[target]) {
+					. |= direction_flag;
+					return
+				};
+			};
+		};
+	};
+	if(!smoothing_list) {
+		if(type == neighbor.type) {
+			. |= direction_flag;
+		};
+		return
+	};
+	var/neighbor_smoothing_groups = neighbor.smoothing_groups;
+	if(neighbor_smoothing_groups) {
+		for(var/target as anything in smoothing_list) {
+			if(smoothing_list[target] & neighbor_smoothing_groups[target]) {
+				. |= direction_flag;
+				return
+			};
+		};
+	};
+	return
+
 /atom/proc/smooth()
 	if(!smoothing_icon)
 		smoothing_icon = initial(icon_state)
@@ -738,68 +795,10 @@
 	// cache for sanic speed
 	var/smoothing_list = src.smoothing_list
 
-	var/smooth_border = (smooth & SMOOTH_BORDER)
-	var/smooth_obj = (smooth & SMOOTH_OBJ)
 	var/smooth_edge = (smooth & SMOOTH_EDGE)
 
-	#define SET_ADJ_IN_DIR(direction, direction_flag) \
-		set_adj_in_dir: { \
-			do { \
-				var/turf/neighbor = get_step(src, direction); \
-				if(!neighbor) { \
-					if(smooth_border) { \
-						new_junction |= direction_flag; \
-					}; \
-					break set_adj_in_dir; \
-				}; \
-				if(smooth_edge && type == neighbor.type) { \
-					break set_adj_in_dir; \
-				}; \
-				if(smooth_obj) { \
-					for(var/atom/movable/thing as anything in neighbor) { \
-						if(!thing.anchored) { \
-							continue; \
-						}; \
-						if(!smoothing_list) { \
-							if(type == thing.type) { \
-								new_junction |= direction_flag; \
-								break set_adj_in_dir; \
-							}; \
-							continue; \
-						}; \
-						var/thing_smoothing_groups = thing.smoothing_groups; \
-						if(!thing_smoothing_groups) { \
-							continue; \
-						}; \
-						for(var/target in smoothing_list) { \
-							if(smoothing_list[target] & thing_smoothing_groups[target]) { \
-								new_junction |= direction_flag; \
-								break set_adj_in_dir; \
-							}; \
-						}; \
-					}; \
-				}; \
-				if(!smoothing_list) { \
-					if(type == neighbor.type) { \
-						new_junction |= direction_flag; \
-					}; \
-					break set_adj_in_dir; \
-				}; \
-				var/neighbor_smoothing_groups = neighbor.smoothing_groups; \
-				if(neighbor_smoothing_groups) { \
-					for(var/target as anything in smoothing_list) { \
-						if(smoothing_list[target] & neighbor_smoothing_groups[target]) { \
-							new_junction |= direction_flag; \
-							break set_adj_in_dir; \
-						}; \
-					}; \
-				}; \
-				break set_adj_in_dir; \
-			} while(FALSE) \
-		}
-
 	for(var/direction as anything in GLOB.cardinals) //Cardinal case first.
-		SET_ADJ_IN_DIR(direction, direction)
+		new_junction = set_adj_in_dir(direction, direction, smoothing_list, new_junction)
 
 	if(smooth_edge)
 		if(!isturf(src))
@@ -814,21 +813,19 @@
 
 	if(new_junction & NORTH_JUNCTION)
 		if(new_junction & WEST_JUNCTION)
-			SET_ADJ_IN_DIR(NORTHWEST, NORTHWEST_JUNCTION)
+			new_junction = set_adj_in_dir(NORTHWEST, NORTHWEST_JUNCTION, smoothing_list, new_junction)
 
 		if(new_junction & EAST_JUNCTION)
-			SET_ADJ_IN_DIR(NORTHEAST, NORTHEAST_JUNCTION)
+			new_junction = set_adj_in_dir(NORTHEAST, NORTHEAST_JUNCTION, smoothing_list, new_junction)
 
 	if(new_junction & SOUTH_JUNCTION)
 		if(new_junction & WEST_JUNCTION)
-			SET_ADJ_IN_DIR(SOUTHWEST, SOUTHWEST_JUNCTION)
+			new_junction = set_adj_in_dir(SOUTHWEST, SOUTHWEST_JUNCTION, smoothing_list, new_junction)
 
 		if(new_junction & EAST_JUNCTION)
-			SET_ADJ_IN_DIR(SOUTHEAST, SOUTHEAST_JUNCTION)
+			new_junction = set_adj_in_dir(SOUTHEAST, SOUTHEAST_JUNCTION, smoothing_list, new_junction)
 
 	set_smoothed_icon_state(new_junction)
-
-	#undef SET_ADJ_IN_DIR
 
 ///Changes the icon state based on the new junction bitmask.
 /atom/proc/set_smoothed_icon_state(new_junction)

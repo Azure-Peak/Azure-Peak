@@ -128,7 +128,7 @@
 
 /datum/action/cooldown/spell/psydon/endure
 	name = "ENDURE"
-	desc = "Invoke an envigoring prayer for those who're faltering in willpower. </br>‎	</br>Provides minor wound regeneration, staunches the target's bleeding, and helps to alleviate those who're struggling to breathe. The more valuable a caster's psycross is, the more health that is restored unto the target - this is further increased if they have been mortally wounded."
+	desc = "Invoke an envigoring prayer for those who're faltering in willpower. </br>‎	</br>Provides minor wound regeneration, temporarily halts the target's bleeding, and helps to alleviate those who're struggling to breathe. The more valuable a caster's psycross is, the more health that is restored unto the target - this is further increased if they have been mortally wounded."
 	button_icon_state = "ENDURE"
 	sound = 'sound/magic/ENDVRE.ogg'
 
@@ -240,9 +240,7 @@
 			return FALSE
 
 		target.apply_status_effect(/datum/status_effect/buff/psyhealing, psyhealing)
-		for(var/datum/wound/W as anything in wAmount)
-			if(W?.bleed_rate > 0)
-				W.set_bleed_rate(0)
+		target.apply_status_effect(/datum/status_effect/buff/adrenaline_rush/psydon)
 
 		return TRUE
 
@@ -1004,6 +1002,9 @@
 
 			if(C.blood_volume <= 0)
 				C.blood_volume = BLOOD_VOLUME_SURVIVE
+
+	H.remove_CC()
+	H.update_stat()
 
 	// VISUALS
 	C.visible_message(span_danger("[C] absolves [H]'s suffering!"))

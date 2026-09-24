@@ -42,7 +42,7 @@
 		/datum/advclass/witch,
 		/datum/advclass/woodworker
 	)
-	default_subprefs = list("favorite_advclass" = null, "witch_type" = null, "witch_form" = null)
+	default_subprefs = list("favorite_advclass" = null, "witch_type" = null, "witch_form" = null, "witch_skills" = null)
 
 // towners are so many roles in a trenchcoat that we're going to _only_ render the prefs relevant to the selected advclass
 /datum/job/roguetown/villager/update_subprefs_window(mob/user)
@@ -60,6 +60,8 @@
 	if(favorite == /datum/advclass/witch)
 		HTML += {"<br/><b>Witch Type:</b> <a href="?src=[REF(src)];witch_type=1">[roleprefs["witch_type"] || "Select"]</a>"}
 		HTML += {"<br/><b>Second Form:</b> <a href="?src=[REF(src)];witch_form=1">[roleprefs["witch_form"] || "Select"]</a>"}
+		HTML += {"<br/><b>Practical Skills:</b> <a href="?src=[REF(src)];witch_skills=1">[roleprefs["witch_skills"] || "Select"]</a>"}
+		HTML += {"<br/><small>Herbalist tends gardens, cooks and tends to focus on their own spaces; Forager fishes, butchers, and travels through the wilds instead of being dependant on a singular location.</small>"}
 	HTML += {"
 		<center><a href="?src=[REF(src)];subprefsexit=1">EXIT</a>\t\t<a href="?src=[REF(src)];subprefsreset=1">RESET</a></center>
 	"}
@@ -87,4 +89,9 @@
 		if(choice)
 			prefs["witch_form"] = choice
 		update_subprefs_window(usr)
-
+	if(href_list["witch_skills"])
+		var/list/choices = list("Herbalist", "Forager")
+		var/choice = tgui_input_list(usr, "Which practical skills have you learned?", "THE OLD WAYS", choices)
+		if(choice)
+			prefs["witch_skills"] = choice
+		update_subprefs_window(usr)

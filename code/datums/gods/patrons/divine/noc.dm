@@ -9,7 +9,7 @@
 					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/noc/enlightenment				= CLERIC_T1,
-					/datum/action/cooldown/spell/projectile/moonscorch				= CLERIC_T2,
+					/datum/action/cooldown/spell/projectile/moonscorch			= CLERIC_T2,
 					/datum/action/cooldown/spell/noc/invisibility				= CLERIC_T2,
 					/datum/action/cooldown/spell/noc/spellpack					= CLERIC_T3,
 					/datum/action/cooldown/spell/noc/moonlight					= CLERIC_T4,

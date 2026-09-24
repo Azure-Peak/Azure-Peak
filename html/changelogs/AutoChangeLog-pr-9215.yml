@@ -1,0 +1,5 @@
+author: "Fi"
+delete-after: True
+changes:
+  - rscadd: "Added the ability to change a character's hairstyle, including facial hairstyle, mid-round through all mirrors. The hand mirrors will have a new intent called \"STYLE\" for this purpose when targeting the head."
+  - rscadd: "Added the closets as additional objects for accessing one's stash (loadout items)."

@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - bugfix: "deserter & heretic spy now receive their round-start mammons"

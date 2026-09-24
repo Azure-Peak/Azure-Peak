@@ -85,6 +85,10 @@
 	dense_when_open = FALSE
 	mob_storage_capacity = 2
 
+/obj/structure/closet/crate/roguecloset/attack_right(mob/user)
+	handle_special_items_retrieval(user, src)
+	return
+
 /obj/structure/closet/crate/roguecloset/inn/south
 	base_icon_state = "closet3"
 	icon_state = "closet3"
