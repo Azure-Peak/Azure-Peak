@@ -644,7 +644,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		stored_value -= 30
 		playsound(loc, 'sound/magic/swap.ogg', 100, TRUE, -2)
 		to_chat(user, span_notice("The draught condenses 30 entropic dust into a Malchem Fyre. (Remaining Value: [stored_value])"))
-		user.put_in_inactive_hand(/obj/item/flashlight/flare/torch/lantern/astrata)
+		user.put_in_inactive_hand(/obj/item/flashlight/flare/torch/lantern/malchem)
 
 	if(choice == "Morph Serum")
 		var/list/serums = list()
@@ -1817,12 +1817,11 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	body_parts_covered = FULL_HEAD
 	flags_inv = HIDEFACE
 	flags_cover = HIDEFACE
+	var/active_item = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/duelist/matthios/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/adjustable_clothing/matthicat, FULL_HEAD, 0, 0, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))
-	var/active_item = FALSE
-	is_important = TRUE
+	AddComponent(/datum/component/adjustable_clothing/matthicat, FULL_HEAD, 0, 0, null, null, (UPD_HEAD|UPD_MASK))
 
 /obj/item/clothing/mask/rogue/spectacles/duelist/matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
@@ -2049,7 +2048,6 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	if(!impact_turf)
 		return
 	playsound(impact_turf, 'sound/magic/fireball.ogg', 100, TRUE)
-	var/mob/living/carbon/human/H = hit_atom
 	explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1)
 	qdel(src)
 
