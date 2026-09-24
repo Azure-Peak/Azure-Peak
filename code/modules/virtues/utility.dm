@@ -1,6 +1,6 @@
 /datum/virtue/utility/noble
 	name = "Nobility"
-	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom. Being outside a job expected of nobility has its downsides; I have to hold myself to higher standards."
+	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom."
 	ui_fa_icon = "crown"
 	restricted = TRUE
 	max_choices = 1
