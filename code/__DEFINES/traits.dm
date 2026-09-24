@@ -423,6 +423,7 @@
 #define TRAIT_WEATHER_PROTECTED "Weather Protected"
 #define TRAIT_WHITE_STAG "Stag Protection"
 #define TRAIT_EDIT_DESCRIPTORS "Edit Descriptors"
+#define TRAIT_NIGHT_OWL_LESSER "Nocturnal" // inverted sleepcycle but no moodbuff
 
 //Ecom Related traits
 #define TRAIT_DEBTOR "Default Debtor"
@@ -498,6 +499,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_XENOPHOBIC = span_warning("Lesser races pollute our land"),
 	TRAIT_TOLERANT = span_info("I dream of an ideal future, one with peace between all races"),
 	TRAIT_NIGHT_OWL = span_info("I enjoy spending my time in the night"),
+	TRAIT_NIGHT_OWL_LESSER = span_info("I sleep during the dae, rather than at nite."),
 	TRAIT_BEAUTIFUL = span_info("People love looking at my face"),
 	TRAIT_BEAUTIFUL_UNCANNY = span_info("<i>Some</i> would say my visage is an artwork created by the gods themselves; the others call me an unsettling abomination."),
 	TRAIT_BAD_MOOD = span_warning("Everything just seems to piss me off"),

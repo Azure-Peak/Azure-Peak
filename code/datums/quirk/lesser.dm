@@ -59,7 +59,7 @@
 /datum/quirk/nightowl
 	name = "Night Owl"
 	desc = "For one reason or another, I've a nocturnal sleep cycle."
-	added_traits = list(TRAIT_NIGHT_OWL)
+	added_traits = list(TRAIT_NIGHT_OWL_LESSER)
 	ui_fa_icon = "moon"
 
 /datum/quirk/nostink
