@@ -39,8 +39,10 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	apply_prefs_race_bonus(character, player)
 	if(!HAS_TRAIT(character, TRAIT_NO_VOICEPACK_OVERRIDE)) //Only roundstart roles that jobload in, should use this. Prevents prefloaded voicepacks overriding yours.
 		apply_voicepacks(character, player)
-	if(player.prefs.dnr_pref || SSgamemode?.dnr_round)
-		apply_dnr_trait(character, player)
+	if(player.prefs.dnr_pref)
+		apply_dnr_trait(character, player, TRAIT_GENERIC)
+	if(SSgamemode?.dnr_round)
+		apply_dnr_trait(character, player, MERCILESS_ROUND)
 	if(player.prefs.qsr_pref)
 		apply_qsr_trait(character, player)
 	character.mind.triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free, spent on retrieval
@@ -210,8 +212,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		character.charflaws.Add(rf)
 		rf.apply_post_equipment(character)
 
-/proc/apply_dnr_trait(mob/living/carbon/human/character, client/player)
-	ADD_TRAIT(player.mob, TRAIT_DNR, TRAIT_GENERIC)
+/proc/apply_dnr_trait(mob/living/carbon/human/character, client/player, source = TRAIT_GENERIC)
+	ADD_TRAIT(player.mob, TRAIT_DNR, source)
 
 /proc/apply_qsr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC)
