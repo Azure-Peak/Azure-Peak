@@ -6,8 +6,8 @@
 /datum/quirk/noble
 	name = "Unlanded Noble"
 	desc = "By birth or deeds, I've a high place in Astrata's order. My holdings, however, are too small or too far away to grant much benefit beyond a title."
-	mechdesc = "Grants the noble trait, but no other benefits."
-	added_traits = list(TRAIT_NOBLE)
+	mechdesc = "Grants the noble trait, but no other benefits. You will also need to behave more strictly 'noble' than those in noble roles; for example, sleeping outdoors or on a poor-quality bed, using scavenged or poorly forged equipment, and similar will debuff your mood."
+	added_traits = list(TRAIT_NOBLE, TRAIT_NOBLE_UNLANDED)
 	greater = TRUE
 	restricted_species = list(/datum/species/construct/metal, /datum/species/dullahan, /datum/species/ooze)
 	ui_fa_icon = "crown"

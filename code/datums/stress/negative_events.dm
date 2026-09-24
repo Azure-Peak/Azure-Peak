@@ -303,6 +303,22 @@
 	desc = span_red("Eating such a meal without a table? How churlish!")
 	timer = 2 MINUTES
 
+// 'unlanded noble' penalties, harsher to enforce the archetype
+/datum/stressevent/unlanded_noble_shitty_equipment
+	stressadd = 1
+	desc = span_red("Such poor-quality equipment reflects poorly on me...!")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_bloody_equipment
+	stressadd = 1
+	desc = span_red("I should have better hygeine than this...")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_poor_sleep
+	stressadd = 1
+	desc = span_red("I can't get any decent sleep in such uncomfortable conditions...")
+	timer = 999 MINUTES // removed via code
+
 /datum/stressevent/nistean
 	stressadd = 1
 	desc = span_red("That dish had meat in it...")
