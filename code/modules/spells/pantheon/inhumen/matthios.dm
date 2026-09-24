@@ -497,54 +497,6 @@
 		return TRUE
 	return FALSE
 
-/proc/validate_matthios_item(obj/item/I, mob/user)
-	if(!I)
-		return FALSE
-	if(I.GetComponent(/datum/component/cursed_item) || I.GetComponent(/datum/component/martyrweapon) || I.GetComponent(/datum/component/silverbless))
-		to_chat(user, span_danger("I offer that to Matthios, but a powerful warding presence bars its passage to His hoard."))
-		return FALSE
-//	if(I.override_state)
-//		to_chat(user, span_danger("I offer that to Matthios, but He finds it far too quirky and snowflakey for His hoard."))
-//		return FALSE
-//	if(I.GetComponent(/datum/component/decal/blood))
-//		to_chat(usr, span_warning("Bloodstained and unbecoming. Matthios leaves such crude indulgences to Zizo and Graggar."))
-//		return FALSE
-	if(I.obj_broken)
-		to_chat(user, span_warning("This is broken. Matthios would break the remnants over your skull for the insult."))
-		return FALSE
-//	if(I.max_integrity != I.obj_integrity)
-//		to_chat(user, span_warning("This is damaged. Matthios has no use for damaged goods, nor patience for those who offer them."))
-//		return FALSE
-	if(I.is_important)
-		to_chat(user, span_warning("Matthios has no interest in an offering that is already spoken for."))
-		return FALSE
-	if(istype(I, /obj/item/roguecoin))
-		to_chat(user, span_warning("Matthios does not barter for Mammon itself."))
-		return FALSE
-//	if(istype(I, /obj/structure/handcart))
-//		to_chat(user, span_warning("You have no idea how to transport this over to Him."))
-//		return FALSE
-	if(I.get_real_price() < 5)
-		to_chat(user, span_info("This is worth too little for Matthios to entertain as an offering."))
-		return FALSE
-	var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
-	var/bucket = get_navigator_bucket_for_item(I, category)
-	if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
-		if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
-			to_chat(user, span_warning("Matthios has no interest in such common bulk goods."))
-			return FALSE
-	if(get_barter_refusal_message(bucket))
-		var/msg = get_navigator_refusal_message(bucket)
-		if(!msg)
-			msg = get_barter_refusal_message(bucket)
-		if(!msg)
-			msg = "This is not an acceptable offering."
-		to_chat(user, span_warning(msg))
-		return FALSE
-
-	return TRUE
-
-
 /////////////////
 // T2 - Barter //
 /////////////////

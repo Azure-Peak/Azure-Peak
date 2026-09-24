@@ -161,14 +161,6 @@
 			return NAVIGATOR_BUCKET_POOL_MISCELLANEOUS
 	return 0
 
-/proc/get_navigator_refusal_message(bucket)
-	switch(bucket)
-		if(NAVIGATOR_BUCKET_REFUSED_FOOD)
-			return NAVIGATOR_REFUSAL_MSG_FOOD
-		if(NAVIGATOR_BUCKET_REFUSED_BULK)
-			return NAVIGATOR_REFUSAL_MSG_BULK
-	return null
-
 /proc/get_barter_refusal_message(bucket)
 	switch(bucket)
 		if(NAVIGATOR_BUCKET_REFUSED_FOOD)
