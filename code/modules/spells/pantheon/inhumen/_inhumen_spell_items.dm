@@ -628,6 +628,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		"Coin begets Coin!",
 		"Return as Stones",
 		"Morph Serum",
+		"Borrow The Flame",
 		"Cancel"
 	)
 
@@ -635,6 +636,15 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	if(!choice || choice == "Cancel")
 		return
+
+	if(choice == "Borrow The Flame")
+		if(stored_value < 30)
+			to_chat(user, span_warning("There is not enough stored entropic dust to create this. (30 required)"))
+			return
+		stored_value -= 30
+		playsound(loc, 'sound/magic/swap.ogg', 100, TRUE, -2)
+		to_chat(user, span_notice("The draught condenses 30 entropic dust into a Malchem Fyre. (Remaining Value: [stored_value])"))
+		user.put_in_inactive_hand(/obj/item/flashlight/flare/torch/lantern/astrata)
 
 	if(choice == "Morph Serum")
 		var/list/serums = list()
@@ -2011,34 +2021,27 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/rope/chain/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
 
-/obj/item/flashlight/flare/torch/lantern/astrata
-	name = "sacred fyre"
+/obj/item/flashlight/flare/torch/lantern/malchem
+	name = "malchem fyre"
 	light_color = "#fff4e5"
 	light_outer_range = 10
 	icon_state = "astratawisp"
 	item_state = "astratawisp"
-	desc = "A condensed sphere of... what looks like the very flames from the heavens above at daetyme. A gift from the beneficent Sun-Tyrant to a loyal subject, or a wretched usurpation of Her power?"
-	var/volatile
+	desc = "A condensed sphere of fyre that neither flickers nor extinguishes. It does not burn as ordinary flame does, but seems to exist as the very concept of fyre given form, scorching only those hands and objects it deems worthy of burning."
+	is_important = TRUE
 
-/obj/item/flashlight/flare/torch/lantern/astrata/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_WEIRD, HERESYDESC_ASTRATA_MISC)
+/obj/item/flashlight/flare/torch/lantern/malchem/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_WEIRD, HERESYDESC_UNKNOWN_MISC)
 
-/obj/item/flashlight/flare/torch/lantern/astrata/Initialize(mapload)
+/obj/item/flashlight/flare/torch/lantern/malchem/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/cursed_item, list(
-		TRAIT_FREEMAN,
-		TRAIT_APRICITY,
-		TRAIT_UNDIVIDED,
-		TRAIT_ASTRATAN_AFFINITY,
-		TRAIT_FORGEBLESSED,
-		TRAIT_XYLIX
-	), "CONDENSED SUNFYRE")
+	AddComponent(/datum/component/cursed_item, list(TRAIT_FREEMAN, TRAIT_APRICITY, TRAIT_UNDIVIDED, TRAIT_ASTRATAN_AFFINITY, TRAIT_FORGEBLESSED, TRAIT_XYLIX), "CONDENSED SUNFYRE")
 	spark_act()
 
-/obj/item/flashlight/flare/torch/lantern/astrata/attack_self(mob/user)
+/obj/item/flashlight/flare/torch/lantern/malchem/attack_self(mob/user)
 	return
 
-/obj/item/flashlight/flare/torch/lantern/astrata/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+/obj/item/flashlight/flare/torch/lantern/malchem/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
 	if(QDELETED(src))
 		return
@@ -2047,10 +2050,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 	playsound(impact_turf, 'sound/magic/fireball.ogg', 100, TRUE)
 	var/mob/living/carbon/human/H = hit_atom
-	if(istype(H) && !H.mind)
-		apply_scorch_stack(H, 4)
-	if(volatile)
-		explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1)
+	explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1)
 	qdel(src)
 
 /obj/item/lockpick/gilded

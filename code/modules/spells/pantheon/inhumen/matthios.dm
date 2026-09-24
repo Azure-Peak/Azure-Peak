@@ -73,7 +73,7 @@
 				fluff_desc = "The First Law is simple: nothing is created and nothing is lost. Value merely changes shape. What distant alchemists spent lifetimes pursuing, Malchem once accomplished with casual certainty. Matthios preserves a fragment of that old truth for those willing to use it."
 			if("Greed")
 				desc = "Take freely from the two aspects of Matthios, choosing whichever serves your immediate purpose."
-				fluff_desc = "The Free-God does not begrudge the ambitious. Why choose one road when you possess the means to walk all three? Take what you need, and let Matthios collect His due in time."
+				fluff_desc = "The Free-God does not begrudge the ambitious. Why choose one road when you possess the means to walk all of them? Take what you need, He sees it as an investment."
 
 	if(path == "Greed")
 		var/list/choices = list("Thievery", "Malchemy")
@@ -87,25 +87,25 @@
 				if(!lockpick)
 					return FALSE
 				var/picklvl = 0
-				var/max_integrity = 10
+				var/max_integrity = 5
 				if(skill >= SKILL_LEVEL_JOURNEYMAN)
 					picklvl = 1
 					max_integrity += 10
 				if(skill >= SKILL_LEVEL_EXPERT)
 					picklvl = 2
-					max_integrity += 90
+					max_integrity += 50
 				lockpick.picklvl = picklvl
 				lockpick.max_integrity = max_integrity
 				lockpick.obj_integrity = max_integrity
 				H.put_in_hands(lockpick)
-				H.say("#Lord of Freedom, I beseeth a tool of liberation!")
+				H.say("#Grant me a tool of liberation!")
 
 			if("Malchemy")
 				var/obj/item/matthios_canister/firstlaw/malchem = new /obj/item/matthios_canister/firstlaw(H.drop_location())
 				if(!malchem)
 					return FALSE
 				H.put_in_hands(malchem)
-				H.say("#Lord of Exchange, I shall finish thy work!")
+				H.say("#Grant me the secrets of Malchem!")
 
 		StartCooldown()
 		return TRUE
@@ -127,14 +127,14 @@
 			lockpick.max_integrity = max_integrity
 			lockpick.obj_integrity = max_integrity
 			H.put_in_hands(lockpick)
-			H.say("#Lord of Freedom, I beseeth a tool of liberation!")
+			H.say("#Grant me a tool of liberation!")
 
 		if("Malchemy")
 			var/obj/item/matthios_canister/firstlaw/fl = new /obj/item/matthios_canister/firstlaw(H.drop_location())
 			if(!fl)
 				return FALSE
 			H.put_in_hands(fl)
-			H.say("#Lord of Exchange, I shall finish thy work!")
+			H.say("#Grant me the secrets of Malchem!")
 
 	StartCooldown()
 	return TRUE
