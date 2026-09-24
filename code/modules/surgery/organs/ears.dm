@@ -73,9 +73,11 @@
 	if(iscarbon(owner) && HAS_TRAIT(C, TRAIT_DEAF))
 		deaf = 1
 
+/obj/item/organ/ears/applyOrganDamage(d, maximum = maxHealth)
+	return
+
 /obj/item/organ/ears/proc/adjustEarDamage(ddmg, ddeaf)
-	damage = max(damage + (ddmg*damage_multiplier), 0)
-	deaf = max(deaf + (ddeaf*damage_multiplier), 0)
+	return
 
 /obj/item/organ/ears/proc/minimumDeafTicks(value)
 	deaf = max(deaf, value)

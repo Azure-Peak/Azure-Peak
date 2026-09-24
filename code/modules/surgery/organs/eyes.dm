@@ -6,6 +6,7 @@
 	slot = ORGAN_SLOT_EYES
 	gender = PLURAL
 
+	medical_organ = TRUE
 	healing_factor = STANDARD_ORGAN_HEALING
 	decay_factor = STANDARD_ORGAN_DECAY
 	maxHealth = 0.5 * STANDARD_ORGAN_THRESHOLD		//half the normal health max since we go blind at 30, a permanent blindness at 50 therefore makes sense unless medicine is administered
@@ -32,7 +33,6 @@
 	var/see_invisible = SEE_INVISIBLE_LIVING
 	var/lighting_alpha
 	var/no_glasses
-	var/damaged	= FALSE	//damaged indicates that our eyes are undergoing some level of negative effect
 
 	var/eye_color = "#FFFFFF"
 	var/heterochromia = FALSE
@@ -92,27 +92,34 @@
 	M.set_blurriness(0)
 	M.update_sight()
 
-/obj/item/organ/eyes/on_life()
-	..()
-	var/mob/living/carbon/C = owner
-	//since we can repair fully damaged eyes, check if healing has occurred
-	if((organ_flags & ORGAN_FAILING) && (damage < maxHealth))
-		organ_flags &= ~ORGAN_FAILING
-		C.cure_blind(EYE_DAMAGE)
-	//various degrees of "oh fuck my eyes", from "point a laser at my eye" to "staring at the Sun" intensities
-	if(damage > 20)
-		damaged = TRUE
-		if((organ_flags & ORGAN_FAILING))
-			C.become_blind(EYE_DAMAGE)
-		else if(damage > 30)
-			C.overlay_fullscreen("eye_damage", /atom/movable/screen/fullscreen/impaired, 2)
-		else
-			C.overlay_fullscreen("eye_damage", /atom/movable/screen/fullscreen/impaired, 1)
-	//called once since we don't want to keep clearing the screen of eye damage for people who are below 20 damage
-	else if(damaged)
-		damaged = FALSE
-		C.clear_fullscreen("eye_damage")
-	return
+/// Trait/blindness source for organ-driven eye injury (kept separate from EYE_DAMAGE).
+#define EYE_ORGAN_SOURCE "eye_organ"
+
+// Minor: lose half your field of view. Severe: lose all field of view (extreme tunnel vision).
+// Dead/missing: proper full black blindness. Field of view uses the cyclops traits + update_fov_angles().
+/obj/item/organ/eyes/on_injury_changed()
+	if(!owner)
+		return
+	// Clear our managed vision effects, then apply the current state's.
+	REMOVE_TRAIT(owner, TRAIT_CYCLOPS_LEFT, EYE_ORGAN_SOURCE)
+	REMOVE_TRAIT(owner, TRAIT_CYCLOPS_RIGHT, EYE_ORGAN_SOURCE)
+	owner.cure_blind(EYE_ORGAN_SOURCE)
+	switch(injury)
+		if(ORGAN_INJURY_MINOR)
+			ADD_TRAIT(owner, TRAIT_CYCLOPS_RIGHT, EYE_ORGAN_SOURCE)	//half FOV gone
+			to_chat(owner, span_warning("My sight narrows; the world at the edges blurs away."))
+		if(ORGAN_INJURY_SEVERE)
+			ADD_TRAIT(owner, TRAIT_CYCLOPS_LEFT, EYE_ORGAN_SOURCE)	//all FOV gone
+			ADD_TRAIT(owner, TRAIT_CYCLOPS_RIGHT, EYE_ORGAN_SOURCE)
+			to_chat(owner, span_danger("My vision collapses to a thin, swimming tunnel!"))
+		if(ORGAN_INJURY_DEAD)
+			owner.become_blind(EYE_ORGAN_SOURCE)	//full black
+			to_chat(owner, span_userdanger("Darkness swallows everything - my eyes are destroyed!"))
+		if(ORGAN_INJURY_NONE)
+			to_chat(owner, span_info("My vision clears."))
+	owner.update_fov_angles()
+
+#undef EYE_ORGAN_SOURCE
 
 
 /obj/item/organ/eyes/night_vision
@@ -155,6 +162,7 @@
 	name = "construct eyes"
 	desc = "Some beast's eyes, preserved through artifice and with magical rock embedded in their back. Seems to fit a construct's head."
 	icon_state = "eyeball-con"
+	two_state = TRUE	//artifice-set eyes: whole, or shattered (blind)
 
 /obj/item/organ/eyes/night_vision/zombie/on_life()
 	. = ..()

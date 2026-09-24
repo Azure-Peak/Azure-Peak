@@ -16,6 +16,14 @@
 			added = round(added * 0.5, 1)
 		if(HAS_TRAIT(src, TRAIT_MONK_ROBE))
 			added = round(added * 1.25, 1)
+		if(iscarbon(src))
+			var/mob/living/carbon/C = src
+			var/obj/item/organ/lungs/lung = C.getorganslot(ORGAN_SLOT_LUNGS)
+			if(lung)
+				if(lung.is_severe())
+					added = round(added * 0.5, 1)
+				else if(lung.is_minor())
+					added = round(added * 0.8, 1)
 		if(stamina >= 1)
 			stamina_add(added)
 		else
