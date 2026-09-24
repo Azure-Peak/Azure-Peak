@@ -7,13 +7,13 @@
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/miracle/ignition/astrata		= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/astrata/astrata_gaze			= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/sacred_flame		= CLERIC_T2,
 					/datum/action/cooldown/spell/miracle/fortify/astrata		= CLERIC_T2,
 					/datum/action/cooldown/spell/astrata/miracle_pyre			= CLERIC_T3,
 					/datum/action/cooldown/spell/astrata/firecloak				= CLERIC_T3,
 					/datum/action/cooldown/spell/miracle/anastasis/astrata		= CLERIC_T3,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/immolation			= CLERIC_T4,
 	)
 	confess_lines = list(

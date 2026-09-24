@@ -8,12 +8,12 @@
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/matthios/freemans_tools		= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/matthios/mammonite				= CLERIC_T1,
 					/datum/action/cooldown/spell/matthios/transact				= CLERIC_T2,
 					/datum/action/cooldown/spell/matthios/barter				= CLERIC_T2,
 					/datum/action/cooldown/spell/matthios/equalize				= CLERIC_T3,
 					/datum/action/cooldown/spell/matthios/anastasis				= CLERIC_T3,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T3,
 					/datum/action/cooldown/spell/matthios/churn					= CLERIC_T4
 	)
 	confess_lines = list(

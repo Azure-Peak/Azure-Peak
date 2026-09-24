@@ -5,16 +5,16 @@
 	worshippers = "The Anguished, the Hollow, the Heartbroken, the Addicted, those who break taboo"
 	mob_traits = list(TRAIT_DEPRAVED, TRAIT_CICERONE, TRAIT_BAOTHAN_CALM) ///this is fine
 	miracles = list(/datum/action/cooldown/spell/touch/orison						= CLERIC_ORI,
-					/datum/action/cooldown/spell/baotha/emotional_sway			= CLERIC_T0,
+					/datum/action/cooldown/spell/baotha/emotional_sway				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/baothavice				= CLERIC_T0,
 					/obj/effect/proc_holder/spell/invoked/lasthigh					= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal						= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heart_on_sleeve			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/griefflower				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/projectile/blowingdust	= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/joyride					= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/painkiller				= CLERIC_T3,
+					/datum/action/cooldown/spell/miracle/bloodmiracle				= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/resurrect/baotha			= CLERIC_T4,
 	)
 	confess_lines = list(

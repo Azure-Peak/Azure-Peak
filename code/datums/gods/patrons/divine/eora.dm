@@ -7,12 +7,12 @@
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/eora_blessing			= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
-					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/bless_food			= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/bud					= CLERIC_T1,
 					/datum/action/cooldown/spell/summon_bed/eora				= CLERIC_T1,
 					/obj/effect/proc_holder/spell/invoked/heartweave			= CLERIC_T2,
 					/obj/effect/proc_holder/spell/invoked/eoracurse				= CLERIC_T3,
+					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T3,
 					/obj/effect/proc_holder/spell/invoked/pomegranate			= CLERIC_T4,
 					/obj/effect/proc_holder/spell/invoked/resurrect/eora		= CLERIC_T4,
 	)
