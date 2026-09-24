@@ -86,6 +86,7 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/caring_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/rooted_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/creeping_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/vibrant_moss)
 
 		// High Rarity
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/prismatic_moss)

@@ -130,6 +130,8 @@
 		/datum/hag_boon/spell/twist_food,
 		/datum/hag_boon/spell/find_riches,
 		/datum/hag_boon/spell/banish,
+		/datum/hag_boon/rejuvenate,
+		/datum/hag_boon/name,
 		/datum/hag_boon/buff/storm_rebirth,
 		/datum/hag_boon/buff/natural_communion,
 		/datum/hag_boon/buff/creeping_moss,
@@ -138,7 +140,7 @@
 		/datum/hag_boon/item/hag_sword,
 		/datum/hag_boon/item/hag_axe,
 		/datum/hag_boon/item/hag_spear,
-		/datum/hag_boon/item/wyrd_cross
+		/datum/hag_boon/item/wyrd_cross,
 	)
 
 /obj/item/recipe_book/hag_grimoire/attack_self(mob/user)
@@ -172,6 +174,7 @@
 		/datum/crafting_recipe/roguetown/alchemy/hag/caring_moss,
 		/datum/crafting_recipe/roguetown/alchemy/hag/rooted_moss,
 		/datum/crafting_recipe/roguetown/alchemy/hag/creeping_moss,
+		/datum/crafting_recipe/roguetown/alchemy/hag/vibrant_moss,
 
 		// --- High Rarity Mosses ---
 		/datum/crafting_recipe/roguetown/alchemy/hag/prismatic_moss,

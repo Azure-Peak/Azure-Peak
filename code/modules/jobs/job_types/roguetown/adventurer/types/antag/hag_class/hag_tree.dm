@@ -529,6 +529,12 @@
 	desc = "This moss is trying to cling to you, but for some reason... it feels nice. You like this."
 	color = "#74b945"
 
+/obj/item/alch/hag_moss/enchanted/vibrant
+	name = "Vibrant Moss"
+	boon_path = /datum/hag_boon/rejuvenate
+	desc = "This moss is overly-bright, overflowing with energy."
+	color = "#00ff00" // oversaturated on purpose
+
 /obj/item/alch/hag_moss/enchanted/gilded
 	name = "Gilded Moss"
 	boon_path = /datum/hag_boon/spell/find_riches
