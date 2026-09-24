@@ -46,7 +46,7 @@
 			clothing += "Underdark" //dullahan are only included for oversights/downstreams where they might be able to roll for this.
 		//if(is_species(H, /datum/species/kobold) || is_species(H, /datum/species/dracon)) //Species Exclusive Options -> Lirvan
 			//clothing += "Lirvan" EXCLUDED for now cause of content lacking. If you ever want to add this, de-comment this.
-		var/clothing_choice = input(H, "Choose your clothing style.", "FROM WHERE DOTH YOUR HOUSE HAIL FROM?") as anything in clothing
+		var/clothing_choice = input(H, "Choose your clothing style.", "FROM WHERE DOES YOUR HOUSE HAIL FROM?") as anything in clothing
 		switch(clothing_choice)
 			if("Classic - Nowhere Significant") //Sovl, arguably the /worst/ gear-wise but it STAYS because its the OG loadout.
 				if(should_wear_masc_clothes(H))
@@ -118,18 +118,16 @@
 				H.cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 				H.grant_language(/datum/language/grenzelhoftian) //Duh
 				backl = /obj/item/storage/backpack/rogue/satchel/black
-			if("Otava") //Rosa-Attire, Meant to be quite Silver-Lined, Uniquely stands out.
+			if("Otava") //Rosa-Attire, Meant to be quite Silver-Lined mixed w/ Psydonic culture, Uniquely stands out.
 				if(should_wear_masc_clothes(H))
 					armor = /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
 					head = /obj/item/clothing/head/roguetown/chaperon/noble/aristocratotava
 					shirt = /obj/item/clothing/suit/roguetown/shirt/dress/royal/prince
-					gloves = /obj/item/clothing/gloves/roguetown/rosa/ten
-					shoes = /obj/item/clothing/shoes/roguetown/rosa/three
 				if(should_wear_femme_clothes(H))
 					head = /obj/item/clothing/head/roguetown/rosa/three
 					shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/three
-					gloves = /obj/item/clothing/gloves/roguetown/rosa/three
-					shoes = /obj/item/clothing/shoes/roguetown/rosa
+				gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
+				shoes = /obj/item/clothing/shoes/roguetown/boots/otavan
 				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 				belt = /obj/item/storage/belt/rogue/leather/plaquesilver
 				beltr = /obj/item/flashlight/flare/torch/lantern
