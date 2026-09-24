@@ -268,7 +268,7 @@
 	climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
 
-	if(HAS_TRAIT(climaxer, TRAIT_NOBLE_UNLANDED) && (partner.get_face_name() == partner.real_name) !partner.is_burgher() && !partner.is_courtier() && !partner.is_noble()) // whuh oh
+	if(HAS_TRAIT(climaxer, TRAIT_NOBLE_UNLANDED) && (partner.get_face_name() == partner.real_name) && !partner.is_burgher() && !partner.is_courtier() && !partner.is_noble()) // whuh oh
 		climaxer.add_stress(/datum/stressevent/unlanded_noble_scandal_in_the_making)
 
 	if(HAS_TRAIT(climaxer, TRAIT_UNSATISFIED)) //Given for 30 seconds when someone sets their arousal, it prevents gaining any benefits from orgasm
