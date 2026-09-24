@@ -1,12 +1,11 @@
 /datum/virtue/utility/noble
 	name = "Nobility"
 	desc = "By birth, blade or brain, I am noble known to the royalty of these lands, and have all the benefits associated with it. I've cleverly stashed away a healthy amount of coinage, alongside a familial heirloom. Being outside a job expected of nobility has its downsides; I have to hold myself to higher standards."
-	custom_text = "Taking nobility through a virtue or quirk requires you to behave more strictly 'noble' than those in noble roles; for example, sleeping outdoors or on a poor-quality bed, using scavenged or poorly forged equipment, and similar will debuff your mood."
 	ui_fa_icon = "crown"
 	restricted = TRUE
 	max_choices = 1
 	races = list(/datum/species/construct, /datum/species/dullahan)
-	added_traits = list(TRAIT_NOBLE, TRAIT_EXPERT_HUNTER, TRAIT_NOBLE_UNLANDED)
+	added_traits = list(TRAIT_NOBLE, TRAIT_EXPERT_HUNTER)
 	added_skills = list(list(/datum/skill/misc/reading, 1, 6))
 	added_stashed_items = list("Hefty Coinpurse" = /obj/item/storage/belt/rogue/pouch/coins/virtuepouch)
 	choice_costs = list(0)
