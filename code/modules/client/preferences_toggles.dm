@@ -107,6 +107,17 @@
 		else
 			to_chat(src, "Others can't touch you.")
 
+/client/verb/toggle_ghostroles() // Toggles pop-ups to play as summons while observing.
+	set category = "Preferences.Options"
+	set name = "Toggle Ghostroles"
+	if(prefs)
+		prefs.ghostroles = !prefs.ghostroles
+		prefs.save_preferences()
+		if(prefs.ghostroles)
+			to_chat(src, "You'll be offered to play as summons and other special ghost roles.")
+		else
+			to_chat(src, "You'll no longer be offered to play as summons and other special ghost roles.")
+
 /client/verb/toggle_compliance_notifs() // The messages need to be on-by-default while this is in its early stages.
 	set category = "Preferences.Options"
 	set name = "Toggle Compliance Notifs"
