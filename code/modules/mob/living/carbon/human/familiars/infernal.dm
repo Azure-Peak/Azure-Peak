@@ -47,7 +47,7 @@
 		TRAIT_UNCONVERTIBLE,
 	)
 	origin = "The Hells"
-	origin_default = /datum/virtue/origin/familiar/infernal
+	origin_default = /datum/virtue/origin/unselectable/infernal
 
 // they get to glow because they're on fire
 /mob/living/carbon/human/species/familiar/infernal/Initialize(mapload)

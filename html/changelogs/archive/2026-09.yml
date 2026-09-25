@@ -832,3 +832,285 @@
   - bugfix: Burn wounds should now take longer to sew the more severe the wound is.
   mumblemancer:
   - rscadd: jesters can now flip thru their Japes
+2026-09-20:
+  BurpleBineapple:
+  - rscadd: adds a heavy AC reskin of the brigandine as a triumph/donor item.
+  KatTheFox:
+  - bugfix: Knights/VLs with long names are no longer unmailable
+  Lamasmaster:
+  - balance: Makes both divine strike and hamstring last 10 seconds instead of 15,
+      hamstring no longer takes away 2 SPD resulting in 40% instead of intended 20%
+      dodge sap.
+  OrbisAnima:
+  - qol: Removes random chance to fail picking bushes, swampweed, wild firitus and
+      wild pumpkin.
+  ToasterStrudes:
+  - bugfix: you can now unbind keys that were previously bugged and unable to be unbound
+      in keybindings.
+  eirenxiv:
+  - bugfix: removed second_chance virtue from mistwalker
+  racobio:
+  - rscadd: Added three new dark elf skin tones
+2026-09-21:
+  KatTheFox:
+  - bugfix: Ochre arils are now functional.
+  - bugfix: Ashen and ochre arils' downsides can no longer be entirely ignored if
+      you're wearing plate, and they properly kill revenants now.
+  - bugfix: Gilbranze is still not bronze.
+  Ketrai:
+  - rscadd: New deep one variant.
+  - balance: Catching abyssal fish in abyssal waters is now 20% more likely.
+  - balance: Mobs that are fished up now spawn in with a small delay.
+  - bugfix: Aquatic compulsion no longer gravitates towards one type of fish per pool
+      permanently.
+  Kevak:
+  - rscadd: Bedhead (Longest) is now an available hairstyle.
+  Lamasmaster:
+  - rscadd: Zardmen can now pick bodytypes like non anthro races.
+  - rscadd: Bodytypes to Axians, Lupians and Venards
+  - rscadd: The random colours of zards (baseline) are no longer TG eyesore green
+      only.
+  - bugfix: Masc no longer default to elven instead of human bodytype (whoops) - still
+      have options to switch around.
+  - admin: Admin ban panel is no longer missing Inquisition as an option and all are
+      now within the longform list to be easier to read in fullscreen window.
+  MortoSasye:
+  - bugfix: fixed naledi light skin color characters from ending up whitewashed.
+  - rscadd: Added support for custom sprites for the azure crown.
+  Quinalion:
+  - rscadd: Added Inquisitorial Heels for Inquisitors with SHE_HER pronouns.
+  Ryan180602:
+  - bugfix: allow special characters in custom descriptors
+  - admin: add attack logs for charging
+  - bugfix: chat auto-scroll should work fine during heavy combat/chatspam
+  VanWinkler:
+  - rscadd: Minion Order and Gravemark to Zizo Excommunicated Vagabonds
+  - rscadd: Minion Order and Gravemark to Zizo Shamans
+  - rscadd: Minion Order and Gravemark to Zizo Godsblood Witches
+  - rscadd: Minion Order and Gravemark to Zizo Devotion Cantors
+  WeNeedMorePhoron:
+  - rscadd: An "issued" tabs show quests you have issued. You can cancel / take back
+      any quests that has not been taken up. Once it is taken up but not started (i.e.
+      they didn't  arrive at the point), you can revoke it after 30 minutes.
+  - rscadd: You can "top up" Burgher's Pledge with Crown's Purse as the Steward if
+      you are short on issuing say, a blockade quest. For example if you have 600
+      pledge and 750 cost you can top up the remaining 150 from the purse.
+  - rscadd: Lapsed quests will refund to the pool. Canceled quests also refund to
+      the pool. I.e. canceling a 500 pledge quests should refund properly.
+  - rscadd: Blockade Writs now goes into the "Issued" tab for recalling purpose and
+      no longer have a 15 minutes timer but the same 30 minutes rules as everyone
+      else.
+  mumblemancer:
+  - rscadd: zuns & zyns
+  nauticall:
+  - image: (Donor) Greatcoats now layer on top of most articles of clothing, similarly
+      to the longcoat.
+2026-09-22:
+  BurpleBineapple:
+  - bugfix: Fixes missing sleeves on side sprites for the heavy brigandine triumph
+      skin
+  KatTheFox:
+  - rscadd: Transmutation, a new crafting system not overmuch like its predecessor
+  - balance: Transmutation can only be performed by alchemy experts who are also mages,
+      and requires a rare and expensive workstation
+  - balance: Transmutation labs are only given to the Academy and witches, by default.
+  - rscadd: Transmutation allows you to transform many things using a new resource,
+      'prima materia', which is present within certain items and only visible to transmuters
+  - rscadd: Check the excellent Encyclopedia via the verb in the OOC tab for recipes
+      and more info!
+  - balance: Transmutation requires catalysts, which are created using a unique system.
+      Inspect a transmutation lab for details, if you're a transmuter
+  - rscadd: Tier 2 potions, a mage-exclusive alchemy product. Instead of giving combat-oriented
+      stat boosts, these temporarily give utility traits with a quasi-divine flavor
+      - with the exception of one, which is instead applied to items. Making them
+      requires a rubedo catalyst.
+  - rscadd: Enchanting has been slightly reflavored. Enchanting scrolls are now 'runic
+      tinctures', which can be applied to items by mages. The framework is in place
+      for enchantments to have effects on things other than items; currently, this
+      only applies to revealing light, which can be used to conjure a stable light
+      source on a turf.
+  - qol: The scholar's pouch that mages spawn with can now hold fyritius, since it's
+      used in alchemy
+  - balance: Alchemist associate is removed. Mage apprentice is now closer to mage
+      associate, losing arcyne power for improved mundane skills. Mage associates
+      and apprentices can now select a specialty that gives them a minor boost to
+      ease roundstart grind, without differentiating them fully into separate roles.
+  - rscadd: Soothing soap, a soap variant with a slight healing effect. Has an enhanced
+      calming effect compared to normal soap when properly bathing with it (i.e. in
+      a bath or hot spring). Only obtainable through high-level transmutation or the
+      brassface (not the purity). Normal bathhouse soap can also be bought at the
+      brassface, because the bathhouse not having a way to restock their soap is silly.
+  - rscadd: Alchemical diffusers, transmuted bath bombs you can throw into hot springs
+      or bathwater to slightly improve the effects of a bath, as well as making them
+      smell nice. These can be transmuted, or bought from the brassface for bathhouse
+      use.
+  - rscdel: Removed the lightning enchant, as the last great offender of the combat
+      enchantments. Lightning whips and such were fairly intolerable.
+  Ollanius:
+  - bugfix: Visored sallets and sallets should now properly render with plumes.
+  - bugfix: Sallets and their derivates should now be able to wear both orles and
+      plumes at the same time.
+  - bugfix: Sweetglass no longer prints a visible error overlay when created through
+      natural means.
+  - bugfix: Sconces are no longer mysteriously offset when detorchified.
+  - bugfix: Courtesy of RadiantFlash, snouted armets now properly merge with head
+      decorations.
+  OrbisAnima:
+  - qol: Removes the Directional pass check for bushes, they can be passed from any
+      direction now.
+  - balance: Adds a slowdown (1 second) when walking through bushes, unless you have
+      the Dendor gift or you are a native azurean.
+  WeNeedMorePhoron:
+  - code_imp: Refactored how NPC loadouts are composed and made in the backend to
+      make it more reusable and composable
+  - code_imp: Improved the Game Master Panel to add in "Warband", premade squads of
+      NPC
+  - code_imp: Warband mode now have "Spread" which allows them to be spread on nearby
+      open tile on spawn
+  changelingonberry:
+  - bugfix: werewolfs & gnolls don't draw messed-up bloody hand sprites anymore
+  nauticall:
+  - qol: SCOM middle-click now immediately opens a garrison line if you have a garrison
+      ring equipped.
+  - qol: SCOMs now have a mechanics examine, telling you of their basic mechanics.
+  - rscadd: Jabberlines have been moved to right-click.
+  - rscadd: Decrees have been moved to Examine, under the laws.
+  - image: RCOMs now have a unique sprite.
+  zRainbowcat:
+  - bugfix: fixed grenzelhat sallet crafting making it steel while asking iron
+  - qol: cosmetic revamp is back
+2026-09-23:
+  FreeStylaLT:
+  - bugfix: Fixed blood miracle increasing its restored blood volume with every cast.
+  - bugfix: Fixed an instance where sharp weapons with very low remaining sharpness
+      treated bare skin like impenetrable armor.
+  - bugfix: Fixed mining drill not consuming any fuel on mob hits.
+  - balance: Militia steel warpick stab now has 2 pen rather than 3.
+  - balance: Lowered most Polearm wdef.
+  - balance: Slightly lowered mage implement wdef.
+  - balance: Halberd is now Heavy Balanced with more sharpness.
+  - balance: Grand Mace stab is now delayed and has lower damage values.
+  Guidesu:
+  - rscadd: Witches can select small skill-sets to aid their routines.
+  Lamasmaster:
+  - rscdel: Malum Mending no longer produces sparks.
+  - balance: Ignite can no longer be used on living beings at all, it now has 2 second
+      CD (6 for undivided) serving as glorified ranged flint.
+  - bugfix: Bishop selection has the updated T4s.
+  MortoSasye:
+  - bugfix: Zorgoia and Bat tails no longer mysteriously hover next to its owner side.
+  Quinalion:
+  - bugfix: Fixes Elf/Slim bodytype offset.
+  ToasterStrudes:
+  - rscadd: Magicians Brick can now be twirled, non-magos will bonk their head with
+      the brick.
+  anything86:
+  - balance: Matthiosite gilded flail actually has integrity now
+  - bugfix: fixes a trait doing nothing before
+  changelingonberry:
+  - balance: readying-up gives you full nutrition now
+  nauticall:
+  - rscadd: Grass and leaves now change with the season. Mapped-in grass colorations
+      were left unaffected.
+  - rscadd: Weather distribution is now seasonal rather than storyteller-dependent.
+      Snow is once again added to the weather pool. Falling petals (sakura) now happen
+      randomly in the Spring, while falling leaves will happen randomly in Autumn.
+  - code_imp: Added a new season subsystem to track and modify seasonal changes.
+  radarseas:
+  - balance: adds a bash intent to shortswords. so you can nonlethally incapacitate
+      people.
+  - balance: gronnic shortsword subtype gets the worse 50% vs 60% bash intents since
+      its a lethality orientated weapon.
+  - rscadd: Added new origin - The Forgotten Empires - Exclusive to Lich/Unbound/Siege
+      Skeletons.
+  - code_imp: Cleaned up Siege skeleton descriptions a little bit.
+  - refactor: refactored /familar -> /unselectable, for origins that won't show in
+      the char menu
+  zRainbowcat:
+  - bugfix: mounts no longer get stuck if send away from maneaters
+2026-09-24:
+  KatTheFox:
+  - bugfix: Becoming a deadite and then being cured no longer permanently revokes
+      your panel privileges.
+  - bugfix: Wretch aliases are now respected by the mercenary statue in all cases.
+      Sending messages, receiving messages, responding to sent messages, the works.
+      If you set an alias, you'll show up as that alias, to everyone. Simple as.
+  - bugfix: Sandals can now be repaired with a sewing needle, and scrapped with scissors.
+  - bugfix: Migrant mercs now count as mercs for purposes of accessing the statue,
+      responding to messages, etc. Migrant mercs and advs can now access contracts
+      before the 1 hour mark.
+  - bugfix: Hitting iron ingots with a wooden stake now works to scrap them, again.
+  - bugfix: Fae familiars can no longer dispense vampire fang juice after being bitten.
+      As funny as that was.
+  Lamasmaster:
+  - spellcheck: Changes invocations of Malum ritual/miracles to be bit more "soulful"
+  anything86:
+  - balance: changes how psydonian healing works, reduces its effectiveness on constructs
+      and revenants
+  - balance: Endure miracle no longer permanently stops bleeding, instead is temporary
+  nauticall:
+  - bugfix: Greatcoat has been re-repathed to being a cloak again, fixing several
+      side effects that came as a result of a previous PR adjusting it.
+  radarseas:
+  - rscadd: TRAIT_WARLOCK, given exclusively to people who have done Rituos, it prevents
+      you suffering the massive stamina + fatigue penalties with a weapon, which you
+      will be using 90% of the time anyway. Admins can also adminbuse this trait in.
+  - balance: Zizo Rituos users have lost their ice shotgun blast, its replaced with
+      a 2 spell utility pick with the other 4 cantrips, we can adjust as needed.
+  - balance: Arcayne Diagnosis/Analyze now have whisper incantations when cast, to
+      make it subtly obvious you're using unusual magic over talent.
+2026-09-25:
+  Fi:
+  - rscadd: Added the ability to change a character's hairstyle, including facial
+      hairstyle, mid-round through all mirrors. The hand mirrors will have a new intent
+      called "STYLE" for this purpose when targeting the head.
+  - rscadd: Added the closets as additional objects for accessing one's stash (loadout
+      items).
+  - bugfix: Restored the black mirror's previous opening and closing requirement when
+      held.
+  FreeStylaLT:
+  - bugfix: Broken weapons can no longer have their Specials be used.
+  Guidesu:
+  - rscadd: Buffed Biome Wanderer adventurer class
+  MortoSasye:
+  - bugfix: fixed sock marking, longer sock marking, and plain marking on female body
+      sprites for legs.
+  OrbisAnima:
+  - qol: Removes Performer Virtue. Adds the skill increase and the instrument as options
+      of Socialite.
+  - qol: Adds a new free choice for Socialite. Removes Beautiful by default but adds
+      it as a choice available for the virtue.
+  anything86:
+  - bugfix: curse of noc should now properly stop casting of all spells
+  - rscadd: Surviving a round with DNR now gives you 3 triumphs
+  - balance: Slightly juices up the vicious greataxe to bring it up to par with other
+      heretic weapons
+  bearrrrrrrr:
+  - balance: Tithebound fixes and balance
+  borneblood:
+  - bugfix: fixed a sprite issue with spaded tail.
+  - rscadd: Added a new pair of horns, 'Sarkaz'.
+  - spellcheck: Added more fluff to embedding arrows/bolts.
+  - balance: Spawnables of Matthios' vault cannot be sold in the Navigator anymore
+  - code_imp: Cursed Items can receive more than one Trait now, use a list (or defined
+      list) for that.
+  - bugfix: Netted had an oversight that prevented it properly executing. Using nets
+      to ensnare people is now back on the menu.
+  - bugfix: Smelting scrap now yields some minor exp.
+  - bugfix: Fixed an oversight with No Breath trait.
+  changelingonberry:
+  - bugfix: deserter & heretic spy now receive their round-start mammons
+  - rscadd: Round type now shows in round info.
+  - admin: Reshuffled some verbs, also Whom to OOC
+  kiwedespars:
+  - rscadd: gave disciple/sojourner bloodloss resistance back
+  radarseas:
+  - image: added/adjusted generic spell icons for dig clay/massage/fit clothing/beserk
+      rage/featherfall/leap
+  zRainbowcat:
+  - bugfix: porthole doors now do not spawn with premade keyholes
+  - bugfix: Absolver now properly removes CC upon absolving someone
+  - qol: thrillseeker no longer gives you anorgasmia
+  - bugfix: fixed atgervi shaman, cantor and witch (miracle focused variants) not
+      having order and gravemark if zizo is chosen
+  - refactor: changed logic for giving skeleton's controlling abilities

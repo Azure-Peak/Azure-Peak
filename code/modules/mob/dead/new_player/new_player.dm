@@ -559,6 +559,9 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 
 	roll_stats(new_player)
 
+	if(npc_archetype)
+		apply_npc_archetype()
+
 /mob/dead/new_player/proc/transfer_character()
 	. = new_character
 	if(.)

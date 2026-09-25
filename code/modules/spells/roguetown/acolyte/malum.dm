@@ -160,8 +160,9 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	//invocations = list("Through flame and ash, let vigor rise, by Malum’s hand, let strength reprise!")
-	invocation_type = INVOCATION_NONE
+	//invocations = list("Through flame and ash, let vigor rise, by Malum’s hand, let strength reprise!") Old Invocation
+	invocations = list("Lay stone upon stone, pile foe upon foe, ‘til thy Malum's work is done.")
+	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
@@ -226,7 +227,8 @@
 	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_MIRACLE//Dunno it's not properly inhereting for some reason.
 
-	invocations = list("By molten might and hammer's weight, in Malum’s flame, the earth shall quake!")
+	//invocations = list("By molten might and hammer's weight, in Malum’s flame, the earth shall quake!")Old Invocation
+	invocations = list("Let my hammer fall in righteousness on the brows of heathens and miscreants!")
 	invocation_type = INVOCATION_SHOUT
 
 	cooldown_time = 45 SECONDS
@@ -324,7 +326,7 @@
 	secondary_resource_cost = SPELLCOST_MIRACLE
 
 	invocations = list("With heat I wield, with flame I claim, Let metal serve in Malum's name!")
-	invocation_type = INVOCATION_SHOUT //It has seperate message ON USE
+	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
 	charge_time = 1 SECONDS
@@ -502,7 +504,7 @@
 
 	secondary_resource_cost = SPELLCOST_ULTIMATE
 
-	invocations = list("Sanctuary!")
+	invocations = list("Malum lead me against the dark towards the light!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE

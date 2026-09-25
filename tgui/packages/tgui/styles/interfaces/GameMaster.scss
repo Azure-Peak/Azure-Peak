@@ -1,13 +1,28 @@
 .GameMaster__pane .Section__title {
-  display: flex;
-  align-items: center;
   min-height: 2.25em;
   padding-top: 0;
   padding-bottom: 0;
 }
 
 .GameMaster__pane .Section__buttons {
-  top: 50%;
-  margin-top: 0;
-  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.GameMaster__members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em 0.5em;
+}
+
+.GameMaster__member {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3em;
+  padding: 0 0.4em;
+  border: 1px solid rgba(122, 86, 22, 0.35);
+  border-radius: 2px;
+  background: rgba(122, 86, 22, 0.08);
+  white-space: nowrap;
 }

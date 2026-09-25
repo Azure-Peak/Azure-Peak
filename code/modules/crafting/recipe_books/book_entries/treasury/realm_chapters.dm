@@ -42,7 +42,7 @@
 
 		<ul>
 			<li><b>Defense Commissions</b> - drawn against the Pledge or the Crown's Purse, posted to boards or handed to a bearer.</li>
-			<li><b>Blockade Writs</b> - given to a fellowship of at least [BLOCKADE_FELLOWSHIP_REQUIREMENT]. The Steward may recall an unanswered writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes, recovering the draft.</li>
+			<li><b>Blockade Writs</b> - given to a fellowship of at least [BLOCKADE_FELLOWSHIP_REQUIREMENT]. It may be withdrawn from the Issued tab like any commission.</li>
 			<li><b>Requests</b> - daily quota of [COMMISSION_REQUESTS_PER_DAY] reward-less commissions, Steward-only.</li>
 		</ul>
 
@@ -68,7 +68,7 @@
 
 		<p>Multiple blockades may exist at once. One writ per blockade at a time. Blockades are rolled at roundstart only; there is no mid-round scheduled spawn.</p>
 
-		<p>The Steward may recall an unanswered Blockade Writ after [BLOCKADE_RECALL_WINDOW_DS / 600] minutes. The waves begin when the bearer arrives, which must be broken within [BLOCKADE_RECALL_WINDOW_DS / 600] minutes of the wave spawning. There'll be a warning at the 5 minutes, 2 minutes and 1 minute mark.</p>
+		<p>A Blockade Writ may be withdrawn from the Issued tab until the first wave begins. The waves begin when the bearer arrives, which must be broken within [BLOCKADE_WAVE_TIMER_DS / 600] minutes of the wave spawning. There'll be a warning at the 5 minutes, 2 minutes and 1 minute mark.</p>
 		</div>
 	"}
 

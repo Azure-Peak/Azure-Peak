@@ -1,4 +1,0 @@
-author: "Lamasmaster"
-delete-after: True
-changes:
-  - balance: "Makes both divine strike and hamstring last 10 seconds instead of 15, hamstring no longer takes away 2 SPD resulting in 40% instead of intended 20% dodge sap."

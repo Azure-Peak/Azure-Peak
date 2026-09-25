@@ -589,11 +589,17 @@
 /obj/item/rogueweapon/contraption/pick/drill/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
+	RegisterSignal(src, COMSIG_ITEM_AFTERATTACK, PROC_REF(on_attack))
 
 
 /obj/item/rogueweapon/contraption/pick/drill/Destroy()
 	STOP_PROCESSING(SSobj, src)
+	UnregisterSignal(src, COMSIG_ITEM_AFTERATTACK)
 	return ..()
+
+/obj/item/rogueweapon/contraption/pick/drill/proc/on_attack(target, user, proximity_flag, click_parameters)
+	if(target && user && proximity_flag && isliving(target))
+		charge_deduction(target, user, rand(50, 100))
 
 /obj/item/rogueweapon/contraption/pick/drill/attack_obj(obj/O, mob/living/user)
 	. = ..()
@@ -606,6 +612,10 @@
 
 /obj/item/rogueweapon/contraption/pick/drill/afterattack(atom/target, mob/living/user, proximity_flag, list/modifiers)
 	. = ..()
+
+/obj/item/rogueweapon/contraption/pick/drill/battery_collapse(atom/A, mob/living/user)
+	. = ..()
+	user.dropItemToGround(src, TRUE)
 
 /obj/item/rogueweapon/contraption/pick/drill/attack_right(mob/user)
 	. = ..()
