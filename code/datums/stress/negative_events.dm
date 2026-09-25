@@ -325,8 +325,13 @@
 	timer = 5 MINUTES // removed via code
 
 /datum/stressevent/nistean
-	stressadd = 1
+	stressadd = 2
 	desc = span_red("That dish had meat in it...")
+	timer = 2 MINUTES
+
+/datum/stressevent/vegan
+	stressadd = 2
+	desc = span_red("That dish was made from the living...") // how the fuck do you generalize "i fucked up my vegan diet"
 	timer = 2 MINUTES
 
 /datum/stressevent/graggar_culling_unfinished

@@ -68,6 +68,12 @@
 	added_traits = list(TRAIT_NISTEAN)
 	ui_fa_icon = "fish-fins"
 
+/datum/quirk/vegan
+	name = "Végétal" // it's otavan. why? was a suggestion, and it fits best with genesism as a religious thing (loving all creation or w/e as opposed to "dendor wants us to eat each other")
+	desc = "For religious or digestive reasons, I've sworn off meat, dairy, and everything else that comes from animals."
+	added_traits = list(TRAIT_VEGAN) // this is really, _really_ restrictive - it's genuinely kind of impressive to stick to this?
+	ui_fa_icon = "seedling"
+
 /datum/quirk/nihilist
 	name = "Nihilist"
 	desc = "My past was not a gentle one—through service, desperation, or repeated exposure, I have become desensitized to death and dismemberment. The soul recoils in disgust as the body stands on business unmoved."
