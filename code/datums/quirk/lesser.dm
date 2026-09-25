@@ -94,3 +94,41 @@
 		if(hag_mind.current)
 			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a feytouched, is walking the lands this week."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
+
+/datum/quirk/wellknown
+	name = "Well-known"
+	desc = "I may not be a resident of Azure Peak myself, but I spend enough time in and around the city that my face and name are known."
+	mechdesc = "You will be treated as a resident for purposes of knowing, and being known by, those in town. Be warned: this will allow others to message, scry, and otherwise know about you from afar."
+	ui_fa_icon = "user-group"
+	restricted_virtues = list(/datum/virtue/utility/notable) // can't already be a resident
+	var/static/list/blacklisted_antag_datums = list( // should be self-explanatory. no town-known gnolls, lich skeletons, etc
+		/datum/antagonist/assassin,
+		/datum/antagonist/bandit,
+		/datum/antagonist/gnoll,
+		/datum/antagonist/goblin,
+		/datum/antagonist/hag,
+		/datum/antagonist/lich,
+		/datum/antagonist/skeleton,
+		/datum/antagonist/unbound_death_knight,
+		/datum/antagonist/unbound_spellblade,
+	)
+
+/datum/quirk/wellknown/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	var/static/list/all_resident_positions = (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions)
+	if((recipient.job in all_resident_positions) || HAS_TRAIT(recipient, TRAIT_RESIDENT)) // congrats, you wasted your quirk
+		to_chat(recipient, span_warning("I am already a resident of Azure Peak. I cannot become more well-known.")) // let them know to pick a different quirk lol
+		return
+	if(recipient.mind)
+		for(var/antag in blacklisted_antag_datums)
+			if(recipient.mind.has_antag_datum(antag, TRUE))
+				to_chat(recipient, span_warning("My nature is not conducive to being welcomed in town. I am not well-known amongst them.")) // tell them why it's not applied
+				return
+		for(var/X in all_resident_positions)
+			for(var/datum/mind/MF in get_minds(X))
+				recipient.mind.person_knows_me(MF)
+				recipient.mind.i_know_person(MF)
+			for(var/mob/living/carbon/human/H in GLOB.player_list)
+				if(HAS_TRAIT(H, TRAIT_RESIDENT)) // we have to do this to handle resident virtue; quirks are applied after virtues, so this works fine
+					recipient.mind.person_knows_me(H)
+					recipient.mind.i_know_person(H)
