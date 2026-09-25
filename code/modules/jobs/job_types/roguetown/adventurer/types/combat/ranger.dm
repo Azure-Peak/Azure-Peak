@@ -148,7 +148,7 @@
 
 /datum/outfit/job/roguetown/adventurer/bombardier/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists (and even malchemists!) and have found the perfect mix to create some chaos - now pick up that Boomslinger, and go blow something up!"))
+	to_chat(H, span_warning("Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"))
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	head = /obj/item/clothing/head/roguetown/headband/monk
