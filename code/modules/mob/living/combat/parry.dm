@@ -199,6 +199,9 @@
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
 
+	if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/staggered))
+		prob2defend *= 0.5
+
 	if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/hamstring))
 		prob2defend -= 20
 
