@@ -1,4 +1,6 @@
 #define LAST_STORYTELLER_VOTE_LOG_FILE "data/last_round/storyteller_vote.json"
+/// Persistent per-preset vote carryover. Votes a preset receives without winning carry into the next vote until it wins.
+#define STORYTELLER_VOTE_BANK_FILE "data/last_round/storyteller_vote_bank.json"
 #define DEFAULT_VOTE_PANEL_REFRESH_INTERVAL 2 SECONDS
 #define STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL 5 SECONDS
 
@@ -26,6 +28,10 @@ SUBSYSTEM_DEF(vote)
 	var/list/vote_selections = list()
 	var/list/vote_powers = list()
 	var/list/storyteller_vote_log = list()
+	/// Storyteller type path -> votes banked from previous rounds. Persists across votes via STORYTELLER_VOTE_BANK_FILE.
+	var/list/storyteller_vote_bank = list()
+	/// Choice name -> votes carried into the current storyteller vote from the bank, for display.
+	var/list/storyteller_vote_carried = list()
 	var/list/generated_actions = list()
 	var/static/list/everyone_is_equal = list("custom")
 	/// Vote types that require lobby players to ready up before voting.
@@ -81,7 +87,89 @@ SUBSYSTEM_DEF(vote)
 	vote_selections.Cut()
 	vote_powers.Cut()
 	storyteller_vote_log.Cut()
+	storyteller_vote_carried.Cut()
 	remove_action_buttons()
+
+/datum/controller/subsystem/vote/proc/load_storyteller_vote_bank()
+	storyteller_vote_bank = list()
+	var/json_file = file(STORYTELLER_VOTE_BANK_FILE)
+	if(!fexists(json_file))
+		// First run: write every votable preset at 0 so the file exists for admins to inspect or hand-edit.
+		for(var/storyteller_type in SSgamemode.storytellers)
+			var/datum/storyteller/storyboy = SSgamemode.storytellers[storyteller_type]
+			if(storyboy.preset_pool)
+				storyteller_vote_bank[storyteller_type] = 0
+		save_storyteller_vote_bank()
+		return FALSE
+	var/list/file_data = safe_json_decode(file2text(json_file))
+	if(!islist(file_data))
+		return FALSE
+	for(var/type_text in file_data)
+		var/storyteller_type = text2path(type_text)
+		if(!ispath(storyteller_type, /datum/storyteller))
+			continue
+		var/amount = file_data[type_text]
+		if(!isnum(amount))
+			amount = text2num("[amount]")
+		storyteller_vote_bank[storyteller_type] = max(0, amount || 0)
+	return TRUE
+
+/datum/controller/subsystem/vote/proc/save_storyteller_vote_bank()
+	var/list/file_data = list()
+	for(var/storyteller_type in storyteller_vote_bank)
+		file_data["[storyteller_type]"] = storyteller_vote_bank[storyteller_type] || 0
+	var/json_file = file(STORYTELLER_VOTE_BANK_FILE)
+	fdel(json_file)
+	WRITE_FILE(json_file, json_encode(file_data))
+
+/// Seeds the freshly-built storyteller ballot with each option's banked votes.
+/datum/controller/subsystem/vote/proc/apply_storyteller_vote_bank()
+	load_storyteller_vote_bank()
+	storyteller_vote_carried.Cut()
+	for(var/option in choices)
+		var/storyteller_type = get_storyteller_choice_type(option)
+		var/carried = storyteller_vote_bank[storyteller_type] || 0
+		choices[option] = carried
+		if(carried > 0)
+			storyteller_vote_carried[option] = carried
+
+/// Banks every balloted option's final total for the next vote, then clears the winner's bank.
+/// Presets absent from this ballot keep their bank untouched.
+/datum/controller/subsystem/vote/proc/bank_storyteller_vote_results(winning_choice)
+	load_storyteller_vote_bank()
+	for(var/option in choices)
+		var/storyteller_type = get_storyteller_choice_type(option)
+		if(!storyteller_type)
+			continue
+		storyteller_vote_bank[storyteller_type] = choices[option] || 0
+	var/winner_type = get_storyteller_choice_type(winning_choice)
+	if(winner_type)
+		storyteller_vote_bank[winner_type] = 0
+	save_storyteller_vote_bank()
+	var/list/bank_lines = list()
+	for(var/storyteller_type in storyteller_vote_bank)
+		var/datum/storyteller/storyboy = SSgamemode.storytellers?[storyteller_type]
+		bank_lines += "[storyboy ? storyboy.name : storyteller_type]: [storyteller_vote_bank[storyteller_type]]"
+	log_vote("Storyteller vote bank after vote: [length(bank_lines) ? jointext(bank_lines, ", ") : "empty"]")
+
+/// Zeroes the bank for one preset, or all presets if none is given. If a storyteller vote is running, the carried
+/// votes are pulled out of the live tally too; votes cast this round are kept.
+/datum/controller/subsystem/vote/proc/reset_storyteller_vote_bank(storyteller_type = null)
+	load_storyteller_vote_bank()
+	if(storyteller_type)
+		storyteller_vote_bank[storyteller_type] = 0
+	else
+		for(var/banked_type in storyteller_vote_bank)
+			storyteller_vote_bank[banked_type] = 0
+	save_storyteller_vote_bank()
+	if(mode != "storyteller")
+		return
+	for(var/option in storyteller_vote_carried.Copy())
+		if(storyteller_type && get_storyteller_choice_type(option) != storyteller_type)
+			continue
+		if(option in choices)
+			choices[option] = max(0, (choices[option] || 0) - storyteller_vote_carried[option])
+		storyteller_vote_carried -= option
 
 /datum/controller/subsystem/vote/proc/get_storyteller_vote_pool(storyteller_type)
 	if(!ispath(storyteller_type, /datum/storyteller))
@@ -192,10 +280,12 @@ SUBSYSTEM_DEF(vote)
 		var/entry = "<div style='padding:5px 6px;border-radius:6px;background:[theme["entry"]];min-width:0;'>"
 		var/details_link = "<a href='?src=[REF(SSgamemode)];storyboy_details=[storyteller_type]' style='display:inline-block;margin-left:4px;color:[theme["meta"]];font-size:0.75rem;text-decoration:none;'>(?)</a>"
 		var/threat = SSgamemode.preset_threat_tags(storyteller_type, theme["border"])
+		var/carried = storyteller_vote_carried[choice_text] || 0
+		var/carried_text = carried > 0 ? "<div style='color:[theme["meta"]];font-size:0.7rem;font-style:italic;opacity:0.85;'>+[carried] carried over from last round</div>" : ""
 		if(can_vote)
-			entry += "<div><a href='?src=[REF(src)];vote=[option_index]' style='font-size:0.9rem;color:[theme["link"]];font-weight:bold;'>[choice_text]</a>[details_link][selected_text]</div>[threat]<div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>"
+			entry += "<div><a href='?src=[REF(src)];vote=[option_index]' style='font-size:0.9rem;color:[theme["link"]];font-weight:bold;'>[choice_text]</a>[details_link][selected_text]</div>[threat]<div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>[carried_text]"
 		else
-			entry += "<div><span style='font-size:0.9rem;font-weight:bold;'>[choice_text]</span>[details_link][selected_text]</div>[threat]<div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>"
+			entry += "<div><span style='font-size:0.9rem;font-weight:bold;'>[choice_text]</span>[details_link][selected_text]</div>[threat]<div style='color:[theme["meta"]];font-size:0.76rem;'>[votes] votepwr</div>[carried_text]"
 		entry += "</div>"
 		dat += entry
 	dat += "</div></div>"
@@ -285,7 +375,8 @@ SUBSYSTEM_DEF(vote)
 			var/votes = choices[choices[i]]
 			if(!votes)
 				votes = 0
-			text += "\n<b>[choices[i]]:</b> [votes]"
+			var/carried = (mode == "storyteller") ? (storyteller_vote_carried[choices[i]] || 0) : 0
+			text += "\n<b>[choices[i]]:</b> [votes][carried > 0 ? " ([carried] carried)" : ""]"
 		if(mode == "storyteller")
 			var/list/pool_totals = get_storyteller_pool_totals()
 			if(pool_totals.len)
@@ -347,11 +438,13 @@ SUBSYSTEM_DEF(vote)
 					SSgamemode.round_ends_at = world.time + ROUND_END_TIME
 			if("storyteller")
 				save_storyteller_vote_log(., "completed")
+				bank_storyteller_vote_results(.)
 				SSgamemode.storyteller_vote_result(.)
 	else if(mode == "storyteller")
 		// No winner (inconclusive / no votes cast). Still run the result hook so
 		// selected_storyteller falls back to the default No Antag / Regular Wretch preset.
 		save_storyteller_vote_log(null, "completed")
+		bank_storyteller_vote_results(null)
 		SSgamemode.storyteller_vote_result(null)
 
 	if(restart)
@@ -589,13 +682,14 @@ SUBSYSTEM_DEF(vote)
 				vote_alert.file = 'sound/roundend/roundend-vote-sound.ogg'
 			if("storyteller")
 				choices.Add(SSgamemode.storyteller_vote_choices())
+				apply_storyteller_vote_bank()
 				vote_width = 900
 				vote_height = 600 // Give more room for storyteller
 				panel_refresh_interval = STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL
 			else
 				return FALSE
-		message_admins(span_danger("Admin [key_name_admin(usr)] start a vote of [vote_type]!"))
-		log_admin("Admin [key_name_admin(usr)] start a vote of [vote_type]!")
+		message_admins(span_danger("Admin [key_name_admin(usr)] started a vote for the [vote_type]!"))
+		log_admin("Admin [key_name_admin(usr)] started a vote for the [vote_type]!")
 		mode = vote_type
 		initiator = initiator_key
 		started_time = world.time
@@ -660,7 +754,7 @@ SUBSYSTEM_DEF(vote)
 		if(mode == "storyteller")
 			if(!length(storyteller_vote_log))
 				load_storyteller_vote_log()
-			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. The winning pool is removed from next round's vote."
+			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. The winning pool is removed from next round's vote. Gamemodes that don't win carry their votes over to the next vote until they're rolled."
 			. += "<div style='color:#992414;font-size:0.9rem;margin-bottom:6px;'>[pool_text]</div>"
 			. += render_storyteller_choices(can_vote, C)
 		else
@@ -680,6 +774,7 @@ SUBSYSTEM_DEF(vote)
 		. += "<hr>"
 		if(admin)
 			. += "(<a href='?src=[REF(src)];vote=cancel'>Cancel Vote</a>) "
+			. += "(<a href='?src=[REF(src)];vote=end_early'>End Vote Early</a>) "
 	else
 		. += "<h2>Start a vote:</h2><hr><ul><li>"
 		//restart
@@ -733,6 +828,24 @@ SUBSYSTEM_DEF(vote)
 			voting -= usr.client
 			usr << browse(null, "window=vote")
 			return
+		if("end_early")
+			if(usr.client.holder)
+				if(!mode)
+					return
+				if(alert(usr, "End this [mode] vote in 5 seconds?", "End Vote Early", "Yes", "No") != "Yes")
+					return
+				if(!mode)
+					return
+				// Shorten the period so the normal fire() countdown resolves the vote 5 seconds from now.
+				var/new_period = world.time + 5 SECONDS - started_time
+				if(new_period < (custom_vote_period || CONFIG_GET(number/vote_period)))
+					custom_vote_period = new_period
+					time_remaining = 5
+				log_admin("[key_name(usr)] ended the [mode] vote early.")
+				message_admins("[key_name_admin(usr)] ended the [mode] vote early.")
+				to_world("\n<font color='purple'><b>The [mode == "storyteller" ? "gamemode" : mode] vote will end in 5 seconds!</b></font>")
+				for(var/client/C in voting)
+					show_vote(C)
 		if("cancel")
 			if(usr.client.holder)
 				if(!mode)
@@ -811,5 +924,6 @@ SUBSYSTEM_DEF(vote)
 			P.player_actions -= src
 
 #undef LAST_STORYTELLER_VOTE_LOG_FILE
+#undef STORYTELLER_VOTE_BANK_FILE
 #undef DEFAULT_VOTE_PANEL_REFRESH_INTERVAL
 #undef STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL
