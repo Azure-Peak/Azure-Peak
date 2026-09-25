@@ -215,9 +215,6 @@
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.")
 
-					// blackened blood, finally
-					recipient.dna.species.blood_color = "#530000"
-
 					// inquisition trauma goes here
 					if(!(recipient.patron?.type == /datum/patron/old_god))
 						var/datum/charflaw/averse/A
@@ -235,6 +232,19 @@
 					else
 						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
 					to_chat(recipient, span_danger("DISCLAIMER: This Second Choice option exists to support roleplay and backstory continuity, not to diminish the threat or narrative weight of vampires, werewolves, or similar antagonistic entities. You are a tortured survivor of the Otavan Inquisition, and your very LUX fears them. Failure to roleplay this appropriately may result in this option's removal. Have fun and don't be cringe."))
+			// blood color selection
+			if(choice != SC_PALLID)
+				var/blood_color = input(recipient, "Choose the color of your blood.", "Blood Color") as null | anything in list("Coal Black", "Dark Red", "Rust Red")
+				switch(blood_color)
+					if("Dark Red")
+						recipient.dna.species.blood_color = "#530000"
+					if("Rust Red")
+						recipient.dna.species.blood_color = "#3D1B14"
+					if("Coal Black")
+						recipient.dna.species.blood_color = "#161616"
+					else
+						if(choice == SC_BLACKBLOOD) // only blackbloods are FORCED into having blackened blood
+							recipient.dna.species.blood_color = "#530000"
 
 #undef SC_ROTCURED
 #undef SC_BLACKBLOOD
