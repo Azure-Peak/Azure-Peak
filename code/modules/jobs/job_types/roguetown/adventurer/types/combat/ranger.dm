@@ -119,22 +119,24 @@
 		)
 	H.set_blindness(0)
 
-/datum/advclass/ranger/bombadier
-	name = "Bombadier"
-	tutorial = "Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"
-	outfit = /datum/outfit/job/roguetown/adventurer/bombadier
+/datum/advclass/ranger/bombardier
+	name = "Bombardier"
+	tutorial = "Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists (and even malchemists!) and have found the perfect mix to create some chaos - now pick up that Boomslinger, and go blow something up!"
+	outfit = /datum/outfit/job/roguetown/adventurer/bombardier
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT) // Bombardier get an exception - alchemy is part of the gimmick.
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT) // Bombardier get an exception - alchemy is part of the gimmick.
 	subclass_stats = list(
-		STATKEY_STR = 2,
+		STATKEY_PER = 1,
 		STATKEY_INT = 2,
-		STATKEY_CON = 1,
+		STATKEY_LCK = 1,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
@@ -143,29 +145,69 @@
 		/datum/skill/craft/engineering = SKILL_LEVEL_EXPERT,
 	)
 
-/datum/outfit/job/roguetown/adventurer/bombadier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/adventurer/bombardier/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"))
+	to_chat(H, span_warning("Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists (and even malchemists!) and have found the perfect mix to create some chaos - now pick up that Boomslinger, and go blow something up!"))
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	head = /obj/item/clothing/head/roguetown/roguehood
+	head = /obj/item/clothing/head/roguetown/headband/monk
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mageorange
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+	gloves = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith // safety first, brother
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	belt = /obj/item/storage/belt/rogue/leather
 	backr = /obj/item/twstrap/bombstrap/firebomb
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltr = /obj/item/flashlight/flare/torch/lantern
-	beltl = /obj/item/rogueweapon/mace/cudgel
+	beltl = /obj/item/rogueweapon/huntingknife/combat
 	backpack_contents = list(
 		/obj/item/bomb = 4,
-		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/flint = 1,
 		)
+
+	if(H.mind)
+		var/defense_choice = input(H, "Choose your defensive training.", "DEFENSIVE TRAINING") as anything in list("Dodge Expert", "Medium Armor")
+		switch(defense_choice)
+			if("Dodge Expert")
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+				H.change_stat(STATKEY_SPD, 2)
+				H.change_stat(STATKEY_WIL, 1)
+			if("Medium Armor")
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				H.change_stat(STATKEY_STR, 2)
+				H.change_stat(STATKEY_CON, 1)
+
 	H.set_blindness(0)
+
+/datum/action/cooldown/spell/crude_malchem
+	button_icon = 'icons/mob/actions/genericmiracles.dmi'
+	button_icon_state = "cmalchem"
+	name = "Crude Malchem"
+	desc = "A crude understanding of Malchem, allowing you to produce a vial of Second Law to gather resources for the creation of bombs, or worse."
+	associated_skill = /datum/skill/craft/alchemy
+	click_to_activate = FALSE
+	self_cast_possible = TRUE
+	primary_resource_type = SPELL_COST_STAMINA
+	primary_resource_cost = SPELLCOST_CANTRIP
+	charge_required = FALSE
+	cooldown_time = 2 MINUTES
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/crude_malchem/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+	var/obj/item/matthios_canister/secondlaw/vial = new(H.drop_location())
+	if(!vial)
+		return FALSE
+	H.put_in_hands(vial)
+	H.piss_off_matthiosians() // well, you're turning their so precious 'primordial alchemy' into something backwards onto itself and calling it yours, it's bound to cause a visceral reaction
+	StartCooldown()
+	return TRUE
 
 /datum/advclass/ranger/bwanderer
 	name = "Biome Wanderer"

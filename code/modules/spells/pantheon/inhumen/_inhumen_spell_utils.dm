@@ -491,3 +491,16 @@
 	animate(src, pixel_x = pixel_x + rand(-16,16), pixel_y = pixel_y + rand(8,20), alpha = 0, time = duration, easing = EASE_OUT)
 
 #undef MAMMON_FILTER
+
+/mob/living/carbon/human/proc/piss_off_matthiosians()
+	for(var/mob/living/carbon/human/F in view(7, src))
+		if(F == src)
+			continue
+		var/has_freemans_tools = FALSE
+		for(var/datum/action/cooldown/spell/matthios/freemans_tools/A in F.actions) // we're assuming they're at least Devotee and know true Malchem
+			has_freemans_tools = TRUE
+			break
+		if(!has_freemans_tools)
+			continue
+		F.add_stress(/datum/stressevent/saw_sacriledge)
+		to_chat(F, span_userdanger("You nearly choke on your indignation. Matthios' sacred art has been butchered into this crude rubbish! What kind of blasphemous fool would treat the Free-God's craft so carelessly?!"))

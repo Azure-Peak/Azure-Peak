@@ -63,6 +63,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "canister_empty"
 	w_class = WEIGHT_CLASS_TINY
+	var/crude_malchem = FALSE
 	var/current_color = "#ffffff"
 	var/list/required_ingredients = list()
 	var/list/inserted_ingredients = list()
@@ -78,6 +79,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	if(HAS_TRAIT(user, TRAIT_FREEMAN))
 		. += span_notice("[freeman_truth()]")
+		. += span_warning("[freeman_progress(user)]")
+	if(HAS_TRAIT(user, TRAIT_BOMBER_EXPERT) && crude_malchem && !HAS_TRAIT(user, TRAIT_FREEMAN))
 		. += span_warning("[freeman_progress(user)]")
 
 /obj/item/matthios_canister/proc/freeman_truth()
@@ -1779,6 +1782,332 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR) //These were always meant to be valid I don't get why this was forgotten about
+
+////////////////////
+// Vial of Second Law
+// Converts raw materials into three abstract components used to concoct various explosives.
+////////////////////
+
+/obj/item/matthios_canister/secondlaw
+	name = "vial of secondlaw"
+	desc = "A crude vessel containing a restless mixture of half-understood principles. Within, matter is reduced to the bare necessities of destruction."
+	current_color = "#ff4a00"
+	aura_color = "#ff8800"
+	var/shell_components = 0
+	var/blast_components = 0
+	var/organic_components = 0
+	crude_malchem = TRUE
+
+/obj/item/matthios_canister/secondlaw/freeman_truth()
+	return "A bastardized echo of the First Law. Where true Malchem refines and transforms, this crude imitation merely tears things apart and forces their remnants together for destruction. Shell, blast, and binding are reduced to their basest principles, then made to serve an ugly purpose: explosion."
+
+/obj/item/matthios_canister/secondlaw/freeman_progress(mob/user)
+	return "Shell: [shell_components] | Blast: [blast_components] | Organic: [organic_components]"
+
+/obj/item/matthios_canister/secondlaw/proc/get_components(obj/item/I)
+	var/list/components = list(
+		"shell" = 0,
+		"blast" = 0,
+		"organic" = 0
+	)
+
+	// SHELL COMPONENTS
+	if(istype(I, /obj/item/scrap))
+		components["shell"] = 1
+	else if(istype(I, /obj/item/alch/irondust))
+		components["shell"] = 1
+	else if(istype(I, /obj/item/ingot/iron))
+		components["shell"] = 3
+	else if(istype(I, /obj/item/rogueore/iron))
+		components["shell"] = 2
+	else if(istype(I, /obj/item/ingot/steel))
+		components["shell"] = 4
+	else if(istype(I, /obj/item/ingot/tin))
+		components["shell"] = 2
+	else if(istype(I, /obj/item/ingot/bronze))
+		components["shell"] = 3
+	else if(istype(I, /obj/item/ingot/copper))
+		components["shell"] = 3
+	else if(istype(I, /obj/item/rogueore/copper))
+		components["shell"] = 2
+	else if(istype(I, /obj/item/rogueore/tin))
+		components["shell"] = 2
+
+	// BLAST COMPONENTS
+	else if(istype(I, /obj/item/alch/coaldust))
+		components["blast"] = 2
+	else if(istype(I, /obj/item/alch/firedust))
+		components["blast"] = 2
+	else if(istype(I, /obj/item/ash))
+		components["blast"] = 1
+	else if(istype(I, /obj/item/grown/log/tree/stick))
+		components["blast"] = 1
+
+	// ORGANIC COMPONENTS
+	else if(istype(I, /obj/item/natural/fibers))
+		components["organic"] = 1
+	else if(istype(I, /obj/item/natural/cloth))
+		components["organic"] = 1
+	else if(istype(I, /obj/item/natural/silk))
+		components["organic"] = 2
+
+	// BUNDLES
+	else if(istype(I, /obj/item/natural/bundle))
+		var/obj/item/natural/bundle/B = I
+		var/base_value = 0
+		var/component_type
+
+		if(istype(B, /obj/item/natural/bundle/fibers))
+			base_value = 1
+			component_type = "organic"
+		else if(istype(B, /obj/item/natural/bundle/cloth))
+			base_value = 1
+			component_type = "organic"
+		else if(istype(B, /obj/item/natural/bundle/silk))
+			base_value = 2
+			component_type = "organic"
+		else if(istype(B, /obj/item/natural/bundle/stick))
+			base_value = 1
+			component_type = "blast"
+
+		if(base_value && component_type)
+			components[component_type] = base_value * B.amount
+
+	return components
+
+/obj/item/matthios_canister/secondlaw/proc/process_material(obj/item/I, mob/user)
+	var/list/components = get_components(I)
+	if(!components["shell"] && !components["blast"] && !components["organic"])
+		return FALSE
+	if(!do_after(user, 0.75 SECONDS, target = user))
+		return TRUE
+	shell_components += components["shell"]
+	blast_components += components["blast"]
+	organic_components += components["organic"]
+	qdel(I)
+	to_chat(user, span_warning("The material breaks apart into crude explosive principles...<br>(Shell: [shell_components] | Blast: [blast_components] | Organic: [organic_components])"))
+	playsound(user.loc, 'sound/misc/smelter_sound.ogg', 50, FALSE)
+	return TRUE
+
+/obj/item/matthios_canister/secondlaw/attackby(obj/item/I, mob/user, params)
+	if(!HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		to_chat(user, span_warning("The principle behind this vial escapes me. This is nonsense and heresy!"))
+		return TRUE
+	var/list/components = get_components(I)
+	if(!components["shell"] && !components["blast"] && !components["organic"])
+		to_chat(user, span_warning("This has no useful components for entropic dust."))
+		return TRUE
+	process_material(I, user)
+	return TRUE
+
+/obj/item/matthios_canister/secondlaw/proc/process_batch(mob/user, turf/T)
+	var/level = user.get_skill_level(/datum/skill/craft/alchemy)
+	var/batch_size = 2 + (level * 2)
+	var/processed = 0
+	while(TRUE)
+		var/list/batch = list()
+		for(var/obj/item/I in T)
+			var/list/components = get_components(I)
+			if(components["shell"] || components["blast"] || components["organic"])
+				batch += I
+			if(batch.len >= batch_size)
+				break
+		if(!batch.len)
+			break
+		if(!do_after(user, 1 SECONDS, target = user))
+			break
+		for(var/obj/item/I in batch)
+			if(QDELETED(I))
+				continue
+			var/list/components = get_components(I)
+			if(!components["shell"] && !components["blast"] && !components["organic"])
+				continue
+			shell_components += components["shell"]
+			blast_components += components["blast"]
+			organic_components += components["organic"]
+			qdel(I)
+			processed++
+		playsound(user.loc, 'sound/misc/smelter_sound.ogg', 25, FALSE)
+	if(processed > 0)
+		to_chat(user, span_warning("You reduce the gathered materials into entropic dust.<br>(Shell: [shell_components] | Blast: [blast_components] | Organic: [organic_components])"))
+	return processed > 0
+
+/obj/item/matthios_canister/secondlaw/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag || !HAS_TRAIT(user, TRAIT_MATTHIOS_EYES))
+		return
+	if(isitem(target))
+		var/obj/item/I = target
+		var/list/components = get_components(I)
+		if(!components["shell"] && !components["blast"] && !components["organic"])
+			to_chat(user, span_warning("This cannot be reduced into entropic dust."))
+			return
+		process_material(I, user)
+		return
+	if(isturf(target))
+		process_batch(user, target)
+
+/obj/item/matthios_canister/secondlaw/attack_self(mob/user)
+	if(!HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+		to_chat(user, span_warning("What the hell do I do with this junk?"))
+		return
+
+	var/list/explosives = list(
+		"Bomb" = /obj/item/bomb,
+		"Trip Bomb" = /obj/item/bomb/tripbomb,
+		"Smoke Bomb" = /obj/item/bomb/smoke,
+		"Blastpowder Stick" = /obj/item/tntstick,
+		"Blastpowder Satchel" = /obj/item/satchel_bomb,
+		"Impact Grenade" = /obj/item/impact_grenade/explosion,
+		"Smoke Grenade" = /obj/item/impact_grenade/smoke,
+		"Poison Gas Belcher" = /obj/item/impact_grenade/smoke/poison_gas,
+		"Healing Gas Belcher" = /obj/item/impact_grenade/smoke/healing_gas,
+		"Burning Gas Belcher" = /obj/item/impact_grenade/smoke/fire_gas,
+		"Blinding Gas Belcher" = /obj/item/impact_grenade/smoke/blind_gas,
+		"Silent Gas Belcher" = /obj/item/impact_grenade/smoke/mute_gas
+	)
+
+	var/choice = input(user, "What shall the Second Law concoct?", "Second Law") as null|anything in explosives
+
+	if(!choice)
+		return
+
+	var/path = explosives[choice]
+	var/list/cost = get_explosive_cost(path)
+
+	if(shell_components < cost["shell"])
+		to_chat(user, span_warning("There is not enough shell component. ([shell_components]/[cost["shell"]])"))
+		return
+
+	if(blast_components < cost["blast"])
+		to_chat(user, span_warning("There is not enough blast component. ([blast_components]/[cost["blast"]])"))
+		return
+
+	if(organic_components < cost["organic"])
+		to_chat(user, span_warning("There is not enough organic component. ([organic_components]/[cost["organic"]])"))
+		return
+
+	if(!do_after(user, 2 SECONDS, target = user, same_direction = TRUE))
+		return
+
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+
+	shell_components -= cost["shell"]
+	blast_components -= cost["blast"]
+	organic_components -= cost["organic"]
+
+	var/obj/item/I = new path(T)
+
+	if(!I)
+		shell_components += cost["shell"]
+		blast_components += cost["blast"]
+		organic_components += cost["organic"]
+		return
+
+	user.put_in_hands(I)
+
+	to_chat(user, span_notice("The Second Law takes shape. [choice] is concocted from crude Malchemy."))
+	playsound(T, 'sound/effects/matth_barter.ogg', 75, TRUE)
+
+	update_icon()
+
+	if(shell_components <= 0 && blast_components <= 0 && organic_components <= 0)
+		funny_smoke(src)
+		qdel(src)
+
+
+/obj/item/matthios_canister/secondlaw/proc/get_explosive_cost(path)
+	switch(path)
+		if(/obj/item/bomb)
+			return list(
+				"shell" = 2,
+				"blast" = 2,
+				"organic" = 1
+			)
+
+		if(/obj/item/bomb/tripbomb)
+			return list(
+				"shell" = 2,
+				"blast" = 2,
+				"organic" = 2
+			)
+
+		if(/obj/item/bomb/smoke)
+			return list(
+				"shell" = 1,
+				"blast" = 2,
+				"organic" = 1
+			)
+
+		if(/obj/item/tntstick)
+			return list(
+				"shell" = 1,
+				"blast" = 5,
+				"organic" = 2
+			)
+
+		if(/obj/item/satchel_bomb)
+			return list(
+				"shell" = 4,
+				"blast" = 15,
+				"organic" = 5
+			)
+
+		if(/obj/item/impact_grenade/explosion)
+			return list(
+				"shell" = 2,
+				"blast" = 4,
+				"organic" = 1
+			)
+
+		if(/obj/item/impact_grenade/smoke)
+			return list(
+				"shell" = 2,
+				"blast" = 2,
+				"organic" = 2
+			)
+
+		if(/obj/item/impact_grenade/smoke/poison_gas)
+			return list(
+				"shell" = 2,
+				"blast" = 3,
+				"organic" = 2
+			)
+
+		if(/obj/item/impact_grenade/smoke/healing_gas)
+			return list(
+				"shell" = 2,
+				"blast" = 2,
+				"organic" = 3
+			)
+
+		if(/obj/item/impact_grenade/smoke/fire_gas)
+			return list(
+				"shell" = 2,
+				"blast" = 4,
+				"organic" = 2
+			)
+
+		if(/obj/item/impact_grenade/smoke/blind_gas)
+			return list(
+				"shell" = 2,
+				"blast" = 3,
+				"organic" = 2
+			)
+
+		if(/obj/item/impact_grenade/smoke/mute_gas)
+			return list(
+				"shell" = 2,
+				"blast" = 3,
+				"organic" = 2
+			)
+
+	return list(
+		"shell" = 1,
+		"blast" = 1,
+		"organic" = 1
+	)
 
 //THROWABLES
 /obj/item/impact_grenade/truthsnuke/lesser
