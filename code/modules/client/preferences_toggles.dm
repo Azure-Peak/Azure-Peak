@@ -107,13 +107,13 @@
 		else
 			to_chat(src, "Others can't touch you.")
 
-/client/verb/toggle_ghostroles() // Toggles pop-ups to play as summons while observing.
+/client/verb/toggle_noghostroles() // Toggles pop-ups to play as summons while observing.
 	set category = "Preferences.Options"
 	set name = "Toggle Ghostroles"
 	if(prefs)
-		prefs.ghostroles = !prefs.ghostroles
+		prefs.noghostroles = !prefs.noghostroles
 		prefs.save_preferences()
-		if(prefs.ghostroles)
+		if(prefs.noghostroles)
 			to_chat(src, "You'll no longer be offered to play as summons and other special ghost roles.")
 		else
 			to_chat(src, "You'll be offered to play as summons and other special ghost roles.")

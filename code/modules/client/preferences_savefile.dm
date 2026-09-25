@@ -149,7 +149,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["crt"]				>> crt
 	S["grain"]				>> grain
 	S["sexable"]			>> sexable
-	S["ghostroles"]			>> ghostroles
+	S["noghostroles"]			>> noghostroles
 	S["shake"]				>> shake
 	S["mastervol"]			>> mastervol
 	S["compliance_notifs"]  >> compliance_notifs
@@ -205,7 +205,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	grain				= sanitize_bool(grain, initial(grain))
 	dnr_pref			= sanitize_bool(dnr_pref, initial(dnr_pref))
 	qsr_pref			= sanitize_bool(qsr_pref, initial(qsr_pref))
-	ghostroles			= sanitize_bool(ghostroles, initial(ghostroles))
+	noghostroles		= sanitize_bool(noghostroles, initial(noghostroles))
 	no_storyteller_events = sanitize_bool(no_storyteller_events, initial(no_storyteller_events))
 	verbose_character_creator = sanitize_bool(verbose_character_creator, initial(verbose_character_creator))
 
@@ -326,7 +326,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["chat_toggles"], chat_toggles)
 	WRITE_FILE(S["combat_toggles"], combat_toggles)
 	WRITE_FILE(S["ghost_toggles"], ghost_toggles)
-	WRITE_FILE(S["ghostroles"], ghostroles)
+	WRITE_FILE(S["noghostroles"], noghostroles)
 	WRITE_FILE(S["admin_chat_toggles"], admin_chat_toggles)
 	WRITE_FILE(S["clientfps"], clientfps)
 	WRITE_FILE(S["ambientocclusion"], ambientocclusion)
