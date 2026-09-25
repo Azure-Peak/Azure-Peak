@@ -2,8 +2,8 @@
 // REFERENCE_PRODUCERS worth of producer jobs (GLOB.producer_positions) are filled and active -
 // scaling off producer headcount rather than raw pop so it doesn't undercut Steward relevance
 // just because a round happens to be crowded with non-producer roles.
-#define RURAL_SUBSIDY_BASE 600
-#define RURAL_SUBSIDY_FLOOR 200
+#define RURAL_SUBSIDY_BASE 200
+#define RURAL_SUBSIDY_FLOOR 100
 #define RURAL_SUBSIDY_REFERENCE_PRODUCERS 6
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
