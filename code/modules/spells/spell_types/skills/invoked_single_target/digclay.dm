@@ -2,7 +2,9 @@
 /obj/effect/proc_holder/spell/invoked/digclay
 	name = "Dig Clay"
 	desc = "dig for clay on some dirt or mud"
-	overlay_state = "dig"
+	overlay_state = "digclay"
+	overlay_icon = 'icons/mob/actions/townerspells.dmi'
+	action_icon = 'icons/mob/actions/townerspells.dmi'
 	releasedrain = 50
 	chargedrain = 0
 	chargetime = 0
@@ -18,7 +20,7 @@
 		digamount = pick(5, 10, 15, 20, 25) //randomized amounts
 		playsound(user, 'sound/items/dig_shovel.ogg', 25, TRUE)
 		to_chat(user, span_warning("I start to dig into the ground"))
-		if(do_after(user, digtime, target = user))			
+		if(do_after(user, digtime, target = user))
 			for(var/i=1, i<digamount,++i)
 				var/obj/item/natural/clay/R = new /obj/item/natural/clay(user.drop_location())
 				user.dropItemToGround(R)

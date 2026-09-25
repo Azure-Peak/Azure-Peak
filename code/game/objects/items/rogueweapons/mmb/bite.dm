@@ -168,7 +168,7 @@
 		if(!apply_damage(dam2do, BRUTE, def_zone, armor_block, user))
 			nodmg = TRUE
 			next_attack_msg += VISMSG_ARMOR_BLOCKED
-		else if(!nodmg && (HAS_TRAIT(user, TRAIT_VAMPBITE)))
+		else if(!nodmg && (HAS_TRAIT(user, TRAIT_VAMPBITE)) && !(src.dna?.species?.species_traits && (NOSTOMACH in src.dna?.species?.species_traits)))
 			var/ramount = 15
 			var/rid = /datum/reagent/vampsolution
 			reagents.add_reagent(rid, ramount)

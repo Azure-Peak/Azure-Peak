@@ -979,3 +979,138 @@
   zRainbowcat:
   - bugfix: fixed grenzelhat sallet crafting making it steel while asking iron
   - qol: cosmetic revamp is back
+2026-09-23:
+  FreeStylaLT:
+  - bugfix: Fixed blood miracle increasing its restored blood volume with every cast.
+  - bugfix: Fixed an instance where sharp weapons with very low remaining sharpness
+      treated bare skin like impenetrable armor.
+  - bugfix: Fixed mining drill not consuming any fuel on mob hits.
+  - balance: Militia steel warpick stab now has 2 pen rather than 3.
+  - balance: Lowered most Polearm wdef.
+  - balance: Slightly lowered mage implement wdef.
+  - balance: Halberd is now Heavy Balanced with more sharpness.
+  - balance: Grand Mace stab is now delayed and has lower damage values.
+  Guidesu:
+  - rscadd: Witches can select small skill-sets to aid their routines.
+  Lamasmaster:
+  - rscdel: Malum Mending no longer produces sparks.
+  - balance: Ignite can no longer be used on living beings at all, it now has 2 second
+      CD (6 for undivided) serving as glorified ranged flint.
+  - bugfix: Bishop selection has the updated T4s.
+  MortoSasye:
+  - bugfix: Zorgoia and Bat tails no longer mysteriously hover next to its owner side.
+  Quinalion:
+  - bugfix: Fixes Elf/Slim bodytype offset.
+  ToasterStrudes:
+  - rscadd: Magicians Brick can now be twirled, non-magos will bonk their head with
+      the brick.
+  anything86:
+  - balance: Matthiosite gilded flail actually has integrity now
+  - bugfix: fixes a trait doing nothing before
+  changelingonberry:
+  - balance: readying-up gives you full nutrition now
+  nauticall:
+  - rscadd: Grass and leaves now change with the season. Mapped-in grass colorations
+      were left unaffected.
+  - rscadd: Weather distribution is now seasonal rather than storyteller-dependent.
+      Snow is once again added to the weather pool. Falling petals (sakura) now happen
+      randomly in the Spring, while falling leaves will happen randomly in Autumn.
+  - code_imp: Added a new season subsystem to track and modify seasonal changes.
+  radarseas:
+  - balance: adds a bash intent to shortswords. so you can nonlethally incapacitate
+      people.
+  - balance: gronnic shortsword subtype gets the worse 50% vs 60% bash intents since
+      its a lethality orientated weapon.
+  - rscadd: Added new origin - The Forgotten Empires - Exclusive to Lich/Unbound/Siege
+      Skeletons.
+  - code_imp: Cleaned up Siege skeleton descriptions a little bit.
+  - refactor: refactored /familar -> /unselectable, for origins that won't show in
+      the char menu
+  zRainbowcat:
+  - bugfix: mounts no longer get stuck if send away from maneaters
+2026-09-24:
+  KatTheFox:
+  - bugfix: Becoming a deadite and then being cured no longer permanently revokes
+      your panel privileges.
+  - bugfix: Wretch aliases are now respected by the mercenary statue in all cases.
+      Sending messages, receiving messages, responding to sent messages, the works.
+      If you set an alias, you'll show up as that alias, to everyone. Simple as.
+  - bugfix: Sandals can now be repaired with a sewing needle, and scrapped with scissors.
+  - bugfix: Migrant mercs now count as mercs for purposes of accessing the statue,
+      responding to messages, etc. Migrant mercs and advs can now access contracts
+      before the 1 hour mark.
+  - bugfix: Hitting iron ingots with a wooden stake now works to scrap them, again.
+  - bugfix: Fae familiars can no longer dispense vampire fang juice after being bitten.
+      As funny as that was.
+  Lamasmaster:
+  - spellcheck: Changes invocations of Malum ritual/miracles to be bit more "soulful"
+  anything86:
+  - balance: changes how psydonian healing works, reduces its effectiveness on constructs
+      and revenants
+  - balance: Endure miracle no longer permanently stops bleeding, instead is temporary
+  nauticall:
+  - bugfix: Greatcoat has been re-repathed to being a cloak again, fixing several
+      side effects that came as a result of a previous PR adjusting it.
+  radarseas:
+  - rscadd: TRAIT_WARLOCK, given exclusively to people who have done Rituos, it prevents
+      you suffering the massive stamina + fatigue penalties with a weapon, which you
+      will be using 90% of the time anyway. Admins can also adminbuse this trait in.
+  - balance: Zizo Rituos users have lost their ice shotgun blast, its replaced with
+      a 2 spell utility pick with the other 4 cantrips, we can adjust as needed.
+  - balance: Arcayne Diagnosis/Analyze now have whisper incantations when cast, to
+      make it subtly obvious you're using unusual magic over talent.
+2026-09-25:
+  Fi:
+  - rscadd: Added the ability to change a character's hairstyle, including facial
+      hairstyle, mid-round through all mirrors. The hand mirrors will have a new intent
+      called "STYLE" for this purpose when targeting the head.
+  - rscadd: Added the closets as additional objects for accessing one's stash (loadout
+      items).
+  - bugfix: Restored the black mirror's previous opening and closing requirement when
+      held.
+  FreeStylaLT:
+  - bugfix: Broken weapons can no longer have their Specials be used.
+  Guidesu:
+  - rscadd: Buffed Biome Wanderer adventurer class
+  MortoSasye:
+  - bugfix: fixed sock marking, longer sock marking, and plain marking on female body
+      sprites for legs.
+  OrbisAnima:
+  - qol: Removes Performer Virtue. Adds the skill increase and the instrument as options
+      of Socialite.
+  - qol: Adds a new free choice for Socialite. Removes Beautiful by default but adds
+      it as a choice available for the virtue.
+  anything86:
+  - bugfix: curse of noc should now properly stop casting of all spells
+  - rscadd: Surviving a round with DNR now gives you 3 triumphs
+  - balance: Slightly juices up the vicious greataxe to bring it up to par with other
+      heretic weapons
+  bearrrrrrrr:
+  - balance: Tithebound fixes and balance
+  borneblood:
+  - bugfix: fixed a sprite issue with spaded tail.
+  - rscadd: Added a new pair of horns, 'Sarkaz'.
+  - spellcheck: Added more fluff to embedding arrows/bolts.
+  - balance: Spawnables of Matthios' vault cannot be sold in the Navigator anymore
+  - code_imp: Cursed Items can receive more than one Trait now, use a list (or defined
+      list) for that.
+  - bugfix: Netted had an oversight that prevented it properly executing. Using nets
+      to ensnare people is now back on the menu.
+  - bugfix: Smelting scrap now yields some minor exp.
+  - bugfix: Fixed an oversight with No Breath trait.
+  changelingonberry:
+  - bugfix: deserter & heretic spy now receive their round-start mammons
+  - rscadd: Round type now shows in round info.
+  - admin: Reshuffled some verbs, also Whom to OOC
+  kiwedespars:
+  - rscadd: gave disciple/sojourner bloodloss resistance back
+  radarseas:
+  - image: added/adjusted generic spell icons for dig clay/massage/fit clothing/beserk
+      rage/featherfall/leap
+  zRainbowcat:
+  - bugfix: porthole doors now do not spawn with premade keyholes
+  - bugfix: Absolver now properly removes CC upon absolving someone
+  - qol: thrillseeker no longer gives you anorgasmia
+  - bugfix: fixed atgervi shaman, cantor and witch (miracle focused variants) not
+      having order and gravemark if zizo is chosen
+  - refactor: changed logic for giving skeleton's controlling abilities

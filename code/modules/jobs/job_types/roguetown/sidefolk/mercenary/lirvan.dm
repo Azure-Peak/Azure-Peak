@@ -27,7 +27,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE, //pity. your staff is incredibly fragile
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/polearms = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/polearms = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_APPRENTICE //awww yeah
 	)
@@ -68,15 +68,14 @@
 			l_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/gold
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/saxtonhale)
 		if("Unarmed")
 			if(H.gender == FEMALE)
 				shirt = /obj/item/clothing/suit/roguetown/shirt/desertbra
 			gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
 			ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_GENERIC)
-			ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lirvan_talon)
@@ -146,7 +145,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /obj/effect/proc_holder/spell/self/lirvan_tithe
 	name = "INVOKE"
-	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 120, 180, 240, 300, 600, 800, 1000, and 1200 mammon."
+	desc = "Draw strength from the wealth you carry. Armor, jewelry, and raw mammon counted equally. More WEALTH means more POWER. More POWER at 160, 200, 300, 360, 440, 600, 800, 1000, and 1200 mammon."
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
 	recharge_time = 90 SECONDS
@@ -185,12 +184,12 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 			owner.add_filter(LIRVAN_BLING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 120, "size" = 1))
 		if(!lirvanlight)
 			lirvanlight = owner.mob_light(7, 7, _color = outline_colour)
-		if(wealth_value < 60)
+		if(wealth_value < 160)
 			to_chat(owner, span_notice("WEALTH answers my call. Every single one of my- ONLY [src.wealth_value] MAMMONS?!"))
 			owner.emote("whimper", forced = TRUE)
 			return
 		to_chat(owner, span_notice("WEALTH answers my call. Every single one of my [src.wealth_value] pieces of it."))
-		if(wealth_value > 180)
+		if(wealth_value > 300)
 			ADD_TRAIT(owner, TRAIT_FORTITUDE, STATUS_EFFECT_TRAIT)
 			gonna_fort = TRUE
 			to_chat(owner, span_userdanger("FORTIFIED."))
@@ -207,15 +206,15 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 
 /datum/status_effect/buff/lirvan_tithe/proc/update_effects()
 	wealth_value = get_moni_value(owner)
-	if(wealth_value < 60)
+	if(wealth_value < 160)
 		effectedstats = list(STATKEY_CON = 1, STATKEY_LCK = 1)
-	else if(wealth_value < 120)
+	else if(wealth_value < 200)
 		effectedstats = list(STATKEY_STR = 1, STATKEY_CON = 1, STATKEY_LCK = 1)
-	else if(wealth_value < 180)
+	else if(wealth_value < 299)
 		effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 1, STATKEY_LCK = 1)
-	else if(wealth_value < 240)
+	else if(wealth_value < 360)
 		effectedstats = list(STATKEY_STR = 2, STATKEY_CON = 2, STATKEY_LCK = 1, STATKEY_SPD = 1)
-	else if(wealth_value < 300)
+	else if(wealth_value < 440)
 		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 2, STATKEY_LCK = 2, STATKEY_SPD = 1)
 	else if(wealth_value < 600)
 		effectedstats = list(STATKEY_STR = 3, STATKEY_CON = 4, STATKEY_LCK = 2, STATKEY_SPD = 2, STATKEY_PER = 1)

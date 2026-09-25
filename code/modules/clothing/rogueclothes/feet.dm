@@ -217,6 +217,7 @@
 	item_state = "sandals"
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/cloth
+	sewrepair = TRUE
 
 /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	name = "decrepit sandals"

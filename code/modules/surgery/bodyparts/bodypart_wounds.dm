@@ -627,7 +627,8 @@
 			if (!owner.has_status_effect(/datum/status_effect/buff/drunk) && !owner.has_status_effect(/datum/status_effect/buff/ozium))
 				owner.emote("embed")
 		if(crit_message)
-			owner.next_attack_msg += " <span class='userdanger'>[embedder] runs through [owner]'s [src]!</span>"
+			var/embeds = pick("impales", "impales", "impales", "impales", "impales", "lodges in", "runs through", "buries inside", "sinks into", "drives into", "embeds in", "jams into", "gets stuck in", "lodges in", "burrows into", "penetrates into", "wedges into", "pierces into", "buries deep into")
+			owner.next_attack_msg += " <span class='userdanger'>[embedder] [embeds] [owner]'s [src]!</span>"
 			if(ranged)
 				playsound(owner, 'sound/combat/brutal_impalement.ogg', 100, vary = TRUE)
 		update_disabled()
@@ -635,7 +636,8 @@
 		if((embedder.is_silver || (embedder.is_even_lesser_silver && is_npc(owner))) && HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/datum/component/silverbless/psyblessed = embedder.GetComponent(/datum/component/silverbless)
 			owner.adjust_fire_stacks(1, psyblessed?.is_blessed ? /datum/status_effect/fire_handler/fire_stacks/sunder/blessed : /datum/status_effect/fire_handler/fire_stacks/sunder)
-			to_chat(owner, span_danger("the [embedder] in your body painfully jostles!"))
+			owner.ignite_mob()
+			to_chat(owner, span_silver("The embedded [embedder] sunders you from within!"))
 	return TRUE
 
 /// Removes an embedded object from this bodypart

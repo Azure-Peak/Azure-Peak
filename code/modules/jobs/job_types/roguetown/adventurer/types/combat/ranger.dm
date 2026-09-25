@@ -169,93 +169,152 @@
 
 /datum/advclass/ranger/bwanderer
 	name = "Biome Wanderer"
-	tutorial = "The dangers of the wilds vary upon the plains they rest upon, You happen to be experienced in many."
+	tutorial = "You have crossed forests, marshes, and open country, learning to find food, shelter, and a way through each. Your weapons and armor suit the dangers you expect to face."
 	outfit = /datum/outfit/job/roguetown/adventurer/bwanderer
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander4.ogg'
-	traits_applied = list(TRAIT_OUTDOORSMAN)
+	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_EXPERT_HUNTER)
 	subclass_stats = list(
 		STATKEY_PER = 2,
-		STATKEY_CON = 1, // Added due to it being a melee hybrid, dunno why I didn't think of this in the first place
+		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 		STATKEY_INT = 1,
 	)
 	subclass_skills = list(
 		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/bows = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
-		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/tanning = SKILL_LEVEL_NOVICE,
-		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
-		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE, // JUST enough to cook meats on their own.
+		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/tanning = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/sewing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/hunting = SKILL_LEVEL_APPRENTICE,
 	)
-	extra_context = "Selecting Light Armor grants +1 SPD. Selecting Medium Armor grants +1 STR along with the corresponding traits."
+	extra_context = "Choose an iron melee weapon, then a bow, crossbow, sling, or no ranged weapon (+1 CON). Your Wits relies on iron javelins, tossblades, a net, padded wrappings, and iron knuckles; it grants Journeyman wrestling and unarmed, Apprentice polearms and knives, plus Expert Pugilist. Light armor grants Dodge Expert and +1 SPD; medium armor grants Maille Training and +1 STR. Each armor tier has two equipment sets."
 
 /datum/outfit/job/roguetown/adventurer/bwanderer/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("The dangers of the wilds vary upon the plains they rest upon, You happen to be experienced in many."))
+	to_chat(H, span_warning("You have crossed forests, marshes, and open country, learning to find food, shelter, and a way through each."))
 	head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 	mask = /obj/item/clothing/head/roguetown/roguehood
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	belt = /obj/item/storage/belt/rogue/leather
 	cloak = /obj/item/clothing/cloak/raincloak/green
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rogueweapon/huntingknife/combat/iron = 1,
 		/obj/item/flashlight/flare/torch/lantern = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		/obj/item/flint = 1,
+		/obj/item/bait = 1,
+		/obj/item/rope = 1,
 		)
+	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Axe","Sword")
-		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/weapons = list("Iron Axe", "Iron Hunting Sword", "Iron Bastard Sword", "Iron Short Spear", "Iron Quarterstaff", "Your Wits - javelins, tossblades, net & knuckles (Expert Pugilist)")
+		var/weapon_choice = input(H, "Choose your weapon.\nYour Wits: iron javelins, a tossblade belt, a net, padded wrappings, and iron knuckles. Grants Journeyman Wrestling and Unarmed, Apprentice Polearms and Knives, plus Expert Pugilist. This kit replaces the separate ranged weapon choice.", "TAKE UP ARMS") as anything in weapons
+		var/uses_wits = (weapon_choice == "Your Wits - javelins, tossblades, net & knuckles (Expert Pugilist)")
+		var/long_weapon = FALSE
 		switch(weapon_choice)
-			if("Axe")
+			if("Iron Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut
-			if("Sword")
+			if("Iron Hunting Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltr = /obj/item/rogueweapon/sword/short/messer/iron
-		var/altweapons = list("Bow","Billhook","Sling","Crossbow")
-		var/altweapon_choice = input(H, "Choose your additional weapon.", "TAKE UP ARMS") as anything in altweapons
-		switch(altweapon_choice)
-			if("Bow")
-				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-				beltl = /obj/item/quiver/arrows
-			if("Billhook") // Debatable here, but we love variety.
+				beltr = /obj/item/rogueweapon/sword/short/messer/hunting
+			if("Iron Bastard Sword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/sword/long/iron
+				long_weapon = TRUE
+			if("Iron Short Spear")
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/spear/billhook
+				r_hand = /obj/item/rogueweapon/spear/short
+				long_weapon = TRUE
+			if("Iron Quarterstaff")
+				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
+				long_weapon = TRUE
+			if("Your Wits - javelins, tossblades, net & knuckles (Expert Pugilist)")
+				to_chat(H, span_notice("You trust your wits over a single weapon: snare your quarry with a net, harry it with javelins and tossblades, then close in with wrapped arms and iron knuckles."))
+				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
+				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
+				belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+				beltl = /obj/item/quiver/javelin/iron
+				beltr = /obj/item/net
+		if(!uses_wits)
+			var/ranged_weapons = list("Bow", "Crossbow", "Sling", "No Ranged Weapon (+1 CON)")
+			var/ranged_choice = input(H, "Choose your ranged weapon.", "TAKE UP ARMS") as anything in ranged_weapons
+			switch(ranged_choice)
+				if("Bow")
+					H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+					backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+					beltl = /obj/item/quiver/arrows
+				if("Sling")
+					H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_JOURNEYMAN, TRUE)
+					beltl = /obj/item/quiver/sling/iron
+					l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
+				if("Crossbow")
+					H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+					backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
+					beltl = /obj/item/quiver/bolt/standard
+				if("No Ranged Weapon (+1 CON)")
+					H.change_stat(STATKEY_CON, 1)
+			if(long_weapon)
+				if(backr)
+					l_hand = backr
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
-			if("Sling")
-				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltl = /obj/item/quiver/sling/iron
-				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-			if("Crossbow") // Hunting crossbows were a thing in these times, shame we don't have an item for it.
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/bolt/standard
-		var/armors = list("Light Armor","Medium Armor")
-		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMS") as anything in armors
-		switch(armor_choice)
+		var/armor_tiers = list("Light Armor", "Medium Armor")
+		var/armor_tier = input(H, "Choose your armor weight.", "TAKE UP ARMOR") as anything in armor_tiers
+		switch(armor_tier)
 			if("Light Armor")
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
-				pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
-				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				H.change_stat(STATKEY_SPD, 1)
+				var/light_sets = list("Hide Armor", "Padded Gambeson")
+				var/light_choice = input(H, "Choose your light armor.", "TAKE UP ARMOR") as anything in light_sets
+				switch(light_choice)
+					if("Hide Armor")
+						armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
+						pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+					if("Padded Gambeson")
+						armor = /obj/item/clothing/suit/roguetown/armor/gambeson
+						pants = /obj/item/clothing/under/roguetown/trou/leather
+						head = /obj/item/clothing/head/roguetown/armingcap/padded
 			if("Medium Armor")
-				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				H.change_stat(STATKEY_STR, 1)
-				H.set_blindness(0)
+				head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				var/medium_sets = list("Iron Mail", "Iron Breastplate")
+				var/medium_choice = input(H, "Choose your medium armor.", "TAKE UP ARMOR") as anything in medium_sets
+				switch(medium_choice)
+					if("Iron Mail")
+						armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
+						neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
+						gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+					if("Iron Breastplate")
+						armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
+						shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+						neck = /obj/item/clothing/neck/roguetown/coif/padded
+		if(uses_wits)
+			wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
+			gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
