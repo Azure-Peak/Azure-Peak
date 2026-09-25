@@ -1790,6 +1790,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		new /obj/effect/temp_visual/matthiosriteglow(get_turf(target)) //aurafarming
 		shake_camera(target, 5, 2)
+	new /obj/effect/temp_visual/barter_fx(get_turf(loc))
 	playsound(loc, 'sound/effects/matth_barter.ogg', 200, FALSE, -1) //LETS MAKE A DEAL
 	loc.visible_message(("<font color='yellow'>Suddenly the air shakes and glitters as gilded light pours out from the rune!</font>"))
 
