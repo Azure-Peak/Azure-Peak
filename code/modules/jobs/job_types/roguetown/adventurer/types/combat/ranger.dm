@@ -155,7 +155,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	cloak = /obj/item/clothing/cloak/eastcloak2
 	belt = /obj/item/storage/backpack/rogue/satchel/beltpack
-	armor = /obj/item/clothing/cloak/suspenders // for extra storage! gotta fit in as many bombs as we humanly can!
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 	backl = /obj/item/twstrap/bombstrap/firebomb
 	beltr = /obj/item/quiver/bolt/light
@@ -172,7 +172,7 @@
 					/obj/item/natural/bundle/fibers/full = 1,
 					/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
 					/obj/item/flashlight/flare/torch/lantern = 1,
-					/obj/item/bomb = 6,
+					/obj/item/bomb = 4,
 					/obj/item/flint = 1,
 					)
 				H.change_stat(STATKEY_SPD, 2)
@@ -186,7 +186,7 @@
 					/obj/item/natural/bundle/fibers/full = 1,
 					/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
 					/obj/item/flashlight/flare/torch/lantern = 1,
-					/obj/item/bomb = 6,
+					/obj/item/bomb = 4,
 					/obj/item/flint = 1,
 					)
 				H.change_stat(STATKEY_CON, 1)
