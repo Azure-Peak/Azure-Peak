@@ -1,6 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - rscadd: "Grass and leaves now change with the season. Mapped-in grass colorations were left unaffected."
-  - rscadd: "Weather distribution is now seasonal rather than storyteller-dependent. Snow is once again added to the weather pool. Falling petals (sakura) now happen randomly in the Spring, while falling leaves will happen randomly in Autumn."
-  - code_imp: "Added a new season subsystem to track and modify seasonal changes."

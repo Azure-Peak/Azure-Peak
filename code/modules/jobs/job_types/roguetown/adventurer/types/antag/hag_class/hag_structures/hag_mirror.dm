@@ -18,9 +18,9 @@
 
 /obj/structure/mirror/fancy/hag/get_mechanics_examine(mob/user)
 	. = ..()
-
+	. += span_info("Right-click the mirror to style your hair.")
 	if(HAS_TRAIT(user, TRAIT_ANCIENT_HAG) || HAS_TRAIT(user, TRAIT_FEYTOUCHED))
-		. += span_info("Right-click the mirror to scry with it.")
+		. += span_info("You can also right-click the mirror to scry with it.")
 
 /obj/structure/mirror/fancy/hag/attack_right(mob/user, list/modifiers)
 	. = ..()
@@ -29,29 +29,48 @@
 	if(!ishuman(user))
 		return
 
+	var/mob/living/carbon/human/H = user
+
+	if(obj_broken || !Adjacent(user))
+		return
+
+	var/list/options = list("Style")
+	if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG) || HAS_TRAIT(H, TRAIT_FEYTOUCHED))
+		options += "Scry"
+
+	var/choice = input(user, "What would you like to do?", "Wyrd Mirror") as null|anything in options
+	if(!choice)
+		return
+
+	if(obj_broken || !Adjacent(user))
+		return
+
+	if(choice == "Style")
+		perform_mirror_styling(H, H, src)
+		return
+
+	// Everything below here is the existing scrying path.
 	if(!fed)
 		to_chat(user, span_warning("The roots hunger. Feed them any moss or herb to peer through them once more."))
 		return
-	
+
 	if (world.time < (last_scry + cooldown))
 		return
 
-	var/mob/living/carbon/human/H = user
-	
 	if(obj_broken || !Adjacent(user))
 		return
-	
+
 	if(!HAS_TRAIT(H, TRAIT_ANCIENT_HAG) && !HAS_TRAIT(H, TRAIT_FEYTOUCHED))
 		return
-	
+
 	var/input = input(user, "WHO DO YOU SEEK?", "THE ROOTS SEE ALL") as text|null
 	if(!input)
 		return
 	if(!user.key)
 		return
-	
+
 	var/mob/living/carbon/human/target = null
-	for(var/mob/living/carbon/human/HL in GLOB.mob_list) 
+	for(var/mob/living/carbon/human/HL in GLOB.mob_list)
 		if(HL.real_name == input)
 			if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
 				to_chat(user, span_warning("They are not within the gaze of the mirror."))
@@ -90,12 +109,12 @@
 /obj/item/handmirror/hag/attack_right(mob/user)
 	if(!ishuman(user))
 		return
-	
+
 	var/mob/living/carbon/human/H = user
-	
+
 	if (world.time < (last_scry + cooldown))
 		return
-	
+
 	if(!HAS_TRAIT(H, TRAIT_ANCIENT_HAG) && !HAS_TRAIT(H, TRAIT_FEYTOUCHED))
 		return
 
@@ -113,9 +132,9 @@
 		return
 	if(!H.key)
 		return
-	
+
 	var/mob/living/carbon/human/target = null
-	for(var/mob/living/carbon/human/HL in GLOB.mob_list) 
+	for(var/mob/living/carbon/human/HL in GLOB.mob_list)
 		if(HL.real_name == input)
 			if(HAS_TRAIT(HL, TRAIT_ANTISCRYING))
 				to_chat(user, span_warning("The gaze of the roots is rebuffed by a ward!"))

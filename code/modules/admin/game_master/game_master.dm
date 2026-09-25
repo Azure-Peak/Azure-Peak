@@ -11,7 +11,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 
 /client/proc/toggle_game_master()
 	set name = "Game Master Panel"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set desc = "Spawn and direct NPCs by clicking the map."
 
 	if(!check_rights(R_ADMIN))

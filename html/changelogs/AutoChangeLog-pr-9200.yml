@@ -1,4 +1,0 @@
-author: "zRainbowcat"
-delete-after: True
-changes:
-  - bugfix: "mounts no longer get stuck if send away from maneaters"
