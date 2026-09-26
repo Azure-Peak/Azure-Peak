@@ -323,7 +323,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	if (!owner.client)
 		return
 
-	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing && !HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+	if (HAS_TRAIT(owner, TRAIT_PSYDONITE) && !passive_healing)
 		heal_wound(0.6) // psydonites are supposed to apparently slightly heal wounds whether dead or alive
 		if(!istype(src, /datum/wound/slash/incision))
 			heal_wound(0.6)
