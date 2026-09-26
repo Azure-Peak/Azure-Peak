@@ -420,6 +420,8 @@
 		if(jobbanType)
 			if(is_banned_from(M.ckey, list(jobbanType, ROLE_SYNDICATE)) || QDELETED(M))
 				continue
+		if(M.client.prefs.noghostroles)
+			continue
 
 		showCandidatePollWindow(M, poll_time, Question, result, ignore_category, time_passed, flashwindow, poll_width, poll_height)
 		SEND_SOUND(M, 'sound/misc/updatebook.ogg')

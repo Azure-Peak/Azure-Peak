@@ -105,6 +105,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/no_redflash = FALSE
 	var/no_storyteller_events = FALSE
 	var/top_examine = FALSE
+	var/noghostroles = FALSE
 
 	var/list/exp = list()
 	var/list/menuoptions
