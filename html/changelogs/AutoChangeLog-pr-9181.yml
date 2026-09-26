@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "werewolfs & gnolls don't draw messed-up bloody hand sprites anymore"

@@ -17,7 +17,7 @@
 	name = "Void Drakeling"
 	id = "void_drakeling"
 	origin = "The Void"
-	origin_default = /datum/virtue/origin/familiar/void
+	origin_default = /datum/virtue/origin/unselectable/void
 
 /mob/living/carbon/human/species/familiar/void/is_aligned_leyline(obj/structure/leyline/ley)
 	return !istype(ley, /obj/structure/leyline/tamed)

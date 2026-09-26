@@ -219,6 +219,7 @@
 
 //ZIZO
 #define TRAIT_ZIZOSIGHT "Blessing of Zizo" // I can see just a bit more clearly in darkness + Does Necra's soulcheck thing.
+#define TRAIT_WARLOCK "Warlock" // Cancels out weapon w/ casting penalities, exclusive to rituos
 //Baotha
 #define TRAIT_CRACKHEAD "Blessing of Baotha" //will never overdose
 #define TRAIT_BAOTHAN_CALM "Baothan Calm" //no freakout! :3
@@ -486,6 +487,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WEBWALK = "I can move freely between webs.",
 	TRAIT_NOSTINK = span_dead("My nose is numb to the smell of decay."),
 	TRAIT_ZJUMP = "Time to reach a new high.",
+	TRAIT_WARLOCK = span_dead("My arcane conduits are re-adjusted, I no longer suffer fatigue drawback from casting with a weapon."),
 	TRAIT_JESTERPHOBIA = span_warning("I have a severe irrational fear of Jesters"),
 	TRAIT_XENOPHOBIC = span_warning("Lesser races pollute our land"),
 	TRAIT_TOLERANT = span_info("I dream of an ideal future, one with peace between all races"),

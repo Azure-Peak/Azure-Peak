@@ -52,7 +52,8 @@
 		TRAIT_UNCONVERTIBLE,
 	)
 	origin = "The Faewyld"
-	origin_default = /datum/virtue/origin/familiar/fae
+	origin_default = /datum/virtue/origin/unselectable/fae
+	species_traits = list(NO_UNDERWEAR, NO_ORGAN_FEATURES, NO_BODYPART_FEATURES, NOBLOOD, NOSTOMACH)
 
 /mob/living/carbon/human/species/familiar/fae/Initialize(mapload)
 	. = ..()

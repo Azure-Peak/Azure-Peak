@@ -28,6 +28,11 @@
 	var/skill_level = SKILL_LEVEL_NONE
 
 	if(istype(W, /obj/item/rogueweapon) && W.special)
+
+		if(W && W.obj_broken)
+			to_chat(user, span_warning("The weapon is in no state to be used like this!"))
+			return
+
 		active_special = W.special
 		skill_level = user.get_wskill(W)
 	else if(!W && ishuman(user))

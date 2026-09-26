@@ -67,7 +67,7 @@
 	penfactor = PEN_BSTEEL
 	damfactor = 1.5
 	swingdelay = 1 SECONDS
-	
+
 	candodge = FALSE
 	canparry = FALSE
 	swingdelay_type = SWINGDELAY_CANCEL
@@ -86,6 +86,9 @@
 	reach = 2
 	damfactor = 1.3
 	demolition_mod = 1
+
+/datum/intent/axe/cut/long/vicious //Graggar axe
+	clickcd = CLICK_CD_MELEE
 
 /datum/intent/axe/cut/long/bronze
 	damfactor = 1.1
