@@ -196,11 +196,21 @@
 		update_force_dynamic()
 	return FALSE
 
-/obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(mob/living/carbon/human/target, mob/living/user = usr, proximity)
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/afterattack(atom/attacked, mob/living/user = usr, proximity)
 	. = ..()
 	// FIRST. we check for peculate.
 	// WEWHO'S NOTE: this could probably be changed to be /datum/intent/proc/spec_on_apply_effect for peculate. i'm not doing it rn though.
 	if(istype(user.used_intent, /datum/intent/peculate))
+		// these needs to be 100% restructured again i just cant be assed
+		if(!ishuman(attacked))
+			return
+		var/mob/living/carbon/human/target = attacked
+		// so we'll just double-check this shit in various procs
+		if(!ishuman(user))
+			return
+		var/mob/living/carbon/human/human_user = user
+
 		// are they allowed to use this
 		if(!can_peculate(target, user))
 			return
@@ -210,9 +220,7 @@
 			to_chat(user, span_warning("My target must be a bit more dead! Let them bleed!"))
 			return
 
-		if(!ishuman(user))
-			return
-		var/mob/living/carbon/human/human_user = user
+
 
 		if(!head_check(target, human_user))
 			return
