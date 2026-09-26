@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - qol: "Familiar summon pings now tell you who is summoning you (name and role), so you can know what you're signing up for."
+  - rscadd: "Rotcured and blackblood may now select their blood color from a preset selection."
