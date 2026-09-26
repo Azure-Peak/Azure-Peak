@@ -32,9 +32,13 @@
 
 // Abyssor dream items
 #define HERESYDESC_DREAM_ITEM "A weapon from Abyssor's dream. It is dangerous, and shouldn't be seen outside of capable, sanctified hands"
+
 // Dreamwalker items
 #define HERESYDESC_DREAMWALKER_WEAPON "An enchanced weapon from Abyssor's dream, wielded by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
 #define HERESYDESC_DREAMWALKER_ARMOR "An armor piece from Abyssor's dream, worn by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
+
+// Astrata items
+#define HERESYDESC_ASTRATA_MISC "A known design of Astrata"
 
 // Pestran Herecy
 #define HERESYDESC_PESTRA_WEAPON "An unsanctioned weapon created by heretical Pestran secrets to spread the black rot"
@@ -44,6 +48,7 @@
 #define HERESYDESC_GRONN "A symbol of the North's archaic beliefs"
 #define HERESYDESC_GILBRANZE_ARTIFICE "A blade of polished gilbranze in extraordinary quality. Someone's Artifice..?" // ATICIUS DONOR
 #define HERESYDESC_WEEPING_CROSS "It is ensnared in a perpetual state of half-coagulation, the alloy cracked and bleeding"
+#define HERESYDESC_UNKNOWN_MISC "An unknown design, ancient relic or singularity"
 
 // Vampire Lord Items - General theme is mysterious but a bad omen
 #define HERESYDESC_VAMPIRE "An unnatural enchanted armor piece of solid gilbranze that crackles with strange energies"
@@ -100,11 +105,19 @@
 */
 #define EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD 8
 
+
+/** For items that are bizarre or profoundly out of place in mortal hands,
+* I.E. crystallized sunlight being used as a common lamp, ancient relics being used as mundane tools, or objects whose mere presence raises the question of how a mortal came to possess them.
+* Not inherently heretical or hostile, but strange enough to invite questions from anyone familiar with what the object actually is.
+*/
+#define EXAMINEHIGHLIGHT_HERESYSEVERITY_WEIRD 9
+
 // Heresy severity colors
 #define COLOR_HERESYSEVERITY_ALARMING "#c43535"
 #define COLOR_HERESYSEVERITY_SUSPICIOUS "#c49337"
 #define COLOR_HERESYSEVERITY_ODD "#c564c5"
 #define COLOR_HERESYSEVERITY_VERYODD "#c564c5"
+#define COLOR_HERESYSEVERITY_WEIRD "#bd9bbd"
 
 //Other Colors
 #define COLOR_VIBE_FRIEND "#6476c5"
@@ -115,8 +128,9 @@
 // Heresy severity descriptions
 #define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ALARMING "<font color=[COLOR_HERESYSEVERITY_ALARMING]><b>This is a blatantly dangerous heretical item!</b></font><br>Carrying this out in the open is tantamount to declaring myself an enemy to Tennite and Psydonite faith. Those who serve the Ten and the One are likely to respond in kind."
 #define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_SUSPICIOUS "<font color=[COLOR_HERESYSEVERITY_SUSPICIOUS]><b>This is a suspicious heretical item!</b></font><br>It is considered heretical by Tennite and Psydonite faith. Those who serve the Ten and the One are likely to view me with suspicion and distrust <b>at best</b> if I am caught with it."
-#define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ODD "<font color=[COLOR_HERESYSEVERITY_ODD]><b>An odd expression of faith...</b></font><br>It is not openly deemed heretical by Tennite and Psydonite faith. However, that does not stop it from being seen as unusual. I am likely to be given odd looks if I am seen with it and not much more, but more guarded (or paranoid) Tennites and Psydonites may not be so charitable."
 #define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_VERYODD "<font color=[COLOR_HERESYSEVERITY_ALARMING]><b>This is a blatantly weird item!</b></font><br>Carrying this out in the open is highly suspicious to Tennite and/or Psydonite faith. Those who serve the Ten and/or the One are likely to respond with suspicion and distrust <b>at best</b> if I am caught with it."
+#define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_ODD "<font color=[COLOR_HERESYSEVERITY_ODD]><b>An odd expression of faith...</b></font><br>It is not openly deemed heretical by Tennite and Psydonite faith. However, that does not stop it from being seen as unusual. I am likely to be given odd looks if I am seen with it and not much more, but more guarded (or paranoid) Tennites and Psydonites may not be so charitable."
+#define EXAMINEHIGHLIGHT_TOOLTIP_HERESYSEVERITY_WEIRD "<font color=[COLOR_HERESYSEVERITY_SUSPICIOUS]><b>A strange thing for a mortal to possess...</b></font><br>Most folk can dismiss this as some peculiar quirk or affectation, or even the mysteries of the Arcyne. More suspicious or devout souls, however, may find themselves wondering why a mortal has such a strange thing in their possession."
 
 #define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FRIEND "<font color=[COLOR_VIBE_FRIEND]><b>A loyal bearing.</b></font><br>This carries the look of one who stands with the Crown and its laws. Many subjects may view its bearer as a friend, servant, or ally of the realm."
 #define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FOE "<font color=[COLOR_VIBE_FOE]><b>A disloyal bearing.</b></font><br>This carries the look of one who stands apart from the Crown and its laws. Many subjects may view its bearer with suspicion, seeing a potential rebel, outlaw, or enemy of the realm."
@@ -129,6 +143,7 @@
 /// Zcross unicode in HTML form
 #define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ALARMING "&#x16E3;"
 #define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_ODD "?"
+#define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_WEIRD "?"
 
 #define SYMBOL_VIBE_FRIEND "&#x26E8;"
 #define SYMBOL_VIBE_FOE "&#x2694;"
