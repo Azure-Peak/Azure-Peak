@@ -13,7 +13,7 @@
 /client/proc/get_looc()
 	var/msg = input(src, "", "looc") as text|null
 	do_looc(msg, FALSE)
-	
+
 
 /client/verb/looc(msg as text)
 	set name = "LOOC"
@@ -161,7 +161,7 @@
 	if(is_banned_from(ckey, "LOOC"))
 		to_chat(src, span_danger("I cannot use LOOC (perma muted)."))
 		return
-	
+
 	if(isobserver(mob) && !holder)
 		to_chat(src, span_danger("I cannot use LOOC while dead."))
 		return
@@ -204,7 +204,6 @@
 		prefix = "LOOC (WP)"
 
 
-	var/list/mobs = list()
 	for(var/mob/M in GLOB.player_list)
 		var/added_text
 		var/is_admin = FALSE
@@ -214,12 +213,16 @@
 		if((C in GLOB.admins) && (C.prefs.admin_chat_toggles & CHAT_ADMINLOOC))
 			added_text += " ([mob.ckey]) [ADMIN_FLW(mob)]"
 			is_admin = 1
-		mobs += C
 		var/turf/speakturf = get_turf(M)
 		var/turf/sourceturf = get_turf(usr)
+		var/mute_addendum = ""
+		if((ckey in C.user_muted_ckeys) && !holder)
+			continue
+		if(C != src)
+			mute_addendum = "(<a href='?_src_=usr;user_mute_looc=[REF(src)]'>MUTE</a>)"
 		if(wp == 1 && (M in range (7, src)))
-			to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
+			to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text][mute_addendum]:</EM> <span class='message'>[msg]</span></b></font>")
 		else if(speakturf in get_hear(7, sourceturf))
-			to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")
+			to_chat(C, "<font color='["#6699CC"]'><b><span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text][mute_addendum]:</EM> <span class='message'>[msg]</span></b></font>")
 		else if(is_admin == 1)
 			to_chat(C, "<font color='["#6699CC"]'><b>(R) <span class='prefix'>[prefix]:</span> <EM>[src.mob.name][added_text]:</EM> <span class='message'>[msg]</span></b></font>")

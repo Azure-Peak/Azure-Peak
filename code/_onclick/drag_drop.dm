@@ -72,6 +72,7 @@
 	var/last_cooldown_warn = 0
 	var/charge_was_blocked_by_cooldown = FALSE
 	var/blocked_lmb = FALSE
+	var/list/user_muted_ckeys = list()
 
 /atom
 	var/blockscharging = FALSE
