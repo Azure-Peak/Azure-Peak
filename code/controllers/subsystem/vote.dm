@@ -1,6 +1,8 @@
 #define LAST_STORYTELLER_VOTE_LOG_FILE "data/last_round/storyteller_vote.json"
 /// Persistent per-preset vote carryover. Votes a preset receives without winning carry into the next vote until it wins.
 #define STORYTELLER_VOTE_BANK_FILE "data/last_round/storyteller_vote_bank.json"
+/// Multiplier applied to a losing preset's total before it's banked, so carried votes fade out over rounds.
+#define STORYTELLER_VOTE_BANK_DECAY 0.5
 #define DEFAULT_VOTE_PANEL_REFRESH_INTERVAL 2 SECONDS
 #define STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL 5 SECONDS
 
@@ -133,15 +135,18 @@ SUBSYSTEM_DEF(vote)
 		if(carried > 0)
 			storyteller_vote_carried[option] = carried
 
-/// Banks every balloted option's final total for the next vote, then clears the winner's bank.
-/// Presets absent from this ballot keep their bank untouched.
+/// Banks every balloted option's final total (decayed by STORYTELLER_VOTE_BANK_DECAY) for the next vote, then clears
+/// the winner's bank. Presets absent from this ballot keep their bank untouched.
 /datum/controller/subsystem/vote/proc/bank_storyteller_vote_results(winning_choice)
 	load_storyteller_vote_bank()
 	for(var/option in choices)
 		var/storyteller_type = get_storyteller_choice_type(option)
 		if(!storyteller_type)
 			continue
-		storyteller_vote_bank[storyteller_type] = choices[option] || 0
+		var/banked = round((choices[option] || 0) * STORYTELLER_VOTE_BANK_DECAY, 0.1)
+		if(banked < 0.5) // let small leftovers die out instead of lingering forever
+			banked = 0
+		storyteller_vote_bank[storyteller_type] = banked
 	var/winner_type = get_storyteller_choice_type(winning_choice)
 	if(winner_type)
 		storyteller_vote_bank[winner_type] = 0
@@ -754,7 +759,7 @@ SUBSYSTEM_DEF(vote)
 		if(mode == "storyteller")
 			if(!length(storyteller_vote_log))
 				load_storyteller_vote_log()
-			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. The winning pool is removed from next round's vote. Gamemodes that don't win carry their votes over to the next vote until they're rolled."
+			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. The winning pool is removed from next round's vote. Gamemodes that don't win carry half their votes over to the next vote, until they're rolled."
 			. += "<div style='color:#992414;font-size:0.9rem;margin-bottom:6px;'>[pool_text]</div>"
 			. += render_storyteller_choices(can_vote, C)
 		else
@@ -925,5 +930,6 @@ SUBSYSTEM_DEF(vote)
 
 #undef LAST_STORYTELLER_VOTE_LOG_FILE
 #undef STORYTELLER_VOTE_BANK_FILE
+#undef STORYTELLER_VOTE_BANK_DECAY
 #undef DEFAULT_VOTE_PANEL_REFRESH_INTERVAL
 #undef STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL
