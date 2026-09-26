@@ -29,6 +29,9 @@ export const SubtabVillain = () => {
         <Stack.Item grow>
           <BountySettings />
         </Stack.Item>
+        <Stack.Item grow>
+          <SkeletonSettings />
+        </Stack.Item>
         <SubtabVillainDownstream />
       </Stack>
     </Section>
@@ -246,6 +249,78 @@ const BountySettings = () => {
             </LabeledGridList.Item>
           </>
         ) : null}
+      </LabeledGridList>
+    </Section>
+  );
+};
+
+const SkeletonSettings = () => {
+  const { act, data } = useBackendStrict<VillainData>();
+  const {
+    preset_skeleton_enabled,
+    preset_skeleton_pronouns,
+    preset_skeleton_skull,
+    preset_skeleton_tail,
+    preset_skeleton_body
+    } = data;
+
+  return (
+    <Section title="Skelelon Settings">
+      <LabeledGridList>
+        <LabeledGridList.Item label="Use Preset Skelelon Settings">
+          <Button.Checkbox
+            fluid
+            selected={preset_skeleton_enabled}
+            checked={preset_skeleton_enabled}
+            onClick={() => act('preset_skeleton_enabled')}
+          >
+          {preset_skeleton_enabled ? 'Enabled' : 'Disabled'}
+          </Button.Checkbox>
+          </LabeledGridList.Item>
+          {preset_skeleton_enabled ? (
+            <>
+            <LabeledGridList.Item label="Skelelon Pronouns">
+              <Button
+                ellipsis
+                fluid
+                tooltip={preset_skeleton_pronouns || 'Unset'}
+                onClick={() => act('preset_skeleton_pronouns')}
+              >
+                {preset_skeleton_pronouns || 'Unset'}
+              </Button>
+          </LabeledGridList.Item>
+          <LabeledGridList.Item label = "Skelelon Skull">
+            <Button
+                ellipsis
+                fluid
+                tooltip={preset_skeleton_skull || 'Unset'}
+                onClick={() => act('preset_skeleton_skull')}
+              >
+                {preset_skeleton_skull || 'Unset'}
+                </Button>
+          </LabeledGridList.Item>
+          <LabeledGridList.Item label = "Skelelon Tail">
+            <Button
+                ellipsis
+                fluid
+                tooltip={preset_skeleton_tail || 'Unset'}
+                onClick={() => act('preset_skeleton_tail')}
+              >
+                {preset_skeleton_tail || 'Unset'}
+                </Button>
+          </LabeledGridList.Item>
+          <LabeledGridList.Item label = "Skelelon Frame">
+            <Button
+                ellipsis
+                fluid
+                tooltip={preset_skeleton_body || 'Unset'}
+                onClick={() => act('preset_skeleton_body')}
+              >
+                {preset_skeleton_body || 'Unset'}
+                </Button>
+          </LabeledGridList.Item>
+          </>
+          ) : null}
       </LabeledGridList>
     </Section>
   );

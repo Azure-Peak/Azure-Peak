@@ -604,6 +604,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["preset_bounty_severity_v_key"]	>> preset_bounty_severity_v_key
 	S["preset_bounty_crime"]			>> preset_bounty_crime
 
+	S["preset_skeleton_enabled"]		>> preset_skeleton_enabled
+	S["preset_skeleton_pronouns"]		>> preset_skeleton_pronouns
+	S["preset_skeleton_skull"]			>> preset_skeleton_skull
+	S["preset_skeleton_tail"]			>> preset_skeleton_tail
+	S["preset_skeleton_body"]			>> preset_skeleton_body
+
+
 	S["img_gallery"]		>> img_gallery
 	S["nsfw_img_gallery"]	>> nsfw_img_gallery
 
@@ -697,6 +704,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	preset_bounty_severity_key		= sanitize_inlist_no_pick(preset_bounty_severity_key, GLOB.wretch_severities, null)
 	preset_bounty_severity_v_key	= sanitize_inlist_no_pick(preset_bounty_severity_v_key, GLOB.vagabond_severities, null)
 	preset_bounty_severity_b_key	= sanitize_inlist_no_pick(preset_bounty_severity_b_key, GLOB.bandit_severities, null)
+	// skelelon time!! i'm copying what the bandits did basically :)
+	preset_skeleton_pronouns = sanitize_inlist_no_pick(preset_skeleton_pronouns, GLOB.pronouns_list, null)
+	preset_skeleton_skull = sanitize_inlist_no_pick(preset_skeleton_skull, GLOB.skeleton_head_choices, null)
+	preset_skeleton_tail = sanitize_inlist_no_pick(preset_skeleton_tail, GLOB.skeleton_tail_choices, null)
+	preset_skeleton_body = sanitize_inlist_no_pick(preset_skeleton_body, GLOB.skeleton_body_choices, null)
 
 	img_gallery = SANITIZE_LIST(img_gallery)
 	nsfw_img_gallery = SANITIZE_LIST(nsfw_img_gallery)
@@ -713,6 +725,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	// complex/other stuff
 	preset_bounty_enabled = sanitize_bool(preset_bounty_enabled, initial(preset_bounty_enabled))
+	preset_skeleton_enabled = sanitize_bool(preset_skeleton_enabled, initial(preset_skeleton_enabled))
 	update_mutant_colors = sanitize_bool(update_mutant_colors, initial(update_mutant_colors))
 
 	body_markings = SANITIZE_LIST(body_markings)
@@ -867,6 +880,15 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["preset_bounty_severity_b_key"] , preset_bounty_severity_b_key)
 	WRITE_FILE(S["preset_bounty_severity_v_key"] , preset_bounty_severity_v_key)
 	WRITE_FILE(S["preset_bounty_crime"] , preset_bounty_crime)
+
+	WRITE_FILE(S["preset_skeleton_enabled"] , preset_skeleton_enabled)
+	WRITE_FILE(S["preset_skeleton_pronouns"] , preset_skeleton_pronouns)
+	WRITE_FILE(S["preset_skeleton_skull"] , preset_skeleton_skull)
+	WRITE_FILE(S["preset_skeleton_tail"] , preset_skeleton_tail)
+	WRITE_FILE(S["preset_skeleton_body"] , preset_skeleton_body)
+
+
+
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
 	WRITE_FILE(S["ooc_extra"] ,	ooc_extra)

@@ -322,4 +322,11 @@ export type VillainData = {
   wretch_severities: string | null; // null means unset
   bandit_severities: string | null; // null means unset
   vagabond_severities: string | null; // null means unset
+
+  preset_skeleton_enabled: BooleanLike; // controls showing next several
+  preset_skeleton_pronouns: string | null; // null means unset
+  preset_skeleton_skull: string | null; // null means unset
+  preset_skeleton_body: string | null; // null means unset
+  preset_skeleton_tail: string | null; // null means unset
+
 };

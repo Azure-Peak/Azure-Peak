@@ -185,6 +185,17 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preset_bounty_severity_v_key
 	var/preset_bounty_crime
 
+	// SKELETON SELECTIONS
+	// if all goes well these will be localized per character slot & will auto-matically select whatever bullshit
+	// you picked for your tail adn skull or whatever
+	var/preset_skeleton_enabled = FALSE
+	var/preset_skeleton_pronouns = null
+	/// A STRING assigned to a typepath in a GLOB. list. TO BE COMPARED!!!
+	var/preset_skeleton_skull = null
+	/// A STRING assigned to a typepath in a GLOB. list. TO BE COMPARED!!!
+	var/preset_skeleton_tail = null
+	var/preset_skeleton_body = null
+
 
 	var/averse_chosen_faction = "Inquisition"
 
