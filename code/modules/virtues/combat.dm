@@ -213,7 +213,7 @@
 					ADD_TRAIT(recipient, TRAIT_STRONGBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
-					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
+//					ADD_TRAIT(recipient, TRAIT_TAINTED, TRAIT_VIRTUE) // to be added when Quirks are merged.
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.")
 
 					// inquisition trauma goes here
