@@ -82,7 +82,7 @@
 	RegisterSignal(user, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_member_attacked), override = TRUE)
 	remove_pending_invite(user.real_name)
 	to_chat(user, span_notice("You have joined the fellowship '[name]'."))
-	notify_members("[user.real_name] has joined the fellowship.", exclude = user)
+	notify_members("[user.get_unmasked_name()] has joined the fellowship.", exclude = user)
 	push_updates()
 	return TRUE
 
@@ -97,12 +97,12 @@
 	switch(reason)
 		if(FELLOWSHIP_REASON_KICKED)
 			to_chat(user, span_warning("You have been removed from the fellowship '[name]'."))
-			notify_members("[user.real_name] has been removed from the fellowship.")
+			notify_members("[user.get_unmasked_name()] has been removed from the fellowship.")
 		if(FELLOWSHIP_REASON_DESTROYED)
-			notify_members("[user.real_name] is no longer among the fellowship.")
+			notify_members("[user.get_unmasked_name()] is no longer among the fellowship.")
 		else
 			to_chat(user, span_notice("You have left the fellowship '[name]'."))
-			notify_members("[user.real_name] has left the fellowship.")
+			notify_members("[user.get_unmasked_name()] has left the fellowship.")
 	if(!check_auto_disband())
 		push_updates()
 	return TRUE
@@ -190,10 +190,10 @@
 	if(target == inviter)
 		return FALSE
 	if(has_member(target))
-		to_chat(inviter, span_warning("[target.real_name] is already in the fellowship."))
+		to_chat(inviter, span_warning("[target.get_unmasked_name()] is already in the fellowship."))
 		return FALSE
 	if(target.current_fellowship)
-		to_chat(inviter, span_warning("[target.real_name] is already in a fellowship."))
+		to_chat(inviter, span_warning("[target.get_unmasked_name()] is already in a fellowship."))
 		return FALSE
 	if(length(get_members()) >= FELLOWSHIP_MAX_MEMBERS)
 		to_chat(inviter, span_warning("The fellowship is full."))
@@ -201,8 +201,8 @@
 	pending_invites[target.real_name] = list(world.time + FELLOWSHIP_INVITE_EXPIRY, WEAKREF(target))
 	target.incoming_fellowship_invites |= WEAKREF(src)
 	var/href = "<a href='?src=[REF(src)];accept_invite=1;invitee=[target.real_name]'>\[Accept\]</a>"
-	to_chat(target, span_notice("[inviter.real_name] has invited you to join the fellowship '[name]'. [href]"))
-	to_chat(inviter, span_notice("You have invited [target.real_name] to the fellowship."))
+	to_chat(target, span_notice("[inviter.get_unmasked_name()] has invited you to join the fellowship '[name]'. [href]"))
+	to_chat(inviter, span_notice("You have invited [target.get_unmasked_name()] to the fellowship."))
 	push_updates()
 	refresh_fellowship_ui_for(target)
 	return TRUE

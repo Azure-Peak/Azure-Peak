@@ -96,6 +96,9 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 /mob/dead/observer/eye/horde_respawn()
 	return
 
+/mob/dead/observer/eye/should_hear_dsay()
+	return FALSE
+
 /mob/dead/observer/eye/Move(NewLoc, direct)
 	if(updatedir)
 		setDir(direct)
@@ -123,7 +126,39 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 /mob/dead/observer/eye/screye/Move(n, direct)
 	return
 
+GLOBAL_LIST_EMPTY(displaced_souls)
 
+/mob/dead/observer/eye/screye/displaced_soul
+	var/mob/living/carbon/human/vessel			// the vessel mob we came from
+	var/datum/mind/vessel_orig_mind				// original mind datum of the vessel. this is DIFFERENT from the mind datum of the ghost
+	var/mob/living/carbon/human/possessor		// original body of the player possessing us
+	var/datum/hag_identity/original_identity	// we use this to store voice color and descriptor, nothing more
+	var/datum/devotion/vessel_devotion			// storing this, because the possessor can have devotion and in that case we transfer it over
+	var/datum/patron/vessel_patron				// ditto
+
+/mob/dead/observer/eye/screye/displaced_soul/Initialize(mapload)
+	. = ..()
+	GLOB.displaced_souls += src
+
+/mob/dead/observer/eye/screye/displaced_soul/Destroy()
+	GLOB.displaced_souls -= src
+	. = ..()
+
+/mob/dead/observer/eye/screye/displaced_soul/say_verb(message as text)
+	set name = "Say"
+	set hidden = 1
+
+	if(!length(message))
+		return
+	if(GLOB.say_disabled)	//This is here to try to identify lag problems
+		to_chat(usr, "<span class='danger'>Speech is currently admin-disabled.</span>")
+		return
+	clear_typing_indicator()		// clear it immediately!
+
+	if(vessel && original_identity)
+		var/raw_msg = copytext(sanitize(message), 1, MAX_MESSAGE_LEN)
+		log_talk(raw_msg, LOG_SAY, tag="displaced soul (to [vessel])")
+		to_chat(list(src, vessel), span_deadsay("[original_identity.name] whispers, \"[autopunct_bare(raw_msg)]\""))
 
 /mob/dead/observer/Initialize(mapload)
 	set_invisibility(GLOB.observer_default_invisibility)

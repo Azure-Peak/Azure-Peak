@@ -147,6 +147,8 @@
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
 #define TRAIT_CURSE_SCAR "Curse Scar"
 #define TRAIT_BOGWALKER "Bogwalker"
+#define TRAIT_NONAMESTEAL "Onomastic Freeze"
+#define TRAIT_POSSESSED "Vessel"
 
 //Deadites - Handles self healing + Examines + Combat/Mobility Shutdowns
 #define TRAIT_DEADITE "Deadite"
@@ -651,6 +653,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AZURENATIVE = span_info("I've grown up and lived all my lyfe in these lands. I can only trigger ambushes if I sprint through them."),
 	TRAIT_BOGWALKER = span_info("The bog's blessing graces me. Kneestingers and leeches will not harm me, and I cannot trigger ambushes within the bog unless sprinting."),
 	TRAIT_NOPVE = span_info("I am a true force of nature. No critter or creechur would dare harm me, and I can exert enough influence to deflect the ire of simple-minded mortals as well."),
+	TRAIT_POSSESSED = span_warning("This vessel is not empty; my possession of it is temporary. Should it perish, I will return to my original body."),
 	TRAIT_HARDSHELL = span_info("The bulk of this armor prevents me from parrying effectively, but I can still move out of the way."),
 	TRAIT_MATTHIOS_EYES = span_notice("I have a sense for what the most valuable item someone has is. I can also tell if someone is hoarding mammons, and with blessed gilded spectacles, I can even see how much they have in their bank."),
 	TRAIT_WOODWALKER = span_notice("I can climb trees quicker, and gain climbing experience twice as quickly. I can step on thorns and branches safely in the woods. I can stand on leaves in trees safely."),
@@ -981,7 +984,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_RITUAL "ritual"
 #define TRAIT_GAZE "gaze"
 #define TRAIT_NECRACON "necracon"
-#define TRAIT_HAG_BOON "hag boon"
+#define TRAIT_HAG_BOON ""
 #define TRAIT_ADMIN "admin"
 #define UNCONSCIOUS_BLIND "unconscious_blind"
 #define EYE_DAMAGE "eye_damage"

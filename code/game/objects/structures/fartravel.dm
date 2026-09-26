@@ -23,6 +23,9 @@
 	if(in_use) // Someone's already going in.
 		return
 	var/mob/living/carbon/human/departing_mob = dropping
+	if(HAS_TRAIT(user, TRAIT_POSSESSED)) // no fartravelling while possessing someone please
+		to_chat(user, span_warning("It'd be awfully rude to just leave with this body."))
+		return
 	var/datum/job/mob_job
 	if(departing_mob != user && departing_mob.client)
 		to_chat(user, "<span class='warning'>This one retains their free will. It's their choice if they want to leave the round or not.</span>")
@@ -38,6 +41,7 @@
 		return
 	in_use = FALSE
 	update_icon()
+	departing_mob.roundremove_restore_name()
 	var/dat = "[ADMIN_LOOKUPFLW(user)] has despawned [departing_mob == user ? "themselves" : departing_mob], job [departing_mob.job], at [AREACOORD(src)]. Contents despawned along:"
 	if(departing_mob.mind)
 		mob_job = SSjob.GetJob(departing_mob.mind.assigned_role)
@@ -82,6 +86,7 @@
 	if(SSticker.regentmob == departing_mob)
 		SSticker.regentmob = null
 	GLOB.chosen_names -= departing_mob.real_name
+	LAZYREMOVE(GLOB.fey_vessels, departing_mob)
 	LAZYREMOVE(GLOB.actors_list, departing_mob.mobid)
 	// Keep insiders' bank balance forfeits to the Crown's Purse on far-travel (silent OOC).
 	// Day 0 is a grace window so roundstart bailouts don't accidentally hand the Crown a

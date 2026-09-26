@@ -1820,7 +1820,7 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	report_html += "<hr>"
 	report_html += "<i>[pick(opening)]</i><br><br>"
 	report_html += "<b>INDEXED SUBJECT</b><br>"
-	report_html += "Name: [H.real_name]<br>"
+	report_html += "Name: [H.get_unmasked_name()]<br>"
 	report_html += "Race: [H.dna?.species?.name]<br>"
 	report_html += "Sex: [capitalize(H.gender)]<br>"
 	var/static/list/job_aliases = list(

@@ -1147,3 +1147,10 @@
 	vocal_pitch_range = client.prefs.bark_variance
 	apply_voicepacks(src, client)
 	return TRUE
+
+///accounts for hag names. in general, use real_name directly when you want to use it INTERNALLY. use get_unmasked_name if you want to display someone's "real name" to players
+/mob/living/carbon/human/get_unmasked_name()
+	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
+	if(ID)
+		return ID.identity.name
+	return real_name

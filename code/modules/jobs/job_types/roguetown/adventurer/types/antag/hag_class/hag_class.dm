@@ -63,6 +63,7 @@
 	if(H.mind)
 		add_verb(H, /mob/living/carbon/human/proc/commune_with_roots)
 		add_verb(H, /mob/living/carbon/human/proc/toggle_guarded)
+		add_verb(H, /mob/living/carbon/human/proc/remember_feytouched)
 		H.ambushable = FALSE
 		H.faction |= list(FACTION_HAG)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/wildshape/hag_true_form)
@@ -85,6 +86,7 @@
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/caring_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/rooted_moss)
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/creeping_moss)
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/vibrant_moss)
 
 		// High Rarity
 		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/hag/prismatic_moss)
@@ -105,6 +107,8 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/grant_boon)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/resurrect/hag)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/mindlink/hag)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/take_name)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/possess_vessel)
 		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/female/hag]
 		H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/male/hag]
 		if(!H.mind.has_antag_datum(/datum/antagonist/hag))
