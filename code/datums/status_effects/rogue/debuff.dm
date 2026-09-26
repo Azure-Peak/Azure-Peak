@@ -994,8 +994,46 @@
 			PM.backdrop(owner)
 
 /atom/movable/screen/alert/status_effect/debuff/vampbite
-	name = "Vampyrebiten"
+	name = "Vampyre Bitten"
 	desc = "You are feeling something... Interesting.."
+	icon_state = "acid"
+
+///Baotha rite effect
+
+/datum/status_effect/debuff/baothariteeffect
+	id = "baothariteeffect"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/baothariteeffect
+	duration = 20 SECONDS //very short-lived
+
+/datum/status_effect/debuff/baothariteeffect/on_apply()
+	. = ..()
+	owner.add_stress(/datum/stressevent/high)
+	owner.overlay_fullscreen("baothariteeffect", /atom/movable/screen/fullscreen/weedsm)
+	if(owner?.client)
+		if(owner.client.screen && owner.client.screen.len)
+			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
+			PM.backdrop(owner)
+
+/datum/status_effect/debuff/baothariteeffect/on_remove()
+	. = ..()
+	owner.remove_stress(/datum/stressevent/high)
+	owner.clear_fullscreen("baothariteeffect")
+	if(owner?.client)
+		if(owner.client.screen && owner.client.screen.len)
+			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
+			PM.backdrop(owner)
+			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
+			PM.backdrop(owner)
+
+/atom/movable/screen/alert/status_effect/debuff/baothariteeffect
+	name = "Saccharine Aura"
+	desc = "You are feeling... Bliss.."
 	icon_state = "acid"
 
 /datum/status_effect/debuff/joybringer_druqks

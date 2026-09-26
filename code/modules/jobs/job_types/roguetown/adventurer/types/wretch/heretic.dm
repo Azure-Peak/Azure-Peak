@@ -35,8 +35,8 @@
 		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 
-	extra_context = "This subclass gains the Wound Heal miracle."
-	tempo_capable = FALSE
+	extra_context = "This subclass gains the Wound Heal miracle with Baotha's armor set or the Heavy armor rites of ascendants."
+	tempo_capable = TRUE
 
 /datum/advclass/wretch/heretic/get_vice_limits(mob/living/carbon/human/H)
 	. = ..()
@@ -363,8 +363,8 @@
 		"Sewing Kit" =	/obj/item/repair_kit,
 		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
-	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
-	tempo_capable = FALSE
+	extra_context = "This subclass gains the Wound Heal miracle with Baotha's armor set."
+	tempo_capable = TRUE
 
 
 /datum/outfit/job/roguetown/wretch/hereticspy
