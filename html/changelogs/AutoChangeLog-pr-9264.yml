@@ -1,0 +1,4 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "small char previews when checking char setup in game."
