@@ -82,6 +82,8 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		// Precedence: sender-admin (blue) > recipient-admin non-lobby (green/small) > default gray
 		var/is_admin_nonlobby = (C.holder && !istype(C.mob, /mob/dead/new_player) && !post_round)
 		var/sender_is_admin = holder
+		if((C.prefs.chat_toggles & CHAT_OOC_MUTED) && !sender_is_admin)	// Can't ignore admin OOC
+			continue
 		// Choose color: admin-sent stays blue; otherwise if admin recipient non-lobby, use green; else default gray
 		var/message_color = sender_is_admin ? "#4972bc" : (is_admin_nonlobby ? "#4CAF50" : chat_color)
 		var/base_msg = "<font color='[color2use]'><EM>[keyname][real_key]:</EM></font> <font color='[message_color]'><span class='message linkify'>[msg]</span></font>"
