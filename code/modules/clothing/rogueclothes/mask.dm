@@ -944,3 +944,19 @@
 	name = "clerical helmetless visor"
 	desc = "A thin visor of flimsy iron and a thin-silver coating with faint runic-wards and etchings into the material in strange runic wards and sigils, \
 	while this flimsy mask offers barely any protection, the many Noccite cults of Psydonia aclaim the gaps make it easier for Noc's silvered light to enighten the mind."
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter
+	name = "lamplighter's mask"
+	desc = "A leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask1"
+	adjustable = CANT_CADJUST
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter/beaked
+	name = "lamplighter's beaked mask"
+	desc = "A beaked leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask2"
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS
