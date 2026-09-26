@@ -114,6 +114,18 @@ GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F)) // INSTRUCTIONS FOR DOWN
 
 GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F)) // INSTRUCTIONS FOR DOWNSTREAM: Edit this or sanitize_character will eat them
 
+// Per-character toggles. Find them in /datum/preferences/var/char_toggles
+#define CHAR_TOGGLE_DODGE	(1<<0)
+#define CHAR_TOGGLE_FREEUSE	(1<<1)
+#define CHAR_TOGGLE_DNR		(1<<2)
+
+/// Toggle section entries. Add these, and a row in `GLOB.char_toggles` and then a bit in `preferences_*` wherever applicable
+GLOBAL_LIST_INIT(char_toggles, list(
+	list("flag" = CHAR_TOGGLE_DODGE, "name" = "Defense", "off" = "Parry", "on" = "Dodge", "desc" = "The defense stance this character spawns in with."),
+	list("flag" = CHAR_TOGGLE_FREEUSE, "name" = "Free Use", "off" = "Off", "on" = "On", "desc" = "Whether this character spawns with Free Use enabled in the ERP panel."),
+	list("flag" = CHAR_TOGGLE_DNR, "name" = "Unrevivable", "off" = "No", "on" = "Yes", "desc" = "Whether this character spawns unable to be revived."),
+))
+
 // Voice types (LETHALSTONE)
 
 #define VOICE_TYPE_MASC	"Masculine"

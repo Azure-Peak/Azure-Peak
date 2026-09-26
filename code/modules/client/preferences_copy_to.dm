@@ -117,6 +117,9 @@
 	character.vocal_pitch = bark_pitch
 	character.vocal_pitch_range = bark_variance
 
+	character.d_intent = (char_toggles & CHAR_TOGGLE_DODGE) ? INTENT_DODGE : INTENT_PARRY
+	character.freeuse = !!(char_toggles & CHAR_TOGGLE_FREEUSE)
+
 	if(parent)
 		var/list/L = get_player_curses(parent.ckey)
 		if(L)
