@@ -60,4 +60,5 @@
 		"deadmin_antagonist" = toggles & DEADMIN_ANTAGONIST,
 		"auto_deadmin_heads" = CONFIG_GET(flag/auto_deadmin_heads),
 		"deadmin_head" = toggles & DEADMIN_POSITION_HEAD,
+		"vv_dark_mode" = vv_dark_mode,
 	)

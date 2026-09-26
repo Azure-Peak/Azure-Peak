@@ -1233,7 +1233,7 @@
 
 /mob/living/carbon/vv_get_dropdown()
 	. = ..()
-	VV_DROPDOWN_OPTION("", "---------")
+	VV_DROPDOWN_OPTION("", "--- /carbon ---")
 	VV_DROPDOWN_OPTION(VV_HK_MODIFY_BODYPART, "Modify bodypart")
 	VV_DROPDOWN_OPTION(VV_HK_MODIFY_ORGANS, "Modify organs")
 	VV_DROPDOWN_OPTION(VV_HK_HALLUCINATION, "Hallucinate")

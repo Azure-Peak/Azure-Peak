@@ -213,3 +213,11 @@ GLOBAL_VAR_INIT(magic_appearance_detecting_image, new /image) // appearances are
 #define is_matthios_amulet(amulet_type) (amulet_type in typesof(/obj/item/clothing/neck/roguetown/psicross/inhumen/matthios))
 #define is_graggar_amulet(amulet_type) (amulet_type in typesof(/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar))
 #define is_gronn_amulet(amulet_type) (amulet_type in GLOB.gronn_amulet_types)
+
+// The filters list has the same ref type id as a filter, but isnt one and also isnt a list, so we have to check if the thing has Cut() instead
+GLOBAL_VAR_INIT(refid_filter, TYPEID(filter(type="angular_blur")))
+#define isfilter(thing) (!hascall(thing, "Cut") && TYPEID(thing) == GLOB.refid_filter)
+
+#define isgenerator(A) (istype(A, /generator))
+
+#define isalist(A) (istype(A, /alist))

@@ -58,8 +58,6 @@
 	///Last fingerprints to touch this atom
 	var/fingerprintslast
 
-	var/list/filter_data //For handling persistent filters
-
 	///Economy cost of item
 	var/custom_price
 	///Economy cost of item in premium vendor
@@ -801,108 +799,6 @@
 			color = C
 			return
 
-/**
- * call back when a var is edited on this atom
- *
- * Can be used to implement special handling of vars
- *
- * At the atom level, if you edit a var named "color" it will add the atom colour with
- * admin level priority to the atom colours list
- *
- * Also, if GLOB.Debug2 is FALSE, it sets the ADMIN_SPAWNED_1 flag on flags_1, which signifies
- * the object has been admin edited
- */
-/atom/vv_edit_var(var_name, var_value)
-	if(!GLOB.Debug2)
-		flags_1 |= ADMIN_SPAWNED_1
-	. = ..()
-	switch(var_name)
-		if("color")
-			add_atom_colour(color, ADMIN_COLOUR_PRIORITY)
-
-/**
- * Return the markup to for the dropdown list for the VV panel for this atom
- *
- * Override in subtypes to add custom VV handling in the VV panel
- */
-/atom/vv_get_dropdown()
-	. = ..()
-	VV_DROPDOWN_OPTION("", "---------")
-	if(!ismovableatom(src))
-		var/turf/curturf = get_turf(src)
-		if(curturf)
-			. += "<option value='?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[curturf.x];Y=[curturf.y];Z=[curturf.z]'>Jump To</option>"
-	VV_DROPDOWN_OPTION(VV_HK_MODIFY_TRANSFORM, "Modify Transform")
-	VV_DROPDOWN_OPTION(VV_HK_ADD_REAGENT, "Add Reagent")
-	VV_DROPDOWN_OPTION(VV_HK_TRIGGER_EXPLOSION, "Explosion")
-	VV_DROPDOWN_OPTION(VV_HK_ADD_AI, "Add AI controller")
-
-/atom/vv_do_topic(list/href_list)
-	. = ..()
-	if(href_list[VV_HK_ADD_REAGENT] && check_rights(R_VAREDIT))
-		if(!reagents)
-			var/amount = input(usr, "Specify the reagent size of [src]", "Set Reagent Size", 50) as num|null
-			if(amount)
-				create_reagents(amount)
-
-		if(reagents)
-			var/chosen_id
-			switch(alert(usr, "Choose a method.", "Add Reagents", "Search", "Choose from a list", "I'm feeling lucky"))
-				if("Search")
-					var/valid_id
-					while(!valid_id)
-						chosen_id = input(usr, "Enter the ID of the reagent you want to add.", "Search reagents") as null|text
-						if(isnull(chosen_id)) //Get me out of here!
-							break
-						if (!ispath(text2path(chosen_id)))
-							chosen_id = pick_closest_path(chosen_id, make_types_fancy(subtypesof(/datum/reagent)))
-							if (ispath(chosen_id))
-								valid_id = TRUE
-						else
-							valid_id = TRUE
-						if(!valid_id)
-							to_chat(usr, "<span class='warning'>A reagent with that ID doesn't exist!</span>")
-				if("Choose from a list")
-					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in sortList(subtypesof(/datum/reagent), GLOBAL_PROC_REF(cmp_typepaths_asc))
-				if("I'm feeling lucky")
-					chosen_id = pick(subtypesof(/datum/reagent))
-			if(chosen_id)
-				var/amount = input(usr, "Choose the amount to add.", "Choose the amount.", reagents.maximum_volume) as num|null
-				if(amount)
-					reagents.add_reagent(chosen_id, amount)
-					log_admin("[key_name(usr)] has added [amount] units of [chosen_id] to [src]")
-					message_admins("<span class='notice'>[key_name(usr)] has added [amount] units of [chosen_id] to [src]</span>")
-	if(href_list[VV_HK_TRIGGER_EXPLOSION] && check_rights(R_FUN))
-		usr.client.cmd_admin_explosion(src)
-	if(href_list[VV_HK_MODIFY_TRANSFORM] && check_rights(R_VAREDIT))
-		var/result = input(usr, "Choose the transformation to apply","Transform Mod") as null|anything in list("Scale","Translate","Rotate")
-		var/matrix/M = transform
-		switch(result)
-			if("Scale")
-				var/x = input(usr, "Choose x mod","Transform Mod") as null|num
-				var/y = input(usr, "Choose y mod","Transform Mod") as null|num
-				if(!isnull(x) && !isnull(y))
-					transform = M.Scale(x,y)
-			if("Translate")
-				var/x = input(usr, "Choose x mod","Transform Mod") as null|num
-				var/y = input(usr, "Choose y mod","Transform Mod") as null|num
-				if(!isnull(x) && !isnull(y))
-					transform = M.Translate(x,y)
-			if("Rotate")
-				var/angle = input(usr, "Choose angle to rotate","Transform Mod") as null|num
-				if(!isnull(angle))
-					transform = M.Turn(angle)
-	if(href_list[VV_HK_AUTO_RENAME] && check_rights(R_VAREDIT))
-		var/newname = input(usr, "What do you want to rename this to?", "Automatic Rename") as null|text
-		if(newname)
-			vv_auto_rename(newname)
-
-/atom/vv_get_header()
-	. = ..()
-	var/refid = REF(src)
-	. += "[VV_HREF_TARGETREF(refid, VV_HK_AUTO_RENAME, "<b id='name'>[src]</b>")]"
-	. += "<br><font size='1'><a href='?_src_=vars;[HrefToken()];rotatedatum=[refid];rotatedir=left'><<</a> <a href='?_src_=vars;[HrefToken()];datumedit=[refid];varnameedit=dir' id='dir'>[dir2text(dir) || dir]</a> <a href='?_src_=vars;[HrefToken()];rotatedatum=[refid];rotatedir=right'>>></a></font>"
-
 ///Where atoms should drop if taken from this atom
 /atom/proc/drop_location()
 	var/atom/L = loc
@@ -910,8 +806,6 @@
 		return null
 	return L.AllowDrop() ? L : L.drop_location()
 
-/atom/proc/vv_auto_rename(newname)
-	name = newname
 
 /**
  * An atom has entered this atom's contents
@@ -1183,91 +1077,6 @@
 	var/list/hearers = get_hearers_in_view(vision_distance, user)
 	log_seen(user, target, hearers, message, seen_type)
 
-/atom/movable/proc/add_filter(name,priority,list/params)
-	if(!filter_data)
-		filter_data = list()
-	var/list/p = params.Copy()
-	p["priority"] = priority
-	if(("color" in p) && !isnull(p["color"]) && !istext(p["color"]) && !islist(p["color"]))
-		stack_trace("filter '[name]' on [type] given non-text non-list color [p["color"]] - fix the caller")
-		return
-	filter_data[name] = p
-	update_filters()
-
-/atom/movable/proc/remove_filter(name_or_names)
-	if(!filter_data)
-		return
-
-	var/list/names = islist(name_or_names) ? name_or_names : list(name_or_names)
-
-	. = FALSE
-	for(var/name in names)
-		if(filter_data[name])
-			filter_data -= name
-			. = TRUE
-
-	if(.)
-		update_filters()
-	return .
-
-/atom/movable/proc/clear_filters()
-	var/atom/atom_cast = src // filters only work with images or atoms.
-	filter_data = null
-	atom_cast.filters = null
-
-/atom/movable/proc/update_filters() //Determine which filter comes first
-	filters = null					//note, the cmp_filter is a little flimsy.
-	sortTim(filter_data, /proc/cmp_filter_priority_desc, associative = TRUE)
-	for(var/f in filter_data)
-		var/list/data = filter_data[f]
-		var/list/arguments = data.Copy()
-		arguments -= "priority"
-		filters += filter(arglist(arguments))
-
-/atom/movable/proc/get_filter(name)
-	if(filter_data && filter_data[name])
-		return filters[filter_data.Find(name)]
-
-/** Update a filter's parameter and animate this change. If the filter doesn't exist we won't do anything.
- * Basically a [datum/proc/modify_filter] call but with animations. Unmodified filter parameters are kept.
- *
- * Arguments:
- * * name - Filter name
- * * new_params - New parameters of the filter
- * * time - time arg of the BYOND animate() proc.
- * * easing - easing arg of the BYOND animate() proc.
- * * loop - loop arg of the BYOND animate() proc.
- */
-/atom/movable/proc/transition_filter(name, list/new_params, time, easing, loop)
-	var/filter = get_filter(name)
-	if(!filter)
-		return
-	// This can get injected by the filter procs, we want to support them so bye byeeeee
-	new_params -= "type"
-	animate(filter, new_params, time = time, easing = easing, loop = loop)
-	modify_filter(name, new_params)
-
-/** Update a filter's parameter to the new one. If the filter doesn't exist we won't do anything.
- *
- * Arguments:
- * * name - Filter name
- * * new_params - New parameters of the filter
- * * overwrite - TRUE means we replace the parameter list completely. FALSE means we only replace the things on new_params.
- */
-/atom/movable/proc/modify_filter(name, list/new_params, overwrite = FALSE)
-	var/filter = get_filter(name)
-	if(!filter)
-		return
-	if(("color" in new_params) && !isnull(new_params["color"]) && !istext(new_params["color"]) && !islist(new_params["color"]))
-		stack_trace("filter '[name]' on [type] given non-text non-list color [new_params["color"]] - fix the caller")
-		return
-	if(overwrite)
-		filter_data[name] = new_params
-	else
-		for(var/thing in new_params)
-			filter_data[name][thing] = new_params[thing]
-	update_filters()
-
 /atom/proc/intercept_zImpact(atom/movable/AM, levels = 1)
 	. |= SEND_SIGNAL(src, COMSIG_ATOM_INTERCEPT_Z_FALL, AM, levels)
 
@@ -1290,11 +1099,6 @@
 		location = location.loc
 	if(our_turf && include_turf) //At this point, only the turf is left, provided it exists.
 		. += our_turf
-
-/// Returns the indice in filters of the given filter name.
-/// If it is not found, returns null.
-/atom/proc/get_filter_index(name)
-	return filter_data?.Find(name)
 
 //Automatically turns based on nearby walls, destroys if not valid.
 /atom/proc/auto_turn_destructive()

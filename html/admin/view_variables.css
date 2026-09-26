@@ -1,0 +1,125 @@
+body {
+	font-family: Verdana, sans-serif;
+	font-size: 9pt;
+}
+.value {
+	font-family: "Courier New", monospace;
+	font-size: 8pt;
+	display: inline-block;
+}
+
+table.matrix {
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 7pt;
+}
+.matrix td {
+	text-align: center;
+	padding: 0 1ex 0ex 1ex;
+}
+table.matrixbrak {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+table.matrixbrak td.lbrak {
+	width: 0.8ex;
+	font-size: 50%;
+	border-top: solid 0.25ex black;
+	border-bottom: solid 0.25ex black;
+	border-left: solid 0.5ex black;
+	border-right: none;
+}
+table.matrixbrak td.rbrak {
+	width: 0.8ex;
+	font-size: 50%;
+	border-top: solid 0.25ex black;
+	border-bottom: solid 0.25ex black;
+	border-right: solid 0.5ex black;
+	border-left: none;
+}
+
+#vvDropdownInput {
+	box-sizing: border-box;
+	padding: 4px;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	width: 100%;
+}
+
+#vvDropdownInput:focus {
+	outline: none;
+}
+
+.dropdown-content {
+	margin-top: 4px;
+	border: 1px solid #ddd;
+	z-index: 1;
+	position: relative;
+}
+
+.dropdown-options a {
+	color: black;
+	font-size: 12px;
+	padding: 6px 8px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown-options {
+	overflow-y: auto;
+	overscroll-behavior-y: contain;
+	position: absolute;
+	max-height: 500px;
+	background-color: #f6f6f6;
+	width: 100%;
+}
+
+.dropdown-options a:hover {
+	/* biome-ignore lint/complexity/noImportantStyles: needed */
+	background-color: #dbdbdb !important;
+}
+
+.theme-dark {
+	background-color: #000;
+	color: #c1c1c1;
+
+	scrollbar-color: #9f9f9f #2c2c2c;
+
+	a {
+		color: #2078db;
+	}
+
+	a:hover {
+		color: #499eff;
+	}
+
+	a:active {
+		color: #ff499e;
+	}
+
+	#vvDropdownInput {
+		border: none;
+	}
+
+	input[type="text"] {
+		background-color: #000;
+		color: white;
+	}
+
+	input[type="text"]:focus {
+		outline: none;
+	}
+
+	.dropdown-content {
+		border-color: #4a4a4a;
+	}
+
+	.dropdown-options {
+		background-color: #1a1a1a;
+
+		a:hover {
+			/* biome-ignore lint/complexity/noImportantStyles: needed */
+			background-color: #4a4a4a !important;
+		}
+	}
+}
