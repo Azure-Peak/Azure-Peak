@@ -1,8 +1,10 @@
 #define LAST_STORYTELLER_VOTE_LOG_FILE "data/last_round/storyteller_vote.json"
 /// Persistent per-preset vote carryover. Votes a preset receives without winning carry into the next vote until it wins.
 #define STORYTELLER_VOTE_BANK_FILE "data/last_round/storyteller_vote_bank.json"
-/// Multiplier applied to a losing preset's total before it's banked, so carried votes fade out over rounds.
+/// Multiplier applied to banked votes from voters who didn't take part in the current vote, so their carryover fades.
 #define STORYTELLER_VOTE_BANK_DECAY 0.5
+/// Bank entry key for pre-per-voter bank totals. Never matches a real voter, so it always decays.
+#define STORYTELLER_VOTE_BANK_LEGACY_KEY "_legacy"
 #define DEFAULT_VOTE_PANEL_REFRESH_INTERVAL 2 SECONDS
 #define STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL 5 SECONDS
 
@@ -30,7 +32,7 @@ SUBSYSTEM_DEF(vote)
 	var/list/vote_selections = list()
 	var/list/vote_powers = list()
 	var/list/storyteller_vote_log = list()
-	/// Storyteller type path -> votes banked from previous rounds. Persists across votes via STORYTELLER_VOTE_BANK_FILE.
+	/// Storyteller type path -> list(voter ckey -> votes banked from previous rounds). Persists via STORYTELLER_VOTE_BANK_FILE.
 	var/list/storyteller_vote_bank = list()
 	/// Choice name -> votes carried into the current storyteller vote from the bank, for display.
 	var/list/storyteller_vote_carried = list()
@@ -100,7 +102,7 @@ SUBSYSTEM_DEF(vote)
 		for(var/storyteller_type in SSgamemode.storytellers)
 			var/datum/storyteller/storyboy = SSgamemode.storytellers[storyteller_type]
 			if(storyboy.preset_pool)
-				storyteller_vote_bank[storyteller_type] = 0
+				storyteller_vote_bank[storyteller_type] = list()
 		save_storyteller_vote_bank()
 		return FALSE
 	var/list/file_data = safe_json_decode(file2text(json_file))
@@ -110,71 +112,120 @@ SUBSYSTEM_DEF(vote)
 		var/storyteller_type = text2path(type_text)
 		if(!ispath(storyteller_type, /datum/storyteller))
 			continue
-		var/amount = file_data[type_text]
-		if(!isnum(amount))
-			amount = text2num("[amount]")
-		storyteller_vote_bank[storyteller_type] = max(0, amount || 0)
+		var/raw = file_data[type_text]
+		var/list/entries = list()
+		if(islist(raw))
+			for(var/voter_ckey in raw)
+				var/amount = raw[voter_ckey]
+				if(!isnum(amount))
+					amount = text2num("[amount]")
+				if(amount > 0)
+					entries[voter_ckey] = amount
+		else // old single-number format; keep it as an anonymous entry
+			var/amount = isnum(raw) ? raw : text2num("[raw]")
+			if(amount > 0)
+				entries[STORYTELLER_VOTE_BANK_LEGACY_KEY] = amount
+		storyteller_vote_bank[storyteller_type] = entries
 	return TRUE
 
 /datum/controller/subsystem/vote/proc/save_storyteller_vote_bank()
 	var/list/file_data = list()
 	for(var/storyteller_type in storyteller_vote_bank)
-		file_data["[storyteller_type]"] = storyteller_vote_bank[storyteller_type] || 0
+		var/list/entries = storyteller_vote_bank[storyteller_type]
+		file_data["[storyteller_type]"] = islist(entries) ? entries : list()
 	var/json_file = file(STORYTELLER_VOTE_BANK_FILE)
 	fdel(json_file)
 	WRITE_FILE(json_file, json_encode(file_data))
+
+/// Raw (undecayed) sum of a preset's banked votes.
+/datum/controller/subsystem/vote/proc/get_storyteller_bank_total(storyteller_type)
+	var/list/entries = storyteller_vote_bank[storyteller_type]
+	. = 0
+	if(!islist(entries))
+		return
+	for(var/voter_ckey in entries)
+		. += entries[voter_ckey] || 0
+
+/// What a preset's bank is worth in the current vote: banked votes from voters who have cast a ballot this vote count
+/// in full, the rest are decayed by STORYTELLER_VOTE_BANK_DECAY. Rounded down so the tally stays in whole votes.
+/datum/controller/subsystem/vote/proc/get_storyteller_effective_carry(storyteller_type)
+	var/list/entries = storyteller_vote_bank[storyteller_type]
+	var/total = 0
+	if(!islist(entries))
+		return total
+	for(var/voter_ckey in entries)
+		var/amount = entries[voter_ckey] || 0
+		total += (voter_ckey in voted) ? amount : amount * STORYTELLER_VOTE_BANK_DECAY
+	return floor(total)
+
+/// Re-derives each option's carried votes from the bank and who has voted so far, adjusting the tally by the difference.
+/// Called whenever the set of voters changes, since that decides whose carryover counts in full.
+/datum/controller/subsystem/vote/proc/update_storyteller_carryover()
+	for(var/option in choices)
+		var/new_carried = get_storyteller_effective_carry(get_storyteller_choice_type(option))
+		var/old_carried = storyteller_vote_carried[option] || 0
+		if(new_carried == old_carried)
+			continue
+		choices[option] = max(0, (choices[option] || 0) + new_carried - old_carried)
+		if(new_carried > 0)
+			storyteller_vote_carried[option] = new_carried
+		else
+			storyteller_vote_carried -= option
 
 /// Seeds the freshly-built storyteller ballot with each option's banked votes.
 /datum/controller/subsystem/vote/proc/apply_storyteller_vote_bank()
 	load_storyteller_vote_bank()
 	storyteller_vote_carried.Cut()
 	for(var/option in choices)
-		var/storyteller_type = get_storyteller_choice_type(option)
-		var/carried = storyteller_vote_bank[storyteller_type] || 0
-		choices[option] = carried
-		if(carried > 0)
-			storyteller_vote_carried[option] = carried
+		choices[option] = 0
+	update_storyteller_carryover()
 
-/// Banks every balloted option's final total (decayed by STORYTELLER_VOTE_BANK_DECAY) for the next vote, then clears
-/// the winner's bank. Presets absent from this ballot keep their bank untouched.
+/// Rebuilds the bank for every balloted option: entries from voters who took part this vote are kept in full, the rest
+/// decay, and this vote's fresh ballots are added per voter. The winner's bank is cleared. Presets absent from this
+/// ballot keep their bank untouched.
 /datum/controller/subsystem/vote/proc/bank_storyteller_vote_results(winning_choice)
 	load_storyteller_vote_bank()
 	for(var/option in choices)
 		var/storyteller_type = get_storyteller_choice_type(option)
 		if(!storyteller_type)
 			continue
-		var/banked = round((choices[option] || 0) * STORYTELLER_VOTE_BANK_DECAY, 0.1)
-		if(banked < 0.5) // let small leftovers die out instead of lingering forever
-			banked = 0
-		storyteller_vote_bank[storyteller_type] = banked
+		var/list/old_entries = storyteller_vote_bank[storyteller_type]
+		var/list/new_entries = list()
+		if(islist(old_entries))
+			for(var/voter_ckey in old_entries)
+				var/amount = old_entries[voter_ckey] || 0
+				if(!(voter_ckey in voted))
+					amount = round(amount * STORYTELLER_VOTE_BANK_DECAY, 0.1)
+				if(amount >= 0.5) // let small leftovers die out instead of lingering forever
+					new_entries[voter_ckey] = amount
+		for(var/voter_ckey in vote_selections)
+			if(vote_selections[voter_ckey] != option)
+				continue
+			new_entries[voter_ckey] = (new_entries[voter_ckey] || 0) + (vote_powers[voter_ckey] || 0)
+		storyteller_vote_bank[storyteller_type] = new_entries
 	var/winner_type = get_storyteller_choice_type(winning_choice)
 	if(winner_type)
-		storyteller_vote_bank[winner_type] = 0
+		storyteller_vote_bank[winner_type] = list()
 	save_storyteller_vote_bank()
 	var/list/bank_lines = list()
 	for(var/storyteller_type in storyteller_vote_bank)
 		var/datum/storyteller/storyboy = SSgamemode.storytellers?[storyteller_type]
-		bank_lines += "[storyboy ? storyboy.name : storyteller_type]: [storyteller_vote_bank[storyteller_type]]"
+		var/list/entries = storyteller_vote_bank[storyteller_type]
+		bank_lines += "[storyboy ? storyboy.name : storyteller_type]: [floor(get_storyteller_bank_total(storyteller_type))] ([length(entries)] voters)"
 	log_vote("Storyteller vote bank after vote: [length(bank_lines) ? jointext(bank_lines, ", ") : "empty"]")
 
-/// Zeroes the bank for one preset, or all presets if none is given. If a storyteller vote is running, the carried
+/// Empties the bank for one preset, or all presets if none is given. If a storyteller vote is running, the carried
 /// votes are pulled out of the live tally too; votes cast this round are kept.
 /datum/controller/subsystem/vote/proc/reset_storyteller_vote_bank(storyteller_type = null)
 	load_storyteller_vote_bank()
 	if(storyteller_type)
-		storyteller_vote_bank[storyteller_type] = 0
+		storyteller_vote_bank[storyteller_type] = list()
 	else
 		for(var/banked_type in storyteller_vote_bank)
-			storyteller_vote_bank[banked_type] = 0
+			storyteller_vote_bank[banked_type] = list()
 	save_storyteller_vote_bank()
-	if(mode != "storyteller")
-		return
-	for(var/option in storyteller_vote_carried.Copy())
-		if(storyteller_type && get_storyteller_choice_type(option) != storyteller_type)
-			continue
-		if(option in choices)
-			choices[option] = max(0, (choices[option] || 0) - storyteller_vote_carried[option])
-		storyteller_vote_carried -= option
+	if(mode == "storyteller")
+		update_storyteller_carryover()
 
 /datum/controller/subsystem/vote/proc/get_storyteller_vote_pool(storyteller_type)
 	if(!ispath(storyteller_type, /datum/storyteller))
@@ -597,6 +648,7 @@ SUBSYSTEM_DEF(vote)
 	vote_powers -= voter_ckey
 	storyteller_vote_log -= voter_ckey
 	if(mode == "storyteller")
+		update_storyteller_carryover() // they no longer count as present, so their carryover decays again
 		save_storyteller_vote_log(null, "active")
 	return TRUE
 
@@ -625,6 +677,8 @@ SUBSYSTEM_DEF(vote)
 				)
 				save_storyteller_vote_log(null, "active")
 			choices[selected_option] += vote_power //check this
+			if(mode == "storyteller")
+				update_storyteller_carryover() // voting makes their banked votes count in full
 			return vote
 	return FALSE
 
@@ -759,7 +813,7 @@ SUBSYSTEM_DEF(vote)
 		if(mode == "storyteller")
 			if(!length(storyteller_vote_log))
 				load_storyteller_vote_log()
-			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. The winning pool is removed from next round's vote. Gamemodes that don't win carry half their votes over to the next vote, until they're rolled."
+			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. Gamemodes that don't win carry their votes over until they're rolled. Your carried votes count in full once you vote; votes from people who sit a vote out count for half."
 			. += "<div style='color:#992414;font-size:0.9rem;margin-bottom:6px;'>[pool_text]</div>"
 			. += render_storyteller_choices(can_vote, C)
 		else
@@ -931,5 +985,6 @@ SUBSYSTEM_DEF(vote)
 #undef LAST_STORYTELLER_VOTE_LOG_FILE
 #undef STORYTELLER_VOTE_BANK_FILE
 #undef STORYTELLER_VOTE_BANK_DECAY
+#undef STORYTELLER_VOTE_BANK_LEGACY_KEY
 #undef DEFAULT_VOTE_PANEL_REFRESH_INTERVAL
 #undef STORYTELLER_VOTE_PANEL_REFRESH_INTERVAL

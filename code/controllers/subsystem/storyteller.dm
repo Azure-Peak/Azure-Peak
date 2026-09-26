@@ -231,6 +231,9 @@ SUBSYSTEM_DEF(gamemode)
 	/// Whether the player gamemode vote is allowed to fire at the +120s mark. When No, the round is admin-
 	/// controlled (the admin sandbox, unless a specific preset was force-picked) and the slot overrides apply.
 	var/allow_vote = TRUE
+	/// When TRUE, the pool whose preset ran last round is left off the next gamemode vote. Disabled while the
+	/// vote-carryover bank is being trialled, since carried votes already spread wins across presets.
+	var/exclude_previous_pool = FALSE
 	/// TRUE when an admin explicitly Force-Picked a preset. Stops the admin controls from swapping to the sandbox.
 	var/forced_preset = FALSE
 	/// Whether soft antags (wretch/gnoll/assassin) scale with population under admin fine-tuning.
@@ -897,7 +900,7 @@ SUBSYSTEM_DEF(gamemode)
 		if(pool_name)
 			available_pools[pool_name] = TRUE
 	// Exclude the pool whose option won last round (applied uniformly to all three pools, Extended included).
-	var/can_exclude_previous_pool = previous_pool && length(available_pools) > 1
+	var/can_exclude_previous_pool = exclude_previous_pool && previous_pool && length(available_pools) > 1
 	for(var/datum/storyteller/storyboy in valid_storytellers)
 		var/pool_name = get_story_pool(storyboy.type)
 		if(!pool_name) // only gamemode presets are votable; the retained god datums are not

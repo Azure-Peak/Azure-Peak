@@ -181,7 +181,8 @@ SUBSYSTEM_DEF(events)
 		var/datum/storyteller/storyboy = SSgamemode.storytellers[storyteller_type]
 		if(!storyboy.preset_pool) // only votable presets bank votes
 			continue
-		options["[storyboy.name] ([SSvote.storyteller_vote_bank[storyteller_type] || 0])"] = storyteller_type
+		var/list/entries = SSvote.storyteller_vote_bank[storyteller_type]
+		options["[storyboy.name] ([floor(SSvote.get_storyteller_bank_total(storyteller_type))] from [length(entries)] voters)"] = storyteller_type
 	var/picked = input(src, "Reset which preset's banked (carried over) votes?", "Storyteller Vote Bank") as null|anything in options
 	if(!picked)
 		return
