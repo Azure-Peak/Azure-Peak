@@ -160,6 +160,15 @@ const OrderCard = (props: CardProps) => {
         <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
           {o.payout}m
         </span>
+        {o.scarcity_bonus_pct > 0 && (
+          <span
+            style={{ color: INK_FAINT, cursor: 'help' }}
+            title="Scarcity bonus: boosts the Crown's payout as active population drops, recalculated daily. Never affects the goods required to fulfill the order."
+          >
+            {' '}
+            ({o.base_payout}m + {o.scarcity_bonus_pct}% scarcity bonus)
+          </span>
+        )}
       </div>
       <div style={{ marginTop: '4px' }}>
         <span style={{ color: INK_FAINT, fontSize: FONT_BODY }}>Items: </span>
