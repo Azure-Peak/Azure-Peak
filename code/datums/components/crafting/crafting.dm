@@ -210,6 +210,8 @@
 	return FALSE
 
 /datum/component/personal_crafting/proc/construct_item_repeatable(mob/user, datum/crafting_recipe/R, amount = 1, auto)
+	if(R.required_trait && !HAS_TRAIT(user, R.required_trait))
+		return
 	while(amount > 0 || auto)
 		amount--
 		var/result = construct_item(user, R)
@@ -600,6 +602,8 @@
 			continue
 		if(R.required_tech_node && !R.tech_unlocked)
 			continue
+		if(R.required_trait && !HAS_TRAIT(user, R.required_trait))
+			continue
 
 		craftability[R.name] = check_contents(R, surroundings)
 
@@ -617,6 +621,8 @@
 		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes))
 			continue
 		if(R.required_tech_node && !R.tech_unlocked)
+			continue
+		if(R.required_trait && !HAS_TRAIT(user, R.required_trait))
 			continue
 		if(isnull(crafting_recipes[R.cached_category]))
 			crafting_recipes[R.cached_category] = list()

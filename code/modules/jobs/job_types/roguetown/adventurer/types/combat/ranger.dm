@@ -119,52 +119,79 @@
 		)
 	H.set_blindness(0)
 
-/datum/advclass/ranger/bombadier
-	name = "Bombadier"
+/datum/advclass/ranger/bombardier
+	name = "Bombardier"
 	tutorial = "Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"
-	outfit = /datum/outfit/job/roguetown/adventurer/bombadier
+	outfit = /datum/outfit/job/roguetown/adventurer/bombardier
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT) // Bombardier get an exception - alchemy is part of the gimmick.
+	traits_applied = list(TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT) // Bombardier get an exception - alchemy is part of the gimmick.
 	subclass_stats = list(
 		STATKEY_STR = 2,
-		STATKEY_INT = 2,
-		STATKEY_CON = 1,
+		STATKEY_INT = 1,
+		STATKEY_LCK = 1,
 	)
 	subclass_skills = list(
-		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN, // come on theyre supposed to be rangers
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/engineering = SKILL_LEVEL_EXPERT,
+		/datum/skill/craft/smelting = SKILL_LEVEL_JOURNEYMAN,
 	)
 
-/datum/outfit/job/roguetown/adventurer/bombadier/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/adventurer/bombardier/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"))
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	head = /obj/item/clothing/head/roguetown/roguehood
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	head = /obj/item/clothing/head/roguetown/headband/monk
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mageorange
-	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-	belt = /obj/item/storage/belt/rogue/leather
-	backr = /obj/item/twstrap/bombstrap/firebomb
-	backl = /obj/item/storage/backpack/rogue/satchel
-	beltr = /obj/item/flashlight/flare/torch/lantern
-	beltl = /obj/item/rogueweapon/mace/cudgel
-	backpack_contents = list(
-		/obj/item/bomb = 4,
-		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
-		/obj/item/flint = 1,
-		)
+	cloak = /obj/item/clothing/cloak/eastcloak2
+	belt = /obj/item/storage/backpack/rogue/satchel/beltpack
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
+	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+	backl = /obj/item/twstrap/bombstrap/firebomb
+	beltr = /obj/item/quiver/bolt/light
+
+	if(H.mind)
+		var/defense_choice = input(H, "Choose your defensive training.", "DEFENSIVE TRAINING") as anything in list("Dodge Expert", "Medium Armor")
+		switch(defense_choice)
+			if("Dodge Expert")
+				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+				beltl = /obj/item/rogueweapon/huntingknife/combat
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+				pants = /obj/item/clothing/under/roguetown/trou/leather
+				backpack_contents = list(
+					/obj/item/natural/bundle/fibers/full = 1,
+					/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
+					/obj/item/flashlight/flare/torch/lantern = 1,
+					/obj/item/bomb = 4,
+					/obj/item/flint = 1,
+					)
+				H.change_stat(STATKEY_SPD, 2)
+
+			if("Medium Armor")
+				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+				beltl = /obj/item/rogueweapon/mace
+				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
+				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
+				backpack_contents = list(
+					/obj/item/natural/bundle/fibers/full = 1,
+					/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
+					/obj/item/flashlight/flare/torch/lantern = 1,
+					/obj/item/bomb = 4,
+					/obj/item/flint = 1,
+					)
+				H.change_stat(STATKEY_CON, 1)
+
 	H.set_blindness(0)
 
 /datum/advclass/ranger/bwanderer

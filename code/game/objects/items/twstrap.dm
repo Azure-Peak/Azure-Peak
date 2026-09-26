@@ -174,7 +174,7 @@
 	icon_state = "bombstrap0"
 	item_state = "bombstrap"
 	strip_delay = STRIP_DELAY_FAST
-	max_storage = 10
+	max_storage = 15
 	var/list/fill_list = list() //use for custome fill that
 	storable_types = list(
 		/obj/item/bomb,
