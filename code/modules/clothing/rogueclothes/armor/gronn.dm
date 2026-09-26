@@ -93,8 +93,8 @@
 	adjustable = CAN_CADJUST
 	light_color = LIGHT_COLOR_ORANGE
 	light_system = MOVABLE_LIGHT
-	light_outer_range = 3
-	light_power = 1
+	light_outer_range = LIGHT_RANGE_FIRE
+	light_power = LIGHT_POWER_BASE
 	toggle_icon_state = TRUE
 
 /obj/item/clothing/head/roguetown/helmet/leather/shaman_hood/equipped(mob/user, slot)

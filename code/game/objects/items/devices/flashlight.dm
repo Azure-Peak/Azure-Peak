@@ -10,8 +10,8 @@
 	w_class = WEIGHT_CLASS_SMALL
 	flags_1 = null
 	light_system = MOVABLE_LIGHT
-	light_outer_range = 4
-	light_power = 1
+	light_outer_range = LIGHT_RANGE_LAMPTERN
+	light_power = LIGHT_POWER_BASE
 	slot_flags = ITEM_SLOT_BELT
 	var/weather_resistant = FALSE
 	possible_item_intents = list(INTENT_GENERIC)
@@ -137,14 +137,14 @@
 	desc = "A stick with enough fiber wrapped around the end to burn for a decent amount of time. Mind it \
 	should you choose to ford across water."
 	w_class = WEIGHT_CLASS_NORMAL
-	light_outer_range = 7
+	light_outer_range = LIGHT_RANGE_TORCH
 	force = 5
 	icon = 'icons/roguetown/items/lighting.dmi'
 	icon_state = "torch"
 	item_state = "torch"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
-	light_color = "#f5a885"
+	light_color = LIGHT_COLOR_FIRE
 	on_damage = 10
 	flags_1 = null
 	possible_item_intents = list(/datum/intent/use, /datum/intent/hit)
@@ -289,7 +289,7 @@
 	name = "fieftorch"
 	desc = "A candleholder of wrought iron, oft-found mounted to the sconces in a castle's hallway."
 	icon_state = "mtorch"
-	light_outer_range = 6
+	light_outer_range = LIGHT_RANGE_TORCH
 	force = 10 //Doubled from the regular torch, to reflect its sturdier construction. Classified as an improvised weapon, as it shouldn't scale off any weapon skill.
 	on_damage = 15
 	wdefense = 1 //Metal rod. Offers a pittance-of-a-chance to parry an incoming strike.
@@ -309,7 +309,7 @@
 	name = "iron lamptern"
 	icon_state = "lamp"
 	desc = "A light to guide the way."
-	light_outer_range = 5
+	light_outer_range = LIGHT_RANGE_LAMPTERN
 	on = FALSE
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
@@ -364,8 +364,8 @@
 	icon_state = "bronzelamp"
 	item_state = "bronzelamp"
 	desc = "A marvel of engineering that emits a strange green glow."
-	light_outer_range = 6
-	light_color ="#4ac77e"
+	light_outer_range = LIGHT_RANGE_LAMPTERN + 1
+	light_color = LIGHT_COLOR_BRONZE
 	on = FALSE
 
 /obj/item/flashlight/flare/torch/lantern/bronzelamptern/malums_lamptern //unqiue item as a dungeon reward. Functionally a kite shield and a bronze lamptern combined into one
@@ -373,9 +373,10 @@
 	icon_state = "bronzelamp"
 	item_state = "bronzelamp"
 	desc = "A marvel of enginseering that emits a strange teal glow. This one bears an emblem related to Malum and has an inscription. It reads, 'Wield me against your foe and the power of creation shall shield you from harm.'"
-	light_outer_range = 8
-	light_color = "#2bd0d6"
-	color = "#2bd0d6"
+	light_outer_range = LIGHT_RANGE_BRAZIER
+	light_power = LIGHT_POWER_MAGIC*2 // Its a relic.
+	light_color = LIGHT_COLOR_CYAN
+	color = LIGHT_COLOR_CYAN
 	on = TRUE
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	force = 20
@@ -433,7 +434,7 @@
 	grid_width = 64
 	grid_height = 32
 	w_class = WEIGHT_CLASS_SMALL
-	light_color = "#ffb272ff"
+	light_color = LIGHT_COLOR_ORANGE
 	on = FALSE
 	slot_flags = ITEM_SLOT_HEAD
 	flags_inv = HIDEFACE|HIDEEARS|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT

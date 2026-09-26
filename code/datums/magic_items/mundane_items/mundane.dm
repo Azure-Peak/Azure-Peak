@@ -76,6 +76,7 @@
 	description = "It emits a shining light. (Use right click to light it or dim it)"
 	glow_color = "#FFB347"
 	var/active = FALSE
+	var/light_color = LIGHT_COLOR_FIRE
 
 /datum/magic_item/mundane/revealinglight/attack_right(obj/item/i, mob/living/user)
 	if(!active)
@@ -84,9 +85,9 @@
 		i.light_system = MOVABLE_LIGHT
 		if(!i.GetComponent(/datum/component/overlay_lighting))
 			i.AddComponent(/datum/component/overlay_lighting)
-		i.set_light_range(10)
-		i.set_light_power(1)
-		i.set_light_color(LIGHT_COLOR_WHITE)
+		i.set_light_range(LIGHT_RANGE_LAMPTERN+3)
+		i.set_light_power(LIGHT_POWER_MAGIC)
+		i.set_light_color(light_color)
 		i.set_light_on(TRUE)
 		i.update_icon()
 	else

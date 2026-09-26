@@ -5,11 +5,11 @@
 	occasionally flickers with a spark of some bright energy."
 	icon_state = "slamp1"
 	base_state = "slamp"
-	brightness = 10
+	brightness = LIGHT_RANGE_BRAZIER
 	//nightshift_allowed = FALSE
 	fueluse = 0
-	bulb_colour = "#fcd294"
-	bulb_power = 1
+	bulb_colour = LIGHT_COLOR_TUNGSTEN
+	bulb_power = LIGHT_POWER_BASE
 	max_integrity = 0
 	pass_flags = LETPASSTHROW
 
@@ -61,15 +61,15 @@
 	desc = "Two frustrums hold a glaring death-light. Solid and unyielding."
 	icon = 'icons/obj/lighting.dmi'
 	icon_state = "celestial_light"
-	brightness = 10
-	bulb_power = 1
-	bulb_colour = "#87050e"
-	light_color = "#87050e"
+	brightness = LIGHT_RANGE_BRAZIER
+	bulb_power = LIGHT_POWER_BASE
+	bulb_colour = LIGHT_COLOR_RED
+	light_color = LIGHT_COLOR_RED
 	max_integrity = 0
 	fueluse = 0
 	light_on = 1
-	light_outer_range = 4
-	light_power = 2
+	light_outer_range = LIGHT_RANGE_FIRE + 1
+	light_power = LIGHT_POWER_BASE*2
 
 /obj/machinery/light/oldlight/proc/lights_out()
 	on = FALSE

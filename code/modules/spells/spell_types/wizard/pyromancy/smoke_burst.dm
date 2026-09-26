@@ -38,8 +38,8 @@
 	name = "smoke burst"
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "spark"
-	light_color = "#8a8a8a"
-	light_outer_range = 2
+	light_color = LIGHT_COLOR_GREY
+	light_outer_range = LIGHT_RANGE_FIRE - 1
 	speed = MAGE_PROJ_VERY_SLOW
 	nodamage = TRUE
 	damage = 0

@@ -120,7 +120,7 @@
 	randomdir = FALSE
 	duration = 3 SECONDS
 	layer = MASSIVE_OBJ_LAYER
-	light_outer_range = 2
+	light_outer_range = LIGHT_RANGE_FIRE - 1
 	light_color = GLOW_COLOR_KINESIS
 
 /obj/effect/temp_visual/gravity_trap
