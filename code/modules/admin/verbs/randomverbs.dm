@@ -149,11 +149,12 @@
 	if(!check_rights(R_ADMIN))
 		return
 
-	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to everyone:")) as text|null
+	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to everyone:")) as message|null
 
 	if (!msg)
 		return
-	to_world("[msg]")
+	msg = parse_admin_spans(msg)
+	to_world(msg)
 	log_admin("GlobalNarrate: [key_name(usr)] : [msg]")
 	message_admins(span_adminnotice("[key_name_admin(usr)] Sent a global narrate"))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Global Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -171,14 +172,15 @@
 	if(!M)
 		return
 
-	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to your target:")) as text|null
+	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to your target:")) as message|null
 
 	if( !msg )
 		return
 
+	msg = parse_admin_spans(msg)
 	to_chat(M, msg)
-	log_admin("DirectNarrate: [key_name(usr)] to ([M.name]/[M.key]): [msg]")
-	msg = span_adminnotice("<b> DirectNarrate: [key_name(usr)] to ([M.name]/[M.key]):</b> [msg]<BR>")
+	log_admin("DirectNarrate: [key_name(usr)] to ([M.name]/[M.key]) at [AREACOORD(M)]: [msg]")
+	msg = span_adminnotice("<b> DirectNarrate: [key_name(usr)] to ([M.name]/[M.key]) at [ADMIN_VERBOSEJMP(M)]:</b> [msg]<BR>")
 	message_admins(msg)
 	admin_ticket_log(M, msg)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Direct Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -194,15 +196,65 @@
 	var/range = input(usr, "Range:", "Narrate to mobs within how many tiles:", 7) as num|null
 	if(!range)
 		return
-	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to everyone within view:")) as text|null
+	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to everyone within view:")) as message|null
 	if (!msg)
 		return
+	msg = parse_admin_spans(msg)
 	for(var/mob/M in view(range,A))
 		to_chat(M, msg)
 
 	log_admin("LocalNarrate: [key_name(usr)] at [AREACOORD(A)]: [msg]")
 	message_admins(span_adminnotice("<b> LocalNarrate: [key_name_admin(usr)] at [ADMIN_VERBOSEJMP(A)]:</b> [msg]<BR>"))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Local Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/client/proc/cmd_admin_narrate_inview()
+	set category = "Game Master.Narration"
+	set name = "Narrate - In View"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	var/msg = input(usr, "Message:", text("Enter the text you wish to appear to everyone in your view:")) as message|null
+	if(!msg)
+		return
+	msg = parse_admin_spans(msg)
+
+	for(var/mob/M in view(usr.client))
+		to_chat(M, msg)
+
+	log_admin("NarrateInView: [key_name(usr)] at [AREACOORD(usr)]: [msg]")
+	message_admins(span_adminnotice("<b> NarrateInView: [key_name_admin(usr)] at [ADMIN_VERBOSEJMP(usr)]:</b> [msg]<BR>"))
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Narrate In View") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/client/proc/cmd_admin_narrate_object(obj/selected in world)
+	set category = "Game Master.Narration"
+	set name = "Narrate - Object"
+
+	if(!check_rights(R_ADMIN))
+		return
+	if(!selected)
+		return
+
+	var/type = tgui_input_list(usr, "What type of narration?", "Narration", list("Say", "Me", "Direct"))
+	if(!type)
+		return
+
+	var/msg = input(usr, "What should it say?", "Narrating as [selected.name]") as message|null
+	if(!msg)
+		return
+	msg = parse_admin_spans(msg)
+
+	switch(type)
+		if("Say")
+			selected.say(msg)
+		if("Me")
+			selected.visible_message("<b>[selected]</b> [msg]")
+		if("Direct")
+			selected.visible_message(msg)
+
+	log_admin("ObjectNarrate: [key_name(usr)] as [selected] at [AREACOORD(selected)] ([type]): [msg]")
+	message_admins(span_adminnotice("<b> ObjectNarrate: [key_name_admin(usr)] as [selected] at [ADMIN_VERBOSEJMP(selected)] ([type]):</b> [msg]<BR>"))
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Object Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_godmode(mob/M in GLOB.mob_list)
 	set category = "Admin.Special"

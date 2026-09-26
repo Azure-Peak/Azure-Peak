@@ -509,7 +509,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round(input)
 	if(!input)
 		return
-	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
+	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple(parse_admin_spans(html_encode(input))), "tipoftheround"))
 
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)

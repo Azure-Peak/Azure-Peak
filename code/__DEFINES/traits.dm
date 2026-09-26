@@ -983,6 +983,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NECRACON "necracon"
 #define TRAIT_HAG_BOON "hag boon"
 #define TRAIT_ADMIN "admin"
+#define MERCILESS_ROUND "merciless_round"
 #define UNCONSCIOUS_BLIND "unconscious_blind"
 #define EYE_DAMAGE "eye_damage"
 #define GENETIC_MUTATION "genetic"

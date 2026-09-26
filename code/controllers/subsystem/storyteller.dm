@@ -1870,8 +1870,13 @@ SUBSYSTEM_DEF(gamemode)
 					message_admins("[key_name_admin(usr)] has [halted_storyteller ? "HALTED" : "un-halted"] the Storyteller.")
 				if("toggle_dnr_round")
 					dnr_round = !dnr_round
-					message_admins("[key_name_admin(usr)] has turned the DNR round type [dnr_round ? "ON" : "OFF"]. All spawning players will [dnr_round ? "" : "no longer "]receive TRAIT_DNR.")
+					message_admins("[key_name_admin(usr)] has turned the DNR round type [dnr_round ? "ON" : "OFF"]. All spawning players will [dnr_round ? "" : "no longer "]receive TRAIT_DNR, and it has been [dnr_round ? "added to" : "removed from"] everyone currently playing.")
 					log_admin("[key_name(usr)] set DNR round = [dnr_round ? "ON" : "OFF"].")
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(dnr_round)
+							ADD_TRAIT(H, TRAIT_DNR, MERCILESS_ROUND)
+						else
+							REMOVE_TRAIT(H, TRAIT_DNR, MERCILESS_ROUND)
 					if(dnr_round)
 						to_world(span_boldannounce("This round is <b>MERCILESS</b>. All who walk these lands carry the burden of a final death."))
 					else
