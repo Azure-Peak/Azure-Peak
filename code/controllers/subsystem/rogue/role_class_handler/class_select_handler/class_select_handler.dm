@@ -165,7 +165,7 @@
 		message_admins("CLASS_SELECT_HANDLER HAD PERSON WITH 0 CLASS SELECT OPTIONS. THIS IS REALLY BAD! RETURNED THEM TO LOBBY")
 
 	var/list/subprefs = linked_client.prefs?.job_subprefs
-	if(subprefs && subprefs[H.job] && subprefs[H.job]["favorite_advclass"])
+	if(!SSrole_class_handler.roll_losers.Remove(linked_client.ckey) && subprefs && subprefs[H.job] && subprefs[H.job]["favorite_advclass"])
 		var/datum/advclass/get_your_fav = subprefs[H.job]["favorite_advclass"] // actually a path w/e
 		for(var/datum/advclass/candidate in rolled_classes)
 			if(candidate.type == get_your_fav) // the favorite class is in fact valid n has an open slot

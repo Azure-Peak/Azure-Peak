@@ -85,6 +85,12 @@
 #define JP_MEDIUM 2
 #define JP_HIGH 3
 
+#define MAX_ROLL_TOKENS 2
+/// Roll tokens (each token gives 20%). These are counted in ratios instead of flat bonuses.
+#define ROLL_TOKEN_WEIGHTS list(3, 7, 27)
+#define ROLL_OUTCOME_WON (1<<0)
+#define ROLL_OUTCOME_LOST (1<<1)
+
 //Age ranges
 #define AGE_ADULT			"Adult"
 #define AGE_MIDDLEAGED		"Middle-Aged"

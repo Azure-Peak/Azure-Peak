@@ -152,6 +152,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["shake"]				>> shake
 	S["mastervol"]			>> mastervol
 	S["compliance_notifs"]  >> compliance_notifs
+	S["roll_tokens"]		>> roll_tokens
 
 	S["default_slot"]		>> default_slot
 	S["chat_toggles"]		>> chat_toggles
@@ -221,6 +222,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	mastervol			= sanitize_integer(mastervol, 0, 100, initial(mastervol))
 	domhand				= sanitize_integer(domhand, 1, 2, initial(domhand))
 	attack_blip_frequency = sanitize_integer(attack_blip_frequency, 0, 100, ATTACK_BLIP_PREF_DEFAULT)
+	roll_tokens			= sanitize_integer(roll_tokens, 0, MAX_ROLL_TOKENS, 0)
 
 	// lists
 	favorited_slots		= SANITIZE_LIST(favorited_slots)
@@ -332,6 +334,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["attack_blip_frequency"] , attack_blip_frequency)
 	WRITE_FILE(S["compliance_notifs"], compliance_notifs)
+	WRITE_FILE(S["roll_tokens"], roll_tokens)
 	return TRUE
 
 

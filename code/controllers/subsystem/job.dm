@@ -15,6 +15,8 @@ SUBSYSTEM_DEF(job)
 	var/overflow_role = "Fuckyou"
 	var/list/level_order = list(JP_HIGH,JP_MEDIUM,JP_LOW)
 
+	var/list/roll_outcomes = list()
+
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
 	if(!occupations.len)
@@ -298,6 +300,41 @@ SUBSYSTEM_DEF(job)
 	unassigned = list()
 	return
 
+/datum/controller/subsystem/job/proc/pick_roll_winners(list/candidates, slots)
+	if(slots <= 0)
+		return list()
+	if(length(candidates) <= slots)
+		return candidates
+	var/list/weights = ROLL_TOKEN_WEIGHTS
+	var/list/pool = list()
+	for(var/mob/M as anything in candidates)
+		pool[M] = weights[clamp(M.client.prefs.roll_tokens, 0, MAX_ROLL_TOKENS) + 1]
+	var/list/winners = list()
+	for(var/i in 1 to slots)
+		var/mob/winner = pickweight(pool)
+		pool -= winner
+		winners += winner
+		roll_outcomes[winner.ckey] |= ROLL_OUTCOME_WON
+	for(var/mob/loser as anything in pool)
+		roll_outcomes[loser.ckey] |= ROLL_OUTCOME_LOST
+	return winners
+
+/datum/controller/subsystem/job/proc/settle_roll_tokens()
+	for(var/ckey in roll_outcomes)
+		var/outcome = roll_outcomes[ckey]
+		var/datum/preferences/prefs = GLOB.preferences_datums[ckey]
+		if(!prefs)
+			continue
+		if(outcome & ROLL_OUTCOME_LOST)
+			if(prefs.roll_tokens < MAX_ROLL_TOKENS)
+				prefs.roll_tokens++
+				prefs.save_preferences()
+				to_chat(prefs.parent, span_notice("I lost a roll against another. I now hold [prefs.roll_tokens] roll token\s."))
+		else if((outcome & ROLL_OUTCOME_WON) && prefs.roll_tokens)
+			prefs.roll_tokens = 0
+			prefs.save_preferences()
+			to_chat(prefs.parent, span_notice("My roll tokens were spent winning my roll."))
+
 
 //This proc is called before the level loop of DivideOccupations() and will try to select a head, ignoring ALL non-head preferences for every level until
 //it locates a head or runs out of levels to check
@@ -374,6 +411,7 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/DivideOccupations(list/required_jobs)
 	//Setup new player list and get the jobs list
 	JobDebug("Running DO")
+	roll_outcomes = list()
 
 	//Get the players who are ready
 	for(var/i in GLOB.new_player_list)
@@ -433,8 +471,20 @@ SUBSYSTEM_DEF(job)
 	// This will cause lots of more loops, but since it's only done once it shouldn't really matter much at all.
 	// Hopefully this will add more randomness and fairness to job giving.
 
-	// Loop through all levels from high to low
 	var/list/shuffledoccupations = shuffle(occupations)
+
+	for(var/datum/job/job in shuffledoccupations)
+		if(PopcapReached())
+			break
+		var/list/candidates = list()
+		for(var/mob/dead/new_player/player in unassigned)
+			if(!QDELETED(player) && player.client.prefs.job_preferences[job.title] == JP_HIGH && can_roll_job(player, job))
+				candidates += player
+		var/open_slots = job.spawn_positions == -1 ? length(candidates) : job.spawn_positions - job.current_positions
+		for(var/mob/dead/new_player/winner as anything in pick_roll_winners(candidates, open_slots))
+			AssignRole(winner, job.title)
+
+	// Loop through all levels from high to low
 	for(var/level in level_order)
 		//Check the head jobs first each level
 //		CheckHeadPositions(level)
@@ -449,75 +499,11 @@ SUBSYSTEM_DEF(job)
 				if(!job)
 					continue
 
-				if(is_banned_from(player.ckey, job.title))
-					JobDebug("DO isbanned failed, Player: [player], Job:[job.title]")
-					continue
-
 				if(QDELETED(player))
-					JobDebug("DO player deleted during job ban check")
+					JobDebug("DO player deleted during job check")
 					break
 
-				if(!job.player_old_enough(player.client))
-					JobDebug("DO player not old enough, Player: [player], Job:[job.title]")
-					continue
-
-				if(job.required_playtime_remaining(player.client))
-					JobDebug("DO player not enough xp, Player: [player], Job:[job.title]")
-					continue
-
-				if(player.mind && (job.title in player.mind.restricted_roles))
-					JobDebug("DO incompatible with antagonist role, Player: [player], Job:[job.title]")
-					continue
-
-				if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
-					JobDebug("DO incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-					continue
-
-				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
-					JobDebug("DO incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
-					continue
-
-				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
-					JobDebug("DO incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name]")
-					continue
-
-				if(length(job.vice_restrictions))
-					var/has_restricted_vice = FALSE
-					for(var/flaw_type in player.client.prefs.charflaws)
-						if(flaw_type in job.vice_restrictions)
-							JobDebug("DO incompatible with vices, Player: [player], Job: [job.title], Vice: [flaw_type]")
-							has_restricted_vice = TRUE
-							break
-					if(has_restricted_vice)
-						continue
-				if(job.prefs_all_subclasses_restricted(player.client))
-					JobDebug("DO incompatible with advclass virtues/vices, Player: [player], Job: [job.title]")
-					continue
-
-				#ifdef USES_PQ
-				if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq))
-					continue
-				#endif
-
-				#ifdef USES_PQ
-				if(!isnull(job.max_pq) && (get_playerquality(player.ckey) > job.max_pq))
-					continue
-				#endif
-
-				if(CONFIG_GET(flag/usewhitelist))
-					if(job.whitelist_req && (!player.client.whitelisted()))
-						continue
-
-				if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
-					JobDebug("DO incompatible with age, Player: [player], Job: [job.title]")
-					continue
-
-				if(length(job.allowed_sexes) && !(player.client.prefs.gender in job.allowed_sexes))
-					JobDebug("DO incompatible with gender preference, Player: [player], Job: [job.title]")
-					continue
-
-				if(!job.special_job_check(player))
-					JobDebug("DO player did not pass special check, Player: [player], Job:[job.title]")
+				if(!can_roll_job(player, job))
 					continue
 
 				// If the player wants that job on this level, then try give it to him.
@@ -546,6 +532,71 @@ SUBSYSTEM_DEF(job)
 
 	return validate_required_jobs(required_jobs)
 
+/datum/controller/subsystem/job/proc/can_roll_job(mob/dead/new_player/player, datum/job/job)
+	if(is_banned_from(player.ckey, job.title))
+		JobDebug("DO isbanned failed, Player: [player], Job:[job.title]")
+		return FALSE
+
+	if(!job.player_old_enough(player.client))
+		JobDebug("DO player not old enough, Player: [player], Job:[job.title]")
+		return FALSE
+
+	if(job.required_playtime_remaining(player.client))
+		JobDebug("DO player not enough xp, Player: [player], Job:[job.title]")
+		return FALSE
+
+	if(player.mind && (job.title in player.mind.restricted_roles))
+		JobDebug("DO incompatible with antagonist role, Player: [player], Job:[job.title]")
+		return FALSE
+
+	if(length(job.forbidden_races) && (player.client.prefs.pref_species.type in job.forbidden_races))
+		JobDebug("DO incompatible with species, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+		return FALSE
+
+	if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
+		JobDebug("DO incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
+		return FALSE
+
+	if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
+		JobDebug("DO incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name]")
+		return FALSE
+
+	if(length(job.vice_restrictions))
+		for(var/flaw_type in player.client.prefs.charflaws)
+			if(flaw_type in job.vice_restrictions)
+				JobDebug("DO incompatible with vices, Player: [player], Job: [job.title], Vice: [flaw_type]")
+				return FALSE
+
+	if(job.prefs_all_subclasses_restricted(player.client))
+		JobDebug("DO incompatible with advclass virtues/vices, Player: [player], Job: [job.title]")
+		return FALSE
+
+	#ifdef USES_PQ
+	if(!isnull(job.min_pq) && (get_playerquality(player.ckey) < job.min_pq))
+		return FALSE
+
+	if(!isnull(job.max_pq) && (get_playerquality(player.ckey) > job.max_pq))
+		return FALSE
+	#endif
+
+	if(CONFIG_GET(flag/usewhitelist))
+		if(job.whitelist_req && (!player.client.whitelisted()))
+			return FALSE
+
+	if(length(job.allowed_ages) && !(player.client.prefs.age in job.allowed_ages))
+		JobDebug("DO incompatible with age, Player: [player], Job: [job.title]")
+		return FALSE
+
+	if(length(job.allowed_sexes) && !(player.client.prefs.gender in job.allowed_sexes))
+		JobDebug("DO incompatible with gender preference, Player: [player], Job: [job.title]")
+		return FALSE
+
+	if(!job.special_job_check(player))
+		JobDebug("DO player did not pass special check, Player: [player], Job:[job.title]")
+		return FALSE
+
+	return TRUE
+
 
 /datum/controller/subsystem/job/proc/do_required_jobs()
 	var/amt_picked = 0
@@ -555,6 +606,9 @@ SUBSYSTEM_DEF(job)
 			require += job
 	for(var/datum/job/job in require)
 		for(var/level in level_order)
+			if(job.current_positions >= 1)
+				break
+			var/list/candidates = list()
 			for(var/mob/dead/new_player/player in unassigned)
 				if(player.client.prefs.job_preferences[job.title] != level)
 					continue
@@ -612,11 +666,14 @@ SUBSYSTEM_DEF(job)
 				if(!job.special_job_check(player))
 					continue
 
-				// We only need 1 person for the required job, the rest can use the normal system
-				if((job.current_positions < 1))
-					AssignRole(player, job.title)
-					unassigned -= player
-					amt_picked++
+				candidates += player
+
+			if(!length(candidates))
+				continue
+			// We only need 1 person for the required job, the rest can use the normal system
+			var/list/winners = level == JP_HIGH ? pick_roll_winners(candidates, 1) : candidates
+			AssignRole(winners[1], job.title)
+			amt_picked++
 	return amt_picked
 
 /datum/controller/subsystem/job/proc/validate_required_jobs(list/required_jobs)
