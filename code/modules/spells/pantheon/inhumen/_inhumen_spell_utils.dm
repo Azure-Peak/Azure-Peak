@@ -491,3 +491,57 @@
 	animate(src, pixel_x = pixel_x + rand(-16,16), pixel_y = pixel_y + rand(8,20), alpha = 0, time = duration, easing = EASE_OUT)
 
 #undef MAMMON_FILTER
+
+////////////////////
+/// BARTER UTILS ///
+////////////////////
+
+/proc/validate_matthios_item(obj/item/I, mob/user)
+	if(!I)
+		return FALSE
+	if(I.GetComponent(/datum/component/cursed_item) || I.GetComponent(/datum/component/martyrweapon) || I.GetComponent(/datum/component/silverbless))
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, there is a warding quality to it."))
+		return FALSE
+	if(I.override_state)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is too quirky."))
+		return FALSE
+	if(I.GetComponent(/datum/component/decal/blood))
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is bloodstained."))
+		return FALSE
+	if(I.obj_broken)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is broken."))
+		return FALSE
+	if(I.max_integrity != I.obj_integrity)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is damaged."))
+		return FALSE
+	if(I.is_important)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, it just doesn't mesh with Him."))
+		return FALSE
+	if(istype(I, /obj/item/roguecoin))
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, He could take it as an insult."))
+		return FALSE
+	if(istype(I, /obj/structure/handcart))
+		to_chat(user, span_warning("Doing it like this would make this Barter less personal than He would like."))
+		return FALSE
+	if(I.get_real_price() < 1)
+		to_chat(user, span_info("This is worthless, both for you and for Him. You know better."))
+		return FALSE
+	var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+	var/bucket = get_navigator_bucket_for_item(I, category)
+	if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
+		if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
+			to_chat(user, span_warning("You feel like Matthios would not like this at all, bulk goods are meaningless for Gods."))
+			return FALSE
+	var/refusal = get_barter_refusal_message(bucket)
+	if(refusal)
+		to_chat(user, span_warning(refusal))
+		return FALSE
+	return TRUE
+
+/proc/get_barter_refusal_message(bucket)
+	switch(bucket)
+		if(NAVIGATOR_BUCKET_REFUSED_FOOD)
+			return "You feel like Matthios would not like this at all, He doesn't need food or drinks."
+		if(NAVIGATOR_BUCKET_REFUSED_BULK)
+			return "You feel like Matthios would not like this at all, His hoard is no warehouse."
+	return null
