@@ -2,12 +2,13 @@
 
 /datum/npc_archetype/searaider
 	name = "Sea Raider"
+	stat_modifiers = list("perception" = -2, "strength" = 1)
 	job = "Sea Raider"
 	category = FACTION_GRONNMEN
 	faction_tag = "raiders"
 	threat_point = THREAT_TOUGH
 	body = /datum/npc_body/northern_commoner/searaider
-	statpack = /datum/npc_statpack/searaider
+	statpack = /datum/npc_statpack/line/t2
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
@@ -23,7 +24,7 @@
 
 /datum/npc_archetype/searaider/archer
 	name = "Sea Raider Archer"
-	statpack = /datum/npc_statpack/searaider/archer
+	statpack = /datum/npc_statpack/marksman/t2
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	loadouts = list(
 		/datum/npc_loadout/armor/medium/scavenged/archer,
@@ -52,7 +53,7 @@
 	name = "Sea Raider Huscarl"
 	job = "Sea Raider Huscarl"
 	threat_point = THREAT_DEADLY
-	statpack = /datum/npc_statpack/searaider/huscarl
+	statpack = /datum/npc_statpack/line/t3
 	traits = list(TRAIT_BADTRAINER)
 	brawl = SKILL_LEVEL_EXPERT
 	skills = list(
@@ -79,27 +80,6 @@
 /datum/npc_body/northern_commoner/searaider/get_head_sellprice()
 	return HEAD_BOUNTY_SEARAIDER
 
-//** STATS **//
-
-/datum/npc_statpack/searaider
-	strength = 14
-	speed = 9
-	constitution = 7
-	willpower = 8
-	perception = 8 //AIMING? Who needs that lame-ass shit? GRAGGAR GRAGGAR GRAGGAR!!
-	intelligence = 8 //Minimal req to use specials
-
-/datum/npc_statpack/searaider/archer
-	strength = 12
-	willpower = 7
-	perception = 11
-
-/datum/npc_statpack/searaider/huscarl
-	strength = 15
-	constitution = 10
-	willpower = 9
-	perception = 9
-
 //** FLAVOR **//
 
 /datum/npc_loadout/kit/searaider_flavor
@@ -123,16 +103,17 @@
 		/obj/item/clothing/cloak/volfmantle,
 	)
 	shoes = list(
-		/obj/item/clothing/shoes/roguetown/boots/furlinedboots = 70,
-		/obj/item/clothing/shoes/roguetown/boots/leather = 30,
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced = 70,
+		/obj/item/clothing/shoes/roguetown/boots/furlinedboots = 30,
 	)
 
 /datum/npc_loadout/kit/searaider_flavor/archer
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
 	pants = /obj/item/clothing/under/roguetown/tights
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 
 /datum/npc_loadout/kit/searaider_flavor/huscarl
+	shoes = /obj/item/clothing/shoes/roguetown/boots/maille/iron
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
 
 //** WEAPONS **//

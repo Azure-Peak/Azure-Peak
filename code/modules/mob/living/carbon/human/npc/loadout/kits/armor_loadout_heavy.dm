@@ -38,12 +38,14 @@
 
 /datum/npc_loadout/armor/heavy/iron_chain/scale
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale/iron
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/old/iron
+	head = /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
+	gloves = /obj/item/clothing/gloves/roguetown/plate/iron/banded
 
 //** BANDED IRON **//
 
 /datum/npc_loadout/armor/heavy/banded_iron
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/iron/banded
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
 	head = /obj/item/clothing/head/roguetown/helmet/sallet/iron/banded
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
@@ -104,6 +106,7 @@
 
 /datum/npc_loadout/armor/heavy/steel_chain
 	armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy
+	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	head = /obj/item/clothing/head/roguetown/helmet
 	wrists = /obj/item/clothing/wrists/roguetown/bracers

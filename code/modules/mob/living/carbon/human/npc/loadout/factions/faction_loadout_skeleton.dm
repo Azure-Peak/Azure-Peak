@@ -2,13 +2,14 @@
 
 /datum/npc_archetype/skeleton
 	abstract_type = /datum/npc_archetype/skeleton
+	stat_modifiers = list("constitution" = -2, "willpower" = 2, "intelligence" = -6)
 	category = FACTION_UNDEAD
 	faction_tag = "undead"
 
 /datum/npc_archetype/skeleton/supereasy
 	name = "Skeleton"
 	threat_point = THREAT_LOW
-	statpack = /datum/npc_statpack/skeleton/supereasy
+	statpack = /datum/npc_statpack/line/t0
 	melee = SKILL_LEVEL_NOVICE
 	brawl = SKILL_LEVEL_NOVICE
 	survival = SKILL_LEVEL_NOVICE
@@ -26,7 +27,7 @@
 /datum/npc_archetype/skeleton/easy
 	name = "Skeleton Footsoldier"
 	threat_point = THREAT_MODERATE
-	statpack = /datum/npc_statpack/skeleton/easy
+	statpack = /datum/npc_statpack/line/t0
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE
 	survival = SKILL_LEVEL_APPRENTICE
@@ -58,7 +59,7 @@
 
 /datum/npc_archetype/skeleton/pirate/knives
 	name = "Skeleton Pirate (Knives)"
-	statpack = /datum/npc_statpack/skeleton/pirate/knives
+	statpack = /datum/npc_statpack/line/t0
 	loadouts = list(
 		/datum/npc_loadout/kit/skeleton_pirate,
 		/datum/npc_loadout/weapon/skeleton_pirate_knives,
@@ -66,7 +67,7 @@
 
 /datum/npc_archetype/skeleton/pirate/sabre
 	name = "Skeleton Pirate (Sabre)"
-	statpack = /datum/npc_statpack/skeleton/pirate/sabre
+	statpack = /datum/npc_statpack/line/t0
 	loadouts = list(
 		/datum/npc_loadout/kit/skeleton_pirate,
 		/datum/npc_loadout/weapon/skeleton_pirate_sabre,
@@ -75,7 +76,7 @@
 /datum/npc_archetype/skeleton/medium
 	name = "Skeleton Soldier"
 	threat_point = THREAT_LOW
-	statpack = /datum/npc_statpack/skeleton/medium
+	statpack = /datum/npc_statpack/line/t1
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	survival = SKILL_LEVEL_APPRENTICE
@@ -112,7 +113,7 @@
 
 /datum/npc_archetype/skeleton/hard/khopesh
 	name = "Skeleton Dreadnought (Khopesh)"
-	statpack = /datum/npc_statpack/skeleton/hard/khopesh
+	statpack = /datum/npc_statpack/light/t2
 	survival = SKILL_LEVEL_EXPERT //Needed at expert else we lose our duel blades by falling over in water cause heavy
 	loadouts = list(
 		/datum/npc_loadout/armor/heavy/aalloy,
@@ -126,7 +127,7 @@
 
 /datum/npc_archetype/skeleton/hard/withered
 	name = "Skeleton Dreadnought (Withered)"
-	statpack = /datum/npc_statpack/skeleton/hard/withered
+	statpack = /datum/npc_statpack/heavy/t2
 	survival = SKILL_LEVEL_APPRENTICE //Tanky but falls over in water
 	loadouts = list(
 		/datum/npc_loadout/armor/heavy/aalloy/plated,
@@ -141,7 +142,7 @@
 /datum/npc_archetype/skeleton/archer
 	name = "Skeleton Archer"
 	threat_point = THREAT_LOW
-	statpack = /datum/npc_statpack/skeleton/archer
+	statpack = /datum/npc_statpack/marksman/t0
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE
 	survival = SKILL_LEVEL_APPRENTICE
@@ -190,7 +191,7 @@
 /datum/npc_archetype/skeleton/bogguard
 	name = "Bog Skeleton"
 	threat_point = THREAT_MODERATE
-	statpack = /datum/npc_statpack/skeleton/bogguard
+	statpack = /datum/npc_statpack/line/t1
 	armor_training = ARMOR_CLASS_MEDIUM
 	melee = SKILL_LEVEL_APPRENTICE
 	loadouts = list(
@@ -201,7 +202,7 @@
 /datum/npc_archetype/skeleton/bogguard/archer
 	name = "Bog Skeleton Archer"
 	threat_point = THREAT_LOW
-	statpack = /datum/npc_statpack/skeleton/bogguard/archer
+	statpack = /datum/npc_statpack/marksman/t1
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	ai_controller = /datum/ai_controller/human_npc/archer
 	loadouts = list(
@@ -213,7 +214,7 @@
 
 /datum/npc_archetype/skeleton/bogguard/master
 	name = "Bog Skeleton Master"
-	statpack = /datum/npc_statpack/skeleton/bogguard/master
+	statpack = /datum/npc_statpack/line/t3
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_APPRENTICE
@@ -227,6 +228,7 @@
 /datum/npc_archetype/skeleton/fallenduke
 	name = "The Fallen 'Duke'"
 	threat_point = THREAT_ELITE
+	stat_modifiers = null
 	statpack = /datum/npc_statpack/skeleton/fallenduke
 	melee = SKILL_LEVEL_MASTER
 	brawl = SKILL_LEVEL_MASTER
@@ -242,6 +244,7 @@
 /datum/npc_archetype/skeleton/lich
 	name = "Lich Knight"
 	threat_point = THREAT_ELITE
+	stat_modifiers = null
 	statpack = /datum/npc_statpack/skeleton/lich
 	patron = /datum/patron/inhumen/zizo
 	melee = SKILL_LEVEL_JOURNEYMAN
@@ -261,7 +264,7 @@
 //Unique skilled NPC summons exclusive to necromancers, these guys are a menace to fight.
 /datum/npc_archetype/skeleton/summon
 	name = "Summoned Skeleton"
-	statpack = /datum/npc_statpack/skeleton/summon
+	statpack = /datum/npc_statpack/line/t1
 	armor_training = ARMOR_CLASS_MEDIUM
 	traits = list(TRAIT_NOZIZORECRUIT) //Ask the necromancer for a gravemark
 	melee = SKILL_LEVEL_JOURNEYMAN //Good parrying, still will crumble to numbers. Intended so lone advs/garrison can't just solo through a necromancer's summons with ease.
@@ -273,82 +276,19 @@
 
 //** STATS **//
 
-/datum/npc_statpack/skeleton
-	abstract_type = /datum/npc_statpack/skeleton
 
-/datum/npc_statpack/skeleton/supereasy
-	strength = 10
-	speed = 8
-	constitution = 3
-	willpower = 4
-	intelligence = 1
 
-/datum/npc_statpack/skeleton/easy
-	strength = 9
-	speed = 8
-	constitution = 3
-	willpower = 6
-	intelligence = 1
 
-/datum/npc_statpack/skeleton/pirate
-	abstract_type = /datum/npc_statpack/skeleton/pirate
-	strength = 9
-	speed = 8
-	constitution = 3
-	willpower = 6
 
-/datum/npc_statpack/skeleton/pirate/knives
-	intelligence = 1
 
-/datum/npc_statpack/skeleton/pirate/sabre
-	intelligence = 5 //Not able to do specials, but slightly harder to fient
 
-/datum/npc_statpack/skeleton/medium
-	strength = 11
-	speed = 8
-	constitution = 5
-	willpower = 8
-	intelligence = 1
 
-/datum/npc_statpack/skeleton/hard
-	abstract_type = /datum/npc_statpack/skeleton/hard
-	constitution = 6
-	willpower = 10
-	intelligence = 1
 
-/datum/npc_statpack/skeleton/hard/khopesh
-	strength = 12
-	speed = 12 // Hue
 
-/datum/npc_statpack/skeleton/hard/withered
-	strength = 14 //Hits harder than other skeles
-	speed = 8
 
-/datum/npc_statpack/skeleton/archer
-	strength = 8
-	speed = 10
-	constitution = 4
-	willpower = 7
-	perception = 11
-	intelligence = 1
 
-/datum/npc_statpack/skeleton/bogguard
-	strength = list(12, 14)
-	speed = 8
-	constitution = 3
-	willpower = 8
-	intelligence = 1
 
-/datum/npc_statpack/skeleton/bogguard/archer
-	willpower = 7
-	perception = 11
 
-/datum/npc_statpack/skeleton/bogguard/master
-	strength = 18
-	speed = 10
-	constitution = 8
-	willpower = 12
-	intelligence = 1
 
 /datum/npc_statpack/skeleton/fallenduke
 	strength = 15
@@ -365,11 +305,6 @@
 	perception = 20
 	intelligence = 1
 
-/datum/npc_statpack/skeleton/summon
-	strength = list(11, 13)
-	speed = 7 //Slightly slower cause you can have a LOT of these guys.
-	constitution = 7 //Decently tough, has a lifespan + player tied, will still crumble to fients/numbers.
-	intelligence = 1
 
 //** FLAVOR **//
 

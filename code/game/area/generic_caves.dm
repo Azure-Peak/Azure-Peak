@@ -11,16 +11,17 @@
 	droning_sound = 'sound/music/area/caves.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	ambush_times = list("night","dawn","dusk","day")
+	ambush_factions = list(
+		QUEST_FACTION_FOREST_GOBLIN = 63,
+		QUEST_FACTION_HIGHWAYMAN = 13,
+		QUEST_FACTION_GREAT_BEAST = 13,
+		QUEST_FACTION_MINOTAUR = 13,
+	)
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 30,
-				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 20,
-				/mob/living/carbon/human/species/goblin/npc/archer/cave = 5,
-				/mob/living/carbon/human/species/skeleton/npc/ambush = 10,
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 5,
-				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
-				/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5,
-				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 10)
+		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 75,
+		/mob/living/carbon/human/species/skeleton/npc/ambush = 25,
+		/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 25,
+	)
 	converted_type = /area/rogue/outdoors/caves
 	area_sniff_message = "You smell the distant stench of the sewer, muddied by a damp and murky scent."
 
@@ -56,7 +57,8 @@
 	icon_state = "spider"
 	first_time_text = "ARAIGNÉE"
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/spider = 100)
+		/mob/living/simple_animal/hostile/retaliate/rogue/spider = 100,
+	)
 	droning_sound = 'sound/music/area/spidercave.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
@@ -99,16 +101,17 @@
 	droning_sound = 'sound/music/area/grimcaves.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	ambush_times = list("night","dawn","dusk","day")
+	ambush_factions = list(
+		QUEST_FACTION_FOREST_GOBLIN = 63,
+		QUEST_FACTION_HIGHWAYMAN = 13,
+		QUEST_FACTION_GREAT_BEAST = 13,
+		QUEST_FACTION_MINOTAUR = 13,
+	)
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 30,
-				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 20,
-				/mob/living/carbon/human/species/goblin/npc/archer/cave = 5,
-				/mob/living/carbon/human/species/skeleton/npc/ambush = 10,
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 5,
-				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
-				/mob/living/simple_animal/hostile/retaliate/rogue/minotaur = 5,
-				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 10)
+		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 75,
+		/mob/living/carbon/human/species/skeleton/npc/ambush = 25,
+		/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 25,
+	)
 	converted_type = /area/rogue/outdoors/caves
 
 /area/rogue/under/cave/grim/hamlet
@@ -143,7 +146,8 @@
 	icon_state = "spider"
 	first_time_text = "LOST CRYPT"
 	ambush_mobs = list(
-				/mob/living/simple_animal/hostile/retaliate/rogue/spider = 100)
+		/mob/living/simple_animal/hostile/retaliate/rogue/spider = 100,
+	)
 	droning_sound = 'sound/music/area/grimcaves.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null

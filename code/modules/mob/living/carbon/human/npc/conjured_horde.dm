@@ -4,7 +4,6 @@
 	faction = list(FACTION_NEUTRAL)
 	dodgetime = 25
 	var/loadout = "twinblade"
-	var/arcane_scale = 3
 	var/gear_tier = 1
 	var/datum/weakref/summoner_ref
 

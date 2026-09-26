@@ -11,6 +11,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /mob/living/carbon/human/species/goblin
 	name = "goblin"
+	npc_archetype = /datum/npc_archetype/goblin/warrior
 
 	icon = 'icons/roguetown/mob/monster/goblins.dmi'
 	icon_state = "goblin"
@@ -20,7 +21,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	bodyparts = list(/obj/item/bodypart/chest/goblin, /obj/item/bodypart/head/goblin, /obj/item/bodypart/l_arm/goblin,
 					/obj/item/bodypart/r_arm/goblin, /obj/item/bodypart/r_leg/goblin, /obj/item/bodypart/l_leg/goblin)
 	rot_type = /datum/component/rot/corpse/goblin
-	var/gob_outfit = /datum/outfit/job/roguetown/npc/goblin
 	ambushable = FALSE
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	a_intent = INTENT_HELP
@@ -31,12 +31,12 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	dodgetime = 30
 
 /mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses
-	gob_outfit =/datum/outfit/job/roguetown/npc/goblin/siege
+	npc_archetype = /datum/npc_archetype/goblin/siege
 
 /mob/living/carbon/human/species/goblin/npc/siege //Slightly smarter varient for sieges
 	ai_controller = /datum/ai_controller/human_npc
 	dodgetime = 20 //Slightly more competent than their lobotomised counterparts.
-	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/siege
+	npc_archetype = /datum/npc_archetype/goblin/siege
 	//Keep in mind these are balanced out by them firebombing 90% of their own numbers and dying instantly 20% of the time. KEEP THIS, ITS SOVL SIRE.
 
 /mob/living/carbon/human/species/goblin/npc/after_creation()
@@ -49,18 +49,20 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	ambush_faction = "goblins"
 
 /mob/living/carbon/human/species/goblin/npc/archer
-	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/archer
+	npc_archetype = /datum/npc_archetype/goblin/archer
 
 /mob/living/carbon/human/species/goblin/npc/slinger
-	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/slinger
+	npc_archetype = /datum/npc_archetype/goblin/slinger
 
 /mob/living/carbon/human/species/goblin/npc/archer/cave
 	race = /datum/species/goblin/cave
 /mob/living/carbon/human/species/goblin/npc/archer/sea
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/archer/moon
+	npc_archetype = /datum/npc_archetype/goblin/archer/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/archer/hell
+	npc_archetype = /datum/npc_archetype/goblin/archer/hell
 	race = /datum/species/goblin/hell
 
 /mob/living/carbon/human/species/goblin/npc/slinger/cave
@@ -68,8 +70,10 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /mob/living/carbon/human/species/goblin/npc/slinger/sea
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/slinger/moon
+	npc_archetype = /datum/npc_archetype/goblin/slinger/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/slinger/hell
+	npc_archetype = /datum/npc_archetype/goblin/slinger/hell
 	race = /datum/species/goblin/hell
 
 /mob/living/carbon/human/species/goblin/npc/bomber/cave
@@ -77,18 +81,23 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /mob/living/carbon/human/species/goblin/npc/bomber/sea
 	race = /datum/species/goblin/sea
 /mob/living/carbon/human/species/goblin/npc/bomber/moon
+	npc_archetype = /datum/npc_archetype/goblin/bomber/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/bomber/hell
+	npc_archetype = /datum/npc_archetype/goblin/bomber/hell
 	race = /datum/species/goblin/hell
 
 /mob/living/carbon/human/species/goblin/hell
+	npc_archetype = /datum/npc_archetype/goblin/warrior/hell
 	name = "hell goblin"
 	race = /datum/species/goblin/hell
 
 /mob/living/carbon/human/species/goblin/npc/hell
+	npc_archetype = /datum/npc_archetype/goblin/warrior/hell
 	race = /datum/species/goblin/hell
 
 /mob/living/carbon/human/species/goblin/npc/ambush/hell
+	npc_archetype = /datum/npc_archetype/goblin/warrior/hell
 	race = /datum/species/goblin/hell
 
 /datum/species/goblin/hell
@@ -101,6 +110,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	H.visible_message("<span class='blue'>Infernal dust falls from [H]!</span>")
 
 /mob/living/carbon/human/species/goblin/cave
+	npc_archetype = null // Player goblin job spawns into this type, it brings its own stats and gear
 	name = "cave goblin"
 	race = /datum/species/goblin/cave
 
@@ -130,11 +140,14 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	id = "goblin_sea"
 
 /mob/living/carbon/human/species/goblin/moon
+	npc_archetype = /datum/npc_archetype/goblin/warrior/moon
 	name = "moon goblin"
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/moon
+	npc_archetype = /datum/npc_archetype/goblin/warrior/moon
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/ambush/moon
+	npc_archetype = /datum/npc_archetype/goblin/warrior/moon
 	threat_point = THREAT_TRASH
 	race = /datum/species/goblin/moon
 /datum/species/goblin/moon
@@ -263,7 +276,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /mob/living/carbon/human/species/goblin/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	if(!npc_archetype)
+		addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 
 
@@ -310,10 +324,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	AddComponent(/datum/component/npc_death_line, GLOB.npc_death_lines_goblin, 25)
-	if(gob_outfit)
-		var/datum/outfit/O = new gob_outfit
-		if(O)
-			equipOutfit(O)
 
 /datum/component/rot/corpse/goblin/process()
 	var/amt2add = 10 //1 second
@@ -356,31 +366,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 
 //////////////////	OUTFITS	//////////////////
-/datum/outfit/job/roguetown/npc/goblin/siege/pre_equip(mob/living/carbon/human/H)
-	..() //Regular outfit is also loaded cause subtype, this just ensures they have the minimal requirements of armor + enough stats/skills to do specials
-	H.STAINT = 8 //Minimal req to do specials
-	H.STACON = 6 //Slightly harder to kill, crit weakness still works.
-	if(prob(40))
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
-	else
-		armor = /obj/item/clothing/suit/roguetown/armor/leather/goblin
-	if(prob(40))
-		head = /obj/item/clothing/head/roguetown/helmet/goblin
-	else
-		head = /obj/item/clothing/head/roguetown/helmet/leather/goblin
-	//Our skills get bumped from (2) apprentice to (3) journeyman
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) // Still Trash Mob
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE) //Give players a way to use their stone knives, NPCs hit better.
-	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE) //So players can break dorpels, NPCs hit better.
-
 /datum/outfit/job/roguetown/npc/goblin/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.STASTR = 8
@@ -458,51 +443,15 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 	//Upto is nessessary so latejoin goblins on raids don't have EXPERT SKILLS WHAAAAAAAAAT
 
-/datum/outfit/job/roguetown/npc/goblin/archer/pre_equip(mob/living/carbon/human/H)
-	..()
-	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-	l_hand = null
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-	backl = /obj/item/quiver/npc/stone
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-	H.STASTR = 6
-	H.STAPER = 7
-	H.STACON -= 1
-	H.STAWIL -= 1
-	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-
-/datum/outfit/job/roguetown/npc/goblin/slinger/pre_equip(mob/living/carbon/human/H)
-	..()
-	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-	l_hand = null
-	backr = null
-	backl = null
-	wrists = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
-	neck = /obj/item/quiver/sling/npc
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
-	H.STACON -= 1
-	H.STAWIL -= 1
-	H.STAPER = 6
-	H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)
-
 /mob/living/carbon/human/species/goblin/npc/bomber
 	name = "goblin pyromancer"
-	gob_outfit = /datum/outfit/job/roguetown/npc/goblin/bomber
+	npc_archetype = /datum/npc_archetype/goblin/bomber
 
 /mob/living/carbon/human/species/goblin/npc/bomber/after_creation()
 	..()
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
 	name = "goblin pyromancer"
 	real_name = "goblin pyromancer"
-
-/datum/outfit/job/roguetown/npc/goblin/bomber/pre_equip(mob/living/carbon/human/H)
-	..()
-	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
-	l_hand = null
-	neck = /obj/item/storage/belt/rogue/pouch/bombs
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 
 //////////////////	INVADER ZIM	//////////////////
 
