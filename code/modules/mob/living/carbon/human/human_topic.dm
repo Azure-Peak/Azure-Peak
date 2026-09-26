@@ -18,6 +18,11 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		mob_examine_panel.ui_interact(usr)
 		return
 
+	if(href_list["task"] == "gnoll_recall_secret")
+		var/mob/living/secret_target = locate(href_list["secret_target"])
+		gnoll_recall_tracked_secret(secret_target)
+		return
+
 	if(href_list["inspect_limb"] && (observer_privilege || usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY)))
 		var/list/msg = list()
 		var/mob/user = usr
@@ -443,6 +448,93 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			to_chat(usr, "<span class='info'>[msg]</span>")
 		else	//Edge-case of there being ONLY noble gossip, but we aren't a noble.
 			to_chat(usr, "<span class='info'>Any tales of intrigue of this one are reserved to the nobility...</span>")
+		return
+
+	// Dreamwalker and Vampire remote Secret links.
+	if(href_list["task"] == "view_remote_secret")
+		if(!ismob(usr))
+			return
+		var/secret_type = href_list["secret_type"]
+		if(!(secret_type in list("dreamwalker", "vampire")))
+			return
+		var/secret = get_secret_for(usr, secret_type)
+		if(!secret)
+			to_chat(usr, span_info("You recall nothing secret about this one."))
+			return
+		var/secret_intro
+		switch(secret_type)
+			if("dreamwalker")
+				secret_intro = "The mark pulls a buried truth from [src]'s dreaming mind..."
+			if("vampire")
+				secret_intro = "Your supernatural presence draws a hidden truth from [src]..."
+		var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+		to_chat(usr, "<span class='info'><b>[secret_intro]</b><br>[parsed_secret]</span>")
+		return
+
+	if(href_list["task"] == "view_secrets")
+		if(!ismob(usr))
+			return
+		var/list/known_secrets = get_examine_secrets_for(usr)
+		if(!length(known_secrets))
+			to_chat(usr, span_info("You recall nothing secret about this one."))
+			return
+		var/static/list/secret_labels = list(
+			"assassin" = "Assassin (Targeted)",
+			"bandit" = "Bandit",
+			"dreamwalker" = "Dreamwalker (Marked)",
+			"gnoll" = "Gnoll (Hunted)",
+			"hag" = "Hag",
+			"lich" = "Lich",
+			"maniac" = "Maniac",
+			"peasant_rebel" = "Rebel",
+			"vampire" = "Vampire (Awestruck)",
+			"werewolf" = "Werewolf",
+			"wretch" = "Wretch",
+		)
+		var/secret_recall_msg = ""
+		var/has_secret = FALSE
+		var/generic_intro_added = FALSE
+
+		if(isobserver(usr) || usr.client?.holder)
+			secret_recall_msg = "<b>You recall the secrets recorded about [src]...</b><br>"
+		for(var/secret_type in known_secrets)
+			var/secret = known_secrets[secret_type]
+			if(!secret)
+				continue
+			var/secret_label = secret_labels[secret_type]
+			if(!secret_label)
+				secret_label = "[secret_type]"
+			if(has_secret)
+				secret_recall_msg += "<br><br>"
+			var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+			var/secret_intro
+			if(!(isobserver(usr) || usr.client?.holder))
+				switch(secret_type)
+					if("assassin")
+						secret_intro = "You recall what the profane dagger whispered about [src]..."
+					if("dreamwalker")
+						secret_intro = "The mark pulls a buried truth from [src]'s dreaming mind..."
+					if("gnoll")
+						secret_intro = "You recall what the pack knows about [src]..."
+					if("hag")
+						secret_intro = "The roots whisper what they know about [src]..."
+					if("vampire")
+						secret_intro = "Your supernatural presence draws a hidden truth from [src]..."
+			if(secret_intro)
+				secret_recall_msg += "<b>[secret_intro]</b><br>[parsed_secret]"
+			else
+				if(isobserver(usr) || usr.client?.holder)
+					secret_recall_msg += "<b>[secret_label]:</b><br>[parsed_secret]"
+				else
+					if(!generic_intro_added)
+						secret_recall_msg += "<b>You recall what you know about [src]...</b><br>"
+						generic_intro_added = TRUE
+					secret_recall_msg += "[parsed_secret]"
+			has_secret = TRUE
+		if(!has_secret)
+			to_chat(usr, span_info("You recall nothing secret about this one."))
+			return
+		to_chat(usr, "<span class='info'>[secret_recall_msg]</span>")
 		return
 
 	if(href_list["task"] == "view_fam_headshot")

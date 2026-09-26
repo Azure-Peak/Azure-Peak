@@ -62,6 +62,7 @@
 	)
 	if(H.mind)
 		add_verb(H, /mob/living/carbon/human/proc/commune_with_roots)
+		add_verb(H, /mob/living/carbon/human/proc/listen_through_roots)
 		add_verb(H, /mob/living/carbon/human/proc/toggle_guarded)
 		H.ambushable = FALSE
 		H.faction |= list(FACTION_HAG)

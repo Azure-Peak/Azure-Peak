@@ -208,6 +208,7 @@ export type ExamineData = {
   erpprefs: string | null; // null indicates unset
   rumour: string | null; // null indicates unset
   noble_gossip: string | null; // null indicates unset
+  secrets: Record<string, string | null>; // null indicates unset
 
   flavortext_cached: TrustedHTML | null; // null indicates unset
   nsfwflavortext_cached: TrustedHTML | null; // null indicates unset

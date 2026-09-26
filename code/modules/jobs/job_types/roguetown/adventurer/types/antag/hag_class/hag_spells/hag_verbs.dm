@@ -8,7 +8,7 @@
 		return
 
 	to_chat(src, span_notice("You press your feet to the earth, seeking the Mother's pulse..."))
-	
+
 	if(do_after(src, 1 SECONDS, target = src))
 		var/obj/structure/roguemachine/mossmother/closest_tree
 		var/min_dist = INFINITY
@@ -16,7 +16,7 @@
 
 		for(var/obj/structure/roguemachine/mossmother/tree in GLOB.hag_trees)
 			var/turf/tree_turf = get_turf(tree)
-			if(!tree_turf) 
+			if(!tree_turf)
 				continue
 
 			var/dist = get_dist_euclidean(my_turf, tree_turf)
@@ -44,3 +44,45 @@
 			src.playsound_local(src.loc, 'sound/magic/heartbeat.ogg', 75, TRUE)
 		else
 			to_chat(src, span_warning("The earth is hollow and silent. You are beyond the reach of the Mossmother."))
+
+/mob/living/carbon/human/proc/listen_through_roots()
+	set name = "Listen through Roots"
+	set category = "RoleUnique.Hag"
+	set desc = "Listen through the Mossmother's roots for the familiar rhythm of the Feytouched."
+
+	if(stat || !HAS_TRAIT(src, TRAIT_ANCIENT_HAG))
+		return
+
+	var/list/possible_targets = list()
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H == src || H.stat == DEAD)
+			continue
+		if(!HAS_TRAIT(H, TRAIT_FEYTOUCHED))
+			continue
+		possible_targets[H.real_name] = H
+	if(!length(possible_targets))
+		to_chat(src, span_notice("The roots answer only with their own slow pulse. No familiar mortal rhythm reaches you."))
+		return
+
+	var/selection = tgui_input_list(
+		src,
+		"Whose familiar rhythm do you listen for?",
+		"Listen through Roots",
+		possible_targets
+	)
+	if(!selection)
+		return
+
+	var/mob/living/carbon/human/target = possible_targets[selection]
+	if(!target || QDELETED(target) || target.stat == DEAD || !HAS_TRAIT(target, TRAIT_FEYTOUCHED))
+		to_chat(src, span_warning("The rhythm vanishes before you can grasp it."))
+		return
+
+	var/secret = target.get_secret_for(src, "hag")
+	if(!secret)
+		to_chat(src, span_notice("The roots remember [target.real_name], but offer no hidden truth about them."))
+		return
+
+	var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+	to_chat(src, span_boldnotice("A familiar rhythm rises through the roots. The Mossmother remembers what [target.real_name] tried to bury..."))
+	to_chat(src, "<span class='info'>[parsed_secret]</span>")

@@ -43,6 +43,58 @@
 			show_inventory_panel(M)
 		return
 
+	// Open Secrets from Player Panel
+	if(href_list["secrets_panel"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/mob/living/carbon/human/H = locate(href_list["secrets_panel"])
+		if(!H)
+			return
+
+		var/list/all_secrets = H.get_secrets_for(usr)
+		if(!length(all_secrets))
+			to_chat(usr, span_info("This one has no secrets recorded."))
+			return
+
+		var/static/list/secret_labels = list(
+			"assassin" = "Assassin (Targeted)",
+			"bandit" = "Bandit",
+			"dreamwalker" = "Dreamwalker (Marked)",
+			"gnoll" = "Gnoll (Hunted)",
+			"hag" = "Hag",
+			"lich" = "Lich",
+			"maniac" = "Maniac",
+			"peasant_rebel" = "Rebel",
+			"vampire" = "Vampire (Awestruck)",
+			"werewolf" = "Werewolf",
+			"wretch" = "Wretch",
+		)
+
+		var/secret_recall_msg = "<b>You recall the secrets recorded about [H]...</b><br>"
+		var/has_secret = FALSE
+
+		for(var/secret_type in all_secrets)
+			var/secret = all_secrets[secret_type]
+			if(!secret)
+				continue
+			if(has_secret)
+				secret_recall_msg += "<br><br>"
+
+			var/secret_label = secret_labels[secret_type]
+			if(!secret_label)
+				secret_label = "[secret_type]"
+
+			var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+			secret_recall_msg += "<b>[secret_label]:</b><br>[parsed_secret]"
+			has_secret = TRUE
+
+		if(!has_secret)
+			to_chat(usr, span_info("This one has no secrets recorded."))
+			return
+		to_chat(usr, "<span class='info'>[secret_recall_msg]</span>")
+		return
+
 	// Heal panel actions
 	if(href_list["heal_target"])
 		var/mob/living/M = locate(href_list["heal_target"])

@@ -105,6 +105,7 @@
 	rumour_cached = null
 	noble_gossip = null
 	noble_gossip_cached = null
+	secrets = list()
 
 	headshot_link = null
 	ooc_extra = null
