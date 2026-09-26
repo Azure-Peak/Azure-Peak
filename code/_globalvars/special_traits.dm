@@ -58,6 +58,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(assigned_job)
 		assigned_job.clamp_stats(character)
 	check_trait_incompatibilities(character)
+	apply_prefs_quirk(character, player) // this needs to be after all traits are applied, so that trait incompats will work
 	character.calculate_energy()
 	character.calculate_stamina()
 	character.energy = character.max_energy
@@ -129,6 +130,41 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 				origin_type = new character.dna.species.origin_default
 				apply_virtue(character, origin_type)
 
+/// Virtuous/fated alone, or two vices: lesser. Virtuous/fated AND two vices: lesser and greater. Neither: no quirks
+/proc/get_quirk_slots(datum/preferences/prefs)
+	. = 0
+	if(prefs.statpack.virtuous)
+		.++
+	var/flaws = 0
+	for(var/datum/charflaw/cf as anything in prefs.charflaws) // difficulty flaws don't count as each other's extra vice
+		if(!cf::needs_extra_vice)
+			flaws++
+	if(flaws >= 2)
+		.++
+
+/proc/apply_prefs_quirk(mob/living/carbon/human/character, client/player)
+	if (!player)
+		player = character.client
+	if (!player)
+		return
+	if (!player.prefs)
+		return
+
+	var/slots = get_quirk_slots(player.prefs)
+	var/datum/quirk/lesser = player.prefs.quirklesser
+	var/datum/quirk/greater = player.prefs.quirkgreater
+
+	if(slots && lesser)
+		if(quirk_check(lesser, player.prefs))
+			apply_quirk(character, lesser)
+		else
+			to_chat(character, "Incorrect Lesser Quirk parameters! It will not be applied.")
+	if((slots >= 2) && greater)
+		if(quirk_check(greater, player.prefs))
+			apply_quirk(character, greater)
+		else
+			to_chat(character, "Incorrect Greater Quirk parameters! It will not be applied.")
+
 /proc/origin_check(datum/virtue/V, datum/species/species)
 	if(!species || !V)
 		return
@@ -190,6 +226,24 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 			if((species.type in V.races))
 				return FALSE
 		if(V.type in species.restricted_virtues)
+			return FALSE
+		return TRUE
+	return FALSE
+
+/proc/quirk_check(datum/quirk/quirk, datum/preferences/prefs)
+	if(quirk)
+		if(LAZYLEN(quirk.restricted_species) && (prefs.pref_species.type in quirk.restricted_species))
+			return FALSE
+		if(LAZYLEN(quirk.restricted_virtues))
+			if(prefs.virtue && (prefs.virtue.type in quirk.restricted_virtues))
+				return FALSE
+			if(prefs.statpack.virtuous && prefs.virtuetwo && (prefs.virtuetwo.type in quirk.restricted_virtues))
+				return FALSE
+		if(LAZYLEN(quirk.allowed_species) && !(prefs.pref_species.type in quirk.allowed_species))
+			if(LAZYLEN(quirk.allowed_virtues) && ((prefs.virtue.type in quirk.allowed_virtues) || (prefs.statpack.virtuous && (prefs.virtuetwo.type in quirk.allowed_virtues))))
+				return TRUE
+			if(LAZYLEN(quirk.allowed_quirks) && ((prefs.quirklesser.type in quirk.allowed_quirks) || ((get_quirk_slots(prefs) == 2) && (prefs.quirkgreater.type in quirk.allowed_quirks))))
+				return TRUE
 			return FALSE
 		return TRUE
 	return FALSE

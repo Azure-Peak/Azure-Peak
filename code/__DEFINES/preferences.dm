@@ -206,6 +206,7 @@ GLOBAL_LIST_INIT(attack_blip_pref_list, list(
 #define PREFERENCE_POPUP_MARKING_SELECT "\"marking_select\""
 #define PREFERENCE_POPUP_VERBOSE_LOGS "\"verbose_logs\""
 #define PREFERENCE_POPUP_PATRON_SELECT "\"patron_select\""
+#define PREFERENCE_POPUP_QUIRK "\"quirk\""
 
 // Keep in sync with tgui/packages/tgui/interfaces/PreferencesMenu/popups/Charflaw.tsx#
 #define PREFERENCE_CHARFLAW_APPROVED 0

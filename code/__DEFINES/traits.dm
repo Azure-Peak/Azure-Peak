@@ -10,6 +10,7 @@
 #define TRAIT_SEEPRICES "Skilled Appraiser"
 #define TRAIT_SEEPRICES_SHITTY "Appraiser"
 #define TRAIT_NOBLE "Noble Blooded"
+#define TRAIT_NOBLE_UNLANDED "Unlanded Noble"
 #define TRAIT_DEFILED_NOBLE "Drained Noble Blood"
 #define TRAIT_EMPATH "Empath"
 #define TRAIT_EXPLOSIVE_SUPPLY "Explosive Supply"
@@ -18,6 +19,8 @@
 #define TRAIT_SKILLBLESSED "Skill Blessed"
 #define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten/raw/burned food, organs, and drink murky water. Does NOT protect against actual poisons.
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
+#define TRAIT_NISTEAN "Nistean" //mood debuff whewn eating meat
+#define TRAIT_VEGAN "Végétal" // ditto, but for meat, seafood, dairy, etc
 #define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician" // unlocks bardic inspiration stuff
 #define TRAIT_SPELLCOCKBLOCK "Bewitched" //prevents spellcasting
 #define TRAIT_ANTIMAGIC	"Anti-Magic"
@@ -39,6 +42,7 @@
 #define TRAIT_SEA_DRINKER "Denizen of the Deep"
 #define TRAIT_STUDENT		"Student"
 #define TRAIT_INTELLECTUAL "Intellectual"
+#define TRAIT_GOODCRAFTER "Dextrous"
 #define TRAIT_GRAVEROBBER "Experienced Grave Robber"
 #define TRAIT_MIRROR_MAGIC "Mirror Magic"
 #define TRAIT_WITCH "They fear me, but I am useful to them."
@@ -86,6 +90,7 @@
 #define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
 #define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
 #define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
+#define TRAIT_TAINTEDLUX "Tainted Lux" // lux can't be extracted surgically
 
 #define TRAIT_EASYDISMEMBER	"Easy Dismemberment"
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
@@ -141,7 +146,8 @@
 
 //Fae Related Traits
 #define TRAIT_ANCIENT_HAG "Ancient Hag" // Trait for ancient hags and ancient hags ONLY
-#define TRAIT_FEYTOUCHED "Feytouched" // Can use heart trees for travel
+#define TRAIT_FEYBOUND "Feybound" // Can use heart trees for travel
+#define TRAIT_FEYTOUCHED "Feytouched" // Shown to the hag, but no mechanical effects
 
 #define TRAIT_ROOT_WALKER "Root Walker"
 #define TRAIT_WYRD_LABOURER "Wyrd Labourer" // Hag boon
@@ -384,6 +390,7 @@
 #define TRAIT_SIMPLE_WOUNDS "simple_wounds"
 #define TRAIT_LIMPDICK "Limp Dick"
 #define TRAIT_STEELHEARTED "Steelhearted" //no bad mood from dismembering or seeing this
+#define TRAIT_NIHILIST "Nihilist" //no bad mood from dismembering only
 #define TRAIT_PSYCHOSIS "Psychosis" //replaces all ambience with creepy shit
 #define TRAIT_SCREENSHAKE "Tremors" //screen will always be shaking, you cannot stop it
 #define TRAIT_NORUN "Decayed Flesh"
@@ -409,6 +416,7 @@
 #define TRAIT_REGROW_LIMBS "Regrow Limbs"
 #define TRAIT_MUSES_GRACE	"Muses Grace"
 #define TRAIT_SUNLIGHT_SENSITIVE "Sunlight Sensitivity"
+#define TRAIT_CAUSTIC "Unsafe"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
@@ -417,6 +425,7 @@
 #define TRAIT_WEATHER_PROTECTED "Weather Protected"
 #define TRAIT_WHITE_STAG "Stag Protection"
 #define TRAIT_EDIT_DESCRIPTORS "Edit Descriptors"
+#define TRAIT_NIGHT_OWL_LESSER "Nocturnal" // inverted sleepcycle but no moodbuff
 
 //Ecom Related traits
 #define TRAIT_DEBTOR "Default Debtor"
@@ -464,7 +473,8 @@
 
 GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_LEVY = span_greentext("I am one among the Levy! We are the Crown's spare spears, sent ahead of the Armsmen to face dangers beyond the walls and hold the line until better soldiers arrive. When fighting alongside fellow levymen, I can issue coordinated callouts (Shift + Ctrl + RMB)!"),
-	TRAIT_STEELHEARTED = span_info("I have hardened nerves, and do not waiver from the sight of violence in battle."),
+	TRAIT_STEELHEARTED = span_info("I have hardened nerves, and do not waver from the sight of violence in battle."),
+	TRAIT_NIHILIST = span_info("I have hardened nerves, and do not waver from the sight of gore and viscera."),
 	TRAIT_OUTLAW = span_info("This land's meisters and castificos reject my touch."),
 	TRAIT_ALDERMAN = span_info("Alderman of the Assembly, voice of the respectable citizenry of Azuria. Upon my charter I may spend the Crown's Purse and commission the realm's defense within the bounds the Commons have set me."),
 	TRAIT_ALDERMAN_CENSURED = span_warning("The Assembly has censured my name. No seat, no warrant shall be mine until the week ends."),
@@ -491,6 +501,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_XENOPHOBIC = span_warning("Lesser races pollute our land"),
 	TRAIT_TOLERANT = span_info("I dream of an ideal future, one with peace between all races"),
 	TRAIT_NIGHT_OWL = span_info("I enjoy spending my time in the night"),
+	TRAIT_NIGHT_OWL_LESSER = span_info("I sleep during the dae, rather than at nite."),
 	TRAIT_BEAUTIFUL = span_info("People love looking at my face"),
 	TRAIT_BEAUTIFUL_UNCANNY = span_info("<i>Some</i> would say my visage is an artwork created by the gods themselves; the others call me an unsettling abomination."),
 	TRAIT_BAD_MOOD = span_warning("Everything just seems to piss me off"),
@@ -504,6 +515,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_IGNORESLOWDOWN = span_info("Nothing stops this carriage!"),
 	TRAIT_IGNOREDAMAGESLOWDOWN = span_info("Hits slow me down no longer."),
 	TRAIT_NOBLE = span_blue("I'm of noble blood."),
+	TRAIT_NOBLE_UNLANDED = span_blue("I'm far from my holdings, or otherwise less protected than most nobles. I hold myself to a higher standard."),
 	TRAIT_PACIFISM = span_info("I cannot harm another living being."),
 	TRAIT_DEFILED_NOBLE = span_blue("I'm of noble blood but... Something feels off!"),
 	TRAIT_EMPATH = span_info("I can notice when people are in pain."),
@@ -531,6 +543,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
 	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will be crippled if my ribs shatter or die if I am paralyised."),
 	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
+	TRAIT_TAINTEDLUX = span_danger("My lux is accursed; it is not safe to transplant."),
 	TRAIT_CLAIMED_BY_DARKSTAR = span_danger("My soul has been trapped inside an assassin's dagger. I will not be able to return to lyfe until the dagger is destroyed..."),
 	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
 	TRAIT_INFINITE_STAMINA = "I have boundless energy, I will never tire.",
@@ -543,6 +556,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_INHUMEN_ANATOMY = "My anatomy is inhumen, preventing me from wearing hats and shoes.",
 	TRAIT_NASTY_EATER = span_dead("I can stomach rotten, raw, or burned food, organs, and murky water - but true poisons still afflict me."),
 	TRAIT_WILD_EATER = span_info("I can eat raw food and drink from dirty water."),
+	TRAIT_NISTEAN = "I refuse to eat the flesh of any land-dwelling beaste.",
+	TRAIT_VEGAN = "I refuse to eat the flesh or byproducts of any living being.",
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
@@ -603,6 +618,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_STUDENT =	span_info("I am overwhelmed by all this knowledge!"),
 	TRAIT_LEGENDARY_ALCHEMIST = span_info("An expert in the art of finding herbs in the wild."),
 	TRAIT_INTELLECTUAL = span_info("I have a keen eye and can assess a person's prowess in wit and blade."),
+	TRAIT_GOODCRAFTER = span_info("My hands are deft; I can craft things quicker than most."),
 	TRAIT_COUNTERCOUNTERSPELL = span_info("I automatically know when to counter Counterspells, and can do so without even thinking about it."),
 	TRAIT_UNSEEMLY = span_info("My face is ugly and makes everyone who looks at me miserable."),
 	TRAIT_HERETIC_SEER = span_info("I can tell other Ascendant followers without sharing their faith."),
@@ -735,8 +751,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WYRD_LABOURER = span_info("Strange power causes my swings to cut through trees and rocks with ease."),
 	TRAIT_CURSE_SCAR = span_info("That foul wench cursed me! I'll have my revenge... Those strange fog wards in the bog, what if?..."),
 	TRAIT_ARMOR_BREAK = span_warning("My armor's straps are delicate, and may break easily. It's liable to be flung off if it takes too much damage."),
-	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel. I can gain the bog's blessing if I use pure lux instead."),
+	TRAIT_FEYBOUND = span_info("I've been influenced or created by fey, after offering lux to a heartroot, I can use it to travel. I can gain the bog's blessing if I use pure lux instead."),
 	TRAIT_ROOT_WALKER = span_info("After offering lux, I can now travel along heartroot trees."),
+	TRAIT_FEYTOUCHED = span_info("I've been influenced or created by fey, I can recognize others of my kind and the ancients will know who I am."),
 	TRAIT_WHITE_STAG = span_info("The power of the white stag lives on inside of me!"),
 	TRAIT_EDIT_DESCRIPTORS = span_info("I can change my appearance at a magic mirror in a thorough manner."),
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
@@ -747,6 +764,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
 	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
+	TRAIT_CAUSTIC = span_info("Touching me is... less than advisable."),
 ))
 
 // trait accessor defines
@@ -977,6 +995,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_GENERIC "generic"
 #define TRAIT_STATUS_EFFECT	"status_effect"
 #define TRAIT_VIRTUE "virtue"
+#define TRAIT_QUIRK "quirk"
 #define TRAIT_MIRACLE "miracle"
 #define TRAIT_RITUAL "ritual"
 #define TRAIT_GAZE "gaze"

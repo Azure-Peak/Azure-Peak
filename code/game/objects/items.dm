@@ -973,6 +973,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				if(user.m_intent != MOVE_INTENT_SNEAK) // Don't play a sound if we're sneaking, for assassination purposes.
 					playsound(src, pickup_sound, PICKUP_SOUND_VOLUME, ignore_walls = FALSE)
 	user.update_equipment_speed_mods()
+	user.check_equipment_mood_penalty()
 
 	if(!user.is_holding(src))
 		if(altgripped || wielded)

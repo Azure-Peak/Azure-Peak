@@ -303,6 +303,37 @@
 	desc = span_red("Eating such a meal without a table? How churlish!")
 	timer = 2 MINUTES
 
+// 'unlanded noble' penalties, harsher to enforce the archetype
+/datum/stressevent/unlanded_noble_shitty_equipment
+	stressadd = 1
+	desc = span_red("Such poor-quality equipment reflects poorly on me...!")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_bloody_equipment
+	stressadd = 1
+	desc = span_red("I should have better hygeine than this...")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_poor_sleep
+	stressadd = 1
+	desc = span_red("I can't get any decent sleep in such uncomfortable conditions...")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_scandal_in_the_making
+	stressadd = 1
+	desc = span_red("This was unwise... what if others find out?")
+	timer = 5 MINUTES // removed via code
+
+/datum/stressevent/nistean
+	stressadd = 2
+	desc = span_red("That dish had meat in it...")
+	timer = 2 MINUTES
+
+/datum/stressevent/vegan
+	stressadd = 2
+	desc = span_red("That dish was made from the living...") // how the fuck do you generalize "i fucked up my vegan diet"
+	timer = 2 MINUTES
+
 /datum/stressevent/graggar_culling_unfinished
 	stressadd = 1
 	desc = span_red("I must eat my opponent's heart before they eat MINE!")
@@ -329,7 +360,7 @@
 	desc = span_red("Putrid stinking water!")
 
 /datum/stressevent/unseemly
-	stressadd = 3
+	stressadd = 0
 	desc = span_red("Their face is unbearable!")
 	timer = 3 MINUTES
 

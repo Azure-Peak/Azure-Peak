@@ -159,7 +159,7 @@
 		for(var/mob/living/carbon/CA in hearers(world.view, C))
 			if(CA != C && !HAS_TRAIT(CA, TRAIT_BLIND))
 				if(stress2give == /datum/stressevent/viewdismember)
-					if(HAS_TRAIT(CA, TRAIT_STEELHEARTED))
+					if(HAS_TRAIT(CA, TRAIT_STEELHEARTED) || HAS_TRAIT(CA, TRAIT_NIHILIST))
 						continue
 				CA.add_stress(stress2give)
 	// Ensure grabbedby is a list so it can be properly .Cut()'d

@@ -107,6 +107,7 @@
 		new /obj/effect/temp_visual/cleaning_pulse(get_turf(user))
 		wash_atom(user, CLEAN_STRONG)
 		user.remove_stress(/datum/stressevent/sewertouched)
+		user.remove_stress(/datum/stressevent/unlanded_noble_bloody_equipment)
 		to_chat(user, span_notice("The glamour settles, and I am spotless once more."))
 	. = ..()
 
