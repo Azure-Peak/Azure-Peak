@@ -58,7 +58,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	var/datum/advclass/favorite = roleprefs["favorite_advclass"]
 	var/favorite_name = favorite ? favorite::name : "Choose"
 	var/HTML = {"
-		<i>You can choose a favorite subclass here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
+		<i>You can choose a favorite subclass and title here. You'll automatically select this subclass on roundstart if possible.</i><br/><br/>
 		<b>Selected class:</b> <a href="?src=[REF(src)];class=1">[favorite_name]</a><br/>
 		<i>You can choose your ducal colors here; this will only take effect if both are set.</i><br/>
 		<b>Primary color:</b> <a href="?src=[REF(src)];primcolor=1">[roleprefs["primcolor"] || "Choose"]</a><br/>

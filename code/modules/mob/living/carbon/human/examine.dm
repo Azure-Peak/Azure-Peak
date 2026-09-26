@@ -787,17 +787,9 @@
 		var/used_name = name
 		var/used_title = get_role_title()
 		if(HAS_TRAIT(src, TRAIT_RESIDENT) && used_title == "Licker" && licker_subclass)
-			used_title = licker_subclass.name
-		if(SSticker.rulermob != src)
-			if(SSticker.regentmob == src)
-				if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
-					used_title = "Ancient Lord Regent"
-				else
-					used_title = "[used_title] Regent"
-			else if(src.mind?.has_antag_datum(/datum/antagonist/lich))
-				used_title = "Lich"
-			else if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord))
-				used_title = "Ancient Lord"
+			used_title = licker_subclass.get_used_title_with_pref(src)
+		if(SSticker.regentmob == src)
+			used_title = "[used_title]" + " Regent"
 		var/display_as_wanderer = FALSE
 		if(observer_privilege)
 			used_name = real_name
@@ -827,14 +819,14 @@
 			if(display_as_wanderer)
 				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is <EM>[used_name]</EM>, the wandering [race_name]."))
 			else if(used_title)
-				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is <EM>[used_name]</EM>, the [race_name] [used_title]."))
+				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is <EM>[used_name]</EM>, the [race_name][used_title]."))
 			else
 				. += (span_info("ø ------------ ø\n[chat_headshot(displayed_headshot)]\nThis is the <EM>[used_name]</EM>, the [race_name]."))
 		else
 			if(display_as_wanderer)
 				. += (span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the wandering [race_name]."))
 			else if(used_title)
-				. += (span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the [race_name] [used_title]."))
+				. += (span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the [race_name][used_title]."))
 			else
 				. += (span_info("ø ------------ ø\nThis is the <EM>[used_name]</EM>, the [race_name]."))
 
@@ -870,7 +862,8 @@
 
 		if(HAS_TRAIT(src, TRAIT_WITCH))
 			if(HAS_TRAIT(user, TRAIT_NOBLE) || HAS_TRAIT(user, TRAIT_INQUISITION) || HAS_TRAIT(user, TRAIT_WITCH))
-				. += span_warning("A witch! Their presence brings an unsettling aura.")
+				var/witch_title = (src.titles_pref == TITLES_F) ? "witch" : "warlock"
+				. += span_warning("A [witch_title]! Their presence brings an unsettling aura.")
 			else if(HAS_TRAIT(user, TRAIT_FREEMAN) || HAS_TRAIT(user, TRAIT_CABAL) || HAS_TRAIT(user, TRAIT_HORDE) || HAS_TRAIT(user, TRAIT_DEPRAVED))
 				. += span_notice("A practitioner of the old ways.")
 			else

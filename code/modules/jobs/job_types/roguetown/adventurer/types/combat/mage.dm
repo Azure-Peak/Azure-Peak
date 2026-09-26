@@ -1,5 +1,6 @@
 /datum/advclass/mage
 	name = "Sorcerer"
+	f_title = "Sorceress"
 	tutorial = "You are a learned mage and a scholar, having spent your life studying the arcane and its ways."
 	allowed_sexes = list(MALE, FEMALE)
 
@@ -62,6 +63,7 @@
 
 /datum/advclass/mage/alchemist
 	name = "Alchemist"
+	f_title = null
 	tutorial = "You are an alchemist of the road, traveling the world in search of rare reagents, forgotten recipes, \
 	and opportunities to put your craft to the test. You trade in potions, powders, and peculiar concoctions, turning \
 	the spoils of your adventures into something useful. Every monster, ruin, and strange plant might be the key \
@@ -120,6 +122,7 @@
 
 /datum/advclass/mage/spellblade
 	name = "Azurcaephan"
+	f_title = null
 	tutorial = "You are an Azurcaephan — in common parlance, a Spellblade of the Azurean tradition. A hybrid melee warrior who channels arcyne momentum through combat. Build power with your weapon, then unleash it. Choose between three traditions: Blade (mobile swordsman with dashes and AoE), Phalangite (spear and shield — hold the line with thrusts and pushback), or Macebearer (blunt weapons — ground slams, charges, and shockwaves)."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellblade
 	traits_applied = list(TRAIT_ARCYNE)
@@ -289,6 +292,7 @@
 
 /datum/advclass/mage/spellsinger
 	name = "Spellsinger"
+	f_title = null
 	tutorial = "You belong to a school of bards renowned for their study of both the arcane and the arts."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellsinger
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_EMPATH, TRAIT_GOODLOVER)
@@ -342,6 +346,7 @@
 
 /datum/advclass/mage/spellfist
 	name = "Spellfist"
+	f_title = null
 	tutorial = "You are a Spellfist, an unarmed warrior who combines martial prowess with arcyne magyck. Your art descends from the Pontifexes of Naledi, warrior-monks who first learned to channel arcyne power through their fists, though the technique has since spread across the world — especially to Lingyuese Psydonites in the east. You eschew most weapons in favor of using magyck to accelerate and strengthen your own body, striking enemies with blows from afar and storms of fists up close."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellfist
 	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_ARCYNE)
@@ -433,6 +438,7 @@
 
 /datum/advclass/mage/spellthief
 	name = "Arcyne Trickster"
+	f_title = null
 	tutorial = "You are an Arcyne Trickster, a thief and hooligan gifted in the arcyne arts."
 	outfit = /datum/outfit/job/roguetown/adventurer/spellthief
 	subclass_languages = list(/datum/language/thievescant)
