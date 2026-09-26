@@ -374,7 +374,7 @@
 			choose_skill(user)
 			return
 
-		if(!locate(/obj/structure/table) in src.loc)
+		if(!has_table_surface(src.loc))
 			to_chat(user, span_warning("I need to use a table."))
 			return FALSE
 		if(skill_cap >= subject_skill)

@@ -1527,7 +1527,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			else
 				target.Move(target_shove_turf, shove_dir)
 				if(get_turf(target) == target_oldturf)
-					target_table = locate(/obj/structure/table) in target_shove_turf.contents
+					target_table = has_table_surface(target_shove_turf.contents)
 	//				target_disposal_bin = locate(/obj/machinery/disposal/bin) in target_shove_turf.contents
 					if(target_table)
 						shove_blocked = TRUE
@@ -1749,7 +1749,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 		if(get_turf(target) == target_oldturf)
 			if(stander)
-				target_table = locate(/obj/structure/table) in target_shove_turf.contents
+				target_table = has_table_surface(target_shove_turf.contents)
 				shove_blocked = TRUE
 		else
 			if(HAS_TRAIT(user, TRAIT_STRONGKICK))
