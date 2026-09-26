@@ -1,66 +1,72 @@
 //TOOLS
-/datum/loadout_item/paper_parasol
-	name = "Paper Parasol"
-	path = /obj/item/rogueweapon/mace/parasol
-	sort_category = "Tools"
-
-/datum/loadout_item/fine_parasol
-	name = "Fine Parasol"
-	path = /obj/item/rogueweapon/mace/parasol/noble
-	sort_category = "Tools"
-
-/datum/loadout_item/cloth
-	name = "Cloth"
-	path = /obj/item/natural/cloth
-	sort_category = "Tools"
-
 /datum/loadout_item/broom
 	name = "Broom"
+	cost = 2
 	path = /obj/item/broom
 	sort_category = "Tools"
 
 /datum/loadout_item/bucket
 	name = "Bucket"
+	cost = 2
 	path = /obj/item/reagent_containers/glass/bucket
 	sort_category = "Tools"
 
-/datum/loadout_item/needle
-	name = "Sewing Needle"
+/datum/loadout_item/cloth
+	name = "Cloth"
+	cost = 2
+	path = /obj/item/natural/cloth
+	sort_category = "Tools"
+
+/datum/loadout_item/needle_thorn // 5 uses, vs normal 25
+	name = "Needle, Thorn"
+	cost = 1
 	path = /obj/item/needle/thorn
 	sort_category = "Tools"
 
-/datum/loadout_item/whetstone
-	name = "Whetstone"
+/datum/loadout_item/whetstone_bad // just a rock, does sharpening the same as whetstone anyway
+	name = "Grindstone, Rock"
+	cost = 1
+	path = /obj/item/natural/stone
+	sort_category = "Tools"
+
+/datum/loadout_item/whetstone // this feels like its more for flexing but alas
+	name = "Grindstone, Whetstone"
+	triumph_cost = 1
 	path = /obj/item/natural/whetstone
 	sort_category = "Tools"
 
 /datum/loadout_item/hammer
-	name = "Wood Mallet"
-	path = /obj/item/rogueweapon/hammer/wood
+	name = "Stone Hammer"
+	cost = 4
+	path = /obj/item/rogueweapon/hammer/stone
 	sort_category = "Tools"
 
-/datum/loadout_item/axe 
+/datum/loadout_item/axe
 	name = "Stone Axe"
+	cost = 4
 	path = /obj/item/rogueweapon/stoneaxe
 	sort_category = "Tools"
 
-/datum/loadout_item/knife 
+/datum/loadout_item/knife
 	name = "Stone Knife"
+	cost = 3
 	path = /obj/item/rogueweapon/huntingknife/stoneknife
 	sort_category = "Tools"
 
-/datum/loadout_item/hoe 
+/datum/loadout_item/hoe
 	name = "Stone Hoe"
+	cost = 2
 	path = /obj/item/rogueweapon/hoe/stone
 	sort_category = "Tools"
 
-/datum/loadout_item/hoe 
-	name = "Wood Spade"
+/datum/loadout_item/hoe
+	name = "Spade"
+	cost = 2
 	path = /obj/item/rogueweapon/shovel/small
 	sort_category = "Tools"
 
-/datum/loadout_item/mirror 
+/datum/loadout_item/mirror
 	name = "Hand Mirror"
+	cost = 2
 	path = /obj/item/handmirror
 	sort_category = "Tools"
-
