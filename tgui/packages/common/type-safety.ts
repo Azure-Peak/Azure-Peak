@@ -54,3 +54,7 @@ export function smoothMerge<TObj extends Record<string, unknown>>(
 
   return { ...input.target, ...validated };
 }
+
+export function typedKeys<const T extends object>(object: T): Array<keyof T> {
+  return Object.keys(object) as Array<keyof T>;
+}

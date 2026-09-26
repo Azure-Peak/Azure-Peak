@@ -2,7 +2,7 @@
 /client/proc/vv_do_list(list/target, href_list)
 	var/target_index = text2num(GET_VV_VAR_TARGET)
 	if(check_rights(R_VAREDIT))
-		if(istype(target, /alist))
+		if(isalist(target))
 			vv_do_alist(target, href_list, target_index)
 			return
 		if(target_index)
