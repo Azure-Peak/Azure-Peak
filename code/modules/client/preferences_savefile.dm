@@ -397,6 +397,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtuetwochoices"] >> virttwo
 	virtue_choices = virtone
 	virtuetwo_choices = virttwo
+	for(var/list/choices in list(virtue_choices, virtuetwo_choices))
+		var/index = choices.Find("Second Voice")
+		if(index)
+			choices[index] = "Alter Ego"
 
 	// If we still find a living ref, we clean it up. This is deprecated and we shouldn't be saving whole datums.
 	if (istype(virtue_type, /datum/virtue))

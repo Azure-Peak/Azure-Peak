@@ -287,7 +287,7 @@
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
-		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
+		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab)."
 	)
 	extra_choices = list(
 		"Darksight" = TRAIT_DARKVISION,
@@ -295,7 +295,7 @@
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
 		"Sneak Skill (+2, Up to Legendary)" = /datum/skill/misc/sneaking,
 		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking,
-		"Second Voice"
+		"Alter Ego"
 		)
 
 /datum/virtue/utility/prowler/apply_to_human(mob/living/carbon/human/recipient)
@@ -317,10 +317,12 @@
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
-			else if(choice == "Second Voice")
-				add_verb(recipient, /mob/living/carbon/human/proc/changevoice)
-				add_verb(recipient, /mob/living/carbon/human/proc/swapvoice)
-				recipient.AddComponent(/datum/component/voice_handler)
+			else if(choice == "Alter Ego")
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_color)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_voice)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_looks)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_swap)
+				recipient.AddComponent(/datum/component/alter_ego)
 
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
 	if(triumph_check(recipient))
