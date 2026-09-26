@@ -167,3 +167,28 @@ SUBSYSTEM_DEF(events)
 	var/datum/browser/popup = new(user, "storyteller_vote_log", "Storyteller Vote Log", 700, 500)
 	popup.set_content(dat.Join())
 	popup.open()
+
+/client/proc/reset_storyteller_vote_bank()
+	set category = "Game Master.Events"
+	set name = "Storyteller - Reset Vote Bank"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	SSvote.load_storyteller_vote_bank()
+	var/list/options = list("All presets" = null)
+	for(var/storyteller_type in SSgamemode.storytellers)
+		var/datum/storyteller/storyboy = SSgamemode.storytellers[storyteller_type]
+		if(!storyboy.preset_pool) // only votable presets bank votes
+			continue
+		var/list/entries = SSvote.storyteller_vote_bank[storyteller_type]
+		options["[storyboy.name] ([floor(SSvote.get_storyteller_bank_total(storyteller_type))] from [length(entries)] voters)"] = storyteller_type
+	var/picked = input(src, "Reset which preset's banked (carried over) votes?", "Storyteller Vote Bank") as null|anything in options
+	if(!picked)
+		return
+	var/storyteller_type = options[picked]
+	if(alert(src, "Reset the vote bank for [picked]?", "Storyteller Vote Bank", "Yes", "No") != "Yes")
+		return
+	SSvote.reset_storyteller_vote_bank(storyteller_type)
+	message_admins("[key_name_admin(src)] reset the storyteller vote bank for [picked].")
+	log_admin("[key_name(src)] reset the storyteller vote bank for [picked].")
