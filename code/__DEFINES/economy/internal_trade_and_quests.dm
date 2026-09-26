@@ -127,9 +127,12 @@
 #define BANDITRY_DRAIN_FLAT_MIN_MULT 0.25
 
 // Global daily cap on summed drain across all threat regions, so several going Dangerous/Bleak
-// at once can't stack unbounded.
-#define BANDITRY_DRAIN_DAILY_CAP_BASE 100
-#define BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER 5
+// at once can't stack unbounded. No flat base - purely per-player, and the rate must exceed the
+// theoretical max combined per-player drain slope (6 regions x BLEAK_PER_PLAYER(2) = 12) so the
+// cap is mathematically guaranteed to stop binding as pop rises instead of saving more the
+// bigger the server gets (a naive base+rate cap with rate < that max does the latter - the gap
+// between raw drain and the cap grows unboundedly with pop instead of tapering to zero).
+#define BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER 25
 
 // Fraction of any Crown's Purse credit skimmed to pay down banditry debt while it's outstanding.
 // Was 1.0 (100%), which made the purse unable to visibly recover until debt cleared.

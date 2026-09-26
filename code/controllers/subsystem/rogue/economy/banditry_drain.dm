@@ -27,10 +27,12 @@
 		result["by_region"][TR.region_name] = cost
 		raw_lines[TR.region_name] = "[TR.region_name] ([level]) -[cost]m ([scaled_base] base + [per_player]m/head x [pop])"
 
-	// Global cap so several regions going Dangerous/Bleak at once can't stack without bound.
+	// Global cap so several regions going Dangerous/Bleak at once can't stack without bound. No
+	// flat base - purely per-player, deliberately above the theoretical max combined drain slope
+	// so the cap always tapers off as pop rises instead of saving more the bigger the server gets.
 	// If it binds, shrink each region's share proportionally (keeps by_region consistent for
 	// burn/hoard crediting below) and annotate the math rather than hiding it.
-	var/daily_cap = BANDITRY_DRAIN_DAILY_CAP_BASE + (BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER * pop)
+	var/daily_cap = BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER * pop
 	result["raw_total"] = raw_total
 	result["cap"] = daily_cap
 	var/list/by_region = result["by_region"]
@@ -42,7 +44,7 @@
 			var/capped_cost = round(by_region[region_name] * scale)
 			by_region[region_name] = capped_cost
 			lines += "[raw_lines[region_name]] -> CAPPED to -[capped_cost]m"
-		lines += "TOTAL: -[raw_total]m raw drain capped to -[daily_cap]m (daily cap: [BANDITRY_DRAIN_DAILY_CAP_BASE] base + [BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER]m/head x [pop] pop)"
+		lines += "TOTAL: -[raw_total]m raw drain capped to -[daily_cap]m (daily cap: [BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER]m/head x [pop] pop)"
 		result["total"] = daily_cap
 	else
 		for(var/region_name in by_region)
