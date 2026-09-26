@@ -15,10 +15,13 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
-		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.nausea(10)
+		return ..()
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(3) //at a metabolism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
@@ -88,10 +91,13 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
-		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/stronghealth, 2) //No overhealing.
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.nausea(10)
+		return ..()
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(4)
@@ -147,10 +153,13 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
 
 /datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
-		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/restoration, 2) //No overhealing.
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.nausea(10)
+		return ..()
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(3)

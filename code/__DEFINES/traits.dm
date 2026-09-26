@@ -110,9 +110,9 @@
 #define TRAIT_SILVER_WEAK "Silver Weakness"
 
 //Second Chance related
-#define TRAIT_ROTMAN "Rotman" //No heartbeat + can invoke Zizo ascension/not regular ascensions - Also lets you eat brains
-#define TRAIT_PALLID "Pallid" //Drink the blood, bleeggh!
-#define TRAIT_BLACKBLOOD "Blackblooded" //Passive healing at the price of hunger, blood is always SLIGHTLY cursed on inquis indexer checks
+#define TRAIT_ROTMAN "Rotman" // No heartbeat + can invoke Zizo ascension/not regular ascensions - Also lets you eat brains
+#define TRAIT_PALLID "Pallid" // Drink the blood, bleeggh!
+#define TRAIT_BLACKBLOOD "Blackblooded" // A freak from Otava's labs, who can see well in the dark and bite hard. They have a healing malus, but are essentially deathless.
 
 //Gear Restriction Related Traits
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"

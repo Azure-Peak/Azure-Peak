@@ -117,7 +117,7 @@
 /mob/living/carbon/human/handle_roguebreath()
 	..()
 	if(HAS_TRAIT(src, TRAIT_PSYDONITE))
-		if(!HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_IRONMAN)) //Explicitly incompatible with Blackblood, Constructs have their own healing mechanics + are barred from healing miracles already, which overlaps with the intended weakness of Psydonian healing.
+		if(!HAS_TRAIT(src, TRAIT_IRONMAN))
 			var/list/wCount = src.get_wounds()
 			if(wCount.len > 0)
 				heal_wounds(0.4, psydonite = TRUE)
