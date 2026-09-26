@@ -35,8 +35,15 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+	supports_fellowship_snap = TRUE
+
 	var/ward_type = /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward/bestowed
 	var/ward_duration = 3 MINUTES
+
+/datum/action/cooldown/spell/bestow_ward/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Fellowship Mode (toggle with Shift+G): An off-target cast snaps the ward to your nearest fellowship member in range.")
+	return stats
 
 /datum/action/cooldown/spell/bestow_ward/cast(atom/cast_on)
 	. = ..()
