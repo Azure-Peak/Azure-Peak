@@ -15,7 +15,7 @@
 	charge_time = 1 SECONDS
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM // No doing this while gingerbreadmanning
-	cooldown_time = 3 MINUTES
+	cooldown_time = 1 MINUTES
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 	required_items = list(/obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter/warden, /obj/item/rogueweapon/woodstaff/quarterstaff/lamplighter)
 	associated_skill = /datum/skill/combat/staves
@@ -80,7 +80,7 @@
 	strike_sound = 'sound/misc/smelter_sound2.ogg'
 	glow_intensity = GLOW_INTENSITY_HIGH
 	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MINOR_AOE
+	primary_resource_cost = 5
 	cooldown_time = 10 SECONDS
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
@@ -161,7 +161,7 @@
 	strike_sound = 'sound/misc/smelter_sound2.ogg'
 	glow_intensity = GLOW_INTENSITY_HIGH
 	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MAJOR_AOE
+	primary_resource_cost = 10
 	cooldown_time = 15 SECONDS
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
@@ -208,7 +208,7 @@
 	click_to_activate = FALSE
 	self_cast_possible = TRUE
 	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_UTILITY_BUFF
+	primary_resource_cost = 10
 	invocations = list()
 	invocation_type = INVOCATION_NONE
 	charge_required = FALSE

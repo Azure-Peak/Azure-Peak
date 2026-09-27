@@ -299,7 +299,7 @@
 	strike_sound = 'sound/misc/smelter_sound2.ogg'
 	glow_intensity = GLOW_INTENSITY_HIGH
 	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MINOR_AOE
+	primary_resource_cost = 5
 	cooldown_time = 10 SECONDS
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	telegraph_type = /obj/effect/temp_visual/special_intent/warning
