@@ -501,7 +501,6 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NUTCRACKER = "I love kicking idiots on the nuts!",
 	TRAIT_SEEPRICES = "I can tell the prices of things down to the zenny.",
 	TRAIT_SEEPRICES_SHITTY = "I can tell the prices of things... <i>Kind of</i>.",
-	TRAIT_UNHINGED = span_info("What was done to me... I don't think I'll ever get over it. I like things that people would find horrible, and hate things that most would find normal or even 'right' to do."),
 	TRAIT_AGORAPHOBIC = span_info("I hate the outside! I don't want to leave the safety of these four walls..."),
 	TRAIT_STRONGBITE = span_info("Your bites deal double damage and can cause injuries."),
 	TRAIT_SHARPBITE = span_info("Your jagged teeth or pronounced fangs can cause injures on bite."),

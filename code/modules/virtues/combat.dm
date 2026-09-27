@@ -206,23 +206,22 @@
 					ADD_TRAIT(recipient, TRAIT_SHARPBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_VAMPBITE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NOBREATH, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
 					to_chat(recipient, "You are no longer one scorned by Astrata, by the mercy of the gods.")
 
 				if(SC_BLACKBLOOD)
 					ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_VIRTUE) // resists most infections, can meditate to heal a little
 					ADD_TRAIT(recipient, TRAIT_HALFHEAL, TRAIT_VIRTUE) // all healing received is halved
-					ADD_TRAIT(recipient, TRAIT_DARKVISION, TRAIT_VIRTUE)
-					ADD_TRAIT(recipient, TRAIT_DEATHLESS, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SHARPBITE, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_DEATHLESS, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
+					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
 //					ADD_TRAIT(recipient, TRAIT_TAINTED_LUX, TRAIT_VIRTUE) // to be added whenever Quirks get merged
 					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.")
 
-					// forced sadism and thrillseeking
-					var/datum/charflaw/addiction/thrillseeker/T
+					// forced sadism
 					var/datum/charflaw/addiction/sadist/S
-					recipient.charflaws += T
 					recipient.charflaws += S
 
 					// inquisition trauma/hate goes here
