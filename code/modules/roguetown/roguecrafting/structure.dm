@@ -1044,7 +1044,7 @@
 	category = "Lighting"
 	result = /obj/machinery/light/rogue/firebowl/stump
 	reqs = list(/obj/item/grown/log/tree/small = 1,
-				/obj/item/rogueore/coal = 1)
+				/obj/item/natural/stone = 1)
 	verbage_simple = "assembles"
 	verbage = "assembles"
 	always_availible = FALSE
