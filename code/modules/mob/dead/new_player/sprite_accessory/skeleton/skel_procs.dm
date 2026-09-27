@@ -8,13 +8,25 @@
 		to_chat(H, span_warning("You have no head to modify!"))
 		return
 
+	// init for scope
+	var/datum/preferences/P = null
+	if(src.client)
+		if(client.prefs)
+			P = src.client.prefs
+
 	// 1. Skull Customization (using the Accessory bodypart feature)
+
 	var/list/valid_skulls = list("Human" = null)
 	for(var/skull_path in subtypesof(/datum/sprite_accessory/snout/skeleton))
 		var/datum/sprite_accessory/skull = new skull_path()
 		valid_skulls[skull.name] = skull_path
 
-	var/skull_choice = input(H, "Choose your skull structure", "Skull Customization") as null|anything in valid_skulls
+	// init for scope
+	var/skull_choice = null
+	if(P.preset_skeleton_skull && P.preset_skeleton_enabled)
+		skull_choice = P.preset_skeleton_skull
+	else
+		skull_choice = input(H, "Choose your skull structure", "Skull Customization") as null|anything in valid_skulls
 	if(skull_choice)
 		// Remove any existing accessory feature
 		for(var/datum/bodypart_feature/accessory/old_acc in head.bodypart_features)
@@ -35,7 +47,11 @@
 		var/datum/sprite_accessory/tail/T = new tail_path()
 		valid_tails[T.name] = tail_path
 
-	var/tail_choice = input(H, "Choose your tail", "Tail Customization") as null|anything in valid_tails
+	var/tail_choice = null
+	if(P.preset_skeleton_tail && P.preset_skeleton_enabled)
+		tail_choice = P.preset_skeleton_tail
+	else
+		tail_choice = input(H, "Choose your tail", "Tail Customization") as null|anything in valid_tails
 	if(tail_choice)
 		var/obj/item/organ/tail/tail_organ = H.getorganslot(ORGAN_SLOT_TAIL)
 		if(tail_choice == "none")
