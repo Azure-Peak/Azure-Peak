@@ -62,13 +62,15 @@
 
 /datum/outfit/job/roguetown/lampwarden/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers. Were my staff to be destroyed I've been trained to craft another."))
+	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers."))
+	to_chat(H, span_warning("As a Lamplighter, I'm trained to rebuild my staff were it to be broken. I also know cheaper techniques for building braziers."))
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/cauterize)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firestrike)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/firespin)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/oil_spill)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/burn_it_down)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/survival/lampwarden)
+	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/structure/lamplighter_brazier)
 	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter/warden
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter/warden
@@ -115,7 +117,8 @@
 
 /datum/outfit/job/roguetown/lampwicker/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers. Were my staff to be destroyed I've been trained to craft another."))
+	to_chat(H, span_warning("You are a member of the Roadsman's guild. The Roadsman's guild is a neutral party in all affairs, their only concern is the safety of the roads and their wanderers."))
+	to_chat(H, span_warning("As a Lamplighter, I'm trained to rebuild my staff were it to be broken. I also know cheaper techniques for building braziers."))
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/scare_beast)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/sooth_the_soul)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/smoke_food)
@@ -124,6 +127,7 @@
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/bulwark_of_oil)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/lamplighter/provide_beacon)
 	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/survival/lampstaff)
+	H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/structure/lamplighter_brazier)
 	head = /obj/item/clothing/head/roguetown/inqhat/lamplighter
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/lamplighter
