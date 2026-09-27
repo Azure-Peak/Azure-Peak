@@ -59,12 +59,14 @@
 
 /datum/reagent/blood/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
-		if(ishuman(H))
-			var/mob/living/carbon/human/Hu = H
+	if(ishuman(H))
+		var/mob/living/carbon/human/Hu = H
+		if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(Hu, TRAIT_PALLID))
 			Hu.adjust_hydration(8)
-			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD))
-				Hu.reagents.add_reagent(/datum/reagent/medicine/healthpot/zarum/blood, 0.5) // this is a fraction of a fraction in the end, I didn't heal too much from local tests, it's more for situations where you don't have food in pve
+			if(HAS_TRAIT(Hu, TRAIT_PALLID))
+				Hu.adjust_nutrition(15)
+			return
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
 		return
 	H.add_nausea(12)
 	H.adjustToxLoss(2)
@@ -74,10 +76,13 @@
 		..()
 /datum/reagent/blood/shitty/on_mob_life(mob/living/carbon/H)
 	..()
-	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
-		if(ishuman(H))
-			var/mob/living/carbon/human/Hu = H
-			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
+	var/mob/living/carbon/human/Hu = H
+	if(HAS_TRAIT(H, TRAIT_NASTY_EATER) || HAS_TRAIT(H, TRAIT_WILD_EATER) || HAS_TRAIT(Hu, TRAIT_PALLID))
+		Hu.adjust_hydration(8)
+		if(HAS_TRAIT(Hu, TRAIT_PALLID))
+			Hu.adjust_nutrition(15)
+		return
+	if(HAS_TRAIT(H, TRAIT_NOHUNGER) || HAS_TRAIT(H, TRAIT_IRONMAN))
 		return
 	H.add_nausea(18) //Do not drink dirty blood!
 	H.adjustToxLoss(4)

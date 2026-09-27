@@ -93,17 +93,17 @@ GLOBAL_LIST_INIT(stress_messages, world.file2list("strings/rt/stress_messages.tx
 	else
 		remove_stress(/datum/stressevent/bleeding)
 
-	// pallid outdoor stress
-	if(HAS_TRAIT(src, TRAIT_PALLID))
+	// agoraphobic outdoor stress
+	if(HAS_TRAIT(src, TRAIT_AGORAPHOBIC))
 		var/area/A = get_area(src)
 		if(A?.outdoors)
-			add_stress(/datum/stressevent/pallid_outdoors)
+			add_stress(/datum/stressevent/agoraphobic_outdoors)
 		else
-			remove_stress(/datum/stressevent/pallid_outdoors)
+			remove_stress(/datum/stressevent/agoraphobic_outdoors)
 	else
-		remove_stress(/datum/stressevent/pallid_outdoors)
+		remove_stress(/datum/stressevent/agoraphobic_outdoors)
 
-	if(HAS_TRAIT(src, TRAIT_SUNLIGHT_SENSITIVE) || HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+	if(HAS_TRAIT(src, TRAIT_SUNLIGHT_SENSITIVE))
 		var/turf/T = get_turf(src)
 		if(T.can_see_sky() && GLOB.tod == "day")
 			if(HAS_TRAIT(src, TRAIT_WEATHER_PROTECTED))

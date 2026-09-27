@@ -508,7 +508,7 @@
 	stressadd = 1
 	desc = list(span_red("Eugh, this brew just doesn't sit right with me.."), span_red("Something about that brew tastes a little funky.."))
 
-/datum/stressevent/pallid_outdoors
+/datum/stressevent/agoraphobic_outdoors
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")

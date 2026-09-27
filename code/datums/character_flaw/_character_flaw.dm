@@ -640,6 +640,14 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/silverweakness/on_mob_creation(mob/user)
 	ADD_TRAIT(user, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 
+/datum/charflaw/agoraphobic
+	name = "Agoraphobic"
+	desc = "I hate the outdoors. I don't want to leave the safety of these four walls."
+	ui_fa_icon = "cross"
+
+/datum/charflaw/agoraphobic/on_mob_creation(mob/user)
+	ADD_TRAIT(user, TRAIT_AGORAPHOBIC, TRAIT_GENERIC)
+
 /datum/charflaw/leprosy
 	name = "Leper (+3 TRI)"
 	desc = "I am cursed with leprosy! Too poor to afford treatment, my skin now lays violated by lesions, my extremities are numb, and my presence disturbs even the most stalwart men."
