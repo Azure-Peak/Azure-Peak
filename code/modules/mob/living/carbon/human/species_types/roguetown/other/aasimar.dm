@@ -86,7 +86,8 @@
 		"+1 CON" = STATKEY_CON,
 		"+1 WIL" = STATKEY_WIL,
 		"+1 PER" = STATKEY_PER,
-		"No Hunger & Thirst" = TRAIT_NOHUNGER
+		"No Hunger & Thirst" = TRAIT_NOHUNGER,
+		"Divine Affinity" = list(/datum/virtue/combat/devotee)
 	)
 	mechanics_explanations = list("Are the only race whose lux is already purified when extracted. However, their lux takes far longer to regrow than every other races.")
 
