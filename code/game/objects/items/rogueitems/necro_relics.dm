@@ -130,29 +130,3 @@
 		src.gender = (src.gender == MALE) ? FEMALE : MALE
 	src.regenerate_icons()
 
-/// This is the version of "Choose pronouns and body" specifically for skeletons.
-/mob/living/carbon/human/proc/choose_skeleton_pronouns_and_body()
-	// init for scope
-	var/datum/preferences/P = null
-
-	var/has_pronouns = FALSE
-	var/has_body_type = FALSE
-	if(src.client)
-		if(src.client.prefs)
-			P = src.client.prefs
-	if(P.preset_skeleton_enabled)
-		if(P.preset_skeleton_pronouns)
-			src.pronouns = P.preset_skeleton_pronouns
-			has_pronouns = TRUE
-		if(P.preset_skeleton_body)
-			src.gender = GLOB.skeleton_body_choices[P.preset_skeleton_body]
-			has_body_type = TRUE
-	// OK lets check if they didnt have either
-	if(!has_pronouns)
-		var/p_input = input(src, "Choose your character's pronouns", "Pronouns") as anything in GLOB.pronouns_list
-		if(p_input)
-			src.pronouns = p_input
-	if(!has_body_type)
-		if(alert(src, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
-			src.gender = (src.gender == MALE) ? FEMALE : MALE
-	src.regenerate_icons()
