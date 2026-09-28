@@ -2495,22 +2495,38 @@
 /datum/status_effect/buff/journey_ending
 	id = "journey_ending"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_ending
-	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2)
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_CON = 2)
 	duration = -1
 
 /datum/status_effect/buff/journey_end
 	id = "journey_end"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end
-	effectedstats = list(STATKEY_STR = 2, STATKEY_SPD = 3, STATKEY_WIL = 2)
-	examine_text = "<font color='blue'>SUBJECTPRONOUN has entered a Battle Trance!</font>"
+	effectedstats = list(STATKEY_STR = 2, STATKEY_SPD = 3, STATKEY_CON = 2)
 	duration = -1
 
 /datum/status_effect/buff/journey_end_final //takes ages for them to die to bloodloss, but they *do* die to it
 	id = "journey_end_final"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end_final
-	effectedstats = list(STATKEY_STR = 5, STATKEY_SPD = 6, STATKEY_WIL = 4)
-	examine_text = "<font color='blue'>SUBJECTPRONOUN has entered a Battle Trance!</font>"
+	effectedstats = list(STATKEY_STR = 5, STATKEY_SPD = 6, STATKEY_CON = 3)
 	duration = -1
+
+/datum/status_effect/buff/journey_ending/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("Clarity in the flow of blood and steel, measured, tempered."))
+
+/datum/status_effect/buff/journey_end/on_apply()
+	. = ..()
+	examine_text = "<font color='#5454FF'>SUBJECTPRONOUN [owner.p_have(FALSE)] steadied [owner.p_their(FALSE)] resolve, clinging to fading embers!</font>"
+	to_chat(owner, span_warning("Each breath burns in your lungs, doubt clawing at your very self."))
+
+/datum/status_effect/buff/journey_end_final/on_apply()
+	. = ..()
+	examine_text = "<font color='#5454FF'>SUBJECTPRONOUN [owner.p_are(FALSE)] drawing from [owner.p_their(FALSE)] final reserves, pushing the body to its limits!</font>"
+	to_chat(owner, span_warning("Numb fingers, blurred vision and a sense of serenity. Have you finally found a purpose?"))
+
+/datum/status_effect/buff/journey_end_final/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("Not yet, not here... your search continues."))
 
 /datum/status_effect/buff/stagehands_silence
 	id = "Stagehand"

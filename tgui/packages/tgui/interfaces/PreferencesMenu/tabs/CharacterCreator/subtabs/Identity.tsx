@@ -54,6 +54,9 @@ export const SubtabIdentity = () => {
           <Stack.Item>
             <SubtabIdentityCardBark />
           </Stack.Item>
+          <Stack.Item>
+            <SubtabIdentityCardToggles />
+          </Stack.Item>
           <SubtabIdentityDownstreamPaneLeft />
         </Stack>
         <Stack vertical>
@@ -227,7 +230,6 @@ export const SubtabIdentityCardGameplay = () => {
   const {
     age,
     combat_music,
-    dnr_pref,
     domhand,
     free_language,
     loadout_cost,
@@ -291,11 +293,6 @@ export const SubtabIdentityCardGameplay = () => {
             <LabeledGridList.Item label="Free Language">
               <Button fluid onClick={() => act('extra_language')}>
                 {free_language}
-              </Button>
-            </LabeledGridList.Item>
-            <LabeledGridList.Item label="Unrevivable">
-              <Button fluid onClick={() => act('dnr_pref')}>
-                {dnr_pref ? 'Yes' : 'No'}
               </Button>
             </LabeledGridList.Item>
             <SubtabIdentityCardGameplayCardCulinary />
@@ -595,6 +592,44 @@ const SubtabIdentityCardBark = () => {
   );
 };
 
+const SubtabIdentityCardToggles = () => {
+  const { act, data } = useBackendStrict<IdentityData>();
+  const { char_toggles } = data;
+
+  return (
+    <Section
+      fill
+      mt={1}
+      title={
+        <LabeledListLikeTooltip
+          tooltip="Per-character settings applied when this character spawns."
+          tooltipPosition="bottom-start"
+        >
+          Toggles
+        </LabeledListLikeTooltip>
+      }
+    >
+      <LabeledGridList>
+        {char_toggles.map((toggle) => (
+          <LabeledGridList.Item
+            key={toggle.flag}
+            label={toggle.name}
+            tooltip={toggle.desc}
+          >
+            <Button.Checkbox
+              fluid
+              checked={!!toggle.enabled}
+              onClick={() => act('char_toggle', { flag: toggle.flag })}
+            >
+              {toggle.enabled ? toggle.on : toggle.off}
+            </Button.Checkbox>
+          </LabeledGridList.Item>
+        ))}
+      </LabeledGridList>
+    </Section>
+  );
+};
+
 export const SubtabIdentityCardVirtues = () => {
   const { data } = useBackendStrict<IdentityData>();
   const { virtues } = data;
@@ -653,7 +688,11 @@ export const VirtueEntry = (props: { entry: VirtueWithMetadata }) => {
           fluid
           ml={2}
           mt={1}
-          tooltip={choice.tooltip}
+          tooltip={
+            choice.tooltip ? (
+              <Box dangerouslySetInnerHTML={{ __html: choice.tooltip }} />
+            ) : null
+          }
           onClick={() =>
             act('subvirtue', {
               id,

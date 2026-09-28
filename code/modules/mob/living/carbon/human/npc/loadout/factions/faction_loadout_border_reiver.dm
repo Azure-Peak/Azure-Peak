@@ -10,7 +10,7 @@
 
 /datum/npc_archetype/border_reiver/lowgear
 	name = "Border Reiver (Low Gear)"
-	statpack = /datum/npc_statpack/skirmisher/soldier
+	statpack = /datum/npc_statpack/light/t2
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	athletics = SKILL_LEVEL_APPRENTICE
@@ -21,7 +21,7 @@
 
 /datum/npc_archetype/border_reiver/midgear
 	name = "Border Reiver (Mid Gear)"
-	statpack = /datum/npc_statpack/skirmisher/veteran
+	statpack = /datum/npc_statpack/light/t2
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
 	athletics = SKILL_LEVEL_JOURNEYMAN
@@ -34,7 +34,7 @@
 
 /datum/npc_archetype/border_reiver/highgear
 	name = "Border Reiver (High Gear)"
-	statpack = /datum/npc_statpack/skirmisher/champion
+	statpack = /datum/npc_statpack/light/t3
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT

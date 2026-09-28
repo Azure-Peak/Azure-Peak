@@ -12,7 +12,7 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
-	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration)
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
@@ -37,6 +37,7 @@
 	color = "#241a1a"
 	taste_description = "sins of Otava"
 	scent_description = "dark darker yet darker"
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum, /datum/reagent/medicine/healthpot/zarum/bog)
 
 /datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
 	name = "honeyed zarum"
@@ -44,6 +45,7 @@
 	color = "#dd9700"
 	taste_description = "sweet-sour fish-glazed honey"
 	scent_description = "sweet fermented pungence"
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum, /datum/reagent/medicine/healthpot/zarum/blood)
 
 /datum/reagent/medicine/healthpot/zarum
 	name = "zarum"
@@ -56,6 +58,7 @@
 	scent_description = "fermented pungence"
 	taste_mult = 8
 	var/hydration = 4
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum/bog, /datum/reagent/medicine/healthpot/zarum/blood)
 
 /datum/reagent/medicine/healthpot/zarum/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_NOREGEN))

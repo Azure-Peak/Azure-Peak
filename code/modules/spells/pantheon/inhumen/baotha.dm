@@ -178,7 +178,7 @@
 // T1 - polls the caster's mood and vice satiety before giving a buff. as you can tell by the typepath i had an entiurely different idea for this ubt whatever
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve
 	name = "Phentis / Melancholia"
-	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. Every sated vice doubles the duration; every unsated vice doubles every attribute change."
+	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. Every sated vice doubles the duration; every unsated vice doubles every attribute change. This works for up to three vices."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
@@ -194,6 +194,7 @@
 	antimagic_allowed = TRUE
 	miracle = TRUE
 	devotion_cost = 30
+	var/spell_max_vices = 3
 	var/aura_range = 1
 
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve/cast(list/targets, mob/living/carbon/user)
@@ -208,13 +209,17 @@
 
 	var/stat_multiplier = 1
 	var/effect_duration = 45 SECONDS
+	var/vices_covered = 0
 	if(ishuman(user))
 		var/mob/living/carbon/human/human_user = user
 		for(var/datum/charflaw/addiction/vice in human_user.charflaws)
+			if (vices_covered >= spell_max_vices)
+				break
 			if(vice.sated)
 				effect_duration *= 2
 			else
 				stat_multiplier *= 2
+			vices_covered++
 
 	if(is_good_mood)
 		for(var/mob/living/nearby_soul in view(aura_range, user))

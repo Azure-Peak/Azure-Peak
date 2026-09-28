@@ -204,6 +204,9 @@
 /datum/magic_aspect/pseudo/berserker
 	name = "Berserker"
 
+/datum/magic_aspect/pseudo/mistwalker
+	name = "Mistwalker"
+
 GLOBAL_LIST_INIT(magic_aspects_major, init_magic_aspects(ASPECT_MAJOR))
 GLOBAL_LIST_INIT(magic_aspects_minor, init_magic_aspects(ASPECT_MINOR))
 GLOBAL_LIST_INIT(magic_aspect_singletons, init_magic_aspect_singletons())

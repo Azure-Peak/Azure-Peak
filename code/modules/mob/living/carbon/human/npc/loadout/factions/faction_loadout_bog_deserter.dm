@@ -22,7 +22,7 @@
 
 /datum/npc_archetype/bog_deserter/melee
 	name = "Bog Deserter (Melee)"
-	statpack = /datum/npc_statpack/bog_deserter
+	statpack = /datum/npc_statpack/line/t2
 	loadouts = list(
 		/datum/npc_loadout/armor/medium/iron_hauberk,
 		/datum/npc_loadout/kit/deserter_flavor,
@@ -35,19 +35,18 @@
 
 /datum/npc_archetype/bog_deserter/bowman
 	name = "Bog Deserter (Bow)"
-	statpack = /datum/npc_statpack/bog_deserter/bowman
+	statpack = /datum/npc_statpack/marksman/t2
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	loadouts = list(
-		/datum/npc_loadout/armor/light/leather,
-		/datum/npc_loadout/kit/deserter_flavor,
-		/datum/npc_loadout/kit/archer_clothing,
+		/datum/npc_loadout/armor/light/brigandine/deserter,
+		/datum/npc_loadout/kit/deserter_flavor/ranged,
 		/datum/npc_loadout/weapon/deserter_bow,
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
 
 /datum/npc_archetype/bog_deserter/tosser
 	name = "Bog Deserter (Tosser)"
-	statpack = /datum/npc_statpack/bog_deserter
+	statpack = /datum/npc_statpack/line/t2
 	loadouts = list(
 		/datum/npc_loadout/armor/medium/iron_hauberk,
 		/datum/npc_loadout/kit/deserter_flavor,
@@ -58,7 +57,7 @@
 
 /datum/npc_archetype/bog_deserter/tosser/better_gear
 	name = "Bog Deserter (Tosser, Better Gear)"
-	statpack = /datum/npc_statpack/bog_deserter/better_gear
+	statpack = /datum/npc_statpack/line/t3
 	loadouts = list(
 		/datum/npc_loadout/armor/heavy/iron_chain/mixed_plate,
 		/datum/npc_loadout/kit/deserter_flavor,
@@ -68,7 +67,7 @@
 
 /datum/npc_archetype/bog_deserter/better_gear
 	name = "Bog Deserter (Better Gear)"
-	statpack = /datum/npc_statpack/bog_deserter/better_gear
+	statpack = /datum/npc_statpack/line/t3
 	loadouts = list(
 		/datum/npc_loadout/armor/heavy/iron_chain/mixed_plate,
 		/datum/npc_loadout/kit/deserter_flavor,
@@ -84,7 +83,7 @@
 	job = "Bog Marshal"
 	threat_point = THREAT_ELITE
 	body = /datum/npc_body/northern_commoner/soldier/bog_deserter/marshal
-	statpack = /datum/npc_statpack/bog_deserter/better_gear/marshal
+	statpack = /datum/npc_statpack/line/t4
 	traits = list(TRAIT_STEELHEARTED, TRAIT_BADTRAINER)
 	loadouts = list(
 		/datum/npc_loadout/armor/heavy/iron_chain/full_plate,
@@ -99,12 +98,11 @@
 /datum/npc_archetype/bog_deserter/archer
 	name = "Bog Marksman"
 	job = "Bog Marksman"
-	statpack = /datum/npc_statpack/bog_deserter/archer
+	statpack = /datum/npc_statpack/marksman/t2
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_EXPERT)
 	loadouts = list(
-		/datum/npc_loadout/armor/light/leather,
-		/datum/npc_loadout/kit/deserter_flavor,
-		/datum/npc_loadout/kit/archer_clothing,
+		/datum/npc_loadout/armor/light/brigandine/deserter,
+		/datum/npc_loadout/kit/deserter_flavor/ranged,
 		/datum/npc_loadout/weapon/deserter_bow,
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
@@ -112,12 +110,11 @@
 /datum/npc_archetype/bog_deserter/crossbowman
 	name = "Bog Crossbowman"
 	job = "Bog Crossbowman"
-	statpack = /datum/npc_statpack/bog_deserter/crossbowman
+	statpack = /datum/npc_statpack/line/t2
 	skills = list(/datum/skill/combat/crossbows = SKILL_LEVEL_EXPERT)
 	loadouts = list(
-		/datum/npc_loadout/armor/light/leather,
+		/datum/npc_loadout/armor/medium/iron_hauberk,
 		/datum/npc_loadout/kit/deserter_flavor,
-		/datum/npc_loadout/kit/archer_clothing,
 		/datum/npc_loadout/weapon/deserter_crossbow,
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
@@ -133,37 +130,6 @@
 
 /datum/npc_body/northern_commoner/soldier/bog_deserter/marshal/get_head_sellprice()
 	return HEAD_BOUNTY_BIG_GUY
-
-//** STATS **//
-
-/datum/npc_statpack/bog_deserter
-	strength = list(12, 14)
-	speed = 11
-	constitution = 8
-	willpower = 8
-	perception = 11
-	intelligence = 10
-
-/datum/npc_statpack/bog_deserter/bowman
-	strength = list(10, 12)
-
-/datum/npc_statpack/bog_deserter/archer
-	strength = list(10, 12)
-	constitution = 7
-	willpower = 7
-
-/datum/npc_statpack/bog_deserter/crossbowman
-	constitution = 7
-	willpower = 7
-
-/datum/npc_statpack/bog_deserter/better_gear
-	constitution = 10
-	willpower = 10
-
-/datum/npc_statpack/bog_deserter/better_gear/marshal
-	strength = 15
-	constitution = 12
-	willpower = 12
 
 //** FLAVOR **//
 
@@ -193,6 +159,9 @@
 		/obj/item/rogueweapon/scabbard/sword,
 	)
 
+/datum/npc_loadout/kit/deserter_flavor/ranged
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+
 //** WEAPONS **//
 
 /datum/npc_loadout/weapon/deserter_melee
@@ -208,6 +177,7 @@
 		list(/obj/item/rogueweapon/mace/warhammer, /obj/item/rogueweapon/shield/heater),
 		list(/obj/item/rogueweapon/stoneaxe/woodcut),
 		list(/obj/item/rogueweapon/flail, /obj/item/rogueweapon/shield/heater),
+		list(/obj/item/rogueweapon/sword, /obj/item/rogueweapon/shield/heater),
 	)
 
 /datum/npc_loadout/weapon/deserter_bow

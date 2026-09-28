@@ -1098,6 +1098,22 @@ Inquisitorial armory down here
 		active = FALSE
 		playsound(loc, 'sound/items/garroteshut.ogg', 65, TRUE)
 
+/obj/item/inqarticles/garrote/proc/wrap(mob/living/user, mob/living/target)
+	victim = target
+	ADD_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
+	ADD_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
+	ADD_TRAIT(target, TRAIT_GARROTED, TRAIT_GENERIC)
+	ADD_TRAIT(target, TRAIT_MUTE, "garroteCordage")
+	if(target != user)
+		user.start_pulling(target, state = 1, supress_message = TRUE, item_override = src)
+	REMOVE_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
+	REMOVE_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
+	var/obj/item/grabbing/I = user.get_inactive_held_item()
+	if(istype(I, /obj/item/grabbing/))
+		I.icon_state = null
+		currentgrab = I
+	return user.pulling == target
+
 /obj/item/inqarticles/garrote/attack_self(mob/user)
 	if(obj_broken)
 		to_chat(user, span_warning("It's useless now, although.."))
@@ -1181,23 +1197,11 @@ Inquisitorial armory down here
 		if(HAS_TRAIT(target, TRAIT_GARROTED))
 			to_chat(user, span_warning("They already have one wrapped around their throat."))
 			return
-		victim = target
 		playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
-		ADD_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
-		ADD_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
-		ADD_TRAIT(target, TRAIT_GARROTED, TRAIT_GENERIC)
-		ADD_TRAIT(target, TRAIT_MUTE, "garroteCordage")
-		if(target != user)
-			user.start_pulling(target, state = 1, supress_message = TRUE, item_override = src)
+		wrap(user, target)
 		user.visible_message(span_danger("[user] wraps the [src] around [target]'s throat!"))
 		user.stamina_add(25)
 		user.changeNext_move(CLICK_CD_MELEE)
-		REMOVE_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
-		REMOVE_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
-		var/obj/item/grabbing/I = user.get_inactive_held_item()
-		if(istype(I, /obj/item/grabbing/))
-			I.icon_state = null
-			currentgrab = I
 
 	if(istype(user.used_intent, /datum/intent/garrote/choke))	// Get started.
 		if(!victim)

@@ -1008,6 +1008,7 @@
 	set_disgust(0)
 	set_sunder(0)
 	set_nutrition(NUTRITION_LEVEL_FED + 50)
+	set_hydration(HYDRATION_LEVEL_FULL)
 	bodytemperature = BODYTEMP_NORMAL
 	set_blindness(0)
 	set_blurriness(0)
@@ -1019,6 +1020,7 @@
 	cure_paralysis()
 	hallucination = 0
 	heal_overall_damage(INFINITY, INFINITY, INFINITY, null, TRUE) //heal brute and burn dmg on both organic and robotic limbs, and update health right away.
+	energy_add(max_energy)
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(admin_revive)
 			qdel(wound)
