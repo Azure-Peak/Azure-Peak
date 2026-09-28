@@ -745,7 +745,7 @@
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
 	density = FALSE
-	light_outer_range = 3
+	light_outer_range = LIGHT_RANGE_FIRE
 	light_color = LIGHT_COLOR_BLUE
 	var/spawn_time = 10 SECONDS
 	var/obj/spire_type = /obj/structure/crystal_spire

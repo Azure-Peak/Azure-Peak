@@ -39,8 +39,8 @@
 	nodamage = FALSE
 	speed = 0.3
 	flag = "piercing"
-	light_color = "#e74141"
-	light_outer_range = 7
+	light_color = LIGHT_COLOR_BLOOD_MAGIC
+	light_outer_range = LIGHT_RANGE_LAMPTERN + 2
 
 
 /obj/projectile/magic/bloodsteal/on_hit(target, blocked = FALSE)

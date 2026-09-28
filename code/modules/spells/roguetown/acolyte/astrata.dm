@@ -177,13 +177,13 @@
 	movement_type = UNSTOPPABLE
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	light_color = "#a98107"
+	light_color = LIGHT_COLOR_FIRE
 	damage = 50
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3
 	flag = "fire"
-	light_outer_range = 7
+	light_outer_range = LIGHT_RANGE_LAMPTERN + 2
 
 /obj/projectile/magic/sacred_flame/on_hit(target, blocked = FALSE)
 	. = ..()

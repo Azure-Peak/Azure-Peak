@@ -1,12 +1,12 @@
 /obj/effect/temp_visual/telegraph/marker
 	light_color = GLOW_COLOR_EARTHEN
-	light_outer_range = 2
+	light_outer_range = LIGHT_RANGE_FIRE -1
 	duration = 1.5 SECONDS
 
 /obj/effect/temp_visual/stomp
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "phaseout"
-	light_outer_range = 2
+	light_outer_range = LIGHT_RANGE_FIRE -1
 	duration = 5
 	layer = ABOVE_ALL_MOB_LAYER
 

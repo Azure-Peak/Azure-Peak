@@ -193,7 +193,7 @@
 		return
 
 	var/int_bonus = max(user.STAINT - 10, 0)
-	var/mote_power = 5 + FLOOR(int_bonus * 0.3, 1)
+	var/mote_power = LIGHT_RANGE_LAMPTERN + FLOOR(int_bonus * 0.3, 1)
 	mote.set_light_range(mote_power)
 	if(mote.light_system == STATIC_LIGHT)
 		mote.update_light()
@@ -286,8 +286,8 @@
 	name = "minor magelight mote"
 	desc = "A tiny display of arcyne power used to illuminate."
 	pixel_x = 20
-	light_outer_range =	5
-	light_color = "#3FBAFD"
+	light_outer_range =	LIGHT_RANGE_LAMPTERN
+	light_color = LIGHT_COLOR_LIGHT_CYAN
 	light_system = MOVABLE_LIGHT
 
 	icon = 'icons/roguetown/items/lighting.dmi'

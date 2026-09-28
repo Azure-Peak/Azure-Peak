@@ -57,10 +57,10 @@
 	base_state = "densefire"
 	density = FALSE
 	layer = 2.8
-	brightness = 7
+	brightness = LIGHT_RANGE_FIRE + 2
 	fueluse = 10 MINUTES
-	color = "#6ab2ee"
-	bulb_colour = "#6ab2ee"
+	color = LIGHT_COLOR_LIGHT_CYAN
+	bulb_colour = LIGHT_COLOR_LIGHT_CYAN
 	max_integrity = 30
 	var/lifespan = 10 MINUTES
 

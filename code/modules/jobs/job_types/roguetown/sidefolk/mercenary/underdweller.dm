@@ -68,8 +68,8 @@
 	desc = "A rimmed miners helmet reinforced with leather atop its flimsy thin inner steel, its glowing lamp fueled by magiks from the depths."
 	icon_state = "minerslamp"
 	var/on = FALSE
-	light_outer_range = 5	//Same as a lamptern; can't be extinguished either.
-	light_power = 1
+	light_outer_range = LIGHT_RANGE_LAMPTERN	//Same as a lamptern; can't be extinguished either.
+	light_power = LIGHT_POWER_BASE
 	max_integrity = 250		//Slightly better integrity. Just because unique kettle. Plus class doesn't have much going for it traits-wise.
 	light_color = LIGHT_COLOR_ORANGE
 	light_system = MOVABLE_LIGHT

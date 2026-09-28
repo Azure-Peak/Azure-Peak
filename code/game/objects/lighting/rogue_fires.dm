@@ -5,8 +5,8 @@
 	desc = "A solid stone brazier. It's as sturdy as the mountains themselves."
 	icon = 'icons/roguetown/misc/lighting.dmi'
 	icon_state = "stonefire1"
-	bulb_colour = "#ffa35c"
-	brightness = 12
+	bulb_colour = LIGHT_COLOR_FIRE
+	brightness = LIGHT_RANGE_BRAZIER
 	density = TRUE
 //	pixel_y = 10
 	base_state = "stonefire"
@@ -95,7 +95,6 @@
 	crossfire = FALSE
 	max_integrity = 80
 
-
 /obj/machinery/light/rogue/firebowl/standing/blue
 	icon_state = "standingb1"
 	base_state = "standingb"
@@ -133,8 +132,8 @@
 	desc = "A warm fire dances between a pile of half-burnt logs upon a bed of glowing embers."
 	icon_state = "wallfire1"
 	base_state = "wallfire"
-	light_outer_range = 4 //slightly weaker than a torch
-	bulb_colour = "#ffa35c"
+	light_outer_range = LIGHT_RANGE_FIRE + 1
+	bulb_colour = LIGHT_COLOR_FIRE
 	fueluse = 0
 	no_refuel = TRUE
 	crossfire = FALSE
@@ -206,7 +205,7 @@
 	pixel_x = -32
 
 /obj/machinery/light/rogue/candle/blue
-	bulb_colour = "#7b60f3"
+	bulb_colour = LIGHT_COLOR_LAVENDER // Yes, you had been lied.
 	icon_state = "wallcandleb1"
 	base_state = "wallcandleb"
 	desc = "Tiny bluish flames flicker gently like the stars themselves. Mana-infused wax \
@@ -220,8 +219,8 @@
 	pixel_x = -32
 
 /obj/machinery/light/rogue/candle/weak
-	light_power = 0.9
-	light_outer_range =	4
+	light_power = LIGHT_POWER_WEAK
+	light_outer_range =	LIGHT_RANGE_FIRE + 1
 /obj/machinery/light/rogue/candle/weak/l
 	pixel_x = -32
 	pixel_y = 0
@@ -243,22 +242,22 @@
 	base_state = "floorcandlee"
 
 /obj/machinery/light/rogue/candle/floorcandle/pink
-	color = "#f858b5ff"
-	bulb_colour = "#ff13d8ff"
+	color = LIGHT_COLOR_PINK
+	bulb_colour = LIGHT_COLOR_PINK
 
 /obj/machinery/light/rogue/candle/floorcandle/alt/pink
-	color = "#f858b5ff"
-	bulb_colour = "#ff13d8ff"
+	color = LIGHT_COLOR_PINK
+	bulb_colour = LIGHT_COLOR_PINK
 
 /obj/machinery/light/rogue/candle/floorcandle/blue
-	color = "#3E43C7"
-	bulb_colour = "#3E43C7"
+	color = LIGHT_COLOR_DARK_BLUE
+	bulb_colour = LIGHT_COLOR_DARK_BLUE
 
 /obj/machinery/light/rogue/candle/floorcandle/alt/blue
 	icon_state = "floorcandlee1"
 	base_state = "floorcandlee"
-	color = "#3E43C7"
-	bulb_colour = "#3E43C7"
+	color = LIGHT_COLOR_DARK_BLUE
+	bulb_colour = LIGHT_COLOR_DARK_BLUE
 
 /obj/machinery/light/rogue/torchholder
 	name = "sconce"
@@ -267,7 +266,7 @@
 	var/torch_off_state = "torchwall0"
 	base_state = "torchwall"
 	density = FALSE
-	light_outer_range = 5 //same as the held torch, if you put a torch into a sconce, it shouldn't magically become twice as bright, it's inconsistent.
+	light_outer_range = LIGHT_RANGE_TORCH
 	var/obj/item/flashlight/flare/torch/torchy
 	fueluse = FALSE //we use the torch's fuel
 	no_refuel = TRUE
@@ -315,8 +314,6 @@
 	update_icon()
 
 	..(dirin, user)
-
-
 
 /obj/machinery/light/rogue/torchholder/process()
 	if(on)
@@ -405,7 +402,7 @@
 	base_state = "chand"
 	icon = 'icons/roguetown/misc/tallwide.dmi'
 	density = FALSE
-	brightness = 10
+	brightness = LIGHT_RANGE_BRAZIER - 1
 	pixel_x = -10
 	pixel_y = -10
 	layer = 2.0
@@ -421,7 +418,6 @@
 		burn_out()
 		return TRUE //fires that are on always have this interaction with lmb unless its a torch
 	. = ..()
-
 
 /obj/machinery/light/rogue/hearth
 	name = "hearth"
@@ -646,8 +642,8 @@
 	desc = "A portable bronze stovetop. The underside is covered in an esoteric pattern of small tubes. Whatever heats the hob is hidden inside the body of the device"
 	icon_state = "hobostove1"
 	base_state = "hobostove"
-	brightness = 4
-	bulb_colour ="#4ac77e"
+	brightness = LIGHT_RANGE_FIRE + 1
+	bulb_colour = LIGHT_COLOR_BRONZE
 	density = FALSE
 	anchored = TRUE
 	climbable = FALSE
@@ -727,10 +723,10 @@
 	base_state = "badfire"
 	density = FALSE
 	layer = 2.8
-	brightness = 5
+	brightness = LIGHT_RANGE_FIRE + 2
 	on = FALSE
 	fueluse = 15 MINUTES
-	bulb_colour = "#da5e21"
+	bulb_colour = LIGHT_COLOR_FIRE
 	cookonme = TRUE
 	max_integrity = 30
 	soundloop = /datum/looping_sound/fireloop
@@ -931,12 +927,12 @@
 	desc = "A ring of stones offers the fire enough protection from the wind to keep the dark at bay and the body warm."
 	density = TRUE
 	layer = 2.8
-	brightness = 5
+	brightness = LIGHT_RANGE_FIRE + 2
 	climbable = TRUE
 	on = FALSE
 	fueluse = 30 MINUTES
 	pass_flags = LETPASSTHROW
-	bulb_colour = "#eea96a"
+	bulb_colour = LIGHT_COLOR_FIRE
 	max_integrity = 60
 	healing_range = 2
 
@@ -951,13 +947,12 @@
 		return 1
 	return !density
 
-
 /obj/machinery/light/rogue/campfire/pyre
 	name = "pyre"
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	icon_state = "pyre1"
 	base_state = "pyre"
-	brightness = 10
+	brightness = LIGHT_RANGE_BRAZIER
 	fueluse = 30 MINUTES
 	layer = BELOW_MOB_LAYER
 	buckleverb = "crucifie"
@@ -966,7 +961,6 @@
 	dir = NORTH
 	buckle_requires_restraints = 1
 	buckle_prevents_pull = 1
-
 
 /obj/machinery/light/rogue/campfire/pyre/post_buckle_mob(mob/living/M)
 	..()
@@ -979,6 +973,5 @@
 
 /obj/machinery/light/rogue/campfire/longlived
 	fueluse = 180 MINUTES
-
 
 #undef FAN_PROGRESS_BONUS
