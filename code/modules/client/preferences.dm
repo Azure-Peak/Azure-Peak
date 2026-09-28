@@ -122,8 +122,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/crt = FALSE
 	var/grain = TRUE
-	var/dnr_pref = FALSE
 	var/qsr_pref = FALSE
+	var/char_toggles = NONE
 
 	var/list/customizer_entries = list()
 	var/list/list/body_markings = list()

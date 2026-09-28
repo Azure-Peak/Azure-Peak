@@ -1,5 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - qol: "Removes Performer Virtue. Adds the skill increase and the instrument as options of Socialite."
-  - qol: "Adds a new free choice for Socialite. Removes Beautiful by default but adds it as a choice available for the virtue."

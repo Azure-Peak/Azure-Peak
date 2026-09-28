@@ -82,6 +82,7 @@
 #define TRAIT_CRITICAL_WEAKNESS "Critical Weakness"
 #define TRAIT_SHATTER_KILL "Shatterable Form" //Lesser ver of critical weakness that only instantly kills on chest fractures/paralysis. ALSO prevents rolling voicepacks, used for skeletons.
 #define TRAIT_DNR "Bane of Existence"
+#define TRAIT_LASTLEGS "Last Legs" // can only be revived once
 
 #define TRAIT_NOHEAL "Laden Soul" // Only affects magic healing, such as miracle or supernatural heals.
 #define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
@@ -531,6 +532,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
 	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will be crippled if my ribs shatter or die if I am paralyised."),
 	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
+	TRAIT_LASTLEGS = span_danger("My lux is worn. I am not truly unrevivable, not yet; but the next shall be my last."),
 	TRAIT_CLAIMED_BY_DARKSTAR = span_danger("My soul has been trapped inside an assassin's dagger. I will not be able to return to lyfe until the dagger is destroyed..."),
 	TRAIT_MANIAC_AWOKEN = span_danger("I am <b>WAKING UP</b> and the sheeple know this. They will resist."),
 	TRAIT_INFINITE_STAMINA = "I have boundless energy, I will never tire.",

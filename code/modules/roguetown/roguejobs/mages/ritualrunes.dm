@@ -457,7 +457,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 		else
 			to_chat(user, span_notice("You reach across the veil, attempting to draw in the familiar's mind..."))
 		busy = TRUE
-		var/list/candidates = pollCandidatesForMob("Do you want to play as a Mage's familiar? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
+		var/list/candidates = pollCandidatesForMob("Do you want to play as [user] ([user.get_role_title()])'s familiar? You will materialize as [(plane == "infernal" || plane == "elemental")?"an":"a"] [plane] familiar.", null, null, null, 100, S, POLL_IGNORE_MAGE_SUMMON)
 		if(!LAZYLEN(candidates))
 			to_chat(user,span_warning("No candidate players available."))
 			busy = FALSE

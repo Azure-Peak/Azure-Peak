@@ -313,7 +313,10 @@
 	var/static/list/beach_areas = list(
 		/area/rogue/outdoors/beach,
 		/area/rogue/outdoors/beach/north,
-		/area/rogue/outdoors/beach/south
+		/area/rogue/outdoors/beach/south,
+		/area/rogue/outdoors/beach/grim,
+		/area/rogue/outdoors/beach/north/grim,
+		/area/rogue/outdoors/beach/south/grim
 	)
 
 	var/list/water_turfs = list()
