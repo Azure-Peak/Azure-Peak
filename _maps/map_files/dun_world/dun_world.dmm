@@ -3136,14 +3136,6 @@
 "aFv" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/town)
-"aFC" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "borderfall";
-	dir = 1;
-	pixel_y = 3
-	},
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/bath)
 "aFH" = (
 /obj/structure/flora/ausbushes/ywflowers,
 /turf/open/floor/rogue/grass,
@@ -13452,11 +13444,10 @@
 	dir = 4
 	},
 /obj/structure/curtain/magenta,
-/obj/structure/mineral_door/wood/donjon{
-	dir = 8;
+/obj/structure/mineral_door/wood/red{
+	locked = 1;
 	lockid = "nightmaiden";
-	name = "Private Booths";
-	locked = 1
+	name = "Staff Only"
 	},
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
@@ -20225,6 +20216,14 @@
 "dGb" = (
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
+"dGe" = (
+/obj/machinery/light/rogue/candle/floorcandle{
+	pixel_y = -9
+	},
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
+/area/rogue/indoors/town/bath)
 "dGg" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 8
@@ -20466,7 +20465,7 @@
 /obj/structure/mineral_door/wood/red{
 	locked = 1;
 	lockid = "nightmaiden";
-	name = "Private Booths"
+	name = "Debtor's Chamber"
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
@@ -26606,15 +26605,6 @@
 	},
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/bath)
-"eNh" = (
-/obj/structure/curtain/magenta,
-/obj/structure/chair/stool/rogue{
-	pixel_y = 4
-	},
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
-/area/rogue/indoors/town/bath)
 "eNi" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -27747,14 +27737,6 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
-"eXv" = (
-/obj/machinery/light/rogue/candle/blue/r,
-/obj/structure/curtain/magenta,
-/obj/structure/chair/stool/rogue{
-	pixel_y = 4
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/bath)
 "eXx" = (
 /obj/structure/flora/roguegrass/water,
 /turf/open/floor/rogue/dirt/road,
@@ -27853,12 +27835,13 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/underdark/south)
 "eYq" = (
-/obj/structure/closet/crate/roguecloset/dark{
-	keylock = 1;
-	locked = 1;
-	lockid = "nightmaiden";
-	name = "Specialty Harness";
-	pixel_x = -4
+/obj/structure/rack/rogue,
+/obj/item/candle/yellow{
+	pixel_x = -5
+	},
+/obj/item/candle/yellow,
+/obj/item/candle/yellow{
+	pixel_x = 5
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
@@ -45815,6 +45798,22 @@
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/north)
+"igA" = (
+/obj/machinery/light/rogue/candle/floorcandle/alt/pink{
+	pixel_x = 1;
+	pixel_y = -5
+	},
+/obj/effect/decal/cobbleedge{
+	dir = 1;
+	icon_state = "borderfall";
+	pixel_y = 6
+	},
+/obj/structure/fluff/pillow/magenta{
+	dir = 8;
+	pixel_y = -1
+	},
+/turf/open/floor/rogue/churchmarble,
+/area/rogue/indoors/town/bath)
 "igC" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/item/book/rogue/bibble,
@@ -50750,7 +50749,6 @@
 	lockid = "nightmaiden";
 	name = "toy chest"
 	},
-/obj/item/rogueweapon/whip,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "iZv" = (
@@ -50852,10 +50850,9 @@
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/indoors/town/shop)
 "jaS" = (
-/obj/machinery/light/rogue/candle/blue/l,
-/obj/structure/curtain/magenta,
-/obj/structure/chair/stool/rogue{
-	pixel_y = 4
+/obj/structure/pillory{
+	lockid = list("nightmaiden");
+	pixel_y = 6
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
@@ -50983,13 +50980,12 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "jcn" = (
-/obj/structure/chair/stool/rogue{
-	pixel_y = 4
-	},
 /obj/effect/decal/cobbleedge{
 	icon_state = "borderfall";
 	pixel_y = -9
 	},
+/obj/structure/table/wood/folding,
+/obj/item/needle/thorn,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "jcu" = (
@@ -54223,25 +54219,16 @@
 /area/rogue/indoors/town/physician)
 "jDm" = (
 /obj/structure/rack/rogue,
-/obj/item/candle/yellow{
-	pixel_x = -5
-	},
-/obj/item/candle/yellow{
-	pixel_x = 5
-	},
-/obj/item/candle/yellow,
 /obj/item/soap/bath{
 	pixel_x = -10;
 	pixel_y = -7
 	},
-/obj/item/needle/thorn,
 /obj/item/soap/bath{
 	pixel_y = -10
 	},
 /obj/item/soap/bath{
 	pixel_y = -10
 	},
-/obj/effect/spawner/lootdrop/roguetown/dungeon/medical,
 /obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
@@ -60345,10 +60332,6 @@
 /obj/item/clothing/head/roguetown/helmet/tricorn,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/under/cave)
-"kGT" = (
-/obj/structure/curtain/magenta,
-/turf/closed/wall/mineral/rogue/stone/window,
-/area/rogue/indoors/town/bath)
 "kGU" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grassred,
@@ -71595,6 +71578,22 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/town)
+"mxR" = (
+/obj/effect/decal/cobbleedge{
+	icon_state = "borderfall";
+	pixel_y = -9
+	},
+/obj/item/clothing/mask/rogue/sack,
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightmaiden";
+	name = "Specialty Harness";
+	pixel_x = -4
+	},
+/obj/item/rogueweapon/whip,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/bath)
 "mxW" = (
 /obj/structure/flora/roguegrass/herb/taraxacum,
 /turf/open/floor/rogue/grass,
@@ -88816,12 +88815,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
-"pyT" = (
-/obj/structure/stairs/stone{
-	dir = 8
-	},
-/turf/closed/wall/mineral/rogue/decostone/cand,
-/area/rogue/indoors/town/bath)
 "pyU" = (
 /obj/item/natural/stone,
 /turf/open/floor/rogue/cobblerock,
@@ -92585,15 +92578,6 @@
 /obj/machinery/light/rogue/chand,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark/south)
-"qfW" = (
-/obj/machinery/light/rogue/candle/floorcandle/alt/pink{
-	pixel_x = 1;
-	pixel_y = -5
-	},
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
-/area/rogue/indoors/town/bath)
 "qga" = (
 /obj/structure/chair/wood/rogue/chair3{
 	dir = 1
@@ -95992,6 +95976,10 @@
 /obj/structure/fermentation_keg/distiller,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
+"qKl" = (
+/obj/structure/curtain/magenta,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/town/bath)
 "qKm" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/item/clothing/head/roguetown/roguehood/psydon,
@@ -108171,6 +108159,7 @@
 /area/rogue/indoors/inq/embassy)
 "sQL" = (
 /obj/structure/closet/crate/roguecloset/dark,
+/obj/effect/spawner/lootdrop/roguetown/dungeon/medical,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "sQM" = (
@@ -129483,7 +129472,6 @@
 /turf/closed/mineral/rogue/bedrock,
 /area/rogue/under/cave/orcdungeon)
 "wCR" = (
-/obj/structure/table/wood/fancy/red,
 /obj/effect/decal/cobbleedge{
 	icon_state = "borderfall";
 	pixel_y = -9
@@ -156371,7 +156359,7 @@ bhJ
 bhJ
 bhJ
 bhJ
-toJ
+bhJ
 bhJ
 bhJ
 bhJ
@@ -158629,7 +158617,7 @@ rqY
 bhJ
 rqY
 rqY
-pyT
+sYb
 rqY
 rqY
 sYb
@@ -159080,7 +159068,7 @@ rqY
 bhJ
 bhJ
 rqY
-wNn
+igA
 rRY
 pjo
 haH
@@ -170382,13 +170370,13 @@ llU
 huR
 sYb
 vfE
-vfE
-jaS
-kGT
-eNh
+pIi
+nvE
+dGe
+oXG
 sJQ
 wtO
-jcn
+mxR
 nvE
 bhJ
 htN
@@ -170834,12 +170822,12 @@ nhL
 dTE
 sYb
 vfE
-pIi
-rqY
-sYb
-rqY
-qfW
-aFC
+vfE
+qKl
+oXG
+jaS
+sJQ
+wtO
 wCR
 nvE
 bhJ
@@ -171286,10 +171274,10 @@ hxc
 wtO
 wRj
 sQL
-vfE
-eXv
-kGT
-eNh
+pIi
+nvE
+fmT
+oXG
 sJQ
 wtO
 jcn
