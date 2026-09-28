@@ -72344,6 +72344,14 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
+"mEp" = (
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Inn - 3rd Floor"
+	},
+/turf/open/floor/rogue/metal{
+	icon_state = "plating2"
+	},
+/area/rogue/indoors/town/tavern)
 "mEq" = (
 /obj/structure/fluff/statue,
 /turf/open/floor/rogue/concrete,
@@ -79924,7 +79932,9 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/orcdungeon)
 "nZs" = (
-/obj/structure/roguemachine/scomm,
+/obj/structure/roguemachine/scomm{
+	scom_tag = "Arena"
+	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 8
@@ -513492,7 +513502,7 @@ nNn
 ggF
 pvg
 tvR
-qsy
+mEp
 pvg
 tvR
 bwu
