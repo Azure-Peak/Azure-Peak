@@ -84252,6 +84252,7 @@
 	pixel_x = 0;
 	pixel_y = 0
 	})
+	)
 "oKQ" = (
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/tavern)
