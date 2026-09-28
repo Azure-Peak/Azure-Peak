@@ -5413,6 +5413,7 @@
 /area/rogue/indoors/town/church/chapel)
 "bat" = (
 /obj/structure/mineral_door/wood/bath/bathmaid,
+/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "baA" = (
@@ -9478,11 +9479,8 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/forest/hamlet)
 "bLy" = (
-/obj/machinery/light/rogue/candle/floorcandle/alt/pink{
-	pixel_x = -1;
-	pixel_y = -13
-	},
-/turf/open/floor/rogue/tile/harem,
+/obj/structure/roguemachine/bathvend/public,
+/turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/bath)
 "bLC" = (
 /obj/structure/table/wood/poor,
@@ -21067,10 +21065,6 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town)
-"dNL" = (
-/obj/machinery/light/rogue/candle/blue/r,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/bath)
 "dNN" = (
 /turf/closed/wall/mineral/rogue/pipe/joint/four,
 /area/rogue/under/town/sewer)
@@ -27525,19 +27519,6 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/druidsgrove)
-"eUT" = (
-/obj/structure/roguemachine/atm{
-	location_tag = "Bath House Office"
-	},
-/obj/effect/decal/cobbleedge{
-	icon_state = "borderfall";
-	dir = 1;
-	pixel_y = 8
-	},
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
-/area/rogue/indoors/town/bath)
 "eUX" = (
 /obj/structure/chair/wood/rogue{
 	dir = 4
@@ -47438,6 +47419,10 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
+"itP" = (
+/obj/structure/fluff/railing/border,
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town/tavern)
 "itR" = (
 /obj/structure/closet/dirthole/grave,
 /turf/open/floor/rogue/dirt,
@@ -47558,6 +47543,17 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
+"iuP" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/indoors/town/tavern)
 "iuR" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/brflowers,
@@ -51158,17 +51154,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/steward)
-"jdD" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/tavern)
 "jdE" = (
 /obj/item/roguecoin/copper/pile,
 /obj/structure/closet/crate/chest,
@@ -54646,6 +54631,19 @@
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
+"jGO" = (
+/obj/structure/roguemachine/atm{
+	location_tag = "Bath House Office"
+	},
+/obj/effect/decal/cobbleedge{
+	icon_state = "borderfall";
+	dir = 1;
+	pixel_y = 8
+	},
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
+	},
+/area/rogue/indoors/town/bath)
 "jGR" = (
 /obj/structure/closet/crate/coffin,
 /turf/open/floor/rogue/dirt/road,
@@ -67332,17 +67330,6 @@
 /obj/machinery/light/rogue/firebowl/off,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/southeast)
-"lLD" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/tavern)
 "lLE" = (
 /obj/structure/bookcase,
 /obj/item/book/rogue/arcyne,
@@ -70521,15 +70508,12 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/underdark)
 "mnP" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "borderfall";
-	dir = 1;
-	pixel_y = 8
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
 	},
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
-/area/rogue/indoors/town/bath)
+/turf/open/floor/carpet/royalblack,
+/area/rogue/indoors/town/tavern)
 "mnQ" = (
 /obj/structure/stairs,
 /obj/structure/fluff/railing/border/west,
@@ -88821,8 +88805,11 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/exposed/town/keep/unbuildable)
 "pyy" = (
-/obj/structure/fluff/railing/border,
-/turf/open/floor/carpet/royalblack,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
 "pyA" = (
 /obj/effect/decal/cobbleedge{
@@ -95555,6 +95542,10 @@
 /obj/structure/fluff/wallclock,
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town)
+"qGg" = (
+/obj/machinery/light/rogue/candle/blue/r,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/town/bath)
 "qGh" = (
 /obj/structure/roguemachine/scomm{
 	scom_tag = "Wall Tower - South"
@@ -99905,12 +99896,15 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/druidsgrove)
 "ruK" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
+/obj/effect/decal/cobbleedge{
+	icon_state = "borderfall";
+	dir = 1;
+	pixel_y = 8
 	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/tavern)
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
+	},
+/area/rogue/indoors/town/bath)
 "ruM" = (
 /obj/structure/fluff/railing/corner/south_west,
 /obj/effect/decal/edge{
@@ -110766,10 +110760,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
-"tmy" = (
-/obj/structure/roguemachine/bathvend/public,
-/turf/closed/wall/mineral/rogue/decostone/cand,
-/area/rogue/indoors/town/bath)
 "tmz" = (
 /obj/structure/curtain/black{
 	pixel_x = -32
@@ -111700,6 +111690,13 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
+"tvd" = (
+/obj/machinery/light/rogue/candle/floorcandle/alt/pink{
+	pixel_x = -1;
+	pixel_y = -13
+	},
+/turf/open/floor/rogue/tile/harem,
+/area/rogue/indoors/town/bath)
 "tvg" = (
 /obj/structure/bookcase/random/religion,
 /obj/structure/fluff/walldeco/moon{
@@ -116037,13 +116034,6 @@
 /obj/structure/fluff/railing/wood/east,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town)
-"uhm" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/tavern)
 "uhn" = (
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/tavern)
@@ -128491,6 +128481,17 @@
 /obj/structure/bars,
 /turf/open/water/river/flow/east,
 /area/rogue/under/town/sewer)
+"wsp" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 8
+	},
+/turf/open/floor/rogue/ruinedwood/herringbone,
+/area/rogue/indoors/town/tavern)
 "wss" = (
 /obj/machinery/light/rogue/candle,
 /turf/open/transparent/openspace,
@@ -166807,7 +166808,7 @@ naN
 jGd
 brW
 brW
-bLy
+tvd
 sYb
 rqY
 uok
@@ -168154,7 +168155,7 @@ xAJ
 sJQ
 bya
 rgf
-tmy
+bLy
 aOK
 bkJ
 yhL
@@ -168619,7 +168620,7 @@ frw
 bdY
 hyt
 jDm
-dNL
+qGg
 vfE
 eXr
 eqb
@@ -169511,7 +169512,7 @@ uIl
 uIl
 uIl
 nvE
-eUT
+jGO
 klq
 rmA
 hRB
@@ -169963,7 +169964,7 @@ wZa
 naR
 uIl
 djx
-mnP
+ruK
 rmA
 lAT
 hqw
@@ -282518,9 +282519,9 @@ iAf
 pvg
 gvx
 iGY
-jdD
-uhm
-uhm
+wsp
+pyy
+pyy
 lnN
 awF
 awF
@@ -283422,7 +283423,7 @@ tdW
 pvg
 gvx
 iGY
-ruK
+mnP
 xdW
 lbv
 tvR
@@ -283874,7 +283875,7 @@ fxf
 grJ
 pvg
 iGY
-ruK
+mnP
 xdW
 bJd
 hSA
@@ -284326,7 +284327,7 @@ stH
 pvg
 gvx
 iGY
-ruK
+mnP
 oOu
 pvO
 hSA
@@ -284778,8 +284779,8 @@ icb
 pvg
 gvx
 iGY
-ruK
-pyy
+mnP
+itP
 rCS
 hSA
 kWY
@@ -285230,7 +285231,7 @@ brs
 pvg
 gvx
 iGY
-lLD
+iuP
 aTg
 bJK
 tvR
