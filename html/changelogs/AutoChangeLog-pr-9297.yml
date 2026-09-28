@@ -1,0 +1,4 @@
+author: "Traveler319"
+delete-after: True
+changes:
+  - bugfix: "The corset and volf mantle will no longer hide chest or crotch."

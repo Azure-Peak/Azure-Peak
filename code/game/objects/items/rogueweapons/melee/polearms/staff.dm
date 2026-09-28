@@ -12,6 +12,7 @@
 	penfactor = PEN_NONE
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	clickcd = CLICK_CD_CHARGED
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /obj/item/rogueweapon/woodstaff
 	force = 10

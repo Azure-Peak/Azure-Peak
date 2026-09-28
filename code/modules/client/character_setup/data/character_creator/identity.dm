@@ -16,7 +16,6 @@
 		"statpack_name" = statpack.name,
 		"domhand" = domhand,
 		"combat_music" = (combat_music.shortname ? combat_music.shortname : combat_music.name),
-		"dnr_pref" = dnr_pref,
 
 		"favorite_cuisine" = favorite_cuisine,
 		"favorite_dish" = favorite_dish,
@@ -47,6 +46,8 @@
 		"bark_variance" = bark_variance,
 		"min_bark_variance" = null,
 		"max_bark_variance" = null,
+
+		"char_toggles" = list(),
 
 		"virtues" = ui_data_character_creator_identity_virtues(user),
 	)
@@ -94,6 +95,11 @@
 	data["max_bark_pitch"] = B::maxpitch
 	data["min_bark_variance"] = B::minvariance
 	data["max_bark_variance"] = B::maxvariance
+
+	var/list/toggles_data = list()
+	for(var/list/entry as anything in GLOB.char_toggles)
+		UNTYPED_LIST_ADD(toggles_data, entry + list("enabled" = !!(char_toggles & entry["flag"])))
+	data["char_toggles"] = toggles_data
 
 	return data
 

@@ -289,9 +289,9 @@
 	. = ..()
 
 /datum/status_effect/debuff/netted/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
+	. = ..()
+	var/mob/living/carbon/C = owner
+	C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
 
 /datum/status_effect/debuff/netted/on_remove()
 	. = ..()
@@ -572,9 +572,21 @@
 
 /datum/status_effect/debuff/permadeath/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_DNR, id)
+	if(owner.stat != DEAD) //removing DNR if the user is dead means they'll just be able to get rezzed after 10 mins elapse
+		REMOVE_TRAIT(owner, TRAIT_DNR, id)
 	owner.remove_stress(/datum/stressevent/permadeath_threat)
 	owner.add_stress(/datum/stressevent/permadeath_end)
+
+/datum/status_effect/debuff/permadeath/permanent
+	duration = -1
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath/permanent
+
+/datum/status_effect/debuff/permadeath/permanent/on_apply()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_LASTLEGS, null) // no need to have both this AND dnr
+
+/atom/movable/screen/alert/status_effect/debuff/permadeath/permanent
+	desc = "Your heart beats with arrythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again, nothing will be able to bring you back from death's grasp."
 
 /// CONT. DEBUFFS
 /datum/status_effect/debuff/dazed

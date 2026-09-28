@@ -2,11 +2,24 @@
 	desc = ""
 	canSmoothWith = null
 	smooth = SMOOTH_FALSE
+	// roguesmooth() only ever reads cardinal adjacency bits, so this skips calculate_adjacencies()
+	// computing 4 unused diagonal ones - inherited by the whole grass/dirt/snow/cobble family.
+	smooth_diag = FALSE
 	var/smooth_icon = null
 	var/prettifyturf = FALSE
 	icon = 'icons/turf/roguefloor.dmi'
 	baseturfs = list(/turf/open/transparent/openspace)
 	neighborlay = ""
+	/// If set, SSseason ChangeTurf()s this into winter_type during Winter (sibling of water's
+	/// freeze_type). A real type rather than an icon swap, since dirt carries per-instance state
+	/// (mud, blood, a dig hole) a bare icon_state swap can't safely coexist with.
+	var/winter_type
+	/// The reverse of winter_type - set on the Winter form, pointing back to what it thaws to.
+	var/summer_type
+	/// If TRUE, right-clicking this turf with an empty hand scoops up a snowball instead of
+	/// whatever type-specific thing (a dirtclod, nothing) it'd otherwise do. Set on plain snow and
+	/// every Winter-form sibling turf - anything that currently reads as snow underfoot.
+	var/snowy = FALSE
 
 /turf/open/floor/rogue/break_tile()
 	return //unbreakable
@@ -18,6 +31,35 @@
 	if(smooth_icon)
 		icon = smooth_icon
 	. = ..()
+	if(winter_type || summer_type)
+		GLOB.seasonal_icon_turfs |= src
+
+/turf/open/floor/rogue/attack_right(mob/user)
+	if(snowy)
+		pick_up_snowball(user)
+	return ..()
+
+/// Shared by every snowy turf (see the `snowy` var) - gives the user a snowball, same as scooping
+/// up a handful of snow anywhere else. Type-specific attack_right() overrides that also need their
+/// own (non-snowy) behavior call this directly rather than relying on the default above.
+/turf/open/floor/rogue/proc/pick_up_snowball(mob/user)
+	if(!isliving(user))
+		return
+	var/mob/living/L = user
+	if(L.stat != CONSCIOUS)
+		return
+	var/obj/item/I = new /obj/item/natural/snowball(src)
+	if(L.put_in_active_hand(I))
+		L.visible_message(span_warning("[L] picks up some snow."))
+	else
+		qdel(I)
+
+// Harmless no-op if never tracked - keeps SSseason's lists from going stale regardless of type.
+/turf/open/floor/rogue/Destroy()
+	GLOB.seasonal_grass_turfs -= src
+	GLOB.seasonal_water_turfs -= src
+	GLOB.seasonal_icon_turfs -= src
+	return ..()
 
 /turf/open/floor/rogue/ruinedwood
 	icon_state = "wooden_floor"
@@ -240,9 +282,11 @@
 	landsound = 'sound/foley/jumpland/grassland.wav'
 	slowdown = 0
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/turf/open/floor/rogue/snow,)
+	canSmoothWith = list(/turf/open/floor/rogue/snow,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowedge"
 	spread_chance = 0
+	snowy = TRUE
 
 /turf/open/floor/rogue/snow/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -251,22 +295,8 @@
 /turf/open/floor/rogue/snow/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
 
-/turf/open/floor/rogue/snow/attack_right(mob/user)
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.stat != CONSCIOUS)
-			return
-		var/obj/item/I = new /obj/item/natural/dirtclod/snow(src)
-		if(L.put_in_active_hand(I))
-			L.visible_message(span_warning("[L] picks up some snow."))
-			ChangeTurf(/turf/open/floor/rogue/snowpatchy, flags = CHANGETURF_INHERIT_AIR)
-		else
-			qdel(I)
-
-	. = ..()
-
 /turf/open/floor/rogue/snow/attackby(obj/item/C, mob/user, params)
-	if(istype(C, /obj/item/natural/dirtclod/snow))
+	if(istype(C, /obj/item/natural/snowball))
 		for(var/elements in contents)
 			if(!istype(elements, /obj/effect/decal/cleanable/blood/footprints/mud))
 				continue
@@ -299,7 +329,8 @@
 	landsound = 'sound/foley/jumpland/grassland.wav'
 	slowdown = 0
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/turf/open/floor/rogue/snowrough)
+	canSmoothWith = list(/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowroughedge"
 	spread_chance = 0
 
@@ -323,7 +354,8 @@
 	slowdown = 0
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowpatchy_grassedge"
 
 /turf/open/floor/rogue/snowpatchy/cardinal_smooth(adjacencies)
@@ -343,8 +375,11 @@
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water,
+						/turf/open/floor/rogue/grasscold/winter) // one-sided, see dirt/winter
 	neighborlay = "grass_coldedge"
+	winter_type = /turf/open/floor/rogue/grasscold/winter
 
 /turf/open/floor/rogue/grasscold/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -352,6 +387,16 @@
 
 /turf/open/floor/rogue/grasscold/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/// Mapper-placed flavor grass (grassred/grassyel/grasscold) skips SSseason's normal color-cycling
+/// (keeps its own identity year-round) but still gets this Winter-only ChangeTurf() pair, so it
+/// doesn't sit pristine in the middle of a snowed-over map - reverts to its own color come thaw.
+/turf/open/floor/rogue/grasscold/winter
+	icon_state = "snow"
+	neighborlay = "snowedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/grasscold
+	snowy = TRUE
 
 /turf/open/floor/rogue/grassred
 	name = "red grass"
@@ -370,8 +415,9 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough) // one-sided, see dirt/winter
 	neighborlay = "grass_rededge"
+	winter_type = /turf/open/floor/rogue/grassred/winter
 
 /turf/open/floor/rogue/grassred/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -379,6 +425,14 @@
 
 /turf/open/floor/rogue/grassred/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/// See /turf/open/floor/rogue/grasscold/winter for why this exists.
+/turf/open/floor/rogue/grassred/winter
+	icon_state = "snow"
+	neighborlay = "snowedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/grassred
+	snowy = TRUE
 
 /turf/open/floor/rogue/grassyel
 	name = "yellow grass"
@@ -395,8 +449,10 @@
 	canSmoothWith = list(/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/grasscold/winter,) // one-sided, see dirt/winter
 	neighborlay = "grass_yeledge"
+	winter_type = /turf/open/floor/rogue/grassyel/winter
 
 /turf/open/floor/rogue/grassyel/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -404,6 +460,14 @@
 
 /turf/open/floor/rogue/grassyel/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/// See /turf/open/floor/rogue/grasscold/winter for why this exists.
+/turf/open/floor/rogue/grassyel/winter
+	icon_state = "snow"
+	neighborlay = "snowedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/grassyel
+	snowy = TRUE
 
 /turf/open/floor/rogue/grass
 	name = "grass"
@@ -422,7 +486,8 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/frozen_water) // one-sided, see dirt/winter
 	neighborlay = "grassedge"
 
 	spread_chance = 15
@@ -430,8 +495,13 @@
 
 /turf/open/floor/rogue/grass/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
-//	GLOB.dirt_list += src
+	GLOB.seasonal_grass_turfs |= src
 	. = ..()
+	if(!mapload)
+		// Map-loaded turfs get caught by SSseason's own startup sweep - only newly spawned
+		// (runtime) grass needs to catch up immediately. Deferred a tick since ChangeTurf()
+		// destroys and recreates src, which would be unsafe to do from within our own Initialize().
+		addtimer(CALLBACK(SSseason, TYPE_PROC_REF(/datum/controller/subsystem/season, apply_season_to_turf), src), 0)
 
 /turf/open/floor/rogue/grass/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -480,8 +550,10 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/AzureSand)
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/dirt/winter)
 	neighborlay = "dirtedge"
+	winter_type = /turf/open/floor/rogue/dirt/winter
 	var/muddy = FALSE
 	var/bloodiness = 20
 	var/obj/structure/closet/dirthole/holie
@@ -502,6 +574,9 @@
 
 
 /turf/open/floor/rogue/dirt/attack_right(mob/user)
+	if(snowy)
+		pick_up_snowball(user)
+		return ..()
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.stat != CONSCIOUS)
@@ -618,15 +693,45 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/AzureSand,)
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/dirt/road/winter, // one-sided, see dirt/road/winter
+						/turf/open/floor/rogue/dirt/winter)
 	neighborlay = "roadedge"
+	winter_type = /turf/open/floor/rogue/dirt/road/winter
 	slowdown = 0
 
 /turf/open/floor/rogue/dirt/road/attack_right(mob/user)
+	if(snowy)
+		pick_up_snowball(user)
+		return ..()
 	return
 
 /turf/open/floor/rogue/dirt/road/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
+
+/// Real subtype (not an icon swap) so mud/blood/water/dig-hole state on /dirt survives, and
+/// become_muddy()/update_water()'s initial(icon_state) dry-out still lands correctly. Sprite and
+/// edge family match plain snow's exactly, to avoid a jagged seam between two spritesheets.
+///
+/// Left out of its own canSmoothWith (only dirt's list includes this type, not the reverse) so
+/// its snowedge spills onto an adjacent indoor dirt tile instead of both sides drawing a border -
+/// see roguesmooth().
+/turf/open/floor/rogue/dirt/winter
+	name = "snow"
+	desc = "A gentle blanket of snow."
+	icon_state = "snow"
+	neighborlay = "snowedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/dirt
+	snowy = TRUE
+
+/// Same reasoning as dirt/winter, for dirt/road - sprite/edge family is snowrough's instead.
+/turf/open/floor/rogue/dirt/road/winter
+	icon_state = "snowrough"
+	neighborlay = "snowroughedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/dirt/road
+	snowy = TRUE
 
 /turf/open/floor/rogue/sand
 	name = "sand"
@@ -1149,12 +1254,14 @@
 	icon_state = "cobblestone1"
 	name = "cobblestone"
 	desc = "Stone bricks carefully inlaid upon the ground for a more refined and resilient path."
+	layer = MID_TURF_LAYER
 	footstep = FOOTSTEP_STONE
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
 	neighborlay = "cobbleedge"
+	winter_type = /turf/open/floor/rogue/cobble/winter
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/dirt,
 						/turf/open/floor/rogue/grass,
@@ -1164,7 +1271,10 @@
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/snowrough,
-						/turf/open/floor/rogue/AzureSand)
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/cobblerock,
+						/turf/open/floor/rogue/cobble/winter, // one-sided, see dirt/winter
+						/turf/open/floor/rogue/dirt/winter)
 
 /turf/open/floor/rogue/cobble/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1172,6 +1282,17 @@
 /turf/open/floor/rogue/cobble/Initialize(mapload)
 	. = ..()
 	icon_state = "cobblestone[rand(1,3)]"
+
+/// Same subtype-not-icon-swap approach as dirt/winter, kept for one shared SSseason code path.
+/turf/open/floor/rogue/cobble/winter
+	neighborlay = "snowcobbleedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/cobble
+	snowy = TRUE
+
+/turf/open/floor/rogue/cobble/winter/Initialize(mapload)
+	. = ..()
+	icon_state = "snowcobblestone[rand(1,3)]"
 
 /turf/open/floor/rogue/cobble/mossy
 	name = "mossy cobblestone"
@@ -1183,6 +1304,9 @@
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
 	neighborlay = "mossystone_edges"
+	// Overrides the winter_type inherited from /cobble, else this would silently ChangeTurf()
+	// into plain /cobble/winter every Winter, losing its mossy name/desc for the season.
+	winter_type = /turf/open/floor/rogue/cobble/mossy/winter
 	smooth = SMOOTH_TRUE
 	canSmoothWith = list(/turf/open/floor/rogue/dirt,
 						/turf/open/floor/rogue/grass,
@@ -1191,7 +1315,10 @@
 						/turf/open/floor/rogue/grasscold,
 						/turf/open/floor/rogue/snowpatchy,
 						/turf/open/floor/rogue/snow,
-						/turf/open/floor/rogue/snowrough,)
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/cobblerock,
+						/turf/open/floor/rogue/cobble/mossy/winter, // one-sided, see dirt/winter
+						/turf/open/floor/rogue/dirt/winter)
 
 /turf/open/floor/rogue/cobble/mossy/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1200,12 +1327,28 @@
 	. = ..()
 	icon_state = "mossystone[rand(1,3)]"
 
+/// No dedicated "snow-mossy" sprite exists yet, so this reuses plain cobble's snowcobblestone
+/// family rather than leaving mossy cobblestone with no Winter look at all.
+/turf/open/floor/rogue/cobble/mossy/winter
+	neighborlay = "snowcobbleedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/cobble/mossy
+	snowy = TRUE
+
+/turf/open/floor/rogue/cobble/mossy/winter/Initialize(mapload)
+	. = ..()
+	icon_state = "snowcobblestone[rand(1,3)]"
+
 /obj/effect/decal/mossy
 	name = "mossy brick floor"
 	desc = "dirt and moss have crept between the gaps of this stone-brick flooring."
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "mossyedge"
 	mouse_opacity = 0
+	// Reuses cobble's plain snowcobbleedge (no dedicated snow-mossy sprite) - "snowcobbleedge"
+	// not "snowcobblestone_edges" since this decal is a single directional sprite, unlike
+	// /obj/effect/decal/cobble/mossy below.
+	winter_icon_state = "snowcobbleedge"
 
 /obj/effect/decal/cobble/mossy
 	name = "mossy brick floor"
@@ -1213,6 +1356,7 @@
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "mossystone_edges"
 	mouse_opacity = 0
+	winter_icon_state = "snowcobblestone_edges"
 
 /obj/effect/decal/edge
 	name = "stone edge"
@@ -1237,11 +1381,20 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	landsound = 'sound/foley/jumpland/stoneland.wav'
-//	neighborlay = "cobblerock"
-	smooth = SMOOTH_MORE
-	canSmoothWith = list(/turf/open/floor/rogue,
-						/turf/closed/mineral,
-						/turf/closed/wall/mineral)
+	neighborlay = "cobblerockedge"
+	winter_type = /turf/open/floor/rogue/cobblerock/winter
+	smooth = SMOOTH_TRUE
+	canSmoothWith = list(/turf/open/floor/rogue/dirt,
+						/turf/open/floor/rogue/grass,
+						/turf/open/floor/rogue/grassred,
+						/turf/open/floor/rogue/grassyel,
+						/turf/open/floor/rogue/grasscold,
+						/turf/open/floor/rogue/snowpatchy,
+						/turf/open/floor/rogue/snow,
+						/turf/open/floor/rogue/snowrough,
+						/turf/open/floor/rogue/AzureSand,
+						/turf/open/floor/rogue/cobblerock/winter, // one-sided, see dirt/winter
+						/turf/open/floor/rogue/dirt/winter)
 
 /turf/open/floor/rogue/cobblerock/cardinal_smooth(adjacencies)
 	roguesmooth(adjacencies)
@@ -1249,12 +1402,21 @@
 /turf/open/floor/rogue/cobblerock/no_smooth
 	smooth = SMOOTH_FALSE
 
+/// See /turf/open/floor/rogue/dirt/winter for why this is a subtype rather than an icon swap.
+/turf/open/floor/rogue/cobblerock/winter
+	icon_state = "snowcobblerock"
+	neighborlay = "snowcobblerockedge"
+	winter_type = null
+	summer_type = /turf/open/floor/rogue/cobblerock
+	snowy = TRUE
+
 /obj/effect/decal/cobbleedge
 	name = "old cobble path"
 	desc = "Erosion and time have worn this path to half-scattered rocks slowly sinking back into the earth."
 	icon = 'icons/turf/roguefloor.dmi'
 	icon_state = "cobblestone_edges"
 	mouse_opacity = 0
+	winter_icon_state = "snowcobblestone_edges"
 
 /obj/effect/decal/carpet
 	name = "exotic rug"
@@ -1615,3 +1777,147 @@
 		target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
 	turf_destruction("blunt")
 	return
+
+// --- Seasonal ice ------------------------------------------------------------------------
+// SSseason lays these over freezable /turf/open/water in Mid/Late Winter via freeze_over(),
+// which pushes the original water type onto baseturfs - so thaw() is just a ScrapeAway() back
+// to whatever subtype was actually there. Only ice with seasonal_freeze set thaws; anything a
+// mapper places by hand is permanent, mirroring how SSseason ignores mapped grass variants.
+//
+// The depth rule, which is what the sprites encode: water_level 2 freezes solid (ice / light
+// bogice), water_level 3 freezes thin (darkice / dark brownice). Darker and more saturated
+// means more water underneath, means it can give way.
+/turf/open/floor/rogue/frozen_water
+	name = "ice"
+	desc = "The shallows have frozen over, milky and clouded with trapped air."
+	icon_state = "ice"
+	layer = MID_TURF_LAYER
+	footstep = FOOTSTEP_STONE
+	barefootstep = FOOTSTEP_HARD_BAREFOOT
+	clawfootstep = FOOTSTEP_HARD_CLAW
+	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+	landsound = 'sound/foley/jumpland/grassland.wav'
+	slowdown = 0
+	smooth = SMOOTH_TRUE
+	// Deliberately one-directional: snow/snowrough/snowpatchy list frozen_water so snow draws an
+	// ice edge onto itself at the border, but ice doesn't list them back, so it never draws a
+	// snow edge onto itself in turn - two overlapping edge overlays there produced visible
+	// artifacts. grass/grasscold stay listed since that pairing isn't the one that looked wrong.
+	canSmoothWith = list(/turf/open/floor/rogue/frozen_water,
+						/turf/open/floor/rogue/grass,
+						/turf/open/floor/rogue/grasscold,)
+	neighborlay = "ice"
+	/// Set by freeze_over(). Only seasonally-frozen ice thaws again - mapped ice is permanent.
+	var/seasonal_freeze = FALSE
+	/// Ice over water_level 3. Cracks and drops you through.
+	var/thin_ice = FALSE
+	/// Clean ice is slick. Bog crust is not - it's hummocked and rimed, you crunch through it.
+	var/slippery_ice = TRUE
+
+/turf/open/floor/rogue/frozen_water/cardinal_smooth(adjacencies)
+	roguesmooth(adjacencies)
+
+/turf/open/floor/rogue/frozen_water/examine(mob/user)
+	. = ..()
+	if(thin_ice)
+		. += span_warning("It creaks. There is a lot of water under this.")
+
+/turf/open/floor/rogue/frozen_water/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("You can break this ice by using your bare hands, or a tool with Chop intent, on combat mode.")
+
+/// Melts back to whatever water this was laid over. Returns the new turf, or null if this ice
+/// wasn't seasonal (mapper-placed) and shouldn't thaw at all.
+/turf/open/floor/rogue/frozen_water/proc/thaw()
+	if(!seasonal_freeze)
+		return null
+	return ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
+
+/turf/open/floor/rogue/frozen_water/turf_destruction(damage_flag)
+	. = ..()
+	// Drop through to the water on our baseturf stack. Ice mapped straight onto the ground
+	// has nothing underneath to fall into, so leave it be rather than scraping to bedrock.
+	if(length(baseturfs) <= 1)
+		return
+	visible_message(span_danger("[src] splinters and gives way!"))
+	playsound(src, 'sound/foley/waterenter.ogg', 100, FALSE)
+	ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
+
+// Chopping or picking a hole in the ice puts the water back for the rest of the round -
+// SSseason only re-freezes on a season change, so a hole you cut stays a hole. This is what
+// keeps the fisher employed in winter: getfishingloot()'s freshwater list wants a real
+// /turf/open/water underfoot, and the thaw-through leaves exactly the subtype that was there.
+//
+// (axe/chop, sword/chop, dagger/chop/cleaver, etc), not just axes.
+/turf/open/floor/rogue/frozen_water/attackby(obj/item/C, mob/user, params)
+	if(length(baseturfs) > 1 && (user.used_intent?.blade_class == BCLASS_CHOP || istype(user.used_intent, /datum/intent/pick)))
+		playsound(src, 'sound/foley/hit_rock.ogg', 100, TRUE)
+		user.visible_message(span_notice("[user] starts cutting a hole in [src]."), span_notice("I start cutting a hole in [src]."))
+		if(do_after(user, 5 SECONDS, target = src))
+			user.changeNext_move(CLICK_CD_MELEE)
+			turf_destruction("blunt")
+		return
+	. = ..()
+
+/turf/open/floor/rogue/frozen_water/attack_hand(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(length(baseturfs) <= 1)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	user.visible_message(span_notice("[user] starts punching through [src]."), span_notice("I start punching through [src]."))
+	if(do_after(user, 10 SECONDS, target = src))
+		playsound(src, 'sound/foley/hit_rock.ogg', 100, TRUE)
+		turf_destruction("blunt")
+
+/turf/open/floor/rogue/frozen_water/proc/ice_crack()
+	for(var/mob/living/target in contents)
+		target.Knockdown(SHOVE_KNOCKDOWN_HUMAN)
+	turf_destruction("blunt")
+
+/turf/open/floor/rogue/frozen_water/Entered(atom/movable/AM)
+	. = ..()
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/H = AM
+	if(H.is_floor_hazard_immune())
+		return
+	if(HAS_TRAIT(H, TRAIT_LIGHT_STEP) || H.m_intent == MOVE_INTENT_SNEAK)
+		return
+	if(thin_ice && prob(25))
+		to_chat(H, span_warning("The [src] under me begins to crack!"))
+		addtimer(CALLBACK(src, PROC_REF(ice_crack)), 2 SECONDS, TIMER_UNIQUE)
+		return
+	if(slippery_ice && prob(20))
+		var/list/possible_turfs = list()
+		for(var/turf/T in range(1, H))
+			if(T == src || T.density)
+				continue
+			possible_turfs += T
+		if(!length(possible_turfs))
+			return
+		H.forceMove(pick(possible_turfs))
+		to_chat(H, span_warning("I slip on [src]!"))
+
+/turf/open/floor/rogue/frozen_water/deep
+	name = "thin ice"
+	desc = "Dark blue ice over deep water. You can see straight down through it."
+	icon_state = "darkice"
+	neighborlay = "darkice"
+	thin_ice = TRUE
+
+/turf/open/floor/rogue/frozen_water/mire
+	name = "frozen mire"
+	desc = "The bog has set into a rimed, hummocked crust, dead reeds still standing through it."
+	icon_state = "bogice"
+	neighborlay = "bogice"
+	slowdown = 1
+	slippery_ice = FALSE
+
+/turf/open/floor/rogue/frozen_water/mire/deep
+	name = "thin mire crust"
+	desc = "A dark, sodden crust over deep bog. It sags underfoot."
+	icon_state = "brownice"
+	neighborlay = "brownice"
+	thin_ice = TRUE

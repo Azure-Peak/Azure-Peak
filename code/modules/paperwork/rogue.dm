@@ -53,17 +53,19 @@
 	user.update_inv_hands()
 
 /obj/item/paper/scroll/read(mob/user)
-	if(!open)
-		to_chat(user, span_info("Open me."))
-		return
-	if(!user.client || !user.hud_used)
-		return
-	if(!user.hud_used.reads)
-		return
-	if(!user.can_read(src))
-		return
+	var/ghost = isobserver(user)
+	if (!ghost)
+		if(!open)
+			to_chat(user, span_info("Open me."))
+			return
+		if(!user.client || !user.hud_used)
+			return
+		if(!user.hud_used.reads)
+			return
+		if(!user.can_read(src))
+			return
 	/*font-size: 125%;*/
-	if(in_range(user, src) || isobserver(user))
+	if(in_range(user, src) && !ghost)
 		user.hud_used.reads.icon_state = "scroll"
 		user.hud_used.reads.show()
 		user.hud_used.reads.maptext = MAPTEXT_LEGIBLE(info)
@@ -72,8 +74,22 @@
 		user.hud_used.reads.maptext_y = 150
 		user.hud_used.reads.maptext_x = 120
 		onclose(user, "reading", src)
+	else if(ghost)
+		ghost_browse_read(user)
+		onclose(user, "reading", src)
 	else
 		return span_warning("I'm too far away to read it.")
+
+/obj/item/paper/scroll/proc/ghost_browse_read(mob/user)
+	user << browse_rsc('html/book.png')
+	var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+		<html><head><style type=\"text/css\">
+		body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
+	dat += info
+	dat += "<br>"
+	dat += "<a href='?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
+	dat += "</body></html>"
+	user << browse(dat, "window=reading;size=500x400;can_close=1;can_minimize=0;can_maximize=0;can_resize=1;titlebar=0;border=0")
 
 /obj/item/paper/scroll/Initialize(mapload)
 	open = FALSE
@@ -234,13 +250,15 @@
 	var/obj/item/inqarticles/indexer/paired
 
 /obj/item/paper/inqslip/read(mob/user)
-	if(!user.client || !user.hud_used)
-		return
-	if(!user.hud_used.reads)
-		return
-	if(!user.can_read(src))
-		return
-	if(in_range(user, src) || isobserver(user))
+	var/ghost = isobserver(user)
+	if (!ghost)
+		if(!user.client || !user.hud_used)
+			return
+		if(!user.hud_used.reads)
+			return
+		if(!user.can_read(src))
+			return
+	if(in_range(user, src) || ghost)
 		if(waxed)
 			to_chat(user, span_notice("This writ has been signed by [signee.real_name], sealed with redtallow, and can now be mailed back through the Hermes. The Archbishop will be pleased with this one."))
 		if(signed)

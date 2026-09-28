@@ -118,13 +118,18 @@
 	if(!Adjacent(sender))
 		to_chat(sender, span_warning("I moved too far from the statue."))
 		return
+	// wretches always show up as their aliases, whether they sent or received a message
+	var/sender_name = sender.real_name
+
+	if(wretch_status[sender_name])
+		sender_name = (wretch_status[sender_name]["nom_de_guerre"] || sender_name)
 	sender_cooldowns[cooldown_key] = world.time
 	response_id_counter++
 	var/response_id = "adv_[target.real_name]_[world.time]_[response_id_counter]"
 	if(!QDELETED(target) && !QDELETED(sender))
 		pending_direct_responses[response_id] = list("responder" = target, "sender" = sender)
 		addtimer(CALLBACK(src, PROC_REF(expire_direct_response), response_id), response_timeout)
-	to_chat(target, span_boldnotice("The statue whispers in my mind: <i>[message]</i> - [sender.real_name]<br><a href='?src=[REF(src)];direct_response=yae;response_id=[response_id]'>\[YAE\]</a> | <a href='?src=[REF(src)];direct_response=nae;response_id=[response_id]'>\[NAE\]</a>"))
+	to_chat(target, span_boldnotice("The statue whispers in my mind: <i>[message]</i> - [sender_name]<br><a href='?src=[REF(src)];direct_response=yae;response_id=[response_id]'>\[YAE\]</a> | <a href='?src=[REF(src)];direct_response=nae;response_id=[response_id]'>\[NAE\]</a>"))
 	to_chat(sender, span_notice("My message has been sent to [target.real_name]."))
 	playsound(target.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 	sender.log_talk(message, LOG_SAY, tag="adventurer statue (to [key_name(target)])")

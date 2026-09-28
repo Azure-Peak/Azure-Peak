@@ -65,24 +65,37 @@
 	..()
 	H.adjust_blindness(-3)
 	if(should_wear_femme_clothes(H))
-		shirt = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
+		armor = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
 	else if(should_wear_masc_clothes(H))
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/guard
-		pants = /obj/item/clothing/under/roguetown/tights/random
 		armor = /obj/item/clothing/suit/roguetown/shirt/tunic/silktunic
-	shoes = /obj/item/clothing/shoes/roguetown/shortboots
+	head = /obj/item/clothing/head/roguetown/chaperon/noble/steward
+	pants = /obj/item/clothing/under/roguetown/tights/puritan
+	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold
-	belt = /obj/item/storage/belt/rogue/leather/plaquegold/steward
-	beltr = /obj/item/storage/keyring/steward
+	belt = /obj/item/storage/belt/rogue/leather/plaquegold/noble
+	beltr = /obj/item/rogueweapon/scabbard/sheath/royal
 	beltl = /obj/item/storage/belt/rogue/pouch/merchant/coins
-	backr = /obj/item/storage/backpack/rogue/satchel
+	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
+	backr = /obj/item/storage/backpack/rogue/satchel/black
 	id = /obj/item/scomstone
+	if(H.wear_mask) //Sovl Injection
+		if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/eyepatch))
+			qdel(H.wear_mask)
+			mask = /obj/item/clothing/mask/rogue/lordmask
+		if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/eyepatch/left))
+			qdel(H.wear_mask)
+			mask = /obj/item/clothing/mask/rogue/lordmask/l
+	else
+		mask = /obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/appraise/secular)
 	add_verb(H, /mob/living/carbon/human/proc/adjust_taxes)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, //okay, they're like the richest guy that isn't a royal in the realm, they can have a histerically overpriced dagger, sire.
+		/obj/item/storage/keyring/steward = 1,
 		/obj/item/mini_flagpole/steward = 1,
 		/obj/item/clothing/ring/signet = 1,
 		/obj/item/recipe_book/treasury_primer = 1,

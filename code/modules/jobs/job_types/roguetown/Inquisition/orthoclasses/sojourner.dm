@@ -12,6 +12,7 @@
 	category_tags = list(CTAG_ORTHODOXIST)
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
+		TRAIT_BLOOD_RESISTANCE,
 		TRAIT_ARCYNE,
 		TRAIT_NALEDI
 	)

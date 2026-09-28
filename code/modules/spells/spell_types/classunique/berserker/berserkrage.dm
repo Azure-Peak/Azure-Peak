@@ -22,6 +22,7 @@
 	clothes_req = FALSE
 	recharge_time = 1 MINUTES
 	invocations = list("enters a state of furious rage!")
+	overlay_state = "bcry"
 	invocation_type = "emote"
 
 /obj/effect/proc_holder/spell/self/rage/cast(mob/living/carbon/human/user)

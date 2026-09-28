@@ -93,7 +93,13 @@
 		pending_direct_responses[response_id] = list("responder" = target_merc, "sender" = sender)
 		addtimer(CALLBACK(src, PROC_REF(expire_direct_response), response_id), response_timeout)
 
-	to_chat(target_merc, span_boldnotice("The mercenary statue whispers in my mind: <i>[message]</i> - [sender.real_name]<br><a href='?src=[REF(src)];direct_response=yae;response_id=[response_id]'>\[YAE\]</a> | <a href='?src=[REF(src)];direct_response=nae;response_id=[response_id]'>\[NAE\]</a>"))
+	// wretches always show up as their aliases, whether they sent or received a message
+	var/sender_name = sender.real_name
+
+	if(wretch_status[sender_name])
+		sender_name = (wretch_status[sender_name]["nom_de_guerre"] || sender_name)
+
+	to_chat(target_merc, span_boldnotice("The mercenary statue whispers in my mind: <i>[message]</i> - [sender_name]<br><a href='?src=[REF(src)];direct_response=yae;response_id=[response_id]'>\[YAE\]</a> | <a href='?src=[REF(src)];direct_response=nae;response_id=[response_id]'>\[NAE\]</a>"))
 	to_chat(sender, span_notice("My message has been sent to [target_merc.real_name]."))
 	playsound(target_merc.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 
@@ -143,6 +149,12 @@
 	for(var/mob/living/carbon/human/merc in valid_recipients)
 		recipient_keys += key_name(merc)
 
+	// wretches always show up as their aliases, whether they sent or received a message
+	var/sender_name = sender.real_name
+
+	if(wretch_status[sender_name])
+		sender_name = (wretch_status[sender_name]["nom_de_guerre"] || sender_name)
+
 	for(var/mob/living/carbon/human/merc in valid_recipients)
 		response_id_counter++
 		var/response_id = "[merc.real_name]_[world.time]_[response_id_counter]"
@@ -150,7 +162,7 @@
 			pending_broadcast_responses[response_id] = list("responder" = merc, "sender" = sender)
 			addtimer(CALLBACK(src, PROC_REF(expire_broadcast_response), response_id), response_timeout)
 
-		to_chat(merc, span_boldannounce("The mercenary statue calls out: <i>[message]</i> - [sender.real_name]<br><a href='?src=[REF(src)];broadcast_interest=[response_id]'>\[Signal Interest\]</a>"))
+		to_chat(merc, span_boldannounce("The mercenary statue calls out: <i>[message]</i> - [sender_name]<br><a href='?src=[REF(src)];broadcast_interest=[response_id]'>\[Signal Interest\]</a>"))
 		playsound(merc.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 
 	var/merc_count = valid_recipients.len
@@ -169,7 +181,7 @@
 		if(!pending_registrations[H.key])
 			to_chat(usr, span_warning("That registration link has expired."))
 			return
-		if(H.mind?.assigned_role != "Mercenary")
+		if(!role_matches(H, "Mercenary"))
 			to_chat(usr, span_warning("I am no longer a mercenary."))
 			pending_registrations -= H.key
 			return
@@ -206,7 +218,7 @@
 			to_chat(usr, span_warning("I am not registered with the mercenary statue network."))
 			pending_message_links -= H.key
 			return
-		if(H.mind?.assigned_role != "Mercenary")
+		if(!role_matches(H, "Mercenary"))
 			to_chat(usr, span_warning("I am no longer a mercenary."))
 			pending_message_links -= H.key
 			return
@@ -246,16 +258,25 @@
 			pending_broadcast_responses -= response_id
 			return
 
-		if(!responder.mind || responder.mind.assigned_role != "Mercenary")
+		if(!role_matches(responder, "Mercenary"))
 			to_chat(responder, span_warning("I am not a mercenary."))
 			return
 
+		// wretches always show up as their aliases, whether they sent or received a message
+		var/responder_name = responder.real_name
+		var/sender_name = sender.real_name
+
+		if(wretch_status[responder_name])
+			responder_name = (wretch_status[responder_name]["nom_de_guerre"] || responder_name)
+		if(wretch_status[sender_name])
+			sender_name = (wretch_status[sender_name]["nom_de_guerre"] || sender_name)
+
 		pending_broadcast_responses -= response_id
 
-		to_chat(sender, span_notice("[responder.real_name] signaled [responder.p_their()] interest in my missive."))
+		to_chat(sender, span_notice("[responder_name] signaled [responder.p_their()] interest in my missive."))
 		playsound(sender.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 
-		to_chat(responder, span_notice("I signaled my interest to [sender.real_name]."))
+		to_chat(responder, span_notice("I signaled my interest to [sender_name]."))
 		playsound(responder.loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 
 		responder.log_talk("signaled interest", LOG_SAY, tag="mercenary statue broadcast response (to [key_name(sender)])")
@@ -285,14 +306,23 @@
 			pending_direct_responses -= response_id
 			return
 
+		// wretches always show up as their aliases, whether they sent or received a message
+		var/responder_name = responder.real_name
+		var/sender_name = sender.real_name
+
+		if(wretch_status[responder_name])
+			responder_name = (wretch_status[responder_name]["nom_de_guerre"] || responder_name)
+		if(wretch_status[sender_name])
+			sender_name = (wretch_status[sender_name]["nom_de_guerre"] || sender_name)
+
 		pending_direct_responses -= response_id
 
 		if(response_type == "yae")
-			to_chat(sender, span_notice("[responder.real_name] responded in affirmation to my message."))
-			to_chat(responder, span_notice("I responded in affirmation to [sender.real_name]."))
+			to_chat(sender, span_notice("[responder_name] responded in affirmation to my message."))
+			to_chat(responder, span_notice("I responded in affirmation to [sender_name]."))
 		else
-			to_chat(sender, span_notice("[responder.real_name] responded negatively to my message."))
-			to_chat(responder, span_notice("I responded negatively to [sender.real_name]."))
+			to_chat(sender, span_notice("[responder_name] responded negatively to my message."))
+			to_chat(responder, span_notice("I responded negatively to [sender_name]."))
 
 		playsound(sender.loc, 'sound/misc/notice (2).ogg', 100, FALSE, -1)
 		playsound(responder.loc, 'sound/misc/beep.ogg', 100, FALSE, -1)

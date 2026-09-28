@@ -202,7 +202,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	top_examine			= sanitize_bool(top_examine, initial(top_examine))
 	crt					= sanitize_bool(crt, initial(crt))
 	grain				= sanitize_bool(grain, initial(grain))
-	dnr_pref			= sanitize_bool(dnr_pref, initial(dnr_pref))
 	qsr_pref			= sanitize_bool(qsr_pref, initial(qsr_pref))
 	no_storyteller_events = sanitize_bool(no_storyteller_events, initial(no_storyteller_events))
 	verbose_character_creator = sanitize_bool(verbose_character_creator, initial(verbose_character_creator))
@@ -575,7 +574,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_preferences"] >> job_preferences
 	S["job_subprefs"] >> job_subprefs
 
-	S["dnr"] >> dnr_pref
+	S["char_toggles"] >> char_toggles
+	if(isnull(char_toggles))
+		var/legacy_dnr
+		S["dnr"] >> legacy_dnr
+		char_toggles = legacy_dnr ? CHAR_TOGGLE_DNR : NONE
 
 	S["update_mutant_colors"] >> update_mutant_colors
 
@@ -669,6 +672,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	vampire_hair = sanitize_hexcolor(vampire_hair, 6, TRUE, null, TRUE)
 	vampire_ears = sanitize_hexcolor(vampire_ears, 6, TRUE, null, TRUE)
 	highlight_color = sanitize_hexcolor(highlight_color, 6, TRUE, initial(highlight_color))
+
+	char_toggles = sanitize_integer(char_toggles, 0, INFINITY, initial(char_toggles))
 
 	// floats
 	voice_pitch		= sanitize_float(voice_pitch, MIN_VOICE_PITCH, MAX_VOICE_PITCH, 0.01, 1)
@@ -854,7 +859,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["bark_variance"]			, bark_variance)
 	WRITE_FILE(S["mute_barks"]				, mute_barks)
 
-	WRITE_FILE(S["dnr"] , dnr_pref)
+	WRITE_FILE(S["char_toggles"] , char_toggles)
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
 	WRITE_FILE(S["vampire_headshot_link"] , vampire_headshot_link)
