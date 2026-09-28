@@ -98929,15 +98929,22 @@
 /turf/closed/wall/mineral/rogue/wooddark/horizontal,
 /area/rogue/indoors/shelter/woods)
 "rlY" = (
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Bath House - Dorms";
-	pixel_y = 0;
-	pixel_x = 32
+/obj/structure/mineral_door/wood/donjon{
+	dir = 4;
+	locked = 1;
+	lockid = "nightman";
+	name = "bathmaster's office"
 	},
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
+/obj/structure/bars/passage/shutter{
+	redstone_id = "night_escape"
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
+/obj/structure/curtain/magenta{
+	color = "#a1254a";
+	icon_state = "curtain-closed";
+	opacity = 1;
+	open = 0
+	},
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "rma" = (
 /obj/structure/table/wood/poor,
@@ -108372,14 +108379,6 @@
 	},
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/indoors/town/manor)
-"sSb" = (
-/obj/structure/roguemachine/scomm{
-	scom_tag = "Whitevein - Staff Kitchen";
-	pixel_y = 0;
-	pixel_x = -32
-	},
-/turf/open/floor/rogue/tile,
-/area/rogue/indoors/town/bath)
 "sSd" = (
 /obj/structure/table/wood/long_table,
 /obj/item/ration_lootbox,
@@ -138925,24 +138924,6 @@
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
-"yjJ" = (
-/obj/structure/mineral_door/wood/donjon{
-	dir = 4;
-	locked = 1;
-	lockid = "nightman";
-	name = "bathmaster's office"
-	},
-/obj/structure/bars/passage/shutter{
-	redstone_id = "night_escape"
-	},
-/obj/structure/curtain/magenta{
-	color = "#a1254a";
-	icon_state = "curtain-closed";
-	opacity = 1;
-	open = 0
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/bath)
 "yjL" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/transparent/openspace,
@@ -159071,7 +159052,7 @@ mVC
 vHZ
 vHZ
 vHZ
-rlY
+iWU
 sYb
 uEe
 vvL
@@ -160426,7 +160407,7 @@ uom
 hPY
 wRe
 kZY
-sSb
+eKx
 txi
 tsP
 vHZ
@@ -165851,7 +165832,7 @@ vYz
 vYz
 ajQ
 sYb
-yjJ
+rlY
 rqY
 nvE
 nvE
