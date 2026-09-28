@@ -375,7 +375,7 @@
 
 /datum/loadout_item/triumph_plaquegoldenbeltfancy
 	name = "Belt of Plaque, Golden, Fancy"
-	path = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+	path = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
@@ -635,6 +635,13 @@
 	path = /obj/item/enchantingkit/donator_rockhillmaille
 	triumph_cost = 3
 	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_platearmharness
+	name = "Triumph Kit - Plate Arm Harnesses"
+	path = /obj/item/enchantingkit/donator_universal_armharness
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 
 //////////////////
 //	PERFUMES !	//
