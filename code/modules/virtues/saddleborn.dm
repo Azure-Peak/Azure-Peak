@@ -2,7 +2,7 @@
 	name = "Saddleborn"
 	desc = "I am skilled at riding animals of all kinds, and have an especially strong bond with one, allowing me to call it from afar and send it away as needed. Should my treasured companion ever die, my mood will not recover."
 	ui_fa_icon = "horse"
-	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -10 to mood for the rest of the round (cannot be recovered from in any circumstance)."
+	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -5 to mood for the rest of the round (cannot be recovered from in any circumstance)."
 	added_skills = list(list(/datum/skill/misc/riding, 1, SKILL_LEVEL_EXPERT))
 	added_traits = list(TRAIT_EQUESTRIAN)
 
@@ -30,7 +30,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 /datum/stressevent/precious_mob_died
 	timer = INFINITY
-	stressadd = 10
+	stressadd = 5
 	desc = span_red("There will never be another creature like them. They are lost, and so am I.")
 
 /datum/component/precious_creature

@@ -124,10 +124,7 @@
 
 /obj/item/rogueweapon/rmb_self(mob/user, keybind = FALSE)
 	if(has_altgrip_modes() && (keybind || user.cmode))
-		if(wielded && !altgripped)
-			ungrip(user)
 		altgrip(user)
-		user.update_inv_hands()
 		return
 	return ..()
 

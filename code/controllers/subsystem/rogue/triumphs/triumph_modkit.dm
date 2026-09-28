@@ -19,6 +19,7 @@
 		)
 	result_item = null
 	exact_type = TRUE
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_iron
 	name = "'Valorian Iron Armor' morphing elixir"
@@ -29,6 +30,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/iron					= /obj/item/clothing/suit/roguetown/armor/plate/iron/legacy
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_slimmedsteel
 	name = "'Slimfitted Steel Armor' morphing elixir"
@@ -43,6 +45,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate							= /obj/item/clothing/suit/roguetown/armor/plate/triumph_slim
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_heavybrig
 	name = "'Brigandine with Plate' morphing elixir"
@@ -52,6 +55,7 @@
 	)
 	result_item = null
 	exact_type = TRUE
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_drow
 	name = "'Drowcraft Armor' morphing elixir"
@@ -62,6 +66,7 @@
 		)
 	result_item = null
 	exact_type = TRUE
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_axe
 	name = "'Valorian Axe' morphing elixir"
@@ -71,6 +76,8 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut								= /obj/item/rogueweapon/stoneaxe/woodcut/triumph
 		)
 	result_item = null
+	custom_name = TRUE
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_axedouble
 	name = "'Doublehead' morphing elixir"
@@ -85,6 +92,7 @@
 		/obj/item/rogueweapon/stoneaxe/woodcut							= /obj/item/rogueweapon/stoneaxe/woodcut/triumph_doublehead
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_fancymace
 	name = "'Rungu-Shishpar' morphing elixir"
@@ -157,6 +165,7 @@
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Longsword."
 	target_items = list(/obj/item/rogueweapon/sword/long)
 	result_item = /obj/item/rogueweapon/sword/long/triumph
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_agedskullcap
 	name = "'Aged Skull Cap' morphing elixir"
@@ -166,6 +175,7 @@
 		/obj/item/clothing/head/roguetown/helmet/skullcap					= /obj/item/clothing/head/roguetown/helmet/skullcap/old
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_wide
 	name = "'Wideguard' morphing elixir"
@@ -175,6 +185,7 @@
 		/obj/item/rogueweapon/sword/rapier						= /obj/item/rogueweapon/sword/rapier/wideguard
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_sabre
 	name = "'Sabreguard' morphing elixir"
@@ -184,6 +195,7 @@
 		/obj/item/rogueweapon/sword/long							= /obj/item/rogueweapon/sword/long/triumph/sabreguard
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_estoc
 	name = "'Kriegstetcher' morphing elixir"
@@ -193,6 +205,7 @@
 		/obj/item/rogueweapon/estoc							= /obj/item/rogueweapon/estoc/triumph
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_psy
 	name = "'Psycrucifix' morphing elixir"
@@ -203,20 +216,7 @@
 		/obj/item/rogueweapon/sword/long							= /obj/item/rogueweapon/sword/long/triumph/psycrucifix
 		)
 	result_item = null
-
-/obj/item/enchantingkit/sci_flame
-	name = "'Flametongue' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Shamshir."
-	target_items = list(
-		/obj/item/rogueweapon/sword/sabre/shamshir = /obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_flame
-	)
-
-/obj/item/enchantingkit/sci_sand
-	name = "'Sandlash' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Shamshir."
-	target_items = list(
-		/obj/item/rogueweapon/sword/sabre/shamshir = /obj/item/rogueweapon/sword/sabre/shamshir/dono_scidragon_sand
-	)
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_classiciron
 	name = "'Aged Iron Breastplate' morphing elixir"
@@ -224,6 +224,7 @@
 	target_items = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/triumph
 	)
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_classicleather
 	name = "'Classic Leathers' morphing elixir"
@@ -234,6 +235,7 @@
 		/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat		= /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/triumph
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_pleather
 	name = "'Padded Leathers' morphing elixir"
@@ -246,6 +248,7 @@
 		)
 	result_item = null
 	exact_type = TRUE
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_classicdaggers
 	name = "'Classic Daggers' morphing elixir"
@@ -255,7 +258,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger				= /obj/item/rogueweapon/huntingknife/idagger/triumph_classic
 		)
 	result_item = null
-
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_psyswords
 	name = "'Slimguarded Psydonic Longsword' morphing elixir"
@@ -265,6 +268,7 @@
 		/obj/item/rogueweapon/sword/long/psysword			= /obj/item/rogueweapon/sword/long/psysword/triumph_slim
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_transmutekit_armorkinis
 	name = "'Armorkini' transmutation elixir"
@@ -281,6 +285,7 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/full						= /obj/item/clothing/suit/roguetown/armor/plate/full/bikini
 		)
 	result_item = null
+	custom_name = TRUE
 
 //'Skinned' variants. These are less thorough than the 'Replacement' variants, but are cleaner (and lead to a lot less extra instances that can clog up the spawning menu.)
 // Unlike the 'Replacement' variants, these basically just apply a new sprite onto the old item and call it a day. If you need to give custom onmobs to a certain weapon to make it look good, use the former method instead.
@@ -294,6 +299,7 @@
 		/obj/item/rogueweapon/sword/falchion/militia
 		)
 	result_item = /obj/item/rogueweapon/example/valorian_sword
+	custom_name = TRUE
 
 /obj/item/enchantingkit/weapon/triumph_weaponkit_rock
 	name = "'Rockhillian Broadsword' morphing elixir"
@@ -304,6 +310,7 @@
 		/obj/item/rogueweapon/sword/long/exe
 		)
 	result_item = /obj/item/rogueweapon/example/valorian_broadsword
+	custom_name = TRUE
 
 /obj/item/enchantingkit/weapon/triumph_weaponkit_greatval
 	name = "'Valorian Greatsword' morphing elixir"
@@ -315,6 +322,7 @@
 		/obj/item/rogueweapon/greatsword/grenz/flamberge
 		)
 	result_item = /obj/item/rogueweapon/example/valorian_greatsword
+	custom_name = TRUE
 
 /obj/item/enchantingkit/weapon/triumph_weaponkit_kaskara
 	name = "'Kaskara' morphing elixir"
@@ -397,6 +405,7 @@
 		/obj/item/rogueweapon/sword/long,
 		)
 	result_item = /obj/item/rogueweapon/example/clericsword
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_oldhelmets
 	name = "'Valorian Steel Helmet' morphing elixir"
@@ -409,6 +418,7 @@
 		)
 	result_item = null
 	exact_type = TRUE
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_ironoldhelmets
 	name = "'Valorian Iron Helmet' morphing elixir"
@@ -420,6 +430,7 @@
 		/obj/item/clothing/head/roguetown/helmet/kettle/iron					= /obj/item/clothing/head/roguetown/helmet/kettle/iron/legacy
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/craftable_armorkit_slimmedsteel
 	name = "plate-slimming refitter's kit"
@@ -438,6 +449,7 @@
 		)
 	result_item = null
 	exact_type = TRUE
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_armorkit_classicbeakhelm
 	name = "'Valorian Beak Helmet' morphing elixir"
@@ -447,6 +459,7 @@
 		/obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm			= /obj/item/clothing/head/roguetown/helmet/heavy/ravoxhelm/triumph
 		)
 	result_item = null
+	custom_name = TRUE
 
 /obj/item/enchantingkit/triumph_weaponkit_psymace
 	name = "'Classic Psydonic Handmace' morphing elixir"
@@ -456,6 +469,7 @@
 		/obj/item/rogueweapon/mace/cudgel/psy								= /obj/item/rogueweapon/mace/cudgel/psy/triumph_classic
 		)
 	result_item = null
+	custom_name = TRUE
 
 //////////////////////////////
 // TRIUMPH-RESKIN EXAMPLES! //

@@ -206,8 +206,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 	skel_fragile = TRUE
 
 	var/loadout = "sword_shield"
-	var/arcane_scale = 3
-	var/gear_tier = 1
 	var/datum/weakref/summoner_ref
 
 /mob/living/carbon/human/species/skeleton/conjured/Destroy()

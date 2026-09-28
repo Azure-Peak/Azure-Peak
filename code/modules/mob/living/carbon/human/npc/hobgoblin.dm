@@ -44,7 +44,7 @@
 	bodyparts = list(/obj/item/bodypart/chest/hobgoblin, /obj/item/bodypart/head/hobgoblin, /obj/item/bodypart/l_arm/hobgoblin,
 					/obj/item/bodypart/r_arm/hobgoblin, /obj/item/bodypart/r_leg/hobgoblin, /obj/item/bodypart/l_leg/hobgoblin)
 	rot_type = /datum/component/rot/corpse/goblin
-	var/hobgob_outfit = /datum/outfit/job/roguetown/npc/hobgoblin
+	npc_archetype = /datum/npc_archetype/hobgoblin
 	ambushable = FALSE
 	base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	a_intent = INTENT_HELP
@@ -86,7 +86,8 @@
 
 /mob/living/carbon/human/species/hobgoblin/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	if(!npc_archetype)
+		addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 /obj/item/bodypart/head/hobgoblin/skeletonize()
 	. = ..()
@@ -177,86 +178,7 @@
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 	AddComponent(/datum/component/npc_death_line, GLOB.npc_death_lines_goblin, 25)
-	if(hobgob_outfit)
-		var/datum/outfit/O = new hobgob_outfit
-		if(O)
-			equipOutfit(O)
 
-
-//////////////////	OUTFITS	//////////////////
-
-/datum/outfit/job/roguetown/npc/hobgoblin/pre_equip(mob/living/carbon/human/H)
-	..()
-	H.STASTR = 9
-	H.STAINT = 5
-	H.STACON = 10
-	H.STAWIL = 10
-	H.STASPD = 8
-
-	var/loadout = rand(1,10)
-	switch(loadout)
-		if(1) //spear + leathers
-			r_hand = /obj/item/rogueweapon/spear
-			if(prob(50))
-				head = /obj/item/clothing/head/roguetown/helmet/hobgoblin
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(2) //handaxe + leathers
-			r_hand = /obj/item/rogueweapon/stoneaxe/handaxe
-			if(prob(50))
-				head = /obj/item/clothing/head/roguetown/helmet/leather/hobgoblin
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(3) //mace + leathers
-			r_hand = /obj/item/rogueweapon/mace
-			if(prob(50))
-				head = /obj/item/clothing/head/roguetown/helmet/leather/hobgoblin
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(4) //iron messer + leathers
-			r_hand = /obj/item/rogueweapon/sword/short/messer/iron
-			if(prob(15))
-				head = /obj/item/clothing/head/roguetown/helmet/leather/hobgoblin
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(5) //sword & shield
-			r_hand = /obj/item/rogueweapon/sword/short/iron
-			l_hand = /obj/item/rogueweapon/shield/heater
-			if(prob(75))
-				head = /obj/item/clothing/head/roguetown/helmet/hobgoblin
-			else
-				head = /obj/item/clothing/head/roguetown/helmet/leather/hobgoblin
-			if(prob(75))
-				armor =	/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/hobgoblin
-			else
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(6) //warhammer
-			r_hand = /obj/item/rogueweapon/mace/warhammer
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(7) //dual iron daggers
-			r_hand = /obj/item/rogueweapon/huntingknife/idagger
-			l_hand = /obj/item/rogueweapon/huntingknife/idagger
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(8) //brass knuckles + plate
-			gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze
-			armor =	/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/hobgoblin
-		if(9) //spear & shield
-			r_hand = /obj/item/rogueweapon/spear
-			l_hand = /obj/item/rogueweapon/shield/heater
-			if(prob(33))
-				head = /obj/item/clothing/head/roguetown/helmet/leather/hobgoblin
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/hobgoblin
-		if(10) //greatsword + full plate (rare)
-			r_hand = /obj/item/rogueweapon/greatsword/iron
-			head = /obj/item/clothing/head/roguetown/helmet/hobgoblin
-			armor =	/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/hobgoblin
-
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 /mob/living/carbon/human/species/hobgoblin/npc
 	ai_controller = /datum/ai_controller/human_npc

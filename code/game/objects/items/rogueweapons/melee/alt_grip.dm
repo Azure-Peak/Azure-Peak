@@ -317,6 +317,54 @@
 		return
 	onprop.Remove("altgrip")
 
+#define ALTGRIP_SWAP_TIME_MIN (0.25 SECONDS)
+#define ALTGRIP_SWAP_TIME_MAX (1.75 SECONDS)
+
+/obj/item/proc/do_altgrip_swap(mob/living/carbon/user, datum/alt_grip/grip)
+	var/skill_ratio = clamp(grip.grip_wskill(src, user) / SKILL_LEVEL_LEGENDARY, 0, 1)
+	var/delay = ALTGRIP_SWAP_TIME_MAX - (ALTGRIP_SWAP_TIME_MAX - ALTGRIP_SWAP_TIME_MIN) * skill_ratio
+	var/start_index = current_alt_grip_index
+	var/start_wielded = wielded
+	var/list/attack_signals = list(COMSIG_MOB_ITEM_ATTACK, COMSIG_MOB_ATTACK_HAND, COMSIG_MOB_ON_KICK)
+
+	gripswapping = TRUE
+	gripswap_interrupt = FALSE
+	RegisterSignal(user, attack_signals, PROC_REF(on_altgrip_swap_attack))
+
+	var/datum/progressbar/progbar = new(user, delay, user)
+	var/starttime = world.time
+	var/endtime = starttime + delay
+
+	. = TRUE
+	while(world.time < endtime)
+		stoplag(1)
+		if(QDELETED(user) || user.stat >= UNCONSCIOUS)
+			. = FALSE
+			break
+		if(gripswap_interrupt)
+			to_chat(user, span_warning("I attack before I finish shifting my grip on [src]."))
+			user.balloon_alert(user, altgrip_balloon_text("grip shift interrupted!"))
+			. = FALSE
+			break
+		if(user.get_active_held_item() != src || current_alt_grip_index != start_index || wielded != start_wielded)
+			. = FALSE
+			break
+		progbar.update(world.time - starttime)
+
+	UnregisterSignal(user, attack_signals)
+	gripswapping = FALSE
+	gripswap_interrupt = FALSE
+	qdel(progbar)
+
+/obj/item/proc/on_altgrip_swap_attack(mob/living/source)
+	SIGNAL_HANDLER
+	if(source.used_intent?.type == INTENT_HELP)
+		return
+	gripswap_interrupt = TRUE
+
+#undef ALTGRIP_SWAP_TIME_MIN
+#undef ALTGRIP_SWAP_TIME_MAX
+
 
 /datum/alt_grip
 	var/name = "alternate grip"

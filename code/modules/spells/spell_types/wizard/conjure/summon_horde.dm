@@ -27,7 +27,6 @@
 		dest = pick(open)
 	var/mob/living/carbon/human/species/dwarf/gnome/conjured_horde/gnome = new(dest)
 	gnome.summoner_ref = WEAKREF(user)
-	gnome.arcane_scale = clamp(user.get_skill_level(/datum/skill/combat/arcyne), 1, 6)
 	gnome.gear_tier = get_summon_tier(user)
 	gnome.loadout = modes[current_mode]["loadout"]
 	return gnome
@@ -61,7 +60,5 @@
 		dest = pick(open)
 	var/mob/living/carbon/human/species/human/northern/conjured_peasant/peasant = new(dest)
 	peasant.summoner_ref = WEAKREF(user)
-	peasant.arcane_scale = clamp(user.get_skill_level(/datum/skill/combat/arcyne), 1, 6)
-	peasant.gear_tier = get_summon_tier(user)
 	peasant.loadout = modes[current_mode]["loadout"]
 	return peasant
