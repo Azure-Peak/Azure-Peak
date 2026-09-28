@@ -18181,7 +18181,7 @@
 /obj/structure/fluff/traveltile/bathhouse_passage{
 	layer = 5
 	},
-/obj/structure/ladder,
+/obj/structure/decorativeladder,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "doc" = (
@@ -85352,7 +85352,7 @@
 /obj/structure/fluff/traveltile/bathhouse_passage/cave{
 	layer = 5
 	},
-/obj/structure/ladder,
+/obj/structure/decorativeladder,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave)
 "oSL" = (
