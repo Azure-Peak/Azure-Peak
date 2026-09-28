@@ -75144,6 +75144,13 @@
 /obj/item/rogueweapon/hammer/iron,
 /turf/open/floor/rogue/metal,
 /area/rogue/under/underdark/north)
+"ngV" = (
+/obj/structure/plasticflaps{
+	color = "#b89e82";
+	name = "rusted iron bars"
+	},
+/turf/open/floor/rogue/blocks/green,
+/area/rogue/under/town/sewer)
 "ngW" = (
 /obj/effect/decal/remains/human,
 /turf/open/floor/rogue/hay,
@@ -159041,7 +159048,7 @@ sIr
 cqm
 mMx
 mMx
-ylh
+phU
 cqm
 rqY
 mVC
@@ -160393,8 +160400,8 @@ ylh
 nsR
 mmt
 ylh
-cqm
-phU
+ngV
+ylh
 mMx
 cqm
 hyt
@@ -160847,8 +160854,8 @@ mMx
 urZ
 cqm
 tuP
-mMx
-cqm
+oGQ
+hJJ
 uvz
 hjQ
 tIx
@@ -161298,7 +161305,7 @@ ylh
 mMx
 mMx
 wuQ
-oGQ
+mMx
 mMx
 ltb
 iZp
