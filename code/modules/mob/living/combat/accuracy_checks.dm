@@ -2,11 +2,6 @@
 #define PRECISE_ZONE 2
 #define NO_PENALTY_ZONE 3
 #define PRECISE_FACE_ZONE 4
-#define RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE 50 // No matter what max 50% chance to hit
-#define RANGED_MAX_FACE_HIT_CHANCE 30 // No matter what max 30% chance to hit
-#define RANGED_ULTRA_PRECISE_HIT_PENALTY -25 // -25 for you - THEN we clamp.
-#define RANGED_MAX_PRECISE_HIT_CHANCE 75 // No matter what max 75% chance to hit
-#define RANGED_PRECISE_HIT_PENALTY -10 // -10 - THEN we clamp.
 
 /// Shared zone resolution used by melee and weapon specials
 /proc/resolve_aimed_zone(zone, mob/living/user, mob/living/target, accuracy_bonus = 0)
@@ -143,7 +138,7 @@
 /mob/living/proc/show_ranged_accuracy_fail(mob/living/user, aimed_zone, landed_zone, list/roll_out)
 	if(aimed_zone == landed_zone || !isliving(user) || !user.client?.prefs.showrolls)
 		return
-	to_chat(user, span_warning("Accuracy fail! [roll_out?["chance"]]% - hit the [hit_zone_name(landed_zone)] instead."))
+	to_chat(user, span_warning("[roll_out?["double_fail"] ? "Double accuracy fail!" : "Accuracy fail!"] [roll_out?["chance"]]% - hit the [hit_zone_name(landed_zone)] instead."))
 
 // Based on the remaining accuracy of the projectile and the aimed zone, return the zone, precise zone or chest
 /mob/living/proc/bullet_hit_accuracy_check(final_accuracy, def_zone = BODY_ZONE_CHEST, list/roll_out)
@@ -175,22 +170,26 @@
 	if(prob(chance2hit))
 		return def_zone
 	var/parent_zone = check_zone(def_zone)
-	if(parent_zone != def_zone && prob(chance2hit))
-		return parent_zone
+	if(parent_zone != def_zone)
+		if(prob(chance2hit))
+			return parent_zone
+		if(roll_out && parent_zone != BODY_ZONE_CHEST)
+			roll_out["double_fail"] = TRUE
 	return BODY_ZONE_CHEST
 
 /mob/living/proc/get_ranged_aim_window()
 	var/shift = round((STAPER - ARCHER_NPC_AIM_BASELINE) / ARCHER_NPC_AIM_PER_STAT_POINT, 1)
 	return max(ARCHER_NPC_AIM_WINDOW_MIN, ARCHER_NPC_AIM_WINDOW_BASE - shift)
 
-/// aim_stat defaults to Perception, the archery case. Spells pass Intelligence.
-/mob/living/proc/apply_ranged_accuracy(obj/projectile/P, aim_stat)
+/mob/living/proc/apply_ranged_accuracy(obj/projectile/P)
 	if(!P)
 		return
-	if(isnull(aim_stat))
-		aim_stat = STAPER
-	P.accuracy += (aim_stat - 9) * 4
-	P.bonus_accuracy += (aim_stat - 8) * 3
+	P.aim_peak = ACC_RANGED_NPC_BASE
+
+/mob/living/proc/apply_spell_accuracy(obj/projectile/P)
+	if(!P)
+		return
+	P.aim_peak = ACC_RANGED_BASE + ((STAPER - ACC_SPELL_PER_BASELINE) * ACC_SPELL_PER_STEP)
 
 /// aim_stat defaults to Perception, the archery case. Spells pass Intelligence.
 /mob/living/proc/get_ranged_lead_error(moved, aim_stat)
@@ -238,8 +237,3 @@
 #undef PRECISE_ZONE
 #undef NO_PENALTY_ZONE
 #undef PRECISE_FACE_ZONE
-#undef RANGED_MAX_PRECISE_HIT_CHANCE
-#undef RANGED_ULTRA_PRECISE_HIT_PENALTY
-#undef RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE
-#undef RANGED_PRECISE_HIT_PENALTY
-#undef RANGED_MAX_FACE_HIT_CHANCE

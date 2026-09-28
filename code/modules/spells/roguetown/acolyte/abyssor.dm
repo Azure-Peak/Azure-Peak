@@ -147,7 +147,7 @@
 		revert_cast()
 		return FALSE
 
-	var/A = getfishingloot(user, fishingMods, T, 0.5)
+	var/A = getfishingloot(user, fishingMods.Copy(), T, 0.5)
 	if(!A)
 //		to_chat(user, "FAIL: no loot roll")
 		to_chat(user, span_warning("The waters remain still."))
@@ -171,12 +171,14 @@
 	streak++
 //	to_chat(user, "Streak now: [streak]")
 
-	AF.pixel_x = 0
-	AF.pixel_y = 0
-	AF.pixel_z = 0
-
-	spawn(1)
-		abyssor_fish_arc(AF, T, user)
+	if(ispath(A, /mob/living))
+		new /obj/effect/temp_visual/hunting_phantom(T, A, /datum/component/rot/simple/hunt, 3 SECONDS)
+	else
+		AF.pixel_x = 0
+		AF.pixel_y = 0
+		AF.pixel_z = 0
+		spawn(1)
+			abyssor_fish_arc(AF, T, user)
 
 	record_featured_stat(FEATURED_STATS_FISHERS, user)
 	record_round_statistic(STATS_FISH_CAUGHT)
@@ -204,7 +206,7 @@
 
 //		to_chat(user, "do_after success")
 
-		var/A2 = getfishingloot(user, fishingMods, T, 0.5)
+		var/A2 = getfishingloot(user, fishingMods.Copy(), T, 0.5)
 		if(!A2)
 //			to_chat(user, "BREAK: no loot roll")
 			to_chat(user, span_warning("The waters remain still."))
@@ -224,12 +226,14 @@
 		streak++
 //		to_chat(user, "Streak now: [streak]")
 
-		AF2.pixel_x = 0
-		AF2.pixel_y = 0
-		AF2.pixel_z = 0
-
-		spawn(1)
-			abyssor_fish_arc(AF2, T, user)
+		if(ispath(A2, /mob/living))
+			new /obj/effect/temp_visual/hunting_phantom(T, A2, /datum/component/rot/simple/hunt, 2.5 SECONDS)
+		else
+			AF2.pixel_x = 0
+			AF2.pixel_y = 0
+			AF2.pixel_z = 0
+			spawn(1)
+				abyssor_fish_arc(AF2, T, user)
 
 		record_featured_stat(FEATURED_STATS_FISHERS, user)
 		record_round_statistic(STATS_FISH_CAUGHT)

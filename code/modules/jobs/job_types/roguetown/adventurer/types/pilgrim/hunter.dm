@@ -16,11 +16,11 @@
 		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
-		/datum/skill/combat/axes = SKILL_LEVEL_NOVICE,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
@@ -35,6 +35,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
 	)
 	maximum_possible_slots = 20 // Should not fill, just a hack to make it shows what types of towners are in round
 
@@ -49,7 +50,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
 	belt = /obj/item/storage/belt/rogue/leather
-	beltr = /obj/item/flashlight/flare/torch/lantern
+	beltr = /obj/item/rogueweapon/sword/short/messer/hunting/steel/towner
 	r_hand = /obj/item/storage/meatbag
 	backpack_contents = list(
 				/obj/item/flint = 1,
@@ -57,6 +58,7 @@
 				/obj/item/rogueweapon/huntingknife/combat/messser = 1,
 				/obj/item/recipe_book/leatherworking = 1,
 				/obj/item/rogueweapon/scabbard/sheath = 1,
+				/obj/item/flashlight/flare/torch/lantern = 1,
 				/obj/item/hunting_map/white_stag = 1,
 				/obj/item/hunting_map/boars = 1,
 				)
@@ -70,7 +72,7 @@
 		switch(weapon_choice)
 			if("Bow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
-				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/towner
 				beltl = /obj/item/quiver/arrows
 			if("Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
@@ -79,7 +81,7 @@
 
 /datum/advclass/hunter/spear
 	name = "Spear-Hunter"
-	tutorial = "You are a hunter. With your bow you hunt the fauna of the glade, skinning what you kill and cooking any meat left over. The job is dangerous but important in the circulation of clothing and light armor."
+	tutorial = "You are a close-range hunter. With your spear you hunt the fauna of the glade, skinning what you kill and cooking any meat left over. The job is dangerous but important in the circulation of clothing and light armor."
 	outfit = /datum/outfit/job/roguetown/adventurer/hunter_spear
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_MASTERFUL_HUNTER)
 	townie_contract_gate_exempt = TRUE
@@ -94,7 +96,7 @@
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
@@ -109,6 +111,7 @@
 		/datum/skill/misc/tracking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/hunting = SKILL_LEVEL_EXPERT,
+		/datum/skill/labor/lumberjacking = SKILL_LEVEL_NOVICE,
 	)
 
 /datum/outfit/job/roguetown/adventurer/hunter_spear/pre_equip(mob/living/carbon/human/H)
@@ -128,7 +131,7 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/storage/meatbag
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	l_hand = /obj/item/rogueweapon/spear
+	l_hand = /obj/item/rogueweapon/spear/boar
 	backpack_contents = list(
 				/obj/item/flint = 1,
 				/obj/item/bait = 1,

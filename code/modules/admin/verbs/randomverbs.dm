@@ -143,7 +143,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Modify Player Quality") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_world_narrate()
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "Narrate - Global"
 
 	if(!check_rights(R_ADMIN))
@@ -159,7 +159,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Global Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_direct_narrate(mob/M)
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "Narrate - Direct"
 
 	if(!check_rights(R_ADMIN))
@@ -184,7 +184,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Direct Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_local_narrate(atom/A)
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "Narrate - Local"
 
 	if(!check_rights(R_ADMIN))
@@ -464,7 +464,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	log_admin("[key_name(src)] has changed the Central Command name to: [input]")
 
 /client/proc/cmd_admin_delete(atom/A as obj|mob|turf in world)
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set name = "Delete..."
 
 	if(!check_rights(R_SPAWN|R_DEBUG))
@@ -570,7 +570,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 /client/proc/cmd_admin_gib_self()
 	set name = "Gibself"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 
 	var/confirm = alert(src, "You sure?", "Confirm", "Yes", "No")
 	if(confirm == "Yes")
@@ -712,7 +712,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 /client/proc/smite(mob/living/target as mob)
 	set name = "Smite"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	if(!check_rights(R_ADMIN) || !check_rights(R_FUN))
 		return
 	var/static/list/punishment_list = list(

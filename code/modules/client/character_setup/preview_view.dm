@@ -54,6 +54,7 @@
 /atom/movable/screen/map_view/char_preview/display_to_client(client/show_to)
 	show_to.register_map_obj(preview_background)
 	. = ..()
+	INVOKE_ASYNC(src, PROC_REF(jiggle_map))
 
 /atom/movable/screen/map_view/char_preview/Destroy()
 	QDEL_NULL(preview_background)
@@ -98,8 +99,12 @@
 /atom/movable/screen/map_view/char_preview/proc/jiggle_map()
 	var/old_pos = screen_loc
 	sleep(1 TICKS)
+	if(QDELETED(src))
+		return
 	set_position(1, 1, 2, 2)
 	sleep(1 TICKS)
+	if(QDELETED(src))
+		return
 	screen_loc = old_pos
 
 

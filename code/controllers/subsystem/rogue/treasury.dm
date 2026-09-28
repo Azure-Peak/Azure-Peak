@@ -346,6 +346,10 @@ SUBSYSTEM_DEF(treasury)
 			send_ooc_note("<b>MEISTER:</b> Error: The round is ending. No further fines may be levied.", name = target_name)
 			return FALSE
 		var/mob/living/fine_owner = istype(target, /mob/living) ? target : null
+		if(fine_owner && usr && fine_owner == usr)
+			send_ooc_note("<b>MEISTER:</b> Error: You cannot fine yourself.", name = target_name)
+			log_game("FINE REFUSED: [key_name(usr)] attempted to fine themselves [abs(amt)]m via [source || "unknown"]")
+			return FALSE
 		if(fine_owner && is_tax_exempt(fine_owner, TAX_CATEGORY_FINE))
 			record_tax_exemption(TAX_CATEGORY_FINE, abs(amt))
 			send_ooc_note("<b>MEISTER:</b> Error: By decree, they cannot be fined.", name = target_name)

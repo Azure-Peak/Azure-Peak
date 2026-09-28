@@ -2360,7 +2360,7 @@
 	skillcraft = /datum/skill/magic/holy
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/maidband
+/datum/crafting_recipe/roguetown/sewing/valorian_maidband
 	name = "valorian maid headband"
 	result = list(/obj/item/clothing/head/roguetown/maidband)
 	reqs = list(
@@ -2369,7 +2369,7 @@
 	)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/maiddress
+/datum/crafting_recipe/roguetown/sewing/valorian_maiddress
 	name = "valorian maid dress"
 	result = list(/obj/item/clothing/suit/roguetown/shirt/dress/maidfancy)
 	reqs = list(
@@ -2378,7 +2378,7 @@
 	)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/maidapron
+/datum/crafting_recipe/roguetown/sewing/valorian_maidapron
 	name = "valorian maid apron"
 	result = list(/obj/item/clothing/cloak/apron/waist/fancymaid)
 	reqs = list(

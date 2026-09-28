@@ -220,7 +220,7 @@
 	name = "ochre aril"
 	desc = "A blood-red seed that seems to pulse menacingly."
 	icon_state = "ochre"
-	effect_desc = "Return two nearby corpses in view from necra's embrace, at the cost of your own life."
+	effect_desc = "Return two nearby corpses in view from Necra's embrace, at the cost of your own life. This sacrifice must be made by one with Eora in their heart."
 
 /obj/item/reagent_containers/food/snacks/eoran_aril/ochre/apply_effects(mob/living/carbon/eater)
 	if(ishuman(eater))
@@ -229,80 +229,61 @@
 			var/list/mob/living/carbon/human/target_mobs = list()
 
 			for(var/mob/living/carbon/human/target in view(7, H))
-				if(target_mobs.len >= 2)
-					break
-				if(target.stat != DEAD)
-					continue
-				if(!target.mind || !target.mind.active)
-					continue
-				if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
-					continue
-				if(HAS_TRAIT(target, TRAIT_DNR))
-					continue
 				if(target.mob_biotypes & MOB_UNDEAD)
+					continue
+				if(!target.check_revive())
 					continue
 				if(target.has_status_effect(/datum/status_effect/debuff/metabolic_acceleration))
 					continue
 				if(target.has_status_effect(/datum/status_effect/debuff/eoran_wilting))
 					continue
-
 				target_mobs += target
-
-			if(target_mobs.len > 0)
-				H.apply_status_effect(/datum/status_effect/debuff/eoran_wilting)
-				addtimer(CALLBACK(GLOBAL_PROC_REF(process_ochre_revivals), target_mobs), 0)
+			if(length(target_mobs) < 2)
+				to_chat(H, span_warning("The aril vanishes, yet naught stirs. No candidates for revival were nearby."))
+				return
+			to_chat(H, span_warning("I feel a connection forming - my heart feels heavy..."))
+			var/list/yesses = pollCandidates("They are calling for you. Are you ready?", group=target_mobs)
+			if(length(yesses) < 2) // if they're just AFK or something we want the user to be able to try again like with every other revive
+				to_chat(H, span_warning("Their souls are not being released. Perhaps I did not reach them; perhaps they do not wish to be reached."))
+				var/obj/item/reagent_containers/food/snacks/eoran_aril/ochre/refund = new /obj/item/reagent_containers/food/snacks/eoran_aril/ochre(H.drop_location())
+				H.put_in_hands(refund)
+				return
+			for(var/mob/living/carbon/human/revivee in list(yesses[1], yesses[2])) // first come first serve
+				revive_ochre_target(revivee, H)
+			H.apply_status_effect(/datum/status_effect/debuff/eoran_wilting)
 
 	return ..()
 
-/proc/process_ochre_revivals(list/mob/living/carbon/human/targets_to_revive)
-	for(var/mob/living/carbon/human/target in targets_to_revive)
-		continue
-		if(target.stat != DEAD)
-			continue
-
-		INVOKE_ASYNC(GLOBAL_PROC_REF(revive_ochre_target), target)
-
-/proc/revive_ochre_target(mob/living/carbon/human/target)
-	to_world(span_userdanger("ATTEMPTING REVIVAL FOR [target]"))
+/proc/revive_ochre_target(mob/living/carbon/human/target, mob/living/carbon/human/user)
 	if(QDELETED(target) || target.stat != DEAD)
 		return FALSE
 
+	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
+	if(!target.revive(full_heal = FALSE))
+		to_chat(user, span_warning("Nothing happens."))
+		return FALSE
 	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-
-	if (target.client)
-		if (alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
-	else if (underworld_spirit && underworld_spirit.client)
-		if (alert(underworld_spirit, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-			target.visible_message(span_notice("Nothing happens. They are not being let go."))
-			return FALSE
-	else
-		target.visible_message(span_notice("The body shudders, but there's no one to call out to."))
-		return FALSE
-
-	// Perform revival
-	target.adjustOxyLoss(-target.getOxyLoss())
-	if(target.revive(full_heal = FALSE))
-		// Transfer ghost back to body (if they were ghosted)
-		if(underworld_spirit && underworld_spirit.mind) // Ensure spirit exists and has a mind
-			underworld_spirit.mind.transfer_to(target, TRUE) // Transfer mind back to the revived body
-			qdel(underworld_spirit) // Delete the spirit mob
-		else
-			target.grab_ghost(force = TRUE) // This attempts to grab a ghost even if they committed suicide.
-
-		target.emote("breathgasp")
-		target.Jitter(100)
-		target.update_body()
-		target.visible_message(span_notice("[target] is revived by divine magic!"), span_green("I awake from the void."))
-
+	//GET OVER HERE!
+	if(underworld_spirit)
+		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
+		qdel(underworld_spirit)
+		ghost.mind.transfer_to(target, TRUE)
+	target.grab_ghost(force = TRUE) // even suicides
+	target.emote("breathgasp")
+	target.Jitter(100)
+	target.update_body()
+	target.visible_message(span_notice("[target] is revived by divine magic!"), span_green("I awake from the void."))
+	if(!HAS_TRAIT(target, TRAIT_IWASREVIVED) && user?.ckey)
+		adjust_playerquality(PQ_GAIN_REVIVE, user.ckey)
 		ADD_TRAIT(target, TRAIT_IWASREVIVED, "ochre_aril")
-		target.apply_status_effect(/datum/status_effect/debuff/metabolic_acceleration)
-		target.mind.remove_antag_datum(/datum/antagonist/zombie)
-		return TRUE
-	else
-		target.visible_message(span_warning("The magic falters, and nothing happens."))
-		return FALSE
+	target.apply_status_effect(/datum/status_effect/debuff/metabolic_acceleration)
+	target.mind.remove_antag_datum(/datum/antagonist/zombie)
+	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)	//Removes the rotted-zombie debuff if they have it - Failsafe for it.
+	target.apply_status_effect(/datum/status_effect/debuff/revived)	//Temp debuff on revive, your stats get hit temporarily. Doubly so if having rotted.
+	//Due to an increased cost and cooldown, these revival types heal quite a bit.
+	target.apply_status_effect(/datum/status_effect/buff/healing, 14)
+	addtimer(CALLBACK(target, GLOBAL_PROC_REF(deathmark), target), 5 MINUTES)
+	return TRUE
 
 //For now this is just artifical lux. But this may make the user/receiver indebted to eora eventually.
 //This is meant to be given guaranteed with T4 pommes for priests but given we don't have eoran priests yet I will implement this when we do.

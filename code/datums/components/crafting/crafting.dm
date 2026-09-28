@@ -522,6 +522,11 @@
 				var/atom/movable/I
 				while(amt > 0)
 					I = locate(A) in surroundings
+					if(!I)
+						break
+					if(R.blacklist.Find(I.type))
+						surroundings -= I
+						continue
 					Deletion += I
 					surroundings -= I
 					amt--

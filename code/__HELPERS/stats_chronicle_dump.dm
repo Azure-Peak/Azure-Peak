@@ -231,7 +231,8 @@
 	out += chronicle_kv("Taken (total / pool / rumor / def)", "[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]] / [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_POOL]] / [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_RUMOR]] / [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_DEFENSE]]")
 	out += chronicle_kv("Completed (total / pool / rumor / def)", "[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]] / [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_POOL]] / [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_RUMOR]] / [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE]]")
 	out += chronicle_kv("Abandoned / Rerolled", "[GLOB.azure_round_stats[STATS_CONTRACTS_ABANDONED]] / [GLOB.azure_round_stats[STATS_CONTRACTS_REROLLED]]")
-	out += chronicle_kv("Mammons paid / taxed / forfeited", "[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_PAID]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_TAXED]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_FORFEITED]]")
+	out += chronicle_kv("Lapsed & refunded / Withdrawn", "[GLOB.azure_round_stats[STATS_CONTRACTS_LAPSE_REFUNDED]] / [GLOB.azure_round_stats[STATS_CONTRACTS_WITHDRAWN]]")
+	out += chronicle_kv("Mammons paid / taxed / forfeited / refunded", "[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_PAID]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_TAXED]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_FORFEITED]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_REFUNDED]]")
 	out += "\n"
 	return jointext(out, "")
 

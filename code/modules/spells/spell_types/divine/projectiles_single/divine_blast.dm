@@ -12,9 +12,9 @@
 	cast_range = SPELL_RANGE_PROJECTILE
 
 	primary_resource_type = SPELL_COST_DEVOTION
-	primary_resource_cost = 25
+	primary_resource_cost = SPELLCOST_MIRACLE
 	secondary_resource_type = SPELL_COST_ENERGY
-	secondary_resource_cost = 75
+	secondary_resource_cost = SPELLCOST_MINOR_SKILL
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
 	charge_time = CHARGETIME_MINOR + (0.25 SECONDS)
@@ -23,7 +23,7 @@
 	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_sound = 'sound/magic/charging.ogg'
 
-	cooldown_time = 10 SECONDS
+	cooldown_time = 15 SECONDS
 	associated_skill = /datum/skill/magic/holy
 	spell_impact_intensity = SPELL_IMPACT_LOW
 	spell_requirements = SPELL_REQUIRES_HUMAN
@@ -130,7 +130,7 @@
 		return
 	L.visible_message(span_divine("--Divine Smite!!"))
 	var/godless = !L.mind
-	var/fire_stacks = godless ? 10 : 5
+	var/fire_stacks = godless ? 4 : 2
 	if(godless)
 		if(iscarbon(L))
 			L.emote("superagony")

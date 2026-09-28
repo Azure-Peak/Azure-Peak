@@ -74,7 +74,7 @@
 
 /obj/item/reagent_containers/glass/bucket/pot/aalloy
 	name = "decrepit pot"
-	desc = "A kettle of wrought bronze. One could only imagine what the stews of millenia prior must've tasted like; do you suppose they knew of seasonings-and-spices, too?"
+	desc = "A kettle of rotted metal. One could only imagine what the stews of millenia prior must've tasted like; do you suppose they knew of seasonings-and-spices, too?"
 	icon_state = "apote"
 	volume = 120
 	color = "#bb9696"

@@ -1,4 +1,0 @@
-author: "zRainbowcat"
-delete-after: True
-changes:
-  - bugfix: "fixed nodrop items from conjured summons"

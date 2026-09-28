@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - bugfix: "Removes the ability from Bats and Zads (crows) to go through bars, while leaving their ability to go thrrough people and windows unnafected. Rous (rats) forms are unnafected, and can still go through bars as usual, as they dont have a flying ability like the aforementioned forms do."

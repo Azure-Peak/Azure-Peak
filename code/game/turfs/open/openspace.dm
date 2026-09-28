@@ -30,6 +30,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	dynamic_lighting = 1
 	canSmoothWith = list(/turf/closed/mineral,/turf/closed/wall/mineral/rogue, /turf/open/floor/rogue)
 	smooth = SMOOTH_MORE
+	// cardinal_smooth()/roguesmooth() only ever reads cardinal adjacency bits - see the same note
+	// on /turf/open/floor/rogue.
+	smooth_diag = FALSE
 	neighborlay_override = "staticedge"
 
 /turf/open/transparent/openspace/cardinal_smooth(adjacencies)

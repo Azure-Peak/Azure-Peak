@@ -15,6 +15,7 @@
 	cooked_smell = /datum/pollutant/food/fried_meat
 	var/fresh_meat = FALSE
 	become_rot_type = /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
+	materia = list(/datum/materia_aspect/animal)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
 	eat_effect = /datum/status_effect/debuff/rotfood
@@ -24,6 +25,7 @@
 	of stomachs."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
 	icon_state = "meat_rotten"
+	materia = list(/datum/materia_aspect/change)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten/Initialize(mapload)
 	. = ..()

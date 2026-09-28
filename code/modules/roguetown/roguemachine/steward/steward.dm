@@ -168,6 +168,10 @@
 			say("Only the Steward, Clerk, or Ruler may levy fines.")
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
+		if(X == usr)
+			say("You cannot fine yourself.")
+			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
+			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
 				var/max_fine = SStreasury.get_max_fine_for(A)

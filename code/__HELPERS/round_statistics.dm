@@ -254,6 +254,9 @@
 #define STATS_CONTRACT_MAMMONS_PAID "contract_mammons_paid"
 #define STATS_CONTRACT_MAMMONS_TAXED "contract_mammons_taxed"
 #define STATS_CONTRACT_MAMMONS_FORFEITED "contract_mammons_forfeited"
+#define STATS_CONTRACTS_LAPSE_REFUNDED "contracts_lapse_refunded"
+#define STATS_CONTRACTS_WITHDRAWN "contracts_withdrawn"
+#define STATS_CONTRACT_MAMMONS_REFUNDED "contract_mammons_refunded"
 /// Source-split contract stats. Aggregates above keep incrementing; these ones split by Q.source.
 #define STATS_CONTRACTS_GENERATED_POOL "contracts_generated_pool"
 #define STATS_CONTRACTS_GENERATED_RUMOR "contracts_generated_rumor"

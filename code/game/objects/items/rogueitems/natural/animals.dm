@@ -11,6 +11,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sellprice = 8
 	dropshrink = 0.9
+	materia = list(/datum/materia_aspect/animal)
 
 /obj/item/natural/hide/get_mechanics_examine(mob/user)
 	. = ..()
@@ -163,6 +164,7 @@
 	gripped_intents = null
 	slot_flags = ITEM_SLOT_MOUTH|ITEM_SLOT_HIP
 	bundletype = /obj/item/natural/bundle/bone
+	materia = list(/datum/materia_aspect/death)
 
 /obj/item/natural/bone/Initialize(mapload)
 	. = ..()

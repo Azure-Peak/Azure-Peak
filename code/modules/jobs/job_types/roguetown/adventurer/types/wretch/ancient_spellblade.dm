@@ -50,14 +50,8 @@
 
 	H.become_skeleton()
 	H.can_do_sex = FALSE
+	change_origin(H, /datum/virtue/origin/unselectable/skeleton, "Legion")
 
-	//no swift intent
-	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
-	/datum/rmb_intent/aimed,\
-	/datum/rmb_intent/riposte,\
-	/datum/rmb_intent/strong,\
-	/datum/rmb_intent/weak)
-	H.swap_rmb_intent(num=1)
 
 	// Skeleton antag datum + patron (matching greater_skeleton setup)
 	H.set_patron(/datum/patron/inhumen/zizo)

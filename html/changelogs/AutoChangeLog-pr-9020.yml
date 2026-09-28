@@ -1,6 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - balance: "all assassin classes have received a passover. ranger (now headhunter) is less stupidly powerful, hitman (now snickersnacker) is now more glass-cannon melee. poisoner is now able to actually fake being a doctor better. please check out their adv-class previews for more info."
-  - bugfix: "corroded dagger sheathe icon is fixed"
-  - code_imp: "moved main assassin.dm into the assassin folder."

@@ -4,6 +4,7 @@ import {
   NumberInput,
   Section,
   Stack,
+  Tooltip,
 } from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
@@ -12,11 +13,13 @@ import {
   NATIVE_FACTION_LABEL,
   NATIVE_FACTION_VALUE,
   toTitle,
+  VIEW_WARBAND,
 } from './types';
 
 export function ActionStrip() {
   const { act, data } = useBackend<GameMasterData>();
   const {
+    selected_view,
     selected_faction,
     spawn_count,
     spawn_ai,
@@ -24,9 +27,12 @@ export function ActionStrip() {
     spawn_dust,
     spawn_dust_leave_head,
     spawn_dust_delete_gear,
+    spawn_spread,
     spawn_click_intercept,
     spawn_factions = [],
   } = data;
+
+  const warband = selected_view === VIEW_WARBAND;
 
   const factionOptions = [
     { value: NATIVE_FACTION_VALUE, displayText: NATIVE_FACTION_LABEL },
@@ -39,16 +45,20 @@ export function ActionStrip() {
         <Stack.Item>
           <Stack align="center">
             <Stack.Item>
-              <NumberInput
-                width="3.5rem"
-                minValue={1}
-                maxValue={10}
-                step={1}
-                value={spawn_count}
-                onChange={(value) => {
-                  act('set_spawn_count', { value });
-                }}
-              />
+              <Tooltip
+                content={warband ? 'Warbands per click' : 'Creatures per click'}
+              >
+                <NumberInput
+                  width="3.5rem"
+                  minValue={1}
+                  maxValue={10}
+                  step={1}
+                  value={spawn_count}
+                  onChange={(value) => {
+                    act('set_spawn_count', { value });
+                  }}
+                />
+              </Tooltip>
             </Stack.Item>
             <Stack.Item>
               <Button.Checkbox
@@ -85,6 +95,20 @@ export function ActionStrip() {
                 Dust
               </Button.Checkbox>
             </Stack.Item>
+            {warband && (
+              <Stack.Item>
+                <Button.Checkbox
+                  compact
+                  checked={spawn_spread}
+                  tooltip="Scatter members over nearby open tiles"
+                  onClick={() => {
+                    act('toggle_spawn_spread');
+                  }}
+                >
+                  Spread
+                </Button.Checkbox>
+              </Stack.Item>
+            )}
             {!!spawn_dust && (
               <>
                 <Stack.Item>

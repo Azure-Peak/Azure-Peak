@@ -8,9 +8,11 @@
 	implement_refund = IMPLEMENT_REFUND_LESSER
 	resistance_flags = FIRE_PROOF
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/bash/staff, /datum/intent/mace/smash/wood/ranged)
+	gripped_intents = list(/datum/intent/spear/bash/staff, /datum/intent/mace/smash/wood)
 	force = 10
 	force_wielded = 20
+	wdefense = 5
+	wdefense_wbonus = 5 // 80% vs one-skill-up matchup. 60% vs two-skill-up matchup. (Rare)
 	max_integrity = 200
 	special = /datum/special_intent/quarterstaff_sweep
 	sellprice = 34

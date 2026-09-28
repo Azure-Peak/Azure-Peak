@@ -54,11 +54,11 @@
 		if("custom_descriptor_content")
 			var/index = text2num(params["index"])
 			var/datum/custom_descriptor_entry/custom_entry = custom_descriptors[index]
-			var/new_content = tgui_input_text(user, "Describe the feature", "Describe myself", custom_entry.content_text, max_length = CUSTOM_DESCRIPTOR_TEXT_LENGTH)
+			var/new_content = tgui_input_text(user, "Describe the feature", "Describe myself", custom_entry.content_text, max_length = CUSTOM_DESCRIPTOR_TEXT_LENGTH, encode = FALSE)
 			if(!new_content)
 				return CHARACTER_ACT_DATA_UPDATE
 
-			new_content = STRIP_HTML_SIMPLE(LOWER_TEXT(new_content), CUSTOM_DESCRIPTOR_TEXT_LENGTH)
+			new_content = STRIP_HTML_SIMPLE(LOWER_TEXT(new_content), PREVENT_CHARACTER_TRIM_LOSS(CUSTOM_DESCRIPTOR_TEXT_LENGTH))
 			custom_entry.content_text = new_content
 			verbose_pref_log_notification(user, "notice", "Custom Descriptor changed to \"[new_content]\"")
 			return CHARACTER_ACT_DATA_UPDATE

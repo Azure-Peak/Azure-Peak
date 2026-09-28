@@ -1146,11 +1146,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/patron = length(projects) ? capitalize(pick(projects)) : "A patron"
 	switch(rolled_tier)
 		if("superior")
-			return "[patron] at [region.name] commissions superior enchantment scrolls - fulfilled at the warehouse, any scrolls will serve."
+			return "[patron] at [region.name] commissions superior enchantment tinctures - fulfilled at the warehouse, any tinctures will serve."
 		if("greater")
-			return "[patron] at [region.name] commissions greater enchantment scrolls - fulfilled at the warehouse - any types will serve."
+			return "[patron] at [region.name] commissions greater enchantment tinctures - fulfilled at the warehouse - any types will serve."
 		else
-			return "[patron] at [region.name] commissions basic enchantment scrolls - any school of magic, sealed at the warehouse."
+			return "[patron] at [region.name] commissions basic enchantment tinctures - any school of magic, sealed at the warehouse."
 
 
 /datum/standing_order/demand_trophy_heads

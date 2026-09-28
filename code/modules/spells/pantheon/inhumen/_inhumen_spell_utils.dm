@@ -185,9 +185,10 @@
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
+		ADD_TRAIT(user, TRAIT_WARLOCK, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
 		ADD_TRAIT(user, TRAIT_NOWW, "[type]")
-		grant_poke_spell(user)
+		grant_poke_spell_zizo(user)
 
 	user.visible_message(
 		span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"),
@@ -212,6 +213,7 @@
 	ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]")
 	ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
 	ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+	ADD_TRAIT(user, TRAIT_WARLOCK, "[type]")
 	ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 
 	for(var/obj/item/bodypart/part in user.bodyparts)
@@ -242,7 +244,7 @@
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		grant_poke_spell(user)
+		grant_poke_spell_zizo(user)
 
 	user.visible_message(
 		span_boldwarning("[user]'s flesh burns away in necrotic flames, revealing bone beneath as they are consumed by the Lesser Work!"),

@@ -3,35 +3,33 @@
 	name = "Mount Decapitation"
 	loot_budget = LOOT_BUDGET_MOUNT_DECAP
 	icon_state = "decap"
+	ambush_factions = list()
 	ambush_mobs = list(
-				// Singles — budget filler across all factions
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 15,
-				/mob/living/carbon/human/species/human/northern/highwayman/mount_reaver = 15,
-				/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 5,
-				/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 4,
-				/mob/living/carbon/human/species/skeleton/npc/medium = 15,
-				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
-				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
-				// Packs
-				new /datum/ambush_config/pair_of_direbear = 10,
-				new /datum/ambush_config/trio_of_highwaymen = 10,
-				new /datum/ambush_config/road_knight_escort = 5,
-				new /datum/ambush_config/singular_minotaur = 10,
-				new /datum/ambush_config/duo_minotaur = 5,
-				new /datum/ambush_config/solo_treasure_hunter = 15,
-				new /datum/ambush_config/duo_treasure_hunter = 2,
-				new /datum/ambush_config/medium_skeleton_party = 10,
-				new /datum/ambush_config/heavy_skeleton_party = 5,
-				)
+		/datum/npc_warband/pair_of_direbear = 14,
+		/datum/npc_warband/trio_of_highwaymen = 5,
+		/datum/npc_warband/bandit_band_balanced/lean = 4,
+		/datum/npc_warband/bandit_band_balanced = 3,
+		/datum/npc_warband/bandit_houndmaster = 1,
+		/datum/npc_warband/road_knight_escort = 3,
+		/datum/npc_warband/bandit_band_balanced/shieldwall = 1,
+		/datum/npc_warband/bandit_band_high = 1,
+		/datum/npc_warband/bandit_band_high/knight = 1,
+		/datum/npc_warband/singular_minotaur = 14,
+		/datum/npc_warband/duo_minotaur = 7,
+		/datum/npc_warband/solo_treasure_hunter = 20,
+		/datum/npc_warband/duo_treasure_hunter = 3,
+		/datum/npc_warband/medium_skeleton_party = 14,
+		/datum/npc_warband/heavy_skeleton_party = 7,
+	)
 	droning_sound = 'sound/music/area/decap.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "MOUNT DECAPITATION"
-	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
 	deathsight_message = "a twisted tangle of soaring peaks"
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP
+	area_sniff_message = "You smell ancient bones and pine wood."
 
 /area/rogue/indoors/shelter/mountains/decap
 	name = "Mount Decapitation"
@@ -44,39 +42,37 @@
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	deathsight_message = "a twisted tangle of soaring peaks"
 	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+	area_sniff_message = "You smell ancient bones and pine wood planks."
 
 /area/rogue/outdoors/mountains/decap/stepbelow
 	name = "Tarichea - Valley of Loss"
 	loot_budget = LOOT_BUDGET_TARICHEA
 	loot_pool_key = "tarichea"
 	icon_state = "decap"
+	ambush_factions = list()
 	ambush_mobs = list(
-				// Singles
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 15,
-				/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 4,
-				/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 3,
-				/mob/living/carbon/human/species/skeleton/npc/medium = 15,
-				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
-				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
-				// Packs
-				new /datum/ambush_config/pair_of_direbear = 10,
-				new /datum/ambush_config/trio_of_highwaymen = 10,
-				new /datum/ambush_config/road_knight_escort = 4,
-				new /datum/ambush_config/singular_minotaur = 10,
-				new /datum/ambush_config/duo_minotaur = 5,
-				new /datum/ambush_config/solo_treasure_hunter = 5,
-				new /datum/ambush_config/duo_treasure_hunter = 1,
-				new /datum/ambush_config/medium_skeleton_party = 20,
-				new /datum/ambush_config/heavy_skeleton_party = 10,
-				)
+		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 36,
+		/datum/npc_warband/pair_of_direbear = 24,
+		/datum/npc_warband/trio_of_highwaymen = 10,
+		/datum/npc_warband/bandit_band_balanced/lean = 7,
+		/datum/npc_warband/bandit_band_balanced = 5,
+		/datum/npc_warband/bandit_houndmaster = 2,
+		/datum/npc_warband/road_knight_escort = 10,
+		/datum/npc_warband/singular_minotaur = 24,
+		/datum/npc_warband/duo_minotaur = 12,
+		/datum/npc_warband/solo_treasure_hunter = 12,
+		/datum/npc_warband/duo_treasure_hunter = 2,
+		/datum/npc_warband/medium_skeleton_party = 48,
+		/datum/npc_warband/heavy_skeleton_party = 24,
+	)
 	droning_sound = 'sound/music/area/decap_deeper.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "TARICHEA, VALLEY OF LOSS"
-	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+	area_sniff_message = "You smell sulfur."
 
 /area/rogue/outdoors/mountains/decap/gunduzirak
 	name = "Gundu Zirak"
@@ -84,18 +80,18 @@
 	loot_pool_key = "gundu_zirak"
 	icon_state = "decap"
 	ambush_mobs = list(
-				new /datum/ambush_config/treasure_hunter_posse = 1,
-				/mob/living/carbon/human/species/dwarfskeleton/ambush = 30,
-				)
+		/datum/npc_warband/treasure_hunter_posse = 1,
+		/mob/living/carbon/human/species/dwarfskeleton/ambush = 30,
+	)
 	droning_sound = 'sound/music/area/prospector.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "RUINS OF GUNDU-ZIRAK"
-	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
 	ceiling_protected = TRUE
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_GUNDU_ZIRAK
+	area_sniff_message = "You smell old grudges and copper flakes."
 
 /area/rogue/outdoors/mountains/decap/gunduzirak/bossarena
 	name = "Baronness Boss Arena"
@@ -118,6 +114,7 @@
 	deathsight_message = "a twisted tangle of soaring peaks"
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_DRAGONDEN
+	area_sniff_message = "You smell drakynn."
 
 /area/rogue/under/cave/dragonden/can_craft_here()
 	return FALSE
@@ -134,6 +131,7 @@
 	deathsight_message = "a twisted tangle of soaring peaks"
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_GOBLIN_FORTRESS
+	area_sniff_message = "You smell vile daemonspawn."
 
 /area/rogue/under/cave/scarymaze
 	name = "Necran Labyrinth"
@@ -147,6 +145,7 @@
 	deathsight_message = "a twisted tangle of soaring peaks"
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_NECRAN_LABYRINTH
+	area_sniff_message = "You smell death and black roses."
 
 /area/rogue/outdoors/mountains/decap/minotaurfort
 	name = "Ancient Dwarven Forge"
@@ -156,11 +155,11 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "ANCIENT DWARVEN FORGE"
-	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
 	ceiling_protected = TRUE
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_MINOTAUR_FORTRESS
+	area_sniff_message = "You smell beef."
 
 /area/rogue/outdoors/mountains/decap/minotaurfort/can_craft_here()
 	return FALSE
@@ -174,10 +173,10 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "BANDIT CAMP"
-	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
 	ceiling_protected = TRUE
 	threat_region = THREAT_REGION_MOUNT_DECAP
+	area_sniff_message = "You smell sweaty men, women, and pine wood."
 
 /area/rogue/indoors/shelter/mountains/decap/banditcamp
 	name = "Bandit Camp"
@@ -188,10 +187,10 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	first_time_text = "BANDIT CAMP"
-	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap
 	ceiling_protected = TRUE
 	threat_region = DETAIL_TEXT_DECAP
+	area_sniff_message = "You smell sweat men, women, and pine wood."
 
 /area/rogue/under/cave/minotaurcave
 	name = "Minotaur Cave"
@@ -204,6 +203,7 @@
 	deathsight_message = "a twisted tangle of soaring peaks"
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP
+	area_sniff_message = "You smell beef and undergrowth."
 
 /area/rogue/under/cave/taricheamanor
 	name = "Manor of Tarichea"
@@ -216,38 +216,36 @@
 	deathsight_message = "a twisted tangle of soaring peaks"
 	threat_region = THREAT_REGION_MOUNT_DECAP
 	detail_text = DETAIL_TEXT_DECAP_TARICHEA
+	area_sniff_message = "You smell stone floors and sulfur."
 //PILGRIM
 
 /area/rogue/outdoors/mountains/decap/grim
 	name = "Mount Grymspyre"
 	loot_budget = LOOT_BUDGET_MOUNT_GRYMSPYRE
 	icon_state = "decap"
+	ambush_factions = list()
 	ambush_mobs = list(
-				// Singles — budget filler across all factions
-				/mob/living/carbon/human/species/human/northern/highwayman/ambush = 15,
-				/mob/living/carbon/human/species/human/northern/highwayman/mount_reaver = 15,
-				/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 5,
-				/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 4,
-				/mob/living/carbon/human/species/skeleton/npc/medium = 15,
-				/mob/living/carbon/human/species/skeleton/npc/hard = 10,
-				/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
-				// Packs
-				new /datum/ambush_config/pair_of_direbear = 10,
-				new /datum/ambush_config/trio_of_highwaymen = 10,
-				new /datum/ambush_config/road_knight_escort = 5,
-				new /datum/ambush_config/singular_minotaur = 10,
-				new /datum/ambush_config/duo_minotaur = 5,
-				new /datum/ambush_config/solo_treasure_hunter = 15,
-				new /datum/ambush_config/duo_treasure_hunter = 2,
-				new /datum/ambush_config/medium_skeleton_party = 10,
-				new /datum/ambush_config/heavy_skeleton_party = 5,
-				)
+		/datum/npc_warband/pair_of_direbear = 14,
+		/datum/npc_warband/trio_of_highwaymen = 5,
+		/datum/npc_warband/bandit_band_balanced/lean = 4,
+		/datum/npc_warband/bandit_band_balanced = 3,
+		/datum/npc_warband/bandit_houndmaster = 1,
+		/datum/npc_warband/road_knight_escort = 3,
+		/datum/npc_warband/bandit_band_balanced/shieldwall = 1,
+		/datum/npc_warband/bandit_band_high = 1,
+		/datum/npc_warband/bandit_band_high/knight = 1,
+		/datum/npc_warband/singular_minotaur = 14,
+		/datum/npc_warband/duo_minotaur = 7,
+		/datum/npc_warband/solo_treasure_hunter = 20,
+		/datum/npc_warband/duo_treasure_hunter = 3,
+		/datum/npc_warband/medium_skeleton_party = 14,
+		/datum/npc_warband/heavy_skeleton_party = 7,
+	)
 	droning_sound = 'sound/music/area/grimspire.ogg'
 	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
 	droning_sound_night = 'sound/music/area/grimspyre.ogg'
 	droning_sound_dawn = 'sound/music/area/grimdawn.ogg'
 	first_time_text = "MOUNT GRYMSPYRE"
-	ambush_times = list("night","dawn","dusk","day")
 	converted_type = /area/rogue/indoors/shelter/mountains/decap/grim
 	deathsight_message = "a spyre of jagged rock and winding crevices, surrounded by snow"
 	threat_region = THREAT_REGION_MOUNT_DECAP

@@ -34,6 +34,7 @@
 		/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //That's not a fish...?
 		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 30,
+		/mob/living/simple_animal/hostile/rogue/deepone/hound = 1*dangerMod,
 	)
 	return counterlist_ceiling(weightList)
 
@@ -48,7 +49,6 @@
 		/obj/item/reagent_containers/food/snacks/fish/angler = 60*rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 70*rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/bass = 210*commonMod,
-		/obj/item/reagent_containers/food/snacks/fish/clam = 40*rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/clownfish = 10*rareMod + 100*ceruleanMod,
 		/obj/item/reagent_containers/food/snacks/fish/creepy_eel = 1*rareMod + 10*ceruleanMod,
 		/obj/item/reagent_containers/food/snacks/fish/creepy_squid = 5*rareMod + 10*ceruleanMod,
@@ -69,6 +69,7 @@
 		/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //That's not a coastal fish...?
 		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 30,
+		/mob/living/simple_animal/hostile/rogue/deepone/hound = 5*dangerMod,
 	)
 	return counterlist_ceiling(weightList)
 
@@ -83,7 +84,6 @@
 		/obj/item/reagent_containers/food/snacks/fish/angler = 150*rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/lobster = 100*rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/bass = 100*commonMod,
-		/obj/item/reagent_containers/food/snacks/fish/clam = 150*rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/clownfish = 50*rareMod + 200*ceruleanMod,
 		/obj/item/reagent_containers/food/snacks/fish/creepy_eel = 2*rareMod + 10*ceruleanMod,
 		/obj/item/reagent_containers/food/snacks/fish/creepy_squid = 7*rareMod + 10*ceruleanMod,
@@ -98,8 +98,10 @@
 		/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //That's not a deep sea fish...?
 		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
 		/mob/living/carbon/human/species/goblin/npc/sea = 50*dangerMod,
-		/mob/living/simple_animal/hostile/rogue/deepone = 50*dangerMod,
-		/mob/living/simple_animal/hostile/rogue/deepone/spit = 50*dangerMod,
+		/mob/living/simple_animal/hostile/rogue/deepone = 40*dangerMod,
+		/mob/living/simple_animal/hostile/rogue/deepone/spit = 35*dangerMod,
+		/mob/living/simple_animal/hostile/rogue/deepone/hound = 25*dangerMod,
+		/mob/living/simple_animal/pet/depth_hound = 1*dangerMod,
 	)
 	return counterlist_ceiling(weightList)
 
@@ -117,6 +119,7 @@
 		/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //Thats one dirty... not a fish...?
 		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 30,
+		/mob/living/simple_animal/hostile/rogue/deepone/hound = 1*dangerMod,
 	)
 	return counterlist_ceiling(weightList)
 
@@ -125,14 +128,15 @@
 
 /proc/createCageFishWeightList(commonMod, rareMod, treasureMod, trashMod, dangerMod, ceruleanMod, cheeseMod)
 	var/weightList = list(
-			/obj/item/reagent_containers/food/snacks/fish/oyster = 250*commonMod,
-			/obj/item/reagent_containers/food/snacks/fish/shrimp = 250*commonMod,
-			/obj/item/reagent_containers/food/snacks/fish/crab = 250*rareMod,
-			/obj/item/reagent_containers/food/snacks/fish/lobster = 250*commonMod,
+			/obj/item/reagent_containers/food/snacks/fish/oyster = 200*commonMod,
+			/obj/item/reagent_containers/food/snacks/fish/shrimp = 200*commonMod,
+			/obj/item/reagent_containers/food/snacks/fish/crab = 125*rareMod,
+			/obj/item/reagent_containers/food/snacks/fish/lobster = 200*commonMod,
+			/obj/item/reagent_containers/food/snacks/fish/clam = 125*rareMod,
 			/obj/item/roguegem/oyster = 50*rareMod,
 			/obj/item/reagent_containers/food/snacks/smallrat = 1 + 15*cheeseMod, //Oh for fucks sake!
 			/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 1*cheeseMod,
-			/obj/item/grown/log/tree/stick =	100*trashMod,
+			/obj/item/grown/log/tree/stick = 100*trashMod,
 	)
 	return counterlist_ceiling(weightList)
 
@@ -153,7 +157,6 @@
 		/obj/item/reagent_containers/food/snacks/fish/sole = 350 * commonMod,
 		/obj/item/reagent_containers/food/snacks/fish/angler = 210 * rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/bass = 310 * commonMod,
-		/obj/item/reagent_containers/food/snacks/fish/clam = 190 * rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/salmon/black_headed = 40 * rareMod,
 		/obj/item/reagent_containers/food/snacks/fish/flounder = 200 * commonMod,
 		/obj/item/reagent_containers/food/snacks/fish/mackerel = 210 * commonMod,
@@ -172,9 +175,9 @@
 		/obj/item/reagent_containers/food/snacks/fish/clownfish = 60 * rareMod + 300 * ceruleanMod,
 
 		// --- Rare Fish ---
-		/obj/item/reagent_containers/food/snacks/fish/creepy_eel = 10 * rareMod + 20 * ceruleanMod,
-		/obj/item/reagent_containers/food/snacks/fish/creepy_squid = 10 * rareMod + 20 * ceruleanMod,
-		/obj/item/reagent_containers/food/snacks/fish/creepy_shark = 10 * rareMod + 20 * ceruleanMod,
+		/obj/item/reagent_containers/food/snacks/fish/creepy_eel = 12 * rareMod + 20 * ceruleanMod,
+		/obj/item/reagent_containers/food/snacks/fish/creepy_squid = 12 * rareMod + 20 * ceruleanMod,
+		/obj/item/reagent_containers/food/snacks/fish/creepy_shark = 12 * rareMod + 20 * ceruleanMod,
 
 		// --- Treasure Pool ---
 		/obj/item/reagent_containers/glass/bottle/rogue/wine = 3 * treasureMod + 60 * ceruleanMod,
@@ -196,8 +199,10 @@
 		// --- Danger / Monsters ---
 		/mob/living/simple_animal/hostile/retaliate/rogue/mudcrab = 90,
 		/mob/living/carbon/human/species/goblin/npc/sea = 50 * dangerMod,
-		/mob/living/simple_animal/hostile/rogue/deepone = 50 * dangerMod,
-		/mob/living/simple_animal/hostile/rogue/deepone/spit = 50 * dangerMod
+		/mob/living/simple_animal/hostile/rogue/deepone = 40*dangerMod,
+		/mob/living/simple_animal/hostile/rogue/deepone/spit = 35*dangerMod,
+		/mob/living/simple_animal/hostile/rogue/deepone/hound = 25*dangerMod,
+		/mob/living/simple_animal/pet/depth_hound = 1*dangerMod,
 	)
 	return counterlist_ceiling(weightList)
 

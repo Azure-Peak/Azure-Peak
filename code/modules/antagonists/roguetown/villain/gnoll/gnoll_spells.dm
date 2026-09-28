@@ -15,9 +15,9 @@
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff
 	name = "Track"
-	desc = "Graggar has some worthy folks for you, hunt them down! Cast on self to set target, cast to track target, cast on a person to remember their scent temporarily."
+	desc = "Graggar has some worthy folks for you, hunt them down! Cast on self to set target, cast to track target, cast on a person to remember their scent temporarily. Does not break stealth on use."
 	recharge_time = 0.5 SECONDS
-	chargetime = 0.1 SECONDS
+	chargetime = 0
 	overlay_icon = 'icons/mob/actions/gnollmiracles.dmi'
 	action_icon = 'icons/mob/actions/gnollmiracles.dmi'
 	overlay_state = "sniff"
@@ -39,6 +39,7 @@
 	)
 	var/mob/living/tracked_target = null
 	var/shown_hunt_disclaimer = FALSE
+	breaks_invisibility = FALSE
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/cast(list/targets, mob/user)
 	var/mob/living/target = targets[1]
@@ -101,6 +102,12 @@
 
 	var/turf/user_turf = get_turf(user)
 	var/turf/target_turf = get_turf(tracked_target)
+	var/area/target_area = get_area(target_turf)
+	if(target_area)
+		if(target_area.area_sniff_message)
+			to_chat(user, span_notice("[target_area.area_sniff_message]"))
+		else
+			to_chat(user, span_notice("The scent of the area is difficult to discern."))
 
 	if(user_turf.z != target_turf.z)
 		to_chat(user, span_notice("The scent of [tracked_target.real_name] drifts from [user_turf.z > target_turf.z ? "below" : "above"] you."))

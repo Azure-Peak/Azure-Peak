@@ -778,7 +778,6 @@
 	desc = "Iron-framed spectacles built to weather rough treatment. They sit firm upon the face, no matter how heated the exchange."
 	icon_state = "igoggles"
 	max_integrity = 30
-	armor = ARMOR_PLATE_BSTEEL
 	adjustable = CAN_CADJUST
 	toggle_icon_state = TRUE
 

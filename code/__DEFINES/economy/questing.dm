@@ -140,6 +140,11 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Player-issued listings (rumor/defense) get a longer window before reroll.
 #define QUEST_PLAYER_STALE_THRESHOLD (30 MINUTES)
 
+#define QUEST_ISSUER_CANCEL_WINDOW (30 MINUTES)
+
+#define QUEST_ISSUE_STATUS_LAPSED "lapsed"
+#define QUEST_ISSUE_STATUS_WITHDRAWN "withdrawn"
+
 // Per CKEY cap
 #define QUEST_TAKE_COOLDOWN (10 MINUTES)
 
@@ -211,8 +216,6 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Minimum Pledge to call a hoard recovery writ from a fellowship without being the Steward.
 #define HOARD_RECOVERY_PLEDGE 200
 #define HOARD_RECOVERY_HOARD_MINIMUM 200
-
-#define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
 
 #define BLOCKADE_TOTAL_WAVES 3
 #define BLOCKADE_WAVE_BASE_TP 180

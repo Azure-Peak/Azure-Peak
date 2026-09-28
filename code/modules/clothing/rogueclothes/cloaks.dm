@@ -1414,8 +1414,18 @@
 /obj/item/clothing/cloak/half/red
 	color = CLOTHING_RED
 
-/obj/item/clothing/cloak/half/azure
+/obj/item/clothing/cloak/half/azuria
 	color = CLOTHING_AZURE
+
+/obj/item/clothing/cloak/half/azuria/Initialize(mapload)
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/cloak/half/azuria/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
 
 /obj/item/clothing/cloak/half/orange
 	color = CLOTHING_ORANGE
@@ -1487,7 +1497,6 @@
 	nodismemsleeves = TRUE
 	inhand_mod = FALSE
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
 
@@ -1973,10 +1982,6 @@
 /obj/item/clothing/cloak/cotehardie/mageblue
 	color = CLOTHING_MAGE_BLUE
 
-/obj/item/clothing/cloak/cotehardie/aristocrat
-	color = CLOTHING_RED_OCHRE
-	detail_color = CLOTHING_RED_OCHRE //Only way to work with female sprites
-
 /obj/item/clothing/cloak/banneret
 	name = "knight banneret's cape"
 	desc = "A cape with a gold embroided heraldry of Azure."
@@ -2099,8 +2104,8 @@
 	item_state = "dupatta"
 	detail_tag = "_detail"
 	detail_color = CLOTHING_WHITE
+	altdetail_tag = "_detailalt"
 	altdetail_color = CLOTHING_WHITE
-	altdetail_tag = "_detailalt"//has more details for more colours
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
 	sleevetype = "shirt"
 

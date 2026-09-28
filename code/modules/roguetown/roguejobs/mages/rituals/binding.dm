@@ -183,7 +183,7 @@
 				. = TRUE
 
 /datum/runeritual/binding/release_familiar
-	name = " iar"
+	name = "Release Familiar"
 	desc = "Terminate your contract with a familiar, sending them back from whence they came unharmed."
 	blacklisted = FALSE
 	invocation = "Exsolvo spiritus!" // "release spirit." very creative

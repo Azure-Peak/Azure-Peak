@@ -56,6 +56,8 @@ const ContractsColumn = (props: { c: ContractsSnapshot }) => {
         <tbody>
           <Row label="Abandoned" value={c.abandoned} />
           <Row label="Rerolled" value={c.rerolled} />
+          <Row label="Lapsed &amp; Refunded" value={c.lapse_refunded} />
+          <Row label="Withdrawn" value={c.withdrawn} />
         </tbody>
       </table>
     </div>
@@ -78,6 +80,7 @@ const FavorsColumn = (props: {
             value={c.mammons_forfeited}
             color={SEAL_RED}
           />
+          <Row label="Mammons Refunded" value={c.mammons_refunded} />
         </tbody>
       </table>
       <div style={dividerStyle} />

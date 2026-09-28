@@ -232,6 +232,10 @@
 		if(message)
 			to_chat(user, span_warning("[I] bears an Azurian Trading Company seal - foreign captains will not buy Company stock back."))
 		return
+	var/datum/component/unsellable/unsellable = GetComponent(/datum/component/unsellable)
+	if(unsellable)
+		to_chat(user, span_warning("[I] [unsellable.reason] - no captain will buy it."))
+		return
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/F = I
 		if(F.eat_effect == /datum/status_effect/debuff/rotfood)

@@ -403,6 +403,10 @@
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery)
 	else
 		C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_2)
+		if (istype (H.patron, /datum/patron/inhumen/zizo))
+			if(H.mind)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -482,7 +486,7 @@
 	name = "Missionary"
 	tutorial = "You are a devout worshipper of the divine with a strong connection to your patron god. You've spent years studying scriptures and serving your deity - now you wander into foreign lands, spreading the word of your faith."
 	outfit = /datum/outfit/job/roguetown/adventurer/missionary
-	traits_applied = list()
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_PER = 2,
@@ -501,6 +505,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //always better than cleric oathed paladin
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
 	)
 	subclass_stashed_items = list(
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,

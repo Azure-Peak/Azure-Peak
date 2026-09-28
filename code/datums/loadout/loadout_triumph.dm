@@ -375,7 +375,7 @@
 
 /datum/loadout_item/triumph_plaquegoldenbeltfancy
 	name = "Belt of Plaque, Golden, Fancy"
-	path = /obj/item/storage/belt/rogue/leather/plaquegold/steward
+	path = /obj/item/storage/belt/rogue/leather/plaquegold/noble
 	triumph_cost = 7
 	sort_category = "Triumphs"
 
@@ -393,6 +393,12 @@
 /datum/loadout_item/triumph_armorkit_slimmedsteel
 	name = "Triumph Kit - Slimfitted Steel Armor"
 	path = /obj/item/enchantingkit/triumph_armorkit_slimmedsteel
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_slimmedsteel
+	name = "Triumph Kit - Brigandine with Plate"
+	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
@@ -617,6 +623,25 @@
 	path = /obj/item/enchantingkit/triumph_weaponkit_pata
 	triumph_cost = 3
 	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_rockhillarmet
+	name = "Triumph Kit - Knight-Errant's Armet"
+	path = /obj/item/enchantingkit/donator_rockhillarmet
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_rockhillmaille
+	name = "Triumph Kit - Jacketed Plate-and-Maille"
+	path = /obj/item/enchantingkit/donator_rockhillmaille
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_platearmharness
+	name = "Triumph Kit - Plate Arm Harnesses"
+	path = /obj/item/enchantingkit/donator_universal_armharness
+	triumph_cost = 3
+	sort_category = "Triumphs"
+
 
 //////////////////
 //	PERFUMES !	//

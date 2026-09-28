@@ -292,7 +292,10 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			M.mouth = new type_butt(M)
 			record_featured_stat(FEATURED_STATS_SMOKERS, M) //
 			M.visible_message(span_warning("[M] spits out [M.mouth]."))
-			M.dropItemToGround(M.mouth, silent = FALSE)
+			if ((M.get_active_held_item() && M.get_inactive_held_item()) || M.cmode)
+				M.dropItemToGround(M.mouth, silent = FALSE)
+			else
+				M.put_in_hands(M.mouth)
 		else
 			new type_butt(location)
 		qdel(src)
