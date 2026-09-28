@@ -27835,14 +27835,18 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/underdark/south)
 "eYq" = (
-/obj/structure/rack/rogue,
 /obj/item/candle/yellow{
-	pixel_x = -5
+	pixel_x = -5;
+	pixel_y = 32
 	},
-/obj/item/candle/yellow,
 /obj/item/candle/yellow{
-	pixel_x = 5
+	pixel_y = 32
 	},
+/obj/item/candle/yellow{
+	pixel_x = 5;
+	pixel_y = 32
+	},
+/obj/structure/rack/rogue/shelf,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "eYs" = (
@@ -88812,6 +88816,7 @@
 	pixel_y = -9
 	},
 /obj/structure/table/wood/folding,
+/obj/item/natural/bundle/cloth/bandage,
 /obj/item/needle/thorn,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
