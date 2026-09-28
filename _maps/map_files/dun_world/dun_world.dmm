@@ -18178,7 +18178,10 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "dnY" = (
-/obj/structure/fluff/traveltile/bathhouse_passage,
+/obj/structure/fluff/traveltile/bathhouse_passage{
+	layer = 5
+	},
+/obj/structure/ladder,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "doc" = (
@@ -85346,7 +85349,10 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "oSK" = (
-/obj/structure/fluff/traveltile/bathhouse_passage/cave,
+/obj/structure/fluff/traveltile/bathhouse_passage/cave{
+	layer = 5
+	},
+/obj/structure/ladder,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/cave)
 "oSL" = (
