@@ -18416,17 +18416,13 @@
 /area/rogue/indoors/shelter/mountains/decap/banditcamp)
 "dqc" = (
 /obj/structure/rack/rogue/shelf,
-/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew{
-	pixel_x = -8;
-	pixel_y = 42
-	},
-/obj/item/reagent_containers/glass/bottle/alchemical/healthpotnew{
-	pixel_x = -3;
-	pixel_y = 42
-	},
 /obj/item/reagent_containers/glass/bottle/rogue/antidote{
 	pixel_x = 6;
 	pixel_y = 44
+	},
+/obj/item/reagent_containers/glass/bottle/rogue/strongpoison{
+	pixel_y = 44;
+	pixel_x = -5
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
@@ -112301,7 +112297,9 @@
 	name = "Adjustment"
 	},
 /obj/item/storage/belt/rogue/surgery_bag/full,
-/obj/item/reagent_containers/glass/bottle/rogue/strongpoison,
+/obj/item/reagent_containers/glass/bottle/alchemical/healthpot,
+/obj/item/dildo/steel,
+/obj/item/dildo/steel,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "tAt" = (
@@ -117536,6 +117534,9 @@
 	icon_state = "curtain-closed";
 	opacity = 1;
 	open = 0
+	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "night_escape"
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/indoors/town/bath)
@@ -138925,12 +138926,21 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town)
 "yjJ" = (
-/obj/structure/closet/crate/roguecloset/lord{
+/obj/structure/mineral_door/wood/donjon{
+	dir = 4;
+	locked = 1;
 	lockid = "nightman";
-	name = "Persuasion"
+	name = "bathmaster's office"
 	},
-/obj/item/dildo/steel,
-/obj/item/dildo/steel,
+/obj/structure/bars/passage/shutter{
+	redstone_id = "night_escape"
+	},
+/obj/structure/curtain/magenta{
+	color = "#a1254a";
+	icon_state = "curtain-closed";
+	opacity = 1;
+	open = 0
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "yjL" = (
@@ -165841,7 +165851,7 @@ vYz
 vYz
 ajQ
 sYb
-sYb
+yjJ
 rqY
 nvE
 nvE
@@ -166293,8 +166303,8 @@ wOD
 tAB
 hyA
 tAm
+vfE
 fbA
-yjJ
 nvE
 vvx
 bSh
