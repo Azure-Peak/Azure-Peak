@@ -50849,13 +50849,6 @@
 /obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/indoors/town/shop)
-"jaS" = (
-/obj/structure/pillory{
-	lockid = list("nightmaiden");
-	pixel_y = 6
-	},
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/bath)
 "jaT" = (
 /obj/structure/spider/stickyweb,
 /obj/effect/spawner/lootdrop/roguetown/sewers,
@@ -50984,8 +50977,15 @@
 	icon_state = "borderfall";
 	pixel_y = -9
 	},
-/obj/structure/table/wood/folding,
-/obj/item/needle/thorn,
+/obj/item/clothing/mask/rogue/sack,
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightmaiden";
+	name = "Specialty Harness";
+	pixel_x = -4
+	},
+/obj/item/rogueweapon/whip,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "jcu" = (
@@ -60332,6 +60332,13 @@
 /obj/item/clothing/head/roguetown/helmet/tricorn,
 /turf/open/floor/rogue/AzureSand,
 /area/rogue/under/cave)
+"kGT" = (
+/obj/structure/pillory{
+	lockid = list("nightmaiden");
+	pixel_y = 6
+	},
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/town/bath)
 "kGU" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grassred,
@@ -71578,22 +71585,6 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/town)
-"mxR" = (
-/obj/effect/decal/cobbleedge{
-	icon_state = "borderfall";
-	pixel_y = -9
-	},
-/obj/item/clothing/mask/rogue/sack,
-/obj/structure/closet/crate/roguecloset/dark{
-	keylock = 1;
-	locked = 1;
-	lockid = "nightmaiden";
-	name = "Specialty Harness";
-	pixel_x = -4
-	},
-/obj/item/rogueweapon/whip,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/bath)
 "mxW" = (
 /obj/structure/flora/roguegrass/herb/taraxacum,
 /turf/open/floor/rogue/grass,
@@ -88815,6 +88806,15 @@
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
+"pyT" = (
+/obj/effect/decal/cobbleedge{
+	icon_state = "borderfall";
+	pixel_y = -9
+	},
+/obj/structure/table/wood/folding,
+/obj/item/needle/thorn,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/bath)
 "pyU" = (
 /obj/item/natural/stone,
 /turf/open/floor/rogue/cobblerock,
@@ -94496,6 +94496,10 @@
 /obj/structure/fermentation_keg/water,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
+"qxx" = (
+/obj/structure/curtain/magenta,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/town/bath)
 "qxy" = (
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/cobble,
@@ -95976,10 +95980,6 @@
 /obj/structure/fermentation_keg/distiller,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
-"qKl" = (
-/obj/structure/curtain/magenta,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/town/bath)
 "qKm" = (
 /obj/structure/closet/crate/roguecloset,
 /obj/item/clothing/head/roguetown/roguehood/psydon,
@@ -131065,7 +131065,10 @@
 /obj/structure/curtain/magenta{
 	alpha = 200
 	},
-/turf/open/floor/rogue/churchbrick,
+/obj/structure/roguewindow/harem2{
+	max_integrity = 1000
+	},
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/bath)
 "wRl" = (
 /obj/structure/vine,
@@ -170376,7 +170379,7 @@ dGe
 oXG
 sJQ
 wtO
-mxR
+jcn
 nvE
 bhJ
 htN
@@ -170823,9 +170826,9 @@ dTE
 sYb
 vfE
 vfE
-qKl
+qxx
 oXG
-jaS
+kGT
 sJQ
 wtO
 wCR
@@ -171280,7 +171283,7 @@ fmT
 oXG
 sJQ
 wtO
-jcn
+pyT
 nvE
 bhJ
 fju
