@@ -884,3 +884,13 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
 		return
 	wretch_select_bounty(H)
+
+/datum/charflaw/dnr
+	name = "Last Legs"
+	desc = "My lux is worn. I am not truly unrevivable, not yet; but the next shall be my last."
+	ui_fa_icon = "skull"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/dnr/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_LASTLEGS, "[type]")

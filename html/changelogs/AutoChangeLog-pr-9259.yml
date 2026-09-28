@@ -1,8 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Dwarf sprites for plate arm harnesses."
-  - rscadd: "Iron, bronze, ancient and decrepit versions of plate arm harnesses, alongside the ability to purchase them in the Triumph loadout."
-  - rscadd: "Donor loadout-specific CKEY additions."
-  - code_imp: "Adds the \"custom_name\" variable to donator_modkits.dm. FALSE by default; if set to TRUE, reskinned items won't inherit their pretransformed names in parentheses. The latter's reserved for reskinned items that are inherently generic, can be easily identified, or otherwise don't have an altered name."
-  - bugfix: "Crusader tabards now have CUSTOM_DESIGN ticked on by default, as intended."

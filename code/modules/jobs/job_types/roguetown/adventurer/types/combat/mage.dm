@@ -97,25 +97,33 @@
 /datum/outfit/job/roguetown/adventurer/alchemist/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are an alchemist traveling the world in search of rare reagents and new discoveries. You turn the spoils of your adventures into strange and useful concoctions."))
-	head = /obj/item/clothing/head/roguetown/roguehood/black
+	head = /obj/item/clothing/head/roguetown/roguehood/mage
 	shoes = /obj/item/clothing/shoes/roguetown/boots
-	pants = /obj/item/clothing/under/roguetown/tights/black
-	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/mageyellow
-	belt = /obj/item/storage/belt/rogue/leather/black
-	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/storage/backpack/rogue/satchel
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/mage
+	belt = /obj/item/storage/belt/rogue/leather
+	beltr = /obj/item/storage/magebag
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	beltl = /obj/item/storage/magebag
-	beltr = /obj/item/flashlight/flare/torch/lantern
+	beltl = /obj/item/rogueweapon/huntingknife
+	backl = /obj/item/storage/backpack/rogue/satchel
+	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard]
+	if(H.mind)
+		backr = choose_implement(H, "lesser")
 	backpack_contents = list(
-		/obj/item/paper/scroll = 3,
-		/obj/item/natural/feather = 1,
-		/obj/item/roguegem/amethyst = 1,
-		/obj/item/rogueweapon/spellbook = 1,
-		/obj/item/chalk = 1,
-		/obj/item/rogueweapon/huntingknife/idagger = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
-		)
+			/obj/item/rogueweapon/spellbook = 1,
+			/obj/item/chalk = 1,
+			/obj/item/rogueweapon/scabbard/sheath = 1,
+			/obj/item/reagent_containers/glass/bottle/alchemical = 3,
+			/obj/item/reagent_containers/glass/mortar = 1,
+			/obj/item/pestle = 1,
+			/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
+			/obj/item/reagent_containers/glass/bottle/alchemical/manapot = 1
+			)
+	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander4.ogg'
+	switch(H.patron?.type)
+		if(/datum/patron/inhumen/zizo)
+			H.cmode_music = 'sound/music/combat_heretic.ogg'
 
 
 /datum/advclass/mage/spellblade

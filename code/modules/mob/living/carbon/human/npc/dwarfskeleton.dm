@@ -5,7 +5,6 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	race = /datum/species/dwarf/mountain
 	gender = MALE
 	faction = list(FACTION_DUNDEAD)
-	var/skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton
 	ambushable = FALSE
 	ai_controller = /datum/ai_controller/human_npc
 	cmode = 1
@@ -14,6 +13,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	d_intent = INTENT_PARRY //even in undeath dwarves parry. Dodging aint proper dorf behavior
 	selected_default_language = /datum/language/dwarvish
 	possible_mmb_intents = list(INTENT_BITE, INTENT_JUMP, INTENT_KICK, INTENT_SPECIAL) //intents given in case of player controlled
+	npc_archetype = /datum/npc_archetype/dwarfskeleton/warrior
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush
 	threat_point = THREAT_ELITE
@@ -23,10 +23,19 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 /mob/living/carbon/human/species/dwarfskeleton/Initialize(mapload)
 	. = ..()
 	cut_overlays()
-	spawn(10)
-		after_creation()
+	if(!npc_archetype)
+		spawn(10)
+			after_creation()
 
 /mob/living/carbon/human/species/dwarfskeleton/after_creation()
+	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
+	if(eyes)
+		eyes.Remove(src,1)
+		QDEL_NULL(eyes)
+	eyes = new /obj/item/organ/eyes/night_vision/zombie
+	eyes.Insert(src)
+	for(var/obj/item/bodypart/B in src.bodyparts)
+		B.skeletonize(FALSE)
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.dwarfskeleton_aggro, TRUE)
@@ -37,8 +46,8 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)
 	mob_biotypes = MOB_UNDEAD
-	job = "Dwarf Skeleton"
 	real_name = "Dwarven Skeleton"
+	grant_language(/datum/language/undead)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_EASYDISMEMBER, TRAIT_GENERIC)
@@ -54,101 +63,7 @@ GLOBAL_LIST_INIT(dwarfskeleton_aggro, world.file2list("strings/rt/dskeletonaggro
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //High-End Loot Dungeon - So no Taming these.
-	var/obj/item/organ/eyes/eyes = src.getorganslot(ORGAN_SLOT_EYES)
-	if(eyes)
-		eyes.Remove(src,1)
-		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/zombie
-	eyes.Insert(src)
-	for(var/obj/item/bodypart/B in src.bodyparts)
-		B.skeletonize(FALSE)
 	update_body()
-	if(skel_outfit)
-		var/datum/outfit/OU = new skel_outfit
-		if(OU)
-			equipOutfit(OU)
-
-/datum/outfit/job/roguetown/dwarfskeleton/pre_equip(mob/living/carbon/human/H)
-	..()
-	cloak = /obj/item/clothing/cloak/raincloak/furcloak/black
-	if(prob(50))
-		cloak = /obj/item/clothing/cloak/raincloak/mortus
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/copper
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/copper
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	if(prob(60))
-		shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-		if(prob(10))
-			shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
-	pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-	if(prob(40))
-		pants =	/obj/item/clothing/under/roguetown/heavy_leather_pants
-	head = /obj/item/clothing/head/roguetown/helmet
-	if(prob(50))
-		head = /obj/item/clothing/head/roguetown/helmet/horned
-	neck = /obj/item/clothing/neck/roguetown/gorget
-	mask = /obj/item/clothing/mask/rogue/facemask
-	if(prob(40))
-		mask = /obj/item/clothing/mask/rogue/facemask/copper
-		if(prob(10))
-			mask = /obj/item/clothing/mask/rogue/facemask/steel
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
-	l_hand = /obj/item/rogueweapon/spear/bronze
-	if(prob(50))
-		l_hand = /obj/item/rogueweapon/sword/short/gladius
-		r_hand = /obj/item/rogueweapon/shield/wood
-		if(prob(20))
-			gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze
-
-	H.STASTR = 12
-	H.STASPD = 11
-	H.STACON = 10
-	H.STAWIL = 10
-	H.STAPER = 14
-	H.STAINT = 11
-	H.grant_language(/datum/language/undead)
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
 
 /mob/living/carbon/human/species/dwarfskeleton/ambush/knight
-	skel_outfit = /datum/outfit/job/roguetown/dwarfskeleton/ambush/knight
-
-/datum/outfit/job/roguetown/dwarfskeleton/ambush/knight/pre_equip(mob/living/carbon/human/H)
-	. = ..()
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet
-	gloves = /obj/item/clothing/gloves/roguetown/plate
-	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	pants = /obj/item/clothing/under/roguetown/platelegs
-	cloak = /obj/item/clothing/cloak/tabard/stabard/dungeon
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/scale
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	belt = /obj/item/storage/belt/rogue/leather
-	l_hand = /obj/item/rogueweapon/greataxe
-	r_hand = null
-
-	H.STASTR = 16
-	H.STASPD = 11
-	H.STACON = 12
-	H.STAWIL = 12
-	H.STAPER = 14
-	H.STAINT = 11
-	H.grant_language(/datum/language/undead)
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
+	npc_archetype = /datum/npc_archetype/dwarfskeleton/knight

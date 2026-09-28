@@ -163,6 +163,14 @@
 			qdel(src)
 			return
 		else
+			// bandaid. if it's 1 it shouldnt be a bundle. if its 0 or below it DEFINITELY shouldnt be a bundle.
+			if(amount <= 1)
+				// this SHOULD stop at 1 so we'll still give you the one back.
+				var/obj/I = new stacktype(src.loc)
+				log_runtime("BUNDLE: [src] somehow had [src.amount] items in it when [user.name] ([user.real_name] - [user.client.ckey]) tried to retrieve [src.stacktype]!")
+				H.put_in_hands(I)
+				qdel(src)
+				return
 			amount -= 1
 			var/obj/F = new stacktype(src.loc)
 			H.put_in_hands(F)

@@ -4494,7 +4494,7 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
-	allowed_sex = list(MALE) //Character-specific.
+	allowed_sex = list(MALE, FEMALE) //Character-specific. Female sprites might not be form-fitting.
 	detail_color = CLOTHING_RED
 	detail_tag = "_detail"
 

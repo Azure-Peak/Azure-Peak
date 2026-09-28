@@ -53,6 +53,8 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/list/variants
 	var/ai_controller
 	var/list/traits
+	// Factional stat modifiers. These are applied on top of statpacks. They do not need to be even trade
+	var/list/stat_modifiers
 
 /datum/npc_archetype/proc/apply_early(mob/living/carbon/human/H)
 	var/datum/npc_body/npc_body = get_npc_part(body)
@@ -80,10 +82,22 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	if(ai_controller)
 		H.upgrade_ai_controller(ai_controller)
 	H.equipOutfit(build_outfit())
+	apply_stat_modifiers(H)
 	if(npc_body)
 		npc_body.apply_appearance(H)
 		npc_body.apply_name(H)
 		npc_body.finish(H)
+
+/datum/npc_archetype/proc/apply_stat_modifiers(mob/living/carbon/human/H)
+	if(!H || !length(stat_modifiers))
+		return
+	H.STASTR += stat_modifiers["strength"]
+	H.STASPD += stat_modifiers["speed"]
+	H.STACON += stat_modifiers["constitution"]
+	H.STAWIL += stat_modifiers["willpower"]
+	H.STAPER += stat_modifiers["perception"]
+	H.STAINT += stat_modifiers["intelligence"]
+	H.recalculate_pain_threshold()
 
 /datum/npc_archetype/proc/apply_skills(mob/living/carbon/human/H)
 	apply_skill_group(H, GLOB.npc_melee_skills, melee)
