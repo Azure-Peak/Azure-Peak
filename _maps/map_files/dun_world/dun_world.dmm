@@ -13108,7 +13108,6 @@
 /obj/structure/fluff/railing/border/east,
 /obj/structure/table/wood/long_table/right,
 /obj/item/reagent_containers/glass/bucket,
-/obj/structure/roguemachine/withdraw,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/town/sewer)
 "ctb" = (
@@ -31672,7 +31671,6 @@
 /area/rogue/under/underdark/south)
 "fFs" = (
 /obj/structure/fluff/railing/border/north,
-/obj/structure/roguemachine/scomm/r,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/town/sewer)
 "fFz" = (
