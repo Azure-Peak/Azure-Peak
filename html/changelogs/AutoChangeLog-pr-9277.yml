@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - balance: "Improved the durability of Ancient Sandals, Decrepit Sandals and Decrepit Boots."
+  - balance: "Ancient Sandals now provide protection comparable to chainmail."

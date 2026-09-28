@@ -717,7 +717,7 @@
 			owner.balloon_alert(owner, "My vitae drowns out the spell!")
 		return FALSE
 
-	if(HAS_TRAIT(owner, TRAIT_NOC_CURSE))
+	if(HAS_TRAIT(owner, TRAIT_CURSE_NOC))
 		if(feedback)
 			owner.balloon_alert(owner, "My magicka has left me...")
 		return FALSE

@@ -1,0 +1,4 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - qol: "bandages are now at the bottom instead of the middle of the medicine pouch"

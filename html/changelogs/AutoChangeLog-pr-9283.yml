@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - balance: "Removes Clams from fishing poles tables, moves them to the fishing cage weights. Adjustd weights to keep sort of similar ratio while keeping human readable values."

@@ -1,0 +1,5 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - rscadd: "Expands Arcyne Forge to get chisel set and hunting knife (replacing iron dagger). Made a chisel set variant you cannot unbind so we dont get arcyne shenanigans, used only for the spell. Adds it to the Elemental Spell List."
+  - bugfix: "Marks the chisel set as a tool."

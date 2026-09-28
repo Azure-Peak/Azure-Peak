@@ -1,0 +1,5 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - rscdel: "Acolytes lose divine blast entirely, they don't need it."
+  - balance: "Makes divine blast 15 second cooldown, it only does 4 to 2 firestacks not 10 to 5 depending on mind or not."

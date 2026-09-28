@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - rscadd: "Adds a new vice, \"Last Legs\", which makes the Death's Door effect (DNR post revival) permanent. Requires an extra vice."

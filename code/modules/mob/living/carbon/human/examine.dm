@@ -366,7 +366,12 @@
 	if(stat == DEAD || (HAS_TRAIT(src, TRAIT_FAKEDEATH)))
 		appears_dead = TRUE
 
-	var/temp = getBruteLoss() + getFireLoss() //no need to calculate each of these twice
+	var/temp = 0
+	for(var/obj/item/bodypart/part as anything in bodyparts)
+		if(part.max_damage)
+			temp = max(temp, part.get_damage() / part.max_damage)
+	if(!HAS_TRAIT(src, TRAIT_NOPAIN))
+		temp = max(temp, get_complex_pain() / max(pain_threshold, 1))
 
 	if (get_bodypart(BODY_ZONE_HEAD)?.grievously_wounded)
 		msg += span_bloody("<b>[p_their(TRUE)] neck is a ghastly ruin of blood and bone, barely hanging on!</b>")
@@ -374,13 +379,13 @@
 	if(!(user == src && src.hal_screwyhud == SCREWYHUD_HEALTHY)) //fake healthy
 		// Damage
 		switch(temp)
-			if(5 to 25)
+			if(0.05 to 0.25)
 				msg += "[m1] a little wounded."
-			if(25 to 50)
+			if(0.25 to 0.5)
 				msg += "[m1] wounded."
-			if(50 to 100)
+			if(0.5 to CRIT_DISMEMBER_DAMAGE_THRESHOLD)
 				msg += "<B>[m1] severely wounded.</B>"
-			if(100 to INFINITY)
+			if(CRIT_DISMEMBER_DAMAGE_THRESHOLD to INFINITY)
 				msg += span_danger("[m1] gravely wounded.")
 
 	// Blood volume
@@ -398,16 +403,17 @@
 	var/bleed_rate = get_bleed_rate()
 	if(bleed_rate)
 		if(!is_stupid)
-			var/bleed_wording = "bleeding"
+			bleed_rate *= get_bleed_mod() * physiology.bleed_mod
+			var/wording = "gushing blood"
 			switch(bleed_rate)
 				if(0 to 1)
-					bleed_wording = "bleeding slightly"
-				if(1 to 5)
-					bleed_wording = "bleeding"
-				if(5 to 10)
-					bleed_wording = "bleeding a lot"
-				if(10 to INFINITY)
-					bleed_wording = "bleeding profusely"
+					wording = "bleeding slightly"
+				if(1 to 3)
+					wording = "bleeding"
+				if(3 to 8)
+					wording = "bleeding a lot"
+				if(8 to 18)
+					wording = "bleeding profusely"
 			var/list/bleeding_limbs = list()
 			var/static/list/bleed_zones = list(
 				BODY_ZONE_HEAD,
@@ -423,15 +429,15 @@
 					continue
 				bleeding_limbs += parse_zone(bleeder.body_zone)
 			if(length(bleeding_limbs))
-				if(bleed_rate >= 5)
-					msg += span_bloody("<B>[capitalize(m2)] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [bleed_wording]!</B>")
+				if(bleed_rate >= 3)
+					msg += span_bloody("<B>[capitalize(m2)] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [wording]!</B>")
 				else
-					msg += span_bloody("[capitalize(m2)] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [bleed_wording]!")
+					msg += span_bloody("[capitalize(m2)] [english_list(bleeding_limbs)] [bleeding_limbs.len > 1 ? "are" : "is"] [wording]!")
 			else
-				if(bleed_rate >= 5)
-					msg += span_bloody("<B>[m1] [bleed_wording]</B>!")
+				if(bleed_rate >= 3)
+					msg += span_bloody("<B>[m1] [wording]</B>!")
 				else
-					msg += span_bloody("[m1] [bleed_wording]!")
+					msg += span_bloody("[m1] [wording]!")
 		else
 			if(isliving(user))
 				var/mob/living/M = user

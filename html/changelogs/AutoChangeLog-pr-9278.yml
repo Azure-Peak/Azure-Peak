@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - balance: "Reduces the cooldown of the Conjure Aegis minor arcana from 120 seconds to 5 seconds, so that it remains consistent with the other conjure weapons spells. The energy cost was reduced from 150 to 100, the 5 seconds of cast time with yellow vulnerability and severe slowdown while casting remain intact."

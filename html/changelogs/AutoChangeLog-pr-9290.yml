@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - rscadd: "Increases the vice limit from 3 to 7, as we have more lesser vices, this allows for further customization of characters."

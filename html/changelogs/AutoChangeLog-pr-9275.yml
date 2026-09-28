@@ -1,0 +1,4 @@
+author: "NonQueueingMatt"
+delete-after: True
+changes:
+  - bugfix: "Post-revival DNR is no longer removed after 10 minutes anyway if the user dies."

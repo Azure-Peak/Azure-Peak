@@ -1,0 +1,10 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - rscadd: "New Mistwalker ability to drain your own blood- within reason"
+  - balance: "adjusted mistwalker statweight from 9 -> 10"
+  - balance: "adjusted stat gain from mistwalker weapon selection"
+  - balance: "adjusted journey's end buffs for more sensible gain of power"
+  - balance: "adjusted mistwalker stat caps"
+  - bugfix: "now properly limits mistwalker to kazengun and lingyue origin"
+  - bugfix: "fixed potential leech powergaming on mistwalker"

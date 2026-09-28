@@ -1,4 +1,0 @@
-author: "MortoSasye"
-delete-after: True
-changes:
-  - bugfix: "fixed sock marking, longer sock marking, and plain marking on female body sprites for legs."
