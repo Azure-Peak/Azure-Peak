@@ -48,11 +48,67 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 /proc/get_faction_tag(entry)
 	if(ispath(entry, /mob/living))
 		var/mob/living/M = entry
-		return initial(M.ambush_faction)
+		var/tag = initial(M.ambush_faction)
+		if(tag)
+			return tag
+		// Ensure Archetype have a faction tag, otherwise fallback to the mob's faction list
+		var/datum/npc_archetype/archetype = get_npc_part(initial(M.npc_archetype))
+		return archetype ? archetype.faction_tag : ""
 	var/datum/npc_warband/warband = get_npc_part(entry)
 	if(warband)
 		return warband.faction_tag
 	return ""
+
+/proc/affordable_ambush_entries(list/candidates, budget)
+	. = list()
+	for(var/entry in candidates)
+		if(get_threat_point(entry) <= budget)
+			.[entry] = candidates[entry]
+
+/proc/build_ambush_pool(area/AR, datum/threat_region/TR, list/group_pools, list/group_weights)
+	. = list()
+	var/list/faction_map = AR.ambush_factions
+	if(faction_map && !length(faction_map) && TR)
+		faction_map = TR.faction_weights
+
+	for(var/fid in faction_map)
+		var/datum/quest_faction/F = get_quest_faction(fid)
+		if(!F)
+			stack_trace("area [AR.type] lists unknown ambush faction [fid]")
+			continue
+		var/list/sub = list()
+		for(var/entry in F.mob_types)
+			if(AR.ambush_tp_ceiling && get_threat_point(entry) > AR.ambush_tp_ceiling)
+				continue
+			sub[entry] = F.mob_types[entry]
+			.[entry] += F.mob_types[entry] * faction_map[fid]
+		if(!length(sub))
+			continue
+		group_pools[fid] = sub
+		group_weights[fid] = faction_map[fid]
+
+	for(var/entry in AR.ambush_mobs)
+		if(AR.ambush_tp_ceiling && get_threat_point(entry) > AR.ambush_tp_ceiling)
+			continue
+		var/weight = AR.ambush_mobs[entry]
+		var/key = get_faction_tag(entry)
+		if(!key)
+			key = "independent"
+		LAZYINITLIST(group_pools[key])
+		group_pools[key][entry] += weight
+		group_weights[key] += weight
+		.[entry] += weight
+
+/// Cheapest entry in a candidate list. Used when the budget cannot afford anything at all.
+/proc/cheapest_ambush_entry(list/candidates)
+	var/best
+	var/best_tp = INFINITY
+	for(var/entry in candidates)
+		var/tp = get_threat_point(entry)
+		if(tp < best_tp)
+			best_tp = tp
+			best = entry
+	return best
 
 // Instead of setting it on area and hoping no one forgets it on area we're just doing this
 
@@ -69,12 +125,12 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	if(!AR)
 		return FALSE
 
-	if(!AR.ambush_mobs)
-		return FALSE
-
 	var/datum/threat_region/TR = null
 	if(AR.threat_region)
 		TR = SSregionthreat.get_region(AR.threat_region)
+
+	if(!length(AR.ambush_mobs) && isnull(AR.ambush_factions))
+		return FALSE
 
 	// Gate checks — can an ambush even happen right now?
 	// Region is considered "safe" when its danger level is SAFE (at or below DANGER_PCT_SAFE% of max).
@@ -146,29 +202,39 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	// The last purchase is allowed to exceed the budget (budget can go negative).
 	var/list/mobs_to_spawn = list() // flat list of mob type paths to spawn
 	var/total_tp_spent = 0
-	var/anchor_faction = ""
 
-	// Build same-faction and all-faction candidate sublists for efficiency
-	// We do this once, outside the loop
-	var/list/all_candidates = list() // entry = weight
-	var/list/faction_candidates = list() // populated after first pick sets anchor
+	var/list/group_pools = list()
+	var/list/group_weights = list()
+	var/list/all_candidates = build_ambush_pool(AR, TR, group_pools, group_weights)
+	if(!length(all_candidates))
+		return FALSE
 
-	for(var/entry in AR.ambush_mobs)
-		all_candidates[entry] = AR.ambush_mobs[entry]
+	var/list/solvent = list()
+	for(var/key in group_weights)
+		if(length(affordable_ambush_entries(group_pools[key], budget)))
+			solvent[key] = group_weights[key]
+	var/anchor_faction = length(solvent) ? pickweight(solvent) : pickweight(group_weights)
+	var/list/faction_candidates = group_pools[anchor_faction]
 
-	// First purchase — sets the anchor faction
-	var/first_pick = pickweight(all_candidates)
+	// 33% surprise chance for cross faction - but exclude the factions itself for good reasons.
+	var/list/cross_candidates = list()
+	for(var/key in group_pools)
+		if(key == anchor_faction)
+			continue
+		var/list/sub = group_pools[key]
+		for(var/entry in sub)
+			cross_candidates[entry] += sub[entry] * group_weights[key]
+	if(!length(cross_candidates))
+		cross_candidates = all_candidates
+
+	var/list/affordable = affordable_ambush_entries(faction_candidates, budget)
+	var/first_pick = length(affordable) ? pickweight(affordable) : cheapest_ambush_entry(faction_candidates)
+	if(!first_pick)
+		return FALSE
 	var/first_tp = max(get_threat_point(first_pick), 1) // Floor 1 TP to prevent infinite loops
-	anchor_faction = get_faction_tag(first_pick)
 	add_ambush_purchase(first_pick, mobs_to_spawn)
 	budget -= first_tp
 	total_tp_spent += first_tp
-
-	// Build same-faction sublist now that we know anchor
-	if(anchor_faction != "")
-		for(var/entry in all_candidates)
-			if(get_faction_tag(entry) == anchor_faction)
-				faction_candidates[entry] = all_candidates[entry]
 
 	// Continue purchasing while we have budget
 	// Safety cap: never spawn more than 15 mobs even if TP values are misconfigured
@@ -177,8 +243,8 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		// 67% same-faction pick if we have faction candidates, 33% any entry ("wrong faction" surprise)
 		if(faction_candidates.len && prob(67))
 			picked = pickweight(faction_candidates)
-		if(!picked) // Fallback to all candidates if faction pick failed or wasn't attempted
-			picked = pickweight(all_candidates)
+		if(!picked)
+			picked = pickweight(cross_candidates)
 		if(!picked) // Nothing left to pick from at all — bail out
 			break
 
@@ -186,7 +252,7 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 
 		// If this pick would overshoot the budget, try a cross-faction pick for something cheaper
 		if(pick_tp > budget)
-			picked = pickweight(all_candidates)
+			picked = pickweight(cross_candidates)
 			if(!picked)
 				break
 			pick_tp = max(get_threat_point(picked), 1)

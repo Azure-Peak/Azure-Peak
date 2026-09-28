@@ -7,7 +7,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	dodgetime = 30
 	d_intent = INTENT_DODGE
 	blood_toll_bucket = STATS_KILLED_DROWS
-	var/drowraider_outfit = /datum/outfit/job/roguetown/human/species/elf/dark/drowraider
+	npc_archetype = /datum/npc_archetype/drow/raider
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
@@ -73,7 +73,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	ADD_TRAIT(src, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_DUALWIELDER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
-	equipOutfit(new drowraider_outfit)
+	roll_drow_voice()
 	if(prob(40))
 		gender = MALE
 	else
@@ -141,110 +141,28 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	update_body()
 
 
-/datum/outfit/job/roguetown/human/species/elf/dark/drowraider/pre_equip(mob/living/carbon/human/H)
-	if(prob(40)) //40% cloak chance
-		var/cloak_choice = rand(1, 3)
-		switch(cloak_choice)
-			if(1)
-				cloak = /obj/item/clothing/cloak/raincloak/mortus
-			if(2)
-				cloak = /obj/item/clothing/cloak/half/rider/red
-			if(3)
-				cloak = /obj/item/clothing/cloak/half
-
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
-	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	var/mask_choice = rand(1, 5)
-	switch(mask_choice)
-		if(1 to 2)
-			mask = /obj/item/clothing/mask/rogue/facemask
-		if(3 to 4)
-			mask = /obj/item/clothing/mask/rogue/shepherd/shadowmask/delf
-		if(5)
-			mask = /obj/item/clothing/mask/rogue/xylixmask //WHY SO SERIOUS?!
-	var/neck_choice = rand(1, 3)
-	switch(neck_choice)
+/mob/living/carbon/human/species/elf/dark/drowraider/proc/roll_drow_voice()
+	if(!prob(50))
+		return
+	switch(rand(1, 4))
 		if(1)
-			neck = /obj/item/clothing/neck/roguetown/coif/heavypadding //SOVL
+			dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
+			dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
 		if(2)
-			neck = /obj/item/clothing/neck/roguetown/leather
-			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
+			dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
+			dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 		if(3)
-			neck = /obj/item/clothing/neck/roguetown/gorget
-			head = /obj/item/clothing/head/roguetown/helmet/kettle/iron //So they have head armor
-	if(prob(45)) // whip
-		r_hand = /obj/item/rogueweapon/whip
-	else if(prob(50)) // dual falx
-		r_hand = /obj/item/rogueweapon/sword/falx/stalker
-		l_hand = /obj/item/rogueweapon/sword/falx/stalker
-	else // dual daggers
-		r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
-		l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
-
-	H.STASTR = 12 // 6 Points
-	H.STASPD = 13 // 3 points
-	H.STACON = 9
-	H.STAWIL = 8
-	H.STAPER = 10
-	H.STAINT = 10
-	H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
-
-	if(prob(50))
-		var/voicepack_choice = rand(1, 4)
-		switch(voicepack_choice)
-			if(1)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/warrior]
-			if(2)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/stern]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
-			if(3)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
-			if(4)
-				H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard] //Aura
-				H.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
+			dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/foppish]
+			dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/dainty]
+		if(4)
+			dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard] //Aura
+			dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/female/haughty]
 
 /mob/living/carbon/human/species/elf/dark/drowraider/archer
 	ai_controller = /datum/ai_controller/human_npc/archer
-	drowraider_outfit = /datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer
+	npc_archetype = /datum/npc_archetype/drow/archer
 
 /mob/living/carbon/human/species/elf/dark/drowraider/archer/ambush
 	threat_point = THREAT_TOUGH
 	ambush_faction = "underdark"
 
-/datum/outfit/job/roguetown/human/species/elf/dark/drowraider/archer/pre_equip(mob/living/carbon/human/H)
-	..()
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
-	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
-	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
-	mask = /obj/item/clothing/mask/rogue/facemask
-	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-	head = null
-	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve
-	backl = /obj/item/quiver/npc
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/stalker
-	l_hand = null
-	H.STASTR = 10
-	H.STASPD = 13
-	H.STACON = 8
-	H.STAWIL = 7
-	H.STAPER = 11
-	H.STAINT = 10
-	H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
-	H.upgrade_ai_controller(/datum/ai_controller/human_npc/archer)

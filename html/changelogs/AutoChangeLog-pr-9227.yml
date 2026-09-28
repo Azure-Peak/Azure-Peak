@@ -1,4 +1,0 @@
-author: "anything86"
-delete-after: True
-changes:
-  - bugfix: "curse of noc should now properly stop casting of all spells"

@@ -39,7 +39,7 @@
 	var/obj/item/conjured_item
 
 	var/list/conjure_options = list(
-		"Dagger" = /obj/item/rogueweapon/huntingknife/idagger,
+		"Hunting Knife" = /obj/item/rogueweapon/huntingknife,
 		"Axe" = /obj/item/rogueweapon/stoneaxe/woodcut,
 		"Pickaxe" = /obj/item/rogueweapon/pick,
 		"Hoe" = /obj/item/rogueweapon/hoe,
@@ -58,6 +58,7 @@
 		"Bowl" = /obj/item/reagent_containers/glass/bowl,
 		"Fork" = /obj/item/kitchen/fork/iron,
 		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Chisel Set" = /obj/item/rogueweapon/chisel/assembly/arcyne,
 	)
 
 /datum/action/cooldown/spell/arcyne_forge/cast(atom/cast_on)

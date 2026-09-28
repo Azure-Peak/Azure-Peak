@@ -21,16 +21,15 @@
 	//Gets encapsulated with a warning span
 	var/list/msg = list()
 
-	var/temp = getBruteLoss() + getFireLoss()
-	// Damage
+	var/temp = (getBruteLoss() + getFireLoss()) / max(maxHealth, 1)
 	switch(temp)
-		if(5 to 25)
+		if(0.05 to 0.25)
 			msg += "[m1] a little wounded."
-		if(25 to 50)
+		if(0.25 to 0.5)
 			msg += "[m1] wounded."
-		if(50 to 100)
+		if(0.5 to 0.75)
 			msg += "<B>[m1] severely wounded.</B>"
-		if(100 to INFINITY)
+		if(0.75 to INFINITY)
 			msg += span_danger("[m1] gravely wounded.")
 
 	var/has_simple_wounds = HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS)
@@ -48,20 +47,21 @@
 
 		// Bleeding
 		if(bleed_rate)
-			var/bleed_wording = "bleeding"
-			switch(bleed_rate)
+			var/rate = bleed_rate * get_bleed_mod()
+			var/wording = "gushing blood"
+			switch(rate)
 				if(0 to 1)
-					bleed_wording = "bleeding slightly"
-				if(1 to 5)
-					bleed_wording = "bleeding"
-				if(5 to 10)
-					bleed_wording = "bleeding a lot"
-				if(10 to INFINITY)
-					bleed_wording = "bleeding profusely"
-			if(bleed_rate >= 5)
-				msg += span_bloody("<B>[m1] [bleed_wording]</B>!")
+					wording = "bleeding slightly"
+				if(1 to 3)
+					wording = "bleeding"
+				if(3 to 8)
+					wording = "bleeding a lot"
+				if(8 to 18)
+					wording = "bleeding profusely"
+			if(rate >= 3)
+				msg += span_bloody("<B>[m1] [wording]</B>!")
 			else
-				msg += span_bloody("[m1] [bleed_wording]!")
+				msg += span_bloody("[m1] [wording]!")
 
 	//Fire/water stacks
 	if(has_status_effect(/datum/status_effect/fire_handler))

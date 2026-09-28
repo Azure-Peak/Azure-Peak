@@ -149,7 +149,7 @@
 
 /proc/deathmark(mob/living/victim)
 	if(victim.stat != DEAD)
-		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.apply_status_effect(HAS_TRAIT(victim, TRAIT_LASTLEGS) ? /datum/status_effect/debuff/permadeath/permanent : /datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
 		victim.play_permadeath_indicator()
 		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
