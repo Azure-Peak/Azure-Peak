@@ -28215,8 +28215,12 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/orcdungeon)
 "fbg" = (
-/obj/structure/roguemachine/scomm/r,
-/turf/open/floor/rogue/blocks,
+/obj/structure/roguemachine/scomm/r{
+	scom_tag = "Inn - Cellar"
+	},
+/turf/open/floor/rogue/metal{
+	icon_state = "plating2"
+	},
 /area/rogue/under/town/basement)
 "fbj" = (
 /obj/structure/closet/crate/roguecloset/inn,
