@@ -112,13 +112,13 @@
 	results = list(/datum/reagent/water/gross = 2)
 	required_reagents = list(/datum/reagent/water/gross = 1, /datum/reagent/water = 1)
 
-#define WATER_BLOOD_RESTORE 15
+#define WATER_BLOOD_RESTORE 5
 /datum/reagent/water/on_mob_life(mob/living/carbon/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
 			H.adjust_hydration(hydration)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL && !M.cmode)
 			M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
 	..()
 #undef WATER_BLOOD_RESTORE
