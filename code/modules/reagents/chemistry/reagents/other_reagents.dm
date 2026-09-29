@@ -112,7 +112,7 @@
 	results = list(/datum/reagent/water/gross = 2)
 	required_reagents = list(/datum/reagent/water/gross = 1, /datum/reagent/water = 1)
 
-#define WATER_BLOOD_RESTORE 5
+#define WATER_BLOOD_RESTORE 7.5
 /datum/reagent/water/on_mob_life(mob/living/carbon/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
@@ -124,6 +124,7 @@
 			else
 				if(prob(10))
 					to_chat(M, "<span class='warning'>I'm too tense for the water to nourish me...</span>")
+					M.blood_volume = min(M.blood_volume+2, BLOOD_VOLUME_NORMAL)
 	..()
 #undef WATER_BLOOD_RESTORE
 
