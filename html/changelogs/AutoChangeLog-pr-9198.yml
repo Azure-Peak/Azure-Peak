@@ -1,0 +1,11 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - rscadd: "Rural Tax is now Rural Subsidy, a scaling number starting at 200m that goes down to 100m scaling on how many producers are present in town. Producers are people (i.e. guildsmen, tailors, apothecaries) who are capable of fulfilling Standing Orders."
+  - rscadd: "Standing orders now pay a light 'scarcity bonus' on top of the normal payment, hiking up at lowpop. Maximum is 40% extra, gradually tapering off to nothing as pop increases. Amounts required remain the same."
+  - balance: "Standing orders now recalculate their payouts dynamically per day, based on market pricing."
+  - balance: "Banditry now scales down more proportionally to active population. The flat cost of banditry in dangerous regions now shrinks as population drops."
+  - balance: "A hard cap on total banditry losses is also calculated and limited if the projected losses exceed the threshold."
+  - balance: "Danger builds up more slowly per day in banditry-affected regions on lowpop."
+  - balance: " Banditry debt repayments now only skim 75% of repaid income instead of 100%."
+  - admin: "Banditry and regional danger now respect artificial population numbers set in the Economic Panel."

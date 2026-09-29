@@ -122,6 +122,10 @@
 	name = "Gift - Kit, Gothic Psydonic Cuirass"
 	path = /obj/item/enchantingkit/gothicpsydoniccuirass
 
+/datum/loadout_item/donator/universal/armor_gothic_sallet
+	name = "Gift - Kit, Gothic Sallet"
+	path = /obj/item/enchantingkit/gothicsallet
+
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
 	path = /obj/item/enchantingkit/heroicleathercuirass

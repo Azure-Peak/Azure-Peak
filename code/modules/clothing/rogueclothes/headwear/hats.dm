@@ -401,6 +401,11 @@
 	worn_y_dimension = 64
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/priesthat/bishop
+	name = "bishop's hat"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "bishop"
+
 /obj/item/clothing/head/roguetown/reqhat
 	name = "serpent crown"
 	desc = ""

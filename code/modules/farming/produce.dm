@@ -586,6 +586,15 @@
 		return ..() //Eat it
 	if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
 		return ..() //Make THEM eat it.
+
+	if(M.stat == DEAD)
+		user.visible_message(span_notice("[user] brings [src] to soak up the stale essence of [M]'s wounds."))
+		if(do_after(user, 5 SECONDS, target = M))
+			user.visible_message(span_notice("[src] begins to wilt rapidly upon contact with [M]'s blood, but quickly recovers once [user] pulls it away."),
+				span_notice("The [src] begins to wilt rapidly as it touches [M]'s blood. You pull it away, and it quickly recovers."))
+			return
+		return
+
 	if(!M.get_bleed_rate())
 		to_chat(user, span_warning("There is no blood to wick into the flower bud."))
 		return

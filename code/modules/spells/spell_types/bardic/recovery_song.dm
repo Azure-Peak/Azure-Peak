@@ -16,7 +16,7 @@
 	icon_state = "buff"
 
 /datum/status_effect/buff/song/recovery
-	id = "recoverysong"
+	id = "recovery_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/recovery
 	duration = 15 SECONDS
 	var/stamina_recovery = -4 // Lesser bard (66% of 6)

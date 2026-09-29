@@ -1,0 +1,4 @@
+author: "Lamasmaster"
+delete-after: True
+changes:
+  - balance: "Increases base damage by 30 for Astratan Lightning Bolt, decreases cooldown by 15 seconds to 30, decreases firestacks by 2 on non sundering fire, it can now be canceled just as actual lighting bolt."

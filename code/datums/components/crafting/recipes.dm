@@ -48,7 +48,7 @@
 	var/display_category
 	/// If you have this TRAIT, the recipe is available for you. Otherwise, it is not.
 	var/required_trait = null
-
+	var/do_not_turn = FALSE
 /*
 /datum/crafting_recipe/example
 	name = ""

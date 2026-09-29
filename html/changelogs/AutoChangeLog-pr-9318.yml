@@ -1,0 +1,6 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "Fixed Burning Red Eyes jank"
+  - bugfix: "Standardized the proc for 'eye organ incompatibility'."
+  - rscdel: "Removed some irrelevant eyes."

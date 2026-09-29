@@ -725,6 +725,14 @@
 	icon_state = "loudmouthrobe"
 	item_state = "loudmouthrobe"
 
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/bishop
+	color = null
+	name = "bishop's cassock"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "bishoprobe"
+	item_state = "bishoprobe"
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
 //WEDDING CLOTHES
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/weddingdress
 	name = "wedding silk dress"

@@ -1,0 +1,6 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - rscadd: "Adds a gothic sallet for donators to use via transforming kit."
+  - rscadd: "The psydonic gothic kits work on fluted cuirass and fluted half-plate items too."
+  - bugfix: "Add missing fluted half-plate to deserter's choices. They had regular half-plate and regular/fluted full-plate already."
