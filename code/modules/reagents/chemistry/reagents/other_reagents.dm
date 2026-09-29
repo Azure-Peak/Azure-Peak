@@ -118,8 +118,12 @@
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
 			H.adjust_hydration(hydration)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL && !M.cmode)
-			M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			if(!M.cmode)
+				M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
+			else
+				if(prob(10))
+					to_chat(M, "<span class='warning'>I'm too tense for the water to nourish me...</span>")
 	..()
 #undef WATER_BLOOD_RESTORE
 
