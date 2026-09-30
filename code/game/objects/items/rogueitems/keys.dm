@@ -731,6 +731,24 @@
 	icon_state = "greenkey"
 	lockid = "nightman"
 
+/obj/item/roguekey/bathi
+	name = "baths room I key"
+	desc = "This regal key opens the baths first room."
+	icon_state = "bathkey"
+	lockid = "lux1"
+
+/obj/item/roguekey/bathii
+	name = "baths room II key"
+	desc = "This regal key opens the baths second room."
+	icon_state = "bathkey"
+	lockid = "lux2"
+
+/obj/item/roguekey/bathiii
+	name = "baths room III key"
+	desc = "This regal key opens the baths third room."
+	icon_state = "bathkey"
+	lockid = "lux3"
+
 /obj/item/roguekey/bathworker
 	name = "bathhouse key"
 	desc = "This regal key opens doors inside the bath-house."

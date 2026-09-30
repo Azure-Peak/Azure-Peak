@@ -343,7 +343,7 @@
 	keys = list(/obj/item/roguekey/roomhunt, /obj/item/roguekey/roomvi, /obj/item/roguekey/roomv, /obj/item/roguekey/roomiv, /obj/item/roguekey/roomiii, /obj/item/roguekey/roomii, /obj/item/roguekey/roomi, /obj/item/roguekey/fancyroomi, /obj/item/roguekey/fancyroomii, /obj/item/roguekey/fancyroomiii, /obj/item/roguekey/fancyroomiv, /obj/item/roguekey/fancyroomv)
 
 /obj/item/storage/keyring/bathmaster //All access to the baths
-	keys = list(/obj/item/roguekey/bathmaster, /obj/item/roguekey/bathworker)
+	keys = list(/obj/item/roguekey/bathmaster, /obj/item/roguekey/bathworker, /obj/item/roguekey/bathi, /obj/item/roguekey/bathii, /obj/item/roguekey/bathiii)
 
 /obj/item/storage/keyring/apothecary
 	keys = list(/obj/item/roguekey/apothecary, /obj/item/roguekey/keeper, /obj/item/roguekey/university)
