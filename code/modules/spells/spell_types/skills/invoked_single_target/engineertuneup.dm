@@ -164,7 +164,6 @@
 									I.current_charge -= 20
 									playsound(user, 'sound/misc/ratchet.ogg', 100, TRUE)
 									structurerepair.density = TRUE
-									structurerepair.set_opacity(TRUE)
 									structurerepair.obj_broken = FALSE
 									structurerepair.obj_integrity = structurerepair.max_integrity
 									user.visible_message(span_notice("[user] repaired [structurerepair.name]."), \
@@ -172,12 +171,15 @@
 									if(is_type_in_list(structurerepair, barlist))
 										var/obj/structure/bars/barsrepairable = structurerepair
 										barsrepairable.icon_state = "[initial(barsrepairable.icon_state)]"
-										barsrepairable.set_opacity(FALSE)
-									if(is_type_in_list(structurerepair, gatelist))
+										if(istype(barsrepairable, /obj/structure/bars/passage/shutter))
+											barsrepairable.set_opacity(TRUE)
+										else
+											barsrepairable.set_opacity(FALSE)
+									else if(is_type_in_list(structurerepair, gatelist))
 										var/obj/structure/gate/gaterepairable = structurerepair
 										gaterepairable.icon_state = "[gaterepairable.base_state]"
 										gaterepairable.set_opacity(FALSE)
-									if(is_type_in_list(structurerepair, doorlist))
+									else if(is_type_in_list(structurerepair, doorlist))
 										var/obj/structure/mineral_door/doorsrepairable = structurerepair
 										doorsrepairable.icon_state = "[doorsrepairable.base_state]"
 										doorsrepairable.brokenstate = TRUE

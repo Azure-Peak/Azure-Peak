@@ -116,6 +116,13 @@
 
 /mob/living/carbon/human/handle_roguebreath()
 	..()
+	if(HAS_TRAIT(src, TRAIT_PSYDONITE))
+		if(!HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_IRONMAN)) //Explicitly incompatible with Blackblood, Constructs have their own healing mechanics + are barred from healing miracles already, which overlaps with the intended weakness of Psydonian healing.
+			var/list/wCount = src.get_wounds()
+			if(wCount.len > 0)
+				heal_wounds(0.4, psydonite = TRUE)
+				if(blood_volume > BLOOD_VOLUME_BAD && !HAS_TRAIT(src, TRAIT_DEATHLESS))
+					heal_wounds(0.6, psydonite = TRUE) //Bulk of the healing is locked behind not having depleted blood and not being deathless
 	if(HAS_TRAIT(src, TRAIT_NOBREATH))
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_HOLDBREATH))
@@ -376,32 +383,31 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 //WE HANDLE SUNDERSTACKS HERE
 	if(sunder_stacks)
 		sunder_stacks = max(sunder_stacks - 1, 0) //Takes a bit to shrug off
-		if(cultslurring < 5) //Fucks up our ability to talk, completely until all sunderstacks are gone
-			cultslurring += 1.2
+
+		apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
 
 		if(sunder_stacks >= 21)
-			apply_status_effect(/datum/status_effect/debuff/sunder_stacks) //You survived an EXTREMELY lethal blow, you might want to keep back for now
+			if(cultslurring < 5) //Fucks up our ability to talk, completely until we're below 20 stacks
+				cultslurring += 1.2
 
-		if(sunder_stacks >= 41)
+		if(sunder_stacks >= 31)
 			adjustBruteLoss(1)
-			if(prob(3)) //5% chance of random dizziness
-				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire. No immobilise yet.
-				Dizzy(3)
+			if(prob(3)) //3% chance of blood vomiting
+				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
+				Dizzy(5) //Tiny bit of Dizzy
 
-		if(sunder_stacks >= 71) //At this point you've taken (2) blows or more and shouldn't be escaping death this easily.
+		if(sunder_stacks >= 41) //At this point you've taken (2) blows (or are a vampire) or more and shouldn't be escaping death this easily.
 			adjustBruteLoss(1)
 			if(prob(12)) //12% chance to have random movement + stun + dizziness
 				confused += 8
 				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
-				Dizzy(15)
-			if(prob(5)) //5% chance to collapse randomly
-				vomit(blood = TRUE, stun = FALSE) // vomiting blood, because you are actually pretty fucked up sire.
-				Knockdown(15)
+				Dizzy(5)
 
 		if(sunder_stacks >= 101) //We are beyond the point of lethal, somehow. This will cripple you severely.
 			adjustBruteLoss(1)
 			if(prob(50))
 				blur_eyes(5)
+				Knockdown(5) //can't stand at all hardly, mortality almost forced upon a form that cannot sustain it.
 			Dizzy(25)//You are completely fucked up at this point, any more stacks of SUNDER and you're DEAD.
 
 

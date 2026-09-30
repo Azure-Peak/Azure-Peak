@@ -1,4 +1,11 @@
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_draw_time(mob/living/user, arcing = FALSE)
+	. = ..()
+	if(!. || !onehanded)
+		return
+	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
+		. *= arcing ? onehanded_arc_draw_mult : onehanded_draw_mult
+
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_npc_chargetime(mob/living/user)
 	var/newtime = max(20, reloadtime - user.STASTR - (user.get_skill_level(ranged_skill) * 2))
 	if(chambered)
@@ -26,10 +33,14 @@
 	spread = 0
 	can_parry = TRUE
 	associated_skill = /datum/skill/combat/crossbows
-	var/ranged_skill = /datum/skill/combat/crossbows
+	ranged_skill = /datum/skill/combat/crossbows
+	draw_base = CROSSBOW_DRAW_BASE
+	draw_floor = CROSSBOW_DRAW_FLOOR
+	draw_per_skill = CROSSBOW_DRAW_PER_SKILL
+	onehanded_draw_mult = CROSSBOW_ONEHANDED_DRAW_MULT
+	onehanded_arc_draw_mult = CROSSBOW_ONEHANDED_ARC_DRAW_MULT
 	wdefense = 3
 	max_integrity = 100
-	var/chargingspeed = 40
 	var/reloadtime = 40
 	var/movingreload = FALSE
 	var/onehanded = FALSE
@@ -49,8 +60,9 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Crossbows increase in accuracy with a higher <b>PERCEPTION</b>, but deal a static amount of damage \
-	regardless of character stats.")
+	. += span_info("Crossbows deal a static amount of damage regardless of character stats.")
+	. += span_info("My <b>CROSSBOWS</b> skill defines how precise my shots are and how fast I can draw.")
+	. += span_info("When I shoot a target too close or too far away, I will only hit the chest.")
 	. += span_info("Crossbows must be cocked before a bolt can be nocked, but once cocked I can nock straight from a pouch by left-clicking it.")
 	if(damfactor < 1)
 		. += span_info("This weapon <b>reduces</b> bolt damage by <b>[round((1 - damfactor) * 100, 1)]%</b>.")
@@ -79,11 +91,9 @@
 
 /datum/intent/shoot/crossbow
 	chargedrain = 0 //no drain to aim a crossbow
-	var/basetime = 40
 
 /datum/intent/shoot/crossbow/slurbow
 	chargedrain = 0 //no drain to aim a crossbow
-	basetime = 20
 
 /datum/intent/shoot/crossbow/can_charge(atom/clicked_object)
 	if(mastermob && masteritem)
@@ -97,33 +107,20 @@
 	return TRUE
 
 /datum/intent/shoot/crossbow/get_chargetime()
-	if(mastermob && chargetime && masteritem)
+	if(mastermob && chargetime)
 		var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
-		var/newtime = chargetime
-		//skill block
-		newtime += basetime
-		newtime -= (mastermob.get_skill_level(c_bow.ranged_skill) * 4.25) // minus 4.25 per skill point
-		newtime -= ((mastermob.STAPER)) // minus 1 per perception
-
-		if(c_bow.onehanded)
-			if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
-				newtime *= 1.5 // more time if firing one-handed.
-		if(c_bow.chambered)
-			newtime *= c_bow.chambered.charge_time_mult
-		if(newtime > 1)
-			return newtime
-		else
-			return 1
+		if(istype(c_bow))
+			var/newtime = c_bow.get_draw_time(mastermob, FALSE)
+			if(newtime)
+				return newtime
 	return chargetime
 
 /datum/intent/arc/crossbow
 	chargetime = 1
-	var/basetime = 40
 	chargedrain = 0 //no drain to aim a crossbow
 
 /datum/intent/arc/crossbow/slurbow
 	chargetime = 1
-	basetime = 20
 	chargedrain = 0
 
 /datum/intent/arc/crossbow/can_charge(atom/clicked_object)
@@ -138,25 +135,12 @@
 	return TRUE
 
 /datum/intent/arc/crossbow/get_chargetime()
-	if(mastermob && chargetime && masteritem)
+	if(mastermob && chargetime)
 		var/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/c_bow = masteritem
-		var/newtime = chargetime
-		//skill block
-		newtime += basetime
-		newtime -= (mastermob.get_skill_level(c_bow.ranged_skill) * 20)
-		//per block
-		newtime += 20
-		newtime -= ((mastermob.STAPER)*1.5)
-
-		if(c_bow.onehanded)
-			if(mastermob.get_num_arms(FALSE) < 2 || mastermob.get_inactive_held_item())
-				newtime *= 2 // more time if firing one-handed.
-		if(c_bow.chambered)
-			newtime *= c_bow.chambered.charge_time_mult
-		if(newtime > 0)
-			return newtime
-		else
-			return 10
+		if(istype(c_bow))
+			var/newtime = c_bow.get_draw_time(mastermob, TRUE)
+			if(newtime)
+				return newtime
 	return chargetime
 
 
@@ -227,13 +211,7 @@
 		return FALSE
 
 	// Spread calculation
-	if(user.client)
-		if(user.client.chargedprog >= 100)
-			spread = 0
-		else
-			spread = 150 - (150 * (user.client.chargedprog / 100))
-	else
-		spread = 0
+	spread = get_ranged_spread(user)
 
 	// Projectile stat modification
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
@@ -241,9 +219,7 @@
 		if(!BB)
 			continue
 
-		BB.accuracy += accfactor * (user.STAPER - 8) * 3 // 8+ PER gives +3 per level. Exponential.
-		BB.bonus_accuracy += (user.STAPER - 8) // 8+ PER gives +1 per level. Does not decrease over range.
-		BB.bonus_accuracy += (user.get_skill_level(ranged_skill) * 5) // +5 per skill level.
+		apply_ranged_accuracy(BB, user)
 		BB.armor_penetration = max(PEN_NONE, BB.armor_penetration + penfactor)
 		BB.damage *= damfactor
 
@@ -252,6 +228,7 @@
 	. = ..()
 	if(!.)
 		return
+	pay_release_drain(user)
 	if(!onehanded)
 		return
 
@@ -340,7 +317,9 @@
 	item_state = "slurbow"
 	possible_item_intents = list(/datum/intent/shoot/crossbow/slurbow, /datum/intent/arc/crossbow/slurbow, /datum/intent/buttstroke)
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/slurbow
-	chargingspeed = 20
+	draw_base = SLURBOW_DRAW_BASE
+	draw_floor = SLURBOW_DRAW_FLOOR
+	draw_per_skill = SLURBOW_DRAW_PER_SKILL
 	damfactor = 0.6
 	accfactor = 1.3
 	reloadtime = 20
@@ -376,7 +355,9 @@
 	force = 20
 	wdefense = 4
 	max_integrity = 150
-	chargingspeed = 60 //+20, or a little over +50% the standard charging speed.
+	draw_base = HEAVY_CROSSBOW_DRAW_BASE
+	draw_floor = HEAVY_CROSSBOW_DRAW_FLOOR
+	draw_per_skill = HEAVY_CROSSBOW_DRAW_PER_SKILL
 	reloadtime = 160 //Roughly sixteen seconds, or +200% the standard reloading speed.
 	accfactor = 0.5 //Hey, I'd like to see you try to aim a siege weapon while standing up!
 	equip_delay_self = 3 SECONDS
@@ -390,13 +371,11 @@
 	start_empty = TRUE
 
 /datum/intent/shoot/crossbow/heavy
-	basetime = 60
 	chargetime = 1
 	chargedrain = 1 //Takes 50% longer to properly aim and fire. Imparts a stamina drain and audio cue, too.
 	charging_slowdown = 2 //Slows down movement, on par with a dedicated longbow. You can probably guess why.
 
 /datum/intent/arc/crossbow/heavy
-	basetime = 60
 	chargetime = 1.5
 	chargedrain = 1 //Ditto.
 	charging_slowdown = 2.5 //Little more than before, with the assumption that you're taking your time for a more precise shot.
@@ -434,7 +413,6 @@
 	to destroy those who'd seek to sacrifice His greatest works. May thy aim be true, childe o' God - and thy judgement, unfettered."
 	minstr = 10 //X STR. Intended for use by the Inquisitor, or as a purchased alternative.
 	max_integrity = 200
-	chargingspeed = 50 //Halfway between the standard crossbow and siegebow.
 	reloadtime = 120 //Halfway between the standard crossbow and siegebow.
 	icon_state = "relicpsyheavybow0"
 	item_state = "relicpsyheavybow"
@@ -454,7 +432,9 @@
 	item_state = "lesserstaker"
 	possible_item_intents = list(/datum/intent/shoot/crossbow/slurbow, /datum/intent/arc/crossbow/slurbow, /datum/intent/buttstroke)
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/staker
-	chargingspeed = 20
+	draw_base = SLURBOW_DRAW_BASE
+	draw_floor = SLURBOW_DRAW_FLOOR
+	draw_per_skill = SLURBOW_DRAW_PER_SKILL
 	damfactor = 1 //No damage malus, as it uses proprietary ammunition.
 	accfactor = 1.3
 	reloadtime = 20

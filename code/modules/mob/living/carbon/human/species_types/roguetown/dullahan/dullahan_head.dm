@@ -572,7 +572,7 @@
 			keenears = HAS_TRAIT(H, TRAIT_KEENEARS)
 			var/name_to_highlight = H.nickname
 			if(name_to_highlight && name_to_highlight != "" && name_to_highlight != "Please Change Me")	//We don't need to highlight an unset or blank one.
-				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = #[H.highlight_color]>[name_to_highlight]</font></b>")
+				highlighted_message = replacetext_char(message, name_to_highlight, "<b><font color = '[H.highlight_color]'>[name_to_highlight]</font></b>")
 		var/atom/movable/tocheck = AM
 		if(isdullahan(AM))
 			var/mob/living/carbon/human/target = AM

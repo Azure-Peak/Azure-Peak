@@ -183,6 +183,13 @@ const Sidebar = () => {
                 onClick={() => act('refresh_character_preview')}
               />
             </Stack.Item>
+            <Stack.Item>
+              <Button
+                icon="maximize"
+                tooltip="Change grid size"
+                onClick={() => act('cycle_preview_size')}
+              />
+            </Stack.Item>
           </Stack>
         </Stack.Item>
         <Stack.Item>

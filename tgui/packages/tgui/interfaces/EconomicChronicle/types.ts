@@ -144,9 +144,12 @@ export type ContractsSnapshot = {
   completed_defense: number;
   abandoned: number;
   rerolled: number;
+  lapse_refunded: number;
+  withdrawn: number;
   mammons_paid: number;
   mammons_taxed: number;
   mammons_forfeited: number;
+  mammons_refunded: number;
 };
 
 export type RoyalFavorsSnapshot = {

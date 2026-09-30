@@ -57,6 +57,8 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/investigate_show,		/*various admintools for investigation. Such as a singulo grief-log*/
 	/client/proc/secrets,				/* Almost entirely non-functional after Azure Peak Debloatening. Final few are redundant, but keeping just in case */
 	/client/proc/reload_admins,
+	/client/proc/recalc_pq_bulk,
+	/client/proc/recalc_pq_single,
 	/client/proc/reload_whitelist,
 	/client/proc/reestablish_db_connection, /*reattempt a connection to the database*/
 	/client/proc/cmd_admin_pm_context,	/*right-click adminPM interface*/
@@ -187,7 +189,8 @@ GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())
 GLOBAL_PROTECT(admin_verbs_debug)
 /world/proc/AVerbsDebug()
 	return list(
-	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
+	/client/proc/debug_variables_verb,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
+	/client/proc/display_tags,
 	/client/proc/restart_controller,
 	/client/proc/cmd_controller_view_ui,
 	/client/proc/cmd_admin_list_open_jobs,
@@ -492,7 +495,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 /client/proc/check_antagonists()
 	set name = "Check Antags"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	if(holder)
 		holder.check_antagonists()
 		log_admin("[key_name(usr)] checked antagonists.")	//for tsar~
@@ -645,7 +648,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Stealth Mode") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/drop_bomb()
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set name = "Bomb..."
 	set desc = ""
 
@@ -687,7 +690,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Drop Bomb") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/drop_dynex_bomb()
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set name = "Bomb - DynEx..."
 	set desc = ""
 
@@ -734,7 +737,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	message_admins("[key_name_admin(usr)] has	modified Dynamic Explosion Scale: [ex_scale]")
 
 /client/proc/give_spell(mob/T in GLOB.mob_list)
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set name = "Give Spell"
 	set desc = ""
 
@@ -743,7 +746,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "Give Spell") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/remove_spell(mob/T in GLOB.mob_list)
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set name = "Remove Spell"
 	set desc = ""
 
@@ -756,7 +759,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 			SSblackbox.record_feedback("tally", "admin_verb", 1, "Remove Spell") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/object_say(obj/O in world)
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "OSay"
 	set desc = ""
 	var/message = input(usr, "What do you want the message to be?", "Make Sound") as text | null
@@ -768,7 +771,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Object Say") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/force_say(mob/living/L in GLOB.mob_list)
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "Force Speech"
 	set desc = ""
 

@@ -17,6 +17,7 @@
 
 	var/list/possible_shapes = list(
 		/mob/living/carbon/human/species/wildshape/volf,
+		/mob/living/carbon/human/species/wildshape/direvolf,
 		/mob/living/carbon/human/species/wildshape/fox,
 		/mob/living/carbon/human/species/wildshape/cat,
 		/mob/living/carbon/human/species/wildshape/bear,

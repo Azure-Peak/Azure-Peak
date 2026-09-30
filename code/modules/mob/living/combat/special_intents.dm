@@ -751,7 +751,7 @@ SPECIALS START HERE
 	sfx_pre_delay = 'sound/combat/wooshes/blunt/wooshmed (1).ogg'
 	sfx_post_delay = 'sound/combat/hits/blunt/woodblunt (1).ogg'
 	delay = 0.6 SECONDS
-	cooldown = 15 SECONDS
+	cooldown = 25 SECONDS
 	requires_wielding = TRUE
 	stamcost = 20
 	var/vulnerable_dur = 3 SECONDS
@@ -1060,7 +1060,7 @@ SPECIALS START HERE
 	respect_adjacency = FALSE
 	respect_dir = TRUE
 	delay = 0.5 SECONDS
-	cooldown = 15 SECONDS
+	cooldown = 25 SECONDS
 	stamcost = 15	//Stamina cost
 	var/dam = 30
 	var/slow_dur = 5
@@ -1575,13 +1575,20 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/dagger_dash
 	name = "Dagger Dash"
-	desc = "Become quicker on your feet and pass through other beings for a short time. Boost scales with worn armor."
+	desc = "Become quicker on your feet and pass through other beings for a short time. Boost scales with worn armor. Afterwards, neither Phase nor Dagger Dash can be used until 30 seconds later."
 	cooldown = 90 SECONDS
 	stamcost = 25
+
+/datum/special_intent/dagger_dash/check_reqs(mob/living/carbon/human/user, obj/item/I)
+	if(user.has_status_effect(/datum/status_effect/debuff/slip_recovery))
+		user.balloon_alert(user, "Still winded!")
+		return FALSE
+	return ..()
 
 /datum/special_intent/dagger_dash/process_attack()
 	SHOULD_CALL_PARENT(FALSE)
 	howner.apply_status_effect(/datum/status_effect/buff/dagger_dash)
+	howner.apply_status_effect(/datum/status_effect/debuff/slip_recovery)
 	playsound(howner, 'sound/combat/dagger_boost.ogg', 100, TRUE)
 	apply_cooldown()
 

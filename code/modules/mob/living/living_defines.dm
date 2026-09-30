@@ -149,6 +149,7 @@
 	var/gm_name // Display label in the game master panel. Unset derives one from the type path.
 	var/gm_category // Filter category in the game master panel. Unset uses the primary faction.
 	var/gm_hidden = FALSE // Keep this type out of the game master panel entirely.
+	var/datum/npc_archetype/npc_archetype // NPC Archetype that is composed from multiple components to make them more reusable
 
 	var/datum/fellowship/current_fellowship
 	var/list/incoming_fellowship_invites = list() // list of /datum/weakref to /datum/fellowship; kept in sync with fellowship.pending_invites
@@ -250,6 +251,7 @@
 	var/dualwield_finisher = FALSE
 	var/dualwield_resets_in = 0
 	var/dualwield_buff_cd = 0
+	var/dualwield_twoswing = FALSE
 
 	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
 	var/in_combat_until

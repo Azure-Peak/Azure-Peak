@@ -36,8 +36,6 @@ without going through the click pipeline, so spells can deliver weapon-style str
 		def_zone = user.zone_selected || BODY_ZONE_CHEST
 
 	// exact_zone bypasses the roll entirely, striking precisely where the caster aimed.
-	var/aimed_zone = def_zone
-	var/list/roll_out = list()
 	if(!exact_zone && def_zone != BODY_ZONE_CHEST && isliving(target))
 		// A bound weapon carries arcyne as its own skill, so Bind Armament transfers accuracy onto it.
 		var/datum/skill/accuracy_skill = weapon?.associated_skill || /datum/skill/combat/arcyne
@@ -148,10 +146,6 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			span_danger("[user] [attack_verb] \the [target] with [weapon_name] in the [parse_zone(def_zone)]![armor_msg]"),
 			span_danger("[user] [attack_verb] me in the [span_userdanger(parse_zone(def_zone))]![armor_msg]"),
 			null, COMBAT_MESSAGE_RANGE)
-
-	if(isliving(target))
-		var/mob/living/L = target
-		L.show_ranged_accuracy_fail(user, aimed_zone, def_zone, roll_out)
 
 	log_combat(user, target, "spell-struck ([spell_name])", zone=def_zone)
 	return max(0, damage - armor_block)

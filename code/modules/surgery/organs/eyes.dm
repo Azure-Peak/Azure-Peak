@@ -148,43 +148,56 @@
 	sight_flags = SEE_MOBS
 
 /obj/item/organ/eyes/night_vision/zombie
-	name = "undead eyes"
-	desc = ""
+	name = "deadite eyes"
+	desc = "Rotting eyes that belong to the dead. You can't be helped but wonder how they can see through that."
+
+/obj/item/organ/eyes/night_vision/zombie/on_life()
+	. = ..()
+	if(!(owner.mob_biotypes & MOB_UNDEAD))
+		if(prob(10))
+			pain_from_rejection()
 
 /obj/item/organ/eyes/construct
 	name = "construct eyes"
 	desc = "Some beast's eyes, preserved through artifice and with magical rock embedded in their back. Seems to fit a construct's head."
 	icon_state = "eyeball-con"
 
-/obj/item/organ/eyes/night_vision/zombie/on_life()
+/obj/item/organ/eyes/construct/on_life()
 	. = ..()
-	if (!(owner.mob_biotypes & MOB_UNDEAD))
-		if (prob(10))
-			owner.adjustToxLoss(0.2)
+	if(!istype(owner?.dna?.species, /datum/species/construct/metal))
+		if(prob(10))
+			pain_from_rejection()
 
 /obj/item/organ/eyes/night_vision/werewolf
 	name = "moonlight eyes"
-	desc = ""
+	desc = "Eyes of a nitecreacher. It might be worth a nice sum as an antique, or as a trinket for mad psyentists."
 
 /obj/item/organ/eyes/night_vision/nightmare
-	name = "burning red eyes"
-	desc = ""
-	icon_state = "burning_eyes"
+	name = "unnatural eyes"
+	desc = "An aberration filled with foul magicks behind it. You should definitely not put those into your peepers."
+	color = "#ea00ff"
 
 /obj/item/organ/eyes/night_vision/wild_goblin
-	name = "wild goblin eyes"
+	name = "goblin eyes"
 	desc = "What manner of madness have these reddened orbs espied in the darker places of the realm?"
 	icon_state = "burning_eyes"
 
 /obj/item/organ/eyes/night_vision/wild_goblin/on_life()
 	. = ..()
-	if (!istype(owner, /mob/living/carbon/human/species/goblin))
-		if (prob(10))
-			owner.adjustToxLoss(0.2)
+	if(!istype(owner, /mob/living/carbon/human/species/goblin) && !istype(owner?.dna?.species, /datum/species/goblin))
+		if(prob(10))
+			pain_from_rejection()
 
-/obj/item/organ/eyes/night_vision/mushroom
-	name = "fung-eye"
-	desc = ""
+/obj/item/organ/eyes/proc/pain_from_rejection()
+	if(!owner)
+		return
+	owner.emote("pain")
+	to_chat(owner, span_danger(pick("MY EYES HURT! GET THEM OUT OF ME!",
+		"MY EYES! SOMETHING IS CRAWLING BEHIND THEM! TAKE THEM OUT!",
+		"I CAN FEEL SOMETHING WRIGGLING INSIDE MY SKULL! RIP THEM OUT!",
+		"GET THESE THINGS OUT OF MY SOCKETS! I DON'T WANT THEM!",
+		"MY EYES ARE MOVING ON THEIR OWN! TEAR THEM OUT!")))
+	owner.reagents.add_reagent(/datum/reagent/infection/major, 2)
 
 /obj/item/organ/eyes/night_vision/vampire/ui_action_click()
 	sight_flags = initial(sight_flags)
@@ -204,18 +217,6 @@
 			weather_plane?.alpha = 255
 			sight_flags &= ~SEE_BLACKNESS
 	owner.update_sight()
-
-/obj/item/organ/eyes/elf
-	name = "elf eyes"
-	desc = ""
-
-/obj/item/organ/eyes/halfelf
-	name = "half-elf eyes"
-	desc = ""
-
-/obj/item/organ/eyes/goblin
-	name = "goblin eyes"
-	desc = ""
 
 ///Robotic
 
@@ -452,18 +453,11 @@
 
 /obj/item/organ/eyes/moth
 	name = "fluvian eyes"
-	desc = ""
+	desc = "Large, delicate eyes with a strange clarity, built to pick out movement and detail through the shifting gloom."
 	flash_protect = FLASH_PROTECTION_SENSITIVE
 	accessory_type = /datum/sprite_accessory/eyes/moth
 	eye_color = "000000"
 	second_color = "000000"
-
-/obj/item/organ/eyes/snail
-	name = "snail eyes"
-	desc = ""
-	eye_icon_state = "snail_eyes"
-	icon_state = "snail_eyeballs"
-
 
 /proc/set_eye_color(mob/living/carbon/mob, color_one, color_two)
 	var/obj/item/organ/eyes/eyes = mob.getorganslot(ORGAN_SLOT_EYES)

@@ -3,7 +3,6 @@
 	skin_tone = SKIN_COLOR_GROONN
 	hairstyle = "Bald"
 	facial_hairstyle = "Shaved"
-	var/orc_outfit = /datum/outfit/job/roguetown/orc/npc
 
 	race = /datum/species/orc
 	gender = MALE
@@ -18,115 +17,34 @@
 	possible_mmb_intents = list(INTENT_SPECIAL, INTENT_JUMP, INTENT_KICK, INTENT_BITE)
 
 /mob/living/carbon/human/species/orc/npc
+	npc_archetype = /datum/npc_archetype/orc/savage
 	faction = list(FACTION_ORCS, FACTION_STATION)
 	ai_controller = /datum/ai_controller/human_npc
 	cmode_music = FALSE
 	ambush_faction = "orcs"
 
 /mob/living/carbon/human/species/orc/npc/archer
+	npc_archetype = /datum/npc_archetype/orc/savage/archer
 	threat_point = THREAT_HIGH
-	orc_outfit = /datum/outfit/job/roguetown/orc/npc/archer
 
-/mob/living/carbon/human/species/orc/npc/Initialize(mapload)
-	. = ..()
-	set_species(/datum/species/orc)
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+/mob/living/carbon/human/species/orc/npc/footsoldier
+	npc_archetype = /datum/npc_archetype/orc/footsoldier
+	threat_point = THREAT_HIGH
+	ambush_faction = "orcs"
 
-/mob/living/carbon/human/species/orc/npc/after_creation()
-	..()
-	AddComponent(/datum/component/ai_aggro_system)
-	job = "Savage Orc"
-	equipOutfit(new orc_outfit)
-	gender = pick(MALE, FEMALE)
-	var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
-	var/hairf = pick(list(/datum/sprite_accessory/hair/head/lowbraid,
-						/datum/sprite_accessory/hair/head/countryponytailalt))
-	var/hairm = pick(list(/datum/sprite_accessory/hair/head/ponytailwitcher,
-						/datum/sprite_accessory/hair/head/lowbraid))
-	var/beard = pick(list(/datum/sprite_accessory/hair/facial/viking,
-						/datum/sprite_accessory/hair/facial/manly,
-						/datum/sprite_accessory/hair/facial/longbeard))
-	head.sellprice = HEAD_BOUNTY_ORC
+/mob/living/carbon/human/species/orc/npc/marauder
+	npc_archetype = /datum/npc_archetype/orc/marauder
+	threat_point = THREAT_DANGEROUS
 
-	src.set_patron(/datum/patron/inhumen/graggar)
-	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
-	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_BREADY, TRAIT_GENERIC)
-	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+/mob/living/carbon/human/species/orc/npc/berserker
+	npc_archetype = /datum/npc_archetype/orc/berserker
+	threat_point = THREAT_DANGEROUS
 
-	var/datum/bodypart_feature/hair/head/new_hair = new()
-	var/datum/bodypart_feature/hair/facial/new_facial = new()
-	var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-	var/obj/item/organ/ears/organ_ears = getorgan(/obj/item/organ/ears)
+/mob/living/carbon/human/species/orc/npc/warlord
+	npc_archetype = /datum/npc_archetype/orc/warlord
+	threat_point = THREAT_DEADLY
 
-	if(organ_eyes)
-		organ_eyes.eye_color = "#FF0000"
-		organ_eyes.accessory_colors = "#FF0000#FF0000"
-
-	skin_tone = "50715C"
-
-	if(organ_ears)
-		organ_ears.accessory_colors = "#50715C"
-
-	if(gender == FEMALE)
-		new_hair.set_accessory_type(hairf, null, src)
-	else
-		new_hair.set_accessory_type(hairm, null, src)
-		new_facial.set_accessory_type(beard, null, src)
-
-	head.add_bodypart_feature(new_hair)
-	head.add_bodypart_feature(new_facial)
-
-	new_hair.accessory_colors = "#31302E"
-	new_hair.hair_color = "#31302E"
-	new_facial.accessory_colors = "#31302E"
-	new_facial.hair_color = "#31302E"
-	hair_color = "#31302E"
-
-	random_voice_NPC()
-
-	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
-	dna.species.handle_body(src)
-	if(gender == FEMALE)
-		real_name = pick(world.file2list("strings/rt/names/other/halforcf.txt"))
-	else
-		real_name = pick(world.file2list("strings/rt/names/other/halforcm.txt"))
-	update_hair()
-	update_body()
-
-/datum/outfit/job/roguetown/orc/npc/pre_equip(mob/living/carbon/human/H) //gives some default skills and equipment for player controlled orcs
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant
-	head = /obj/item/clothing/head/roguetown/helmet/leather
-	shoes = /obj/item/clothing/shoes/roguetown/gladiator
-	r_hand = /obj/item/rogueweapon/stoneaxe/boneaxe
-	l_hand = /obj/item/rogueweapon/shield/wood
-
-	H.STASTR = 12
-	H.STASPD = 8
-	H.STACON = 8
-	H.STAWIL = 8
-	H.STAINT = 6
-
-	//light labor skills for armor repairs and such, equipment is so-so, with good stats
-	H.adjust_skillrank_up_to(/datum/skill/craft/carpentry, SKILL_LEVEL_NOVICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/craft/masonry, SKILL_LEVEL_NOVICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/craft/crafting, SKILL_LEVEL_NOVICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/craft/sewing, SKILL_LEVEL_NOVICE, TRUE)
-
-	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, SKILL_LEVEL_APPRENTICE, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_APPRENTICE, TRUE)
-
-
+/mob/living/carbon/human/species/orc/npc/juggernaut
+	npc_archetype = /datum/npc_archetype/orc/warlord/juggernaut
+	threat_point = THREAT_ELITE
+	ambush_faction = "orcs"

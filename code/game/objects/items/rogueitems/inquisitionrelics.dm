@@ -1098,6 +1098,22 @@ Inquisitorial armory down here
 		active = FALSE
 		playsound(loc, 'sound/items/garroteshut.ogg', 65, TRUE)
 
+/obj/item/inqarticles/garrote/proc/wrap(mob/living/user, mob/living/target)
+	victim = target
+	ADD_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
+	ADD_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
+	ADD_TRAIT(target, TRAIT_GARROTED, TRAIT_GENERIC)
+	ADD_TRAIT(target, TRAIT_MUTE, "garroteCordage")
+	if(target != user)
+		user.start_pulling(target, state = 1, supress_message = TRUE, item_override = src)
+	REMOVE_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
+	REMOVE_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
+	var/obj/item/grabbing/I = user.get_inactive_held_item()
+	if(istype(I, /obj/item/grabbing/))
+		I.icon_state = null
+		currentgrab = I
+	return user.pulling == target
+
 /obj/item/inqarticles/garrote/attack_self(mob/user)
 	if(obj_broken)
 		to_chat(user, span_warning("It's useless now, although.."))
@@ -1181,23 +1197,11 @@ Inquisitorial armory down here
 		if(HAS_TRAIT(target, TRAIT_GARROTED))
 			to_chat(user, span_warning("They already have one wrapped around their throat."))
 			return
-		victim = target
 		playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
-		ADD_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
-		ADD_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
-		ADD_TRAIT(target, TRAIT_GARROTED, TRAIT_GENERIC)
-		ADD_TRAIT(target, TRAIT_MUTE, "garroteCordage")
-		if(target != user)
-			user.start_pulling(target, state = 1, supress_message = TRUE, item_override = src)
+		wrap(user, target)
 		user.visible_message(span_danger("[user] wraps the [src] around [target]'s throat!"))
 		user.stamina_add(25)
 		user.changeNext_move(CLICK_CD_MELEE)
-		REMOVE_TRAIT(user, TRAIT_NOSTRUGGLE, TRAIT_GENERIC)
-		REMOVE_TRAIT(user, TRAIT_NOTIGHTGRABMESSAGE, TRAIT_GENERIC)
-		var/obj/item/grabbing/I = user.get_inactive_held_item()
-		if(istype(I, /obj/item/grabbing/))
-			I.icon_state = null
-			currentgrab = I
 
 	if(istype(user.used_intent, /datum/intent/garrote/choke))	// Get started.
 		if(!victim)
@@ -1381,6 +1385,7 @@ Inquisitorial armory down here
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "bmirror"
 	item_state = "bmirror"
+	possible_item_intents = list(/datum/intent/use, /datum/intent/style)
 	grid_height = 64
 	grid_width = 32
 	throw_speed = 3
@@ -1413,6 +1418,7 @@ Inquisitorial armory down here
 /obj/item/inqarticles/bmirror/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right click to open or close the BLACK MIRROR.")
+	. += span_info("While opened, use the 'STYLE' intent while targeting someone's head or skull to style their hair.")
 	. += span_info("Once opened, left-clicking yourself with the BLACK MIRROR will anoint its spike in your blood. This can be dangerous, if used while you're already suffering from blood loss.")
 	. += span_info("Activate the BLACK MIRROR in your hand, once bloodied, to scry whoever's name you enter into the following prompt.")
 
@@ -1509,6 +1515,20 @@ Inquisitorial armory down here
 	return
 
 /obj/item/inqarticles/bmirror/attack(mob/living/carbon/human/M, mob/living/carbon/human/user)
+	if(user.used_intent.type == /datum/intent/style)
+		if(user.zone_selected != BODY_ZONE_HEAD && user.zone_selected != BODY_ZONE_PRECISE_SKULL)
+			return TRUE
+		if(!opened)
+			to_chat(user, span_warning("I need to open it first."))
+			return TRUE
+		if(broken)
+			to_chat(user, span_warning("The mirror has shattered, rendering it unusable."))
+			return TRUE
+		if(bloody)
+			to_chat(user, span_warning("The mirror is fogged over. I need to clean it with cloth before reuse."))
+			return TRUE
+		perform_mirror_styling(user, M, src)
+		return TRUE
 	if(!user.mind)
 		return
 	if(opened)

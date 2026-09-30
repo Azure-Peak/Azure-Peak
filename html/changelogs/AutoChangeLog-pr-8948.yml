@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Loadout item names/descs can now use markdown. Use this tastefully."

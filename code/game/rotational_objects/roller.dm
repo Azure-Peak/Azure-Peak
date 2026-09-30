@@ -8,7 +8,7 @@
 	layer = BELOW_OPEN_DOOR_LAYER
 	rotation_structure = TRUE
 	stress_use = 0
-	initialize_dirs = CONN_DIR_LEFT | CONN_DIR_RIGHT //| CONN_DIR_FORWARD | CONN_DIR_FLIP
+	initialize_dirs = CONN_DIR_ALL_CARDINAL //CONN_DIR_LEFT | CONN_DIR_RIGHT | CONN_DIR_FORWARD | CONN_DIR_FLIP
 
 	var/operating = FALSE
 	var/movedir
@@ -28,6 +28,7 @@
 
 	return INITIALIZE_HINT_LATELOAD
 
+/*
 /obj/structure/roller/LateInitialize()
 	. = ..()
 	movedir = dir
@@ -44,15 +45,18 @@
 	connected_rollers = list()
 
 	return ..()
+*/
 
 /obj/structure/roller/examine(mob/user)
 	. = ..()
 	. += span_notice("It moves items [dir2text(movedir)].")
 	. += span_notice("Rotation can be connected from the [get_rotation_sides_text()] sides.")
+/*
 	if(rotation_network)
 		. += span_notice("RPM: [rotations_per_minute]")
 		. += span_notice("Rollers don't consume stress from the network.")
 	. += span_notice("Use a <b>wrench</b> to rotate it.")
+*/
 
 /obj/structure/roller/get_mechanics_examine(mob/user)
 	. = ..()
@@ -81,14 +85,14 @@
 		if(!istype(connector, /obj/structure/roller))
 			return FALSE
 		var/obj/structure/roller/other_roller = connector
-		if(other_roller.movedir != movedir && other_roller.movedir != REVERSE_DIR(movedir))
+		if(other_roller.movedir != movedir) //&& other_roller.movedir != REVERSE_DIR(movedir))
 			return FALSE
 
 	return TRUE
 
 /obj/structure/roller/setDir(newdir)
-	. = ..()
 	movedir = newdir
+	. = ..()
 	vand_update_appearance()
 
 /obj/structure/roller/rotation_break()
@@ -102,13 +106,17 @@
 		return FALSE
 	rotations_per_minute = min(rpm, 32)
 	operating = rotations_per_minute > 0
+	var/current_turf = get_turf(src)
 	if(!operating)
-		for(var/atom/movable/movable in loc)
+		for(var/atom/movable/movable in current_turf)
 			stop_conveying(movable)
-
+	else
+		// If we're on, start conveying so moveloops on our tile can be refreshed if they stopped for some reason
+		for(var/atom/movable/movable in get_turf(src))
+			start_conveying(movable)
 	vand_update_appearance()
 	return TRUE
-
+/*
 /obj/structure/roller/proc/build_roller_chain()
 	var/turf/forward_turf = get_step(src, movedir)
 	var/obj/structure/roller/forward_roller = locate(/obj/structure/roller) in forward_turf
@@ -116,6 +124,7 @@
 	if(forward_roller && (forward_roller.movedir == movedir || forward_roller.movedir == REVERSE_DIR(movedir)))
 		connected_rollers |= forward_roller
 		forward_roller.connected_rollers |= src
+*/
 
 /obj/structure/roller/proc/get_move_delay()
 	// Higher RPM = faster movement (shorter delay)
@@ -127,11 +136,12 @@
 	SIGNAL_HANDLER
 	if(entering_atom.loc != loc) // If we are not on the same turf (order of operations memes) go to hell
 		return
-
 	if(!operating || !rotations_per_minute)
 		stop_conveying(entering_atom)
 		return
-
+	if(!rotation_network || rotation_network.overstressed)
+		stop_conveying(entering_atom)
+		return
 	start_conveying(entering_atom)
 
 /obj/structure/roller/proc/start_conveying(atom/movable/moving)
@@ -177,8 +187,10 @@
 /obj/structure/roller/proc/rotate_roller(mob/user)
 	setDir(turn(dir, 90))
 	to_chat(user, span_notice("You rotate [src]."))
+	/*
 	connected_rollers = list()
 	build_roller_chain()
+	*/
 
 /obj/structure/roller/vand_update_appearance()
 	. = ..()

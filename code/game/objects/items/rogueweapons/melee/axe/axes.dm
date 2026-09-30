@@ -63,7 +63,7 @@
 	force_wielded = 35
 	smeltresult = /obj/item/ingot/blacksteel
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash/battle, /datum/intent/axe/thrust)
-	wdefense_wbonus = 2 //Increased defense when wielded.
+	wdefense_wbonus = 4 //Increased defense when wielded.
 	max_blade_int = 500 //Sharper than sharp.
 	resistance_flags = FIRE_PROOF
 
@@ -452,6 +452,7 @@
 	gripped_intents = list(/datum/intent/axe/cut,/datum/intent/axe/chop)
 	resistance_flags = FLAMMABLE
 	anvilrepair = /datum/skill/craft/weaponsmithing
+	materia = list(/datum/materia_aspect/tool, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/stoneaxe/woodcut/silver
 	name = "silver war axe"
@@ -633,7 +634,7 @@
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/thrust, SPEAR_BASH)
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/rangedthrust, /datum/intent/axe/sweep)
 	max_blade_int = 500
-	wdefense_wbonus = 3 //Increased defense when wielded.
+	wdefense_wbonus = 4 //Increased defense when wielded.
 	special = /datum/special_intent/axe_swing //Weapon specials on a non-greatsword? How scandalous!
 	resistance_flags = FIRE_PROOF
 

@@ -9,31 +9,25 @@
 	droning_sound = 'sound/music/area/bog.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	ambush_times = list("night","dawn","dusk","day")
 	//Minotaurs too strong for the lazy amount of places this area covers
+	ambush_factions = list()
 	ambush_mobs = list(
-				// Singles — budget filler across all factions present in the bog
-				/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 20,
-				/mob/living/simple_animal/hostile/retaliate/rogue/spider = 40,
-				/mob/living/carbon/human/species/skeleton/npc/bogguard = 20,
-				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 30,
-				/mob/living/carbon/human/species/goblin/npc/archer/cave = 7,
-				/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 15,
-				/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 10,
-				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,
-				// Packs — big-ticket purchases for high budgets
-				new /datum/ambush_config/bog_guard_deserters = 50,
-				new /datum/ambush_config/bog_guard_deserters/hard = 25,
-				new /datum/ambush_config/mirespiders_ambush = 110,
-				new /datum/ambush_config/mirespiders_crawlers = 25,
-				new /datum/ambush_config/mirespiders_aragn = 10,
-				new /datum/ambush_config/mirespiders_unfair = 5)
+		/mob/living/simple_animal/hostile/retaliate/rogue/spider = 39,
+		/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,
+		/datum/npc_warband/bog_guard_deserters = 49,
+		/datum/npc_warband/bog_guard_deserters/hard = 25,
+		/datum/npc_warband/mirespiders_ambush = 108,
+		/datum/npc_warband/mirespiders_crawlers = 25,
+		/datum/npc_warband/mirespiders_aragn = 10,
+		/datum/npc_warband/mirespiders_unfair = 5,
+	)
 	first_time_text = "THE TERRORBOG"
 	converted_type = /area/rogue/indoors/shelter/bog
 	threat_region = THREAT_REGION_TERRORBOG
 	deathsight_message = "a wretched, fetid bog"
 	detail_text = DETAIL_TEXT_TERRORBOG
 	var/list/recent_intruders = list()
+	area_sniff_message = "You smell peat."
 
 /area/rogue/outdoors/bog/Entered(atom/movable/AM)
 	..()
@@ -46,7 +40,7 @@
 
 	if(L in GLOB.active_hags)
 		return
-	
+
 	GLOB.bogged_players += L.real_name
 
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
@@ -76,6 +70,7 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	deathsight_message = "a wretched, fetid bog"
+	area_sniff_message = "You smell peat, but muted."
 
 /area/rogue/outdoors/bog/north
 	name = "Northern Terrorbog"
@@ -109,11 +104,62 @@
 	droning_sound_night = null
 	deathsight_message = "a nasty wicked place deep betwixt the roots of the bog"
 	var/list/recent_intruders = list()
+	area_sniff_message = "You smell the fey."
 
 /area/rogue/indoors/shelter/bog_hag/root_maze
 	name = "The Deepest Roots"
 	icon_state = "bog"
 	first_time_text = "THE DEEPROOT"
+//PILGRIM
+
+/area/rogue/indoors/shelter/bog/grim
+	icon_state = "bog"
+	droning_sound = 'sound/music/area/grimbog.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimswamp.ogg'
+	deathsight_message = "a shadowed shelter, hidden from the thick mist of rotgut swamp's humidity"
+
+/area/rogue/outdoors/bog/north/grim
+	name = "Northwest Rotgut"
+	deathsight_message = "a wretched, fetid bog"
+	droning_sound = 'sound/music/area/grimbog.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimswamp.ogg'
+	deathsight_message = "a flowing tangle of roots and reeds, moderate with humidity"
+
+/area/rogue/outdoors/bog/north/grim/ne
+	name = "Northeast Rotgut"
+	deathsight_message = "a wretched, fetid bog"
+	droning_sound = 'sound/music/area/grimbog.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimswamp.ogg'
+	deathsight_message = "a cliff-shadowed tangle of roots and reeds, thick with humidity"
+
+/area/rogue/outdoors/bog/south/grim
+	name = "Southwest Rotgut"
+	droning_sound = 'sound/music/area/grimbog.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimswamp.ogg'
+	loot_budget = LOOT_BUDGET_GRIMBOG_SOUTH
+	deathsight_message = "a thick, deep wood of roots and reeds, dense with overbearing humidity"
+
+/area/rogue/outdoors/bog/south/grim/se
+	name = "Southeast Rotgut"
+	droning_sound = 'sound/music/area/grimbog.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimswamp.ogg'
+	loot_budget = LOOT_BUDGET_GRIMBOG_SOUTHEAST
+	deathsight_message = "an utter forest of roots and reeds, the air completely saturated with thick humidity"
+
+/area/rogue/indoors/shelter/bog/skeletonfort/grim
+	icon_state = "bog"
+	droning_sound = 'sound/music/area/grimbog.ogg'
+	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
+	droning_sound_night = 'sound/music/area/grimswamp.ogg'
+	deathsight_message = "an overgrown fort, hidden from outsider eyes by thick vines and mist"
+	loot_budget = LOOT_BUDGET_GRIMSKELLYFORT
+
+//PILGRIM END
 
 /area/rogue/indoors/shelter/bog_hag/Entered(atom/movable/AM)
 	..()
@@ -128,7 +174,7 @@
 		return
 
 	GLOB.bogged_players += L.real_name
-	
+
 	if(recent_intruders[L] && recent_intruders[L] > world.time)
 		return
 

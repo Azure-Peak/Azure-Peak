@@ -143,8 +143,9 @@
 
 /obj/structure/flora/roguetree/wise/examine(mob/user)
 	. = ..()
+	// clear any pre-exising sound
 	SEND_SOUND(usr, sound(null))
-	playsound(user, 'sound/music/tree.ogg', 80)
+	user.playsound_local(src, 'sound/music/tree.ogg', 80, FALSE)
 
 /obj/structure/flora/roguetree/wise/druids/take_damage(damage_amount, damage_type = BRUTE || BURN, damage_flag, sound_effect = TRUE)
 	. = ..()
@@ -363,6 +364,8 @@
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
 	var/list/looty = list()
 	var/bushtype
+	var/bush_base_state
+	var/bush_season_suffix = ""
 
 /obj/structure/flora/roguegrass/bush/Initialize(mapload)
 	if(prob(88) && isnull(bushtype))
@@ -371,7 +374,26 @@
 					/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweed=1))
 	loot_replenish()
 	pixel_x += rand(-3,3)
-	return ..()
+	. = ..()
+	register_seasonal_flora(mapload)
+
+/obj/structure/flora/roguegrass/bush/proc/refresh_bush_icon()
+	icon_state = "[bush_base_state][bush_season_suffix]"
+
+// Fall uses the plain (unsuffixed) sprites, Spring reuses the summer sprites (no separate spring art), Winter gets its own.
+/obj/structure/flora/roguegrass/bush/apply_flora_season(season)
+	var/target_suffix
+	switch(season)
+		if(FLORA_SEASON_WINTER)
+			target_suffix = FLORA_SEASON_WINTER
+		if(FLORA_SEASON_SPRING, FLORA_SEASON_SUMMER)
+			target_suffix = FLORA_SEASON_SUMMER
+		else
+			target_suffix = ""
+	if(bush_season_suffix == target_suffix)
+		return
+	bush_season_suffix = target_suffix
+	refresh_bush_icon()
 
 /obj/structure/flora/roguegrass/bush/proc/loot_replenish()
 	if(bushtype)
@@ -385,7 +407,12 @@
 	..()
 	if(isliving(AM))
 		var/mob/living/L = AM
-		if(L.m_intent == MOVE_INTENT_RUN && (L.mobility_flags & MOBILITY_STAND))
+		var/thorn_inmune = FALSE
+		if(HAS_TRAIT(L, TRAIT_KNEESTINGER_IMMUNITY) || HAS_TRAIT(L, TRAIT_AZURENATIVE))
+			thorn_inmune = TRUE
+		if (!thorn_inmune && !(L.movement_type & (FLYING|FLOATING)) && !(L.is_jumping) && !(L.pulledby))
+			L.Slowdown(1)
+		if(!thorn_inmune && L.m_intent == MOVE_INTENT_RUN && (L.mobility_flags & MOBILITY_STAND))
 			if(!ishuman(L))
 				to_chat(L, span_warning("I'm cut on a thorn!"))
 				L.apply_damage(5, BRUTE)
@@ -416,7 +443,7 @@
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
 				loot_replenish()
-			if(prob(50) && looty.len)
+			if(looty.len)
 				if(looty.len == 1)
 					res_replenish = world.time + 8 MINUTES
 				var/obj/item/B = pick_n_take(looty)
@@ -464,7 +491,8 @@
 		unhide(user)
 
 /obj/structure/flora/roguegrass/bush/update_icon()
-	icon_state = "bush[rand(2, 4)]"
+	bush_base_state = "bush[rand(2, 4)]"
+	refresh_bush_icon()
 
 /obj/structure/flora/roguegrass/bush/CanAStarPass(ID, travel_dir, caller)
 	if(occupied)
@@ -482,8 +510,6 @@
 		return 0
 	if(istype(mover) && (mover.pass_flags & PASSGRILLE))
 		return 1
-	if(get_dir(loc, target) == dir)
-		return 0
 	return 1
 
 /obj/structure/flora/roguegrass/bush/onkick(mob/user)
@@ -499,6 +525,7 @@
 	name = "westleach bush"
 	desc = "Large, red leaves peek out of it with an alluring aroma."
 	icon_state = "bush1"
+	bush_base_state = "bush1"
 
 /obj/structure/flora/roguegrass/bush/westleach/update_icon()
 	return
@@ -525,7 +552,8 @@
 
 /obj/structure/flora/roguegrass/bush/wall/Initialize(mapload)
 	. = ..()
-	icon_state = "bushwall[pick(1,2)]"
+	bush_base_state = "bushwall[pick(1,2)]"
+	refresh_bush_icon()
 
 /obj/structure/flora/roguegrass/bush/wall/update_icon()
 	return
@@ -540,8 +568,8 @@
 
 /obj/structure/flora/roguegrass/bush/wall/tall/Initialize(mapload)
 	. = ..()
-	icon_state = "tallbush[pick(1,2)]"
-
+	bush_base_state = "tallbush[pick(1,2)]"
+	refresh_bush_icon()
 
 /obj/structure/flora/rogueshroom
 	name = "mushroom"
@@ -716,7 +744,7 @@
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
 				loot_replenish2()
-			if(prob(50) && looty.len)
+			if(looty.len)
 				if(looty.len == 1)
 					res_replenish = world.time + 8 MINUTES
 				var/obj/item/B = pick_n_take(looty)
@@ -768,7 +796,7 @@
 		if(do_after(L, SEARCHTIME, target = src))
 			if(!looty.len && (world.time > res_replenish))
 				loot_replenish3()
-			if(prob(50) && looty.len)
+			if(looty.len)
 				if(looty.len == 1)
 					res_replenish = world.time + 8 MINUTES
 				var/obj/item/B = pick_n_take(looty)
@@ -827,7 +855,7 @@
 		user.changeNext_move(CLICK_CD_INTENTCAP)
 		playsound(src.loc, "plantcross", 80, FALSE, -1)
 		if(do_after(L, SEARCHTIME, target = src))
-			if(looty.len && prob(75))
+			if(looty.len)
 				var/obj/item/B = pick_n_take(looty)
 				if(B)
 					B = new B(user.loc)
@@ -1043,5 +1071,40 @@
 /obj/structure/flora/roguetree/pine/dead/Initialize(mapload)
 	. = ..()
 	icon_state = "dead[rand(1, 3)]"
+
+/obj/structure/flora/roguetree/dead
+	name = "dead tree"
+	desc = "A weathered dead tree, long stripped of life."
+	icon = 'icons/obj/flora/deadtrees.dmi'
+	icon_state = "tree_1"
+	max_integrity = 50
+	static_debris = list(/obj/item/grown/log/tree = 2)
+	stump_type = /obj/structure/flora/roguetree/stump
+
+/obj/structure/flora/roguetree/dead/Initialize(mapload)
+	. = ..()
+	icon_state = "tree_[rand(1, 6)]"
+
+/obj/structure/flora/roguetree/jungle
+	name = "jungle tree"
+	icon = 'icons/obj/flora/jungletrees.dmi'
+	icon_state = "tree1"
+	pixel_x = -48
+	pixel_y = -20
+	max_integrity = 100
+	static_debris = list(/obj/item/grown/log/tree = 2)
+	stump_type = /obj/structure/flora/roguetree/stump
+
+/obj/structure/flora/roguetree/jungle/Initialize(mapload)
+	. = ..()
+	icon_state = "tree[rand(1, 6)]"
+
+/obj/structure/flora/roguetree/jungle/small
+	name = "small jungle tree"
+	icon = 'icons/obj/flora/jungletreesmall.dmi'
+	pixel_x = -32
+	pixel_y = 0
+	static_debris = list(/obj/item/grown/log/tree = 1)
+	stump_type = /obj/structure/flora/roguetree/stump
 
 #undef SEARCHTIME

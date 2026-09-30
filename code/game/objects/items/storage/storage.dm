@@ -19,10 +19,11 @@
 /obj/item/storage/Initialize(mapload)
 	. = ..()
 	AddComponent(component_type)
-	PopulateContents()
+	spawn(0) // PopulateContents can be a sleeping proc; we don't want to force the initialization subsystem to wait for it. so we don't.
+		PopulateContents() // the atom's already been successfully initialized no matter what happens past this point anyway
 
-	for (var/obj/item/item in src)
-		item.item_flags |= IN_STORAGE
+		for (var/obj/item/item in src)
+			item.item_flags |= IN_STORAGE
 
 /obj/item/storage/AllowDrop()
 	return FALSE

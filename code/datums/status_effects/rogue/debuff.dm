@@ -289,9 +289,9 @@
 	. = ..()
 
 /datum/status_effect/debuff/netted/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
+	. = ..()
+	var/mob/living/carbon/C = owner
+	C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
 
 /datum/status_effect/debuff/netted/on_remove()
 	. = ..()
@@ -423,6 +423,16 @@
 	desc = "I can barely feel my limbs!"
 	icon_state = "chilled"
 
+/datum/status_effect/debuff/slip_recovery
+	id = "slip_recovery"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/slip_recovery
+	duration = 30 SECONDS // Lower than the CD
+
+/atom/movable/screen/alert/status_effect/debuff/slip_recovery
+	name = "Winded"
+	desc = "I am too winded to slip between spaces again!"
+	icon_state = "debuff"
+
 /// RITUOS DEBUFFS
 /datum/status_effect/debuff/ritesexpended
 	id = "ritesexpended"
@@ -526,7 +536,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/rotted
 	effectedstats = list(STATKEY_STR = -2, STATKEY_PER = -2, STATKEY_INT = -2, STATKEY_WIL = -2, STATKEY_CON = -2, STATKEY_SPD = -2, STATKEY_LCK = -2)
 	duration = 30 MINUTES	// Back to a temporary 30 minute duration. It hurts.
-	examine_text = "<font color='#2c8b00'>SUBJECTPRONOUN looks frail and unnaturally pale, moving with the hesitant stiffness of one whose body has only recently remembered how to live.</font>"
+	examine_text = "<font color='#008b56'>SUBJECTPRONOUN looks frail and unnaturally pale, as if they recently got brought back from death.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/rotted
 	name = "Atrophia"
@@ -548,7 +558,7 @@
 	id = "permadeath"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath
 	duration = PERMADEATH_DURATION //Effectively determines how long a character is threatened with permadeath. Kicks into gear once the initial deathmark-imposed grace period completes. Timed to match Revival Sickness.
-	examine_text = "<font color='#b40000'>SUBJECTPRONOUN appears haunted by an unseen burden. It feels as though their spirit hangs by the thinnest of threads. Another death may well be their last.</font>"
+	examine_text = "<font color='#b40000'>SUBJECTPRONOUN seems mentally and spiritually unstable. Another death could well be their last.</font>"
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath
 	name = "Death's Door"
@@ -562,9 +572,21 @@
 
 /datum/status_effect/debuff/permadeath/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_DNR, id)
+	if(owner.stat != DEAD) //removing DNR if the user is dead means they'll just be able to get rezzed after 10 mins elapse
+		REMOVE_TRAIT(owner, TRAIT_DNR, id)
 	owner.remove_stress(/datum/stressevent/permadeath_threat)
 	owner.add_stress(/datum/stressevent/permadeath_end)
+
+/datum/status_effect/debuff/permadeath/permanent
+	duration = -1
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath/permanent
+
+/datum/status_effect/debuff/permadeath/permanent/on_apply()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_LASTLEGS, null) // no need to have both this AND dnr
+
+/atom/movable/screen/alert/status_effect/debuff/permadeath/permanent
+	desc = "Your heart beats with arrythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again, nothing will be able to bring you back from death's grasp."
 
 /// CONT. DEBUFFS
 /datum/status_effect/debuff/dazed
@@ -585,6 +607,17 @@
 /datum/status_effect/debuff/dazed/smite
 	effectedstats = list(STATKEY_PER = -1, STATKEY_INT = -2, STATKEY_SPD = -1)
 	duration = 1 MINUTES
+
+/datum/status_effect/debuff/jester_flip_dazed
+	id = "flip_cooldown"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/jester_flip_dazed
+	duration = 5 SECONDS
+	status_type = STATUS_EFFECT_REFRESH
+
+/atom/movable/screen/alert/status_effect/debuff/jester_flip_dazed
+	name = "Hazy"
+	desc = "...woah...! I feel a little uneasy!"
+	icon_state = "dazed"
 
 /atom/movable/screen/alert/status_effect/debuff/dazed
 	name = "Dazed"

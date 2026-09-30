@@ -165,6 +165,7 @@
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 			"Coat of Plates"		= /obj/item/clothing/suit/roguetown/armor/brigandine/heavy,
 			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate,
+			"Fluted Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/fluted,
 			"Lamellar Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe,
 			"Haraate Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/haraate,
 		)
@@ -203,6 +204,7 @@
 
 	subclass_stashed_items = list(
 		"Armor Plates" =	/obj/item/repair_kit/metal,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg' // same as regular bandits
@@ -297,7 +299,6 @@
 		var/armors = list(
 			"Cuirass"			= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
-			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/iron,
 			"Scalemail"			= /obj/item/clothing/suit/roguetown/armor/plate/scale,
 		)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors

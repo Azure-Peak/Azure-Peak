@@ -157,6 +157,8 @@
 
 /datum/crafting_recipe/roguetown/survival/bag
 	name = "sack"
+	// the , is needed or else it prints "bagsack". i dont know why & I CBA to fix it.
+	aliases = "bag, "
 	result = /obj/item/storage/roguebag/crafted
 	reqs = list(
 		/obj/item/natural/fibers = 1,

@@ -12,6 +12,8 @@
 /// A half combatant (acolyte) counts as 1 + this value towards effective population
 #define HALF_COMBATANT_ADDITIONAL_WEIGHT 1
 
+#define ROUND_MIN_POP_TRIGGER 40
+
 /// The gamemode preset datum governing this round (the roundstart pick, or the pending pick pre-round).
 /proc/active_preset()
 	return SSgamemode?.get_storyteller(TRUE)
@@ -76,6 +78,8 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/storytellers = list()
 	/// Cached storyteller type that won the previous round's storyteller vote.
 	var/last_storyteller_vote
+	//what was the population for the last storyteller vote
+	var/last_storyteller_vote_pop = 0
 	/// Next process for our storyteller. The wait time is STORYTELLER_WAIT_TIME
 	var/next_storyteller_process = 0
 	/// Associative list of even track points.
@@ -586,7 +590,8 @@ SUBSYSTEM_DEF(gamemode)
 		roundstart_storyteller = selected_storyteller
 	if(ispath(roundstart_storyteller, /datum/storyteller))
 		last_storyteller_vote = roundstart_storyteller
-		SSvote.save_storyteller_vote_log(roundstart_storyteller, "completed")
+		last_storyteller_vote_pop = length(GLOB.clients)
+		SSvote.save_storyteller_vote_log(roundstart_storyteller, "completed", last_storyteller_vote_pop)
 	update_crew_infos()
 	var/old_points = event_track_points[EVENT_TRACK_CHARACTER_INJECTION]
 	event_track_points[EVENT_TRACK_CHARACTER_INJECTION] = roundstart_points(EVENT_TRACK_CHARACTER_INJECTION, active_players)
@@ -884,6 +889,8 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/valid_storytellers = get_valid_storytellers()
 	var/previous_storyteller = get_last_storyteller_vote()
 	var/previous_pool = get_story_pool(previous_storyteller)
+	if(last_storyteller_vote_pop < ROUND_MIN_POP_TRIGGER)
+		previous_pool = null
 	var/list/available_pools = list()
 	for(var/datum/storyteller/storyboy in valid_storytellers)
 		var/pool_name = get_story_pool(storyboy.type)
@@ -969,6 +976,8 @@ SUBSYSTEM_DEF(gamemode)
 		else
 			if(preset.block_soft)
 				continue
+			if((ec.storyteller_antag_flags & STORYTELLER_ANTAG_MEDIUM) && storyteller_type != /datum/storyteller/gamemode/no_antag)
+				continue
 			if(preset.starting_point_multipliers[EVENT_TRACK_CHARACTER_INJECTION] <= 0 && !preset.guaranteed_hard)
 				continue
 			if(istype(ec, /datum/round_event_control/antagonist/solo/dreamwalker) && !preset.allow_dreamwalker)
@@ -1048,6 +1057,8 @@ SUBSYSTEM_DEF(gamemode)
 			var/loaded_path = text2path(trim(last_round_stats[LAST_ROUND_STATS_STORYTELLER_VOTE]))
 			if(ispath(loaded_path, /datum/storyteller))
 				last_storyteller_vote = loaded_path
+				if(!isnull(last_round_stats["storyteller_vote_pop"]))
+					last_storyteller_vote_pop = text2num(last_round_stats["storyteller_vote_pop"])
 				return last_storyteller_vote
 	if(last_storyteller_vote)
 		return last_storyteller_vote
@@ -2304,5 +2315,5 @@ SUBSYSTEM_DEF(gamemode)
 #undef DESC_POPUP_HEIGHT
 #undef TOWN_COMBATANT_ADDITIONAL_WEIGHT
 #undef HALF_COMBATANT_ADDITIONAL_WEIGHT
-
+#undef ROUND_MIN_POP_TRIGGER
 #undef INIT_ORDER_GAMEMODE

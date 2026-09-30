@@ -351,7 +351,6 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	var/triggered = FALSE
 
 /obj/structure/pressure_plate/once/Crossed(atom/movable/AM)
-	. = ..()
 	if(triggered)
 		return
 	if(!anchored)
@@ -375,7 +374,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	desc = "A engineering contraption made to launch various objects in the direction it's pointed."
 	icon = 'icons/roguetown/misc/engineering_structure.dmi'
 	icon_state = "activator"
-	max_integrity = 45 // so it gets destroyed when used to explode a bomb
+	max_integrity = 750 // raised to make it more durable in large wars and events, where they are primarily used
 	//w_class = WEIGHT_CLASS_HUGE // mechanical stuff is usually pretty heavy.
 	density = TRUE
 	anchored = TRUE
@@ -570,9 +569,11 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 
 	// Quivers: allow all ammo types including javelins; block only slings
 	if(!ammo && istype(I, /obj/item/quiver))
+		/*removing sling ammo restriction, seeing if this gives more versatility
 		if(istype(I, /obj/item/quiver/sling))
 			to_chat(user, span_warning("The launcher can't fire sling bullets."))
 			return TRUE
+		*/
 		if(!user.transferItemToLoc(I, src))
 			return
 		playsound(src, 'sound/misc/chestclose.ogg', 25)
@@ -768,6 +769,18 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 	animate(src, pixel_x = oldx+1, time = 0.5)
 	animate(pixel_x = oldx-1, time = 0.5)
 	animate(pixel_x = oldx, time = 0.5)
+
+//pop things out when destroyed.
+/obj/structure/englauncher/Destroy()
+	if(containment)
+		playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		containment.forceMove(get_turf(src))
+		containment = null
+	if(ammo)
+		playsound(src, 'sound/misc/hiss.ogg', 100, FALSE, -1)
+		ammo.forceMove(get_turf(src))
+		ammo = null
+	return ..()
 
 /obj/structure/floordoor
 	name = "floorhatch"

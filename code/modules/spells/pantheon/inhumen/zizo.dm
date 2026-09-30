@@ -235,14 +235,15 @@
 ////////////////
 /datum/action/cooldown/spell/projectile/zizo/profane
 	name = "Profane"
-	desc = "Instantly launch a cursed bone shard that pierces any armor and always lodges into its victim."
+	desc = "Launch a cursed bone shard that pierces any armor and always lodges into its victim."
 	fluff_desc = "An early Cabal sacrament: bone, profaned through Zizo's teachings, proved a willing conduit for Avantyne's anti-life qualities. Splinters touched by Her grace pierce any ward and bury themselves deep in living flesh, a lasting testament to Her cruelty."
 	button_icon_state = "profane"
 	projectile_type = /obj/projectile/magic/profane
 	cast_range = SPELL_RANGE_PROJECTILE
 	primary_resource_cost = 15
 	secondary_resource_cost = 15
-	charge_required = FALSE
+	charge_required = TRUE
+	charge_time = CHARGETIME_POKE
 	cooldown_time = 30 SECONDS
 
 	spell_flags = SPELL_PSYDON
@@ -296,8 +297,7 @@
 	expose_caster_on_deflect = TRUE
 	armor_penetration = PEN_BSTEEL
 	range = SPELL_RANGE_PROJECTILE
-	speed = MAGE_PROJ_FAST
-	accuracy = 40
+	speed = 1.5
 	var/embed_chance = 100
 
 /obj/projectile/magic/profane/on_hit(atom/target, blocked)
@@ -400,8 +400,6 @@
 
 	var/mob/living/carbon/human/species/skeleton/conjured/skeleton = new(dest)
 	skeleton.summoner_ref = WEAKREF(user)
-	skeleton.arcane_scale = clamp(user.get_skill_level(/datum/skill/magic/holy), 1, 6)
-	skeleton.gear_tier = get_summon_tier(user)
 	skeleton.loadout = modes[current_mode]["loadout"]
 
 	skeleton.add_filter("zizo_conjure_glow", 2, list("outline", "size" = 2, "color" = "#9B59FF"))
@@ -662,13 +660,15 @@
 
 	return TRUE
 
-//Reskin + Flavor of diagnose spell w/ some different flavor. Used for Necromancers/Lich.
+//Reskin + Flavor of diagnose spell w/ some different flavor. Used for Necromancers/Lich. Pickable instead of an offensive cantrip too.
 /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo
 	name = "Arcane Diagnosis"
 	desc = "A highly-practiced reading of the body's humors and hidden ailments performed afar with left-handed magicks. Reveals a target's condition, with greater skill in medicine granting deeper detail. By embedding a Forceps on your patient, you may even identify substances within the blood; but even the most unskilled physicker can tell from a Cheele or Leech's reactions."
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	range = SPELL_RANGE_GROUND //Longer than regular diagnosis range. Progress Baby!
+	invocations = list("Studium Valetudo.") //Study health.
+	invocation_type = INVOCATION_WHISPER
 	antimagic_allowed = FALSE //Arcane, duh.
 
 // Diagnosis (T?) - Progress Path: Reflavored version of Pestra's diagnosis, it basically does what you'd expect. Has a highly inefficent cost for some unique perks like extra range.
@@ -680,14 +680,14 @@
 	range = SPELL_RANGE_GROUND //Longer than regular diagnosis range. Progress Baby!
 	devotion_cost = 15 //Significantly more expensive (3x)
 
-// Enochian Analyze (T?) - Progress Path: A long-range miracle version of the spell engineering goggles give you, Progress Baby!
+// Enochian Analyze (T?) - Comes w/ diagnosis cantrip for free, tradeoff from an offensive cantrip.
 /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo
+	name = "Enochian Analyze"
 	desc = "Examine a structure's details through invoking Enochian magicka to see the world through Zizo's design without the need of specialised tools, close or afar."
 	overlay_icon = 'icons/mob/actions/zizomiracles.dmi'
 	action_icon = 'icons/mob/actions/zizomiracles.dmi'
 	range = SPELL_RANGE_GROUND
-	invocation_type = "none"
-	associated_skill = /datum/skill/magic/holy
-	antimagic_allowed = TRUE
-	miracle = TRUE
-	devotion_cost = 15 //Progress
+	invocations = list("Studium Constructio.")
+	invocation_type = INVOCATION_WHISPER
+	associated_skill = /datum/skill/magic/arcane
+	antimagic_allowed = FALSE

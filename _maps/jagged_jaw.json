@@ -1,0 +1,21 @@
+{
+	"map_name": "Pilgrim",
+	"map_path": "map_files/jagged_jaw",
+	"map_file": ["jagged_jaw.dmm"],
+	"load_dungeon": false,
+	"traits": [
+		{ "Name": "Pilgrim", "Up": true },
+		{ "Up": true, "Down": true },
+		{ "Up": true, "Down": true },
+		{ "Up": true, "Down": true },
+		{ "Down": true }
+	],
+	"other_z": ["_maps/map_files/otherz/wretch_coast.json"],
+	"space_empty_levels": 0,
+	"space_ruin_levels": 0,
+	"shuttles": {
+		"cargo": "cargo_rogue",
+		"whiteship": "whiteship_box",
+		"emergency": "emergency_rogue"
+	}
+}

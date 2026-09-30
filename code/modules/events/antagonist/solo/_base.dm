@@ -42,6 +42,10 @@
 	. = ..()
 	if(!.)
 		return
+	if(storyteller_antag_flags & STORYTELLER_ANTAG_MEDIUM)
+		var/datum/storyteller/preset = active_preset()
+		if(preset?.type != /datum/storyteller/gamemode/no_antag)
+			return FALSE
 	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
 	// Hard antags always require the population minimum - never bypassed, even by an admin-opened slot.
 	if(is_hard_roundstart && players_amt < HARD_ANTAG_MIN_POP)
@@ -90,6 +94,13 @@
 
 /datum/round_event_control/antagonist/solo/return_failure_string(players_amt)
 	. =..()
+	if(storyteller_antag_flags & STORYTELLER_ANTAG_MEDIUM)
+		var/datum/storyteller/preset = active_preset()
+		if(preset?.type != /datum/storyteller/gamemode/no_antag)
+			if(.)
+				. += ", "
+			. += "Medium Intensity only"
+			return .
 	var/is_hard_roundstart = roundstart && (storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN)
 	if(is_hard_roundstart && players_amt < HARD_ANTAG_MIN_POP)
 		if(.)

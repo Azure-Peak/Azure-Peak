@@ -94,23 +94,37 @@
 #define FLIP_DIRECTION_CLOCKWISE 1
 #define FLIP_DIRECTION_ANTICLOCKWISE 0
 
-/mob/living/proc/jump_action_resolve(atom/A, jadded, jrange, jextra, jroot)
-	var/do_a_flip
+/// Purely cosmetic acrobatic flip. Spins us a full turn on the spot, then snaps back to how we were.
+/mob/living/proc/do_flip_animation()
 	var/flip_direction = FLIP_DIRECTION_CLOCKWISE
+	if((dir & SOUTH) || (dir & WEST))
+		flip_direction = FLIP_DIRECTION_ANTICLOCKWISE
 	var/prev_pixel_z = pixel_z
 	var/prev_transform = transform
-	if(get_skill_level(/datum/skill/misc/athletics) > 4)
-		do_a_flip = TRUE
-		if((dir & SOUTH) || (dir & WEST))
-			flip_direction = FLIP_DIRECTION_ANTICLOCKWISE
+	var/flip_angle = flip_direction ? 120 : -120
+	animate(src, pixel_z = pixel_z + 6, transform = turn(transform, flip_angle), time = 1)
+	animate(transform = turn(transform, flip_angle), time=1)
+	animate(pixel_z = prev_pixel_z, transform = turn(transform, flip_angle), time=1)
+	animate(transform = prev_transform, time = 0)
+
+	// Need to animate the flip separately for the client because FOV cone blocks it.
+	var/image/cone_self = get_cone_self_image()
+	if(!cone_self)
+		return
+	var/matrix/prev_cone_transform = cone_self.transform
+	animate(cone_self, transform = turn(prev_cone_transform, flip_angle), time = 1)
+	animate(transform = turn(prev_cone_transform, flip_angle * 2), time = 1)
+	animate(transform = turn(prev_cone_transform, flip_angle * 3), time = 1)
+	animate(transform = prev_cone_transform, time = 0)
+
+/mob/living/proc/jump_action_resolve(atom/A, jadded, jrange, jextra, jroot)
+	var/do_a_flip = (get_skill_level(/datum/skill/misc/athletics) > 4)
+	var/prev_pixel_z = pixel_z
+	var/prev_transform = transform
 
 	if(stamina_add(min(jadded,100)))
 		if(do_a_flip)
-			var/flip_angle = flip_direction ? 120 : -120
-			animate(src, pixel_z = pixel_z + 6, transform = turn(transform, flip_angle), time = 1)
-			animate(transform = turn(transform, flip_angle), time=1)
-			animate(pixel_z = prev_pixel_z, transform = turn(transform, flip_angle), time=1)
-			animate(transform = prev_transform, time = 0)
+			do_flip_animation()
 		else
 			animate(src, pixel_z = pixel_z + 6, time = 1)
 			animate(pixel_z = prev_pixel_z, transform = turn(transform, pick(-12, 0, 12)), time=2)

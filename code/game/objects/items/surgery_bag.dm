@@ -80,8 +80,8 @@
 /obj/item/storage/belt/rogue/pouch/medicine
 	populate_contents = list(
 	/obj/item/needle,
-	/obj/item/natural/bundle/cloth/bandage/full,
-	/obj/item/reagent_containers/glass/bottle/alchemical/healthpot
+	/obj/item/reagent_containers/glass/bottle/alchemical/healthpot,
+	/obj/item/natural/bundle/cloth/bandage/full
 	)
 
 /obj/item/storage/belt/rogue/pouch/medicine/get_types_to_preload()

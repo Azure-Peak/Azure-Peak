@@ -1,8 +1,16 @@
+export type WarbandMember = {
+  name: string;
+  count: number;
+  threat: number;
+};
+
 export type SpawnDetail = {
   name: string;
   category: string;
   threat: number;
   path: string;
+  size?: number;
+  members?: WarbandMember[];
 };
 
 export type GameMasterData = {
@@ -19,6 +27,7 @@ export type GameMasterData = {
   spawn_dust: boolean;
   spawn_dust_leave_head: boolean;
   spawn_dust_delete_gear: boolean;
+  spawn_spread: boolean;
   spawn_click_intercept: boolean;
   selectable_mobs: string[];
   spawn_filters: string[];
@@ -71,6 +80,9 @@ export const TRAILING = {
   fontVariantNumeric: 'tabular-nums',
 } as const;
 
-export function filterLabel(value: string): string {
-  return value === FILTER_ALL ? 'All creatures' : toTitle(value);
+export function filterLabel(value: string, warband = false): string {
+  if (value === FILTER_ALL) {
+    return warband ? 'All warbands' : 'All creatures';
+  }
+  return toTitle(value);
 }

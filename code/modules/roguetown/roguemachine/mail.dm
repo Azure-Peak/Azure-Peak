@@ -374,7 +374,9 @@
 	var/parsed_content = parsemarkdown(html_encode(content), user)
 	P.info += "<font face=\"[FOUNTAIN_PEN_FONT]\" color=#14103f>[parsed_content]</font>"
 	P.mailer = sanitize(sender)
-	P.mailedto = sanitize(recipient)
+	if(!(findtext(recipient,"#")==1))
+		recipient = reject_bad_name(recipient, max_length=MAX_HERMES_NAME_LEN) // reject_bad_name doesn't let you use #s in names, so we only apply this if it's NOT a hermes number
+	P.mailedto = recipient
 	P.reload_fields()
 	P.update_icon()
 	return P
@@ -833,7 +835,9 @@
 			to_chat(user, span_warning("The machine doesn't respond."))
 			return
 		if(alert(user, "Send Mail?",,"YES","NO") == "YES")
-			var/send2place = sanitize(input(user, "Where to? (Person or #number)", "ROGUETOWN", null))
+			var/send2place = input(user, "Where to? (Person or #number)", "ROGUETOWN", null)
+			if(!(findtext(send2place,"#")==1))
+				send2place = reject_bad_name(send2place, max_length=MAX_HERMES_NAME_LEN) // reject_bad_name doesn't let you use #s in names, so we only apply this if it's NOT a hermes number
 			var/sentfrom = sanitize(input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null))
 			if(!sentfrom)
 				sentfrom = "Anonymous"

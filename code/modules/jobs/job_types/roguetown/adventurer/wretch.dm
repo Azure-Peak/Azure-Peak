@@ -15,7 +15,7 @@
 	min_pq = 10
 	max_pq = null
 
-	obsfuscated_job = TRUE
+	obfuscated_job = TRUE
 	class_categories = TRUE
 
 	advclass_cat_rolls = list(CTAG_WRETCH = 20)
@@ -52,7 +52,8 @@
 		/datum/advclass/wretch/ancient_spellblade,
 		/datum/advclass/wretch/ancient_deathknight,
 		/datum/advclass/wretch/slasher,
-		/datum/advclass/wretch/maestro
+		/datum/advclass/wretch/maestro,
+		/datum/advclass/wretch/freeblade
 	)
 	has_subprefs = TRUE
 	default_subprefs = list("bounty_poster_key" = null, "bounty_severity_key" = null, "my_crime" = null, "favorite_advclass" = null)
