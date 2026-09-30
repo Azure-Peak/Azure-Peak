@@ -11,7 +11,7 @@
 	self_cast_possible = TRUE
 
 	primary_resource_type = SPELL_COST_ENERGY
-	primary_resource_cost = 150
+	primary_resource_cost = 100
 
 	invocations = list("Scutum Congrego!")
 	invocation_type = INVOCATION_SHOUT
@@ -21,7 +21,7 @@
 	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 120 SECONDS
+	cooldown_time = 5 SECONDS
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2

@@ -127,8 +127,12 @@
 	taste_description = "something vile"
 	color = "#98934b"
 	harmful = TRUE
+
 /datum/reagent/water/gross/sewage
 	taste_description = "repulsive sulfur and decaying shit"
+
+/datum/reagent/water/gross/sewage/well
+	taste_description = "funky juice"
 
 /datum/reagent/water/gross/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(method == INGEST) // Make sure you DRANK the toxic water before giving damage
@@ -140,14 +144,17 @@
 		return
 	M.adjustToxLoss(1)
 	M.add_nausea(12) //Over 8 units will cause puking
+
 /datum/reagent/water/gross/sewage/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if (method == INGEST)
 		..()
+
 /datum/reagent/water/gross/sewage/on_mob_life(mob/living/carbon/M)
 	..()
 	//I am not putting in a NASTY_EATER check for this. He's the god of bloodshed, not the god of coprophagia.
 	M.adjustToxLoss(4) //Horrible day for poop drinkers
 	M.add_nausea(20)
+
 /datum/chemical_reaction/grosswaterboil //boiling water purifies it
 	name = "gross water purification"
 	id = /datum/reagent/water

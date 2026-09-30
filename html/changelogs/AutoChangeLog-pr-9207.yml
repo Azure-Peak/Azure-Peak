@@ -1,6 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - rscadd: "TRAIT_WARLOCK, given exclusively to people who have done Rituos, it prevents you suffering the massive stamina + fatigue penalties with a weapon, which you will be using 90% of the time anyway. Admins can also adminbuse this trait in."
-  - balance: "Zizo Rituos users have lost their ice shotgun blast, its replaced with a 2 spell utility pick with the other 4 cantrips, we can adjust as needed."
-  - balance: "Arcayne Diagnosis/Analyze now have whisper incantations when cast, to make it subtly obvious you're using unusual magic over talent."

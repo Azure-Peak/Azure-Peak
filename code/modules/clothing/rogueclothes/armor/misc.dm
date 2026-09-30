@@ -7,6 +7,7 @@
 	body_parts_covered = CHEST
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
+	flags_inv = null
 	salvage_amount = 1
 	grid_height = 64
 	grid_width = 64

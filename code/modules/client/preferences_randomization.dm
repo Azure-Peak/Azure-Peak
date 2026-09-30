@@ -78,8 +78,8 @@
 	reset_descriptors()
 	age = initial(age)
 	statpack = new /datum/statpack/wildcard/fated
-	dnr_pref = initial(dnr_pref)
 	qsr_pref = initial(qsr_pref)
+	char_toggles = initial(char_toggles)
 	favorite_cuisine = initial(favorite_cuisine)
 	favorite_dish = initial(favorite_dish)
 	favorite_drink = initial(favorite_drink)

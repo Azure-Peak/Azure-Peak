@@ -1,0 +1,6 @@
+author: "voidwytch"
+delete-after: True
+changes:
+  - rscadd: "Lampwarden and Lampwicker gear"
+  - rscadd: "New Lamplighter role, meant to be a neutral protector of the roadways"
+  - rscadd: "Lampwarden and Lampwicker abilities"

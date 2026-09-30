@@ -16,7 +16,7 @@
 	icon_state = "buff"
 
 /datum/status_effect/buff/song/furtive_fortissimo
-	id = "furtivefortissimo"
+	id = "furtive_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/furtive_fortissimo
 	duration = 15 SECONDS
 

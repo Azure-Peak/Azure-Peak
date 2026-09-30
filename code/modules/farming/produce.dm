@@ -232,6 +232,7 @@
 	icon_state = "pear"
 	tastes = list("pear" = 1)
 	splat_color = "#D2B48C"
+	juice_results = list(/datum/reagent/consumable/pear_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/lemon
 	name = "lemon"
@@ -240,6 +241,7 @@
 	icon_state = "lemon"
 	tastes = list("lemon" = 1)
 	splat_color = "#FFFF00"
+	juice_results = list(/datum/reagent/consumable/lemon_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/lime
 	name = "lime"
@@ -248,6 +250,7 @@
 	icon_state = "lime"
 	tastes = list("lime" = 1)
 	splat_color = "#00FF00"
+	juice_results = list(/datum/reagent/consumable/lime_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/lime/Initialize(mapload)
 	. = ..()
@@ -268,6 +271,7 @@
 	icon_state = "tangerine"
 	tastes = list("tangerine" = 1)
 	splat_color = "#FFA500"
+	juice_results = list(/datum/reagent/consumable/orange_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine_sugared
 	cuisine = CUISINE_RANESHENI
@@ -280,6 +284,7 @@
 	tastes = list("overpoweringly sweet" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	eat_effect = /datum/status_effect/buff/sweet
+	juice_results = list(/datum/reagent/consumable/orange_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/plum
 	name = "plum"
@@ -288,6 +293,7 @@
 	icon_state = "plum"
 	tastes = list("plum" = 1)
 	splat_color = "#8B008B"
+	juice_results = list(/datum/reagent/consumable/plum_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry
 	name = "strawberry"
@@ -296,6 +302,7 @@
 	icon_state = "strawberry"
 	tastes = list("strawberry" = 1)
 	splat_color = "#9A1B00"
+	juice_results = list(/datum/reagent/consumable/strawberry_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry/Initialize(mapload)
 	. = ..()
@@ -315,6 +322,7 @@
 	icon_state = "blackberry"
 	tastes = list("blackberry" = 1)
 	splat_color = "#272C3F"
+	juice_results = list(/datum/reagent/consumable/blackberry_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/Initialize(mapload)
 	. = ..()
@@ -338,6 +346,7 @@
 	tastes = list("overpoweringly sweet" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	eat_effect = /datum/status_effect/buff/sweet
+	juice_results = list(/datum/reagent/consumable/blackberry_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry
 	name = "raspberry"
@@ -346,6 +355,7 @@
 	icon_state = "raspberry"
 	tastes = list("raspberry" = 1)
 	splat_color = "#A01600"
+	juice_results = list(/datum/reagent/consumable/raspberry_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
 	name = "tomato"
@@ -357,6 +367,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
 	slices_num = 1
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
+	juice_results = list(/datum/reagent/consumable/tomato_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
 	name = "split tomato"
@@ -367,6 +378,7 @@
 	tastes = list("to" = 1, "mato" = 1)
 	splat_color = "#CD5320"
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
+	juice_results = list(/datum/reagent/consumable/tomato_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
 	name = "tomato sauce"
@@ -391,6 +403,7 @@
 	dropshrink = 0.75
 	var/color_index = "good"
 	rotprocess = SHELFLIFE_SHORT
+	juice_results = list(/datum/reagent/consumable/jackberry_juice = 5)
 
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/examine(mob/user)
 	. = ..()
@@ -495,6 +508,7 @@
 	dropshrink = 0.8
 	rotprocess = null
 	mill_result = /obj/item/reagent_containers/food/snacks/sugar
+	grind_results = list(/datum/reagent/consumable/sugar = 10)
 
 /obj/item/reagent_containers/food/snacks/sugar
 	name = "sugar"
@@ -530,6 +544,7 @@
 	icon_state = "spice_good"
 	tastes = list("fragrant spices" = 1, "a pleasantly complex aroma" = 1) //Very low nutritional content, but can be applied to add a very solid moodboost to broths. Futurecoders could add it to meals, later, too.
 	list_reagents = list(/datum/reagent/consumable/allspice = 1)
+	grind_results = list(/datum/reagent/consumable/allspice = 1)
 
 /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
 	name = "turnip"
@@ -568,6 +583,12 @@
 	seed = /obj/item/herbseed/fyritius //you are an herb now
 	desc = "A delicate orange flower that radiates warmth."
 	icon_state = "fyritius"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	body_parts_covered = NONE
+	spitoutmouth = FALSE
+	muteinmouth = FALSE
+	alternate_worn_layer	= 8.9 //On top of helmet
 	filling_color = "#ff5e00"
 	tastes = list("tastes like a burning coal and fire" = 1)
 	obj_flags = CAN_BE_HIT
@@ -586,6 +607,15 @@
 		return ..() //Eat it
 	if(user.zone_selected == BODY_ZONE_PRECISE_MOUTH)
 		return ..() //Make THEM eat it.
+
+	if(M.stat == DEAD)
+		user.visible_message(span_notice("[user] brings [src] to soak up the stale essence of [M]'s wounds."))
+		if(do_after(user, 5 SECONDS, target = M))
+			user.visible_message(span_notice("[src] begins to wilt rapidly upon contact with [M]'s blood, but quickly recovers once [user] pulls it away."),
+				span_notice("The [src] begins to wilt rapidly as it touches [M]'s blood. You pull it away, and it quickly recovers."))
+			return
+		return
+
 	if(!M.get_bleed_rate())
 		to_chat(user, span_warning("There is no blood to wick into the flower bud."))
 		return
@@ -630,6 +660,12 @@
 	name = "bloodied fyritius flower"
 	desc = "A once delicate orange flower, now soaked with gruesome accursed blood that slowly burns it away."
 	icon_state = "fyritius_blood"
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
+	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
+	body_parts_covered = NONE
+	spitoutmouth = FALSE
+	muteinmouth = FALSE
+	alternate_worn_layer	= 8.9 //On top of helmet
 	filling_color = "#ff3300"
 	tastes = list("tastes like a burning coal and fire and blood" = 1)
 	bitesize = 1

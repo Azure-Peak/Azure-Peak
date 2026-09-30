@@ -1,5 +1,0 @@
-author: "anything86"
-delete-after: True
-changes:
-  - balance: "changes how psydonian healing works, reduces its effectiveness on constructs and revenants"
-  - balance: "Endure miracle no longer permanently stops bleeding, instead is temporary"

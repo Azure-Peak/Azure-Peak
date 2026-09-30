@@ -1,7 +1,7 @@
 /datum/advclass/crusader
 	name = "Crusader"
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/crusader
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_MEDIUMARMOR)
 
@@ -98,6 +98,7 @@
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
+	custom_design = TRUE
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t
 	name = "surcoat of the silver order"
