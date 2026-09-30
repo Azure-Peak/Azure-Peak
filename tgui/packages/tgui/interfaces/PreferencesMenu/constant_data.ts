@@ -11,6 +11,9 @@ export type ConstantData = {
   MAXIMUM_MARKINGS_PER_LIMB: number;
   MIN_VOICE_PITCH: number;
   MAX_VOICE_PITCH: number;
+  STATBUY_POINTS: number;
+  STATBUY_STAT_MIN: number;
+  STATBUY_STAT_MAX: number;
   // lists
   barksounds: string[];
   charflaws: Record<Path, ConstantCharflaw>;
@@ -27,6 +30,7 @@ export type ConstantData = {
   preview_backgrounds: string[];
   species: ConstantSpecies[];
   sprite_accessories: Record<Path, ConstantSpriteAccessory>;
+  statbuy_stats: ConstantStatbuyStat[];
   statpacks: Record<Path, ConstantStatpack>;
   taur_types: Record<Path, ConstantTaurType>;
   tgui_themes: Record<string, string>;
@@ -269,6 +273,12 @@ export type ConstantSpriteAccessory = {
   icon: string;
   pixel_x: number;
   preview_states: string[];
+};
+
+/** {@link ConstantData.statbuy_stats} */
+export type ConstantStatbuyStat = {
+  key: string;
+  name: string;
 };
 
 /** {@link ConstantData.statpacks} */

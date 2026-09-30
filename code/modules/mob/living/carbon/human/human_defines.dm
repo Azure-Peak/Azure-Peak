@@ -162,6 +162,8 @@
 
 	var/voice_type = null // LETHALSTONE EDIT: defines what sound pack we use. keep this null so mobs resort to their typical gender typing - preferences set this
 	var/datum/statpack/statpack = null // Lethalstone Port - statpacks for greater customization
+	/// Our statbuy allocation, an associative list of STATKEY_* -> modifier.
+	var/list/statbuy = null
 	//setting up vars for vampire color values
 	var/vampire_skin = null
 	var/vampire_eyes = null

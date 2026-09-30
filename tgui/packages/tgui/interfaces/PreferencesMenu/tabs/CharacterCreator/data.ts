@@ -242,6 +242,7 @@ export type IdentityData = {
   clothes_pref: string;
 
   statpack_name: string;
+  statbuy_summary: string;
   domhand: number;
   combat_music: string;
 

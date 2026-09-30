@@ -23,6 +23,9 @@
 	. = ui_act_popup_species(action, params, ui, state)
 	if(.)
 		return
+	. = ui_act_popup_statbuy(action, params, ui, state)
+	if(.)
+		return
 	. = ui_act_popup_statpack(action, params, ui, state)
 	if(.)
 		return

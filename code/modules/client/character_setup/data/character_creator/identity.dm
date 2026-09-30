@@ -14,6 +14,7 @@
 		"clothes_pref" = clothes_pref,
 
 		"statpack_name" = statpack.name,
+		"statbuy_summary" = generate_statbuy_string(statbuy),
 		"domhand" = domhand,
 		"combat_music" = (combat_music.shortname ? combat_music.shortname : combat_music.name),
 
@@ -157,8 +158,8 @@
 
 /datum/preferences/proc/virtue_spawn_error(index, datum/virtue/V)
 	if(index == 2)
-		if(!statpack.virtuous)
-			return "This virtue slot will only be used with virtuous stat packs."
+		if(!is_virtuous())
+			return "This virtue slot will only be used if no stats are assigned in statbuy."
 
 	var/heretic = FALSE
 	if(istype(selected_patron, /datum/patron/inhumen))

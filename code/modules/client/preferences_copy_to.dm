@@ -70,6 +70,7 @@
 	character.vampire_headshot_link = vampire_headshot_link
 
 	character.statpack = statpack
+	character.statbuy = sanitize_statbuy(statbuy)
 
 	character.flavortext = flavortext
 	character.ooc_notes = ooc_notes

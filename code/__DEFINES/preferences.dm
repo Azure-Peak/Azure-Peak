@@ -213,11 +213,20 @@ GLOBAL_LIST_INIT(attack_blip_pref_list, list(
 #define PREFERENCE_POPUP_SPECIES "\"species\""
 #define PREFERENCE_POPUP_CUSTOMIZER_SELECT "\"customizer_select\""
 #define PREFERENCE_POPUP_STATPACK "\"statpack\""
+#define PREFERENCE_POPUP_STATBUY "\"statbuy\""
 #define PREFERENCE_POPUP_TAUR_TYPE "\"taurtype\""
 #define PREFERENCE_POPUP_COMBAT_MUSIC "\"combat_music\""
 #define PREFERENCE_POPUP_MARKING_SELECT "\"marking_select\""
 #define PREFERENCE_POPUP_VERBOSE_LOGS "\"verbose_logs\""
 #define PREFERENCE_POPUP_PATRON_SELECT "\"patron_select\""
+
+// Statbuy
+/// How many points can be spent on stats. Lowering a stat refunds points on top of this.
+#define STATBUY_POINTS 2
+/// The lowest modifier a single stat can be bought down to
+#define STATBUY_STAT_MIN -3
+/// The highest modifier a single stat can be bought up to
+#define STATBUY_STAT_MAX 3
 
 // Keep in sync with tgui/packages/tgui/interfaces/PreferencesMenu/popups/Charflaw.tsx#
 #define PREFERENCE_CHARFLAW_APPROVED 0

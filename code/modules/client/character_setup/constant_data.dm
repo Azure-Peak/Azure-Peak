@@ -14,6 +14,9 @@
 		"MAXIMUM_MARKINGS_PER_LIMB" = MAXIMUM_MARKINGS_PER_LIMB,
 		"MIN_VOICE_PITCH" = MIN_VOICE_PITCH,
 		"MAX_VOICE_PITCH" = MAX_VOICE_PITCH,
+		"STATBUY_POINTS" = STATBUY_POINTS,
+		"STATBUY_STAT_MIN" = STATBUY_STAT_MIN,
+		"STATBUY_STAT_MAX" = STATBUY_STAT_MAX,
 		// Lists
 		"barksounds" = get_barksounds(),
 		"charflaws" = get_charflaws(),
@@ -30,6 +33,7 @@
 		"preview_backgrounds" = get_preview_bgs(),
 		"species" = get_species(),
 		"sprite_accessories" = get_sprite_accessories(),
+		"statbuy_stats" = get_statbuy_stats(),
 		"statpacks" = get_statpacks(),
 		"taur_types" = get_taur_types(),
 		"tgui_themes" = GLOB.tgui_themes,
@@ -155,6 +159,14 @@ Add a new override in your modular folder that looks like this:
 	for(var/type in GLOB.sprite_accessories)
 		var/datum/sprite_accessory/sa = GLOB.sprite_accessories[type]
 		.[type] = sa.constant_ui_data()
+
+/datum/asset/json/preferences/proc/get_statbuy_stats()
+	. = list()
+	for(var/stat in GLOB.statbuy_stats)
+		UNTYPED_LIST_ADD(., list(
+			"key" = stat,
+			"name" = GLOB.statbuy_stats[stat],
+		))
 
 /datum/asset/json/preferences/proc/get_statpacks()
 	. = list()

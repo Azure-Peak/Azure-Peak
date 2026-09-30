@@ -54,6 +54,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/voice_pack = VOICE_PACK_DEFAULT
 	var/voice_type = VOICE_TYPE_MASC	// LETHALSTONE EDIT: the type of soundpack the mob should use
 	var/datum/statpack/statpack	= new /datum/statpack/wildcard/fated // LETHALSTONE EDIT: the statpack we're giving our char instead of racial bonuses
+	/// Our statbuy allocation, an associative list of STATKEY_* -> modifier. Replaces statpack in character setup.
+	var/list/statbuy = list(STATKEY_STR = 0, STATKEY_PER = 0, STATKEY_WIL = 0, STATKEY_CON = 0, STATKEY_INT = 0, STATKEY_SPD = 0, STATKEY_LCK = 0)
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
 	var/datum/virtue/virtue_origin = new /datum/virtue/origin/unknown

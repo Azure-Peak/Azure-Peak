@@ -98,7 +98,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
 		heretic = TRUE
 
-	if(player.prefs.statpack.virtuous)
+	if(player.prefs.is_virtuous())
 		virtuous = TRUE
 
 	var/datum/virtue/virtue_type = player.prefs.virtue

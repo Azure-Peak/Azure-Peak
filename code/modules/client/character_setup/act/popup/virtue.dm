@@ -28,7 +28,7 @@
 	if(V.restricted == TRUE)
 		if((pref_species.type in V.races))
 			return CHARACTER_ACT_DATA_UPDATE
-	if(V.virtuous_only && !statpack.virtuous)
+	if(V.virtuous_only && !is_virtuous())
 		return CHARACTER_ACT_DATA_UPDATE
 
 	// Ok we're good, switch time

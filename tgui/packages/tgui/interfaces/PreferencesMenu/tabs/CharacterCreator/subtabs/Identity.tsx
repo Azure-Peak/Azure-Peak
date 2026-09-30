@@ -236,7 +236,7 @@ export const SubtabIdentityCardGameplay = () => {
     loadout_tri_cost,
     selected_faith,
     selected_patron,
-    statpack_name,
+    statbuy_summary,
     virtue_origin,
   } = data;
   const [, setPopupId] = usePopupId();
@@ -266,9 +266,15 @@ export const SubtabIdentityCardGameplay = () => {
                 {virtue_origin}
               </Button>
             </LabeledGridList.Item>
-            <LabeledGridList.Item label="Statpack">
-              <Button fluid icon="bars" onClick={() => setPopupId('Statpack')}>
-                {statpack_name}
+            <LabeledGridList.Item label="Statbuy">
+              <Button
+                ellipsis
+                fluid
+                icon="bars"
+                tooltip={statbuy_summary}
+                onClick={() => setPopupId('Statbuy')}
+              >
+                {statbuy_summary}
               </Button>
             </LabeledGridList.Item>
             <LabeledGridList.Item label="Combat Music">

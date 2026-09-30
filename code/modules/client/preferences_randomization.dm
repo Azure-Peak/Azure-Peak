@@ -78,6 +78,7 @@
 	reset_descriptors()
 	age = initial(age)
 	statpack = new /datum/statpack/wildcard/fated
+	statbuy = get_default_statbuy()
 	qsr_pref = initial(qsr_pref)
 	char_toggles = initial(char_toggles)
 	favorite_cuisine = initial(favorite_cuisine)

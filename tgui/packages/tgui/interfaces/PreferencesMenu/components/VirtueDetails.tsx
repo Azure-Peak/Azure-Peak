@@ -90,8 +90,8 @@ export const VirtueDetails = (props: VirtueDetailsProps) => {
       ) : null}
       {virtue.stackable ? (
         <Stack.Item bold>
-          This {virtueTitle(virtue.is_origin)} can be picked twice using a
-          virtuous statpack.
+          This {virtueTitle(virtue.is_origin)} can be picked twice if no stats
+          are assigned in statbuy.
         </Stack.Item>
       ) : null}
     </Stack>

@@ -384,6 +384,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!statpack)
 		statpack = GLOB.statpacks[/datum/statpack/wildcard/fated]
 
+/datum/preferences/proc/_load_statbuy(S)
+	var/list/loaded_statbuy
+	S["statbuy"] >> loaded_statbuy
+	statbuy = sanitize_statbuy(loaded_statbuy)
+
 /datum/preferences/proc/_load_virtue(S)
 	var/virtue_type
 	var/virtuetwo_type
@@ -558,6 +563,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	// LETHALSTONE edit: jank-ass load our statpack choice
 	_load_statpack(S)
+	_load_statbuy(S)
 
 	_load_gear_list(S)
 
@@ -789,10 +795,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(istype(virtue, virtuetwo) && !virtue.stackable)
 		virtuetwo = new /datum/virtue/none
-	if(virtue.virtuous_only && !statpack.virtuous)
+	if(virtue.virtuous_only && !is_virtuous())
 		virtue = new /datum/virtue/none
 
-	if(!statpack.virtuous)
+	if(!is_virtuous())
 		virtuetwo = new /datum/virtue/none
 
 
@@ -894,6 +900,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["titles_pref"] , titles_pref)
 	WRITE_FILE(S["clothes_pref"] , clothes_pref)
 	WRITE_FILE(S["statpack"] , statpack.type)
+	WRITE_FILE(S["statbuy"] , statbuy)
 	WRITE_FILE(S["virtue"] , virtue.type)
 	WRITE_FILE(S["virtuechoices"] , virtue.picked_choices)
 	WRITE_FILE(S["virtuetwo"], virtuetwo.type)
