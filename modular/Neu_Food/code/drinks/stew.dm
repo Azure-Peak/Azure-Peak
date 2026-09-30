@@ -1052,7 +1052,7 @@
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.3	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
 		if(wCount.len > 0)
 			M.heal_wounds(2)
 	..()
