@@ -17,7 +17,7 @@
 	alpha = 153
 
 /datum/reagent/consumable/tea/on_mob_life(mob/living/carbon/M)
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+	if(M.blood_volume < BLOOD_VOLUME_NORMAL && volume > 0.99)
 		M.blood_volume = min(M.blood_volume+2, BLOOD_VOLUME_NORMAL)
 	..()
 

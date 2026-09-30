@@ -102,9 +102,10 @@
 	glass_name = "glass of water"
 	glass_desc = ""
 	shot_glass_icon_state = "shotglassclear"
-	var/hydration = 12
+	var/hydration = 24
 	alpha = 100
 	taste_mult = 0.1
+	metabolization_rate = 2 //We want this to be inefficient to lug around & use in gamer mixes.
 
 /datum/chemical_reaction/grosswaterify
 	name = "grosswater"
@@ -112,14 +113,35 @@
 	results = list(/datum/reagent/water/gross = 2)
 	required_reagents = list(/datum/reagent/water/gross = 1, /datum/reagent/water = 1)
 
-#define WATER_BLOOD_RESTORE 15
+/datum/chemical_reaction/orisondilute
+	name = "diluted blessed water"
+	id = /datum/reagent/water
+	results = list(/datum/reagent/water = 2)
+	required_reagents = list(/datum/reagent/water/blessed = 1, /datum/reagent/water = 1)
+	mix_message = "The water's blessings are diluted..."
+
+/datum/chemical_reaction/orisondilute/pestra
+	name = "diluted pestran water"
+	results = list(/datum/reagent/water = 2)
+	required_reagents = list(/datum/reagent/water/medicine = 1, /datum/reagent/water = 1)
+
+/datum/chemical_reaction/orisondilute/inhumen
+	name = "diluted cursed water"
+	results = list(/datum/reagent/water = 2)
+	required_reagents = list(/datum/reagent/water/cursed = 1, /datum/reagent/water = 1)
+
+#define WATER_BLOOD_RESTORE 8
 /datum/reagent/water/on_mob_life(mob/living/carbon/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
 			H.adjust_hydration(hydration)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-			M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
+		M.adjustOxyLoss(-2.5, 0) //This lets it do its job as a first-aid stabilizer, no matter the theoretical blood volume recovery.
+		if(volume > 1.99) //1 sip is 5u, metabolism is 2u, so we want one sip of pure water to be three ticks. This works out to 24 blood recov.
+			if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+				M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
+				if(volume > 19)
+					M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL) //Doubled recovery at over 20 volume.
 	..()
 #undef WATER_BLOOD_RESTORE
 

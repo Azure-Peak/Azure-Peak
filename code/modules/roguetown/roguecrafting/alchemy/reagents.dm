@@ -67,7 +67,7 @@
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
 			H.adjust_hydration(hydration)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL && volume > 0.99)
 			M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_NORMAL)
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)

@@ -320,6 +320,7 @@
 /datum/reagent/water/cursed
 	name = "cursed water"
 	description = "A gift of Devotion. Very slightly heals wounds of the dead and the enlightened."
+	metabolization_rate = REAGENTS_METABOLISM
 
 /datum/reagent/water/cursed/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -380,8 +381,6 @@
 /datum/reagent/consumable/ethanol/loversruin/on_mob_life(mob/living/carbon/M)
 	if(volume >= 50)
 		M.reagents.remove_reagent(/datum/reagent/consumable/ethanol/loversruin, 2)
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(2, list(/datum/wound/slash, /datum/wound/puncture, /datum/wound/bite, /datum/wound/bruise, /datum/wound/dynamic))
@@ -392,6 +391,8 @@
 		M.adjustToxLoss(-0.4, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5 * REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-4 * REAGENTS_EFFECT_MULTIPLIER, 0)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_NORMAL)
 	..()
 
 /datum/action/cooldown/spell/touch/orison/proc/create_water(obj/item/melee/new_touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)

@@ -480,9 +480,6 @@
 	quality = DRINK_FANTASTIC
 
 /datum/reagent/consumable/ethanol/cider/ambrosia/on_mob_life(mob/living/carbon/M)
-	if(ishuman(M))
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-			M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_NORMAL)
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(4)
@@ -493,6 +490,9 @@
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -5	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-5	* REAGENTS_EFFECT_MULTIPLIER, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -5 * REAGENTS_EFFECT_MULTIPLIER)
+		if(ishuman(M))
+			if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+				M.blood_volume = min(M.blood_volume+20, BLOOD_VOLUME_NORMAL)
 	..()
 
 /datum/reagent/consumable/ethanol/cider/ambrosia

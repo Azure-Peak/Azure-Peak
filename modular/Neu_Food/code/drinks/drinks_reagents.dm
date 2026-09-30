@@ -184,8 +184,6 @@
 /datum/reagent/consumable/golden_calendula_tea/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(5)
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_MAXIMUM)
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(1) //at a metabolism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
@@ -195,6 +193,8 @@
 		M.adjustOxyLoss(-0.25, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-0.75	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+5, BLOOD_VOLUME_MAXIMUM)
 	..()
 
 /datum/reagent/consumable/chocolate
@@ -209,8 +209,6 @@
 /datum/reagent/consumable/chocolate/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(1)
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+1, BLOOD_VOLUME_MAXIMUM)
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(1)
@@ -220,6 +218,8 @@
 		M.adjustOxyLoss(-0.15, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.3	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+1, BLOOD_VOLUME_MAXIMUM)
 	..()
 
 /datum/reagent/consumable/spiced_chocolate
@@ -234,8 +234,6 @@
 /datum/reagent/consumable/spiced_chocolate/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(2)
-	if(M.blood_volume < BLOOD_VOLUME_NORMAL)
-		M.blood_volume = min(M.blood_volume+2, BLOOD_VOLUME_MAXIMUM)
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(1)
@@ -245,6 +243,8 @@
 		M.adjustOxyLoss(-0.15, 0)
 		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -0.5	* REAGENTS_EFFECT_MULTIPLIER)
 		M.adjustCloneLoss(-0.5	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+			M.blood_volume = min(M.blood_volume+2, BLOOD_VOLUME_MAXIMUM)
 	..()
 
 /datum/reagent/consumable/soothing_valerian_tea

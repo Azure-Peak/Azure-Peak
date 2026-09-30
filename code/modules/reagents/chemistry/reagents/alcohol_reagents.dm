@@ -1,4 +1,4 @@
-#define ALCOHOL_BLOOD_RESTORE 10
+#define ALCOHOL_BLOOD_RESTORE 3
 ////////////// I don't know who made this header before I refactored alcohols but I'm going to fucking strangle them because it was so ugly, holy Christ
 // ALCOHOLS //
 //////////////
