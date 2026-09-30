@@ -65,7 +65,7 @@
 		if(has_brute || has_healable_wound || has_bleeding_wound)
 			var/mob/living/carbon/human/H = src
 			var/healing_multiplier = max(0.5 ** (
-				(in_combat_until > world.time) + (H.highest_ac_worn() > ARMOR_CLASS_LIGHT) + has_stress_event(/datum/stressevent/sun_sensitivity) + has_stress_event(/datum/stressevent/thirst) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
+				(H.is_in_combat()) + (H.highest_ac_worn() > ARMOR_CLASS_LIGHT) + has_stress_event(/datum/stressevent/sun_sensitivity) + has_stress_event(/datum/stressevent/thirst) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
 			if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 				healing_multiplier = 0.15
 			// Wound healing.
