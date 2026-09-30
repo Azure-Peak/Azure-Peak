@@ -935,6 +935,15 @@ There are several things that need to be remembered:
 							mbeltoverlay.pixel_y += dna.species.offset_features[OFFSET_BELT_F][2]
 				standing_front += mbeltoverlay
 
+	var/obj/item/bodypart/taur/taur_belt = get_taur_tail()
+	if(taur_belt?.taur_clothing_category)
+		var/obj/item/worn_belt = belt || beltr || beltl
+		if(worn_belt)
+			var/belt_state = findtext(worn_belt.icon_state, "black") ? "blackbelt" : "belt"
+			var/mutable_appearance/taur_belt_ov = mutable_appearance('icons/roguetown/clothing/onmob/64x32/saiga_barding.dmi', "[taur_belt.taur_clothing_category]_[belt_state]", -BELT_LAYER)
+			taur_belt_ov.pixel_x = taur_belt.offset_x
+			standing_front += taur_belt_ov
+
 	overlays_standing[BELT_LAYER] = standing_front
 	overlays_standing[BELT_BEHIND_LAYER] = standing_behind
 
@@ -1141,10 +1150,40 @@ There are several things that need to be remembered:
 	if(undercloaks.len)
 		overlays_standing[UNDER_CLOAK_LAYER] = undercloaks
 
+	var/obj/item/bodypart/taur/taur_back = get_taur_tail()
+	if(taur_back?.taur_clothing_category && (istype(backr, /obj/item/storage) || istype(backl, /obj/item/storage)))
+		var/mutable_appearance/saddlebag_ov = mutable_appearance('icons/roguetown/clothing/onmob/64x32/saiga_barding.dmi', "[taur_back.taur_clothing_category]_bags", -BACK_LAYER)
+		saddlebag_ov.pixel_x = taur_back.offset_x
+		overcloaks += saddlebag_ov
+		overlays_standing[BACK_LAYER] = overcloaks
+
 	rebuild_obscured_flags()
 	apply_overlay(BACK_LAYER)
 	apply_overlay(BACK_BEHIND_LAYER)
 	apply_overlay(UNDER_CLOAK_LAYER)
+
+/// I essentially ported my own PR from RW to do this: https://github.com/Rotwood-Vale/Ratwood-2.0/pull/1320 here for context.
+/// Builds the taur tabard heraldry overlay(s) for a worn tabard-type cloak, mirroring /obj/item/clothing/cloak/tabard's own base+pattern layering.
+/// Returns null if this isn't a tabard the taur has sprites for.
+/mob/living/carbon/human/proc/build_taur_tabard_overlay(obj/item/bodypart/taur/taur, obj/item/clothing/cloak/cloak)
+	if(!taur?.taur_clothing_category || !istype(cloak, /obj/item/clothing/cloak/tabard))
+		return null
+	var/list/taur_tabard_layers = list()
+	var/mutable_appearance/base_tabard_ov = mutable_appearance('icons/roguetown/clothing/onmob/64x32/saiga_barding.dmi', "[taur.taur_clothing_category]_tabard", -TABARD_LAYER)
+	base_tabard_ov.pixel_x = taur.offset_x
+	if(cloak.color)
+		base_tabard_ov.color = cloak.color
+	taur_tabard_layers += base_tabard_ov
+
+	var/pattern_tag = cloak.get_detail_tag()
+	if(pattern_tag && (pattern_tag in list("_spl", "_quad", "_box", "_dim")))
+		var/mutable_appearance/pattern_ov = mutable_appearance('icons/roguetown/clothing/onmob/64x32/saiga_barding.dmi', "[taur.taur_clothing_category]_tabard[pattern_tag]", -TABARD_LAYER)
+		pattern_ov.pixel_x = taur.offset_x
+		pattern_ov.appearance_flags = RESET_COLOR
+		if(cloak.get_detail_color())
+			pattern_ov.color = cloak.get_detail_color()
+		taur_tabard_layers += pattern_ov
+	return taur_tabard_layers
 
 /mob/living/carbon/human/update_inv_cloak()
 	remove_overlay(CLOAK_LAYER)
@@ -1188,7 +1227,8 @@ There are several things that need to be remembered:
 					cloak_overlay.pixel_x += dna.species.offset_features[OFFSET_CLOAK_F][1]
 					cloak_overlay.pixel_y += dna.species.offset_features[OFFSET_CLOAK_F][2]
 			if(cloak.alternate_worn_layer == TABARD_LAYER)
-				overlays_standing[TABARD_LAYER] = cloak_overlay
+				var/list/taur_tabard_layers = build_taur_tabard_overlay(taur, cloak)
+				overlays_standing[TABARD_LAYER] = taur_tabard_layers ? (list(cloak_overlay) + taur_tabard_layers) : cloak_overlay
 			if(cloak.alternate_worn_layer == CLOAK_BEHIND_LAYER)
 				overlays_standing[CLOAK_BEHIND_LAYER] = cloak_overlay
 			if(!cloak.alternate_worn_layer || cloak.alternate_worn_layer == UNDER_ARMOR_LAYER)
@@ -1237,7 +1277,8 @@ There are several things that need to be remembered:
 					cloak_overlay.pixel_x += dna.species.offset_features[OFFSET_CLOAK_F][1]
 					cloak_overlay.pixel_y += dna.species.offset_features[OFFSET_CLOAK_F][2]
 			if(backr.alternate_worn_layer == TABARD_LAYER)
-				overlays_standing[TABARD_LAYER] = cloak_overlay
+				var/list/taur_tabard_layers = build_taur_tabard_overlay(taur, backr)
+				overlays_standing[TABARD_LAYER] = taur_tabard_layers ? (list(cloak_overlay) + taur_tabard_layers) : cloak_overlay
 			if(backr.alternate_worn_layer == CLOAK_BEHIND_LAYER)
 				overlays_standing[CLOAK_BEHIND_LAYER] = cloak_overlay
 			if(!backr.alternate_worn_layer)

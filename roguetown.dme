@@ -8,6 +8,7 @@
 // END_PREFERENCES
 // BEGIN_INCLUDE
 #include "_maps\_basemap.dm"
+#include "_maps\roguetest.dm"
 #include "_maps\map_files\generic\CentCom.dmm"
 #include "_maps\templates\arcyne_fortress.dm"
 #include "code\__byond_version_compat.dm"
@@ -1873,6 +1874,7 @@
 #include "code\modules\clothing\rogueclothes\neck.dm"
 #include "code\modules\clothing\rogueclothes\rings.dm"
 #include "code\modules\clothing\rogueclothes\robes.dm"
+#include "code\modules\clothing\rogueclothes\saiga_gear.dm"
 #include "code\modules\clothing\rogueclothes\shirts.dm"
 #include "code\modules\clothing\rogueclothes\wrists.dm"
 #include "code\modules\clothing\rogueclothes\armor\_armor.dm"

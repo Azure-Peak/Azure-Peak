@@ -4,6 +4,11 @@
 	path = /obj/item/clothing/cloak/tabard
 	sort_category = "Cloaks"
 
+/datum/loadout_item/saigatabard
+	name = "Saiga Tabard"
+	path = /obj/item/clothing/cloak/tabard/saiga
+	sort_category = "Cloaks"
+
 /datum/loadout_item/surcoat
 	name = "Surcoat"
 	path = /obj/item/clothing/cloak/tabard/stabard
