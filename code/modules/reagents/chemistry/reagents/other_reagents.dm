@@ -136,11 +136,13 @@
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
 			H.adjust_hydration(hydration)
+		if(volume >= 40)
+			M.reagents.remove_reagent(/datum/reagent/water, 2)
 		M.adjustOxyLoss(-2.5, 0) //This lets it do its job as a first-aid stabilizer, no matter the theoretical blood volume recovery.
 		if(volume > 1.99) //1 sip is 5u, metabolism is 2u, so we want one sip of pure water to be three ticks. This works out to 24 blood recov.
 			if(M.blood_volume < BLOOD_VOLUME_NORMAL)
 				M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
-				if(volume > 29)
+				if(volume >= 28)
 					M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL) //Doubled recovery at over 30 volume.
 	..()
 #undef WATER_BLOOD_RESTORE
