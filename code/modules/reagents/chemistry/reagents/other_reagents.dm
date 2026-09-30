@@ -140,8 +140,8 @@
 		if(volume > 1.99) //1 sip is 5u, metabolism is 2u, so we want one sip of pure water to be three ticks. This works out to 24 blood recov.
 			if(M.blood_volume < BLOOD_VOLUME_NORMAL)
 				M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
-				if(volume > 19)
-					M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL) //Doubled recovery at over 20 volume.
+				if(volume > 29)
+					M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL) //Doubled recovery at over 30 volume.
 	..()
 #undef WATER_BLOOD_RESTORE
 
