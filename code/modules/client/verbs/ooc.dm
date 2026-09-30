@@ -328,6 +328,17 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	else
 		to_chat(src, span_notice("The Message of the Day has not been set."))
 
+/client/verb/reset_looc_mutes()
+	set name ="Reset LOOC Mutes"
+	set desc ="Resets all LOOC mutes."
+	set category="OOC"
+	if(!length(user_muted_ckeys))
+		to_chat(src, span_notice("We have no one muted."))
+		return
+	var/unmuted_count = length(user_muted_ckeys)
+	LAZYCLEARLIST(user_muted_ckeys)
+	to_chat(src, span_notice("Removed [unmuted_count] mutes."))
+
 /client/proc/self_notes()
 	set name = "View Admin Remarks"
 	set desc = ""

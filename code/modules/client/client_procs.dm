@@ -185,6 +185,9 @@ GLOBAL_LIST_EMPTY(respawncounts)
 			inprefs = FALSE
 			return
 
+	if(href_list["user_mute_looc"])
+		handle_user_mute_looc(href_list["user_mute_looc"])
+
 	switch(href_list["action"])
 		if("openLink")
 			src << link(href_list["link"])
@@ -1318,3 +1321,14 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		if("Set-Tab")
 			stat_tab = payload["tab"]
 			SSstatpanels.immediate_send_stat_data(src)
+
+/client/proc/handle_user_mute_looc(target_client)
+	var/client/C = locate(target_client)
+	if(!C || C.holder)
+		return
+	var/ckey_to_mute = C.ckey
+	if(ckey_to_mute in user_muted_ckeys)
+		return
+	message_admins("[ckey] [ADMIN_LOOKUPFLW(src)] personally muted [ckey_to_mute] [ADMIN_LOOKUPFLW(C)]")
+	to_chat(src, span_notice("You will no longer see their LOOC messages. Reconnect or click 'Reset LOOC Mutes' button in your OOC tab to see them again."))
+	LAZYADD(user_muted_ckeys, ckey_to_mute)
