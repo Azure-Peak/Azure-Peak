@@ -234,40 +234,6 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	to_chat(src, "<font color='purple'>I gained [prayersesh] devotion!</font>")
 	return TRUE
 
-/mob/living/carbon/human/proc/changevoice()
-	set name = "Change Second Voice (Can only use Once!)"
-	set category = "RoleUnique.Virtue"
-
-	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
-	if(!V)
-		V = AddComponent(/datum/component/voice_handler)
-
-	var/newcolor = input(src, "Choose your character's SECOND voice color:", "VIRTUE","#a0a0a0") as color|null
-	if(!newcolor)
-		return FALSE
-	var/datum/descriptor_choice/VC = DESCRIPTOR_CHOICE(/datum/descriptor_choice/voice)
-	var/list/voice_options = list()
-	for(var/desc_type in VC.descriptors)
-		var/datum/mob_descriptor/D = MOB_DESCRIPTOR(desc_type)
-		if(D)
-			voice_options[D.name] = desc_type
-
-	var/picked_name = input(src, "Choose how your SECOND voice is described:", "VIRTUE") as null|anything in voice_options
-	if(!picked_name)
-		return FALSE
-	V.second_color = sanitize_hexcolor(newcolor, 6, TRUE)
-	V.second_desc_path = voice_options[picked_name]
-	to_chat(src, span_notice("Second voice configured: Color [V.second_color] with the '[picked_name]' description."))
-	remove_verb(src, /mob/living/carbon/human/proc/changevoice)
-	return TRUE
-
-/mob/living/carbon/human/proc/swapvoice()
-	set name = "Swap Voice"
-	set category = "RoleUnique.Virtue"
-
-	var/datum/component/voice_handler/V = GetComponent(/datum/component/voice_handler)
-	V.toggle_voice()
-
 /mob/living/carbon/human/proc/toggleblindness()
 	set name = "Toggle Colorblindness"
 	set category = "RoleUnique.Virtue"

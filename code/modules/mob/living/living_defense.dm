@@ -601,6 +601,10 @@
 
 /mob/living/proc/checkguard(mob/living/simple_animal/attacker)
 	var/mob/living/carbon/human/target = src
+	if((ishuman(target) && target.has_status_effect(/datum/status_effect/buff/bulwark_of_oil)))
+		var/datum/status_effect/buff/bulwark_of_oil/o = target.has_status_effect(/datum/status_effect/buff/bulwark_of_oil)
+		o.simple_defend(attacker) // I hate this why do we handle simplemob ripostes like this why dont we use signals like every other defense
+		return TRUE
 	if(!(ishuman(target) && target.has_status_effect(/datum/status_effect/buff/clash)))
 		return FALSE
 	var/obj/item/IM = target.get_active_held_item()

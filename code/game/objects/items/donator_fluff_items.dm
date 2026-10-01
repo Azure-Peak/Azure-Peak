@@ -488,6 +488,15 @@
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
+/obj/item/clothing/head/roguetown/helmet/sallet/visored/gothic
+	name = "gothic sallet"
+	desc = "An ornate steel sallet, and the most modern design of its kind. These helms are commonly worn by Grenzelhoft's knights, and \
+	feature a much more aggressive shape and longer tail than sallets common of munition arms."
+	item_state = "gsallet"
+	icon_state = "gsallet"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/donator_gothic
 	name = "gothic cuirass"
 	desc = "A magnificent steel cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
@@ -569,6 +578,15 @@
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/donator_gothic
 	name = "gothic cuirass"
 	desc = "A magnificent ornate cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
+	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "gpsycuirass"
+	icon_state = "gpsycuirass"
+
+/obj/item/clothing/suit/roguetown/armor/plate/fluted/donator_gothic_ornate
+	name = "gothic half-plate"
+	desc = "A magnificent ornate set of half-plated steel armor, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
 	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
@@ -4570,6 +4588,7 @@ As Excaliber."
 	desc = "A beautiful sabre, originally gifted to its wielder - alongside a matching lance - upon their ascendance into knighthood. It, too, has \
 	been designed to better excel at unmounted combat; namely, with a golden knuckleguard that fully defends one's hand. Along the blade's root \
 	is an engraving of silvered elvish runes.. </br>'Sieglinde, the Thunderblade.'"
+	icon_state = "naman_sabre"
 	sheathe_icon = "naman_sabre"
 	icon = 'icons/obj/items/donor_weapons.dmi'
 

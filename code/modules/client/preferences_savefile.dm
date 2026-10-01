@@ -126,6 +126,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["tgui_theme"]			>> tgui_theme
 	S["parchment_skin"]		>> parchment_skin
 	S["statbrowser_theme"]	>> statbrowser_theme
+	S["vv_dark_mode"]		>> vv_dark_mode
 	S["preferred_ui_language"] >> preferred_ui_language
 	S["windowflash"]		>> windowflashing
 	S["be_special"]		>> be_special
@@ -200,6 +201,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	no_language_icon	= sanitize_bool(no_language_icon, initial(no_language_icon))
 	no_redflash			= sanitize_bool(no_redflash, initial(no_redflash))
 	top_examine			= sanitize_bool(top_examine, initial(top_examine))
+	vv_dark_mode		= sanitize_bool(vv_dark_mode, initial(vv_dark_mode))
 	crt					= sanitize_bool(crt, initial(crt))
 	grain				= sanitize_bool(grain, initial(grain))
 	qsr_pref			= sanitize_bool(qsr_pref, initial(qsr_pref))
@@ -313,6 +315,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["tgui_theme"], tgui_theme)
 	WRITE_FILE(S["parchment_skin"], parchment_skin)
 	WRITE_FILE(S["statbrowser_theme"], statbrowser_theme)
+	WRITE_FILE(S["vv_dark_mode"], vv_dark_mode)
 	WRITE_FILE(S["preferred_ui_language"], preferred_ui_language)
 	WRITE_FILE(S["windowflash"], windowflashing)
 	WRITE_FILE(S["be_special"], be_special)
@@ -396,6 +399,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtuetwochoices"] >> virttwo
 	virtue_choices = virtone
 	virtuetwo_choices = virttwo
+	for(var/list/choices in list(virtue_choices, virtuetwo_choices))
+		var/index = choices.Find("Second Voice")
+		if(index)
+			choices[index] = "Alter Ego"
 
 	// If we still find a living ref, we clean it up. This is deprecated and we shouldn't be saving whole datums.
 	if (istype(virtue_type, /datum/virtue))

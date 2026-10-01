@@ -165,6 +165,7 @@
 			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
 			"Coat of Plates"		= /obj/item/clothing/suit/roguetown/armor/brigandine/heavy,
 			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate,
+			"Fluted Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/fluted,
 			"Lamellar Scalemail"		= /obj/item/clothing/suit/roguetown/armor/plate/scale/steppe,
 			"Haraate Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine/haraate,
 		)

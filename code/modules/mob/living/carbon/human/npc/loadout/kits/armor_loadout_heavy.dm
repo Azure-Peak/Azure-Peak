@@ -20,6 +20,13 @@
 /datum/npc_loadout/armor/heavy/iron_chain/cuirass
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 
+// Marksmen will not wear a close helm
+/datum/npc_loadout/armor/heavy/iron_chain/cuirass/open_helm
+	head = list(
+		/obj/item/clothing/head/roguetown/helmet/kettle/iron = 50,
+		/obj/item/clothing/head/roguetown/helmet/sallet/iron = 50,
+	)
+
 /datum/npc_loadout/armor/heavy/iron_chain/full_plate
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/iron
 	neck = /obj/item/clothing/neck/roguetown/chaincoif/full

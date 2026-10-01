@@ -157,7 +157,7 @@
 			to_chat(user, span_warning("They are deceased. Only running blood may be extracted."))
 			return
 		if(!giving && !M.mind && !mindless_attach)
-			to_chat(user, span_warning("They are mindless. The [src] won't attach."))
+			to_chat(user, span_warning("They are mindless. [src] won't attach."))
 			return
 		var/mob/living/carbon/human/H = M
 		var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
@@ -263,10 +263,10 @@
 	color = null
 	consistent = TRUE
 	drainage = 0
-	blood_sucking = 5
+	blood_sucking = 7.5
 	toxin_healing = -2
 	blood_multiplier = 3
-	blood_storage = BLOOD_VOLUME_OKAY
+	blood_storage = BLOOD_VOLUME_NORMAL
 	blood_maximum = BLOOD_VOLUME_MAXIMUM
 	mindless_attach = FALSE
 	embedding = list(
@@ -275,7 +275,7 @@
 		"embedded_pain_chance" = 0,
 		"embedded_fall_chance" = 0,
 		"embedded_bloodloss"= 0,
-		"embedded_ignore_throwspeed_threshold" = TRUE,
+		"embedded_ignore_throwspeed_threshold" = FALSE,
 		"embedded_unsafe_removal_pain_multiplier" = 0,
 	) // the humble cheele is gentle. so gentle.
 

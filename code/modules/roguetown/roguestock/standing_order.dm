@@ -6,6 +6,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/region_id
 	var/list/required_items = list()
 	var/total_payout = 0
+	/// Payout before the scarcity bonus. Set by compute_order_payout() alongside total_payout.
+	var/base_payout = 0
+	/// Scarcity bonus % applied on top of base_payout, e.g. 40 for +40%. 0 at/above reference pop.
+	var/scarcity_bonus_pct = 0
 	var/day_issued = 0
 	var/day_expires = 0
 	var/is_fulfilled = FALSE
