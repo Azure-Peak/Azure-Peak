@@ -95,7 +95,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 	if (O)
 		L = L.Copy()
 
-	L += var_value
+	L += list(var_value) //var_value could be a list
 
 	switch(alert(usr, "Would you like to associate a value with the list entry?",,"Yes","No"))
 		if("Yes")
@@ -111,11 +111,11 @@ GLOBAL_PROTECT(VVpixelmovement)
 /client/proc/mod_list(list/L, atom/O, original_name, objectvar, index, autodetect_class = FALSE)
 	if(!check_rights(R_VAREDIT))
 		return
-	if(istype(L, /alist))
-		debug_variables(L)
-		return
 	if(!istype(L, /list))
 		to_chat(src, "Not a List.")
+		return
+	if(isalist(L))
+		debug_variables(L)
 		return
 
 	if(L.len > 1000)
@@ -309,7 +309,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 		for (var/V in O.vars)
 			names += V
 
-		names = sortList(names)
+		names = sort_list(names)
 
 		variable = input(src, "Which var?","Var") as null|anything in names
 		if(!variable)
@@ -404,7 +404,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 /client/proc/mod_alist(alist/A, datum/O, original_name, objectvar, enum_index, autodetect_class = FALSE)
 	if(!check_rights(R_VAREDIT))
 		return
-	if(!istype(A, /alist))
+	if(!isalist(A))
 		to_chat(src, "Not an alist.")
 		return
 	var/key = index_alist_key(A, enum_index)
@@ -464,7 +464,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 /client/proc/mod_alist_add(alist/A, datum/O, original_name, objectvar)
 	if(!check_rights(R_VAREDIT))
 		return
-	if(!istype(A, /alist))
+	if(!isalist(A))
 		to_chat(src, "Not an alist.")
 		return
 	to_chat(src, "Choose the new entry's KEY:")

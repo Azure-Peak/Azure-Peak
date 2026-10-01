@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - bugfix: "Bard's buffs had id overlapping, which has been corrected."
-  - rscadd: "Vizier's Accelerate should be more descriptive about not stacking with only haste."

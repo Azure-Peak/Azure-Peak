@@ -1,6 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "assassin's skinthiefing now shows proper job"
-  - bugfix: "assassin's skinthiefing now shows (sfw) flavortext properly ((I AM NOT COPYING NSFW FLAVORTEXT!!!!))"
-  - bugfix: "assassin's skinthiefing should runtime less"

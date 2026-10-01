@@ -45,7 +45,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
 	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi
 	backr = /obj/item/rogueweapon/shield/atgervi
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
@@ -118,11 +118,11 @@
 
 	head = /obj/item/clothing/head/roguetown/helmet/leather/shaman_hood
 	gloves = /obj/item/clothing/gloves/roguetown/angle/gronnfur
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/atgervi
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
@@ -163,7 +163,7 @@
 	item_state = "atgervi_raider_mail"
 	max_integrity = 400
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/atgervi
 	name = "shamanic coat"
 	desc = "A furred, protective coat. Often made by hand, it embodies the second trial of the Iskarn Shamans: To honor the leopard is to desire for more."
 	icon_state = "atgervi_shaman_coat"
@@ -215,7 +215,7 @@
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
 
-/obj/item/clothing/shoes/roguetown/boots/leather/atgervi
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi
 	name = "atgervi leather boots"
 	desc = "A pair of strong leather boots, designed to endure both the heat of battle and the frigid cold of the Northern Empty."
 	icon_state = "atgervi_boots"

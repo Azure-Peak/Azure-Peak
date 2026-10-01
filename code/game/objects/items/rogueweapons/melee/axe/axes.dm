@@ -763,9 +763,8 @@
 	minstr = 12
 	force = 20
 	force_wielded = 40
-	wdefense_wbonus = 4 //7 wdef wielded, considerably less than other ritual weapons, glass cannon specially vs. swift/master skill.
-	max_blade_int = 300 //100 less than zizo longsword
-	gripped_intents = list(/datum/intent/axe/cut/long/vicious, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
+	max_blade_int = 270
+	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
 	smeltresult = /obj/item/ingot/component/graggar
 	special = /datum/special_intent/vicious_swipe
 
