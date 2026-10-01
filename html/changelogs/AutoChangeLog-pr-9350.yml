@@ -1,0 +1,7 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Juices and non alcoholic drink will now hydrate properly"
+  - bugfix: "Alcoholic mix like Bloody Mary now respects their own hydration value"
+  - bugfix: "Lime juice no longer show up as Lemon Juice, Plum no longer show up as Pear"
+  - code_imp: "All of the juices are now parented under one subtype instead of copy pasted"

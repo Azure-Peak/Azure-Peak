@@ -102708,7 +102708,7 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "snw" = (
-/obj/item/clothing/shoes/roguetown/boots/leather/atgervi,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/spider)
 "sny" = (

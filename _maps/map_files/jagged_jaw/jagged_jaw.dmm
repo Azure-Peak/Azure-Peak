@@ -41865,6 +41865,16 @@
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/snow,
 /area/rogue/outdoors/mountains/decap/grim)
+"fcK" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/structure/rack/rogue{
+	density = 0;
+	pixel_y = 18
+	},
+/turf/open/floor/rogue/tile/brownbrick/browner,
+/area/rogue/indoors/town/dwarfin)
 "fcL" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
@@ -48139,11 +48149,12 @@
 	pixel_y = -32
 	},
 /obj/structure/closet/crate/chest/neu,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "fSa" = (
@@ -70065,7 +70076,7 @@
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/scarymaze)
 "izD" = (
-/obj/item/clothing/shoes/roguetown/boots/leather/atgervi,
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/spider)
 "izG" = (
@@ -100667,16 +100678,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/cave/licharena/bossroom/grim)
-"mmS" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f"
-	},
-/obj/structure/rack/rogue{
-	density = 0;
-	pixel_y = 18
-	},
-/turf/open/floor/rogue/tile/brownbrick/browner,
-/area/rogue/indoors/town/dwarfin)
 "mmT" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -110003,12 +110004,12 @@
 /obj/item/rogueore/cinnabar,
 /obj/item/rogueore/cinnabar,
 /obj/item/rogueore/cinnabar,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
-/obj/item/paper/scroll,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
+/obj/item/reagent_containers/glass/bottle/alchemical,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/dwarfin)
 "nuV" = (
@@ -130496,12 +130497,6 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cavewet/bogcaves/west)
-"pSX" = (
-/obj/machinery/light/rogue/candle,
-/obj/structure/closet/crate/roguecloset,
-/obj/item/reagent_containers/glass/bucket/pot,
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/grim)
 "pSZ" = (
 /obj/structure/roguewindow/openclose/reinforced,
 /turf/open/floor/rogue/concrete,
@@ -145488,6 +145483,12 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison/grim)
+"rMn" = (
+/obj/machinery/light/rogue/candle,
+/obj/structure/closet/crate/roguecloset,
+/obj/item/reagent_containers/glass/bucket/pot,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town/grim)
 "rMp" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/carpet/lord/center,
@@ -151360,17 +151361,6 @@
 "suP" = (
 /turf/closed/wall/mineral/rogue/pipe/line,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
-"suQ" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 6
-	},
-/obj/structure/rack/rogue{
-	density = 0;
-	pixel_y = 18
-	},
-/turf/open/floor/rogue/tile/brownbrick/browner,
-/area/rogue/indoors/town/dwarfin)
 "suR" = (
 /obj/item/clothing/under/roguetown/loincloth,
 /obj/item/clothing/under/roguetown/loincloth,
@@ -156257,7 +156247,7 @@
 /obj/structure/bars/cemetery{
 	max_integrity = 1500
 	},
-/turf/open/floor/rogue/concrete,
+/turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/exposed/town/keep/grim)
 "sZm" = (
 /obj/structure/table/wood/poor,
@@ -171783,6 +171773,17 @@
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/dukecourt/grim)
+"uPB" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 6
+	},
+/obj/structure/rack/rogue{
+	density = 0;
+	pixel_y = 18
+	},
+/turf/open/floor/rogue/tile/brownbrick/browner,
+/area/rogue/indoors/town/dwarfin)
 "uPC" = (
 /obj/structure/fluff/railing/wood/east,
 /obj/effect/decal/mossy{
@@ -172410,12 +172411,24 @@
 	pixel_y = 0
 	},
 /obj/item/storage/roguebag{
-	pixel_x = 4;
-	pixel_y = 5
+	pixel_x = 7;
+	pixel_y = 12
 	},
 /obj/item/storage/roguebag{
-	pixel_x = -6;
-	pixel_y = 5
+	pixel_x = -8;
+	pixel_y = 13
+	},
+/obj/item/rogueweapon/contraption/folding_table_stored{
+	pixel_x = 0;
+	pixel_y = -6
+	},
+/obj/item/folding_alchstation_stored{
+	pixel_y = -1;
+	pixel_x = 0
+	},
+/obj/item/folding_alchcauldron_stored{
+	pixel_y = 5;
+	pixel_x = 0
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/physician)
@@ -509418,7 +509431,7 @@ rBt
 iTP
 ldg
 umu
-mmS
+fcK
 btz
 reh
 ldg
@@ -512856,7 +512869,7 @@ kFT
 kFT
 etB
 ldg
-suQ
+uPB
 pqw
 iwI
 aZE
@@ -515586,7 +515599,7 @@ mDI
 eyh
 dfx
 aTh
-pSX
+rMn
 nuD
 geS
 nuD

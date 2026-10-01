@@ -1,0 +1,5 @@
+author: "anything86"
+delete-after: True
+changes:
+  - balance: "atgervi boots now have same stats as hardened leather boots"
+  - balance: "atgervi shaman coat now covers legs."
