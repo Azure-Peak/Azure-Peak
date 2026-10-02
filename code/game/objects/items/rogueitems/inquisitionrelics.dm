@@ -872,7 +872,7 @@ Inquisitorial armory down here
 					cursedblood = 2
 				if(M.mind.has_antag_datum(/datum/antagonist/vampire))
 					cursedblood = 3
-				if(HAS_TRAIT (M, TRAIT_BLACKBLOOD))
+				if(HAS_TRAIT(M, TRAIT_BLACKBLOOD) || HAS_TRAIT(M, TRAIT_PALLID) || HAS_TRAIT(M, TRAIT_ROTMAN))
 					cursedblood = 0.1 // trolling the inquisition newbies
 			update_icon()
 			takeblood(M, user)
@@ -1723,6 +1723,32 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 /obj/item/paper/inquisition_report/attack_right(mob/user)
 	return
 
+/obj/item/paper/inquisition_report/read(mob/user)
+	if(!report_html || !length(report_html))
+		to_chat(user, span_warning("The certificate appears to be... blank? Report this in an A-HELP or file a Bug Report, please!"))
+		return
+
+	var/html = {"
+	<html>
+	<head>
+		<title>Haemological Report</title>
+	</head>
+	<body bgcolor='#E8DFC4'>
+		<div style='
+			font-family: Georgia, Times New Roman, serif;
+			padding: 16px;
+			max-width: 800px;
+			margin: auto;
+			color: black;
+		'>
+			[report_html]
+		</div>
+	</body>
+	</html>
+	"}
+
+	user << browse(html, "window=inquisition_report;size=750x850;can_resize=1")
+
 /obj/item/paper/inquisition_report/attack_self(mob/user)
 	if(!report_html || !length(report_html))
 		to_chat(user, span_warning("The certificate appears to be... blank? Report this in an A-HELP or file a Bug Report, please!"))
@@ -1837,8 +1863,9 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 	var/list/d = H.get_mob_descriptors()
 	report_html += "Height: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")]<br>"
 	report_html += "Build: [build_coalesce_description_nofluff(d, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")]<br>"
-	if(HAS_TRAIT(H, TRAIT_BLACKBLOOD))
-		report_html += "<i>By decree of the Holy Otavan Inquisition, the subject is judged CURED and restored to the flock of commonfolk. Should they ever stray from the Allfather's Light and back to evil against humenkind, let His 'Final Mercy' be carried out in due diligence. <b>They shall NOT be granted another second chance</b>.</i><br>"
+
+	if(HAS_TRAIT(H, TRAIT_BLACKBLOOD) || HAS_TRAIT(H, TRAIT_PALLID) || HAS_TRAIT(H, TRAIT_ROTMAN))
+		report_html += "<i>By decree of the Holy Otavan Inquisition, the subject is judged CURED and restored to the flock of commonfolk. Should they ever stray from the Allfather's Light and back to evil against humenkind, let His 'Final Mercy' be carried out in due diligence. <b>They shall NOT be granted another SECOND CHANCE. You are permitted to EXECUTE them if they step out of line</b>.</i><br>"
 	report_html += "<hr>"
 
 	report_html += "<b>LYFEBLOOD-LUX RESONATOR RESULTS</b><br><br>"
@@ -1883,6 +1910,14 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 			report_html += "<font color='#3D3D3D'><b>Stabilized Blackblood Tincture</b></font><br><br>"
 			report_html += "<i>Lethal concentrations of Atra Ferrum, Nigredo Salts, Vitriol Ash, and Coagulated Psyturnine Humours remain suspended throughout the sample. Complete melanization and abnormal viscosity are wholly consistent with recent radical purification treatments for Quicksilver-resistant subjects.</i><br><br>"
 			found = TRUE
+		else if(HAS_TRAIT(H, TRAIT_PALLID))
+			report_html += "<font color='#7B0000'><b>Residual Porphylick Haemophilia</b></font><br><br>"
+			report_html += "<i>The sample exhibits severe depletion of natural Vitae alongside unusual sanguine persistence beyond expected mortal limits. Coagulation remains markedly impaired, with lingering traces of necrotic resonance consistent with a subject recently cured of vampirism, yet traces of their past life may linger.</i><br><br>"
+			found = TRUE
+		else if(HAS_TRAIT(H, TRAIT_ROTMAN))
+			report_html += "<font color='#5b795b'><b>Necrotic Humour Residue</b></font><br><br>"
+			report_html += "<i>The sample contains excessive quantities of thoroughly rotted humours, with persistent necrotic corruption that resists natural healing. The residue is consistent with a subject recently restored from undeath. How they are alive is beyond our understanding, as they should be a rotting corpse.</i><br><br>"
+			found = TRUE
 		else if(HAS_TRAIT(H, TRAIT_ANCIENT_HAG))
 			report_html += "<font color='#5C3A6E'><b>Anomalous Blood</b></font><br><br>"
 			report_html += "<i>The sample is laden with accursed humours and bears the unmistakable taint of ancient malisons. Though greatly withered by age, the blood yet clings to unnatural vigor, a condition recorded only in those sustained by profane sorceries and long familiarity with the Devil's arts.</i><br><br>"
@@ -1891,12 +1926,12 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 			if(istype(D, /datum/antagonist/vampire))
 				found = TRUE
 				report_html += "<font color='#7B0000'><b>Porphylick Haemophilia</b></font><br><br>"
-				report_html += "<i>The sample exhibits severe depletion of natural Vitae alongside unusual sanguine persistence beyond expected mortal limits. Coagulation is markedly impaired, while traces of necrotic resonance permeate the blood. It cannot sustain itself, should fresh blood not be appended to it.</i><br><br>"
+				report_html += "<i>The sample exhibits severe depletion of natural Vitae alongside unusual sanguine persistence beyond expected mortal limits. Coagulation is markedly impaired, while traces of necrotic resonance permeate the blood. It cannot sustain itself, should fresh blood not be appended to it. Simply put, a confirmed vampyre.</i><br><br>"
 				break
 			if(istype(D, /datum/antagonist/werewolf))
 				found = TRUE
 				report_html += "<font color='#6E4F2C'><b>Liquid Madness Corrosion</b></font><br><br>"
-				report_html += "<i>The sample displays extreme humoral instability, with recurrent fluctuations in viscosity, coloration, and saturation occurring during examination. Such volatility is consistent with advanced moonlit transmutative contamination. It carries traces of hallowed energy, however.</i><br><br>"
+				report_html += "<i>The sample displays extreme humoral instability, with recurrent fluctuations in viscosity, coloration, and saturation occurring during examination. Such volatility is consistent with advanced moonlit transmutative contamination. It carries traces of hallowed energy, however. Simply put, a confirmed werevolf.</i><br><br>"
 				break
 			if(istype(D, /datum/antagonist/gnoll))
 				found = TRUE

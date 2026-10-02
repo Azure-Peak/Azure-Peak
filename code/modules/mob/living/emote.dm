@@ -100,17 +100,25 @@
 
 /datum/emote/living/meditate/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
+	var/mob/living/U = user
 	to_chat(user, span_green("You focus inwards..."))
 	for(var/cycle in 1 to 3)
 		if(!do_after(user, 10 SECONDS))
 			return
 		SEND_SIGNAL(user, COMSIG_MOB_MEDITATED)
 	if(HAS_TRAIT(user, TRAIT_IRONMAN))
-		var/mob/living/U = user
 		var/percent = U.max_energy * 0.3
 		user.add_stress(/datum/stressevent/meditation_ironman)
 		user.energy_add(percent)
 		playsound(user, 'sound/misc/machineyes.ogg', 25)
+	else if(HAS_TRAIT(user, TRAIT_BLACKBLOOD))
+		var/percent = U.max_energy * 0.04
+		user.energy_add(-percent)
+		user.add_stress(/datum/stressevent/meditation)
+		playsound(user.loc, 'sound/magic/psydonrespite.ogg', 100, TRUE)
+		U.adjustBruteLoss(25) // 5 less than miracle heal over 30 seconds of uninterrupted stand-still
+		U.adjustFireLoss(25)
+		U.adjustToxLoss(25)
 	else
 		user.add_stress(/datum/stressevent/meditation)
 

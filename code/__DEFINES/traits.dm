@@ -281,7 +281,10 @@
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
 
-#define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
+#define TRAIT_AGORAPHOBIC "Agoraphobic" // hates being outside.
+
+#define TRAIT_STRONGBITE "Strong Bite" // Higher critrate + damage (NOTE: I don't see anything in the code that mentions 'critrate', though. This should be reviewed later.)
+#define TRAIT_SHARPBITE "Sharp Bite" // Your bites can cause a wound, as if you're chewing. No damage bonuses nor any other nonsense from above.
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
 #define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened" //Armor slowdowns do not apply.
 #define TRAIT_ANTISCRYING "Non-Detection"
@@ -501,7 +504,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NUTCRACKER = "I love kicking idiots on the nuts!",
 	TRAIT_SEEPRICES = "I can tell the prices of things down to the zenny.",
 	TRAIT_SEEPRICES_SHITTY = "I can tell the prices of things... <i>Kind of</i>.",
-	TRAIT_STRONGBITE = span_info("Stronger bites, critical bite attacks."),
+	TRAIT_AGORAPHOBIC = span_info("I hate the outside! I don't want to leave the safety of these four walls..."),
+	TRAIT_STRONGBITE = span_info("Your bites deal double damage and can cause injuries."),
+	TRAIT_SHARPBITE = span_info("Your jagged teeth or pronounced fangs can cause injures on bite."),
 	TRAIT_VAMPBITE = span_info("Victims of your bite will feel immense pleasure."),
 	TRAIT_STRONGKICK = span_info("My kicks knock people down and back a step, consistently. There's no need for obstacles."),
 	TRAIT_IGNORESLOWDOWN = span_info("Nothing stops this carriage!"),

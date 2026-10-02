@@ -52,7 +52,7 @@
 		victim.adjustToxLoss(-tox_drained)
 		src.adjustToxLoss(tox_drained)
 
-	if(!(VDrinker || HAS_TRAIT(src, TRAIT_BLACKBLOOD)))
+	if(!(VDrinker || HAS_TRAIT(src, TRAIT_PALLID)))
 		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER)))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
@@ -83,7 +83,8 @@
 	if(B)
 		B.data = victim.get_blood_data()
 	temp.trans_to(src, blood_amount, TRUE, TRUE, FALSE, src, FALSE, INGEST)
-	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+
+	if(!VDrinker)
 		return
 
 	if(VVictim)
