@@ -114,7 +114,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/conjure_instrument) //Gives them the ability to summon an instrument as a freebie, they are as much musical performers as they are blade dancers.
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1) //Tier 3 spells because patron locked to Xylix and most of Xylix's spells are mostly whimsical. Change this if Xylix's spells are ever changed, be sure to change this too. Same devotion gain as a templar spellblade, and same devotion cap.
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
 
 	switch(subclass_selected)
 		if("blade")
