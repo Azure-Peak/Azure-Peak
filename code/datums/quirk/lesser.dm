@@ -114,6 +114,7 @@
 		/datum/antagonist/goblin,
 		/datum/antagonist/hag,
 		/datum/antagonist/lich,
+		/datum/antagonist/vampire/lord,
 		/datum/antagonist/skeleton,
 		/datum/antagonist/unbound_death_knight,
 		/datum/antagonist/unbound_spellblade,
@@ -122,7 +123,7 @@
 /datum/quirk/wellknown/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
 	var/static/list/all_resident_positions = (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions)
-	if((recipient.job in all_resident_positions) || HAS_TRAIT(recipient, TRAIT_RESIDENT)) // congrats, you wasted your quirk
+	if((recipient.job in all_resident_positions) || HAS_TRAIT(recipient, TRAIT_WELLKNOWN)) // congrats, you wasted your quirk
 		to_chat(recipient, span_warning("I am already a resident of Azure Peak. I cannot become more well-known.")) // let them know to pick a different quirk lol
 		return
 	if(recipient.mind)
@@ -134,7 +135,7 @@
 			for(var/datum/mind/MF in get_minds(X))
 				recipient.mind.person_knows_me(MF)
 				recipient.mind.i_know_person(MF)
-			for(var/mob/living/carbon/human/H in GLOB.player_list)
-				if(HAS_TRAIT(H, TRAIT_RESIDENT)) // we have to do this to handle resident virtue; quirks are applied after virtues, so this works fine
-					recipient.mind.person_knows_me(H)
-					recipient.mind.i_know_person(H)
+		for(var/mob/living/carbon/human/H in GLOB.player_list)
+			if(HAS_TRAIT(H, TRAIT_WELLKNOWN)) // we have to do this to handle resident virtue; quirks are applied after virtues, so this works fine
+				recipient.mind.person_knows_me(H)
+				recipient.mind.i_know_person(H)

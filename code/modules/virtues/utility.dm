@@ -78,11 +78,16 @@
 						record_round_statistic(STATS_MAMMONS_DEPOSITED, rand(80, 120))
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_WELLKNOWN, TRAIT_VIRTUE)
 				if(recipient.mind)
 					for(var/X in (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions))
 						for(var/datum/mind/MF in get_minds(X))
 							recipient.mind.person_knows_me(MF)
 							recipient.mind.i_know_person(MF)
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(HAS_TRAIT(H, TRAIT_WELLKNOWN)) // if we're joining late, we need to make sure we check for virtue and quirk havers
+							recipient.mind.person_knows_me(H)
+							recipient.mind.i_know_person(H)
 
 				if (!recipient.islatejoin)
 					var/target_z = 0
