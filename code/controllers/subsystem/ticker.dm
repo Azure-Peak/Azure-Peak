@@ -482,6 +482,7 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()
+	var/list/class_setup_queue = list()
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
 		var/mob/living = player?.transfer_character()
@@ -493,10 +494,14 @@ SUBSYSTEM_DEF(ticker)
 				S.Fade(TRUE)
 			livings += living
 			if(ishuman(living))
-				SSrole_class_handler.setup_class_handler(living)
+				class_setup_queue += living
 				try_apply_character_post_equipment(living)
 		else
 			continue
+	// Subclass preselects claim limited slots first-come-first-served, so shuffle to make contested picks a fair roll rather than decided by connection order
+	shuffle_inplace(class_setup_queue)
+	for(var/mob/living/carbon/human/H as anything in class_setup_queue)
+		SSrole_class_handler.setup_class_handler(H)
 	if(livings.len)
 		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)
 
