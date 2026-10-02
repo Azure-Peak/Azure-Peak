@@ -59,6 +59,20 @@
 	icon_living = "direvolf_[color]"
 	icon_dead = "direvolf_[color]_dead"
 
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf/dire/get_sound(input)
+	switch(input)
+		if("aggro")
+			return pick('sound/vo/mobs/vw/aggro (1).ogg','sound/vo/mobs/vw/aggro (2).ogg')
+		if("pain")
+			return pick('sound/vo/mobs/vw/pain (1).ogg','sound/vo/mobs/vw/pain (2).ogg','sound/vo/mobs/vw/pain (3).ogg')
+		if("death")
+			return pick('sound/vo/mobs/vw/death (1).ogg','sound/vo/mobs/vw/death (2).ogg','sound/vo/mobs/vw/death (3).ogg','sound/vo/mobs/vw/death (4).ogg','sound/vo/mobs/vw/death (5).ogg')
+		if("idle")
+			return pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/idle (3).ogg','sound/vo/mobs/vw/idle (4).ogg')
+		if("cidle")
+			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
+
+
 /obj/effect/decal/remains/direwolf
 	name = "remains"
 	desc = "Whether by starvation, disease, inter-pack conflict, or an unlucky kick from a saiga, this direvolf has died."

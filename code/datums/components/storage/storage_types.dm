@@ -133,6 +133,12 @@
 	allow_quick_gather = FALSE
 	allow_quick_empty = FALSE
 
+/datum/component/storage/concrete/roguetown/basket
+	max_w_class = WEIGHT_CLASS_NORMAL
+	screen_max_rows = 3
+	screen_max_columns = 3
+	click_gather = TRUE
+
 /datum/component/storage/concrete/roguetown/trans
 	max_w_class = WEIGHT_CLASS_TINY
 	screen_max_rows = 5

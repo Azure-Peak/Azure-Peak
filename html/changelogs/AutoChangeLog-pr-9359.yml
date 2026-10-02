@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "AI should be able to path through bushes properly again (Report if anything seems broken still)"

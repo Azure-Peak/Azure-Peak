@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - rscadd: "Divine Bolt, Acolyte's exclusive self-defense slingshot spell. It intentionally sucks, and Acolytes should never get Divine Blast or potent spells to help them hold out on their own in combat, please respect this design choice for the future. Think of Medic from TF2."

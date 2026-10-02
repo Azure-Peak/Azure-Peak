@@ -200,6 +200,7 @@
 #define TRAIT_SOUL_EXAMINE "Blessing of Necra" //can check bodies to see if they have departed + can get luxthreads via rumaging/burials + underworld cooldown clearing w/ the carrageman
 //Abyssor
 #define TRAIT_ABYSSOR_SWIM "Blessing of Abyssor" //less base fatigue drain when swimming
+#define TRAIT_DEEP_DREAMER "Deep Dreamer" //Abyssor's blessing lets the sleeper drift deeper into the unknowable depths of dream, granting 1-2 extra dream points each night.
 //Xylix
 #define TRAIT_XYLIX "Blessing of Xylix" // secret thieves cant language
 #define TRAIT_XYLIX_DEVOTEE "Xylixian Fateweaver" // fate-weaving and luck-based bonuses
@@ -579,6 +580,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
 	TRAIT_ABYSSOR_SWIM = span_info("I get far less tired when swimming than my peers. I also find mirth in rain and in the midst of storms."),
+	TRAIT_DEEP_DREAMER = span_info("My dreams run deeper than those of my peers, and I often find myself drifting into strange and unknowable places while I sleep. (Grants between 1-2 extra points of Dream per rest)."),
 	TRAIT_LONGSTRIDER = span_info("Each of my steps finds its footing no matter how treacherous the terrain is."),
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
 	TRAIT_CAUTIOUS_FISHER = span_info("I know my way around the dangers of fishing, and know how to avoid unwanted attention from the depths."),

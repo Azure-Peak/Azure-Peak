@@ -1203,6 +1203,13 @@
 	},
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/indoors/town/grim)
+"ahN" = (
+/obj/structure/fluff/railing/border/north,
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/rooftop/green/west,
+/area/rogue/outdoors/town/roofs/grim)
 "ahP" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 8
@@ -11929,6 +11936,15 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/exposed/under/sewer/grim)
+"bvo" = (
+/obj/structure/fluff/railing/border{
+	dir = 1
+	},
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/rooftop/green/west,
+/area/rogue/outdoors/town/roofs/grim)
 "bvp" = (
 /obj/structure/chair/bench/coucha,
 /obj/effect/decal/edge{
@@ -107886,6 +107902,13 @@
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/basement/grim)
+"ngV" = (
+/obj/structure/fluff/railing/corner/north_east,
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f"
+	},
+/turf/open/floor/rogue/rooftop/green/corner1/dirone,
+/area/rogue/outdoors/town/roofs/grim)
 "ngX" = (
 /mob/living/carbon/human/species/skeleton/npc/hard,
 /turf/open/floor/rogue/concrete,
@@ -171838,6 +171861,14 @@
 "uQa" = (
 /turf/closed/wall/mineral/rogue/pipe,
 /area/rogue/outdoors/town/grim)
+"uQd" = (
+/obj/structure/fluff/railing/corner,
+/obj/effect/decal/edge_corner{
+	color = "#3f3f3f";
+	dir = 4
+	},
+/turf/open/floor/rogue/rooftop/green/corner1,
+/area/rogue/outdoors/town/roofs/grim)
 "uQf" = (
 /turf/open/floor/rogue/tile/bluebrick,
 /area/rogue/indoors/town/bath/grim/abyssorbath)
@@ -508700,7 +508731,7 @@ gRB
 gRB
 gRB
 gRB
-iES
+gRB
 gRB
 gRB
 cVw
@@ -509082,7 +509113,7 @@ kHI
 kHI
 aTh
 mDI
-qBE
+iES
 gRB
 gRB
 pQT
@@ -511756,7 +511787,7 @@ qvF
 frQ
 foL
 nuD
-iQd
+iES
 gRB
 gRB
 gRB
@@ -516799,7 +516830,7 @@ oOx
 pLW
 iZX
 pLW
-pLW
+xlT
 bQx
 bDh
 bQx
@@ -635577,7 +635608,7 @@ edw
 bMT
 uDO
 qqJ
-pVh
+ngV
 pVh
 pVh
 pVh
@@ -635959,7 +635990,7 @@ edw
 gBT
 gBT
 sVr
-pVh
+bvo
 pVh
 pVh
 pVh
@@ -636341,7 +636372,7 @@ edw
 edw
 guZ
 qqJ
-pVh
+ahN
 pVh
 pVh
 pVh
@@ -636723,7 +636754,7 @@ edw
 hHG
 hHG
 sVr
-pVh
+ahN
 pVh
 pVh
 pVh
@@ -637105,7 +637136,7 @@ edw
 fZY
 mFj
 qqJ
-pVh
+ahN
 pVh
 pVh
 pVh
@@ -637487,7 +637518,7 @@ edw
 gBT
 gBT
 qqJ
-pVh
+ahN
 pVh
 pVh
 pVh
@@ -637869,7 +637900,7 @@ wFK
 sVr
 sVr
 sVr
-pVh
+uQd
 pVh
 pVh
 pVh

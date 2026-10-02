@@ -75,3 +75,23 @@
   - rscadd: Lampwarden and Lampwicker gear
   - rscadd: New Lamplighter role, meant to be a neutral protector of the roadways
   - rscadd: Lampwarden and Lampwicker abilities
+2026-10-02:
+  Dorodomki:
+  - rscadd: 'Added new ring for lief donator stuff
+
+      :cl:'
+  OrbisAnima:
+  - rscadd: Adds a new trait to Abyssors worshippers, giving them between one or two
+      extra dream points per rest.
+  Ryan180602:
+  - bugfix: linebreak formatting in ahelps
+  Traveler319:
+  - balance: Spear Barbarian has a level of butchering and a greatweapon strap now.
+  WeNeedMorePhoron:
+  - admin: Ported "Set Persistent Admin Notice" which allows any admin w/ access to
+      set a persistent notice that persists across rounds, currently in the MOTD font
+  twinklover22:
+  - rscadd: Rewrote the Banneret Description.
+  - balance: Removed Banneret's Crownstone.
+  zydras:
+  - bugfix: Direvolf will now stop making human pain noises

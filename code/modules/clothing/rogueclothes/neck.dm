@@ -452,6 +452,7 @@
 	name = "forlorn collar"
 	desc = "A old reminder."
 	icon_state = "iwolfcollaralt"
+	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS //Thicker than a standard iron gorget.
 
 /obj/item/clothing/neck/roguetown/gorget/steel
 	name = "steel gorget"

@@ -1,0 +1,4 @@
+author: "zRainbowcat"
+delete-after: True
+changes:
+  - rscadd: "New sack-like container called basket"
