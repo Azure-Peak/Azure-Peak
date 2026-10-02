@@ -76,6 +76,8 @@ Even though they are of mixed blood and smaller than typical dwarves, most gnome
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human,
+		/datum/customizer/bodypart_feature/pubes,
+		/datum/customizer/bodypart_feature/pits,
 		)
 	body_markings = list(
 	)

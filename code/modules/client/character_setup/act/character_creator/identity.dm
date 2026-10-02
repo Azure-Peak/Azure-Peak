@@ -124,9 +124,15 @@
 			verbose_pref_log_change(user, "notice", "Dominant Hand", domhand == 1 ? "Right-handed" : "Left-handed", domhand == 2 ? "Right-handed" : "Left-handed")
 			return CHARACTER_ACT_DATA_UPDATE
 
-		if("dnr_pref")
-			dnr_pref = !dnr_pref
-			verbose_pref_log_change(user, "notice", "Do-Not-Revive Preference", !dnr_pref ? "Do Not Revive" : "Revive", dnr_pref ? "Do Not Revive" : "Revive")
+		if("char_toggle")
+			var/flag = text2num(params["flag"])
+			for(var/list/entry as anything in GLOB.char_toggles)
+				if(entry["flag"] != flag)
+					continue
+				var/old = (char_toggles & flag) ? entry["on"] : entry["off"]
+				char_toggles ^= flag
+				verbose_pref_log_change(user, "notice", entry["name"], old, (char_toggles & flag) ? entry["on"] : entry["off"])
+				break
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("set_culinary_axis")

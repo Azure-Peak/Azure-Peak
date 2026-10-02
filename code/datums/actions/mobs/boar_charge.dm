@@ -11,6 +11,7 @@
 	telegraph_sound = list('sound/vo//mobs/boar/boar_charge.ogg')
 	strike_sound = null
 	freeze_cast = FALSE
+	allow_cross_z = TRUE
 
 	var/step_delay = 0.5
 	var/gore_damage = 60
@@ -23,12 +24,61 @@
 	for(var/d in 1 to npc_max_range)
 		. += list(list(-1, d), list(0, d), list(1, d))
 
+/datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/can_use(atom/target)
+	var/turf/here = get_turf(owner)
+	var/turf/there = get_turf(target)
+	if(QDELETED(target) || !here || !there || here.z == there.z)
+		return ..()
+	if(!can_charge_between(here, there))
+		return FALSE
+	var/turf/projected = locate(there.x, there.y, here.z)
+	var/dist = get_dist(here, projected)
+	if(dist < npc_min_range || dist > npc_max_range)
+		return FALSE
+	return (projected in get_pattern_turfs(owner, telegraph_cardinal(get_dir(here, projected))))
+
+/datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/proc/can_charge_between(turf/here, turf/there)
+	var/turf/above_here = GET_TURF_ABOVE(here)
+	if(above_here?.z == there.z)
+		return istype(above_here, /turf/open/transparent/openspace)
+	var/turf/above_there = GET_TURF_ABOVE(there)
+	if(above_there?.z == here.z)
+		return istype(above_there, /turf/open/transparent/openspace)
+	return FALSE
+
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/strike(mob/living/H, facing, list/indicator, atom/cast_on)
 	clear_indicators(indicator)
 	if(QDELETED(cast_on) || H.buckled || H.incapacitated())
 		return
 	H.visible_message(span_danger("<b>[H]</b> charges!"))
-	INVOKE_ASYNC(src, PROC_REF(charge_run), H, facing)
+	INVOKE_ASYNC(src, PROC_REF(charge), H, facing, cast_on)
+
+/datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/proc/charge(mob/living/boar, facing, atom/quarry)
+	ADD_TRAIT(boar, TRAIT_CHARGE_AIRBORNE, REF(src))
+	leap_up(boar, quarry)
+	charge_run(boar, facing, quarry)
+	if(QDELETED(boar))
+		return
+	REMOVE_TRAIT(boar, TRAIT_CHARGE_AIRBORNE, REF(src))
+	var/turf/landing = get_turf(boar)
+	landing?.zFall(boar)
+
+/datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/proc/leap_up(mob/living/boar, atom/quarry)
+	var/turf/here = get_turf(boar)
+	var/turf/there = get_turf(quarry)
+	if(!here || !there)
+		return
+	var/turf/above = GET_TURF_ABOVE(here)
+	if(above?.z == there.z && istype(above, /turf/open/transparent/openspace))
+		boar.forceMove(above)
+
+/datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/proc/over_quarry(mob/living/boar, atom/quarry)
+	var/turf/here = get_turf(boar)
+	var/turf/there = get_turf(quarry)
+	if(QDELETED(quarry) || !there || !istype(here, /turf/open/transparent/openspace))
+		return FALSE
+	var/turf/below = GET_TURF_BELOW(here)
+	return below?.z == there.z && get_dist(below, there) <= 1
 
 /datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/proc/perpendicular_dirs(facing)
 	switch(facing)
@@ -43,7 +93,7 @@
 		if(flank && !flank.density)
 			. += flank
 
-/datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/proc/charge_run(mob/living/boar, facing)
+/datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge/proc/charge_run(mob/living/boar, facing, atom/quarry)
 	var/swing_sfx = pick('sound/combat/ground_smash_start.ogg', 'sound/combat/flail_sweep_hit_minor.ogg')
 	playsound(get_turf(boar), swing_sfx, 80, TRUE)
 	for(var/i in 1 to npc_max_range)
@@ -75,6 +125,9 @@
 				return
 
 		step(boar, facing)
+		if(over_quarry(boar, quarry))
+			missed_once = FALSE
+			return
 		sleep(step_delay)
 
 	if(!missed_once)

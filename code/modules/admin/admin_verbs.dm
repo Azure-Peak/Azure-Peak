@@ -78,6 +78,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/toggleguests,	/*toggles whether guests can join the current game*/
 	/datum/admins/proc/announce,		/*priority announce something to all clients.*/
 	/datum/admins/proc/set_admin_notice, /*announcement all clients see when joining the server.*/
+	/datum/admins/proc/set_persistent_admin_notice,
 	/client/proc/toggle_game_master,	/*opens the game master panel*/
 	/client/proc/toggle_aghost_invis, /* lets us choose whether our in-game mob goes visible when we aghost (off by default) */
 	/client/proc/admin_ghost,			/*allows us to ghost/reenter body at will*/
@@ -189,7 +190,8 @@ GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())
 GLOBAL_PROTECT(admin_verbs_debug)
 /world/proc/AVerbsDebug()
 	return list(
-	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
+	/client/proc/debug_variables_verb,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
+	/client/proc/display_tags,
 	/client/proc/restart_controller,
 	/client/proc/cmd_controller_view_ui,
 	/client/proc/cmd_admin_list_open_jobs,
@@ -250,6 +252,7 @@ GLOBAL_LIST_INIT(admin_verbs_hideable, list(
 	/datum/admins/proc/toggleguests,
 	/datum/admins/proc/announce,
 	/datum/admins/proc/set_admin_notice,
+	/datum/admins/proc/set_persistent_admin_notice,
 	/client/proc/toggle_aghost_invis,
 	/client/proc/admin_ghost,
 	/client/proc/toggle_view_range,

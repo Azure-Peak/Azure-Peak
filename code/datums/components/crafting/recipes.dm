@@ -46,6 +46,7 @@
 	var/list/cached_display_data
 	var/cached_category
 	var/display_category
+	var/do_not_turn = FALSE
 /*
 /datum/crafting_recipe/example
 	name = ""

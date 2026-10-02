@@ -34,14 +34,14 @@
 	var/custom_index
 
 /datum/mob_descriptor/height/custom/can_describe(mob/living/described)
-	return length(described.custom_descriptors) >= custom_index
+	return !!described.custom_entry(custom_index)
 
 /datum/mob_descriptor/height/custom/get_description(mob/living/described)
-	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	var/datum/custom_descriptor_entry/entry = described.custom_entry(custom_index)
 	return entry.content_text
 
 /datum/mob_descriptor/height/custom/get_pre_string(mob/living/described)
-	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	var/datum/custom_descriptor_entry/entry = described.custom_entry(custom_index)
 	switch(entry.prefix_type)
 		if(CUSTOM_PREFIX_HAS_A)
 			return "a "

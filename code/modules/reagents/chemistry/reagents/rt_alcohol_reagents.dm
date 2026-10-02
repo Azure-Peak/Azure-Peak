@@ -760,3 +760,103 @@
 /datum/reagent/consumable/ethanol/truewhipwine/on_mob_metabolize(mob/living/M)
 	. = ..()
 	M.apply_status_effect(/datum/status_effect/buff/fermented_crab)
+
+//New Alcoholic mixes.
+
+/datum/reagent/consumable/ethanol/bloodymary
+	cuisine = CUISINE_RANESHENI
+	drink_type = DRINKTYPE_CIDER
+	name = "Bloody Mary"
+	description = "Possibly the only way blood can be paletteable for the normal non-graggarite. How moral it is to drink? Still questionable."
+	color = "#570000"
+	quality = DRINK_FANTASTIC
+	boozepwr = 30
+	taste_description = "a bit of tang, a little citrus, and a little.. iron."
+	metabolization_rate = 1 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	hydration_factor = 15
+
+/datum/chemical_reaction/alch/bloodymary
+	name = "Bloody Mary"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/bloodymary
+	results = list(/datum/reagent/consumable/ethanol/bloodymary = 4)
+	required_reagents = list(/datum/reagent/consumable/ethanol/voddena = 1, /datum/reagent/consumable/juice/tomato = 1, /datum/reagent/consumable/juice/lime = 1, /datum/reagent/blood = 1)
+
+/datum/reagent/consumable/ethanol/eoras_favour
+	cuisine = CUISINE_RANESHENI
+	drink_type = DRINKTYPE_CIDER
+	name = "Eora's Favour"
+	description = "The most romantic and refreshing mix of cider and pomegranate, fresh from Eora's trees."
+	color = "#FF5799"
+	quality = DRINK_FANTASTIC
+	boozepwr = 30
+	taste_description = "a refreshing and viscous sweet and tart mix."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	hydration_factor = 15
+
+/datum/chemical_reaction/alch/efavour
+	name = "Eora's Favour"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/eoras_favour
+	results = list(/datum/reagent/consumable/ethanol/eoras_favour = 2)
+	required_reagents = list(/datum/reagent/consumable/ethanol/cider = 1, /datum/reagent/consumable/juice/pomegranate = 1)
+
+/datum/reagent/consumable/ethanol/dendors_favour
+	cuisine = CUISINE_SOUTHEASTERN
+	drink_type = DRINKTYPE_CIDER
+	name = "Dendor's Favour"
+	description = "A very natural and very alcoholic mixture for a blessing from Dendor instead of a curse."
+	color = "#628C58"
+	quality = DRINK_FANTASTIC
+	boozepwr = 40
+	taste_description = "sweet taste of nature."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	hydration_factor = 15
+
+/datum/chemical_reaction/alch/dfavour
+	name = "Dendor's Favour"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/dendors_favour
+	results = list(/datum/reagent/consumable/ethanol/dendors_favour = 2)
+	required_reagents = list(/datum/reagent/consumable/ethanol/cider/pear = 1, /datum/reagent/consumable/ethanol/aurorian = 1)
+
+/datum/reagent/consumable/ethanol/blackberry_sangria
+	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
+	name = "Sangria D'Otavais"
+	description = "A refreshingly sweet and tart blackberry mixture, screams Otavain. This alcohol is practically a dessert."
+	color = "#2E2047"
+	quality = DRINK_FANTASTIC
+	boozepwr = 40
+	taste_description = "slightly tart sweetness."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+
+/datum/chemical_reaction/alch/bsangria
+	name = "Sangria D'Otavais"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/blackberry_sangria
+	results = list(/datum/reagent/consumable/ethanol/blackberry_sangria = 2)
+	required_reagents = list(/datum/reagent/consumable/juice/blackberry = 1, /datum/reagent/consumable/ethanol/blackberry = 1)
+
+/datum/reagent/consumable/ethanol/xylix_spice
+	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
+	name = "Spice of Xylix"
+	description = "A gamble to your senses, this drink is harsh and definitely an acquired taste."
+	color = "#EBBD1C"
+	quality = DRINK_FANTASTIC
+	boozepwr = 40
+	taste_description = "Spicy and acidic shock."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+
+/datum/chemical_reaction/alch/xylix_spice
+	name = "Spice of Xylix"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/xylix_spice
+	results = list(/datum/reagent/consumable/ethanol/xylix_spice = 2)
+	required_reagents = list(/datum/reagent/consumable/juice/orange = 1, /datum/reagent/consumable/ethanol/sazdistal = 1, /datum/reagent/consumable/allspice = 1)
