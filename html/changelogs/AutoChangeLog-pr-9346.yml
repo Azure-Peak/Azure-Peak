@@ -1,4 +1,0 @@
-author: "azurexautyr-arch"
-delete-after: True
-changes:
-  - rscadd: "Added wyldkin descriptors and the ability to change skintones to halfkin"

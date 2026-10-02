@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Drow NPCs should no longer spawn with falxes / daggers on the floor"
-  - rscadd: "Lowered the proportion of armored highwaymen."

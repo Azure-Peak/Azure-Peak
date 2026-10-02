@@ -1,0 +1,77 @@
+2026-10-01:
+  Etheo:
+  - rscadd: Fyritius can now be worn on the head or mask slots.
+  - image: Updates Fyritius' appearance.
+  Ryan180602:
+  - bugfix: adjusts examine text positioning
+  - rscadd: change second voice to alter ego. this also lets you adjust your physical
+      descriptor while masked.
+  - balance: Padded Gambeson takes Expert skill to craft.
+  - balance: Regular Gambeson takes Apprentice skill to craft.
+  ShadowLarkens:
+  - code_imp: The /filter system has been updated to /tg/ latest, this may cause weird
+      visual issues with anything that uses filters, please report anything you see!
+  - admin: View Variables now has a dark mode, enabled by default. To disable it,
+      go to Game Preferences -> View Variables Theme
+  - admin: View Variables has had support for newer types such as appearances, bitflags,
+      colors, filters, matricies, special lists, and weakrefs MASSIVELY improved.
+  - admin: View Variables can now -tag- datums; this is like marking them, but you
+      can have many tagged datums, and they all show up in a list accessed through
+      Verbs, Admin -> Admin -> Tagged Datums
+  - admin: View Variables' dropdown options now tell you which type they came from,
+      so you can see what options are applicable to atoms, movables, mobs, etc.
+  - admin: View Variables' dropdown options now includes an expanded suite of tools!
+  - admin: View Variables -> Remove & Mass Remove Component does as you'd think
+  - admin: View Variables -> Edit Color as Matrix allows you to customize the color
+      matrix of an atom to do advanced tinting.
+  - admin: View Variables -> Edit Filters allows you to make custom filters to massively
+      fuck with an atom's appearance.
+  - admin: View Variables -> Download Sprite allows you to download something's sprite
+      as a png.
+  - admin: View Variables -> Test Matricies allows you to interactively fuck around
+      with scaling/shearing/rotating atoms using their transform matrix.
+  - admin: View Variables -> Edit Particles allows you to play with BYOND's particle
+      system; make rain, piss laser beams, whatever!
+  - admin: View Variables -> Debug Appearance! This is extremely exciting for developers;
+      it allows you to view the entire chain of overlays comprising a single atom's
+      apperance, so no more guess work for why a pixel is out of place in the human
+      icon rendering stack! You can filter by planes, there's a live view of each
+      overlay, lists of details so dense you'll have to chew on them!!
+  WeNeedMorePhoron:
+  - rscadd: Boars can fly again.
+  - rscadd: Infernal Watcher are now slightly scarier.
+  - bugfix: Fixes xbow aiming straining the user, it is not supposed to (Also fix
+      staker / slurbow etc.)
+  - balance: Adjusted Slurbow's aiming time downward so it takes about as long to
+      aim than before Ranged Overhaul.
+  - bugfix: Drow NPCs should no longer spawn with falxes / daggers on the floor
+  - rscadd: Lowered the proportion of armored highwaymen.
+  - rscadd: If you accept an invite to a fellowship, everyone in it is put on your
+      known list and vice versa.
+  - bugfix: Juices and non alcoholic drink will now hydrate properly
+  - bugfix: Alcoholic mix like Bloody Mary now respects their own hydration value
+  - bugfix: Lime juice no longer show up as Lemon Juice, Plum no longer show up as
+      Pear
+  - code_imp: All of the juices are now parented under one subtype instead of copy
+      pasted
+  anything86:
+  - balance: atgervi boots now have same stats as hardened leather boots
+  - balance: atgervi shaman coat now covers legs.
+  azurexautyr-arch:
+  - rscadd: Added wyldkin descriptors and the ability to change skintones to halfkin
+  borneblood:
+  - bugfix: Fixed a minor linters issue.
+  crunchypretzels:
+  - bugfix: corrected missing belthooks sprite
+  mumblemancer:
+  - qol: volume settings are clearly marked as such and at the top of the prefs menu.
+      HEARING LOSS IS CUMULATIVE!!
+  - rscadd: informs readers of balance information abt swift weapons extra parry %
+      when main-handed and nothing in the offhand
+  twinklover22:
+  - rscadd: A New Class! Free Blade, a Wretch Class Master Swordsman based heavily
+      around Matthios.
+  voidwytch:
+  - rscadd: Lampwarden and Lampwicker gear
+  - rscadd: New Lamplighter role, meant to be a neutral protector of the roadways
+  - rscadd: Lampwarden and Lampwicker abilities

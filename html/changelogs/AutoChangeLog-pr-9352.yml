@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Fixes xbow aiming straining the user, it is not supposed to (Also fix staker / slurbow etc.)"
-  - balance: "Adjusted Slurbow's aiming time downward so it takes about as long to aim than before Ranged Overhaul."

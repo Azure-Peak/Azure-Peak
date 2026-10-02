@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "If you accept an invite to a fellowship, everyone in it is put on your known list and vice versa."
