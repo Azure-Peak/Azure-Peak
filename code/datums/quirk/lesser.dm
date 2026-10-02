@@ -107,6 +107,7 @@
 	mechdesc = "You will be treated as a resident for purposes of knowing, and being known by, those in town. Be warned: this will allow others to message, scry, and otherwise know about you from afar."
 	ui_fa_icon = "user-group"
 	restricted_virtues = list(/datum/virtue/utility/notable) // can't already be a resident
+	added_traits = list(TRAIT_WELLKNOWN)
 	var/static/list/blacklisted_antag_datums = list( // should be self-explanatory. no town-known gnolls, lich skeletons, etc
 		/datum/antagonist/assassin,
 		/datum/antagonist/bandit,
