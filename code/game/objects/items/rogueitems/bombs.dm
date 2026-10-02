@@ -1,5 +1,6 @@
 #define MT_BOMB_HIT "bomb_hit"
 #define BOMB_HIT_IMMUNITY_DURATION 1 SECONDS
+#define BOMB_CRIT_LEFTOVERS pick("smithereens", "thin gruel", "bits", "spare parts", "pieces", "kingdom come", "another timeline", "yesterday", "hell", "PSYDON's embrace", "Necra's embrace", "Zizo's embrace", "Astrata and back")
 
 /obj/item/bomb
 	name = "bottle bomb"
@@ -85,40 +86,58 @@
 		return FALSE
 	exploding = TRUE
 	STOP_PROCESSING(SSfastprocess, src)
+
 	var/turf/T = get_turf(src)
 	if(!T)
 		return FALSE
+
 	if(!skipprob && prob(prob2fail))
 		exploding = FALSE
 		snuff()
 		return FALSE
+
 	var/critbang = 0
-	if(thrower)
-		var/engineering = thrower.get_skill_level(/datum/skill/craft/engineering)
+	var/can_crit = FALSE
+
+	if(isliving(thrower))
 		var/mob/living/M = thrower
+		var/engineering = M.get_skill_level(/datum/skill/craft/engineering)
 		critbang = (engineering * 10) + (M.STALUC * 2) + tripcrit
+		can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
+
 	qdel(src)
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
+
 	for(var/mob/living/target in range(1, T))
 		if(target == thrower && HAS_TRAIT(thrower, TRAIT_BOMBER_EXPERT))
 			continue
+
 		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
 			continue
+
 		target.mob_timers[MT_BOMB_HIT] = world.time
+
 		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
 		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+
 		var/was_scorched = get_scorch_stacks(target)
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
-		var/leftovers = pick("smithereens", "thin gruel", "bits", "spare parts", "pieces", "kingdom come", "another timeline", "yesterday", "hell", "PSYDON's embrace", "Necra's embrace", "Zizo's embrace", "Astrata and back")
-		if(was_scorched && !target.mind && prob(critbang))
-			target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [leftovers]!</span>",
-				"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [leftovers]!</span>")
+
+		if(can_crit && !target.mind && was_scorched && prob(critbang)) // to critbang mobs with bottle bombs, you gotta land two in a row! skill issue otherwise!!
+			target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
+				"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
 			playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
 			target.gib(TRUE, TRUE, FALSE, TRUE)
 			continue
+
 		apply_scorch_stack(target, 3)
+
 	if(spawn_shard)
-		new /obj/item/natural/glass_shard(T)
+		if(prob(50))
+			new /obj/item/natural/glass_shard(T)
+		else
+			embed_bomb_shrapnel(T, thrower, /obj/item/natural/glass_shard)
+
 	explosion(T, light_impact_range = 1, smoke = TRUE, adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
@@ -145,10 +164,8 @@
 	if(!istype(I, /obj/item/natural/fibers) && !istype(I, /obj/item/natural/bundle/fibers))
 		return
 
-	I.visible_message(
-		span_warning("[user] begins to prepare [src].."),
-		span_notice("I begin to set-up [src] with [I].")
-	)
+	I.visible_message(span_warning("[user] begins to prepare [src].."),
+		span_notice("I begin to set-up [src] with [I]."))
 
 	if(istype(I, /obj/item/natural/bundle/fibers))
 		var/obj/item/natural/bundle/fibers/bundle = I
@@ -190,10 +207,8 @@
 
 	qdel(src)
 
-	I.visible_message(
-		span_warning("[user] finishes setting up [trip]."),
-		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
-	)
+	I.visible_message(span_warning("[user] finishes setting up [trip]."),
+		span_notice("I finish setting up [trip]. I can extend it by one step longer."))
 	return
 
 /obj/item/bomb/noshard
@@ -234,6 +249,7 @@
 	bomb.PVE_damage = PVE_damage + 100
 	bomb.spawn_shard = spawn_shard
 	bomb.tripcrit = tripcrit
+	bomb.thrower = setter
 	for(var/obj/item/tripwire/wire in wire_trigger)
 		QDEL_NULL(wire)
 	wire_trigger.Cut()
@@ -318,10 +334,8 @@
 			return
 	triggered = TRUE
 	playsound(victim, 'sound/items/knife_open.ogg', 100, TRUE)
-	victim.visible_message(
-		span_warningbig("[victim] steps on [src]!"),
-		span_warningbig("I feel the snapping of twine under my boot!")
-	)
+	victim.visible_message(span_warningbig("[victim] steps on [src]!"),
+		span_warningbig("I feel the snapping of twine under my boot!"))
 	var/obj/item/bomb/tripbomb/trip = payload
 	if(QDELETED(trip))
 		return
@@ -486,10 +500,8 @@
 	if(!istype(I, /obj/item/natural/fibers) && !istype(I, /obj/item/natural/bundle/fibers))
 		return
 
-	I.visible_message(
-		span_warning("[user] begins to prepare [src].."),
-		span_notice("I begin to set-up [src] with [I].")
-	)
+	I.visible_message(span_warning("[user] begins to prepare [src].."),
+		span_notice("I begin to set-up [src] with [I]."))
 
 	if(istype(I, /obj/item/natural/bundle/fibers))
 		var/obj/item/natural/bundle/fibers/bundle = I
@@ -532,10 +544,8 @@
 
 	qdel(src)
 
-	I.visible_message(
-		span_warning("[user] finishes setting up [trip]."),
-		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
-	)
+	I.visible_message(span_warning("[user] finishes setting up [trip]."),
+		span_notice("I finish setting up [trip]. I can extend it by one step longer."))
 	return
 
 /obj/item/satchel_bomb
@@ -667,10 +677,8 @@
 	if(!istype(I, /obj/item/natural/fibers) && !istype(I, /obj/item/natural/bundle/fibers))
 		return
 
-	I.visible_message(
-		span_warning("[user] begins to prepare [src].."),
-		span_notice("I begin to set-up [src] with [I].")
-	)
+	I.visible_message(span_warning("[user] begins to prepare [src].."),
+		span_notice("I begin to set-up [src] with [I]."))
 
 	if(istype(I, /obj/item/natural/bundle/fibers))
 		var/obj/item/natural/bundle/fibers/bundle = I
@@ -713,10 +721,8 @@
 
 	qdel(src)
 
-	I.visible_message(
-		span_warning("[user] finishes setting up [trip]."),
-		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
-	)
+	I.visible_message(span_warning("[user] finishes setting up [trip]."),
+		span_notice("I finish setting up [trip]. I can extend it by one step longer."))
 	return
 
 /obj/item/impact_grenade
@@ -747,6 +753,8 @@
 	if(throwingdatum)
 		thrower = throwingdatum.thrower
 	sleep(1)
+	if(QDELETED(src))
+		return
 	explodes()
 
 /obj/item/impact_grenade/attack_self(mob/user)
@@ -764,10 +772,8 @@
 	if(!istype(I, /obj/item/natural/fibers) && !istype(I, /obj/item/natural/bundle/fibers))
 		return
 
-	I.visible_message(
-		span_warning("[user] begins to prepare [src].."),
-		span_notice("I begin to set-up [src] with [I].")
-	)
+	I.visible_message(span_warning("[user] begins to prepare [src].."),
+		span_notice("I begin to set-up [src] with [I]."))
 
 	if(istype(I, /obj/item/natural/bundle/fibers))
 		var/obj/item/natural/bundle/fibers/bundle = I
@@ -810,10 +816,8 @@
 
 	qdel(src)
 
-	I.visible_message(
-		span_warning("[user] finishes setting up [trip]."),
-		span_notice("I finish setting up [trip]. I can extend it by one step longer.")
-	)
+	I.visible_message(span_warning("[user] finishes setting up [trip]."),
+		span_notice("I finish setting up [trip]. I can extend it by one step longer."))
 	return
 
 /obj/item/impact_grenade/explosion
@@ -822,22 +826,30 @@
 
 /obj/item/impact_grenade/explosion/explodes()
 	STOP_PROCESSING(SSfastprocess, src)
+
 	var/turf/T = get_turf(src)
 	if(T)
 		var/critbang = 0
-		if(thrower)
-			var/engineering = thrower.get_skill_level(/datum/skill/craft/engineering)
+		var/can_crit = FALSE
+
+		if(isliving(thrower))
 			var/mob/living/M = thrower
+			var/engineering = M.get_skill_level(/datum/skill/craft/engineering)
 			critbang = (engineering * 10) + (M.STALUC * 2) + tripcrit
+			can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
+
 		for(var/mob/living/target in range(2, T))
+			if(can_crit && !target.mind && prob(critbang))
+				target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
+					"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
+				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
+				target.gib(TRUE, TRUE, FALSE, TRUE)
+				continue
 			if(!target.mind || istype(target, /mob/living/simple_animal))
-				target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
-				if(prob(critbang))
-					var/leftovers = pick("smithereens", "thin gruel", "bits", "spare parts", "pieces", "kingdom come", "another timeline", "yesterday", "hell", "PSYDON's embrace", "Necra's embrace", "Zizo's embrace", "Astrata and back")
-					target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [leftovers]!</span>", "<span class='crit'><b>Critical hit!</b> The explosive blasts them to [leftovers]!</span>")
-					playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
-					target.gib(TRUE, TRUE, FALSE, TRUE)
-		explosion(T, heavy_impact_range = 1, light_impact_range = 3, flame_range = 2, smoke = TRUE, adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+				target.adjustFireLoss(PVE_damage)
+		embed_bomb_shrapnel(T, thrower, /obj/item/bomb_shrapnel)
+		explosion(T, heavy_impact_range = 1, light_impact_range = 3, flame_range = 2, smoke = TRUE, adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'))
+
 	qdel(src)
 
 /obj/item/smokeshell
@@ -905,5 +917,58 @@
 	icon_state = "smokeshell_purple"
 	smoke_type = /datum/effect_system/smoke_spread/mute_gas
 
+/obj/item/bomb_shrapnel
+	name = "jagged shrapnel"
+	desc = "A jagged fragment of explosive debris. Tough luck..."
+	icon_state = ""
+	invisibility = INVISIBILITY_MAXIMUM
+	embedding = list("embedded_pain_multiplier" = 2, "embed_chance" = 100, "embedded_fall_chance" = 0)
+
+/obj/item/bomb_shrapnel/dropped(mob/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	var/turf/T = get_turf(user)
+	qdel(src)
+	if(T)
+		new /obj/effect/decal/cleanable/debris/stony(T)
+
+/obj/item/bomb_shrapnel/dropped(mob/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	var/turf/T = get_turf(user)
+	qdel(src)
+	if(T)
+		new /obj/effect/decal/cleanable/debris/stony(T)
+
+/proc/embed_bomb_shrapnel(turf/T, mob/living/exclude = null, shrapnel_type = /obj/item/natural/glass_shard)
+	if(!T)
+		return FALSE
+	var/list/valid_targets = list()
+	for(var/mob/living/carbon/C in range(1, T))
+		if(C == exclude)
+			continue
+		var/list/valid_bodyparts = list()
+		for(var/obj/item/bodypart/limb in C.bodyparts)
+			if(limb.body_zone in list(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
+				valid_bodyparts += limb
+		if(length(valid_bodyparts))
+			valid_targets += C
+	if(!length(valid_targets))
+		return FALSE
+	var/mob/living/carbon/C = pick(valid_targets)
+	var/list/valid_bodyparts = list()
+	for(var/obj/item/bodypart/limb in C.bodyparts)
+		if(limb.body_zone in list(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
+			valid_bodyparts += limb
+	if(!length(valid_bodyparts))
+		return FALSE
+	var/obj/item/bodypart/limb = pick(valid_bodyparts)
+	var/obj/item/shrapnel = new shrapnel_type
+	limb.add_embedded_object(shrapnel, FALSE, TRUE, TRUE)
+	return TRUE
+
 #undef MT_BOMB_HIT
 #undef BOMB_HIT_IMMUNITY_DURATION
+#undef BOMB_CRIT_LEFTOVERS
