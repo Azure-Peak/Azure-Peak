@@ -1,7 +1,7 @@
 /datum/intent/spear/bash/staff
 	name = "staff bash"
 	damfactor = 1
-	reach = 2
+	reach = 1
 
 /datum/intent/spear/bash/ranged/quarterstaff
 	damfactor = 1
@@ -12,6 +12,7 @@
 	penfactor = PEN_NONE
 	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
 	clickcd = CLICK_CD_CHARGED
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /obj/item/rogueweapon/woodstaff
 	force = 10
@@ -32,8 +33,7 @@
 	pixel_x = -16
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	wdefense = 5
-	wdefense_wbonus = 6	//11 when wielded.
+	wdefense = 4
 	bigboy = TRUE
 	gripsprite = TRUE
 	associated_skill = /datum/skill/combat/staves
@@ -266,6 +266,8 @@
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	max_integrity = 150
+	wdefense = 5
+	wdefense_wbonus = 5	// 90% in a same-skill matchup, 80% in a one-skill-below matchup.
 	smeltresult = /obj/item/ash
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/virtue
@@ -331,10 +333,10 @@
 	name = "silver quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian \
 	warscholars. Durable enough to catch-and-disarm avantyne to the shaft, without so much as a splinter - or so, they say."
-	force = 20
-	force_wielded = 27
+	force = 18
+	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 250
+	max_integrity = 200
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -342,43 +344,32 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/psy
 	name = "psydonic quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs \
 	oft-carried by Naledian warscholars. Durable enough to catch avantyne to the shaft, without so much as a splinter - or so, they say."
-	force_wielded = 27
+	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 250
+	max_integrity = 200
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
+	force = 18
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/gold

@@ -41,6 +41,7 @@
 	var/ignore_armor_penalty = FALSE
 
 	var/skipcharge = FALSE
+	var/breaks_invisibility = TRUE
 
 /obj/effect/proc_holder/Initialize(mapload)
 	. = ..()
@@ -435,7 +436,7 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 			to_chat(user, span_warning("This spell can only be cast by physical beings!"))
 			return FALSE
 
-	if(req_items.len)
+	if(req_items.len && !HAS_TRAIT(user, TRAIT_HALLOWED))
 		var/list/missing_names = list()
 		var/met_requirement = FALSE
 		for(var/I in req_items)
@@ -608,14 +609,15 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	before_cast(targets, user = user)
 	if(user && user.ckey)
 		user.log_message(span_danger("cast the spell [name]."), LOG_ATTACK)
-	if(user.mob_timers[MT_INVISIBILITY] > world.time)
-		user.mob_timers[MT_INVISIBILITY] = world.time
-		user.update_sneak_invis(reset = TRUE)
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.rogue_sneaking)
-			L.mob_timers[MT_FOUNDSNEAK] = world.time
-			L.update_sneak_invis(reset = TRUE)
+	if(breaks_invisibility)
+		if(user.mob_timers[MT_INVISIBILITY] > world.time)
+			user.mob_timers[MT_INVISIBILITY] = world.time
+			user.update_sneak_invis(reset = TRUE)
+		if(isliving(user))
+			var/mob/living/L = user
+			if(L.rogue_sneaking)
+				L.mob_timers[MT_FOUNDSNEAK] = world.time
+				L.update_sneak_invis(reset = TRUE)
 	if(cast(targets, user = user))
 		// Self spells bypass the ranged_ability click pipeline, which is where
 		// releasedrain stamina cost is normally applied (via mob_helpers.dm).

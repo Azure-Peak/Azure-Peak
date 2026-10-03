@@ -1,3 +1,18 @@
+/mob/living/proc/is_drawing_ranged()
+	if(client)
+		return client.charging && used_intent?.tranged && !used_intent.tshield
+	var/datum/ai_controller/controller = ai_controller
+	if(!controller)
+		return FALSE
+	var/list/board = controller.blackboard
+	if(!board || !board[BB_ARCHER_NPC_BOW])
+		return FALSE
+	var/release_at = board[BB_ARCHER_NPC_AIM_RELEASE]
+	if(release_at && world.time < release_at)
+		return TRUE
+	var/next_shot = board[BB_ARCHER_NPC_NEXT_SHOT]
+	return next_shot && world.time < next_shot
+
 /mob/living/proc/checkdefense(datum/intent/attack_intent, mob/living/user)
 
 	// We check for a disruptable swingdelay first.
@@ -26,9 +41,8 @@
 		return FALSE
 
 
-	if(client && used_intent)
-		if(client.charging && used_intent.tranged && !used_intent.tshield)
-			return FALSE
+	if(is_drawing_ranged())
+		return FALSE
 
 	if(channeling_spell?.blocks_defense_while_channeling)
 		return FALSE

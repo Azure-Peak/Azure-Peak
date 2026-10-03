@@ -3,7 +3,7 @@ import { Button, LabeledList, Section, Stack } from 'tgui-core/components';
 import { useBackend } from '../../backend';
 import type { ControllerData } from './types';
 
-export function OverviewSection(props) {
+export function OverviewSection() {
   const { act, data } = useBackend<ControllerData>();
   const {
     fast_update,

@@ -191,10 +191,12 @@
 		var/mob/dead/new_player/N = chosen
 		N.close_spawn_windows()
 	boss.key = chosen.key
+	if(boss.client && boss.ai_controller)
+		QDEL_NULL(boss.ai_controller)
 	RegisterSignal(boss, COMSIG_LIVING_DEATH, PROC_REF(on_player_boss_death))
 	// Prevent the mob from getting instaambushed
 	boss.ambushable = FALSE
-	REMOVE_TRAIT(boss, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	REMOVE_TRAIT(boss, TRAIT_NPC_EXAMINE, list(TRAIT_GENERIC, INNATE_TRAIT))
 	ADD_TRAIT(boss, TRAIT_TEMPO, TRAIT_GENERIC)
 	boss.adjust_skillrank(/datum/skill/misc/tracking, 6, TRUE) //You should be able to hunt your hunters back!
 	boss.adjust_skillrank(/datum/skill/misc/climbing, 4, TRUE)
@@ -203,7 +205,6 @@
 	// Signals to hunters that a player has taken the reins.
 	boss.add_filter("notorious_bounty_outline", 1, list("type" = "drop_shadow", "color" = "#ffee00", "size" = 0.1))
 	leash_origin = get_turf(boss)
-	unlock_boss_gear(boss)
 	boss.update_sight()
 	refresh_hunter_marks()
 	reward_amount += NOTORIOUS_BOUNTY_PLAYER_BONUS
@@ -389,16 +390,6 @@
 	if(QDELETED(boss))
 		return
 	boss.remove_filter("notorious_bounty_outline")
-
-/datum/quest/kill/notorious_bounty/proc/unlock_boss_gear(mob/living/carbon/human/boss)
-	if(!istype(boss))
-		return
-	for(var/obj/item/gear in boss.get_equipped_items() + boss.held_items)
-		var/datum/component/item_on_drop/unlock/lock = gear.GetComponent(/datum/component/item_on_drop/unlock)
-		if(!lock)
-			continue
-		REMOVE_TRAIT(gear, TRAIT_NODROP, lock.lock_source)
-		qdel(lock)
 
 //TODO(flavor): Boss outlasted the hunt and is paid. Should land as a win.
 /datum/quest/kill/notorious_bounty/proc/pay_out_boss(mob/living/boss)

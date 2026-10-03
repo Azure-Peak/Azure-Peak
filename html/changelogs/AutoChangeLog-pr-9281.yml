@@ -1,0 +1,6 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - rscadd: "Gamemodes that have not been chosen in a while now get a multiplier to their votes; for example a vote cast for a gamemode with a 1.15x multiplier will have their vote weighted 1.15x the standard. The winner of a vote will, in the next round, have their votes penalized to a 0.7x rate 'cooldown,' which will gradually replensih to 1.0x over the next two rounds."
+  - server: "Added 'storyteller_vote_multipliers.json' to server data storage."
+  - admin: "Added 'End Vote Early' button for the storyteller vote panel."

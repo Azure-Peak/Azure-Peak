@@ -165,6 +165,7 @@
 	var/job = null//Living
 	var/migrant_type = null
 	var/advjob = null
+	var/datum/advclass/licker_subclass = null
 
 	/// A list of factions that this mob is currently in, for hostile mob targetting, amongst other things
 	var/list/faction = list(FACTION_NEUTRAL)
@@ -307,6 +308,8 @@
 	/// Tracker for amount of turfs we sprinted over, for things like bumping and charging
 	var/sprinted_tiles = 0
 	var/sprint_dir = 1
+	/// Coordinates the current sprint started from, for charge attack logs
+	var/sprint_start_coord
 
 	/// Whether the mob is pixel shifted or not
 	var/is_shifted = FALSE

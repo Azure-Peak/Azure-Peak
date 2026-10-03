@@ -22,7 +22,7 @@ import { SettingsPanel } from './settings/SettingsPanel';
 import { useSettings } from './settings/use-settings';
 import { themeAtom } from './theme';
 
-export function Panel(props) {
+export function Panel() {
   const [audioVisible, setAudioVisible] = useAtom(visibleAtom);
   const game = useAtomValue(gameAtom);
   const { settings } = useSettings();

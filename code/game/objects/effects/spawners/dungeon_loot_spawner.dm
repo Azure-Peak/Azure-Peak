@@ -296,6 +296,27 @@
 	)
 	lootcount = 1
 
+//dwarf dungeon stuff
+/obj/effect/spawner/lootdrop/roguetown/dungeon/weapons/bronze
+	loot = list(
+		//weapons
+		/obj/item/rogueweapon/mace/bronze = 4,
+		/obj/item/rogueweapon/huntingknife/bronze = 11,
+		/obj/item/gun/ballistic/revolver/grenadelauncher/bow = 2,
+		/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow = 2,
+		/obj/item/quiver/bronzearrows = 2,
+		/obj/item/quiver/bolt/bronze = 2,
+		/obj/item/rogueweapon/mace/woodclub/crafted = 3,
+		/obj/item/rogueweapon/mace/warhammer/bronze = 4,
+		/obj/item/rogueweapon/mace/wsword = 3,
+		/obj/item/rogueweapon/woodstaff = 3,
+		/obj/item/rogueweapon/spear/bronze = 3,
+		/obj/item/rogueweapon/sword/bronze = 3,
+		/obj/item/rogueweapon/sword/long/broadsword/bronze = 3,
+		/obj/item/rogueweapon/katar/bronze = 1,
+		/obj/item/rogueweapon/flail/bronze = 1,
+	)
+
 /obj/effect/spawner/lootdrop/roguetown/dungeon/tools
 	icon_state = "tools"
 	loot_value = LOOT_VALUE_DUNGEON_TOOLS
@@ -351,6 +372,30 @@
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel = 1,
 	)
 	lootcount = 1
+
+/obj/effect/spawner/lootdrop/roguetown/dungeon/armor/bronze
+	loot = list(
+		//armor
+		/obj/item/clothing/suit/roguetown/armor/leather/studded = 2,
+		/obj/item/clothing/suit/roguetown/armor/leather = 2,
+		/obj/item/clothing/suit/roguetown/armor/leather/hide = 2,
+		/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini = 2,
+		/obj/item/clothing/suit/roguetown/armor/leather/hide/bikini = 2,
+		/obj/item/clothing/suit/roguetown/armor/gambeson = 2,
+		/obj/item/clothing/under/roguetown/chainlegs/kilt/bronze = 2,
+		/obj/item/clothing/gloves/roguetown/chain/bronze = 2,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/bronze = 3,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/bronze = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/bronze = 2,
+		/obj/item/clothing/neck/roguetown/gorget/bronze = 1,
+		/obj/item/clothing/head/roguetown/helmet/heavy/bronze = 1,
+		/obj/item/clothing/head/roguetown/helmet/leather = 2,
+		/obj/item/clothing/head/roguetown/helmet/bronzegladiator = 1,
+		/obj/item/clothing/head/roguetown/helmet/bronze = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/bronze/light = 1,
+		/obj/item/clothing/suit/roguetown/armor/plate/bronze = 3,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel = 1,
+	)
 
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food
 	icon_state = "food"

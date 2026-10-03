@@ -23,7 +23,7 @@ type CharflawPopupData = {
   charflaws: Path[];
 } & PopupData;
 
-const PopupCharflawSelector = (props) => {
+const PopupCharflawSelector = () => {
   const [constantData] = useConstantPrefs();
   const { data } = usePopupBackend<CharflawPopupData>();
   const { charflaws, popup_data_ready } = data;

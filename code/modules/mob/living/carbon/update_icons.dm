@@ -183,18 +183,8 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species)
-				if(gender == MALE)
-					if(OFFSET_HANDS in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-						behindhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						behindhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-				else
-					if(OFFSET_HANDS_F in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
-						behindhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						behindhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
+				H.apply_offset(inhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
+				H.apply_offset(behindhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
 	else
 		var/icon_file = I.lefthand_file
 		if(get_held_index_of_item(I) % 2 == 0)
@@ -203,14 +193,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species.sexes)
-				if(gender == MALE)
-					if(OFFSET_HANDS in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-				else
-					if(OFFSET_HANDS_F in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
+				H.apply_offset(inhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
 
 	.[INHAND_FRONT] = inhand_overlay
 	.[INHAND_BEHIND] = behindhand_overlay
@@ -218,8 +201,10 @@
 /mob/living/carbon/proc/start_spin(obj/item/I, speed = 4)
 	if(QDELETED(I) || I.inhand_spinning || !(I in held_items))
 		return
+	var/mirrored = !(get_held_index_of_item(I) % 2 == 0)
 	var/list/built = build_inhand_overlays(I)
-	var/mutable_appearance/spin_appearance = built[I.inhand_index(dir)]
+	var/index = I.inhand_index(dir, mirrored)
+	var/mutable_appearance/spin_appearance = built[index]
 	if(!spin_appearance)
 		spin_appearance = built[INHAND_FRONT] || built[INHAND_BEHIND]
 	if(!spin_appearance)
@@ -228,19 +213,8 @@
 	I.inhand_spinning = TRUE
 	update_inv_hands()
 
-	var/mirrored = !(get_held_index_of_item(I) % 2 == 0)
 	var/list/grip = I.grip_offset(dir, mirrored)
-
-	var/above = TRUE
-	if(dir & NORTH)
-		above = FALSE
-	else if(dir & SOUTH)
-		above = TRUE
-	else if(dir & EAST)
-		above = !mirrored
-	else if(dir & WEST)
-		above = mirrored
-	spin_appearance.layer = layer + (above ? 0.1 : -0.1)
+	spin_appearance.layer = layer + (index == INHAND_FRONT ? 0.1 : -0.1)
 
 	var/atom/movable/flick_visual/spin = flick_overlay_view(spin_appearance, speed + 2)
 	if(spin)
@@ -370,14 +344,7 @@
 		if(ishuman(src))
 			var/mob/living/carbon/human/H = src
 			if(H.dna && H.dna.species.sexes)
-				if(gender == MALE)
-					if(OFFSET_HANDS in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS][2]
-				else
-					if(OFFSET_HANDS_F in H.dna.species.offset_features)
-						inhand_overlay.pixel_x += H.dna.species.offset_features[OFFSET_HANDS_F][1]
-						inhand_overlay.pixel_y += H.dna.species.offset_features[OFFSET_HANDS_F][2]
+				H.apply_offset(inhand_overlay, OFFSET_HANDS, OFFSET_HANDS_F)
 
 		overlays_standing[HANDCUFF_LAYER] = inhand_overlay
 		apply_overlay(HANDCUFF_LAYER)

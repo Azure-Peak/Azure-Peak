@@ -610,7 +610,7 @@ SPECIALS START HERE
 //Hard to hit, freezes you in place. Offbalances & slows the targets hit. If they're already offbalanced they get knocked down.
 /datum/special_intent/ground_smash
 	name = "Ground Smash"
-	desc = "Swings downward, leaving a traveling quake for a few tiles. Anyone struck by it will be slowed and offbalanced, or knocked down if they're already off-balanced. Always targets the chest."
+	desc = "Swings downward, leaving a traveling quake for a few tiles. Anyone struck by it will be slowed and off-balanced, or knocked down if they're already off-balanced. Always targets the chest."
 	tile_coordinates = list(list(0,0), list(0,1, 0.1 SECONDS), list(0,2, 0.2 SECONDS))
 	post_icon_state = "kick_fx"
 	pre_icon = 'icons/effects/telegraph.dmi'
@@ -751,7 +751,7 @@ SPECIALS START HERE
 	sfx_pre_delay = 'sound/combat/wooshes/blunt/wooshmed (1).ogg'
 	sfx_post_delay = 'sound/combat/hits/blunt/woodblunt (1).ogg'
 	delay = 0.6 SECONDS
-	cooldown = 15 SECONDS
+	cooldown = 25 SECONDS
 	requires_wielding = TRUE
 	stamcost = 20
 	var/vulnerable_dur = 3 SECONDS
@@ -837,6 +837,118 @@ SPECIALS START HERE
 
 #undef AXE_SWING_GRID_DEFAULT
 #undef AXE_SWING_GRID_MIRROR
+
+#define HATCHET_TWIRL_GRID_DEFAULT	list(list(-1,-1), list(1,-1, 0.2 SECONDS), list(0,0, 0.4 SECONDS))
+#define HATCHET_TWIRL_GRID_MIRROR	list(list(-1,-1, 0.4 SECONDS), list(1,-1, 0.2 SECONDS), list(0,0))
+
+/datum/special_intent/hatchet_twirl
+	name = "Hefty Flourish"
+	desc = "A defensive flourish that sweeps to the side, before finishing up front. Briefly stuns and exposes the opponent if hit. Always \
+	targets the arms."
+	tile_coordinates = HATCHET_TWIRL_GRID_DEFAULT
+	post_icon_state = "sweep_fx"
+	pre_icon = 'icons/effects/telegraph.dmi'
+	pre_icon_state = "warning"
+	respect_adjacency = FALSE
+	delay = 0.5 SECONDS
+	cooldown = 25 SECONDS
+	stamcost = 20
+	var/lesserimmob_dur = 1.5 SECONDS
+	var/lesserexposed_dur = 3 SECONDS
+	var/dam
+
+/datum/special_intent/hatchet_twirl/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
+
+/datum/special_intent/hatchet_twirl/_reset()
+	. = ..()
+
+/datum/special_intent/hatchet_twirl/process_attack()
+	tile_coordinates = list()
+	var/obj/item/rogueweapon/W = iparent
+	dam = (W.force_dynamic * (howner.STASPD / 10)) + 25
+	if(howner.used_hand == 1)
+		tile_coordinates += HATCHET_TWIRL_GRID_MIRROR
+	else
+		tile_coordinates += HATCHET_TWIRL_GRID_DEFAULT
+	. = ..()
+
+/datum/special_intent/hatchet_twirl/on_create()
+	if(howner)
+		howner.Immobilize(0.9 SECONDS)
+		howner.apply_status_effect(/datum/status_effect/debuff/clickcd, 0.9 SECONDS)
+	playsound(howner, 'sound/combat/polearm_woosh.ogg', 100, TRUE)
+
+/datum/special_intent/hatchet_twirl/apply_hit(turf/T)
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		if(L != howner)
+
+			L.Immobilize(lesserimmob_dur)
+			if(L.mobility_flags & MOBILITY_STAND)
+				apply_generic_weapon_damage(L, dam, "slash", pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM), bclass = BCLASS_CHOP)
+			L.apply_status_effect(/datum/status_effect/debuff/exposed, lesserexposed_dur)
+	var/sfx = pick('sound/combat/sp_axe_swing1.ogg','sound/combat/sp_axe_swing2.ogg','sound/combat/sp_axe_swing3.ogg')
+	playsound(T, sfx, 100, TRUE)
+	..()
+
+#undef HATCHET_TWIRL_GRID_DEFAULT
+#undef HATCHET_TWIRL_GRID_MIRROR
+
+#define WARHAMMER_SWING_GRID_DEFAULT	list(list(0,0), list(-1,0, 0.2 SECONDS), list(-1,-1, 0.4 SECONDS))
+#define WARHAMMER_SWING_GRID_MIRROR		list(list(0,0, 0.4 SECONDS), list(-1,0, 0.2 SECONDS), list(-1,-1))
+
+/datum/special_intent/warhammer_swing
+	name = "Dazing Swing"
+	desc = "A wide strike that swings through the nearest quadrant at a high angle. Briefly dazes and slows the opponent if hit. Always \
+	targets the head."
+	tile_coordinates = WARHAMMER_SWING_GRID_DEFAULT
+	post_icon_state = "sweep_fx"
+	pre_icon = 'icons/effects/telegraph.dmi'
+	pre_icon_state = "warning"
+	respect_adjacency = FALSE
+	delay = 0.5 SECONDS
+	cooldown = 25 SECONDS
+	stamcost = 15
+	var/lesserslow_dur = 3
+	var/lesserdaze_dur = 5 SECONDS
+	var/dam
+
+/datum/special_intent/warhammer_swing/npc_use_chance(mob/living/user, atom/target)
+	return npc_front_chance(user)
+
+/datum/special_intent/warhammer_swing/_reset()
+	. = ..()
+
+/datum/special_intent/warhammer_swing/process_attack()
+	tile_coordinates = list()
+	var/obj/item/rogueweapon/W = iparent
+	dam = (W.force_dynamic * (howner.STASTR / 10)) + 25
+	if(howner.used_hand == 1)
+		tile_coordinates += WARHAMMER_SWING_GRID_MIRROR
+	else
+		tile_coordinates += WARHAMMER_SWING_GRID_DEFAULT
+	. = ..()
+
+/datum/special_intent/warhammer_swing/on_create()
+	if(howner)
+		howner.Immobilize(0.9 SECONDS)
+		howner.apply_status_effect(/datum/status_effect/debuff/clickcd, 0.9 SECONDS)
+	playsound(howner, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
+
+/datum/special_intent/warhammer_swing/apply_hit(turf/T)
+	for(var/mob/living/L in get_hearers_in_view(0, T))
+		if(L != howner)
+
+			if(L.mobility_flags & MOBILITY_STAND)
+				apply_generic_weapon_damage(L, dam, "blunt", BODY_ZONE_HEAD, BCLASS_BLUNT, no_pen = TRUE)
+			L.apply_status_effect(/datum/status_effect/debuff/dazed, lesserdaze_dur)
+			L.Slowdown(lesserslow_dur)
+	var/sfx = pick('sound/combat/flail_sweep_hit_minor.ogg')
+	playsound(T, sfx, 100, TRUE)
+	..()
+
+#undef WARHAMMER_SWING_GRID_DEFAULT
+#undef WARHAMMER_SWING_GRID_MIRROR
 
 /datum/special_intent/whip_coil
 	name = "Whip Coil"
@@ -1060,7 +1172,7 @@ SPECIALS START HERE
 	respect_adjacency = FALSE
 	respect_dir = TRUE
 	delay = 0.5 SECONDS
-	cooldown = 15 SECONDS
+	cooldown = 25 SECONDS
 	stamcost = 15	//Stamina cost
 	var/dam = 30
 	var/slow_dur = 5
@@ -1575,13 +1687,20 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 
 /datum/special_intent/dagger_dash
 	name = "Dagger Dash"
-	desc = "Become quicker on your feet and pass through other beings for a short time. Boost scales with worn armor."
+	desc = "Become quicker on your feet and pass through other beings for a short time. Boost scales with worn armor. Afterwards, neither Phase nor Dagger Dash can be used until 30 seconds later."
 	cooldown = 90 SECONDS
 	stamcost = 25
+
+/datum/special_intent/dagger_dash/check_reqs(mob/living/carbon/human/user, obj/item/I)
+	if(user.has_status_effect(/datum/status_effect/debuff/slip_recovery))
+		user.balloon_alert(user, "Still winded!")
+		return FALSE
+	return ..()
 
 /datum/special_intent/dagger_dash/process_attack()
 	SHOULD_CALL_PARENT(FALSE)
 	howner.apply_status_effect(/datum/status_effect/buff/dagger_dash)
+	howner.apply_status_effect(/datum/status_effect/debuff/slip_recovery)
 	playsound(howner, 'sound/combat/dagger_boost.ogg', 100, TRUE)
 	apply_cooldown()
 

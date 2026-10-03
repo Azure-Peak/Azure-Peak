@@ -161,7 +161,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/current_alt_grip_index = 0
 	/// Original values for vars overridden by the active alt grip state.
 	var/list/alt_grip_restore_vars
-	///intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
+	/// TRUE while a timed shift into an alt grip is in progress.
+	var/gripswapping = FALSE
+	/// TRUE when swapping is interrupted.
+	var/gripswap_interrupt = FALSE
+	/// Intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
 	var/list/gripped_intents
 	var/force_wielded = 0
 	var/gripsprite = FALSE //use alternate grip sprite for inhand
@@ -236,6 +240,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	var/list/examine_effects = list()
 
+	/// For giving donor items highlights.
+	var/examine_highlight_severity = null
+	var/examine_highlight_desc = null
+
 	///played when an item that is equipped blocks a hit
 	var/list/blocksound
 
@@ -299,6 +307,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/is_carved = FALSE
 	/// does this item/weapon circumvent two-stage death during dismemberment? (do not add this to anything but ultra rare shit)
 	var/vorpal = FALSE
+	/// aspects of prima materia for alchemical use. see prima_materia.dm
+	var/list/materia = list()
 
 /obj/item/Initialize(mapload)
 	. = ..()
@@ -318,6 +328,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(body_parts_covered)
 		body_parts_covered_dynamic = body_parts_covered
 	update_transform()
+
+	if(max_integrity && integrity_failure && integrity_failure == GENERIC_INTEG_FAILURE)
+		max_integrity += (max_integrity * 0.11142857143)	// don't ask
+		obj_integrity = max_integrity
 
 
 /obj/item/proc/update_transform()
@@ -531,7 +545,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		Targeting large limbs such as arms, head or legs has a defense reduction cap of [SWIFTCAP_LIMBS]%. \n\
 		Targeting the chest only has a cap of [SWIFTCAP_CHEST]% parry reduction. \n\
 		Swift Balance does not work if the attacker is wearing Medium or Heavy AC equipment on their outerwear, innerwear or pants slots. \n\
-		Defender's difference in INT and PER (if higher) may reduce the parry penalty in some circumstances.")
+		Defender's difference in INT and PER (if higher) may reduce the parry penalty in some circumstances. \n\
+		Having a swift weapon in your dominant hand and nothing in your off-hand increases your parry chance.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -995,7 +1010,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(V_lord?.generation >= GENERATION_METHUSELAH)
 			return
 
-		to_chat(M, span_userdanger("I can't pick up the silver, it is my BANE!"))
+		to_chat(M, span_silver("I can't pick up the silver, it is my BANE!"))
 		M.Knockdown(10)
 		M.Paralyze(10)
 		M.adjustFireLoss(25)
@@ -1538,8 +1553,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/cycle_altgrip(mob/living/carbon/user, direction = 1)
 	if(!length(alt_grips) || !direction)
 		return FALSE
+	if(gripswapping)
+		return FALSE
 
-	var/message
 	var/next_index
 	var/datum/alt_grip/next_state
 	var/index_step = 1
@@ -1568,12 +1584,24 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 	if(next_state.is_two_handed(src) && !can_wield_two_handed(user))
 		return FALSE
+	INVOKE_ASYNC(src, PROC_REF(swap_altgrip), user, next_index, next_state)
+	return TRUE
+
+/obj/item/proc/swap_altgrip(mob/living/carbon/user, next_index, datum/alt_grip/next_state)
+	if(!do_altgrip_swap(user, next_state))
+		return FALSE
+	if(next_index > length(alt_grips) || get_altgrip_state(next_index) != next_state || !next_state.usable_by(src, user))
+		return FALSE
+	if(next_state.is_two_handed(src) && !can_wield_two_handed(user))
+		return FALSE
+	if(wielded && !altgripped)
+		ungrip(user, FALSE)
 	if(!set_altgrip_state(next_index))
 		return FALSE
 	altgripped = TRUE
 	update_transform()
 	user.update_inv_hands()
-	message = get_altgrip_message(user)
+	var/message = get_altgrip_message(user)
 	to_chat(user, span_notice(message))
 	show_altgrip_balloon(user)
 	if(user.get_active_held_item() == src)
@@ -1880,8 +1908,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 *
 * When set, highlights the item's mob examine name/tooltip with obvious heretical flavor when worn/held.
 *
+* Types that cannot override this proc (i.e. one reskinned by a morphing elixir, which keeps its own
+* type) can instead set `examine_highlight_severity` and `examine_highlight_desc`.
+*
 * If this returns null, the item will not be shown as heretical.*/
 /obj/item/proc/get_examine_highlight_status()
+	if(examine_highlight_severity && examine_highlight_desc)
+		return list(examine_highlight_severity, examine_highlight_desc)
 	return null
 
 /** Returns an HTML-formatted string explaining how/why this item has the highlight status it does.

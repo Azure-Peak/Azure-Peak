@@ -75,7 +75,7 @@ function handleLinkMessage(
 
     directLog(
       ns,
-      ...args.map((arg) => {
+      ...args.map((arg: any) => {
         if (typeof arg === 'object') {
           return inspect(arg, {
             depth: Infinity,

@@ -1336,6 +1336,11 @@
 /obj/item/clothing/cloak/stole/purple
 	icon_state = "stole_purple"
 
+/obj/item/clothing/cloak/stole/bishop
+	name = "bishop's stole"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "stole_bishop"
+
 /obj/item/clothing/cloak/black_cloak
 	name = "fur overcoat"
 	desc = "A very thick, baggy set of robes trimmed with fur, meant to be worn over one's clothing."
@@ -1414,8 +1419,18 @@
 /obj/item/clothing/cloak/half/red
 	color = CLOTHING_RED
 
-/obj/item/clothing/cloak/half/azure
+/obj/item/clothing/cloak/half/azuria
 	color = CLOTHING_AZURE
+
+/obj/item/clothing/cloak/half/azuria/Initialize(mapload)
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/cloak/half/azuria/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
 
 /obj/item/clothing/cloak/half/orange
 	color = CLOTHING_ORANGE
@@ -1487,7 +1502,6 @@
 	nodismemsleeves = TRUE
 	inhand_mod = FALSE
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
 
@@ -1973,10 +1987,6 @@
 /obj/item/clothing/cloak/cotehardie/mageblue
 	color = CLOTHING_MAGE_BLUE
 
-/obj/item/clothing/cloak/cotehardie/aristocrat
-	color = CLOTHING_RED_OCHRE
-	detail_color = CLOTHING_RED_OCHRE //Only way to work with female sprites
-
 /obj/item/clothing/cloak/banneret
 	name = "knight banneret's cape"
 	desc = "A cape with a gold embroided heraldry of Azure."
@@ -2066,3 +2076,59 @@
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
 
+/obj/item/clothing/cloak/half/duelcape  //sprites from vanderlin
+	name = "duelist cape"
+	desc = "A flamboyant red duelists cape that is sure to catch the eye."
+	icon_state = "duelistcape"
+	item_state = "duelistcape"
+	color = null
+	nodismemsleeves = TRUE
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	allowed_race = NON_DWARVEN_RACE_TYPES
+	inhand_mod = FALSE
+
+/obj/item/clothing/cloak/rosa
+	name = "regal cloak"
+	desc = "A finely crafted cloak of silk adorned with rosas."
+	icon_state = "rosacloak7"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	salvage_result = /obj/item/natural/silk
+
+/obj/item/clothing/cloak/rosa/two
+	name = "courtly cloak"
+	icon_state = "rosacloak8"
+
+/obj/item/clothing/cloak/sash/dupatta
+	name = "dupatta"
+	desc = "A regional variant of the humble sash, loosely fit to fight against the Ranesheni heat."
+	icon_state = "dupatta"
+	item_state = "dupatta"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
+	altdetail_tag = "_detailalt"
+	altdetail_color = CLOTHING_WHITE
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
+	sleevetype = "shirt"
+
+/obj/item/clothing/cloak/sash/dupatta/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/sash/dupatta/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+	if(get_altdetail_tag())
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, "[icon_state][altdetail_tag]"))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)

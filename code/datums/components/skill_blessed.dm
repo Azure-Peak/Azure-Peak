@@ -1,5 +1,5 @@
 /datum/component/skill_blessed
-	dupe_mode = COMPONENT_DUPE_UNIQUE
+	dupe_mode = COMPONENT_DUPE_ALLOWED
 	var/required_trait
 	var/datum/skill/weapon_skill
 	var/skill_amount

@@ -274,15 +274,20 @@ SUBSYSTEM_DEF(outdoor_effects)
 	OE.overlays = OE.weatherproof ? list(OE.sunlight_overlay) : list(OE.sunlight_overlay, get_weather_overlay())
 	OE.luminosity = MA.luminosity
 
+
+#define SUNLIGHT_CACHE_PRECISION 20 // buckets between 0 and 1
 //Retrieve an overlay from the list - create if necessary
 /datum/controller/subsystem/outdoor_effects/proc/get_sunlight_overlay(fr, fg, fb, fa)
+	fr = round(fr * SUNLIGHT_CACHE_PRECISION) / SUNLIGHT_CACHE_PRECISION
+	fg = round(fg * SUNLIGHT_CACHE_PRECISION) / SUNLIGHT_CACHE_PRECISION
+	fb = round(fb * SUNLIGHT_CACHE_PRECISION) / SUNLIGHT_CACHE_PRECISION
+	fa = round(fa * SUNLIGHT_CACHE_PRECISION) / SUNLIGHT_CACHE_PRECISION
 
 	var/index = "[fr]|[fg]|[fb]|[fa]"
 	LAZYINITLIST(sunlight_overlays)
 	if(!sunlight_overlays[index])
 		sunlight_overlays[index] = create_sunlight_overlay(fr, fg, fb, fa)
 	return sunlight_overlays[index]
-
 
 //get our weather overlay
 /datum/controller/subsystem/outdoor_effects/proc/get_weather_overlay() //TODO VANDERLIN: Restore this to 32x48 for some extra
@@ -327,3 +332,5 @@ SUBSYSTEM_DEF(outdoor_effects)
 					fa, fa, fa,	00 ,
 					00, 00, 00,	01 )
 	return MA
+
+#undef SUNLIGHT_CACHE_PRECISION

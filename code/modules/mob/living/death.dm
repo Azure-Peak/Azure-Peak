@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(last_words)
 
-/mob/living/gib(no_brain, no_organs, no_bodyparts)
+/mob/living/gib(no_brain, no_organs, no_bodyparts, drop_items = FALSE)
 	var/prev_lying = lying
 	if(stat != DEAD)
 		death(TRUE)
@@ -12,6 +12,9 @@ GLOBAL_LIST_EMPTY(last_words)
 		gib_animation()
 
 	spill_embedded_objects()
+
+	if(drop_items)
+		unequip_everything()
 
 	spill_organs(no_brain, no_organs, no_bodyparts)
 

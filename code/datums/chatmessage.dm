@@ -231,7 +231,7 @@
 	if(spans.Find("emote") || spans.Find("mindlink"))
 		text = raw_message
 	else
-		text = lang_treat(speaker, message_language, raw_message, spans, null, TRUE)
+		text = lang_treat(speaker, message_language, raw_message, spans, null, TRUE, show_icons = FALSE)
 
 	// Display visual above source
 	new /datum/chatmessage(text, speaker, src, spans)

@@ -189,8 +189,10 @@
 
 			if(blood_volume <= BLOOD_VOLUME_BAD)
 				var/oxy_amt = blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1
-				if(!client)
+				if(!mind)
 					oxy_amt *= 3
+					if(has_status_effect(/datum/status_effect/debuff/bloody_mess))
+						oxy_amt *= 6
 				adjustOxyLoss(oxy_amt)
 				if(world.time >= last_gasp)
 					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
@@ -200,18 +202,21 @@
 						if(H.mind && H.mind.key) // NPC filter
 							H.deathgasp_visual()
 							if(prob(50)) // mostly to halve the potential chatlog spam, we don't care if it never appears or always appear, on the former, tough luck, on the latter, drama queen
-								emote(pick("struggles to breathe, deathly pale!"))
+								H.emote(pick("struggles to breathe, deathly pale!"))
 
 			else if((blood_volume > BLOOD_VOLUME_SURVIVE) || HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE))
 				if(getOxyLoss())
 					adjustOxyLoss(-1.6)
 
 	//Bleeding out
+	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
+		if(bodypart.bandage && !HAS_BLOOD_DNA(bodypart.bandage))
+			bodypart.process_bandage(bodypart.bleeding)
 	bleed_rate = get_bleed_rate() // expensive proc, but we zero it on bled-out mobs
 	if(HAS_TRAIT(src, TRAIT_ADRENALINE_RUSH))
 		bleed_rate = FALSE
 	if(bleed_rate)
-		bleed(bleed_rate) // bandage handling moved to bodypart.get_bleed_rate()
+		bleed(bleed_rate)
 
 	// Non-vampiric bloodpool regen.
 	// We assume that in non-vampires bloodpool represents "usable" blood that is regenerated slower than blood_volume
@@ -246,23 +251,7 @@
 	if(!iscarbon(src) && !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
 		return FALSE
 
-	if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))	// We apply the major multipliers first.
-		amt *= CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE
-	else if(HAS_TRAIT(src, TRAIT_BLOOD_RESISTANCE))
-		amt *= BLOOD_RESISTANCE_EFFECTIVE_BLEEDRATE
-
-	//For each CON above 10, we bleed slower.
-	//Consequently, for each CON under 10 we bleed faster.
-	var/conbonus = 1
-	if(STACON >= CONSTITUTION_BLEEDRATE_CAP)
-		conbonus = CONSTITUTION_BLEEDRATE_CAP - 10
-	else if(STACON != 10)
-		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
-			amt = amt * 2
-		conbonus = STACON - 10
-		amt -= amt * (conbonus * CONSTITUTION_BLEEDRATE_MOD) // We reduce it by a flat value.
-	if(surrendering)
-		amt = amt / 4 // Helps yield condition not be a bloodloss failure state. Approx to grabbing all of your bodyparts at once
+	amt *= get_bleed_mod()
 	blood_volume = max(blood_volume - amt, 0)
 	record_round_statistic(STATS_BLOOD_SPILT, amt)
 	if(isturf(src.loc)) //Blood loss still happens in locker, floor stays clean
@@ -286,6 +275,21 @@
 	if(!(NOBLOOD in dna.species.species_traits))
 		return ..()
 	return FALSE
+
+/mob/living/proc/get_bleed_mod()
+	. = 1
+	if(HAS_TRAIT(src, TRAIT_CRITICAL_RESISTANCE))
+		. *= CRIT_RESISTANCE_EFFECTIVE_BLEEDRATE
+	else if(HAS_TRAIT(src, TRAIT_BLOOD_RESISTANCE))
+		. *= BLOOD_RESISTANCE_EFFECTIVE_BLEEDRATE
+
+	if(STACON < CONSTITUTION_BLEEDRATE_CAP && STACON != 10)
+		if(HAS_TRAIT(src, TRAIT_CRITICAL_WEAKNESS))
+			. *= 2
+		var/conbonus = STACON - 10
+		. -= . * (conbonus * CONSTITUTION_BLEEDRATE_MOD)
+	if(surrendering)
+		. /= 4
 
 /mob/living/proc/restore_blood()
 	blood_volume = initial(blood_volume)
@@ -528,4 +532,4 @@
 		gaspnoise = pick('sound/vo/female/gen/femchoke1.ogg', 'sound/vo/female/gen/femchoke2.ogg', 'sound/vo/female/gen/femchoke3.ogg', 'sound/vo/female/gen/femchoke4.ogg')
 
 	if(gaspnoise && !(HAS_TRAIT(src, TRAIT_NOBREATH)))
-		playsound(get_turf(src), gaspnoise, 90, FALSE)
+		playsound(get_turf(src), gaspnoise, vol = 50, ignore_walls = FALSE, quiet = TRUE) //Only if you can SEE said-dying person.

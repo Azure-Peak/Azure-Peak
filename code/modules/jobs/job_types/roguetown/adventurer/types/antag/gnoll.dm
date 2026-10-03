@@ -16,7 +16,7 @@
 	max_pq = null
 	allowed_patrons = list(/datum/patron/inhumen/graggar)
 
-	obsfuscated_job = TRUE
+	obfuscated_job = TRUE
 
 	advclass_cat_rolls = list(CTAG_GNOLL = 20)
 	PQ_boost_divider = 10

@@ -105,13 +105,16 @@
 	var/list/canSmoothWithAreas
 
 	var/list/ambush_mobs
-	var/list/ambush_times
+	var/list/ambush_factions
+	var/ambush_tp_ceiling = 0
 
 	var/converted_type
 
 	var/threat_region = "" // Key used to look up threat region this area belongs to
 	/// Message used for deathsight. Try to be deliberately obtuse but not too obtuse.
 	var/deathsight_message
+	/// Custom description displayed when tracking targets with Gnoll Sniff
+	var/area_sniff_message
 
 	var/coven_protected = FALSE
 	/// Whether or not an area protects against Necra's vengeful fog

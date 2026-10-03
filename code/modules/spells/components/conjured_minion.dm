@@ -200,8 +200,8 @@
 	for(var/obj/item/gear in (get_equipped_items() + held_items))
 		if(HAS_TRAIT(gear, TRAIT_NODROP))
 			qdel(gear)
-		else
-			dropItemToGround(gear, force = TRUE)
+			continue
+		dropItemToGround(gear, force = TRUE)
 
 /mob/living/proc/add_summoned_minion(mob/living/summon)
 	if(QDELETED(summon))

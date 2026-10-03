@@ -36,7 +36,7 @@ import {
 import { classes } from 'tgui-core/react';
 import type { AllPagesData, IdentityData, VirtueWithMetadata } from '../data';
 
-export const SubtabIdentity = (props) => {
+export const SubtabIdentity = () => {
   return (
     <Section
       fill
@@ -53,6 +53,9 @@ export const SubtabIdentity = (props) => {
           </Stack.Item>
           <Stack.Item>
             <SubtabIdentityCardBark />
+          </Stack.Item>
+          <Stack.Item>
+            <SubtabIdentityCardToggles />
           </Stack.Item>
           <SubtabIdentityDownstreamPaneLeft />
         </Stack>
@@ -73,7 +76,7 @@ export const SubtabIdentity = (props) => {
   );
 };
 
-export const SubtabIdentityCardInfo = (props) => {
+export const SubtabIdentityCardInfo = () => {
   const { act, data } = useBackendStrict<AllPagesData & IdentityData>();
   const {
     clothes_pref,
@@ -222,12 +225,11 @@ export const SubtabIdentityCardInfo = (props) => {
   );
 };
 
-export const SubtabIdentityCardGameplay = (props) => {
+export const SubtabIdentityCardGameplay = () => {
   const { act, data } = useBackendStrict<IdentityData>();
   const {
     age,
     combat_music,
-    dnr_pref,
     domhand,
     free_language,
     loadout_cost,
@@ -293,11 +295,6 @@ export const SubtabIdentityCardGameplay = (props) => {
                 {free_language}
               </Button>
             </LabeledGridList.Item>
-            <LabeledGridList.Item label="Unrevivable">
-              <Button fluid onClick={() => act('dnr_pref')}>
-                {dnr_pref ? 'Yes' : 'No'}
-              </Button>
-            </LabeledGridList.Item>
             <SubtabIdentityCardGameplayCardCulinary />
           </LabeledGridList>
         </Stack.Item>
@@ -320,7 +317,7 @@ export const SubtabIdentityCardGameplay = (props) => {
   );
 };
 
-const SubtabIdentityCardGameplayCardCulinary = (props) => {
+const SubtabIdentityCardGameplayCardCulinary = () => {
   const [constantData] = useConstantPrefs();
   const { data } = useBackendStrict<IdentityData>();
   const { favorite_cuisine, favorite_dish, favorite_drink } = data;
@@ -387,7 +384,7 @@ const CulinaryPrefItem = (props: CulinaryPrefItemProps) => {
   );
 };
 
-const SubtabIdentityCardVoice = (props) => {
+const SubtabIdentityCardVoice = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<IdentityData>();
   const { voice_type, voice_color, voice_pack, voice_pitch } = data;
@@ -484,7 +481,7 @@ const SubtabIdentityCardVoice = (props) => {
   );
 };
 
-const SubtabIdentityCardBark = (props) => {
+const SubtabIdentityCardBark = () => {
   const [constantData] = useConstantPrefs();
   const { act, data } = useBackendStrict<IdentityData>();
   const {
@@ -595,7 +592,45 @@ const SubtabIdentityCardBark = (props) => {
   );
 };
 
-export const SubtabIdentityCardVirtues = (props) => {
+const SubtabIdentityCardToggles = () => {
+  const { act, data } = useBackendStrict<IdentityData>();
+  const { char_toggles } = data;
+
+  return (
+    <Section
+      fill
+      mt={1}
+      title={
+        <LabeledListLikeTooltip
+          tooltip="Per-character settings applied when this character spawns."
+          tooltipPosition="bottom-start"
+        >
+          Toggles
+        </LabeledListLikeTooltip>
+      }
+    >
+      <LabeledGridList>
+        {char_toggles.map((toggle) => (
+          <LabeledGridList.Item
+            key={toggle.flag}
+            label={toggle.name}
+            tooltip={toggle.desc}
+          >
+            <Button.Checkbox
+              fluid
+              checked={!!toggle.enabled}
+              onClick={() => act('char_toggle', { flag: toggle.flag })}
+            >
+              {toggle.enabled ? toggle.on : toggle.off}
+            </Button.Checkbox>
+          </LabeledGridList.Item>
+        ))}
+      </LabeledGridList>
+    </Section>
+  );
+};
+
+export const SubtabIdentityCardVirtues = () => {
   const { data } = useBackendStrict<IdentityData>();
   const { virtues } = data;
 
@@ -653,7 +688,11 @@ export const VirtueEntry = (props: { entry: VirtueWithMetadata }) => {
           fluid
           ml={2}
           mt={1}
-          tooltip={choice.tooltip}
+          tooltip={
+            choice.tooltip ? (
+              <Box dangerouslySetInnerHTML={{ __html: choice.tooltip }} />
+            ) : null
+          }
           onClick={() =>
             act('subvirtue', {
               id,
@@ -679,7 +718,7 @@ export const VirtueEntry = (props: { entry: VirtueWithMetadata }) => {
   );
 };
 
-export const SubtabIdentityCardVices = (props) => {
+export const SubtabIdentityCardVices = () => {
   const { act, data } = useBackendStrict<IdentityData>();
   const { charflaws, has_averse, averse_chosen_faction } = data;
   const [, setPopupId] = usePopupId();

@@ -161,6 +161,12 @@
 	color = CLOTHING_DARK_GREY
 	detail_color = CLOTHING_SCARLET
 
+/obj/item/clothing/head/roguetown/chaperon/noble/steward
+	name = "Steward's chaperon"
+	desc = "A noble's chaperon made for the local Steward. \"All that glitters is not always gold.\""
+	color = "#722017"
+	detail_color = "#b68e37ff"
+
 /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
 	name = "Marshal's chaperon"
 	desc = "A noble's chaperon made for the local Marshal. \"How terribly unfortunate you are!\""
@@ -178,11 +184,54 @@
 	color = "#1f1818ff"
 	detail_color = "#dbe6e5ff"
 
+/obj/item/clothing/head/roguetown/chaperon/noble/court
+	name = "councillor's chaperon"
+	desc = "A noble's chaperon made for the courtiers of Azuria."
+	color = CLOTHING_AZURE
+	detail_color = CLOTHING_WHITE
+
+//copies lord colors
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/Initialize(mapload)
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/lordcolor(primary,secondary)
+	color = primary
+	detail_color = secondary
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_head()
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
+
 /obj/item/clothing/head/roguetown/chaperon/noble/hand
 	name = "hand's chaperon"
 	desc = "A noble's chaperon made for the right hand man. \"Heavy is the head that bears the crown.\""
 	color = CLOTHING_AZURE
 	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/chaperon/noble/hand/blademaster
+	color = "#715944"
+	detail_color = CLOTHING_AZURE
+
+/obj/item/clothing/head/roguetown/chaperon/noble/hand/advisor
+	color = "#445671"
+	detail_color = CLOTHING_AZURE
 
 /obj/item/clothing/head/roguetown/chaperon/councillor
 	name = "chaperon hat"
@@ -352,6 +401,11 @@
 	worn_y_dimension = 64
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/priesthat/bishop
+	name = "bishop's hat"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "bishop"
+
 /obj/item/clothing/head/roguetown/reqhat
 	name = "serpent crown"
 	desc = ""
@@ -398,14 +452,15 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 
-/obj/item/clothing/head/roguetown/duelhat/aristocrat
+/obj/item/clothing/head/roguetown/duelisthat //vanderlin sprite
+	name = "dashing feathered hat"
+	desc = "A feathered leather hat, for a daring rogue."
+	icon_state = "duelisthat"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/duelisthat/aristocrat //different flavor, same thing
 	name = "noble's feathered hat"
 	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
-	icon_state = "duelhat"
-	sewrepair = TRUE
-	color = COLOR_ORANGE
-	detail_tag = "_detail"
-	detail_color = COLOR_RED
 
 /obj/item/clothing/head/roguetown/flamboyant
 	name = "flamboyant hat"
@@ -701,3 +756,26 @@
 	desc = "A pleated cloth headband. It has gained widespread popularity from Valorian nobles travelling with their servants."
 	icon_state = "maidband"
 	body_parts_covered = NONE
+
+/obj/item/clothing/head/roguetown/rosa
+	name = "scarlet hat"
+	desc = "A finely crafted hat of silk and leather, adorned with rosas. It continues the tradition of wide brimmed Otavan hats."
+	icon_state = "rosahat2"
+	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+
+/obj/item/clothing/head/roguetown/rosa/three
+	name = "velvet hat"
+	icon_state = "rosahat3"
+
+/obj/item/clothing/head/roguetown/rosa/four
+	name = "obsidian hat"
+	icon_state = "rosahat4"
+
+/obj/item/clothing/head/roguetown/rosa/five
+	name = "sable hat"
+	icon_state = "rosahat5"
+
+/obj/item/clothing/head/roguetown/rosa/six
+	name = "maroon cap"
+	icon_state = "rosahat6"

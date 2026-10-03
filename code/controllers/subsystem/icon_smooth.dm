@@ -1,9 +1,11 @@
 SUBSYSTEM_DEF(icon_smooth)
 	name = "Icon Smoothing"
 	init_order = INIT_ORDER_ICON_SMOOTHING
-	wait = 1
+	// Was SS_TICKER (every tick, front of the queue) - cosmetic overlay work doesn't need that
+	// priority. wait is now real deciseconds, not a tick count.
+	wait = 3
 	priority = FIRE_PRIORITY_SMOOTHING
-	flags = SS_TICKER
+	flags = SS_BACKGROUND
 	var/list/smooth_queue = list()
 	var/list/deferred = list()
 

@@ -1,11 +1,5 @@
 GLOBAL_LIST_EMPTY(all_particles)
 
-#define GEN_NUM "num"
-#define GEN_VECTOR "vector"
-#define GEN_BOX "box"
-#define GEN_CIRCLE "circle"
-#define GEN_SPHERE "sphere"
-
 /proc/setup_particles()
 	var/list/paths = typesof(/particles)
 	for (var/path in paths)

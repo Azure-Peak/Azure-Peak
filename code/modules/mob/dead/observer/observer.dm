@@ -12,9 +12,9 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	layer = GHOST_LAYER
 	stat = DEAD
 	density = FALSE
-	sight = 0
+	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS
 	see_invisible = SEE_INVISIBLE_OBSERVER
-	see_in_dark = 10
+	see_in_dark = 100
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	invisibility = INVISIBILITY_OBSERVER
 	hud_type = /datum/hud/ghost
@@ -63,6 +63,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	icon = 'icons/roguetown/mob/misc.dmi'
 	icon_state = "hollow"
 	alpha = 60
+	sight = 0
+	see_in_dark = 10
 
 /mob/dead/observer/profane/Move(NewLoc, direct)
 	// this is how i fixed it on my super old branch idk why the if client is there but im trusting old me
@@ -83,7 +85,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 
 /mob/dead/observer/eye
-	see_in_dark = 0
+	see_in_dark = 10
+	sight = 0
 	draw_icon = FALSE
 	hud_type = /datum/hud/obs
 
@@ -110,6 +113,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	return FALSE
 
 /mob/dead/observer/eye/screye
+	sight = 0
+	see_in_dark = 10
 
 /mob/dead/observer/eye/screye/blackmirror
 	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS
@@ -1028,7 +1033,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(!J)
 		J = SSjob.GetJob(assigned_role)
 	if(J)
-		var/department = SSjob.bitflag_to_department(J.department_flag, J.obsfuscated_job)
+		var/department = SSjob.bitflag_to_department(J.department_flag, J.obfuscated_job)
 		var/list/department_colors = JCOLOR_BY_DEPARTMENT
 		if(department_colors[department])
 			resolved_color = department_colors[department]
@@ -1220,7 +1225,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			entry["role"] = assigned_role
 			var/datum/job/J = SSjob.GetJob(assigned_role)
 			if(J)
-				var/job_department = SSjob.bitflag_to_department(J.department_flag, J.obsfuscated_job)
+				var/job_department = SSjob.bitflag_to_department(J.department_flag, J.obfuscated_job)
 				if(job_department)
 					entry["department"] = job_department
 			var/selection_color = get_role_selection_color(assigned_role, role_color_cache, J)

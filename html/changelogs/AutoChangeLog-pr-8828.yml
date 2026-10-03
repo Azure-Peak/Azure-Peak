@@ -1,9 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - rscadd: "TRAIT_LONGSWORDSMAN/Freifechters now have master intents on any \"stock\" longsword."
-  - rscadd: "Freifechter master intents are now special versions of the base longsword instead of wholly unique for the experience of a \"longsword without training wheels\"."
-  - balance: "TRAIT_LONGSWORDSMAN no longer activates when wielding non-standard longswords like the kriegsmesser or executioner's swords."
-  - balance: "Freifechter Longswordsman has had their CON cap raised to 12 to match Freifechter Lancer."
-  - bugfix: "The fencing jacket uses the correct armor flags instead of being weaker than hardened leather."
-  - bugfix: "Mordhau defense is fixed to be 6 wdef (vs 8 wdef normally). Freifechter mordhau is 4 wdef because of their master skill."

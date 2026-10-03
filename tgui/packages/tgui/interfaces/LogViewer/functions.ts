@@ -1,4 +1,4 @@
-export function validateRegExp(str: string) {
+export function validateRegExp(str: string): any {
   try {
     new RegExp(str);
     return true;

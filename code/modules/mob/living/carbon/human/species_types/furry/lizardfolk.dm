@@ -24,18 +24,9 @@
 	dam_icon_f = 'icons/roguetown/mob/bodies/dam/dam_female.dmi'
 	soundpack_m = /datum/voicepack/male
 	soundpack_f = /datum/voicepack/female
-	offset_features = list(
-		OFFSET_ID = list(0,1), OFFSET_GLOVES = list(0,1), OFFSET_WRISTS = list(0,1),\
-		OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
-		OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
-		OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), OFFSET_PANTS = list(0,1), \
-		OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDIES = list(0,1), \
-		OFFSET_ID_F = list(0,-1), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
-		OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-1), OFFSET_HEAD_F = list(0,-1), \
-		OFFSET_FACE_F = list(0,-1), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-1), \
-		OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
-		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES_F = list(0,-1), \
-		)
+	allowed_body_builds = ALL_BODY_BUILDS
+	default_body_build_m = BODY_BUILD_BULKY
+	default_body_build_f = BODY_BUILD_SLIM
 	race_bonus = list(STAT_CONSTITUTION = 1, STAT_WILLPOWER = 1)
 	enflamed_icon = "widefire"
 	attack_verb = "slash"
@@ -51,6 +42,7 @@
 		ORGAN_SLOT_LIVER = /obj/item/organ/liver,
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach,
 		ORGAN_SLOT_APPENDIX = /obj/item/organ/appendix,
+		ORGAN_SLOT_GUTS = /obj/item/organ/guts,
 		ORGAN_SLOT_TAIL = /obj/item/organ/tail/lizard,
 		ORGAN_SLOT_SNOUT = /obj/item/organ/snout/lizard,
 		ORGAN_SLOT_TAIL_FEATURE = /obj/item/organ/tail_feature/lizard_spines,
@@ -80,6 +72,8 @@
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/animal,
 		/datum/customizer/organ/vagina/animal,
+		/datum/customizer/bodypart_feature/pubes,
+		/datum/customizer/bodypart_feature/pits,
 		)
 	body_marking_sets = list(
 		/datum/body_marking_set/none,
@@ -137,14 +131,6 @@
 /datum/species/lizardfolk/qualifies_for_rank(rank, list/features)
 	return TRUE
 
-/datum/species/lizardfolk/on_species_gain(mob/living/carbon/C, datum/species/old_species)
-	..()
-	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
-/datum/species/lizardfolk/on_species_loss(mob/living/carbon/C)
-	. = ..()
-	UnregisterSignal(C, COMSIG_MOB_SAY)
-
 /datum/species/lizardfolk/get_random_body_markings(list/passed_features)
 	return assemble_body_markings_from_set(GLOB.body_marking_sets_by_type[/datum/body_marking_set/bellyscale], passed_features, src)
 
@@ -155,21 +141,21 @@
 	var/random = rand(1,5)
 	//Choose from a variety of lizardish colors
 	switch(random)
-		if(1)
-			main_color = "15921a"
-			second_color = "3a8f3d"
-		if(2)
-			main_color = "63d100"
-			second_color = "89d248"
-		if(3)
-			main_color = "51aa01"
-			second_color = "70ae39"
-		if(4)
-			main_color = "00b302"
-			second_color = "2eb62f"
-		if(5)
-			main_color = "02c33c"
-			second_color = "3ac664"
+		if(1)//Crocodile Green/Brown
+			main_color = "6C6760"
+			second_color = "7E8666"
+		if(2)//Armadillo Lizard Brown/Grey
+			main_color = "594738"
+			second_color = "F8EEE4"
+		if(3)//Komodo Dark Green
+			main_color = "3C423E"
+			second_color = "5A635E"
+		if(4)//Salamander Orange
+			main_color = "C7965D"
+			second_color = "F9D38A"
+		if(5)//Psyzard White
+			main_color = "C5C6C4"
+			second_color = "EAEAEA"
 	returned["mcolor"] = main_color
 	returned["mcolor2"] = second_color
 	returned["mcolor3"] = second_color

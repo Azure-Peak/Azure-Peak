@@ -15,7 +15,7 @@ import {
   Stack,
 } from 'tgui-core/components';
 
-export const GameSettings = (props) => {
+export const GameSettings = () => {
   return (
     <Section
       fill
@@ -44,7 +44,7 @@ export const GameSettings = (props) => {
   );
 };
 
-const Settings = (props) => {
+const Settings = () => {
   const { act, data } = useBackendStrict<GameSettingsData>();
   const {
     tgui_theme,
@@ -143,7 +143,7 @@ const Settings = (props) => {
   );
 };
 
-const SpecialRoles = (props) => {
+const SpecialRoles = () => {
   const { act, data } = useBackendStrict<GameSettingsData>();
   const { antags, no_storyteller_events } = data;
 
@@ -212,7 +212,7 @@ const AntagListItem = (props: { antag: Antag }) => {
   );
 };
 
-const AdminPreferences = (props) => {
+const AdminPreferences = () => {
   const { act, data } = useBackendStrict<GameSettingsData>();
 
   if (!data.admin_prefs) {
@@ -234,6 +234,7 @@ const AdminPreferences = (props) => {
     deadmin_antagonist,
     auto_deadmin_heads,
     deadmin_head,
+    vv_dark_mode,
   } = data.admin_prefs;
 
   return (
@@ -267,6 +268,11 @@ const AdminPreferences = (props) => {
         <LabeledGridList.Item label="Hide Prayers">
           <Button onClick={() => act('toggle_prayers')}>
             {show_prayer ? 'Shown' : 'Hidden'}
+          </Button>
+        </LabeledGridList.Item>
+        <LabeledGridList.Item label="View Variables Theme">
+          <Button onClick={() => act('vv_dark_mode')}>
+            {vv_dark_mode ? 'Dark' : 'Light'}
           </Button>
         </LabeledGridList.Item>
         {allow_asaycolor ? (

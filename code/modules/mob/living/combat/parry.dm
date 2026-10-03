@@ -24,7 +24,8 @@
 	if(pulledby || pulling)
 		return FALSE
 
-	if(world.time < (last_parry + parrydelay))
+	var/paired_swing = user?.dualwield_twoswing
+	if(!paired_swing && world.time < (last_parry + parrydelay))
 		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 			return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/exposed) || has_status_effect(/datum/status_effect/debuff/vulnerable))
@@ -38,11 +39,12 @@
 	if(attack_intent && !attack_intent.canparry)
 		return FALSE
 
-	last_parry = world.time
-	if(!istype(rmb_intent, /datum/rmb_intent/riposte))
-		var/parrytime = setparrytime
-		parrytime -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
-		changeNext_def(parrytime)
+	if(!paired_swing)
+		last_parry = world.time
+		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
+			var/parrytime = setparrytime
+			parrytime -= get_tempo_bonus(TEMPO_TAG_PARRYCD_BONUS)
+			changeNext_def(parrytime)
 
 	var/drained = BASE_PARRY_STAMINA_DRAIN
 	var/weapon_parry = FALSE
@@ -126,7 +128,7 @@
 		prob2defend += unarmed_defense
 		weapon_parry = FALSE
 
-	var/att_swift_capable = attacker.check_dodge_skill(check_trait = FALSE)
+	var/att_swift_capable = attacker.check_dodge_skill(check_trait = FALSE) && !HAS_TRAIT(attacker, TRAIT_FREEBLADE)
 	var/def_swift_capable = defender.check_dodge_skill(check_trait = FALSE)
 
 	if(used_weapon)
@@ -167,7 +169,7 @@
 	else
 		attacker_skill = attacker.get_skill_level(/datum/skill/combat/unarmed)
 		prob2defend -= (attacker_skill * PARRY_PER_SKILL_LEVEL)
-		if(user.STASPD > src.STASPD) //unarmed is inherently swift
+		if(user.STASPD > src.STASPD && !HAS_TRAIT(attacker, TRAIT_FREEBLADE)) //unarmed is inherently swift
 			var/spdmod = ((user.STASPD - src.STASPD) * 10)
 			var/permod = ((src.STAPER - user.STAPER) * 10)
 			var/intmod = ((src.STAINT - user.STAINT) * 3)
@@ -196,6 +198,9 @@
 
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
+
+	if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/hamstring))
+		prob2defend -= 20
 
 	// parrying while knocked down sucks ass
 	if(!(mobility_flags & MOBILITY_STAND) && !has_status_effect(/datum/status_effect/buff/weapon_binded))

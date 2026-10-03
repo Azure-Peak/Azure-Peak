@@ -30,6 +30,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	dynamic_lighting = 1
 	canSmoothWith = list(/turf/closed/mineral,/turf/closed/wall/mineral/rogue, /turf/open/floor/rogue)
 	smooth = SMOOTH_MORE
+	// cardinal_smooth()/roguesmooth() only ever reads cardinal adjacency bits - see the same note
+	// on /turf/open/floor/rogue.
+	smooth_diag = FALSE
 	neighborlay_override = "staticedge"
 
 /turf/open/transparent/openspace/cardinal_smooth(adjacencies)
@@ -326,3 +329,25 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			P.process_hit(target, P.select_target(target))
 			return BULLET_ACT_TURF
 	return ..()
+
+/turf/closed/sky_void
+	name = "open sky"
+	desc = "The endless horizon. You can't reach it from here."
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "grey"
+	plane = OPENSPACE_BACKDROP_PLANE
+	layer = SPLASHSCREEN_LAYER
+	opacity = FALSE
+	density = TRUE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	dynamic_lighting = 0
+	smooth = SMOOTH_FALSE
+
+/turf/closed/sky_void/Initialize(mapload)
+	. = ..()
+
+/turf/closed/sky_void/zPassIn(atom/movable/A, direction, turf/source)
+	return FALSE
+
+/turf/closed/sky_void/zPassOut(atom/movable/A, direction, turf/destination)
+	return FALSE

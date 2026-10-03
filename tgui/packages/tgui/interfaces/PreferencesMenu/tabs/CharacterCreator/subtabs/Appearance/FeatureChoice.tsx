@@ -131,13 +131,13 @@ const FeatureChoiceSpecific = (props: { customizer: Customizer }) => {
     (name: string) => `./${name}/index.js`,
   ];
 
-  let esModule;
+  let esModule: any;
   while (!esModule && interfacePathBuilders.length > 0) {
     const interfacePathBuilder = interfacePathBuilders.shift()!;
     const interfacePath = interfacePathBuilder(name);
     try {
       esModule = requireFeatureChoice(interfacePath);
-    } catch (err) {
+    } catch (err: any) {
       if (err.code !== 'MODULE_NOT_FOUND') {
         throw err;
       }

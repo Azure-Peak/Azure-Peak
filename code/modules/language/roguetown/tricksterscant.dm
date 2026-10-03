@@ -6,6 +6,7 @@
 	exclaim_verb = "yells"
 	key = "x"
 	flags = TONGUELESS_SPEECH | SIGNLANG
+	code_switching = FALSE
 	space_chance = 66
 	default_priority = 80
 	icon_state = "xylix"

@@ -37,7 +37,8 @@
 	. += span_info("Abandoning a contract forfeits its deposit to the treasury and places you under a brief guild cooldown before you may abandon another.")
 	. += span_info("Heads taken from <b>contract targets</b> carry no bounty - the contract's reward is payment in full. Beasts and brigands you hunt outside a contract still fetch coin at a HEADEATER.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here, spending Rumor Points to seed retrieval, courier, and light kill jobs across the realm.")
-	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. The Steward is the primary commissioner; the others substitute if the Steward is absent. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
+	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission defense writs here - paid from the Burgher Pledge, the Crown's Purse, or issued as an unfunded Request. If the Pledge runs short, the Issuer may use the Crown's Purse to make up the difference. A Regent sitting in the Lord's absence inherits commission authority for the duration of their regency.")
+	. += span_info("A rumor, commission or blockade writ may be <b>withdrawn</b> from the Issued tab at once while no one has taken it up. Once taken, its bearer has [QUEST_ISSUER_CANCEL_WINDOW / (1 MINUTES)] minutes before it can be withdrawn, and it cannot be withdrawn once the contract has begun. Its cost is refunded in full. Postings that lapse are refunded automatically.")
 	. += span_info("<b>Townsfolk</b> may post contracts of their own using their own coin. It can be pinned to the board or handed over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> may commission any of them, but it will draw from the Crown's Purse at double the price. Only the poster may open what is recovered.")
 	. += span_info("Your <b>fellowship</b> may turn in contracts you hold on your behalf, should you fall in battle. The reward and levy is credited to the one who turns it in, using their tax exempt status, if any.")
 	// TODO: flavor - plain placeholder, rewrite
@@ -133,6 +134,7 @@
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
+	data["issuer_cancel_window_minutes"] = QUEST_ISSUER_CANCEL_WINDOW / (1 MINUTES)
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
 	data["dynamic_role"] = length(dynamic_roles) ? dynamic_roles[1] : null
@@ -145,6 +147,7 @@
 		data["rumor_regions_by_type"] = build_rumor_regions_by_type()
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
+		data["rumor_issued"] = build_issued_listing(list(QUEST_SOURCE_RUMOR))
 		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
 	if("steward" in dynamic_roles)
 		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
@@ -164,8 +167,8 @@
 		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
-		data["blockade_recall_list"] = build_blockade_recall_list()
-		data["blockade_recall_window_seconds"] = BLOCKADE_RECALL_WINDOW_DS / 10
+		data["defense_issued"] = build_issued_listing(list(QUEST_SOURCE_DEFENSE, QUEST_SOURCE_BLOCKADE))
+		data["active_writ_regions"] = build_active_writ_regions()
 		data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
 		data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
 		refresh_directive_quota()
@@ -264,11 +267,12 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	if(!SStreasury.burn(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery pledge ([TR.region_name])"))
 		to_chat(user, span_warning("The pledge could not be withdrawn from your account."))
 		return
-	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_hoard_recovery_request(TR, user, pledge_account, HOARD_RECOVERY_PLEDGE)
+	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_hoard_recovery_request(TR, user)
 	if(!Q)
 		SStreasury.mint(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery pledge refund (issue failure)")
 		to_chat(user, span_warning("No recovery writ can be raised for [TR.region_name] right now. Your pledge is returned."))
 		return
+	Q.add_funding(pledge_account, HOARD_RECOVERY_PLEDGE)
 	playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
 	to_chat(user, span_notice("Recovery writ issued for [TR.region_name]."))
 	SSquestpool.log_event("hoard_recovery_request", "[user.real_name] called a hoard recovery on [TR.region_name] (hoard [TR.banditry_hoard], pledge [HOARD_RECOVERY_PLEDGE])")
@@ -377,12 +381,106 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 		if("commission_defense")
 			commission_defense_from_tgui(user, params)
 			return TRUE
-		if("recall_blockade_writ")
-			recall_blockade_writ_from_tgui(user, params)
-			return TRUE
 		if("compose_towner")
 			compose_towner_from_tgui(user, params)
 			return TRUE
 		if("request_hoard_recovery")
 			request_hoard_recovery(user, params["region"])
 			return TRUE
+		if("cancel_issued")
+			cancel_issued_from_tgui(user, params["ref"])
+			return TRUE
+
+/obj/structure/roguemachine/contractledger/proc/can_cancel_issued(mob/user, datum/quest/Q)
+	if(!Q.office_may_withdraw())
+		return FALSE
+	switch(Q.source)
+		if(QUEST_SOURCE_RUMOR)
+			return (user.job in GLOB.tavern_positions)
+		if(QUEST_SOURCE_DEFENSE, QUEST_SOURCE_BLOCKADE)
+			return can_commission(user)
+	return FALSE
+
+/obj/structure/roguemachine/contractledger/proc/build_issued_listing(list/sources)
+	var/list/out = list()
+	for(var/datum/quest/Q as anything in SSquestpool.pool)
+		if((Q.source in sources) && Q.office_may_withdraw())
+			out += list(build_issued_entry(Q, "On the board"))
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(!Q || !(Q.source in sources) || !Q.office_may_withdraw())
+			continue
+		var/status
+		if(!Q.quest_receiver_reference)
+			status = "Unclaimed scroll"
+		else if(Q.complete)
+			status = "Fulfilled by [Q.quest_receiver_name], awaiting turn-in"
+		else
+			status = "Taken by [Q.quest_receiver_name]"
+		out += list(build_issued_entry(Q, status))
+	return out
+
+/obj/structure/roguemachine/contractledger/proc/build_issued_entry(datum/quest/Q, status)
+	return list(
+		"ref" = REF(Q),
+		"title" = Q.get_title() || Q.quest_type,
+		"type" = Q.quest_type,
+		"region" = Q.region,
+		"issued_by" = Q.quest_giver_name,
+		"minutes_elapsed" = max(0, round((world.time - Q.created_at) / (1 MINUTES))),
+		"reward" = Q.reward_amount,
+		"is_directive" = Q.is_directive,
+		"status" = status,
+		"cancel_blocker" = Q.issuer_cancel_blocker(),
+		"refund" = Q.describe_issuer_refund(),
+	)
+
+/obj/structure/roguemachine/contractledger/proc/find_issued_quest(ref)
+	var/datum/quest/Q = locate(ref) in SSquestpool.pool
+	if(Q)
+		return Q
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
+		if(scroll.assigned_quest && REF(scroll.assigned_quest) == ref)
+			return scroll.assigned_quest
+	return null
+
+/obj/structure/roguemachine/contractledger/proc/cancel_issued_from_tgui(mob/user, ref)
+	if(!ishuman(user) || !ref)
+		return
+	if(SSticker.current_state != GAME_STATE_PLAYING)
+		to_chat(user, span_warning("The ledger is not yet open."))
+		return
+	var/datum/quest/Q = find_issued_quest(ref)
+	if(!Q)
+		to_chat(user, span_warning("That contract is no longer in circulation."))
+		return
+	if(!can_cancel_issued(user, Q))
+		to_chat(user, span_warning("That contract is not yours to withdraw."))
+		return
+	var/blocker = Q.issuer_cancel_blocker()
+	if(blocker)
+		to_chat(user, span_warning("The contract cannot be withdrawn: [blocker]."))
+		return
+	var/label = Q.get_title() || Q.quest_type
+	var/refund_text = Q.refund_issuer_funding("Contract withdrawn by [user.real_name]", user)
+	Q.mark_issue_log(QUEST_ISSUE_STATUS_WITHDRAWN, refund_text)
+	var/deposit_returned = 0
+	if(Q.deposit_payer && Q.deposit_paid > 0)
+		SStreasury.mint(Q.deposit_payer, Q.deposit_paid, "Deposit returned - [label] withdrawn")
+		deposit_returned = Q.deposit_paid
+	var/mob/bearer = Q.quest_receiver_reference?.resolve()
+	if(bearer)
+		to_chat(bearer, span_warning("The contract <b>[label]</b> has been withdrawn by its issuer, and the writ crumbles to dust.[deposit_returned ? " Your deposit of [deposit_returned] mammon is returned." : ""]"))
+	var/obj/item/quest_writ/writ = Q.quest_scroll_ref?.resolve()
+	var/mob/holder = writ ? get(writ, /mob) : null
+	if(holder && holder != bearer && holder != user)
+		to_chat(holder, span_warning("\The [writ] you carry crumbles to dust - its contract has been withdrawn by its issuer."))
+	var/log_text = "[Q.source] [Q.quest_type] \"[label]\" (refunded [refund_text || "nothing"][deposit_returned ? ", deposit [deposit_returned] to [Q.quest_receiver_name]" : ""])"
+	Q.on_issuer_withdrawn(user)
+	SSquestpool.remove_from_pool(Q)
+	record_round_statistic(STATS_CONTRACTS_WITHDRAWN)
+	SSquestpool.log_event("withdraw", "[SSquestpool.describe_user(user)] withdrew [log_text]")
+	log_quest(user.ckey, user.mind, user, "Withdraw [log_text]")
+	qdel(Q)
+	playsound(src, 'sound/items/inqslip_sealed.ogg', 50, FALSE, -1)
+	to_chat(user, span_notice("Contract withdrawn: <b>[label]</b>.[refund_text ? " Refunded [refund_text]." : ""]"))

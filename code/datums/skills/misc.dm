@@ -5,7 +5,7 @@
 
 /datum/skill/misc/athletics
 	name = "Athletics"
-	desc = "Increases your maximum stamina by 5 per point. Decreases chance of consuming nutrition when exerted by 16% per level."
+	desc = "Increases your maximum energy by 100 per 2 levels."
 	dreams = list(
 		"...your lungs burn and you can no longer feel your breath as the pale volf's howling grows distant. You should have collapsed three times over, but the urge to survive pushes you past your bodily limits...",
 		"...the incline before you is steep, and the barrel weighs heavy in your hands but you press on. This is no longer a hill. This is your mountain and with every strained breath, you inch closer to its summit, determined to conquer it..."

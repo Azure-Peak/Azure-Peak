@@ -117,6 +117,11 @@
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 	special_ability = /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/primordial/flame
 
+/mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire/lava_immune//regular primordial but immune to lava
+	name = "Deep flame primordial"
+	desc = "This flame primordial has been tempered by the scorch of molten lava."
+	weather_immunities = list("lava")
+
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water
 	name = "water primordial"
 	desc = "A torrential flood, magically animated and bound to service. It seems \

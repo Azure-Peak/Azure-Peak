@@ -339,6 +339,7 @@
 	icon_state = "smokebox"
 	item_state = "smokebox"
 	component_type = /datum/component/storage/concrete/roguetown/zig_box
+	dropshrink = 0.5
 
 /obj/item/storage/belt/rogue/pouch/zigarrete/nicotine/PopulateContents()
 	new /obj/item/clothing/mask/cigarette/rollie/nicotine(src)

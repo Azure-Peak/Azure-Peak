@@ -20,7 +20,7 @@ import {
 import type { AppearanceData, Marking } from '../data';
 import { FeatureChoice } from './Appearance/FeatureChoice';
 
-export const SubtabAppearance = (props) => {
+export const SubtabAppearance = () => {
   return (
     <Section
       fill
@@ -51,12 +51,13 @@ export const SubtabAppearance = (props) => {
   );
 };
 
-const SubtabAppearanceCardBody = (props) => {
+const SubtabAppearanceCardBody = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const {
     allowed_taur_types,
     body_size,
     body_type,
+    body_type_options,
     mcolor,
     mcolor2,
     mcolor3,
@@ -73,9 +74,16 @@ const SubtabAppearanceCardBody = (props) => {
     <Section>
       <LabeledGridList>
         <LabeledGridList.Item label="Body Type">
-          <Button fluid onClick={() => act('bodytype')}>
-            {body_type}
-          </Button>
+          {Object.keys(body_type_options).length ? (
+            <BodyTypeSelection
+              options={body_type_options}
+              value={body_type}
+            />
+          ) : (
+            <Button fluid onClick={() => act('bodytype')}>
+              Other
+            </Button>
+          )}
         </LabeledGridList.Item>
         {use_skintones ? (
           <LabeledGridList.Item label={skin_tone_wording}>
@@ -158,7 +166,35 @@ const SubtabAppearanceCardBody = (props) => {
   );
 };
 
-const SkinToneSelection = (props) => {
+const BodyTypeSelection = ({
+  options,
+  value,
+}: {
+  options: Record<string, string>;
+  value: string;
+}) => {
+  const { act } = useBackendStrict<AppearanceData>();
+
+  const dropdownOptions = Object.entries(options).map(([k, v]) => ({
+    displayText: v,
+    value: k,
+  }));
+
+  return (
+    <Box fontSize={1.2}>
+      <Dropdown
+        displayText={options[value]}
+        selected={value}
+        options={dropdownOptions}
+        onSelected={(val) => {
+          act('bodytype', { body_type: val });
+        }}
+      />
+    </Box>
+  );
+};
+
+const SkinToneSelection = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const { available_skin_tones, skin_tone } = data;
 
@@ -205,7 +241,7 @@ const SkinToneSelection = (props) => {
   );
 };
 
-const SubtabAppearanceCardFeatures = (props) => {
+const SubtabAppearanceCardFeatures = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const { customizers } = data;
 
@@ -250,7 +286,7 @@ const SubtabAppearanceCardFeatures = (props) => {
 };
 
 // Markings
-const SubtabAppearanceCardMarkings = (props) => {
+const SubtabAppearanceCardMarkings = () => {
   const { act, data } = useBackendStrict<AppearanceData>();
   const { marking_zones } = data;
   const [, setPopupId] = usePopupId();

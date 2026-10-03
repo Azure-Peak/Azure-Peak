@@ -470,7 +470,7 @@
 		return FALSE
 	return TRUE
 
-/mob/living/proc/process_dualwield(atom/A, obj/item/attack_weapon, params)
+/mob/living/proc/process_dualwield(obj/item/attack_weapon)
 	if(!HAS_TRAIT(src, TRAIT_DUALWIELDER))
 		return
 
@@ -506,24 +506,9 @@
 
 	dualwield_resets_in = world.time + 3 SECONDS
 
-	// Finisher attack
 	if(dualwield_finisher)
 		dualwield_finisher = FALSE
-		dualwield_processing = TRUE
-
-		if(stamina_add(3))
-			balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
-			to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
-			to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
-			if(attack_weapon && offhand)
-				offhand.melee_attack_chain(src, A, params)
-			else
-				UnarmedAttack(A, TRUE, params)
-		playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
-		playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
-		dualwield_processing = FALSE
-		swap_hand()
-		return
+		return swap_hand()
 
 	// Build combo
 	dualwield_attack_count++
@@ -535,6 +520,29 @@
 	// Swap only after everything else is finished
 	if(attack_weapon)
 		swap_hand()
+
+/mob/living/proc/fire_dualwield_paired(atom/A, params)
+	if(dualwield_processing)
+		return
+	if(QDELETED(src) || QDELETED(A))
+		return
+	dualwield_processing = TRUE
+	if(stamina_add(3))
+		balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
+		to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
+		to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
+		if(a_intent)
+			used_intent = a_intent
+		dualwield_twoswing = TRUE
+		var/obj/item/paired_weapon = get_active_held_item()
+		if(paired_weapon)
+			paired_weapon.melee_attack_chain(src, A, params)
+		else
+			UnarmedAttack(A, TRUE, params)
+		dualwield_twoswing = FALSE
+	playsound_local(A, 'sound/combat/polearm_woosh.ogg', 75, FALSE, 0, 3)
+	playsound_local(A, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
+	dualwield_processing = FALSE
 
 //Branching path for Adjacent clicks with or without items
 //DOES NOT ACTUALLY KNOW IF YOU'RE ADJACENT, DO NOT CALL ON IT'S OWN

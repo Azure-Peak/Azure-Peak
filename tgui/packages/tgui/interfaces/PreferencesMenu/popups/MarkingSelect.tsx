@@ -20,7 +20,7 @@ export type PopupMarkingContext = {
   zone: string;
 };
 
-const PopupMarkingSelect = (props) => {
+const PopupMarkingSelect = () => {
   const [constantData] = useConstantPrefs();
   const [context] = usePopupContext<PopupMarkingContext>();
   const { data } = usePopupBackend<PopupMarkingData>();

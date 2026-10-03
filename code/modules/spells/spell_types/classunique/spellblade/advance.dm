@@ -87,26 +87,22 @@
 
 	animate(H, pixel_z = prev_pixel_z + 18, time = 1, easing = EASE_OUT)
 
+	var/max_steps = leap_range
+	if(facing & (facing - 1))
+		max_steps = max(1, round(leap_range / sqrt(2), 1))
+
 	var/steps_taken = 0
-	for(var/i in 1 to leap_range)
+	for(var/i in 1 to max_steps)
 		if(H.stat != CONSCIOUS || H.IsParalyzed() || H.IsStun() || QDELETED(H))
 			break
-		var/turf/next = get_step(get_turf(H), facing)
-		if(!next || next.density)
+		var/turf/before = get_turf(H)
+		var/completed = leap_step(H, facing)
+		if(get_turf(H) != before) // a blocked diagonal can still leave us on the corner tile
+			steps_taken++
+		if(!completed)
 			break
 
-		var/blocked = FALSE
-		for(var/obj/structure/S in next.contents)
-			if(S.density && !S.climbable)
-				blocked = TRUE
-				break
-		if(blocked)
-			break
-		if(!step(H, facing))
-			break
-		steps_taken++
-
-		if(i < leap_range)
+		if(i < max_steps)
 			sleep(step_delay)
 
 	// Slam down - fast drop with impact tilt
@@ -161,3 +157,30 @@
 
 	log_combat(H, null, "used Advance! ([hit_count] hits)")
 	return TRUE
+
+/datum/action/cooldown/spell/advance/proc/can_leap_into(turf/T)
+	if(!T || T.density)
+		return FALSE
+	for(var/obj/structure/S in T.contents)
+		if(S.density && !S.climbable)
+			return FALSE
+	return TRUE
+
+/datum/action/cooldown/spell/advance/proc/leap_step(mob/living/carbon/human/H, dir)
+	var/turf/current = get_turf(H)
+	var/turf/destination = get_step(current, dir)
+	if(!can_leap_into(destination))
+		return FALSE
+	if(!(dir & (dir - 1)))
+		return step(H, dir)
+
+	var/vertical = dir & (NORTH|SOUTH)
+	var/horizontal = dir & (EAST|WEST)
+	for(var/list/halves in list(list(vertical, horizontal), list(horizontal, vertical)))
+		if(!can_leap_into(get_step(current, halves[1])))
+			continue
+		if(!step(H, halves[1]))
+			continue
+		step(H, halves[2])
+		return get_turf(H) == destination
+	return FALSE

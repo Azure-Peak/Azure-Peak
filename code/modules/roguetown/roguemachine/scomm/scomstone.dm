@@ -42,7 +42,7 @@
 /obj/item/scomstone/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Most SCOMSTONEs function as handheld SCOMs. The only exception are HOUNDSTONES, which have access to an exclusive SCOMline for the Keep's royalty and guards.")
-	. += span_info("SCOMSTONEs, like their immobile forefathers, have a unique number attached to them. If someone knows this number, they can directly open a private SCOMline with the SCOMSTONE-in-question.")
+	// . += span_info("SCOMSTONEs, like their immobile forefathers, have a unique number attached to them. If someone knows this number, they can directly open a private SCOMline with the SCOMSTONE-in-question.") // commented until readdition
 	. += span_info("Right-click a SCOMSTONE or CROWNSTONE to prepare a message. This message will be heard through every SCOM in the kingdom-and-abroad, but comes with a minor cooldown.")
 	. += span_info("Middle-click a SCOMSTONE to mute or unmute it.")
 	. += span_info("Activate a CROWNSTONE in your hand to swap between the general SCOMline and the royal SCOMline. The latter is denoted by crimson lettering, and is exclusively heard by those with either a HOUNDSTONE or retuned SCOM.")

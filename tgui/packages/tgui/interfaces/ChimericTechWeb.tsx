@@ -43,7 +43,7 @@ export const SearchBar = (props: {
   return <Input value={search} onChange={setSearch} fluid />;
 };
 
-export const ChimericTechWeb = (props) => {
+export const ChimericTechWeb = () => {
   const [search, setSearch] = useState('');
   const [tab, setTab] = useState('research');
   const { act, data } = useBackend<Data>();

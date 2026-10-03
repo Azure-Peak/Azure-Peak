@@ -1,7 +1,7 @@
 
 /client/verb/who()
 	set name = "Whom"
-	set category = "Preferences.Options"
+	set category = "OOC"
 
 	var/msg = ""
 

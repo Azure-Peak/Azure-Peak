@@ -1,6 +1,9 @@
+#define TRAIT_SOURCE_POTION "traitpotion"
+#define REPAIR_ELIXIR_STRENGTH 3 // 3 pts per dram means a vial will repair about a third of an arming sword over time; a full bottle will repair about half of a decent mage staff
+
 //Potions
 /datum/reagent/medicine/healthpot
-	name = "Health Potion"
+	name = "health potion"
 	description = "Gradually regenerates all types of damage."
 	reagent_state = LIQUID
 	color = "#ff0000"
@@ -9,7 +12,7 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
-	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration)
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
@@ -29,21 +32,23 @@
 	..()
 
 /datum/reagent/medicine/healthpot/zarum/blood
-	name = "Blackened Sludge"
+	name = "blackened sludge"
 	description = "A fairly disgusting, bubbling mess of an unknown origin that seems to be constantly fermenting onto itself, exhuding a foul smell."
 	color = "#241a1a"
 	taste_description = "sins of Otava"
 	scent_description = "dark darker yet darker"
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum, /datum/reagent/medicine/healthpot/zarum/bog)
 
 /datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
-	name = "Honeyed Zarum"
+	name = "honeyed zarum"
 	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."
 	color = "#dd9700"
 	taste_description = "sweet-sour fish-glazed honey"
 	scent_description = "sweet fermented pungence"
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum, /datum/reagent/medicine/healthpot/zarum/blood)
 
 /datum/reagent/medicine/healthpot/zarum
-	name = "Zarum"
+	name = "zarum"
 	description = "A fermented sauce of fish innards and vinegar, which gradually regenerates all types of damage."
 	reagent_state = LIQUID
 	color = "#891305"
@@ -53,6 +58,7 @@
 	scent_description = "fermented pungence"
 	taste_mult = 8
 	var/hydration = 4
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum/bog, /datum/reagent/medicine/healthpot/zarum/blood)
 
 /datum/reagent/medicine/healthpot/zarum/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_NOREGEN))
@@ -76,7 +82,7 @@
 	..()
 
 /datum/reagent/medicine/stronghealth
-	name = "Strong Health Potion"
+	name = "strong health potion"
 	description = "Quickly regenerates all types of damage."
 	color = "#820000"
 	taste_description = "rich lifeblood"
@@ -103,7 +109,7 @@
 	. = 1
 
 /datum/reagent/medicine/manapot
-	name = "Mana Potion"
+	name = "mana potion"
 	description = "Gradually regenerates energy."
 	reagent_state = LIQUID
 	color = "#000042"
@@ -120,7 +126,7 @@
 	..()
 
 /datum/reagent/medicine/strongmana
-	name = "Strong Mana Potion"
+	name = "strong mana potion"
 	description = "Rapidly regenerates energy."
 	color = "#0000ff"
 	taste_description = "raw power"
@@ -134,7 +140,7 @@
 	..()
 
 /datum/reagent/medicine/restoration
-	name = "Restoration Potion"
+	name = "restoration potion"
 	description = "Simultaneously regenerates health and energy. Inherits a higher potency than common lifeblood and manna, but remains inferior to stronger brews."
 	color = "#ff8da1"
 	taste_description = "reinvigorative creaminess"
@@ -164,7 +170,7 @@
 
 // Stamina potion no longer grant green bar directly which led to it being far too powerful when abused
 /datum/reagent/medicine/stampot
-	name = "Fortitude Potion"
+	name = "fortitude potion"
 	description = "Hardens the humors against fatigue, granting Fortitude for a short while."
 	reagent_state = LIQUID
 	color = "#129c00"
@@ -182,7 +188,7 @@
 	return TRUE
 
 /datum/reagent/medicine/strongstam
-	name = "Strong Fortitude Potion"
+	name = "strong fortitude potion"
 	description = "Rapidly hardens the humors against fatigue, granting Fortitude for a short while."
 	color = "#13df00"
 	taste_description = "sparkly static"
@@ -203,7 +209,7 @@
 	Previously, antidote did not have a dylovene-like effect and just purged toxin damage while poison will outlast them.
 **/
 /datum/reagent/medicine/antidote
-	name = "Antidote"
+	name = "antidote"
 	description = "Gradually purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#00ff00"
@@ -227,7 +233,7 @@
 
 // About 3 time as potent as antidote
 /datum/reagent/medicine/strong_antidote
-	name = "Strong Antidote"
+	name = "strong antidote"
 	description = "Rapidly purges any imbalanced humors and poisons within the bloodstream."
 	reagent_state = LIQUID
 	color = "#004200"
@@ -305,6 +311,7 @@
 	name = STATKEY_WIL
 	color = "#ffff00"
 	taste_description = "oversweetened milk"
+	scent_description = "sugar"
 	buff_type = /datum/status_effect/buff/alch/statbuff/endurancepot
 
 /datum/reagent/buff/speed
@@ -326,7 +333,7 @@
 	they neutralize each other into this useless sludge.
 */
 /datum/reagent/ruined_potion
-	name = "Odd water"
+	name = "odd water"
 	description = "A foul mess of conflicting alchemical essences that tried to push nature too far. Utterly useless."
 	reagent_state = LIQUID
 	color = "#6b5d4f" // muddy brownish-green
@@ -350,8 +357,8 @@ A dose of ingested potion is defined as 5u, projectile deliver at most 2u, you a
 If you want to expand on poisons theres tons of fun effects TG chemistry has that could be added, randomzied damage values for more unpredictable poison, add trait based resists instead of the clunky race check etc.*/
 
 /datum/reagent/berrypoison	// Weaker poison, balanced to make you wish for death and incapacitate but not kill
-	name = "Berry Poison"
-	description = ""
+	name = "berry poison"
+	description = "Gradually debilitates the body's humors, inducing nausea and poisoning-of-blood."
 	reagent_state = LIQUID
 	color = "#47b2e0"
 	taste_description = "bitterness"
@@ -371,8 +378,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 
 /datum/reagent/strongpoison		// Strong poison, meant to be somewhat difficult to produce using alchemy or spawned with select antags. Designed to kill in one full dose (5u) better drink antidote fast
-	name = "Strong Poison"
-	description = ""
+	name = "strong poison"
+	description = "Rapidly debilitates the body's humors, inducing severe nausea and poisoning-of-blood."
 	reagent_state = LIQUID
 	color = "#1a1616"
 	taste_description = "burning"
@@ -392,8 +399,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/bloodacid // Quietus Poison for Vampires
-	name = "Vitae Acid"
-	description = ""
+	name = "vitae acid"
+	description = "Burns away the body's humors, inducing lethal nausea and the curdling of blood-in-circulation."
 	reagent_state = LIQUID
 	color = "#ff3300"
 	taste_description = "burning"
@@ -416,15 +423,14 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/organpoison
-	name = "Organ Poison"
-	description = ""
+	name = "organ poison"
+	description = "Induces severe nausea and light poisoning-of blood. Lightly regenerates energy to those with more humanitarian diets."
 	reagent_state = LIQUID
 	color = "#2c1818"
 	taste_description = "sour meat"
 	scent_description = "rancid meat"
 	metabolization_rate = 0.1 * REAGENTS_METABOLISM
 	harmful = TRUE
-
 
 /datum/reagent/organpoison/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_ORGAN_EATER))
@@ -435,8 +441,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/sleep_powder
-	name = "Sleep Poison"
-	description = ""
+	name = "sleep poison"
+	description = "Rapidly induces unconsciousness."
 	color = "#ddd3df" // rgb: 96, 165, 132
 	metabolization_rate = 1
 	taste_description = "numbing mintiness"
@@ -446,8 +452,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	..()
 
 /datum/reagent/stampoison
-	name = "Stamina Poison"
-	description = ""
+	name = "stamina poison"
+	description = "Gradually drains energy."
 	reagent_state = LIQUID
 	color = "#083b1c"
 	taste_description = "breathlessness"
@@ -462,8 +468,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/strongstampoison
-	name = "Strong Stamina Poison"
-	description = ""
+	name = "strong stamina poison"
+	description = "Rapidly drains energy."
 	reagent_state = LIQUID
 	color = "#041d0e"
 	taste_description = "frozen air"
@@ -478,8 +484,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/toxin/killersice
-	name = "Killer's Ice"
-	description = "c8c9e9"
+	name = "killer's ice"
+	description = "A notoriously lethal poison that freezes the body's humors from the inside-out. Just a single drop is all it takes."
 	reagent_state = LIQUID
 	color = "#FFFFFF"
 	taste_description = "cold needles"
@@ -493,7 +499,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/chemical_reaction/alch/vitae_essence
-	name = "Vitae Decoction"
+	name = "vitae cecoction"
 	id = /datum/reagent/medicine/vitae_essence
 	results = list(/datum/reagent/medicine/vitae_essence = 1)
 	required_reagents = list(/datum/reagent/vitae = 1, /datum/reagent/toxin/fyritiusnectar = 5)
@@ -503,8 +509,8 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 |Ingredients|
 \----------*/
 /datum/reagent/undeadash
-	name = "Spectral Powder"
-	description = ""
+	name = "spectral powder"
+	description = "Remains of what one was."
 	reagent_state = SOLID
 	color = "#330066"
 	taste_description = "tombstones"
@@ -512,7 +518,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/toxin/fyritiusnectar
 	name = "fyritius nectar"
-	description = "oh no"
+	description = "A powdery-flecked pseudoliquid with incendiary properties, especially when applied to bare skin."
 	reagent_state = LIQUID
 	color = "#ffc400"
 	metabolization_rate = 0.5
@@ -571,7 +577,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 
 /datum/reagent/medicine/vitae_essence
-	name = "Vitae Decoction"
+	name = "vitae decoction"
 	description = "Decoction of essence of lyfe, used to restore one's lux humours."
 	color = "#67c7ff" // rgb: 96, 165, 132
 	overdose_threshold = 10
@@ -584,21 +590,21 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	return ..()
 
 /datum/reagent/fire_resist
-	name = "Fire Resistance"
+	name = "elixir of fire resistance"
 	color = "#ff7300"
-	taste_description = "burning coal"
+	taste_description = "burning coals"
 
 /datum/reagent/fire_resist/on_mob_life(mob/living/carbon/M)
 	M.apply_status_effect(/datum/status_effect/buff/alch/fire_resist)
 	return ..()
 
 /datum/reagent/fermented_crab
-	name = "Fermented Crab"
-	description = ""
+	name = "fermented crab"
+	description = "A pungent 'remedy' to failings by the bedside."
 	color = "#abaa7c"
 	overdose_threshold = 15
 	metabolization_rate = 0.2
-	taste_description = "randcid, putrid crab"
+	taste_description = "rancid, putrid crab"
 
 /datum/reagent/fermented_crab/overdose_process(mob/living/M)
 	M.adjustToxLoss(1, FALSE)
@@ -627,3 +633,210 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 /datum/reagent/fermented_crab/overdose_start(mob/living/M)
 	M.playsound_local(M, 'sound/magic/heartbeat.ogg', 100, FALSE)
 	M.visible_message(span_warning("Blood runs from [M]'s nose."))
+
+/datum/reagent/medicine/trait
+	var/trait	// applied on ingest, removed when the reagent clears the system
+	var/addmsg	// ex. "my body feels lighter", displayed to the imbiber on effect start
+	var/delmsg	// ex. "the weight of the world rests upon my shoulders once more", displayed to the imbiber on effect end
+	metabolization_rate = 0.05 * REAGENTS_METABOLISM // these REALLY aren't that impactful - this makes drinking one actually last a decent time instead of like 2 seconds
+
+/datum/reagent/medicine/trait/on_mob_metabolize(mob/living/L)
+	. = ..()
+	if(trait && !HAS_TRAIT(L, trait))
+		ADD_TRAIT(L, trait, TRAIT_SOURCE_POTION)
+		if(addmsg)
+			to_chat(L, span_warning(addmsg)) // standard style for buff add/remove messages
+
+/datum/reagent/medicine/trait/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	if(trait && HAS_TRAIT_FROM(L, trait, TRAIT_SOURCE_POTION))
+		REMOVE_TRAIT(L, trait, TRAIT_SOURCE_POTION)
+		if(delmsg)
+			to_chat(L, span_warning(delmsg)) // ditto
+
+/mob/living/carbon/human/proc/debug_trait_pots()
+	var/list/types = typesof(/datum/reagent/medicine/trait)
+	types += /datum/reagent/repairelixir
+	var/inp = input(src, "CHOOSE THE REAGENT THAT YOU PREFER", "ANOTHER HER", /datum/reagent/medicine/trait/nitevision) as anything in types
+	var/obj/item/reagent_containers/glass/bottle/alchemical/vial = new /obj/item/reagent_containers/glass/bottle/alchemical(loc)
+	vial.reagents.add_reagent(inp, 30)
+	put_in_hands(vial)
+
+/datum/reagent/medicine/trait/nitevision
+	name = "Nocsight Elixir"
+	description = "Grants the eyes a silvery glow, Noc's light guiding one's gaze even in the darkest nites."
+	taste_description = "shimmering moonlight"
+	scent_description = "crisp nite air"
+	trait = TRAIT_NITEVISION
+	color = "#ccd0fe"
+	addmsg = "My eyes take on a silvery hue as the veil of darkness parts before me."
+	delmsg = "My nite-sight fades; darkness falls once more."
+
+/datum/component/eye_color_change // literally only exists to store the mob's original eye color
+	dupe_mode = COMPONENT_DUPE_UNIQUE
+	var/old_color
+
+/datum/component/eye_color_change/Initialize(eye_color)
+	if(!ishuman(parent))
+		return COMPONENT_INCOMPATIBLE
+	old_color = eye_color
+
+/datum/reagent/medicine/trait/nitevision/on_mob_metabolize(mob/living/L) // yes, it actually turns your eyes silver visually
+	. = ..()
+	var/mob/living/carbon/human/H = L
+	if(!istype(H) || !H.getorganslot(ORGAN_SLOT_EYES))
+		return
+	H.AddComponent(/datum/component/eye_color_change, H.get_eye_color())
+	H.set_eye_color("#ccd0fe")
+
+/datum/reagent/medicine/trait/nitevision/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	var/mob/living/carbon/human/H = L
+	if(!istype(H))
+		return
+	var/datum/component/eye_color_change/eye_color = H.GetComponent(/datum/component/eye_color_change)
+	if(eye_color)
+		H.set_eye_color(eye_color.old_color)
+
+/datum/reagent/medicine/trait/sleepdraught
+	name = "Restful Draught"
+	description = "Calms yet invigorates the mind, maximizing the benefits of the next rest."
+	taste_description = "chamomilesque herbs"
+	scent_description = "calming florescence"
+	trait = TRAIT_GOODSLEEP
+	color = "#8300ee"
+	addmsg = "I feel calm, yet my mind races. I will surely dream furiously."
+	delmsg = "The surge of nocturnal inspiration fades."
+
+/datum/reagent/medicine/trait/waterbreathing
+	name = "Elixir of Hadal Grace"
+	description = "Draws upon Abyssor's blessing, allowing one to persist without breath - for a time."
+	taste_description = "abyssal saltiness"
+	scent_description = "the sea"
+	trait = TRAIT_NOBREATH
+	color = "#00255eff"
+	addmsg = "I choke momentarily as my lungs adjust; then, suddenly, I stop breathing entirely."
+	delmsg = "With a gasp, air floods my lungs once more."
+
+/datum/reagent/medicine/trait/waterbreathing/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	L.emote("gasp", forced = TRUE)
+
+/datum/reagent/medicine/trait/nutrientslurry // loser mage meal replacement shake
+	name = "Nourishing Draught"
+	description = "Slows the metabolism, allaying hunger and thirst."
+	taste_description = "frozen bird meat, inexplicably"
+	scent_description = "frosty meatiness"
+	trait = TRAIT_NOHUNGER
+	color = "#5f3e00"
+	addmsg = "Hunger and thirst fade away, my focus shifts to more important things."
+	delmsg = "My hunger and thirst return; this reprieve just as temporary as every other."
+
+/datum/reagent/medicine/trait/ravenous
+	name = "Ravenous Elixir"
+	description = "Taps into Dendor's feral nature, granting the ability to safely digest even the most dubious of foods. Won't save you from poisons, though."
+	taste_description = "viscera and marrow"
+	scent_description = "raw meat"
+	trait = TRAIT_NASTY_EATER
+	color = "#d61d6a"
+	addmsg = "I feel a ravenous hunger overtake me. After a mote, it fades to a manageable level."
+	delmsg = "My wyld hunger fades completely."
+
+/datum/reagent/medicine/trait/antidepressants
+	name = "Draught of Numbness"
+	description = "Deadens the heart, protecting one from the ravages of stress - but dulling the joys of lyfe just as much."
+	taste_description = "rapidly-fading melancholy"
+	scent_description = "tingly absence"
+	trait = TRAIT_NOMOOD
+	color = "#4d008b"
+	addmsg = "I feel my stress drain away as all emotion dulls and fades."
+	delmsg = "The stresses - and joys - of the world return to me."
+
+/datum/reagent/medicine/trait/wyrdlaborer
+	name = "Laborer's Draught"
+	description = "Deadens the heart, protecting one from the ravages of stress - but dulling the joys of lyfe just as much."
+	taste_description = "strangely invigorating earthiness"
+	scent_description = "earthiness"
+	trait = TRAIT_WYRD_LABOURER
+	color = "#ad4f10"
+	addmsg = "I feel a strange strength growing. The world seems like parchment, or clay - as easily sculped as it is cleaved."
+	delmsg = "The surge of strength fades."
+
+/datum/reagent/medicine/trait/negative
+	harmful = TRUE
+	metabolization_rate = 0.1 * REAGENTS_METABOLISM
+
+/datum/reagent/medicine/trait/negative/prodepressants
+	name = "Stress Toxin"
+	description = "Inflicts the mind with paranoia, enhancing any and all stresses for the duration."
+	taste_description = "a metallic tang"
+	scent_description = "a foreboding odor"
+	trait = TRAIT_BAD_MOOD
+	color = "#ff9f9f"
+	addmsg = "What was in that? I feel awful, all my burdens weigh on me more heavily."
+	delmsg = "My stress returns to a manageable level."
+
+/datum/reagent/medicine/trait/negative/evilcaffiene
+	name = "Restless Toxin"
+	description = "Energizes the mind and body, preventing restful sleep."
+	taste_description = "an energetic sourness"
+	scent_description = "a sharp clarity"
+	trait = TRAIT_NOSLEEP
+	color = "#e9e9e9"
+	addmsg = "I feel a sense of restlessness. I doubt I'll get much out of sleep, now."
+	delmsg = "The restless feeling fades."
+
+/datum/reagent/medicine/trait/negative/funnyvoice
+	name = "Xylix's Bane"
+	description = "Alters the vocal chords, inflicting a silly voice on the imbiber."
+	taste_description = "a slight sweetness"
+	scent_description = "sweetness"
+	trait = TRAIT_COMICSANS
+	color = "#fff789"
+	addmsg = "I feel something in my throat shift."
+	delmsg = "My voice returns to normal."
+
+/datum/reagent/medicine/trait/negative/funnyvoice/on_mob_metabolize(mob/living/L)
+	. = ..()
+	RegisterSignal(L, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+
+/datum/reagent/medicine/trait/negative/funnyvoice/on_mob_end_metabolize(mob/living/L)
+	. = ..()
+	UnregisterSignal(L, COMSIG_MOB_SAY)
+
+/datum/reagent/medicine/trait/negative/funnyvoice/proc/handle_speech(datum/source, list/speech_args)
+	speech_args[SPEECH_SPANS] |= SPAN_SANS
+
+/datum/reagent/medicine/trait/negative/singing
+	name = "Xylix's Boon"
+	description = "Alters the vocal chords, inflicting a compulsion to sing on the imbiber."
+	taste_description = "a slight sweetness"
+	scent_description = "sweetness"
+	trait = TRAIT_MUSES_GRACE
+	color = "#fff789"
+	addmsg = "I feel something in my throat shift."
+	delmsg = "My voice returns to normal."
+
+/datum/reagent/repairelixir // moonstruck nectar real
+	name = "Elixir of Restoring"
+	description = "When poured over an object - anything from arms-and-armor to doors and walls - causes it to slowly repair itself for a short time. Items must be on the ground or a table. Larger quantities are more effective. Has no effect on lyving beings"
+	taste_description = "sweet metal"
+	scent_description = "cloying sweetness"
+	color = "#70eaff"
+
+/datum/reagent/repairelixir/reaction_obj(obj/O, volume)
+	. = ..()
+	O.visible_message(span_warning("[O] begins to knit itself back together under the effects of the elixir!"))
+	spawn for(var/i in 1 to volume)
+		if(isitem(O) && !isturf(O.loc))
+			O.visible_message(span_warning("The mending elixir spills off of [O]. It needs to be on a stable surface to mend!"))
+			break
+		O.obj_integrity = min(O.max_integrity, O.obj_integrity + REPAIR_ELIXIR_STRENGTH)
+		if(O.obj_integrity == O.max_integrity)
+			if(O.obj_broken)
+				O.obj_fix()
+			break
+		sleep(6) // a bottle will take a full 30 seconds to work so this shouldn't be super combat viable?
+
+#undef TRAIT_SOURCE_POTION
+#undef REPAIR_ELIXIR_STRENGTH

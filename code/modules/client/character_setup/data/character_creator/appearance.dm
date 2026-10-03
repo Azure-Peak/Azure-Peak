@@ -10,6 +10,7 @@
 /datum/preferences/proc/ui_data_character_creator_appearance_body(mob/user)
 	var/list/data = list(
 		"body_type" = ui_data_bodytype(),
+		"body_type_options" = ui_data_bodytype_options(),
 
 		// Appearance stuff
 		"use_skintones" = pref_species.use_skintones,
@@ -36,17 +37,33 @@
 
 	return data
 
-/// Gets the body type as a user friendly string
+/// Gets the current body type as a machine-readable key: a gender on its own for species without body builds,
+/// a gender and build otherwise (e.g. "masculine_slim"), or "other" for agender species.
 /datum/preferences/proc/ui_data_bodytype()
-	var/bodytype = null
-	if(!(AGENDER in pref_species.species_traits))
-		if(gender == MALE)
-			bodytype = "Masculine"
-		else if(gender == FEMALE)
-			bodytype = "Feminine"
-		else
-			bodytype = "Other"
-	return bodytype
+	if(AGENDER in pref_species.species_traits)
+		return "other"
+	var/gender_key = (gender == MALE) ? "masculine" : "feminine"
+	if(!length(pref_species.allowed_body_builds))
+		return gender_key
+	var/build = features["body_build"]
+	if(!pref_species.is_body_build_valid(build, gender))
+		build = pref_species.get_default_body_build(gender)
+	return "[gender_key]_[build]"
+
+/// Gets the body types selectable for the current species, as an assoc list of key -> user facing name. Empty
+/// for agender species. Species offering body builds get one entry per gender and build, so the same silhouette
+/// is named the same thing on every race that offers it.
+/datum/preferences/proc/ui_data_bodytype_options()
+	if(AGENDER in pref_species.species_traits)
+		return list()
+	if(!length(pref_species.allowed_body_builds))
+		return list("masculine" = "Masculine", "feminine" = "Feminine")
+	. = list()
+	for(var/gender_key in list("masculine", "feminine"))
+		var/option_gender = (gender_key == "masculine") ? MALE : FEMALE
+		for(var/build in ALL_BODY_BUILDS)
+			if(pref_species.is_body_build_valid(build, option_gender))
+				.["[gender_key]_[build]"] = "[capitalize(gender_key)] ([capitalize(build)])"
 
 /// Gets all valid skintones as an assoc list Name -> Hex
 /datum/preferences/proc/get_valid_skin_tones()

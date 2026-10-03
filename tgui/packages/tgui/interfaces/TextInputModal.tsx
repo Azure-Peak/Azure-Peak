@@ -28,7 +28,7 @@ export const removeAllSkiplines = (toSanitize: string) => {
   return toSanitize.replace(/[\r\n]+/, '');
 };
 
-export const TextInputModal = (props) => {
+export const TextInputModal = () => {
   const { act, data } = useBackend<TextInputData>();
   const {
     large_buttons,

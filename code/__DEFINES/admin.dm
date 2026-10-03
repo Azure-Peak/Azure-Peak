@@ -79,6 +79,8 @@
 #define ADMIN_PUNISHMENT_LIAM "Trey Liam'd"
 #define ADMIN_PUNISHMENT_DIVINE_WRATH "Divine Wrath"
 #define ADMIN_PUNISHMENT_CHANDELIER "Chandelier'd"
+#define ADMIN_PUNISHMENT_ANNOYING_VOICE "Annoying Voice"
+
 
 #define AHELP_ACTIVE 1
 #define AHELP_CLOSED 2

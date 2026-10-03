@@ -545,6 +545,7 @@
 	dir = 4;
 	pixel_x = -10
 	},
+/obj/structure/roguemachine/withdraw,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "cd" = (
@@ -1018,6 +1019,13 @@
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/woods/wretch_lair)
+"em" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Maid Closet"
+	},
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/vampire_manor)
 "en" = (
 /obj/structure/bars/pipe{
 	dir = 4
@@ -1186,13 +1194,16 @@
 "fb" = (
 /obj/structure/mineral_door/wood{
 	lockid = "mansionvampire";
-	locked = 1
+	locked = 1;
+	name = "Inner Laboratory Entry"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
 "fc" = (
 /obj/structure/fluff/railing/border/north,
-/obj/structure/fluff/railing/border/east,
+/obj/structure/fluff/railing/border/west{
+	dir = 4
+	},
 /turf/open/transparent/openspace,
 /area/rogue/indoors/vampire_manor)
 "fd" = (
@@ -1200,8 +1211,7 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/vampire_lair)
 "fe" = (
-/obj/structure/chair/bench/coucha,
-/obj/structure/fluff/railing/corner,
+/obj/structure/chair/bench/couch,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/vampire_manor)
 "ff" = (
@@ -1256,13 +1266,13 @@
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
 "fr" = (
-/obj/structure/chair/bench/coucha/r,
-/obj/machinery/light/rogue/candle/r,
+/obj/structure/chair/bench/couch/r,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/vampire_manor)
 "fs" = (
 /obj/effect/decal/cobbleedge{
-	dir = 10
+	dir = 10;
+	pixel_y = 7
 	},
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
@@ -1318,12 +1328,11 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "fD" = (
-/obj/machinery/light/rogue/candle/l,
-/obj/item/clothing/shoes/roguetown/boots/nobleboot,
-/obj/structure/closet/crate/roguecloset,
-/obj/item/clothing/suit/roguetown/shirt/dress/silkydress,
-/obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat,
-/turf/open/floor/rogue/ruinedwood/spiral,
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Maid Stowage Closet"
+	},
+/turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/vampire_manor)
 "fE" = (
 /obj/structure/fluff/walldeco/church/line{
@@ -1429,6 +1438,12 @@
 /obj/structure/flora/roguegrass/bush,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/woods/vampire_lair)
+"fY" = (
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Old Manor"
+	},
+/turf/open/floor/rogue/tile/brick,
+/area/rogue/indoors/vampire_manor)
 "fZ" = (
 /obj/structure/bed/rogue/bedroll{
 	dir = 1
@@ -1701,7 +1716,8 @@
 /area/rogue/indoors/vampire_manor)
 "he" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire_maid"
+	lockid = "mansionvampire_maid";
+	name = "Kitchen Western Entry"
 	},
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
@@ -1739,6 +1755,13 @@
 /obj/structure/fluff/railing/border/east,
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/cobble,
+/area/rogue/indoors/vampire_manor)
+"hq" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Kitchen Eastern Entry"
+	},
+/turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "hr" = (
 /obj/item/roguekey/inhumen/one,
@@ -1973,6 +1996,10 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/vampire_manor)
+"iz" = (
+/obj/structure/roguemachine/mail/r,
+/turf/open/floor/rogue/tile,
+/area/rogue/under/cave/inhumen)
 "iA" = (
 /obj/effect/decal/cleanable/blood/old{
 	icon_state = "floor5-old"
@@ -2210,6 +2237,15 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/woods/wretch_lair)
+"jC" = (
+/obj/structure/fluff/railing/border/west{
+	dir = 1
+	},
+/obj/structure/fluff/railing/border/west{
+	dir = 4
+	},
+/turf/open/transparent/openspace,
+/area/rogue/indoors/vampire_manor)
 "jD" = (
 /obj/effect/landmark/start/wretchlate{
 	dir = 4
@@ -2243,11 +2279,11 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/woods/wretch_lair)
 "jK" = (
-/obj/structure/fluff/statue/femalestatue/zizo{
-	name = "Ancient Statue";
-	pixel_y = 0
+/obj/structure/fluff/statue/femalestatue{
+	pixel_y = 0;
+	pixel_x = -31
 	},
-/turf/open/floor/rogue/hexstone,
+/turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/vampire_manor)
 "jL" = (
 /obj/structure/table/wood/fancy/purple,
@@ -2278,7 +2314,8 @@
 /area/rogue/indoors/vampire_manor)
 "jQ" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire_guest"
+	lockid = "mansionvampire_guest";
+	name = "Baths"
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/vampire_manor)
@@ -2587,6 +2624,13 @@
 /obj/structure/fluff/walldeco/psybanner/zizo/red,
 /turf/closed/wall/mineral/rogue/decostone/mossy/red/cand,
 /area/rogue/under/cave/inhumen)
+"kP" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Western Pantry"
+	},
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "kQ" = (
 /obj/structure/closet/crate/chest,
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios,
@@ -2628,6 +2672,13 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/banditcamp)
+"lb" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Garderobe"
+	},
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/vampire_manor)
 "lc" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
@@ -2861,6 +2912,13 @@
 /obj/structure/vine,
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/cave/inhumen)
+"lS" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Northern Inner Entry"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/vampire_manor)
 "lT" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/dirt/road,
@@ -3074,6 +3132,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/wretch_lair)
+"mP" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Private Quarter V"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "mR" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/swine,
 /turf/open/floor/rogue/dirt,
@@ -3487,6 +3552,14 @@
 	},
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/woods/wretch_lair)
+"oR" = (
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "mansionvampire";
+	name = "Cell B"
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/indoors/vampire_manor)
 "oU" = (
 /obj/item/reagent_containers/food/snacks/crow{
 	dir = 8
@@ -3696,7 +3769,10 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/banditcamp)
 "pD" = (
-/obj/structure/mineral_door/bars,
+/obj/structure/mineral_door/bars{
+	name = "Northern Outer Entry";
+	lockid = "mansionvampire"
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/woods/vampire_lair)
 "pE" = (
@@ -3772,7 +3848,8 @@
 /area/rogue/outdoors/mountains)
 "pR" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire"
+	lockid = "mansionvampire";
+	name = "Northern Inner Entry"
 	},
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
@@ -3874,6 +3951,14 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/cave/inhumen)
+"qn" = (
+/obj/structure/mineral_door/bars{
+	locked = 1;
+	lockid = "mansionvampire_maid";
+	name = "Forge"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/vampire_manor)
 "qo" = (
 /obj/structure/chair/bench/couch,
 /obj/structure/rogue/trophy/deer,
@@ -4012,6 +4097,12 @@
 /obj/machinery/light/rogue/candle/r,
 /turf/open/floor/carpet/red,
 /area/rogue/under/cave/inhumen)
+"qQ" = (
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/woods/wretch_lair)
 "qR" = (
 /obj/effect/decal/carpet/square,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -4121,7 +4212,8 @@
 	},
 /obj/structure/mineral_door/bars{
 	locked = 1;
-	lockid = "mansionvampire_maid"
+	lockid = "mansionvampire_maid";
+	name = "Forge Ore Smelting"
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/vampire_manor)
@@ -4267,8 +4359,10 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "rV" = (
-/obj/structure/chair/bench/church/r,
 /obj/effect/landmark/start/wretch{
+	dir = 1
+	},
+/obj/structure/chair/bench/church/r{
 	dir = 1
 	},
 /turf/open/floor/rogue/churchbrick,
@@ -4284,6 +4378,9 @@
 /area/rogue/outdoors/woods/wretch_lair)
 "rZ" = (
 /obj/structure/fluff/railing/border/north,
+/obj/structure/roguemachine/talkstatue/mercenary{
+	pixel_y = 32
+	},
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/vampire_lair)
 "sa" = (
@@ -4621,6 +4718,9 @@
 /obj/item/paper/scroll,
 /obj/item/paper/scroll,
 /obj/item/natural/feather,
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Old Throne Room"
+	},
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/vampire_manor)
 "ti" = (
@@ -4655,7 +4755,8 @@
 /area/rogue/indoors/vampire_manor)
 "tm" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire_guest"
+	lockid = "mansionvampire_guest";
+	name = "North Eastern Hallway"
 	},
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
@@ -4921,6 +5022,14 @@
 /obj/structure/fluff/statue/knight/interior/r,
 /turf/open/floor/rogue/tile/masonic,
 /area/rogue/indoors/vampire_manor)
+"uo" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire";
+	locked = 1;
+	name = "Lord's Private Quarters"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "up" = (
 /obj/structure/table/wood/poor,
 /obj/item/paper/scroll,
@@ -5109,7 +5218,6 @@
 /area/rogue/under/cave/inhumen)
 "vm" = (
 /obj/machinery/light/rogue/candle/blue/l,
-/obj/structure/fluff/psycross/zizocross/stone,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
 "vn" = (
@@ -5197,9 +5305,9 @@
 /turf/closed/wall/mineral/rogue/decostone/long/east_west,
 /area/rogue/under/cave/inhumen)
 "vK" = (
-/obj/structure/fluff/psycross/zizocross/golden,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/vampire_manor)
+/obj/structure/flora/roguegrass,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/woods/vampire_lair)
 "vL" = (
 /obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/dirt,
@@ -5214,7 +5322,6 @@
 /turf/open/water/cleanshallow,
 /area/rogue/under/cave/inhumen)
 "vO" = (
-/obj/item/clothing/neck/roguetown/psicross/inhumen/paalloy,
 /obj/structure/table/vtable,
 /obj/machinery/light/rogue/candle/floorcandle,
 /turf/open/floor/rogue/churchbrick,
@@ -5285,10 +5392,11 @@
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
 "wc" = (
-/obj/structure/ritualcircle/zizo{
-	icon_state = "zizo_active"
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Western Inner Entry"
 	},
-/turf/open/floor/rogue/churchbrick,
+/turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/vampire_manor)
 "we" = (
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -5697,6 +5805,13 @@
 /obj/item/clothing/neck/roguetown/psicross/noc,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"xP" = (
+/obj/structure/mineral_door/bars{
+	lockid = "mansionvampire";
+	name = "Western Outer Entry"
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/woods/vampire_lair)
 "xQ" = (
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/naturalstone,
@@ -6423,8 +6538,10 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/woods/wretch_lair)
 "AO" = (
-/obj/structure/chair/bench/church/mid,
 /obj/effect/landmark/start/wretch{
+	dir = 1
+	},
+/obj/structure/chair/bench/church/mid{
 	dir = 1
 	},
 /turf/open/floor/rogue/churchbrick,
@@ -6672,6 +6789,13 @@
 	dir = 4
 	},
 /area/rogue/indoors/vampire_manor)
+"BM" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Study"
+	},
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/vampire_manor)
 "BN" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/east,
@@ -6773,6 +6897,13 @@
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"Cj" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Kitchen Southern Entry"
+	},
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "Ck" = (
 /obj/effect/decal/cleanable/blood,
 /obj/machinery/light/rogue/candle/floorcandle,
@@ -6954,7 +7085,8 @@
 /area/rogue/outdoors/banditcamp)
 "Da" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire_maid"
+	lockid = "mansionvampire_maid";
+	name = "Eastern Inner Entry"
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/vampire_manor)
@@ -7189,7 +7321,8 @@
 /area/rogue/under/cave/inhumen)
 "DY" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire_guest"
+	lockid = "mansionvampire_guest";
+	name = "Private Quarter VI"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/vampire_manor)
@@ -7307,6 +7440,10 @@
 "EC" = (
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/banditcamp)
+"ED" = (
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/wooddark/end/east,
+/area/rogue/indoors/banditcamp)
 "EE" = (
 /obj/machinery/light/rogue/candle/floorcandle{
 	pixel_y = -9
@@ -7450,6 +7587,13 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/inhumen)
+"Fl" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Private Quarter II"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "Fm" = (
 /obj/structure/stairs,
 /obj/structure/fluff/railing/border/west,
@@ -7674,7 +7818,8 @@
 	},
 /obj/structure/mineral_door/wood{
 	lockid = "mansionvampire";
-	locked = 1
+	locked = 1;
+	name = "Outer Laboratory Entry"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
@@ -7695,8 +7840,10 @@
 "Gu" = (
 /obj/machinery/light/rogue/candle,
 /obj/effect/decal/cleanable/blood,
-/obj/structure/roguemachine/mail/r,
-/obj/structure/fluff/clock,
+/obj/structure/fluff/clock{
+	dir = 1;
+	pixel_x = 6
+	},
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
 "Gv" = (
@@ -7749,6 +7896,12 @@
 	dir = 10
 	},
 /turf/open/floor/rogue/cobble,
+/area/rogue/under/cave/inhumen)
+"GH" = (
+/obj/structure/chair/bench/church/r{
+	dir = 1
+	},
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/inhumen)
 "GI" = (
 /obj/effect/decal/cobbleedge{
@@ -7828,6 +7981,13 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/vampire_lair)
+"Hc" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Dungeon Southern Entry"
+	},
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "Hd" = (
 /turf/open/floor/rogue/tile/masonic{
 	dir = 4
@@ -8002,6 +8162,12 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/inhumen)
+"HY" = (
+/obj/effect/decal/cobble/mossy{
+	dir = 9
+	},
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/woods/vampire_lair)
 "HZ" = (
 /obj/structure/fluff/railing/border/west{
 	dir = 5
@@ -8027,6 +8193,13 @@
 /obj/machinery/tanningrack,
 /turf/open/floor/rogue/tile/bfloorz,
 /area/rogue/indoors/vampire_manor)
+"If" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "North Western Hallway"
+	},
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "Ig" = (
 /obj/structure/fluff/railing/border/west{
 	dir = 10
@@ -8048,7 +8221,8 @@
 /area/rogue/outdoors/woods/vampire_lair)
 "Il" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire"
+	lockid = "mansionvampire";
+	name = "Balcony"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/vampire_manor)
@@ -8618,6 +8792,13 @@
 /obj/effect/decal/cleanable/blood/gibs/down,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
+"Kv" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "South Eastern Hallway"
+	},
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/vampire_manor)
 "Kw" = (
 /obj/machinery/light/rogue/candle/r,
 /obj/effect/decal/cleanable/dirt/cobweb{
@@ -8626,7 +8807,9 @@
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/indoors/vampire_manor)
 "Kx" = (
-/obj/structure/chair/bench/church/mid,
+/obj/structure/chair/bench/church/mid{
+	dir = 1
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/inhumen)
 "Ky" = (
@@ -9153,6 +9336,13 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
+"Mo" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Ballroom"
+	},
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/vampire_manor)
 "Mp" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/snow,
@@ -9200,6 +9390,13 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/banditcamp)
+"MC" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Private Quarter IV"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "ME" = (
 /obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/grass,
@@ -9334,6 +9531,13 @@
 /obj/structure/fluff/railing/corner,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/banditcamp)
+"Nh" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Private Quarter I"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "Nj" = (
 /obj/structure/fluff/railing/border/north,
 /obj/effect/decal/cleanable/debris/stony,
@@ -9513,6 +9717,13 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/vampire_manor)
+"NW" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Eastern Pantry"
+	},
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "NX" = (
 /obj/item/reagent_containers/food/snacks/crow{
 	dir = 4
@@ -9575,10 +9786,6 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/transparent/openspace,
 /area/rogue/under/cave/inhumen)
-"On" = (
-/obj/structure/ritualcircle/zizo,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/vampire_manor)
 "Oo" = (
 /obj/structure/fluff/railing/border/east,
 /turf/open/transparent/openspace,
@@ -9633,7 +9840,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/banditcamp)
 "Ov" = (
-/obj/structure/closet/crate/roguecloset,
+/obj/structure/closet/crate/roguecloset{
+	name = "Zig Storage"
+	},
 /obj/item/clothing/mask/cigarette/rollie/nicotine,
 /obj/item/clothing/mask/cigarette/rollie/nicotine,
 /obj/item/clothing/mask/cigarette/rollie/nicotine,
@@ -9711,6 +9920,13 @@
 /obj/item/clothing/neck/roguetown/psicross/eora,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
+"ON" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_maid";
+	name = "Dungeon Western Entry"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/vampire_manor)
 "OP" = (
 /obj/structure/stairs{
 	dir = 1
@@ -9964,6 +10180,13 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/vampire_manor)
+"Qe" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire_guest";
+	name = "Private Quarter III"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "Qf" = (
 /obj/effect/decal/cobbleedge{
 	dir = 4
@@ -9975,7 +10198,8 @@
 /area/rogue/indoors/banditcamp)
 "Qi" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire_maid"
+	lockid = "mansionvampire_maid";
+	name = "Dungeon Eastern Entry"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
@@ -10042,6 +10266,13 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
+"Qy" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire";
+	name = "Private Bath"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "Qz" = (
 /obj/structure/ritualcircle/necra,
 /turf/open/floor/rogue/naturalstone,
@@ -10209,7 +10440,8 @@
 "Rs" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
-	lockid = "mansionvampire"
+	lockid = "mansionvampire";
+	name = "Cell A"
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/vampire_manor)
@@ -10501,8 +10733,10 @@
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/vampire_manor)
 "SS" = (
-/obj/structure/chair/bench/church/mid,
 /obj/effect/decal/cleanable/debris/stony,
+/obj/structure/chair/bench/church/mid{
+	dir = 1
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/under/cave/inhumen)
 "ST" = (
@@ -10768,7 +11002,9 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/banditcamp)
 "TZ" = (
-/obj/structure/closet/crate/roguecloset,
+/obj/structure/closet/crate/roguecloset{
+	name = "Torch Storage"
+	},
 /obj/item/flashlight/flare/torch/metal,
 /obj/item/flashlight/flare/torch/metal,
 /obj/item/flashlight/flare/torch/metal,
@@ -11136,6 +11372,13 @@
 	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/vampire_manor)
+"VE" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire";
+	name = "Southern Outer Entry"
+	},
+/turf/open/floor/rogue/tile/bfloorz,
+/area/rogue/indoors/vampire_manor)
 "VF" = (
 /obj/item/rope/chain{
 	pixel_x = -4;
@@ -11154,7 +11397,8 @@
 "VH" = (
 /obj/structure/mineral_door/bars{
 	locked = 1;
-	lockid = "mansionvampire_maid"
+	lockid = "mansionvampire_maid";
+	name = "Forge & Mine Entry"
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/vampire_manor)
@@ -11760,13 +12004,21 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/vampire_manor)
+"XY" = (
+/obj/structure/mineral_door/bars{
+	lockid = "mansionvampire";
+	name = "Eastern Outer Entry"
+	},
+/turf/open/floor/rogue/blocks,
+/area/rogue/outdoors/woods/vampire_lair)
 "XZ" = (
 /obj/item/natural/bundle/plank,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/inhumen)
 "Ya" = (
 /obj/structure/mineral_door/wood{
-	lockid = "mansionvampire_maid"
+	lockid = "mansionvampire_maid";
+	name = "South Western Hallway"
 	},
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/vampire_manor)
@@ -11885,6 +12137,14 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/tile,
 /area/rogue/under/cave/inhumen)
+"Yy" = (
+/obj/structure/mineral_door/wood{
+	lockid = "mansionvampire";
+	locked = 1;
+	name = "Library"
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/vampire_manor)
 "Yz" = (
 /obj/structure/fluff/railing/border/west{
 	dir = 1
@@ -13614,7 +13874,7 @@ JQ
 wV
 dh
 rV
-sa
+GH
 rV
 Mh
 IW
@@ -25942,7 +26202,7 @@ Ix
 ax
 ax
 ax
-VH
+qn
 ax
 gq
 gq
@@ -27634,7 +27894,7 @@ dz
 ks
 KS
 lL
-On
+ax
 so
 mZ
 ks
@@ -30764,7 +31024,7 @@ Ev
 lB
 jh
 Gu
-bK
+iz
 bK
 Zl
 Zl
@@ -31670,7 +31930,7 @@ Dq
 qW
 qW
 UM
-Xm
+qQ
 Ev
 Ev
 Ev
@@ -33839,7 +34099,7 @@ nk
 iL
 iL
 eE
-DR
+ED
 DR
 Ux
 yI
@@ -40383,7 +40643,7 @@ Uh
 Uh
 Uh
 Uh
-Uh
+xP
 Uh
 Uh
 Uh
@@ -40401,10 +40661,10 @@ DB
 DB
 ps
 Dz
-fI
-fI
-fI
-fI
+DB
+DB
+DB
+DB
 Vk
 Dz
 Dz
@@ -40505,19 +40765,19 @@ KH
 KH
 KH
 kn
-fI
-fI
-fI
+ar
+ar
+ar
 Lj
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
 ar
 ar
 qE
@@ -40639,17 +40899,17 @@ kn
 kW
 ar
 ar
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
 kn
 kn
 pg
@@ -40776,9 +41036,9 @@ ar
 ar
 ar
 ar
-fI
-fI
-fI
+ar
+ar
+ar
 kn
 kn
 kn
@@ -40906,7 +41166,7 @@ ar
 kW
 kn
 kn
-Da
+wc
 kn
 kn
 kn
@@ -41443,8 +41703,8 @@ jU
 Ao
 Hh
 tS
-fI
-fI
+HY
+ar
 fI
 fI
 fI
@@ -41573,7 +41833,7 @@ jR
 ar
 sF
 ij
-fI
+HL
 Ho
 xo
 oA
@@ -41672,14 +41932,14 @@ DB
 kn
 kn
 kn
-jQ
+lb
 kn
 kn
 kn
 kn
 kn
 kn
-he
+kP
 kn
 kn
 kn
@@ -41703,7 +41963,7 @@ Sr
 ar
 sF
 mr
-fI
+HL
 Rw
 oA
 oA
@@ -41823,17 +42083,17 @@ Ga
 Gj
 kn
 Zj
-jQ
+BM
 kn
 kn
 qb
 pl
 GC
-fI
+ar
 ar
 Hh
 wo
-fI
+mr
 xo
 oA
 oA
@@ -41930,11 +42190,11 @@ Uh
 MM
 DB
 DB
-kn
+KH
 ax
 ax
 ho
-he
+If
 Ga
 Ga
 LS
@@ -41964,7 +42224,7 @@ aV
 ar
 Qp
 mr
-fI
+mr
 xo
 oA
 oA
@@ -42060,7 +42320,7 @@ Uh
 MM
 DB
 DB
-Qi
+KH
 ax
 ax
 VW
@@ -42089,10 +42349,10 @@ KH
 Hp
 Sr
 lA
-fI
+ar
 Ao
 cs
-fI
+ar
 Qp
 mr
 fI
@@ -42218,12 +42478,12 @@ kn
 kn
 kn
 Ha
-fI
+ar
 NX
 ar
 DB
 DB
-fI
+ar
 HL
 mr
 vQ
@@ -42451,7 +42711,7 @@ kn
 kn
 kn
 kn
-Qi
+ON
 kn
 kn
 kn
@@ -42478,13 +42738,13 @@ tz
 Hd
 kn
 kn
-fI
+ar
 Ze
 Ik
 ar
 DB
 DB
-fI
+ar
 Qp
 HL
 fI
@@ -42726,7 +42986,7 @@ kn
 pV
 RK
 pV
-Ya
+em
 pV
 pV
 pV
@@ -43106,13 +43366,13 @@ wY
 kH
 Vq
 kH
-he
+Hc
 Ga
 Ga
 Ga
 Ga
 Ga
-he
+Cj
 LS
 gM
 gM
@@ -43134,7 +43394,7 @@ or
 ZC
 Xw
 Xw
-pR
+VE
 aF
 uF
 HL
@@ -43229,7 +43489,7 @@ ar
 kn
 gQ
 eq
-Rs
+oR
 ax
 Ir
 cE
@@ -43263,7 +43523,7 @@ or
 or
 jA
 Uj
-Xw
+fY
 Ue
 aF
 mU
@@ -43506,7 +43766,7 @@ kn
 pV
 RK
 pV
-Ya
+fD
 pV
 pV
 pV
@@ -43889,7 +44149,7 @@ kn
 kn
 kn
 kn
-he
+hq
 kn
 kn
 kn
@@ -43911,10 +44171,10 @@ Ec
 VT
 VT
 Ox
-fI
-fI
+NO
+NO
 Ox
-fI
+NO
 fI
 fI
 Ox
@@ -44041,10 +44301,10 @@ kN
 VT
 DB
 Ox
-fI
+NO
 Ox
 Ox
-fI
+NO
 Ox
 fI
 fI
@@ -44140,7 +44400,7 @@ Uh
 MM
 DB
 Qp
-Qi
+lS
 Ga
 Ga
 FV
@@ -44171,10 +44431,10 @@ YL
 lx
 DB
 Ox
-fI
-fI
+NO
+NO
 Ox
-fI
+NO
 Ox
 Ox
 Ox
@@ -44284,7 +44544,7 @@ LS
 LS
 Ga
 Ga
-Ya
+Kv
 Ga
 Ga
 Ga
@@ -44297,14 +44557,14 @@ LS
 lN
 KH
 kC
-fu
+DB
 DB
 DB
 Ox
-fI
-fI
-fI
-fI
+NO
+NO
+NO
+NO
 Ox
 fI
 fI
@@ -44399,7 +44659,7 @@ fI
 Uh
 MM
 DB
-fI
+ij
 kn
 iF
 LS
@@ -44431,10 +44691,10 @@ Uk
 lx
 DB
 Ox
-fI
+NO
 Ox
 Ox
-fI
+NO
 Ox
 fI
 Ox
@@ -44532,14 +44792,14 @@ DB
 kn
 kn
 kn
-jQ
+Mo
 kn
 kn
 kn
 kn
 kn
 kn
-he
+NW
 kn
 kn
 kn
@@ -44561,10 +44821,10 @@ Xp
 DB
 pF
 Ox
-fI
-fI
+NO
+NO
 Ox
-fI
+NO
 Ox
 fI
 Ox
@@ -44691,10 +44951,10 @@ kn
 DB
 DB
 Ox
-fI
-fI
+NO
+NO
 Ox
-fI
+NO
 Ox
 fI
 Ox
@@ -44821,10 +45081,10 @@ kn
 kn
 QJ
 Ox
-fI
-fI
+NO
+NO
 Ox
-fI
+NO
 Ox
 fI
 Ox
@@ -44951,10 +45211,10 @@ lu
 kn
 uV
 Ox
-fI
-fI
+NO
+NO
 Ox
-fI
+NO
 fI
 fI
 fI
@@ -45447,18 +45707,18 @@ HH
 eo
 kn
 kn
-fI
-fI
-fI
 ar
 ar
 ar
 ar
 ar
-fI
-fI
-fI
-fI
+ar
+ar
+ar
+ar
+ar
+ar
+ar
 kn
 kn
 dn
@@ -45576,18 +45836,18 @@ bZ
 jM
 kn
 kn
-fI
-fI
-fI
-fI
-fI
-fI
 ar
 ar
-fI
-fI
-fI
-fI
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
 ar
 kW
 kn
@@ -45708,15 +45968,15 @@ kn
 ar
 qE
 ar
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
-fI
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
+ar
 ar
 ar
 ar
@@ -45731,7 +45991,7 @@ DB
 DB
 DB
 DB
-DB
+vK
 DB
 DB
 DB
@@ -45826,12 +46086,12 @@ St
 bX
 bX
 bX
+vK
 DB
 DB
 DB
 DB
-DB
-DB
+vK
 DB
 DB
 kn
@@ -45843,7 +46103,7 @@ Uh
 Uh
 Uh
 Uh
-Uh
+XY
 Uh
 Uh
 Uh
@@ -45857,14 +46117,14 @@ qG
 qG
 MF
 DB
-DB
+vK
 pF
 DB
 DB
 DB
 DB
 DB
-DB
+vK
 DB
 DB
 bX
@@ -46408,64 +46668,64 @@ St
 St
 "}
 (132,1,2) = {"
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
+St
 St
 St
 St
@@ -58204,7 +58464,7 @@ kn
 kn
 kn
 kn
-Il
+Qy
 kn
 kn
 aK
@@ -58443,7 +58703,7 @@ bv
 kn
 kn
 kn
-vK
+bQ
 bQ
 LS
 tN
@@ -58973,18 +59233,18 @@ kn
 kn
 kn
 kn
-DY
+Qe
 kn
 kn
 kn
 kn
-DY
+Fl
 kn
 kn
 kn
 kn
 kn
-DY
+Nh
 kn
 kn
 QM
@@ -59224,7 +59484,7 @@ QM
 kn
 kn
 kn
-Il
+Yy
 kn
 kn
 kn
@@ -60538,7 +60798,7 @@ KC
 LS
 Vb
 Gt
-fc
+jC
 KE
 iH
 iH
@@ -61304,7 +61564,7 @@ QM
 kn
 kn
 kn
-Il
+uo
 kn
 kn
 kn
@@ -61578,13 +61838,13 @@ kn
 kn
 kn
 kn
-DY
+mP
 kn
 kn
 kn
 kn
 kn
-DY
+MC
 kn
 kn
 QM
@@ -61697,7 +61957,7 @@ RQ
 Fv
 Fv
 Fv
-vK
+bQ
 kn
 kn
 kn
@@ -61709,7 +61969,7 @@ RV
 kn
 VN
 Vb
-fD
+Vb
 kn
 kn
 kn
@@ -61957,7 +62217,7 @@ rA
 Fv
 ui
 my
-wc
+bQ
 by
 kn
 kn
@@ -62364,7 +62624,7 @@ kn
 kn
 kn
 kn
-Il
+Qy
 kn
 kn
 fr
@@ -63569,64 +63829,64 @@ cx
 cx
 "}
 (132,1,3) = {"
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
-PI
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
+cx
 cx
 cx
 cx

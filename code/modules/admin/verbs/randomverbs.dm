@@ -143,7 +143,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Modify Player Quality") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_world_narrate()
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "Narrate - Global"
 
 	if(!check_rights(R_ADMIN))
@@ -159,7 +159,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Global Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_direct_narrate(mob/M)
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "Narrate - Direct"
 
 	if(!check_rights(R_ADMIN))
@@ -184,7 +184,7 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Direct Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/cmd_admin_local_narrate(atom/A)
-	set category = "Admin.Special"
+	set category = "Game Master.Narration"
 	set name = "Narrate - Local"
 
 	if(!check_rights(R_ADMIN))
@@ -464,7 +464,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	log_admin("[key_name(src)] has changed the Central Command name to: [input]")
 
 /client/proc/cmd_admin_delete(atom/A as obj|mob|turf in world)
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set name = "Delete..."
 
 	if(!check_rights(R_SPAWN|R_DEBUG))
@@ -570,7 +570,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 /client/proc/cmd_admin_gib_self()
 	set name = "Gibself"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 
 	var/confirm = alert(src, "You sure?", "Confirm", "Yes", "No")
 	if(confirm == "Yes")
@@ -712,7 +712,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 /client/proc/smite(mob/living/target as mob)
 	set name = "Smite"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	if(!check_rights(R_ADMIN) || !check_rights(R_FUN))
 		return
 	var/static/list/punishment_list = list(
@@ -728,6 +728,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		ADMIN_PUNISHMENT_PSYDON,
 		ADMIN_PUNISHMENT_DIVINE_WRATH,
 		ADMIN_PUNISHMENT_CHANDELIER,
+		ADMIN_PUNISHMENT_ANNOYING_VOICE,
 	)
 
 	var/punishment = input(usr, "Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
@@ -860,6 +861,13 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			playsound(get_turf(humie), 'sound/combat/hits/blunt/frying_pan(4).ogg', 100, FALSE)
 			affecting.add_wound(/datum/wound/fracture/head)
 			humie.visible_message(span_userdanger("There is a sickening CRUNCH as a chandelier crashes down onto [humie]!"))
+		if(ADMIN_PUNISHMENT_ANNOYING_VOICE)
+			if(!ishuman(target))
+				to_chat(usr,span_warning("Target must be human!"))
+				return
+			var/mob/living/carbon/human/humie = target
+			humie.reagents.add_reagent(/datum/reagent/medicine/trait/negative/funnyvoice, 2000)
+			message_admins("[humie] has been given an annoying voice through 2000 units of funnyvoice serum.")
 	punish_log(target, punishment)
 
 /client/proc/punish_log(whom, punishment)

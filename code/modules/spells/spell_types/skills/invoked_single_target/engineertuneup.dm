@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/engineertuneup
 	name = "Tune Up"
-	desc = "Ratchet your Wrench to help improve constructs, repair contraptions, and bars at the cost of cog charges"
+	desc = "Ratchet your wrench. Helps improve constructs, repairs bars, and repairs contraptions. Expends cog-charges with every use."
 	overlay_state = "brasswrench"
 	releasedrain = 1
 	chargedrain = 0
@@ -125,7 +125,7 @@
 					to_chat(human_target, span_warning("I was moved before being tuned up!"))
 					return
 		else
-			to_chat(user, span_warning("I need to be next to [human_target] to wind them up"))
+			to_chat(user, span_warning("I need to be next to [human_target] to wind them up!"))
 			return
 	//this should repair certain stuctures
 	if(isstructure(targets[1]))
@@ -151,7 +151,7 @@
 			// Animation and sound
 			playsound(user, 'sound/misc/ratchet.ogg', 100, TRUE)
 			do_sparks(8, TRUE, structurerepair)
-			user.visible_message(span_danger("[user] starts to repair [structurerepair]"))
+			user.visible_message(span_danger("[user] starts to repair [structurerepair]."))
 			if(do_after(usr, 10 SECONDS, target = structurerepair))
 				if(structurerepair.obj_integrity < structurerepair.max_integrity)
 					if(do_after(user, (150 / user.get_skill_level(/datum/skill/craft/engineering)), target = structurerepair)) // making this generic carpentry, even though it could be masonry
@@ -164,7 +164,6 @@
 									I.current_charge -= 20
 									playsound(user, 'sound/misc/ratchet.ogg', 100, TRUE)
 									structurerepair.density = TRUE
-									structurerepair.set_opacity(TRUE)
 									structurerepair.obj_broken = FALSE
 									structurerepair.obj_integrity = structurerepair.max_integrity
 									user.visible_message(span_notice("[user] repaired [structurerepair.name]."), \
@@ -172,12 +171,15 @@
 									if(is_type_in_list(structurerepair, barlist))
 										var/obj/structure/bars/barsrepairable = structurerepair
 										barsrepairable.icon_state = "[initial(barsrepairable.icon_state)]"
-										barsrepairable.set_opacity(FALSE)
-									if(is_type_in_list(structurerepair, gatelist))
+										if(istype(barsrepairable, /obj/structure/bars/passage/shutter))
+											barsrepairable.set_opacity(TRUE)
+										else
+											barsrepairable.set_opacity(FALSE)
+									else if(is_type_in_list(structurerepair, gatelist))
 										var/obj/structure/gate/gaterepairable = structurerepair
 										gaterepairable.icon_state = "[gaterepairable.base_state]"
 										gaterepairable.set_opacity(FALSE)
-									if(is_type_in_list(structurerepair, doorlist))
+									else if(is_type_in_list(structurerepair, doorlist))
 										var/obj/structure/mineral_door/doorsrepairable = structurerepair
 										doorsrepairable.icon_state = "[doorsrepairable.base_state]"
 										doorsrepairable.brokenstate = TRUE
@@ -187,7 +189,7 @@
 					user.visible_message(span_notice("It's already fully repaired."))
 					return
 			else
-				to_chat(user, span_warning("I need to be next to [structurerepair] to repair them"))
+				to_chat(user, span_warning("I need to be next to [structurerepair] to repair them!"))
 				return
 	if(isitem(targets[1]))
 		var/obj/item/rogueweapon/contraptionrepair = targets[1]
@@ -232,7 +234,7 @@
 					user.visible_message(span_notice("It's already fully repaired."))
 					return
 			else
-				to_chat(user, span_warning("I need to be next to [contraptionrepair] to repair them"))
+				to_chat(user, span_warning("I need to be next to [contraptionrepair] to repair them!"))
 				return
 
 	revert_cast()

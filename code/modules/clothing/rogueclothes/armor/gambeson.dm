@@ -98,6 +98,9 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	shiftable = FALSE
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/light/dark
+	color = "#646464"
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
 	name = "padded arming jacket"
 	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
@@ -296,6 +299,9 @@
 	. = ..()
 	loadoutize()
 
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/grenzelhoft/loadout/astrocrat
+	name = "thin grenzelhoftian hip-shirt"
+
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/raneshen
 	name = "padded desert coat"
 	desc = "A slim-fitting sherwani, a Ranesheni-styled coat meant to endure in the desert's climate. This one is heavily padded, meant for a warrior to wear."
@@ -340,6 +346,12 @@
 	armor = ARMOR_PADDED
 	shiftable = FALSE
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+
+/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq/cleric //trash varient for aura
+	name = "worn psydonic leather tunic"
+	desc = "A firm and rugged leather tunic; made to ENDURE, made to PERSIST, its seen a lot of wear and tear in its tyme."
+	armor = ARMOR_PADDED_BAD
+	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/shadowrobe
 	name = "stalker robe"
@@ -393,7 +405,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/baotha
 	name = "saccharine vestments"
-	desc = "A gemmed chalice, Eora's own, swilled with Psydonia's most noxious venoms - and but a simple sip was enough to bring Her to death's door.."
+	desc = "Although mighty Ravox's hand demanded justice for the Eoran priestess' treachery, Eora stayed it, and merely stripped her of vestements and title. The lepers would die, but they would die in comfort and love."
 	icon_state = "baothagamb"
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_PADDED

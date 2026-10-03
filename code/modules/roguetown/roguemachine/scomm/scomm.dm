@@ -4,7 +4,7 @@
 
 /obj/structure/roguemachine/scomm
 	name = "SCOM"
-	desc = "The Supernatural Communication Optical Machine is a wonder of magic and technology, able to transmit and receive messages across long distance. There's a button in the MIDDLE for making private jabberline connections."
+	desc = "The Supernatural Communication Optical Machine is a wonder of magic and technology, able to transmit and receive messages across long distance. There's a button on the RIGHT for making private jabberline connections."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "scomm1"
 	density = FALSE
@@ -55,6 +55,7 @@
 /obj/structure/roguemachine/scomm/receive_only
 	name = "RCOM"
 	desc = "The Receiving Communication Optical Machine is a much cheaper, ubiquitous version of the SCOM, designed only to receive message over long distance. They are oft found outside of the town, especially in older ruins."
+	icon_state = "rcomm1"
 	receive_only = TRUE
 
 /obj/structure/roguemachine/scomm/receive_only/r
@@ -74,16 +75,32 @@
 	. += "<a href='?src=[REF(src)];directory=1'>Directory</a>"
 	if(!length(GLOB.laws_of_the_land))
 		. += span_danger("The land has no laws! <b>We are doomed!</b>")
-		return
-	if(!user.is_literate())
+	else if(!user.is_literate())
 		. += "<b>THE LAWS OF THE LAND:</b>"
 		. += span_warning("Uhhh... I can't read them...")
-		return
-	var/laws_str = "<details><summary><b>THE LAWS OF THE LAND:</b> (Click to expand)</summary>"
-	for(var/i in 1 to length(GLOB.laws_of_the_land))
-		laws_str += span_small("[i]. [GLOB.laws_of_the_land[i]]") + "\n"
-	laws_str += "</details>"
-	. += laws_str
+	else
+		var/laws_str = "<details><summary><b>THE LAWS OF THE LAND:</b> (Click to expand)</summary>"
+		for(var/i in 1 to length(GLOB.laws_of_the_land))
+			laws_str += span_small("[i]. [GLOB.laws_of_the_land[i]]") + "\n"
+		laws_str += "</details>"
+		. += laws_str
+	if(length(GLOB.lord_decrees))
+		if(!user.is_literate())
+			. += "<b>[uppertext(SSticker.rulertype)]'S DECREES:</b>"
+			. += span_warning("Uhhh... I can't read them...")
+		else
+			var/decrees_str = "<details><summary><b>[uppertext(SSticker.rulertype)]'S DECREES:</b> (Click to expand)</summary>"
+			for(var/i = GLOB.lord_decrees.len to 1 step -1)
+				decrees_str += span_small("[i]. [GLOB.lord_decrees[i]]") + "\n"
+			decrees_str += "</details>"
+			. += decrees_str
+
+/obj/structure/roguemachine/scomm/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("SCOMs broadcast anything said into it into every other SCOM and RCOM across the realm, after a delay.")
+	. += span_info("Left-click the SCOM to mute it, preventing anything from being said or received. Left-click it again to unmute it.")
+	. += span_info("Middle-click the SCOM with a houndstone, crownstone or the Crown equipped to swap channels to the garrison SCOMline. Middle-click again to set it back.")
+	. += span_info("Right-click the SCOM to open a jabberline, opening a call between two SCOMs.")
 
 /obj/structure/roguemachine/scomm/Topic(href, href_list)
 	..()
@@ -153,34 +170,6 @@
 		called_by = null
 		return
 	if(calling)
-		speaking = !speaking
-		to_chat(user, span_info("I [speaking ? "unmute" : "mute"] the output on the SCOM."))
-		return
-	var/canread = user.can_read(src, TRUE)
-	var/contents
-	contents += "<center>[uppertext(SSticker.rulertype)]'S DECREES<BR>"
-	contents += "-----------<BR><BR></center>"
-	for(var/i = GLOB.lord_decrees.len to 1 step -1)
-		contents += "[i]. <span class='info'>[GLOB.lord_decrees[i]]</span><BR>"
-	if(!canread)
-		contents = stars(contents)
-	var/datum/browser/popup = new(user, "VENDORTHING", "", 370, 220)
-	popup.set_content(contents)
-	popup.open()
-
-/obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
-	if(.)
-		return
-	if(HAS_TRAIT(user, TRAIT_GARRISON_ITEM))
-		if(alert(user, "Would you like to swap lines or connect to a jabberline?",, "swap", "jabberline") != "jabberline")
-			garrisonline = !garrisonline
-			to_chat(user, span_info("I [garrisonline ? "connect to the garrison SCOMline" : "connect to the general SCOMLINE"]"))
-			playsound(loc, 'sound/misc/garrisonscom.ogg', 100, FALSE, -1)
-			update_icon()
-			return
-	user.changeNext_move(CLICK_CD_INTENTCAP)
-	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	if(calling)
 		calling.say("Jabberline severed.", spans = list("info"))
 		if(calling.calling == src || calling.called_by == src)
 			var/obj/structure/roguemachine/scomm/old_calling = calling
@@ -242,7 +231,23 @@
 		calling = null
 		update_icon()
 
+/obj/structure/roguemachine/scomm/MiddleClick(mob/living/carbon/human/user)
+	if(.)
+		return
+	if(!HAS_TRAIT(user, TRAIT_GARRISON_ITEM))
+		to_chat(user, span_warning("You are not authorized to use the garrison SCOMline. Press the RIGHT button to open a jabberline."))
+		return
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	garrisonline = !garrisonline
+	to_chat(user, span_info("I [garrisonline ? "connect to the garrison SCOMline." : "connect to the general SCOMline."]"))
+	playsound(loc, 'sound/misc/garrisonscom.ogg', 100, FALSE, -1)
+	update_icon()
+
 /obj/structure/roguemachine/scomm/receive_only/MiddleClick(mob/living/carbon/human/user)
+	to_chat(user, span_warning("The RCOM has no rats to send - it can only receive messages."))
+	return
+
+/obj/structure/roguemachine/scomm/receive_only/attack_right(mob/user)
 	to_chat(user, span_warning("The RCOM has no rats to send - it can only receive messages."))
 	return
 
@@ -271,15 +276,16 @@
 	if(obj_broken)
 		set_light(0)
 		return
+	var/prefix = receive_only ? "rcomm" : "scomm"
 	if(garrisonline)
-		icon_state = "scomm2"
+		icon_state = "[prefix]2"
 		return
 	if(calling)
-		icon_state = "scomm2"
+		icon_state = "[prefix]2"
 	else if(listening)
-		icon_state = "scomm1"
+		icon_state = "[prefix]1"
 	else
-		icon_state = "scomm0"
+		icon_state = "[prefix]0"
 
 /obj/structure/roguemachine/scomm/Destroy()
 	lose_hearing_sensitivity()

@@ -52,7 +52,7 @@
 
 /obj/item/roguestatue/aalloy
 	name = "decrepit statue"
-	desc = "A statue of wrought bronze, forged to venerate an ancient champion."
+	desc = "A statue of rotted metal, forged to venerate an ancient champion."
 	icon_state = "astatue1"
 	smeltresult = /obj/item/ingot/aalloy
 	color = "#bb9696"

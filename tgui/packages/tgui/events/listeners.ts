@@ -26,4 +26,4 @@ const listeners = {
   acknowledgePayloadChunk,
 } as const;
 
-export const bus = new EventBus(listeners);
+export const bus = new EventBus(listeners as any);

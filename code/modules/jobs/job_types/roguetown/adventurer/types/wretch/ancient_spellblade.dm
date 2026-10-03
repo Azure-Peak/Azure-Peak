@@ -50,6 +50,7 @@
 
 	H.become_skeleton()
 	H.can_do_sex = FALSE
+	change_origin(H, /datum/virtue/origin/unselectable/skeleton, "Legion")
 
 	//no swift intent
 	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\

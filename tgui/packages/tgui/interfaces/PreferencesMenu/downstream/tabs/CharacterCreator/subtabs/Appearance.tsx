@@ -1,4 +1,4 @@
-export const SubtabAppearanceDownstream = (props) => {
+export const SubtabAppearanceDownstream = () => {
   // Suggested format:
   // return (
   //   <>

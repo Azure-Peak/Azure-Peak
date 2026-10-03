@@ -1,5 +1,4 @@
 import { createRequire } from 'node:module';
-
 import { config } from '../../rspack.config-dev';
 import { loadSourceMaps } from './link/retrace';
 import { broadcastMessage, setupLink } from './link/server';
@@ -9,10 +8,13 @@ import { resolveGlob } from './util';
 
 const logger = createLogger('rspack');
 
+// This is fine because it's a type-only import
+import type { rspack } from '@rspack/core';
+
 export class RspackCompiler {
-  rspack: any;
-  config: any;
-  bundleDir: string;
+  rspack: typeof rspack | undefined;
+  config: any | undefined;
+  bundleDir: string = '';
 
   async setup() {
     // Create a require context that is relative to project root
@@ -26,6 +28,10 @@ export class RspackCompiler {
   }
 
   async watch() {
+    if (!this.rspack) {
+      return;
+    }
+
     logger.log('setting up');
     setupLink();
     // Instantiate the compiler

@@ -185,6 +185,13 @@
 	slot_flags = ITEM_SLOT_NECK
 	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 
+/obj/item/clothing/neck/roguetown/chaincoif/chainmantle/lamplighter
+	name = "lamplighter's collar"
+	desc = "A large neck covering made to protect the neck from splashing oil and jumping flames."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampneck"
+
 /obj/item/clothing/neck/roguetown/chaincoif/iron
 	name = "iron chain coif"
 	desc = "A maille-hood, fashioned from interlinked iron rings. Levymen oft-wear these atop a padded coif or beneath a kettle, depending on the nature of their rally; be it to defend their hearth-and-home from beastes or Bandits."
@@ -445,6 +452,7 @@
 	name = "forlorn collar"
 	desc = "A old reminder."
 	icon_state = "iwolfcollaralt"
+	max_integrity = ARMOR_INT_SIDE_STEEL + ARMOR_INT_SIDE_COVERAGE_BONUS //Thicker than a standard iron gorget.
 
 /obj/item/clothing/neck/roguetown/gorget/steel
 	name = "steel gorget"
@@ -1438,7 +1446,7 @@
 
 /obj/item/clothing/neck/roguetown/coif/baotha
 	name = "saccharine veil"
-	desc = "And yet, their methods differed; Belladoth proposed with Her lust and temptation, Eora with Her love and warmth.."
+	desc = "Their methods differed; Eora's love and warmth promised comfort. But love was not enough to save the lepers. If it was, the priestess' beloved would have lived forever."
 	icon_state = "baothacoif"
 	item_state = "baothacoif"
 	armor = ARMOR_PADDED
@@ -1816,3 +1824,7 @@
 		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
 	return
 
+/obj/item/clothing/neck/roguetown/psicross/liefdonator
+	name = "Aurum's Amulets"
+	desc = "A long gold chain that was double woven for strength. At regular intervals, a gold loop just barely big enough to have something attached to it. Two of the loops had charms dangling from them. Each gold still. One in the shape of a Xylixian mask, the other in the shape of Dendor's claws."
+	icon_state = "lief_amulet"

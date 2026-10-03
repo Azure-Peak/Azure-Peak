@@ -58,11 +58,18 @@
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Longsword", "Mace", "Flail", "Battle Axe", "Billhook")
+		var/weapons = list("Arming Sword", "Longsword", "Mace", "Flail", "Battle Axe", "Billhook")
 		if(!HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) //Remove Regular Axe BEFORE choice, is picked (so we don't mislead)
 			weapons += "Steel Axe"
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
+			if("Arming Sword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+					r_hand = /obj/item/rogueweapon/sword/psy
+				else
+					r_hand = /obj/item/rogueweapon/sword
+				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
@@ -108,9 +115,7 @@
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			add_verb(H, /mob/living/carbon/human/proc/revelations)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
@@ -315,6 +320,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE)
 			H.change_stat(STATKEY_WIL, 2)
 			H.change_stat(STATKEY_CON, 2)
+			H.cmode_music = 'sound/music/cmode/antag/combat_adonai.ogg'
 			helmets += list("Psydonic Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute,
 				"Psydonic Sallet" = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet,
 				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm,
@@ -362,6 +368,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
 	tempo_capable = FALSE
@@ -399,6 +406,12 @@
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 				else if(istype(H.patron, /datum/patron/inhumen/zizo))
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
+				else if(istype(H.patron, /datum/patron/inhumen/baotha))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/baotha
+				else if(istype(H.patron, /datum/patron/inhumen/graggar))
+					l_hand = /obj/item/rogueweapon/huntingknife/combat/graggar
+				else if(istype(H.patron, /datum/patron/inhumen/matthios))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/matthios
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/rondel
 				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/parrying
@@ -425,6 +438,12 @@
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 				else if(istype(H.patron, /datum/patron/inhumen/zizo))
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
+				else if(istype(H.patron, /datum/patron/inhumen/baotha))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/baotha
+				else if(istype(H.patron, /datum/patron/inhumen/graggar))
+					l_hand = /obj/item/rogueweapon/huntingknife/combat/graggar
+				else if(istype(H.patron, /datum/patron/inhumen/matthios))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/matthios
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if("Crossbow")
@@ -437,6 +456,12 @@
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 				else if(istype(H.patron, /datum/patron/inhumen/zizo))
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
+				else if(istype(H.patron, /datum/patron/inhumen/baotha))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/baotha
+				else if(istype(H.patron, /datum/patron/inhumen/graggar))
+					l_hand = /obj/item/rogueweapon/huntingknife/combat/graggar
+				else if(istype(H.patron, /datum/patron/inhumen/matthios))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/matthios
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if("Slurbow")
@@ -449,6 +474,12 @@
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
 				else if(istype(H.patron, /datum/patron/inhumen/zizo))
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
+				else if(istype(H.patron, /datum/patron/inhumen/baotha))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/baotha
+				else if(istype(H.patron, /datum/patron/inhumen/graggar))
+					l_hand = /obj/item/rogueweapon/huntingknife/combat/graggar
+				else if(istype(H.patron, /datum/patron/inhumen/matthios))
+					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/matthios
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
@@ -460,8 +491,6 @@
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 
@@ -540,6 +569,7 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/otavan/psygloves, SLOT_GLOVES, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan, SLOT_PANTS, TRUE)
+			H.cmode_music = 'sound/music/cmode/antag/combat_adonai.ogg'
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/roguetown/heavy_leather_pants, SLOT_PANTS, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat, SLOT_ARMOR, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson, SLOT_SHIRT, TRUE)

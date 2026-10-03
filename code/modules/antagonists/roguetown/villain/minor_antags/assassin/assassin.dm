@@ -44,16 +44,22 @@
 	#define SOURCE_ASSASSIN "source_assassin"
 
 /datum/antagonist/assassin/on_gain()
+	// CMUSIC
 	owner.current.cmode_music = list('sound/music/cmode/antag/combat_deadlyshadows.ogg') // placeholder until a violent way is released
+	// SET PATRON
+	change_patron(owner.current)
+	// SET DAGGERS TO EXPERT
+	owner.current.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
+	// GIVE SPECIAL ITEMS
+	var/evil_mask = /obj/item/clothing/mask/rogue/sack
+	owner.special_items["Sack Mask"] = evil_mask
+	// SPELLS, VIRTUES, AND EQUIPMENT, ALL GO HERE.
 	for(var/assassin_trait in traits_assassin)
 		if(!HAS_TRAIT(owner.current, assassin_trait))
 			ADD_TRAIT(owner.current, assassin_trait, SOURCE_ASSASSIN)
-	// as much as i fucking dread the numbersjak.
-	owner.current.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
-	var/evil_mask = /obj/item/clothing/mask/rogue/sack
-	owner.special_items["Sack Mask"] = evil_mask
 	var/datum/action/cooldown/spell/assassin/get_dagger/A = new
 	A.Grant(owner.current)
+
 	// temporary to see how this goes. i think it might help w/ how they need to toggle a lot of their features.
 	apply_virtue(owner.current, new /datum/virtue/combat/guarded)
 	// prevents ear-explosions & THE TEXTWALL. hopefully.
@@ -79,6 +85,68 @@
 			assassin_power.Remove(owner.current)
 	. = ..()
 
+/// This proc attempts to set the patron of the user, changing out spells/devotion-datum as required.
+/datum/antagonist/assassin/proc/change_patron(mob/living/user)
+	if(!user)
+		return
+	if(!ishuman(user))
+		return
+	// def user mob as human
+	var/mob/living/carbon/human/convert = user
+	// patron checks
+	if(!convert.patron)
+		return
+	if(istype(owner.current.patron, /datum/patron/inhumen/graggar))
+		// already gragging it means we dont need 2 change shit
+		return
+	// lets do it.
+	// butchered code i stole from kat's pr.
+	var/datum/patron/new_patron = /datum/patron/inhumen/graggar
+
+		// Save devotion state
+	var/saved_level = CLERIC_T0
+	var/saved_max_progression = CLERIC_T1
+	var/saved_devotion_gain = CLERIC_REGEN_MINOR
+	var/had_blast = FALSE
+	var/was_cleric = FALSE
+
+	if(convert.devotion)
+		was_cleric = TRUE
+		saved_level = convert.devotion.level
+		saved_devotion_gain = convert.devotion.passive_devotion_gain
+		saved_max_progression = convert.devotion.max_progression
+
+		// Remove all granted spells
+		for(var/S in convert.devotion.granted_spells)
+			convert.mind.RemoveSpell(S)
+
+		// gravemark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; also, necromancers and liches get them through arcyne means
+		if(convert.mind.has_spell(/datum/action/cooldown/spell/gravemark) && !istype(SSrole_class_handler.get_advclass_by_name(convert.advjob), /datum/advclass/wretch/necromancer) && !convert.mind.has_antag_datum(/datum/antagonist/lich))
+			convert.mind.RemoveSpell(/datum/action/cooldown/spell/gravemark)
+			convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_order)
+
+		if(convert.mind.has_spell(/datum/action/cooldown/spell/projectile/divine_blast))
+			had_blast = TRUE
+			convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/divine_blast)
+
+		if(convert.mind.has_spell(/datum/action/cooldown/spell/projectile/unholy_blast))
+			had_blast = TRUE
+			convert.mind.RemoveSpell(/datum/action/cooldown/spell/projectile/unholy_blast)
+
+		// cleric traits are removed here
+		convert.devotion.Destroy()
+
+	// basic god traits are swapped over here
+	convert.set_patron(new_patron)
+
+	if(was_cleric)
+		// Grant new devotion
+		var/datum/devotion/new_devotion = new /datum/devotion(convert, convert.patron)
+		convert.devotion = new_devotion
+		new_devotion.grant_miracles(convert, saved_level, saved_devotion_gain, saved_max_progression)
+		if(had_blast)
+			var/datum/action/cooldown/spell/blast = /datum/action/cooldown/spell/projectile/unholy_blast
+			blast.Grant(convert)
 
 
 /datum/antagonist/assassin/farewell()

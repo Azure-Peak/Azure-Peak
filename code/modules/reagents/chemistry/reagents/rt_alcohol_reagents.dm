@@ -2,7 +2,7 @@
 /datum/reagent/consumable/ethanol/beer
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_ALE
-	name = "Beer"
+	name = "beer"
 	description = "Civilization in a cup. Could you truly ask for anything more?"
 	color = "#a17c10" // rgb: 102, 67, 0
 	nutriment_factor = 0.1
@@ -14,7 +14,7 @@
 /datum/reagent/consumable/ethanol/rum
 	cuisine = CUISINE_RANESHENI
 	drink_type = DRINKTYPE_SPIRIT
-	name = "Rum"
+	name = "rum"
 	description = "Where has the rum gone?"
 	color = "#5f3b23" // rgb: 102, 67, 0
 	boozepwr = 40
@@ -24,7 +24,7 @@
 /datum/reagent/consumable/ethanol/cider
 	cuisine = CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	drink_type = DRINKTYPE_CIDER
-	name = "Apple Cider"
+	name = "apple cider"
 	boozepwr = 40
 	taste_description = "crisp freshness of apple"
 	glass_name = "glass of cider"
@@ -32,15 +32,15 @@
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/cider/pear
-	name = "Pear Cider"
+	name = "pear cider"
 	boozepwr = 40
 	taste_description = "sweet subtle delights of pear"
-	glass_name = "Glass of Pear Cider"
+	glass_name = "glass of pear cider"
 	color = "fffc6c"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/cider/strawberry
-	name = "Strawberry Cider"
+	name = "strawberry cider"
 	boozepwr = 40
 	taste_description = "a subtle hint of strawberry sweetness"
 	color = "#da4d4d"
@@ -50,7 +50,7 @@
 /datum/reagent/consumable/ethanol/aqua_vitae
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_SPIRIT
-	name = "Aqua Vitae"
+	name = "aqua vitae"
 	boozepwr = 150
 	taste_description = "death"
 	color = "#6e6e6e"
@@ -59,7 +59,7 @@
 /datum/reagent/consumable/ethanol/brandy
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_SPIRIT
-	name = "Apple Brandy"
+	name = "apple brandy"
 	boozepwr = 60
 	taste_description = "caramel oak brandy"
 	glass_name = "glass of brandy"
@@ -67,28 +67,28 @@
 	quality = DRINK_VERYGOOD
 
 /datum/reagent/consumable/ethanol/brandy/pear
-	name = "Pear Brandy"
+	name = "pear brandy"
 	boozepwr = 60
 	taste_description = "ripe pear with a hint of spice"
 	color = "b9b607"
 	quality = DRINK_VERYGOOD
 
 /datum/reagent/consumable/ethanol/brandy/strawberry
-	name = "Strawberry Brandy"
+	name = "strawberry brandy"
 	boozepwr = 60
 	taste_description = "overwhelming sweetness with a smooth finish"
 	color = "#bb1a1a"
 	quality = DRINK_VERYGOOD
 
 /datum/reagent/consumable/ethanol/brandy/tangerine
-	name = "Tangerine Brandy"
+	name = "tangerine brandy"
 	boozepwr = 60
 	taste_description = "spice and a twist of citrus"
 	color = "#bb751a"
 	quality = DRINK_VERYGOOD
 
 /datum/reagent/consumable/ethanol/brandy/plum
-	name = "Plum Brandy"
+	name = "plum brandy"
 	boozepwr = 60
 	taste_description = "purple sweetness and vanila"
 	color = "#5c0449"
@@ -97,7 +97,7 @@
 /datum/reagent/consumable/ethanol/wine
 	cuisine = CUISINE_ETRUSCAN
 	drink_type = DRINKTYPE_WINE
-	name = "Wine"
+	name = "wine"
 	boozepwr = 30
 	taste_description = "aromatic bitterness with notes of sweetly-fermented jackberries"
 	glass_name = "glass of wine"
@@ -106,7 +106,7 @@
 
 /datum/reagent/consumable/ethanol/light
 	cuisine = CUISINE_NORTH_IMPERIAL
-	name = "Light Beer"
+	name = "light beer"
 	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety has reduced calorie and alcohol content."
 	boozepwr = 5 //Space Europeans hate it
 	taste_description = "dish water"
@@ -115,7 +115,7 @@
 
 /datum/reagent/consumable/ethanol/green
 	cuisine = CUISINE_NORTH_IMPERIAL
-	name = "Green Beer"
+	name = "green beer"
 	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety is dyed a festive green."
 	color = "#A8E61D"
 	taste_description = "green piss water"
@@ -134,7 +134,7 @@
 /datum/reagent/consumable/ethanol/ale
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_ALE
-	name = "Ale"
+	name = "ale"
 	description = "A dark alcoholic beverage made with malted barley and yeast."
 	color = "#664300" // rgb: 102, 67, 0
 	boozepwr = 25
@@ -158,7 +158,7 @@
 /datum/reagent/consumable/ethanol/gin
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_SPIRIT
-	name = "Gin"
+	name = "gin"
 	boozepwr = 65
 	taste_description = "strong, piney flavor"
 	color = "#809978"
@@ -192,7 +192,7 @@
 /datum/reagent/consumable/ethanol/onion
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_SPIRIT
-	name = "Onion Cognac"
+	name = "onion cognac"
 	boozepwr = 10
 	taste_description = "spicy sweet malty overtones"
 	color = "#683e00"
@@ -269,7 +269,7 @@
 /datum/reagent/consumable/ethanol/ricewine
 	cuisine = CUISINE_SOUTHEASTERN
 	drink_type = DRINKTYPE_RICEWINE
-	name = "Rice Wine"
+	name = "rice wine"
 	taste_description = "floral sweetness with a subtle umami taste."
 	color = "#F5E6C4" // rgb: 210, 218, 99
 	boozepwr = 30
@@ -278,7 +278,7 @@
 /datum/reagent/consumable/ethanol/ricespirit
 	cuisine = CUISINE_SOUTHEASTERN
 	drink_type = DRINKTYPE_RICEWINE
-	name = "Rice Spirit"
+	name = "rice spirit"
 	taste_description = "clean heat and dry finish."
 	color = "#F8FDFC" // rgb: 210, 218, 99
 	boozepwr = 55
@@ -290,7 +290,7 @@
 
 /datum/reagent/consumable/ethanol/sourwine // Peasant grade shit.
 	cuisine = CUISINE_NORTH_IMPERIAL
-	name = "Sour Wine"
+	name = "sour wine"
 	boozepwr = 20
 	taste_description = "sour wine"
 	color = "#552b4b"
@@ -298,7 +298,7 @@
 /datum/reagent/consumable/ethanol/whitewine
 	cuisine = CUISINE_OTAVAIS
 	drink_type = DRINKTYPE_WINE
-	name = "White Wine"
+	name = "white wine"
 	boozepwr = 30
 	taste_description = "sweet white wine"
 	color = "#F3ED91"
@@ -307,7 +307,7 @@
 /datum/reagent/consumable/ethanol/redwine
 	cuisine = CUISINE_OTAVAIS
 	drink_type = DRINKTYPE_WINE
-	name = "Red Wine"
+	name = "red wine"
 	boozepwr = 30
 	taste_description = "tannin-stricken wine"
 	color = "#571111"
@@ -316,21 +316,21 @@
 /datum/reagent/consumable/ethanol/jackberrywine
 	cuisine = CUISINE_OTAVAIS
 	drink_type = DRINKTYPE_WINE
-	name = "Jackberry Wine"
+	name = "jacksberried wine"
 	boozepwr = 15
 	taste_description = "sickly sweet young wine"
 	color = "#3b2342"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/jackberrywine/aged
-	name = "Aged Jackberry Wine"
+	name = "aged jacksberried wine"
 	boozepwr = 30
 	taste_description = "sweet aged wine"
 	color = "#402249"
 	quality = DRINK_GOOD
 
 /datum/reagent/consumable/ethanol/jackberrywine/delectable
-	name = "Delectable Jackberry Wine"
+	name = "delectable jacksberried wine"
 	boozepwr = 30
 	taste_description = "sweet delectably aged wine"
 	color = "#652679"
@@ -339,21 +339,21 @@
 /datum/reagent/consumable/ethanol/plum_wine
 	cuisine = CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	drink_type = DRINKTYPE_WINE
-	name = "Umeshu"
+	name = "umeshu"
 	boozepwr = 15
 	taste_description = "sickly sour young wine"
 	color = "#c997d8"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/plum_wine/aged
-	name = "Aged Umeshu"
+	name = "aged umeshu"
 	boozepwr = 30
 	taste_description = "sweet slightly sour aged wine"
 	color = "#c27cd8"
 	quality = DRINK_GOOD
 
 /datum/reagent/consumable/ethanol/plum_wine/delectable
-	name = "Delectable Umeshu"
+	name = "delectable umeshu"
 	boozepwr = 30
 	taste_description = "delectably aged sour sweet wine"
 	color = "#a854c2"
@@ -362,21 +362,21 @@
 /datum/reagent/consumable/ethanol/tangerine
 	cuisine = CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	drink_type = DRINKTYPE_WINE
-	name = "Tangerine Wine"
+	name = "tangerine wine"
 	boozepwr = 15
 	taste_description = "bittersweet, citrusy young wine"
 	color = "#e7aa59"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/tangerine/aged
-	name = "Aged Tangerine Wine"
+	name = "aged tangerine wine"
 	boozepwr = 30
 	taste_description = "bittersweet, citrusy aged wine"
 	color = "#d68d2d"
 	quality = DRINK_GOOD
 
 /datum/reagent/consumable/ethanol/tangerine/delectable
-	name = "Delectable Tangerine Wine"
+	name = "delectable tangerine wine"
 	boozepwr = 30
 	taste_description = "bittersweet, citrusy delectably aged wine"
 	color = "#eb9321"
@@ -385,21 +385,21 @@
 /datum/reagent/consumable/ethanol/raspberry
 	cuisine = CUISINE_OTAVAIS
 	drink_type = DRINKTYPE_WINE
-	name = "Raspberry Wine"
+	name = "raspberry wine"
 	boozepwr = 15
 	taste_description = "tart sweet young wine"
 	color = "#ee5ea6"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/raspberry/aged
-	name = "Aged Raspberry Wine"
+	name = "aged raspberry wine"
 	boozepwr = 30
 	taste_description = "tart sweet aged wine"
 	color = "#d83788"
 	quality = DRINK_GOOD
 
 /datum/reagent/consumable/ethanol/raspberry/delectable
-	name = "Delectable Raspberry Wine"
+	name = "delectable raspberry wine"
 	boozepwr = 30
 	taste_description = "tart sweet delectably aged wine"
 	color = "#db0d74"
@@ -408,21 +408,21 @@
 /datum/reagent/consumable/ethanol/blackberry
 	cuisine = CUISINE_OTAVAIS
 	drink_type = DRINKTYPE_WINE
-	name = "Blackberry Wine"
+	name = "blackberry wine"
 	boozepwr = 15
 	taste_description = "bitter tart young wine"
 	color = "#861491"
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/blackberry/aged
-	name = "Aged Blackberry Wine"
+	name = "aged blackberry wine"
 	boozepwr = 30
 	taste_description = "bitter tart aged wine"
 	color = "#58065f"
 	quality = DRINK_GOOD
 
 /datum/reagent/consumable/ethanol/blackberry/delectable
-	name = "Delectable Blackberry Wine"
+	name = "delectable blackberry wine"
 	boozepwr = 30
 	taste_description = "bitter tart delectably aged wine"
 	color = "#330038"
@@ -433,7 +433,7 @@
 /datum/reagent/consumable/ethanol/spicedwine
 	cuisine = CUISINE_RANESHENI
 	drink_type = DRINKTYPE_WINE
-	name = "Spiced Wine"
+	name = "spiced wine"
 	boozepwr = 10
 	taste_description = "overpoweringly aromatic, sweetening the tongue and numbing the lips"
 	color = "#a11a00"
@@ -446,7 +446,7 @@
 	..()
 
 /datum/reagent/consumable/ethanol/spicedwine/aged
-	name = "Aged Spiced Wine"
+	name = "aged spiced wine"
 	boozepwr = 20
 	taste_description = "richly aromatic spiciness, evoking the memory of a holidae's snow-speckled nite"
 	color = "#961800"
@@ -459,7 +459,7 @@
 	..()
 
 /datum/reagent/consumable/ethanol/spicedwine/delectable
-	name = "Delectable Spiced Wine"
+	name = "delectable spiced wine"
 	boozepwr = 40
 	taste_description = "heavenly aromatic sweetness, followed by an ever-familiar warmness in the heart"
 	color = "#821500"
@@ -667,7 +667,7 @@
 /datum/reagent/consumable/ethanol/mead
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	drink_type = DRINKTYPE_MEAD
-	name = "Mead"
+	name = "mead"
 	description = "A warriors drink, though a cheap one."
 	color = "#664300" // rgb: 102, 67, 0
 	nutriment_factor = 1 * REAGENTS_METABOLISM
@@ -760,3 +760,103 @@
 /datum/reagent/consumable/ethanol/truewhipwine/on_mob_metabolize(mob/living/M)
 	. = ..()
 	M.apply_status_effect(/datum/status_effect/buff/fermented_crab)
+
+//New Alcoholic mixes.
+
+/datum/reagent/consumable/ethanol/bloodymary
+	cuisine = CUISINE_RANESHENI
+	drink_type = DRINKTYPE_CIDER
+	name = "Bloody Mary"
+	description = "Possibly the only way blood can be paletteable for the normal non-graggarite. How moral it is to drink? Still questionable."
+	color = "#570000"
+	quality = DRINK_FANTASTIC
+	boozepwr = 30
+	taste_description = "a bit of tang, a little citrus, and a little.. iron."
+	metabolization_rate = 1 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	hydration_factor = 15
+
+/datum/chemical_reaction/alch/bloodymary
+	name = "Bloody Mary"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/bloodymary
+	results = list(/datum/reagent/consumable/ethanol/bloodymary = 4)
+	required_reagents = list(/datum/reagent/consumable/ethanol/voddena = 1, /datum/reagent/consumable/juice/tomato = 1, /datum/reagent/consumable/juice/lime = 1, /datum/reagent/blood = 1)
+
+/datum/reagent/consumable/ethanol/eoras_favour
+	cuisine = CUISINE_RANESHENI
+	drink_type = DRINKTYPE_CIDER
+	name = "Eora's Favour"
+	description = "The most romantic and refreshing mix of cider and pomegranate, fresh from Eora's trees."
+	color = "#FF5799"
+	quality = DRINK_FANTASTIC
+	boozepwr = 30
+	taste_description = "a refreshing and viscous sweet and tart mix."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	hydration_factor = 15
+
+/datum/chemical_reaction/alch/efavour
+	name = "Eora's Favour"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/eoras_favour
+	results = list(/datum/reagent/consumable/ethanol/eoras_favour = 2)
+	required_reagents = list(/datum/reagent/consumable/ethanol/cider = 1, /datum/reagent/consumable/juice/pomegranate = 1)
+
+/datum/reagent/consumable/ethanol/dendors_favour
+	cuisine = CUISINE_SOUTHEASTERN
+	drink_type = DRINKTYPE_CIDER
+	name = "Dendor's Favour"
+	description = "A very natural and very alcoholic mixture for a blessing from Dendor instead of a curse."
+	color = "#628C58"
+	quality = DRINK_FANTASTIC
+	boozepwr = 40
+	taste_description = "sweet taste of nature."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	hydration_factor = 15
+
+/datum/chemical_reaction/alch/dfavour
+	name = "Dendor's Favour"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/dendors_favour
+	results = list(/datum/reagent/consumable/ethanol/dendors_favour = 2)
+	required_reagents = list(/datum/reagent/consumable/ethanol/cider/pear = 1, /datum/reagent/consumable/ethanol/aurorian = 1)
+
+/datum/reagent/consumable/ethanol/blackberry_sangria
+	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
+	name = "Sangria D'Otavais"
+	description = "A refreshingly sweet and tart blackberry mixture, screams Otavain. This alcohol is practically a dessert."
+	color = "#2E2047"
+	quality = DRINK_FANTASTIC
+	boozepwr = 40
+	taste_description = "slightly tart sweetness."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+
+/datum/chemical_reaction/alch/bsangria
+	name = "Sangria D'Otavais"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/blackberry_sangria
+	results = list(/datum/reagent/consumable/ethanol/blackberry_sangria = 2)
+	required_reagents = list(/datum/reagent/consumable/juice/blackberry = 1, /datum/reagent/consumable/ethanol/blackberry = 1)
+
+/datum/reagent/consumable/ethanol/xylix_spice
+	cuisine = CUISINE_OTAVAIS
+	drink_type = DRINKTYPE_WINE
+	name = "Spice of Xylix"
+	description = "A gamble to your senses, this drink is harsh and definitely an acquired taste."
+	color = "#EBBD1C"
+	quality = DRINK_FANTASTIC
+	boozepwr = 40
+	taste_description = "Spicy and acidic shock."
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+
+/datum/chemical_reaction/alch/xylix_spice
+	name = "Spice of Xylix"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/ethanol/xylix_spice
+	results = list(/datum/reagent/consumable/ethanol/xylix_spice = 2)
+	required_reagents = list(/datum/reagent/consumable/juice/orange = 1, /datum/reagent/consumable/ethanol/sazdistal = 1, /datum/reagent/consumable/allspice = 1)

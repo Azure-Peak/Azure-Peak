@@ -20,6 +20,7 @@
 	var/traits = null
 	var/space_ruin_levels = 7
 	var/space_empty_levels = 1
+	var/load_dungeon = TRUE
 
 	/// List of unit tests that are skipped when running this map
 	var/list/skipped_tests
@@ -126,6 +127,8 @@
 	else if (!isnull(temp))
 		log_world("map_config space_empty_levels is not a number!")
 		return
+
+	load_dungeon = json["load_dungeon"] != FALSE
 
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
 

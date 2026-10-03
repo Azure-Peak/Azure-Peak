@@ -29,7 +29,7 @@ export type PopupPatronSelectData = {
   selected_patron: Path;
 } & PopupData;
 
-const PopupPatronSelect = (props) => {
+const PopupPatronSelect = () => {
   const [constantData] = useConstantPrefs();
   const { data } = usePopupBackend<PopupPatronSelectData>();
   const { popup_data_ready } = data;

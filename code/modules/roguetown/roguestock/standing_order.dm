@@ -6,6 +6,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/region_id
 	var/list/required_items = list()
 	var/total_payout = 0
+	/// Payout before the scarcity bonus. Set by compute_order_payout() alongside total_payout.
+	var/base_payout = 0
+	/// Scarcity bonus % applied on top of base_payout, e.g. 40 for +40%. 0 at/above reference pop.
+	var/scarcity_bonus_pct = 0
 	var/day_issued = 0
 	var/day_expires = 0
 	var/is_fulfilled = FALSE
@@ -1146,11 +1150,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/patron = length(projects) ? capitalize(pick(projects)) : "A patron"
 	switch(rolled_tier)
 		if("superior")
-			return "[patron] at [region.name] commissions superior enchantment scrolls - fulfilled at the warehouse, any scrolls will serve."
+			return "[patron] at [region.name] commissions superior enchantment tinctures - fulfilled at the warehouse, any tinctures will serve."
 		if("greater")
-			return "[patron] at [region.name] commissions greater enchantment scrolls - fulfilled at the warehouse - any types will serve."
+			return "[patron] at [region.name] commissions greater enchantment tinctures - fulfilled at the warehouse - any types will serve."
 		else
-			return "[patron] at [region.name] commissions basic enchantment scrolls - any school of magic, sealed at the warehouse."
+			return "[patron] at [region.name] commissions basic enchantment tinctures - any school of magic, sealed at the warehouse."
 
 
 /datum/standing_order/demand_trophy_heads

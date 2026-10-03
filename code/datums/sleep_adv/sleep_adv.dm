@@ -188,6 +188,9 @@
 	var/dream_dust = retained_dust
 	dream_dust += BASE_DREAM_DUST
 
+	if(HAS_TRAIT(mind.current, TRAIT_GOODSLEEP))
+		dream_dust += floor(BASE_DREAM_DUST)
+
 	var/int = mind.current.STAINT
 	dream_dust += mind.current.STAINT * DREAM_DUST_PER_INT //25% dream points for each int
 	if(int < 10)
@@ -218,6 +221,8 @@
 	retained_dust = dream_dust_modulo
 
 	sleep_adv_points += dream_points + 1 //Have a dream point. Because you're awesome.
+	if(HAS_TRAIT(mind.current, TRAIT_DEEP_DREAMER)) // God of Dreams and Nightmares check
+		sleep_adv_points += rand(1,2)
 	sleep_adv_cycle++
 
 	show_ui(mind.current)

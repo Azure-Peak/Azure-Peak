@@ -154,8 +154,9 @@
 	charge_time = CHARGETIME_MAJOR
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	charge_sound = 'sound/magic/holycharging.ogg'
-	cooldown_time = 45 SECONDS
+	cooldown_time = 30 SECONDS
 
 	associated_stat = null
 	associated_skill = /datum/skill/magic/holy
@@ -178,9 +179,8 @@
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
 	light_color = "#a98107"
-	damage = 50
+	damage = 80
 	damage_type = BURN
-	accuracy = 50 //Astrata show me true or something?
 	nodamage = FALSE
 	speed = 0.3
 	flag = "fire"
@@ -205,7 +205,7 @@
 					L.Immobilize(0.5 SECONDS)
 					L.ignite_mob()
 				else
-					L.adjust_fire_stacks(4)
+					L.adjust_fire_stacks(2)
 					L.Immobilize(0.5 SECONDS)
 					L.ignite_mob()
 	else if(isatom(target))

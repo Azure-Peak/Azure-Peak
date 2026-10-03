@@ -22,7 +22,7 @@ export type OriginPopupData = {
   available_origins: Path[];
 } & PopupData;
 
-const PopupOriginSelector = (props) => {
+const PopupOriginSelector = () => {
   const [constantData] = useConstantPrefs();
   const { data } = usePopupBackend<OriginPopupData>();
   const { available_origins, popup_data_ready } = data;

@@ -159,7 +159,7 @@
 
 	playsound(loc, cuffsound, 30, TRUE, -2)
 
-	if(!do_mob(user, C, 60 * surrender_mod) || C.get_num_legs(FALSE) < 2)
+	if(!do_mob(user, C, 60 * surrender_mod, double_progress = TRUE, can_move = FALSE) || C.get_num_legs(FALSE) < 2)
 		to_chat(user, span_warning("I fail to tie up [C]!"))
 		return
 

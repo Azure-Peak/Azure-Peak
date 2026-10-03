@@ -67,12 +67,22 @@
 	name = "Lesser Verewolf"
 	increase_votepwr = FALSE
 
+/datum/antagonist/werewolf/noinfect
+	name = "Lowest Verewolf"
+	increase_votepwr = FALSE
+
+
 /datum/antagonist/werewolf/lesser/roundend_report()
+	return
+
+/datum/antagonist/werewolf/noinfect/roundend_report()
 	return
 
 /datum/antagonist/werewolf/examine_friendorfoe(datum/antagonist/examined_datum,mob/examiner,mob/examined)
 	if(istype(examined_datum, /datum/antagonist/werewolf/lesser))
 		return span_boldnotice("A young lupine kin.")
+	if(istype(examined_datum, /datum/antagonist/werewolf/noinfect))
+		return span_boldnotice("A young lupine kin. The curse is weak with them.")
 	if(istype(examined_datum, /datum/antagonist/werewolf))
 		return span_boldnotice("An elder lupine kin.")
 	if(istype(examined_datum, /datum/antagonist/maniac))
@@ -131,6 +141,14 @@
 /datum/antagonist/werewolf/lesser/greet()
 	// DO NOT call parent.
 	// lesser verevolfs should always be created by alpha bites, which have their own way of informing the user
+	// they are a werewolf. despite this, i still want to provide a new audio cue in the form of [THE CRY].
+	// remove it if it's obstructive. thx.
+	var/picked_sound = pick(dendor_cries)
+	owner.current.playsound_local(get_turf(owner.current), picked_sound, 100)
+
+/datum/antagonist/werewolf/noinfect/greet()
+	// DO NOT call parent.
+	// Noinfect verevolfs
 	// they are a werewolf. despite this, i still want to provide a new audio cue in the form of [THE CRY].
 	// remove it if it's obstructive. thx.
 	var/picked_sound = pick(dendor_cries)
@@ -200,7 +218,7 @@
 	slot_flags = null
 	blocking_behavior = null
 	name = "verewolf's skin"
-	desc = "an impenetrable hide of dendor's fury"
+	desc = "An impenetrable cloak of Dendor's fury."
 	icon_state = null
 	body_parts_covered = CHEST
 	body_parts_inherent = CHEST
@@ -212,6 +230,10 @@
 	item_flags = DROPDEL
 	repair_time = 20 SECONDS
 	interrupt_damount = 35
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_LYCANRESILENCE, "HIDE") //Allows increased integrity damage from silver weapons. Near-impossible to obtain beyond debugging.
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin/extremities
 	max_integrity = 550

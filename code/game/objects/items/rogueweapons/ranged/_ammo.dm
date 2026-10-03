@@ -3,6 +3,7 @@
 	firing_effect_type = null
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	var/ammo_weight = 1 // Weight cost in a quiver. Default 1, heavy ammo costs more.
+	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/weapon)
 
 /obj/item/ammo_casing/caseless/rogue/get_mechanics_examine(mob/user)
 	. = ..()
@@ -58,6 +59,6 @@
 
 	if(is_silver_proj && HAS_TRAIT(victim, TRAIT_SILVER_WEAK))
 		SEND_SIGNAL(victim, COMSIG_FORCE_UNDISGUISE)
-		to_chat(victim, span_danger("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
+		to_chat(victim, span_silver("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 		victim.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/sunder) // Ammunition can't be blessed.
 		victim.ignite_mob()

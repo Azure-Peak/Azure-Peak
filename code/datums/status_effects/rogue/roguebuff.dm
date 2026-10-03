@@ -239,43 +239,6 @@
 	desc = ""
 	icon_state = "acid"
 
-/datum/status_effect/buff/baothablessing
-	id = "druqks"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/baothablessing
-	duration = 2 MINUTES
-
-/datum/status_effect/buff/baothablessing/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-	if(owner?.client)
-		if(owner.client.screen && owner.client.screen.len)
-			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
-			PM.backdrop(owner)
-			owner.add_stress(/datum/stressevent/high)
-
-/datum/status_effect/buff/baothablessing/on_remove()
-	REMOVE_TRAIT(owner, TRAIT_CRACKHEAD, TRAIT_MIRACLE)
-	if(owner?.client)
-		if(owner.client.screen && owner.client.screen.len)
-			var/atom/movable/screen/plane_master/game_world/PM = locate(/atom/movable/screen/plane_master/game_world) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_fov_hidden) in owner.client.screen
-			PM.backdrop(owner)
-			PM = locate(/atom/movable/screen/plane_master/game_world_above) in owner.client.screen
-			PM.backdrop(owner)
-			owner.remove_stress(/datum/stressevent/high)
-
-	. = ..()
-
-/atom/movable/screen/alert/status_effect/buff/baothablessing
-	name = "Baothan Blessing"
-	desc = "Baotha has blessed you with immunity to overdose. Rejoice!"
-	icon_state = "acid"
-
 /datum/status_effect/buff/ozium
 	id = "ozium"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/druqks
@@ -668,6 +631,10 @@
 	owner.energy_add(9)
 
 #undef REWIND_AURA
+
+/datum/status_effect/buff/healing/soap
+	block_combat_mode = TRUE
+	healing_on_tick = 5 // quarter strength, sorry! it's soap, what'd you expect
 
 //lasts shorter than magic, one chomp every 3 seconds is good enough, let's not forget food can have multiple slices. This does not heal wounds, wounds are healed automatically like psydonitian trait, but it consumes 1% hunger a tick.
 #define CONSUME_AURA "consumehealing"
@@ -1292,7 +1259,7 @@
 /datum/status_effect/buff/knowledgerituos
 	id = "knowledgerituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/knowledgerituos
-	duration = 25 MINUTES
+	duration = 20 MINUTES
 	effectedstats = list(STATKEY_INT = 1)
 
 /atom/movable/screen/alert/status_effect/buff/knowledgerituos
@@ -1326,7 +1293,7 @@
 	id = "utilityrituos"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	effectedstats = list(STATKEY_WIL = 1) //Bare minimal needed to labor slightly easier.
-	duration = 25 MINUTES
+	duration = 20 MINUTES
 
 /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	name = "Progressive Trance"
@@ -2091,6 +2058,11 @@
 	desc = "The gambit worked! I can do anything! My heart races, the throb of my wounds wavers."
 	icon_state = "adrrush"
 
+/atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
+	name = "Endure"
+	desc = "I suffer in His light; my bleeding comes to a still."
+	icon_state = "adrrush"
+
 /datum/status_effect/buff/adrenaline_rush
 	id = "adrrush"
 	status_type = STATUS_EFFECT_REPLACE
@@ -2098,6 +2070,7 @@
 	duration = 18 SECONDS
 	examine_text = "SUBJECTPRONOUN is amped up!"
 	effectedstats = list(STATKEY_WIL = 1)
+	var/adrenaline_stam = TRUE
 	var/blood_restore = 30
 
 /datum/status_effect/buff/adrenaline_rush/on_apply()
@@ -2107,7 +2080,8 @@
 	if(istype(human))
 		human.playsound_local(get_turf(human), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
 		human.blood_volume = min((human.blood_volume + blood_restore), BLOOD_VOLUME_NORMAL)
-		human.stamina -= max((human.stamina - (human.max_stamina / 2)), 0)
+		if(adrenaline_stam)
+			human.stamina -= max((human.stamina - (human.max_stamina / 2)), 0)
 		human.pain_threshold += 50
 
 /datum/status_effect/buff/adrenaline_rush/on_remove()
@@ -2132,6 +2106,13 @@
 
 /datum/status_effect/buff/adrenaline_rush/graggar
 	effectedstats = list(STATKEY_CON = 3)
+
+/datum/status_effect/buff/adrenaline_rush/psydon
+	blood_restore = 0
+	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
+	examine_text = "SUBJECTPRONOUN is enduring!"
+	duration = 8 SECONDS //This is on a 30 second cooldown miracle.
+	adrenaline_stam = FALSE
 
 /datum/status_effect/buff/nocblessing
 	id = "nocblessing"
@@ -2438,7 +2419,7 @@
 	duration = 5 SECONDS
 	var/original_alpha = 255
 
-/datum/status_effect/buff/phase/on_creation(mob/living/new_owner)
+/datum/status_effect/buff/phase/on_creation(mob/living/new_owner, duration_mult = 1)
 	if(ishuman(new_owner))
 		var/mob/living/carbon/human/H = new_owner
 		switch(H.highest_ac_worn())
@@ -2454,6 +2435,7 @@
 			if(ARMOR_CLASS_HEAVY)
 				duration = 2 SECONDS
 				effectedstats[STATKEY_SPD] = 1
+	duration *= duration_mult
 	. = ..()
 
 /datum/status_effect/buff/phase/on_apply()
@@ -2513,22 +2495,38 @@
 /datum/status_effect/buff/journey_ending
 	id = "journey_ending"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_ending
-	effectedstats = list(STATKEY_SPD = 2, STATKEY_WIL = 2)
+	effectedstats = list(STATKEY_SPD = 1, STATKEY_CON = 2)
 	duration = -1
 
 /datum/status_effect/buff/journey_end
 	id = "journey_end"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end
-	effectedstats = list(STATKEY_STR = 2, STATKEY_SPD = 3, STATKEY_WIL = 2)
-	examine_text = "<font color='blue'>SUBJECTPRONOUN has entered a Battle Trance!</font>"
+	effectedstats = list(STATKEY_STR = 2, STATKEY_SPD = 3, STATKEY_CON = 2)
 	duration = -1
 
 /datum/status_effect/buff/journey_end_final //takes ages for them to die to bloodloss, but they *do* die to it
 	id = "journey_end_final"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/journey_end_final
-	effectedstats = list(STATKEY_STR = 5, STATKEY_SPD = 6, STATKEY_WIL = 4)
-	examine_text = "<font color='blue'>SUBJECTPRONOUN has entered a Battle Trance!</font>"
+	effectedstats = list(STATKEY_STR = 5, STATKEY_SPD = 6, STATKEY_CON = 3)
 	duration = -1
+
+/datum/status_effect/buff/journey_ending/on_apply()
+	. = ..()
+	to_chat(owner, span_warning("Clarity in the flow of blood and steel, measured, tempered."))
+
+/datum/status_effect/buff/journey_end/on_apply()
+	. = ..()
+	examine_text = "<font color='#5454FF'>SUBJECTPRONOUN [owner.p_have(FALSE)] steadied [owner.p_their(FALSE)] resolve, clinging to fading embers!</font>"
+	to_chat(owner, span_warning("Each breath burns in your lungs, doubt clawing at your very self."))
+
+/datum/status_effect/buff/journey_end_final/on_apply()
+	. = ..()
+	examine_text = "<font color='#5454FF'>SUBJECTPRONOUN [owner.p_are(FALSE)] drawing from [owner.p_their(FALSE)] final reserves, pushing the body to its limits!</font>"
+	to_chat(owner, span_warning("Numb fingers, blurred vision and a sense of serenity. Have you finally found a purpose?"))
+
+/datum/status_effect/buff/journey_end_final/on_remove()
+	. = ..()
+	to_chat(owner, span_warning("Not yet, not here... your search continues."))
 
 /datum/status_effect/buff/stagehands_silence
 	id = "Stagehand"
@@ -2786,7 +2784,7 @@
 /datum/status_effect/eoranaura
 	id = "eoranaura"
 	var/outline_colour = "#EEBBBB"
-	duration = 10 MINUTES
+	duration = 20 MINUTES
 	tick_interval = -1
 	examine_text = span_good("SUBJECTPRONOUN is bathed in Eora's Light!")
 	alert_type = null

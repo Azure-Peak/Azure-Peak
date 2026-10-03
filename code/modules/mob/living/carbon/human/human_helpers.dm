@@ -1,5 +1,10 @@
 
 /mob/living/carbon/human/proc/change_name(new_name)
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		var/datum/mind/M = H.mind
+		if(M && (real_name in M.known_people))
+			M.known_people[new_name] = M.known_people[real_name]
+			M.known_people.Remove(real_name)
 	real_name = new_name
 	SStreasury?.rename_account(src, new_name)
 

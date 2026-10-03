@@ -8,6 +8,7 @@
 	soundenv = 8
 	deathsight_message = "a dark cave where Abyssor's dream echoes"
 	detail_text = DETAIL_TEXT_UNDERCOAST
+	area_sniff_message = "You smell the sea and the damp, murky depths."
 
 /area/rogue/indoors/cave/underhamlet
 	name = "The Underhamlet"
@@ -33,6 +34,12 @@
 	name = "Southern Undercoast"
 	first_time_text = "Southern Undercoast"
 
+/area/rogue/indoors/cave/bog
+	icon_state = "bog"
+	name = "Flooded Caves"
+	first_time_text = "Flooded Caves"
+	deathsight_message = "dank, moldy caverns flowing with foul water from a rotten swamp"
+
 /area/rogue/under/cave/mazedungeon
 	name = "Temple of the Shattered God"
 	loot_budget = LOOT_BUDGET_TEMPLE_SHATTERED
@@ -56,3 +63,27 @@
 	ceiling_protected = TRUE
 	deathsight_message = "a dark cave where Abyssor's dream echoes"
 	detail_text = DETAIL_TEXT_ORC_RUIN
+
+/area/rogue/under/cave/menageriedungeon
+	name = "Menagerie"
+	loot_budget = LOOT_BUDGET_MENAGERIE
+	icon_state = "under"
+	first_time_text = "MENAGERIE"
+	droning_sound = 'sound/music/area/dungeon.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	ceiling_protected = TRUE
+	deathsight_message = "a twisted collection of cages and cells"
+	detail_text = DETAIL_TEXT_MENAGERIE
+
+/area/rogue/under/cave/menageriedeep
+	name = "Menagerie Deep"
+	loot_budget = LOOT_BUDGET_MENAGERIE_DEEP
+	icon_state = "under"
+	first_time_text = "BENEATH"
+	droning_sound = 'sound/music/area/dungeon2.ogg'
+	droning_sound_dusk = null
+	droning_sound_night = null
+	ceiling_protected = TRUE
+	deathsight_message = "a twisted collection of cages and cells"
+	detail_text = DETAIL_TEXT_MENAGERIE_DEEP

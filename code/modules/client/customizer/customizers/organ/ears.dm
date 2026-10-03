@@ -87,6 +87,7 @@
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/elf_long,
 		/datum/sprite_accessory/ears/elf_small)
 
 /datum/customizer/organ/ears/elf
@@ -101,6 +102,7 @@
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elf_short,
+		/datum/sprite_accessory/ears/elf_long,
 		/datum/sprite_accessory/ears/elf_small,
 		/datum/sprite_accessory/ears/wispy,
 		/datum/sprite_accessory/ears/small)
@@ -197,6 +199,10 @@
 		/datum/sprite_accessory/ears/possum,
 		/datum/sprite_accessory/ears/raccoon,
 		/datum/sprite_accessory/ears/mouse,
+		/datum/sprite_accessory/ears/dormouse,
+		/datum/sprite_accessory/ears/dormouse_skin,
+		/datum/sprite_accessory/ears/dormouse_rings,
+		/datum/sprite_accessory/ears/dormouse_skin_rings,
 		/datum/sprite_accessory/ears/big/acrador_long,
 		/datum/sprite_accessory/ears/big/acrador_short,
 		/datum/sprite_accessory/ears/big/sandfox_large,
@@ -272,6 +278,10 @@
 		/datum/sprite_accessory/ears/possum,
 		/datum/sprite_accessory/ears/raccoon,
 		/datum/sprite_accessory/ears/mouse,
+		/datum/sprite_accessory/ears/dormouse,
+		/datum/sprite_accessory/ears/dormouse_skin,
+		/datum/sprite_accessory/ears/dormouse_rings,
+		/datum/sprite_accessory/ears/dormouse_skin_rings,
 		/datum/sprite_accessory/ears/big/acrador_long,
 		/datum/sprite_accessory/ears/big/acrador_short,
 		/datum/sprite_accessory/ears/big/sandfox_large,
@@ -311,8 +321,8 @@
 		/datum/sprite_accessory/ears/elf,
 		/datum/sprite_accessory/ears/elfw,
 		/datum/sprite_accessory/ears/elf_short,
-		/datum/sprite_accessory/ears/elf_small
-		)
+		/datum/sprite_accessory/ears/elf_long,
+		/datum/sprite_accessory/ears/elf_small)
 
 // ---- Dullahan
 /datum/customizer/organ/ears/dullahan
@@ -372,6 +382,10 @@
 		/datum/sprite_accessory/ears/possum,
 		/datum/sprite_accessory/ears/raccoon,
 		/datum/sprite_accessory/ears/mouse,
+		/datum/sprite_accessory/ears/dormouse,
+		/datum/sprite_accessory/ears/dormouse_skin,
+		/datum/sprite_accessory/ears/dormouse_rings,
+		/datum/sprite_accessory/ears/dormouse_skin_rings,
 		/datum/sprite_accessory/ears/big/acrador_long,
 		/datum/sprite_accessory/ears/big/acrador_short,
 		/datum/sprite_accessory/ears/big/sandfox_large,
@@ -436,6 +450,10 @@
 		/datum/sprite_accessory/ears/possum,
 		/datum/sprite_accessory/ears/raccoon,
 		/datum/sprite_accessory/ears/mouse,
+		/datum/sprite_accessory/ears/dormouse,
+		/datum/sprite_accessory/ears/dormouse_skin,
+		/datum/sprite_accessory/ears/dormouse_rings,
+		/datum/sprite_accessory/ears/dormouse_skin_rings,
 		/datum/sprite_accessory/ears/big/acrador_long,
 		/datum/sprite_accessory/ears/big/acrador_short,
 		/datum/sprite_accessory/ears/big/sandfox_large,

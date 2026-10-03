@@ -58,6 +58,14 @@
 	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
 	color = "#ffffff"
 
+/obj/item/clothing/gloves/roguetown/angle/gronnfur/cleric
+	name = "thin fur-lined bone gloves"
+	desc = "A pair of thinner leather gloves with some bone reinforcements across the wrists\
+			and the back of the hand, offering barely much protection against\
+			the claws of beasts and plants alike. Commonly worn by preachers."
+	max_integrity = ARMOR_INT_SIDE_LEATHER
+	armor = ARMOR_LEATHER
+
 /obj/item/clothing/head/roguetown/helmet/leather/shaman_hood
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_HIP
 	name = "moose hood"

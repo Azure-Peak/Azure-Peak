@@ -16,7 +16,7 @@ function LinkedToChat() {
   return <NoticeBox color="red">Unlink Stat Panel from chat!</NoticeBox>;
 }
 
-export function SettingsStatPanel(props) {
+export function SettingsStatPanel() {
   const { settings, updateSettings } = useSettings();
   const { statLinked, statFontSize, statTabsStyle } = settings;
 

@@ -30,15 +30,10 @@
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/cloak (3).ogg', null, (UPD_HEAD|UPD_MASK))	//Standard hood
 
 /obj/item/clothing/head/roguetown/roguehood/MiddleClick(mob/user)
+	..()
 	if(!ishuman(user))
 		return
-	if(flags_inv & HIDEHAIR)
-		flags_inv &= ~HIDEHAIR
-	else
-		flags_inv |= HIDEHAIR
-	persist_inv_flags(HIDEHAIR)
 	user.update_inv_wear_mask()
-	user.update_inv_head()
 
 /obj/item/clothing/head/roguetown/roguehood/AltRightClick(mob/user)
 	. = ..()
@@ -56,8 +51,10 @@
 /obj/item/clothing/head/roguetown/roguehood/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right click to adjust the hood's coverage. Most fully-drawn hoods will hide the wearer's identity.")
-	. += span_info("Middle click to toggle hair.")
 	. += span_info("Alt Right click to move hood layer under or above hair.")
+
+/obj/item/clothing/head/roguetown/roguehood/white
+	color = CLOTHING_WHITE
 
 /obj/item/clothing/head/roguetown/roguehood/red
 	color = CLOTHING_RED

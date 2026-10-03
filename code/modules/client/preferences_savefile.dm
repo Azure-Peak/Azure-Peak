@@ -126,6 +126,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["tgui_theme"]			>> tgui_theme
 	S["parchment_skin"]		>> parchment_skin
 	S["statbrowser_theme"]	>> statbrowser_theme
+	S["vv_dark_mode"]		>> vv_dark_mode
 	S["preferred_ui_language"] >> preferred_ui_language
 	S["windowflash"]		>> windowflashing
 	S["be_special"]		>> be_special
@@ -152,6 +153,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["shake"]				>> shake
 	S["mastervol"]			>> mastervol
 	S["compliance_notifs"]  >> compliance_notifs
+	S["roll_tokens"]		>> roll_tokens
 
 	S["default_slot"]		>> default_slot
 	S["chat_toggles"]		>> chat_toggles
@@ -200,9 +202,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	no_language_icon	= sanitize_bool(no_language_icon, initial(no_language_icon))
 	no_redflash			= sanitize_bool(no_redflash, initial(no_redflash))
 	top_examine			= sanitize_bool(top_examine, initial(top_examine))
+	vv_dark_mode		= sanitize_bool(vv_dark_mode, initial(vv_dark_mode))
 	crt					= sanitize_bool(crt, initial(crt))
 	grain				= sanitize_bool(grain, initial(grain))
-	dnr_pref			= sanitize_bool(dnr_pref, initial(dnr_pref))
 	qsr_pref			= sanitize_bool(qsr_pref, initial(qsr_pref))
 	no_storyteller_events = sanitize_bool(no_storyteller_events, initial(no_storyteller_events))
 	verbose_character_creator = sanitize_bool(verbose_character_creator, initial(verbose_character_creator))
@@ -221,6 +223,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	mastervol			= sanitize_integer(mastervol, 0, 100, initial(mastervol))
 	domhand				= sanitize_integer(domhand, 1, 2, initial(domhand))
 	attack_blip_frequency = sanitize_integer(attack_blip_frequency, 0, 100, ATTACK_BLIP_PREF_DEFAULT)
+	roll_tokens			= sanitize_integer(roll_tokens, 0, MAX_ROLL_TOKENS, 0)
 
 	// lists
 	favorited_slots		= SANITIZE_LIST(favorited_slots)
@@ -314,6 +317,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["tgui_theme"], tgui_theme)
 	WRITE_FILE(S["parchment_skin"], parchment_skin)
 	WRITE_FILE(S["statbrowser_theme"], statbrowser_theme)
+	WRITE_FILE(S["vv_dark_mode"], vv_dark_mode)
 	WRITE_FILE(S["preferred_ui_language"], preferred_ui_language)
 	WRITE_FILE(S["windowflash"], windowflashing)
 	WRITE_FILE(S["be_special"], be_special)
@@ -332,6 +336,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["key_bindings"], key_bindings)
 	WRITE_FILE(S["attack_blip_frequency"] , attack_blip_frequency)
 	WRITE_FILE(S["compliance_notifs"], compliance_notifs)
+	WRITE_FILE(S["roll_tokens"], roll_tokens)
 	return TRUE
 
 
@@ -397,6 +402,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["virtuetwochoices"] >> virttwo
 	virtue_choices = virtone
 	virtuetwo_choices = virttwo
+	for(var/list/choices in list(virtue_choices, virtuetwo_choices))
+		var/index = choices.Find("Second Voice")
+		if(index)
+			choices[index] = "Alter Ego"
 
 	// If we still find a living ref, we clean it up. This is deprecated and we shouldn't be saving whole datums.
 	if (istype(virtue_type, /datum/virtue))
@@ -575,7 +584,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["job_preferences"] >> job_preferences
 	S["job_subprefs"] >> job_subprefs
 
-	S["dnr"] >> dnr_pref
+	S["char_toggles"] >> char_toggles
+	if(isnull(char_toggles))
+		var/legacy_dnr
+		S["dnr"] >> legacy_dnr
+		char_toggles = legacy_dnr ? CHAR_TOGGLE_DNR : NONE
 
 	S["update_mutant_colors"] >> update_mutant_colors
 
@@ -613,6 +626,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["examine_theme"]		>> examine_theme
 
 	S["body_size"] >> features["body_size"]
+	S["body_build"] >> features["body_build"]
 	S["body_markings"] >> body_markings
 
 	S["descriptor_entries"] >> descriptor_entries
@@ -669,9 +683,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	vampire_ears = sanitize_hexcolor(vampire_ears, 6, TRUE, null, TRUE)
 	highlight_color = sanitize_hexcolor(highlight_color, 6, TRUE, initial(highlight_color))
 
+	char_toggles = sanitize_integer(char_toggles, 0, INFINITY, initial(char_toggles))
+
 	// floats
 	voice_pitch		= sanitize_float(voice_pitch, MIN_VOICE_PITCH, MAX_VOICE_PITCH, 0.01, 1)
 	features["body_size"] = sanitize_float(features["body_size"], BODY_SIZE_MIN, BODY_SIZE_MAX, 0.01, BODY_SIZE_NORMAL)
+	// A build the species doesn't offer (race swap, or a savefile predating builds) falls back to its default,
+	// so the character keeps rendering on their species' native shape rather than a body it has no sprites for.
+	if(!length(pref_species.allowed_body_builds))
+		features["body_build"] = null
+	else if(!pref_species.is_body_build_valid(features["body_build"], gender))
+		features["body_build"] = pref_species.get_default_body_build(gender)
 
 	// lists
 	age				= sanitize_inlist(age, pref_species.possible_ages, AGE_ADULT)
@@ -847,7 +869,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["bark_variance"]			, bark_variance)
 	WRITE_FILE(S["mute_barks"]				, mute_barks)
 
-	WRITE_FILE(S["dnr"] , dnr_pref)
+	WRITE_FILE(S["char_toggles"] , char_toggles)
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
 	WRITE_FILE(S["vampire_headshot_link"] , vampire_headshot_link)
@@ -883,6 +905,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["race_bonus"], race_bonus)
 	WRITE_FILE(S["combat_music"], combat_music.type)
 	WRITE_FILE(S["body_size"] , features["body_size"])
+	WRITE_FILE(S["body_build"] , features["body_build"])
 	WRITE_FILE(S["nsfwflavortext"] , html_decode(nsfwflavortext))
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)
