@@ -410,6 +410,13 @@
 		dropItemToGround(I)
 	drop_all_held_items()
 
+/mob/living/proc/unequip_everything_delete()
+	var/list/items = list()
+	items |= get_equipped_items(TRUE)
+	for(var/I in items) //we delete it
+		qdel(I)
+	drop_all_held_items()
+
 
 /mob/living/carbon/proc/check_obscured_slots(transparent_protection)
 	var/list/obscured = list()
