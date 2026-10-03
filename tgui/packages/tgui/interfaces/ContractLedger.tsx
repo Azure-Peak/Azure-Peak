@@ -652,7 +652,7 @@ const ActiveStrip = (props: {
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
     : gateRemaining > 0
-      ? `The Guild observes the precedence of the masterless hand. The first two daes of the week fall to: ${exemptList}. Townfolk in trade or charter may sign in ${Math.ceil(gateRemaining / 60)}m.`
+      ? `The Guild gives priorities to the less than gainfully employed. Contracts can only be taken in the first two days of the week by: ${exemptList}. Others may sign in ${Math.ceil(gateRemaining / 60)}m.`
       : takeCooldown > 0
         ? `Guild cooldown active, wait ${takeCooldown}s before signing another contract.`
         : null;

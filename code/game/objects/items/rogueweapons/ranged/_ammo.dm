@@ -3,6 +3,7 @@
 	firing_effect_type = null
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	var/ammo_weight = 1 // Weight cost in a quiver. Default 1, heavy ammo costs more.
+	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/weapon)
 
 /obj/item/ammo_casing/caseless/rogue/get_mechanics_examine(mob/user)
 	. = ..()

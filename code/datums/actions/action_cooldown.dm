@@ -389,3 +389,21 @@
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
 		if("Arcyne Lance")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+
+/proc/grant_poke_spell_zizo(mob/living/carbon/human/user) // antag-poke spells, balanced around John Zizoplate casting this without penalty. Or missionary adv w/ heals on top. Etc.
+	var/list/poke_options = list("Spitfire", "Arc Bolt", "Greater Arcyne Bolt", "Arcyne Lance", "Arcyne Diagnosis + Arcyne Analyze")
+	var/poke_choice = tgui_input_list(user, "Choose your cantrip.", "Arcyne Progress", poke_options)
+	if(!poke_choice || !user.mind)
+		return
+	switch(poke_choice)
+		if("Spitfire")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
+		if("Arc Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
+		if("Greater Arcyne Bolt")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
+		if("Arcyne Lance")
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arcyne_lance)
+		if("Arcyne Diagnosis + Arcyne Analyze") //tradeoff frag power for utility power
+			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo)
+			user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/engineeranalyze/zizo)

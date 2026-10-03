@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Characters with special characters - such as apostrophes - in their names can now be mailed, instead of letters sent to them being silently redirected to the coast."

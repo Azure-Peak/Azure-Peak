@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - rscadd: "roll tokens"
+  - bugfix: "subclass rolls actually do a roll instead of picking the first guy in game"

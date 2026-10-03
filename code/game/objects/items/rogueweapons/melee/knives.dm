@@ -836,6 +836,7 @@
 	icon_state = "bonedagger"
 	sheathe_icon = "bonedagger"
 	smeltresult = null
+	materia = list(/datum/materia_aspect/weapon, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/elvish
 	name = "elvish dirk"

@@ -91,7 +91,8 @@
 /datum/controller/subsystem/treasury/proc/skim_for_banditry_debt(datum/fund/to_fund, amount)
 	if(amount <= 0 || banditry_debt <= 0 || to_fund != discretionary_fund)
 		return amount
-	var/skim = min(amount, banditry_debt)
+	// Only a fraction skims toward debt - the rest visibly lands in the purse.
+	var/skim = min(round(amount * BANDITRY_DEBT_SKIM_RATE), banditry_debt)
 	banditry_debt -= skim
 	GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] = banditry_debt
 	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, "Banditry debt repayment"))

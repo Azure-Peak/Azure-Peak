@@ -113,12 +113,9 @@
 								target.balloon_alert_to_viewers("Tug!")
 								playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 								if(!do_after(user,ow, target = target, same_direction = TRUE))
-									if(A in subtypesof(/mob/living))
-										var/mob/M = A
-										new M(target)
-										if (!(M.type == /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab))
-											user.playsound_local(src, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
-										user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
+									if(ispath(A, /mob/living))
+										new /obj/effect/temp_visual/hunting_phantom(target, A, /datum/component/rot/simple/hunt, 2.5 SECONDS)
+										user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2)
 									else
 										new A(user.loc)
 										to_chat(user, "<span class='warning'>Reel 'em in!</span>")

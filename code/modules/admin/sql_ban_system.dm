@@ -234,13 +234,8 @@
 		var/break_counter = 0
 		//note to future developers: RT doesn't have command staff so toggle_head was removed, go back in the git history if you need to readd it
 		//departments/groups that don't have command staff would throw a javascript error since there's no corresponding reference for toggle_head()
-		var/list/headless_job_lists = list("Ducal Family" = GLOB.noble_positions,
-							"Courtiers" = GLOB.courtier_positions,
-							"Retinue" = GLOB.retinue_positions,
-							"Garrison" = GLOB.garrison_positions,
-							"Church" = GLOB.church_positions,
-							"Wanderers" = GLOB.wanderer_positions,
-							"Abstract" = list("Emote", "Deadchat", "OOC", "LOOC"))
+		/*
+		var/list/headless_job_lists = list()
 		for(var/department in headless_job_lists)
 			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' onClick='toggle_checkboxes(this, \"_com\")'>[department]</label><div class='content'>"
 			break_counter = 0
@@ -252,15 +247,25 @@
 							<div class='inputbox[(job in banned_from) ? " banned" : ""]'></div></label>
 				"}
 				break_counter++
-			output += "</div></div>"
-		var/list/long_job_lists = list("Peasants" = GLOB.peasant_positions,
-									"Burghers" = GLOB.burgher_positions,
-									"ATC" = GLOB.atc_positions,
-									"Sidefolk" = GLOB.sidefolk_positions,
-									"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT),
-									"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER),
-									"Lesser Antagonst Positions" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE))
-									//ADD BACK DARK ELF AND MANIAC TO THE LIST IF THEY ARE EVER REENABLED
+			output += "</div></div>"*/
+		var/list/long_job_lists = list(
+			"Abstract" = list("Emote", "Deadchat", "OOC", "LOOC"),
+			"Ducal Family" = GLOB.noble_positions,
+			"Ducal Court" = GLOB.courtier_positions,
+			"Ducal Retinue" = GLOB.retinue_positions,
+			"Town Garrison" = GLOB.garrison_positions,
+			"Azurean Church" = GLOB.church_positions,
+			"Azurean Trading Company" = GLOB.atc_positions,
+			"Burghers" = GLOB.burgher_positions,
+			"Peasants" = GLOB.peasant_positions,
+			"Otavan Inquisition" = GLOB.inquisition_positions,
+			"Sidefolk" = GLOB.sidefolk_positions,
+			"Wanderers" = GLOB.wanderer_positions,
+			"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER),
+			"Lesser Antagonst Positions" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE),
+			"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT)
+			)
+			//ADD BACK DARK ELF AND MANIAC TO THE LIST IF THEY ARE EVER REENABLED
 		for(var/department in long_job_lists)
 			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' onClick='toggle_checkboxes(this, \"_com\")'>[department]</label><div class='content'>"
 			break_counter = 0

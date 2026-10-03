@@ -2,7 +2,7 @@
 	name = "Saddleborn"
 	desc = "I am skilled at riding animals of all kinds, and have an especially strong bond with one, allowing me to call it from afar and send it away as needed. Should my treasured companion ever die, my mood will not recover."
 	ui_fa_icon = "horse"
-	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -10 to mood for the rest of the round (cannot be recovered from in any circumstance)."
+	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -5 to mood for the rest of the round (cannot be recovered from in any circumstance)."
 	added_skills = list(list(/datum/skill/misc/riding, 1, SKILL_LEVEL_EXPERT))
 	added_traits = list(TRAIT_EQUESTRIAN)
 
@@ -30,7 +30,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 /datum/stressevent/precious_mob_died
 	timer = INFINITY
-	stressadd = 10
+	stressadd = 5
 	desc = span_red("There will never be another creature like them. They are lost, and so am I.")
 
 /datum/component/precious_creature
@@ -226,8 +226,12 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	user.visible_message(span_info("[user] starts fussing with [honse], preparing to send them away..."), span_notice("I start preparing to send [honse] away to roam freely and safely for a time..."))
 	honse.Immobilize(11 SECONDS)
 	honse.unbuckle_all_mobs(TRUE)
+	if(honse.buckled)
+		honse.buckled.unbuckle_mob(honse, TRUE)
 	if (do_mob(user, honse, 7 SECONDS, double_progress = TRUE) && check_mount(user))
 		honse.unbuckle_all_mobs(TRUE)
+		if(honse.buckled)
+			honse.buckled.unbuckle_mob(honse, TRUE)
 		if (!honse.has_buckled_mobs()) // just really super make sure we can't nullspace riders with this
 			honse.moveToNullspace() // BANISHED TO THE NULL DIMENSION!! hopefully this doesn't cause problems
 		else
@@ -300,6 +304,8 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	var/honse_base_loc = honse.loc
 	var/area/rogue/honse_place = get_area(honse.loc)
 	honse.unbuckle_all_mobs(TRUE)
+	if(honse.buckled)
+		honse.buckled.unbuckle_mob(honse, TRUE)
 	if (!back_from_the_void && honse_place.outdoors)
 		honse.visible_message(span_notice("[honse] perks its ears up in response to a distant whistle, and darts off..."))
 		playsound(honse, 'sound/magic/saddleborn-call.ogg', 50, FALSE) // distant spooky whistle OooOOOo

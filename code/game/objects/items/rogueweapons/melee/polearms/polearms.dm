@@ -235,7 +235,7 @@
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/polearms
 	walking_stick = TRUE
-	wdefense = 5
+	wdefense = 4.5
 	thrown_bclass = BCLASS_STAB
 	throwforce = 25
 	resistance_flags = FLAMMABLE
@@ -309,7 +309,7 @@
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/iron
 	associated_skill = /datum/skill/combat/polearms
-	wdefense = 5
+	wdefense = 4
 	thrown_bclass = BCLASS_STAB
 	throwforce = 22
 	resistance_flags = FLAMMABLE
@@ -387,12 +387,8 @@
 							to_chat(user, "<span class='notice'>You see something!</span>")
 							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
 							if(!do_after(user,ow, target = target))
-								if(ismob(A))
-									var/mob/M = A
-									if(M.type in subtypesof(/mob/living/simple_animal/hostile))
-										new M(target)
-									else
-										new M(user.loc)
+								if(ispath(A, /mob/living))
+									new /obj/effect/temp_visual/hunting_phantom(target, A, /datum/component/rot/simple/hunt, 2 SECONDS)
 									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2)
 								else
 									new A(user.loc)
@@ -538,16 +534,18 @@
 	max_integrity = 60
 	throwforce = 20
 	special = null
+	materia = list(/datum/materia_aspect/weapon, /datum/materia_aspect/death)
 
 /obj/item/rogueweapon/spear/billhook
 	name = "billhook"
 	desc = "A neat hook. Used to pull riders from horses, as well as defend against said horses when used in a proper formation. The \
 	reinforcements along its shaft grant it higher durability against attacks."
+	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH, /datum/intent/spear/dismount)
 	icon_state = "billhook"
 	smeltresult = /obj/item/ingot/steel
 	max_blade_int = 230
 	minstr = 8
-	wdefense = 6
+	wdefense = 4.5
 	throwforce = 15
 
 /obj/item/rogueweapon/spear/billhook/avantyne
@@ -572,6 +570,7 @@
 	force_wielded = 25
 	name = "improvised billhook"
 	desc = "Looks hastily made, even a little flimsy."
+	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, SPEAR_BASH, /datum/intent/spear/dismount)
 	icon_state = "billhook"
 	smeltresult = /obj/item/ingot/iron
 	max_blade_int = 100
@@ -787,13 +786,14 @@
 	gripsprite = TRUE
 	wlength = WLENGTH_GREAT
 	w_class = WEIGHT_CLASS_BULKY
+	wbalance = WBALANCE_HEAVY
 	minstr = 9
-	max_blade_int = 200
+	max_blade_int = 280
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	associated_skill = /datum/skill/combat/polearms
 	walking_stick = TRUE
-	wdefense = 6
+	wdefense = 4
 	special = /datum/special_intent/polearm_backstep
 
 /obj/item/rogueweapon/halberd/getonmobprop(tag)
@@ -817,10 +817,46 @@
 	max_blade_int = 225
 	smeltresult = /obj/item/ingot/steel
 
+/datum/intent/spear/dismount
+	name = "dismounting hook"
+	blade_class = BCLASS_STAB
+	attack_verb = list("hooks")
+	damfactor = 0.6
+	animname = "stab"
+	icon_state = "inlunge"
+	reach = 2
+	desc = "Hook an opponent with your polearm, forcefully dismounting them should they be on horseback. Must strike the rider themselves and not their mount and does not work on horseback."
+	clickcd = CLICK_CD_CHARGED
+	swingdelay_type = SWINGDELAY_CANCEL
+	swingdelay = 10 //1 second for the horse to pull out of range, pretty hard to land.
+	warnie = "mobwarning"
+	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
+	penfactor = PEN_LIGHT //Bad for anything but its intended purpose
+	item_d_type = "stab"
+	effective_range = 2
+	effective_range_type = EFF_RANGE_EXACT
+
+/datum/intent/spear/dismount/spec_on_apply_effect(mob/living/H, mob/living/user, params)
+	var/target_buckled = H.buckled ? TRUE : FALSE
+	if(!target_buckled)
+		return
+	if(istype(H.buckled, /obj/structure/flora/roguegrass/maneater)) //We don't want this being used on people stuck in maneaters, as funny as that sounds.
+		return
+	H.buckled.unbuckle_mob(H)
+	H.Knockdown(50)
+	H.Paralyze(10)
+	var/turf/edge_target_turf = get_edge_target_turf(H, get_dir(H, user))
+	if(istype(edge_target_turf))
+		H.safe_throw_at(edge_target_turf, 1, 1, user, spin = TRUE)
+	user.visible_message(span_danger("[user] digs the hook of their weapon into [H] and brings them crashing down!"))
+	playsound(H.loc, 'sound/foley/zfall.ogg', 100, FALSE)
+	H.visible_message(span_danger("[H] falls off their mount!"))
+
 /obj/item/rogueweapon/halberd/ji
 	name = "ji"
 	desc = "A Lingyuese dagger-axe. A spearhead crowns the shaft, while a crescent side-blade hooks outwards - equally suited to thrusting, hooking a mounted foe out of his saddle, or shearing through a footman's guard."
 	icon_state = "ji"
+	gripped_intents = list(SPEAR_THRUST, SPEAR_CUT, /datum/intent/axe/chop/halberd, /datum/intent/spear/dismount)
 
 /obj/item/rogueweapon/halberd/ji/iron
 	name = "iron ji"
@@ -872,7 +908,7 @@
 	force = 20
 	force_wielded = 35
 	max_blade_int = 400
-	wdefense_wbonus = 3 //+3 over the traditional spear, once wielded.
+	wdefense = 5
 	var/used = FALSE
 	var/list/selection = list(
 		/datum/special_intent/polearm_backstep,
@@ -956,7 +992,7 @@
 	force = 15
 	force_wielded = 25
 	minstr = 11
-	wdefense = 7
+	wdefense = 5
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -979,7 +1015,7 @@
 	force = 15
 	force_wielded = 25
 	minstr = 11
-	wdefense = 7
+	wdefense = 5.5
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -1013,8 +1049,8 @@
 	icon_state = "glaive"
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
-	max_blade_int = 160
-	wdefense = 9
+	max_blade_int = 200
+	wdefense = 4.5
 
 /obj/item/rogueweapon/halberd/glaive/getonmobprop(tag)
 	. = ..()
@@ -1036,7 +1072,7 @@
 	icon_state = "capglaive"
 	smeltresult = /obj/item/ingot/blacksteel
 	max_integrity = 300 //blacksteel, so its gotta be more durable
-	max_blade_int = 200
+	max_blade_int = 250
 	sellprice = 250
 
 /obj/item/rogueweapon/halberd/pestran
@@ -1072,7 +1108,7 @@
 	associated_skill = /datum/skill/combat/polearms
 	sharpness = IS_BLUNT
 	walking_stick = TRUE
-	wdefense = 5
+	wdefense = 4
 	wbalance = WBALANCE_HEAVY
 	max_integrity = 250 //So there is actual difference between the two
 
@@ -1097,7 +1133,7 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	force = 20
 	force_wielded = 35
-	wdefense_wbonus = 3 //+3 over the traditional spear, once wielded.
+	wdefense_wbonus = 4 //+1 over the eagle beak, once wielded.
 	max_integrity = 350 //Basic idea - blacksteel blunt weapons get more integrity, blacksteel edged weapons get more sharpness. Minimal overlap?
 	var/used = FALSE
 	var/list/selection = list(
@@ -1216,7 +1252,7 @@
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	minstr = 10
 	max_blade_int = 200
-	wdefense = 8 // It IS a parrying spear after all.
+	wdefense = 5 // It IS a parrying spear after all.
 	throwforce = 12	//Not a throwing weapon. Too heavy!
 	icon_angle_wielded = 50
 	smeltresult = /obj/item/ingot/steel
@@ -1237,7 +1273,7 @@
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "boarspear"
 	force_wielded = 33 // 10% base damage increase
-	wdefense = 6 // A little bit extra
+	wdefense = 5 // A little bit extra
 	max_blade_int = 200
 	smeltresult = /obj/item/ingot/steel
 
@@ -1254,7 +1290,6 @@
 	icon_state = "blacksteelspear"
 	force_wielded = 35
 	wdefense = 6
-	wdefense_wbonus = 3
 	max_blade_int = 400
 	smeltresult = /obj/item/ingot/blacksteel
 
@@ -1296,7 +1331,7 @@
 	icon_state = "naginata"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	minstr = 7
-	max_blade_int = 150 //Nippon suteeru (dogshit)
+	max_blade_int = 220 //Glaive/Greatsword side-grade. Worse blade integrity and versatility than a greatsword, 20% extra damage on the cut, same as glaive. Tiny bump in defense and blade integ in exchange for losing thrust.
 	wdefense = 5
 	throwforce = 12	//Not a throwing weapon.
 	icon_angle_wielded = 50
@@ -1337,7 +1372,7 @@
 	desc = "An elven weapon that combines the elegant sweeping blade typical of Elven design with a lengthy handle. The true \
 	guardian of the forest realm."
 	icon_state = "elfglaive"
-	max_blade_int = 180 //Elven design makes it sharper
+	max_blade_int = 230 //Elven design makes it sharper
 	sellprice = 60
 
 /obj/item/rogueweapon/halberd/glaive/elvish/getonmobprop(tag)

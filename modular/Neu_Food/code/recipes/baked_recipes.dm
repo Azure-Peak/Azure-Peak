@@ -218,6 +218,34 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/decabun_marmaladed
 
+// ZIZO BUN / ZUN (ZBUN) RECIPES
+// Zun + Jamtallow -> Jamtallowed Zun
+/datum/food_recipe/sandwich/jamtallowed_zun
+	name = "jamtallowed zun"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/zbun
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/jamtallowslice
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/zbun_jamtallow
+
+// Zun + Marmalade -> Marmaladed Zun
+/datum/food_recipe/sandwich/marmaladed_zun
+	name = "marmaladed zun"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/zbun
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/marmaladeslice
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/zbun_marmalade
+
+// Zun + Westleach -> Zyn
+/datum/food_recipe/sandwich/zyn_zbun
+	name = "zyn"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/zbun
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/zbun_zyn
+
 // Half Raisin Dough + Raisins -> Raw Raisin Loaf
 /datum/food_recipe/baked/raisin_bread_complete
 	name = "complete raisin dough"

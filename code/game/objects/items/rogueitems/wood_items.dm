@@ -53,7 +53,7 @@
 /obj/item/carvedwood/shrine
 	name = "wooden shrine"
 	desc = "A humble, portable shrine carved out of wood. It is dedicated to no deity in particular. Could also be used to keep one's books upright on a shelf."
-	icon_state = "shrine_wood"
+	icon_state = "wood_shrine"
 	grid_height = 64
 	grid_width = 32
 
