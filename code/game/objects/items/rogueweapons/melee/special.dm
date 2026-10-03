@@ -1158,6 +1158,7 @@
 	desc = "A simple piece of harm that has been molded from pure silver, and further studded to stop errant strikes dead in their tracks. Though ostensibly holy, these heftsome knuckleweights are \
 	more strongly associated with underground pugilistic tournaments; a solid right hook could drive more-than-enough force to blow a yeoman's jaw clean off."
 	icon_state = "silverknuckledusters"
+	max_integrity = ARMOR_INT_SIDE_LEATHER
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -1181,6 +1182,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
+		transfer_silverbless_to(P)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
@@ -1190,6 +1192,7 @@
 	name = "psydonic knuckledusters"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."
 	icon_state = "psyknuckledusters"
+	max_integrity = ARMOR_INT_SIDE_LEATHER
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -1213,6 +1216,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
+		transfer_silverbless_to(P)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
@@ -1222,6 +1226,7 @@
 	name = "enduring knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, its holy blessing long since faded. You are HIS weapon, you needn't fear Aeon."
 	icon_state = "psyknuckle"
+	max_integrity = ARMOR_INT_SIDE_LEATHER
 	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 	color = COLOR_FLOORTILE_GRAY
@@ -1235,6 +1240,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
+		transfer_silverbless_to(P)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))

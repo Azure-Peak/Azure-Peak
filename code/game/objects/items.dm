@@ -2040,3 +2040,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/remove_floating() // needed for timers
 	item_flags &= ~FLOATING_ITEM
+
+/obj/item/proc/transfer_silverbless_to(obj/item/new_item)
+	var/datum/component/silverbless/old_bless = GetComponent(/datum/component/silverbless)
+	if(!old_bless)
+		return
+	var/datum/component/silverbless/new_bless = new_item.GetComponent(/datum/component/silverbless)
+	new_bless?.copy_blessing_from(old_bless)

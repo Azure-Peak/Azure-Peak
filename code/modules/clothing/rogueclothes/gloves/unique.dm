@@ -105,7 +105,7 @@
 /obj/item/clothing/gloves/roguetown/knuckles/psydon/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
+		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN,\
 		added_force = 0,\
 		added_blade_int = 0,\
@@ -122,6 +122,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
+		transfer_silverbless_to(P)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
@@ -138,7 +139,7 @@
 /obj/item/clothing/gloves/roguetown/knuckles/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
-		pre_blessed = BLESSING_TENNITE,\
+		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE,\
 		added_force = 0,\
 		added_blade_int = 0,\
@@ -155,6 +156,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
+		transfer_silverbless_to(P)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
@@ -177,6 +179,7 @@
 			user.dropItemToGround(src)
 			user.put_in_hands(P)
 		P.obj_integrity = src.obj_integrity
+		transfer_silverbless_to(P)
 		qdel(src)
 	else
 		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))

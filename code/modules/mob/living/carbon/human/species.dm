@@ -1390,7 +1390,17 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 		if(!target.lying_attack_check(user))
 			return 0
 
-		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = PEN_NONE, blade_dulling = user.used_intent.blade_class, damage = damage, intdamfactor = user.used_intent?.intent_intdamage_factor)
+		var/obj/item/clothing/gloves/roguetown/worn_gloves = user.get_item_by_slot(SLOT_GLOVES)
+		var/glove_intdamfactor_mult = 1
+		if(istype(worn_gloves))
+			var/datum/component/silverbless/glove_bless = worn_gloves.GetComponent(/datum/component/silverbless)
+			if(glove_bless)
+				glove_intdamfactor_mult = glove_bless.get_int_damage_multiplier()
+
+		var/base_intdamfactor = user.used_intent?.intent_intdamage_factor
+		if(isnum(base_intdamfactor))
+			base_intdamfactor *= glove_intdamfactor_mult
+		var/armor_block = target.run_armor_check(selzone, "blunt", armor_penetration = PEN_NONE, blade_dulling = user.used_intent.blade_class, damage = damage, intdamfactor = base_intdamfactor)
 
 		target.lastattacker = user.real_name
 		if(target.mind)
@@ -1414,7 +1424,6 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 			target.on_hit_as_pacifist(user)
 
-			var/obj/item/clothing/gloves/roguetown/worn_gloves = user.get_item_by_slot(SLOT_GLOVES)
 			if(istype(worn_gloves))
 				worn_gloves.apply_unarmed_weapon_effects(user, affecting, user.used_intent, target, selzone)
 		log_combat(user, target, "punched", zone=selzone)
