@@ -25,6 +25,7 @@
 		/datum/advclass/mercenary/anthrax_assassin,
 		/datum/advclass/mercenary/atgervi,
 		/datum/advclass/mercenary/atgervi_shaman,
+		/datum/advclass/mercenary/azurknight,
 		/datum/advclass/mercenary/etrusca_condottiero,
 		/datum/advclass/mercenary/etrusca_balestrieri,
 		/datum/advclass/mercenary/desert_rider,
