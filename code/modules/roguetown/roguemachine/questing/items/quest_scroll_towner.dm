@@ -11,10 +11,10 @@
 	var/datum/quest/Q = assigned_quest
 	if(!Q.quest_receiver_reference)
 		if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
-			to_chat(user, span_warning("You cannot take a contract you yourself issued. Put it in another's hands."))
+			to_chat(user, span_warning("You can't take a contract you issued. Give it to someone else."))
 			return
 		if(!SStreasury.has_account(user))
-			to_chat(user, span_warning("No account on record - register with a Meister before taking a contract."))
+			to_chat(user, span_warning("You have no bank account. Register with a Meister before taking a contract."))
 			return
 		if(!Q.can_claim(user))
 			to_chat(user, span_warning(Q.claim_failure_reason(user)))

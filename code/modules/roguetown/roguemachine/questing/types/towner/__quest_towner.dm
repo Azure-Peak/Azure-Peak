@@ -36,10 +36,10 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	return /obj/item/quest_writ/towner
 
 /datum/quest/kill/recovery/towner/proc/get_writ_intro()
-	return "A townsman calls for hands to recover what was lost to the wilds and bear it home."
+	return "One of the townsfolk calls for hands to recover what was lost to the wilds and bring it home."
 
 /datum/quest/kill/recovery/towner/proc/get_writ_seal_note()
-	return "The [sealed_noun] is magickally sealed to [quest_giver_name || "the poster"] - carry it back, only they can open it."
+	return "The [sealed_noun] is magickally sealed to [quest_giver_name || "the poster"]. Carry it back to them. Only they can open it."
 
 /datum/quest/kill/recovery/towner/populate_scroll_ui_static_data(list/data)
 	..()
@@ -102,7 +102,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	return "[quest_giver_name]'s [parcel_label]"
 
 /datum/quest/kill/recovery/towner/proc/get_parcel_desc()
-	return "A [sealed_noun] magickally sealed for [quest_giver_name] - only they can open it."
+	return "A [sealed_noun] magickally sealed for [quest_giver_name]. Only they can open it."
 
 /datum/quest/kill/recovery/towner/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
@@ -121,7 +121,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 
 /datum/quest/kill/recovery/towner/on_claim(mob/user)
 	. = ..()
-	to_chat(user, span_warning("The [sealed_noun] is magickally sealed - only [quest_giver_name] can open it."))
+	to_chat(user, span_warning("The [sealed_noun] is magickally sealed. Only [quest_giver_name] can open it."))
 
 /datum/quest/kill/recovery/towner/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
 	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
