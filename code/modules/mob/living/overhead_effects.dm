@@ -126,6 +126,11 @@
 		I.pixel_y += (offsets[2]+y_offset)
 	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/onePerson, iname, I, seer)
 
+/obj/effect/temp_visual/stress_event/Destroy()
+	for(var/atom/movable/holder in vis_locs)
+		holder.vis_contents -= src
+	return ..()
+
 /mob/living/proc/clear_overhead_indicator(appearance, layer = OBJ_LAYER)
 	remove_overlay(layer)
 	cut_overlay(appearance, TRUE)
