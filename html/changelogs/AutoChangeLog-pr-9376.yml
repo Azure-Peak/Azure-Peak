@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - qol: "The original name of feather-renamed items is now displayed smaller, like donator kits."
