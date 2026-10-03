@@ -615,7 +615,7 @@
 	armor = ARMOR_PLATE
 	nodismemsleeves = TRUE
 	blocking_behavior = null
-	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT //450int
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 	equip_delay_self = 12 SECONDS
