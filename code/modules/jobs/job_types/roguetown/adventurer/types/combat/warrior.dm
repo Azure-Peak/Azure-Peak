@@ -613,7 +613,10 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/long/broadsword/steel
 			if("Greatshield")
-				l_hand = /obj/item/rogueweapon/shield/tower/metal
+				if(ispath(r_hand, /obj/item/rogueweapon/handclaw) || ispath(r_hand, /obj/item/rogueweapon/katar) || ispath(r_hand, /obj/item/rogueweapon/knuckledusters))
+					backr = /obj/item/rogueweapon/shield/tower/metal
+				else
+					l_hand = /obj/item/rogueweapon/shield/tower/metal
 				H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Stake Launcher")
 				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker

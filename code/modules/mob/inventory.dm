@@ -200,6 +200,17 @@
 /mob/living/put_in_hand_check(obj/item/I)
 	if(I.twohands_required && get_inactive_held_item())
 		return FALSE
+	var/static/list/fistweapons = typecacheof(list(/obj/item/rogueweapon/handclaw, /obj/item/rogueweapon/katar, /obj/item/rogueweapon/knuckledusters))
+	var/fists = is_type_in_typecache(I, fistweapons)
+	if(fists || istype(I, /obj/item/rogueweapon/shield))
+		var/obj/item/gloves = get_item_by_slot(SLOT_GLOVES)
+		if(!fists && istype(gloves, /obj/item/clothing/gloves/roguetown/knuckles))
+			to_chat(src, span_warning("I can't use a shield alongside [gloves]."))
+			return FALSE
+		for(var/obj/item/held in held_items)
+			if(fists ? istype(held, /obj/item/rogueweapon/shield) : is_type_in_typecache(held, fistweapons))
+				to_chat(src, span_warning("I can't use a shield alongside [fists ? I : held]."))
+				return FALSE
 	if((I.is_silver || (I.is_even_lesser_silver && is_npc(src)) || I.smeltresult == /obj/item/ingot/silver) && !I.is_lesser_silver && (HAS_TRAIT(src, TRAIT_SILVER_WEAK) &&	!has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(!istype(V_lord) || V_lord?.generation < GENERATION_METHUSELAH)
