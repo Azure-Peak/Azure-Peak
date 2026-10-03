@@ -1388,6 +1388,14 @@
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
 
+/obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/greatplume/heartfelt
+	name = "heartfelt froggemund helmet"
+	desc = "A tall and imposing frogmouth-style helm popular in the highest plateaus of the Azure Peak. It covers not only the \
+	entire head and face, but the neck as well. Mounted on the back is a larger couplet currently mounting a red feathered greatplume; a \
+	blessing for the flamboyant-hearted."
+	icon_state = "frogmouthredplume"
+	item_state = "frogmouthredplume"
+
 /obj/item/clothing/head/roguetown/helmet/heavy/matthios
 	name = "gilded visage"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
