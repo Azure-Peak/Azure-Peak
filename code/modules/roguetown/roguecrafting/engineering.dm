@@ -1278,16 +1278,27 @@
 	craftdiff = 6
 
 /datum/crafting_recipe/roguetown/engineering/bbomb_expert
-	name = "bottle bomb (jury rig)"
+	name = "bottle bomb (clod jury rig)"
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/bomb)
 	reqs = list(/obj/item/natural/dirtclod = 6, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_2
+	name = "bottle bomb (glass jury rig)"
+	category = "Explosives"
+	required_trait = TRAIT_BOMBER_EXPERT
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/bomb)
+	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/engineering/impactexplosive_expert
-	name = "impact grenades (jury rig)"
+	name = "impact grenades (scrap jury rig)"
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT

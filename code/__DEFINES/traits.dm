@@ -14,7 +14,7 @@
 #define TRAIT_EMPATH "Empath"
 #define TRAIT_EXPLOSIVE_SUPPLY "Explosive Supply"
 #define TRAIT_DRUG_SUPPLY "Drug Supply"
-#define TRAIT_BOMBER_EXPERT "Explosive Specialist"
+#define TRAIT_BOMBER_EXPERT "Explosives Specialist"
 #define TRAIT_SKILLBLESSED "Skill Blessed"
 #define TRAIT_NASTY_EATER "Inhumen Digestion" //can eat rotten/raw/burned food, organs, and drink murky water. Does NOT protect against actual poisons.
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
@@ -513,12 +513,13 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_EMPATH = span_info("I can notice when people are in pain."),
 	TRAIT_EXPLOSIVE_SUPPLY = span_info("I have very good friends! I get explosives on my HERMES every day."),
 	TRAIT_DRUG_SUPPLY = span_info("The Guild keeps me supplied. I get a fresh drug delivery from HERMES each day."),
+	TRAIT_BOMBER_EXPERT = span_info("I have trained my whole lyfe in the explosive arts, both in safety and otherwise. I can more readily prepare bombs through jury-rigged crafting, and I can prepare and handle tripwire traps with greater dexterity. My bombs can also sometimes critically strike certain enemies, causing fatal damage."),
 	TRAIT_BREADY = span_info("Defensive stance does not passively fatigue me. I regain energy slowly over time."),
 	TRAIT_ARMOUR_LIKED = span_greentext("I'm wearing something more suited to my style."),
 	TRAIT_ARMOUR_DISLIKED = span_warning("I'm wearing something that burdens me."),
 	TRAIT_FENCERDEXTERITY = span_info("I've trained my entire lyfe around the art of unarmoured fencing, affording myself unmatched speed when wearing very light armour. I'm very choosy otherwise."),
-	TRAIT_FREEBLADEDEXTERITY = span_info("Though I've plenty of experience in armor, I am a picky bastard. A true duelist trusts his sword to block his blows, and a good thief is light on their feet. Never any heavier than a cuirass, never a second layer of steel. Lighter on the extremities - my sword can cover those.  "),
-	TRAIT_FREEBLADE = span_info("I am unparalleled in my craft, a lifelong killer of Kingsmen and thief of renown. Matthios above has blessed me with unmatched skill to take as I need, and liberate as I must. Faith, Time, and Zeal have made me master of the blade, short or long, though I've a distaste for greatswords, and a love for the Longsword. "),
+	TRAIT_FREEBLADEDEXTERITY = span_info("Though I've plenty of experience in armor, I am a picky bastard. A true duelist trusts his sword to block his blows, and a good thief is light on their feet. Never any heavier than a cuirass, never a second layer of steel. Lighter on the extremities - my sword can cover those."),
+	TRAIT_FREEBLADE = span_info("I am unparalleled in my craft, a lifelong killer of Kingsmen and thief of renown. Matthios above has blessed me with unmatched skill to take as I need, and liberate as I must. Faith, Time, and Zeal have made me master of the blade, short or long, though I've a distaste for greatswords, and a love for the Longsword."),
 	TRAIT_HONORBOUND = span_info("The Tattoos of this Clan bind me to a lyfestyle of bare-skinned battle and swordsmanship. I refuse to wear armor that do not compliment my traditional garb and tattoos."),
 	TRAIT_NALEDI = span_info("I hail from the lands of Naledi. My blood and knowledge storied in yils of texts and techniques. My birthright is my pride."),
 	TRAIT_SKILLBLESSED = span_greentext("I've reunited with an old friend of mine. All is well."),
