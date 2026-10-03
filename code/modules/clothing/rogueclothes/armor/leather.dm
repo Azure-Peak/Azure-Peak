@@ -172,6 +172,7 @@
 	armor = ARMOR_LEATHER
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	color = null
+	underlayers = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli)
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/raneshen
 	name = "megarmach scale coat"
