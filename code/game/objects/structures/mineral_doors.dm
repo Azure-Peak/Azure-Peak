@@ -215,7 +215,7 @@
 	if(user.mind && ((user.mind.has_antag_datum(/datum/antagonist)||is_adventurer)))
 		name = "[user.real_name] the Adventurer's house"
 	else
-		name = "[user.real_name] the [human.advjob ? human.advjob : human.job]'s house"
+		name = "[user.real_name] the [human.get_role_title()]'s house"
 
 	return TRUE
 

@@ -27,11 +27,12 @@
 	job_subclasses = list(
 		/datum/advclass/soilson
 	)
-	has_subprefs = FALSE // only one subclass
+	has_subprefs = TRUE // Doesn't have subclasses, but allows class title preference for those that have them.
 	spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 
 /datum/advclass/soilson
 	name = "Soilson"
+	f_title = "Soilbride"
 	tutorial = "It is a simple life you live, your basic understanding of life is something many would be envious of if they knew just how perfect it was. You know a good day's work, the sweat on your brow is yours: Famines and plague may take their toll, but you know how to celebrate life well. Till the soil and produce fresh food for those around you, and maybe you'll be more than an unsung hero someday."
 	outfit = /datum/outfit/job/roguetown/farmer/basic
 	category_tags = list(CTAG_SOILBRIDE)

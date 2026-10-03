@@ -81,6 +81,7 @@
 
 /datum/advclass/thug/wiseguy
 	name = "Wise Guy"
+	f_title = "Wise Gal"
 	tutorial = "You're smarter than the rest, by a stone's throw - and you know better than to get up close and personal. Unlike most others, you can read."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
