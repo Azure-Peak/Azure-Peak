@@ -1,4 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - refactor: "Reworks Transact from Matthios, no more qdels, yes more 'ruined' quality to them."

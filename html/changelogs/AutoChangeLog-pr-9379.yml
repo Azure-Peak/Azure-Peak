@@ -1,0 +1,5 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - code_imp: "various old traits have been removed. admins, you may thank me for making ADD_TRAIT easier later."
+  - code_imp: "trait_infinite_stamina is now called \"BOUNDLESS STAMINA\" instead of indefeatigble"

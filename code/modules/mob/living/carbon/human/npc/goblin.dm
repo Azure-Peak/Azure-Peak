@@ -188,9 +188,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	id = "goblin"
 	species_traits = list(NO_UNDERWEAR,NOEYESPRITES)
 	inherent_traits = list(TRAIT_RESISTCOLD,
-		TRAIT_RESISTHIGHPRESSURE,
-		TRAIT_RESISTLOWPRESSURE,
-		TRAIT_RADIMMUNE,
 		TRAIT_CRITICAL_WEAKNESS,
 		TRAIT_NASTY_EATER,
 		TRAIT_LEECHIMMUNE) // For goblin armor

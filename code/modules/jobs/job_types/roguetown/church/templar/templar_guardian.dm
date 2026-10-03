@@ -1,6 +1,6 @@
 /datum/advclass/templar/guardian
 	name = "Guardian"
-	tutorial = "You are heavily armoured temple guardian clad in plate. A holy knight maintaining order wherever he might be."
+	tutorial = "You are the heavily-armoured guardian of this temple, clad in plate. Your presence alone maintains order amongst the pews; and in \n	the most dire tymes, you may yet be the one thing that stands between the flock and the volves."
 	outfit = /datum/outfit/job/roguetown/templar/guardian
 	category_tags = list(CTAG_TEMPLAR)
 	subclass_languages = list(/datum/language/grenzelhoftian)

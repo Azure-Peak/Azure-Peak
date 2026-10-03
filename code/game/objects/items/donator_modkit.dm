@@ -161,7 +161,7 @@
 	var/datum/component/SFX = I.GetComponent(/datum/component/item_equipped_movement_rustle)
 	if(SFX)
 		SFX.Destroy()
-	I.name += " (Heeled)"
+	I.name += " (heeled)"
 	I.AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
 	var/obj/item/clothing/shoes/roguetown/SH = I
 	SH.stepnoise_flag = STEPNOISE_HEELS

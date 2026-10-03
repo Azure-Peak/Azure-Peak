@@ -95,3 +95,34 @@
   - balance: Removed Banneret's Crownstone.
   zydras:
   - bugfix: Direvolf will now stop making human pain noises
+2026-10-03:
+  FeniaFox:
+  - balance: rebalanced Forlorn Hope collar to have steel (350) integrity, rather
+      than iron (275) integrity. Still smelts into iron.
+  FreeStylaLT:
+  - qol: Re-added an OOC toggle.
+  KatTheFox:
+  - balance: Exorcist's medium armor option no longer starts with a stat potion; they
+      no longer have a FOR penalty, either.
+  - qol: The original name of feather-renamed items is now displayed smaller, like
+      donator kits.
+  Ryan180602:
+  - rscadd: roll tokens
+  - bugfix: subclass rolls actually do a roll instead of picking the first guy in
+      game
+  WeNeedMorePhoron:
+  - bugfix: AI should be able to path through bushes properly again (Report if anything
+      seems broken still)
+  borneblood:
+  - balance: Un-Mogged Bombardier and solidified its place as a Ranger. It should
+      be a little more on the lane of what an 'adventurer that loves exploding things'
+      should be.
+  - rscadd: Divine Bolt, Acolyte's exclusive self-defense slingshot spell. It intentionally
+      sucks, and Acolytes should never get Divine Blast or potent spells to help them
+      hold out on their own in combat, please respect this design choice for the future.
+      Think of Medic from TF2.
+  - refactor: Reworks Transact from Matthios, no more qdels, yes more 'ruined' quality
+      to them.
+  - bugfix: fixed another problem by the notorious borneblood (derogatory).
+  zRainbowcat:
+  - rscadd: New sack-like container called basket
