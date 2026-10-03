@@ -128,7 +128,6 @@
 	droning_sound_dusk = 'sound/music/area/townalright.ogg'
 	droning_sound_night = null
 	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
-	holy_area = TRUE
 	converted_type = /area/rogue/outdoors/exposed/church/grim
 	deathsight_message = "a hallowed place, sworn to the Ten"
 
@@ -139,7 +138,6 @@
 	droning_sound_dusk = 'sound/music/area/townalright.ogg'
 	droning_sound_night = null
 	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
-	holy_area = TRUE
 	converted_type = /area/rogue/outdoors/exposed/church/grim
 	deathsight_message = "a hallowed place, sworn to the Ten"
 
@@ -158,7 +156,6 @@
 	droning_sound_dusk = 'sound/music/area/townalright.ogg'
 	droning_sound_night = null
 	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
-	holy_area = TRUE
 	detail_text = DETAIL_TEXT_CHAPEL
 
 /area/rogue/indoors/town/church/chapel/grim/almonry
@@ -168,7 +165,6 @@
 	droning_sound_dusk = 'sound/music/area/townalright.ogg'
 	droning_sound_night = list('sound/music/area/townambient.ogg', 'sound/music/area/grimnight.ogg')
 	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
-	holy_area = TRUE
 	detail_text = DETAIL_TEXT_CHAPEL
 
 /area/rogue/indoors/town/pestra_sanctum/grim
