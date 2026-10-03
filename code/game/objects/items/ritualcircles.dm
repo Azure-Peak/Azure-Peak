@@ -1498,6 +1498,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("ZIZO! ZIZO! ARMS TO SLAY THE IGNORAAAAANT!!")
+			playsound(user, 'sound/magic/soulsteal_2.ogg', 50, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "zizo_active"
@@ -1525,6 +1526,9 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("ZIZO! ZIZO! TRUTH TO A WORLD OF IGNORAANCE!!")
+			playsound(user, 'sound/magic/soulsteal_2.ogg', 50, FALSE, -1)
+			if(!do_after(user, 5 SECONDS))
+				return
 			icon_state = "zizo_active"
 			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her darkness now guides you, for the light now spurns you."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
@@ -1547,6 +1551,9 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("ZIZO! ZIZO! PROGRESS AT AAANY COST!!")
+			playsound(user, 'sound/magic/soulsteal_2.ogg', 50, FALSE, -1)
+			if(!do_after(user, 5 SECONDS))
+				return
 			icon_state = "zizo_active"
 			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her hands guide your mynd and dreamed talent to rapidly Progress."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
@@ -1561,17 +1568,17 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/utilityrituos)
-		new /obj/effect/temp_visual/zizorite(get_turf(target)) //aurafarming
+		new /obj/effect/temp_visual/zizoriteglow(get_turf(target)) //aurafarming
 		to_chat(target, span_purple("<br>There is so little tyme, the fyre is gone. You. You have much to do, make it matter. This world will not wait to last.<br>"))
 
 /obj/structure/ritualcircle/zizo/proc/knowledgerituos(src)
 	var/ritualtargets = view(7, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/knowledgerituos)
-		new /obj/effect/temp_visual/zizorite(get_turf(target)) //aurafarming
+		new /obj/effect/temp_visual/zizoriteglow(get_turf(target)) //aurafarming
 		to_chat(target, span_purple("<br>There are many wrong paths walked to ignorant falsehoods and lesser truths. You. You walk towards the right one.<br>"))
 
-/obj/structure/ritualcircle/zizo/proc/zizolightsnuff(src) //10 tile lightsnuff, use with all rituals of Zizo that aren't armaments. Aurafarming.
+/obj/structure/ritualcircle/zizo/proc/zizolightsnuff(src) //post ritual effects.
 	for(var/obj/O in range(10, loc))
 		if(istype(O, /obj/item/flashlight/flare/torch/lantern/psycenser))
 			continue
@@ -1607,7 +1614,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		if("Avantyne Half-Plate")
 			outfit_path = /datum/outfit/job/roguetown/darksteelrite/medium
 		if("Avantyne Full-Plate")
-			outfit_path = /datum/outfit/job/roguetown/darksteelrite
+			outfit_path = /datum/outfit/job/roguetown/darksteelrite/heavy
 	if(!helm_path)
 		helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
 	target.Stun(60)
@@ -1617,6 +1624,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	playsound(loc, 'sound/combat/newstuck.ogg', 50)
 	loc.visible_message(span_cult("Great hooks come from the rune, embedding into [target]'s ankles, pulling them onto the rune. Then, into their wrists. Their lux is torn from their chest, reformed into a veil of billowing avantyne!"))
 	spawn(20)
+		new /obj/effect/temp_visual/zizoriteglow(get_turf(target))
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		var/datum/outfit/job/roguetown/darksteelrite/ritual_outfit = new outfit_path()
 		ritual_outfit.selected_helm_path = helm_path
@@ -1640,9 +1648,8 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 
 /datum/outfit/job/roguetown/darksteelrite
 	var/obj/item/clothing/head/roguetown/helmet/heavy/selected_helm_path = /obj/item/clothing/head/roguetown/helmet/heavy/zizo
-	var/selected_weapon_choice = "Avantyne Longsword"
 
-/datum/outfit/job/roguetown/darksteelrite/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/roguetown/darksteelrite/heavy/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 	var/list/items = list()
 	items |= H.get_equipped_items(TRUE)
@@ -1661,11 +1668,18 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 
 	H.mind.RemoveSpell(/datum/action/cooldown/spell/mending) // brute forcing this one, hope this works ryon!
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	if(HAS_TRAIT(H, TRAIT_TEMPO)) //No tempo on heavy set
+		REMOVE_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)
 	if(!H.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && H.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
 		H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /datum/outfit/job/roguetown/darksteelrite/medium/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
+	var/list/items = list()
+	items |= H.get_equipped_items(TRUE)
+	for(var/I in items)
+		H.dropItemToGround(I, TRUE)
+	H.drop_all_held_items()
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/fluted/zizo
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/zizo
 	pants = /obj/item/clothing/under/roguetown/platelegs/zizo
@@ -1673,6 +1687,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/zizo
 	gloves = /obj/item/clothing/gloves/roguetown/plate/zizo
 	neck = /obj/item/clothing/neck/roguetown/bevor/zizo
+	head = selected_helm_path
 	r_hand = /obj/item/rogueweapon/sword/zizo
 	l_hand = /obj/item/rogueweapon/shield/tower/metal/zizo
 
@@ -1715,15 +1730,25 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("Gold and Silver, He feeds!")
+			playsound(user, 'sound/misc/coininsert.ogg', 50, FALSE, -1)
+			new /obj/effect/temp_visual/matthiosrite(get_turf(loc))
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("Pieces o' tens, hundreds, thousands; o', the Transactor feeds 'pon them all!")
+			playsound(user, 'sound/misc/coininsert.ogg', 50, FALSE, -1)
+			new /obj/effect/temp_visual/matthiosrite(get_turf(loc))
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("Arms to claim, Arms to TAAAAAAAKE!!")
+			playsound(user, 'sound/misc/coininsert.ogg', 50, FALSE, -1)
+			new /obj/effect/temp_visual/matthiosrite(get_turf(loc))
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "matthios_active"
+			matthiosritualexchange()
+			target.Stun(5)
+			sleep(5)
+			new /obj/effect/temp_visual/matthiosrite(get_turf(target))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
@@ -1735,22 +1760,39 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("The window is open, the transaction is made!")
+			playsound(user, 'sound/misc/coininsert.ogg', 50, FALSE, -1)
+			new /obj/effect/temp_visual/matthiosrite(get_turf(loc))
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("Pieces o' tens, hundreds, thousands; o', the Transactor feeds 'pon them all!")
+			playsound(user, 'sound/misc/coininsert.ogg', 50, FALSE, -1)
+			new /obj/effect/temp_visual/matthiosrite(get_turf(loc))
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("Accept my transaction o' unmatched value, and FEAST upon this gluttonous PIIIIG!!")
+			playsound(user, 'sound/misc/coininsert.ogg', 50, FALSE, -1)
+			new /obj/effect/temp_visual/matthiosrite(get_turf(loc))
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "matthios_active"
+			//no delay because the victim CAN resist in chains during this
 			if(defenestration())
+				matthiosritualexchange()
 				to_chat(user, span_cultsmall("The ritual is complete, and the noble gift of Astrata has been taken!"))
 				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			else
 				to_chat(user, span_cultsmall("The ritual fails. A noble must be in the center of the circle!"))
 			spawn(120)
 				icon_state = "matthios_chalky"
+
+/obj/structure/ritualcircle/matthios/proc/matthiosritualexchange(src) //post ritual effects.
+	var/ritualtargets = view(10, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		new /obj/effect/temp_visual/matthiosriteglow(get_turf(target)) //aurafarming
+		shake_camera(target, 5, 2)
+	new /obj/effect/temp_visual/barter_fx(get_turf(loc))
+	playsound(loc, 'sound/effects/matth_barter.ogg', 200, FALSE, -1) //LETS MAKE A DEAL
+	loc.visible_message(("<font color='yellow'>Suddenly the air shakes and glitters as gilded light pours out from the rune!</font>"))
 
 /obj/structure/ritualcircle/matthios/proc/matthiosarmaments(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_FREEMAN))
@@ -1763,6 +1805,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_cult("[target]'s lux pours from their nose and into the rune! Gleeming gold simmers and sears their skin, before cooling down to reveal the gilded armor beneath!"))
 	spawn(20)
+		new /obj/effect/temp_visual/matthiosriteglow(get_turf(target))
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/gildedrite)
 		tag_kit_items(target, list(
@@ -1797,6 +1840,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		return FALSE
 
 	playsound(loc, 'sound/combat/gib (1).ogg', 100, FALSE, -1)
+	new /obj/effect/temp_visual/matthiosrite(get_turf(victim))
 	loc.visible_message(span_cult("[victim]'s lux pours from their nose, into the rune.. transforming into freshly minted zennies!"))
 	new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
 	new /obj/item/roguecoin/silver/pile(get_turf(src))
@@ -1835,8 +1879,8 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	REMOVE_TRAIT(victim, TRAIT_NOBLE, TRAIT_GENERIC)
 	REMOVE_TRAIT(victim, TRAIT_NOBLE, TRAIT_VIRTUE)
 	ADD_TRAIT(victim, TRAIT_DEFILED_NOBLE, TRAIT_GENERIC)
-	playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
-	to_chat(victim, span_cult("You feel Astrata's gift of nobility stripped from you, the inhumen feasting upon it!"))
+	playsound(loc, 'sound/magic/bloodrot.ogg', 80, FALSE, -1)
+	to_chat(victim, span_cult("You feel Astrata's gift of nobility stripped from you, as Matthios feasts upon the wealth within it!")) //he don't hate you, bloodblood's just to his rich tastes you see. Its a deal on your behalf for another's benefit
 	return TRUE
 
 /datum/outfit/job/roguetown/gildedrite/pre_equip(mob/living/carbon/human/H)
@@ -1857,6 +1901,8 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	backr = /obj/item/rogueweapon/flail/peasantwarflail/matthios
 
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	if(HAS_TRAIT(H, TRAIT_TEMPO)) //No tempo on heavy set
+		REMOVE_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)
 	if(!H.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && H.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
 		H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
@@ -1910,12 +1956,22 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!armor_choice)
 				armor_choice = "Vicious Full-Plate"
 			user.say("MOTIVE FORCE, O' VIOLENCE!!")
+			new /obj/effect/temp_visual/graggarrite(get_turf(loc))
+			playsound(user, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("A GORGEOUS FEAST OF VIOLENCE, FOR YOU, FOR YOU!!")
+			new /obj/effect/temp_visual/graggarrite(get_turf(loc))
+			playsound(user, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
+			loc.visible_message(span_warning("[user] lets out a gutural roar as they pound their chest over the rune!"))
+			playsound(loc, 'sound/vo/mobs/cat/roar1.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("GIFT ME THE POWER, FOR A SLAUGHTER AWAAAIIIIIITS!!") // see the numbers taste the violence
+			new /obj/effect/temp_visual/graggarrite(get_turf(loc))
+			playsound(user, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
+			loc.visible_message(span_warning("[user] lets out a gutural roar as they extend their arms over the rune!"))
+			playsound(loc, 'sound/vo/mobs/cat/roar3.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "graggar_active"
@@ -1923,29 +1979,59 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			var/is_heretic = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic || /datum/advclass/wretch/heretic/spy || /datum/advclass/gnoll/shaman)
 			if(is_heretic)
 				user.apply_status_effect(/datum/status_effect/debuff/armamentrites)
-			graggararmor(target, helm_choice, armor_choice)
-			spawn(120)
-				icon_state = "graggar_chalky"
+			graggarshakemybinds(src)
+			target.Stun(5)
+			spawn(5)
+				new /obj/effect/temp_visual/graggarrite(get_turf(target))
+				graggararmor(target, helm_choice, armor_choice)
+				spawn(120)
+					icon_state = "graggar_chalky"
 		if("War Ritual")
 			to_chat(user, span_userdanger("This rite will get me more tired than usual... I wonder, should I proceed?"))
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Blood for the blooded, the circle is drawn!")
+			user.say("BLOOD FOR THE SINISTAR, THE CIRCLE IS DRAWN!!")
+			new /obj/effect/temp_visual/graggarrite(get_turf(loc))
+			playsound(user, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Let noble flesh be the price for the horde!")
+			user.say("LET THIS WORTHY FLESH, BE THE FEAST FOR THE HORDE!!")
+			new /obj/effect/temp_visual/graggarrite(get_turf(loc))
+			playsound(user, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
+			loc.visible_message(span_warning("[user] lets out a gutural roar as they pound their chest over the rune!"))
+			playsound(loc, 'sound/vo/mobs/cat/roar1.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Let portals open, let the goblins swarm!")
+			user.say("LET THE PORTALS OPEN, LET THE GOBLINS SWAAAAAARRRRRM!!")
+			new /obj/effect/temp_visual/graggarrite(get_turf(loc))
+			playsound(user, 'sound/magic/bloodrage.ogg', 100, FALSE, -1)
+			loc.visible_message(span_warning("[user] lets out a gutural roar as they extend their arms over the rune!"))
+			playsound(loc, 'sound/vo/mobs/cat/roar3.ogg', 100, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "graggar_active"
+			graggarshakemybinds(src)
+			//no delay because the victim CAN resist in chains during this
 			if(perform_warritual())
 				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended_heavy)
 			else
 				to_chat(user, span_warning("The ritual fails. A noble, a member of the Inquisition or a Tennite clergy member must be in the center of the circle!"))
 			spawn(120)
 				icon_state = "graggar_chalky"
+
+/obj/structure/ritualcircle/graggar/proc/graggarshakemybinds(src) //post ritual effects
+	playsound(loc, 'sound/villain/newheart.ogg', 100, FALSE, -1)
+	var/ritualtargets = view(10, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		new /obj/effect/temp_visual/graggarriteglow(get_turf(target)) //aurafarming
+		shake_camera(target, 5, 2)
+	for(var/turf/open/water/W in view(10, loc)) //10 tiles away turns to bloodwater
+		new /obj/effect/temp_visual/graggarrite(get_turf(W))
+		W.water_reagent = /datum/reagent/blood
+		W.water_color = BLOOD_COLOR_RED
+		W.mapped = FALSE
+		W.update_icon()
+	loc.visible_message(span_cult("Suddenly the ground shakes violently for a moment, the air smells thick with blood!"))
 
 /obj/structure/ritualcircle/graggar/proc/graggararmor(mob/living/carbon/human/target, helm_choice, armor_choice)
 	if(!HAS_TRAIT(target, TRAIT_HORDE))
@@ -1974,6 +2060,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_cult("[target]'s lux pours from their nose and into the rune! The motive force manifests across their body, chaining it with shackles of vicious plate!"))
 	spawn(20)
+		new /obj/effect/temp_visual/graggarriteglow(get_turf(target))
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		var/datum/outfit/job/roguetown/viciousrite/ritual_outfit = new outfit_path()
 		ritual_outfit.selected_helm_path = helm_path
@@ -1996,9 +2083,6 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		spawn(40)
 			to_chat(target, span_cult("Break them."))
 
-	if(!target.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && target.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
-		target.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
-
 /// Performs the war ritual, which requires a noble, clergy, or inquisition member in the center of the circle. TRUE on success, FALSE on failure.
 /obj/structure/ritualcircle/graggar/proc/perform_warritual()
 	var/mob/living/carbon/human/victim = null
@@ -2017,6 +2101,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	loc.visible_message(span_cult("[victim]'s lux pours from their nose, into the rune!"))
 	victim.Stun(60)
 	victim.Knockdown(60)
+	new /obj/effect/temp_visual/graggarrite(get_turf(victim))
 	to_chat(victim, span_userdanger("UNIMAGINABLE PAIN!"))
 	victim.apply_status_effect(/datum/status_effect/debuff/ritualdefiled)
 	victim.emote("superagony")
@@ -2077,7 +2162,11 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar
 	l_hand = /obj/item/rogueweapon/shield/iron/graggar
 
+	if(HAS_TRAIT(H, TRAIT_TEMPO)) //No tempo on heavy set
+		REMOVE_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
+	if(!H.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && H.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
+		H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
 
 /obj/structure/ritualcircle/baotha
 	name = "Rune of Hedonism"
@@ -2114,15 +2203,25 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("O' BLESSED SPIDER, SCORNED AND SORROWFUL, HEED MY PLEA OF SUCCOR!!")
+			new /obj/effect/temp_visual/baotharite(get_turf(loc))
+			playsound(user, 'sound/magic/baotha_blessdrink.ogg', 70, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("TAKE THIS CUP FROM ME, OVERFILLING WITH ANGUISH AND HEARTBREAK..")
+			new /obj/effect/temp_visual/baotharite(get_turf(loc))
+			playsound(user, 'sound/magic/baotha_blessdrink.ogg', 70, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			user.say("..AND IN ITS STEAD, BESTOW UPON ME.. EEEEVEEERRRYTHIIIIIIING!!")
+			new /obj/effect/temp_visual/baotharite(get_turf(loc))
+			playsound(user, 'sound/magic/baotha_blessdrink.ogg', 70, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return
 			icon_state = "baotha_active"
+			baothablast()
+			target.Stun(5)
+			sleep(5)
+			new /obj/effect/temp_visual/baotharite(get_turf(target))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			ADD_TRAIT(target, TRAIT_NOPAIN, TRAIT_RITUAL)
 			ADD_TRAIT(target, TRAIT_DODGEEXPERT, TRAIT_RITUAL)
@@ -2136,21 +2235,37 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 			if(!do_after(user, 5 SECONDS))
 				return FALSE
 			user.say("Let the wine flow, let the music crash!")
+			new /obj/effect/temp_visual/baotharite(get_turf(loc))
+			playsound(user, 'sound/magic/baotha_blessdrink.ogg', 70, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return FALSE
 			user.say("Away with tears, away with shame!")
 			to_chat(user, span_notice("The memory of sorrow fades into a haze of bliss."))
+			new /obj/effect/temp_visual/baotharite(get_turf(loc))
+			playsound(user, 'sound/magic/baotha_blessdrink.ogg', 70, FALSE, -1)
 			if(!do_after(user, 5 SECONDS))
 				return FALSE
 			user.say("Grant me the bliss, grant me the rush!")
+			new /obj/effect/temp_visual/baotharite(get_turf(loc))
+			playsound(user, 'sound/magic/baotha_blessdrink.ogg', 70, FALSE, -1)
 			if(!do_after(user, 3 SECONDS))
 				return FALSE
 			user.say("Baotha, fill my cup with endless mirth!")
-			playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
+			baothablast()
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			user.apply_status_effect(/datum/status_effect/joybringer)
 
 			return TRUE
+
+/obj/structure/ritualcircle/baotha/proc/baothablast(src) //post ritual effects
+	playsound(loc, 'sound/misc/evilevent.ogg', 100, FALSE, -1)
+	var/ritualtargets = view(10, loc)
+	for(var/mob/living/carbon/human/target in ritualtargets)
+		new /obj/effect/temp_visual/baothariteglow(get_turf(target)) //aurafarming
+		shake_camera(target, 4, 1)
+		target.Jitter(20)
+		target.apply_status_effect(/datum/status_effect/debuff/baothariteeffect)
+	loc.visible_message(span_hypnophrase("Suddenly the air floods thick with a prismatic smoke from the rune."))
 
 /obj/structure/ritualcircle/baotha/proc/baothaarmaments(mob/living/carbon/human/target)
 	if(!HAS_TRAIT(target, TRAIT_DEPRAVED))
@@ -2163,6 +2278,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	playsound(loc, 'sound/misc/smelter_fin.ogg', 50)
 	loc.visible_message(span_cult("[target]'s lux gushes out from their mouth, splashing onto the rune and causing the chalk to fizzle into prismatic smoke; and once it clears, their saccharine presence is made clear!"))
 	spawn(20)
+		new /obj/effect/temp_visual/baothariteglow(get_turf(loc))
 		playsound(loc, 'sound/combat/hits/onmetal/grille (2).ogg', 50)
 		target.equipOutfit(/datum/outfit/job/roguetown/baothanrite)
 		tag_kit_items(target, list(
@@ -2197,6 +2313,8 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/baotha
 	backr = /obj/item/rogueweapon/spear/partizan/baotha
 
+	if(HAS_TRAIT(H, TRAIT_TEMPO)) //No tempo on unstrippable lighter set
+		REMOVE_TRAIT(H, TRAIT_TEMPO, SPECIES_TRAIT)
 	H.mind.AddSpell(new /datum/action/cooldown/spell/mending/lesser)
 	if(!H.mind.has_spell(/datum/action/cooldown/spell/miracle/intervention) && H.devotion.max_devotion == CLERIC_REQ_4)	// Devotion check to make sure we give it to the HWretch not some Guy
 		H.mind.AddSpell(new /datum/action/cooldown/spell/miracle/intervention)
@@ -2231,10 +2349,15 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		return FALSE
 
 	loc.visible_message(span_userdanger("A ghostly, icy silver light visibly drains from [user]'s hand, surging into [weapon] — the very essence of their steadfastness!"))
+	user.Jitter(7)
+	new /obj/effect/temp_visual/psyrite(get_turf(user))
+	new /obj/effect/temp_visual/censer_dust(get_turf(loc))
+	playsound(user, 'sound/magic/soulsteal_2.ogg', 50, FALSE, -1)
 
 	if(!do_after(user, 4 SECONDS))
 		return FALSE
 
+	new /obj/effect/temp_visual/psyrite(get_turf(user))
 	loc.visible_message(span_cultsmall("[weapon] flares with a cold glimmer, having absorbed the sacrifice! [user] appears visibly drained and cold."))
 	playsound(loc, 'sound/magic/churn.ogg', 100, FALSE, -1)
 
@@ -2243,5 +2366,6 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 
 	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 	user.apply_status_effect(/datum/status_effect/debuff/devitalised/lesser)
+	user.playsound_local(get_turf(user), 'sound/villain/littlescary.ogg', 10, FALSE, pressure_affected = FALSE) //something is, not right.
 
 	return TRUE
