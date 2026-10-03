@@ -58,7 +58,8 @@
 		/datum/advclass/mercenary/grudgebearer,
 		/datum/advclass/mercenary/grudgebearer_soldier,
 		/datum/advclass/mercenary/trollslayer,
-		/datum/advclass/mercenary/lirvanmerc
+		/datum/advclass/mercenary/lirvanmerc,
+		/datum/advclass/mercenary/bladedancer
 	)
 	has_subprefs = TRUE
 	default_subprefs = list("favorite_advclass" = null, "merc_ad" = null)

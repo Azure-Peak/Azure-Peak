@@ -2317,6 +2317,7 @@
 #include "code\modules\jobs\job_types\roguetown\sidefolk\mercenary\anthrax.dm"
 #include "code\modules\jobs\job_types\roguetown\sidefolk\mercenary\atgervi.dm"
 #include "code\modules\jobs\job_types\roguetown\sidefolk\mercenary\blackoak.dm"
+#include "code\modules\jobs\job_types\roguetown\sidefolk\mercenary\bladedancer.dm"
 #include "code\modules\jobs\job_types\roguetown\sidefolk\mercenary\desert_rider_almah.dm"
 #include "code\modules\jobs\job_types\roguetown\sidefolk\mercenary\desert_rider_janissary.dm"
 #include "code\modules\jobs\job_types\roguetown\sidefolk\mercenary\desert_rider_sahir.dm"
