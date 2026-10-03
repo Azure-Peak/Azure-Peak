@@ -9,7 +9,6 @@ GLOBAL_LIST_INIT(skeleton_head_choices, list(
 ))
 
 GLOBAL_LIST_INIT(skeleton_tail_choices, list(
-	"Bony Tail" = /datum/sprite_accessory/tail/skeleton,
 	"Bony Lizard Tail" = /datum/sprite_accessory/tail/skeleton/lizard,
 	"Bony Dog Tail" = /datum/sprite_accessory/tail/skeleton/dog,
 	"None" = null,
