@@ -174,9 +174,9 @@
 	desc = "For the daring, affording maille's protection with light weight."
 	icon_state = "chainkini"
 	item_state = "chainkini"
-	body_parts_covered = CHEST|GROIN
+	body_parts_covered = CHEST | VITALS | GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
-	armor_class = ARMOR_CLASS_LIGHT //placed in the medium category to keep it with its parent obj
+	armor_class = ARMOR_CLASS_MEDIUM // added more weight class to it so isn't powergamed now that they cover the stomatch
 
 //HEAVY ARMOR//
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy

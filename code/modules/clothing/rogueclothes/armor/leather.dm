@@ -287,7 +287,7 @@
 /obj/item/clothing/suit/roguetown/armor/leather/bikini
 	name = "leather corslet"
 	desc = "Flexible cowhide armor. Lightweight, better than nothing. Trimmed to protect the heart and hips."
-	body_parts_covered = CHEST|GROIN
+	body_parts_covered = CHEST | VITALS | GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT // cause I never see those being used
 	icon_state = "leatherkini"
 	item_state = "leatherkini"
@@ -298,7 +298,7 @@
 /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini
 	name = "studded leather corslet"
 	desc = "Studded leather is the most durable of all hides and leathers and about as light. Trimmed to protect the heart and hips."
-	body_parts_covered = CHEST|GROIN
+	body_parts_covered = CHEST | VITALS | GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	icon_state = "studleatherkini"
 	item_state = "studleatherkini"
@@ -308,7 +308,7 @@
 /obj/item/clothing/suit/roguetown/armor/leather/hide/bikini
 	name = "hide corslet"
 	desc = "A light armor of wildbeast hide. Far more durable than leather. Trimmed to protect the heart and hips."
-	body_parts_covered = CHEST|GROIN
+	body_parts_covered = CHEST | VITALS | GROIN
 	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	icon_state = "hidearmorkini"
 	item_state = "hidearmorkini"
