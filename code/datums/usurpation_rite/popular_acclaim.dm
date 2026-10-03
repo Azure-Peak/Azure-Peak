@@ -86,9 +86,9 @@
 	var/weight = get_vote_weight(person)
 	var/voice_desc = weight >= ACCLAIM_VOTE_OUTLAW ? "two voices" : "one voice"
 	person.visible_message( \
-		span_notice("[person.real_name] speaks their assent to the Rite of Popular Acclaim."), \
+		span_notice("[person.get_unmasked_name()] speaks their assent to the Rite of Popular Acclaim."), \
 		span_notice("You speak your assent. Your voice is heard."))
-	to_chat(invoker, span_notice("[person.real_name] has assented as [voice_desc]. ([get_assent_total()]/[ACCLAIM_REQUIRED_ASSENTS])"))
+	to_chat(invoker, span_notice("[person.get_unmasked_name()] has assented as [voice_desc]. ([get_assent_total()]/[ACCLAIM_REQUIRED_ASSENTS])"))
 
 /datum/usurpation_rite/popular_acclaim/check_assent_threshold()
 	if(get_assent_total() >= ACCLAIM_REQUIRED_ASSENTS)
@@ -96,8 +96,8 @@
 
 /datum/usurpation_rite/popular_acclaim/on_contesting_started()
 	priority_announce( \
-		"[invoker.real_name] has invoked the Rite of Popular Acclaim!\n\n" + \
-		"The people of [SSticker.realm_name] have spoken — [invoker.real_name] shall step forth as the Tribune of [SSticker.realm_name]. A rule by the people, for the people!\n\n" + \
+		"[invoker.get_unmasked_name()] has invoked the Rite of Popular Acclaim!\n\n" + \
+		"The people of [SSticker.realm_name] have spoken — [invoker.get_unmasked_name()] shall step forth as the Tribune of [SSticker.realm_name]. A rule by the people, for the people!\n\n" + \
 		"The will of the people shall be settled in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.\n\n", \
 		"Rite of Popular Acclaim", \
 		sound_contesting)
@@ -106,7 +106,7 @@
 
 /datum/usurpation_rite/popular_acclaim/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	..()
 	if(invoker?.mind)
 		var/datum/antagonist/prebel/rebel_datum = invoker.mind.has_antag_datum(/datum/antagonist/prebel)
@@ -114,10 +114,10 @@
 			rebel_datum.rev_team.rite_won = TRUE
 	priority_announce( \
 		"A ruler must rule for the benefits of their subjects. And no one is more fit than one elected by their subjects.\n\n" + \
-		"The people of [SSticker.realm_name] declare [invoker.real_name] the rightful [SSticker.rulertype], chosen by POPULAR acclaim.\n\n" + \
+		"The people of [SSticker.realm_name] declare [invoker.get_unmasked_name()] the rightful [SSticker.rulertype], chosen by POPULAR acclaim.\n\n" + \
 		"[old_ruler_name], unable to contest this claim, has lost the confidence of the people, " + \
 		"and their authority is hereby revoked.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name], raised up by the will of the freefolk!", \
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name], raised up by the will of the freefolk!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("The people stand behind you. The throne is yours."))
@@ -137,13 +137,13 @@
 		if(RITE_STAGE_GATHERING)
 			return "A Rite of Popular Acclaim is underway. [get_assent_total()]/[ACCLAIM_REQUIRED_ASSENTS] voices have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "The people have affirmed [invoker?.real_name]'s claim. The will of the people approaches."
+			return "The people have affirmed [invoker?.get_unmasked_name()]'s claim. The will of the people approaches."
 	return null
 
 /datum/usurpation_rite/popular_acclaim/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne by popular will. Speak your assent -- or stop them. ([get_assent_total()]/[ACCLAIM_REQUIRED_ASSENTS] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne by popular will. Speak your assent -- or stop them. ([get_assent_total()]/[ACCLAIM_REQUIRED_ASSENTS] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = ""
 			if(contest_time_remaining > 0)
@@ -152,7 +152,7 @@
 				remaining = "[round(left / (1 SECONDS))] seconds"
 			else
 				remaining = "moments"
-			return "The people have spoken. [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "The people have spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null
 
 /// Returns the vote weight: outlaws/bandits count double, everyone else single.

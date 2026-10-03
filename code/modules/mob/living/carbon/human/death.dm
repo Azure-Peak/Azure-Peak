@@ -33,6 +33,9 @@
 	if(QDELETED(src) || !loc)
 		return
 
+	if(HAS_TRAIT(src, TRAIT_POSSESSED)) // if a vessel the hag is possessing dies, she just gets shunted out of it. she can revive people anyways
+		release_vessel(TRUE)
+
 	if(SScity_assembly?.is_alderman(src))
 		var/departing_name = real_name
 		var/departing_job = job

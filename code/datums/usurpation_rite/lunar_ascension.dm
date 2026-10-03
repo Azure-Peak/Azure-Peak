@@ -67,9 +67,9 @@
 
 /datum/usurpation_rite/lunar_ascension/on_assent_accepted(mob/living/carbon/human/mage)
 	mage.visible_message( \
-		span_notice("[mage.real_name] speaks their assent to the Rite of Lunar Ascension."), \
+		span_notice("[mage.get_unmasked_name()] speaks their assent to the Rite of Lunar Ascension."), \
 		span_notice("You speak your assent. Noc acknowledges your voice."))
-	to_chat(invoker, span_notice("[mage.real_name] has assented. ([length(assenters)]/[LUNAR_REQUIRED_MAGES])"))
+	to_chat(invoker, span_notice("[mage.get_unmasked_name()] has assented. ([length(assenters)]/[LUNAR_REQUIRED_MAGES])"))
 
 /datum/usurpation_rite/lunar_ascension/check_assent_threshold()
 	if(length(assenters) >= LUNAR_REQUIRED_MAGES)
@@ -77,7 +77,7 @@
 
 /datum/usurpation_rite/lunar_ascension/on_contesting_started()
 	priority_announce( \
-		"[invoker.real_name] has invoked the Rite of Lunar Ascension!\n\n" + \
+		"[invoker.get_unmasked_name()] has invoked the Rite of Lunar Ascension!\n\n" + \
 		"In the name of Noc, God of Magic, a claim is made upon the throne of [SSticker.realm_name], to bring enlightened rule to the realm.\n\n" + \
 		"A Council of Magos has affirmed this claim.\n\n" + \
 		"The Moon's judgment shall fall in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is extinguished.",
@@ -88,14 +88,14 @@
 
 /datum/usurpation_rite/lunar_ascension/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	..()
 	priority_announce( \
 		"Noc granted us the arcyne arts so humen may seize their own destiny.\n\n" + \
-		"A Council of Magos, under Noc's watchful gaze, declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a rule of true enlightenment.\n\n" + \
+		"A Council of Magos, under Noc's watchful gaze, declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a rule of true enlightenment.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found wanting in wisdom, " + \
 		"and their claim to rulership fades like starlight at dawn.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!", \
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("The pale light of Noc settles upon you. The throne is yours."))
@@ -115,13 +115,13 @@
 		if(RITE_STAGE_GATHERING)
 			return "The Rite of Lunar Ascension is underway. [length(assenters)]/[LUNAR_REQUIRED_MAGES] mages have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "The Council of Magos has affirmed [invoker?.real_name]'s claim. The moon's judgment approaches."
+			return "The Council of Magos has affirmed [invoker?.get_unmasked_name()]'s claim. The moon's judgment approaches."
 	return null
 
 /datum/usurpation_rite/lunar_ascension/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne by Noc's wisdom. Mages, speak your assent -- or stop them. ([length(assenters)]/[LUNAR_REQUIRED_MAGES] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne by Noc's wisdom. Mages, speak your assent -- or stop them. ([length(assenters)]/[LUNAR_REQUIRED_MAGES] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = ""
 			if(contest_time_remaining > 0)
@@ -130,5 +130,5 @@
 				remaining = "[round(left / (1 SECONDS))] seconds"
 			else
 				remaining = "moments"
-			return "The Council of Magos has spoken. [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "The Council of Magos has spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null
