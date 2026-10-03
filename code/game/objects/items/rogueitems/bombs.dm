@@ -33,23 +33,66 @@
 	fuze = rand(40, 60)
 
 /obj/item/bomb/spark_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
-	light()
+	if(QDELETED(src) || exploding)
+		return
+	light(TRUE)
 
 /obj/item/bomb/fire_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
-	light()
+	if(QDELETED(src) || exploding)
+		return
+	light(TRUE)
 
 /obj/item/bomb/ex_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
 	if(QDELETED(src) || exploding)
 		return
@@ -66,6 +109,15 @@
 	if(ismob(loc))
 		var/mob/M = loc
 		M.update_inv_hands()
+
+/obj/item/bomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	if(throwingdatum)
+		thrower = throwingdatum.thrower
+	..()
+	sleep(1)
+	if(QDELETED(src))
+		return
+	explode()
 
 /obj/item/bomb/extinguish()
 	snuff()
@@ -84,6 +136,7 @@
 /obj/item/bomb/proc/explode(skipprob)
 	if(QDELETED(src) || exploding)
 		return FALSE
+
 	exploding = TRUE
 	STOP_PROCESSING(SSfastprocess, src)
 
@@ -102,14 +155,14 @@
 	if(isliving(thrower))
 		var/mob/living/M = thrower
 		var/engineering = M.get_skill_level(/datum/skill/craft/engineering)
-		critbang = (engineering * 10) + (M.STALUC * 2) + tripcrit
+		critbang = min(50, (engineering * 5) + (M.STALUC * 2)) + tripcrit // caps at 50% chance, tripmines are excluded from the cap
 		can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
 
 	qdel(src)
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
 
 	for(var/mob/living/target in range(1, T))
-		if(target == thrower && HAS_TRAIT(thrower, TRAIT_BOMBER_EXPERT))
+		if(target == thrower && can_crit)
 			continue
 
 		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
@@ -117,34 +170,39 @@
 
 		target.mob_timers[MT_BOMB_HIT] = world.time
 
-		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
-		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+		if(spawn_shard)
+			embed_bomb_shrapnel(target, /obj/item/natural/glass_shard/shrapnel)
 
 		var/was_scorched = get_scorch_stacks(target)
+		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
+		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
 
-		if(can_crit && !target.mind && was_scorched && prob(critbang)) // to critbang mobs with bottle bombs, you gotta land two in a row! skill issue otherwise!!
-			target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
-				"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
-			playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
-			target.gib(TRUE, TRUE, FALSE, TRUE)
-			continue
+		if(can_crit && !target.mind)
+			if(target.stat != CONSCIOUS)
+				target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
+					"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
+				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
+				target.gib(TRUE, TRUE, FALSE, TRUE)
+				continue
+
+			if(was_scorched && prob(critbang))
+				target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
+					"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
+				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
+				target.gib(TRUE, TRUE, FALSE, TRUE)
+				continue
 
 		apply_scorch_stack(target, 3)
 
-	if(spawn_shard)
-		if(prob(50))
-			new /obj/item/natural/glass_shard(T)
-		else
-			embed_bomb_shrapnel(T, thrower, /obj/item/natural/glass_shard)
+	explosion(T, light_impact_range = 1, smoke = (tripcrit > 0), adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'), bomb_owner = thrower)
 
-	explosion(T, light_impact_range = 1, smoke = TRUE, adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'))
 	return TRUE
 
 /obj/item/bomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	..()
 	if(throwingdatum)
 		thrower = throwingdatum.thrower
+	..()
 	sleep(1)
 	if(QDELETED(src))
 		return
@@ -426,23 +484,66 @@
 	grid_height = 64
 
 /obj/item/tntstick/spark_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
-	light()
+	if(QDELETED(src))
+		return
+	light(TRUE)
 
 /obj/item/tntstick/fire_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
-	light()
+	if(QDELETED(src))
+		return
+	light(TRUE)
 
 /obj/item/tntstick/ex_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
 	if(QDELETED(src))
 		return
@@ -591,23 +692,66 @@
 	grid_height = 256
 
 /obj/item/satchel_bomb/spark_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
-	light()
+	if(QDELETED(src))
+		return
+	light(TRUE)
 
 /obj/item/satchel_bomb/fire_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
-	light()
+	if(QDELETED(src))
+		return
+	light(TRUE)
 
 /obj/item/satchel_bomb/ex_act()
-	if(ismob(loc))
-		var/mob/M = loc
-		if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT) && !(src in M.held_items))
+	var/mob/living/bomber_owner
+	var/atom/current = loc
+	while(current)
+		if(ismob(current))
+			var/mob/living/M = current
+			if(HAS_TRAIT(M, TRAIT_BOMBER_EXPERT))
+				bomber_owner = M
+				break
+		current = current.loc
+	if(bomber_owner)
+		var/is_in_hands = FALSE
+		for(var/obj/item/held_item in bomber_owner.held_items)
+			if(held_item == src)
+				is_in_hands = TRUE
+				break
+		if(!is_in_hands)
 			return
 	if(QDELETED(src))
 		return
@@ -748,10 +892,11 @@
 	STOP_PROCESSING(SSfastprocess, src)
 	qdel(src) // Delete the grenade after use boy (ALWAYS USE IT)
 
+
 /obj/item/impact_grenade/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	..()
 	if(throwingdatum)
 		thrower = throwingdatum.thrower
+	..()
 	sleep(1)
 	if(QDELETED(src))
 		return
@@ -828,27 +973,46 @@
 	STOP_PROCESSING(SSfastprocess, src)
 
 	var/turf/T = get_turf(src)
-	if(T)
-		var/critbang = 0
-		var/can_crit = FALSE
+	if(!T)
+		qdel(src)
+		return
 
-		if(isliving(thrower))
-			var/mob/living/M = thrower
-			var/engineering = M.get_skill_level(/datum/skill/craft/engineering)
-			critbang = (engineering * 10) + (M.STALUC * 2) + tripcrit
-			can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
+	var/critbang = 0
+	var/can_crit = FALSE
 
-		for(var/mob/living/target in range(2, T))
-			if(can_crit && !target.mind && prob(critbang))
-				target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
-					"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
-				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
-				target.gib(TRUE, TRUE, FALSE, TRUE)
-				continue
-			if(!target.mind || istype(target, /mob/living/simple_animal))
-				target.adjustFireLoss(PVE_damage)
-		embed_bomb_shrapnel(T, thrower, /obj/item/bomb_shrapnel)
-		explosion(T, heavy_impact_range = 1, light_impact_range = 3, flame_range = 2, smoke = TRUE, adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'))
+	if(isliving(thrower))
+		var/mob/living/M = thrower
+		var/engineering = M.get_skill_level(/datum/skill/craft/engineering)
+		critbang = (engineering * 10) + (M.STALUC * 2) + tripcrit
+		can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
+
+	for(var/mob/living/target in range(2, T))
+		if(target == thrower && can_crit)
+			continue
+
+		if(target.mob_timers[MT_BOMB_HIT] && world.time < target.mob_timers[MT_BOMB_HIT] + BOMB_HIT_IMMUNITY_DURATION)
+			continue
+
+		target.mob_timers[MT_BOMB_HIT] = world.time
+
+		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
+		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+		target.apply_status_effect(/datum/status_effect/debuff/staggered)
+
+		if(target.stat != CONSCIOUS)
+			critbang += 100 // F I N I S H  H I M . . !
+
+		if(can_crit && !target.mind && prob(critbang))
+			target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
+				"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
+			playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
+			target.gib(TRUE, TRUE, FALSE, TRUE)
+			continue
+
+		if(prob(50))
+			embed_bomb_shrapnel(target, /obj/item/bomb_shrapnel)
+
+	explosion(T, heavy_impact_range = 1, light_impact_range = 3, flame_range = 2, smoke = (tripcrit > 0), adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'), bomb_owner = thrower)
 
 	qdel(src)
 
@@ -917,12 +1081,27 @@
 	icon_state = "smokeshell_purple"
 	smoke_type = /datum/effect_system/smoke_spread/mute_gas
 
+/obj/item/natural/glass_shard/shrapnel
+	name = "jagged shard"
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 100, "embedded_fall_chance" = 0)
+
+/obj/item/natural/glass_shard/shrapnel/dropped(mob/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	if(prob(25))
+		return
+	var/turf/T = get_turf(user)
+	qdel(src)
+	if(T)
+		new /obj/effect/decal/cleanable/debris/glassy(T)
+
 /obj/item/bomb_shrapnel
 	name = "jagged shrapnel"
 	desc = "A jagged fragment of explosive debris. Tough luck..."
 	icon_state = ""
 	invisibility = INVISIBILITY_MAXIMUM
-	embedding = list("embedded_pain_multiplier" = 2, "embed_chance" = 100, "embedded_fall_chance" = 0)
+	embedding = list("embedded_pain_multiplier" = 1.2, "embed_chance" = 100, "embedded_fall_chance" = 0)
 
 /obj/item/bomb_shrapnel/dropped(mob/user)
 	. = ..()
@@ -933,41 +1112,57 @@
 	if(T)
 		new /obj/effect/decal/cleanable/debris/stony(T)
 
-/obj/item/bomb_shrapnel/dropped(mob/user)
-	. = ..()
-	if(QDELETED(src))
-		return
-	var/turf/T = get_turf(user)
-	qdel(src)
-	if(T)
-		new /obj/effect/decal/cleanable/debris/stony(T)
+// speshul embed that checks your armor durability percentage and tries to go through it, the more damaged your armor(s), the more likely you'll get shrapnel, and vice versa
+/proc/embed_bomb_shrapnel(mob/living/target, shrapnel_type = /obj/item/natural/glass_shard/shrapnel)
+	if(!target || !iscarbon(target))
+		return FALSE
 
-/proc/embed_bomb_shrapnel(turf/T, mob/living/exclude = null, shrapnel_type = /obj/item/natural/glass_shard)
-	if(!T)
-		return FALSE
-	var/list/valid_targets = list()
-	for(var/mob/living/carbon/C in range(1, T))
-		if(C == exclude)
-			continue
-		var/list/valid_bodyparts = list()
-		for(var/obj/item/bodypart/limb in C.bodyparts)
-			if(limb.body_zone in list(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
-				valid_bodyparts += limb
-		if(length(valid_bodyparts))
-			valid_targets += C
-	if(!length(valid_targets))
-		return FALSE
-	var/mob/living/carbon/C = pick(valid_targets)
+	var/mob/living/carbon/C = target
 	var/list/valid_bodyparts = list()
+
 	for(var/obj/item/bodypart/limb in C.bodyparts)
-		if(limb.body_zone in list(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
+		if(limb.body_zone in list(BODY_ZONE_CHEST, BODY_ZONE_L_LEG, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_R_ARM))
 			valid_bodyparts += limb
+
 	if(!length(valid_bodyparts))
 		return FALSE
-	var/obj/item/bodypart/limb = pick(valid_bodyparts)
-	var/obj/item/shrapnel = new shrapnel_type
-	limb.add_embedded_object(shrapnel, FALSE, TRUE, TRUE)
-	return TRUE
+
+	var/hit_any = FALSE
+	var/shrapnel_amount = rand(1, min(3, length(valid_bodyparts)))
+
+	for(var/i = 1 to shrapnel_amount)
+		if(!length(valid_bodyparts))
+			break
+
+		var/obj/item/bodypart/limb = pick_n_take(valid_bodyparts)
+		var/obj/item/protection
+
+		for(var/obj/item/I in C.get_equipped_items())
+			if(!(I.body_parts_covered & limb.body_part))
+				continue
+
+			protection = I
+			break
+
+		var/protection_chance = 0
+
+		if(protection && protection.max_integrity)
+			var/eff_maxint = protection.max_integrity - (protection.max_integrity * protection.integrity_failure)
+			var/eff_currint = max(protection.obj_integrity - (protection.max_integrity * protection.integrity_failure), 0)
+
+			if(eff_maxint > 0)
+				protection_chance = round((eff_currint / eff_maxint) * 100)
+
+		if(protection && prob(protection_chance))
+			limb.receive_damage(10)
+			hit_any = TRUE
+			continue
+
+		var/obj/item/shrapnel = new shrapnel_type
+		limb.add_embedded_object(shrapnel, FALSE, TRUE, TRUE)
+		hit_any = TRUE
+
+	return hit_any
 
 #undef MT_BOMB_HIT
 #undef BOMB_HIT_IMMUNITY_DURATION
