@@ -7,26 +7,29 @@
 	cmode_music = 'sound/music/Iconoclast.ogg'
 	class_select_category = CLASS_CAT_ROGUE
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY)
+	traits_applied = list(TRAIT_MEDIUMARMOR, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT)
 	subclass_stats = list(
 		STATKEY_WIL = 3,
 		STATKEY_CON = 3,
-		STATKEY_INT = 3
+		STATKEY_INT = 2,
+		STATKEY_LCK = 1,
 	)
 	subclass_skills = list(
 		/datum/skill/combat/bows = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/crossbows = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/knives = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, // To escape grapplers, fuck you
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/engineering = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/alchemy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/craft/engineering = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT, // rogue archetype needs this
+		/datum/skill/misc/swimming = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 	)
 	subclass_stashed_items = list(
@@ -35,45 +38,42 @@
 	)
 
 /datum/outfit/job/roguetown/wretch/pyromaniac/pre_equip(mob/living/carbon/human/H)
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/sheriff //wear protection :)
-	mask = /obj/item/clothing/mask/rogue/facemask/
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/full //Protect your head!
+	ADD_TRAIT(H, TRAIT_BOMBER_EXPERT, ROUNDSTART_TRAIT) // to prevent us from lighting up in flames, oughghhh
+	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/pyro // this is practically the sheriff helmet but a hijab, mostly for the new drip really without making them eat shit to any knife swinging peasant going for the head
+	mask = /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed // huff puff, huff puff...
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/full
 	pants = /obj/item/clothing/under/roguetown/brigandinelegs
-	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/light
+	cloak = /obj/item/clothing/cloak/bandolier
+	armor = /obj/item/clothing/suit/roguetown/armor/brigandine
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
-	backl = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather
+	belt = 	/obj/item/storage/backpack/rogue/satchel/beltpack
 	gloves = /obj/item/clothing/gloves/roguetown/plate/iron
-	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
-	r_hand = /obj/item/bomb
-	l_hand = /obj/item/bomb
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/bronze
+	backl = /obj/item/twstrap/bombstrap/firebomb
 	backpack_contents = list(
-		/obj/item/bomb = 2,
-		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
+		/obj/item/natural/bundle/fibers/full = 3,
 		/obj/item/flint = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,	//Small health vial
+		/obj/item/runicflask/charged = 1,
 		)
 	if(H.mind)
-		var/weapons = list("Archery", "Crossbows", "BOMBS")
+		var/weapons = list("Archery", "Crossbows")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Archery")
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, 4, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
-				beltl = /obj/item/quiver/arrows
-				beltr = /obj/item/runicflask/charged
+				beltr = /obj/item/quiver/arrows
+				beltl = /obj/item/rogueweapon/huntingknife/combat
+
 			if("Crossbows")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 4, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				beltl = /obj/item/quiver/bolt/pyro
-			if("BOMBS") //30 bombs. 18 fire, 4 tnt, 4 impacts, 4 firegas.
-				ADD_TRAIT(H, TRAIT_BOMBER_EXPERT, TRAIT_GENERIC)
-				H.adjust_skillrank_up_to(/datum/skill/craft/engineering, 4, TRUE)
-				backr = /obj/item/twstrap/bombstrap/firebomb
-				r_hand = /obj/item/twstrap/bombstrap/bomb_and_fire
-				l_hand = /obj/item/twstrap/bombstrap/bomb_and_fire
+				beltr = /obj/item/quiver/bolt/pyro
+				beltl = /obj/item/rogueweapon/huntingknife/combat
+
 		wretch_select_bounty(H)

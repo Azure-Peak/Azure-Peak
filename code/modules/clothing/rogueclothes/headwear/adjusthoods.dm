@@ -142,6 +142,22 @@
 	icon_state = "hijab"
 	naledicolor = TRUE
 
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/pyro
+	name = "darksooted headscarf"
+	desc = "A headscarf anointed in cursed soot and drenched in the blood of infernals. The foul mixture has seeped deep into its fibers, leaving behind a strange, smoldering quality that only those with a true fondness for fire can endure."
+	slot_flags = ITEM_SLOT_HEAD
+	max_integrity = 350 // 50 less dura for better visibility
+	armor = ARMOR_BRIGANDINE
+	item_state = "hijab"
+	icon_state = "hijab"
+	naledicolor = FALSE
+	color = COLOR_ALMOST_BLACK
+	aura_color = "#ffa76d"
+
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/pyro/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, list(TRAIT_BOMBER_EXPERT), src)
+
 /obj/item/clothing/head/roguetown/roguehood/shalal/heavyhood
 	name = "heavy hood"
 	desc = "This thick lump of burlap completely shrouds your head, protecting it from harsh weather and nosey protagonists alike."

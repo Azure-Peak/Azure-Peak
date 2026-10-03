@@ -329,7 +329,6 @@
 			return
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed/attack_right(mob/user, slot)
-	..()
 	if(!lensmoved)
 		playsound(user, 'sound/items/inqglassesoff.ogg', 80)
 		to_chat(user, span_info("You discreetly slide the inner lenses out of the way."))
