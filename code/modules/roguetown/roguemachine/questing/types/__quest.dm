@@ -53,6 +53,12 @@
 	var/engaged = FALSE
 	var/datum/fund/deposit_payer
 	var/deposit_paid = 0
+	var/posted_at = 0
+	var/signer_group
+
+/datum/quest/New()
+	. = ..()
+	posted_at = world.time
 
 /datum/quest/proc/get_lapse_time()
 	var/window = (source == QUEST_SOURCE_POOL) ? QUEST_POOL_STALE_THRESHOLD : QUEST_PLAYER_STALE_THRESHOLD
@@ -277,6 +283,23 @@
 	quest_receiver_reference = WEAKREF(user)
 	quest_receiver_name = user.real_name
 	last_claimed_at = world.time
+	signer_group = contract_signer_group(user)
+	record_contract_stat(src, CONTRACT_STAT_TAKEN)
+	record_contract_stat(src, CONTRACT_STAT_WAIT_DS, max(0, world.time - posted_at))
+	record_contract_signer(src, user.ckey)
+
+/datum/quest/proc/get_party_size()
+	var/mob/living/bearer = quest_receiver_reference?.resolve()
+	if(!istype(bearer) || !bearer.current_fellowship)
+		return 1
+	return max(1, length(bearer.current_fellowship.get_members()))
+
+/datum/quest/proc/record_completion_stats(paid)
+	record_contract_stat(src, CONTRACT_STAT_COMPLETED)
+	record_contract_stat(src, CONTRACT_STAT_RUN_DS, max(0, world.time - last_claimed_at))
+	record_contract_stat(src, CONTRACT_STAT_PARTY, get_party_size())
+	if(paid > 0)
+		record_contract_stat(src, CONTRACT_STAT_PAID, paid)
 
 /datum/quest/proc/has_started()
 	if(complete || engaged || progress_current > 0)

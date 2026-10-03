@@ -118,6 +118,7 @@
 	var/gross_reward = base_reward + deposit_return
 
 	var/quest_levy_exempt = completed_quest.levy_exempt
+	completed_quest.record_completion_stats(base_reward)
 	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
 		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
 	qdel(scroll.assigned_quest)
@@ -156,6 +157,33 @@
 			say("On [holder_name]'s behalf, your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
 		else
 			say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
+
+/obj/structure/roguemachine/contractledger/proc/admin_complete_by_ref(mob/user, ref)
+	if(!ref || !check_rights_for(user?.client, R_DEBUG))
+		return
+	var/datum/weakref/user_ref = WEAKREF(user)
+	var/obj/item/quest_writ/matched_scroll
+	var/datum/quest/matched_quest
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(!Q || Q.quest_receiver_reference != user_ref)
+			continue
+		if(REF(Q) != ref)
+			continue
+		matched_scroll = scroll
+		matched_quest = Q
+		break
+	if(!matched_quest)
+		return
+	log_admin("[key_name(user)] force-completed a [matched_quest.quest_type] contract at the Contract Ledger.")
+	if(!matched_quest.complete)
+		if(istype(matched_quest, /datum/quest/kill))
+			var/datum/quest/kill/KQ = matched_quest
+			KQ.despawn_live_hunt_mobs()
+		matched_quest.progress_current = matched_quest.progress_required
+		matched_quest.mark_complete()
+	if(!QDELETED(matched_scroll) && matched_scroll.assigned_quest?.complete)
+		turn_in_scroll(user, matched_scroll, QUEST_TURNIN_SELF)
 
 /obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
 	if(!ref)

@@ -113,6 +113,7 @@
 		if(guild_fee > 0 && user_account && tavern_fund)
 			if(SStreasury.transfer(user_account, tavern_fund, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
 				guild_paid = guild_fee
+				record_round_statistic(STATS_CONTRACT_MAMMONS_GUILD_CUT, guild_fee)
 	if(completed_quest.source == QUEST_SOURCE_RUMOR && tavern_fund)
 		var/rumor_fee = round(gross_reward * RUMOR_CONTACT_FEE_PCT)
 		if(rumor_fee > 0)

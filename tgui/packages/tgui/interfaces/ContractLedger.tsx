@@ -86,6 +86,7 @@ type ContractLedgerData = {
   tax_rate: number;
   guild_cut_rate: number;
   can_proxy_turnin: BooleanLike;
+  can_admin_complete?: BooleanLike;
   dynamic_role: string | null;
   dynamic_roles?: string[];
   rumor_points?: number;
@@ -755,6 +756,16 @@ const ActiveStrip = (props: {
                 onClick={() => act('abandon', { ref: a.ref })}
               >
                 Abandon
+              </Button>
+            )}
+            {!!data.can_admin_complete && (
+              <Button
+                icon="check"
+                color="good"
+                tooltip="Admin: force-complete and turn in this contract."
+                onClick={() => act('admin_complete', { ref: a.ref })}
+              >
+                Complete
               </Button>
             )}
           </div>
