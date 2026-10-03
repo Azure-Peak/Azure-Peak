@@ -48,3 +48,27 @@
 	message_admins("Vheslynblot triggered by [user]!")
 	log_admin("Vheslynblot triggered by [user]!")
 	SSticker.sunscorch(sunscorcher)
+
+/obj/item/debug/skeleton_preference_wand
+	name = "skeleton debug wand"
+	desc = ""
+	icon = 'icons/obj/guns/magic.dmi'
+	icon_state = "pharoah_sceptre"
+	w_class = WEIGHT_CLASS_SMALL
+
+// make skeleton
+/obj/item/debug/skeleton_preference_wand/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(isturf(target))
+		var/mob/living/carbon/human/species/skeleton/npc/no_equipment/ske = new /mob/living/carbon/human/species/skeleton/npc/no_equipment(target)
+
+/obj/item/debug/skeleton_preference_wand/rmb_self(mob/user, keybind)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		H.select_skeleton_features()
+
+/obj/item/debug/skeleton_preference_wand/MiddleClick(mob/user, params)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		H.choose_skeleton_pronouns_and_body()

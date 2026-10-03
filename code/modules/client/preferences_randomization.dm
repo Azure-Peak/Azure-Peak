@@ -129,6 +129,12 @@
 	preset_bounty_severity_v_key = null
 	preset_bounty_crime = null
 
+	preset_skeleton_enabled = FALSE
+	preset_skeleton_body = null
+	preset_skeleton_pronouns = null
+	preset_skeleton_skull = null
+	preset_skeleton_tail = null
+
 	// reset familiar prefs
 	QDEL_NULL(familiar_prefs)
 	familiar_prefs = new /datum/familiar_prefs(src)
