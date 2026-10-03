@@ -37,7 +37,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 	if(C.drunkenness < volume * boozepwr * ALCOHOL_THRESHOLD_MODIFIER || boozepwr < 0)
 		var/booze_power = boozepwr
 		C.drunkenness = max((C.drunkenness + (sqrt(volume) * booze_power * ALCOHOL_RATE)), 0) //Volume, power, and server alcohol rate effect how quickly one gets drunk
-	if(C.blood_volume < BLOOD_VOLUME_NORMAL && !holder.has_reagent(/datum/reagent/water))
+	if(C.blood_volume < BLOOD_VOLUME_NORMAL && !holder.has_reagent(/datum/reagent/water) && volume > 0.99)
 		C.blood_volume = min(C.blood_volume + ALCOHOL_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
 //		if(boozepwr > 0)
 //			var/obj/item/organ/liver/L = C.getorganslot(ORGAN_SLOT_LIVER)
