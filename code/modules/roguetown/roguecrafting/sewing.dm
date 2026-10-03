@@ -2159,6 +2159,47 @@
 	display_category = ITEM_CAT_ARMOR_BARDING
 	result = list(/obj/item/clothing/barding/fogbeast)
 
+// -- saiga-taur barding (worn by the player-controlled saiga-taur race, not the mount barding above)
+
+/datum/crafting_recipe/roguetown/sewing/saigataurbarding_cloth
+	name = "cloth saiga barding"
+	category = "Misc"
+	display_category = ITEM_CAT_ARMOR_BARDING
+	result = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/cloth)
+	reqs = list(/obj/item/natural/cloth = 4,
+				/obj/item/natural/fibers = 1)
+	tools = list(/obj/item/needle)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/saigataurbarding_leather
+	name = "leather saiga barding"
+	category = "Misc"
+	display_category = ITEM_CAT_ARMOR_BARDING
+	result = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/leather)
+	reqs = list(/obj/item/natural/hide/cured = 3)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/saigataurbarding_padded
+	name = "padded saiga barding"
+	category = "Misc"
+	display_category = ITEM_CAT_ARMOR_BARDING
+	result = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/padded)
+	reqs = list(/obj/item/natural/cloth = 5,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/saigataurtabard
+	name = "saiga tabard"
+	category = "Misc"
+	display_category = ITEM_CAT_ARMOR_BARDING
+	result = list(/obj/item/clothing/cloak/tabard/saiga)
+	reqs = list(/obj/item/natural/cloth = 4,
+				/obj/item/natural/fibers = 2)
+	tools = list(/obj/item/needle)
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/sewing/sanguinetrousers
 	name = "sanguine trousers"
 	result = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
