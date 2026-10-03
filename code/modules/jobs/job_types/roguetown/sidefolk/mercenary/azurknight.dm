@@ -8,7 +8,7 @@
 	category_tags = list(CTAG_MERCENARY, CTAG_MERCPARTY_BULWARK)
 	cmode_music = 'sound/music/combat_knight.ogg'
 	subclass_languages = list(/datum/language/oldazurian)
-	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_HEARTFELT)
+	traits_applied = list(TRAIT_HEAVYARMOR)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_SPD = -3,
@@ -46,12 +46,15 @@
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/greatplume/heartfelt //sorry ser. 90* cone for you.
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt/hand //The Big one. Covers all limbs (but not extremities).
 	shoes = /obj/item/clothing/shoes/roguetown/boots
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
+	gloves = /obj/item/clothing/gloves/roguetown/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/sword/long/ap //"A unique longsword from the highest plateaus of the Azure Peak"
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	neck = /obj/item/roguekey/mercenary
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/faulds/red
+	//beltr = /obj/item/rogueweapon/scabbard/sword/noble
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	backpack_contents = list(
 		/obj/item/rogueweapon/scabbard/sheath = 1,
