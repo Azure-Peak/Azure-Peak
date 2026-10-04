@@ -1933,6 +1933,9 @@
 	if(HAS_TRAIT(spread_to, TRAIT_NOFIRE) || HAS_TRAIT(src, TRAIT_NOFIRE))
 		return
 
+	if(HAS_TRAIT(src, TRAIT_NOFIREDECAY))
+		return
+
 	if(!prob(25))
 		return
 

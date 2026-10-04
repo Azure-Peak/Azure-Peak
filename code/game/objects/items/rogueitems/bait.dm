@@ -133,6 +133,7 @@
 							/mob/living/simple_animal/hostile/retaliate/rogue/mole = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/fox = 50,
 							/mob/living/simple_animal/hostile/retaliate/rogue/bobcat = 50,		//Annoying bastards
+							/mob/living/simple_animal/hostile/retaliate/rogue/wolf/dire = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 10,
 							/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 5)			//RUH-ROH
 

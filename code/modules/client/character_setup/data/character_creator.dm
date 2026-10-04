@@ -29,6 +29,8 @@ Add a new override in your modular folder that looks like this:
 		"loaded_slot" = loaded_slot,
 		"real_name" = real_name,
 		"headshot_link" = headshot_link,
+		"headshot_artist_credit" = headshot_artist_credit,
+		"headshot_artist_link" = headshot_artist_link,
 
 		"pq" = get_playerquality(parent.ckey, text = TRUE),
 		"hide_pq" = should_hide_pq_for(user),
