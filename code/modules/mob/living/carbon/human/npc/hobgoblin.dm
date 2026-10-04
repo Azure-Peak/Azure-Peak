@@ -3,9 +3,6 @@
 	id = "hobgoblin"
 	species_traits = list(NO_UNDERWEAR,NOEYESPRITES)
 	inherent_traits = list(TRAIT_RESISTCOLD,
-		TRAIT_RESISTHIGHPRESSURE,
-		TRAIT_RESISTLOWPRESSURE,
-		TRAIT_RADIMMUNE,
 		TRAIT_NASTY_EATER,
 		TRAIT_LEECHIMMUNE,
 		TRAIT_HEAVYARMOR)
@@ -163,9 +160,8 @@
 	if(eyes)
 		eyes.Remove(src,1)
 		QDEL_NULL(eyes)
-	eyes = new /obj/item/organ/eyes/night_vision/nightmare
+	eyes = new /obj/item/organ/eyes/night_vision/wild_goblin
 	eyes.Insert(src)
-	src.underwear = "Nude"
 	for(var/datum/charflaw/cf in src.charflaws)
 		QDEL_NULL(cf)
 	update_body()

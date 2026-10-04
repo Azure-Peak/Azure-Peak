@@ -62,5 +62,6 @@
 #define DRINKTYPE_MEAD		(1<<3)
 #define DRINKTYPE_CIDER		(1<<4)
 #define DRINKTYPE_CAFFEINE	(1<<5)
-#define DRINKTYPE_JUICE	(1<<6)
+#define DRINKTYPE_JUICE		(1<<6)
 #define DRINKTYPE_RICEWINE	(1<<7)
+#define DRINKTYPE_VIRGIN	(1<<8)

@@ -112,13 +112,6 @@
 	if(replaced_by == /datum/surgery_step)
 		return FALSE
 
-	// True surgeons (like abductor scientists) need no instructions
-	if(HAS_TRAIT(user, TRAIT_SURGEON) || (user.mind && HAS_TRAIT(user.mind, TRAIT_SURGEON)))
-		// only show top-level surgeries
-		if(replaced_by)
-			return FALSE
-		return TRUE
-
 	if(!requires_tech && !replaced_by)
 		return TRUE
 

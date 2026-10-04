@@ -91,8 +91,6 @@
 
 	/// What is uttered when the user casts the spell. Can be a list for random selection.
 	var/list/invocations
-	/// What is shown in chat when the user casts the spell, only matters for INVOCATION_EMOTE.
-	var/invocation_self_message
 	/// What type of invocation the spell is.
 	/// Can be "none", "whisper", "shout", "emote".
 	var/invocation_type = INVOCATION_NONE
@@ -1150,8 +1148,7 @@
 
 		if(INVOCATION_EMOTE)
 			invoker.visible_message(
-				capitalize(replacetext(used_invocation_message, "%CASTER", invoker.name)),
-				capitalize(replacetext(invocation_self_message, "%CASTER", invoker.name)),
+				span_danger(capitalize(replacetext(used_invocation_message, "%CASTER", invoker.name)))
 			)
 
 /// When we start charging the spell called from set_click_ability or start_casting

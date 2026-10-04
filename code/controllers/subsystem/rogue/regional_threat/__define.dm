@@ -10,3 +10,10 @@
 
 #define THREAT_HIGHPOP_TICK_RATE 0.1
 #define THREAT_LOWPOP_TICK_RATE 0.05
+
+// Below THRESHOLD: same floor+ramp as before (lowpop_tick*MIN_MULT at pop 0, ramping to
+// lowpop_tick at THRESHOLD). At/above THRESHOLD: ramps on to highpop_tick by REF_POP instead of
+// snapping straight to it, so there's no jump at the THRESHOLD boundary.
+#define THREAT_LOWPOP_TICK_MIN_MULT 0.5
+#define THREAT_LOWPOP_THRESHOLD 30
+#define THREAT_TICK_HIGHPOP_REF_POP 60
