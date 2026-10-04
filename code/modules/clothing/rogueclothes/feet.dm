@@ -30,7 +30,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("These boots can hold a tossblade or laborer's knife. Left click them with one to sheathe it.")
+	. += span_info("These shoes can hold a tossblade or laborer's knife. Left click them with one to sheathe it.")
 	. += span_info("Right click to draw a sheathed weapon.")
 
 /obj/item/clothing/shoes/roguetown/boots/ComponentInitialize()

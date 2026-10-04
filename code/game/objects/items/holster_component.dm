@@ -176,7 +176,7 @@
 /datum/component/holster/proc/examine_check(datum/source, mob/user, list/examine_list)
 	if(sheathed)
 		if(bootsheath == TRUE)
-			examine_list += span_notice("The boot is occupied by [sheathed]. Right-click to pull it out.")
+			examine_list += span_notice("There is [sheathed] slipped into the footwear. Right-click to pull it out.")
 		else
 			examine_list += span_notice("The sheath is occupied by [sheathed]. Left-click to pull it out.")
 
