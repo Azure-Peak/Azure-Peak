@@ -1253,3 +1253,79 @@
   mumblemancer:
   - bugfix: mage hand sense intent should have sprite now
   - qol: bandages are now at the bottom instead of the middle of the medicine pouch
+2026-09-29:
+  BurpleBineapple:
+  - rscadd: Adds a gothic sallet for donators to use via transforming kit.
+  - rscadd: The psydonic gothic kits work on fluted cuirass and fluted half-plate
+      items too.
+  - bugfix: Add missing fluted half-plate to deserter's choices. They had regular
+      half-plate and regular/fluted full-plate already.
+  Lamasmaster:
+  - balance: Bishop Drip
+  - balance: Increases base damage by 30 for Astratan Lightning Bolt, decreases cooldown
+      by 15 seconds to 30, decreases firestacks by 2 on non sundering fire, it can
+      now be canceled just as actual lighting bolt.
+  Ollanius:
+  - bugfix: Naman's sabre icon now properly renders.
+  OrbisAnima:
+  - balance: Removes Athletics from Skilled Chef
+  - bugfix: Fixes non arcane chisel assemblies from not being able to separate.
+  Traveler319:
+  - bugfix: The corset and volf mantle will no longer hide chest or crotch.
+  borneblood:
+  - code_imp: Adjusted the yield of Dubious Wells to be more fitting for what might
+      be inside of it. A mystery.
+  - bugfix: Bard's buffs had id overlapping, which has been corrected.
+  - rscadd: Vizier's Accelerate should be more descriptive about not stacking with
+      only haste.
+  - rscadd: Fyrtius Flowers require the source of a blood sample to be alive.
+  - bugfix: Fixed a couple of code oversights regarding colorables.
+  - bugfix: Fixes an oversight with Wooden Shrine's implementation.
+  - bugfix: Couches make sense now.
+  - bugfix: Fixed Burning Red Eyes jank
+  - bugfix: Standardized the proc for 'eye organ incompatibility'.
+  - rscdel: Removed some irrelevant eyes.
+  kiwedespars:
+  - balance: rebalanced presence t3
+  mumblemancer:
+  - bugfix: assassin's skinthiefing now shows proper job
+  - bugfix: assassin's skinthiefing now shows (sfw) flavortext properly ((I AM NOT
+      COPYING NSFW FLAVORTEXT!!!!))
+  - bugfix: assassin's skinthiefing should runtime less
+  - balance: cheeles no longer embed
+  - balance: cheeles are 25% faster at injecting/extracting blood
+  - balance: cheeles start w/ a little more blood
+  nauticall:
+  - rscadd: Rural Tax is now Rural Subsidy, a scaling number starting at 200m that
+      goes down to 100m scaling on how many producers are present in town. Producers
+      are people (i.e. guildsmen, tailors, apothecaries) who are capable of fulfilling
+      Standing Orders.
+  - rscadd: Standing orders now pay a light 'scarcity bonus' on top of the normal
+      payment, hiking up at lowpop. Maximum is 40% extra, gradually tapering off to
+      nothing as pop increases. Amounts required remain the same.
+  - balance: Standing orders now recalculate their payouts dynamically per day, based
+      on market pricing.
+  - balance: Banditry now scales down more proportionally to active population. The
+      flat cost of banditry in dangerous regions now shrinks as population drops.
+  - balance: A hard cap on total banditry losses is also calculated and limited if
+      the projected losses exceed the threshold.
+  - balance: Danger builds up more slowly per day in banditry-affected regions on
+      lowpop.
+  - balance: ' Banditry debt repayments now only skim 75% of repaid income instead
+      of 100%.'
+  - admin: Banditry and regional danger now respect artificial population numbers
+      set in the Economic Panel.
+2026-09-30:
+  KatTheFox:
+  - bugfix: You can no longer decapitate hags to trap them in their severed head,
+      bypassing their revive.
+  Ryan180602:
+  - balance: reverts vicious axe buff
+  zydras:
+  - rscadd: Added Direvolfs! Similar to Direbears, but more canine.
+  - rscadd: Druids and Dendorites can now Wildshape into Direvolfs. Rawr.
+  - image: Fixed the shading on the black volf and white volf sprites.
+  - code_imp: Direvolf will (rarely) be attracted to bloodbait. Be wary!
+  - code_imp: Direvolf will now appear in the Northern Coast and the Mount Decapitation.
+  - code_imp: The Wild Beast contract type now only contains Volf and Direvolf rather
+      than a crock-pot of wildlyfe.

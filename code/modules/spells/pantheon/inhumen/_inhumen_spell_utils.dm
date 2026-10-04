@@ -357,50 +357,6 @@
 /proc/cmp_coin_value_desc(obj/item/roguecoin/A, obj/item/roguecoin/B)
 	return B.sellprice - A.sellprice
 
-/atom/movable/screen/alert/status_effect/debuff/dramatic_finish // NPC ONLY!!!!!!!!!!!!!! DO -NOT- USE THIS ON PLAYERS!!!!!!!!!!!!!!
-	name = "Dramatic Finish"
-	desc = "You have been mogged by the awesomeness of a God, ser. Have a nice death!"
-	icon_state = "permadeath"
-
-/datum/status_effect/debuff/dramatic_finish
-	id = "doom"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/dramatic_finish
-	duration = 1.5 SECONDS
-	status_type = STATUS_EFFECT_UNIQUE
-	var/mob/living/causer
-
-/datum/status_effect/debuff/dramatic_finish/on_creation(mob/living/new_owner, mob/living/new_causer)
-	. = ..()
-	owner = new_owner
-	causer = new_causer
-
-/datum/status_effect/debuff/dramatic_finish/on_apply()
-	. = ..()
-	if(!.)
-		return FALSE
-	owner.add_filter(MAMMON_FILTER, 2, list("type" = "outline", "color" = "#ffd651ff", "alpha" = 175, "size" = 2))
-	var/mob/living/L = owner
-	if(!istype(L))
-		return TRUE
-	L.SpinAnimation(speed = 0.4 SECONDS, loops = -1, clockwise = TRUE, segments = 8, parallel = TRUE)
-	INVOKE_ASYNC(src, PROC_REF(force_retreat))
-	return TRUE
-
-/datum/status_effect/debuff/dramatic_finish/proc/force_retreat()
-	while(owner && !QDELETED(owner) && !QDELETED(src))
-		if(causer && !QDELETED(causer) && causer != owner)
-			var/direction = get_dir(causer, owner)
-			if(direction)
-				step(owner, direction)
-		sleep(1.5)
-
-/datum/status_effect/debuff/dramatic_finish/on_remove()
-	var/mob/living/L = owner
-	if(istype(L))
-		explosion(L, 0, 0, 0, 0, FALSE, FALSE, 0, TRUE, FALSE, null)
-		L.gib()
-	return ..()
-
 /atom/movable/screen/alert/status_effect/buff/mammonite
 	name = "Mammonite Strike"
 	desc = "My next strike is empowered by wealth."
@@ -447,7 +403,7 @@
 	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
 		return
 	if(should_mammon_gib(target))
-		do_mammon_execution(target) // only works vs NPCs! Knocks them back and chance to gib them if you spent over 80 mammon on this (guaranteed if over half the max_cap).
+		do_mammon_execution(target)
 	else
 		do_mammon_strike(target, weapon)
 	consume()
@@ -470,24 +426,27 @@
 /datum/status_effect/buff/mammonite/proc/do_mammon_execution(mob/living/target)
 	if(QDELETED(owner) || QDELETED(target))
 		return
-	owner.visible_message(span_boldwarning("[target] is slammed by the unrestrained might of a raging dragon!"), span_notice("Their life was worth less than the investment!~"))
+	owner.visible_message(span_boldwarning("[target] suddenly contorts and twists as gilded flames light them up--!"), span_notice("BEHOLD! THE WEIGHT OF THINE GREED!"))
 	target.emote("superagony")
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
-	target.apply_status_effect(/datum/status_effect/debuff/dramatic_finish, owner)
+	target.fire_act(20, 20)
+	target.Stun(100)
+	target.safe_throw_at(target, 3, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
 	if(QDELETED(owner) || QDELETED(target))
 		return
 	var/damage = bonus_damage
 	var/mammon_spent = round(bonus_damage / 3)
-	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_HEAVY)
+	var/npc_mult = target.mind ? 1 : 2
+	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_BSTEEL)
 	var/bclass = BCLASS_BLUNT
 	var/damtype = BRUTE
-	var/npc_mult = 2
 	if(mammon_spent >= 80)
 		bclass = BCLASS_BURN
 		damtype = BURN
+
 	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, npc_mult, 1)
 	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of greed!"), span_notice("My investment pays off in full!"))
 	mammon_coin_burst(get_turf(target))

@@ -637,3 +637,8 @@
 		icon_state = "factive"
 	else
 		icon_state = "dragonring"
+
+/obj/item/clothing/ring/lief_ring
+	name = "Blortz Blacksteel Engagement Ring"
+	desc = "A promise bound in blacksteel and a memory to stand the tests of time. The glimmering gem winks back at you to remind you of a time unchanged. Delicately engraved on the inside of the band, Always there for you. -Lief."
+	icon_state = "blacksteel_blortz"

@@ -366,17 +366,52 @@
 			if(from_bank > 0)
 				SStreasury.burn(SStreasury.get_account(H), from_bank, "A worthy Transaction. Is this true?")
 
-		var/source_text = ""
-		if(from_inventory > 0 && from_bank > 0)
-			source_text = " MATTHIOS claims [from_inventory] from my possessions and [from_bank] from my treasury!"
-		else if(from_inventory > 0)
-			source_text = " MATTHIOS claims [from_inventory] from my possessions!"
-		else if(from_bank > 0)
-			source_text = " MATTHIOS claims [from_bank] from my treasury!"
-		H.visible_message(span_danger("[H]'s weapon gleams with a greedy golden light!"), span_notice("I invest [mammon_used] mammon into my next strike.[source_text]"))
-	if(loan)
-		H.remove_status_effect(/datum/status_effect/buff/matthios_loan)
-		H.visible_message(span_danger("[H]'s weapon erupts with a brilliant golden light!"), span_notice("Matthios extends His credit. I invest [mammon_used] mammon without spending a single coin!"))
+	var/bank = 0
+	if(SStreasury.has_account(H))
+		bank = SStreasury.get_balance(H)
+
+	var/onhand = get_mammons_in_atom(H)
+	var/total = bank + onhand
+
+	var/list/range = get_investment_range(H)
+	var/min_invest = range[1]
+	var/max_invest = range[2]
+
+	if(total < min_invest)
+		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor... ([min_invest] mammon needed for [H.rmb_intent.name] stance.)"))
+		return FALSE
+
+	var/mammon_used = rand(min_invest, max_invest)
+	mammon_used = min(mammon_used, total)
+
+	var/list/invocations = list(
+		"Gold to glory, guide my hand!",
+		"Wealth be spent, and power be gained!",
+		"My hoard bleeds for strength!",
+		"A king's ransom for a single blow!",
+		"Grant the weight of mine greed!",
+	)
+
+	H.say(pick(invocations), forced = invocation_type)
+
+	var/remaining = mammon_used
+
+	var/from_inventory = 0
+	var/from_bank = 0
+
+	var/drained_onhand = min(onhand, remaining)
+	if(drained_onhand > 0)
+		from_inventory = remove_mammons_from_atom(H, drained_onhand)
+		remaining -= from_inventory
+
+	if(remaining > 0 && SStreasury.has_account(H))
+		from_bank = min(remaining, SStreasury.get_balance(H))
+
+		if(from_bank > 0)
+			SStreasury.burn(SStreasury.get_account(H), from_bank, "Meister reports the Mammon is missing. Is this true?")
+
+		remaining -= from_bank
+
 	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
 	if(E)
 		E.bonus_damage = round(mammon_used * 3)
@@ -390,7 +425,8 @@
 
 /datum/action/cooldown/spell/matthios/transact
 	name = "Transact"
-	desc = "Sacrifice an item in your hand, applying a heal over time to yourself with strenght depending on its value."
+	desc = "Convert the value of an item in your hand into healing over time, leaving the item worthless and ruining its quality."
+	fluff_desc = "To Matthios, value is never truly lost, only exchanged. The faithful learn to see beyond the material form of their possessions, drawing forth their worth and bargaining it into vitality. What remains may be worthless, but the wealth within it has found a finer purpose."
 	button_icon_state = "transact"
 	sound = 'sound/effects/hood_ignite.ogg'
 
@@ -398,7 +434,6 @@
 	cast_range = SPELL_RANGE_ADJACENT
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR
-
 	secondary_resource_cost = SPELLCOST_MIRACLE
 
 	invocation_type = INVOCATION_SHOUT
@@ -411,53 +446,43 @@
 
 /datum/action/cooldown/spell/matthios/transact/cast(atom/cast_on)
 	. = ..()
-
 	var/obj/item/held_item = owner.get_active_held_item()
 	if(!held_item)
 		to_chat(owner, span_info("I need something of value to make a transaction..."))
-		return
+		return FALSE
+	if(istype(held_item, /obj/item/roguecoin))
+		to_chat(owner, span_info("Coins are already in a form of value. Your greed disgusts me."))
+		return FALSE
+	if(held_item.GetComponent(/datum/component/holster))
+		var/datum/component/holster/SC = held_item.GetComponent(/datum/component/holster)
+		if(SC.sheathed)
+			to_chat(owner, span_warning("I should empty it, first."))
+			return FALSE
 	var/helditemvalue = held_item.get_real_price()
-	if(!helditemvalue)
-		to_chat(owner, span_info("This has no value, It will be of no use in such a transaction."))
-		return
-	if(helditemvalue<10)
-		to_chat(owner, span_info("This has little value, It will be of no use in such a transaction."))
-		return
+	if(helditemvalue < 10)
+		to_chat(owner, span_info("There's no value to extract from this at all."))
+		return FALSE
 	if(isliving(cast_on))
 		var/mob/living/target = cast_on
-		if(HAS_TRAIT(target, TRAIT_BLACKBLOOD))
-			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
-			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
-		owner.visible_message(span_notice("The transaction is made! [target] is bathed in a golden light!"))
+		to_chat(owner, span_notice("You are bathed in gilded light, as your wounds close steadily!"))
 		if(iscarbon(target))
 			var/mob/living/carbon/C = target
 			var/datum/status_effect/buff/healing/heal_effect = C.apply_status_effect(/datum/status_effect/buff/healing)
 			if(heal_effect)
 				heal_effect.healing_on_tick = helditemvalue / 2
-			playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
-			if(istype(held_item, /obj/item/rogueweapon))
-				to_chat(owner, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
-				held_item.obj_break(TRUE)
-				held_item.sellprice = 1
-			else
-				to_chat(owner, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
-				qdel(held_item)
 		else
-			target.adjustBruteLoss(helditemvalue/2)
-			target.adjustFireLoss(helditemvalue/2)
-			playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
-			if(istype(held_item, /obj/item/rogueweapon))
-				to_chat(owner, "<font color='yellow'>[held_item] melts at its very fabric turning it into a heap of scrap. My transaction is accepted.</font>")
-				held_item.obj_break(TRUE)
-				held_item.sellprice = 1
-			else
-				to_chat(owner, "<font color='yellow'>[held_item] is engulfed in unholy flame and dissipates into ash. My transaction is accepted.</font>")
-				qdel(held_item)
+			target.adjustBruteLoss(helditemvalue / 2)
+			target.adjustFireLoss(helditemvalue / 2)
+		playsound(owner, 'sound/combat/hits/burn (2).ogg', 100, TRUE)
+		owner.visible_message(span_yellow("[held_item] is consumed by gilded flames, its worth burned away until nothing of value remains."))
+		held_item.sellprice = 1
+		held_item.blade_int = 0
+		held_item.obj_break(TRUE)
+		held_item.item_quality = ITEM_QUALITY_RUINED
+		held_item.smeltresult = /obj/item/ingot/aaslag
+		held_item.name = "ruined [held_item.name]"
 		return TRUE
 	return FALSE
-
 
 /////////////////
 // T2 - Barter //

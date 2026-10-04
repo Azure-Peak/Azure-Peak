@@ -221,6 +221,8 @@
 	retained_dust = dream_dust_modulo
 
 	sleep_adv_points += dream_points + 1 //Have a dream point. Because you're awesome.
+	if(HAS_TRAIT(mind.current, TRAIT_DEEP_DREAMER)) // God of Dreams and Nightmares check
+		sleep_adv_points += rand(1,2)
 	sleep_adv_cycle++
 
 	show_ui(mind.current)

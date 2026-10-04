@@ -87,7 +87,7 @@ Archers should always be in full light armor and a mixture of leather helmets an
 
 Lights should be in full light armor including helmets, and can be wielding one or two dagger and iron version of swift weapons.
 
-Occasional heavy shows in the form of Bulwark. T1 Bulwark will have the wooden tower shield and some sort of blunt weapons and a close faced helmet but lacks full body armor. T3 can be fully ironed up. Bulwarks should favors blunt weapons for thematic purpose.
+Occasional heavy shows in the form of Bulwark. T3 can be fully ironed up. Bulwarks should favors blunt weapons for thematic purpose.
 
 Non-forest bandit factions like Bleakisle Reavers and Mount Reavers will follow the same rules but trade numbers for higher quality and tier bandits.
 

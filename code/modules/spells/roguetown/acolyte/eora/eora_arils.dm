@@ -12,6 +12,7 @@
 	var/effect_desc = "Unknown effects."
 	var/altruistic = FALSE
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
+	juice_results = list(/datum/reagent/consumable/juice/pomegranate = 5)
 
 /obj/item/reagent_containers/food/snacks/eoran_aril/attack(mob/living/M, mob/living/user, def_zone)
 	if(M != user && !altruistic)

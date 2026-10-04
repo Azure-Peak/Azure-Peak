@@ -122,6 +122,10 @@
 	name = "Gift - Kit, Gothic Psydonic Cuirass"
 	path = /obj/item/enchantingkit/gothicpsydoniccuirass
 
+/datum/loadout_item/donator/universal/armor_gothic_sallet
+	name = "Gift - Kit, Gothic Sallet"
+	path = /obj/item/enchantingkit/gothicsallet
+
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
 	path = /obj/item/enchantingkit/heroicleathercuirass
@@ -1319,3 +1323,8 @@
 	name = "Donator Gift - Scarlet Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
 	ckeywhitelist = list("thedragmeme")
+
+/datum/loadout_item/donator/lief_ring
+	name = "Donator Item - Blortz Incrusted Blacksteel Ring"
+	path = /obj/item/clothing/ring/lief_ring
+	ckeywhitelist = list("linxsysart", "pessime959")
