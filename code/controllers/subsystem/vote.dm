@@ -763,7 +763,7 @@ SUBSYSTEM_DEF(vote)
 		if(mode == "storyteller")
 			if(!length(storyteller_vote_log))
 				load_storyteller_vote_log()
-			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. Votes are multiplied per gamemode: the last winner drops to x[STORYTELLER_WIN_COOLDOWN_PERCENT / 100], and every gamemode gains +[STORYTELLER_OVERDUE_STEP_PERCENT]% per vote after that (up to x[STORYTELLER_OVERDUE_MAX_PERCENT / 100]), so modes that haven't won in a while get a bonus."
+			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. To keep rounds varied, votes are scaled per gamemode: the one that just won drops to x[STORYTELLER_WIN_COOLDOWN_PERCENT / 100] and recovers +[STORYTELLER_OVERDUE_STEP_PERCENT]% each round, while gamemodes that keep losing gain +[STORYTELLER_OVERDUE_STEP_PERCENT]% each round (up to x[STORYTELLER_OVERDUE_MAX_PERCENT / 100]). Each option shows its current multiplier and how many votes were actually cast for it."
 			. += "<div style='color:#992414;font-size:0.9rem;margin-bottom:6px;'>[pool_text]</div>"
 			. += render_storyteller_choices(can_vote, C)
 		else
