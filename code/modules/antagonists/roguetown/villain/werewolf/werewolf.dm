@@ -82,7 +82,7 @@
 	if(istype(examined_datum, /datum/antagonist/werewolf/lesser))
 		return span_boldnotice("A young lupine kin.")
 	if(istype(examined_datum, /datum/antagonist/werewolf/noinfect))
-		return span_boldnotice("A young lupine kin. the curse is weak with them")
+		return span_boldnotice("A young lupine kin. The curse is weak with them.")
 	if(istype(examined_datum, /datum/antagonist/werewolf))
 		return span_boldnotice("An elder lupine kin.")
 	if(istype(examined_datum, /datum/antagonist/maniac))
@@ -218,7 +218,7 @@
 	slot_flags = null
 	blocking_behavior = null
 	name = "verewolf's skin"
-	desc = "an impenetrable hide of dendor's fury"
+	desc = "An impenetrable cloak of Dendor's fury."
 	icon_state = null
 	body_parts_covered = CHEST
 	body_parts_inherent = CHEST
@@ -230,6 +230,10 @@
 	item_flags = DROPDEL
 	repair_time = 20 SECONDS
 	interrupt_damount = 35
+
+/obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_LYCANRESILENCE, "HIDE") //Allows increased integrity damage from silver weapons. Near-impossible to obtain beyond debugging.
 
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/werewolf_skin/extremities
 	max_integrity = 550

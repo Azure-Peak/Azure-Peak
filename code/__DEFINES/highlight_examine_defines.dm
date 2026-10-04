@@ -15,6 +15,7 @@
 #define HERESYDESC_MATTHIOS_RELIC "A relic of Matthios's covetous design"
 #define HERESYDESC_MATTHIOS_ICON "It bears the covetous icon of Matthios"
 #define HERESYDESC_MATTHIOS_MISC "A known design of Matthios"
+#define HERESYDESC_MATTHIOS_GRINNING "Metal crowned in jagged teeth, golden inlays forming a mocking grin. A taunting design of Matthios, the lord of treachery."
 
 // Graggar items
 #define HERESYDESC_GRAGGAR_WEAPON "A weapon of Graggar's bloodthirsty champions"
@@ -45,7 +46,7 @@
 #define HERESYDESC_BLACK_ROT "A stabilised form of the black rot, it is extremely dangerous should not be seen outside of sanctified hands"
 
 // Misc items / Donor
-#define HERESYDESC_GRONN "A symbol of the North's archaic beliefs"
+#define HERESYDESC_GRONN "A symbol of the North's archaic beliefs. Those of a theological understanding greater than the common man would know these to be heretical."
 #define HERESYDESC_GILBRANZE_ARTIFICE "A blade of polished gilbranze in extraordinary quality. Someone's Artifice..?" // ATICIUS DONOR
 #define HERESYDESC_WEEPING_CROSS "It is ensnared in a perpetual state of half-coagulation, the alloy cracked and bleeding"
 #define HERESYDESC_UNKNOWN_MISC "An unknown design, ancient relic or singularity"

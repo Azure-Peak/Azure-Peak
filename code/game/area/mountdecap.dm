@@ -6,6 +6,7 @@
 	ambush_factions = list()
 	ambush_mobs = list(
 		/datum/npc_warband/pair_of_direbear = 14,
+		/datum/npc_warband/direvolfmountpack = 8,
 		/datum/npc_warband/trio_of_highwaymen = 5,
 		/datum/npc_warband/bandit_band_balanced/lean = 4,
 		/datum/npc_warband/bandit_band_balanced = 3,

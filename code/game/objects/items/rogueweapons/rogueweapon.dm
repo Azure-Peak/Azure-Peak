@@ -81,12 +81,11 @@
 		AddComponent(\
 			/datum/component/silverbless,\
 			pre_blessed = BLESSING_NONE,\
-			silver_type = SILVER_TENNITE,\
-			added_force = 0,\
-			added_blade_int = 0,\
-			added_int = 25,\
-			added_def = 2,\
+			silver_type = SILVER_TENNITE\
 		)
+
+/obj/item/rogueweapon/proc/on_blessed(blessing_type)
+	return
 
 /obj/item/rogueweapon/get_examine_string(mob/user, thats = FALSE)
 	return "[thats? "That's ":""]<b>[get_examine_name(user)]</b> <font size = 1>[get_blade_dulling_text(src)]</font>"

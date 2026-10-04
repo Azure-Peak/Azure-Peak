@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/projectile/flashpowder
 	name = "Flashpowder"
-	desc = "Throw a handful of explosive powder, stunning and blinding your opponent"
+	desc = "Throw a handful of explosive powder, stunning and blinding your opponent."
 	button_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	button_icon_state = "flashpowder"
 	projectile_type = /obj/projectile/magic/flashpowder
@@ -10,8 +10,8 @@
 	charge_required = FALSE
 	cooldown_time = 12 SECONDS
 	associated_skill = /datum/skill/misc/reading
-	invocations = list("flicks their wrist, tossing a handful of crackling powder.")
-	invocation_type = "emote"
+	invocations = list("%CASTER flicks their wrist, tossing a handful of crackling powder.")
+	invocation_type = INVOCATION_EMOTE
 
 /obj/projectile/magic/flashpowder
 	name = "flashpowder"

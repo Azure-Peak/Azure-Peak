@@ -71,7 +71,13 @@ export const StewardTrade = () => {
             <span style={{ color: SEAL_AMBER }}>
               +{data.expected_rural_revenue}m
             </span>{' '}
-            rural tax &middot;{' '}
+            <span
+              style={{ cursor: 'help' }}
+              title="A modest stipend from the countryside manors, sent while the Steward's own hand is thin on the ground. It dwindles as the guilds and artisans fill their benches - once enough hands are at the forge, the loom, and the apothecary's counter to sustain trade themselves, the lands keep what they raise."
+            >
+              rural subsidy
+            </span>{' '}
+            &middot;{' '}
             <span style={{ color: SEAL_AMBER }}>
               -{data.expected_wage_outlay}m
             </span>{' '}

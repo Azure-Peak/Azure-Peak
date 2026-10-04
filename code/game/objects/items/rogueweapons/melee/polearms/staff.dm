@@ -333,10 +333,10 @@
 	name = "silver quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian \
 	warscholars. Durable enough to catch-and-disarm avantyne to the shaft, without so much as a splinter - or so, they say."
-	force = 20
-	force_wielded = 27
+	force = 18
+	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 250
+	max_integrity = 200
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -344,43 +344,32 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/psy
 	name = "psydonic quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs \
 	oft-carried by Naledian warscholars. Durable enough to catch avantyne to the shaft, without so much as a splinter - or so, they say."
-	force_wielded = 27
+	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 250
+	max_integrity = 200
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
+	force = 18
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/gold

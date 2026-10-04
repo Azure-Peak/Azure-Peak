@@ -24,7 +24,7 @@
 	if(!familiar || !familiar.mind)
 		to_chat(user, "You cannot sense your familiar's mind.")
 		return FALSE
-	if(familiar.health<=0)
+	if(familiar.stat == DEAD)
 		// they're dead; track the vestige
 		return track_vestige(user,familiar)
 	var/message = sanitize(input(user, "You make a connection. What are you trying to say?"))
