@@ -12,6 +12,7 @@
 	var/sheathe_time = 0.1 SECONDS
 	var/sheathe_sound = 'sound/foley/equip/scabbard_holster.ogg'
 	var/use_icons = TRUE
+	var/bootsheath = FALSE
 
 
 /datum/component/holster/Destroy()
@@ -174,7 +175,10 @@
 
 /datum/component/holster/proc/examine_check(datum/source, mob/user, list/examine_list)
 	if(sheathed)
-		examine_list += span_notice("The sheath is occupied by [sheathed]. Left-click to pull it out.")
+		if(bootsheath == TRUE)
+			examine_list += span_notice("The boot is occupied by [sheathed]. Right-click to pull it out.")
+		else
+			examine_list += span_notice("The sheath is occupied by [sheathed]. Left-click to pull it out.")
 
 
 /datum/component/holster/proc/update_icon(atom/source, mob/living/user)
@@ -250,3 +254,7 @@
 
 /datum/component/holster/handstaff/eat_sword(mob/living/user, obj/A)
 	. = ..()
+
+/datum/component/holster/boot
+	use_icons = FALSE
+	bootsheath = TRUE
