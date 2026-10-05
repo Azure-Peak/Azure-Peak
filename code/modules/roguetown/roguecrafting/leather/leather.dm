@@ -71,7 +71,7 @@
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/leather/smithgloves
-	name = "forge gauntlets"
+	name = "heavy leather gloves, blacksmith"
 	display_category = ITEM_CAT_ARMOR_GLOVES
 	result = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	reqs = list(
@@ -79,6 +79,7 @@
 		/obj/item/natural/hide/cured = 1,
 		/obj/item/natural/cloth = 2
 		)
+	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/leather/fingerless_leather_gloves
 	name = "fingerless leather gloves"
