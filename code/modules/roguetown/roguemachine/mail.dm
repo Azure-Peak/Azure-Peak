@@ -363,7 +363,7 @@
 	STR.handle_item_insertion(I, prevent_warning = TRUE)
 	master.new_mail = TRUE
 	master.update_icon()
-	send_ooc_note("New letter from <b>[sender].</b>", name = destination)
+	send_ooc_note("New letter received.</b>", name = destination)
 	if(H)
 		H.apply_status_effect(/datum/status_effect/ugotmail)
 		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
