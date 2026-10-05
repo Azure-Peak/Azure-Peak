@@ -59,7 +59,10 @@
 // make skeleton
 /obj/item/debug/skeleton_preference_wand/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	if(isturf(target))
-		var/mob/living/carbon/human/species/skeleton/npc/no_equipment/ske = new /mob/living/carbon/human/species/skeleton/npc/no_equipment(target)
+		new /mob/living/carbon/human/species/skeleton/npc/no_equipment(target)
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		H.become_skeleton()
 
 /obj/item/debug/skeleton_preference_wand/rmb_self(mob/user, keybind)
 	. = ..()
@@ -72,3 +75,12 @@
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		H.choose_skeleton_pronouns_and_body()
+
+/obj/item/debug/skeleton_preference_wand/get_mechanics_examine(mob/user)
+	. = ..()
+	+ = span_info("This is a DEBUG OBJECT. You should not see it if you are in regular gameplay.")
+	+ = span_info("Click on a turf to spawn a mindless skelelon with no equipment. It's AI will be enabled.")
+	+ = span_info("Click on any type of carbon/human to turn them into a skeleton.")
+	+ = span_info("MMB the wand to apply your skeleton body-pronoun prefs.")
+	+ = span_info("Right-click the wand to apply your skeleton head-tail prefs.")
+
