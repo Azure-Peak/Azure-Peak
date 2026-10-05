@@ -1283,7 +1283,7 @@
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/natural/dirtclod = 6, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1297,12 +1297,42 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert_3
+	name = "bottle bomb (shard jury rig)"
+	category = "Explosives"
+	required_trait = TRAIT_BOMBER_EXPERT
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/bomb)
+	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
 /datum/crafting_recipe/roguetown/engineering/impactexplosive_expert
-	name = "impact grenades (scrap jury rig)"
+	name = "impact grenades (fyritius jury rig)"
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/impact_grenade/explosion)
 	reqs = list(/obj/item/scrap = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/natural/fibers = 3)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert_2
+	name = "impact grenades (infernal jury rig)"
+	category = "Explosives"
+	required_trait = TRAIT_BOMBER_EXPERT
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/impact_grenade/explosion)
+	reqs = list(/obj/item/scrap = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/fibers = 3)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert_3
+	name = "impact grenades (coal dust jury rig)"
+	category = "Explosives"
+	required_trait = TRAIT_BOMBER_EXPERT
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/impact_grenade/explosion)
+	reqs = list(/obj/item/scrap = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/fibers = 3)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
