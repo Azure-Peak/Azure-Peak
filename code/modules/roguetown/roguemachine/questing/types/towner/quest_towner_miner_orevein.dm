@@ -39,7 +39,7 @@ GLOBAL_LIST_INIT(towner_orevein_varieties, list(
 	),
 	OREVEIN_VARIETY_CUPROSTANNIC = list(
 		"label" = "Copper Vein",
-		"blurb" = "Copper and tin, with small amount of luxury.",
+		"blurb" = "Copper and tin, with a little cinnabar.",
 		"tiers" = list(
 			TOWNER_POSTING_TIER_MEDIUM = list(
 				list("path" = /obj/item/rogueore/copper, "min" = 20, "max" = 26, "noun" = "copper"),
@@ -107,17 +107,17 @@ GLOBAL_LIST_INIT(towner_orevein_varieties, list(
 	return "A Miner's Lead"
 
 /datum/quest/kill/recovery/towner/miner_orevein/get_objective_text()
-	return "Break the elemental guard on the strike and carry the ore-crate back to [quest_giver_name || "the miner"]."
+	return "Break the elemental guard on the strike and carry the ore crate back to [quest_giver_name || "the miner"]."
 
 /datum/quest/kill/recovery/towner/miner_orevein/get_parcel_name()
 	return "[quest_giver_name]'s ore-crate"
 
 /datum/quest/kill/recovery/towner/miner_orevein/get_parcel_desc()
-	return "A crate packed with what [quest_giver_name] mined before the elementals closed in, magickally sealed so only they can open it."
+	return "A crate packed with what [quest_giver_name] mined before the elementals closed in. It is magickally sealed so only they can open it."
 
 /datum/quest/kill/recovery/towner/miner_orevein/get_writ_intro()
 	var/region = target_spawn_area || "the deep places"
-	return "[quest_giver_name || "The miner"] hath prospected a vein within [region], guarded by a host of earth elementals. They struck a good haul before the host drove them off, and now call for hands to break the guard and haul out the crate."
+	return "[quest_giver_name || "The miner"] has found a vein within [region]. A host of earth elementals guards it. They struck a good haul before the host drove them off. Now they call for braves to break the guard and haul out the crate."
 
 /datum/quest/kill/recovery/towner/miner_orevein/pick_region_faction_for(datum/threat_region/TR)
 	return get_quest_faction(QUEST_FACTION_EARTH_ELEMENTAL)

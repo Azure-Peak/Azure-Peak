@@ -162,7 +162,6 @@
 		QDEL_NULL(eyes)
 	eyes = new /obj/item/organ/eyes/night_vision/wild_goblin
 	eyes.Insert(src)
-	src.underwear = "Nude"
 	for(var/datum/charflaw/cf in src.charflaws)
 		QDEL_NULL(cf)
 	update_body()

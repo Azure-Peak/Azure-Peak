@@ -126,3 +126,81 @@
   - bugfix: fixed another problem by the notorious borneblood (derogatory).
   zRainbowcat:
   - rscadd: New sack-like container called basket
+2026-10-04:
+  KatTheFox:
+  - rscadd: You can now set an 'artist credit' and 'artist link' for your headshot.
+      The artist credit will be displayed in a box beneath your headshot on examine,
+      if set; if the link is set too, the box will be clickable. Use this for linking
+      to an artist's portfolio/donation page/etc.
+  - bugfix: Inq/church folks no longer get notified twice that someone's their ally
+      when examining them.
+  OrbisAnima:
+  - code_imp: Fixes a runtime with leeches checking for the wrong user trait.
+  - code_imp: Fixes a runtime with goblin underwear when they were being deleted.
+  - code_imp: Fixes a runtime with TRAIT_SKILLBLESSED, there might be still an underlying
+      issue to check with cases with two things that give that, so future checks are
+      needed on it.
+  - code_imp: Fixes a runtime with hostile mobs changing targets and registering two
+      or more signals. I just told the thing to STFU and stop doing the loop and stack
+      trace, taking the new thing they got, but its likely we want that checked on
+      more detail.
+  - code_imp: Fixed archers going to fetch their arrows and moving to them instead
+      of runtiming when people arent around. They still dont pick their arrows but
+      thats out of scope.
+  - code_imp: Fixes a non runtime bug when using adjust or set hydration for traitnohunger
+      mobs, that was editing their nutrition instead of hydration, likely a copy paste
+      issue.
+  - code_imp: Fixes a runtime when a looping sound has no one to hear. The answer
+      to what sound makes a tree falling in the forest when no one is around is no
+      longer a runtime.
+  - code_imp: Fixes a runtime with Dullahan's head checks on player interactions panel.
+  - code_imp: Fixes a runtime with hobgoblins underwear when they were being deleted.
+      Should had seen that one coming.
+  - code_imp: Fixes a runtime with dust on drop items that were trying to be qdeleted
+      when death already was qdeleting them, placed a guard so they dont get deleted
+      if they are already deleted.
+  - code_imp: Fixes a runtime with stakes trying to move a victim that is not there.
+  Ryan180602:
+  - balance: changes around all of the silver weapons.
+  - bugfix: fixes certain grammatical issues in texts.
+  - bugfix: bats/zads pass over fences/borders
+  Traveler319:
+  - bugfix: The Volf Helmet can now be crafted with any fur, instead of only volf
+      fur, as the encyclopedia says.
+  WeNeedMorePhoron:
+  - bugfix: Grasp now only work on your own summoned minions and fellowship members,
+      instead of every other player in the game due to an erroneous check for having
+      the same faction (Which all players happens to share)
+  borneblood:
+  - balance: Replaces Mammonite's instakill mechanic with a chunky amount of fire
+      stacks.
+  - bugfix: Mammonite's armor penetration was set wrong.
+  mumblemancer:
+  - code_imp: various old traits have been removed. admins, you may thank me for making
+      ADD_TRAIT easier later.
+  - code_imp: trait_infinite_stamina is now called "BOUNDLESS STAMINA" instead of
+      indefeatigble
+  - admin: annoying voice smite is now available for when someone is being a dingle
+  - bugfix: various spells spellchecked
+  - bugfix: emote-based invocation spells (that use the new datum/action/cooldown
+      base) should be easier to read as spells and show up on the caster's screen
+  - code_imp: datum/action/cooldown/spells no longer have an invocation_emote_self!
+      any future ports of spells from the old system to the new should NOT have a
+      self-invocation and instead use one single invocation.
+  - code_imp: heelkits now add (heeled) instead of (Heeled)
+  nauticall:
+  - rscadd: Gamemodes that have not been chosen in a while now get a multiplier to
+      their votes; for example a vote cast for a gamemode with a 1.15x multiplier
+      will have their vote weighted 1.15x the standard. The winner of a vote will,
+      in the next round, have their votes penalized to a 0.7x rate 'cooldown,' which
+      will gradually replensih to 1.0x over the next two rounds.
+  - server: Added 'storyteller_vote_multipliers.json' to server data storage.
+  - admin: Added 'End Vote Early' button for the storyteller vote panel.
+  radarseas:
+  - balance: profane champion can take steel handaxe/longsword.
+  - balance: heretic can now take arming sword.
+  string-thing:
+  - rscadd: deprived gets the option to spawn with the Broken Sword instead of the
+      club
+  - rscadd: deprived gets the hardsoles trait
+  - rscdel: removes the warrior voicepack from deprived

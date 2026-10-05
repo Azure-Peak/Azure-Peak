@@ -39,7 +39,7 @@
 	var/base_cost = GLOB.rumor_point_costs[chosen_type]
 	var/cost = lucrative ? round(base_cost * RUMOR_LUCRATIVE_MULT) : base_cost
 	if(SStreasury.rumor_points < cost)
-		to_chat(innkeeper, span_warning("Insufficient Rumor Points. Need [cost], have [round(SStreasury.rumor_points, 0.1)]."))
+		to_chat(innkeeper, span_warning("Not enough Rumor Points. You need [cost] and have [round(SStreasury.rumor_points, 0.1)]."))
 		return
 
 	var/region_name = params["region"]
@@ -69,7 +69,7 @@
 
 	var/dup_key = "[chosen_type]|[chosen_region.region_name]|[dest_name || ""]"
 	if(SStreasury.rumor_issued_today[dup_key] == GLOB.dayspassed)
-		to_chat(innkeeper, span_warning("You don't recall hearing a rumor so similar to one you have heard earlier today."))
+		to_chat(innkeeper, span_warning("You've already passed on a rumor like this today."))
 		return
 
 	SStreasury.rumor_points -= cost
@@ -79,7 +79,7 @@
 	if(!dispatched)
 		SStreasury.rumor_points += cost
 		record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, -cost)
-		to_chat(innkeeper, span_warning("No landmark could bear that rumor. Try another region or type."))
+		to_chat(innkeeper, span_warning("No landmark could take that rumor. Try another region or type."))
 		return
 	if(lucrative)
 		dispatched.reward_amount = round(dispatched.reward_amount * RUMOR_LUCRATIVE_MULT)
@@ -98,10 +98,10 @@
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/lucrative_tail = lucrative ? " - <i>lucrative</i>" : ""
 	if(in_hands)
-		to_chat(innkeeper, span_notice("A scroll of the rumor is placed in your hands: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]. Pass it to whomever you see fit."))
+		to_chat(innkeeper, span_notice("The rumor's scroll is placed in your hands: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]. Give it to whoever you choose."))
 	else
-		say("\"So I have heard...\" A rumor is whispered into the Guild's ledger.")
-		to_chat(innkeeper, span_notice("Rumor posted to the board: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]."))
+		say("A new rumor is on the Ledger.")
+		to_chat(innkeeper, span_notice("Rumor posted to the Ledger: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]."))
 
 /obj/structure/roguemachine/contractledger/proc/pay_innkeeper_referral_fees(datum/fund/user_account, datum/quest/completed_quest, gross_reward)
 	if(gross_reward <= 0)

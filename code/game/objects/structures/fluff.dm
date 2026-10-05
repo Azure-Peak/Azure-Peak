@@ -2124,15 +2124,17 @@
 	if(.)
 		return
 	to_chat(user, span_notice("I take down [src]."))
-	victim.forceMove(drop_location())
-	victim = null
+	if (victim)
+		victim.forceMove(drop_location())
+		victim = null
 	stake.forceMove(drop_location())
 	stake = null
 	qdel(src)
 
 /obj/structure/fluff/headstake/deconstruct()
-	victim.forceMove(drop_location())
-	victim = null
+	if (victim)
+		victim.forceMove(drop_location())
+		victim = null
 	stake.forceMove(drop_location())
 	stake = null
 	qdel(src)

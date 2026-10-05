@@ -592,11 +592,20 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	S["update_mutant_colors"] >> update_mutant_colors
 
-	S["headshot_link"]			>> headshot_link
-	S["vampire_headshot_link"]	>> vampire_headshot_link
-	S["lich_headshot_link"]		>> lich_headshot_link
+	S["headshot_link"]						>> headshot_link
+	S["headshot_artist_credit"]				>> headshot_artist_credit
+	S["headshot_artist_link"]				>> headshot_artist_link
+	S["vampire_headshot_link"]				>> vampire_headshot_link
+	S["vampire_headshot_artist_credit"]		>> vampire_headshot_artist_credit
+	S["vampire_headshot_artist_link"]		>> vampire_headshot_artist_link
+	S["lich_headshot_link"]					>> lich_headshot_link
+	S["lich_headshot_artist_credit"]		>> lich_headshot_artist_credit
+	S["lich_headshot_artist_link"]			>> lich_headshot_artist_link
 	//setting up the hooks for this, but not shown yet
-	S["werewolf_headshot_link"]	>> werewolf_headshot_link
+	S["werewolf_headshot_link"]				>> werewolf_headshot_link
+	S["werewolf_headshot_artist_credit"]	>> werewolf_headshot_artist_credit
+	S["werewolf_headshot_artist_link"]		>> werewolf_headshot_artist_link
+
 
 	S["qsr"] 					>> qsr_pref
 	S["flavortext"]				>> flavortext
@@ -872,9 +881,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["char_toggles"] , char_toggles)
 	WRITE_FILE(S["update_mutant_colors"] , update_mutant_colors)
 	WRITE_FILE(S["headshot_link"] , headshot_link)
+	WRITE_FILE(S["headshot_artist_credit"] , headshot_artist_credit)
+	WRITE_FILE(S["headshot_artist_link"] , headshot_artist_link)
 	WRITE_FILE(S["vampire_headshot_link"] , vampire_headshot_link)
+	WRITE_FILE(S["vampire_headshot_artist_credit"] , vampire_headshot_artist_credit)
+	WRITE_FILE(S["vampire_headshot_artist_link"] , vampire_headshot_artist_link)
 	WRITE_FILE(S["werewolf_headshot_link"] , werewolf_headshot_link)
+	WRITE_FILE(S["werewolf_headshot_artist_credit"] , werewolf_headshot_artist_credit)
+	WRITE_FILE(S["werewolf_headshot_artist_link"] , werewolf_headshot_artist_link)
 	WRITE_FILE(S["lich_headshot_link"] , lich_headshot_link)
+	WRITE_FILE(S["lich_headshot_artist_credit"] , lich_headshot_artist_credit)
+	WRITE_FILE(S["lich_headshot_artist_link"] , lich_headshot_artist_link)
 	WRITE_FILE(S["qsr"] , qsr_pref)
 	WRITE_FILE(S["preset_bounty_enabled"] , preset_bounty_enabled)
 	WRITE_FILE(S["preset_bounty_poster_key"] , preset_bounty_poster_key)

@@ -128,3 +128,20 @@
 			to_chat(usr, "<span class='warning'>The link must be hosted on one of the following sites: 'Gyazo, Lensdump, Imgbox, Catbox, File Garden'</span>")
 		return FALSE
 	return TRUE
+
+/// same as above, but without the site and extension checking. will prevent html injection and such, but will allow arbitrary links otherwise - use with caution
+/proc/valid_link(mob/user, value, silent = FALSE)
+	if(!length(value))
+		return FALSE
+
+	var/find_index = findtext(value, "https://")
+	if(find_index != 1)
+		if(!silent)
+			to_chat(user, "<span class='warning'>Your link must be https!</span>")
+		return FALSE
+
+	if(!findtext(value, ".") || findtext(value, "<") || findtext(value, ">") || findtext(value, "]") || findtext(value, "\["))	//there is no link in the world that would ever need < or >
+		if(!silent)
+			to_chat(user, "<span class='warning'>Invalid link!</span>")
+		return FALSE
+	return TRUE

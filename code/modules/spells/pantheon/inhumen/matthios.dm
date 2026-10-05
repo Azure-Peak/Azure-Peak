@@ -365,11 +365,11 @@
 	mammon_used = min(mammon_used, total)
 
 	var/list/invocations = list(
-		"Gold to glory, Matthios guide my hand!",
+		"Gold to glory, guide my hand!",
 		"Wealth be spent, and power be gained!",
-		"My hoard bleeds for strength, in His name!",
-		"Matthios! A king's ransom for a single blow!",
-		"Grant the weight of mine greed, Matthios!",
+		"My hoard bleeds for strength!",
+		"A king's ransom for a single blow!",
+		"Grant the weight of mine greed!",
 	)
 
 	H.say(pick(invocations), forced = invocation_type)

@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/stockpile
 	name = "stockpile"
-	desc = "A magitech device connected to the trade network. Users can buy basic goods, crafting materials, and food for a price from these units, or sell them here for money."
+	desc = "A magitech device connected to the trade network. Buy basic goods, crafting materials, and food here, or sell them for money."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "stockpile_vendor"
 	density = FALSE
@@ -12,10 +12,10 @@
 
 /obj/structure/roguemachine/stockpile/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click with an open hand to check the vomitorium's stockpile. Stored mammons can be used to purchase a wide variety of materials, which're then vended out for use.")
-	. += span_info("Left-clicking the machine with an item will load it into the stockpile, rewarding you coinage in turn. Make sure to register an account with the MEISTER, first, or you won't receive any coinage.")
+	. += span_info("Left-click with an open hand to see the stockpile. Put in mammon to buy goods from it.")
+	. += span_info("Left-click the machine with an item to sell it into the stockpile. You're paid into your MEISTER account. The machine won't take your goods unless you have an account.")
 	. += span_info("Right-clicking the machine will automatically load all adjacent items into the stockpile at once.")
-	. += span_info("The vomitorium's stockpile naturally refills over time. Loaded items are added to the stockpile's quantities, which can then be vended by others or exported by the Steward for profit.")
+	. += span_info("Goods sold here go into the stockpile. Others can buy them. The Steward can also sell them abroad. The stockpile only refills when people sell to it or the Steward imports goods.")
 /obj/structure/roguemachine/stockpile/Initialize(mapload)
 	. = ..()
 	SSroguemachine.stock_machines += src
@@ -28,9 +28,9 @@
 
 /obj/structure/roguemachine/stockpile/examine(mob/user)
 	. = ..()
-	. += span_info("Right click to sell everything in front of the stockpile.")
+	. += span_info("Right-click to sell everything in front of the stockpile.")
 	if(SStreasury.royal_custom_unlocked)
-		. += span_info(SStreasury.royal_custom_active ? "Royal Custom is in force; direct imports pay duty to the Crown." : "Royal Custom is chartered but suspended.")
+		. += span_info(SStreasury.royal_custom_active ? "Royal Custom is in force. The markup on imports goes to the Treasury." : "Royal Custom is suspended. The markup on imports pays for shipping.")
 	else
 		var/v = SStreasury.economic_output || 0
 		. += span_info("Royal Custom Charter unlocks at [SStreasury.royal_custom_threshold] mammon of stockpile trade ([v] so far).")
@@ -146,12 +146,12 @@
 		return
 	SStreasury.royal_custom_unlocked = TRUE
 	SStreasury.royal_custom_active = TRUE
-	scom_announce("The Stewardry has tallied [SStreasury.royal_custom_threshold] mammons of trade. By ancient charter, the Crown's Right of Customs in Excess is invoked - duties that once paid for the middleman's cut now flow into the Crown's purse instead. The Steward may set the rate at the Stewardry.")
+	scom_announce("The town has traded [SStreasury.royal_custom_threshold] mammon through its stockpiles. The Crown now claims the Royal Custom for the Treasury. This is the markup on goods ordered from abroad.")
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
 		if(!H.client || !H.mind)
 			continue
 		if(H.mind.assigned_role == "Steward")
-			send_ooc_note("<b>Royal Custom unlocked.</b> Import surcharges at every stockpile now flow to the Crown's purse. Adjust the margin at your Trading Interface.", name = H.real_name)
+			send_ooc_note("<b>Royal Custom unlocked.</b> The markup on goods ordered from abroad through the stockpile now goes to the Treasury. You can set it on the Royal Custom tab.", name = H.real_name)
 
 /obj/structure/roguemachine/stockpile/proc/try_auto_export_units(datum/roguestock/D, units)
 	if(!D || !D.trade_good_id || units <= 0)
@@ -195,15 +195,13 @@
 	if(istype(I, /obj/item/roguebin)) // Handle roguebins specially - sell their contents, leave the empty bin
 		var/obj/item/roguebin/bin = I
 		var/turf/bin_location = get_turf(bin)
-		var/datum/component/storage/STR = bin.GetComponent(/datum/component/storage)
-		if(STR)
-			var/list/bin_contents = STR.contents()
-			for(var/obj/item/bin_item in bin_contents) // Process all items inside the bin first
-				attemptsell(bin_item, H, message, FALSE)
+		var/list/bin_contents = bin.held_contents()
+		for(var/obj/item/bin_item in bin_contents) // Process all items inside the bin first
+			attemptsell(bin_item, H, message, FALSE)
 
-			for(var/obj/item/remaining_item in bin_contents) // Any items that weren't sold (still exist) go to the ground
-				if(!QDELETED(remaining_item))
-					STR.remove_from_storage(remaining_item, bin_location)
+		for(var/obj/item/remaining_item in bin_contents) // Any items that weren't sold (still exist) go to the ground
+			if(!QDELETED(remaining_item))
+				bin.release_held(remaining_item, bin_location)
 		if(sound == TRUE)
 			playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 		return
@@ -231,7 +229,7 @@
 					return
 				if(below_floor)
 					if(message)
-						say("The Crown's ledger is thin. No purchases today.")
+						say("The Treasury is too low to buy anything right now.")
 					return
 				var/bundle_amt = B.amount
 				var/full_on_arrival = (R.stockpile_amount >= R.stockpile_limit)
@@ -242,14 +240,14 @@
 						R.stockpile_amount -= bundle_amt
 						if(message)
 							if(R.autoexport_disabled)
-								say("The Crown's [R.name] stockpile is full, autoexport disabled, take it elsewhere.")
+								say("The [R.name] stockpile is full and Autoexport is off. Take it elsewhere.")
 							else
-								say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+								say("The [R.name] stockpile is full and no region has demand for that much. Try a smaller bundle or take it elsewhere.")
 						return
 					auto_exported = TRUE
 				SStreasury.dirty_market_view()
 				if(message == TRUE)
-					stock_announce("[bundle_amt] units of [R.name] has been stockpiled.")
+					stock_announce("[bundle_amt] units of [R.name] have been stockpiled.")
 				qdel(B)
 				if(sound == TRUE)
 					playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
@@ -258,12 +256,12 @@
 				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
 					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
 					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
-					send_ooc_note("<b>MEISTER:</b> Subsidy claims [amt]m from the [R.name]. Thank you for your diligent service.", name = H.real_name)
+					send_ooc_note("<b>MEISTER:</b> The [amt]m for your [R.name] stays in the Treasury under your food stipend.", name = H.real_name)
 					return
 				SStreasury.economic_output += amt
-				SStreasury.give_money_account(amt, H, "+[amt] from [R.name] bounty")
+				SStreasury.give_money_account(amt, H, "+[amt]m from selling [R.name]")
 				if(auto_exported && message)
-					say("Crown's [R.name] stockpile is full - shipped regionally on your behalf.")
+					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
 				record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 				return
 			continue
@@ -278,7 +276,7 @@
 				return
 			if(below_floor)
 				if(message)
-					say("The Crown's ledger is thin. No purchases today.")
+					say("The Treasury is too low to buy anything right now.")
 				return
 			var/auto_exported = FALSE
 			var/full_on_arrival = (R.stockpile_amount >= R.stockpile_limit)
@@ -288,9 +286,9 @@
 					R.stockpile_amount -= 1
 					if(message)
 						if(R.autoexport_disabled)
-							say("The Crown's [R.name] stockpile is full, autoexport disabled, take it elsewhere.")
+							say("The [R.name] stockpile is full and Autoexport is off. Take it elsewhere.")
 						else
-							say("The Crown's [R.name] stockpile is full and no region demands can absorb your load. Try smaller bundles or take it elsewhere.")
+							say("The [R.name] stockpile is full and no region has demand for that much. Try a smaller bundle or take it elsewhere.")
 					return
 				auto_exported = TRUE
 			R.refresh_auto_price()
@@ -321,25 +319,25 @@
 				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
 					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
 					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
-					send_ooc_note("<b>MEISTER:</b> Subsidy claims [amt]m from the [R.name]. Thank you for your diligent service.", name = H.real_name)
+					send_ooc_note("<b>MEISTER:</b> The [amt]m for your [R.name] stays in the Treasury under your food stipend.", name = H.real_name)
 					return
 				SStreasury.economic_output += true_value
-				var/bounty_msg = "+[amt] from [R.name] bounty"
+				var/bounty_msg = "+[amt]m from selling [R.name]"
 				if(crown_delta != 0)
 					var/seller_delta = amt - quality_baseline
 					var/seller_sign = seller_delta > 0 ? "+" : ""
 					var/crown_sign = crown_delta > 0 ? "+" : ""
-					bounty_msg = "+[amt] from [R.name] bounty (quality: you [seller_sign][seller_delta]m, Crown [crown_sign][crown_delta]m vs. [quality_baseline]m baseline)"
+					bounty_msg = "+[amt]m from selling [R.name] (quality: you [seller_sign][seller_delta]m, Crown [crown_sign][crown_delta]m, against the usual [quality_baseline]m)"
 				SStreasury.give_money_account(amt, H, bounty_msg)
 				if(auto_exported && message)
-					say("Crown's [R.name] stockpile is full - shipped regionally on your behalf.")
+					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
 			record_round_statistic(STATS_STOCKPILE_REVENUE, true_value)
 			return
 
 	// Nothing in the stockpile accepted this item
 	if(message)
-		say("[I.name] is not accepted here.")
+		say("[I.name] isn't accepted here.")
 
 /obj/structure/roguemachine/stockpile/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/roguecoin/aalloy))
