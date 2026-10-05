@@ -14,7 +14,7 @@
 		STATKEY_SPD = -3,
 		STATKEY_WIL = 2,
 		STATKEY_CON = 1,
-		STATKEY_PER = 2,
+		STATKEY_PER = 3,
 		STATKEY_STR = 1,
 		STATKEY_LCK = -1 //heartfelt in shambles
 	)
@@ -31,7 +31,8 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
 	)
 
 /datum/outfit/job/roguetown/mercenary/azurknight/pre_equip(mob/living/carbon/human/H)
@@ -42,28 +43,30 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon/armament)
 
 	H.adjust_blindness(-3)
-	var/classes = list("Bladebearer","Macebearer","Flailbearer", "Spearbearer")
+	var/classes = list("Bladebearer","Macebearer","Flailbearer", "Axebearer", "Hookbearer") //all two-handers
 	if(H.mind)
-		var/classchoice = input(H, "Choose your archetypes", "Available archetypes") as anything in classes
+		var/classchoice = input(H, "Choose your preferences", "Available archetypes") as anything in classes
 		H.set_blindness(0)
 		to_chat(H, span_warning("Redplumes are trained in many a weapon, but oft find themselves favoring a type most."))
 		switch(classchoice)
 			if("Bladebearer")
-				r_hand = /obj/item/rogueweapon/greatsword //no gwstrap - buy it.
+				r_hand = /obj/item/rogueweapon/greatsword/elfgsword
 			if("Macebearer")
-				beltr = /obj/item/rogueweapon/mace/steel/morningstar
+				r_hand = /obj/item/rogueweapon/mace/goden/steel
 			if("Flailbearer")
-				beltr = /obj/item/rogueweapon/flail/sflail
-			if("Spearbearer")
-				r_hand = /obj/item/rogueweapon/spear/lance //no gwstrap - buy it.
+				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron 
+			if("Axebearer")
+				r_hand = /obj/item/rogueweapon/greataxe/steel/knight
+			if("Hookbearer")
+				r_hand = /obj/item/rogueweapon/spear/billhook
 				
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/frogmouth/greatplume/heartfelt //sorry ser. 90* cone for you.
 	armor = /obj/item/clothing/suit/roguetown/armor/heartfelt/hand //The Big one. Covers all limbs (but not extremities).
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
 	gloves = /obj/item/clothing/gloves/roguetown/leather
-	backl = /obj/item/storage/backpack/rogue/satchel
 	//backr = 
+	backl = /obj/item/storage/backpack/rogue/satchel
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	neck = /obj/item/roguekey/mercenary
