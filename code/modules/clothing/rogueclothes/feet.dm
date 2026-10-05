@@ -35,7 +35,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, null)
+	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, list(/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, /obj/item/rogueweapon/huntingknife/idagger/steel/profane), null)
 
 /obj/item/clothing/shoes/roguetown/boots/aalloy
 	name = "decrepit boots"
@@ -124,7 +124,7 @@
 
 /obj/item/clothing/shoes/roguetown/ridingboots/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, null)
+	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, list(/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, /obj/item/rogueweapon/huntingknife/idagger/steel/profane), null)
 
 /obj/item/clothing/shoes/roguetown/ridingboots/get_mechanics_examine(mob/user)
 	. = ..()
@@ -174,7 +174,7 @@
 
 /obj/item/clothing/shoes/roguetown/gladiator/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, null)
+	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, list(/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, /obj/item/rogueweapon/huntingknife/idagger/steel/profane), null)
 
 /obj/item/clothing/shoes/roguetown/gladiator/get_mechanics_examine(mob/user)
 	. = ..()
@@ -280,7 +280,7 @@
 
 /obj/item/clothing/shoes/roguetown/grenzelhoft/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, null)
+	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, list(/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, /obj/item/rogueweapon/huntingknife/idagger/steel/profane), null)
 
 /obj/item/clothing/shoes/roguetown/grenzelhoft/get_mechanics_examine(mob/user)
 	. = ..()
@@ -673,7 +673,6 @@
 	sewrepair = TRUE
 	is_barefoot = TRUE
 	armor = ARMOR_CLOTHING
-	is_barefoot = TRUE
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/fur
 
@@ -892,7 +891,7 @@
 
 /obj/item/clothing/shoes/roguetown/footwraps/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, null)
+	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, list(/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, /obj/item/rogueweapon/huntingknife/idagger/steel/profane), null)
 
 /obj/item/clothing/shoes/roguetown/footwraps/get_mechanics_examine(mob/user)
 	. = ..()
@@ -924,7 +923,7 @@
 
 /obj/item/clothing/shoes/roguetown/sandals/toga/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, null)
+	AddComponent(/datum/component/holster/boot, /obj/item/rogueweapon/huntingknife/throwingknife, list(/obj/item/rogueweapon/huntingknife/idagger/steel/rotfang, /obj/item/rogueweapon/huntingknife/idagger/steel/profane), null)
 
 /obj/item/clothing/shoes/roguetown/sandals/toga/get_mechanics_examine(mob/user)
 	. = ..()
