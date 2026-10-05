@@ -15980,7 +15980,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave/spider)
 "bWA" = (
-/obj/structure/roguemachine/vaultbank/bathhouse,
+/obj/item/clothing/ring/opal,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "bWB" = (
@@ -17893,6 +17893,11 @@
 /area/rogue/outdoors/town/grim)
 "ciO" = (
 /obj/item/clothing/ring/jade,
+/obj/effect/decal/carpet/kover_purple{
+	dir = 8;
+	pixel_y = -15;
+	pixel_x = -3
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "ciR" = (
@@ -26369,6 +26374,13 @@
 /obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves/west)
+"diT" = (
+/obj/structure/roguemachine/bathvend,
+/obj/structure/roguewindow/harem3{
+	opacity = 1
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "diU" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grasscold,
@@ -63227,6 +63239,13 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/garrison/grim)
+"hKA" = (
+/obj/structure/roguemachine/vaultbank/bathhouse,
+/obj/structure/roguewindow/harem3{
+	opacity = 1
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "hKC" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -63353,9 +63372,47 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/cave/northern)
 "hLu" = (
-/obj/structure/closet/crate/chest/gold,
-/obj/item/roguegem/violet,
-/turf/open/floor/rogue/churchbrick,
+/obj/item/roguekey/bathworker{
+	lockid = "bath3";
+	name = "room III key"
+	},
+/obj/item/roguekey/bathworker{
+	lockid = "bath2";
+	name = "room II key"
+	},
+/obj/item/roguekey/bathworker{
+	lockid = "bath1";
+	name = "room I key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker4";
+	name = "locker IV key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker3";
+	name = "locker III key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker2";
+	name = "locker II key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker1";
+	name = "locker I key"
+	},
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightman";
+	name = "Stash"
+	},
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "hLw" = (
 /obj/structure/fluff/walldeco/artificerflag,
@@ -74651,6 +74708,9 @@
 	mammonsiphoned = 250;
 	pixel_x = -32;
 	pixel_y = 0
+	},
+/obj/structure/roguemachine/headeater/treasureseeker{
+	pixel_y = -32
 	},
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/bath/grim)
@@ -90771,12 +90831,22 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town/physician)
 "lbE" = (
-/obj/item/reagent_containers/glass/cup/golden{
-	pixel_x = -8;
-	pixel_y = 6
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightman";
+	name = "Stash"
 	},
-/obj/item/clothing/ring/opal,
-/turf/open/floor/rogue/churchbrick,
+/obj/item/reagent_containers/powder/ozium,
+/obj/item/reagent_containers/powder/ozium,
+/obj/item/reagent_containers/powder/spice,
+/obj/item/reagent_containers/powder/spice,
+/obj/item/reagent_containers/powder/moondust,
+/obj/item/reagent_containers/powder/moondust,
+/obj/item/roguecoin/silver/pile,
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "lbF" = (
 /obj/structure/fluff/railing/border,
@@ -132049,11 +132119,16 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
 "qdV" = (
-/obj/structure/roguewindow/harem3{
-	opacity = 1
+/obj/machinery/light/rogue/candle/blue,
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightman";
+	name = "Stash"
 	},
-/obj/structure/roguemachine/bathvend,
-/turf/open/floor/rogue/tile/brownbrick/browner,
+/obj/item/storage/roguebag,
+/obj/item/storage/roguebag,
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "qdX" = (
 /obj/structure/table/wood/poker,
@@ -166462,6 +166537,10 @@
 /area/rogue/under/cave/his_vault)
 "umR" = (
 /obj/machinery/light/rogue/candle/blue/r,
+/obj/structure/lever/wall{
+	redstone_id = "bathhouse_shutter";
+	pixel_x = 16
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/bath/grim)
 "umS" = (
@@ -170048,8 +170127,12 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "uHw" = (
-/obj/structure/closet/crate/chest/gold,
-/turf/open/floor/rogue/churchbrick,
+/obj/structure/rack/rogue/shelf/biggest,
+/obj/item/clothing/ring/silver,
+/obj/machinery/light/rogue/candle/blue/r,
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "uHx" = (
 /obj/structure/closet/crate/roguecloset/inn/south,
@@ -180124,8 +180207,16 @@
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/outdoors/town/roofs/grim)
 "vQy" = (
-/obj/item/clothing/ring/silver,
-/turf/open/floor/rogue/churchbrick,
+/obj/structure/rack/rogue/shelf/biggest,
+/obj/item/reagent_containers/glass/cup/golden{
+	pixel_x = -8;
+	pixel_y = 6
+	},
+/obj/item/roguegem/violet,
+/obj/machinery/light/rogue/candle/blue/l,
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "vQz" = (
 /obj/structure/fluff/railing/corner/south_west,
@@ -184752,13 +184843,8 @@
 /turf/open/floor/rogue/metal/barograte/open,
 /area/rogue/under/underdark/north/grim)
 "wtI" = (
-/obj/structure/lever{
-	redstone_id = "bathhouse_shutter";
-	name = "shutters";
-	pixel_x = -24;
-	pixel_y = -10
-	},
-/turf/open/floor/rogue/tile/harem,
+/obj/structure/roguemachine/rosewall,
+/turf/open/floor/rogue/tile/bluebrick,
 /area/rogue/indoors/town/bath/grim)
 "wtL" = (
 /obj/effect/landmark/quest_spawner/generic,
@@ -380724,7 +380810,7 @@ pqi
 fCe
 pOJ
 dgT
-kPV
+hqS
 hqS
 hqS
 hqS
@@ -380741,7 +380827,7 @@ aRn
 rvT
 mQN
 mQN
-wtI
+mQN
 nfv
 nHU
 nHU
@@ -381106,8 +381192,8 @@ pqi
 pqi
 pOJ
 dgT
-gdp
 hMJ
+diT
 bFe
 vQy
 hLu
@@ -381488,11 +381574,11 @@ pqi
 pqi
 pOJ
 dgT
-gdp
+hqS
 qdV
 ciO
-bWA
 aOb
+bWA
 cCa
 kyP
 ohb
@@ -381870,8 +381956,8 @@ lxI
 giZ
 pOJ
 dgT
-gdp
 hMJ
+hKA
 xPv
 uHw
 lbE
@@ -382252,7 +382338,7 @@ pqi
 pqi
 pOJ
 dgT
-gdp
+hqS
 hqS
 hqS
 hqS
@@ -382271,7 +382357,7 @@ nno
 kPV
 kPV
 kPV
-nHU
+wtI
 nHU
 gIo
 kPV

@@ -6732,6 +6732,10 @@
 "bmw" = (
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/outdoors/woods/southeast)
+"bmA" = (
+/obj/item/clothing/ring/rose,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "bmD" = (
 /obj/structure/ritualcircle/necra,
 /turf/open/floor/rogue/churchrough,
@@ -10977,6 +10981,10 @@
 /obj/structure/flora/ausbushes/ppflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/town/steward)
+"bYn" = (
+/obj/item/clothing/ring/onyxa,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "bYr" = (
 /obj/structure/glowshroom,
 /turf/open/floor/rogue/dirt/road,
@@ -18044,6 +18052,15 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/menageriedungeon)
+"dml" = (
+/obj/structure/roguemachine/headeater/treasureseeker{
+	pixel_y = 0;
+	pixel_x = 32
+	},
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
+	},
+/area/rogue/indoors/town/bath)
 "dmm" = (
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/cobble,
@@ -27261,6 +27278,7 @@
 	pixel_y = -15;
 	pixel_x = -3
 	},
+/obj/item/clothing/ring/silver,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "eRR" = (
@@ -53603,7 +53621,10 @@
 /obj/item/roguemachine/zadcote/bathhouse{
 	pixel_y = 32
 	},
-/obj/structure/table/wood/fancy/purple,
+/obj/structure/rack/rogue/shelf/big{
+	icon_state = "shelf_biggest";
+	pixel_y = 0
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "jwJ" = (
@@ -95062,6 +95083,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town)
 "qzl" = (
+/obj/item/clothing/ring/jade,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "qzm" = (
@@ -102815,6 +102837,10 @@
 /obj/item/bedsheet/rogue/fabric_double,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/town/basement/keep)
+"rRA" = (
+/obj/item/clothing/ring/turq,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "rRB" = (
 /obj/structure/chair/bench/coucha/r,
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -117757,11 +117783,6 @@
 /obj/machinery/light/rogue/candle/blue/r,
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/clothing/ring/opal,
-/obj/item/clothing/ring/rose,
-/obj/item/clothing/ring/silver,
-/obj/item/clothing/ring/turq,
-/obj/item/clothing/ring/jade,
-/obj/item/clothing/ring/onyxa,
 /turf/open/floor/rogue/churchbrick{
 	icon_state = "concretefloor1"
 	},
@@ -170718,8 +170739,8 @@ cqm
 nvE
 tuc
 eRP
-qzl
-qzl
+rRA
+bmA
 tjV
 luY
 tSJ
@@ -171169,7 +171190,7 @@ ylh
 cqm
 nvE
 bVe
-qzl
+bYn
 utE
 giG
 nvE
@@ -171181,7 +171202,7 @@ uIl
 djx
 gfB
 rmA
-rmA
+dml
 fVp
 cLU
 cLU

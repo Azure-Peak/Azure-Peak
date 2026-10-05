@@ -165,6 +165,18 @@
 	data["personal_log"] = build_log_entries(H.real_name)
 	data["bathhouse_ordinance_active"] = SStreasury.bathhouse_ordinance_active ? TRUE : FALSE
 	data["bathhouse_tithe_round_total"] = SStreasury.round_bathhouse_tithe_total
+	data["bathhouse_worker_withdraw_limit"] = SStreasury.bathhouse_worker_daily_withdraw_limit
+	data["bathhouse_agent_withdraw_limit"] = SStreasury.bathhouse_agent_daily_withdraw_limit
+	data["bathhouse_worker_withdrawals_suspended"] = SStreasury.bathhouse_worker_withdrawals_suspended
+	data["bathhouse_agent_withdrawals_suspended"] = SStreasury.bathhouse_agent_withdrawals_suspended
+	data["bathhouse_viewer_withdrawal_limit_hit"] = FALSE
+	var/obj/structure/roguemachine/vaultbank/BH = SStreasury.find_jawbank_for_fund_id("bathhouse")
+	if(istype(BH, /obj/structure/roguemachine/vaultbank/bathhouse))
+		var/obj/structure/roguemachine/vaultbank/bathhouse/bathhouse_bank = BH
+		if(!bathhouse_bank.can_issue_loan(H) && bathhouse_bank.has_capped_access(H) \
+			&& !bathhouse_bank.are_withdrawals_suspended(H) \
+			&& bathhouse_bank.get_withdrawal_remaining(H) <= 0)
+			data["bathhouse_viewer_withdrawal_limit_hit"] = TRUE
 	var/bh_cooldown_left_ds = max(0, SStreasury.bathhouse_ordinance_next_toggle_time - world.time)
 	data["bathhouse_ordinance_cooldown_seconds"] = round(bh_cooldown_left_ds / 10)
 
@@ -236,6 +248,14 @@
 			handle_toggle_bathhouse_ordinance(H)
 			SStgui.update_uis(src)
 			return TRUE
+		if("set_bathhouse_withdraw_limit")
+			handle_set_bathhouse_withdraw_limit(H, params)
+			SStgui.update_uis(src)
+			return TRUE
+		if("toggle_bathhouse_withdrawals")
+			handle_toggle_bathhouse_withdrawals(H, params)
+			SStgui.update_uis(src)
+			return TRUE
 
 /obj/structure/roguemachine/atm/proc/handle_toggle_bathhouse_ordinance(mob/living/carbon/human/H)
 	if(!istype(H))
@@ -265,6 +285,49 @@
 	priority_announce(msg, title, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
 	log_admin("ORDINANCE OF THE BATHS: [key_name(H)] toggled to [now_active ? "IN FORCE" : "BROKEN"].")
 	message_admins("[key_name_admin(H)] toggled the Ordinance of the Baths to [now_active ? "IN FORCE" : "BROKEN"].")
+
+/obj/structure/roguemachine/atm/proc/handle_set_bathhouse_withdraw_limit(mob/living/carbon/human/H, list/params)
+	if(H.job != "Bathmaster")
+		to_chat(H, span_warning("Only the Bathmaster may set the Bathhouse's withdrawal terms."))
+		return
+	var/group = "[params["group"]]"
+	if(group != "worker" && group != "agent")
+		return
+	if(isnull(params["amount"]))
+		to_chat(H, span_warning("Set a daily withdrawal limit between 0 and 10000m."))
+		return
+	var/limit = round(text2num("[params["amount"]]"))
+	if(limit < 0 || limit > 10000)
+		to_chat(H, span_warning("A daily withdrawal limit must be between 0 and 10000m."))
+		return
+	if(group == "worker")
+		SStreasury.bathhouse_worker_daily_withdraw_limit = limit
+	else
+		SStreasury.bathhouse_agent_daily_withdraw_limit = limit
+	SSBMtreasury.add_hoard_log("policy", "[group == "worker" ? "Worker" : "Agent"] daily withdrawal limit set to [limit]m", 0, H.real_name)
+	playsound(src, 'sound/misc/beep.ogg', 60, FALSE, -1)
+	log_admin("BATHHOUSE WITHDRAWAL LIMIT: [key_name(H)] set the [group] daily limit to [limit]m.")
+	message_admins("[key_name_admin(H)] set the Bathhouse [group] daily withdrawal limit to [limit]m.")
+
+/obj/structure/roguemachine/atm/proc/handle_toggle_bathhouse_withdrawals(mob/living/carbon/human/H, list/params)
+	if(H.job != "Bathmaster")
+		to_chat(H, span_warning("Only the Bathmaster may suspend Bathhouse withdrawals."))
+		return
+	var/group = "[params["group"]]"
+	if(group != "worker" && group != "agent")
+		return
+	var/is_suspended
+	if(group == "worker")
+		SStreasury.bathhouse_worker_withdrawals_suspended = !SStreasury.bathhouse_worker_withdrawals_suspended
+		is_suspended = SStreasury.bathhouse_worker_withdrawals_suspended
+	else
+		SStreasury.bathhouse_agent_withdrawals_suspended = !SStreasury.bathhouse_agent_withdrawals_suspended
+		is_suspended = SStreasury.bathhouse_agent_withdrawals_suspended
+	var/state_text = is_suspended ? "suspended" : "resumed"
+	SSBMtreasury.add_hoard_log("policy", "Withdrawals for [group]s [state_text]", 0, H.real_name)
+	playsound(src, 'sound/misc/beep.ogg', 60, FALSE, -1)
+	log_admin("BATHHOUSE WITHDRAWALS: [key_name(H)] [state_text] [group] withdrawals.")
+	message_admins("[key_name_admin(H)] [state_text] Bathhouse [group] withdrawals.")
 
 /obj/structure/roguemachine/atm/proc/handle_withdraw_personal(mob/living/carbon/human/H, list/params)
 	var/coin_amt = round(text2num("[params["amount"]]"))
@@ -367,6 +430,11 @@
 		to_chat(H, span_warning("That institution has no coffers to draw from."))
 		return
 	if(!V.can_withdraw(H))
+		if(istype(V, /obj/structure/roguemachine/vaultbank/bathhouse))
+			var/obj/structure/roguemachine/vaultbank/bathhouse/BH = V
+			if(BH.has_capped_access(H))
+				BH.disburse(H, params)
+				return
 		to_chat(H, span_warning("You are not authorised to withdraw from [V.get_patron_label() || V.get_faction_label()]."))
 		return
 	V.disburse(H, params)

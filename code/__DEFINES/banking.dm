@@ -124,3 +124,8 @@
 #define POLL_TAX_ADVANCE_LOCKOUT (10 MINUTES)
 #define POLL_TAX_MAX_ADVANCE_DAYS 7
 #define POLL_TAX_ADVANCE_FALLBACK_RATE 10
+
+/// Default daily withdrawal cap for Bathhouse agents drawing from the bathhouse fund.
+#define BATHHOUSE_AGENT_DAILY_WITHDRAW_DEFAULT 50
+/// Default daily withdrawal cap for Bathhouse workers drawing from the bathhouse fund.
+#define BATHHOUSE_WORKER_DAILY_WITHDRAW_DEFAULT 50

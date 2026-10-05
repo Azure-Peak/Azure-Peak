@@ -7,6 +7,7 @@ import {
 } from '../../common/parchment';
 import type { FundEntry, TabProps } from '../types';
 import { BathhouseOrdinanceSection } from './BathhouseOrdinanceSection';
+import { BathhouseWithdrawalSection } from './BathhouseWithdrawalSection';
 import { FundActivity } from './FundActivity';
 import { IssueLoanSection } from './IssueLoanSection';
 import { WithdrawSection } from './WithdrawSection';
@@ -48,12 +49,17 @@ export const FundView = ({
       {!!can_issue_loan && (
         <IssueLoanSection fund={fund} data={data} act={act} />
       )}
+      {fund.id === 'bathhouse' && fund.can_issue && (
+        <BathhouseWithdrawalSection data={data} act={act} />
+      )}
       {(fund.id === 'bathhouse' || fund.id === 'church') && fund.can_issue && (
         <BathhouseOrdinanceSection data={data} act={act} />
       )}
       {!!view_only && (
         <div style={{ color: INK_FAINT, marginTop: 8 }}>
-          {"You may view this institution's coffers, but not act upon them."}
+          {fund.id === 'bathhouse' && data.bathhouse_viewer_withdrawal_limit_hit
+            ? "You've reached your daily Bathhouse withdrawal limit."
+            : "You may view this institution's coffers, but not act upon them."}
         </div>
       )}
       <FundActivity fund={fund} data={data} />
