@@ -70,6 +70,16 @@
 	reqs = list(/obj/item/natural/fur = 1)
 	craftdiff = 4
 
+/datum/crafting_recipe/roguetown/leather/smithgloves
+	name = "forge gauntlets"
+	display_category = ITEM_CAT_ARMOR_GLOVES
+	result = /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
+	reqs = list(
+		/obj/item/natural/fur = 1,
+		/obj/item/natural/hide/cured = 1,
+		/obj/item/natural/cloth = 2
+		)
+
 /datum/crafting_recipe/roguetown/leather/fingerless_leather_gloves
 	name = "fingerless leather gloves"
 	display_category = ITEM_CAT_ARMOR_GLOVES
