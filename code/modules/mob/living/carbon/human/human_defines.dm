@@ -66,7 +66,7 @@
 	var/obj/item/beltl = null
 	var/obj/item/beltr = null
 	var/obj/item/clothing/wear_ring = null
-	var/obj/item/clothing/wear_wrists = null
+	var/obj/item/wear_wrists = null
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
 	var/obj/item/s_store = null
