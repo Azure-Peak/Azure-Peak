@@ -71,12 +71,19 @@
 		to_chat(user, span_warning("[A] won't fit in there."))
 		return FALSE
 	if(valid_blade && !istype(A, valid_blade))
-		to_chat(user, span_warning("[A] won't fit in there."))
-		return FALSE
-	if(valid_blades)
-		if(!(A.type in valid_blades))
+		if(valid_blades)
+			if((A.type in valid_blades))
+				return TRUE
+		else
 			to_chat(user, span_warning("[A] won't fit in there."))
 			return FALSE
+	if(valid_blades)
+		if(!(A.type in valid_blades))
+			if(valid_blade && istype(A, valid_blade))
+				return TRUE
+			else
+				to_chat(user, span_warning("[A] won't fit in there."))
+				return FALSE
 	if(invalid_blades)
 		if(A.type in invalid_blades)
 			to_chat(user, span_warning("[A] won't fit in there."))
