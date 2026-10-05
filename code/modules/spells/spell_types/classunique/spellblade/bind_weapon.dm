@@ -64,21 +64,8 @@
 	if(!M)
 		M = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 
-	if(M?.chant)
-		var/valid = FALSE
-		var/list/valid_skills
-		switch(M.chant)
-			if("blade")
-				valid_skills = list(/datum/skill/combat/swords, /datum/skill/combat/knives)
-			if("phalangite")
-				valid_skills = list(/datum/skill/combat/polearms)
-			if("macebearer")
-				valid_skills = list(/datum/skill/combat/maces, /datum/skill/combat/axes)
-		if(valid_skills)
-			valid = (weapon.associated_skill in valid_skills)
-		if(!valid)
-			to_chat(H, span_warning("This weapon does not match my chant!"))
-			return FALSE
+	if(!check_weapon(H, weapon, M))
+		return FALSE
 
 	if(M?.bound_weapon && !QDELETED(M.bound_weapon))
 		var/datum/component/arcyne_conduit/old_conduit = M.bound_weapon.GetComponent(/datum/component/arcyne_conduit)
@@ -93,3 +80,53 @@
 	playsound(get_turf(H), 'sound/magic/charged.ogg', 50, TRUE)
 	H.visible_message(span_notice("[H] passes a hand over [weapon], which begins to glow faintly."))
 	return TRUE
+
+/// Returns TRUE if `weapon` can be bound by `H`, warning them if not.
+/datum/action/cooldown/spell/bind_weapon/proc/check_weapon(mob/living/carbon/human/H, obj/item/weapon, datum/status_effect/buff/arcyne_momentum/M)
+	if(!M?.chant)
+		return TRUE
+	var/list/valid_skills
+	switch(M.chant)
+		if("blade")
+			valid_skills = list(/datum/skill/combat/swords, /datum/skill/combat/knives)
+		if("phalangite")
+			valid_skills = list(/datum/skill/combat/polearms)
+		if("macebearer")
+			valid_skills = list(/datum/skill/combat/maces, /datum/skill/combat/axes)
+	if(valid_skills && (weapon.associated_skill in valid_skills))
+		return TRUE
+	to_chat(H, span_warning("This weapon does not match my chant!"))
+	return FALSE
+
+/datum/action/cooldown/spell/bind_weapon/armament
+	name = "Arcyne Binding"
+	desc = "Bind your held weapon as an arcyne conduit. Successful strikes with bound weapons build arcyne momentum, fueling your abilities. \
+		It can also be recalled to your hand from anywhere with Recall Weapon. \
+		Said weapon may be anything which can be used as such, no matter its shape or form. It will use your Arcyne Armaments skill. \
+		You can rebind to restore a lost Arcyne Momentum status, or bind a new weapon if your old one was destroyed. \
+		Cast with empty hands to unbind your current weapon."
+	var/bind_skill = /datum/skill/combat/arcyne
+
+/datum/action/cooldown/spell/bind_weapon/armament/check_weapon(mob/living/carbon/human/H, obj/item/weapon, datum/status_effect/buff/arcyne_momentum/M)
+	if(istype(weapon, /obj/item/rogueweapon) && ispath(weapon.associated_skill, /datum/skill/combat))
+		return TRUE
+	to_chat(H, span_warning("[weapon] is not something my arts can guide."))
+	return FALSE
+
+/datum/action/cooldown/spell/bind_weapon/armament/cast(atom/cast_on)
+	var/mob/living/carbon/human/H = owner
+	var/obj/item/old
+	if(istype(H))
+		var/datum/status_effect/buff/arcyne_momentum/old_M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+		old = old_M?.bound_weapon
+	. = ..()
+	if(!.)
+		return
+	var/datum/status_effect/buff/arcyne_momentum/M = H.has_status_effect(/datum/status_effect/buff/arcyne_momentum)
+	var/obj/item/weapon = M?.bound_weapon
+	if(old && old != weapon && !QDELETED(old))
+		var/datum/component/skill_bind/old_bind = old.GetComponent(/datum/component/skill_bind)
+		if(old_bind)
+			qdel(old_bind)
+	if(weapon && !QDELETED(weapon) && !weapon.GetComponent(/datum/component/skill_bind))
+		weapon.AddComponent(/datum/component/skill_bind, bind_skill, H)

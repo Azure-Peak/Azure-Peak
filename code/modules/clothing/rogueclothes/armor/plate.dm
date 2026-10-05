@@ -605,26 +605,27 @@
 
 /obj/item/clothing/suit/roguetown/armor/heartfelt
 	slot_flags = ITEM_SLOT_ARMOR
-	name = "coat of armor"
-	desc = "A lordly coat of armor."
+	name = "heartfelt plate armor"
+	desc = "A pristine set of steel plate armor, clad with a red leather coat boasting its wearer's allegiances. To the Battlemages \
+	of Heartfelt, these sets are a symbolic manifestation of their oath; to serve thine clients without hesitation, and to \
+	rebuke all the fools who'd dare attack them. </br>‎	</br>'Slow to don-and-doff, without a trusted Squire's aid..'"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "heartfelt"
 	item_state = "heartfelt"
 	armor = ARMOR_PLATE
-	allowed_sex = list(MALE, FEMALE)
 	nodismemsleeves = TRUE
 	blocking_behavior = null
-	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL //500int
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
+	equip_delay_self = 12 SECONDS
+	unequip_delay_self = 12 SECONDS
+	equip_delay_other = 3 SECONDS
+	strip_delay = STRIP_DELAY_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
-	smelt_bar_num = 4
+	smelt_bar_num = 3
 
 /obj/item/clothing/suit/roguetown/armor/heartfelt/hand
-	slot_flags = ITEM_SLOT_ARMOR
-	name = "coat of armor"
-	desc = "A lordly coat of armor."
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	icon_state = "heartfelt_hand"
 	item_state = "heartfelt_hand"
 

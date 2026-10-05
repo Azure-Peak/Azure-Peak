@@ -594,6 +594,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CLASS_CAT_BATTLEMAGE "Battlemage"
 
 //Mercenary categories
+#define CLASS_CAT_AZURIA "Azuria"
 #define CLASS_CAT_ETRUSCA "Etrusca"
 #define CLASS_CAT_GRENZELHOFT "Grenzelhoft"
 #define CLASS_CAT_NALEDI "Naledi"
