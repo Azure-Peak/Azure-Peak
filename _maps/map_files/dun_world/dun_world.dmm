@@ -15992,6 +15992,11 @@
 "cSe" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/indoors/cave/east)
+"cSg" = (
+/obj/structure/fluff/railing/border/east,
+/obj/structure/table/wood/poor,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/bath)
 "cSm" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
@@ -123027,6 +123032,9 @@
 /area/rogue/indoors/town/tavern)
 "vqt" = (
 /obj/structure/fluff/railing/border/east,
+/obj/structure/chair/stool/rogue{
+	pixel_y = 4
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "vqu" = (
@@ -173025,7 +173033,7 @@ naR
 byi
 pYk
 vqt
-vqt
+cSg
 vqt
 udW
 nvE
