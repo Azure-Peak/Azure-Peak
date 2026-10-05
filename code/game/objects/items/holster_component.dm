@@ -70,6 +70,10 @@
 	if(!RW.sheathe_icon)
 		to_chat(user, span_warning("[A] won't fit in there."))
 		return FALSE
+	if(invalid_blades)
+		if(A.type in invalid_blades)
+			to_chat(user, span_warning("[A] won't fit in there."))
+			return FALSE
 	if(valid_blade && !istype(A, valid_blade))
 		if(valid_blades)
 			if((A.type in valid_blades))
@@ -84,10 +88,6 @@
 			else
 				to_chat(user, span_warning("[A] won't fit in there."))
 				return FALSE
-	if(invalid_blades)
-		if(A.type in invalid_blades)
-			to_chat(user, span_warning("[A] won't fit in there."))
-			return FALSE
 	return TRUE
 
 /datum/component/holster/proc/eat_sword(mob/living/user, obj/A)
