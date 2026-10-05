@@ -34,6 +34,7 @@
 
 /obj/item/clothing/gloves/roguetown/angle/grenzelgloves/blacksmith
 	name = "forge gauntlets"
+	desc = "Thick and heavy, they are all but immune to errant sparks- and errant hammers aimed at thumbs. Useful for beating swords into plowshares."
 	color = "#ffffff"
 
 /obj/item/clothing/gloves/roguetown/bandages/pontifex
