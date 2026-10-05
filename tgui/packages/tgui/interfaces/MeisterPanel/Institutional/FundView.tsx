@@ -59,7 +59,7 @@ export const FundView = ({
         <div style={{ color: INK_FAINT, marginTop: 8 }}>
           {fund.id === 'bathhouse' && data.bathhouse_viewer_withdrawal_limit_hit
             ? "You've reached your daily Bathhouse withdrawal limit."
-            : "You may view this institution's coffers, but not act upon them."}
+            : "You can see this fund. You can't use it."}
         </div>
       )}
       <FundActivity fund={fund} data={data} />
