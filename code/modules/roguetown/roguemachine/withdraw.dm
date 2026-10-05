@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/withdraw
 	name = "vomitorium"
-	desc = "A magitech wall device connected to the local trade network. Users can buy basic goods, crafting materials, and food for a price from these units, either from in-town or imported for a heftier price."
+	desc = "A magitech wall device connected to the local trade network. Buy basic goods, crafting materials, and food here from the town's stock. Imports cost more."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "submit"
 	density = FALSE
@@ -10,8 +10,8 @@
 
 /obj/structure/roguemachine/withdraw/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click with an open hand to open the vomitorium. Insert mammons to fund purchases, then buy or import goods from the local stockpile.")
-	. += span_info("Withdrawals are cheapest. Direct imports pay a surcharge - duty flows to the Crown once Royal Custom is invoked.")
+	. += span_info("Left-click with an open hand to open the vomitorium. Put in mammon to fund purchases, then buy or import goods from the local stockpile.")
+	. += span_info("Withdrawals are cheapest. Imports cost more because of a markup. The markup pays for shipping. While Royal Custom is in force, it goes to the Treasury instead.")
 	. += span_info("The vomitorium does not buy goods. Take deposits to a stockpile instead.")
 
 /obj/structure/roguemachine/withdraw/Initialize(mapload)
@@ -68,7 +68,7 @@
 	data["charter_threshold"] = SStreasury.royal_custom_threshold
 	data["no_deposit"] = TRUE
 	data["title"] = "Vomitorium"
-	data["subtitle"] = "Insert mammons, then withdraw goods from the local stockpile or import from afar."
+	data["subtitle"] = "Put in mammon, then withdraw goods from the local stockpile or import from afar."
 
 	var/list/rows = list()
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)

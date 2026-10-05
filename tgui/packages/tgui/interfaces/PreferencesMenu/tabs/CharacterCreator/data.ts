@@ -10,6 +10,8 @@ export type AllPagesData = {
   loaded_slot: number;
   real_name: string;
   headshot_link: string | null; // null indicates unset
+  headshot_artist_credit: string | null;
+  headshot_artist_link: string | null;
 
   pq: TrustedHTML;
   hide_pq: BooleanLike;
@@ -316,7 +318,11 @@ export type VillainData = {
   antag_banned: BooleanLike;
 
   lich_headshot_link: string | null; // null means unset
+  lich_headshot_artist_credit: string | null;
+  lich_headshot_artist_link: string | null;
   vampire_headshot_link: string | null; // null means unset
+  vampire_headshot_artist_credit: string | null;
+  vampire_headshot_artist_link: string | null;
 
   vampire_skin: string | null; // null means unset
   vampire_eyes: string | null; // null means unset

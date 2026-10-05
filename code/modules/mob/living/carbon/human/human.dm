@@ -1006,6 +1006,8 @@
 	socks = target.socks
 	has_stubble = target.has_stubble
 	headshot_link = target.headshot_link
+	headshot_artist_credit = target.headshot_artist_credit
+	headshot_artist_link = target.headshot_artist_link
 	// i dont want NPCs to make you a guy w/ no flavortext
 	if(flavortext)
 		flavortext = target.flavortext

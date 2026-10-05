@@ -39,7 +39,11 @@ const VillainSettings = () => {
   const { act, data } = useBackendStrict<VillainData>();
   const {
     lich_headshot_link,
+    lich_headshot_artist_credit,
+    lich_headshot_artist_link,
     vampire_headshot_link,
+    vampire_headshot_artist_credit,
+    vampire_headshot_artist_link,
     vampire_skin,
     vampire_eyes,
     vampire_hair,
@@ -52,6 +56,7 @@ const VillainSettings = () => {
       <Stack vertical>
         <Stack.Item>
           <Stack justify="space-around">
+            <Stack fill vertical>
             <Stack.Item>
               <HeadshotButton
                 action="lich_headshot"
@@ -62,6 +67,30 @@ const VillainSettings = () => {
               />
             </Stack.Item>
             <Stack.Item>
+              <p>Lich headshot artist credit: </p>
+              <Button
+                ellipsis
+                fluid
+                tooltip="Artist credit for your lich headshot; generally, a name or username."
+                onClick={() => act('lich_headshot_artist_credit')}
+              >
+                {lich_headshot_artist_credit || 'None'}
+              </Button>
+            </Stack.Item>
+            <Stack.Item>
+              <p>Lich headshot artist link: </p>
+              <Button
+                ellipsis
+                fluid
+                tooltip="Artist link for your lich headshot: website, portfolio, donation page, etc."
+                onClick={() => act('lich_headshot_artist_link')}
+              >
+                {lich_headshot_artist_link || 'None'}
+              </Button>
+            </Stack.Item>
+            </Stack>
+            <Stack fill vertical>
+            <Stack.Item>
               <HeadshotButton
                 action="vampire_headshot"
                 link={vampire_headshot_link}
@@ -69,6 +98,29 @@ const VillainSettings = () => {
                 tooltip="Overrides your default headshot when you are a vampire with your disguise turned off."
               />
             </Stack.Item>
+            <Stack.Item>
+              <p>Vampire headshot artist credit: </p>
+              <Button
+                ellipsis
+                fluid
+                tooltip="Artist credit for your vampire headshot; generally, a name or username."
+                onClick={() => act('vampire_headshot_artist_credit')}
+              >
+                {vampire_headshot_artist_credit || 'None'}
+              </Button>
+            </Stack.Item>
+            <Stack.Item>
+              <p>Vampire headshot artist link: </p>
+              <Button
+                ellipsis
+                fluid
+                tooltip="Artist link for your vampire headshot: website, portfolio, donation page, etc."
+                onClick={() => act('vampire_headshot_artist_link')}
+              >
+                {vampire_headshot_artist_link || 'None'}
+              </Button>
+            </Stack.Item>
+          </Stack>
           </Stack>
         </Stack.Item>
         <Stack.Item>

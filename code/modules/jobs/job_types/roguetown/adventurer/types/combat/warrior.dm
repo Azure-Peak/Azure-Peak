@@ -627,27 +627,17 @@
 			if("Blessed Silver Shovel")
 				l_hand = /obj/item/rogueweapon/shovel/silver/preblessed //Unlocks the secret 'Shovel Knight' subclass. No dagger skills if you take this. Doesn't scale off anything, I think. Raw style.
 
-		var/discipline = list("Traditionalist - Hauberk & Alchemics (+I INT / -I LCK)", "Reformist - Chainmaille & Dodge Expert (+I SPD)", "Orthodoxist - Cuirass & Plate Training (+I CON / -I SPD)")
+		var/discipline = list("Traditionalist - Hauberk & Silver-Blood (+I INT)", "Reformist - Chainmaille & Dodge Expert (+I SPD)", "Orthodoxist - Cuirass & Plate Training (+I CON / -I SPD)")
 		var/discipline_choice = input(H, "Choose your DISCIPLINE.", "FACE YOUR NIGHTMARE.") as anything in discipline
 		switch(discipline_choice)
-			if("Traditionalist - Hauberk & Alchemics (+I INT / -I LCK)")
+			if("Traditionalist - Hauberk & Silver-Blood (+I INT)")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC) //'Witcher' archetype. Weaponized alchemy gifts both immunity to nitebeastly curses and a self-suppliable +3 statboost. Well-rounded in almost every facet, but leaves less to chance.
+				ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC) //'Witcher' archetype. Well-rounded, and vamp immune, but not exceptional in any particular field.
 				H.change_stat(STATKEY_INT, 1)
-				H.change_stat(STATKEY_LCK, -1)
 				head = /obj/item/clothing/head/roguetown/puritan/armored
 				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 				belt = /obj/item/storage/belt/rogue/leather/black
-				beltl = pick(
-					/obj/item/reagent_containers/glass/bottle/alchemical/strpot,
-					/obj/item/reagent_containers/glass/bottle/alchemical/conpot,
-					/obj/item/reagent_containers/glass/bottle/alchemical/willpot,
-					/obj/item/reagent_containers/glass/bottle/alchemical/spdpot,
-					/obj/item/reagent_containers/glass/bottle/alchemical/perpot,
-					/obj/item/reagent_containers/glass/bottle/alchemical/intpot,
-					/obj/item/reagent_containers/glass/bottle/alchemical/lucpot,
-					)
 			if("Reformist - Chainmaille & Dodge Expert (+I SPD)")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) //'Puritan' archetype. Closer to the Roguetown-era Inquisitor in portrayal. No armor training, but overprepared with silver throwing daggers and excellent evasive maneuvers.
 				H.change_stat(STATKEY_SPD, 1)
@@ -724,7 +714,7 @@
 	tutorial = "You are a vagrant. Your skin itches at the thought of wearing proper armor. Not after everything was taken from you. Armed with a piece of wood, it's only through your body that you endure. At least you aren't bothered by the lack of comfort like most others."
 	outfit = /datum/outfit/job/roguetown/adventurer/deprived
 	cmode_music = 'sound/music/cmode/antag/combat_darkstar.ogg'
-	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_SHIRTLESS, TRAIT_WILD_EATER, TRAIT_OUTDOORSMAN, TRAIT_HOMESTEAD_EXPERT, TRAIT_TECHNOPHOBE)
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_CRITICAL_RESISTANCE, TRAIT_NOPAINSTUN, TRAIT_SHIRTLESS, TRAIT_WILD_EATER, TRAIT_OUTDOORSMAN, TRAIT_HOMESTEAD_EXPERT, TRAIT_TECHNOPHOBE, TRAIT_HARDSOLE)
 	subclass_stats = list(
 		STATKEY_STR = 3,
 		STATKEY_CON = 2,
@@ -733,7 +723,6 @@
 		STATKEY_INT = -2,
 	)
 	subclass_skills = list(
-		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
@@ -746,9 +735,16 @@
 /datum/outfit/job/roguetown/adventurer/deprived/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 	to_chat(H, span_warning("The haze clears from your mind as some clarity floods back. Everything was taken from you. Mortal possessions have shown only betrayal. Your skin itches at the thought of ever trusting armor to protect your chest again."))
-	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
 	if(H.mind)
-		r_hand = /obj/item/rogueweapon/mace/woodclub/deprived
 		l_hand = /obj/item/rogueweapon/shield/wood/deprived
 		pants = /obj/item/clothing/under/roguetown/loincloth/deprived
+	var/weapons = list("Broken Blade","Ghastly Club")
+	var/weapon_choice = input(H, "Choose your..... WEAPON.", "TAKE UP ARMS.") as anything in weapons
+	switch(weapon_choice)
+		if("Broken Blade")
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			r_hand = /obj/item/rogueweapon/sword/broken
+		if("Ghastly Club")
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			r_hand = /obj/item/rogueweapon/mace/woodclub/deprived

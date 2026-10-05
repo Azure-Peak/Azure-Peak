@@ -82,7 +82,7 @@ export const PostingsTab = ({ data, act }: TabProps) => {
 
       <div style={sectionHeaderStyle}>Notices</div>
       {notices.length === 0 ? (
-        <EmptyMessage text="No notices on the board. The wind stirs the empty parchments." />
+        <EmptyMessage text="No notices on the board." />
       ) : (
         <div style={postingGridStyle}>
           {notices.map((p) => (

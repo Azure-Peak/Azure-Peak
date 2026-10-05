@@ -4,7 +4,7 @@
 	Other templars clad themselves in heavy armor and relies on their miracles and their cone\
 	But you know Noc's true teaching - he granted knowledge so we, humen, may seize upon it and uses magyck\
 	to seize our own destiny. With steel in one hand, sorcery in the other, and Noc's blessing in your heart\
-	None can stand against you. Protect the Church, its myriad acolytes, and further the pursuit of enlightenment, knowledge and mastery"
+	None can stand against you. Protect the Church, its myriad acolytes, and further the pursuit of enlightenment, knowledge and mastery."
 	outfit = /datum/outfit/job/roguetown/templar/noc_spellblade
 	category_tags = list(CTAG_TEMPLAR)
 	allowed_patrons = list(/datum/patron/divine/noc)

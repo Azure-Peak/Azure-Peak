@@ -1158,6 +1158,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, newLoc, TRUE)
 	return FALSE
 
+/obj/item/proc/held_contents()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		return STR.contents()
+	return list()
+
+/obj/item/proc/release_held(obj/item/I, atom/dest)
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		return STR.remove_from_storage(I, dest)
+	return FALSE
+
 /obj/item/proc/get_belt_overlay() //Returns the icon used for overlaying the object on a belt
 	return mutable_appearance('icons/obj/clothing/belt_overlays.dmi', icon_state)
 

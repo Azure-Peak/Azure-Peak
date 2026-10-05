@@ -17,7 +17,7 @@ export const AdvancedView = (props: { data: Data }) => {
   const { act } = useBackend<Data>();
   const { data } = props;
   const aldermanActing = !!data.is_alderman_acting;
-  const blockTitle = "Reserved to the Steward's office.";
+  const blockTitle = "As Alderman, you can't change this.";
   const barred = data.autoexport_barred;
   const shortageOpen = data.shortage_goods_open;
   return (
@@ -31,11 +31,10 @@ export const AdvancedView = (props: { data: Data }) => {
     >
       <div style={sectionHeaderStyle}>Autoexport</div>
       <div style={{ color: INK_SOFT, marginBottom: '8px' }}>
-        Every dae, goods above the export threshold is shipped away daily. If
-        you bar them, they will be hoarded. And deposit into a full stock while
-        auto-export is disabled will hoard the good. This can be useful to save
-        the arbitrage profit for the Crown and prevent overbuying. Exporting a
-        good under shortage counts toward ending that shortage early.
+        Each dawn, stock above the surplus threshold is shipped to the best
+        paying region. Goods barred from autoexport stay in the stockpile, and
+        so do deposits into a full stockpile. Exporting a good under shortage
+        counts toward ending that shortage early.
       </div>
       <div
         style={{
@@ -57,7 +56,7 @@ export const AdvancedView = (props: { data: Data }) => {
           title={
             aldermanActing
               ? blockTitle
-              : 'Bar autoexport on every good currently under a shortage, so the sweep cannot sell off the scarcity or shorten the shortage.'
+              : 'Bar autoexport on every good currently under shortage.'
           }
         >
           Bar Autoexport On Shortages ({shortageOpen})
@@ -73,7 +72,7 @@ export const AdvancedView = (props: { data: Data }) => {
           title={
             aldermanActing
               ? blockTitle
-              : 'Clear every autoexport bar across the whole warehouse.'
+              : 'Clear every autoexport bar.'
           }
         >
           Allow Autoexport On All
