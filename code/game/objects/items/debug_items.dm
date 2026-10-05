@@ -78,9 +78,9 @@
 
 /obj/item/debug/skeleton_preference_wand/get_mechanics_examine(mob/user)
 	. = ..()
-	+ = span_info("This is a DEBUG OBJECT. You should not see it if you are in regular gameplay.")
-	+ = span_info("Click on a turf to spawn a mindless skelelon with no equipment. It's AI will be enabled.")
-	+ = span_info("Click on any type of carbon/human to turn them into a skeleton.")
-	+ = span_info("MMB the wand to apply your skeleton body-pronoun prefs.")
-	+ = span_info("Right-click the wand to apply your skeleton head-tail prefs.")
+	. + = span_info("This is a DEBUG OBJECT. You should not see it if you are in regular gameplay.")
+	. + = span_info("Click on a turf to spawn a mindless skelelon with no equipment. It's AI will be enabled.")
+	. + = span_info("Click on any type of carbon/human to turn them into a skeleton.")
+	. + = span_info("MMB the wand to apply your skeleton body-pronoun prefs.")
+	. + = span_info("Right-click the wand to apply your skeleton head-tail prefs.")
 
