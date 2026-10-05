@@ -5856,18 +5856,9 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/under/town/basement/keep)
 "bdq" = (
-/obj/structure/closet/crate/chest/old_crate,
-/obj/item/rope,
-/obj/item/natural/bundle/stick{
-	amount = 5
-	},
-/obj/item/natural/bundle/stick{
-	amount = 5
-	},
-/obj/item/rogue/instrument/accord,
-/obj/item/rogue/instrument/harp,
-/obj/item/rogue/instrument/lute,
-/turf/open/floor/rogue/cobble/mossy,
+/obj/structure/fluff/railing/border/east,
+/obj/structure/table/wood/poor,
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "bdr" = (
 /obj/structure/fluff/railing/wood{
@@ -15992,11 +15983,6 @@
 "cSe" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/indoors/cave/east)
-"cSg" = (
-/obj/structure/fluff/railing/border/east,
-/obj/structure/table/wood/poor,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/bath)
 "cSm" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/outdoors/town)
@@ -54426,16 +54412,9 @@
 /area/rogue/indoors/town/physician)
 "jDm" = (
 /obj/structure/rack/rogue,
-/obj/item/soap/bath{
-	pixel_x = -10;
-	pixel_y = -7
-	},
-/obj/item/soap/bath{
-	pixel_y = -10
-	},
-/obj/item/soap/bath{
-	pixel_y = -10
-	},
+/obj/item/rogue/instrument/lute,
+/obj/item/rogue/instrument/harp,
+/obj/item/rogue/instrument/accord,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "jDs" = (
@@ -54741,6 +54720,13 @@
 /obj/item/storage/pill_bottle/dice,
 /obj/item/storage/pill_bottle/dice/farkle,
 /obj/item/storage/pill_bottle/dice/hazard,
+/obj/item/rope,
+/obj/item/natural/bundle/stick{
+	amount = 5
+	},
+/obj/item/natural/bundle/stick{
+	amount = 5
+	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "jFU" = (
@@ -92481,8 +92467,7 @@
 	keylock = 1;
 	locked = 1;
 	lockid = "nightmaiden";
-	name = "Collars/Restraints";
-	pixel_x = 4
+	name = "Collars/Restraints"
 	},
 /obj/item/clothing/neck/roguetown/collar/leather,
 /obj/item/clothing/neck/roguetown/collar/leather,
@@ -113360,6 +113345,8 @@
 /obj/item/storage/roguebag,
 /obj/item/reagent_containers/glass/bucket,
 /obj/item/reagent_containers/glass/bucket,
+/obj/item/soap/bath,
+/obj/item/soap/bath,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "tGC" = (
@@ -168509,7 +168496,7 @@ bkJ
 brO
 vfE
 vfE
-bdq
+vfE
 eXr
 rzJ
 hSR
@@ -173033,7 +173020,7 @@ naR
 byi
 pYk
 vqt
-cSg
+bdq
 vqt
 udW
 nvE
