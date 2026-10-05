@@ -87,8 +87,6 @@
 /datum/outfit/job/roguetown/inquisitor/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
-	add_verb(H, /mob/living/carbon/human/proc/faith_test)
-	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
@@ -227,8 +225,6 @@
 	has_loadout = TRUE
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
-	add_verb(H, /mob/living/carbon/human/proc/faith_test)
-	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
@@ -299,116 +295,3 @@
 		if("Psydonic Grand Mace")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psymace(H))
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, 5, TRUE)
-
-/mob/living/carbon/human/proc/faith_test()
-	set name = "Test Faith"
-	set category = "RoleUnique.Interrogation"
-	var/obj/item/grabbing/I = get_active_held_item()
-	var/mob/living/carbon/human/H
-	var/obj/item/S = get_inactive_held_item()
-	var/found = null
-	if(!istype(I) || !ishuman(I.grabbed))
-		to_chat(src, span_warning("I don't have a victim in my hands!"))
-		return
-	H = I.grabbed
-	if(H == src)
-		to_chat(src, span_warning("I already torture myself."))
-		return
-	if (!H.restrained())
-		to_chat(src, span_warning ("My victim needs to be restrained in order to do this!"))
-		return
-	if(!istype(S, /obj/item/clothing/neck/roguetown/psicross/silver))
-		to_chat(src, span_warning("I need to be holding a silver psycross to extract this divination!"))
-		return
-	for(var/obj/structure/fluff/psycross/N in oview(5, src))
-		found = N
-	if(!found)
-		to_chat(src, span_warning("I need a large psycross structure nearby to extract this divination!"))
-		return
-	if(!H.stat)
-		var/static/list/faith_lines = list(
-			"TO WHOM DO YOU PRAY!?",
-			"WHO IS YOUR GOD!?",
-			"ARE YOU FAITHFUL!?",
-			"WHO IS YOUR SHEPHERD!?",
-		)
-		src.visible_message(span_warning("[src] shoves the silver psycross in [H]'s face!"))
-		say(pick(faith_lines), spans = list("torture"))
-		H.emote("agony", forced = TRUE)
-
-		if(!(do_mob(src, H, 10 SECONDS)))
-			return
-		src.visible_message(span_warning("[src]'s silver psycross abruptly catches flame, burning away in an instant!"))
-		H.confess_sins("patron")
-		qdel(S)
-		return
-	to_chat(src, span_warning("This one is not in a ready state to be questioned..."))
-
-/mob/living/carbon/human/proc/confess_sins(confession_type = "antag")
-	var/static/list/innocent_lines = list(
-		"I AM NO SINNER!",
-		"I'M INNOCENT!",
-		"I HAVE NOTHING TO CONFESS!",
-		"I AM FAITHFUL!",
-	)
-	var/list/confessions = list()
-	switch(confession_type)
-		if("patron")
-			if(length(patron?.confess_lines))
-				confessions += patron.confess_lines
-		if("antag")
-			for(var/datum/antagonist/antag in mind?.antag_datums)
-				if(!length(antag.confess_lines))
-					continue
-				confessions += antag.confess_lines
-	if(length(confessions))
-		if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE))
-			say(pick(confessions), spans = list("bloody"))//Vheslynites aren't people.
-		else
-			say(pick(confessions), spans = list("torture"))
-		return
-	say(pick(innocent_lines), spans = list("torture"))
-
-/mob/living/carbon/human/proc/torture_victim()
-	set name = "Reveal Allegiance"
-	set category = "RoleUnique.Interrogation"
-	var/obj/item/grabbing/I = get_active_held_item()
-	var/mob/living/carbon/human/H
-	var/obj/item/S = get_inactive_held_item()
-	var/found = null
-	if(!istype(I) || !ishuman(I.grabbed))
-		to_chat(src, span_warning("I don't have a victim in my hands!"))
-		return
-	H = I.grabbed
-	if(H == src)
-		to_chat(src, span_warning("I already torture myself."))
-		return
-	if (!H.restrained())
-		to_chat(src, span_warning ("My victim needs to be restrained in order to do this!"))
-		return
-	if(!istype(S, /obj/item/clothing/neck/roguetown/psicross/silver))
-		to_chat(src, span_warning("I need to be holding a silver psycross to extract this divination!"))
-		return
-	for(var/obj/structure/fluff/psycross/N in oview(5, src))
-		found = N
-	if(!found)
-		to_chat(src, span_warning("I need a large psycross structure nearby to extract this divination!"))
-		return
-	if(!H.stat)
-		var/static/list/torture_lines = list(
-			"CONFESS!",
-			"TELL ME YOUR SECRETS!",
-			"SPEAK!",
-			"YOU WILL SPEAK!",
-			"TELL ME!",
-		)
-		say(pick(torture_lines), spans = list("torture"))
-		H.emote("agony", forced = TRUE)
-
-		if(!(do_mob(src, H, 10 SECONDS)))
-			return
-		src.visible_message(span_warning("[src]'s silver psycross abruptly catches flame, burning away in an instant!"))
-		H.confess_sins("antag")
-		qdel(S)
-		return
-	to_chat(src, span_warning("This one is not in a ready state to be questioned..."))

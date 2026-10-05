@@ -115,7 +115,6 @@
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			add_verb(H, /mob/living/carbon/human/proc/revelations)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
@@ -576,44 +575,3 @@
 	H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/fingerless_leather, SLOT_GLOVES, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/leather/reinforced, SLOT_SHOES, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/wrists/roguetown/bracers/leather/heavy, SLOT_WRISTS, TRUE)
-
-/mob/living/carbon/human/proc/revelations()
-	set name = "Revelations"
-	set category = "RoleUnique.Cleric"
-	var/obj/item/grabbing/I = get_active_held_item()
-	var/mob/living/carbon/human/H
-	var/obj/item/S = get_inactive_held_item()
-	var/found = null
-	if(!istype(I) || !ishuman(I.grabbed))
-		to_chat(src, span_warning("I don't have a victim in my hands!"))
-		return
-	H = I.grabbed
-	if(H == src)
-		to_chat(src, span_warning("I already torture myself."))
-		return
-	if (!H.restrained())
-		to_chat(src, span_warning ("My victim needs to be restrained in order to do this!"))
-		return
-	if(!istype(S, /obj/item/clothing/neck/roguetown/psicross/inhumen))
-		to_chat(src, span_warning("I need to be holding a cross of the ascendants to extract this divination!"))
-		return
-	for(var/obj/structure/fluff/psycross/zizocross/N in oview(5, src))
-		found = N
-	if(!found)
-		to_chat(src, span_warning("I need a large profane shrine structure nearby to extract this divination!"))
-		return
-	if(!H.stat)
-		var/static/list/faith_lines = list(
-			"THE TRUTH SHALL SET YOU FREE!",
-			"WHO IS YOUR GOD!?",
-			"ARE YOU FAITHFUL!?",
-			"WHO IS YOUR SHEPHERD!?",
-		)
-		src.visible_message(span_warning("[src] shoves the decrepit zcross into [H]'s lux!"))
-		say(pick(faith_lines), spans = list("torture"))
-		H.emote("agony", forced = TRUE)
-		if(!(do_mob(src, H, 10 SECONDS)))
-			return
-		H.confess_sins("patron")
-		return
-	to_chat(src, span_warning("This one is not in a ready state to be questioned..."))

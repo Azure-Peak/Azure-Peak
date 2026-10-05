@@ -100,7 +100,6 @@
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			add_verb(H, /mob/living/carbon/human/proc/revelations)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
