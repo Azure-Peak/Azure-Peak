@@ -6,6 +6,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/region_id
 	var/list/required_items = list()
 	var/total_payout = 0
+	/// Payout before the scarcity bonus. Set by compute_order_payout() alongside total_payout.
+	var/base_payout = 0
+	/// Scarcity bonus % applied on top of base_payout, e.g. 40 for +40%. 0 at/above reference pop.
+	var/scarcity_bonus_pct = 0
 	var/day_issued = 0
 	var/day_expires = 0
 	var/is_fulfilled = FALSE
@@ -38,10 +42,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_rations
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("a ship's company victualling", "a privateer's crew", "the harbor watch"),
-		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant restocking", "a militia muster"),
-		TRADE_REGION_HEARTFELT = list("the count's retinue", "a roving warden party", "a local adventuring fellowship"),
-		TRADE_REGION_KINGSFIELD = list("a market town", "a village feast committee", "a granary keeper"),
+		TRADE_REGION_BLEAKCOAST = list("a ship's company", "a privateer's crew", "the harbor watch"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant", "the militia"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a warden party", "an adventuring fellowship"),
+		TRADE_REGION_KINGSFIELD = list("an innkeeper", "a village hosting a feast", "a granary keeper"),
 	)
 
 /datum/standing_order/demand_rations/generate_item_mix()
@@ -59,8 +63,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_rations/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] calls for provisions urgently."
-	return "Provisioners in [region.name] require rations to feed their charges."
+		return "[capitalize(pick(projects))] at [region.name] is short of rations."
+	return "Quartermasters in [region.name] are short of rations."
 
 
 // ============================================================================
@@ -68,9 +72,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_armaments
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("a galley's fighting men", "a corsair's company outfitting", "the harbor watch"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's crew", "a corsair's company", "the harbor watch"),
 		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a band of border irregulars", "a watch sergeant"),
-		TRADE_REGION_HEARTFELT = list("the count's retinue", "a local mercenary band", "a roving warden party"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a mercenary band", "a warden party"),
 	)
 
 /datum/standing_order/demand_armaments/generate_item_mix()
@@ -88,8 +92,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_armaments/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] must be rearmed before the next campaign season."
-	return "The arms-masters of [region.name] require ingots and hide to outfit soldiers."
+		return "[capitalize(pick(projects))] at [region.name] needs ingots and leather to rearm before the campaign season."
+	return "The armsmasters of [region.name] need ingots and hide to outfit their soldiers."
 
 
 // ============================================================================
@@ -97,8 +101,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_textile
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a local tailor", "a market stall", "a travelling merchant"),
-		TRADE_REGION_HEARTFELT = list("a banner-maker's commission", "a tabard-maker outfitting a retinue", "a name-day wardrobe order"),
+		TRADE_REGION_KINGSFIELD = list("a tailor", "a draper", "a peddler"),
+		TRADE_REGION_HEARTFELT = list("a banner maker's commission", "a tabard maker", "a name day wardrobe order"),
 	)
 
 /datum/standing_order/demand_textile/generate_item_mix()
@@ -114,8 +118,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_textile/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires bolts of cloth and fiber."
-	return "A tailors' guild in [region.name] is accepting commissions of cloth and fibers."
+		return "[capitalize(pick(projects))] at [region.name] needs bolts of cloth and fiber."
+	return "A tailors' guild in [region.name] is buying cloth and fibers."
 
 
 // ============================================================================
@@ -123,8 +127,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_smithing
 	var/list/project_by_region = list(
-		TRADE_REGION_DAFTSMARCH = list("the smiths' guild", "the foundry works", "a master smith with a backlog"),
-		TRADE_REGION_KINGSFIELD = list("a village smithy", "a farm-tool maker", "a local farrier"),
+		TRADE_REGION_DAFTSMARCH = list("the smiths' guild", "the foundry master", "a master smith"),
+		TRADE_REGION_KINGSFIELD = list("a village smithy", "a farm tool maker", "a local farrier"),
 	)
 
 /datum/standing_order/demand_smithing/generate_item_mix()
@@ -140,8 +144,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_smithing/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] seeks ingots for the month's labor."
-	return "A smithy in [region.name] is ordering ingots for the month's labor."
+		return "[capitalize(pick(projects))] at [region.name] needs ingots."
+	return "A smith in [region.name] needs ingots."
 
 
 // ============================================================================
@@ -151,15 +155,15 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	pair_label = "Construction"
 	pair_sibling_type = /datum/standing_order/demand_construction_smithy
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("a harbor wall reinforcement", "a coastal garrison's repairs"),
-		TRADE_REGION_NORTHFORT = list("a frontier garrison expanding its keep", "a watchtower rebuild"),
-		TRADE_REGION_HEARTFELT = list("a cathedral renovation", "a count's hall expansion"),
-		TRADE_REGION_KINGSFIELD = list("a market town's roadworks", "a granary expansion"),
-		TRADE_REGION_DAFTSMARCH = list("a mine shaft reinforcement", "the foundry's expansion"),
-		TRADE_REGION_ROSAWOOD = list("a lumber mill rebuild", "a trade road repair"),
-		TRADE_REGION_ROCKHILL = list("a terraced wall rebuild", "a press house expansion"),
-		TRADE_REGION_BLACKHOLT = list("a tower rebuild after a working went wrong", "an outer sanctum rebuild"),
-		TRADE_REGION_SALTWICK = list("a salt-house rebuild", "wharf reinforcements"),
+		TRADE_REGION_BLEAKCOAST = list("the harbor wall", "repairs to the coastal fort"),
+		TRADE_REGION_NORTHFORT = list("a bigger keep for the frontier garrison", "a new watchtower"),
+		TRADE_REGION_HEARTFELT = list("the cathedral", "the count's new hall"),
+		TRADE_REGION_KINGSFIELD = list("the market road", "a bigger granary"),
+		TRADE_REGION_DAFTSMARCH = list("shoring up a mine shaft", "the foundry's new wing"),
+		TRADE_REGION_ROSAWOOD = list("the lumber mill", "the trade road"),
+		TRADE_REGION_ROCKHILL = list("a new terraced wall", "a bigger press house"),
+		TRADE_REGION_BLACKHOLT = list("a tower whose ceiling fell in", "the outer sanctum"),
+		TRADE_REGION_SALTWICK = list("a new salt house", "the wharf"),
 	)
 
 /datum/standing_order/demand_construction_bulk/generate_item_mix()
@@ -175,8 +179,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_construction_bulk/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires stone and timber from the yards."
-	return "Builders in [region.name] require stone and timber from the yards."
+		return "[region.name] needs stone and timber for [pick(projects)]."
+	return "Builders in [region.name] need stone and timber."
 
 /datum/standing_order/demand_construction_smithy
 	pair_label = "Construction"
@@ -191,7 +195,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	return "[uppertext(region.name)] - CONSTRUCTION: METAL"
 
 /datum/standing_order/demand_construction_smithy/generate_description(datum/economic_region/region)
-	return "The same works in [region.name] need ironmongery from the smithy."
+	return "Builders in [region.name] also need iron for nails and fittings."
 
 
 // ============================================================================
@@ -199,8 +203,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_exotic
 	var/list/project_by_region = list(
-		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "a hermit reagent-buyer", "an oddly pale aristocrat with academic interests"),
-		TRADE_REGION_ROSAWOOD = list("a druidic circle", "a forest hermit", "a wandering hedge witch"),
+		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "an alchemist", "a scholar"),
+		TRADE_REGION_ROSAWOOD = list("a druidic circle", "a herbalist", "a hedge witch"),
 	)
 
 /datum/standing_order/demand_exotic/generate_item_mix()
@@ -218,8 +222,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_exotic/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires exotic reagents without delay."
-	return "An arcane party in [region.name] is paying well for exotic reagents."
+		return "[capitalize(pick(projects))] at [region.name] needs exotic reagents quickly."
+	return "A mage in [region.name] is paying well for exotic reagents."
 
 
 // ============================================================================
@@ -227,9 +231,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_fishery
 	var/list/project_by_region = list(
-		TRADE_REGION_SALTWICK = list("the fishmongers' guild", "a salt-curer with a backlog", "a wharf-side preserver"),
-		TRADE_REGION_BLEAKCOAST = list("a ship's company victualling", "a privateer's crew", "the harbor watch"),
-		TRADE_REGION_KINGSFIELD = list("a market fishmonger", "a village preserver", "a travelling fish-trader"),
+		TRADE_REGION_SALTWICK = list("the fishmongers' guild", "a salt curer", "a wharfside preserver"),
+		TRADE_REGION_BLEAKCOAST = list("a ship's company", "a privateer's crew", "the harbor watch"),
+		TRADE_REGION_KINGSFIELD = list("a market fishmonger", "a village preserver", "a travelling fish trader"),
 	)
 
 /datum/standing_order/demand_fishery/generate_item_mix()
@@ -244,8 +248,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_fishery/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] has laid in an order for fish and salt."
-	return "A fishmongers' shop in [region.name] is taking orders for fish and salt."
+		return "[capitalize(pick(projects))] at [region.name] has put in an order for fish and salt."
+	return "A fishmonger in [region.name] is buying fish and salt."
 
 
 // ============================================================================
@@ -253,9 +257,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_orchard
 	var/list/project_by_region = list(
-		TRADE_REGION_ROCKHILL = list("an orchard-master's harvest", "a valley apothecary", "a cider press"),
-		TRADE_REGION_KINGSFIELD = list("a market preserver", "a village apothecary", "a travelling herbalist"),
-		TRADE_REGION_HEARTFELT = list("a chapel almsgiving", "a garrison apothecary", "a hospitaller buying for the road"),
+		TRADE_REGION_ROCKHILL = list("an orchard master", "an apothecary", "a cider maker"),
+		TRADE_REGION_KINGSFIELD = list("a preserver", "an apothecary", "a herbalist"),
+		TRADE_REGION_HEARTFELT = list("an almoner", "a garrison apothecary", "a hospitaller"),
 	)
 
 /datum/standing_order/demand_orchard/generate_item_mix()
@@ -274,7 +278,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
 		return "[capitalize(pick(projects))] at [region.name] needs orchard produce and healing calendula."
-	return "A preserver or apothecary in [region.name] is buying orchard goods."
+	return "An apothecary in [region.name] is buying fruit and calendula."
 
 
 // ============================================================================
@@ -289,12 +293,12 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	return "[uppertext(region.name)] - URGENT REQUISITION"
 
 /datum/standing_order/urgent/generate_description(datum/economic_region/region)
-	var/list/buyers = list("Local notables", "A merchants' consortium", "The guild elders", "A desperate burgher", "Local magnates")
+	var/list/buyers = list("Local notables", "The town's merchants", "The guild elders", "Desperate burghers", "Local magnates")
 	var/buyer = pick(buyers)
 	var/datum/economic_event/E = source_event_ref?.resolve()
 	if(E)
-		return "[region.name] is suffering from [E.name]. [buyer] are paying a premium to resolve the crisis."
-	return "[buyer] in [region.name] have declared an emergency requisition."
+		return "[region.name] is suffering from [E.name]. [buyer] are paying a premium for relief."
+	return "[buyer] in [region.name] need goods urgently and will pay extra."
 
 
 // ============================================================================
@@ -303,10 +307,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armaments
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("a privateer captain outfitting", "a corsair's company", "a harbor watch armsmaster"),
-		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant outfitting", "a band of border irregulars"),
-		TRADE_REGION_HEARTFELT = list("the count's retinue", "a local mercenary band", "a warband outfitting for the road"),
-		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a knight-errant outfitting", "a back-room arms-broker"),
+		TRADE_REGION_BLEAKCOAST = list("a privateer captain", "a corsair's company", "a harbor watch armsmaster"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant", "a band of border irregulars"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a mercenary band", "a warband"),
+		TRADE_REGION_KINGSFIELD = list("an armsmaster", "a wandering knight", "an arms dealer"),
 	)
 	var/list/one_ingot_pool = list(
 		TRADE_GOOD_STEEL_ARMING_SWORD,
@@ -344,8 +348,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armaments/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires finished arms, to be left at the warehouse."
-	return "A garrison at [region.name] requires finished arms, to be left at the warehouse."
+		return "[capitalize(pick(projects))] at [region.name] needs finished arms. Leave them at the warehouse."
+	return "A garrison at [region.name] needs finished arms. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -355,10 +359,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armor_heavy
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("a galley's fighting men", "a privateer captain outfitting", "a harbor watch armsmaster"),
-		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant outfitting", "a relieved company restocking"),
-		TRADE_REGION_HEARTFELT = list("the count's retinue", "a local mercenary band", "a knightly house outfitting"),
-		TRADE_REGION_KINGSFIELD = list("a market armsmaster", "a knightly house", "a tournament-bound knight"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's crew", "a privateer captain", "a harbor watch armsmaster"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant", "a relief company"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a mercenary band", "a knightly house"),
+		TRADE_REGION_KINGSFIELD = list("an armsmaster", "a knightly house", "a knight bound for the tournament"),
 	)
 	var/list/chain_pool = list(
 		TRADE_GOOD_STEEL_CHAINMAIL,
@@ -405,8 +409,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armor_heavy/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires finished plate harness, to be left at the warehouse."
-	return "A garrison at [region.name] requires finished plate harness, to be left at the warehouse."
+		return "[capitalize(pick(projects))] at [region.name] needs finished armor. Leave it at the warehouse."
+	return "A garrison at [region.name] needs finished armor. Leave it at the warehouse."
 
 
 // ============================================================================
@@ -419,10 +423,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_equipment_armor_light
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "a coastal levy mustering", "a corsair's company outfitting"),
-		TRADE_REGION_NORTHFORT = list("a watch sergeant outfitting", "a band of border irregulars", "a frontier reservist call-up"),
-		TRADE_REGION_HEARTFELT = list("a roving warden party", "the count's footsergeants", "a local adventuring fellowship"),
-		TRADE_REGION_KINGSFIELD = list("a country muster", "a market company", "a yeoman captain outfitting"),
+		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "a levy mustering", "a corsair's company"),
+		TRADE_REGION_NORTHFORT = list("a watch sergeant", "a band of border irregulars", "a company of reservists"),
+		TRADE_REGION_HEARTFELT = list("a warden party", "the count's footsergeants", "an adventuring fellowship"),
+		TRADE_REGION_KINGSFIELD = list("a levy", "a town militia", "a yeoman captain"),
 	)
 	var/list/body_pool = list(
 		TRADE_GOOD_PADDED_GAMBESON,
@@ -451,13 +455,13 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	return mix
 
 /datum/standing_order/demand_equipment_armor_light/generate_name(datum/economic_region/region)
-	return "[uppertext(region.name)] - COMPANY TUNICS"
+	return "[uppertext(region.name)] - LEVY TUNICS"
 
 /datum/standing_order/demand_equipment_armor_light/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires sewn and boiled-leather kit, to be left at the warehouse."
-	return "A company at [region.name] requires sewn and boiled-leather kit, to be left at the warehouse."
+		return "[capitalize(pick(projects))] at [region.name] needs finished gambesons and leather armor. Leave them at the warehouse."
+	return "A levy at [region.name] needs finished gambesons and leather armor. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -466,8 +470,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_salt
 	var/list/project_by_region = list(
-		TRADE_REGION_SALTWICK = list("a salt-curer's bulk order", "a curing-shed expansion", "the preservers' guild"),
-		TRADE_REGION_KINGSFIELD = list("a market preserver", "a village smokehouse", "a roadside chapmen restocking"),
+		TRADE_REGION_SALTWICK = list("a salt curer", "a fishmonger", "the preservers' guild"),
+		TRADE_REGION_KINGSFIELD = list("a preserver", "a smokehouse keeper", "a chapman"),
 	)
 
 /datum/standing_order/demand_salt/generate_item_mix()
@@ -481,8 +485,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_salt/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] require salt in bulk for the preserving of flesh and fish."
-	return "Preservers in [region.name] require salt in bulk."
+		return "[capitalize(pick(projects))] at [region.name] needs bulk salt for curing meat and fish."
+	return "Preservers in [region.name] need salt in bulk."
 
 
 // ============================================================================
@@ -507,7 +511,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_victualling_fleet/generate_description(datum/economic_region/region)
 	var/list/flavors = list(
 		"The fishing fleet at [region.name] lays in stores for the season's run.",
-		"The wharvesmen at [region.name] need victuals for a month at sea.",
+		"The crews at [region.name] need victuals for a month at sea.",
 		"A captain at [region.name] takes on stores before his vessel sails.",
 	)
 	return pick(flavors)
@@ -519,9 +523,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_victualling_garrison
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant restocking", "a keep's quartermaster"),
-		TRADE_REGION_BLEAKCOAST = list("a ship's company victualling", "a coastal garrison's larder", "a privateer's crew"),
-		TRADE_REGION_HEARTFELT = list("the count's retinue", "a roving warden party", "a local adventuring fellowship"),
+		TRADE_REGION_NORTHFORT = list("a frontier garrison", "a watch sergeant", "a keep's quartermaster"),
+		TRADE_REGION_BLEAKCOAST = list("a ship's company", "the fort's cook", "a privateer's crew"),
+		TRADE_REGION_HEARTFELT = list("the count's retinue", "a warden party", "an adventuring fellowship"),
 	)
 
 /datum/standing_order/demand_victualling_garrison/generate_item_mix()
@@ -541,7 +545,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_victualling_garrison/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] calls for preserved rations that will last the garrison."
+		return "[capitalize(pick(projects))] at [region.name] needs preserved rations."
 	return "A garrison at [region.name] lays in preserved rations for the next rotation."
 
 
@@ -567,9 +571,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_victualling_mines/generate_description(datum/economic_region/region)
 	var/list/flavors = list(
-		"The foremen at [region.name] feed the miners through the long night-shifts underground.",
-		"The mineworks at [region.name] need stout fare to see their crews through the week.",
-		"A shift-boss at [region.name] lays in dry goods that will not spoil in the shafts.",
+		"The foremen at [region.name] feed the miners through the long night shifts underground.",
+		"The mine captains at [region.name] need stout fare to see their crews through the week.",
+		"A foreman at [region.name] lays in dry goods that will not spoil in the shafts.",
 	)
 	return pick(flavors)
 
@@ -582,11 +586,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_HEARTFELT = list("a chapel infirmary", "a hospitaller buying for the road", "a garrison surgeon"),
-		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "a hermit reagent-buyer", "an oddly red-eyed aristocrat"),
-		TRADE_REGION_BLEAKCOAST = list("a galley's surgeon", "a privateer's crew laying in stores", "a coastal garrison's apothecary"),
-		TRADE_REGION_NORTHFORT = list("a frontier surgeon", "a watch sergeant restocking", "a band of border irregulars"),
-		TRADE_REGION_KINGSFIELD = list("a market apothecary", "a village healer", "a travelling herbalist"),
+		TRADE_REGION_HEARTFELT = list("an infirmarer", "a hospitaller", "a garrison surgeon"),
+		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "an alchemist", "a physician"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's surgeon", "a privateer's crew", "a garrison apothecary"),
+		TRADE_REGION_NORTHFORT = list("a surgeon", "a watch sergeant", "a band of border irregulars"),
+		TRADE_REGION_KINGSFIELD = list("an apothecary", "a healer", "a herbalist"),
 	)
 	// Mana lives in the premium pool only - keeping it in both used to let a premium roll
 	// overwrite the larger primary qty when the same id was picked twice.
@@ -617,8 +621,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires finished potions, to be left at the warehouse."
-	return "An apothecary at [region.name] will pay handsomely for finished potions, left at the warehouse."
+		return "[capitalize(pick(projects))] at [region.name] needs finished potions. Leave them at the warehouse."
+	return "An apothecary at [region.name] needs finished potions. Leave them at the warehouse."
 
 // ============================================================================
 // demand_alchemical_warband - elite buff-potion order for adventurers, the conclave,
@@ -627,10 +631,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical_warband
 	roll_weight = 1
 	var/list/project_by_region = list(
-		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "a battle-mage's hireling outfit", "a sun-starved aristocrat's hunting party"),
-		TRADE_REGION_HEARTFELT = list("the count's chosen retinue", "a temple's champions", "a roving warden party"),
-		TRADE_REGION_KINGSFIELD = list("a knight-errants' convocation", "a mercenary captain's warband", "a noble's hunting party"),
-		TRADE_REGION_NORTHFORT = list("a frontier strike-band", "a watch sergeant's chosen", "a local adventuring fellowship"),
+		TRADE_REGION_BLACKHOLT = list("a wizards' coven", "a battle mage's retinue", "a noble's hunting party"),
+		TRADE_REGION_HEARTFELT = list("the count's chosen retinue", "a temple's champion", "a warden party"),
+		TRADE_REGION_KINGSFIELD = list("a band of wandering knights", "a mercenary captain's warband", "a noble's hunting party"),
+		TRADE_REGION_NORTHFORT = list("a raiding band", "a watch sergeant's squad", "an adventuring fellowship"),
 	)
 	var/list/buff_pool = list(
 		TRADE_GOOD_PERCEPTION_POTION,
@@ -662,8 +666,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_alchemical_warband/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] commissions draughts of stat and strong potion."
-	return "An elite party at [region.name] commissions draughts of stat and strong potion."
+		return "[capitalize(pick(projects))] at [region.name] needs finished fortifying draughts and strong potions. Leave them at the warehouse."
+	return "An elite party at [region.name] needs finished fortifying draughts and strong potions. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -724,8 +728,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_birthday_gift/generate_description(datum/economic_region/region)
 	var/list/celebrants = celebrants_by_region[region.region_id]
 	if(length(celebrants))
-		return "A name-day approaches for [pick(celebrants)] of [region.name]. Their household commissions a fitting tribute."
-	return "A noble of [region.name] keeps a name-day. Their household commissions a fitting tribute."
+		return "[pick(celebrants)] of [region.name] has a name day coming. Their household is buying gifts."
+	return "A noble of [region.name] has a name day coming. Their household is buying gifts."
 
 
 // ============================================================================
@@ -736,11 +740,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	pair_label = "The Great Feast"
 	pair_sibling_type = /datum/standing_order/demand_great_feast_carbs
 	var/list/feast_for_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a market town's harvest feast", "the manor of a country knight", "a wedding banquet"),
-		TRADE_REGION_HEARTFELT = list("the count's high table", "a chapter feast of the march guard"),
-		TRADE_REGION_BLEAKCOAST = list("a sea-lord's high table", "a captains' banquet aboard the flagship", "a privateer's homecoming feast"),
-		TRADE_REGION_NORTHFORT = list("the garrison's midwinter feast", "a watchcommander's table"),
-		TRADE_REGION_ROCKHILL = list("the orchard-masters' harvest hall", "a press-house celebration"),
+		TRADE_REGION_KINGSFIELD = list("a harvest feast", "a knight's feast", "a wedding banquet"),
+		TRADE_REGION_HEARTFELT = list("the count's high table", "the march guard's chapter feast"),
+		TRADE_REGION_BLEAKCOAST = list("a sea lord's high table", "a captains' banquet aboard the flagship", "a privateer's homecoming feast"),
+		TRADE_REGION_NORTHFORT = list("the garrison's midwinter feast", "the watch commander's table"),
+		TRADE_REGION_ROCKHILL = list("the orchard masters' harvest feast", "the cider pressing feast"),
 	)
 
 /datum/standing_order/demand_great_feast_proteins/generate_item_mix()
@@ -758,11 +762,11 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 
 /datum/standing_order/demand_great_feast_proteins/generate_description(datum/economic_region/region)
 	if(prob(33))
-		return "Lord Harlause sets the table at [region.name]. His house calls for butter and beef from the shambles."
+		return "Lord Harlause sets the table at [region.name]. His house needs butter and beef."
 	var/list/feasts = feast_for_by_region[region.region_id]
 	if(length(feasts))
-		return "[capitalize(pick(feasts))] at [region.name] calls for butter and beef from the shambles."
-	return "A great feast at [region.name] calls for butter and beef from the shambles."
+		return "[region.name] needs butter and beef for [pick(feasts)]."
+	return "[region.name] needs butter and beef for a great feast."
 
 /datum/standing_order/demand_great_feast_carbs
 	roll_weight = 2
@@ -782,7 +786,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	return "[uppertext(region.name)] - GREAT FEAST: PANTRY"
 
 /datum/standing_order/demand_great_feast_carbs/generate_description(datum/economic_region/region)
-	return "The same feast at [region.name] needs bread, cheese, and orchard fruit from the pantry."
+	return "The same feast at [region.name] needs grain, cheese and fruit."
 
 
 // ============================================================================
@@ -791,10 +795,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_frontier_gear
 	roll_weight = 3
 	var/list/project_by_region = list(
-		TRADE_REGION_NORTHFORT = list("a watch sergeant outfitting", "a band of border irregulars", "a frontier reservist call-up"),
-		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "a coastal patrol mustering", "a privateer's crew outfitting"),
-		TRADE_REGION_HEARTFELT = list("a roving warden party", "a temple's guard", "a local adventuring fellowship"),
-		TRADE_REGION_KINGSFIELD = list("a country sheriff's posse", "a local muster", "a yeoman captain outfitting"),
+		TRADE_REGION_NORTHFORT = list("a watch sergeant", "a band of border irregulars", "a company of reservists"),
+		TRADE_REGION_BLEAKCOAST = list("the harbor watch", "a coastal patrol mustering", "a privateer's crew"),
+		TRADE_REGION_HEARTFELT = list("a warden party", "a temple's guard", "an adventuring fellowship"),
+		TRADE_REGION_KINGSFIELD = list("a sheriff's posse", "the militia", "a yeoman captain"),
 	)
 	var/list/body_pool = list(
 		TRADE_GOOD_PADDED_GAMBESON,
@@ -818,8 +822,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_frontier_gear/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires light kit fit for irregular service."
-	return "A frontier muster at [region.name] requires light kit for the watch."
+		return "[capitalize(pick(projects))] at [region.name] needs finished light armor and bows. Leave them at the warehouse."
+	return "A frontier company at [region.name] needs finished light armor and bows. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -828,9 +832,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_court_finery
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a noble household's wardrobe", "a court tailor's commission", "a market tailor"),
-		TRADE_REGION_HEARTFELT = list("the count's wardrobe", "a noble investiture", "a wedding-bound house"),
-		TRADE_REGION_ROCKHILL = list("a country estate's spring wardrobe", "a noble's name-day finery", "a sun-shy aristocrat's seasonal fitting"),
+		TRADE_REGION_KINGSFIELD = list("a noble household's wardrobe", "a court tailor's rush order", "a tailor's window"),
+		TRADE_REGION_HEARTFELT = list("the count's wardrobe", "a noble investiture", "a wedding"),
+		TRADE_REGION_ROCKHILL = list("an estate's spring wardrobe", "a noble's name day", "a baron's wedding"),
 	)
 	var/list/finery_pool = list(
 		TRADE_GOOD_NOBLECOAT,
@@ -855,8 +859,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_court_finery/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] commissions finished tailoring for the season."
-	return "A noble household at [region.name] commissions finished tailoring."
+		return "[region.name] needs finished court clothes for [pick(projects)]. Leave them at the warehouse."
+	return "[region.name] needs finished court clothes for a noble household. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -864,10 +868,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 // ============================================================================
 /datum/standing_order/demand_fine_joinery
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a country estate's joiner", "a manor house refurnish", "a temple's furnishings order"),
-		TRADE_REGION_ROSAWOOD = list("a master joiner's workshop", "a roadside furniture maker"),
-		TRADE_REGION_ROCKHILL = list("an orchard estate's joiner", "a press-house refit"),
-		TRADE_REGION_HEARTFELT = list("the count's hall furnishings", "a garrison hall refit"),
+		TRADE_REGION_KINGSFIELD = list("furnishing a country house", "refurnishing a manor", "new pews for a temple"),
+		TRADE_REGION_ROSAWOOD = list("a joiner's cabinets", "a furniture maker's stock"),
+		TRADE_REGION_ROCKHILL = list("an estate's hall", "refitting a cider press"),
+		TRADE_REGION_HEARTFELT = list("furnishing the count's hall", "refitting the garrison hall"),
 	)
 
 /datum/standing_order/demand_fine_joinery/generate_item_mix()
@@ -886,8 +890,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_fine_joinery/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires joinery materials - wood, cloth, and iron."
-	return "A joiner at [region.name] requires materials for fine furnishings."
+		return "[region.name] needs wood, cloth and iron for [pick(projects)]."
+	return "A joiner at [region.name] needs wood, cloth and iron for furniture."
 
 
 // ============================================================================
@@ -896,10 +900,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_artificery
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_DAFTSMARCH = list("the artificers' guild", "a master smith's workshop", "a forgemaster's commission"),
-		TRADE_REGION_KINGSFIELD = list("a court artificer's workshop", "a guild engineer's workshop", "a back-alley contraption maker"),
-		TRADE_REGION_BLACKHOLT = list("a coven's contraption shop", "an arcane engineer's workshop", "a hermit tinkerer's bulk order"),
-		TRADE_REGION_NORTHFORT = list("a garrison's engineer", "a siege-engineer at the keep", "a frontier sapper outfitting"),
+		TRADE_REGION_DAFTSMARCH = list("the artificers' guild", "a master smith", "a forgemaster"),
+		TRADE_REGION_KINGSFIELD = list("a court artificer", "a guild engineer", "a clockmaker"),
+		TRADE_REGION_BLACKHOLT = list("an artificer", "an arcane engineer", "a tinkerer"),
+		TRADE_REGION_NORTHFORT = list("a garrison engineer", "a siege engineer at the keep", "a company of sappers"),
 	)
 
 /datum/standing_order/demand_artificery/generate_item_mix()
@@ -925,8 +929,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_artificery/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires bronze-stock and tin for the next batch."
-	return "An artificer at [region.name] is buying bronze-stock and tin."
+		return "[capitalize(pick(projects))] at [region.name] needs finished artificed goods. Leave them at the warehouse."
+	return "An artificer at [region.name] needs finished artificed goods. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -935,9 +939,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_jewelry
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a court jeweler", "a master goldsmith", "a noble household's wardrobe"),
-		TRADE_REGION_HEARTFELT = list("the count's jeweler", "a temple reliquary's commission", "a wedding-bound house"),
-		TRADE_REGION_ROCKHILL = list("a country estate's jeweler", "a name-day finery commission", "a sun-shy aristocrat's heirloom resetting"),
+		TRADE_REGION_KINGSFIELD = list("a court jeweler", "a goldsmith", "a noble household"),
+		TRADE_REGION_HEARTFELT = list("the count's jeweler", "a temple's reliquary keeper", "a house preparing for a wedding"),
+		TRADE_REGION_ROCKHILL = list("an estate jeweler", "a noble dressing for a name day", "a baron's household"),
 	)
 	var/list/jewelry_pool = list(
 		TRADE_GOOD_AMBER_RING,
@@ -963,8 +967,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_jewelry/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires finished rings and amulets for their stock."
-	return "A jeweler at [region.name] is buying finished rings and amulets."
+		return "[capitalize(pick(projects))] at [region.name] needs finished rings and amulets. Leave them at the warehouse."
+	return "A jeweler at [region.name] needs finished rings and amulets. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -973,9 +977,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_prosthetic_run
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_HEARTFELT = list("a chapel infirmary", "a hospitaller's wounded-house", "a battlefield surgeon's bulk order"),
-		TRADE_REGION_NORTHFORT = list("a frontier surgeon", "a garrison infirmary", "a band of border irregulars come back broken"),
-		TRADE_REGION_BLEAKCOAST = list("a galley's surgeon", "a harbor wounded-house", "a privateer's crew limping in"),
+		TRADE_REGION_HEARTFELT = list("an infirmarer", "a hospitaller tending the wounded", "a battlefield surgeon"),
+		TRADE_REGION_NORTHFORT = list("a surgeon", "the garrison's infirmarer", "a band of border irregulars"),
+		TRADE_REGION_BLEAKCOAST = list("a galley's surgeon", "a bonesetter", "a privateer's crew"),
 	)
 
 /datum/standing_order/demand_prosthetic_run/generate_item_mix()
@@ -998,8 +1002,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_prosthetic_run/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] tends many wounded - prosthetics and draughts are needed."
-	return "An infirmary at [region.name] tends to wounded soldiers and pilgrims."
+		return "[capitalize(pick(projects))] at [region.name] needs finished prosthetics and potions. Leave them at the warehouse."
+	return "An infirmary at [region.name] needs finished prosthetics and potions. Leave them at the warehouse."
 
 
 // ============================================================================
@@ -1009,9 +1013,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_artificed_panoply
 	roll_weight = 1
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("a duke's master-of-arms", "a artificer's commission", "a tournament-bound champion"),
-		TRADE_REGION_DAFTSMARCH = list("a master smith's signature contract", "a forgemaster's masterpiece", "a guild's exhibition piece"),
-		TRADE_REGION_HEARTFELT = list("the count's chosen champion", "a knightly investiture", "a roving warden captain"),
+		TRADE_REGION_KINGSFIELD = list("the Grand Duke's master of arms", "an artificer's patron", "a champion riding in the tournament"),
+		TRADE_REGION_DAFTSMARCH = list("a smith's showpiece", "a forgemaster's masterpiece", "a guild exhibition"),
+		TRADE_REGION_HEARTFELT = list("the count's champion", "a knight's investiture", "a warden captain"),
 	)
 
 /datum/standing_order/demand_artificed_panoply/generate_item_mix()
@@ -1034,8 +1038,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_artificed_panoply/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] commissions a panoply of artificed war-gear. Masterwork pays masterwork's price."
-	return "A patron at [region.name] commissions a panoply of artificed war-gear."
+		return "[region.name] needs finished artificed war gear for [pick(projects)]. Leave it at the warehouse."
+	return "A patron at [region.name] needs finished artificed war gear. Leave it at the warehouse."
 
 
 // ============================================================================
@@ -1046,9 +1050,9 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	pair_label = "Tournament"
 	pair_sibling_type = /datum/standing_order/demand_tournament_provisions
 	var/list/project_by_region = list(
-		TRADE_REGION_KINGSFIELD = list("the Tournament of the Three Hills", "the lists at Cherrybrook", "a knight-errants' convocation"),
-		TRADE_REGION_HEARTFELT = list("the March Tourney", "the count's lists at Heartfelt"),
-		TRADE_REGION_ROCKHILL = list("the Orchard Lists", "a midsummer tourney at Vespermill"),
+		TRADE_REGION_KINGSFIELD = list("a tournament", "a village tourney", "a gathering of wandering knights"),
+		TRADE_REGION_HEARTFELT = list("the count's tourney", "the count's lists"),
+		TRADE_REGION_ROCKHILL = list("a harvest tourney", "a midsummer tourney"),
 	)
 	var/list/weapon_pool = list(
 		TRADE_GOOD_STEEL_ARMING_SWORD,
@@ -1076,8 +1080,8 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_tournament_arms/generate_description(datum/economic_region/region)
 	var/list/projects = project_by_region[region.region_id]
 	if(length(projects))
-		return "[capitalize(pick(projects))] at [region.name] requires arms and armor for the lists. The patrons pay accordingly."
-	return "A great tournament at [region.name] requires arms and armor for the lists. The patrons pay accordingly."
+		return "[region.name] needs finished arms and armor for [pick(projects)]. Leave them at the warehouse."
+	return "[region.name] needs finished arms and armor for a great tournament. Leave them at the warehouse."
 
 /datum/standing_order/demand_tournament_provisions
 	roll_weight = 2
@@ -1099,7 +1103,7 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	return "[uppertext(region.name)] - TOURNAMENT: PROVISIONS"
 
 /datum/standing_order/demand_tournament_provisions/generate_description(datum/economic_region/region)
-	return "The same tournament at [region.name] calls for draughts, feast-fare, and finery for the champions."
+	return "The same tournament at [region.name] needs draughts, feast fare and finery for the champions."
 
 
 // ============================================================================
@@ -1110,10 +1114,10 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 /datum/standing_order/demand_arcane_commission
 	roll_weight = 2
 	var/list/project_by_region = list(
-		TRADE_REGION_HEARTFELT = list("a temple's bookbinder", "a knightly house outfitting", "a hospitaller buying for the road"),
-		TRADE_REGION_ROCKHILL = list("a viscount's library", "a country estate's curio collector", "an oddly pale-skinned aristocrat with academic interests"),
-		TRADE_REGION_KINGSFIELD = list("a knight-errant outfitting for the road", "a guild's bulk order", "a market wand-seller"),
-		TRADE_REGION_NORTHFORT = list("a frontier scout-captain", "a band of border irregulars", "a local adventuring fellowship"),
+		TRADE_REGION_HEARTFELT = list("a temple's bookbinder", "a knightly house", "a hospitaller"),
+		TRADE_REGION_ROCKHILL = list("a viscount's librarian", "a curio collector", "a scholar"),
+		TRADE_REGION_KINGSFIELD = list("a wandering knight", "a merchant buying in bulk", "a wand seller"),
+		TRADE_REGION_NORTHFORT = list("a scout captain", "a band of border irregulars", "an adventuring fellowship"),
 	)
 	/// Tier the order rolled. Set in generate_item_mix and read by name/description.
 	var/rolled_tier = "basic"
@@ -1146,18 +1150,18 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 	var/patron = length(projects) ? capitalize(pick(projects)) : "A patron"
 	switch(rolled_tier)
 		if("superior")
-			return "[patron] at [region.name] commissions superior enchantment tinctures - fulfilled at the warehouse, any tinctures will serve."
+			return "[patron] at [region.name] needs superior enchantment tinctures of any school. Leave them at the warehouse."
 		if("greater")
-			return "[patron] at [region.name] commissions greater enchantment tinctures - fulfilled at the warehouse - any types will serve."
+			return "[patron] at [region.name] needs greater enchantment tinctures of any school. Leave them at the warehouse."
 		else
-			return "[patron] at [region.name] commissions basic enchantment tinctures - any school of magic, sealed at the warehouse."
+			return "[patron] at [region.name] needs basic enchantment tinctures of any school. Leave them at the warehouse."
 
 
 /datum/standing_order/demand_trophy_heads
 	roll_weight = 1
 	var/list/project_by_region = list(
-		TRADE_REGION_HEARTFELT = list("the count's manor hall", "a marcher lord's gallery", "a heralds' lodge"),
-		TRADE_REGION_ROCKHILL = list("a hunt-master's trophy hall", "the master-of-hounds at Vespermill", "a viscount's trophy room"),
+		TRADE_REGION_HEARTFELT = list("the count", "a marcher lord", "a herald"),
+		TRADE_REGION_ROCKHILL = list("a huntmaster", "a lord's master of hounds", "a viscount"),
 	)
 	/// Variant the order rolled. Set in generate_item_mix and read by generate_description.
 	var/rolled_variant = "minotaur"
@@ -1197,6 +1201,6 @@ GLOBAL_LIST_EMPTY(standing_order_pool)
 		if("white_stag")
 			return "[patron] at [region.name] would mount the White Stag's head above their hearth. None other will do."
 		if("troll")
-			return "[patron] at [region.name] would line their hall with troll heads - a warning to any who would test the marches."
+			return "[patron] at [region.name] would line their hall with troll heads as a warning to any who would test the marches."
 		else
-			return "[patron] at [region.name] commissions trophies for their gallery - heads of the wild brought to heel."
+			return "[patron] at [region.name] commissions minotaur heads for their gallery."

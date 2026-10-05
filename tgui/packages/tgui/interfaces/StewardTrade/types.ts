@@ -33,6 +33,8 @@ export type LedgerPage = {
 
 export type StaticData = {
   order_pool_cap: number;
+  auto_limit_days: number;
+  quality_payouts: { label: string; pct: number }[];
   good_catalog: Record<string, GoodCatalogEntry>;
   region_catalog: Record<string, RegionCatalogEntry>;
   // Only present while the user has the Ledger tab open (server gates it on ledger_view).
@@ -58,12 +60,16 @@ export type Order = {
   has_stockpile: BooleanLike;
   days_left: number;
   payout: number;
+  // base_payout * (1 + scarcity_bonus_pct/100) == payout. Bonus is 0 at/above reference pop.
+  base_payout: number;
+  scarcity_bonus_pct: number;
   items: OrderItem[];
   can_fulfill: BooleanLike;
   shortfall_text: string;
   petitioned: BooleanLike;
   can_partial: BooleanLike;
   partial_pct: number;
+  partial_payout_pct: number;
   partial_payout_preview: number;
   pair_id: string | null;
   pair_label: string | null;
@@ -189,11 +195,23 @@ export type TradeQuote = {
   stockpile_after: number;
 };
 
+export type PetitionTemplate = {
+  id: string;
+  label: string;
+  region_ids: string[];
+};
+
 export type PetitionCategory = {
   id: string;
   label: string;
   description: string;
   cost: number;
+  templates: PetitionTemplate[];
+};
+
+export type PetitionOffer = {
+  region_id: string;
+  blocker: string;
 };
 
 export type PetitionState = {
@@ -201,8 +219,8 @@ export type PetitionState = {
   petitions_remaining: number;
   is_steward_role: BooleanLike;
   is_alderman_acting: BooleanLike;
-  // category_id -> region_id -> blocker reason (empty string = eligible)
-  eligibility: Record<string, Record<string, string>>;
+  selected_template: string | null;
+  offers: PetitionOffer[];
 };
 
 export type SequestrationState = {

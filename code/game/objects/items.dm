@@ -545,7 +545,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		Targeting large limbs such as arms, head or legs has a defense reduction cap of [SWIFTCAP_LIMBS]%. \n\
 		Targeting the chest only has a cap of [SWIFTCAP_CHEST]% parry reduction. \n\
 		Swift Balance does not work if the attacker is wearing Medium or Heavy AC equipment on their outerwear, innerwear or pants slots. \n\
-		Defender's difference in INT and PER (if higher) may reduce the parry penalty in some circumstances.")
+		Defender's difference in INT and PER (if higher) may reduce the parry penalty in some circumstances. \n\
+		Having a swift weapon in your dominant hand and nothing in your off-hand increases your parry chance.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -1155,6 +1156,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 	if(SEND_SIGNAL(loc, COMSIG_CONTAINS_STORAGE))
 		return SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, newLoc, TRUE)
+	return FALSE
+
+/obj/item/proc/held_contents()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		return STR.contents()
+	return list()
+
+/obj/item/proc/release_held(obj/item/I, atom/dest)
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		return STR.remove_from_storage(I, dest)
 	return FALSE
 
 /obj/item/proc/get_belt_overlay() //Returns the icon used for overlaying the object on a belt

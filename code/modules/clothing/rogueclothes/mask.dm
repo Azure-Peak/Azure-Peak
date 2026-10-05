@@ -757,7 +757,7 @@
 	armor = null
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
-	block2add = FOV_BEHIND
+	block2add = FOV_DEFAULT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	smeltresult = null
 	anvilrepair = /datum/skill/craft/ceramics
@@ -770,8 +770,12 @@
 	desc = "An ancient ceramic face. It looks weathered, the sort molded by Xylixian worshippers of many yils past. Even when cast aside, it feels like the hardened clay has never left your hands. As if it always finds a way back into your palms."
 	// No armor anyways
 	max_integrity = 200
-	// Not messing with jester mask, but again, it has no armor. many other masks also don't block vision.
-	block2add = FOV_DEFAULT
+
+/obj/item/clothing/mask/rogue/xylixmask/ceramic
+	name = "ceramic mask"
+	item_state = "ceramicmask"
+	icon_state = "ceramicmask"
+	desc = "An ivory ceramic mask, plain and vacant. What is a joke with a smile missing? Ever so drought of what used to be painted with colors and joy."
 
 /obj/item/clothing/mask/rogue/spectacles/iron
 	name = "iron spectacles"
@@ -944,3 +948,19 @@
 	name = "clerical helmetless visor"
 	desc = "A thin visor of flimsy iron and a thin-silver coating with faint runic-wards and etchings into the material in strange runic wards and sigils, \
 	while this flimsy mask offers barely any protection, the many Noccite cults of Psydonia aclaim the gaps make it easier for Noc's silvered light to enighten the mind."
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter
+	name = "lamplighter's mask"
+	desc = "A leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask1"
+	adjustable = CANT_CADJUST
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter/beaked
+	name = "lamplighter's beaked mask"
+	desc = "A beaked leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask2"
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS

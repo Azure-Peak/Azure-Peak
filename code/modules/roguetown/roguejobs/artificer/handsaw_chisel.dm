@@ -185,7 +185,7 @@
 	name = "arcyne chisel set"
 	desc = "Ready to shape stones when held in a steady grip. One cannot be without the other."
 
-/obj/item/rogueweapon/chisel/assembly/attack_right(mob/user)
+/obj/item/rogueweapon/chisel/assembly/arcyne/attack_right(mob/user)
 	return
 
 #undef BCLASS_CHISEL

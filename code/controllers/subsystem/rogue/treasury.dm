@@ -31,7 +31,7 @@ SUBSYSTEM_DEF(treasury)
 		TAX_CATEGORY_FINE = 1.0,
 	)
 	var/trade_spread = 0.10
-	var/autoexport_percentage = 0.6
+	var/autoexport_percentage = AUTOEXPORT_DEFAULT_PERCENTAGE
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
 	var/datum/fund/burgher_pledge_fund
@@ -145,7 +145,7 @@ SUBSYSTEM_DEF(treasury)
 	var/roundstart_pop = get_active_player_count()
 	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
 	royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE + (roundstart_pop * ROYAL_CUSTOM_VOLUME_PER_POP)
-	discretionary_fund = new("Crown's Purse", null, seed, CURRENCY_MAMMON)
+	discretionary_fund = new("Treasury", null, seed, CURRENCY_MAMMON)
 	burgher_pledge_fund = new("Burgher Pledge", null, BURGHER_PLEDGE_BASE_REFILL * BURGHER_PLEDGE_ROUNDSTART_MULTIPLIER, CURRENCY_BURGHER_PLEDGE)
 	church_fund = new("Church Fund", null, CHURCH_FUND_SEED, CURRENCY_MAMMON)
 	merchant_fund = new("Merchant Fund", null, MERCHANT_FUND_SEED, CURRENCY_MAMMON)
@@ -201,12 +201,25 @@ SUBSYSTEM_DEF(treasury)
 	if(!discretionary_fund)
 		return
 	var/rural_tax_amount = get_rural_tax_amount()
-	mint(discretionary_fund, rural_tax_amount, "Rural Tax Collection")
+	if(rural_tax_amount <= 0)
+		return
+	mint(discretionary_fund, rural_tax_amount, "Rural Subsidy")
 	record_round_statistic(STATS_RURAL_TAXES_COLLECTED, rural_tax_amount)
 	total_rural_tax += rural_tax_amount
 
+/datum/controller/subsystem/treasury/proc/get_active_producer_count()
+	var/count = 0
+	for(var/mob/living/owner as anything in bank_accounts)
+		if(!owner || !owner.client)
+			continue
+		if(is_producer_job(owner.job))
+			count++
+	return count
+
 /datum/controller/subsystem/treasury/proc/get_rural_tax_amount()
-	return RURAL_TAX
+	var/producers = get_active_producer_count()
+	var/taper = clamp(1.0 - (producers / RURAL_SUBSIDY_REFERENCE_PRODUCERS), 0.0, 1.0)
+	return RURAL_SUBSIDY_FLOOR + round((RURAL_SUBSIDY_BASE - RURAL_SUBSIDY_FLOOR) * taper)
 
 // Mark the cached stewardry market / region / arbitrage
 // View as needing rebuild on next read.
@@ -362,12 +375,12 @@ SUBSYSTEM_DEF(treasury)
 			return FALSE
 		var/mob/living/fine_owner = istype(target, /mob/living) ? target : null
 		if(fine_owner && usr && fine_owner == usr)
-			send_ooc_note("<b>MEISTER:</b> Error: You cannot fine yourself.", name = target_name)
+			send_ooc_note("<b>MEISTER:</b> Error: You can't fine yourself.", name = target_name)
 			log_game("FINE REFUSED: [key_name(usr)] attempted to fine themselves [abs(amt)]m via [source || "unknown"]")
 			return FALSE
 		if(fine_owner && is_tax_exempt(fine_owner, TAX_CATEGORY_FINE))
 			record_tax_exemption(TAX_CATEGORY_FINE, abs(amt))
-			send_ooc_note("<b>MEISTER:</b> Error: By decree, they cannot be fined.", name = target_name)
+			send_ooc_note("<b>MEISTER:</b> Error: A Charter exempts them from fines.", name = target_name)
 			log_game("FINE REFUSED: [usr ? key_name(usr) : "system"] attempted to fine [key_name(fine_owner)] [abs(amt)]m but they were Charter-exempt")
 			return FALSE
 		var/fine_amt = abs(amt)
@@ -382,10 +395,10 @@ SUBSYSTEM_DEF(treasury)
 			if(fine_owner && has_been_fined_today(fine_owner))
 				send_ooc_note("<b>MEISTER:</b> Error: They have already been fined today.", name = target_name)
 			else
-				send_ooc_note("<b>MEISTER:</b> Error: No fineable amount remains.", name = target_name)
+				send_ooc_note("<b>MEISTER:</b> Error: There is nothing left to fine them.", name = target_name)
 			return FALSE
 		if(!transfer(account, discretionary_fund, fine_amt, "[TAX_CATEGORY_FINE] ([source])"))
-			send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the fine.", name = target_name)
+			send_ooc_note("<b>MEISTER:</b> Error: They don't have enough in their account to pay the fine.", name = target_name)
 			return FALSE
 		record_round_statistic(STATS_FINES_INCOME, fine_amt)
 		send_ooc_note(source ? "<b>MEISTER:</b> You were fined [fine_amt]m. ([source])" : "<b>MEISTER:</b> You were fined [fine_amt]m.", name = target_name)
@@ -417,9 +430,9 @@ SUBSYSTEM_DEF(treasury)
 	if(!account)
 		return
 	if(account.balance < amt)
-		send_ooc_note("<b>MEISTER:</b> Error: Insufficient funds in the account to complete the withdrawal.", name = target_name)
+		send_ooc_note("<b>MEISTER:</b> Error: You don't have enough in your account for that withdrawal.", name = target_name)
 		return
-	if(!burn(account, amt, "Meister withdraw by [target_name]"))
+	if(!burn(account, amt, "Meister withdrawal by [target_name]"))
 		return
 	return TRUE
 
@@ -611,7 +624,7 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	if(GLOB.dayspassed <= levy_rates_changed_day)
-		to_chat(usr, span_warning("Crown levies have already been adjusted today - come back tomorrow."))
+		to_chat(usr, span_warning("You already changed the levies today. Try again tomorrow."))
 		return
 	var/datum/decree/concordat = get_decree(DECREE_ZENITSTADT_CONCORDAT)
 	var/concordat_active = concordat?.active ? TRUE : FALSE
@@ -641,7 +654,7 @@ SUBSYSTEM_DEF(treasury)
 		lines += "[pretty] [verb] from [old_pct]% to [new_pct]%."
 
 	if(rejected_concordat)
-		to_chat(usr, span_warning("The Concordat of Zenitstadt forbids any levy below [round(CONCORDAT_TITHE_RATE * 100)]% while in force - the Church's tithe must be honoured."))
+		to_chat(usr, span_warning("While the Concordat of Zenitstadt is in force, no levy can go below [round(CONCORDAT_TITHE_RATE * 100)]%."))
 
 	if(!length(lines))
 		return
@@ -649,7 +662,7 @@ SUBSYSTEM_DEF(treasury)
 	levy_rates_changed_day = GLOB.dayspassed
 	var/final_text = jointext(lines, "<br>")
 	if(concordat_active)
-		final_text += "<br><i>By the Concordat of Zenitstadt, [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed transaction is tithed to the Church of Azuria, drawn from the Crown's share.</i>"
+		final_text += "<br><i>Under the Concordat of Zenitstadt, the Church of Azuria takes [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed payment out of the Crown's share.</i>"
 	var/final_announcement_text = bad_guy ? bad_announcement_text : good_announcement_text
 	priority_announce(final_text, final_announcement_text, pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
 	log_game("TAX RATES: [usr ? key_name(usr) : "system"] changed levy rates - [jointext(lines, " | ")]")
@@ -673,7 +686,7 @@ SUBSYSTEM_DEF(treasury)
 
 /datum/controller/subsystem/treasury/proc/apply_poll_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
 	if(GLOB.dayspassed <= poll_rates_changed_day)
-		to_chat(usr, span_warning("Poll tax rates have already been adjusted today - come back tomorrow."))
+		to_chat(usr, span_warning("Poll tax rates have already been adjusted today. Come back tomorrow."))
 		return
 	if(!islist(adjustments))
 		return
@@ -935,7 +948,7 @@ SUBSYSTEM_DEF(treasury)
 	if(!H || days <= 0)
 		return FALSE
 	if(SSticker?.round_start_time && (world.time - SSticker.round_start_time) < POLL_TAX_ADVANCE_LOCKOUT)
-		to_chat(H, span_warning("The Crown's ledgers have not yet opened for the day. Try again later."))
+		to_chat(H, span_warning("It's too early to pay the poll tax ahead. Try again in [DisplayTimeText(POLL_TAX_ADVANCE_LOCKOUT - (world.time - SSticker.round_start_time))]."))
 		return FALSE
 	var/datum/fund/account = get_account(H)
 	if(!account)
@@ -945,30 +958,30 @@ SUBSYSTEM_DEF(treasury)
 		to_chat(H, span_warning("The Crown does not tax your class."))
 		return FALSE
 	if(is_poll_tax_charter_exempt(H, category))
-		to_chat(H, span_warning("Your class is exempt from poll tax by decree."))
+		to_chat(H, span_warning("A Charter exempts your class from the poll tax."))
 		return FALSE
 	var/rate = get_poll_tax_rate_for(H, category)
 	if(rate < 0)
-		to_chat(H, span_warning("Your class currently receives a Crown subsidy - there is nothing to advance."))
+		to_chat(H, span_warning("Your class receives a Crown subsidy, so there is no tax to pay ahead."))
 		return FALSE
 	if(rate == 0)
 		rate = POLL_TAX_ADVANCE_FALLBACK_RATE
 	var/existing_advance = poll_tax_advance_days[H] || 0
 	var/room = POLL_TAX_MAX_ADVANCE_DAYS - existing_advance
 	if(room <= 0)
-		to_chat(H, span_warning("You already hold the maximum of [POLL_TAX_MAX_ADVANCE_DAYS] days of Poll Tax advance."))
+		to_chat(H, span_warning("You can't pay more than [POLL_TAX_MAX_ADVANCE_DAYS] days of poll tax ahead."))
 		return FALSE
 	if(days > room)
 		days = room
 	var/total_cost = rate * days
 	if(account.balance < total_cost)
-		to_chat(H, span_warning("Insufficient balance. Need [total_cost]m for [days] days."))
+		to_chat(H, span_warning("You need [total_cost]m to pay [days] days ahead."))
 		return FALSE
-	if(!transfer(account, discretionary_fund, total_cost, "Poll Tax advance ([days] days)"))
+	if(!transfer(account, discretionary_fund, total_cost, "Poll tax advance ([days] days)"))
 		return FALSE
 	record_poll_tax_by_category(category, total_cost)
 	poll_tax_advance_days[H] = existing_advance + days
-	to_chat(H, span_notice("You have advanced [days] day[days == 1 ? "" : "s"] of Poll Tax ([total_cost]m total). Advance held: [poll_tax_advance_days[H]] day[poll_tax_advance_days[H] == 1 ? "" : "s"]."))
+	to_chat(H, span_notice("You paid [days] day[days == 1 ? "" : "s"] of poll tax ahead ([total_cost]m). You are now paid up for [poll_tax_advance_days[H]] day[poll_tax_advance_days[H] == 1 ? "" : "s"]."))
 	log_game("POLL TAX ADVANCE: [key_name(H)] prepaid [days] days ([total_cost]m) of poll tax as [category]")
 	return TRUE
 
@@ -1012,7 +1025,7 @@ SUBSYSTEM_DEF(treasury)
 			var/subsidy = -rate
 			if(discretionary_fund.balance < subsidy)
 				continue
-			if(!transfer(discretionary_fund, account, subsidy, "Poll Subsidy ([category])"))
+			if(!transfer(discretionary_fund, account, subsidy, "Poll subsidy ([category])"))
 				continue
 			record_treasury_expense(TREASURY_FLOW_SUBSIDY, get_poll_tax_category_pretty_name(category), subsidy)
 			// Record as a negative against the category - the breakdown shows net Crown intake.
@@ -1027,19 +1040,19 @@ SUBSYSTEM_DEF(treasury)
 				poll_tax_advance_days -= owner
 			else
 				poll_tax_advance_days[owner] = advance
-			to_chat(owner, span_notice("<b>POLL TAX:</b> Covered by advance. [advance] day[advance == 1 ? "" : "s"] remaining."))
+			to_chat(owner, span_notice("<b>POLL TAX:</b> Paid from your advance. [advance] day[advance == 1 ? "" : "s"] remaining."))
 			continue
 
 		var/owed_this_tick = rate + (poll_tax_owed[owner] || 0)
 
 		var/paid = 0
 		if(account.balance >= owed_this_tick)
-			if(transfer(account, discretionary_fund, owed_this_tick, "Poll Tax ([category])"))
+			if(transfer(account, discretionary_fund, owed_this_tick, "Poll tax ([category])"))
 				paid = owed_this_tick
 				owed_this_tick = 0
 		else
 			var/partial = account.balance
-			if(partial > 0 && transfer(account, discretionary_fund, partial, "Poll Tax ([category])"))
+			if(partial > 0 && transfer(account, discretionary_fund, partial, "Poll tax ([category])"))
 				paid = partial
 				owed_this_tick -= partial
 

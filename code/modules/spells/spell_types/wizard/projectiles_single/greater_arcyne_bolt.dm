@@ -70,3 +70,79 @@
 			return BULLET_ACT_BLOCK
 		playsound(get_turf(target), hitsound, 80, TRUE)
 	return ..()
+
+/datum/action/cooldown/spell/projectile/divine_bolt
+	button_icon = 'icons/mob/actions/mage_shared.dmi'
+	name = "Divine Bolt"
+	desc = "Fire a concentrated bolt of faith at a single target. \
+	Toggle arc mode (Shift+G) while the spell is active to lob it over obstacles at reduced damage."
+	fluff_desc = "What was once a humble spell, reinvented by clerics who realized faith could be given shape just as easily as magic. The Divine Bolt is a simple manifestation of belief, hurled at reasonable speed with a suitably concussive force. Clerics often vow to 'do no harm', and this may technically count as a warning shot. Fifty warning shots, however, could constitute a rather different argument."
+	button_icon_state = "greater_arcyne_bolt"
+	sound = 'sound/magic/vlightning.ogg'
+	spell_color = GLOW_COLOR_ARCANE
+	glow_intensity = GLOW_INTENSITY_MEDIUM
+
+	projectile_type = /obj/projectile/magic/divine_bolt
+	projectile_type_arc = /obj/projectile/magic/divine_bolt/arc
+	cast_range = SPELL_RANGE_PROJECTILE
+	point_cost = 3
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE + 15
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
+
+	invocations = list("Sakral Kugel!")
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	weapon_cast_penalized = TRUE
+	charge_time = CHARGETIME_POKE
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	hold_drain = 1
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_sound = 'sound/magic/charging.ogg'
+	cooldown_time = 5.5 SECONDS
+
+	associated_skill = /datum/skill/magic/arcane
+	spell_tier = 2
+	spell_impact_intensity = SPELL_IMPACT_MEDIUM
+	attunement_school = ASPECT_NAME_KINESIS
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
+
+/obj/projectile/magic/divine_bolt
+	name = "divine bolt"
+	icon = 'icons/obj/magic_projectiles.dmi'
+	icon_state = "arcyne_bolt"
+	color = "#00c3ff"
+	guard_deflectable = TRUE
+	expose_caster_on_deflect = TRUE
+	damage = 25
+	damage_type = BRUTE
+	flag = "blunt"
+	woundclass = BCLASS_BLUNT
+	intdamfactor = 1
+	nodamage = FALSE
+	speed = MAGE_PROJ_FAST
+	max_range = MAGE_LONG_PROJ_RANGE
+	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
+	var/list/impact_sounds = list('sound/combat/hits/blunt/shovel_hit.ogg', 'sound/combat/hits/blunt/shovel_hit2.ogg', 'sound/combat/hits/blunt/shovel_hit3.ogg')
+
+/obj/projectile/magic/divine_bolt/arc
+	name = "arced divine bolt"
+	damage = 20
+	arcshot = TRUE
+
+/obj/projectile/magic/divine_bolt/on_hit(target)
+	if(length(impact_sounds))
+		hitsound = pick(impact_sounds)
+	if(ismob(target))
+		var/mob/M = target
+		if(M.anti_magic_check())
+			visible_message(span_warning("[src] fizzles on contact with [target]!"))
+			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
+			qdel(src)
+			return BULLET_ACT_BLOCK
+		playsound(get_turf(target), hitsound, 80, TRUE)
+	return ..()

@@ -401,6 +401,11 @@
 	worn_y_dimension = 64
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/priesthat/bishop
+	name = "bishop's hat"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "bishop"
+
 /obj/item/clothing/head/roguetown/reqhat
 	name = "serpent crown"
 	desc = ""
@@ -774,3 +779,11 @@
 /obj/item/clothing/head/roguetown/rosa/six
 	name = "maroon cap"
 	icon_state = "rosahat6"
+
+/obj/item/clothing/head/roguetown/headband/fur
+	name = "fur headband"
+	desc = "A rough thick fur headband, worn by the more rugged folk."
+	icon_state = "fur_headband"
+	item_state = "fur_headband"
+	body_parts_covered = HEAD|HAIR|EARS
+	salvage_result = /obj/item/natural/hide/cured

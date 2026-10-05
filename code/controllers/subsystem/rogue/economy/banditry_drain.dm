@@ -1,22 +1,25 @@
 /datum/controller/subsystem/economy/proc/preview_banditry_drain()
-	var/list/result = list("total" = 0, "lines" = list(), "debt" = SStreasury?.banditry_debt || 0, "by_region" = list(), "hoard_total" = 0)
-	var/pop = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
+	var/list/result = list("total" = 0, "lines" = list(), "debt" = SStreasury?.banditry_debt || 0, "by_region" = list(), "hoard_total" = 0, "skim_pct" = round(BANDITRY_DEBT_SKIM_RATE * 100))
+	// Respects simulated_player_scalar so admin testing can drive it, matching get_effective_player_count().
+	var/pop = (simulated_player_scalar > 0) ? simulated_player_scalar : get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
 		result["hoard_total"] += TR.banditry_hoard
 		var/level = TR.get_danger_level()
-		var/cost = 0
+		var/base_cost = 0
+		var/per_player = 0
 		switch(level)
 			if(DANGER_LEVEL_DANGEROUS)
-				cost = BANDITRY_DRAIN_DANGEROUS_FLAT + (BANDITRY_DRAIN_DANGEROUS_PER_PLAYER * pop)
+				base_cost = BANDITRY_DRAIN_DANGEROUS_FLAT
+				per_player = BANDITRY_DRAIN_DANGEROUS_PER_PLAYER
 			if(DANGER_LEVEL_BLEAK)
-				cost = BANDITRY_DRAIN_BLEAK_FLAT + (BANDITRY_DRAIN_BLEAK_PER_PLAYER * pop)
+				base_cost = BANDITRY_DRAIN_BLEAK_FLAT
+				per_player = BANDITRY_DRAIN_BLEAK_PER_PLAYER
+		var/cost = base_cost + (per_player * pop)
 		if(cost <= 0)
 			continue
-		var/base_cost = (level == DANGER_LEVEL_BLEAK) ? BANDITRY_DRAIN_BLEAK_FLAT : BANDITRY_DRAIN_DANGEROUS_FLAT
-		var/per_player = (level == DANGER_LEVEL_BLEAK) ? BANDITRY_DRAIN_BLEAK_PER_PLAYER : BANDITRY_DRAIN_DANGEROUS_PER_PLAYER
 		result["total"] += cost
 		result["by_region"][TR.region_name] = cost
-		result["lines"] += "[TR.region_name] ([level]) -[cost]m ([base_cost] base + [per_player]m/head x [pop])"
+		result["lines"] += "[TR.region_name] ([level]) -[cost]m ([base_cost]m base, plus [per_player]m per active person for [pop] active people)"
 	return result
 
 /datum/controller/subsystem/economy/proc/total_banditry_hoard()
@@ -37,7 +40,7 @@
 	var/burn_now = min(total_drain, burnable)
 	var/shortfall = total_drain - burn_now
 	if(burn_now > 0)
-		SStreasury.burn(SStreasury.discretionary_fund, burn_now, "Banditry losses (untended regions)")
+		SStreasury.burn(SStreasury.discretionary_fund, burn_now, "Brigand losses (untended regions)")
 		record_treasury_expense(TREASURY_FLOW_BANDITRY, "Crown", burn_now)
 		var/list/by_region = preview["by_region"]
 		var/remaining = burn_now

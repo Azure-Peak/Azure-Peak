@@ -2,7 +2,7 @@
 
 /obj/structure/roguemachine/vaultbank
 	name = "\improper JAWBANK"
-	desc = "A biomechanical obselisk that collects and secures the treasury of the Grand Duchy of Azuria. Throttle it with a strike to spill that which is rightfully yours."
+	desc = "A biomechanical obelisk that collects and secures the treasury of the Grand Duchy of Azuria. Throttle it with a strike to spill that which is rightfully yours."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "jawbank"
 	density = TRUE
@@ -247,7 +247,7 @@
 		var/turf/T = get_turf(src)
 		var/full_drain = F.balance
 		budget2change(full_drain, custom_turf = T)
-		SStreasury.burn(F, full_drain, "Vaultbank fully drilled")
+		SStreasury.burn(F, full_drain, "Jawbank fully drilled")
 		playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
 		shaker = FALSE
 		drilling = FALSE
@@ -283,7 +283,7 @@
 		anguish()
 		var/turf/T = get_turf(src)
 		budget2change(taken, custom_turf = T)
-		SStreasury.burn(F2, taken, "Vaultbank drill tick")
+		SStreasury.burn(F2, taken, "Jawbank drilled")
 		visible_message(span_danger("The Crown just drilled [taken] mammon out of [src]!"))
 		drilltime += 3 // Adjust this to increase or decrease how long it'll take to drill open.
 		drill(src)
@@ -292,7 +292,7 @@
 	. = ..()
 	var/datum/fund/F = get_linked_fund()
 	if(!F)
-		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
+		to_chat(user, span_warning("[src] isn't linked to a fund. Notify staff."))
 		return
 	if(istype(I, /obj/item/coveter))
 		var/mob/living/carbon/human/H = user
@@ -372,7 +372,7 @@
 	playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
 	var/turf/budget_turf = get_turf(src)
 	budget2change(extorted, custom_turf = budget_turf)
-	SStreasury.burn(F, extorted, "Vaultbank knock-loose")
+	SStreasury.burn(F, extorted, "Jawbank struck loose")
 	visible_message(span_danger("[src] coughed up [extorted] mammon!"))
 	playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
 	announce_robbery(extorted)
@@ -387,12 +387,12 @@
 			return
 		var/lumpsum = min(lump_payout, post_hit_bashable)
 		budget2change(lumpsum, custom_turf = budget_turf)
-		SStreasury.burn(F, lumpsum, "Vaultbank knock-loose lump-sum")
-		visible_message(span_notice("[src] just spat up a total of [lumpsum] mammon - <b>A lump sum!</b>"))
+		SStreasury.burn(F, lumpsum, "Jawbank struck loose (lump sum)")
+		visible_message(span_notice("[src] just spat up [lumpsum] mammon in <b>a lump sum!</b>"))
 		playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
 		anguish()
 		announce_robbery(lumpsum)
-		send_ooc_note("Someone knocked a lump-sum loose from [src] at [alert_location]!", job = alert_jobs)
+		send_ooc_note("Someone knocked a lump sum loose from [src] at [alert_location]!", job = alert_jobs)
 
 	update_icon()
 	return ..()
@@ -402,13 +402,13 @@
 	var/datum/fund/F = get_linked_fund()
 	if(F)
 		if(Adjacent(user))
-			. += span_notice("[F.name] currently sits at: [F.balance] mammon.")
+			. += span_notice("[F.name] holds [F.balance] mammon.")
 		else
 			. += span_notice("[F.name]'s balance is sealed from afar. Step closer to count the coin.")
 	else
-		. += span_warning("This jawbank is unbound to any treasury. Notify staff.")
-	. += span_info("The Jawbank is not interactable with directly, and only serves as a physical anchor for institutional funds. To withdraw your funds or use them, use a Meister and the Institutional tab instead.")
-	. += span_info("Strike it with any weapon to throttle coins loose - heavier strikes are louder and more reliable. When coin spills, people nearby and on other Z-level will hear the commotion.")
+		. += span_warning("This jawbank isn't linked to a fund. Notify staff.")
+	. += span_info("You can't use the Jawbank directly. It holds an institution's fund. To withdraw or lend from it, use the Institutional tab at a Meister.")
+	. += span_info("Strike it with any weapon to throttle coins loose. Heavier strikes are louder and more reliable. When coin spills, people nearby and on the floors above and below will hear it.")
 
 
 /obj/structure/roguemachine/vaultbank/proc/get_authority_label()
@@ -475,7 +475,7 @@
 		return
 	var/obj/item/patronage_writ/W = new writ_path(get_turf(user))
 	if(length(roster) >= W.roster_cap)
-		to_chat(user, span_warning("[get_patron_label()]'s roll is full - strike a name first."))
+		to_chat(user, span_warning("[get_patron_label()]'s roll is full. Revoke a patron first."))
 		qdel(W)
 		return
 	W.issuer_name = user.real_name
@@ -484,9 +484,9 @@
 	COOLDOWN_START(src, patronage_writ_cooldown, PATRONAGE_WRIT_COOLDOWN)
 	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	if(user.put_in_hands(W))
-		to_chat(user, span_notice("A [W.name], signed in your name, slips into my hand."))
+		to_chat(user, span_notice("A [W.name], signed in my name, slips into my hand."))
 	else
-		to_chat(user, span_notice("A [W.name], signed in your name, materialises at my feet."))
+		to_chat(user, span_notice("A [W.name], signed in my name, materialises at my feet."))
 	log_admin("PATRONAGE WRIT: [key_name(user)] drafted [W.name].")
 
 /obj/structure/roguemachine/vaultbank/proc/revoke_patron(mob/living/carbon/human/user, list/params)
@@ -517,7 +517,7 @@
 	log_admin("PATRONAGE REVOKED: [key_name(user)] revoked [key_name(target)] from [get_patron_label()].")
 
 /obj/structure/roguemachine/vaultbank/church/get_withdraw_rule_text()
-	return "The Church mandates that loans is to be given to the poor, downtrodden, and malumites. [CHURCH_RESERVE_FLOOR]m must remain reserved for charity, less the principal currently in circulation."
+	return "The Church mandates that loans go to the poor, the downtrodden, and malumites. Money out on loan counts toward the [CHURCH_RESERVE_FLOOR]m that must stay in reserve for charity."
 
 
 /obj/structure/roguemachine/vaultbank/proc/disburse(mob/living/carbon/human/user, list/params)
@@ -525,39 +525,39 @@
 		return
 	var/datum/fund/F = get_linked_fund()
 	if(!F)
-		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
+		to_chat(user, span_warning("[src] isn't linked to a fund. Notify staff."))
 		return
 	var/amount = round(text2num("[params["amount"]]"))
 	if(isnull(amount) || amount <= 0)
 		to_chat(user, span_warning("Name a positive sum."))
 		return
 	if(!can_withdraw(user, amount))
-		to_chat(user, span_warning("[F.name] withholds that sum."))
+		to_chat(user, span_warning("You can't withdraw that much from [F.name]."))
 		return
 	if(F.balance < amount)
-		to_chat(user, span_warning("[F.name] cannot honor a withdrawal of [amount]m."))
+		to_chat(user, span_warning("[F.name] doesn't hold [amount]m."))
 		return
 	if(!SStreasury.burn(F, amount, "MEISTER withdrawal by [user.real_name]"))
 		return
 	budget2change(amount, user)
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	say("[amount]m drawn by [user.real_name].")
+	say("[amount]m withdrawn by [user.real_name].")
 	log_admin("WITHDRAW: [key_name(user)] drew [amount]m from [F.name].")
 
 /obj/structure/roguemachine/vaultbank/proc/draft_personal_loan(mob/living/carbon/human/user, list/params)
 	if(!istype(user))
 		return
 	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
-		say("No new loans may be drawn after day [SStreasury.loan_max_issuance_day].")
+		say("No new loans can be issued after day [SStreasury.loan_max_issuance_day].")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	var/datum/fund/F = get_linked_fund()
 	if(!F)
-		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. File a bug report."))
+		to_chat(user, span_warning("[src] isn't linked to a fund. Notify staff."))
 		return
 	var/amount = round(text2num("[params["amount"]]"))
 	if(isnull(amount) || amount < 50 || amount > 500)
-		to_chat(user, span_warning("A personal loan must name between 50 and 500 mammon."))
+		to_chat(user, span_warning("A personal loan must be between 50 and 500 mammon."))
 		return
 	var/term = round(text2num("[params["term"]]"))
 	if(!(term in list(1, 2, 3)))
@@ -584,32 +584,32 @@
 	QDEL_IN(contract, 2 MINUTES)
 	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	if(user.put_in_hands(contract))
-		to_chat(user, span_notice("A loan writ for [amount]m, signed in your name, slips into my hand."))
+		to_chat(user, span_notice("A loan writ for [amount]m, signed in my name, slips into my hand."))
 	else
-		to_chat(user, span_notice("A loan writ for [amount]m, signed in your name, materialises at my feet."))
+		to_chat(user, span_notice("A loan writ for [amount]m, signed in my name, materialises at my feet."))
 	log_admin("LOAN (personal): [key_name(user)] drafted [amount]m over [term]d at [rate_pct]%/day from [F.name].")
 
 /obj/structure/roguemachine/vaultbank/proc/draft_indenture(mob/living/carbon/human/user, list/params)
 	if(!istype(user))
 		return
 	if(GLOB.dayspassed > SStreasury.loan_max_issuance_day)
-		say("No new indentures may be drawn after day [SStreasury.loan_max_issuance_day].")
+		say("No new indentures can be issued after day [SStreasury.loan_max_issuance_day].")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	var/datum/fund/F = get_linked_fund()
 	if(!F)
-		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
+		to_chat(user, span_warning("[src] isn't linked to a fund. Notify staff."))
 		return
 	var/target_id = "[params["target"]]"
 	if(!(target_id in ALL_FUND_IDS))
 		to_chat(user, span_warning("Choose a valid target institution."))
 		return
 	if(target_id == get_fund_id())
-		to_chat(user, span_warning("An indenture cannot be drawn between an institution and itself."))
+		to_chat(user, span_warning("An institution can't take an indenture from itself."))
 		return
 	var/datum/fund/target_fund = SStreasury.resolve_fund_by_id(target_id)
 	if(!target_fund)
-		to_chat(user, span_warning("The target institution has no recognised coffers."))
+		to_chat(user, span_warning("The target institution has no fund."))
 		return
 	var/obj/structure/roguemachine/vaultbank/target_jawbank = SStreasury.find_jawbank_for_fund_id(target_id)
 	if(target_jawbank && !target_jawbank.supports_loans)
@@ -617,7 +617,7 @@
 		return
 	var/amount = round(text2num("[params["amount"]]"))
 	if(isnull(amount) || amount < 501 || amount > 2000)
-		to_chat(user, span_warning("An indenture must name between 501 and 2000 mammon."))
+		to_chat(user, span_warning("An indenture must be between 501 and 2000 mammon."))
 		return
 	var/term = round(text2num("[params["term"]]"))
 	if(!(term in list(1, 2, 3)))
@@ -645,14 +645,14 @@
 	QDEL_IN(contract, 2 MINUTES)
 	playsound(get_turf(user), 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	if(user.put_in_hands(contract))
-		to_chat(user, span_notice("An indenture for [amount]m to [target_fund.name], signed in your name, slips into my hand."))
+		to_chat(user, span_notice("An indenture for [amount]m to [target_fund.name], signed in my name, slips into my hand."))
 	else
-		to_chat(user, span_notice("An indenture for [amount]m to [target_fund.name], signed in your name, materialises at my feet."))
+		to_chat(user, span_notice("An indenture for [amount]m to [target_fund.name], signed in my name, materialises at my feet."))
 	log_admin("INDENTURE WRIT: [key_name(user)] drafted [amount]m from [F.name] to [target_fund.name] over [term]d at [rate_pct]%/day.")
 
 /obj/structure/roguemachine/vaultbank/church
 	name = "\improper CHURCH JAWBANK"
-	desc = "A biomechanical obselisk that holds the alms and tithe of Ten's faithful. Throttle it with a strike to spill that which is rightfully yours."
+	desc = "A biomechanical obelisk that holds the alms and tithe of the Ten's faithful. Throttle it with a strike to spill that which is rightfully yours."
 	alert_jobs = list("Bishop", "Martyr", "Acolyte")
 	alert_location = "the Church"
 	bash_floor = 500
@@ -688,7 +688,7 @@
 	return PATRON_CAP_CHURCH
 
 /obj/structure/roguemachine/vaultbank/church/get_patron_explanation()
-	return "Granting a person the status of Benefactor of the Church places them under the Clergy's roll for the Crown's taxmen, which in most circumstances means complete immunity. They are likewise permitted to read the names of those who owe debt to the Church. - Ser Yohan d'Azur"
+	return "Granting a person the status of Benefactor of the Church places them under the Clergy's roll for the Crown's taxmen. In most circumstances that means complete immunity. They are likewise permitted to read the names of those who owe debt to the Church. - Ser Yohan d'Azur"
 
 /obj/structure/roguemachine/vaultbank/church/can_withdraw(mob/user, amount)
 	if(!can_issue_loan(user))
@@ -707,7 +707,7 @@
 
 /obj/structure/roguemachine/vaultbank/merchant
 	name = "\improper MERCHANT JAWBANK"
-	desc = "A biomechanical obselisk that secures the coffers of the Azurian Trading Company. Throttle it with a strike to spill that which is rightfully yours."
+	desc = "A biomechanical obelisk that secures the coffers of the ATC. Throttle it with a strike to spill that which is rightfully yours."
 	alert_jobs = list("Merchant", "Shophand")
 	alert_location = "the Merchant's quarter"
 	bash_floor = 500
@@ -717,7 +717,7 @@
 	return "merchant"
 
 /obj/structure/roguemachine/vaultbank/merchant/get_faction_label()
-	return "the Azurian Trading Company"
+	return "the ATC"
 
 /obj/structure/roguemachine/vaultbank/merchant/can_issue_loan(mob/user)
 	if(!user)
@@ -734,20 +734,20 @@
 	return SStreasury?.merchant_agents
 
 /obj/structure/roguemachine/vaultbank/merchant/get_patron_label()
-	return "the Azurian Trading Company"
+	return "the ATC"
 
 /obj/structure/roguemachine/vaultbank/merchant/get_patron_cap()
 	return PATRON_CAP_MERCHANT
 
 /obj/structure/roguemachine/vaultbank/merchant/get_patron_explanation()
-	return "Granting a person the status of Agent of the Azurian Trading Company confers Burgher standing upon them, lowering their tax class and shielding them from the worst abuses of the Crown's taxmen. They may also read the names of those who owe debt to the Company. It enables them to call upon their kins from their realms for benefits, and hail ships and manage purchase on your behalf. Go forth, in Malum's name, and let them collect what is rightfully owed. - Ser Yohan d'Azur"
+	return "Granting a person the status of Agent of the ATC confers Burgher standing upon them. It lowers their tax class and shields them from the worst abuses of the Crown's taxmen. They may also read the names of those who owe debt to the ATC. It enables them to call upon their kin in their home realms for benefits. They can also hail ships and manage purchases on your behalf. Go forth, in Malum's name, and let them collect what is rightfully owed. - Ser Yohan d'Azur"
 
 /obj/structure/roguemachine/vaultbank/merchant/enforce_placement()
 	return
 
 /obj/structure/roguemachine/vaultbank/bathhouse
 	name = "\improper BATHHOUSE JAWBANK"
-	desc = "A biomechanical obselisk that secures the takings of the Azurian Bathhouse. Throttle it with a strike to spill that which is rightfully yours."
+	desc = "A biomechanical obelisk that secures the takings of the Azurian Bathhouse. Throttle it with a strike to spill that which is rightfully yours."
 	alert_jobs = list("Bathmaster", "Bathhouse Attendant")
 	alert_location = "the Bathhouse"
 	bash_floor = 500
@@ -857,14 +857,14 @@
 	return PATRON_CAP_BATHHOUSE
 
 /obj/structure/roguemachine/vaultbank/bathhouse/get_patron_explanation()
-	return "Granting a person the status of Agent of the Bathhouse permits them passage through the secret tunnel, by way of vigorous stretching and suppleness supplementation. The smugglers of the northeastern coast will likewise know them by name and offer better prices for their goods. They may also see who owes debt to the Bathhouse.\n\nYou may be tempted to extend this status to the wretched and the outlawed. It is a powerful option, and will indebt them to you as they sell off their disorderly gains for no small sum of mammons - but should they ever be spotted bearing the mark of the Bathhouse, Church and Crown alike may condemn you for collaborating with them. A lawed intermediary is, as a rule, the safer option. - Ser Yohan d'Azur"
+	return "Granting a person the status of Agent of the Bathhouse permits them passage through the secret tunnel, by way of vigorous stretching and suppleness supplementation. The smugglers of the northeastern coast will likewise know them by name and offer better prices for their goods. They may also see who owes debt to the Bathhouse.\n\nYou may be tempted to extend this status to the wretched and the outlawed. It is a powerful option. It will indebt them to you as they sell off their disorderly gains for no small sum of mammon. Should they ever be spotted bearing the mark of the Bathhouse, Church and Crown alike may condemn you for collaborating with them. A lawed intermediary is, as a rule, the safer option. - Ser Yohan d'Azur"
 
 /obj/structure/roguemachine/vaultbank/bathhouse/enforce_placement()
 	return
 
 /obj/structure/roguemachine/vaultbank/innkeeper
 	name = "\improper TAVERN JAWBANK"
-	desc = "A biomechanical obselisk that hoards the tavern's takings - rumor fees, guild cuts, and whatever else the Innkeeper has earned. Throttle it with a strike to spill that which is rightfully yours."
+	desc = "A biomechanical obelisk that hoards the tavern's takings - rumor fees, guild cuts, and whatever else the Innkeeper has earned. Throttle it with a strike to spill that which is rightfully yours."
 	alert_jobs = list("Innkeeper", "Tapster", "Cook")
 	alert_location = "the Tavern"
 	bash_floor = INNKEEPER_BASH_FLOOR

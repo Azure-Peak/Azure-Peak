@@ -18,6 +18,14 @@
 	name = "Gift - Azurosa Flower"
 	path = /obj/item/alch/rosa/azure
 
+/datum/loadout_item/donator/universal/ilamellar
+	name = "Gift - Iron Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
+
+/datum/loadout_item/donator/universal/blamellar
+	name = "Gift - Bronze Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
+
 /datum/loadout_item/donator/universal/azurosa_seeds
 	name = "Gift - Azurosa Flower, Seeds"
 	path = /obj/item/storage/belt/rogue/pouch/azurosa_seeds
@@ -121,6 +129,10 @@
 /datum/loadout_item/donator/universal/armor_gothic_psydonic
 	name = "Gift - Kit, Gothic Psydonic Cuirass"
 	path = /obj/item/enchantingkit/gothicpsydoniccuirass
+
+/datum/loadout_item/donator/universal/armor_gothic_sallet
+	name = "Gift - Kit, Gothic Sallet"
+	path = /obj/item/enchantingkit/gothicsallet
 
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
@@ -1319,3 +1331,8 @@
 	name = "Donator Gift - Scarlet Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
 	ckeywhitelist = list("thedragmeme")
+
+/datum/loadout_item/donator/lief_ring
+	name = "Donator Item - Blortz Incrusted Blacksteel Ring"
+	path = /obj/item/clothing/ring/lief_ring
+	ckeywhitelist = list("linxsysart", "pessime959")

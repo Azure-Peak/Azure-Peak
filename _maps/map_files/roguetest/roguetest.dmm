@@ -223,10 +223,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors)
-"gt" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/beach/forest/north)
 "gP" = (
 /obj/structure/table/cooling,
 /obj/item/storage/roguebag,
@@ -235,10 +231,6 @@
 "hh" = (
 /turf/closed/mineral/random/rogue,
 /area/rogue/outdoors/rtfield)
-"hl" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/beach/forest/north)
 "hq" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/magician)
@@ -406,10 +398,6 @@
 /obj/item/roguemachine/mastermail,
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/manor)
-"lx" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/fiend,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/rtfield)
 "ly" = (
 /obj/item/roguemachine/navigator/private,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -1220,18 +1208,10 @@
 /obj/item/clothing/suit/roguetown/armor/leather,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors)
-"DZ" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/imp,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/bog/north)
 "Ef" = (
 /obj/item/storage/roguebag,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors)
-"El" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/woods/north)
 "Eu" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave)
@@ -1680,10 +1660,6 @@
 "Rk" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/rtfield)
-"Rq" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/infernal/watcher,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/woods/north)
 "Rz" = (
 /obj/machinery/tanningrack,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -2470,7 +2446,7 @@ Rk
 Rk
 Rk
 Rk
-lx
+Rk
 Lg
 Lg
 Lg
@@ -3142,7 +3118,7 @@ rm
 wX
 wX
 wX
-El
+wX
 wX
 wX
 wX
@@ -3244,7 +3220,7 @@ wX
 wX
 MX
 wX
-Rq
+wX
 MX
 rt
 rt
@@ -3824,7 +3800,7 @@ fo
 Dp
 cQ
 cQ
-gt
+cQ
 cQ
 cQ
 cQ
@@ -3874,7 +3850,7 @@ Ln
 Ln
 Ln
 Ln
-gt
+cQ
 cQ
 cQ
 cQ
@@ -4081,9 +4057,9 @@ Ln
 Ln
 Ln
 fo
-DZ
+Ln
 cQ
-hl
+cQ
 cQ
 cQ
 cQ

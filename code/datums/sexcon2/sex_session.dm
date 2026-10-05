@@ -199,9 +199,9 @@
 	var/datum/species/dullahan/E = user.dna?.species
 	if(E && istype(E) && E.headless && (target.Adjacent(E.my_head) || target.is_holding(E.my_head)))
 		rev_exemption = TRUE
-		if(target.is_holding(D.my_head))
+		if(target.is_holding(E.my_head))
 			held_exemption = TRUE
-		if(get_turf(D.my_head) == get_turf(target))
+		if(get_turf(E.my_head) == get_turf(target))
 			sametile_exemption = TRUE
 	if(D && E && istype(D) && istype(E) && D.headless && E.headless && (D.my_head.Adjacent(E.my_head))) // so they can make out
 		rev_exemption = TRUE

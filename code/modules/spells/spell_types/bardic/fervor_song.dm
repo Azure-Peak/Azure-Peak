@@ -19,7 +19,7 @@
 
 /datum/status_effect/buff/song/fervor
 	var/outline_colour = "#f58e2d"
-	id = "fervor"
+	id = "fervor_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/fervor
 	duration = 15 SECONDS
 	effectedstats = list(STATKEY_PER = 2)

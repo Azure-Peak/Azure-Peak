@@ -1336,6 +1336,11 @@
 /obj/item/clothing/cloak/stole/purple
 	icon_state = "stole_purple"
 
+/obj/item/clothing/cloak/stole/bishop
+	name = "bishop's stole"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "stole_bishop"
+
 /obj/item/clothing/cloak/black_cloak
 	name = "fur overcoat"
 	desc = "A very thick, baggy set of robes trimmed with fur, meant to be worn over one's clothing."
@@ -1497,7 +1502,6 @@
 	nodismemsleeves = TRUE
 	inhand_mod = FALSE
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
-	flags_inv = HIDECROTCH|HIDEBOOB
 	salvage_result = /obj/item/natural/hide/cured
 	salvage_amount = 1
 

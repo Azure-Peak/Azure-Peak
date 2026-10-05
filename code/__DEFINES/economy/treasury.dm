@@ -1,4 +1,10 @@
-#define RURAL_TAX 200 // Cut to 200 to make economy not too easy.
+// Rural Subsidy: lowpop safety net. Full BASE with 0 active producers, tapering to FLOOR once
+// REFERENCE_PRODUCERS worth of producer jobs (GLOB.producer_positions) are filled and active -
+// scaling off producer headcount rather than raw pop so it doesn't undercut Steward relevance
+// just because a round happens to be crowded with non-producer roles.
+#define RURAL_SUBSIDY_BASE 200
+#define RURAL_SUBSIDY_FLOOR 100
+#define RURAL_SUBSIDY_REFERENCE_PRODUCERS 6
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
 #define HERMES_FREE_COOLDOWN (5 MINUTES)
@@ -10,6 +16,8 @@
 #define ESCROW_OPEN_EXPIRY_DAYS 3
 #define ESCROW_CLAIM_EXPIRY_DAYS 1
 #define ESCROW_PARTIAL_HAIRCUT_PERCENT 20
+#define ESCROW_PERCENT_MARGIN_MAX 500
+#define ESCROW_NOTE_MAX_LENGTH 200
 #define ESCROW_DURABILITY_FLOOR 0.8
 
 #define SCRAPPER_BARK_INTERVAL (60 SECONDS)
