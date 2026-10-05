@@ -728,6 +728,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		ADMIN_PUNISHMENT_PSYDON,
 		ADMIN_PUNISHMENT_DIVINE_WRATH,
 		ADMIN_PUNISHMENT_CHANDELIER,
+		ADMIN_PUNISHMENT_ANNOYING_VOICE,
 	)
 
 	var/punishment = input(usr, "Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
@@ -860,6 +861,13 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			playsound(get_turf(humie), 'sound/combat/hits/blunt/frying_pan(4).ogg', 100, FALSE)
 			affecting.add_wound(/datum/wound/fracture/head)
 			humie.visible_message(span_userdanger("There is a sickening CRUNCH as a chandelier crashes down onto [humie]!"))
+		if(ADMIN_PUNISHMENT_ANNOYING_VOICE)
+			if(!ishuman(target))
+				to_chat(usr,span_warning("Target must be human!"))
+				return
+			var/mob/living/carbon/human/humie = target
+			humie.reagents.add_reagent(/datum/reagent/medicine/trait/negative/funnyvoice, 2000)
+			message_admins("[humie] has been given an annoying voice through 2000 units of funnyvoice serum.")
 	punish_log(target, punishment)
 
 /client/proc/punish_log(whom, punishment)

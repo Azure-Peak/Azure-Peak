@@ -103,23 +103,10 @@
 		/datum/supply_pack/rogue/alcohol/stonebeard,
 	)
 	hail_lines = list(
-		"Hail, factor. Copper from the Mountainhomes, stone from the Bán. Bring grain, bring cloth, bring cheese - or do not waste my tide.",
-		"Six months out from Norwardine. Six months, factor. Spare me your haggling and I will spare you my temper.",
-		"You would not believe what the Grenzel collectors charge on the Eisenhafen river-locks now. Highway robbery, if rivers had highways. We rounded the cape instead - it was cheaper, and that is no exaggeration.",
-		"Either the long route around the continent, or the Grenzelhoftian river tolls. Both are worse than they used to be. I picked the one without their priests at every chain.",
-		"My salt is two months past brined. My crew is three weeks past patient. Trade kindly.",
-		"We slipped a Grenzel patrol off the Eisenhafen banks two weeks past. The Imperate calls us robber-lords; here we will call ourselves traders. Let your magistrate do the same.",
-		"The hammers of Quicksilver Hold sound from this voyage's keel - hold and humen, working as one. Treat her gently at the pier.",
-		"I am told your tariff men weigh light and tax heavy. We shall see.",
-		"My helmsman is a thane's heir-apparent, finishing his yil and his ten raids before he may inherit. Do not provoke him - the Atgervi do not start fights, but they do finish them.",
-		"By PSYDON who slumbers and stirs, the wind held all the way past the Otavan capes. I will pay my chaplain a bonus and you will pay a fair price. Let it be a good day.",
-		"I bear word from a Greycoat warden of the Granite Fort: the dwarf-kings honor the old pact, the underdeep is quiet this season. Trade with us as Harlond traded with them.",
-		"Look at the gilbranze fittings of my hold and tell me my craftsmen lie. Norwardine guild work, every plate. Worth the long crossing to bring them south.",
-		"My grandfather sailed this run before the harbor was dredged. He lost two teeth to your magistrate. I have come for the rest of his coin.",
-		"A pilgrim of the Bán rides with us. He has not spoken since Walnut Grove. The forest there has a way with quiet men - do not ask after him.",
-		"There is a tale on the Mountainhomes road - a man in Ravoxian plate, fighting alone, walking out of his own grave. The crew thinks it nonsense. I am less certain. Pay quickly and let me sail before I must think on it longer.",
-		"Three of my deckhands are bull-marked beneath the eyes - pardoned in the Hearth's tradition. They lift cargo, not coin. Mind your stevedores.",
-		"My factor at Norwardine warned me the southern markets had soured. I came anyway. Let us see who was right.",
-		"My ship carries an old Atgervi veteran, his last voyage before the abbey takes his sword. For three zennies he will sit with you and tell the true account of the Brazen Bull, the Greycoat war, and the night the gates of Granite Fort first opened to humen. He drinks more than he eats. Pay him and listen well - in Norwardine the songs live in the men who sing them, and there are not many old men left who remember the early daes.",
-		"Factor! Give me the biggest barrel of sturgeon and caviar I have ever seen! I shall trade the finest armor of gilbranze and steel! True dwarven crafts from Hammerhold. It will even take three siegebolts to the chest for your trouble. It is marked and proofed, you can even see the dent and a seal of the craftsman on the inside. And for your troubles, I shall give you four bottles of our finest voddena and ingots. My Hold hungers for the finest southern delicacies. Please deliver them unto me with haste. I'd like a taste before we set sail."
+		"Finest arms, armor, and dwarven crafts from Hammerhold! Second to none!",
+		"Have you a taste for caviar or sturgeon? I have brought some live one to sell to the nobles of your land",
+		"The damned Grenzelhoftian has been charging me a quarter of my cargo in toll for the last yil. So I rounded the cape. Took me six months, but at least I will make a profit. Now, please, do not waste my time.",
+		"I brought along three Atgervi whom have served their time north and wishes to adventure here. Know of any employers? I hear Azuria is full of strife and opportunities.",
+		"Voddena! Voddena! Best Voddena in the world! Pure water from the mountains of Hammerhold! I even have one flavored with fruits, if you have stranger tastes!",
+		"One of your templar had me terrified when he walked near me on the pier. He was clad in full Ravoxian plate, and moved with unusual speed. I thought he was the notorious Brazen Bull, but I looked behind him, and saw a catte's tail, and I remembered there are not many catte half-kin in Hammerhold. Phew."
 	)

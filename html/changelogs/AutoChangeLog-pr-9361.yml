@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - admin: "Ported \"Set Persistent Admin Notice\" which allows any admin w/ access to set a persistent notice that persists across rounds, currently in the MOTD font"

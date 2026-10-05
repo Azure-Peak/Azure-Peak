@@ -1276,3 +1276,22 @@
 	)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 6
+
+/datum/crafting_recipe/roguetown/engineering/bbomb_expert
+	name = "bottle bomb (jury rig)"
+	category = "Explosives"
+	required_trait = TRAIT_BOMBER_EXPERT
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/bomb)
+	reqs = list(/obj/item/natural/dirtclod = 6, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/engineering/impactexplosive_expert
+	name = "impact grenades (jury rig)"
+	category = "Explosives"
+	required_trait = TRAIT_BOMBER_EXPERT
+	display_category = ITEM_CAT_ENG_COMBAT
+	result = list(/obj/item/impact_grenade/explosion)
+	reqs = list(/obj/item/scrap = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/natural/fibers = 3)
+	skillcraft = /datum/skill/craft/engineering
+	craftdiff = 4

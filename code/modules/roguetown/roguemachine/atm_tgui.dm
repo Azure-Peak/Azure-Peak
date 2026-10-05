@@ -167,6 +167,7 @@
 	data["bathhouse_tithe_round_total"] = SStreasury.round_bathhouse_tithe_total
 	var/bh_cooldown_left_ds = max(0, SStreasury.bathhouse_ordinance_next_toggle_time - world.time)
 	data["bathhouse_ordinance_cooldown_seconds"] = round(bh_cooldown_left_ds / 10)
+	data["bathhouse_ordinance_cooldown_minutes"] = BATHHOUSE_ORDINANCE_TOGGLE_COOLDOWN / (1 MINUTES)
 
 	var/list/patron_rosters = list()
 	if(has_any_patronage_authority)
@@ -241,7 +242,7 @@
 	if(!istype(H))
 		return
 	if(H.job != "Bishop" && H.job != "Bathmaster")
-		to_chat(H, span_warning("Only the Bishop or the Bathmaster may set the terms of the Ordinance of the Baths."))
+		to_chat(H, span_warning("Only the Bishop or the Bathmaster can break or restore the Ordinance of the Baths."))
 		return
 	if(world.time < SStreasury.bathhouse_ordinance_next_toggle_time)
 		var/remaining_minutes = CEILING((SStreasury.bathhouse_ordinance_next_toggle_time - world.time) / (1 MINUTES), 1)
@@ -286,7 +287,7 @@
 	var/total = coin_amt * mod
 	if(SStreasury.get_balance(H) < total)
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		to_chat(H, span_warning("Your balance is insufficient."))
+		to_chat(H, span_warning("You don't have enough in your account."))
 		return
 	if(!SStreasury.withdraw_money_account(total, H))
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
@@ -313,7 +314,7 @@
 	var/paid = SStreasury.repay_loan(H, pay_amt)
 	if(!paid)
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		say("The ledger refused the transfer.")
+		say("The transfer failed.")
 		return
 	playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 	if(!SStreasury.get_loan_for(H))
@@ -328,7 +329,7 @@
 		say("The Crown does not tax your class.")
 		return
 	if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
-		say("Your class is exempt from poll tax by decree.")
+		say("A Charter exempts your class from the poll tax.")
 		return
 	var/days = round(text2num("[params["days"]]"))
 	if(isnull(days) || days < 1)
@@ -338,13 +339,13 @@
 		eff_rate = POLL_TAX_ADVANCE_FALLBACK_RATE
 	var/balance = SStreasury.get_balance(H)
 	if(balance <= 0)
-		say("Your balance is nothing.")
+		say("Your account is empty.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	var/existing = SStreasury.poll_tax_advance_days[H] || 0
 	var/cap_remaining = POLL_TAX_MAX_ADVANCE_DAYS - existing
 	if(cap_remaining <= 0)
-		say("You already hold the maximum [POLL_TAX_MAX_ADVANCE_DAYS] days of advance.")
+		say("You can't pay more than [POLL_TAX_MAX_ADVANCE_DAYS] days of poll tax ahead.")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	var/affordable = floor(balance / eff_rate)
@@ -355,16 +356,16 @@
 		return
 	if(!SStreasury.poll_tax_pay_advance(H, days))
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		say("The ledger refused the advance.")
+		say("The payment failed.")
 		return
 	playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-	say("[days] day\s of poll tax advanced for [H.real_name].")
+	say("[days] day\s of poll tax paid ahead for [H.real_name].")
 
 /obj/structure/roguemachine/atm/proc/handle_withdraw_institutional(mob/living/carbon/human/H, list/params)
 	var/fund_id = "[params["fund_id"]]"
 	var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fund_id)
 	if(!V)
-		to_chat(H, span_warning("That institution has no coffers to draw from."))
+		to_chat(H, span_warning("That institution has no fund to draw from."))
 		return
 	if(!V.can_withdraw(H))
 		to_chat(H, span_warning("You are not authorised to withdraw from [V.get_patron_label() || V.get_faction_label()]."))
@@ -375,7 +376,7 @@
 	var/fund_id = "[params["fund_id"]]"
 	var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fund_id)
 	if(!V)
-		to_chat(H, span_warning("That institution has no coffers to lend from."))
+		to_chat(H, span_warning("That institution has no fund to lend from."))
 		return
 	if(!V.can_issue_loan(H))
 		to_chat(H, span_warning("You are not authorised to draft loans for [V.get_faction_label()]."))
@@ -386,7 +387,7 @@
 	var/fund_id = "[params["fund_id"]]"
 	var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fund_id)
 	if(!V)
-		to_chat(H, span_warning("That institution has no coffers to lend from."))
+		to_chat(H, span_warning("That institution has no fund to lend from."))
 		return
 	if(!V.can_issue_loan(H))
 		to_chat(H, span_warning("You are not authorised to draft indentures for [V.get_faction_label()]."))

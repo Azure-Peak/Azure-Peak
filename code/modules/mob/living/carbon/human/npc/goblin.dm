@@ -188,9 +188,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	id = "goblin"
 	species_traits = list(NO_UNDERWEAR,NOEYESPRITES)
 	inherent_traits = list(TRAIT_RESISTCOLD,
-		TRAIT_RESISTHIGHPRESSURE,
-		TRAIT_RESISTLOWPRESSURE,
-		TRAIT_RADIMMUNE,
 		TRAIT_CRITICAL_WEAKNESS,
 		TRAIT_NASTY_EATER,
 		TRAIT_LEECHIMMUNE) // For goblin armor
@@ -302,7 +299,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 		QDEL_NULL(eyes)
 	eyes = new /obj/item/organ/eyes/night_vision/wild_goblin
 	eyes.Insert(src)
-	src.underwear = "Nude"
 	for(var/datum/charflaw/cf in charflaws)
 		charflaws.Remove(cf)
 		QDEL_NULL(cf)

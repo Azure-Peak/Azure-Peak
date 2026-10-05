@@ -34,6 +34,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		ITEM_CAT_VALUABLES_HOLY = MARKUP_VALUABLES_HOLY,
 		ITEM_CAT_DECORATION = MARKUP_DECORATION,
 		ITEM_CAT_POTTERY = MARKUP_POTTERY,
+		ITEM_CAT_CARVED = MARKUP_CARVED,
 		ITEM_CAT_COMPONENTS = MARKUP_COMPONENTS,
 		ITEM_CAT_SMITHING_MISC = MARKUP_SMITHING_MISC,
 		ITEM_CAT_ENG_MACHINERY = MARKUP_ENG_MACHINERY,
@@ -43,7 +44,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		ITEM_CAT_ENG_MISC = MARKUP_ENG_MISC,
 		ITEM_CAT_GARMENT_COMMON = MARKUP_GARMENT_COMMON,
 		ITEM_CAT_GARMENT_FINE = MARKUP_GARMENT_FINE,
-		ITEM_CAT_TAILOR_MISC = MARKUP_GARMENT_COMMON,
+		ITEM_CAT_TAILOR_MISC = MARKUP_TAILOR_MISC,
 		ITEM_CAT_CLOTH_MASK = MARKUP_GARMENT_COMMON,
 		ITEM_CAT_FOODSTUFF_FRESH = MARKUP_FOODSTUFF_FRESH,
 		ITEM_CAT_FOODSTUFF_PRESERVED = MARKUP_FOODSTUFF_PRESERVED,
@@ -77,7 +78,6 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = SELLPRICE_BRONZE_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/gold] = SELLPRICE_GOLD_INGOT
 	GLOB.material_baseline_prices[/obj/item/ingot/silver] = SELLPRICE_SILVER_INGOT
-	GLOB.material_baseline_prices[/obj/item/ingot/bronze] = round(SELLPRICE_COPPER_INGOT * INGOT_BRONZE_FROM_COPPER + SELLPRICE_TIN_INGOT * INGOT_BRONZE_FROM_TIN)
 	GLOB.material_baseline_prices[/obj/item/ingot/silverblessed] = round(SELLPRICE_SILVER_INGOT * INGOT_SILVERBLESSED_MULT)
 	GLOB.material_baseline_prices[/obj/item/ingot/silverblessed/bullion] = round(SELLPRICE_SILVER_INGOT * INGOT_SILVERBLESSED_MULT)
 	GLOB.material_baseline_prices[/obj/item/ingot/steelholy] = round(SELLPRICE_STEEL_INGOT * INGOT_STEELHOLY_MULT)
@@ -90,7 +90,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	GLOB.material_baseline_prices[/obj/item/grown/log/tree/stick] = 1
 	GLOB.material_baseline_prices[/obj/item/natural/wood/plank] = round(SELLPRICE_WOOD * MATERIAL_PLANK_FROM_WOOD)
 	GLOB.material_baseline_prices[/obj/item/natural/glass] = SELLPRICE_GLASS_BATCH
-	GLOB.material_baseline_prices[/obj/item/roguegear] = round(SELLPRICE_STEEL_INGOT * MATERIAL_ROGUEGEAR_FROM_STEEL)
+	GLOB.material_baseline_prices[/obj/item/roguegear] = round(SELLPRICE_BRONZE_INGOT * MATERIAL_ROGUEGEAR_FROM_BRONZE)
 	GLOB.material_baseline_prices[/obj/item/reagent_containers/food/snacks/pepper] = 4
 	GLOB.material_baseline_prices[/obj/item/reagent_containers/food/snacks/pumpkinspice] = 4
 	GLOB.material_baseline_prices[/obj/item/reagent_containers/food/snacks/sugar] = 3

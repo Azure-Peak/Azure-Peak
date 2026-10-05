@@ -71,6 +71,9 @@ type ContractLedgerData = {
   active_max_base: number;
   active_fellowship_bonus: number;
   townie_gate_remaining: number;
+  townie_gate_minutes: number;
+  fellowship_bonus_pair: number;
+  fellowship_bonus_band: number;
   townie_contract_gate_exempt_jobs: string[];
   take_cooldown_remaining: number;
   user_fellowship_size: number;
@@ -176,7 +179,7 @@ export const ContractLedger = () => {
 
   return (
     <Window
-      title="Grand Contract Ledger"
+      title="Contract Ledger"
       width={1000}
       height={760}
       theme="grimoire"
@@ -191,7 +194,7 @@ export const ContractLedger = () => {
               }
               onClick={() => setMode({ kind: 'contracts' })}
             >
-              Grand Contract Ledger
+              Contract Ledger
             </span>
             <span className="ContractLedger__HeaderSep">|</span>
             <span
@@ -315,9 +318,9 @@ const HoardRecoveryCallStrip = () => {
   const blockReason = noAccount
     ? 'No bank account. Register with a Meister first.'
     : fellowshipShort
-      ? `Requires a Fellowship of ${minFellows}, you have ${data.user_fellowship_size || 0}.`
+      ? `You need a fellowship of ${minFellows}. Yours has ${data.user_fellowship_size || 0}.`
       : cantAfford
-        ? `Requires a pledge of ${pledge} mammon in your account.`
+        ? `You need ${pledge} mammon in your account for the stake.`
         : undefined;
   return (
     <div
@@ -330,9 +333,10 @@ const HoardRecoveryCallStrip = () => {
       }}
     >
       <div style={{ fontWeight: 'bold', marginBottom: '3px' }}>
-        Hoard Recovery - a Fellowship of {minFellows}+ may call a recovery writ
-        after pledging {pledge}m on any region whose banditry hoard has reached {hoardMin}m. Pays the standard blockade reward; the reclaimed
-        hoard is taxed {taxPct} as Recovered Spoils.
+        Hoard Recovery: a fellowship of {minFellows} or more can put up a{' '}
+        {pledge}m stake to call for a recovery scroll on any region whose brigand
+        hoard has reached {hoardMin}m. It pays the usual blockade reward. The
+        Crown taxes {taxPct} of the recovered hoard as Recovered Spoils.
       </div>
       {regions.map((r) => (
         <div
@@ -349,7 +353,7 @@ const HoardRecoveryCallStrip = () => {
           </span>
           {r.active ? (
             <span style={{ fontStyle: 'italic', color: '#7a6a4a' }}>
-              writ already abroad
+              scroll already in circulation
             </span>
           ) : (
             <Button
@@ -439,7 +443,7 @@ const ScoutsPanel = () => {
                       </div>
                     )}
                     <div style={{ color: '#a06000' }}>
-                      {r.blockade_writ_out ? 'Writ out' : 'Awaiting writ'}
+                      {r.blockade_writ_out ? 'Scroll out' : 'Awaiting scroll'}
                     </div>
                   </>
                 ) : (
@@ -487,15 +491,15 @@ const ContractCard = (props: { contract: Contract }) => {
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : gateRemaining > 0
-      ? `By Guild precedence, the first two daes of a week fall to masterless hands: ${exemptList}. Townfolk in trade or charter may sign in ${Math.ceil(gateRemaining / 60)}m.`
+      ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
       : takeCooldown > 0
-        ? `Guild cooldown, wait ${takeCooldown}s before signing another.`
+        ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
         : atCap
           ? `You already hold ${data.active_max} contracts.`
           : cantAfford
-            ? `Requires ${c.deposit} mammon in your account.`
+            ? `You need ${c.deposit} mammon in your account for the deposit.`
             : fellowshipShort
-              ? `Requires a Fellowship of ${c.required_fellowship_size}, you have ${data.user_fellowship_size || 0}.`
+              ? `You need a fellowship of ${c.required_fellowship_size}. Yours has ${data.user_fellowship_size || 0}.`
               : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
@@ -652,15 +656,15 @@ const ActiveStrip = (props: {
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
     : gateRemaining > 0
-      ? `The Guild gives priorities to the less than gainfully employed. Contracts can only be taken in the first two days of the week by: ${exemptList}. Others may sign in ${Math.ceil(gateRemaining / 60)}m.`
+      ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
       : takeCooldown > 0
-        ? `Guild cooldown active, wait ${takeCooldown}s before signing another contract.`
+        ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
         : null;
   const fellowshipBonus = data.active_fellowship_bonus || 0;
   const fellowshipNote =
     fellowshipBonus > 0
-      ? `+${fellowshipBonus} from leading your Fellowship`
-      : 'Form a Fellowship for more contract slots.';
+      ? `+${fellowshipBonus} from leading your fellowship`
+      : 'Form a fellowship for more contract slots.';
   return (
     <div className="ContractLedger__ActiveStrip">
       <div className="ContractLedger__ActiveStripHeader">
@@ -696,13 +700,13 @@ const ActiveStrip = (props: {
             marginBottom: '4px',
           }}
         >
-          You may turn in any completed contract here on its holder&apos;s
-          behalf - the reward is credited to the holder, and you take no cut.
+          You can turn in any completed contract on its holder&apos;s behalf.
+          The reward goes to the holder. You take no cut.
         </div>
       )}
       {showFellowshipHelp && (
         <Dialog
-          title="Form a Fellowship for more benefits"
+          title="Form a fellowship for more benefits"
           width="420px"
           onClose={() => setShowFellowshipHelp(false)}
         >
@@ -711,13 +715,14 @@ const ActiveStrip = (props: {
               Open the IC tab to form a fellowship and invite people nearby.
             </div>
             <div style={{ marginBottom: '6px' }}>
-              Lead a fellowship of 2+ for more contract slots (+1 at 2 members,
-              +2 at 3+).
+              Lead a fellowship to get more contract slots:{' '}
+              {data.fellowship_bonus_pair} more with two members,{' '}
+              {data.fellowship_bonus_band} more with three or more.
             </div>
             <div>
-              Fellowship members may turn in each other&apos;s contracts. It is
-              credited to the one turning it in, using their tax exemption
-              status, if any.
+              Fellowship members can turn in each other&apos;s contracts. The
+              reward goes to whoever turns it in. Their levy exemption applies
+              if they have one.
             </div>
           </div>
         </Dialog>
@@ -751,7 +756,7 @@ const ActiveStrip = (props: {
               <Button
                 icon="times"
                 color="bad"
-                tooltip="Forfeit deposit and void the contract."
+                tooltip="Give up the contract and lose your deposit."
                 onClick={() => act('abandon', { ref: a.ref })}
               >
                 Abandon

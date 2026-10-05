@@ -1,0 +1,13 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Steward can narrow down their petitions more specifically"
+  - rscadd: "Now, when a merchant send a ship away, it is set to be \"DEPARTING\" until the timer expires. This allows people to SELL, but not BUY from the ship. This avoids optimal merchant gameplay screwing over producers trying to fulfill their orders."
+  - rscadd: "Stewards can target their petitions far more specifically"
+  - rscadd: "Reverted the lowpop economy adjustment's banditry loss, scaling, and the lowered threat growth rate"
+  - rscadd: "Cleaned up and rewritten nearly all of the texts associated with the Economy series to be better."
+  - rscadd: "Commissioner now pulls directly from the bank account because people are actually using it to park mammons out of reach of taxation. The payment to the smith still goes directly to their hand."
+  - balance: "Reduced price of planks, gears and bronze as calculated by the pricing engine."
+  - balance: "Improved the pool size of Pottery, Fishing and Carved Goods. They also drains 15% of the pool passively every 15 minutes."
+  - balance: "Markup of Carved Goods has been increased and the stones you need to import had its price reduced."
+  - rscadd: "Commissioner now can have sack or other containers emptied into them to fulfill orders. Various other dumping were also refactored, including composters, bookcase etc. - report any issues."

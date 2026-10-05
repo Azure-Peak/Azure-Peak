@@ -84,6 +84,11 @@
 	path = /obj/item/clothing/head/roguetown/hatfur
 	sort_category = "Hats"
 
+/datum/loadout_item/furheadband
+	name = "Fur Headband"
+	path = /obj/item/clothing/head/roguetown/headband/fur
+	sort_category = "Hats"
+
 /datum/loadout_item/smokingcap
 	name = "Smoking Cap"
 	path = /obj/item/clothing/head/roguetown/smokingcap

@@ -8073,9 +8073,13 @@
 /obj/item/rogueore/iron,
 /obj/item/rogueore/iron,
 /obj/item/rogueore/iron,
-/obj/structure/fluff/walldeco/stone{
-	pixel_y = 32
-	},
+/obj/item/rogueore/iron,
+/obj/item/rogueore/iron,
+/obj/item/rogueore/iron,
+/obj/item/rogueore/iron,
+/obj/item/rogueore/iron,
+/obj/item/rogueore/iron,
+/obj/structure/roguemachine/atm,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/dwarfin)
 "bzY" = (
@@ -135752,10 +135756,6 @@
 /obj/effect/spawner/lootdrop/infernal_spawner,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"yfA" = (
-/obj/structure/roguemachine/atm,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/dwarfin)
 "yfB" = (
 /obj/structure/stairs,
 /turf/open/floor/rogue/dirt/road,
@@ -178874,7 +178874,7 @@ vGa
 vGa
 cqm
 smL
-yfA
+mXA
 vGa
 cRL
 ffy
@@ -179326,7 +179326,7 @@ vGa
 vGa
 cqm
 smL
-mXA
+qgf
 vGa
 oAW
 jJw

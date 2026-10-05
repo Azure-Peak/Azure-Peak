@@ -17,10 +17,10 @@
 /obj/structure/roguemachine/headeater/attackby(obj/item/H, mob/user, params)
 	. = ..()
 	if(!istype(H, /obj/item/natural/head) && !istype(H, /obj/item/bodypart/head))
-		to_chat(user, span_danger("It seems uninterested by [H]"))
+		to_chat(user, span_danger("It seems uninterested in [H]."))
 		return
 	if(!SStreasury.has_account(user))
-		to_chat(user, span_warning("[src] refuses the head - to benefit from the Crown's bounties you must be registered with a Meister."))
+		to_chat(user, span_warning("[src] refuses the head. You need a Meister account to collect the Crown's bounties."))
 		return
 	eathead(H, user)
 
@@ -56,9 +56,9 @@
 		if(!supress_message)
 			var/levy = sellprice - net
 			if(levy > 0)
-				to_chat(user, span_danger("The [src] consumes [H], crediting [net] mammons to your account, less [levy] mammon to the Crown's Levy."))
+				to_chat(user, span_danger("The [src] consumes [H]. It credits [net] mammon to your account after taking [levy] mammon for the Headeater Levy."))
 			else
-				to_chat(user, span_danger("The [src] consumes [H], crediting [sellprice] mammons to your account."))
+				to_chat(user, span_danger("The [src] consumes [H] and credits [sellprice] mammon to your account."))
 	else
 		topay += sellprice
 	qdel(H)
@@ -77,7 +77,7 @@
 		var/net = payout(user, topay)
 		var/levy = topay - net
 		if(levy > 0)
-			to_chat(user, span_danger("The [src] credits [net] mammons to your account, less [levy] mammon to the Crown's Levy."))
+			to_chat(user, span_danger("The [src] credits [net] mammon to your account after taking [levy] mammon for the Headeater Levy."))
 		else
-			to_chat(user, span_danger("The [src] credits [net] mammons to your account."))
+			to_chat(user, span_danger("The [src] credits [net] mammon to your account."))
 		topay = 0

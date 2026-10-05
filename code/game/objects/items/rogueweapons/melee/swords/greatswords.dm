@@ -206,10 +206,6 @@
 	seeks to safeguard those who've taken pilgrimage towards Azuria. </br>'There is no fate, but what we make for ourselves. It is not the will of \
 	gods that will determine Psydonia's fate.. but instead, the hope of its children.'"
 	icon_state = "silverexealt"
-	force = 8
-	force_wielded = 25
-	minstr = 11
-	wdefense = 6
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -217,11 +213,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /obj/item/rogueweapon/greatsword/psygsword
@@ -229,10 +221,6 @@
 	desc = "It is said that a Psydonian smith was guided by Saint Malum himself to forge such a formidable blade, and given the task to slay a \
 	daemon preying on the Otavan farmlands. The design was retrieved, studied, and only a few replicas made - for they believe it dulls its edge."
 	icon_state = "silverexealt"
-	force = 8
-	force_wielded = 25
-	minstr = 11
-	wdefense = 6
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -240,11 +228,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/greatsword/psygsword/relic
@@ -259,16 +243,15 @@
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/heavy, /datum/intent/sword/chop/cleave, /datum/intent/rend)
 	minstr = 13
 	minstr_req = TRUE
+	wdefense = 8
+	max_integrity = 350
+	max_blade_int = 400
 
 /obj/item/rogueweapon/greatsword/psygsword/relic/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 100,\
-		added_int = 100,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/greatsword/psygsword/relic/getonmobprop(tag)
@@ -300,17 +283,44 @@
 	alt_grips = list(/datum/alt_grip/mordhau/broadsword/forgotten_blade)
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
+	/// Whether a blessing awakens this blade, raising its force, defense and integrity.
+	var/awakens = TRUE
+	/// Whether a blessing has already awakened this blade.
+	var/awakened = FALSE
 
 /obj/item/rogueweapon/greatsword/bsword/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 10,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
+
+/obj/item/rogueweapon/greatsword/bsword/psy/on_blessed(blessing_type)
+	if(!awakens || awakened)
+		return
+	awakened = TRUE
+	max_integrity += 50
+	obj_integrity = max_integrity
+	restore_bintegrity()
+	awaken_edge()
+
+/obj/item/rogueweapon/greatsword/bsword/psy/proc/awaken_edge()
+	force += 10
+	force_wielded += 10
+	update_force_dynamic()
+	wdefense += 2
+	update_wdefense_dynamic()
+
+/obj/item/rogueweapon/greatsword/bsword/psy/obj_fix(mob/user, full_repair = TRUE)
+	. = ..()
+	if(awakened)
+		awaken_edge()
+
+/obj/item/rogueweapon/greatsword/bsword/psy/restore_bintegrity()
+	. = ..()
+	if(awakened)
+		max_blade_int += 50
+		blade_int = max_blade_int
 
 /obj/item/rogueweapon/greatsword/bsword/psy/unforgotten
 	name = "unforgotten blade"
@@ -325,11 +335,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 10,\
-		added_blade_int = 50,\
-		added_int = 50,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/greatsword/bsword/psy/relic
@@ -341,6 +347,10 @@
 	force_wielded = 25
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
+	wdefense = 8
+	max_integrity = 350
+	max_blade_int = 400
+	awakens = FALSE
 
 /obj/item/rogueweapon/greatsword/bsword/psy/getonmobprop(tag)
 	. = ..()
@@ -355,11 +365,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 100,\
-		added_int = 100,\
-		added_def = 2,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/greatsword/avantyne

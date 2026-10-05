@@ -838,11 +838,12 @@
 			. += span_notice("An agent of the Bathhouse.")
 
 		if(src.job in GLOB.church_positions)
-			. += span_notice("A member of the Church of Azuria.")
+			if(!HAS_TRAIT(user, TRAIT_CLERGY))
+				. += span_notice("A member of the Church of Azuria.")
 		else if(HAS_TRAIT(src, TRAIT_AGENT_CHURCH))
 			. += span_notice("A benefactor of the Church of Azuria.")
 
-		if(src.job in GLOB.inquisition_positions)
+		if(src.job in GLOB.inquisition_positions && !HAS_TRAIT(user, TRAIT_INQUISITION))
 			. += span_notice("An adherent of the Holy Otavan Inquisition.")
 
 		if(HAS_TRAIT(src, TRAIT_DEBTOR))
