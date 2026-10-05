@@ -143,7 +143,7 @@
 /obj/effect/proc_holder/spell/self/bloodlet
 	source_aspect = /datum/magic_aspect/pseudo/mistwalker
 	name = "Red Tides"
-	desc = "Take a brief moment to open yourself up to the flow of battle, both in body and mynd. Allow the raging tides of blood to wash through you and embrace the current driven by its dissipation. Teetering on the edge of sanity and heresy, Gaiyuke will find no joy in your suffering, only the resolve to see it through."
+	desc = "Take a brief moment to steel yourself before willingly giving up a portion of your lyfeblood in order to empower your next weapon strike, causing it to bypass both dodge and parry. Can only the used at reasonable blood levels. Can be done while moving."
 	antimagic_allowed = TRUE
 	clothes_req = FALSE
 	chargetime = 3 SECONDS
