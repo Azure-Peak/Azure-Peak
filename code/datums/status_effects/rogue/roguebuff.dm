@@ -634,6 +634,62 @@
 
 #undef REWIND_AURA
 
+/atom/movable/screen/alert/status_effect/buff/luxhealing
+	name = "Lux Infusion"
+	desc = "Cannibalization of my own lux relieves me of my ailments."
+	icon_state = "luxbuff"
+
+/datum/status_effect/buff/luxhealing
+	id = "luxhealing"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/luxhealing
+	duration = 30 SECONDS
+	examine_text = "SUBJECTPRONOUN's veins glow with lux!"
+	var/healing_on_tick = 6
+	var/outline_colour = "#c42424"
+
+/datum/status_effect/buff/luxhealing/on_creation(mob/living/new_owner)
+	var/luxtype = new_owner.get_lux_type()
+	switch(luxtype)
+		if("tainted")
+			outline_colour = "#7F723B"//stinky poo poo lux
+		if("corrupted")
+			outline_colour = "#A6B074"
+		if("infernal")
+			outline_colour = "#FF8600"
+		if("impure")
+			outline_colour = "#B1202C"
+		if("pure")
+			outline_colour = "#A7D3FF"
+	if(HAS_TRAIT(new_owner, TRAIT_IRONMAN))
+		examine_text = "SUBJECTPRONOUN's conduits glow with lux!"
+	return ..()
+
+/datum/status_effect/buff/luxhealing/on_apply()
+	var/filter = owner.get_filter(MIRACLE_HEALING_FILTER)
+	if (!filter)
+		owner.add_filter(MIRACLE_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	return TRUE
+
+/datum/status_effect/buff/luxhealing/tick()
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL))
+		return
+	if(HAS_TRAIT(owner, TRAIT_HALFHEAL))
+		healing_on_tick /= 2
+	var/obj/effect/temp_visual/heal_blood/H = new /obj/effect/temp_visual/heal_blood(get_turf(owner))
+	H.color = outline_colour
+	if(owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.blood_volume = min(owner.blood_volume+healing_on_tick, BLOOD_VOLUME_NORMAL)
+	var/list/wCount = owner.get_wounds()
+	if(length(wCount))
+		owner.heal_wounds(healing_on_tick)
+		owner.update_damage_overlays()
+	owner.adjustBruteLoss(-healing_on_tick, 0)
+	owner.adjustFireLoss(-healing_on_tick, 0)
+	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustToxLoss(-healing_on_tick, 0)
+	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
+	owner.adjustCloneLoss(-healing_on_tick, 0)
+
 /datum/status_effect/buff/healing/soap
 	block_combat_mode = TRUE
 	healing_on_tick = 5 // quarter strength, sorry! it's soap, what'd you expect
@@ -2035,6 +2091,10 @@
 /datum/status_effect/buff/adrenaline_rush/graggar
 	effectedstats = list(STATKEY_CON = 3)
 
+/datum/status_effect/buff/adrenaline_rush/lux
+	effectedstats = list(STATKEY_STR = 1, STATKEY_WIL = 1, STATKEY_CON = 1, STATKEY_SPD = 1, STATKEY_LCK = 1) //counters the Devitalized status this inflicts. Used on someone with a lux heart, this is far stronger
+	duration = 30 SECONDS
+
 /datum/status_effect/buff/adrenaline_rush/psydon
 	blood_restore = 0
 	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
@@ -2847,23 +2907,53 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/overclock
 	duration = 2 MINUTES
 	status_type = STATUS_EFFECT_REPLACE
+	var/legbuff = FALSE
+	var/armbuff = FALSE
 
-/datum/status_effect/buff/overclock/on_creation(mob/living/new_owner, prosthetic_arms, prosthetic_legs)
+/datum/status_effect/buff/overclock/on_creation(mob/living/new_owner, prosthetic_arms, prosthetic_legs, gilbranze_arms, gilbranze_legs)
 	effectedstats = list()
 	if(prosthetic_arms > 0)
 		effectedstats[STATKEY_STR] = prosthetic_arms
 	if(prosthetic_legs > 0)
 		effectedstats[STATKEY_SPD] = prosthetic_legs
+	if(gilbranze_legs >= 2)
+		if(new_owner.handle_lux_removal(2))
+			legbuff = TRUE
+	if(gilbranze_arms >= 2)
+		if(new_owner.handle_lux_removal(2))
+			armbuff = TRUE
 	return ..()
 
 /datum/status_effect/buff/overclock/on_apply()
 	. = ..()
 	to_chat(owner, span_warning("The interals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
+	if(legbuff)
+		ADD_TRAIT(owner, TRAIT_ZJUMP, "overclock")
+		ADD_TRAIT(owner, TRAIT_LEAPER, "overclock")
+		ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE1, "overclock")
+		ADD_TRAIT(owner, TRAIT_NUTCRACKER, "overclock")
+		// ADD_TRAIT(owner, TRAIT_STRONGKICK, "overclock")
+	if(armbuff)
+		ADD_TRAIT(owner, TRAIT_CIVILIZEDBARBARIAN, "overclock")
+		ADD_TRAIT(owner, TRAIT_BASHDOORS, "overclock")
+		ADD_TRAIT(owner, TRAIT_GRABIMMUNE, "overclock")
+		ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, "overclock")
+
 
 /datum/status_effect/buff/overclock/on_remove()
 	. = ..()
 	to_chat(owner, span_notice("I feel the hum of my prosthetics slow down, they need time to recharge."))
-
+	if(legbuff)
+		REMOVE_TRAIT(owner, TRAIT_ZJUMP, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_LEAPER, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE1, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_NUTCRACKER, "overclock")
+		// REMOVE_TRAIT(owner, TRAIT_STRONGKICK, "overclock")
+	if(armbuff)
+		REMOVE_TRAIT(owner, TRAIT_CIVILIZEDBARBARIAN, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_BASHDOORS, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, "overclock")
 //visual effects 4 skeles
 
 #define SAPPERGLOW_FILTER "sapper_exploding_glow"
@@ -2899,3 +2989,4 @@
 	return TRUE
 
 #undef SAPPERGLOW_FILTER
+

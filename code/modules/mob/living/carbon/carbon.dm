@@ -1379,3 +1379,35 @@
 	if(!A && istype(vision) && vision.viewing_head && istype(our_species))
 		return ..(our_species.my_head)
 	return ..()
+
+/mob/living/carbon/check_lux_organ_cap()
+	var/organcount = 0
+	var/heart = FALSE
+	var/haslux = TRUE
+	var/absolvlux = FALSE
+	if(HAS_TRAIT(src, TRAIT_TESTSUBJECT)) //you never can have too many with this trait
+		return FALSE
+	if(has_status_effect(/datum/status_effect/debuff/devitalised))
+		haslux = FALSE
+	if(has_status_effect(/datum/status_effect/buff/psyvived))
+		absolvlux = TRUE //absolvers connecting their lux is gonna let your organs work easier!
+	for(var/obj/item/organ/O as anything in internal_organs)
+		if(O.organ_flags & ORGAN_LUX)
+			if(istype (O, /obj/item/organ/heart/lux))
+				var/obj/item/organ/heart/lux/luxheart = O
+				heart = TRUE
+				if(luxheart.bonus_lux)
+					haslux = TRUE
+			else
+				organcount ++
+	for(var/obj/item/bodypart/BP in bodyparts)
+		if(istype(BP, /obj/item/bodypart/l_arm/prosthetic/aalloy) || \
+		istype(BP, /obj/item/bodypart/r_arm/prosthetic/aalloy) || \
+		istype(BP, /obj/item/bodypart/l_leg/prosthetic/aalloyleft) || \
+		istype(BP, /obj/item/bodypart/r_leg/prosthetic/aalloyright))
+			organcount += 0.5
+	var/organcap = 1 + heart + haslux + absolvlux
+	if(organcount > organcap)
+		return (organcount - organcap)
+	else
+		return FALSE

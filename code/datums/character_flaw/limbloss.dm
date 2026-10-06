@@ -42,3 +42,33 @@
 	var/mob/living/carbon/human/H = user
 	var/obj/item/bodypart/l_arm/prosthetic/woodleft/L = new()
 	L.attach_limb(H)
+
+/datum/charflaw/limbloss/leg_r
+	name = "Wood Leg (R)"
+	desc = "I lost my right leg long ago, but the wooden leg doesn't bleed as much... but it is flammable.<br><i>(Incompatible with Bronze Leg (R) virtue)</i>"
+	ui_fa_icon = "handshake-simple-slash-flip"
+	lost_zone = BODY_ZONE_R_ARM
+	restricted_species = list(/datum/species/ooze)
+
+/datum/charflaw/limbloss/leg_r/on_mob_creation(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	var/obj/item/bodypart/r_leg/prosthetic/L = new()
+	L.attach_limb(H)
+
+/datum/charflaw/limbloss/leg_l
+	name = "Wood Leg (L)"
+	desc = "I lost my left leg long ago, but the wooden leg doesn't bleed as much... but it is flammable.<br><i>(Incompatible with Bronze Leg (L) virtue)</i>"
+	ui_fa_icon = "handshake-simple-slash"
+	lost_zone = BODY_ZONE_L_ARM
+	restricted_species = list(/datum/species/ooze)
+
+/datum/charflaw/limbloss/leg_l/on_mob_creation(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	var/obj/item/bodypart/l_leg/prosthetic/L = new()
+	L.attach_limb(H)
