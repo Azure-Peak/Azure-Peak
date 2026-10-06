@@ -260,20 +260,22 @@
 	var/list/miracle_generalist_bundle = list(
 		/datum/action/cooldown/spell/darkvision/undivided::name		=/datum/action/cooldown/spell/darkvision/undivided,
 		/datum/action/cooldown/spell/noc/invisibility::name			=/datum/action/cooldown/spell/noc/invisibility,
+		/datum/action/cooldown/spell/noc/enlightenment::name		=/datum/action/cooldown/spell/noc/enlightenment,
+		/obj/effect/proc_holder/spell/invoked/diagnose::name		=/obj/effect/proc_holder/spell/invoked/diagnose,
 		/obj/effect/proc_holder/spell/invoked/bless_food::name		=/obj/effect/proc_holder/spell/invoked/bless_food,
 		/datum/action/cooldown/spell/arcyne_forge/miracle::name		=/datum/action/cooldown/spell/arcyne_forge/miracle,
 	)
 	var/list/miracle_acolyte_bundle = list(
-		/obj/effect/proc_holder/spell/invoked/eora_blessing::name		=/obj/effect/proc_holder/spell/invoked/eora_blessing,
-		/obj/effect/proc_holder/spell/targeted/blesscrop::name			=/obj/effect/proc_holder/spell/targeted/blesscrop,
-		/obj/effect/proc_holder/spell/invoked/avert::name				=/obj/effect/proc_holder/spell/invoked/avert,
-		/datum/action/cooldown/spell/miracle/fortify/undivided::name	=/datum/action/cooldown/spell/miracle/fortify/undivided,
+		/datum/action/cooldown/spell/miracle/fortify::name			=/datum/action/cooldown/spell/miracle/fortify,
+		/obj/effect/proc_holder/spell/invoked/abyssheal::name		=/obj/effect/proc_holder/spell/invoked/abyssheal,
+		/obj/effect/proc_holder/spell/invoked/eora_blessing::name	=/obj/effect/proc_holder/spell/invoked/eora_blessing,
+		/obj/effect/proc_holder/spell/targeted/blesscrop::name		=/obj/effect/proc_holder/spell/targeted/blesscrop,
 	)
 	var/list/miracle_templar_bundle = list(
-		/datum/action/cooldown/spell/projectile/moonscorch::name	=/datum/action/cooldown/spell/projectile/moonscorch,
-		/datum/action/cooldown/spell/ravox/judgement::name			=/datum/action/cooldown/spell/ravox/judgement,
-		/obj/effect/proc_holder/spell/self/abyssor_wind::name		=/obj/effect/proc_holder/spell/self/abyssor_wind,
+		/datum/action/cooldown/spell/projectile/sacred_flame::name	=/datum/action/cooldown/spell/projectile/sacred_flame,
+		/datum/action/cooldown/spell/ravox/withstand::name			=/datum/action/cooldown/spell/ravox/withstand,
 		/obj/effect/proc_holder/spell/invoked/vendetta::name		=/obj/effect/proc_holder/spell/invoked/vendetta,
+		/datum/action/cooldown/spell/malum/hammerfall::name			=/datum/action/cooldown/spell/malum/hammerfall,
 	)
 
 /datum/action/cooldown/spell/undivided/undivided_spellpack/cast(atom/cast_on)
@@ -289,7 +291,7 @@
 		choosing_bundle = FALSE
 	switch(choice)
 		if("Generalist")
-			add_spells(owner, miracle_generalist_bundle, choice_count = 2)
+			add_spells(owner, miracle_generalist_bundle, choice_count = 3)
 			owner.mind?.RemoveSpell(src.type)
 			return TRUE
 		if("Acolyte")
@@ -575,29 +577,6 @@
 	. = ..()
 	to_chat(owner, span_undivided("My heart is no longer protected by Their light..!"))
 	REMOVE_TRAIT(owner, TRAIT_RALLIED, TRAIT_MIRACLE)
-
-//////////////////////////////////////////////////////////////////////////////////////////
-// T? - Undivided Fortify - Heals and damages undead like actual one, bit worse though. //
-//////////////////////////////////////////////////////////////////////////////////////////
-
-/datum/action/cooldown/spell/miracle/fortify/undivided
-	name = "Bolster"
-	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	button_icon_state = "bolster"
-
-	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR - 10
-
-	secondary_resource_cost = SPELLCOST_MINOR_SKILL
-
-	cooldown_time = 1 MINUTES
-
-	sound = 'sound/magic/heal_new.ogg'
-	charge_required = TRUE
-	charge_time = 1 SECONDS
-	hold_drain = 0
-	charge_slowdown = CHARGING_SLOWDOWN_NONE
-	charge_sound = 'sound/magic/holycharging.ogg'
 
 ///////////////////////////
 // T? - Lesser Anastasis //
