@@ -71,7 +71,7 @@
 			var/obj/item/I = used_weapon
 			if(I.sharpness && I.max_blade_int && !(attack_flag in ARMOR_DR_TYPES))
 				var/dullness_ratio = I.blade_int / I.max_blade_int
-				if(dullness_ratio <= SHARPNESS_TIER2_THRESHOLD)	//Our weapon is CHUNKED. What are we PENNING WITH.
+				if(dullness_ratio <= SHARPNESS_TIER2_THRESHOLD && armor_tier)	//Our weapon is CHUNKED. What are we PENNING WITH.
 					blocked = block_damage * 10
 
 	if(mob_timers[MT_INVISIBILITY] > world.time)
@@ -601,6 +601,10 @@
 
 /mob/living/proc/checkguard(mob/living/simple_animal/attacker)
 	var/mob/living/carbon/human/target = src
+	if((ishuman(target) && target.has_status_effect(/datum/status_effect/buff/bulwark_of_oil)))
+		var/datum/status_effect/buff/bulwark_of_oil/o = target.has_status_effect(/datum/status_effect/buff/bulwark_of_oil)
+		o.simple_defend(attacker) // I hate this why do we handle simplemob ripostes like this why dont we use signals like every other defense
+		return TRUE
 	if(!(ishuman(target) && target.has_status_effect(/datum/status_effect/buff/clash)))
 		return FALSE
 	var/obj/item/IM = target.get_active_held_item()
@@ -661,8 +665,6 @@
 
 //called when the mob receives a bright flash
 /mob/living/proc/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/flash)
-	if(HAS_TRAIT(src, TRAIT_NOFLASH))
-		return FALSE
 	if(get_eye_protection() < intensity && (override_blindness_check || !(HAS_TRAIT(src, TRAIT_BLIND))))
 		overlay_fullscreen("flash", type)
 		addtimer(CALLBACK(src, PROC_REF(clear_fullscreen), "flash", 25), 25)

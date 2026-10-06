@@ -8,8 +8,8 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		"label" = "A Caravan Gone Missing",
 		"blurb" = "A wagon of yours was lost on the road. Hire hands to secure the wreck and bring the strongbox home.",
 		"rules" = list(
-			"The strongbox is magickally sealed to you - only you can open it.",
-			"You need not travel; the bearer brings the strongbox to you.",
+			"The strongbox is magickally sealed. Only you can open it.",
+			"You don't need to travel. The holder brings the strongbox to you.",
 		),
 		"postable_advclasses" = list(
 			/datum/advclass/blacksmith,
@@ -20,10 +20,10 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	),
 	QUEST_TOWNER_MINER_OREVEIN = list(
 		"label" = "A Miner's Lead",
-		"blurb" = "You have prospected an elemental guarded vein and mined a good haul, before the guardians drove you away. Hire hands to slay the elementals and haul out the crate.",
+		"You found a vein guarded by elementals and mined a good haul before they drove you away. Hire hands to slay the elementals and haul out the crate.",
 		"rules" = list(
-			"The crate is magickally sealed to you - only you can open it.",
-			"You need not travel; the bearer brings the crate to you.",
+			"The crate is magickally sealed. Only you can open it.",
+			"You don't need to travel. The holder brings the crate to you.",
 		),
 		"postable_advclasses" = list(
 			/datum/advclass/miner,
@@ -173,7 +173,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	if(!poster.Adjacent(src))
 		return
 	if(SSticker.current_state != GAME_STATE_PLAYING)
-		to_chat(poster, span_warning("The ledger is not yet open."))
+		to_chat(poster, span_warning("The Ledger is not yet open."))
 		return
 
 	var/chosen_type = params["type"]
@@ -205,43 +205,48 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	var/datum/fund/poster_account
 	if(crown_funded)
 		if(!SStreasury.discretionary_fund)
-			to_chat(poster, span_warning("The Crown's Purse is not established."))
+			to_chat(poster, span_warning("The Treasury isn't open yet."))
 			return
 		if(SStreasury.discretionary_fund.balance < cost)
-			to_chat(poster, span_warning("Insufficient Crown's Purse. Need [cost]m, have [SStreasury.discretionary_fund.balance]m."))
+			to_chat(poster, span_warning("The Treasury can't afford this. Need [cost]m, have [SStreasury.discretionary_fund.balance]m."))
 			return
-		if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "crown towner commission ([chosen_type])"))
-			to_chat(poster, span_warning("The Crown's Purse refused the draft."))
+		if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "Crown townsfolk contract ([chosen_type])"))
+			to_chat(poster, span_warning("The payment didn't go through."))
 			return
 		record_treasury_expense(TREASURY_FLOW_CONTRACT, treasury_role_of(poster), cost)
 	else
 		if(!SStreasury.has_account(poster))
-			to_chat(poster, span_warning("You have no account on record."))
+			to_chat(poster, span_warning("You have no bank account."))
 			return
 		if(SStreasury.get_balance(poster) < cost)
-			to_chat(poster, span_warning("Insufficient balance. This posting requires [cost] mammon."))
+			to_chat(poster, span_warning("You need [cost] mammon in your account to post this."))
 			return
 		poster_account = SStreasury.get_account(poster)
 		if(!poster_account)
 			return
-		if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "towner contract posting ([chosen_type])"))
-			to_chat(poster, span_warning("The treasury refused the draft."))
+		if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "townsfolk contract posting ([chosen_type])"))
+			to_chat(poster, span_warning("The payment didn't go through."))
 			return
 
 	var/to_hand = (params["delivery"] == "hand")
 	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand, variety)
 	if(!dispatched)
 		if(crown_funded)
-			SStreasury.mint(SStreasury.discretionary_fund, cost, "crown towner commission refund (issue failure)")
+			SStreasury.mint(SStreasury.discretionary_fund, cost, "Crown townsfolk contract refund (issue failure)")
 		else
-			SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "towner contract posting refund (issue failure)")
-		to_chat(poster, span_warning("No landmark could bear that contract. Funds refunded."))
+			SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "townsfolk contract posting refund (issue failure)")
+		to_chat(poster, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
 
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	var/purse_note = crown_funded ? " Drawn on the Crown's Purse." : ""
-	if(to_hand)
-		to_chat(poster, span_notice("Contract drawn up: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] Hand it over to whomever you want to hire."))
+	if(crown_funded)
+		dispatched.add_funding(SStreasury.discretionary_fund, cost)
 	else
-		to_chat(poster, span_notice("Contract posted: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] The recovered goods must be opened by you."))
+		dispatched.add_funding(poster_account, cost, SStreasury.discretionary_fund)
+
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	var/purse_note = crown_funded ? " Paid from the Treasury." : ""
+	if(to_hand)
+		to_chat(poster, span_notice("Contract drawn up: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] Hand it to whoever you want to hire."))
+	else
+		to_chat(poster, span_notice("Contract posted: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] Only you can open the recovered goods."))
 	log_game("[key_name(poster)] posted towner contract \"[dispatched.title || dispatched.quest_type]\" ([tier], [cost]m, [crown_funded ? "crown purse" : "personal"], [to_hand ? "in hand" : "board"]).")

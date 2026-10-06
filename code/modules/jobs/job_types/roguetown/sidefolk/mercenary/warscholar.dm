@@ -41,18 +41,19 @@
 /datum/outfit/job/roguetown/mercenary/warscholar/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/naledicolors = sortList(list(
-		"GOLD" = "#C8BE6D",
-		"PALE PURPLE" = "#9E93FF",
+		"BLACK" = "#242526",
 		"BLUE" = "#A7B4F6",
 		"BRICK BROWN" = "#773626",
-		"PURPLE" = "#B542AC",
+		"GOLD" = "#C8BE6D",
 		"GREEN" = "#62a85f",
-		"BLUE" = "#A9BFE0",
-		"RED" = "#ED6762",
-		"ORANGE" = "#EDAF6D",
-		"PINK" = "#EDC1D5",
+		"LIGHT BLUE" = "#A9BFE0",
 		"MAROON" = "#5F1F34",
-		"BLACK" = "#242526"
+		"ORANGE" = "#EDAF6D",
+		"PALE PURPLE" = "#9E93FF",
+		"PINK" = "#EDC1D5",
+		"PURPLE" = "#B542AC",
+		"RED" = "#ED6762",
+		"WHITE" = "#ffffff"
 	))
 	if(H.mind)
 		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
@@ -64,7 +65,13 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
+	if(H.has_flaw(/datum/charflaw/badsight))
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi/inlaid_spectacles
+		var/obj/item/clothing/mask/rogue/oldspecs = H.wear_mask
+		H.dropItemToGround(oldspecs, TRUE, TRUE)
+		qdel(oldspecs)
+	else
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/flashlight/flare/torch
@@ -132,18 +139,19 @@
 /datum/outfit/job/roguetown/mercenary/warscholar_pontifex/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/naledicolors = sortList(list(
-		"GOLD" = "#C8BE6D",
-		"PALE PURPLE" = "#9E93FF",
+		"BLACK" = "#242526",
 		"BLUE" = "#A7B4F6",
 		"BRICK BROWN" = "#773626",
-		"PURPLE" = "#B542AC",
+		"GOLD" = "#C8BE6D",
 		"GREEN" = "#62a85f",
-		"BLUE" = "#A9BFE0",
-		"RED" = "#ED6762",
-		"ORANGE" = "#EDAF6D",
-		"PINK" = "#EDC1D5",
+		"LIGHT BLUE" = "#A9BFE0",
 		"MAROON" = "#5F1F34",
-		"BLACK" = "#242526"
+		"ORANGE" = "#EDAF6D",
+		"PALE PURPLE" = "#9E93FF",
+		"PINK" = "#EDC1D5",
+		"PURPLE" = "#B542AC",
+		"RED" = "#ED6762",
+		"WHITE" = "#ffffff"
 	))
 	if(H.mind)
 		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
@@ -185,7 +193,13 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex
 	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
+	if(H.has_flaw(/datum/charflaw/badsight))
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi/inlaid_spectacles
+		var/obj/item/clothing/mask/rogue/oldspecs = H.wear_mask
+		H.dropItemToGround(oldspecs, TRUE, TRUE)
+		qdel(oldspecs)
+	else
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/flashlight/flare/torch
@@ -247,18 +261,19 @@
 /datum/outfit/job/roguetown/mercenary/warscholar_vizier/pre_equip(mob/living/carbon/human/H)
 	..()
 	var/list/naledicolors = sortList(list(
-		"GOLD" = "#C8BE6D",
-		"PALE PURPLE" = "#9E93FF",
+		"BLACK" = "#242526",
 		"BLUE" = "#A7B4F6",
 		"BRICK BROWN" = "#773626",
-		"PURPLE" = "#B542AC",
+		"GOLD" = "#C8BE6D",
 		"GREEN" = "#62a85f",
-		"BLUE" = "#A9BFE0",
-		"RED" = "#ED6762",
-		"ORANGE" = "#EDAF6D",
-		"PINK" = "#EDC1D5",
+		"LIGHT BLUE" = "#A9BFE0",
 		"MAROON" = "#5F1F34",
-		"BLACK" = "#242526"
+		"ORANGE" = "#EDAF6D",
+		"PALE PURPLE" = "#9E93FF",
+		"PINK" = "#EDC1D5",
+		"PURPLE" = "#B542AC",
+		"RED" = "#ED6762",
+		"WHITE" = "#ffffff"
 	))
 	r_hand = /obj/item/rogueweapon/woodstaff/implement/grand/naledi
 
@@ -267,7 +282,13 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant
 	shirt = /obj/item/clothing/suit/roguetown/shirt/robe/hierophant
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi
+	if(H.has_flaw(/datum/charflaw/badsight))
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi/inlaid_spectacles
+		var/obj/item/clothing/mask/rogue/oldspecs = H.wear_mask
+		H.dropItemToGround(oldspecs, TRUE, TRUE)
+		qdel(oldspecs)
+	else
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi
 	wrists = /obj/item/clothing/neck/roguetown/psicross/naledi
 	belt = /obj/item/storage/belt/rogue/leather/black
 	beltl = /obj/item/flashlight/flare/torch
@@ -303,6 +324,24 @@
 	H.merctype = 14
 
 /datum/outfit/job/roguetown/mercenary/warscholar/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	for(var/obj/item/clothing/V in H.get_equipped_items(FALSE))
+		if(V.naledicolor)
+			V.color = detailcolor
+			V.update_icon()
+	H.regenerate_icons()
+
+
+/datum/outfit/job/roguetown/mercenary/warscholar_pontifex/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	. = ..()
+	for(var/obj/item/clothing/V in H.get_equipped_items(FALSE))
+		if(V.naledicolor)
+			V.color = detailcolor
+			V.update_icon()
+	H.regenerate_icons()
+
+
+/datum/outfit/job/roguetown/mercenary/warscholar_vizier/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	. = ..()
 	for(var/obj/item/clothing/V in H.get_equipped_items(FALSE))
 		if(V.naledicolor)

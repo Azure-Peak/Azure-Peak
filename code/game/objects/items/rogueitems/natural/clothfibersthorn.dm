@@ -2,6 +2,7 @@
 	name = "fibers"
 	icon_state = "fibers"
 	possible_item_intents = list(/datum/intent/use)
+	gender = PLURAL
 	desc = "Plant fibers. Peasants make their living turning these into clothing, courtesy of a needle-and-thread."
 	force = 0
 	throwforce = 0
@@ -18,6 +19,7 @@
 	experimental_inhand = TRUE
 	sellprice = 2
 	bundletype = /obj/item/natural/bundle/fibers
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/natural/fibers/get_mechanics_examine(mob/user)
 	. = ..()
@@ -72,6 +74,13 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/natural/fibers/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+			return
+		W.attackby(src, user, params)
+		return
+	..()
 
 /obj/item/natural/silk
 	name = "silk"
@@ -92,6 +101,7 @@
 	spitoutmouth = FALSE
 	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/silk
+	materia = list(/datum/materia_aspect/animal)
 
 #ifdef TESTSERVER
 
@@ -142,6 +152,7 @@
 	/// If the bandage is soaked in some kind of medicine.
 	var/medicine_quality
 	var/medicine_amount = 0
+	materia = list(/datum/materia_aspect/plant, /datum/materia_aspect/air)
 
 /obj/item/natural/cloth/get_mechanics_examine(mob/user)
 	. = ..()
@@ -355,6 +366,7 @@
 	embedding = list("embedded_unsafe_removal_time" = 20, "embedded_pain_chance" = 10, "embedded_pain_multiplier" = 1, "embed_chance" = 35, "embedded_fall_chance" = 0)
 	resistance_flags = FLAMMABLE
 	max_integrity = 20
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/natural/thorn/get_mechanics_examine(mob/user)
 	. = ..()

@@ -86,7 +86,7 @@ SUBSYSTEM_DEF(events)
 // REEEEEEEEE
 /client/proc/forceEvent()
 	set name = "Trigger Event"
-	set category = "Game Master"
+	set category = "Game Master.Events"
 	if(!holder ||!check_rights(R_FUN))
 		return
 	holder.forceEvent(usr)
@@ -96,7 +96,7 @@ SUBSYSTEM_DEF(events)
 
 /client/proc/forceGamemode()
 	set name = "Storyteller - Panel"
-	set category = "Game Master"
+	set category = "Game Master.Events"
 	if(!holder ||!check_rights(R_FUN))
 		return
 	holder.forceGamemode(usr)
@@ -109,7 +109,7 @@ SUBSYSTEM_DEF(events)
 	frequency_upper = initial(frequency_upper)
 
 /client/proc/view_storyteller_vote_log()
-	set category = "Game Master"
+	set category = "Game Master.Events"
 	set name = "Storyteller - Log"
 
 	if(!check_rights(R_ADMIN))
@@ -167,3 +167,27 @@ SUBSYSTEM_DEF(events)
 	var/datum/browser/popup = new(user, "storyteller_vote_log", "Storyteller Vote Log", 700, 500)
 	popup.set_content(dat.Join())
 	popup.open()
+
+/client/proc/reset_storyteller_vote_multipliers()
+	set category = "Game Master.Events"
+	set name = "Storyteller - Reset Vote Multipliers"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	SSvote.load_storyteller_vote_multipliers()
+	var/list/options = list("All presets" = null)
+	for(var/storyteller_type in SSgamemode.storytellers)
+		var/datum/storyteller/storyboy = SSgamemode.storytellers[storyteller_type]
+		if(!storyboy.preset_pool) // only votable presets have a multiplier
+			continue
+		options["[storyboy.name] (x[SSvote.get_storyteller_vote_mult(storyteller_type)])"] = storyteller_type
+	var/picked = input(src, "Reset which preset's vote multiplier back to x1? This clears both overdue bonuses and win cooldowns.", "Storyteller Vote Multipliers") as null|anything in options
+	if(!picked)
+		return
+	var/storyteller_type = options[picked]
+	if(alert(src, "Reset the vote multiplier for [picked]?", "Storyteller Vote Multipliers", "Yes", "No") != "Yes")
+		return
+	SSvote.reset_storyteller_vote_multipliers(storyteller_type)
+	message_admins("[key_name_admin(src)] reset the storyteller vote multiplier for [picked].")
+	log_admin("[key_name(src)] reset the storyteller vote multiplier for [picked].")

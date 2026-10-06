@@ -130,6 +130,7 @@
 
 /datum/outfit/job/roguetown/lich/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()
+
 	//Skilled upto, so we don't have legendary wrestling crit resist fullplate lich or legendary riding lich that nobody can keep up with
 	//Some of these will be replaced by class, but its a much healthier lich balance, all in in.
 

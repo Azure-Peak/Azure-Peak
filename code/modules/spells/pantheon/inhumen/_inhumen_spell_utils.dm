@@ -185,9 +185,10 @@
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
 		ADD_TRAIT(user, TRAIT_SELF_SUSTENANCE, "[type]")
+		ADD_TRAIT(user, TRAIT_WARLOCK, "[type]")
 		ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
 		ADD_TRAIT(user, TRAIT_NOWW, "[type]")
-		grant_poke_spell(user)
+		grant_poke_spell_zizo(user)
 
 	user.visible_message(
 		span_boldwarning("Arcyne runes sear themselves across [user]'s skin, glowing with a sickly light before fading beneath the flesh!"),
@@ -212,6 +213,7 @@
 	ADD_TRAIT(user, TRAIT_ZOMBIE_IMMUNE, "[type]")
 	ADD_TRAIT(user, TRAIT_SILVER_WEAK, "[type]")
 	ADD_TRAIT(user, TRAIT_UNLYCKERABLE, "[type]")
+	ADD_TRAIT(user, TRAIT_WARLOCK, "[type]")
 	ADD_TRAIT(user, TRAIT_NOWW, "[type]")
 
 	for(var/obj/item/bodypart/part in user.bodyparts)
@@ -242,7 +244,7 @@
 		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		grant_poke_spell(user)
+		grant_poke_spell_zizo(user)
 
 	user.visible_message(
 		span_boldwarning("[user]'s flesh burns away in necrotic flames, revealing bone beneath as they are consumed by the Lesser Work!"),
@@ -350,28 +352,6 @@
 /proc/cmp_coin_value_desc(obj/item/roguecoin/A, obj/item/roguecoin/B)
 	return B.sellprice - A.sellprice
 
-/atom/movable/screen/alert/status_effect/debuff/doomed
-	name = "Doom"
-	desc = "You have precisely 3 seconds to live. See you on the other side."
-	icon_state = "permadeath"
-
-/datum/status_effect/debuff/doom
-	id = "doom"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/doomed
-	duration = 3 SECONDS
-	status_type = STATUS_EFFECT_UNIQUE
-
-/datum/status_effect/debuff/doom/on_apply()
-	. = ..()
-	owner.add_filter(MAMMON_FILTER, 2, list("type" = "outline", "color" = "#911096ff", "alpha" = 175, "size" = 2))
-
-/datum/status_effect/debuff/doom/on_remove()
-	. = ..()
-	var/mob/living/L = owner
-	if(!istype(L))
-		return
-	L.gib()
-
 /atom/movable/screen/alert/status_effect/buff/mammonite
 	name = "Mammonite Strike"
 	desc = "My next strike is empowered by wealth."
@@ -418,7 +398,7 @@
 	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
 		return
 	if(should_mammon_gib(target))
-		do_mammon_execution(target) // only works vs NPCs! Knocks them back and chance to gib them if you spent over 80 mammon on this (guaranteed if over half the max_cap).
+		do_mammon_execution(target)
 	else
 		do_mammon_strike(target, weapon)
 	consume()
@@ -441,11 +421,12 @@
 /datum/status_effect/buff/mammonite/proc/do_mammon_execution(mob/living/target)
 	if(QDELETED(owner) || QDELETED(target))
 		return
-	owner.visible_message(span_boldwarning("[target] suddenly contorts, twists and lets out a blood-curling screech--!"), span_notice("Their life was worth less than the investment."))
+	owner.visible_message(span_boldwarning("[target] suddenly contorts and twists as gilded flames light them up--!"), span_notice("BEHOLD! THE WEIGHT OF THINE GREED!"))
 	target.emote("superagony")
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
-	target.apply_status_effect(/datum/status_effect/debuff/doom)
+	target.fire_act(20, 20)
+	target.Stun(100)
 	target.safe_throw_at(target, 3, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
@@ -453,9 +434,16 @@
 		return
 
 	var/damage = bonus_damage
-	var/apen = damage * 0.75
+	var/mammon_spent = round(bonus_damage / 3)
+	var/npc_mult = target.mind ? 1 : 2
+	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_BSTEEL)
+	var/bclass = BCLASS_BLUNT
+	var/damtype = BRUTE
+	if(mammon_spent >= 80)
+		bclass = BCLASS_BURN
+		damtype = BURN
 
-	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, BCLASS_SMASH, apen, "Mammonite", FALSE, FALSE, FALSE, BRUTE, 1)
+	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, npc_mult, 1)
 	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of greed!"), span_notice("My investment pays off in full!"))
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)

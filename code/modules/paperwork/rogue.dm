@@ -41,7 +41,7 @@
 
 /obj/item/paper/scroll/attack_self(mob/user)
 	if(mailer)
-		user.visible_message(span_notice("[user] opens the missive from [mailer]."))
+		user.visible_message(span_notice("[user] opens a letter."))
 		mailer = null
 		mailedto = null
 		update_icon()
@@ -53,17 +53,19 @@
 	user.update_inv_hands()
 
 /obj/item/paper/scroll/read(mob/user)
-	if(!open)
-		to_chat(user, span_info("Open me."))
-		return
-	if(!user.client || !user.hud_used)
-		return
-	if(!user.hud_used.reads)
-		return
-	if(!user.can_read(src))
-		return
+	var/ghost = isobserver(user)
+	if (!ghost)
+		if(!open)
+			to_chat(user, span_info("Open me."))
+			return
+		if(!user.client || !user.hud_used)
+			return
+		if(!user.hud_used.reads)
+			return
+		if(!user.can_read(src))
+			return
 	/*font-size: 125%;*/
-	if(in_range(user, src) || isobserver(user))
+	if(in_range(user, src) && !ghost)
 		user.hud_used.reads.icon_state = "scroll"
 		user.hud_used.reads.show()
 		user.hud_used.reads.maptext = MAPTEXT_LEGIBLE(info)
@@ -72,8 +74,22 @@
 		user.hud_used.reads.maptext_y = 150
 		user.hud_used.reads.maptext_x = 120
 		onclose(user, "reading", src)
+	else if(ghost)
+		ghost_browse_read(user)
+		onclose(user, "reading", src)
 	else
 		return span_warning("I'm too far away to read it.")
+
+/obj/item/paper/scroll/proc/ghost_browse_read(mob/user)
+	user << browse_rsc('html/book.png')
+	var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+		<html><head><style type=\"text/css\">
+		body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
+	dat += info
+	dat += "<br>"
+	dat += "<a href='?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
+	dat += "</body></html>"
+	user << browse(dat, "window=reading;size=500x400;can_close=1;can_minimize=0;can_maximize=0;can_resize=1;titlebar=0;border=0")
 
 /obj/item/paper/scroll/Initialize(mapload)
 	open = FALSE
@@ -234,13 +250,15 @@
 	var/obj/item/inqarticles/indexer/paired
 
 /obj/item/paper/inqslip/read(mob/user)
-	if(!user.client || !user.hud_used)
-		return
-	if(!user.hud_used.reads)
-		return
-	if(!user.can_read(src))
-		return
-	if(in_range(user, src) || isobserver(user))
+	var/ghost = isobserver(user)
+	if (!ghost)
+		if(!user.client || !user.hud_used)
+			return
+		if(!user.hud_used.reads)
+			return
+		if(!user.can_read(src))
+			return
+	if(in_range(user, src) || ghost)
 		if(waxed)
 			to_chat(user, span_notice("This writ has been signed by [signee.real_name], sealed with redtallow, and can now be mailed back through the Hermes. The Archbishop will be pleased with this one."))
 		if(signed)
@@ -302,54 +320,47 @@
 /obj/item/paper/inqslip/arrival/abso
 	marquevalue = 16 //Ditto.
 
-/obj/item/paper/inqslip/proc/attemptsign(mob/user, mob/living/carbon/human/M)
+/obj/item/paper/inqslip/proc/attemptsign(mob/living/carbon/human/target, mob/living/carbon/human/user)
 	if(sliptype == 2)
-		if(paired)
-			if(paired.subject != user)
-				to_chat(M, span_warning("Why am I trying to make them sign this with the wrong [paired] paired with it?"))
-				return
-			else if(alert(user, "SIGN THE CONFESSION?", "CONFIRM OR DENY", "YES", "NO") != "NO")
-				signed = TRUE
-				signee = user
-				update_icon()
-		else if(alert(user, "SIGN THE CONFESSION?", "CONFIRM OR DENY", "YES", "NO") != "NO")
-			signed = TRUE
-			signee = user
-			update_icon()
-		else
+		if(!paired)
 			return
-	else if(alert(user, "SIGN THE SLIP?", "CONFIRM OR DENY", "YES", "NO") != "NO")
-		signed = TRUE
-		signee = user
-		update_icon()
-	else
+		if(paired.subject != target)
+			to_chat(user, span_warning("Why am I trying to make them sign this with the wrong [paired] paired with it?"))
+			return
+		if(alert(target, "SIGN THE CONFESSION?", "CONFIRM OR DENY", "YES", "NO") == "NO")
+			return
+	else if(!alert(target, "SIGN THE SLIP?", "CONFIRM OR DENY", "YES", "NO") == "NO")
 		return
+	signed = TRUE
+	signee = target
+	update_icon()
 
-/obj/item/paper/inqslip/attack(mob/living/carbon/human/M, mob/user)
+/obj/item/paper/inqslip/attack(mob/living/carbon/human/target, mob/living/carbon/human/user)
+	if(!istype(target) || !istype(user))
+		return
 	if(sealed)
 		return
 	if(signed)
 		to_chat(user, span_warning("It's already been signed."))
 		return
 	if(paired && !paired.full)
-		to_chat(user, span_warning("I should seperate [paired] from [src] before signing it."))
+		to_chat(user, span_warning("I should separate [paired] from [src] before signing it."))
 		return
-	if(sliptype != 2)
-		if(M != user)
-			to_chat(user, span_warning("This is meant to be signed by the holder."))
-			return
-	if(!M.get_bleed_rate())
+	if(sliptype != 2 && target != user)
+		to_chat(user, span_warning("This is meant to be signed by the holder."))
+		return
+	if(!target.get_bleed_rate())
 		to_chat(user, span_warning("It must be signed in blood."))
 		return
 	if(sliptype == 1)
-		if(signee == M)
+		if(signee == target)
 			attemptsign(user)
 		else
 			to_chat(user, span_warning("This slip isn't meant for me."))
 	else if(!sliptype)
 		attemptsign(user)
 	else
-		attemptsign(M, user)
+		attemptsign(target, user)
 
 /obj/item/paper/inqslip/attack_self(mob/user)
 	if(waxed)

@@ -27,6 +27,7 @@
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 12)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/plate/iron
 	name = "iron half-plate"
@@ -356,7 +357,7 @@
 	name = "plate armor"
 	desc = "A pristine set of steel plate armor, fitted with tassets and bracers for additional coverage. To the Knights \
 	of Psydonia, these sets are a symbolic manifestation of their oath; to serve thine kingdom without hesitation, and to \
-	rebuke all the villains who'd dare to defile it. </br>‎	</br>'Slow to don-and-doff, without a trusted Squire's aid..'"
+	rebuke all the villains who'd dare to defile it."
 	icon_state = "plate"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	equip_delay_self = 12 SECONDS
@@ -371,8 +372,7 @@
 	icon_state = "ironplate"
 	desc = "A 'munition'-grade set of iron plate armor, fitted with pauldrons and tassets for additional coverage. Most \
 	of these sets, produced within the last century, can trace their origins to an edict from Hammerhold's former King: one \
-	which demanded a munitions run, but forgot to specify its tailoring towards the dwarven physique. </br>‎	</br>'Slow \
-	to don-and-doff, without a trusted Levyman's aid..'"
+	which demanded a munitions run, but forgot to specify its tailoring towards the dwarven physique."
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRON
 
@@ -709,6 +709,12 @@
 	armor_class = ARMOR_CLASS_MEDIUM
 	smelt_bar_num = 1
 
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/ComponentInitialize()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_STEP, 12)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FREEBLADEDEXTERITY)
+
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer
 	name = "fencer's cuirass"
 	desc = "An expertly smithed form-fitting steel cuirass that is much lighter and agile, but breaks with much more ease. It's \
@@ -847,6 +853,14 @@
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
 	. += span_hypnophrase("'..the feeling of Aeon's grasp upon your shoulders, imparting the world's burden unto flesh and bone..'")
 
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/grinning
+	name = "grinning cuirass"
+	icon_state = "grinningcuirass"
+	desc = "The steel of this chestpiece is deformed into sharp fangs crowning under the breast, equal parts to catch blades and mock your opponent, while gilt tooth-inlays line the waist. Stay hungry, hustler. Get your laughs in while you can."
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/grinning/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_GRINNING)
+
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 	name = "iron breastplate"
 	desc = "An iron cuirass. While most would sneer at the idea of wearing 'lesser alloys', many-a-levyman can attest to its robustness."
@@ -915,6 +929,7 @@
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 	armor_class = ARMOR_CLASS_MEDIUM
+	armor = ARMOR_BRONZE
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/copper
 	name = "copper lamellar"
@@ -1063,6 +1078,10 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
 	is_silver = TRUE
 	is_lesser_silver = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/heavy/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_PSYDONIAN_GRIT, "ornate_plate")
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/decorated
 	name = "decorated chestplate"

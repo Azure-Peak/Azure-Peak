@@ -975,7 +975,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 	if(lmb_skipclick(object, L))
 		return
 
-	if(mob && L["left"] && !L["right"] && mob.atkswinging == "left")
+	if(mob && L["left"] && !L["right"] && mob.atkswinging == "left" && !click_intercept && !mob.click_intercept && !LAZYACCESS(mob.comp_lookup, COMSIG_MOB_CLICKON))
 		var/obj/item/held_item = mob.get_active_held_item()
 		if(mob.lmb_farclick(click_object, held_item, L, get_turf(mob)))
 			mob.atkswinging = null
@@ -1318,3 +1318,18 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 		if("Set-Tab")
 			stat_tab = payload["tab"]
 			SSstatpanels.immediate_send_stat_data(src)
+
+/// Attempts to make the client orbit the given object, for administrative purposes.
+/// If they are not an observer, will try to aghost them.
+/client/proc/admin_follow(atom/movable/target)
+	if(!isobserver(mob) && !check_rights(R_ADMIN))
+		return
+
+	var/can_ghost = TRUE
+	if(!isobserver(mob))
+		can_ghost = admin_ghost()
+
+	if(!can_ghost)
+		return
+	var/mob/dead/observer/observer = mob
+	observer.ManualFollow(target)

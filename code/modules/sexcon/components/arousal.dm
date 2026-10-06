@@ -71,11 +71,6 @@
 	if(amount > arousal)
 		last_arousal_increase_time = world.time
 	var/clamp_max = MAX_AROUSAL
-	var/mob/user = parent
-	if(user.has_flaw(/datum/charflaw/addiction/thrillseeker))
-		clamp_max = THRILLSEEKER_THRESHOLD
-		if(forced)
-			clamp_max = 50
 	var/new_arousal = clamp(amount, 0, clamp_max)
 	if(!new_arousal && !arousal)
 		return arousal
@@ -262,11 +257,17 @@
 			climaxer.add_stress(/datum/stressevent/thrillsex)
 		if(prob(10))
 			climaxer.emote("groan", forced = TRUE)
+		if(!HAS_TRAIT(climaxer, TRAIT_UNSATISFIED))
+			climaxer.sate_addiction(/datum/charflaw/addiction/lovefiend)
+			partner.sate_addiction(/datum/charflaw/addiction/lovefiend)
 		return
 
 	climaxer.emote("moan", forced = TRUE)
 	climaxer.playsound_local(climaxer, 'sound/misc/mat/end.ogg', 100)
 	last_ejaculation_time = world.time
+
+	if(HAS_TRAIT(climaxer, TRAIT_NOBLE_UNLANDED) && (partner.get_face_name() == partner.real_name) && !partner.is_burgher() && !partner.is_courtier() && !partner.is_noble()) // whuh oh
+		climaxer.add_stress(/datum/stressevent/unlanded_noble_scandal_in_the_making)
 
 	if(HAS_TRAIT(climaxer, TRAIT_UNSATISFIED)) //Given for 30 seconds when someone sets their arousal, it prevents gaining any benefits from orgasm
 		return
@@ -297,7 +298,6 @@
 			partner.mob_timers["cumtri"] = world.time
 			partner.adjust_triumphs(1)
 			to_chat(partner, span_love("Our loving is a true TRIUMPH!"))
-
 
 /datum/component/arousal/proc/set_charge(amount)
 	var/empty = (charge < CHARGE_FOR_CLIMAX)

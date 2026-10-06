@@ -1,0 +1,309 @@
+2026-10-01:
+  Etheo:
+  - rscadd: Fyritius can now be worn on the head or mask slots.
+  - image: Updates Fyritius' appearance.
+  Ryan180602:
+  - bugfix: adjusts examine text positioning
+  - rscadd: change second voice to alter ego. this also lets you adjust your physical
+      descriptor while masked.
+  - balance: Padded Gambeson takes Expert skill to craft.
+  - balance: Regular Gambeson takes Apprentice skill to craft.
+  ShadowLarkens:
+  - code_imp: The /filter system has been updated to /tg/ latest, this may cause weird
+      visual issues with anything that uses filters, please report anything you see!
+  - admin: View Variables now has a dark mode, enabled by default. To disable it,
+      go to Game Preferences -> View Variables Theme
+  - admin: View Variables has had support for newer types such as appearances, bitflags,
+      colors, filters, matricies, special lists, and weakrefs MASSIVELY improved.
+  - admin: View Variables can now -tag- datums; this is like marking them, but you
+      can have many tagged datums, and they all show up in a list accessed through
+      Verbs, Admin -> Admin -> Tagged Datums
+  - admin: View Variables' dropdown options now tell you which type they came from,
+      so you can see what options are applicable to atoms, movables, mobs, etc.
+  - admin: View Variables' dropdown options now includes an expanded suite of tools!
+  - admin: View Variables -> Remove & Mass Remove Component does as you'd think
+  - admin: View Variables -> Edit Color as Matrix allows you to customize the color
+      matrix of an atom to do advanced tinting.
+  - admin: View Variables -> Edit Filters allows you to make custom filters to massively
+      fuck with an atom's appearance.
+  - admin: View Variables -> Download Sprite allows you to download something's sprite
+      as a png.
+  - admin: View Variables -> Test Matricies allows you to interactively fuck around
+      with scaling/shearing/rotating atoms using their transform matrix.
+  - admin: View Variables -> Edit Particles allows you to play with BYOND's particle
+      system; make rain, piss laser beams, whatever!
+  - admin: View Variables -> Debug Appearance! This is extremely exciting for developers;
+      it allows you to view the entire chain of overlays comprising a single atom's
+      apperance, so no more guess work for why a pixel is out of place in the human
+      icon rendering stack! You can filter by planes, there's a live view of each
+      overlay, lists of details so dense you'll have to chew on them!!
+  WeNeedMorePhoron:
+  - rscadd: Boars can fly again.
+  - rscadd: Infernal Watcher are now slightly scarier.
+  - bugfix: Fixes xbow aiming straining the user, it is not supposed to (Also fix
+      staker / slurbow etc.)
+  - balance: Adjusted Slurbow's aiming time downward so it takes about as long to
+      aim than before Ranged Overhaul.
+  - bugfix: Drow NPCs should no longer spawn with falxes / daggers on the floor
+  - rscadd: Lowered the proportion of armored highwaymen.
+  - rscadd: If you accept an invite to a fellowship, everyone in it is put on your
+      known list and vice versa.
+  - bugfix: Juices and non alcoholic drink will now hydrate properly
+  - bugfix: Alcoholic mix like Bloody Mary now respects their own hydration value
+  - bugfix: Lime juice no longer show up as Lemon Juice, Plum no longer show up as
+      Pear
+  - code_imp: All of the juices are now parented under one subtype instead of copy
+      pasted
+  anything86:
+  - balance: atgervi boots now have same stats as hardened leather boots
+  - balance: atgervi shaman coat now covers legs.
+  azurexautyr-arch:
+  - rscadd: Added wyldkin descriptors and the ability to change skintones to halfkin
+  borneblood:
+  - bugfix: Fixed a minor linters issue.
+  crunchypretzels:
+  - bugfix: corrected missing belthooks sprite
+  mumblemancer:
+  - qol: volume settings are clearly marked as such and at the top of the prefs menu.
+      HEARING LOSS IS CUMULATIVE!!
+  - rscadd: informs readers of balance information abt swift weapons extra parry %
+      when main-handed and nothing in the offhand
+  twinklover22:
+  - rscadd: A New Class! Free Blade, a Wretch Class Master Swordsman based heavily
+      around Matthios.
+  voidwytch:
+  - rscadd: Lampwarden and Lampwicker gear
+  - rscadd: New Lamplighter role, meant to be a neutral protector of the roadways
+  - rscadd: Lampwarden and Lampwicker abilities
+2026-10-02:
+  Dorodomki:
+  - rscadd: 'Added new ring for lief donator stuff
+
+      :cl:'
+  OrbisAnima:
+  - rscadd: Adds a new trait to Abyssors worshippers, giving them between one or two
+      extra dream points per rest.
+  Ryan180602:
+  - bugfix: linebreak formatting in ahelps
+  Traveler319:
+  - balance: Spear Barbarian has a level of butchering and a greatweapon strap now.
+  WeNeedMorePhoron:
+  - admin: Ported "Set Persistent Admin Notice" which allows any admin w/ access to
+      set a persistent notice that persists across rounds, currently in the MOTD font
+  twinklover22:
+  - rscadd: Rewrote the Banneret Description.
+  - balance: Removed Banneret's Crownstone.
+  zydras:
+  - bugfix: Direvolf will now stop making human pain noises
+2026-10-03:
+  FeniaFox:
+  - balance: rebalanced Forlorn Hope collar to have steel (350) integrity, rather
+      than iron (275) integrity. Still smelts into iron.
+  FreeStylaLT:
+  - qol: Re-added an OOC toggle.
+  KatTheFox:
+  - balance: Exorcist's medium armor option no longer starts with a stat potion; they
+      no longer have a FOR penalty, either.
+  - qol: The original name of feather-renamed items is now displayed smaller, like
+      donator kits.
+  Ryan180602:
+  - rscadd: roll tokens
+  - bugfix: subclass rolls actually do a roll instead of picking the first guy in
+      game
+  WeNeedMorePhoron:
+  - bugfix: AI should be able to path through bushes properly again (Report if anything
+      seems broken still)
+  borneblood:
+  - balance: Un-Mogged Bombardier and solidified its place as a Ranger. It should
+      be a little more on the lane of what an 'adventurer that loves exploding things'
+      should be.
+  - rscadd: Divine Bolt, Acolyte's exclusive self-defense slingshot spell. It intentionally
+      sucks, and Acolytes should never get Divine Blast or potent spells to help them
+      hold out on their own in combat, please respect this design choice for the future.
+      Think of Medic from TF2.
+  - refactor: Reworks Transact from Matthios, no more qdels, yes more 'ruined' quality
+      to them.
+  - bugfix: fixed another problem by the notorious borneblood (derogatory).
+  zRainbowcat:
+  - rscadd: New sack-like container called basket
+2026-10-04:
+  KatTheFox:
+  - rscadd: You can now set an 'artist credit' and 'artist link' for your headshot.
+      The artist credit will be displayed in a box beneath your headshot on examine,
+      if set; if the link is set too, the box will be clickable. Use this for linking
+      to an artist's portfolio/donation page/etc.
+  - bugfix: Inq/church folks no longer get notified twice that someone's their ally
+      when examining them.
+  OrbisAnima:
+  - code_imp: Fixes a runtime with leeches checking for the wrong user trait.
+  - code_imp: Fixes a runtime with goblin underwear when they were being deleted.
+  - code_imp: Fixes a runtime with TRAIT_SKILLBLESSED, there might be still an underlying
+      issue to check with cases with two things that give that, so future checks are
+      needed on it.
+  - code_imp: Fixes a runtime with hostile mobs changing targets and registering two
+      or more signals. I just told the thing to STFU and stop doing the loop and stack
+      trace, taking the new thing they got, but its likely we want that checked on
+      more detail.
+  - code_imp: Fixed archers going to fetch their arrows and moving to them instead
+      of runtiming when people arent around. They still dont pick their arrows but
+      thats out of scope.
+  - code_imp: Fixes a non runtime bug when using adjust or set hydration for traitnohunger
+      mobs, that was editing their nutrition instead of hydration, likely a copy paste
+      issue.
+  - code_imp: Fixes a runtime when a looping sound has no one to hear. The answer
+      to what sound makes a tree falling in the forest when no one is around is no
+      longer a runtime.
+  - code_imp: Fixes a runtime with Dullahan's head checks on player interactions panel.
+  - code_imp: Fixes a runtime with hobgoblins underwear when they were being deleted.
+      Should had seen that one coming.
+  - code_imp: Fixes a runtime with dust on drop items that were trying to be qdeleted
+      when death already was qdeleting them, placed a guard so they dont get deleted
+      if they are already deleted.
+  - code_imp: Fixes a runtime with stakes trying to move a victim that is not there.
+  Ryan180602:
+  - balance: changes around all of the silver weapons.
+  - bugfix: fixes certain grammatical issues in texts.
+  - bugfix: bats/zads pass over fences/borders
+  Traveler319:
+  - bugfix: The Volf Helmet can now be crafted with any fur, instead of only volf
+      fur, as the encyclopedia says.
+  WeNeedMorePhoron:
+  - bugfix: Grasp now only work on your own summoned minions and fellowship members,
+      instead of every other player in the game due to an erroneous check for having
+      the same faction (Which all players happens to share)
+  borneblood:
+  - balance: Replaces Mammonite's instakill mechanic with a chunky amount of fire
+      stacks.
+  - bugfix: Mammonite's armor penetration was set wrong.
+  mumblemancer:
+  - code_imp: various old traits have been removed. admins, you may thank me for making
+      ADD_TRAIT easier later.
+  - code_imp: trait_infinite_stamina is now called "BOUNDLESS STAMINA" instead of
+      indefeatigble
+  - admin: annoying voice smite is now available for when someone is being a dingle
+  - bugfix: various spells spellchecked
+  - bugfix: emote-based invocation spells (that use the new datum/action/cooldown
+      base) should be easier to read as spells and show up on the caster's screen
+  - code_imp: datum/action/cooldown/spells no longer have an invocation_emote_self!
+      any future ports of spells from the old system to the new should NOT have a
+      self-invocation and instead use one single invocation.
+  - code_imp: heelkits now add (heeled) instead of (Heeled)
+  nauticall:
+  - rscadd: Gamemodes that have not been chosen in a while now get a multiplier to
+      their votes; for example a vote cast for a gamemode with a 1.15x multiplier
+      will have their vote weighted 1.15x the standard. The winner of a vote will,
+      in the next round, have their votes penalized to a 0.7x rate 'cooldown,' which
+      will gradually replensih to 1.0x over the next two rounds.
+  - server: Added 'storyteller_vote_multipliers.json' to server data storage.
+  - admin: Added 'End Vote Early' button for the storyteller vote panel.
+  radarseas:
+  - balance: profane champion can take steel handaxe/longsword.
+  - balance: heretic can now take arming sword.
+  string-thing:
+  - rscadd: deprived gets the option to spawn with the Broken Sword instead of the
+      club
+  - rscadd: deprived gets the hardsoles trait
+  - rscdel: removes the warrior voicepack from deprived
+2026-10-05:
+  Dorodomki:
+  - rscadd: 'Added new lamellar vest in iron/bronze + a fur headband for decorative
+      purposes
+
+      :cl:'
+  EmilitiaEnnehrt:
+  - rscadd: Ceramic mask, as well as adding it to the loadout
+  - rscadd: Snout variant for weathered xylixian mask
+  - balance: Jester Mask no longer restricts vision
+  FreeStylaLT:
+  - balance: Mild adjustments to the timings and delays of Red (interruptible) swingdelays.
+  KatTheFox:
+  - bugfix: Headshot artist credit settings are no longer massive and ugly
+  Ryan180602:
+  - bugfix: coven power casting with melee in hand
+  WeNeedMorePhoron:
+  - rscadd: Steward can narrow down their petitions more specifically
+  - rscadd: Now, when a merchant send a ship away, it is set to be "DEPARTING" until
+      the timer expires. This allows people to SELL, but not BUY from the ship. This
+      avoids optimal merchant gameplay screwing over producers trying to fulfill their
+      orders.
+  - rscadd: Stewards can target their petitions far more specifically
+  - rscadd: Reverted the lowpop economy adjustment's banditry loss, scaling, and the
+      lowered threat growth rate
+  - rscadd: Cleaned up and rewritten nearly all of the texts associated with the Economy
+      series to be better.
+  - rscadd: Commissioner now pulls directly from the bank account because people are
+      actually using it to park mammons out of reach of taxation. The payment to the
+      smith still goes directly to their hand.
+  - balance: Reduced price of planks, gears and bronze as calculated by the pricing
+      engine.
+  - balance: Improved the pool size of Pottery, Fishing and Carved Goods. They also
+      drains 15% of the pool passively every 15 minutes.
+  - balance: Markup of Carved Goods has been increased and the stones you need to
+      import had its price reduced.
+  - rscadd: Commissioner now can have sack or other containers emptied into them to
+      fulfill orders. Various other dumping were also refactored, including composters,
+      bookcase etc. - report any issues.
+  - rscadd: When you the extract of lux from mindless mobs, mindless mobs die.
+2026-10-06:
+  KatTheFox:
+  - rscadd: The INDEXER report no longer gaslights you with a fake false positive
+      chance. Instead, it actually does have a false positive chance now. This works
+      generally how you'd expect - and in some cases the chance can be increased,
+      like anyone pallid or who's been bitten by a vampire having a chance to be flagged
+      AS a vamp. The false positive chance for patron type is lower than what it says
+      unless you've ever been affected by a miracle of the Four.
+  - rscadd: Clerics of the Ten or Four who convert to Psydon no longer have their
+      devotion entirely deleted. They instead get reset to devotee level, meaning
+      they get Orison and Bootcheck only. No real miracles still.
+  Ollanius:
+  - qol: Katzbelgers(?) (sorry Spear, I can't spell this for crap) can now be morphed
+      from other sidearm-styled swords; the arming sword and messer, specifically.
+  - qol: Knight's Armets are no longer proportioned like bobbleheads (my bad for that
+      in the first place), and should now be more properly fitting to shorter races
+      in particular.
+  - bugfix: Burgonets and Blacksteel Plate Helmets now properly use the right detail
+      sprites (and listings in the .dmis).
+  - rscadd: Open-faced variant of the Burgonet, transformable from a Sallet.
+  - bugfix: Bronze chainmail and lamellar now has bronze-tier protection, instead
+      of mistakingly inheriting the protection levels from their up-path counterparts.
+  - bugfix: Wearing a plated ordinator coat as a Psydonian now applies the Psydonic
+      Grit active event, as it normally would with the standalone variant.
+  - code_imp: Minor rearranging of hauberk-related wordings.
+  ToasterStrudes:
+  - rscadd: 'Added new mixed drinks: The Etrusso and Milk Tea - Made by combining
+      milk and coffee/tea together'
+  WeNeedMorePhoron:
+  - rscadd: Letter message in chat no longer display who it is from
+  - rscadd: Opening letter no longer display who it is from to the entire chat.
+  - rscadd: Reduce notorious contract's proportion since people don't seems to take
+      it a lot, it is occupying too much of the existing pool at the moment
+  - rscadd: When a wave in a blockade is complete, a 3 minutes timer is started before
+      the next blockade come, so that players don't need to be gamey and leave one
+      guy to bleed out for much needed rest time. (It also prevent them from being
+      surprised). Reused some sound effects for warning
+  - rscadd: Added an admin force complete button for testing purpose
+  - rscadd: Added much more detailed contracts statistics for analysis purpose
+  borneblood:
+  - bugfix: Fixed a bunch of explosive runtimes, code oddities, odd qdel wordings,
+      misplaced parent calls and so on.
+  - balance: Bombs can now critically hit NPCs, which will make them meet their maker
+      in peace.
+  - balance: TRAIT_BOMBER_EXPERT now offers a bunch of interactions with battle bombs
+      and trapmaking.
+  - bugfix: Fixed Haemo-Reports from the Inquisition not being able to be read through
+      Examine
+  changelingonberry:
+  - rscadd: Added colored chat spans for every god, usable directly in code and via
+      new admin shorthand tags like [zizo]:text or [notice]:"text".
+  - rscadd: Added Narrate - In View and Narrate - Object admin verbs.
+  - admin: Replaced the Subtle Message quick-link on incoming prayers with Direct
+      Narrate.
+  - admin: Merciless round can now be applied mid-round
+  radarseas:
+  - balance: added a tile of range to lich self destruction
+  - balance: sappers now have a new blast w/ unique effects, it lowers your con and
+      makes you GLOW violently but their blast radius has been drastically improved
+      by a few tiles + smokeshield.
+  - balance: you can no longer bleed people out by nuking people w/ your ERP related
+      organs on top of regular ones by exploding via calcic as a wretch skeleton,
+      literally 1984.

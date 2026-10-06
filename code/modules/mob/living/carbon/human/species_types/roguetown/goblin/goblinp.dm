@@ -87,6 +87,8 @@
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
+		/datum/customizer/bodypart_feature/pubes,
+		/datum/customizer/bodypart_feature/pits,
 		/datum/customizer/organ/ears/goblin,
 		/datum/customizer/organ/horns/humanoid/goblin,
 		/datum/customizer/organ/horns/tusks,

@@ -58,11 +58,18 @@
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Longsword", "Mace", "Flail", "Battle Axe", "Billhook")
+		var/weapons = list("Arming Sword", "Longsword", "Mace", "Flail", "Battle Axe", "Billhook")
 		if(!HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) //Remove Regular Axe BEFORE choice, is picked (so we don't mislead)
 			weapons += "Steel Axe"
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
+			if("Arming Sword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+					r_hand = /obj/item/rogueweapon/sword/psy
+				else
+					r_hand = /obj/item/rogueweapon/sword
+				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Longsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
@@ -108,9 +115,7 @@
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 			add_verb(H, /mob/living/carbon/human/proc/revelations)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 	mask = /obj/item/clothing/mask/rogue/facemask/steel
@@ -363,6 +368,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
+		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
 	tempo_capable = FALSE
@@ -485,8 +491,6 @@
 
 	if (istype (H.patron, /datum/patron/inhumen/zizo))
 		if(H.mind)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
 			H.mind?.current.faction += "[H.name]_faction"
 		ADD_TRAIT(H, TRAIT_GRAVEROBBER, TRAIT_GENERIC)
 

@@ -170,9 +170,9 @@
 		SC_BLACKBLOOD,
 	)
 	choice_tooltips = list(
-		SC_ROTCURED = "<font color='#4a8d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe.<br><br><font color=red>(Grants Easy Dismember, Painless, Breathless, Deathless, Poison Immune, Deadite Immune, Silver Weakness.)<font color=white><br><br>(Additionally, you can eat brains, you don't suffer nausea, and your heart does not beat.)</font>",
-		SC_PALLID = "<font color='#8d4848'>I was once afflicted with vampirism, but was cured by somethign short of divine intervention. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me. Traces I hope will fade in time.<br><br><font color=red>(Grants Darkvision, Breathless, Deadite Immunity and Silver Weakness.)<br><br><font color=white>(Additionally, being outdoors causes stress.)</font>",
-		SC_BLACKBLOOD = "<font color='#8b488d'>I was once a nite-creacher, be it lycanthrope or vampyre, before the Otavan Inquisition subdued and exported me as a test subject of an experimental \"cure\" for my Quicksilver-resistant taint. This intense therapy had me warped, inside, outside, body and mind, into something 'idealistically' humen-like for Otavan standards, even if I am now no different than a sentient, hollowed ghoul.<br><br><font color=red>(Grants Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion, and Silver Weakness.)<br><br><font color=white>(Additionally, consuming any food will grant a minor healing buff. You bleed slower and passively recover from wounds (while not hungry). You will feel stressed when exposed to Sunlight, and panic while being around or interacting with members of the Inquisition.)",
+		SC_ROTCURED = "<font color='#4a8d48'>I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe.<br><br><font color=red>(Grants Easy Dismember, Painless, Breathless, Deathless, Poison Immune, Deadite Immune, Silver Weakness.)<br><br><font color=white>(Additionally, you can eat brains, you don't suffer nausea, and your heart does not beat.)</font></font></font>",
+		SC_PALLID = "<font color='#8d4848'>I was once afflicted with vampirism, but was cured by somethign short of divine intervention. It has left me changed: silver burns my flesh, and the open sky fills me with unease. Yet I draw no breath, and my eyes pierce the darkness. Lingering traces of the curse that once claimed me. Traces I hope will fade in time.<br><br><font color=red>(Grants Darkvision, Breathless, Deadite Immunity and Silver Weakness.)<br><br><font color=white>(Additionally, being outdoors causes stress.)</font></font></font>",
+		SC_BLACKBLOOD = "<font color='#8b488d'>I was once a nite-creacher, be it lycanthrope or vampyre, before the Otavan Inquisition subdued and exported me as a test subject of an experimental \"cure\" for my Quicksilver-resistant taint. This intense therapy had me warped, inside, outside, body and mind, into something 'idealistically' humen-like for Otavan standards, even if I am now no different than a sentient, hollowed ghoul.<br><br><font color=red>(Grants Darkvision, Leaden Lux, Strong Bite, Inhumen Digestion, and Silver Weakness.)<br><br><font color=white>(Additionally, consuming any food will grant a minor healing buff. You bleed slower and passively recover from wounds (while not hungry). You will feel stressed when exposed to Sunlight, and panic while being around or interacting with members of the Inquisition.)</font></font></font>",
 	)
 
 /datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
@@ -196,7 +196,7 @@
 					ADD_TRAIT(recipient, TRAIT_TOXIMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-					to_chat(recipient, "You are no longer a rotting corpse, at least not a dying one.</font>")
+					to_chat(recipient, "You are no longer a rotting corpse, at least not a dying one.")
 
 				if(SC_PALLID)
 					ADD_TRAIT(recipient, TRAIT_PALLID, TRAIT_VIRTUE)
@@ -204,7 +204,7 @@
 					ADD_TRAIT(recipient, TRAIT_NOBREATH, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-					to_chat(recipient, "You are no longer one scorned by Astrata, by the mercy of the gods.</font>")
+					to_chat(recipient, "You are no longer one scorned by Astrata, by the mercy of the gods.")
 
 				if(SC_BLACKBLOOD)
 					ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_VIRTUE)
@@ -213,10 +213,7 @@
 					ADD_TRAIT(recipient, TRAIT_NASTY_EATER, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
 					ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.</font>")
-
-					// blackened blood, finally
-					recipient.dna.species.blood_color = "#530000"
+					to_chat(recipient, "You are no longer one among the nite creechers, by the ingenuinity of HIS followers.")
 
 					// inquisition trauma goes here
 					if(!(recipient.patron?.type == /datum/patron/old_god))
@@ -235,6 +232,19 @@
 					else
 						to_chat(recipient, span_blue("<i>You recall your horrid experiences with the Inquisition... But through your newfound faith in HIM, you ENDURE. You were but one wrong righted, after all.</i>"))
 					to_chat(recipient, span_danger("DISCLAIMER: This Second Choice option exists to support roleplay and backstory continuity, not to diminish the threat or narrative weight of vampires, werewolves, or similar antagonistic entities. You are a tortured survivor of the Otavan Inquisition, and your very LUX fears them. Failure to roleplay this appropriately may result in this option's removal. Have fun and don't be cringe."))
+			// blood color selection
+			if(choice != SC_PALLID)
+				var/blood_color = input(recipient, "Choose the color of your blood.", "Blood Color") as null | anything in list("Coal Black", "Dark Red", "Rust Red")
+				switch(blood_color)
+					if("Dark Red")
+						recipient.dna.species.blood_color = "#530000"
+					if("Rust Red")
+						recipient.dna.species.blood_color = "#3D1B14"
+					if("Coal Black")
+						recipient.dna.species.blood_color = "#161616"
+					else
+						if(choice == SC_BLACKBLOOD) // only blackbloods are FORCED into having blackened blood
+							recipient.dna.species.blood_color = "#530000"
 
 #undef SC_ROTCURED
 #undef SC_BLACKBLOOD

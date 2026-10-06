@@ -91,8 +91,6 @@
 
 	/// What is uttered when the user casts the spell. Can be a list for random selection.
 	var/list/invocations
-	/// What is shown in chat when the user casts the spell, only matters for INVOCATION_EMOTE.
-	var/invocation_self_message
 	/// What type of invocation the spell is.
 	/// Can be "none", "whisper", "shout", "emote".
 	var/invocation_type = INVOCATION_NONE
@@ -580,6 +578,8 @@
 		return FALSE
 	if(!ishuman(owner))
 		return FALSE
+	if(HAS_TRAIT(owner, TRAIT_WARLOCK)) //rituos users get to ignore this, that's your whole shtick
+		return FALSE
 	var/mob/living/carbon/human/H = owner
 	for(var/obj/item/held in list(H.get_active_held_item(), H.get_inactive_held_item()))
 		if(ispath(held?.associated_skill, /datum/skill/combat/staves) || ispath(held?.associated_skill, /datum/skill/combat/arcyne))
@@ -715,7 +715,7 @@
 			owner.balloon_alert(owner, "My vitae drowns out the spell!")
 		return FALSE
 
-	if(HAS_TRAIT(owner, TRAIT_NOC_CURSE))
+	if(HAS_TRAIT(owner, TRAIT_CURSE_NOC))
 		if(feedback)
 			owner.balloon_alert(owner, "My magicka has left me...")
 		return FALSE
@@ -898,6 +898,12 @@
 	// Spells that need pre-cast invocation (e.g. teleports) should call spell_feedback() manually in cast()
 	if(!(precast_result & SPELL_NO_FEEDBACK))
 		spell_feedback(owner)
+
+	if(isliving(owner))
+		var/mob/living/L = owner
+		// Special case: if this is a miracle, and we're a heretic, we flag the target with a higher index false-positive chance
+		if((primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && istype(L.patron, /datum/patron/inhumen))
+			ADD_TRAIT(target, TRAIT_ASCENDENT_MIRACLED, TRAIT_GENERIC)
 
 	if(!(precast_result & SPELL_NO_IMMEDIATE_COOLDOWN))
 		// The entire spell is done, start the actual cooldown at its adjusted duration
@@ -1148,12 +1154,12 @@
 
 		if(INVOCATION_EMOTE)
 			invoker.visible_message(
-				capitalize(replacetext(used_invocation_message, "%CASTER", invoker.name)),
-				capitalize(replacetext(invocation_self_message, "%CASTER", invoker.name)),
+				span_danger(capitalize(replacetext(used_invocation_message, "%CASTER", invoker.name)))
 			)
 
 /// When we start charging the spell called from set_click_ability or start_casting
 /datum/action/cooldown/spell/proc/on_start_charge()
+	set waitfor = 0
 	currently_charging = TRUE
 	fully_charged = FALSE
 	fully_charged_at = 0

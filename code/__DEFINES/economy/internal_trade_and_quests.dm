@@ -51,6 +51,11 @@
 
 #define STANDING_ORDER_BASE_BONUS 1.0
 
+// Scarcity bonus: boosts order PAYOUT (never required quantity) below reference pop, ramping
+// linearly up to +MAX_BONUS at pop 0. Crown income only, no player-side cut.
+#define STANDING_ORDER_SCARCITY_REFERENCE_POP 30
+#define STANDING_ORDER_SCARCITY_MAX_BONUS 0.4
+
 // Partial Fulfillment: Let players fulfill an order with 50% by VALUE for 85% payout
 // So that steward / towners are still soft encouraged to fulfill the whole order
 // But don't feel ripped off because they cannot fetch everything at once
@@ -115,6 +120,10 @@
 #define BANDITRY_DRAIN_BLEAK_PER_PLAYER 2
 // 500 above the default purse floor so that banditry won't tank econ on its own
 #define BANDITRY_DEBT_FLOOR 1500
+
+// Fraction of any Crown's Purse credit skimmed to pay down banditry debt while it's outstanding.
+// Was 1.0 (100%), which made the purse unable to visibly recover until debt cleared.
+#define BANDITRY_DEBT_SKIM_RATE 0.75
 
 
 #define BLOCKADE_ROUNDSTART_COUNT_MIN 2

@@ -1,0 +1,4 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - refactor: "daggers destruction procs are now localized on the dagger and should be easier to read"

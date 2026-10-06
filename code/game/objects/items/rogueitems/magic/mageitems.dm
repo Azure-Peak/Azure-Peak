@@ -42,6 +42,15 @@
 
 /obj/item/storage/magebag/starter
 	populate_contents = list()
+
+
+/obj/item/storage/magebag/witch
+	populate_contents = list(
+		/obj/item/alch/catalyst/nigredo,
+		/obj/item/alch/catalyst/albedo,
+		/obj/item/herbseed/manabloom,
+	)
+
 /obj/item/chalk
 	name = "stick of chalk"
 	desc = "A stark-white stick of chalk, possibly made from quicksilver. "

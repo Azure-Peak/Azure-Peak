@@ -23,7 +23,23 @@ SUBSYSTEM_DEF(questpool)
 	// Front-load every region to its full target so roundstart has a healthy mix.
 	regen_kill_targets(total_kill_target())
 	regen_fetch_targets()
+	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(on_mob_death))
 	return ..()
+
+/datum/controller/subsystem/questpool/proc/on_mob_death(datum/source, mob/living/dead, gibbed)
+	SIGNAL_HANDLER
+	if(!istype(dead) || !dead.ckey)
+		return
+	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(!Q || Q.complete)
+			continue
+		var/mob/living/bearer = Q.quest_receiver_reference?.resolve()
+		if(!istype(bearer))
+			continue
+		if(dead != bearer && !bearer.current_fellowship?.has_member(dead))
+			continue
+		record_contract_stat(Q, CONTRACT_STAT_DEATHS)
 
 /datum/controller/subsystem/questpool/proc/get_nearest_ledger_turf(turf/reference)
 	var/turf/closest
@@ -208,6 +224,16 @@ SUBSYSTEM_DEF(questpool)
 	for(var/datum/quest/Q as anything in stale)
 		adjust_region_count(Q, -1)
 		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
+		record_contract_stat(Q, CONTRACT_STAT_LAPSED)
+		switch(Q.source)
+			if(QUEST_SOURCE_POOL)
+				record_round_statistic(STATS_CONTRACTS_LAPSED_POOL)
+			if(QUEST_SOURCE_RUMOR)
+				record_round_statistic(STATS_CONTRACTS_LAPSED_RUMOR)
+			if(QUEST_SOURCE_DEFENSE)
+				record_round_statistic(STATS_CONTRACTS_LAPSED_DEFENSE)
+		if(Q.source != QUEST_SOURCE_POOL)
+			refund_lapsed_posting(Q)
 		qdel(Q)
 		record_round_statistic(STATS_CONTRACTS_REROLLED)
 	for(var/i in 1 to kill_replacements_needed)
@@ -218,6 +244,26 @@ SUBSYSTEM_DEF(questpool)
 		if(!type)
 			continue
 		generate_one(type, TR, is_replacement = TRUE)
+
+/datum/controller/subsystem/questpool/proc/refund_lapsed_posting(datum/quest/Q)
+	var/label = Q.get_title() || Q.quest_type
+	var/refund_text = Q.refund_issuer_funding("Lapsed posting refund")
+	Q.mark_issue_log(QUEST_ISSUE_STATUS_LAPSED, refund_text)
+	if(!refund_text)
+		return
+	record_round_statistic(STATS_CONTRACTS_LAPSE_REFUNDED)
+	log_event("lapse_refund", "[Q.source] [Q.quest_type] \"[label]\" by [Q.quest_giver_name || "unknown"] refunded [refund_text]")
+	log_game("Contract posting \"[label]\" ([Q.source], issued by [Q.quest_giver_name || "unknown"]) lapsed untaken - refunded [refund_text].")
+	var/mob/poster = Q.quest_giver_reference?.resolve()
+	if(poster)
+		to_chat(poster, span_notice("Your posting <b>[label]</b> lapsed untaken. Refunded [refund_text]."))
+
+/datum/controller/subsystem/questpool/proc/remove_from_pool(datum/quest/Q)
+	if(!(Q in pool))
+		return FALSE
+	pool -= Q
+	adjust_region_count(Q, -1)
+	return TRUE
 
 /datum/controller/subsystem/questpool/proc/issue_rumor_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/innkeeper = null)
 	if(!type || !(type in GLOB.rumor_point_costs))
@@ -264,6 +310,7 @@ SUBSYSTEM_DEF(questpool)
 		scroll.update_quest_text()
 		innkeeper.put_in_hands(scroll)
 		record_round_statistic(STATS_CONTRACTS_GENERATED)
+		record_contract_stat(Q, CONTRACT_STAT_POSTED)
 		record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
 		log_event("generate", "rumor-in-hands [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 		return Q
@@ -272,6 +319,7 @@ SUBSYSTEM_DEF(questpool)
 	adjust_region_count(Q, 1)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
+	record_contract_stat(Q, CONTRACT_STAT_POSTED)
 	log_event("generate", "rumor-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
@@ -324,12 +372,13 @@ SUBSYSTEM_DEF(questpool)
 		adjust_region_count(Q, 1)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
 	record_round_statistic(STATS_CONTRACTS_GENERATED_DEFENSE)
+	record_contract_stat(Q, CONTRACT_STAT_POSTED)
 	log_event("generate", "[in_hands ? "defense-in-hands" : "defense-pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
 /// Bearer-bond scroll is spawned straight into the Steward's hand. Wave 1 materializes
 /// on first scroll-open, not at issue time — see quest_scroll_blockade.attack_self.
-/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward, datum/fund/source_fund, cost = 0)
+/datum/controller/subsystem/questpool/proc/issue_blockade_defense_quest(datum/blockade/B, mob/living/carbon/human/steward)
 	if(!B || !steward)
 		return null
 	if(B.has_active_scroll())
@@ -354,8 +403,6 @@ SUBSYSTEM_DEF(questpool)
 		qdel(Q)
 		return null
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
-	Q.funding_fund = source_fund
-	Q.funding_cost = cost
 	Q.issued_at = world.time
 	var/obj/item/quest_writ/blockade/scroll = new(get_turf(steward))
 	scroll.base_icon_state = Q.get_scroll_icon()
@@ -367,6 +414,7 @@ SUBSYSTEM_DEF(questpool)
 	B.active_scroll_ref = WEAKREF(scroll)
 	B.active_quest_ref = WEAKREF(Q)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	record_contract_stat(Q, CONTRACT_STAT_POSTED)
 	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q
 
@@ -375,8 +423,8 @@ SUBSYSTEM_DEF(questpool)
 /// hoard-bearing regions without an economic region (Terrorbog) work. Raised either by a
 /// fellowship's own pledge (is_commission = FALSE, fellowship-gated at issue) or drafted
 /// by the Steward like any defense writ (is_commission = TRUE, fellowship-gated only when
-/// pinned to the ledger). source_fund/cost feed the standard recall-refund machinery.
-/datum/controller/subsystem/questpool/proc/issue_hoard_recovery_request(datum/threat_region/TR, mob/living/carbon/human/requester, datum/fund/source_fund, cost = 0, is_commission = FALSE)
+/// pinned to the ledger).
+/datum/controller/subsystem/questpool/proc/issue_hoard_recovery_request(datum/threat_region/TR, mob/living/carbon/human/requester, is_commission = FALSE)
 	if(!TR || !requester)
 		return null
 	var/fid = SSeconomy.pick_blockade_faction_for(TR)
@@ -392,8 +440,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.deposit_amount = 0
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
 	Q.required_fellowship_size = is_commission ? 0 : BLOCKADE_FELLOWSHIP_REQUIREMENT
-	Q.funding_fund = source_fund
-	Q.funding_cost = cost
+	Q.raised_by_fellowship = !is_commission
 	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name, Q)
 	if(!landmark)
 		qdel(Q)
@@ -411,6 +458,7 @@ SUBSYSTEM_DEF(questpool)
 	requester.put_in_hands(scroll)
 	TR.active_hoard_recovery_ref = WEAKREF(Q)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	record_contract_stat(Q, CONTRACT_STAT_POSTED)
 	log_event("generate", "hoard-recovery [is_commission ? "commission" : "request"] in-hand for [TR.region_name] (faction [Q.faction_id], hoard [TR.banditry_hoard])")
 	return Q
 
@@ -458,6 +506,7 @@ SUBSYSTEM_DEF(questpool)
 		pool += Q
 		adjust_region_count(Q, 1)
 	record_round_statistic(STATS_CONTRACTS_GENERATED)
+	record_contract_stat(Q, CONTRACT_STAT_POSTED)
 	log_event("generate", "towner-[to_hand ? "hand" : "pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], variety [TQ.effective_variety() || "none"], reward [Q.reward_amount])")
 	return Q
 
@@ -486,6 +535,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	pool += Q
 	adjust_region_count(Q, 1)
+	record_contract_stat(Q, CONTRACT_STAT_POSTED)
 	// Skip the generation counter when this is a stale-reroll replacement - reroll already bumped STATS_CONTRACTS_REROLLED.
 	if(!is_replacement)
 		record_round_statistic(STATS_CONTRACTS_GENERATED)
@@ -615,6 +665,7 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/proc/mark_abandoned(mob/user, datum/quest/Q, forfeited)
 	record_round_statistic(STATS_CONTRACTS_ABANDONED)
+	record_contract_stat(Q, CONTRACT_STAT_ABANDONED)
 	if(forfeited)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_FORFEITED, forfeited)
 	log_event("abandon", "[describe_user(user)] forfeited [forfeited] on [Q?.quest_difficulty] [Q?.quest_type]")

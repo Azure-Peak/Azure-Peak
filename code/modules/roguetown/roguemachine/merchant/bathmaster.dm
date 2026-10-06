@@ -3,7 +3,7 @@
 
 /obj/structure/roguemachine/bathvend
 	name = "BRASSFACE"
-	desc = "A brass-faced cabinet wrought of Eora's hearth, that the lonely and weary may take comfort within."
+	desc = "A cabinet faced in brass and wrought of Eora's hearth, that the lonely and weary may take comfort within."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "brassface"
 	density = TRUE
@@ -35,6 +35,7 @@
 	var/church_tithe_collected_here = 0
 	var/list/categories = list(
 		"Alcohols",
+		"Bath Supplies",
 		"Discreet Zads",
 		"Drugs",
 		"Exotic Apparel",
@@ -156,7 +157,7 @@
 	if(!ishuman(user))
 		return
 	if(locked && !is_public)
-		to_chat(user, span_warning("It's locked. Of course."))
+		to_chat(user, span_warning("It's locked."))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)

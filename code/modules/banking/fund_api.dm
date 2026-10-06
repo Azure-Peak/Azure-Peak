@@ -91,7 +91,8 @@
 /datum/controller/subsystem/treasury/proc/skim_for_banditry_debt(datum/fund/to_fund, amount)
 	if(amount <= 0 || banditry_debt <= 0 || to_fund != discretionary_fund)
 		return amount
-	var/skim = min(amount, banditry_debt)
+	// Only a fraction skims toward debt - the rest visibly lands in the purse.
+	var/skim = min(round(amount * BANDITRY_DEBT_SKIM_RATE), banditry_debt)
 	banditry_debt -= skim
 	GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] = banditry_debt
 	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, "Banditry debt repayment"))
@@ -111,7 +112,7 @@
 	record_round_statistic(STATS_TREASURY_DEBT_REPAID, skim)
 	var/reason
 	if(treasury_state == TREASURY_BANKRUPTCY)
-		reason = "Sequestration debt - Azurian Trading Company"
+		reason = "Sequestration debt - ATC"
 	else if(treasury_state == TREASURY_IN_ARREARS)
 		reason = "Arrears repayment - Burghers of Azuria"
 	else
@@ -157,7 +158,7 @@
 	to_fund.pending_micro = list()
 	if(remainder > 0)
 		to_fund.pending_micro += list(list("amount" = remainder, "source" = null, "reason" = "carryover"))
-	mint(to_fund, whole, "Fractional remit ([whole]m from [contributors] pending entries)")
+	mint(to_fund, whole, "Small payments combined ([whole]m from [contributors] payments)")
 	return whole
 
 /datum/controller/subsystem/treasury/proc/burn(datum/fund/from_fund, amount, reason)

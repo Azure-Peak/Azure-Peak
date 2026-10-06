@@ -94,6 +94,9 @@
 	GLOB.human_list += src
 	unarmed_special = new /datum/special_intent/upper_cut()
 
+	if(npc_archetype)
+		init_npc_archetype()
+
 /mob/living/carbon/human/Login()
 	. = ..()
 	if(!GetComponent(/datum/component/arousal))
@@ -727,7 +730,7 @@
 
 /mob/living/carbon/human/vv_get_dropdown()
 	. = ..()
-	VV_DROPDOWN_OPTION("", "---------")
+	VV_DROPDOWN_OPTION("", "--- /human ---")
 	VV_DROPDOWN_OPTION(VV_HK_REAPPLY_PREFS, "Reapply Preferences")
 	VV_DROPDOWN_OPTION(VV_HK_SET_SPECIES, "Set Species")
 	VV_DROPDOWN_OPTION(VV_HK_PURGE_PARTOF_SLOT, "Purge Part of Slot")
@@ -982,7 +985,11 @@
 
 	updateappearance(mutcolor_update = TRUE)
 
-	job = target.job // NOT assigned_role
+	// 9/22 edit : adding "advjob" to whats stolen bc otherwise assassins keep showing up as "poisoner" or whatever on examine.
+	// our examine code doesent allow for fake jobs very well & i cant be bothered to snowflake it so we're gonna do this. this MIGHT
+	// break something..????
+	job = target.job
+	advjob = target.advjob
 	faction = target.faction
 	deathsound = target.deathsound
 	gender = target.gender
@@ -999,7 +1006,15 @@
 	socks = target.socks
 	has_stubble = target.has_stubble
 	headshot_link = target.headshot_link
-	flavortext = target.flavortext
+	headshot_artist_credit = target.headshot_artist_credit
+	headshot_artist_link = target.headshot_artist_link
+	// i dont want NPCs to make you a guy w/ no flavortext
+	if(flavortext)
+		flavortext = target.flavortext
+	if(flavortext_cached)
+		// this might be a bad idea. i dont know.
+		flavortext_cached = target.flavortext_cached
+	copy_descriptors(target)
 
 	var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
 	if(!isnull(target_head))
@@ -1007,6 +1022,13 @@
 		user_head.bodypart_features = target_head.bodypart_features
 
 	regenerate_icons()
+
+
+/mob/living/carbon/human/proc/copy_descriptors(mob/living/carbon/human/target)
+	if(!ishuman(target))
+		return
+	mob_descriptors = target.mob_descriptors?.Copy()
+	custom_descriptors = target.custom_descriptors.Copy()
 
 
 /mob/living/carbon/human/proc/copy_bodyparts(mob/living/carbon/human/target)
@@ -1144,3 +1166,25 @@
 	vocal_pitch_range = client.prefs.bark_variance
 	apply_voicepacks(src, client)
 	return TRUE
+
+// mood penalties for poor equipment as a noble: if they're not spawn equipment and are poor quality, mood debuff. if you're covered in blood, mood debuff
+/mob/living/carbon/human/check_equipment_mood_penalty()
+	if(HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED))
+		var/any_bad = FALSE
+		var/any_bloody = FALSE
+		for(var/obj/item/I in get_equipped_items())
+			if((I.item_quality != ITEM_QUALITY_WORN) && (I.item_quality < ITEM_QUALITY_STANDARD))
+				any_bad = TRUE
+			if(!cmode && (HAS_BLOOD_DNA(I) || I.GetComponent(/datum/component/decal/blood)))
+				any_bloody = TRUE
+			if(any_bad && (cmode || any_bloody))
+				break
+		if(any_bad && !has_stress_event(/datum/stressevent/unlanded_noble_shitty_equipment))
+			add_stress(/datum/stressevent/unlanded_noble_shitty_equipment)
+		else if(!any_bad && has_stress_event(/datum/stressevent/unlanded_noble_shitty_equipment))
+			remove_stress(/datum/stressevent/unlanded_noble_shitty_equipment)
+
+		if(any_bloody && !has_stress_event(/datum/stressevent/unlanded_noble_bloody_equipment))
+			add_stress(/datum/stressevent/unlanded_noble_bloody_equipment)
+		else if(!any_bloody && has_stress_event(/datum/stressevent/unlanded_noble_bloody_equipment))
+			remove_stress(/datum/stressevent/unlanded_noble_bloody_equipment)

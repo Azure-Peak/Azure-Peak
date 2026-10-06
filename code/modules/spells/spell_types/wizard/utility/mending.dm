@@ -198,14 +198,13 @@
 
 /datum/action/cooldown/spell/mending/malum
 	name = "Reforge"
-	desc = "Uses divine power to mend an item, prosthetic or artificial being. Effect of repair scales off of your Intelligence."
+	desc = "Uses divine power to mend an item, prosthetic or artificial being."
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon_state = "repair"
 	spell_color = GLOW_COLOR_MALUM
-	sparks_amt = 1
 
-	invocations = list("Reforge")
+	invocations = list("Malum, let Thy hammer strike me and grant me shape.")
 	invocation_type = INVOCATION_SHOUT
 
 	repair_percent = 0.30

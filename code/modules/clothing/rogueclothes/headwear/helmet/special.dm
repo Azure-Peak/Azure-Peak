@@ -154,6 +154,9 @@
 	result = list(/obj/item/clothing/head/roguetown/helmet/sallet/grenzelhoft)
 	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat = 1,
 				/obj/item/clothing/head/roguetown/helmet/sallet = 1)
+	blacklist = list(/obj/item/clothing/head/roguetown/helmet/sallet/iron,
+					/obj/item/clothing/head/roguetown/helmet/sallet/iron/banded,
+					/obj/item/clothing/head/roguetown/helmet/sallet/iron/legacy)
 	craftdiff = 0
 	skip_quality = TRUE
 
@@ -170,6 +173,7 @@
 	result = list(/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/grenzelhoft)
 	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat = 1,
 				/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan = 1)
+	blacklist = list(/obj/item/clothing/head/roguetown/helmet/bascinet/etruscan/iron)
 	bypass_dupe_test = TRUE
 	craftdiff = 0
 	skip_quality = TRUE
@@ -187,6 +191,9 @@
 	result = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/grenzelhoft)
 	reqs = list(/obj/item/clothing/head/roguetown/grenzelhofthat = 1,
 				/obj/item/clothing/head/roguetown/helmet/sallet/visored = 1)
+	blacklist = list(/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron,
+					/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/snouted,
+					/obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/legacy)
 	bypass_dupe_test = TRUE
 	craftdiff = 0
 	skip_quality = TRUE

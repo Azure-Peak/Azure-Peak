@@ -5,7 +5,7 @@
 	if(!ref)
 		return
 	if(!SStreasury.has_account(user))
-		say("[user.real_name] has no bank account on record.")
+		say("You have no bank account. Register with a Meister first.")
 		play_reject_sound()
 		return
 	var/datum/quest/Q = locate(ref) in SSquestpool.pool
@@ -14,12 +14,12 @@
 		play_reject_sound()
 		return
 	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
-		say("You cannot sign a contract you yourself put on the board.")
+		say("You can't sign your own contract.")
 		play_reject_sound()
 		return
 
 	if(is_quest_claim_barred(user))
-		say("Your office forbids you from signing contracts. Leave the work to those sworn to it.")
+		say("Your office forbids you from signing contracts.")
 		play_reject_sound()
 		return
 
@@ -27,25 +27,25 @@
 		var/elapsed = world.time - SSticker.round_start_time
 		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
 			var/remaining_min = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / (1 MINUTES))
-			say("This contract is reserved for sellswords and the like. Members of the town may sign after [remaining_min]m.")
+			say("For now, only sellswords and the like can sign contracts. You can sign in [remaining_min]m.")
 			play_reject_sound()
 			return
 
 	var/active_cap = get_active_quest_cap(user)
 	if(count_user_active_contracts(user) >= active_cap)
-		say("You are already committed to [active_cap] contracts. Complete one before signing another.")
+		say("You already hold [active_cap] contracts. Finish one before signing another.")
 		play_reject_sound()
 		return
 
 	if(SSquestpool.is_on_take_cooldown(user))
 		var/remaining_seconds = round(SSquestpool.take_cooldown_remaining(user) / 10)
-		say("You have taken your fill of contracts. Wait [remaining_seconds]s before signing another.")
+		say("You've signed too many contracts recently. Wait [remaining_seconds]s before signing another.")
 		play_reject_sound()
 		return
 
 	var/deposit = Q.deposit_amount
 	if(SStreasury.get_balance(user) < deposit)
-		say("Insufficient balance. This contract requires a [deposit] mammon deposit.")
+		say("You need [deposit] mammon in your account for the deposit.")
 		play_reject_sound()
 		return
 
@@ -55,7 +55,7 @@
 		return
 
 	if(!SSquestpool.claim(Q, user))
-		say("That contract could not be dispatched. Try another.")
+		say("That contract can't be signed right now. Try another.")
 		play_reject_sound()
 		return
 
@@ -71,7 +71,10 @@
 	Q.quest_scroll_ref = WEAKREF(spawned_scroll)
 	spawned_scroll.update_quest_text()
 
-	SStreasury.burn(SStreasury.get_account(user), deposit, "quest deposit")
+	var/datum/fund/deposit_account = SStreasury.get_account(user)
+	if(SStreasury.burn(deposit_account, deposit, "contract deposit"))
+		Q.deposit_payer = deposit_account
+		Q.deposit_paid = deposit
 
 /obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
 	if(user in scroll.get_quest_assignees(user, TRUE))
@@ -91,7 +94,7 @@
 	var/mob/living/holder = Q.quest_receiver_reference?.resolve()
 	var/mode = resolve_turnin_mode(user, scroll_in_hand, holder)
 	if(!mode)
-		to_chat(user, span_warning("You are not the assigned quest receiver for this contract!"))
+		to_chat(user, span_warning("This contract isn't yours to turn in."))
 		return
 	turn_in_scroll(user, scroll_in_hand, mode, holder)
 
@@ -105,9 +108,9 @@
 	var/datum/fund/benef_account = SStreasury.get_account(beneficiary)
 	if(!benef_account)
 		if(mode == QUEST_TURNIN_OFFICIAL)
-			say("[holder_name] has no account on record - the reward cannot be credited.")
+			say("[holder_name] has no bank account. The reward can't be paid.")
 		else
-			say("No account on record - register with a Meister before turning in the contract.")
+			say("You have no bank account. Register with a Meister before turning in the contract.")
 		return
 
 	var/base_reward = completed_quest.reward_amount
@@ -115,12 +118,13 @@
 	var/gross_reward = base_reward + deposit_return
 
 	var/quest_levy_exempt = completed_quest.levy_exempt
+	completed_quest.record_completion_stats(base_reward)
 	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
 		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
 
-	SStreasury.mint(benef_account, gross_reward, "quest reward - [src.name]")
+	SStreasury.mint(benef_account, gross_reward, "contract reward - [src.name]")
 
 	// Levy applies only to the base reward, not the returned deposit. The deposit is the
 	// bearer's own money being given back; taxing it would be a hidden levy on principal.
@@ -141,7 +145,7 @@
 
 	var/list/deductions = list()
 	if(tax_amt > 0)
-		deductions += "[tax_amt] mammon to the Crown's Levy"
+		deductions += "[tax_amt] mammon to the Contract Levy"
 	if(guild_fee_paid > 0)
 		deductions += "[guild_fee_paid] mammon to the Guild's cut"
 	var/deductions_clause = length(deductions) ? ", less [english_list(deductions)]" : ""
@@ -150,9 +154,36 @@
 		if(QUEST_TURNIN_OFFICIAL)
 			say("On behalf of [holder_name], a reward of [base_reward] mammon has been credited to their account[deductions_clause].[deposit_clause]")
 		if(QUEST_TURNIN_FELLOWSHIP)
-			say("On [holder_name]'s behalf, your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
+			say("You turned in [holder_name]'s contract. [base_reward] mammon has been credited to you[deductions_clause].[deposit_clause]")
 		else
 			say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
+
+/obj/structure/roguemachine/contractledger/proc/admin_complete_by_ref(mob/user, ref)
+	if(!ref || !check_rights_for(user?.client, R_DEBUG))
+		return
+	var/datum/weakref/user_ref = WEAKREF(user)
+	var/obj/item/quest_writ/matched_scroll
+	var/datum/quest/matched_quest
+	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(!Q || Q.quest_receiver_reference != user_ref)
+			continue
+		if(REF(Q) != ref)
+			continue
+		matched_scroll = scroll
+		matched_quest = Q
+		break
+	if(!matched_quest)
+		return
+	log_admin("[key_name(user)] force-completed a [matched_quest.quest_type] contract at the Contract Ledger.")
+	if(!matched_quest.complete)
+		if(istype(matched_quest, /datum/quest/kill))
+			var/datum/quest/kill/KQ = matched_quest
+			KQ.despawn_live_hunt_mobs()
+		matched_quest.progress_current = matched_quest.progress_required
+		matched_quest.mark_complete()
+	if(!QDELETED(matched_scroll) && matched_scroll.assigned_quest?.complete)
+		turn_in_scroll(user, matched_scroll, QUEST_TURNIN_SELF)
 
 /obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
 	if(!ref)
@@ -173,12 +204,12 @@
 		to_chat(user, span_warning("That contract is not yours to abandon."))
 		return
 	if(matched_quest.complete)
-		to_chat(user, span_warning("That contract is already complete - turn it in instead."))
+		to_chat(user, span_warning("That contract is already complete. Turn it in instead."))
 		return
 	var/forfeited = matched_quest.calculate_deposit()
 	log_quest(user.ckey, user.mind, user, "Abandon [matched_quest.quest_type]")
 	SSquestpool.mark_abandoned(user, matched_quest, forfeited)
-	to_chat(user, span_warning("The contract is voided. Your deposit of [forfeited] mammon is forfeit."))
+	to_chat(user, span_warning("You abandon the contract and lose your [forfeited] mammon deposit."))
 	matched_scroll.assigned_quest = null
 	qdel(matched_quest)
 	qdel(matched_scroll)

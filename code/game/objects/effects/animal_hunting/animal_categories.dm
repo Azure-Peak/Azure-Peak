@@ -88,12 +88,14 @@
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = 20,
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 5,
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf/dire = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll = 3,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mole = 5,
 		/mob/living/simple_animal/hostile/retaliate/rogue/boar = 5,
 	)
 	preferred_tracks = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = "ursine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf/dire = "canine",
 		/mob/living/simple_animal/hostile/retaliate/rogue/troll = "ursine",
 		/mob/living/simple_animal/hostile/retaliate/rogue/mole = "ursine",
 		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/game = "cervine",

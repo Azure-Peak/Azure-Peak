@@ -30,6 +30,12 @@
 	H.set_patron(/datum/patron/inhumen/zizo)
 	H.can_do_sex = FALSE // we've had one too many skeletons panel themselves in public
 
+	H.possible_rmb_intents = list(/datum/rmb_intent/feint,\
+	/datum/rmb_intent/aimed,\
+	/datum/rmb_intent/riposte,\
+	/datum/rmb_intent/strong,\
+	/datum/rmb_intent/weak)
+	H.swap_rmb_intent(num=1)
 
 	var/datum/antagonist/new_antag = new /datum/antagonist/skeleton()
 	H.mind.add_antag_datum(new_antag)
@@ -86,6 +92,8 @@ NECRO SKELETONS
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/legionnaire/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
@@ -167,6 +175,8 @@ NECRO SKELETONS
 /datum/outfit/job/roguetown/greater_skeleton/necro/ballistiare/pre_equip(mob/living/carbon/human/H)
 	..()
 
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
+
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 	H.STASTR = 8
@@ -244,6 +254,8 @@ NECRO SKELETONS
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/bulwark/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
 
 	H.STASTR = 12
 	H.STAPER = 10
@@ -346,6 +358,8 @@ NECRO SKELETONS
 
 /datum/outfit/job/roguetown/greater_skeleton/necro/sapper/pre_equip(mob/living/carbon/human/H)
 	..()
+
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Literally a nobody reanimated
 
 	REMOVE_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC) //sidegrade here

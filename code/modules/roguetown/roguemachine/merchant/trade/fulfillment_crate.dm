@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/ship_fulfillment
 	name = "ship fulfillment crate"
-	desc = "A wide crate stamped with the seal of the Azurian Trading Company. Goods deposited here are accepted against the demands of foreign vessels in port - the depositor is paid in mammon to their account, less the Crown's export duty and the Merchant's middleman cut."
+	desc = "A wide crate stamped with the seal of the Azurian Trading Company. Goods left here go to the foreign ships in port that want them. You are paid to your account after the Crown's export duty and the Merchant's levy are taken."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "streetvendor1"
 	density = TRUE
@@ -28,7 +28,7 @@
 
 /obj/structure/roguemachine/ship_fulfillment/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click with an item to deposit it for matching ship demands. You must have a MEISTER account to deposit - the crate will refuse goods otherwise.")
+	. += span_info("Left-click with an item to deposit it for matching ship demands. You need a MEISTER account to deposit.")
 	. += span_info("Right-click to dump everything on your tile into the crate at once.")
 	. += span_info("Certain items like kegs can be click dragged or offloaded in hand.")
 	. += span_info("Stacks, handcarts, and bins are unloaded automatically.")
@@ -39,7 +39,7 @@
 		return
 	var/n_ships = 0
 	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
-		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+		if(!ship.accepts_deliveries())
 			continue
 		for(var/list/line in ship.bulk_demands)
 			if(line["qty_fulfilled"] < line["qty_target"])
@@ -85,10 +85,10 @@
 			return TRUE
 		if("toggle_duty")
 			if(!can_manage(usr))
-				to_chat(usr, span_warning("Only the Merchant or Shophand may work the crate's underledger."))
+				to_chat(usr, span_warning("Only the Merchant or Shophand can work the crate's underledger."))
 				return TRUE
 			duty_suspended = !duty_suspended
-			to_chat(usr, span_notice("Crown export duty now [duty_suspended ? "DODGED" : "PAID"] at this crate."))
+			to_chat(usr, span_notice("Export duty now [duty_suspended ? "DODGED" : "PAID"] at this crate."))
 			return TRUE
 
 /obj/structure/roguemachine/ship_fulfillment/ui_data(mob/user)
@@ -98,7 +98,7 @@
 	var/kin_sell_mult = SSmerchant_trade ? SSmerchant_trade.get_kinship_sell_mult(kin_realm) : 1
 	if(SSmerchant_trade)
 		for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
-			if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+			if(!ship.accepts_deliveries())
 				continue
 			var/is_kin = (kin_realm && ship.realm_id == kin_realm) ? TRUE : FALSE
 			var/list/lines = list()
@@ -213,14 +213,12 @@
 	if(istype(I, /obj/item/roguebin))
 		var/obj/item/roguebin/bin = I
 		var/turf/bin_loc = get_turf(bin)
-		var/datum/component/storage/STR = bin.GetComponent(/datum/component/storage)
-		if(STR)
-			var/list/bin_contents = STR.contents()
-			for(var/obj/item/bin_item in bin_contents)
-				attempt_deposit(bin_item, user, message, FALSE, tally)
-			for(var/obj/item/remaining in bin_contents)
-				if(!QDELETED(remaining))
-					STR.remove_from_storage(remaining, bin_loc)
+		var/list/bin_contents = bin.held_contents()
+		for(var/obj/item/bin_item in bin_contents)
+			attempt_deposit(bin_item, user, message, FALSE, tally)
+		for(var/obj/item/remaining in bin_contents)
+			if(!QDELETED(remaining))
+				bin.release_held(remaining, bin_loc)
 		if(sound)
 			playsound(loc, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 		return
@@ -230,7 +228,11 @@
 		return
 	if(I.atc_sealed)
 		if(message)
-			to_chat(user, span_warning("[I] bears an Azurian Trading Company seal - foreign captains will not buy Company stock back."))
+			to_chat(user, span_warning("[I] bears an ATC seal. Foreign captains won't buy ATC stock back."))
+		return
+	var/datum/component/unsellable/unsellable = GetComponent(/datum/component/unsellable)
+	if(unsellable)
+		to_chat(user, span_warning("[I] [unsellable.reason]. No captain will buy it."))
 		return
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		var/obj/item/reagent_containers/food/snacks/F = I
@@ -243,13 +245,13 @@
 		var/list/dish_line = dish_match["line"]
 		if(dish_line["tag"] == TRADE_VICTUALLING_TAG_DRINKS && !dish_line["by_bottle"])
 			if(message)
-				to_chat(user, span_warning("Captains buy drinks by the barrel - drag a full keg onto [src], not loose bottles."))
+				to_chat(user, span_warning("Captains buy drinks by the keg. Drag a full keg onto [src]."))
 			return
 		if(istype(I, /obj/item/reagent_containers/glass/bottle/brewing_bottle))
 			var/obj/item/reagent_containers/glass/bottle/brewing_bottle/BB = I
 			if(!BB.sealed)
 				if(message)
-					to_chat(user, span_warning("[I] has been unsealed - no captain will load an opened bottle."))
+					to_chat(user, span_warning("[I] has been unsealed. No captain will load an opened bottle."))
 				return
 		var/datum/trade_ship/dish_ship = dish_match["ship"]
 		dish_line["qty_fulfilled"]++
@@ -325,7 +327,7 @@
 		say("No account found for [user]. Submit your fingers to a Meister for inspection.")
 		return
 	if(keg.anchored)
-		to_chat(user, span_warning("[keg] is fixed in place - bottle its spirits and deposit those instead."))
+		to_chat(user, span_warning("[keg] is fixed in place. Bottle its spirits and deposit those instead."))
 		return
 	if(keg.brewing || !keg.ready_to_bottle || keg.tapped || !keg.selected_recipe)
 		to_chat(user, span_warning("[keg] holds no finished, sealed batch the captains would buy."))
@@ -395,7 +397,9 @@
 	if(producer_payout < 0)
 		producer_payout = 0
 	record_round_statistic(STATS_TRADE_VALUE_EXPORTED, gross)
-	ship.favor_earned += gross
+	ship.add_favor(gross)
+	SSmerchant_trade?.refund_hail_if_honored(ship)
+	ship.depart_if_filled()
 	if(sound)
 		playsound(loc, 'sound/misc/hiss.ogg', 70, TRUE, -1)
 	if(tally)
@@ -441,7 +445,7 @@
 		return null
 	var/type_str = "[item_type]"
 	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
-		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+		if(!ship.accepts_deliveries())
 			continue
 		for(var/list/line in ship.bulk_demands)
 			if(line["typepath"] != type_str)
@@ -453,7 +457,7 @@
 
 /obj/structure/roguemachine/ship_fulfillment/proc/find_demand_match(good_id)
 	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
-		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+		if(!ship.accepts_deliveries())
 			continue
 		for(var/list/line in ship.bulk_demands)
 			if(line["good"] != good_id)

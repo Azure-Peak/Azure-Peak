@@ -165,7 +165,7 @@
 
 /obj/item/rogueweapon/flail/aflail
 	name = "decrepit flail"
-	desc = "A spiked ball of wrought bronze, chained to a rotwooden handle. The chains groan with every twirl, strained by forces it hadn't felt in millenia; swing it a bit too hard, and there's a chance that the flailhead might completely fly off."
+	desc = "A spiked ball of rotted metal, chained to a rotwooden handle. The chains groan with every twirl, strained by forces it hadn't felt in millenia; swing it a bit too hard, and there's a chance that the flailhead might completely fly off."
 	icon_state = "aflail"
 	force = 22
 	max_integrity = 75
@@ -196,26 +196,29 @@
 	smeltresult = /obj/item/ingot/steel
 	minstr = 5
 
+/obj/item/rogueweapon/flail/cleric
+	name = "anointed flail"
+	icon_state = "crusaderflail"
+	desc = "A crusader's morning star, adorned with a head of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
+	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes."
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
+	max_integrity = 200 //+50
+	minstr = 12
+	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
+
 /obj/item/rogueweapon/flail/sflail/silver
-	force = 35
 	icon_state = "silverflail"
 	name = "silver morningstar"
 	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
-	desc = "A heavy, silver flail. It follows the Grenzelhoftian design of a 'morning star', utilizing a longer chain to extend its reach. While stronger than a steel flail, it requires far more strength to effectively swing."
+	desc = "A heavy, silver flail. It follows the Grenzelhoftian design of a 'morning star', utilizing a longer chain to extend its reach."
 	smeltresult = /obj/item/ingot/silver
-	max_integrity = 200 //Same value as before, for reference.
-	minstr = 12
 	is_silver = TRUE
 
 /obj/item/rogueweapon/flail/sflail/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 0,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /obj/item/rogueweapon/flail/sflail/necraflail
@@ -229,20 +232,13 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 0,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /obj/item/rogueweapon/flail/sflail/psyflail
 	name = "psydonic flail"
 	desc = "An ornate flail, plated in a ceremonial veneer of silver. Its flanged head can crumple even the toughest of darksteel-maille."
 	icon_state = "psyflail"
-	force = 35
-	minstr = 11
-	wdefense = 0
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -250,22 +246,14 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 0,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/flail/sflail/psyflail/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 0,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/flail/sflail/psyflail/relic
@@ -273,16 +261,15 @@
 	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."
 	icon_state = "psymorningstar"
 	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
+	force = 35
+	minstr = 11
+	max_integrity = 250
 
 /obj/item/rogueweapon/flail/sflail/psyflail/relic/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 100,\
-		added_int = 100,\
-		added_def = 0,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/flail/peasantwarflail
@@ -338,6 +325,7 @@
 	possible_item_intents = list(/datum/intent/flail/strike/matthiosflail)
 	no_loot_taint = TRUE
 	gripped_intents = list(/datum/intent/flail/strike/matthiosflail, /datum/intent/flail/smash/matthiosflail, /datum/intent/flail/sweep)
+	max_integrity = 400 //You're supposed to be parrying with this, I guess. 7 defense, so 400 integrity is the bare minimum for this to be usable without having to turn combat mode off after 60 seconds.
 	associated_skill = /datum/skill/combat/whipsflails
 	slot_flags = ITEM_SLOT_BACK
 	anvilrepair = /datum/skill/craft/weaponsmithing

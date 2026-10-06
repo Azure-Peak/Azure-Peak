@@ -12,52 +12,48 @@
 	converted_type = /area/rogue/under/lake
 	first_time_text = "CITY HARBOR"
 	deathsight_message = "a windswept shore"
+	area_sniff_message = "You smell the town, faintly, buried underneath the scent of the sea."
 	detail_text = DETAIL_TEXT_ACTUAL_COAST
 
 // No sea raiders here! The Central Coast is relatively safe.
 /area/rogue/outdoors/beach/central
 	name = "Central Coast"
+	ambush_factions = list()
 	ambush_mobs = list(
-		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
-		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
-		/mob/living/simple_animal/hostile/rogue/deepone = 15,
-		new /datum/ambush_config/triple_deepone = 30,
-		new /datum/ambush_config/deepone_party = 20,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40,
+		/mob/living/simple_animal/hostile/rogue/deepone = 60,
+		/datum/npc_warband/triple_deepone = 120,
+		/datum/npc_warband/deepone_party = 80,
 	)
 	first_time_text = "CENTRAL COAST"
 	threat_region = THREAT_REGION_AZURE_GROVE
+	area_sniff_message = "You smell the seas and the sands."
 
 /area/rogue/outdoors/beach/north
 	name = "Northern Coast"
+	ambush_factions = list()
 	ambush_mobs = list(
-		/mob/living/carbon/human/species/human/northern/searaider/ambush = 10,
-		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 3,
-		/mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush = 3,
-		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
-		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
-		/mob/living/carbon/human/species/orc/npc/berserker = 10,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40,
-		new /datum/ambush_config/huscarl_raiding_party = 3
+		/mob/living/carbon/human/species/orc/npc/berserker = 24,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 98,
+		/datum/npc_warband/huscarl_raiding_party = 7,
 	)
 	first_time_text = "NORTHERN COAST"
 	threat_region = THREAT_REGION_AZUREAN_COAST
+	area_sniff_message = "You smell the seas and the sands."
 
 /area/rogue/outdoors/beach/south
 	name = "Southern Coast"
+	ambush_factions = list()
 	ambush_mobs = list(
-		/mob/living/carbon/human/species/human/northern/searaider/ambush = 5,
-		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 2,
-		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
-		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
-		/mob/living/simple_animal/hostile/rogue/deepone = 15,
-		new /datum/ambush_config/triple_deepone = 30,
-		new /datum/ambush_config/deepone_party = 20,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 31,
+		/mob/living/simple_animal/hostile/rogue/deepone = 47,
+		/datum/npc_warband/triple_deepone = 94,
+		/datum/npc_warband/deepone_party = 63,
 	)
 	first_time_text = "SOUTHERN COAST"
 	detail_text = DETAIL_TEXT_CITY_COAST
 	threat_region = THREAT_REGION_AZURE_BASIN
+	area_sniff_message = "You smell the seas and the sands."
 //PILGRIM
 
 /area/rogue/outdoors/beach/grim
@@ -78,15 +74,11 @@
 
 /area/rogue/outdoors/beach/north/grim
 	name = "Bilewater Coast"
+	ambush_factions = list()
 	ambush_mobs = list(
-		/mob/living/carbon/human/species/human/northern/searaider/ambush = 10,
-		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 3,
-		/mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush = 3,
-		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
-		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
-		/mob/living/carbon/human/species/orc/npc/berserker = 10,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 40,
-		new /datum/ambush_config/huscarl_raiding_party = 3
+		/mob/living/carbon/human/species/orc/npc/berserker = 24,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 98,
+		/datum/npc_warband/huscarl_raiding_party = 7,
 	)
 	first_time_text = "BILEWATER COAST"
 	droning_sound = 'sound/music/area/grimcoast.ogg'
@@ -97,15 +89,12 @@
 
 /area/rogue/outdoors/beach/south/grim
 	name = "Jaggedjaw Coast"
+	ambush_factions = list()
 	ambush_mobs = list(
-		/mob/living/carbon/human/species/human/northern/searaider/ambush = 5,
-		/mob/living/carbon/human/species/human/northern/searaider/archer/ambush = 2,
-		/mob/living/carbon/human/species/goblin/npc/ambush/sea = 20,
-		/mob/living/carbon/human/species/goblin/npc/archer/sea = 5,
-		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 10,
-		/mob/living/simple_animal/hostile/rogue/deepone = 15,
-		new /datum/ambush_config/triple_deepone = 30,
-		new /datum/ambush_config/deepone_party = 20,
+		/mob/living/simple_animal/hostile/retaliate/rogue/mossback = 31,
+		/mob/living/simple_animal/hostile/rogue/deepone = 47,
+		/datum/npc_warband/triple_deepone = 94,
+		/datum/npc_warband/deepone_party = 63,
 	)
 	first_time_text = "JAGGEDJAW COAST"
 	droning_sound = list('sound/music/area/townstreets.ogg', 'sound/music/area/townchill.ogg', 'sound/music/area/townstroll.ogg', 'sound/music/area/townwander.ogg')

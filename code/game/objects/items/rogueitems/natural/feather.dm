@@ -16,6 +16,7 @@
 	muteinmouth = TRUE
 	spitoutmouth = FALSE
 	w_class = WEIGHT_CLASS_TINY
+	materia = list(/datum/materia_aspect/air)
 
 /obj/item/natural/feather/get_mechanics_examine(mob/user)
 	. = ..()
@@ -42,7 +43,7 @@
 			if(oldname == input)
 				to_chat(user, span_notice("I changed \the [O.name] to... well... \the [O.name]."))
 			else
-				O.name = "[input] ([initial(O.name)])"
+				O.name = "[input] <font size = 1>([initial(O.name)])</font>"
 				to_chat(user, span_notice("\The [oldname] has been successfully been renamed to \the [input]."))
 				O.renamedByPlayer = TRUE
 

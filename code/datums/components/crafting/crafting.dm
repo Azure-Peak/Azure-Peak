@@ -213,6 +213,8 @@
 	return FALSE
 
 /datum/component/personal_crafting/proc/construct_item_repeatable(mob/user, datum/crafting_recipe/R, amount = 1, auto)
+	if(R.required_trait && !HAS_TRAIT(user, R.required_trait))
+		return
 	while(amount > 0 || auto)
 		amount--
 		var/result = construct_item(user, R)
@@ -228,6 +230,7 @@
 	var/list/contents = get_surroundings(user)
 //	var/send_feedback = 1
 	var/build_dir = user.dir
+	var/craft_dir = R.do_not_turn ? SOUTH : build_dir
 	var/turf/T = get_step(user, build_dir)
 	if(isopenturf(T) && R.wallcraft)
 		to_chat(user, span_warning("Need to craft this on a wall."))
@@ -306,7 +309,7 @@
 						var/mob/living/L = user
 						if(L.STAINT > 10)
 							prob2craft += round((((10 - L.STAINT) * -1) * CRAFT_BONUS_PER_INT), 0.1)
-						if(HAS_TRAIT(L, TRAIT_INTELLECTUAL) && L.STAINT > 8)
+						if((HAS_TRAIT(L, TRAIT_INTELLECTUAL) || HAS_TRAIT(L, TRAIT_GOODCRAFTER)) && L.STAINT > 8)
 							prob2craft += 5
 						if(HAS_TRAIT(L, TRAIT_MALUMCHOSEN))
 							prob2craft += 20
@@ -384,7 +387,7 @@
 						for(var/IT in L)
 							var/atom/movable/I = new IT(T)
 							I.CheckParts(parts, R)
-							I.OnCrafted(build_dir, user)
+							I.OnCrafted(craft_dir, user)
 							if(isitem(I))
 								var/obj/item/CI = I
 								CI.was_crafted = TRUE
@@ -399,7 +402,7 @@
 						if(ispath(R.result, /turf))
 							var/turf/X = T.PlaceOnTop(R.result)
 							if(X)
-								X.OnCrafted(build_dir, user)
+								X.OnCrafted(craft_dir, user)
 								X.add_fingerprint(user)
 								if(R.loud)
 									X.loud_message("Construction sounds can be heard")
@@ -413,7 +416,7 @@
 							if(R.diagonal)
 								I.OnCrafted(I.SelectDiagDirection(), user)
 							else
-								I.OnCrafted(build_dir, user)
+								I.OnCrafted(craft_dir, user)
 							if(isitem(I))
 								var/obj/item/CI = I
 								CI.was_crafted = TRUE
@@ -593,6 +596,11 @@
 				var/atom/movable/I
 				while(amt > 0)
 					I = locate(A) in surroundings
+					if(!I)
+						break
+					if(R.blacklist.Find(I.type))
+						surroundings -= I
+						continue
 					Deletion += I
 					surroundings -= I
 					amt--
@@ -666,6 +674,8 @@
 			continue
 		if(R.required_tech_node && !R.tech_unlocked)
 			continue
+		if(R.required_trait && !HAS_TRAIT(user, R.required_trait))
+			continue
 
 		craftability[R.name] = check_contents(R, surroundings)
 
@@ -683,6 +693,8 @@
 		if(!R.always_availible && !(R.type in user?.mind?.learned_recipes))
 			continue
 		if(R.required_tech_node && !R.tech_unlocked)
+			continue
+		if(R.required_trait && !HAS_TRAIT(user, R.required_trait))
 			continue
 		if(isnull(crafting_recipes[R.cached_category]))
 			crafting_recipes[R.cached_category] = list()

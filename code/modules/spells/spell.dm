@@ -41,6 +41,7 @@
 	var/ignore_armor_penalty = FALSE
 
 	var/skipcharge = FALSE
+	var/breaks_invisibility = TRUE
 
 /obj/effect/proc_holder/Initialize(mapload)
 	. = ..()
@@ -608,14 +609,15 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 	before_cast(targets, user = user)
 	if(user && user.ckey)
 		user.log_message(span_danger("cast the spell [name]."), LOG_ATTACK)
-	if(user.mob_timers[MT_INVISIBILITY] > world.time)
-		user.mob_timers[MT_INVISIBILITY] = world.time
-		user.update_sneak_invis(reset = TRUE)
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.rogue_sneaking)
-			L.mob_timers[MT_FOUNDSNEAK] = world.time
-			L.update_sneak_invis(reset = TRUE)
+	if(breaks_invisibility)
+		if(user.mob_timers[MT_INVISIBILITY] > world.time)
+			user.mob_timers[MT_INVISIBILITY] = world.time
+			user.update_sneak_invis(reset = TRUE)
+		if(isliving(user))
+			var/mob/living/L = user
+			if(L.rogue_sneaking)
+				L.mob_timers[MT_FOUNDSNEAK] = world.time
+				L.update_sneak_invis(reset = TRUE)
 	if(cast(targets, user = user))
 		// Self spells bypass the ranged_ability click pipeline, which is where
 		// releasedrain stamina cost is normally applied (via mob_helpers.dm).
@@ -639,6 +641,9 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 				H.bad_guard(span_warning("I can't focus while casting spells!"), cheesy = TRUE)
 			if(!ignore_combat_tag)
 				L.changeNext_inCombat(IN_COMBAT_DELAY)
+			if(miracle && istype(L.patron, /datum/patron/inhumen))
+				for(var/mob/living/LT in targets)
+					ADD_TRAIT(LT, TRAIT_ASCENDENT_MIRACLED, TRAIT_GENERIC)
 		if(action)
 			action.build_all_button_icons()
 		return TRUE

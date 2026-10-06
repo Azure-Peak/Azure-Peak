@@ -250,6 +250,9 @@
 			//	contained_items += result
 			// contained_items -= item
 			var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
+			var/datum/component/unsellable/unsellable = item.GetComponent(/datum/component/unsellable)
+			if(unsellable)
+				result.AddComponent(/datum/component/unsellable, unsellable.reason) // no money laundering with just a forge. you want to sell, make something fancy out of it
 			contained_items -= item
 			contained_items += result
 			qdel(item)
@@ -298,7 +301,7 @@
 			bronzealloy = bronzealloy + 2
 		if(item.smeltresult == /obj/item/ingot/aaslag)
 			purifiedalloy = purifiedalloy + 3
-		if(item.smeltresult == /obj/item/ingot/gold)
+		if((item.smeltresult == /obj/item/ingot/gold) || (item.smeltresult == /obj/item/goldslag))
 			purifiedalloy = purifiedalloy + 2
 		if(item.smeltresult == /obj/item/ingot/silver)
 			blacksteelalloy = blacksteelalloy + 1
@@ -323,21 +326,29 @@
 		// The smelting quality of all ores added together, divided by the number of ores, and then rounded to the lowest integer (this isn't done until after the for loop)
 		var/floor_mean_quality = SMELTERY_LEVEL_SPOIL
 		var/ore_deleted = 0
+		var/datum/component/unsellable/is_unsellable
 		for(var/obj/item/item in contained_items)
 			floor_mean_quality += contained_items[item]
 			ore_deleted += 1
 			if(counts_for_economy())
 				record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, item.type, 1)
 			contained_items -= item
+			if(!is_unsellable)
+				is_unsellable = GetComponent(item, /datum/component/unsellable) // one alchemical apple unsellables the bunch
 			qdel(item)
 		floor_mean_quality = floor(floor_mean_quality/ore_deleted)
 		for(var/i in 1 to max_contained_items)
 			var/obj/item/result = smelt_into(alloy, floor_mean_quality)
+			if(is_unsellable)
+				result.AddComponent(/datum/component/unsellable, is_unsellable.reason) // alloying with alchemical ores/bars also doesn't work to money launder. nice try though!
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)
 			if(item.smeltresult)
 				var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
+				var/datum/component/unsellable/unsellable = item.GetComponent(/datum/component/unsellable)
+				if(unsellable)
+					result.AddComponent(/datum/component/unsellable, unsellable.reason) // no money laundering with just a forge. you want to sell, make something fancy out of it
 				contained_items -= item
 				contained_items += result
 				qdel(item)
@@ -375,6 +386,7 @@
 		alloy = null
 
 	if(alloy)
+		var/datum/component/unsellable/is_unsellable
 		// The smelting quality of all ores added together, divided by the number of ores, and then rounded to the lowest integer (this isn't done until after the for loop)
 		var/floor_mean_quality = SMELTERY_LEVEL_SPOIL
 		var/ore_deleted = 0
@@ -384,15 +396,22 @@
 			if(counts_for_economy())
 				record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_SMELTING, item.type, 1)
 			contained_items -= item
+			if(!is_unsellable)
+				is_unsellable = GetComponent(item, /datum/component/unsellable) // one alchemical apple unsellables the bunch
 			qdel(item)
 		floor_mean_quality = floor(floor_mean_quality/ore_deleted)
 		for(var/i in 1 to max_contained_items)
 			var/obj/item/result = smelt_into(alloy, floor_mean_quality)
+			if(is_unsellable)
+				result.AddComponent(/datum/component/unsellable, is_unsellable.reason) // alloying with alchemical ores/bars also doesn't work to money launder. nice try though!
 			contained_items += result
 	else
 		for(var/obj/item/item in contained_items)
 			if(item.smeltresult)
 				var/obj/item/result = smelt_into(item.smeltresult, contained_items[item], item)
+				var/datum/component/unsellable/unsellable = item.GetComponent(/datum/component/unsellable)
+				if(unsellable)
+					result.AddComponent(/datum/component/unsellable, unsellable.reason) // no money laundering with just a forge. you want to sell, make something fancy out of it
 				contained_items -= item
 				contained_items += result
 				qdel(item)

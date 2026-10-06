@@ -78,11 +78,16 @@
 						record_round_statistic(STATS_MAMMONS_DEPOSITED, rand(80, 120))
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_WELLKNOWN, TRAIT_VIRTUE)
 				if(recipient.mind)
 					for(var/X in (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions))
 						for(var/datum/mind/MF in get_minds(X))
 							recipient.mind.person_knows_me(MF)
 							recipient.mind.i_know_person(MF)
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(HAS_TRAIT(H, TRAIT_WELLKNOWN)) // if we're joining late, we need to make sure we check for virtue and quirk havers
+							recipient.mind.person_knows_me(H)
+							recipient.mind.i_know_person(H)
 
 				if (!recipient.islatejoin)
 					var/target_z = 0
@@ -123,21 +128,25 @@
 #undef NOTABLE_RESIDENCY
 #undef NOTABLE_SHREWD
 
+#define SOCIALITE_BEAUTIFUL "Beautiful Trait"
 #define SOCIALITE_MASSAGE "Massage Ability"
 #define SOCIALITE_NUTCRACKER "Nutcracker Trait"
 #define SOCIALITE_EMPATH "Empath Trait"
+#define SOCIALITE_PERFORMER "Performer Trait"
 
 /datum/virtue/utility/socialite
 	name = "Socialite"
 	desc = "I thrive in social settings, easily reading the emotions of others and charming those around me. My presence is always felt at any gathering."
 	ui_fa_icon = "people-arrows"
-	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER)
-	max_choices = 4
-	choice_costs = list(0, 0, 2, 4)
+	added_traits = list(TRAIT_GOODLOVER)
+	max_choices = 5
+	choice_costs = list(0, 0, 0, 2, 4)
 	extra_choices = list(
+	SOCIALITE_BEAUTIFUL,
 	SOCIALITE_MASSAGE,
 	SOCIALITE_NUTCRACKER,
 	SOCIALITE_EMPATH,
+	SOCIALITE_PERFORMER,
 	"Cookies" = /obj/item/reagent_containers/food/snacks/rogue/cookie,
 	"Rosa Bouquet" = /obj/item/bouquet/rosa,
 	"Salvia Bouquet" = /obj/item/bouquet/salvia,
@@ -156,29 +165,46 @@
 	"Pear Perfume" = /obj/item/perfume/pear,
 	"Strawberry Perfume" = /obj/item/perfume/strawberry,
 	"Cinnamon Perfume" = /obj/item/perfume/cinnamon,
+	"Guitar" = /obj/item/rogue/instrument/guitar,
+	"Lute" = /obj/item/rogue/instrument/lute,
+	"Hurdy Gurdy" = /obj/item/rogue/instrument/hurdygurdy,
+	"Harp" = /obj/item/rogue/instrument/harp,
+	"Flute" = /obj/item/rogue/instrument/flute,
+	"Accordion" = /obj/item/rogue/instrument/accord,
+	"Shamisen" = /obj/item/rogue/instrument/shamisen,
+	"Drum" = /obj/item/rogue/instrument/drum,
+	"Viola" = /obj/item/rogue/instrument/viola,
+	"Vocal Talisman" = /obj/item/rogue/instrument/vocals,
+	"Psyaltery" = /obj/item/rogue/instrument/psyaltery
 	)
 
 /datum/virtue/utility/socialite/apply_to_human(mob/living/carbon/human/recipient)
 	..()
-	recipient.mind.special_items["Hand Mirror"] = /obj/item/handmirror
 	for(var/choice in picked_choices)
 		switch(choice)
 			if(SOCIALITE_MASSAGE)
 				if(recipient.mind)
 					recipient.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
+			if(SOCIALITE_BEAUTIFUL)
+				if(isdullahan(recipient))
+					ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
+				else
+					ADD_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
+				recipient.mind.special_items["Hand Mirror"] = /obj/item/handmirror
 			if(SOCIALITE_NUTCRACKER)
 				ADD_TRAIT(recipient, TRAIT_NUTCRACKER, TRAIT_VIRTUE)
 			if(SOCIALITE_EMPATH)
 				ADD_TRAIT(recipient, TRAIT_EMPATH, TRAIT_VIRTUE)
+			if(SOCIALITE_PERFORMER)
+				recipient.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, silent = TRUE)
 			else
 				recipient.mind.special_items[choice] = extra_choices[choice]
-	if(isdullahan(recipient))
-		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
 
+#undef SOCIALITE_BEAUTIFUL
 #undef SOCIALITE_MASSAGE
 #undef SOCIALITE_NUTCRACKER
 #undef SOCIALITE_EMPATH
+#undef SOCIALITE_PERFORMER
 
 /datum/virtue/utility/failed_squire
 	name = "Failed Squire"
@@ -266,7 +292,7 @@
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
-		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
+		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab)."
 	)
 	extra_choices = list(
 		"Darksight" = TRAIT_DARKVISION,
@@ -274,7 +300,7 @@
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
 		"Sneak Skill (+2, Up to Legendary)" = /datum/skill/misc/sneaking,
 		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking,
-		"Second Voice"
+		"Alter Ego"
 		)
 
 /datum/virtue/utility/prowler/apply_to_human(mob/living/carbon/human/recipient)
@@ -296,33 +322,12 @@
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
-			else if(choice == "Second Voice")
-				add_verb(recipient, /mob/living/carbon/human/proc/changevoice)
-				add_verb(recipient, /mob/living/carbon/human/proc/swapvoice)
-				recipient.AddComponent(/datum/component/voice_handler)
-
-/datum/virtue/utility/performer
-	name = "Performer"
-	desc = "Music, artistry and the act of showmanship carried me through life. I've hidden a favorite instrument of mine, know how to please anyone I touch, and how to crack the eggs of hecklers."
-	ui_fa_icon = "guitar"
-	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
-	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
-	added_skills = list(list(/datum/skill/misc/music, 4, 4))
-	max_choices = 3
-	choice_costs = list(0, 2, 2)
-	extra_choices = list(
-		"Guitar" = /obj/item/rogue/instrument/guitar,
-		"Lute" = /obj/item/rogue/instrument/lute,
-		"Hurdy Gurdy" = /obj/item/rogue/instrument/hurdygurdy,
-		"Harp" = /obj/item/rogue/instrument/harp,
-		"Flute" = /obj/item/rogue/instrument/flute,
-		"Accordion" = /obj/item/rogue/instrument/accord,
-		"Shamisen" = /obj/item/rogue/instrument/shamisen,
-		"Drum" = /obj/item/rogue/instrument/drum,
-		"Viola" = /obj/item/rogue/instrument/viola,
-		"Vocal Talisman" = /obj/item/rogue/instrument/vocals,
-		"Psyaltery" = /obj/item/rogue/instrument/psyaltery
-	)
+			else if(choice == "Alter Ego")
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_color)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_voice)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_looks)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_swap)
+				recipient.AddComponent(/datum/component/alter_ego)
 
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
 	if(triumph_check(recipient))
@@ -330,14 +335,6 @@
 			if(ispath(extra_choices[choice], /obj/item))
 				recipient.mind?.special_items[choice] = extra_choices[choice]
 
-/datum/virtue/utility/granary
-	name = "Cunning Provisioner"
-	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
-	desc = "You've worked in or around the docks enough to steal away a sack of supplies that no one would surely miss, just in case. You've picked up on some cooking and fishing tips in your spare time, as well."
-	ui_fa_icon = "fish-fins"
-	added_stashed_items = list("Bag of Food" = /obj/item/storage/roguebag/food)
-	added_skills = list(list(/datum/skill/craft/cooking, 3, 6),
-						list(/datum/skill/labor/fishing, 2, 6))
 
 /datum/virtue/utility/homesteader
 	name = "Pilgrim (-3 TRI)"
@@ -357,20 +354,6 @@
 						list(/datum/skill/labor/lumberjacking, 2, 2),
 						list(/datum/skill/combat/knives, 2, 2)
 	)
-
-/datum/virtue/utility/ugly
-	name = "Ugly"
-	desc = "Be it your family's habits in and out of womb, your own choices or Xylix's cruel roll of fate, you have been left unbearable to look at. Stuck to the unseen pits and crevices of the town, you've grown used to the foul odours of lyfe that often follow you. Corpses do not stink for you, and that is all the company you might find."
-	ui_fa_icon = "eye-slash"
-	custom_text = "Incompatible with Beautiful virtue."
-	added_traits = list(TRAIT_UNSEEMLY, TRAIT_NOSTINK)
-
-/datum/virtue/utility/ugly/handle_traits(mob/living/carbon/human/recipient)
-	..()
-	if(HAS_TRAIT(recipient, TRAIT_BEAUTIFUL))
-		to_chat(recipient, "Your repulsiveness is cancelled out! You become normal.")
-		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
 
 /datum/virtue/utility/keenears
 	name = "Keen Ears"
@@ -448,12 +431,13 @@
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.
 // Hags don't get a boon on this person, that's perhaps a choice to add later.
+// DEVOTION NOTE - it'll be touching this later to add a bit more to it to justify the statnuke n its presence as a virtue over the quirk form. do not remove
 /datum/virtue/utility/feytouched
-	name = "Feytouched"
+	name = "Feybound"
 	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
 	ui_fa_icon = "ghost"
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
-	added_traits = list(TRAIT_FEYTOUCHED)
+	added_traits = list(TRAIT_FEYBOUND)
 	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),
 						list(/datum/skill/craft/alchemy, 1, 4)
 	)
@@ -470,5 +454,5 @@
 		hag_mind.i_know_person(recipient)
 		recipient.mind.i_know_person(hag_mind)
 		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name] is walking the lands this week."))
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a feybound, is walking the lands this week."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))

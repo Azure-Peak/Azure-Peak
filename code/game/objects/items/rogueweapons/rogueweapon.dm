@@ -58,6 +58,12 @@
 	if(ispath(special))
 		special = new special()
 
+	if(!length(materia)) // some weapons will want custom aspects
+		if(is_tool)
+			materia = list(/datum/materia_aspect/tool)
+		else
+			materia = list(/datum/materia_aspect/weapon)
+
 /obj/item/rogueweapon/dropped(mob/user, silent)
 	. = ..()
 	if(istype(src, /obj/item/rogueweapon/shield))
@@ -75,12 +81,11 @@
 		AddComponent(\
 			/datum/component/silverbless,\
 			pre_blessed = BLESSING_NONE,\
-			silver_type = SILVER_TENNITE,\
-			added_force = 0,\
-			added_blade_int = 0,\
-			added_int = 25,\
-			added_def = 2,\
+			silver_type = SILVER_TENNITE\
 		)
+
+/obj/item/rogueweapon/proc/on_blessed(blessing_type)
+	return
 
 /obj/item/rogueweapon/get_examine_string(mob/user, thats = FALSE)
 	return "[thats? "That's ":""]<b>[get_examine_name(user)]</b> <font size = 1>[get_blade_dulling_text(src)]</font>"
@@ -118,10 +123,7 @@
 
 /obj/item/rogueweapon/rmb_self(mob/user, keybind = FALSE)
 	if(has_altgrip_modes() && (keybind || user.cmode))
-		if(wielded && !altgripped)
-			ungrip(user)
 		altgrip(user)
-		user.update_inv_hands()
 		return
 	return ..()
 

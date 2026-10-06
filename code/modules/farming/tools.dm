@@ -2,7 +2,7 @@
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(MACE_STRIKE)
-	gripped_intents = list(/datum/intent/flail/thresh, /datum/intent/flail/smash, MACE_STRIKE) 
+	gripped_intents = list(/datum/intent/flail/thresh, /datum/intent/flail/smash, MACE_STRIKE)
 	name = "thresher"
 	desc = "A soilson's lyfeline, chiseled into a studded halflog that's tethered to a staff. It crushes produce into seeds, turns stalks into food, and melds the skulls of thieves into powdery debris."
 	icon_state = "flail"
@@ -61,7 +61,7 @@
 
 /obj/item/rogueweapon/thresher/aalloy
 	name = "decrepit thresher"
-	desc = "A thresher of wrought bronze; from when the wheat was plentiful, and when Man wasn't burdened with the weight of sin."
+	desc = "A thresher of rotted metal; from when the wheat was plentiful, and when Man wasn't burdened with the weight of sin."
 	force = 5
 	force_wielded = 7
 	icon_state = "athresh"
@@ -272,17 +272,7 @@
 			work_time = 0.5 SECONDS //if legendary skill, do_afters take half a second instead of 3
 
 		user.changeNext_move(CLICK_CD_INTENTCAP)
-		if(istype(T, /turf/open/floor/rogue/snow) || istype(T, /turf/open/floor/rogue/snowrough) || istype(T, /turf/open/floor/rogue/snowpatchy))
-			playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
-			if (do_after(user, work_time, target = src))
-				apply_farming_fatigue(user, 10)
-				if(hoe_damage)
-					to_chat(user,span_warning("[src] degrades."))
-					src.take_damage(hoe_damage, BRUTE, "blunt")
-				T.ChangeTurf(/turf/open/floor/rogue/grasscold, flags = CHANGETURF_INHERIT_AIR)
-				playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
-			return
-		if(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/grassred) || istype(T, /turf/open/floor/rogue/grassyel) || istype(T, /turf/open/floor/rogue/grasscold))
+		if(istype(T, /turf/open/floor/rogue/grass) || istype(T, /turf/open/floor/rogue/grassred) || istype(T, /turf/open/floor/rogue/grassyel) || istype(T, /turf/open/floor/rogue/grasscold) || istype(T, /turf/open/floor/rogue/snow) || istype(T, /turf/open/floor/rogue/snowrough) || istype(T, /turf/open/floor/rogue/snowpatchy))
 			playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
 			if (do_after(user, work_time, target = src))
 				apply_farming_fatigue(user, 10)
@@ -294,7 +284,7 @@
 			return
 		if(istype(T, /turf/open/floor/rogue/dirt))
 			playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
-			if(do_after(user, work_time, target = src))	
+			if(do_after(user, work_time, target = src))
 				playsound(T,'sound/items/dig_shovel.ogg', 100, TRUE)
 				var/obj/structure/soil/soil = get_soil_on_turf(T)
 				if(soil)
@@ -378,7 +368,7 @@
 
 /obj/item/rogueweapon/pitchfork/aalloy
 	name = "decrepit pitchfork"
-	desc = "Do not fault the layman for fearing Her disciples, nor for driving them out of the villages with pitchforks-and-torches. They, too, will come to see the blessings of Zizo, all in due tyme." 
+	desc = "Do not fault the layman for fearing Her disciples, nor for driving them out of the villages with pitchforks-and-torches. They, too, will come to see the blessings of Zizo, all in due tyme."
 	icon_state = "apitchfork"
 	smeltresult = /obj/item/ingot/aalloy
 	color = "#bb9696"

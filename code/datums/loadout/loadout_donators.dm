@@ -18,6 +18,14 @@
 	name = "Gift - Azurosa Flower"
 	path = /obj/item/alch/rosa/azure
 
+/datum/loadout_item/donator/universal/ilamellar
+	name = "Gift - Iron Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
+
+/datum/loadout_item/donator/universal/blamellar
+	name = "Gift - Bronze Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
+
 /datum/loadout_item/donator/universal/azurosa_seeds
 	name = "Gift - Azurosa Flower, Seeds"
 	path = /obj/item/storage/belt/rogue/pouch/azurosa_seeds
@@ -121,6 +129,10 @@
 /datum/loadout_item/donator/universal/armor_gothic_psydonic
 	name = "Gift - Kit, Gothic Psydonic Cuirass"
 	path = /obj/item/enchantingkit/gothicpsydoniccuirass
+
+/datum/loadout_item/donator/universal/armor_gothic_sallet
+	name = "Gift - Kit, Gothic Sallet"
+	path = /obj/item/enchantingkit/gothicsallet
 
 /datum/loadout_item/donator/universal/cuirass_throwback
 	name = "Gift - Kit, Heroic Leather Cuirass"
@@ -258,6 +270,10 @@
 	name = "Gift - Kit, Long Jacketed Gambeson"
 	path = /obj/item/enchantingkit/donator_jacketed_gambeson_long
 
+/datum/loadout_item/donator/universal/donator_heavybrig
+	name = "Gift - Brigandine with Plate"
+	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
+
 /datum/loadout_item/donator/universal/armorpiece_decapauldron
 	name = "Gift - Armor Cosmetic, Decablessed Pauldrons"
 	path = /obj/item/enchantingkit/donator_universal_decapauldron
@@ -289,6 +305,10 @@
 /datum/loadout_item/donator/universal/donator_drowgoggles
 	name = "Gift - Kit, Skikuldic Goggles"
 	path = /obj/item/clothing/mask/rogue/spectacles/iron/drow
+
+/datum/loadout_item/donator/universal/celestialstaff
+	name = "Donator Kit - Celestial Staff"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff
 
 // --- GRENZEL REGIONAL ---
 
@@ -790,17 +810,17 @@
 /datum/loadout_item/donator/nero_sword
 	name = "Donator Kit - Sylvan Longsword"
 	path = /obj/item/enchantingkit/weapon/nero_lsword
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui","mattatlas","gabopwn")
 
 /datum/loadout_item/donator/nero_dagger
 	name = "Donator Kit - Sylvan Dagger"
 	path = /obj/item/enchantingkit/weapon/nero_dagger
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui","mattatlas","gabopwn")
 
 /datum/loadout_item/donator/nero_sabre
 	name = "Donator Kit - Sylvan Sabre"
 	path = /obj/item/enchantingkit/weapon/nero_sabre
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui","mattatlas","gabopwn")
 
 /datum/loadout_item/donator/des_gaebolg
 	name = "Dontaor Kit - Gae Bolg"
@@ -892,6 +912,21 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
 	ckeywhitelist = list("mortosasye")
 
+/datum/loadout_item/donator/mortosasye_sunrisegown
+	name = "Donator Item - Sunrise Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_sunrisegown
+	ckeywhitelist = list("mortosasye")
+
+/datum/loadout_item/donator/mortosasye_goldendiadem
+	name = "Donator Item - Golden Diadem"
+	path = /obj/item/clothing/head/roguetown/circlet/donator_mortosasye_golddiadem
+	ckeywhitelist = list("mortosasye", "flybrokenwings")
+
+/datum/loadout_item/donator/morto_crown
+	name = "Donator Kit - Sun Crown"
+	path = /obj/item/enchantingkit/morto_crown
+	ckeywhitelist = list("mortosasye")
+
 /datum/loadout_item/donator/racobio_staff
 	name = "Donator Kit - Obsidian Tower"
 	path = /obj/item/enchantingkit/racobio_staff
@@ -967,9 +1002,9 @@
 	path = /obj/item/clothing/head/roguetown/decoration/broche
 	ckeywhitelist = list("rhynnrhynn")
 
-/datum/loadout_item/donator/rhynnrhynn_staff
-	name = "Donator Kit - Celestial Staff"
-	path = /obj/item/enchantingkit/rhynnrhynn_staff
+/datum/loadout_item/donator/rhynnrhynn_staff_glow
+	name = "Donator Kit - Celestial Staff, Glowing"
+	path = /obj/item/enchantingkit/rhynnrhynn_staff_glow
 	ckeywhitelist = list("rhynnrhynn")
 
 /datum/loadout_item/donator/rhynnrhynn_staff_crested
@@ -1055,17 +1090,17 @@
 /datum/loadout_item/donator/nero_woodlandcloak
 	name = "Gift - Woodland Mantle"
 	path = /obj/item/clothing/cloak/furcloak/woodland
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui","mattatlas","gabopwn")
 
 /datum/loadout_item/donator/nero_woodlandhood
 	name = "Gift - Woodland Shawl"
 	path = /obj/item/clothing/head/roguetown/roguehood/shawlhood/woodland
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui","mattatlas","gabopwn")
 
 /datum/loadout_item/donator/nero_woodlandbrigplackart
 	name = "Donator Kit - Woodland Brigandine"
 	path = /obj/item/enchantingkit/nero_woodlandbrigplackart
-	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui")
+	ckeywhitelist = list("nerocavalier","yeeteryieter","irlcatgirl","wickedcybs","spartanbobby","eirenxiv","freestylalt","lagomorphica","purplepineapple","stalkerino","shadowradar1212","omicega","revennui","mattatlas","gabopwn")
 
 /datum/loadout_item/donator/lagomorphica_obligatoire
 	name = "Donator Kit - Obligatoire"
@@ -1186,7 +1221,7 @@
 /datum/loadout_item/donator/naman_scarfedridercloak
 	name = "Donator Item - Rider's Scarfed Cloak"
 	path = /obj/item/clothing/cloak/half/rider/donator_naman
-	ckeywhitelist = list("copperwilson")
+	ckeywhitelist = list("copperwilson","nooriginality","maesune","koruu","ghostinthetoaster")
 
 /datum/loadout_item/donator/sanshoom_prowlerrobe
 	name = "Donator Kit - Prowler Robe"
@@ -1262,7 +1297,42 @@
 	path = /obj/item/enchantingkit/weapon/limesaber
 	ckeywhitelist = list("limetease")
 
+/datum/loadout_item/donator/rosa_silveredguitar
+	name = "Donator Item - Silvered Rosa Guitar"
+	path = /obj/item/rogue/instrument/guitar/rosa_silveredguitar
+	ckeywhitelist = list("limetease", "simplypoodle", "gentlemanlyheadcrab")
+
+/datum/loadout_item/donator/silvered_guitar
+	name = "Donator Item - Silvered Guitar"
+	path = /obj/item/rogue/instrument/guitar/silveredguitar
+	ckeywhitelist = list("limetease", "simplypoodle", "gentlemanlyheadcrab")
+
 /datum/loadout_item/donator/mystogan_radiantmask
 	name = "Donator Item - Radiant Golden Mask"
 	path = /obj/item/clothing/mask/rogue/facemask/goldmask/radiant
 	ckeywhitelist = list("mystoganzi")
+
+/datum/loadout_item/donator/thedragmeme_scarletglove
+	name = "Donator Gift - Scarlet Gloves"
+	path = /obj/item/clothing/gloves/roguetown/rosa/two
+	ckeywhitelist = list("thedragmeme")
+
+/datum/loadout_item/donator/thedragmeme_scarlethat
+	name = "Donator Gift - Scarlet Hat"
+	path = /obj/item/clothing/head/roguetown/rosa
+	ckeywhitelist = list("thedragmeme")
+
+/datum/loadout_item/donator/thedragmeme_scarletshoes
+	name = "Donator Gift - Scarlet Shoes"
+	path = /obj/item/clothing/shoes/roguetown/rosa/two
+	ckeywhitelist = list("thedragmeme")
+
+/datum/loadout_item/donator/thedragmeme_scarletdress
+	name = "Donator Gift - Scarlet Dress"
+	path = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
+	ckeywhitelist = list("thedragmeme")
+
+/datum/loadout_item/donator/lief_ring
+	name = "Donator Item - Blortz Incrusted Blacksteel Ring"
+	path = /obj/item/clothing/ring/lief_ring
+	ckeywhitelist = list("linxsysart", "pessime959")

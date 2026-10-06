@@ -12,6 +12,7 @@
 	category_tags = list(CTAG_ORTHODOXIST)
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN,
+		TRAIT_BLOOD_RESISTANCE,
 		TRAIT_ARCYNE,
 		TRAIT_NALEDI
 	)
@@ -81,7 +82,13 @@
 			H.put_in_hands(new /obj/item/rogueweapon/knuckledusters/psy(H))
 
 	head = /obj/item/clothing/head/roguetown/headband/naledi
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
+	if(H.has_flaw(/datum/charflaw/badsight))
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner/inlaid_spectacles
+		var/obj/item/clothing/mask/rogue/oldspecs = H.wear_mask
+		H.dropItemToGround(oldspecs, TRUE, TRUE)
+		qdel(oldspecs)
+	else
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/naledi
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex

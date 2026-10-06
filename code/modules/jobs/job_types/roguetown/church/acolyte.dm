@@ -20,6 +20,7 @@
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)
+	quirk_restrictions = list(/datum/quirk/noble)
 	job_traits = list(TRAIT_RITUALIST, TRAIT_GRAVEROBBER, TRAIT_HOMESTEAD_EXPERT, TRAIT_CLERGY)
 	advclass_cat_rolls = list(CTAG_ACOLYTE = 2)
 	job_subclasses = list(
@@ -188,9 +189,9 @@
 			neck = /obj/item/clothing/neck/roguetown/psicross/astrata/g
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			armor = /obj/item/clothing/suit/roguetown/shirt/robe/astrata
-	if(H.mind)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 	// -- End of section for god specific bonuses --
+	if(H.mind)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/divine_bolt)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MAJOR, start_maxed = TRUE)	//Starts off maxed out.
 	if(H.mind)

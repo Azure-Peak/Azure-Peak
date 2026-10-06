@@ -45,6 +45,7 @@
 #define CHAT_DSAY			(1<<13)
 #define CHAT_MOODMESSAGES	(1<<14)
 #define CHAT_ADMIN_SLOOC	(1<<15)
+#define CHAT_OOC_MUTED			(1<<16)
 
 #define TOGGLES_DEFAULT_CHAT (CHAT_DSAY|CHAT_PRAYER|CHAT_MOODMESSAGES)
 #define TOGGLES_DEFAULT_CHAT_ADMIN (CHAT_ADMINSPAWN|CHAT_ADMINLOOC)
@@ -78,12 +79,18 @@
 #define DEFAULT_CYBORG_NAME "Default Cyborg Name"
 
 //Vice limit
-#define MAX_VICES 3
+#define MAX_VICES 7
 
 //Job preferences levels
 #define JP_LOW 1
 #define JP_MEDIUM 2
 #define JP_HIGH 3
+
+#define MAX_ROLL_TOKENS 2
+/// Roll tokens (each token gives 20%). These are counted in ratios instead of flat bonuses.
+#define ROLL_TOKEN_WEIGHTS list(3, 7, 27)
+#define ROLL_OUTCOME_WON (1<<0)
+#define ROLL_OUTCOME_LOST (1<<1)
 
 //Age ranges
 #define AGE_ADULT			"Adult"
@@ -113,6 +120,18 @@ GLOBAL_LIST_INIT(titles_list, list(TITLES_M, TITLES_F)) // INSTRUCTIONS FOR DOWN
 #define CLOTHES_F "Feminine"
 
 GLOBAL_LIST_INIT(clothespref_list, list(CLOTHES_M, CLOTHES_F)) // INSTRUCTIONS FOR DOWNSTREAM: Edit this or sanitize_character will eat them
+
+// Per-character toggles. Find them in /datum/preferences/var/char_toggles
+#define CHAR_TOGGLE_DODGE	(1<<0)
+#define CHAR_TOGGLE_FREEUSE	(1<<1)
+#define CHAR_TOGGLE_DNR		(1<<2)
+
+/// Toggle section entries. Add these, and a row in `GLOB.char_toggles` and then a bit in `preferences_*` wherever applicable
+GLOBAL_LIST_INIT(char_toggles, list(
+	list("flag" = CHAR_TOGGLE_DODGE, "name" = "Defense", "off" = "Parry", "on" = "Dodge", "desc" = "The defense stance this character spawns in with."),
+	list("flag" = CHAR_TOGGLE_FREEUSE, "name" = "Free Use", "off" = "Off", "on" = "On", "desc" = "Whether this character spawns with Free Use enabled in the ERP panel."),
+	list("flag" = CHAR_TOGGLE_DNR, "name" = "Unrevivable", "off" = "No", "on" = "Yes", "desc" = "Whether this character spawns unable to be revived."),
+))
 
 // Voice types (LETHALSTONE)
 
@@ -206,6 +225,7 @@ GLOBAL_LIST_INIT(attack_blip_pref_list, list(
 #define PREFERENCE_POPUP_MARKING_SELECT "\"marking_select\""
 #define PREFERENCE_POPUP_VERBOSE_LOGS "\"verbose_logs\""
 #define PREFERENCE_POPUP_PATRON_SELECT "\"patron_select\""
+#define PREFERENCE_POPUP_QUIRK "\"quirk\""
 
 // Keep in sync with tgui/packages/tgui/interfaces/PreferencesMenu/popups/Charflaw.tsx#
 #define PREFERENCE_CHARFLAW_APPROVED 0

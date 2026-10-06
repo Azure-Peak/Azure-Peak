@@ -140,6 +140,11 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Player-issued listings (rumor/defense) get a longer window before reroll.
 #define QUEST_PLAYER_STALE_THRESHOLD (30 MINUTES)
 
+#define QUEST_ISSUER_CANCEL_WINDOW (30 MINUTES)
+
+#define QUEST_ISSUE_STATUS_LAPSED "lapsed"
+#define QUEST_ISSUE_STATUS_WITHDRAWN "withdrawn"
+
 // Per CKEY cap
 #define QUEST_TAKE_COOLDOWN (10 MINUTES)
 
@@ -159,7 +164,7 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 	QUEST_RAID = 30,\
 	QUEST_BOUNTY = 15,\
 	QUEST_RECOVERY = 5,\
-	QUEST_NOTORIOUS_BOUNTY = 20,\
+	QUEST_NOTORIOUS_BOUNTY = 5,\
 )
 
 #define NOTORIOUS_BOUNTY_POLL_TIME (15 SECONDS)
@@ -207,12 +212,17 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
 #define BLOCKADE_WAVE_TIMER_DS (15 MINUTES)
+#define BLOCKADE_INTERMISSION_DS (3 MINUTES)
+#define BLOCKADE_INTERMISSION_BELL_DS (15 SECONDS)
+#define BLOCKADE_HORN_EXTRARANGE 10
+#define BLOCKADE_WAVE_WARN_FIRST (7.5 MINUTES)
+#define BLOCKADE_WAVE_WARN_SECOND (5 MINUTES)
+#define BLOCKADE_WAVE_WARN_THIRD (2 MINUTES)
+#define NOM_DE_GUERRE_MAX_LENGTH 60
 
 // Minimum Pledge to call a hoard recovery writ from a fellowship without being the Steward.
 #define HOARD_RECOVERY_PLEDGE 200
 #define HOARD_RECOVERY_HOARD_MINIMUM 200
-
-#define BLOCKADE_RECALL_WINDOW_DS (15 MINUTES)
 
 #define BLOCKADE_TOTAL_WAVES 3
 #define BLOCKADE_WAVE_BASE_TP 180

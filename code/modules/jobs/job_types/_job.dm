@@ -151,6 +151,7 @@
 	var/PQ_boost_divider = 0
 
 	var/list/virtue_restrictions
+	var/list/quirk_restrictions
 	var/list/vice_restrictions
 
 	///The job's stats
@@ -234,6 +235,11 @@
 	var/datum/advclass/AC = user.mind.picked_advclass
 	if(!QDELETED(AC) && AC.townie_contract_gate_exempt)
 		return TRUE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/datum/migrant_role/role = MIGRANT_ROLE(H.migrant_type)
+		if(role?.townie_contract_gate_exempt)
+			return TRUE
 	return FALSE
 
 
@@ -296,6 +302,11 @@
 			if(isnull(H.mind?.special_role) && (MF?.special_role in list(ROLE_VAMPIRE, ROLE_NBEAST, ROLE_BANDIT, ROLE_LICH, ROLE_WRETCH, ROLE_UNBOUND_DEATHKNIGHT)))
 				continue
 			H.mind.i_know_person(MF)
+	if(give_bank_account)
+		for(var/mob/living/carbon/human/MF in GLOB.player_list)
+			if(HAS_TRAIT(MF, TRAIT_WELLKNOWN)) // we have to do this to handle resident virtue and well-known quirk
+				H.mind.person_knows_me(MF)
+				H.mind.i_know_person(MF)
 
 	// Ready up bonus
 	if(H.mind)
@@ -305,7 +316,8 @@
 	if(!H.islatejoin)
 		H.adjust_triumphs(1)
 		H.apply_status_effect(/datum/status_effect/buff/mealbuff)
-		H.hydration = 1000 // Set higher hydration
+		H.hydration = HYDRATION_LEVEL_FULL
+		H.nutrition = NUTRITION_LEVEL_FULL
 
 		if(H.mind)
 			H.mind?.special_items["Pouch of Coins"] = /obj/item/storage/belt/rogue/pouch/coins/readyuppouch

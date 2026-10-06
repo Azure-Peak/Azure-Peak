@@ -64,10 +64,14 @@
 	character.dna.real_name = character.real_name
 
 	character.headshot_link = headshot_link
-
+	character.headshot_artist_credit = headshot_artist_credit
+	character.headshot_artist_link = headshot_artist_link
 	character.lich_headshot_link = lich_headshot_link
-
+	character.lich_headshot_artist_credit = lich_headshot_artist_credit
+	character.lich_headshot_artist_link = lich_headshot_artist_link
 	character.vampire_headshot_link = vampire_headshot_link
+	character.vampire_headshot_artist_credit = vampire_headshot_artist_credit
+	character.vampire_headshot_artist_link = vampire_headshot_artist_link
 
 	character.statpack = statpack
 
@@ -116,6 +120,9 @@
 	character.vocal_speed = bark_speed
 	character.vocal_pitch = bark_pitch
 	character.vocal_pitch_range = bark_variance
+
+	character.d_intent = (char_toggles & CHAR_TOGGLE_DODGE) ? INTENT_DODGE : INTENT_PARRY
+	character.freeuse = !!(char_toggles & CHAR_TOGGLE_FREEUSE)
 
 	if(parent)
 		var/list/L = get_player_curses(parent.ckey)

@@ -198,5 +198,5 @@
 	sleevetype = "skirt"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	detail_tag = "_detail"
-	detail_color = "CLOTHING_WHITE"
+	detail_color = CLOTHING_WHITE
 

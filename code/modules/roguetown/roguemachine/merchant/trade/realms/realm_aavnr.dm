@@ -86,7 +86,7 @@
 		/datum/supply_pack/rogue/aavnr/hatanga,
 		/datum/supply_pack/rogue/aavnr/steppe_scale,
 		/datum/supply_pack/rogue/aavnr/szabrista_kit,
-		/datum/supply_pack/rogue/aavnr/druzhina_kit, 
+		/datum/supply_pack/rogue/aavnr/druzhina_kit,
 		/datum/supply_pack/rogue/aavnr/freifechter_kit,
 		/datum/supply_pack/rogue/aavnr/saiga_sausage,
 		/datum/supply_pack/rogue/aavnr/coppiette,
@@ -95,13 +95,8 @@
 		/datum/supply_pack/rogue/alcohol/saigamilk,
 	)
 	hail_lines = list(
-		"Greetings, Factor. Hide, grain, fish and fur. Of the finest quality from the Steppes of Aavnr. Bring me silk and gemerald or do not bring me anything at all.",
-		"The Hetman of Tomorzurkh sends his regards and his demand for lemons. The second is not optional.",
-		"My crossing was peaceful. The four crossings before were not. I would speak to your Bleakisles watch about that.",
-		"Trade quickly, friend. The steppes do not wait, and neither do the wolves on my home road.",
-		"A saiga priest of Dalainkhair is in my hold blessing the cargo. He will not come out. He has been there three days. The cargo seems content.",
-		"The saiga milk is for selling, not for drinking on duty. Tell your stevedores. I have already told mine.",
-		"The Potentate weighs heavy on the keel and heavier on my purse. Lighten one and the other follows.",
-		"A saiga-binder of the Astrava-line rides with me, last of his teaching. For two zennies he will lay hands on a fogbeast and the creature will know your name without it ever being told. He sails because his sons cannot learn what he knows, and the line will end with him on this voyage or the next. Pay him while you can.",
-		"Pickled herrings for the sons and daughters of the steppes. Mare's milk and saiga sausage are great, but our warriors do like to have something foreign to chew on on their march."
+		"Finest hides and fur from Aavnr! Saiga sausages and cheese!",
+		"I need an acolyte at the dock as soon as we anchor. I took on a Freifechter who kept preaching about Psydon to my crew and my half-orc passengers, until a fight broke out between them. He held off eight of my crewmen and the orcs, stabbing all of them in the feet and hands, until one of my men shot him in the guts with a crossbow. Now I have four fewer barrels of whiskey to sell, and four bodies in them. Please, make haste.",
+		"You ought to build more lighthouses along the Bleakisles. I nearly ran my ship aground on the isles, and I saw at least two ships wrecked last night. Necra's fog, they say.",
+		"I come seeking the finest Azurian silk, the most precious gemeralds, and the freshest lemons. I have even brought a few barrels of fermented saiga milk - Arkhi, as we call it. I am told a lot of your men at arms are from my homeland, and they have a taste for it."
 	)

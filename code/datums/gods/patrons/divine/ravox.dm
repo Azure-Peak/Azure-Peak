@@ -26,8 +26,7 @@
 	COOLDOWN_DECLARE(lesser_heal_buff_cooldown)
 
 	titles = list(
-		"Justiciar",
-		"Justicar", // it is misspelled ingame enough that we should probably accept this too
+		"Justicar", // it is misspelled ingame and at this point probably shoudl be the valid title
 		"Ratake"
 	)
 

@@ -199,9 +199,9 @@
 	var/datum/species/dullahan/E = user.dna?.species
 	if(E && istype(E) && E.headless && (target.Adjacent(E.my_head) || target.is_holding(E.my_head)))
 		rev_exemption = TRUE
-		if(target.is_holding(D.my_head))
+		if(target.is_holding(E.my_head))
 			held_exemption = TRUE
-		if(get_turf(D.my_head) == get_turf(target))
+		if(get_turf(E.my_head) == get_turf(target))
 			sametile_exemption = TRUE
 	if(D && E && istype(D) && istype(E) && D.headless && E.headless && (D.my_head.Adjacent(E.my_head))) // so they can make out
 		rev_exemption = TRUE
@@ -224,8 +224,22 @@
 			return FALSE
 	return TRUE
 
+#define CAUSTIC_PAIN_DMG 5
+
 /datum/sex_session/proc/perform_sex_action(mob/living/carbon/human/action_target, arousal_amt, pain_amt, giving, force, speed)
+	if(HAS_TRAIT(user, TRAIT_CAUSTIC))
+		var/datum/component/arousal/comp = target.GetComponent(/datum/component/arousal)
+		if(comp)
+			comp.damage_from_pain(CAUSTIC_PAIN_DMG)
+			comp.try_do_pain_effect(CAUSTIC_PAIN_DMG, giving)
+	if(HAS_TRAIT(action_target, TRAIT_CAUSTIC))
+		var/datum/component/arousal/comp = user.GetComponent(/datum/component/arousal)
+		if(comp)
+			comp.damage_from_pain(CAUSTIC_PAIN_DMG)
+			comp.try_do_pain_effect(CAUSTIC_PAIN_DMG, giving)
 	SEND_SIGNAL(action_target, COMSIG_SEX_RECEIVE_ACTION, arousal_amt, pain_amt, giving, force, speed)
+
+#undef CAUSTIC_PAIN_DMG
 
 /datum/sex_session/proc/handle_passive_ejaculation(mob/living/carbon/human/handler)
 	if(!handler)

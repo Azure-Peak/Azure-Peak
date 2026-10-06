@@ -24,7 +24,7 @@
 	if(!familiar || !familiar.mind)
 		to_chat(user, "You cannot sense your familiar's mind.")
 		return FALSE
-	if(familiar.health<=0)
+	if(familiar.stat == DEAD)
 		// they're dead; track the vestige
 		return track_vestige(user,familiar)
 	var/message = sanitize(input(user, "You make a connection. What are you trying to say?"))
@@ -409,6 +409,7 @@
 		"Bowl" = /obj/item/reagent_containers/glass/bowl,
 		"Fork" = /obj/item/kitchen/fork/iron,
 		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Chisel Set" = /obj/item/rogueweapon/chisel/assembly/arcyne,
 		"Needle" = /obj/item/needle
 	)
 	cooldown_time = 30 SECONDS
@@ -540,6 +541,7 @@
 		"Bowl" = /obj/item/reagent_containers/glass/bowl,
 		"Fork" = /obj/item/kitchen/fork/iron,
 		"Spoon" = /obj/item/kitchen/spoon/iron,
+		"Chisel Set" = /obj/item/rogueweapon/chisel/assembly/arcyne,
 		"Needle" = /obj/item/needle
 	)
 	cooldown_time = 30 SECONDS
