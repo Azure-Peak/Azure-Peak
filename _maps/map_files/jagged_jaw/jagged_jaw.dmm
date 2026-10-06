@@ -20854,7 +20854,7 @@
 	lock_strength = 750
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/exposed/bath/vault)
+/area/rogue/indoors/town/bath/grim)
 "cCb" = (
 /obj/machinery/light/rogue/candle,
 /obj/structure/rack/rogue{
@@ -60318,9 +60318,6 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/beach/north/grim)
-"hqS" = (
-/turf/closed/wall/mineral/rogue/craftstone,
-/area/rogue/outdoors/exposed/bath/vault)
 "hqU" = (
 /obj/structure/fluff/walldeco/vinez/red,
 /turf/closed/wall/mineral/rogue/wooddark,
@@ -63883,7 +63880,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
-/area/rogue/outdoors/exposed/bath/vault)
+/area/rogue/indoors/town/bath/grim)
 "hMK" = (
 /obj/machinery/light/rogue/torchholder{
 	pixel_y = 26
@@ -381257,12 +381254,12 @@ pqi
 fCe
 pOJ
 dgT
-hqS
-hqS
-hqS
-hqS
-hqS
-hqS
+kPV
+kPV
+kPV
+kPV
+kPV
+kPV
 qCC
 aRn
 aRn
@@ -381644,7 +381641,7 @@ diT
 bFe
 vQy
 hLu
-hqS
+kPV
 oDB
 axA
 jBu
@@ -382021,7 +382018,7 @@ pqi
 pqi
 pOJ
 dgT
-hqS
+kPV
 qdV
 ciO
 aOb
@@ -382408,7 +382405,7 @@ hKA
 xPv
 uHw
 lbE
-hqS
+kPV
 vfP
 axA
 tnU
@@ -382785,12 +382782,12 @@ pqi
 pqi
 pOJ
 dgT
-hqS
-hqS
-hqS
-hqS
-hqS
-hqS
+kPV
+kPV
+kPV
+kPV
+kPV
+kPV
 qCC
 izl
 aRn
