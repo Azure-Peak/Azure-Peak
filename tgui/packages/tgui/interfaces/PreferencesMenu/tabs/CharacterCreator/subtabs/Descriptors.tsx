@@ -455,7 +455,7 @@ const TextDescriptions = () => {
         <Stack.Divider mt={1} mb={1} />
         <Stack.Item textAlign="right">
           <Button onClick={() => act('rumour_preview')}>
-            Preview Rumours & Noble Gossip in chat
+            Preview Rumours, Noble Gossip & Secrets in chat
           </Button>
         </Stack.Item>
         <Stack.Item>
@@ -484,9 +484,172 @@ const TextDescriptions = () => {
             }
           />
         </Stack.Item>
+        <SecretsEditor />
         <SubtabDescriptorsTextDescriptionsDownstream />
       </Stack>
     </Section>
+  );
+};
+
+const SECRET_TYPES = [
+  // Disabled or undesired antagonists can still be included but parked until support is restored for them.
+  /*
+  {
+    value: 'ascendant',
+    displayText: 'Ascendant',
+    editorName: 'Ascendant',
+    helpText: `Only Ascendants can see this information.`,
+  },
+  {
+    value: 'aspirant',
+    displayText: 'Aspirant',
+    editorName: 'Aspirant',
+    helpText: `Only Aspirants can see this information.`,
+  },
+  */
+  {
+    value: 'assassin',
+    displayText: 'Assassin (Targeted)',
+    editorName: 'Targeted',
+    helpText: `Only Assassins can see this information. Use it to provide a reason why your character had been targeted by the Assassins of the Dark Star.`,
+  },
+  {
+    value: 'bandit',
+    displayText: 'Bandit',
+    editorName: 'Bandit',
+    helpText: `Only Bandits can see this information. Use it to provide a weakness, valuable possession, hidden dealing, or other truth that may give them a reason to rob, threaten, or take an interest in your character.`,
+  },
+  {
+    value: 'dreamwalker',
+    displayText: 'Dreamwalker (Marked)',
+    editorName: 'Marked',
+    helpText: `Only Dreamwalkers can see this information. Use it to provide a truth that may be uncovered through their connection to your character.`,
+  },
+  {
+    value: 'gnoll',
+    displayText: 'Gnoll (Hunted)',
+    editorName: 'Hunted',
+    helpText: `Only Gnolls can see this information. Use it to provide a reason why your character is being hunted by the Chosen of the Sinistar.`,
+  },
+  {
+    value: 'hag',
+    displayText: 'Hag',
+    editorName: 'Hag',
+    helpText: `Only Hags can see this information. Use it to provide a truth they may exploit, bargain over, or use against your character.`,
+  },
+  {
+    value: 'lich',
+    displayText: 'Lich',
+    editorName: 'Lich',
+    helpText: `Only Liches can see this information. Use it to provide a forbidden truth, buried ambition, occult interest, or vulnerability that an ancient and unnatural mind may recognize and exploit.`,
+  },
+  {
+    value: 'maniac',
+    displayText: 'Maniac',
+    editorName: 'Maniac',
+    helpText: `Only Maniacs can see this information. Use it to provide a fear, fixation, past misdeed, or vulnerability that may draw their dangerous attention toward your character.`,
+  },
+  {
+    value: 'peasant_rebel',
+    displayText: 'Rebel',
+    editorName: 'Rebel',
+    helpText: `Only Peasant Rebels and the Head Rebel can see this information. Use it to provide an allegiance, betrayal, abuse of authority, hidden sympathy, or other truth that may matter to those conspiring against the established order.`,
+  },
+  {
+    value: 'vampire',
+    displayText: 'Vampire (Awestruck)',
+    editorName: 'Awestruck',
+    helpText: `Only Vampires can see this information. Use it to provide a truth that may be uncovered through their supernatural influence over your character.`,
+  },
+  {
+    value: 'werewolf',
+    displayText: 'Werewolf',
+    editorName: 'Werewolf',
+    helpText: `Only Werewolves can see this information. Use it to provide a fear, weakness, transgression, or other hidden truth that may provoke their predatory interest in your character.`,
+  },
+  {
+    value: 'wretch',
+    displayText: 'Wretch',
+    editorName: 'Wretch',
+    helpText: `Only Wretches can see this information. Use it to provide a shame, forbidden connection, desperate bargain, or dark deed that another outcast may recognize and use against your character.`,
+  },
+] as const;
+
+type SecretType = (typeof SECRET_TYPES)[number]['value'];
+
+const SecretsEditor = () => {
+  const { act, data } = useBackendStrict<DescriptorData>();
+  const { secrets } = data;
+
+  const [selectedSecretType, setSelectedSecretType] =
+    useState<SecretType>('assassin');
+
+  const [secretsOpen, setSecretsOpen] = useState(false);
+
+  const selectedSecretConfig =
+    SECRET_TYPES.find((secret) => secret.value === selectedSecretType) ??
+    SECRET_TYPES[0];
+
+  const selectedSecret = secrets?.[selectedSecretType] || '';
+
+  return (
+    <Stack.Item>
+      <Button
+        fluid
+        icon={secretsOpen ? 'chevron-down' : 'chevron-right'}
+        onClick={() => setSecretsOpen((open) => !open)}
+      >
+        Secrets
+      </Button>
+
+      {secretsOpen ? (
+        <TextEditor
+          key={selectedSecretType}
+          collapsible={false}
+          headerTitle="SECRETS"
+          warning={`A misdeed, bargain, shame, or surreptitious plan that only an antagonist may know about and use as a reason to judge or seek out your character. Unlike Rumours and Gossip, Secrets are a truth that an antagonist had learned about your character from their own sources such as "I bargained with the fey for the power to remake my family."`}
+          afterWarning={
+            <>
+              <Stack.Divider mt={3} mb={3} />
+
+              <Stack align="center">
+                <Stack.Item>Antagonist:</Stack.Item>
+
+                <Stack.Item>
+                  <Dropdown
+                    displayText={selectedSecretConfig.displayText}
+                    options={SECRET_TYPES.map((secret) => ({
+                      displayText: secret.displayText,
+                      value: secret.value,
+                    }))}
+                    selected={selectedSecretType}
+                    onSelected={(val) => {
+                      setSelectedSecretType(val as SecretType);
+                    }}
+                  />
+                </Stack.Item>
+              </Stack>
+
+              <Box italic fontSize={0.9} mt={1}>
+                {selectedSecretConfig.helpText}
+              </Box>
+            </>
+          }
+          name={selectedSecretConfig.editorName}
+          sharedStatePreview={`preview_secrets_${selectedSecretType}`}
+          maxLength={400}
+          value={selectedSecret}
+          preview={null}
+          onSave={(value) =>
+            act('save_markdown_text', {
+              type: 'save_secret',
+              secret_type: selectedSecretType,
+              value,
+            })
+          }
+        />
+      ) : null}
+    </Stack.Item>
   );
 };
 
@@ -507,6 +670,9 @@ const TextEditor = (props: {
   requiredLength?: number;
   value: string;
   preview: TrustedHTML | null;
+  collapsible?: boolean;
+  headerTitle?: ReactNode;
+  afterWarning?: ReactNode;
 }) => {
   const {
     name,
@@ -516,6 +682,9 @@ const TextEditor = (props: {
     requiredLength,
     value,
     preview,
+    collapsible = true,
+    headerTitle,
+    afterWarning,
   } = props;
 
   const [showPreview, setShowPreview] = useSharedState(
@@ -602,106 +771,130 @@ const TextEditor = (props: {
     );
   }
 
-  return (
+  let displayHeaderTitle = headerTitle ?? title;
+
+  if (headerTitle && unsaved) {
+    displayHeaderTitle = (
+      <Box inline color="bad">
+        {headerTitle} (EDITED!)
+      </Box>
+    );
+  }
+
+  const editorContent = (
+    <Stack vertical>
+      <Stack.Item>
+        <Stack height={2} align="center">
+          <Stack.Item grow className="Section__titleText">
+            {displayHeaderTitle}
+          </Stack.Item>
+          <Stack.Item>
+            <Button.Checkbox
+              checked={showPreview}
+              selected={showPreview}
+              onClick={() => setShowPreview(!showPreview)}
+            >
+              Preview
+            </Button.Checkbox>
+          </Stack.Item>
+
+          {unsaved ? (
+            <>
+              <Stack.Item>
+                <Button.Confirm
+                  confirmIcon="triangle-exclamation"
+                  confirmContent="Discard changes?"
+                  icon="rotate-left"
+                  tooltip="Reload editors from current game state."
+                  onClick={() => updateInput(value)}
+                >
+                  Undo
+                </Button.Confirm>
+              </Stack.Item>
+
+              <Stack.Item>
+                <Button
+                  disabled={reloading}
+                  icon={reloading ? 'rotate' : undefined}
+                  iconSpin
+                  onClick={onSave}
+                >
+                  Submit
+                </Button>
+              </Stack.Item>
+            </>
+          ) : null}
+
+          <Stack.Item>
+            <Button
+              icon="expand"
+              selected={expanded}
+              tooltip="Expand Textbox"
+              onClick={() => setExpanded((v) => !v)}
+            />
+          </Stack.Item>
+        </Stack>
+      </Stack.Item>
+
+      {warning ? (
+        <Stack.Item italic fontSize={0.9}>
+          {warning}
+        </Stack.Item>
+      ) : null}
+
+      {afterWarning ? <Stack.Item>{afterWarning}</Stack.Item> : null}
+
+      <Stack.Item>
+        <TextArea
+          fluid
+          maxLength={maxLength}
+          height={EDITOR_HEIGHT * (expanded ? 3 : 1)}
+          value={input}
+          className={
+            unsaved ? 'PreferencesMenu__TextEditor__Unsaved' : undefined
+          }
+          userMarkup={{ t: '|', b: '**', i: '*', '6': '^' }}
+          onChange={onType}
+        />
+      </Stack.Item>
+
+      {showPreview ? (
+        <Stack.Item>
+          <Section
+            fill
+            preserveWhitespace
+            scrollable
+            height={EDITOR_HEIGHT}
+            ml={1}
+            mr={1}
+            title="Preview"
+          >
+            {preview ? (
+              <div
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{
+                  __html: `<span className='Chat'>${preview}</span>`,
+                }}
+              />
+            ) : (
+              <Box italic fontSize={0.8}>
+                Nothing to preview
+              </Box>
+            )}
+          </Section>
+        </Stack.Item>
+      ) : null}
+    </Stack>
+  );
+
+  return collapsible ? (
     <CollapsibleShared
       title={title}
       stateKey={`collapse-${sharedStatePreview}`}
     >
-      <Stack vertical>
-        <Stack.Item>
-          <Stack height={2} align="center">
-            <Stack.Item grow className="Section__titleText">
-              {title}
-            </Stack.Item>
-            <Stack.Item>
-              <Button.Checkbox
-                checked={showPreview}
-                selected={showPreview}
-                onClick={() => setShowPreview(!showPreview)}
-              >
-                Preview
-              </Button.Checkbox>
-            </Stack.Item>
-            {unsaved ? (
-              <>
-                <Stack.Item>
-                  <Button.Confirm
-                    confirmIcon="triangle-exclamation"
-                    confirmContent="Discard changes?"
-                    icon="rotate-left"
-                    tooltip="Reload editors from current game state."
-                    onClick={() => updateInput(value)}
-                  >
-                    Undo
-                  </Button.Confirm>
-                </Stack.Item>
-                <Stack.Item>
-                  <Button
-                    disabled={reloading}
-                    icon={reloading ? 'rotate' : undefined}
-                    iconSpin
-                    onClick={onSave}
-                  >
-                    Submit
-                  </Button>
-                </Stack.Item>
-              </>
-            ) : null}
-            <Stack.Item>
-              <Button
-                icon="expand"
-                selected={expanded}
-                tooltip="Expand Textbox"
-                onClick={() => setExpanded((v) => !v)}
-              />
-            </Stack.Item>
-          </Stack>
-        </Stack.Item>
-        {warning ? (
-          <Stack.Item italic fontSize={0.9}>
-            {warning}
-          </Stack.Item>
-        ) : null}
-        <Stack.Item>
-          <TextArea
-            fluid
-            maxLength={maxLength}
-            height={EDITOR_HEIGHT * (expanded ? 3 : 1)}
-            value={input}
-            className={
-              unsaved ? 'PreferencesMenu__TextEditor__Unsaved' : undefined
-            }
-            userMarkup={{ t: '|', b: '**', i: '*', '6': '^' }}
-            onChange={onType}
-          />
-        </Stack.Item>
-        {showPreview ? (
-          <Stack.Item>
-            <Section
-              fill
-              preserveWhitespace
-              scrollable
-              height={EDITOR_HEIGHT}
-              ml={1}
-              mr={1}
-              title="Preview"
-            >
-              {preview ? (
-                <div
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{
-                    __html: `<span className='Chat'>${preview}</span>`,
-                  }}
-                />
-              ) : (
-                <Box italic fontSize={0.8}>
-                  Nothing to preview
-                </Box>
-              )}
-            </Section>
-          </Stack.Item>
-        ) : null}
-      </Stack>
+      {editorContent}
     </CollapsibleShared>
+  ) : (
+    editorContent
   );
 };

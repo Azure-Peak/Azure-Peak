@@ -75,6 +75,146 @@
 		return if_no_face
 	return real_name
 
+/// Checks whether a viewer belongs to a Secret audience.
+/// Identity only; remote relationships are checked separately.
+/mob/living/carbon/human/proc/is_secret_audience(mob/viewer, secret_type)
+	if(!ishuman(viewer) || !viewer.mind)
+		return FALSE
+
+	var/mob/living/carbon/human/H = viewer
+
+	switch(secret_type)
+		if("assassin")
+			return H.mind.has_antag_datum(/datum/antagonist/assassin)
+		if("bandit")
+			return H.mind.has_antag_datum(/datum/antagonist/bandit) || H.mind.special_role == "Bandit" || H.mind.assigned_role == "Bandit" || H.job == "Bandit"
+		if("dreamwalker")
+			return H.mind.has_antag_datum(/datum/antagonist/dreamwalker)
+		if("gnoll")
+			return H.mind.has_antag_datum(/datum/antagonist/gnoll)
+		if("hag")
+			return istype(H.mind?.picked_advclass, /datum/advclass/hag)
+		if("lich")
+			return H.mind.has_antag_datum(/datum/antagonist/lich)
+		if("maniac")
+			return H.mind.special_role == "Maniac" || H.mind.assigned_role == "Maniac" || H.mind.assigned_role == "Lunatic" || H.job == "Maniac" || H.job == "Lunatic"
+		if("peasant_rebel")
+			return H.mind.has_antag_datum(/datum/antagonist/prebel)
+		if("vampire")
+			return H.mind.has_antag_datum(/datum/antagonist/vampire)
+		if("werewolf")
+			return H.mind.has_antag_datum(/datum/antagonist/werewolf)
+		if("wretch")
+			return H.mind.has_antag_datum(/datum/antagonist/wretch) || H.mind.assigned_role == "Wretch" || H.job == "Wretch"
+	return FALSE
+
+/// Checks remote Secret access.
+/mob/living/carbon/human/proc/can_access_secret_remotely(mob/viewer, secret_type)
+	if(!secrets?[secret_type] || !is_secret_audience(viewer, secret_type))
+		return FALSE
+
+	var/mob/living/carbon/human/H = viewer
+
+	switch(secret_type)
+		if("assassin")
+			return has_flaw(/datum/charflaw/targeted)
+		if("dreamwalker")
+			if(H.remembers_secret_target(src, secret_type))
+				return TRUE
+			var/datum/component/dreamwalker_mark/mark_component = viewer.GetComponent(/datum/component/dreamwalker_mark)
+			return mark_component?.marked_target == src
+		if("gnoll")
+			return has_flaw(/datum/charflaw/hunted)
+		if("hag")
+			return HAS_TRAIT(src, TRAIT_FEYTOUCHED)
+		if("vampire")
+			if(H.remembers_secret_target(src, secret_type))
+				return TRUE
+			var/datum/status_effect/awestruck/awe_effect = has_status_effect(/datum/status_effect/awestruck)
+			return awe_effect?.awe_user == viewer
+	return FALSE
+
+/// Returns an authorized remote Secret.
+/mob/living/carbon/human/proc/get_secret_for(mob/viewer, secret_type)
+	if(!can_access_secret_remotely(viewer, secret_type))
+		return null
+
+	return secrets?[secret_type]
+
+/// Returns all remotely accessible Secrets, or all stored Secrets for admins and observers.
+/mob/living/carbon/human/proc/get_secrets_for(mob/viewer)
+	if(!viewer)
+		return null
+	if(isobserver(viewer) || viewer.client?.holder)
+		return secrets
+
+	var/static/list/remote_secret_types = list(
+		"assassin",
+		"dreamwalker",
+		"gnoll",
+		"hag",
+		"vampire",
+	)
+
+	var/list/allowed_secrets = list()
+
+	for(var/secret_type in remote_secret_types)
+		if(can_access_secret_remotely(viewer, secret_type))
+			allowed_secrets[secret_type] = secrets[secret_type]
+	return length(allowed_secrets) ? allowed_secrets : null
+
+/// Checks physical Examine Secret access.
+/mob/living/carbon/human/proc/can_access_secret_on_examine(mob/viewer, secret_type)
+	if(!secrets?[secret_type])
+		return FALSE
+	if(secret_type == "assassin" || secret_type == "dreamwalker" || secret_type == "gnoll" || secret_type == "vampire")
+		return can_access_secret_remotely(viewer, secret_type)
+	return is_secret_audience(viewer, secret_type)
+
+/// Returns all Secrets available through physical Examine.
+/mob/living/carbon/human/proc/get_examine_secrets_for(mob/viewer)
+	if(!viewer || !length(secrets))
+		return null
+	if(isobserver(viewer) || viewer.client?.holder)
+		return secrets
+
+	var/static/list/examine_secret_types = list(
+		"assassin",
+		"bandit",
+		"dreamwalker",
+		"gnoll",
+		"hag",
+		"lich",
+		"maniac",
+		"peasant_rebel",
+		"vampire",
+		"werewolf",
+		"wretch",
+	)
+
+	var/list/allowed_secrets = list()
+
+	for(var/secret_type in examine_secret_types)
+		if(can_access_secret_on_examine(viewer, secret_type))
+			allowed_secrets[secret_type] = secrets[secret_type]
+	return length(allowed_secrets) ? allowed_secrets : null
+
+/// Remembers a Secret learned through a temporary mechanic.
+/mob/living/carbon/human/proc/remember_secret_target(mob/living/carbon/human/target, secret_type)
+	if(!target?.secrets?[secret_type])
+		return
+
+	var/list/remembered_targets = remembered_secret_targets[secret_type]
+	if(!islist(remembered_targets))
+		remembered_targets = list()
+		remembered_secret_targets[secret_type] = remembered_targets
+
+	remembered_targets |= target
+
+/mob/living/carbon/human/proc/remembers_secret_target(mob/living/carbon/human/target, secret_type)
+	var/list/remembered_targets = remembered_secret_targets?[secret_type]
+	return islist(remembered_targets) && (target in remembered_targets)
+
 //gets name from ID or PDA itself, ID inside PDA doesn't matter
 //Useful when player is being seen by other mobs
 /mob/living/carbon/human/proc/get_id_name(if_no_id = "Unknown")
