@@ -684,3 +684,6 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
 		H.update_body_parts()
+
+/mob/proc/should_hear_dsay()
+	return FALSE

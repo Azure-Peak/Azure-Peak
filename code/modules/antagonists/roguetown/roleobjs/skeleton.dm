@@ -24,6 +24,7 @@
 //		objectives += escape_objective
 //		return
 	ADD_TRAIT(owner.current, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
+	ADD_TRAIT(owner.current, TRAIT_NONAMESTEAL, TRAIT_GENERIC)
 	return ..()
 
 /datum/antagonist/skeleton/on_removal()

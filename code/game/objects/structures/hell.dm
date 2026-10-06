@@ -54,6 +54,9 @@ GLOBAL_LIST_EMPTY(hellspawns)
 	var/isinhell
 	var/last_helld = 0
 
+/mob/dead/observer/should_hear_dsay()
+	return TRUE
+
 /mob/dead/observer/proc/go2hell()
 	var/obj/effect/landmark/L = pick(GLOB.hellspawns)
 	if(L)

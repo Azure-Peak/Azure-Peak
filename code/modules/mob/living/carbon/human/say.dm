@@ -8,7 +8,7 @@
 /mob/living/carbon/human/GetVoice()
 	if(GetSpecialVoice())
 		return GetSpecialVoice()
-	return real_name
+	return get_unmasked_name()
 
 /mob/living/carbon/human/IsVocal()
 	// how do species that don't breathe talk? magic, that's what.

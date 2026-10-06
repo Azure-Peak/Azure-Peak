@@ -15,6 +15,7 @@
 		/obj/item/alch/hag_moss/enchanted/caring		= 2,
 		/obj/item/alch/hag_moss/enchanted/rooted		= 2,
 		/obj/item/alch/hag_moss/enchanted/creeping	= 2,
+		/obj/item/alch/hag_moss/enchanted/vibrant = 2,
 		// High Rarity Enchanted
 		/obj/item/alch/hag_moss/enchanted/random/high = 1,
 		/obj/item/alch/hag_moss/enchanted/gilded		= 1,

@@ -76,9 +76,9 @@
 
 /datum/usurpation_rite/martial_supercession/on_assent_accepted(mob/living/carbon/human/warrior)
 	warrior.visible_message( \
-		span_notice("[warrior.real_name] speaks their assent to the Rite of Martial Supercession."), \
+		span_notice("[warrior.get_unmasked_name()] speaks their assent to the Rite of Martial Supercession."), \
 		span_notice("You speak your assent. Ravox acknowledges your voice."))
-	to_chat(invoker, span_notice("[warrior.real_name] has assented. ([length(assenters)]/[MARTIAL_REQUIRED_ASSENTS])"))
+	to_chat(invoker, span_notice("[warrior.get_unmasked_name()] has assented. ([length(assenters)]/[MARTIAL_REQUIRED_ASSENTS])"))
 
 /datum/usurpation_rite/martial_supercession/check_assent_threshold()
 	if(length(assenters) >= MARTIAL_REQUIRED_ASSENTS)
@@ -86,7 +86,7 @@
 
 /datum/usurpation_rite/martial_supercession/on_contesting_started()
 	priority_announce( \
-		"[invoker.real_name] has invoked the Rite of Martial Supercession!\n\n" + \
+		"[invoker.get_unmasked_name()] has invoked the Rite of Martial Supercession!\n\n" + \
 		"In the name of Ravox, God of War and Justice, a claim is made upon the throne of [SSticker.realm_name].\n\n" + \
 		"A Council of Warriors has affirmed this claim.\n\n" + \
 		"Ravox's judgment shall fall in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.", \
@@ -97,15 +97,15 @@
 
 /datum/usurpation_rite/martial_supercession/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	..()
 	priority_announce( \
 		"Those who fail to defend their throne do not deserve to sit upon it.\n\n" + \
 		"A Council of Arms, in the name of Ravox, " + \
-		"declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a JUST rule of law.\n\n" + \
+		"declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a JUST rule of law.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been judged unfit to lead, " + \
 		"and their authority is hereby revoked.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!", \
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("Ravox's iron gaze settles upon you. The throne is yours."))
@@ -125,13 +125,13 @@
 		if(RITE_STAGE_GATHERING)
 			return "The Rite of Martial Supercession is underway. [length(assenters)]/[MARTIAL_REQUIRED_ASSENTS] warriors have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "The Council of Arms has affirmed [invoker?.real_name]'s claim. Ravox's judgment approaches."
+			return "The Council of Arms has affirmed [invoker?.get_unmasked_name()]'s claim. Ravox's judgment approaches."
 	return null
 
 /datum/usurpation_rite/martial_supercession/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne by right of arms. Warriors, speak your assent -- or stop them. ([length(assenters)]/[MARTIAL_REQUIRED_ASSENTS] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne by right of arms. Warriors, speak your assent -- or stop them. ([length(assenters)]/[MARTIAL_REQUIRED_ASSENTS] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = ""
 			if(contest_time_remaining > 0)
@@ -140,7 +140,7 @@
 				remaining = "[round(left / (1 SECONDS))] seconds"
 			else
 				remaining = "moments"
-			return "The Council of Arms has spoken. [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "The Council of Arms has spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null
 
 /// Returns TRUE if the mob has Expert (4+) in any combat skill.
