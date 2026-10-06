@@ -228,11 +228,12 @@
 
 /obj/item/enchantingkit/gothicburgeonet
 	name = "'Gothic Burgeonet' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Pigface Bascinet, Hounskull Bascinet, or Roundface Bascinet."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Pigface Bascinet, Hounskull Bascinet, Roundface Bascinet, or Sallet."
 	target_items = list(
 		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/burgeonet,
 		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull		= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/burgeonet,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface				= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/burgeonet
+		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface				= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/burgeonet,
+		/obj/item/clothing/head/roguetown/helmet/sallet							= /obj/item/clothing/head/roguetown/helmet/sallet/burgeonet
 	)
 	result_item = null
 	exact_type = TRUE
@@ -490,8 +491,12 @@
 
 /obj/item/enchantingkit/weapon/donator_universal_grenzshortsword
 	name = "'Katzbalger Shortsword' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Shortsword."
-	target_items = list(/obj/item/rogueweapon/sword/short)
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Shortsword, Steel Messer, or a Steel Arming Sword."
+	target_items = list(
+		/obj/item/rogueweapon/sword/short/messer,
+		/obj/item/rogueweapon/sword/short,
+		/obj/item/rogueweapon/sword
+	)
 	result_item = /obj/item/rogueweapon/example/donator_grenzshortsword
 
 /obj/item/enchantingkit/donator_universal_grenzrapier

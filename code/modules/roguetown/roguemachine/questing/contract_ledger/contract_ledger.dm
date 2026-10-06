@@ -141,6 +141,7 @@
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
+	data["can_admin_complete"] = check_rights_for(user?.client, R_DEBUG) ? TRUE : FALSE
 	data["issuer_cancel_window_minutes"] = QUEST_ISSUER_CANCEL_WINDOW / (1 MINUTES)
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
@@ -382,6 +383,9 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 		if("abandon")
 			abandon_by_ref(user, params["ref"])
 			return TRUE
+		if("admin_complete")
+			admin_complete_by_ref(user, params["ref"])
+			return TRUE
 		if("compose_rumor")
 			compose_rumor_from_tgui(user, params)
 			return TRUE
@@ -486,6 +490,8 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	Q.on_issuer_withdrawn(user)
 	SSquestpool.remove_from_pool(Q)
 	record_round_statistic(STATS_CONTRACTS_WITHDRAWN)
+	if(Q.quest_receiver_reference)
+		record_contract_stat(Q, CONTRACT_STAT_WITHDRAWN)
 	SSquestpool.log_event("withdraw", "[SSquestpool.describe_user(user)] withdrew [log_text]")
 	log_quest(user.ckey, user.mind, user, "Withdraw [log_text]")
 	qdel(Q)

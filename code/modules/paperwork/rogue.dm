@@ -41,7 +41,7 @@
 
 /obj/item/paper/scroll/attack_self(mob/user)
 	if(mailer)
-		user.visible_message(span_notice("[user] opens the missive from [mailer]."))
+		user.visible_message(span_notice("[user] opens a letter."))
 		mailer = null
 		mailedto = null
 		update_icon()
@@ -320,54 +320,47 @@
 /obj/item/paper/inqslip/arrival/abso
 	marquevalue = 16 //Ditto.
 
-/obj/item/paper/inqslip/proc/attemptsign(mob/user, mob/living/carbon/human/M)
+/obj/item/paper/inqslip/proc/attemptsign(mob/living/carbon/human/target, mob/living/carbon/human/user)
 	if(sliptype == 2)
-		if(paired)
-			if(paired.subject != user)
-				to_chat(M, span_warning("Why am I trying to make them sign this with the wrong [paired] paired with it?"))
-				return
-			else if(alert(user, "SIGN THE CONFESSION?", "CONFIRM OR DENY", "YES", "NO") != "NO")
-				signed = TRUE
-				signee = user
-				update_icon()
-		else if(alert(user, "SIGN THE CONFESSION?", "CONFIRM OR DENY", "YES", "NO") != "NO")
-			signed = TRUE
-			signee = user
-			update_icon()
-		else
+		if(!paired)
 			return
-	else if(alert(user, "SIGN THE SLIP?", "CONFIRM OR DENY", "YES", "NO") != "NO")
-		signed = TRUE
-		signee = user
-		update_icon()
-	else
+		if(paired.subject != target)
+			to_chat(user, span_warning("Why am I trying to make them sign this with the wrong [paired] paired with it?"))
+			return
+		if(alert(target, "SIGN THE CONFESSION?", "CONFIRM OR DENY", "YES", "NO") == "NO")
+			return
+	else if(!alert(target, "SIGN THE SLIP?", "CONFIRM OR DENY", "YES", "NO") == "NO")
 		return
+	signed = TRUE
+	signee = target
+	update_icon()
 
-/obj/item/paper/inqslip/attack(mob/living/carbon/human/M, mob/user)
+/obj/item/paper/inqslip/attack(mob/living/carbon/human/target, mob/living/carbon/human/user)
+	if(!istype(target) || !istype(user))
+		return
 	if(sealed)
 		return
 	if(signed)
 		to_chat(user, span_warning("It's already been signed."))
 		return
 	if(paired && !paired.full)
-		to_chat(user, span_warning("I should seperate [paired] from [src] before signing it."))
+		to_chat(user, span_warning("I should separate [paired] from [src] before signing it."))
 		return
-	if(sliptype != 2)
-		if(M != user)
-			to_chat(user, span_warning("This is meant to be signed by the holder."))
-			return
-	if(!M.get_bleed_rate())
+	if(sliptype != 2 && target != user)
+		to_chat(user, span_warning("This is meant to be signed by the holder."))
+		return
+	if(!target.get_bleed_rate())
 		to_chat(user, span_warning("It must be signed in blood."))
 		return
 	if(sliptype == 1)
-		if(signee == M)
+		if(signee == target)
 			attemptsign(user)
 		else
 			to_chat(user, span_warning("This slip isn't meant for me."))
 	else if(!sliptype)
 		attemptsign(user)
 	else
-		attemptsign(M, user)
+		attemptsign(target, user)
 
 /obj/item/paper/inqslip/attack_self(mob/user)
 	if(waxed)

@@ -1,7 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - rscadd: "Added colored chat spans for every god, usable directly in code and via new admin shorthand tags like [zizo]:text or [notice]:\"text\"."
-  - rscadd: "Added Narrate - In View and Narrate - Object admin verbs."
-  - admin: "Replaced the Subtle Message quick-link on incoming prayers with Direct Narrate."
-  - admin: "Merciless round can now be applied mid-round"

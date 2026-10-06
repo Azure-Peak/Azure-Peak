@@ -47,7 +47,7 @@
 	visible_message(span_warning("[user] sends something."))
 	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 	if(target.notify_bathhouse)
-		send_ooc_note("A message from <b>[sender_name]</b> has arrived at the bathhouse terminal.", job = GLOB.bathhouse_positions)
+		send_ooc_note("A message has arrived at the bathhouse terminal.", job = GLOB.bathhouse_positions)
 	next_send_time = world.time + 1 MINUTES
 	return TRUE
 

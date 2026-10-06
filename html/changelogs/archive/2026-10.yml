@@ -244,3 +244,66 @@
       fulfill orders. Various other dumping were also refactored, including composters,
       bookcase etc. - report any issues.
   - rscadd: When you the extract of lux from mindless mobs, mindless mobs die.
+2026-10-06:
+  KatTheFox:
+  - rscadd: The INDEXER report no longer gaslights you with a fake false positive
+      chance. Instead, it actually does have a false positive chance now. This works
+      generally how you'd expect - and in some cases the chance can be increased,
+      like anyone pallid or who's been bitten by a vampire having a chance to be flagged
+      AS a vamp. The false positive chance for patron type is lower than what it says
+      unless you've ever been affected by a miracle of the Four.
+  - rscadd: Clerics of the Ten or Four who convert to Psydon no longer have their
+      devotion entirely deleted. They instead get reset to devotee level, meaning
+      they get Orison and Bootcheck only. No real miracles still.
+  Ollanius:
+  - qol: Katzbelgers(?) (sorry Spear, I can't spell this for crap) can now be morphed
+      from other sidearm-styled swords; the arming sword and messer, specifically.
+  - qol: Knight's Armets are no longer proportioned like bobbleheads (my bad for that
+      in the first place), and should now be more properly fitting to shorter races
+      in particular.
+  - bugfix: Burgonets and Blacksteel Plate Helmets now properly use the right detail
+      sprites (and listings in the .dmis).
+  - rscadd: Open-faced variant of the Burgonet, transformable from a Sallet.
+  - bugfix: Bronze chainmail and lamellar now has bronze-tier protection, instead
+      of mistakingly inheriting the protection levels from their up-path counterparts.
+  - bugfix: Wearing a plated ordinator coat as a Psydonian now applies the Psydonic
+      Grit active event, as it normally would with the standalone variant.
+  - code_imp: Minor rearranging of hauberk-related wordings.
+  ToasterStrudes:
+  - rscadd: 'Added new mixed drinks: The Etrusso and Milk Tea - Made by combining
+      milk and coffee/tea together'
+  WeNeedMorePhoron:
+  - rscadd: Letter message in chat no longer display who it is from
+  - rscadd: Opening letter no longer display who it is from to the entire chat.
+  - rscadd: Reduce notorious contract's proportion since people don't seems to take
+      it a lot, it is occupying too much of the existing pool at the moment
+  - rscadd: When a wave in a blockade is complete, a 3 minutes timer is started before
+      the next blockade come, so that players don't need to be gamey and leave one
+      guy to bleed out for much needed rest time. (It also prevent them from being
+      surprised). Reused some sound effects for warning
+  - rscadd: Added an admin force complete button for testing purpose
+  - rscadd: Added much more detailed contracts statistics for analysis purpose
+  borneblood:
+  - bugfix: Fixed a bunch of explosive runtimes, code oddities, odd qdel wordings,
+      misplaced parent calls and so on.
+  - balance: Bombs can now critically hit NPCs, which will make them meet their maker
+      in peace.
+  - balance: TRAIT_BOMBER_EXPERT now offers a bunch of interactions with battle bombs
+      and trapmaking.
+  - bugfix: Fixed Haemo-Reports from the Inquisition not being able to be read through
+      Examine
+  changelingonberry:
+  - rscadd: Added colored chat spans for every god, usable directly in code and via
+      new admin shorthand tags like [zizo]:text or [notice]:"text".
+  - rscadd: Added Narrate - In View and Narrate - Object admin verbs.
+  - admin: Replaced the Subtle Message quick-link on incoming prayers with Direct
+      Narrate.
+  - admin: Merciless round can now be applied mid-round
+  radarseas:
+  - balance: added a tile of range to lich self destruction
+  - balance: sappers now have a new blast w/ unique effects, it lowers your con and
+      makes you GLOW violently but their blast radius has been drastically improved
+      by a few tiles + smokeshield.
+  - balance: you can no longer bleed people out by nuking people w/ your ERP related
+      organs on top of regular ones by exploding via calcic as a wretch skeleton,
+      literally 1984.

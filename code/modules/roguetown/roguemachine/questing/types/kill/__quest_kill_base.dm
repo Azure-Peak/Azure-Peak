@@ -53,6 +53,7 @@
 		return
 	hunt_timer_id = null
 	failed = TRUE
+	record_contract_stat(src, CONTRACT_STAT_FAILED)
 	announce_to_bearer("<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand.")
 	despawn_live_hunt_mobs()
 	var/obj/item/quest_writ/S = quest_scroll
