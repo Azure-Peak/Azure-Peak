@@ -263,6 +263,8 @@
 	var/s_cost = "[s_primary_cost] stamina"
 	if(s_primary_type == SPELL_COST_DEVOTION)
 		s_cost = "[s_primary_cost] devotion"
+	else if(s_primary_type == SPELL_COST_LUX)
+		s_cost = "lux"
 	else if(s_primary_type == SPELL_COST_NONE)
 		s_cost = "None"
 

@@ -47,6 +47,10 @@
 		return FALSE
 	if(HAS_TRAIT(target, TRAIT_UNFORGIVABLE))
 		to_chat(user, span_warning("There's violet-ochre flames flickering inside of the cracks in their ribs, there is no Lux to extract, a <b>Vheslynite abomination.</b>"))
+		return FALSE
+	if(HAS_TRAIT(target, TRAIT_LUXHEART))
+		to_chat(user, span_warning("Their heart is wrapped in a cage of <b>malignant metals</b>. I cannot access their lux"))
+		return FALSE
 
 /datum/surgery_step/extract_lux/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
 	display_results(user, target, span_notice("I begin to scrape lux from [target]'s heart..."),
@@ -67,19 +71,12 @@
 			"[user] extracts lux from [target]'s innards.",
 			"[user] extracts lux from [target]'s innards.")
 
-		var/apply_greater
-		if(isaasimar(target) && !(HAS_TRAIT(target, TRAIT_ANCIENT_HAG) || HAS_TRAIT(target, TRAIT_FEYBOUND)))
-			new /obj/item/reagent_containers/lux(target.loc)
-			apply_greater = TRUE
-		else if(HAS_TRAIT(target, TRAIT_ANCIENT_HAG) || HAS_TRAIT(target, TRAIT_FEYBOUND))
-			new /obj/item/reagent_containers/lux_moss(target.loc)
-		else
-			new /obj/item/reagent_containers/lux_impure(target.loc)
-
+		var/luxtype = target.handle_lux_removal(aasimar_penalty = TRUE)
+		if(luxtype)
+			new luxtype
 		SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, target)
 		//record_featured_stat(FEATURED_STATS_CRIMINALS, user)	- This.. isn't normally criminal.
 		record_round_statistic(STATS_LUX_HARVESTED)
-		target.apply_status_effect((apply_greater ? /datum/status_effect/debuff/devitalised/greater : /datum/status_effect/debuff/devitalised))
 		if(!target.mind)
 			target.death()
 	return TRUE

@@ -114,6 +114,46 @@
 		C.clear_fullscreen("eye_damage")
 	return
 
+/obj/item/organ/eyes/night_vision/lux
+	name = "artificed eyes"
+	desc = "A pair of eyes, surrounded with a bronze aperture. Viscera has been replaced with Gilbranze wire, and, within the pupil, there's a glow of red lux. A humen form could only hold one such piece of artifice at any given time."
+	icon_state = "eyeball-lux"
+	decay_factor = 0
+	organ_flags = ORGAN_LUX
+	var/luxblind = FALSE
+	var/luximpair = FALSE
+
+/obj/item/organ/eyes/night_vision/lux/on_life()
+	..()
+	var/mob/living/carbon/C = owner
+	var/cap = C.check_lux_organ_cap()
+	if(cap > 1)
+		C.become_blind(EYE_DAMAGE)
+		luxblind = TRUE
+	else if(luxblind && !(organ_flags & ORGAN_FAILING))
+		C.cure_blind(EYE_DAMAGE)
+		luxblind = FALSE
+	if(cap)
+		C.overlay_fullscreen("eye_damage", /atom/movable/screen/fullscreen/impaired, 2)
+		luximpair = TRUE
+	else if(C.has_status_effect(/datum/status_effect/debuff/devitalised))
+		C.overlay_fullscreen("eye_damage", /atom/movable/screen/fullscreen/impaired, 1)
+		luximpair = TRUE
+	else if(luximpair && !damaged)
+		C.clear_fullscreen("eye_damage")
+		luximpair = FALSE
+
+/obj/item/organ/eyes/night_vision/lux/prepare_eat()
+	return FALSE //this thing isn't edible flesh
+
+/obj/item/organ/eyes/night_vision/lux/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_ORGAN)
+
+/obj/item/organ/heart/lux/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("An Artificed Eye harnesses its host's Lux, allowing them to see in the dark. They may expend their Lux to focus their ire into a bolt of vicious energy")
+	. += span_info("If the user has no lux to spare, they can only support one Artificed Organ, or one pair of Gilbranze Limbs. Artificed Eyes will always become blurry whilst bereft of Lux.")
+	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
 
 /obj/item/organ/eyes/night_vision
 	name = "shadow eyes"
@@ -190,6 +230,8 @@
 
 /obj/item/organ/eyes/proc/pain_from_rejection()
 	if(!owner)
+		return
+	if(HAS_TRAIT(owner, TRAIT_TESTSUBJECT))
 		return
 	owner.emote("pain")
 	to_chat(owner, span_danger(pick("MY EYES HURT! GET THEM OUT OF ME!",

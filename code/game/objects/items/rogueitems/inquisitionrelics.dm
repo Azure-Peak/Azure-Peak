@@ -1889,6 +1889,10 @@ GLOBAL_LIST_INIT(inquisition_used_ids, list())
 			report_html += "<font color='#5C3A6E'><b>Anomalous Blood</b></font><br><br>"
 			report_html += "<i>The sample is laden with accursed humours and bears the unmistakable taint of ancient malisons. Though greatly withered by age, the blood yet clings to unnatural vigor, a condition recorded only in those sustained by profane sorceries and long familiarity with the Devil's arts.</i><br><br>"
 			found = TRUE
+		if(HAS_TRAIT(H, TRAIT_LUXHEART) || HAS_TRAIT(H, TRAIT_LUXHEART) || H.check_lux_organ_cap())
+			report_html += "<font color='#ff0000'><b>Anomalous Blood</b></font><br><br>"
+			report_html += "<i>The sample is saturated with Lux beyond typical humen levels. Dangerous concentrations of Teratomite and Reconstituted Gilbranze are suspended in the mixture. Gilbranze Contamination is consistent with practitioners of <b>Censured Artifice</b>.</i><br><br>"
+			found = TRUE
 		if(is_vamp)
 			found = TRUE
 			report_html += "<font color='#7B0000'><b>Porphylick Haemophilia</b></font><br><br>"

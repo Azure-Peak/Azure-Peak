@@ -42,6 +42,24 @@
 	icon_state = "prc_blank"
 	smeltresult = /obj/item/ingot/gold
 
+/obj/item/rogueweapon/contraption/aalloyprosthetic
+	name = "gilbranze prosthetic"
+	desc = "A prosthetic made of wrought of Gilbranze and Bone, which harnesses its wearer's very lux. Use it in your hand to determine what limb it will function as."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "prc_blank"
+	smeltresult = /obj/item/ingot/gold
+
+/obj/item/rogueweapon/contraption/aalloyprosthetic/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Gilbranze limbs are of the highest grade. When worn in pairs, they add extra powers to the Overclock ability")
+	. += span_info("A pair of Gilbranze Legs allows the user to leap and fall great distances")
+	. += span_info("A pair of Gilbranze Arms affords the user greater strength, prowess with one's fists, and the ability to withdraw from grabs and smash through doors")
+	. += span_info("However, these abilities come at the cost of the user's Lux. If the user has no lux to spare, they can only support one pair of Gilbranze Limbs, or one Artificed Organ")
+	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
+
+/obj/item/rogueweapon/contraption/aalloyprosthetic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_LIMB)
+
 /obj/item/rogueweapon/contraption/bronzeprosthetic/attack_self(mob/user)
 	. = ..()
 	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
@@ -142,6 +160,31 @@
 			qdel(src)
 			return
 
+/obj/item/rogueweapon/contraption/aalloyprosthetic/attack_self(mob/user)
+	. = ..()
+	var/choice = input(user, "Choose the side and the limb") as null|anything in list("Left Arm", "Right Arm", "Left Leg", "Right Leg", "Cancel")
+	switch(choice)
+		if("Cancel")
+			return
+		if(null)
+			return
+		if("Left Arm")
+			new /obj/item/bodypart/l_arm/prosthetic/aalloy(get_turf(src.loc))
+			qdel(src)
+			return
+		if("Right Arm")
+			new /obj/item/bodypart/r_arm/prosthetic/aalloy(get_turf(src.loc))
+			qdel(src)
+			return
+		if("Left Leg")
+			new /obj/item/bodypart/l_leg/prosthetic/aalloyleft(get_turf(src.loc))
+			qdel(src)
+			return
+		if("Right Leg")
+			new /obj/item/bodypart/r_leg/prosthetic/aalloyright(get_turf(src.loc))
+			qdel(src)
+			return
+
 /////		ARMS		/////
 
 /obj/item/bodypart/l_arm/prosthetic/woodleft
@@ -235,6 +278,36 @@
 	fingers = TRUE
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
+
+/obj/item/bodypart/l_arm/prosthetic/aalloy
+	name = "gilbranze left arm"
+	desc = "A left arm wrought of gilbranze and bone. It moves with startling dexterity, betraying its lux-fueled nature. A normal human form could sustain no more than two at once."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "pra_arm"
+	prosthetic_prefix = "prc"
+	resistance_flags = FIRE_PROOF
+	obj_flags = CAN_BE_HIT
+	status = BODYPART_ROBOTIC
+	static_icon = TRUE
+	max_damage = 200
+	w_class = WEIGHT_CLASS_NORMAL
+	max_integrity = 300
+	brute_reduction = 10
+	burn_reduction = 10
+	anvilrepair = /datum/skill/craft/engineering
+	smeltresult = /obj/item/ingot/aalloy
+
+/obj/item/bodypart/l_arm/prosthetic/aalloy/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_LIMB)
+
+/obj/item/bodypart/l_arm/prosthetic/aalloy/is_disabled()
+	if(owner.check_lux_organ_cap())
+		return BODYPART_DISABLED_PARALYSIS
+	return ..()
+
+/obj/item/bodypart/l_arm/prosthetic/aalloy/on_life()
+	update_disabled()
+	return ..()
 
 /obj/item/bodypart/l_arm/prosthetic/attack(mob/living/M, mob/user)
 	prosthetic_attachment(M, user)
@@ -330,6 +403,36 @@
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
 
+/obj/item/bodypart/r_arm/prosthetic/aalloy
+	name = "gilbranze right arm"
+	desc = "A right arm wrought of gilbranze and bone. It moves with startling dexterity, betraying its lux-fueled nature. A normal human form could sustain no more than two at once."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "pra_arm"
+	prosthetic_prefix = "prc"
+	resistance_flags = FIRE_PROOF
+	obj_flags = CAN_BE_HIT
+	status = BODYPART_ROBOTIC
+	static_icon = TRUE
+	max_damage = 200
+	w_class = WEIGHT_CLASS_NORMAL
+	max_integrity = 300
+	brute_reduction = 10
+	burn_reduction = 10
+	anvilrepair = /datum/skill/craft/engineering
+	smeltresult = /obj/item/ingot/aalloy
+
+/obj/item/bodypart/r_arm/prosthetic/aalloy/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_LIMB)
+
+/obj/item/bodypart/r_arm/prosthetic/aalloy/is_disabled()
+	if(owner.check_lux_organ_cap())
+		return BODYPART_DISABLED_PARALYSIS
+	return ..()
+
+/obj/item/bodypart/r_arm/prosthetic/aalloy/on_life()
+	update_disabled()
+	return ..()
+
 /obj/item/bodypart/r_arm/prosthetic/attack(mob/living/M, mob/user)
 	prosthetic_attachment(M, user)
 
@@ -349,7 +452,7 @@
 	brute_reduction = 0
 	burn_reduction = 0
 	max_damage = 40
-	organ_slowdown = 0.05 // -5%
+	organ_slowdown = 0.75 // -75%
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
 	anvilrepair = /datum/skill/craft/carpentry
@@ -425,6 +528,38 @@
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
 
+//evil wretch bad boy heresy prosthetics. Tanky, fast, uses your lux to function
+/obj/item/bodypart/l_leg/prosthetic/aalloyleft
+	name = "artificed left leg"
+	desc = "A left leg, formed from Gilbranze and Bone. It moves with startling dexterity, betraying its lux-fueled nature. A normal human form could sustain no more than two at once."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "pra_leg"
+	prosthetic_prefix = "prc"// as bronze uses steel, we'll use gold sprites for now. Making sprites for each race sucks
+	resistance_flags = FIRE_PROOF
+	obj_flags = CAN_BE_HIT
+	status = BODYPART_ROBOTIC
+	static_icon = TRUE			//returns icon to initial icon state after removal under get_limb_icon
+	brute_reduction = 10
+	burn_reduction = 10
+	max_damage = 220
+	w_class = WEIGHT_CLASS_NORMAL
+	max_integrity = 350
+	organ_slowdown = 0
+	anvilrepair = /datum/skill/craft/engineering
+	smeltresult = /obj/item/ingot/aalloy
+
+/obj/item/bodypart/l_leg/prosthetic/aalloyleft/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_LIMB)
+
+/obj/item/bodypart/l_leg/prosthetic/aalloyleft/is_disabled()
+	if(owner.check_lux_organ_cap())
+		return BODYPART_DISABLED_PARALYSIS
+	return ..()
+
+/obj/item/bodypart/l_leg/prosthetic/aalloyleft/on_life()
+	update_disabled()
+	return ..()
+
 /obj/item/bodypart/l_leg/prosthetic/attack(mob/living/M, mob/user)
 	prosthetic_attachment(M, user)
 
@@ -440,7 +575,7 @@
 	brute_reduction = 0
 	burn_reduction = 0
 	max_damage = 40
-	organ_slowdown = 0.05 // -5%
+	organ_slowdown = 0.75 // -75%
 	w_class = WEIGHT_CLASS_NORMAL
 	max_integrity = 300
 	anvilrepair = /datum/skill/craft/carpentry
@@ -519,6 +654,38 @@
 	organ_slowdown = 0
 	anvilrepair = /datum/skill/craft/engineering
 	smeltresult = /obj/item/ingot/gold
+
+//evil wretch bad boy heresy prosthetics. Tanky, fast, uses your lux to function
+/obj/item/bodypart/r_leg/prosthetic/aalloyright
+	name = "artificed right leg"
+	desc = "A right leg, formed from Gilbranze and Bone. It moves with startling dexterity, betraying its lux-fueled nature. A normal human form could sustain no more than two at once."
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "pra_leg"
+	prosthetic_prefix = "prc"// as bronze uses steel, we'll use gold sprites for now. Making sprites for each race sucks
+	resistance_flags = FIRE_PROOF
+	obj_flags = CAN_BE_HIT
+	status = BODYPART_ROBOTIC
+	static_icon = TRUE			//returns icon to initial icon state after removal under get_limb_icon
+	brute_reduction = 10
+	burn_reduction = 10
+	max_damage = 220
+	w_class = WEIGHT_CLASS_NORMAL
+	max_integrity = 350
+	organ_slowdown = 0
+	anvilrepair = /datum/skill/craft/engineering
+	smeltresult = /obj/item/ingot/aalloy
+
+/obj/item/bodypart/r_leg/prosthetic/aalloyright/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_LIMB)
+
+/obj/item/bodypart/r_leg/prosthetic/aalloyright/is_disabled()
+	if(owner.check_lux_organ_cap())
+		return BODYPART_DISABLED_PARALYSIS
+	return ..()
+
+/obj/item/bodypart/r_leg/prosthetic/aalloyright/on_life()
+	update_disabled()
+	return ..()
 
 /obj/item/bodypart/r_leg/prosthetic/attack(mob/living/M, mob/user)
 	prosthetic_attachment(M, user)

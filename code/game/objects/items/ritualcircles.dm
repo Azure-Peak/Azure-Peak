@@ -2235,6 +2235,10 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 	if(!do_after(user, 4 SECONDS))
 		return FALSE
 
+	if(!user.handle_lux_removal(1))
+		to_chat(user, "I haven't the vitality to complete this ritual.")
+		return FALSE
+
 	loc.visible_message(span_cultsmall("[weapon] flares with a cold glimmer, having absorbed the sacrifice! [user] appears visibly drained and cold."))
 	playsound(loc, 'sound/magic/churn.ogg', 100, FALSE, -1)
 

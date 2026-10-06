@@ -2854,3 +2854,66 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	if(QDELETED(src) || stat != DEAD) // skip if it was somehow revived in the meantime
 		return
 	dust()
+
+//check what kind of lux a mob has. This does not check if lux is extractable!
+/mob/living/proc/get_lux_type()
+	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE) || !has_extractable_lux()) //has_extractable_lux currently implies a lack of lux- so this proc forbids it anyways
+		return "luxless"
+	if(istiefling(src))
+		return "infernal"
+	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) || HAS_TRAIT(src, TRAIT_FEYTOUCHED))
+		return "corrupted"
+	if(isaasimar(src))
+		return "pure"
+	return "impure"
+
+/mob/living/proc/handle_lux_removal(level = 2, aasimar_penalty = FALSE) //applies the penalties of losing lux, and returns false if a character is already missing lux
+	var/penalty = level
+	var/obj/item/luxtype = /obj/item/reagent_containers/lux_impure
+	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE) || !has_extractable_lux())
+		return FALSE //you have no lux to give
+
+	if(has_status_effect(/datum/status_effect/debuff/devitalised) && !HAS_TRAIT(src, TRAIT_LUXHEART)) //with a luxheart, you can have extra lux from the heart, whilst being devitalized
+		return FALSE
+
+	if(istiefling(src))
+		luxtype = /obj/item/ash
+	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) || HAS_TRAIT(src, TRAIT_FEYTOUCHED) || HAS_TRAIT(src, TRAIT_FEYBOUND))
+		luxtype = /obj/item/reagent_containers/lux_moss
+	if(isaasimar(src))
+		luxtype = /obj/item/reagent_containers/lux
+		if(aasimar_penalty)
+			penalty += 1
+	if(HAS_TRAIT(src, TRAIT_LUXHEART))
+		var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)
+		if(istype(heart, /obj/item/organ/heart/lux) && !(heart.organ_flags & ORGAN_FAILING))
+			var/obj/item/organ/heart/lux/luxheart = heart
+			if(luxheart.bonus_lux)
+				luxheart.bonus_lux = FALSE
+				luxheart.cooldown = world.time
+				switch(penalty)
+					if(1)
+						luxheart.cooldown_time = 5 MINUTES
+						return luxtype
+					if(2)
+						luxheart.cooldown_time = 15 MINUTES
+						return luxtype
+					if(3 to INFINITY)
+						luxheart.cooldown_time = 30 MINUTES
+						return luxtype
+			else if(has_status_effect(/datum/status_effect/debuff/devitalised))
+				return FALSE
+	switch(penalty)
+		if(1)
+			apply_status_effect(/datum/status_effect/debuff/devitalised/lesser)
+			return luxtype
+		if(2)
+			apply_status_effect(/datum/status_effect/debuff/devitalised)
+			return luxtype
+		if(3 to INFINITY)
+			apply_status_effect(/datum/status_effect/debuff/devitalised/greater)
+			return luxtype
+
+//if the player has too many lux organs, return how far they are over the cap
+/mob/living/proc/check_lux_organ_cap()
+	return FALSE

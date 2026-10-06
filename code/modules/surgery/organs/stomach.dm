@@ -24,7 +24,11 @@
 	..()
 	if(istype(H))
 		if(!(organ_flags & ORGAN_FAILING))
-			H.dna.species.handle_digestion(H)
+			if(organ_flags & ORGAN_LUX)
+				if(!H.check_lux_organ_cap())
+					H.dna.species.handle_digestion(H)
+			else
+				H.dna.species.handle_digestion(H)
 		handle_disgust(H)
 
 	if(damage < low_threshold)
@@ -125,3 +129,23 @@
 
 /obj/item/organ/stomach/ethereal/proc/adjust_charge(amount)
 	crystal_charge = CLAMP(crystal_charge + amount, ETHEREAL_CHARGE_NONE, ETHEREAL_CHARGE_FULL)
+
+/obj/item/organ/stomach/lux
+	name = "artificed stomach"
+	desc = "A leather bag, connected to a whirring bronze base. Tubes of gilbranze and flesh extrude from the top and bottom"
+	icon_state = "stomach-lux"
+	decay_factor = 0
+	organ_flags = ORGAN_LUX
+
+/obj/item/organ/stomach/lux/prepare_eat()
+	return FALSE //this thing isn't edible flesh
+
+/obj/item/organ/stomach/lux/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_ORGAN)
+
+/obj/item/organ/stomach/lux/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("An Artificed Stomach harnesses its host's Lux, ")
+	. += span_info("If the user has no lux to spare, they can only support one Artificed Organ, or one pair of Gilbranze Limbs.")
+	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
+
