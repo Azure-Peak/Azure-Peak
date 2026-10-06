@@ -1,3 +1,4 @@
+
 #define span_abductor(str) ("<span class='abductor'>" + (str) + "</span>")
 #define span_admin(str) ("<span class='admin'>" + (str) + "</span>")
 #define span_adminhelp(str) ("<span class='adminhelp'>" + (str) + "</span>")
@@ -54,8 +55,6 @@
 #define span_highlight(str) ("<span class='highlight'>" + (str) + "</span>")
 #define span_hypnophrase(str) ("<span class='hypnophrase'>" + (str) + "</span>")
 #define span_infection(str) ("<span class='infection'>" + (str) + "</span>")
-#define span_info(str) ("<span class='info'>" + (str) + "</span>")
-#define span_redinfo(str) ("<span class='redinfo'>" + (str) + "</span>")
 #define span_interface(str) ("<span class='interface'>" + (str) + "</span>")
 #define span_italics(str) ("<span class='italics'>" + (str) + "</span>")
 #define span_looc(str) ("<span class='looc'>" + (str) + "</span>")
@@ -66,7 +65,6 @@
 #define span_narsie(str) ("<span class='narsie'>" + (str) + "</span>")
 #define span_necrosis(str) ("<span class='necrosis'>" + (str) + "</span>")
 #define span_nicegreen(str) ("<span class='nicegreen'>" + (str) + "</span>")
-#define span_notice(str) ("<span class='notice'>" + (str) + "</span>")
 #define span_ooc(str) ("<span class='ooc'>" + (str) + "</span>")
 #define span_phobia(str) ("<span class='phobia'>" + (str) + "</span>")
 #define span_prefix(str) ("<span class='prefix'>" + (str) + "</span>")
@@ -83,7 +81,6 @@
 #define span_revennotice(str) ("<span class='revennotice'>" + (str) + "</span>")
 #define span_revenwarning(str) ("<span class='revenwarning'>" + (str) + "</span>")
 #define span_rose(str) ("<span class='rose'>" + (str) + "</span>")
-#define span_sans(str) ("<span class='sans'>" + (str) + "</span>")
 #define span_say(str) ("<span class='say'>" + (str) + "</span>")
 #define span_secradio(str) ("<span class='secradio'>" + (str) + "</span>")
 #define span_small(str) ("<span class='small'>" + (str) + "</span>")
@@ -94,17 +91,26 @@
 #define span_syndradio(str) ("<span class='syndradio'>" + (str) + "</span>")
 #define span_tinynotice(str) ("<span class='tinynotice'>" + (str) + "</span>")
 #define span_unconscious(str) ("<span class='unconscious'>" + (str) + "</span>")
-#define span_userdanger(str) ("<span class='userdanger'>" + (str) + "</span>")
 #define span_warn(str) ("<span class='warn'>" + (str) + "</span>")
 #define span_warning(str) ("<span class='warning'>" + (str) + "</span>")
 #define span_taunt(str)	("<span class='taunt'>" + (str) + "</span>")
 #define span_warningbig(str) ("<span class='warningbig'>" + (str) + "</span>")
 #define span_yellow(str) ("<span class = 'yellow'>" + (str) + "</span>")
 #define span_honeyyellow(str) ("<span class = 'honeyyellow'>" + (str) + "</span>")
+
+// SPANS I KNOW FOR SURE WORK
+#define span_notice(str) ("<span class='notice'>" + (str) + "</span>")
+#define span_userdanger(str) ("<span class='userdanger'>" + (str) + "</span>")
+#define span_sans(str) ("<span class='sans'>" + (str) + "</span>")
+#define span_info(str) ("<span class='info'>" + (str) + "</span>")
+#define span_redinfo(str) ("<span class='redinfo'>" + (str) + "</span>")
+
+// ROGUESPANS
 #define span_beautiful_masc(str) ("<span class='beautifulmasc'>" + (str) + "</span>")
 #define span_beautiful_fem(str) ("<span class='beautifulfem'>" + (str) + "</span>")
 #define span_beautiful_nb(str) ("<span class='beautifulnb'>" + (str) + "</span>")
 
+// GOD SPANS
 #define span_astrata(str) ("<span class='astrata'>" + (str) + "</span>")
 #define span_undivided(str) ("<span class='undivided'>" + (str) + "</span>")
 #define span_abyssor(str) ("<span class='abyssor'>" + (str) + "</span>")
@@ -123,6 +129,7 @@
 #define span_vheslyn(str) ("<span class='vheslyn'>" + (str) + "</span>")
 #define span_mossmother(str) ("<span class='mossmother'>" + (str) + "</span>")
 
+// CLERIC (?) SPANS
 #define span_divine(str) ("<span class='divine'>" + (str) + "</span>")
 #define span_profane(str) ("<span class='profane'>" + (str) + "</span>")
 #define span_silver(str) ("<span class='silver'>" + (str) + "</span>")
