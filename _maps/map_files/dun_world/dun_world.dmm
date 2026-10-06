@@ -6149,13 +6149,11 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/candle/candlestick/gold{
-	pixel_y = 10
-	},
 /obj/item/reagent_containers/glass/bottle/rogue/wine{
 	pixel_x = -9;
 	pixel_y = 19
 	},
+/obj/item/reagent_containers/glass/cup/steel,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "beG" = (
@@ -43042,19 +43040,6 @@
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/shelter)
-"hyI" = (
-/obj/structure/table/wood{
-	icon_state = "tablewood1"
-	},
-/obj/item/candle/candlestick/gold/single/lit{
-	pixel_y = 9
-	},
-/obj/item/reagent_containers/glass/bottle/rogue/wine{
-	pixel_x = -9;
-	pixel_y = 19
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/tavern)
 "hyN" = (
 /obj/structure/fluff/railing/border{
 	pixel_y = -7
@@ -58281,13 +58266,11 @@
 /obj/structure/table/wood{
 	icon_state = "tablewood1"
 	},
-/obj/item/candle/candlestick/gold/single/lit{
-	pixel_y = 9
-	},
 /obj/item/reagent_containers/glass/bottle/rogue/wine{
 	pixel_x = -9;
 	pixel_y = 19
 	},
+/obj/item/reagent_containers/glass/cup/steel,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/tavern)
 "kbo" = (
@@ -93894,19 +93877,23 @@
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/roguekey/bathworker{
 	name = "suite I key";
-	lockid = "lux1"
+	lockid = "lux1";
+	desc = "This regal key opens the Royal Palace suite."
 	},
 /obj/item/roguekey/bathworker{
 	name = "suite II key";
-	lockid = "lux2"
+	lockid = "lux2";
+	desc = "This regal key opens the Dendor's Paradise suite."
 	},
 /obj/item/roguekey/bathworker{
 	name = "suite III key";
-	lockid = "lux3"
+	lockid = "lux3";
+	desc = "This regal key opens the Velvet Haven suite."
 	},
 /obj/item/roguekey/bathworker{
 	name = "suite IV key";
-	lockid = "lux4"
+	lockid = "lux4";
+	desc = "This regal key opens the Stockade suite."
 	},
 /turf/open/floor/rogue/carpet{
 	color = "#FFA3A3"
@@ -94643,19 +94630,23 @@
 	},
 /obj/item/roguekey/bathworker{
 	name = "suite I key";
-	lockid = "lux1"
+	lockid = "lux1";
+	desc = "This regal key opens the Royal Palace suite."
 	},
 /obj/item/roguekey/bathworker{
 	name = "suite II key";
-	lockid = "lux2"
+	lockid = "lux2";
+	desc = "This regal key opens the Dendor's Paradise suite."
 	},
 /obj/item/roguekey/bathworker{
 	name = "suite III key";
-	lockid = "lux3"
+	lockid = "lux3";
+	desc = "This regal key opens the Velvet Haven suite."
 	},
 /obj/item/roguekey/bathworker{
 	name = "suite IV key";
-	lockid = "lux4"
+	lockid = "lux4";
+	desc = "This regal key opens the Stockade suite."
 	},
 /obj/item/roguekey{
 	icon_state = "brownkey";
@@ -102473,9 +102464,7 @@
 	pixel_x = -9;
 	pixel_y = 19
 	},
-/obj/item/candle/candlestick/gold{
-	pixel_y = 10
-	},
+/obj/item/reagent_containers/glass/cup/steel,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/tavern)
 "rws" = (
@@ -132667,10 +132656,8 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
 "wDd" = (
-/obj/item/candle/candlestick/gold/single/lit{
-	pixel_y = 9
-	},
 /obj/structure/table/wood,
+/obj/item/reagent_containers/glass/cup/steel,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "wDf" = (
@@ -406914,9 +406901,9 @@ kSK
 tvR
 jHl
 uyR
-jUr
 yjo
 jUr
+yjo
 tvR
 qsy
 udU
@@ -514505,7 +514492,7 @@ jlW
 tCw
 bDX
 pvg
-hyI
+beC
 tvR
 kSK
 kSK
