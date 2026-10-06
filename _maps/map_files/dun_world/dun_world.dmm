@@ -17781,8 +17781,8 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "dfJ" = (
-/obj/machinery/light/rogue/candle/blue,
-/turf/open/water/bath,
+/obj/machinery/light/rogue/candle/r,
+/turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/bath)
 "dfN" = (
 /obj/structure/closet/crate/chest/neu,
@@ -33103,6 +33103,19 @@
 /obj/structure/wild_plant/nospread/manabloom,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/southeast)
+"fKD" = (
+/obj/structure/fluff/railing/border/east,
+/obj/structure/chair/stool/rogue{
+	pixel_x = -2;
+	pixel_y = -2
+	},
+/obj/machinery/light/rogue/candle/blue{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
+	},
+/area/rogue/indoors/town/bath)
 "fKE" = (
 /obj/effect/decal/wood/herringbone,
 /obj/effect/spawner/roguemap/stump,
@@ -33344,8 +33357,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/south)
 "fMN" = (
-/obj/machinery/light/rogue/candle/r,
-/turf/open/floor/rogue/tile,
+/obj/structure/fluff/pillow/magenta,
+/turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/bath)
 "fMQ" = (
 /obj/structure/closet/crate/chest/wicker,
@@ -69977,8 +69990,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
 "lUZ" = (
-/obj/structure/closet/crate/drawer,
-/turf/open/floor/rogue/woodturned,
+/obj/machinery/light/rogue/candle/blue,
+/turf/open/water/bath,
 /area/rogue/indoors/town/bath)
 "lVb" = (
 /obj/structure/flora/newleaf,
@@ -94477,6 +94490,7 @@
 	pixel_y = -2;
 	pixel_x = 3
 	},
+/obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "qcz" = (
@@ -127975,8 +127989,8 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/outdoors/beach)
 "vMj" = (
-/obj/structure/fluff/pillow/magenta,
-/turf/open/floor/carpet/purple,
+/obj/structure/closet/crate/drawer,
+/turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town/bath)
 "vMm" = (
 /mob/living/carbon/human/species/skeleton/npc/medium,
@@ -138066,6 +138080,7 @@
 	dir = 1;
 	pixel_y = 8
 	},
+/obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -163865,7 +163880,7 @@ rqY
 rIx
 wTH
 pdh
-lUZ
+vMj
 eXt
 bhJ
 toJ
@@ -165643,7 +165658,7 @@ cPX
 cPX
 cPX
 nPv
-dfJ
+lUZ
 iHN
 gLW
 haH
@@ -166084,9 +166099,9 @@ ylh
 cqm
 rqY
 pCf
-fMN
+dfJ
 pGR
-fMN
+dfJ
 rCn
 oHM
 vOL
@@ -167903,7 +167918,7 @@ cPX
 cPX
 cPX
 nPv
-dfJ
+lUZ
 haH
 mCR
 iHN
@@ -167933,7 +167948,7 @@ ssY
 fYf
 naR
 naR
-vMj
+fMN
 rqY
 bhJ
 toJ
@@ -176952,7 +176967,7 @@ rFi
 uQa
 sVF
 joX
-joX
+fKD
 nPv
 cPX
 uVa
