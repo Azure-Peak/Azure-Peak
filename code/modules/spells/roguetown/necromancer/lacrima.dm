@@ -58,11 +58,10 @@
 		return FALSE
 	if(!target.has_extractable_lux())
 		to_chat(user, span_notice("This husk holds no true lifeforce - there is nothing to excise."))
-		return FALSE
-	if(target.has_status_effect(/datum/status_effect/debuff/devitalised) || (target.mob_biotypes & MOB_UNDEAD))
-		to_chat(user, span_notice("This victim's Lux is corroded, yet regrowing. There is little I can make use of."))
-		return FALSE
-
+		return
+	if(target.has_status_effect(/datum/status_effect/debuff/devitalised))
+		to_chat(user, span_notice("This victim's Lux is corroded. There is little I can make use of."))
+		return
 	var/obj/item/bodypart/chest = target.get_bodypart(BODY_ZONE_CHEST)
 	if(!chest)
 		to_chat(user, span_warning("There is no viable chest to extract Lux from."))
@@ -107,7 +106,12 @@
 		user.Stun(5) //ITS GOING TO HURT, A LOT
 		return FALSE
 
-	target.emote("superagony")
+	if(HAS_TRAIT(target, TRAIT_LUXHEART))
+		to_chat(user, span_warning("Their heart is wrapped in a fascinating cage of Gilbranze! Their lux is imprisoned within."))
+		return
+
+	if(!HAS_TRAIT(target, TRAIT_NOPAIN))
+		target.emote("superagony")
 
 	playsound(user, 'sound/items/blackmirror_needle.ogg', 60, FALSE, 3)
 	user.visible_message(span_artery("[user] tears a glob of pulsating Lux from [target]'s heart!"))
@@ -126,14 +130,9 @@
 	else
 		target.add_stress(/datum/stressevent/torn_lux)
 
-	if(isaasimar(target))
-		to_chat(user, span_warning("It settles softly in my grasp... Refined, radiant, exquisite. I shall remember this one."))
-		user.put_in_hands(new /obj/item/reagent_containers/lux)
-		target.apply_status_effect(/datum/status_effect/debuff/devitalised/greater)
-	else
-		to_chat(user, span_warning("It writhes in my grasp... Coarse and wanting, but not without use. It can be refined."))
-		user.put_in_hands(new /obj/item/reagent_containers/lux_impure)
-		target.apply_status_effect(/datum/status_effect/debuff/devitalised)
+	var/luxtype = target.handle_lux_removal(aasimar_penalty = TRUE)
+	if(luxtype)
+		new luxtype
 
 	SEND_SIGNAL(user, COMSIG_LUX_EXTRACTED, target)
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
