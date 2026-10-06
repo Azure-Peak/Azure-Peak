@@ -57539,13 +57539,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/outdoors/town)
-"jUr" = (
-/obj/structure/table/wood/poor,
-/obj/item/candle/candlestick/gold/single/lit{
-	pixel_y = 9
-	},
-/turf/open/floor/carpet/inn,
-/area/rogue/indoors/town/tavern)
 "jUs" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/cobble,
@@ -407023,7 +407016,7 @@ tvR
 jHl
 uyR
 yjo
-jUr
+yjo
 yjo
 tvR
 qsy
