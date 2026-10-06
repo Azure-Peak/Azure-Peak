@@ -17781,8 +17781,8 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "dfJ" = (
-/obj/structure/fluff/pillow/magenta,
-/turf/open/floor/carpet/purple,
+/obj/machinery/light/rogue/candle/blue,
+/turf/open/water/bath,
 /area/rogue/indoors/town/bath)
 "dfN" = (
 /obj/structure/closet/crate/chest/neu,
@@ -31390,11 +31390,11 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/mountains/decap)
 "fvc" = (
-/obj/structure/fluff/statue/small{
-	pass_flags = 1;
-	pixel_x = -32
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_x = -32;
+	pixel_y = 0
 	},
-/turf/open/floor/rogue/churchbrick,
+/turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/town/bath)
 "fvf" = (
 /turf/closed/wall/mineral/rogue/decostone/end,
@@ -33344,8 +33344,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/south)
 "fMN" = (
-/obj/structure/closet/crate/drawer,
-/turf/open/floor/rogue/woodturned,
+/obj/machinery/light/rogue/candle/r,
+/turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/bath)
 "fMQ" = (
 /obj/structure/closet/crate/chest/wicker,
@@ -38561,6 +38561,7 @@
 /obj/item/bedsheet/rogue/pelt{
 	dir = 1
 	},
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors/town/bath)
 "gIK" = (
@@ -69976,8 +69977,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/underdark/north)
 "lUZ" = (
-/obj/machinery/light/rogue/candle/r,
-/turf/open/floor/rogue/tile,
+/obj/structure/closet/crate/drawer,
+/turf/open/floor/rogue/woodturned,
 /area/rogue/indoors/town/bath)
 "lVb" = (
 /obj/structure/flora/newleaf,
@@ -91234,10 +91235,6 @@
 	},
 /area/rogue/outdoors/mountains)
 "pBz" = (
-/obj/structure/fluff/statue/small{
-	pass_flags = 1;
-	pixel_x = -32
-	},
 /obj/effect/decal/carpet/kover_darkred{
 	dir = 4;
 	pixel_x = 20;
@@ -127978,8 +127975,8 @@
 /turf/open/floor/rogue/metal/barograte,
 /area/rogue/outdoors/beach)
 "vMj" = (
-/obj/machinery/light/rogue/candle/blue,
-/turf/open/water/bath,
+/obj/structure/fluff/pillow/magenta,
+/turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/bath)
 "vMm" = (
 /mob/living/carbon/human/species/skeleton/npc/medium,
@@ -135177,13 +135174,6 @@
 	pixel_x = 8
 	},
 /turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/bath)
-"wYP" = (
-/obj/machinery/light/rogue/campfire/fireplace{
-	pixel_x = -32;
-	pixel_y = 0
-	},
-/turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/town/bath)
 "wYT" = (
 /obj/effect/decal/cobbleedge{
@@ -153895,8 +153885,8 @@ cqm
 cPX
 cPX
 cSb
-nPv
-nPv
+uHb
+uHb
 cSb
 cPX
 cPX
@@ -154347,7 +154337,7 @@ cqm
 yhL
 awb
 wtO
-fvc
+wtO
 pBz
 wtO
 fno
@@ -161607,7 +161597,7 @@ rqY
 rqY
 ecA
 idr
-wYP
+fvc
 ePG
 ePG
 gNq
@@ -163875,7 +163865,7 @@ rqY
 rIx
 wTH
 pdh
-fMN
+lUZ
 eXt
 bhJ
 toJ
@@ -165653,7 +165643,7 @@ cPX
 cPX
 cPX
 nPv
-vMj
+dfJ
 iHN
 gLW
 haH
@@ -166094,9 +166084,9 @@ ylh
 cqm
 rqY
 pCf
-lUZ
+fMN
 pGR
-lUZ
+fMN
 rCn
 oHM
 vOL
@@ -167913,7 +167903,7 @@ cPX
 cPX
 cPX
 nPv
-vMj
+dfJ
 haH
 mCR
 iHN
@@ -167943,7 +167933,7 @@ ssY
 fYf
 naR
 naR
-dfJ
+vMj
 rqY
 bhJ
 toJ
