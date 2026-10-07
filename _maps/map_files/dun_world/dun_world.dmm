@@ -23359,9 +23359,6 @@
 	pixel_y = 8
 	},
 /obj/structure/rack/rogue/shelf,
-/obj/structure/fluff/walldeco/rpainting/crown{
-	pixel_x = -32
-	},
 /obj/item/reagent_containers/glass/cup/glass/flute{
 	pixel_y = 46;
 	pixel_x = -5
@@ -23370,6 +23367,7 @@
 	pixel_y = 46;
 	pixel_x = 7
 	},
+/obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/town/bath)
 "ecB" = (
@@ -46607,15 +46605,14 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/town/garrison)
 "idr" = (
-/obj/structure/fluff/statue/gargoyle{
-	pixel_x = -32
-	},
 /obj/effect/decal/carpet{
 	pixel_z = 0;
 	pixel_w = 0;
 	pixel_y = 5
 	},
-/obj/machinery/light/rogue/candle/l,
+/obj/structure/fluff/walldeco/rpainting/crown{
+	pixel_x = -32
+	},
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/town/bath)
 "idu" = (
@@ -48533,9 +48530,6 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/magician)
 "isH" = (
-/obj/structure/fluff/statue/gargoyle{
-	pixel_x = -32
-	},
 /obj/machinery/light/rogue/candle/l,
 /turf/open/water/bath,
 /area/rogue/indoors/town/bath)
@@ -53335,7 +53329,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
 "jkj" = (
-/turf/closed/basic,
+/obj/structure/fluff/statue/gargoyle,
+/turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/bath)
 "jkl" = (
 /obj/structure/fluff/railing/border/east,
@@ -138801,9 +138796,6 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement/keep)
 "xEX" = (
-/obj/structure/fluff/statue/gargoyle{
-	pixel_y = 32
-	},
 /obj/effect/decal/cobbleedge{
 	icon_state = "borderfall";
 	dir = 1;
@@ -160282,7 +160274,7 @@ bhJ
 bhJ
 rqY
 rqY
-rqY
+jkj
 rqY
 rqY
 bhJ
@@ -161182,8 +161174,8 @@ pPQ
 hyt
 rqY
 rqY
-rqY
 jkj
+rqY
 rqY
 haH
 haH
@@ -162538,7 +162530,7 @@ jQb
 rqY
 rqY
 rqY
-rqY
+jkj
 xEX
 wOt
 bBh
