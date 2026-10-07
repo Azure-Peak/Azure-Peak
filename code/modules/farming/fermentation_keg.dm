@@ -138,8 +138,9 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 		produce_list |= I
 
 	if(istype(I, /obj/item/storage))
-		produce_list |= I.contents
-		storage_list |= I.contents
+		var/list/held = I.held_contents()
+		produce_list |= held
+		storage_list |= held
 
 	var/dumps = FALSE
 	for(var/obj/item/reagent_containers/food/G in produce_list)
@@ -149,7 +150,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 			recipe_crop_stocks[G.type]++
 			if(G in storage_list)
 				dumps = TRUE
-				SEND_SIGNAL(G.loc, COMSIG_TRY_STORAGE_TAKE, G, get_turf(src), TRUE)
+				I.release_held(G, get_turf(src))
 			qdel(G)
 
 	for(var/obj/item/item in produce_list)
@@ -161,7 +162,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 			recipe_crop_stocks[item.type] = amount + added_item
 			if(item in storage_list)
 				dumps = TRUE
-				SEND_SIGNAL(item.loc, COMSIG_TRY_STORAGE_TAKE, item, get_turf(src), TRUE)
+				I.release_held(item, get_turf(src))
 			qdel(item)
 
 	if(dumps)

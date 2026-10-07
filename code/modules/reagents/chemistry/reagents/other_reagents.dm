@@ -99,7 +99,7 @@
 
 /datum/reagent/water
 	name = "water"
-	description = "An ubiquitous chemical substance that is composed of hydrogen and oxygen."
+	description = "Unwholesome by itself for an Azurian. It is cold, slow and slack of digestion."
 	color = "#6a9295"
 	taste_description = "water"
 	var/cooling_temperature = 2
@@ -129,11 +129,13 @@
 #undef WATER_BLOOD_RESTORE
 
 /datum/reagent/water/gross
+	description = "Marshy, stagnant water putrified with froth, beloved of Pestra. Not for drinking by ordinary folk."
 	taste_description = "something vile"
 	color = "#98934b"
 	harmful = TRUE
 
 /datum/reagent/water/gross/sewage
+	description = "Water mixed in with filth. Stagnant and putrid, of a greenish and brown hue. An extremely unwholesome drink."
 	taste_description = "repulsive sulfur and decaying shit"
 
 /datum/reagent/water/gross/sewage/well
@@ -168,10 +170,12 @@
 	required_temp = 375
 
 /datum/reagent/water/bathwater
+	description = "Water that has been used to cleanse a body of filth, frothing with bubbles and the faint smell of soap. Still more drinkable than bog water."
 	taste_description = "bathwater"
 	color = "#c9e5ee"
 
 /datum/reagent/water/salty
+	description = "Water that belongs to Abyssor. Salty, thick, and good for fishes. Not so good for those who dwell on land."
 	taste_description = "salt"
 	color = "#417ac5"
 

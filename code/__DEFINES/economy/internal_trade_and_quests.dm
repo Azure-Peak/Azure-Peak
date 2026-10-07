@@ -82,6 +82,11 @@
 #define STOCKPILE_AUTO_LIMIT_DAYS 2
 #define STOCKPILE_LIMIT_MIN 5
 #define STOCKPILE_LIMIT_MAX 40
+#define STOCKPILE_LIMIT_MANUAL_MAX 9999
+#define STEWARD_POLICY_EXPORT_VERSION 1
+#define STEWARD_POLICY_IMPORT_MAX_LEN 16384
+#define STEWARD_POLICY_WINDOW_WIDTH 900
+#define STEWARD_POLICY_WINDOW_HEIGHT 700
 
 // Buying the same import = escalating price
 #define CROWN_IMPORT_ELASTICITY 0.25
@@ -120,19 +125,6 @@
 #define BANDITRY_DRAIN_BLEAK_PER_PLAYER 2
 // 500 above the default purse floor so that banditry won't tank econ on its own
 #define BANDITRY_DEBT_FLOOR 1500
-
-// FLAT per-region drain cost scales down below reference pop, floored at FLAT_MIN_MULT so it
-// never fully disappears. PER_PLAYER component is untouched.
-#define BANDITRY_DRAIN_POP_REFERENCE 20
-#define BANDITRY_DRAIN_FLAT_MIN_MULT 0.25
-
-// Global daily cap on summed drain across all threat regions, so several going Dangerous/Bleak
-// at once can't stack unbounded. No flat base - purely per-player, and the rate must exceed the
-// theoretical max combined per-player drain slope (6 regions x BLEAK_PER_PLAYER(2) = 12) so the
-// cap is mathematically guaranteed to stop binding as pop rises instead of saving more the
-// bigger the server gets (a naive base+rate cap with rate < that max does the latter - the gap
-// between raw drain and the cap grows unboundedly with pop instead of tapering to zero).
-#define BANDITRY_DRAIN_DAILY_CAP_PER_PLAYER 25
 
 // Fraction of any Crown's Purse credit skimmed to pay down banditry debt while it's outstanding.
 // Was 1.0 (100%), which made the purse unable to visibly recover until debt cleared.

@@ -1,6 +1,0 @@
-author: "EmilitiaEnnehrt"
-delete-after: True
-changes:
-  - rscadd: "Ceramic mask, as well as adding it to the loadout"
-  - rscadd: "Snout variant for weathered xylixian mask"
-  - balance: "Jester Mask no longer restricts vision"

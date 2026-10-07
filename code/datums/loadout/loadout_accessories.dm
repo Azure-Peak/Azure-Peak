@@ -166,6 +166,11 @@
 	path = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/blackbelt
 	sort_category = "Accessories"
 
+/datum/loadout_item/clothloincloth
+	name = "Belt with Loincloth"
+	path = /obj/item/storage/belt/rogue/leather/battleskirt/loincloth
+	sort_category = "Accessories"
+
 /datum/loadout_item/doublebelt
 	name = "Paired Slim Belts"
 	path = /obj/item/storage/belt/rogue/leather/double

@@ -44,6 +44,10 @@
 	RegisterSignal(src, COMSIG_STATUS_EFFECT_HAG_CURSE_CLEARED, PROC_REF(handle_curse_cleared))
 	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(handle_death))
 	GLOB.active_hags |= parent
+	if(ishuman(parent))
+		var/mob/living/carbon/human/H = parent
+		if(H.client)
+			add_verb(parent, /mob/living/carbon/human/proc/remember_fey)
 
 	// Let's avoid lagging the server on round start.
 	addtimer(CALLBACK(src, PROC_REF(recognize_fey)), 10 SECONDS)
@@ -52,21 +56,31 @@
 	GLOB.active_hags -= parent
 	return ..()
 
-/datum/component/hag_curio_tracker/proc/recognize_fey()
+/datum/component/hag_curio_tracker/proc/recognize_fey(ping_feytouched = TRUE)
 	var/mob/living/hag_mob = parent
 	if(!hag_mob || !hag_mob.mind)
 		return
 
 	var/found_any = FALSE
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(HAS_TRAIT(H, TRAIT_FEYBOUND))
+			// The Hag mind learns about the vessel
+			hag_mob.mind.i_know_person(H)
+			if(H.mind)
+				H.mind.i_know_person(hag_mob.mind)
+			found_any = TRUE
+			if(ping_feytouched) // we only want to do this on roundstart, not when the hag remembers their goons
+				to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
+			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name], a feybound, is walking the lands this week."))
 		if(HAS_TRAIT(H, TRAIT_FEYTOUCHED))
 			// The Hag mind learns about the vessel
 			hag_mob.mind.i_know_person(H)
 			if(H.mind)
 				H.mind.i_know_person(hag_mob.mind)
 			found_any = TRUE
-			to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
-			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name] is walking the lands this week."))
+			if(ping_feytouched)
+				to_chat(H, span_boldnotice("A familiar rhythm pulses in the roots... [hag_mob.real_name] is walking the lands this week."))
+			to_chat(hag_mob, span_boldnotice("A familiar rhythm pulses in the roots... [H.real_name], a feytouched, is walking the lands this week."))
 	if(found_any)
 		to_chat(hag_mob, span_boldnotice("As your eyes adjust to the emerald gloom, the threads of the Mossmother's older puppets become visible to you..."))
 
@@ -341,7 +355,7 @@
 		return FALSE
 	if(C.mind.has_antag_datum(/datum/antagonist/assassin))
 		return FALSE
-	if(HAS_TRAIT(C, TRAIT_FEYTOUCHED))
+	if(HAS_TRAIT(C, TRAIT_FEYBOUND))
 		return FALSE
 	return TRUE
 

@@ -2,8 +2,8 @@ GLOBAL_LIST_EMPTY(explosions)
 //Against my better judgement, I will return the explosion datum
 //If I see any GC errors for it I will find you
 //and I will gib you
-/proc/explosion(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE, soundin)
-	return new /datum/explosion(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin)
+/proc/explosion(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE, soundin, mob/bomb_owner = null)
+	return new /datum/explosion(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin, bomb_owner)
 
 //This datum creates 3 async tasks
 //1 GatherSpiralTurfsProc runs spiral_range_turfs(tick_checked = TRUE) to populate the affected_turfs list
@@ -13,6 +13,7 @@ GLOBAL_LIST_EMPTY(explosions)
 /datum/explosion
 	var/explosion_id
 	var/atom/explosion_source
+	var/mob/bomb_owner
 	var/started_at
 	var/running = TRUE
 	var/stopped = 0		//This is the number of threads stopped !DOESN'T COUNT THREAD 2!
@@ -31,12 +32,13 @@ GLOBAL_LIST_EMPTY(explosions)
 		EX_PREPROCESS_EXIT_CHECK\
 	}
 
-/datum/explosion/New(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin = 'sound/misc/explode/explosion.ogg')
+/datum/explosion/New(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin = 'sound/misc/explode/explosion.ogg', mob/bomb_owner = null)
 	set waitfor = FALSE
 
 	var/id = ++id_counter
 	explosion_id = id
 	explosion_source = epicenter
+	src.bomb_owner = bomb_owner
 
 	epicenter = get_turf(epicenter)
 	if(!epicenter)
@@ -152,6 +154,8 @@ GLOBAL_LIST_EMPTY(explosions)
 	//flash mobs
 	if(flash_range)
 		for(var/mob/living/L in viewers(flash_range, epicenter))
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
+				continue
 			L.flash_act()
 
 	//damage. WTF, where it?
@@ -160,6 +164,8 @@ GLOBAL_LIST_EMPTY(explosions)
 	var/burn
 	if(!isnull(devastation_range))
 		for(var/mob/living/L in viewers(devastation_range, epicenter))
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
+				continue
 			dist_epi = get_dist(L, epicenter)
 			if(!L.mind)
 				burn = rand(100,250)
@@ -168,6 +174,8 @@ GLOBAL_LIST_EMPTY(explosions)
 				L.adjustFireLoss(burn)
 	if(!isnull(heavy_impact_range))
 		for(var/mob/living/L in viewers(heavy_impact_range, epicenter))
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
+				continue
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= devastation_range)
 				continue
@@ -178,6 +186,8 @@ GLOBAL_LIST_EMPTY(explosions)
 				L.adjustBruteLoss(brute)
 	if(!isnull(light_impact_range))
 		for(var/mob/living/L in viewers(light_impact_range, epicenter))
+			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
+				continue
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= heavy_impact_range)
 				continue
@@ -358,6 +368,7 @@ GLOBAL_LIST_EMPTY(explosions)
 		return QDEL_HINT_IWILLGC
 	GLOB.explosions -= src
 	explosion_source = null
+	bomb_owner = null
 	return ..()
 
 /client/proc/check_bomb_impacts()

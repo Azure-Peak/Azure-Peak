@@ -70,10 +70,10 @@
 	if(reagents)
 		if(reagents.flags & TRANSPARENT)
 			if(length(reagents.reagent_list))
-				if(user.can_see_reagents() || (user.Adjacent(src) && (user.get_skill_level(/datum/skill/craft/alchemy) >= 2 || HAS_TRAIT(user, TRAIT_CICERONE)))) //Show each individual reagent
+				if(user.can_identify_reagents(src))
 					ret.Insert(LAZYLEN(ret)-1, "[src.p_they(TRUE)] contain[src.gender==PLURAL?"":"s"]:")
 					for(var/datum/reagent/R in reagents.reagent_list)
-						ret.Insert(LAZYLEN(ret)-1, "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>")
+						ret.Insert(LAZYLEN(ret)-1, reagents.examine_line(R))
 				else //Otherwise, just show the total volume
 					var/total_volume = 0
 					var/reagent_color

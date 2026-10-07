@@ -3,7 +3,6 @@
 	name = "Nudist"
 	tutorial = "They say that the most devout of Dendor forgo clothing in order to weather their body to the natural elements. You happen to be one of them!"
 	allowed_sexes = list(MALE, FEMALE)
-	
 	allowed_patrons = list(/datum/patron/divine/dendor)
 	outfit = /datum/outfit/job/roguetown/adventurer/nudist
 	category_tags = list(CTAG_ADVENTURER, CTAG_LICKER_WRETCH)
@@ -35,3 +34,16 @@
 	belt = /obj/item/storage/belt/rogue/leather/rope
 	beltl = /obj/item/rogueweapon/huntingknife/stoneknife
 	neck = /obj/item/clothing/neck/roguetown/psicross/dendor
+
+//this is so fucking abysmal, I'm sorry
+//VL uses this, other antags in pre-set roles w/out varience can also use it, its a failsafe fallback to make a blank-slate 4 roundstarters
+/datum/advclass/nothing
+	name = "No Outfit"
+	tutorial = "You shouldn't be seeing this"
+	allowed_sexes = list(MALE, FEMALE)
+	outfit = /datum/outfit/job/roguetown/adventurer/nothing
+	category_tags = list(CTAG_NO_OUTFIT)
+
+/datum/outfit/job/roguetown/adventurer/nothing/pre_equip(mob/living/carbon/human/H)
+	..()
+	H.set_blindness(0)

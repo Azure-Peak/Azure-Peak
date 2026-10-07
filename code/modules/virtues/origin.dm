@@ -108,11 +108,20 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	switch(complex)
 		if("Strict (Naledi Complex)")
 			ADD_TRAIT(H, TRAIT_NALEDI, TRAIT_GENERIC)
-			mask_type = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser
+			if(H.has_flaw(/datum/charflaw/badsight))
+				mask_type = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser/inlaid_spectacles
+			else
+				mask_type = /obj/item/clothing/mask/rogue/lordmask/naledi/lesser
 		else
 			mask_type = /obj/item/clothing/mask/rogue/lordmask/tarnished
 	H.mind.special_items["Naledian Mask"] = mask_type
 	to_chat(H, span_notice("Your Naledian Mask has been added to your Item Stash."))
+
+/datum/virtue/origin/naledi/proc/get_mask_type_lesser(mob/living/carbon/human/H)
+	// return H.has_flaw(/datum/charflaw/badsight)
+
+/datum/virtue/origin/naledi/proc/get_mask_type_tarnished(mob/living/carbon/human/H)
+
 
 /datum/virtue/origin/kazengun
 	name = "Kazengunese"

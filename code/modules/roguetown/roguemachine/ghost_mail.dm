@@ -24,7 +24,7 @@
 		box = list()
 		SSroguemachine.ghost_mailboxes[box_key] = box
 	box += new /datum/ghost_letter(sender, recipient, content)
-	to_chat(G, span_biginfo("New letter from <b>[sender].</b> Touch a HERMES to read it."))
+	to_chat(G, span_biginfo("A new letter has arrived for you. Touch a HERMES to read it."))
 	G.playsound_local(G, 'sound/misc/mail.ogg', 100, FALSE, -1)
 	log_game("GHOST MAIL: letter from [sender] delivered to the ghost of [recipient] ([G.ckey]).")
 	return TRUE
