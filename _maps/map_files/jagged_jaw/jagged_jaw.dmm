@@ -63625,7 +63625,7 @@
 	keylock = 1;
 	locked = 1;
 	lockid = "nightman";
-	name = "Stash"
+	name = "Spare Keys"
 	},
 /turf/open/floor/rogue/churchbrick{
 	icon_state = "concretefloor1"

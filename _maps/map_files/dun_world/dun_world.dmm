@@ -14748,6 +14748,10 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/north)
+"cCX" = (
+/obj/structure/curtain/magenta,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/bath)
 "cCY" = (
 /obj/effect/landmark/start/vagabond,
 /turf/open/floor/rogue/dirt/road,
@@ -55563,7 +55567,6 @@
 	lockid = "nightman";
 	name = "bathmaster's office"
 	},
-/obj/structure/curtain/black,
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -66097,7 +66100,6 @@
 /obj/item/clothing/under/roguetown/skirt/red,
 /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut,
 /obj/item/clothing/under/roguetown/trou/beltpants,
-/obj/structure/curtain/purple,
 /obj/item/clothing/suit/roguetown/armor/leather/studded/bikini,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/indoors/town/bath)
@@ -112744,6 +112746,7 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "tfZ" = (
 /obj/structure/roguewindow/harem1,
+/obj/structure/curtain/black,
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/bath)
 "tgb" = (
@@ -158892,7 +158895,7 @@ eNh
 vvL
 nPv
 rqY
-wtO
+cCX
 rqY
 nPv
 bhJ
@@ -171993,7 +171996,7 @@ rNB
 ozx
 ozx
 ozx
-rqY
+cPX
 naR
 xol
 xAJ
