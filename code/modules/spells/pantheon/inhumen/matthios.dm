@@ -326,63 +326,58 @@
 
 /datum/action/cooldown/spell/matthios/mammonite/cast(atom/cast_on)
 	. = ..()
+
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
+
 	if(!H.cmode)
 		to_chat(H, span_warning("I need some adrenaline pumping for this, my good sire!"))
 		return FALSE
+
 	if(H.has_status_effect(/datum/status_effect/buff/mammonite))
 		to_chat(H, span_warning("Matthios' truth already lays claim to my next strike."))
 		return FALSE
+
 	var/datum/status_effect/buff/matthios_loan/loan = H.has_status_effect(/datum/status_effect/buff/matthios_loan)
-	var/mammon_used
+	var/mammon_used = 0
+
 	if(loan)
+		if(!H.devotion || H.devotion.devotion < 200)
+			to_chat(H, span_warning("The gilded loan sizzles away as I call upon it, my connection to the Free God too faint to sustain His favor."))
+			return FALSE
 		mammon_used = max_mammon
-		H.devotion.devotion -= 200 // ka-chim!
+		H.devotion.devotion -= 200
 		to_chat(H, span_warning("DEVOTION for DEVASTATION! Matthios, my GREED is YOURS!! (-200 Devotion)"))
 	else
 		var/bank = 0
 		if(SStreasury.has_account(H))
 			bank = SStreasury.get_balance(H)
+
 		var/onhand = get_mammons_in_atom(H)
 		var/total = bank + onhand
 		var/list/range = get_investment_range(H)
 		var/min_invest = range[1]
 		var/max_invest = range[2]
+
 		if(total < min_invest)
 			to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor... ([min_invest] mammon needed for [H.rmb_intent.name] stance.)"))
 			return FALSE
+
 		mammon_used = min(rand(min_invest, max_invest), total)
 		var/remaining = mammon_used
-		var/from_inventory = 0
-		var/from_bank = 0
-		var/drained_onhand = min(onhand, remaining)
-		if(drained_onhand > 0)
-			from_inventory = remove_mammons_from_atom(H, drained_onhand)
-			remaining -= from_inventory
+
+		if(onhand > 0)
+			var/from_inventory = min(onhand, remaining)
+			if(from_inventory > 0)
+				var/removed = remove_mammons_from_atom(H, from_inventory)
+				remaining -= removed
+
 		if(remaining > 0 && SStreasury.has_account(H))
-			from_bank = min(remaining, SStreasury.get_balance(H))
+			var/from_bank = min(remaining, SStreasury.get_balance(H))
 			if(from_bank > 0)
-				SStreasury.burn(SStreasury.get_account(H), from_bank, "A worthy Transaction. Is this true?")
-
-	var/bank = 0
-	if(SStreasury.has_account(H))
-		bank = SStreasury.get_balance(H)
-
-	var/onhand = get_mammons_in_atom(H)
-	var/total = bank + onhand
-
-	var/list/range = get_investment_range(H)
-	var/min_invest = range[1]
-	var/max_invest = range[2]
-
-	if(total < min_invest)
-		to_chat(H, span_warning("I lack the wealth to invoke Matthios' favor... ([min_invest] mammon needed for [H.rmb_intent.name] stance.)"))
-		return FALSE
-
-	var/mammon_used = rand(min_invest, max_invest)
-	mammon_used = min(mammon_used, total)
+				SStreasury.burn(SStreasury.get_account(H), from_bank, "Meister reports an error. Is this true?")
+				remaining -= from_bank
 
 	var/list/invocations = list(
 		"Gold to glory, guide my hand!",
@@ -394,29 +389,18 @@
 
 	H.say(pick(invocations), forced = invocation_type)
 
-	var/remaining = mammon_used
-
-	var/from_inventory = 0
-	var/from_bank = 0
-
-	var/drained_onhand = min(onhand, remaining)
-	if(drained_onhand > 0)
-		from_inventory = remove_mammons_from_atom(H, drained_onhand)
-		remaining -= from_inventory
-
-	if(remaining > 0 && SStreasury.has_account(H))
-		from_bank = min(remaining, SStreasury.get_balance(H))
-
-		if(from_bank > 0)
-			SStreasury.burn(SStreasury.get_account(H), from_bank, "Meister reports the Mammon is missing. Is this true?")
-
-		remaining -= from_bank
-
 	var/datum/status_effect/buff/mammonite/E = H.apply_status_effect(/datum/status_effect/buff/mammonite)
 	if(E)
 		E.bonus_damage = round(mammon_used * 3)
 		E.cap = max_mammon
+
+		if(mammon_used > 0)
+			to_chat(H, span_warning("My tithe of [mammon_used] Mammons buys me strength!"))
+		else
+			to_chat(H, span_warning("PRAISE BE TO YOU, O' MATTHIOS! LET THE LIGHT OF THY FLAMES BE MY TORCH!"))
+
 	playsound(get_turf(H), loan ? 'sound/magic/blade_burst.ogg' : 'sound/magic/antimagic.ogg', 60, TRUE)
+
 	return TRUE
 
 ///////////////////

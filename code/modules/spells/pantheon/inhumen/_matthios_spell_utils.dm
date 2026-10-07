@@ -337,5 +337,11 @@
 	. = ..()
 	if(!.)
 		return FALSE
-	to_chat(owner, span_yellow("<i>A comforting weight settles upon your soul as you feel His gaze upon you, evaluating your greed with interest...</i>"))
+	var/mob/living/carbon/human/H = owner
+	if(!H.devotion || H.devotion.devotion < 200)
+		to_chat(owner, span_warning("The gilded loan sizzles against my soul, but my connection to the Free God is too faint to sustain it."))
+		qdel(src)
+		return FALSE
+	H.devotion.devotion -= 200
+	to_chat(H, span_yellow("<i>A comforting weight settles upon your soul as you feel His gaze upon you, evaluating your greed with interest...</i>"))
 	return TRUE
