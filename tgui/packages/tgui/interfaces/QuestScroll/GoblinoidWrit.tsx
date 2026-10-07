@@ -45,18 +45,15 @@ export const GoblinoidWrit = (props: {
         <i>Notice posted by writ of the {rulerTitle}:</i>
       </p>
       <p style={writParagraph}>
-        A {band} of <b>{folk}</b> infests the lands of {realm}. Spawn of the
-        dark stars, who sing to false gods and answer to no law. Such things
-        bear no name worth summons, no oath worth breaking, no soul worth
-        weighing.
+        A {band} of <b>{folk}</b> infests the lands of {realm}. They are spawn
+        of the dark stars and answer to no law. No summons is owed them.
       </p>
       <p style={writParagraph}>
         <span style={caputLupinum}>SLAY THEM</span>, root and branch, where they
-        nest. The writ knows the brood and shall mark itself when the deed is
-        done.
+        nest. This writ shall mark itself when they are slain.
       </p>
       <p style={writParagraph}>
-        Return the writ to the Contract Ledger and the bounty of{' '}
+        Return it then to the Contract Ledger, and the sum of{' '}
         <RewardClause
           reward={reward}
           levyRate={levyRate}

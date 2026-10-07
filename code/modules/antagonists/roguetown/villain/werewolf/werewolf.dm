@@ -1,6 +1,5 @@
 // Roundstart scaling (storyteller_scale_slots): scaling=2, min_players=25, default_cap=2.
-// The Guaranteed Antag presets raise the cap so werewolves scale with pop - 4 normally, 8 under the
-// aggressive No-Wretch preset (which also doubles the per-population step).
+// High Intensity sets its own cap of 2.
 /datum/antagonist/werewolf
 	name = "Verewolf"
 	roundend_category = "Werewolves"
@@ -11,7 +10,7 @@
 	storyteller_min_players = 25
 	storyteller_slot_scaling = 2
 	storyteller_slot_default_cap = 2
-	storyteller_maxcaps = list(/datum/storyteller/gamemode/guaranteed_antag = 2, /datum/storyteller/gamemode/guaranteed_antag/low_wretch = 3)
+	storyteller_maxcaps = list(/datum/storyteller/gamemode/guaranteed_antag = 2)
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,

@@ -10,10 +10,10 @@
 	chargedloop = /datum/looping_sound/invokegen
 	associated_skill = /datum/skill/magic/arcane
 	stat_allowed = TRUE
-	var/exp_heavy = 3 //Fucks people up, a LOT
-	var/exp_light = 5
-	var/exp_flash = 5
-	var/exp_fire = 4
+	var/exp_heavy = 4 //Fucks people up, a LOT
+	var/exp_light = 6
+	var/exp_flash = 6
+	var/exp_fire = 5
 
 /obj/effect/proc_holder/spell/self/suicidebomb/cast(list/targets, mob/living/user = usr)
 	..()
@@ -56,7 +56,7 @@
 	if(lich_antag && user.stat != DEAD && lich_antag.consume_phylactery(0) && user == target) // Use phylactery at 0 timer. Die if none.
 		return TRUE
 
-	target.gib()
+	target.gib(no_brain = TRUE, no_organs = TRUE)
 	return TRUE
 
 /obj/effect/proc_holder/spell/self/suicidebomb/lesser
@@ -69,8 +69,9 @@
 
 /obj/effect/proc_holder/spell/self/sapperbomb
 	name = "Calcic Obliteration"
-	desc = "Explode in a wonderful arcayne blast of osseous shrapnel, specially prepared to tear down the walls and buildings that would halt the advance of your fellow legionnaries. \
-	takes more time to explode compared to regular calic outburst, cannot be triggered manually by your Exarch."
+	desc = "Explode in a wonderful arcayne blast of osseous shrapnel, specially prepared to tear down the walls and buildings \
+	that would halt the advance of your fellow legionnaries and violently sunder anything caught in the blast. \
+	takes more time to explode compared to regular calic outburst and will weaken your vessel to blows, cannot be triggered manually by your Exarch."
 	overlay_state = "firewalk"
 	chargedrain = 0
 	chargetime = 0
@@ -99,19 +100,20 @@
 	user.emote("scream")
 
 	playsound(get_turf(user), 'sound/magic/charging_lightning.ogg', 100) //Unique que a sapper has popped off
+	user.apply_status_effect(/datum/status_effect/buff/sapper_exploding) //We want this fucker to glow because holy shit this is strong now, it also does -2 con, so from 5 -> 3. Hit them or BOLT IT.
 	user.visible_message(
 		span_danger("[user] begins to shake and convulse violently, slowly beginning to glow in a violently blinding light that emanates from them!")
 	)
 
-	addtimer(CALLBACK(src, PROC_REF(sapper_explode), user), 7 SECONDS) //A bit of reaction time, this explosion is absolutely horrifying to be inside of and will fuck you up.
+	addtimer(CALLBACK(src, PROC_REF(sapper_explode), user), 7 SECONDS) //A bit of reaction time, this explosion IS absolutely horrifying to be inside of and will fuck you up.
 	return TRUE
 
 /obj/effect/proc_holder/spell/proc/sapper_explode(mob/living/user)
 
-	explosion(get_turf(user), 3, 3, 4, 4, flame_range = 2, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and absolutely FUCK UP people nearby.
+	explosion(get_turf(user), devastation_range = 3, heavy_impact_range = 4, light_impact_range = 5, flash_range = 5, flame_range = 3, smoke = TRUE, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and absolutely FUCK UP people nearby.
 	playsound(get_turf(user), 'sound/magic/soulshot.ogg', 100) //Extra AURA
 
-	user.gib()
+	user.gib(no_brain = TRUE, no_organs = TRUE)
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/remotebomb

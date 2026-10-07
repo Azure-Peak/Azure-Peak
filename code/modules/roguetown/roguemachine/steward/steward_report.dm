@@ -1,6 +1,6 @@
 /obj/item/paper/steward_report
 	name = "steward's morning report"
-	desc = "A crisply-stamped sheet summarising yesternight's dispatches to the Nerve Master. Meant for the Steward's eyes on rising."
+	desc = "A stamped sheet summarising yesterday's dispatches, for the Steward."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "scroll"
 	info = ""
@@ -60,14 +60,14 @@
 			body += "&nbsp;&nbsp;- [line]<br>"
 		body += "<br>"
 	if(banditry_total > 0)
-		body += "<b>Financial losses from banditry:</b> <font color='#c44'>-[banditry_total]m</font><br>"
+		body += "<b>Losses to brigands:</b> <font color='#c44'>-[banditry_total]m</font><br>"
 		for(var/line in banditry_lines)
 			body += "&nbsp;&nbsp;- [line]<br>"
 		if(banditry_debt_accrued > 0)
-			body += "<i>Treasury could not absorb the full hit. <font color='#c44'>[banditry_debt_accrued]m</font> accrued as banditry debt: future inflow shall be skimmed against it until paid. ([banditry_burned]m drawn from purse, [banditry_debt_accrued]m owed.)</i><br>"
+			body += "<i>The Treasury could only pay [banditry_burned]m of the loss. The other <font color='#c44'>[banditry_debt_accrued]m</font> is added to brigand debt, which comes out of future income until it is paid off.</i><br>"
 		body += "<br>"
 	if(banditry_hoard > 0)
-		body += "<b>Brigand Hoard:</b> <font color='#c44'>[banditry_hoard]m</font> across their hoards. A hoard recovery (or breaking a blockade there) will reclaim it, with part of it taxed by the Crown as Recovered Spoils.<br><br>"
+		body += "<b>Brigand Hoard:</b> <font color='#c44'>[banditry_hoard]m</font> across their hoards. Recovering a hoard or breaking a blockade reclaims it, and the Crown taxes a share as Recovered Spoils.<br><br>"
 	if(orders_rolled)
 		body += "<b>Standing orders posted this morning:</b> [orders_rolled]"
 		if(urgent_rolled)
@@ -76,5 +76,5 @@
 	if(!length(blockades_fired) && !length(blockades_cleared) && !length(events_fired) && !length(events_expired) && !orders_rolled && banditry_total <= 0 && banditry_hoard <= 0)
 		body += "<i>The roads are quiet. No shipment was disturbed overnight.</i><br>"
 
-	body += "<hr><center><i>Consult the Contract Ledger to commission a response.</i></center>"
+	body += "<hr><center><i>Use the Contract Ledger to post contracts in response.</i></center>"
 	return body

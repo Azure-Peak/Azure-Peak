@@ -37,6 +37,8 @@
 			data = ui_data_popup_verbose_logs(user)
 		if(PREFERENCE_POPUP_VIRTUE)
 			data = ui_data_popup_virtue(user)
+		if(PREFERENCE_POPUP_QUIRK)
+			data = ui_data_popup_quirk(user)
 
 	// doing this kinda weird pattern allows us to shrink the switch statement
 	if(!data)

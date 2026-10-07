@@ -102,6 +102,7 @@
 	attack_verb = list("skewers", "impales")
 	damfactor = 1
 	swingdelay = 1 SECONDS
+	clickcd = 1.3 SECONDS
 	candodge = FALSE
 	canparry = FALSE
 	swingdelay_type = SWINGDELAY_CANCEL
@@ -192,6 +193,7 @@
 	icon_state = "inchop"
 	swingdelay_type = SWINGDELAY_CANCEL
 	swingdelay = 1 SECONDS
+	clickcd = 1.3 SECONDS
 	canparry = FALSE
 	candodge = FALSE
 	damfactor = 1.3
@@ -347,7 +349,8 @@
 	damfactor = 1.4
 	penfactor = PEN_HEAVY
 	demolition_mod = 3
-	swingdelay = 1 SECONDS
+	swingdelay = 1.2 SECONDS
+	clickcd = 1.3 SECONDS
 	swingdelay_type = SWINGDELAY_CANCEL
 	canparry = FALSE
 	candodge = FALSE

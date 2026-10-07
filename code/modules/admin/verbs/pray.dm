@@ -93,7 +93,7 @@
 	
 	var/display_name = "[real_name || src.name]"
 
-	msg = span_info("[display_name] prays[deity] [ADMIN_FLW(src)][ADMIN_SM(src)]: [msg]")
+	msg = span_info("[display_name] prays[deity] [ADMIN_FLW(src)][ADMIN_DN(src)]: [msg]")
 	
 	for(var/client/janny in GLOB.admins)
 		if(janny.prefs.chat_toggles & CHAT_PRAYER)

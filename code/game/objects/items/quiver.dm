@@ -266,6 +266,17 @@
 	. += span_info("Ctrl-Click to drop all ammo on the ground one by one.")
 	. += span_info("Right-click to pull out a single piece of ammo.")
 
+/obj/item/quiver/held_contents()
+	return arrows.Copy()
+
+/obj/item/quiver/release_held(obj/item/I, atom/dest)
+	if(!(I in arrows))
+		return FALSE
+	arrows -= I
+	I.forceMove(dest)
+	update_icon()
+	return TRUE
+
 /obj/item/quiver/update_icon()
 	if(arrows.len)
 		icon_state = "quiver1"

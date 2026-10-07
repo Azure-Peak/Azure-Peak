@@ -2935,3 +2935,39 @@
 /datum/status_effect/buff/overclock/on_remove()
 	. = ..()
 	to_chat(owner, span_notice("I feel the hum of my prosthetics slow down, they need time to recharge."))
+
+//visual effects 4 skeles
+
+#define SAPPERGLOW_FILTER "sapper_exploding_glow"
+/atom/movable/screen/alert/status_effect/buff/sapper_exploding
+	name = "Violently Overcharging"
+	desc = "I am about to give my lyfe and vessel up for my Exarch to level the obstructions of Progress! ZIZO! ZIZO! ZIZO!"
+	icon_state = "zizospite"
+
+/datum/status_effect/buff/sapper_exploding // Hey did u follow us from ritualcircles? Cool, okay this stuff is pretty simple yeah? Most ritual circles use some sort of status effects to get their effects ez.
+	id = "sapper_exploding"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sapper_exploding
+	duration = -1 //does it matter, we're gonna gib
+	status_type = STATUS_EFFECT_REFRESH
+	effectedstats = list(STATKEY_CON = -2) // Makes them, easier to decapitate and such, downside. THIS IS GOING TO FUCKING HURT IF THEY POP IT OFF!
+	examine_text = "SUBJECTPRONOUN violently glows with POTENT magicka, they're going to explode!"
+	var/list/mobs_affected
+	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+	var/outline_colour = "#ff0000" //evil fucking color, get awae!
+
+/datum/status_effect/buff/sapper_exploding/on_apply()
+	. = ..()
+	if (!.)
+		return
+	var/filter = owner.get_filter(SAPPERGLOW_FILTER)
+	if (!filter)
+		owner.add_filter(SAPPERGLOW_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	if(!mob_light_obj || QDELETED(mob_light_obj))
+		mob_light_obj = owner.mob_light("#ff0000", 5, 2)
+	else
+		mob_light_obj.set_light(5, null, 2, l_color = "#ff0000")
+
+	return TRUE
+
+#undef SAPPERGLOW_FILTER
