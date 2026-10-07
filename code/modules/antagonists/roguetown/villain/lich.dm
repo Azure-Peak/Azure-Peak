@@ -61,6 +61,9 @@
 	return 3
 
 /datum/antagonist/lich/on_gain()
+	owner.unknow_all_people() //ancient lich, nobody knows them
+	for(var/datum/mind/MF in get_minds())
+		owner.become_unknown_to(MF)
 	SSmapping.retainer.liches |= owner
 	. = ..()
 	owner.special_role = name
@@ -182,8 +185,6 @@
 	H.change_stat(STATKEY_WIL, 7) //Only affects your ability to withstand keeling over from pain while sundered. Intended to be disgustingly high, as they're not supposed to easily fall over.
 
 	H.grant_language(/datum/language/undead)
-	// Grant a spellbook so the lich can pick aspects
-	H.equip_to_slot_or_del(new /obj/item/rogueweapon/spellbook/grand,SLOT_IN_BACKPACK, TRUE)
 	// Grant a chalk so the lich can do rituals
 	H.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 
@@ -258,6 +259,7 @@
 ///Called post death to equip new body with armour and stats. Order of equipment matters
 /datum/antagonist/lich/proc/equip_and_traits()
 	var/mob/living/carbon/human/body = owner.current
+	body.unequip_everything_delete() //ensure we get the "fit" by stripping first
 	var/list/equipment_slots = list(
 		SLOT_HEAD,
 		SLOT_PANTS,
@@ -282,12 +284,12 @@
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel,
-		/obj/item/clothing/suit/roguetown/shirt/tunic/ucolored,
+		/obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy,
 		/obj/item/clothing/wrists/roguetown/bracers,
 		/obj/item/clothing/gloves/roguetown/chain,
 		/obj/item/storage/belt/rogue/leather/black,
-		/obj/item/reagent_containers/glass/bottle/rogue/manapot,
-		/obj/item/rogueweapon/huntingknife/idagger/steel,
+		/obj/item/rogueweapon/spellbook/grand,
+		/obj/item/rogueweapon/huntingknife/idagger/blacksteel, //major antagonist, fuck it. you get a nice dagger. (I WOULD DO AVANTYNE BUT SOME CLASSES DO FORCE-SET PATRON AFTER LICH ROLLS)
 		/obj/item/rogueweapon/woodstaff/implement/grand,
 		/obj/item/storage/backpack/rogue/satchel/black,
 	)
@@ -323,10 +325,6 @@
 	new_body.mind.grab_ghost(force = TRUE)
 	new_body.ambushable = FALSE
 	new_body.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/lich] //evil ass voice stays
-	// Grant a spellbook so the lich can pick aspects
-	new_body.equip_to_slot_or_del(new /obj/item/rogueweapon/spellbook/grand,SLOT_IN_BACKPACK, TRUE)
-	// Grant a chalk so the lich can do rituals
-	new_body.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 
 	for (var/obj/item/bodypart/body_part in new_body.bodyparts)
 		body_part.skeletonize(FALSE)
@@ -335,6 +333,8 @@
 	set_stats()
 	skele_look()
 	equip_and_traits()
+	// Grant a chalk post-equip so the lich can do rituals again
+	new_body.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 	// Delete the old body if it still exists
 	if (!QDELETED(old_body))
 		old_body.visible_message(

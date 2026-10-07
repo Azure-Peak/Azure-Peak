@@ -363,7 +363,7 @@
 	STR.handle_item_insertion(I, prevent_warning = TRUE)
 	master.new_mail = TRUE
 	master.update_icon()
-	send_ooc_note("New letter from <b>[sender].</b>", name = destination)
+	send_ooc_note("A new letter has arrived for you.", name = destination)
 	if(H)
 		H.apply_status_effect(/datum/status_effect/ugotmail)
 		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
@@ -481,6 +481,9 @@
 				coin_loaded = 0
 				update_icon()
 			return TRUE
+
+#define INDEXER_MISTAKE_MAX 60 // maximum false positive chance roll for heresy. a reduced value is used for the antag checks. used to be 80
+#define INDEXER_MISTAKE_MIN 20 // minimum false positive chance roll for heresy. a reduced value is used for the antag checks. used to be 1
 
 /obj/structure/roguemachine/mail/attackby(obj/item/P, mob/user, params)
 	if(istype(P, /obj/item/merctoken))
@@ -732,7 +735,22 @@
 				if(has_indexer)
 					if(HAS_TRAIT(I.paired.subject, TRAIT_INQUISITION))
 						selfreport = TRUE
-					if(HAS_TRAIT(I.paired.subject, TRAIT_CABAL) || HAS_TRAIT(I.paired.subject, TRAIT_HORDE) || HAS_TRAIT(I.paired.subject, TRAIT_DEPRAVED) || HAS_TRAIT(I.paired.subject, TRAIT_FREEMAN))
+					var/mistake = rand(INDEXER_MISTAKE_MIN,INDEXER_MISTAKE_MAX) // clamped down false positive chance
+					var/patron_type = 0
+					var/second_fp_chance = TRUE
+					if(I.paired.subject.patron?.type in ALL_DIVINE_PATRONS)
+						patron_type = 1
+					else if(I.paired.subject.patron?.type in ALL_INHUMEN_PATRONS)
+						patron_type = 2
+					else if(I.paired.subject.patron?.type in OLD_GOD_PATRON)
+						patron_type = 3
+					var/actualmistake = mistake
+					if(!HAS_TRAIT(I.paired.subject, TRAIT_ASCENDENT_MIRACLED))
+						actualmistake /= 2 // if you've never been ascendentmiracled you're less likely to get false-flagged
+					if(prob(actualmistake)) // decent chance of fucking up and calling someone a heretic anyway
+						patron_type = 2
+						second_fp_chance = FALSE // don't double-dip the false positive
+					if(patron_type == 2)
 						correct = TRUE
 					if(I.paired.subject.name in GLOB.excommunicated_players)
 						correct = TRUE
@@ -745,7 +763,7 @@
 								GLOB.indexed += ", [I.paired.subject]"
 							else
 								GLOB.indexed += "[I.paired.subject]"
-
+					var/is_vamp = FALSE
 					if(I.paired.cursedblood)
 						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_CBLOOD))
 							stopfarming = TRUE
@@ -756,6 +774,17 @@
 								GLOB.cursedsamples += ", [I.paired.subject.mind]"
 							else
 								GLOB.cursedsamples += "[I.paired.subject.mind]"
+					else if (second_fp_chance && prob(mistake/((HAS_TRAIT(I.paired.subject, TRAIT_VAMP_BITTEN) || HAS_TRAIT(I.paired.subject, TRAIT_PALLID)) ? 2 : 4)))
+						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_CBLOOD))
+							stopfarming = TRUE
+						if(!stopfarming)
+							cursedblood = TRUE
+							ADD_TRAIT(I.paired.subject.mind, TRAIT_CBLOOD, "mail")
+							if(GLOB.cursedsamples.len)
+								GLOB.cursedsamples += ", [I.paired.subject.mind]"
+							else
+								GLOB.cursedsamples += "[I.paired.subject.mind]"
+							is_vamp = TRUE
 
 					if(GLOB.accused && !selfreport)
 						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_ACCUSED))
@@ -812,7 +841,7 @@
 					var/id = generate_inquisition_id()
 					R.report_id = id
 					R.name = "haemological report (#[id])"
-					R.fill_report(I.paired.subject, user)
+					R.fill_report(I.paired.subject, user, mistake, patron_type, is_vamp)
 					user.put_in_hands(R)
 
 					qdel(I.paired)
@@ -887,6 +916,9 @@
 		ui_interact(user)
 		return
 	..()
+
+#undef INDEXER_MISTAKE_MAX
+#undef INDEXER_MISTAKE_MIN
 
 /obj/structure/roguemachine/mail/r
 	pixel_y = 0

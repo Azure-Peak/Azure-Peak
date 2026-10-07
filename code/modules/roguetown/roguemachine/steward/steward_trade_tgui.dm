@@ -582,6 +582,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	"set_buy_price",
 	"set_sell_price",
 	"set_stockpile_limit",
+	"import_steward_policy",
 	"autoprice_all",
 	"autolimit_all",
 	"autoprice_category",
@@ -776,8 +777,31 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
 			var/lim = text2num("[params["limit"]]")
 			if(D && !isnull(lim))
-				D.stockpile_limit = clamp(round(lim), 0, 9999)
-				D.automatic_limit = FALSE
+				D.set_manual_limit(lim)
+			SStgui.update_uis(src)
+			return TRUE
+		if("export_steward_policy")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			tgui_input_text(usr, "Copy the text here and save it locally. You can paste it into Import Policy in later rounds to keep your custom settings, including: Handset limits, autoexport / withdraw bars, unaccepted goods, autoimport list, essential opt-outs, surplus threshold and purse floor. Autolimits or prices are not stored.", "Export Policy", SStreasury.export_steward_policy(), max_length = STEWARD_POLICY_IMPORT_MAX_LEN, multiline = TRUE, encode = FALSE, width = STEWARD_POLICY_WINDOW_WIDTH, height = STEWARD_POLICY_WINDOW_HEIGHT)
+			return TRUE
+		if("import_steward_policy")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/blob = tgui_input_text(usr, "Import exported policies from previous round. See export policy for what are covered.", "Import Policy", max_length = STEWARD_POLICY_IMPORT_MAX_LEN, multiline = TRUE, encode = FALSE, width = STEWARD_POLICY_WINDOW_WIDTH, height = STEWARD_POLICY_WINDOW_HEIGHT)
+			if(!blob || !user_can_act(usr) || SScity_assembly?.is_alderman(usr) || SStreasury.is_in_receivership())
+				return TRUE
+			var/list/result = SStreasury.import_steward_policy(blob)
+			if(!result)
+				to_chat(usr, span_warning("The Steward policy looks wrong or malformed."))
+				return TRUE
+			var/applied = result["applied"]
+			var/skipped = result["skipped"]
+			var/skipped_text = ""
+			if(skipped)
+				skipped_text = " Skipped [skipped] unknown [skipped == 1 ? "entry" : "entries"]."
+			to_chat(usr, span_notice("Applied [applied] setting\s.[skipped_text]"))
+			log_game("POLICY IMPORT: [key_name(usr)] imported [applied] steward policy settings ([skipped] skipped)")
 			SStgui.update_uis(src)
 			return TRUE
 		if("autoprice_all")

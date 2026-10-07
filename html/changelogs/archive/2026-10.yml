@@ -244,3 +244,150 @@
       fulfill orders. Various other dumping were also refactored, including composters,
       bookcase etc. - report any issues.
   - rscadd: When you the extract of lux from mindless mobs, mindless mobs die.
+2026-10-06:
+  KatTheFox:
+  - rscadd: The INDEXER report no longer gaslights you with a fake false positive
+      chance. Instead, it actually does have a false positive chance now. This works
+      generally how you'd expect - and in some cases the chance can be increased,
+      like anyone pallid or who's been bitten by a vampire having a chance to be flagged
+      AS a vamp. The false positive chance for patron type is lower than what it says
+      unless you've ever been affected by a miracle of the Four.
+  - rscadd: Clerics of the Ten or Four who convert to Psydon no longer have their
+      devotion entirely deleted. They instead get reset to devotee level, meaning
+      they get Orison and Bootcheck only. No real miracles still.
+  Ollanius:
+  - qol: Katzbelgers(?) (sorry Spear, I can't spell this for crap) can now be morphed
+      from other sidearm-styled swords; the arming sword and messer, specifically.
+  - qol: Knight's Armets are no longer proportioned like bobbleheads (my bad for that
+      in the first place), and should now be more properly fitting to shorter races
+      in particular.
+  - bugfix: Burgonets and Blacksteel Plate Helmets now properly use the right detail
+      sprites (and listings in the .dmis).
+  - rscadd: Open-faced variant of the Burgonet, transformable from a Sallet.
+  - bugfix: Bronze chainmail and lamellar now has bronze-tier protection, instead
+      of mistakingly inheriting the protection levels from their up-path counterparts.
+  - bugfix: Wearing a plated ordinator coat as a Psydonian now applies the Psydonic
+      Grit active event, as it normally would with the standalone variant.
+  - code_imp: Minor rearranging of hauberk-related wordings.
+  ToasterStrudes:
+  - rscadd: 'Added new mixed drinks: The Etrusso and Milk Tea - Made by combining
+      milk and coffee/tea together'
+  WeNeedMorePhoron:
+  - rscadd: Letter message in chat no longer display who it is from
+  - rscadd: Opening letter no longer display who it is from to the entire chat.
+  - rscadd: Reduce notorious contract's proportion since people don't seems to take
+      it a lot, it is occupying too much of the existing pool at the moment
+  - rscadd: When a wave in a blockade is complete, a 3 minutes timer is started before
+      the next blockade come, so that players don't need to be gamey and leave one
+      guy to bleed out for much needed rest time. (It also prevent them from being
+      surprised). Reused some sound effects for warning
+  - rscadd: Added an admin force complete button for testing purpose
+  - rscadd: Added much more detailed contracts statistics for analysis purpose
+  borneblood:
+  - bugfix: Fixed a bunch of explosive runtimes, code oddities, odd qdel wordings,
+      misplaced parent calls and so on.
+  - balance: Bombs can now critically hit NPCs, which will make them meet their maker
+      in peace.
+  - balance: TRAIT_BOMBER_EXPERT now offers a bunch of interactions with battle bombs
+      and trapmaking.
+  - bugfix: Fixed Haemo-Reports from the Inquisition not being able to be read through
+      Examine
+  changelingonberry:
+  - rscadd: Added colored chat spans for every god, usable directly in code and via
+      new admin shorthand tags like [zizo]:text or [notice]:"text".
+  - rscadd: Added Narrate - In View and Narrate - Object admin verbs.
+  - admin: Replaced the Subtle Message quick-link on incoming prayers with Direct
+      Narrate.
+  - admin: Merciless round can now be applied mid-round
+  radarseas:
+  - balance: added a tile of range to lich self destruction
+  - balance: sappers now have a new blast w/ unique effects, it lowers your con and
+      makes you GLOW violently but their blast radius has been drastically improved
+      by a few tiles + smokeshield.
+  - balance: you can no longer bleed people out by nuking people w/ your ERP related
+      organs on top of regular ones by exploding via calcic as a wretch skeleton,
+      literally 1984.
+2026-10-07:
+  Dorodomki:
+  - rscadd: Added a new belt with loincloth
+  - bugfix: 'fixed a donator item costing triumphs
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Confessions now actually work; you (the person confessing i.e. the heretic)
+      can sign them, and then optionally you (the inquisition probably) can pair an
+      indexer for an increase in marque reward
+  - bugfix: Infernal familiars now properly get their "turn into a staff" ability.
+  - rscadd: Added quirks, a new trait system that's somewhere between a virtue and
+      a vice. Taking virtuous/fated instead of a statpack, or having 2+ standalone
+      vices, will unlock a slot; doing both will unlock a second slot. Many quirks
+      are restricted to specific races, or can only be taken in the second slot.
+  - rscdel: Removed the ugly virtue, it's been moved to a quirk. It also no longer
+      moodnukes people, it instead gives a 'fake' moodlet that doesn't actually grant
+      stress.
+  - bugfix: Sextons can no longer be nobles. That was never intended but nobody actually
+      noticed it was a thing until now.
+  Ollanius:
+  - bugfix: Kaskaras, Ngmobes, and other reskins should no longer print an error icon
+      when wielded (in cases where it's been specifically applied to Arming Swords).
+  - rscadd: Anointed weaponry. Obtainable by only the Cleric, these cold iron weapons
+      deal less damage but have higher defense and integrity. While they cannot sunder
+      greater villains (in PVP), the lesser blessings nevertheless allow them to smite
+      lesser evils (in PVE). Thanks to Radarseas for the underlying mechanical work!
+  - balance: The Cleric can now select from one of several anointed weapons, if the
+      "Crusader" loadout option is chosen. Note that they lose the free Silver Order
+      surcoat.
+  - bugfix: Anointed spears no longer have an errant typo in the .dmis, allowing for
+      their wielded sprite to properly render.
+  - bugfix: Kaltzbegers, when used for an Arming Sword's reskin, no longer vanish
+      when two-handed.
+  - code_imp: Note - for donor reskins (and not just full-on different weapons), the
+      variable still checks for a '...1' at the end for a wielded sprite. Even if
+      it's based on a weapon that already autogenerates a wielded sprite based on
+      a single instance, not including a second icon with the aformentioned '...1'
+      will cause it to freak out.
+  Ryan180602:
+  - rscdel: remove tempered intensity
+  - code_imp: vote multipliers affect pools altogether
+  Ryumi:
+  - rscadd: Naledian masks can now have spectacles laid into them, allowing characters
+      with bad eyesight to be Naledian without needing to juggle face/head slot items.
+      Bespectacled Naledian masks have worse max durability than they would otherwise.
+  - qol: If you have bad eyesight, joining as a war-scholar class automatically replaces
+      your spectacles on spawn with bespectacled war-scholar masks.
+  WeNeedMorePhoron:
+  - rscadd: You can now import / export most Stewardry trade settings in the "Advanced"
+      section of the trade UI
+  borneblood:
+  - bugfix: Fixed an unintended behavior with Matthios Amulet and Transact
+  mumblemancer:
+  - refactor: daggers destruction procs are now localized on the dagger and should
+      be easier to read
+  radarseas:
+  - rscadd: VL now gets a full keyring on spawn instead of just one key.
+  - balance: VL can no longer roll jobs on top of their own gear-set. No more mage
+      associate or spellblade VLs w/ 20 int + mending.
+  - balance: VL now starts w/ guarded virtue for free and no longer has a forced lord/lady
+      title. This should make it harder to metagame smart vampire lords trying to
+      blend in and roleplay instead of fragging out.
+  - balance: VL has bad trainer trait, no more accidentally training your enemies
+      or allies to master.
+  - balance: VL now has bad trainer, no more levelling your victims/allies with master
+      weaponry skill.
+  - balance: VL's roundstart tights are now armored so you have something for the
+      legs.
+  - balance: master rod no longer works on dreamwalkers, VL and lich
+  - bugfix: you no longer keep keys/houndstones on you from your job when spawning
+      as a roundstart bandit, or as a lich/VL.
+  - bugfix: lich no longer starts w/ known people, they have to examine people.
+  - balance: VL's statline is now normalised to 14, no matter what class you take.
+  - bugfix: roundstart bandits no longer stack job on top of bandit class, spell wise
+      and stuff. I know there's a few edge cases, don't exploit them. I can't fix
+      them yet.
+  - bugfix: lich now properly gets their chalk on revival, it was trying to be assigned
+      before we equipped the new body, whoops!
+  - admin: forced vampires gamemode is now just named vampire lord, to be far less
+      deceiving.
+  - balance: VL now gets a decorated dagger, lich now gets a blacksteel dagger instead
+      of steel + grand tome on hip at the price of losing their mana potion (you couldn't
+      use it anyway lol)

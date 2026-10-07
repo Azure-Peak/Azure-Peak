@@ -24,6 +24,7 @@
 /datum/antagonist/vampire/lord/on_gain()
 	. = ..()
 	addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "[name]"), 5 SECONDS)
+	apply_virtue(owner.current, new /datum/virtue/combat/guarded) //HIGHLY EXPERIMENTAL, let them blend in and look weaker than they are.
 
 	greet()
 
@@ -35,18 +36,25 @@
 		owner.person_knows_me(MF)
 
 	var/mob/living/carbon/human/H = owner.current
-	for(var/datum/charflaw/cf in H.charflaws)
-		if(istype(cf, /datum/charflaw/hunted) || istype(cf, /datum/charflaw/targeted))
-			H.charflaws.Remove(cf)
-			QDEL_NULL(cf)
+	for(var/datum/charflaw/cf in H.charflaws) //flawless blank-slate. basically required to be doing things 24/7
+		H.charflaws.Remove(cf)
+		QDEL_NULL(cf)
+
+	//pre-set to baseline 14
+	H.STASTR = 14
+	H.STASPD = 14
+	H.STACON = 14
+	H.STAWIL = 14
+	H.STAINT = 14
+	H.STAPER = 14
+	H.STALUC = 14
+
 	H.equipOutfit(/datum/outfit/job/vamplord)
-	H.set_patron(/datum/patron/godless) //FORESAKEN BY GODS, THYNE OWN DIVINITY CARVED BY MYNE OWN HANDS.
+	H.set_patron(/datum/patron/godless) //FORESAKEN BY GODS, MYNE OWN DIVINITY CARVED BY MYNE OWN HANDS.
 	//Progress dominion has an undead check anyway, so don't worry about them not worshipping Zizo. She'd do it out of spite anyway.
 	add_verb(H, /mob/living/carbon/human/proc/demand_submission)
 	H.maxbloodpool += 4000
 	H.adjust_bloodpool(4000)
-	for(var/S in MOBSTATS)
-		H.change_stat(S, 4)
 	H.forceMove(pick(GLOB.vlord_starts))
 	ADD_TRAIT(H, TRAIT_DUSTABLE, TRAIT_GENERIC) //They are ancient walking calamities, no take backs.
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //Brute-forced method to ensure that Vampire Lords, no matter what, receive their most important traits.
@@ -59,6 +67,11 @@
 	ADD_TRAIT(H, TRAIT_GRABIMMUNE, TRAIT_GENERIC) //Melee-orientated antagonist, can only use vamp potencies and vitae magicka.
 	ADD_TRAIT(H, TRAIT_SELF_SUSTENANCE, TRAIT_GENERIC) //Heavy-Antag Role, lets you repair your armor with tools + level to journeyman.
 	ADD_TRAIT(H, TRAIT_NOMOOD, TRAIT_GENERIC) //Stops you getting moodnuked and dropping your weapon non-stop. I didn't want to have to give them this off-the-bat but after seeing this happen, yeaaaah.
+	ADD_TRAIT(H, TRAIT_BADTRAINER, TRAIT_GENERIC) //legendary skill antag, we don't want our skill level to backfire or end up training allies into master swordsmen
+	//remove problematic traits we can somehow roundstart with
+	REMOVE_TRAIT(H, TRAIT_SHIRTLESS, TRAIT_GENERIC)
+	REMOVE_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC) //no mage stuff
+	REMOVE_TRAIT(H, TRAIT_LEYLINE_ATTUNEMENT, TRAIT_GENERIC)
 	H.update_move_intent_slowdown()
 
 /datum/antagonist/vampire/lord/greet()
@@ -67,13 +80,16 @@
 	to_chat(owner.current, span_boldwarning("</br>I should check my immedate surroundings, from the bloodstained stone I can recall my Ichor fang at will should I lose it."))
 	to_chat(owner.current, span_boldwarning("</br>From the Crimson Crucible I can begin my various projects of collective sacrifice of vitae between myself and my servants to reclaim my long-lost power and kingdom."))
 	to_chat(owner.current, span_boldwarning("</br>When I have Minions from either the Crucible or any non-resisting sires of my bloodline, I should assign them to positions using the clan menu so I can PUNISH and COMMAND them."))
+	to_chat(owner.current, span_boldwarning("</br>From tearing the mortals apart from the inside out through intrigue and subterfuge, to weaponising greed to power or merely using brute force; my dominion shall be absolute."))
 	to_chat(owner.current, span_danger("</br>Now, tyme to show them how a lord gets it done."))
 	. = ..()
 
 /datum/outfit/job/vamplord/pre_equip(mob/living/carbon/human/H)
 	..()
+	H.unequip_everything_delete() //ensure we get the "fit", always
+
 	H.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
-	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier, but its the only weapon you get at this level, since Halford's new Blood Magic system compensates a lot for this.
+	H.adjust_skillrank_up_to(/datum/skill/combat/swords, 6, TRUE) //Returned to Legendary-tier, but its the only weapon you get at this level, since Halford's port of the Blood Magic system from vanderlin compensates a lot for this.
 	H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, 5, TRUE) //Equalized all combat skills to be Master-tier, otherwise. Unless you somehow get legendary via-other means. You used to just get legendary in everything cause this added to your class, not skill upto'd.
 	H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/combat/knives, 5, TRUE)
@@ -86,7 +102,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/misc/climbing, 5, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/misc/athletics, 6, TRUE) //Who said Progress can't have gains?
 
-	pants = /obj/item/clothing/under/roguetown/tights/puritan
+	pants = /obj/item/clothing/under/roguetown/tights/puritan/vampire //armored varient
 	shirt = /obj/item/clothing/suit/roguetown/shirt/vampire
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
@@ -98,15 +114,15 @@
 	head = /obj/item/clothing/head/roguetown/vampire
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	cloak = /obj/item/clothing/cloak/cape/puritan
-	shoes = /obj/item/clothing/shoes/roguetown/boots/nobleboot
+	shoes = /obj/item/clothing/shoes/roguetown/rosa/nine
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	l_hand = /obj/item/rogueweapon/sword/long/judgement/vlord
 	H.ambushable = FALSE
 	backpack_contents = list(
-		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, //Intended they have two now, its a bad solution but it means they don't become poorer than an adv/miner towner midgame as easily as before.
+		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, //800 mammons on top of RNG on the hip. Sway power to make up for RP VL who isn't going full gigawar
 		/obj/item/rope/chain = 1, //Needed so you can actually sire people, beforehand you had to get rope every round. This speeds things up.
-		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
-		/obj/item/roguekey/vampire = 1 //Softlock protection, otherwise I'd have removed it. You still spawn in a room with keys anyway soo...
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/storage/keyring/vampire = 1 //Gets a whole keyring, lorde of the manor
 		)
 /*------VERBS-----*/
 
@@ -262,6 +278,12 @@
 
 /obj/item/clothing/head/roguetown/vampire/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD, HERESYDESC_VAMPIRE_CROWN)
+
+/obj/item/clothing/under/roguetown/tights/puritan/vampire
+	//intentionally no name, meant to be un-meta-able
+	desc = "A pair of form-fitting tights, these ones have been enchanted with various magic wards to maintain their look while being protective."
+	armor = ARMOR_PADDED
+	max_integrity = ARMOR_INT_LEG_LEATHER
 
 ////////BROKEN////////
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron/vampire

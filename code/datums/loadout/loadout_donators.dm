@@ -18,11 +18,11 @@
 	name = "Gift - Azurosa Flower"
 	path = /obj/item/alch/rosa/azure
 
-/datum/loadout_item/donator/universal/ilamellar
+/datum/loadout_item/donator/universal/ilamellard
 	name = "Gift - Iron Lamellar Armor decoration"
 	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
 
-/datum/loadout_item/donator/universal/blamellar
+/datum/loadout_item/donator/universal/blamellard
 	name = "Gift - Bronze Lamellar Armor decoration"
 	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
 
