@@ -41,14 +41,14 @@ export const CarriageWrit = (props: {
         <i>Be it known by writ of the {rulerTitle}:</i>
       </p>
       <p style={writParagraph}>
-        {what} awaits carriage from {pickup} to <b>{dest}</b>. The bearer of
-        this writ holds safe passage upon the Duke&apos;s Road for the duration
-        of the carriage.
+        {what} awaits carriage from {pickup} to <b>{dest}</b>. The holder of
+        this writ has safe conduct upon the Duke&apos;s Road until the parcel is
+        delivered.
       </p>
       {circumstance && <p style={writParagraph}>{circumstance}</p>}
       <p style={writParagraph}>
-        Deliver the parcel and return this writ unto the Contract Ledger; the
-        bounty of{' '}
+        Deliver the parcel and return this writ unto the Contract Ledger, and
+        the sum of{' '}
         <RewardClause
           reward={reward}
           levyRate={levyRate}
@@ -58,8 +58,7 @@ export const CarriageWrit = (props: {
         shall be paid.
       </p>
       <p style={writParagraph}>
-        The writ knows the parcel and shall mark itself when the carriage is
-        complete.
+        This writ shall mark itself when the parcel is delivered.
       </p>
       <SealLine
         rulerTitle={rulerTitle}

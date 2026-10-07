@@ -43,6 +43,7 @@ type TownerData = {
   balance: number;
   towner_purse_balance: number;
   towner_postings: Posting[];
+  towner_crown_cost_mult: number;
 };
 
 const toggleStyle = (selected: boolean): React.CSSProperties =>
@@ -82,7 +83,7 @@ const SummaryBlock = (props: { bearer?: string; poster?: string }) => {
     >
       {props.bearer && (
         <div>
-          <b>To bearer:</b> {props.bearer}.
+          <b>To holder:</b> {props.bearer}.
         </div>
       )}
       {props.poster && (
@@ -98,6 +99,7 @@ const ActivePostingCard = (props: {
   posting: Posting;
   balance: number;
   purseBalance: number;
+  crownCostMult: number;
   onPost: (tier: Tier, delivery: Delivery, variety: string) => void;
 }) => {
   const [tier, setTier] = useState<Tier>('medium');
@@ -122,7 +124,8 @@ const ActivePostingCard = (props: {
           className="ContractLedger__CardObjective"
           style={{ marginTop: 4, fontSize: '0.85em', fontWeight: 'bold' }}
         >
-          Crown commission - drawn from the Crown&apos;s Purse at double price.
+          Crown contract: paid from the Treasury at {props.crownCostMult}x the
+          price.
         </div>
       )}
       <RulesBlock rules={props.posting.rules} />
@@ -175,17 +178,17 @@ const ActivePostingCard = (props: {
           selected={delivery === 'hand'}
           onClick={() => setDelivery('hand')}
           style={toggleStyle(delivery === 'hand')}
-          tooltip="Take the writ in hand and give it to someone yourself."
+          tooltip="Take the scroll in hand and give it to someone yourself."
         >
-          Writ in hand
+          Scroll in hand
         </Button>
         <Button
           selected={delivery === 'board'}
           onClick={() => setDelivery('board')}
           style={toggleStyle(delivery === 'board')}
-          tooltip="Pin it to the ledger."
+          tooltip="Pin it to the Ledger."
         >
-          Post to board
+          Post to the Ledger
         </Button>
       </div>
       <div className="ContractLedger__CardFooter">
@@ -196,7 +199,7 @@ const ActivePostingCard = (props: {
           title={
             !canAfford
               ? crown
-                ? `The Crown's Purse needs ${cost}m.`
+                ? `The Treasury can't afford ${cost}m.`
                 : `You need ${cost}m on account.`
               : undefined
           }
@@ -299,12 +302,12 @@ export const TownerPostingPanel = () => {
         </span>
         <span>
           Balance: {data.balance}m
-          {anyCrown && <> | Purse: {data.towner_purse_balance ?? 0}m</>}
+          {anyCrown && <> | Treasury: {data.towner_purse_balance ?? 0}m</>}
         </span>
       </div>
       <div style={blurbStyle}>
-        Post a contract with your own mammons. Whomever takes it must deliver
-        the parcel to you, who is the only one that can open the package.
+        Post a contract paid with your own mammon. Whoever takes it must bring
+        the goods to you. Only you can open them.
       </div>
 
       {yourPostings.length > 0 && (
@@ -317,6 +320,7 @@ export const TownerPostingPanel = () => {
                 posting={p}
                 balance={data.balance}
                 purseBalance={data.towner_purse_balance ?? 0}
+                crownCostMult={data.towner_crown_cost_mult}
                 onPost={(t, d, v) => post(p.type, t, d, v)}
               />
             ))}

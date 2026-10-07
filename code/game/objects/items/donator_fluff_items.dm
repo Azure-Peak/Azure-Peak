@@ -480,11 +480,20 @@
 	flags_inv = null
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/burgeonet
-	name = "gothic burgeonet"
+	name = "gothic burgonet"
 	desc = "A magnificent steel helmet, and the newest of the venerable armet's lineage. The intricate fluting serves as a clear sign of its \
 	Grenzelhoftian heritage; ornate, but not obnoxiously so."
 	item_state = "burgeonet"
 	icon_state = "burgeonet"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/sallet/burgeonet
+	name = "gothic burgonet"
+	desc = "A magnificent steel helmet, unburdening to one's guise. The intricate fluting serves as a clear sign of its \
+	Grenzelhoftian heritage; ornate, but not obnoxiously so."
+	item_state = "burgeonet_t"
+	icon_state = "burgeonet_t"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 

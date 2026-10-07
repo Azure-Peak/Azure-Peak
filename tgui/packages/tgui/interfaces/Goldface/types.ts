@@ -22,11 +22,19 @@ export type HarborShip = {
   ship_type: string;
   tonnage: number;
   tonnage_mult: number;
+  base_tonnage: number;
+  cap_tonnage: number;
+  cap_mult: number;
+  honored_pct: number;
+  partial_pct: number;
+  partial_share_pct: number;
+  dishonor_penalty: number;
   expected_favor: number;
   favor_earned: number;
   auto_hailed?: BooleanLike;
   seconds_until_departure?: number;
   can_send_away?: BooleanLike;
+  departing?: BooleanLike;
   bulk_demands?: BulkLine[];
   bulk_supplies?: BulkLine[];
 };
@@ -112,6 +120,7 @@ export type KinshipData = {
 
 export type HarborData = {
   ships_docked: HarborShip[];
+  ships_departing: HarborShip[];
   ships_pool: HarborShip[];
   realms: HarborRealm[];
   hails_remaining: number;
@@ -142,6 +151,7 @@ export type LedgerData = {
   gnome_margin_collected: number;
   silverface_margin_percent: number;
   fund_log: FundLogEntry[];
+  fund_log_max: number;
 };
 
 export type FavorLedgerEntry = {
@@ -175,6 +185,8 @@ export type FavorData = {
   from_goldface: number;
   from_silverface: number;
   penalties: number;
+  passive_pct: number;
+  sendoff_partial_pct: number;
 };
 
 export type VendingPack = {

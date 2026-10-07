@@ -26,7 +26,7 @@
 
 /obj/structure/roguemachine/steward/proc/open_trade_tgui(mob/user)
 	if(locked && !alderman_has_access(user))
-		to_chat(user, span_warning("It's locked. Of course."))
+		to_chat(user, span_warning("It's locked."))
 		return
 	var/datum/tgui/ui = SStgui.try_update_ui(user, src, null)
 	if(!ui)
@@ -55,6 +55,19 @@
 /obj/structure/roguemachine/steward/ui_static_data(mob/user)
 	var/list/data = list()
 	data["order_pool_cap"] = STANDING_ORDERS_POOL_CAP
+	data["auto_limit_days"] = STOCKPILE_AUTO_LIMIT_DAYS
+	data["quality_payouts"] = list(
+		list("label" = "worn", "pct" = round(ITEM_QUALITY_MULT_WORN * 100)),
+		list("label" = "ruined", "pct" = round(ITEM_QUALITY_MULT_RUINED * 100)),
+		list("label" = "scavenged", "pct" = round(ITEM_QUALITY_MULT_LOOTED * 100)),
+		list("label" = "awful", "pct" = round(ITEM_QUALITY_MULT_AWFUL * 100)),
+		list("label" = "crude", "pct" = round(ITEM_QUALITY_MULT_CRUDE * 100)),
+		list("label" = "rough", "pct" = round(ITEM_QUALITY_MULT_ROUGH * 100)),
+		list("label" = "(standard)", "pct" = round(ITEM_QUALITY_MULT_STANDARD * 100)),
+		list("label" = "fine", "pct" = round(ITEM_QUALITY_MULT_FINE * 100)),
+		list("label" = "flawless", "pct" = round(ITEM_QUALITY_MULT_FLAWLESS * 100)),
+		list("label" = "masterwork", "pct" = round(ITEM_QUALITY_MULT_MASTERWORK * 100)),
+	)
 
 	var/list/good_catalog = list()
 	for(var/good_id in GLOB.trade_goods)
@@ -80,11 +93,25 @@
 	var/list/petition_categories = list()
 	for(var/cat_id in GLOB.petition_categories)
 		var/list/cat = GLOB.petition_categories[cat_id]
+		var/list/cat_templates = cat["templates"]
+		var/list/templates = list()
+		for(var/template in cat_templates)
+			var/list/region_ids = list()
+			for(var/region_id in GLOB.economic_regions)
+				var/datum/economic_region/region = GLOB.economic_regions[region_id]
+				if(template in region.possible_standing_order_types)
+					region_ids += region_id
+			templates += list(list(
+				"id" = "[template]",
+				"label" = cat_templates[template],
+				"region_ids" = region_ids,
+			))
 		petition_categories += list(list(
 			"id" = cat_id,
 			"label" = cat["label"],
 			"description" = cat["description"],
 			"cost" = cat["cost"],
+			"templates" = templates,
 		))
 	data["petition_categories"] = petition_categories
 	data["petition_tax_pct"] = round((1 - PETITION_TAX_MULT) * 100)
@@ -258,6 +285,7 @@
 			"petitioned" = O.petitioned ? TRUE : FALSE,
 			"can_partial" = can_partial,
 			"partial_pct" = partial_pct,
+			"partial_payout_pct" = round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100),
 			"partial_payout_preview" = partial_payout_preview,
 			"pair_id" = O.pair_id,
 			"pair_label" = O.pair_label,
@@ -295,49 +323,19 @@
 	petition_state["petitions_remaining"] = petitions_remaining
 	petition_state["is_steward_role"] = (user.job in GLOB.crown_authority_roles) ? TRUE : FALSE
 	petition_state["is_alderman_acting"] = SScity_assembly?.is_alderman(user) ? TRUE : FALSE
-	var/list/eligibility = list()
-	var/pool_full = (GLOB.standing_order_pool.len >= STANDING_ORDERS_POOL_CAP)
-	var/pledge_balance = SStreasury.burgher_pledge_fund?.balance || 0
-	var/pledge_missing = !SStreasury.burgher_pledge_fund
-	var/list/orders_by_region = list()
-	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)
-		orders_by_region[O.region_id] = (orders_by_region[O.region_id] || 0) + 1
-	for(var/cat_id in GLOB.petition_categories)
-		var/list/cat = GLOB.petition_categories[cat_id]
-		var/cost = cat["cost"]
-		var/list/templates = cat["templates"]
-		var/list/per_region = list()
-		eligibility[cat_id] = per_region
+	var/selected_template = petition_view[user.ckey]
+	var/list/offers = list()
+	if(selected_template && SSeconomy.petition_category_of(selected_template))
 		for(var/region_id in GLOB.economic_regions)
 			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			var/blocker = ""
-			if(petitions_remaining <= 0)
-				blocker = "the trade hall has already heard a petition today"
-			else if(!region)
-				blocker = "unknown region"
-			else if(region.is_region_blockaded)
-				blocker = "[region.name] is blockaded - the road is closed to envoys"
-			else if(region.day_last_cleared >= 0 && (GLOB.dayspassed - region.day_last_cleared) < PETITION_BLOCKADE_RECOVERY_DAYS)
-				var/wait_days = PETITION_BLOCKADE_RECOVERY_DAYS - (GLOB.dayspassed - region.day_last_cleared)
-				blocker = "[region.name]'s contacts are still scattered - wait [wait_days]d more"
-			else if(pool_full)
-				blocker = "the warehouse manifest is full - fulfill orders first"
-			else if((orders_by_region[region_id] || 0) >= STANDING_ORDERS_MAX_PER_REGION)
-				blocker = "[region.name] already has [orders_by_region[region_id]] active orders"
-			else if(pledge_missing)
-				blocker = "the Burgher Pledge is not yet established"
-			else if(pledge_balance < cost)
-				blocker = "the Burgher Pledge cannot cover [cost]m"
-			else
-				var/has_template = FALSE
-				for(var/template_path in templates)
-					if(template_path in region.possible_standing_order_types)
-						has_template = TRUE
-						break
-				if(!has_template)
-					blocker = "[region.name]'s trade hall does not deal in [cat["label"]]"
-			per_region[region_id] = blocker
-	petition_state["eligibility"] = eligibility
+			if(!(selected_template in region.possible_standing_order_types))
+				continue
+			offers += list(list(
+				"region_id" = region_id,
+				"blocker" = SSeconomy.petition_blocker(region_id, selected_template) || "",
+			))
+	petition_state["selected_template"] = selected_template ? "[selected_template]" : null
+	petition_state["offers"] = offers
 	data["petition"] = petition_state
 
 	data["sequestration"] = list(
@@ -584,6 +582,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	"set_buy_price",
 	"set_sell_price",
 	"set_stockpile_limit",
+	"import_steward_policy",
 	"autoprice_all",
 	"autolimit_all",
 	"autoprice_category",
@@ -608,14 +607,14 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 	if(locked && !alderman_has_access(usr))
 		return TRUE
 	if(SStreasury.is_in_receivership() && (action in GLOB.steward_trade_sequestration_locked_actions))
-		to_chat(usr, span_warning("The Azurian Trading Company holds the Crown's commerce in sequestration. Petition, tax, and fine are your remaining instruments."))
+		to_chat(usr, span_warning("Trade controls are locked under sequestration. Petitions, taxes and fines still work."))
 		return TRUE
 	if(action == "fulfill_order" || (action in GLOB.steward_trade_sequestration_locked_actions))
 		SStreasury.dirty_market_view()
 	switch(action)
 		if("fulfill_order")
 			if(!COOLDOWN_FINISHED(src, fulfill_retry_cooldown))
-				to_chat(usr, span_warning("The clerks are still tallying the last attempt. Try again in a moment."))
+				to_chat(usr, span_warning("You just tried to fulfill an order. Wait a moment and try again."))
 				return TRUE
 			var/datum/standing_order/O = locate(params["ref"]) in GLOB.standing_order_pool
 			if(O)
@@ -626,8 +625,8 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 					var/coverage_pct = preview["coverage_pct"]
 					var/preview_payout = preview["payout"]
 					var/missing_text = preview["missing_text"]
-					var/confirm = alert(usr, "Settle [O.name] short? Coverage: [coverage_pct]%. Payout: [preview_payout]m at [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of the delivered share. Missing: [missing_text].", "Partial Fulfillment", "Yes", "No")
-					if(confirm == "Yes")
+					var/confirm = alert(usr, "You have [coverage_pct]% of the goods for [O.name]. Send them now for [preview_payout]m, [round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)]% of their value? Still missing: [missing_text].", "Partial Delivery", "Send", "Wait")
+					if(confirm == "Send")
 						var/list/partial_result = SSeconomy.fulfill_order(usr, O, TRUE)
 						if(islist(partial_result) && partial_result["status"] == "partial")
 							var/pq_delta = partial_result["quality_delta"]
@@ -636,7 +635,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 								pq_suffix = " (quality bonus: +[pq_delta]m)"
 							else if(pq_delta < 0)
 								pq_suffix = " (quality penalty: [pq_delta]m)"
-							scom_announce("Standing Order settled (partial): [O.name] (+[partial_result["payout"]]m)[pq_suffix].")
+							scom_announce("Standing Order partially fulfilled: [O.name] (+[partial_result["payout"]]m)[pq_suffix].")
 							playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 						else
 							COOLDOWN_START(src, fulfill_retry_cooldown, STANDING_ORDER_FULFILL_RETRY_COOLDOWN)
@@ -778,8 +777,31 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/datum/roguestock/D = SSeconomy.find_stockpile_by_trade_good(params["good_id"])
 			var/lim = text2num("[params["limit"]]")
 			if(D && !isnull(lim))
-				D.stockpile_limit = clamp(round(lim), 0, 9999)
-				D.automatic_limit = FALSE
+				D.set_manual_limit(lim)
+			SStgui.update_uis(src)
+			return TRUE
+		if("export_steward_policy")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			tgui_input_text(usr, "Copy the text here and save it locally. You can paste it into Import Policy in later rounds to keep your custom settings, including: Handset limits, autoexport / withdraw bars, unaccepted goods, autoimport list, essential opt-outs, surplus threshold and purse floor. Autolimits or prices are not stored.", "Export Policy", SStreasury.export_steward_policy(), max_length = STEWARD_POLICY_IMPORT_MAX_LEN, multiline = TRUE, encode = FALSE, width = STEWARD_POLICY_WINDOW_WIDTH, height = STEWARD_POLICY_WINDOW_HEIGHT)
+			return TRUE
+		if("import_steward_policy")
+			if(SScity_assembly?.is_alderman(usr))
+				return TRUE
+			var/blob = tgui_input_text(usr, "Import exported policies from previous round. See export policy for what are covered.", "Import Policy", max_length = STEWARD_POLICY_IMPORT_MAX_LEN, multiline = TRUE, encode = FALSE, width = STEWARD_POLICY_WINDOW_WIDTH, height = STEWARD_POLICY_WINDOW_HEIGHT)
+			if(!blob || !user_can_act(usr) || SScity_assembly?.is_alderman(usr) || SStreasury.is_in_receivership())
+				return TRUE
+			var/list/result = SStreasury.import_steward_policy(blob)
+			if(!result)
+				to_chat(usr, span_warning("The Steward policy looks wrong or malformed."))
+				return TRUE
+			var/applied = result["applied"]
+			var/skipped = result["skipped"]
+			var/skipped_text = ""
+			if(skipped)
+				skipped_text = " Skipped [skipped] unknown [skipped == 1 ? "entry" : "entries"]."
+			to_chat(usr, span_notice("Applied [applied] setting\s.[skipped_text]"))
+			log_game("POLICY IMPORT: [key_name(usr)] imported [applied] steward policy settings ([skipped] skipped)")
 			SStgui.update_uis(src)
 			return TRUE
 		if("autoprice_all")
@@ -1010,9 +1032,9 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/units = result["units"]
 			var/revenue = result["revenue"]
 			if(units <= 0)
-				to_chat(usr, span_warning("No surplus to export - either no entry is over its threshold, or every demanding region is saturated for the day."))
+				to_chat(usr, span_warning("No surplus to export. No entries are over their threshold or no regions have remaining demand."))
 				return TRUE
-			scom_announce("Crown clears surplus stockpile: [units] units exported for [revenue] mammon.")
+			scom_announce("The Crown sold [units] units of surplus stock abroad for [revenue] mammon.")
 			for(var/line in result["lines"])
 				to_chat(usr, span_notice(line))
 			to_chat(usr, span_notice("<b>Total: [units] units exported for [revenue]m.</b>"))
@@ -1062,41 +1084,49 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			if(total_units <= 0)
 				to_chat(usr, span_warning("No [category] surplus to export."))
 				return TRUE
-			scom_announce("Crown clears [category] surplus: [total_units] units exported for [total_revenue] mammon.")
+			scom_announce("The Crown sold [total_units] units of surplus [category] abroad for [total_revenue] mammon.")
 			for(var/line in lines)
 				to_chat(usr, span_notice(line))
 			to_chat(usr, span_notice("<b>Total: [total_units] units exported for [total_revenue]m.</b>"))
 			playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 			SStgui.update_uis(src)
 			return TRUE
+		if("petition_select")
+			var/template = text2path(params["template"])
+			if(template && SSeconomy.petition_category_of(template))
+				petition_view[usr.ckey] = template
+			else
+				petition_view -= usr.ckey
+			SStgui.update_uis(src)
+			return TRUE
 		if("petition_for_order")
 			if(SScity_assembly?.is_alderman(usr))
-				to_chat(usr, span_warning("The Alderman's writ does not extend to petitioning the trade hall."))
+				to_chat(usr, span_warning("As Alderman, you can't petition regions."))
 				return TRUE
 			if(!(usr.job in GLOB.crown_authority_roles))
-				to_chat(usr, span_warning("Only the Steward's office may petition the trade hall."))
+				to_chat(usr, span_warning("Only Crown officials can petition regions."))
 				return TRUE
 			var/region_id = params["region_id"]
-			var/category_id = params["category_id"]
-			if(SSeconomy.petition_for_order(usr, region_id, category_id))
+			var/template = text2path(params["template"])
+			if(SSeconomy.petition_for_order(usr, region_id, template))
 				var/datum/economic_region/region = GLOB.economic_regions[region_id]
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
-				visible_message(span_notice("[src] stamps a freshly sealed writ. The wax bears the mark of the [region?.name] trade hall."))
+				visible_message(span_notice("[src] stamps the petition and seals it for [region?.name]."))
 			SStgui.update_uis(src)
 			return TRUE
 		if("take_atc_loan")
 			if(SScity_assembly?.is_alderman(usr))
-				to_chat(usr, span_warning("The Alderman's writ does not extend to drawing loans against the Crown."))
+				to_chat(usr, span_warning("As Alderman, you can't take loans for the Crown."))
 				return TRUE
 			if(!(usr.job in GLOB.crown_authority_roles))
-				to_chat(usr, span_warning("Only the Crown's office may approach the Guilds clerk."))
+				to_chat(usr, span_warning("Only Crown officials can take loans from the ATC."))
 				return TRUE
 			var/amount = text2num("[params["amount"]]")
 			if(!isnum(amount))
 				return TRUE
 			if(SStreasury.take_atc_loan(amount, usr))
 				playsound(src, 'sound/items/inqslip_sealed.ogg', 70, FALSE, -1)
-				visible_message(span_notice("[src] stamps a sealed writ. The wax bears the mark of the Azurian Trading Company."))
+				visible_message(span_notice("[src] stamps the loan papers with the ATC seal."))
 			SStgui.update_uis(src)
 			return TRUE
 		if("set_royal_custom_margin")
