@@ -50720,18 +50720,6 @@
 /obj/structure/chair/bench/couchablack,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/physician)
-"iNj" = (
-/obj/item/reagent_containers/glass/bucket{
-	pixel_x = 1;
-	pixel_y = 9
-	},
-/obj/item/soap/bath,
-/obj/item/natural/cloth{
-	pixel_x = -5
-	},
-/obj/structure/rack/rogue,
-/turf/open/floor/rogue/tile/harem,
-/area/rogue/indoors/town/bath)
 "iNk" = (
 /obj/item/natural/rock/salt,
 /turf/open/floor/rogue/cobblerock,
@@ -60114,9 +60102,6 @@
 /obj/structure/table/wood{
 	dir = 8;
 	icon_state = "largetable"
-	},
-/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy{
-	pixel_x = 16
 	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
@@ -79913,14 +79898,6 @@
 	dir = 6;
 	icon_state = "largetable"
 	},
-/obj/item/reagent_containers/glass/cup/ceramic/fancy{
-	pixel_y = 8;
-	pixel_x = -2
-	},
-/obj/item/reagent_containers/glass/cup/ceramic/fancy{
-	pixel_x = -16;
-	pixel_y = 8
-	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
 "nIM" = (
@@ -83759,6 +83736,10 @@
 /obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/goblinfort)
+"opU" = (
+/obj/machinery/tanningrack,
+/turf/open/floor/rogue/tile,
+/area/rogue/indoors/town/bath)
 "opW" = (
 /obj/structure/chair/wood/rogue{
 	dir = 1
@@ -107759,6 +107740,18 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
+"soZ" = (
+/obj/item/reagent_containers/glass/bucket{
+	pixel_x = -4;
+	pixel_y = 6
+	},
+/obj/item/soap/bath,
+/obj/item/natural/cloth{
+	pixel_x = -5
+	},
+/obj/structure/rack/rogue,
+/turf/open/floor/rogue/tile/harem,
+/area/rogue/indoors/town/bath)
 "spc" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8;
@@ -115006,6 +114999,17 @@
 "tyW" = (
 /obj/structure/table/wood/long_table/right,
 /obj/structure/rack/rogue/shelf,
+/obj/item/reagent_containers/glass/cup/ceramic/fancy{
+	pixel_y = 41;
+	pixel_x = -6
+	},
+/obj/item/reagent_containers/glass/cup/ceramic/fancy{
+	pixel_y = 41
+	},
+/obj/item/reagent_containers/glass/cup/ceramic/fancy{
+	pixel_y = 41;
+	pixel_x = 6
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/bath)
 "tyX" = (
@@ -117747,8 +117751,10 @@
 	},
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "tWg" = (
-/obj/machinery/tanningrack,
-/turf/open/floor/rogue/tile,
+/obj/structure/mineral_door/wood/window{
+	lockid = "nightmaiden"
+	},
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "tWh" = (
 /obj/item/restraints/legcuffs/beartrap/armed/camouflage,
@@ -119841,10 +119847,6 @@
 	dir = 10;
 	icon_state = "largetable"
 	},
-/obj/item/reagent_containers/glass/cup/ceramic/fancy{
-	pixel_y = 8;
-	pixel_x = 2
-	},
 /turf/open/floor/rogue/tile/harem2,
 /area/rogue/indoors/town/bath)
 "upO" = (
@@ -121133,6 +121135,9 @@
 /obj/structure/rack/rogue/shelf,
 /obj/item/millstone{
 	pixel_y = 10
+	},
+/obj/item/reagent_containers/glass/bucket/pot/teapot/fancy{
+	pixel_y = 44
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/bath)
@@ -132966,18 +132971,6 @@
 /obj/item/natural/bone,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter/mountains/decap)
-"wEL" = (
-/obj/item/reagent_containers/glass/bucket{
-	pixel_x = -4;
-	pixel_y = 6
-	},
-/obj/item/soap/bath,
-/obj/item/natural/cloth{
-	pixel_x = -5
-	},
-/obj/structure/rack/rogue,
-/turf/open/floor/rogue/tile/harem,
-/area/rogue/indoors/town/bath)
 "wEM" = (
 /obj/item/reagent_containers/glass/bottle/rogue/beer,
 /turf/open/floor/rogue/cobble,
@@ -141688,10 +141681,16 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "ydX" = (
-/obj/structure/mineral_door/wood/window{
-	lockid = "nightmaiden"
+/obj/item/reagent_containers/glass/bucket{
+	pixel_x = 1;
+	pixel_y = 9
 	},
-/turf/open/floor/rogue/churchbrick,
+/obj/item/soap/bath,
+/obj/item/natural/cloth{
+	pixel_x = -5
+	},
+/obj/structure/rack/rogue,
+/turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/bath)
 "ydZ" = (
 /obj/structure/fermentation_keg,
@@ -164773,7 +164772,7 @@ vHZ
 vHZ
 vHZ
 ruK
-iNj
+ydX
 brW
 brW
 jlm
@@ -165671,7 +165670,7 @@ seo
 pGR
 pGR
 pGR
-tWg
+opU
 nPv
 qEO
 lcP
@@ -168841,7 +168840,7 @@ uEe
 uEe
 jGd
 ruK
-wEL
+soZ
 brW
 brW
 jlm
@@ -177436,7 +177435,7 @@ hSR
 hSR
 hSR
 rBs
-ydX
+tWg
 pYU
 sQL
 cst
@@ -177888,7 +177887,7 @@ hSR
 hSR
 hSR
 rBs
-ydX
+tWg
 diV
 sQL
 cst
