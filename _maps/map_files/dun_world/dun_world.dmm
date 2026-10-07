@@ -7659,6 +7659,7 @@
 	lockid = "nightmaiden";
 	name = "Storage Closet"
 	},
+/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "brS" = (
@@ -102770,7 +102771,6 @@
 	lockid = "nightmaiden";
 	name = "bathhouse"
 	},
-/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -103631,6 +103631,9 @@
 	alpha = 200
 	},
 /obj/structure/roguemachine/talkstatue/mercenary,
+/obj/structure/roguewindow/harem2{
+	max_integrity = 1000
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "rFk" = (
@@ -103919,6 +103922,7 @@
 /obj/structure/roguewindow/harem2{
 	max_integrity = 1000
 	},
+/obj/structure/curtain/magenta,
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/bath)
 "rIu" = (
