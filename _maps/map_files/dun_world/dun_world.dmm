@@ -698,10 +698,17 @@
 	},
 /obj/item/lipstick/purple,
 /obj/item/lipstick/black{
-	pixel_x = -8
+	pixel_x = -10
 	},
 /obj/structure/curtain/magenta{
 	pixel_x = -32
+	},
+/obj/item/lipstick/jade{
+	pixel_x = -10;
+	pixel_y = 10
+	},
+/obj/item/lipstick{
+	pixel_y = 10
 	},
 /turf/open/floor/rogue/blocks/paving{
 	color = "#FFA3A3"
@@ -14748,10 +14755,6 @@
 /obj/structure/flora/roguegrass,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/woods/north)
-"cCX" = (
-/obj/structure/curtain/magenta,
-/turf/open/floor/rogue/churchbrick,
-/area/rogue/indoors/town/bath)
 "cCY" = (
 /obj/effect/landmark/start/vagabond,
 /turf/open/floor/rogue/dirt/road,
@@ -45009,6 +45012,10 @@
 "hPg" = (
 /turf/open/water/sewer,
 /area/rogue/under/cavewet/bogcaves/north)
+"hPl" = (
+/obj/structure/fluff/statue/gargoyle,
+/turf/closed/wall/mineral/rogue/craftstone,
+/area/rogue/indoors/town/bath)
 "hPs" = (
 /turf/open/water/river/flow/east,
 /area/rogue/outdoors/rtfield)
@@ -53333,8 +53340,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
 "jkj" = (
-/obj/structure/fluff/statue/gargoyle,
-/turf/closed/wall/mineral/rogue/craftstone,
+/obj/structure/curtain/magenta,
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "jkl" = (
 /obj/structure/fluff/railing/border/east,
@@ -56856,7 +56863,8 @@
 	pixel_y = 32
 	},
 /obj/item/perfume/random{
-	pixel_x = 6
+	pixel_x = 6;
+	pixel_y = 4
 	},
 /turf/open/floor/rogue/blocks/paving{
 	color = "#FFA3A3"
@@ -130801,7 +130809,9 @@
 	pass_flags = 1;
 	pixel_y = 32
 	},
-/obj/item/perfume/random,
+/obj/item/perfume/random{
+	pixel_y = 4
+	},
 /turf/open/floor/rogue/blocks/paving{
 	color = "#FFA3A3"
 	},
@@ -135597,12 +135607,16 @@
 	dir = 10;
 	icon_state = "largetable"
 	},
-/obj/item/lipstick/jade{
-	pixel_x = 8
-	},
-/obj/item/lipstick/black,
 /obj/structure/curtain/magenta{
 	pixel_x = 32
+	},
+/obj/item/hair_dye_cream{
+	pixel_x = 3;
+	pixel_y = 4
+	},
+/obj/item/dye_brush{
+	pixel_x = 3;
+	pixel_y = 4
 	},
 /turf/open/floor/rogue/blocks/paving{
 	color = "#FFA3A3"
@@ -158895,7 +158909,7 @@ eNh
 vvL
 nPv
 rqY
-cCX
+jkj
 rqY
 nPv
 bhJ
@@ -160277,7 +160291,7 @@ bhJ
 bhJ
 rqY
 rqY
-jkj
+hPl
 rqY
 rqY
 bhJ
@@ -161177,7 +161191,7 @@ pPQ
 hyt
 rqY
 rqY
-jkj
+hPl
 rqY
 rqY
 haH
@@ -162533,7 +162547,7 @@ jQb
 rqY
 rqY
 rqY
-jkj
+hPl
 xEX
 wOt
 bBh
