@@ -45012,10 +45012,6 @@
 "hPg" = (
 /turf/open/water/sewer,
 /area/rogue/under/cavewet/bogcaves/north)
-"hPl" = (
-/obj/structure/fluff/statue/gargoyle,
-/turf/closed/wall/mineral/rogue/craftstone,
-/area/rogue/indoors/town/bath)
 "hPs" = (
 /turf/open/water/river/flow/east,
 /area/rogue/outdoors/rtfield)
@@ -53340,8 +53336,8 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains)
 "jkj" = (
-/obj/structure/curtain/magenta,
-/turf/open/floor/rogue/churchbrick,
+/obj/structure/fluff/statue/gargoyle,
+/turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/bath)
 "jkl" = (
 /obj/structure/fluff/railing/border/east,
@@ -56857,10 +56853,6 @@
 /obj/structure/mirror{
 	pixel_x = 32;
 	pixel_y = 0
-	},
-/obj/structure/fluff/statue/small{
-	pass_flags = 1;
-	pixel_y = 32
 	},
 /obj/item/perfume/random{
 	pixel_x = 6;
@@ -107172,16 +107164,8 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/beach)
 "ska" = (
-/obj/structure/fluff/statue/small{
-	pass_flags = 1;
-	pixel_y = 32
-	},
-/obj/effect/decal/cobbleedge{
-	dir = 1;
-	icon_state = "borderfall";
-	pixel_y = 8
-	},
-/turf/open/floor/rogue/cobble,
+/obj/structure/curtain/magenta,
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "skb" = (
 /obj/effect/decal/cobbleedge{
@@ -130804,10 +130788,6 @@
 /obj/structure/mirror{
 	pixel_x = -32;
 	pixel_y = 0
-	},
-/obj/structure/fluff/statue/small{
-	pass_flags = 1;
-	pixel_y = 32
 	},
 /obj/item/perfume/random{
 	pixel_y = 4
@@ -155743,7 +155723,7 @@ eBf
 qnJ
 vHZ
 wRR
-nPv
+uHb
 wkE
 agf
 hBq
@@ -158003,7 +157983,7 @@ aaF
 oHM
 vHZ
 wRR
-nPv
+uHb
 jOn
 xce
 gwz
@@ -158909,7 +158889,7 @@ eNh
 vvL
 nPv
 rqY
-jkj
+ska
 rqY
 nPv
 bhJ
@@ -160291,7 +160271,7 @@ bhJ
 bhJ
 rqY
 rqY
-hPl
+jkj
 rqY
 rqY
 bhJ
@@ -161191,7 +161171,7 @@ pPQ
 hyt
 rqY
 rqY
-hPl
+jkj
 rqY
 rqY
 haH
@@ -162547,7 +162527,7 @@ jQb
 rqY
 rqY
 rqY
-hPl
+jkj
 xEX
 wOt
 bBh
@@ -166588,8 +166568,8 @@ nPv
 oFJ
 nPv
 oHM
-nPv
-ska
+uHb
+vOL
 thH
 cPX
 bXw
