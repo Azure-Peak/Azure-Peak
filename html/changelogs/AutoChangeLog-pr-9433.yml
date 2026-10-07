@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - rscadd: "Anointed weaponry. Obtainable by only the Cleric, these cold iron weapons deal less damage but have higher defense and integrity. While they cannot sunder greater villains (in PVP), the lesser blessings nevertheless allow them to smite lesser evils (in PVE). Thanks to Radarseas for the underlying mechanical work!"
-  - balance: "The Cleric can now select from one of several anointed weapons, if the \"Crusader\" loadout option is chosen. Note that they lose the free Silver Order surcoat."

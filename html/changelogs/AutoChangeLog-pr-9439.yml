@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Infernal familiars now properly get their \"turn into a staff\" ability."

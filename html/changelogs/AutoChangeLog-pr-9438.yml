@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Having Cicerone or high enough alchemy will allow you to view a reagent's description as a tooltip. Water got new descriptions that match the era. Other descriptions to be rewritten later."

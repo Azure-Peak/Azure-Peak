@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "You can now import / export most Stewardry trade settings in the \"Advanced\" section of the trade UI"

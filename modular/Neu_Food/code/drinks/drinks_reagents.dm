@@ -90,7 +90,7 @@
 
 /datum/reagent/consumable/caffeine/coffee/milk
 	cuisine = CUISINE_ETRUSCAN
-	name = "etrusso"
+	name = "etruccino"
 	description = "Milk added to a wonderfully brewed coffee, savory and smooth."
 	reagent_state = LIQUID
 	color = "#7a5f49"
@@ -99,8 +99,8 @@
 	alpha = 200
 	quality = DRINK_FANTASTIC
 
-/datum/chemical_reaction/alch/etrusso
-	name = "Etrusso"
+/datum/chemical_reaction/alch/etruccino
+	name = "Etruccino"
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/caffeine/coffee/milk
 	results = list(/datum/reagent/consumable/caffeine/coffee/milk = 2)
@@ -122,7 +122,7 @@
 
 /datum/reagent/consumable/caffeine/coffee/cheese // cheese is milk right?
 	cuisine = CUISINE_ETRUSCAN
-	name = "lumpy etrusso"
+	name = "lumpy etruccino"
 	description = "A thing of coffee with... with cheese in it. What. Who thought cheese was milk?"
 	reagent_state = LIQUID
 	color = "#aa894c"
@@ -131,8 +131,8 @@
 	alpha = 200
 	quality = DRINK_GOOD // it made the coffee worse
 
-/datum/chemical_reaction/alch/lumpyetrusso
-	name = "Lumpy Etrusso"
+/datum/chemical_reaction/alch/lumpyetruccino
+	name = "Lumpy Etruccino"
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/caffeine/coffee/cheese
 	results = list(/datum/reagent/consumable/caffeine/coffee/cheese = 2)
@@ -180,7 +180,7 @@
 	description = "A hot tea mixture with the savoryness of milk added to it. Very refreshing."
 	reagent_state = LIQUID
 	color = "#768b70" // Deeper green to make it look better
-	taste_description = "smooth and savory grassiness" // Yeah, uh.
+	taste_description = "smooth, savory grassiness" // Yeah, uh.
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
 	quality = DRINK_FANTASTIC

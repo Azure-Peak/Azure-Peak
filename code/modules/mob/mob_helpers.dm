@@ -1144,6 +1144,11 @@
 /mob/proc/can_see_reagents()
 	return stat == DEAD || has_unlimited_silicon_privilege //Dead guys and silicons can always see reagents
 
+/mob/proc/can_identify_reagents(atom/A)
+	if(can_see_reagents())
+		return TRUE
+	return Adjacent(A) && (get_skill_level(/datum/skill/craft/alchemy) >= SKILL_LEVEL_APPRENTICE || HAS_TRAIT(src, TRAIT_CICERONE))
+
 /mob/proc/get_role_title()
 	var/used_title
 	if(migrant_type)
