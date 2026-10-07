@@ -1719,8 +1719,13 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 	if(!do_after(user, 1 SECONDS))
 		return
-	to_chat(user, span_warning(swap_message))
 	playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
+	if(findtext(LOWER_TEXT(name), "ruined"))
+		to_chat(user, span_warning("[src] crumbles into ash in your hands."))
+		new /obj/item/ash(get_turf(src))
+		qdel(src)
+		return
+	to_chat(user, span_warning(swap_message))
 	swap_form(user)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/get_examine_highlight_status()
@@ -1818,6 +1823,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	flags_inv = HIDEFACE
 	flags_cover = HIDEFACE
 	var/active_item = FALSE
+	attachable = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/duelist/matthios/ComponentInitialize()
 	. = ..()

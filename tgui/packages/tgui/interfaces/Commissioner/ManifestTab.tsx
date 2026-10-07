@@ -50,14 +50,20 @@ export const ManifestTab = (props: {
   const { data, act, canRead } = props;
   const lines = data.manifest;
   const total = data.manifest_total;
-  const deposit = data.my_deposit;
+  const hasAccount = !!data.has_account;
+  const balance = data.my_balance;
   const cap = data.item_cap_per_order;
   const itemCount = data.my_manifest_items;
   const hasActive = !!data.has_active_order;
   const overCap = itemCount > cap;
   const canSubmit =
-    lines.length > 0 && deposit >= total && total > 0 && !overCap && !hasActive;
-  const shortfall = total - deposit;
+    lines.length > 0 &&
+    hasAccount &&
+    balance >= total &&
+    total > 0 &&
+    !overCap &&
+    !hasActive;
+  const shortfall = total - balance;
   const [note, setNote] = useState('');
 
   if (lines.length === 0) {
@@ -73,29 +79,6 @@ export const ManifestTab = (props: {
         >
           Your manifest is empty. Browse recipes to add work to be commissioned.
         </div>
-        {deposit > 0 && (
-          <div
-            style={{
-              ...cardStyle,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              fontFamily: SERIF,
-            }}
-          >
-            <div style={{ flex: 1, color: INK }}>
-              You have <b style={{ color: SEAL_AMBER }}>{deposit}m</b> on
-              deposit, unattached to any commission.
-            </div>
-            <button
-              type="button"
-              style={inkButtonStyle()}
-              onClick={() => act('refund_deposit')}
-            >
-              Withdraw {deposit}m
-            </button>
-          </div>
-        )}
       </>
     );
   }
@@ -221,21 +204,21 @@ export const ManifestTab = (props: {
             color: SEAL_AMBER,
           }}
         >
-          Deposit Held
+          Your Balance
         </div>
         <div
           style={{
             fontFamily: SERIF,
             fontSize: FONT_BODY,
-            color: deposit >= total ? SEAL_GREEN : SEAL_RED,
+            color: hasAccount && balance >= total ? SEAL_GREEN : SEAL_RED,
             fontWeight: 'bold',
           }}
         >
-          {deposit}m
+          {hasAccount ? `${balance}m` : '-'}
         </div>
       </div>
 
-      {!canSubmit && shortfall > 0 && (
+      {!hasAccount && (
         <div
           style={{
             marginTop: '8px',
@@ -244,7 +227,20 @@ export const ManifestTab = (props: {
             color: SEAL_RED,
           }}
         >
-          Insert {shortfall}m more in coin to submit this commission.
+          You have no MEISTER account
+        </div>
+      )}
+
+      {hasAccount && shortfall > 0 && (
+        <div
+          style={{
+            marginTop: '8px',
+            textAlign: 'center',
+            fontSize: FONT_BODY,
+            color: SEAL_RED,
+          }}
+        >
+          You need {shortfall}m more to post this commission.
         </div>
       )}
 
@@ -321,14 +317,6 @@ export const ManifestTab = (props: {
         >
           Post Commission
         </button>
-        <button
-          type="button"
-          style={inkButtonStyle({ disabled: deposit <= 0 })}
-          disabled={deposit <= 0}
-          onClick={() => act('refund_deposit')}
-        >
-          Refund Deposit
-        </button>
       </div>
 
       <div
@@ -339,8 +327,7 @@ export const ManifestTab = (props: {
           color: INK_SOFT,
         }}
       >
-        Insert coins into the machine to build your deposit. Posting locks the
-        coin in escrow; the smith collects it on completion.
+        Your deposit are transferred to the machine on the order being claimed.
       </div>
 
       <div

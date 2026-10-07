@@ -1415,7 +1415,8 @@
 	blade_class = BCLASS_CHOP
 	damfactor = 1.5
 	penfactor = PEN_HEAVY
-	swingdelay = 1 SECONDS
+	swingdelay = 1.1 SECONDS
+	clickcd = 1.3 SECONDS
 	swingdelay_type = SWINGDELAY_CANCEL
 	canparry = FALSE
 	candodge = FALSE
@@ -1709,7 +1710,7 @@
 	canparry = FALSE
 	candodge = FALSE
 
-	swingdelay = 0.8 SECONDS
+	swingdelay = 1.1 SECONDS
 	clickcd = 1.5 SECONDS
 
 /obj/item/rogueweapon/sword/rapier/dec

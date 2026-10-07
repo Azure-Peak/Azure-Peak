@@ -30,6 +30,7 @@
 
 #define ITEM_CAT_DECORATION "Decoration"
 #define ITEM_CAT_POTTERY "Pottery & Ceramics"
+#define ITEM_CAT_CARVED "Carved Goods"
 
 #define ITEM_CAT_COMPONENTS "Components"
 #define ITEM_CAT_SMITHING_MISC "Smithing (Misc)"

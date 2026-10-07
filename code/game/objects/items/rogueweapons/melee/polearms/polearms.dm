@@ -829,7 +829,8 @@
 	desc = "Hook an opponent with your polearm, forcefully dismounting them should they be on horseback. Must strike the rider themselves and not their mount and does not work on horseback."
 	clickcd = CLICK_CD_CHARGED
 	swingdelay_type = SWINGDELAY_CANCEL
-	swingdelay = 10 //1 second for the horse to pull out of range, pretty hard to land.
+	swingdelay = 1 SECONDS //1 second for the horse to pull out of range, pretty hard to land.
+	clickcd = 1.3 SECONDS
 	warnie = "mobwarning"
 	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
 	penfactor = PEN_LIGHT //Bad for anything but its intended purpose

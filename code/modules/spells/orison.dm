@@ -632,21 +632,21 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	if(!istype(new_convert.patron, /datum/patron/inhumen) && new_convert.mind.has_spell(/datum/action/cooldown/spell/convert_heretic))
 		new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/convert_heretic)
 
-	if(was_cleric && !istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
-		// Grant new devotion
+	if(was_cleric)
 		var/datum/devotion/new_devotion = new /datum/devotion(new_convert, new_convert.patron)
 		new_convert.devotion = new_devotion
-		new_devotion.grant_miracles(new_convert, saved_level, saved_devotion_gain, saved_max_progression)
-		if(had_blast)
-			var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/unholy_blast)
-			new_convert.mind.AddSpell(new blast_to_grant)
-		// why are you like this
-		if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark))
-			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
-			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-	else if(was_cleric)
-		// however, they can have TRAIT_PSYDONITE as a treat
-		ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)
+		if(!istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
+			new_devotion.grant_miracles(new_convert, saved_level, saved_devotion_gain, saved_max_progression)
+			if(had_blast)
+				var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/unholy_blast)
+				new_convert.mind.AddSpell(new blast_to_grant)
+			// why are you like this
+			if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark))
+				new_convert.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+				new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+		else // however, they can have TRAIT_PSYDONITE as a treat; and bootcheck, because why not (this is identical to the effects of the devotee virtue)
+			ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)
+			new_devotion.grant_miracles(new_convert, cleric_tier = CLERIC_T0, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = (CLERIC_REQ_1 - 10))
 
 	if(!(ispath(new_patron, /datum/patron/divine) && istype(old_patron, /datum/patron/divine))) // sigh.
 		// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording

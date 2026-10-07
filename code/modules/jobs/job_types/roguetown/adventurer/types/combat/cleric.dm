@@ -326,23 +326,38 @@
 			if("Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut
-		var/oaths = list("Cleric - Medicine Training + Supplies","Crusader - Unique Longsword + Surcoat","None")
+		var/oaths = list("Cleric - Medicine Training + Supplies","Crusader - Anointed Weapon","None")
 		var/oath_choice = input(H, "Choose your OATH.", "PROFESS YOUR BLESSINGS.") as anything in oaths
 		switch(oath_choice)
 			if("Cleric - Medicine Training + Supplies")
 				H.adjust_skillrank_up_to(/datum/skill/misc/medicine, SKILL_LEVEL_APPRENTICE, TRUE)
 				l_hand = /obj/item/needle/thorn/cleric //Unique to the Cleric. Far worse than a traditional iron needle, but better than a regular thorn needle - with 10 uses, instead of 5 (or 20, in the former's case).
 				beltl = /obj/item/reagent_containers/glass/bottle/rogue/healthpot //No cloth, but a basic potion of lifeblood - similar to the Sorcerer's manna potion. Take the 'Physician's Apprentice' virtue for that, uncapped skills, and more.
-			if("Crusader - Unique Longsword + Surcoat")
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				beltl = /obj/item/rogueweapon/sword/long/cleric //Essentially, a silver longsword without the ability to sunder antagonists. Works like unblessed silver on npcs
-				switch(H.patron?.type)
-					if(/datum/patron/old_god)
-						l_hand = /obj/item/clothing/cloak/tabard/stabard/crusader/t
-					if(/datum/patron/divine/astrata)
-						l_hand = /obj/item/clothing/cloak/tabard/stabard/crusader/t/astrata
-					else
-						l_hand = /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
+			if("Crusader - Anointed Weapon")
+				var/silver = list("Anointed Dagger","Anointed Longsword","Anointed Mace","Anointed Morningstar","Anointed Whip","Anointed War Axe","Anointed Spear")
+				var/silver_choice = input(H, "Choose your ARM.", "STAND AGAINST PERDITION.") as anything in silver //Trimmed down from the exorcist's usual list, only one option of each weapon-type.
+				switch(silver_choice)
+					if("Anointed Dagger")
+						H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
+						l_hand = /obj/item/rogueweapon/huntingknife/idagger/cleric
+					if("Anointed Longsword")
+						H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
+						l_hand = /obj/item/rogueweapon/sword/long/cleric
+					if("Anointed Mace")
+						H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_JOURNEYMAN, TRUE)
+						l_hand = /obj/item/rogueweapon/mace/cleric
+					if("Anointed Morningstar")
+						H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+						l_hand = /obj/item/rogueweapon/flail/cleric
+					if("Anointed Whip")
+						H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_JOURNEYMAN, TRUE)
+						l_hand = /obj/item/rogueweapon/whip/cleric
+					if("Anointed War Axe")
+						H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+						l_hand = /obj/item/rogueweapon/stoneaxe/woodcut/cleric
+					if("Anointed Spear")
+						H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+						l_hand = /obj/item/rogueweapon/spear/cleric
 			if("None")
 				id = /obj/item/clothing/ring/silver/cleric //Minor restoration of the old silver ring that Clerics could get. Worth less than the other two alternatives, but offers a choice for those who want to remain unspecialized.
 

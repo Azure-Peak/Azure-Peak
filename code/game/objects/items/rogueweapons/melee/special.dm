@@ -122,6 +122,10 @@
 			if(H == HU)
 				return
 
+			if(H.mind.has_antag_datum(/datum/antagonist/vampire/lord) || H.mind.has_antag_datum(/datum/antagonist/lich) || H.mind.has_antag_datum(/datum/antagonist/dreamwalker)) //(prevents exploits w/ the rod like muting a lich/dreamwalker or shocking a pre-ascension VL)
+				to_chat(user, span_danger("[H] doesn't seem remotely suspectable to the rod's influence!"))
+				return
+
 			if(!COOLDOWN_FINISHED(src, scepter))
 				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, scepter) / 10, 1)] seconds left!"))
 				return

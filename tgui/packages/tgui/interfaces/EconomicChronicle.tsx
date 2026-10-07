@@ -67,6 +67,12 @@ export const EconomicChronicle = () => {
               >
                 Materials
               </div>
+              <div
+                style={tabStyle(tab === 'contracts')}
+                onClick={() => setTab('contracts')}
+              >
+                Contracts
+              </div>
             </div>
 
             {tab === 'realm' && (
@@ -77,7 +83,6 @@ export const EconomicChronicle = () => {
                 />
                 <EconomySection e={data.economy} />
                 <CrownExpensesSection c={data.crown_expenses} />
-                <ContractsSection c={data.contracts} rf={data.royal_favors} />
               </>
             )}
             {tab === 'trade' && (
@@ -88,6 +93,9 @@ export const EconomicChronicle = () => {
               </>
             )}
             {tab === 'materials' && <MaterialsSection m={data.materials} />}
+            {tab === 'contracts' && (
+              <ContractsSection c={data.contracts} rf={data.royal_favors} />
+            )}
           </div>
         </div>
       </Window.Content>

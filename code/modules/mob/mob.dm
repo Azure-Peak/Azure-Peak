@@ -1378,3 +1378,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 /mob/proc/get_stats_tab_items()
 	return list()
+
+/mob/proc/check_equipment_mood_penalty()
+	return

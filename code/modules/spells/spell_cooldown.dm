@@ -899,6 +899,12 @@
 	if(!(precast_result & SPELL_NO_FEEDBACK))
 		spell_feedback(owner)
 
+	if(isliving(owner))
+		var/mob/living/L = owner
+		// Special case: if this is a miracle, and we're a heretic, we flag the target with a higher index false-positive chance
+		if((primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && istype(L.patron, /datum/patron/inhumen))
+			ADD_TRAIT(target, TRAIT_ASCENDENT_MIRACLED, TRAIT_GENERIC)
+
 	if(!(precast_result & SPELL_NO_IMMEDIATE_COOLDOWN))
 		// The entire spell is done, start the actual cooldown at its adjusted duration
 		StartCooldown(get_adjusted_cooldown())
