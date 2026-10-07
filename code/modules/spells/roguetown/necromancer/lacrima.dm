@@ -121,6 +121,8 @@
 	record_round_statistic(STATS_LUX_HARVESTED)
 	record_round_statistic(STATS_TORTURES)
 	target.apply_status_effect(/datum/status_effect/debuff/devitalised)
+	if(!target.mind)
+		target.death()
 
 /datum/stressevent/torn_lux
 	desc = span_boldred("THE ESSENCE OF MY LYFE HAS BEEN RIPPED FROM ME!!")

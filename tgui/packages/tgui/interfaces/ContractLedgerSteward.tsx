@@ -41,6 +41,10 @@ type StewardData = {
   is_alderman_acting: number | boolean;
   defense_issued: IssuedContract[];
   issuer_cancel_window_minutes: number;
+  hoard_recovery_fellowship_min: number;
+  blockade_defender_min: number;
+  blockade_defender_max: number;
+  blockade_extra_defender_pct: number;
 };
 
 type FundingSource = 'pledge' | 'crown' | 'directive';
@@ -66,9 +70,9 @@ const regionRewardFlavor = (
   if (typeof mult !== 'number' || mult === 1) return null;
   if (mult > 1) {
     const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
-    return `${regionName} is a ${descriptor} region - contracts from that region tend to be ${formatRatioPct(mult - 1)} more lucrative.`;
+    return `${regionName} is a ${descriptor} region. Contracts from it tend to pay ${formatRatioPct(mult - 1)} more.`;
   }
-  return `${regionName} is a settled region - contracts from that region tend to be ${formatRatioPct(1 - mult)} less lucrative.`;
+  return `${regionName} is a settled region. Contracts from it tend to pay ${formatRatioPct(1 - mult)} less.`;
 };
 
 const FormRow = (props: { label: string; children: ReactNode }) => (
@@ -169,7 +173,7 @@ const HistoryView = (props: { log: DefenseLogEntry[] }) => {
   if (!props.log.length) {
     return (
       <div className="ContractLedger__InnkeeperEmpty">
-        No commissions have been drawn against the Pledge this week.
+        No contracts have been paid from the Pledge this week.
       </div>
     );
   }
@@ -225,7 +229,7 @@ const LevyStampRow = (props: {
       }
       title={
         props.aldermanActing
-          ? "The Alderman cannot waive the Crown's tax."
+          ? "As Alderman, you can't waive the levy."
           : undefined
       }
     >
@@ -314,19 +318,19 @@ const ComposeView = () => {
 
   const fundingDisabledReason =
     funding === 'pledge' && data.pledge_balance < scaledCost && !topupActive
-      ? `Insufficient Pledge (need ${coin(scaledCost)}, have ${coin(data.pledge_balance)}).`
+      ? `Not enough Burgher Pledge (need ${coin(scaledCost)}, have ${coin(data.pledge_balance)}).`
       : topupActive && data.crown_purse_balance < pledgeShortfall
-        ? `Insufficient Crown's Purse to cover the shortfall (need ${coin(pledgeShortfall)}, have ${coin(data.crown_purse_balance)}).`
+        ? `The Treasury can't cover the shortfall (need ${coin(pledgeShortfall)}, have ${coin(data.crown_purse_balance)}).`
         : funding === 'crown' && data.crown_purse_balance < scaledCost
-        ? `Insufficient Crown's Purse (need ${coin(scaledCost)}, have ${coin(data.crown_purse_balance)}).`
+        ? `The Treasury can't afford this (need ${coin(scaledCost)}, have ${coin(data.crown_purse_balance)}).`
         : funding === 'directive' && directivesRemaining <= 0
-          ? "Today's directive quota is spent."
+          ? "You've used all of today's Requests."
           : undefined;
 
   const disabledReason = inflight
     ? 'Drafting...'
     : !type
-      ? 'Pick a commission type.'
+      ? 'Pick a contract type.'
       : !region
         ? isBlockade
           ? 'No blockade to clear.'
@@ -334,7 +338,7 @@ const ComposeView = () => {
             ? 'No hoard is large enough.'
             : 'Pick a region.'
         : isWrit && regionHasActiveWrit
-          ? 'A writ is already in circulation for this region.'
+          ? 'A scroll is already in circulation for this region.'
           : needsDestination && !destination
             ? 'Pick the shipment destination.'
             : fundingDisabledReason;
@@ -365,7 +369,7 @@ const ComposeView = () => {
         Commission adventurers against the Realm's enemies.
       </div>
 
-      <FormRow label="Commission Type">
+      <FormRow label="Contract Type">
         <select
           className="ContractLedger__InnkeeperSelect"
           value={type}
@@ -475,7 +479,7 @@ const ComposeView = () => {
             }
             title={
               aldermanActing
-                ? "The Alderman commissions only against the Commons' Pledge."
+                ? "As Alderman, you can't pay from the Treasury."
                 : undefined
             }
           >
@@ -486,7 +490,7 @@ const ComposeView = () => {
               disabled={aldermanActing}
               onChange={() => setFunding('crown')}
             />
-            &nbsp;Crown's Purse ({coin(data.crown_purse_balance)})
+            &nbsp;Treasury ({coin(data.crown_purse_balance)})
           </label>
           <label
             style={
@@ -496,7 +500,7 @@ const ComposeView = () => {
             }
             title={
               aldermanActing
-                ? 'Requests are the Steward&apos;s prerogative, not the Alderman&apos;s.'
+                ? "As Alderman, you can't issue Requests."
                 : undefined
             }
           >
@@ -522,16 +526,16 @@ const ComposeView = () => {
               onChange={(e) => setCrownTopup(e.target.checked)}
             />
             &nbsp;Cover the {coin(pledgeShortfall)} shortfall from the
-            Crown&apos;s Purse ({coin(data.crown_purse_balance)})
+            Treasury ({coin(data.crown_purse_balance)})
           </label>
         </FormRow>
       )}
 
       {funding === 'directive' && (
         <div className="ContractLedger__InnkeeperFlavor">
-          A Request calls upon someone to answer out of duty. No coin changes
-          hands; the scroll is drawn to your hand and must be given directly to
-          whoever will honour it.
+          A Request asks someone to do the work out of duty. No coin changes
+          hands. The scroll goes to your hand for you to give to whoever will take
+          it on.
         </div>
       )}
 
@@ -567,7 +571,7 @@ const ComposeView = () => {
               value="board"
               selected={mode}
               onChange={setMode}
-              label="Post on public board"
+              label="Post on the Ledger"
             />
             <ModeRadio
               value="hands"
@@ -588,29 +592,30 @@ const ComposeView = () => {
       )}
       {isBlockade && funding !== 'directive' && (
         <div className="ContractLedger__InnkeeperFlavor">
-          Blockade writs are always drawn to your hand. Pin to the Grand
-          Contract Ledger to require a Fellowship of three; keep in hand to
-          dispatch a trusted party directly. Each defender past the third who
-          stands at the blockade, up to six, raises both the waves and the
-          payout by 20%.
+          Blockade scrolls always go to your hand. Pin one to the Ledger and it
+          needs a fellowship of {data.hoard_recovery_fellowship_min} to sign.
+          You can also give it to a fellowship you trust. Each defender at the
+          blockade beyond the first {data.blockade_defender_min} adds{' '}
+          {data.blockade_extra_defender_pct}% to both the waves and the payout.
+          This counts up to {data.blockade_defender_max} defenders.
         </div>
       )}
 
       {isHoardRecovery && funding !== 'directive' && (
         // TODO: flavor - plain placeholder, rewrite
         <div className="ContractLedger__InnkeeperFlavor">
-          Hoard recovery writs are always drawn to your hand and work like
-          blockade writs: pin to the Grand Contract Ledger to require a
-          Fellowship of three, or hand to a trusted party directly. On top of
-          the standard blockade reward, the bearer seizes the region&apos;s
-          banditry hoard, taxed as Recovered Spoils. No trade route is blocked
-          by the writ.
+          Hoard recovery scrolls always go to your hand and work like blockade
+          scrolls: pin one to the Ledger and it needs a fellowship of{' '}
+          {data.hoard_recovery_fellowship_min} to sign. You can also give it to
+          a fellowship you trust. On top of the usual blockade reward, the
+          holder seizes the region&apos;s brigand hoard. The hoard is taxed as
+          Recovered Spoils. The scroll doesn&apos;t block any trade route.
         </div>
       )}
 
       {regionHasActiveWrit && (
         <div className="ContractLedger__InnkeeperFlavor">
-          A writ is already in circulation for {region}. It can be withdrawn
+          A scroll is already in circulation for {region}. It can be withdrawn
           from the Issued tab.
         </div>
       )}
@@ -626,7 +631,7 @@ const ComposeView = () => {
           {funding === 'directive'
             ? 'Submit Request'
             : isWrit
-              ? `Print Writ (${costLabel})`
+              ? `Print Scroll (${costLabel})`
               : `Commission (${costLabel})`}
         </button>
       </div>
@@ -668,7 +673,7 @@ export const StewardDefensePanel = () => {
             className="ContractLedger__InnkeeperBalanceFormula"
             style={{ color: '#c84' }}
           >
-            Golden Bull suspended - the Pledge does not refill.
+            The Golden Bull is suspended. The Pledge won&apos;t refill.
           </div>
         )}
       </div>
@@ -685,7 +690,7 @@ export const StewardDefensePanel = () => {
         <IssuedContractsView
           entries={data.defense_issued || []}
           windowMinutes={data.issuer_cancel_window_minutes}
-          emptyText="No commissions are in circulation."
+          emptyText="No contracts are in circulation."
         />
       )}
       {subTab === 'history' && <HistoryView log={data.defense_log || []} />}

@@ -1,5 +1,0 @@
-author: "borneblood"
-delete-after: True
-changes:
-  - balance: "Replaces Mammonite's instakill mechanic with a chunky amount of fire stacks."
-  - bugfix: "Mammonite's armor penetration was set wrong."

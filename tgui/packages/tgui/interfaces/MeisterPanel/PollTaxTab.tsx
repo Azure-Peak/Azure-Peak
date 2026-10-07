@@ -30,11 +30,11 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
 
   let rateLine = `${tax.rate}m per day`;
   if (tax.exempt) {
-    rateLine = 'Exempt by decree';
+    rateLine = 'Exempt by Charter';
   } else if (tax.rate < 0) {
-    rateLine = `Crown subsidises ${-tax.rate}m per day`;
+    rateLine = `The Crown pays you ${-tax.rate}m per day`;
   } else if (tax.rate === 0) {
-    rateLine = `None levied (advance at presumed ${taxStatic.fallback_rate}m/day)`;
+    rateLine = `None (paying ahead costs ${taxStatic.fallback_rate}m per day)`;
   }
 
   const advanceBlocked =
@@ -70,7 +70,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
 
       {!!tax.exempt && (
         <div style={{ color: INK_SOFT, marginTop: 8 }}>
-          You owe nothing. There is nothing to advance.
+          You owe no poll tax. There is nothing to pay ahead.
         </div>
       )}
 
@@ -104,7 +104,7 @@ export const PollTaxTab = ({ data, act }: TabProps) => {
                 setDays('');
               }}
             >
-              Pay Forward
+              Pay Ahead
             </button>
           </div>
         </>

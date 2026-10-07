@@ -53,7 +53,7 @@ export const FundView = ({
       )}
       {!!view_only && (
         <div style={{ color: INK_FAINT, marginTop: 8 }}>
-          {"You may view this institution's coffers, but not act upon them."}
+          {"You can see this fund. You can't use it."}
         </div>
       )}
       <FundActivity fund={fund} data={data} />

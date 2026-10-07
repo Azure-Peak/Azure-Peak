@@ -1,6 +1,0 @@
-author: "string-thing"
-delete-after: True
-changes:
-  - rscadd: "deprived gets the option to spawn with the Broken Sword instead of the club"
-  - rscadd: "deprived gets the hardsoles trait"
-  - rscdel: "removes the warrior voicepack from deprived"

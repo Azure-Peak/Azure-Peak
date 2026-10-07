@@ -113,10 +113,10 @@
 	var/datum/quest_faction/F = B.get_faction()
 	if(!ER || !F)
 		return
-	scom_announce("<font color='#c44'>BLOCKADE: The trade road to [ER.name] is cut — a [F.group_word] of [F.name_plural] has fallen upon it. The Crown awaits a defense commission.</font>")
+	scom_announce("<font color='#c44'>BLOCKADE: A [F.group_word] of [F.name_plural] has cut the trade road to [ER.name].</font>")
 
 /datum/controller/subsystem/economy/proc/announce_blockade_cleared(datum/blockade/B)
 	var/datum/economic_region/ER = B.get_region()
 	if(!ER)
 		return
-	scom_announce("<font color='#5cb85c'>The road to [ER.name] is open once more — the blockade has been broken.</font>")
+	scom_announce("<font color='#5cb85c'>The blockade on the road to [ER.name] has been broken.</font>")

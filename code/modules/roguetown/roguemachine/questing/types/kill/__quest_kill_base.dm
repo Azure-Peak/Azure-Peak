@@ -22,15 +22,15 @@
 	if(!TR)
 		return
 	TR.reduce_latent_ambush(threat_bands_cleared * THREAT_POINTS_PER_BAND)
-	announce_to_bearer("<b>The road breathes easier.</b> This contract has driven [threat_bands_cleared] band(s) of threat from the region.")
+	announce_to_bearer("<b>The road is safer.</b> This contract drove [threat_bands_cleared] band(s) of threat out of the region.")
 
 /datum/quest/kill/on_first_pop()
 	if(hunt_timer_id || complete)
 		return
 	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_TIMER, TIMER_STOPPABLE)
-	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "two minutes"), QUEST_KILL_HUNT_WARN_2M, TIMER_STOPPABLE)
-	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "thirty seconds"), QUEST_KILL_HUNT_WARN_30S, TIMER_STOPPABLE)
-	announce_to_bearer("<b>The quarry stirs.</b> Finish the work within twenty minutes, or they will scatter and the writ will lapse.")
+	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_2M)]"), QUEST_KILL_HUNT_WARN_2M, TIMER_STOPPABLE)
+	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_30S)]"), QUEST_KILL_HUNT_WARN_30S, TIMER_STOPPABLE)
+	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(QUEST_KILL_HUNT_TIMER)] to kill them before they scatter and the contract lapses.")
 
 /datum/quest/kill/proc/clear_hunt_timers()
 	if(hunt_timer_id)
@@ -46,14 +46,15 @@
 /datum/quest/kill/proc/warn_hunt_time_left(label)
 	if(complete || !hunt_timer_id)
 		return
-	announce_to_bearer("<b>[label] remain</b> before the quarry slips away.")
+	announce_to_bearer("<b>[label] left</b> before your targets scatter.")
 
 /datum/quest/kill/proc/on_hunt_timeout()
 	if(complete)
 		return
 	hunt_timer_id = null
 	failed = TRUE
-	announce_to_bearer("<b>The quarry has slipped away.</b> The writ smolders and crumbles in your grip.")
+	record_contract_stat(src, CONTRACT_STAT_FAILED)
+	announce_to_bearer("<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand.")
 	despawn_live_hunt_mobs()
 	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))

@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Grasp now only work on your own summoned minions and fellowship members, instead of every other player in the game due to an erroneous check for having the same faction (Which all players happens to share)"

@@ -37,7 +37,10 @@ GLOBAL_LIST_EMPTY(brewing_recipe_by_reagent)
 	var/dock_expires_at = 0
 	var/dock_expiry_timer_id
 	var/favor_earned = 0
+	var/favor_banked = 0
 	var/auto_hailed = FALSE
+	var/hail_refunded = FALSE
+	var/departure_auto = TRUE
 	var/list/bulk_demands = list()
 	var/list/bulk_supplies = list()
 	var/list/cultural_stock = list()
@@ -222,7 +225,7 @@ GLOBAL_LIST_EMPTY(brewing_recipe_by_reagent)
 	return ..()
 
 /datum/trade_ship/proc/dock()
-	if(dock_state == TRADE_SHIP_STATE_DOCKED)
+	if(dock_state != TRADE_SHIP_STATE_AVAILABLE)
 		return FALSE
 	dock_state = TRADE_SHIP_STATE_DOCKED
 	docked_at = world.time
@@ -233,8 +236,31 @@ GLOBAL_LIST_EMPTY(brewing_recipe_by_reagent)
 		SSmerchant_trade.add_ship_demand_for_realm(realm)
 	return TRUE
 
+/datum/trade_ship/proc/accepts_deliveries()
+	return dock_state == TRADE_SHIP_STATE_DOCKED || dock_state == TRADE_SHIP_STATE_DEPARTING
+
+/datum/trade_ship/proc/is_honored()
+	return expected_favor > 0 && favor_earned >= expected_favor
+
+/datum/trade_ship/proc/add_favor(amt)
+	favor_earned += amt
+	SSmerchant_trade?.bank_ship_favor(src)
+
+/datum/trade_ship/proc/has_open_demand()
+	for(var/list/line in bulk_demands)
+		if(line["qty_fulfilled"] < line["qty_target"])
+			return TRUE
+	return FALSE
+
+/datum/trade_ship/proc/depart_if_filled()
+	if(dock_state != TRADE_SHIP_STATE_DEPARTING || has_open_demand())
+		return
+	if(dock_expiry_timer_id)
+		deltimer(dock_expiry_timer_id)
+	dock_expiry_timer_id = addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(trade_ship_expire_dock), src), 1, TIMER_STOPPABLE)
+
 /proc/trade_ship_expire_dock(datum/trade_ship/ship)
-	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+	if(!ship || !ship.accepts_deliveries())
 		return
 	if(SSmerchant_trade)
 		SSmerchant_trade.auto_dismiss_ship(ship)

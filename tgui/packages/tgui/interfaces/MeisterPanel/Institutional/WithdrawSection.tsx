@@ -67,7 +67,7 @@ export const WithdrawSection = ({
             setAmount('');
           }}
         >
-          Draw Coin
+          Withdraw
         </button>
       </div>
     </>

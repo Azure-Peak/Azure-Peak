@@ -231,9 +231,9 @@ SUBSYSTEM_DEF(gamemode)
 	/// Whether the player gamemode vote is allowed to fire at the +120s mark. When No, the round is admin-
 	/// controlled (the admin sandbox, unless a specific preset was force-picked) and the slot overrides apply.
 	var/allow_vote = TRUE
-	/// When TRUE, the pool whose preset ran last round is left off the next gamemode vote. Disabled while the
-	/// overdue vote multiplier is being trialled, since it handles rotation between presets instead.
-	var/exclude_previous_pool = FALSE
+	/// When TRUE, the pool whose preset ran last round is left off the next gamemode vote. Runs alongside the
+	/// overdue vote multipliers.
+	var/exclude_previous_pool = TRUE
 	/// TRUE when an admin explicitly Force-Picked a preset. Stops the admin controls from swapping to the sandbox.
 	var/forced_preset = FALSE
 	/// Whether soft antags (wretch/gnoll/assassin) scale with population under admin fine-tuning.
@@ -1873,8 +1873,13 @@ SUBSYSTEM_DEF(gamemode)
 					message_admins("[key_name_admin(usr)] has [halted_storyteller ? "HALTED" : "un-halted"] the Storyteller.")
 				if("toggle_dnr_round")
 					dnr_round = !dnr_round
-					message_admins("[key_name_admin(usr)] has turned the DNR round type [dnr_round ? "ON" : "OFF"]. All spawning players will [dnr_round ? "" : "no longer "]receive TRAIT_DNR.")
+					message_admins("[key_name_admin(usr)] has turned the DNR round type [dnr_round ? "ON" : "OFF"]. All spawning players will [dnr_round ? "" : "no longer "]receive TRAIT_DNR, and it has been [dnr_round ? "added to" : "removed from"] everyone currently playing.")
 					log_admin("[key_name(usr)] set DNR round = [dnr_round ? "ON" : "OFF"].")
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(dnr_round)
+							ADD_TRAIT(H, TRAIT_DNR, MERCILESS_ROUND)
+						else
+							REMOVE_TRAIT(H, TRAIT_DNR, MERCILESS_ROUND)
 					if(dnr_round)
 						to_world(span_boldannounce("This round is <b>MERCILESS</b>. All who walk these lands carry the burden of a final death."))
 					else

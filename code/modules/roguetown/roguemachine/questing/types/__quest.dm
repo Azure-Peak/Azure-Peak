@@ -18,6 +18,7 @@
 	var/progress_required = 1
 
 	var/obj/item/target_item_type
+	var/target_item_plural
 	var/obj/item/target_delivery_item
 	var/mob/living/target_mob_type
 	var/area/rogue/indoors/town/target_delivery_location
@@ -53,6 +54,12 @@
 	var/engaged = FALSE
 	var/datum/fund/deposit_payer
 	var/deposit_paid = 0
+	var/posted_at = 0
+	var/signer_group
+
+/datum/quest/New()
+	. = ..()
+	posted_at = world.time
 
 /datum/quest/proc/get_lapse_time()
 	var/window = (source == QUEST_SOURCE_POOL) ? QUEST_POOL_STALE_THRESHOLD : QUEST_PLAYER_STALE_THRESHOLD
@@ -268,15 +275,32 @@
 	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
 		if(!F)
-			return "This contract requires a Fellowship of [required_fellowship_size]."
+			return "This contract needs a fellowship of [required_fellowship_size]."
 		if(length(F.get_members()) < required_fellowship_size)
-			return "Your Fellowship is too small - requires [required_fellowship_size] members."
+			return "Your fellowship is too small. It needs [required_fellowship_size] members."
 	return "You cannot sign that contract."
 
 /datum/quest/proc/on_claim(mob/user)
 	quest_receiver_reference = WEAKREF(user)
 	quest_receiver_name = user.real_name
 	last_claimed_at = world.time
+	signer_group = contract_signer_group(user)
+	record_contract_stat(src, CONTRACT_STAT_TAKEN)
+	record_contract_stat(src, CONTRACT_STAT_WAIT_DS, max(0, world.time - posted_at))
+	record_contract_signer(src, user.ckey)
+
+/datum/quest/proc/get_party_size()
+	var/mob/living/bearer = quest_receiver_reference?.resolve()
+	if(!istype(bearer) || !bearer.current_fellowship)
+		return 1
+	return max(1, length(bearer.current_fellowship.get_members()))
+
+/datum/quest/proc/record_completion_stats(paid)
+	record_contract_stat(src, CONTRACT_STAT_COMPLETED)
+	record_contract_stat(src, CONTRACT_STAT_RUN_DS, max(0, world.time - last_claimed_at))
+	record_contract_stat(src, CONTRACT_STAT_PARTY, get_party_size())
+	if(paid > 0)
+		record_contract_stat(src, CONTRACT_STAT_PAID, paid)
 
 /datum/quest/proc/has_started()
 	if(complete || engaged || progress_current > 0)
@@ -298,7 +322,7 @@
 		return null
 	var/remaining = last_claimed_at + QUEST_ISSUER_CANCEL_WINDOW - world.time
 	if(remaining > 0)
-		return "its bearer has [max(1, round(remaining / (1 MINUTES)))] more minute(s) before it can be withdrawn"
+		return "its holder has [max(1, round(remaining / (1 MINUTES)))] more minute(s) before it can be withdrawn"
 	return null
 
 /datum/quest/proc/add_funding(datum/fund/fund, amount, datum/fund/escrow)

@@ -237,6 +237,7 @@ third; SUNSET, little neat ability. it may be buggy. don't quote me on that. it 
 	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
 	penfactor = PEN_MEDIUM
 	swingdelay = 1 SECONDS
+	clickcd = 1.2 SECONDS
 	swingdelay_type = SWINGDELAY_CANCEL
 	damfactor = 1.5 //bites you bites you bites yo
 	clickcd = CLICK_CD_MASSIVE

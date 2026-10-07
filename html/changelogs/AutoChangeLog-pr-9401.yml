@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Inq/church folks no longer get notified twice that someone's their ally when examining them."

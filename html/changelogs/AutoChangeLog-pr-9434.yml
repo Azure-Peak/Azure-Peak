@@ -1,0 +1,4 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "Kaskaras, Ngmobes, and other reskins should no longer print an error icon when wielded (in cases where it's been specifically applied to Arming Swords)."

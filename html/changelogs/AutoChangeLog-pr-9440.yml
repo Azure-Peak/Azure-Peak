@@ -1,0 +1,5 @@
+author: "Dorodomki"
+delete-after: True
+changes:
+  - rscadd: "Added a new belt with loincloth"
+  - bugfix: "fixed a donator item costing triumphs\n:cl:"

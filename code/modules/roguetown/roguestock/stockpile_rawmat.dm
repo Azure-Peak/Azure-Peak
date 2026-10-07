@@ -27,7 +27,7 @@
 
 /datum/roguestock/stockpile/clay
 	name = "Clay"
-	desc = "Damp clay dug from bog sediment, ready to be shaped or fired."
+	desc = "Damp clay dug from bog sediment. It is ready to shape or fire."
 	item_type = /obj/item/natural/clay
 	trade_good_id = TRADE_GOOD_CLAY
 	stockpile_amount = 10

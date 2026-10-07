@@ -49,7 +49,7 @@ export const SequesteredOverlay = (props: {
             color: SEAL_RED,
           }}
         >
-          {props.label} held by the Azurian Trading Company
+          {props.label} held by the ATC
         </div>
       </div>
     </div>

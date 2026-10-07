@@ -340,6 +340,7 @@
 	update_a_intents()
 	SEND_SIGNAL(I, COMSIG_ITEM_POST_UNEQUIP, force, newloc, no_move, invdrop, silent)
 	SEND_SIGNAL(src, COMSIG_MOB_UNEQUIPPED_ITEM, I, force, newloc, no_move, invdrop, silent)
+	check_equipment_mood_penalty()
 	return TRUE
 
 //Outdated but still in use apparently. This should at least be a human proc.
@@ -408,6 +409,13 @@
 	items |= get_equipped_items(TRUE)
 	for(var/I in items)
 		dropItemToGround(I)
+	drop_all_held_items()
+
+/mob/living/proc/unequip_everything_delete()
+	var/list/items = list()
+	items |= get_equipped_items(TRUE)
+	for(var/I in items) //we delete it
+		qdel(I)
 	drop_all_held_items()
 
 

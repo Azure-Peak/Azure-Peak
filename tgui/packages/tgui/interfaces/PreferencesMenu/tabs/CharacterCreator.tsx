@@ -218,31 +218,31 @@ const Sidebar = () => {
                         link={headshot_link}
                       />
                     </Stack.Item>
-                    <Stack.Item>
-                      <p>Headshot artist credit: </p>
-                      <Button
-                        ellipsis
-                        fluid
-                        tooltip="Artist credit for your headshot; generally, a name or username."
-                        onClick={() => act('headshot_artist_credit')}
-                      >
-                        {headshot_artist_credit || 'None'}
-                      </Button>
-                    </Stack.Item>
-                    <Stack.Item>
-                      <p>Headshot artist link: </p>
-                      <Button
-                        ellipsis
-                        fluid
-                        tooltip="Artist link for your headshot: website, portfolio, donation page, etc."
-                        onClick={() => act('headshot_artist_link')}
-                      >
-                        {headshot_artist_link || 'None'}
-                      </Button>
-                    </Stack.Item>
                   </Stack>
                 </Stack.Item>
               </Stack>
+            </Stack.Item>
+            <Stack.Item>
+              <p style={{margin:0, border:0, padding: 0}}>Headshot artist credit: </p>
+              <Button
+                ellipsis
+                fluid
+                tooltip="Artist credit for your headshot; generally, a name or username."
+                onClick={() => act('headshot_artist_credit')}
+              >
+                {headshot_artist_credit || 'None'}
+              </Button>
+            </Stack.Item>
+            <Stack.Item>
+              <p style={{margin:0, border:0, padding: 0}}>Headshot artist link: </p>
+              <Button
+                ellipsis
+                fluid
+                tooltip="Artist link for your headshot: website, portfolio, donation page, etc."
+                onClick={() => act('headshot_artist_link')}
+              >
+                {headshot_artist_link || 'None'}
+              </Button>
             </Stack.Item>
             {hide_pq ? null : (
               <Stack.Item>

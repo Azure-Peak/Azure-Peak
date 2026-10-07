@@ -47,6 +47,7 @@ dreaming. Still have to go to sleep to learn skills. Also gives healing tickrate
 		if(first_clean) //Cleaning them on first loop through
 			wash_atom(src, CLEAN_STRONG)
 			src.remove_stress(/datum/stressevent/sewertouched)
+			src.remove_stress(/datum/stressevent/unlanded_noble_bloody_equipment)
 			src.visible_message(span_info("[src] washes off the grime."), span_info("The warm water cleanses me."))
 			first_clean = FALSE
 

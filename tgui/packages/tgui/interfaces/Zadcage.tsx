@@ -86,7 +86,7 @@ export const Zadcage = () => {
           <div style={subtitleStyle}>
             {data.bonded
               ? `${data.cote_name} - Slot ${data.slot_index}: ${data.slot_label}`
-              : 'Unbonded - strike against a zadcote to bond.'}
+              : 'Not bonded. Strike this cage against a zadcote to bond it.'}
           </div>
           <hr style={rulerStyle} />
           {!!data.severed && (
@@ -182,7 +182,7 @@ const SummonPanel = () => {
             {zads === 1
               ? '1 zad: tiny or small return parcel.'
               : zads === 2
-                ? '2 zads: pouch, helmet, or normal-sized return.'
+                ? '2 zads: pouch, helmet, or a return of normal size.'
                 : '3 zads: bulky return parcel or large container.'}
           </div>
         </div>
@@ -281,8 +281,8 @@ const OccupancyPanel = () => {
           <div
             style={{ color: SEAL_RED, fontSize: FONT_BODY, marginTop: '4px' }}
           >
-            Auto-depart imminent. Auto-depart will NOT carry your reply or
-            package.
+            The zad is about to leave on its own. If it does, it won't carry
+            your reply or package.
           </div>
         )}
       </div>
@@ -315,14 +315,14 @@ const OccupancyPanel = () => {
         {capacity === 1
           ? ' This return can carry a tiny or small item.'
           : capacity === 2
-            ? ' This return can carry up to a normal-sized item (helmet, pouch).'
+            ? ' This return can carry one item up to normal size (helmet, pouch).'
             : ' This return can carry a bulky parcel or large container.'}
       </div>
       {data.payload_in_hand.length === 0 ? (
         <div
           style={{ color: INK_FAINT, fontStyle: 'italic', fontSize: FONT_BODY }}
         >
-          Empty-handed - hold something to offer it as the return parcel.
+          Your hands are empty. Hold something to send it as the return parcel.
         </div>
       ) : (
         <div>
