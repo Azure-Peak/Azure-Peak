@@ -7666,7 +7666,6 @@
 	lockid = "nightmaiden";
 	name = "Storage Closet"
 	},
-/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "brS" = (
@@ -11832,16 +11831,6 @@
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/basement)
-"cel" = (
-/obj/structure/mineral_door/wood/bath/courtesan{
-	name = "Courtesan"
-	},
-/obj/structure/curtain/magenta,
-/obj/structure/stairs/stone,
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
-/area/rogue/indoors/town/bath)
 "ceo" = (
 /obj/structure/fluff/pillow/magenta{
 	dir = 8
@@ -16064,7 +16053,6 @@
 	},
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "cOP" = (
-/obj/structure/curtain/magenta,
 /obj/structure/mineral_door/wood/bath/courtesan{
 	name = "Courtesan"
 	},
@@ -16398,7 +16386,6 @@
 /area/rogue/under/cave/his_vault/puzzle)
 "cSb" = (
 /obj/structure/mineral_door/wood/bath/bathmaid,
-/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "cSc" = (
@@ -16586,7 +16573,6 @@
 	lockid = "nightmaiden";
 	name = "Employee Quarters"
 	},
-/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/bath)
 "cTT" = (
@@ -42126,7 +42112,6 @@
 	lockid = "lux2";
 	name = "Suite II - Dendor's Paradise"
 	},
-/obj/structure/curtain/green,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/bath)
 "hon" = (
@@ -49192,7 +49177,6 @@
 	lockid = "nightmaiden";
 	name = "Staff Only"
 	},
-/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "iyD" = (
@@ -54444,7 +54428,6 @@
 	lockid = "lux3";
 	name = "Suite III  - Velvet Haven"
 	},
-/obj/structure/curtain/magenta,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/bath)
 "jub" = (
@@ -63380,7 +63363,6 @@
 /area/rogue/outdoors/exposed/magiciantower)
 "kST" = (
 /obj/structure/stairs/stone,
-/obj/structure/curtain/magenta,
 /obj/structure/mineral_door/wood/red{
 	locked = 1;
 	lockid = "nightmaiden";
@@ -64971,7 +64953,6 @@
 	name = "Suite I - Royal Palace";
 	dir = 8
 	},
-/obj/structure/curtain/magenta,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/bath)
 "lgC" = (
@@ -100500,7 +100481,6 @@
 	lockid = "tavern";
 	name = "Tavern Cellar"
 	},
-/obj/structure/curtain/magenta,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/basement)
 "rdm" = (
@@ -137869,7 +137849,6 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/exposed/town/keep)
 "xwO" = (
-/obj/structure/curtain/magenta,
 /obj/structure/mineral_door/wood/donjon{
 	locked = 1;
 	lockid = "lux4";
@@ -157528,7 +157507,7 @@ hpe
 dXj
 rmA
 rmA
-cel
+cOP
 vHZ
 vHZ
 nWj
