@@ -2511,6 +2511,7 @@
 #include "code\modules\mob\living\mob_pickup.dm"
 #include "code\modules\mob\living\overhead_effects.dm"
 #include "code\modules\mob\living\rolecheck.dm"
+#include "code\modules\mob\living\roll_emotes.dm"
 #include "code\modules\mob\living\say.dm"
 #include "code\modules\mob\living\ssd_indicator.dm"
 #include "code\modules\mob\living\stats.dm"
