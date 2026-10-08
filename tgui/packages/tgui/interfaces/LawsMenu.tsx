@@ -18,7 +18,7 @@ type Data = {
 
 export const LawsMenu = () => {
   return (
-    <Window width={560} height={640}>
+    <Window width={640} height={720}>
       <Window.Content>
         <LawsDisplay />
       </Window.Content>
@@ -112,9 +112,133 @@ const PurgeButton = (props: { onPurge: () => void; lawCount: number }) => {
   );
 };
 
+/** Serializes the drafted laws into the import/export text format. */
+const exportLaws = (laws: string[]): string =>
+  JSON.stringify(
+    laws.filter((law) => law.trim().length > 0).map((l) => l.trim()),
+  );
+
+/**
+ * Parses import text. Accepts {"laws": [...]} or a bare array of strings.
+ * Returns the laws, or an error message.
+ */
+const parseLaws = (
+  raw: string,
+  maxLaws: number,
+): { laws?: string[]; error?: string } => {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    return { error: 'Invalid format: could not read the text as JSON.' };
+  }
+  const list =
+    parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      ? (parsed as { laws?: unknown }).laws
+      : parsed;
+  if (!Array.isArray(list)) {
+    return { error: 'Invalid format: expected ["law one","law two"].' };
+  }
+  const laws: string[] = [];
+  for (const entry of list) {
+    const text =
+      typeof entry === 'string'
+        ? entry
+        : entry && typeof (entry as { text?: unknown }).text === 'string'
+          ? (entry as { text: string }).text
+          : null;
+    if (text === null) {
+      return { error: 'Invalid format: every law must be a string.' };
+    }
+    if (text.trim().length > 0) {
+      laws.push(text.trim().slice(0, MAX_LAW_LENGTH));
+    }
+  }
+  if (laws.length > maxLaws) {
+    return { error: `Too many laws: ${laws.length} (maximum ${maxLaws}).` };
+  }
+  return { laws };
+};
+
+const ImportExport = (props: {
+  laws: string[];
+  maxLaws: number;
+  onApply: (laws: string[]) => void;
+  onClose: () => void;
+}) => {
+  const { laws, maxLaws, onApply, onClose } = props;
+  const [text, setText] = useState(() => exportLaws(laws));
+  const [error, setError] = useState('');
+
+  const apply = () => {
+    const result = parseLaws(text, maxLaws);
+    if (result.error || !result.laws) {
+      setError(result.error || 'Invalid format.');
+      return;
+    }
+    onApply(result.laws);
+  };
+
+  return (
+    <Stack fill vertical>
+      <Stack.Item>
+        <Box px={1} pt={0.5} pb={0.3}>
+          <Box bold fontSize={1.15}>
+            IMPORT / EXPORT LAWS
+          </Box>
+          <Box color="label" fontSize={0.85} mt={0.3}>
+            Copy this text to save your laws, or paste saved text here and press
+            Apply to fill in the law fields. Applying does not enact anything
+            until you press ENACT LAWS.
+          </Box>
+        </Box>
+      </Stack.Item>
+      <Stack.Item grow>
+        <Section fill>
+          <TextArea
+            fluid
+            height="100%"
+            value={text}
+            placeholder={'["First law","Second law"]'}
+            onInput={(_: unknown, val: string) => {
+              setText(val);
+              setError('');
+            }}
+            dontUseTabForIndent
+          />
+        </Section>
+      </Stack.Item>
+      <Stack.Item>
+        <Box px={1} py={0.4}>
+          <Stack align="center">
+            <Stack.Item grow>
+              {error && (
+                <Box inline color="bad">
+                  {error}
+                </Box>
+              )}
+            </Stack.Item>
+            <Stack.Item>
+              <Button icon="arrow-left" onClick={onClose}>
+                Back
+              </Button>
+            </Stack.Item>
+            <Stack.Item>
+              <Button icon="file-import" color="good" onClick={apply}>
+                Apply
+              </Button>
+            </Stack.Item>
+          </Stack>
+        </Box>
+      </Stack.Item>
+    </Stack>
+  );
+};
+
 const LawsDisplay = () => {
   const { act, data } = useBackend<Data>();
   const { current_laws, max_laws } = data;
+  const [showImportExport, setShowImportExport] = useState(false);
 
   // Initialize local state from server data.
   const [laws, setLaws] = useState<string[]>(() => {
@@ -158,6 +282,20 @@ const LawsDisplay = () => {
     }));
     act('set_laws', { laws: payload });
   };
+
+  if (showImportExport) {
+    return (
+      <ImportExport
+        laws={laws}
+        maxLaws={max_laws}
+        onApply={(imported) => {
+          setLaws(imported.length > 0 ? imported : ['']);
+          setShowImportExport(false);
+        }}
+        onClose={() => setShowImportExport(false)}
+      />
+    );
+  }
 
   return (
     <Stack fill vertical>
@@ -215,6 +353,14 @@ const LawsDisplay = () => {
           <Stack align="center">
             <Stack.Item>
               <PurgeButton lawCount={laws.length} onPurge={clearAll} />
+            </Stack.Item>
+            <Stack.Item>
+              <Button
+                icon="file-import"
+                onClick={() => setShowImportExport(true)}
+              >
+                Import/Export Laws
+              </Button>
             </Stack.Item>
             <Stack.Item grow>
               <Box inline color="label" fontSize={0.85}>
