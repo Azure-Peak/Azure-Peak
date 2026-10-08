@@ -64847,6 +64847,7 @@
 /obj/structure/roguemachine/atm{
 	location_tag = "Bath House Office"
 	},
+/obj/structure/rack/rogue/shelf/big,
 /turf/open/floor/rogue/carpet{
 	color = "#FFA3A3"
 	},
@@ -93945,6 +93946,10 @@
 	},
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
+"pYk" = (
+/obj/structure/roguemachine/bathvend,
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors/town/bath)
 "pYm" = (
 /obj/structure/fluff/railing/border,
 /turf/open/transparent/openspace,
@@ -123607,9 +123612,10 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/church/chapel)
 "uXH" = (
-/obj/structure/roguemachine/bathvend{
-	pixel_x = 32;
-	density = 0
+/obj/structure/roguemachine/mail{
+	mailtag = "Bath House - Office";
+	pixel_y = 0;
+	pixel_x = 32
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
@@ -138051,10 +138057,6 @@
 	pixel_y = 8
 	},
 /obj/machinery/light/rogue/candle/blue/l,
-/obj/structure/roguemachine/mail{
-	mailtag = "Bath House - Office"
-	},
-/obj/structure/rack/rogue/shelf/big,
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -172858,7 +172860,7 @@ wYt
 uIl
 uIl
 uIl
-cPX
+pYk
 xyF
 klq
 rmA
