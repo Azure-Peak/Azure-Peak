@@ -18,7 +18,6 @@ import {
   subTabBarStyle,
   subTabStyle,
 } from '../common/parchment';
-import { LedgerBoundary } from './LedgerBoundary';
 import {
   BalanceSheetPanel,
   GeneralLedgerPanel,
@@ -177,7 +176,6 @@ export const LedgerView = (props: { data: Data }) => {
     return (
       <div>
         {tabs}
-        <LedgerBoundary resetKey={view}>
         {view === 'ledger' && (
           <GeneralLedgerPanel chart={page.chart} account={page.account_ledger} />
         )}
@@ -192,7 +190,6 @@ export const LedgerView = (props: { data: Data }) => {
         )}
         {view === 'balance' && <BalanceSheetPanel sheet={page.balance_sheet} />}
         {view === 'subsidiary' && <SubsidiaryPanel sub={page.subsidiary} />}
-        </LedgerBoundary>
       </div>
     );
   }
@@ -242,7 +239,6 @@ export const LedgerView = (props: { data: Data }) => {
       <div style={sectionHeaderStyle}>General Journal</div>
 
       <div style={{ height: '540px', overflowY: 'auto' }}>
-        <LedgerBoundary resetKey={`${pageNum}`}>
         {entries.length === 0 ? (
           <div
             style={{ color: INK_SOFT, fontStyle: 'italic', padding: '8px 0' }}
@@ -254,7 +250,6 @@ export const LedgerView = (props: { data: Data }) => {
         ) : (
           entries.map((entry, i) => <LedgerRow key={i} entry={entry} />)
         )}
-        </LedgerBoundary>
       </div>
 
       <div

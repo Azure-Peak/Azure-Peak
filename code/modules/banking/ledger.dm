@@ -316,6 +316,23 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 /datum/loan/proc/get_principal_outstanding()
 	return max(0, principal - repaid_so_far)
 
+/// Clears the Crown's treasury-debt liabilities against equity. For use when the debt variable
+/// is zeroed outside the normal repayment path (admin Force Recovery), so the books follow it.
+/datum/controller/subsystem/treasury/proc/write_off_treasury_debt(reason = "Treasury debt written off")
+	var/list/legs = list()
+	var/total = 0
+	for(var/id in list(LEDGER_CROWN_ARREARS_ADVANCE, LEDGER_CROWN_ATC_LOAN, LEDGER_CROWN_SEQUESTRATION_DEBT))
+		var/datum/ledger_account/A = get_ledger_account(id)
+		var/owed = A.get_balance()
+		if(owed <= 0)
+			continue
+		legs += list(list(id, owed, 0))
+		total += owed
+	if(total <= 0)
+		return
+	legs += list(list(LEDGER_CROWN_GRANTS, 0, total))
+	post_ledger_entry("writeoff", reason, legs)
+
 /// Removes a loan that will never be repaid from the lender's (and borrower's) books.
 /datum/controller/subsystem/treasury/proc/write_off_loan(datum/loan/L, reason = "Loan written off")
 	var/outstanding = L.get_principal_outstanding()

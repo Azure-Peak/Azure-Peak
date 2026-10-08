@@ -619,6 +619,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			if(SStreasury.treasury_state == TREASURY_NORMAL)
 				to_chat(usr, span_warning("Treasury is already solvent."))
 				return TRUE
+			SStreasury.write_off_treasury_debt("Debt cleared by admin (Force Recovery)")
 			SStreasury.treasury_debt = 0
 			GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = 0
 			SStreasury.clear_treasury_debt_state()
