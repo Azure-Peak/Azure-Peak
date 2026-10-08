@@ -81452,6 +81452,10 @@
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
+"nVQ" = (
+/obj/structure/roguemachine/bathvend,
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors/town/bath)
 "nVT" = (
 /turf/closed/wall/mineral/rogue/wood,
 /area/rogue/under/cavewet/bogcaves/north)
@@ -93947,8 +93951,11 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
 "pYk" = (
-/obj/structure/roguemachine/bathvend,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/obj/structure/curtain/magenta,
+/obj/structure/roguewindow/harem1,
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
+	},
 /area/rogue/indoors/town/bath)
 "pYm" = (
 /obj/structure/fluff/railing/border,
@@ -172860,7 +172867,7 @@ wYt
 uIl
 uIl
 uIl
-pYk
+nVQ
 xyF
 klq
 rmA
@@ -173316,7 +173323,7 @@ lDC
 oIh
 rmA
 ldV
-bNA
+pYk
 mil
 wrR
 hku
