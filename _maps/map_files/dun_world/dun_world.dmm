@@ -64843,6 +64843,7 @@
 	mailtag = "Bath House - Office"
 	},
 /obj/machinery/light/rogue/candle/blue/r,
+/obj/structure/rack/rogue/shelf/big,
 /turf/open/floor/rogue/carpet{
 	color = "#FFA3A3"
 	},
