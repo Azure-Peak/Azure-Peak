@@ -189,6 +189,14 @@
 	. += span_info("Such a heart can also use a host's Lux to start itself, if it stops beating. It takes five minutes to recover.")
 	. += span_info("If the host's lux capacity is well-exceeded, this heart will cease to function entirely.")
 
+/obj/item/organ/heart/lux/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = FALSE, initialising)
+	. = ..()
+	ADD_TRAIT(M, TRAIT_LUXHEART, "lux heart")
+
+/obj/item/organ/heart/lux/Remove(mob/living/carbon/M, special = 0)
+	. = ..()
+	REMOVE_TRAIT(M, TRAIT_LUXHEART, "lux heart")
+
 /obj/item/organ/heart/cursed
 	name = "cursed heart"
 	desc = ""

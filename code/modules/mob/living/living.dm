@@ -2859,6 +2859,8 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 /mob/living/proc/get_lux_type()
 	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE) || !has_extractable_lux()) //has_extractable_lux currently implies a lack of lux- so this proc forbids it anyways
 		return "luxless"
+	if(HAS_TRAIT(src, TRAIT_TAINTEDLUX))
+		return "tainted"
 	if(istiefling(src))
 		return "infernal"
 	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) || HAS_TRAIT(src, TRAIT_FEYTOUCHED))
@@ -2875,9 +2877,10 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 	if(has_status_effect(/datum/status_effect/debuff/devitalised) && !HAS_TRAIT(src, TRAIT_LUXHEART)) //with a luxheart, you can have extra lux from the heart, whilst being devitalized
 		return FALSE
-
+	if(HAS_TRAIT(src, TRAIT_TAINTEDLUX))
+		luxtype = /obj/item/reagent_containers/lux_tainted
 	if(istiefling(src))
-		luxtype = /obj/item/ash
+		luxtype = /obj/item/reagent_containers/lux_infernal
 	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) || HAS_TRAIT(src, TRAIT_FEYTOUCHED) || HAS_TRAIT(src, TRAIT_FEYBOUND))
 		luxtype = /obj/item/reagent_containers/lux_moss
 	if(isaasimar(src))
