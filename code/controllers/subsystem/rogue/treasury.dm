@@ -67,6 +67,9 @@ SUBSYSTEM_DEF(treasury)
 	/// Account totals at the close of each day: day -> list(account id -> list(debits, credits)).
 	var/list/day_snapshots = list()
 	var/ledger_closed_day = -1
+	/// Crown revenue/expense balances and purse at the last Steward's morning report, so the next one can show what changed.
+	var/list/last_report_ledger = null
+	var/last_report_balance = null
 	var/list/noble_incomes = list()
 	var/list/decrees = list()
 	var/list/stockpile_datums = list()
