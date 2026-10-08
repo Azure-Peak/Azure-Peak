@@ -22018,6 +22018,12 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
+"dQJ" = (
+/obj/structure/roguewindow/harem1,
+/obj/structure/curtain/magenta,
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors/town/bath)
 "dQK" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 4
@@ -54758,12 +54764,8 @@
 	},
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
 "jwG" = (
-/obj/item/roguemachine/zadcote/bathhouse{
-	pixel_y = 32
-	},
-/obj/structure/rack/rogue/shelf/big{
-	icon_state = "shelf_biggest";
-	pixel_y = 0
+/obj/structure/chair/bench/coucha/r{
+	pixel_y = 2
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
@@ -58679,11 +58681,7 @@
 	lockid = "locker6";
 	name = "locker VI key"
 	},
-/obj/structure/closet/crate/chest{
-	lockid = "nightmaiden";
-	name = "Keys";
-	locked = 1
-	},
+/obj/structure/rack/rogue/shelf/biggest,
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -67792,10 +67790,11 @@
 /turf/closed/wall/mineral/rogue/wooddark/end,
 /area/rogue/indoors)
 "lDC" = (
-/obj/structure/roguewindow/harem1,
 /obj/structure/curtain/magenta,
-/obj/structure/roguemachine/talkstatue/mercenary,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/obj/structure/roguewindow/harem1,
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
+	},
 /area/rogue/indoors/town/bath)
 "lDD" = (
 /obj/effect/decal/cobbleedge{
@@ -81452,10 +81451,6 @@
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
-"nVQ" = (
-/obj/structure/roguemachine/bathvend,
-/turf/closed/wall/mineral/rogue/stonebrick,
-/area/rogue/indoors/town/bath)
 "nVT" = (
 /turf/closed/wall/mineral/rogue/wood,
 /area/rogue/under/cavewet/bogcaves/north)
@@ -93951,11 +93946,8 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
 "pYk" = (
-/obj/structure/curtain/magenta,
-/obj/structure/roguewindow/harem1,
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
+/obj/structure/roguemachine/bathvend,
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/bath)
 "pYm" = (
 /obj/structure/fluff/railing/border,
@@ -97061,10 +97053,14 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "qze" = (
-/obj/structure/chair/bench/coucha/r{
+/obj/machinery/light/rogue/candle/blue,
+/obj/structure/chair/bench/coucha{
 	pixel_y = 2
 	},
-/obj/machinery/light/rogue/candle/blue,
+/obj/effect/decal/carpet/kover_black{
+	pixel_x = 17;
+	pixel_y = -3
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "qzj" = (
@@ -118618,12 +118614,12 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/town/dwarfin)
 "ufv" = (
-/obj/structure/chair/bench/coucha{
-	pixel_y = 2
+/obj/structure/rack/rogue/shelf/big{
+	icon_state = "shelf_biggest";
+	pixel_y = 0
 	},
-/obj/effect/decal/carpet/kover_black{
-	pixel_x = 17;
-	pixel_y = -3
+/obj/item/roguemachine/zadcote/bathhouse{
+	pixel_y = 32
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
@@ -172867,7 +172863,7 @@ wYt
 uIl
 uIl
 uIl
-nVQ
+pYk
 xyF
 klq
 rmA
@@ -173319,11 +173315,11 @@ naR
 wZa
 naR
 uIl
-lDC
+dQJ
 oIh
 rmA
 ldV
-pYk
+lDC
 mil
 wrR
 hku
