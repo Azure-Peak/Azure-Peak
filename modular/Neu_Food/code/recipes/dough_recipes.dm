@@ -475,3 +475,156 @@
 	ingredients = list(/obj/item/reagent_containers/food/snacks/rogue/eggdoughslice)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
 	book_category = FOOD_CAT_DOUGHS
+
+/datum/food_recipe/dough/durum
+	name = "dürümdough"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/flatdough
+	ingredients = list(
+		/obj/item/reagent_containers/powder/flour
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/durumdough
+	result_amount = 2
+	time_per_step = 3 SECONDS
+	book_category = FOOD_CAT_DOUGHS
+
+/*	.................	Dürüm assembly recipes	................... */
+
+// Dürümdough + Uncooked Bulgur -> Bulgur-stuffed dürümdough (cookable, or enrich with poultry)
+/datum/food_recipe/dough/durum_bulgur
+	name = "bulgur dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/durumdough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/bulgur_raw
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_bulgur
+	book_category = FOOD_CAT_DOUGHS
+
+// Bulgur-stuffed dürümdough + Poultry -> Poultry bulgur dürüm
+/datum/food_recipe/dough/durum_bulgur_poultry
+	name = "poultry bulgur dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_bulgur
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_poultry_bulgur
+	book_category = FOOD_CAT_DOUGHS
+
+// Dürümdough + Poultry -> Poultry-stuffed dürümdough (needs bulgur)
+/datum/food_recipe/dough/durum_poultry
+	name = "poultry dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/durumdough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/poultry
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_poultry
+	book_category = FOOD_CAT_DOUGHS
+
+// Poultry-stuffed dürümdough + Bulgur -> Poultry bulgur dürüm
+/datum/food_recipe/dough/durum_poultry_bulgur
+	name = "poultry bulgur dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_poultry
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/bulgur_raw
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_poultry_bulgur
+	book_category = FOOD_CAT_DOUGHS
+
+// Dürümdough + Mince -> Mince-stuffed dürümdough (needs cabbage or beans)
+/datum/food_recipe/dough/durum_mince
+	name = "mince dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/durumdough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_mince
+	book_category = FOOD_CAT_DOUGHS
+
+// Dürümdough + Cabbage -> Cabage-stuffed dürümdough (needs cabbage or beans)
+/datum/food_recipe/dough/durum_cabage
+	name = "cabbage dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/durumdough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cabbage
+	book_category = FOOD_CAT_DOUGHS
+
+// Cabbage-stuffed dürümdough + Mince -> Mince cabbage dürüm
+/datum/food_recipe/dough/durum_cabbage_mince
+	name = "mince cabbage dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cabbage
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_mince_cabbage
+	book_category = FOOD_CAT_DOUGHS
+
+// Mince-stuffed dürümdough + Cabbage -> Mince cabbage dürüm
+/datum/food_recipe/dough/durum_mince_cabbage
+	name = "mince cabbage dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_mince
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/cabbage/rogue
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_mince_cabbage
+	book_category = FOOD_CAT_DOUGHS
+
+// Mince-stuffed dürümdough + Beans -> Bean mince dürüm
+/datum/food_recipe/dough/durum_mince_beans
+	name = "bean mince dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_mince
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/beans
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_beans_mince
+	book_category = FOOD_CAT_DOUGHS
+
+// Dürümdough + Beans -> Bean-stuffed dürümdough (needs cheese or mince)
+/datum/food_recipe/dough/durum_beans
+	name = "bean dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/durumdough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/beans
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_beans
+	book_category = FOOD_CAT_DOUGHS
+
+// Bean-stuffed dürümdough + Mince -> Bean mince dürüm
+/datum/food_recipe/dough/durum_beans_mince
+	name = "bean mince dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_beans
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/meat/mince
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_beans_mince
+	book_category = FOOD_CAT_DOUGHS
+
+// Bean-stuffed dürümdough + Cheese -> Cheese bean dürüm
+/datum/food_recipe/dough/durum_beans_cheese
+	name = "cheese bean dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_beans
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cheese_beans
+	book_category = FOOD_CAT_DOUGHS
+
+// Dürümdough + Cheese -> Cheese-stuffed dürümdough (needs beans)
+/datum/food_recipe/dough/durum_cheese
+	name = "cheese dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/durumdough
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cheese
+	book_category = FOOD_CAT_DOUGHS
+
+// Cheese-stuffed dürümdough + Beans -> Cheese bean dürüm
+/datum/food_recipe/dough/durum_cheese_beans
+	name = "cheese bean dürüm"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cheese
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/beans
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cheese_beans
+	book_category = FOOD_CAT_DOUGHS

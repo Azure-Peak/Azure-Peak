@@ -72,6 +72,7 @@
 				added_skills.Add(list(list(/datum/skill/craft/sewing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/tanning, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/misc/hunting, 2, 2)))
+				added_skills.Add(list(list(/datum/skill/craft/cooking, 2, 2)))
 				added_traits.Add(TRAIT_SURVIVAL_EXPERT, TRAIT_MASTERFUL_HUNTER)
 			if(SKILLED_PHYS)
 				added_skills.Add(list(list(/datum/skill/craft/alchemy, 2, 2)))

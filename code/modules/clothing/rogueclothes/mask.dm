@@ -278,6 +278,22 @@
 	max_integrity = ARMOR_INT_MASK_STEEL
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/pyro
+	name = "insulated breath-mask"
+	desc = "A product of strange artifice, painstakingly replicated from ancient design. Protects the wearer from noxious fumes and shrapnel to the eyes. You can taste soot whenever you draw breath."
+	icon_state = "pyromask"
+	max_integrity = ARMOR_INT_MASK_IRON
+	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	armor = ARMOR_INSULATED_LEATHER
+	smeltresult = /obj/item/ingot/bronze
+	block2add = FOV_DEFAULT //similar to the malpractitioner's mask, you get full vision for the sake of drip. You do not, however, gain the full integrity of the confessor's mask
+
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/pyro/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/clothing/mask/rogue/spectacles/inq))
+		to_chat(user, span_info("These lenses won't fit in this mask."))
+		return
+	return ..()
+
 /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	name = "strange mask"
 	desc = "It is said that the original version of this mask was used for obscure rituals prior to the fall of the Empire of the Holy Celestia, and now it has been repurposed as a veil for the cunning hand of the Otavan Orthodoxy.<br> <br>Others say it is a piece of heresy, a necessary evil, capable of keeping its user safe from left-handed magicks. You can taste copper whenever you draw breath."
@@ -333,7 +349,6 @@
 			return
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed/attack_right(mob/user, slot)
-	..()
 	if(!lensmoved)
 		playsound(user, 'sound/items/inqglassesoff.ogg', 80)
 		to_chat(user, span_info("You discreetly slide the inner lenses out of the way."))

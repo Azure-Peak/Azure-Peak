@@ -815,7 +815,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 				if(istype(H.wear_shirt, I.type))
 					return FALSE
 				if(I.blocksound)
-					if(I.blocksound == H.wear_shirt.blocksound)
+					if(I.blocksound == H.wear_shirt.blocksound && !(istype(incoming_armor) && is_type_in_list(H.wear_shirt, incoming_armor.underlayers)))
 						return FALSE
 			if( !(I.slot_flags & ITEM_SLOT_ARMOR) )
 				return FALSE
@@ -911,7 +911,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 					if(!(I.blocking_behavior & SAMEWEAR))
 						return FALSE
 				if(I.blocksound)
-					if(I.blocksound == H.wear_armor.blocksound)
+					if(I.blocksound == H.wear_armor.blocksound && !is_type_in_list(I, H.wear_armor.underlayers))
 						return FALSE
 			if( !(I.slot_flags & ITEM_SLOT_SHIRT) )
 				return FALSE

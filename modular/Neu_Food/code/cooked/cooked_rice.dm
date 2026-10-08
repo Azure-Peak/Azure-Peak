@@ -163,3 +163,32 @@
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/greatmealbuff
+
+/*	.................	Naledi majadara ................... */
+/obj/item/reagent_containers/food/snacks/rogue/mujadara
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_VEGETABLE
+	name = "mujadara"
+	desc = "Mujadara, oh Amarinde of meals! White rice, cooked with a little bite! Lentils, the nutty richness of Psydon's love! Truly, you are the second of all meals, a delight to nobility, to warscholars, to all that is good. Mujadara! Unchanged for a thousand yils! There is no reason to improve on near-perfection!"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_rice.dmi'
+	icon_state = "mujadara"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
+	faretype = FARE_FINE
+	tastes = list("savoury and earthy sweetness, layered with a wholesome filling mouthfeel" = 1)
+	rotprocess = SHELFLIFE_LONG
+	eat_effect = /datum/status_effect/buff/mealbuff
+	foodtype = GRAIN | VEGETABLES
+
+/obj/item/reagent_containers/food/snacks/rogue/mujadara_meal
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_VEGETABLE
+	name = "mujadara meal"
+	desc = "Mujadara Malikat! Queen-Empress of all meals! None can compare to you… Your lentils, unsplit and nutty, your rice, cooked with a little bite! Your onions, giving you your divine sweetness! May kings fall to their knees and weep from joy to receive a bowl of you. Truly, you are regal and blessed by HIM."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_rice.dmi'
+	icon_state = "mujadara_meal"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	faretype = FARE_LAVISH
+	tastes = list("savoury, earthy-warm sweetness, layered with a nutty wholesomeness" = 1)
+	rotprocess = SHELFLIFE_EXTREME
+	eat_effect = /datum/status_effect/buff/greatmealbuff
+	foodtype = GRAIN | VEGETABLES

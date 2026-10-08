@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added 30 herbal and blended drinks from Ochre Valley, credits to NickBelmont, Toaster98 and Dragor for the original work. Some of them are attached to minor stat buffs which are mutually exclusive with that of coffee and tea. They are also added in a separate section in the Encyclopedia"

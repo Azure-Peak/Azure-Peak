@@ -391,3 +391,33 @@
   - balance: VL now gets a decorated dagger, lich now gets a blacksteel dagger instead
       of steel + grand tome on hip at the price of losing their mana potion (you couldn't
       use it anyway lol)
+2026-10-08:
+  Ryan180602:
+  - balance: unarmed weapons cannot be used with shields anymore.
+  - balance: knuckledusters in glove slots means you can't use weapons
+  - balance: claws are rebalanced/nerfed
+  - balance: Change Inquisitor statline.
+  - balance: Inquisitor gets Master in a particular weapon (Your Faith still gives
+      Expert as it used to)
+  - balance: Confessors get a choice between Couir-Boulli and the existing tunic as
+      underarmour.
+  - rscadd: A small system to bypass certain armour layers to be worn with other armour.
+  ToasterStrudes:
+  - bugfix: Etrusso is no longer an Etrusso and is now a Etruccino.
+  WeNeedMorePhoron:
+  - rscadd: Having Cicerone or high enough alchemy will allow you to view a reagent's
+      description as a tooltip. Water got new descriptions that match the era. Other
+      descriptions to be rewritten later.
+  - rscadd: Unhandled blockades now increase the cost of goods in Goldface / Silverface,
+      with blockades affecting specifically the type of goods that the region provides,
+      but also generally raising the cost of gears. It will NOT applies to Vile Vheslie
+  - bugfix: Fixed Illicit Utility and Medical supplies not showing, which is not related
+      to this PR but a prior bug
+  borneblood:
+  - bugfix: Impact grenades, satchel charges and so on will now explode properly when
+      tripped.
+  - bugfix: Can't stack tripbombs on the same tile.
+  kilozombie:
+  - balance: Increases sexton slots from 2 to 3
+  zeskorion:
+  - bugfix: you can no longer breath without lungs

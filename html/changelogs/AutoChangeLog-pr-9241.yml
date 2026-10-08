@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - refactor: "Refactored how Barter works, mostly added more soul to it. It should feel like you're dealing with Matthios better now."

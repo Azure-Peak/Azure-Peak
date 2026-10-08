@@ -1,0 +1,11 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Painter heralds and voice classes now get the bleed paint trait. Leave puddles of basic paint when you bleed."
+  - bugfix: "Remove excessive GW straps from painter classes. (It's faster to sheathe staffs on empty slots)"
+  - balance: "red abyssor paint friendly damage decreased from 8 to 6"
+  - balance: "red abyssor paint damage increased from 20 to 30, 10 second cooldown between damage instances unaffected."
+  - balance: "painter voice fishing skill novice => apprentice"
+  - balance: "painter voice miracle tier 3 => 4"
+  - balance: "painter voice perception bonus 0 => 2"
+  - bugfix: "red abyssor paint can now damage limbs correctly."

@@ -63,12 +63,17 @@
 	description = "Why are you seeing this?"
 	hydration_factor = 5
 	overdose_threshold = 60
+	brew_buff = /datum/status_effect/buff/brew/vigorized
+
+/datum/reagent/consumable/caffeine/on_mob_metabolize(mob/living/L)
+	. = ..()
+	apply_brew(L, TRUE)
 
 /datum/reagent/consumable/caffeine/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(5) // 1/6th of mana pot
-	M.apply_status_effect(/datum/status_effect/buff/vigorized)
+	apply_brew(M)
 	M.sate_addiction(/datum/charflaw/addiction/caffiend)
 
 /datum/reagent/consumable/caffeine/overdose_process(mob/living/carbon/M)

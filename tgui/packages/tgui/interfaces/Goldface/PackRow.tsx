@@ -26,9 +26,16 @@ export const PackRow = (props: Props) => {
   const { pack, budget, canRead, showCategory, browseOnly, act } = props;
   const cantAfford = budget < pack.price;
   const hasTariff = pack.price_tariff > 0;
-  const priceTitle = hasTariff
-    ? `${pack.price_base}m + ${pack.price_tariff}m tariff = ${pack.price}m`
-    : `${pack.price}m`;
+  const hasBlockade = pack.price_blockade > 0;
+  const priceTitle =
+    hasTariff || hasBlockade
+      ? `${pack.price_base}m` +
+        (hasBlockade
+          ? ` + ${pack.price_blockade}m blockade (+${pack.blockade_pct}%)`
+          : '') +
+        (hasTariff ? ` + ${pack.price_tariff}m tariff` : '') +
+        ` = ${pack.price}m`
+      : `${pack.price}m`;
   return (
     <div style={denseRowStyle}>
       <div
@@ -55,6 +62,7 @@ export const PackRow = (props: Props) => {
       <PriceTag
         price={pack.price}
         tariff={pack.price_tariff}
+        surcharge={pack.price_blockade}
         cantAfford={cantAfford}
         title={priceTitle}
       />
