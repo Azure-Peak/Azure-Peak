@@ -20547,7 +20547,7 @@
 	dir = 1
 	},
 /obj/machinery/light/rogue/candle/l,
-/turf/open/floor/rogue/wood,
+/turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/tavern)
 "dDl" = (
 /obj/structure/fluff/walldeco/chains{
@@ -22018,12 +22018,6 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
-"dQJ" = (
-/obj/structure/roguewindow/harem1,
-/obj/structure/curtain/magenta,
-/obj/structure/roguemachine/talkstatue/mercenary,
-/turf/closed/wall/mineral/rogue/stonebrick,
-/area/rogue/indoors/town/bath)
 "dQK" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 4
@@ -67790,11 +67784,8 @@
 /turf/closed/wall/mineral/rogue/wooddark/end,
 /area/rogue/indoors)
 "lDC" = (
-/obj/structure/curtain/magenta,
-/obj/structure/roguewindow/harem1,
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
+/obj/structure/roguemachine/bathvend,
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/bath)
 "lDD" = (
 /obj/effect/decal/cobbleedge{
@@ -79223,11 +79214,11 @@
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/shelter)
 "nCy" = (
-/obj/structure/bed/rogue/inn/double,
-/obj/item/bedsheet/rogue/fabric_double,
-/obj/machinery/light/rogue/candle/r,
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/tavern)
+/obj/structure/roguewindow/harem1,
+/obj/structure/curtain/magenta,
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/stonebrick,
+/area/rogue/indoors/town/bath)
 "nCG" = (
 /obj/machinery/light/rogue/torchholder/l,
 /obj/structure/fluff/railing/corner/south_east,
@@ -93946,8 +93937,11 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
 "pYk" = (
-/obj/structure/roguemachine/bathvend,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/obj/structure/curtain/magenta,
+/obj/structure/roguewindow/harem1,
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
+	},
 /area/rogue/indoors/town/bath)
 "pYm" = (
 /obj/structure/fluff/railing/border,
@@ -172863,7 +172857,7 @@ wYt
 uIl
 uIl
 uIl
-pYk
+lDC
 xyF
 klq
 rmA
@@ -173315,11 +173309,11 @@ naR
 wZa
 naR
 uIl
-dQJ
+nCy
 oIh
 rmA
 ldV
-lDC
+pYk
 mil
 wrR
 hku
@@ -518658,7 +518652,7 @@ tvR
 qEt
 tCw
 xdW
-nCy
+eXv
 gfJ
 tvR
 kSK
