@@ -1,0 +1,135 @@
+// Outcome colours match the .astrata, .zizo and .xylix chat spans the rest of a roll is written in.
+$roll-good: #f9b362;
+$roll-bad: #b76bff;
+$roll-neutral: #e2ddae;
+
+.RollTooltip {
+  text-align: center;
+}
+
+// Throws sit side by side, a rule between each of them.
+.RollTooltip__throws {
+  // Equal columns, each as wide as the widest throw needs, so the rule between them sits in the
+  // middle and nothing is squeezed. The throws are as tall as the tallest, so their dice,
+  // separators and results line up.
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  justify-content: center;
+}
+
+.RollTooltip__throw {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  margin-bottom: 4px;
+
+  & + & {
+    border-left: 1px solid rgba(187, 187, 173, 0.5);
+  }
+}
+
+.RollTooltip__label {
+  color: #bbbbad;
+  margin-bottom: 2px;
+  // Each line stays a line - the tooltip grows wider instead of wrapping a name or number onto the next.
+  white-space: nowrap;
+  // Takes up whatever the shorter throws are missing, so the dice below it sit at the same height.
+  flex-grow: 1;
+}
+
+// The line between a throw's dice and its result.
+.RollTooltip__separator {
+  border-top: 1px solid rgba(187, 187, 173, 0.5);
+  margin: 4px 0;
+}
+
+.RollTooltip__dice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+
+@mixin die-colour($colour) {
+  .die-bg {
+    fill: #000;
+    stroke: $colour;
+    stroke-width: 4;
+    rx: 12px;
+  }
+
+  // Softer than the outline, so the edges inside the die read as detail and not as part of its shape.
+  .die-front,
+  .die-edge {
+    fill: none;
+    stroke: $colour;
+    stroke-opacity: 0.5;
+    stroke-width: 3.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .die-pip {
+    r: 8;
+    fill: $colour;
+  }
+
+  .die-number {
+    fill: $colour;
+    font-size: 44px;
+    font-weight: bold;
+    text-anchor: middle;
+
+    // The facing triangle of an icosahedron is small, so its number is too.
+    &--icosahedron {
+      font-size: 38px;
+    }
+
+    // Three digits don't fit at full size.
+    &--long {
+      font-size: 32px;
+
+      &.die-number--icosahedron {
+        font-size: 27px;
+      }
+    }
+  }
+}
+
+.RollTooltip__die {
+  &--good {
+    @include die-colour($roll-good);
+  }
+
+  &--bad {
+    @include die-colour($roll-bad);
+  }
+
+  &--neutral {
+    @include die-colour($roll-neutral);
+  }
+
+  // A die that lost or failed, when its colour belongs to an stat rather than the outcome.
+  &--dim {
+    opacity: 0.45;
+  }
+}
+
+// Colors copied from the god spans.
+$stats: (
+  strength: #7a1e30, //ravox
+  perception: #43622e, //dendor
+  intelligence: #9acdff, //noc
+  willpower: #19345e, //graggar
+  constitution: #884610, //malum
+  speed: #e1c457, //matthios
+  fortune: #e2ddae, //xylix
+  charisma: #bb48a9, //baotha
+);
+
+@each $stat, $colour in $stats {
+  .RollTooltip__die--#{$stat} {
+    @include die-colour($colour);
+  }
+}

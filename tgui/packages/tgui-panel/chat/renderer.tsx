@@ -10,6 +10,7 @@ import { Tooltip } from 'tgui-core/components';
 import { EventEmitter } from 'tgui-core/events';
 import { classes } from 'tgui-core/react';
 import type { HighlightSetting } from 'tgui-panel/settings/types';
+import { RollTooltip } from '../chat_components/RollTooltip';
 import { TooltipHTML } from '../chat_components/TooltipHTML';
 import { store } from '../events/store';
 import { scrollTrackingAtom } from './atom';
@@ -44,6 +45,7 @@ const SCROLL_TRACKING_TOLERANCE = 24;
 export const TGUI_CHAT_COMPONENTS: Record<string, React.ComponentType<any>> = {
   Tooltip,
   TooltipHTML,
+  RollTooltip,
 };
 
 // List of injectable attibute names mapped to their proper prop.
