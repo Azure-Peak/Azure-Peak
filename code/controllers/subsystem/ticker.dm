@@ -107,6 +107,9 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/Initialize(timeofday)
 	load_mode()
 
+	if(CONFIG_GET(flag/autostart))
+		start_immediately = TRUE
+
 	login_music = pick('sound/music/title.ogg','sound/music/title2.ogg')
 
 	if(!GLOB.syndicate_code_phrase)
