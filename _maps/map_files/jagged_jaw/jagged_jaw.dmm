@@ -132385,14 +132385,14 @@
 /area/rogue/indoors/shelter)
 "qdV" = (
 /obj/machinery/light/rogue/candle/blue,
+/obj/item/storage/roguebag,
+/obj/item/storage/roguebag,
 /obj/structure/closet/crate/roguecloset/dark{
 	keylock = 1;
 	locked = 1;
 	lockid = "nightman";
-	name = "Stash"
+	name = "Sacks"
 	},
-/obj/item/storage/roguebag,
-/obj/item/storage/roguebag,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "qdX" = (

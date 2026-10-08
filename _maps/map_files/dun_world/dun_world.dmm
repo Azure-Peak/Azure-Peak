@@ -58629,34 +58629,57 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town)
 "kdK" = (
-/obj/structure/closet/crate/roguecloset/dark{
-	keylock = 1;
-	locked = 1;
-	lockid = "nightmaiden";
-	name = "Smokeables"
+/obj/structure/rack/rogue/shelf/biggest,
+/obj/item/roguekey/bathworker{
+	name = "suite I key";
+	lockid = "lux1";
+	desc = "This regal key opens the Royal Palace suite."
 	},
-/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
-/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/clothing/mask/cigarette/pipe/westman,
-/obj/item/clothing/mask/cigarette/pipe,
-/obj/item/natural/feather,
+/obj/item/roguekey/bathworker{
+	name = "suite II key";
+	lockid = "lux2";
+	desc = "This regal key opens the Dendor's Paradise suite."
+	},
+/obj/item/roguekey/bathworker{
+	name = "suite III key";
+	lockid = "lux3";
+	desc = "This regal key opens the Velvet Haven suite."
+	},
+/obj/item/roguekey/bathworker{
+	name = "suite IV key";
+	lockid = "lux4";
+	desc = "This regal key opens the Stockade suite."
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker1";
+	name = "locker I key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker2";
+	name = "locker II key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker3";
+	name = "locker III key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker4";
+	name = "locker IV key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker5";
+	name = "locker V key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker6";
+	name = "locker VI key"
+	},
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -64628,30 +64651,37 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
 "ldV" = (
+/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry,
+/obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry{
+	pixel_x = 0;
+	pixel_y = 1
+	},
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
+/obj/item/paper,
 /obj/structure/closet/crate/roguecloset/dark{
 	keylock = 1;
 	locked = 1;
 	lockid = "nightmaiden";
-	name = "Drugs"
+	name = "Smokeables"
 	},
-/obj/item/reagent_containers/powder/ozium,
-/obj/item/reagent_containers/powder/ozium,
-/obj/item/reagent_containers/powder/ozium,
-/obj/item/reagent_containers/powder/ozium,
-/obj/item/reagent_containers/powder/moondust,
-/obj/item/reagent_containers/powder/moondust,
-/obj/item/reagent_containers/powder/moondust,
-/obj/item/reagent_containers/powder/moondust,
-/obj/item/reagent_containers/powder/spice,
-/obj/item/reagent_containers/powder/spice,
-/obj/item/reagent_containers/glass/bottle/rogue/redwine,
-/obj/item/reagent_containers/glass/bottle/rogue/redwine,
-/obj/item/reagent_containers/glass/bottle/rogue/whitewine,
-/obj/item/reagent_containers/glass/bottle/rogue/whitewine,
-/obj/item/reagent_containers/glass/bottle/rogue/wine,
-/obj/item/reagent_containers/glass/bottle/rogue/wine,
-/obj/item/reagent_containers/glass/bottle/rogue/elfred,
-/obj/item/reagent_containers/glass/bottle/rogue/elfred,
+/obj/item/clothing/mask/cigarette/pipe/westman,
+/obj/item/clothing/mask/cigarette/pipe,
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -64811,9 +64841,6 @@
 "lfu" = (
 /obj/structure/roguemachine/mail{
 	mailtag = "Bath House - Office"
-	},
-/obj/structure/rack/rogue/shelf/big{
-	pixel_y = 18
 	},
 /obj/machinery/light/rogue/candle/blue/r,
 /turf/open/floor/rogue/carpet{
@@ -67759,42 +67786,6 @@
 "lDB" = (
 /turf/closed/wall/mineral/rogue/wooddark/end,
 /area/rogue/indoors)
-"lDC" = (
-/obj/structure/rack/rogue/shelf/biggest,
-/obj/item/roguekey{
-	icon_state = "brownkey";
-	lockid = "locker1";
-	name = "locker I key"
-	},
-/obj/item/roguekey{
-	icon_state = "brownkey";
-	lockid = "locker2";
-	name = "locker II key"
-	},
-/obj/item/roguekey{
-	icon_state = "brownkey";
-	lockid = "locker3";
-	name = "locker III key"
-	},
-/obj/item/roguekey{
-	icon_state = "brownkey";
-	lockid = "locker4";
-	name = "locker IV key"
-	},
-/obj/item/roguekey{
-	icon_state = "brownkey";
-	lockid = "locker5";
-	name = "locker V key"
-	},
-/obj/item/roguekey{
-	icon_state = "brownkey";
-	lockid = "locker6";
-	name = "locker VI key"
-	},
-/turf/open/floor/rogue/carpet{
-	color = "#FFA3A3"
-	},
-/area/rogue/indoors/town/bath)
 "lDD" = (
 /obj/effect/decal/cobbleedge{
 	dir = 9;
@@ -93945,30 +93936,10 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
 "pYk" = (
-/obj/structure/rack/rogue/shelf/biggest,
-/obj/item/roguekey/bathworker{
-	name = "suite I key";
-	lockid = "lux1";
-	desc = "This regal key opens the Royal Palace suite."
-	},
-/obj/item/roguekey/bathworker{
-	name = "suite II key";
-	lockid = "lux2";
-	desc = "This regal key opens the Dendor's Paradise suite."
-	},
-/obj/item/roguekey/bathworker{
-	name = "suite III key";
-	lockid = "lux3";
-	desc = "This regal key opens the Velvet Haven suite."
-	},
-/obj/item/roguekey/bathworker{
-	name = "suite IV key";
-	lockid = "lux4";
-	desc = "This regal key opens the Stockade suite."
-	},
-/turf/open/floor/rogue/carpet{
-	color = "#FFA3A3"
-	},
+/obj/structure/roguewindow/harem1,
+/obj/structure/curtain/magenta,
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/bath)
 "pYm" = (
 /obj/structure/fluff/railing/border,
@@ -103607,7 +103578,6 @@
 /obj/structure/curtain/magenta{
 	alpha = 200
 	},
-/obj/structure/roguemachine/talkstatue/mercenary,
 /obj/structure/roguewindow/harem2{
 	max_integrity = 1000
 	},
@@ -114422,6 +114392,7 @@
 /area/rogue/indoors/town)
 "tuF" = (
 /obj/structure/closet/crate/roguecloset/inn,
+/obj/item/broom,
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/bath)
 "tuH" = (
@@ -120667,6 +120638,8 @@
 /area/rogue/under/underdark/north)
 "uyl" = (
 /obj/structure/table/wood/fancy/purple,
+/obj/item/paper/scroll,
+/obj/item/natural/feather,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "uyo" = (
@@ -173332,12 +173305,12 @@ naR
 wZa
 naR
 uIl
-xss
+pYk
 oIh
 rmA
 ldV
 bNA
-pYk
+mil
 wrR
 hku
 gtw
@@ -173789,7 +173762,7 @@ rmA
 rmA
 kdK
 bNA
-lDC
+mil
 tSz
 hku
 gtw
