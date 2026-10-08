@@ -123790,7 +123790,6 @@
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
 	},
-/obj/structure/table/wood/poor,
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/bath)
 "uZC" = (
