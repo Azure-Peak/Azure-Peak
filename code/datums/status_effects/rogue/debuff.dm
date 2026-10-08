@@ -154,6 +154,9 @@
 /datum/status_effect/debuff/uncookedfood/on_apply()
 	if(HAS_TRAIT(owner, TRAIT_NASTY_EATER) || HAS_TRAIT(owner, TRAIT_ORGAN_EATER) || HAS_TRAIT(owner, TRAIT_WILD_EATER))
 		return ..()
+	if(HAS_TRAIT(owner, TRAIT_BLACKBLOOD))
+		M.heal_wounds(2)
+		return ..()
 	if(iscarbon(owner))
 		var/mob/living/carbon/C = owner
 		C.add_nausea(100)
