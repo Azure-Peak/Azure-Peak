@@ -274,7 +274,7 @@ GLOBAL_LIST_INIT(rollable_stats, list(
 // reachable as `*strength`, `*str` and so on; the verb below is the point-and-click route.
 
 /datum/emote/living/stat_roll
-	var/delay = 2.5 seconds
+	var/delay = 2.5 SECONDS
 	var/list/attempt_message_list
 	var/list/success_message_list
 	var/list/failure_message_list
