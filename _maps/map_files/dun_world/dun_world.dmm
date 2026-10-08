@@ -10466,7 +10466,7 @@
 /obj/structure/stairs/stone{
 	dir = 8
 	},
-/turf/open/floor/rogue/tile/harem2,
+/turf/open/floor/rogue/tile/brick,
 /area/rogue/indoors/town/bath)
 "bQp" = (
 /obj/structure/trap/saw_blades,
@@ -12932,10 +12932,11 @@
 	},
 /area/rogue/indoors/town/bath)
 "cnk" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 1
+/obj/structure/curtain/magenta,
+/obj/structure/roguewindow/harem1,
+/turf/open/floor/rogue/churchrough{
+	color = "#FFA3A3"
 	},
-/turf/open/water/pond,
 /area/rogue/indoors/town/bath)
 "cnm" = (
 /obj/structure/stairs{
@@ -29044,6 +29045,9 @@
 /obj/structure/fluff/walldeco/stone{
 	pixel_y = -32
 	},
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/indoors/town/bath)
 "fbI" = (
@@ -29209,6 +29213,7 @@
 /obj/structure/stairs{
 	dir = 1
 	},
+/obj/structure/fluff/railing/border/west,
 /turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "fcM" = (
@@ -62295,6 +62300,7 @@
 /obj/structure/fluff/walldeco/stone{
 	pixel_x = 32
 	},
+/obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/tile/bath,
 /area/rogue/indoors/town/bath)
 "kKG" = (
@@ -67784,8 +67790,11 @@
 /turf/closed/wall/mineral/rogue/wooddark/end,
 /area/rogue/indoors)
 "lDC" = (
-/obj/structure/roguemachine/bathvend,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/obj/structure/stairs{
+	dir = 1
+	},
+/obj/structure/fluff/railing/border/east,
+/turf/open/floor/rogue/tile/brownbrick,
 /area/rogue/indoors/town/bath)
 "lDD" = (
 /obj/effect/decal/cobbleedge{
@@ -79214,10 +79223,10 @@
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/shelter)
 "nCy" = (
-/obj/structure/roguewindow/harem1,
-/obj/structure/curtain/magenta,
-/obj/structure/roguemachine/talkstatue/mercenary,
-/turf/closed/wall/mineral/rogue/stonebrick,
+/obj/structure/fluff/walldeco/church/line{
+	dir = 4
+	},
+/turf/open/floor/rogue/tile/bath,
 /area/rogue/indoors/town/bath)
 "nCG" = (
 /obj/machinery/light/rogue/torchholder/l,
@@ -89127,10 +89136,10 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern)
 "phL" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
-/turf/open/water/pond,
+/obj/structure/roguewindow/harem1,
+/obj/structure/curtain/magenta,
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/bath)
 "phN" = (
 /obj/structure/roguemachine/scomm/r{
@@ -93937,11 +93946,8 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
 "pYk" = (
-/obj/structure/curtain/magenta,
-/obj/structure/roguewindow/harem1,
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
+/obj/structure/roguemachine/bathvend,
+/turf/closed/wall/mineral/rogue/stonebrick,
 /area/rogue/indoors/town/bath)
 "pYm" = (
 /obj/structure/fluff/railing/border,
@@ -95195,6 +95201,15 @@
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement/keep)
+"qig" = (
+/obj/effect/decal/cobbleedge{
+	dir = 8;
+	icon_state = "borderfall";
+	pixel_x = -8
+	},
+/obj/structure/fluff/railing/corner,
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/indoors/town/bath)
 "qij" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -115972,9 +115987,6 @@
 /turf/open/floor/rogue/woodturned,
 /area/rogue/outdoors/mountains)
 "tIx" = (
-/obj/structure/fluff/walldeco/church/line{
-	dir = 8
-	},
 /obj/structure/stairs/stone{
 	dir = 1
 	},
@@ -135160,6 +135172,7 @@
 	icon_state = "borderfall";
 	pixel_x = 8
 	},
+/obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
 "wYT" = (
@@ -165655,8 +165668,8 @@ hyt
 hyt
 mSb
 jTs
-jTs
-jTs
+nCy
+nCy
 fbE
 iZv
 bhJ
@@ -166108,8 +166121,8 @@ iSS
 alP
 jTs
 tIx
-phL
-phL
+mHA
+mHA
 nXU
 bhJ
 dIV
@@ -166559,7 +166572,7 @@ pJv
 mar
 iSS
 kKx
-cnk
+mHA
 nCL
 mHA
 hyt
@@ -172857,7 +172870,7 @@ wYt
 uIl
 uIl
 uIl
-lDC
+pYk
 xyF
 klq
 rmA
@@ -173309,11 +173322,11 @@ naR
 wZa
 naR
 uIl
-nCy
+phL
 oIh
 rmA
 ldV
-pYk
+cnk
 mil
 wrR
 hku
@@ -175576,7 +175589,7 @@ uyl
 cPX
 rqY
 fcL
-uyQ
+qig
 pYU
 wtO
 rmA
@@ -176027,7 +176040,7 @@ uXH
 eIh
 nPv
 rqY
-fcL
+lDC
 wYM
 diV
 wtO
