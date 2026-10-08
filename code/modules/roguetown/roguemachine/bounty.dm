@@ -231,7 +231,7 @@
 		say("Insufficient funds. [cost] mammon required.")
 		return
 
-	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee")
+	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee", null, LEDGER_CROWN_REV_OTHER)
 
 	var/obj/item/paper/scroll/bounty/scroll = new(get_turf(src))
 	scroll.update_bounty_text()

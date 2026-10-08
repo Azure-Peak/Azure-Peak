@@ -2,6 +2,10 @@
 	if(!entry)
 		return
 
+	// Apply the posting to the account totals first, so coalescing below only affects display.
+	if(entry.legs)
+		post_legs(entry)
+
 	var/datum/treasury_entry/last
 
 	if(length(ledger))
@@ -12,15 +16,19 @@
 			&& last.from_name == entry.from_name \
 			&& last.to_name == entry.to_name \
 			&& last.reason == entry.reason \
+			&& last.leg_signature() == entry.leg_signature() \
 			&& world.time - last.time_created <= 10 SECONDS)
 
 			last.amount += entry.amount
+			last.absorb_legs(entry)
 			last.count++
 			last.time_created = world.time
 			return
 
 	entry.time_created = world.time
 	entry.count = 1
+	if(entry.legs)
+		entry.entry_no = ++ledger_entry_seq
 	ledger += entry
 
 /datum/controller/subsystem/treasury/proc/get_account_log(account_name, max_entries = 100)
@@ -88,17 +96,20 @@
 		return "By grace of Eora"
 	return "By grace of the Crown"
 
-/datum/controller/subsystem/treasury/proc/skim_for_banditry_debt(datum/fund/to_fund, amount)
+/// Skims part of an incoming credit toward brigand debt. The skim is appended to debt_legs as a
+/// liability reduction; the caller folds it into the same posting as the receipt.
+/datum/controller/subsystem/treasury/proc/skim_for_banditry_debt(datum/fund/to_fund, amount, list/debt_legs)
 	if(amount <= 0 || banditry_debt <= 0 || to_fund != discretionary_fund)
 		return amount
 	// Only a fraction skims toward debt - the rest visibly lands in the purse.
 	var/skim = min(round(amount * BANDITRY_DEBT_SKIM_RATE), banditry_debt)
 	banditry_debt -= skim
 	GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] = banditry_debt
-	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, "Banditry debt repayment"))
+	if(skim > 0)
+		debt_legs += list(list(LEDGER_CROWN_BANDITRY_DEBT, skim, 0))
 	return amount - skim
 
-/datum/controller/subsystem/treasury/proc/skim_for_treasury_debt(datum/fund/to_fund, amount)
+/datum/controller/subsystem/treasury/proc/skim_for_treasury_debt(datum/fund/to_fund, amount, list/debt_legs)
 	if(amount <= 0 || treasury_debt <= 0 || to_fund != discretionary_fund)
 		return amount
 	var/floor_value = (treasury_state == TREASURY_BANKRUPTCY) ? BANKRUPTCY_OPERATING_FLOOR : 0
@@ -110,32 +121,31 @@
 	treasury_debt -= skim
 	GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = treasury_debt
 	record_round_statistic(STATS_TREASURY_DEBT_REPAID, skim)
-	var/reason
-	if(treasury_state == TREASURY_BANKRUPTCY)
-		reason = "Sequestration debt - ATC"
-	else if(treasury_state == TREASURY_IN_ARREARS)
-		reason = "Arrears repayment - Burghers of Azuria"
-	else
-		reason = "ATC loan repayment"
-	log_fund_entry(new /datum/treasury_entry("burn", to_fund, null, skim, reason))
+	debt_legs += debt_repayment_legs(skim)
 	if(treasury_debt <= 0)
 		treasury_debt = 0
 		clear_treasury_debt_state()
 	return amount - skim
 
-/datum/controller/subsystem/treasury/proc/mint(datum/fund/to_fund, amount, reason, from_label)
+/// income_acct classifies where the money came from: a ledger account id, or an assoc list of
+/// account id -> amount for split receipts. Unclassified receipts land in the book's suspense account.
+/datum/controller/subsystem/treasury/proc/mint(datum/fund/to_fund, amount, reason, from_label, income_acct)
 	if(!to_fund || amount <= 0)
 		return FALSE
-	var/credited = skim_for_banditry_debt(to_fund, amount)
-	credited = skim_for_treasury_debt(to_fund, credited)
+	var/list/debt_legs = list()
+	var/credited = skim_for_banditry_debt(to_fund, amount, debt_legs)
+	credited = skim_for_treasury_debt(to_fund, credited, debt_legs)
 	if(credited > 0)
 		to_fund.balance += credited
 		if(to_fund == discretionary_fund)
 			record_purse_inflow(credited)
-		log_fund_entry(new /datum/treasury_entry("mint", null, to_fund, credited, reason, from_label))
+	if(credited > 0 || length(debt_legs))
+		var/datum/treasury_entry/entry = new("mint", null, to_fund, credited, reason, from_label)
+		entry.legs = ledger_in_legs(to_fund, credited, amount, income_acct, debt_legs)
+		log_fund_entry(entry)
 	return TRUE
 
-/datum/controller/subsystem/treasury/proc/mint_fractional(datum/fund/to_fund, amount, reason, datum/fund/source_fund)
+/datum/controller/subsystem/treasury/proc/mint_fractional(datum/fund/to_fund, amount, reason, datum/fund/source_fund, income_acct)
 	if(!to_fund || amount <= 0)
 		return 0
 	to_fund.pending_micro += list(list(
@@ -154,14 +164,17 @@
 	for(var/list/entry as anything in to_fund.pending_micro)
 		var/datum/weakref/source_ref = entry["source"]
 		var/datum/fund/source = source_ref?.resolve()
+		// Memo line only: the combined mint below is the posting.
 		log_fund_entry(new /datum/treasury_entry("micro", source, to_fund, entry["amount"], entry["reason"]))
 	to_fund.pending_micro = list()
 	if(remainder > 0)
 		to_fund.pending_micro += list(list("amount" = remainder, "source" = null, "reason" = "carryover"))
-	mint(to_fund, whole, "Small payments combined ([whole]m from [contributors] payments)")
+	mint(to_fund, whole, "Small payments combined ([whole]m from [contributors] payments)", null, income_acct)
 	return whole
 
-/datum/controller/subsystem/treasury/proc/burn(datum/fund/from_fund, amount, reason)
+/// expense_acct classifies where the money went: a ledger account id, or an assoc list of
+/// account id -> amount. Unclassified disbursements land in the book's suspense account.
+/datum/controller/subsystem/treasury/proc/burn(datum/fund/from_fund, amount, reason, expense_acct)
 	if(!from_fund || amount <= 0)
 		return FALSE
 	if(from_fund.balance < amount)
@@ -169,10 +182,14 @@
 	from_fund.balance -= amount
 	if(from_fund == discretionary_fund)
 		record_purse_outflow(amount)
-	log_fund_entry(new /datum/treasury_entry("burn", from_fund, null, amount, reason))
+	var/datum/treasury_entry/entry = new("burn", from_fund, null, amount, reason)
+	entry.legs = ledger_out_legs(from_fund, amount, expense_acct)
+	log_fund_entry(entry)
 	return TRUE
 
-/datum/controller/subsystem/treasury/proc/transfer(datum/fund/from_fund, datum/fund/to_fund, amount, reason)
+/// expense_acct is the payer's side of the posting, income_acct the receiver's. Each side is
+/// balanced inside its own book, so a transfer between two institutions posts four legs.
+/datum/controller/subsystem/treasury/proc/transfer(datum/fund/from_fund, datum/fund/to_fund, amount, reason, expense_acct, income_acct)
 	if(!from_fund || !to_fund || amount <= 0)
 		return FALSE
 	if(from_fund.currency != to_fund.currency)
@@ -183,12 +200,15 @@
 	from_fund.balance -= amount
 	if(from_fund == discretionary_fund)
 		record_purse_outflow(amount)
-	var/credited = skim_for_banditry_debt(to_fund, amount)
-	credited = skim_for_treasury_debt(to_fund, credited)
+	var/list/debt_legs = list()
+	var/credited = skim_for_banditry_debt(to_fund, amount, debt_legs)
+	credited = skim_for_treasury_debt(to_fund, credited, debt_legs)
 	to_fund.balance += credited
 	if(to_fund == discretionary_fund)
 		record_purse_inflow(credited)
-	log_fund_entry(new /datum/treasury_entry("transfer", from_fund, to_fund, amount, reason))
+	var/datum/treasury_entry/entry = new("transfer", from_fund, to_fund, amount, reason)
+	entry.legs = ledger_out_legs(from_fund, amount, expense_acct) + ledger_in_legs(to_fund, credited, amount, income_acct, debt_legs)
+	log_fund_entry(entry)
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/get_tax_rate(tax_category)
@@ -240,7 +260,7 @@
 	var/due = FLOOR(payer.tax_debt, 1)
 	if(due <= 0)
 		return 0
-	if(!transfer(payer, discretionary_fund, due, "[tax_category] ([reason])"))
+	if(!transfer(payer, discretionary_fund, due, "[tax_category] ([reason])", (payer.ledger_book == LEDGER_BOOK_CITIZENS ? LEDGER_CITIZEN_TAXES : null), tax_revenue_account(tax_category)))
 		return 0
 	payer.tax_debt -= due
 	apply_concordat_tithe(base_amount, tax_category, reason)
@@ -257,6 +277,23 @@
 			record_round_statistic(STATS_REVENUE_RECOVERED_SPOILS, due)
 	return due
 
+/// Revenue account a tax category is booked to.
+/datum/controller/subsystem/treasury/proc/tax_revenue_account(tax_category)
+	switch(tax_category)
+		if(TAX_CATEGORY_CONTRACT_LEVY)
+			return LEDGER_CROWN_REV_CONTRACT_LEVY
+		if(TAX_CATEGORY_HEADEATER_LEVY)
+			return LEDGER_CROWN_REV_HEADEATER_LEVY
+		if(TAX_CATEGORY_IMPORT_TARIFF)
+			return LEDGER_CROWN_REV_IMPORT_TARIFF
+		if(TAX_CATEGORY_EXPORT_DUTY)
+			return LEDGER_CROWN_REV_EXPORT_DUTY
+		if(TAX_CATEGORY_RECOVERED_SPOILS)
+			return LEDGER_CROWN_REV_SPOILS
+		if(TAX_CATEGORY_FINE)
+			return LEDGER_CROWN_REV_FINES
+	return null
+
 /datum/controller/subsystem/treasury/proc/apply_concordat_tithe(base_amount, tax_category, reason)
 	if(base_amount <= 0)
 		return
@@ -271,7 +308,7 @@
 	var/skim = FLOOR(concordat_tithe_debt, 1)
 	if(skim <= 0)
 		return
-	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])"))
+	if(transfer(discretionary_fund, church_fund, skim, "Concordat tithe ([tax_category])", LEDGER_CROWN_EXP_TITHE, LEDGER_CHURCH_TITHE_IN))
 		concordat_tithe_debt -= skim
 		record_treasury_expense(TREASURY_FLOW_TITHE, "Church", skim)
 

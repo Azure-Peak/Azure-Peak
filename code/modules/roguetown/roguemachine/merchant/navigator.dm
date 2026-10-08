@@ -423,10 +423,10 @@
 		merchant_net = 0
 	if(pay_taxes)
 		if(duty_on_gross > 0)
-			SStreasury.mint(SStreasury.discretionary_fund, duty_on_gross, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])")
+			SStreasury.mint(SStreasury.discretionary_fund, duty_on_gross, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])", null, LEDGER_CROWN_REV_EXPORT_DUTY)
 			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "[src.name]")
 		if(duty_on_levy > 0)
-			SStreasury.mint(SStreasury.discretionary_fund, duty_on_levy, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, [src.name])")
+			SStreasury.mint(SStreasury.discretionary_fund, duty_on_levy, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, [src.name])", null, LEDGER_CROWN_REV_EXPORT_DUTY)
 			SStreasury.apply_concordat_tithe(levy, TAX_CATEGORY_EXPORT_DUTY, "levy income ([src.name])")
 		if(total_duty > 0)
 			record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
@@ -439,7 +439,7 @@
 			record_round_statistic(STATS_TAXES_EVADED, total_duty)
 			duty_evaded_here += total_duty
 	if(merchant_net > 0)
-		SStreasury.mint(SStreasury.merchant_fund, merchant_net, "Merchant's levy ([src.name])")
+		SStreasury.mint(SStreasury.merchant_fund, merchant_net, "Merchant's levy ([src.name])", null, LEDGER_MERCHANT_LEVY_IN)
 		levy_collected_here += merchant_net
 		if(SSmerchant_trade)
 			SSmerchant_trade.merchant_levy_collected += merchant_net

@@ -421,7 +421,7 @@
 			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
 			announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [payout]m. Tax: [tax_amt]m. Net: [payout - tax_amt]m.")
 		else
-			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked holder)")
+			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked holder)", null, LEDGER_CROWN_REV_BLOCKADE)
 			announce_to_bearer("The final wave breaks. You have no bank account. Your share went to the Treasury.")
 	else
 		announce_to_bearer("The final wave breaks. A Request carries no reward.")
@@ -438,7 +438,7 @@
 				record_round_statistic(STATS_TAXES_COLLECTED, spoils_tax)
 			announce_to_bearer("You seize the brigands' hoard of [spoils] mammon. The Crown takes [spoils_tax] as Recovered Spoils. You keep [spoils - spoils_tax] mammon.")
 		else
-			SStreasury.mint(SStreasury.discretionary_fund, spoils, "Recovered Spoils (unbanked holder, [region])")
+			SStreasury.mint(SStreasury.discretionary_fund, spoils, "Recovered Spoils (unbanked holder, [region])", null, LEDGER_CROWN_REV_SPOILS)
 			announce_to_bearer("You have no bank account. The brigands' hoard of [spoils] mammon went to the Treasury.")
 		GLOB.azure_round_stats[STATS_BANDITRY_HOARD_OUTSTANDING] = SSeconomy.total_banditry_hoard()
 	var/obj/item/quest_writ/S = quest_scroll

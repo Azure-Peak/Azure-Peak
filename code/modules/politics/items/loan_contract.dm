@@ -85,7 +85,7 @@
 	if(issuing_fund.balance < principal)
 		to_chat(user, span_warning("[issuing_fund.name]'s coffers are too thin to honor this writ."))
 		return
-	if(!SStreasury.transfer(issuing_fund, account, principal, "Loan principal"))
+	if(!SStreasury.transfer(issuing_fund, account, principal, "Loan principal", ledger_acct(issuing_fund.ledger_book, LEDGER_KEY_LOANS_REC), ledger_acct(account.ledger_book, LEDGER_KEY_LOANS_PAY)))
 		to_chat(user, span_warning("The meister refuses the transfer."))
 		return
 	if(issuing_fund == SStreasury.discretionary_fund)
@@ -141,7 +141,7 @@
 	if(issuing_fund.balance < principal)
 		to_chat(user, span_warning("[issuing_fund.name]'s coffers are too thin to honor this indenture."))
 		return
-	if(!SStreasury.transfer(issuing_fund, target_fund, principal, "Indenture principal"))
+	if(!SStreasury.transfer(issuing_fund, target_fund, principal, "Indenture principal", ledger_acct(issuing_fund.ledger_book, LEDGER_KEY_LOANS_REC), ledger_acct(target_fund.ledger_book, LEDGER_KEY_LOANS_PAY)))
 		to_chat(user, span_warning("The meister refuses the transfer."))
 		return
 	var/datum/loan/L = new(null, principal, term_days, interest_rate, issuer_name, issuing_fund, target_fund)

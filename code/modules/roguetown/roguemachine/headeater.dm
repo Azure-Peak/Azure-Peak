@@ -30,7 +30,7 @@
 	var/datum/fund/account = SStreasury.get_account(user)
 	if(!account)
 		return 0
-	SStreasury.mint(account, gross, "headeater bounty ([src.name])")
+	SStreasury.mint(account, gross, "headeater bounty ([src.name])", null, LEDGER_CITIZEN_CONTRACTS)
 	var/tax_amt = SStreasury.apply_tax(account, gross, TAX_CATEGORY_HEADEATER_LEVY, src.name)
 	if(tax_amt > 0)
 		record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)

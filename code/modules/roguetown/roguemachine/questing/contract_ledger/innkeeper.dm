@@ -117,5 +117,5 @@
 	if(completed_quest.source == QUEST_SOURCE_RUMOR && tavern_fund)
 		var/rumor_fee = round(gross_reward * RUMOR_CONTACT_FEE_PCT)
 		if(rumor_fee > 0)
-			SStreasury.mint(tavern_fund, rumor_fee, "Contact Referral Fee - [completed_quest.quest_type]")
+			SStreasury.mint(tavern_fund, rumor_fee, "Contact Referral Fee - [completed_quest.quest_type]", null, LEDGER_TAVERN_REFERRAL_IN)
 	return guild_paid

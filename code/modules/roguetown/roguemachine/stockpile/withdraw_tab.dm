@@ -59,7 +59,7 @@
 	SStreasury.dirty_market_view()
 	if(!food_stipend)
 		budget -= total_price
-		SStreasury.mint(SStreasury.discretionary_fund, total_price, "Stockpile withdrawal")
+		SStreasury.mint(SStreasury.discretionary_fund, total_price, "Stockpile withdrawal", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
 		record_round_statistic(STATS_STOCKPILE_REVENUE, total_price)
 	else
 		var/actor_suffix = user ? " by [user.real_name]" : ""
@@ -111,11 +111,11 @@
 	SStreasury.dirty_market_view()
 	var/chartered = SStreasury.royal_custom_active && SStreasury.royal_custom_unlocked
 	if(!using_stipend)
-		SStreasury.mint(SStreasury.discretionary_fund, unit_cost, "Direct import reimbursement: [D.name] from [region.name]")
+		SStreasury.mint(SStreasury.discretionary_fund, unit_cost, "Direct import reimbursement: [D.name] from [region.name]", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
 	record_round_statistic(STATS_STOCKPILE_DIRECT_IMPORTS, price)
 	record_material_flow(MATERIAL_FLOW_IN, MATERIAL_SOURCE_LOCAL_IMPORT, D.item_type, 1, price)
 	if(!using_stipend && chartered && surcharge > 0)
-		SStreasury.mint(SStreasury.discretionary_fund, surcharge, "Royal Custom: direct import of [D.name]")
+		SStreasury.mint(SStreasury.discretionary_fund, surcharge, "Royal Custom: direct import of [D.name]", null, LEDGER_CROWN_REV_STOCKPILE_SALES)
 		record_round_statistic(STATS_STOCKPILE_REVENUE, surcharge)
 	var/obj/item/I = new D.item_type(parent_structure.loc)
 	if(!user.put_in_hands(I))

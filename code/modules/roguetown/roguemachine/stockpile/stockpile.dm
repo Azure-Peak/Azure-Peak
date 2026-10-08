@@ -303,9 +303,9 @@
 					say(flavor)
 					to_chat(H, span_info("[src] says, \"[flavor]\""))
 			if(crown_delta > 0)
-				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)")
+				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)", null, LEDGER_CROWN_REV_QUALITY)
 			else if(crown_delta < 0)
-				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)")
+				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)", LEDGER_CROWN_EXP_QUALITY)
 				record_treasury_expense(TREASURY_FLOW_MISC, "Quality Penalty", -crown_delta)
 			if(!full_on_arrival)
 				R.stockpile_amount += 1

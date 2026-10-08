@@ -191,6 +191,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	. = ..()
 	GLOB.escrow_machines += src
 	escrow_fund = new /datum/fund("[name] escrow", null, 0, CURRENCY_MAMMON)
+	SStreasury.register_auxiliary_fund(escrow_fund)
 	init_material_prices()
 	disabled_materials = default_disabled_materials?.Copy() || list()
 	rebuild_catalog()
@@ -254,6 +255,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		return_hold(O)
 	orders?.Cut()
 	manifests?.Cut()
+	SStreasury.retire_fund(escrow_fund, "Escrow closed")
 	escrow_fund = null
 	return ..()
 

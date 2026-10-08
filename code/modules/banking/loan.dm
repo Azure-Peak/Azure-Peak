@@ -98,7 +98,8 @@
 	amount = min(amount, outstanding, account.balance)
 	if(amount <= 0)
 		return 0
-	if(!transfer(account, destination, amount, L.defaulted ? "Default debt settlement" : "Loan repayment"))
+	var/list/counters = loan_repayment_counters(L, amount, account, destination)
+	if(!transfer(account, destination, amount, L.defaulted ? "Default debt settlement" : "Loan repayment", counters["payer"], counters["payee"]))
 		return 0
 	L.repaid_so_far += amount
 	if(L.get_remaining_due() <= 0)
@@ -118,6 +119,7 @@
 		var/mob/living/carbon/human/debtor = L.get_debtor_mob()
 		if(!debtor)
 			log_game("LOAN PRUNED: [L.debtor_name] - debtor mob no longer exists, loan orphaned.")
+			write_off_loan(L, "Loan orphaned")
 			loans -= L
 			qdel(L)
 			continue
@@ -136,7 +138,8 @@
 			qdel(L)
 			continue
 		if(account && account.balance >= outstanding)
-			if(transfer(account, destination, outstanding, L.defaulted ? "Default debt settlement (auto)" : "Loan repayment (maturity)"))
+			var/list/maturity_counters = loan_repayment_counters(L, outstanding, account, destination)
+			if(transfer(account, destination, outstanding, L.defaulted ? "Default debt settlement (auto)" : "Loan repayment (maturity)", maturity_counters["payer"], maturity_counters["payee"]))
 				L.repaid_so_far += outstanding
 				if(L.defaulted)
 					REMOVE_TRAIT(debtor, TRAIT_DEBTOR, TRAIT_GENERIC)
@@ -152,7 +155,8 @@
 			var/seized = 0
 			if(account && account.balance > 0)
 				seized = account.balance
-				if(transfer(account, destination, seized, "Loan default seizure"))
+				var/list/seizure_counters = loan_repayment_counters(L, seized, account, destination)
+				if(transfer(account, destination, seized, "Loan default seizure", seizure_counters["payer"], seizure_counters["payee"]))
 					L.repaid_so_far += seized
 			ADD_TRAIT(debtor, TRAIT_DEBTOR, TRAIT_GENERIC)
 			ADD_TRAIT(debtor, L.get_faction_debtor_trait(), TRAIT_GENERIC)
@@ -167,6 +171,7 @@
 	var/datum/fund/source = L.source_fund
 	var/datum/fund/target = L.target_fund
 	if(!source || !target)
+		write_off_loan(L, "Indenture voided")
 		loans -= L
 		qdel(L)
 		return
@@ -176,7 +181,8 @@
 		qdel(L)
 		return
 	if(target.balance >= outstanding)
-		if(transfer(target, source, outstanding, L.defaulted ? "Indenture settlement (auto)" : "Indenture repayment (maturity)"))
+		var/list/indenture_counters = loan_repayment_counters(L, outstanding, target, source)
+		if(transfer(target, source, outstanding, L.defaulted ? "Indenture settlement (auto)" : "Indenture repayment (maturity)", indenture_counters["payer"], indenture_counters["payee"]))
 			L.repaid_so_far += outstanding
 			loans -= L
 			qdel(L)
@@ -186,7 +192,8 @@
 		var/seized = 0
 		if(target.balance > 0)
 			seized = target.balance
-			if(transfer(target, source, seized, "Indenture default seizure"))
+			var/list/indenture_seizure = loan_repayment_counters(L, seized, target, source)
+			if(transfer(target, source, seized, "Indenture default seizure", indenture_seizure["payer"], indenture_seizure["payee"]))
 				L.repaid_so_far += seized
 		var/still_owed = L.get_remaining_due()
 		announce_indenture_default(L, seized, still_owed)
