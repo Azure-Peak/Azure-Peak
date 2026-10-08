@@ -322,6 +322,7 @@
 					if(holder.last_recipe != R.type)
 						holder.last_recipe = R.type
 						holder.pseudo_craft_chance = prob2craft
+						holder.craft_waste_count = 0
 					else if(prob2craft > holder.pseudo_craft_chance)
 						holder.pseudo_craft_chance = prob2craft
 					else
@@ -344,12 +345,16 @@
 									else
 										failure_chance = (prob2craft * 2)
 									failure_chance = clamp(failure_chance, 1, 99)
+									if(holder.craft_waste_count >= 2)
+										failure_chance = 0
+									else if(holder.craft_waste_count == 1)
+										failure_chance *= 0.5
 									if(prob(failure_chance))
 										holder.craft_failure_count = 0
+										holder.craft_waste_count++
 										var/wasted_name = "material"
 										if(length(R.reqs))
 											var/picked_key = pick(R.reqs)
-
 											var/atom/movable/target_item = locate(picked_key) in get_environment(user)
 											if(target_item)
 												wasted_name = target_item.name

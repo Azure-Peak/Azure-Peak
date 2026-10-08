@@ -105,6 +105,8 @@
 	var/pseudo_craft_chance = 0
 	/// Counter of low skill failures. Reset upon failure, if higher than 10, can cause crafting failures.
 	var/craft_failure_count = 0
+	/// Counter of how many times a failure has causes materials to be wasted. Used to enforce a pity mechanic where failing becomes less likely the higher this number is.
+	var/craft_waste_count = 0
 
 /datum/skill_holder/New()
 	. = ..()
