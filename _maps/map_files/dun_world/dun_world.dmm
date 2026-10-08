@@ -100588,16 +100588,6 @@
 /obj/effect/decal/remains/saiga,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves/west)
-"reB" = (
-/obj/structure/fluff/railing/border/west,
-/obj/structure/roguewindow/harem2{
-	max_integrity = 1000
-	},
-/obj/structure/curtain/magenta{
-	alpha = 200
-	},
-/turf/open/floor/rogue/blocks,
-/area/rogue/indoors/town/bath)
 "reC" = (
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassred,
@@ -138143,16 +138133,6 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/steward)
-"xzk" = (
-/obj/structure/roguewindow/harem2{
-	max_integrity = 1000;
-	opacity = 0
-	},
-/obj/structure/curtain/magenta{
-	alpha = 200
-	},
-/turf/open/floor/rogue/tile/harem2,
-/area/rogue/indoors/town/bath)
 "xzp" = (
 /obj/structure/closet/crate/chest/neu,
 /obj/item/canvas,
@@ -178300,8 +178280,8 @@ oQF
 hSR
 hSR
 lBr
-reB
-xzk
+gKB
+rFi
 nZz
 dOV
 tkF
