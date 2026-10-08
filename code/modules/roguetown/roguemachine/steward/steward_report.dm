@@ -5,6 +5,14 @@
 	icon_state = "scroll"
 	info = ""
 	resistance_flags = FIRE_PROOF
+	/// Day this report was printed for. Paper resets its name from initial() on every icon update,
+	/// so the day is kept here and re-applied in update_icon_state.
+	var/report_day
+
+/obj/item/paper/steward_report/update_icon_state()
+	. = ..()
+	if(!isnull(report_day))
+		name = "steward's morning report (day [report_day])"
 
 /// Called at the end of SSeconomy.daily_tick. Prints a report onto the Nerve Master's tile.
 /// `diff` is a /list produced by SSeconomy across the tick; see build_steward_report_body.
@@ -18,7 +26,7 @@
 	if(!drop)
 		return
 	var/obj/item/paper/steward_report/R = new(drop)
-	R.name = "steward's morning report (day [diff["day"] || GLOB.dayspassed])"
+	R.report_day = diff["day"] || GLOB.dayspassed
 	diff["finance"] = SStreasury.build_report_finance()
 	R.info = build_steward_report_body(diff)
 	R.update_icon()
