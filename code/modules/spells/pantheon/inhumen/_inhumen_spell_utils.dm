@@ -291,12 +291,17 @@
 
 	var/mob/living/carbon/human/H = owner
 
+	// Matthios' loan covers the entire investment.
+	if(H.has_status_effect(/datum/status_effect/buff/matthios_loan))
+		return TRUE
+
 	var/bank = 0
 	if(SStreasury.has_account(H))
 		bank = SStreasury.get_balance(H)
 
 	var/onhand = get_mammons_in_atom(H)
 	var/total = bank + onhand
+
 	var/list/range = get_investment_range(H)
 	var/min_invest = range[1]
 
@@ -432,7 +437,6 @@
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
 	if(QDELETED(owner) || QDELETED(target))
 		return
-
 	var/damage = bonus_damage
 	var/mammon_spent = round(bonus_damage / 3)
 	var/npc_mult = target.mind ? 1 : 2
