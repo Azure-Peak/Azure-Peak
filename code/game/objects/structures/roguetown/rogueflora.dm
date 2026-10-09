@@ -537,7 +537,7 @@
 	name = "great bush"
 	desc = "A bush. This one’s roots are thick enough to block the way."
 	opacity = TRUE
-	density = TRUE
+	density = FALSE
 	climbable = FALSE
 	icon_state = "bushwall1"
 	max_integrity = 150
