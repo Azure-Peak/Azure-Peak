@@ -19695,7 +19695,7 @@
 "dwk" = (
 /obj/structure/curtain/magenta,
 /obj/structure/stairs/stone{
-	dir = 8
+	dir = 4
 	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
@@ -33253,15 +33253,6 @@
 /obj/structure/fluff/railing/wood/north,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town)
-"fLU" = (
-/obj/structure/roguemachine/headeater/treasureseeker{
-	pixel_y = 0;
-	pixel_x = 32
-	},
-/turf/open/floor/rogue/churchrough{
-	color = "#FFA3A3"
-	},
-/area/rogue/indoors/town/bath)
 "fLV" = (
 /obj/machinery/light/rogue/firebowl/stump,
 /turf/open/floor/rogue/dirt,
@@ -45337,7 +45328,7 @@
 	dir = 1;
 	pixel_y = 8
 	},
-/obj/structure/roguemachine/scomm/r{
+/obj/structure/roguemachine/scomm{
 	scom_tag = "Bath House - Front Office"
 	},
 /turf/open/floor/rogue/metal{
@@ -86012,6 +86003,7 @@
 	dir = 1;
 	pixel_y = 8
 	},
+/obj/structure/roguemachine/headeater/treasureseeker,
 /turf/open/floor/rogue/churchrough{
 	color = "#FFA3A3"
 	},
@@ -134821,10 +134813,6 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/woods/southeast)
-"wVg" = (
-/obj/effect/landmark/quest_spawner/generic,
-/turf/open/floor/rogue/blocks/green,
-/area/rogue/under/town/sewer)
 "wVi" = (
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/carpet/red,
@@ -149793,7 +149781,7 @@ bhJ
 bhJ
 cqm
 sMT
-wVg
+ylh
 ylh
 cqm
 bhJ
@@ -173301,7 +173289,7 @@ naR
 wZa
 naR
 uIl
-phL
+cPX
 oIh
 rmA
 ldV
@@ -174205,10 +174193,10 @@ naR
 poT
 naR
 uIl
-xss
+cPX
 hSK
 rmA
-fLU
+rmA
 fVp
 mil
 mil
@@ -174658,9 +174646,9 @@ uIl
 non
 dpR
 cPX
-cPX
+phL
 dwk
-cPX
+xss
 cPX
 lfu
 xrA
