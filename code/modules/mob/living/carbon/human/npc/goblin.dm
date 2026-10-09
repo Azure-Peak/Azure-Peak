@@ -34,9 +34,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses + can do specials to make it worth a midround threat
 	npc_archetype = /datum/npc_archetype/goblin/siege
 
-/mob/living/carbon/human/species/goblin/siege/spec_death(gibbed, mob/living/carbon/human/H) //these gib on death, Graggar is watching
-	H.gib()
-
 /mob/living/carbon/human/species/goblin/npc/siege //Slightly smarter varient for sieges
 	ai_controller = /datum/ai_controller/human_npc
 	setparrytime = 30 //Slightly more competent than their lobotomised counterparts.
@@ -45,8 +42,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	npc_archetype = /datum/npc_archetype/goblin/siege
 	//Keep in mind these are balanced out by them firebombing 90% of their own numbers and dying instantly 20% of the time. KEEP THIS, ITS SOVL SIRE.
 
-/mob/living/carbon/human/species/goblin/npc/siege/spec_death(gibbed, mob/living/carbon/human/H) //these gib on death, Graggar is watching
-	H.gib()
 /mob/living/carbon/human/species/goblin/npc/siege/after_creation()
 	..()
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_siege_aggro, TRUE)
@@ -554,4 +549,5 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /obj/structure/gob_portal/Destroy()
 	soundloop.stop()
+	playsound(loc, 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
 	. = ..()
