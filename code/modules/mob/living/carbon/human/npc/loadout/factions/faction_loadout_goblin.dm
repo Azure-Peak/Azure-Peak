@@ -116,9 +116,15 @@
 	)
 
 /datum/npc_loadout/kit/goblin_siege
-	//always in plate
-	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
-	head = /obj/item/clothing/head/roguetown/helmet/goblin
+	//more often in plate
+	armor = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin = 40,
+		/obj/item/clothing/suit/roguetown/armor/leather/goblin = 60,
+	)
+	head = list(
+		/obj/item/clothing/head/roguetown/helmet/goblin = 85,
+		/obj/item/clothing/head/roguetown/helmet/leather/goblin = 15,
+	)
 	//nastier weapons, more varity too
 	weapons = list(
 		list(/obj/item/rogueweapon/sword/iron, /obj/item/rogueweapon/shield/wood, 40),
