@@ -201,7 +201,7 @@
 		STATKEY_INT = 1,
 		STATKEY_STR = 3,
 		STATKEY_PER = 1,
-		STATKEY_SPD = -2
+		STATKEY_SPD = -3
 	)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_EXPERT,
