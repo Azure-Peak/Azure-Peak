@@ -247,7 +247,7 @@
 		var/turf/T = get_turf(src)
 		var/full_drain = F.balance
 		budget2change(full_drain, custom_turf = T)
-		SStreasury.burn(F, full_drain, "Jawbank fully drilled", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE))
+		SStreasury.burn(F, full_drain, "Jawbank critical damage", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE))
 		playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
 		shaker = FALSE
 		drilling = FALSE
@@ -283,7 +283,7 @@
 		anguish()
 		var/turf/T = get_turf(src)
 		budget2change(taken, custom_turf = T)
-		SStreasury.burn(F2, taken, "Jawbank drilled", ledger_acct(F2.ledger_book, LEDGER_KEY_EXPENSE))
+		SStreasury.burn(F2, taken, "Jawbank damage", ledger_acct(F2.ledger_book, LEDGER_KEY_EXPENSE))
 		visible_message(span_danger("The Crown just drilled [taken] mammon out of [src]!"))
 		drilltime += 3 // Adjust this to increase or decrease how long it'll take to drill open.
 		drill(src)
@@ -370,7 +370,7 @@
 	playsound(src, 'sound/misc/jawbankhit.ogg', 70, TRUE)
 	var/turf/budget_turf = get_turf(src)
 	budget2change(extorted, custom_turf = budget_turf)
-	SStreasury.burn(F, extorted, "Jawbank struck loose", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE))
+	SStreasury.burn(F, extorted, "Jawbank damage", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE))
 	visible_message(span_danger("[src] coughed up [extorted] mammon!"))
 	playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
 	announce_robbery(extorted)
@@ -385,7 +385,7 @@
 			return
 		var/lumpsum = min(lump_payout, post_hit_bashable)
 		budget2change(lumpsum, custom_turf = budget_turf)
-		SStreasury.burn(F, lumpsum, "Jawbank struck loose (lump sum)", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE))
+		SStreasury.burn(F, lumpsum, "Jawbank damage", ledger_acct(F.ledger_book, LEDGER_KEY_EXPENSE))
 		visible_message(span_notice("[src] just spat up [lumpsum] mammon in <b>a lump sum!</b>"))
 		playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
 		anguish()
