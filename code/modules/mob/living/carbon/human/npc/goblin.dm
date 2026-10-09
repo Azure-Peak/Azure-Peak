@@ -561,5 +561,5 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	soundloop.stop()
 	playsound(loc, 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
 	new /obj/effect/temp_visual/kinetic_blast(get_turf(src))
-	visible_message(span_userdanger("A loud crackle of power can be heard with a gust of wind as the portal destabilises before it finally unravels and closes!"))
+	visible_message(span_userdanger("A loud crackle of power can be heard as the portal destabilises before it finally closes!"))
 	. = ..()
