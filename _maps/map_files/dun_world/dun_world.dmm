@@ -10039,7 +10039,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/church/chapel)
 "bOD" = (
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /obj/structure/table/wood/poor,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
@@ -20107,7 +20107,7 @@
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/physician)
 "dDi" = (
-/obj/item/toy/cards/deck{
+/obj/item/deck/cards{
 	pixel_x = -5;
 	pixel_y = 2
 	},
@@ -21320,7 +21320,7 @@
 /area/rogue/indoors/town/tavern)
 "dOV" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/basement)
 "dOW" = (
@@ -27929,7 +27929,7 @@
 /area/rogue/indoors/town/bath)
 "eXv" = (
 /obj/structure/table/vtable,
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/bath)
 "eXx" = (
@@ -35765,7 +35765,7 @@
 	pixel_x = -7;
 	pixel_y = 8
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/cards{
 	pixel_x = 7;
 	pixel_y = 5
 	},
@@ -39747,8 +39747,8 @@
 "hbl" = (
 /obj/item/storage/pill_bottle/dice,
 /obj/item/storage/pill_bottle/dice/farkle,
-/obj/item/toy/cards/deck,
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
+/obj/item/deck/cards,
 /obj/structure/closet/crate/chest/neu{
 	lockid = "Cafe Key"
 	},
@@ -42478,7 +42478,7 @@
 	dir = 1
 	},
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck/tarot{
+/obj/item/deck/tarot/includes_minor_arcana{
 	pixel_x = 9;
 	pixel_y = -2
 	},
@@ -46750,7 +46750,7 @@
 	dir = 10
 	},
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark/south)
 "inN" = (
@@ -48644,7 +48644,7 @@
 	pixel_x = 0;
 	pixel_y = 32
 	},
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /turf/open/floor/rogue/twig,
 /area/rogue/indoors)
 "iEH" = (
@@ -50379,7 +50379,7 @@
 /area/rogue/outdoors/town)
 "iVj" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck/syndicate{
+/obj/item/deck/cards{
 	pixel_y = 6
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
@@ -55152,7 +55152,7 @@
 /area/rogue/outdoors/town)
 "jKi" = (
 /obj/structure/table/wood/large_table/north_west,
-/obj/item/toy/cards/deck/syndicate,
+/obj/item/deck/cards,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/shelter)
 "jKm" = (
@@ -62546,7 +62546,7 @@
 /area/rogue/indoors/cave)
 "kXR" = (
 /obj/structure/table/wood/large_table/north_west,
-/obj/item/toy/cards/deck/syndicate,
+/obj/item/deck/cards,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/underdark/north)
 "kXU" = (
@@ -65195,7 +65195,7 @@
 /area/rogue/outdoors/woods/south)
 "ltH" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/garrison)
 "ltI" = (
@@ -67971,7 +67971,7 @@
 /area/rogue/outdoors/mountains/decap/minotaurfort)
 "lQX" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /turf/open/floor/carpet/inn,
 /area/rogue/indoors/town/tavern)
 "lRb" = (
@@ -69621,7 +69621,7 @@
 /area/rogue/indoors/town)
 "mfi" = (
 /obj/structure/table/wood/long_table/right,
-/obj/item/toy/cards/deck/syndicate{
+/obj/item/deck/cards{
 	pixel_y = 6
 	},
 /obj/machinery/light/rogue/candle/r,
@@ -92613,7 +92613,7 @@
 	pixel_y = 15
 	},
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck{
+/obj/item/deck/cards{
 	pixel_x = 9;
 	pixel_y = -6
 	},
@@ -96545,7 +96545,7 @@
 /area/rogue/indoors/town)
 "qOp" = (
 /obj/structure/table/wood,
-/obj/item/toy/cards/deck,
+/obj/item/deck/cards,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/magician)
 "qOq" = (
@@ -103926,7 +103926,6 @@
 	pixel_x = 17;
 	pixel_y = 24
 	},
-/obj/item/toy/cards/cardhand,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/garrison)
 "scY" = (
@@ -107012,7 +107011,7 @@
 /area/rogue/under/town/basement/keep)
 "sEI" = (
 /obj/structure/table/wood,
-/obj/item/toy/cards/deck{
+/obj/item/deck/cards{
 	pixel_x = 6
 	},
 /obj/item/reagent_containers/glass/cup{
@@ -111525,7 +111524,7 @@
 	pixel_y = -32
 	},
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck/syndicate{
+/obj/item/deck/cards{
 	pixel_y = 6
 	},
 /turf/open/floor/carpet/royalblack,
@@ -112558,7 +112557,7 @@
 	pixel_x = -9;
 	pixel_y = 14
 	},
-/obj/item/toy/cards/deck/tarot/majorarcana,
+/obj/item/deck/tarot,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern)
 "tAW" = (
@@ -123536,7 +123535,7 @@
 /area/rogue/under/town/basement/keep)
 "vxz" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck/syndicate,
+/obj/item/deck/cards,
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/forest/hamlet)
 "vxA" = (
@@ -126583,7 +126582,7 @@
 /obj/structure/table/wood{
 	icon_state = "largetable"
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/cards{
 	pixel_x = 2;
 	pixel_y = 4
 	},

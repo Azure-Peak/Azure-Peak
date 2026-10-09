@@ -239,35 +239,6 @@
 	var/obj/item/I = user.get_active_held_item()
 	if(I)
 		if(!(I.item_flags & ABSTRACT))
-			if(istype(I, /obj/item/toy/cards/singlecard))
-				var/obj/item/toy/cards/singlecard/C = I
-				if(!C.flipped)
-					C.Flip()
-			else if(istype(I, /obj/item/toy/cards/cardhand))
-				var/obj/item/toy/cards/cardhand/H = I
-				user.visible_message("<span class='notice'>[user] lays [user.p_their()] hand of cards face-up on the table.</span>",
-					"<span class='notice'>I lay my cards face-up on the table.</span>")
-
-				var/turf/T = get_turf(src)
-				if(!T)
-					return
-
-				// Fan them out slightly so they don’t stack perfectly
-				var/offset = -((H.currenthand.len - 1) * 4) / 2
-
-				for(var/cardname in H.currenthand)
-					var/obj/item/toy/cards/singlecard/C = new(T)
-					C.parentdeck = H.parentdeck
-					C.cardname = cardname
-					C.apply_card_vars(C, H)
-					C.forceMove(T)
-					C.Flip()
-					C.pixel_x = offset
-					offset += 8
-
-				// delete the hand after laying them down
-				qdel(H)
-				return 1
 			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 				var/list/click_params = params2list(params)
 				//Center the icon where the user clicked.

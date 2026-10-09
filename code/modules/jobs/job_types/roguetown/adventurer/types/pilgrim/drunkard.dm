@@ -3,7 +3,7 @@
 	tutorial = "You are a gambler. Everyone in your life has given up on you, and the stress of losing it all over and over has taken its toll on your body. All you have left to your name are some cards, dice and whatever is in this bottle. At least you're still in Baotha's good graces, whether you reciprocate such feelings or not..."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/drunkard
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
@@ -40,7 +40,7 @@
 						/obj/item/storage/pill_bottle/dice = 1,
 						/obj/item/storage/pill_bottle/dice/farkle = 1,
 						/obj/item/reagent_containers/glass/cup = 1,
-						/obj/item/toy/cards/deck = 1,
+						/obj/item/deck/cards = 1,
 						/obj/item/reagent_containers/glass/bottle/rogue/wine = 1,
 						/obj/item/flashlight/flare/torch = 1,
 						)
