@@ -140,85 +140,80 @@
 
 /obj/item/storage/belt/rogue/pouch/coins/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/copper/pile
+	to_preload += /obj/item/roguecoin/copper/pile/pouch
 	return to_preload
 
 /obj/item/storage/belt/rogue/pouch/coins/mid/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/silver/pile
+	to_preload += /obj/item/roguecoin/silver/pile/pouch
 	return to_preload
 
 /obj/item/storage/belt/rogue/pouch/coins/mid/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
+	var/obj/item/roguecoin/silver/pile/pouch/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
-	var/obj/item/roguecoin/copper/pile/C = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
+	var/obj/item/roguecoin/copper/pile/pouch/C = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
 	if(istype(C))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, C, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(C)
 
 /obj/item/storage/belt/rogue/pouch/coins/poor/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/copper/pile
+	to_preload += /obj/item/roguecoin/copper/pile/pouch
 	return to_preload
 
 /obj/item/storage/belt/rogue/pouch/coins/poor/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/copper/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
+	var/obj/item/roguecoin/copper/pile/pouch/H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile/pouch, loc)
 	if(istype(H))
-		if(H.quantity < 10)
-			H.set_quantity(10)
+	if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+		SSwardrobe.recycle_object(H)
+	H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile/pouch, loc)
+	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
-	if(prob(50))
-		H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
 
 /obj/item/storage/belt/rogue/pouch/coins/rich/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/silver/pile
+	to_preload += /obj/item/roguecoin/silver/pile/pouch
 	return to_preload
 
 /obj/item/storage/belt/rogue/pouch/coins/rich/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
+	var/obj/item/roguecoin/silver/pile/pouch/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile/pouch, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
-	H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
+	H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile/pouch, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
-	if(prob(50))
-		H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
+	H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile/pouch, loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			SSwardrobe.recycle_object(H)
 
 /obj/item/storage/belt/rogue/pouch/coins/veryrich/get_types_to_preload()
 	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/gold/pile
+	to_preload += /obj/item/roguecoin/gold/pile/pouch
 	return to_preload
 
 /obj/item/storage/belt/rogue/pouch/coins/veryrich/PopulateContents()
 	. = ..()
-	var/obj/item/roguecoin/gold/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
+	var/obj/item/roguecoin/gold/pile/pouch/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile/pouch, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
-	H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
+	H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile/pouch, loc)
 	if(istype(H))
 		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
 			SSwardrobe.recycle_object(H)
-	if(prob(50))
-		H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
+	H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile/pouch, loc)
+	if(istype(H))
+		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
+			SSwardrobe.recycle_object(H)
 
 /obj/item/storage/belt/rogue/pouch/coins/aspirantpouch/get_types_to_preload()
 	var/list/to_preload = list()
