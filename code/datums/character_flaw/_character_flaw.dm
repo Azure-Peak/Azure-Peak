@@ -21,6 +21,13 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	"Everyone" = (COURTIERS | NOBLEMEN | INQUISITION | BURGHERS | ATC | RETINUE | GARRISON | CHURCHMEN | PEASANTS | WANDERERS | SIDEFOLK | ANTAGONIST)
 ))
 
+GLOBAL_LIST_INIT(badsight_glasses, list(
+	"Spectacles" = /obj/item/clothing/mask/rogue/spectacles,
+	"Thin Spectacles" = /obj/item/clothing/mask/rogue/spectacles/thin,
+	"Fancy Spectacles" = /obj/item/clothing/mask/rogue/spectacles/fancy,
+	"Fancy Tinted Spectacles" = /obj/item/clothing/mask/rogue/spectacles/fancy/dark,
+))
+
 /datum/charflaw
 	abstract_type = /datum/charflaw
 	var/name
@@ -182,16 +189,22 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(!H.wear_mask)
-		H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/spectacles(H), SLOT_WEAR_MASK)
-	else
-		new /obj/item/clothing/mask/rogue/spectacles(get_turf(H))
-
 	// we don't seem to have a mind when on_mob_creation fires, so set up a timer to check when we probably will
 	addtimer(CALLBACK(src, PROC_REF(apply_reading_skill), H), 5 SECONDS)
 
 /datum/charflaw/badsight/proc/apply_reading_skill(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+
+/datum/charflaw/badsight/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	var/glasses_type = GLOB.badsight_glasses[user.client?.prefs?.badsight_chosen_glasses] || /obj/item/clothing/mask/rogue/spectacles
+	if(!H.wear_mask)
+		H.equip_to_slot_or_del(new glasses_type(H), SLOT_WEAR_MASK)
+	else
+		new glasses_type(get_turf(H))
 
 /datum/charflaw/proc/get_nearby_humans(mob/user, range)
 	. = list()

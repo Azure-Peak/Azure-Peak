@@ -206,6 +206,15 @@
 				averse_chosen_faction = choice
 			return CHARACTER_ACT_DATA_UPDATE
 
+		if("charflaw_badsight_choice")
+			if(!has_flaw(/datum/charflaw/badsight))
+				return CHARACTER_ACT_DATA_UPDATE
+			var/choice = tgui_input_list(user, "Choose your spectacles", "SPECTACLES", GLOB.badsight_glasses, badsight_chosen_glasses)
+			if(choice && (choice in GLOB.badsight_glasses))
+				verbose_pref_log_change(user, "notice", "Spectacles", badsight_chosen_glasses, choice)
+				badsight_chosen_glasses = choice
+			return CHARACTER_ACT_DATA_UPDATE
+
 		if("open_loadout")
 			var/datum/loadout_menu/LM = new(user.client)
 			LM.ui_interact(user)

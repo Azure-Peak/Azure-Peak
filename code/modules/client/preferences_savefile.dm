@@ -638,6 +638,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["rumour"]					>> rumour
 	S["noble_gossip"]			>> noble_gossip
 	S["averse_chosen_faction"]	>> averse_chosen_faction
+	S["badsight_chosen_glasses"]	>> badsight_chosen_glasses
 	S["song_artist"]			>> song_artist
 	S["song_title"]				>> song_title
 	S["nsfwflavortext"]			>> nsfwflavortext
@@ -740,6 +741,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	examine_theme	= sanitize_inlist_no_pick(examine_theme, GLOB.tgui_themes, initial(examine_theme))
 	taur_type		= sanitize_inlist_no_pick(taur_type, pref_species.get_taur_list(), null)
 	averse_chosen_faction = sanitize_inlist(averse_chosen_faction, GLOB.averse_factions, initial(averse_chosen_faction))
+	badsight_chosen_glasses = sanitize_inlist(badsight_chosen_glasses, GLOB.badsight_glasses, initial(badsight_chosen_glasses))
 	// these are fine: null isn't in list -> becomes null again
 	preset_bounty_poster_key		= sanitize_inlist_no_pick(preset_bounty_poster_key, GLOB.bounty_posters, null)
 	preset_bounty_severity_key		= sanitize_inlist_no_pick(preset_bounty_severity_key, GLOB.wretch_severities, null)
@@ -929,6 +931,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["rumour"] , html_decode(rumour))
 	WRITE_FILE(S["noble_gossip"] , html_decode(noble_gossip))
 	WRITE_FILE(S["averse_chosen_faction"] , html_decode(averse_chosen_faction))
+	WRITE_FILE(S["badsight_chosen_glasses"], badsight_chosen_glasses)
 	WRITE_FILE(S["song_artist"] , song_artist)
 	WRITE_FILE(S["song_title"] , song_title)
 	WRITE_FILE(S["examine_theme"] , examine_theme)

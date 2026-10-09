@@ -109,6 +109,8 @@
 		"charflaws" = list(),
 		"has_averse" = FALSE,
 		"averse_chosen_faction" = averse_chosen_faction,
+		"has_badsight" = FALSE,
+		"badsight_chosen_glasses" = badsight_chosen_glasses,
 	)
 
 	var/has_extra_vice = FALSE
@@ -120,6 +122,7 @@
 			has_extra_vice = TRUE
 
 	var/has_averse = FALSE
+	var/has_badsight = FALSE
 	var/list/charflaws_data = list()
 	for(var/cf_type in charflaws)
 		var/datum/charflaw/cf = GLOB.character_flaws_singletons[cf_type]
@@ -127,6 +130,8 @@
 			continue
 		if(ispath(cf_type, /datum/charflaw/averse))
 			has_averse = TRUE
+		if(ispath(cf_type, /datum/charflaw/badsight))
+			has_badsight = TRUE
 		UNTYPED_LIST_ADD(charflaws_data, list(
 			"name" = "[cf]",
 			"type" = "[cf.type]",
@@ -135,6 +140,7 @@
 
 	data["charflaws"] = charflaws_data
 	data["has_averse"] = has_averse
+	data["has_badsight"] = has_badsight
 
 	return data
 
