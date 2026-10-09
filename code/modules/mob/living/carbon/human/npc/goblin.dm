@@ -1,5 +1,4 @@
 GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"))
-GLOBAL_LIST_INIT(goblin_siege_aggro, world.file2list("strings/rt/goblinseigeaggrolines.txt")) //more violent lines for siege goblins
 
 GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	"SFERA IGNA!",
@@ -40,11 +39,10 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	npc_archetype = /datum/npc_archetype/goblin/siege
-	//Keep in mind these are balanced out by them firebombing 90% of their own numbers and dying instantly 20% of the time. KEEP THIS, ITS SOVL SIRE.
-
-/mob/living/carbon/human/species/goblin/npc/siege/after_creation()
-	..()
-	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_siege_aggro, TRUE)
+	race = pick(/datum/species/goblin/sea, /datum/species/goblin/cave, /datum/species/goblin/hell) //mixture of races
+	//not just any fodder, soldiers
+	name = "goblin soldier"
+	real_name = "goblin soldier"
 
 /mob/living/carbon/human/species/goblin/npc/after_creation()
 	..()
