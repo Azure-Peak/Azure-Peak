@@ -33,14 +33,24 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses + can do specials to make it worth a midround threat
 	npc_archetype = /datum/npc_archetype/goblin/siege
 
+/mob/living/carbon/human/species/goblin/siege/after_creation()
+	..()
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //no meme goblins, always plate-trained so they can parry
+	//stand out as big-time threat
+	name = "goblin soldier"
+	real_name = "goblin soldier"
+
 /mob/living/carbon/human/species/goblin/npc/siege //Slightly smarter varient for sieges
 	ai_controller = /datum/ai_controller/human_npc
-	setparrytime = 30 //Slightly more competent than their lobotomised counterparts.
+	setparrytime = 30 //More competent than their lobotomised counterparts and can parry
 	a_intent = INTENT_HELP
 	d_intent = INTENT_PARRY
 	npc_archetype = /datum/npc_archetype/goblin/siege
-	race = pick(/datum/species/goblin/sea, /datum/species/goblin/cave, /datum/species/goblin/hell) //mixture of races
-	//not just any fodder, soldiers
+
+/mob/living/carbon/human/species/goblin/npc/siege/after_creation()
+	..()
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //no meme goblins, always plate-trained so they can parry
+	//stand out as big-time threat
 	name = "goblin soldier"
 	real_name = "goblin soldier"
 
@@ -458,9 +468,9 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /obj/structure/gob_portal
 	name = "goblin portal"
-	desc = "A bright portal torn through the fabric of the world, sounds of marching and goblin warcries can be heard on the other side. This can't be good."
+	desc = "A bloodred portal torn through the fabric of the world, sounds of marching and goblin warcries can be heard on the other side. This can't be good."
 	icon = 'icons/roguetown/misc/structure.dmi'
-	icon_state = "shitportal"
+	icon_state = "graggarportal"
 	max_integrity = 400 //keep it a bit more intact, you'll need an axe to properly take it down quickly.
 	anchored = TRUE
 	density = FALSE
@@ -480,8 +490,10 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	soundloop.start()
 	spawn_gob()
 
-	set_light(3, 2, 20, l_color = "#7b60f3")
+	set_light(3, 2, 20, l_color = "#c03030")
 	playsound(loc, 'sound/misc/portalopen.ogg', 100, FALSE, pressure_affected = FALSE)
+	new /obj/effect/temp_visual/kinetic_blast(get_turf(src))
+	visible_message(span_userdanger("The air tears open as a bloodred portal manifests before your eyes, goblins begin to pour out!"))
 
 /obj/structure/gob_portal/attack_ghost(mob/dead/observer/user)
 	if(QDELETED(user))
@@ -548,4 +560,6 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 /obj/structure/gob_portal/Destroy()
 	soundloop.stop()
 	playsound(loc, 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
+	new /obj/effect/temp_visual/kinetic_blast(get_turf(src))
+	visible_message(span_userdanger("A loud crackle of power can be heard with a gust of wind as the portal destabilises before it finally unravels and closes!"))
 	. = ..()

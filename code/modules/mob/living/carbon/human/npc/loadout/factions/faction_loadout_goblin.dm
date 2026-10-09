@@ -71,9 +71,10 @@
 /datum/npc_archetype/goblin/siege //smarter + deadlier than NPCs in the wilds
 	name = "Goblin Soldier" //we getting serious here
 	loadouts = list(/datum/npc_loadout/kit/goblin_siege)
-	stat_modifiers = list("perception" = -2, "strength" = 1, "intelligence" = 2, "constitution" = 2) //AI can do specials, can take more damage, hits harder
+	statpack = /datum/npc_statpack/line/t1 //rougher fight
+	stat_modifiers = list("perception" = -2) //lower per by a bit
 	melee = SKILL_LEVEL_JOURNEYMAN
-	athletics = SKILL_LEVEL_APPRENTICE //lasts slightly longer stam-wise
+	athletics = SKILL_LEVEL_APPRENTICE
 
 //** GEAR **//
 
