@@ -311,7 +311,7 @@
 
 /obj/item/roguecoin/gold/virtuepile/Initialize(mapload)
 	. = ..()
-	set_quantity(rand(10,15))
+	set_quantity(rand(10,14))
 
 /obj/item/roguecoin/gold/aspirantpile/Initialize(mapload)
 	. = ..()

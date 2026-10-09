@@ -74,7 +74,7 @@
 				else
 					if(!SStreasury.has_account(recipient))
 						SStreasury.create_bank_account(recipient)
-					var/money_to_deposit = rand(100,150)
+					var/money_to_deposit = rand(80,160)
 					if(SStreasury.generate_money_account(money_to_deposit, recipient))
 						record_round_statistic(STATS_MAMMONS_DEPOSITED, money_to_deposit)
 			if(NOTABLE_RESIDENCY)
