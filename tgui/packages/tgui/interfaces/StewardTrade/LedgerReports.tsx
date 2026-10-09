@@ -400,6 +400,15 @@ export const SubsidiaryPanel = (props: { sub?: Subsidiary }) => {
         />
       ))}
 
+      <div style={sectionHeaderStyle}>Receivables</div>
+      {sub.receivables.map((r, i) => (
+        <TableRow
+          key={i}
+          widths={[null, '90px']}
+          cells={[r.name, num(r.balance)]}
+        />
+      ))}
+
       <div style={sectionHeaderStyle}>Payables</div>
       {sub.payables.map((p, i) => (
         <TableRow
@@ -408,6 +417,30 @@ export const SubsidiaryPanel = (props: { sub?: Subsidiary }) => {
           cells={[p.name, num(p.balance)]}
         />
       ))}
+
+      <div style={sectionHeaderStyle}>Stockpile Inventory</div>
+      <TableRow
+        header
+        widths={[null, '64px', '64px', '80px']}
+        cells={['Goods', 'Units', 'Price', 'Value']}
+      />
+      {sub.inventory.length === 0 && <Empty>The stockpile is empty.</Empty>}
+      {sub.inventory.map((g, i) => (
+        <TableRow
+          key={i}
+          widths={[null, '64px', '64px', '80px']}
+          cells={[g.name, g.units, num(g.unit_price), num(g.value)]}
+        />
+      ))}
+      <TableRow
+        bold
+        widths={[null, '90px', '90px']}
+        cells={[
+          'On hand / on the books',
+          money(sub.inventory_live),
+          money(sub.inventory_booked),
+        ]}
+      />
 
       <div style={sectionHeaderStyle}>Payroll Register</div>
       <TableRow

@@ -62,6 +62,10 @@ SUBSYSTEM_DEF(treasury)
 	/// Double-entry chart of accounts: account id -> /datum/ledger_account. Built lazily.
 	var/list/chart_of_accounts = list()
 	var/ledger_entry_seq = 0
+	/// Cash that has entered / left the Crown purse through ordinary receipts and payments, taken from the books
+	/// (financing and opening entries are left out). Feeds the Economic Chronicle.
+	var/purse_inflow_total = 0
+	var/purse_outflow_total = 0
 	/// Funds that live outside bank_accounts (e.g. escrow holds) but must reconcile to the books.
 	var/list/auxiliary_funds = list()
 	/// Account totals at the close of each day: day -> list(account id -> list(debits, credits)).
@@ -102,6 +106,8 @@ SUBSYSTEM_DEF(treasury)
 	)
 	var/list/poll_tax_advance_days = list()
 	var/list/poll_tax_owed = list()
+	/// Mammon of prepaid poll tax still unearned per head (deferred revenue in the Crown book).
+	var/list/poll_tax_advance_value = list()
 	var/list/poll_tax_debt_days = list()
 	var/levy_rates_changed_day = -1
 	var/poll_rates_changed_day = -1
@@ -163,6 +169,7 @@ SUBSYSTEM_DEF(treasury)
 		if(D.trade_good_id)
 			stockpile_by_trade_good[D.trade_good_id] = D
 	autoset_stockpile_limits()
+	revalue_stockpile_inventory(opening = TRUE)
 	return ..()
 
 /datum/controller/subsystem/treasury/proc/autoset_stockpile_limits()
@@ -199,6 +206,8 @@ SUBSYSTEM_DEF(treasury)
 		auto_export()
 
 	if(ledger_closed_day < GLOB.dayspassed - 1)
+		// Value the stockpile before the totals are frozen so the day closes with it included.
+		revalue_stockpile_inventory()
 		close_books_through(GLOB.dayspassed - 1)
 
 /datum/controller/subsystem/treasury/proc/tick_rural_tax()
@@ -346,9 +355,9 @@ SUBSYSTEM_DEF(treasury)
 	var/datum/fund/account = get_account(target)
 	if(!account)
 		return FALSE
-	return mint(account, amt, "Savings")
+	return mint(account, amt, "Savings", null, LEDGER_CITIZEN_ESTATE)
 
-/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label, is_salary = FALSE)
+/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label, is_salary = FALSE, expense_acct, income_acct)
 	if(!amt)
 		return
 	if(!target)
@@ -363,10 +372,13 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	if(amt > 0)
 		if(mint_new)
-			if(!mint(account, amt, source, mint_label))
+			if(!mint(account, amt, source, mint_label, income_acct))
 				return FALSE
 		else
-			if(!transfer(discretionary_fund, account, amt, source, is_salary ? LEDGER_CROWN_EXP_WAGES : LEDGER_CROWN_EXP_GRANTS, is_salary ? LEDGER_CITIZEN_WAGES : null))
+			// Callers that know what the Crown is paying for classify it; the default is a salary or a grant.
+			var/payer_acct = expense_acct || (is_salary ? LEDGER_CROWN_EXP_WAGES : LEDGER_CROWN_EXP_GRANTS)
+			var/payee_acct = income_acct || (is_salary ? LEDGER_CITIZEN_WAGES : null)
+			if(!transfer(discretionary_fund, account, amt, source, payer_acct, payee_acct))
 				return FALSE
 		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		if(!mint_new)
@@ -453,7 +465,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	var/source = recipient.job == "Merchant" ? "Azurian Trading Company" : "Noble Estate"
 	var/payout = is_starter ? amount + ESTATE_STARTER_BONUS : amount
-	if(!mint(account, payout, source))
+	if(!mint(account, payout, source, null, LEDGER_CITIZEN_ESTATE))
 		return FALSE
 	record_round_statistic(STATS_NOBLE_INCOME_TOTAL, payout)
 	total_noble_income += payout
@@ -621,6 +633,9 @@ SUBSYSTEM_DEF(treasury)
 	retire_fund(bank_accounts[person])
 	noble_incomes -= person
 	bank_accounts -= person
+	// Prepaid tax is earned (they will not be using it); arrears will never be collected.
+	release_poll_tax_advance(person, 0, TRUE)
+	write_off_poll_tax_receivable(poll_tax_owed[person] || 0, "Poll tax arrears written off (departed)")
 	poll_tax_advance_days -= person
 	poll_tax_owed -= person
 	poll_tax_debt_days -= person
@@ -982,9 +997,10 @@ SUBSYSTEM_DEF(treasury)
 	if(account.balance < total_cost)
 		to_chat(H, span_warning("You need [total_cost]m to pay [days] days ahead."))
 		return FALSE
-	if(!transfer(account, discretionary_fund, total_cost, "Poll tax advance ([days] days)", LEDGER_CITIZEN_TAXES, LEDGER_CROWN_REV_POLL_TAX))
+	if(!transfer(account, discretionary_fund, total_cost, "Poll tax advance ([days] days)", LEDGER_CITIZEN_TAXES, LEDGER_CROWN_POLL_DEFERRED))
 		return FALSE
 	record_poll_tax_by_category(category, total_cost)
+	poll_tax_advance_value[H] = (poll_tax_advance_value[H] || 0) + total_cost
 	poll_tax_advance_days[H] = existing_advance + days
 	to_chat(H, span_notice("You paid [days] day[days == 1 ? "" : "s"] of poll tax ahead ([total_cost]m). You are now paid up for [poll_tax_advance_days[H]] day[poll_tax_advance_days[H] == 1 ? "" : "s"]."))
 	log_game("POLL TAX ADVANCE: [key_name(H)] prepaid [days] days ([total_cost]m) of poll tax as [category]")
@@ -994,6 +1010,8 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/clear_poll_tax_debt(mob/living/H)
 	if(!H)
 		return
+	// Whatever is still on the receivable at this point is being forgiven.
+	write_off_poll_tax_receivable(poll_tax_owed[H] || 0, "Poll tax arrears cleared")
 	poll_tax_owed -= H
 	poll_tax_debt_days -= H
 	if(HAS_TRAIT(H, TRAIT_ARREARS))
@@ -1040,6 +1058,7 @@ SUBSYSTEM_DEF(treasury)
 
 		var/advance = poll_tax_advance_days[owner] || 0
 		if(advance > 0)
+			release_poll_tax_advance(owner, advance)
 			advance--
 			if(advance <= 0)
 				poll_tax_advance_days -= owner
@@ -1048,18 +1067,22 @@ SUBSYSTEM_DEF(treasury)
 			to_chat(owner, span_notice("<b>POLL TAX:</b> Paid from your advance. [advance] day[advance == 1 ? "" : "s"] remaining."))
 			continue
 
-		var/owed_this_tick = rate + (poll_tax_owed[owner] || 0)
+		var/arrears_before = poll_tax_owed[owner] || 0
+		var/owed_this_tick = rate + arrears_before
 
 		var/paid = 0
 		if(account.balance >= owed_this_tick)
-			if(transfer(account, discretionary_fund, owed_this_tick, "Poll tax ([category])", LEDGER_CITIZEN_TAXES, LEDGER_CROWN_REV_POLL_TAX))
+			if(transfer(account, discretionary_fund, owed_this_tick, "Poll tax ([category])", LEDGER_CITIZEN_TAXES, poll_tax_receipt_counters(owed_this_tick, arrears_before)))
 				paid = owed_this_tick
 				owed_this_tick = 0
 		else
 			var/partial = account.balance
-			if(partial > 0 && transfer(account, discretionary_fund, partial, "Poll tax ([category])", LEDGER_CITIZEN_TAXES, LEDGER_CROWN_REV_POLL_TAX))
+			if(partial > 0 && transfer(account, discretionary_fund, partial, "Poll tax ([category])", LEDGER_CITIZEN_TAXES, poll_tax_receipt_counters(partial, arrears_before)))
 				paid = partial
 				owed_this_tick -= partial
+
+		// Today's tax is earned whether or not it was collected; the uncollected part is receivable.
+		accrue_poll_tax_receivable(rate - max(0, paid - arrears_before), category)
 
 		if(paid > 0)
 			record_poll_tax_by_category(category, paid)
@@ -1072,4 +1095,6 @@ SUBSYSTEM_DEF(treasury)
 			if(poll_tax_debt_days[owner] >= POLL_TAX_DEBT_DAYS_TO_DEBTOR && !HAS_TRAIT(owner, TRAIT_ARREARS))
 				ADD_TRAIT(owner, TRAIT_ARREARS, TRAIT_GENERIC)
 		else
+			// Settled in full, so nothing is left on the receivable to forgive.
+			poll_tax_owed[owner] = 0
 			clear_poll_tax_debt(owner)

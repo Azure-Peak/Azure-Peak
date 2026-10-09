@@ -458,18 +458,9 @@ SUBSYSTEM_DEF(BMtreasury)
 	var/tithe = SStreasury.compute_bathhouse_tithe(amt_to_generate, BATHHOUSE_VAULT_TITHE_RATE)
 	if(tithe > 0 && SStreasury.church_fund)
 		amt_to_generate -= tithe
-		SStreasury.church_fund.balance += tithe
-		SStreasury.post_ledger_entry("mint", "Bathhouse vault tithe", list(
-			list(SStreasury.church_fund.get_cash_account(), tithe, 0),
-			list(LEDGER_CHURCH_TITHE_IN, 0, tithe),
-		), null, SStreasury.church_fund)
-	if(SStreasury.bathhouse_fund)
-		SStreasury.bathhouse_fund.balance += amt_to_generate
-		if(amt_to_generate > 0)
-			SStreasury.post_ledger_entry("mint", "Bathhouse vault income", list(
-				list(SStreasury.bathhouse_fund.get_cash_account(), amt_to_generate, 0),
-				list(LEDGER_BATHHOUSE_MARGIN_IN, 0, amt_to_generate),
-			), null, SStreasury.bathhouse_fund)
+		SStreasury.mint(SStreasury.church_fund, tithe, "Bathhouse vault tithe", null, LEDGER_CHURCH_TITHE_IN)
+	if(SStreasury.bathhouse_fund && amt_to_generate > 0)
+		SStreasury.mint(SStreasury.bathhouse_fund, amt_to_generate, "Bathhouse vault income", null, LEDGER_BATHHOUSE_MARGIN_IN)
 	send_ooc_note("Regular income to the Bathhouse Fund: +[amt_to_generate][tithe > 0 ? " (after [tithe]m tithe to the Church)" : ""]", job = "Bathmaster")
 	record_round_statistic(STATS_BATHMATRON_VAULT_TOTAL_REVENUE, amt_to_generate)
 	return amt_to_generate

@@ -5,6 +5,8 @@
 	// Apply the posting to the account totals first, so coalescing below only affects display.
 	if(entry.legs)
 		post_legs(entry)
+	if(isnull(entry.actor))
+		entry.actor = ledger_actor_label()
 
 	var/datum/treasury_entry/last
 
@@ -16,6 +18,7 @@
 			&& last.from_name == entry.from_name \
 			&& last.to_name == entry.to_name \
 			&& last.reason == entry.reason \
+			&& last.actor == entry.actor \
 			&& last.leg_signature() == entry.leg_signature() \
 			&& world.time - last.time_created <= 10 SECONDS)
 
@@ -137,8 +140,6 @@
 	credited = skim_for_treasury_debt(to_fund, credited, debt_legs)
 	if(credited > 0)
 		to_fund.balance += credited
-		if(to_fund == discretionary_fund)
-			record_purse_inflow(credited)
 	if(credited > 0 || length(debt_legs))
 		var/datum/treasury_entry/entry = new("mint", null, to_fund, credited, reason, from_label)
 		entry.legs = ledger_in_legs(to_fund, credited, amount, income_acct, debt_legs)
@@ -180,8 +181,6 @@
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount
-	if(from_fund == discretionary_fund)
-		record_purse_outflow(amount)
 	var/datum/treasury_entry/entry = new("burn", from_fund, null, amount, reason)
 	entry.legs = ledger_out_legs(from_fund, amount, expense_acct)
 	log_fund_entry(entry)
@@ -198,14 +197,10 @@
 	if(from_fund.balance < amount)
 		return FALSE
 	from_fund.balance -= amount
-	if(from_fund == discretionary_fund)
-		record_purse_outflow(amount)
 	var/list/debt_legs = list()
 	var/credited = skim_for_banditry_debt(to_fund, amount, debt_legs)
 	credited = skim_for_treasury_debt(to_fund, credited, debt_legs)
 	to_fund.balance += credited
-	if(to_fund == discretionary_fund)
-		record_purse_inflow(credited)
 	var/datum/treasury_entry/entry = new("transfer", from_fund, to_fund, amount, reason)
 	entry.legs = ledger_out_legs(from_fund, amount, expense_acct) + ledger_in_legs(to_fund, credited, amount, income_acct, debt_legs)
 	log_fund_entry(entry)

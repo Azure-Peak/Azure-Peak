@@ -40,7 +40,11 @@
 // --- Crown book: assets ---
 #define LEDGER_CROWN_CASH "crown_cash"
 #define LEDGER_CROWN_LOANS_REC "crown_loans_rec"
+#define LEDGER_CROWN_INVENTORY "crown_inventory"
+#define LEDGER_CROWN_POLL_RECEIVABLE "crown_poll_receivable"
+#define LEDGER_CROWN_INTEREST_RECEIVABLE "crown_interest_receivable"
 // --- Crown book: liabilities ---
+#define LEDGER_CROWN_POLL_DEFERRED "crown_poll_deferred"
 #define LEDGER_CROWN_ARREARS_ADVANCE "crown_arrears_advance"
 #define LEDGER_CROWN_ATC_LOAN "crown_atc_loan"
 #define LEDGER_CROWN_SEQUESTRATION_DEBT "crown_sequestration_debt"
@@ -78,6 +82,9 @@
 #define LEDGER_CROWN_EXP_QUALITY "crown_exp_quality"
 #define LEDGER_CROWN_EXP_SEQUESTRATION "crown_exp_sequestration"
 #define LEDGER_CROWN_EXP_LOAN_LOSS "crown_exp_loan_loss"
+#define LEDGER_CROWN_EXP_STOCKPILE "crown_exp_stockpile"
+#define LEDGER_CROWN_EXP_INVENTORY_ADJ "crown_exp_inventory_adj"
+#define LEDGER_CROWN_EXP_POLL_WRITEOFF "crown_exp_poll_writeoff"
 #define LEDGER_CROWN_INTEREST_EXP "crown_interest_exp"
 #define LEDGER_CROWN_EXP_OTHER "crown_expense"
 
@@ -88,6 +95,16 @@
 #define LEDGER_CITIZEN_WAGES "citizens_wages"
 #define LEDGER_CITIZEN_TAXES "citizens_taxes"
 #define LEDGER_CITIZEN_CONTRACTS "citizens_contracts"
+#define LEDGER_CITIZEN_CONTRACT_PAID "citizens_contract_paid"
+#define LEDGER_CITIZEN_SALES "citizens_sales"
+#define LEDGER_CITIZEN_ESTATE "citizens_estate"
+// Escrow holds only move money between two deposits; both sides post here so they net to nothing
+// instead of inflating citizen receipts and payments.
+#define LEDGER_CITIZEN_ESCROW "citizens_escrow"
+
+// Money committed to commissions, present in every book except the Crown (which has its own
+// Contract Outlay) and the citizens.
+#define LEDGER_KEY_CONTRACTS "contracts"
 
 // --- Other institutions ---
 #define LEDGER_CHURCH_TITHE_IN "church_tithe_in"

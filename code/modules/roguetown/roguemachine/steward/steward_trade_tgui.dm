@@ -131,7 +131,7 @@
 			return page_data
 		if("trial")
 			page_data["trial_balance"] = SStreasury.get_trial_balance(LEDGER_BOOK_CROWN)
-			page_data["reconciliation"] = SStreasury.reconcile_ledger()
+			page_data["reconciliation"] = SStreasury.reconcile_ledger(LEDGER_BOOK_CROWN)
 			return page_data
 		if("income")
 			page_data["income_statement"] = SStreasury.get_income_statement(LEDGER_BOOK_CROWN)
@@ -1157,6 +1157,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 				SStreasury.royal_custom_margin = clamp(round(n), 0, 500)
 			return TRUE
 		if("ledger_open")
+			SStreasury.revalue_stockpile_inventory()
 			ledger_view[usr.ckey] = list("open" = TRUE, "page" = 1, "filter" = "", "dirty" = TRUE)
 			return TRUE
 		if("ledger_close")
@@ -1186,6 +1187,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/new_view = "[params["view"]]"
 			if(!(new_view in list("journal", "ledger", "trial", "income", "balance", "subsidiary")))
 				return TRUE
+			SStreasury.revalue_stockpile_inventory()
 			lview["view"] = new_view
 			lview["page"] = 1
 			lview["dirty"] = TRUE
@@ -1204,6 +1206,7 @@ GLOBAL_LIST_INIT(steward_trade_sequestration_locked_actions, list(
 			var/list/lview = ledger_view[usr.ckey]
 			if(!lview || !lview["open"])
 				return TRUE
+			SStreasury.revalue_stockpile_inventory()
 			lview["dirty"] = TRUE
 			return TRUE
 

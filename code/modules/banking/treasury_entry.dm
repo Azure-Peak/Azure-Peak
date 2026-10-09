@@ -12,6 +12,8 @@
 	var/day = 0
 	/// Journal number. Only postings (entries with legs) are numbered; memo lines are not.
 	var/entry_no = 0
+	/// Who initiated the posting ("Name (Job)"), or "System" for accruals and valuations. Null when nobody is attributable.
+	var/actor
 	/// Balanced double-entry legs: list(list(account_id, debit, credit), ...). Null for memo lines.
 	var/list/legs
 

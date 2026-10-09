@@ -120,6 +120,9 @@
 		var/delta = snap[id] - (last_report_ledger ? (last_report_ledger[id] || 0) : 0)
 		if(!delta)
 			continue
+		// The stockpile revaluation is a book adjustment, not coin moving; it is shown as stock on hand instead.
+		if(id == LEDGER_CROWN_EXP_INVENTORY_ADJ)
+			continue
 		var/datum/ledger_account/A = chart_of_accounts[id]
 		if(A.class == LEDGER_CLASS_REVENUE)
 			income += list(list("name" = A.name, "amount" = delta))
@@ -131,7 +134,7 @@
 	sortTim(spending, GLOBAL_PROC_REF(cmp_treasury_role_desc))
 
 	var/discrepancies = 0
-	for(var/list/row as anything in reconcile_ledger())
+	for(var/list/row as anything in reconcile_ledger(LEDGER_BOOK_CROWN))
 		if(abs(row["drift"]) >= 0.5)
 			discrepancies++
 
@@ -153,6 +156,9 @@
 		"loan_exposure" = fiscal["loan_exposure"],
 		"debtors" = fiscal["debtor_count"],
 		"poll_arrears" = fiscal["in_arrears"],
+		"stock_value" = get_stockpile_valuation(),
+		"poll_owed" = ledger_acct_balance(LEDGER_CROWN_POLL_RECEIVABLE),
+		"interest_owed" = ledger_acct_balance(LEDGER_CROWN_INTEREST_RECEIVABLE),
 		"discrepancies" = discrepancies,
 	)
 	last_report_ledger = snap
@@ -199,6 +205,8 @@
 			body += "&nbsp;&nbsp;- <i>and [length(spending) - STEWARD_REPORT_TOP_LINES] other outlay\s</i><br>"
 		body += "<br>"
 
+	if(finance["stock_value"] > 0)
+		body += "<b>Stockpile:</b> about [round(finance["stock_value"])]m of goods on hand at buying prices.<br>"
 	body += "<b>Payroll ahead:</b> about [finance["wage_outlay"]]m a day in wages, against [finance["rural_revenue"]]m a day of rural subsidy.<br>"
 	if(finance["loans_outstanding"] || finance["debtors"] || finance["poll_arrears"])
 		var/list/credit = list()
@@ -209,6 +217,9 @@
 		if(finance["poll_arrears"])
 			credit += "[finance["poll_arrears"]] in poll tax arrears"
 		body += "<b>Credit:</b> [jointext(credit, ", ")].<br>"
+		var/owed_to_crown = round(finance["poll_owed"] + finance["interest_owed"])
+		if(owed_to_crown > 0)
+			body += "&nbsp;&nbsp;- Booked as owed to the Crown: [owed_to_crown]m in arrears and unpaid interest.<br>"
 	if(finance["discrepancies"])
 		body += "<br><i><font color='#c44'>The clerks' tally is out of balance on [finance["discrepancies"]] line\s. See the Ledger's Trial Balance.</font></i><br>"
 	body += "<br><hr>"

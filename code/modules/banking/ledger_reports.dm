@@ -26,10 +26,12 @@
 		return 0
 	return A.debit_normal ? (totals[1] - totals[2]) : (totals[2] - totals[1])
 
-/// Sum of all the Crown-owned fund balances etc. checked against the books. Each row is
-/// list("label", "ledger", "actual", "drift"). A non-zero drift means something moved money
-/// without going through the posting procs (or a posting was demoted for being unbalanced).
-/datum/controller/subsystem/treasury/proc/reconcile_ledger()
+/// Checks the books against the live balances and registers. Each row is list("label", "ledger",
+/// "actual", "drift"). A non-zero drift means something moved money without going through the
+/// posting procs (or a posting was demoted for being unbalanced).
+/// `only_book` limits the report to one institution. The Steward's machine passes the Crown so it
+/// never sees the private books of the Church, Merchantry, Bathhouse and so on.
+/datum/controller/subsystem/treasury/proc/reconcile_ledger(only_book)
 	if(!length(chart_of_accounts))
 		init_chart_of_accounts()
 	var/list/rows = list()
@@ -42,29 +44,54 @@
 		LEDGER_BOOK_TAVERN = innkeeper_fund,
 	)
 	for(var/book in cash_funds)
+		if(only_book && book != only_book)
+			continue
 		var/datum/fund/F = cash_funds[book]
 		var/datum/ledger_account/A = chart_of_accounts[ledger_acct(book, LEDGER_KEY_CASH)]
 		rows += list(ledger_recon_row("[A.name] vs fund balance", A.get_balance(), F ? F.balance : 0))
 
-	var/citizen_total = 0
-	for(var/key in bank_accounts)
-		var/datum/fund/account = bank_accounts[key]
-		if(account)
-			citizen_total += account.balance
-	for(var/datum/fund/aux as anything in auxiliary_funds)
-		citizen_total += aux.balance
-	var/datum/ledger_account/deposits = chart_of_accounts[LEDGER_CITIZEN_CASH]
-	rows += list(ledger_recon_row("Citizen Deposits vs sum of personal accounts and escrow holds", deposits.get_balance(), citizen_total))
+	if(!only_book || only_book == LEDGER_BOOK_CITIZENS)
+		var/citizen_total = 0
+		for(var/key in bank_accounts)
+			var/datum/fund/account = bank_accounts[key]
+			if(account)
+				citizen_total += account.balance
+		for(var/datum/fund/aux as anything in auxiliary_funds)
+			citizen_total += aux.balance
+		var/datum/ledger_account/deposits = chart_of_accounts[LEDGER_CITIZEN_CASH]
+		rows += list(ledger_recon_row("Citizen Deposits vs sum of personal accounts and escrow holds", deposits.get_balance(), citizen_total))
 
-	var/debt_ledger = 0
-	for(var/id in list(LEDGER_CROWN_ARREARS_ADVANCE, LEDGER_CROWN_ATC_LOAN, LEDGER_CROWN_SEQUESTRATION_DEBT))
-		var/datum/ledger_account/D = chart_of_accounts[id]
-		debt_ledger += D.get_balance()
-	rows += list(ledger_recon_row("Crown debt accounts vs treasury debt", debt_ledger, treasury_debt))
-	var/datum/ledger_account/banditry = chart_of_accounts[LEDGER_CROWN_BANDITRY_DEBT]
-	rows += list(ledger_recon_row("Brigand Debt vs banditry debt", banditry.get_balance(), banditry_debt))
+	if(!only_book || only_book == LEDGER_BOOK_CROWN)
+		var/debt_ledger = 0
+		for(var/id in list(LEDGER_CROWN_ARREARS_ADVANCE, LEDGER_CROWN_ATC_LOAN, LEDGER_CROWN_SEQUESTRATION_DEBT))
+			var/datum/ledger_account/D = chart_of_accounts[id]
+			debt_ledger += D.get_balance()
+		rows += list(ledger_recon_row("Crown debt accounts vs treasury debt", debt_ledger, treasury_debt))
+		var/datum/ledger_account/banditry = chart_of_accounts[LEDGER_CROWN_BANDITRY_DEBT]
+		rows += list(ledger_recon_row("Brigand Debt vs banditry debt", banditry.get_balance(), banditry_debt))
+
+		var/arrears_total = 0
+		for(var/owner in poll_tax_owed)
+			arrears_total += poll_tax_owed[owner]
+		var/datum/ledger_account/poll_rec = chart_of_accounts[LEDGER_CROWN_POLL_RECEIVABLE]
+		rows += list(ledger_recon_row("Poll Tax Receivable vs arrears owed", poll_rec.get_balance(), arrears_total))
+
+		var/advance_total = 0
+		for(var/owner in poll_tax_advance_value)
+			advance_total += poll_tax_advance_value[owner]
+		var/datum/ledger_account/poll_def = chart_of_accounts[LEDGER_CROWN_POLL_DEFERRED]
+		rows += list(ledger_recon_row("Poll Tax Received in Advance vs prepaid balances", poll_def.get_balance(), advance_total))
+
+		var/interest_total = 0
+		for(var/datum/loan/L as anything in loans)
+			if(L.source_fund == discretionary_fund)
+				interest_total += max(0, L.interest_accrued - L.get_interest_repaid())
+		var/datum/ledger_account/interest_rec = chart_of_accounts[LEDGER_CROWN_INTEREST_RECEIVABLE]
+		rows += list(ledger_recon_row("Interest Receivable vs interest accrued on open loans", interest_rec.get_balance(), interest_total))
 
 	for(var/book in GLOB.ledger_books)
+		if(only_book && book != only_book)
+			continue
 		var/expected_rec = 0
 		var/expected_pay = 0
 		for(var/datum/loan/L as anything in loans)
@@ -81,6 +108,8 @@
 			rows += list(ledger_recon_row("[ledger_book_label(book)] Loans Payable vs open loans", pay.get_balance(), expected_pay))
 
 	for(var/book in GLOB.ledger_books)
+		if(only_book && book != only_book)
+			continue
 		var/net = 0
 		for(var/id in chart_of_accounts)
 			var/datum/ledger_account/A = chart_of_accounts[id]
@@ -295,8 +324,12 @@
 		"amount" = E.amount,
 		"reason" = E.reason || "",
 		"count" = E.count || 1,
+		"actor" = E.actor,
 		"legs" = leg_view,
 	)
+
+/proc/cmp_stockpile_value_desc(list/a, list/b)
+	return b["value"] - a["value"]
 
 /// Subsidiary ledgers behind the control accounts: receivables, payables, payroll, taxes.
 /datum/controller/subsystem/treasury/proc/get_subsidiary_ledgers()
@@ -304,6 +337,9 @@
 		init_chart_of_accounts()
 	var/list/loan_rows = list()
 	for(var/datum/loan/L as anything in loans)
+		// Only loans the Crown is a party to; other lenders' and borrowers' accounts are private.
+		if(L.source_fund != discretionary_fund && L.target_fund != discretionary_fund)
+			continue
 		loan_rows += list(list(
 			"debtor" = L.debtor_name,
 			"lender" = L.source_fund?.name,
@@ -328,11 +364,27 @@
 		))
 
 	var/list/payables = list()
-	for(var/id in list(LEDGER_CROWN_ARREARS_ADVANCE, LEDGER_CROWN_ATC_LOAN, LEDGER_CROWN_SEQUESTRATION_DEBT, LEDGER_CROWN_BANDITRY_DEBT))
+	for(var/id in list(LEDGER_CROWN_ARREARS_ADVANCE, LEDGER_CROWN_ATC_LOAN, LEDGER_CROWN_SEQUESTRATION_DEBT, LEDGER_CROWN_BANDITRY_DEBT, LEDGER_CROWN_POLL_DEFERRED))
 		var/datum/ledger_account/A = chart_of_accounts[id]
 		payables += list(list("name" = A.name, "balance" = A.get_balance()))
 	// Fractions owed to the Church are not posted until they accrue to a whole coin.
 	payables += list(list("name" = "Church tithe accruing (not yet posted)", "balance" = round(concordat_tithe_debt, 0.01)))
+
+	var/list/receivables = list()
+	for(var/id in list(LEDGER_CROWN_LOANS_REC, LEDGER_CROWN_INTEREST_RECEIVABLE, LEDGER_CROWN_POLL_RECEIVABLE))
+		var/datum/ledger_account/A = chart_of_accounts[id]
+		receivables += list(list("name" = A.name, "balance" = A.get_balance()))
+
+	var/list/inventory = list()
+	var/inventory_live = 0
+	for(var/datum/roguestock/D as anything in stockpile_datums)
+		if(D.stockpile_amount <= 0)
+			continue
+		var/line_value = D.stockpile_amount * D.payout_price
+		inventory_live += line_value
+		inventory += list(list("name" = D.name, "units" = D.stockpile_amount, "unit_price" = D.payout_price, "value" = line_value))
+	sortTim(inventory, GLOBAL_PROC_REF(cmp_stockpile_value_desc))
+	var/datum/ledger_account/inventory_acct = chart_of_accounts[LEDGER_CROWN_INVENTORY]
 
 	var/list/payroll = list()
 	var/payroll_total = 0
@@ -379,6 +431,10 @@
 		"loans" = loan_rows,
 		"poll_arrears" = arrears_rows,
 		"payables" = payables,
+		"receivables" = receivables,
+		"inventory" = inventory,
+		"inventory_live" = inventory_live,
+		"inventory_booked" = inventory_acct.get_balance(),
 		"payroll" = payroll,
 		"payroll_total" = payroll_total,
 		"taxes" = tax_rows,

@@ -29,6 +29,7 @@ export type LedgerEntry = {
   // Present on double-entry postings only; memo lines have no number or legs.
   no?: number;
   day?: number;
+  actor?: string | null;
   legs?: LedgerLeg[];
 };
 
@@ -140,6 +141,10 @@ export type Subsidiary = {
   }[];
   poll_arrears: { name: string; job: string; owed: number; days: number }[];
   payables: { name: string; balance: number }[];
+  receivables: { name: string; balance: number }[];
+  inventory: { name: string; units: number; unit_price: number; value: number }[];
+  inventory_live: number;
+  inventory_booked: number;
   payroll: {
     job: string;
     wage: number;

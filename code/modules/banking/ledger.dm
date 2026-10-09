@@ -92,8 +92,15 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 		add_ledger_account(ledger_acct(book, LEDGER_KEY_INTEREST_EXP), "Interest Expense", book, LEDGER_CLASS_EXPENSE, currency = currency)
 		add_ledger_account(ledger_acct(book, LEDGER_KEY_SUSP_IN), "Unclassified Receipts", book, LEDGER_CLASS_SUSPENSE, FALSE, currency)
 		add_ledger_account(ledger_acct(book, LEDGER_KEY_SUSP_OUT), "Unclassified Disbursements", book, LEDGER_CLASS_SUSPENSE, TRUE, currency)
+		if(book != LEDGER_BOOK_CROWN && !is_citizens)
+			add_ledger_account(ledger_acct(book, LEDGER_KEY_CONTRACTS), "Contract Outlay", book, LEDGER_CLASS_EXPENSE, currency = currency)
 
+	// Crown assets
+	add_ledger_account(LEDGER_CROWN_INVENTORY, "Stockpile Inventory", LEDGER_BOOK_CROWN, LEDGER_CLASS_ASSET)
+	add_ledger_account(LEDGER_CROWN_POLL_RECEIVABLE, "Poll Tax Receivable", LEDGER_BOOK_CROWN, LEDGER_CLASS_ASSET)
+	add_ledger_account(LEDGER_CROWN_INTEREST_RECEIVABLE, "Interest Receivable", LEDGER_BOOK_CROWN, LEDGER_CLASS_ASSET)
 	// Crown liabilities
+	add_ledger_account(LEDGER_CROWN_POLL_DEFERRED, "Poll Tax Received in Advance", LEDGER_BOOK_CROWN, LEDGER_CLASS_LIABILITY)
 	add_ledger_account(LEDGER_CROWN_ARREARS_ADVANCE, "Burghers' Arrears Advance", LEDGER_BOOK_CROWN, LEDGER_CLASS_LIABILITY)
 	add_ledger_account(LEDGER_CROWN_ATC_LOAN, "ATC Emergency Loan", LEDGER_BOOK_CROWN, LEDGER_CLASS_LIABILITY)
 	add_ledger_account(LEDGER_CROWN_SEQUESTRATION_DEBT, "Sequestration Debt (ATC)", LEDGER_BOOK_CROWN, LEDGER_CLASS_LIABILITY)
@@ -126,12 +133,19 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 	add_ledger_account(LEDGER_CROWN_EXP_QUALITY, "Quality Penalties", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_SEQUESTRATION, "Sequestration Charges", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_LOAN_LOSS, "Loan Losses", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
+	add_ledger_account(LEDGER_CROWN_EXP_STOCKPILE, "Stockpile Purchases", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
+	add_ledger_account(LEDGER_CROWN_EXP_INVENTORY_ADJ, "Change in Stockpile Inventory", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
+	add_ledger_account(LEDGER_CROWN_EXP_POLL_WRITEOFF, "Poll Tax Written Off", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	// Citizens
 	add_ledger_account(LEDGER_CITIZEN_COIN_IN, "Coin Deposited at the Meister", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CITIZEN_COIN_OUT, "Coin Withdrawn from the Meister", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CITIZEN_WAGES, "Wages Received", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_CITIZEN_TAXES, "Taxes & Levies Paid", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CITIZEN_CONTRACTS, "Contract Rewards", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_REVENUE)
+	add_ledger_account(LEDGER_CITIZEN_CONTRACT_PAID, "Bounties, Deposits & Fees Paid", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_EXPENSE)
+	add_ledger_account(LEDGER_CITIZEN_SALES, "Sales to the Crown", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_REVENUE)
+	add_ledger_account(LEDGER_CITIZEN_ESTATE, "Estate & Stipend Income", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_REVENUE)
+	add_ledger_account(LEDGER_CITIZEN_ESCROW, "Escrow Transfers (net)", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_LIABILITY)
 	// Other institutions
 	add_ledger_account(LEDGER_CHURCH_TITHE_IN, "Tithes Received", LEDGER_BOOK_CHURCH, LEDGER_CLASS_REVENUE)
 	add_ledger_account(LEDGER_MERCHANT_LEVY_IN, "Merchant's Levy", LEDGER_BOOK_MERCHANT, LEDGER_CLASS_REVENUE)
@@ -149,6 +163,37 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 	if(F.ledger_book == LEDGER_BOOK_CITIZENS)
 		return ledger_acct(LEDGER_BOOK_CITIZENS, receipt ? LEDGER_KEY_INCOME : LEDGER_KEY_EXPENSE)
 	return ledger_acct(F.ledger_book, receipt ? LEDGER_KEY_SUSP_IN : LEDGER_KEY_SUSP_OUT)
+
+/// Where money committed to a commission (or a deposit/stake on one) is booked for this fund.
+/// Refunds credit the same account, so a withdrawn contract nets out of the income statement.
+/datum/controller/subsystem/treasury/proc/commitment_account(datum/fund/F)
+	if(!F)
+		return null
+	switch(F.ledger_book)
+		if(LEDGER_BOOK_CROWN)
+			return LEDGER_CROWN_EXP_CONTRACTS
+		if(LEDGER_BOOK_CITIZENS)
+			return LEDGER_CITIZEN_CONTRACT_PAID
+	return ledger_acct(F.ledger_book, LEDGER_KEY_CONTRACTS)
+
+/// Counter-account for one side of an escrow movement. Deposit-to-deposit holds only reclassify
+/// money, so a citizen's side posts to the net-zero escrow account rather than income or expense.
+/datum/controller/subsystem/treasury/proc/escrow_account(datum/fund/F)
+	if(F?.ledger_book == LEDGER_BOOK_CITIZENS)
+		return LEDGER_CITIZEN_ESCROW
+	return commitment_account(F)
+
+/// Current balance of one account (0 if it does not exist).
+/datum/controller/subsystem/treasury/proc/ledger_acct_balance(id)
+	var/datum/ledger_account/A = get_ledger_account(id)
+	return A ? A.get_balance() : 0
+
+/// "Name (Job)" of whoever's action is posting, if a player is.
+/datum/controller/subsystem/treasury/proc/ledger_actor_label()
+	var/mob/M = usr
+	if(!istype(M) || !M.ckey)
+		return null
+	return "[M.real_name] ([treasury_role_of(M)])"
 
 /// Normalises a caller-supplied counter-account into list(list(account_id, amount), ...).
 /// counter may be null (use default), an account id, or an assoc list of account id -> amount.
@@ -224,10 +269,14 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 		stack_trace("Unbalanced ledger posting Dr [total_dr] / Cr [total_cr] ([entry.reason])")
 		entry.legs = null
 		return FALSE
+	var/ordinary = (entry.kind == "mint" || entry.kind == "burn" || entry.kind == "transfer")
 	for(var/list/leg as anything in entry.legs)
 		var/datum/ledger_account/A = chart_of_accounts[leg[1]]
 		A.debits += leg[2]
 		A.credits += leg[3]
+		if(ordinary && leg[1] == LEDGER_CROWN_CASH)
+			purse_inflow_total += leg[2]
+			purse_outflow_total += leg[3]
 	return TRUE
 
 /// Records a balanced entry that is not a plain mint/burn/transfer (opening balances, debt
@@ -239,6 +288,9 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 		amount += leg[2]
 	var/datum/treasury_entry/entry = new(kind, from_fund, to_fund, amount, reason, from_label)
 	entry.legs = legs
+	// Accruals, valuations and the like are the system's doing even when a player's click triggered them.
+	if(kind == "accrual" || kind == "revaluation" || kind == "financing" || kind == "opening")
+		entry.actor = "System"
 	log_fund_entry(entry)
 	return entry
 
@@ -309,7 +361,16 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 		payee_counter[ledger_acct(payee.ledger_book, LEDGER_KEY_LOANS_REC)] = principal_part
 	if(interest_part > 0)
 		payer_counter[ledger_acct(payer.ledger_book, LEDGER_KEY_INTEREST_EXP)] = interest_part
-		payee_counter[ledger_acct(payee.ledger_book, LEDGER_KEY_INTEREST_INC)] = interest_part
+		// Interest the Crown has already accrued is collected against the receivable; anything
+		// beyond that (it should be nothing) is income on receipt.
+		var/received_against_accrual = 0
+		if(payee == discretionary_fund)
+			accrue_loan_interest(L)
+			received_against_accrual = min(interest_part, max(0, L.interest_accrued - L.get_interest_repaid()))
+		if(received_against_accrual > 0)
+			payee_counter[LEDGER_CROWN_INTEREST_RECEIVABLE] = received_against_accrual
+		if(interest_part - received_against_accrual > 0)
+			payee_counter[ledger_acct(payee.ledger_book, LEDGER_KEY_INTEREST_INC)] = interest_part - received_against_accrual
 	return list("payer" = payer_counter, "payee" = payee_counter)
 
 /// Principal still carried as a receivable for this loan.
@@ -336,17 +397,134 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 /// Removes a loan that will never be repaid from the lender's (and borrower's) books.
 /datum/controller/subsystem/treasury/proc/write_off_loan(datum/loan/L, reason = "Loan written off")
 	var/outstanding = L.get_principal_outstanding()
-	if(outstanding <= 0 || !L.source_fund)
+	if(!L.source_fund)
+		return
+	// Interest the Crown booked as earned but never collected goes the same way as the principal.
+	var/unpaid_interest = (L.source_fund == discretionary_fund) ? max(0, L.interest_accrued - L.get_interest_repaid()) : 0
+	if(outstanding <= 0 && unpaid_interest <= 0)
 		return
 	var/lender_book = L.source_fund.ledger_book
 	var/loss_acct = (lender_book == LEDGER_BOOK_CROWN) ? LEDGER_CROWN_EXP_LOAN_LOSS : ledger_acct(lender_book, LEDGER_KEY_EXPENSE)
-	post_ledger_entry("writeoff", "[reason]: [L.debtor_name]", list(
-		list(loss_acct, outstanding, 0),
-		list(ledger_acct(lender_book, LEDGER_KEY_LOANS_REC), 0, outstanding),
-	))
+	var/list/writeoff_legs = list()
+	if(outstanding > 0)
+		writeoff_legs += list(list(loss_acct, outstanding, 0), list(ledger_acct(lender_book, LEDGER_KEY_LOANS_REC), 0, outstanding))
+	if(unpaid_interest > 0)
+		writeoff_legs += list(list(LEDGER_CROWN_EXP_LOAN_LOSS, unpaid_interest, 0), list(LEDGER_CROWN_INTEREST_RECEIVABLE, 0, unpaid_interest))
+		L.interest_accrued = L.get_interest_repaid()
+	post_ledger_entry("writeoff", "[reason]: [L.debtor_name]", writeoff_legs)
+	if(outstanding <= 0)
+		return
 	// Borrower side: the obligation is forgiven, which is income to them.
 	var/borrower_book = L.target_fund ? L.target_fund.ledger_book : LEDGER_BOOK_CITIZENS
 	post_ledger_entry("writeoff", "[reason]: [L.debtor_name] (borrower)", list(
 		list(ledger_acct(borrower_book, LEDGER_KEY_LOANS_PAY), outstanding, 0),
 		list(ledger_acct(borrower_book, LEDGER_KEY_INCOME), 0, outstanding),
 	))
+
+// ============================================================================
+// Accruals, deferrals and valuations (Crown book)
+// ============================================================================
+
+/// Interest the borrower has paid so far (principal is always repaid first).
+/datum/loan/proc/get_interest_repaid()
+	return max(0, repaid_so_far - principal)
+
+/// Interest earned to date under the same day-count get_remaining_due() uses.
+/datum/loan/proc/get_interest_earned()
+	var/elapsed_days = max(1, GLOB.dayspassed - issued_on_day)
+	var/owed = min(total_due, principal + FLOOR(principal * interest_rate * elapsed_days, 1))
+	return max(0, owed - principal)
+
+/// Books newly earned interest on a Crown loan as income and a receivable. Other lenders' loans
+/// stay on a cash basis; their books are their own business.
+/datum/controller/subsystem/treasury/proc/accrue_loan_interest(datum/loan/L)
+	if(!L || !discretionary_fund || L.source_fund != discretionary_fund)
+		return
+	var/earned = L.get_interest_earned()
+	var/delta = earned - L.interest_accrued
+	if(delta <= 0)
+		return
+	L.interest_accrued = earned
+	post_ledger_entry("accrual", "Interest accrued: [L.debtor_name]", list(
+		list(LEDGER_CROWN_INTEREST_RECEIVABLE, delta, 0),
+		list(LEDGER_CROWN_INTEREST_INC, 0, delta),
+	), null, discretionary_fund)
+
+/// Counter-accounts for a poll tax receipt: the part covering earlier arrears clears the
+/// receivable, the rest is revenue for today.
+/datum/controller/subsystem/treasury/proc/poll_tax_receipt_counters(received, arrears_before)
+	var/against_arrears = min(received, max(0, arrears_before))
+	var/list/counters = list()
+	if(against_arrears > 0)
+		counters[LEDGER_CROWN_POLL_RECEIVABLE] = against_arrears
+	if(received - against_arrears > 0)
+		counters[LEDGER_CROWN_REV_POLL_TAX] = received - against_arrears
+	return counters
+
+/// Poll tax earned for the day but not collected: revenue now, a receivable until paid or written off.
+/datum/controller/subsystem/treasury/proc/accrue_poll_tax_receivable(amount, category)
+	if(amount <= 0)
+		return
+	post_ledger_entry("accrual", "Poll tax accrued, unpaid ([category])", list(
+		list(LEDGER_CROWN_POLL_RECEIVABLE, amount, 0),
+		list(LEDGER_CROWN_REV_POLL_TAX, 0, amount),
+	), null, discretionary_fund)
+
+/// Poll tax arrears that will never be collected.
+/datum/controller/subsystem/treasury/proc/write_off_poll_tax_receivable(amount, reason = "Poll tax arrears written off")
+	if(amount <= 0)
+		return
+	post_ledger_entry("writeoff", reason, list(
+		list(LEDGER_CROWN_EXP_POLL_WRITEOFF, amount, 0),
+		list(LEDGER_CROWN_POLL_RECEIVABLE, 0, amount),
+	), null, discretionary_fund)
+
+/// Recognises one day (or, with `all`, everything left) of a head's prepaid poll tax as earned.
+/datum/controller/subsystem/treasury/proc/release_poll_tax_advance(mob/living/H, days_before, all = FALSE)
+	var/held = poll_tax_advance_value[H] || 0
+	if(held <= 0)
+		poll_tax_advance_value -= H
+		return
+	var/release = (all || days_before <= 1) ? held : (held / days_before)
+	release = min(release, held)
+	post_ledger_entry("accrual", "Poll tax advance earned", list(
+		list(LEDGER_CROWN_POLL_DEFERRED, release, 0),
+		list(LEDGER_CROWN_REV_POLL_TAX, 0, release),
+	), null, discretionary_fund)
+	if(held - release < 0.001)
+		poll_tax_advance_value -= H
+	else
+		poll_tax_advance_value[H] = held - release
+
+/// Value of the goods on hand at the Crown's current buy-in prices.
+/datum/controller/subsystem/treasury/proc/get_stockpile_valuation()
+	var/total = 0
+	for(var/datum/roguestock/D as anything in stockpile_datums)
+		total += max(0, D.stockpile_amount) * D.payout_price
+	return total
+
+/// Periodic inventory method: purchases are expensed as they happen, and this brings the asset up
+/// (or down) to what is actually in the stockpile, with the difference going to "Change in Stockpile
+/// Inventory". The opening valuation at roundstart goes to capital instead.
+/datum/controller/subsystem/treasury/proc/revalue_stockpile_inventory(opening = FALSE)
+	if(!discretionary_fund)
+		return
+	if(!length(chart_of_accounts))
+		init_chart_of_accounts()
+	var/datum/ledger_account/inventory = chart_of_accounts[LEDGER_CROWN_INVENTORY]
+	var/value = round(get_stockpile_valuation(), 0.01)
+	var/delta = round(value - inventory.get_balance(), 0.01)
+	if(abs(delta) < 0.01)
+		return
+	var/offset = opening ? LEDGER_CROWN_CAPITAL : LEDGER_CROWN_EXP_INVENTORY_ADJ
+	var/reason = opening ? "Opening stockpile valued" : "Stockpile revalued"
+	if(delta > 0)
+		post_ledger_entry("revaluation", reason, list(
+			list(LEDGER_CROWN_INVENTORY, delta, 0),
+			list(offset, 0, delta),
+		), null, discretionary_fund)
+	else
+		post_ledger_entry("revaluation", reason, list(
+			list(offset, -delta, 0),
+			list(LEDGER_CROWN_INVENTORY, 0, -delta),
+		), null, discretionary_fund)

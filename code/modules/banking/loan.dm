@@ -13,6 +13,8 @@
 	var/datum/fund/source_fund
 	var/datum/fund/target_fund
 	var/is_institutional = FALSE
+	/// Interest already recognised in the Crown's books as earned (accrual basis). Only used for Crown loans.
+	var/interest_accrued = 0
 
 /datum/loan/New(mob/living/carbon/human/debtor, amount, term, rate, issuer, datum/fund/from_fund, datum/fund/to_fund)
 	. = ..()
@@ -113,6 +115,7 @@
 
 /datum/controller/subsystem/treasury/proc/tick_loans()
 	for(var/datum/loan/L in loans.Copy())
+		accrue_loan_interest(L)
 		if(L.is_institutional)
 			tick_indenture(L)
 			continue

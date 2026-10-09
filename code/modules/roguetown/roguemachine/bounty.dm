@@ -155,7 +155,7 @@
 
 	var/datum/fund/user_account = SStreasury.get_account(user)
 	amount = round(amount)
-	SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]")
+	SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]", LEDGER_CITIZEN_CONTRACT_PAID)
 
 	var/race = target.dna.species
 	var/gender = target.gender

@@ -19,7 +19,7 @@
 	record_round_statistic(STATS_ARREARS_DECLARED, 1)
 	// Direct credit so the loan itself isn't immediately skimmed against the debt we just registered.
 	discretionary_fund.balance += loan_amount
-	post_ledger_entry("mint", "Arrears advance from the Burghers of Azuria", list(
+	post_ledger_entry("financing", "Arrears advance from the Burghers of Azuria", list(
 		list(LEDGER_CROWN_CASH, loan_amount, 0),
 		list(LEDGER_CROWN_ARREARS_ADVANCE, 0, loan_amount),
 	), null, discretionary_fund)
@@ -43,14 +43,14 @@
 	if(discretionary_fund.balance > BANKRUPTCY_OPERATING_FLOOR)
 		var/excess = discretionary_fund.balance - BANKRUPTCY_OPERATING_FLOOR
 		discretionary_fund.balance = BANKRUPTCY_OPERATING_FLOOR
-		post_ledger_entry("burn", "Sequestration: residual Treasury forfeit", list(
+		post_ledger_entry("financing", "Sequestration: residual Treasury forfeit", list(
 			list(LEDGER_CROWN_EXP_SEQUESTRATION, excess, 0),
 			list(LEDGER_CROWN_CASH, 0, excess),
 		), discretionary_fund)
 	else if(discretionary_fund.balance < BANKRUPTCY_OPERATING_FLOOR)
 		topup = BANKRUPTCY_OPERATING_FLOOR - discretionary_fund.balance
 		discretionary_fund.balance = BANKRUPTCY_OPERATING_FLOOR
-		post_ledger_entry("mint", "Sequestration: operating reserve from the ATC", list(
+		post_ledger_entry("financing", "Sequestration: operating reserve from the ATC", list(
 			list(LEDGER_CROWN_CASH, topup, 0),
 			list(LEDGER_CROWN_SEQUESTRATION_DEBT, 0, topup),
 		), null, discretionary_fund)
@@ -150,7 +150,7 @@
 	if(discretionary_fund.balance < BANKRUPTCY_RECOVERY_RESET)
 		var/topup = BANKRUPTCY_RECOVERY_RESET - discretionary_fund.balance
 		discretionary_fund.balance = BANKRUPTCY_RECOVERY_RESET
-		post_ledger_entry("mint", "Sequestration lifted: working capital", list(
+		post_ledger_entry("financing", "Sequestration lifted: working capital", list(
 			list(LEDGER_CROWN_CASH, topup, 0),
 			list(LEDGER_CROWN_GRANTS, 0, topup),
 		), null, discretionary_fund)
@@ -339,7 +339,7 @@ GLOBAL_LIST_INIT(atc_seizure_inventory, list(
 		loan_legs += list(list(LEDGER_CROWN_INTEREST_EXP, debt_owed - amount, 0))
 	else if(debt_owed < amount)
 		loan_legs += list(list(LEDGER_CROWN_INTEREST_INC, 0, amount - debt_owed))
-	post_ledger_entry("mint", "ATC emergency loan (principal)", loan_legs, null, discretionary_fund)
+	post_ledger_entry("financing", "ATC emergency loan (principal)", loan_legs, null, discretionary_fund)
 	priority_announce(
 		"The Crown has taken a loan of [amount]m from the ATC at [round(ATC_LOAN_INTEREST_RATE * 100)]% interest, and now owes [debt_owed]m.",
 		"THE CROWN BORROWS",

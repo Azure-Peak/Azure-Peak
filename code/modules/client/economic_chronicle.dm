@@ -191,8 +191,8 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"petition_pledge_spent" = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT] || 0,
 	)
 	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
-	var/total_revenue = GLOB.treasury_inflow_total
-	var/total_expenses = GLOB.treasury_outflow_total
+	var/total_revenue = SStreasury.purse_inflow_total
+	var/total_expenses = SStreasury.purse_outflow_total
 	var/attributed_expenses = total_treasury_expenses()
 	var/taxable_activity = royal_taxes_total + (GLOB.azure_round_stats[STATS_TAXES_EVADED] || 0)
 	var/effective_tax_rate = taxable_activity > 0 ? round((royal_taxes_total / taxable_activity) * 100, 0.1) : null

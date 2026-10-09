@@ -411,7 +411,7 @@
 	if(payout > 0)
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/lead_account = SStreasury.get_account(lead)
-			SStreasury.mint(lead_account, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])")
+			SStreasury.mint(lead_account, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", null, LEDGER_CITIZEN_CONTRACTS)
 			var/tax_amt = 0
 			if(!levy_exempt)
 				tax_amt = SStreasury.apply_tax(lead_account, payout, TAX_CATEGORY_CONTRACT_LEVY, "Blockade defense")
@@ -431,7 +431,7 @@
 		TR.banditry_hoard = 0
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/spoils_account = SStreasury.get_account(lead)
-			SStreasury.mint(spoils_account, spoils, "Recovered Spoils ([region])")
+			SStreasury.mint(spoils_account, spoils, "Recovered Spoils ([region])", null, LEDGER_CITIZEN_CONTRACTS)
 			var/spoils_tax = SStreasury.apply_tax(spoils_account, spoils, TAX_CATEGORY_RECOVERED_SPOILS, region)
 			if(spoils_tax > 0)
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, lead, spoils_tax)

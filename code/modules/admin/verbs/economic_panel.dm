@@ -463,6 +463,11 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/days = text2num(params["days"]) || 1
 			var/existing = SStreasury.poll_tax_advance_days[target] || 0
 			var/new_val = max(0, existing - days)
+			// Days removed by an admin no longer count as deferred revenue; recognise their share.
+			var/days_left_to_release = existing
+			for(var/i in 1 to min(days, existing))
+				SStreasury.release_poll_tax_advance(target, days_left_to_release)
+				days_left_to_release--
 			if(new_val <= 0)
 				SStreasury.poll_tax_advance_days -= target
 			else

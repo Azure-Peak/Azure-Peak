@@ -72,7 +72,7 @@
 	spawned_scroll.update_quest_text()
 
 	var/datum/fund/deposit_account = SStreasury.get_account(user)
-	if(SStreasury.burn(deposit_account, deposit, "contract deposit"))
+	if(SStreasury.burn(deposit_account, deposit, "contract deposit", LEDGER_CITIZEN_CONTRACT_PAID))
 		Q.deposit_payer = deposit_account
 		Q.deposit_paid = deposit
 

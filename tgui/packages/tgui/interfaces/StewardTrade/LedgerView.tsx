@@ -92,6 +92,19 @@ const LedgerRow = (props: { entry: LedgerEntry }) => {
           {entry.amount}m
         </div>
       </div>
+      {!!entry.actor && (
+        <div
+          style={{
+            padding: '0 6px 1px 42px',
+            fontFamily: SERIF,
+            fontSize: FONT_BODY,
+            color: INK_FAINT,
+            fontStyle: 'italic',
+          }}
+        >
+          by {entry.actor}
+        </div>
+      )}
       {legs.map((leg, i) => (
         <div
           key={i}

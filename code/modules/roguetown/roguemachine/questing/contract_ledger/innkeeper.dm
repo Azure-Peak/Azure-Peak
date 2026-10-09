@@ -111,7 +111,7 @@
 	if(completed_quest.source != QUEST_SOURCE_DEFENSE && !completed_quest.guild_cut_exempt)
 		var/guild_fee = round(gross_reward * GUILD_REFERRAL_FEE_PCT)
 		if(guild_fee > 0 && user_account && tavern_fund)
-			if(SStreasury.transfer(user_account, tavern_fund, guild_fee, "Guild Cut - [completed_quest.quest_type]"))
+			if(SStreasury.transfer(user_account, tavern_fund, guild_fee, "Guild Cut - [completed_quest.quest_type]", LEDGER_CITIZEN_CONTRACT_PAID, LEDGER_TAVERN_REFERRAL_IN))
 				guild_paid = guild_fee
 				record_round_statistic(STATS_CONTRACT_MAMMONS_GUILD_CUT, guild_fee)
 	if(completed_quest.source == QUEST_SOURCE_RUMOR && tavern_fund)
