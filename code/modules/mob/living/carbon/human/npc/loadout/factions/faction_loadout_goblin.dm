@@ -10,6 +10,7 @@
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE
 	survival = SKILL_LEVEL_APPRENTICE
+	crafting = SKILL_LEVEL_NOVICE //player gobs exist, enough to do something
 
 /datum/npc_archetype/goblin/warrior
 	name = "Goblin"
@@ -67,9 +68,12 @@
 /datum/npc_archetype/goblin/bomber/hell
 	stat_modifiers = list("perception" = -2, "intelligence" = -3, "constitution" = 2)
 
-/datum/npc_archetype/goblin/siege
-	name = "Goblin"
-	loadouts = list(/datum/npc_loadout/kit/goblin_heavy)
+/datum/npc_archetype/goblin/siege //smarter + deadlier than NPCs in the wilds
+	name = "Goblin Soldier" //we getting serious here
+	loadouts = list(/datum/npc_loadout/kit/goblin_siege)
+	stat_modifiers = list("perception" = -2, "strength" = 1, "intelligence" = 2, "constitution" = 2) //AI can do specials, can take more damage, hits harder
+	melee = SKILL_LEVEL_JOURNEYMAN
+	athletics = SKILL_LEVEL_APPRENTICE //lasts slightly longer stam-wise
 
 //** GEAR **//
 
@@ -108,6 +112,19 @@
 	head = list(
 		/obj/item/clothing/head/roguetown/helmet/leather/goblin = 80,
 		NPC_NOTHING = 20,
+	)
+
+/datum/npc_loadout/kit/goblin_siege
+	//always in plate
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron/goblin
+	head = /obj/item/clothing/head/roguetown/helmet/goblin
+	//nastier weapons, more varity too
+	weapons = list(
+		list(/obj/item/rogueweapon/sword/iron, /obj/item/rogueweapon/shield/wood, 40),
+		list(/obj/item/rogueweapon/spear),
+		list(/obj/item/rogueweapon/mace/spiked, /obj/item/rogueweapon/shield/wood, 40),
+		list(/obj/item/rogueweapon/stoneaxe/woodcut),
+		list(/obj/item/rogueweapon/flail, /obj/item/rogueweapon/shield/wood, 100),
 	)
 
 /datum/npc_loadout/kit/goblin_heavy

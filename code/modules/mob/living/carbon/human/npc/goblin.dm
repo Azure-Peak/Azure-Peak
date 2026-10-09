@@ -1,4 +1,5 @@
 GLOBAL_LIST_INIT(goblin_aggro, world.file2list("strings/rt/goblinaggrolines.txt"))
+GLOBAL_LIST_INIT(goblin_siege_aggro, world.file2list("strings/rt/goblinseigeaggrolines.txt")) //more violent lines for siege goblins
 
 GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	"SFERA IGNA!",
@@ -30,14 +31,25 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	dodgetime = 30
 
-/mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses
+/mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses + can do specials to make it worth a midround threat
 	npc_archetype = /datum/npc_archetype/goblin/siege
+
+/mob/living/carbon/human/species/goblin/siege/spec_death(gibbed, mob/living/carbon/human/H) //these gib on death, Graggar is watching
+	H.gib()
 
 /mob/living/carbon/human/species/goblin/npc/siege //Slightly smarter varient for sieges
 	ai_controller = /datum/ai_controller/human_npc
-	dodgetime = 20 //Slightly more competent than their lobotomised counterparts.
+	setparrytime = 30 //Slightly more competent than their lobotomised counterparts.
+	a_intent = INTENT_HELP
+	d_intent = INTENT_PARRY
 	npc_archetype = /datum/npc_archetype/goblin/siege
 	//Keep in mind these are balanced out by them firebombing 90% of their own numbers and dying instantly 20% of the time. KEEP THIS, ITS SOVL SIRE.
+
+/mob/living/carbon/human/species/goblin/npc/siege/spec_death(gibbed, mob/living/carbon/human/H) //these gib on death, Graggar is watching
+	H.gib()
+/mob/living/carbon/human/species/goblin/npc/siege/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_siege_aggro, TRUE)
 
 /mob/living/carbon/human/species/goblin/npc/after_creation()
 	..()
@@ -497,6 +509,8 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	if(N.mind)
 		N.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
 	to_chat(N, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	if(!N.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
+		N.toggle_cmode()
 	qdel(user)
 
 
