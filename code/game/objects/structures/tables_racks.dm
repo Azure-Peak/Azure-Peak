@@ -238,6 +238,9 @@
 
 	if(stakeable)
 		if(istype(I, /obj/item/grown/log/tree/stake))
+			if(hiddenguy)
+				to_chat(user, span_warning("Someone is hiding under there!"))
+				return
 			if(anchored)
 				anchored = FALSE
 				to_chat(user, span_warning("The [src] can now be moved."))
