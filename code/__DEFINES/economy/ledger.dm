@@ -37,6 +37,9 @@
 
 #define LEDGER_DEFAULT_MAX_LEGS 12
 
+// Counterparty shown when money enters or leaves with no fund on that side and no better name to give it.
+#define LEDGER_REALM_LABEL "The Realm"
+
 // --- Crown book: assets ---
 #define LEDGER_CROWN_CASH "crown_cash"
 #define LEDGER_CROWN_LOANS_REC "crown_loans_rec"

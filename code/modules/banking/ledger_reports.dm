@@ -307,8 +307,33 @@
 		"total_rows" = length(rows),
 	)
 
+/// Name for the fundless side of a posting: the account(s) the money came from or went to,
+/// rather than a generic placeholder. `receipt` is TRUE for the source of a mint.
+/datum/controller/subsystem/treasury/proc/counterparty_label(datum/treasury_entry/E, receipt)
+	var/list/names = list()
+	for(var/list/leg as anything in E.legs)
+		if(copytext(leg[1], -5) == "_cash")
+			continue
+		if(receipt ? !leg[3] : !leg[2])
+			continue
+		var/datum/ledger_account/A = chart_of_accounts[leg[1]]
+		if(A && !(A.name in names))
+			names += A.name
+	if(!length(names))
+		return LEDGER_REALM_LABEL
+	if(length(names) == 1)
+		return names[1]
+	return "[names[1]] and [length(names) - 1] other[length(names) > 2 ? "s" : ""]"
+
 /// Journal rows for display. Only the legs inside `book` are shown when a book is given.
 /datum/controller/subsystem/treasury/proc/journal_entry_view(datum/treasury_entry/E, book)
+	var/from_label = E.from_name
+	var/to_label = E.to_name
+	if(length(E.legs))
+		if(from_label == LEDGER_REALM_LABEL)
+			from_label = counterparty_label(E, TRUE)
+		if(to_label == LEDGER_REALM_LABEL)
+			to_label = counterparty_label(E, FALSE)
 	var/list/leg_view = list()
 	for(var/list/leg as anything in E.legs)
 		if(book && findtext(leg[1], "[book]_") != 1)
@@ -319,8 +344,8 @@
 		"no" = E.entry_no,
 		"day" = E.day,
 		"kind" = E.kind,
-		"from" = E.from_name,
-		"to" = E.to_name,
+		"from" = from_label,
+		"to" = to_label,
 		"amount" = E.amount,
 		"reason" = E.reason || "",
 		"count" = E.count || 1,

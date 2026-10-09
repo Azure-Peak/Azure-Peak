@@ -23,8 +23,8 @@
 	kind = entry_kind
 	amount = entry_amount
 	reason = entry_reason
-	from_name = from_fund ? from_fund.name : (from_label || "void")
-	to_name = to_fund ? to_fund.name : "void"
+	from_name = from_fund ? from_fund.name : (from_label || LEDGER_REALM_LABEL)
+	to_name = to_fund ? to_fund.name : LEDGER_REALM_LABEL
 	var/datum/fund/source = from_fund || to_fund
 	currency = source?.currency
 	time_created = world.time
