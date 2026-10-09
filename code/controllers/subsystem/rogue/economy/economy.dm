@@ -971,6 +971,8 @@ SUBSYSTEM_DEF(economy)
 	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]", null, LEDGER_CROWN_REV_EXPORT_SALES)
 	SStreasury.total_export += total_revenue
 	SStreasury.economic_output += total_revenue
+	// do_export records this too; every other export route (manual, mass, autoexport) lands here instead.
+	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, total_revenue)
 	credit_economic_event_saturation(good_id, quantity)
 
 	if(user)

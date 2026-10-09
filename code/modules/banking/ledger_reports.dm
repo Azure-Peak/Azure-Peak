@@ -110,12 +110,15 @@
 	for(var/book in GLOB.ledger_books)
 		if(only_book && book != only_book)
 			continue
-		var/net = 0
+		var/total_debits = 0
+		var/total_credits = 0
 		for(var/id in chart_of_accounts)
 			var/datum/ledger_account/A = chart_of_accounts[id]
 			if(A.book == book)
-				net += A.debits - A.credits
-		rows += list(ledger_recon_row("[ledger_book_label(book)] book: total debits vs total credits", net, 0))
+				total_debits += A.debits
+				total_credits += A.credits
+		// "Books" is everything debited and "Actual" everything credited; they must match.
+		rows += list(ledger_recon_row("[ledger_book_label(book)] book: total debits vs total credits", total_debits, total_credits))
 	return rows
 
 /datum/controller/subsystem/treasury/proc/ledger_recon_row(label, ledger_value, actual_value)

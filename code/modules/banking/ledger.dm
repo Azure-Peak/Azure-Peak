@@ -134,7 +134,7 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 	add_ledger_account(LEDGER_CROWN_EXP_SEQUESTRATION, "Sequestration Charges", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_LOAN_LOSS, "Loan Losses", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_STOCKPILE, "Stockpile Purchases", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
-	add_ledger_account(LEDGER_CROWN_EXP_INVENTORY_ADJ, "Change in Stockpile Inventory", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
+	add_ledger_account(LEDGER_CROWN_EXP_INVENTORY_ADJ, "Stock Count Variance", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	add_ledger_account(LEDGER_CROWN_EXP_POLL_WRITEOFF, "Poll Tax Written Off", LEDGER_BOOK_CROWN, LEDGER_CLASS_EXPENSE)
 	// Citizens
 	add_ledger_account(LEDGER_CITIZEN_COIN_IN, "Coin Deposited at the Meister", LEDGER_BOOK_CITIZENS, LEDGER_CLASS_REVENUE)
@@ -517,7 +517,8 @@ GLOBAL_LIST_INIT(ledger_class_order, list(
 	if(abs(delta) < 0.01)
 		return
 	var/offset = opening ? LEDGER_CROWN_CAPITAL : LEDGER_CROWN_EXP_INVENTORY_ADJ
-	var/reason = opening ? "Opening stockpile valued" : "Stockpile revalued"
+	// Say what happened in terms the Steward would: what the shelves hold now, and how that moved the books.
+	var/reason = opening ? "Opening stockpile counted at [value]m" : "Stockpile counted at [value]m: books [delta > 0 ? "raised" : "lowered"] by [abs(delta)]m to match"
 	if(delta > 0)
 		post_ledger_entry("revaluation", reason, list(
 			list(LEDGER_CROWN_INVENTORY, delta, 0),
