@@ -19,6 +19,11 @@
 	path = /obj/item/clothing/mask/rogue/spectacles
 	sort_category = "Accessories"
 
+/datum/loadout_item/thinspectacles
+	name = "Thin Spectacles"
+	path = /obj/item/clothing/mask/rogue/spectacles/thin
+	sort_category = "Accessories"
+
 /datum/loadout_item/fingerless
 	name = "Fingerless Gloves"
 	path = /obj/item/clothing/gloves/roguetown/fingerless
@@ -164,6 +169,11 @@
 /datum/loadout_item/breechclothbeltalt
 	name = "Black Belt with Breechcloth"
 	path = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/blackbelt
+	sort_category = "Accessories"
+
+/datum/loadout_item/clothloincloth
+	name = "Belt with Loincloth"
+	path = /obj/item/storage/belt/rogue/leather/battleskirt/loincloth
 	sort_category = "Accessories"
 
 /datum/loadout_item/doublebelt

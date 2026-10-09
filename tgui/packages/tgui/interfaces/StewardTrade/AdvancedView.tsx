@@ -81,6 +81,49 @@ export const AdvancedView = (props: { data: Data }) => {
           {barred} barred
         </span>
       </div>
+      <div style={sectionHeaderStyle}>Policies Import & Export</div>
+      <div style={{ color: INK_SOFT, marginBottom: '8px' }}>
+        Save your custom settings locally as text and paste them into Import
+        Policy in later rounds, including: Handset limits, autoexport /
+        withdraw bars, unaccepted goods, autoimport list, essential opt-outs,
+        surplus threshold and purse floor. Autolimits or prices are not stored.
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          flexWrap: 'wrap',
+          marginBottom: '8px',
+        }}
+      >
+        <button
+          type="button"
+          style={inkButtonStyle({ color: INK, disabled: aldermanActing })}
+          disabled={aldermanActing}
+          onClick={() => act('export_steward_policy')}
+          title={
+            aldermanActing
+              ? blockTitle
+              : 'Copy the text and save it locally. You can paste it into Import Policy in later rounds to keep your custom settings.'
+          }
+        >
+          Export Policy
+        </button>
+        <button
+          type="button"
+          style={inkButtonStyle({ color: INK, disabled: aldermanActing })}
+          disabled={aldermanActing}
+          onClick={() => act('import_steward_policy')}
+          title={
+            aldermanActing
+              ? blockTitle
+              : 'Import exported policies from previous round. See export policy for what are covered.'
+          }
+        >
+          Import Policy
+        </button>
+      </div>
     </div>
   );
 };

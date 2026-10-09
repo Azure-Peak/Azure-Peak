@@ -250,3 +250,24 @@
 
 /datum/component/holster/handstaff/eat_sword(mob/living/user, obj/A)
 	. = ..()
+
+/datum/component/holster/boot
+	use_icons = FALSE
+
+/datum/component/holster/boot/weapon_check(mob/living/user, obj/A)
+	if(!istype(A, /obj/item/rogueweapon/huntingknife/throwingknife) && !istype(A, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang) && !istype(A, /obj/item/rogueweapon/huntingknife/idagger/steel/profane))
+		to_chat(user, span_warning("[A] doesn't fit in there."))
+		return FALSE
+	if(sheathed)
+		to_chat(user, span_warning("There's already something in there!"))
+		return FALSE
+	return TRUE
+
+/datum/component/holster/boot/attack_by(atom/source, obj/item/I, mob/user, params)
+	if(sheathed)
+		weapon_check(user, I)
+	return ..()
+
+/datum/component/holster/boot/examine_check(datum/source, mob/user, list/examine_list)
+	if(sheathed)
+		examine_list += span_notice("There is [sheathed] slipped into the footwear. Right-click to pull it out.")

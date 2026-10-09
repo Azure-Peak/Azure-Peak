@@ -321,15 +321,7 @@
 	marquevalue = 16 //Ditto.
 
 /obj/item/paper/inqslip/proc/attemptsign(mob/living/carbon/human/target, mob/living/carbon/human/user)
-	if(sliptype == 2)
-		if(!paired)
-			return
-		if(paired.subject != target)
-			to_chat(user, span_warning("Why am I trying to make them sign this with the wrong [paired] paired with it?"))
-			return
-		if(alert(target, "SIGN THE CONFESSION?", "CONFIRM OR DENY", "YES", "NO") == "NO")
-			return
-	else if(!alert(target, "SIGN THE SLIP?", "CONFIRM OR DENY", "YES", "NO") == "NO")
+	if(alert(target, "SIGN THE [(sliptype == 2) ? "CONFESSION" : "SLIP"]?", "CONFIRM OR DENY", "YES", "NO") == "NO")
 		return
 	signed = TRUE
 	signee = target
@@ -352,15 +344,10 @@
 	if(!target.get_bleed_rate())
 		to_chat(user, span_warning("It must be signed in blood."))
 		return
-	if(sliptype == 1)
-		if(signee == target)
-			attemptsign(user)
-		else
-			to_chat(user, span_warning("This slip isn't meant for me."))
-	else if(!sliptype)
-		attemptsign(user)
-	else
-		attemptsign(target, user)
+	if(sliptype == 1 && signee != target)
+		to_chat(user, span_warning("This slip isn't meant for me."))
+		return
+	attemptsign(target)
 
 /obj/item/paper/inqslip/attack_self(mob/user)
 	if(waxed)

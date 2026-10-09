@@ -307,3 +307,175 @@
   - balance: you can no longer bleed people out by nuking people w/ your ERP related
       organs on top of regular ones by exploding via calcic as a wretch skeleton,
       literally 1984.
+2026-10-07:
+  Dorodomki:
+  - rscadd: Added a new belt with loincloth
+  - bugfix: 'fixed a donator item costing triumphs
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Confessions now actually work; you (the person confessing i.e. the heretic)
+      can sign them, and then optionally you (the inquisition probably) can pair an
+      indexer for an increase in marque reward
+  - bugfix: Infernal familiars now properly get their "turn into a staff" ability.
+  - rscadd: Added quirks, a new trait system that's somewhere between a virtue and
+      a vice. Taking virtuous/fated instead of a statpack, or having 2+ standalone
+      vices, will unlock a slot; doing both will unlock a second slot. Many quirks
+      are restricted to specific races, or can only be taken in the second slot.
+  - rscdel: Removed the ugly virtue, it's been moved to a quirk. It also no longer
+      moodnukes people, it instead gives a 'fake' moodlet that doesn't actually grant
+      stress.
+  - bugfix: Sextons can no longer be nobles. That was never intended but nobody actually
+      noticed it was a thing until now.
+  Ollanius:
+  - bugfix: Kaskaras, Ngmobes, and other reskins should no longer print an error icon
+      when wielded (in cases where it's been specifically applied to Arming Swords).
+  - rscadd: Anointed weaponry. Obtainable by only the Cleric, these cold iron weapons
+      deal less damage but have higher defense and integrity. While they cannot sunder
+      greater villains (in PVP), the lesser blessings nevertheless allow them to smite
+      lesser evils (in PVE). Thanks to Radarseas for the underlying mechanical work!
+  - balance: The Cleric can now select from one of several anointed weapons, if the
+      "Crusader" loadout option is chosen. Note that they lose the free Silver Order
+      surcoat.
+  - bugfix: Anointed spears no longer have an errant typo in the .dmis, allowing for
+      their wielded sprite to properly render.
+  - bugfix: Kaltzbegers, when used for an Arming Sword's reskin, no longer vanish
+      when two-handed.
+  - code_imp: Note - for donor reskins (and not just full-on different weapons), the
+      variable still checks for a '...1' at the end for a wielded sprite. Even if
+      it's based on a weapon that already autogenerates a wielded sprite based on
+      a single instance, not including a second icon with the aformentioned '...1'
+      will cause it to freak out.
+  Ryan180602:
+  - rscdel: remove tempered intensity
+  - code_imp: vote multipliers affect pools altogether
+  Ryumi:
+  - rscadd: Naledian masks can now have spectacles laid into them, allowing characters
+      with bad eyesight to be Naledian without needing to juggle face/head slot items.
+      Bespectacled Naledian masks have worse max durability than they would otherwise.
+  - qol: If you have bad eyesight, joining as a war-scholar class automatically replaces
+      your spectacles on spawn with bespectacled war-scholar masks.
+  WeNeedMorePhoron:
+  - rscadd: You can now import / export most Stewardry trade settings in the "Advanced"
+      section of the trade UI
+  borneblood:
+  - bugfix: Fixed an unintended behavior with Matthios Amulet and Transact
+  mumblemancer:
+  - refactor: daggers destruction procs are now localized on the dagger and should
+      be easier to read
+  radarseas:
+  - rscadd: VL now gets a full keyring on spawn instead of just one key.
+  - balance: VL can no longer roll jobs on top of their own gear-set. No more mage
+      associate or spellblade VLs w/ 20 int + mending.
+  - balance: VL now starts w/ guarded virtue for free and no longer has a forced lord/lady
+      title. This should make it harder to metagame smart vampire lords trying to
+      blend in and roleplay instead of fragging out.
+  - balance: VL has bad trainer trait, no more accidentally training your enemies
+      or allies to master.
+  - balance: VL now has bad trainer, no more levelling your victims/allies with master
+      weaponry skill.
+  - balance: VL's roundstart tights are now armored so you have something for the
+      legs.
+  - balance: master rod no longer works on dreamwalkers, VL and lich
+  - bugfix: you no longer keep keys/houndstones on you from your job when spawning
+      as a roundstart bandit, or as a lich/VL.
+  - bugfix: lich no longer starts w/ known people, they have to examine people.
+  - balance: VL's statline is now normalised to 14, no matter what class you take.
+  - bugfix: roundstart bandits no longer stack job on top of bandit class, spell wise
+      and stuff. I know there's a few edge cases, don't exploit them. I can't fix
+      them yet.
+  - bugfix: lich now properly gets their chalk on revival, it was trying to be assigned
+      before we equipped the new body, whoops!
+  - admin: forced vampires gamemode is now just named vampire lord, to be far less
+      deceiving.
+  - balance: VL now gets a decorated dagger, lich now gets a blacksteel dagger instead
+      of steel + grand tome on hip at the price of losing their mana potion (you couldn't
+      use it anyway lol)
+2026-10-08:
+  Ryan180602:
+  - balance: unarmed weapons cannot be used with shields anymore.
+  - balance: knuckledusters in glove slots means you can't use weapons
+  - balance: claws are rebalanced/nerfed
+  - balance: Change Inquisitor statline.
+  - balance: Inquisitor gets Master in a particular weapon (Your Faith still gives
+      Expert as it used to)
+  - balance: Confessors get a choice between Couir-Boulli and the existing tunic as
+      underarmour.
+  - rscadd: A small system to bypass certain armour layers to be worn with other armour.
+  ToasterStrudes:
+  - bugfix: Etrusso is no longer an Etrusso and is now a Etruccino.
+  WeNeedMorePhoron:
+  - rscadd: Having Cicerone or high enough alchemy will allow you to view a reagent's
+      description as a tooltip. Water got new descriptions that match the era. Other
+      descriptions to be rewritten later.
+  - rscadd: Unhandled blockades now increase the cost of goods in Goldface / Silverface,
+      with blockades affecting specifically the type of goods that the region provides,
+      but also generally raising the cost of gears. It will NOT applies to Vile Vheslie
+  - bugfix: Fixed Illicit Utility and Medical supplies not showing, which is not related
+      to this PR but a prior bug
+  borneblood:
+  - bugfix: Impact grenades, satchel charges and so on will now explode properly when
+      tripped.
+  - bugfix: Can't stack tripbombs on the same tile.
+  kilozombie:
+  - balance: Increases sexton slots from 2 to 3
+  zeskorion:
+  - bugfix: you can no longer breath without lungs
+2026-10-09:
+  Dorodomki:
+  - rscadd: 'Added new tail satchels + recipes + upgraded icon for the belt loincloth
+
+      cl:'
+  FeniaFox:
+  - rscadd: Added a new virtue 'Handily Prepared'. Gives novice skill in over a dozen
+      crafting/repair/utility skills if you lack it, and adds some basic stone tools/thorn
+      needle/whetstone to your stash. Does not raise any skill caps or do anything
+      not replaceable with some grinding.
+  Ketrai:
+  - rscadd: Painter heralds and voice classes now get the bleed paint trait. Leave
+      puddles of basic paint when you bleed.
+  - bugfix: Remove excessive GW straps from painter classes. (It's faster to sheathe
+      staffs on empty slots)
+  - balance: red abyssor paint friendly damage decreased from 8 to 6
+  - balance: red abyssor paint damage increased from 20 to 30, 10 second cooldown
+      between damage instances unaffected.
+  - balance: painter voice fishing skill novice => apprentice
+  - balance: painter voice miracle tier 3 => 4
+  - balance: painter voice perception bonus 0 => 2
+  - bugfix: red abyssor paint can now damage limbs correctly.
+  - rscadd: "Naledian cuisine, added d\xFCr\xFCms, markook, bulgur, and mujadara.\
+      \ Added to merchant, farmer roles, possible lootdrop for chefs."
+  Ollanius:
+  - bugfix: It should now be possible to take a Turban in the Loadout menu, instead
+      of being given a Loudmouth's Veil.
+  - bugfix: Kaskaras, ngombes, and other Arming Sword-specifics should NOW properly
+      render when two-handed. My bad.
+  Quinalion:
+  - rscadd: Thin Spectacles.
+  - rscadd: Silver knuckles can now be blessed while remaining clothing items.
+  - balance: Blessed knuckles now properly account for Psy and Ten damage multipliers.
+  - balance: Blessed knuckles now apply the appropriate type of Sunder on hit.
+  - rscdel: Removed weapon variants of silver knuckles and their morphing functionality.
+  - image: Made minor sprite tweaks to silver knuckles.
+  Ryan180602:
+  - bugfix: crestless gold mask has a snout variant now
+  - qol: zigs last longer.
+  - qol: zigs no longer go out in the rain or when standing in a body of water.
+  - balance: tools in the tool loadout category cost triumphs, now
+  ToasterStrudes:
+  - bugfix: fixes Lumpy Etruccino
+  Traveler319:
+  - rscadd: Hunter Apprentice now comes with 2 levels of Cooking.
+  - rscadd: Classical and gladiator sandals can now hold knives.
+  - qol: Footwear that can hold knives now have mechanics examines explaining this.
+  - refactor: Boot sheathing now uses sheath components.
+  WeNeedMorePhoron:
+  - rscadd: Added 30 herbal and blended drinks from Ochre Valley, credits to NickBelmont,
+      Toaster98 and Dragor for the original work. Some of them are attached to minor
+      stat buffs which are mutually exclusive with that of coffee and tea. They are
+      also added in a separate section in the Encyclopedia
+  borneblood:
+  - balance: Adjusted Pyromaniac's gear and stats to be an upgrade to Bombardier.
+  - bugfix: Lacrima now extracts pure lux from Aasimirs
+  - refactor: Refactored how Barter works, mostly added more soul to it. It should
+      feel like you're dealing with Matthios better now.

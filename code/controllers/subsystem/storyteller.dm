@@ -231,9 +231,9 @@ SUBSYSTEM_DEF(gamemode)
 	/// Whether the player gamemode vote is allowed to fire at the +120s mark. When No, the round is admin-
 	/// controlled (the admin sandbox, unless a specific preset was force-picked) and the slot overrides apply.
 	var/allow_vote = TRUE
-	/// When TRUE, the pool whose preset ran last round is left off the next gamemode vote. Disabled while the
-	/// overdue vote multiplier is being trialled, since it handles rotation between presets instead.
-	var/exclude_previous_pool = FALSE
+	/// When TRUE, the pool whose preset ran last round is left off the next gamemode vote. Runs alongside the
+	/// overdue vote multipliers.
+	var/exclude_previous_pool = TRUE
 	/// TRUE when an admin explicitly Force-Picked a preset. Stops the admin controls from swapping to the sandbox.
 	var/forced_preset = FALSE
 	/// Whether soft antags (wretch/gnoll/assassin) scale with population under admin fine-tuning.

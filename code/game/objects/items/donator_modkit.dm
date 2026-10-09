@@ -507,7 +507,7 @@
 
 /obj/item/enchantingkit/donator_universal_armharness
 	name = "'Plate Arm Harness' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Bracers."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Decrepit, Ancient, Bronze, Iron, or Steel Bracers."
 	target_items = list(
 		/obj/item/clothing/wrists/roguetown/bracers/paalloy				= /obj/item/clothing/wrists/roguetown/bracers/paalloy/armharness,
 		/obj/item/clothing/wrists/roguetown/bracers/aalloy				= /obj/item/clothing/wrists/roguetown/bracers/aalloy/armharness,
@@ -517,6 +517,7 @@
 	)
 	result_item = null
 	custom_name = TRUE
+	exact_type = TRUE
 
 /obj/item/enchantingkit/donator_jacketed_gambeson_short
 	name = "'Short Jacketed Gambeson' morphing elixr"

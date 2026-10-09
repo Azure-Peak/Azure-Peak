@@ -140,3 +140,28 @@
 			if(HAS_TRAIT(H, TRAIT_WELLKNOWN)) // we have to do this to handle resident virtue; quirks are applied after virtues, so this works fine
 				recipient.mind.person_knows_me(H)
 				recipient.mind.i_know_person(H)
+
+/datum/quirk/bioluminescent
+	name = "Luminous"
+	desc = "Through some quirk of biology, I glow slightly."
+	mechdesc = "The light only reaches your own tile, you won't be navigating by this."
+	ui_fa_icon = "lightbulb"
+
+/datum/component/bioluminescence
+	dupe_mode = COMPONENT_DUPE_UNIQUE
+	var/obj/effect/dummy/lighting_obj/moblight/light
+
+/datum/component/bioluminescence/Initialize(color ="#f5edda", range = 1, power = 1)
+	. = ..()
+	if(!isliving(parent))
+		return COMPONENT_INCOMPATIBLE
+	var/mob/living/L = parent
+	light = L.mob_light(range, power, _color =color)
+
+/datum/component/bioluminescence/Destroy(force, silent)
+	QDEL_NULL(light)
+	. = ..()
+
+/datum/quirk/bioluminescent/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	recipient.AddComponent(/datum/component/bioluminescence)

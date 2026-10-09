@@ -1,6 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "Added quirks, a new trait system that's somewhere between a virtue and a vice. Taking virtuous/fated instead of a statpack, or having 2+ standalone vices, will unlock a slot; doing both will unlock a second slot. Many quirks are restricted to specific races, or can only be taken in the second slot."
-  - rscdel: "Removed the ugly virtue, it's been moved to a quirk. It also no longer moodnukes people, it instead gives a 'fake' moodlet that doesn't actually grant stress."
-  - bugfix: "Sextons can no longer be nobles. That was never intended but nobody actually noticed it was a thing until now."

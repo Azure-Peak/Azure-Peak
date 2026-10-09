@@ -1,5 +1,0 @@
-author: "Ryumi"
-delete-after: True
-changes:
-  - rscadd: "Naledian masks can now have spectacles laid into them, allowing characters with bad eyesight to be Naledian without needing to juggle face/head slot items. Bespectacled Naledian masks have worse max durability than they would otherwise."
-  - qol: "If you have bad eyesight, joining as a war-scholar class automatically replaces your spectacles on spawn with bespectacled war-scholar masks."

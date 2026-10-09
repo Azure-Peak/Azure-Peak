@@ -94,6 +94,8 @@
 	tastes = list("wheat" = 1)
 	grind_results = list(/datum/reagent/floure = 10)
 	mill_result = /obj/item/reagent_containers/powder/flour
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/bulgur_raw
+	slices_num = 1
 
 /obj/item/reagent_containers/food/snacks/grown/oat
 	seed = /obj/item/seeds/wheat/oat
@@ -936,3 +938,86 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/eggplantcarved
 	slice_sound = TRUE
 	seed = /obj/item/seeds/eggplant
+
+/*	..................	Naledi plants	................... */
+/obj/item/reagent_containers/food/snacks/grown/beans
+	seed = /obj/item/seeds/beans
+	name = "beans"
+	desc = "A staple in distant lands. Said to induce gassiness within some individuals."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "beans"
+	filling_color = "#471b1b"
+	bitesize_mod = 2
+	foodtype = VEGETABLES
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	tastes = list("beans" = 1)
+
+/obj/item/reagent_containers/food/snacks/grown/lentils
+	seed = /obj/item/seeds/lentils
+	name = "lentils"
+	desc = "Multicolored seeds that taste ever so slightly different, despite originating from the same plant. A delight from faraway lands."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lentils"
+	filling_color = "#803f3f"
+	bitesize_mod = 2
+	foodtype = VEGETABLES
+	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
+	tastes = list("lentils" = 1)
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur_raw
+	name = "raw bulgur"
+	desc = "Chopped and ground kernels of foreign cuisine, waiting to bloom in heat and steam… Add water first."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "bulgur"
+	gender = PLURAL
+	filling_color = "#a79d48"
+	foodtype = GRAIN
+	tastes = list("chalk" = 1)
+	var/water_added
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur_wet
+	name = "washed bulgur"
+	desc = "Ready to be steamed!"
+	gender = PLURAL
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "bulgur_wet"
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/bulgur
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur_raw/attackby(obj/item/I, mob/living/user, params)
+	var/obj/item/reagent_containers/R = I
+	if(istype(R) && wet(I, user))
+		return TRUE
+	return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur_raw/proc/wet(obj/item/I, mob/living/user)
+	var/found_table = locate(/obj/structure/table) in (loc)
+	var/obj/item/reagent_containers/R = I
+	var/is_container = istype(R)
+	update_cooktime(user)
+	if(water_added)
+		return FALSE
+	if(isturf(loc)&& (!found_table))
+		to_chat(user, "<span class='notice'>Need a table...</span>")
+		return FALSE
+	if(is_container && (!R.reagents.has_reagent(/datum/reagent/water, 10)))
+		to_chat(user, "<span class='notice'>Needs more water to work it.</span>")
+		return TRUE
+	to_chat(user, "<span class='notice'>Adding water, now it's time to hand wash it...</span>")
+	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
+	if(do_after(user,2 SECONDS, target = src))
+		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.8)
+		name = "wet bulgur"
+		if(is_container)
+			R.reagents.remove_reagent(/datum/reagent/water, 10)
+		water_added = TRUE
+		color = "#d9d0cb"
+	return TRUE
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur_raw/attack_hand(mob/living/user)
+	if(water_added)
+		playsound(get_turf(user), 'modular/Neu_Food/sound/kneading_alt.ogg', 90, TRUE, -1)
+		if(do_after(user,3 SECONDS, target = src))
+			add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.8)
+			new /obj/item/reagent_containers/food/snacks/rogue/bulgur_wet(loc)
+			qdel(src)
+	else ..()
