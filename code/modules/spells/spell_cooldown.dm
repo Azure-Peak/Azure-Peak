@@ -2011,18 +2011,18 @@
 	vis_contents |= rune
 	spell_rune = rune
 
-	start_spell_particles(spell_color)
+	start_spell_particles(spell_color, rune)
 
-/// Intermittent particle effect while charging. Requires spell_rune — self-repeats via timer.
-/mob/living/proc/start_spell_particles(spell_color = "#FFFFFF")
-	if(QDELETED(src) || QDELETED(spell_rune))
+/// Intermittent particle effect while charging. Self-repeats via timer until the rune it was started for is gone.
+/mob/living/proc/start_spell_particles(spell_color = "#FFFFFF", obj/effect/spell_rune_under/rune)
+	if(QDELETED(src) || QDELETED(rune) || spell_rune != rune)
 		return
 
-	var/obj/effect/temp_visual/particle_up/particles = new(null, src, spell_rune)
+	var/obj/effect/temp_visual/particle_up/particles = new(null, src, rune)
 	vis_contents |= particles
 	particles.color = spell_color
 
-	addtimer(CALLBACK(src, PROC_REF(start_spell_particles), spell_color), 3.6 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(start_spell_particles), spell_color, rune), 3.6 SECONDS)
 
 /// Finish spell visual effects on successful cast. Cleans up rune and creates wave_up.
 /mob/living/proc/finish_spell_visual_effects(spell_color = "#FFFFFF")

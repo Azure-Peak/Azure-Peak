@@ -305,6 +305,7 @@
 /datum/species/dullahan/proc/soul_light_on(mob/living/carbon/human/user)
 	var/obj/item/organ/soul/soul_accessory = user.getorganslot(ORGAN_SLOT_SOUL)
 	if(soul_accessory && user.stat != DEAD)
+		QDEL_NULL(mob_light_obj)
 		mob_light_obj = user.mob_light(soul_accessory.accessory_colors, 2, 2)
 
 /datum/species/dullahan/proc/soul_light_off()
