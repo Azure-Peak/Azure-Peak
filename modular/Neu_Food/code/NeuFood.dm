@@ -397,7 +397,7 @@
 	color = "#d9d0cb"
 
 /obj/item/reagent_containers/powder/flour/proc/wet(obj/item/I, mob/living/user)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	var/obj/item/reagent_containers/R = I
 	// if false, this is a special case like orison
 	var/is_container = istype(R)
@@ -458,7 +458,7 @@
 	return ..()
 
 /obj/item/reagent_containers/food/snacks/grown/rice/proc/wet(obj/item/I, mob/living/user)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	var/obj/item/reagent_containers/R = I
 	var/is_container = istype(R)
 	update_cooktime(user)
@@ -535,7 +535,7 @@
 	return ..()
 
 /obj/item/reagent_containers/powder/mineral/proc/wet(obj/item/I, mob/user)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	var/obj/item/reagent_containers/R = I
 	var/is_container = istype(R)
 	update_cooktime(user)
