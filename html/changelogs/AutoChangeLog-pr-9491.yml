@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - bugfix: "lit objects lighting people on fire through armour when clicked"
+  - bugfix: "zigs needing a proper proc"
