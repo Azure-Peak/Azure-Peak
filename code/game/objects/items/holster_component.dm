@@ -1,12 +1,14 @@
 /datum/component/holster
-	/// Weapon path and its children that are allowed
-	var/obj/item/rogueweapon/valid_blade
-	/// Specific weapons that are allowed. Bypasses valid_blade
-	var/list/obj/item/rogueweapon/valid_blades
-	/// Specific weapons that are not allowed. Bypassed valid_blade
-	var/list/obj/item/rogueweapon/invalid_blades
+	/// Weapon paths whose children are allowed.
+	/// Can be a single type path or a list of type paths.
+	var/list/valid_blade
 
-	/// Stores weapon
+	/// Specific weapons/types that are allowed.
+	var/list/valid_blades
+
+	/// Specific weapons/types that are forbidden.
+	var/list/invalid_blades
+
 	var/obj/item/rogueweapon/sheathed
 
 	var/sheathe_time = 0.1 SECONDS
@@ -22,12 +24,17 @@
 		QDEL_NULL(sheathed)
 	return ..()
 
-/datum/component/holster/Initialize(obj/item/rogueweapon/arg_validblade, list/arg_valid_blades, list/arg_invalid_blades, arg_sheathe_time)
+/datum/component/holster/Initialize(arg_validblade, list/arg_valid_blades, list/arg_invalid_blades, arg_sheathe_time)
 	if(!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
 
 	if(arg_validblade)
-		valid_blade = arg_validblade
+		valid_blade = list()
+		if(islist(arg_validblade))
+			for(var/path in arg_validblade)
+				valid_blade += path
+		else
+			valid_blade += arg_validblade
 	if(islist(arg_valid_blades) && length(arg_valid_blades))
 		valid_blades = arg_valid_blades.Copy()
 	if(islist(arg_invalid_blades) && length(arg_invalid_blades))
@@ -54,9 +61,9 @@
 	update_icon(player)
 
 /datum/component/holster/proc/search_turf(atom/source, turf/T, mob/living/user)
-	to_chat(user, span_notice("I search for my sword..."))
-	for(var/obj/item/rogueweapon/sword/sword in T.contents)
-		if(eat_sword(user, sword))
+	to_chat(user, span_notice("I search for my weapon..."))
+	for(var/obj/item/rogueweapon/weapon in T.contents)
+		if(eat_sword(user, weapon))
 			break
 
 /datum/component/holster/proc/weapon_check(mob/living/user, obj/A)
@@ -69,17 +76,24 @@
 	if(!RW.sheathe_icon)
 		to_chat(user, span_warning("[A] won't fit in there."))
 		return FALSE
-	if(valid_blade && !istype(A, valid_blade))
+
+	if(invalid_blades)
+		for(var/invalid in invalid_blades)
+			if((ispath(invalid) && istype(A, invalid)) || A == invalid)
+				return FALSE
+
+	if(valid_blades)
+		for(var/valid in valid_blades)
+			if((ispath(valid) && istype(A, valid)) || A == valid)
+				return TRUE
+
+	if(valid_blade)
+		for(var/path in valid_blade)
+			if(istype(A, path))
+				return TRUE
 		to_chat(user, span_warning("[A] won't fit in there."))
 		return FALSE
-	if(valid_blades)
-		if(!(A.type in valid_blades))
-			to_chat(user, span_warning("[A] won't fit in there."))
-			return FALSE
-	if(invalid_blades)
-		if(A.type in invalid_blades)
-			to_chat(user, span_warning("[A] won't fit in there."))
-			return FALSE
+
 	return TRUE
 
 /datum/component/holster/proc/eat_sword(mob/living/user, obj/A)
@@ -154,7 +168,7 @@
 	var/is_in_slot = TRUE
 	if(ishuman(user))
 		var/mob/living/carbon/human/human = user
-		is_in_slot = (I in (list(human.backl, human.backr, human.beltl, human.beltr) + human.get_inactive_held_item()))
+		is_in_slot = (I in (list(human.backl, human.backr, human.beltl, human.beltr, human.wear_wrists, human.shoes) + human.get_inactive_held_item()))
 	if(sheathed && is_in_slot)
 		puke_sword(user)
 		return COMPONENT_NO_ATTACK_HAND
@@ -166,11 +180,10 @@
 /datum/component/holster/proc/attack_by(atom/source, obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/needle) || istype(I, /obj/item/rogueweapon/hammer))
 		return
-	if(!sheathed)
-		if(!eat_sword(user, I))
-			return
-	return COMPONENT_NO_AFTERATTACK
-
+	if(sheathed)
+		return
+	if(eat_sword(user, I))
+		return COMPONENT_NO_AFTERATTACK
 
 /datum/component/holster/proc/examine_check(datum/source, mob/user, list/examine_list)
 	if(sheathed)
@@ -179,6 +192,9 @@
 
 /datum/component/holster/proc/update_icon(atom/source, mob/living/user)
 	var/obj/item/I = parent
+	if(istype(I, /obj/item/clothing/shoes/roguetown/boots))
+		I.getonmobprop(tag)
+		return
 	if(use_icons)
 		if(sheathed)
 			I.icon_state = "[initial(I.icon_state)]_[sheathed.sheathe_icon]"

@@ -37,7 +37,7 @@
 	///only used by humans
 	var/obj/item/clothing/gloves = null
 	///only used by humans.
-	var/obj/item/clothing/shoes = null
+	var/obj/item/shoes = null
 	///only used by humans.
 	var/obj/item/clothing/glasses/glasses = null
 	///only used by humans.
