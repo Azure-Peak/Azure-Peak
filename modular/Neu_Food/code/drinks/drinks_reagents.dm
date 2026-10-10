@@ -63,12 +63,17 @@
 	description = "Why are you seeing this?"
 	hydration_factor = 5
 	overdose_threshold = 60
+	brew_buff = /datum/status_effect/buff/brew/vigorized
+
+/datum/reagent/consumable/caffeine/on_mob_metabolize(mob/living/L)
+	. = ..()
+	apply_brew(L, TRUE)
 
 /datum/reagent/consumable/caffeine/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(5) // 1/6th of mana pot
-	M.apply_status_effect(/datum/status_effect/buff/vigorized)
+	apply_brew(M)
 	M.sate_addiction(/datum/charflaw/addiction/caffiend)
 
 /datum/reagent/consumable/caffeine/overdose_process(mob/living/carbon/M)
@@ -136,7 +141,7 @@
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/caffeine/coffee/cheese
 	results = list(/datum/reagent/consumable/caffeine/coffee/cheese = 2)
-	required_reagents = list(/datum/reagent/consumable/caffeine/coffee = 1, /datum/reagent/consumable/soup/stew/cheese = 1)
+	required_reagents = list(/datum/reagent/consumable/caffeine/coffee = 1, /datum/reagent/consumable/soup/stew/thickcheese = 1)
 
 /datum/reagent/consumable/caffeine/coffee_spiced
 	cuisine = CUISINE_RANESHENI

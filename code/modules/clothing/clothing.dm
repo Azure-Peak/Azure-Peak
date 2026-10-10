@@ -63,6 +63,8 @@
 	var/chunkcolor = "#5e5e5e"
 	var/material_category = ARMOR_MAT_LEATHER
 	var/throw_on_break = FALSE
+	/// Whitelist of armour that can be worn underneath something despite restrictions. Should be a small list, only.
+	var/list/underlayers
 
 /obj/item
 	var/blocking_behavior

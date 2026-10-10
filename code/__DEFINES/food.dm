@@ -40,6 +40,7 @@
 #define CUISINE_ETRUSCAN		(1<<4)
 #define CUISINE_SOUTHEASTERN	(1<<5)
 #define CUISINE_RANESHENI		(1<<6)
+#define CUISINE_NALEDI			(1<<7)
 
 // Dish type flags - food only.
 #define DISH_MEAT		(1<<0)

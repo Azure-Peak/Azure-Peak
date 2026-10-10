@@ -1,0 +1,5 @@
+author: "Traveler319"
+delete-after: True
+changes:
+  - rscadd: "Sanguine heels can now hold knives."
+  - code_imp: "repathed Court Physician shoes to be a subtype of shoes/roguetown."

@@ -7,8 +7,8 @@
 #define INK_HEAL_BASE				1
 #define INK_HEAL_PER_STACK			0.5
 #define INK_SPIKE_MINDLESS_DAMAGE 60
-#define INK_SPIKE_CONSCIOUS_DAMAGE 20
-#define INK_SPIKE_AFFINITY_DAMAGE 8
+#define INK_SPIKE_CONSCIOUS_DAMAGE 30
+#define INK_SPIKE_AFFINITY_DAMAGE 6
 
 /obj/effect/ink_trail
 	name = "paint trail"
@@ -437,6 +437,7 @@
 
 			// If unarmored, stab whoever walked on us.
 			if(!armor_tier)
+				hit_part.receive_damage(brute = damage_to_deal)
 				hit_part.bodypart_attacked_by(
 					bclass = bclass_to_use,
 					dam = damage_to_deal,

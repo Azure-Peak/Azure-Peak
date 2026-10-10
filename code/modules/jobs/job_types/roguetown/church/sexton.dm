@@ -3,8 +3,8 @@
 	flag = SEXTON
 	department_flag = CHURCHMEN
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 3 // don't increase this or else
+	spawn_positions = 3
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	tutorial = "You are a Sexton, an apprentice, helping hand or aide for the local church. Your responsibilities are little, but so are your obligations."

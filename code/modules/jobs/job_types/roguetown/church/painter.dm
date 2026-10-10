@@ -32,7 +32,7 @@
 	outfit = /datum/outfit/job/roguetown/herald
 	category_tags = list(CTAG_ACOLYTE)
 	allowed_patrons = list(/datum/patron/divine/abyssor)
-	traits_applied = list(TRAIT_WATERBREATHING)
+	traits_applied = list(TRAIT_WATERBREATHING, TRAIT_BLEED_PAINT)
 	// Let's not let the entire church be abysorrite encouraged.
 	maximum_possible_slots = 3
 	subclass_stats = list(
@@ -70,7 +70,6 @@
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel
-	backr = /obj/item/rogueweapon/scabbard/gwstrap
 	shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
 	pants = /obj/item/clothing/under/roguetown/trou/leather
@@ -99,12 +98,13 @@
 	outfit = /datum/outfit/job/roguetown/voice
 	category_tags = list(CTAG_PAINTER)
 	// Not sold on them having civ barb, but parrying without is hell.
-	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_STEELHEARTED, TRAIT_BLEED_PAINT)
 	maximum_possible_slots = 1
 	subclass_stats = list(
 		STATKEY_STR = -1,
 		STATKEY_CON = 2,
 		STATKEY_WIL = 3,
+		STATKEY_PER = 2,
 		STATKEY_SPD = 1
 	)
 	subclass_skills = list(
@@ -115,7 +115,7 @@
 		/datum/skill/misc/medicine = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/crafting = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/labor/fishing = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/holy = SKILL_LEVEL_EXPERT,
@@ -128,7 +128,6 @@
 	..()
 	id = /obj/item/clothing/ring/gold
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	neck = /obj/item/clothing/neck/roguetown/psicross/abyssor/g //represents the cult, has to be somewhat outstanding
 	cloak = /obj/item/clothing/suit/roguetown/shirt/robe/abyssor_leader
 	head = /obj/item/clothing/head/roguetown/helmet/heavy/abyssor_painter
@@ -148,7 +147,7 @@
 	H.cmode_music = 'sound/music/combat_holy.ogg' //on-par w/ monks
 	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_3)
+	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
 	var/weapons = list("Discipline - Unarmed","Knuckledusters","Sylveric Trident")
@@ -243,4 +242,3 @@
 			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles(H))
 		if("Paintbrush")
 			r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/paint
-			backr = /obj/item/rogueweapon/scabbard/gwstrap

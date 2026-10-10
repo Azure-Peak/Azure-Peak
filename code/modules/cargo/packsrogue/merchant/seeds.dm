@@ -262,3 +262,19 @@
 					/obj/item/seeds/cucumber,
 					/obj/item/seeds/cucumber,
 				)
+
+/datum/supply_pack/rogue/seeds/beans
+	name = "Beans"
+	cost = 4
+	contains = list(
+					/obj/item/seeds/beans,
+					/obj/item/seeds/beans,
+				)
+
+/datum/supply_pack/rogue/seeds/lentils
+	name = "Lentils"
+	cost = 4
+	contains = list(
+					/obj/item/seeds/lentils,
+					/obj/item/seeds/lentils,
+				)

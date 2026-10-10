@@ -1039,6 +1039,14 @@
 		var/reverse_message = "has been [what_done] by [ssource][postfix]"
 		target?.log_message(reverse_message, LOG_ATTACK, color="orange", log_globally=FALSE)
 
+/// Numpad direction from witness to event: 8 north, 6 east, 3 southeast. One char, appended to a name like ^ v ~
+/proc/seen_direction_tag(atom/witness, atom/happening)
+	var/static/list/tags = list(
+		"[NORTH]" = "8", "[NORTHEAST]" = "9", "[EAST]" = "6", "[SOUTHEAST]" = "3",
+		"[SOUTH]" = "2", "[SOUTHWEST]" = "1", "[WEST]" = "4", "[NORTHWEST]" = "7",
+	)
+	return tags["[get_dir(witness, happening)]"] || "~"
+
 /proc/log_seen(mob/user, atom/target, list/viewers, message, seen_type)
 	var/color
 	switch(seen_type)

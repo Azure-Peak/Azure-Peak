@@ -2,10 +2,11 @@
 	status_type = STATUS_EFFECT_REFRESH
 	/// Buffs sharing this group are mutually exclusive; only the highest exclusive_priority stays.
 	var/exclusive_group = null
-	/// Higher wins within a group; on a tie the incumbent is kept.
+	/// Higher wins within a group; on a tie the newcomer replaces the incumbent.
 	var/exclusive_priority = 0
 	/// TRUE if refused on-apply by a stronger group member
 	var/rejected_by_exclusion = FALSE
+	var/exclusive_quiet = FALSE
 
 /datum/status_effect/buff/on_apply()
 	if(exclusive_group && owner)
@@ -13,10 +14,11 @@
 		for(var/datum/status_effect/buff/rival in owner.status_effects)
 			if(rival == src || rival.exclusive_group != exclusive_group)
 				continue
-			if(rival.exclusive_priority >= exclusive_priority)
+			if(rival.exclusive_priority > exclusive_priority)
 				rejected_by_exclusion = TRUE
 				effectedstats = list()
-				owner.balloon_alert_to_viewers("superseded!")
+				if(!exclusive_quiet)
+					owner.balloon_alert_to_viewers("superseded!")
 				return FALSE
 			outranked += rival
 		for(var/datum/status_effect/buff/loser in outranked)
@@ -1220,7 +1222,7 @@
 /datum/status_effect/buff/guidinglight/undivided
 	id = "guidinglight"//Admitedly don't want this to stack with Astrata's one because that would result in a flashbang.
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guidinglight/undivided
-	duration = -1
+	duration = 3 MINUTES
 	status_type = STATUS_EFFECT_REFRESH
 	effectedstats = list(STATKEY_LCK = 1)
 	examine_text = "SUBJECTPRONOUN carries Their Light!"
@@ -1550,25 +1552,6 @@
 /datum/status_effect/buff/xylix_joy/on_remove()
 	. = ..()
 	to_chat(owner, span_info("My fortune returns to normal."))
-
-/datum/status_effect/buff/vigorized
-	id = "vigorized"
-	alert_type = /atom/movable/screen/alert/status_effect/vigorized
-	duration = 10 MINUTES
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_INT = 1)
-
-/atom/movable/screen/alert/status_effect/vigorized
-	name = "Vigorized"
-	desc = "I feel a surge of energy inside, quickening my speed and sharpening my focus."
-	icon_state = "vigorized"
-
-/datum/status_effect/buff/vigorized/on_apply()
-	. = ..()
-	to_chat(owner, span_warning("I feel a surge of energy inside me!"))
-
-/datum/status_effect/buff/vigorized/on_remove()
-	. = ..()
-	to_chat(owner, span_warning("The surge of energy inside me fades..."))
 
 /datum/status_effect/buff/seelie_drugs
 	id = "seelie drugs"
