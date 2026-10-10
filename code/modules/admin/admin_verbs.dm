@@ -12,6 +12,8 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/client/proc/hearsubtleLOOC,
 	/client/proc/togglespawnmessages,
 	/client/proc/toggle_aghost_invis,
+	/client/proc/set_admin_ghost_image,
+	/client/proc/clear_admin_ghost_image,
 	/client/proc/admin_ghost,
 	/datum/admins/proc/start_vote,
 	/datum/admins/proc/show_player_panel,
@@ -81,6 +83,8 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/datum/admins/proc/set_persistent_admin_notice,
 	/client/proc/toggle_game_master,	/*opens the game master panel*/
 	/client/proc/toggle_aghost_invis, /* lets us choose whether our in-game mob goes visible when we aghost (off by default) */
+	/client/proc/set_admin_ghost_image,
+	/client/proc/clear_admin_ghost_image,
 	/client/proc/admin_ghost,			/*allows us to ghost/reenter body at will*/
 	/client/proc/hearallasghost,
 	/client/proc/toggle_view_range,		/*changes how far we can see*/
@@ -436,6 +440,38 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		return
 	aghost_toggle = !aghost_toggle
 	to_chat(src, aghost_toggle ? "Aghosting will now turn your mob invisible." : "Aghost will no longer turn your mob invisible.")
+
+/client/proc/set_admin_ghost_image()
+	set category = "Admin.Special"
+	set name = "Set Ghost Image"
+	if(!holder || !prefs)
+		return
+	var/uploaded_file = input(src, "Choose a 32x32 image or gif to use for your admin ghost.", "Set Ghost Image") as null|file
+	if(!uploaded_file)
+		return
+	var/icon/new_icon = new(uploaded_file)
+	if(new_icon.Width() != 32 || new_icon.Height() != 32)
+		new_icon.Scale(32, 32)
+	prefs.admin_ghost_icon = new_icon
+	prefs.save_preferences()
+	apply_admin_ghost_image()
+	to_chat(src, span_notice("Admin ghost image saved."))
+
+/client/proc/clear_admin_ghost_image()
+	set category = "Admin.Special"
+	set name = "Clear Ghost Image"
+	if(!holder || !prefs)
+		return
+	prefs.admin_ghost_icon = null
+	prefs.save_preferences()
+	apply_admin_ghost_image()
+	to_chat(src, span_notice("Admin ghost image cleared."))
+
+/client/proc/apply_admin_ghost_image()
+	var/mob/dead/observer/admin_ghost = mob
+	if(!istype(admin_ghost))
+		return
+	admin_ghost.apply_admin_ghost_image()
 
 /client/proc/admin_ghost()
 	set category = "Admin.Admin"
