@@ -5,10 +5,10 @@
 /// Multiplier a preset starts at before it has ever won, and what the admin reset returns it to.
 #define STORYTELLER_VOTE_BASE_PERCENT 100
 /// Added to every preset's multiplier after each completed player vote, so presets that keep losing become overdue.
-#define STORYTELLER_OVERDUE_STEP_PERCENT 20
+#define STORYTELLER_OVERDUE_STEP_PERCENT 10
 /// Highest multiplier an overdue preset can reach.
-#define STORYTELLER_OVERDUE_MAX_PERCENT 250
-/// Multiplier every preset in the winning pool drops to for the next vote, so the same pool needs a clearer lead to
+#define STORYTELLER_OVERDUE_MAX_PERCENT 150
+/// Multiplier the winner of a player vote drops to for the next vote, so the same preset needs a clearer lead to
 /// win twice running. It climbs back by STORYTELLER_OVERDUE_STEP_PERCENT per vote like everything else.
 #define STORYTELLER_WIN_COOLDOWN_PERCENT 60
 #define DEFAULT_VOTE_PANEL_REFRESH_INTERVAL 2 SECONDS
@@ -765,7 +765,7 @@ SUBSYSTEM_DEF(vote)
 		if(mode == "storyteller")
 			if(!length(storyteller_vote_log))
 				load_storyteller_vote_log()
-			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. Votes are multiplied per gamemode: every gamemode in the last winning pool drops to x[STORYTELLER_WIN_COOLDOWN_PERCENT / 100], and every gamemode gains +[STORYTELLER_OVERDUE_STEP_PERCENT]% per vote after that (up to x[STORYTELLER_OVERDUE_MAX_PERCENT / 100]), so modes that haven't won in a while get a bonus."
+			var/pool_text = "Check the (?) for a description of each gamemode. Roundstart hard antags require [HARD_ANTAG_MIN_POP] active pop. To keep rounds varied, votes are scaled per gamemode: the one that just won drops to x[STORYTELLER_WIN_COOLDOWN_PERCENT / 100] and recovers +[STORYTELLER_OVERDUE_STEP_PERCENT]% each round, while gamemodes that keep losing gain +[STORYTELLER_OVERDUE_STEP_PERCENT]% each round (up to x[STORYTELLER_OVERDUE_MAX_PERCENT / 100]). Each option shows its current multiplier and how many votes were actually cast for it."
 			. += "<div style='color:#992414;font-size:0.9rem;margin-bottom:6px;'>[pool_text]</div>"
 			. += render_storyteller_choices(can_vote, C)
 		else
