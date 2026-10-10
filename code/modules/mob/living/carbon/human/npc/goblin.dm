@@ -464,6 +464,26 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	name = "goblin pyromancer"
 	real_name = "goblin pyromancer"
 
+////////////////// NAME SELF SPELL /////////////////
+//Designed so that you don't get spammed w/ this during spawning in
+//Due to the nature of portals basically throwing you in there mid-fight
+/obj/effect/proc_holder/spell/self/name_self_goblin
+	name = "Pick a name"
+	desc = "Pick a name for yourself, when you're ready. You can only do this once."
+	action_icon = 'icons/mob/actions/goblin_spell.dmi'
+	action_icon_state = "pick_name"
+	overlay_icon = 'icons/mob/actions/goblin_spell.dmi'
+	overlay_state = "pick_name"
+	antimagic_allowed = TRUE
+	clothes_req = FALSE
+	recharge_time = (2 MINUTES)
+	invocation_type = "none"
+
+/obj/effect/proc_holder/spell/self/name_self_goblin/cast(mob/living/carbon/human/user)
+	user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/self/name_self_goblin)
+	user.choose_name_popup("Goblin") //This is so dumb but funny
+	return TRUE
+
 //////////////////	INVADER ZIM	//////////////////
 
 /obj/structure/gob_portal
@@ -510,7 +530,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	N.update_a_intents()
 	N.set_patron(/datum/patron/inhumen/graggar)
 	N.cmode_music = 'sound/music/combat_shaman2.ogg' //GRAGGAR. GRAGGAR. GRAGGAR. (Different to Gnolls/Heretics, you're just a barbaric goblin shocktrooper)
-	N.choose_name_popup("Goblin") //This is so dumb but funny
+	N.mind.AddSpell(new /obj/effect/proc_holder/spell/self/name_self_goblin) //workaround so you can pick a name in a safe spot.
 	if(N.mind)
 		N.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
 	to_chat(N, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
