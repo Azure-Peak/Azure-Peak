@@ -18,15 +18,7 @@
 	if(!mob_vice)
 		return
 	if(mob_vice.sated)
-		if(mob_vice.partial_sating)
-			if(mob_vice.partial_sate < world.time)
-				mob_vice.partial_sate = world.time + (15 MINUTES)
-				to_chat(src, span_blue("<i>This will do... for now...</i>"))
-				mob_vice.next_sate = world.time + max((initial(mob_vice.time) / 1.5), 1)
-				remove_stress(/datum/stressevent/vice)	// These are just in case we ended up here w/ unsated vice debuffs
-				if(mob_vice.debuff)
-					remove_status_effect(mob_vice.debuff)
-				sate_voyeurs(mob_vice)
+		sate_voyeurs(mob_vice)
 		return
 
 	to_chat(src, span_blue(mob_vice.sated_text))
@@ -64,7 +56,6 @@
 	var/needsate_text
 	var/sated_text = "That's much better..."
 	var/unsate_time
-	var/partial_sating = TRUE
 
 
 /datum/charflaw/addiction/on_mob_creation(mob/user)
@@ -245,7 +236,6 @@
 	needsate_text = "I need someone to HURT me."
 	voyeur_descriptor = "looking to be hurt"
 	debuff = /datum/status_effect/debuff/addiction/masochist
-	partial_sating = FALSE
 
 /datum/status_effect/debuff/addiction/masochist
 	id = "addiction_masochist"
@@ -307,7 +297,6 @@
 	needsate_text = "It's too quiet. Where's the yelling? The fighting?"
 	voyeur_descriptor = "soothed by noise"
 	debuff = null
-	partial_sating = FALSE
 
 /datum/charflaw/addiction/paranoid
 	name = "Paranoid"
@@ -316,7 +305,6 @@
 	time = ADDICT_TIME_OFTEN
 	needsate_text = "Am I the only one of my kind left?"
 	voyeur_descriptor = "comforted by their own"
-	partial_sating = FALSE
 	var/chosen_faction
 
 /datum/charflaw/addiction/paranoid/apply_post_equipment(mob/user)
@@ -346,7 +334,6 @@
 	time = ADDICT_TIME_OFTEN
 	needsate_text = "I must please someone."
 	voyeur_descriptor = "pleased by others"
-	partial_sating = FALSE
 
 #undef ADDICT_TIME_STANDARD
 #undef ADDICT_TIME_OFTEN
