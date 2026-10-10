@@ -17,6 +17,7 @@
 	component_type = /datum/component/storage/concrete/roguetown/belt
 	grid_width = 64
 	grid_height = 64
+	secondary_skills = list(/datum/skill/combat/whipsflails = 0.8)
 
 /obj/item/storage/belt/rogue/attack_right(mob/user)
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)

@@ -39,6 +39,7 @@
 	gripped_intents = list(/datum/intent/spear/thrust/lance, /datum/intent/lance, SPEAR_BASH)
 	resistance_flags = null
 	smeltresult = /obj/item/ingot/steel
+	secondary_skills = list(/datum/skill/misc/riding = 0.8)
 
 /obj/item/rogueweapon/spear/lance/attackby(obj/item/W, mob/living/user, params)
 	..()

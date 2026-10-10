@@ -1,12 +1,11 @@
 /obj/item/rogueweapon/greatsword
-	force = 12
-	force_wielded = 30
-	possible_item_intents = list(/datum/intent/sword/chop, /datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
-	// Design Intent: I have a big fucking sword and I want to cut everything in sight.
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/zwei, /datum/intent/sword/cut/zwei/cleave, /datum/intent/sword/cut/zwei/sweep)
-	alt_grips = list(/datum/alt_grip/mordhau/greatsword, /datum/alt_grip/halfsword/greatsword)
 	name = "greatsword"
 	desc = "Might be able to chop anything in half!"
+	force = 12
+	force_wielded = 30 	// Design Intent: I have a big fucking sword and I want to cut everything in sight.
+	possible_item_intents = list(/datum/intent/sword/chop, /datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/zwei, /datum/intent/sword/cut/zwei/cleave, /datum/intent/sword/cut/zwei/sweep)
+	alt_grips = list(/datum/alt_grip/greatsword/zornhut, /datum/alt_grip/halfsword/greatsword)
 	icon_state = "gsw"
 	parrysound = list(
 		'sound/combat/parry/bladed/bladedlarge (1).ogg',
@@ -30,6 +29,7 @@
 	wdefense = 5
 	smelt_bar_num = 3
 	special = /datum/special_intent/greatsword_swing
+	secondary_skills = list(/datum/skill/combat/polearms = 0.6)
 
 /obj/item/rogueweapon/greatsword/getonmobprop(tag)
 	. = ..()
@@ -94,7 +94,6 @@
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
 	randomize_blade_int_on_init = TRUE
-
 
 /obj/item/rogueweapon/greatsword/paalloy
 	name = "ancient greatsword"
@@ -241,6 +240,7 @@
 	icon_state = "psygsword"
 	possible_item_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/exe, /datum/intent/sword/chop/heavy, /datum/intent/sword/strike)
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/thrust/heavy, /datum/intent/sword/chop/cleave, /datum/intent/rend)
+	alt_grips = list(/datum/alt_grip/greatsword/scharfrichter)
 	minstr = 13
 	minstr_req = TRUE
 	wdefense = 8
@@ -280,7 +280,7 @@
 	wdefense = 6
 	possible_item_intents = list(/datum/intent/sword/cut, /datum/intent/sword/chop/heavy, /datum/intent/sword/thrust/long, /datum/intent/rend/krieg)
 	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/sword/chop/heavy, /datum/intent/sword/thrust/estoc/lunge, /datum/intent/sword/thrust/estoc)
-	alt_grips = list(/datum/alt_grip/mordhau/broadsword/forgotten_blade)
+	alt_grips = list(/datum/alt_grip/greatsword/scharfrichter, /datum/alt_grip/greatsword/zornhut, /datum/alt_grip/halfsword/greatsword) //They're calling it "the most curious implement of all time."
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 	/// Whether a blessing awakens this blade, raising its force, defense and integrity.
@@ -431,10 +431,6 @@
 
 //Elven weapons originally sprited and added by Jamdrawers.
 /obj/item/rogueweapon/greatsword/elvish
-	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
-	// Design Intent: It is pretty purely a two-handed weapon. In one hand it's a bit clumsy.
-	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/rend, /datum/intent/sword/thrust/zwei, /datum/intent/sword/strike/bad)
-	alt_grips = null // can't be alt-gripped
 	name = "elvish curveblade"
 	desc = "The Elven Curveblade is a traditional weapon, its practice as much a dance as a method of death. Flowing like the water's current, let its path lead to your enemy's throat."
 	icon_state = "elfcurveblade"
@@ -442,13 +438,17 @@
 	minstr = 7// Lighter
 	wdefense = 8// Better defence than greatsword
 	sellprice = 60
+	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike) //bash is for nonlethal takedowns, only targets limbs
+	// Design Intent: It is pretty purely a two-handed weapon. In one hand it's a bit clumsy.
+	gripped_intents = list(/datum/intent/sword/cut/zwei, /datum/intent/rend, /datum/intent/sword/thrust/zwei, /datum/intent/sword/strike/bad)
+	alt_grips = null // can't be alt-gripped
 
 // Design intent: A greatsword, for 2 handed use only and focused entirely on cutting and AOE
 // With really shitty stab
 /obj/item/rogueweapon/greatsword/zhanmadao
-	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike)
-	gripped_intents = list(/datum/intent/sword/cut/zhanmadao, /datum/intent/rend, /datum/intent/sword/thrust/zhanmadao, /datum/intent/sword/cut/zhanmadao/sweep)
-	alt_grips = null // can't be alt-gripped
 	name = "Zhanmadao"
 	desc = "A traditional Lingyuese weapon, the 'horse chopping sabre', first pioneered during the Yuanzhao dynasty to cut through saigas and fogbeasts legs from below. It consists of a long, single-edged blade affixed to a hilt meant strictly for two-handed use, and is designed strictly for cutting and wide sweeping attacks. Quite bad at thrusting, unusable for striking."
 	icon_state = "zhanmadao"
+	possible_item_intents = list(/datum/intent/sword/chop,/datum/intent/sword/strike)
+	gripped_intents = list(/datum/intent/sword/cut/zhanmadao, /datum/intent/rend, /datum/intent/sword/thrust/zhanmadao, /datum/intent/sword/cut/zhanmadao/sweep)
+	alt_grips = null // can't be alt-gripped

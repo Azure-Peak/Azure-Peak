@@ -18,7 +18,7 @@
 	associated_skill = /datum/skill/combat/knives
 	anvilrepair = /datum/skill/craft/blacksmithing
 	smeltresult = null
-
+	secondary_skills = list(/datum/skill/misc/medicine = 0.6)
 	grid_width = 32
 	grid_height = 64
 	is_tool = TRUE

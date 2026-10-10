@@ -329,9 +329,9 @@
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
 /obj/item/rogueweapon/shovel/small
-	force = 7
 	name = "spade"
 	desc = "Indispensable for tending the soil."
+	force = 7
 	icon_state = "spade"
 	sharpness = IS_BLUNT
 	//dropshrink = 0.8
@@ -344,17 +344,17 @@
 	grid_height = 64
 
 /obj/item/rogueweapon/shovel/aalloy
-	force = 8
 	name = "decrepit shovel"
 	desc = "A tool of rotted metal, for burying the lyfeless. His worshippers would say that death is necessary; that the bod will nourish this world, so that more lyfe may sprout. But to those who know the truth - Her truth, it is nothing more than a mockery."
+	force = 8
 	icon_state = "ashovel"
 	smeltresult = /obj/item/ingot/aaslag
 	color = "#bb9696"
 
 /obj/item/rogueweapon/shovel/bronze
-	force = 23
 	name = "bronze shovel"
 	desc = "Dig the mound, so that water may flow into a thirsting crop. Puncture the earth, so that its depths may be catered to your whim. Leaven the soil, so that the buried may know peace from this world's evils."
+	force = 23
 	icon_state = "bronzeshovel"
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = 300
@@ -382,10 +382,10 @@
 	)
 
 /obj/item/rogueweapon/shovel/blacksteel
-	force = 27
 	name = "blacksteel shovel"
 	desc = "So much for being served on a silver platter."
 	icon_state = "blacksteelshovel"
+	force = 27
 	smeltresult = /obj/item/ingot/blacksteel
 	max_blade_int = 450
 	max_integrity = 450

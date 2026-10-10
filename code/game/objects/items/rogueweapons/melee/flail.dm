@@ -1,8 +1,8 @@
 /obj/item/rogueweapon/flail
-	force = 25
-	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash, /datum/intent/flail/bash)
 	name = "flail"
 	desc = "A spiked macehead and wooden handle, linked together with a length of chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
+	force = 25
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash, /datum/intent/flail/bash)
 	icon_state = "iflail"
 	icon = 'icons/roguetown/weapons/blunt32.dmi'
 	sharpness = IS_BLUNT
@@ -45,7 +45,7 @@
 /datum/intent/flail/strike/matthiosflail
 	reach = 2
 
-/datum/intent/flail/strikerange
+/datum/intent/flail/strike/ranged
 	name = "ranged flailing strike"
 	blade_class = BCLASS_BLUNT
 	attack_verb = list("strikes", "sweeps")
@@ -139,6 +139,7 @@
 
 /datum/intent/flail/sweep
 	name = "sweeping strike"
+	desc = "A charged sweep that smashes through targets to the front."
 	icon_state = "insweep"
 	blade_class = BCLASS_BLUNT
 	chargetime = 1.2 SECONDS
@@ -152,7 +153,19 @@
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 	cleave = /datum/cleave_pattern/horizontal_sweep
-	desc = "A charged sweep that smashes through targets to the front."
+
+/datum/intent/flail/smash/heavy
+	name = "unevadable smash"
+	desc = "Swing your flail in an unpredictable manner, allowing you to smash through an opponent's guard. Inflicts heavy damage and Strength-scaling \
+	knockback, at the cost of leaving you vulnerable to interruptive attacks."
+	chargedrain = 3 //Discourages the "pre-charging your flail in a safe position" method of cheese. Get up close and personal!
+	icon_state = "incrush"
+	attack_verb = list("smashes through")
+	chargetime = 1.5 SECONDS //The main meat of the intent. Longest charge time and heaviest stamina cost.
+	swingdelay = 0.5 SECONDS //Much shorter compared to the Axe's 1.3 SECOND delay (with HACK), in turn. Active parries (via DEFEND) should be much harder to land.
+	candodge = FALSE
+	canparry = FALSE
+	swingdelay_type = SWINGDELAY_CANCEL
 
 /obj/item/rogueweapon/flail/getonmobprop(tag)
 	. = ..()
@@ -180,37 +193,39 @@
 	smeltresult = /obj/item/ingot/aaslag
 
 /obj/item/rogueweapon/flail/bronze
+	name = "bronze flail"
+	desc = "A studded weight and a whittled handle, linked together with a length of bronze chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
 	force = 27
 	throwforce = 20
 	max_integrity = 125
 	icon_state = "bronzeflail"
-	name = "bronze flail"
-	desc = "A studded weight and a whittled handle, linked together with a length of bronze chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
 	smeltresult = /obj/item/ingot/bronze
 	minstr = 7
 
 /obj/item/rogueweapon/flail/sflail
-	force = 30
-	icon_state = "flail"
+	name = "steel flail"
 	desc = "A flanged macehead and a carved handle, linked together with a length of steel chain. It can be spun around to smash armored opponents with tremendous force, cracking plate and bone alike with unflinching impunity."
 	smeltresult = /obj/item/ingot/steel
 	minstr = 5
+	force = 30
+	icon_state = "flail"
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash, /datum/intent/flail/bash, /datum/intent/flail/smash/heavy)
 
 /obj/item/rogueweapon/flail/cleric
 	name = "anointed flail"
 	icon_state = "crusaderflail"
 	desc = "A crusader's morning star, adorned with a head of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
 	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes."
-	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash, /datum/intent/flail/smash/heavy)
 	max_integrity = 200 //+50
 	minstr = 12
 	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
 /obj/item/rogueweapon/flail/sflail/silver
-	icon_state = "silverflail"
 	name = "silver morningstar"
-	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash, /datum/intent/flail/smash/heavy)
 	desc = "A heavy, silver flail. It follows the Grenzelhoftian design of a 'morning star', utilizing a longer chain to extend its reach."
+	icon_state = "silverflail"
 	smeltresult = /obj/item/ingot/silver
 	is_silver = TRUE
 
@@ -260,7 +275,7 @@
 	name = "\"Consecratia\""
 	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."
 	icon_state = "psymorningstar"
-	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash, /datum/intent/flail/smash/heavy)
 	force = 35
 	minstr = 11
 	max_integrity = 250
@@ -273,12 +288,12 @@
 	)
 
 /obj/item/rogueweapon/flail/peasantwarflail
+	name = "militia thresher"
+	desc = "Just like how a sling's bullet can fell a giant, so too does this great flail follow the principle of converting 'momentum' into 'plate-rupturing force'."
 	force = 10
 	force_wielded = 35
 	possible_item_intents = list(/datum/intent/flail/strike)
-	gripped_intents = list(/datum/intent/flail/strikerange, /datum/intent/flail/smash/ranged, /datum/intent/flail/sweep)
-	name = "militia thresher"
-	desc = "Just like how a sling's bullet can fell a giant, so too does this great flail follow the principle of converting 'momentum' into 'plate-rupturing force'."
+	gripped_intents = list(/datum/intent/flail/strike/ranged, /datum/intent/flail/smash/ranged, /datum/intent/flail/sweep)
 	icon_state = "peasantwarflail"
 	icon = 'icons/roguetown/weapons/blunt64.dmi'
 	pixel_y = -16
@@ -298,6 +313,7 @@
 	dropshrink = 0.9
 	wdefense = 4
 	resistance_flags = FLAMMABLE
+	secondary_skills = list(/datum/skill/combat/polearms = 0.8)
 
 /obj/item/rogueweapon/flail/peasantwarflail/getonmobprop(tag)
 	. = ..()
@@ -315,6 +331,15 @@
 	wdefense = 6
 	minstr = 12
 	anvilrepair = /datum/skill/craft/weaponsmithing
+
+/obj/item/rogueweapon/flail/peasantwarflail/iron/steel
+	name = "steel greatflail"
+	desc = "The greatflail's noblehearted brother, rebuking unruly assailants with a sextuple-spiked countermeasure."
+	force = 15
+	icon_state = "sgreatflail"
+	smeltresult = /obj/item/ingot/steel
+	max_integrity = 200
+	gripped_intents = list(/datum/intent/flail/strike/ranged, /datum/intent/flail/smash/ranged, /datum/intent/flail/sweep, /datum/intent/flail/smash/heavy)
 
 /obj/item/rogueweapon/flail/peasantwarflail/matthios
 	name = "gilded flail"
@@ -359,7 +384,7 @@
 /obj/item/rogueweapon/flail/blacksteel
 	name = "blacksteel flail"
 	icon_state = "bs_flail"
-	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash, /datum/intent/flail/bash, /datum/intent/flail/sweep)
+	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash, /datum/intent/flail/sweep, /datum/intent/flail/smash/heavy)
 	desc = "An elegant flail of blacksteel. The heftsome weight makes it unmatched for driving back plate-armored opponents, so long as one \
 	has the stamina to swing its alloyed chains around."
 	smeltresult = /obj/item/ingot/blacksteel

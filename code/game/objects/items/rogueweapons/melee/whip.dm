@@ -82,8 +82,9 @@
 	icon_state = "instrike"
 	item_d_type = "blunt"
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+
 /datum/intent/flail/smash/ranged/psywhip
-	name = "Meteor Strike"
+	name = "meteor strike"
 	desc = "Swing the weight of your whip around your body, using the angular momentum to deliver a devastating strike, propelling your enemy back and savaging them at the same time."
 	chargedrain = 0 //The charge time is indicative of a warmup, not a hold.
 	chargedloop = /datum/looping_sound/flailswing

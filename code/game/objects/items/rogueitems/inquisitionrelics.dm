@@ -345,6 +345,7 @@ Inquisitorial armory down here
 	possible_item_intents = list(/datum/intent/flail/smash/golgotha)
 	fuel = 999 MINUTES
 	force = 30
+	secondary_skills = list(/datum/skill/magic/holy = 0.6)
 	var/next_smoke
 	var/smoke_interval = 2 SECONDS
 

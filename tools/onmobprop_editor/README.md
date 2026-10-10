@@ -4,7 +4,9 @@ Standalone browser tool for inspecting a DMI iconstate, simulating the in-game o
 
 ## Run It
 
-Open [index.html](index.html) in a browser.
+You can right-click [index.html](index.html)'s tab while it's opened in [VSC](https://code.visualstudio.com/) and select 'Open In Integrated Browser' to access it.
+
+Otherwise, if you're using a different client or alternative means of coding, open [index.html](index.html) in a browser.
 
 If your browser blocks local file features, serve the folder with a simple static server:
 
