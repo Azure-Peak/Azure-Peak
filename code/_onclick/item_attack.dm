@@ -536,6 +536,8 @@
 			user.visible_message(span_artery("[user] begins melting and deforming \the [src] with [I]!"))
 			var/smelting = user.get_skill_level(/datum/skill/craft/smelting)
 			var/scavenge_speed = (8 - smelting) SECONDS
+			if(istype(src, /obj/item/flashlight/flare/torch/lantern/malchem))
+				scavenge_speed *= 0.5
 			if(do_after(user, scavenge_speed, TRUE, same_direction = TRUE, no_interrupt = TRUE))
 				user.visible_message(span_warning("[user] melts down \the [src] with [I]!"))
 				obj_destruction(need_scrap ? BRUTE : BURN)
