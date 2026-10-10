@@ -35170,7 +35170,9 @@
 /area/rogue/indoors/inq)
 "gcr" = (
 /obj/structure/fluff/railing/border/north,
-/obj/item/reagent_containers/glass/bucket,
+/obj/item/reagent_containers/glass/bucket{
+	pixel_y = -2
+	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
