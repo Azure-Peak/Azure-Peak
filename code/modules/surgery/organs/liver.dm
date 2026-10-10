@@ -24,11 +24,14 @@
 
 /obj/item/organ/liver/on_life()
 	var/mob/living/carbon/C = owner
+	var/luxfailure = FALSE
 	..()	//perform general on_life()
 	if(HAS_TRAIT(C, TRAIT_NOMETABOLISM))
 		return // don't even bother
+	if((organ_flags & ORGAN_LUX) && owner.check_lux_organ_cap())
+		luxfailure = TRUE
 	if(istype(C))
-		if(!(organ_flags & ORGAN_FAILING))//can't process reagents with a failing liver
+		if(luxfailure || !(organ_flags & ORGAN_FAILING))//can't process reagents with a failing liver
 
 			var/provide_pain_message = HAS_NO_TOXIN
 			if(filterToxins && !HAS_TRAIT(owner, TRAIT_TOXINLOVER))
@@ -116,6 +119,25 @@
 	if(. & EMP_PROTECT_SELF)
 		return
 	damage += 100/severity
+
+/obj/item/organ/liver/lux
+	name = "artificed liver"
+	icon_state = "liver-lux"
+	desc = "A gilbranze shell built around a preserved liver. An amythortz is set into the side."
+	decay_factor = 0
+	organ_flags = ORGAN_LUX
+
+/obj/item/organ/liver/lux/prepare_eat()
+	return FALSE //this thing isn't edible flesh
+
+/obj/item/organ/liver/lux/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_ORGAN)
+
+/obj/item/organ/liver/lux/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("An Artificed Liver harnesses its host's Lux, allowing them to ")
+	. += span_info("If the user has no lux to spare, they can only support one Artificed Organ, or one pair of Gilbranze Limbs")
+	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
 
 #undef LIVER_DEFAULT_TOX_TOLERANCE
 #undef LIVER_DEFAULT_TOX_LETHALITY

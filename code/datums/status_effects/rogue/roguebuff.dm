@@ -2902,23 +2902,53 @@
 	alert_type = /atom/movable/screen/alert/status_effect/buff/overclock
 	duration = 2 MINUTES
 	status_type = STATUS_EFFECT_REPLACE
+	var/legbuff = FALSE
+	var/armbuff = FALSE
 
-/datum/status_effect/buff/overclock/on_creation(mob/living/new_owner, prosthetic_arms, prosthetic_legs)
+/datum/status_effect/buff/overclock/on_creation(mob/living/new_owner, prosthetic_arms, prosthetic_legs, gilbranze_arms, gilbranze_legs)
 	effectedstats = list()
 	if(prosthetic_arms > 0)
 		effectedstats[STATKEY_STR] = prosthetic_arms
 	if(prosthetic_legs > 0)
 		effectedstats[STATKEY_SPD] = prosthetic_legs
+	if(gilbranze_legs >= 2)
+		if(new_owner.handle_lux_removal(2))
+			legbuff = TRUE
+	if(gilbranze_arms >= 2)
+		if(new_owner.handle_lux_removal(2))
+			armbuff = TRUE
 	return ..()
 
 /datum/status_effect/buff/overclock/on_apply()
 	. = ..()
 	to_chat(owner, span_warning("The interals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
+	if(legbuff)
+		ADD_TRAIT(owner, TRAIT_ZJUMP, "overclock")
+		ADD_TRAIT(owner, TRAIT_LEAPER, "overclock")
+		ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE1, "overclock")
+		ADD_TRAIT(owner, TRAIT_NUTCRACKER, "overclock")
+		// ADD_TRAIT(owner, TRAIT_STRONGKICK, "overclock")
+	if(armbuff)
+		ADD_TRAIT(owner, TRAIT_CIVILIZEDBARBARIAN, "overclock")
+		ADD_TRAIT(owner, TRAIT_BASHDOORS, "overclock")
+		ADD_TRAIT(owner, TRAIT_GRABIMMUNE, "overclock")
+		ADD_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, "overclock")
+
 
 /datum/status_effect/buff/overclock/on_remove()
 	. = ..()
 	to_chat(owner, span_notice("I feel the hum of my prosthetics slow down, they need time to recharge."))
-
+	if(legbuff)
+		REMOVE_TRAIT(owner, TRAIT_ZJUMP, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_LEAPER, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE1, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_NUTCRACKER, "overclock")
+		// REMOVE_TRAIT(owner, TRAIT_STRONGKICK, "overclock")
+	if(armbuff)
+		REMOVE_TRAIT(owner, TRAIT_CIVILIZEDBARBARIAN, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_BASHDOORS, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_GRABIMMUNE, "overclock")
+		REMOVE_TRAIT(owner, TRAIT_STRENGTH_UNCAPPED, "overclock")
 //visual effects 4 skeles
 
 #define SAPPERGLOW_FILTER "sapper_exploding_glow"
@@ -2954,3 +2984,4 @@
 	return TRUE
 
 #undef SAPPERGLOW_FILTER
+

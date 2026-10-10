@@ -3362,6 +3362,7 @@
 #include "code\modules\spells\spell_types\divine\psydonite_blast.dm"
 #include "code\modules\spells\spell_types\divine\projectiles_single\divine_blast.dm"
 #include "code\modules\spells\spell_types\divine\projectiles_single\unholy_blast.dm"
+#include "code\modules\spells\spell_types\lux\eyeblast.dm"
 #include "code\modules\spells\spell_types\skills\invoked_aoe\huntersyell.dm"
 #include "code\modules\spells\spell_types\skills\invoked_aoe\orders.dm"
 #include "code\modules\spells\spell_types\skills\invoked_single_target\digclay.dm"

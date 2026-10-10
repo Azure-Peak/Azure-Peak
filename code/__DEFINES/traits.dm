@@ -424,6 +424,8 @@
 #define TRAIT_MUSES_GRACE	"Muses Grace"
 #define TRAIT_SUNLIGHT_SENSITIVE "Sunlight Sensitivity"
 #define TRAIT_CAUSTIC "Unsafe"
+#define TRAIT_LUXHEART "Gilbranze Heart"
+#define TRAIT_TESTSUBJECT "Test Subject"
 // ARMOR / CLOTHING GIVEN TRAITS (GIVEN BY WEARING CLOTHES/ARMOR PIECES)
 #define TRAIT_MONK_ROBE	"Holy Vestatures"
 #define TRAIT_BITERHELM "Helmetbiter" // just use this to get helmets which are bitey.
@@ -780,6 +782,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
 	TRAIT_CAUSTIC = span_info("Touching me is... less than advisable."),
+	TRAIT_LUXHEART = span_danger("My heart pulses within a cage of Gilbranze. My lux is sealed within"),
+	TRAIT_TESTSUBJECT = span_danger("Through years of experimentation, my lux has become stronger and wilder, able to support any number of artificed organs")
 ))
 
 // trait accessor defines

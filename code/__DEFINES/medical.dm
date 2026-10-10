@@ -128,6 +128,8 @@
 #define ORGAN_SURGERY_HIDDEN	(1<<5)
 /// Organ only exists internally and will be deleted if removed.
 #define ORGAN_INTERNAL_ONLY (1<<6)
+//lux organ, used to check if all lux organs should begin failing when too many are installed
+#define ORGAN_LUX (1<<7)
 
 //wound severities for /datum/wound
 /// Wounds that are either surgically induced or too minor to matter

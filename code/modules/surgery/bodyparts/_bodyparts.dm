@@ -437,7 +437,7 @@
 	if(!owner || !can_disable() || HAS_TRAIT(owner, TRAIT_NOLIMBDISABLE))
 		return BODYPART_NOT_DISABLED
 	//yes this does mean vampires can use rotten limbs
-	if((rotted || skeletonized) && !(owner.mob_biotypes & MOB_UNDEAD))
+	if((rotted || skeletonized) && (!(owner.mob_biotypes & MOB_UNDEAD) || HAS_TRAIT(owner, TRAIT_TESTSUBJECT)))
 		return BODYPART_DISABLED_ROT
 	for(var/datum/wound/ouchie as anything in wounds)
 		if(isnull(ouchie) || !istype(ouchie, /datum/wound))
