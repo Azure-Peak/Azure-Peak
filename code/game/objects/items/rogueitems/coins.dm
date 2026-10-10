@@ -277,13 +277,21 @@
 	. = ..()
 	set_quantity(rand(4,19))
 
+/obj/item/roguecoin/copper/pile/pouch/Initialize(mapload)
+	. = ..()
+	set_quantity(rand(8,16))
+
 /obj/item/roguecoin/silver/pile/Initialize(mapload)
 	. = ..()
 	set_quantity(rand(4,19))
 
+/obj/item/roguecoin/silver/pile/pouch/Initialize(mapload)
+	. = ..()
+	set_quantity(rand(8,16))
+
 /obj/item/roguecoin/silver/pile/readyuppile/Initialize(mapload)
 	. = ..()
-	set_quantity(4) // 20 mammons combine with starting pouch to buy something
+	set_quantity(5) // 25 mammons combine with starting pouch to buy something
 
 /obj/item/roguecoin/silver/pile/wretchpile/Initialize(mapload)
 	. = ..()
@@ -297,9 +305,13 @@
 	. = ..()
 	set_quantity(rand(4,19))
 
+/obj/item/roguecoin/gold/pile/pouch/Initialize(mapload)
+	. = ..()
+	set_quantity(rand(8,16))
+
 /obj/item/roguecoin/gold/virtuepile/Initialize(mapload)
 	. = ..()
-	set_quantity(rand(8,12))
+	set_quantity(rand(10,14))
 
 /obj/item/roguecoin/gold/aspirantpile/Initialize(mapload)
 	. = ..()
