@@ -495,5 +495,6 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define ZOMBIE_INFECTION_TIME 2 MINUTES	/// Time taken until zombie infection kicks in (unit wakes up as a zombie)
 #define DEAD_TO_ZOMBIE_TIME 7 MINUTES	/// Time spent dead before rising as a deadite.
 #define REVIVED_DEBUFF_DURATION 15 MINUTES	/// Revival Sickness.
+#define CRITICAL_WOUNDED_DEBUFF_DURATION 8 MINUTES	/// Critically wounded. - Higher cmode drain debuff
 #define DEATHMARK_GRACE_PERIOD 5 MINUTES	/// Grace after a chair revival before the deathmark is checked for and applied.
 #define PERMADEATH_DURATION 10 MINUTES	/// How long the deathmark lasts once it lands. Dying inside it is permanent for the round.
