@@ -30,14 +30,29 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	ai_controller = /datum/ai_controller/human_npc
 	dodgetime = 30
 
-/mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses
+/mob/living/carbon/human/species/goblin/siege //Slightly smarter varient for players in seiges, meant to last longer than the regular horde's masses + can do specials to make it worth a midround threat
 	npc_archetype = /datum/npc_archetype/goblin/siege
+
+/mob/living/carbon/human/species/goblin/siege/after_creation()
+	..()
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //no meme goblins, always plate-trained so they can parry
+	//stand out as big-time threat
+	name = "goblin soldier"
+	real_name = "goblin soldier"
 
 /mob/living/carbon/human/species/goblin/npc/siege //Slightly smarter varient for sieges
 	ai_controller = /datum/ai_controller/human_npc
-	dodgetime = 20 //Slightly more competent than their lobotomised counterparts.
+	setparrytime = 30 //More competent than their lobotomised counterparts and can parry
+	a_intent = INTENT_HELP
+	d_intent = INTENT_PARRY
 	npc_archetype = /datum/npc_archetype/goblin/siege
-	//Keep in mind these are balanced out by them firebombing 90% of their own numbers and dying instantly 20% of the time. KEEP THIS, ITS SOVL SIRE.
+
+/mob/living/carbon/human/species/goblin/npc/siege/after_creation()
+	..()
+	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC) //no meme goblins, always plate-trained so they can parry
+	//stand out as big-time threat
+	name = "goblin soldier"
+	real_name = "goblin soldier"
 
 /mob/living/carbon/human/species/goblin/npc/after_creation()
 	..()
@@ -449,13 +464,33 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	name = "goblin pyromancer"
 	real_name = "goblin pyromancer"
 
+////////////////// NAME SELF SPELL /////////////////
+//Designed so that you don't get spammed w/ this during spawning in
+//Due to the nature of portals basically throwing you in there mid-fight
+/obj/effect/proc_holder/spell/self/name_self_goblin
+	name = "Pick a name"
+	desc = "Pick a name for yourself, when you're ready. You can only do this once."
+	action_icon = 'icons/mob/actions/goblin_spell.dmi'
+	action_icon_state = "pick_name"
+	overlay_icon = 'icons/mob/actions/goblin_spell.dmi'
+	overlay_state = "pick_name"
+	antimagic_allowed = TRUE
+	clothes_req = FALSE
+	recharge_time = (2 MINUTES)
+	invocation_type = "none"
+
+/obj/effect/proc_holder/spell/self/name_self_goblin/cast(mob/living/carbon/human/user)
+	user.mind.RemoveSpell(new /obj/effect/proc_holder/spell/self/name_self_goblin)
+	user.choose_name_popup("Goblin") //This is so dumb but funny
+	return TRUE
+
 //////////////////	INVADER ZIM	//////////////////
 
 /obj/structure/gob_portal
 	name = "goblin portal"
-	desc = "A bright portal torn through the fabric of the world, sounds of marching and goblin warcries can be heard on the other side. This can't be good."
+	desc = "A bloodred portal torn through the fabric of the world, sounds of marching and goblin warcries can be heard on the other side. This can't be good."
 	icon = 'icons/roguetown/misc/structure.dmi'
-	icon_state = "shitportal"
+	icon_state = "graggarportal"
 	max_integrity = 400 //keep it a bit more intact, you'll need an axe to properly take it down quickly.
 	anchored = TRUE
 	density = FALSE
@@ -475,8 +510,10 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	soundloop.start()
 	spawn_gob()
 
-	set_light(3, 2, 20, l_color = "#7b60f3")
+	set_light(3, 2, 20, l_color = "#c03030")
 	playsound(loc, 'sound/misc/portalopen.ogg', 100, FALSE, pressure_affected = FALSE)
+	new /obj/effect/temp_visual/kinetic_blast(get_turf(src))
+	visible_message(span_userdanger("The air tears open as a bloodred portal manifests before your eyes, goblins begin to pour out!"))
 
 /obj/structure/gob_portal/attack_ghost(mob/dead/observer/user)
 	if(QDELETED(user))
@@ -493,10 +530,12 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	N.update_a_intents()
 	N.set_patron(/datum/patron/inhumen/graggar)
 	N.cmode_music = 'sound/music/combat_shaman2.ogg' //GRAGGAR. GRAGGAR. GRAGGAR. (Different to Gnolls/Heretics, you're just a barbaric goblin shocktrooper)
-	N.choose_name_popup("Goblin") //This is so dumb but funny
+	N.mind.AddSpell(new /obj/effect/proc_holder/spell/self/name_self_goblin) //workaround so you can pick a name in a safe spot.
 	if(N.mind)
 		N.mind.add_antag_datum(new /datum/antagonist/goblin()) //Ensures we are in fact, a goblin (so friend/foe examines + admin antag tracking)
 	to_chat(N, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	if(!N.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
+		N.toggle_cmode()
 	qdel(user)
 
 
@@ -540,4 +579,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /obj/structure/gob_portal/Destroy()
 	soundloop.stop()
+	playsound(loc, 'sound/misc/portalactivate.ogg', 100, FALSE, pressure_affected = FALSE)
+	new /obj/effect/temp_visual/kinetic_blast(get_turf(src))
+	visible_message(span_userdanger("A loud crackle of power can be heard as the portal destabilises before it finally closes!"))
 	. = ..()
