@@ -43,6 +43,9 @@
 	// Allows prayer in the druid tower + houses in the forest
 	if(istype(get_area(follower), /area/rogue/indoors/shelter/woods))
 		return TRUE
+	// Allows prayer druid's grove as it should be part of dendor's wilds
+	if(istype(get_area(follower), /area/rogue/druidsgrove))
+        return TRUE
 	// Allows prayer in outdoors wilderness, such as bog
 	if(istype(get_area(follower), /area/rogue/outdoors/rtfield))
 		return TRUE
