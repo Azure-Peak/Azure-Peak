@@ -1981,7 +1981,8 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 		post_weakness_dmg = Iforce * ((weakness == 0) ? 1 : weakness)
 		H.next_attack_msg.Cut()
-		if(!apply_damage(post_weakness_dmg, I.damtype, def_zone, armor_block, H))
+		var/blunt_hit = (I.d_type == "blunt")
+		if(!apply_damage(post_weakness_dmg, I.damtype, def_zone, armor_block, H, blunt_to_oxy = blunt_hit))
 			nodmg = TRUE
 			H.next_attack_msg += VISMSG_ARMOR_BLOCKED
 			var/obj/item/clothing/C = H.get_best_worn_armor(def_zone, I.d_type)	//this is kinda relying on the proc returnig the same as run_armor_check did. Clunky!
@@ -2132,7 +2133,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 				user.sate_addiction(/datum/charflaw/addiction/sadist)
 	return TRUE
 
-/datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE)
+/datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE, spread_damage = FALSE, blunt_to_oxy = FALSE)
 	SEND_SIGNAL(H, COMSIG_MOB_APPLY_DAMGE, damage, damagetype, def_zone)
 	var/hit_percent = 1
 	damage = max(damage-blocked,0)
@@ -2186,7 +2187,16 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(BP)
 				if(zone_sel)
 					zone_sel.flash_limb(BP.body_zone, "#FF0000")
-				if(BP.receive_damage(damage_amount, 0))
+				var/convert_to_oxy = FALSE
+				if(blunt_to_oxy && BP.body_zone == BODY_ZONE_CHEST && !HAS_TRAIT(H, TRAIT_NOBREATH))
+					BP.update_HP()
+					convert_to_oxy = BP.brute_dam >= BP.max_damage
+				if(convert_to_oxy)
+					var/oxy_amount = damage_amount * BLUNT_OXY_CONVERSION_MULT
+					if(HAS_TRAIT(H, TRAIT_CRITICAL_RESISTANCE))
+						oxy_amount = damage_amount * CRIT_RESISTANCE_OXY_CONVERSION_MULT
+					H.adjustOxyLoss(oxy_amount)
+				else if(BP.receive_damage(damage_amount, 0))
 					H.update_damage_overlays()
 			else//no bodypart, we deal damage with a more general method.
 				H.adjustBruteLoss(damage_amount)
