@@ -1,6 +1,7 @@
 /datum/job/roguetown/bathworker
 	title = "Bathhouse Attendant"
-	f_title = "Bathhouse Attendant"
+	display_title = "Bathswain"
+	f_title = "Bathmaiden"
 	flag = BATHWORKER
 	department_flag = PEASANTS
 	selection_color = JCOLOR_PEASANT
@@ -37,7 +38,8 @@
 	// This is just a base outfit, the actual outfits are defined in the advclasses
 
 /datum/advclass/bathworker
-	name = "Bath Attendant"
+	name = "Bathswain"
+	f_title = "Bathmaiden"
 	tutorial = "A fresh initiate, most would decry the humble bath maid as a desperate fool tempting others into bedsheets for money--only sometimes, you say! You work underneath your betters in the communal bathhouse, keeping it and the guests in turn as tidy as they please. Wash laundry, tend mild wounds, and deftly wash your patrons with soap, for this is your craft."
 	outfit = /datum/outfit/job/roguetown/bathworker/attendant
 	category_tags = list(CTAG_BATHWORKER)
@@ -91,6 +93,7 @@
 
 /datum/advclass/bathworker/harlot
 	name = "Harlot"
+	f_title = null
 	tutorial = "You're no stranger to selling your flesh, a veteran whore who's done your business in back alleys and brothels long enough to know the game. Yours has been a hard life, and you've learned a few things doing what you've needed to survive. You may not be fit for a noble's bed, but the workers and soldiers pay well enough."
 	outfit = /datum/outfit/job/bathworkerghtmaiden/harlot
 	category_tags = list(CTAG_BATHWORKER)
@@ -154,6 +157,7 @@
 
 /datum/advclass/bathworker/courtesan
 	name = "Courtesan"
+	f_title = null
 	tutorial = "Overcoming mind games, deceit and competition, you came into your own as one of the bathhouse's most prized moneymakers and socialites. Dressed in lavish gifts left behind by your patrons, not just anyone can have you. Under the matron, you do most of the social heavylifting and provide entertainment of all forms - behind a heavy price tag. "
 	outfit = /datum/outfit/job/roguetown/bathworker/courtesan
 	category_tags = list(CTAG_BATHWORKER)
