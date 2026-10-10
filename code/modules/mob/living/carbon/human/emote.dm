@@ -275,8 +275,11 @@
 	if(!nearby.len)
 		to_chat(src, span_warning("There is nobody nearby to play handgames with!"))
 
-	var/partner = tgui_input_list(src, "Who will you challenge with a handgame?", "FRIEND TO FOE.", nearby)
+	var/mob/living/carbon/human/partner = tgui_input_list(src, "Who will you challenge with a handgame?", "FRIEND TO FOE.", nearby)
 	if(!partner)
+		return
+	if(partner.cmode) //hand_games_check keeps watching for this, but say it out loud the first time.
+		to_chat(src, span_warning("[partner] is too tense for games!"))
 		return
 	var/choose_game = tgui_alert(src, "Choose a handgame to play with [partner]?", "A TOURNAMENT FOR TWO.", list("Rock, Paper, Shears", "Armwrestling", "Slaphands", "Thumbwars", "I Rescind"))
 
@@ -301,6 +304,8 @@
 	if(!istype(player1) || !istype(player2))
 		return 0
 	if(player1.stat || player2.stat) //Make sure they're still standing.
+		return 0
+	if(player2.cmode)
 		return 0
 	if(!(player2 in range(player1,2))) //Make sure they're within two spaces still; should allow for cross-table gaming.
 		return 0

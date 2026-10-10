@@ -1,11 +1,6 @@
-#ifdef LOCALTEST
-	#define MINIMUM_FLAVOR_TEXT 0
-	#define MINIMUM_OOC_NOTES 0
-#endif
-#ifndef LOCALTEST
-	#define MINIMUM_FLAVOR_TEXT		200
-	#define MINIMUM_OOC_NOTES		5 //Just put something in there
-#endif
+// Set in config.txt (MINIMUM_FLAVOR_TEXT and MINIMUM_OOC_NOTES), 0 turns the requirement off.
+#define MINIMUM_FLAVOR_TEXT CONFIG_GET(number/minimum_flavor_text)
+#define MINIMUM_OOC_NOTES CONFIG_GET(number/minimum_ooc_notes)
 
 //Preference toggles
 #define SOUND_ADMINHELP			(1<<0)
