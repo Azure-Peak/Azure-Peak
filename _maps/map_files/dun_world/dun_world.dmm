@@ -11303,10 +11303,7 @@
 /area/rogue/outdoors/mountains)
 "bXy" = (
 /obj/structure/fluff/railing/border/north,
-/obj/item/reagent_containers/glass/bucket{
-	pixel_y = 1;
-	pixel_x = 2
-	},
+/obj/item/reagent_containers/glass/bucket,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 4
