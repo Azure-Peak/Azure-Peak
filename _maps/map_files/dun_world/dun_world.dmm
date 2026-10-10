@@ -36534,7 +36534,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "gpb" = (
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon{
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/no_loot{
 	health = 10000;
 	faction = list("undead")
 	},
