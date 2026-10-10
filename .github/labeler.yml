@@ -45,6 +45,7 @@ TGS:
           - code/__DEFINES/tgs.dm
           - code/__DEFINES/tgs.config.dm
           - code/modules/discord/tgs_commands.dm
+          - code/modules/admin/chat_commands.dm
           - code/modules/tgs/**
 Donator:
   - changed-files:
