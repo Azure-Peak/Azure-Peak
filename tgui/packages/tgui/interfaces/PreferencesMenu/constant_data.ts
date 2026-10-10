@@ -52,21 +52,22 @@ export function getClassDisplayTitle(
   title: string,
   titles_pref: string,
 ): string {
-  return c.classes[title].titles[titles_pref] || title;
+  return c.classes?.[title]?.titles[titles_pref] || title;
 }
 
 export function getClassDepartment(
   c: ConstantData,
   title: string,
 ): DepartmentEnum {
-  return (
-    DEPARTMENT_FLAG_TO_ENUM[c.classes[title].department_flag] ||
-    DepartmentEnum.NONE
-  );
+  const flag = c.classes?.[title]?.department_flag;
+  if (flag === undefined) {
+    return DepartmentEnum.NONE;
+  }
+  return DEPARTMENT_FLAG_TO_ENUM[flag] || DepartmentEnum.NONE;
 }
 
 export function getClassDisplayOrder(c: ConstantData, title: string): number {
-  return c.classes[title].display_order || 0;
+  return c.classes?.[title]?.display_order || 0;
 }
 
 export type ConstantClass = {
