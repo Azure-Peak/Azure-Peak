@@ -280,7 +280,7 @@ GLOBAL_LIST_INIT(primordial_wounds, init_primordial_wounds())
 	// wounds bad enough to have 0 sleepheal kill way faster than you can sleep them off anyway... for everyone BUT
 	// deathless/deadite-immune players, who also have a good chance of being RRd by them if they die in a random cave
 	// so we let them sleepheal over a really long time to prevent that kind of softlock
-	if(!sleep_healing && (HAS_TRAIT(affected, TRAIT_ZOMBIE_IMMUNE) || HAS_TRAIT(affected, TRAIT_DEATHLESS)))
+	if(!sleep_healing && (HAS_TRAIT(affected, TRAIT_ZOMBIE_IMMUNE) || HAS_TRAIT(affected, TRAIT_DEATHLESS) || HAS_TRAIT(affected, TRAIT_BLACKBLOOD)))
 		sleep_healing = 0.5
 
 /// Removes this wound from a given, simpler than adding to a bodypart - No extra effects
