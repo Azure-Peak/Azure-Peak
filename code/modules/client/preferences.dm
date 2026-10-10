@@ -204,6 +204,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 
 	var/averse_chosen_faction = "Inquisition"
+	var/badsight_chosen_glasses = "Spectacles"
 
 	var/attack_blip_frequency = ATTACK_BLIP_PREF_DEFAULT
 

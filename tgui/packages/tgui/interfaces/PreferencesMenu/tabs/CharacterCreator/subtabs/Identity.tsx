@@ -775,7 +775,7 @@ export const QuirkEntry = (props: { entry: QuirkWithMetadata }) => {
 
 export const SubtabIdentityCardVices = () => {
   const { act, data } = useBackendStrict<IdentityData>();
-  const { charflaws, has_averse, averse_chosen_faction } = data;
+  const { charflaws, has_averse, averse_chosen_faction, has_badsight, badsight_chosen_glasses } = data;
   const [, setPopupId] = usePopupId();
 
   return (
@@ -798,6 +798,15 @@ export const SubtabIdentityCardVices = () => {
           <LabeledGridList.Item label="Loathed Group">
             <Button fluid mt={2} onClick={() => act('charflaw_averse_choice')}>
               {averse_chosen_faction}
+            </Button>
+          </LabeledGridList.Item>
+        </LabeledGridList>
+      ) : null}
+      {has_badsight ? (
+        <LabeledGridList>
+          <LabeledGridList.Item label="Spectacles">
+            <Button fluid mt={2} onClick={() => act('charflaw_badsight_choice')}>
+              {badsight_chosen_glasses}
             </Button>
           </LabeledGridList.Item>
         </LabeledGridList>
