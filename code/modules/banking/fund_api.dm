@@ -70,6 +70,39 @@
 			return innkeeper_fund
 	return null
 
+// ============================================================================
+// BATHHOUSE DAILY WITHDRAWAL LIMITS
+// The Bathmaster sets separate per-day mammon caps for bathhouse
+// workers and for Agents of the Bathhouse, and may suspend payments to either
+// group outright. Tallies reset daily.
+// ============================================================================
+
+/// Resets the per-day withdrawal tallies when the in-game day rolls over.
+/datum/controller/subsystem/treasury/proc/check_bathhouse_withdrawal_reset()
+	if(GLOB.dayspassed != bathhouse_withdrawals_day)
+		bathhouse_withdrawals_day = GLOB.dayspassed
+		bathhouse_withdrawals = list()
+
+/// How much a worker or agent has already drawn from the bathhouse fund today.
+/datum/controller/subsystem/treasury/proc/get_bathhouse_withdrawn(mob/living/carbon/human/H)
+	if(!H)
+		return 0
+	check_bathhouse_withdrawal_reset()
+	return bathhouse_withdrawals[H.real_name] || 0
+
+/// How much more they may still draw today under the given cap.
+/datum/controller/subsystem/treasury/proc/get_bathhouse_withdraw_remaining(mob/living/carbon/human/H, limit)
+	if(!H)
+		return 0
+	return max(0, limit - get_bathhouse_withdrawn(H))
+
+/// Records a bathhouse worker's or agent's withdrawal against today's cap.
+/datum/controller/subsystem/treasury/proc/record_bathhouse_withdrawal(mob/living/carbon/human/H, amount)
+	if(!H || amount <= 0)
+		return
+	check_bathhouse_withdrawal_reset()
+	bathhouse_withdrawals[H.real_name] = get_bathhouse_withdrawn(H) + amount
+
 /datum/controller/subsystem/treasury/proc/find_jawbank_for_fund_id(fund_id)
 	var/obj/structure/roguemachine/vaultbank/V = jawbanks_by_fund_id[fund_id]
 	if(QDELETED(V))

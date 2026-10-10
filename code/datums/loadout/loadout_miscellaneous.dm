@@ -37,6 +37,12 @@
 	sort_category = "Misc"
 	cost = 2
 
+/datum/loadout_item/triumph_satcheltail
+	name = "Tail Satchel"
+	path = /obj/item/storage/backpack/rogue/satchel/tailchel
+	sort_category = "Misc"
+	cost = 2
+
 /datum/loadout_item/bandolier
 	name = "Bandolier"
 	path = /obj/item/clothing/cloak/bandolier

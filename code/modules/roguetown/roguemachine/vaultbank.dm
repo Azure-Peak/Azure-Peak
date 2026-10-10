@@ -328,6 +328,8 @@
 		var/value = I.get_real_price()
 		user.visible_message(span_notice("[user] inserts [value] mammon into [src]."))
 		SStreasury.mint(F, value, "JAWBANK Deposit by [user.real_name]", null, ledger_acct(F.ledger_book, LEDGER_KEY_INCOME))
+		if(istype(src, /obj/structure/roguemachine/vaultbank/bathhouse) && value > 0)
+			SSBMtreasury.add_hoard_log("deposit", "Deposit", value, user.real_name)
 		update_icon()
 		qdel(I)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
@@ -761,6 +763,83 @@
 	if(!user)
 		return FALSE
 	return user.job == "Bathmaster"
+
+/obj/structure/roguemachine/vaultbank/bathhouse/proc/is_bathhouse_worker(mob/user)
+	return user && (user.job in GLOB.bathhouse_positions)
+
+/obj/structure/roguemachine/vaultbank/bathhouse/proc/is_bathhouse_agent(mob/user)
+	return user && HAS_TRAIT(user, TRAIT_AGENT_BATHHOUSE)
+
+/obj/structure/roguemachine/vaultbank/bathhouse/proc/has_capped_access(mob/user)
+	return is_bathhouse_worker(user) || is_bathhouse_agent(user)
+
+/obj/structure/roguemachine/vaultbank/bathhouse/proc/get_daily_withdrawal_limit(mob/user)
+	if(is_bathhouse_worker(user))
+		return SStreasury.bathhouse_worker_daily_withdraw_limit
+	return SStreasury.bathhouse_agent_daily_withdraw_limit
+
+/obj/structure/roguemachine/vaultbank/bathhouse/proc/are_withdrawals_suspended(mob/user)
+	if(is_bathhouse_worker(user))
+		return SStreasury.bathhouse_worker_withdrawals_suspended
+	return SStreasury.bathhouse_agent_withdrawals_suspended
+
+/obj/structure/roguemachine/vaultbank/bathhouse/proc/get_withdrawal_remaining(mob/user)
+	if(!istype(user))
+		return 0
+	var/mob/living/carbon/human/H = user
+	return SStreasury.get_bathhouse_withdraw_remaining(H, get_daily_withdrawal_limit(user))
+
+/obj/structure/roguemachine/vaultbank/bathhouse/can_view(mob/user)
+	return can_issue_loan(user) || has_capped_access(user)
+
+/obj/structure/roguemachine/vaultbank/bathhouse/can_withdraw(mob/user, amount)
+	if(can_issue_loan(user))
+		return TRUE
+	if(!has_capped_access(user) || are_withdrawals_suspended(user))
+		return FALSE
+	if(isnull(amount))
+		return get_withdrawal_remaining(user) > 0
+	return amount <= get_withdrawal_remaining(user)
+
+/obj/structure/roguemachine/vaultbank/bathhouse/get_withdraw_rule_text()
+	var/rule_text = "Bathhouse employees may draw up to [SStreasury.bathhouse_worker_daily_withdraw_limit]m per dae; agents may draw up to [SStreasury.bathhouse_agent_daily_withdraw_limit]m per dae. The Bathmaster is not subject to these limits."
+	if(SStreasury.bathhouse_worker_withdrawals_suspended)
+		rule_text += " Employee withdrawals are suspended."
+	if(SStreasury.bathhouse_agent_withdrawals_suspended)
+		rule_text += " Agent withdrawals are suspended."
+	return rule_text
+
+/obj/structure/roguemachine/vaultbank/bathhouse/disburse(mob/living/carbon/human/user, list/params)
+	if(!istype(user))
+		return
+	var/datum/fund/F = get_linked_fund()
+	if(!F)
+		to_chat(user, span_warning("[src] sits inert - its coffers are unbound. Notify staff."))
+		return
+	var/amount = round(text2num("[params["amount"]]"))
+	if(isnull(amount) || amount <= 0)
+		to_chat(user, span_warning("Name a positive sum."))
+		return
+	if(!can_withdraw(user, amount))
+		if(has_capped_access(user) && are_withdrawals_suspended(user))
+			to_chat(user, span_warning("The Bathmaster has suspended withdrawals for my group."))
+		else if(has_capped_access(user) && get_withdrawal_remaining(user) <= 0)
+			to_chat(user, span_warning("I have reached my daily withdrawal maximum of [get_daily_withdrawal_limit(user)]m."))
+		else
+			to_chat(user, span_warning("[F.name] withholds that sum - I may draw only [get_withdrawal_remaining(user)]m more this dae."))
+		return
+	if(F.balance < amount)
+		to_chat(user, span_warning("[F.name] cannot honor a withdrawal of [amount]m."))
+		return
+	if(!SStreasury.burn(F, amount, "MEISTER withdrawal by [user.real_name]"))
+		return
+	if(!can_issue_loan(user))
+		SStreasury.record_bathhouse_withdrawal(user, amount)
+	SSBMtreasury.add_hoard_log("payout", "Withdrawal", amount, user.real_name)
+	budget2change(amount, user)
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	say("[amount]m drawn by [user.real_name].")
+	log_admin("WITHDRAW: [key_name(user)] drew [amount]m from [F.name].")
 
 /obj/structure/roguemachine/vaultbank/bathhouse/get_authority_label()
 	return "the Bathmaster"

@@ -152,7 +152,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	head = /obj/item/clothing/head/roguetown/headband/monk
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
+	wrists = /obj/item/rogueweapon/scabbard/sheath
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	cloak = /obj/item/clothing/cloak/eastcloak2
 	belt = /obj/item/storage/backpack/rogue/satchel/beltpack
@@ -167,7 +167,7 @@
 			if("Dodge Expert")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				beltl = /obj/item/rogueweapon/huntingknife/combat
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 				pants = /obj/item/clothing/under/roguetown/trou/leather
 				backpack_contents = list(
 					/obj/item/natural/bundle/fibers/full = 1,

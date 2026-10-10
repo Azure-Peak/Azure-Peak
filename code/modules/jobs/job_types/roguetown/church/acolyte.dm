@@ -126,7 +126,7 @@
 			cloak = /obj/item/clothing/cloak/templar/pestran
 			l_hand = /obj/item/storage/belt/rogue/surgery_bag
 		if(/datum/patron/divine/eora) //Eora content from Stonekeep
-			head = /obj/item/clothing/head/roguetown/eoramask
+			backpack_contents[/obj/item/clothing/head/roguetown/eoramask] = 1
 			neck = /obj/item/clothing/neck/roguetown/psicross/eora/g
 			cloak = /obj/item/clothing/cloak/templar/eoran
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors

@@ -18,7 +18,7 @@
 	if(!istype(user))
 		return FALSE
 	var/mob/living/carbon/human/species/familiar/familiar
-	for(var/mob/living/carbon/human/species/familiar/familiar_check in GLOB.player_list)
+	for(var/mob/living/carbon/human/species/familiar/familiar_check in GLOB.human_list)
 		if(familiar_check.familiar_summoner == user)
 			familiar = familiar_check
 	if(!familiar || !familiar.mind)

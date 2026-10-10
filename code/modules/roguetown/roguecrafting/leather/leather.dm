@@ -253,7 +253,7 @@
 	reqs = list(
 		/obj/item/natural/hide/cured = 2
 	)
-	result = /obj/item/clothing/shoes/courtphysician
+	result = /obj/item/clothing/shoes/roguetown/courtphysician
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/leather/sanguineheels
@@ -262,7 +262,7 @@
 	reqs = list(
 		/obj/item/natural/hide/cured = 2
 	)
-	result = /obj/item/clothing/shoes/courtphysician/female
+	result = /obj/item/clothing/shoes/roguetown/courtphysician/female
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/leather/belt

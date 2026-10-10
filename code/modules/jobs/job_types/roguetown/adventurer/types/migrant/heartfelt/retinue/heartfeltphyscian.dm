@@ -59,14 +59,14 @@
 		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician/female
 		gloves = /obj/item/clothing/gloves/roguetown/courtphysician/female
 		pants = /obj/item/clothing/under/roguetown/skirt/courtphysician
-		shoes = /obj/item/clothing/shoes/courtphysician/female/
+		shoes = /obj/item/clothing/shoes/roguetown/courtphysician/female/
 	else
 		head = /obj/item/clothing/head/roguetown/courtphysician
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician
 		shirt = /obj/item/clothing/suit/roguetown/shirt/courtphysician
 		gloves = /obj/item/clothing/gloves/roguetown/courtphysician
 		pants = /obj/item/clothing/under/roguetown/trou/leather/courtphysician
-		shoes = /obj/item/clothing/shoes/courtphysician
+		shoes = /obj/item/clothing/shoes/roguetown/courtphysician
 
 	if(H.mind)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)

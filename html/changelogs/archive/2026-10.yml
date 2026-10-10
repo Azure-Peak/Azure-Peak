@@ -421,3 +421,74 @@
   - balance: Increases sexton slots from 2 to 3
   zeskorion:
   - bugfix: you can no longer breath without lungs
+2026-10-09:
+  Dorodomki:
+  - rscadd: 'Added new tail satchels + recipes + upgraded icon for the belt loincloth
+
+      cl:'
+  FeniaFox:
+  - rscadd: Added a new virtue 'Handily Prepared'. Gives novice skill in over a dozen
+      crafting/repair/utility skills if you lack it, and adds some basic stone tools/thorn
+      needle/whetstone to your stash. Does not raise any skill caps or do anything
+      not replaceable with some grinding.
+  Ketrai:
+  - rscadd: Painter heralds and voice classes now get the bleed paint trait. Leave
+      puddles of basic paint when you bleed.
+  - bugfix: Remove excessive GW straps from painter classes. (It's faster to sheathe
+      staffs on empty slots)
+  - balance: red abyssor paint friendly damage decreased from 8 to 6
+  - balance: red abyssor paint damage increased from 20 to 30, 10 second cooldown
+      between damage instances unaffected.
+  - balance: painter voice fishing skill novice => apprentice
+  - balance: painter voice miracle tier 3 => 4
+  - balance: painter voice perception bonus 0 => 2
+  - bugfix: red abyssor paint can now damage limbs correctly.
+  - rscadd: "Naledian cuisine, added d\xFCr\xFCms, markook, bulgur, and mujadara.\
+      \ Added to merchant, farmer roles, possible lootdrop for chefs."
+  Ollanius:
+  - bugfix: It should now be possible to take a Turban in the Loadout menu, instead
+      of being given a Loudmouth's Veil.
+  - bugfix: Kaskaras, ngombes, and other Arming Sword-specifics should NOW properly
+      render when two-handed. My bad.
+  Quinalion:
+  - rscadd: Thin Spectacles.
+  - rscadd: Silver knuckles can now be blessed while remaining clothing items.
+  - balance: Blessed knuckles now properly account for Psy and Ten damage multipliers.
+  - balance: Blessed knuckles now apply the appropriate type of Sunder on hit.
+  - rscdel: Removed weapon variants of silver knuckles and their morphing functionality.
+  - image: Made minor sprite tweaks to silver knuckles.
+  Ryan180602:
+  - bugfix: crestless gold mask has a snout variant now
+  - qol: zigs last longer.
+  - qol: zigs no longer go out in the rain or when standing in a body of water.
+  - balance: tools in the tool loadout category cost triumphs, now
+  ToasterStrudes:
+  - bugfix: fixes Lumpy Etruccino
+  Traveler319:
+  - rscadd: Hunter Apprentice now comes with 2 levels of Cooking.
+  - rscadd: Classical and gladiator sandals can now hold knives.
+  - qol: Footwear that can hold knives now have mechanics examines explaining this.
+  - refactor: Boot sheathing now uses sheath components.
+  WeNeedMorePhoron:
+  - rscadd: Added 30 herbal and blended drinks from Ochre Valley, credits to NickBelmont,
+      Toaster98 and Dragor for the original work. Some of them are attached to minor
+      stat buffs which are mutually exclusive with that of coffee and tea. They are
+      also added in a separate section in the Encyclopedia
+  borneblood:
+  - balance: Adjusted Pyromaniac's gear and stats to be an upgrade to Bombardier.
+  - bugfix: Lacrima now extracts pure lux from Aasimirs
+  - refactor: Refactored how Barter works, mostly added more soul to it. It should
+      feel like you're dealing with Matthios better now.
+2026-10-10:
+  KatTheFox:
+  - bugfix: The black mirror will no longer become "stuck" closed when you close it
+      while bloody
+  - qol: Eoran missionaries and acolytes now spawn with a rabbit mask in their bag
+      instead of on their face
+  - bugfix: The 'message familiar' spell now should work to track your dead familiar's
+      vestige in all cases.
+  - rscadd: The breathless may now give mouth-to-mouth, though not if they lack lungs
+      or are skeletons
+  Traveler319:
+  - rscadd: Sanguine heels can now hold knives.
+  - code_imp: repathed Court Physician shoes to be a subtype of shoes/roguetown.

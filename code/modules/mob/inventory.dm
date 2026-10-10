@@ -200,7 +200,7 @@
 /mob/living/put_in_hand_check(obj/item/I)
 	if(I.twohands_required && get_inactive_held_item())
 		return FALSE
-	var/static/list/fistweapons = typecacheof(list(/obj/item/rogueweapon/handclaw, /obj/item/rogueweapon/katar, /obj/item/rogueweapon/knuckledusters))
+	var/static/list/fistweapons = typecacheof(list(/obj/item/rogueweapon/handclaw, /obj/item/rogueweapon/katar))
 	var/fists = is_type_in_typecache(I, fistweapons)
 	if(fists || istype(I, /obj/item/rogueweapon/shield))
 		var/obj/item/gloves = get_item_by_slot(SLOT_GLOVES)

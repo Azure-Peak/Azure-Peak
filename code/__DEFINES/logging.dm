@@ -43,6 +43,7 @@
 #define SEEN_LOG_SAY 1
 #define SEEN_LOG_EMOTE 2
 #define SEEN_LOG_ATTACK 3
+#define SEEN_LOG_OFFSCREEN_DIST 7
 
 //Individual logging panel pages
 #define INDIVIDUAL_ATTACK_LOG		(LOG_ATTACK)

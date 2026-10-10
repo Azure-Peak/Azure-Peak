@@ -71,6 +71,17 @@
 	. = ..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
+/obj/item/clothing/suit/roguetown/armor/brigandine/pyro
+	name = "darksooted brigandine coat"
+	desc = "A coat-of-plates, concealed underneath layers of soot-anointed leather. It seems to be insulated against flames and acid, due to the supernatural quality of the infernal ashes."
+	armor = ARMOR_INSULATED_BRIGANDINE
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
+	icon_state = "pyrocoat"
+	item_state = "pyrocoat"
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/pyro/attack_right(mob/user)
+	return
+
 /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "lightweight brigandine"
