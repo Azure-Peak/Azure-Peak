@@ -72,7 +72,7 @@
 	spawned_scroll.update_quest_text()
 
 	var/datum/fund/deposit_account = SStreasury.get_account(user)
-	if(SStreasury.burn(deposit_account, deposit, "contract deposit"))
+	if(SStreasury.burn(deposit_account, deposit, "contract deposit", LEDGER_CITIZEN_CONTRACT_PAID))
 		Q.deposit_payer = deposit_account
 		Q.deposit_paid = deposit
 
@@ -124,7 +124,7 @@
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
 
-	SStreasury.mint(benef_account, gross_reward, "contract reward - [src.name]")
+	SStreasury.mint(benef_account, gross_reward, "contract reward - [src.name]", null, LEDGER_CITIZEN_CONTRACTS)
 
 	// Levy applies only to the base reward, not the returned deposit. The deposit is the
 	// bearer's own money being given back; taxing it would be a hidden levy on principal.

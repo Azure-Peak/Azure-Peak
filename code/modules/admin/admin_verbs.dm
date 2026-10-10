@@ -235,6 +235,7 @@ GLOBAL_PROTECT(admin_verbs_debug)
 	/client/proc/performance_stress_test, // Uncomment these if you tick the performance stress test .dm file
 	/client/proc/cleanup_stress_test_mobs,
 	/client/proc/cmd_admin_economic_panel,
+	/client/proc/cmd_admin_ledger_report,
 	/client/proc/cmd_admin_view_chronicle,
 	/client/proc/cmd_admin_view_economics
 	)

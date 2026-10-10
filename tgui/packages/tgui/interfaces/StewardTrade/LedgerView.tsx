@@ -15,8 +15,26 @@ import {
   SEAL_RED,
   SERIF,
   sectionHeaderStyle,
+  subTabBarStyle,
+  subTabStyle,
 } from '../common/parchment';
-import type { Data, LedgerEntry } from './types';
+import {
+  BalanceSheetPanel,
+  GeneralLedgerPanel,
+  IncomeStatementPanel,
+  SubsidiaryPanel,
+  TrialBalancePanel,
+} from './LedgerReports';
+import type { Data, LedgerEntry, LedgerView as LedgerViewName } from './types';
+
+const VIEWS: { id: LedgerViewName; label: string }[] = [
+  { id: 'journal', label: 'Journal' },
+  { id: 'ledger', label: 'Ledger' },
+  { id: 'trial', label: 'Trial Balance' },
+  { id: 'income', label: 'Income' },
+  { id: 'balance', label: 'Balance Sheet' },
+  { id: 'subsidiary', label: 'Subsidiary' },
+];
 
 const signFor = (entry: LedgerEntry): { color: string; prefix: string } => {
   switch (entry.kind) {
@@ -37,6 +55,9 @@ const partyFor = (entry: LedgerEntry): string => {
       return entry.from;
     case 'transfer':
       return `${entry.from} → ${entry.to}`;
+    case 'accrual':
+    case 'writeoff':
+      return entry.kind;
     default:
       return `${entry.from} → ${entry.to}`;
   }
@@ -45,24 +66,69 @@ const partyFor = (entry: LedgerEntry): string => {
 const LedgerRow = (props: { entry: LedgerEntry }) => {
   const { entry } = props;
   const { color, prefix } = signFor(entry);
+  const legs = entry.legs || [];
   return (
-    <div style={denseRowStyle}>
-      <div style={{ ...ellipsisCellStyle, color: INK }}>{partyFor(entry)}</div>
-      <div style={{ ...ellipsisCellStyle, flex: 2, color: INK_SOFT }}>
-        {entry.reason}
-        {entry.count > 1 && ` (x${entry.count})`}
+    <div style={{ borderBottom: `1px dashed ${INK_FAINT}` }}>
+      <div style={{ ...denseRowStyle, borderBottom: 'none' }}>
+        <div style={{ flexShrink: 0, width: '36px', color: INK_FAINT }}>
+          {entry.no ? `#${entry.no}` : ''}
+        </div>
+        <div style={{ ...ellipsisCellStyle, color: INK }}>
+          {partyFor(entry)}
+        </div>
+        <div style={{ ...ellipsisCellStyle, flex: 2, color: INK_SOFT }}>
+          {entry.reason}
+          {entry.count > 1 && ` (x${entry.count})`}
+        </div>
+        <div
+          style={{
+            flexShrink: 0,
+            color,
+            fontWeight: 'bold',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {prefix}
+          {entry.amount}m
+        </div>
       </div>
-      <div
-        style={{
-          flexShrink: 0,
-          color,
-          fontWeight: 'bold',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {prefix}
-        {entry.amount}m
-      </div>
+      {!!entry.actor && (
+        <div
+          style={{
+            padding: '0 6px 1px 42px',
+            fontFamily: SERIF,
+            fontSize: FONT_BODY,
+            color: INK_FAINT,
+            fontStyle: 'italic',
+          }}
+        >
+          by {entry.actor}
+        </div>
+      )}
+      {legs.map((leg, i) => (
+        <div
+          key={i}
+          style={{
+            display: 'flex',
+            gap: '6px',
+            padding: '0 6px 1px 42px',
+            fontFamily: SERIF,
+            fontSize: FONT_BODY,
+            color: INK_SOFT,
+          }}
+        >
+          <div style={{ ...ellipsisCellStyle, paddingLeft: leg.cr ? '18px' : 0 }}>
+            {leg.cr ? 'To ' : 'Dr '}
+            {leg.account}
+          </div>
+          <div style={{ flexShrink: 0, width: '64px', textAlign: 'right' }}>
+            {leg.dr ? leg.dr : ''}
+          </div>
+          <div style={{ flexShrink: 0, width: '64px', textAlign: 'right' }}>
+            {leg.cr ? leg.cr : ''}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
@@ -95,12 +161,60 @@ export const LedgerView = (props: { data: Data }) => {
     );
   }
 
-  const pageNum = page.page;
+  const view = page.view || 'journal';
+
+  const tabs = (
+    <div style={subTabBarStyle}>
+      {VIEWS.map((v) => (
+        <button
+          key={v.id}
+          type="button"
+          style={subTabStyle(view === v.id)}
+          onClick={() => act('ledger_view', { view: v.id })}
+        >
+          {v.label}
+        </button>
+      ))}
+      <button
+        type="button"
+        style={inkButtonStyle({ color: SEAL_AMBER })}
+        onClick={() => act('ledger_refresh')}
+      >
+        Refresh
+      </button>
+    </div>
+  );
+
+  if (view !== 'journal') {
+    return (
+      <div>
+        {tabs}
+        {view === 'ledger' && (
+          <GeneralLedgerPanel chart={page.chart} account={page.account_ledger} />
+        )}
+        {view === 'trial' && (
+          <TrialBalancePanel
+            trial={page.trial_balance}
+            recon={page.reconciliation}
+          />
+        )}
+        {view === 'income' && (
+          <IncomeStatementPanel stmt={page.income_statement} />
+        )}
+        {view === 'balance' && <BalanceSheetPanel sheet={page.balance_sheet} />}
+        {view === 'subsidiary' && <SubsidiaryPanel sub={page.subsidiary} />}
+      </div>
+    );
+  }
+
+  const entries = page.entries || [];
+  const pageNum = page.page || 1;
   const hasMore = !!page.has_more;
   const canPrev = pageNum > 1;
 
   return (
     <div>
+      {tabs}
       <div
         style={{
           display: 'flex',
@@ -133,19 +247,12 @@ export const LedgerView = (props: { data: Data }) => {
             Clear
           </button>
         )}
-        <button
-          type="button"
-          style={inkButtonStyle({ color: SEAL_AMBER })}
-          onClick={() => act('ledger_refresh')}
-        >
-          Refresh
-        </button>
       </div>
 
-      <div style={sectionHeaderStyle}>Treasury Ledger</div>
+      <div style={sectionHeaderStyle}>General Journal</div>
 
       <div style={{ height: '540px', overflowY: 'auto' }}>
-        {page.entries.length === 0 ? (
+        {entries.length === 0 ? (
           <div
             style={{ color: INK_SOFT, fontStyle: 'italic', padding: '8px 0' }}
           >
@@ -154,7 +261,7 @@ export const LedgerView = (props: { data: Data }) => {
               : 'The ledger is empty.'}
           </div>
         ) : (
-          page.entries.map((entry, i) => <LedgerRow key={i} entry={entry} />)
+          entries.map((entry, i) => <LedgerRow key={i} entry={entry} />)
         )}
       </div>
 

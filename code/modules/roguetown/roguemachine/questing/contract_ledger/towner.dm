@@ -210,7 +210,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		if(SStreasury.discretionary_fund.balance < cost)
 			to_chat(poster, span_warning("The Treasury can't afford this. Need [cost]m, have [SStreasury.discretionary_fund.balance]m."))
 			return
-		if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "Crown townsfolk contract ([chosen_type])"))
+		if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "Crown townsfolk contract ([chosen_type])", LEDGER_CROWN_EXP_CONTRACTS))
 			to_chat(poster, span_warning("The payment didn't go through."))
 			return
 		record_treasury_expense(TREASURY_FLOW_CONTRACT, treasury_role_of(poster), cost)
@@ -224,7 +224,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		poster_account = SStreasury.get_account(poster)
 		if(!poster_account)
 			return
-		if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "townsfolk contract posting ([chosen_type])"))
+		if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "townsfolk contract posting ([chosen_type])", LEDGER_CITIZEN_CONTRACT_PAID, LEDGER_CROWN_REV_OTHER))
 			to_chat(poster, span_warning("The payment didn't go through."))
 			return
 
@@ -232,9 +232,9 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand, variety)
 	if(!dispatched)
 		if(crown_funded)
-			SStreasury.mint(SStreasury.discretionary_fund, cost, "Crown townsfolk contract refund (issue failure)")
+			SStreasury.mint(SStreasury.discretionary_fund, cost, "Crown townsfolk contract refund (issue failure)", null, LEDGER_CROWN_EXP_CONTRACTS)
 		else
-			SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "townsfolk contract posting refund (issue failure)")
+			SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "townsfolk contract posting refund (issue failure)", LEDGER_CROWN_REV_OTHER, LEDGER_CITIZEN_CONTRACT_PAID)
 		to_chat(poster, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
 

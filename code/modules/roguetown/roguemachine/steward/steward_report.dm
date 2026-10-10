@@ -5,6 +5,14 @@
 	icon_state = "scroll"
 	info = ""
 	resistance_flags = FIRE_PROOF
+	/// Day this report was printed for. Paper resets its name from initial() on every icon update,
+	/// so the day is kept here and re-applied in update_icon_state.
+	var/report_day
+
+/obj/item/paper/steward_report/update_icon_state()
+	. = ..()
+	if(!isnull(report_day))
+		name = "steward's morning report (day [report_day])"
 
 /// Called at the end of SSeconomy.daily_tick. Prints a report onto the Nerve Master's tile.
 /// `diff` is a /list produced by SSeconomy across the tick; see build_steward_report_body.
@@ -18,6 +26,8 @@
 	if(!drop)
 		return
 	var/obj/item/paper/steward_report/R = new(drop)
+	R.report_day = diff["day"] || GLOB.dayspassed
+	diff["finance"] = SStreasury.build_report_finance()
 	R.info = build_steward_report_body(diff)
 	R.update_icon()
 	playsound(drop, 'sound/misc/coindispense.ogg', 40, FALSE, -1)
@@ -35,9 +45,13 @@
 	var/orders_rolled = diff["orders_rolled"] || 0
 	var/urgent_rolled = diff["urgent_rolled"] || 0
 	var/day = diff["day"] || GLOB.dayspassed
+	var/list/finance = diff["finance"]
 
 	var/body = "<center><b>STEWARD'S MORNING REPORT</b></center><br>"
 	body += "<center><i>Day [day]</i></center><br><hr>"
+
+	if(finance)
+		body += build_steward_report_finance_section(finance)
 
 	if(length(blockades_fired))
 		body += "<b>New blockades:</b><br>"
@@ -78,3 +92,137 @@
 
 	body += "<hr><center><i>Use the Contract Ledger to post contracts in response.</i></center>"
 	return body
+
+/// Crown revenue and expense balances by account id, for diffing between reports.
+/datum/controller/subsystem/treasury/proc/report_ledger_snapshot()
+	var/list/snap = list()
+	for(var/id in chart_of_accounts)
+		var/datum/ledger_account/A = chart_of_accounts[id]
+		if(A.book != LEDGER_BOOK_CROWN)
+			continue
+		if(A.class == LEDGER_CLASS_REVENUE || A.class == LEDGER_CLASS_EXPENSE)
+			snap[id] = A.get_balance()
+	return snap
+
+/// Gathers the Steward report's money section: what came in and went out since the last report,
+/// the purse, solvency, and what is owed to or by the Crown. Also advances the "since last report" baseline.
+/datum/controller/subsystem/treasury/proc/build_report_finance()
+	if(!discretionary_fund)
+		return null
+	if(!length(chart_of_accounts))
+		init_chart_of_accounts()
+	var/list/snap = report_ledger_snapshot()
+	var/list/income = list()
+	var/list/spending = list()
+	var/income_total = 0
+	var/spending_total = 0
+	for(var/id in snap)
+		var/delta = snap[id] - (last_report_ledger ? (last_report_ledger[id] || 0) : 0)
+		if(!delta)
+			continue
+		// The stockpile revaluation is a book adjustment, not coin moving; it is shown as stock on hand instead.
+		if(id == LEDGER_CROWN_EXP_INVENTORY_ADJ)
+			continue
+		var/datum/ledger_account/A = chart_of_accounts[id]
+		if(A.class == LEDGER_CLASS_REVENUE)
+			income += list(list("name" = A.name, "amount" = delta))
+			income_total += delta
+		else
+			spending += list(list("name" = A.name, "amount" = delta))
+			spending_total += delta
+	sortTim(income, GLOBAL_PROC_REF(cmp_treasury_role_desc))
+	sortTim(spending, GLOBAL_PROC_REF(cmp_treasury_role_desc))
+
+	var/discrepancies = 0
+	for(var/list/row as anything in reconcile_ledger(LEDGER_BOOK_CROWN))
+		if(abs(row["drift"]) >= 0.5)
+			discrepancies++
+
+	var/list/fiscal = compute_fiscal_snapshot()
+	var/list/out = list(
+		"first" = isnull(last_report_balance),
+		"balance" = discretionary_fund.balance,
+		"balance_change" = isnull(last_report_balance) ? 0 : discretionary_fund.balance - last_report_balance,
+		"income" = income,
+		"income_total" = income_total,
+		"spending" = spending,
+		"spending_total" = spending_total,
+		"state_label" = bankruptcy_state_label(treasury_state),
+		"treasury_debt" = treasury_debt,
+		"banditry_debt" = banditry_debt,
+		"wage_outlay" = fiscal["expected_wage_outlay"],
+		"rural_revenue" = fiscal["expected_rural_revenue"],
+		"loans_outstanding" = fiscal["loans_outstanding"],
+		"loan_exposure" = fiscal["loan_exposure"],
+		"debtors" = fiscal["debtor_count"],
+		"poll_arrears" = fiscal["in_arrears"],
+		"stock_value" = get_stockpile_valuation(),
+		"poll_owed" = ledger_acct_balance(LEDGER_CROWN_POLL_RECEIVABLE),
+		"interest_owed" = ledger_acct_balance(LEDGER_CROWN_INTEREST_RECEIVABLE),
+		"discrepancies" = discrepancies,
+	)
+	last_report_ledger = snap
+	last_report_balance = discretionary_fund.balance
+	return out
+
+#define STEWARD_REPORT_TOP_LINES 3
+
+/proc/build_steward_report_finance_section(list/finance)
+	var/body = ""
+	var/change = finance["balance_change"]
+	body += "<b>Treasury:</b> [finance["balance"]]m"
+	if(!finance["first"])
+		body += " (<font color='[change >= 0 ? "#2a7" : "#c44"]'>[change >= 0 ? "+" : ""][change]m</font> since the last report)"
+	body += "<br>"
+	body += "<b>Standing:</b> [finance["state_label"]]"
+	if(finance["treasury_debt"] > 0)
+		body += ", owing [finance["treasury_debt"]]m to its creditors"
+	if(finance["banditry_debt"] > 0)
+		body += ", with [finance["banditry_debt"]]m of brigand debt being skimmed from income"
+	body += ".<br><br>"
+
+	var/period = finance["first"] ? "so far" : "since the last report"
+	var/list/income = finance["income"]
+	if(length(income))
+		body += "<b>Coming in, [period]:</b> <font color='#2a7'>+[finance["income_total"]]m</font><br>"
+		var/shown = 0
+		for(var/list/row as anything in income)
+			if(++shown > STEWARD_REPORT_TOP_LINES)
+				break
+			body += "&nbsp;&nbsp;- [row["name"]]: [row["amount"]]m<br>"
+		if(length(income) > STEWARD_REPORT_TOP_LINES)
+			body += "&nbsp;&nbsp;- <i>and [length(income) - STEWARD_REPORT_TOP_LINES] other source\s</i><br>"
+		body += "<br>"
+	var/list/spending = finance["spending"]
+	if(length(spending))
+		body += "<b>Going out, [period]:</b> <font color='#c44'>-[finance["spending_total"]]m</font><br>"
+		var/shown = 0
+		for(var/list/row as anything in spending)
+			if(++shown > STEWARD_REPORT_TOP_LINES)
+				break
+			body += "&nbsp;&nbsp;- [row["name"]]: [row["amount"]]m<br>"
+		if(length(spending) > STEWARD_REPORT_TOP_LINES)
+			body += "&nbsp;&nbsp;- <i>and [length(spending) - STEWARD_REPORT_TOP_LINES] other outlay\s</i><br>"
+		body += "<br>"
+
+	if(finance["stock_value"] > 0)
+		body += "<b>Stockpile:</b> about [round(finance["stock_value"])]m of goods on hand at buying prices.<br>"
+	body += "<b>Payroll ahead:</b> about [finance["wage_outlay"]]m a day in wages, against [finance["rural_revenue"]]m a day of rural subsidy.<br>"
+	if(finance["loans_outstanding"] || finance["debtors"] || finance["poll_arrears"])
+		var/list/credit = list()
+		if(finance["loans_outstanding"])
+			credit += "[finance["loans_outstanding"]] loan\s out ([finance["loan_exposure"]]m still due)"
+		if(finance["debtors"])
+			credit += "[finance["debtors"]] defaulter\s"
+		if(finance["poll_arrears"])
+			credit += "[finance["poll_arrears"]] in poll tax arrears"
+		body += "<b>Credit:</b> [jointext(credit, ", ")].<br>"
+		var/owed_to_crown = round(finance["poll_owed"] + finance["interest_owed"])
+		if(owed_to_crown > 0)
+			body += "&nbsp;&nbsp;- Booked as owed to the Crown: [owed_to_crown]m in arrears and unpaid interest.<br>"
+	if(finance["discrepancies"])
+		body += "<br><i><font color='#c44'>The clerks' tally is out of balance on [finance["discrepancies"]] line\s. See the Ledger's Trial Balance.</font></i><br>"
+	body += "<br><hr>"
+	return body
+
+#undef STEWARD_REPORT_TOP_LINES

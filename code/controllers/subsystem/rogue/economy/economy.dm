@@ -637,7 +637,7 @@ SUBSYSTEM_DEF(economy)
 		if(order.petitioned)
 			quality_delta = round(quality_delta * PETITION_TAX_MULT)
 		var/full_payout = max(0, round(order.total_payout + quality_delta))
-		SStreasury.mint(SStreasury.discretionary_fund, full_payout, "Standing Order: [order.name]")
+		SStreasury.mint(SStreasury.discretionary_fund, full_payout, "Standing Order: [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
 		record_round_statistic(STATS_STANDING_ORDER_REVENUE, full_payout)
 		record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
 		order.is_fulfilled = TRUE
@@ -675,7 +675,7 @@ SUBSYSTEM_DEF(economy)
 	consume_equipment_payload(equip_avail)
 	consume_potion_payload(potion_avail)
 	consume_stockpile_payload(stock_avail)
-	SStreasury.mint(SStreasury.discretionary_fund, payout, "Standing Order (Partial): [order.name]")
+	SStreasury.mint(SStreasury.discretionary_fund, payout, "Standing Order (Partial): [order.name]", null, LEDGER_CROWN_REV_STANDING_ORDERS)
 	record_round_statistic(STATS_STANDING_ORDER_REVENUE, payout)
 	record_round_statistic(STATS_STANDING_ORDERS_FULFILLED, 1)
 	order.is_fulfilled = TRUE
@@ -914,9 +914,9 @@ SUBSYSTEM_DEF(economy)
 		import_label = user ? "Manual Import" : "Autoimport"
 
 	if(quantity > 1)
-		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]")
+		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]", LEDGER_CROWN_EXP_IMPORTS)
 	else
-		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [tg.name] from [region.name][actor_suffix]")
+		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [tg.name] from [region.name][actor_suffix]", LEDGER_CROWN_EXP_IMPORTS)
 	record_treasury_expense(TREASURY_FLOW_IMPORT, user ? treasury_role_of(user) : "Automatic", total_cost)
 
 	region.produces_today[good_id] = produces_today - quantity
@@ -968,9 +968,11 @@ SUBSYSTEM_DEF(economy)
 	var/actor_suffix = user ? " by [user.real_name]" : ""
 	var/export_label = user ? "Manual Export" : "Autoexport"
 	SStreasury.dirty_market_view()
-	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]")
+	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]", null, LEDGER_CROWN_REV_EXPORT_SALES)
 	SStreasury.total_export += total_revenue
 	SStreasury.economic_output += total_revenue
+	// do_export records this too; every other export route (manual, mass, autoexport) lands here instead.
+	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, total_revenue)
 	credit_economic_event_saturation(good_id, quantity)
 
 	if(user)

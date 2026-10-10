@@ -155,7 +155,7 @@
 
 	var/datum/fund/user_account = SStreasury.get_account(user)
 	amount = round(amount)
-	SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]")
+	SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]", LEDGER_CITIZEN_CONTRACT_PAID)
 
 	var/race = target.dna.species
 	var/gender = target.gender
@@ -231,7 +231,7 @@
 		say("Insufficient funds. [cost] mammon required.")
 		return
 
-	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee")
+	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee", null, LEDGER_CROWN_REV_OTHER)
 
 	var/obj/item/paper/scroll/bounty/scroll = new(get_turf(src))
 	scroll.update_bounty_text()

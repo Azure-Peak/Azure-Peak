@@ -40,7 +40,7 @@
 	var/burn_now = min(total_drain, burnable)
 	var/shortfall = total_drain - burn_now
 	if(burn_now > 0)
-		SStreasury.burn(SStreasury.discretionary_fund, burn_now, "Brigand losses (untended regions)")
+		SStreasury.burn(SStreasury.discretionary_fund, burn_now, "Brigand losses (untended regions)", LEDGER_CROWN_EXP_BANDITRY)
 		record_treasury_expense(TREASURY_FLOW_BANDITRY, "Crown", burn_now)
 		var/list/by_region = preview["by_region"]
 		var/remaining = burn_now
@@ -55,6 +55,10 @@
 			remaining -= share
 	if(shortfall > 0)
 		SStreasury.banditry_debt += shortfall
+		SStreasury.post_ledger_entry("accrual", "Brigand losses unpaid (added to brigand debt)", list(
+			list(LEDGER_CROWN_EXP_BANDITRY, shortfall, 0),
+			list(LEDGER_CROWN_BANDITRY_DEBT, 0, shortfall),
+		))
 	record_round_statistic(STATS_BANDITRY_LOSSES, total_drain)
 	GLOB.azure_round_stats[STATS_BANDITRY_DEBT_OUTSTANDING] = SStreasury.banditry_debt
 	GLOB.azure_round_stats[STATS_BANDITRY_HOARD_OUTSTANDING] = total_banditry_hoard()

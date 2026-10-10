@@ -259,7 +259,7 @@
 					send_ooc_note("<b>MEISTER:</b> The [amt]m for your [R.name] stays in the Treasury under your food stipend.", name = H.real_name)
 					return
 				SStreasury.economic_output += amt
-				SStreasury.give_money_account(amt, H, "+[amt]m from selling [R.name]")
+				SStreasury.give_money_account(amt, H, "+[amt]m from selling [R.name]", expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES)
 				if(auto_exported && message)
 					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
 				record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
@@ -303,9 +303,9 @@
 					say(flavor)
 					to_chat(H, span_info("[src] says, \"[flavor]\""))
 			if(crown_delta > 0)
-				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)")
+				SStreasury.mint(SStreasury.discretionary_fund, crown_delta, "Quality premium: [I.name] (+[crown_delta]m)", null, LEDGER_CROWN_REV_QUALITY)
 			else if(crown_delta < 0)
-				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)")
+				SStreasury.burn(SStreasury.discretionary_fund, -crown_delta, "Quality penalty: [I.name] ([crown_delta]m)", LEDGER_CROWN_EXP_QUALITY)
 				record_treasury_expense(TREASURY_FLOW_MISC, "Quality Penalty", -crown_delta)
 			if(!full_on_arrival)
 				R.stockpile_amount += 1
@@ -328,7 +328,7 @@
 					var/seller_sign = seller_delta > 0 ? "+" : ""
 					var/crown_sign = crown_delta > 0 ? "+" : ""
 					bounty_msg = "+[amt]m from selling [R.name] (quality: you [seller_sign][seller_delta]m, Crown [crown_sign][crown_delta]m, against the usual [quality_baseline]m)"
-				SStreasury.give_money_account(amt, H, bounty_msg)
+				SStreasury.give_money_account(amt, H, bounty_msg, expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES)
 				if(auto_exported && message)
 					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)

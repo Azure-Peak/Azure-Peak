@@ -414,14 +414,14 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/amt = text2num(params["amount"])
 			if(!isnum(amt) || amt <= 0)
 				return TRUE
-			SStreasury.mint(SStreasury.discretionary_fund, amt, "Divine Intervention")
+			SStreasury.mint(SStreasury.discretionary_fund, amt, "Divine Intervention", null, LEDGER_CROWN_GRANTS)
 			admin_log_fiscal("minted [amt]m into Crown's Purse", "Mint Crown's Purse")
 			return TRUE
 		if("burn_discretionary")
 			var/amt = text2num(params["amount"])
 			if(!isnum(amt) || amt <= 0)
 				return TRUE
-			SStreasury.burn(SStreasury.discretionary_fund, amt, "Lost in Transit")
+			SStreasury.burn(SStreasury.discretionary_fund, amt, "Lost in Transit", LEDGER_CROWN_GRANTS)
 			record_treasury_expense(TREASURY_FLOW_MISC, "Admin", amt)
 			admin_log_fiscal("burned [amt]m from Crown's Purse", "Burn Crown's Purse")
 			return TRUE
@@ -463,6 +463,11 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/days = text2num(params["days"]) || 1
 			var/existing = SStreasury.poll_tax_advance_days[target] || 0
 			var/new_val = max(0, existing - days)
+			// Days removed by an admin no longer count as deferred revenue; recognise their share.
+			var/days_left_to_release = existing
+			for(var/i in 1 to min(days, existing))
+				SStreasury.release_poll_tax_advance(target, days_left_to_release)
+				days_left_to_release--
 			if(new_val <= 0)
 				SStreasury.poll_tax_advance_days -= target
 			else
@@ -490,7 +495,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/datum/fund/account = SStreasury.get_account(target)
 			if(!account)
 				return TRUE
-			SStreasury.mint(account, amt, "Divine Intervention")
+			SStreasury.mint(account, amt, "Divine Intervention", null, ledger_acct(LEDGER_BOOK_CITIZENS, LEDGER_KEY_GRANTS))
 			admin_log_fiscal("minted [amt]m to [key_name(target)]", "Mint to Account")
 			return TRUE
 		if("player_burn_account")
@@ -503,7 +508,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/datum/fund/account = SStreasury.get_account(target)
 			if(!account)
 				return TRUE
-			SStreasury.burn(account, amt, "Lost in Transit")
+			SStreasury.burn(account, amt, "Lost in Transit", ledger_acct(LEDGER_BOOK_CITIZENS, LEDGER_KEY_GRANTS))
 			admin_log_fiscal("burned [amt]m from [key_name(target)]", "Burn from Account")
 			return TRUE
 		if("player_fire_indebted")
@@ -619,6 +624,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			if(SStreasury.treasury_state == TREASURY_NORMAL)
 				to_chat(usr, span_warning("Treasury is already solvent."))
 				return TRUE
+			SStreasury.write_off_treasury_debt("Debt cleared by admin (Force Recovery)")
 			SStreasury.treasury_debt = 0
 			GLOB.azure_round_stats[STATS_TREASURY_DEBT_OUTSTANDING] = 0
 			SStreasury.clear_treasury_debt_state()
