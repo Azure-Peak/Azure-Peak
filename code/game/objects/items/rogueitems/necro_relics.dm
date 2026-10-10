@@ -121,6 +121,7 @@
 
 	return TRUE
 
+// keeping this, although ""deprecated"", because it probably has use elsewhere.
 /mob/living/carbon/human/proc/choose_pronouns_and_body()
 	var/p_input = input(src, "Choose your character's pronouns", "Pronouns") as anything in GLOB.pronouns_list
 	if(p_input)
@@ -128,3 +129,4 @@
 	if(alert(src, "Do you wish to change your frame?", "Body Type", "Yes", "No") == "Yes")
 		src.gender = (src.gender == MALE) ? FEMALE : MALE
 	src.regenerate_icons()
+
