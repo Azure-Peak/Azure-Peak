@@ -6,7 +6,7 @@
 // None of this should clutch you in a hyperwar sized fight, solo. It should let you escape and maybe survive your wounds, or keep others alive. It should help your recovery but literally end at that.
 // Keep all of this public, its accessed via a goldface sire.
 /datum/supply_pack/rogue/medical_supplies_wretch
-	group = "Illict Medical Supplies"
+	group = "Illicit Medical Supplies"
 	crate_name = "suspicious crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 

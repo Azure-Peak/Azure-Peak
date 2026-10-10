@@ -92,8 +92,10 @@
 /datum/controller/subsystem/economy/proc/roundstart_blockades()
 	var/count = rand(BLOCKADE_ROUNDSTART_COUNT_MIN, BLOCKADE_ROUNDSTART_COUNT_MAX)
 	for(var/i in 1 to count)
-		if(!roll_blockade())
+		var/datum/blockade/B = roll_blockade()
+		if(!B)
 			break
+		B.roundstart = TRUE
 
 /datum/controller/subsystem/economy/proc/tick_blockade_replenish()
 	if(GLOB.dayspassed < BLOCKADE_REPLENISH_FIRST_DAY || GLOB.dayspassed > BLOCKADE_REPLENISH_LAST_DAY)

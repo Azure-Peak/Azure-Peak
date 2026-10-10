@@ -105,3 +105,17 @@
 	base_price = SELLPRICE_TEA
 	source_region_id = TRADE_REGION_ROCKHILL
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
+
+/datum/trade_good/vegetable_organic/beans
+	id = TRADE_GOOD_BEANS
+	name = "Beans"
+	base_price = SELLPRICE_BEANS
+	source_region_id = null
+	item_type = /obj/item/reagent_containers/food/snacks/grown/beans
+
+/datum/trade_good/vegetable_organic/lentils
+	id = TRADE_GOOD_LENTILS
+	name = "Lentils"
+	base_price = SELLPRICE_LENTILS
+	source_region_id = null
+	item_type = /obj/item/reagent_containers/food/snacks/grown/lentils

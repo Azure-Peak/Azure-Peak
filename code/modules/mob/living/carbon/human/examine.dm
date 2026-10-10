@@ -834,8 +834,15 @@
 
 		if(HAS_TRAIT(src, TRAIT_AGENT_MERCHANT))
 			. += span_notice("An agent of the Azurian Trading Company.")
-		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE))
-			. += span_notice("An agent of the Bathhouse.")
+
+		// only bath-house workers and other bath-house agents can recognize bath-house agents
+		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE) && ishuman(user))
+			var/mob/living/carbon/human/bath_viewer = user
+			if((bath_viewer.job in GLOB.bathhouse_positions) || HAS_TRAIT(bath_viewer, TRAIT_AGENT_BATHHOUSE))
+				. += span_notice("[m1] an agent of the Bathhouse.")
+
+		if(HAS_TRAIT(src, TRAIT_ARMOR_BREAK))
+			. += span_phobia("[capitalize(m2)] armor hangs on by a thread...")
 
 		if(src.job in GLOB.church_positions)
 			if(!HAS_TRAIT(user, TRAIT_CLERGY))

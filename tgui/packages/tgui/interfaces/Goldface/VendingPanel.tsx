@@ -57,6 +57,8 @@ export const VendingPanel = (props: { data: VendingData; act: ActFn }) => {
         dodging={!!data.dodging}
         publicMarginPct={data.public_margin_pct}
         publicMarginLabel={data.public_margin_label}
+        blockades={data.active_blockades}
+        gearPct={data.blockade_gear_pct}
       />
       <div style={subTabBarStyle}>
         {data.categories.map((cat) => {
