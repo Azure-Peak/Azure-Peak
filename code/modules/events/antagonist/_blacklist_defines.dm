@@ -26,14 +26,14 @@
 		"Steward",\
 		"Hand",\
 		"Court Magician",\
+		"Magicians Associate",\
 		"Marshal",\
 		"Knight",\
 		"Squire",\
 		"Bishop",\
 		"Martyr",\
 		"Templar",\
-		"Druid",\
-		"Acolyte",\
+		///"Druid",\ - Re-add these if we get "lite" antagonists that keep miracles
 		"Painter",\
 		"Keeper",\
 		"Inquisitor",\
@@ -45,8 +45,8 @@
 		"Gnoll",\
 		"Veteran",\
 		"Guildmaster",\
+		"Guildsman",\
 		"Head Physician",\
-		"Vagabond",\
 		"Mercenary",\
 		"Adventurer",\
 		"Court Agent",\
