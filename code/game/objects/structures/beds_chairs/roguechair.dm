@@ -386,6 +386,7 @@
 	anchored = TRUE
 	can_buckle = TRUE
 	buckle_lying = 90
+	drag_slowdown = 5
 	sleepy = 3
 	debris = list(/obj/item/grown/log/tree/small = 1)
 	hidingspot = TRUE
@@ -401,6 +402,7 @@
 	. += span_info("Once awake, hit the 'RESIST' hotkey or left-click the bed to 'unbuckle' yourself. Once unbuckled, pressing the 'V' key will allow you to fully rise up.")
 	. += span_info("Note that you can still sleep anywhere you wish, even without a bed, by simply laying down and closing your eyes. While this can work in a pinch to stave off tiredness or bolster your characters to survive a critical wound, it's much less ideal.")
 	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
+	. += span_info("Beds can be unanchored with a stake in order to be dragged around. Use the stake on it again to re-anchor it.")
 
 /obj/structure/bed/rogue/OnCrafted(dirin)
 	dirin = turn(dirin, 180)
@@ -447,6 +449,21 @@
 	var/datum/component/simple_rotation/rotcomp = GetComponent(/datum/component/simple_rotation)
 	if(rotcomp)
 		rotcomp.HandRot(rotcomp,user,ROTATION_CLOCKWISE)
+
+/obj/structure/bed/rogue/attackby(obj/item/I, mob/living/user)
+	if(istype(I, /obj/item/grown/log/tree/stake))
+		if(hiddenguy)
+			to_chat(user, span_warning("Someone is hiding under there!"))
+			return
+		if(anchored)
+			anchored = FALSE
+			to_chat(user, span_warning("[src] can now be moved."))
+		else
+			anchored = TRUE
+			to_chat(user, span_warning("You anchor [src]."))
+		playsound(src,pick('sound/foley/woodclimb.ogg'), 100, TRUE)
+		return
+	..()
 
 /obj/structure/bed/rogue/shit
 	name = "straw bed"

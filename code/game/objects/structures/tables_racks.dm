@@ -21,6 +21,7 @@
 	layer = TABLE_LAYER
 	climbable = TRUE
 	pass_flags = LETPASSTHROW //You can throw objects over this, despite it's density.")
+	drag_slowdown = 5 //can move it up to 10 if this is too low
 	var/frame
 	var/framestack
 	var/buildstack
@@ -38,11 +39,13 @@
 	debris = list(/obj/item/grown/log/tree/small = 1)
 	hidingspot = TRUE
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
+	var/stakeable = TRUE
 
 /obj/structure/table/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
-
+	if(stakeable)
+		. += span_info("This table can be unanchored to be dragged around. Left click it with a stake on combat mode to toggle anchoring.")
 /obj/structure/table/examine(mob/user)
 	. = ..()
 //	. += deconstruction_hints(user)
@@ -233,6 +236,21 @@
 				I.pixel_y = initial(I.pixel_y) += CLAMP(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
 				return 1
 
+	if(stakeable)
+		if(istype(I, /obj/item/grown/log/tree/stake))
+			if(hiddenguy)
+				to_chat(user, span_warning("Someone is hiding under there!"))
+				return
+			if(anchored)
+				anchored = FALSE
+				to_chat(user, span_warning("[src] can now be moved."))
+			else
+				anchored = TRUE
+				to_chat(user, span_warning("You anchor [src]."))
+			playsound(src,pick('sound/foley/woodclimb.ogg'), 100, TRUE)
+			return
+	..()
+
 	return ..()
 
 /obj/structure/table/ongive(mob/user, params)
@@ -323,6 +341,7 @@
 
 /obj/structure/table/wood/large_table
 	icon_state = "largetable"
+	stakeable = FALSE
 
 /obj/structure/table/wood/large_table/south_west
 	dir = 10
@@ -350,6 +369,7 @@
 
 /obj/structure/table/wood/long_table
 	icon_state = "longtable"
+	stakeable = FALSE
 
 /obj/structure/table/wood/long_table/right
 	dir = 1
@@ -369,6 +389,7 @@
 
 /obj/structure/table/wood/map
 	icon_state = "map1"
+	stakeable = FALSE
 
 /obj/structure/table/wood/map/two
 	icon_state = "map2"
@@ -394,6 +415,7 @@
 	smooth = 0
 	climb_offset = 10
 	debris = list(/obj/item/natural/stone = 1)
+	stakeable = FALSE
 
 /obj/structure/table/church/OnCrafted(dirin, user)
 	if(dirin == NORTH || dirin == SOUTH)
@@ -436,6 +458,7 @@
 	climb_offset = 10
 	debris = list(/obj/item/natural/stoneblock = 1)
 	var/smooth_icon = 'icons/obj/smooth_structures/stone_table.dmi'
+	stakeable = FALSE
 
 /obj/structure/table/finestone/Initialize(mapload)
 	. = ..()
@@ -450,6 +473,7 @@
 	smooth = 0
 	climb_offset = 10
 	debris = list(/obj/item/grown/log/tree/small = 1)
+	stakeable = FALSE
 
 /obj/structure/table/vtable/v2
 	icon = 'icons/roguetown/misc/tables.dmi'
@@ -483,6 +507,7 @@
 	smooth = 0
 	debris = list(/obj/item/grown/log/tree/small, /obj/item/roguegear)
 	climb_offset = 10
+	stakeable = FALSE
 
 
 
@@ -575,6 +600,7 @@
 	debris = list(/obj/item/grown/log/tree/small = 1)
 	climbable = TRUE
 	climb_offset = 10
+	stakeable = FALSE
 
 /obj/structure/table/wood/folding/examine()
 	. = ..()

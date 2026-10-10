@@ -80,7 +80,7 @@
 	if(istype(I, /obj/item/grown/log/tree/stake))
 		if(anchored)
 			anchored = FALSE
-			to_chat(user, span_warning("The [src] can now be moved."))
+			to_chat(user, span_warning("[src] can now be moved."))
 		else
 			anchored = TRUE
 			to_chat(user, span_warning("You anchor [src]."))
