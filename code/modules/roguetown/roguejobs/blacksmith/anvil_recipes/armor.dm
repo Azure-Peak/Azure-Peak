@@ -1927,6 +1927,45 @@
 	created_item = /obj/item/clothing/barding/chain
 	display_category = ITEM_CAT_ARMOR_BARDING
 
+// Saiga-taur barding - worn by the player-controlled saiga-taur race, not to be confused with the mount barding above.
+/datum/anvil_recipe/armor/steel/saigataurbarding_chain
+	name = "Saiga-taur Barding, Chainmail (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/suit/roguetown/armor/saiga_barding/chain
+	display_category = ITEM_CAT_ARMOR_BARDING
+
+/datum/anvil_recipe/armor/iron/saigataurbarding_chain
+	name = "Saiga-taur Barding, Chainmail (Iron)"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/suit/roguetown/armor/saiga_barding/chain/iron
+	display_category = ITEM_CAT_ARMOR_BARDING
+
+/datum/anvil_recipe/armor/bronze/saigataurbarding_chain
+	name = "Saiga-taur Barding, Chainmail (Bronze)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/suit/roguetown/armor/saiga_barding/chain/bronze
+	display_category = ITEM_CAT_ARMOR_BARDING
+
+/datum/anvil_recipe/armor/steel/saigataurbarding_plate
+	name = "Saiga-taur Barding, Plate (+1 Steel)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel)
+	created_item = /obj/item/clothing/suit/roguetown/armor/saiga_barding/plate
+	display_category = ITEM_CAT_ARMOR_BARDING
+
+/datum/anvil_recipe/armor/iron/saigataurbarding_plate
+	name = "Saiga-taur Barding, Plate (Iron)"
+	req_bar = /obj/item/ingot/iron
+	created_item = /obj/item/clothing/suit/roguetown/armor/saiga_barding/plate/iron
+	display_category = ITEM_CAT_ARMOR_BARDING
+
+/datum/anvil_recipe/armor/bronze/saigataurbarding_plate
+	name = "Saiga-taur Barding, Plate (Bronze)"
+	req_bar = /obj/item/ingot/bronze
+	created_item = /obj/item/clothing/suit/roguetown/armor/saiga_barding/plate/bronze
+	display_category = ITEM_CAT_ARMOR_BARDING
+
 /datum/anvil_recipe/armor/steel/barding/fogbeast
 	name = "Fogbeast Barding, Chainmail (+1 Steel)"
 	category = "Steel"

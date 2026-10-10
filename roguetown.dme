@@ -1907,6 +1907,7 @@
 #include "code\modules\clothing\rogueclothes\neck.dm"
 #include "code\modules\clothing\rogueclothes\rings.dm"
 #include "code\modules\clothing\rogueclothes\robes.dm"
+#include "code\modules\clothing\rogueclothes\saiga_gear.dm"
 #include "code\modules\clothing\rogueclothes\shirts.dm"
 #include "code\modules\clothing\rogueclothes\wrists.dm"
 #include "code\modules\clothing\rogueclothes\armor\_armor.dm"
