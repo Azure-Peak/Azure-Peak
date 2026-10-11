@@ -469,7 +469,7 @@
 	if(istype(I, /obj/item/card_hand))
 		var/obj/item/card_hand/CH = I
 		if(CH.our_deck != src)
-			to_chat(user, span_warning("[CH.cards.len > 1 ? "These cards" : "This card"] didn't come from this deck!"))
+			to_chat(user, span_warning("[CH.cards.len > 1 ? "These cards" : "This card"] didn't come the same deck as [cards.len > 1 ? "those" : "that one"]!"))
 			return
 		cards.Add(CH.cards)
 		user.visible_message(span_notice("\The [user] returns \the [CH] to the bottom of \the [src]."), span_notice("I return \the [CH] to the bottom of \the [src]."))
