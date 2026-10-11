@@ -75,6 +75,7 @@
 	ceiling_protected = TRUE
 	deathsight_message = "a twisted collection of cages and cells"
 	detail_text = DETAIL_TEXT_MENAGERIE
+	ceiling_protected = 1
 
 /area/rogue/under/cave/menageriedeep
 	name = "Menagerie Deep"
