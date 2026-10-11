@@ -74,6 +74,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "altnaga_s"
+	clip_mask_state = "clip_mask_altnaga"
 
 	has_taur_color = TRUE
 
@@ -82,14 +83,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "nagafat_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/mermaid
-	name = "Mermaid Tail"
-
-	offset_x = -16
-	taur_icon_state = "altmermaid_s"
+	clip_mask_state = "clip_mask_nagafat"
 
 	has_taur_color = TRUE
 
@@ -98,21 +92,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "orcamermaid_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/tentacle
-	name = "Tentacles"
-
-	offset_x = -16
-	taur_icon_state = "tentacle_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/otie
-	name = "Otie Body"
-	offset_x = -16
-	taur_icon_state = "otie_s"
+	clip_mask_state = "clip_mask_orcamermaid"
 
 	has_taur_color = TRUE
 
@@ -121,22 +101,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "canine_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/venard
-	name = "Venard Body"
-
-	offset_x = -16
-	taur_icon_state = "venard_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/drake
-	name = "Drake Body"
-
-	offset_x = -16
-	taur_icon_state = "drake_s"
+	clip_mask_state = "clip_mask_canine_s"
 
 	has_taur_color = TRUE
 
@@ -145,6 +110,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "drake2_s"
+	clip_mask_state = "clip_mask_drake2_s"
 
 	has_taur_color = TRUE
 
@@ -153,6 +119,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "noodle_s"
+	clip_mask_state = "clip_mask_noodle"
 
 	has_taur_color = TRUE
 
@@ -161,14 +128,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "deer_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/rat
-	name = "Rat Body"
-
-	offset_x = -16
-	taur_icon_state = "rat_s"
+	clip_mask_state = "clip_mask_deer"
 
 	has_taur_color = TRUE
 
@@ -176,30 +136,17 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 	name = "Red Panda Body"
 	offset_x = -16
 	taur_icon_state = "redpanda_s"
+	clip_mask_state = "clip_mask_redpanda_def"
 
 	has_taur_color = TRUE
 
-/obj/item/bodypart/taur/skunk
-	name = "Skunk Body"
-
-	offset_x = -16
-	taur_icon_state = "skunk_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/kitsune
-	name = "Kitsune Body"
-
-	offset_x = -16
-	taur_icon_state = "kitsune_s"
-
-	has_taur_color = TRUE
 
 /obj/item/bodypart/taur/feline
 	name = "Feline Body"
 
 	offset_x = -16
 	taur_icon_state = "feline_s"
+	clip_mask_state = "clip_mask_feline_def"
 
 	has_taur_color = TRUE
 
@@ -208,21 +155,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "tempest_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/tiger
-	name = "Tiger Body"
-	offset_x = -16
-	taur_icon_state = "feline_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/centipede
-	name = "Centipede Body"
-
-	offset_x = -16
-	taur_icon_state = "centipede_s"
+	clip_mask_state = "clip_mask_tempest_def"
 
 	has_taur_color = TRUE
 
@@ -231,6 +164,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "sloog_s"
+	clip_mask_state = "clip_mask_sloog_def"
 
 	has_taur_color = TRUE
 
@@ -239,6 +173,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "ant_s"
+	clip_mask_state = "clip_mask_ant_def"
 
 	has_taur_color = TRUE
 
@@ -247,14 +182,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "wasp_s"
-
-	has_taur_color = TRUE
-
-/obj/item/bodypart/taur/insect
-	name = "Insect Body"
-
-	offset_x = -16
-	taur_icon_state = "insect_s"
+	clip_mask_state = "clip_mask_wasp_def"
 
 	has_taur_color = TRUE
 
@@ -271,7 +199,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "saiga_s"
-	clip_mask_state = "clip_mask_saiga"
+	clip_mask_state = "clip_mask_saiga_def"
 
 	has_taur_color = TRUE
 
@@ -280,7 +208,7 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "goat_s"
-	clip_mask_state = "clip_mask_goat"
+	clip_mask_state = "clip_mask_goat_def"
 
 	has_taur_color = TRUE
 
@@ -289,5 +217,6 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "bunny_s"
+	clip_mask_state = "clip_mask_bunny_def"
 
 	has_taur_color = TRUE

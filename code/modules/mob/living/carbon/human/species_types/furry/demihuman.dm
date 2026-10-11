@@ -18,7 +18,6 @@
 			/obj/item/bodypart/taur/lamia,
 		/obj/item/bodypart/taur/spider,
 		/obj/item/bodypart/taur/canine,
-		/obj/item/bodypart/taur/drake,
 		/obj/item/bodypart/taur/noodle,
 		/obj/item/bodypart/taur/horse,
 		/obj/item/bodypart/taur/goat,
