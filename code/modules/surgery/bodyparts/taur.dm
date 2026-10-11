@@ -23,6 +23,8 @@
 	// taur_icon_state sets which icon to use from icons/mob/taurs.dmi to render
 	// (we don't use icon_state to avoid duplicate rendering on dropped organs)
 	var/taur_icon_state = "naga_s"
+	// Optional markings overlay state for taur sprites.
+	var/taur_markings_state = null
 
 	// We can Blend() a color with the base greyscale color, only some tails support this
 	var/has_taur_color = FALSE
@@ -72,6 +74,187 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	offset_x = -16
 	taur_icon_state = "altnaga_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/fatlamia
+	name = "Fat Lamia Tail"
+
+	offset_x = -16
+	taur_icon_state = "nagafat_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/mermaid
+	name = "Mermaid Tail"
+
+	offset_x = -16
+	taur_icon_state = "altmermaid_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/orca
+	name = "Orca Tail"
+
+	offset_x = -16
+	taur_icon_state = "orcamermaid_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/tentacle
+	name = "Tentacles"
+
+	offset_x = -16
+	taur_icon_state = "tentacle_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/otie
+	name = "Otie Body"
+	offset_x = -16
+	taur_icon_state = "otie_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/canine
+	name = "Canine Body"
+
+	offset_x = -16
+	taur_icon_state = "canine_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/venard
+	name = "Venard Body"
+
+	offset_x = -16
+	taur_icon_state = "venard_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/drake
+	name = "Drake Body"
+
+	offset_x = -16
+	taur_icon_state = "drake_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/dragon
+	name = "Dragon Body"
+
+	offset_x = -16
+	taur_icon_state = "drake2_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/noodle
+	name = "Noodle Dragon Body"
+
+	offset_x = -16
+	taur_icon_state = "noodle_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/deer
+	name = "Deer Body"
+
+	offset_x = -16
+	taur_icon_state = "deer_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/rat
+	name = "Rat Body"
+
+	offset_x = -16
+	taur_icon_state = "rat_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/redpanda
+	name = "Red Panda Body"
+	offset_x = -16
+	taur_icon_state = "redpanda_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/skunk
+	name = "Skunk Body"
+
+	offset_x = -16
+	taur_icon_state = "skunk_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/kitsune
+	name = "Kitsune Body"
+
+	offset_x = -16
+	taur_icon_state = "kitsune_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/feline
+	name = "Feline Body"
+
+	offset_x = -16
+	taur_icon_state = "feline_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/snep
+	name = "Tempest Body"
+
+	offset_x = -16
+	taur_icon_state = "tempest_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/tiger
+	name = "Tiger Body"
+	offset_x = -16
+	taur_icon_state = "feline_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/centipede
+	name = "Centipede Body"
+
+	offset_x = -16
+	taur_icon_state = "centipede_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/sloog
+	name = "Sloog Body"
+
+	offset_x = -16
+	taur_icon_state = "sloog_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/ant
+	name = "Ant Body"
+
+	offset_x = -16
+	taur_icon_state = "ant_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/wasp
+	name = "Wasp Body"
+
+	offset_x = -16
+	taur_icon_state = "wasp_s"
+
+	has_taur_color = TRUE
+
+/obj/item/bodypart/taur/insect
+	name = "Insect Body"
+
+	offset_x = -16
+	taur_icon_state = "insect_s"
 
 	has_taur_color = TRUE
 
