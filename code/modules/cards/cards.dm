@@ -150,6 +150,15 @@
 	grid_height = 32
 	var/fake_direction = 0
 
+/obj/item/card_hand/proc/user_can_get_cards(mob/user)
+	if(!ishuman(user) || user.stat || cards.len < 1)
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	if(H.get_num_arms() <= 0)
+		SHOW_ERROR_WHERES_YOUR_FUCKING_ARMS(user)
+		return FALSE
+	return TRUE
+
 /obj/item/card_hand/proc/get_drawn_cards(mob/living/carbon/human/H, atom/drawing_to, max_amt_to_draw = null)
 	var/last_loc = drawing_to.loc
 	var/list/cards_to_draw = get_cards_in_selection(cards.Copy(), H, max_amt_to_draw || min(cards.len, MAX_HAND_SIZE))
@@ -174,17 +183,31 @@
 	. += span_smallnotice("<b>SHIFT + RIGHT CLICK</b> to search the hand for one or more cards and draw whichever ones were chosen. If your active hand is empty, a new hand of cards is made. If your active hand has a hand of cards already, the drawn card(s) is/are added to it.")
 
 /obj/item/card_hand/attackby(obj/item/I, mob/user, params)
-	if(!user || !ishuman(user) || user.stat)
+	if(!user_can_get_cards(user))
 		return
+	var/mob/living/carbon/human/H = user
 	if(istype(I, /obj/item/card_hand))
-		var/obj/item/card_hand/CH = I
-		if(MAX_HAND_SIZE < (CH.cards.len + cards.len))
-			SHOW_ERROR_HAND_FULL(user)
+		if(cards.len >= MAX_HAND_SIZE)
+			SHOW_ERROR_HAND_FULL(H)
 			return
-		var/mob/living/carbon/human/H = user
-		cards.Add(CH.cards)
-		H.visible_message(span_notice("\The [H] joins \the [CH] with [H.p_their()] hand."))
-		qdel(CH)
+		var/obj/item/card_hand/CH = I
+		// If adding all cards from the other hand would put us over the hand size limit...
+		if(MAX_HAND_SIZE < (CH.cards.len + cards.len))
+			// Take as many cards from the visible "front" of the other hand
+			// and move them as a group to our cards
+			var/num_cards_to_grab = min(MAX_HAND_SIZE - cards.len, CH.cards.len)
+			var/start_index = CH.cards.len - num_cards_to_grab + 1
+			var/end_index = CH.cards.len + 1
+			var/list/datum/playingcard/cards_to_grab = CH.cards.Copy(start_index, end_index)
+			CH.cards.Cut(start_index, end_index)
+			cards.Add(cards_to_grab)
+			H.visible_message(span_notice("\The [H] adds [num_cards_to_grab] cards to [H.p_their()] hand from another hand."))
+			CH.update_icon()
+		// If we can add all cards from the other hand...
+		else
+			cards.Add(CH.cards)
+			H.visible_message(span_notice("\The [H] joins \the [CH] with [H.p_their()] hand."))
+			qdel(CH)
 		update_icon()
 
 /obj/item/card_hand/attack_self(mob/user)
@@ -209,16 +232,13 @@
 
 /obj/item/card_hand/attack_right(mob/user)
 	. = ..()
-	if(!user || !ishuman(user))
+	if(!user_can_get_cards(user))
 		return
 	var/mob/living/carbon/human/H = user
-	if(H.get_num_arms() <= 0)
-		SHOW_ERROR_WHERES_YOUR_FUCKING_ARMS(user)
-		return
 
 	// If we're right clicking with an empty hand, make a new hand!
 	var/thing_in_hand = H.get_active_held_item()
-	if(!thing_in_hand && cards.len > 1)
+	if(!thing_in_hand)
 		// Take the first card in our hand and give it to the new one
 		var/datum/playingcard/PC = cards[cards.len]
 		cards.Cut(cards.len, cards.len + 1)
@@ -427,7 +447,7 @@
 			user.visible_message(span_notice("[user] shuffles the deck."), span_notice("I shuffle the deck."), span_notice("I hear the shuffling of cards."))
 
 /obj/item/deck/proc/user_can_get_cards(mob/user)
-	if(!ishuman(user) || user.stat)
+	if(!ishuman(user) || user.stat || cards.len < 1)
 		return FALSE
 	var/mob/living/carbon/human/H = user
 	if(H.get_num_arms() <= 0)
@@ -500,7 +520,7 @@
 	var/mob/living/carbon/human/H = user
 	// If we're right clicking with an empty hand, make a new hand!
 	var/thing_in_hand = H.get_active_held_item()
-	if(!thing_in_hand && cards.len > 1)
+	if(!thing_in_hand)
 		// Take the first card in our hand and give it to the new one
 		var/datum/playingcard/PC = cards[cards.len]
 		cards.Cut(cards.len, cards.len + 1)
