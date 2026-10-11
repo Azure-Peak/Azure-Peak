@@ -1,0 +1,6 @@
+author: "BurpleBineapple"
+delete-after: True
+changes:
+  - rscadd: "Steel massive wrenches can be used with the Elegant Armory donor kit."
+  - rscadd: "cynthia's donator wrench"
+  - image: "Adds icons for a steel massive wrench + cynthia's donator wrench"
