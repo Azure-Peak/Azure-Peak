@@ -15,7 +15,7 @@
 	species_traits = list(EYECOLOR,HAIR,FACEHAIR,LIPS,STUBBLE,OLDGREY,MUTCOLORS)
 
 	allowed_taur_types = list(
-		/obj/item/bodypart/taur/lamia,
+			/obj/item/bodypart/taur/lamia,
 		/obj/item/bodypart/taur/spider,
 		/obj/item/bodypart/taur/canine,
 		/obj/item/bodypart/taur/drake,
@@ -29,7 +29,11 @@
 		/obj/item/bodypart/taur/sloog,
 		/obj/item/bodypart/taur/ant,
 		/obj/item/bodypart/taur/wasp,
+		/obj/item/bodypart/taur/bunny,
+		/obj/item/bodypart/taur/orca,
+		/obj/item/bodypart/taur/fatlamia,
 	)
+
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE
 	possible_ages = ALL_AGES_LIST

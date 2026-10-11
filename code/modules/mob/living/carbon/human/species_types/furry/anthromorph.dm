@@ -35,6 +35,9 @@
 		/obj/item/bodypart/taur/sloog,
 		/obj/item/bodypart/taur/ant,
 		/obj/item/bodypart/taur/wasp,
+		/obj/item/bodypart/taur/bunny,
+		/obj/item/bodypart/taur/orca,
+		/obj/item/bodypart/taur/fatlamia,
 	)
 
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
