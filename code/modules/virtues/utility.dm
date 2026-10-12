@@ -313,11 +313,8 @@
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
 
-			if(extra_choices[choice] in GLOB.roguetraits) // for virtuous, or if we are already a race with darksight so this isn't a dead virtue option
-				if(extra_choices[choice] == TRAIT_DARKVISION && (HAS_TRAIT(recipient, TRAIT_DARKVISION) || HAS_TRAIT(recipient, TRAIT_ZIZOSIGHT)))
-					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
-				else
-					ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
+			if(extra_choices[choice] in GLOB.roguetraits)
+				ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
 
 			else if(ispath(extra_choices[choice], /datum/skill)) // stacks on virtuous, intended behavior
 				var/skill_path = extra_choices[choice]
