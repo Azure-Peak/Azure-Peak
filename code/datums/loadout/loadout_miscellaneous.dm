@@ -2,7 +2,12 @@
 
 /datum/loadout_item/card_deck
 	name = "Card Deck"
-	path = /obj/item/toy/cards/deck
+	path = /obj/item/deck/playing_cards
+	sort_category = "Misc"
+
+/datum/loadout_item/card_deck_triple
+	name = "Card Deck (3x Cards)"
+	path = /obj/item/deck/playing_cards/triple
 	sort_category = "Misc"
 
 /datum/loadout_item/farkle_dice
@@ -11,13 +16,13 @@
 	sort_category = "Misc"
 
 /datum/loadout_item/tarot_deck
-	name = "Tarot Deck"
-	path = /obj/item/toy/cards/deck/tarot
+	name = "Tarot Deck (Major Arcana Only)"
+	path = /obj/item/deck/tarot
 	sort_category = "Misc"
 
 /datum/loadout_item/tarot_deck_majorarcana
-	name = "Tarot Deck (Major Arcana)"
-	path = /obj/item/toy/cards/deck/tarot/majorarcana
+	name = "Tarot Deck (Major And Minor Arcana)"
+	path = /obj/item/deck/tarot/includes_minor_arcana
 	sort_category = "Misc"
 
 /datum/loadout_item/custom_book
@@ -34,6 +39,12 @@
 /datum/loadout_item/triumph_satchelalt
 	name = "Black Satchel"
 	path = /obj/item/storage/backpack/rogue/satchel/black
+	sort_category = "Misc"
+	cost = 2
+
+/datum/loadout_item/triumph_satcheltail
+	name = "Tail Satchel"
+	path = /obj/item/storage/backpack/rogue/satchel/tailchel
 	sort_category = "Misc"
 	cost = 2
 

@@ -346,7 +346,7 @@
 /obj/item/bodypart/r_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
@@ -367,7 +367,7 @@
 /obj/item/bodypart/l_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
@@ -387,7 +387,7 @@
 /obj/item/bodypart/r_leg/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
@@ -403,7 +403,7 @@
 /obj/item/bodypart/l_leg/drop_limb(special) //copypasta
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
@@ -597,11 +597,11 @@
 
 	if(has_prosthetic && !already_has_spell)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
-		to_chat(H, span_notice("AS the prosthetic attachs I can feel I can push them beyond their limits if I focus."))
+		to_chat(H, span_notice("As the prosthetic attaches, I can feel I can push it beyond its limits if I focus."))
 	else if(!has_prosthetic && already_has_spell)
 		H.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
 		H.remove_status_effect(/datum/status_effect/buff/overclock)
-		to_chat(H, span_warning("Without any prosthetics, I can no longer overclock them."))
+		to_chat(H, span_warning("Without any prosthetics, there is nothing left to overclock."))
 
 
 //adding this in seperate to add the overclock skill if we add an attachment

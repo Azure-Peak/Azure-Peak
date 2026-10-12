@@ -791,7 +791,7 @@
 			returned_flags |= SURGERY_CLAMPED
 	if(has_wound(/datum/wound/dislocation))
 		returned_flags |= SURGERY_DISLOCATED
-	if(has_wound(/datum/wound/fracture))
+	if(has_wound(/datum/wound/fracture) || isooze(owner))
 		returned_flags |= SURGERY_BROKEN
 	if(has_wound(/datum/wound/slash/vein))
 		returned_flags |= SURGERY_CUTVEIN

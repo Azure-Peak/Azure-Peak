@@ -2,6 +2,38 @@
 #define BOMB_HIT_IMMUNITY_DURATION 1 SECONDS
 #define BOMB_CRIT_LEFTOVERS pick("smithereens", "thin gruel", "bits", "spare parts", "pieces", "kingdom come", "another timeline", "yesterday", "hell", "PSYDON's embrace", "Necra's embrace", "Zizo's embrace", "Astrata and back")
 
+/mob/living/proc/can_be_gibbed()
+	// lame checks here, to hard-block them from being affected by the bomb crits
+	var/list/gib_blacklist = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon,
+		/mob/living/simple_animal/hostile/retaliate/rogue/dragon,
+		/mob/living/simple_animal/hostile/retaliate/rogue/troll,
+		/mob/living/simple_animal/hostile/retaliate/rogue/minotaur,
+		/mob/living/simple_animal/hostile/retaliate/rogue/revenant,
+		/mob/living/carbon/human/species/familiar,
+	)
+
+	var/list/species_blacklist = list(
+		/datum/species/familiar,
+		/datum/species/white_stag,
+	)
+	// lazy checks here
+	if(maxHealth > 500 || HAS_TRAIT(src, TRAIT_HARDDISMEMBER) || HAS_TRAIT(src, TRAIT_NODISMEMBER)) // most high-end monsters have HP above 1000, so this is a safe number I hope / HARDDISMEMBER for the lazy people who don't want to be updating this over and over when making their own mobs
+		return FALSE
+
+	for(var/mob_type in gib_blacklist)
+		if(istype(src, mob_type))
+			return FALSE
+
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		if(H.dna?.species)
+			for(var/species_type in species_blacklist)
+				if(istype(H.dna.species, species_type))
+					return FALSE
+	return TRUE
+
+
 /obj/item/bomb
 	name = "bottle bomb"
 	desc = "A fiery explosion waiting to be coaxed from its glass prison."
@@ -179,14 +211,22 @@
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
 
 		if(can_crit && !target.mind)
-			if(target.stat != CONSCIOUS)
+			if(target.stat != CONSCIOUS && target.can_be_gibbed())
 				target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
 					"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
 				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
 				target.gib(TRUE, TRUE, FALSE, TRUE)
 				continue
 
-			if(was_scorched && prob(critbang))
+			else if(was_scorched && prob(critbang))
+				if(!target.can_be_gibbed())
+					target.visible_message(
+						"<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
+						"<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
+					)
+					playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
+					target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+					continue
 				target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
 					"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
 				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
@@ -1030,9 +1070,16 @@
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
 
 		if(target.stat != CONSCIOUS)
-			critbang += 100 // F I N I S H  H I M . . !
+			critbang += 50
 
 		if(can_crit && !target.mind && prob(critbang))
+			if(!target.can_be_gibbed())
+				target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
+					"<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
+				)
+				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
+				target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+				continue
 			target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
 				"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
 			playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)

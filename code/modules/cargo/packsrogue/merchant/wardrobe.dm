@@ -165,6 +165,13 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 					/obj/item/clothing/mask/rogue/spectacles,
 				)
 
+/datum/supply_pack/rogue/wardrobe/masks/thinspecs
+	name = "Thin Spectacles"
+	cost = 25
+	contains = list(
+					/obj/item/clothing/mask/rogue/spectacles/thin,
+				)
+
 /datum/supply_pack/rogue/luxury/fancyspecs
 	name = "Fancy Spectacles"
 	cost = 30

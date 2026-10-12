@@ -141,7 +141,7 @@
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/caffeine/coffee/cheese
 	results = list(/datum/reagent/consumable/caffeine/coffee/cheese = 2)
-	required_reagents = list(/datum/reagent/consumable/caffeine/coffee = 1, /datum/reagent/consumable/soup/stew/cheese = 1)
+	required_reagents = list(/datum/reagent/consumable/caffeine/coffee = 1, /datum/reagent/consumable/soup/stew/thickcheese = 1)
 
 /datum/reagent/consumable/caffeine/coffee_spiced
 	cuisine = CUISINE_RANESHENI

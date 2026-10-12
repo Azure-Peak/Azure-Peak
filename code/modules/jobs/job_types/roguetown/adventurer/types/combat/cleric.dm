@@ -526,7 +526,7 @@
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
-	extra_context = "This subclass regenerates Devotion far quicker, but only has access to lesser miracles."
+	extra_context = "This subclass has access to T3 miracles, but is weak in martial combat."
 
 /datum/outfit/job/roguetown/adventurer/missionary/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -666,7 +666,7 @@
 			H.adjust_skillrank(/datum/skill/craft/smelting, SKILL_LEVEL_APPRENTICE, TRUE)
 			H.adjust_skillrank(/datum/skill/labor/lumberjacking, SKILL_LEVEL_APPRENTICE, TRUE)
 		if (/datum/patron/divine/eora)
-			head = /obj/item/clothing/head/roguetown/eoramask
+			backpack_contents[/obj/item/clothing/head/roguetown/eoramask] = 1
 			backpack_contents[/obj/item/reagent_containers/eoran_seed] = 1
 			r_hand = /obj/item/rogueweapon/huntingknife/scissors
 			shoes = /obj/item/clothing/shoes/roguetown/sandals

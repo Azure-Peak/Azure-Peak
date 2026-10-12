@@ -82,6 +82,9 @@
 		return FALSE
 	return TRUE
 
+/datum/vision_quest/proc/on_complete(datum/component/vision_quest_tracker/VCT)
+	return // executed on completion of a specific quest. for adding additional effects.
+
 /datum/component/vision_quest_tracker
 	var/datum/vision_quest/quest
 	var/datum/weakref/target_ref
@@ -180,6 +183,8 @@
 	cleaned = replacetext(cleaned, "&apos;", "'")
 	cleaned = replacetext(cleaned, "’", "'")
 	cleaned = replacetext(cleaned, "‘", "'")
+	cleaned = replacetext(cleaned, ",", "")
+	cleaned = replacetext(cleaned, ".", "")
 	return cleaned
 
 /datum/component/vision_quest_tracker/proc/complete_quest()
@@ -194,6 +199,7 @@
 				for(var/i in 1 to 2)
 					new bonus_reward_path(T)
 			to_chat(seeker, span_green("The vision solidifies! Your rewards appear at the ritual rune."))
+			quest?.on_complete(src)
 		else
 			to_chat(seeker, span_warning("The ritual rune is gone! Your rewards are lost."))
 	else

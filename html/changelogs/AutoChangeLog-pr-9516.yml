@@ -1,0 +1,5 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Murklings can now be operated on as if their ribcage is broken (since they don't have bones). This means lux extraction and revival is now possible."
+  - qol: "Revivals - all forms - now work when a player is ghosted, i.e. not in their body but still inround."

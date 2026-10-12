@@ -153,6 +153,48 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 		"the daubing of a rude rhyme upon a tombstone that cost its family forty zennies",
 	)
 
+/datum/quest_crime/petty_lewd_hermes
+	id = CRIME_PETTY_LEWD_HERMES
+	tier = CRIME_TIER_PETTY
+	phrasings = list(
+		"the sending of obscene and lewd arts, poorly drawn, through HERMES, to members of the royal family unwarranted",
+	)
+
+/datum/quest_crime/petty_lewd_gods_art
+	id = CRIME_PETTY_LEWD_GODS_ART
+	tier = CRIME_TIER_PETTY
+	phrasings = list(
+		"the drawing of the gods in position and actions inappropriate, and the soliciting of sales of such arts to the bishopry",
+	)
+
+/datum/quest_crime/petty_telescope_peeping
+	id = CRIME_PETTY_TELESCOPE_PEEPING
+	tier = CRIME_TIER_PETTY
+	phrasings = list(
+		"usage of the University telescope without consent to peer into the bathhouse and inn, against the rules of privacy of abode, and to report the details to others, publicly and without concern for dignity of those within",
+	)
+
+/datum/quest_crime/petty_badger_notice
+	id = CRIME_PETTY_BADGER_NOTICE
+	tier = CRIME_TIER_PETTY
+	phrasings = list(
+		"pinning of a false notice that the Duke will pay ten zennies to anyone who brings him a live badger, an outrageous usurpation of the Duke's authority",
+	)
+
+/datum/quest_crime/petty_hermes_fish
+	id = CRIME_PETTY_HERMES_FISH
+	tier = CRIME_TIER_PETTY
+	phrasings = list(
+		"hiding of a rotten, dead fish in the HERMES mail, such that its putrid flesh was found at the Steward's desk two dae later",
+	)
+
+/datum/quest_crime/petty_false_hammerhold
+	id = CRIME_PETTY_FALSE_HAMMERHOLD
+	tier = CRIME_TIER_PETTY
+	phrasings = list(
+		"creation of metallic goods of shoddy quality, and attempt to pass them off as good Hammerholdian metallic goods, in front of a grumble of dwarves from Hammerhold",
+	)
+
 
 /datum/quest_crime/brigandage
 	id = CRIME_BRIGANDAGE
