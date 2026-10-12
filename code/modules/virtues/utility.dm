@@ -292,36 +292,45 @@
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
-		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab)."
+		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab).",
+		"Silent Lockpicking" = "My hands work silently upon locks, making very minor noise while picking them. Unfortunately, the doors and chests themselves may still creak loudly once unlocked successfully.",
+		"Darksight" = "My eyes are well accustomed to the dark. Should I already possess such a trait, this virtue will sharpen my darksight further, allowing me to see better in the dark.",
 	)
 	extra_choices = list(
 		"Darksight" = TRAIT_DARKVISION,
 		"Light Steps" = TRAIT_LIGHT_STEP,
+		"Silent Lockpicking" = TRAIT_SILENT_LOCKPICK,
+		"Alter Ego",
+		"Sneaking Skill (+1, min. Journeyman)" = /datum/skill/misc/sneaking,
+		"Climbing Skill (+1, min. Journeyman)" = /datum/skill/misc/climbing,
+		"Lockpick Skill (+1, min. Journeyman)" = /datum/skill/misc/lockpicking,
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
-		"Sneak Skill (+2, Up to Legendary)" = /datum/skill/misc/sneaking,
-		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking,
-		"Alter Ego"
 		)
 
 /datum/virtue/utility/prowler/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
-			if(extra_choices[choice] in GLOB.roguetraits)
-				ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
-				if(choice == TRAIT_DARKVISION)
-					if(recipient.has_flaw(/datum/charflaw/colorblind))
-						to_chat(recipient, "Your eyes have become permanently colorblind.")
-					else if(recipient.charflaws.len)
-						add_verb(recipient, /mob/living/carbon/human/proc/toggleblindness)
-			else if(ispath(extra_choices[choice], /datum/skill))
-				if(extra_choices[choice] == /datum/skill/misc/sneaking)
-					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
-				else if(extra_choices[choice] == /datum/skill/misc/lockpicking)
-					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+
+			if(extra_choices[choice] in GLOB.roguetraits) // for virtuous, or if we are already a race with darksight so this isn't a dead virtue option
+				if(extra_choices[choice] == TRAIT_DARKVISION && (HAS_TRAIT(recipient, TRAIT_DARKVISION) || HAS_TRAIT(recipient, TRAIT_ZIZOSIGHT)))
+					ADD_TRAIT(recipient, TRAIT_NITEVISION, TRAIT_VIRTUE)
+					to_chat(recipient, span_blue("<i>My sight becomes even better in the dark...</i>"))
+				else
+					ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
+
+			else if(ispath(extra_choices[choice], /datum/skill)) // this is better and more balanced than the previous, sets a minimum floor, or if that floor's there, just add +1. Also works with virtuous.
+				var/skill_path = extra_choices[choice]
+				var/current_rank = recipient.get_skill_level(skill_path)
+				if(current_rank < SKILL_LEVEL_JOURNEYMAN)
+					recipient.adjust_skillrank_up_to(skill_path, SKILL_LEVEL_JOURNEYMAN, silent = TRUE)
+				else
+					recipient.adjust_skillrank(skill_path, 1, silent = TRUE)
+
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
+
 			else if(choice == "Alter Ego")
 				add_verb(recipient, /mob/living/carbon/human/proc/alterego_color)
 				add_verb(recipient, /mob/living/carbon/human/proc/alterego_voice)
