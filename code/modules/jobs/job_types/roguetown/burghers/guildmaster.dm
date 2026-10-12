@@ -1,5 +1,6 @@
 /datum/job/roguetown/guildmaster
 	title = "Guildmaster"
+	f_title = "Guildmatron"
 	flag = GUILDMASTER
 	department_flag = BURGHERS
 	faction = "Station"
@@ -28,11 +29,12 @@
 	job_subclasses = list(
 		/datum/advclass/guildmaster
 	)
-	has_subprefs = FALSE // only one subclass
+	has_subprefs = TRUE // Doesn't have subclasses, but allows class title preference for those that have them.
 	spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 
 /datum/advclass/guildmaster
 	name = "Guildmaster"
+	f_title = "Guildmatron"
 	tutorial = "You are the leader of the Azure Peak Guild of Crafts. You represents the interests of all of the craftsmen underneath you - including the Tailor\
 	the Blacksmiths, the Artificers and the Architects. Other townspeople may look to you for guidance, but they are not under your control. You are an experienced smith and artificer, and can do their work easily. Protect the craftsmen's interests."
 	outfit = /datum/outfit/job/roguetown/guildmaster/basic

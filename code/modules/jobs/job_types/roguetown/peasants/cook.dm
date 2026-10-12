@@ -24,7 +24,7 @@
 	job_subclasses = list(
 		/datum/advclass/cook
 	)
-	has_subprefs = FALSE // only one subclass
+	has_subprefs = TRUE // Doesn't have subclasses, but allows class title preference for those that have them.
 	spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 
 /datum/advclass/cook
