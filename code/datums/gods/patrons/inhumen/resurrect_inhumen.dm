@@ -88,10 +88,9 @@
 			qdel(found_lux)
 			to_chat(user, span_nicegreen("The Lux is consumed for this exchange, accounting no debts with Him!"))
 		else
-			if(user.has_status_effect(/datum/status_effect/debuff/devitalised))
+			if(!user.handle_lux_removal())
 				to_chat(user, span_warning("Your Lux is too faint to be used as a waiver right now."))
 				return FALSE
-			user.apply_status_effect(/datum/status_effect/debuff/devitalised)
 			to_chat(user, span_userdanger("You waiver your very Lux for this exchange, accounting no debts with Him!"))
 	else
 		var/debt = rand(MATTHIOS_DEBT_MIN, MATTHIOS_DEBT_MAX)

@@ -1077,6 +1077,11 @@
 				var/obj/item/bodypart/bodypart = get_bodypart(zone)
 				if(!bodypart)
 					continue
+				if(istype(bodypart, /obj/item/bodypart/l_arm/prosthetic) || \
+					istype(bodypart, /obj/item/bodypart/r_arm/prosthetic) || \
+					istype(bodypart, /obj/item/bodypart/l_leg/prosthetic) || \
+					istype(bodypart, /obj/item/bodypart/r_leg/prosthetic))
+					. += "[m3] a [get_item_examine_label(bodypart, user)]"
 				. += "<a href='?src=[REF(src)];inspect_limb=[zone]'>Inspect [parse_zone(zone)]</a>"
 			. += "<a href='?src=[REF(src)];check_hb=1'>Check Heartbeat</a>"
 		else

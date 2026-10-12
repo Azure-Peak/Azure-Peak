@@ -179,7 +179,7 @@
 	if(HAS_TRAIT(src, TRAIT_NOBREATH))
 		return TRUE
 	var/obj/item/organ/lungs/lung = getorganslot(ORGAN_SLOT_LUNGS)
-	if(!lung || (lung.organ_flags & ORGAN_FAILING))
+	if(!lung || (lung.organ_flags & ORGAN_FAILING) || ((lung.organ_flags & ORGAN_LUX) && check_lux_organ_cap()))
 		adjustOxyLoss(5)
 		emote("choke")
 		return FALSE

@@ -18,6 +18,8 @@
 #define SPELL_COST_BLOOD 4
 /// Vampire vitae — NOT IMPLEMENTED yet, to be converted later
 #define SPELL_COST_VITAE 5
+/// Lux! Cost determines the duration of lux cooldown- 1 is 5 minutes, 2 is 15, and 3 is 30
+#define SPELL_COST_LUX 6
 
 // Invocation types - what does the caster need to do to invoke (cast) the spell?
 /// Allows being able to cast the spell without saying or doing anything.

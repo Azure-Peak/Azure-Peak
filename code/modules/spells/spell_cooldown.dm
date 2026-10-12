@@ -1546,6 +1546,17 @@
 				return FALSE
 			return TRUE
 
+		if(SPELL_COST_LUX)
+			// Devotion is not scaled by INT
+			if(base_cost <= 0)
+				return TRUE
+			var/mob/living/carbon/human/H = caster
+			if(H.has_status_effect(/datum/status_effect/debuff/devitalised))
+				if(feedback)
+					owner.balloon_alert(owner, "No lux to spare!")
+				return FALSE
+			return TRUE
+
 	return TRUE
 
 /// Charge the owner with the cost of the spell. Drains both primary and secondary resources.
@@ -1626,6 +1637,14 @@
 				return
 			H.devotion?.update_devotion(-base_cost)
 			return base_cost
+
+		if(SPELL_COST_LUX)
+			if(base_cost <= 0)
+				return
+			var/mob/living/L = owner
+			if(!istype(L))
+				return
+			return L.handle_lux_removal(base_cost, TRUE)
 
 /// Examine the spell when shift-clicking the action button.
 /datum/action/cooldown/spell/proc/examine(mob/user)
@@ -1722,6 +1741,8 @@
 			return "Energy cost"
 		if(SPELL_COST_DEVOTION)
 			return "Devotion cost"
+		if(SPELL_COST_LUX)
+			return "Lux cost"
 	return "Cost"
 
 /// Builds the cooldown-related examine lines (headline + stat breakdown + remaining).

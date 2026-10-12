@@ -9,7 +9,7 @@
 	decay_factor = 5 * STANDARD_ORGAN_DECAY		//designed to fail about 5 minutes after death
 
 	low_threshold_passed = span_info("Prickles of pain appear then die out from within my chest...")
-	high_threshold_passed = span_warning("Something inside my chest hurts, and the pain isn't subsiding. You notice myself breathing far faster than before.")
+	high_threshold_passed = span_warning("Something inside my chest hurts, and the pain isn't subsiding. I notice myself breathing far faster than before.")
 	now_fixed = span_info("My heart begins to beat again.")
 	high_threshold_cleared = span_info("The pain in my chest has died down, and my breathing becomes more relaxed.")
 
@@ -134,11 +134,68 @@
 				span_danger("I feel a terrible pain in my chest, as if my heart has stopped!"))
 		owner.set_heartattack(TRUE)
 		failed = TRUE
+
 /obj/item/organ/heart/construct
 	name = "construct core"
 	desc = "Swirling with a blessing of Astrata and pulsing with lux inside. This allows a construct to move."
 	icon_state = "heartcon-on"
 	icon_base = "heartcon"
+
+/obj/item/organ/heart/lux
+	name = "artificed heart"
+	desc = "An engine of Gilbranze and glass, wrought about a preserved heart. It draws Lux forth from the host, holding the substance in reserve. This allows for the host's lux to power an additional artificed organ."
+	icon_state = "heartlux-on"
+	icon_base = "heartlux"
+	decay_factor = 0
+	organ_flags = ORGAN_LUX
+	var/bonus_lux = TRUE
+	var/cooldown_time = 15 MINUTES
+	var/cooldown
+
+/obj/item/organ/heart/lux/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_LUX_HEART)
+
+/obj/item/organ/heart/lux/on_life()
+	if(!bonus_lux && ((world.time + cooldown_time) < cooldown))
+		if(owner.has_status_effect(/datum/status_effect/debuff/devitalised))
+			var/settime = 15 MINUTES
+			if(owner.has_status_effect(/datum/status_effect/debuff/devitalised/lesser))
+				settime = 5 MINUTES
+			if(owner.has_status_effect(/datum/status_effect/debuff/devitalised/greater))
+				settime = 30 MINUTES
+			owner.remove_status_effect(/datum/status_effect/debuff/devitalised)
+			cooldown_time = settime
+		else
+			bonus_lux = TRUE
+		if(!failed && (owner.check_lux_organ_cap() > 1)) //if you have exceeded your organ cap, and *still* put more lux organs in, this thing stops working. you'd need to be really dumb to trigger this
+			if(owner.stat == CONSCIOUS)
+				owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as if [owner.p_their()] heart is stopping!"), \
+					span_danger("I feel a terrible cold in my chest, as if my heart has stopped! My lux is stretched too thin to power it!"))
+			owner.set_heartattack(TRUE)
+			failed = TRUE
+	..()
+	if(!(organ_flags & ORGAN_FAILING) && !beating)
+		if(owner.handle_lux_removal(1))
+			to_chat(owner, span_danger("My heart starts itself!"))
+			Restart()
+
+/obj/item/organ/heart/lux/prepare_eat()
+	return FALSE //this thing isn't edible flesh
+
+/obj/item/organ/heart/lux/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("An Artificed Heart contains a host's Lux, protecting it from extraction. It drives the host to produce twice the lux their body normally would.")
+	. += span_info("This allows the host to support up to three Artificed Organs, or pairs of Gilbranze Limbs. This is reduced to two, if their lux is wholly expended")
+	. += span_info("Such a heart can also use a host's Lux to start itself, if it stops beating. It takes five minutes to recover.")
+	. += span_info("If the host's lux capacity is well-exceeded, this heart will cease to function entirely.")
+
+/obj/item/organ/heart/lux/Insert(mob/living/carbon/M, special = FALSE, drop_if_replaced = FALSE, initialising)
+	. = ..()
+	ADD_TRAIT(M, TRAIT_LUXHEART, "lux heart")
+
+/obj/item/organ/heart/lux/Remove(mob/living/carbon/M, special = 0)
+	. = ..()
+	REMOVE_TRAIT(M, TRAIT_LUXHEART, "lux heart")
 
 /obj/item/organ/heart/cursed
 	name = "cursed heart"
