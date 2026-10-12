@@ -715,9 +715,11 @@
 	if(name in unknown_names)
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 	else if(obscure_name && !client?.prefs?.masked_examine)
 		. += span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 	else
 		on_examine_face(user)
 		var/used_name = name
@@ -879,6 +881,7 @@
 			. += span_userdanger("OUTLAW!")
 
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 
 		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))

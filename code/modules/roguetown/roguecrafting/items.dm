@@ -246,8 +246,8 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/tarot_deck
-	name = "tarot deck"
-	result = list(/obj/item/toy/cards/deck/tarot)
+	name = "tarot deck (major arcana only)"
+	result = list(/obj/item/deck/tarot)
 	reqs = list(
 		/obj/item/paper/scroll = 3,
 		/obj/item/grown/log/tree/small = 1,
@@ -258,9 +258,9 @@
 	req_table = TRUE
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/survival/tarot_deck_majorarcana
-	name = "tarot deck (major arcana)"
-	result = list(/obj/item/toy/cards/deck/tarot/majorarcana)
+/datum/crafting_recipe/roguetown/survival/tarot_deck_minorarcana
+	name = "tarot deck (major and minor arcana)"
+	result = list(/obj/item/deck/tarot/includes_minor_arcana)
 	reqs = list(
 		/obj/item/paper/scroll = 3,
 		/obj/item/grown/log/tree/small = 1,

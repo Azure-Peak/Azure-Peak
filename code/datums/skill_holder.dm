@@ -360,9 +360,9 @@
 
 		// Progress column
 		var/progress_col
-		if(is_capped)
+		if(is_capped || (HAS_TRAIT(current, TRAIT_COMBAT_JMAN) && skill_level == SKILL_LEVEL_JOURNEYMAN))
 			progress_col = "<b style='color: #cc3333;'>CAPPED</b>"
-		else if(is_legendary)
+		else if(is_legendary || (HAS_TRAIT(current, TRAIT_NOSHIELDS) && istype(i, /datum/skill/combat/shields)))
 			progress_col = "<span style='color: #555555;'>---</span>"
 		else
 			var/percent = 0

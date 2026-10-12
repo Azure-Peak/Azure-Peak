@@ -526,7 +526,7 @@
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
-	extra_context = "This subclass regenerates Devotion far quicker, but only has access to lesser miracles."
+	extra_context = "This subclass has access to T3 miracles, but is weak in martial combat."
 
 /datum/outfit/job/roguetown/adventurer/missionary/pre_equip(mob/living/carbon/human/H)
 	..()

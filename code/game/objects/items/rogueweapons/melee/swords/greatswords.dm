@@ -344,7 +344,7 @@
 	waste to those who threaten His flock. The crossguard's psycross reflects even the faintest of Noc's light. You're the light - show them the way."
 	icon_state = "psybroadsword"
 	force = 25
-	force_wielded = 25
+	force_wielded = 30
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 	wdefense = 8

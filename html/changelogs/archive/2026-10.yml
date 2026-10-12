@@ -492,3 +492,84 @@
   Traveler319:
   - rscadd: Sanguine heels can now hold knives.
   - code_imp: repathed Court Physician shoes to be a subtype of shoes/roguetown.
+2026-10-11:
+  Ryan180602:
+  - bugfix: lit objects lighting people on fire through armour when clicked
+  - bugfix: zigs needing a proper proc
+  borneblood:
+  - bugfix: fixed another oversight with bombs because I never fight void drakes normally,
+      sorry!
+  nauticall:
+  - image: Resprites donor weapons Darling and Aeternum.
+2026-10-12:
+  Acrepe:
+  - balance: Tweaked No Combat Role blacklist for Lite antagonists
+  BurpleBineapple:
+  - rscadd: Steel massive wrenches can be used with the Elegant Armory donor kit.
+  - rscadd: cynthia's donator wrench
+  - image: Adds icons for a steel massive wrench + cynthia's donator wrench
+  Etheo & TheGrendel:
+  - rscadd: Adds Fyritius Crown and Bouquet
+  - image: Sprites for Fyritius Crown and Bouquet by TheGrendel
+  FreeStylaLT:
+  - rscadd: Examine text for how long someone has been disconnected. Courtesy of Ratwood.
+  - bugfix: Fixed some players not being hearable in-game if they had ghost protection
+      toggled on.
+  KatTheFox:
+  - bugfix: Inhumen digestion once more properly allows organ eating without vomiting,
+      but you don't get the mood buff Graggarites do
+  - bugfix: Murklings no longer delete prosthetics on removal
+  - bugfix: You can now see who sent a letter upon opening it once more. It doesn't
+      get shown to the people around you, though.
+  - qol: Homesteaders now get a laborer's knife instead of a hunting knife, and a
+      dolabra instead of an iron pick.
+  Ketrai:
+  - balance: Zizo's pet cemetery is no longer a silent event.
+  OrbisAnima:
+  - balance: Makes a variant void dragon that doesnt drop the 4 dragon rings like
+      the summoning ritual onr and replaces it in the dunworld dungeon that has it
+      on the start of the game. (It already has a lot of loot surrounding  it)
+  Ryumi:
+  - rscadd: Cards decks and how they function have been completely reworked! Now featuring
+      better card hand functionality, rendering of your entire hands, the ability
+      to scry card decks, and more! Examine a card deck for more details on how to
+      use them.
+  - rscadd: Tarot cards can be reversed. Their chance to be reversed is determined
+      by a coin flip per card when tarot decks are shuffled.
+  - code_imp: Card decks can now be easily given variable sizes that allow coders
+      to make card decks that are double-sized, triple sized, etc.
+  - image: The card deck icon file have been split and re-organized entirely. Card
+      icon files are now organized by the card deck they're intended for. This allows
+      easier creation of new card decks, or even easy reskins of pre-existing ones.
+  Traveler319:
+  - bugfix: Duelist's Messer loadout now works properly.
+  WeNeedMorePhoron:
+  - bugfix: Character menu should no longer crash on Windows 7
+  - rscadd: Expanded the petty NPC bounty crime list
+  - rscdel: Removed National and Timeline, Noteworthy Concepts from the Lore Primer
+      that was contradicting our own wiki lore.
+  alaiaarcana:
+  - code_imp: Changed code relating to organ consumption to allow players with the
+      Inhumen Digestion trait to eat organs without vomiting. Standardized food preferences
+      for every species.
+  changelingonberry:
+  - rscadd: Better stat and dice rolling! Use the roll verbs in the emote tab or *dice,
+      *stat and *contested
+  - rscadd: Different stat colors
+  - config: add autostart and minimum flavor text config values
+  mumblemancer:
+  - bugfix: some status effect names should be more consistent
+  radarseas:
+  - image: added a bloodred recolored portal for graggar shit, dreamwalker keeps their
+      blue portal
+  - rscadd: graggar revival rift now uses its own icon'd portal instead of a re-colored
+      one w/ some sound effects, it also glows a bit now.
+  - balance: siege goblins recieved back their skills + higher int to fient better
+      + in the case of AI do specials
+  - balance: siege goblins once again have journeyman skills, fear them.
+  - balance: goblin portals now tochat, so you know when one spawns in front of you,
+      looking at only the chatbar.
+  - balance: cmode is now automatically enabled when spawning in as a portal goblin,
+      chances are you are already mid-fight anyway.
+  - qol: naming yourself as a goblin is moved to a 'spell' to spam you less w/ spawning
+      in prompts.
