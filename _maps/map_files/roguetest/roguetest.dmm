@@ -1807,9 +1807,9 @@
 	icon_state = "longtable_mid";
 	dir = 1
 	},
-/obj/item/rogueweapon/huntingknife/idagger/silver,
-/obj/item/rogueweapon/huntingknife/idagger/silver,
-/obj/item/rogueweapon/huntingknife/idagger/silver,
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver,
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver,
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors)
 "Wh" = (

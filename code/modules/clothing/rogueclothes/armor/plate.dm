@@ -764,7 +764,7 @@
 	item_state = "gcuirass"
 	icon_state = "gcuirass"
 
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
 	name = "psydonic chestplate"
 	desc = "A form-fitting steel cuirass with flutings of blessed silver. It is much lighter and agile than its contemporaries, but breaks \
 	with much more ease. In lieu of traditional padding, the underside is backed with thickly-woven silk to thwart deadlier blows."

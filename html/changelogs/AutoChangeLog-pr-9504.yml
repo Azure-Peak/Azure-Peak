@@ -1,0 +1,7 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "Reworked Pilgrim: changed base skills to Apprentice with softcap, reduced Journeyman skills to Apprentice, and restricted from commerce roles"
+  - balance: "Re-added Cunning Provisioner, but restricted them from commerce roles"
+  - balance: "Adjusted Skilled Chef: removed food bag, lowered starting Fishing and Cooking, and left Cooking max level to Journeyman"
+  - balance: "Skilled Chef now receives a pan and pot in their stash"

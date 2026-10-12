@@ -53,6 +53,7 @@
 		"Tools",
 		"Wardrobe",
 		"Zadpacks",
+		"Hunting Maps",
 	)
 	var/list/categories_gamer = list(
 		"Adventuring Supplies",
@@ -99,6 +100,7 @@
 		"Seeds",
 		"Tools",
 		"Weapons (Foreign)",
+		"Hunting Maps",
 	)
 	categories_gamer = list()
 

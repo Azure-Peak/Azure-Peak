@@ -1,0 +1,14 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Goat maps can be created using Apprentice literacy with three scrolls, a feather, and a hide"
+  - rscadd: "Goat maps can now be purchased at the merchant"
+  - rscadd: "Hunter class now receives a goat map"
+  - balance: "Replaced most hunting track goats with hostile tough goats"
+  - balance: "Tough goats yield increased fat and fur, but reduced sinew and meat"
+  - balance: "Replaced hunting saiga with far slower 'fatty saiga'"
+  - balance: "Fatty saiga remain the exclusive source of venison meat and drop additional fat"
+  - balance: "Reduced undead animal spawn rate in forests by 20% to aid hunting in high-risk areas"
+  - balance: "Max hunting trail length from 7 => 6 piles"
+  - balance: "Min hunting trail length from 5 => 4 piles (Expert-master)"
+  - qol: "Moved all maps into their own dedicated category"

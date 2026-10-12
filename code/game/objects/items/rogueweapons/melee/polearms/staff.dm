@@ -293,43 +293,36 @@
 	smeltresult = /obj/item/ingot/blacksteel
 	wdefense_wbonus = 7	//12 when wielded.
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/silver
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver
 	name = "silver quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian \
 	warscholars. Durable enough to catch-and-disarm avantyne to the shaft, without so much as a splinter - or so, they say."
-	force = 18
-	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 200
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/silver/ComponentInitialize()
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/psy
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy
 	name = "psydonic quarterstaff"
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs \
 	oft-carried by Naledian warscholars. Durable enough to catch avantyne to the shaft, without so much as a splinter - or so, they say."
-	force_wielded = 25
 	icon_state = "quarterstaff_silver"
-	max_integrity = 200
-	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
-	force = 18
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/psy/ComponentInitialize()
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/woodstaff/quarterstaff/psy/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
