@@ -946,11 +946,11 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// applied when you're affected by a miracle of the Four. makes you more likely to have a false positive on the INDEXER
 #define TRAIT_ASCENDENT_MIRACLED "ascendent_miracled"
 /// makes your footsteps completely silent
-#define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
+#define TRAIT_SILENT_FOOTSTEPS "Muffled Footsteps"
 /// reduces sharply the noise of failed lockpicking attempts
-#define TRAIT_SILENT_LOCKPICK "silent_lockpick"
+#define TRAIT_SILENT_LOCKPICK "Muffled Hands"
 /// makes you pick locks as if you are legendary and see in the darkness, BUT...
-#define TRAIT_GILDED_SIGHT "gilded_sight"
+#define TRAIT_GILDED_SIGHT "Gilded True Sight"
 
 //bodypart traits
 #define TRAIT_PARALYSIS	"paralysis" //Used for limb-based paralysis and full body paralysis
