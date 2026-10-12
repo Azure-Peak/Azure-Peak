@@ -1,6 +1,0 @@
-author: "Traveler319"
-delete-after: True
-changes:
-  - rscadd: "Classical and gladiator sandals can now hold knives."
-  - qol: "Footwear that can hold knives now have mechanics examines explaining this."
-  - refactor: "Boot sheathing now uses sheath components."

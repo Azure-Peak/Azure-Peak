@@ -748,3 +748,10 @@
 	desc = "Etruscan-designed leather-wrapped hooks with an actuating hinge. To clip things to other things."
 	icon_state = "belthooks"
 	// belt + empty onmob sprite = welcome to fashion 💀
+
+/obj/item/storage/backpack/rogue/satchel/tailchel
+	name = "tail satchel"
+	desc = "Modest, really easy on the shoulders since is tied to your tail, preferred by many to have freedom of movement while holds a respectable amount."
+	icon_state = "tailchel"
+	item_state = "tailchel"
+	icon = 'icons/roguetown/clothing/storage.dmi'

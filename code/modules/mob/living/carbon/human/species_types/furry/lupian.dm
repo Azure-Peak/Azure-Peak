@@ -24,7 +24,7 @@
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	use_skintones = TRUE
 	attack_verb = "slash"
-	liked_food = GROSS | MEAT | FRIED
+
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	possible_ages = ALL_AGES_LIST
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mta.dmi'

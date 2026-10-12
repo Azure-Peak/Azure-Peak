@@ -421,3 +421,155 @@
   - balance: Increases sexton slots from 2 to 3
   zeskorion:
   - bugfix: you can no longer breath without lungs
+2026-10-09:
+  Dorodomki:
+  - rscadd: 'Added new tail satchels + recipes + upgraded icon for the belt loincloth
+
+      cl:'
+  FeniaFox:
+  - rscadd: Added a new virtue 'Handily Prepared'. Gives novice skill in over a dozen
+      crafting/repair/utility skills if you lack it, and adds some basic stone tools/thorn
+      needle/whetstone to your stash. Does not raise any skill caps or do anything
+      not replaceable with some grinding.
+  Ketrai:
+  - rscadd: Painter heralds and voice classes now get the bleed paint trait. Leave
+      puddles of basic paint when you bleed.
+  - bugfix: Remove excessive GW straps from painter classes. (It's faster to sheathe
+      staffs on empty slots)
+  - balance: red abyssor paint friendly damage decreased from 8 to 6
+  - balance: red abyssor paint damage increased from 20 to 30, 10 second cooldown
+      between damage instances unaffected.
+  - balance: painter voice fishing skill novice => apprentice
+  - balance: painter voice miracle tier 3 => 4
+  - balance: painter voice perception bonus 0 => 2
+  - bugfix: red abyssor paint can now damage limbs correctly.
+  - rscadd: "Naledian cuisine, added d\xFCr\xFCms, markook, bulgur, and mujadara.\
+      \ Added to merchant, farmer roles, possible lootdrop for chefs."
+  Ollanius:
+  - bugfix: It should now be possible to take a Turban in the Loadout menu, instead
+      of being given a Loudmouth's Veil.
+  - bugfix: Kaskaras, ngombes, and other Arming Sword-specifics should NOW properly
+      render when two-handed. My bad.
+  Quinalion:
+  - rscadd: Thin Spectacles.
+  - rscadd: Silver knuckles can now be blessed while remaining clothing items.
+  - balance: Blessed knuckles now properly account for Psy and Ten damage multipliers.
+  - balance: Blessed knuckles now apply the appropriate type of Sunder on hit.
+  - rscdel: Removed weapon variants of silver knuckles and their morphing functionality.
+  - image: Made minor sprite tweaks to silver knuckles.
+  Ryan180602:
+  - bugfix: crestless gold mask has a snout variant now
+  - qol: zigs last longer.
+  - qol: zigs no longer go out in the rain or when standing in a body of water.
+  - balance: tools in the tool loadout category cost triumphs, now
+  ToasterStrudes:
+  - bugfix: fixes Lumpy Etruccino
+  Traveler319:
+  - rscadd: Hunter Apprentice now comes with 2 levels of Cooking.
+  - rscadd: Classical and gladiator sandals can now hold knives.
+  - qol: Footwear that can hold knives now have mechanics examines explaining this.
+  - refactor: Boot sheathing now uses sheath components.
+  WeNeedMorePhoron:
+  - rscadd: Added 30 herbal and blended drinks from Ochre Valley, credits to NickBelmont,
+      Toaster98 and Dragor for the original work. Some of them are attached to minor
+      stat buffs which are mutually exclusive with that of coffee and tea. They are
+      also added in a separate section in the Encyclopedia
+  borneblood:
+  - balance: Adjusted Pyromaniac's gear and stats to be an upgrade to Bombardier.
+  - bugfix: Lacrima now extracts pure lux from Aasimirs
+  - refactor: Refactored how Barter works, mostly added more soul to it. It should
+      feel like you're dealing with Matthios better now.
+2026-10-10:
+  KatTheFox:
+  - bugfix: The black mirror will no longer become "stuck" closed when you close it
+      while bloody
+  - qol: Eoran missionaries and acolytes now spawn with a rabbit mask in their bag
+      instead of on their face
+  - bugfix: The 'message familiar' spell now should work to track your dead familiar's
+      vestige in all cases.
+  - rscadd: The breathless may now give mouth-to-mouth, though not if they lack lungs
+      or are skeletons
+  Traveler319:
+  - rscadd: Sanguine heels can now hold knives.
+  - code_imp: repathed Court Physician shoes to be a subtype of shoes/roguetown.
+2026-10-11:
+  Ryan180602:
+  - bugfix: lit objects lighting people on fire through armour when clicked
+  - bugfix: zigs needing a proper proc
+  borneblood:
+  - bugfix: fixed another oversight with bombs because I never fight void drakes normally,
+      sorry!
+  nauticall:
+  - image: Resprites donor weapons Darling and Aeternum.
+2026-10-12:
+  Acrepe:
+  - balance: Tweaked No Combat Role blacklist for Lite antagonists
+  BurpleBineapple:
+  - rscadd: Steel massive wrenches can be used with the Elegant Armory donor kit.
+  - rscadd: cynthia's donator wrench
+  - image: Adds icons for a steel massive wrench + cynthia's donator wrench
+  Etheo & TheGrendel:
+  - rscadd: Adds Fyritius Crown and Bouquet
+  - image: Sprites for Fyritius Crown and Bouquet by TheGrendel
+  FreeStylaLT:
+  - rscadd: Examine text for how long someone has been disconnected. Courtesy of Ratwood.
+  - bugfix: Fixed some players not being hearable in-game if they had ghost protection
+      toggled on.
+  KatTheFox:
+  - bugfix: Inhumen digestion once more properly allows organ eating without vomiting,
+      but you don't get the mood buff Graggarites do
+  - bugfix: Murklings no longer delete prosthetics on removal
+  - bugfix: You can now see who sent a letter upon opening it once more. It doesn't
+      get shown to the people around you, though.
+  - qol: Homesteaders now get a laborer's knife instead of a hunting knife, and a
+      dolabra instead of an iron pick.
+  Ketrai:
+  - balance: Zizo's pet cemetery is no longer a silent event.
+  OrbisAnima:
+  - balance: Makes a variant void dragon that doesnt drop the 4 dragon rings like
+      the summoning ritual onr and replaces it in the dunworld dungeon that has it
+      on the start of the game. (It already has a lot of loot surrounding  it)
+  Ryumi:
+  - rscadd: Cards decks and how they function have been completely reworked! Now featuring
+      better card hand functionality, rendering of your entire hands, the ability
+      to scry card decks, and more! Examine a card deck for more details on how to
+      use them.
+  - rscadd: Tarot cards can be reversed. Their chance to be reversed is determined
+      by a coin flip per card when tarot decks are shuffled.
+  - code_imp: Card decks can now be easily given variable sizes that allow coders
+      to make card decks that are double-sized, triple sized, etc.
+  - image: The card deck icon file have been split and re-organized entirely. Card
+      icon files are now organized by the card deck they're intended for. This allows
+      easier creation of new card decks, or even easy reskins of pre-existing ones.
+  Traveler319:
+  - bugfix: Duelist's Messer loadout now works properly.
+  WeNeedMorePhoron:
+  - bugfix: Character menu should no longer crash on Windows 7
+  - rscadd: Expanded the petty NPC bounty crime list
+  - rscdel: Removed National and Timeline, Noteworthy Concepts from the Lore Primer
+      that was contradicting our own wiki lore.
+  alaiaarcana:
+  - code_imp: Changed code relating to organ consumption to allow players with the
+      Inhumen Digestion trait to eat organs without vomiting. Standardized food preferences
+      for every species.
+  changelingonberry:
+  - rscadd: Better stat and dice rolling! Use the roll verbs in the emote tab or *dice,
+      *stat and *contested
+  - rscadd: Different stat colors
+  - config: add autostart and minimum flavor text config values
+  mumblemancer:
+  - bugfix: some status effect names should be more consistent
+  radarseas:
+  - image: added a bloodred recolored portal for graggar shit, dreamwalker keeps their
+      blue portal
+  - rscadd: graggar revival rift now uses its own icon'd portal instead of a re-colored
+      one w/ some sound effects, it also glows a bit now.
+  - balance: siege goblins recieved back their skills + higher int to fient better
+      + in the case of AI do specials
+  - balance: siege goblins once again have journeyman skills, fear them.
+  - balance: goblin portals now tochat, so you know when one spawns in front of you,
+      looking at only the chatbar.
+  - balance: cmode is now automatically enabled when spawning in as a portal goblin,
+      chances are you are already mid-fight anyway.
+  - qol: naming yourself as a goblin is moved to a 'spell' to spam you less w/ spawning
+      in prompts.

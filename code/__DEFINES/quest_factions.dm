@@ -55,6 +55,12 @@
 #define CRIME_PETTY_BARREN_MOCK "petty_barren_mock"
 #define CRIME_PETTY_GUEST_WINE "petty_guest_wine"
 #define CRIME_PETTY_TOMBSTONE_INSULT "petty_tombstone_insult"
+#define CRIME_PETTY_LEWD_HERMES "petty_lewd_hermes"
+#define CRIME_PETTY_LEWD_GODS_ART "petty_lewd_gods_art"
+#define CRIME_PETTY_TELESCOPE_PEEPING "petty_telescope_peeping"
+#define CRIME_PETTY_BADGER_NOTICE "petty_badger_notice"
+#define CRIME_PETTY_HERMES_FISH "petty_hermes_fish"
+#define CRIME_PETTY_FALSE_HAMMERHOLD "petty_false_hammerhold"
 
 #define CRIME_BRIGANDAGE "brigandage"
 #define CRIME_ROAD_ROBBERY "road_robbery"

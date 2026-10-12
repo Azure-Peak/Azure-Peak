@@ -48,6 +48,21 @@ SUBSYSTEM_DEF(treasury)
 	var/list/merchant_agents = list()
 	var/list/bathhouse_agents = list()
 	var/list/church_agents = list()
+
+	/// Per-day mammon cap on Agents of the Bathhouse (writ holders) drawing from the bathhouse fund. Set by the Bathmaster.
+	var/bathhouse_agent_daily_withdraw_limit = BATHHOUSE_AGENT_DAILY_WITHDRAW_DEFAULT
+	/// Per-day mammon cap on bathhouse workers (attendants) drawing from the bathhouse fund. Set by the Bathmaster.
+	var/bathhouse_worker_daily_withdraw_limit = BATHHOUSE_WORKER_DAILY_WITHDRAW_DEFAULT
+	/// When TRUE, the Bathmaster has suspended all agent withdrawals from the bathhouse fund.
+	var/bathhouse_agent_withdrawals_suspended = FALSE
+	/// When TRUE, the Bathmaster has suspended all worker withdrawals from the bathhouse fund.
+	var/bathhouse_worker_withdrawals_suspended = FALSE
+	/// Amount each worker or agent has already drawn today, keyed by real_name. One shared
+	/// tally so someone who is somehow both worker and agent cannot double-dip.
+	var/list/bathhouse_withdrawals = list()
+	/// The in-game day bathhouse_withdrawals last reset on.
+	var/bathhouse_withdrawals_day = -1
+
 	var/banditry_debt = 0
 	var/treasury_state = TREASURY_NORMAL
 	var/treasury_debt = 0

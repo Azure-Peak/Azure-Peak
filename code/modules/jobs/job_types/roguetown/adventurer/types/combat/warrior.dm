@@ -174,7 +174,7 @@
 				l_hand = /obj/item/rogueweapon/sword/sabre
 				r_hand = /obj/item/rogueweapon/shield/buckler
 				beltr = /obj/item/rogueweapon/scabbard/sword
-			if("Steel Messer & Buckler")
+			if("Messer & Buckler")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/short/messer/duelist
 				r_hand = /obj/item/rogueweapon/shield/buckler
@@ -591,7 +591,7 @@
 			if("Silver Knuckledusters (+1 Athletics)")
 				if(H.age != AGE_OLD)
 					H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/knuckledusters/silver
+				r_hand = /obj/item/clothing/gloves/roguetown/knuckles/silver
 			if("Stake Launcher + 24 Shotstakes")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker
@@ -613,7 +613,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/long/broadsword/steel
 			if("Greatshield")
-				if(ispath(r_hand, /obj/item/rogueweapon/handclaw) || ispath(r_hand, /obj/item/rogueweapon/katar) || ispath(r_hand, /obj/item/rogueweapon/knuckledusters))
+				if(ispath(r_hand, /obj/item/rogueweapon/handclaw) || ispath(r_hand, /obj/item/rogueweapon/katar))
 					backr = /obj/item/rogueweapon/shield/tower/metal
 				else
 					l_hand = /obj/item/rogueweapon/shield/tower/metal

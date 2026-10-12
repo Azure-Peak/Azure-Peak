@@ -161,6 +161,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["combat_toggles"]		>> combat_toggles
 	S["ghost_toggles"]		>> ghost_toggles
 	S["admin_chat_toggles"]	>> admin_chat_toggles
+	S["admin_ghost_icon"]	>> admin_ghost_icon
 	S["clientfps"]			>> clientfps
 	S["ambientocclusion"]	>> ambientocclusion
 	S["auto_fit_viewport"]	>> auto_fit_viewport
@@ -215,6 +216,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	combat_toggles		= sanitize_integer(combat_toggles, 0, INFINITY, initial(combat_toggles))
 	ghost_toggles		= sanitize_integer(ghost_toggles, 0, INFINITY, initial(ghost_toggles))
 	admin_chat_toggles	= sanitize_integer(admin_chat_toggles, 0, INFINITY, initial(admin_chat_toggles))
+	if(admin_ghost_icon && !isicon(admin_ghost_icon))
+		admin_ghost_icon = null
 	chat_toggles		= sanitize_integer(chat_toggles, 0, INFINITY, initial(chat_toggles))
 	clientfps			= sanitize_integer(clientfps, 0, 1000, initial(clientfps))
 	musicvol			= sanitize_integer(musicvol, 0, 100, initial(musicvol))
@@ -329,6 +332,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["combat_toggles"], combat_toggles)
 	WRITE_FILE(S["ghost_toggles"], ghost_toggles)
 	WRITE_FILE(S["admin_chat_toggles"], admin_chat_toggles)
+	WRITE_FILE(S["admin_ghost_icon"], admin_ghost_icon)
 	WRITE_FILE(S["clientfps"], clientfps)
 	WRITE_FILE(S["ambientocclusion"], ambientocclusion)
 	WRITE_FILE(S["auto_fit_viewport"], auto_fit_viewport)

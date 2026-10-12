@@ -116,7 +116,7 @@
 	sort_category = "Shirts"
 
 /datum/loadout_item/straplessdress/alt
-	name = "Strapless Dress, alt"
+	name = "Strapless Dress, Alt"
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/alt
 	sort_category = "Shirts"
 

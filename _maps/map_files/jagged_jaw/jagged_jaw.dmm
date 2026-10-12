@@ -3131,7 +3131,7 @@
 	dir = 10
 	},
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/wood,
 /area/rogue/under/underdark/grim)
 "atI" = (
@@ -4569,7 +4569,7 @@
 /area/rogue/outdoors/rtfield/eora/grim)
 "aCc" = (
 /obj/structure/table/wood/poker,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/garrison/grim)
 "aCd" = (
@@ -5443,7 +5443,7 @@
 	dir = 1
 	},
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck/tarot{
+/obj/item/deck/tarot/includes_minor_arcana{
 	pixel_x = 9;
 	pixel_y = -2
 	},
@@ -6776,7 +6776,7 @@
 "aPP" = (
 /obj/structure/closet/crate/drawer,
 /obj/item/storage/pill_bottle/dice,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/licharena/grim)
 "aPS" = (
@@ -7709,7 +7709,7 @@
 "aVX" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/table/wood/betting,
-/obj/item/toy/cards/deck/syndicate,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
 "aVY" = (
@@ -10455,7 +10455,7 @@
 	pixel_x = 12;
 	pixel_y = 5
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = -3;
 	pixel_y = -11
 	},
@@ -15913,7 +15913,7 @@
 /area/rogue/indoors/town/garrison/grim)
 "bVr" = (
 /obj/structure/table/wood/large_table/north_west,
-/obj/item/toy/cards/deck/syndicate,
+/obj/item/deck/playing_cards,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/shelter)
 "bVs" = (
@@ -16067,7 +16067,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave/spider)
 "bWA" = (
-/obj/structure/roguemachine/vaultbank/bathhouse,
+/obj/item/clothing/ring/opal,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "bWB" = (
@@ -17981,6 +17981,11 @@
 /area/rogue/outdoors/town/grim)
 "ciO" = (
 /obj/item/clothing/ring/jade,
+/obj/effect/decal/carpet/kover_purple{
+	dir = 8;
+	pixel_y = -15;
+	pixel_x = -3
+	},
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "ciR" = (
@@ -20855,7 +20860,7 @@
 	lock_strength = 750
 	},
 /turf/open/floor/rogue/concrete,
-/area/rogue/outdoors/exposed/bath/vault)
+/area/rogue/indoors/town/bath/grim)
 "cCb" = (
 /obj/machinery/light/rogue/candle,
 /obj/structure/rack/rogue{
@@ -21485,7 +21490,7 @@
 /area/rogue/under/cave/his_vault)
 "cFL" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck/syndicate{
+/obj/item/deck/playing_cards{
 	pixel_y = 6
 	},
 /obj/machinery/light/rogue/candle,
@@ -24012,7 +24017,7 @@
 /area/rogue/under/cave/scarymaze)
 "cUi" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = -5;
 	pixel_y = 2
 	},
@@ -26439,6 +26444,13 @@
 /obj/effect/spawner/lootdrop/valuable_jewelry_spawner,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/cavewet/bogcaves/west)
+"diT" = (
+/obj/structure/roguemachine/bathvend,
+/obj/structure/roguewindow/harem3{
+	opacity = 1
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "diU" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grasscold,
@@ -31438,7 +31450,7 @@
 	pixel_y = 10
 	},
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 8;
 	pixel_y = 5
 	},
@@ -38851,7 +38863,7 @@
 /area/rogue/under/cave/orcdungeon)
 "eJY" = (
 /obj/structure/table/wood/large_table/north_west,
-/obj/item/toy/cards/deck/syndicate,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/woodturned,
 /area/rogue/under/underdark/north/grim)
 "eJZ" = (
@@ -43070,7 +43082,7 @@
 /obj/item/dice/d6{
 	pixel_x = -7
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 9;
 	pixel_y = -6
 	},
@@ -49327,7 +49339,7 @@
 /area/rogue/outdoors/town/grim)
 "fZY" = (
 /obj/structure/table/wood,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/magician)
 "fZZ" = (
@@ -52477,7 +52489,7 @@
 /area/rogue/indoors/town/grim)
 "gtu" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = -5;
 	pixel_y = 5
 	},
@@ -59130,7 +59142,7 @@
 /area/rogue/outdoors/town/grim)
 "hkh" = (
 /obj/structure/table/wood,
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 10;
 	pixel_y = -2
 	},
@@ -60367,9 +60379,6 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/beach/north/grim)
-"hqS" = (
-/turf/closed/wall/mineral/rogue/craftstone,
-/area/rogue/outdoors/exposed/bath/vault)
 "hqU" = (
 /obj/structure/fluff/walldeco/vinez/red,
 /turf/closed/wall/mineral/rogue/wooddark,
@@ -63512,6 +63521,13 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/garrison/grim)
+"hKA" = (
+/obj/structure/roguemachine/vaultbank/bathhouse,
+/obj/structure/roguewindow/harem3{
+	opacity = 1
+	},
+/turf/open/floor/rogue/churchbrick,
+/area/rogue/outdoors/exposed/bath/vault)
 "hKC" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -63638,9 +63654,47 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/cave/northern)
 "hLu" = (
-/obj/structure/closet/crate/chest/gold,
-/obj/item/roguegem/violet,
-/turf/open/floor/rogue/churchbrick,
+/obj/item/roguekey/bathworker{
+	lockid = "bath3";
+	name = "room III key"
+	},
+/obj/item/roguekey/bathworker{
+	lockid = "bath2";
+	name = "room II key"
+	},
+/obj/item/roguekey/bathworker{
+	lockid = "bath1";
+	name = "room I key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker4";
+	name = "locker IV key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker3";
+	name = "locker III key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker2";
+	name = "locker II key"
+	},
+/obj/item/roguekey{
+	icon_state = "brownkey";
+	lockid = "locker1";
+	name = "locker I key"
+	},
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightman";
+	name = "Spare Keys"
+	},
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "hLw" = (
 /obj/structure/fluff/walldeco/artificerflag,
@@ -63891,7 +63945,7 @@
 	opacity = 1
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
-/area/rogue/outdoors/exposed/bath/vault)
+/area/rogue/indoors/town/bath/grim)
 "hMK" = (
 /obj/machinery/light/rogue/torchholder{
 	pixel_y = 26
@@ -74946,6 +75000,9 @@
 	pixel_x = -32;
 	pixel_y = 0
 	},
+/obj/structure/roguemachine/headeater/treasureseeker{
+	pixel_y = -32
+	},
 /turf/open/floor/rogue/tile/harem,
 /area/rogue/indoors/town/bath/grim)
 "jcK" = (
@@ -81304,8 +81361,8 @@
 	lockid = "Cafe Key"
 	},
 /obj/item/storage/pill_bottle/dice,
-/obj/item/toy/cards/deck,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
+/obj/item/deck/playing_cards,
 /obj/item/storage/pill_bottle/dice/farkle,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/town/grim)
@@ -91138,12 +91195,22 @@
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors/town/physician)
 "lbE" = (
-/obj/item/reagent_containers/glass/cup/golden{
-	pixel_x = -8;
-	pixel_y = 6
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightman";
+	name = "Stash"
 	},
-/obj/item/clothing/ring/opal,
-/turf/open/floor/rogue/churchbrick,
+/obj/item/reagent_containers/powder/ozium,
+/obj/item/reagent_containers/powder/ozium,
+/obj/item/reagent_containers/powder/spice,
+/obj/item/reagent_containers/powder/spice,
+/obj/item/reagent_containers/powder/moondust,
+/obj/item/reagent_containers/powder/moondust,
+/obj/item/roguecoin/silver/pile,
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "lbF" = (
 /obj/structure/fluff/railing/border,
@@ -96445,7 +96512,7 @@
 "lJs" = (
 /obj/structure/fluff/railing/border/north,
 /obj/structure/table/wood/betting,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
 "lJt" = (
@@ -109627,7 +109694,7 @@
 /area/rogue/indoors/town/magician)
 "nri" = (
 /obj/structure/table/wood/large_table/south_west,
-/obj/item/toy/cards/deck/syndicate{
+/obj/item/deck/playing_cards{
 	pixel_y = 6
 	},
 /turf/open/floor/carpet/red,
@@ -111822,7 +111889,7 @@
 /obj/structure/table/wood{
 	icon_state = "largetable"
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 2;
 	pixel_y = 4
 	},
@@ -115351,7 +115418,7 @@
 /area/rogue/outdoors/town/roofs/keep/grim)
 "ocf" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 2;
 	pixel_y = 10
 	},
@@ -120087,7 +120154,7 @@
 	pixel_x = -9;
 	pixel_y = -1
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 7;
 	pixel_y = -4
 	},
@@ -122695,7 +122762,7 @@
 	pixel_x = -6;
 	pixel_y = -1
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 11;
 	pixel_y = 6
 	},
@@ -123380,11 +123447,11 @@
 /area/rogue/indoors/town/dwarfin)
 "paD" = (
 /obj/structure/table/wood/betting,
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 0;
 	pixel_y = 9
 	},
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/bath/grim)
 "paE" = (
@@ -132519,11 +132586,16 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
 "qdV" = (
-/obj/structure/roguewindow/harem3{
-	opacity = 1
+/obj/machinery/light/rogue/candle/blue,
+/obj/item/storage/roguebag,
+/obj/item/storage/roguebag,
+/obj/structure/closet/crate/roguecloset/dark{
+	keylock = 1;
+	locked = 1;
+	lockid = "nightman";
+	name = "Sacks"
 	},
-/obj/structure/roguemachine/bathvend,
-/turf/open/floor/rogue/tile/brownbrick/browner,
+/turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
 "qdX" = (
 /obj/structure/table/wood/poker,
@@ -143056,7 +143128,7 @@
 /area/rogue/indoors/town/church/chapel/grim)
 "rve" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/tavern/grim)
 "rvg" = (
@@ -145214,7 +145286,7 @@
 "rIu" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/grim)
 "rIy" = (
@@ -155718,7 +155790,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/grim/northeast)
 "sTQ" = (
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /obj/structure/table/wood/poor,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/tavern/grim)
@@ -156137,7 +156209,7 @@
 /area/rogue/outdoors/rtfield/grim/south)
 "sWm" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck/tarot,
+/obj/item/deck/tarot/includes_minor_arcana,
 /turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/outdoors/town/grim)
 "sWo" = (
@@ -164763,7 +164835,7 @@
 /area/rogue/outdoors/mountains/grim)
 "tXl" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 4;
 	pixel_y = -2
 	},
@@ -167141,6 +167213,10 @@
 /area/rogue/under/cave/his_vault)
 "umR" = (
 /obj/machinery/light/rogue/candle/blue/r,
+/obj/structure/lever/wall{
+	redstone_id = "bathhouse_shutter";
+	pixel_x = 16
+	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/bath/grim)
 "umS" = (
@@ -170722,8 +170798,12 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
 "uHw" = (
-/obj/structure/closet/crate/chest/gold,
-/turf/open/floor/rogue/churchbrick,
+/obj/structure/rack/rogue/shelf/biggest,
+/obj/item/clothing/ring/silver,
+/obj/machinery/light/rogue/candle/blue/r,
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "uHx" = (
 /obj/structure/closet/crate/roguecloset/inn/south,
@@ -173621,15 +173701,7 @@
 /area/rogue/indoors/town/grim)
 "uYH" = (
 /obj/structure/table/wood/poor,
-/obj/item/toy/cards/cardhand{
-	pixel_x = 12;
-	pixel_y = 2
-	},
-/obj/item/toy/cards/cardhand{
-	pixel_x = -10;
-	pixel_y = 3
-	},
-/obj/item/toy/cards/deck,
+/obj/item/deck/playing_cards,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/licharena/grim)
 "uYL" = (
@@ -174952,7 +175024,7 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/mountains/grim)
 "vgO" = (
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = -3;
 	pixel_y = 4
 	},
@@ -177753,7 +177825,7 @@
 	pixel_x = -6;
 	pixel_y = 12
 	},
-/obj/item/toy/cards/deck{
+/obj/item/deck/playing_cards{
 	pixel_x = 9;
 	pixel_y = 8
 	},
@@ -180834,8 +180906,16 @@
 /turf/open/floor/rogue/tile/brick,
 /area/rogue/outdoors/town/roofs/grim)
 "vQy" = (
-/obj/item/clothing/ring/silver,
-/turf/open/floor/rogue/churchbrick,
+/obj/structure/rack/rogue/shelf/biggest,
+/obj/item/reagent_containers/glass/cup/golden{
+	pixel_x = -8;
+	pixel_y = 6
+	},
+/obj/item/roguegem/violet,
+/obj/machinery/light/rogue/candle/blue/l,
+/turf/open/floor/rogue/churchbrick{
+	icon_state = "concretefloor1"
+	},
 /area/rogue/outdoors/exposed/bath/vault)
 "vQz" = (
 /obj/structure/fluff/railing/corner/south_west,
@@ -185472,13 +185552,8 @@
 /turf/open/floor/rogue/metal/barograte/open,
 /area/rogue/under/underdark/north/grim)
 "wtI" = (
-/obj/structure/lever{
-	redstone_id = "bathhouse_shutter";
-	name = "shutters";
-	pixel_x = -24;
-	pixel_y = -10
-	},
-/turf/open/floor/rogue/tile/harem,
+/obj/structure/roguemachine/rosewall,
+/turf/open/floor/rogue/tile/bluebrick,
 /area/rogue/indoors/town/bath/grim)
 "wtL" = (
 /obj/effect/landmark/quest_spawner/generic,
@@ -381503,11 +381578,11 @@ fCe
 pOJ
 dgT
 kPV
-hqS
-hqS
-hqS
-hqS
-hqS
+kPV
+kPV
+kPV
+kPV
+kPV
 qCC
 aRn
 aRn
@@ -381519,7 +381594,7 @@ aRn
 rvT
 mQN
 mQN
-wtI
+mQN
 nfv
 nHU
 nHU
@@ -381884,12 +381959,12 @@ pqi
 pqi
 pOJ
 dgT
-gdp
 hMJ
+diT
 bFe
 vQy
 hLu
-hqS
+kPV
 oDB
 axA
 jBu
@@ -382266,11 +382341,11 @@ pqi
 pqi
 pOJ
 dgT
-gdp
+kPV
 qdV
 ciO
-bWA
 aOb
+bWA
 cCa
 kyP
 ohb
@@ -382648,12 +382723,12 @@ lxI
 giZ
 pOJ
 dgT
-gdp
 hMJ
+hKA
 xPv
 uHw
 lbE
-hqS
+kPV
 vfP
 axA
 tnU
@@ -383030,12 +383105,12 @@ pqi
 pqi
 pOJ
 dgT
-gdp
-hqS
-hqS
-hqS
-hqS
-hqS
+kPV
+kPV
+kPV
+kPV
+kPV
+kPV
 qCC
 izl
 aRn
@@ -383049,7 +383124,7 @@ nno
 kPV
 kPV
 kPV
-nHU
+wtI
 nHU
 gIo
 kPV

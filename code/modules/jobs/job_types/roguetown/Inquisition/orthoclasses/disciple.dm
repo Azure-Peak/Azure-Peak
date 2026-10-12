@@ -73,7 +73,7 @@
 				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 			if("Knuckledusters")
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/knuckledusters/psy
+				gloves = /obj/item/clothing/gloves/roguetown/knuckles/psydon
 
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns

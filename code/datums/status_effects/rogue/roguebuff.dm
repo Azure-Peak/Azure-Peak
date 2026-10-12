@@ -2495,11 +2495,11 @@
 // https://en.wikipedia.org/wiki/Transparent_eyeball
 /atom/movable/screen/alert/status_effect/buff/transparent_eyeball
 	name = "Transparent Eyeball"
-	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_gamedeadsay("\n...I AM NOTHING, I SEE ALL.")
+	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_blue("\n...I AM NOTHING, I SEE ALL.")
 
 /datum/status_effect/buff/transparent_eyeball/on_apply()
 	. = ..()
-	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil-- scrying orbs will be easier to use, for a time!"))
+	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil. Scrying orbs will be easier to use for a time!"))
 
 /datum/status_effect/buff/transparent_eyeball/on_remove()
 	. = ..()

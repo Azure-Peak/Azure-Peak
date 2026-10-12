@@ -157,6 +157,20 @@
 	verbage_simple = "arranged"
 	verbage = "arranges"
 
+/datum/crafting_recipe/roguetown/survival/bouquet_fyritius
+	name = "fyritius bouquet"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/bouquet/fyritius
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 4,
+		/obj/item/natural/fibers = 2,
+		/obj/item/paper/scroll = 1,
+		)
+	craftdiff = 0
+	verbage_simple = "arranged"
+	verbage = "arranges"
+
 /datum/crafting_recipe/roguetown/survival/flowercrown_rosa
 	name = "rosa crown"
 	display_category = ITEM_CAT_GARMENT_COMMON
@@ -216,6 +230,19 @@
 	result = /obj/item/flowercrown/manabloom
 	reqs = list(
 		/obj/item/reagent_containers/food/snacks/grown/manabloom = 4,
+		/obj/item/natural/fibers = 2,
+		)
+	craftdiff = 0
+	verbage_simple = "tied"
+	verbage = "ties"
+
+/datum/crafting_recipe/roguetown/survival/flowercrown_fyritius
+	name = "fyritius crown"
+	display_category = ITEM_CAT_GARMENT_COMMON
+	category = "Clothes"
+	result = /obj/item/flowercrown/fyritius
+	reqs = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 4,
 		/obj/item/natural/fibers = 2,
 		)
 	craftdiff = 0

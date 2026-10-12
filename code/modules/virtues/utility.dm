@@ -456,3 +456,36 @@
 		if(hag_mind.current)
 			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a feybound, is walking the lands this week."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
+
+//Virtue to skip roundstart grind, but gives nothing unique on its own. Should never raise any skill caps, and should always have minimal monetary value.
+//Could add lumberjacking, fishing, engineering, ceramics down the line if a boost is desired.
+//Should never have combat skills or 'niche protected' skills like hunting, arcyne, miracles.
+/datum/virtue/utility/preperation
+	name = "Handily Prepared"
+	desc = "I've dabbled in the basics of many skills and trades, and make sure to always keep some improvised tools at hand."
+	ui_fa_icon = "hammer"
+	added_stashed_items = list(
+		"Whetstone" = /obj/item/natural/whetstone,
+		"Thorn Needle" = /obj/item/needle/thorn,
+		"Sack" = /obj/item/storage/roguebag,
+		"Stone Hammer" = /obj/item/rogueweapon/hammer/stone,
+		"Stone Knife" = /obj/item/rogueweapon/huntingknife/stoneknife,
+		"Stone Axe" = /obj/item/rogueweapon/stoneaxe,
+		"Stone Hoe" = /obj/item/rogueweapon/hoe/stone,
+		"Wood Spade" = /obj/item/rogueweapon/shovel/small
+		)
+	added_skills = list(list(/datum/skill/craft/crafting, 1, 1),
+						list(/datum/skill/craft/carpentry, 1, 1),
+						list(/datum/skill/craft/masonry, 1, 1),
+						list(/datum/skill/craft/sewing, 1, 1),
+						list(/datum/skill/craft/tanning, 1, 1),
+						list(/datum/skill/craft/blacksmithing, 1, 1),
+						list(/datum/skill/craft/weaponsmithing, 1, 1),
+						list(/datum/skill/craft/armorsmithing, 1, 1),
+						list(/datum/skill/craft/cooking, 1, 1),
+						list(/datum/skill/labor/butchering, 1, 1),
+						list(/datum/skill/misc/medicine, 1, 1),
+						list(/datum/skill/misc/athletics, 1, 1),
+						list(/datum/skill/misc/climbing, 1, 1),
+						list(/datum/skill/misc/swimming, 1, 1)
+	)

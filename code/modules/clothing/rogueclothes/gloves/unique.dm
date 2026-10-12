@@ -122,23 +122,9 @@
 /obj/item/clothing/gloves/roguetown/knuckles/psydon/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
+		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
-
-/obj/item/clothing/gloves/roguetown/knuckles/psydon/attack_self(mob/living/user)
-	. = ..()
-	user.visible_message(span_warning("[user] starts adjusting their grip on [src]."))
-	if(do_after(user, 3 SECONDS))
-		var/obj/item/clothing/gloves/roguetown/knuckles/psydon/P = new /obj/item/rogueweapon/knuckledusters/psy(get_turf(src.loc))
-		if(user.is_holding(src))
-			user.dropItemToGround(src)
-			user.put_in_hands(P)
-		P.obj_integrity = src.obj_integrity
-		qdel(src)
-	else
-		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
-		return
 
 /obj/item/clothing/gloves/roguetown/knuckles/silver
 	name = "silver knuckles"
@@ -151,45 +137,16 @@
 /obj/item/clothing/gloves/roguetown/knuckles/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
-		pre_blessed = BLESSING_TENNITE,\
+		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE\
 	)
-
-/obj/item/clothing/gloves/roguetown/knuckles/silver/attack_self(mob/living/user)
-	. = ..()
-	user.visible_message(span_warning("[user] starts adjusting their grip on [src]."))
-	if(do_after(user, 3 SECONDS))
-		var/obj/item/clothing/gloves/roguetown/knuckles/silver/P = new /obj/item/rogueweapon/knuckledusters/silver(get_turf(src.loc))
-		if(user.is_holding(src))
-			user.dropItemToGround(src)
-			user.put_in_hands(P)
-		P.obj_integrity = src.obj_integrity
-		qdel(src)
-	else
-		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
-		return
 
 /obj/item/clothing/gloves/roguetown/knuckles/psydon/old
 	name = "enduring knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, its holy blessing long since faded. You are HIS weapon, you needn't fear Aeon."
-	icon_state = "psyknuckle"
+	icon_state = "opsyknuckle"
 	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
-	color = COLOR_FLOORTILE_GRAY
-
-/obj/item/clothing/gloves/roguetown/knuckles/psydon/old/attack_self(mob/living/user)
-	. = ..()
-	user.visible_message(span_warning("[user] starts adjusting their grip on [src]."))
-	if(do_after(user, 3 SECONDS))
-		var/obj/item/clothing/gloves/roguetown/knuckles/psydon/old/P = new /obj/item/rogueweapon/knuckledusters/enduring(get_turf(src.loc))
-		if(user.is_holding(src))
-			user.dropItemToGround(src)
-			user.put_in_hands(P)
-		P.obj_integrity = src.obj_integrity
-		qdel(src)
-	else
-		user.visible_message(span_warning("[user] stops adjusting their grip on [src]."))
-		return
 
 /obj/item/clothing/gloves/roguetown/knuckles/psydon/old/ComponentInitialize()
 	return

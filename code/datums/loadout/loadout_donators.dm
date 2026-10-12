@@ -962,6 +962,11 @@
 	path = /obj/item/enchantingkit/weapon/kadedao
 	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
 
+/datum/loadout_item/donator/forgefiend_wrench
+	name = "Donator Kit - Forgefiend Wrench"
+	path = /obj/item/enchantingkit/weapon/forgefiend_wrench
+	ckeywhitelist = list("tamaya")
+
 /datum/loadout_item/donator/falling_star
 	name = "Donator Kit - Falling Star"
 	path = /obj/item/enchantingkit/weapon/falling_star
