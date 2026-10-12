@@ -321,7 +321,7 @@
 
 			else if(ispath(extra_choices[choice], /datum/skill)) // stacks on virtuous, intended behavior
 				var/skill_path = extra_choices[choice]
-				var/skill_rank = (skill_path == /datum/skill/misc/sneaking || skill_path == /datum/skill/misc/climbing) ? SKILL_LEVEL_JOURNEYMAN : SKILL_LEVEL_APPRENTICE
+				var/skill_rank = (skill_path == /datum/skill/misc/lockpicking || skill_path == /datum/skill/misc/climbing) ? SKILL_LEVEL_JOURNEYMAN : SKILL_LEVEL_APPRENTICE
 				recipient.adjust_skillrank(skill_path, skill_rank, silent = TRUE)
 
 			else if(ispath(extra_choices[choice], /obj/item))
