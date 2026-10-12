@@ -75,6 +75,8 @@
 	// So we'll assume anyone wearing three items or less is doing emotional roleplay.
 	if(target.contents && target.contents.len < 4)
 		return FALSE
+	if(istype(get_area(target), /area/rogue/indoors/town/bath))
+		return FALSE // no more bathhouse jumpscares, even if they're not naked that's awkward as hell
 	if(length(valid_roles))
 		if(target.mind.assigned_role in valid_roles)
 			return TRUE

@@ -42,6 +42,7 @@
 		/obj/item/rogueweapon/woodstaff/implement/greater/ruby,
 		/obj/item/rogueweapon/woodstaff/implement/greater/sapphire,
 		/obj/item/runicflask/charged,
+		/obj/item/natural/goathorn,
 	)
 
 	var/list/offenders = list()

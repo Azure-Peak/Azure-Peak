@@ -1580,7 +1580,7 @@
 		/obj/item/clothing/head/roguetown/crown/serpcrown,
 		/obj/item/clothing/head/roguetown/vampire,
 		/obj/item/scomstone,
-		/obj/item/rogueweapon/greatsword/psygsword,
+		/obj/item/rogueweapon/greatsword/silver/psy,
 		/obj/item/clothing/head/roguetown/circlet,
 		/obj/item/carvedgem,	//Some of these aren't particularly worth much, but it'd be REALLY unintuitive for "valuables" to not actually be offerings
 		/obj/item/rogueweapon/huntingknife/combat/jadekukri,

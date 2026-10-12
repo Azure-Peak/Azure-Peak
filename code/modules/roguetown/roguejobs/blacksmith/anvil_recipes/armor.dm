@@ -2097,7 +2097,7 @@
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed
 	additional_items = list(/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/blessedsilver/psycuirass
@@ -2112,35 +2112,35 @@
 	name = "Psydonic Armet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/greatplumearmetpsy
 	name = "Psydonic Greatplumed Armet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/psy/greatplume
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/greatplume
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmsallpsy
 	name = "Psydonic Sallet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/sallet
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmbucketpsy
 	name = "Psydonic Bucket Helm"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmvolfpsy
 	name = "Psydonic Volfskulle Bascinet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/psydonic
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmetabso
@@ -2148,7 +2148,7 @@
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed
 	additional_items = list(/obj/item/ingot/silverblessed, /obj/item/ingot/silverblessed)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/absolver/unblessed
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/absolver/unblessed
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/psyhalfplate
@@ -2181,7 +2181,7 @@
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	additional_items = list(/obj/item/natural/hide/cured)
-	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
+	created_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
 	display_category = ITEM_CAT_ARMOR_CHESTPIECES
 
 /datum/anvil_recipe/armor/blessedsilver/psycuirass/inq
@@ -2196,35 +2196,35 @@
 	name = "Psydonic Armet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/greatplumearmetpsy/inq
 	name = "Psydonic Greatplumed Armet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/psy/greatplume
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/greatplume
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmsallpsy/inq
 	name = "Psydonic Sallet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psysallet
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/sallet
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmvolfpsy/inq
 	name = "Psydonic Volfskulle Bascinet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/psydonic
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmbucketpsy/inq
 	name = "Psydonic Bucket Helm"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/helmetabso/inq
@@ -2232,7 +2232,7 @@
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	additional_items = list(/obj/item/ingot/silverblessed/bullion, /obj/item/ingot/silverblessed/bullion)
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/absolver/unblessed
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/absolver/unblessed
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/psyhalfplate/inq
