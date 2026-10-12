@@ -106,6 +106,10 @@ Drakian... Fluvian... Lupian... They're all wildkin, why do we bother giving the
 MATTHIOS, in his HUBRIS, believed he could create lyfe. After a hundred yils of grafting, what did we get? The Kobold.
 MATTHIOS, with his KNOWLEDGE, understood he could create lyfe. His second experiment - the Drakian.
 MATTHIOS, despite some CONFUSION, had no part in the creation of Zardmen.
+Matthios teaches his followers one thing first. No matter how pathetic, your lyfe has value. And mammon is meant to be spent.
+The champions of Matthios serve his avaricious drakkyr, that which feast upon wealth. Your loss is their gain.
+Before battle, open your mouth, insert the coin. Your enemies will cut you to pieces, leave your body to rot on the ground, but you'll be the one grinning in the afterlyfe.
+There is no such thing as Zommunism. We live in 1513.
 To trust an Abyssorite is to believe in Xylix. Since the first communion, his followers frequently fall to madness.
 Shal'ghur is a city only known by this name, denoted affectionately by creatures that dwell in Abyssor's dream. The shades of winding streets full of the damned reflected in his realm. A cautionary tale on the dangers of dream incursions.
 The mast buckles, as the ship is led through treacherous waters by Abyssorite under Astrata's gaze. Sleeping eyes giving way for the faithful of Noc, who continue their toil at nite.
@@ -208,6 +212,9 @@ Inspect tabards closely, they tend to bear the names of the wearer... or horribl
 When my tyme comes, tell me - will I stand up?
 One of the rarer flowers known to Psydonia is the black rosa, exclusively grown along the highlands that border Otava, Grenzelhoft, and the Fjall. They are believed to have mystical properties, especially when used to invoke rites for funerals and sacrifices.
 Littered across the Terrorbog are old pathways and ruined battlements; the remains of a doomed attempt to colonize that which refuses to kneel before civilization.
+Some itinerant worshipers of Dendor, or those under religious vows, have taken upon themselves to consume no meat. Some choose this lyfestyle merely to show how much better they are than you.
+Despite popular belief, Tieflings are not fyreproof.
+You can take the skeletons from the Lich Fortress. They're free.
 We don't go to the Terrorbog.
 Nocmas is the most cherished holidae amongst the elders and youth of Psydonia, where the harshest nites of the winter solstice are countered with freshly-baked pastries and freely-exchanged books. Naturally, the Holy Psydonic Inquisition has barred Nocmas from being practiced within Otava's borders, on the grounds of it 'corrupting the youth with unholy thoughts of progress.'
 Amongst many pre-Orthodoxic denominations of Psydonism, it is traditional to not invoke His name; for to do so outside of the gravest circumstances would be to dishonor His sacrifice. Instead, they honor Him as 'the Weeping God' - most adrently, through grand and elaborate rituals performed on the winter solstice.
@@ -225,6 +232,7 @@ Mount Decapitation is always blanketed in a thick layer of snow, owing to its el
 Strange dreams seem to trail all who inhabit Azuria. To hear someone remarking about a 'week' with unusual and unfortunate fates isn't uncommon, but one should be wary to discern whatever facts might've been laced into such fiction.
 Azuria cradles the remains of the Comet - and with it, the power to alter the very fate of Psydonia itself.
 Some say that the Psydonites of the future have created a machine that can traverse through tyme itself, in order to prevent the eternal darkness from coming to pass.
+The caress of the Devourer-Wyrm brings agony unimaginable, even to its suicidal adherents. They have merely grown numb to the pain.
 If you are staying in a wayside inn and two men force entry to your room? Kill them with your crossbow.
 The evil ZYDON sent down his COMET to destroy the GREAT WORM, and for thousands of yils you will pay the price.
 Fire is orange-red, and sometimes sylver-white. If you see any other colors of fire, please inform the Inquisition immediately.
@@ -233,6 +241,7 @@ The Azurian Peninsula once jutted far into the sea. The impact of the Comet Syon
 When the Arch-Devil emerged upon the surface of Psydonia, the daemons knelt, and all who viewed its consuming gaze bled fyre from their eyes, skulls scorched black from within. Seconds later, the Comet struck, granting peaceful oblivion.
 There is power that exists outside of Divine miracles and the Arcyne. The pinnacle of this is the 'Dictati', an imposing of one's will upon reality itself. There exist between three and ten living beings who can perform such a feat.
 In 1325, Saint Sarkis and High Ordinator Charlebois led a suicide mission to exterminate Dominus Dolores, leader of the Vheslynite Cult in Otava. The explosion that emanated from the monster's corpse levelled a village and the surrounding lands.
+What do you think happens when an Angel falls?
 Rumours spread from Grenzelhoftian spies that the Inquisition has developed a means of implanting one with artificial Lux, to work the arts of Absolution without danger to one's corporeal form. 
 Some Otavans worship the legendary Roi des Épines as the Son of Psydon himself. Most simply believe, but some have organized into the Disciples of the King, a group who await their Savior's return. They are known for their yellow robes.
 The Cult of the Depth-Drowned God, a Psydonic denomination, believes that Psydon lies in a coma beneath the waves, and that Saint-Abyssor is an extension of his wandering mynd. They clad themselves in the blue of the sea.
@@ -244,6 +253,8 @@ It was all a dream.. ?!
 I want to go back...!
 I hate you. I hate you. I hate you.
 I love you. I love you. I love you.
+Make decree.
+Set laws.
 Dwarves.
 Dwarves like to blow stuff up!
 You are a knave!
@@ -302,6 +313,7 @@ HEX. MAMMON. POWER.
 WILL SHE EVER FORGIVE ME?
 WILL YOU EVER FORGIVE ME?
 GOD WON'T FORGIVE ME, AND YOU WON'T FORGIVE ME?
+Nothing else matters. It's just you and me now. Let's end this.
 ETERNAL SHAME UNTO ME. I DESERVE THIS.
 Do you want to play as a lich's skeleton?
 PROGRESS DEMANDS SACRIFICE.
@@ -310,12 +322,14 @@ Relics of the Four are sanctified by their foul divinity; scorning and scorching
 Soldiers are often buried with a dagger in their hands, or on their chest, should the hands be missing.
 OH, YOU WON'T BELIEVE WHAT I NAMED THE WOODS FULL OF MURDER.
 OH, YOU WON'T BELIEVE WHAT I NAMED THE BOG FULL OF TERROR.
+OCHRE-VIOLET ENGULFS ME. SWEET DEATH, ONE LAST CARESS.
 Beware the Jabberwocky, my son.
 WE ARE THE LAST OF THE LEGION, THE BEST OF THE BASTERDS, AND SLAVES TO NONE!
 ROW, ROW, ROW YOU FOOLS!
 SALVE -- COAGULA -- SALVE -- COAGULA
 WITCHES PRACTICE THE NEW WAYS, NOT THE OLD.
 SHOW ME VHESLYN'S BODY.
+WHO IS THE DUKE THIS WEEK?
 DENDOR! FATHER! SPIRIT-GUIDE! LET ME -- VINDICATE MY PRIDE!
 FLESH OF GOD! SECOND SIGHT! KING OF BEASTS, BLESS THIS NITE!
 HEAR ITS CALL - THE MOOSE SEEKS YOUR CHALLENGE!
