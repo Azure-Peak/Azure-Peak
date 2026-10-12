@@ -413,7 +413,7 @@
 	name = "silver-reinforced quarterstaff"
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	category = "Tools"
-	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/silver)
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver)
 	reqs = list(
 		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
 		/obj/item/ingot/silver = 1,
@@ -425,7 +425,7 @@
 	name = "psydonic silver-reinforced quarterstaff"
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	category = "Tools"
-	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy)
 	reqs = list(
 		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
 		/obj/item/ingot/silverblessed = 1,
@@ -436,7 +436,7 @@
 /datum/crafting_recipe/roguetown/survival/quarterstaff_psydonic/bullion
 	name = "psydonic silver-reinforced quarterstaff (bullion)"
 	category = "Tools"
-	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy)
 	reqs = list(
 		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
 		/obj/item/ingot/silverblessed/bullion = 1,

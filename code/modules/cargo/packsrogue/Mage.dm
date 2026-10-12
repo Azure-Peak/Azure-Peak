@@ -116,7 +116,7 @@
 /datum/supply_pack/rogue/Mage/sdagger
 	name = "Silver Dagger"
 	cost = 100
-	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver)
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/silver)
 
 //////////////////
 // ✨ MAGIC ✨ //
