@@ -14,7 +14,7 @@
 	var/sheathe_time = 0.1 SECONDS
 	var/sheathe_sound = 'sound/foley/equip/scabbard_holster.ogg'
 	var/use_icons = TRUE
-
+	var/copy_sheathed_icon = FALSE
 
 /datum/component/holster/Destroy()
 	if(istype(parent, /obj/item/rogueweapon/scabbard))
@@ -195,6 +195,31 @@
 	if(istype(I, /obj/item/clothing/shoes/roguetown/boots))
 		I.getonmobprop(tag)
 		return
+	if(copy_sheathed_icon)
+		if(sheathed)
+			I.icon = sheathed.icon
+			I.icon_state = sheathed.icon_state
+			I.worn_x_dimension = 64
+			I.worn_y_dimension = 64
+			I.experimental_onback = TRUE
+			I.experimental_onhip = TRUE
+			if(sheathed.bigboy)
+				I.bigboy = TRUE
+		else
+			I.icon = initial(I.icon)
+			I.icon_state = initial(I.icon_state)
+			I.worn_x_dimension = initial(I.worn_x_dimension)
+			I.worn_y_dimension = initial(I.worn_y_dimension)
+			I.experimental_onback = FALSE
+			I.experimental_onhip = FALSE
+			I.bigboy = initial(I.bigboy)
+		I.update_slot_icon()
+		if(user)
+			user.update_inv_hands()
+			user.update_inv_back()
+			user.update_inv_belt()
+		I.getonmobprop(tag)
+		return
 	if(use_icons)
 		if(sheathed)
 			I.icon_state = "[initial(I.icon_state)]_[sheathed.sheathe_icon]"
@@ -204,6 +229,11 @@
 		I.update_slot_icon()
 
 	I.getonmobprop(tag)
+
+
+/datum/component/holster/strap
+	copy_sheathed_icon = TRUE
+	use_icons = FALSE
 
 /datum/component/holster/gwstrap
 	use_icons = FALSE
