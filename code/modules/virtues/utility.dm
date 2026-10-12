@@ -301,16 +301,16 @@
 		"Light Steps" = TRAIT_LIGHT_STEP,
 		"Silent Lockpicking" = TRAIT_SILENT_LOCKPICK,
 		"Alter Ego",
-		"Sneaking Skill (+1, min. Apprentice)" = /datum/skill/misc/sneaking,
-		"Climbing Skill (+1, min. Journeyman)" = /datum/skill/misc/climbing,
-		"Lockpick Skill (+1, min. Journeyman)" = /datum/skill/misc/lockpicking,
+		"Sneaking Skill (+2, max. Legendary)" = /datum/skill/misc/sneaking,
+		"Climbing Skill (+3, max. Legendary)" = /datum/skill/misc/climbing,
+		"Lockpick Skill (+3, max. Legendary)" = /datum/skill/misc/lockpicking,
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
+		"Stashed Sack" = /obj/item/storage/roguebag,
 		)
 
 /datum/virtue/utility/prowler/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
 	if(triumph_check(recipient))
-
 		for(var/choice in picked_choices)
 
 			if(extra_choices[choice] in GLOB.roguetraits) // for virtuous, or if we are already a race with darksight so this isn't a dead virtue option
@@ -319,14 +319,10 @@
 				else
 					ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
 
-			else if(ispath(extra_choices[choice], /datum/skill)) // this is better and more balanced than the previous, sets a minimum floor, or if that floor's there, just add +1. Also works with virtuous.
+			else if(ispath(extra_choices[choice], /datum/skill)) // stacks on virtuous, intended behavior
 				var/skill_path = extra_choices[choice]
-				var/minimum_rank = (skill_path == /datum/skill/misc/sneaking || skill_path == /datum/skill/misc/climbing) ? SKILL_LEVEL_JOURNEYMAN : SKILL_LEVEL_APPRENTICE
-				var/current_rank = recipient.get_skill_level(skill_path)
-				if(current_rank < minimum_rank)
-					recipient.adjust_skillrank_up_to(skill_path, minimum_rank, silent = TRUE)
-				else
-					recipient.adjust_skillrank(skill_path, 1, silent = TRUE)
+				var/skill_rank = (skill_path == /datum/skill/misc/sneaking || skill_path == /datum/skill/misc/climbing) ? SKILL_LEVEL_JOURNEYMAN : SKILL_LEVEL_APPRENTICE
+				recipient.adjust_skillrank(skill_path, skill_rank, silent = TRUE)
 
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
