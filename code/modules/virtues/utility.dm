@@ -294,7 +294,7 @@
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
 		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab).",
 		"Silent Lockpicking" = "My hands work silently upon locks, making very minor noise while picking them. Unfortunately, the doors and chests themselves may still creak loudly once unlocked successfully.",
-		"Darksight" = "My eyes are well accustomed to the dark. Should I already possess such a trait, this virtue will sharpen my darksight further, allowing me to see better in the dark.",
+		"Darksight" = "My eyes are well accustomed to the dark, letting me somewhat see where normal people would require a light source.",
 	)
 	extra_choices = list(
 		"Darksight" = TRAIT_DARKVISION,
