@@ -15,7 +15,7 @@
 /obj/structure/roguemachine/atm/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click with an open hand to check your personal account. If you don't already have an account, left-clicking the MEISTER will make one for you with a single mechanical jab.")
-	. += span_info("Deposits are safe from taxation. Income taxes apply at the moment mammon is earned - contract completions, headeater turn-ins, and other Crown-levied events.")
+	. += span_info("Money in your account is never taxed. The Crown takes its levies when you earn. Contract payouts and headeater deliveries are both levied.")
 
 /obj/structure/roguemachine/atm/attack_hand(mob/user)
 	if(!ishuman(user))
@@ -23,7 +23,7 @@
 	var/mob/living/carbon/human/H = user
 	if(HAS_TRAIT(user, TRAIT_OUTLAW) || HAS_TRAIT(user, TRAIT_TECHNOPHOBE))
 		if(HAS_TRAIT(user, TRAIT_OUTLAW))
-			to_chat(H, span_warning("The machine rejects you, sensing your status as an outlaw in these lands."))
+			to_chat(H, span_warning("The machine senses that you are an outlaw in these lands and rejects you."))
 		else
 			to_chat(H, span_warning("Why would I?"))
 		return
@@ -41,7 +41,7 @@
 				say("Blueblood for the Freefolk!")
 				playsound(src, 'sound/vo/mobs/ghost/laugh (5).ogg', 100, TRUE)
 				return
-		to_chat(H, span_warning("The MEISTER's mouth gapes wide and chewed - it cannot serve while drilled."))
+		to_chat(H, span_warning("The MEISTER's mouth hangs open and mangled. It can't serve you while it is being drilled."))
 		return
 	if(!SStreasury.has_account(H))
 		to_chat(user, span_warning("The machine bites my finger."))
@@ -127,14 +127,14 @@
 	. += span_smallnotice("Crown levies - Contract: [round(SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY) * 100)]%, Headeater: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%, Import: [round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * 100)]%, Export: [round(SStreasury.get_tax_rate(TAX_CATEGORY_EXPORT_DUTY) * 100)]%")
 	var/datum/decree/concordat = SStreasury.get_decree(DECREE_ZENITSTADT_CONCORDAT)
 	if(concordat?.active)
-		. += span_smallnotice("Concordat of Zenitstadt: [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed transaction is tithed to the Church of Azuria, drawn from the Crown's share.")
+		. += span_smallnotice("Under the Concordat of Zenitstadt, the Church of Azuria takes [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed payment out of the Crown's share.")
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/poll_category = SStreasury.get_poll_tax_category(H)
 		if(poll_category)
 			var/pretty = SStreasury.get_poll_tax_category_pretty_name(poll_category)
 			if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
-				. += span_smallnotice("Poll tax ([pretty]): exempt by decree")
+				. += span_smallnotice("Poll tax ([pretty]): exempt by Charter")
 			else
 				var/rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
 				if(rate > 0)
@@ -150,7 +150,7 @@
 		return
 	if(SStreasury.discretionary_fund.balance <50)
 		new /obj/item/coveter(loc)
-		loc.visible_message(span_warning("The Crown grinds to a halt as the last of the treasury spills from the meister!"))
+		loc.visible_message(span_warning("The Crown grinds to a halt as the last of the Treasury spills from the meister!"))
 		playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
 		icon_state = "atm"
 		drilling = FALSE
@@ -173,8 +173,8 @@
 		playsound(src, 'sound/misc/TheDrill.ogg', 70, TRUE)
 		spawn(100) // The time it takes to complete an interval. If you adjust this, please adjust the sound too. It's 'about' perfect at 100. Anything less It'll start overlapping.
 			loc.visible_message(span_warning("The meister spills its bounty!"))
-			SStreasury.burn(SStreasury.discretionary_fund, 20, "ATM drill - Freefolk")
-			record_treasury_expense(TREASURY_FLOW_MISC, "ATM Drill", 20)
+			SStreasury.burn(SStreasury.discretionary_fund, 20, "Meister drilled - Freefolk")
+			record_treasury_expense(TREASURY_FLOW_MISC, "Meister drilled", 20)
 			mammonsiphoned += 20
 			budget2change(20, null, "SILVER")
 			playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
@@ -195,7 +195,7 @@
 
 /obj/item/coveter
 	name = "Covetous Crown"
-	desc = "A Crown which craves the brow of miesters and the vault's jawbank; it could be also be mounted upon a restrained person's head to drain their miester account in a pinch."
+	desc = "A Crown that craves the brow of meisters and the vault's jawbank. It can also be mounted upon a restrained person's head to drain their meister account in a pinch."
 	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = "crown_object"
 	force = 10
@@ -217,7 +217,7 @@
 	if(!proximity_flag)	//Not adjacent
 		return
 	if(!ishuman(target)) //We're not robbing goats with this
-		to_chat(user, span_warning("You can't rob a non-humen with this!!"))
+		to_chat(user, span_warning("You can only rob humen with this!!"))
 		return
 	if(is_active)		//We're already draining
 		to_chat(user, span_warning("It's already extracting!"))
@@ -242,7 +242,7 @@
 				return
 			var/turf/T = get_turf(H)
 			var/sum
-			var/choice = alert(user,"How would you like to take it? Fast and Loud or Slow and Quiet?","CHOOSE","Fast","Slow","Nevermind")
+			var/choice = alert(user,"How would you like to take it? Fast and Loud or Slow and Quiet?","CHOOSE","Fast","Slow","Never mind")
 			switch(choice)
 				if("Fast")
 					is_active = TRUE
@@ -256,7 +256,7 @@
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 25))
 							var/coins = floor(min(fast_drain, SStreasury.get_balance(H)) / 10)
-							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Coveter Crown - Freefolk"))
+							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Covetous Crown - Freefolk"))
 								playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
 								is_active = FALSE
 								to_chat(H,span_info("<font color ='red'>You feel very drained.</font>"))
@@ -282,7 +282,7 @@
 					needed_cycles = round(SStreasury.get_balance(H) / slow_drain)
 					if(needed_cycles == 0)	//If you have less than 10 mammon, you'll still get drained at least once.
 						needed_cycles = 1
-					user.visible_message(span_warn("[user] carefully and methodically aligns \the [src] with [H]'s forehead..."))
+					user.visible_message(span_warn("[user] slowly aligns \the [src] with [H]'s forehead..."))
 					to_chat(H,span_info("Tiny claws prick into your head. There's a trickling warmth running down your cheeks."))
 					playsound(H, 'sound/gore/flesh_eat_01.ogg', 100)
 					var/obj/item/bodypart/head = H.get_bodypart(BODY_ZONE_HEAD)
@@ -292,7 +292,7 @@
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 10))
 							var/coins = floor(min(slow_drain, SStreasury.get_balance(H)) / 10)
-							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Coveter Crown - Freefolk"))
+							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Covetous Crown - Freefolk"))
 								is_active = FALSE
 								if(sum)
 									send_ooc_note("A parasite of the Freefolk has siphoned [H.real_name] of [sum] from the Nervemaster's veins.", job = list("Grand Duke", "Steward", "Clerk"))

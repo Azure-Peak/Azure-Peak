@@ -84,6 +84,11 @@
 	path = /obj/item/clothing/head/roguetown/hatfur
 	sort_category = "Hats"
 
+/datum/loadout_item/furheadband
+	name = "Fur Headband"
+	path = /obj/item/clothing/head/roguetown/headband/fur
+	sort_category = "Hats"
+
 /datum/loadout_item/smokingcap
 	name = "Smoking Cap"
 	path = /obj/item/clothing/head/roguetown/smokingcap
@@ -148,7 +153,6 @@
 	name = "Gray Flower Crown"
 	path = /obj/item/flowercrown/rosa/dyecrown
 	sort_category = "Hats"
-
 
 /datum/loadout_item/salvia_crown
 	name = "Salvia Crown"
@@ -222,7 +226,7 @@
 
 /datum/loadout_item/turban
 	name = "Turban"
-	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
+	path = /obj/item/clothing/head/roguetown/turban
 	sort_category = "Hats"
 
 /datum/loadout_item/duelisthat

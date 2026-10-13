@@ -230,6 +230,10 @@
 			prob2defend -= 40
 			ignore_DE_bonus = TRUE
 
+		if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/staggered))
+			prob2defend *= 0.5
+			ignore_DE_bonus = TRUE
+
 		if(defender.has_status_effect(/datum/status_effect/debuff/hamstring))
 			prob2defend -= 20
 			ignore_DE_bonus = TRUE

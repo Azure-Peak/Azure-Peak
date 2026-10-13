@@ -164,30 +164,24 @@
 	is_silver = TRUE
 	force = 25
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish, /datum/intent/flail/smash/ranged/psywhip)
-	minstr = 11
+	minstr = 9
 	wdefense = 0
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/silver
+	max_integrity = 350
 
 /obj/item/rogueweapon/whip/antique/psywhip/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 100,\
-		added_def = 0,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/whip/silver
 	name = "silver whip"
 	desc = "A hefty, silver whip. The uncoiled leather is tipped with a silver barb, which can sunder the blighted from a remarkable distance. </br>'Die, monster! You don't belong in this world!'"
 	icon_state = "silverwhip"
-	force = 23 //Experimental change - adds a +2 to force, as a bridge between handweapons and blunt weapons. Higher strength minimum. Do not raise above 25, unless you want to resurrect maille-shatterers.
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
-	minstr = 11
-	wdefense = 0
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
@@ -195,42 +189,40 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 0,\
+		silver_type = SILVER_TENNITE\
 	)
+
+/obj/item/rogueweapon/whip/cleric
+	name = "anointed whip"
+	desc = "A crusader's whip, adorned with a tip of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
+	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes."
+	icon_state = "crusaderwhip"
+	force = 23
+	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
+	minstr = 9
+	max_integrity = 300 //+50
+	smeltresult = /obj/item/ingot/iron
+	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
 /obj/item/rogueweapon/whip/psywhip_lesser
 	name = "psydonic whip"
 	desc = "An ornate whip, plated in a ceremonial veneer of silver. Crack the leather and watch as the apostates clammer aside."
 	icon_state = "psywhip_lesser"
 	possible_item_intents = list(/datum/intent/whip/lash/master, /datum/intent/whip/crack, /datum/intent/whip/punish)
-	force = 23
-	minstr = 11
-	wdefense = 0
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
+	minstr = 9
 
 /obj/item/rogueweapon/whip/psywhip_lesser/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 0,\
+		silver_type = SILVER_PSYDONIAN\
 	)
 
 /obj/item/rogueweapon/whip/psywhip_lesser/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 50,\
-		added_def = 0,\
+		silver_type = SILVER_PSYDONIAN\
 	)

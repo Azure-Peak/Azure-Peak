@@ -146,7 +146,7 @@
 	owner.adjustCloneLoss(-healing_strength, 0)
 
 /atom/movable/screen/alert/status_effect/buff/pestra_care
-	name = "Pestra's embrace"
+	name = "Pestra's Embrace"
 	desc = "It's like something is wriggling around inside of me, but it's making me feel better..."
 	icon_state = "buff"
 
@@ -208,7 +208,7 @@
 	examine_text = "SUBJECTPRONOUN is surrounded by an ominous aura of disease."
 
 /atom/movable/screen/alert/status_effect/black_rot_carrier
-	name = "Pestra's blessing"
+	name = "Pestra's Blessing"
 	desc = "I carry Pestra's blessing, people should avoid my touch."
 
 /datum/status_effect/black_rot_debility

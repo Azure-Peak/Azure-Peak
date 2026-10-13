@@ -28,7 +28,7 @@
 	choice_tooltips = list(
 		SKILLED_BSMITH	= "Grants Expert Forgehand. Weaponsmithing, Armorsmithing, Blacksmithing and Smelting raised to Apprentice. Stashed Hammer and Tongs.",
 		SKILLED_TAILOR	= "Grants Expert Clothier. Butchering, Tanning raised to Apprentice. Sewing raised to Journeyman. Stashed Needle & Scissors.",
-		SKILLED_HUNTER	= "Grants Expert Survivalist. Trapping, Tracking, Butchering, Sewing and Tanning raised to Apprentice.",
+		SKILLED_HUNTER	= "Grants Expert Survivalist. Trapping, Tracking, Butchering, Sewing, Hunting, Cooking and Tanning raised to Apprentice.",
 		SKILLED_PHYS	= "Grants Expert Physicker and Alchemist. Alchemy and Medicine raised to Apprentice. Grants secular diagnose, a stashed medicine pouch and an improvised surgery kit.",
 		SKILLED_COOK	= "Grants Homesteader, Cicerone and Seed Known. Cooking and Fishing are raised by three and two levels respectively, then Farming, Butchering raised to Apprentice. Stashed hoe and bag with food, fishing rod and frying pan.",
 		SKILLED_ARTIF	= "Grants Expert Forgehand. Carpentry, Masonry, Engineering, Smelting and Ceramics raised to Apprentice. Stashed Hammer, Chisel and Hand Saw.",
@@ -72,6 +72,7 @@
 				added_skills.Add(list(list(/datum/skill/craft/sewing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/tanning, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/misc/hunting, 2, 2)))
+				added_skills.Add(list(list(/datum/skill/craft/cooking, 2, 2)))
 				added_traits.Add(TRAIT_SURVIVAL_EXPERT, TRAIT_MASTERFUL_HUNTER)
 			if(SKILLED_PHYS)
 				added_skills.Add(list(list(/datum/skill/craft/alchemy, 2, 2)))

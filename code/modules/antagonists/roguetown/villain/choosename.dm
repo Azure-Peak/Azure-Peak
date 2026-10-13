@@ -25,11 +25,6 @@
 			return
 	GLOB.chosen_names -= old_name
 	GLOB.chosen_names += real_name
-	if(mind.special_role == "Methuselah")
-		if(gender == FEMALE)
-			real_name = "Lady [real_name]"
-		if(gender == MALE)
-			real_name = "Lord [real_name]"
 	if(mind.special_role == "Lich")
 		mind.current.faction += "[real_name]_faction"
 

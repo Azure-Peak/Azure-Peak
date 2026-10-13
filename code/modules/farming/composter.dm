@@ -128,7 +128,7 @@
 			to_chat(user, span_warning("There's too much compost!"))
 			return
 		var/success
-		for(var/obj/item/bagged_item in attacking_item.contents)
+		for(var/obj/item/bagged_item in attacking_item.held_contents())
 			if(try_handle_adding_compost(bagged_item, user, params))
 				success = TRUE
 				if(get_total_compost() >= MAXIMUM_TOTAL_COMPOST)

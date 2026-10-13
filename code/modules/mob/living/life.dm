@@ -36,8 +36,7 @@
 	if(!loc)
 		return
 
-	//Breathing, if applicable - CURRENTLY NOT IMPLEMENTED
-	//handle_breathing(times_fired)
+	handle_breathing()
 
 	// SIMPLE WOUNDS
 	if(HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
@@ -172,6 +171,19 @@
 				extinguish_mob()
 			return
 	. =..()
+
+/mob/living/proc/handle_breathing()
+	return TRUE
+
+/mob/living/carbon/handle_breathing()
+	if(HAS_TRAIT(src, TRAIT_NOBREATH))
+		return TRUE
+	var/obj/item/organ/lungs/lung = getorganslot(ORGAN_SLOT_LUNGS)
+	if(!lung || (lung.organ_flags & ORGAN_FAILING))
+		adjustOxyLoss(5)
+		emote("choke")
+		return FALSE
+	return TRUE
 
 /mob/living/proc/DeadLife()
 	set invisibility = 0

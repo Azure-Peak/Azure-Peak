@@ -54,9 +54,9 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	gloves = /obj/item/clothing/gloves/roguetown/knuckles
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
+					/obj/item/clothing/gloves/roguetown/knuckles = 1,
 					/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 					/obj/item/lockpickring/mundane = 1,
 					/obj/item/clothing/head/inqarticles/blackbag = 1,

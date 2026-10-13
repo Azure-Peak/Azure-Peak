@@ -2,6 +2,8 @@ export type ExaminePanelData = {
   // Identity
   character_name: string;
   headshot: string;
+  artist_credit: string | null;
+  artist_link: string | null;
   obscured: boolean;
   // Descriptions
   flavor_text: string;

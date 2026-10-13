@@ -480,11 +480,20 @@
 	flags_inv = null
 
 /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/burgeonet
-	name = "gothic burgeonet"
+	name = "gothic burgonet"
 	desc = "A magnificent steel helmet, and the newest of the venerable armet's lineage. The intricate fluting serves as a clear sign of its \
 	Grenzelhoftian heritage; ornate, but not obnoxiously so."
 	item_state = "burgeonet"
 	icon_state = "burgeonet"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/sallet/burgeonet
+	name = "gothic burgonet"
+	desc = "A magnificent steel helmet, unburdening to one's guise. The intricate fluting serves as a clear sign of its \
+	Grenzelhoftian heritage; ornate, but not obnoxiously so."
+	item_state = "burgeonet_t"
+	icon_state = "burgeonet_t"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 
@@ -1594,6 +1603,13 @@
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
 
+/obj/item/rogueweapon/contraption/linker/mace/big/steel/donator_elegant
+	name = "elegant wrench"
+	desc = "An elegant wrench for an elegant artificer."
+	icon_state = "donatorwrench"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+
 //
 
 /obj/item/rogueweapon/donator_imbuedlongsword
@@ -2246,6 +2262,15 @@ As Excaliber."
 	worn_y_dimension = 64
 	bloody_icon = 'icons/effects/blood64.dmi'
 
+/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull/dakken/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dakken/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor/dakken/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/rogueweapon/sword/dakken_sword
 	name = "avantyne-threaded sword"
 	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
@@ -2253,12 +2278,18 @@ As Excaliber."
 	icon_state = "alloybsword_32"
 	sheathe_icon = "alloybsword"
 
+/obj/item/rogueweapon/sword/dakken_sword/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
+
 /obj/item/rogueweapon/sword/long/dakken_longsword
 	name = "avantyne-threaded longsword"
 	desc = "'Threads of dark metal wind through what was formerly a simple steel blade. Cracks and chips are filled in as the weapon of war is reshaped into a symbol of faith.'"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	icon_state = "alloyblongsword"
 	sheathe_icon = "alloybsword"
+
+/obj/item/rogueweapon/sword/long/dakken_longsword/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_ZIZO_AVANTYNE)
 
 /obj/item/rogueweapon/spear/boar/frei/pike/stinketh
 	name = "Kindness of Ravens Standard"
@@ -4806,3 +4837,13 @@ As Excaliber."
 	icon_state = "radiantgoldmask"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// CYNTHIA
+/obj/item/rogueweapon/example/forgefiend_wrench
+	name = "forgefiend wrench"
+	desc = "Created through means of alloying known only to some families of the Hammerholdian Guild of Craft, the Sun-Scorched Brass of this massive tool seems to resonate vacantly with the user - loosening and tightening with ease, when the going gets tough.<br><i>Now, in a fancy-red handlebar, for the added price of custom fitting!</i>"
+	icon_state = "cynthiawrench"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	bigboy = TRUE

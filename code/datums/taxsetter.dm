@@ -1,6 +1,6 @@
 /datum/taxsetter
-	var/good_announcement_text = "The Generous Lord Decrees"
-	var/bad_announcement_text = "The Tyrannical Lord Dictates"
+	var/good_announcement_text = "The Generous Grand Duke Decrees"
+	var/bad_announcement_text = "The Tyrannical Grand Duke Dictates"
 
 /datum/taxsetter/New(good_announcement_text = null, bad_announcement_text = null)
 	. = ..()
@@ -59,6 +59,7 @@
 		"pollTaxRates" = poll_tax_rates_out,
 		"pollTaxMax" = POLL_TAX_MAX_RATE,
 		"pollTaxMin" = -POLL_TAX_MAX_SUBSIDY,
+		"concordatFloor" = round(CONCORDAT_TITHE_RATE * 100),
 	)
 
 /datum/taxsetter/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

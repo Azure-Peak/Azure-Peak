@@ -1,7 +1,7 @@
 //A skill to help hunters scare away woodland threats
 /obj/effect/proc_holder/spell/invoked/huntersyell
 	name = "Hunter's Yell"
-	desc = "I Yell out, driving away forest animals, this is from my experience living on these lands and hunting so long. This won't work on more intelligent creatures"
+	desc = "I yell out, driving away forest animals! This won't work on more intelligent creachers."
 	overlay_state = "tamebeast"
 	releasedrain = 50
 	chargedrain = 0
@@ -15,7 +15,7 @@
 
 /obj/effect/proc_holder/spell/invoked/huntersyell/cast(list/targets, mob/living/user)
 	. = ..()
-	visible_message(span_green("[usr] lets out a mighty yelp, driving away near by animals"))
+	visible_message(span_green("[usr] lets out a mighty yelp, driving away nearby animals!"))
 	var/scared = FALSE
 	for(var/mob/living/simple_animal/hostile/retaliate/animal in get_hearers_in_view(7, usr))
 		//if((animal.mob_biotypes & MOB_UNDEAD))
@@ -28,5 +28,5 @@
 				animal.ai_controller.set_blackboard_key(BB_BASIC_MOB_FLEEING, TRUE)
 				animal.ai_controller.set_blackboard_key(BB_BASIC_MOB_NEXT_FLEEING, world.time + 10 SECONDS)
 			user.emote("warcry")
-			to_chat(usr, "with the yell, the [animal] flees from you.")
+			to_chat(usr, "The [animal.name] flees from your bellow!")
 	return scared

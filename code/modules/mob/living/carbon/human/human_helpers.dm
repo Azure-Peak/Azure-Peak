@@ -82,8 +82,6 @@
 	return
 
 /mob/living/carbon/human/IsAdvancedToolUser()
-	if(HAS_TRAIT(src, TRAIT_MONKEYLIKE))
-		return FALSE
 	return TRUE//Humans can use guns and such
 
 /mob/living/carbon/human/reagent_check(datum/reagent/R)
@@ -105,7 +103,7 @@
 		if(HAS_TRAIT(src, TRAIT_CHUNKYFINGERS) || HAS_TRAIT(src, TRAIT_GNARLYDIGITS))
 			to_chat(src, span_warning("My meaty finger is much too large for the trigger guard!"))
 			return FALSE
-	if(HAS_TRAIT(src, TRAIT_NOGUNS))
+	if(HAS_TRAIT(src, TRAIT_PACIFISM))
 		to_chat(src, span_warning("I can't bring myself to use a ranged weapon!"))
 		return FALSE
 

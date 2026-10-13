@@ -126,6 +126,8 @@
 	remove_movespeed_modifier(MOVESPEED_ID_BULKY_DRAGGING)
 
 /mob/living/can_zFall(turf/T, levels)
+	if(HAS_TRAIT(src, TRAIT_CHARGE_AIRBORNE))
+		return FALSE
 	if(HAS_TRAIT(src, TRAIT_WOODWALKER) && !HAS_TRAIT(src, TRAIT_DEADITE)) //Zombies just fall through leaves, we're not doing that. Stop.
 		for(var/leaf in T.contents)
 			if(istype(leaf, /obj/structure/flora/newleaf))

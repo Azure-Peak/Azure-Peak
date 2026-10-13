@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/engineerwindup
 	name = "Wind up"
-	desc = "Use your drill to wind up Constructs, buffing or even reviving them"
+	desc = "Use your drill to wind up constructs, buffing or even reviving them."
 	overlay_state = "drill"
 	releasedrain = 1
 	chargedrain = 0

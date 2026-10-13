@@ -473,6 +473,13 @@
 	if(!T)
 		T = get_turf(src)
 
+	if(HAS_TRAIT(src, TRAIT_BLEED_PAINT))
+		var/obj/effect/ink_trail/existing_trail = locate(/obj/effect/ink_trail) in T
+		if(existing_trail)
+			existing_trail.refresh_lifetime()
+		else
+			new /obj/effect/ink_trail(T, src)
+
 	if(amt > 3)
 		if(istype(T, /turf/open/water))
 			var/turf/open/water/W = T

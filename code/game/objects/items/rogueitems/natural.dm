@@ -105,6 +105,13 @@
 /obj/item/natural/bundle/attackby(obj/item/W, mob/living/user)
 	if(item_flags & IN_STORAGE)
 		return
+
+	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+			return
+		W.attackby(src, user)
+		return
+
 	if(istype(W, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = W
 		if(src.stacktype == B.stacktype)

@@ -32,15 +32,19 @@
 		return
 	if(!((oxyhealing && target.getOxyLoss())))
 		return FALSE
-	if(HAS_TRAIT(user, TRAIT_NOBREATH))
-		to_chat(user, span_notice("I can't give them mouth-to-mouth, I don't breathe!"))	//Stops skeles and rotcured people from giving MTM.
+	if(!iscarbon(user))
+		return FALSE // no lungs
+	var/mob/living/carbon/C = user
+	var/obj/item/bodypart/chest = C.get_bodypart(BODY_ZONE_CHEST)
+	if(!chest || chest.skeletonized || !C.getorganslot(ORGAN_SLOT_LUNGS)) // can't breathe w no lungs
+		to_chat(user, span_notice("I can't give them mouth-to-mouth, I don't breathe!"))
 		return FALSE
 
 
 /datum/surgery_step/mouth_to_mouth/preop(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)
-	display_results(user, target, span_notice("I attempt to breath air into [target]'s mouth."),
-			span_notice("[user] attempts to breath air into [target]'s mouth."),
-			span_notice("[user] attempts to breath air into [target]'s mouth."))
+	display_results(user, target, span_notice("I attempt to breathe air into [target]'s mouth."),
+			span_notice("[user] attempts to breathe air into [target]'s mouth."),
+			span_notice("[user] attempts to breathe air into [target]'s mouth."))
 	return TRUE
 
 /datum/surgery_step/mouth_to_mouth/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent)

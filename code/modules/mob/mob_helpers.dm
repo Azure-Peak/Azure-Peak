@@ -1124,15 +1124,6 @@
 	* I wish examine was less copypasted. (oranges say, be the change you want to see buddy)
 	*/
 /mob/proc/common_trait_examine()
-	if(HAS_TRAIT(src, TRAIT_DISSECTED))
-		var/dissectionmsg = ""
-		if(HAS_TRAIT_FROM(src, TRAIT_DISSECTED,"Extraterrestrial Dissection"))
-			dissectionmsg = " via Extraterrestrial Dissection. It is no longer worth experimenting on"
-		else if(HAS_TRAIT_FROM(src, TRAIT_DISSECTED,"Experimental Dissection"))
-			dissectionmsg = " via Experimental Dissection"
-		else if(HAS_TRAIT_FROM(src, TRAIT_DISSECTED,"Thorough Dissection"))
-			dissectionmsg = " via Thorough Dissection"
-		. += "<span class='notice'>This body has been dissected and analyzed[dissectionmsg].</span><br>"
 
 /**
 	* Get the list of keywords for policy config
@@ -1152,6 +1143,11 @@
 ///Can the mob see reagents inside of containers?
 /mob/proc/can_see_reagents()
 	return stat == DEAD || has_unlimited_silicon_privilege //Dead guys and silicons can always see reagents
+
+/mob/proc/can_identify_reagents(atom/A)
+	if(can_see_reagents())
+		return TRUE
+	return Adjacent(A) && (get_skill_level(/datum/skill/craft/alchemy) >= SKILL_LEVEL_APPRENTICE || HAS_TRAIT(src, TRAIT_CICERONE))
 
 /mob/proc/get_role_title()
 	var/used_title

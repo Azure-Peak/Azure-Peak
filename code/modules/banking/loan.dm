@@ -202,20 +202,20 @@
 	var/target_label = indenture_faction_label(target)
 	var/msg
 	if(istype(source, /datum/fund/church))
-		msg = "The Church of Azuria has called its loan to [target_label] and finds the coffers wanting. The faithful's alms has been squandered by the faithless. Astrata's generosity has been squandered. [seized]m forfeit, [still_owed]m unsettled."
+		msg = "The Church of Azuria has called its loan to [target_label] and finds the coffers wanting. The alms of the faithful have been squandered by the faithless. [seized]m forfeit, [still_owed]m unsettled."
 	else if(istype(source, /datum/fund/merchant))
-		msg = "The Azurian Trading Company has called its loan to [target_label] and finds the coffers wanting. The Burghers are outraged. There is no wealth without trust, and no realm without wealth. [seized]m forfeit, [still_owed]m unsettled."
+		msg = "The ATC has called its loan to [target_label] and finds the coffers wanting. The Burghers are outraged. [seized]m forfeit, [still_owed]m unsettled."
 	else if(istype(source, /datum/fund/bathhouse))
-		msg = "The Bathhouse has called its loan to [target_label] and finds the coffers wanting. Her generosity abused! Her love disgraced! To lend from the bathhouse is one shame, to not pay back, a greater one. [seized]m forfeit, [still_owed]m unsettled."
+		msg = "The Bathhouse has called its loan to [target_label] and finds the coffers wanting. Her generosity abused! Her love disgraced! To borrow from the bathhouse is one shame, to not pay back, a greater one. [seized]m forfeit, [still_owed]m unsettled."
 	else
-		msg = "The Stewardry has called its loan to [target_label] and finds the coffers wanting. The Crown is owed its due, and shall make known its perogative. [seized]m forfeit, [still_owed]m unsettled."
+		msg = "The Stewardry has called its loan to [target_label] and finds the coffers wanting. The Crown will have its due. [seized]m forfeit, [still_owed]m unsettled."
 	priority_announce(msg, "Indenture Defaulted", pick('sound/misc/royal_decree.ogg', 'sound/misc/royal_decree2.ogg'), "Captain", strip_html = FALSE)
 
 /datum/controller/subsystem/treasury/proc/indenture_faction_label(datum/fund/F)
 	if(istype(F, /datum/fund/church))
 		return "the Church of Azuria"
 	if(istype(F, /datum/fund/merchant))
-		return "the Azurian Trading Company"
+		return "the ATC"
 	if(istype(F, /datum/fund/bathhouse))
 		return "the Bathhouse"
 	if(istype(F, /datum/fund/innkeeper))

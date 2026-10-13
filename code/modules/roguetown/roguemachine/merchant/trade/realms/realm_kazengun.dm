@@ -82,7 +82,7 @@
 		/datum/supply_pack/rogue/merc_weapons/hookblade,
 		/datum/supply_pack/rogue/merc_weapons/kodachi,
 		/datum/supply_pack/rogue/merc_weapons/tanto,
-		
+
 		/datum/supply_pack/rogue/kazengun/kanabo,
 		/datum/supply_pack/rogue/kazengun/samsibsa,
 		/datum/supply_pack/rogue/kazengun/haraate,
@@ -106,22 +106,10 @@
 		/datum/supply_pack/rogue/alcohol/kgunshochu,
 	)
 	hail_lines = list(
-		"Kazengun greets the factor. Tea, silk, and rice are in the hold. The terms are simple; the courtesies are not.",
-		"My ship is licensed by the Mita Clan of Tamiro. Read the seal before you read the manifest - the order is not optional.",
-		"A Chonin of Tatseshira does not haggle in the street like a westerner. Speak your offer once, with respect, and we shall conclude this with dignity.",
-		"By Aisata's Order, my weights are true. Verify them if you must. To accuse without verifying is a different matter.",
-		"We crossed the Asemai calm as the proverb. We crossed your western waters less so. The fee should reflect the difference.",
-		"My crew has been told the foreign chaos is not their concern. Keep them on the pier and they will keep your stevedores breathing.",
-		"I sail with a Kouken aboard, returning from service abroad. He has not spoken since we cleared Kukui. Do not address him - he is not a guest of your house, only of mine.",
-		"Aisata rises in the east and sets beyond your Otavan capes. I follow her path. one month out, one month back, and the sums must justify both.",
-		"A typhoon caught us off Mitihara on the outward leg - the city still rebuilds even ten yils after the last. We brought what was salvaged. Pay fairly for it.",
-		"Mamuke's iron, Matoko's coin. The trade is blessed; do not curse it with delay.",
-		"My passenger of Aisataiji travels under the seal of the temples. He will disembark, pay his harbor fee, and be gone before the bell. You will not have seen him.",
-		"A lacquered chest in my hold is sealed by the Tsukita Clan. It is not for sale. It is not for inspection. It is not for your magistrate's curiosity. Trade my open cargo and let the rest be.",
-		"My grandfather signed the first compact with your factor in his eighteenth yil. I am here to honor it in my forty-third. Let us not waste either lifetime.",
-		"I am told a Hangyaku of the southern fiefs walks your streets, dishonored and selling his blade. If you see him, factor, do not feed him - the dishonored eat their shame, not your bread.",
-		"My silk is from the looms of Tamiro itself, not the mainland imitations. Pay the difference; you will know it on the touch.",
-		"The tariff at home does not negotiate. Yours, I trust, has more grace. Demonstrate it.",
-		"My tea master is from Aisataiji - trained at the foothill temples. For one zenny they will perform the Calm-as-the-Asemai ceremony, three hours, full silence, and seven different leaves from the islands. They have rejected the offers of clans richer than yours. They sail with me, to pass on our ancient arts. Do a favor to an old man and old master. Pay them and record his arts in your journals.",
-		"I have heard of the fame of Azurian fishes. Big! Long! Fat, tasty and succulent. Full of umami. We have Lingyuese runic chest to preserve it for the journey home. Now, summon your best fisherman and sell me your best price for a catch of Azurian cod, salmon, and crabs. I only want the expensive, truly good ones, not the cheap one - these are not worth the space on my ship. Please, do not be like the less Factor who tried to offer me cheap fishes and pass them off. Us Kazengunese know the difference, and I will not be fooled.",
+		"I trade on behalf of Clan Mita of Tamiro isles. All of my goods are of the finest quality.",
+		"I have brought along a tea master from Aisataiji, who will demonstrate tea ceremony to nobles and commoners alike. He is an old man in his sixties, please show him the proper respect and courtesy.",
+		"I have a few Koukens who are seeking fortunes away from Kazengun. They'll be disembarking soon, and I hope you can find them employment, because they're the rowdy sort and seems to be eyeing the few Lingyuese on the dock suspiciously.",
+		"My great-grandfather sailed here when he was fifteen, my grandfather spoke highly of Azurian crabs and salmon, and my father says he misses Azurian wenches. I am here now, and I want to know what is so famous about Azurian pies and eels.",
+		"I have heard of the fame of Azurian fishes. Big! Long! Fat, tasty and succulent. Full of umami. We have Lingyuese runic chest to preserve it for the journey home. Now, summon your best fisherman and sell me your best price for a catch of Azurian cod, salmon, and crabs. I only want the expensive, truly good ones, not the cheap one - these are not worth the space on my ship. Please, do not be like the last Factor who tried to offer me cheap fishes and pass them off. Us Kazengunese know the difference, and I will not be fooled.",
+
 	)

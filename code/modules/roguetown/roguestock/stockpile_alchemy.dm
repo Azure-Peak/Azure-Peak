@@ -1,6 +1,6 @@
 /datum/roguestock/stockpile/viscera
 	name = "Viscera"
-	desc = "Fresh organs and offal, valued by alchemists."
+	desc = "Fresh organs and offal. Alchemists value them."
 	item_type = /obj/item/alch/viscera
 	trade_good_id = TRADE_GOOD_VISCERA
 	importexport_amt = 5
@@ -9,7 +9,7 @@
 
 /datum/roguestock/stockpile/sinew
 	name = "Sinew"
-	desc = "Tough animal tendon, of some alchemical and crafting use."
+	desc = "Tough animal tendon. Alchemists and crafters have some use for it."
 	item_type = /obj/item/alch/sinew
 	trade_good_id = TRADE_GOOD_SINEW
 	importexport_amt = 5

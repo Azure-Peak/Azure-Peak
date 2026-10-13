@@ -28,8 +28,6 @@
 	default_features = MANDATORY_FEATURE_LIST
 	inherent_traits = list(TRAIT_EASYDECAPITATION, TRAIT_NOHUNGER, TRAIT_NOBREATH, TRAIT_DEATHLESS, TRAIT_ZOMBIE_IMMUNE) //Given the deathless traits inherently as part of their nature as pseudo-undead.
 	use_skintones = TRUE
-	disliked_food = NONE
-	liked_food = NONE
 	possible_ages = ALL_AGES_LIST
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mt.dmi'

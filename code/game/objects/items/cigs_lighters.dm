@@ -90,21 +90,28 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 //	if(lit && M.ignite_mob())
 //		message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(M)] on fire with [src] at [AREACOORD(user)]")
 //		log_game("[key_name(user)] set [key_name(M)] on fire with [src] at [AREACOORD(user)]")
-	var/obj/item/clothing/mask/cigarette/cig = help_light_cig(M)
-	if(lit && cig && user.used_intent.type == INTENT_HELP)
-		if(cig.lit)
-			to_chat(user, span_warning("[cig] is already lit!"))
-		if(M == user)
-			cig.attackby(src, user)
-		else
-			cig.light(span_notice("[user] holds [src] out for [M], and lights [cig]."))
-	else
-		..()
+	if(light_cig(M, user))
+		return TRUE
+	return ..()
 
 /obj/item/proc/help_light_cig(mob/living/M)
 	var/mask_item = M.get_item_by_slot(SLOT_MOUTH)
 	if(istype(mask_item, /obj/item/clothing/mask/cigarette))
 		return mask_item
+
+/obj/item/proc/light_cig(mob/living/M, mob/living/user, flavor_text)
+	if(user.zone_selected != BODY_ZONE_PRECISE_MOUTH || !get_temperature())
+		return FALSE
+	var/obj/item/clothing/mask/cigarette/cig = help_light_cig(M)
+	if(!cig || cig == src)
+		return FALSE
+	if(cig.lit)
+		to_chat(user, span_warning("[cig] is already lit!"))
+	else if(M == user)
+		cig.attackby(src, user)
+	else
+		cig.light(flavor_text || span_notice("[user] holds [src] out for [M], and lights [M.p_their()] [cig.name]."))
+	return TRUE
 
 /obj/item/match/get_temperature()
 	return lit * heat
@@ -300,10 +307,22 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			new type_butt(location)
 		qdel(src)
 		return
+	if(soaked())
+		extinguish()
+		return
 	open_flame()
 	if((reagents && reagents.total_volume) && (nextdragtime <= world.time))
 		nextdragtime = world.time + dragtime
 		handle_reagents()
+
+/obj/item/clothing/mask/cigarette/proc/soaked()
+	var/turf/open/water/W = get_turf(src)
+	if(!istype(W) || W.platform_atom_count)
+		return FALSE
+	if(W.water_level >= 3 || !isliving(loc))
+		return TRUE
+	var/mob/living/L = loc
+	return !(L.mobility_flags & MOBILITY_STAND)
 
 /obj/item/clothing/mask/cigarette/attack_self(mob/user)
 	if(lit)
@@ -319,16 +338,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(M.on_fire && !lit)
 		light(span_notice("[user] lights [src] with [M]'s burning body. What a cold-blooded badass."))
 		return
-	var/obj/item/clothing/mask/cigarette/cig = help_light_cig(M)
-	if(lit && cig && user.used_intent.type == INTENT_HELP)
-		if(cig.lit)
-			to_chat(user, span_warning("The [cig.name] is already lit!"))
-		if(M == user)
-			cig.attackby(src, user)
-		else
-			cig.light(span_notice("[user] holds the [name] out for [M], and lights [M.p_their()] [cig.name]."))
-	else
-		return ..()
+	if(light_cig(M, user))
+		return TRUE
+	return ..()
 
 /obj/item/clothing/mask/cigarette/fire_act(added, maxstacks)
 	light()
@@ -380,7 +392,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	type_butt = /obj/item/cigbutt/roach
 	throw_speed = 0.5
 	item_state = "spliffoff"
-	smoketime = 120 // four minutes
+	smoketime = 180 // six minutes
 	chem_volume = 50
 	list_reagents = null
 	muteinmouth = FALSE
@@ -398,7 +410,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	name = "cheroot"
 	desc = "Rich smokeleaf self-rolled into an open-clipped cigarillo. Envigorating for the enthusiast, \
 	nauseating for the laymen."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45)
 
 
@@ -412,7 +424,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	name = "swampleaf cheroot"
 	desc = "Heady sweatleaf rolled in a broad westleach leaf, combining the desirable and troublesome \
 	aspects of both."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(
 		/datum/reagent/drug/swampweed = 30,
 		/datum/reagent/drug/westleach = 15,
@@ -441,7 +453,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	name = "mentha cheroot"
 	desc = "Rich mentha self-rolled into an open-clipped zig. Envigorating for the enthusiast, \
 	nauseating for the laymen."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/mentha = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/blackberry
@@ -452,7 +464,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/blackberry/cheroot
 	name = "blackberry cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted blackberry essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/blackberry = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/apple
@@ -463,7 +475,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/apple/cheroot
 	name = "apple cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted apple essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/apple = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/menthaapple
@@ -474,7 +486,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/menthaapple/cheroot
 	name = "mentha-apple cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted mentha and apple essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/apple = 7, /datum/reagent/drug/mentha = 8)
 
 /obj/item/clothing/mask/cigarette/rollie/chocolate
@@ -485,7 +497,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/chocolate/cheroot
 	name = "chocolate cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted chocolate essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/chocolate = 12, /obj/item/reagent_containers/food/snacks/chocolate = 3)
 
 /obj/item/clothing/mask/cigarette/rollie/strawberry
@@ -496,7 +508,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/strawberry/cheroot
 	name = "strawberry cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted strawberry essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/strawberry = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/carrot
@@ -507,7 +519,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/carrot/cheroot
 	name = "carrot cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted carrot essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/carrot = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/lime
@@ -518,7 +530,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/lime/cheroot
 	name = "lime cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted lime essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/lime = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/salvia
@@ -529,7 +541,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/salvia/cheroot
 	name = "salvia cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted salvia essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/salvia = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/salviavaleriana
@@ -539,7 +551,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/salviavaleriana/cheroot
 	name = "salvia-valeriana cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted salvia and valeriana essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/salvia = 5, /datum/reagent/drug/valeriana = 10)
 
 /obj/item/clothing/mask/cigarette/rollie/calendula
@@ -550,7 +562,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/calendula/cheroot
 	name = "calendula cheroot"
 	desc = "A rewrapped westleach zig with some alchemically extracted calendula essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/calendula = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/jacksberries
@@ -561,7 +573,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/jacksberries/cheroot
 	name = "jacksberries cheroot"
 	desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/jacksberries = 15)
 
 /obj/item/clothing/mask/cigarette/rollie/jacksberriespoison
@@ -572,7 +584,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/jacksberriespoison/cheroot
 	name = "jacksberries cheroot"
 	desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/jacksberries = 12, /datum/reagent/berrypoison = 3)
 
 // Abyss cheroots are produced with salt water and fish. They aren't dupes, as much as they may seem it... apparently.
@@ -584,7 +596,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/abyss/cheroot
 	name = "jacksberries cheroot"
 	desc = "A rewrapped jacksberries zig with some alchemically extracted jacksberries and salty essence."
-	smoketime = 240
+	smoketime = 300
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/abyss = 15)
 
 ////////////
@@ -594,7 +606,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/zigar
 	name = "zigar"
 	desc = "Dried westleach and hypericum carefully wrapped in fine paper. It has a particularly smooth taste with a burns and scratches effect."
-	smoketime = 240
+	smoketime = 300
 	icon_state = "stogieoff"
 	icon_on = "stogieon"
 	icon_off = "stogieoff"
@@ -604,7 +616,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/clothing/mask/cigarette/rollie/zigar/cheroot
 	name = "zigar cheroot"
 	desc = "A rewrapped zigar with some alchemically extracted hypericum and very more westleach essence."
-	smoketime = 360
+	smoketime = 420
 	list_reagents = list(/datum/reagent/drug/westleach = 45, /datum/reagent/drug/petun = 15)
 
 /obj/item/clothing/mask/cigarette/cigar
@@ -667,7 +679,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	item_state = "pipeoff"
 	icon_on = "pipeon"	//Note - these are in masks.dmi
 	icon_off = "pipeoff"
-	smoketime = 120
+	smoketime = 180
 	chem_volume = 100
 	list_reagents = null
 	var/packeditem = 0
@@ -719,6 +731,9 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			name = "empty [initial(name)]"
 			record_featured_stat(FEATURED_STATS_SMOKERS, M)
 		STOP_PROCESSING(SSobj, src)
+		return
+	if(soaked())
+		extinguish()
 		return
 	open_flame()
 	if(reagents && reagents.total_volume)	//	check if it has any reagents at all
@@ -919,22 +934,12 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		. = ..()
 
 /obj/item/lighter/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(lit && M.ignite_mob())
-		message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(M)] on fire with [src] at [AREACOORD(user)]")
-		log_game("[key_name(user)] set [key_name(M)] on fire with [src] at [AREACOORD(user)]")
-	var/obj/item/clothing/mask/cigarette/cig = help_light_cig(M)
-	if(lit && cig && user.used_intent.type == INTENT_HELP)
-		if(cig.lit)
-			to_chat(user, span_warning("The [cig.name] is already lit!"))
-		if(M == user)
-			cig.attackby(src, user)
-		else
-			if(fancy)
-				cig.light(span_rose("[user] whips the [name] out and holds it for [M]. [user.p_their(TRUE)] arm is as steady as the unflickering flame [user.p_they()] light[user.p_s()] \the [cig] with."))
-			else
-				cig.light(span_notice("[user] holds the [name] out for [M], and lights [M.p_their()] [cig.name]."))
-	else
-		..()
+	var/fancy_text
+	if(fancy)
+		fancy_text = span_rose("[user] whips the [name] out and holds it for [M]. [user.p_their(TRUE)] arm is as steady as the unflickering flame [user.p_they()] light[user.p_s()] [M.p_their()] smokable with.")
+	if(light_cig(M, user, fancy_text))
+		return TRUE
+	return ..()
 
 /obj/item/lighter/process()
 	open_flame()

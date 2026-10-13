@@ -512,6 +512,7 @@
 	//They get those traits during sword activation, anyway.
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
 	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/second_chance, /datum/virtue/utility/hollow, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
+	quirk_restrictions = list(/datum/quirk/noble)
 	vice_restrictions = list(/datum/charflaw/silverweakness)
 
 	advclass_cat_rolls = list(CTAG_MARTYR = 2)
@@ -631,11 +632,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_TENNITE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 0,\
-		added_def = 0,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /datum/intent/sword/cut/martyr
@@ -729,11 +726,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_TENNITE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 0,\
-		added_def = 0,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /datum/intent/axe/cut/long/martyr
@@ -822,11 +815,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_TENNITE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 0,\
-		added_def = 0,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /datum/intent/mace/strike/martyr
@@ -913,11 +902,7 @@
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_TENNITE,\
-		silver_type = SILVER_TENNITE,\
-		added_force = 0,\
-		added_blade_int = 0,\
-		added_int = 0,\
-		added_def = 0,\
+		silver_type = SILVER_TENNITE\
 	)
 
 /datum/intent/spear/thrust/martyr

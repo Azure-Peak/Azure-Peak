@@ -39,152 +39,146 @@ GLOBAL_LIST_EMPTY(quest_circumstances_recovery_bandits)
 
 /datum/writ_circumstance/recovery/caravan_storm
 	phrasings = list(
-		"A trade caravan was scattered by storm upon the road, and its load lies strewn between the trees.",
-		"Foul weather overturned a wagon at the bend of the river; goods of the realm now sit unclaimed in the mud.",
+		"Three nights past, a storm scattered a trade caravan along the forest road.",
+		"Carters say a wagon overturned by the river.",
 	)
 
 /datum/writ_circumstance/recovery/peddler_lost
 	phrasings = list(
-		"A peddler was claimed by the mire, their pack abandoned where they fell.",
-		"A wandering merchant met an ill end upon the road; their goods lie about them still, untouched.",
+		"A peddler went into the mire and did not come out.",
+		"A shepherd found a merchant dead beside the road, their purse still full.",
 	)
 
 /datum/writ_circumstance/recovery/tax_wagon_broken
 	phrasings = list(
-		"A tax-wagon's axle broke upon the back-road, and its cargo was hastily cached for retrieval.",
-		"A tithe-bearer's cart cracked beneath its load and the goods were left under hasty cover.",
-	)
-
-/datum/writ_circumstance/recovery/pilgrim_fallen
-	phrasings = list(
-		"A pilgrim fell sick upon the holy road and shed their pack to the verge.",
-		"The offerings of a pilgrim, taken ill, lie strewn at the wayside shrine.",
+		"When the tax wagon's axle broke on the back road, the carters hid the cargo and went for help.",
+		"A cart carrying the Church's tithe broke down on the road. Its load was left under cover.",
 	)
 
 /datum/writ_circumstance/recovery/courier_dead
 	phrasings = list(
-		"A courier of the Crown died of a fever in some forgotten hollow, and the parcel they bore lies with their bones.",
-		"A messenger of the realm fell to mishap upon the road; their satchel and goods remain where they dropped.",
+		"Reported to the Steward: a Crown courier dead of fever off the road. The parcel must be recovered.",
+		"A messenger of the realm left on this road and never reached the next town. Their satchel must be found.",
 	)
 
 /datum/writ_circumstance/recovery/cliff_drop
 	phrasings = list(
-		"Goods of the realm tumbled from a wagon upon the high cliffside path and lie scattered at the foot of the rocks.",
-		"A cart dropped its load upon a steep grade, and the parcels lie tangled in the brambles below.",
+		"On the high cliff path, a wagon lost its load over the edge.",
+		"A woodcutter found parcels in the brambles below a steep hill. A cart had lost them on the way up.",
 	)
 
 /datum/writ_circumstance/recovery/thief_cache
 	phrasings = list(
-		"A thief cached stolen goods in the wilds and was later put to the rope; the cache remains unrecovered.",
-		"Stolen wares were hidden by a felon now hanged, and rumour places the hoard somewhere in the country.",
+		"A thief who hid their takings in the wilds was hanged before they could fetch them.",
+		"Tavern talk says a hanged thief buried their takings nearby.",
 	)
 
 /datum/writ_circumstance/recovery/noble_lost_kit
 	phrasings = list(
-		"A retainer of a noble house lost their charge's hunting kit upon a hunt that ended ill.",
-		"A nobleman's gear was scattered when their hunting party was set upon by beasts; what remains lies upon the trail.",
+		"Reported to the Steward: a retainer lost their lord's hunting kit when a hunt went wrong. The kit must be recovered.",
+		"When beasts fell on a noble's hunting party, the party fled and left its gear on the trail.",
 	)
 
 /datum/writ_circumstance/recovery/seal_case_dropped
 	phrasings = list(
-		"A Steward's seal-case fell from a courier's saddle upon the road and has not been recovered.",
-		"Official parcels were lost when a messenger's bag burst upon the gallop home.",
+		"A Steward's sealed case fell from a courier's saddle upon the road. It must be recovered.",
+		"On the last market day, a messenger's bag burst at the gallop and scattered official parcels along the road.",
 	)
 
 /datum/writ_circumstance/recovery/flood_swept
 	phrasings = list(
-		"The spring flood swept goods from a riverside dock and stranded them along the banks downstream.",
-		"High water carried a load of goods from the wharf; what was not lost lies cast up upon the shoals.",
+		"The spring flood carried a load of goods off the dock and down the river.",
+		"Fishers have seen crates cast up on the shoals since the high water.",
 	)
 
 
 /datum/writ_circumstance/carriage/physician_urgent
 	phrasings = list(
-		"The matter is pressing - the physician hath need of these goods within the day.",
-		"The bearer is enjoined to make haste; the recipient hath particular need.",
+		"The matter is pressing. The physician hath need of these goods within the day.",
+		"The recipient hath urgent need of this parcel. Make haste.",
 	)
 
 /datum/writ_circumstance/carriage/regular_runner_indisposed
 	phrasings = list(
-		"The regular runner of this route is indisposed by injury and cannot bear the parcel.",
-		"The usual courier hath been laid low by fever; another hand is needed for this carriage.",
+		"With the usual runner laid up by a broken leg, this parcel needs another carrier.",
+		"Posted by the sender: the usual courier is down with fever. Another carrier is wanted.",
 	)
 
 /datum/writ_circumstance/carriage/courier_robbed
 	phrasings = list(
-		"A previous attempt at this carriage was undone by brigandage; the parcel has been re-prepared and waits upon a new bearer.",
-		"The first courier was set upon by highwaymen and the parcel returned to issuer; a hardier bearer is sought for the second attempt.",
+		"Since brigands broke the last attempt at this carriage, the parcel has been packed again for a new holder.",
+		"Highwaymen turned back the first courier. A hardier holder is sought for the second attempt.",
 	)
 
 /datum/writ_circumstance/carriage/contracted_shipment
 	phrasings = list(
-		"A standing contract demands this carriage be honoured; the recipient hath paid in advance.",
-		"The recipient hath bought this carriage by writ of agreement and waits upon delivery.",
+		"The recipient paid for this carriage in advance.",
+		"The recipient paid for this carriage a week ago and is still waiting.",
 	)
 
 /datum/writ_circumstance/carriage/private_gift
 	phrasings = list(
-		"The parcel is a private gift between parties; its contents are no concern of the bearer.",
-		"This carriage is the favour of one party unto another; let the seal pass unbroken.",
+		"The parcel is a private gift. Its contents are no concern of the holder.",
+		"The sender says it is a gift and asks that the seal stay unbroken.",
 	)
 
 /datum/writ_circumstance/carriage/sealed_confidential
 	phrasings = list(
-		"The seal is set fast - the bearer is not to know the contents, on pain of the writ's forfeit.",
-		"What lies within the parcel is a matter of the recipient alone; let the bearer not pry.",
+		"The seal is set fast, and the holder is not to know the contents.",
+		"Let the holder not pry. What lies within is for the recipient alone.",
 	)
 
 /datum/writ_circumstance/carriage/replacement_for_spoilage
 	phrasings = list(
-		"The first parcel was lost to spoilage upon the road; this second one bears the same goods, freshly prepared.",
-		"A prior carriage was undone by mishap; the goods herein replace what was lost.",
+		"When the first parcel spoiled on the road, the goods were prepared again. Deliver this one before it turns.",
+		"The last parcel never arrived, and no one knows why. These goods replace it.",
 	)
 
 /datum/writ_circumstance/carriage/festival_provisioning
 	phrasings = list(
-		"The recipient prepares for a festival of the Tens, and the goods herein are wanted before the appointed day.",
-		"A feast-day approaches and these goods are needed at the recipient's hearth before it falls.",
+		"The festival of the Tens is days away. The recipient needs these goods before it.",
+		"A feast day approaches and these goods are needed at the recipient's hearth before it falls.",
 	)
 
 /datum/writ_circumstance/carriage/payment_in_kind
 	phrasings = list(
-		"This carriage settles a debt rendered in kind, and the recipient awaits the goods to mark it paid.",
-		"The parcel is part-payment by goods rather than coin, and the recipient holds the matter open until it arrives.",
+		"Having no coin, the sender pays their debt in goods. The recipient will call it settled when this parcel arrives.",
+		"The parcel is part payment by goods rather than coin, and the recipient holds the matter open until it arrives.",
 	)
 
 
 /datum/writ_circumstance/recovery_bandits/scattered_caravan
 	phrasings = list(
-		"The caravan was set upon and broken apart; the bandits made off with what they could carry, but a sealed parcel remains under their guard.",
-		"Brigands took what they wished and left the rest cached in their lair; recover what is owed to the realm.",
+		"The caravan was set upon and broken apart. The brigands made off with what they could carry. A sealed parcel remains under their guard.",
+		"A carter who hid in the ditch saw the brigands carry the rest of the load to their camp. It must be taken back.",
 	)
 
 /datum/writ_circumstance/recovery_bandits/raided_tithe
 	phrasings = list(
-		"A tithe-wagon was waylaid and its goods carried into the bandit camp; the parcel must be wrested back.",
-		"The Crown's tithe-bearer was robbed, and the goods sit now in the keeping of the very volves who took them.",
+		"Brigands waylaid a tithe wagon and carried its goods to their camp. The parcel must be taken back.",
+		"The Crown's tithe bearer was robbed, and the goods sit now in the keeping of the very volves who took them.",
 	)
 
 /datum/writ_circumstance/recovery_bandits/captured_courier
 	phrasings = list(
-		"A courier of the realm was taken alongside their parcel; the parcel remains with the band that captured them.",
-		"A messenger's pack was claimed by raiders, who keep it for ransom or for spite.",
+		"Four daes ago, the band took a courier and their parcel. The parcel must be recovered.",
+		"Raiders took a messenger's pack. No ransom has been asked. The pack must be taken back.",
 	)
 
 /datum/writ_circumstance/recovery_bandits/looted_shipment
 	phrasings = list(
-		"A shipment was stripped from its bearer upon the road and is presently held by the band responsible.",
-		"The goods herein were taken by force from a lawful carrier and are presently in the keeping of those who took them.",
+		"Reported to the Steward: a shipment seized on the road. The carrier is unhurt, and the band holds the goods.",
+		"The carrier says the band took the goods at knifepoint and kept them.",
 	)
 
 /datum/writ_circumstance/recovery_bandits/cached_loot
 	phrasings = list(
-		"The bandits cache their plunder near their lair; among it sits a parcel that belongs to the realm.",
-		"Stolen goods of the Crown have been seen among the band's hoard, and must be returned.",
+		"Among the plunder the brigands keep near their lair is a parcel that belongs to the realm. It must be recovered.",
+		"Stolen goods of the Crown have been seen among the band's hoard and must be returned.",
 	)
 
 /datum/writ_circumstance/recovery_bandits/ambush_dropped
 	phrasings = list(
-		"In the chaos of the ambush the parcel was dropped, and the bandits keep watch over the spot in case of return.",
-		"The carrier escaped with their life but not the parcel, which the band now guards.",
+		"In the chaos of the ambush the parcel was dropped, and the brigands keep watch over the spot in case of return.",
+		"The carrier escaped with their life. The brigands now guard the parcel.",
 	)

@@ -114,3 +114,33 @@ Add a new override in your modular folder that looks like this:
 			headshot_link = new_headshot_link
 			log_game("[user] has set their Headshot image to '[html_encode(headshot_link)]'.")
 			return CHARACTER_ACT_DATA_UPDATE
+		if("headshot_artist_credit")
+			to_chat(user, span_notice("This space is for the name of the artist who made this headshot; it'll be displayed underneath the headshot in the examine window."))
+			var/new_artist_credit = tgui_input_text(user, "Input the credit for the headshot's artist:", "Headshot", headshot_artist_credit, max_length = MAX_NAME_LEN, encode = TRUE)
+			if(new_artist_credit == null)
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_artist_credit == "")
+				verbose_pref_log_change(user, "notice", "Headshot Credit", headshot_artist_credit, "")
+				headshot_artist_credit = null
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Headshot Credit", headshot_artist_credit, new_artist_credit)
+			headshot_artist_credit = new_artist_credit
+			to_chat(user, span_notice("Successfully updated headshot credit"))
+			return CHARACTER_ACT_DATA_UPDATE
+		if("headshot_artist_link")
+			to_chat(user, span_notice("If this is set alongside an artist credit, clicking the artist's name will open this link in a browser. It should be used for their website, donation page, or some other way to reach them."))
+			var/new_artist_link = tgui_input_text(user, "Input the link for the headshot's artist:", "Headshot", headshot_artist_link, max_length = MAX_MESSAGE_LEN, encode = FALSE)
+			if(new_artist_link == null)
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_artist_link == "")
+				verbose_pref_log_change(user, "notice", "Headshot Credit Link", headshot_artist_link, "")
+				headshot_artist_link = null
+				return CHARACTER_ACT_DATA_UPDATE
+			if(!valid_link(user, new_artist_link))
+				to_chat(user, span_notice("Invalid credit link."))
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Headshot Credit Link", headshot_artist_link, new_artist_link)
+			headshot_artist_link = new_artist_link
+			log_game("[user] has set their Headshot artist link to '[html_encode(headshot_artist_link)]'.")
+			to_chat(user, span_notice("Successfully updated headshot credit link"))
+			return CHARACTER_ACT_DATA_UPDATE

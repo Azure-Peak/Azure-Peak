@@ -34,7 +34,7 @@
 	name = "volf helm"
 	display_category = ITEM_CAT_ARMOR_HELMETS
 	result = list(/obj/item/clothing/head/roguetown/helmet/leather/volfhelm)
-	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/fur/wolf = 1, /obj/item/natural/head/volf = 1)
+	reqs = list(/obj/item/natural/hide/cured = 1, /obj/item/natural/fur = 1, /obj/item/natural/head/volf = 1)
 
 /datum/crafting_recipe/roguetown/leather/armor/volfmantle
 	name = "volf mantle"
@@ -138,6 +138,11 @@
 		/obj/item/natural/fibers = 1,
 		)
 	craftdiff = 4
+/datum/crafting_recipe/roguetown/leather/armor/furheadband
+	name = "Fur Headband"
+	display_category = ITEM_CAT_ARMOR_HELMETS
+	result = /obj/item/clothing/head/roguetown/headband/fur
+	reqs = list(/obj/item/natural/hide/cured = 1) // is just a piece of rawhide, so it should be cheap to make like a helmet is
 
 /datum/crafting_recipe/roguetown/leather/armor/helmet
 	name = "leather helmet"

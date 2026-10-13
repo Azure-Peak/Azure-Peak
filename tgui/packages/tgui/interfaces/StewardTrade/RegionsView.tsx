@@ -78,7 +78,7 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
         <span
           style={{ color: INK_FAINT, fontSize: FONT_BODY, marginLeft: 'auto' }}
         >
-          {producesCount} produces &middot; {demandsCount} demands
+          Produces {producesCount} &middot; Demands {demandsCount}
         </span>
       </div>
       {expanded && (

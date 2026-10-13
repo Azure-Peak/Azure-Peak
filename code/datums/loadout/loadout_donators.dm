@@ -18,6 +18,14 @@
 	name = "Gift - Azurosa Flower"
 	path = /obj/item/alch/rosa/azure
 
+/datum/loadout_item/donator/universal/ilamellard
+	name = "Gift - Iron Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
+
+/datum/loadout_item/donator/universal/blamellard
+	name = "Gift - Bronze Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
+
 /datum/loadout_item/donator/universal/azurosa_seeds
 	name = "Gift - Azurosa Flower, Seeds"
 	path = /obj/item/storage/belt/rogue/pouch/azurosa_seeds
@@ -954,6 +962,11 @@
 	path = /obj/item/enchantingkit/weapon/kadedao
 	ckeywhitelist = list("shiroseschnee", "Zerantio", "elox2000")
 
+/datum/loadout_item/donator/forgefiend_wrench
+	name = "Donator Kit - Forgefiend Wrench"
+	path = /obj/item/enchantingkit/weapon/forgefiend_wrench
+	ckeywhitelist = list("tamaya")
+
 /datum/loadout_item/donator/falling_star
 	name = "Donator Kit - Falling Star"
 	path = /obj/item/enchantingkit/weapon/falling_star
@@ -1323,3 +1336,8 @@
 	name = "Donator Gift - Scarlet Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
 	ckeywhitelist = list("thedragmeme")
+
+/datum/loadout_item/donator/lief_ring
+	name = "Donator Item - Blortz Incrusted Blacksteel Ring"
+	path = /obj/item/clothing/ring/lief_ring
+	ckeywhitelist = list("linxsysart", "pessime959")

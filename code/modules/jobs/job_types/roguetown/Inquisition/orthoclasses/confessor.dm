@@ -52,37 +52,43 @@
 			if("Psydonic Rapier")
 				l_hand = /obj/item/rogueweapon/sword/rapier/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			if("Psydonic Shortsword")
 				l_hand = /obj/item/rogueweapon/sword/short/psy
 				r_hand = /obj/item/rogueweapon/scabbard/sword
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 			if("Psydonic Tomahawk")
 				l_hand = /obj/item/rogueweapon/stoneaxe/handaxe/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 			if("Psydonic Cudgel")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 			if("Psydonic Flanged Mace")
 				l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 			if("Psydonic Whip")
 				l_hand = /obj/item/rogueweapon/whip/psywhip_lesser
-				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 		var/armors = list("Confessor - Dodge Expert, Complete Coverage", "Arbalist - Master Crossbows, +III STR / -III SPD")
 		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
 		switch(armor_choice)
 			if("Confessor - Dodge Expert, Complete Coverage")
 				head = /obj/item/clothing/head/roguetown/roguehood/psydon/confessor
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
+				var/shirts = list("Inquisitorial Leather Tunic", "Cuir-Bouilli Vest")
+				var/shirt_choice = input(H, "Choose your UNDERLAYER.", "TAKE UP PSYDON'S VESTMENTS.") as anything in shirts
+				switch(shirt_choice)
+					if("Inquisitorial Leather Tunic")
+						shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
+					if("Cuir-Bouilli Vest")
+						shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 			if("Arbalist - Master Crossbows, +III STR / -III SPD")
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
 				shirt = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/confessor
 				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, 5, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, 4, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_CON, 1)
 				H.change_stat(STATKEY_STR, 3)
 				H.change_stat(STATKEY_PER, 1) //Applies a base statblock of 11/12/10/13 to CON, STR, SPD and PER - compared to the standard 10/9/13/12 + DODGE EXPERT. Physically adept and capable of higher ranged damage..

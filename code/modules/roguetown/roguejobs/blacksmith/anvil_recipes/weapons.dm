@@ -1615,13 +1615,6 @@
 	created_item = /obj/item/rogueweapon/halberd/silver
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 
-/datum/anvil_recipe/weapons/silver/knuckledusters
-	name = "Knuckledusters, Silver"
-	category = "Silver"
-	req_bar = /obj/item/ingot/silver
-	created_item = /obj/item/rogueweapon/knuckledusters/silver
-	display_category = ITEM_CAT_WEAPONS_MACES
-
 /datum/anvil_recipe/weapons/silver/scythe
 	name = "Scythe, Silver (+1 Small Log)"
 	category = "Silver"
@@ -2150,14 +2143,6 @@
 	req_bar = /obj/item/ingot/silverblessed
 	created_item = /obj/item/rogueweapon/katar/psydon
 	display_category = ITEM_CAT_WEAPONS_SWORDS
-	i_type = "Weapons"
-
-/datum/anvil_recipe/weapons/psy/knuckles
-	name = "Psydonic Knuckledusters"
-	category = "Blessed Silver"
-	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/rogueweapon/knuckledusters/psy
-	display_category = ITEM_CAT_WEAPONS_MACES
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/armingsword

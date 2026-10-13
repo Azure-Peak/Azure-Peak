@@ -1,5 +1,5 @@
-// Roundstart bandit slots are a flat per-gamemode cap - NO population scaling. High Intensity opens 6 slots,
-// Tempered Intensity opens 4. The full cap is opened at roundstart even if not every seat fills (see
+// Roundstart bandit slots are a flat per-gamemode cap - NO population scaling. High Intensity opens 6 slots.
+// The full cap is opened at roundstart even if not every seat fills (see
 // get_antag_amount / start in events/antagonist/solo/bandits.dm). Bandits still need HARD_ANTAG_MIN_POP to roll.
 /datum/antagonist/bandit
 	name = "Bandit"
@@ -21,8 +21,7 @@
 	storyteller_slot_scaling = 1	// unused: bandits use a flat cap, not storyteller_scale_slots
 	storyteller_slot_default_cap = 2
 	storyteller_maxcaps = list(
-		/datum/storyteller/gamemode/guaranteed_antag = 6,			// High Intensity
-		/datum/storyteller/gamemode/guaranteed_antag/low_wretch = 4,	// Tempered Intensity
+		/datum/storyteller/gamemode/guaranteed_antag = 6,	// High Intensity
 	)
 	var/favor = 150
 	var/totaldonated = 0

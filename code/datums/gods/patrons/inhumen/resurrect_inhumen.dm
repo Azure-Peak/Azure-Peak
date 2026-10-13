@@ -321,8 +321,7 @@
 	name = "primal rift"
 	desc = "A jagged tear in reality smelling of blood."
 	icon = 'icons/roguetown/misc/structure.dmi'
-	icon_state = "shitportal"
-	color = "#570f04"
+	icon_state = "graggarportal"
 	anchored = TRUE
 	density = FALSE
 	max_integrity = 600
@@ -339,6 +338,9 @@
 /obj/structure/primal_rift/Initialize(mapload)
 	. = ..()
 	spawn_orcs()
+	set_light(3, 2, 20, l_color = "#c03030")
+	playsound(loc, 'sound/misc/portalopen.ogg', 100, FALSE, pressure_affected = FALSE)
+	new /obj/effect/temp_visual/kinetic_blast(get_turf(src))
 
 	// Auto-delete after 15 minutes
 	addtimer(CALLBACK(src, PROC_REF(expire)), lifetime)

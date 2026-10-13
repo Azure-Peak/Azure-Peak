@@ -210,7 +210,7 @@
 
 /datum/supply_pack/rogue/apparel/scabbard
 	name = "Scabbard"
-	cost = 15
+	cost = 22
 	contains = list(
 					/obj/item/rogueweapon/scabbard/sword
 				)

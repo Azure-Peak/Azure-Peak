@@ -34,7 +34,7 @@ export const TownerWrit = (props: {
       {!!intro && <p style={writParagraph}>{intro}</p>}
       {!!sealNote && <p style={writParagraph}>{sealNote}</p>}
       <p style={writParagraph}>
-        For this work the bearer is paid <b>{reward} mammon</b>
+        For this work the holder is paid <b>{reward} mammon</b>
         {showLevy ? (
           <>
             , <b>{net} mammon</b> after the Crown&apos;s Levy

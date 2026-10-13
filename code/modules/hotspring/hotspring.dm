@@ -79,6 +79,7 @@
 			if(do_after(L, 3 SECONDS, target = src))
 				wash_atom(user, CLEAN_STRONG)
 				user.remove_stress(/datum/stressevent/sewertouched)
+				user.remove_stress(/datum/stressevent/unlanded_noble_bloody_equipment)
 				playsound(user, pick(wash), 100, FALSE)
 		else
 			user.visible_message(span_info("[user] starts to wash [item2wash] in [src]."))

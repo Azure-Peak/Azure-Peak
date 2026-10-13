@@ -18,8 +18,6 @@
 	use_skintones = TRUE
 	possible_ages = ALL_AGES_LIST
 	skinned_type = /obj/item/ingot/steel
-	disliked_food = NONE
-	liked_food = NONE
 	inherent_traits = list(
 		TRAIT_IRONMAN,
 		TRAIT_LIMBATTACHMENT, // this interacts with trait_ironman, making this take a while to reattach

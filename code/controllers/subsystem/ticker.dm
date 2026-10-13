@@ -107,6 +107,9 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/Initialize(timeofday)
 	load_mode()
 
+	if(CONFIG_GET(flag/autostart))
+		start_immediately = TRUE
+
 	login_music = pick('sound/music/title.ogg','sound/music/title2.ogg')
 
 	if(!GLOB.syndicate_code_phrase)
@@ -492,11 +495,13 @@ SUBSYSTEM_DEF(ticker)
 				var/atom/movable/screen/splash/S = new(living.client, TRUE)
 				S.Fade(TRUE)
 			livings += living
-			if(ishuman(living))
-				SSrole_class_handler.setup_class_handler(living)
-				try_apply_character_post_equipment(living)
 		else
 			continue
+	SSrole_class_handler.roll_roundstart_favorites(livings)
+	SSjob.settle_roll_tokens()
+	for(var/mob/living/carbon/human/human in livings)
+		SSrole_class_handler.setup_class_handler(human)
+		try_apply_character_post_equipment(human)
 	if(livings.len)
 		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 30, TIMER_CLIENT_TIME)
 
@@ -509,7 +514,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round(input)
 	if(!input)
 		return
-	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
+	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple(parse_admin_spans(html_encode(input))), "tipoftheround"))
 
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)

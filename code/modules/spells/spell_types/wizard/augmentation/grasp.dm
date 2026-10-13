@@ -38,7 +38,7 @@
 	if(target == H)
 		to_chat(H, span_warning("I cannot grasp myself!"))
 		return FALSE
-	if(!shares_fellowship(H, target) && !H.faction_check_mob(target))
+	if(!shares_fellowship(H, target) && !(target in H.summoned_minions))
 		to_chat(H, span_warning("[target] shares no bond with me!"))
 		return FALSE
 
@@ -59,7 +59,7 @@
 
 	if(QDELETED(target) || !isliving(target))
 		return FALSE
-	if(!shares_fellowship(H, target) && !H.faction_check_mob(target))
+	if(!shares_fellowship(H, target) && !(target in H.summoned_minions))
 		to_chat(H, span_warning("[target] is no longer bound to me - the grasp unravels."))
 		return FALSE
 	if(!can_see(H, target, cast_range))

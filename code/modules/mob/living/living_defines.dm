@@ -46,6 +46,9 @@
 
 	var/last_special = 0 //Used by the resist verb, likely used to prevent players from bypassing next_move by logging in/out.
 	var/timeofdeath = 0
+	var/last_logout_time = 0
+	var/disconnected_admin_alert_timer
+	var/disconnected_admin_alert_sent = FALSE
 
 	var/infected = FALSE //Used to tell if the mob is in progress of turning into deadite
 

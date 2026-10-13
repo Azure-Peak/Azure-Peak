@@ -55,9 +55,9 @@ const StockCard = (props: {
     ? (entry.price_base_pre_kin as number) + entry.price_tariff
     : 0;
   const priceTitle = hasKin
-    ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (Kinship -${kinSaving}m off base cost ${entry.base_cost}m)`
+    ? `${entry.price_base}m + ${entry.price_tariff}m import tariff = ${entry.price}m (Kinship -${kinSaving}m off base cost ${entry.base_cost}m)`
     : hasTariff
-      ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (was ${entry.base_cost}m)`
+      ? `${entry.price_base}m + ${entry.price_tariff}m import tariff = ${entry.price}m (was ${entry.base_cost}m)`
       : `${entry.price}m (was ${entry.base_cost}m)`;
   return (
     <div style={denseRowStyle}>
@@ -197,9 +197,9 @@ const CatalogStockCard = (props: {
     ? entry.price_base_pre_kin + entry.price_tariff
     : 0;
   const priceTitle = hasKin
-    ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m (Kinship -${kinSaving}m)`
+    ? `${entry.price_base}m + ${entry.price_tariff}m import tariff = ${entry.price}m (Kinship -${kinSaving}m)`
     : hasTariff
-      ? `${entry.price_base}m + ${entry.price_tariff}m Crown duty = ${entry.price}m`
+      ? `${entry.price_base}m + ${entry.price_tariff}m import tariff = ${entry.price}m`
       : `${entry.price}m`;
   return (
     <div style={denseRowStyle}>
@@ -221,7 +221,7 @@ const CatalogStockCard = (props: {
             marginLeft: '6px',
             fontSize: FONT_SMALL,
           }}
-          title={`${entry.qty} of ${entry.stock_max} in stock - restocks to full each day`}
+          title={`${entry.qty} of ${entry.stock_max} in stock. Restocks to full each day.`}
         >
           ({entry.qty}/{entry.stock_max})
         </span>
@@ -243,7 +243,7 @@ const CatalogStockCard = (props: {
           }
           title={
             soldOut
-              ? `${entry.name} is out of stock - the caravan restocks to full each day`
+              ? `${entry.name} is out of stock. The caravan restocks to full each day.`
               : `Order ${entry.name} for ${entry.price}m`
           }
         >
@@ -414,9 +414,9 @@ export const CulturalStockTab = (props: Props) => {
             Chartered Agent
           </span>
           <span style={{ color: INK_SOFT }}>
-            As an agent of the Azurian Trading Company, you are allowed to
+            As an ATC Agent, you can buy the Cultural Stock of any docked ship
             access, view, and purchase the Cultural Stock of any docked ships,
-            and view and hail ships on behalf of the Factor.
+            and hail ships for the Factor.
           </span>
         </KinshipBanner>
       )}
@@ -467,8 +467,7 @@ export const CulturalStockTab = (props: Props) => {
             Merchant Kinship: {c.home_realm_name}
           </span>
           <span style={{ color: INK_SOFT }}>
-            The {c.name} is open to the Company — wares cost {c.discount_pct}%
-            less.
+            The {c.name} is open to you. Its wares cost {c.discount_pct}% less.
           </span>
         </KinshipBanner>
       ))}
@@ -485,8 +484,8 @@ export const CulturalStockTab = (props: Props) => {
             Agent Kinship: {c.home_realm_name}
           </span>
           <span style={{ color: INK_SOFT }}>
-            As kin, the {c.name} is open to you — wares cost {c.discount_pct}%
-            less.
+            As kin, the {c.name} is open to you. Its wares cost{' '}
+            {c.discount_pct}% less.
           </span>
         </KinshipBanner>
       ))}
@@ -543,8 +542,8 @@ export const CulturalStockTab = (props: Props) => {
           marginBottom: '8px',
         }}
       >
-        Goods of distinction unloaded by docked vessels. They depart when she
-        sails.
+        Goods of distinction unloaded by docked vessels. They leave when their
+        ship sails.
       </div>
       {ships.map(([shipId, info]) => (
         <ShipSection

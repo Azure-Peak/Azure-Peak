@@ -34,6 +34,7 @@
 		"taur_types" = get_taur_types(),
 		"tgui_themes" = GLOB.tgui_themes,
 		"virtues" = get_virtues(),
+		"quirks" = get_quirks(),
 		"voicepacks" = get_voicepacks(),
 		// Other data
 		"lore_primer" = build_lore_primer_content(),
@@ -179,6 +180,12 @@ Add a new override in your modular folder that looks like this:
 	for(var/virtue_path as anything in GLOB.virtues)
 		var/datum/virtue/V = GLOB.virtues[virtue_path]
 		.["[virtue_path]"] = V.constant_ui_data()
+
+/datum/asset/json/preferences/proc/get_quirks()
+	. = list()
+	for(var/quirk_path as anything in GLOB.quirks)
+		var/datum/quirk/Q = GLOB.quirks[quirk_path]
+		.["[quirk_path]"] = Q.constant_ui_data()
 
 /datum/asset/json/preferences/proc/get_voicepacks()
 	. = list()

@@ -137,6 +137,22 @@
 /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
 	color = CLOTHING_RED
 
+/obj/item/storage/belt/rogue/leather/battleskirt/loincloth
+	name = "cloth loincloth"
+	desc = "A fine leather strap with a crude cloth covering, notched above the loincloth."
+	icon_state = "loincloth"
+	detail_tag = "_detail"
+	detail_color = CLOTHING_WHITE
+
+/obj/item/storage/belt/rogue/leather/battleskirt/loincloth/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
 /obj/item/storage/belt/rogue/leather/steel
 	name = "steel belt"
 	desc = "A fine leather belt that's been sleeved within many segments of steel, protecting its delicate innards from prying hands-and-blades."
@@ -730,7 +746,12 @@
 /obj/item/storage/belt/rogue/leather/belthooks
 	name = "belt hooks"
 	desc = "Etruscan-designed leather-wrapped hooks with an actuating hinge. To clip things to other things."
-	item_state = "belthooks"
-	// belt + empty onmob sprite = welcome to fashion 💀
 	icon_state = "belthooks"
+	// belt + empty onmob sprite = welcome to fashion 💀
 
+/obj/item/storage/backpack/rogue/satchel/tailchel
+	name = "tail satchel"
+	desc = "Modest, really easy on the shoulders since is tied to your tail, preferred by many to have freedom of movement while holds a respectable amount."
+	icon_state = "tailchel"
+	item_state = "tailchel"
+	icon = 'icons/roguetown/clothing/storage.dmi'

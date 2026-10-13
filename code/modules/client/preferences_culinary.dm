@@ -7,6 +7,7 @@ GLOBAL_LIST_INIT(culinary_cuisines, list(
 	"Etruscan" = CUISINE_ETRUSCAN,
 	"Southeastern" = CUISINE_SOUTHEASTERN,
 	"Ranesheni" = CUISINE_RANESHENI,
+	"Naledi" = CUISINE_NALEDI,
 ))
 
 GLOBAL_LIST_INIT(culinary_dishes, list(

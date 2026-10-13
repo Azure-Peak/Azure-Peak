@@ -636,6 +636,73 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 
 	return t
 
+/**
+ * Lets admins type shorthand tags like [zizo]:text or [notice]:"text" in announcements
+ * and have them replaced with the matching span. Unquoted content runs until the next
+ * tag, a newline, or the end of the message. Quoting the content (optionally wrapped in
+ * parentheses, e.g. [zizo]:("text")) lets it sit alongside more text or tags afterward on
+ * the same line. The tag is used directly as the CSS span class.
+ */
+/proc/parse_admin_spans(msg)
+	if(!msg)
+		return msg
+	var/result = ""
+	var/i = 1
+	var/msglen = length(msg)
+	while(i <= msglen)
+		var/tag_start = findtext(msg, "\[", i)
+		if(!tag_start)
+			result += copytext(msg, i)
+			break
+		var/tag_end = findtext(msg, "]", tag_start + 1)
+		if(!tag_end)
+			result += copytext(msg, i)
+			break
+
+		var/cursor = tag_end + 1
+		if(copytext(msg, cursor, cursor + 1) != ":")
+			result += copytext(msg, i, tag_end + 1)
+			i = tag_end + 1
+			continue
+		cursor += 1
+
+		var/tag = LOWER_TEXT(copytext(msg, tag_start + 1, tag_end))
+		var/content
+		var/after
+
+		// Quoted form: [tag]:"content" or [tag]:("content") - lets content span multiple
+		// tags/lines, or sit alongside more text later in the same message.
+		var/has_paren = (copytext(msg, cursor, cursor + 1) == "(")
+		var/quote_check = has_paren ? cursor + 1 : cursor
+		if(copytext(msg, quote_check, quote_check + 1) == "\"")
+			var/quote_start = quote_check + 1
+			var/quote_end = findtext(msg, "\"", quote_start)
+			if(!quote_end)
+				result += copytext(msg, i, tag_end + 1)
+				i = tag_end + 1
+				continue
+			content = copytext(msg, quote_start, quote_end)
+			after = quote_end + 1
+			if(has_paren && copytext(msg, after, after + 1) == ")")
+				after += 1
+		else
+			// Unquoted form: [tag]:content - runs until the next tag, a newline, or the end of the message.
+			var/next_tag = findtext(msg, "\[", cursor)
+			var/next_line = findtext(msg, "\n", cursor)
+			var/content_end = msglen + 1
+			if(next_tag && (!next_line || next_tag < next_line))
+				content_end = next_tag
+			else if(next_line)
+				content_end = next_line
+			content = copytext(msg, cursor, content_end)
+			after = content_end
+
+		result += copytext(msg, i, tag_start)
+		result += "<span class='[tag]'>[content]</span>"
+		i = after
+
+	return result
+
 #define string2charlist(string) (splittext(string, regex("(.)")) - splittext(string, ""))
 
 /proc/rot13(text = "")

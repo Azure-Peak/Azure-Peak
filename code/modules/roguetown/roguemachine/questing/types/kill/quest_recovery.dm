@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "alchemical ozium", "item" = /obj/item/reagent_containers/powder/ozium, "min" = 3, "max" = 5),
 		list("name" = "a cache of moondust", "item" = /obj/item/reagent_containers/powder/moondust, "min" = 2, "max" = 3),
 		list("name" = "cinnabar ore for the Archivist", "item" = /obj/item/rogueore/cinnabar, "min" = 2, "max" = 3),
-		list("name" = "mana-blue elven wine", "item" = /obj/item/reagent_containers/glass/bottle/rogue/elfblue, "min" = 1, "max" = 2),
+		list("name" = "blue elven wine", "item" = /obj/item/reagent_containers/glass/bottle/rogue/elfblue, "min" = 1, "max" = 2),
 		list("name" = "a bundle of parchment", "item" = /obj/item/paper, "min" = 8, "max" = 14),
 	),
 	// Manor: luxury goods and contraband
@@ -22,13 +22,13 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "an Elven vintage", "item" = /obj/item/reagent_containers/glass/bottle/rogue/elfred, "min" = 1, "max" = 1),
 		list("name" = "a cache of moondust", "item" = /obj/item/reagent_containers/powder/moondust, "min" = 2, "max" = 3),
 		list("name" = "dressed poultry", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry, "min" = 3, "max" = 5),
-		list("name" = "cured meat", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak, "min" = 3, "max" = 5),
+		list("name" = "fresh steaks", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak, "min" = 3, "max" = 5),
 	),
 	// Tavern: food and drink for the Innkeeper
 	/area/rogue/indoors/town/tavern = list(
 		list("name" = "wine bottles", "item" = /obj/item/reagent_containers/glass/bottle/rogue/whitewine, "min" = 4, "max" = 7),
 		list("name" = "aged spiced wine", "item" = /obj/item/reagent_containers/glass/bottle/rogue/spicedwineaged, "min" = 2, "max" = 4),
-		list("name" = "barrels of aurorian ale", "item" = /obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian, "min" = 5, "max" = 8),
+		list("name" = "bottles of aurorian ale", "item" = /obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian, "min" = 5, "max" = 8),
 		list("name" = "aged cheese wheels", "item" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged, "min" = 3, "max" = 5),
 	),
 	// Church: lost tithes — always a full bundle or two of the essentials
@@ -59,6 +59,8 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	return QUEST_REWARD_BASE_RECOVERY
 
 /datum/quest/kill/recovery/roll_circumstance()
+	if(faction?.category in list(FACTION_CAT_UNDEAD, FACTION_CAT_BEAST, FACTION_CAT_ELEMENTAL))
+		return pick_recovery_circumstance()
 	return pick_recovery_bandits_circumstance()
 
 /datum/quest/kill/recovery/get_recovery_shipment_name()

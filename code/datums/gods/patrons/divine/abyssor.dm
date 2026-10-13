@@ -3,7 +3,7 @@
 	domain = "God of the Sea, Dreams, and The Unknown"
 	desc = "The strongest of the Ten; when awakened, the world flooded for a thousand daes and a thousand nights before He was put to slumber. Resting fitfully did Dendor split from his skull like a gaping wound, blessing the primodal men with the first taste of water - and in their dreams, the first nightmares."
 	worshippers = "Sailors, Seapeople, and Sages"
-	mob_traits = list(TRAIT_ABYSSOR_SWIM, TRAIT_SEA_DRINKER)
+	mob_traits = list(TRAIT_ABYSSOR_SWIM, TRAIT_SEA_DRINKER, TRAIT_DEEP_DREAMER)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/obj/effect/proc_holder/spell/invoked/aquatic_compulsion	= CLERIC_T0,
 					/obj/effect/proc_holder/spell/self/abyssor_wind				= CLERIC_T0,

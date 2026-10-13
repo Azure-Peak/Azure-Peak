@@ -3,9 +3,11 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 /datum/escrow_order
 	var/commissioner_name
 	var/datum/weakref/commissioner_ref
+	var/datum/weakref/commissioner_fund_ref
 	var/smith_name
 	var/list/recipe_quantities = list()
-	var/deposited = 0
+	var/price = 0
+	var/held = FALSE
 	var/list/delivered_items = list()
 	var/list/delivered_counts = list()
 	var/status = "open"
@@ -71,6 +73,15 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		cached_material_tally = out
 	return out
 
+/datum/escrow_order/proc/get_commissioner_fund()
+	return commissioner_fund_ref?.resolve()
+
+/datum/escrow_order/proc/is_backed()
+	if(held)
+		return TRUE
+	var/datum/fund/F = get_commissioner_fund()
+	return F && F.balance >= price
+
 /datum/escrow_order/proc/is_fulfilled()
 	var/list/needed = required_result_counts()
 	if(!length(needed))
@@ -81,21 +92,19 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	return TRUE
 
 /datum/escrow_order/proc/try_accept_item(obj/item/I)
+	var/list/needed = required_result_counts()
+	var/wanted = needed[I.type]
+	if(!wanted || (delivered_counts[I.type] || 0) >= wanted)
+		return FALSE
 	if(I.max_integrity > 0 && I.obj_integrity < I.max_integrity * ESCROW_DURABILITY_FLOOR)
 		return "damaged"
-	var/list/needed = required_result_counts()
-	for(var/path in needed)
-		if(I.type != path)
-			continue
-		if((delivered_counts[path] || 0) < needed[path])
-			delivered_counts[path] = (delivered_counts[path] || 0) + 1
-			delivered_items += I
-			return TRUE
-	return FALSE
+	delivered_counts[I.type] = (delivered_counts[I.type] || 0) + 1
+	delivered_items += I
+	return TRUE
 
 /obj/structure/roguemachine/escrow
 	name = "COMMISSIONER"
-	desc = "A brass-plated contraption with a coin slot above and an iron strongbox beneath. The guild posts and fulfills smithing or engineering work here, coin held in escrow until the job is done."
+	desc = "A contraption plated in brass with a coin slot above and an iron strongbox beneath. The guild posts and fulfills smithing or engineering work here. Coin is held in escrow until the job is done."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "streetvendor1"
 	density = TRUE
@@ -105,15 +114,14 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	anchored = TRUE
 	layer = BELOW_OBJ_LAYER
 	var/list/keycontrol = list("crafterguild", "craftermaster")
-	var/budget = 0
+	var/datum/fund/escrow_fund
 	var/list/material_prices
 	var/list/derived_material_prices
-	var/percent_margin = 70
-	var/flat_margin = 5
+	var/percent_margin = ESCROW_DEFAULT_PERCENT_MARGIN
+	var/flat_margin = ESCROW_DEFAULT_FLAT_MARGIN
 	var/item_cap_per_order = 3
 	var/list/orders = list()
 	var/list/manifests = list()
-	var/list/manifest_deposits = list()
 	var/list/catalog
 	var/list/cached_catalog_data
 	var/list/cached_categories
@@ -182,6 +190,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 /obj/structure/roguemachine/escrow/Initialize(mapload)
 	. = ..()
 	GLOB.escrow_machines += src
+	escrow_fund = new /datum/fund("[name] escrow", null, 0, CURRENCY_MAMMON)
 	init_material_prices()
 	disabled_materials = default_disabled_materials?.Copy() || list()
 	rebuild_catalog()
@@ -241,15 +250,18 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 
 /obj/structure/roguemachine/escrow/Destroy()
 	GLOB.escrow_machines -= src
+	for(var/datum/escrow_order/O in orders)
+		return_hold(O)
 	orders?.Cut()
 	manifests?.Cut()
-	manifest_deposits?.Cut()
+	escrow_fund = null
 	return ..()
 
 /obj/structure/roguemachine/escrow/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Any commissioner may build a manifest of smithing or engineering recipes and deposit coin into the machine. Submitting the manifest posts an order with the coin held in escrow.")
+	. += span_info("A posting will draw its deposit from the commissioner's bank account, with fund transferred once it is claimed by a smith or tailor.")
 	. += span_info("A smith can claim an open order, deliver the finished items back into the machine, and collect the escrowed pay once every item has been delivered. An order that has been claimed cannot be cancelled by the commissioner.")
+	. += span_info("Click on it with a container to empty items inside into any orders that match.")
 	. += span_info("A guild member may adjust material prices and margins through the machine's panel.")
 
 /obj/structure/roguemachine/escrow/proc/rebuild_catalog()
@@ -482,18 +494,6 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	return round(base * (1 + percent_margin / 100)) + flat_margin
 
 /obj/structure/roguemachine/escrow/attackby(obj/item/P, mob/user, params)
-	if(istype(P, /obj/item/roguecoin/aalloy) || istype(P, /obj/item/roguecoin/inqcoin))
-		return
-	if(istype(P, /obj/item/roguecoin))
-		var/key = escrow_key(user)
-		if(!key)
-			return
-		manifest_deposits[key] = (manifest_deposits[key] || 0) + P.get_real_price()
-		qdel(P)
-		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
-		update_user_ui(user)
-		return
-
 	if(ishuman(user))
 		try_smith_deliver(P, user)
 
@@ -506,20 +506,57 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	var/key = escrow_key(user)
 	if(!key)
 		return
+	var/result = deliver_item(I, key)
+	if(result == "damaged")
+		to_chat(user, span_warning("[src] refuses [I]. Mend it before you deliver it."))
+		return
+	if(result)
+		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
+		to_chat(user, span_notice("[src] accepts [I]."))
+		SStgui.update_uis(src)
+		return
+	var/list/held = I.held_contents()
+	if(length(held))
+		bulk_deliver(I, held, user, key)
+		return
+	to_chat(user, span_warning("[src] has no order waiting for [I]."))
+
+/obj/structure/roguemachine/escrow/proc/deliver_item(obj/item/I, key, obj/item/container)
+	var/damaged = FALSE
 	for(var/datum/escrow_order/O in orders)
 		if(O.status != "claimed" || O.smith_name != key)
 			continue
 		var/result = O.try_accept_item(I)
 		if(result == "damaged")
-			to_chat(user, span_warning("[src] refuses [I] - the work is too damaged to deliver. Mend it first."))
-			return
+			damaged = TRUE
+			continue
 		if(result)
-			I.forceMove(src)
-			playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
-			to_chat(user, span_notice("[src] accepts [I]."))
-			SStgui.update_uis(src)
-			return
-	to_chat(user, span_warning("[src] has no order waiting for [I]."))
+			if(container)
+				container.release_held(I, src)
+			else
+				I.forceMove(src)
+			return TRUE
+	return damaged ? "damaged" : FALSE
+
+/obj/structure/roguemachine/escrow/proc/bulk_deliver(obj/item/container, list/held, mob/user, key)
+	var/accepted = 0
+	var/damaged = 0
+	for(var/obj/item/I in held)
+		var/result = deliver_item(I, key, container)
+		if(result == "damaged")
+			damaged++
+		else if(result)
+			accepted++
+	var/tail = damaged ? " Mend [damaged] item\s first." : ""
+	if(accepted)
+		playsound(loc, 'sound/misc/machinevomit.ogg', 100, TRUE, -1)
+		to_chat(user, span_notice("[src] takes [accepted] item\s from [container].[tail]"))
+		SStgui.update_uis(src)
+		return
+	if(damaged)
+		to_chat(user, span_warning("[src] refuses everything in [container].[tail]"))
+		return
+	to_chat(user, span_warning("[src] has no order waiting for anything in [container]."))
 
 /obj/structure/roguemachine/escrow/ui_state(mob/user)
 	return GLOB.human_adjacent_state
@@ -563,23 +600,22 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	if(O.status == "open" && !is_guild_member(user))
 		return
 	orders -= O
-	var/payout = O.deposited
-	O.deposited = 0
-	budget -= payout
+	var/was_held = O.held
+	return_hold(O)
 	var/turf/T = get_turf(src)
 	for(var/obj/item/I in O.delivered_items)
 		I.forceMove(T)
 	O.delivered_items.Cut()
-	if(payout > 0 && O.commissioner_name)
-		manifest_deposits[O.commissioner_name] = (manifest_deposits[O.commissioner_name] || 0) + payout
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
-	var/clean_reason = reason ? copytext(sanitize(reason), 1, 200) : ""
+	var/clean_reason = reason ? copytext(sanitize(reason), 1, ESCROW_NOTE_MAX_LENGTH + 1) : ""
 	var/say_msg = "[user.real_name] rejects [O.commissioner_name]'s commission ([O.label()])"
 	if(clean_reason)
 		say_msg += ": \"[clean_reason]\""
 	say_msg += "."
 	say(say_msg)
-	var/notify_msg = "[user.real_name] has rejected your commission at [src]. [payout]m has been returned to your deposit."
+	var/notify_msg = "[user.real_name] has rejected your commission at [src]."
+	if(was_held)
+		notify_msg += " [O.price]m has been returned."
 	if(clean_reason)
 		notify_msg += " Reason: \"[clean_reason]\""
 	notify_commissioner(O, notify_msg)
@@ -590,20 +626,17 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	for(var/datum/escrow_order/O in orders.Copy())
 		if(O.status == "open" && GLOB.dayspassed - O.day_posted >= ESCROW_OPEN_EXPIRY_DAYS)
 			orders -= O
-			budget -= O.deposited
-			if(O.deposited > 0 && O.commissioner_name)
-				manifest_deposits[O.commissioner_name] = (manifest_deposits[O.commissioner_name] || 0) + O.deposited
-			notify_commissioner(O, "Your unclaimed commission at [src] has expired. [O.deposited]m has been returned to your deposit.")
-			O.deposited = 0
+			notify_commissioner(O, "Your unclaimed commission at [src] has expired.")
 		else if(O.status == "claimed" && O.day_claimed && GLOB.dayspassed - O.day_claimed >= ESCROW_CLAIM_EXPIRY_DAYS)
 			for(var/obj/item/I in O.delivered_items)
 				I.forceMove(T)
 			O.delivered_items.Cut()
 			O.delivered_counts.Cut()
+			return_hold(O)
 			O.status = "open"
 			O.smith_name = null
 			O.day_claimed = 0
-			notify_commissioner(O, "The claim on your commission at [src] has expired; the order is open again for new smiths.")
+			notify_commissioner(O, "The claim on your commission at [src] has expired.")
 
 /obj/structure/roguemachine/escrow/ui_static_data(mob/user)
 	var/list/data = list()
@@ -657,8 +690,10 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	data["can_read"] = (ishuman(user) && user.can_read(src, TRUE)) ? TRUE : FALSE
 	data["is_guildmaster"] = is_guild_member(user) ? TRUE : FALSE
 	var/user_key = escrow_key(user)
-	data["budget"] = budget
-	data["my_deposit"] = (user_key && manifest_deposits[user_key]) || 0
+	data["budget"] = escrow_fund?.balance || 0
+	var/datum/fund/user_fund = SStreasury.get_account(user)
+	data["has_account"] = user_fund ? TRUE : FALSE
+	data["my_balance"] = user_fund ? user_fund.balance : 0
 	data["my_manifest_items"] = user_key ? manifest_item_count(user_key) : 0
 	data["has_active_order"] = (user_key && has_active_order(user_key)) ? TRUE : FALSE
 
@@ -683,6 +718,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	data["manifest_total"] = manifest_total
 
 	var/list/orders_data = list()
+	var/list/unbacked_data = list()
 	for(var/datum/escrow_order/O in orders)
 		if(isnull(O.cached_lines))
 			build_order_cache(O)
@@ -709,11 +745,14 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		else if(O.status == "claimed" && O.day_claimed)
 			days_left = max(0, ESCROW_CLAIM_EXPIRY_DAYS - (GLOB.dayspassed - O.day_claimed))
 			expiry_label = "claim expires in"
-		orders_data += list(list(
+		var/backed = O.is_backed()
+		var/list/target = (O.status == "open" && !backed) ? unbacked_data : orders_data
+		target += list(list(
 			"ref" = "\ref[O]",
 			"commissioner_name" = O.commissioner_name,
 			"smith_name" = O.smith_name || "",
-			"deposited" = O.deposited,
+			"price" = O.price,
+			"is_backed" = backed ? TRUE : FALSE,
 			"status" = O.status,
 			"lines" = O.cached_lines,
 			"materials" = O.cached_materials,
@@ -727,7 +766,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 			"expiry_label" = expiry_label,
 			"note" = O.commissioner_note,
 		))
-	data["orders"] = orders_data
+	data["orders"] = orders_data + unbacked_data
 	return data
 
 /obj/structure/roguemachine/escrow/proc/is_priority_material(path)
@@ -747,7 +786,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 			if("set_percent_margin")
 				var/n = text2num(params["value"])
 				if(isnum(n))
-					percent_margin = clamp(round(n), 0, 500)
+					percent_margin = clamp(round(n), 0, ESCROW_PERCENT_MARGIN_MAX)
 					dirty_catalog_view()
 				return FALSE
 			if("set_flat_margin")
@@ -799,10 +838,6 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		if("submit_manifest")
 			submit_manifest(usr, params["note"])
 			return TRUE
-		if("refund_deposit")
-			refund_deposit(usr)
-			update_user_ui(usr)
-			return FALSE
 		if("cancel_order")
 			var/datum/escrow_order/O = locate(params["ref"]) in orders
 			if(O)
@@ -896,54 +931,55 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	if(!length(cart))
 		return
 	if(has_active_order(key))
-		to_chat(user, span_warning("You already have an active commission here - finish or cancel it before posting another."))
+		to_chat(user, span_warning("You already have an active commission here. Finish or cancel it before posting another."))
 		return
 	if(manifest_item_count(key) > item_cap_per_order)
-		to_chat(user, span_warning("This commission asks for more than [item_cap_per_order] item\s - trim the manifest or raise the cap."))
+		to_chat(user, span_warning("This commission asks for more than [item_cap_per_order] item\s. Trim the manifest, or ask a guild member to raise the limit."))
+		return
+	var/datum/fund/account = SStreasury.get_account(user)
+	if(!account)
+		to_chat(user, span_warning("You cannot post without a MEISTER account."))
 		return
 	var/total = manifest_total(user)
-	var/deposit = manifest_deposits[key] || 0
-	if(deposit < total)
-		to_chat(user, span_warning("Not enough deposited. Need [total]mm, have [deposit]mm."))
+	if(account.balance < total)
+		to_chat(user, span_warning("Not enough balance. You need [total]m and have [account.balance]m."))
 		return
 	var/datum/escrow_order/O = new()
 	O.commissioner_name = key
 	O.commissioner_ref = WEAKREF(user)
+	O.commissioner_fund_ref = WEAKREF(account)
 	O.day_posted = GLOB.dayspassed
 	if(note)
-		O.commissioner_note = copytext(sanitize(note), 1, 200)
+		O.commissioner_note = copytext(sanitize(note), 1, ESCROW_NOTE_MAX_LENGTH + 1)
 	for(var/k in cart)
 		O.recipe_quantities[k] = cart[k]
-	O.deposited = total
+	O.price = total
 	orders += O
-	budget += total
-	manifest_deposits[key] = deposit - total
 	manifests -= key
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 	to_chat(user, span_notice("Your commission has been posted."))
 	update_icon()
 
-/obj/structure/roguemachine/escrow/proc/refund_deposit(mob/user)
-	var/key = escrow_key(user)
-	if(!key)
-		return
-	var/deposit = manifest_deposits[key] || 0
-	if(deposit <= 0)
-		return
-	manifest_deposits[key] = 0
-	budget2change(deposit, user)
-	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
-
 /obj/structure/roguemachine/escrow/proc/cancel_order(datum/escrow_order/O, mob/user)
 	if(!O || O.status != "open" || escrow_key(user) != O.commissioner_name)
 		return
 	orders -= O
-	var/payout = O.deposited
-	O.deposited = 0
-	budget -= payout
-	budget2change(payout, user)
-	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
+	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 	update_icon()
+
+/obj/structure/roguemachine/escrow/proc/return_hold(datum/escrow_order/O)
+	if(!O?.held)
+		return
+	O.held = FALSE
+	var/datum/fund/F = O.get_commissioner_fund()
+	if(F && escrow_fund)
+		SStreasury.transfer(escrow_fund, F, O.price, "Commission hold returned")
+
+/obj/structure/roguemachine/escrow/proc/pay_smith(mob/user, amount)
+	if(amount <= 0)
+		return
+	if(SStreasury.burn(escrow_fund, amount, "Commission payout"))
+		budget2change(amount, user)
 
 /obj/structure/roguemachine/escrow/proc/claim_order(datum/escrow_order/O, mob/user)
 	if(!O || O.status != "open")
@@ -954,6 +990,12 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	if(escrow_key(user) == O.commissioner_name)
 		to_chat(user, span_warning("I cannot fulfill my own commission."))
 		return
+	var/datum/fund/commissioner_fund = O.get_commissioner_fund()
+	if(!commissioner_fund || !SStreasury.transfer(commissioner_fund, escrow_fund, O.price, "Commission hold"))
+		to_chat(user, span_warning("[O.commissioner_name] can no longer cover the price of [O.price]m."))
+		SStgui.update_uis(src)
+		return
+	O.held = TRUE
 	O.status = "claimed"
 	O.smith_name = escrow_key(user)
 	O.day_claimed = GLOB.dayspassed
@@ -970,6 +1012,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 		I.forceMove(T)
 	O.delivered_items.Cut()
 	O.delivered_counts.Cut()
+	return_hold(O)
 	O.status = "open"
 	O.smith_name = null
 	O.day_claimed = 0
@@ -999,24 +1042,25 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	if(done_count >= needed_count)
 		complete_order(O, user)
 		return
+	if(!O.held)
+		return
 	var/progress_ratio = done_count / needed_count
-	var/smith_payout = round(O.deposited * progress_ratio * (100 - ESCROW_PARTIAL_HAIRCUT_PERCENT) / 100)
+	var/smith_payout = round(O.price * progress_ratio * (100 - ESCROW_PARTIAL_HAIRCUT_PERCENT) / 100)
 	record_order_materials_fulfilled(O, progress_ratio, smith_payout)
-	var/commissioner_refund = O.deposited - smith_payout
+	var/commissioner_refund = O.price - smith_payout
 	var/turf/T = get_turf(src)
 	for(var/obj/item/I in O.delivered_items)
 		I.forceMove(T)
 	O.delivered_items.Cut()
 	orders -= O
-	budget -= O.deposited
-	O.deposited = 0
-	if(smith_payout > 0)
-		budget2change(smith_payout, user)
-	if(commissioner_refund > 0 && O.commissioner_name)
-		manifest_deposits[O.commissioner_name] = (manifest_deposits[O.commissioner_name] || 0) + commissioner_refund
+	O.held = FALSE
+	pay_smith(user, smith_payout)
+	var/datum/fund/commissioner_fund = O.get_commissioner_fund()
+	if(commissioner_refund > 0 && commissioner_fund)
+		SStreasury.transfer(escrow_fund, commissioner_fund, commissioner_refund, "Commission refund")
 	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
-	to_chat(user, span_notice("Settled partial commission: you collect [smith_payout]m. [commissioner_refund]m has been returned to [O.commissioner_name]'s deposit."))
-	notify_commissioner(O, "Your commission at [src] was partially fulfilled ([done_count]/[needed_count]). Items have been left at the docks; [commissioner_refund]m has been returned to your deposit.")
+	to_chat(user, span_notice("You settle the commission partially and collect [smith_payout]m. [commissioner_refund]m has been returned to [O.commissioner_name]."))
+	notify_commissioner(O, "Your commission at [src] was partly fulfilled ([done_count]/[needed_count]). The finished items were left at [src], and [commissioner_refund]m has been returned to your account.")
 	update_icon()
 
 /obj/structure/roguemachine/escrow/proc/complete_order(datum/escrow_order/O, mob/user)
@@ -1025,12 +1069,12 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	if(!O.is_fulfilled())
 		to_chat(user, span_warning("The order is not yet complete."))
 		return
+	if(!O.held)
+		return
 	O.status = "complete"
-	var/payout = O.deposited
-	record_order_materials_fulfilled(O, 1, payout)
-	O.deposited = 0
-	budget -= payout
-	budget2change(payout, user)
+	O.held = FALSE
+	record_order_materials_fulfilled(O, 1, O.price)
+	pay_smith(user, O.price)
 	playsound(loc, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 	notify_commissioner(O, "Your commission at [src] is ready for collection: [O.label()].")
 	update_icon()
@@ -1057,16 +1101,11 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 	..()
 	var/turf/T = get_turf(src)
 	for(var/datum/escrow_order/O in orders)
+		return_hold(O)
 		for(var/obj/item/I in O.delivered_items)
 			I.forceMove(T)
 	orders.Cut()
 	manifests.Cut()
-	var/spill = budget
-	for(var/ck in manifest_deposits)
-		spill += manifest_deposits[ck]
-	manifest_deposits.Cut()
-	budget = 0
-	budget2change(spill, custom_turf = T)
 	update_icon()
 
 /obj/structure/roguemachine/escrow/update_icon()
@@ -1082,7 +1121,7 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 
 /obj/structure/roguemachine/escrow/tailor
 	name = "TAILORING COMMISSIONER"
-	desc = "A brass-plated commission board for the weavers' and tailors' guild. Coin held in escrow until the work is delivered."
+	desc = "A commission board plated in brass for the weavers' and tailors' guild. Coin held in escrow until the work is delivered."
 	keycontrol = list("tailor", "crafterguild", "craftermaster")
 	allowed_categories = list(
 		ITEM_CAT_GARMENT_COMMON,

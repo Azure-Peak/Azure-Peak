@@ -1006,6 +1006,8 @@
 	socks = target.socks
 	has_stubble = target.has_stubble
 	headshot_link = target.headshot_link
+	headshot_artist_credit = target.headshot_artist_credit
+	headshot_artist_link = target.headshot_artist_link
 	// i dont want NPCs to make you a guy w/ no flavortext
 	if(flavortext)
 		flavortext = target.flavortext
@@ -1164,3 +1166,25 @@
 	vocal_pitch_range = client.prefs.bark_variance
 	apply_voicepacks(src, client)
 	return TRUE
+
+// mood penalties for poor equipment as a noble: if they're not spawn equipment and are poor quality, mood debuff. if you're covered in blood, mood debuff
+/mob/living/carbon/human/check_equipment_mood_penalty()
+	if(HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED))
+		var/any_bad = FALSE
+		var/any_bloody = FALSE
+		for(var/obj/item/I in get_equipped_items())
+			if((I.item_quality != ITEM_QUALITY_WORN) && (I.item_quality < ITEM_QUALITY_STANDARD))
+				any_bad = TRUE
+			if(!cmode && (HAS_BLOOD_DNA(I) || I.GetComponent(/datum/component/decal/blood)))
+				any_bloody = TRUE
+			if(any_bad && (cmode || any_bloody))
+				break
+		if(any_bad && !has_stress_event(/datum/stressevent/unlanded_noble_shitty_equipment))
+			add_stress(/datum/stressevent/unlanded_noble_shitty_equipment)
+		else if(!any_bad && has_stress_event(/datum/stressevent/unlanded_noble_shitty_equipment))
+			remove_stress(/datum/stressevent/unlanded_noble_shitty_equipment)
+
+		if(any_bloody && !has_stress_event(/datum/stressevent/unlanded_noble_bloody_equipment))
+			add_stress(/datum/stressevent/unlanded_noble_bloody_equipment)
+		else if(!any_bloody && has_stress_event(/datum/stressevent/unlanded_noble_bloody_equipment))
+			remove_stress(/datum/stressevent/unlanded_noble_bloody_equipment)

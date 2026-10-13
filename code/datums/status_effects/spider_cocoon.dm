@@ -1,5 +1,5 @@
 /atom/movable/screen/alert/status_effect/buff/healing/spider_cocoon
-	name = "Spider loogies"
+	name = "Spider Loogies"
 	desc = "Arachnid weave is stitching some of my wounds up slowly."
 	icon_state = "buff"
 

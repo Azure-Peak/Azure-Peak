@@ -357,7 +357,7 @@
 	name = "plate armor"
 	desc = "A pristine set of steel plate armor, fitted with tassets and bracers for additional coverage. To the Knights \
 	of Psydonia, these sets are a symbolic manifestation of their oath; to serve thine kingdom without hesitation, and to \
-	rebuke all the villains who'd dare to defile it. </br>‎	</br>'Slow to don-and-doff, without a trusted Squire's aid..'"
+	rebuke all the villains who'd dare to defile it."
 	icon_state = "plate"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 	equip_delay_self = 12 SECONDS
@@ -372,8 +372,7 @@
 	icon_state = "ironplate"
 	desc = "A 'munition'-grade set of iron plate armor, fitted with pauldrons and tassets for additional coverage. Most \
 	of these sets, produced within the last century, can trace their origins to an edict from Hammerhold's former King: one \
-	which demanded a munitions run, but forgot to specify its tailoring towards the dwarven physique. </br>‎	</br>'Slow \
-	to don-and-doff, without a trusted Levyman's aid..'"
+	which demanded a munitions run, but forgot to specify its tailoring towards the dwarven physique."
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_CHEST_PLATE_IRON
 
@@ -930,6 +929,7 @@
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
 	smeltresult = /obj/item/ingot/bronze
 	armor_class = ARMOR_CLASS_MEDIUM
+	armor = ARMOR_BRONZE
 
 /obj/item/clothing/suit/roguetown/armor/plate/scale/copper
 	name = "copper lamellar"
@@ -1078,6 +1078,10 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
 	is_silver = TRUE
 	is_lesser_silver = TRUE
+
+/obj/item/clothing/suit/roguetown/armor/plate/scale/inqcoat/armored/heavy/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_PSYDONIAN_GRIT, "ornate_plate")
 
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/decorated
 	name = "decorated chestplate"
