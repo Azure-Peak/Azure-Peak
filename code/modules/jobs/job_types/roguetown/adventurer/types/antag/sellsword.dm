@@ -20,6 +20,7 @@
 		/datum/skill/combat/maces = SKILL_LEVEL_EXPERT,		
 		/datum/skill/combat/knives = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/whips = SKILL_LEVEL_JOURNEYMAN //for the drow merc kit ig
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
@@ -35,8 +36,8 @@
 
 /datum/outfit/job/roguetown/bandit/sellsword/pre_equip(mob/living/carbon/human/H)
 	..()
-	if (!(istype(H.patron, /datum/patron/inhumen/matthios)))	//This is the only class that forces Matthios. Needed for miracles + limited slot.
-		to_chat(H, span_warning("Matthios embraces me.. I must uphold his creed. I am his light in the darkness."))
+	if (!(istype(H.patron, /datum/patron/inhumen/matthios)))	//This is the only class that forces Matthios. Needed for miracles + limited slot. [yo this is deadass just not true]
+		to_chat(H, span_warning("Matthios embraces me... that limp hustling of the Guild just wasn't enough! I want to be FREE."))
 		H.set_patron(/datum/patron/inhumen/matthios)
 	head = snouthelm_pick(H, /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron, /obj/item/clothing/head/roguetown/helmet/sallet/visored/iron/snouted)
 	neck = /obj/item/clothing/neck/roguetown/bevor/iron
@@ -55,7 +56,7 @@
 
 	id = /obj/item/mattcoin
 	H.adjust_blindness(-3)
-	var/weapons = list("Kriegmesser & Buckler","Falchion & Kite Shield","Sword & Crossbow")
+	var/weapons = list("Kriegmesser & Buckler","Falchion & Kite Shield","Sword & Crossbow", "Axe and Heater Shield")
 	if(H.mind)
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
@@ -73,3 +74,7 @@
 				beltr = /obj/item/quiver/bolt/standard
 				r_hand = /obj/item/rogueweapon/sword
 				beltl = /obj/item/rogueweapon/scabbard/sword
+			if("Axe and Heater Shield) //gronnick
+				backl= /obj/item/rogueweapon/shield/heater
+				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
+				
