@@ -57,7 +57,7 @@
 /datum/supply_pack/rogue/Knight/blkgorget
 	name = "Blacksteel Gorget"
 	cost = 100
-	contauns = list(/obj/item/clothing/neck/roguetown/bevor/blacksteel/modern)
+	contains = list(/obj/item/clothing/neck/roguetown/bevor/blacksteel/modern)
 
 ///////////
 // CHEST //
