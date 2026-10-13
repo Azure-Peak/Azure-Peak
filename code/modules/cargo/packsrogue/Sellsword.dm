@@ -196,7 +196,7 @@
 /datum/supply_pack/rogue/Sellsword/Varangiancrate
 	name = "Atgervi Varangian Crate"
 	cost = 300 // gets shield and axe
-	contains = list(obj/structure/closet/crate/chest/bandit/atgervi)
+	contains = list(/obj/structure/closet/crate/chest/bandit/atgervi)
 
 /obj/structure/closet/crate/chest/bandit/atgervi/Initialize()
 	. = ..()
@@ -215,7 +215,7 @@
 /datum/supply_pack/rogue/Sellsword/janicart
 	name = "Desert Rider Janissary Crate"
 	cost = 300 // gets weapon 
-	contains = list(obj/structure/closet/crate/chest/bandit/jani)
+	contains = list(/obj/structure/closet/crate/chest/bandit/jani)
 
 /obj/structure/closet/crate/chest/bandit/jani/Initialize()
 	. = ..()
@@ -235,7 +235,7 @@
 /datum/supply_pack/rogue/Sellsword/steppesman
 	name = "Aavnic Hetmen Crate"
 	cost = 300 
-	contains = list(obj/structure/closet/crate/chest/bandit/aavnic)
+	contains = list(/obj/structure/closet/crate/chest/bandit/aavnic)
 
 /obj/structure/closet/crate/chest/bandit/aavnic/Initialize()
 	. = ..()
@@ -252,7 +252,7 @@
 /datum/supply_pack/rogue/Sellsword/blackvenom
 	name = "Black Venom Assassin Crate"
 	cost = 260
-	contains = list(obj/structure/closet/crate/chest/bandit/blackvenom)
+	contains = list(/obj/structure/closet/crate/chest/bandit/blackvenom)
 
 /obj/structure/closet/crate/chest/bandit/blackvenom/Initialize()
 	. = ..()
