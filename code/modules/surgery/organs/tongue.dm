@@ -254,6 +254,7 @@
 		/mob/living/carbon/human/proc/emote_lizard_hiss,
 		/mob/living/carbon/human/proc/emote_lizard_squeal,
 		/mob/living/carbon/human/proc/emote_lizard_thump,
+		/mob/living/carbon/human/proc/emote_roark
 	)
 
 /obj/item/organ/tongue/moth

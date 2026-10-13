@@ -197,4 +197,6 @@
 				used = list('sound/vo/LizardSqueal.ogg')
 			if("thump")
 				used = list('sound/vo/LizardThump.ogg')
+			if("roark")
+				used = list ('sound/vo/mobs/vw/roark.ogg')
 	return used

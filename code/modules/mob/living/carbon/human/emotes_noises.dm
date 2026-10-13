@@ -582,3 +582,21 @@
 		return
 	emote("thump", intentional = TRUE)
 
+/datum/emote/living/roark
+	key = "roark"
+	key_third_person = "roar-barks!"
+	message = "roar-barks!"
+	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+	message_muffled = "makes a muffled sound!"
+	vary = TRUE
+	show_runechat = FALSE
+	is_animal = TRUE
+
+/mob/living/carbon/human/proc/emote_roark()
+	if(istype(usr.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/wild_tongue))
+		set name = "Roar-Bark"
+		set category = "Emotes.Wildtongue"
+		emote("roark", intentional = TRUE, animal = TRUE)
+	else
+		to_chat(usr, span_warning("Your tongue doesn't do that"))
+		return
