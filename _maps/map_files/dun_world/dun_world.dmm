@@ -17946,6 +17946,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
 /turf/open/floor/carpet/stellar,
 /area/rogue/under/cave/goblinfort)
+"dhF" = (
+/obj/structure/mineral_door/wood/deadbolt{
+	dir = 8
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/shelter/woods)
 "dhH" = (
 /obj/structure/meathook,
 /obj/effect/decal/cleanable/blood/gibs,
@@ -32686,6 +32692,10 @@
 /obj/structure/flora/hotspring_rocks,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"fGO" = (
+/obj/structure/mineral_door/wood/deadbolt,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/woods)
 "fGP" = (
 /obj/structure/fluff/railing/wood/west,
 /turf/open/floor/rogue/cobble,
@@ -53355,7 +53365,9 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cave/goblinfort)
 "jkC" = (
-/obj/structure/mineral_door/wood,
+/obj/structure/mineral_door/wood/deadbolt{
+	dir = 8
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "jkD" = (
@@ -64591,8 +64603,10 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
 "ldp" = (
-/obj/structure/mineral_door/wood,
-/turf/open/floor/rogue/concrete,
+/obj/structure/mineral_door/wood/deadbolt{
+	dir = 4
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "ldv" = (
 /obj/structure/rack/rogue/shelf/biggest,
@@ -116747,7 +116761,7 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town/roofs/keep)
 "tPg" = (
-/obj/structure/mineral_door/wood,
+/obj/structure/mineral_door/wood/deadbolt,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
 "tPh" = (
@@ -491723,7 +491737,7 @@ lYW
 qOD
 qOD
 qOD
-thf
+fGO
 fcU
 qjy
 oCy
@@ -537016,7 +537030,7 @@ sju
 sju
 cDX
 cDX
-jkC
+ldp
 cDX
 vmJ
 qVA
@@ -545157,7 +545171,7 @@ qUj
 aDJ
 cDX
 afK
-ldp
+ioq
 cDX
 sNZ
 sNZ
@@ -559436,7 +559450,7 @@ ujm
 ujm
 apU
 apU
-tPg
+dhF
 apU
 mZl
 qOD
