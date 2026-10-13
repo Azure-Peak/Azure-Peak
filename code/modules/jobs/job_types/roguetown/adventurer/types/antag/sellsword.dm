@@ -74,7 +74,7 @@
 				beltr = /obj/item/quiver/bolt/standard
 				r_hand = /obj/item/rogueweapon/sword
 				beltl = /obj/item/rogueweapon/scabbard/sword
-			if("Axe and Heater Shield) //gronnick
+			if("Axe and Heater Shield") //gronnick
 				backl= /obj/item/rogueweapon/shield/heater
 				beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel
 				
