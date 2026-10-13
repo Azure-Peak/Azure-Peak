@@ -17946,12 +17946,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
 /turf/open/floor/carpet/stellar,
 /area/rogue/under/cave/goblinfort)
-"dhF" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	dir = 8
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/shelter/woods)
 "dhH" = (
 /obj/structure/meathook,
 /obj/effect/decal/cleanable/blood/gibs,
@@ -32692,10 +32686,6 @@
 /obj/structure/flora/hotspring_rocks,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
-"fGO" = (
-/obj/structure/mineral_door/wood/deadbolt,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/shelter/woods)
 "fGP" = (
 /obj/structure/fluff/railing/wood/west,
 /turf/open/floor/rogue/cobble,
@@ -42427,7 +42417,8 @@
 "hrU" = (
 /obj/structure/mineral_door/wood/fancywood{
 	locked = 1;
-	lockid = "greed_treasure1"
+	lockid = "greed_treasure1";
+	max_integrity = 99999
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/cave/menageriedungeon)
@@ -57299,6 +57290,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/steward)
+"jRV" = (
+/obj/structure/fluff/walldeco/stone/stone3,
+/turf/closed/wall/mineral/rogue/stone/unbreakable,
+/area/rogue/under/cave/menageriedungeon)
 "jSe" = (
 /obj/structure/chair/wood/rogue{
 	dir = 1
@@ -64603,11 +64598,8 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/underdark/north)
 "ldp" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town)
+/turf/closed/wall/mineral/rogue/stone/unbreakable,
+/area/rogue/under/cave/menageriedungeon)
 "ldv" = (
 /obj/structure/rack/rogue/shelf/biggest,
 /obj/item/reagent_containers/glass/bottle/rogue,
@@ -101220,6 +101212,10 @@
 /obj/structure/flora/roguetree/pine,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains)
+"rkR" = (
+/obj/structure/mineral_door/wood/deadbolt,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/shelter/woods)
 "rkU" = (
 /obj/structure/flora/sakura,
 /obj/effect/falling_sakura,
@@ -116761,7 +116757,9 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/town/roofs/keep)
 "tPg" = (
-/obj/structure/mineral_door/wood/deadbolt,
+/obj/structure/mineral_door/wood/deadbolt{
+	dir = 8
+	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/woods)
 "tPh" = (
@@ -132951,6 +132949,10 @@
 /obj/structure/dungeontool/mover,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault/four)
+"wER" = (
+/obj/structure/mineral_door/wood/deadbolt,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/shelter/woods)
 "wES" = (
 /obj/structure/table/wood/fancy/black,
 /obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel{
@@ -140906,6 +140908,10 @@
 /obj/structure/roguewindow/harem3,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/abandonedhotsprings)
+"xYa" = (
+/obj/structure/fluff/walldeco/stone/stone2,
+/turf/closed/wall/mineral/rogue/stone/unbreakable,
+/area/rogue/under/cave/menageriedungeon)
 "xYb" = (
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/woods/southeast)
@@ -142410,6 +142416,12 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/mountains)
+"ykM" = (
+/obj/structure/mineral_door/wood/deadbolt{
+	dir = 4
+	},
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "ykO" = (
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/cobble,
@@ -329310,28 +329322,28 @@ jfK
 aTS
 qPv
 iXZ
-lfT
-uvN
-uvN
-uvN
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-uvN
-uvN
-lfT
-bXD
-lfT
-lfT
-uvN
-uvN
-lfT
-lfT
-lfT
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+jRV
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
 aeZ
 tur
 uvN
@@ -329762,10 +329774,10 @@ qPv
 qPv
 qPv
 iXZ
-lfT
-lfT
-lfT
-lfT
+ldp
+qjZ
+qjZ
+qjZ
 odB
 odB
 odB
@@ -329773,17 +329785,17 @@ pQo
 kLZ
 kLZ
 biA
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-uvN
+qjZ
+qjZ
+qjZ
+qjZ
+qjZ
+qjZ
+ldp
 vKT
 wED
 vlg
-lfT
+ldp
 hKf
 aeZ
 uvN
@@ -330214,8 +330226,8 @@ qPv
 qPv
 qPv
 iXZ
-lfT
-lfT
+ldp
+qjZ
 kLZ
 biA
 pQo
@@ -330229,13 +330241,13 @@ odB
 pQo
 kLZ
 kLZ
-lfT
-lfT
-lfT
+qjZ
+qjZ
+ldp
 leu
 ope
 ope
-lfT
+ldp
 kbQ
 vvu
 oys
@@ -330666,7 +330678,7 @@ rQa
 qPv
 qPv
 iXZ
-lfT
+ldp
 kLZ
 kLZ
 pQo
@@ -330687,7 +330699,7 @@ hrU
 ope
 ope
 tGj
-lfT
+ldp
 tur
 vvu
 syk
@@ -331118,28 +331130,28 @@ rQa
 rQa
 qPv
 iXZ
-lfT
+ldp
 pQo
 pQo
 odB
-lfT
-lfT
-lfT
+qjZ
+qjZ
+qjZ
 odB
 odB
 rXS
-lfT
-lfT
-lfT
+qjZ
+qjZ
+qjZ
 odB
 odB
-odB
-lfT
-lfT
+qjZ
+qjZ
+ldp
 nFq
 ope
 ope
-uvN
+ldp
 tur
 aeZ
 syk
@@ -331570,28 +331582,28 @@ rQa
 rQa
 rQa
 iXZ
-lfT
+ldp
 odB
 odB
 odB
-lfT
+qjZ
 wXc
 pIS
 pzZ
 odB
 odB
-lfT
+qjZ
 wXc
 pIS
 pQo
 pQo
 odB
 pQo
-lfT
+ldp
 vKT
 ovy
 bBm
-uvN
+ldp
 aZC
 aeZ
 tur
@@ -332022,28 +332034,28 @@ rQa
 rQa
 rQa
 iXZ
-lfT
+ldp
 odB
 odB
 odB
-lfT
+qjZ
 wgu
 qQY
 qlX
 pQo
 odB
-lfT
+qjZ
 wgu
 qSo
 odB
 pQo
 pQo
 dNW
-lfT
-lfT
-lfT
-uvN
-dRO
+ldp
+ldp
+ldp
+ldp
+xYa
 tur
 aeZ
 tur
@@ -332474,8 +332486,8 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
+ldp
+qjZ
 odB
 pzZ
 odB
@@ -332484,7 +332496,7 @@ mZi
 odB
 pQo
 lsT
-lfT
+qjZ
 uGD
 mZi
 odB
@@ -332926,8 +332938,8 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
+ldp
+qjZ
 odB
 odB
 odB
@@ -333378,8 +333390,8 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
+ldp
+qjZ
 pQo
 pQo
 qlX
@@ -333830,14 +333842,14 @@ rQa
 rQa
 rQa
 iXZ
-lfT
+ldp
 kLZ
 biA
 pQo
 pQo
 vyg
 odB
-lfT
+qjZ
 wgu
 qQY
 odB
@@ -333847,11 +333859,11 @@ pQo
 tZW
 odB
 odB
-lfT
-lfT
-lfT
-lfT
-bXD
+ldp
+ldp
+ldp
+ldp
+jRV
 lfT
 lfT
 lfT
@@ -334282,14 +334294,14 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
+ldp
+qjZ
 kLZ
 kLZ
 lsT
 odB
 odB
-lfT
+qjZ
 uGD
 mZi
 odB
@@ -334299,7 +334311,7 @@ odB
 pQo
 pQo
 pQo
-lfT
+ldp
 hDU
 bOE
 rRa
@@ -334734,24 +334746,24 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
-lfT
-lfT
+ldp
+qjZ
+qjZ
+qjZ
 odB
 odB
 odB
-lfT
-lfT
-lfT
+qjZ
+qjZ
+qjZ
 rXS
 odB
 odB
 pQo
 kLZ
 kLZ
-lfT
-lfT
+qjZ
+ldp
 ehA
 tfX
 tfX
@@ -335186,9 +335198,9 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
-lfT
+ldp
+qjZ
+qjZ
 kLZ
 pQo
 odB
@@ -335201,9 +335213,9 @@ odB
 pQo
 kLZ
 kLZ
-lfT
-lfT
-lfT
+qjZ
+qjZ
+ldp
 lCl
 poS
 tfX
@@ -335638,8 +335650,8 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
+ldp
+qjZ
 kLZ
 kLZ
 pQo
@@ -335652,10 +335664,10 @@ odB
 pQo
 kLZ
 biA
-lfT
-lfT
-lfT
-uvN
+qjZ
+qjZ
+qjZ
+ldp
 isB
 tfX
 sch
@@ -336090,10 +336102,10 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
-lfT
-lfT
+ldp
+qjZ
+qjZ
+qjZ
 pQo
 kLZ
 biA
@@ -336102,12 +336114,12 @@ pQo
 odB
 odB
 kLZ
-lfT
-lfT
-lfT
-lfT
-lfT
-uvN
+qjZ
+qjZ
+qjZ
+qjZ
+qjZ
+ldp
 vFj
 dmk
 tfX
@@ -336542,24 +336554,24 @@ rQa
 rQa
 rQa
 iXZ
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-lfT
-uvN
-lfT
-lfT
-uvN
-lfT
-lfT
-uvN
-uvN
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
+ldp
 lfT
 lfT
 tfX
@@ -480443,7 +480455,7 @@ alY
 qOD
 fcU
 nUB
-tPg
+wER
 tdy
 tdy
 eto
@@ -491737,7 +491749,7 @@ lYW
 qOD
 qOD
 qOD
-fGO
+rkR
 fcU
 qjy
 oCy
@@ -537030,7 +537042,7 @@ sju
 sju
 cDX
 cDX
-ldp
+ykM
 cDX
 vmJ
 qVA
@@ -559450,7 +559462,7 @@ ujm
 ujm
 apU
 apU
-dhF
+tPg
 apU
 mZl
 qOD
