@@ -18,25 +18,25 @@
 	var/namechance = rand(1,6)
 	switch(namechance)
 		if(1)
-			name = "Hoardmaster Skyblue"
+			name = "Hoardmaster Viryks"
 		if(2)
-			name = "Hoardmaster Thea"
+			name = "Hoardmaster One-Eyed Kirys"
 		if(3)
-			name = "Hoardmaster Radagon"
+			name = "Fyrseeker Iao"
 		if(4)
-			name = "Hoardmaster Shiver"
+			name = "Hoardmaster Yelea"
 		if(5)
-			name = "Hoardmaster Deathbringer"
+			name = "Hoardmaster Hefnd"
 		if(6)
-			name = "Hoardmaster Darkstalker"
+			name = "Hoardmaster Seryks"
 
 /obj/structure/roguemachine/Hoardmaster/examine(mob/user)
 	. = ..()
 	if(user.mind?.has_antag_datum(/datum/antagonist/bandit))
-		. += "Formerly a covetous creature, this one now shares its Hoard with the Freefolk. Protecting the transactor's Hoard, and trading it for Favor."
+		. += "Our Patron, our Drakkyn, the protector of the Transactor's Hoard, who grants its blessing to the Fyrmenne for Favour."
 		return
 	else
-		. += "Some mean looking statue of a dragon. Something about it makes me uneasy, like its eyes are following me."
+		. += "A mean-looking statue of a drakkyn. Something about it makes me uneasy, like its eyes are following me - did it just move a claw?"
 		return
 
 /obj/structure/roguemachine/Hoardmaster/Topic(href, href_list)
