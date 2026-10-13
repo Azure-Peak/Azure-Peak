@@ -187,12 +187,12 @@
 /datum/supply_pack/rogue/Things/metalkit
 	name = "Armor Plate Kit"
 	cost = 150
-	contauns = list(/obj/item/repair_kit/metal)
+	contains = list(/obj/item/repair_kit/metal)
 
 /datum/supply_pack/rogue/Things/sewkit
 	name = "Sewing Kit"
 	cost = 100
-	contauns = list(/obj/item/repair_kit)
+	contains = list(/obj/item/repair_kit)
 
 /datum/supply_pack/rogue/Things/smokebomb
 	name = "Smoke Bomb"
