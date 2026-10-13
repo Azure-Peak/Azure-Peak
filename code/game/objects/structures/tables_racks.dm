@@ -704,3 +704,8 @@
 	else
 		patient = null
 		return FALSE
+
+/obj/structure/table/wood/foldingdecorative
+	name = "wooden table"
+	icon = 'icons/roguetown/misc/gadgets.dmi'
+	icon_state = "foldingtableDeployed"
