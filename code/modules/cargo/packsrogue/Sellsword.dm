@@ -274,7 +274,7 @@
 /obj/structure/closet/crate/chest/bandit/otavan/Initialize()
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/otavan(src)
-	new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate(src) //psydonic fluted cuirass instead of h_armor halfplate
+	new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted(src) //halfplate nerfies
 	new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/otavan(src)
 	new /obj/item/clothing/gloves/roguetown/otavan(src)
 	new /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan(src)
