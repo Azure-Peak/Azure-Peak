@@ -774,14 +774,14 @@
 	taste_description = "a bit of tang, a little citrus, and a little.. iron."
 	metabolization_rate = 1 * REAGENTS_METABOLISM
 	overdose_threshold = null
-	var/hydration = 15
+	hydration_factor = 15
 
 /datum/chemical_reaction/alch/bloodymary
 	name = "Bloody Mary"
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/ethanol/bloodymary
 	results = list(/datum/reagent/consumable/ethanol/bloodymary = 4)
-	required_reagents = list(/datum/reagent/consumable/ethanol/voddena = 1, /datum/reagent/consumable/tomato_juice = 1, /datum/reagent/consumable/lime_juice = 1, /datum/reagent/blood = 1)
+	required_reagents = list(/datum/reagent/consumable/ethanol/voddena = 1, /datum/reagent/consumable/juice/tomato = 1, /datum/reagent/consumable/juice/lime = 1, /datum/reagent/blood = 1)
 
 /datum/reagent/consumable/ethanol/eoras_favour
 	cuisine = CUISINE_RANESHENI
@@ -794,14 +794,14 @@
 	taste_description = "a refreshing and viscous sweet and tart mix."
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = null
-	var/hydration = 15
+	hydration_factor = 15
 
 /datum/chemical_reaction/alch/efavour
 	name = "Eora's Favour"
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/ethanol/eoras_favour
 	results = list(/datum/reagent/consumable/ethanol/eoras_favour = 2)
-	required_reagents = list(/datum/reagent/consumable/ethanol/cider = 1, /datum/reagent/consumable/pomegranate_juice = 1)
+	required_reagents = list(/datum/reagent/consumable/ethanol/cider = 1, /datum/reagent/consumable/juice/pomegranate = 1)
 
 /datum/reagent/consumable/ethanol/dendors_favour
 	cuisine = CUISINE_SOUTHEASTERN
@@ -814,7 +814,7 @@
 	taste_description = "sweet taste of nature."
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	overdose_threshold = null
-	var/hydration = 15
+	hydration_factor = 15
 
 /datum/chemical_reaction/alch/dfavour
 	name = "Dendor's Favour"
@@ -840,7 +840,7 @@
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/ethanol/blackberry_sangria
 	results = list(/datum/reagent/consumable/ethanol/blackberry_sangria = 2)
-	required_reagents = list(/datum/reagent/consumable/blackberry_juice = 1, /datum/reagent/consumable/ethanol/blackberry = 1)
+	required_reagents = list(/datum/reagent/consumable/juice/blackberry = 1, /datum/reagent/consumable/ethanol/blackberry = 1)
 
 /datum/reagent/consumable/ethanol/xylix_spice
 	cuisine = CUISINE_OTAVAIS
@@ -859,4 +859,4 @@
 	mix_sound = 'sound/items/fillbottle.ogg'
 	id = /datum/reagent/consumable/ethanol/xylix_spice
 	results = list(/datum/reagent/consumable/ethanol/xylix_spice = 2)
-	required_reagents = list(/datum/reagent/consumable/orange_juice = 1, /datum/reagent/consumable/ethanol/sazdistal = 1, /datum/reagent/consumable/allspice = 1)
+	required_reagents = list(/datum/reagent/consumable/juice/orange = 1, /datum/reagent/consumable/ethanol/sazdistal = 1, /datum/reagent/consumable/allspice = 1)

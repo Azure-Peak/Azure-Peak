@@ -3,7 +3,7 @@
 /obj/item/bouquet
 	name = ""
 	desc = ""
-	icon = 'icons/roguetown/items/misc.dmi' 
+	icon = 'icons/roguetown/items/misc.dmi'
 	icon_state = ""
 	item_state = ""
 
@@ -33,6 +33,12 @@
 	desc = ""
 	item_state = "bouquet_calendula"
 	icon_state = "bouquet_calendula"
+
+/obj/item/bouquet/fyritius
+	name = "fyritius bouquet"
+	desc = ""
+	item_state = "bouquet_fyritius"
+	icon_state = "bouquet_fyritius"
 
 /obj/item/flowercrown
 	name = "flowercrown"
@@ -128,3 +134,9 @@
 	. = ..()
 	to_chat(user, span_warning ("The thorns prick me."))
 	user.adjustBruteLoss(4)
+
+/obj/item/flowercrown/fyritius
+	name = "crown of fyre"
+	desc = ""
+	item_state = "fyritius_crown"
+	icon_state = "fyritius_crown"

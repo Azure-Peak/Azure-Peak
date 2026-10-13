@@ -780,38 +780,41 @@
 		if(!M.client)
 			to_chat(usr, span_warning("[M] doesn't seem to have an active client."))
 			return
-		var/datum/job/mob_job
-		var/datum/advclass/target_job
-		if(ishuman(M))
-			var/mob/living/carbon/human/H = M
-			target_job = H.get_advclass_datum()
-		if(M.mind)
-			mob_job = SSjob.GetJob(M.mind.assigned_role)
-			if(mob_job)
-				mob_job.current_positions = max(0, mob_job.current_positions - 1)
-			if(target_job)
-				SSrole_class_handler.adjust_class_amount(target_job, -1)
-			M.mind.unknow_all_people()
-			for(var/datum/mind/MF in get_minds())
-				M.mind.become_unknown_to(MF)
-			for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
-				if(removing_bounty.target == M.real_name)
-					GLOB.head_bounties -= removing_bounty
-		log_admin("[key_name(usr)] has sent [key_name(M)] back to the Lobby.")
-		GLOB.chosen_names -= M.real_name
-		LAZYREMOVE(GLOB.actors_list, M.mobid)
-		SSdroning.kill_droning(M.client)
-		SSdroning.kill_loop(M.client)
-		SSdroning.kill_rain(M.client)
-
-		var/mob/dead/new_player/NP = new()
-		NP.ckey = M.ckey
 		if(living)
+			var/mob/living/carbon/human/H = M
+			if(!istype(H))
+				to_chat(usr, span_warning("Only human living mobs can be sent back to the lobby."))
+				return
+			var/delete_character = FALSE
 			if(alert(usr, "Would you like to also delete the living mob [key_name(M)]?", "Message", "Yes", "No") == "Yes")
 				log_admin("[key_name(usr)] has chosen to delete the [M] mob while sending the client to lobby.")
-				qdel(M)
+				delete_character = TRUE
+			H.admin_send_back_to_lobby(usr, delete_character)
 		else
+			SSdroning.kill_droning(M.client)
+			SSdroning.kill_loop(M.client)
+			SSdroning.kill_rain(M.client)
+			var/mob/dead/new_player/NP = new()
+			NP.ckey = M.ckey
 			qdel(M)
+
+
+	else if(href_list["ssd_sendbacktolobby"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/mob/living/carbon/human/H = locate(href_list["ssd_sendbacktolobby"])
+		if(!istype(H))
+			to_chat(usr, span_warning("This can only be used on instances of type /mob/living/carbon/human."))
+			return
+		if(H.client || !H.last_logout_time)
+			to_chat(usr, span_warning("[H] is no longer in a deep slumber."))
+			return
+		if(alert(usr, "Fartravel slumbering [key_name(H)] and delete their character?", "Message", "Yes", "No") != "Yes")
+			return
+		log_admin("[key_name(usr)] has fartraveled slumbering [key_name(H)] after [DisplayTimeText(world.time - H.last_logout_time, 1)] in a deep slumber.")
+		message_admins(span_adminnotice("[key_name_admin(usr)] has fartraveled slumbering [key_name_admin(H)] after [DisplayTimeText(world.time - H.last_logout_time, 1)] in a deep slumber."))
+		H.admin_send_back_to_lobby(usr, TRUE)
 
 	else if(href_list["revive"])
 		if(!check_rights(R_ADMIN))

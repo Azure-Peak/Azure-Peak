@@ -2,10 +2,11 @@
 	status_type = STATUS_EFFECT_REFRESH
 	/// Buffs sharing this group are mutually exclusive; only the highest exclusive_priority stays.
 	var/exclusive_group = null
-	/// Higher wins within a group; on a tie the incumbent is kept.
+	/// Higher wins within a group; on a tie the newcomer replaces the incumbent.
 	var/exclusive_priority = 0
 	/// TRUE if refused on-apply by a stronger group member
 	var/rejected_by_exclusion = FALSE
+	var/exclusive_quiet = FALSE
 
 /datum/status_effect/buff/on_apply()
 	if(exclusive_group && owner)
@@ -13,10 +14,11 @@
 		for(var/datum/status_effect/buff/rival in owner.status_effects)
 			if(rival == src || rival.exclusive_group != exclusive_group)
 				continue
-			if(rival.exclusive_priority >= exclusive_priority)
+			if(rival.exclusive_priority > exclusive_priority)
 				rejected_by_exclusion = TRUE
 				effectedstats = list()
-				owner.balloon_alert_to_viewers("superseded!")
+				if(!exclusive_quiet)
+					owner.balloon_alert_to_viewers("superseded!")
 				return FALSE
 			outranked += rival
 		for(var/datum/status_effect/buff/loser in outranked)
@@ -1220,7 +1222,7 @@
 /datum/status_effect/buff/guidinglight/undivided
 	id = "guidinglight"//Admitedly don't want this to stack with Astrata's one because that would result in a flashbang.
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guidinglight/undivided
-	duration = -1
+	duration = 3 MINUTES
 	status_type = STATUS_EFFECT_REFRESH
 	effectedstats = list(STATKEY_LCK = 1)
 	examine_text = "SUBJECTPRONOUN carries Their Light!"
@@ -1550,25 +1552,6 @@
 /datum/status_effect/buff/xylix_joy/on_remove()
 	. = ..()
 	to_chat(owner, span_info("My fortune returns to normal."))
-
-/datum/status_effect/buff/vigorized
-	id = "vigorized"
-	alert_type = /atom/movable/screen/alert/status_effect/vigorized
-	duration = 10 MINUTES
-	effectedstats = list(STATKEY_SPD = 1, STATKEY_INT = 1)
-
-/atom/movable/screen/alert/status_effect/vigorized
-	name = "Vigorized"
-	desc = "I feel a surge of energy inside, quickening my speed and sharpening my focus."
-	icon_state = "vigorized"
-
-/datum/status_effect/buff/vigorized/on_apply()
-	. = ..()
-	to_chat(owner, span_warning("I feel a surge of energy inside me!"))
-
-/datum/status_effect/buff/vigorized/on_remove()
-	. = ..()
-	to_chat(owner, span_warning("The surge of energy inside me fades..."))
 
 /datum/status_effect/buff/seelie_drugs
 	id = "seelie drugs"
@@ -2567,11 +2550,11 @@
 // https://en.wikipedia.org/wiki/Transparent_eyeball
 /atom/movable/screen/alert/status_effect/buff/transparent_eyeball
 	name = "Transparent Eyeball"
-	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_gamedeadsay("\n...I AM NOTHING, I SEE ALL.")
+	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_blue("\n...I AM NOTHING, I SEE ALL.")
 
 /datum/status_effect/buff/transparent_eyeball/on_apply()
 	. = ..()
-	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil-- scrying orbs will be easier to use, for a time!"))
+	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil. Scrying orbs will be easier to use for a time!"))
 
 /datum/status_effect/buff/transparent_eyeball/on_remove()
 	. = ..()
@@ -2935,3 +2918,39 @@
 /datum/status_effect/buff/overclock/on_remove()
 	. = ..()
 	to_chat(owner, span_notice("I feel the hum of my prosthetics slow down, they need time to recharge."))
+
+//visual effects 4 skeles
+
+#define SAPPERGLOW_FILTER "sapper_exploding_glow"
+/atom/movable/screen/alert/status_effect/buff/sapper_exploding
+	name = "Violently Overcharging"
+	desc = "I am about to give my lyfe and vessel up for my Exarch to level the obstructions of Progress! ZIZO! ZIZO! ZIZO!"
+	icon_state = "zizospite"
+
+/datum/status_effect/buff/sapper_exploding // Hey did u follow us from ritualcircles? Cool, okay this stuff is pretty simple yeah? Most ritual circles use some sort of status effects to get their effects ez.
+	id = "sapper_exploding"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sapper_exploding
+	duration = -1 //does it matter, we're gonna gib
+	status_type = STATUS_EFFECT_REFRESH
+	effectedstats = list(STATKEY_CON = -2) // Makes them, easier to decapitate and such, downside. THIS IS GOING TO FUCKING HURT IF THEY POP IT OFF!
+	examine_text = "SUBJECTPRONOUN violently glows with POTENT magicka, they're going to explode!"
+	var/list/mobs_affected
+	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+	var/outline_colour = "#ff0000" //evil fucking color, get awae!
+
+/datum/status_effect/buff/sapper_exploding/on_apply()
+	. = ..()
+	if (!.)
+		return
+	var/filter = owner.get_filter(SAPPERGLOW_FILTER)
+	if (!filter)
+		owner.add_filter(SAPPERGLOW_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 2))
+
+	if(!mob_light_obj || QDELETED(mob_light_obj))
+		mob_light_obj = owner.mob_light("#ff0000", 5, 2)
+	else
+		mob_light_obj.set_light(5, null, 2, l_color = "#ff0000")
+
+	return TRUE
+
+#undef SAPPERGLOW_FILTER

@@ -2,9 +2,9 @@
 	quest_type = QUEST_RETRIEVAL
 	writ_type = WRIT_TYPE_RECOVERY
 	var/list/fetch_items = list(
-		/obj/item/rogueweapon/huntingknife/throwingknife/steel,
-		/obj/item/rogueweapon/huntingknife,
-		/obj/item/reagent_containers/glass/bottle/rogue/whitewine
+		/obj/item/rogueweapon/huntingknife/throwingknife/steel = "steel tossblades",
+		/obj/item/rogueweapon/huntingknife = "hunting knives",
+		/obj/item/reagent_containers/glass/bottle/rogue/whitewine = "bottles of Otavan White",
 	)
 
 /datum/quest/retrieval/get_base_reward()
@@ -16,7 +16,7 @@
 	return "Retrieve [pick("misplaced", "lost", "abandoned")] goods"
 
 /datum/quest/retrieval/get_objective_text()
-	return "Retrieve [progress_required] [initial(target_item_type.name)]."
+	return "Retrieve [progress_required] [progress_required > 1 ? target_item_plural : initial(target_item_type.name)]."
 
 
 /datum/quest/retrieval/get_additional_reward(turf/origin_turf, turf/target_turf)
@@ -34,6 +34,7 @@
 	if(!.)
 		return
 	target_item_type = pick(fetch_items)
+	target_item_plural = fetch_items[target_item_type]
 	progress_required = rand(1, 3)
 	finalize_preview_title()
 

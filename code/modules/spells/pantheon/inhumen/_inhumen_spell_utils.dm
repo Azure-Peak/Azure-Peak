@@ -352,28 +352,6 @@
 /proc/cmp_coin_value_desc(obj/item/roguecoin/A, obj/item/roguecoin/B)
 	return B.sellprice - A.sellprice
 
-/atom/movable/screen/alert/status_effect/debuff/doomed
-	name = "Doom"
-	desc = "You have precisely 3 seconds to live. See you on the other side."
-	icon_state = "permadeath"
-
-/datum/status_effect/debuff/doom
-	id = "doom"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/doomed
-	duration = 3 SECONDS
-	status_type = STATUS_EFFECT_UNIQUE
-
-/datum/status_effect/debuff/doom/on_apply()
-	. = ..()
-	owner.add_filter(MAMMON_FILTER, 2, list("type" = "outline", "color" = "#911096ff", "alpha" = 175, "size" = 2))
-
-/datum/status_effect/debuff/doom/on_remove()
-	. = ..()
-	var/mob/living/L = owner
-	if(!istype(L))
-		return
-	L.gib()
-
 /atom/movable/screen/alert/status_effect/buff/mammonite
 	name = "Mammonite Strike"
 	desc = "My next strike is empowered by wealth."
@@ -420,7 +398,7 @@
 	if(QDELETED(src) || QDELETED(owner) || QDELETED(target))
 		return
 	if(should_mammon_gib(target))
-		do_mammon_execution(target) // only works vs NPCs! Knocks them back and chance to gib them if you spent over 80 mammon on this (guaranteed if over half the max_cap).
+		do_mammon_execution(target)
 	else
 		do_mammon_strike(target, weapon)
 	consume()
@@ -443,11 +421,12 @@
 /datum/status_effect/buff/mammonite/proc/do_mammon_execution(mob/living/target)
 	if(QDELETED(owner) || QDELETED(target))
 		return
-	owner.visible_message(span_boldwarning("[target] suddenly contorts, twists and lets out a blood-curling screech--!"), span_notice("Their life was worth less than the investment."))
+	owner.visible_message(span_boldwarning("[target] suddenly contorts and twists as gilded flames light them up--!"), span_notice("BEHOLD! THE WEIGHT OF THINE GREED!"))
 	target.emote("superagony")
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
-	target.apply_status_effect(/datum/status_effect/debuff/doom)
+	target.fire_act(20, 20)
+	target.Stun(100)
 	target.safe_throw_at(target, 3, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
 
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
@@ -455,9 +434,16 @@
 		return
 
 	var/damage = bonus_damage
-	var/apen = damage * 0.75
+	var/mammon_spent = round(bonus_damage / 3)
+	var/npc_mult = target.mind ? 1 : 2
+	var/apen = clamp(round(mammon_spent / 20), PEN_NONE, PEN_BSTEEL)
+	var/bclass = BCLASS_BLUNT
+	var/damtype = BRUTE
+	if(mammon_spent >= 80)
+		bclass = BCLASS_BURN
+		damtype = BURN
 
-	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, BCLASS_SMASH, apen, "Mammonite", FALSE, FALSE, FALSE, BRUTE, 1)
+	arcyne_strike(owner, target, weapon, damage, owner.zone_selected, bclass, apen, "Mammonite", FALSE, FALSE, FALSE, damtype, npc_mult, 1)
 	owner.visible_message(span_danger("[owner]'s strike crashes down with the weight of greed!"), span_notice("My investment pays off in full!"))
 	mammon_coin_burst(get_turf(target))
 	playsound(get_turf(target), 'sound/combat/hits/burn (2).ogg', 60, TRUE)
@@ -491,3 +477,57 @@
 	animate(src, pixel_x = pixel_x + rand(-16,16), pixel_y = pixel_y + rand(8,20), alpha = 0, time = duration, easing = EASE_OUT)
 
 #undef MAMMON_FILTER
+
+////////////////////
+/// BARTER UTILS ///
+////////////////////
+
+/proc/validate_matthios_item(obj/item/I, mob/user)
+	if(!I)
+		return FALSE
+	if(I.GetComponent(/datum/component/cursed_item) || I.GetComponent(/datum/component/martyrweapon) || I.GetComponent(/datum/component/silverbless))
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, there is a warding quality to it."))
+		return FALSE
+	if(I.override_state)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is too quirky."))
+		return FALSE
+	if(I.GetComponent(/datum/component/decal/blood))
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is bloodstained."))
+		return FALSE
+	if(I.obj_broken)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is broken."))
+		return FALSE
+	if(I.max_integrity != I.obj_integrity)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, as it is damaged."))
+		return FALSE
+	if(I.is_important)
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, it just doesn't mesh with Him."))
+		return FALSE
+	if(istype(I, /obj/item/roguecoin))
+		to_chat(user, span_warning("You feel like Matthios would not like this at all, He could take it as an insult."))
+		return FALSE
+	if(istype(I, /obj/structure/handcart))
+		to_chat(user, span_warning("Doing it like this would make this Barter less personal than He would like."))
+		return FALSE
+	if(I.get_real_price() < 1)
+		to_chat(user, span_info("This is worthless, both for you and for Him. You know better."))
+		return FALSE
+	var/category = (GLOB.derived_categories && GLOB.derived_categories[I.type]) || ITEM_CAT_MISCELLANEOUS
+	var/bucket = get_navigator_bucket_for_item(I, category)
+	if(bucket == NAVIGATOR_BUCKET_MISCELLANEOUS)
+		if(GLOB.bulk_trade_item_types && GLOB.bulk_trade_item_types[I.type])
+			to_chat(user, span_warning("You feel like Matthios would not like this at all, bulk goods are meaningless for Gods."))
+			return FALSE
+	var/refusal = get_barter_refusal_message(bucket)
+	if(refusal)
+		to_chat(user, span_warning(refusal))
+		return FALSE
+	return TRUE
+
+/proc/get_barter_refusal_message(bucket)
+	switch(bucket)
+		if(NAVIGATOR_BUCKET_REFUSED_FOOD)
+			return "You feel like Matthios would not like this at all, He doesn't need food or drinks."
+		if(NAVIGATOR_BUCKET_REFUSED_BULK)
+			return "You feel like Matthios would not like this at all, His hoard is no warehouse."
+	return null

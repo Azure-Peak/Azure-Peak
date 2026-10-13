@@ -1,4 +1,5 @@
-GLOBAL_VAR_INIT(admin_notice, "") // Admin notice that all clients see when joining the server
+GLOBAL_VAR_INIT(admin_notice, load_persistent_admin_notice()) // Admin notice that all clients see when joining the server
+GLOBAL_VAR_INIT(persistent_admin_notice, load_persistent_admin_notice())
 
 GLOBAL_VAR_INIT(timezoneOffset, 0) // The difference betwen midnight (of the host computer) and 0 world.ticks.
 

@@ -411,10 +411,10 @@
 	if(reagents)
 		if(reagents.flags & TRANSPARENT)
 			if(length(reagents.reagent_list))
-				if(user.can_see_reagents() || (user.Adjacent(src) && (user.get_skill_level(/datum/skill/craft/alchemy) >= 2 || HAS_TRAIT(user, TRAIT_CICERONE)))) //Show each individual reagent
+				if(user.can_identify_reagents(src))
 					. += "It contains:"
 					for(var/datum/reagent/R in reagents.reagent_list)
-						. += "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[R.name]</font>"
+						. += reagents.examine_line(R)
 				else //Otherwise, just show the total volume
 					var/total_volume = 0
 					var/reagent_color
@@ -1038,6 +1038,14 @@
 	if(user != target)
 		var/reverse_message = "has been [what_done] by [ssource][postfix]"
 		target?.log_message(reverse_message, LOG_ATTACK, color="orange", log_globally=FALSE)
+
+/// Numpad direction from witness to event: 8 north, 6 east, 3 southeast. One char, appended to a name like ^ v ~
+/proc/seen_direction_tag(atom/witness, atom/happening)
+	var/static/list/tags = list(
+		"[NORTH]" = "8", "[NORTHEAST]" = "9", "[EAST]" = "6", "[SOUTHEAST]" = "3",
+		"[SOUTH]" = "2", "[SOUTHWEST]" = "1", "[WEST]" = "4", "[NORTHWEST]" = "7",
+	)
+	return tags["[get_dir(witness, happening)]"] || "~"
 
 /proc/log_seen(mob/user, atom/target, list/viewers, message, seen_type)
 	var/color

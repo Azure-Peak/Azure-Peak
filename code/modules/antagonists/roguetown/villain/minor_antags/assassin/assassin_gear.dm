@@ -81,7 +81,7 @@
 	if(HAS_TRAIT(user, TRAIT_ASSASSIN))
 		. += "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"...here we are!\"</i>")
 	else if(HAS_TRAIT(user, TRAIT_DEATHSIGHT))
-		. += span_gamedeadsay("This is the VILE DAGGER of a SOUL-THIEF! SLAY IT'S MASTER and BREAK IT by invoking a Necran ritual upon it!")
+		. += span_gamedeadsay("This is the VILE DAGGER of a SOUL-THIEF! SLAY ITS MASTER and BREAK IT by invoking a Necran ritual upon it!")
 	if(stored_souls.len)
 		// tried some bullshit w/ the expression being in here like the pale aura from dnr for practice
 		. += span_gamedeadsay("You can hear [stored_souls.len] soul[stored_souls.len > 1 ? "s" : ""] screaming from within...")
@@ -102,7 +102,7 @@
 	or oozelings. Their souls will still be trapped if they are valid, however.")
 	. += span_info("BREAKING the dagger requires the assassin to be slain.")
 	// keep this updated w/ absolver if that also gets added
-	. += span_info("This dagger can be broken through a Necran Rite, a Bishop's blessing, or an Absolver's Golgatha blessing.")
+	. += span_redinfo("This dagger can be broken through a Necran Rite, a Bishop's blessing, or an Absolver's Golgatha blessing.")
 	. += span_info("Breaking the dagger will restore the souls, allowing any ghosts who are still present in-round to be returned to their \
 	bodies and revived.")
 	. += span_redinfo("If you are an assassin, you can break any dagger you own by MMB'ing it. Please consider using this is if you are about to ERP \
@@ -428,7 +428,7 @@
 			qdel(soul)
 		else
 			// fallback in case body is missing for some reason
-			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp... yet it quickly fades. Perchance it could not find it's body...?"))
+			src.visible_message(span_cult("The soul of [soul.name] flows out from the profane dagger, finally free of its grasp... yet it quickly fades. Perchance it could not find its body...?"))
 			qdel(soul)
 	if(user)
 		user.adjust_triumphs(freed_souls)
@@ -446,61 +446,164 @@
 			return FALSE
 	return TRUE
 
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/attempt_to_break(atom/target, mob/user, case_number = 1)
+	if(!target)
+		return
+	if(!user)
+		return
+	switch(case_number)
+		if(1) // astrata, default
+			src.priestly_destruction(target, user)
+		if(2) // absolver.
+			src.dagger_absolution(target, user)
+		// more can be added if need be. this is still probably not the *best* implementation but its better than what i had before, i think.
+
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/priestly_destruction(atom/target, mob/user)
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = target
+	if(!pissdagger.is_my_owner_dead())
+		to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
+		return
+	// conceptually we're invoking ravox & necra verus graggar in a tiny battle.
+
+	user.visible_message(span_warning("[user] begins reciting a prayer over [pissdagger]..."), span_info("I begin to recite a prayer over [pissdagger]... this will take some time."))
+	playsound(user, 'sound/magic/censercharging.ogg', 100)
+	if(!do_after(user, 7 SECONDS))
+		return
+
+	user.say("VISAGE: RAVOX - 4:6... HE travels the lands. RAVOX's justice falls upon the thief, a hand taken, by HIS ADJUDICATORS.")
+	playsound(user, 'sound/magic/censercharging.ogg', 100)
+	if(!do_after(user, 7 SECONDS))
+		return
+
+	user.say("VISAGE: NECRA - 1:2... To her arms did she call the dead and dying, to save them from their empty and wandering fate did they rest forevermore in her embrace!")
+	pissdagger.say(span_gamedeadsay("NECRA, FREE US!!"))
+	playsound(user, 'sound/misc/carriage2.ogg', 100)
+	if(!do_after(user, 7 SECONDS))
+		return
+
+	user.say("DECA: NECRA - 5:4... The dead shall rest eternum. Within HER grasp. The FAITHFUL have NAUGHT to fear of HER realm.")
+	pissdagger.say(span_cult("MASTER! SAVE ME!! I DON'T WANT TO GO!!")) // dagger is not happy
+	playsound(user, 'sound/magic/battle_cry_graggar.ogg', 60)
+	pissdagger.visible_message(span_warning("[pissdagger] begins thrashing around on the ground! Souls scream from within! The metal begins to twist!"))
+	if(!do_after(user, 5 SECONDS))
+		return
+
+	user.say("DECA: RAVOX - 7:1... Though outmatched, outnumbered and with inferior weapons, there the man stood... and He gave him the strength to see the fight to the end, for Justice is its own armor!")
+	pissdagger.visible_message(span_warning("CURSED METAL TWISTS INTO NAUGHT! THE HILTED GLUT TREMBLES, NEARLY FALLING OUT OF ITS METAL EMPLACEMENT!"))
+	pissdagger.say(span_cult("IT HUUURTS!!")) // hes so fucking sad
+	playsound(user, 'sound/magic/bloodcurse.ogg', 60)
+
+	if(!do_after(user, 5 SECONDS))
+		return
+
+	user.say("DAWN: RAVOX - 6:1... The warrior had just enough strength to see the fight through, finally DRIVING HIS BLADE through the WRETCHED HIDE OF THE BEAST and saving all, NO MATTER THE COST!!")
+	pissdagger.say(span_cult("MAAAASTER!! PLEAAAASE!!"))
+	playsound(user, 'sound/magic/battle_cry_undivided.ogg', 70) // gaggar loses
+
+	if(!do_after(user, 7 SECONDS))
+		return
+	user.say("UNDERMAIDEN! JUSTICAR! FREE THOSE TRAPPED WITHIN! BY THE GODS' LIGHT I SMITE YOU!")
+	// it's alll oooveeer
+	playsound(user, 'sound/magic/undivided_solemnity.ogg', 80)
+	pissdagger.release_profane_souls(user)
+	pissdagger.shatter_dagger()
+
+/obj/item/rogueweapon/huntingknife/idagger/steel/profane/proc/dagger_absolution(atom/target, mob/user)
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger = target
+	// assassin must be dead
+	if(!pissdagger.is_my_owner_dead())
+		to_chat(user, span_warning("I hear weeping from within the dagger. The assassin is not yet dead... their foul magicks still \
+		protect this dagger!"))
+		return
+
+	user.visible_message(span_warning("[user] begins reciting a prayer over [pissdagger]..."), span_info("I begin to recite a prayer over [pissdagger]... this will take some time."))
+	playsound(user, 'sound/magic/psyabsolution.ogg', 100)
+	if(!do_after(user, 15 SECONDS))
+		return
+
+	user.say("PSY 60:5... With the wave of a hand, HE could turn back the tide of darkness, and impart upon the land peace and justice!")
+	playsound(user, 'sound/magic/ENDVRE.ogg', 100)
+	if(!do_after(user, 10 SECONDS))
+		return
+
+	user.say("PSY 80:2... The fighting stopped as they all watched the heavens; HE had struck the DOOMSTAR alone and with it, swallowed the lands in an immense light.")
+	pissdagger.say(span_gamedeadsay("WE SEE YOUR LIGHT! PLEASE! FREE US!"))
+	playsound(user, 'sound/magic/psydonrespite.ogg', 100)
+	if(!do_after(user, 10 SECONDS))
+		return
+
+	user.say("PSY 9:4... Lo, HIS tears healed even the deepest of wounds; the droplets would spur LYFE wherever they fell!")
+	pissdagger.say(span_artery("...why am I... so tired? Maa...ster?"))
+	playsound(user, 'sound/magic/ENDVRE.ogg', 100)
+	if(!do_after(user, 10 SECONDS))
+		return
+
+	user.say("PSY 1:30... HE is our shepherd, and cradles those who’ve passed while waiting for the salvation of our kind; HE holds them with loving arms!")
+	pissdagger.say(span_artery("Master... I don't want to go to sleep...!"))
+	playsound(user, 'sound/magic/psyabsolution.ogg', 100)
+	if(!do_after(user, 3 SECONDS))
+		return
+
+	pissdagger.release_profane_souls(user)
+	pissdagger.shatter_dagger()
+
 
 /*
-								THIS RITUAL CHANNELED THROUGH
-									TABERNAKEL des
-									ROTEN PHOENIX
-					+&&&&+                          +&&&&&+
-					&&&&&&                          &&&&&&&
-					&&&&x&&&&&&+                  +&&X;;;&&
-					+&&&&+;&&&&&&&+               &&&;.  $&
-						x&&&&;::&&&&&&$        +&&&&&:;.:X&X              +&&&+
-							&&;;+;:+&&&&        &&&&&$+$$&&X:              &&&&&
-	+&&&+                  X&&&&;:.;.&&&&+   +&&&;; :;&&X:            X&&&&x&&&
-	&&&&&&&&+              :X$&&$x+:;xx$&&   &&Xx:;xX&&&            +&&&&&&$&&+
-	&&& &&&&&                 $$ :X&&$xx&&   &&x$&&X;.$$            &&&;$$$&&
-	+&&&+;.&&&+               $$...::   x$$$$$x .::   XX      +&&&&&&$;+X&&&$
-		&&++;+&&&&&&+        :X$$x  .:+xXX&&&&&&&XXXXx+;$&$$$&&&&&&&&&$ ;:$&&X:
-		&&&&&; +&&&&&        X&$X;..:;x$&&&&&&&&&&&&$x+;x$$$$&&&&X;:+XX;. $&
-		x&&&&&;:;;.&&&+   :X$&$;;;;+xXXx;;xX$$$$$$x;+xxXX+;;;:.;;xXXx::+X$&X
-			&&;x;:.+&&&&&&&&&&X+;;;;xx;. .;++++++++:.;++x+;;;;..:+$X;. X&$X:
-			X&$$XX:::X&&&&$x;;:    .+;   :+:     .+:   :+:   .::::.. ..$X
-			:X&$.;xx+ :xx.:;::;;;;;;xx;. .;+++++++;:.;++x+;;;;:::. ..  XX
-			&$ .;X$X;++::;::;++;: ;X$X++X$&&&&&$XxxXXX:.:;++;:;;:::..XX
-			X&$$X;;X&$::xXXX$&&&$x:.+xx+++++++++++++:.+X$$&&$Xx+;;;..$x&&&&&&&&&&&+
-			X&&&$x; .::;x$&&&&x::;Xx ;;:       :;:.xX+.;X&&&&X+::;..$X&&&&&&&&&&&&
-				:+$X;: ;xX&&&&&&&X+:::.:;;:. .:;:..:::x$&&&&&&$x+; :.XX&.::::::. &&&&&&&+
-	+&&&&+     +&&&&&&&;;:::.    :;;x$&$.. .:;:.::: . ;&&$+;;.   .:::++++;$+......::;&&&&&&&&&&&+
-	&&&&&&     &&&&&&$x ;+:      :xx+..;++..;xx+x;: ;++;.;xx;       +x.;:.x$XXXXXXXx;;;;;;x&&&&&&
-	&& .&&&&&&&&&;+x.:+;;+:      ;+:+: .;;;::+;;+..++;: :+:+;       +x;;;.;xxxxxxx+;::::;x+ +:+&&
-	&&&&+&&&&&&&+ :x;.;::::.:::;+;: :;++;:::;x+;+;;:::;;;: :;++;::..:;..:...    :X$$$$$$&&&&&&&&+
-	+&&&&&&x;+X$$$XX+ ;;:::;+xX$&&&&&&&&$x:..xx+x;.:+xX&&&&&&&&$X+;:;+;;xxX$$$$$&&&&&&&&&&&&&&&+
-	x&&&;::;++++;:.;.::.....;::;;;::;: :xX&&X&$X+. .:;+;;:.:;:...::..&&X$$$$$X:
-		X&$$$$$$$$$Xxx;: . .;+x$&&&&&&$x;:;;+;:+:;;;;+$&&&&&&&X+: . :;;x&&&+
-		;X&$$$$$$$$X$X..:;;;.  ::. .. ...;x$&&&&$Xx: .. .  .:. ..:;;:..;&&&&
-			+&&&&&&X :+;:;. ..+&&&&x: .;+xX$$Xxx+:. :X&&&&; . .;:;+ :;;;$&&&&&x
-			+&&&&&&&&x::+;:;. ..&&$&&xx&&X;.+&&X;:x&&X+X&&&&x .  ;;+x :::; X&&&&&&&&x
-		+&&&X:::x$X:.;;;:  ..&&&&x.X&&&&x&&&&$x&&&&;:&&&&x .  :;+; .  .;;+xx.&&&&&
-		+&&&&+ ;xXx+;:.... .;::.$&$$+ X&X$+ $&$$;.&$$$;:$$&&+:;;: ..;+x;  ..:+xXx++&&&+
-	+&&&&X:::+XX+... .. :;;;+x&&.Xx.+x.+; x+:+: x;;+:;&;x&$Xx;;;  X$&X     .:++:;+X&&&&&x
-	&&&.;;;;;x$$$$$$XX$$$x  +$+X&&x.X&&&+ &&&&+.&&&$;:&&&;+X; .xX$&XX&$$$$$$&&&&&x;;&&&&&
-	+&&&x&&&&&&&&&$$$$$Xx;.X$;:x+;+:..:&&&&X;&&&&x+&&&&x:::;+;;x;;xX;xx:X$$$$$$&&&&&&&&&&&&&&+
-	&&&&x&&&$$$$X:   +&&&&$x;;x$X+.xx;.;xx::::&&x ::+x+.:Xx+ +$&+; &&&&&&+         :X&&&&&x&&&
-	&&&&&&           &&&&;.. .+X$$X:+;:+$&&&$&x;X$$&&$x:;x:+$$$x.:+:.;&&&&               &&&&&
-	+&&&&+           && ;; .. .;$&&$X+;xx...:$X:Xx:..;x:;X$$X+:  .:;;:  &&               +&&&+
-				+&&&;x+.....+$&&++++$&$$$$&X;X$$$$$$x+x$X+:     .:;;;&&&&+
-				&&&X.+x: :+XXXx&&X: ;X$&&$X+:xX$&&$x:.    ::;    .:;; X&&&
-				&&:.XXxxX&&$X;:X&&+. .:::::. .;x;:. ......xx&$$$$X:  :;;$&&&+
-			+&&&&&+&&&&&&X:      x$x..     ...+;x         Xx X$$$&&$&&$++&&&&&+
-			&&&&X+$&&$$X:        :X&x:.:::....$ $..   .:::;X&X   :X$$$&&.  +&&&
-			&&+x$$x&X              &&;;;;;;x$$&;&$$x;+X$Xx;;&&        &&&&&&&&&
-			+&&&&&&&&X:              &&$$x: &&$&X;X$$&&$x.:;x$&&        +&&&&&&&+
-			&&&x&&&&x                &&..;+;&&       +&&&X+:: &&
-			&&&&&                  x&&&X$xX$&X         &&;++++&&
-			+&&&+                  &&&.$&&&&X:         X&&$X+;&&
-									&&+:&&$X:           :X$&&. &&
-								+&&&x&&&&                 &&++&&
-								xx +&&&&+                 &&&&&&
-								+&&&&+                    +&&&&+
+*								THIS RITUAL CHANNELED THROUGH
+*									TABERNAKEL des
+*									ROTEN PHOENIX
+*					+&&&&+                          +&&&&&+
+*					&&&&&&                          &&&&&&&
+*					&&&&x&&&&&&+                  +&&X;;;&&
+*					+&&&&+;&&&&&&&+               &&&;.  $&
+*						x&&&&;::&&&&&&$        +&&&&&:;.:X&X              +&&&+
+*							&&;;+;:+&&&&        &&&&&$+$$&&X:              &&&&&
+*	+&&&+                  X&&&&;:.;.&&&&+   +&&&;; :;&&X:            X&&&&x&&&
+*	&&&&&&&&+              :X$&&$x+:;xx$&&   &&Xx:;xX&&&            +&&&&&&$&&+
+*	&&& &&&&&                 $$ :X&&$xx&&   &&x$&&X;.$$            &&&;$$$&&
+*	+&&&+;.&&&+               $$...::   x$$$$$x .::   XX      +&&&&&&$;+X&&&$
+*		&&++;+&&&&&&+        :X$$x  .:+xXX&&&&&&&XXXXx+;$&$$$&&&&&&&&&$ ;:$&&X:
+*		&&&&&; +&&&&&        X&$X;..:;x$&&&&&&&&&&&&$x+;x$$$$&&&&X;:+XX;. $&
+*		x&&&&&;:;;.&&&+   :X$&$;;;;+xXXx;;xX$$$$$$x;+xxXX+;;;:.;;xXXx::+X$&X
+*			&&;x;:.+&&&&&&&&&&X+;;;;xx;. .;++++++++:.;++x+;;;;..:+$X;. X&$X:
+*			X&$$XX:::X&&&&$x;;:    .+;   :+:     .+:   :+:   .::::.. ..$X
+*			&$ .;X$X;++::;::;++;: ;X$X++X$&&&&&$XxxXXX:.:;++;:;;:::..XX
+*			X&$$X;;X&$::xXXX$&&&$x:.+xx+++++++++++++:.+X$$&&$Xx+;;;..$x&&&&&&&&&&&+
+*			X&&&$x; .::;x$&&&&x::;Xx ;;:       :;:.xX+.;X&&&&X+::;..$X&&&&&&&&&&&&
+*				:+$X;: ;xX&&&&&&&X+:::.:;;:. .:;:..:::x$&&&&&&$x+; :.XX&.::::::. &&&&&&&+
+*	+&&&&+     +&&&&&&&;;:::.    :;;x$&$.. .:;:.::: . ;&&$+;;.   .:::++++;$+......::;&&&&&&&&&&&+
+*	&&&&&&     &&&&&&$x ;+:      :xx+..;++..;xx+x;: ;++;.;xx;       +x.;:.x$XXXXXXXx;;;;;;x&&&&&&
+*	&& .&&&&&&&&&;+x.:+;;+:      ;+:+: .;;;::+;;+..++;: :+:+;       +x;;;.;xxxxxxx+;::::;x+ +:+&&
+*	&&&&+&&&&&&&+ :x;.;::::.:::;+;: :;++;:::;x+;+;;:::;;;: :;++;::..:;..:...    :X$$$$$$&&&&&&&&+
+*	+&&&&&&x;+X$$$XX+ ;;:::;+xX$&&&&&&&&$x:..xx+x;.:+xX&&&&&&&&$X+;:;+;;xxX$$$$$&&&&&&&&&&&&&&&+
+*	x&&&;::;++++;:.;.::.....;::;;;::;: :xX&&X&$X+. .:;+;;:.:;:...::..&&X$$$$$X:
+*		X&$$$$$$$$$Xxx;: . .;+x$&&&&&&$x;:;;+;:+:;;;;+$&&&&&&&X+: . :;;x&&&+
+*		;X&$$$$$$$$X$X..:;;;.  ::. .. ...;x$&&&&$Xx: .. .  .:. ..:;;:..;&&&&
+*			+&&&&&&X :+;:;. ..+&&&&x: .;+xX$$Xxx+:. :X&&&&; . .;:;+ :;;;$&&&&&x
+*			+&&&&&&&&x::+;:;. ..&&$&&xx&&X;.+&&X;:x&&X+X&&&&x .  ;;+x :::; X&&&&&&&&x
+*		+&&&X:::x$X:.;;;:  ..&&&&x.X&&&&x&&&&$x&&&&;:&&&&x .  :;+; .  .;;+xx.&&&&&
+*		+&&&&+ ;xXx+;:.... .;::.$&$$+ X&X$+ $&$$;.&$$$;:$$&&+:;;: ..;+x;  ..:+xXx++&&&+
+*	+&&&&X:::+XX+... .. :;;;+x&&.Xx.+x.+; x+:+: x;;+:;&;x&$Xx;;;  X$&X     .:++:;+X&&&&&x
+*	&&&.;;;;;x$$$$$$XX$$$x  +$+X&&x.X&&&+ &&&&+.&&&$;:&&&;+X; .xX$&XX&$$$$$$&&&&&x;;&&&&&
+*	+&&&x&&&&&&&&&$$$$$Xx;.X$;:x+;+:..:&&&&X;&&&&x+&&&&x:::;+;;x;;xX;xx:X$$$$$$&&&&&&&&&&&&&&+
+*	&&&&x&&&$$$$X:   +&&&&$x;;x$X+.xx;.;xx::::&&x ::+x+.:Xx+ +$&+; &&&&&&+         :X&&&&&x&&&
+*	&&&&&&           &&&&;.. .+X$$X:+;:+$&&&$&x;X$$&&$x:;x:+$$$x.:+:.;&&&&               &&&&&
+*	+&&&&+           && ;; .. .;$&&$X+;xx...:$X:Xx:..;x:;X$$X+:  .:;;:  &&               +&&&+
+*				+&&&;x+.....+$&&++++$&$$$$&X;X$$$$$$x+x$X+:     .:;;;&&&&+
+*				&&&X.+x: :+XXXx&&X: ;X$&&$X+:xX$&&$x:.    ::;    .:;; X&&&
+*				&&:.XXxxX&&$X;:X&&+. .:::::. .;x;:. ......xx&$$$$X:  :;;$&&&+
+*			+&&&&&+&&&&&&X:      x$x..     ...+;x         Xx X$$$&&$&&$++&&&&&+
+*			&&&&X+$&&$$X:        :X&x:.:::....$ $..   .:::;X&X   :X$$$&&.  +&&&
+*			&&+x$$x&X              &&;;;;;;x$$&;&$$x;+X$Xx;;&&        &&&&&&&&&
+*			+&&&&&&&&X:              &&$$x: &&$&X;X$$&&$x.:;x$&&        +&&&&&&&+
+*			&&&x&&&&x                &&..;+;&&       +&&&X+:: &&
+*			&&&&&                  x&&&X$xX$&X         &&;++++&&
+*			+&&&+                  &&&.$&&&&X:         X&&$X+;&&
+*									&&+:&&$X:           :X$&&. &&
+*								+&&&x&&&&                 &&++&&
+*								xx +&&&&+                 &&&&&&
+*								+&&&&+                    +&&&&+
+*
+*								THE WORLD IS YOURS.
 */

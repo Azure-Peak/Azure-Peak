@@ -81,10 +81,10 @@ GLOBAL_LIST_INIT(towner_caravan_tier_tp, list(
 /datum/quest/kill/recovery/towner/smith_caravan/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"
 	var/raiders = faction ? faction.name_plural : "brigands"
-	return "[quest_giver_name || "The smith"]'s wagon was lost on the road within [region], taken by [raiders]. They call for hands to clear the wreck and bring the strongbox home."
+	return "[quest_giver_name || "The smith"]'s wagon was taken by [raiders] on the road within [region]. They call for hands to clear the wreck and bring the strongbox home."
 
 /datum/quest/kill/recovery/towner/smith_caravan/get_parcel_desc()
-	return "A parcel magickally sealed for [quest_giver_name] - only they can open it."
+	return "A parcel magickally sealed for [quest_giver_name]. Only they can open it."
 
 /datum/quest/kill/recovery/towner/smith_caravan/pick_region_faction_for(datum/threat_region/TR)
 	var/list/weights = list()

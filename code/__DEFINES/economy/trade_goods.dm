@@ -119,6 +119,8 @@
 #define TRADE_GOOD_LIME "LIME"
 #define TRADE_GOOD_TANGERINE "TANGERINE"
 #define TRADE_GOOD_PLUM "PLUM"
+#define TRADE_GOOD_BEANS "BEANS"
+#define TRADE_GOOD_LENTILS "LENTILS"
 
 // Equipment (finished goods, fulfilled via warehouse, never stockpiled)
 #define TRADE_GOOD_STEEL_ARMING_SWORD "STEEL_ARMING_SWORD"
@@ -350,6 +352,8 @@
 #define SELLPRICE_LIME 4
 #define SELLPRICE_TANGERINE 4
 #define SELLPRICE_PLUM 4
+#define SELLPRICE_BEANS 4
+#define SELLPRICE_LENTILS 4
 
 // Seafood
 #define SELLPRICE_FISH_FILET 3

@@ -357,6 +357,27 @@
 	maturation_time = SLOW_GROWING
 	produce_time = 3 MINUTES
 
+// Naledi plants
+/datum/plant_def/bush/beans
+	name = "beans bush"
+	icon_state = "beans"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/beans
+	produce_amount_min = 2
+	produce_amount_max = 4
+	uproot_loot = list(/obj/item/natural/fibers = 2)
+	maturation_time = FAST_GROWING
+	produce_time = 3 MINUTES
+
+/datum/plant_def/bush/lentils
+	name = "lentils bush"
+	icon_state = "lentils"
+	produce_type = /obj/item/reagent_containers/food/snacks/grown/lentils
+	produce_amount_min = 1
+	produce_amount_max = 5
+	uproot_loot = list(/obj/item/natural/fibers = 2)
+	maturation_time = FAST_GROWING
+	produce_time = 3.5 MINUTES
+
 #undef SLOW_GROWING
 #undef FAST_GROWING
 #undef VERY_FAST_GROWING

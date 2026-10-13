@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Blockade Surcharge is now completely waived below 40 active players"
+  - rscadd: "Blockade Surcharge is now halved below 80 active players"
+  - rscadd: "Armor that are repaired by armorsmithing, or need medium AC training, and is not heavy armor are classified as medium armor as far as the navigator is concerned. Grenzelhoft and Kazengun will demand them for now."

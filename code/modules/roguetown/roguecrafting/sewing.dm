@@ -437,6 +437,17 @@
 	)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/sewing/loinclothbelt
+	name = "belt with loincloth"
+	category = "Misc"
+	display_category = ITEM_CAT_ARMOR_BELTS
+	result = list(/obj/item/storage/belt/rogue/leather/battleskirt/loincloth)
+	reqs = list(
+		/obj/item/natural/cloth = 3,
+		/obj/item/natural/hide/cured = 1
+	)
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/sewing/beltshawl
 	name = "belt shawl"
 	category = "Misc"
@@ -1111,7 +1122,7 @@
 	reqs = list(/obj/item/natural/cloth = 4,
 				/obj/item/natural/fibers = 1)
 	tools = list(/obj/item/needle)
-	craftdiff = 3
+	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/gambesonskirt
 	name = "gambesoned kilt"
@@ -1247,7 +1258,7 @@
 	result = list(/obj/item/clothing/suit/roguetown/armor/gambeson/heavy)
 	reqs = list(/obj/item/natural/cloth = 6,
 				/obj/item/natural/fibers = 4)
-	craftdiff = 3
+	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/sewing/hgambesonskirt
 	name = "padded gambesoned kilt"

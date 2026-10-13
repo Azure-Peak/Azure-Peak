@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/bounty
 	name = "EXCIDIUM"
-	desc = "A device hungering for flesh and souls of the wicked. While favored by Astratan orders and tolerated by Ravoxian sects, it is seen as nothing more than a barbaric implement for turbulent tymes by anyone else. This one allows to meditate upon those who need to be brought to justice."
+	desc = "A device hungering for flesh and souls of the wicked. While favored by Astratan orders and tolerated by Ravoxian sects, it is seen as nothing more than a barbaric implement for turbulent tymes by anyone else. This one lets you meditate upon those who need to be brought to justice."
 	icon = 'icons/roguetown/topadd/statue1.dmi'
 	icon_state = "baldguy"
 	density = FALSE
@@ -124,7 +124,7 @@
 
 	var/mob/living/carbon/human/target = eligible_players[choice]
 
-	var/amount = input(user, "How many mammons shall be stained red for their demise?", src) as null|num
+	var/amount = input(user, "How much mammon shall be stained red for their demise?", src) as null|num
 	if(isnull(amount))
 		say("Invalid amount.")
 		return
@@ -132,7 +132,7 @@
 		say("Insufficient amount. Bounty must be at least 100 mammon.")
 		return
 	if(amount > 500)
-		say("Insufficient amount. Bounties cannot be more than 500 mammon.")
+		say("Too much. A bounty cannot be more than 500 mammon.")
 		return
 
 	// Has user a bank account?
@@ -142,7 +142,7 @@
 
 	// Has user enough money?
 	if(SStreasury.get_balance(user) < amount)
-		say("Insufficient balance funds.")
+		say("Insufficient funds.")
 		return
 
 	var/reason = input(user, "For what sins do you summon the hounds of hell?", src) as null|text
@@ -207,9 +207,9 @@
 ///Composes a random bounty banner based on the given bounty info.
 ///@param new_bounty:	The bounty datum.
 /proc/compose_bounty(datum/bounty/new_bounty)
-	new_bounty.banner += "'[new_bounty.employer]' hath offered to pay '[new_bounty.amount]' mammons for the capture of '[new_bounty.target]'.<BR>"
+	new_bounty.banner += "'[new_bounty.employer]' hath offered to pay '[new_bounty.amount]' mammon for the capture of '[new_bounty.target]'.<BR>"
 	new_bounty.banner += "By reason of the following: '[new_bounty.reason]'.<BR>"
-	new_bounty.banner += "They are belonging to the '[new_bounty.target_race]' race.<BR>"
+	new_bounty.banner += "They belong to the '[new_bounty.target_race]' race.<BR>"
 	new_bounty.banner += "Going by the following description: they are of '[new_bounty.target_height]' height, of a '[new_bounty.target_body_type]' build and they have '[new_bounty.target_body_prefix]' physique. They speak with '[new_bounty.target_voice_prefix]' voice.<BR>"
 	new_bounty.banner += "--------------<BR>"
 
@@ -219,7 +219,7 @@
 		return
 
 	var/cost = 50
-	var/choice = alert(user, "Print a continously updated list of active bounties for [cost] mammons?", "Print Bounty Scroll", "Yes", "No")
+	var/choice = alert(user, "Print a continuously updated list of active bounties for [cost] mammon?", "Print Bounty Scroll", "Yes", "No")
 	if(choice != "Yes")
 		return
 
@@ -228,7 +228,7 @@
 		return
 
 	if(SStreasury.get_balance(user) < cost)
-		say("Insufficient funds. [cost] mammons required.")
+		say("Insufficient funds. [cost] mammon required.")
 		return
 
 	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee")
@@ -276,7 +276,7 @@
 	. += span_info("Crafted versions are unstable and will explode when used on a prisoner.")
 
 /obj/structure/chair/freedomchair/crafted
-	desc = "A chair-shaped machine normally used to place cursed collars onto a prisoner's neck. This one's clearly been tampered with, and looks suspicious."
+	desc = "A machine shaped like a chair and normally used to place cursed collars onto a prisoner's neck. This one's clearly been tampered with and looks suspicious."
 
 /obj/structure/chair/freedomchair/crafted/attack_right(mob/living/carbon/human/A)
 	var/mob/living/carbon/human/M = null
@@ -286,7 +286,7 @@
 		say("CANNOT BEGIN WITHOUT SUBJECT BUCKLED.")
 		return
 	if(!ishuman(M))
-		say("NON-HUMAN ENTITY. ABORT. ABORT.")
+		say("ENTITY IS NOT HUMAN. ABORT. ABORT.")
 		return
 	if(!M.buckled)
 		say("SUBJECT... NOT PROPERLY SECURED...")
@@ -317,7 +317,7 @@
 		say("CANNOT BEGIN WITHOUT SUBJECT BUCKLED.")
 		return
 	if(!ishuman(M))
-		say("NON-HUMAN ENTITY. ABORT. ABORT.")
+		say("ENTITY IS NOT HUMAN. ABORT. ABORT.")
 		return
 	if(!M.buckled)
 		say("SUBJECT... NOT PROPERLY SECURED...")
@@ -339,7 +339,7 @@
 
 /obj/structure/chair/arrestchair
 	name = "CASTIFICO"
-	desc = "A crude metal chair with clasps to hold down any rapscallion the EXCIDIUM deems worthy of punishment. Simple pull of a lever is all it takes."
+	desc = "A crude metal chair with clasps to hold down any rapscallion the EXCIDIUM deems worthy of punishment. A simple pull of a lever is all it takes."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "evilchair"
 	blade_dulling = DULLING_BASH
@@ -352,7 +352,7 @@
 	. = ..()
 	. += span_info("Buckle a bounty target to the chair, then right-click to process them.")
 	. += span_info("If they have an active bounty, they will be fitted with a pacification collar and you will receive a reward.")
-	. += span_info("The target can choose to submit or perish - resistance is fatal.")
+	. += span_info("The target can submit or resist. Resisting is fatal.")
 	. += span_info("Outlaws cannot operate this machine.")
 
 /obj/structure/chair/arrestchair/attack_right(mob/living/carbon/human/A)
@@ -376,7 +376,7 @@
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if(!ishuman(M))
-		say("Subject is non-human entity. Aborting...")
+		say("Subject is not human. Aborting...")
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
 	if(!M.buckled)

@@ -79,10 +79,10 @@ const CharterChip = (props: { data: Data }) => {
     label = `CHARTER ${data.charter_volume}/${data.charter_threshold}`;
     color = INK_FAINT;
   } else if (data.charter_active) {
-    label = `CHARTER INVOKED ${data.charter_margin}%`;
+    label = `ROYAL CUSTOM ${data.charter_margin}%`;
     color = SEAL_GREEN;
   } else {
-    label = `CHARTER SUSPENDED ${data.charter_margin}%`;
+    label = `ROYAL CUSTOM SUSPENDED`;
     color = SEAL_RED;
   }
   return (
@@ -148,7 +148,7 @@ const StockRowView = (props: {
             }}
             title={
               row.event_tag === 'SHORTAGE' && row.shortage_target > 0
-                ? `Export or sell ${row.shortage_target - row.shortage_progress} more units to end the shortage. Any of these count: ${row.shortage_affected}.`
+                ? `The shortage ends once ${row.shortage_target - row.shortage_progress} more units are shipped abroad. Any of these count: ${row.shortage_affected}.`
                 : undefined
             }
           >
@@ -221,8 +221,8 @@ const StockRowView = (props: {
             }}
             title={
               row.export_price > 0
-                ? `Deposit price ${row.deposit_price}m. When the stockpile is full, the Crown exports your deposit to local regions (export rate ${row.export_price}m per unit, kept by the Crown).`
-                : 'Deposit price - drop matching goods at the machine to sell.'
+                ? `If the stockpile is full, the Crown still pays you ${row.deposit_price}m and ships your goods abroad for ${row.export_price}m each.`
+                : 'Drop these goods at the machine to sell them.'
             }
           >
             Sell {row.deposit_price}m
@@ -240,7 +240,7 @@ const StockRowView = (props: {
           onClick={() => act('withdraw', { ref: row.ref })}
           title={
             overriding
-              ? 'Closed to the public. You may withdraw as a Clerk / Steward.'
+              ? 'Closed to the public. As a Crown official, you can still buy it.'
               : undefined
           }
         >
@@ -260,12 +260,12 @@ const StockRowView = (props: {
             row.import_price <= 0
               ? 'No region has supply of this good today.'
               : overriding
-                ? 'Closed to the public. You may withdraw as a Clerk / Steward.'
+                ? 'Closed to the public. As a Crown official, you can still import it.'
                 : data.food_stipend && row.import_price > data.budget
-                  ? 'Food stipend covers this import through the treasury.'
+                  ? 'Your food stipend pays for this import from the Treasury.'
                   : data.charter_active
-                    ? 'Import directly. Pays duty to the Crown.'
-                    : 'Import directly. The surcharge covers transport.'
+                    ? 'Order one from abroad. The markup goes to the Treasury.'
+                    : 'Order one from abroad. The markup pays for shipping.'
           }
         >
           {row.import_price > 0 ? `Import ${row.import_price}m` : 'NO SUPPLY'}
@@ -293,7 +293,7 @@ export const Stockpile = () => {
           <div style={titleStyle}>{data.title || 'Town Stockpile'}</div>
           <div style={subtitleStyle}>
             {data.subtitle ||
-              'The Town Stockpile. Deposit goods at the machine, coins here fund withdrawals and import.'}
+              'Drop goods at the machine to sell them. Put coins in to buy or import.'}
           </div>
           <div style={rulerStyle} />
 
@@ -394,7 +394,7 @@ export const Stockpile = () => {
           {!noDeposit && data.bounties.length > 0 && (
             <>
               <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>
-                Standing Bounties
+                Prices Paid
               </div>
               {data.bounties.map((b) => (
                 <div

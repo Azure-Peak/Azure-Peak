@@ -443,7 +443,9 @@
 
 //to add splatters of blood onto nearby walls. When provided a certain force amount, also increases the range at which blood can appear on the walls.
 //spill_amount also increases the amount of times to try and spill more blood; Particularly to give better feedback to dismembering something.
-/mob/living/proc/add_splatter_wall(mob/M, turf/T, force, spill_amount)
+#define WALL_SPLATTER_CAP 3
+
+/mob/living/proc/add_splatter_wall(turf/T, force, spill_amount)
 	var/force_distance = force / 10
 	if(force <= 0) //If the force doesn't do enough damage then dont do anything.
 		return
@@ -454,15 +456,24 @@
 		return
 	if(!T)
 		T = get_turf(src)
+	if(!isturf(T))
+		return
+	var/room = WALL_SPLATTER_CAP
+	for(var/obj/effect/decal/cleanable/blood/splatter/walls/existing in T)
+		room--
 	for(var/turf/closed/w in orange(abs(force_distance), T))
-		var/loc = get_step(T, M)
-		var/obj/effect/decal/cleanable/blood/splatter/walls/wall_blood = new(loc)
+		if(room <= 0)
+			return
+		room--
+		var/obj/effect/decal/cleanable/blood/splatter/walls/wall_blood = new(T)
 		wall_blood.set_blood_color(get_blood_color())
 		if(spill_amount > 0)
 			spill_amount--
 			continue
 		else
 			break
+
+#undef WALL_SPLATTER_CAP
 
 /mob/living/proc/add_drip_floor(turf/T, amt)
 	if(!iscarbon(src))
@@ -472,6 +483,13 @@
 		return
 	if(!T)
 		T = get_turf(src)
+
+	if(HAS_TRAIT(src, TRAIT_BLEED_PAINT))
+		var/obj/effect/ink_trail/existing_trail = locate(/obj/effect/ink_trail) in T
+		if(existing_trail)
+			existing_trail.refresh_lifetime()
+		else
+			new /obj/effect/ink_trail(T, src)
 
 	if(amt > 3)
 		if(istype(T, /turf/open/water))

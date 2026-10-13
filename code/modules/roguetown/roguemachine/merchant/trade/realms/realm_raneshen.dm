@@ -141,15 +141,9 @@
 		/datum/supply_pack/rogue/alcohol/wineraneshen,
 	)
 	hail_lines = list(
-		"In the name of the Autarch, and by leave of the Emir who stamped my charter, Raneshen greets the Factor. My hold is long-travelled; do not make it stand idle.",
-		"Silk from Chorodiaki, sugar and saffira from Mücevkabher, wine from Nshkormh, geometers' work from Vrdaqnan. One empire, four manifests; the Sheikh's clerks were patient with me.",
-		"Sit with me before we tally. In Raneshen no one trades with a stranger - we drink first, eat second, and only then count coin. Your hospitality will be remembered as long as your prices.",
-		"Hear that flute from my afterdeck? My mate is from Mücevkabher, and she will not bargain unless the bargaining keeps time. Xylix smiles on her, she says. I find she haggles harder when the song is fast.",
-		"You have fur and timber and iron, and Psydon - bless his memory - put none of these on our continent in quantity. So we sail. The arithmetic is older than either of us.",
-		"My cousin is a Sheikh of his county and reminds me of it at every supper. Yet here I am at your dock, and there he is at his table. Tell me which of us has truly seen the world.",
-		"My grandmother taught that you cannot know a person until you have spoken with them alone. So when we have finished the public price, share a cup with me below. The honest number lives there.",
-		"The Emir of Vrdaqnan sent a janissary aboard to keep the peace among my crew. He has, by dancing with two of them and drinking with the third. I will commend him in my report.",
-		"There is a dervish in the third hold who has not stopped spinning since we sighted your cape. He says Günay's blade still turns in the heavens and so must he. Pay him no mind; pay me promptly.",
-		"A geometer of the Vrdaqnan houses rides at my prow, reader of palms by the first light of Astrata. He charges in questions, not coin - one question for one reading, no exceptions. He sails to teach what he has learned before the dervish houses no longer commission his work. Bring him a true question and he will not refuse you. Bring him a flattery and he will not refuse you either, but you will not like the answer.",
-		"Salt cured mackeral and herring for the long caravan trip to land, chests of ice-bound fishes of all varieties. The Sheikhs of the interior have never seen the sea. My partner will bring it to them."
+		"Silk from Chorodiaki, sugar and saffira from Mücevkabher, wine from Nshkormh! And ladies from Raneshen.",
+		"I have a few Desert Riders for hire if you do not mind their pasts, or present.",
+		"I need a quiet word with you, Factor. I have a few things to discuss in private.",
+		"The last Factor was flustered when I asked them to have dinner with me before we talk over business. I wonder why.",
+		"Have you quality fur and iron? There's plenty of demand for them back home."
 	)

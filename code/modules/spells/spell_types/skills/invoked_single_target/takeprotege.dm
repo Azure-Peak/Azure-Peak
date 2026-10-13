@@ -25,7 +25,6 @@
 	antimagic_flags = NONE
 	invocation_type = INVOCATION_EMOTE
 	invocations = list("%CASTER takes on a protégé. May their bond be unbreakable.")
-	invocation_self_message = "I take on a protégé. May our bond be unbreakable."
 
 
 /datum/action/cooldown/spell/takeprotege/is_valid_target(atom/cast_on)

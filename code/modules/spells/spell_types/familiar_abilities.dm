@@ -18,13 +18,13 @@
 	if(!istype(user))
 		return FALSE
 	var/mob/living/carbon/human/species/familiar/familiar
-	for(var/mob/living/carbon/human/species/familiar/familiar_check in GLOB.player_list)
+	for(var/mob/living/carbon/human/species/familiar/familiar_check in GLOB.human_list)
 		if(familiar_check.familiar_summoner == user)
 			familiar = familiar_check
 	if(!familiar || !familiar.mind)
 		to_chat(user, "You cannot sense your familiar's mind.")
 		return FALSE
-	if(familiar.health<=0)
+	if(familiar.stat == DEAD)
 		// they're dead; track the vestige
 		return track_vestige(user,familiar)
 	var/message = sanitize(input(user, "You make a connection. What are you trying to say?"))

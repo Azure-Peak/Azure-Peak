@@ -142,7 +142,7 @@ export const LedgerView = (props: { data: Data }) => {
         </button>
       </div>
 
-      <div style={sectionHeaderStyle}>Treasury Ledger &mdash; newest first</div>
+      <div style={sectionHeaderStyle}>Treasury Ledger</div>
 
       <div style={{ height: '540px', overflowY: 'auto' }}>
         {page.entries.length === 0 ? (

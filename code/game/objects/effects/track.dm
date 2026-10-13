@@ -113,6 +113,10 @@
 	var/real_icon_state = "tracks"
 	///The image knowers see.
 	var/real_image
+	///Highlighted image shown instead of real_image to perfect trackers following this track's creator
+	var/image/marked_image
+	///Clients we pushed images to, so they are cleared even after a knower swaps mobs
+	var/list/client/shown_to
 	///List of mobs aware of this track.
 	var/list/mob/living/known_by = list()
 	///When this was created. Adjusts difficulty of locating / analyzing.
@@ -154,9 +158,11 @@
 	real_image = image(icon, src, real_icon_state, ABOVE_OPEN_TURF_LAYER) //Default image in case manually created.
 
 /obj/effect/track/Destroy(force)
-	real_image = null
 	for(var/knowing_one as anything in known_by)
 		remove_knower(knowing_one)
+	hide_images()
+	real_image = null
+	marked_image = null
 	if(creator)
 		clear_creator_reference(creator)
 	known_by = null
@@ -168,6 +174,7 @@
 	// Clear all knowers
 	for(var/knowing_one as anything in known_by)
 		remove_knower(knowing_one)
+	hide_images()
 	known_by = list()
 
 	// Clear creator reference
@@ -191,6 +198,7 @@
 
 	// Reset image
 	real_image = null
+	marked_image = null
 	real_icon_state = initial(real_icon_state)
 
 /obj/effect/track/attack_hand(mob/living/user)
@@ -291,16 +299,30 @@
 ///Adds a new person to the list of people who can see this track.
 /obj/effect/track/proc/add_knower(mob/living/tracker, competence = 1)
 	known_by[tracker] = competence
+	var/image/shown = real_image
 	if(ishuman(tracker))
 		var/mob/living/carbon/human/H = tracker
 		if(HAS_TRAIT(tracker, TRAIT_PERFECT_TRACKER) && H.current_mark == creator)
-			if(!(tracker in highlighted))
-				real_icon_state = "tracks_marked"
-				real_image = image(icon, src, real_icon_state, ABOVE_OPEN_TURF_LAYER, original_dir)
-				LAZYADD(highlighted, tracker)
-		if(tracker.client)
-			tracker.client.images += real_image
+			LAZYOR(highlighted, tracker)
+			shown = get_marked_image()
+	if(tracker.client)
+		show_image(tracker.client, shown)
 	RegisterSignal(tracker, COMSIG_PARENT_QDELETING, PROC_REF(remove_knower), override = TRUE)
+
+/obj/effect/track/proc/get_marked_image()
+	if(!marked_image)
+		marked_image = image(icon, src, "tracks_marked", ABOVE_OPEN_TURF_LAYER, original_dir)
+	return marked_image
+
+/obj/effect/track/proc/show_image(client/viewer, image/shown)
+	viewer.images |= shown
+	LAZYOR(shown_to, viewer)
+
+/obj/effect/track/proc/hide_images()
+	for(var/client/viewer as anything in shown_to)
+		viewer.images -= real_image
+		viewer.images -= marked_image
+	shown_to = null
 
 ///Removes a knower from the known ones. Usually only done when qdeleted.
 /obj/effect/track/proc/remove_knower(mob/living/tracker)
@@ -308,6 +330,7 @@
 	UnregisterSignal(tracker, COMSIG_PARENT_QDELETING)
 	if(tracker.client)
 		tracker.client.images -= real_image
+		tracker.client.images -= marked_image
 	LAZYREMOVE(highlighted, tracker)
 	known_by -= tracker
 	if(creator == tracker)
@@ -332,11 +355,10 @@
 		var/mob/living/carbon/human/H = user
 		if(!isnull(H.current_mark))
 			if(H.current_mark == creator && !(H in highlighted))
-				real_icon_state = "tracks_marked"
-				real_image = image(icon, src, real_icon_state, ABOVE_OPEN_TURF_LAYER, original_dir)
 				LAZYADD(highlighted, H)
 				if(H.client)
-					H.client.images += real_image
+					H.client.images -= real_image
+					show_image(H.client, get_marked_image())
 	. += knowledge_readout(user, knowledge)
 
 /obj/effect/track/proc/knowledge_readout(mob/user, knowledge)

@@ -91,3 +91,12 @@
 			to_chat(src, span_green(H.name))
 	if(!did)
 		to_chat(src, span_green("The roots are silent for the mote."))
+/mob/living/carbon/human/proc/remember_fey()
+	set name = "Remember Fey"
+	set category = "RoleUnique.Hag"
+	set desc = "Remember which of your lesser kin walk these lands."
+	var/datum/component/hag_curio_tracker/HCT = src.GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT)
+		remove_verb(src, /mob/living/carbon/human/proc/remember_fey)
+		return
+	HCT.recognize_fey(ping_feytouched = FALSE)

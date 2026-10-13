@@ -51,7 +51,9 @@ type Data = {
   pollTaxRates: PollTaxRate[];
   pollTaxMax: number;
   pollTaxMin: number;
-  onCooldown: boolean;
+  concordatFloor: number;
+  levyCooldown: boolean;
+  pollCooldown: boolean;
   pollProjection: PollProjection;
 };
 
@@ -74,7 +76,7 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
   const net = projection.net;
   const netColor = net > 0 ? SEAL_GREEN : net < 0 ? SEAL_RED : INK_SOFT;
   const netLabel =
-    net > 0 ? `+${net}m / tick` : net < 0 ? `${net}m / tick` : '0m / tick';
+    net > 0 ? `+${net}m / dawn` : net < 0 ? `${net}m / dawn` : '0m / dawn';
   return (
     <div
       style={{
@@ -93,7 +95,7 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
         }}
       >
         <span style={{ color: INK_SOFT, letterSpacing: '1px' }}>
-          Projected per tick
+          Expected each dawn
         </span>
         <span style={{ color: netColor, fontWeight: 'bold' }}>{netLabel}</span>
       </div>
@@ -128,8 +130,8 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
           color: INK_SOFT,
         }}
       >
-        Gross projection from rate × eligible heads. Ignores balance, advance,
-        arrears.
+        This multiplies each rate by the number of people in that class. It does
+        not count what they can actually pay.
       </div>
     </div>
   );
@@ -137,7 +139,14 @@ const PollProjectionPanel = (props: { projection: PollProjection }) => {
 
 export const TaxSetter = (props: any, context: any) => {
   const { act, data } = useBackend<Data>();
-  const onCooldown = !!data.onCooldown;
+  const levyCooldown = !!data.levyCooldown;
+  const pollCooldown = !!data.pollCooldown;
+  const cooldownText =
+    levyCooldown && pollCooldown
+      ? 'You changed the levies and the poll tax today. Try again tomorrow.'
+      : levyCooldown
+        ? 'You changed the levies today. Try again tomorrow.'
+        : 'You changed the poll tax today. Try again tomorrow.';
 
   const [rates, setRates] = useState<Record<string, number>>(() => {
     if (!data.categoryRates) return {};
@@ -187,10 +196,10 @@ export const TaxSetter = (props: any, context: any) => {
               marginBottom: '10px',
             }}
           >
-            Tax rates may only be changed once per day - choose wisely.
+            You can change the levies and the poll tax once per day each.
           </div>
 
-          {onCooldown && (
+          {(levyCooldown || pollCooldown) && (
             <div
               style={{
                 background: 'rgba(140,60,30,0.12)',
@@ -203,7 +212,7 @@ export const TaxSetter = (props: any, context: any) => {
                 marginBottom: '10px',
               }}
             >
-              Rates adjusted today - locked until tomorrow.
+              {cooldownText}
             </div>
           )}
 
@@ -217,6 +226,18 @@ export const TaxSetter = (props: any, context: any) => {
             {/* Left column: Crown Levies */}
             <div style={{ flex: '0 0 300px' }}>
               <div style={sectionHeaderStyle}>Crown Levies</div>
+              <div
+                style={{
+                  fontSize: FONT_BODY,
+                  color: INK_SOFT,
+                  marginBottom: '8px',
+                }}
+              >
+                The Crown takes this share of contract rewards, head bounties,
+                imports, exports and recovered spoils. While the Concordat of
+                Zenitstadt is in force, no levy can go below{' '}
+                {data.concordatFloor}%.
+              </div>
               {data.categoryRates?.map((c) => (
                 <div key={c.category} style={rowStyle}>
                   <span style={labelStyle}>{c.category}</span>
@@ -233,17 +254,18 @@ export const TaxSetter = (props: any, context: any) => {
               <hr style={rulerStyle} />
               <div style={{ textAlign: 'center' }}>
                 <button
-                  disabled={onCooldown}
+                  disabled={levyCooldown}
                   style={{
-                    ...inkButtonStyle({ disabled: onCooldown }),
+                    ...inkButtonStyle({ disabled: levyCooldown }),
                     padding: '5px 24px',
                     fontSize: FONT_BODY,
                   }}
                   onClick={() =>
-                    !onCooldown && act('set_rates', { categoryRates: payload })
+                    !levyCooldown &&
+                    act('set_rates', { categoryRates: payload })
                   }
                 >
-                  Make It So
+                  Set Levies
                 </button>
               </div>
             </div>
@@ -258,9 +280,10 @@ export const TaxSetter = (props: any, context: any) => {
                   marginBottom: '8px',
                 }}
               >
-                Per category, per tick. Negative values pay the subject from the
-                Crown&apos;s Purse each tick (subsidy); positive values collect.
-                Subsidies reach charter-protected classes; taxes do not.
+                Each class pays this rate every dawn, up to {pollMax}m. A
+                negative rate, down to {pollMin}m, is a subsidy the Treasury
+                pays them instead. A Charter that exempts a class from the poll
+                tax does not block a subsidy.
               </div>
               {projection && <PollProjectionPanel projection={projection} />}
               {data.pollTaxRates?.map((c) => (
@@ -279,14 +302,14 @@ export const TaxSetter = (props: any, context: any) => {
               <hr style={rulerStyle} />
               <div style={{ textAlign: 'center' }}>
                 <button
-                  disabled={onCooldown}
+                  disabled={pollCooldown}
                   style={{
-                    ...inkButtonStyle({ disabled: onCooldown }),
+                    ...inkButtonStyle({ disabled: pollCooldown }),
                     padding: '5px 24px',
                     fontSize: FONT_BODY,
                   }}
                   onClick={() =>
-                    !onCooldown &&
+                    !pollCooldown &&
                     act('set_poll_rates', { pollTaxRates: pollPayload })
                   }
                 >

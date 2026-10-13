@@ -159,6 +159,9 @@
 	if(istype(onturf, /turf/open/water/sewer) && !HAS_TRAIT(src, TRAIT_HOLDBREATH))
 		add_stress(/datum/stressevent/sewertouched)
 
+	if(istype(onturf, /turf/open/water/swamp) && HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED))
+		add_stress(/datum/stressevent/sewertouched)
+
 	if(istype(onturf, /turf/open/water/bath) && !wear_armor && !wear_shirt && !wear_pants)
 		add_stress(/datum/stressevent/bathwater)
 
@@ -640,6 +643,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)
 				SEND_SIGNAL(bed, COMSIG_SLEEPING_ON_BED, src)
+				SEND_SIGNAL(src, COMSIG_SLEEPING_ON_BED, src) // send this to both the mob and bed, they're used for different things
 				sleepy_mod = bed.sleepy
 			else
 				sleepy_mod = 1
@@ -689,6 +693,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						if(!is_asleep) //to not spam chat
 							to_chat(src, span_blue("I've fallen asleep."))
 							is_asleep = TRUE
+						if((sleepy_mod < 3 || !istype(get_area(src), /area/rogue/indoors)) && HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED)) // nobles need good beds and a proper room or they complain
+							add_stress(/datum/stressevent/unlanded_noble_poor_sleep)
+						else if (sleepy_mod>=3 && has_stress_event(/datum/stressevent/unlanded_noble_poor_sleep))
+							remove_stress(/datum/stressevent/unlanded_noble_poor_sleep) // a good night's sleep fixes it
 						// those who have gazed upon zuranus may have... odd dreams.
 						if(has_status_effect(/datum/status_effect/zuranus))
 							var/zizo_dream = has_status_effect(/datum/status_effect/zuranus) // this is stupid im sorry

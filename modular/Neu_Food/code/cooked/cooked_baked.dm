@@ -1258,3 +1258,142 @@
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
 	foodtype = GRAIN
+
+// Naledi cuisine
+/obj/item/reagent_containers/food/snacks/rogue/bulgur
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_BREAD
+	name = "bulgur"
+	desc = "For thousands of yils, this humble pottage of chopped wheat kernels has fuelled Naledi. Might taste even more wholesome with a baked carrot or onions."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "bulgur"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
+	faretype = FARE_NEUTRAL
+	tastes = list("humble, nutty starch kernels" = 1)
+	rotprocess = SHELFLIFE_LONG
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur/onion
+	name = "onion'd bulgur"
+	desc = "With the addition of onions, the Bulgur has a certain savoury sweetness, which makes it go down all the easier. This is called “Bulgur Ralindi” in Naledi, for their soldiers dine on it as standard fare - bulgur and onions keep well for a long time."
+	icon_state = "bulgur_onion"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
+	tastes = list("Mild, nutty kernels with caramelized savouriness" = 1)
+	foodtype = GRAIN | VEGETABLES
+	dish_type = DISH_BREAD | DISH_VEGETABLE
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur/carrot
+	name = "carrot'd bulgur"
+	desc = "Cubed and mixed together after baking and boiling, the carrot'd bulgur is a typical peasant meal in the desert, especially near the Bilomari, where the roots grow very well. It's called “River Bulgur” for this reason."
+	icon_state = "bulgur_carrot"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
+	tastes = list("Mild, nutty kernels with soft, vegetal sweetness" = 1)
+	foodtype = GRAIN | VEGETABLES
+	dish_type = DISH_BREAD | DISH_VEGETABLE
+
+/obj/item/reagent_containers/food/snacks/rogue/bulgur/meal
+	name = "bulgur meal"
+	desc = "Bordering on decadence, this bulgur not only adds savoury, caramelized onions, but gently baked and cubed carrots. Truly, the pinnacle of desert agriculture, aside from the meals of the Malikat herself..! "
+	icon_state = "bulgur_meal"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	tastes = list("Silky rich vegetal sweetness and wholesome, filling nuttiness" = 1)
+	eat_effect = /datum/status_effect/buff/mealbuff
+	faretype = FARE_FINE
+	foodtype = GRAIN | VEGETABLES
+	dish_type = DISH_BREAD | DISH_VEGETABLE
+
+/obj/item/reagent_containers/food/snacks/rogue/markook
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_BREAD
+	name = "markook"
+	desc = "Grilled in a pan, this has become a thin loaf of chewy, crisped bread. Made to be stacked en masse, these delightful starch disks are a staple of any Naledi extended family dinner. It's a sign of bad times when there aren't any leftovers. "
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "markook"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
+	faretype = FARE_NEUTRAL
+	tastes = list("bread, crispiness" = 1)
+	rotprocess = SHELFLIFE_LONG
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN
+
+/*	.................	Cooked Dürüms	................... */
+
+// Bulgur dürüm (cookable standalone)
+/obj/item/reagent_containers/food/snacks/rogue/durum_bulgur
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_BREAD
+	name = "bulgur-stuffed dürüm"
+	desc = "A humble representative of a staple food in Naledi kitchens - the dürüm roll stuffed with cabbage and bulgur. Vegetarian Yogis swear upon it being the epitome of Psydon's love still in the world, as it is undeniably filling and pleasant to the tongue…"
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "durum_bulgur"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
+	faretype = FARE_NEUTRAL
+	tastes = list("nutty, savoury bread, with a pleasant chew" = 1)
+	rotprocess = SHELFLIFE_LONG
+	eat_effect = /datum/status_effect/buff/snackbuff
+	foodtype = GRAIN
+
+// Poultry bulgur dürüm
+/obj/item/reagent_containers/food/snacks/rogue/durum_poultry_bulgur
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_BREAD
+	name = "poultry-stuffed dürüm"
+	desc = "A dürüm commonly prepared for celebrations, ranging from a Djinn's banishment, a wedding among the peasantry or an observance day of Psydon. A Malikat of old demanded that every peasant should have one of those a week, and faithful Caliphs ensure this reality to this dae."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "durum_poultry_bulgur"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
+	faretype = FARE_FINE
+	tastes = list("tender, juicy birdmeat, wrapped in crispy chewiness and nutty sweetness" = 1)
+	rotprocess = SHELFLIFE_EXTREME
+	eat_effect = /datum/status_effect/buff/mealbuff
+	foodtype = GRAIN | MEAT
+	dish_type = DISH_BREAD | DISH_MEAT
+
+// Mince cabbage dürüm
+/obj/item/reagent_containers/food/snacks/rogue/durum_mince_cabbage
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_BREAD
+	name = "meat-stuffed dürüm"
+	desc = "The Shah of dürüms, the roll to end all rolls. Shaved, spiced meat rolled with shredded cabbage and grilled to tender perfection, this culinary delight is the reward of good work, a djinn kill among nobility or simply enjoying lyfe to its fullest."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "durum_mince_cabbage"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
+	faretype = FARE_FINE
+	tastes = list("delectably spiced, fat-dripping meat in a crispy bread and tender vegetal sweetness" = 1)
+	rotprocess = SHELFLIFE_EXTREME
+	eat_effect = /datum/status_effect/buff/mealbuff
+	foodtype = GRAIN | MEAT | VEGETABLES
+	dish_type = DISH_BREAD | DISH_VEGETABLE | DISH_MEAT
+
+// Bean mince dürüm
+/obj/item/reagent_containers/food/snacks/rogue/durum_beans_mince
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_BREAD
+	name = "meat-stuffed dürüm"
+	desc = "The Caliph of dürüms, the roll to be second of all rolls. Shaved, spiced meat rolled with a helping of cooked beans as filler and grilled to tender perfection, this culinary delight is made to bulk soldiers with muscle and give fuel to hard labourers and artisans. This is a meal to put some beef to your frame."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "durum_mince_beans"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
+	faretype = FARE_FINE
+	tastes = list("delectably spiced, fat-dripping meat, loaded with chewy and filling bite" = 1)
+	rotprocess = SHELFLIFE_EXTREME
+	eat_effect = /datum/status_effect/buff/mealbuff
+	foodtype = GRAIN | MEAT | VEGETABLES
+	dish_type = DISH_BREAD | DISH_VEGETABLE | DISH_MEAT
+
+// Cheese bean dürüm
+/obj/item/reagent_containers/food/snacks/rogue/durum_cheese_beans
+	cuisine = CUISINE_NALEDI
+	dish_type = DISH_BREAD
+	name = "cheese-and-beans dürüm"
+	desc = "An immigrant to the House of dürüm rolls, this delight has been cooked with gooey, rich cheese slices, which have melted with the beans to a delightful mass filling the bread roll. After the Otavan crusades, when relations reached a detente, this alteration was created for Inquisitorial envoys to Naledi. Their enthusiasm for eating them has spread to both nations, making cheese one of the primary imports into Veralun."
+	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
+	icon_state = "durum_cheese_beans"
+	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
+	faretype = FARE_LAVISH
+	tastes = list("cheesy, chewy richness wrapped in crispy bread" = 1)
+	rotprocess = null
+	eat_effect = /datum/status_effect/buff/greatmealbuff
+	foodtype = GRAIN | DAIRY | VEGETABLES
+	dish_type = DISH_BREAD | DISH_VEGETABLE | DISH_DAIRY

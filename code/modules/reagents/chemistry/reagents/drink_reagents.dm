@@ -107,227 +107,177 @@
 //additions for the drink mixing
 //base liquids - juiced in mortar and pestle
 
-/datum/reagent/consumable/lemon_juice
-	cuisine = CUISINE_ETRUSCAN
+/datum/reagent/consumable/juice
+	name = "juice"
 	drink_type = DRINKTYPE_JUICE
+	quality = DRINK_GOOD
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	reagent_state = LIQUID
+	hydration_factor = 10
+
+/datum/reagent/consumable/juice/lemon
+	cuisine = CUISINE_ETRUSCAN
 	name = "Lemon juice"
 	description = "An extremely tangy liquified lemon."
 	color = "#FFFF00"
 	quality = DRINK_NICE
 	taste_description = "extreme tangy-ness"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 8
+	hydration_factor = 8
 
-/datum/reagent/consumable/lime_juice
+/datum/reagent/consumable/juice/lime
 	cuisine = CUISINE_RANESHENI
-	drink_type = DRINKTYPE_JUICE
-	name = "Lemon juice"
+	name = "Lime juice"
 	description = "An extremely tangy liquified lime."
 	color = "#00FF00"
 	quality = DRINK_NICE
 	taste_description = "extreme tangy-ness"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 8
+	hydration_factor = 8
 
-/datum/reagent/consumable/tomato_juice
+/datum/reagent/consumable/juice/tomato
 	cuisine = CUISINE_ETRUSCAN
-	drink_type = DRINKTYPE_JUICE
 	name = "Tomato juice"
 	description = "A liquified tomato, thinner than tomato sauce, commonly used for mixed drinks."
 	color = "#CD5320"
 	quality = DRINK_NICE
 	taste_description = "pure unfiltered tomato"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 8
+	hydration_factor = 8
 
-/datum/reagent/consumable/strawberry_juice
+/datum/reagent/consumable/juice/strawberry
 	cuisine = CUISINE_NORTH_IMPERIAL
-	drink_type = DRINKTYPE_JUICE
 	name = "Strawberry juice"
 	description = "An extremely sweet liquified strawberry."
 	color = "#9A1B00"
 	quality = DRINK_NICE
 	taste_description = "extreme strawberry"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 10
 
-/datum/reagent/consumable/pear_juice
+/datum/reagent/consumable/juice/pear
 	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
 	name = "Pear juice"
 	description = "A slightly tart and bittersweet pale juice from a pear."
 	color = "#D2B48C"
-	quality = DRINK_GOOD
 	taste_description = "tarty sweetness"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 10
 
-/datum/reagent/consumable/plum_juice
+/datum/reagent/consumable/juice/plum
 	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "Pear juice"
+	name = "Plum juice"
 	description = "A very tart and bittersweet dark juice from a plum."
 	color = "#8B008B"
-	quality = DRINK_GOOD
 	taste_description = "very tart with a little sweet"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 10
 
-/datum/reagent/consumable/blackberry_juice
+/datum/reagent/consumable/juice/blackberry
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_OTAVAIS
-	drink_type = DRINKTYPE_JUICE
 	name = "Blackberry juice"
 	description = "A slightly tart and sweet dark juice from a blackberry."
 	color = "#272C3F"
-	quality = DRINK_GOOD
 	taste_description = "slightly tart and very sweet"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 10
 
-/datum/reagent/consumable/raspberry_juice
+/datum/reagent/consumable/juice/raspberry
 	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
 	name = "Raspberry juice"
 	description = "A slightly tart and sweet red juice from a raspberry."
 	color = "#A01600"
-	quality = DRINK_GOOD
 	taste_description = "slightly tart and a bit sweet"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 10
 
-/datum/reagent/consumable/jackberry_juice
+/datum/reagent/consumable/juice/jackberry
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	drink_type = DRINKTYPE_JUICE
 	name = "Jackberry juice"
 	description = "Juiced jackberries, the most azurian juice.."
 	color = "#4A3D63"
-	quality = DRINK_GOOD
 	taste_description = "certainly not poisoned..."
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 10
 
-/datum/reagent/consumable/pomegranate_juice
+/datum/reagent/consumable/juice/pomegranate
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	drink_type = DRINKTYPE_JUICE
 	name = "Pomegranate juice"
 	description = "Blessed by Eora this juice is the most romantic of all juices."
-	color = "#4A3D63"
-	quality = DRINK_GOOD
+	color = "#B3163A"
 	taste_description = "juicy and slightly bitter viscous liquid"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 20
+	hydration_factor = 20
 
-/datum/reagent/consumable/orange_juice
+/datum/reagent/consumable/juice/orange
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	drink_type = DRINKTYPE_JUICE
 	name = "Orange juice"
 	description = "A tangy and energizing juice of a tangerine."
 	color = "#FFA500"
-	quality = DRINK_GOOD
 	taste_description = "citrussy sweetness."
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	reagent_state = LIQUID
-	var/hydration = 12
+	hydration_factor = 12
 
 //drink mixes - post reagent reaction
 
-/datum/reagent/consumable/lemonade
-	cuisine = CUISINE_ETRUSCAN
+/datum/reagent/consumable/virgin_drink
+	name = "virgin drink"
 	drink_type = DRINKTYPE_VIRGIN
+	quality = DRINK_VERYGOOD
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	overdose_threshold = null
+	reagent_state = LIQUID
+	hydration_factor = 15
+
+/datum/reagent/consumable/virgin_drink/lemonade
+	cuisine = CUISINE_ETRUSCAN
 	name = "Lemonade"
 	description = "A sweet and slightly tangy joy to the senses. Tastes like summer."
 	color = "#FFFEEE"
-	quality = DRINK_VERYGOOD
 	taste_description = "sweet tangy-ness"
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	var/hydration = 14
+	hydration_factor = 14
 
 /datum/chemical_reaction/alch/lemonade
 	name = "Lemonade"
 	mix_sound = 'sound/items/fillbottle.ogg'
-	id = /datum/reagent/consumable/lemonade
-	results = list(/datum/reagent/consumable/lemonade = 3)
-	required_reagents = list(/datum/reagent/water = 1, /datum/reagent/consumable/lemon_juice = 1, /datum/reagent/consumable/sugar = 1)
+	id = /datum/reagent/consumable/virgin_drink/lemonade
+	results = list(/datum/reagent/consumable/virgin_drink/lemonade = 3)
+	required_reagents = list(/datum/reagent/water = 1, /datum/reagent/consumable/juice/lemon = 1, /datum/reagent/consumable/sugar = 1)
 
-/datum/reagent/consumable/Slemonade
+/datum/reagent/consumable/virgin_drink/strawberry_lemonade
 	cuisine = CUISINE_RANESHENI
-	drink_type = DRINKTYPE_VIRGIN
 	name = "Strawberry Lemonade"
 	description = "A sweet, fruity, and slightly tangy joy to the senses. Tastes like a romantic summer."
 	color = "#FFD1C9"
 	quality = DRINK_FANTASTIC
 	taste_description = "a sweet strawberry and lemon mix."
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	var/hydration = 15
 
 /datum/chemical_reaction/alch/strawlemonade
 	name = "strawberry lemonade"
 	mix_sound = 'sound/items/fillbottle.ogg'
-	id = /datum/reagent/consumable/Slemonade
-	results = list(/datum/reagent/consumable/Slemonade = 2)
-	required_reagents = list(/datum/reagent/consumable/strawberry_juice = 1, /datum/reagent/consumable/lemonade = 1)
+	id = /datum/reagent/consumable/virgin_drink/strawberry_lemonade
+	results = list(/datum/reagent/consumable/virgin_drink/strawberry_lemonade = 2)
+	required_reagents = list(/datum/reagent/consumable/juice/strawberry = 1, /datum/reagent/consumable/virgin_drink/lemonade = 1)
 
-/datum/reagent/consumable/abyssorsrest
+/datum/reagent/consumable/virgin_drink/abyssors_rest
 	cuisine = CUISINE_RANESHENI
-	drink_type = DRINKTYPE_VIRGIN
 	name = "Abyssor's rest"
 	description = "A soft mix of chamomilesque herbs, honey, and a little mint. You should probably not take this in the field."
-	color = "#FFD1C9"
+	color = "#9FC4D6"
 	quality = DRINK_GOOD
 	taste_description = "a soft and minty herbacious mix."
 	metabolization_rate = 1 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	var/hydration = 15
+
+/datum/reagent/consumable/virgin_drink/abyssors_rest/on_mob_metabolize(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/debuff/knockout)
+	..()
 
 /datum/chemical_reaction/alch/abyssorsrest
 	name = "Abyssor's rest"
 	mix_sound = 'sound/items/fillbottle.ogg'
-	id = /datum/reagent/consumable/abyssorsrest
-	results = list(/datum/reagent/consumable/abyssorsrest = 4)
+	id = /datum/reagent/consumable/virgin_drink/abyssors_rest
+	results = list(/datum/reagent/consumable/virgin_drink/abyssors_rest = 4)
 	required_reagents = list(/datum/reagent/medicine/trait/sleepdraught = 1, /datum/reagent/sleep_powder = 1, /datum/reagent/consumable/caffeine/tea = 1, /datum/reagent/consumable/honey = 1)
 
-/datum/reagent/consumable/abyssorsrest/on_mob_metabolize(mob/living/carbon/M)
-	M.apply_status_effect(/datum/status_effect/debuff/knockout)
-	..()
-
-/datum/reagent/consumable/fruitpunch
+/datum/reagent/consumable/virgin_drink/fruit_punch
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_NORTHERN|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
-	drink_type = DRINKTYPE_VIRGIN
 	name = "Fruit punch"
 	description = "A testament to true peace, the most refreshing mix of all the fruits."
 	color = "#8A0B0B"
 	quality = DRINK_FANTASTIC
 	taste_description = "an overwhelming fruitiness."
-	metabolization_rate = 0.5 * REAGENTS_METABOLISM
-	overdose_threshold = null
-	var/hydration = 20
+	hydration_factor = 20
 
 /datum/chemical_reaction/alch/fruitpunch
 	name = "Fruit punch"
 	mix_sound = 'sound/items/fillbottle.ogg'
-	id = /datum/reagent/consumable/Slemonade
-	results = list(/datum/reagent/consumable/fruitpunch = 10)
-	required_reagents = list(/datum/reagent/consumable/strawberry_juice = 1, /datum/reagent/consumable/lemon_juice = 1, /datum/reagent/consumable/lime_juice = 1, /datum/reagent/consumable/pear_juice = 1, /datum/reagent/consumable/plum_juice = 1, /datum/reagent/consumable/blackberry_juice = 1, /datum/reagent/consumable/raspberry_juice = 1, /datum/reagent/consumable/jackberry_juice = 1, /datum/reagent/consumable/orange_juice = 1)
+	id = /datum/reagent/consumable/virgin_drink/fruit_punch
+	results = list(/datum/reagent/consumable/virgin_drink/fruit_punch = 10)
+	required_reagents = list(/datum/reagent/consumable/juice/strawberry = 1, /datum/reagent/consumable/juice/lemon = 1, /datum/reagent/consumable/juice/lime = 1, /datum/reagent/consumable/juice/pear = 1, /datum/reagent/consumable/juice/plum = 1, /datum/reagent/consumable/juice/blackberry = 1, /datum/reagent/consumable/juice/raspberry = 1, /datum/reagent/consumable/juice/jackberry = 1, /datum/reagent/consumable/juice/orange = 1)

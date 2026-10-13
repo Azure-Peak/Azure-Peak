@@ -1168,47 +1168,55 @@
 	created_reagent = /datum/reagent/consumable/soup/stew/frysquash_soup
 
 /datum/container_craft/cooking/rose_tea
+	category = FOOD_CAT_BREWS
 	name = "Rosa Tea"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_dried = 1)
 	created_reagent = /datum/reagent/consumable/rosewater
 	crafting_time = 30 SECONDS
 
 /datum/container_craft/cooking/rose_tea_spiced
+	category = FOOD_CAT_BREWS
 	name = "Spiced Rosa Tea"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals_spiced = 1)
 	created_reagent = /datum/reagent/consumable/rosewater_spiced
 	crafting_time = 40 SECONDS
 
 /datum/container_craft/cooking/coffee
+	category = FOOD_CAT_BREWS
 	name = "Coffee"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/coffeebeansroasted = 1)
 	created_reagent = /datum/reagent/consumable/caffeine/coffee
 	crafting_time = 30 SECONDS
 
 /datum/container_craft/cooking/coffee_spiced
+	category = FOOD_CAT_BREWS
 	name = "Spiced Coffee"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/coffeebeans_spiced = 1)
 	created_reagent = /datum/reagent/consumable/caffeine/coffee_spiced
 	crafting_time = 40 SECONDS
 
 /datum/container_craft/cooking/tea
+	category = FOOD_CAT_BREWS
 	name = "Tea"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_ground = 1)
 	created_reagent = /datum/reagent/consumable/caffeine/tea
 	crafting_time = 30 SECONDS
 
 /datum/container_craft/cooking/tea_spiced
+	category = FOOD_CAT_BREWS
 	name = "Spiced Tea"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_spiced = 1)
 	created_reagent = /datum/reagent/consumable/caffeine/tea_spiced
 	crafting_time = 40 SECONDS
 
 /datum/container_craft/cooking/chocolate_spiced
+	category = FOOD_CAT_BREWS
 	name = "Spiced Chocolate"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/chocolate_spiced = 1)
 	created_reagent = /datum/reagent/consumable/spiced_chocolate
 
 /datum/container_craft/cooking/chocolate_chocolate_slice
+	category = FOOD_CAT_BREWS
 	name = "Hot Chocolate"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/chocolate/slice = 1)
 	created_reagent = /datum/reagent/consumable/chocolate

@@ -28,6 +28,7 @@ export type QuestScrollData = {
   delivery_destination?: string | null;
   delivery_item?: string | null;
   fetch_item?: string | null;
+  fetch_item_plural?: string | null;
   fetch_count?: number;
   recovery_shipment?: string | null;
   reward?: number;

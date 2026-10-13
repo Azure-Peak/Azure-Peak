@@ -366,6 +366,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			if(!isnum(amt) || amt < 0)
 				amt = 0
 			SSeconomy.simulated_player_scalar = round(amt)
+			SSeconomy.blockade_surcharge_mult_expires = 0
 			admin_log_fiscal("set simulated player scalar to [SSeconomy.simulated_player_scalar] (0 = use live count)", "Set Simulated Population")
 			return TRUE
 		if("fire_blockade_roll")

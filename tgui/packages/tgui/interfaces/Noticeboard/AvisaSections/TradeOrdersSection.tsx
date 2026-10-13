@@ -62,7 +62,7 @@ export const TradeOrdersSection = ({ data }: { data: NoticeboardData }) => {
         >
           {helpOpen ? 'Hide About Trade Orders' : 'About Trade Orders'}
         </button>
-        {helpOpen && <HelpPanel />}
+        {helpOpen && <HelpPanel data={data} />}
       </div>
 
       {orders.length === 0 ? (
@@ -188,7 +188,7 @@ const EmptyMessage = ({ text }: { text: string }) => (
   </div>
 );
 
-const HelpPanel = () => (
+const HelpPanel = ({ data }: { data: NoticeboardData }) => (
   <div
     style={{
       marginTop: 8,
@@ -207,17 +207,18 @@ const HelpPanel = () => (
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
       <b>WAREHOUSE</b>-tagged orders require finished goods to be left at the
-      export machine for collection. Goods that belongs in the stockpile should
+      export machine for collection. Goods that belong in the stockpile should
       still be delivered to the stockpile.
     </p>
     <p style={{ margin: '0 0 6px 0' }}>
-      Orders may be settled short once at least 50% by value is on hand, paid at
-      85% of the delivered share - the rest is forfeit.
+      Once you have at least {data.partial_threshold_pct}% of an order's goods
+      by value, you can send them early. They pay {data.partial_payout_pct}% of
+      their value.
     </p>
     <p style={{ margin: 0 }}>
       <b>BLOCKADED</b> regions cannot be reached by trade caravans until the
-      blockade is lifted; <b>STEWARD&apos;S PETITION</b> orders were directly
-      requested by the Steward and pay out at a reduced rate.
+      blockade is lifted. <b>STEWARD&apos;S PETITION</b> orders were requested
+      by the Steward and pay less.
     </p>
   </div>
 );

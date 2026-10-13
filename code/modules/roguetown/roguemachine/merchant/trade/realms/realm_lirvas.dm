@@ -89,14 +89,8 @@
 		/datum/supply_pack/rogue/alcohol/rtoper,
 	)
 	hail_lines = list(
-		"By the Hoard and the Tithe, Factor, you have kept a faithful ledger. The scales remember.",
-		"My grain is short. My gems are not. The Inner Ring sends its compliments and its hunger.",
-		"Mammon weighs every transaction, friend, and Zarvlor remembers what Mammon weighs. Give honest measure - or do not, and learn the cost in a quieter season.",
-		"The drakes drink deep of gold these days. We bring scales, gems, and a thirst that has never known bottom. Trade.",
-		"I am Tithebound. My captain's purse is not mine; it is the Hoard's. Speak prices accordingly.",
-		"A coin dropped in Lirvas takes seven years to settle. Yours, here, will be counted in heartbeats. Try to keep up.",
-		"The figurehead of my ship is gold leafed over an older carving. The crew swears the under carving smiles when the lamps go out. I have stopped asking what it smiles at.",
-		"You burn coin for warmth in your hearths. We do not. Sell us your grain and you will learn why.",
-		"A Tithecaster of the Inner Ring rides with me, weighing souls in coin as her line has done for three generations. For one gold sovereign she will tell you the weight your sins would fetch at the Hoard's scales upon your death. She has not been wrong yet. Most of her clients do not ask twice - but those who heed her have died well, and the Hoard remembers a settled debt before it remembers any other thing.",
-		"Rumors says that Lord Zarvlor does not eat proper food and only eat gold. Do not let that deters you, the people of the Inner Ring are quite fond of Azurian seafood. Send me anything and everything you have that is quality and worth the space of runic chests home."
+		"By Zarvlor! I hope you have a deal worth my time",
+		"There will soon be a famine in the Inner Ring. Luckily for you, I have plenty of gems and gold to trade for grain.",
+		"Rumors says that Lord Zarvlor does not eat food and only eats gold. Can't say the same about the people of the Inner Ring, however. Send me the best seafood you have.",
+		"I am bringing along two tithebounds, faithful servants of Astrata. Maybe the company could use some proper fighter, hmmph?",
 	)

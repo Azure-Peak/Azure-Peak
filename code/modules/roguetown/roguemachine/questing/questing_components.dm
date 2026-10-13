@@ -53,7 +53,7 @@
 		var/datum/quest/user_quest = scroll.assigned_quest
 		if(user_quest && ((user_quest.quest_type == QUEST_RETRIEVAL && istype(parent, user_quest.target_item_type)) || \
 						(user_quest.quest_type == QUEST_COURIER && istype(parent, user_quest.target_delivery_item))))
-			examine_list += span_notice("This looks like an item you need for your quest: [user_quest.title]!")
+			examine_list += span_notice("This looks like an item you need for your contract: [user_quest.title]!")
 			break
 
 /datum/component/quest_object/proc/on_mob_examine(datum/source, mob/user, list/examine_list)
@@ -67,9 +67,9 @@
 	for(var/obj/item/quest_writ/scroll in user_scrolls)
 		var/datum/quest/user_quest = scroll.assigned_quest
 		if(user_quest && (user_quest.quest_type in list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_NOTORIOUS_BOUNTY)) && istype(parent, user_quest.target_mob_type))
-			examine_list += span_notice("This looks like the target of your quest: [user_quest.title]!")
+			examine_list += span_notice("This looks like the target of your contract: [user_quest.title]!")
 			if(Q.target_spawn_area != get_area(get_turf(src)))
-				examine_list += span_notice("It was last reported in the [Q.target_spawn_area] area, however.")
+				examine_list += span_notice("It was last reported in the [Q.target_spawn_area] area.")
 			break
 
 /datum/component/quest_object/proc/find_quest_scrolls(atom/container)

@@ -91,8 +91,6 @@
 
 	/// What is uttered when the user casts the spell. Can be a list for random selection.
 	var/list/invocations
-	/// What is shown in chat when the user casts the spell, only matters for INVOCATION_EMOTE.
-	var/invocation_self_message
 	/// What type of invocation the spell is.
 	/// Can be "none", "whisper", "shout", "emote".
 	var/invocation_type = INVOCATION_NONE
@@ -901,6 +899,12 @@
 	if(!(precast_result & SPELL_NO_FEEDBACK))
 		spell_feedback(owner)
 
+	if(isliving(owner))
+		var/mob/living/L = owner
+		// Special case: if this is a miracle, and we're a heretic, we flag the target with a higher index false-positive chance
+		if((primary_resource_type == SPELL_COST_DEVOTION || secondary_resource_type == SPELL_COST_DEVOTION) && istype(L.patron, /datum/patron/inhumen))
+			ADD_TRAIT(target, TRAIT_ASCENDENT_MIRACLED, TRAIT_GENERIC)
+
 	if(!(precast_result & SPELL_NO_IMMEDIATE_COOLDOWN))
 		// The entire spell is done, start the actual cooldown at its adjusted duration
 		StartCooldown(get_adjusted_cooldown())
@@ -1150,8 +1154,7 @@
 
 		if(INVOCATION_EMOTE)
 			invoker.visible_message(
-				capitalize(replacetext(used_invocation_message, "%CASTER", invoker.name)),
-				capitalize(replacetext(invocation_self_message, "%CASTER", invoker.name)),
+				span_danger(capitalize(replacetext(used_invocation_message, "%CASTER", invoker.name)))
 			)
 
 /// When we start charging the spell called from set_click_ability or start_casting
@@ -2008,18 +2011,18 @@
 	vis_contents |= rune
 	spell_rune = rune
 
-	start_spell_particles(spell_color)
+	start_spell_particles(spell_color, rune)
 
-/// Intermittent particle effect while charging. Requires spell_rune — self-repeats via timer.
-/mob/living/proc/start_spell_particles(spell_color = "#FFFFFF")
-	if(QDELETED(src) || QDELETED(spell_rune))
+/// Intermittent particle effect while charging. Self-repeats via timer until the rune it was started for is gone.
+/mob/living/proc/start_spell_particles(spell_color = "#FFFFFF", obj/effect/spell_rune_under/rune)
+	if(QDELETED(src) || QDELETED(rune) || spell_rune != rune)
 		return
 
-	var/obj/effect/temp_visual/particle_up/particles = new(null, src, spell_rune)
+	var/obj/effect/temp_visual/particle_up/particles = new(null, src, rune)
 	vis_contents |= particles
 	particles.color = spell_color
 
-	addtimer(CALLBACK(src, PROC_REF(start_spell_particles), spell_color), 3.6 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(start_spell_particles), spell_color, rune), 3.6 SECONDS)
 
 /// Finish spell visual effects on successful cast. Cleans up rune and creates wave_up.
 /mob/living/proc/finish_spell_visual_effects(spell_color = "#FFFFFF")

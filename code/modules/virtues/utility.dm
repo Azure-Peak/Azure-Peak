@@ -80,11 +80,16 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 						record_round_statistic(STATS_MAMMONS_DEPOSITED, rand(80, 120))
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_WELLKNOWN, TRAIT_VIRTUE)
 				if(recipient.mind)
 					for(var/X in (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions))
 						for(var/datum/mind/MF in get_minds(X))
 							recipient.mind.person_knows_me(MF)
 							recipient.mind.i_know_person(MF)
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(HAS_TRAIT(H, TRAIT_WELLKNOWN)) // if we're joining late, we need to make sure we check for virtue and quirk havers
+							recipient.mind.person_knows_me(H)
+							recipient.mind.i_know_person(H)
 
 				if (!recipient.islatejoin)
 					var/target_z = 0
@@ -326,6 +331,16 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 				add_verb(recipient, /mob/living/carbon/human/proc/alterego_swap)
 				recipient.AddComponent(/datum/component/alter_ego)
 
+// Grim fandango
+/datum/virtue/utility/granary
+	name = "Cunning Provisioner"
+	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
+	desc = "You've worked in or around the docks enough to steal away a sack of supplies that no one would surely miss, just in case. You've picked up on some cooking and fishing tips in your spare time, as well."
+	ui_fa_icon = "fish-fins"
+	added_stashed_items = list("Bag of Food" = /obj/item/storage/roguebag/food)
+	added_skills = list(list(/datum/skill/craft/cooking, 3, 6),
+						list(/datum/skill/labor/fishing, 2, 6))
+
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
 	if(triumph_check(recipient))
 		for(var/choice in picked_choices)
@@ -336,6 +351,7 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 /datum/virtue/utility/homesteader
 	name = "Pilgrim (-3 TRI)"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
+	softcap = TRUE
 	desc= "As they say, 'hearth is where the heart is'. You are intimately familiar with the labors of lyfe, and have stowed away everything necessary to start anew: a hunting dagger, your trusty hoe, and a sack of assorted supplies."
 	ui_fa_icon = "house-fire"
 	triumph_cost = 3
@@ -344,27 +360,13 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 		"Bag of Food" = /obj/item/storage/roguebag/food,
 		"Hunting Knife" = /obj/item/rogueweapon/huntingknife
 	)
-	added_skills = list(list(/datum/skill/craft/cooking, 3, 3),
+	added_skills = list(list(/datum/skill/craft/cooking, 2, 2),
 						list(/datum/skill/misc/athletics, 2, 2),
-						list(/datum/skill/labor/farming, 3, 3),
-						list(/datum/skill/labor/fishing, 3, 3),
+						list(/datum/skill/labor/farming, 2, 2),
+						list(/datum/skill/labor/fishing, 2, 2),
 						list(/datum/skill/labor/lumberjacking, 2, 2),
 						list(/datum/skill/combat/knives, 2, 2)
 	)
-
-/datum/virtue/utility/ugly
-	name = "Ugly"
-	desc = "Be it your family's habits in and out of womb, your own choices or Xylix's cruel roll of fate, you have been left unbearable to look at. Stuck to the unseen pits and crevices of the town, you've grown used to the foul odours of lyfe that often follow you. Corpses do not stink for you, and that is all the company you might find."
-	ui_fa_icon = "eye-slash"
-	custom_text = "Incompatible with Beautiful virtue."
-	added_traits = list(TRAIT_UNSEEMLY, TRAIT_NOSTINK)
-
-/datum/virtue/utility/ugly/handle_traits(mob/living/carbon/human/recipient)
-	..()
-	if(HAS_TRAIT(recipient, TRAIT_BEAUTIFUL))
-		to_chat(recipient, "Your repulsiveness is cancelled out! You become normal.")
-		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
 
 /datum/virtue/utility/keenears
 	name = "Keen Ears"
@@ -442,12 +444,13 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.
 // Hags don't get a boon on this person, that's perhaps a choice to add later.
+// DEVOTION NOTE - it'll be touching this later to add a bit more to it to justify the statnuke n its presence as a virtue over the quirk form. do not remove
 /datum/virtue/utility/feytouched
-	name = "Feytouched"
+	name = "Feybound"
 	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Choice between Pactbound (can receive 30 points of boons; not choosable by certain antags like lyckers) or Vessel (the hag can possess you; use the verb in the RoleUnique tab to toggle)."
 	ui_fa_icon = "ghost"
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
-	added_traits = list(TRAIT_FEYTOUCHED)
+	added_traits = list(TRAIT_FEYBOUND)
 	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),
 						list(/datum/skill/craft/alchemy, 1, 4)
 	)
@@ -519,3 +522,36 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 	if(H in GLOB.fey_vessels)
 		GLOB.fey_vessels[H] = FALSE
 		remove_verb(H, /mob/living/carbon/human/proc/toggle_vessel)
+
+//Virtue to skip roundstart grind, but gives nothing unique on its own. Should never raise any skill caps, and should always have minimal monetary value.
+//Could add lumberjacking, fishing, engineering, ceramics down the line if a boost is desired.
+//Should never have combat skills or 'niche protected' skills like hunting, arcyne, miracles.
+/datum/virtue/utility/preperation
+	name = "Handily Prepared"
+	desc = "I've dabbled in the basics of many skills and trades, and make sure to always keep some improvised tools at hand."
+	ui_fa_icon = "hammer"
+	added_stashed_items = list(
+		"Whetstone" = /obj/item/natural/whetstone,
+		"Thorn Needle" = /obj/item/needle/thorn,
+		"Sack" = /obj/item/storage/roguebag,
+		"Stone Hammer" = /obj/item/rogueweapon/hammer/stone,
+		"Stone Knife" = /obj/item/rogueweapon/huntingknife/stoneknife,
+		"Stone Axe" = /obj/item/rogueweapon/stoneaxe,
+		"Stone Hoe" = /obj/item/rogueweapon/hoe/stone,
+		"Wood Spade" = /obj/item/rogueweapon/shovel/small
+		)
+	added_skills = list(list(/datum/skill/craft/crafting, 1, 1),
+						list(/datum/skill/craft/carpentry, 1, 1),
+						list(/datum/skill/craft/masonry, 1, 1),
+						list(/datum/skill/craft/sewing, 1, 1),
+						list(/datum/skill/craft/tanning, 1, 1),
+						list(/datum/skill/craft/blacksmithing, 1, 1),
+						list(/datum/skill/craft/weaponsmithing, 1, 1),
+						list(/datum/skill/craft/armorsmithing, 1, 1),
+						list(/datum/skill/craft/cooking, 1, 1),
+						list(/datum/skill/labor/butchering, 1, 1),
+						list(/datum/skill/misc/medicine, 1, 1),
+						list(/datum/skill/misc/athletics, 1, 1),
+						list(/datum/skill/misc/climbing, 1, 1),
+						list(/datum/skill/misc/swimming, 1, 1)
+	)

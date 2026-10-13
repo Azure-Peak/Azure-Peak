@@ -43,6 +43,7 @@
 	bandit_job.total_positions = max_slots
 	bandit_job.spawn_positions = max_slots
 	SSmapping.retainer.bandit_goal = rand(200,400) + (length(setup_minds) * rand(200,400))
+
 	for(var/datum/mind/antag_mind as anything in setup_minds)
 		var/mob/living/carbon/human/H = antag_mind.current
 		if(!H)
@@ -56,14 +57,18 @@
 				SSrole_class_handler.class_select_handlers.Remove(H.client.ckey)
 				qdel(stale)
 
+		H.devotion = null //in your class.
+		H.mind.RemoveAllSpells() //in your class.
+		if(isdullahan(H)) //hackjob for reverents
+			H.revive(full_heal = TRUE, admin_revive = TRUE) //hacky way to re-enable UI eyes
 		SSjob.AssignRole(H, "Bandit")
 		H.job = "Bandit"
 		SSmapping.retainer.bandits |= H
 		antag_mind.add_antag_datum(/datum/antagonist/bandit)
+		H.unequip_everything_delete()
 
 		var/datum/antagonist/bandit/bandit_datum = antag_mind.has_antag_datum(/datum/antagonist/bandit)
 		bandit_datum?.move_to_spawnpoint()
-		H.unequip_everything()
 
 		SSrole_class_handler.setup_class_handler(H, list(CTAG_BANDIT = 20))
 		H.set_advsetup(TRUE)

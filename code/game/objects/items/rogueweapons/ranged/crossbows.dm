@@ -91,6 +91,8 @@
 
 /datum/intent/shoot/crossbow
 	chargedrain = 0 //no drain to aim a crossbow
+	hold_grace = 0
+	hold_ramp = 0
 
 /datum/intent/shoot/crossbow/slurbow
 	chargedrain = 0 //no drain to aim a crossbow
@@ -118,6 +120,8 @@
 /datum/intent/arc/crossbow
 	chargetime = 1
 	chargedrain = 0 //no drain to aim a crossbow
+	hold_grace = 0
+	hold_ramp = 0
 
 /datum/intent/arc/crossbow/slurbow
 	chargetime = 1
@@ -320,6 +324,7 @@
 	draw_base = SLURBOW_DRAW_BASE
 	draw_floor = SLURBOW_DRAW_FLOOR
 	draw_per_skill = SLURBOW_DRAW_PER_SKILL
+	arc_draw_floor_extra = SLURBOW_ARC_DRAW_FLOOR_EXTRA
 	damfactor = 0.6
 	accfactor = 1.3
 	reloadtime = 20
@@ -435,6 +440,7 @@
 	draw_base = SLURBOW_DRAW_BASE
 	draw_floor = SLURBOW_DRAW_FLOOR
 	draw_per_skill = SLURBOW_DRAW_PER_SKILL
+	arc_draw_floor_extra = SLURBOW_ARC_DRAW_FLOOR_EXTRA
 	damfactor = 1 //No damage malus, as it uses proprietary ammunition.
 	accfactor = 1.3
 	reloadtime = 20

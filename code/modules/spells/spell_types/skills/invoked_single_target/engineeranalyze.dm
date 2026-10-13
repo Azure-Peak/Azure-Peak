@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/engineeranalyze
 	name = "Analyze"
-	desc = "Examine a structure's details"
+	desc = "Examine a structure's details."
 	overlay_state = "goggles"
 	releasedrain = 1
 	chargedrain = 0

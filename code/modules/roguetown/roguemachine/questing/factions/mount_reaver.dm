@@ -23,6 +23,6 @@
 		"%N the Ironclad",
 		"%N Stonebreaker",
 		"%N the Bear",
-		"%N the Keen-Eyed",
+		"%N the Keen Eye",
 	)
 	boss_name_file = "strings/rt/names/human/humnorm.txt"

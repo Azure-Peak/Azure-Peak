@@ -1130,3 +1130,21 @@
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
 	name = "stately coat"
 	icon_state = "rosacoat10"
+
+/obj/item/clothing/suit/roguetown/shirt/blamellar
+	name = "bronze lamellar vest"
+	desc = "A solid and flexible shirt made of interlocking bronze plates, providing protection while allowing for ease of movement."
+	icon_state = "b_lamellar"
+	item_state = "b_lamellar"
+	boobed = TRUE
+	sleeved = null
+	body_parts_covered = CHEST|VITALS
+
+/obj/item/clothing/suit/roguetown/shirt/ilamellar
+	name = "iron lamellar vest"
+	desc = "A solid and flexible shirt made of interlocking iron plates, providing protection while allowing for ease of movement."
+	icon_state = "i_lamellar"
+	item_state = "i_lamellar"
+	boobed = TRUE
+	sleeved = null
+	body_parts_covered = CHEST|VITALS

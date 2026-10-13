@@ -26,6 +26,10 @@
 			recompute_market_reference_prices(tg)
 	return
 
+/datum/roguestock/proc/set_manual_limit(lim)
+	stockpile_limit = clamp(round(lim), 0, STOCKPILE_LIMIT_MANUAL_MAX)
+	automatic_limit = FALSE
+
 /datum/roguestock/proc/get_payout_price(obj/item/I)
 	return payout_price
 

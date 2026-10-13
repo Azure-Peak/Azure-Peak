@@ -74,6 +74,13 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/natural/fibers/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+			return
+		W.attackby(src, user, params)
+		return
+	..()
 
 /obj/item/natural/silk
 	name = "silk"

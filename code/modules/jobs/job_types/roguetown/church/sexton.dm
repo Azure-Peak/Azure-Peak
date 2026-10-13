@@ -3,8 +3,8 @@
 	flag = SEXTON
 	department_flag = CHURCHMEN
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 3 // don't increase this or else
+	spawn_positions = 3
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
 	tutorial = "You are a Sexton, an apprentice, helping hand or aide for the local church. Your responsibilities are little, but so are your obligations."
@@ -14,6 +14,10 @@
 	min_pq = -10
 	max_pq = null
 	round_contrib_points = 2
+
+	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
+	virtue_restrictions = list(/datum/virtue/utility/noble)
+	quirk_restrictions = list(/datum/quirk/noble)
 	advclass_cat_rolls = list(CTAG_SEXTON = 20)
 	job_subclasses = list(
 		/datum/advclass/sexton/groundskeeper,

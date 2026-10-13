@@ -1,0 +1,8 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - balance: "Crafting now has escalating odds."
+  - balance: "Crafting bonus per int slightly reduced due to escalating odds."
+  - balance: "Experts, masters, and legendary craftspeople now get expertise bonus to crafting."
+  - balance: "Malumites now get a trait that improves the rate at which crafting odds escalate."
+  - balance: "There is now a chance to fail crafting when below the required skill level. This can only start to occur once every 10 failed attempts."

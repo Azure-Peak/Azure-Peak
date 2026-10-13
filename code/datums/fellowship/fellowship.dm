@@ -249,7 +249,20 @@
 	if(!(user.real_name in pending_invites))
 		to_chat(user, span_warning("That invitation has expired or was rescinded."))
 		return FALSE
-	return add_member(user)
+	if(!add_member(user))
+		return FALSE
+	introduce_member(user)
+	return TRUE
+
+// So that you don't have to shift click before you can scry / message / mindlink eachother
+/datum/fellowship/proc/introduce_member(mob/living/user)
+	if(!user.mind)
+		return
+	for(var/mob/living/M as anything in get_members())
+		if(M == user || !M.mind)
+			continue
+		user.mind.i_know_person(M)
+		M.mind.i_know_person(user)
 
 /datum/fellowship/proc/kick(mob/living/kicker, mob/living/target)
 	if(!is_leader(kicker))

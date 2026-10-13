@@ -129,7 +129,7 @@
 	. += span_info("This parcel is addressed to [initial(delivery_area.name)].")
 	. += (user.job in allowed_jobs) ? \
 		span_notice("As [user.job], you're authorized to open this.") : \
-		span_warning("It's sealed with an official guild mark - only authorized personnel should open this!")
+		span_warning("It's sealed with an official guild mark. Only the people it is addressed to should open it.")
 
 /obj/item/parcel/towner_caravan
 	var/datum/weakref/unlocked_by_owner_ref
@@ -183,6 +183,6 @@
 		. += span_warning("The owner is no longer with us. This [sealed_noun] cannot be opened.")
 		return
 	if(owner == user)
-		. += span_notice("It is magickally sealed to you - you can open it yourself.")
+		. += span_notice("It is magickally sealed to you. You can open it.")
 	else
 		. += span_warning("Magickally sealed to [owner_name]. Only they can open it.")

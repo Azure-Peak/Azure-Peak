@@ -45,9 +45,9 @@
 			return
 		update_icon()
 	else if(STR)
-		for(var/obj/item/T in I.contents)
+		for(var/obj/item/T in I.held_contents())
 			if(istype(T, /obj/item/book))
-				STR.remove_from_storage(T, src)
+				I.release_held(T, src)
 		to_chat(user, span_notice("I empty \the [I] into \the [src]."))
 		update_icon()
 	else

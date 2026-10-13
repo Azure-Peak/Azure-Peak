@@ -10,6 +10,8 @@ export type AllPagesData = {
   loaded_slot: number;
   real_name: string;
   headshot_link: string | null; // null indicates unset
+  headshot_artist_credit: string | null;
+  headshot_artist_link: string | null;
 
   pq: TrustedHTML;
   hide_pq: BooleanLike;
@@ -279,6 +281,8 @@ export type IdentityData = {
 
   virtues: VirtueWithMetadata[];
 
+  quirks: QuirkWithMetadata[];
+
   charflaws: CharFlaw[]; // look at constant.MAX_VICES
   has_averse: BooleanLike;
   averse_chosen_faction: string;
@@ -305,6 +309,17 @@ export type VirtueChoice = {
   tooltip: string | null; // null indicates no details
 };
 
+export type QuirkWithMetadata = {
+  id: number;
+  slot_name: string;
+  quirk: Quirk;
+  spawn_error: string | null; // null indicates all is okay
+};
+
+export type Quirk = {
+  name: string;
+};
+
 export type CharFlaw = {
   name: string;
   type: Path;
@@ -316,7 +331,11 @@ export type VillainData = {
   antag_banned: BooleanLike;
 
   lich_headshot_link: string | null; // null means unset
+  lich_headshot_artist_credit: string | null;
+  lich_headshot_artist_link: string | null;
   vampire_headshot_link: string | null; // null means unset
+  vampire_headshot_artist_credit: string | null;
+  vampire_headshot_artist_link: string | null;
 
   vampire_skin: string | null; // null means unset
   vampire_eyes: string | null; // null means unset

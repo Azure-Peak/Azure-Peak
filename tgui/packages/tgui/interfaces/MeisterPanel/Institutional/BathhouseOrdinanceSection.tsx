@@ -85,7 +85,7 @@ export const BathhouseOrdinanceSection = ({
           >
             <p style={{ margin: '0 0 6px 0' }}>
               {
-                "By ancient prerogative granted of the Crown, the Baths of Azure Peak stand within the Bishop's liberty. The Bathmaster oweth no farm nor fee unto the Crown's coffers; rather, of all sales of herbs and unguents, the Bathmaster shall render one part in ten, and of the regular income arising from the rendering of services, one part in five, unto the Church. The Baths shall stand as a hearth unto Eora's flames, to render comfort and solace unto the lonely and the weary who enters, to give those who freely love and renders it unto others a safe place of working such that they may make their keep, and count the Baths labor amongst the goddess's own works, pleasing to her sight. And thus the Church doth take the Baths into its protection, by blade and by law. So long as the Ordinance holds, the Crown shall have no claim upon the Baths, whose most holy works is within the Church's sole jurisdiction."
+                "By ancient prerogative granted of the Crown, the Baths of Azure Peak stand within the Bishop's liberty. The Bathmaster oweth no farm nor fee unto the Crown's coffers; rather, of all sales of herbs and unguents, the Bathmaster shall render one part in ten, and of the regular income arising from the rendering of services, one part in five, unto the Church. The Baths shall stand as a hearth unto Eora's flames, to render comfort and solace unto the lonely and the weary who enter, to give those who freely love and render it unto others a safe place of working such that they may make their keep, and count the Baths' labor amongst the goddess's own works, pleasing to her sight. And thus the Church doth take the Baths into its protection, by blade and by law. So long as the Ordinance holds, the Crown shall have no claim upon the Baths, whose most holy works are within the Church's sole jurisdiction."
               }
             </p>
             <p style={{ margin: '0 0 4px 0' }}>
@@ -101,7 +101,7 @@ export const BathhouseOrdinanceSection = ({
               </li>
               <li style={{ marginBottom: 4 }}>
                 {
-                  'To give no shelter to thieves nor fugitives, neither within the stews nor beneath them. Violation shall be fined a zenny, and the ill-gotten goods rendered unto the Church for remedy.'
+                  'To give no shelter to thieves nor fugitives, neither within the stews nor beneath them. Violation shall be fined a zenny, and the stolen goods rendered unto the Church for remedy.'
                 }
               </li>
               <li style={{ marginBottom: 4 }}>
@@ -127,7 +127,7 @@ export const BathhouseOrdinanceSection = ({
             </p>
             <p style={{ margin: 0, color: INK_FAINT }}>
               {
-                'The Bishop and the Bathmaster each hold the seal. Either may break or restore the Ordinance; neither may do so twice in quick succession.'
+                `The Bishop and the Bathmaster each hold the seal. Either can break or restore the Ordinance. After that, it can't be changed again for ${data.bathhouse_ordinance_cooldown_minutes} minutes.`
               }
             </p>
           </div>

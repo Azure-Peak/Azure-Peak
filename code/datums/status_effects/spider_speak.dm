@@ -1,6 +1,6 @@
 /atom/movable/screen/alert/status_effect/buff/spider_speak
-	name = "Spider language"
-	desc = "I'm able to click my tongue how spiders speak."
+	name = "Spider Language"
+	desc = "I'm able to click my tongue like how spiders speak."
 	icon_state = "buff"
 
 /datum/status_effect/buff/spider_speak

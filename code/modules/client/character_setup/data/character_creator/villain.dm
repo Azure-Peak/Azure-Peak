@@ -3,7 +3,11 @@
 		"antag_banned" = is_banned_from(user.ckey, ROLE_SYNDICATE),
 
 		"lich_headshot_link" = lich_headshot_link,
+		"lich_headshot_artist_credit" = lich_headshot_artist_credit,
+		"lich_headshot_artist_link" = lich_headshot_artist_link,
 		"vampire_headshot_link" = vampire_headshot_link,
+		"vampire_headshot_artist_credit" = vampire_headshot_artist_credit,
+		"vampire_headshot_artist_link" = vampire_headshot_artist_link,
 
 		"vampire_skin" = vampire_skin,
 		"vampire_eyes" = vampire_eyes,

@@ -276,7 +276,7 @@ const StatusPill = (props: { slot: ZadcoteSlot }) => {
           fontWeight: 'bold',
           fontSize: FONT_BODY,
         }}
-        title={`A flight is ${direction}, arriving in ${formatCountdown(arriving)}`}
+        title={`A flight is ${direction}. It arrives in ${formatCountdown(arriving)}.`}
       >
         {direction} {slot.flight_zads ? `(${slot.flight_zads})` : ''}{' '}
         <span style={{ color: INK_SOFT, fontWeight: 'normal' }}>
@@ -474,7 +474,7 @@ const SendPanel = (props: {
               padding: '4px 0',
             }}
           >
-            Bombs are loaded - no other payload will fly with them.
+            Bombs are loaded. Nothing else can fly with them.
           </div>
         ) : data.payload_in_hand.length === 0 ? (
           <div
@@ -554,7 +554,7 @@ const SendPanel = (props: {
             {effectiveZads === 1
               ? '1 zad: tiny or small parcel.'
               : effectiveZads === 2
-                ? '2 zads: pouch, helmet, or normal-sized item.'
+                ? '2 zads: pouch, helmet, or an item of normal size.'
                 : '3 zads: bulky parcel, large container, or a great weapon.'}
           </div>
         </div>
@@ -720,10 +720,10 @@ const SlotRow = (props: {
               disabled={!canVoyeur}
               title={
                 !fundsOk
-                  ? `Scrying fund empty. Feed mammon coins into the zadcote (needs ${data.voyeur_cost}m).`
+                  ? `The scrying fund is empty. Feed at least ${data.voyeur_cost}m in mammon coins into the zadcote.`
                   : canVoyeur
                     ? `Scry through the bonded zad. Costs ${data.voyeur_cost}m from the zadcote's scrying fund.`
-                    : 'Voyeur unavailable.'
+                    : "You can't scry right now."
               }
               onClick={() => {
                 if (!canVoyeur) return;
@@ -740,7 +740,7 @@ const SlotRow = (props: {
             title={
               slot.allow_summons
                 ? 'Summons are allowed. The cage holder may summon a zad on demand.'
-                : 'Summons are blocked. The cage holder cannot summon zads.'
+                : "Summons are blocked. The cage holder can't summon zads."
             }
             onClick={() => {
               if (!canSever) return;

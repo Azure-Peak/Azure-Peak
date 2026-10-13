@@ -1,9 +1,11 @@
 #define UPGRADE_NOTAX		(1<<0)
 #define PURITY_PUBLIC_MARGIN 0.5
+/// Max entries kept in the BMtreasury hoard ledger.
+#define BM_HOARD_LOG_MAX 50
 
 /obj/structure/roguemachine/bathvend
 	name = "BRASSFACE"
-	desc = "A brass-faced cabinet wrought of Eora's hearth, that the lonely and weary may take comfort within."
+	desc = "A cabinet faced in brass and wrought of Eora's hearth, that the lonely and weary may take comfort within."
 	icon = 'icons/roguetown/misc/machines.dmi'
 	icon_state = "brassface"
 	density = TRUE
@@ -157,7 +159,7 @@
 	if(!ishuman(user))
 		return
 	if(locked && !is_public)
-		to_chat(user, span_warning("It's locked. Of course."))
+		to_chat(user, span_warning("It's locked."))
 		return
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -239,6 +241,17 @@
 			packs_data += list(serialize_pack(PA, tariff_active))
 	data["packs"] = packs_data
 	data["total_matches"] = total_matches
+
+	var/list/hoard_entries = list()
+	for(var/list/entry in SSBMtreasury.hoard_log)
+		hoard_entries += list(list(
+			"kind" = entry["kind"],
+			"time" = entry["time"],
+			"text" = entry["text"],
+			"amount" = entry["amount"],
+			"who" = entry["who"],
+		))
+	data["hoard_log"] = hoard_entries
 	return data
 
 /obj/structure/roguemachine/bathvend/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -416,9 +429,30 @@ SUBSYSTEM_DEF(BMtreasury)
 	var/interest_rate = 0.15 // Bit more interest, since it's gonna be much harder for the BMaster to get valuables.
 	var/next_treasury_check = 0
 	var/list/vault_accounting = list()
+	/// Reverse-chronological ledger of hoard payouts and TREASURE SEEKER consignments.
+	var/list/hoard_log = list()
+
+/// Adds an entry to the hoard ledger. kind is "payout" or "deposit".
+/datum/controller/subsystem/BMtreasury/proc/add_hoard_log(kind, text, amount, who)
+	hoard_log.Insert(1, list(list(
+		"kind" = kind,
+		"time" = station_time_timestamp("hh:mm"),
+		"text" = text,
+		"amount" = amount,
+		"who" = who,
+	)))
+	if(length(hoard_log) > BM_HOARD_LOG_MAX)
+		hoard_log.Cut(BM_HOARD_LOG_MAX + 1)
+
+/// TRUE if the item would earn the hoard interest while lying in the vault -
+/// worthless dross, loose coin and containers are all refused.
+/datum/controller/subsystem/BMtreasury/proc/generates_profit(obj/item/I)
+	if(I.get_real_price() <= 0 || istype(I, /obj/item/roguecoin) || istype(I, /obj/item/storage))
+		return FALSE
+	return TRUE
 
 /datum/controller/subsystem/BMtreasury/proc/add_to_vault(obj/item/I)
-	if(I.get_real_price() <= 0 || istype(I, /obj/item/roguecoin) || istype(I, /obj/item/storage))
+	if(!generates_profit(I))
 		return
 	if(I.type in vault_accounting)
 		vault_accounting[I.type] *= multiple_item_penalty
@@ -462,5 +496,9 @@ SUBSYSTEM_DEF(BMtreasury)
 	if(SStreasury.bathhouse_fund)
 		SStreasury.bathhouse_fund.balance += amt_to_generate
 	send_ooc_note("Regular income to the Bathhouse Fund: +[amt_to_generate][tithe > 0 ? " (after [tithe]m tithe to the Church)" : ""]", job = "Bathmaster")
+	if(amt_to_generate > 0)
+		add_hoard_log("payout", "Income from smuggling hoard", amt_to_generate)
 	record_round_statistic(STATS_BATHMATRON_VAULT_TOTAL_REVENUE, amt_to_generate)
 	return amt_to_generate
+
+#undef BM_HOARD_LOG_MAX

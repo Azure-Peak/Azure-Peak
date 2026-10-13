@@ -169,42 +169,48 @@
 
 /datum/book_entry/cuisine/north_imperial
 	name = "North Imperial"
-	book_priority = 7
+	book_priority = 8
 	cuisine_flag = CUISINE_NORTH_IMPERIAL
 	blurb = "A broad category for the cuisine that originated from the old Celestial Empire's heartland, modern dae Grenzelhoft. It is hearty and delicious, full of breads, pies, sausage. Though seafood are eaten, it is not as prominent and does not feature in its dishes list. Ale and Beer are the main source of drinks, with occasional spirits added in. Famous dishes includes the Grenzelbun, Squire's Delight, Nitzel and Schnitzel."
 
 /datum/book_entry/cuisine/south_imperial
 	name = "South Imperial"
-	book_priority = 6
+	book_priority = 7
 	cuisine_flag = CUISINE_SOUTH_IMPERIAL
 	blurb = "A grandiose name for the cuisine that developed in Azuria during its heyday, when snow elves still ruled from the mountain valley of Tarichea. It incorporated elements of North Imperial food - namely the hearty staple of breads, tomatoplate and bookbreads - and deliberately excludes pies (excluding crab and fish pies), which are viewed as food suitable for campaigning but not for a noble tongue. Compared to its northern counterpart, it includes practically all seafood dishes, specifically fish pies (and no other pies) and anything with fish as originally Azurean. It includes elements of wood elven cuisine, incorporated as a native and uniquely Azurian aspect, and Tarichean and Azurian lords made sure to dine on them conspicuously to show that they are both capable of imitation and innovation - honey, mead, slow roasted fishes, game, rosa tea - all elements of the Rosawoodian diet that the nobles and burghers of this land eat with pride."
 
 /datum/book_entry/cuisine/otavais
 	name = "Otavais"
-	book_priority = 5
+	book_priority = 6
 	cuisine_flag = CUISINE_OTAVAIS
 	blurb = "Otava and its predecessor were never under the yoke of the Celestial Empire, and were boosted with a bountiful coastline and diverse climate. So their cuisine has a little bit of everything, and is known for its richness. A bit of signature pies, a bit of signature bread, cheesecake (though not honeycake, viewed as too decadent and Ranesheni), fruit cakes, and some but not all good seafood."
 
 /datum/book_entry/cuisine/northern
 	name = "Northern"
-	book_priority = 4
+	book_priority = 5
 	cuisine_flag = CUISINE_NORTHERN
 	blurb = "Hammerhold and Gronn share a somewhat similar cuisine and part of their culture. The hardy Gronnmen subsides on the bounty of the land, whether it is fish or games, farm what little they can and trade for the rest, while Hammerhold is known for its pretzels and handpies and of course, world-famous alcohol. Grains find few purchase up north - except for potatoes that can grow even in the harsh northern land."
 
 /datum/book_entry/cuisine/etruscan
 	name = "Etruscan"
-	book_priority = 3
+	book_priority = 4
 	cuisine_flag = CUISINE_ETRUSCAN
 	blurb = "With access to the abundance of the sea, spice trade and diverse cultural contact, the Etruscans developed their own unique cuisine and staples - based on noodles, rice and tomatoplates, with some unique, fancier breads - though nearly all upper class dishes are based on the aforementioned three staples. Rice plates are overwhelmingly seafood based instead of land food based."
 
 /datum/book_entry/cuisine/southeastern
 	name = "Southeastern"
-	book_priority = 2
+	book_priority = 3
 	cuisine_flag = CUISINE_SOUTHEASTERN
 	blurb = "The climate of southeastern Psydonia leads to abundant rainfall, and so the Lingyuese and Kazengunese share a somewhat similar cuisine based on rice cultivation. The bountiful seas provide for plenty of seafood, and so both cuisines find themselves serving up delicious seafood and rice based meals aplenty. Wheat products are absent, and so is dairy."
 
 /datum/book_entry/cuisine/ranesheni
 	name = "Ranesheni"
-	book_priority = 1
+	book_priority = 2
 	cuisine_flag = CUISINE_RANESHENI
 	blurb = "Raneshen is a realm of four realms itself, with diverse cuisine. Well known Ranesheni cuisine are dominated by its component realm of Mücevkabher and Chorodiaki. Their cuisine is well known for the heavy usage of spices, braided bread, thick and dark coffee, and famous honeycake. The Naledian, though far away and split by an entire massive ocean, is known for some similarity in their cuisine due to the shared climate."
+
+/datum/book_entry/cuisine/naledi
+	name = "Naledi"
+	book_priority = 1
+	cuisine_flag = CUISINE_NALEDI
+	blurb = "The cuisine of sunblasted Naledi is shaped by the Great Makol'Ra Desert and the life giving Bilomari river. Staples come from the oasis and riverbanks: wheat, barley, dates, figs, beans, lentils, onions and radishes, with rice a rare luxury reserved for the nobility. Meats are those that can survive the dunes. Such as goat, camel and game, seasoned heavily with desert spices. Drinks are built around hibiscus and rooibos tea alongside fresh juices, for alcohol is frowned upon by the devout, who hold that to gorge on vice is to invite the Djinn into one's body and city. Meals are shared openly and generously, even with strangers, as befits a people seeking redemption."
