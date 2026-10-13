@@ -133,7 +133,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/touch/conjure_repairkit)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/suicidebomb/lesser)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 

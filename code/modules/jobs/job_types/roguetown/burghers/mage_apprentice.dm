@@ -248,7 +248,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/touch/conjure_repairkit)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/touch/prestidigitation)
 
 	switch(subclass_selected)
