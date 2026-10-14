@@ -181,7 +181,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/grenzel)
 
-/obj/structure/closet/crate/chest/bandit/grenzel/Initialize()
+/obj/structure/closet/crate/chest/bandit/grenzel/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/grenzelhofthat(src)
 	new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/blacksteel(src) //das blacksteeljobben frieken?
@@ -198,7 +198,7 @@
 	cost = 300 // gets shield and axe
 	contains = list(/obj/structure/closet/crate/chest/bandit/atgervi)
 
-/obj/structure/closet/crate/chest/bandit/atgervi/Initialize()
+/obj/structure/closet/crate/chest/bandit/atgervi/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/bascinet/atgervi(src)
 	new /obj/item/clothing/gloves/roguetown/angle/atgervi(src)
@@ -217,7 +217,7 @@
 	cost = 300 // gets weapon 
 	contains = list(/obj/structure/closet/crate/chest/bandit/jani)
 
-/obj/structure/closet/crate/chest/bandit/jani/Initialize()
+/obj/structure/closet/crate/chest/bandit/jani/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/sallet/raneshen(src)
 	new /obj/item/clothing/neck/roguetown/chaincoif/full(src)
@@ -237,7 +237,7 @@
 	cost = 300 
 	contains = list(/obj/structure/closet/crate/chest/bandit/aavnic)
 
-/obj/structure/closet/crate/chest/bandit/aavnic/Initialize()
+/obj/structure/closet/crate/chest/bandit/aavnic/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/chargah(src)
 	new /obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman(src)
@@ -254,7 +254,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/blackvenom)
 
-/obj/structure/closet/crate/chest/bandit/blackvenom/Initialize()
+/obj/structure/closet/crate/chest/bandit/blackvenom/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/suit/roguetown/armor/plate/fluted/shadowplate(src)
 	new /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants(src)
@@ -271,7 +271,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/otavan)
 
-/obj/structure/closet/crate/chest/bandit/otavan/Initialize()
+/obj/structure/closet/crate/chest/bandit/otavan/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/otavan(src)
 	new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted(src) //halfplate nerfies
@@ -288,7 +288,7 @@
 	cost = 300 //wep
 	contains = list(/obj/structure/closet/crate/chest/bandit/etruscan)
 
-/obj/structure/closet/crate/chest/bandit/etruscan/Initialize()
+/obj/structure/closet/crate/chest/bandit/etruscan/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan(src)
 	new /obj/item/clothing/suit/roguetown/armor/brigandine(src)
@@ -307,7 +307,7 @@
 	cost = 260
 	contains = list(/obj/structure/closet/crate/chest/bandit/forlorn)
 
-/obj/structure/closet/crate/chest/bandit/forlorn/Initialize()
+/obj/structure/closet/crate/chest/bandit/forlorn/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/heavy/volfplate(src)
 	new /obj/item/clothing/neck/roguetown/gorget/forlorncollar(src)
@@ -321,7 +321,7 @@
 	cost = 300 // weapon, idk why the fuck this was 360
 	contains = list(/obj/structure/closet/crate/chest/bandit/longsword)
 
-/obj/structure/closet/crate/chest/bandit/longsword/Initialize()
+/obj/structure/closet/crate/chest/bandit/longsword/Initialize(mapload)
 	. = ..()
 	new /obj/item/clothing/head/roguetown/helmet/sallet/visored(src)
 	new /obj/item/clothing/neck/roguetown/bevor(src)
