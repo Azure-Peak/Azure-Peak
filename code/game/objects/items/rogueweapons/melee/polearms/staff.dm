@@ -10,34 +10,36 @@
 	desc = "A technique utillizing the weapon's length and sturdy frame. By driving it into the ground, vault right over your opponent's head.</br>Each Vault incurs a five second cooldown period before another may be performed, an average amount of strength(10) is required drive yourself high enough."
 
 /datum/intent/staff/polevault/spec_on_apply_effect(mob/living/H, mob/living/user, params)
-	if(user.STASTR < 10)
-		return FALSE//Too weak to vault?
-	if(user.incapacitated(ignore_restraints = TRUE))
-		return FALSE
-	if(user.pulledby && user.pulledby != user)
-		to_chat(user, span_warning("I'm being grabbed."))
-		user.resist_grab()
-		return FALSE
-	if(!(user.mobility_flags & MOBILITY_STAND))
-		if(!HAS_TRAIT(user, TRAIT_LEAPER) || !user.STASPD > 14)
-			to_chat(user, span_warning("I should stand up first."))
+	if(user.STASTR > 9)
+		if(user.STASTR < 13 && HAS_TRAIT(user, TRAIT_ARCYNE))
+			return FALSE//Too weak of a mage to get access to vault. Apparently you can only get this with Orc + Statpack on your general mage. Maybe should raise this to 14?
+
+		if(user.incapacitated(ignore_restraints = TRUE))
 			return FALSE
+		if(user.pulledby && user.pulledby != user)
+			to_chat(user, span_warning("I'm being grabbed."))
+			user.resist_grab()
+			return FALSE
+		if(!(user.mobility_flags & MOBILITY_STAND))
+			if(!HAS_TRAIT(user, TRAIT_LEAPER) || !user.STASPD > 14) //Agile or very speed sorts get to vault from the ground?
+				to_chat(user, span_warning("I should stand up first."))
+				return FALSE
 
-	var/turf/target_turf = get_step(H, get_dir(user, H))
-	if(target_turf.density < 1 && !user.has_status_effect(/datum/status_effect/debuff/staffvaultcd))
-		user.apply_status_effect(/datum/status_effect/debuff/staffvaultcd)
-		new /obj/effect/temp_visual/telegraph/primordial(target_turf)
+		var/turf/target_turf = get_step(H, get_dir(user, H))
+		if(target_turf.density < 1 && !user.has_status_effect(/datum/status_effect/debuff/staffvaultcd))
+			user.apply_status_effect(/datum/status_effect/debuff/staffvaultcd)
+			new /obj/effect/temp_visual/telegraph/primordial(target_turf) //Placeholder telegraph, borrowed but somewhat accurate. Exists so people on the receiving end don't suddenly lose track of where someone went after using this. Might also implement "Landing on someone else" behaviour.
 
-		animate(user, pixel_y = 16, time = 2, flags = ANIMATION_PARALLEL)
-		user.emote("jump", forced = TRUE)
-		spawn(2)
-			animate(user, pixel_y = 0, time = 2)
-			user.Move(target_turf)
-			for(var/mob/M in view(user))
-				to_chat(M, span_warning("[user] vaults right over [H]'s head!"))
+			animate(user, pixel_y = 16, time = 2, flags = ANIMATION_PARALLEL)
+			user.emote("jump", forced = TRUE)
+			spawn(2)
+				animate(user, pixel_y = 0, time = 2)
+				user.Move(target_turf)
+				for(var/mob/M in view(user))
+					to_chat(M, span_warning("[user] vaults right over [H]'s head!"))
 	else
-	//placeholder for later
-		return
+		to_chat(user, span_warning("I am too weak to vault."))
+		return FALSE //Too weak to vault in general at 9 and below.
 
 /datum/intent/staff/polevault/prewarning()
 	if(mastermob)
