@@ -32,13 +32,13 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 3
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
-	displayed_damage = 100
+	displayed_damage = SPELL_DMG(100)
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/beam_range = 8
 	var/beam_delay = 1.5 SECONDS
-	var/beam_damage = 100
+	var/beam_damage = SPELL_DMG(100)
 	var/push_dist = 1
 	var/expose_duration = 6 SECONDS
 	var/beam_slowdown = 2
@@ -156,7 +156,7 @@
 			seg.icon_state = "obeliskbeam_end"
 
 		for(var/obj/structure/S in T)
-			S.take_damage(damage, BRUTE, "blunt", FALSE)
+			S.take_damage(damage * SPELL_DAMAGE_INTEGRITY_MODIFIER, BRUTE, "blunt", FALSE)
 
 		for(var/mob/living/L in T.contents)
 			if(L in struck)
@@ -174,10 +174,10 @@
 				if(arcyne_strike(caster, L, null, damage, caster.zone_selected, \
 					BCLASS_PIERCE, spell_name = spell_name, \
 					damage_type = BRUTE, \
-					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
-				L.adjustBruteLoss(damage)
+				L.adjustBruteLoss(SPELL_DMG_VS(L, damage))
 				SEND_SIGNAL(L, COMSIG_ATOM_WAS_ATTACKED, caster, damage)
 			L.apply_status_effect(/datum/status_effect/debuff/exposed, expose_dur)
 			var/push_dir = get_dir(origin, L) || beam_dir

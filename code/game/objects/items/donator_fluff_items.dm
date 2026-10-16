@@ -3339,31 +3339,6 @@ As Excaliber."
 	icon_state = "celestialstaffglow"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn
-	base_implement_name = "refined celestial staff"
-	name = "refined celestial staff"
-	desc = "Celestial Staves, or Himmelsstäbe, are often awarded to Gefechtsgelehrter who have completed at least two \
-	military campaigns. The possession of one marks the wielder as an individual who has not only seen the horrors of \
-	war, but delivered them firsthand. This one happens to be crested with a special ornament."
-	icon_state = "celestialstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/crested
-	icon_state = "celestialstaffcrest"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/winged
-	icon_state = "celestialstaffeagle"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/solar
-	icon_state = "celestialstaffsun"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/glow
-	icon_state = "celestialstaffglow"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
 /obj/item/clothing/cloak/donator_rhynn
 	name = "ladylike longcloak"
 	desc = "Ermine trimmed, dusted with fyritus. A siege mage's mantle is <i>traditionally</i> cermeonial, but that seldom keeps the more \

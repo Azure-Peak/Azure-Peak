@@ -339,12 +339,16 @@
 	base_implement_name = "\improper Bound Staff" // will become "Bound Staff of Frost" etc
 	desc = "A mage's staff crowned with the spirit-gem of a familiar. The gem captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
 	icon_state = "sapphirestaff"
+	gem_socketable = FALSE
+	implement_upgradable = FALSE
 
 /obj/item/rogueweapon/woodstaff/implement/greater/infernal
 	name = "\improper Staff of the Daemonbinder"
 	base_implement_name = "\improper Infernal Staff" // "Infernal Staff of Flame" etc
 	desc = "A mage's staff that shimmers with eternal malice. It is perpetually warm to the touch; holding it inspires an urge to unleash one's most powerful magic. Merely a touch from it is enough to spark flame. It captures excess energy dissipated into the air when a spell is cast, giving a generous share of it back to the wielder."
 	icon_state = "rubystaff"
+	gem_socketable = FALSE
+	implement_upgradable = FALSE
 	var/sparkcd = 0
 
 /obj/item/rogueweapon/woodstaff/implement/greater/infernal/afterattack(atom/movable/A, mob/user, proximity)
@@ -655,9 +659,9 @@
 // nerfed damage down to one-fifth the original value - still fucks up simples though
 /obj/effect/obeliskbeam/drakeling/damage(mob/living/hit_mob)
 	if(issimple(hit_mob))
-		hit_mob.apply_damage(damage = 10, damagetype = BURN)
+		hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(10)), damagetype = BURN)
 	else
-		hit_mob.apply_damage(damage = 3, damagetype = BURN)
+		hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(3)), damagetype = BURN)
 	to_chat(hit_mob, span_danger("You're damaged by [src]!"))
 
 /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling/cast(list/targets, mob/living/carbon/human/species/familiar/void/user)
@@ -685,9 +689,9 @@
 			new_obeliskbeam.assign_creator(user)
 			for(var/mob/living/hit_mob in affected_turf.contents)
 				if(issimple(hit_mob))
-					hit_mob.apply_damage(damage = 15, damagetype = BURN)
+					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(15)), damagetype = BURN)
 				else
-					hit_mob.apply_damage(damage = 5, damagetype = BURN) // this is literally one-fifth of the normal abberant beam you will not be fragging with this
+					hit_mob.apply_damage(damage = SPELL_DMG_VS(hit_mob, SPELL_DMG(5)), damagetype = BURN) // this is literally one-fifth of the normal abberant beam you will not be fragging with this
 				to_chat(hit_mob, span_userdanger("You're blasted by [user]'s aberrant beam!"))
 		if(!length(user.beam_parts))
 			return FALSE

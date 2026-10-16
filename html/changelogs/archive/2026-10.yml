@@ -684,3 +684,13 @@
       like most other spells now when failing for consistancy sake.'
   voidwytch:
   - rscadd: Bloak Pariah armor choice between Medium and Light
+2026-10-16:
+  BobProductive:
+  - bugfix: fixes the name and description of Xylixian estoc
+  - rscadd: makes the elixir usable with an estoc
+  KatTheFox:
+  - bugfix: Midnight Rage (a warrior) can no longer receive dream visions.
+  changelingonberry:
+  - admin: subclasses can now be managed via Manage Job Slots
+  - rscadd: 'Xylix''s dice box: further improves stat rolling via a new UI. You can
+      also roll in chat e.g. *5d20+STR+67/DC100'

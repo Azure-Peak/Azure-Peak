@@ -1,5 +1,0 @@
-author: "BobProductive"
-delete-after: True
-changes:
-  - bugfix: "fixes the name and description of Xylixian estoc"
-  - rscadd: "makes the elixir usable with an estoc"

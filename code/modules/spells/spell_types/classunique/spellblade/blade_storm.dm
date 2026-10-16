@@ -2,8 +2,8 @@
 	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Blade Storm"
 	desc = "Mark a patch of ground within reach - a shadow of yourself coalesces there. Then, a mote later, you emerge in a storm of slashes, focusing on whomever is at its center and sweep around them.\
-		Requires 7 Momentum: 4 strikes at 30 damage each. \
-		Overcharged at 10 Momentum: 6 strikes at 30 damage each."
+		Requires 7 Momentum: 4 strikes at 24 damage each. \
+		Overcharged at 10 Momentum: 6 strikes at 24 damage each."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "blade_storm"
 	sound = 'sound/magic/blink.ogg'
@@ -34,10 +34,10 @@
 	var/telegraph_delay = 4
 	var/cut_delay = 2
 
-	var/aoe_damage = 30
+	var/aoe_damage = SPELL_DMG(30)
 	var/aoe_base_cuts = 3
 	var/aoe_bonus_cuts = 2
-	var/personal_damage = 30
+	var/personal_damage = SPELL_DMG(30)
 	var/personal_base_cuts = 4
 	var/personal_bonus_cuts = 7
 	var/min_momentum = 7
@@ -159,7 +159,7 @@
 			if(spell_guard_check(victim, FALSE, user, punish_caster = storm_deflected ? FALSE : null))
 				storm_deflected = TRUE
 				continue
-			arcyne_strike(user, victim, weapon, aoe_dmg, def_zone, BCLASS_CUT, spell_name = "Blade Storm (Cut [cut_num])", skip_animation = TRUE, skip_message = TRUE)
+			arcyne_strike(user, victim, weapon, aoe_dmg, def_zone, BCLASS_CUT, spell_name = "Blade Storm (Cut [cut_num])", skip_animation = TRUE, skip_message = TRUE, SPELL_STRIKE_SCALING)
 
 /datum/action/cooldown/spell/blade_storm/proc/do_personal_strike(mob/living/carbon/human/user, obj/item/weapon, turf/center, strike_num, def_zone, p_dmg)
 	if(QDELETED(user) || user.stat == DEAD || !center)
@@ -170,7 +170,7 @@
 			continue
 		if(spell_guard_check(victim, FALSE, user))
 			continue
-		arcyne_strike(user, victim, weapon, p_dmg, def_zone, spell_name = "Blade Storm (Strike [strike_num])", skip_animation = TRUE)
+		arcyne_strike(user, victim, weapon, p_dmg, def_zone, spell_name = "Blade Storm (Strike [strike_num])", skip_animation = TRUE, SPELL_STRIKE_SCALING)
 		var/obj/effect/temp_visual/blade_cut/V = new(center)
 		V.dir = get_dir(user, victim)
 

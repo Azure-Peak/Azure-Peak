@@ -88,7 +88,6 @@ GLOBAL_LIST_INIT(gm_category_rules, list(
 	/mob/living/carbon/human/species/human/northern/conjured_peasant = GM_CATEGORY_CONJURED,
 	/mob/living/carbon/human/species/human/northern/conjured_champion = GM_CATEGORY_CONJURED,
 	/mob/living/carbon/human/species/human/northern/conjured_attacker = GM_CATEGORY_CONJURED,
-	/mob/living/carbon/human/species/dwarf/gnome/conjured_horde = GM_CATEGORY_CONJURED,
 	/mob/living/simple_animal/flesh_decoy = GM_CATEGORY_CONJURED,
 
 	/mob/living/simple_animal/hostile/retaliate/rogue/dragon = GM_CATEGORY_DRAGONS,

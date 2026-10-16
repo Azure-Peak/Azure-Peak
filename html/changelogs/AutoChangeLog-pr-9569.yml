@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - admin: "subclasses can now be managed via Manage Job Slots"

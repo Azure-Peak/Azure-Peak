@@ -106,7 +106,7 @@
 			if (istype (H.patron, /datum/patron/inhumen/zizo))
 				if(H.mind)
 					H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-					H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+					H.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
 			backl = /obj/item/storage/backpack/rogue/satchel
 			backpack_contents = list(

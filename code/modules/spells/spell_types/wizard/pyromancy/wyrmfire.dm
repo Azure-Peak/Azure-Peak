@@ -37,7 +37,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging_fire.ogg'
 	cooldown_time = SPELL_COOLDOWN_BIG_WHOOPER
@@ -55,7 +55,9 @@
 	exp_light = -1
 	exp_flash = 0
 	exp_fire = 0
-	damage = FIREBALL_DAMAGE
+	damage = SPELL_DMG(FIREBALL_DAMAGE)
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
 	damage_type = BURN
 	woundclass = BCLASS_BURN
 	nodamage = FALSE
@@ -65,7 +67,7 @@
 	/// Radius for AOE arcyne_strike blast around impact point. 0 = no AOE.
 	var/arcyne_aoe_radius = 1
 	/// Flat AOE damage dealt by arcyne_strike around the impact point.
-	var/arcyne_aoe_damage = FIREBALL_AOE_DAMAGE
+	var/arcyne_aoe_damage = SPELL_DMG(FIREBALL_AOE_DAMAGE)
 	/// Structural damage dealt to structures/walls in AOE radius. 0 = none.
 	var/structural_damage = 60
 	/// Radius for structural damage. Uses arcyne_aoe_radius if not set.
@@ -117,7 +119,7 @@
 				if(arcyne_strike(caster, L, null, aoe_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Fireball (Blast)", \
 					allow_shield_check = TRUE, damage_type = BURN, \
-					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 				apply_scorch_stack(L, 1)
 				L.apply_status_effect(/datum/status_effect/debuff/vulnerable, WYRMFIRE_VULNERABLE_DURATION)
@@ -144,9 +146,9 @@
 /datum/action/cooldown/spell/projectile/fireball/barrage
 	name = "Wyrmfire"
 	desc = "Loose a devastating barrage of fire. Every strikes leave its victim Vulnerable. Toggle firing mode (Shift+G) to switch:\n\
-	Fireball: Direct fire for 90 damage and 50 area damage around the target.\n\
-	Artillery Fireball: Arced bombardment with heavy structural damage and smoke for 80 damage and 50 area damage.\n\
-	Pillar of Flame: Ground-target a delayed eruption dealing 110 damage across a 3x3 after a short warning, leaving a lingering curtain of flame across the whole area.\n\
+	Fireball: Direct fire for 72 damage and 40 area damage around the target.\n\
+	Artillery Fireball: Arced bombardment with heavy structural damage and smoke for 64 damage and 40 area damage.\n\
+	Pillar of Flame: Ground-target a delayed eruption dealing 88 damage across a 3x3 after a short warning, leaving a lingering curtain of flame across the whole area.\n\
 	Fire spells apply scorched effects - at 4 scorched, an armor piercing wound is applied to the head or chest: whichever you are aiming at, and randomly if aiming elsewhere."
 	charge_swingdelay_type = SWINGDELAY_PENALTY
 	var/current_mode = 1
@@ -157,14 +159,14 @@
 	)
 	var/pillar_radius = 1
 	var/pillar_delay = 2 SECONDS
-	var/pillar_damage = PILLAR_OF_FLAME_DAMAGE
+	var/pillar_damage = SPELL_DMG(PILLAR_OF_FLAME_DAMAGE)
 
 /datum/action/cooldown/spell/projectile/fireball/barrage/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	for(var/i in stats.Copy())
 		if(findtext(i, "Damage:") || findtext(i, "Arc Mode"))
 			stats -= i
-	stats += span_info("Damage: Fireball [FIREBALL_DAMAGE] (+[FIREBALL_AOE_DAMAGE] splash) / Artillery [ARTILLERY_FIREBALL_DAMAGE] (+[ARTILLERY_FIREBALL_AOE_DAMAGE] splash) / Pillar of Flame [pillar_damage] (3x3)")
+	stats += span_info("Damage: Fireball [SPELL_DMG(FIREBALL_DAMAGE)] (+[SPELL_DMG(FIREBALL_AOE_DAMAGE)] splash) / Artillery [SPELL_DMG(ARTILLERY_FIREBALL_DAMAGE)] (+[SPELL_DMG(ARTILLERY_FIREBALL_AOE_DAMAGE)] splash) / Pillar of Flame [pillar_damage] (3x3)")
 	stats += span_info("Firing mode (Shift+G): Fireball (direct) / Artillery Fireball (lobbed bombardment) / Pillar of Flame (ground-target eruption).")
 	return stats
 
@@ -253,24 +255,24 @@
 			if(L.guard_deflect_spell("Pillar of Flame", TRUE, caster, punish_caster = FALSE))
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pillar of Flame", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+				if(arcyne_strike(caster, L, null, damage, aim_zone || BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pillar of Flame", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
-				L.adjustFireLoss(damage)
+				L.adjustFireLoss(SPELL_DMG_VS(L, damage))
 			apply_scorch_stack(L, 2)
 			L.apply_status_effect(/datum/status_effect/debuff/vulnerable, WYRMFIRE_VULNERABLE_DURATION)
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery
 	name = "artillery fireball"
-	damage = ARTILLERY_FIREBALL_DAMAGE
+	damage = SPELL_DMG(ARTILLERY_FIREBALL_DAMAGE)
 	arcyne_aoe_radius = 1
-	arcyne_aoe_damage = ARTILLERY_FIREBALL_AOE_DAMAGE
+	arcyne_aoe_damage = SPELL_DMG(ARTILLERY_FIREBALL_AOE_DAMAGE)
 	structural_damage = 300
 	structural_damage_radius = 1
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery/arc
 	name = "arced artillery fireball"
-	damage = 60
+	damage = SPELL_DMG(60)
 	arcshot = TRUE
 
 /obj/projectile/magic/aoe/fireball/rogue/artillery/on_hit(target)
@@ -341,8 +343,8 @@
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 
 	var/blast_radius = CATACLYSM_RADIUS
-	var/blast_damage = CATACLYSM_DAMAGE
-	displayed_damage = CATACLYSM_DAMAGE
+	var/blast_damage = SPELL_DMG(CATACLYSM_DAMAGE)
+	displayed_damage = SPELL_DMG(CATACLYSM_DAMAGE)
 	var/blast_structural = CATACLYSM_STRUCTURAL_DAMAGE
 	var/chant_time = 12 SECONDS
 	var/energy_requirement = 800
@@ -459,10 +461,10 @@
 			if(L.anti_magic_check())
 				continue
 			if(istype(caster) && !QDELETED(caster))
-				if(arcyne_strike(caster, L, null, blast_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pyroclasm", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				if(arcyne_strike(caster, L, null, blast_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Pyroclasm", damage_type = BURN, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
-				L.adjustFireLoss(blast_damage)
+				L.adjustFireLoss(SPELL_DMG_VS(L, blast_damage))
 			apply_scorch_stack(L, 3)
 		for(var/obj/structure/damaged in T)
 			if(!istype(damaged, /obj/structure/flora/newbranch))

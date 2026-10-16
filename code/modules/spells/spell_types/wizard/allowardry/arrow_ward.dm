@@ -1,5 +1,5 @@
 /datum/action/cooldown/spell/arrow_ward
-	button_icon = 'icons/mob/actions/mage_battlewardry.dmi'
+	button_icon = 'icons/mob/actions/mage_allowardry.dmi'
 	name = "Arrow Ward"
 	desc = "Conjure a wide barrier of arcyne force in front of you. The barrier blocks incoming projectiles from the front but allows allies and the caster to shoot and walk through freely."
 	button_icon_state = "arrow_ward"
@@ -29,6 +29,7 @@
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
+	point_cost = 2
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z

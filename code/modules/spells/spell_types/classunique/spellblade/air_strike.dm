@@ -5,9 +5,9 @@
 	Brief telegraph before the strike lands - aim where they will be. \
 	At 3+ momentum: consumes 3 to double damage. \
 	Strikes your aimed bodypart. Adaptable to intent: \
-		- Cut: 3x1 perpendicular line, multiple targets. (30/60 damage) \
-		- Stab: 3x1 forward line, pierces through enemies. (20/40 damage, LIGHT PENETRATION) \
-		- Blunt: All force focused on a single target. (45/90 damage)"
+		- Cut: 3x1 perpendicular line, multiple targets. (24/48 damage) \
+		- Stab: 3x1 forward line, pierces through enemies. (16/32 damage, LIGHT PENETRATION) \
+		- Blunt: All force focused on a single target. (36/72 damage)"
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "air_strike"
 	sound = 'sound/combat/wooshes/bladed/wooshsmall (1).ogg'
@@ -35,10 +35,10 @@
 	spell_impact_intensity = SPELL_IMPACT_LOW
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/cut_damage = 30
-	var/stab_damage = 20
+	var/cut_damage = SPELL_DMG(30)
+	var/stab_damage = SPELL_DMG(20)
 	var/stab_ap = PEN_LIGHT
-	var/blunt_damage = 45
+	var/blunt_damage = SPELL_DMG(45)
 	var/empowered_mult = 2
 	var/momentum_cost = 3
 
@@ -108,10 +108,10 @@
 				deflected = TRUE
 				continue
 			if(empowered)
-				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)", skip_message = TRUE)
-				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)")
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)", skip_message = TRUE, SPELL_STRIKE_SCALING)
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)", SPELL_STRIKE_SCALING)
 			else
-				arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)")
+				arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_CUT, spell_name = "Air Strike (Cut)", SPELL_STRIKE_SCALING)
 			hit_count++
 
 	if(hit_count)
@@ -154,10 +154,10 @@
 				deflected = TRUE
 				continue
 			if(empowered)
-				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)", skip_message = TRUE)
-				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)")
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)", skip_message = TRUE, SPELL_STRIKE_SCALING)
+				arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)", SPELL_STRIKE_SCALING)
 			else
-				arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)")
+				arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_STAB, armor_penetration = stab_ap, spell_name = "Air Strike (Stab)", SPELL_STRIKE_SCALING)
 			hit_count++
 
 	if(hit_count)
@@ -200,10 +200,10 @@
 		return
 
 	if(empowered)
-		arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)", skip_message = TRUE)
-		arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
+		arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)", skip_message = TRUE, SPELL_STRIKE_SCALING)
+		arcyne_strike(H, victim, weapon, round(damage / 2), def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)", SPELL_STRIKE_SCALING)
 	else
-		arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
+		arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)", SPELL_STRIKE_SCALING)
 	H.visible_message(span_danger("[H] slams [weapon.name] down, focusing all arcyne force into [victim]!"))
 
 /datum/action/cooldown/spell/air_strike/proc/get_perpendicular_line(turf/center, facing)
