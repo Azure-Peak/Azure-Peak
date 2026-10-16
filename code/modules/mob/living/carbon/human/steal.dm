@@ -24,6 +24,14 @@
 	SIGNAL_HANDLER
 	if(source != pickpocket_storage_item)
 		return
+
+	var/mob/living/carbon/human/victim = pickpocket_target
+	if(victim.client && victim.stat != DEAD)
+		SEND_SIGNAL(src, COMSIG_ITEM_STOLEN, victim)
+		record_featured_stat(FEATURED_STATS_THIEVES, src)
+		record_featured_stat(FEATURED_STATS_CRIMINALS, src)
+		GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
+
 	unregister_pickpocket_storage()
 	if(active_storage && active_storage.parent == source)
 		active_storage.close(src)
@@ -107,11 +115,6 @@
 									to_chat(target_human, span_danger("Someone rummaged through [picked] on me! How could this happen!"))
 								user_human.log_message("\the [picked] has been rummaged by [key_name(user_human)]", LOG_ATTACK, color="white")
 								target_human.log_message("[key_name(target_human)] had their \the [picked] rummaged", LOG_ATTACK, color="white")
-								if(target_human.client && target_human.stat != DEAD)
-									SEND_SIGNAL(user_human, COMSIG_ITEM_STOLEN, target_human)
-									record_featured_stat(FEATURED_STATS_THIEVES, user_human)
-									record_featured_stat(FEATURED_STATS_CRIMINALS, user_human)
-									GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
 						else
 							target_human.dropItemToGround(picked)
 							user.put_in_active_hand(picked)
