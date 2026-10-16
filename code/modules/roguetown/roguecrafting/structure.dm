@@ -654,6 +654,16 @@
 
 /obj/item/chair/stool/bar/rogue/crafted
 
+/datum/crafting_recipe/roguetown/structure/stone_stool
+	name = "stone stool"
+	category = "Seats"
+	result = /obj/item/chair/stool/bar/rogue/stone
+	reqs = list(/obj/item/natural/stone = 2)
+	tools = list(/obj/item/rogueweapon/chisel)
+	verbage_simple = "chisel"
+	verbage = "chisels"
+	skillcraft = /datum/skill/craft/masonry
+
 /datum/crafting_recipe/roguetown/structure/anvil
 	name = "anvil"
 	category = "Misc"
