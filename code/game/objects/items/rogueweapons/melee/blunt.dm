@@ -1028,7 +1028,7 @@
 	minstr = 16 // Only for the stronk bois.
 	is_silver = TRUE
 	max_integrity = 450
-	demolish_percent = 8 // Significantly weaker than the relic, for obvious reasons.
+	demolish_percent = 8 // Significantly weaker than the relic but still useful for this purpose.
 
 /obj/item/rogueweapon/mace/maul/grand/psy/pickup(mob/living/user)
 	if(HAS_TRAIT(user, TRAIT_PSYDONITE))
@@ -1047,7 +1047,8 @@
 	aura_color = "#8bf2ff"
 	demolish_percent = 15 // The final response to 2fort.
 	force_wielded = 40 // equivalent to Graggar's axe
-	max_integrity = 550
+	wdefense_wbonus = 8	// go my child, be the anime protag PSYDON ever wanted you to be
+	max_integrity = 600 // old durability will stay on this unique version of the maul
 
 /obj/item/rogueweapon/mace/maul/grand/psy/relic/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
