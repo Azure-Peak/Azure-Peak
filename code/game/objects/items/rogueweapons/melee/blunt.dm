@@ -61,31 +61,17 @@
 
 /datum/intent/mace/demolish
 	name = "break"
-	desc = "A deliberate strike that is much more effective at demolishing structures."
+	desc = "A deliberate strike that is much more effective at demolishing structures. Quite difficult to do any significant damage, but it reduces integrity based on a weapon's demolishing percent rate."
 	icon_state = "incrush"
 	blade_class = BCLASS_SMASH
 	attack_verb = list("demolishes", "crushes", "wrecks")
 	animname = "strike"
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	item_d_type = "blunt"
+	damfactor = 0.2
 	penfactor = PEN_NONE
 	demolition_mod = 3
 	clickcd = CLICK_CD_HEAVY
-	swingdelay = 10
-
-/datum/intent/mace/lesserdemolish
-	name = "break"
-	desc = "A deliberate structure-breaking blow. Deals triple the damage to structures"
-	icon_state = "incrush"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("demolishes", "crushes", "wrecks")
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	item_d_type = "blunt"
-	penfactor = PEN_NONE
-	demolition_mod = 3
-	clickcd = CLICK_CD_HEAVY
-	swingdelay = 10
 
 /datum/intent/mace/rangedthrust
 	name = "thrust"
@@ -138,8 +124,8 @@
 	name = "crush"
 	attack_verb = list("crushes")
 	icon_state = "incrush"
-	damfactor = 1.75
-	demolition_mod = 1.25 //Deals 83 DMG when swung from the strongest Maul (at a base of 34 DMG) with XIV STR. For comparison, a Steel Flail (which can be one-handed and swung faster) deals 63 DMG under the same parameters.
+	damfactor = 1.75 //Deals 83 DMG when swung from the strongest Maul (at a base of 34 DMG) with XIV STR. For comparison, a Steel Flail (which can be one-handed and swung faster) deals 63 DMG under the same parameters.
+	demolition_mod = 1.25
 	chargedrain = 1.8 //Note that the Maul series is hardlocked to characters that have abnormally high STR, and is otherwise physically unwieldable.
 	chargetime = 10
 	desc = "A titanic blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
@@ -149,8 +135,12 @@
 	name = "demolish"
 	attack_verb = list("demolishes", "crushes", "wrecks")
 	icon_state = "incrush"
-	desc = "A titanic blow that delivers Strength-scaling knockback to living targets, and massive damage to structural targets. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile. </br>Against structures, each attack reduces at least 15% of its maximum integrity."
-	demolition_mod = 3.5
+	damfactor = 1.5 // Less damage than the honest-to-god crush intent of normal mauls. Let's say it's due to the nature of the swing here.
+	demolition_mod = 3.5 // This is to be used in walls and objects for the most part.
+	chargedrain = 1.5
+	chargetime = 20 // 2 seconds charge up
+	desc = "A crushing blow that delivers Strength-scaling knockback to living targets, and massive damage to structural targets. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile. </br>Against structures, each attack reduces a % of its current integrity, based on the weapon's weight."
+	maxrange = 5
 
 /datum/intent/mace/strike/poleaxe
 	damfactor = 1.2
@@ -340,12 +330,13 @@
 	unenchantable = TRUE
 	no_loot_taint = TRUE
 
-/obj/item/rogueweapon/mace/woodclub/militia // it literally just has an aura, and demolish intent
+/obj/item/rogueweapon/mace/woodclub/militia // it literally just has an aura, and demolish intent at 2% rather than a maul's usual 8%
 	name = "bogbark club"
 	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
 	aura_color = "#00ff00"
-	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/lesserdemolish)
+	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/demolish)
 	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
+	demolish_percent = 2
 
 /obj/item/rogueweapon/mace/woodclub
 	force = 15
@@ -1026,82 +1017,82 @@
 	smelt_bar_num = 3 //Please don't...
 	max_integrity = 370
 
-//Psydonite reliquary maul. Intended for FUCKING SHIT UP.
+//Psydonite normal maul. It should be on pair with the Grand Mace, with just a bit more emphasis on demolishing armor/walls. All intents make this very sluggish to use, so beware.
 /obj/item/rogueweapon/mace/maul/grand/psy
 	name = "psydonic maul"
-	gripped_intents = list(/datum/intent/mace/smash/crush/demolish, /datum/intent/mace/strike/grand, /datum/intent/mace/sweep, /datum/intent/effect/hobble)
-	desc = "A rune-forged maul inspired by dwarven rock-hammers. Created as the faithful's answer to heretics hiding behind walls, it provides the impure with a sermon of exceptional concussive clarity. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
+	gripped_intents = list(/datum/intent/effect/smack, /datum/intent/effect/bonk, /datum/intent/effect/stagger, /datum/intent/mace/smash/crush/demolish)
+	desc = "A thrice-forged maul inspired by dwarven rock-hammers. Created as the faithful's answer to the impure hiding behind walls, it provides the impure with a sermon of exceptional concussive clarity. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
 	icon_state = "psyhammer"
+	wdefense_wbonus = 4
 	smeltresult = /obj/item/ingot/silverblessed
-	minstr = 10
-	wdefense_wbonus = 8
+	minstr = 16 // Only for the stronk bois.
 	is_silver = TRUE
-	max_integrity = 600 // need a lil more cause destroying walls takes a bit of this
+	max_integrity = 600
+	demolish_percent = 8 // Significantly weaker than the relic, for obvious reasons.
 
 /obj/item/rogueweapon/mace/maul/grand/psy/pickup(mob/living/user)
 	if(HAS_TRAIT(user, TRAIT_PSYDONITE))
-		src.minstr = 10//-4, if you have the ability to use this.
+		src.minstr = 11 // Psydonites get better accessibility. One more so twiggy Confessors don't use them.
 	else
-		src.minstr = 14
+		src.minstr = 16
 	..()
 
 /obj/item/rogueweapon/mace/maul/grand/psy/ComponentInitialize()
-	AddComponent(\
-	/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_PSYDONIAN\
-	)
+	AddComponent(/datum/component/silverbless, pre_blessed = BLESSING_NONE, silver_type = SILVER_PSYDONIAN)
 
-/obj/item/rogueweapon/mace/maul/grand/psy/preblessed
-	wdefense = 5
-	max_integrity = 650
+//Psydonite reliquary maul. Super expensive war-mallet that should be on pair with the siegebow in terms of cost and effectiveness.
+/obj/item/rogueweapon/mace/maul/grand/psy/relic
+	name = "le poids de dieu"
+	desc = "The relic known as the 'Weight of God', was forged in the deep halls of Khaz Vordain and first wielded at the Siege of Mourneval. As the faithful faltered before the heretic walls, lightning descended from the heavens and crowned the maul in holy fire. Its next blow brought the fortress gatehouse crashing down, and its legend was born. To this day, it is said that no earthly wall can withstand the weight of His judgment."
+	aura_color = "#8bf2ff"
+	demolish_percent = 15 // The final response to 2fort.
+	force_wielded = 40 // equivalent to Graggar's axe
 
-/obj/item/rogueweapon/mace/maul/grand/psy/preblessed/ComponentInitialize()
-		AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_PSYDONIAN,\
-		silver_type = SILVER_PSYDONIAN\
-	)
+/obj/item/rogueweapon/mace/maul/grand/psy/relic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
 
-/obj/item/rogueweapon/mace/attack_turf(turf/T, mob/living/user, multiplier)
+/obj/item/rogueweapon/mace/maul/grand/psy/relic/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/cursed_item, TRAIT_PSYDONITE, "WAR-MAUL", "REMINDED HE STILL LIVES")
+
+/obj/item/rogueweapon/mace/maul/grand/psy/relic/pickup(mob/living/user)
+	if(HAS_TRAIT(user, TRAIT_PSYDONITE))
+		src.minstr = 12 // Psydonites get better accessibility.
+	else
+		src.minstr = 16
+	..()
+
+/obj/item/rogueweapon/mace/attack_turf(turf/T, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
-		demolish_turf(T, user)
+		demolish_turf(T, user, src.demolish_percent)
 
 /obj/item/rogueweapon/mace/attack_obj(obj/O, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
-		demolish_obj(O, user)
+		demolish_obj(O, user, src.demolish_percent)
 
-/obj/item/rogueweapon/mace/proc/demolish_turf(turf/T, mob/living/user)
-	if(QDELETED(T))
-		return FALSE
-
-	if(isnull(T.max_integrity))
+/obj/item/rogueweapon/mace/proc/demolish_turf(turf/T, mob/living/user, percent)
+	if(QDELETED(T) || isnull(T.max_integrity))
 		return FALSE
 
 	if(T.max_integrity > 3000)
 		to_chat(user, "Too hard, sire!")
 		return FALSE
 
-	var/bonus_damage = round(T.max_integrity * 0.15)
-
+	var/bonus_damage = round(T.max_integrity * (percent / 100))
 	T.take_damage(bonus_damage, BRUTE, d_type, 1)
 	return TRUE
 
-/obj/item/rogueweapon/mace/proc/demolish_obj(obj/O, mob/living/user)
-	if(QDELETED(O))
-		return FALSE
-
-	if(isnull(O.max_integrity))
+/obj/item/rogueweapon/mace/proc/demolish_obj(obj/O, mob/living/user, percent)
+	if(QDELETED(O) || isnull(O.max_integrity))
 		return FALSE
 
 	if(O.max_integrity > 3000)
 		to_chat(user, "Too hard, sire!")
 		return FALSE
 
-	var/bonus_damage = round(O.max_integrity * 0.15)
-
+	var/bonus_damage = round(O.max_integrity * (percent / 100))
 	O.take_damage(bonus_damage, BRUTE, d_type, 1)
 	return TRUE
 
@@ -1137,6 +1128,56 @@
 	item_d_type = "blunt"
 	intent_effect = /datum/status_effect/debuff/hobbled
 	target_parts = list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG) //Intentionally leaving out feet. If you know, you know.
+
+/datum/intent/effect/smack
+	name = "smack"
+	desc = "A weighty and hasty horizontal swing that is faster to land, but softer. Deals additional damage to integrity and objects."
+	icon_state = "instrike"
+	attack_verb = list("strikes", "hits")
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	animname = "strike"
+	swingdelay = 0.5
+	demolition_mod = 1.5
+	penfactor = PEN_NONE
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	clickcd = CLICK_CD_HEAVY
+	item_d_type = "blunt"
+	blade_class = BCLASS_BLUNT
+
+/datum/intent/effect/bonk
+	name = "cragsplitter"
+	desc = "A heavy and sluggish downwards strike that needs a bit of a windup to land. Deals additional damage to integrity and objects."
+	icon_state = "instrike"
+	attack_verb = list("hammers", "crushes")
+	animname = "strike"
+	hitsound = list('sound/combat/hits/blunt/shovel_hit3.ogg')
+	swingdelay = 7
+	damfactor = 1.2
+	demolition_mod = 2.5
+	penfactor = PEN_NONE
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	clickcd = CLICK_CD_HEAVY
+	item_d_type = "blunt"
+	blade_class = BCLASS_BLUNT
+
+/datum/intent/effect/stagger
+	name = "mindshaker"
+	desc = "A heavy and sluggish sideways strike that needs a bit of a windup to land. May daze and stagger if it hits on the head."
+	icon_state = "indaze"
+	attack_verb = list("whallops", "disorients")
+	animname = "strike"
+	hitsound = list('sound/combat/hits/blunt/shovel_hit3.ogg')
+	swingdelay = 8
+	damfactor = 0.5
+	penfactor = PEN_NONE
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	clickcd = CLICK_CD_HEAVY
+	item_d_type = "blunt"
+	candodge = FALSE
+	canparry = FALSE
+	intent_effect = /datum/status_effect/debuff/staggered
+	target_parts = list(BODY_ZONE_HEAD)
+	blade_class = BCLASS_BLUNT
 
 /datum/intent/maul/spiked
 	name = "perforating strike"
@@ -1309,7 +1350,7 @@
 	force = 13
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/lesserdemolish)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/demolish)
 	minstr = 8
 	max_integrity = 350
 	w_class = WEIGHT_CLASS_BULKY
@@ -1326,6 +1367,7 @@
 	bigboy = TRUE
 	gripsprite = TRUE
 	walking_stick = TRUE //that's just cool
+	demolish_percent = 2
 
 /obj/item/rogueweapon/contraption/linker/mace/big/getonmobprop(tag)
 	. = ..()

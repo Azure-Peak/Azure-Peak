@@ -421,6 +421,10 @@
 	reloadtime = 120 //Halfway between the standard crossbow and siegebow.
 	icon_state = "relicpsyheavybow0"
 	item_state = "relicpsyheavybow"
+	aura_color = "#8bf2ff"
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy/relic/marque
 	name = "\"Epistle\""
