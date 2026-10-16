@@ -1043,17 +1043,17 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_PSYDONITE, "WAR-MAUL", "REMINDED HE STILL LIVES")
 
-/obj/item/rogueweapon/mace/attack_turf(turf/T, mob/living/user)
+/obj/item/rogueweapon/attack_turf(turf/T, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
 		demolish_turf(T, user, src.demolish_percent)
 
-/obj/item/rogueweapon/mace/attack_obj(obj/O, mob/living/user)
+/obj/item/rogueweapon/attack_obj(obj/O, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
 		demolish_obj(O, user, src.demolish_percent)
 
-/obj/item/rogueweapon/mace/proc/demolish_turf(turf/T, mob/living/user, percent)
+/obj/item/rogueweapon/proc/demolish_turf(turf/T, mob/living/user, percent)
 	if(QDELETED(T) || isnull(T.max_integrity))
 		return FALSE
 
@@ -1067,7 +1067,7 @@
 	T.take_damage(bonus_damage, BRUTE, d_type, 1)
 	return TRUE
 
-/obj/item/rogueweapon/mace/proc/demolish_obj(obj/O, mob/living/user, percent)
+/obj/item/rogueweapon/proc/demolish_obj(obj/O, mob/living/user, percent)
 	if(QDELETED(O) || isnull(O.max_integrity))
 		return FALSE
 
