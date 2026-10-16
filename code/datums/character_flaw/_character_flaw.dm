@@ -864,7 +864,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/wanted
 	name = "Wanted (+2 TRI)"
-	desc = "You're a known criminal; your name can be found on the EXCIDIUM. Your crime may have been a misdeed worthy of a fine, or a great offense against the powers at play. Only Adventurers, Pilgrims (Migrants), Traders, Vagabonds and Lunatics may pick this vice and it requires another."
+	desc = "I am a known criminal; my name is found on the EXCIDIUM. My crime may have been a misdeed worthy of a fine, or a great offense against the powers at play. Only Adventurers, Pilgrims (Migrants), Traders, Vagabonds and Lunatics may pick this vice."
 	ui_fa_icon = "handcuffs"
 	needs_extra_vice = TRUE
 
@@ -886,38 +886,39 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	wretch_select_bounty(H)
 
-/datum/charflaw/lost
+/datum/charflaw/forlorne
 	name = "Forlorne (+1 TRI)"
-	desc = "You are alone and lost, pray to your Gods so you may find home. \
+	desc = "I am alone and lost. I must pray to the Gods to find back home. \
 	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
 	ui_fa_icon = "map-location-dot"
 	needs_extra_vice = TRUE
 	var/turf/origin_turf
-	var/turf/lost_turf
+	var/turf/forlorne_turf
 	var/triumph_given = FALSE
 
-/datum/charflaw/lost/apply_post_equipment(mob/user)
+/datum/charflaw/forlorne/apply_post_equipment(mob/user)
 	. = ..()
 	user.adjust_triumphs(1)
 	triumph_given = TRUE
 	origin_turf = get_turf(user)
 	var/list/spots = list()
-	for(var/obj/effect/landmark/lost_vice/L as anything in GLOB.lost_vice_landmarks)
+	for(var/obj/effect/landmark/forlorne/L as anything in GLOB.forlorne_landmarks)
 		if(isturf(L.loc))
 			spots += L.loc
 	if(!length(spots))
 		return
-	lost_turf = pick(spots)
-	user.forceMove(lost_turf)
+	forlorne_turf = pick(spots)
+	user.forceMove(forlorne_turf)
+	new /obj/item/flashlight/flare/light/forlorne(forlorne_turf)
 	to_chat(user, span_userdanger("I am lost..."))
 	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
 
 /// Becoming certain antagonists cancels this vice: the triumph is refunded and, if they haven't moved yet, they go back to where they would have spawned.
-/datum/charflaw/lost/proc/antag_override(mob/living/carbon/human/user)
+/datum/charflaw/forlorne/proc/antag_override(mob/living/carbon/human/user)
 	if(triumph_given)
 		user.adjust_triumphs(-1)
 		triumph_given = FALSE
-	if(lost_turf && origin_turf && get_turf(user) == lost_turf)
+	if(forlorne_turf && origin_turf && get_turf(user) == forlorne_turf)
 		user.forceMove(origin_turf)
 	user.charflaws -= src
 	qdel(src)

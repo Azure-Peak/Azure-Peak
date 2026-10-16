@@ -1,5 +1,5 @@
 /datum/antagonist/lich
-	overrides_lost_vice = TRUE
+	overrides_forlorne_vice = TRUE
 	name = "Lich"
 	roundend_category = "Lich"
 	antagpanel_category = "Lich"

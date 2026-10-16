@@ -6253,7 +6253,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield)
 "bfq" = (
-/obj/effect/landmark/lost_vice,
+/obj/effect/landmark/forlorne,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/mountains/decap)
 "bfy" = (
@@ -41329,7 +41329,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/sewer)
 "hhF" = (
-/obj/effect/landmark/lost_vice,
+/obj/effect/landmark/forlorne,
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/bog/north)
 "hhH" = (
@@ -114612,7 +114612,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
 "twA" = (
-/obj/effect/landmark/lost_vice,
+/obj/effect/landmark/forlorne,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/cave/west)
 "twB" = (

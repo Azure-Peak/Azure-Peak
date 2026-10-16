@@ -117406,7 +117406,7 @@
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/bath/grim)
 "oov" = (
-/obj/effect/landmark/lost_vice,
+/obj/effect/landmark/forlorne,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/bog/south/grim)
 "oox" = (
@@ -138441,7 +138441,7 @@
 /obj/effect/decal/wood/herringbone{
 	dir = 8
 	},
-/obj/effect/landmark/lost_vice,
+/obj/effect/landmark/forlorne,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/cave/underhamlet)
 "qPH" = (
@@ -180366,7 +180366,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/shelter/woods/grim/northeast/wardenscheckpoint)
 "vMZ" = (
-/obj/effect/landmark/lost_vice,
+/obj/effect/landmark/forlorne,
 /turf/open/floor/rogue/snow,
 /area/rogue/outdoors/mountains/decap/grim)
 "vNb" = (

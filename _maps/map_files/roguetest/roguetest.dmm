@@ -1462,7 +1462,7 @@
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/manor)
 "Mn" = (
-/obj/effect/landmark/lost_vice,
+/obj/effect/landmark/forlorne,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors)
 "Mo" = (

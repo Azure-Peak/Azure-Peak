@@ -41,7 +41,7 @@
 		/datum/virtue/utility/riding, // Hags literally get a teleportation mechanic, it doesn't make much sense.
 		)
 	quirk_restrictions = list(/datum/quirk/noble, /datum/quirk/feytouched)
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted, /datum/charflaw/lost) // could you fucking imagine
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted, /datum/charflaw/forlorne) // could you fucking imagine
 	job_subclasses = list(
 		/datum/advclass/hag,
 	)
