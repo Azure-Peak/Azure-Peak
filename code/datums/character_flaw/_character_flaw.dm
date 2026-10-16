@@ -887,7 +887,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	wretch_select_bounty(H)
 
 /datum/charflaw/lost
-	name = "(+1 TRI)"
+	name = "Forlorne (+1 TRI)"
 	desc = "You are alone and lost, pray to your Gods so you may find home. \
 	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
 	ui_fa_icon = "map-location-dot"
