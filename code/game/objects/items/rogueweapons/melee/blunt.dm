@@ -122,10 +122,11 @@
 	attack_verb = list("demolishes", "crushes", "wrecks")
 	icon_state = "incrush"
 	demolition_mod = 3.5 // This is to be used in walls and objects for the most part.
-	chargetime = 2 SECONDS // double the charge time to reach Crush's damage plus Yellow Intent
-	swingdelay = 5
-	clickcd = 2 SECONDS
-	desc = "A crushing blow that delivers Strength-scaling knockback to living targets, and massive damage to structural targets. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile. </br>Against structures, each attack reduces a % of its current integrity, based on the weapon's weight."
+	chargetime = 2 SECONDS // 2x more charge time needed compared to Crush intent.
+	swingdelay = 5 // Leaves you vulnerable while winding up.
+	no_early_release = TRUE // It must be charged all the way to 2 seconds now.
+	ready_sound = 'sound/combat/Ranged/bow-draw-01-8ds.ogg' // Tighten those cheeks, bro!!!
+	desc = "A stiff-prepared crushing blow that delivers Strength-scaling knockback to living targets, and massive damage to structural targets. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile. </br>Against structures, each attack reduces a % of its current integrity, based on the weapon's weight."
 	maxrange = 5
 
 /datum/intent/mace/strike/poleaxe
@@ -1047,11 +1048,13 @@
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
 		demolish_turf(T, user, src.demolish_percent)
+		user.changeNext_move(2 SECONDS)
 
 /obj/item/rogueweapon/attack_obj(obj/O, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
 		demolish_obj(O, user, src.demolish_percent)
+		user.changeNext_move(2 SECONDS)
 
 /obj/item/rogueweapon/proc/demolish_turf(turf/T, mob/living/user, percent)
 	if(QDELETED(T) || isnull(T.max_integrity))
