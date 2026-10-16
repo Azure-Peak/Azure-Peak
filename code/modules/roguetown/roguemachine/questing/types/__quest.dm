@@ -355,8 +355,11 @@
 		var/datum/fund/fund = source["fund"]
 		var/datum/fund/escrow = source["escrow"]
 		var/amount = source["amount"]
-		if(!escrow || !SStreasury.transfer(escrow, fund, amount, "[reason] - [label]"))
-			SStreasury.mint(fund, amount, "[reason] - [label]")
+		// The escrow side releases the held commitment; the fund side takes back what it committed.
+		// A posting fee the Crown kept as "other receipts" is reversed against that same account.
+		var/escrow_side = (escrow == SStreasury.discretionary_fund) ? LEDGER_CROWN_REV_OTHER : SStreasury.commitment_account(escrow)
+		if(!escrow || !SStreasury.transfer(escrow, fund, amount, "[reason] - [label]", escrow_side, SStreasury.commitment_account(fund)))
+			SStreasury.mint(fund, amount, "[reason] - [label]", null, SStreasury.commitment_account(fund))
 		if(fund == SStreasury.burgher_pledge_fund)
 			record_round_statistic(STATS_PLEDGE_CONSUMED, -amount)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_REFUNDED, amount)

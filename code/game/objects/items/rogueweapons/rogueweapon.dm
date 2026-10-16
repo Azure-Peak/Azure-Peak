@@ -68,9 +68,7 @@
 	. = ..()
 	if(istype(src, /obj/item/rogueweapon/shield))
 		return
-	if(implement_refund)
-		return
-	if(ispath(associated_skill, /datum/skill/combat/staves) || ispath(associated_skill, /datum/skill/combat/arcyne))
+	if(is_implement)
 		return
 	if(isliving(user))
 		var/mob/living/L = user

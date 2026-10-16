@@ -1010,6 +1010,40 @@
 
 		src.manage_free_slots()
 
+	else if(href_list["setsubclassslot"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/datum/advclass/subclass = locate(href_list["setsubclassslot"])
+		if(!istype(subclass))
+			return
+
+		var/new_max = input(usr, "Maximum slots for [subclass.name] ([subclass.total_slots_occupied] currently filled). -1 for unlimited.", "Set subclass slots", subclass.maximum_possible_slots) as num|null
+		if(isnull(new_max))
+			return
+		new_max = round(new_max)
+		if(new_max < -1)
+			new_max = -1
+		log_admin("[key_name(usr)] set the slots for subclass [subclass.name] from [subclass.maximum_possible_slots] to [new_max].")
+		message_admins("[key_name_admin(usr)] set the slots for subclass [subclass.name] from [subclass.maximum_possible_slots] to [new_max].")
+		subclass.maximum_possible_slots = new_max
+
+		src.manage_free_slots()
+
+	else if(href_list["unlimitsubclassslot"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		var/datum/advclass/subclass = locate(href_list["unlimitsubclassslot"])
+		if(!istype(subclass))
+			return
+
+		log_admin("[key_name(usr)] made subclass [subclass.name] unlimited.")
+		message_admins("[key_name_admin(usr)] made subclass [subclass.name] unlimited.")
+		subclass.maximum_possible_slots = -1
+
+		src.manage_free_slots()
+
 	else if(href_list["adminsmite"])
 		if(!check_rights(R_BAN|R_FUN))
 			return

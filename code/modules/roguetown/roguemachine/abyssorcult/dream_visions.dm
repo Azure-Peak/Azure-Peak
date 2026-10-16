@@ -77,6 +77,8 @@
 		return FALSE
 	if(istype(get_area(target), /area/rogue/indoors/town/bath))
 		return FALSE // no more bathhouse jumpscares, even if they're not naked that's awkward as hell
+	if(HAS_TRAIT(target, TRAIT_LYCANRESILENCE)) // ww bodies are temporary and get QDEL'd upon detransform; we do NOT want to give vision quests to them
+		return FALSE
 	if(length(valid_roles))
 		if(target.mind.assigned_role in valid_roles)
 			return TRUE

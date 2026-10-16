@@ -22,7 +22,8 @@
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	damage = 75
+	damage = SPELL_DMG(75)
+	strike_intdamage_mult = SPELL_DAMAGE_INTEGRITY_MODIFIER
 	strike_damage_type = BRUTE
 	blade_class = BCLASS_BLUNT
 	committed_strike = TRUE

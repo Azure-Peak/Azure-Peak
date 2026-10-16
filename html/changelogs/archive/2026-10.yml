@@ -646,3 +646,51 @@
   zeskorion:
   - rscadd: wrenches can be twirled with expert Engineering
   - rscdel: Removes demlish from wrench and bogbark clubs, again
+2026-10-15:
+  BobProductive:
+  - bugfix: (hopefully) fixes the ckey
+  BurpleBineapple:
+  - rscadd: Adds foot plates as a smithable item + triumph/donor kit for steel plated
+      boots
+  - image: Footplate icons + secondary detail colour
+  Dorodomki:
+  - rscadd: 'Added new donator armor
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Familiars and skeletons are no longer cursed to hear looping lobby music
+      forever.
+  - rscadd: '''Aquaphile'' trait, which lets you sleep underwater. Does NOT let you
+      breathe underwater itself. Given to Abyssorite clerics, or selectable as a quirk.'
+  Moku-Mok:
+  - rscadd: Added Trait DES_RIDER_FORTITUDE.
+  - balance: Desert Rider's Capstone momentum is much better.
+  - bugfix: Returns Desert Rider to pre-fortitude changes.
+  Ryan180602:
+  - bugfix: clinging onto walls once again has a stam drain.
+  - rscadd: add ckeys to certain donor items
+  Sutures:
+  - code_imp: Made soap code less duplicate-y
+  WeNeedMorePhoron:
+  - balance: Adjusted blockade surcharge waiver from 40 / 80 to 30 / 60
+  - rscadd: Increased ambush budget by 50%. Ambush aggro should spread out properly
+      between players in sight of NPCs, and regional cooldown on ambush has been reduced
+      from 5 minutes to 3 minutes.
+  kilozombie:
+  - rscadd: Agents of the Bathhouse can now put up advertisements on the Rosewall.
+  radarseas:
+  - bugfix: '''you can only cast this on living beings'' no longer shows up to everyone
+      around the spell caster but to the caster themselves. - It shows in span warning
+      like most other spells now when failing for consistancy sake.'
+  voidwytch:
+  - rscadd: Bloak Pariah armor choice between Medium and Light
+2026-10-16:
+  BobProductive:
+  - bugfix: fixes the name and description of Xylixian estoc
+  - rscadd: makes the elixir usable with an estoc
+  KatTheFox:
+  - bugfix: Midnight Rage (a warrior) can no longer receive dream visions.
+  changelingonberry:
+  - admin: subclasses can now be managed via Manage Job Slots
+  - rscadd: 'Xylix''s dice box: further improves stat rolling via a new UI. You can
+      also roll in chat e.g. *5d20+STR+67/DC100'

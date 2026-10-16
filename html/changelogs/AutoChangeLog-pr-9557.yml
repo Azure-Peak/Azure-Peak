@@ -1,4 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "clinging onto walls once again has a stam drain."

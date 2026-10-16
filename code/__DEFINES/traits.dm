@@ -39,6 +39,7 @@
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
 #define TRAIT_MARRIAGE_CAPABLE "Marriage Capable"
 #define TRAIT_OUTDOORSMAN "Outdoorsman"
+#define TRAIT_WATERSLEEP "Aquaphile" // outdoorsman but for water tiles. does NOT come with water breathing
 #define TRAIT_SEA_DRINKER "Denizen of the Deep"
 #define TRAIT_STUDENT		"Student"
 #define TRAIT_INTELLECTUAL "Intellectual"
@@ -625,6 +626,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BLACKBAGGER = span_info("I've been trained to properly abduct individuals through the use of seizing garrotes and blackbags."),
 	TRAIT_LYCANRESILENCE = span_info("Dendor's fury flows through my veins, my wounds regenerate over time..."),
 	TRAIT_FORTITUDE = span_info("The typical drain I feel from day to day life is lessened, my athleticism greater."),
+	TRAIT_MOMENTUM_RIDER = span_info("Momentum lessens the stamina drain I feel from exertion."),
 	TRAIT_DEPRAVED = span_info("The languid scent of Her debauchery is known to me."),
 	TRAIT_SILVER_BLESSED = span_info("I have been baptized in fire. Blessed silverdust flows through my blood, protecting me from both vampyrism and lycanthropy."),
 	TRAIT_UNLYCKERABLE = span_info("My kind cannot bear the Sun curse for it already has another."),
@@ -634,6 +636,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
 	TRAIT_BIGGUY = span_info("My immense frame and size allows me to smash through wooden doors, and throw people more easily."),
 	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like treebranches as if they were beds."),
+	TRAIT_WATERSLEEP = span_info("I am most comfortable sleeping beneath the waves. Assuming, of course, I can breathe there."),
 	TRAIT_STUDENT =	span_info("I am overwhelmed by all this knowledge!"),
 	TRAIT_LEGENDARY_ALCHEMIST = span_info("An expert in the art of finding herbs in the wild."),
 	TRAIT_INTELLECTUAL = span_info("I have a keen eye and can assess a person's prowess in wit and blade."),
@@ -1012,6 +1015,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 // unique trait sources, still defines
 #define TRAIT_FORTITUDE "Fortitude"
+#define TRAIT_MOMENTUM_RIDER "Momentum Adrenaline"
 #define EYES_COVERED "eyes_covered"
 #define SCRYING_ORB "scrying-orb"
 #define REVERSE_BEAR_TRAP_TRAIT "reverse-bear-trap"

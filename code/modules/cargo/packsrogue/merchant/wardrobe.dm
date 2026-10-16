@@ -264,6 +264,11 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	cost = 30
 	contains = list(/obj/item/clothing/cloak/tabard/stabard/surcoat/short)
 
+/datum/supply_pack/rogue/wardrobe/cloaks/saigatabard
+	name = "Saiga Tabard"
+	cost = 30
+	contains = list(/obj/item/clothing/cloak/tabard/saiga)
+
 /datum/supply_pack/rogue/wardrobe/cloaks/halfcloak
 	name = "Halfcloak"
 	cost = 30

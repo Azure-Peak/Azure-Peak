@@ -572,7 +572,7 @@
 	return Activate(target)
 
 /// Returns TRUE if the caster is holding a penalized weapon in either hand, or recently had one.
-/// Staves and Arcyne Armaments are valid spell conduits and do not trigger this penalty.
+/// Weapons with is_implement (implements, wooden staves, arcyne armaments) do not trigger this penalty.
 /datum/action/cooldown/spell/proc/check_weapon_in_hand()
 	if(!weapon_cast_penalized)
 		return FALSE
@@ -582,8 +582,6 @@
 		return FALSE
 	var/mob/living/carbon/human/H = owner
 	for(var/obj/item/held in list(H.get_active_held_item(), H.get_inactive_held_item()))
-		if(ispath(held?.associated_skill, /datum/skill/combat/staves) || ispath(held?.associated_skill, /datum/skill/combat/arcyne))
-			continue
 		if(istype(held, /obj/item/gun))
 			return TRUE
 		if(!istype(held, /obj/item/rogueweapon))
@@ -591,7 +589,7 @@
 		if(istype(held, /obj/item/rogueweapon/shield))
 			continue
 		var/obj/item/rogueweapon/W = held
-		if(W.implement_refund)
+		if(W.is_implement)
 			continue
 		return TRUE
 	if(H.has_status_effect(/datum/status_effect/recent_weapon))
@@ -739,9 +737,9 @@
 			return FALSE
 
 	var/mob/living/living_owner = owner
-	if(istype(living_owner) && living_owner.has_status_effect(/datum/status_effect/debuff/cast_disrupted))
+	if(istype(living_owner) && living_owner.has_status_effect(/datum/status_effect/debuff/clickcd))
 		if(feedback)
-			owner.balloon_alert(owner, "Too exposed to focus!")
+			owner.balloon_alert(owner, "I can't act yet!")
 		return FALSE
 
 	if(!(spell_requirements & SPELL_CASTABLE_WHILE_MOUNTED) && owner.client && owner.buckled && isliving(owner.buckled))
@@ -858,9 +856,13 @@
 			var/mob/living/carbon/human/wpn_check = owner
 			var/has_weapon_now = FALSE
 			for(var/obj/item/held in list(wpn_check.get_active_held_item(), wpn_check.get_inactive_held_item()))
-				if(ispath(held?.associated_skill, /datum/skill/combat/staves) || ispath(held?.associated_skill, /datum/skill/combat/arcyne))
+				if(istype(held, /obj/item/gun))
+					has_weapon_now = TRUE
+					break
+				if(!istype(held, /obj/item/rogueweapon) || istype(held, /obj/item/rogueweapon/shield))
 					continue
-				if(istype(held, /obj/item/gun) || (istype(held, /obj/item/rogueweapon) && !istype(held, /obj/item/rogueweapon/shield)))
+				var/obj/item/rogueweapon/W = held
+				if(!W.is_implement)
 					has_weapon_now = TRUE
 					break
 			if(has_weapon_now)

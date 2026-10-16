@@ -183,7 +183,7 @@
 	var/mob/living/spelltarget = cast_on
 
 	if (!isliving(spelltarget))
-		show_visible_message(owner, "You can only cast this on living beings.")
+		to_chat(owner, span_warning("You can only cast this on living beings."))
 		return FALSE
 	if (spelltarget == H)
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) / 2)//You only get half

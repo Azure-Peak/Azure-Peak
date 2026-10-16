@@ -85,7 +85,7 @@
 	var/mob/living/spelltarget = cast_on
 
 	if (!isliving(spelltarget))
-		show_visible_message(owner, "You can only cast this on living beings.")
+		to_chat(owner, span_warning("You can only cast this on living beings."))
 		return FALSE
 	if (spelltarget == H)
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) / 2)//You only get half
@@ -369,7 +369,7 @@
 	var/woundpain_modifier = (0.15 + (0.1 * (owner.get_skill_level(associated_skill))))
 
 	if (!isliving(spelltarget))
-		show_visible_message(owner, "You can only cast this on living beings.")
+		to_chat(owner, span_warning("You can only cast this on living beings."))
 		return FALSE
 	else
 		spelltarget.visible_message(span_undivided("Warmth radiates from [spelltarget] as their wounds seal over!"), span_undivided("The pain from my wounds fade as warmth radiates from my soul!"))

@@ -375,10 +375,10 @@
 			duty_evaded_here += evaded
 	else
 		if(duty_on_gross_float > 0)
-			duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)")
+			duty_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_gross_float, "[TAX_CATEGORY_EXPORT_DUTY] (ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
 			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "ship fulfillment")
 		if(duty_on_levy_float > 0)
-			levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)")
+			levy_tax_remitted = SStreasury.mint_fractional(SStreasury.discretionary_fund, duty_on_levy_float, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, ship fulfillment)", null, LEDGER_CROWN_REV_EXPORT_DUTY)
 			SStreasury.apply_concordat_tithe(levy_float, TAX_CATEGORY_EXPORT_DUTY, "levy income (ship fulfillment)")
 		total_duty = duty_remitted + levy_tax_remitted
 		if(total_duty > 0)
@@ -389,7 +389,7 @@
 				SSmerchant_trade.merchant_levy_taxed += levy_tax_remitted
 	var/merchant_net_float = levy_float - (duty_suspended ? 0 : duty_on_levy_float)
 	if(merchant_net_float > 0)
-		levy_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, merchant_net_float, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]")
+		levy_remitted = SStreasury.mint_fractional(SStreasury.merchant_fund, merchant_net_float, "Merchant's levy: [qty] [good_name] -> [ship.ship_name]", null, LEDGER_MERCHANT_LEVY_IN)
 		if(SSmerchant_trade)
 			SSmerchant_trade.merchant_levy_collected += levy_remitted
 			SSmerchant_trade.log_fund_movement("Fulfillment levy ([ship.ship_name])", levy_remitted)

@@ -616,6 +616,13 @@
 						var/datum/magic_aspect/A = aspect_path
 						dat += "<b>[initial(A.name)]</b> "
 					dat += "<br>"
+				if(LAZYLEN(aspect_cfg["unlocked_aspects"]))
+					dat += "Unlocked: "
+					var/list/unlocked = aspect_cfg["unlocked_aspects"]
+					for(var/aspect_path in unlocked)
+						var/datum/magic_aspect/A = aspect_path
+						dat += "<b>[initial(A.name)]</b> "
+					dat += "<br>"
 				if(islist(aspect_cfg["variants"]))
 					var/list/overrides = aspect_cfg["variants"]
 					for(var/aspect_path in overrides)
