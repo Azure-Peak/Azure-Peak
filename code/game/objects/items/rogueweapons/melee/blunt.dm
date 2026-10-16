@@ -1025,10 +1025,10 @@
 	icon_state = "psyhammer"
 	wdefense_wbonus = 6 // equalized to Grand Mace
 	smeltresult = /obj/item/ingot/silverblessed
-	minstr = 16 // Only for the stronk bois.
 	is_silver = TRUE
 	max_integrity = 450
 	demolish_percent = 8 // Significantly weaker than the relic but still useful for this purpose.
+	minstr = 11 // Handled by the unique interaction below. Inverted to start, since they spawn with it, and funny stuff can happen.
 
 /obj/item/rogueweapon/mace/maul/grand/psy/pickup(mob/living/user)
 	if(HAS_TRAIT(user, TRAIT_PSYDONITE))
@@ -1057,21 +1057,18 @@
 	. = ..()
 	AddComponent(/datum/component/cursed_item, TRAIT_PSYDONITE, "WAR-MAUL", "REMINDED HE STILL LIVES")
 
-/obj/item/rogueweapon/mace/maul/grand/psy/relic/pickup(mob/living/user)
-	if(HAS_TRAIT(user, TRAIT_PSYDONITE))
-		src.minstr = 12 // Psydonites get better accessibility.
-	else
-		src.minstr = 16
-	..()
-
 /obj/item/rogueweapon/mace/attack_turf(turf/T, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
+		demolish_turf(T, user, src.demolish_percent)
+	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
 		demolish_turf(T, user, src.demolish_percent)
 
 /obj/item/rogueweapon/mace/attack_obj(obj/O, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
+		demolish_obj(O, user, src.demolish_percent)
+	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
 		demolish_obj(O, user, src.demolish_percent)
 
 /obj/item/rogueweapon/mace/proc/demolish_turf(turf/T, mob/living/user, percent)
