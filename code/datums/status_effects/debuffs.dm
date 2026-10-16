@@ -970,6 +970,16 @@
 	desc = "I have been knocked back recently by an attack and cannot be knocked back again"
 	icon_state = "debuff" // Placeholder
 
+/datum/status_effect/debuff/staffvaultcd
+	id = "staffvaultcd"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/staffvaultcd
+	duration = 5 SECONDS
+
+/atom/movable/screen/alert/status_effect/debuff/staffvaultcd
+	name = "Polevault Cooldown"
+	desc = "I have recently vaulted over someones head and need a moment before doing it again."
+	icon_state = "debuff"
+
 /datum/status_effect/debuff/bindcd
 	id = "bindcd"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/bindcd
