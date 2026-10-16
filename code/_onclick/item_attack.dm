@@ -154,7 +154,7 @@
 		M.mind.attackedme[user.real_name] = world.time
 	if(force)
 		if(user.used_intent)
-			if(!user.used_intent.noaa)
+			if(!user.used_intent.noaa && user.next_move <= world.time)
 				playsound(get_turf(src), pick(swingsound), 100, FALSE, -1)
 			if(user.used_intent.no_attack) //BYE!!!
 				return
@@ -759,8 +759,10 @@
 				adf = round(adf * CLICK_CD_MOD_AIMED)
 			if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 				adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
+			var/can_play_swingsound = user.next_move <= world.time
 			user.changeNext_move(adf)
-			playsound(get_turf(src), pick(swingsound), 100, FALSE, -1)
+			if(can_play_swingsound)
+				playsound(get_turf(src), pick(swingsound), 100, FALSE, -1)
 			user.aftermiss()
 		if(!proximity_flag && ismob(target) && !user.used_intent?.noaa) //this block invokes miss cost clicking on seomone who isn't adjacent to you
 			var/adf = user.used_intent.clickcd
@@ -768,8 +770,10 @@
 				adf = round(adf * CLICK_CD_MOD_AIMED)
 			if(istype(user.rmb_intent, /datum/rmb_intent/swift))
 				adf = max(round(adf * CLICK_CD_MOD_SWIFT), CLICK_CD_INTENTCAP)
+			var/can_play_swingsound = user.next_move <= world.time
 			user.changeNext_move(adf)
-			playsound(get_turf(src), pick(swingsound), 100, FALSE, -1)
+			if(can_play_swingsound)
+				playsound(get_turf(src), pick(swingsound), 100, FALSE, -1)
 			user.aftermiss()
 
 // Called if the target gets deleted by our attack

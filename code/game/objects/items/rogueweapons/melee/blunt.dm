@@ -121,10 +121,10 @@
 	name = "demolish"
 	attack_verb = list("demolishes", "crushes", "wrecks")
 	icon_state = "incrush"
-	damfactor = 1.25 // Less damage than the honest-to-god crush intent of normal mauls. Let's say it's due to the nature of the swing here.
 	demolition_mod = 3.5 // This is to be used in walls and objects for the most part.
-	chargedrain = 1.5
-	chargetime = 20 // 2 seconds charge up
+	chargetime = 2 SECONDS // double the charge time to reach Crush's damage plus Yellow Intent
+	swingdelay = 5
+	clickcd = 2 SECONDS
 	desc = "A crushing blow that delivers Strength-scaling knockback to living targets, and massive damage to structural targets. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XV (5 tiles). </br>Actively drains stamina while being charged up. </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile. </br>Against structures, each attack reduces a % of its current integrity, based on the weapon's weight."
 	maxrange = 5
 
@@ -1057,9 +1057,11 @@
 	if(QDELETED(T) || isnull(T.max_integrity))
 		return FALSE
 
-	if(T.max_integrity > 3000)
-		to_chat(user, "Too hard, sire!")
+	if(T.max_integrity > 3000 || T.max_integrity <= 0)
+		to_chat(user, span_warning("You feel great resistance against your attempt! TOO HARD!"))
 		return FALSE
+	else
+		to_chat(user, span_warning("You feel the impact hit just right! (-[percent]% demolished)"))
 
 	var/bonus_damage = round(T.max_integrity * (percent / 100))
 	T.take_damage(bonus_damage, BRUTE, d_type, 1)
@@ -1069,9 +1071,11 @@
 	if(QDELETED(O) || isnull(O.max_integrity))
 		return FALSE
 
-	if(O.max_integrity > 3000)
-		to_chat(user, "Too hard, sire!")
+	if(O.max_integrity > 3000 || O.max_integrity <= 0)
+		to_chat(user, span_warning("You feel great resistance against your attempt! TOO HARD!"))
 		return FALSE
+	else
+		to_chat(user, span_warning("You feel the impact hit just right! (-[percent]% demolished)"))
 
 	var/bonus_damage = round(O.max_integrity * (percent / 100))
 	O.take_damage(bonus_damage, BRUTE, d_type, 1)
