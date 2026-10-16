@@ -6,6 +6,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/show_in_roundend = TRUE								//Set to false to hide the antagonists from roundend report
 	var/prevent_roundtype_conversion = TRUE		//If false, the roundtype will still convert with this antag active
 	var/datum/mind/owner						//Mind that owns this datum
+	/// Gaining this antag datum cancels the Lost vice (no teleport, no triumph)
+	var/overrides_lost_vice = FALSE
 	var/silent = FALSE							//Silent will prevent the gain/lose texts to show
 	var/can_coexist_with_others = TRUE			//Whether or not the person will be able to have more than one datum
 	var/list/typecache_datum_blacklist = list()	//List of datums this type can't coexist with

@@ -6252,6 +6252,10 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield)
+"bfq" = (
+/obj/effect/landmark/lost_vice,
+/turf/open/floor/rogue/grasscold,
+/area/rogue/outdoors/mountains/decap)
 "bfy" = (
 /obj/item/roguestatue/gold,
 /obj/structure/table/wood,
@@ -41324,6 +41328,10 @@
 /obj/item/reagent_containers/glass/bottle/rogue/beer,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/sewer)
+"hhF" = (
+/obj/effect/landmark/lost_vice,
+/turf/open/water/swamp/deep,
+/area/rogue/outdoors/bog/north)
 "hhH" = (
 /obj/structure/table/wood/poor,
 /obj/item/rogueweapon/huntingknife{
@@ -114603,6 +114611,10 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
+"twA" = (
+/obj/effect/landmark/lost_vice,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/cave/west)
 "twB" = (
 /obj/effect/decal/remains/fox,
 /turf/open/floor/rogue/dirt/road,
@@ -188333,7 +188345,7 @@ rpC
 rpC
 bNW
 rpC
-whG
+twA
 whG
 tCn
 bYW
@@ -384626,7 +384638,7 @@ pMO
 mjV
 eWk
 eWk
-eWk
+hhF
 uHo
 eWk
 eWk
@@ -491652,7 +491664,7 @@ wHp
 kNH
 eMt
 lRZ
-lRZ
+bfq
 lRZ
 eAq
 eAq

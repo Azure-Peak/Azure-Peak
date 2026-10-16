@@ -886,6 +886,42 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	wretch_select_bounty(H)
 
+/datum/charflaw/lost
+	name = "(+1 TRI)"
+	desc = "You are alone and lost, pray to your Gods so you may find home. \
+	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
+	ui_fa_icon = "map-location-dot"
+	needs_extra_vice = TRUE
+	var/turf/origin_turf
+	var/turf/lost_turf
+	var/triumph_given = FALSE
+
+/datum/charflaw/lost/apply_post_equipment(mob/user)
+	. = ..()
+	user.adjust_triumphs(1)
+	triumph_given = TRUE
+	origin_turf = get_turf(user)
+	var/list/spots = list()
+	for(var/obj/effect/landmark/lost_vice/L as anything in GLOB.lost_vice_landmarks)
+		if(isturf(L.loc))
+			spots += L.loc
+	if(!length(spots))
+		return
+	lost_turf = pick(spots)
+	user.forceMove(lost_turf)
+	to_chat(user, span_userdanger("I am lost..."))
+	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
+
+/// Becoming certain antagonists cancels this vice: the triumph is refunded and, if they haven't moved yet, they go back to where they would have spawned.
+/datum/charflaw/lost/proc/antag_override(mob/living/carbon/human/user)
+	if(triumph_given)
+		user.adjust_triumphs(-1)
+		triumph_given = FALSE
+	if(lost_turf && origin_turf && get_turf(user) == lost_turf)
+		user.forceMove(origin_turf)
+	user.charflaws -= src
+	qdel(src)
+
 /datum/charflaw/dnr
 	name = "Last Legs"
 	desc = "My lux is worn. I am not truly unrevivable, not yet; but the next shall be my last."

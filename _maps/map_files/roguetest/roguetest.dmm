@@ -1461,6 +1461,10 @@
 	},
 /turf/open/floor/rogue/tile/masonic/single,
 /area/rogue/indoors/town/manor)
+"Mn" = (
+/obj/effect/landmark/lost_vice,
+/turf/open/floor/rogue/cobble,
+/area/rogue/outdoors)
 "Mo" = (
 /obj/structure/rack/rogue/shelf/big{
 	icon_state = "shelf_biggest";
@@ -3616,7 +3620,7 @@ CZ
 dE
 rT
 KZ
-fE
+Mn
 rT
 rT
 rT

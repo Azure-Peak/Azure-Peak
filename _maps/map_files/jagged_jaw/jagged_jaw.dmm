@@ -117405,6 +117405,10 @@
 /obj/structure/closet/crate/chest/old_crate,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/bath/grim)
+"oov" = (
+/obj/effect/landmark/lost_vice,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/bog/south/grim)
 "oox" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/grassred,
@@ -138433,6 +138437,13 @@
 /obj/effect/decal/cleanable/debris/woody,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/grim)
+"qPE" = (
+/obj/effect/decal/wood/herringbone{
+	dir = 8
+	},
+/obj/effect/landmark/lost_vice,
+/turf/open/floor/rogue/grass,
+/area/rogue/indoors/cave/underhamlet)
 "qPH" = (
 /obj/structure/closet/crate/chest/wicker,
 /obj/item/paper,
@@ -180354,6 +180365,10 @@
 "vMY" = (
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/shelter/woods/grim/northeast/wardenscheckpoint)
+"vMZ" = (
+/obj/effect/landmark/lost_vice,
+/turf/open/floor/rogue/snow,
+/area/rogue/outdoors/mountains/decap/grim)
 "vNb" = (
 /obj/structure/gate{
 	gid = "tourneybottom3";
@@ -239895,7 +239910,7 @@ msh
 msh
 uBk
 uBk
-arU
+qPE
 tPK
 dAU
 dAU
@@ -429543,7 +429558,7 @@ pXJ
 wfD
 pXJ
 lQS
-kQa
+oov
 psD
 wvm
 wvm
@@ -727530,7 +727545,7 @@ qtI
 tqG
 qGa
 cjj
-gDv
+vMZ
 eTW
 pro
 gDv

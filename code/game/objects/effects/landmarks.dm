@@ -52,6 +52,19 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 		GLOB.jobspawn_overrides[X] -= src
 	return ..()
 
+/// Possible destinations for the Lost vice. Place these around the map.
+/obj/effect/landmark/lost_vice
+	name = "lost vice spawn"
+	icon_state = "x4"
+
+/obj/effect/landmark/lost_vice/Initialize(mapload)
+	. = ..()
+	GLOB.lost_vice_landmarks += src
+
+/obj/effect/landmark/lost_vice/Destroy()
+	GLOB.lost_vice_landmarks -= src
+	return ..()
+
 /obj/effect/landmark/events/haunts
 	name = "hauntz"
 	icon_state = "generic_event"
