@@ -1021,7 +1021,7 @@
 /obj/item/rogueweapon/mace/maul/grand/psy
 	name = "psydonic maul"
 	gripped_intents = list(/datum/intent/effect/smack, /datum/intent/effect/bonk, /datum/intent/effect/stagger, /datum/intent/mace/smash/crush/demolish)
-	desc = "A thrice-forged maul inspired by dwarven rock-hammers. Created as the faithful's answer to the impure hiding behind walls, it provides the impure with a sermon of exceptional concussive clarity. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
+	desc = "A thrice-forged maul inspired by dwarven rock-hammers. Made to bring down walls and crush whatever foul things dare hide behind them, it serves as a reminder that no heretic can hide from righteous judgment. A good hit with this is guaranteed to give even the most peppy of heretics some deserved 'respite', and in best scenarios, send them to confess directly to HIM."
 	icon_state = "psyhammer"
 	wdefense_wbonus = 4
 	smeltresult = /obj/item/ingot/silverblessed
