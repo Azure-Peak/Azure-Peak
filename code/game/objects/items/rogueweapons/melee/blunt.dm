@@ -59,20 +59,6 @@
 	desc = "A powerful blow that delivers Strength-scaling knockback and slowdown to the target. The amount of inflicted knockback scales off your Strength, ranging from X (1 tile) to XIII (3 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
 	maxrange = 3
 
-/datum/intent/mace/demolish
-	name = "break"
-	desc = "A deliberate strike that is much more effective at demolishing structures. Quite difficult to do any significant damage, but it reduces integrity based on a weapon's demolishing percent rate."
-	icon_state = "incrush"
-	blade_class = BCLASS_SMASH
-	attack_verb = list("demolishes", "crushes", "wrecks")
-	animname = "strike"
-	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
-	item_d_type = "blunt"
-	damfactor = 0.2
-	penfactor = PEN_NONE
-	demolition_mod = 3
-	clickcd = CLICK_CD_HEAVY
-
 /datum/intent/mace/rangedthrust
 	name = "thrust"
 	blade_class = BCLASS_STAB
@@ -135,7 +121,7 @@
 	name = "demolish"
 	attack_verb = list("demolishes", "crushes", "wrecks")
 	icon_state = "incrush"
-	damfactor = 1.5 // Less damage than the honest-to-god crush intent of normal mauls. Let's say it's due to the nature of the swing here.
+	damfactor = 1.25 // Less damage than the honest-to-god crush intent of normal mauls. Let's say it's due to the nature of the swing here.
 	demolition_mod = 3.5 // This is to be used in walls and objects for the most part.
 	chargedrain = 1.5
 	chargetime = 20 // 2 seconds charge up
@@ -334,7 +320,7 @@
 	name = "bogbark club"
 	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
 	aura_color = "#00ff00"
-	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/demolish)
+	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/smash/crush/demolish)
 	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
 	demolish_percent = 2
 
@@ -1061,14 +1047,10 @@
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
 		demolish_turf(T, user, src.demolish_percent)
-	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
-		demolish_turf(T, user, src.demolish_percent)
 
 /obj/item/rogueweapon/mace/attack_obj(obj/O, mob/living/user)
 	. = ..()
 	if(. && istype(user?.used_intent, /datum/intent/mace/smash/crush/demolish))
-		demolish_obj(O, user, src.demolish_percent)
-	if(. && istype(user?.used_intent, /datum/intent/mace/demolish))
 		demolish_obj(O, user, src.demolish_percent)
 
 /obj/item/rogueweapon/mace/proc/demolish_turf(turf/T, mob/living/user, percent)
@@ -1349,7 +1331,7 @@
 	force = 13
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/demolish)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/smash/crush/demolish)
 	minstr = 8
 	max_integrity = 350
 	w_class = WEIGHT_CLASS_BULKY
