@@ -6,16 +6,15 @@
 import { sanitizeHTML } from 'tgui/sanitize';
 import { Tooltip } from 'tgui-core/components';
 import { classes } from 'tgui-core/react';
+import { diceLabelSize, diceShape } from 'tgui/interfaces/common/DiceIcon';
 
 /** Mirrors DICE_MAX_COUNT and DICE_MAX_SIDES in roll_emotes.dm. */
-const MAX_DICE = 20;
+const MAX_DICE = 24;
 const MAX_SIDES = 100;
 /** A roll shows one throw, a contest shows one per side. */
 const MAX_THROWS = 4;
-/** Dice up to this many sides are drawn with pips, anything larger is numbered. */
-const MAX_PIP_SIDES = 6;
-/** Dice with at least this many sides are drawn as an icosahedron, a d20 seen face-on. */
-const MIN_ICOSAHEDRON_SIDES = 20;
+/** Dice with at least this many sides are drawn larger. */
+const MIN_LARGE_SIDES = 13;
 
 type Outcome = 'good' | 'bad' | 'neutral';
 
@@ -44,8 +43,7 @@ type RollTooltipProps = {
   stats?: string;
   /** One footer per throw, separated by `|`, shown under a line below its dice. */
   footers?: string;
-  /** Everything else worth saying about the roll. The dice are drawn here, so don't repeat them. */
-  /** Empty when there is nothing else to say, and the chat renderer drops empty props. */
+  /** Everything else worth saying about the roll, which the chat renderer drops when empty. */
   html?: string;
   children?: React.ReactNode;
 } & Omit<React.ComponentProps<typeof Tooltip>, 'content' | 'children'>;
@@ -63,6 +61,7 @@ const parseFaces = (dice: string, sides: number): number[] =>
 
 type Throw = {
   label?: string;
+  sides: number;
   faces: number[];
   outcome?: Outcome;
   stat?: string;
@@ -76,7 +75,7 @@ const parseThrows = (
   outcomes: string | undefined,
   stats: string | undefined,
   footers: string | undefined,
-  sides: number,
+  sides: number[],
 ): Throw[] => {
   if (!dice) {
     return [];
@@ -93,17 +92,22 @@ const parseThrows = (
       outcome: outcomeList[i] ? parseOutcome(outcomeList[i]) : undefined,
       stat: STATS.has(statList[i]) ? statList[i] : undefined,
       footer: footerList[i] || undefined,
-      faces: parseFaces(group, sides),
+      sides: sides[i] ?? sides[0],
+      faces: parseFaces(group, sides[i] ?? sides[0]),
     }))
     .filter((roll) => roll.faces.length > 0);
 };
 
-const parseSides = (sides: string | undefined): number => {
-  const parsed = Number.parseInt(sides ?? '', 10);
-  if (!Number.isInteger(parsed)) {
-    return 6;
-  }
-  return Math.min(Math.max(parsed, 2), MAX_SIDES);
+/** One value applies to every throw, `|`-separated values give each throw its own die. */
+const parseSides = (sides: string | undefined): number[] => {
+  const parsed = (sides ?? '').split('|').slice(0, MAX_THROWS).map((side) => {
+    const value = Number.parseInt(side, 10);
+    if (!Number.isInteger(value)) {
+      return 6;
+    }
+    return Math.min(Math.max(value, 2), MAX_SIDES);
+  });
+  return parsed.length ? parsed : [6];
 };
 
 const parseOutcome = (outcome: string | undefined): Outcome =>
@@ -123,9 +127,12 @@ export const RollTooltip = (props: RollTooltipProps) => {
     ...rest
   } = props;
 
-  const sideCount = parseSides(sides);
-  const throws = parseThrows(dice, labels, outcomes, stats, footers, sideCount);
+  const throws = parseThrows(dice, labels, outcomes, stats, footers, parseSides(sides));
   const outcomeClass = parseOutcome(outcome);
+  // One size for every die: the smallest any throw needs.
+  const size = Math.min(
+    ...throws.map((roll) => dieSize(roll.faces.length, roll.sides)),
+  );
 
   const content = (
     <div className="RollTooltip">
@@ -134,35 +141,38 @@ export const RollTooltip = (props: RollTooltipProps) => {
           // The list never reorders, so the index is the identity.
           // biome-ignore lint/suspicious/noArrayIndexKey: see above
           <div key={i} className="RollTooltip__throw">
-            {roll.label && (
-              <div
-                className="RollTooltip__label"
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: sanitizeHTML(roll.label) }}
-              />
-            )}
-            <div className="RollTooltip__dice">
+            {/* Every throw fills all four grid rows, so a missing label or footer is an empty cell. */}
+            <div
+              className="RollTooltip__label"
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: sanitizeHTML(roll.label ?? '') }}
+            />
+            <div
+              className="RollTooltip__dice"
+              style={
+                roll.faces.length > FULL_SIZE_DICE
+                  ? { maxWidth: DICE_PER_ROW * (size + DICE_GAP) }
+                  : undefined
+              }
+            >
               {roll.faces.map((face, j) => (
                 <Die
+                  size={size}
                   // biome-ignore lint/suspicious/noArrayIndexKey: faces repeat
                   key={j}
                   face={face}
-                  sides={sideCount}
+                  sides={roll.sides}
                   outcome={roll.outcome ?? outcomeClass}
                   stat={roll.stat}
                 />
               ))}
             </div>
-            {roll.footer && (
-              <>
-                <div className="RollTooltip__separator" />
-                <div
-                  className="RollTooltip__footer"
-                  // eslint-disable-next-line react/no-danger
-                  dangerouslySetInnerHTML={{ __html: sanitizeHTML(roll.footer) }}
-                />
-              </>
-            )}
+            <div className={roll.footer ? 'RollTooltip__separator' : undefined} />
+            <div
+              className="RollTooltip__footer"
+              // eslint-disable-next-line react/no-danger
+              dangerouslySetInnerHTML={{ __html: sanitizeHTML(roll.footer ?? '') }}
+            />
           </div>
         ))}
       </div>
@@ -213,19 +223,27 @@ const PIPS: Record<number, [number, number][]> = {
   ],
 };
 
-// An icosahedron seen face-on: a hexagon outline with the facing triangle in the middle. Each
-// triangle corner runs out to the hexagon corners nearest it, which are the edges of the faces
-// around the front one.
-const ICOSAHEDRON_OUTLINE = '50,4 91,27 91,73 50,96 9,73 9,27';
-/** Where the front triangle's middle is - the number is centred on it, not on the hexagon. */
-const ICOSAHEDRON_CENTRE_Y = 53;
-const ICOSAHEDRON_FRONT = '50,16 82,71 18,71';
-const ICOSAHEDRON_EDGES =
-  'M50 16 L50 4 M50 16 L9 27 M50 16 L91 27 ' +
-  'M18 71 L9 27 M18 71 L9 73 M18 71 L50 96 ' +
-  'M82 71 L91 27 M82 71 L91 73 M82 71 L50 96';
+/** A throw of this many dice or fewer is drawn at full size, past SMALL_SIZE_DICE at the smallest. */
+const FULL_SIZE_DICE = 6;
+const SMALL_SIZE_DICE = 12;
+/** Dice per row once a throw is too big for full size. */
+const DICE_PER_ROW = 6;
+/** Mirrors the gap in RollTooltip.scss. */
+const DICE_GAP = 4;
+
+/** How wide a die is drawn, shrinking as a throw has more of them. */
+const dieSize = (count: number, sides: number): number => {
+  if (count > SMALL_SIZE_DICE) {
+    return 34;
+  }
+  if (count > FULL_SIZE_DICE) {
+    return 44;
+  }
+  return sides >= MIN_LARGE_SIDES ? 76 : 56;
+};
 
 type DieProps = {
+  size: number;
   face: number;
   sides: number;
   outcome: Outcome;
@@ -233,9 +251,11 @@ type DieProps = {
 };
 
 const Die = (props: DieProps) => {
-  const { face, sides, outcome, stat } = props;
-  const icosahedron = sides >= MIN_ICOSAHEDRON_SIDES;
-  const pips = sides > MAX_PIP_SIDES ? undefined : PIPS[face];
+  const { size, face, sides, outcome, stat } = props;
+  const shape = diceShape(sides);
+  // Only a d5 and a d6 get pips.
+  const pips = sides === 5 || sides === 6 ? PIPS[face] : undefined;
+  const label = String(face);
 
   return (
     <svg
@@ -246,37 +266,33 @@ const Die = (props: DieProps) => {
         stat && outcome === 'bad' && 'RollTooltip__die--dim',
       ])}
       viewBox="0 0 100 100"
-      width={icosahedron ? '76px' : '48px'}
-      height={icosahedron ? '76px' : '48px'}
+      width={size}
+      height={size}
     >
       <title>{face}</title>
-      {icosahedron ? (
-        <>
-          <polygon className="die-bg" points={ICOSAHEDRON_OUTLINE} />
-          <polygon className="die-front" points={ICOSAHEDRON_FRONT} />
-          <path className="die-edge" d={ICOSAHEDRON_EDGES} />
-        </>
+      {shape.outlinePath ? (
+        <path className="die-bg" d={shape.outlinePath} />
       ) : (
-        <rect className="die-bg" x="2" y="2" width="96" height="96" />
+        <polygon className="die-bg" points={shape.outline} />
       )}
+      {!pips && shape.front && (
+        <polygon className="die-front" points={shape.front} />
+      )}
+      {!pips && shape.edges && <path className="die-edge" d={shape.edges} />}
       {pips ? (
         pips.map(([x, y]) => (
           <circle key={`${x}-${y}`} className="die-pip" cx={x} cy={y} />
         ))
       ) : (
         <text
-          className={classes([
-            'die-number',
-            icosahedron && 'die-number--icosahedron',
-            face >= 100 && 'die-number--long',
-          ])}
+          className="die-number"
           x="50"
-          y={icosahedron ? ICOSAHEDRON_CENTRE_Y : 50}
-          // Lowered by a share of its own height rather than trusting `dominant-baseline`, which the
-          // chat's font does not honour evenly. 0.35em is the middle of a digit.
+          y={shape.labelY}
+          style={{ fontSize: diceLabelSize(label) }}
+          // `dominant-baseline` isn't honoured evenly, so lower by the middle of a digit instead.
           dy="0.35em"
         >
-          {face}
+          {label}
         </text>
       )}
     </svg>

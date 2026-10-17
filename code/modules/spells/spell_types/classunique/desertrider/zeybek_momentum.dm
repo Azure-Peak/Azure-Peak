@@ -94,7 +94,7 @@
 	for_bonus = 0
 	stacks = 0
 	if(fortitude_active)
-		REMOVE_TRAIT(owner, TRAIT_FORTITUDE, STATUS_EFFECT_TRAIT)
+		REMOVE_TRAIT(owner, TRAIT_MOMENTUM_RIDER, STATUS_EFFECT_TRAIT)
 		fortitude_active = FALSE
 	owner.remove_filter(MOMENTUM_FILTER)
 	if(afterimage_active)
@@ -128,7 +128,7 @@
 	else if(stacks == 15 && !fortitude_active)
 		grant_milestone_boost(15)
 		owner.balloon_alert_to_viewers("STACKED.", "STACKED.")
-		ADD_TRAIT(owner, TRAIT_FORTITUDE, STATUS_EFFECT_TRAIT)
+		ADD_TRAIT(owner, TRAIT_MOMENTUM_RIDER, STATUS_EFFECT_TRAIT)
 		owner.AddComponent(/datum/component/after_image)
 		afterimage_active = TRUE
 		fortitude_active = TRUE
@@ -185,7 +185,7 @@
 	stacks = new_stacks
 
 	if(fortitude_active && stacks < 15)
-		REMOVE_TRAIT(owner, TRAIT_FORTITUDE, STATUS_EFFECT_TRAIT)
+		REMOVE_TRAIT(owner, TRAIT_MOMENTUM_RIDER, STATUS_EFFECT_TRAIT)
 		fortitude_active = FALSE
 	if(afterimage_active && stacks < 15)
 		var/datum/component/after_image/after_image_component = owner.GetComponent(/datum/component/after_image)

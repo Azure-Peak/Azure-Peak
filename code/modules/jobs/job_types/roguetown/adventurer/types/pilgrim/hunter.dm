@@ -61,6 +61,7 @@
 				/obj/item/flashlight/flare/torch/lantern = 1,
 				/obj/item/hunting_map/white_stag = 1,
 				/obj/item/hunting_map/boars = 1,
+				/obj/item/hunting_map/goats = 1,
 				)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)

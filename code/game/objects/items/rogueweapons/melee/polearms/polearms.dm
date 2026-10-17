@@ -114,6 +114,11 @@
 	swingdelay = 6
 	sharpness_penalty = 2
 
+/datum/intent/spear/cut/oneh/pike
+	name = "weak cut"
+	desc = "An awkward one-handed slash with a pike too long to swing properly."
+	damfactor = 0.6
+
 /datum/intent/spear/cut/scythe
 	reach = 3
 	damfactor = 1
@@ -210,6 +215,7 @@
 	name = "shillelagh"
 	desc = "A particularly long and sturdy walking stick with a variety of uses. It's heavier at one end, making it a little unbalanced."
 	associated_skill = /datum/skill/combat/polearms
+	is_implement = FALSE
 
 /obj/item/rogueweapon/spear
 	force = 22
@@ -1283,7 +1289,7 @@
 	icon_state = "citybanner"
 	force = 18
 	force_wielded = 33
-	possible_item_intents = list(/datum/intent/dagger/sucker_punch, SWORD_STRIKE)
+	possible_item_intents = list(/datum/intent/dagger/sucker_punch, SWORD_STRIKE, /datum/intent/spear/cut/oneh/pike)
 	gripped_intents = list(/datum/intent/spear/thrust/pike, /datum/intent/spear/thrust/pike/skewer)
 
 /obj/item/rogueweapon/spear/boar/frei/pike/reformist

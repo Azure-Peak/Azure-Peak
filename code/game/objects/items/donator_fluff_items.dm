@@ -1,5 +1,3 @@
-//Lazily shoving all donator fluff items in here for now. Feel free to make this a sub-folder or something, I think it's just easier to keep a list here and just modify as needed.
-
 ///////////////////
 // UNIVERSAL	 //
 ///////////////////
@@ -843,7 +841,7 @@
 	color = null
 
 	//Originally found in icons/roguetown/topadd/johnie/noldor.dmi. Full credit to Johnie, who - from what I might guess - was a very early contributor to Roguetown. Hi!
-	//Hatcheted implementation. If someone ever finds out how to use onmob offsets, use the sprites in onmob/donor_clothes with an offset of +7 Y instead.______qdel_list_wrapper(list/L)
+	//Hatcheted implementation. If someone ever finds out how to use onmob offsets, use the sprites in onmob/donor_clothes with an offset of +7 Y instead.
 
 /obj/item/clothing/head/roguetown/decoration/orle/donator_oathkeeper
 	name = "oathkeeper's noble decoration"
@@ -3339,31 +3337,6 @@ As Excaliber."
 	icon_state = "celestialstaffglow"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn
-	base_implement_name = "refined celestial staff"
-	name = "refined celestial staff"
-	desc = "Celestial Staves, or Himmelsstäbe, are often awarded to Gefechtsgelehrter who have completed at least two \
-	military campaigns. The possession of one marks the wielder as an individual who has not only seen the horrors of \
-	war, but delivered them firsthand. This one happens to be crested with a special ornament."
-	icon_state = "celestialstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/crested
-	icon_state = "celestialstaffcrest"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/winged
-	icon_state = "celestialstaffeagle"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/solar
-	icon_state = "celestialstaffsun"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/glow
-	icon_state = "celestialstaffglow"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
 /obj/item/clothing/cloak/donator_rhynn
 	name = "ladylike longcloak"
 	desc = "Ermine trimmed, dusted with fyritus. A siege mage's mantle is <i>traditionally</i> cermeonial, but that seldom keeps the more \
@@ -4847,3 +4820,9 @@ As Excaliber."
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = TRUE
+// LIMETEASE
+/obj/item/rogueweapon/sword/long/ap/yoshi_estoc
+	name = "Dénouement"
+	desc = "A peculiar take on the more traditional Azurian estoc, fastened to it's crossguard are two small bells and held in place by purple and green tassles.  It's blade is wrapped in cloth, a more personalised addition by the wielder rather than the smith. The bells jingle with every graceful chassé the wielder performs in the dance of lyfe and death.          The curtain call is nigh but the show must go on! Dance for the Gods! Make thy foe bleed and roll the die, their tyme is nigh."
+	icon_state = "yoshi_estoc"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'

@@ -21,17 +21,18 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	telegraph_type = /obj/effect/temp_visual/telegraph/ferramancy
+	strike_intdamage_mult = SPELL_DAMAGE_INTEGRITY_MODIFIER
 
 /datum/action/cooldown/spell/ferramancy_strike/falling_crescent
 	name = "Falling Crescent"
 	desc = "Wind up a greatsword's edge, then sweep a wide arc across the tiles in front of you, cleaving everything in reach right to left. You are slowed and left wide open as you wind it up, but once begun it cannot be stopped - only stepped clear of. This strike can be defended against, but not parried or dodged.\n\n\
-	Deals 65 brute damage to everything caught in the arc."
+	Deals 52 brute damage to everything caught in the arc."
 	button_icon_state = "falling_crescent"
 	invocations = list("Acies Lunata!")
 	blade_class = BCLASS_CUT
 	windup_time = TELEGRAPH_HIGH_IMPACT
 	sweep_step = 0
-	damage = 65
+	damage = SPELL_DMG(65)
 	swipe_state = "chop"
 
 /datum/action/cooldown/spell/ferramancy_strike/falling_crescent/get_sweep_bands()
@@ -50,14 +51,14 @@
 /datum/action/cooldown/spell/ferramancy_strike/sorcerers_lance
 	name = "Sorcerer's Lance"
 	desc = "Wind up a couched lance, then drive it forward in a straight line, skewering everything up to five tiles ahead. You are slowed and left wide open as you wind it up, but once begun it cannot be stopped - only stepped clear of. This strike can be defended against, but not parried or dodged.\n\n\
-	Deals 35 brute damage to everything caught in the line, piercing through even heavy armor."
+	Deals 28 brute damage to everything caught in the line, piercing through even heavy armor."
 	button_icon_state = "sorcerers_lance"
 	invocations = list("Hasta Perforans!")
 	blade_class = BCLASS_STAB
 	strike_armor_pen = PEN_HEAVY
 	windup_time = 8
 	stop_at_dense = TRUE
-	damage = 35
+	damage = SPELL_DMG(35)
 	var/line_length = 5
 
 /datum/action/cooldown/spell/ferramancy_strike/sorcerers_lance/get_pattern_offsets()
@@ -96,12 +97,12 @@
 /datum/action/cooldown/spell/ferramancy_strike/heavens_hammer
 	name = "Heaven's Hammer"
 	desc = "Heave a conjured maul overhead, then bring it crashing down on the ground before you, leaving any struck reeling and vulnerable. This strike can be defended against, but not parried or dodged.\n\n\
-	Deals 50 brute damage and applies Vulnerable to everything in the smash."
+	Deals 40 brute damage and applies Vulnerable to everything in the smash."
 	button_icon_state = "hammer_of_heaven"
 	invocations = list("Malleus Caeli!")
 	blade_class = BCLASS_BLUNT
 	windup_time = TELEGRAPH_AREA_DENIAL
-	damage = 50
+	damage = SPELL_DMG(50)
 	sweep_step = 0
 	impact_delay = 4
 	detonate_sound = null

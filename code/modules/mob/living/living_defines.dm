@@ -164,6 +164,7 @@
 	var/compliance = 0
 
 	var/defprob = 50 //base chance to defend against this mob's attacks, for simple mob combat
+	var/pack_swing_ready_at = 0
 	var/encumbrance = 0
 
 	var/eyesclosed = 0

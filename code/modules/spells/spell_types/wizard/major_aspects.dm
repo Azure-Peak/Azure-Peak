@@ -16,7 +16,7 @@
 	unbinding_chants = list(
 		"Solvo flammam vinctam!",
 		"I becalm the flame that dwells within, rest.",
-		"Ignis, a me discedere!",
+		"Ignis, a me discede!",
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/telegraphed_strike/dragons_breath,
@@ -65,7 +65,7 @@
 	unbinding_chants = list(
 		"Solvo glaciem vinctam!",
 		"I release the chill that grips my veins, thaw.",
-		"Glacies, a me discedere!",
+		"Glacies, a me discede!",
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/frost_bolt,
@@ -104,7 +104,7 @@
 	unbinding_chants = list(
 		"Solvo tempestatem vinctam!",
 		"I quiet the storm that rages within, be still.",
-		"Fulmen, a me discedere!",
+		"Fulmen, a me discede!",
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/arc_bolt,
@@ -137,7 +137,7 @@
 	unbinding_chants = list(
 		"Solvo terram vinctam!",
 		"I relinquish the stone that fortifies me, crumble.",
-		"Terra, a me discedere!",
+		"Terra, a me discede!",
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/gravel_blast,
@@ -174,7 +174,7 @@
 	unbinding_chants = list(
 		"Solvo vim vinctam!",
 		"I unshackle the force that moves through me, disperse.",
-		"Vis, a me discedere!",
+		"Vis, a me discede!",
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/basic_offensive,
@@ -206,7 +206,7 @@
 	unbinding_chants = list(
 		"Solvo telum vinctum!",
 		"I release the mark I had chosen, go free.",
-		"Telum, a me discedere!",
+		"Telum, a me discede!",
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/projectile/arcyne_volley,
@@ -263,40 +263,6 @@
 		),
 	)
 
-/datum/magic_aspect/battlewardry
-	name = "Battlewardry"
-	latin_name = "Maior Aspectus Bellitutelae"
-	desc = "Battlewardry is a second-order magical school. Most other schools channel destruction - battlewardry specializes in the prevention of destruction. Battlewardens use a modified, tactical form of ward traps to punish the reckless, and shape the battlefields with force walls while layering protection onto their fortunate allies. Though warding is often associated with passive protection, Battlewardens are anything but passive - under their spells, the battlefield is molded and shaped to their will."
-	aspect_type = ASPECT_MAJOR
-	attuned_name = ASPECT_NAME_BATTLEWARDRY
-	school_color = GLOW_COLOR_WARD
-	binding_chants = list(
-		"Invoco tutelam bellicam!",
-		"I raise the wards of war, protect!",
-		"Bellitutela, in me ligare!",
-	)
-	unbinding_chants = list(
-		"Solvo tutelam vinctam!",
-		"I lower the wards I have raised, rest.",
-		"Bellitutela, a me discedere!",
-	)
-	fixed_spells = list(
-		/datum/action/cooldown/spell/battle_ward,
-		/datum/action/cooldown/spell/forcewall,
-		/datum/action/cooldown/spell/arrow_ward,
-		/datum/action/cooldown/spell/bestow_ward,
-		/datum/action/cooldown/spell/touch/rune_ward,
-	)
-	choice_spells = list(
-		/datum/action/cooldown/spell/projectile/soulshot,
-		/datum/action/cooldown/spell/projectile/greater_arcyne_bolt,
-	)
-	variants = list(
-		"mastery" = list(
-			VARIANT_ADDITIVE =/datum/action/cooldown/spell/arcyne_fortress,
-		),
-	)
-
 /datum/magic_aspect/conjuration
 	name = "Conjuration"
 	latin_name = "Maior Aspectus Vocationis"
@@ -314,7 +280,7 @@
 	unbinding_chants = list(
 		"Solvo vocationem vinctam!",
 		"I dismiss the servant I have called, return whence you came.",
-		"Vocatio, a me discedere!",
+		"Vocatio, a me discede!",
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/minion_order/conjurer,
@@ -331,11 +297,10 @@
 		/datum/action/cooldown/spell/conjure_summon/primordial,
 		/datum/action/cooldown/spell/conjure_summon/champion,
 		/datum/action/cooldown/spell/conjure_summon/attacker,
-		/datum/action/cooldown/spell/conjure_summon/hordes,
-		/datum/action/cooldown/spell/conjure_summon/peasant_swarm,
+		/datum/action/cooldown/spell/conjure_summon/levy,
 	)
 	mastery_choice_spells = list(
-		/datum/action/cooldown/spell/conjure_summon/peasant_swarm,
+		/datum/action/cooldown/spell/conjure_summon/levy,
 	)
 	spell_order = list(
 		/datum/action/cooldown/spell/minion_order/conjurer,
@@ -351,46 +316,54 @@
 	)
 	variants = list(
 		"gefechtsgelehrter" = list(
-			/datum/action/cooldown/spell/conjure_summon/champion = /datum/action/cooldown/spell/conjure_summon/doppelsoldner,
+			/datum/action/cooldown/spell/conjure_summon/champion = /datum/action/cooldown/spell/conjure_summon/champion/doppelsoldner,
 		),
 	)
 
-/datum/magic_aspect/augmentation
-	name = "Augmentation"
-	latin_name = "Maior Aspectus Augmenti"
-	desc = "Scholars debate whether Augmentation is a first, second, or even third-order school. Its adherents consider themselves third-order - \
-	with the honor of imitating the divine by augmenting the boundless potential of the humen form. Its spells are focused on enhancing the body, \
-	never the mind directly - for the mind is the true province of the divine, and one cannot use magycks to enhance one's own ability to wield magycks so bluntly. \
-	Woe betides those who face a warrior sharpened by the arcyne.."
+/datum/magic_aspect/necromancy
+	name = "Necromancy"
+	latin_name = "Maior Aspectus Mortis"
+	desc = "Zizo! Mistress of Progress! Grants me power over the mortal coils! Zizo! Mistress of Undeath! Grants me the power to bind lyfe unto the dead! Zizo! Mistress of Magick! Grants me power unbound to smite the unworthy!"
 	aspect_type = ASPECT_MAJOR
-	attuned_name = ASPECT_NAME_AUGMENTATION
-	school_color = GLOW_COLOR_BUFF
+	school_color = GLOW_COLOR_ZIZO
+	class_locked = TRUE
+	// No one is hearing these chants by design but better safe than sorry
 	binding_chants = list(
-		"Invoco potentiam dormientem!",
-		"I rouse the potential that slumbers within, awaken!",
-		"Augmentum, in me ligare!",
+		"Invoco mortem perpetuam!", // I invoke everlasting death!
+		"I call upon the dead that rest beneath, rise!",
+		"Mors, in me ligare!", // Death, be bound into me!
 	)
 	unbinding_chants = list(
-		"Solvo potentiam vinctam!",
-		"I still the power I have stirred, rest.",
-		"Augmentum, a me discedere!",
+		"Solvo mortem vinctam!", // I release the bound death!
+		"I return the dead I have bound, rest.",
+		"Mors, a me discede!", // Death, depart from me!
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/basic_offensive,
-		/datum/action/cooldown/spell/arcyne_burst,
-		/datum/action/cooldown/spell/forcewall,
-		/datum/action/cooldown/spell/augment_buff/blood_rush,
-		/datum/action/cooldown/spell/augment_buff/guidance,
-		/datum/action/cooldown/spell/augment_buff/precognition,
-		/datum/action/cooldown/spell/augment_buff/surge,
-		/datum/action/cooldown/spell/augment_buff/grasp,
-		/datum/action/cooldown/spell/augment_buff/augment_defense,
-		/datum/action/cooldown/spell/darkvision,
-		/datum/action/cooldown/spell/mending,
-		/datum/action/cooldown/spell/create_campfire,
+		/datum/action/cooldown/spell/projectile/bone_shard,
+		/datum/action/cooldown/spell/minion_order/conjurer,
+		/datum/action/cooldown/spell/command_word/fray,
+		/datum/action/cooldown/spell/command_word/harry,
+		/datum/action/cooldown/spell/command_word/quicken,
+		/datum/action/cooldown/spell/command_word/beckon,
+		/datum/action/cooldown/spell/minion_mark,
+		/datum/action/cooldown/spell/conjure_recall,
+		/datum/action/cooldown/spell/conjure_dismiss,
+		/datum/action/cooldown/spell/conjure_projection,
 	)
-	variants = list(
-		"mastery" = list(
-			VARIANT_ADDITIVE = /datum/action/cooldown/spell/second_chance,
-		),
+	choice_spells = list(
+		/datum/action/cooldown/spell/conjure_summon/undead/champion,
+		/datum/action/cooldown/spell/conjure_summon/undead/horde,
+	)
+	spell_order = list(
+		/datum/action/cooldown/spell/projectile/bone_shard,
+		/datum/action/cooldown/spell/minion_order/conjurer,
+		/datum/action/cooldown/spell/command_word/fray,
+		/datum/action/cooldown/spell/command_word/harry,
+		/datum/action/cooldown/spell/command_word/quicken,
+		/datum/action/cooldown/spell/command_word/beckon,
+		ASPECT_CHOICE,
+		/datum/action/cooldown/spell/minion_mark,
+		/datum/action/cooldown/spell/conjure_projection,
+		/datum/action/cooldown/spell/conjure_recall,
+		/datum/action/cooldown/spell/conjure_dismiss,
 	)

@@ -53,7 +53,6 @@
 	can_have_ai = FALSE //disable native ai
 	AIStatus = AI_OFF
 	ai_controller = null
-	melee_cooldown = MOSSBACK_ATTACK_SPEED
 
 /mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift/Initialize(mapload)
 	. = ..()

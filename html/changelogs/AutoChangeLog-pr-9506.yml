@@ -1,6 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - refactor: "Updated silver weapon paths across maps, loadouts, loot spawners and the Inquisition's arsenal."
-  - refactor: "Updated psydonic heavy helmet paths and related variants."
-  - balance: "Standardized relic weapon buffs and adjusted relic values that were weaker than regular silver weapons or overtuned compared to blacksteel alternatives."

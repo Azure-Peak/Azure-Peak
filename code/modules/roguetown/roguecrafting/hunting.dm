@@ -4,6 +4,7 @@
 	skillcraft = /datum/skill/misc/hunting
 	// I don't want people to use this to substitute actual hunting
 	xp_modifier = 0.1
+	subtype_reqs = TRUE
 
 /datum/crafting_recipe/roguetown/hunting/baito
 	name = "bait (oats)"
@@ -12,7 +13,6 @@
 		/obj/item/storage/roguebag = 1,
 		/obj/item/reagent_containers/food/snacks/grown/oat = 2,
 		)
-	subtype_reqs = TRUE
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/hunting/baitr
@@ -22,7 +22,6 @@
 		/obj/item/storage/roguebag = 1,
 		/obj/item/reagent_containers/food/snacks/grown/rice = 2,
 		)
-	subtype_reqs = TRUE
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/hunting/bait
@@ -32,7 +31,6 @@
 		/obj/item/storage/roguebag = 1,
 		/obj/item/reagent_containers/food/snacks/grown/wheat = 2,
 		)
-	subtype_reqs = TRUE
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/hunting/sbaita
@@ -42,7 +40,6 @@
 		/obj/item/storage/roguebag = 1,
 		/obj/item/reagent_containers/food/snacks/grown/apple = 2,
 		)
-	subtype_reqs = TRUE
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/hunting/sbait
@@ -52,7 +49,6 @@
 		/obj/item/storage/roguebag = 1,
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 2,
 		)
-	subtype_reqs = TRUE
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/hunting/bloodbait
@@ -62,5 +58,16 @@
 		/obj/item/storage/roguebag = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/meat = 2,
 		)
-	subtype_reqs = TRUE
 	craftdiff = 2
+
+// A little bit of extra value for leveling your butchery
+/datum/crafting_recipe/roguetown/hunting/goat_horn
+	name = "goat horn bundle"
+	skillcraft = /datum/skill/labor/butchering
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	result = /obj/item/natural/goathorn
+	reqs = list(
+		/obj/item/natural/head/goat_wild = 1,
+		)
+	subtype_reqs = TRUE
+	craftdiff = 5

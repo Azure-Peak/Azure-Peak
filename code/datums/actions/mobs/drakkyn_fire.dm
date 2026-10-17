@@ -32,7 +32,7 @@
 	telegraph_type = /obj/effect/temp_visual/telegraph/primordial/fire
 	telegraph_sound = list('sound/magic/fireball.ogg')
 
-	damage = 55
+	damage = SPELL_DMG(55)
 	push_dist = 0
 	detonate_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 	hit_sound = list('sound/items/firelight.ogg')
@@ -46,7 +46,7 @@
 
 /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/drakkyn/greater
 	cooldown_time = 20 SECONDS
-	damage = 60
+	damage = SPELL_DMG(60)
 	cone_range = 5
 	npc_max_range = 5
 	scorch_stacks = 2

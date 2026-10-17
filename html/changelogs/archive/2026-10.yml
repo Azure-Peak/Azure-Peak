@@ -573,3 +573,145 @@
       chances are you are already mid-fight anyway.
   - qol: naming yourself as a goblin is moved to a 'spell' to spam you less w/ spawning
       in prompts.
+2026-10-13:
+  FreeStylaLT:
+  - rscadd: A toggle for showing NSFW examine / gallery options even when clothed.
+  KatTheFox:
+  - qol: Painter visions can no longer make you scry someone that's in the bath-house
+  - qol: Abyssorite vision quests now ignore punctuation (periods, commas) in the
+      target phrase, so you can format it nicely.
+  - rscadd: A certain omen may now have more effects.
+  - bugfix: Murklings can now be operated on as if their ribcage is broken (since
+      they don't have bones). This means lux extraction and revival is now possible.
+  - qol: Revivals - all forms - now work when a player is ghosted, i.e. not in their
+      body but still inround.
+  Ketrai:
+  - balance: 'Reworked Pilgrim: changed base skills to Apprentice with softcap, reduced
+      Journeyman skills to Apprentice, and restricted from commerce roles'
+  - balance: Re-added Cunning Provisioner, but restricted them from commerce roles
+  - balance: 'Adjusted Skilled Chef: removed food bag, lowered starting Fishing and
+      Cooking, and left Cooking max level to Journeyman'
+  - balance: Skilled Chef now receives a pan and pot in their stash
+  - rscadd: Goat maps can be created using Apprentice literacy with three scrolls,
+      a feather, and a hide
+  - rscadd: Goat maps can now be purchased at the merchant
+  - rscadd: Hunter class now receives a goat map
+  - balance: Replaced most hunting track goats with hostile tough goats
+  - balance: Tough goats yield increased fat and fur, but reduced sinew and meat
+  - balance: Replaced hunting saiga with far slower 'fatty saiga'
+  - balance: Fatty saiga remain the exclusive source of venison meat and drop additional
+      fat
+  - balance: Reduced undead animal spawn rate in forests by 20% to aid hunting in
+      high-risk areas
+  - balance: Max hunting trail length from 7 => 6 piles
+  - balance: Min hunting trail length from 5 => 4 piles (Expert-master)
+  - qol: Moved all maps into their own dedicated category
+  Quinalion:
+  - refactor: Updated silver weapon paths across maps, loadouts, loot spawners and
+      the Inquisition's arsenal.
+  - refactor: Updated psydonic heavy helmet paths and related variants.
+  - balance: Standardized relic weapon buffs and adjusted relic values that were weaker
+      than regular silver weapons or overtuned compared to blacksteel alternatives.
+  - bugfix: Fixed missing detail sprites for grinning and gilded sallets.
+  - bugfix: Fixed thin spectacles onmob sprite.
+  Ryan180602:
+  - bugfix: Frei Pike sprite is a little shorter now.
+  - rscadd: Frei Pike gets a weak 0.6x cut.
+  azurexautyr-arch:
+  - rscadd: Added a donor xylixian estoc for _._yoshi
+  borneblood:
+  - bugfix: Sheaths work as intended on your wrist slot now.
+2026-10-14:
+  Ketrai:
+  - balance: Crafting now has escalating odds.
+  - balance: Crafting bonus per int slightly reduced due to escalating odds.
+  - balance: Experts, masters, and legendary craftspeople now get expertise bonus
+      to crafting.
+  - balance: Malumites now get a trait that improves the rate at which crafting odds
+      escalate.
+  - balance: There is now a chance to fail crafting when below the required skill
+      level. This can only start to occur once every 10 failed attempts.
+  Lamasmaster:
+  - rscadd: Fleshsculpting miracle from Ratwood as new Pestran T3
+  Ryan180602:
+  - bugfix: minor icon opts
+  WeNeedMorePhoron:
+  - rscadd: Blockade Surcharge is now completely waived below 40 active players
+  - rscadd: Blockade Surcharge is now halved below 80 active players
+  - rscadd: Armor that are repaired by armorsmithing, or need medium AC training,
+      and is not heavy armor are classified as medium armor as far as the navigator
+      is concerned. Grenzelhoft and Kazengun will demand them for now.
+  azurexautyr-arch:
+  - bugfix: fixed a few things with ckey
+  zeskorion:
+  - rscadd: wrenches can be twirled with expert Engineering
+  - rscdel: Removes demlish from wrench and bogbark clubs, again
+2026-10-15:
+  BobProductive:
+  - bugfix: (hopefully) fixes the ckey
+  BurpleBineapple:
+  - rscadd: Adds foot plates as a smithable item + triumph/donor kit for steel plated
+      boots
+  - image: Footplate icons + secondary detail colour
+  Dorodomki:
+  - rscadd: 'Added new donator armor
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Familiars and skeletons are no longer cursed to hear looping lobby music
+      forever.
+  - rscadd: '''Aquaphile'' trait, which lets you sleep underwater. Does NOT let you
+      breathe underwater itself. Given to Abyssorite clerics, or selectable as a quirk.'
+  Moku-Mok:
+  - rscadd: Added Trait DES_RIDER_FORTITUDE.
+  - balance: Desert Rider's Capstone momentum is much better.
+  - bugfix: Returns Desert Rider to pre-fortitude changes.
+  Ryan180602:
+  - bugfix: clinging onto walls once again has a stam drain.
+  - rscadd: add ckeys to certain donor items
+  Sutures:
+  - code_imp: Made soap code less duplicate-y
+  WeNeedMorePhoron:
+  - balance: Adjusted blockade surcharge waiver from 40 / 80 to 30 / 60
+  - rscadd: Increased ambush budget by 50%. Ambush aggro should spread out properly
+      between players in sight of NPCs, and regional cooldown on ambush has been reduced
+      from 5 minutes to 3 minutes.
+  kilozombie:
+  - rscadd: Agents of the Bathhouse can now put up advertisements on the Rosewall.
+  radarseas:
+  - bugfix: '''you can only cast this on living beings'' no longer shows up to everyone
+      around the spell caster but to the caster themselves. - It shows in span warning
+      like most other spells now when failing for consistancy sake.'
+  voidwytch:
+  - rscadd: Bloak Pariah armor choice between Medium and Light
+2026-10-16:
+  BobProductive:
+  - bugfix: fixes the name and description of Xylixian estoc
+  - rscadd: makes the elixir usable with an estoc
+  KatTheFox:
+  - bugfix: Midnight Rage (a warrior) can no longer receive dream visions.
+  changelingonberry:
+  - admin: subclasses can now be managed via Manage Job Slots
+  - rscadd: 'Xylix''s dice box: further improves stat rolling via a new UI. You can
+      also roll in chat e.g. *5d20+STR+67/DC100'
+2026-10-17:
+  KatTheFox:
+  - bugfix: Transformed werewolves can no longer use the panel
+  Quinalion:
+  - bugfix: Fixes avantyne bracers heresydesc.
+  Ryan180602:
+  - admin: add a staff log viewer.
+  - balance: rebalance arrow/bolt damages.
+  - balance: remove the arrow integ damage modifier.
+  mumblemancer:
+  - qol: wooden mallets and wood spades can now be searched in crafting menu thru
+      "wood hammer" and "wooden shovel" respectively
+  nauticall:
+  - qol: '''Set Laws'' menu now has an Import/Export button to save and load lawsets
+      using JSON.'
+  - balance: Vote multipliers now cap at 1.5x/voter; multipliers now step by 0.1x
+      instead of 0.2x per round.
+  - rscadd: Adds double-entry bookkeeping to the Stewardry. Can be found in the 'Ledger'
+      tab under the Trade and Stockpile menu of the Stewardry's nerve master.
+  - qol: Ledger tab has been moved further up the Trade & Stockpile tab list; Trade
+      Orders has been made the default tab on the Avisa page of the noticeboards.

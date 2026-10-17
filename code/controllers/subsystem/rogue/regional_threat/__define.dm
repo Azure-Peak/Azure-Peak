@@ -1,7 +1,12 @@
-#define AMBUSH_REGION_COOLDOWN (5 MINUTES)
+#define AMBUSH_REGION_COOLDOWN (3 MINUTES)
 
-#define AMBUSH_BUDGET_PCT_REGULAR 0.03
-#define AMBUSH_BUDGET_PCT_SAFE_REGION 0.02
+#define AMBUSH_BUDGET_PCT_REGULAR 0.045
+#define AMBUSH_BUDGET_PCT_SAFE_REGION 0.03
+#define AMBUSH_BUDGET_FLOOR 16
+
+#define AMBUSH_AGGRO_DELAY (1.5 SECONDS)
+// Make them focus their original target for a little bit first
+#define AMBUSH_AGGRO_THREAT 15
 
 #define DANGER_PCT_SAFE 15	// 0% to this = Safe (green)
 #define DANGER_PCT_LOW 35		// to this = Low (yellow)

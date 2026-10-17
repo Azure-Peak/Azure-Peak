@@ -2,6 +2,17 @@
 	name = "staff bash"
 	damfactor = 1
 	reach = 1
+	intent_intdamage_factor = 1
+	clickcd = CLICK_CD_CHARGED
+
+/datum/intent/spear/bash/staff/onehand
+	damfactor = NONBLUNT_BLUNT_DAMFACTOR
+
+/datum/intent/spear/bash/woodstaff
+	intent_intdamage_factor = 1
+
+/datum/intent/spear/bash/ranged/woodstaff
+	intent_intdamage_factor = 1
 
 /datum/intent/spear/bash/ranged/quarterstaff
 	damfactor = 1
@@ -17,8 +28,8 @@
 /obj/item/rogueweapon/woodstaff
 	force = 10
 	force_wielded = 15
-	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged)
+	possible_item_intents = list(/datum/intent/spear/bash/woodstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/woodstaff, /datum/intent/mace/smash/wood/ranged)
 	name = "wooden staff"
 	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
 	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
@@ -37,6 +48,7 @@
 	bigboy = TRUE
 	gripsprite = TRUE
 	associated_skill = /datum/skill/combat/staves
+	is_implement = TRUE
 	special = /datum/special_intent/quarterstaff_sweep
 	anvilrepair = /datum/skill/craft/carpentry
 	resistance_flags = FLAMMABLE
@@ -66,6 +78,7 @@
 	icon_state = "aries"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	associated_skill = /datum/skill/magic/holy
+	is_implement = FALSE
 	sellprice = 240
 	pixel_y = -22
 	pixel_x = -22
@@ -229,6 +242,7 @@
 	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
+	is_implement = FALSE
 	max_integrity = 150
 	wdefense = 5
 	wdefense_wbonus = 5	// 90% in a same-skill matchup, 80% in a one-skill-below matchup.

@@ -246,6 +246,13 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		faction -= FACTION_SKELETON
 		faction -= FACTION_DUNDEAD
 
+	equip_loadout()
+
+	def_intent_change(INTENT_PARRY)
+
+	regenerate_icons()
+
+/mob/living/carbon/human/species/skeleton/conjured/proc/equip_loadout()
 	switch(loadout)
 		if("sword_shield")
 			outfit_skeleton(new /datum/outfit/job/roguetown/conjured_skeleton/sword_shield)
@@ -253,10 +260,6 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 			outfit_skeleton(new /datum/outfit/job/roguetown/conjured_skeleton/spear)
 		if("dual_daggers")
 			outfit_skeleton(new /datum/outfit/job/roguetown/conjured_skeleton/dual_daggers)
-
-	def_intent_change(INTENT_PARRY)
-
-	regenerate_icons()
 
 /mob/living/carbon/human/species/skeleton/conjured/proc/outfit_skeleton(datum/outfit/outfit)
 	if(!outfit)
@@ -268,6 +271,22 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
 	for(var/obj/item/held_item in held_items)
 		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+
+/mob/living/carbon/human/species/skeleton/conjured/undead
+	loadout = null
+	var/undead_job
+
+/mob/living/carbon/human/species/skeleton/conjured/undead/after_creation()
+	..()
+	job = undead_job
+	faction |= FACTION_CABAL
+	var/mob/living/master = summoner_ref?.resolve()
+	if(master && (FACTION_UNDEAD in master.faction))
+		faction |= FACTION_UNDEAD
+
+/mob/living/carbon/human/species/skeleton/conjured/undead/equip_loadout()
+	if(ispath(loadout, /datum/outfit))
+		outfit_skeleton(new loadout)
 
 /datum/outfit/job/roguetown/conjured_skeleton
 

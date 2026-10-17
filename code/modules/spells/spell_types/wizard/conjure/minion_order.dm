@@ -16,7 +16,7 @@
 /datum/action/cooldown/spell/minion_mark
 	button_icon = 'icons/mob/actions/mage_conjure.dmi'
 	name = "Conjurer's Mark"
-	desc = "Cast on someone to mark them friendly to your conjured servants, or strip an existing mark."
+	desc = "Cast on someone to mark them friendly to your servants, or strip an existing mark. Cast on yourself to list your marked allies."
 	button_icon_state = "primordial_mark"
 	sound = null
 	spell_color = GLOW_COLOR_ARCANE
@@ -38,6 +38,8 @@
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+	var/list/marked_allies = list()
+
 /datum/action/cooldown/spell/minion_mark/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/user = owner
@@ -47,27 +49,41 @@
 	if(isliving(cast_on))
 		var/mob/living/target = cast_on
 		if(target == user)
-			to_chat(user, span_warning("It would be unwise to make an enemy of your own conjured servants."))
-			return FALSE
+			var/list/allies = list()
+			for(var/datum/weakref/ref as anything in marked_allies.Copy())
+				var/mob/living/M = ref.resolve()
+				if(QDELETED(M) || !(faction_tag in M.faction))
+					marked_allies -= ref
+					continue
+				allies += M.real_name
+			if(!length(allies))
+				to_chat(user, span_notice("You have declared no allies among the living or dead."))
+			else
+				to_chat(user, span_notice("Those bearing your mark: [english_list(allies)]."))
+			return TRUE
 		if(HAS_TRAIT(target, TRAIT_CONJURED_SUMMON))
 			to_chat(user, span_warning("[target] is already bound to another conjurer."))
 			return FALSE
 		if(target.mind && target.mind.current)
 			if(faction_tag in target.mind.current.faction)
 				target.mind.current.faction -= faction_tag
+				marked_allies -= WEAKREF(target.mind.current)
 				user.say("Hostis declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 			else
 				target.mind.current.faction += faction_tag
+				marked_allies |= WEAKREF(target.mind.current)
 				user.say("Amicus declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 		else if(istype(target, /mob/living/simple_animal))
 			if(faction_tag in target.faction)
 				target.faction -= faction_tag
+				marked_allies -= WEAKREF(target)
 				user.say("Hostis declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 			else
 				target.faction |= faction_tag
+				marked_allies |= WEAKREF(target)
 				user.say("Amicus declaratus es.", language = /datum/language/common)
 				target.notify_faction_change()
 		return TRUE

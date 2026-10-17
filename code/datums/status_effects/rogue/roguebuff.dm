@@ -895,7 +895,7 @@
 	H.color = "#d3d3d3"
 	var/list/wCount = owner.get_wounds()
 	if(wCount.len > 0)
-		owner.heal_wounds(healing_on_tick * 1.75)
+		owner.heal_wounds(healing_on_tick * 2.25)
 		owner.update_damage_overlays()
 	owner.adjustOxyLoss(-healing_on_tick, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
@@ -2094,7 +2094,7 @@
 	blood_restore = 0
 	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
 	examine_text = "SUBJECTPRONOUN is enduring!"
-	duration = 8 SECONDS //This is on a 30 second cooldown miracle.
+	duration = 15 SECONDS //This is on a 30 second cooldown miracle.
 	adrenaline_stam = FALSE
 
 /datum/status_effect/buff/nocblessing
