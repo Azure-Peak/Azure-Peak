@@ -1,0 +1,5 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - rscadd: "Adds double-entry bookkeeping to the Stewardry. Can be found in the 'Ledger' tab under the Trade and Stockpile menu of the Stewardry's nerve master."
+  - qol: "Ledger tab has been moved further up the Trade & Stockpile tab list; Trade Orders has been made the default tab on the Avisa page of the noticeboards."

@@ -32,7 +32,7 @@
 /obj/structure/roguemachine/contractledger/proc/draw_commission_funds(list/draws, reason)
 	var/list/drawn = list()
 	for(var/list/draw as anything in draws)
-		if(!SStreasury.burn(draw["fund"], draw["amount"], reason))
+		if(!SStreasury.burn(draw["fund"], draw["amount"], reason, SStreasury.commitment_account(draw["fund"])))
 			refund_commission_draws(drawn, "[reason] - refund (draft refused)")
 			return FALSE
 		drawn += list(draw)
@@ -42,7 +42,7 @@
 
 /obj/structure/roguemachine/contractledger/proc/refund_commission_draws(list/draws, reason)
 	for(var/list/draw as anything in draws)
-		SStreasury.mint(draw["fund"], draw["amount"], reason)
+		SStreasury.mint(draw["fund"], draw["amount"], reason, null, SStreasury.commitment_account(draw["fund"]))
 		if(draw["fund"] == SStreasury.burgher_pledge_fund)
 			record_round_statistic(STATS_PLEDGE_CONSUMED, -draw["amount"])
 

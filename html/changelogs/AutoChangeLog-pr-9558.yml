@@ -1,5 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - rscadd: "Adds foot plates as a smithable item + triumph/donor kit for steel plated boots"
-  - image: "Footplate icons + secondary detail colour"

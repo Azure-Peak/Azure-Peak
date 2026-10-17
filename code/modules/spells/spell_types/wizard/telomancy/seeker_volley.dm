@@ -50,7 +50,7 @@
 	name = "seeker orb"
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "seeker_orb"
-	damage = 5
+	damage = SPELL_DMG(5)
 	damage_type = BRUTE
 	nodamage = FALSE
 	woundclass = BCLASS_BLUNT
@@ -59,7 +59,8 @@
 	speed = MAGE_PROJ_SLOW
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	intdamfactor = 1
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	homing_turn_speed = 35
 	homing_inaccuracy_max = 12

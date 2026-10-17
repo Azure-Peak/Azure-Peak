@@ -2,9 +2,9 @@
 
 /datum/component/conjured_minion
 	var/datum/weakref/summoner_ref
-	var/recoil_energy_floor = 200
 	var/recoil_severity = CONJURE_RECOIL_FULL
 	var/recoil_stamina_only = FALSE
+	var/overload_power = 1
 	var/dismissing = FALSE
 	var/leash_range = 12
 	var/next_leash_message = 0
@@ -13,15 +13,15 @@
 	var/untether_max = 10
 	var/tether_timer
 
-/datum/component/conjured_minion/Initialize(mob/living/summoner, energy_floor = 200, severity = CONJURE_RECOIL_FULL, stamina_only = FALSE)
+/datum/component/conjured_minion/Initialize(mob/living/summoner, severity = CONJURE_RECOIL_FULL, stamina_only = FALSE, overload = 1)
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	var/mob/living/minion = parent
 	minion.mark_contract_spawned()
 	summoner_ref = WEAKREF(summoner)
-	recoil_energy_floor = energy_floor
 	recoil_severity = severity
 	recoil_stamina_only = stamina_only
+	overload_power = overload
 	if(isliving(summoner))
 		summoner.add_summoned_minion(parent)
 	ADD_TRAIT(parent, TRAIT_CONJURED_SUMMON, REF(src))
@@ -71,7 +71,7 @@
 	if(untether_strain > 0 || summoner.z != source.z || get_dist(source, summoner) > leash_range)
 		to_chat(summoner, span_warning("A dull ache echoes down the leyline - [source] has perished beyond the tether's reach."))
 		return
-	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(apply_conjure_recoil), summoner, recoil_energy_floor, recoil_severity, 1, TRUE, recoil_stamina_only)
+	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(apply_conjure_recoil), summoner, recoil_severity, 1, TRUE, recoil_stamina_only)
 
 /datum/component/conjured_minion/proc/check_leash(atom/movable/source, atom/newloc)
 	SIGNAL_HANDLER

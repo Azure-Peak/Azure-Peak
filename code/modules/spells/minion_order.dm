@@ -20,10 +20,6 @@
 	has_visual_effects = FALSE
 	sound = null
 	var/order_range = 12
-	var/faction_ordering = FALSE
-
-/datum/action/cooldown/spell/minion_order/lich
-	faction_ordering = TRUE
 
 /datum/action/cooldown/spell/minion_order/cast(atom/cast_on)
 	. = ..()
@@ -64,7 +60,7 @@
 			if(!minion.ai_controller)
 				continue
 
-			if((faction_ordering && owner.faction_check_mob(minion)) || (!faction_ordering && faction_tag && (faction_tag in minion.faction)))
+			if(faction_tag && (faction_tag in minion.faction))
 				minion.ai_controller.CancelActions()
 				minion.ai_controller.clear_blackboard_key(BB_FOLLOW_TARGET)
 				minion.ai_controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)

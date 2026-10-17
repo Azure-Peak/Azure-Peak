@@ -1,6 +1,0 @@
-author: "Moku-Mok"
-delete-after: True
-changes:
-  - rscadd: "Added Trait DES_RIDER_FORTITUDE."
-  - balance: "Desert Rider's Capstone momentum is much better."
-  - bugfix: "Returns Desert Rider to pre-fortitude changes."

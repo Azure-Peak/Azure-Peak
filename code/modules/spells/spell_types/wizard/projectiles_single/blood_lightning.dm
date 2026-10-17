@@ -19,7 +19,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = 2.5 SECONDS
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
@@ -41,7 +41,9 @@
 	impact_type = null
 	hitscan = TRUE
 	movement_type = UNSTOPPABLE
-	damage = 80
+	damage = SPELL_DMG(80)
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
 	damage_type = BURN
 	nodamage = FALSE
 	speed = 0.3

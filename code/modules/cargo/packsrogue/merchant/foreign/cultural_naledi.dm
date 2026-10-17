@@ -7,7 +7,7 @@
 /datum/supply_pack/rogue/naledi/hierophant_kit
 	name = "Naledi Hierophant Vestments"
 	no_name_quantity = TRUE
-	cost = 290
+	cost = 190
 	contains = list(
 		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant,
 		/obj/item/clothing/suit/roguetown/shirt/robe/hierophant,

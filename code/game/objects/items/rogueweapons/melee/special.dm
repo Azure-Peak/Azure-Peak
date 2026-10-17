@@ -518,6 +518,7 @@
 	wdefense = 6
 	max_blade_int = 140
 	associated_skill = /datum/skill/combat/polearms
+	is_implement = FALSE
 	special = /datum/special_intent/polearm_backstep
 
 /obj/item/rogueweapon/woodstaff/militia/getonmobprop(tag)

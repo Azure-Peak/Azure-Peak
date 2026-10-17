@@ -463,3 +463,146 @@
 		Recovery scroll.</p>
 		</div>
 	"}
+
+
+/datum/book_entry/treasury_realm/books
+	name = "09. The Books of the Treasury"
+
+/datum/book_entry/treasury_realm/books/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>Every movement of coin is written down twice: once where it came from and
+		once where it went. This is called double-entry bookkeeping. Each entry has a
+		<b>debit side</b> and a <b>credit side</b>, and the two must always match. If an
+		entry somehow fails to balance, the entry is logged as an error; this shows up
+		in the Reconciliation section in the Trial Balance sheet as <b>Drift</b>.</p>
+		</div>
+
+		<h3>Accounts</h3>
+		<ul>
+			<li><b>Assets</b> - what the Crown holds or is owed: the Crown Purse, Loans Receivable,
+			Poll Tax Receivable, Interest Receivable and the Stockpile Inventory.</li>
+			<li><b>Liabilities</b> - what the Crown owes: the ATC loan (if applicable),
+			the Burghers' arrears advance, sequestration debt, brigand debt, and poll tax received
+			in advance.</li>
+			<li><b>Equity</b> - opening capital, and grants and adjustments (what is left when debts
+			are cleared by decree rather than paid).</li>
+			<li><b>Revenue</b> - each tax and levy, poll tax, export sales, standing orders, the
+			rural subsidy, fines, quality premiums and interest.</li>
+			<li><b>Expenses</b> - wages, imports, stockpile purchases, contracts, brigand losses, poll
+			subsidy, tithe, loan losses and so on.</li>
+			<li><b>Unclassified</b> - the catch-all. Coin nobody has named lands here, so a large
+			balance means something is not being labeled.</li>
+		</ul>
+
+		<h3>The Journal</h3>
+		<p>A numbered list of entries, newest first. Each shows who paid whom, the reason, the amount,
+		and the accounts debited and credited beneath. Small identical entries in quick succession are
+		merged into one with a count, such as (x3). "By" shows who set an entry in motion. "System"
+		marks a bookkeeping adjustment such as an accrual, a stock count or a bankruptcy move. Where
+		one side of an entry has no fund, such as a tax receipt, wages or imports, it is named after
+		the account on the other side. "The Realm" is used only when there is nothing better to call
+		it.</p>
+
+		<h3>The General Ledger</h3>
+		<p>The General Ledger displays accounts and every entry that affects them. This is the place to see
+		where a given transaction might have originated from.</p>
+	"}
+
+
+/datum/book_entry/treasury_realm/statements
+	name = "10. Statements and Reconciliation"
+
+/datum/book_entry/treasury_realm/statements/inner_book_html(mob/user)
+	return {"
+		<div>
+		<h3>Trial Balance</h3>
+		<p>Every account that has seen activity, with its balance on the debit or credit side. The two
+		totals match when the books are in order. Any Drift is marked on the sheet.</p>
+
+		<h3>Income Statement</h3>
+		<p>Revenue minus expenses, shown for the whole round, for today and for yesterday. The fiscal
+		day begins at dawn, with "today" showing everything happening since then.</p>
+
+		<h3>Balance Sheet</h3>
+		<p>The Balance Sheet incidcates what the Crown holds, set against what it owes and what is left over.
+		Assets equal liabilities, plus equity, plus the surplus. Anything left over is shown as Unclassified.</p>
+
+		<h3>Subsidiary</h3>
+		<p>The Subsidiary tab holds detailed breakdowns of given totals, including open loans, receivables,
+		what the Crown owes, the stockpile inventory by good, the payroll register, and a tax ledger with rates,
+		amounts collected and amounts exempted.</p>
+
+		<h3>Reconciliation</h3>
+		<p>Compares the books with the real thing:</p>
+		<ul>
+			<li>The Crown Purse against the coin actually in the purse.</li>
+			<li>The Crown's debt accounts against the treasury debt, and Brigand Debt against
+			banditry debt.</li>
+			<li>Poll Tax Receivable against the arrears owed, Poll Tax Received in Advance against
+			what has been prepaid, and Interest Receivable against the interest accrued on open
+			loans.</li>
+			<li>Total debits against total credits.</li>
+		</ul>
+
+		<p>A <b>drift</b> that is not zero means coin moved without being written down, or something
+		was written down that never happened. Common causes are an admin editing a balance directly,
+		an account vanishing without being closed out, or an entry refused as unbalanced. The morning
+		report warns when a line is out by half a mammon or more.</p>
+		</div>
+	"}
+
+
+/datum/book_entry/treasury_realm/accruals
+	name = "11. Accruals, Receivables and Stock Counts"
+
+/datum/book_entry/treasury_realm/accruals/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>The books recognize some things when they are earned, not when coin changes hands.</p>
+		</div>
+
+		<h3>Poll Tax</h3>
+		<ul>
+			<li>Each day's tax is counted as earned whether or not the subject can pay it.</li>
+			<li>What is not collected is carried as a <b>receivable</b>. When they pay later, the payment
+			clears the receivable first, and only the current day's tax counts as new revenue.</li>
+			<li>Arrears that are forgiven (by the Steward, by an admin, or because the subject has
+			left for good) are <b>written off</b> as an expense, "Poll Tax Written Off."</li>
+			<li>Tax paid in advance is held as a liability, <b>Poll Tax Received in Advance</b>, and
+			released into revenue one day at a time as the days pass.</li>
+		</ul>
+
+		<h3>Loan Interest</h3>
+		<ul>
+			<li>Interest on loans the Crown has made is counted day by day, as a receivable and as
+			income, before it is paid.</li>
+			<li>Repayments go to principal first, then to interest.</li>
+			<li>A forgiven or orphaned loan writes off the unpaid principal and the unpaid interest as
+			Loan Losses.</li>
+		</ul>
+
+		<h3>The Stockpile</h3>
+		<ul>
+			<li>Coin paid for goods is an expense when it is paid: Stockpile Purchases, or Imports and
+			Purchases.</li>
+			<li>The goods on hand are counted as an asset, the <b>Stockpile Inventory</b>, valued at
+			the Crown's current buying price per unit. The count is taken at dawn and whenever the
+			Ledger is opened or refreshed.</li>
+			<li>Each count moves the asset up or down to match the shelves, and the difference goes to
+			<b>Stock Count Variance</b>. When goods are exported the stock falls, and the variance
+			charges the cost of what left, alongside the Export Sales revenue. The charge appears at
+			the next count, not at the moment of sale.</li>
+			<li>This is not the same figure as the Market tab's arbitrage potential.</li>
+		</ul>
+
+		<h3>Debts</h3>
+		<ul>
+			<li>Brigand losses the purse can pay are an expense. What it cannot pay becomes
+			<b>Brigand Debt</b>, and [round(BANDITRY_DEBT_SKIM_RATE * 100)]% of later receipts goes to
+			paying it down.</li>
+			<li>The ATC loan, the Burghers' arrears advance and sequestration debt are liabilities.
+			They are repaid out of incoming money, in an order that depends on the Treasury's
+			condition.</li>
+		</ul>
+	"}

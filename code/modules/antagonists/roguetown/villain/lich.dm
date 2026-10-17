@@ -172,7 +172,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 6, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
 
-	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE))
+	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 4, "utilities" = 9, "locked_aspects" = list(/datum/magic_aspect/necromancy, /datum/magic_aspect/lesser_necromancy), "post_aspect_spells" = list(/obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo), "ward" = TRUE))
 	// Give it decent combat stats to make up for loss of 2 extra lives
 
 	H.change_stat(STATKEY_STR, 3)
@@ -197,22 +197,10 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bestowcant/lich)
-		// Other role required spells.
+		// Infinite Skeletons will be kept for Lich, they're a major antag
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //Zombifies dead people
-		// Our Utility Spells
-		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo)
 		// This is probably a bad idea, but let's live a little.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)
-		// Consistancy as they're basically a ruler in the hierarchy above Necromancers
-		H.mind.AddSpell(new /datum/action/cooldown/spell/eyebite)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/lacrima)
 	H.ambushable = FALSE
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/lich]
 
@@ -320,7 +308,7 @@
 	new_body.real_name = old_body.real_name
 	new_body.dna.real_name = old_body.real_name
 	new_body.mob_biotypes |= MOB_UNDEAD
-	new_body.faction = list(FACTION_UNDEAD)
+	new_body.faction = list(FACTION_UNDEAD, "[new_body.real_name]_faction")
 	new_body.set_patron(/datum/patron/inhumen/zizo)
 	new_body.mind.grab_ghost(force = TRUE)
 	new_body.ambushable = FALSE

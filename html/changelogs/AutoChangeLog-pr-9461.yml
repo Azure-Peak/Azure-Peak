@@ -1,0 +1,4 @@
+author: "nauticall"
+delete-after: True
+changes:
+  - qol: "'Set Laws' menu now has an Import/Export button to save and load lawsets using JSON."

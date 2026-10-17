@@ -120,9 +120,10 @@
 		for(var/S in convert.devotion.granted_spells)
 			convert.mind.RemoveSpell(S)
 
-		// gravemark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; also, necromancers and liches get them through arcyne means
-		if(convert.mind.has_spell(/datum/action/cooldown/spell/gravemark) && !istype(SSrole_class_handler.get_advclass_by_name(convert.advjob), /datum/advclass/wretch/necromancer) && !convert.mind.has_antag_datum(/datum/antagonist/lich))
-			convert.mind.RemoveSpell(/datum/action/cooldown/spell/gravemark)
+		// minion mark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; aspect-granted marks are kept
+		var/datum/action/cooldown/spell/mark = convert.mind.get_spell(/datum/action/cooldown/spell/minion_mark, TRUE)
+		if(mark && !mark.source_aspect)
+			convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_mark)
 			convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_order)
 
 		if(convert.mind.has_spell(/datum/action/cooldown/spell/projectile/divine_blast))

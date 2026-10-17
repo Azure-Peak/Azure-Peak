@@ -107,7 +107,7 @@
 		return
 	if(istype(P, /obj/item/roguecoin))
 		record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
-		SStreasury.mint(SStreasury.discretionary_fund, P.get_real_price(), "NERVE MASTER deposit")
+		SStreasury.mint(SStreasury.discretionary_fund, P.get_real_price(), "NERVE MASTER deposit", null, LEDGER_CROWN_REV_OTHER)
 		qdel(P)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 		return
@@ -125,7 +125,7 @@
 		if(!D)
 			return
 		var/amt = D.get_import_price()
-		if(!SStreasury.burn(SStreasury.discretionary_fund, amt, "imported [D.name]"))
+		if(!SStreasury.burn(SStreasury.discretionary_fund, amt, "imported [D.name]", LEDGER_CROWN_EXP_IMPORTS))
 			say("The Treasury can't afford this.")
 			return
 		SStreasury.total_import += amt
@@ -239,6 +239,7 @@
 		var/datum/loan/forgiven = SStreasury.get_loan_for(target)
 		var/loan_amt = forgiven ? forgiven.get_remaining_due() : 0
 		if(forgiven)
+			SStreasury.write_off_loan(forgiven, "Debt forgiven by the Steward")
 			SStreasury.loans -= forgiven
 			qdel(forgiven)
 		SStreasury.clear_poll_tax_debt(target)

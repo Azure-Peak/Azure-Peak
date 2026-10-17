@@ -1,4 +1,0 @@
-author: "Sutures"
-delete-after: True
-changes:
-  - code_imp: "Made soap code less duplicate-y"

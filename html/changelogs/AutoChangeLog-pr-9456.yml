@@ -1,0 +1,5 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "rebalance arrow/bolt damages."
+  - balance: "remove the arrow integ damage modifier."
