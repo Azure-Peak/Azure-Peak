@@ -960,7 +960,6 @@
 	miss_sound = "bladewooshsmall"
 	item_d_type = "stab"
 
-
 /datum/intent/simple/axe
 	name = "hack"
 	icon_state = "instrike"
