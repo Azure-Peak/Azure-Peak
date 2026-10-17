@@ -42,7 +42,7 @@
 	/// Base damage of any bow smites
 	var/bow_smite_base_damage = 40
 
-/obj/item/gun/Initialize()
+/obj/item/gun/Initialize(mapload)
 	. = ..()
 	if(ispath(special))
 		special = new special()
