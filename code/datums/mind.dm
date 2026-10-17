@@ -574,6 +574,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		A.on_gain(TRUE)
 	else
 		A.on_gain()
+	if(A.overrides_forlorne_vice)
+		var/datum/charflaw/forlorne/forlorne_vice = current?.get_flaw(/datum/charflaw/forlorne)
+		forlorne_vice?.antag_override(current)
 	log_game("[key_name(src)] has gained antag datum [A.name]([A.type])")
 	var/client/picked_client = current?.client
 	picked_client?.mob?.mind.picking = FALSE
