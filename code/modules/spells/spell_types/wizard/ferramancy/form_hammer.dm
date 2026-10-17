@@ -18,3 +18,4 @@
 	anvilrepair = null
 	smeltresult = null
 	associated_skill = /datum/skill/combat/arcyne
+	is_implement = TRUE

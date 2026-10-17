@@ -58,7 +58,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 	var/list/major_aspects
 	var/list/minor_aspects
-	/// Mage aspect system config from subclass. Keys: "mastery", "major", "minor", "utilities". Optional: "locked_aspects" (list of type paths).
+	/// Mage aspect system config from subclass. Keys: "mastery", "major", "minor", "utilities". Optional: "locked_aspects", "unlocked_aspects" (lists of type paths).
 	var/list/mage_aspect_config
 	/// Aspect reset budget used. Major costs 2, Minor/Utility costs 1. Max 2. Resets on sleep.
 	var/aspect_resets_used = 0

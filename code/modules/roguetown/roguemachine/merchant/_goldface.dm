@@ -57,6 +57,7 @@
 	)
 	var/list/categories_gamer = list(
 		"Adventuring Supplies",
+		"Arcyne Supplies",
 		"Armor (Light)",
 		"Armor (Iron)",
 		"Armor (Steel)",
@@ -90,6 +91,7 @@
 	value_record_key = STATS_SILVERFACE_VALUE_SPENT
 	categories = list(
 		"Adventuring Supplies",
+		"Arcyne Supplies",
 		"Alcohols",
 		"Consumable",
 		"Gems",

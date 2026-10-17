@@ -73837,6 +73837,7 @@
 	pixel_y = 0;
 	info = "Milord, do be careful of the trap under the center stairs, and the hidden lever behind the throne"
 	},
+/obj/item/clothing/head/roguetown/nyle/consortcrown,
 /turf/open/floor/rogue/carpet/lord/center,
 /area/rogue/indoors/town/manor/grim)
 "iVX" = (

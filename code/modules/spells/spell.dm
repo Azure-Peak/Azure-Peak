@@ -378,8 +378,8 @@ GLOBAL_LIST_INIT(spells, typesof(/obj/effect/proc_holder/spell)) //needed for th
 		return FALSE
 
 	var/mob/living/living_user = user
-	if(istype(living_user) && living_user.has_status_effect(/datum/status_effect/debuff/cast_disrupted))
-		to_chat(user, span_warning("I'm too exposed to focus on casting!"))
+	if(istype(living_user) && living_user.has_status_effect(/datum/status_effect/debuff/clickcd))
+		to_chat(user, span_warning("I can't act yet!"))
 		return FALSE
 
 	if(!antimagic_allowed)

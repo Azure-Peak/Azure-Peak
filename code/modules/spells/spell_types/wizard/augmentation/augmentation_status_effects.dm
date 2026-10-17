@@ -42,82 +42,6 @@
 /datum/status_effect/buff/attune_haste/nextmove_modifier()
 	return 0.85
 
-// ---- GIANT'S STRENGTH ----
-
-#define GIANTSSTRENGTH_FILTER "giantsstrength_glow"
-
-/atom/movable/screen/alert/status_effect/buff/attune_giant
-	name = "Attune: Giant"
-	desc = "My muscles are strengthened. (+4 Strength)"
-	icon_state = "buff"
-
-/datum/status_effect/buff/attune_giant
-	var/outline_colour ="#8B0000" // Different from strength potion cuz red = strong
-	id = "giantstrength"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/attune_giant
-	effectedstats = list(STATKEY_STR = 4)
-	duration = ATTUNE_BUFF_DURATION
-
-/datum/status_effect/buff/attune_giant/on_creation(mob/living/new_owner, new_duration = null)
-	if(new_duration)
-		duration = new_duration
-	. = ..()
-
-/datum/status_effect/buff/attune_giant/on_apply()
-	. = ..()
-	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>attune: giant (+4 str)!</font>")
-	var/filter = owner.get_filter(GIANTSSTRENGTH_FILTER)
-	if (!filter)
-		owner.add_filter(GIANTSSTRENGTH_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
-	to_chat(owner, span_warning("My muscles strengthen."))
-
-
-/datum/status_effect/buff/attune_giant/on_remove()
-	. = ..()
-	to_chat(owner, span_warning("My strength fades away..."))
-	owner.remove_filter(GIANTSSTRENGTH_FILTER)
-
-#undef GIANTSSTRENGTH_FILTER
-
-// ---- HAWK'S EYES ----
-
-#define HAWKSEYES_FILTER "hawkseyes_glow"
-
-/atom/movable/screen/alert/status_effect/buff/attune_hawk
-	name = "Attune: Hawk"
-	desc = "My vision is sharpened. (+1 Strength, +4 Perception)"
-	icon_state = "buff"
-
-/datum/status_effect/buff/attune_hawk
-	var/outline_colour ="#ffff00" // Same color as perception potion
-	id = "hawkseyes"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/attune_hawk
-	effectedstats = list(STATKEY_STR = 1, STATKEY_PER = 4)
-	duration = ATTUNE_BUFF_DURATION
-	exclusive_group = "augment_perception"
-	exclusive_priority = 2 // supersedes Guidance
-
-/datum/status_effect/buff/attune_hawk/on_creation(mob/living/new_owner, new_duration = null)
-	if(new_duration)
-		duration = new_duration
-	. = ..()
-
-/datum/status_effect/buff/attune_hawk/on_apply()
-	. = ..()
-	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>attune: hawk (+1 str, +4 per)!</font>")
-	var/filter = owner.get_filter(HAWKSEYES_FILTER)
-	if (!filter)
-		owner.add_filter(HAWKSEYES_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 25, "size" = 1))
-	to_chat(owner, span_warning("My vision sharpens, like that of a hawk."))
-
-
-/datum/status_effect/buff/attune_hawk/on_remove()
-	. = ..()
-	to_chat(owner, span_warning("My vision blurs, losing its unnatural keenness."))
-	owner.remove_filter(HAWKSEYES_FILTER)
-
-#undef HAWKSEYES_FILTER
-
 // ---- GUIDANCE ----
 
 #define GUIDANCE_FILTER "guidance_glow"
@@ -159,43 +83,6 @@
 	to_chat(owner, span_warning("The arcyne clarity fades from my senses."))
 
 #undef GUIDANCE_FILTER
-
-// ---- FORTITUDE ----
-
-/atom/movable/screen/alert/status_effect/buff/fortitude
-	name = "Fortitude"
-	desc = "My humors have been hardened to the fatigues of the body. (-15% Stamina Usage)"
-	icon_state = "buff"
-
-#define FORTITUDE_FILTER "fortitude_glow"
-
-/datum/status_effect/buff/fortitude
-	var/outline_colour ="#008000" // Forest green to avoid le sparkle mage
-	id = "fortitude"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/fortitude
-	duration = STAT_BUFF_SELF_DURATION
-
-/datum/status_effect/buff/fortitude/on_creation(mob/living/new_owner, new_duration = null)
-	if(new_duration)
-		duration = new_duration
-	. = ..()
-
-/datum/status_effect/buff/fortitude/on_apply()
-	. = ..()
-	owner.balloon_alert_to_viewers("<font color='[outline_colour]'>fortitude (-15% stam)!</font>")
-	var/filter = owner.get_filter(FORTITUDE_FILTER)
-	if (!filter)
-		owner.add_filter(FORTITUDE_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 50, "size" = 1))
-	to_chat(owner, span_warning("My body feels lighter..."))
-	ADD_TRAIT(owner, TRAIT_FORTITUDE, MAGIC_TRAIT)
-
-/datum/status_effect/buff/fortitude/on_remove()
-	. = ..()
-	owner.remove_filter(FORTITUDE_FILTER)
-	to_chat(owner, span_warning("The weight of the world rests upon my shoulders once more."))
-	REMOVE_TRAIT(owner, TRAIT_FORTITUDE, MAGIC_TRAIT)
-
-#undef FORTITUDE_FILTER
 
 // ---- FEATHERFALL ----
 // (alert + status effect originally in roguebuff.dm)

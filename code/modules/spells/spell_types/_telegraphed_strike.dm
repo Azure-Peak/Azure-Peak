@@ -10,6 +10,7 @@
 	var/strike_damage_type = BRUTE
 	var/blade_class = BCLASS_CUT
 	var/strike_armor_pen = PEN_NONE
+	var/strike_intdamage_mult = 1
 	var/detonate_sound = 'sound/combat/newstuck.ogg'
 	var/strike_sound = 'sound/magic/blade_burst.ogg'
 	/// Played on each victim struck, on top of the per-turf detonate_sound.
@@ -255,7 +256,7 @@
 		hit_any = TRUE
 		sweep_hit_count++
 		var/target_zone = H.zone_selected || BODY_ZONE_CHEST
-		if(arcyne_strike(H, L, weapon, dmg, target_zone, blade_class, armor_penetration = strike_armor_pen, spell_name = name, damage_type = strike_damage_type, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+		if(arcyne_strike(H, L, weapon, dmg, target_zone, blade_class, armor_penetration = strike_armor_pen, spell_name = name, damage_type = strike_damage_type, skip_animation = TRUE, intdamage_mult = strike_intdamage_mult) == ARCYNE_STRIKE_WARDED)
 			continue
 		if(length(hit_sound))
 			playsound(get_turf(L), hit_sound, 100, TRUE)
@@ -279,7 +280,7 @@
 	if(!T || (T in struck_obstacles))
 		return
 	struck_obstacles += T
-	var/dmg = structure_damage ? structure_damage : damage
+	var/dmg = structure_damage ? structure_damage : damage * strike_intdamage_mult
 	var/hit_any = FALSE
 	for(var/obj/structure/S in T)
 		S.take_damage(dmg, BRUTE, "blunt", TRUE)

@@ -421,7 +421,7 @@
 		if (istype (H.patron, /datum/patron/inhumen/zizo))
 			if(H.mind)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -753,7 +753,7 @@
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 		if(/datum/patron/inhumen/graggar)
 			shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots //tribal-esc shaman look
 			gloves = /obj/item/clothing/gloves/roguetown/angle/gronnfur/cleric //role-unique
