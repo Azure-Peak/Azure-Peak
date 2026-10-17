@@ -105,9 +105,9 @@
 	var/stored_cooldown = 20 SECONDS
 
 /datum/status_effect/buff/bow_special_primed/on_creation(mob/living/new_owner, custom_cd)
-    if(!isnull(custom_cd))
-        stored_cooldown = custom_cd
-    . = ..()
+	if(!isnull(custom_cd))
+		stored_cooldown = custom_cd
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/buff/bow_special_primed
 	name = "Shot Primed"
@@ -127,9 +127,9 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/bow_special_cd
 
 /datum/status_effect/debuff/bow_special_cd/on_creation(mob/living/new_owner, custom_duration)
-    if(!isnull(custom_duration))
-        duration = custom_duration
-    . = ..()
+	if(!isnull(custom_duration))
+		duration = custom_duration
+	. = ..()
 
 /atom/movable/screen/alert/status_effect/debuff/bow_special_cd
 	name = "Shot Special Cooldown"
