@@ -57,6 +57,13 @@
 	obj_flags = UNIQUE_RENAME
 	damfactor = 1.2
 	accfactor = 1.1
+	special = /datum/special_intent/bow_prime/crossbow
+	// Crossbows smite just a bit harder
+	bow_smite_base_damage = 52
+
+/datum/special_intent/bow_prime/crossbow
+	cooldown = 36 SECONDS
+	custom_skill = /datum/skill/combat/crossbows
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_mechanics_examine(mob/user)
 	. = ..()
@@ -64,6 +71,10 @@
 	. += span_info("My <b>CROSSBOWS</b> skill defines how precise my shots are and how fast I can draw.")
 	. += span_info("When I shoot a target too close or too far away, I will only hit the chest.")
 	. += span_info("Crossbows must be cocked before a bolt can be nocked, but once cocked I can nock straight from a pouch by left-clicking it.")
+	. += span_info("Using special intent with mmb or right clicking with strong intent will prime an empowered shot.")
+	. += span_info("Most mindless mobs take more damage from empowered shots unless they are particularly tough.")
+	. += span_info("Empowered shots benefit from hunting skill and inherit a small amount of projectile damage.")
+	. += span_info("Empowered shots cool down faster with higher ranged/hunting skills.")
 	if(damfactor < 1)
 		. += span_info("This weapon <b>reduces</b> bolt damage by <b>[round((1 - damfactor) * 100, 1)]%</b>.")
 	else if(damfactor > 1)
@@ -218,6 +229,7 @@
 	spread = get_ranged_spread(user)
 
 	// Projectile stat modification
+	var/primed = user.has_status_effect(/datum/status_effect/buff/bow_special_primed)
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		if(!BB)
@@ -226,6 +238,10 @@
 		apply_ranged_accuracy(BB, user)
 		BB.armor_penetration = max(PEN_NONE, BB.armor_penetration + penfactor)
 		BB.damage *= damfactor
+		if(primed)
+			BB.bow_smite_modifier = BB.damage
+			BB.bow_smite_base_damage = bow_smite_base_damage
+			BB.hunting_skill = user.get_skill_level(/datum/skill/misc/hunting)
 
 	cocked = FALSE
 
@@ -233,6 +249,8 @@
 	if(!.)
 		return
 	pay_release_drain(user)
+	if(primed)
+		user.remove_status_effect(/datum/status_effect/buff/bow_special_primed)
 	if(!onehanded)
 		return
 
@@ -326,6 +344,7 @@
 	draw_per_skill = SLURBOW_DRAW_PER_SKILL
 	arc_draw_floor_extra = SLURBOW_ARC_DRAW_FLOOR_EXTRA
 	damfactor = 0.6
+	bow_smite_base_damage = 40
 	accfactor = 1.3
 	reloadtime = 20
 	force = 10
@@ -442,6 +461,7 @@
 	draw_per_skill = SLURBOW_DRAW_PER_SKILL
 	arc_draw_floor_extra = SLURBOW_ARC_DRAW_FLOOR_EXTRA
 	damfactor = 1 //No damage malus, as it uses proprietary ammunition.
+	bow_smite_base_damage = 40
 	accfactor = 1.3
 	reloadtime = 20
 	force = 15

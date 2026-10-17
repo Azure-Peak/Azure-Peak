@@ -53,6 +53,7 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = BOAR_HEALTH
 	maxHealth = BOAR_HEALTH
+	bow_smite_effective_modifier = 2.5
 	melee_damage_lower = 30
 	melee_damage_upper = 40
 	vision_range = 7

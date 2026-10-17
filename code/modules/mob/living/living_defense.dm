@@ -256,6 +256,15 @@
 
 	var/on_hit_state = P.on_hit(src, armor)
 	var/actual_damage = P.damage
+	var/mindless_target
+	if(!src.mind || !src.ckey)
+		mindless_target = TRUE
+	if(P.bow_smite_modifier && mindless_target)
+		var/pre_smite_damage = actual_damage
+		actual_damage = P.get_bow_smite_damage(src)
+		// Simple sanity to let players know they hit something effective.
+		if(actual_damage > pre_smite_damage)
+			playsound(loc, 'sound/effects/arrow_smite_hit.ogg', 100, TRUE, -1)
 	if(istype(src, /mob/living/simple_animal))
 		var/mob/living/simple_animal/weakpoint_target = src
 		actual_damage *= weakpoint_target.weakpoint_damage_mod(def_zone)
