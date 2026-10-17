@@ -29,9 +29,13 @@
 	return TRUE
 
 /datum/intent/shoot/bow/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
-		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
+	playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/shoot/bow/get_chargetime() //draw speed lives on the bow itself so players and NPCs share one curve. damage is handled below in /obj/item/gun/ballistic/revolver/grenadelauncher/bow/process_fire
 	if(mastermob && chargetime)
@@ -60,9 +64,13 @@
 	return TRUE
 
 /datum/intent/arc/bow/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
-		playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
+	playsound(mastermob, bow_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/arc/bow/get_chargetime() //same curve as above, but slower and with a higher floor
 	if(mastermob && chargetime)
