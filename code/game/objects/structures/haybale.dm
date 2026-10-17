@@ -156,6 +156,10 @@
 	if(!occupied && can_hide(AM))
 		hidebale(AM)
 
+/obj/structure/haybale/burn()
+	static_debris = list(/obj/item/ash = 1)
+	return ..()
+
 /obj/structure/haybale/deconstruct(disassembled = TRUE)
 	if(hiddenguy)
 		unhide(hiddenguy)
