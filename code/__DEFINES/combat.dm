@@ -435,6 +435,17 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BLUNT_DEFAULT_INT_DAMAGEFACTOR 1.6 // Universal blunt intent integrity damage factor. Replaces Roguepen
 #define SPELL_BLUNT_INT_DAMAGEFACTOR 1.3 // Blunt integrity damage factor for spell projectiles
 #define PUNCH_INT_DAMAGEFACTOR 1.2 // Reduced integrity damage for unarmed punches cuz they're really fast
+
+// Per Mage 3.1 decision - we want ARMOR damage of mage to largely stay the same, whereas post-armor damage is reduced slightly, such that it favors grouping with martial or using melee tools like knives or staff to finish them off, but does not completely prevent you from doing so.
+// Applied at compile time. Simplemobs are exempt and take the unscaled damage.
+#define SPELL_DAMAGE_GENERAL_MODIFIER 0.8
+#define SPELL_DAMAGE_INTEGRITY_MODIFIER (1 / SPELL_DAMAGE_GENERAL_MODIFIER)
+#define SPELL_DMG(x) ((x) * SPELL_DAMAGE_GENERAL_MODIFIER)
+#define SPELL_INTDAM(x) ((x) * SPELL_DAMAGE_INTEGRITY_MODIFIER)
+/// Undoes SPELL_DMG on an already-scaled value when the target is a simple animal.
+#define SPELL_DMG_VS(target, x) (isanimal(target) ? (x) / SPELL_DAMAGE_GENERAL_MODIFIER : (x))
+/// Add as the last arg of a mage arcyne_strike() call so armor integrity damage stays unscaled.
+#define SPELL_STRIKE_SCALING intdamage_mult = SPELL_DAMAGE_INTEGRITY_MODIFIER
 // Integrity & Sharpness Value
 #define INTEG_PARRY_DECAY			1	//Default integrity decay on parry.
 #define INTEG_PARRY_DECAY_NOSHARP	5	//Integrity decay on parry for weapons with no sharpness OR for off-hand parries.
@@ -468,7 +479,6 @@ GLOBAL_LIST_INIT(shove_disarming_types, typecacheof(list(
 #define BAD_GUARD_FATIGUE_DRAIN 20 //Percentage of your green bar lost on letting a guard expire.
 #define EXPOSED_INTEG_MOD 2.5	//Multiplier for melee integrity / simple-mob damage if we hit an Exposed target.
 #define VULN_INTEG_MOD 1.3		//Multiplier for melee integrity / simple-mob damage if we hit a Vulnerable target.
-#define EXPOSED_CAST_LOCKOUT 4 SECONDS	// Cap on how long Exposed can deny casting
 #define BASE_RCLICK_CD 30 SECONDS
 #define BAIT_RCLICK_CD 20 SECONDS
 #define BIND_CD 15 SECONDS

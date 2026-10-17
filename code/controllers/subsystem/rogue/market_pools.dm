@@ -96,18 +96,30 @@
 	if(I.is_carved)
 		return NAVIGATOR_BUCKET_CARVED
 	var/bucket = get_navigator_bucket_for_category(category)
-	if(bucket == NAVIGATOR_BUCKET_ARMOR_HEAVY && isclothing(I))
-		var/obj/item/clothing/C = I
-		if(C.armor_class <= ARMOR_CLASS_LIGHT)
-			bucket = NAVIGATOR_BUCKET_ARMOR_LIGHT
+	if(isclothing(I) && (bucket == NAVIGATOR_BUCKET_ARMOR_HEAVY || bucket == NAVIGATOR_BUCKET_ARMOR_LIGHT))
+		bucket = get_armor_weight_bucket(I, bucket)
 	if(bucket == NAVIGATOR_BUCKET_VALUABLES_LOOTED && I.was_crafted)
 		return NAVIGATOR_BUCKET_VALUABLES_CRAFTED
 	return bucket
+
+/proc/get_armor_weight_bucket(obj/item/clothing/C, category_bucket)
+	switch(C.armor_class)
+		if(ARMOR_CLASS_HEAVY)
+			return NAVIGATOR_BUCKET_ARMOR_HEAVY
+		if(ARMOR_CLASS_MEDIUM)
+			return NAVIGATOR_BUCKET_ARMOR_MEDIUM
+		if(ARMOR_CLASS_LIGHT)
+			return NAVIGATOR_BUCKET_ARMOR_LIGHT
+	// If they are metallic, but don't need plate training, they should be classified as medium as far as the navigator is concerned so it don't crowd the Light pool meant for tailors and fabric armor
+	if(category_bucket == NAVIGATOR_BUCKET_ARMOR_HEAVY && C.anvilrepair == /datum/skill/craft/armorsmithing)
+		return NAVIGATOR_BUCKET_ARMOR_MEDIUM
+	return NAVIGATOR_BUCKET_ARMOR_LIGHT
 
 /proc/all_navigator_buckets()
 	return list(
 		NAVIGATOR_BUCKET_WEAPONS,
 		NAVIGATOR_BUCKET_ARMOR_LIGHT,
+		NAVIGATOR_BUCKET_ARMOR_MEDIUM,
 		NAVIGATOR_BUCKET_ARMOR_HEAVY,
 		NAVIGATOR_BUCKET_GARMENT_COMMON,
 		NAVIGATOR_BUCKET_GARMENT_FINELUX,
@@ -131,6 +143,8 @@
 			return NAVIGATOR_BUCKET_POOL_WEAPONS
 		if(NAVIGATOR_BUCKET_ARMOR_LIGHT)
 			return NAVIGATOR_BUCKET_POOL_ARMOR_LIGHT
+		if(NAVIGATOR_BUCKET_ARMOR_MEDIUM)
+			return NAVIGATOR_BUCKET_POOL_ARMOR_MEDIUM
 		if(NAVIGATOR_BUCKET_ARMOR_HEAVY)
 			return NAVIGATOR_BUCKET_POOL_ARMOR_HEAVY
 		if(NAVIGATOR_BUCKET_GARMENT_COMMON)
@@ -173,7 +187,7 @@
 
 /proc/get_navigator_bucket_theme(bucket)
 	switch(bucket)
-		if(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_ARMOR_HEAVY)
+		if(NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_LIGHT, NAVIGATOR_BUCKET_ARMOR_MEDIUM, NAVIGATOR_BUCKET_ARMOR_HEAVY)
 			return MARKET_THEME_WARGEAR
 		if(NAVIGATOR_BUCKET_POTIONS_REAGENTS, NAVIGATOR_BUCKET_ENCHANTMENTS)
 			return MARKET_THEME_ARCYNE

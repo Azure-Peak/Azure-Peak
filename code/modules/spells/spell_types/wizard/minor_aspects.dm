@@ -73,8 +73,50 @@
 		/datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 	)
 
-/datum/magic_aspect/lesser_augmentation
-	name = "Lesser Augmentation"
+/datum/magic_aspect/allowardry
+	name = "Allowardry"
+	latin_name = "Minor Aspectus Allotutelae"
+	desc = "Allowardry is a second-order magical school. Most other schools channel destruction - allowardry specializes in the prevention of destruction. Allowardens lays their wards on top of their allies to protect them. Their specialization also allows them to lay down runes on the ground to protect allies or hold ground."
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_WARD
+	binding_chants = list(
+		"Let me clad my allies in an armor of arcyne.",
+		"Allotutela, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I lift the wards I have clad upon others.",
+		"Allotutela, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/bestow_ward,
+	)
+	pointbuy_budget = 2
+	pointbuy_spells = list(
+		/datum/action/cooldown/spell/arrow_ward,
+		/datum/action/cooldown/spell/touch/rune_ward,
+		/datum/action/cooldown/spell/augment_buff/restore_defense,
+	)
+
+/datum/magic_aspect/battlewardry
+	name = "Battlewardry"
+	latin_name = "Minor Aspectus Bellitutelae"
+	desc = "Battlewardry is a second-order magical school. Most other schools channel destruction - battlewardry specializes in the prevention of destruction. Battlewardens use a modified, tactical form of ward traps to punish the reckless, inscribing a single fragile rune where the fighting is thickest."
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_WARD
+	binding_chants = list(
+		"I raise the wards of war, protect!",
+		"Bellitutela, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I lower the wards I have raised, rest.",
+		"Bellitutela, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/battle_ward,
+	)
+
+/datum/magic_aspect/augmentation
+	name = "Augmentation"
 	latin_name = "Minor Aspectus Augmenti"
 	desc = "Scholars debate whether Augmentation is a first, second, or even third-order school. Its adherents consider themselves third-order - \
 	with the honor of imitating the divine by augmenting the boundless potential of the humen form. Its spells are focused on enhancing the body, \
@@ -102,6 +144,7 @@
 		/datum/action/cooldown/spell/augment_buff/surge,
 		/datum/action/cooldown/spell/augment_buff/precognition,
 		/datum/action/cooldown/spell/augment_buff/grasp,
+		/datum/action/cooldown/spell/augment_buff/restore_defense,
 		// 1-cost utility filler
 		/datum/action/cooldown/spell/light,
 		/datum/action/cooldown/spell/mending,
@@ -179,4 +222,28 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/wither,
+	)
+
+/datum/magic_aspect/lesser_necromancy
+	name = "Lesser Necromancy"
+	latin_name = "Minor Aspectus Mortis"
+	desc = "Her lesser works, taught to the beginning necromancer."
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_ZIZO
+	class_locked = TRUE
+	binding_chants = list(
+		"Let the dead heed my call.",
+		"Mors, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I let the dead return to rest.",
+		"Mors, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/bonechill,
+		/datum/action/cooldown/spell/bonemend,
+		/datum/action/cooldown/spell/raise_deadite,
+		/datum/action/cooldown/spell/tame_undead,
+		/datum/action/cooldown/spell/convert_heretic,
+		/datum/action/cooldown/spell/lacrima,
 	)

@@ -27,6 +27,11 @@
 	var/list/unbinding_chants = list()
 	/// The choice spell that was actually picked during attunement. Set by grant_choice_spell().
 	var/chosen_spell
+	// Hide this aspect unless a class grants it or it is allowed explicitly
+	var/class_locked = FALSE
+
+/datum/magic_aspect/proc/can_select(mob/living/user)
+	return TRUE
 
 /datum/magic_aspect/proc/get_implement_name(base_name)
 	if(!attuned_name)

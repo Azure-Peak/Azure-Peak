@@ -1,0 +1,229 @@
+/**
+ * SPDX-License-Identifier: MIT
+ */
+
+@use '../base';
+
+// Every die the window offers, drawn in the colour of the text around it.
+.DiceIcon {
+  display: block;
+  overflow: visible;
+}
+
+.DiceIcon__outline {
+  fill: rgba(0, 0, 0, 0.55);
+  stroke: currentColor;
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.DiceIcon__edge {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.5;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.DiceIcon__label {
+  fill: currentColor;
+  // Knocks the die's lines out from behind its number.
+  stroke: #000;
+  stroke-width: 4px;
+  paint-order: stroke;
+  stroke-linejoin: round;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.DiceBuilder__Dice {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: base.rem(4px);
+  margin-bottom: base.rem(10px);
+}
+
+.Button.DiceBuilder__Die {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: base.rem(4px) 0;
+  margin: 0;
+  // Unselected dice sit back, so the chosen one is the one that is bright.
+  color: #8a8a7e;
+
+  &--selected {
+    color: #f9b362;
+  }
+}
+
+.DiceBuilder__Row {
+  display: flex;
+  align-items: center;
+  min-height: base.rem(30px);
+}
+
+.DiceBuilder__Label {
+  flex: 0 0 base.rem(70px);
+  color: #bbbbad;
+}
+
+.DiceBuilder__Control {
+  display: flex;
+  align-items: center;
+  gap: base.rem(8px);
+}
+
+.DiceBuilder__Stepper {
+  display: flex;
+  align-items: center;
+  gap: base.rem(4px);
+}
+
+// Wide enough for a bonus of -99 or a difficulty of 999, and centred like the number it replaces.
+.DiceBuilder__Field {
+  width: base.rem(52px);
+  margin: 0;
+  text-align: center;
+  font-weight: bold;
+
+  .Input__input {
+    text-align: center;
+  }
+}
+
+.DiceBuilder__Heading {
+  margin: base.rem(10px) 0 base.rem(4px);
+  color: #bbbbad;
+}
+
+// Moves the help button to the left, at the close button's width, so the title stays centred.
+.DiceBuilder__Title {
+  .TitleBar__buttons {
+    order: -1;
+    width: base.rem(45px);
+    margin: 0;
+    text-align: center;
+  }
+
+  .TitleBar__title {
+    text-align: center;
+  }
+}
+
+.DiceBuilder__Stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: base.rem(4px);
+}
+
+.DiceBuilder__Stat {
+  margin: 0;
+  text-align: center;
+}
+
+// Stat buttons are filled with the god's colour (as in ContestResponse.scss). The picked one is
+// bright with a light border, the rest dimmed. The extra .Button beats the theme's colours.
+$stat-gods: (
+  ravox: #7a1e30,
+  dendor: #43622e,
+  noc: #9acdff,
+  graggar: #19345e,
+  malum: #884610,
+  matthios: #e1c457,
+  xylix: #e2ddae,
+  baotha: #bb48a9,
+);
+
+@each $god, $colour in $stat-gods {
+  .Button.DiceBuilder__Stat.ContestResponse__God--#{$god} {
+    background-color: $colour;
+    color: #000;
+    font-weight: bold;
+    opacity: 0.7;
+
+    &:hover {
+      background-color: $colour;
+      opacity: 0.9;
+    }
+
+    &.Button--selected {
+      background-color: $colour;
+      color: #000 !important;
+      border-color: #fff;
+      opacity: 1;
+    }
+  }
+}
+
+.DiceBuilder__Preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: base.rem(10px);
+  font-size: base.rem(18px);
+  font-weight: bold;
+  text-align: center;
+}
+
+// Flex-centred, since the theme's line height and padding push the text off the middle. The extra
+// .Button beats the theme.
+.Button.DiceBuilder__Roll,
+.Button.DiceBuilder__Cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: base.rem(34px);
+  min-height: base.rem(34px);
+  margin: 0;
+  padding: 0 base.rem(12px);
+  line-height: 1;
+  text-align: center;
+
+  .Button__content {
+    flex: 0 0 auto;
+    align-self: center;
+  }
+}
+
+.Button.DiceBuilder__Roll {
+  font-size: base.rem(15px);
+  font-weight: bold;
+}
+
+// Tooltips are capped at 250px, so the one holding the help is widened to fit the window.
+.Tooltip:has(.DiceBuilder__Help) {
+  width: calc(100vw - 50px);
+  max-width: calc(100vw - 50px);
+}
+
+.DiceBuilder__Help {
+  width: 100%;
+  text-align: left;
+  font-size: base.rem(12px);
+  line-height: 1.35;
+
+  p,
+  ul {
+    margin: 0 0 base.rem(4px);
+  }
+
+  ul {
+    padding-left: base.rem(16px);
+  }
+}
+
+.DiceBuilder__HelpTitle {
+  margin-top: base.rem(6px);
+  font-weight: bold;
+  color: #f9b362;
+}
+
+// Takes the room between the stats and the buttons and centres the roll in it.
+.DiceBuilder__PreviewSlot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

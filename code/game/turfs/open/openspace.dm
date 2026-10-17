@@ -171,7 +171,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 					if(WEST)
 						climber.setDir(WEST)
 						climber.set_mob_offsets("wall_press", _x = -12, _y = 0)
-				L.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb, stamina_cost_final)
+				L.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb)
 			user.start_pulling(pulling,supress_message = TRUE)
 
 /////////////////////////////////////////////////////////////////////////////////

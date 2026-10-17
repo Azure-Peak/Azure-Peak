@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 import {
   bannerStyle,
   FONT_BODY,
@@ -25,12 +27,37 @@ type Props = {
   publicMarginLabel?: string;
   blockades?: BlockadeRow[];
   gearPct?: number;
+  gearBasePct?: number;
+  blockadeMultPct?: number;
+  blockadePopHalf?: number;
+  blockadePopFull?: number;
 };
 
-const blockadeRowText = (row: BlockadeRow) =>
+const blockadeRowText = (row: BlockadeRow, pct: number) =>
   row.categories.length > 0
-    ? `+${row.pct}% on ${row.categories.join(' / ')}`
-    : `+${row.pct}% on all goods${row.reason ? ` ${row.reason}` : ''}`;
+    ? `+${pct}% on ${row.categories.join(' / ')}`
+    : `+${pct}% on all goods${row.reason ? ` ${row.reason}` : ''}`;
+
+const demandNote = (multPct: number, popHalf: number, popFull: number) => {
+  if (multPct <= 0) {
+    return {
+      label: 'Demands too low - price unaffected',
+      tooltip: `OOC: Fewer than ${popHalf} active players - blockade surcharges do not apply.`,
+    };
+  }
+  if (multPct < 100) {
+    return {
+      label: 'Demands low - price effects halved',
+      tooltip: `OOC: ${popHalf}-${popFull - 1} active players - blockade surcharges are halved. Full effect at ${popFull}+.`,
+    };
+  }
+  return null;
+};
+
+const waivedStyle: CSSProperties = {
+  textDecoration: 'line-through',
+  opacity: 0.6,
+};
 
 export const TariffHeader = (props: Props) => {
   const {
@@ -45,10 +72,19 @@ export const TariffHeader = (props: Props) => {
     publicMarginLabel,
     blockades,
     gearPct,
+    gearBasePct,
+    blockadeMultPct,
+    blockadePopHalf,
+    blockadePopFull,
   } = props;
   const blockadeRows = blockades ?? [];
   const hasBlockades = blockadeRows.length > 0;
-  const hasGearPct = !!gearPct && gearPct > 0;
+  const multPct = blockadeMultPct ?? 100;
+  const waived = multPct <= 0;
+  const note = demandNote(multPct, blockadePopHalf ?? 0, blockadePopFull ?? 0);
+  const shownGearPct = waived ? gearBasePct : gearPct;
+  const hasGearPct = !!shownGearPct && shownGearPct > 0;
+  const rowStyle = waived ? waivedStyle : undefined;
   return (
     <>
       <div style={titleStyle}>{starsIfIlliterate(motto, canRead)}</div>
@@ -90,14 +126,23 @@ export const TariffHeader = (props: Props) => {
           }}
         >
           <b>ACTIVE BLOCKADES:</b>
+          {note && (
+            <div
+              title={note.tooltip}
+              style={{ fontStyle: 'italic', cursor: 'help' }}
+            >
+              {note.label}
+            </div>
+          )}
           {blockadeRows.map((row) => (
-            <div key={row.region}>
-              <b>{row.region}:</b> {blockadeRowText(row)}
+            <div key={row.region} style={rowStyle}>
+              <b>{row.region}:</b>{' '}
+              {blockadeRowText(row, waived ? row.base_pct : row.pct)}
             </div>
           ))}
           {hasGearPct && (
-            <div>
-              <b>Gear demand:</b> +{gearPct}% on all arms and armor
+            <div style={rowStyle}>
+              <b>Gear demand:</b> +{shownGearPct}% on all arms and armor
             </div>
           )}
         </div>

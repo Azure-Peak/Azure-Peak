@@ -43,6 +43,20 @@
 	verbage = "strings together"
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/survival/hornbow
+	name = "horn bow"
+	display_category = ITEM_CAT_WEAPONS_AMMO
+	category = "Ranged"
+	result = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/goat
+	reqs = list(
+		/obj/item/natural/bowstring = 1,
+		/obj/item/natural/goathorn = 1,
+		)
+	verbage_simple = "string together"
+	verbage = "strings together"
+	// Components are difficult enough to obtain
+	craftdiff = 2
+
 /datum/crafting_recipe/roguetown/survival/recurvepartial
 	name = "unstrung recurve bow"
 	display_category = ITEM_CAT_WEAPONS_AMMO
@@ -536,7 +550,7 @@
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				)
-	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver/stake = 1)
+	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake = 1)
 	structurecraft = /obj/machinery/light/rogue
 	craftdiff = 0
 	craftsound = 'sound/misc/frying.ogg'
@@ -550,7 +564,7 @@
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				/obj/item/ammo_casing/caseless/rogue/stake/silver,
 				)
-	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy = 1)
+	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/psy = 1)
 	structurecraft = /obj/machinery/light/rogue
 	craftdiff = 0
 	craftsound = 'sound/misc/frying.ogg'

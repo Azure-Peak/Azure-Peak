@@ -76,7 +76,7 @@
 	icon = 'icons/roguetown/clothing/special/abyssor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/abyssor.dmi'
 	icon_state = "leaderhelm"
-	flags_inv = HIDEFACE|HIDESNOUT|HIDEEARS|HIDEHAIR
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 	body_parts_covered = FULL_HEAD
 	adjustable = CANT_CADJUST
 	smeltresult = null

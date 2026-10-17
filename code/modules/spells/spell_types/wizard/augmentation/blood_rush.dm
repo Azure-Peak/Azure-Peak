@@ -1,7 +1,9 @@
 /datum/action/cooldown/spell/augment_buff/blood_rush
 	name = "Blood Rush"
-	desc = "Flood the target's veins with a surge of vigor, quickening their body for a short burst."
+	desc = "Flood an ally's veins with a surge of vigor, quickening their body for a short burst. Cannot be cast on yourself."
 	button_icon_state = "blood_rush"
+
+	self_cast_possible = FALSE
 
 	cooldown_time = 60 SECONDS
 
@@ -11,7 +13,6 @@
 	invocations = list("Concita!")
 	invocation_type = INVOCATION_SHOUT
 	charge_required = FALSE
-	other_cast_cooldown_reduction = 0 // Too powerful otherwise
 
 	point_cost = 2
 
@@ -26,11 +27,6 @@
 		return FALSE
 
 	var/mob/living/spelltarget = cast_on
-
-	if(spelltarget == H)
-		H.visible_message("[H] mutters an incantation and their veins flush with sudden vigor.")
-		H.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)
-		return TRUE
 
 	H.visible_message("[H] mutters an incantation and [spelltarget]'s veins flush with sudden vigor.")
 	spelltarget.apply_status_effect(/datum/status_effect/buff/adrenaline_rush)

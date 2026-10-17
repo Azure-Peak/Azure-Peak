@@ -112,14 +112,13 @@
 	smeltresult = /obj/item/ingot/iron
 	unarmed_bonus = 7
 
-/obj/item/clothing/gloves/roguetown/knuckles/psydon
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon
 	name = "psydonic knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."
 	icon_state = "psyknuckle"
-	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/clothing/gloves/roguetown/knuckles/psydon/ComponentInitialize()
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
@@ -141,14 +140,14 @@
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/clothing/gloves/roguetown/knuckles/psydon/old
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/old
 	name = "enduring knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, its holy blessing long since faded. You are HIS weapon, you needn't fear Aeon."
 	icon_state = "opsyknuckle"
 	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/clothing/gloves/roguetown/knuckles/psydon/old/ComponentInitialize()
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/old/ComponentInitialize()
 	return
 
 /obj/item/clothing/gloves/roguetown/knuckles/decrepit

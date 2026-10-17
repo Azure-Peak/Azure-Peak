@@ -1,5 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - qol: "Abyssorite vision quests now ignore punctuation (periods, commas) in the target phrase, so you can format it nicely."
-  - rscadd: "A certain omen may now have more effects."

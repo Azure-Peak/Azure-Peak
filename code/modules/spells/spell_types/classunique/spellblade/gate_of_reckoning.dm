@@ -6,8 +6,8 @@
 	desc = "Porta Iudicii - the Gate of Judgement. Summon two phantom spears that flank you in formation. \
 		For the next 12 seconds, each melee hit you land sends the phantom spears thrusting forward \
 		in a 3-wide line in the direction you face, striking all enemies caught in their path. \
-		Requires 7 momentum. 3 charges at 40 damage each. \
-		Overcharged at 10 momentum: 6 charges at 40 damage each. \
+		Requires 7 momentum. 3 charges at 32 damage each. \
+		Overcharged at 10 momentum: 6 charges at 32 damage each. \
 		Phantom strikes can be blocked by shields but cannot be parried."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "gate_of_reckoning"
@@ -33,7 +33,7 @@
 	spell_impact_intensity = SPELL_IMPACT_HIGH
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	var/phantom_damage = 40
+	var/phantom_damage = SPELL_DMG(40)
 	var/base_charges = 3
 	var/empowered_charges = 6
 	var/min_momentum = 7
@@ -122,7 +122,8 @@
 			arcyne_strike(user, victim, weapon, phantom_damage, BODY_ZONE_CHEST, BCLASS_STAB, \
 				spell_name = "Gate of Reckoning", \
 				skip_animation = TRUE, \
-				allow_shield_check = TRUE)
+				allow_shield_check = TRUE, \
+				SPELL_STRIKE_SCALING)
 
 /datum/action/cooldown/spell/gate_of_reckoning/proc/get_phalanx_line(turf/origin, facing)
 	// 3-wide perpendicular line one tile ahead of the user
@@ -165,7 +166,7 @@
 	var/datum/weakref/spell_ref
 	var/charges = 3
 	var/max_charges = 3
-	var/phantom_damage = 40
+	var/phantom_damage = SPELL_DMG(40)
 	var/obj/item/bound_weapon
 	var/list/spear_visuals = list()
 

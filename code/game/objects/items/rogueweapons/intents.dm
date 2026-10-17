@@ -368,9 +368,11 @@
 				chargedloop = new chargedloop(mastermob)
 
 /datum/intent/proc/on_charge_start() //what the fuck is going on here lol
-	if(mastermob.curplaying)
-		mastermob.curplaying.chargedloop.stop()
-		mastermob.curplaying = null
+	if(mastermob.curplaying && mastermob.curplaying != src)
+		mastermob.curplaying.on_mouse_up()
+	mastermob.curplaying = null
+	if(mob_light)
+		QDEL_NULL(mob_light)
 	if(chargedloop)
 		if(!istype(chargedloop, /datum/looping_sound))
 			chargedloop = new chargedloop(mastermob)
@@ -400,7 +402,7 @@
 	if(mastermob?.curplaying == src)
 		mastermob?.curplaying = null
 	if(mob_light)
-		qdel(mob_light)
+		QDEL_NULL(mob_light)
 	if(mob_charge_effect)
 		mastermob?.vis_contents -= mob_charge_effect
 

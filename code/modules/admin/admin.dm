@@ -825,6 +825,24 @@
 		else
 			dat += "<A href='?src=[REF(src)];[HrefToken()];limitjobslot=[job.title]'>Limit</A></td>"
 
+	dat += "</table>"
+
+	// Subclass slot counts, grouped by their parent job
+	for(var/datum/job/job as anything in SSjob.occupations)
+		if(!length(job.job_subclasses))
+			continue
+		dat += "<br><b>[html_encode(job.title)] subclasses</b><table>"
+		for(var/adv_path in job.job_subclasses)
+			var/datum/advclass/adv_initial = adv_path
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(adv_initial.name))
+			if(!subclass)
+				continue
+			count++
+			dat += "<tr><td>[html_encode(subclass.name)]:</td> <td>[subclass.total_slots_occupied]/[subclass.maximum_possible_slots < 0 ? " (unlimited)" : subclass.maximum_possible_slots]</td>"
+			dat += "<td><A href='?src=[REF(src)];[HrefToken()];setsubclassslot=[REF(subclass)]'>Set</A> | "
+			dat += "<A href='?src=[REF(src)];[HrefToken()];unlimitsubclassslot=[REF(subclass)]'>Unlimit</A></td></tr>"
+		dat += "</table>"
+
 	browser.height = min(100 + count * 20, 650)
 	browser.set_content(dat.Join())
 	browser.open()

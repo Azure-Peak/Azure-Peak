@@ -26,9 +26,9 @@
 	/// The category this hunt belongs to
 	var/datum/hunting_category/hunt_category
 	/// Total tracks to find before the animal spawns (this is always 1 higher than the number)
-	var/max_trail_depth = 6
+	var/max_trail_depth = 5
 	/// Min trail depth as set by skill bonus.
-	var/min_trail_depth = 4
+	var/min_trail_depth = 3
 	/// Category boosted by user.
 	var/datum/hunting_category/preferred_hunt
 	/// Hunting map influences
@@ -91,7 +91,10 @@
 		var/bonus = hunt_category?.preferred_areas[A.type]
 		if(bonus)
 			. += "<br><details><summary><span class='nicegreen'>Environmental Analysis</span></summary>"
-			. += span_info("The local terrain ([A.name]) increases discovery chances by <b>[bonus]%</b>.")
+			if(bonus > 0)
+				. += span_info("The local terrain ([A.name]) increases discovery chances by <b>[bonus]%</b>.")
+			else if (bonus < 0)
+				. += span_info("The local terrain ([A.name]) decreases discovery chances by <b>[abs(bonus)]%</b>.")
 			. += "</details>"
 
 /obj/effect/hunting_track/attack_right(mob/user)
