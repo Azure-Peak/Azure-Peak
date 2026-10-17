@@ -1,3 +1,47 @@
+/mob/living/carbon/human
+	var/mob/living/carbon/human/pickpocket_target
+	var/obj/item/pickpocket_storage_item
+
+/mob/living/carbon/human/proc/unregister_pickpocket_storage()
+	if(pickpocket_target)
+		UnregisterSignal(pickpocket_target, COMSIG_MOVABLE_MOVED)
+	if(pickpocket_storage_item)
+		UnregisterSignal(pickpocket_storage_item, COMSIG_ATOM_EXITED)
+		UnregisterSignal(pickpocket_storage_item, COMSIG_STORAGE_CLOSED)
+	pickpocket_target = null
+	pickpocket_storage_item = null
+
+/mob/living/carbon/human/proc/close_pickpocket_storage_move(atom/movable/mover, atom/oldloc, direction, forced)
+	SIGNAL_HANDLER
+	if(mover != pickpocket_target)
+		return
+	var/obj/item/storage_item = pickpocket_storage_item
+	unregister_pickpocket_storage()
+	if(active_storage && active_storage.parent == storage_item)
+		active_storage.close(src)
+
+/mob/living/carbon/human/proc/close_pickpocket_storage_item(datum/source, atom/movable/item, atom/newloc)
+	SIGNAL_HANDLER
+	if(source != pickpocket_storage_item)
+		return
+
+	var/mob/living/carbon/human/victim = pickpocket_target
+	if(victim.client && victim.stat != DEAD)
+		SEND_SIGNAL(src, COMSIG_ITEM_STOLEN, victim)
+		record_featured_stat(FEATURED_STATS_THIEVES, src)
+		record_featured_stat(FEATURED_STATS_CRIMINALS, src)
+		GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
+
+	unregister_pickpocket_storage()
+	if(active_storage && active_storage.parent == source)
+		active_storage.close(src)
+
+/mob/living/carbon/human/proc/close_pickpocket_storage_closed(datum/source, mob/closer)
+	SIGNAL_HANDLER
+	if(closer != src || source != pickpocket_storage_item)
+		return
+	unregister_pickpocket_storage()
+
 /mob/living/carbon/human/proc/attempt_steal(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(target == src)
 		return
@@ -20,7 +64,7 @@
 		if(do_after(user, steal_timer, target = target_human, progress = 0))
 			if(!user.Adjacent(target))
 				return to_chat(user, span_warning("They moved away!"))
-			if(stealroll > targetperception)
+			if(stealroll >= targetperception)
 				if(target_human.cmode && target_human.stat == CONSCIOUS)
 					to_chat(user, span_warning("[target_human] is alert. I am not getting my chance against them."))
 					return
@@ -49,23 +93,46 @@
 								stealpos.Add(target_human.get_item_by_slot(SLOT_BELT_R))
 							if (target_human.get_item_by_slot(SLOT_BELT_L))
 								stealpos.Add(target_human.get_item_by_slot(SLOT_BELT_L))
+					if(user_human.cmode)
+						var/list/storage_items = list()
+						for(var/obj/item/storage_candidate as anything in stealpos)
+							if(storage_candidate.GetComponent(/datum/component/storage))
+								storage_items.Add(storage_candidate)
+						stealpos = storage_items
 					if(length(stealpos) > 0)
 						var/obj/item/picked = pick(stealpos)
-						target_human.dropItemToGround(picked)
-						user.put_in_active_hand(picked)
-						to_chat(user, span_green("I stole [picked]!"))
-						if(targetperception > 13)
-							to_chat(target_human, span_danger("[picked] is gone, how could this happen!"))
-						target_human.log_message("has had \the [picked] stolen by [key_name(user_human)]", LOG_ATTACK, color="white")
-						user_human.log_message("has stolen \the [picked] from [key_name(target_human)]", LOG_ATTACK, color="white")
-						if(target_human.client && target_human.stat != DEAD)
-							SEND_SIGNAL(user_human, COMSIG_ITEM_STOLEN, target_human)
-							record_featured_stat(FEATURED_STATS_THIEVES, user_human)
-							record_featured_stat(FEATURED_STATS_CRIMINALS, user_human)
-							GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
+						if(user_human.cmode)
+							user_human.unregister_pickpocket_storage()
+							SEND_SIGNAL(picked, COMSIG_TRY_STORAGE_SHOW, user_human)
+							user_human.pickpocket_target = target_human
+							user_human.pickpocket_storage_item = picked
+							RegisterSignal(target_human, COMSIG_MOVABLE_MOVED, PROC_REF(close_pickpocket_storage_move))
+							RegisterSignal(picked, COMSIG_ATOM_EXITED, PROC_REF(close_pickpocket_storage_item))
+							RegisterSignal(picked, COMSIG_STORAGE_CLOSED, PROC_REF(close_pickpocket_storage_closed))
+							to_chat(user, span_green("I rummage through [picked]!"))
+							if(targetperception > 14)
+								to_chat(target_human, span_danger("Someone rummaged through [picked] on me! How could this happen!"))
+							user_human.log_message("[key_name(target_human)]'s \the [picked] has been rummaged by [key_name(user_human)]", LOG_ATTACK, color="white")
+							target_human.log_message("[key_name(target_human)] had their \the [picked] rummaged by [key_name(user_human)]", LOG_ATTACK, color="white")
+						else
+							target_human.dropItemToGround(picked)
+							user.put_in_active_hand(picked)
+							to_chat(user, span_green("I stole [picked]!"))
+							if(targetperception > 13)
+								to_chat(target_human, span_danger("[picked] is gone, how could this happen!"))
+							target_human.log_message("has had \the [picked] stolen by [key_name(user_human)]", LOG_ATTACK, color="white")
+							user_human.log_message("has stolen \the [picked] from [key_name(target_human)]", LOG_ATTACK, color="white")
+							if(target_human.client && target_human.stat != DEAD)
+								SEND_SIGNAL(user_human, COMSIG_ITEM_STOLEN, target_human)
+								record_featured_stat(FEATURED_STATS_THIEVES, user_human)
+								record_featured_stat(FEATURED_STATS_CRIMINALS, user_human)
+								GLOB.azure_round_stats[STATS_ITEMS_PICKPOCKETED]++
 					else
 						exp_to_gain /= 2 // these can be removed or changed on reviewer's discretion
-						to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))
+						if(user_human.cmode)
+							to_chat(user, span_warning("They have no storage items here."))
+						else
+							to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))
 				else
 					to_chat(user, span_warning("They can see me!"))
 			if(stealroll <= 5)
