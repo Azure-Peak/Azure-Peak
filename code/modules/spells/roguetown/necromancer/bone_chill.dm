@@ -36,5 +36,5 @@
 	if(iscarbon(target))
 		target.apply_status_effect(/datum/status_effect/debuff/chilled)
 	else
-		target.adjustBruteLoss(20)
+		target.adjustBruteLoss(SPELL_DMG_VS(target, SPELL_DMG(20)))
 	return TRUE

@@ -22,7 +22,7 @@
 	name = "gravel shot"
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "stone"
-	damage = 26
+	damage = SPELL_DMG(26)
 	nodamage = FALSE
 	damage_type = BRUTE
 	woundclass = BCLASS_BLUNT
@@ -31,7 +31,8 @@
 	speed = MAGE_PROJ_SLOW
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	intdamfactor = SPELL_BLUNT_INT_DAMAGEFACTOR
+	intdamfactor = SPELL_INTDAM(SPELL_BLUNT_INT_DAMAGEFACTOR)
+	spell_damage_scaled = TRUE
 	object_damage_multiplier = 2
 	hitsound = 'sound/combat/hits/onstone/wallhit.ogg'
 	ricochets_max = 2
@@ -41,11 +42,11 @@
 	ricochet_incidence_leeway = 40
 	ricochet_decay_chance = 1
 	ricochet_decay_damage = 1
-	var/reduced_damage = 11
+	var/reduced_damage = SPELL_DMG(11)
 
 /obj/projectile/magic/gravel_blast/arc
 	name = "arced gravel shot"
-	damage = 20
+	damage = SPELL_DMG(20)
 	arcshot = TRUE
 
 /obj/projectile/magic/gravel_blast/prehit(atom/target)
@@ -89,7 +90,7 @@
 	anchored = TRUE
 	var/datum/weakref/caster_ref
 	var/fragment_count = 3
-	var/fragment_damage = 15
+	var/fragment_damage = SPELL_DMG(15)
 
 /obj/structure/earthen_pillar/Destroy()
 	caster_ref = null

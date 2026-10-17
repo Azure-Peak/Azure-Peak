@@ -54,7 +54,6 @@
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/mossback
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
-	melee_cooldown = MOSSBACK_ATTACK_SPEED
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mossback/Initialize(mapload, mob/user, townercrab = FALSE)
 	. = ..()

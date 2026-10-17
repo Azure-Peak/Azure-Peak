@@ -22,7 +22,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
+	charge_swingdelay_type = SWINGDELAY_NORMAL
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'

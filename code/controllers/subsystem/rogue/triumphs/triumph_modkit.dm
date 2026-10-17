@@ -1194,3 +1194,23 @@
 	desc = "A brigandine cuirass covered with an additional layer of plate armor. </br><i>'Henry's \
 	come to see us!'</i>"
 	icon_state = "heavybrig"
+
+/obj/item/enchantingkit/triumph_armorkini_steel
+	name = "'Steel Full Plate Corslet' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of a Steel Cuirass, a Steel Halfplate, a set of Steel Plate Armor, or a set of Fluted Plate Armor."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/full					= /obj/item/clothing/suit/roguetown/armor/plate/full/corslet,
+		)
+	result_item = null
+	exact_type = TRUE
+	custom_name = TRUE
+
+/obj/item/enchantingkit/triumph_armorkini_iron
+	name = "'Iron Full Plate Corslet' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can restore the original appearance of an Iron Plate Armor."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/full/iron					= /obj/item/clothing/suit/roguetown/armor/plate/full/iron/corslet,
+		)
+	result_item = null
+	custom_name = TRUE
+

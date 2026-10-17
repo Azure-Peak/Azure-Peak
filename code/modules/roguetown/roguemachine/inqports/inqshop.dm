@@ -281,7 +281,7 @@
 
 /obj/structure/closet/crate/chest/inqreliquary/relic/psyarmor/Initialize(mapload)
 	. = ..()
-	new /obj/item/clothing/head/roguetown/helmet/heavy/ordinatorhelm(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/ordinator(src)
 	new /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator(src)
 	new /obj/item/clothing/wrists/roguetown/bracers/psythorns(src)
 	new /obj/item/clothing/head/roguetown/helmet/blacksteel/psychains(src)
@@ -372,7 +372,7 @@
 
 /datum/inqports/equipment/silverstake
 	name = "1 Silver-Tipped Stake"
-	item_type = /obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/preblessed
+	item_type = /obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/psy/preblessed
 	maximum = 5
 	marquescost = 8
 
@@ -534,12 +534,12 @@
 
 /obj/structure/closet/crate/chest/inqcrate/equipment/psydonhelms/Initialize(mapload)
 	. = ..()
-	new /obj/item/clothing/head/roguetown/helmet/heavy/psydonbarbute(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/psysallet(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/psybucket(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/psydonic(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/absolver/unblessed(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/barbute(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/sallet(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/absolver/unblessed(src)
 
 /datum/inqports/wardrobe/fencerset
 	name = "The 'Otavan Fencer's Padded Wardrobe' Crate"

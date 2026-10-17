@@ -830,19 +830,16 @@
 	icon_state = "elfsdagger"
 	sheathe_icon = "elfdagger"
 
-/obj/item/rogueweapon/huntingknife/idagger/silver
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver
 	name = "silver dagger"
 	desc = "A dagger of pure silver; the bane of vampyres, verevolves, deadites, and all other unsaintly nitecreechers. Errant light transforms into a blinding glare, when cast along the blade's edge."
 	icon_state = "sildagger"
 	sheathe_icon = "sildagger"
-	force = 20
-	wdefense = 3
 	smeltresult = /obj/item/ingot/silver
 	last_used = 0
 	is_silver = TRUE
-	max_integrity = 150
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
@@ -888,7 +885,7 @@
 	. += span_info("Driving a stake through the heart of an incapacitated revenant is one of the few ways to put them down for the week. Sharper stakes, and ones made of silver, are better at this.")
 	. += span_info("Staking also works to kill many other types of undead - generally, anyone you can't kill with bloodloss can be staked.")
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake
 	name = "silver-tipped stake"
 	desc = "A branch that has been broken off of a boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
 	icon_state = "heavystake_silver"
@@ -900,12 +897,11 @@
 	slot_flags = ITEM_SLOT_HIP
 	smeltresult = /obj/item/rogueore/coal
 	last_used = 0
-	is_silver = TRUE
 	equip_delay_self = 0 //No delay when stowing away, without a scabbard.
 	unequip_delay_self = 0 //No delay when drawing.
 	inv_storage_delay = 0 //No delay when retrieving from a storage slot.
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
@@ -913,10 +909,10 @@
 	)
 	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/preblessed
 	max_blade_int = 270
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_TENNITE,\
@@ -924,16 +920,16 @@
 	)
 	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/get_mechanics_examine(mob/user)
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Driving a stake through the heart of an incapacitated revenant is one of the few ways to put them down for the week. Sharper stakes, and ones made of silver, are better at this.")
 	. += span_info("Staking also works to kill many other types of undead - generally, anyone you can't kill with bloodloss can be staked.")
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/psy
 	name = "silver-tipped otavan stake"
 	desc = "A branch that has been broken off of an Otavan boswellia tree, sharpened to a fine point and tipped with blessed silver. It can lay most unholy creechers to rest, but only by piercing their hearts."
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
@@ -941,10 +937,10 @@
 	)
 	AddComponent(/datum/component/deaditeslayer, time = 5 SECONDS) // these r anti undead weapons so they get to be slightly better at it
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/preblessed
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/psy/preblessed
 	max_blade_int = 300
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/stake/psy/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -959,14 +955,14 @@
 	throwforce = 15
 	icon_state = "stake_otavan"
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/psy
 	name = "psydonic dagger"
 	desc = "An ornate dagger, plated in a ceremonial veneer of silver. The bane of vampyres and verevolves, in the hands of a faithful hunter."
 	icon_state = "psydagger"
 	sheathe_icon = "psydagger"
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -974,7 +970,7 @@
 	)
 	sellprice += 200
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger/heavy
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/psy/heavy
 	name = "psydonic misericorde"
 	desc = "A sanctified misericorde, purposemade for piercing the perverted plate of pestilent paladins. Rarely seen in Azuria, beyond the tasseted \
 	sheaths of Otava's most knightly delegates."
@@ -986,7 +982,7 @@
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/cut/heavy, /datum/intent/dagger/thrust/pick, /datum/intent/dagger/sucker_punch)
 	max_blade_int = 250
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/psydagger/heavy/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/psy/heavy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -1030,7 +1026,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/elvish
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/elvish
 	name = "elvish dagger"
 	desc = "A wave-bladed dagger of Elven design, whose silvered beauty is only rivaled by its deceptive lethality."
 	force = 22 //One of the rare silver-edged weapons that has a positive damage boost, due to it requiring both silver and gold to create.
@@ -1041,7 +1037,7 @@
 	wdefense = 6
 	max_integrity = 100
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/elvish/poopknife
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/elvish/poopknife
 	name = "thine majesty's nitesoil-cleaver"
 	desc = "A heraldric accompaniment to the chamberpot, and the most closely-guarded secret in all of Azuria. It is said that this once belonged to the Duke's eldest ancestor, who - in a fit of constipatory labor - had unwittingly realized another use for their wave-bladed trophy. Clinging to its silvered edge is a thin layer of otherworldly ash, refusing to yield to neither soap-nor-rag."
 	force = 15 //On the FIRST ROUND this was added, someone managed to kill the Vampire Lord with the Poop Knife. Reducing the force
@@ -1189,53 +1185,38 @@
 	desc = "A sliver of polished gilbranze, delicately carved into a throwing dagger. A favorite amongst Zizo's undying cabal, and especially amongst Her assassins; what better-a-tool to slip through another's neck? </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
 	icon_state = "throw_knifea"
 
-/obj/item/rogueweapon/huntingknife/throwingknife/silver
+/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver
 	name = "silver tossblade"
 	desc = "A relative to the silver dagger; thinner, flimsier, but capable of being thrown with exceptional accuracy. Seasoned pursuers of unholy creechers oft-keep one hidden on themselves, just in case. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
-	item_state = "bone_dagger"
-	force = 10
-	throwforce = 28
-	armor_penetration = PEN_MEDIUM
-	max_integrity = 100
 	icon_state = "throw_knifesil"
-	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
 	is_silver = TRUE
 
-/obj/item/rogueweapon/huntingknife/throwingknife/silver/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/huntingknife/throwingknife/silver/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_TENNITE,\
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/huntingknife/throwingknife/psydon
+/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy
 	name = "psydonic tossblade"
 	desc = "An unconventional method of delivering silver to a heretic; but one PSYDON smiles at, all the same. Doubles as an actual knife in a pinch, though obviously not as well. </br>This dagger can be stowed away inside a pair of boots, permitting it to be quickly drawn when needed."
-	item_state = "bone_dagger"
-	force = 10
-	throwforce = 28
-	armor_penetration = PEN_MEDIUM
-	max_integrity = 100
-	icon_state = "throw_knifep"
-	embedding = list("embedded_pain_multiplier" = 4, "embed_chance" = 30, "embedded_fall_chance" = 5)
-	is_silver = TRUE
-	sellprice = 6
 
-/obj/item/rogueweapon/huntingknife/throwingknife/psydon/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/huntingknife/throwingknife/psydon/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
