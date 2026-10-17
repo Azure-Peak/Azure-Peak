@@ -401,6 +401,14 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ADD_TRAIT(H, TRAIT_NITEVISION, TRAIT_GENERIC)
 	H.update_sight()
 
+// need to do this here so the hud and fov objects actually exist
+/datum/charflaw/noeyeall/apply_post_equipment(mob/user)
+	. = ..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	H.update_cone_show()
+
 /datum/charflaw/colorblind
 	name = "Colorblind"
 	desc = "I was cursed with flawed eyesight from birth, and can't discern things others can. Incompatible with Night-eyed virtue."
