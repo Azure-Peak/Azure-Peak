@@ -131,7 +131,7 @@
 					else
 						exp_to_gain /= 2 // these can be removed or changed on reviewer's discretion
 						if(user_human.cmode)
-							to_chat(user, span_warning("They have no storage items here"))
+							to_chat(user, span_warning("They have no storage items here."))
 						else
 							to_chat(user, span_warning("I didn't find anything there. Perhaps I should look elsewhere."))
 				else
