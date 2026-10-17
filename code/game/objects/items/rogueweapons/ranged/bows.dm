@@ -75,23 +75,39 @@
 
 /datum/special_intent/bow_prime
 	name = "Primed Shot"
-	desc = "Steady your aim. Your next shot within 15 seconds will be empowered. If you don't loose an arrow in time, the strain still tires you out."
-	cooldown = 15 SECONDS
-	stamcost = 15
+	desc = "Steady your aim. Your next shot will be empowered against certain simple-minded targets. If you don't loose an arrow in time, the strain still tires you out."
+	cooldown = 29 SECONDS
+	custom_skill = /datum/skill/combat/bows
+	stamcost = 10
 
 // We bypass the entire grid/delay pipeline.
 /datum/special_intent/bow_prime/process_attack()
 	SHOULD_CALL_PARENT(FALSE)
 	if(!howner)
 		return
-	howner.apply_status_effect(/datum/status_effect/buff/bow_special_primed)
-	//apply_cooldown()
+	var/base_cd = cooldown
+	var/bow_skill = howner.get_skill_level(custom_skill)
+	var/hunt_skill = howner.get_skill_level(/datum/skill/misc/hunting)
+
+	var/bow_reduction = bow_skill * 1 SECONDS
+	var/hunt_reduction = hunt_skill * 1.5 SECONDS
+	var/max_reduction = max(bow_reduction, hunt_reduction)
+
+	var/final_cd = round(max(10 SECONDS, base_cd - max_reduction), 0.1)
+
+	howner.apply_status_effect(/datum/status_effect/buff/bow_special_primed, final_cd)
 
 /datum/status_effect/buff/bow_special_primed
 	id = "bow_special_primed"
 	duration = 15 SECONDS
 	status_type = STATUS_EFFECT_UNIQUE
 	alert_type = /atom/movable/screen/alert/status_effect/buff/bow_special_primed
+	var/stored_cooldown = 20 SECONDS
+
+/datum/status_effect/buff/bow_special_primed/on_creation(mob/living/new_owner, custom_cd)
+    if(!isnull(custom_cd))
+        stored_cooldown = custom_cd
+    . = ..()
 
 /atom/movable/screen/alert/status_effect/buff/bow_special_primed
 	name = "Shot Primed"
@@ -102,13 +118,18 @@
 /datum/status_effect/buff/bow_special_primed/on_remove()
 	. = ..()
 	if(owner && !owner.has_status_effect(/datum/status_effect/debuff/bow_special_cd))
-		owner.apply_status_effect(/datum/status_effect/debuff/bow_special_cd)
+		owner.apply_status_effect(/datum/status_effect/debuff/bow_special_cd, stored_cooldown)
 
 /datum/status_effect/debuff/bow_special_cd
 	id = "bow_special_cd"
-	duration = 15 SECONDS
+	duration = 29 SECONDS
 	status_type = STATUS_EFFECT_UNIQUE
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/bow_special_cd
+
+/datum/status_effect/debuff/bow_special_cd/on_creation(mob/living/new_owner, custom_duration)
+    if(!isnull(custom_duration))
+        duration = custom_duration
+    . = ..()
 
 /atom/movable/screen/alert/status_effect/debuff/bow_special_cd
 	name = "Shot Special Cooldown"
@@ -180,6 +201,10 @@
 	. += span_info("When I shoot a target too close or too far away, I will only hit the chest.")
 	. += span_info("Bows with a heavy draw, such as longbows, have an increased draw time for characters with low <b>STRENGTH</b>.")
 	. += span_info("Nocking straight from a quiver requires my other hand to be free.")
+	. += span_info("Using special intent with mmb or right clicking with strong intent will prime an empowered shot.")
+	. += span_info("Most mindless mobs take more damage from empowered shots unless they are particularly tough.")
+	. += span_info("Empowered shots benefit from hunting skill and inherit a small amount of projectile damage.")
+	. += span_info("Empowered shots cool down faster with higher ranged/hunting skills.")
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/Initialize(mapload)
 	. = ..()
@@ -289,6 +314,7 @@
 		BB.damage *= damfactor * get_per_damage_scaling(user)
 		if(primed)
 			BB.bow_smite_modifier = BB.damage
+			BB.bow_smite_base_damage = bow_smite_base_damage
 			BB.hunting_skill = user.get_skill_level(/datum/skill/misc/hunting)
 	. = ..()
 	if(.)

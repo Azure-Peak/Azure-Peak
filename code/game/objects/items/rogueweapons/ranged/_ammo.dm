@@ -54,6 +54,8 @@
 	var/bow_smite_modifier
 	/// Hunting skill from the person that just fired this projectile with a bow special
 	var/hunting_skill
+	/// Base damage from smites inherited by the bow used
+	var/bow_smite_base_damage = 40
 
 //handles the infliction of special effects upon projectile impact, such as silver-blighting
 /obj/projectile/proc/do_special_projectile_effect(firer, obj/item/bodypart/affecting, mob/living/victim, selzone)
@@ -68,7 +70,7 @@
 		victim.ignite_mob()
 
 /obj/projectile/proc/get_bow_smite_damage(mob/living/target)
-	var/base_damage = 40
+	var/base_damage = bow_smite_base_damage
 	// 15% of the damage of the projectile is retained.
 	// This means stone arrows are less effective, but not by much as to reduce the sheer value of bonus stacking.
 	var/projectile_flat_bonus = round(damage * 0.15)
@@ -83,7 +85,7 @@
 
 	// Grab the smite multiplication modifier from the mob itself.
 	// If unset, simply don't increase the base damage.
-	// 50% extra damage taken by default
+	// 60% extra damage taken by default
 	var/damage_modifier
 	if(!target.bow_smite_effective_modifier)
 		damage_modifier = 1

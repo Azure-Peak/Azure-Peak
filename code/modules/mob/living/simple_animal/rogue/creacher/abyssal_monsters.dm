@@ -16,6 +16,7 @@
 
 	health = MINOR_DREAMFIEND_HEALTH
 	maxHealth = MINOR_DREAMFIEND_HEALTH
+	bow_smite_effective_modifier = 2
 	melee_damage_lower = 25
 	melee_damage_upper = 40
 

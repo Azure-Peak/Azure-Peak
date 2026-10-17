@@ -39,6 +39,8 @@
 	var/special = null
 	/// Skill associated with using this ranged weapon.
 	var/ranged_skill = null
+	/// Base damage of any bow smites
+	var/bow_smite_base_damage = 40
 
 /obj/item/gun/Initialize()
 	. = ..()
