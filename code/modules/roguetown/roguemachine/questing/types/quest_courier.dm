@@ -35,6 +35,8 @@
 	var/static/list/area_delivery_items = list(
 		/area/rogue/indoors/town/tavern = list(
 			/obj/item/cooking/pan,
+			/obj/item/rogueweapon/huntingknife/chefknife,
+			/obj/item/reagent_containers/glass/bucket,
 			// ration papers! always good to have extra.
 			/obj/item/ration,
 			/obj/item/reagent_containers/food/snacks/rogue/cheddar,
@@ -59,6 +61,7 @@
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum,
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/baijiu,
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine // hehehe
+
 		),
 		/area/rogue/indoors/town/bath = list(
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian,
