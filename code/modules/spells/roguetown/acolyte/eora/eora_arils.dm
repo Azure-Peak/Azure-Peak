@@ -56,7 +56,7 @@
 	//Instant heal, but you can only eat a couple before the next will make you pass out.
 	var/list/wCount = eater.get_wounds()
 	//No undead because they kinda don't have blood to give for this.
-	if(!HAS_TRAIT(eater, TRAIT_IRONMAN) && !(eater.mob_biotypes & MOB_UNDEAD))
+	if(!(IS_ARTIFICIAL(eater)) && !(eater.mob_biotypes & MOB_UNDEAD))
 		var/current_brute_loss = eater.getBruteLoss()
 		blood_loss += (eater.blood_volume * 0.06)
 		if(wCount.len > 0)
@@ -86,7 +86,7 @@
 	//Instant heal, but you can only eat a couple before the next will make you pass out.
 	var/list/wCount = eater.get_wounds()
 	//No undead because they kinda don't have blood to give for this.
-	if(!HAS_TRAIT(user, TRAIT_IRONMAN) && !(user.mob_biotypes & MOB_UNDEAD))
+	if(!(IS_ARTIFICIAL(user)) && !(user.mob_biotypes & MOB_UNDEAD))
 		var/current_brute_loss = eater.getBruteLoss()
 		blood_loss += (user.blood_volume * 0.08)
 		if(wCount.len > 0)

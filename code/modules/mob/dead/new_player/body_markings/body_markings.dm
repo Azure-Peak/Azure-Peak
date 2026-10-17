@@ -4,6 +4,8 @@
 /datum/body_marking
 	///The icon file the body markign is located in
 	var/icon
+	///The icon file holding the "_f" half when a gendered marking's states live in one sheet per build. Null keeps both halves in icon.
+	var/icon_f
 	///The icon_state of the body marking
 	var/icon_state
 	///The preview name of the body marking. NEEDS A UNIQUE NAME

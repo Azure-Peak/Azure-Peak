@@ -94,6 +94,18 @@
 	icon_state = "stomach-con"
 	desc = "The seat of a construct's soul, where a stomach would go. Wisps of lux cycle about, impossible to grab."
 
+/obj/item/organ/stomach/floran
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "stomach_plant"
+
+/obj/item/organ/stomach/myconid
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "stomach_myco"
+
+/obj/item/organ/stomach/construct/ent
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "stomach_ent"
+
 /obj/item/organ/stomach/ethereal
 	name = "biological battery"
 	icon_state = "stomach-p" //Welp. At least it's more unique in functionaliy.

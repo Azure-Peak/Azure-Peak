@@ -48,6 +48,13 @@
 		return
 	if(clothing_parent.adjustable != CAN_CADJUST)
 		return
+	// Myconids cannot right-click-adjust INTO a state that would cover their crowned head;
+	// adjusting coverage away from it (pulling a coif down to the neck) stays allowed.
+	if(is_species(human_wearer, /datum/species/floran/myconid))
+		var/would_cover_head = toggled_open ? (clothing_parent.body_parts_covered & HEAD) : (flags_open & HEAD)
+		if(would_cover_head)
+			to_chat(human_wearer, span_warning("I cannot pull this over my head - my crown is already there."))
+			return
 	if(toggled_open)	//We're open, so we'll close
 		toggle_closed(clothing_parent)
 	else

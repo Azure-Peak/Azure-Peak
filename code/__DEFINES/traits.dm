@@ -98,6 +98,7 @@
 #define TRAIT_EASYDISMEMBER	"Easy Dismemberment"
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
 #define TRAIT_EASYDECAPITATION "Easy Decapitation" //Standing decaps + easier delimbs even for players
+#define TRAIT_BONELESS	"Boneless" //No bones: fractures/dislocations melt the limb instead of applying, dropped limbs dissolve
 #define TRAIT_NOPAIN	"Painless" //Notably does not function w/ silver weakness while sundered, we have an exclusion if we have TRAIT_LYCANRESILENCE
 #define TRAIT_NOPAINSTUN	"Enduring" //Notably does not function w/ silver weakness while sundered, we have an exclusion if we have TRAIT_LYCANRESILENCE
 #define TRAIT_NOBREATH	"Breathless"
@@ -113,6 +114,8 @@
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //shrug off a certain number of crits.
 
 #define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
+#define TRAIT_ENTCORE "Ent Core" // ent artificial body: mimics TRAIT_IRONMAN's physiology, but none of the construct upkeep (no repairs, no mineral consuming, no mining, no shock weakness)
+#define IS_ARTIFICIAL(target) (HAS_TRAIT(target, TRAIT_IRONMAN) || HAS_TRAIT(target, TRAIT_ENTCORE))
 
 //Near the above, this makes you silver weak + while-sundered ignore paincrit traits, define another w/ TRAIT_LYCANRESILENCE if you need another silver weak, stun immune exemption that still burns from silver.
 #define TRAIT_SILVER_WEAK "Silver Weakness"
@@ -659,7 +662,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ROTMAN = span_necrosis("I am partially undead. My heart does not beat."),
 	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance, regardless of my equipment. I am stiff and unthinking, my trait-defining techniques and smarts in lyfe will not always follow me into this undeath, I cannot benefit from woodwalker or falling immunity. <b>My wounds and injuries will passively regenerate away as long as I am not set ablaze.</b>"),
 	TRAIT_IRONMAN = span_info("I am an artificial being with a physiology unlike that of organics and react very little to physical trauma. Minerals, gems and ingots restore my structure, but electrocution is especially fatal to me. When critically damaged, I can be stabilized through sticks or rocks, but I will rapidly decay otherwise if not repaired in time. I can process certain materials on the go, and with empty hands, Combat Mode active, and a STRONG stance, I can mine mineral walls and topple trees by bumping into them."),
+	TRAIT_ENTCORE = span_info("I am more akin to constucts than living creatures. Miracles and most potions do not heal me, instead i need to gather strenght from earth itself"),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
+	TRAIT_BONELESS = span_info("I have no bones to break. Fractures and dislocations melt the afflicted limb away instead; lost limbs similarly melt off."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),
 	TRAIT_NOPAIN = span_info("I feel no pain. I can endure more burns before collapsing."),
 	TRAIT_NOPAINSTUN = span_info("Pain does not impair me. I can endure more burns before collapsing."),
@@ -728,6 +733,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_CURSE_BAOTHA = span_warning("I am forsaken by the Heartbreaker. I am drowning in her promises."),
 	TRAIT_JACKOFALLTRADES = span_notice("Skills cost half as much for me to raise."),
 	TRAIT_BLOODLOSS_IMMUNE = span_notice("While I may bleed, I will feel nothing from it."),
+	TRAIT_BLOODLOSS_NODEATH = span_notice("I bleed and feel every drop of it, but emptying my veins will never bring me down."),
 	TRAIT_ASTRATAN_AFFINITY = span_bone("My bond with Astrata is strong. I can tell who worships her from up close."),
 	TRAIT_ADRENALINE_RUSH = span_notice("I'm invigorated in the midst of battle! I don't feel my wounds!"),
 	TRAIT_MEDICINE_EXPERT = span_greentext("I've deep, intricate knowledge of the medicinal arts. This skill can progress to Master and Legendary levels."),
@@ -941,6 +947,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_DRUQK				"druqk"
 #define TRAIT_BURIED_COIN_GIVEN "buried_coin_given" // prevents a human corpse from being used for a corpse multiple times
 #define TRAIT_BLOODLOSS_IMMUNE "bloodloss_immune" // can bleed, but will never die from blood loss
+#define TRAIT_BLOODLOSS_NODEATH "bloodloss_nodeath" // bleeds normally, feels every bit of it, but blood loss can never collapse or kill
 #define TRAIT_NO_BITE "no_bite" //prevents biting
 #define TRAIT_LEGENDARY_ALCHEMIST		"Expert Herb Finder"
 /// Used to track if a player has rejected vampire convert
@@ -967,6 +974,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NO_TELEPORT		"no-teleport" //you just can't
 
 //quirk traits
+#define TRAIT_ALCOHOL_INTOLERANCE "alcohol_intolerance" // alcohol poisons them: toxin damage while it metabolizes
 #define TRAIT_AGEUSIA			"ageusia"
 #define TRAIT_HEAVY_SLEEPER		"heavy_sleeper"
 #define TRAIT_NIGHT_VISION		"night_vision"

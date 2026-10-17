@@ -158,7 +158,7 @@
 			continue
 		if(bp && istype(bp , /obj/item/clothing))
 			var/obj/item/clothing/C = bp
-			if(zone2covered(BODY_ZONE_HEAD, C.body_parts_covered))
+			if(zone2covered(BODY_ZONE_HEAD, effective_worn_coverage(C, C.body_parts_covered)))
 				coverhead = TRUE
 	if(locations & HEAD)
 		// An exception for Abyssorites, since otherwise they gain stress in rain when they shouldn't.

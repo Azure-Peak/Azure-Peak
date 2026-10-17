@@ -47,7 +47,7 @@
 	return ..()
 
 /datum/status_effect/buff/divine_rebirth_healing/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(owner))
 		return
 	var/time_progress = (duration - time_left) / duration
 	time_left -= tick_interval
@@ -127,7 +127,7 @@
 	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_strength, src)
 
 /datum/status_effect/buff/pestra_care/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(owner))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = effect_colour

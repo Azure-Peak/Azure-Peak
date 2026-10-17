@@ -274,8 +274,9 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 					if(C.armor)
 						if(C.armor.slash == 0 && C.armor.stab == 0 && C.armor.blunt == 0 && C.armor.piercing == 0)	//No armor but there's an armor datum. Useless for Assess, so we skip it.
 							continue
-					if(C.body_parts_covered_dynamic)
-						readable_coverage = body_parts_covered2organ_names(C.body_parts_covered_dynamic, verbose = TRUE)
+					var/effective_coverage = effective_worn_coverage(C, C.body_parts_covered_dynamic)
+					if(effective_coverage)
+						readable_coverage = body_parts_covered2organ_names(effective_coverage, verbose = TRUE)
 					for(var/coverageflag in readable_coverage)
 						for(var/type in damtypes)
 							switch(type)			//We get the max armor	values for this coverage flag

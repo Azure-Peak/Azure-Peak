@@ -260,3 +260,50 @@
 	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
 	icon_state = "lamphat2"
+
+/obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm
+	name = "myconid crown"
+	desc = "Grown, not made. A tough cap of myconid flesh that shields the skull and refuses to be parted from its wearer."
+	icon_state = null
+	item_state = null
+	slot_flags = ITEM_SLOT_HEAD
+	flags_inv = null
+	dynamic_hair_suffix = null
+	attachment_component = null
+	experimental_inhand = FALSE
+	/// Fraction of max_integrity restored per completed *meditate cycle (the emote fires three).
+	var/repair_fraction = 0.35
+
+/obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CURSED_ITEM_TRAIT)
+
+/obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm/dropped(mob/user)
+	. = ..()
+	if(QDELETED(src))
+		return
+	qdel(src)
+
+/obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm/MiddleClick(mob/user)
+	return
+
+/obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm/equipped(mob/user, slot, initial)
+	. = ..()
+	if(slot == SLOT_HEAD && ishuman(user))
+		RegisterSignal(user, COMSIG_MOB_MEDITATED, PROC_REF(on_wearer_meditated), override = TRUE)
+
+/obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Repairable by completing a *meditate emote.")
+
+/obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm/proc/on_wearer_meditated(mob/living/carbon/human/user)
+	SIGNAL_HANDLER
+	if(!user || user.get_item_by_slot(SLOT_HEAD) != src)
+		return
+	if(obj_integrity >= max_integrity)
+		to_chat(user, span_notice("My cap is already whole."))
+		return
+	to_chat(user, span_notice("My cap knits itself whole again."))
+	obj_integrity = min(obj_integrity + (max_integrity * repair_fraction), max_integrity)
+	if(obj_broken)
+		obj_fix(full_repair = FALSE)

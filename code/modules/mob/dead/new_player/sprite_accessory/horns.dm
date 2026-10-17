@@ -305,3 +305,41 @@
 /datum/sprite_accessory/horns/goblin
 	name = "Goblin"
 	icon_state = "goblinhorns"
+
+// Floran petal crowns, drawn as-is from finished per-build states (relevant_layers = null);
+// the per-build half is picked in get_icon_state() the way markings pick theirs.
+/datum/sprite_accessory/horns/petals
+	abstract_type = /datum/sprite_accessory/horns/petals
+	icon = 'icons/mob/species/floran_male.dmi'
+	icon_f = 'icons/mob/species/floran_female.dmi'
+	relevant_layers = null
+	layer = BODY_FRONT_LAYER
+	color_key_name = "Petals"
+	default_colors = list("#FFFFFF")
+	gendered_variants = FALSE
+
+/datum/sprite_accessory/horns/petals/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+	var/mob/living/carbon/human/humie = owner
+	if(istype(humie))
+		return "[icon_state]_[humie.is_bulky_body() ? "m" : "f"]"
+	return icon_state
+
+/datum/sprite_accessory/horns/petals/flowery
+	name = "Flowery"
+	icon_state = "head_carni_flowery"
+	preview_states = list("head_carni_flowery_m")
+
+/datum/sprite_accessory/horns/petals/rose
+	name = "Rose"
+	icon_state = "head_carni_rose"
+	preview_states = list("head_carni_rose_m")
+
+/datum/sprite_accessory/horns/petals/lily
+	name = "Lily"
+	icon_state = "head_carni_lily"
+	preview_states = list("head_carni_lily_m")
+
+/datum/sprite_accessory/horns/petals/lily_ribs
+	name = "Lily Ribs"
+	icon_state = "head_carni_lily_ribs"
+	preview_states = list("head_carni_lily_ribs_m")

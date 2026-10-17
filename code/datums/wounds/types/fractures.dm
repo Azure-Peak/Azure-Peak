@@ -32,7 +32,7 @@
 
 //Slimes don't have bones, instead we'll make their limbs straight up dissolve if they take too much damage.
 /datum/wound/fracture/can_apply_to_bodypart(obj/item/bodypart/affected)
-	if(isooze(affected.owner))
+	if(affected.owner && HAS_TRAIT(affected.owner, TRAIT_BONELESS))
 		return FALSE
 	return ..()
 
@@ -357,7 +357,7 @@
 	var/mob/living/carbon/carbon_owner = owner
 	if(!carbon_owner.stat && prob(5))
 		carbon_owner.vomit(1, blood = TRUE, stun = TRUE)
-		if(HAS_TRAIT(carbon_owner, TRAIT_IRONMAN)) // oops, compensating the lack of blood vomit with this
+		if(IS_ARTIFICIAL(carbon_owner)) // oops, compensating the lack of blood vomit with this
 			carbon_owner.OffBalance(50)
 			carbon_owner.Jitter(50)
 			carbon_owner.Immobilize(50)

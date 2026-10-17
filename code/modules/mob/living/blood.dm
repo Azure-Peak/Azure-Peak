@@ -196,7 +196,7 @@
 				adjustOxyLoss(oxy_amt)
 				if(world.time >= last_gasp)
 					last_gasp = world.time + rand(3 SECONDS, 9 SECONDS)
-					if(ishuman(src))
+					if(ishuman(src) && !HAS_TRAIT(src, TRAIT_BLOODLOSS_NODEATH)) // ents feel the bloodloss, but never gasp out dying text
 						var/mob/living/carbon/human/H = src
 						H.deathgasp_noise() // wanton noise pollution, blame RYON >:(
 						if(H.mind && H.mind.key) // NPC filter

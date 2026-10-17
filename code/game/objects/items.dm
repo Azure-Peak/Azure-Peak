@@ -732,9 +732,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += C.defense_examine()
 			inspec += "<table align='center'; width='100%'; height='100%';border: 1px solid white;border-collapse: collapse><tr style='vertical-align:top'><td width = 35%>"
 			inspec += "<b>COVERAGE: <br></b>"
-			if(!C.body_parts_covered)
+			var/coverage_flags = C.body_parts_covered
+			if(ishuman(loc))
+				var/mob/living/carbon/human/wearer = loc
+				coverage_flags = wearer.effective_worn_coverage(C, coverage_flags)
+			if(!coverage_flags)
 				inspec += "<b>NONE!</b>"
-			var/list/zonelist = body_parts_covered2organ_names(C.body_parts_covered)
+			var/list/zonelist = list()
+			if(coverage_flags)
+				zonelist = body_parts_covered2organ_names(coverage_flags)
 			var/count = 0
 			for(var/zone in zonelist)
 				var/add_divider = TRUE

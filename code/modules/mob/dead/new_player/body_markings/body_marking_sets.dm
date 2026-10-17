@@ -120,3 +120,40 @@
 	name = "Lovers"
 	body_marking_list = list(/datum/body_marking/moth/lovers)
 
+
+// Every ent preset wears the Sticks growth on the limbs by default; the Heartwood
+// pieces sit on top of them.
+/datum/body_marking_set/ent_birch
+	name = "Birch"
+	body_marking_list = list(
+		/datum/body_marking/ent/chest/birch_mark,
+		/datum/body_marking/ent/limbs/birch,
+		/datum/body_marking/ent/limbs/sticks,
+		)
+
+/datum/body_marking_set/ent_oak
+	name = "Oak"
+	body_marking_list = list(
+		/datum/body_marking/ent/chest/oak_mark,
+		/datum/body_marking/ent/limbs/oak,
+		/datum/body_marking/ent/limbs/sticks,
+		)
+
+/datum/body_marking_set/ent_swamp
+	name = "Swamp"
+	body_marking_list = list(
+		/datum/body_marking/ent/chest/swamp_mark,
+		/datum/body_marking/ent/chest/swamp_over,
+		/datum/body_marking/ent/limbs/swamp,
+		/datum/body_marking/ent/limbs/sticks,
+		)
+
+/datum/body_marking_set/ent_bloom
+	name = "Bloom"
+	body_marking_list = list(
+		/datum/body_marking/ent/head/bloom,
+		/datum/body_marking/ent/chest/grass,
+		/datum/body_marking/ent/chest/petals_lower,
+		/datum/body_marking/ent/limbs/petals,
+		/datum/body_marking/ent/limbs/sticks,
+		)

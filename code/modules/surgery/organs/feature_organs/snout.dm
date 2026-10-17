@@ -15,6 +15,16 @@
 /obj/item/organ/snout/anthro
 	name = "wild-kin snout"
 
+/obj/item/organ/snout/ent
+	name = "ent veil"
+	/// Whether the veil hangs over the face. Veils start aside; the *veil emote draws one into place and pulls it aside again.
+	var/veil_worn = FALSE
+
+/obj/item/organ/snout/ent/get_cache_key()
+	. = ..()
+	if(!veil_worn)
+		. += "-veil-aside"
+
 /obj/item/organ/snout/lupian
 	name = "lupian snout"
 

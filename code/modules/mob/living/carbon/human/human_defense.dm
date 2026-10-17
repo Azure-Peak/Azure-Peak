@@ -798,6 +798,12 @@
 	for(var/obj/item/I as anything in torn_items)
 		I.take_damage(damage_amount, damage_type, damage_flag, 0)
 
+/// Worn clothing only covers a myconid's head if it is their own crown - coifs, hoods and helmets grant them no head coverage.
+/mob/living/carbon/human/proc/effective_worn_coverage(obj/item/clothing/C, coverage)
+	if((coverage & HEAD) && is_species(src, /datum/species/floran/myconid) && !istype(C, /obj/item/clothing/head/roguetown/helmet/leather/advanced/mycohelm))
+		coverage &= ~HEAD
+	return coverage
+
 /// Helper proc that returns the worn item ref that has the highest rating covering the def_zone (targeted zone) for the d_type (damage type)
 /mob/living/carbon/human/proc/get_best_worn_armor(def_zone, d_type)
 	var/protection = 0
@@ -816,7 +822,7 @@
 			continue
 		if(bp && istype(bp, /obj/item/clothing))
 			var/obj/item/clothing/C = bp
-			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+			if(zone2covered(def_zone, effective_worn_coverage(C, C.body_parts_covered_dynamic)))
 				if(C.max_integrity)
 					if(C.obj_integrity <= 0 || C.obj_broken)
 						continue
@@ -849,7 +855,7 @@
 			continue
 		if(bp && istype(bp, /obj/item/clothing))
 			var/obj/item/clothing/C = bp
-			if(zone2covered(def_zone, C.body_parts_covered_dynamic))
+			if(zone2covered(def_zone, effective_worn_coverage(C, C.body_parts_covered_dynamic)))
 				if(C.max_integrity)
 					if(C.obj_integrity <= 0 || C.obj_broken)
 						continue

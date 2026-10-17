@@ -98,7 +98,7 @@
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		spelltarget.emote("pain")
 
-	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(spelltarget))
 		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_blue("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
@@ -217,7 +217,7 @@
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		spelltarget.emote("pain")
 
-	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(spelltarget))
 		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_notice("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)

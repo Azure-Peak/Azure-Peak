@@ -224,6 +224,18 @@
 	desc = "The centre of thought for a construct. It crackles with knowledge... and something more sinister."
 	icon_state = "brain-con"
 
+/obj/item/organ/brain/floran
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "brain_plant"
+
+/obj/item/organ/brain/myconid
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "brain_myco"
+
+/obj/item/organ/brain/construct/ent
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "brain_ent"
+
 ////////////////////////////////////TRAUMAS////////////////////////////////////////
 
 /obj/item/organ/brain/proc/has_trauma_type(brain_trauma_type = /datum/brain_trauma, resilience = TRAUMA_RESILIENCE_ABSOLUTE)

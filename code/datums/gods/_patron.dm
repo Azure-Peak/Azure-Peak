@@ -48,6 +48,11 @@ GLOBAL_LIST_EMPTY(prayers)
 
 /datum/patron/proc/on_gain(mob/living/pious)
 	for(var/trait in mob_traits)
+		// Myconids cannot be Fallen: Baotha's debauchery mark is flesh, and they have no
+		// flesh of that kind to wear it.
+		if(trait == TRAIT_DEPRAVED && is_species(pious, /datum/species/floran/myconid))
+			REMOVE_TRAIT(pious, TRAIT_DEPRAVED, "[type]")
+			continue
 		ADD_TRAIT(pious, trait, "[type]")
 	if(HAS_TRAIT(pious, TRAIT_XYLIX))
 		pious.grant_language(/datum/language/tricksterscant)

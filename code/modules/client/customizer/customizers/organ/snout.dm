@@ -500,3 +500,20 @@
 	sprite_accessories = list(
 		/datum/sprite_accessory/snout/masked,
 		)
+
+// --- Ent Only
+/datum/customizer/organ/snout/ent_veil
+	customizer_choices = list(/datum/customizer_choice/organ/snout/ent_veil)
+	name = "Veil"
+	allows_disabling = TRUE
+	default_disabled = FALSE
+
+/datum/customizer_choice/organ/snout/ent_veil
+	name = "Veil"
+	organ_type = /obj/item/organ/snout/ent
+	sprite_accessories = list(
+		/datum/sprite_accessory/snout/ent_veil/hollow/birch,
+		/datum/sprite_accessory/snout/ent_veil/hollow/oak,
+		/datum/sprite_accessory/snout/ent_veil/hollow/swamp,
+		/datum/sprite_accessory/snout/ent_veil/shrike,
+		)

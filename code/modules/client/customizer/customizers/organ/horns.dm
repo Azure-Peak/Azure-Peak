@@ -316,3 +316,18 @@
 		/datum/sprite_accessory/horns/rmessenger,
 		/datum/sprite_accessory/horns/lmessenger
 		)
+
+/datum/customizer/organ/horns/petals
+	name = "Petals"
+	customizer_choices = list(/datum/customizer_choice/organ/horns/petals)
+	allows_disabling = TRUE
+
+/datum/customizer_choice/organ/horns/petals
+	name = "Petals"
+	organ_type = /obj/item/organ/horns
+	sprite_accessories = list(
+		/datum/sprite_accessory/horns/petals/flowery,
+		/datum/sprite_accessory/horns/petals/rose,
+		/datum/sprite_accessory/horns/petals/lily,
+		/datum/sprite_accessory/horns/petals/lily_ribs,
+		)

@@ -190,6 +190,8 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	var/use_skin_tone_wording_for_examine = TRUE
 	/// Bodyparts to override base ones.
 	var/list/bodypart_overrides = list()
+	/// When set, this species' private parts always render in this colour, whatever the customizer says.
+	var/forced_genital_color
 	/// List of organs this species has.
 	var/list/organs = list(
 		ORGAN_SLOT_BRAIN = /obj/item/organ/brain,
@@ -2169,11 +2171,11 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 							H.emote("painscream")
 						else
 							H.emote("pain")
-				if(damage_amount > (H.STACON * 3.5) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !HAS_TRAIT(H, TRAIT_IRONMAN)) //We want this effect only on heavy hits.
+				if(damage_amount > (H.STACON * 3.5) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !(IS_ARTIFICIAL(H))) //We want this effect only on heavy hits.
 					H.Immobilize(5) //The fastest you can swing a weapon is once each 0.6 seconds, anything higher than 0.5 Immob. opens the door for stunlocking (see: katar).
 					shake_camera(H, 2, 2)
 					H.stuttering += 5
-				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !HAS_TRAIT(H, TRAIT_IRONMAN) && !HAS_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN))
+				if(damage_amount > 10 && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && !(IS_ARTIFICIAL(H)) && !HAS_TRAIT(H, TRAIT_IGNOREDAMAGESLOWDOWN))
 					H.Slowdown(clamp(damage_amount/10, 1, 5))
 					shake_camera(H, 1, 1)
 				if(H.show_redflash())
@@ -2449,6 +2451,37 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	if(!T.wagging)
 		return
 	T.wagging = FALSE
+	H.update_body_parts(TRUE)
+
+//////////
+//Veil///
+//////////
+
+/datum/species/proc/can_toggle_veil(mob/living/carbon/human/H)
+	if(!H) //Somewhere in the core code we're getting those procs with H being null
+		return FALSE
+	var/obj/item/organ/snout/ent/veil = H.getorganslot(ORGAN_SLOT_SNOUT)
+	if(!istype(veil))
+		return FALSE
+	if(!veil.accessory_type)
+		return FALSE
+	return TRUE
+
+/datum/species/proc/is_veil_worn(mob/living/carbon/human/H)
+	if(!H)
+		return TRUE
+	var/obj/item/organ/snout/ent/veil = H.getorganslot(ORGAN_SLOT_SNOUT)
+	if(!istype(veil))
+		return TRUE
+	return veil.veil_worn
+
+/datum/species/proc/toggle_veil(mob/living/carbon/human/H)
+	if(!H)
+		return
+	var/obj/item/organ/snout/ent/veil = H.getorganslot(ORGAN_SLOT_SNOUT)
+	if(!istype(veil))
+		return
+	veil.veil_worn = !veil.veil_worn
 	H.update_body_parts(TRUE)
 
 ///////////////

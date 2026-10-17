@@ -654,11 +654,11 @@
 
 	if(user.cmode)
 		user.say(pick("RESPITE FOR THY WOUNDS!", "BLEED STANDING!", "I BLEED SO YOU MAY ENDURE!", "PERSIST AGAINST THE PAIN!","LET YOUR WOUNDS WEEP NO MORE!","THIS IS OUR TRIAL!"))
-		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+		if(IS_ARTIFICIAL(user))
 			user.electrocute_act(10, user)
 	else
 		user.say(pick("Psydon endures, so we must!","May your wounds weep no more!","Psydon provides respite for thy wounds!","I shall endure for you!","Allfather, let me bleed in their stead!"))
-		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+		if(IS_ARTIFICIAL(user))
 			user.adjustFireLoss(25)
 
 	// WOUND TRANSFER
@@ -701,7 +701,7 @@
 			if(!(c_BP in BPs_to_check))
 				LAZYADD(BPs_to_check, c_BP)
 
-		if((HAS_TRAIT(C_caster, TRAIT_NOPAIN) || HAS_TRAIT(C_caster, TRAIT_NOPAINSTUN)) && HAS_TRAIT(C_caster, TRAIT_BLOODLOSS_IMMUNE) && HAS_TRAIT(C_caster, TRAIT_IRONMAN))
+		if((HAS_TRAIT(C_caster, TRAIT_NOPAIN) || HAS_TRAIT(C_caster, TRAIT_NOPAINSTUN)) && HAS_TRAIT(C_caster, TRAIT_BLOODLOSS_IMMUNE) && (IS_ARTIFICIAL(C_caster)))
 			if(!(c_BP in BPs_to_check))
 				c_BP.receive_damage(targetwound.whp)
 				LAZYADD(BPs_to_check, c_BP)
@@ -904,11 +904,11 @@
 
 	if(user.cmode)
 		user.say(pick("BE ABSOLVED!","I'LL BLEED IN YOUR STEAD!","YOUR TIME IS NOT NOW!","I SHALL WEEP IN YOUR STEAD!","ENDURE, AS HE DOES!","PERSIST, AS HE DOES!"))
-		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+		if(IS_ARTIFICIAL(user))
 			user.electrocute_act(10, user)
 	else
 		user.say(pick("Live, as he does!","Be healed in His name!","May your injuries be mine to bear!","I absolve you of your wounds!","Be absolved!"))
-		if(HAS_TRAIT(user, TRAIT_IRONMAN))
+		if(IS_ARTIFICIAL(user))
 			user.adjustFireLoss(25)
 
 	// LIMB TRANSFER
@@ -922,7 +922,7 @@
 			var/obj/item/bodypart/cBP = C.get_bodypart(zone)
 			if(cBP)
 				cBP.dismember()
-				if(HAS_TRAIT(H, TRAIT_IRONMAN)) // im just assuming constructs can't use any other limbs than their own, so instead of delimbing, eat an integrity
+				if(IS_ARTIFICIAL(H)) // im just assuming constructs can't use any other limbs than their own, so instead of delimbing, eat an integrity
 					var/obj/item/bodypart/daChest = H.get_bodypart(BODY_ZONE_CHEST)
 					daChest.add_wound(/datum/wound/integrity/chest)
 				else
@@ -1025,7 +1025,7 @@
 /proc/translate_wound_for_target(datum/wound/W, mob/living/carbon/human/recipient)
 	if(!W || !recipient)
 		return null
-	var/is_construct = HAS_TRAIT(recipient, TRAIT_IRONMAN)
+	var/is_construct = (IS_ARTIFICIAL(recipient))
 	switch(W.type)
 		if(/datum/wound/artery)
 			return is_construct ? /datum/wound/integrity : W.type

@@ -80,7 +80,7 @@
 	var/healing_on_tick = 5
 
 /datum/status_effect/buff/rage_stamina/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(owner))
 		return
 	var/stamheal = healing_on_tick
 	owner.energy_add(stamheal)

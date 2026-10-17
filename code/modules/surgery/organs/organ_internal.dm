@@ -312,7 +312,7 @@
 
 	if(accessory_type)
 		var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(accessory_type)
-		var/list/appearances = accessory?.get_appearance(src, bodypart, accessory_colors)
+		var/list/appearances = accessory?.get_appearance(src, bodypart, get_render_accessory_colors(accessory))
 		if(!appearances)
 			return
 		for(var/standing in appearances)
@@ -332,8 +332,30 @@
 		bodypart_overlays(organ_overlay)
 		return organ_overlay
 
+/// The private-part slots a species may force the colour of (see /datum/species/forced_genital_color).
+/obj/item/organ/proc/forced_accessory_color()
+	var/datum/species/S = owner?.dna?.species
+	if(!S?.forced_genital_color)
+		return null
+	switch(slot)
+		if(ORGAN_SLOT_BREASTS, ORGAN_SLOT_PENIS, ORGAN_SLOT_VAGINA, ORGAN_SLOT_TESTICLES)
+			return S.forced_genital_color
+	return null
+
+/// The accessory colours this organ actually renders with: a colour forced by the species
+/// is repeated for every colour key, or the customizer's own colours are used as-is.
+/obj/item/organ/proc/get_render_accessory_colors(datum/sprite_accessory/accessory)
+	var/forced = forced_accessory_color()
+	if(!forced || !accessory)
+		return accessory_colors
+	var/list/forced_list = list()
+	for(var/i in 1 to accessory.color_keys)
+		forced_list += forced
+	return color_list_to_string(forced_list)
+
 /obj/item/organ/proc/get_cache_key()
-	return "[accessory_type]-[accessory_colors]-[bodypart_icon]-[bodypart_icon_state]-[color]-[bodypart_layer]"
+	var/datum/sprite_accessory/accessory = accessory_type ? SPRITE_ACCESSORY(accessory_type) : null
+	return "[accessory_type]-[get_render_accessory_colors(accessory)]-[bodypart_icon]-[bodypart_icon_state]-[color]-[bodypart_layer]"
 
 /// Proc to customize the base icon of the organ.
 /obj/item/organ/proc/bodypart_icon(mutable_appearance/standing)

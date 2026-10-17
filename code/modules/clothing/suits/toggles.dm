@@ -9,7 +9,13 @@
 /obj/item/clothing/attack_right(mob/user)
 	. = ..()
 	if(adjustable && loc == user)
-		AdjustClothes(user)
+		// Myconids cannot cycle an adjustment back INTO head coverage over their crown. Cycling
+		// coverage down stays allowed: only items that start head-covering and are currently in
+		// a non-head-covering state (one RMB away from resetting back up) are blocked.
+		if(is_species(user, /datum/species/floran/myconid) && !(body_parts_covered & HEAD) && (initial(body_parts_covered) & HEAD))
+			to_chat(user, span_warning("I cannot pull this over my head - my crown is already there."))
+		else
+			AdjustClothes(user)
 	if(hoodtype)
 		ToggleHood(user)
 

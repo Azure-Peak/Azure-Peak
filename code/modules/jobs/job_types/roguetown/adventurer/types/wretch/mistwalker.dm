@@ -2,7 +2,7 @@
 	name = "Mistwalker"
 	tutorial = "Hailing from Kazengun you were once a sacred guardian, dedicating your lyfe to protecting your chosen shrine of the twelve against brigands and fiends from beyond alike... now? Your sacred home has fallen, claimed by ruinous forces and you are banished to wander the realm. What will you find in your search for purpose?"
 	allowed_sexes = list(MALE, FEMALE)
-	forbidden_races = list(RACES_CONSTRUCT RACES_OOZE) //I did in fact regret letting them be revs
+	forbidden_races = list(RACES_CONSTRUCT RACES_OOZE RACES_GROVEKIN) //I did in fact regret letting them be revs
 	allowed_patrons = ALL_KAZENGUN_PATRONS //guardian of the twelve... and saidon but no undivided
 	outfit = /datum/outfit/job/roguetown/wretch/mistwalker
 	class_select_category = CLASS_CAT_WARRIOR

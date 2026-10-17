@@ -105,7 +105,7 @@
 		if(!do_after(user, 10 SECONDS))
 			return
 		SEND_SIGNAL(user, COMSIG_MOB_MEDITATED)
-	if(HAS_TRAIT(user, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(user))
 		var/mob/living/U = user
 		var/percent = U.max_energy * 0.3
 		user.add_stress(/datum/stressevent/meditation_ironman)
