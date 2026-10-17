@@ -951,6 +951,16 @@
 	verbage = "constructs"
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/structure/haybale
+	name = "hay bale"
+	category = "Misc"
+	result = /obj/structure/haybale
+	reqs = list(/obj/item/natural/chaff/wheat = 3,
+				/obj/item/natural/fibers = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/structure/chest
 	name = "chest"
 	category = "Containers"
