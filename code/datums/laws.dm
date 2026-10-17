@@ -71,7 +71,7 @@
 
 			var/mob/living/carbon/human/ruler = ui.user
 			var/ruler_title = ruler.get_role_title()
-			var/ruler_name = ruler.real_name
+			var/ruler_name = ruler.get_unmasked_name()
 
 			if(length(GLOB.laws_of_the_land))
 				var/list/law_lines = list()
