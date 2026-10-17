@@ -376,7 +376,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	add_verb(src, /client/proc/show_verbs)
 	init_verbs()
 
-	to_chat(src, span_interface("Most of your adminverbs have been hidden."))
+	to_chat(src, span_purple("Most of your adminverbs have been hidden."))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Hide Most Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
@@ -388,7 +388,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	add_verb(src, /client/proc/show_verbs)
 	init_verbs()
 
-	to_chat(src, span_interface("Almost all of your adminverbs have been hidden."))
+	to_chat(src, span_purple("Almost all of your adminverbs have been hidden."))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Hide All Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
@@ -399,7 +399,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	remove_verb(src, /client/proc/show_verbs)
 	add_admin_verbs()
 
-	to_chat(src, span_interface("All of your adminverbs are now visible."))
+	to_chat(src, span_purple("All of your adminverbs are now visible."))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Show Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/set_context_menu_enabled()
@@ -826,7 +826,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 	holder.deactivate()
 
-	to_chat(src, span_interface("I am now a normal player."))
+	to_chat(src, span_purple("I am now a normal player."))
 	hide_command_bar_button()
 	update_ooc_verb_visibility()
 	log_admin("[src] deadmined themself.")
@@ -853,7 +853,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	if (!holder)
 		return //This can happen if an admin attempts to vv themself into somebody elses's deadmin datum by getting ref via brute force
 
-	to_chat(src, span_interface("I am now an admin."))
+	to_chat(src, span_purple("I am now an admin."))
 	show_command_bar_button()
 	message_admins("[src] re-adminned themselves.")
 	log_admin("[src] re-adminned themselves.")
@@ -879,7 +879,7 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	if(!holder)
 		return
 	show_lobby_ooc = !show_lobby_ooc
-	to_chat(src, span_interface("Lobby OOC visibility is now [show_lobby_ooc ? "ON" : "OFF"]."))
+	to_chat(src, span_purple("Lobby OOC visibility is now [show_lobby_ooc ? "ON" : "OFF"]."))
 
 /client/proc/end_party()
 	set name = "EndPlaytest"
@@ -888,10 +888,10 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		return
 	if(!SSticker.end_party)
 		SSticker.end_party=TRUE
-		to_chat(src, span_interface("Ending enabled."))
+		to_chat(src, span_purple("Ending enabled."))
 	else
 		SSticker.end_party=FALSE
-		to_chat(src, span_interface("Ending DISABLED."))
+		to_chat(src, span_purple("Ending DISABLED."))
 
 /client/proc/delete_player_book()
 	set name = "Database Delete Player Book"
