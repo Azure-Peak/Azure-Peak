@@ -35,6 +35,15 @@
 
 	var/automatic = 0 //can gun use it, 0 is no, anything above 0 is the delay between clicks in ds
 	var/pb_knockback = 0
+	/// Bow special intent to use when activating.
+	var/special = null
+	/// Skill associated with using this ranged weapon.
+	var/ranged_skill = null
+
+/obj/item/gun/Initialize()
+	. = ..()
+	if(ispath(special))
+		special = new special()
 
 /obj/item/gun/Destroy()
 	if(chambered) //Not all guns are chambered (EMP'ed energy guns etc)

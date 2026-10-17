@@ -73,6 +73,58 @@
 				return newtime
 	return chargetime
 
+/datum/special_intent/bow_prime
+	name = "Primed Shot"
+	desc = "Steady your aim. Your next shot within 15 seconds will be empowered. If you don't loose an arrow in time, the strain still tires you out."
+	cooldown = 15 SECONDS
+	stamcost = 15
+
+// We bypass the entire grid/delay pipeline.
+/datum/special_intent/bow_prime/process_attack()
+	SHOULD_CALL_PARENT(FALSE)
+	if(!howner)
+		return
+	howner.apply_status_effect(/datum/status_effect/buff/bow_special_primed)
+	//apply_cooldown()
+
+/datum/status_effect/buff/bow_special_primed
+	id = "bow_special_primed"
+	duration = 15 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/buff/bow_special_primed
+
+/atom/movable/screen/alert/status_effect/buff/bow_special_primed
+	name = "Shot Primed"
+	desc = "I'm ready to unleash an empowered projectile."
+	icon = 'icons/mob/screenalerts/intent_alerts.dmi'
+	icon_state = "bow_primed"
+
+/datum/status_effect/buff/bow_special_primed/on_remove()
+	. = ..()
+	if(owner && !owner.has_status_effect(/datum/status_effect/debuff/bow_special_cd))
+		owner.apply_status_effect(/datum/status_effect/debuff/bow_special_cd)
+
+/datum/status_effect/debuff/bow_special_cd
+	id = "bow_special_cd"
+	duration = 15 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/bow_special_cd
+
+/atom/movable/screen/alert/status_effect/debuff/bow_special_cd
+	name = "Shot Special Cooldown"
+	desc = "I used it. I must wait."
+	icon = 'icons/mob/screenalerts/intent_alerts.dmi'
+	icon_state = "bowcd"
+
+/datum/special_intent/bow_prime/apply_cost(mob/living/L)
+	if(L.has_status_effect(/datum/status_effect/buff/bow_special_primed))
+		to_chat(L, span_warning("My aim is already steady!"))
+		return FALSE
+	if(L.has_status_effect(/datum/status_effect/debuff/bow_special_cd))
+		to_chat(L, span_warning("My arms are still recovering from the last draw!"))
+		return FALSE
+	return ..()
+
 //bow objs ฅ^•ﻌ•^ฅ
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow
@@ -113,6 +165,7 @@
 	per_scales_damage = TRUE
 	early_release_acc_penalty = BOW_EARLY_RELEASE_ACC_PENALTY
 	early_release_embed_mult = BOW_EARLY_RELEASE_EMBED_MULT
+	special = /datum/special_intent/bow_prime
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/can_quick_load(mob/user)
 	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
@@ -228,14 +281,20 @@
 		to_chat(user, span_warning("I need a free hand to fire \the [src]!"))
 		return FALSE
 	spread = get_ranged_spread(user)
+	var/primed = user.has_status_effect(/datum/status_effect/buff/bow_special_primed)
 	for(var/obj/item/ammo_casing/CB in get_ammo_list(FALSE, TRUE))
 		var/obj/projectile/BB = CB.BB
 		apply_ranged_accuracy(BB, user)
 		apply_early_release_penalty(BB, user)
 		BB.damage *= damfactor * get_per_damage_scaling(user)
+		if(primed)
+			BB.bow_smite_modifier = BB.damage
+			BB.hunting_skill = user.get_skill_level(/datum/skill/misc/hunting)
 	. = ..()
 	if(.)
 		pay_release_drain(user)
+		if(primed)
+			user.remove_status_effect(/datum/status_effect/buff/bow_special_primed)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/update_icon()
 	..()

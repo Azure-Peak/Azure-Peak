@@ -57,6 +57,7 @@
 	obj_flags = UNIQUE_RENAME
 	damfactor = 1.2
 	accfactor = 1.1
+	special = /datum/special_intent/bow_prime
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_mechanics_examine(mob/user)
 	. = ..()
@@ -226,6 +227,10 @@
 		apply_ranged_accuracy(BB, user)
 		BB.armor_penetration = max(PEN_NONE, BB.armor_penetration + penfactor)
 		BB.damage *= damfactor
+	var/primed = user.has_status_effect(/datum/status_effect/buff/bow_special_primed)
+	if(primed)
+		BB.bow_smite_modifier = BB.damage
+		BB.hunting_skill = user.get_skill_level(/datum/skill/misc/hunting)
 
 	cocked = FALSE
 
@@ -233,6 +238,8 @@
 	if(!.)
 		return
 	pay_release_drain(user)
+	if(primed)
+		user.remove_status_effect(/datum/status_effect/buff/bow_special_primed)
 	if(!onehanded)
 		return
 

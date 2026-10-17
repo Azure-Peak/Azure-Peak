@@ -50,6 +50,10 @@
 /obj/projectile
 	var/is_silver_proj = FALSE //Self-explanatory.
 	var/datum/action/cooldown/spell/source_spell
+	/// Additional damage from a bow special based on the total damage of a fired projectile
+	var/bow_smite_modifier
+	/// Hunting skill from the person that just fired this projectile with a bow special
+	var/hunting_skill
 
 //handles the infliction of special effects upon projectile impact, such as silver-blighting
 /obj/projectile/proc/do_special_projectile_effect(firer, obj/item/bodypart/affecting, mob/living/victim, selzone)
@@ -62,3 +66,30 @@
 		to_chat(victim, span_silver("Silver rebukes my presence! My vitae smolders, and my powers wane!"))
 		victim.adjust_fire_stacks(1, /datum/status_effect/fire_handler/fire_stacks/sunder) // Ammunition can't be blessed.
 		victim.ignite_mob()
+
+/obj/projectile/proc/get_bow_smite_damage(mob/living/target)
+	var/base_damage = 40
+	// 15% of the damage of the projectile is retained.
+	// This means stone arrows are less effective, but not by much as to reduce the sheer value of bonus stacking.
+	var/projectile_flat_bonus = round(damage * 0.15)
+	var/hunting_skill_flat_bonus
+	if(hunting_skill <= 2)
+		// Levels 0-2 give up to +5 bonus (2.5 per level)
+		hunting_skill_flat_bonus = round(hunting_skill * 2.5)
+	else
+		// Levels 3-6 give up to +7 additional bonus (~1.75 per level)
+		hunting_skill_flat_bonus = 5 + round((hunting_skill - 2) * 1.75)
+	var/adjusted_base_damage = base_damage + projectile_flat_bonus + hunting_skill_flat_bonus
+
+	// Grab the smite multiplication modifier from the mob itself.
+	// If unset, simply don't increase the base damage.
+	// 50% extra damage taken by default
+	var/damage_modifier
+	if(!target.bow_smite_effective_modifier)
+		damage_modifier = 1
+	else
+		damage_modifier = target.bow_smite_effective_modifier
+
+	// Return increased damage if it's higher than the projectile's damage value only.
+	// Yes, this does mean you can have cases firing at certain targets where your damage isn't increased at all for using your smite.
+	return max(round(adjusted_base_damage * damage_modifier), damage)
