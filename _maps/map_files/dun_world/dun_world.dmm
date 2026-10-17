@@ -87960,6 +87960,7 @@
 	dir = 10;
 	icon_state = "cobbleedge-n"
 	},
+/obj/item/clothing/head/roguetown/nyle/consortcrown,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/manor)
 "oYm" = (

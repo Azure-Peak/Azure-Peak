@@ -35,6 +35,7 @@
 
 /datum/preferences/proc/ui_remove_charflaw(mob/user, cf_type)
 	charflaws -= cf_type
+	charflaw_choices -= cf_type
 
 	if(!LAZYLEN(charflaws))
 		charflaws = list(/datum/charflaw/noflaw)

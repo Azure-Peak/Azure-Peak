@@ -1,6 +1,4 @@
 /mob/living
-	//used by the basic ai controller /datum/ai_behavior/basic_melee_attack to determine how fast a mob can attack
-	var/melee_cooldown = CLICK_CD_MELEE
 	var/pain_threshold = 0
 	var/no_head_bounty = FALSE
 	var/contract_spawned = FALSE

@@ -122,6 +122,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
 	var/list/charflaws = list()
+	var/list/charflaw_choices = list()
 
 	var/static/default_cmusic_type = /datum/combat_music/default
 	var/datum/combat_music/combat_music
@@ -203,7 +204,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preset_bounty_severity_b_key
 	var/preset_bounty_severity_v_key
 	var/preset_bounty_crime
-
 
 	var/averse_chosen_faction = "Inquisition"
 
