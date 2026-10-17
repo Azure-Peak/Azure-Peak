@@ -118,6 +118,9 @@
 		"nights": "nites",
 		"arcane": "arcyne",
 		"horse": "fogbeast",
-		"horses": "fogbeasts"
+		"horses": "fogbeasts",
+		"dungeon": "dunjun",
+		"freak": "freek",
+		"creature": "creacher"
 	}
 }
