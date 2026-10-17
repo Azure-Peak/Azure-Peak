@@ -40,7 +40,6 @@
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/simple_skeleton
 	move_base_delay = MOVEMENT_DELAY_SPD_10
-	melee_cooldown = SKELETON_ATTACK_SPEED
 
 /mob/living/simple_animal/hostile/rogue/skeleton/Initialize(mapload, mob/user)
 	. = ..()
