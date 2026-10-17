@@ -305,6 +305,10 @@ There are several things that need to be remembered:
 	apply_overlay(LEG_DAMAGE_LAYER)
 	apply_overlay(ARM_DAMAGE_LAYER)
 
+/mob/living/carbon/human/proc/update_gargoyle_gender()
+	if(hud_used?.zone_select)
+		hud_used.zone_select.update_icon()
+
 
 /* --------------------------------------- */
 //For legacy support.
@@ -339,6 +343,9 @@ There are several things that need to be remembered:
 		update_transform()
 		//damage overlays
 		update_damage_overlays()
+		// updates gargoyle type if it needs to be changed
+		update_gargoyle_gender()
+
 
 /mob/proc/regenerate_clothes()
 	return
