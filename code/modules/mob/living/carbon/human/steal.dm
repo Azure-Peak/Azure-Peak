@@ -64,7 +64,7 @@
 		if(do_after(user, steal_timer, target = target_human, progress = 0))
 			if(!user.Adjacent(target))
 				return to_chat(user, span_warning("They moved away!"))
-			if(stealroll > targetperception)
+			if(stealroll >= targetperception)
 				if(target_human.cmode && target_human.stat == CONSCIOUS)
 					to_chat(user, span_warning("[target_human] is alert. I am not getting my chance against them."))
 					return
@@ -104,17 +104,16 @@
 						if(user_human.cmode)
 							user_human.unregister_pickpocket_storage()
 							SEND_SIGNAL(picked, COMSIG_TRY_STORAGE_SHOW, user_human)
-							if(user_human.active_storage && user_human.active_storage.parent == picked)
-								user_human.pickpocket_target = target_human
-								user_human.pickpocket_storage_item = picked
-								RegisterSignal(target_human, COMSIG_MOVABLE_MOVED, PROC_REF(close_pickpocket_storage_move))
-								RegisterSignal(picked, COMSIG_ATOM_EXITED, PROC_REF(close_pickpocket_storage_item))
-								RegisterSignal(picked, COMSIG_STORAGE_CLOSED, PROC_REF(close_pickpocket_storage_closed))
-								to_chat(user, span_green("I rummage through [picked]!"))
-								if(targetperception > 14)
-									to_chat(target_human, span_danger("Someone rummaged through [picked] on me! How could this happen!"))
-								user_human.log_message("\the [picked] has been rummaged by [key_name(user_human)]", LOG_ATTACK, color="white")
-								target_human.log_message("[key_name(target_human)] had their \the [picked] rummaged", LOG_ATTACK, color="white")
+							user_human.pickpocket_target = target_human
+							user_human.pickpocket_storage_item = picked
+							RegisterSignal(target_human, COMSIG_MOVABLE_MOVED, PROC_REF(close_pickpocket_storage_move))
+							RegisterSignal(picked, COMSIG_ATOM_EXITED, PROC_REF(close_pickpocket_storage_item))
+							RegisterSignal(picked, COMSIG_STORAGE_CLOSED, PROC_REF(close_pickpocket_storage_closed))
+							to_chat(user, span_green("I rummage through [picked]!"))
+							if(targetperception > 14)
+								to_chat(target_human, span_danger("Someone rummaged through [picked] on me! How could this happen!"))
+							user_human.log_message("[key_name(target_human)]'s \the [picked] has been rummaged by [key_name(user_human)]", LOG_ATTACK, color="white")
+							target_human.log_message("[key_name(target_human)] had their \the [picked] rummaged by [key_name(user_human)]", LOG_ATTACK, color="white")
 						else
 							target_human.dropItemToGround(picked)
 							user.put_in_active_hand(picked)
