@@ -373,7 +373,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	var/mob/living/carbon/human/H = user
 	if(!H.wear_mask)
-		H.equip_to_slot_or_del(new /obj/item/clothing/glasses/blindfold(H), SLOT_WEAR_MASK)
+		H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/blindfold(H), SLOT_WEAR_MASK)
 	H.overlay_fullscreen("blind_flaw", /atom/movable/screen/fullscreen/impaired, 2)
 	ADD_TRAIT(H, TRAIT_NITEVISION, TRAIT_GENERIC)
 	H.update_sight()
