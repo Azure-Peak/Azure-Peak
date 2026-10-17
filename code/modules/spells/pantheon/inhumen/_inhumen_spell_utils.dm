@@ -428,6 +428,7 @@
 	target.fire_act(20, 20)
 	target.Stun(100)
 	target.safe_throw_at(target, 3, 1, owner, force = MOVE_FORCE_EXTREMELY_STRONG)
+	target.Knockdown(5)
 
 /datum/status_effect/buff/mammonite/proc/do_mammon_strike(mob/living/target, obj/item/weapon)
 	if(QDELETED(owner) || QDELETED(target))

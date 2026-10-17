@@ -243,7 +243,7 @@
 					to_chat(user, span_warning("...What?"))
 					return
 
-				if(myskill < climbdiff)
+				if(myskill < climbdiff && !HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK))
 					to_chat(user, span_warning("I'm not capable of climbing this wall."))
 					return
 				used_time = max(70 - (myskill * 10) - (L.STASPD * 3), 30)
