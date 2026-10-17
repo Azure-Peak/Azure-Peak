@@ -81,7 +81,6 @@
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/troll
 	move_base_delay = MOVEMENT_DELAY_SPD_17
-	melee_cooldown = TROLL_ATTACK_SPEED
 
 	var/critvuln = FALSE
 

@@ -411,7 +411,7 @@
 	if(payout > 0)
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/lead_account = SStreasury.get_account(lead)
-			SStreasury.mint(lead_account, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])")
+			SStreasury.mint(lead_account, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", null, LEDGER_CITIZEN_CONTRACTS)
 			var/tax_amt = 0
 			if(!levy_exempt)
 				tax_amt = SStreasury.apply_tax(lead_account, payout, TAX_CATEGORY_CONTRACT_LEVY, "Blockade defense")
@@ -421,7 +421,7 @@
 			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
 			announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [payout]m. Tax: [tax_amt]m. Net: [payout - tax_amt]m.")
 		else
-			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked holder)")
+			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked holder)", null, LEDGER_CROWN_REV_BLOCKADE)
 			announce_to_bearer("The final wave breaks. You have no bank account. Your share went to the Treasury.")
 	else
 		announce_to_bearer("The final wave breaks. A Request carries no reward.")
@@ -431,14 +431,14 @@
 		TR.banditry_hoard = 0
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/spoils_account = SStreasury.get_account(lead)
-			SStreasury.mint(spoils_account, spoils, "Recovered Spoils ([region])")
+			SStreasury.mint(spoils_account, spoils, "Recovered Spoils ([region])", null, LEDGER_CITIZEN_CONTRACTS)
 			var/spoils_tax = SStreasury.apply_tax(spoils_account, spoils, TAX_CATEGORY_RECOVERED_SPOILS, region)
 			if(spoils_tax > 0)
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, lead, spoils_tax)
 				record_round_statistic(STATS_TAXES_COLLECTED, spoils_tax)
 			announce_to_bearer("You seize the brigands' hoard of [spoils] mammon. The Crown takes [spoils_tax] as Recovered Spoils. You keep [spoils - spoils_tax] mammon.")
 		else
-			SStreasury.mint(SStreasury.discretionary_fund, spoils, "Recovered Spoils (unbanked holder, [region])")
+			SStreasury.mint(SStreasury.discretionary_fund, spoils, "Recovered Spoils (unbanked holder, [region])", null, LEDGER_CROWN_REV_SPOILS)
 			announce_to_bearer("You have no bank account. The brigands' hoard of [spoils] mammon went to the Treasury.")
 		GLOB.azure_round_stats[STATS_BANDITRY_HOARD_OUTSTANDING] = SSeconomy.total_banditry_hoard()
 	var/obj/item/quest_writ/S = quest_scroll

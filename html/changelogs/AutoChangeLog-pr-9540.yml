@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - rscadd: "Xylix's dice box: further improves stat rolling via a new UI. You can also roll in chat e.g. *5d20+STR+67/DC100"

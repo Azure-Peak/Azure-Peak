@@ -189,3 +189,37 @@
 	tier = 4
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/leyline = 1, /obj/item/magic/fae/sylvanessence = 1)
 	result_atoms = list(/obj/item/enchantmentscroll/mythic/rewind)
+
+// ----- Implement Tinctures (1x realm mat + cinnabar + vial) -----
+
+/datum/runeritual/enchanting/implement_greater
+	name = "Greater Focus (Infernal)"
+	desc = "Improves the focus of a lesser implement into a greater one."
+	blacklisted = FALSE
+	tier = 2
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/infernal/fang = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/implement/greater)
+
+/datum/runeritual/enchanting/implement_greater/fae
+	name = "Greater Focus (Fae)"
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/fae/iridescentscale = 1)
+
+/datum/runeritual/enchanting/implement_greater/elemental
+	name = "Greater Focus (Elemental)"
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/elemental/shard = 1)
+
+/datum/runeritual/enchanting/implement_grand
+	name = "Grand Focus (Infernal)"
+	desc = "Improves the focus of a greater implement into a grand one."
+	blacklisted = FALSE
+	tier = 3
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/infernal/core = 1)
+	result_atoms = list(/obj/item/enchantmentscroll/implement/grand)
+
+/datum/runeritual/enchanting/implement_grand/fae
+	name = "Grand Focus (Fae)"
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/fae/heartwoodcore = 1)
+
+/datum/runeritual/enchanting/implement_grand/elemental
+	name = "Grand Focus (Elemental)"
+	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/elemental/fragment = 1)

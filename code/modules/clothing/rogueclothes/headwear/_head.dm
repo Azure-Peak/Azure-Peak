@@ -42,7 +42,7 @@
 
 /obj/item/clothing/head/roguetown/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Middle-clicking headwear cycles ears/hair visual.")
+	. += span_info("Middle-clicking headwear cycles ears/horns/hair visual.")
 
 /obj/item/clothing/head/roguetown/MiddleClick(mob/user)
 	if(!ishuman(user))
@@ -50,15 +50,31 @@
 	cycle_headtop(user)
 
 /obj/item/clothing/head/roguetown/proc/cycle_headtop(mob/user)
-	switch(flags_inv & HIDE_HEADTOP)
+	var/mob/living/carbon/human/H = user
+	var/obj/item/organ/ears = H.getorganslot(ORGAN_SLOT_EARS)
+	var/obj/item/organ/horns = H.getorganslot(ORGAN_SLOT_HORNS) || H.getorganslot(ORGAN_SLOT_FRILLS)
+	var/hasears = ears?.accessory_type
+	var/hashorns = horns?.accessory_type
+	var/list/steps = list(HIDE_HEADTOP)
+	if(hasears)
+		steps += HIDEHAIR
+	if(hashorns)
+		steps += HIDE_HEADTOP|SHOWHORNS
+	if(hasears && hashorns)
+		steps += HIDEHAIR|SHOWHORNS
+	steps += NONE
+	var/next = steps[(steps.Find(flags_inv & (HIDE_HEADTOP|SHOWHORNS)) % length(steps)) + 1]
+	flags_inv = (flags_inv & ~(HIDE_HEADTOP|SHOWHORNS)) | next
+	switch(next)
 		if(HIDE_HEADTOP)
-			flags_inv &= ~HIDEEARS
-			to_chat(user, span_info("I free my ears from under \the [src]."))
+			to_chat(user, span_info("I tuck my hair[hasears ? (hashorns ? ", ears and horns" : " and ears") : (hashorns ? " and horns" : "")] under \the [src]."))
 		if(HIDEHAIR)
-			flags_inv &= ~HIDEHAIR
-			to_chat(user, span_info("I pull my hair out from under \the [src]."))
+			to_chat(user, span_info("I free my ears from under \the [src]."))
+		if(HIDE_HEADTOP|SHOWHORNS)
+			to_chat(user, span_info("I [hasears ? "tuck my ears back and " : ""]free my horns from under \the [src]."))
+		if(HIDEHAIR|SHOWHORNS)
+			to_chat(user, span_info("I free my ears and horns from under \the [src]."))
 		else
-			flags_inv |= HIDE_HEADTOP
-			to_chat(user, span_info("I tuck my hair and ears under \the [src]."))
-	persist_inv_flags(HIDE_HEADTOP)
+			to_chat(user, span_info("I pull my hair out from under \the [src]."))
+	persist_inv_flags(HIDE_HEADTOP|SHOWHORNS)
 	user.update_inv_head()
