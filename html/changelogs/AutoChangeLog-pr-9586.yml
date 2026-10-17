@@ -1,0 +1,4 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - qol: "Instruments no longer announce to everyone around you that you tried uploading a song while the cooldown is still up"

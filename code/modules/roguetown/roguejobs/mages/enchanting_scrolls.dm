@@ -497,3 +497,44 @@ T1 Enchantments below here*/
 		qdel(src)
 	else
 		to_chat(user, span_notice("You don't think [O] will take to the enchantment. Best not to waste the ink."))
+
+/obj/item/enchantmentscroll/implement
+	name = "runic tincture of focus"
+	desc = "A vial of quicksilver ink that improves the focus of an arcyne implement, allowing it to recapture more mana."
+	apply_to_pretty = "Can be applied to a mage's staff with gem or an arcyne tome one tier below the tincture."
+	var/upgrade_tier = IMPLEMENT_TIER_GREATER
+
+/obj/item/enchantmentscroll/implement/attack_obj(obj/item/O, mob/living/user)
+	if(!isarcyne(user))
+		to_chat(user, span_warning("You've no idea how to draw the runes needed to use this."))
+		return FALSE
+	var/obj/item/rogueweapon/implement = O
+	if(!istype(implement) || !implement.implement_upgradable)
+		to_chat(user, span_notice("You don't think [O] will take to the tincture. Best not to waste the ink."))
+		return FALSE
+	if(implement.implement_tier >= upgrade_tier)
+		to_chat(user, span_warning("[O] is already at least this potent."))
+		return FALSE
+	if(implement.implement_tier < upgrade_tier - 1)
+		to_chat(user, span_warning("[O] is too crude to hold this much focus. It must be refined a step at a time."))
+		return FALSE
+	implement.apply_implement_tier(upgrade_tier)
+	to_chat(user, span_notice("You scribe intricate runes along [O] with [src], and its focus improves."))
+	qdel(src)
+	return TRUE
+
+/obj/item/enchantmentscroll/implement/greater
+	name = "runic tincture of greater focus"
+	desc = "A vial of quicksilver ink that improves the focus of a lesser arcyne implement into a greater one, allowing it to recapture more mana."
+	effects_pretty = "Improves a lesser staff or tome to a greater one, keeping its gem and appearance."
+	color = "#9fd8ff"
+	upgrade_tier = IMPLEMENT_TIER_GREATER
+	sellprice = 10
+
+/obj/item/enchantmentscroll/implement/grand
+	name = "runic tincture of grand focus"
+	desc = "A vial of quicksilver ink that improves the focus of a greater arcyne implement into a grand one, allowing it to recapture more mana."
+	effects_pretty = "Improves a greater staff or tome to a grand one, keeping its gem and appearance."
+	color = "#ffd27a"
+	upgrade_tier = IMPLEMENT_TIER_GRAND
+	sellprice = 30

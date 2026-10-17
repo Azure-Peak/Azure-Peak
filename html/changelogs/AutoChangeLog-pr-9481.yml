@@ -1,0 +1,5 @@
+author: "Quinalion"
+delete-after: True
+changes:
+  - qol: "Vices can now have choices, just like virtues."
+  - qol: "Characters with Bad Eyesight can now choose their glasses, which spawn without replacing existing mask-slot equipment."

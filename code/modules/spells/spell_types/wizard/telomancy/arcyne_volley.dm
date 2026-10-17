@@ -22,7 +22,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
+	charge_swingdelay_type = SWINGDELAY_NORMAL
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	charge_sound = 'sound/magic/charging.ogg'
@@ -142,12 +142,12 @@
 	for(var/i in stats.Copy())
 		if(findtext(i, "Damage:") || findtext(i, "Arc Mode"))
 			stats -= i
-	stats += span_info("Firing mode (Shift+G): Cascade (4x20 stream) / Seeker (3x20 homing, marks) / Soulshot (80 piercing beam).")
+	stats += span_info("Firing mode (Shift+G): Cascade (4x16 stream) / Seeker (3x20 homing, marks) / Soulshot (64 piercing beam).")
 	return stats
 
 /obj/projectile/magic/greater_arcyne_bolt/flurry
 	name = "arcyne bolt"
-	damage = 20
+	damage = SPELL_DMG(20)
 	flag = "piercing"
 	woundclass = BCLASS_PIERCE
 	speed = MAGE_PROJ_MEDIUM
@@ -155,7 +155,7 @@
 	impact_sounds = list('sound/combat/hits/bladed/genthrust (1).ogg', 'sound/combat/hits/bladed/genthrust (2).ogg')
 
 /obj/projectile/magic/seeker_orb/greater
-	damage = 15
+	damage = SPELL_DMG(15)
 	flag = "piercing"
 	woundclass = BCLASS_PIERCE
 	speed = 5

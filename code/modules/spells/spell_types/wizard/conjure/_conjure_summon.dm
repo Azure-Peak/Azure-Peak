@@ -32,6 +32,8 @@
 
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_CONJURE
+	secondary_resource_type = SPELL_COST_ENERGY
+	secondary_resource_cost = 300
 
 	invocation_type = INVOCATION_SHOUT
 
@@ -57,9 +59,9 @@
 	var/current_mode = 1
 	var/list/modes = list()
 	var/summon_noun = "servant"
-	var/recoil_energy_floor = 200
 	var/recoil_severity = CONJURE_RECOIL_FULL
 	var/recoil_stamina_only = FALSE
+	var/overload_power = 1
 	var/reclaim_recoil = TRUE
 	var/reclaim_recoil_threshold = 0.25
 
@@ -121,7 +123,7 @@
 /datum/action/cooldown/spell/conjure_summon/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	if(length(modes))
-		stats += span_info("Mode (toggle with Shift+G): [modes[current_mode]["name"]]. You may maintain [max_summons] [summon_noun][max_summons > 1 ? "s" : ""] at a time; recasting at capacity [summon_replace_mode == CONJURE_SUMMON_SINGLES ? "unbind the oldest summon to make room" : "re-summons"][reclaim_recoil ? ", reclaiming a wounded summon recoils upon you" : ""]. Losing one to death recoils violently upon you. Dismiss Conjuration will charge a partial recoil the more hurt the summon is.")
+		stats += span_info("Mode (toggle with Shift+G): [modes[current_mode]["name"]]. You may maintain [max_summons] [summon_noun][max_summons > 1 ? "s" : ""] at a time; recasting at capacity [summon_replace_mode == CONJURE_SUMMON_SINGLES ? "unbind the oldest summon to make room" : "re-summons"][reclaim_recoil ? ", reclaiming a wounded summon recoils upon you" : ""].[recoil_severity == CONJURE_RECOIL_LIGHT ? "" : " Losing one to death recoils violently upon you. Dismiss Conjuration will charge a partial recoil the more hurt the summon is."]")
 	return stats
 
 /datum/action/cooldown/spell/conjure_summon/can_cast_spell(feedback = TRUE)
@@ -178,7 +180,7 @@
 	for(var/mob/living/summoned in all_summoned)
 		conjured_mobs += summoned
 		RegisterSignal(summoned, COMSIG_QDELETING, PROC_REF(remove_conjure))
-		summoned.AddComponent(/datum/component/conjured_minion, user, recoil_energy_floor, recoil_severity, recoil_stamina_only)
+		summoned.AddComponent(/datum/component/conjured_minion, user, recoil_severity, recoil_stamina_only, overload_power)
 		var/turf/landing = get_turf(summoned)
 		landing?.zFall(summoned)
 	return TRUE
@@ -212,7 +214,7 @@
 	if(scale <= 0)
 		to_chat(user, span_notice("My [summon_noun][count > 1 ? "s unravel" : " unravels"] painlessly."))
 		return
-	apply_conjure_recoil(user, recoil_energy_floor, recoil_severity, clamp(scale, 0, 1), FALSE, recoil_stamina_only)
+	apply_conjure_recoil(user, recoil_severity, clamp(scale, 0, 1), FALSE, recoil_stamina_only)
 
 /datum/action/cooldown/spell/conjure_summon/proc/dismiss_summons(list/mobs)
 	for(var/mob/living/M in mobs)
@@ -232,7 +234,7 @@
 		fraction += length(missing) * CONJURE_LIMB_LOSS_WEIGHT
 	return clamp(fraction, 0, 1)
 
-/proc/apply_conjure_recoil(mob/living/summoner, energy_floor = 200, severity = CONJURE_RECOIL_FULL, scale = 1, block = TRUE, stamina_only = FALSE)
+/proc/apply_conjure_recoil(mob/living/summoner, severity = CONJURE_RECOIL_FULL, scale = 1, block = TRUE, stamina_only = FALSE)
 	if(!istype(summoner))
 		return
 	scale = clamp(scale, 0, 1)
@@ -247,16 +249,13 @@
 		to_chat(summoner, span_warning("A jolt of pain stings me as my conjured servant falls."))
 		return
 
-	if(summoner.energy > energy_floor)
-		summoner.energy = max(energy_floor, summoner.energy - (summoner.energy - energy_floor) * scale)
-
 	var/list/base_stats
 	var/base_duration
 	if(severity == CONJURE_RECOIL_FULL)
-		base_stats = list(STATKEY_STR = -4, STATKEY_SPD = -4, STATKEY_CON = -4, STATKEY_WIL = -4, STATKEY_PER = -3, STATKEY_INT = -3)
-		base_duration = 3 MINUTES
+		base_stats = list(STATKEY_STR = -3, STATKEY_SPD = -2, STATKEY_CON = -3, STATKEY_PER = -2, STATKEY_INT = -2)
+		base_duration = 90 SECONDS
 	else
-		base_stats = list(STATKEY_STR = -2, STATKEY_CON = -2, STATKEY_WIL = -2)
+		base_stats = list(STATKEY_STR = -2, STATKEY_CON = -2)
 		base_duration = 45 SECONDS
 
 	if(block)

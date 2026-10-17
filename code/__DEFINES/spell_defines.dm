@@ -221,9 +221,9 @@
 #define IMPLEMENT_TIER_GRAND	3
 
 // Fraction of a spell's resource cost that the Residual Focus buff returns over 20 seconds.
-#define IMPLEMENT_REFUND_LESSER	0.20
-#define IMPLEMENT_REFUND_GREATER 0.275
-#define IMPLEMENT_REFUND_GRAND	0.35
+#define IMPLEMENT_REFUND_LESSER	0.50
+#define IMPLEMENT_REFUND_GREATER 0.60
+#define IMPLEMENT_REFUND_GRAND	0.70
 
 // Lightning Specific constants
 #define LIGHTNING_ADAPTATION_COOLDOWN 15 SECONDS

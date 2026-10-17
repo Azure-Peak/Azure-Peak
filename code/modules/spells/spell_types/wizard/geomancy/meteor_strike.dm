@@ -21,7 +21,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging_fire.ogg'
@@ -35,8 +35,8 @@
 	var/blast_radius = 2
 	var/impact_delay = 2 SECONDS
 	var/structural_damage = 1000
-	var/head_damage = 150
-	displayed_damage = 150
+	var/head_damage = SPELL_DMG(150)
+	displayed_damage = SPELL_DMG(150)
 
 /datum/action/cooldown/spell/grenzel_meteor/cast(atom/cast_on)
 	. = ..()
@@ -80,9 +80,9 @@
 				L.visible_message(span_warning("[L] endures the meteor strike!"))
 				continue
 			if(istype(caster) && ishuman(L))
-				if(arcyne_strike(caster, L, null, head_damage, BODY_ZONE_HEAD, BCLASS_BLUNT, spell_name = "Meteor Strike", damage_type = BRUTE, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+				if(arcyne_strike(caster, L, null, head_damage, BODY_ZONE_HEAD, BCLASS_BLUNT, spell_name = "Meteor Strike", damage_type = BRUTE, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
-				L.adjustBruteLoss(head_damage)
+				L.adjustBruteLoss(SPELL_DMG_VS(L, head_damage))
 			L.Knockdown(3)
 			new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)

@@ -1,4 +1,4 @@
-#define SOULSHOT_BASE_DAMAGE 80
+#define SOULSHOT_BASE_DAMAGE SPELL_DMG(80)
 #define SOULSHOT_PIERCE_DAMAGE_MULT 0.75
 /datum/action/cooldown/spell/projectile/soulshot
 	button_icon = 'icons/mob/actions/mage_shared.dmi'
@@ -50,6 +50,8 @@
 	damage_type = BRUTE
 	woundclass = BCLASS_STAB
 	nodamage = FALSE
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
 	speed = 0.3
 	flag = "piercing"
 	hitsound = 'sound/magic/obeliskbeam.ogg'

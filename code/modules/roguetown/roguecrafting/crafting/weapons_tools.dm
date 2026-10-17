@@ -230,6 +230,7 @@
 
 /datum/crafting_recipe/roguetown/survival/woodhammer
 	name = "wood mallet"
+	aliases = "wood hammer, "
 	display_category = ITEM_CAT_WEAPONS_MACES
 	category = "Tools"
 	result = /obj/item/rogueweapon/hammer/wood
@@ -552,6 +553,7 @@
 
 /datum/crafting_recipe/roguetown/survival/woodspade
 	name = "wood spade"
+	aliases = "wooden shovel, "
 	display_category = ITEM_CAT_TOOLS_FIELD
 	category = "Tools"
 	result = /obj/item/rogueweapon/shovel/small

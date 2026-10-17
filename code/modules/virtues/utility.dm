@@ -28,7 +28,15 @@
 		"Ladylike Cloak" = /obj/item/clothing/cloak/lordcloak/ladycloak,							//Ladylike Cloak
 		"Golden Scabbard" = /obj/item/rogueweapon/scabbard/sword/royal,							//Decorated Scabbard, Golden
 		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,								//Decorated Sheath, Golden
-		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph								//Golden Dorpel Ring, Ornate
+		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph,								//Golden Dorpel Ring, Ornate
+		"Jade Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/jade,					//Gem Circlets, same as noble adventurer
+		"Amber Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/amber,
+		"Shell Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/shell,
+		"Rosestone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/rose,
+		"Cerulite Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/turq,
+		"Onyxa Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/onyxa,
+		"Heartstone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/coral,
+		"Opal Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/opal
 	)
 
 
