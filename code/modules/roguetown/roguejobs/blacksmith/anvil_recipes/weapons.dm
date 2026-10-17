@@ -2145,6 +2145,14 @@
 	display_category = ITEM_CAT_WEAPONS_SWORDS
 	i_type = "Weapons"
 
+/datum/anvil_recipe/weapons/psy/knuckles
+	name = "Psydonic Knuckles"
+	category = "Blessed Silver"
+	req_bar = /obj/item/ingot/silverblessed
+	created_item = /obj/item/clothing/gloves/roguetown/knuckles/silver/psydon
+	display_category = ITEM_CAT_WEAPONS_MACES
+	i_type = "Weapons"
+
 /datum/anvil_recipe/weapons/psy/armingsword
 	name = "Psydonic Arming Sword"
 	category = "Blessed Silver"
@@ -2305,7 +2313,7 @@
 	i_type = "Weapons"
 
 /datum/anvil_recipe/weapons/psy/knuckles/inq
-	name = "Psydonic Knuckledusters"
+	name = "Psydonic Knuckles"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
 	created_item = /obj/item/clothing/gloves/roguetown/knuckles/silver/psydon
