@@ -200,7 +200,7 @@ const ImportExport = (props: {
             height="100%"
             value={text}
             placeholder={'["First law","Second law"]'}
-            onInput={(_: unknown, val: string) => {
+            onChange={(val: string) => {
               setText(val);
               setError('');
             }}

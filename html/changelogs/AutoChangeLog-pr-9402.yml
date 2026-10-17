@@ -1,4 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - balance: "Vote multipliers now cap at 1.5x/voter; multipliers now step by 0.1x instead of 0.2x per round."

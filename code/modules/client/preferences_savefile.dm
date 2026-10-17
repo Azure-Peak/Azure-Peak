@@ -378,6 +378,19 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!LAZYLEN(charflaws))
 		charflaws = list(/datum/charflaw/noflaw)
 
+/datum/preferences/proc/validate_charflaw_choices()
+	for(var/cf_type in charflaw_choices)
+		var/datum/charflaw/cf = GLOB.character_flaws_singletons[cf_type]
+		var/list/picked = charflaw_choices[cf_type]
+		if(!cf || !islist(picked) || !(cf_type in charflaws))
+			charflaw_choices -= cf_type
+			continue
+		for(var/choice in picked)
+			if(!(choice in cf.extra_choices))
+				picked -= choice
+		if(length(picked) > cf.max_choices)
+			picked.Cut(cf.max_choices + 1)
+
 /datum/preferences/proc/_load_culinary_preferences(S)
 	S["favorite_cuisine"] >> favorite_cuisine
 	S["favorite_dish"] >> favorite_dish
@@ -642,6 +655,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["rumour"]					>> rumour
 	S["noble_gossip"]			>> noble_gossip
 	S["averse_chosen_faction"]	>> averse_chosen_faction
+	S["charflaw_choices"]		>> charflaw_choices
 	S["song_artist"]			>> song_artist
 	S["song_title"]				>> song_title
 	S["nsfwflavortext"]			>> nsfwflavortext
@@ -775,6 +789,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	custom_descriptors = SANITIZE_LIST(custom_descriptors)
 	validate_descriptors()
 
+	charflaw_choices = SANITIZE_LIST(charflaw_choices)
+	validate_charflaw_choices()
+
 	var/list/valid_skin_tones = pref_species.get_skin_list()
 	var/list/valid_skin_colors = list()
 	for(var/skin_tone in valid_skin_tones)
@@ -862,6 +879,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["skin_tone"]			, skin_tone)
 	WRITE_FILE(S["species"]				, pref_species.name)
 	WRITE_FILE(S["charflaws"]			, charflaws)
+
 	WRITE_FILE(S["feature_mcolor"]		, features["mcolor"])
 	WRITE_FILE(S["feature_mcolor2"]		, features["mcolor2"])
 	WRITE_FILE(S["feature_mcolor3"]		, features["mcolor3"])
@@ -934,6 +952,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["rumour"] , html_decode(rumour))
 	WRITE_FILE(S["noble_gossip"] , html_decode(noble_gossip))
 	WRITE_FILE(S["averse_chosen_faction"] , html_decode(averse_chosen_faction))
+	WRITE_FILE(S["charflaw_choices"], charflaw_choices)
 	WRITE_FILE(S["song_artist"] , song_artist)
 	WRITE_FILE(S["song_title"] , song_title)
 	WRITE_FILE(S["examine_theme"] , examine_theme)

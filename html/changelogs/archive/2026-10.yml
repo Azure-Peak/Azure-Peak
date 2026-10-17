@@ -694,3 +694,24 @@
   - admin: subclasses can now be managed via Manage Job Slots
   - rscadd: 'Xylix''s dice box: further improves stat rolling via a new UI. You can
       also roll in chat e.g. *5d20+STR+67/DC100'
+2026-10-17:
+  KatTheFox:
+  - bugfix: Transformed werewolves can no longer use the panel
+  Quinalion:
+  - bugfix: Fixes avantyne bracers heresydesc.
+  Ryan180602:
+  - admin: add a staff log viewer.
+  - balance: rebalance arrow/bolt damages.
+  - balance: remove the arrow integ damage modifier.
+  mumblemancer:
+  - qol: wooden mallets and wood spades can now be searched in crafting menu thru
+      "wood hammer" and "wooden shovel" respectively
+  nauticall:
+  - qol: '''Set Laws'' menu now has an Import/Export button to save and load lawsets
+      using JSON.'
+  - balance: Vote multipliers now cap at 1.5x/voter; multipliers now step by 0.1x
+      instead of 0.2x per round.
+  - rscadd: Adds double-entry bookkeeping to the Stewardry. Can be found in the 'Ledger'
+      tab under the Trade and Stockpile menu of the Stewardry's nerve master.
+  - qol: Ledger tab has been moved further up the Trade & Stockpile tab list; Trade
+      Orders has been made the default tab on the Avisa page of the noticeboards.
