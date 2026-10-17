@@ -291,6 +291,8 @@
 			return hide_cone()
 		if(H.viewcone_override)
 			return hide_cone()
+		for(var/datum/charflaw/noeyeall/cf in H.charflaws)
+			return hide_cone() // doesn't make sense to have cone while blind. you can track people behind you (footsteps) just as well as in front of you
 	return show_cone()
 
 /mob/proc/update_fov_angles()
@@ -366,8 +368,6 @@
 /mob/proc/show_cone()
 	if(!client)
 		return
-	if(cone_showing)
-		return
 	cone_showing = TRUE
 	if(hud_used?.fov)
 		hud_used.fov.alpha = 255
@@ -377,8 +377,6 @@
 
 /mob/proc/hide_cone()
 	if(!client)
-		return
-	if(!cone_showing)
 		return
 	cone_showing = FALSE
 	if(hud_used?.fov)
