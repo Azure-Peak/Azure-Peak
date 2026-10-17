@@ -763,6 +763,7 @@
 #include "code\datums\character_flaw\_character_flaw.dm"
 #include "code\datums\character_flaw\addiction.dm"
 #include "code\datums\character_flaw\limbloss.dm"
+#include "code\datums\character_flaw\mental.dm"
 #include "code\datums\components\_component.dm"
 #include "code\datums\components\action_item_overlay.dm"
 #include "code\datums\components\after_image.dm"

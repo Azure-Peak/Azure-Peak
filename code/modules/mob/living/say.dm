@@ -510,6 +510,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		if(eavesdrop_range && get_dist(source, tocheck) > message_range+keenears && !(admin_listeners[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, null, spans, message_mode, original_message)
 			heard_message += AM
+			if(ishuman(AM))
+				var/mob/living/carbon/human/H = AM
+				if(H.has_flaw(/datum/charflaw/paranoid))
+					H.add_stress(/datum/stressevent/parawhisper)
 		else
 			AM.Hear(rendered, src, message_language, highlighted_message || message, null, spans, message_mode, original_message)
 			heard_message += AM
