@@ -15,10 +15,13 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
-		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(3) //at a metabolism of .5 U a tick this translates to 120WHP healing with 20 U Most wounds are unsewn 15-100. This is powerful on single wounds but rapidly weakens at multi wounds.
@@ -91,10 +94,13 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
-		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/stronghealth, 2) //No overhealing.
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(4)
@@ -121,6 +127,11 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/strongmana, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/manapot/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(30)
 	..()
@@ -135,6 +146,11 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/manapot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/strongmana/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(120)
 	..()
@@ -150,10 +166,13 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
 
 /datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
-		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/restoration, 2) //No overhealing.
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
+		return ..()
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	var/list/wCount = M.get_wounds()
 	if(wCount.len > 0)
 		M.heal_wounds(3)
@@ -182,6 +201,9 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/strongstam)
 
 /datum/reagent/medicine/stampot/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	if(volume > 0)
 		M.apply_status_effect(/datum/status_effect/buff/alch/statbuff/fortitude, volume * 20 SECONDS)
 		holder.remove_reagent(type, volume)
@@ -197,6 +219,9 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/stampot)
 
 /datum/reagent/medicine/strongstam/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	if(volume > 0)
 		M.apply_status_effect(/datum/status_effect/buff/alch/statbuff/fortitude, volume * 40 SECONDS)
 		holder.remove_reagent(type, volume)
@@ -344,6 +369,9 @@
 	can_synth = FALSE
 
 /datum/reagent/ruined_potion/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.add_nausea(2)
+		return ..()
 	if(HAS_TRAIT(M, TRAIT_NASTY_EATER))
 		return
 	if(volume > 0.99)
@@ -388,7 +416,6 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	harmful = TRUE
 
 /datum/reagent/strongpoison/on_mob_life(mob/living/carbon/M)
-
 	if(volume > 0.09)
 		if(isdwarf(M))
 			M.add_nausea(1)
@@ -435,6 +462,9 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 /datum/reagent/organpoison/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_ORGAN_EATER))
 		M.energy_add(10) //Slowly add energy back.
+	if(HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+		M.heal_wounds(7) // Only organs will do the healing now, and only wounds + some blood
+		M.blood_volume += 7
 	if(!HAS_TRAIT(M, TRAIT_NASTY_EATER) && !HAS_TRAIT(M, TRAIT_ORGAN_EATER))
 		M.add_nausea(9)
 		M.adjustToxLoss(2)

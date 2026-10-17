@@ -49,37 +49,43 @@
 	// REGEN RESTRICTIONS -- Starving, or being on fire/silverfired.
 	var/noregen = nutrition < NUTRITION_LEVEL_STARVING - 75 || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
 
-	// BLACKBLOOD REGEN -- Every tick from this will cost hunger across three different instances, so the more hurt, the more hungry you'll become. If you're not hurt, then this basically is skipped.
+	// BLACKBLOOD REGEN -- Every tick from this will cost hunger across four different instances, so the more hurt, the more hungry you'll become. If you're not hurt, then this basically is skipped. Keep in mind Blackbloods can't drink bootleg buy-up-the-mill healing potions, and now they can't heal from consuming food anymore.
 	if(stat != DEAD && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
 		handle_wounds()
 		var/list/wounds = get_wounds() // literally was calling get_wounds() 3x so just stuffing this into a list and being done with it
 		var/has_brute = getBruteLoss() > 0 // teehee D:
+		var/has_burn = getFireLoss() > 0
 		var/has_healable_wound = FALSE
 		var/has_bleeding_wound = FALSE
 		for(var/datum/wound/wound as anything in wounds)
-			if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
+			if(!istype(wound, /datum/wound/slash/incision) && wound.severity <= WOUND_SEVERITY_CRITICAL && wound.whp) // wound.whp is necessary so null value will be skipped (hopefully)
 				has_healable_wound = TRUE
 			if(wound?.bleed_rate > 0)
 				has_bleeding_wound = TRUE
-		if(has_brute || has_healable_wound || has_bleeding_wound)
+		if(has_brute || has_burn || has_healable_wound || has_bleeding_wound) // now to prevent returns that will FUCK life(), we use this here
 			var/mob/living/carbon/human/H = src
 			var/healing_multiplier = max(0.5 ** (
 				(in_combat_until > world.time) + (H.highest_ac_worn() > ARMOR_CLASS_LIGHT) + has_stress_event(/datum/stressevent/sun_sensitivity) + has_stress_event(/datum/stressevent/thirst) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
-			if(HAS_TRAIT(src, TRAIT_NOHUNGER))
+
+			if(HAS_TRAIT(src, TRAIT_NOHUNGER)) // if you don't play into the nutrition game, locked to 15% outta 100%, always
 				healing_multiplier = 0.15
+
+			var/healing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier // lets be a lil smart here, lmao
 			// Wound healing.
 			if(has_healable_wound)
 				for(var/datum/wound/wound as anything in wounds)
-					if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
+					if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_CRITICAL)
 						wound.heal_wound(healing_multiplier)
 			// Brute healing.
 			if(has_brute)
-				var/healing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
 				heal_overall_damage(3 * healing_multiplier, 0, 0)
+				nutrition = max(0, nutrition - healing_cost)
+			// Burn healing.
+			if(has_burn)
+				heal_overall_damage(0, 2 * healing_multiplier, 0)
 				nutrition = max(0, nutrition - healing_cost)
 			// Bleeding/sealing.
 			if(has_bleeding_wound)
-				var/sealing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
 				for(var/datum/wound/wound as anything in wounds)
 					if(wound.bleed_rate > 0)
 						var/bleed_heal = max(wound.bleed_rate * 0.2, 0.1) * healing_multiplier
@@ -88,7 +94,7 @@
 							wound.sew_progress = wound.sew_threshold
 							wound.sew_wound()
 							to_chat(src, span_artery("<i>The [wound] stitched itself...</i>"))
-				nutrition = max(0, nutrition - sealing_cost)
+				nutrition = max(0, nutrition - healing_cost)
 
 	// LYCAN RESILIENCE -- This had a nasty return which was causing an awful glitch. Don't use return on Life(), pls.
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
