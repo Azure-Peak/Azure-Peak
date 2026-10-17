@@ -34,13 +34,11 @@
 
 /datum/outfit/job/roguetown/bandit/hedgeknight/pre_equip(mob/living/carbon/human/H)
 	..()
-	head = /obj/item/clothing/head/roguetown/helmet/heavy/knight
 	gloves = /obj/item/clothing/gloves/roguetown/chain
 	pants = /obj/item/clothing/under/roguetown/chainlegs
 	cloak = /obj/item/clothing/cloak/tabard/black
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	shirt = /obj/item/clothing/suit/roguetown/armor/chainmail
-	armor = /obj/item/clothing/suit/roguetown/armor/plate
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
@@ -73,3 +71,43 @@
 			r_hand = /obj/item/rogueweapon/eaglebeak
 			backl = /obj/item/rogueweapon/scabbard/gwstrap
 			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 5, TRUE) //This will NOT have any far reaching consequences
+
+	if(H.mind) //hhhhhrkkkkghhghghg
+		var/helmets = list(
+			"Pigface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface,
+			"Guard Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/guard,
+			"Barred Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/sheriff,
+			"Bucket Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
+			"Sugarloaf Helmet"		= /obj/item/clothing/head/roguetown/helmet/heavy/bucket/crusader,
+			"Knight's Armet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
+			"Knight's Helmet"	= /obj/item/clothing/head/roguetown/helmet/heavy/knight/old,
+			"Knight's Greatplumed Armet"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/greatplume,
+			"Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
+			"Snouted Visored Sallet"	= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
+			"Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
+			"Snouted Armet"				= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted,
+			"Hounskull Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
+			"Klappvisier Bascinet" = /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
+			"Slitted Kettle" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
+			"Visored Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/visor,
+			"Great Barbute" = /obj/item/clothing/head/roguetown/helmet/heavy/barbute/great,
+			"Snouted Burgonet" = /obj/item/clothing/head/roguetown/helmet/heavy/burgonet,
+			"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
+			"Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface,
+			"Snouted Roundface Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted,
+			"None"
+		)
+		var/helmchoice = input(H, "Choose your Helm.", "TAKE UP HELMS") as anything in helmets
+		if(helmchoice != "None")
+			head = helmets[helmchoice]
+
+		var/armors = list(
+			"Fluted Cuirass"	= /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted,
+			"Steel Cuirass"		= /obj/item/clothing/suit/roguetown/armor/plate/cuirass,
+			"Brigandine"		= /obj/item/clothing/suit/roguetown/armor/brigandine,
+			"Coat of Plates"		= /obj/item/clothing/suit/roguetown/armor/brigandine/heavy,
+			"Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate,
+			"Fluted Half-Plate"		= /obj/item/clothing/suit/roguetown/armor/plate/fluted,
+		)
+		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
+		armor = armors[armorchoice] //dknight level but REMOVES fullplate, gotta work up to that chuddy!

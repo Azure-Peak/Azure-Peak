@@ -8,25 +8,12 @@
 // HEAD //
 //////////
 
-/datum/supply_pack/rogue/Knight/knighthelm
-	name = "Knight's Armet"
-	cost = 60
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight)
-
-/datum/supply_pack/rogue/Knight/knighthelmold
-	name = "Knight's Helmet"
-	cost = 60
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/old)
+//removes all helmets save the armet (chill replacement helm if u die and get recovered, the froggie, and bsteelarmet) as HK gets them in class setup
 
 /datum/supply_pack/rogue/Knight/armet
 	name = "Armet"
 	cost = 60
 	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
-
-/datum/supply_pack/rogue/Knight/armet_snouted
-	name = "Snouted Armet"
-	cost = 60
-	contains = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted)
 
 /datum/supply_pack/rogue/Knight/froggy
 	name = "Froggemund Helm"
@@ -66,6 +53,11 @@
 	name = "Steel Gorget"
 	cost = 40
 	contains = list(/obj/item/clothing/neck/roguetown/gorget/steel)
+
+/datum/supply_pack/rogue/Knight/blkgorget
+	name = "Blacksteel Gorget"
+	cost = 100
+	contains = list(/obj/item/clothing/neck/roguetown/bevor/blacksteel/modern)
 
 ///////////
 // CHEST //
@@ -114,6 +106,11 @@
 	name = "Steel Bracers"
 	cost = 40
 	contains = list(/obj/item/clothing/wrists/roguetown/bracers)
+
+/datum/supply_pack/rogue/Knight/blkbracers
+	name = "Blacksteel Bracers"
+	cost = 100
+	contains = list(/obj/item/clothing/wrists/roguetown/bracers/blacksteel/modern)
 
 /datum/supply_pack/rogue/Knight/plategaunt
 	name = "Plate Gauntlets"
@@ -178,11 +175,6 @@
 	cost = 100
 	contains = list(/obj/item/rogueweapon/greatsword/grenz/flamberge)
 
-/datum/supply_pack/rogue/Knight/BFlamberge
-	name = "Blacksteel Flamberge"
-	cost = 150
-	contains = list(/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel)
-
 /datum/supply_pack/rogue/Knight/SGaxeknight
 	name = "Steel Poleaxe"
 	cost = 100
@@ -198,6 +190,37 @@
 	cost = 100
 	contains = list(/obj/item/rogueweapon/eaglebeak)
 
+
+////////////////////////
+// BLACKSTEEL //
+////////////////////////
+
+/datum/supply_pack/rogue/Knight/BFlamberge
+	name = "Blacksteel Flamberge"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel)
+
+/datum/supply_pack/rogue/Knight/BLsword
+	name = "Blacksteel Longsword"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/sword/long/blacksteel)
+
+/datum/supply_pack/rogue/Knight/BHalberd
+	name = "Blacksteel Halberd"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/halberd/blacksteel)
+
+/datum/supply_pack/rogue/Knight/BHammer
+	name = "Blacksteel Polehammer"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/eaglebeak/blacksteel) //this will have no far reaching consequences whatsoever
+
+/datum/supply_pack/rogue/Knight/BGreataxe
+	name = "Blacksteel Greataxe"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/greataxe/blacksteel)
+
+
 /////////////
 // SHIELDS //
 /////////////
@@ -206,6 +229,11 @@
 	name = "Kite Shield"
 	cost = 40
 	contains = list(/obj/item/rogueweapon/shield/tower/metal)
+
+/datum/supply_pack/rogue/Knight/blkkiteshield
+	name = "Blacksteel Shield"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/shield/tower/metal/blacksteel)
 
 /////////////
 // UTILITY //

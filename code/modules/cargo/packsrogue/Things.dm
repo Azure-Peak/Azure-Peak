@@ -87,14 +87,24 @@
 ///////////
 
 /datum/supply_pack/rogue/Things/westleach
-	name = "Westleach Zig"
+	name = "Westleach Loosie"
 	cost = 5
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/nicotine)
 
 /datum/supply_pack/rogue/Things/swampweed
-	name = "Swampweed Zig"
+	name = "Swampweed Loosie"
 	cost = 10
 	contains = list(/obj/item/clothing/mask/cigarette/rollie/cannabis)
+
+/datum/supply_pack/rogue/Things/zigbox
+	name = "Westleach Zigbox"
+	cost = 25
+	contains = list(/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine)
+
+/datum/supply_pack/rogue/Things/weedzigbox
+	name = "Westleach Zigbox"
+	cost = 55
+	contains = list(/obj/item/storage/belt/rogue/pouch/zigarrete/cannabis)
 
 /datum/supply_pack/rogue/Things/ozium
 	name = "Ozium"
@@ -110,6 +120,16 @@
 	name = "Spice"
 	cost = 40
 	contains = list(/obj/item/reagent_containers/powder/spice)
+
+/datum/supply_pack/rogue/Things/murkwine
+	name = "Murkwine"
+	cost = 30
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/murkwine)
+
+/datum/supply_pack/rogue/Things/nocshine
+	name = "Nocshine"
+	cost = 40
+	contains = list(/obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine)
 
 /////////////
 // STORAGE //
@@ -158,6 +178,21 @@
 	name = "Dragonscale Necklace"
 	cost = 900
 	contains = list(/obj/item/clothing/neck/roguetown/blkknight)
+
+/datum/supply_pack/rogue/Things/ftable
+	name = "Folding Table"	
+	cost = 100
+	contains = list(/obj/item/rogueweapon/contraption/folding_table_stored)
+
+/datum/supply_pack/rogue/Things/metalkit
+	name = "Armor Plate Kit"
+	cost = 150
+	contains = list(/obj/item/repair_kit/metal)
+
+/datum/supply_pack/rogue/Things/sewkit
+	name = "Sewing Kit"
+	cost = 100
+	contains = list(/obj/item/repair_kit)
 
 /datum/supply_pack/rogue/Things/smokebomb
 	name = "Smoke Bomb"
