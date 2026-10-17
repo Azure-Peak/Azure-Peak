@@ -177,6 +177,8 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define BLOOD_LOSS_PER_STEP			5
 #define BLOOD_LOSS_IN_SPREAD		20
 #define BLOOD_AMOUNT_PER_DECAL		20
+/// Bloody prints a large creature leaves after stepping in fresh blood
+#define BIGPRINT_STEPS				8
 
 //Bloody shoe blood states
 #define BLOOD_STATE_MUD				"mud"

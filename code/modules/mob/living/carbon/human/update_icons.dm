@@ -283,6 +283,11 @@ There are several things that need to be remembered:
 				armdam_overlay.color = BP.bandage.color
 				armdam_overlays += armdam_overlay
 
+		if(BP.body_zone == BODY_ZONE_CHEST)
+			var/datum/wound/gutwound = BP.has_wound(/datum/wound/slash/disembowel)
+			if(gutwound && !gutwound.is_sewn())
+				armdam_overlays += mutable_appearance('icons/effects/blood.dmi', "guts", -ARM_DAMAGE_LAYER)
+
 		var/used_offset = BP.offset
 		if(!is_bulky_offset())
 			used_offset = BP.offset_f
