@@ -35,18 +35,48 @@
 	var/static/list/area_delivery_items = list(
 		/area/rogue/indoors/town/tavern = list(
 			/obj/item/cooking/pan,
-			/obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian,
+			// ration papers! always good to have extra.
+			/obj/item/ration,
 			/obj/item/reagent_containers/food/snacks/rogue/cheddar,
+			// LOTS of different alcohol variations.
+			/obj/item/reagent_containers/glass/bottle/rogue/spicedwineaged,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/ratkept,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/butterhairs,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/stonebeardreserve,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena,
+			/obj/item/reagent_containers/glass/bottle/rogue/redwine,
+			/obj/item/reagent_containers/glass/bottle/rogue/whitewine,
+			/obj/item/reagent_containers/glass/bottle/rogue/wine/sourwine,
+			/obj/item/reagent_containers/glass/bottle/rogue/elfred,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/jagdtrunk,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/apfelweinheim,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/gronnmead,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/avarrice,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/avarmead,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunlager,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/baijiu,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine // hehehe
 		),
 		/area/rogue/indoors/town/bath = list(
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian,
 			/obj/item/reagent_containers/food/snacks/rogue/pie/cooked/crab,
 			/obj/item/perfume/random,
+			/obj/item/storage/belt/rogue/pouch/zigarrete/nicotine,
+			/obj/item/storage/belt/rogue/pouch/zigarrete/cannabis,
+			/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/whipwine,
+
 		),
 		/area/rogue/indoors/town/church = list(
 			/obj/item/natural/cloth,
 			/obj/item/reagent_containers/powder/ozium,
 			/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
+			/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum, // shitty health potion. NOT the good one.
+			/obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water,
+
 		),
 		/area/rogue/indoors/town/dwarfin = list(
 			/obj/item/ingot/iron,
@@ -63,6 +93,7 @@
 			/obj/item/reagent_containers/glass/bottle/rogue/whitewine,
 			/obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 			/obj/item/perfume/random,
+			/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab, // in honor of ser psyras or hubert i cant remember who wanted this
 		),
 		/area/rogue/indoors/town/magician = list(
 			/obj/item/rogueweapon/spellbook,
@@ -71,8 +102,13 @@
 		),
 		/area/rogue/indoors/town/physician = list(
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
+			/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum,
+			/obj/item/reagent_containers/glass/bottle/rogue/antidote,
+			/obj/item/reagent_containers/glass/bottle/rogue/berrypoison,
 			/obj/item/alch/viscera,
 			/obj/item/natural/bundle/cloth/bandage/full,
+			/obj/item/reagent_containers/powder/ozium,
+			/datum/supply_pack/rogue/drugs/moondust,
 		),
 		/area/rogue/indoors/town = list(
 			/obj/item/ration,
