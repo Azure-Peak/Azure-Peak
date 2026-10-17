@@ -274,19 +274,20 @@
 	w_class = WEIGHT_CLASS_SMALL
 	parrysound = list('sound/combat/parry/bladed/bladedsmall (1).ogg','sound/combat/parry/bladed/bladedsmall (2).ogg','sound/combat/parry/bladed/bladedsmall (3).ogg')
 	max_blade_int = 200
-	max_integrity = 80
+	max_integrity = 125
 	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
 	associated_skill = /datum/skill/combat/unarmed
 	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'
 	throwforce = 12
 	wdefense = 0	//Meant to be used with bracers
-	wbalance = WBALANCE_NORMAL
+	wbalance = WBALANCE_SWIFT
 	thrown_bclass = BCLASS_CUT
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 	grid_height = 64
 	grid_width = 32
 	sharpness_mod = 2	//Can't parry, so it decays quicker on-hit.
+	special = /datum/special_intent/piercing_lunge // Stabbing weapon gets stabbing special but not dagger dash
 
 /obj/item/rogueweapon/katar/getonmobprop(tag)
 	. = ..()
@@ -297,32 +298,19 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/rogueweapon/katar/bronze/gladiator
-	name = "arbelos"
-	icon_state = "bronzescissor"
-	item_state = "bronzescissor"
-	desc = "A sharpened axhead that's been mounted onto a bronze gauntlet. Popularized at the turn of the millennium within the Underdark's gladiatorial arenas, \
-	it triumphs over the katar when it comes to thawrting blows and cleaving skulls. The wooden handle used to connect its axhead to the gauntlet is fragile, however; \
-	all it takes is a precise strike to neuter such a weapon."
-	wdefense = 5 //Much higher than usual for most unarmed weapons..
-	max_integrity = 150 //..and tougher, too.
-	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
-	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
-	thrown_bclass = BCLASS_CHOP
-
 /obj/item/rogueweapon/katar/abyssor
 	name = "barotrauma"
 	desc = "A gift from a creature of the sea. The claw is sharpened to a wicked edge."
 	icon_state = "abyssorclaw"
 	force = 27
-	max_integrity = 80
+	max_integrity = 160 //templar weapons shouldn't be just as fragile as a normal katar, but not as tough as a steel one either. This is a compromise between the two.
 
 /obj/item/rogueweapon/katar/ravox
 	name = "arbiter"
 	desc = "A deadly claw fashioned for justicars. It's cuts strike deep into one's soul."
 	icon_state = "ravoxclaw"
 	force = 27
-	max_integrity = 80
+	max_integrity = 160
 
 /obj/item/rogueweapon/katar/bronze
 	name = "bronze katar"
@@ -334,12 +322,14 @@
 
 /obj/item/rogueweapon/katar/bronze/gladiator
 	name = "arbelos"
+	force = 23 // is not a katar and is comically bigger in compairson
+	w_class = WEIGHT_CLASS_NORMAL //bigger and heavier than a katar, but still lighter than a sword comically
 	icon_state = "bronzescissor"
 	item_state = "bronzescissor"
 	desc = "A sharpened axhead that's been mounted onto a bronze gauntlet. Popularized at the turn of the millennium within the Underdark's gladiatorial arenas, \
 	it triumphs over the katar when it comes to thawrting blows and cleaving skulls. The wooden handle used to connect its axhead to the gauntlet is fragile, however; \
 	all it takes is a precise strike to neuter such a weapon."
-	wdefense = 5 //Much higher than usual for most unarmed weapons..
+	wdefense = 3 // on pair with other unarmed weapons, but still better than a katar's 0 def since this thing is just bigger
 	max_integrity = 150 //..and tougher, too.
 	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
 	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
@@ -423,9 +413,9 @@
 	icon_state = "graggarpatasickle"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	wdefense = 3
-	force = 35
+	force = 30
 	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
-	wbalance = WBALANCE_HEAVY
+	wbalance = WBALANCE_SWIFT
 	max_blade_int = 333
 	max_integrity = 333
 	sharpness_mod = 2
@@ -445,9 +435,9 @@
 	icon_state = "graggarpataclub"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	wdefense = 3
-	force = 35
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash)
-	wbalance = WBALANCE_HEAVY
+	force = 30
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser) //less damage and weaker smash attack since is a 1 handed weapon
+	wbalance = WBALANCE_NORMAL
 	max_blade_int = 333
 	max_integrity = 333
 	smeltresult = /obj/item/ingot/component/graggar
@@ -470,7 +460,7 @@
 	wdefense = 3 // this is not a katar?
 	force = 20
 	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
-	wbalance = WBALANCE_NORMAL
+	wbalance = WBALANCE_SWIFT
 	max_blade_int = 150 //nerfed compared to the gronn special claws
 	max_integrity = 180
 	sharpness_mod = 2
@@ -894,7 +884,7 @@
 	wdefense = 3
 	force = 25
 	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
-	wbalance = WBALANCE_NORMAL
+	wbalance = WBALANCE_SWIFT
 	max_blade_int = 150
 	max_integrity = 200
 	gripsprite = FALSE
@@ -911,6 +901,7 @@
 	smeltresult = /obj/item/ingot/iron
 	grid_height = 96
 	grid_width = 32
+	special = /datum/special_intent/shin_swipe //cutting weapons that gets the gnoll claw special attack wich is recycled from 1 handed sword special attack
 
 /obj/item/rogueweapon/handclaw/steel
 	name = "steel mantis claws"
@@ -918,10 +909,10 @@
 			Their longer blades offer a superior defence option but their added weight slows them down."
 	icon_state = "steelclaws"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 6
-	force = 35
+	wdefense = 3
+	force = 30
 	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
-	wbalance = WBALANCE_HEAVY
+	wbalance = WBALANCE_SWIFT
 	max_blade_int = 180
 	max_integrity = 200
 	smeltresult = /obj/item/ingot/steel
@@ -934,7 +925,7 @@
 			</br>'To see the claws of the four, Is to see the true danger of the north. Not man, Not land but beast. We are all prey in their eyes.'"
 	icon_state = "gronnclaws"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 4
+	wdefense = 3
 	force = 25
 	possible_item_intents = list(/datum/intent/claw/cut/gronn, /datum/intent/claw/chop/gronn, /datum/intent/claw/rend)
 	wbalance = WBALANCE_SWIFT
@@ -970,10 +961,10 @@
 			</br>'Here in the wake, I know when the noose was set, but the truth is that I regret what I have left!'"
 	icon_state = "bskatarclaw"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 1
+	wdefense = 3
 	force = 35
 	possible_item_intents = list(/datum/intent/claw/cut/gronn, /datum/intent/claw/chop/gronn, /datum/intent/claw/rend)
-	wbalance = WBALANCE_HEAVY
+	wbalance = WBALANCE_SWIFT
 	max_blade_int = 350
 	smeltresult = /obj/item/ingot/blacksteel
 	sharpness_mod = 2
@@ -995,17 +986,18 @@
 	blade_class = BCLASS_CHOP
 	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
 	item_d_type = "slash"
-	penfactor = PEN_MEDIUM
-	damfactor = 1.1
+	penfactor = PEN_LIGHT
+	damfactor = 0.9
+	intent_intdamage_factor = 1.0 // we don't want an abusive 300% integrity damage on a claw, but we do want it to be able to damage armor
 	swingdelay = 10
-	clickcd = CLICK_CD_HEAVY
+	clickcd = CLICK_CD_CHARGED //sluggish attack but not as slow as a great axe chop
 
 /datum/intent/claw/chop/gronn
-	penfactor = PEN_NONE
-	damfactor = 0.7
-	intent_intdamage_factor = 3
-	swingdelay = 11
-	clickcd = CLICK_CD_MELEE
+	penfactor = PEN_LIGHT
+	damfactor = 0.9
+	intent_intdamage_factor = 1.0 // we don't want an abusive 300% integrity damage on a claw, but we do want it to be able to damage armor
+	swingdelay = 10
+	clickcd = CLICK_CD_CHARGED //sluggish attack but not as slow as a great axe chop
 
 /datum/intent/claw/cut
 	name = "cut"
