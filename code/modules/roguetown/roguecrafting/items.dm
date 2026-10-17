@@ -459,3 +459,14 @@
 		)
 	skillcraft = /datum/skill/craft/cooking
 	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/survival/charcoal
+	name = "wood into charcoal"
+	result = /obj/item/rogueore/coal/charcoal
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	structurecraft = /obj/machinery/light/rogue/oven
+	craftsound = 'sound/misc/frying.ogg'
+	verbage_simple = "char"
+	verbage = "chars"
+	craftdiff = 0
+	time = 10 SECONDS
