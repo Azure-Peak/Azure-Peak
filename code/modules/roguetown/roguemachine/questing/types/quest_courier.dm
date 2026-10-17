@@ -83,6 +83,7 @@
 			/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum, // shitty health potion. NOT the good one.
 			/obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water,
+			/obj/item/book/rogue/bibble,
 
 		),
 		/area/rogue/indoors/town/dwarfin = list(
@@ -94,6 +95,11 @@
 			/obj/item/roguecoin/gold,
 			/obj/item/clothing/ring/silver,
 			/obj/item/scomstone/bad,
+			/obj/item/perfume/random, // idk this was o nthe other noble lists and i think its Ok.
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena, // helps you get thru playing merchant
+			/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
+			/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
+			/obj/item/bomb, // oh my god JC
 		),
 		/area/rogue/indoors/town/manor = list(
 			/obj/item/clothing/cloak/raincloak/furcloak,
@@ -106,6 +112,8 @@
 			/obj/item/rogueweapon/spellbook,
 			/obj/item/roguegem/yellow,
 			/obj/item/reagent_containers/glass/bottle/rogue/manapot,
+			/obj/item/clothing/head/roguetown/wizhat/random,
+			/obj/item/clothing/mask/cigarette/rollie/cannabis,
 		),
 		/area/rogue/indoors/town/physician = list(
 			/obj/item/reagent_containers/glass/bottle/rogue/healthpot,
