@@ -12,6 +12,7 @@
 /datum/intent/staff/polevault/spec_on_apply_effect(mob/living/H, mob/living/user, params)
 	if(user.STASTR > 9)
 		if(user.STASTR < 13 && HAS_TRAIT(user, TRAIT_ARCYNE))
+			to_chat(user, span_warning("I am too weak to vault."))
 			return FALSE//Too weak of a mage to get access to vault. Apparently you can only get this with Orc + Statpack on your general mage. Maybe should raise this to 14?
 
 		if(user.incapacitated(ignore_restraints = TRUE))
@@ -32,11 +33,32 @@
 
 			animate(user, pixel_y = 16, time = 2, flags = ANIMATION_PARALLEL)
 			user.emote("jump", forced = TRUE)
+
+			var/goombastomp = FALSE
+			var/goombatargetStand = 0
+			for(var/mob/living/victim in target_turf) //If we actually land ontop of other mobs, knock us all over in the collision.
+				if(victim == user) //Not sure if this will ever happen, but let's skip the scenario.
+					continue
+				if(victim.mobility_flags & MOBILITY_STAND)
+					goombatargetStand += 1
+				victim.Knockdown(10) //Need to figure out how to make this look better.
+				victim.adjustBruteLoss(rand(5,10))
+				goombastomp = TRUE
 			spawn(2)
 				animate(user, pixel_y = 0, time = 2)
 				user.Move(target_turf)
+				if(target_turf.landsound)
+					playsound(target_turf, target_turf.landsound, 100, FALSE)
+
 				for(var/mob/M in view(user))
 					to_chat(M, span_warning("[user] vaults right over [H]'s head!"))
+
+			if(goombastomp == TRUE)
+				spawn(2)
+					if(goombatargetStand > 0) //We only knock ourselves down if we jump onto a standing opponent. Maybe this should use a Strength/Con logic.
+						user.Knockdown(10)
+					user.adjustBruteLoss(rand(5,10))
+					playsound(user, pick('sound/foley/zfall.ogg'), 100, FALSE)
 	else
 		to_chat(user, span_warning("I am too weak to vault."))
 		return FALSE //Too weak to vault in general at 9 and below.
