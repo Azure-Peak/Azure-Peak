@@ -204,8 +204,6 @@
 	resistance_flags = FIRE_PROOF
 	body_parts_covered = NECK|MOUTH|NOSE|HAIR|EARS|HEAD
 	adjustable = CAN_CADJUST
-	equip_delay_self = 6 SECONDS
-	unequip_delay_self = 6 SECONDS
 	staged_adjust = TRUE
 	adjust_stages = list(
 		list("icon" = "chaincoif", "inv" = HIDEEARS|HIDEHAIR, "cover" = NECK|HAIR|EARS|HEAD),
