@@ -27,7 +27,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	levy_exempt = TRUE
 	guild_cut_rate = 0
 	charges_deposit = FALSE
-	override_destination = /area/rogue/indoors/town/dwarfin
+	takes_destination = FALSE
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety
 	var/parcel_label = "sealed strongbox"
@@ -129,9 +129,9 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	if(!(landmark.region in eligible_regions))
 		return FALSE
 	tp_budget = get_tier_tp_budget()
-	. = ..()
-	if(!.)
-		return FALSE
+	return ..()
+
+/datum/quest/kill/recovery/towner/pick_shipment()
 	shipment_name = parcel_label
 	return TRUE
 
@@ -153,8 +153,6 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 		for(var/i in 1 to count)
 			var/obj/item/I = new path(recovered)
 			recovered.contained_items += I
-	recovered.delivery_area_type = target_delivery_location
-	recovered.allowed_jobs = recovered.get_area_jobs(target_delivery_location)
 	recovered.unlocked_by_owner_ref = quest_giver_reference
 	recovered.owner_name = quest_giver_name
 	recovered.sealed_noun = sealed_noun
@@ -165,6 +163,3 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	recovered.update_icon()
 	recovered.AddComponent(/datum/component/quest_object/courier, src)
 	add_tracked_atom(recovered)
-
-/datum/quest/kill/recovery/towner/proc/on_turn_in_pay_giver(mob/bearer, turf/ledger_turf)
-	return

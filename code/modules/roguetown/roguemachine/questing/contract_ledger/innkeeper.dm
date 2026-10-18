@@ -59,7 +59,8 @@
 
 	var/area/chosen_destination
 	var/dest_name
-	if(chosen_type == QUEST_RECOVERY)
+	var/datum/quest/chosen_proto = GLOB.quest_prototypes[chosen_type]
+	if(chosen_proto?.takes_destination)
 		dest_name = params["destination"]
 		for(var/area/A as anything in GLOB.quest_recovery_shipments)
 			if(initial(A.name) == dest_name)

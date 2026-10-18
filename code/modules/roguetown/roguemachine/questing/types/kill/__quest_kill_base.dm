@@ -62,6 +62,10 @@
 	if(S && !QDELETED(S))
 		qdel(S)
 
+/datum/quest/kill/force_complete()
+	despawn_live_hunt_mobs()
+	return ..()
+
 /datum/quest/kill/proc/despawn_live_hunt_mobs()
 	for(var/datum/weakref/W in tracked_atoms)
 		var/atom/A = W.resolve()

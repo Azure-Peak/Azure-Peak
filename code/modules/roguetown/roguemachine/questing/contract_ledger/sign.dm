@@ -106,8 +106,6 @@
 	var/deposit_return = completed_quest.return_deposit("contract deposit returned - [src.name]")
 
 	completed_quest.record_completion_stats(base_reward)
-	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
-		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
 
 	var/tax_amt = completed_quest.pay_reward(benef_account, beneficiary, base_reward, "contract reward - [src.name]", src.name)
 	var/guild_fee_paid = pay_innkeeper_referral_fees(benef_account, completed_quest, base_reward)
@@ -150,11 +148,7 @@
 		return
 	log_admin("[key_name(user)] force-completed a [matched_quest.quest_type] contract at the Contract Ledger.")
 	if(!matched_quest.complete)
-		if(istype(matched_quest, /datum/quest/kill))
-			var/datum/quest/kill/KQ = matched_quest
-			KQ.despawn_live_hunt_mobs()
-		matched_quest.progress_current = matched_quest.progress_required
-		matched_quest.mark_complete()
+		matched_quest.force_complete()
 	if(!QDELETED(matched_scroll) && matched_scroll.assigned_quest?.complete)
 		turn_in_scroll(user, matched_scroll, QUEST_TURNIN_SELF)
 

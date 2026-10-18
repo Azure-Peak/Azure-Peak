@@ -273,9 +273,8 @@ SUBSYSTEM_DEF(questpool)
 	var/datum/quest/Q = create_issued_quest(type, source, issuer)
 	if(!Q)
 		return null
-	if(override_destination && istype(Q, /datum/quest/kill/recovery))
-		var/datum/quest/kill/recovery/RQ = Q
-		RQ.override_destination = override_destination
+	if(Q.takes_destination)
+		Q.override_destination = override_destination
 	var/obj/effect/landmark/quest_spawner/landmark = place_quest(Q, TR)
 	if(!landmark)
 		return null

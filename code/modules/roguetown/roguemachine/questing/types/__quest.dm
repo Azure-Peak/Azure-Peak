@@ -83,6 +83,8 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/obj/item/target_delivery_item
 	var/mob/living/target_mob_type
 	var/area/rogue/indoors/town/target_delivery_location
+	var/takes_destination = FALSE
+	var/area/override_destination
 	var/target_spawn_area = ""
 
 	var/obj/item/quest_writ/quest_scroll
@@ -288,6 +290,10 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/mark_complete()
 	complete = TRUE
 	quest_scroll?.update_quest_text()
+
+/datum/quest/proc/force_complete()
+	progress_current = progress_required
+	mark_complete()
 
 /datum/quest/proc/get_base_reward()
 	return QUEST_REWARD_BASE_FLAT

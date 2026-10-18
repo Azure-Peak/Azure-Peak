@@ -65,7 +65,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	tp_budget = QUEST_TP_BUDGET_RECOVERY
 	threat_bands_cleared = QUEST_BANDS_RECOVERY
 	kills_count_progress = FALSE
-	var/area/override_destination
+	takes_destination = TRUE
 	var/shipment_name
 	var/shipment_count = 0
 
@@ -84,6 +84,13 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	. = ..()
 	if(!.)
 		return FALSE
+	if(!pick_shipment())
+		return FALSE
+	progress_required = 1
+	finalize_preview_title()
+	return TRUE
+
+/datum/quest/kill/recovery/proc/pick_shipment()
 	// Destination picks the item pool. If Rumor-dispatcher pre-set an override, use it; else random.
 	var/area/destination = override_destination
 	if(!destination)
@@ -97,8 +104,6 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	target_delivery_item = chosen["item"]
 	shipment_name = chosen["name"]
 	shipment_count = rand(chosen["min"], chosen["max"])
-	progress_required = 1
-	finalize_preview_title()
 	return TRUE
 
 /datum/quest/kill/recovery/get_title()
