@@ -1,3 +1,10 @@
+GLOBAL_LIST_INIT(quest_difficulty_terms, list(
+	QUEST_DIFFICULTY_EASY = list("bonus" = QUEST_DIFFICULTY_BONUS_EASY, "deposit" = QUEST_DEPOSIT_EASY, "icon" = "scroll_quest_low"),
+	QUEST_DIFFICULTY_MEDIUM = list("bonus" = QUEST_DIFFICULTY_BONUS_MEDIUM, "deposit" = QUEST_DEPOSIT_MEDIUM, "icon" = "scroll_quest_mid"),
+	QUEST_DIFFICULTY_HARD = list("bonus" = QUEST_DIFFICULTY_BONUS_HARD, "deposit" = QUEST_DEPOSIT_HARD, "icon" = "scroll_quest_high"),
+	QUEST_DIFFICULTY_NOTORIOUS = list("bonus" = QUEST_DIFFICULTY_BONUS_NOTORIOUS, "deposit" = QUEST_DEPOSIT_NOTORIOUS, "icon" = "scroll_quest_notorious"),
+))
+
 GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 /proc/build_quest_prototypes()
@@ -60,6 +67,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/defense_cost = 0
 	var/quest_difficulty = QUEST_DIFFICULTY_EASY
 	var/reward_amount = 0
+	var/charges_deposit = TRUE
 	var/deposit_amount = 0
 	var/complete = FALSE
 
@@ -76,8 +84,6 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/mob/living/target_mob_type
 	var/area/rogue/indoors/town/target_delivery_location
 	var/target_spawn_area = ""
-
-	var/quest_icon = "scroll_quest"
 
 	var/obj/item/quest_writ/quest_scroll
 	var/datum/weakref/quest_scroll_ref
@@ -296,44 +302,22 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
 	if(TR)
 		payout_mult *= TR.payout_multiplier
-	return round((base + additional + get_difficulty_bonus()) * payout_mult)
+	return round((base + additional + (get_difficulty_term("bonus") || 0)) * payout_mult)
 
-/datum/quest/proc/get_difficulty_bonus()
-	switch(quest_difficulty)
-		if(QUEST_DIFFICULTY_MEDIUM)
-			return QUEST_DIFFICULTY_BONUS_MEDIUM
-		if(QUEST_DIFFICULTY_HARD)
-			return QUEST_DIFFICULTY_BONUS_HARD
-		if(QUEST_DIFFICULTY_NOTORIOUS)
-			return QUEST_DIFFICULTY_BONUS_NOTORIOUS
-	return QUEST_DIFFICULTY_BONUS_EASY
+/datum/quest/proc/get_difficulty_term(term)
+	var/list/terms = GLOB.quest_difficulty_terms[quest_difficulty]
+	return terms?[term]
 
 /datum/quest/proc/calculate_deposit()
-	switch(quest_difficulty)
-		if(QUEST_DIFFICULTY_EASY)
-			return QUEST_DEPOSIT_EASY
-		if(QUEST_DIFFICULTY_MEDIUM)
-			return QUEST_DEPOSIT_MEDIUM
-		if(QUEST_DIFFICULTY_HARD)
-			return QUEST_DEPOSIT_HARD
-		if(QUEST_DIFFICULTY_NOTORIOUS)
-			return QUEST_DEPOSIT_NOTORIOUS
-	return 0
+	if(!charges_deposit)
+		return 0
+	return get_difficulty_term("deposit") || 0
 
 /datum/quest/proc/get_scroll_type()
 	return /obj/item/quest_writ
 
 /datum/quest/proc/get_scroll_icon()
-	switch(quest_difficulty)
-		if(QUEST_DIFFICULTY_EASY)
-			return "scroll_quest_low"
-		if(QUEST_DIFFICULTY_MEDIUM)
-			return "scroll_quest_mid"
-		if(QUEST_DIFFICULTY_HARD)
-			return "scroll_quest_high"
-		if(QUEST_DIFFICULTY_NOTORIOUS)
-			return "scroll_quest_notorious"
-	return quest_icon
+	return get_difficulty_term("icon") || "scroll_quest"
 
 /datum/quest/proc/get_target_location()
 	var/turf/user_turf = quest_scroll ? get_turf(quest_scroll) : null
