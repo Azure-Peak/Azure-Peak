@@ -1,4 +1,20 @@
+GLOBAL_LIST_INIT(quest_type_paths, build_quest_type_paths())
+
+/proc/build_quest_type_paths()
+	. = list()
+	for(var/datum/quest/path as anything in subtypesof(/datum/quest))
+		if(IS_ABSTRACT(path))
+			continue
+		var/qtype = initial(path.quest_type)
+		if(!qtype)
+			continue
+		if(.[qtype])
+			stack_trace("Duplicate quest_type [qtype] on [path] and [.[qtype]]")
+			continue
+		.[qtype] = path
+
 /datum/quest
+	abstract_type = /datum/quest
 	var/title = ""
 	var/datum/weakref/quest_giver_reference
 	var/quest_giver_name = ""

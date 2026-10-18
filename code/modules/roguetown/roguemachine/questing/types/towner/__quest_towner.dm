@@ -14,6 +14,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 ))
 
 /datum/quest/kill/recovery/towner
+	abstract_type = /datum/quest/kill/recovery/towner
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
 	guild_cut_exempt = TRUE

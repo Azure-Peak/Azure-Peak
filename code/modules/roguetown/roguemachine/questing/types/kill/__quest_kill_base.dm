@@ -1,4 +1,5 @@
 /datum/quest/kill
+	abstract_type = /datum/quest/kill
 	var/tp_budget = 0
 	var/min_mobs = 1
 	var/threat_bands_cleared = 0
