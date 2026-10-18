@@ -162,6 +162,8 @@
 	var/poisonfeel
 
 	var/aim_peak = 0
+	/// Ignores every zone hit penalty and ceiling
+	var/steady_aim = FALSE
 
 	/// Min tile distance for full damage.
 	var/min_range = 0
