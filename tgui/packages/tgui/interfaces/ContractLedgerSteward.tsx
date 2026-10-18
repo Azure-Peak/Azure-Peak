@@ -28,6 +28,7 @@ type StewardData = {
   pledge_golden_active: number | boolean;
   crown_purse_balance: number;
   defense_costs: Record<string, number>;
+  defense_labels: Record<string, string>;
   defense_regions_by_type: Record<string, string[]>;
   blockade_region_labels: Record<string, string>;
   region_tp_multipliers: Record<string, number>;
@@ -52,10 +53,6 @@ type SubTab = 'compose' | 'issued' | 'history';
 const BLOCKADE_TYPE = 'Blockade Defense';
 const HOARD_RECOVERY_TYPE = 'Hoard Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
-
-const COMMISSION_LABELS: Record<string, string> = {
-  'Blockade Defense': 'Clear Blockade',
-};
 
 const coin = (n: number) => `${n}m`;
 
@@ -342,7 +339,7 @@ const ComposeView = () => {
         >
           {typeOptions.map((t) => (
             <option key={t} value={t}>
-              {COMMISSION_LABELS[t] || t} ({coin(data.defense_costs[t])})
+              {data.defense_labels?.[t] || t} ({coin(data.defense_costs[t])})
             </option>
           ))}
         </select>

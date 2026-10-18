@@ -172,6 +172,7 @@
 		data["pledge_golden_active"] = (golden?.active) ? TRUE : FALSE
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
 		data["defense_costs"] = get_quest_defense_costs()
+		data["defense_labels"] = get_quest_commission_labels()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
 		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_log"] = SStreasury.defense_log

@@ -48,7 +48,6 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
 		if(proto.defense_cost > 0)
 			.[qtype] = proto.defense_cost
-
 /datum/quest
 	abstract_type = /datum/quest
 	var/title = ""
@@ -291,6 +290,12 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/mark_complete()
 	complete = TRUE
 	quest_scroll?.update_quest_text()
+
+/datum/quest/proc/get_defense_regions()
+	. = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		if(TR.allows_quest_type(quest_type))
+			. += TR.region_name
 
 /datum/quest/proc/force_complete()
 	progress_current = progress_required

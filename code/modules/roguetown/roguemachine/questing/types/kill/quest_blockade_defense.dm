@@ -27,6 +27,13 @@
 	var/current_archetype = BLOCKADE_ARCHETYPE_WARBAND
 	var/wave_boss_name
 
+/datum/quest/kill/blockade_defense/get_defense_regions()
+	. = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		var/datum/economic_region/ER = B.get_region()
+		if(ER)
+			. += ER.name
+
 /datum/quest/kill/blockade_defense/get_scroll_type()
 	return /obj/item/quest_writ/blockade
 
@@ -440,6 +447,12 @@
 	quest_type = QUEST_HOARD_RECOVERY
 	chronicle_order = QUEST_CHRONICLE_ORDER_HOARD_RECOVERY
 	var/raised_by_fellowship = FALSE
+
+/datum/quest/kill/blockade_defense/hoard_recovery/get_defense_regions()
+	. = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		if(TR.banditry_hoard >= HOARD_RECOVERY_HOARD_MINIMUM && !TR.has_active_blockade())
+			. += TR.region_name
 
 /datum/quest/kill/blockade_defense/hoard_recovery/office_may_withdraw()
 	return !raised_by_fellowship
