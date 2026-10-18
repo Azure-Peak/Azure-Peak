@@ -1,6 +1,6 @@
-GLOBAL_LIST_INIT(quest_type_paths, build_quest_type_paths())
+GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
-/proc/build_quest_type_paths()
+/proc/build_quest_prototypes()
 	. = list()
 	for(var/datum/quest/path as anything in subtypesof(/datum/quest))
 		if(IS_ABSTRACT(path))
@@ -11,7 +11,15 @@ GLOBAL_LIST_INIT(quest_type_paths, build_quest_type_paths())
 		if(.[qtype])
 			stack_trace("Duplicate quest_type [qtype] on [path] and [.[qtype]]")
 			continue
-		.[qtype] = path
+		.[qtype] = new path()
+	sortTim(., GLOBAL_PROC_REF(cmp_quest_chronicle_order), associative = TRUE)
+
+/proc/quest_types_for_landmark_kind(kind)
+	. = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(kind in proto.landmark_kinds)
+			. += qtype
 
 /datum/quest
 	abstract_type = /datum/quest
@@ -21,6 +29,9 @@ GLOBAL_LIST_INIT(quest_type_paths, build_quest_type_paths())
 	var/datum/weakref/quest_receiver_reference
 	var/quest_receiver_name = ""
 	var/quest_type = ""
+	var/list/eligible_regions = list()
+	var/list/landmark_kinds = list(QUEST_LANDMARK_GENERIC)
+	var/chronicle_order = QUEST_CHRONICLE_ORDER_DEFAULT
 	var/quest_difficulty = ""
 	var/reward_amount = 0
 	var/deposit_amount = 0

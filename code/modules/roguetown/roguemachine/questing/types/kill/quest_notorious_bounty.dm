@@ -1,5 +1,13 @@
 /datum/quest/kill/notorious_bounty
 	quest_type = QUEST_NOTORIOUS_BOUNTY
+	chronicle_order = QUEST_CHRONICLE_ORDER_NOTORIOUS_BOUNTY
+	eligible_regions = list(
+		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+		THREAT_REGION_AZUREAN_COAST,
+		THREAT_REGION_MOUNT_DECAP,
+		THREAT_REGION_UNDERDARK,
+	)
 	quest_difficulty = QUEST_DIFFICULTY_NOTORIOUS
 	tp_budget = QUEST_TP_BUDGET_NOTORIOUS_GOONS
 	threat_bands_cleared = QUEST_BANDS_NOTORIOUS
@@ -403,3 +411,6 @@
 	boss.adjust_triumphs(NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH, TRUE, "notorious bounty: outlasted the hunt")
 	message_admins("[key_name_admin(boss)] outlasted notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]).")
 	return TRUE
+
+/datum/quest/kill/notorious_bounty/faction_fits(datum/quest_faction/F)
+	return ..() && length(F.get_playable_boss_types())

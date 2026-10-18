@@ -248,7 +248,7 @@
 	var/list/out = list()
 	out += chronicle_section_header("Contracts by Type")
 	out += "	[chronicle_pad_right("Contract", 18)] | Posted | Taken | Lapsed | Players | Done | Failed | Aband | Withdr | Open | Done% | Wait | Run | Party | Deaths | Paid\n"
-	for(var/quest_type in contract_type_order())
+	for(var/quest_type in GLOB.quest_prototypes)
 		out += chronicle_contract_row(CONTRACT_AXIS_TYPE, quest_type)
 	out += chronicle_kv("Distinct signers (all types)", "[count_all_contract_signers()]")
 	out += "\n"

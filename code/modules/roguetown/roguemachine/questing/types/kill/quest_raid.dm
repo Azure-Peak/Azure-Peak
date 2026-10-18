@@ -1,5 +1,13 @@
 /datum/quest/kill/raid
 	quest_type = QUEST_RAID
+	chronicle_order = QUEST_CHRONICLE_ORDER_RAID
+	eligible_regions = list(
+		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+		THREAT_REGION_AZUREAN_COAST,
+		THREAT_REGION_MOUNT_DECAP,
+		THREAT_REGION_UNDERDARK,
+	)
 	tp_budget = QUEST_TP_BUDGET_RAID
 	threat_bands_cleared = QUEST_BANDS_RAID
 	required_fellowship_size = 2

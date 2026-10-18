@@ -2,8 +2,8 @@
 	name = "quest landmark"
 	icon = 'code/modules/roguetown/roguemachine/questing/questing.dmi'
 	icon_state = "quest_marker"
-	var/list/quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_KILL_EASY, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE)
-	var/accepts_towner = TRUE
+	var/landmark_kind = QUEST_LANDMARK_GENERIC
+	var/list/quest_type
 	var/region
 	var/datum/weakref/claimed_by
 	var/locked_at = 0
@@ -16,11 +16,7 @@
 		var/area/A = get_area(src)
 		if(A)
 			region = A.threat_region
-	if(accepts_towner)
-		quest_type = quest_type | GLOB.towner_prototypes
-	// Register in the per-type index so find_quest_landmark can skip the full-list scan.
-	// If SSquestpool hasn't come up yet (landmarks mapload before subsystems init), it
-	// backfills from GLOB.quest_landmarks_list in its own Initialize().
+	quest_type = quest_types_for_landmark_kind(landmark_kind)
 	SSquestpool?.register_landmark(src)
 
 /obj/effect/landmark/quest_spawner/Destroy()
@@ -57,13 +53,11 @@
 /obj/effect/landmark/quest_spawner/generic
 	name = "generic quest landmark"
 	icon_state = "quest_marker_low"
-	quest_type = list(QUEST_RETRIEVAL, QUEST_COURIER, QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_BLOCKADE_DEFENSE, QUEST_NOTORIOUS_BOUNTY)
 
 /obj/effect/landmark/quest_spawner/defense
 	name = "defense quest landmark"
 	icon_state = "quest_marker_high"
-	quest_type = list(QUEST_BLOCKADE_DEFENSE)
-	accepts_towner = FALSE
+	landmark_kind = QUEST_LANDMARK_DEFENSE
 
 /obj/effect/landmark/quest_spawner/proc/is_available_for_quest()
 	if(claimed_by?.resolve())

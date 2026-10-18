@@ -1,5 +1,10 @@
 /datum/quest/kill/easy
 	quest_type = QUEST_KILL_EASY
+	chronicle_order = QUEST_CHRONICLE_ORDER_KILL_EASY
+	eligible_regions = list(
+		THREAT_REGION_AZURE_BASIN,
+		THREAT_REGION_AZURE_GROVE,
+	)
 	tp_budget = QUEST_TP_BUDGET_KILL_EASY
 	min_mobs = 2
 	threat_bands_cleared = QUEST_BANDS_KILL_EASY

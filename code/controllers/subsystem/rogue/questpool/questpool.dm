@@ -559,10 +559,10 @@ SUBSYSTEM_DEF(questpool)
 	return QUEST_DIFFICULTY_EASY
 
 /datum/controller/subsystem/questpool/proc/instantiate_quest_of_type(type)
-	var/path = GLOB.quest_type_paths[type]
-	if(!path)
+	var/datum/quest/proto = GLOB.quest_prototypes[type]
+	if(!proto)
 		return null
-	return new path()
+	return new proto.type()
 
 /datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)
 	if(!Q || !(Q in pool))

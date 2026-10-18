@@ -48,6 +48,15 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 
 /datum/quest/kill/recovery
 	quest_type = QUEST_RECOVERY
+	chronicle_order = QUEST_CHRONICLE_ORDER_RECOVERY
+	eligible_regions = list(
+		THREAT_REGION_AZURE_BASIN,
+		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+		THREAT_REGION_AZUREAN_COAST,
+		THREAT_REGION_MOUNT_DECAP,
+		THREAT_REGION_UNDERDARK,
+	)
 	tp_budget = QUEST_TP_BUDGET_RECOVERY
 	threat_bands_cleared = QUEST_BANDS_RECOVERY
 	kills_count_progress = FALSE

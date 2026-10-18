@@ -1,5 +1,7 @@
 /datum/quest/kill/blockade_defense
 	quest_type = QUEST_BLOCKADE_DEFENSE
+	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
+	landmark_kinds = list(QUEST_LANDMARK_GENERIC, QUEST_LANDMARK_DEFENSE)
 	quest_difficulty = QUEST_DIFFICULTY_HARD
 	tp_budget = BLOCKADE_WAVE_BASE_TP
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE
@@ -452,6 +454,7 @@
 // region alone and never blocks trade.
 /datum/quest/kill/blockade_defense/hoard_recovery
 	quest_type = QUEST_HOARD_RECOVERY
+	chronicle_order = QUEST_CHRONICLE_ORDER_HOARD_RECOVERY
 	var/raised_by_fellowship = FALSE
 
 /datum/quest/kill/blockade_defense/hoard_recovery/office_may_withdraw()

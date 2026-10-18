@@ -301,18 +301,6 @@ GLOBAL_LIST_EMPTY(azure_round_stats)
 
 GLOBAL_LIST_EMPTY(contract_stats)
 GLOBAL_LIST_EMPTY(contract_signers)
-GLOBAL_LIST_INIT(contract_stat_type_order, list(
-	QUEST_KILL_EASY,
-	QUEST_CLEAR_OUT,
-	QUEST_RAID,
-	QUEST_BOUNTY,
-	QUEST_NOTORIOUS_BOUNTY,
-	QUEST_RECOVERY,
-	QUEST_RETRIEVAL,
-	QUEST_COURIER,
-	QUEST_BLOCKADE_DEFENSE,
-	QUEST_HOARD_RECOVERY,
-))
 GLOBAL_LIST_INIT(contract_stat_group_order, list(
 	CONTRACT_GROUP_NOBILITY,
 	CONTRACT_GROUP_GARRISON,
@@ -414,10 +402,6 @@ GLOBAL_LIST_INIT(contract_stat_group_order, list(
 	var/list/order = GLOB.contract_stat_group_order.Copy()
 	order.Insert(order.Find(CONTRACT_GROUP_OUTLAWS), titles)
 	return order
-
-// Return the order the quests are listed in for Economic Chronicle contract tables
-/proc/contract_type_order()
-	return GLOB.contract_stat_type_order + GLOB.towner_prototypes
 
 // Same as above but for regions
 /proc/contract_region_order()

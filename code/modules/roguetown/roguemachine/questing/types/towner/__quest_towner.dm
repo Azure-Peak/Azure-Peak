@@ -13,18 +13,19 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	TOWNER_POSTING_TIER_HARD = TOWNER_FLAT_BONUS_HARD,
 ))
 
-GLOBAL_LIST_INIT(towner_prototypes, build_towner_prototypes())
+/proc/get_towner_prototype(quest_type)
+	var/datum/quest/kill/recovery/towner/proto = GLOB.quest_prototypes[quest_type]
+	return istype(proto) ? proto : null
 
-/proc/build_towner_prototypes()
+/proc/get_towner_prototypes()
 	. = list()
-	for(var/datum/quest/kill/recovery/towner/path as anything in subtypesof(/datum/quest/kill/recovery/towner))
-		if(IS_ABSTRACT(path))
-			continue
-		var/datum/quest/kill/recovery/towner/proto = new path()
-		.[proto.quest_type] = proto
+	for(var/qtype in GLOB.quest_prototypes)
+		if(get_towner_prototype(qtype))
+			.[qtype] = GLOB.quest_prototypes[qtype]
 
 /datum/quest/kill/recovery/towner
 	abstract_type = /datum/quest/kill/recovery/towner
+	chronicle_order = QUEST_CHRONICLE_ORDER_TOWNER
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
 	guild_cut_exempt = TRUE
@@ -39,8 +40,8 @@ GLOBAL_LIST_INIT(towner_prototypes, build_towner_prototypes())
 		"The crate is magickally sealed. Only you can open it.",
 		"You don't need to travel. The holder brings the crate to you.",
 	)
+	eligible_regions = list()
 	var/list/postable_advclasses = list()
-	var/list/eligible_regions = list()
 	var/list/eligible_factions = list()
 	var/list/tier_tp_budgets = list(
 		TOWNER_POSTING_TIER_MEDIUM = TOWNER_CARAVAN_TP_BUDGET_MEDIUM,
@@ -78,17 +79,8 @@ GLOBAL_LIST_INIT(towner_prototypes, build_towner_prototypes())
 /datum/quest/kill/recovery/towner/proc/get_tier_flat_bonus()
 	return GLOB.towner_tier_flat_bonus[posting_tier] || 0
 
-/datum/quest/kill/recovery/towner/pick_region_faction_for(datum/threat_region/TR)
-	var/list/weights = list()
-	for(var/id in TR.faction_weights)
-		if(!(id in eligible_factions))
-			continue
-		if(!get_quest_faction(id))
-			continue
-		weights[id] = TR.faction_weights[id]
-	if(!length(weights))
-		return null
-	return get_quest_faction(pickweight(weights))
+/datum/quest/kill/recovery/towner/faction_fits(datum/quest_faction/F)
+	return (F.id in eligible_factions)
 
 /datum/quest/kill/recovery/towner/proc/build_bundle()
 	var/variety = effective_variety()

@@ -16,14 +16,13 @@
 	var/blockade_travel_fee = 0
 	// Ambush budget percent - uses the higher one for safer region so that they can still spawn some relevant ambushes without needing to adjust the max_ambush downward
 	var/ambush_budget_pct = AMBUSH_BUDGET_PCT_REGULAR
-	var/list/allowed_quest_types
 	var/kill_target_floor = 2
 	var/evergreen_target = 0
 	// Mammons the region have stolen, for recovery
 	var/banditry_hoard = 0
 	var/datum/weakref/active_hoard_recovery_ref
 
-/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _ambush_budget_pct = AMBUSH_BUDGET_PCT_REGULAR, _faction_weights, _tp_budget_multiplier = 1.0, _allowed_quest_types, _kill_target_floor = 2, _evergreen_target = 0, _delivery_reward_multiplier = 1.0, _payout_multiplier = 1.0, _blockade_travel_fee = 0)
+/datum/threat_region/New(_region_name, _latent_ambush, _min_ambush, _max_ambush, _fixed_ambush, _lowpop_tick, _highpop_tick, _ambush_budget_pct = AMBUSH_BUDGET_PCT_REGULAR, _faction_weights, _tp_budget_multiplier = 1.0, _kill_target_floor = 2, _evergreen_target = 0, _delivery_reward_multiplier = 1.0, _payout_multiplier = 1.0, _blockade_travel_fee = 0)
 	region_name = _region_name
 	latent_ambush = _latent_ambush
 	min_ambush = _min_ambush
@@ -38,10 +37,6 @@
 	payout_multiplier = _payout_multiplier
 	blockade_travel_fee = _blockade_travel_fee
 	ambush_budget_pct = _ambush_budget_pct
-	if(_allowed_quest_types)
-		allowed_quest_types = _allowed_quest_types
-	else
-		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_NOTORIOUS_BOUNTY)
 	kill_target_floor = _kill_target_floor
 	evergreen_target = _evergreen_target
 
@@ -56,10 +51,8 @@
 	return clamp(scaled, kill_target_floor, kill_target_floor + QUEST_KILL_CEILING_OFFSET)
 
 /datum/threat_region/proc/allows_quest_type(quest_type)
-	var/datum/quest/kill/recovery/towner/towner_proto = GLOB.towner_prototypes[quest_type]
-	if(towner_proto)
-		return (region_name in towner_proto.eligible_regions)
-	return (quest_type in allowed_quest_types)
+	var/datum/quest/proto = GLOB.quest_prototypes[quest_type]
+	return proto && (region_name in proto.eligible_regions)
 
 /datum/threat_region/proc/get_threat_weight()
 	if(!max_ambush || latent_ambush <= 0)

@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 	return AC.type
 
 /proc/towner_trade_can_post(mob/user, posting_type)
-	var/datum/quest/kill/recovery/towner/proto = GLOB.towner_prototypes[posting_type]
+	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
 	if(!proto)
 		return FALSE
 	var/path = get_user_advclass_path(user)
@@ -35,14 +35,14 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 	return user_can_post_crown_towner(user)
 
 /proc/user_can_post_towner_type(mob/user, posting_type)
-	if(!GLOB.towner_prototypes[posting_type])
+	if(!get_towner_prototype(posting_type))
 		return FALSE
 	if(towner_trade_can_post(user, posting_type))
 		return TRUE
 	return user_can_post_crown_towner(user)
 
 /proc/user_can_post_any_towner(mob/user)
-	for(var/posting_type in GLOB.towner_prototypes)
+	for(var/posting_type in get_towner_prototypes())
 		if(user_can_post_towner_type(user, posting_type))
 			return TRUE
 	return FALSE
@@ -63,7 +63,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 	return "combat & distance pay"
 
 /proc/towner_variety_table(posting_type)
-	var/datum/quest/kill/recovery/towner/proto = GLOB.towner_prototypes[posting_type]
+	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
 	return proto?.varieties
 
 /proc/towner_default_variety(posting_type)
@@ -109,8 +109,9 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 
 /proc/build_towner_posting_listing(mob/user)
 	var/list/out = list()
-	for(var/posting_type in GLOB.towner_prototypes)
-		var/datum/quest/kill/recovery/towner/proto = GLOB.towner_prototypes[posting_type]
+	var/list/prototypes = get_towner_prototypes()
+	for(var/posting_type in prototypes)
+		var/datum/quest/kill/recovery/towner/proto = prototypes[posting_type]
 		var/crown_funded = towner_posting_is_crown_funded(user, posting_type)
 		var/cost_mult = crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1
 		var/list/tiers = list()
@@ -143,7 +144,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		return
 
 	var/chosen_type = params["type"]
-	if(!(chosen_type in GLOB.towner_prototypes))
+	if(!get_towner_prototype(chosen_type))
 		to_chat(poster, span_warning("That posting type is not one the Guild accepts."))
 		return
 

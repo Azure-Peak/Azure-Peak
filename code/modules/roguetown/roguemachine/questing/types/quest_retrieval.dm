@@ -1,5 +1,11 @@
 /datum/quest/retrieval
 	quest_type = QUEST_RETRIEVAL
+	chronicle_order = QUEST_CHRONICLE_ORDER_RETRIEVAL
+	eligible_regions = list(
+		THREAT_REGION_AZURE_BASIN,
+		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+	)
 	writ_type = WRIT_TYPE_RECOVERY
 	var/list/fetch_items = list(
 		/obj/item/rogueweapon/huntingknife/throwingknife/steel = "steel tossblades",

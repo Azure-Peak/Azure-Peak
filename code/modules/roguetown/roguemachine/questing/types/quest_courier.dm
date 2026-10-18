@@ -1,5 +1,11 @@
 /datum/quest/courier
 	quest_type = QUEST_COURIER
+	chronicle_order = QUEST_CHRONICLE_ORDER_COURIER
+	eligible_regions = list(
+		THREAT_REGION_AZURE_BASIN,
+		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+	)
 	writ_type = WRIT_TYPE_CARRIAGE
 	var/list/target_delivery_locations = list(
 		/area/rogue/indoors/town/tavern,

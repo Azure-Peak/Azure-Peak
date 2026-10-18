@@ -141,15 +141,15 @@
 	var/list/weights = list()
 	for(var/id in TR.faction_weights)
 		var/datum/quest_faction/F = get_quest_faction(id)
-		if(!F)
-			continue
-		if(!F.allows_quest_type(quest_type))
+		if(!F || !faction_fits(F))
 			continue
 		weights[id] = TR.faction_weights[id]
 	if(!length(weights))
 		return null
-	var/picked_id = pickweight(weights)
-	return get_quest_faction(picked_id)
+	return get_quest_faction(pickweight(weights))
+
+/datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
+	return TRUE
 
 /datum/quest/kill/proc/estimate_mob_count()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)

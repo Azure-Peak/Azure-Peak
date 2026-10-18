@@ -338,7 +338,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"lapsed_rumor" = GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_RUMOR] || 0,
 		"lapsed_defense" = GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_DEFENSE] || 0,
 		"players_total" = count_all_contract_signers(),
-		"types" = build_contract_axis_rows(CONTRACT_AXIS_TYPE, contract_type_order()),
+		"types" = build_contract_axis_rows(CONTRACT_AXIS_TYPE, GLOB.quest_prototypes),
 		"regions" = build_contract_axis_rows(CONTRACT_AXIS_REGION, contract_region_order()),
 		"groups" = build_contract_axis_rows(CONTRACT_AXIS_GROUP, contract_group_order()),
 	)

@@ -7,6 +7,14 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 
 /datum/quest/kill/bounty
 	quest_type = QUEST_BOUNTY
+	chronicle_order = QUEST_CHRONICLE_ORDER_BOUNTY
+	eligible_regions = list(
+		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+		THREAT_REGION_AZUREAN_COAST,
+		THREAT_REGION_MOUNT_DECAP,
+		THREAT_REGION_UNDERDARK,
+	)
 	tp_budget = QUEST_TP_BUDGET_BOUNTY_GOONS
 	threat_bands_cleared = QUEST_BANDS_BOUNTY
 	required_fellowship_size = 2
@@ -147,3 +155,6 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
 		register_spawner(spawn_effect)
 		total_spawned_tp += initial(goon.threat_point) || 0
+
+/datum/quest/kill/bounty/faction_fits(datum/quest_faction/F)
+	return ..() && length(F.boss_mob_types)
