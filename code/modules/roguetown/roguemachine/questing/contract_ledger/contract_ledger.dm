@@ -174,7 +174,6 @@
 		data["defense_costs"] = get_quest_defense_costs()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
 		data["blockade_region_labels"] = build_blockade_region_labels()
-		data["defense_destinations"] = build_rumor_destinations()
 		data["defense_log"] = SStreasury.defense_log
 		data["defense_issued"] = build_issued_listing(list(QUEST_SOURCE_DEFENSE, QUEST_SOURCE_BLOCKADE))
 		data["active_writ_regions"] = build_active_writ_regions()

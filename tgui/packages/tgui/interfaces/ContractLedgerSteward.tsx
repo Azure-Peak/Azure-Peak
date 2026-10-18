@@ -31,7 +31,6 @@ type StewardData = {
   defense_regions_by_type: Record<string, string[]>;
   blockade_region_labels: Record<string, string>;
   region_tp_multipliers: Record<string, number>;
-  defense_destinations: string[];
   defense_log: DefenseLogEntry[];
   active_writ_regions: string[];
   bonus_pay_light_mult: number;
@@ -50,7 +49,6 @@ type StewardData = {
 type FundingSource = 'pledge' | 'crown' | 'directive';
 
 type SubTab = 'compose' | 'issued' | 'history';
-const RECOVERY_TYPE = 'Recovery';
 const BLOCKADE_TYPE = 'Blockade Defense';
 const HOARD_RECOVERY_TYPE = 'Hoard Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
@@ -109,33 +107,6 @@ const BonusPayOption = (props: {
     <span>{props.label}</span>
     <span style={{ fontSize: '10px', color: '#8a7250' }}>{props.sublabel}</span>
   </button>
-);
-
-const Select = (props: {
-  value: string;
-  onChange: (v: string) => void;
-  options: string[];
-  placeholder: string;
-  disabled?: boolean;
-  disabledPlaceholder?: string;
-}) => (
-  <select
-    className="ContractLedger__InnkeeperSelect"
-    value={props.value}
-    onChange={(e) => props.onChange(e.target.value)}
-    disabled={props.disabled}
-  >
-    <option value="">
-      {props.disabled && props.disabledPlaceholder
-        ? props.disabledPlaceholder
-        : props.placeholder}
-    </option>
-    {props.options.map((o) => (
-      <option key={o} value={o}>
-        {o}
-      </option>
-    ))}
-  </select>
 );
 
 const SubTabBar = (props: {
@@ -250,7 +221,6 @@ const ComposeView = () => {
   const typeOptions = Object.keys(data.defense_costs || {});
   const [type, setType] = useState<string>(typeOptions[0] || '');
   const [region, setRegion] = useState<string>('');
-  const [destination, setDestination] = useState<string>('');
   const [mode, setMode] = useState<DispatchMode>('board');
   const [levyExempt, setLevyExempt] = useState<boolean>(false);
   // 0 = none, 1 = light (1.25x), 2 = full (1.5x). Matches COMMISSION_BONUS_PAY_* defines.
@@ -262,7 +232,6 @@ const ComposeView = () => {
   const aldermanActing = !!data.is_alderman_acting;
   const regionsForType = data.defense_regions_by_type?.[type] || [];
   const cost = data.defense_costs?.[type] ?? 0;
-  const needsDestination = type === RECOVERY_TYPE;
   const isBlockade = type === BLOCKADE_TYPE;
   const isHoardRecovery = type === HOARD_RECOVERY_TYPE;
   const isWrit = isBlockade || isHoardRecovery;
@@ -313,7 +282,6 @@ const ComposeView = () => {
     setType(next);
     const newRegions = data.defense_regions_by_type?.[next] || [];
     if (!newRegions.includes(region)) setRegion('');
-    if (next !== RECOVERY_TYPE) setDestination('');
   };
 
   const fundingDisabledReason =
@@ -339,9 +307,7 @@ const ComposeView = () => {
             : 'Pick a region.'
         : isWrit && regionHasActiveWrit
           ? 'A scroll is already in circulation for this region.'
-          : needsDestination && !destination
-            ? 'Pick the shipment destination.'
-            : fundingDisabledReason;
+          : fundingDisabledReason;
 
   const dispatch = () => {
     if (disabledReason) return;
@@ -350,7 +316,6 @@ const ComposeView = () => {
     act('commission_defense', {
       type,
       region,
-      destination: needsDestination ? destination : null,
       // Blockade, hoard recovery, and directive writs are always bearer-bond; ignore the mode control.
       in_hands: isWrit || isDirective ? 1 : mode === 'hands' ? 1 : 0,
       // Directives skip the levy-exempt stamp (no reward to exempt).
@@ -447,17 +412,6 @@ const ComposeView = () => {
             </div>
           );
         })()}
-
-      {needsDestination && (
-        <FormRow label="Shipment Destination">
-          <Select
-            value={destination}
-            onChange={setDestination}
-            options={data.defense_destinations || []}
-            placeholder="- pick a destination -"
-          />
-        </FormRow>
-      )}
 
       <FormRow label="Fund">
         <div className="ContractLedger__InnkeeperModeRow">

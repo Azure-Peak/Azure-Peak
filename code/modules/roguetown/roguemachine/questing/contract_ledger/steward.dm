@@ -207,8 +207,6 @@
 		to_chat(steward, span_warning("That region does not host contracts of this sort."))
 		return
 
-	var/area/chosen_destination
-
 	if(!draw_commission_funds(draws, "Defense contract ([chosen_type] in [chosen_region.region_name])"))
 		to_chat(steward, span_warning("The payment didn't go through."))
 		return
@@ -218,7 +216,7 @@
 	if(is_directive)
 		in_hands = TRUE
 	var/levy_exempt = (!is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
-	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_DEFENSE, chosen_region, chosen_destination, in_hands, steward)
+	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_DEFENSE, chosen_region, null, in_hands, steward)
 	if(!dispatched)
 		refund_commission_draws(draws, "Defense contract refund (landmark failure)")
 		// Restore the Alderman's warrant too - it was consumed above but the commission never issued.
