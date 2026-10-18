@@ -119,20 +119,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	return "Recover the [shipment_name] and deliver the sealed parcel to [dest_name]."
 
 /datum/quest/kill/recovery/get_additional_reward(turf/origin_turf, turf/target_turf)
-	// Combat reward from fighting through (TP of guardians).
-	var/combat_reward = 0
-	if(total_spawned_tp > 0)
-		combat_reward = total_spawned_tp * QUEST_KILL_THREAT_MULT
-	else
-		combat_reward = tp_budget * QUEST_KILL_THREAT_MULT
-	// Distance reward from the delivery leg.
-	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
-	var/distance_reward = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
-	var/threat_bonus = 0
-	var/datum/threat_region/TR = SSregionthreat.get_region(region)
-	if(TR)
-		threat_bonus = max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
-	return ROUND_UP(combat_reward + distance_reward + threat_bonus)
+	return ROUND_UP(..() + calculate_delivery_reward(origin_turf, target_turf))
 
 /datum/quest/kill/recovery/materialize(obj/effect/landmark/quest_spawner/landmark)
 	if(!faction)
@@ -150,20 +137,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	announce_to_bearer("<b>The guardians are slain.</b> Recover the parcel and deliver it at your leisure.")
 
 /datum/quest/kill/recovery/proc/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
-		return
-	var/obj/item/parcel/recovered = new(spawn_turf)
-	// Pack shipment_count copies of target_delivery_item into the parcel's list.
-	for(var/i in 1 to shipment_count)
-		var/obj/item/I = new target_delivery_item(recovered)
-		recovered.contained_items += I
-	recovered.delivery_area_type = target_delivery_location
-	recovered.allowed_jobs = recovered.get_area_jobs(target_delivery_location)
-	recovered.name = "lost shipment of [shipment_name]"
-	recovered.desc = "A sealed parcel of [shipment_name] wrested back from its captors. Marked for delivery to [initial(target_delivery_location.name)]. The seal can only be broken by the recipient."
-	recovered.icon_state = "ration_large"
-	recovered.dropshrink = 1
-	recovered.update_icon()
-	recovered.AddComponent(/datum/component/quest_object/courier, src)
-	add_tracked_atom(recovered)
+	var/list/bundle = list()
+	bundle[target_delivery_item] = shipment_count
+	var/parcel_desc = "A sealed parcel of [shipment_name] wrested back from its captors. Marked for delivery to [initial(target_delivery_location.name)]. The seal can only be broken by the recipient."
+	spawn_parcel(landmark, /obj/item/parcel, bundle, "lost shipment of [shipment_name]", parcel_desc, target_delivery_location)

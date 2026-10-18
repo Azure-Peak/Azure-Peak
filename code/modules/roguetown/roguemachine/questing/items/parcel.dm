@@ -10,6 +10,7 @@
 	var/list/obj/item/contained_items = list()
 	var/list/allowed_jobs = list()
 	var/delivery_area_type
+	var/sealed_noun = "parcel"
 	var/datum/proximity_monitor/proximity_monitor
 
 /obj/item/parcel/Initialize(mapload)
@@ -76,74 +77,12 @@
 	if(!length(contained_items))
 		return
 
-	if(delivery_area_type)
-		var/area/quest_area = delivery_area_type
-		if(ispath(quest_area, /area) && !(user.job in allowed_jobs))
-			to_chat(user, span_warning("This parcel is sealed for delivery to [initial(quest_area.name)] and can only be opened by: [english_list(allowed_jobs)]!"))
-			return FALSE
+	if(!can_open(user))
+		return FALSE
 
 	if(!do_after(user, 2 SECONDS, target = src))
 		return
 
-	playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-	var/datum/component/quest_object/courier_component = GetComponent(/datum/component/quest_object/courier)
-	var/datum/quest/quest = courier_component?.quest_ref?.resolve()
-	if(length(contained_items) == 1)
-		var/obj/item/only = contained_items[1]
-		to_chat(user, span_notice("You unwrap [only] from the parcel."))
-		user.put_in_hands(only)
-		only.update_icon()
-	else
-		to_chat(user, span_notice("You unwrap [src] and tip out the contents."))
-		var/turf/drop_loc = get_turf(user)
-		for(var/obj/item/I as anything in contained_items)
-			I.forceMove(drop_loc)
-			I.update_icon()
-	if(quest && !quest.complete)
-		quest.progress_current++
-		quest.on_progress_update()
-	contained_items.Cut()
-	qdel(src)
-
-/obj/item/parcel/examine(mob/user)
-	. = ..()
-	if(!delivery_area_type)
-		return
-
-	var/area/delivery_area = delivery_area_type
-	if(!ispath(delivery_area, /area))
-		return
-
-	. += span_info("This parcel is addressed to [initial(delivery_area.name)].")
-	. += (user.job in allowed_jobs) ? \
-		span_notice("As [user.job], you're authorized to open this.") : \
-		span_warning("It's sealed with an official guild mark. Only the people it is addressed to should open it.")
-
-/obj/item/parcel/towner_caravan
-	var/datum/weakref/unlocked_by_owner_ref
-	var/owner_name = ""
-	var/sealed_noun = "strongbox"
-
-/obj/item/parcel/towner_caravan/Initialize(mapload)
-	. = ..()
-	invisibility = initial(invisibility)
-	QDEL_NULL(proximity_monitor)
-
-/obj/item/parcel/towner_caravan/attack_self(mob/user)
-	if(!length(contained_items))
-		return
-	var/mob/owner = unlocked_by_owner_ref?.resolve()
-	if(!owner)
-		to_chat(user, span_warning("The [sealed_noun]'s owner is no longer with us. It cannot be opened."))
-		return FALSE
-	if(owner != user)
-		to_chat(user, span_warning("This [sealed_noun] is magickally sealed to [owner_name]. Only they can open it."))
-		return FALSE
-	if(owner.stat == DEAD)
-		to_chat(user, span_warning("You cannot open it in this state."))
-		return FALSE
-	if(!do_after(user, 2 SECONDS, target = src))
-		return
 	playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 	var/datum/component/quest_object/courier_component = GetComponent(/datum/component/quest_object/courier)
 	var/datum/quest/quest = courier_component?.quest_ref?.resolve()
@@ -163,6 +102,50 @@
 		quest.on_progress_update()
 	contained_items.Cut()
 	qdel(src)
+
+/obj/item/parcel/proc/can_open(mob/user)
+	var/area/quest_area = delivery_area_type
+	if(ispath(quest_area, /area) && !(user.job in allowed_jobs))
+		to_chat(user, span_warning("This parcel is sealed for delivery to [initial(quest_area.name)] and can only be opened by: [english_list(allowed_jobs)]!"))
+		return FALSE
+	return TRUE
+
+/obj/item/parcel/examine(mob/user)
+	. = ..()
+	if(!delivery_area_type)
+		return
+
+	var/area/delivery_area = delivery_area_type
+	if(!ispath(delivery_area, /area))
+		return
+
+	. += span_info("This parcel is addressed to [initial(delivery_area.name)].")
+	. += (user.job in allowed_jobs) ? \
+		span_notice("As [user.job], you're authorized to open this.") : \
+		span_warning("It's sealed with an official guild mark. Only the people it is addressed to should open it.")
+
+/obj/item/parcel/towner_caravan
+	var/datum/weakref/unlocked_by_owner_ref
+	var/owner_name = ""
+	sealed_noun = "strongbox"
+
+/obj/item/parcel/towner_caravan/Initialize(mapload)
+	. = ..()
+	invisibility = initial(invisibility)
+	QDEL_NULL(proximity_monitor)
+
+/obj/item/parcel/towner_caravan/can_open(mob/user)
+	var/mob/owner = unlocked_by_owner_ref?.resolve()
+	if(!owner)
+		to_chat(user, span_warning("The [sealed_noun]'s owner is no longer with us. It cannot be opened."))
+		return FALSE
+	if(owner != user)
+		to_chat(user, span_warning("This [sealed_noun] is magickally sealed to [owner_name]. Only they can open it."))
+		return FALSE
+	if(owner.stat == DEAD)
+		to_chat(user, span_warning("You cannot open it in this state."))
+		return FALSE
+	return TRUE
 
 /obj/item/parcel/towner_caravan/examine(mob/user)
 	. = ..()

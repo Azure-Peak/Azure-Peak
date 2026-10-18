@@ -279,6 +279,33 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/get_additional_reward(turf/origin_turf, turf/target_turf)
 	return 0
 
+/datum/quest/proc/calculate_delivery_reward(turf/origin_turf, turf/target_turf)
+	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
+	. = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
+	var/datum/threat_region/TR = SSregionthreat.get_region(region)
+	if(TR)
+		. += max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
+
+/datum/quest/proc/spawn_parcel(obj/effect/landmark/quest_spawner/landmark, parcel_type, list/bundle, parcel_name, parcel_desc, area/delivery_area)
+	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
+	if(!spawn_turf)
+		return null
+	var/obj/item/parcel/parcel = new parcel_type(spawn_turf)
+	for(var/path in bundle)
+		for(var/i in 1 to bundle[path])
+			parcel.contained_items += new path(parcel)
+	if(delivery_area)
+		parcel.delivery_area_type = delivery_area
+		parcel.allowed_jobs = parcel.get_area_jobs(delivery_area)
+	parcel.name = parcel_name
+	parcel.desc = parcel_desc
+	parcel.icon_state = "ration_large"
+	parcel.dropshrink = 1
+	parcel.update_icon()
+	parcel.AddComponent(/datum/component/quest_object/courier, src)
+	add_tracked_atom(parcel)
+	return parcel
+
 /datum/quest/proc/calculate_reward(turf/origin_turf, turf/target_turf)
 	var/base = get_base_reward()
 	var/additional = get_additional_reward(origin_turf, target_turf)

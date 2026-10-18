@@ -36,13 +36,7 @@
 	return "Deliver [initial(target_delivery_item.name)] to [initial(target_delivery_location.name)]."
 
 /datum/quest/courier/get_additional_reward(turf/origin_turf, turf/target_turf)
-	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
-	var/distance_reward = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
-	var/threat_bonus = 0
-	var/datum/threat_region/TR = SSregionthreat.get_region(region)
-	if(TR)
-		threat_bonus = max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
-	return ROUND_UP(distance_reward + QUEST_COURIER_BONUS_FLAT + threat_bonus)
+	return ROUND_UP(calculate_delivery_reward(origin_turf, target_turf) + QUEST_COURIER_BONUS_FLAT)
 
 /datum/quest/courier/proc/get_area_delivery_items()
 	var/static/list/area_delivery_items = list(
@@ -97,25 +91,17 @@
 	if(!delivery_area)
 		return null
 
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
-		return
-
-	var/obj/item/parcel/delivery_parcel = new(spawn_turf)
-	var/obj/item/contained = new target_delivery_item(delivery_parcel)
-	delivery_parcel.contained_items += contained
-	delivery_parcel.delivery_area_type = delivery_area
-	delivery_parcel.allowed_jobs = delivery_parcel.get_area_jobs(delivery_area)
-	delivery_parcel.name = "Delivery for [initial(delivery_area.name)]"
-	delivery_parcel.desc = "A securely wrapped parcel addressed to [initial(delivery_area.name)]. [pick("Handle with care.", "Do not bend.", "Confidential contents.", "Urgent delivery.")]"
-	delivery_parcel.icon_state = contained.w_class >= WEIGHT_CLASS_NORMAL ? "ration_large" : "ration_small"
-	delivery_parcel.dropshrink = 1
-	delivery_parcel.update_icon()
-
-	delivery_parcel.AddComponent(/datum/component/quest_object/courier, src)
+	var/list/bundle = list()
+	bundle[target_delivery_item] = 1
+	var/parcel_desc = "A securely wrapped parcel addressed to [initial(delivery_area.name)]. [pick("Handle with care.", "Do not bend.", "Confidential contents.", "Urgent delivery.")]"
+	var/obj/item/parcel/delivery_parcel = spawn_parcel(landmark, /obj/item/parcel, bundle, "Delivery for [initial(delivery_area.name)]", parcel_desc, delivery_area)
+	if(!delivery_parcel)
+		return null
+	var/obj/item/contained = delivery_parcel.contained_items[1]
+	if(contained.w_class < WEIGHT_CLASS_NORMAL)
+		delivery_parcel.icon_state = "ration_small"
+		delivery_parcel.update_icon()
 	contained.AddComponent(/datum/component/quest_object/courier, src)
-	add_tracked_atom(delivery_parcel)
-
 	return delivery_parcel
 
 /datum/quest/courier/preview(obj/effect/landmark/quest_spawner/landmark)

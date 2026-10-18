@@ -143,23 +143,9 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	to_chat(user, span_warning("The [sealed_noun] is magickally sealed. Only [quest_giver_name] can open it."))
 
 /datum/quest/kill/recovery/towner/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
+	var/obj/item/parcel/towner_caravan/recovered = spawn_parcel(landmark, /obj/item/parcel/towner_caravan, build_bundle(), get_parcel_name(), get_parcel_desc())
+	if(!recovered)
 		return
-	var/obj/item/parcel/towner_caravan/recovered = new(spawn_turf)
-	var/list/bundle = build_bundle()
-	for(var/path in bundle)
-		var/count = bundle[path]
-		for(var/i in 1 to count)
-			var/obj/item/I = new path(recovered)
-			recovered.contained_items += I
 	recovered.unlocked_by_owner_ref = quest_giver_reference
 	recovered.owner_name = quest_giver_name
 	recovered.sealed_noun = sealed_noun
-	recovered.name = get_parcel_name()
-	recovered.desc = get_parcel_desc()
-	recovered.icon_state = "ration_large"
-	recovered.dropshrink = 1
-	recovered.update_icon()
-	recovered.AddComponent(/datum/component/quest_object/courier, src)
-	add_tracked_atom(recovered)
