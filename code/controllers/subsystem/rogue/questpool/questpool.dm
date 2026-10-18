@@ -27,9 +27,8 @@ SUBSYSTEM_DEF(questpool)
 	SIGNAL_HANDLER
 	if(!istype(dead) || !dead.ckey)
 		return
-	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.complete)
+	for(var/datum/quest/Q as anything in get_scroll_quests())
+		if(Q.complete)
 			continue
 		var/mob/living/bearer = Q.quest_receiver_reference?.resolve()
 		if(!istype(bearer))

@@ -317,13 +317,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 
 /obj/structure/roguemachine/contractledger/proc/build_active_listing(mob/user)
 	var/list/listing = list()
-	var/datum/weakref/user_ref = WEAKREF(user)
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q)
-			continue
-		if(Q.quest_receiver_reference != user_ref)
-			continue
+	for(var/datum/quest/Q as anything in get_held_quests(user))
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
@@ -357,13 +351,9 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	return base + get_active_quest_fellowship_bonus(user)
 
 /obj/structure/roguemachine/contractledger/proc/count_user_active_contracts(mob/user)
-	var/datum/weakref/user_ref = WEAKREF(user)
 	var/count = 0
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.complete)
-			continue
-		if(Q.quest_receiver_reference == user_ref)
+	for(var/datum/quest/Q as anything in get_held_quests(user))
+		if(!Q.complete)
 			count++
 	return count
 
@@ -415,9 +405,8 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
 		if((Q.source in sources) && Q.office_may_withdraw())
 			out += list(build_issued_entry(Q, "On the Ledger"))
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || !(Q.source in sources) || !Q.office_may_withdraw())
+	for(var/datum/quest/Q as anything in get_scroll_quests())
+		if(!(Q.source in sources) || !Q.office_may_withdraw())
 			continue
 		var/status
 		if(!Q.quest_receiver_reference)
@@ -444,22 +433,13 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 		"refund" = Q.describe_issuer_refund(),
 	)
 
-/obj/structure/roguemachine/contractledger/proc/find_issued_quest(ref)
-	var/datum/quest/Q = locate(ref) in SSquestpool.pool
-	if(Q)
-		return Q
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		if(scroll.assigned_quest && REF(scroll.assigned_quest) == ref)
-			return scroll.assigned_quest
-	return null
-
 /obj/structure/roguemachine/contractledger/proc/cancel_issued_from_tgui(mob/user, ref)
 	if(!ishuman(user) || !ref)
 		return
 	if(SSticker.current_state != GAME_STATE_PLAYING)
 		to_chat(user, span_warning("The Ledger is not yet open."))
 		return
-	var/datum/quest/Q = find_issued_quest(ref)
+	var/datum/quest/Q = find_quest_by_ref(ref)
 	if(!Q)
 		to_chat(user, span_warning("That contract is no longer in circulation."))
 		return

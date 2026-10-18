@@ -1,5 +1,28 @@
 GLOBAL_LIST_EMPTY(quest_scrolls)
 
+/proc/get_scroll_quests()
+	. = list()
+	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
+		if(scroll.assigned_quest)
+			. += scroll.assigned_quest
+
+/proc/get_held_quests(mob/user)
+	. = list()
+	var/datum/weakref/user_ref = WEAKREF(user)
+	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(Q?.quest_receiver_reference == user_ref)
+			. += Q
+
+/proc/find_quest_by_ref(ref)
+	var/datum/quest/Q = locate(ref)
+	if(!istype(Q) || QDELETED(Q))
+		return null
+	if(Q in SSquestpool.pool)
+		return Q
+	var/obj/item/quest_writ/scroll = Q.quest_scroll_ref?.resolve()
+	return scroll?.assigned_quest == Q ? Q : null
+
 #define WHISPER_COOLDOWN 10 SECONDS
 
 /obj/item/quest_writ
@@ -46,20 +69,33 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		last_whisper = world.time
 		target_whisper()
 
+/obj/item/quest_writ/proc/try_hand_claim(mob/user)
+	var/datum/quest/Q = assigned_quest
+	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
+		to_chat(user, span_warning("You can't take a contract you issued."))
+		return FALSE
+	if(!Q.materialized)
+		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
+		if(!landmark || !Q.materialize(landmark))
+			to_chat(user, span_warning("Odd. It appears no landmark is available for this contract!"))
+			return FALSE
+		Q.materialized = TRUE
+	Q.on_claim(user)
+	to_chat(user, span_notice(Q.hand_claim_message))
+	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type] (hand-delivered)")
+	update_quest_text()
+	return TRUE
+
+/obj/item/quest_writ/proc/get_carrying_bearer()
+	var/mob/living/bearer = assigned_quest?.quest_receiver_reference?.resolve()
+	if(bearer && get(src, /mob/living) == bearer)
+		return bearer
+	return null
+
 /obj/item/quest_writ/proc/target_whisper()
-	if(!assigned_quest || assigned_quest.complete || !assigned_quest.quest_receiver_reference)
+	if(!assigned_quest || assigned_quest.complete)
 		return
-	var/atom/itemloc = src.loc
-	var/mob/quest_bearer = assigned_quest.quest_receiver_reference?.resolve()
-	if(!istype(itemloc, /mob/living))
-		while(!istype(itemloc, /mob/living))
-			if(isnull(itemloc))
-				return
-			itemloc = itemloc.loc
-			if(istype(itemloc, /turf))
-				return
-	if(itemloc != quest_bearer)
-		return
+	var/mob/living/quest_bearer = get_carrying_bearer()
 	if(opened && quest_bearer)
 		update_compass(quest_bearer)
 		var/message = "[last_compass_direction]"
@@ -137,16 +173,8 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	if(!assigned_quest)
 		return ..()
 
-	if(!assigned_quest.quest_receiver_reference)
-		if(assigned_quest.quest_giver_name && assigned_quest.quest_giver_name == user.real_name)
-			to_chat(user, span_warning("You can't take a contract you issued."))
-			return
-		if(!SStreasury.has_account(user))
-			to_chat(user, span_warning("You have no bank account. Register with a Meister before taking a contract."))
-			return
-		assigned_quest.on_claim(user)
-		to_chat(user, span_notice("You claim this contract for yourself!"))
-		update_quest_text()
+	if(!assigned_quest.quest_receiver_reference && !try_hand_claim(user))
+		return
 
 	opened = TRUE
 	update_icon_state()

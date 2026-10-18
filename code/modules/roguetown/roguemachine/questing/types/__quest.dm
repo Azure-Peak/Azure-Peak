@@ -92,6 +92,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/list/datum/weakref/tracked_atoms = list()
 	var/datum/weakref/pending_landmark_ref
 	var/materialized = FALSE
+	var/hand_claim_message = "You claim this contract for yourself!"
 	var/region = ""
 	var/faction_id
 	var/datum/quest_faction/faction

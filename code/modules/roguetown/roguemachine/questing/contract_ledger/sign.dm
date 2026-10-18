@@ -132,20 +132,10 @@
 /obj/structure/roguemachine/contractledger/proc/admin_complete_by_ref(mob/user, ref)
 	if(!ref || !check_rights_for(user?.client, R_DEBUG))
 		return
-	var/datum/weakref/user_ref = WEAKREF(user)
-	var/obj/item/quest_writ/matched_scroll
-	var/datum/quest/matched_quest
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.quest_receiver_reference != user_ref)
-			continue
-		if(REF(Q) != ref)
-			continue
-		matched_scroll = scroll
-		matched_quest = Q
-		break
+	var/datum/quest/matched_quest = locate(ref) in get_held_quests(user)
 	if(!matched_quest)
 		return
+	var/obj/item/quest_writ/matched_scroll = matched_quest.quest_scroll_ref?.resolve()
 	log_admin("[key_name(user)] force-completed a [matched_quest.quest_type] contract at the Contract Ledger.")
 	if(!matched_quest.complete)
 		matched_quest.force_complete()
@@ -155,21 +145,11 @@
 /obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
 	if(!ref)
 		return
-	var/datum/weakref/user_ref = WEAKREF(user)
-	var/obj/item/quest_writ/matched_scroll
-	var/datum/quest/matched_quest
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.quest_receiver_reference != user_ref)
-			continue
-		if(REF(Q) != ref)
-			continue
-		matched_scroll = scroll
-		matched_quest = Q
-		break
+	var/datum/quest/matched_quest = locate(ref) in get_held_quests(user)
 	if(!matched_quest)
 		to_chat(user, span_warning("That contract is not yours to abandon."))
 		return
+	var/obj/item/quest_writ/matched_scroll = matched_quest.quest_scroll_ref?.resolve()
 	if(matched_quest.complete)
 		to_chat(user, span_warning("That contract is already complete. Turn it in instead."))
 		return
@@ -180,7 +160,8 @@
 		to_chat(user, span_warning("You abandon the contract and lose your [forfeited] mammon deposit."))
 	else
 		to_chat(user, span_warning("You abandon the contract."))
-	matched_scroll.assigned_quest = null
+	if(matched_scroll)
+		matched_scroll.assigned_quest = null
 	qdel(matched_quest)
 	qdel(matched_scroll)
 
