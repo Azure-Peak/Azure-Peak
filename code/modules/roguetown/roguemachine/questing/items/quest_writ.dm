@@ -120,15 +120,11 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	log_game("[key_name(user)] stamped quest \"[assigned_quest.title || assigned_quest.quest_type]\" as LEVY EXEMPT via signet ring.")
 	to_chat(user, span_notice("You press the signet into the scroll and the Crown's seal glows. This contract is now levy exempt."))
 
-/obj/item/quest_writ/proc/get_quest_assignees(mob/user, include_giver = FALSE)
+/obj/item/quest_writ/proc/get_quest_assignees(mob/user)
 	var/list/assignees = list()
 	var/mob/quest_receiver = assigned_quest?.quest_receiver_reference?.resolve()
 	if(quest_receiver)
 		assignees += quest_receiver
-	if(include_giver)
-		var/mob/quest_giver = assigned_quest?.quest_giver_reference?.resolve()
-		if(quest_giver)
-			assignees += quest_giver
 	return assignees
 
 /obj/item/quest_writ/fire_act(exposed_temperature, exposed_volume)

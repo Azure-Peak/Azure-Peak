@@ -413,10 +413,13 @@
 	var/mob/lead = quest_receiver_reference?.resolve()
 	var/payout = round(reward_amount * reward_turnout_mult())
 	record_completion_stats(payout)
+	var/tax_amt = 0
+	var/paid = 0
 	if(payout > 0)
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/lead_account = SStreasury.get_account(lead)
-			var/tax_amt = pay_reward(lead_account, lead, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", "Blockade defense")
+			tax_amt = pay_reward(lead_account, lead, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", "Blockade defense")
+			paid = payout - tax_amt
 			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
 			announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [payout]m. Tax: [tax_amt]m. Net: [payout - tax_amt]m.")
 		else
@@ -424,6 +427,7 @@
 			announce_to_bearer("The final wave breaks. You have no bank account. Your share went to the Treasury.")
 	else
 		announce_to_bearer("The final wave breaks. A Request carries no reward.")
+	SSquestpool.record_completion(lead, src, paid, tax_amt)
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
 	if(TR && TR.banditry_hoard > 0)
 		var/spoils = TR.banditry_hoard

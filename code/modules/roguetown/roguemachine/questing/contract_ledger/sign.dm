@@ -66,7 +66,7 @@
 	Q.take_deposit(SStreasury.get_account(user))
 
 /obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
-	if(user in scroll.get_quest_assignees(user, TRUE))
+	if(user in scroll.get_quest_assignees(user))
 		return QUEST_TURNIN_SELF
 	if(istype(holder))
 		var/datum/fellowship/F = holder.current_fellowship
