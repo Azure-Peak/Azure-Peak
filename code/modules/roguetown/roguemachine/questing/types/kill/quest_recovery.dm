@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	chronicle_order = QUEST_CHRONICLE_ORDER_RECOVERY
 	quest_difficulty = QUEST_DIFFICULTY_MEDIUM
 	pool_kind = QUEST_POOL_KILL
-	pool_weight = 5
+	pool_weight = QUEST_POOL_WEIGHT_RECOVERY
 	rumor_cost = RUMOR_COST_STANDARD
 	// No defense_cost so that Steward cannot issue them. I want Innkeeper to have a unique type of quest that is not available to the Steward.
 	eligible_regions = list(
@@ -130,14 +130,11 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	return ROUND_UP(combat_reward + distance_reward + threat_bonus)
 
 /datum/quest/kill/recovery/materialize(obj/effect/landmark/quest_spawner/landmark)
-	..()
-	if(!landmark)
-		return FALSE
 	if(!faction)
 		return FALSE
-	spawn_kill_mobs(landmark)
-	spawn_recovery_parcel(landmark)
-	return TRUE
+	. = ..()
+	if(.)
+		spawn_recovery_parcel(landmark)
 
 /datum/quest/kill/recovery/on_guardian_killed()
 	if(!hunt_timer_id)

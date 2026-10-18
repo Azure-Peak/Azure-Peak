@@ -2,7 +2,7 @@
 	quest_type = QUEST_KILL_EASY
 	chronicle_order = QUEST_CHRONICLE_ORDER_KILL_EASY
 	pool_kind = QUEST_POOL_KILL
-	pool_weight = 25
+	pool_weight = QUEST_POOL_WEIGHT_KILL_EASY
 	rumor_cost = RUMOR_COST_TRIVIAL
 	defense_cost = BURGHER_PLEDGE_COST_TRIVIAL
 	eligible_regions = list(
@@ -12,6 +12,7 @@
 	tp_budget = QUEST_TP_BUDGET_KILL_EASY
 	min_mobs = 2
 	threat_bands_cleared = QUEST_BANDS_KILL_EASY
+	objective_verb = "Slay"
 
 /datum/quest/kill/easy/get_title()
 	if(title)
@@ -19,15 +20,3 @@
 	if(!faction)
 		return "Slay a troublesome creature"
 	return "Slay [progress_required] [faction.name_plural]"
-
-/datum/quest/kill/easy/get_objective_text()
-	if(!faction)
-		return "Slay ~[progress_required] [initial(target_mob_type.name)]."
-	return "Slay ~[progress_required] [faction.name_plural]."
-
-/datum/quest/kill/easy/materialize(obj/effect/landmark/quest_spawner/landmark)
-	..()
-	if(!landmark)
-		return FALSE
-	spawn_kill_mobs(landmark)
-	return TRUE

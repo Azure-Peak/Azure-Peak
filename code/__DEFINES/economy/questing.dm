@@ -60,6 +60,19 @@
 #define QUEST_POOL_KILL "kill"
 #define QUEST_POOL_EVERGREEN "evergreen"
 
+// Relative odds of each type to generate within their own pool
+// KILL pool (Kill quests dependent on regional threats to generate)
+#define QUEST_POOL_WEIGHT_KILL_EASY 25
+#define QUEST_POOL_WEIGHT_CLEAR_OUT 25
+#define QUEST_POOL_WEIGHT_RAID 30
+#define QUEST_POOL_WEIGHT_BOUNTY 15
+#define QUEST_POOL_WEIGHT_RECOVERY 5
+#define QUEST_POOL_WEIGHT_NOTORIOUS_BOUNTY 5
+
+// EVERGREEN pool (Fetch quests that will always be available)
+#define QUEST_POOL_WEIGHT_RETRIEVAL 55
+#define QUEST_POOL_WEIGHT_COURIER 45
+
 // Multipliers applied to the base TP for kill request rewards
 #define QUEST_KILL_THREAT_MULT 1.0
 // Bounty's main target is further multiplied

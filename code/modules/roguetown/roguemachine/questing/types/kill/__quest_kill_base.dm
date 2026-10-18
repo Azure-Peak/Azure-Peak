@@ -5,6 +5,7 @@
 	var/threat_bands_cleared = 0
 	var/total_spawned_tp = 0
 	var/kills_count_progress = TRUE
+	var/objective_verb = "Eliminate"
 	var/failed = FALSE
 	var/hunt_timer_id
 	var/hunt_warn_2m_id
@@ -100,6 +101,17 @@
 	data["hunt_timer_label"] = "Quarry slips away in"
 	data["hunt_timer_seconds"] = round(left / 10)
 
+/datum/quest/kill/get_objective_text()
+	if(!faction)
+		return "[objective_verb] ~[progress_required] [initial(target_mob_type.name)]."
+	return "[objective_verb] ~[progress_required] [faction.name_plural]."
+
+/datum/quest/kill/materialize(obj/effect/landmark/quest_spawner/landmark)
+	if(!landmark)
+		return FALSE
+	spawn_kill_mobs(landmark)
+	return TRUE
+
 /datum/quest/kill/proc/announce_to_bearer(msg)
 	var/mob/bearer = quest_receiver_reference?.resolve()
 	if(!bearer)
@@ -177,28 +189,35 @@
 	var/spawned = 0
 	total_spawned_tp = 0
 	for(var/mob_path in to_spawn)
-		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-		if(!spawn_turf)
+		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
+		if(!new_mob)
 			continue
-
-		var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-		var/mob/living/new_mob = new mob_path(spawn_effect)
-		new_mob.faction |= "quest"
-		if(faction?.faction_tag)
-			new_mob.faction |= faction.faction_tag
-		new_mob.mark_contract_spawned()
-		new_mob.AddComponent(/datum/component/quest_object/kill, src)
-		ADD_TRAIT(new_mob, TRAIT_FRESHSPAWN, "[type]")
-		addtimer(TRAIT_CALLBACK_REMOVE(new_mob, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-		spawn_effect.contained_atom = new_mob
-		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-		register_spawner(spawn_effect)
-		add_tracked_atom(new_mob)
 		total_spawned_tp += initial(new_mob.threat_point) || 0
 		spawned++
 		sleep(1)
 	if(spawned > 0 && kills_count_progress)
 		progress_required = spawned
+
+/datum/quest/kill/proc/spawn_hidden_mob(obj/effect/landmark/quest_spawner/landmark, mob_path, is_target = TRUE, tag_faction = TRUE, effect_type = /obj/effect/quest_spawn, dust_corpse = TRUE)
+	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
+	if(!spawn_turf)
+		return null
+	var/obj/effect/quest_spawn/spawn_effect = effect_type ? new effect_type(spawn_turf) : null
+	var/mob/living/new_mob = new mob_path(spawn_effect || spawn_turf)
+	new_mob.faction |= "quest"
+	if(tag_faction && faction?.faction_tag)
+		new_mob.faction |= faction.faction_tag
+	new_mob.mark_contract_spawned(dust_corpse)
+	if(is_target)
+		new_mob.AddComponent(/datum/component/quest_object/kill, src)
+		add_tracked_atom(new_mob)
+	ADD_TRAIT(new_mob, TRAIT_FRESHSPAWN, "[type]")
+	addtimer(TRAIT_CALLBACK_REMOVE(new_mob, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
+	if(spawn_effect)
+		spawn_effect.contained_atom = new_mob
+		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
+		register_spawner(spawn_effect)
+	return new_mob
 
 /datum/quest/kill/proc/compose_candidates()
 	return faction.mob_types.Copy()

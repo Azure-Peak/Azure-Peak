@@ -3,7 +3,7 @@
 	chronicle_order = QUEST_CHRONICLE_ORDER_CLEAR_OUT
 	quest_difficulty = QUEST_DIFFICULTY_MEDIUM
 	pool_kind = QUEST_POOL_KILL
-	pool_weight = 25
+	pool_weight = QUEST_POOL_WEIGHT_CLEAR_OUT
 	rumor_cost = RUMOR_COST_STANDARD
 	defense_cost = BURGHER_PLEDGE_COST_STANDARD
 	eligible_regions = list(
@@ -23,15 +23,3 @@
 	if(!faction)
 		return "Clear out a nest of monsters"
 	return "Clear out a [faction.group_word] of [faction.name_plural]"
-
-/datum/quest/kill/clearout/get_objective_text()
-	if(!faction)
-		return "Eliminate ~[progress_required] [initial(target_mob_type.name)]."
-	return "Eliminate ~[progress_required] [faction.name_plural]."
-
-/datum/quest/kill/clearout/materialize(obj/effect/landmark/quest_spawner/landmark)
-	..()
-	if(!landmark)
-		return FALSE
-	spawn_kill_mobs(landmark)
-	return TRUE

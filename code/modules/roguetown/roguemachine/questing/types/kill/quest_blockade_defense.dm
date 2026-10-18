@@ -31,9 +31,7 @@
 /datum/quest/kill/blockade_defense/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
-	pending_landmark_ref = WEAKREF(landmark)
-	target_spawn_area = get_area_name(get_turf(landmark))
-	region = landmark.region
+	bind_landmark(landmark)
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
 		faction = B.get_faction()
@@ -97,7 +95,6 @@
 	return reward_amount
 
 /datum/quest/kill/blockade_defense/materialize(obj/effect/landmark/quest_spawner/landmark)
-	..()
 	if(!landmark)
 		return FALSE
 	wave_landmark_ref = WEAKREF(landmark)
@@ -178,22 +175,9 @@
 	var/boss_type = faction.pick_boss_mob_type() || priciest_mob_type()
 	if(!boss_type)
 		return
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
+	var/mob/living/boss = spawn_hidden_mob(landmark, boss_type)
+	if(!boss)
 		return
-	var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-	var/mob/living/boss = new boss_type(spawn_effect)
-	boss.faction |= "quest"
-	if(faction.faction_tag)
-		boss.faction |= faction.faction_tag
-	boss.mark_contract_spawned()
-	boss.AddComponent(/datum/component/quest_object/kill, src)
-	ADD_TRAIT(boss, TRAIT_FRESHSPAWN, "[type]")
-	addtimer(TRAIT_CALLBACK_REMOVE(boss, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-	spawn_effect.contained_atom = boss
-	spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-	register_spawner(spawn_effect)
-	add_tracked_atom(boss)
 	total_spawned_tp += initial(boss.threat_point) || 0
 	progress_required += 1
 	if(faction.boss_name_file)

@@ -210,10 +210,13 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
+	bind_landmark(landmark)
+	return TRUE
+
+/datum/quest/proc/bind_landmark(obj/effect/landmark/quest_spawner/landmark)
 	pending_landmark_ref = WEAKREF(landmark)
 	target_spawn_area = get_area_name(get_turf(landmark))
 	region = landmark.region
-	return TRUE
 
 /datum/quest/proc/finalize_preview_title()
 	if(!title)

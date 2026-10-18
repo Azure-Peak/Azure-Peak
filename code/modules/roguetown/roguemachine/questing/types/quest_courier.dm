@@ -2,7 +2,7 @@
 	quest_type = QUEST_COURIER
 	chronicle_order = QUEST_CHRONICLE_ORDER_COURIER
 	pool_kind = QUEST_POOL_EVERGREEN
-	pool_weight = 45
+	pool_weight = QUEST_POOL_WEIGHT_COURIER
 	rumor_cost = RUMOR_COST_TRIVIAL
 	rumor_threat_gated = FALSE
 	eligible_regions = list(

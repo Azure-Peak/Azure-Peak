@@ -2,7 +2,7 @@
 	quest_type = QUEST_NOTORIOUS_BOUNTY
 	chronicle_order = QUEST_CHRONICLE_ORDER_NOTORIOUS_BOUNTY
 	pool_kind = QUEST_POOL_KILL
-	pool_weight = 5
+	pool_weight = QUEST_POOL_WEIGHT_NOTORIOUS_BOUNTY
 	rumor_cost = RUMOR_COST_TRIVIAL // Let innkeeper hand it out for cheap
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
@@ -53,9 +53,7 @@
 /datum/quest/kill/notorious_bounty/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
-	pending_landmark_ref = WEAKREF(landmark)
-	target_spawn_area = get_area_name(get_turf(landmark))
-	region = landmark.region
+	bind_landmark(landmark)
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
 	if(!TR)
 		return FALSE
@@ -110,23 +108,10 @@
 	return TRUE
 
 /datum/quest/kill/notorious_bounty/proc/spawn_boss(obj/effect/landmark/quest_spawner/landmark)
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
+	var/mob/living/boss = spawn_hidden_mob(landmark, target_mob_type, effect_type = /obj/effect/quest_spawn/notorious, dust_corpse = FALSE)
+	if(!boss)
 		return
-	var/obj/effect/quest_spawn/notorious/spawn_effect = new /obj/effect/quest_spawn/notorious(spawn_turf)
-	var/mob/living/boss = new target_mob_type(spawn_effect)
-	boss.faction |= "quest"
-	if(faction?.faction_tag)
-		boss.faction |= faction.faction_tag
-	boss.mark_contract_spawned(dust_corpse = FALSE)
 	grant_darkvision(boss)
-	boss.AddComponent(/datum/component/quest_object/kill, src)
-	ADD_TRAIT(boss, TRAIT_FRESHSPAWN, "[type]")
-	addtimer(TRAIT_CALLBACK_REMOVE(boss, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-	spawn_effect.contained_atom = boss
-	spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-	register_spawner(spawn_effect)
-	add_tracked_atom(boss)
 	boss_ref = WEAKREF(boss)
 
 /datum/quest/kill/notorious_bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark, budget, cap, immediate = FALSE)
@@ -137,25 +122,10 @@
 	if(length(to_spawn) > cap)
 		to_spawn.Cut(cap + 1)
 	for(var/goon_type in to_spawn)
-		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-		if(!spawn_turf)
+		var/mob/living/goon = spawn_hidden_mob(landmark, goon_type, is_target = FALSE, effect_type = immediate ? null : /obj/effect/quest_spawn)
+		if(!goon)
 			continue
-		var/mob/living/goon
-		if(immediate)
-			goon = new goon_type(spawn_turf)
-		else
-			var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-			goon = new goon_type(spawn_effect)
-			spawn_effect.contained_atom = goon
-			spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-			register_spawner(spawn_effect)
-		goon.faction |= "quest"
-		if(faction?.faction_tag)
-			goon.faction |= faction.faction_tag
-		goon.mark_contract_spawned()
 		grant_darkvision(goon)
-		ADD_TRAIT(goon, TRAIT_FRESHSPAWN, "[type]")
-		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
 		goon_refs += WEAKREF(goon)
 		total_spawned_tp += initial(goon.threat_point) || 0
 
