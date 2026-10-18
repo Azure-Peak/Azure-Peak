@@ -105,19 +105,19 @@
 		say("A new rumor is on the Ledger.")
 		to_chat(innkeeper, span_notice("Rumor posted to the Ledger: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]."))
 
-/obj/structure/roguemachine/contractledger/proc/pay_innkeeper_referral_fees(datum/fund/user_account, datum/quest/completed_quest, gross_reward)
-	if(gross_reward <= 0)
+/obj/structure/roguemachine/contractledger/proc/pay_innkeeper_referral_fees(datum/fund/user_account, datum/quest/completed_quest, reward)
+	if(reward <= 0)
 		return 0
 	var/datum/fund/tavern_fund = SStreasury.innkeeper_fund
 	var/guild_paid = 0
 	if(completed_quest.source != QUEST_SOURCE_DEFENSE && !completed_quest.guild_cut_exempt)
-		var/guild_fee = round(gross_reward * GUILD_REFERRAL_FEE_PCT)
+		var/guild_fee = round(reward * GUILD_REFERRAL_FEE_PCT)
 		if(guild_fee > 0 && user_account && tavern_fund)
 			if(SStreasury.transfer(user_account, tavern_fund, guild_fee, "Guild Cut - [completed_quest.quest_type]", LEDGER_CITIZEN_CONTRACT_PAID, LEDGER_TAVERN_REFERRAL_IN))
 				guild_paid = guild_fee
 				record_round_statistic(STATS_CONTRACT_MAMMONS_GUILD_CUT, guild_fee)
 	if(completed_quest.source == QUEST_SOURCE_RUMOR && tavern_fund)
-		var/rumor_fee = round(gross_reward * RUMOR_CONTACT_FEE_PCT)
+		var/rumor_fee = round(reward * RUMOR_CONTACT_FEE_PCT)
 		if(rumor_fee > 0)
 			SStreasury.mint(tavern_fund, rumor_fee, "Contact Referral Fee - [completed_quest.quest_type]", null, LEDGER_TAVERN_REFERRAL_IN)
 	return guild_paid

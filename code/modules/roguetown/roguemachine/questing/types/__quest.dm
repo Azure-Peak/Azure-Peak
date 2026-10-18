@@ -117,6 +117,27 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/is_contract_item(obj/item/I)
 	return FALSE
 
+/datum/quest/proc/take_deposit(datum/fund/account)
+	if(deposit_amount <= 0 || !account)
+		return
+	if(!SStreasury.burn(account, deposit_amount, "contract deposit", LEDGER_CITIZEN_CONTRACT_PAID))
+		return
+	deposit_payer = account
+	deposit_paid = deposit_amount
+
+/datum/quest/proc/return_deposit(memo)
+	if(deposit_paid <= 0 || !deposit_payer)
+		return 0
+	. = deposit_paid
+	SStreasury.mint(deposit_payer, deposit_paid, memo, null, LEDGER_CITIZEN_CONTRACT_PAID)
+	deposit_paid = 0
+	deposit_payer = null
+
+/datum/quest/proc/forfeit_deposit()
+	. = deposit_paid
+	deposit_paid = 0
+	deposit_payer = null
+
 /datum/quest/proc/bind_new_scroll(mob/living/holder, turf/spawn_turf)
 	var/scroll_type = get_scroll_type()
 	var/obj/item/quest_writ/scroll = new scroll_type(spawn_turf || get_turf(holder))

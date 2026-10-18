@@ -475,10 +475,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	var/label = Q.get_title() || Q.quest_type
 	var/refund_text = Q.refund_issuer_funding("Contract withdrawn by [user.real_name]", user)
 	Q.mark_issue_log(QUEST_ISSUE_STATUS_WITHDRAWN, refund_text)
-	var/deposit_returned = 0
-	if(Q.deposit_payer && Q.deposit_paid > 0)
-		SStreasury.mint(Q.deposit_payer, Q.deposit_paid, "Deposit returned - [label] withdrawn", null, LEDGER_CITIZEN_CONTRACT_PAID)
-		deposit_returned = Q.deposit_paid
+	var/deposit_returned = Q.return_deposit("Deposit returned - [label] withdrawn")
 	var/mob/bearer = Q.quest_receiver_reference?.resolve()
 	if(bearer)
 		to_chat(bearer, span_warning("The contract <b>[label]</b> has been withdrawn by its issuer. The scroll crumbles to dust.[deposit_returned ? " Your deposit of [deposit_returned] mammon is returned." : ""]"))

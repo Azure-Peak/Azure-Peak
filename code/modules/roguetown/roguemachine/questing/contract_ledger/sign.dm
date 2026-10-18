@@ -63,11 +63,7 @@
 
 	Q.bind_new_scroll(user, get_turf(src))
 	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
-
-	var/datum/fund/deposit_account = SStreasury.get_account(user)
-	if(SStreasury.burn(deposit_account, deposit, "contract deposit", LEDGER_CITIZEN_CONTRACT_PAID))
-		Q.deposit_payer = deposit_account
-		Q.deposit_paid = deposit
+	Q.take_deposit(SStreasury.get_account(user))
 
 /obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
 	if(user in scroll.get_quest_assignees(user, TRUE))
@@ -107,8 +103,7 @@
 		return
 
 	var/base_reward = completed_quest.reward_amount
-	var/deposit_return = completed_quest.calculate_deposit()
-	var/gross_reward = base_reward + deposit_return
+	var/deposit_return = completed_quest.return_deposit("contract deposit returned - [src.name]")
 
 	var/quest_levy_exempt = completed_quest.levy_exempt
 	completed_quest.record_completion_stats(base_reward)
@@ -117,7 +112,7 @@
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
 
-	SStreasury.mint(benef_account, gross_reward, "contract reward - [src.name]", null, LEDGER_CITIZEN_CONTRACTS)
+	SStreasury.mint(benef_account, base_reward, "contract reward - [src.name]", null, LEDGER_CITIZEN_CONTRACTS)
 
 	// Levy applies only to the base reward, not the returned deposit. The deposit is the
 	// bearer's own money being given back; taxing it would be a hidden levy on principal.
@@ -131,9 +126,9 @@
 		var/levy_rate = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(base_reward * levy_rate, 1))
 
-	var/guild_fee_paid = pay_innkeeper_referral_fees(benef_account, completed_quest, gross_reward)
+	var/guild_fee_paid = pay_innkeeper_referral_fees(benef_account, completed_quest, base_reward)
 
-	var/take_home = gross_reward - tax_amt - guild_fee_paid
+	var/take_home = base_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
 
 	var/list/deductions = list()
@@ -199,10 +194,13 @@
 	if(matched_quest.complete)
 		to_chat(user, span_warning("That contract is already complete. Turn it in instead."))
 		return
-	var/forfeited = matched_quest.calculate_deposit()
+	var/forfeited = matched_quest.forfeit_deposit()
 	log_quest(user.ckey, user.mind, user, "Abandon [matched_quest.quest_type]")
 	SSquestpool.mark_abandoned(user, matched_quest, forfeited)
-	to_chat(user, span_warning("You abandon the contract and lose your [forfeited] mammon deposit."))
+	if(forfeited > 0)
+		to_chat(user, span_warning("You abandon the contract and lose your [forfeited] mammon deposit."))
+	else
+		to_chat(user, span_warning("You abandon the contract."))
 	matched_scroll.assigned_quest = null
 	qdel(matched_quest)
 	qdel(matched_scroll)
