@@ -81,13 +81,12 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	return shipment_name
 
 /datum/quest/kill/recovery/preview(obj/effect/landmark/quest_spawner/landmark)
+	if(!pick_shipment())
+		return FALSE
 	. = ..()
 	if(!.)
 		return FALSE
-	if(!pick_shipment())
-		return FALSE
 	progress_required = 1
-	finalize_preview_title()
 	return TRUE
 
 /datum/quest/kill/recovery/proc/pick_shipment()
