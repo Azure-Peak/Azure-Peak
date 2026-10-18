@@ -77,8 +77,8 @@
 	Q.quest_scroll = null
 	Q.quest_scroll_ref = null
 	writ.assigned_quest = null
-	SSquestpool.pool += Q
-	var/datum/blockade/B = Q.blockade_ref.resolve()
+	SSquestpool.add_to_pool(Q)
+	var/datum/blockade/B = Q.blockade_ref?.resolve()
 	if(B)
 		B.active_scroll_ref = null
 	playsound(src, 'sound/items/inqslip_sealed.ogg', 50, TRUE, -1)
