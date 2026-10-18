@@ -400,7 +400,7 @@
 		<p>Most contracts require a small deposit on signing, scaled by difficulty:
 		<b>[QUEST_DEPOSIT_EASY]m</b> (Easy), <b>[QUEST_DEPOSIT_MEDIUM]m</b> (Medium),
 		<b>[QUEST_DEPOSIT_HARD]m</b> (Hard). The deposit is returned on completion and
-		lost if you abandon the contract. It is not taxed.</p>
+		lost if you abandon or fail the contract. It is not taxed.</p>
 
 		<h3>Abandonment</h3>
 		<p>A held contract may be abandoned at the Ledger. You lose the deposit.</p>

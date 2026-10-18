@@ -486,6 +486,10 @@
 #define INDEXER_MISTAKE_MIN 20 // minimum false positive chance roll for heresy. a reduced value is used for the antag checks. used to be 1
 
 /obj/structure/roguemachine/mail/attackby(obj/item/P, mob/user, params)
+	if(istype(P, /obj/item/parcel/towner_caravan))
+		var/obj/item/parcel/towner_caravan/box = P
+		box.post_to_owner(src, user)
+		return
 	if(istype(P, /obj/item/merctoken))
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user

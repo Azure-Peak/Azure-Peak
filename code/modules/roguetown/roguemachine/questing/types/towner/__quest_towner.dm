@@ -36,7 +36,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	var/posting_blurb
 	var/list/posting_rules = list(
 		"The crate is magickally sealed. Only you can open it.",
-		"You don't need to travel. The holder brings the crate to you.",
+		"You don't need to travel along. The holder will bring the package to you or send it by HERMES to be opened at your leisure.",
 	)
 	eligible_regions = list()
 	var/list/postable_advclasses = list()
@@ -61,7 +61,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	return "One of the townsfolk calls for hands to recover what was lost to the wilds and bring it home."
 
 /datum/quest/kill/recovery/towner/proc/get_writ_seal_note()
-	return "The [sealed_noun] is magickally sealed to [quest_giver_name || "the poster"]. Carry it back to them. Only they can open it."
+	return "The [sealed_noun] is magickally sealed to [quest_giver_name || "the poster"]. You can deposit the package in the nearest HERMES to complete the contract, or have them open it by hand."
 
 /datum/quest/kill/recovery/towner/populate_scroll_ui_static_data(list/data)
 	..()

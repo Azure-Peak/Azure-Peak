@@ -111,7 +111,6 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		. += span_notice("This contract hasn't been claimed yet. Open it to claim it for yourself!")
 	else if(assigned_quest.complete)
 		. += span_notice("\nThis contract is complete! Return it to the Contract Ledger to claim your reward.")
-		. += span_info("\nPlace it on the marked area or put it on the Ledger.")
 	else
 		. += span_notice("\nThis contract is still in progress.")
 

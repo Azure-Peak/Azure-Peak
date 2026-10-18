@@ -390,16 +390,6 @@ export const QuestScroll = () => {
               <div style={{ textAlign: 'center', marginTop: '6px' }}>
                 Return this scroll to the Contract Ledger to claim your reward.
               </div>
-              <div
-                style={{
-                  textAlign: 'center',
-                  fontSize: '0.9em',
-                  marginTop: '4px',
-                  color: 'hsl(30, 35%, 40%)',
-                }}
-              >
-                Place it on the marked area or put it on the Ledger.
-              </div>
             </>
           ) : data.blockade_failed ? (
             <>

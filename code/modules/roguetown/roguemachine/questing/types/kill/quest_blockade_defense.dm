@@ -80,6 +80,7 @@
 
 /datum/quest/kill/blockade_defense/populate_scroll_ui_data(list/data)
 	data["blockade_armed"] = armed ? TRUE : FALSE
+	data["reward"] = round(reward_amount * reward_turnout_mult())
 	if(intermission_timer_id)
 		var/rest_left = timeleft(intermission_timer_id)
 		if(rest_left > 0)

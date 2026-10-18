@@ -134,6 +134,24 @@
 	invisibility = initial(invisibility)
 	QDEL_NULL(proximity_monitor)
 
+/obj/item/parcel/towner_caravan/proc/post_to_owner(obj/structure/roguemachine/mail/hermes, mob/user)
+	if(!owner_name)
+		return
+	if(!user.temporarilyRemoveItemFromInventory(src))
+		return
+	if(!deliver_mail(src, owner_name, user.real_name))
+		user.put_in_hands(src)
+		to_chat(user, span_warning("The master of mails has perished?"))
+		return
+	var/datum/component/quest_object/courier_component = GetComponent(/datum/component/quest_object/courier)
+	var/datum/quest/quest = courier_component?.quest_ref?.resolve()
+	if(quest && !quest.complete)
+		quest.progress_current = quest.progress_required
+		quest.on_progress_update()
+	hermes.visible_message(span_warning("[user] sends something."))
+	playsound(hermes.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+	to_chat(user, span_notice("The [sealed_noun] is posted to [owner_name]. Your contract is fulfilled."))
+
 /obj/item/parcel/towner_caravan/can_open(mob/user)
 	var/mob/owner = unlocked_by_owner_ref?.resolve()
 	if(!owner)
