@@ -22,7 +22,7 @@ type Contract = {
   expected_count: number;
   threat_bands: number;
   levy_exempt: BooleanLike;
-  guild_cut_exempt: BooleanLike;
+  guild_cut_rate: number;
   is_rumor: BooleanLike;
   is_defense: BooleanLike;
   is_towner: BooleanLike;
@@ -87,7 +87,6 @@ type ContractLedgerData = {
   scout_regions: ScoutRegion[];
   spoils_tax_rate: number;
   tax_rate: number;
-  guild_cut_rate: number;
   can_proxy_turnin: BooleanLike;
   can_admin_complete?: BooleanLike;
   dynamic_role: string | null;
@@ -561,8 +560,7 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       {(() => {
         const levyRate = c.levy_exempt ? 0 : data.tax_rate;
-        const guildRate =
-          c.is_defense || c.guild_cut_exempt ? 0 : data.guild_cut_rate || 0;
+        const guildRate = c.guild_cut_rate || 0;
         const levy = Math.round(c.reward * levyRate);
         const guild = Math.round(c.reward * guildRate);
         const purse = c.reward - levy - guild;

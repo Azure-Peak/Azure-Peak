@@ -139,7 +139,6 @@
 	data["scout_regions"] = SSregionthreat.build_scout_region_rows()
 	data["spoils_tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_RECOVERED_SPOILS)
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
 	data["can_admin_complete"] = check_rights_for(user?.client, R_DEBUG) ? TRUE : FALSE
 	data["issuer_cancel_window_minutes"] = QUEST_ISSUER_CANCEL_WINDOW / (1 MINUTES)
@@ -307,7 +306,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"expected_count" = expected_count,
 			"threat_bands" = threat_bands,
 			"levy_exempt" = Q.levy_exempt,
-			"guild_cut_exempt" = Q.guild_cut_exempt,
+			"guild_cut_rate" = Q.guild_cut_rate,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
 			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_BLOCKADE,
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,

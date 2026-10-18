@@ -89,7 +89,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/datum/quest_faction/faction
 	var/required_fellowship_size = 0
 	var/levy_exempt = FALSE
-	var/guild_cut_exempt = FALSE
+	var/guild_cut_rate = GUILD_REFERRAL_FEE_PCT
 	var/is_directive = FALSE
 	var/list/datum/weakref/spawners = list()
 	var/list/rolled_crimes
@@ -132,6 +132,18 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	SStreasury.mint(deposit_payer, deposit_paid, memo, null, LEDGER_CITIZEN_CONTRACT_PAID)
 	deposit_paid = 0
 	deposit_payer = null
+
+/datum/quest/proc/pay_reward(datum/fund/account, mob/payee, amount, memo, tax_note)
+	SStreasury.mint(account, amount, memo, null, LEDGER_CITIZEN_CONTRACTS)
+	if(levy_exempt)
+		var/levy_rate = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
+		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(amount * levy_rate, 1))
+		return 0
+	var/tax_amt = SStreasury.apply_tax(account, amount, TAX_CATEGORY_CONTRACT_LEVY, tax_note)
+	if(tax_amt > 0)
+		record_featured_stat(FEATURED_STATS_TAX_PAYERS, payee, tax_amt)
+		record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+	return tax_amt
 
 /datum/quest/proc/forfeit_deposit()
 	. = deposit_paid

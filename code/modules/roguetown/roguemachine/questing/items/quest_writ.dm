@@ -209,12 +209,11 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["fetch_count"] = Q.progress_required
 	data["recovery_shipment"] = Q.get_recovery_shipment_name()
 	data["levy_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	data["guild_cut_rate"] = (Q.source == QUEST_SOURCE_DEFENSE) ? 0 : GUILD_REFERRAL_FEE_PCT
+	data["guild_cut_rate"] = Q.guild_cut_rate
 	data["progress_required"] = Q.progress_required
 	data["is_rumor"] = Q.source == QUEST_SOURCE_RUMOR
-	data["is_defense"] = Q.source == QUEST_SOURCE_DEFENSE
+	data["is_defense"] = Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_BLOCKADE
 	data["is_towner"] = Q.source == QUEST_SOURCE_TOWNER
-	data["guild_cut_exempt"] = Q.guild_cut_exempt
 	Q.populate_scroll_ui_static_data(data)
 	return data
 

@@ -31,7 +31,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	rumor_cost = 0 // We don't want the Innkeeper to be able to issue these quests, so these overrides prevent it from appearing in their list.
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
-	guild_cut_exempt = TRUE
+	guild_cut_rate = 0
 	override_destination = /area/rogue/indoors/town/dwarfin
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety

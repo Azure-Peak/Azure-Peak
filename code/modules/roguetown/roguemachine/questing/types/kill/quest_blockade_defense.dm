@@ -2,6 +2,7 @@
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
 	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
+	guild_cut_rate = 0
 	landmark_kinds = list(QUEST_LANDMARK_GENERIC, QUEST_LANDMARK_DEFENSE)
 	quest_difficulty = QUEST_DIFFICULTY_HARD
 	tp_budget = BLOCKADE_WAVE_BASE_TP
@@ -414,13 +415,7 @@
 	if(payout > 0)
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/lead_account = SStreasury.get_account(lead)
-			SStreasury.mint(lead_account, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", null, LEDGER_CITIZEN_CONTRACTS)
-			var/tax_amt = 0
-			if(!levy_exempt)
-				tax_amt = SStreasury.apply_tax(lead_account, payout, TAX_CATEGORY_CONTRACT_LEVY, "Blockade defense")
-				if(tax_amt > 0)
-					record_featured_stat(FEATURED_STATS_TAX_PAYERS, lead, tax_amt)
-					record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+			var/tax_amt = pay_reward(lead_account, lead, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", "Blockade defense")
 			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
 			announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [payout]m. Tax: [tax_amt]m. Net: [payout - tax_amt]m.")
 		else

@@ -105,31 +105,16 @@
 	var/base_reward = completed_quest.reward_amount
 	var/deposit_return = completed_quest.return_deposit("contract deposit returned - [src.name]")
 
-	var/quest_levy_exempt = completed_quest.levy_exempt
 	completed_quest.record_completion_stats(base_reward)
 	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
 		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
-	qdel(scroll.assigned_quest)
-	qdel(scroll)
 
-	SStreasury.mint(benef_account, base_reward, "contract reward - [src.name]", null, LEDGER_CITIZEN_CONTRACTS)
-
-	// Levy applies only to the base reward, not the returned deposit. The deposit is the
-	// bearer's own money being given back; taxing it would be a hidden levy on principal.
-	var/tax_amt = 0
-	if(!quest_levy_exempt)
-		tax_amt = SStreasury.apply_tax(benef_account, base_reward, TAX_CATEGORY_CONTRACT_LEVY, src.name)
-		if(tax_amt > 0)
-			record_featured_stat(FEATURED_STATS_TAX_PAYERS, beneficiary, tax_amt)
-			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
-	else
-		var/levy_rate = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(base_reward * levy_rate, 1))
-
+	var/tax_amt = completed_quest.pay_reward(benef_account, beneficiary, base_reward, "contract reward - [src.name]", src.name)
 	var/guild_fee_paid = pay_innkeeper_referral_fees(benef_account, completed_quest, base_reward)
-
 	var/take_home = base_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
+	qdel(completed_quest)
+	qdel(scroll)
 
 	var/list/deductions = list()
 	if(tax_amt > 0)

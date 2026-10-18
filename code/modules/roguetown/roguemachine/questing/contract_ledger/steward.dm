@@ -227,6 +227,7 @@
 		SSquestpool.log_event("defense_refund", "landmark failure [chosen_type] in [chosen_region.region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
+	dispatched.guild_cut_rate = 0
 	if(levy_exempt)
 		dispatched.levy_exempt = TRUE
 	if(bonus_mult != 1.0)

@@ -45,7 +45,6 @@ export type QuestScrollData = {
   is_towner?: BooleanLike;
   towner_intro?: string;
   towner_seal_note?: string;
-  guild_cut_exempt?: BooleanLike;
   blockade_timer_label?: string;
   blockade_timer_seconds?: number;
   blockade_current_wave?: number;
