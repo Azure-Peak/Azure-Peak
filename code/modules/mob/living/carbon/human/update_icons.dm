@@ -1038,7 +1038,7 @@ There are several things that need to be remembered:
 	remove_overlay(CLOAK_LAYER)
 	remove_overlay(CLOAK_BEHIND_LAYER)
 	remove_overlay(TABARD_LAYER)
-	remove_overlay(UNDER_ARMOR_LAYER)
+	remove_overlay(UNDER_ARMOR_CACHE_INDEX)
 
 	var/obj/item/bodypart/taur/taur = get_taur_tail()
 	var/icon/c_mask = taur?.clip_mask
@@ -1074,7 +1074,7 @@ There are several things that need to be remembered:
 			if(cloak.alternate_worn_layer == UNDER_ARMOR_LAYER)
 				var/list/taur_tabard_layers = build_taur_tabard_overlay(taur, cloak)
 				if(taur_tabard_layers)
-					overlays_standing[UNDER_ARMOR_LAYER] = list(cloak_overlay) + taur_tabard_layers
+					overlays_standing[UNDER_ARMOR_CACHE_INDEX] = list(cloak_overlay) + taur_tabard_layers
 				else
 					cloaklays += cloak_overlay
 			else if(!cloak.alternate_worn_layer)
@@ -1128,7 +1128,7 @@ There are several things that need to be remembered:
 	update_inv_armor() //fixboob
 	apply_overlay(TABARD_LAYER)
 	apply_overlay(CLOAK_BEHIND_LAYER)
-	apply_overlay(UNDER_ARMOR_LAYER)
+	apply_overlay(UNDER_ARMOR_CACHE_INDEX)
 	apply_overlay(CLOAK_LAYER)
 
 /mob/living/carbon/human/update_inv_shirt()
