@@ -1,17 +1,11 @@
-GLOBAL_LIST_INIT(towner_tier_difficulties, list(
-	TOWNER_POSTING_TIER_MEDIUM = QUEST_DIFFICULTY_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = QUEST_DIFFICULTY_HARD,
+GLOBAL_LIST_INIT(towner_posting_tiers, list(
+	TOWNER_POSTING_TIER_MEDIUM = list("cost" = TOWNER_POSTING_COST_MEDIUM, "difficulty" = QUEST_DIFFICULTY_MEDIUM, "reward_cap" = TOWNER_REWARD_CAP_MEDIUM, "flat_bonus" = TOWNER_FLAT_BONUS_MEDIUM),
+	TOWNER_POSTING_TIER_HARD = list("cost" = TOWNER_POSTING_COST_HARD, "difficulty" = QUEST_DIFFICULTY_HARD, "reward_cap" = TOWNER_REWARD_CAP_HARD, "flat_bonus" = TOWNER_FLAT_BONUS_HARD),
 ))
 
-GLOBAL_LIST_INIT(towner_reward_caps, list(
-	TOWNER_POSTING_TIER_MEDIUM = TOWNER_REWARD_CAP_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = TOWNER_REWARD_CAP_HARD,
-))
-
-GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
-	TOWNER_POSTING_TIER_MEDIUM = TOWNER_FLAT_BONUS_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = TOWNER_FLAT_BONUS_HARD,
-))
+/proc/get_towner_tier_term(tier, term)
+	var/list/terms = GLOB.towner_posting_tiers[tier]
+	return terms?[term]
 
 /proc/get_towner_prototype(quest_type)
 	var/datum/quest/kill/recovery/towner/proto = GLOB.quest_prototypes[quest_type]
@@ -32,6 +26,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
 	guild_cut_rate = 0
+	charges_deposit = FALSE
 	override_destination = /area/rogue/indoors/town/dwarfin
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety
@@ -53,12 +48,9 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	var/list/varieties = list()
 	var/list/bundle_pools = list()
 
-/datum/quest/kill/recovery/towner/calculate_deposit()
-	return 0
-
 /datum/quest/kill/recovery/towner/calculate_reward(turf/origin_turf, turf/target_turf)
 	. = ..()
-	var/cap = GLOB.towner_reward_caps[posting_tier]
+	var/cap = get_towner_tier_term(posting_tier, "reward_cap")
 	if(cap)
 		. = min(., cap)
 
@@ -80,7 +72,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	return tier_tp_budgets[posting_tier] || tier_tp_budgets[TOWNER_POSTING_TIER_MEDIUM]
 
 /datum/quest/kill/recovery/towner/proc/get_tier_flat_bonus()
-	return GLOB.towner_tier_flat_bonus[posting_tier] || 0
+	return get_towner_tier_term(posting_tier, "flat_bonus") || 0
 
 /datum/quest/kill/recovery/towner/faction_fits(datum/quest_faction/F)
 	return (F.id in eligible_factions)

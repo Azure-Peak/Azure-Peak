@@ -1,8 +1,3 @@
-GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
-	TOWNER_POSTING_TIER_MEDIUM = TOWNER_POSTING_COST_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = TOWNER_POSTING_COST_HARD,
-))
-
 /proc/get_user_advclass_path(mob/user)
 	if(!ishuman(user))
 		return null
@@ -57,7 +52,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 	return out
 
 /proc/towner_bearer_summary(tier)
-	var/bonus = GLOB.towner_tier_flat_bonus[tier] || 0
+	var/bonus = get_towner_tier_term(tier, "flat_bonus") || 0
 	if(bonus > 0)
 		return "combat & distance pay + [bonus]m bonus"
 	return "combat & distance pay"
@@ -88,7 +83,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		var/list/meta = vtable[key]
 		var/list/poster_summaries = list()
 		var/list/meta_tiers = meta["tiers"]
-		for(var/tier in GLOB.towner_posting_tier_costs)
+		for(var/tier in GLOB.towner_posting_tiers)
 			poster_summaries[tier] = towner_spec_summary(meta_tiers?[tier])
 		out += list(list(
 			"key" = key,
@@ -106,9 +101,9 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		var/crown_funded = towner_posting_is_crown_funded(user, posting_type)
 		var/cost_mult = crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1
 		var/list/tiers = list()
-		for(var/tier in GLOB.towner_posting_tier_costs)
+		for(var/tier in GLOB.towner_posting_tiers)
 			tiers[tier] = list(
-				"cost" = GLOB.towner_posting_tier_costs[tier] * cost_mult,
+				"cost" = get_towner_tier_term(tier, "cost") * cost_mult,
 				"bearer_summary" = towner_bearer_summary(tier),
 			)
 		out += list(list(
@@ -144,7 +139,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		return
 
 	var/tier = params["tier"]
-	if(!(tier in GLOB.towner_posting_tier_costs))
+	if(!(tier in GLOB.towner_posting_tiers))
 		to_chat(poster, span_warning("That posting tier is not recognised."))
 		return
 
@@ -157,7 +152,7 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 	else
 		variety = null
 	var/crown_funded = towner_posting_is_crown_funded(poster, chosen_type)
-	var/cost = GLOB.towner_posting_tier_costs[tier] * (crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1)
+	var/cost = get_towner_tier_term(tier, "cost") * (crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1)
 	if(!cost)
 		return
 

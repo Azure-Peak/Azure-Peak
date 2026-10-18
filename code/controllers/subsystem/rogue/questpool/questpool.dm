@@ -306,7 +306,6 @@ SUBSYSTEM_DEF(questpool)
 	if(!Q)
 		return null
 	Q.blockade_ref = WEAKREF(B)
-	Q.deposit_amount = 0
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
 	if(!place_quest(Q, TR))
 		return null
@@ -333,7 +332,6 @@ SUBSYSTEM_DEF(questpool)
 	if(!Q)
 		return null
 	Q.faction_id = fid
-	Q.deposit_amount = 0
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
 	Q.required_fellowship_size = is_commission ? 0 : BLOCKADE_FELLOWSHIP_REQUIREMENT
 	Q.raised_by_fellowship = !is_commission
@@ -354,7 +352,7 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	TQ.posting_tier = posting_tier
 	TQ.loadout_variety = loadout_variety
-	TQ.quest_difficulty = GLOB.towner_tier_difficulties[posting_tier] || QUEST_DIFFICULTY_EASY
+	TQ.quest_difficulty = get_towner_tier_term(posting_tier, "difficulty") || QUEST_DIFFICULTY_EASY
 	TQ.quest_giver_reference = WEAKREF(poster)
 	if(!place_quest(TQ, null))
 		return null

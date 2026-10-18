@@ -3,6 +3,7 @@
 	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
 	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
 	guild_cut_rate = 0
+	charges_deposit = FALSE
 	shows_commission_seal = TRUE
 	landmark_kinds = list(QUEST_LANDMARK_GENERIC, QUEST_LANDMARK_DEFENSE)
 	quest_difficulty = QUEST_DIFFICULTY_HARD
