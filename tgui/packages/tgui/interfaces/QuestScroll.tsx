@@ -334,7 +334,7 @@ export const QuestScroll = () => {
     hasHuntTimer ||
     !!data.blockade_armed ||
     hasTownerSeal;
-  const hasSealBanners = !!(data.is_defense || data.levy_exempt);
+  const hasSealBanners = !!(data.shows_commission_seal || data.levy_exempt);
 
   const isOutlawry =
     data.writ_type !== WRIT_TYPE_RECOVERY &&
@@ -437,7 +437,9 @@ export const QuestScroll = () => {
                 marginTop: '18px',
               }}
             >
-              {!!data.is_defense && <SealBannerView seal={COMMISSION_SEAL} />}
+              {!!data.shows_commission_seal && (
+                <SealBannerView seal={COMMISSION_SEAL} />
+              )}
               {!!data.levy_exempt && <SealBannerView seal={EXEMPT_SEAL} />}
             </div>
           )}

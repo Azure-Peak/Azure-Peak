@@ -41,7 +41,7 @@ export type QuestScrollData = {
   complete?: BooleanLike;
   levy_exempt?: BooleanLike;
   is_rumor?: BooleanLike;
-  is_defense?: BooleanLike;
+  shows_commission_seal?: BooleanLike;
   is_towner?: BooleanLike;
   towner_intro?: string;
   towner_seal_note?: string;

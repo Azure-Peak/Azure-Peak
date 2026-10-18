@@ -24,7 +24,7 @@ type Contract = {
   levy_exempt: BooleanLike;
   guild_cut_rate: number;
   is_rumor: BooleanLike;
-  is_defense: BooleanLike;
+  shows_commission_seal: BooleanLike;
   is_towner: BooleanLike;
   is_standing: BooleanLike;
   required_fellowship_size: number;
@@ -503,7 +503,7 @@ const ContractCard = (props: { contract: Contract }) => {
               : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
-  if (c.is_defense)
+  if (c.shows_commission_seal)
     stamps.push({ label: 'COMMISSIONED', modifier: 'commissioned' });
   if (c.levy_exempt) stamps.push({ label: 'LEVY EXEMPT', modifier: 'exempt' });
   const contentTopPad = stamps.length > 0 ? 8 + stamps.length * 16 : 0;

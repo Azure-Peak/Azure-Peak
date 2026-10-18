@@ -228,6 +228,7 @@
 		to_chat(steward, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
 	dispatched.guild_cut_rate = 0
+	dispatched.shows_commission_seal = TRUE
 	if(levy_exempt)
 		dispatched.levy_exempt = TRUE
 	if(bonus_mult != 1.0)

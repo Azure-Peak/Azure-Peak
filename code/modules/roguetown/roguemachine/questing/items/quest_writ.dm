@@ -212,7 +212,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["guild_cut_rate"] = Q.guild_cut_rate
 	data["progress_required"] = Q.progress_required
 	data["is_rumor"] = Q.source == QUEST_SOURCE_RUMOR
-	data["is_defense"] = Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_BLOCKADE
+	data["shows_commission_seal"] = Q.shows_commission_seal
 	data["is_towner"] = Q.source == QUEST_SOURCE_TOWNER
 	Q.populate_scroll_ui_static_data(data)
 	return data

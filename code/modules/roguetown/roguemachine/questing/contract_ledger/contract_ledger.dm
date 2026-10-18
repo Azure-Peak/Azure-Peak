@@ -308,9 +308,9 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"levy_exempt" = Q.levy_exempt,
 			"guild_cut_rate" = Q.guild_cut_rate,
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
-			"is_defense" = Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_BLOCKADE,
+			"shows_commission_seal" = Q.shows_commission_seal,
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
-			"is_standing" = Q.source == QUEST_SOURCE_RUMOR || Q.source == QUEST_SOURCE_DEFENSE || Q.source == QUEST_SOURCE_TOWNER || Q.source == QUEST_SOURCE_BLOCKADE,
+			"is_standing" = Q.source != QUEST_SOURCE_POOL,
 			"required_fellowship_size" = Q.required_fellowship_size,
 			"lapse_minutes" = lapse_minutes,
 		))

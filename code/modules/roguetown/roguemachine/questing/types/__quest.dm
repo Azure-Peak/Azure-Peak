@@ -90,6 +90,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/required_fellowship_size = 0
 	var/levy_exempt = FALSE
 	var/guild_cut_rate = GUILD_REFERRAL_FEE_PCT
+	var/shows_commission_seal = FALSE
 	var/is_directive = FALSE
 	var/list/datum/weakref/spawners = list()
 	var/list/rolled_crimes
