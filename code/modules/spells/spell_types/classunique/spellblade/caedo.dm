@@ -33,7 +33,7 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/max_range = 5
-	var/strike_damage = 40
+	var/strike_damage = SPELL_DMG(40)
 	var/empower_cost = 3
 
 /datum/action/cooldown/spell/caedo/cast(atom/cast_on)
@@ -129,7 +129,7 @@
 				user.Slowdown(2)
 			continue
 		var/total_damage = strike_damage
-		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
+		arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE, SPELL_STRIKE_SCALING)
 		hit_count++
 		var/turf/victim_turf = get_turf(victim)
 		if(victim_turf)
@@ -150,7 +150,7 @@
 	if(spell_guard_check(victim, FALSE, user))
 		return
 	var/total_damage = strike_damage
-	arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE)
+	arcyne_strike(user, victim, weapon, total_damage, def_zone, spell_name = "Caedo", skip_animation = TRUE, SPELL_STRIKE_SCALING)
 	var/turf/victim_turf = get_turf(victim)
 	if(victim_turf)
 		var/slash_dir = get_dir(user, victim)

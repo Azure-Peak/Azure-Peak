@@ -9,12 +9,12 @@
 	maximum_possible_slots = 1
 	class_select_category = CLASS_CAT_RACIAL
 	category_tags = list(CTAG_WRETCH)
-	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_DODGEEXPERT, TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_EXPERT_HUNTER)
+	traits_applied = list(TRAIT_AZURENATIVE, TRAIT_OUTDOORSMAN, TRAIT_BLACKOAK, TRAIT_ARCYNE, TRAIT_WOODWALKER, TRAIT_EXPERT_HUNTER)
 	//lower-than-avg stats for wretch but their traits are insanely good
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_PER = 1,
-		STATKEY_SPD = 2, // 7 Weight instead of 9 full weight
+		STATKEY_SPD = 1, // 7 Weight if we consider the added +1 when selecting armor.
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
@@ -61,7 +61,6 @@
 /datum/outfit/job/roguetown/wretch/pariah/pre_equip(mob/living/carbon/human/H)
 	..()
 	H.adjust_blindness(-3)
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven
 	shoes = /obj/item/clothing/shoes/roguetown/boots/elven_boots
 	cloak = /obj/item/clothing/cloak/forrestercloak
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
@@ -124,12 +123,26 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
 	var/helmets = list(
+		"Woad Elven Helm"			= /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm,
 		"Woad Elven Barbute"		= /obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light,
 		"Elven Barbute"				= /obj/item/clothing/head/roguetown/helmet/elvenbarbute/blackoak,
 		"Winged Elven Barbute"		= /obj/item/clothing/head/roguetown/helmet/elvenbarbute/winged/blackoak,
 	)
 	var/helmchoice = input(H, "Choose your HELMET.", "LEAVES OVER STEEL.") as anything in helmets
 	head = helmets[helmchoice]
+
+	var/armor_style = list("Haste (Light Armor, +1 Spd)", "Heritage (Medium Armor, +1 Wil/Con)")
+	var/armor_choice = input(H, "Choose your ARMOR.", "FOR THE OAKS AND THE PEAKS") as anything in armor_style
+	switch(armor_choice)
+		if("Haste (Light Armor, +1 Spd)")
+			ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
+			H.change_stat(STATKEY_SPD, 1)
+			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/elven
+		if("Heritage (Medium Armor, +1 Wil/Con)")
+			ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
+			H.change_stat(STATKEY_WIL, 1)
+			H.change_stat(STATKEY_CON, 1)
+			armor = /obj/item/clothing/suit/roguetown/armor/plate/elven_plate
 
 	switch(subclass_selected)
 		if("blade")

@@ -260,6 +260,8 @@
 		var/mob/living/simple_animal/weakpoint_target = src
 		actual_damage *= weakpoint_target.weakpoint_damage_mod(def_zone)
 		actual_damage *= P.npc_simple_damage_mult
+		if(P.spell_damage_scaled)
+			actual_damage /= SPELL_DAMAGE_GENERAL_MODIFIER
 	var/nodmg = FALSE
 	if(!P.nodamage && on_hit_state != BULLET_ACT_BLOCK)
 		if(!apply_damage(actual_damage, P.damage_type, def_zone, armor))

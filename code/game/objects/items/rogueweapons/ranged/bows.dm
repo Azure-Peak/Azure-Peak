@@ -268,6 +268,11 @@
 	release_drain = RECURVE_RELEASEDRAIN
 	force = 9
 
+/obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/goat
+	name = "goat horn bow"
+	desc = "A bendy and regal looking bow fashioned out of the curled horns of a forest goat."
+	icon_state = "goat"
+
 /*
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/recurve/getonmobprop(tag)
 	. = ..()

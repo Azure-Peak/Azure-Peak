@@ -98,6 +98,10 @@
 	name = "Gift - Kit, Armored Plackart"
 	path = /obj/item/enchantingkit/plackart
 
+/datum/loadout_item/donator/universal/sabatons
+	name = "Gift - Kit, Foot Plates"
+	path = /obj/item/enchantingkit/sabatons
+
 /datum/loadout_item/donator/universal/jadehalfmask_donator
 	name = "Gift - Kit, Jade Halfask"
 	path = /obj/item/enchantingkit/jadehalfmask
@@ -1320,24 +1324,39 @@
 /datum/loadout_item/donator/thedragmeme_scarletglove
 	name = "Donator Gift - Scarlet Gloves"
 	path = /obj/item/clothing/gloves/roguetown/rosa/two
-	ckeywhitelist = list("thedragmeme")
+	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
 
 /datum/loadout_item/donator/thedragmeme_scarlethat
 	name = "Donator Gift - Scarlet Hat"
 	path = /obj/item/clothing/head/roguetown/rosa
-	ckeywhitelist = list("thedragmeme")
+	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
 
 /datum/loadout_item/donator/thedragmeme_scarletshoes
 	name = "Donator Gift - Scarlet Shoes"
 	path = /obj/item/clothing/shoes/roguetown/rosa/two
-	ckeywhitelist = list("thedragmeme")
+	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
 
 /datum/loadout_item/donator/thedragmeme_scarletdress
 	name = "Donator Gift - Scarlet Dress"
 	path = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
-	ckeywhitelist = list("thedragmeme")
+	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
 
 /datum/loadout_item/donator/lief_ring
 	name = "Donator Item - Blortz Incrusted Blacksteel Ring"
 	path = /obj/item/clothing/ring/lief_ring
 	ckeywhitelist = list("linxsysart", "pessime959")
+
+/datum/loadout_item/donator/boemanerds
+	name = "Donator Item - plate corslet morphkit"
+	path = /obj/item/enchantingkit/triumph_armorkini_steel
+	ckeywhitelist = list("boemanerds", "bulaven")
+
+/datum/loadout_item/donator/boemanerds/iron
+	name = "Donator Item - iron plate corslet morphkit"
+	path = /obj/item/enchantingkit/triumph_armorkini_iron
+	ckeywhitelist = list("boemanerds", "bulaven")
+
+/datum/loadout_item/donator/yoshi_estoc
+	name = "Donator Kit - Xylixian Estoc"
+	path = /obj/item/enchantingkit/weapon/yoshi_estoc
+	ckeywhitelist = list("limetease", "yosheh3") //yosheh3's ckey is Yosheh_3, but in the logic check its checking against yosheh3 so this is a workaround.

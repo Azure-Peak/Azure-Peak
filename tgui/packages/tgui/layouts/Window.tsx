@@ -41,6 +41,7 @@ type Props = Partial<{
   height: number;
   theme: string;
   title: string;
+  titleClassName: string;
   width: number;
 }> &
   PropsWithChildren;
@@ -50,6 +51,7 @@ export function Window(props: Props) {
     canClose = true,
     theme,
     title,
+    titleClassName,
     children,
     buttons,
     width,
@@ -116,6 +118,7 @@ export function Window(props: Props) {
   return suspended ? null : (
     <Layout className="Window" theme={theme || config.window?.theme}>
       <TitleBar
+        className={titleClassName}
         title={title || decodeHtmlEntities(config.title)}
         status={config.status}
         onDragStart={dragStartHandler}

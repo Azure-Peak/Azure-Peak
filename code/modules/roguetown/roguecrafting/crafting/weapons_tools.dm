@@ -230,6 +230,7 @@
 
 /datum/crafting_recipe/roguetown/survival/woodhammer
 	name = "wood mallet"
+	aliases = "wood hammer, "
 	display_category = ITEM_CAT_WEAPONS_MACES
 	category = "Tools"
 	result = /obj/item/rogueweapon/hammer/wood
@@ -413,7 +414,7 @@
 	name = "silver-reinforced quarterstaff"
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	category = "Tools"
-	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/silver)
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver)
 	reqs = list(
 		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
 		/obj/item/ingot/silver = 1,
@@ -425,7 +426,7 @@
 	name = "psydonic silver-reinforced quarterstaff"
 	display_category = ITEM_CAT_WEAPONS_POLEARMS
 	category = "Tools"
-	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy)
 	reqs = list(
 		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
 		/obj/item/ingot/silverblessed = 1,
@@ -436,7 +437,7 @@
 /datum/crafting_recipe/roguetown/survival/quarterstaff_psydonic/bullion
 	name = "psydonic silver-reinforced quarterstaff (bullion)"
 	category = "Tools"
-	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/psy)
+	result = list(/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy)
 	reqs = list(
 		/obj/item/rogueweapon/woodstaff/quarterstaff = 1,
 		/obj/item/ingot/silverblessed/bullion = 1,
@@ -552,6 +553,7 @@
 
 /datum/crafting_recipe/roguetown/survival/woodspade
 	name = "wood spade"
+	aliases = "wooden shovel, "
 	display_category = ITEM_CAT_TOOLS_FIELD
 	category = "Tools"
 	result = /obj/item/rogueweapon/shovel/small

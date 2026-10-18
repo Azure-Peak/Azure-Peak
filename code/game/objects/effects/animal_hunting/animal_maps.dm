@@ -13,7 +13,7 @@
 	/// Current degradation multiplier (1.0 = 100% effectiveness)
 	var/current_potency = 1.0
 	/// Hard limit on uses
-	var/uses_left = -1 
+	var/uses_left = -1
 
 /obj/item/hunting_map/get_mechanics_examine(mob/user)
 	. = ..()
@@ -82,8 +82,16 @@
 
 /obj/item/hunting_map/boars
 	name = "boar signs"
-	desc = "A simple map denoting recent areas where there have been boar attacks. It is easy to use for skilled hunters"
+	desc = "A simple map denoting recent areas where there have been boar attacks. It is easy to use for skilled hunters."
 	target_category = /datum/hunting_category/boars
 	skill_chances = list(20, 30, 40, 50, 70, 90, 100)
+	degradation_rate = 0
+	uses_left = 5
+
+/obj/item/hunting_map/goats
+	name = "goat tracks"
+	desc = "A simple map denoting historical locations where goats gather. It's so trivial even a simpleton can manage to use it."
+	target_category = /datum/hunting_category/goats
+	skill_chances = list(70, 80, 90, 95, 100, 100, 100)
 	degradation_rate = 0
 	uses_left = 5

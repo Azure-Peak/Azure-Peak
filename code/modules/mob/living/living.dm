@@ -1,6 +1,4 @@
 /mob/living
-	//used by the basic ai controller /datum/ai_behavior/basic_melee_attack to determine how fast a mob can attack
-	var/melee_cooldown = CLICK_CD_MELEE
 	var/pain_threshold = 0
 	var/no_head_bounty = FALSE
 	var/contract_spawned = FALSE
@@ -920,8 +918,10 @@
 	if(!mind)
 		return FALSE
 	if(!mind.active)
-		to_chat(user, span_warning("They are unresponsive to my attempts. For now."))
-		return FALSE
+		var/mob/dead/observer/underworld_spirit = get_spirit()
+		if(!(underworld_spirit && underworld_spirit.client))
+			to_chat(user, span_warning("They are unresponsive to my attempts. For now."))
+			return FALSE
 	if(HAS_TRAIT(src, TRAIT_DNR))
 		to_chat(user, span_danger("None of the divine have them. Their only chance is spent. Where did they go?"))
 		return FALSE

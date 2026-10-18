@@ -1,0 +1,4 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - bugfix: "squire errants now get bolts"

@@ -26,16 +26,8 @@ GLOBAL_LIST_INIT(treasury_flow_order, list(
 ))
 
 GLOBAL_LIST_EMPTY(treasury_expense_ledger)
-GLOBAL_VAR_INIT(treasury_inflow_total, 0)
-GLOBAL_VAR_INIT(treasury_outflow_total, 0)
-
-/proc/record_purse_inflow(amount)
-	if(amount > 0)
-		GLOB.treasury_inflow_total += amount
-
-/proc/record_purse_outflow(amount)
-	if(amount > 0)
-		GLOB.treasury_outflow_total += amount
+// Purse inflow/outflow totals now come from the books (SStreasury.purse_inflow_total / purse_outflow_total).
+// This list only attributes spending to roles and mechanisms, which the ledger accounts do not carry.
 
 /proc/treasury_role_of(mob/M)
 	if(!M)

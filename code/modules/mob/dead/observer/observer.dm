@@ -142,6 +142,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 
 /mob/dead/observer/Initialize(mapload)
+	GLOB.observer_list += src
 	set_invisibility(GLOB.observer_default_invisibility)
 
 	add_verb(src, list(
@@ -236,6 +237,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 10)
 
 /mob/dead/observer/Destroy()
+	GLOB.observer_list -= src
 	STOP_PROCESSING(SShaunting, src)
 
 	QDEL_NULL(spawners_menu)

@@ -77,6 +77,12 @@
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
 
+/datum/outfit/job/roguetown/wapprentice/associate
+	var/starting_implement_tier = "greater"
+
+/datum/outfit/job/roguetown/wapprentice/associate/apprentice
+	starting_implement_tier = "lesser"
+
 /datum/outfit/job/roguetown/wapprentice/associate/pre_equip(mob/living/carbon/human/H)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/tights/random
@@ -95,7 +101,7 @@
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		backr = choose_implement(H, "lesser")
+		backr = choose_implement(H, starting_implement_tier)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 /datum/outfit/job/roguetown/wapprentice/associate/post_equip(mob/living/carbon/human/H, visualsOnly)
@@ -120,6 +126,7 @@
 
 /datum/advclass/wapprentice/associate/apprentice // this has been maid less impactful on purpose - you lose a lot of combat power, but not skills/stats, so that you can actually be trained in the new gameplay loops
 	name = "Magician's Apprentice"
+	outfit = /datum/outfit/job/roguetown/wapprentice/associate/apprentice
 	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, \
 	singed hair, and summoning gone wrong. Expenses and death abound; it is not a path for the pauper \
 	or the coward. You, however, were given a place as an apprentice in the University of Azuria. \
