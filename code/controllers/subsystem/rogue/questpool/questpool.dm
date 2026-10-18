@@ -58,12 +58,6 @@ SUBSYSTEM_DEF(questpool)
 	regen_kill_targets(QUEST_KILL_REGEN_PER_TICK)
 	regen_fetch_targets()
 
-/datum/controller/subsystem/questpool/proc/rebuild_region_counts()
-	kill_count_by_region.Cut()
-	evergreen_count_by_region.Cut()
-	for(var/datum/quest/Q as anything in pool)
-		adjust_region_count(Q, 1)
-
 /// Bumps the region count for Q's kind by delta. Called whenever a quest enters
 /// or leaves the pool so count_*_in stays O(1). No-op if Q has no region set.
 /datum/controller/subsystem/questpool/proc/adjust_region_count(datum/quest/Q, delta)
@@ -489,16 +483,3 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/proc/log_event(category, msg)
 	event_log += "[station_time_timestamp()] [category]: [msg]"
-
-/datum/controller/subsystem/questpool/proc/count_active_for(mob/user)
-	if(!user)
-		return 0
-	var/datum/weakref/user_ref = WEAKREF(user)
-	var/count = 0
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.complete)
-			continue
-		if(Q.quest_receiver_reference == user_ref)
-			count++
-	return count

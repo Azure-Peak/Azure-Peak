@@ -14,14 +14,6 @@
 
 /obj/item/parcel/Initialize(mapload)
 	. = ..()
-	var/datum/component/quest_object/courier_quest = GetComponent(/datum/component/quest_object)
-	if(courier_quest)
-		var/datum/quest/quest = courier_quest.quest_ref?.resolve()
-		if(quest && quest.quest_type == QUEST_COURIER && quest.target_delivery_location)
-			delivery_area_type = quest.target_delivery_location
-			allowed_jobs = get_area_jobs(delivery_area_type)
-			RegisterSignal(courier_quest, COMSIG_PARENT_QDELETING, PROC_REF(on_quest_component_deleted))
-
 	invisibility = INVISIBILITY_OBSERVER
 	proximity_monitor = new(src, 5)
 
@@ -63,10 +55,6 @@
 		/area/rogue/indoors/town = list("Guild Handler")
 	)
 	return area_jobs[area_type] || list("Steward", "Merchant")
-
-/obj/item/parcel/proc/on_quest_component_deleted(datum/source)
-	SIGNAL_HANDLER
-	return
 
 /obj/item/parcel/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/parcel) || I.w_class > WEIGHT_CLASS_BULKY || length(contained_items))

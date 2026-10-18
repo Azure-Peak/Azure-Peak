@@ -62,16 +62,6 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		return "combat & distance pay + [bonus]m bonus"
 	return "combat & distance pay"
 
-/proc/towner_variety_table(posting_type)
-	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
-	return proto?.varieties
-
-/proc/towner_default_variety(posting_type)
-	var/list/vtable = towner_variety_table(posting_type)
-	if(!length(vtable))
-		return null
-	return vtable[1]
-
 /proc/towner_spec_summary(list/spec)
 	if(!length(spec))
 		return "a modest haul"
@@ -89,7 +79,8 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 	return english_list(parts)
 
 /proc/towner_variety_listing(posting_type)
-	var/list/vtable = towner_variety_table(posting_type)
+	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
+	var/list/vtable = proto?.varieties
 	if(!length(vtable))
 		return list()
 	var/list/out = list()
@@ -158,7 +149,8 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 		return
 
 	var/variety = params["variety"]
-	var/list/vtable = towner_variety_table(chosen_type)
+	var/datum/quest/kill/recovery/towner/chosen_proto = get_towner_prototype(chosen_type)
+	var/list/vtable = chosen_proto?.varieties
 	if(length(vtable))
 		if(!variety || !(variety in vtable))
 			variety = vtable[1]

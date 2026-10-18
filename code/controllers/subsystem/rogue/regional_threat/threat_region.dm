@@ -59,20 +59,6 @@
 		return 0
 	return latent_ambush / max_ambush
 
-/datum/threat_region/proc/pick_faction()
-	if(!length(faction_weights))
-		return null
-	var/id = pickweight(faction_weights)
-	return get_quest_faction(id)
-
-/datum/threat_region/proc/get_thematic_factions()
-	var/list/result = list()
-	for(var/id in faction_weights)
-		var/datum/quest_faction/F = get_quest_faction(id)
-		if(F)
-			result += F
-	return result
-
 /datum/threat_region/proc/reduce_latent_ambush(amount)
 	if(fixed_ambush)
 		return

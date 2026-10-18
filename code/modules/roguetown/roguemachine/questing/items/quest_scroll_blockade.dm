@@ -1,11 +1,3 @@
-/proc/format_blockade_time(deciseconds)
-	if(deciseconds <= 0)
-		return "0:00"
-	var/total_seconds = round(deciseconds / 10)
-	var/minutes = round(total_seconds / 60)
-	var/seconds = total_seconds % 60
-	return "[minutes]:[seconds < 10 ? "0[seconds]" : "[seconds]"]"
-
 /obj/item/quest_writ/blockade
 	name = "blockade defense scroll"
 	desc = "A scroll to break a blockade. Travel to the blockaded region and defeat three waves of raiders. \
