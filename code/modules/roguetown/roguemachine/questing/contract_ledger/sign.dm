@@ -61,15 +61,8 @@
 
 	SSquestpool.mark_taken(user)
 
-	var/scroll_type = Q.get_scroll_type()
-	var/obj/item/quest_writ/spawned_scroll = new scroll_type(get_turf(src))
-	user.put_in_hands(spawned_scroll)
+	Q.bind_new_scroll(user, get_turf(src))
 	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
-	spawned_scroll.base_icon_state = Q.get_scroll_icon()
-	spawned_scroll.assigned_quest = Q
-	Q.quest_scroll = spawned_scroll
-	Q.quest_scroll_ref = WEAKREF(spawned_scroll)
-	spawned_scroll.update_quest_text()
 
 	var/datum/fund/deposit_account = SStreasury.get_account(user)
 	if(SStreasury.burn(deposit_account, deposit, "contract deposit", LEDGER_CITIZEN_CONTRACT_PAID))

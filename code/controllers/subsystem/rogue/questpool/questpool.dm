@@ -205,13 +205,7 @@ SUBSYSTEM_DEF(questpool)
 		adjust_region_count(Q, -1)
 		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
 		record_contract_stat(Q, CONTRACT_STAT_LAPSED)
-		switch(Q.source)
-			if(QUEST_SOURCE_POOL)
-				record_round_statistic(STATS_CONTRACTS_LAPSED_POOL)
-			if(QUEST_SOURCE_RUMOR)
-				record_round_statistic(STATS_CONTRACTS_LAPSED_RUMOR)
-			if(QUEST_SOURCE_DEFENSE)
-				record_round_statistic(STATS_CONTRACTS_LAPSED_DEFENSE)
+		record_source_statistic(Q, CONTRACT_STAT_LAPSED)
 		if(Q.source != QUEST_SOURCE_POOL)
 			refund_lapsed_posting(Q)
 		qdel(Q)
@@ -245,113 +239,62 @@ SUBSYSTEM_DEF(questpool)
 	adjust_region_count(Q, -1)
 	return TRUE
 
-/datum/controller/subsystem/questpool/proc/issue_rumor_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/innkeeper = null)
-	if(!type || !(type in get_quest_rumor_costs()))
-		return null
-	if(in_hands && !innkeeper)
-		return null
+/datum/controller/subsystem/questpool/proc/create_issued_quest(type, source, mob/giver)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
 		return null
-	Q.source = QUEST_SOURCE_RUMOR
+	Q.source = source
 	Q.created_at = world.time
 	Q.issued_day = GLOB.dayspassed
-	if(innkeeper)
-		Q.quest_giver_name = innkeeper.real_name
+	if(giver)
+		Q.quest_giver_name = giver.real_name
 	Q.deposit_amount = Q.calculate_deposit()
-	if(override_destination && istype(Q, /datum/quest/kill/recovery))
-		var/datum/quest/kill/recovery/RQ = Q
-		RQ.override_destination = override_destination
-	if(!preferred_region)
-		preferred_region = SSregionthreat.pick_region_for_quest(type)
-	var/region_name = preferred_region?.region_name
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name, Q)
-	if(!landmark)
-		qdel(Q)
-		return null
-	if(!Q.preview(landmark))
-		qdel(Q)
-		return null
-	var/turf/landmark_turf = get_turf(landmark)
-	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
-	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
-
-	if(in_hands)
-		if(!Q.materialize(landmark))
-			qdel(Q)
-			return null
-		Q.materialized = TRUE
-		var/obj/item/quest_writ/scroll = new(get_turf(innkeeper))
-		scroll.base_icon_state = Q.get_scroll_icon()
-		scroll.assigned_quest = Q
-		Q.quest_scroll = scroll
-		Q.quest_scroll_ref = WEAKREF(scroll)
-		scroll.update_quest_text()
-		innkeeper.put_in_hands(scroll)
-		record_round_statistic(STATS_CONTRACTS_GENERATED)
-		record_contract_stat(Q, CONTRACT_STAT_POSTED)
-		record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
-		log_event("generate", "rumor-in-hands [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
-		return Q
-
-	pool += Q
-	adjust_region_count(Q, 1)
-	record_round_statistic(STATS_CONTRACTS_GENERATED)
-	record_round_statistic(STATS_CONTRACTS_GENERATED_RUMOR)
-	record_contract_stat(Q, CONTRACT_STAT_POSTED)
-	log_event("generate", "rumor-pool [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
-/datum/controller/subsystem/questpool/proc/issue_defense_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/steward = null)
-	if(!type || !(type in get_quest_defense_costs()))
-		return null
-	if(in_hands && !steward)
-		return null
-	var/datum/quest/Q = instantiate_quest_of_type(type)
-	if(!Q)
-		return null
-	Q.source = QUEST_SOURCE_DEFENSE
-	Q.created_at = world.time
-	Q.issued_day = GLOB.dayspassed
-	if(steward)
-		Q.quest_giver_name = steward.real_name
-	Q.deposit_amount = Q.calculate_deposit()
-	if(override_destination && istype(Q, /datum/quest/kill/recovery))
-		var/datum/quest/kill/recovery/RQ = Q
-		RQ.override_destination = override_destination
-	if(!preferred_region)
-		preferred_region = SSregionthreat.pick_region_for_quest(type)
-	var/region_name = preferred_region?.region_name
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name, Q)
-	if(!landmark)
-		qdel(Q)
-		return null
-	if(!Q.preview(landmark))
+/datum/controller/subsystem/questpool/proc/place_quest(datum/quest/Q, datum/threat_region/TR)
+	if(!TR)
+		TR = SSregionthreat.pick_region_for_quest(Q.quest_type)
+	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(Q.quest_type, TR?.region_name, Q)
+	if(!landmark || !Q.preview(landmark))
 		qdel(Q)
 		return null
 	var/turf/landmark_turf = get_turf(landmark)
 	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
+	return landmark
 
+/datum/controller/subsystem/questpool/proc/add_to_pool(datum/quest/Q)
+	pool += Q
+	adjust_region_count(Q, 1)
+
+/datum/controller/subsystem/questpool/proc/record_issued(datum/quest/Q, count_generated = TRUE)
+	if(count_generated)
+		record_round_statistic(STATS_CONTRACTS_GENERATED)
+		record_source_statistic(Q, CONTRACT_STAT_POSTED)
+	record_contract_stat(Q, CONTRACT_STAT_POSTED)
+
+/datum/controller/subsystem/questpool/proc/issue_player_quest(type, source, datum/threat_region/TR, area/override_destination, in_hands = FALSE, mob/living/carbon/human/issuer = null)
+	if(in_hands && !issuer)
+		return null
+	var/datum/quest/Q = create_issued_quest(type, source, issuer)
+	if(!Q)
+		return null
+	if(override_destination && istype(Q, /datum/quest/kill/recovery))
+		var/datum/quest/kill/recovery/RQ = Q
+		RQ.override_destination = override_destination
+	var/obj/effect/landmark/quest_spawner/landmark = place_quest(Q, TR)
+	if(!landmark)
+		return null
 	if(in_hands)
 		if(!Q.materialize(landmark))
 			qdel(Q)
 			return null
 		Q.materialized = TRUE
-		var/obj/item/quest_writ/scroll = new(get_turf(steward))
-		scroll.base_icon_state = Q.get_scroll_icon()
-		scroll.assigned_quest = Q
-		Q.quest_scroll = scroll
-		Q.quest_scroll_ref = WEAKREF(scroll)
-		scroll.update_quest_text()
-		steward.put_in_hands(scroll)
+		Q.bind_new_scroll(issuer)
 	else
-		pool += Q
-		adjust_region_count(Q, 1)
-	record_round_statistic(STATS_CONTRACTS_GENERATED)
-	record_round_statistic(STATS_CONTRACTS_GENERATED_DEFENSE)
-	record_contract_stat(Q, CONTRACT_STAT_POSTED)
-	log_event("generate", "[in_hands ? "defense-in-hands" : "defense-pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
+		add_to_pool(Q)
+	record_issued(Q)
+	log_event("generate", "[source]-[in_hands ? "in-hands" : "pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
 /// Bearer-bond scroll is spawned straight into the Steward's hand. Wave 1 materializes
@@ -365,34 +308,19 @@ SUBSYSTEM_DEF(questpool)
 	var/datum/threat_region/TR = B.get_threat_region()
 	if(!ER || !TR)
 		return null
-	var/datum/quest/kill/blockade_defense/Q = new()
+	var/datum/quest/kill/blockade_defense/Q = create_issued_quest(QUEST_BLOCKADE_DEFENSE, QUEST_SOURCE_BLOCKADE, steward)
+	if(!Q)
+		return null
 	Q.blockade_ref = WEAKREF(B)
-	Q.quest_difficulty = QUEST_DIFFICULTY_HARD
-	Q.source = QUEST_SOURCE_BLOCKADE
-	Q.created_at = world.time
-	Q.issued_day = GLOB.dayspassed
-	Q.quest_giver_name = steward.real_name
 	Q.deposit_amount = 0
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name, Q)
-	if(!landmark)
-		qdel(Q)
-		return null
-	if(!Q.preview(landmark))
-		qdel(Q)
-		return null
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
+	if(!place_quest(Q, TR))
+		return null
 	Q.issued_at = world.time
-	var/obj/item/quest_writ/blockade/scroll = new(get_turf(steward))
-	scroll.base_icon_state = Q.get_scroll_icon()
-	scroll.assigned_quest = Q
-	Q.quest_scroll = scroll
-	Q.quest_scroll_ref = WEAKREF(scroll)
-	scroll.update_quest_text()
-	steward.put_in_hands(scroll)
+	var/obj/item/quest_writ/scroll = Q.bind_new_scroll(steward)
 	B.active_scroll_ref = WEAKREF(scroll)
 	B.active_quest_ref = WEAKREF(Q)
-	record_round_statistic(STATS_CONTRACTS_GENERATED)
-	record_contract_stat(Q, CONTRACT_STAT_POSTED)
+	record_issued(Q)
 	log_event("generate", "blockade-defense in-hand for [ER.name] (faction [Q.faction_id], reward [Q.reward_amount])")
 	return Q
 
@@ -408,118 +336,56 @@ SUBSYSTEM_DEF(questpool)
 	var/fid = SSeconomy.pick_blockade_faction_for(TR)
 	if(!fid)
 		return null
-	var/datum/quest/kill/blockade_defense/hoard_recovery/Q = new()
+	var/datum/quest/kill/blockade_defense/hoard_recovery/Q = create_issued_quest(QUEST_HOARD_RECOVERY, QUEST_SOURCE_BLOCKADE, requester)
+	if(!Q)
+		return null
 	Q.faction_id = fid
-	Q.quest_difficulty = QUEST_DIFFICULTY_HARD
-	Q.source = QUEST_SOURCE_BLOCKADE
-	Q.created_at = world.time
-	Q.issued_day = GLOB.dayspassed
-	Q.quest_giver_name = requester.real_name
 	Q.deposit_amount = 0
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
 	Q.required_fellowship_size = is_commission ? 0 : BLOCKADE_FELLOWSHIP_REQUIREMENT
 	Q.raised_by_fellowship = !is_commission
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(QUEST_BLOCKADE_DEFENSE, TR.region_name, Q)
-	if(!landmark)
-		qdel(Q)
-		return null
-	if(!Q.preview(landmark))
-		qdel(Q)
+	if(!place_quest(Q, TR))
 		return null
 	Q.issued_at = world.time
-	var/obj/item/quest_writ/blockade/scroll = new(get_turf(requester))
-	scroll.base_icon_state = Q.get_scroll_icon()
-	scroll.assigned_quest = Q
-	Q.quest_scroll = scroll
-	Q.quest_scroll_ref = WEAKREF(scroll)
-	scroll.update_quest_text()
-	requester.put_in_hands(scroll)
+	Q.bind_new_scroll(requester)
 	TR.active_hoard_recovery_ref = WEAKREF(Q)
-	record_round_statistic(STATS_CONTRACTS_GENERATED)
-	record_contract_stat(Q, CONTRACT_STAT_POSTED)
+	record_issued(Q)
 	log_event("generate", "hoard-recovery [is_commission ? "commission" : "request"] in-hand for [TR.region_name] (faction [Q.faction_id], hoard [TR.banditry_hoard])")
 	return Q
 
 /datum/controller/subsystem/questpool/proc/issue_towner_quest(type, mob/living/carbon/human/poster, posting_tier = TOWNER_POSTING_TIER_MEDIUM, to_hand = FALSE, loadout_variety = null)
 	if(!type || !poster)
 		return null
-	var/datum/quest/Q = instantiate_quest_of_type(type)
-	if(!Q)
+	var/datum/quest/kill/recovery/towner/TQ = create_issued_quest(type, QUEST_SOURCE_TOWNER, poster)
+	if(!istype(TQ))
+		qdel(TQ)
 		return null
-	if(!istype(Q, /datum/quest/kill/recovery/towner))
-		qdel(Q)
-		return null
-	var/datum/quest/kill/recovery/towner/TQ = Q
 	TQ.posting_tier = posting_tier
 	TQ.loadout_variety = loadout_variety
-	Q.quest_difficulty = GLOB.towner_tier_difficulties[posting_tier] || QUEST_DIFFICULTY_EASY
-	Q.source = QUEST_SOURCE_TOWNER
-	Q.created_at = world.time
-	Q.issued_day = GLOB.dayspassed
-	Q.quest_giver_reference = WEAKREF(poster)
-	Q.quest_giver_name = poster.real_name
-	Q.deposit_amount = 0
-	var/datum/threat_region/preferred_region = SSregionthreat.pick_region_for_quest(type)
-	var/region_name = preferred_region?.region_name
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name)
-	if(!landmark)
-		qdel(Q)
+	TQ.quest_difficulty = GLOB.towner_tier_difficulties[posting_tier] || QUEST_DIFFICULTY_EASY
+	TQ.quest_giver_reference = WEAKREF(poster)
+	if(!place_quest(TQ, null))
 		return null
-	if(!Q.preview(landmark))
-		qdel(Q)
-		return null
-	var/turf/landmark_turf = get_turf(landmark)
-	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
-	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	if(to_hand)
-		var/scroll_type = Q.get_scroll_type()
-		var/obj/item/quest_writ/scroll = new scroll_type(get_turf(poster))
-		scroll.base_icon_state = Q.get_scroll_icon()
-		scroll.assigned_quest = Q
-		Q.quest_scroll = scroll
-		Q.quest_scroll_ref = WEAKREF(scroll)
-		scroll.update_quest_text()
-		poster.put_in_hands(scroll)
+		TQ.bind_new_scroll(poster)
 	else
-		pool += Q
-		adjust_region_count(Q, 1)
-	record_round_statistic(STATS_CONTRACTS_GENERATED)
-	record_contract_stat(Q, CONTRACT_STAT_POSTED)
-	log_event("generate", "towner-[to_hand ? "hand" : "pool"] [Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], variety [TQ.effective_variety() || "none"], reward [Q.reward_amount])")
-	return Q
+		add_to_pool(TQ)
+	record_issued(TQ)
+	log_event("generate", "towner-[to_hand ? "hand" : "pool"] [TQ.quest_difficulty] [type] at [TQ.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], variety [TQ.effective_variety() || "none"], reward [TQ.reward_amount])")
+	return TQ
 
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
-	var/datum/quest/Q = instantiate_quest_of_type(type)
+	var/datum/quest/Q = create_issued_quest(type, QUEST_SOURCE_POOL)
 	if(!Q)
 		return null
-	Q.source = QUEST_SOURCE_POOL
 	Q.created_at = world.time + rand(0, QUEST_POOL_STALE_JITTER)
-	Q.issued_day = GLOB.dayspassed
-	Q.deposit_amount = Q.calculate_deposit()
-	// If caller didn't specify a region, pick one weighted by threat (kill) or any eligible (evergreen).
-	if(!preferred_region)
-		preferred_region = SSregionthreat.pick_region_for_quest(type)
-	var/region_name = preferred_region?.region_name
-	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(type, region_name, Q)
-	if(!landmark)
-		qdel(Q)
+	if(!place_quest(Q, preferred_region))
 		return null
-	if(!Q.preview(landmark))
-		qdel(Q)
-		return null
-	var/turf/landmark_turf = get_turf(landmark)
-	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
-	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
-	pool += Q
-	adjust_region_count(Q, 1)
-	record_contract_stat(Q, CONTRACT_STAT_POSTED)
+	add_to_pool(Q)
 	// Skip the generation counter when this is a stale-reroll replacement - reroll already bumped STATS_CONTRACTS_REROLLED.
-	if(!is_replacement)
-		record_round_statistic(STATS_CONTRACTS_GENERATED)
-		record_round_statistic(STATS_CONTRACTS_GENERATED_POOL)
+	record_issued(Q, count_generated = !is_replacement)
 	log_event("generate", "[Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
-
 
 /datum/controller/subsystem/questpool/proc/instantiate_quest_of_type(type)
 	var/datum/quest/proto = GLOB.quest_prototypes[type]
@@ -547,13 +413,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.materialized = TRUE
 	Q.on_claim(user)
 	record_round_statistic(STATS_CONTRACTS_TAKEN)
-	switch(Q.source)
-		if(QUEST_SOURCE_POOL)
-			record_round_statistic(STATS_CONTRACTS_TAKEN_POOL)
-		if(QUEST_SOURCE_RUMOR)
-			record_round_statistic(STATS_CONTRACTS_TAKEN_RUMOR)
-		if(QUEST_SOURCE_DEFENSE)
-			record_round_statistic(STATS_CONTRACTS_TAKEN_DEFENSE)
+	record_source_statistic(Q, CONTRACT_STAT_TAKEN)
 	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
 	return TRUE
 
@@ -613,13 +473,7 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/proc/record_completion(mob/user, datum/quest/Q, paid, taxed)
 	record_round_statistic(STATS_CONTRACTS_COMPLETED)
-	switch(Q?.source)
-		if(QUEST_SOURCE_POOL)
-			record_round_statistic(STATS_CONTRACTS_COMPLETED_POOL)
-		if(QUEST_SOURCE_RUMOR)
-			record_round_statistic(STATS_CONTRACTS_COMPLETED_RUMOR)
-		if(QUEST_SOURCE_DEFENSE)
-			record_round_statistic(STATS_CONTRACTS_COMPLETED_DEFENSE)
+	record_source_statistic(Q, CONTRACT_STAT_COMPLETED)
 	if(paid)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_PAID, paid)
 	if(taxed)

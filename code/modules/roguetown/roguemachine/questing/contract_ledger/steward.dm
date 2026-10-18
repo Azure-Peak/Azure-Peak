@@ -218,7 +218,7 @@
 	if(is_directive)
 		in_hands = TRUE
 	var/levy_exempt = (!is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
-	var/datum/quest/dispatched = SSquestpool.issue_defense_quest(chosen_type, chosen_region, chosen_destination, in_hands, steward)
+	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_DEFENSE, chosen_region, chosen_destination, in_hands, steward)
 	if(!dispatched)
 		refund_commission_draws(draws, "Defense contract refund (landmark failure)")
 		// Restore the Alderman's warrant too - it was consumed above but the commission never issued.

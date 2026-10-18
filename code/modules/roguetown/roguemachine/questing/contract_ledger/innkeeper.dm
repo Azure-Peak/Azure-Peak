@@ -77,7 +77,7 @@
 	SStreasury.rumor_points -= cost
 	record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, cost)
 	var/in_hands = params["in_hands"] ? TRUE : FALSE
-	var/datum/quest/dispatched = SSquestpool.issue_rumor_quest(chosen_type, chosen_region, chosen_destination, in_hands, innkeeper)
+	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_RUMOR, chosen_region, chosen_destination, in_hands, innkeeper)
 	if(!dispatched)
 		SStreasury.rumor_points += cost
 		record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, -cost)

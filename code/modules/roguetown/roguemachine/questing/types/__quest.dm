@@ -117,6 +117,17 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/is_contract_item(obj/item/I)
 	return FALSE
 
+/datum/quest/proc/bind_new_scroll(mob/living/holder, turf/spawn_turf)
+	var/scroll_type = get_scroll_type()
+	var/obj/item/quest_writ/scroll = new scroll_type(spawn_turf || get_turf(holder))
+	scroll.base_icon_state = get_scroll_icon()
+	scroll.assigned_quest = src
+	quest_scroll = scroll
+	quest_scroll_ref = WEAKREF(scroll)
+	scroll.update_quest_text()
+	holder.put_in_hands(scroll)
+	return scroll
+
 /datum/quest/proc/get_lapse_time()
 	var/window = (source == QUEST_SOURCE_POOL) ? QUEST_POOL_STALE_THRESHOLD : QUEST_PLAYER_STALE_THRESHOLD
 	return created_at + window
