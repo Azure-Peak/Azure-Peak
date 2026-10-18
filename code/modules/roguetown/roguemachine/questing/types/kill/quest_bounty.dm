@@ -8,6 +8,11 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 /datum/quest/kill/bounty
 	quest_type = QUEST_BOUNTY
 	chronicle_order = QUEST_CHRONICLE_ORDER_BOUNTY
+	quest_difficulty = QUEST_DIFFICULTY_HARD
+	pool_kind = QUEST_POOL_KILL
+	pool_weight = 15
+	rumor_cost = RUMOR_COST_MAJOR
+	defense_cost = BURGHER_PLEDGE_COST_MAJOR
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
 		THREAT_REGION_TERRORBOG,

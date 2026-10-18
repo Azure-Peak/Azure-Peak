@@ -26,6 +26,9 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 /datum/quest/kill/recovery/towner
 	abstract_type = /datum/quest/kill/recovery/towner
 	chronicle_order = QUEST_CHRONICLE_ORDER_TOWNER
+	pool_kind = null
+	pool_weight = 0
+	rumor_cost = 0 // We don't want the Innkeeper to be able to issue these quests, so these overrides prevent it from appearing in their list.
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
 	guild_cut_exempt = TRUE

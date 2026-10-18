@@ -151,7 +151,7 @@
 		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
 		data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
 		data["rumor_active_players"] = get_active_player_count()
-		data["rumor_costs"] = GLOB.rumor_point_costs.Copy()
+		data["rumor_costs"] = get_quest_rumor_costs()
 		data["rumor_regions_by_type"] = build_rumor_regions_by_type()
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
@@ -170,7 +170,7 @@
 		var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
 		data["pledge_golden_active"] = (golden?.active) ? TRUE : FALSE
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
-		data["defense_costs"] = GLOB.defense_quest_tier_costs.Copy()
+		data["defense_costs"] = get_quest_defense_costs()
 		data["defense_regions_by_type"] = build_defense_regions_by_type()
 		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_destinations"] = build_rumor_destinations()

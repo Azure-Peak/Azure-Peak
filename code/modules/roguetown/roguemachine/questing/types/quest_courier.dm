@@ -1,6 +1,10 @@
 /datum/quest/courier
 	quest_type = QUEST_COURIER
 	chronicle_order = QUEST_CHRONICLE_ORDER_COURIER
+	pool_kind = QUEST_POOL_EVERGREEN
+	pool_weight = 45
+	rumor_cost = RUMOR_COST_TRIVIAL
+	rumor_threat_gated = FALSE
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,

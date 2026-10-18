@@ -16,7 +16,7 @@
 		var/area/A = get_area(src)
 		if(A)
 			region = A.threat_region
-	quest_type = quest_types_for_landmark_kind(landmark_kind)
+	quest_type = get_quest_types_for_landmark_kind(landmark_kind)
 	SSquestpool?.register_landmark(src)
 
 /obj/effect/landmark/quest_spawner/Destroy()

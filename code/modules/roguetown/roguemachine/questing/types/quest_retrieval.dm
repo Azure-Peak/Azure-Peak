@@ -1,6 +1,9 @@
 /datum/quest/retrieval
 	quest_type = QUEST_RETRIEVAL
 	chronicle_order = QUEST_CHRONICLE_ORDER_RETRIEVAL
+	pool_kind = QUEST_POOL_EVERGREEN
+	pool_weight = 55
+	rumor_cost = RUMOR_COST_TRIVIAL
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,

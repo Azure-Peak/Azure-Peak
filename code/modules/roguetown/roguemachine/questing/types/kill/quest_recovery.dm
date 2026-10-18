@@ -49,6 +49,11 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 /datum/quest/kill/recovery
 	quest_type = QUEST_RECOVERY
 	chronicle_order = QUEST_CHRONICLE_ORDER_RECOVERY
+	quest_difficulty = QUEST_DIFFICULTY_MEDIUM
+	pool_kind = QUEST_POOL_KILL
+	pool_weight = 5
+	rumor_cost = RUMOR_COST_STANDARD
+	// No defense_cost so that Steward cannot issue them. I want Innkeeper to have a unique type of quest that is not available to the Steward.
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,

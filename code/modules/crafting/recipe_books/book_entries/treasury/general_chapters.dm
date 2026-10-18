@@ -250,9 +250,9 @@
 		<p>Each rumor type has a fixed point cost:</p>
 		<ul>
 			<li><b>Retrieval, Courier, Easy Kill</b> -
-			[GLOB.rumor_point_costs[QUEST_RETRIEVAL]] points each.</li> <li><b>Clearout,
-			Recovery</b> - [GLOB.rumor_point_costs[QUEST_CLEAR_OUT]] points each.</li>
-			<li><b>Raid, Bounty</b> - [GLOB.rumor_point_costs[QUEST_RAID]] points
+			[RUMOR_COST_TRIVIAL] points each.</li> <li><b>Clearout,
+			Recovery</b> - [RUMOR_COST_STANDARD] points each.</li>
+			<li><b>Raid, Bounty</b> - [RUMOR_COST_MAJOR] points
 			each.</li>
 		</ul>
 

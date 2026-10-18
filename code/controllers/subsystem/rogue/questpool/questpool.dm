@@ -1,6 +1,3 @@
-/proc/defense_quest_tier_cost(quest_type)
-	return GLOB.defense_quest_tier_costs[quest_type] || 0
-
 SUBSYSTEM_DEF(questpool)
 	name = "Quest Pool"
 	wait = QUEST_POOL_REGEN_INTERVAL
@@ -72,13 +69,13 @@ SUBSYSTEM_DEF(questpool)
 /datum/controller/subsystem/questpool/proc/adjust_region_count(datum/quest/Q, delta)
 	if(!Q?.region || !delta)
 		return
-	if(is_kill_type(Q.quest_type))
+	if(Q.pool_kind == QUEST_POOL_KILL)
 		var/new_count = (kill_count_by_region[Q.region] || 0) + delta
 		if(new_count <= 0)
 			kill_count_by_region -= Q.region
 		else
 			kill_count_by_region[Q.region] = new_count
-	else if(is_evergreen_type(Q.quest_type))
+	else if(Q.pool_kind == QUEST_POOL_EVERGREEN)
 		var/new_count = (evergreen_count_by_region[Q.region] || 0) + delta
 		if(new_count <= 0)
 			evergreen_count_by_region -= Q.region
@@ -132,12 +129,6 @@ SUBSYSTEM_DEF(questpool)
 /datum/controller/subsystem/questpool/proc/count_evergreen_quests_in(region_name)
 	return evergreen_count_by_region[region_name] || 0
 
-/proc/is_kill_type(quest_type)
-	return quest_type == QUEST_KILL_EASY || quest_type == QUEST_CLEAR_OUT || quest_type == QUEST_RAID || quest_type == QUEST_BOUNTY || quest_type == QUEST_RECOVERY || quest_type == QUEST_NOTORIOUS_BOUNTY
-
-/proc/is_evergreen_type(quest_type)
-	return quest_type == QUEST_COURIER || quest_type == QUEST_RETRIEVAL
-
 /// Returns the region furthest below its kill target by fill ratio, or null if all are at target.
 /datum/controller/subsystem/questpool/proc/pick_neediest_kill_region()
 	var/pop = GLOB.player_list.len
@@ -147,7 +138,7 @@ SUBSYSTEM_DEF(questpool)
 		var/target = TR.get_kill_target(pop)
 		if(!target)
 			continue
-		if(!region_allows_any_kill_type(TR))
+		if(!region_allows_pool(TR, QUEST_POOL_KILL))
 			continue
 		var/have = count_kill_quests_in(TR.region_name)
 		if(have >= target)
@@ -158,18 +149,18 @@ SUBSYSTEM_DEF(questpool)
 			chosen = TR
 	return chosen
 
-/proc/region_allows_any_kill_type(datum/threat_region/TR)
-	return TR.allows_quest_type(QUEST_KILL_EASY) || TR.allows_quest_type(QUEST_CLEAR_OUT) || TR.allows_quest_type(QUEST_RAID) || TR.allows_quest_type(QUEST_BOUNTY)
-
-/proc/region_allows_any_evergreen_type(datum/threat_region/TR)
-	return TR.allows_quest_type(QUEST_COURIER) || TR.allows_quest_type(QUEST_RETRIEVAL)
+/proc/region_allows_pool(datum/threat_region/TR, pool_kind)
+	for(var/qtype in get_quest_pool_weights(pool_kind))
+		if(TR.allows_quest_type(qtype))
+			return TRUE
+	return FALSE
 
 /datum/controller/subsystem/questpool/proc/regen_kill_targets(count)
 	for(var/i in 1 to count)
 		var/datum/threat_region/TR = pick_neediest_kill_region()
 		if(!TR)
 			return
-		var/type = pick_kill_type_for(TR)
+		var/type = pick_pool_type_for(TR, QUEST_POOL_KILL)
 		if(!type)
 			continue
 		generate_one(type, TR)
@@ -178,32 +169,21 @@ SUBSYSTEM_DEF(questpool)
 	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
 		if(!TR.evergreen_target)
 			continue
-		if(!region_allows_any_evergreen_type(TR))
+		if(!region_allows_pool(TR, QUEST_POOL_EVERGREEN))
 			continue
 		var/have = count_evergreen_quests_in(TR.region_name)
 		var/needed = TR.evergreen_target - have
 		for(var/i in 1 to needed)
-			var/type = pick_evergreen_type_for(TR)
+			var/type = pick_pool_type_for(TR, QUEST_POOL_EVERGREEN)
 			if(!type)
 				break
 			generate_one(type, TR)
 
-/// Weighted pick of a kill quest type the given region allows.
-/datum/controller/subsystem/questpool/proc/pick_kill_type_for(datum/threat_region/TR)
-	var/list/weights = list()
-	for(var/qtype in QUEST_KILL_TYPE_WEIGHTS)
-		if(TR.allows_quest_type(qtype))
-			weights[qtype] = QUEST_KILL_TYPE_WEIGHTS[qtype]
-	if(!length(weights))
-		return null
-	return pickweight(weights)
-
-/// Weighted pick of an evergreen quest type the given region allows.
-/datum/controller/subsystem/questpool/proc/pick_evergreen_type_for(datum/threat_region/TR)
-	var/list/weights = list()
-	for(var/qtype in QUEST_EVERGREEN_TYPE_WEIGHTS)
-		if(TR.allows_quest_type(qtype))
-			weights[qtype] = QUEST_EVERGREEN_TYPE_WEIGHTS[qtype]
+/datum/controller/subsystem/questpool/proc/pick_pool_type_for(datum/threat_region/TR, pool_kind)
+	var/list/weights = get_quest_pool_weights(pool_kind)
+	for(var/qtype in weights)
+		if(!TR.allows_quest_type(qtype))
+			weights -= qtype
 	if(!length(weights))
 		return null
 	return pickweight(weights)
@@ -215,7 +195,7 @@ SUBSYSTEM_DEF(questpool)
 		if(Q.get_lapse_time() >= world.time)
 			continue
 		stale += Q
-		if(is_kill_type(Q.quest_type))
+		if(Q.pool_kind == QUEST_POOL_KILL)
 			kill_replacements_needed++
 	if(!length(stale))
 		return
@@ -240,7 +220,7 @@ SUBSYSTEM_DEF(questpool)
 		var/datum/threat_region/TR = pick_neediest_kill_region()
 		if(!TR)
 			break
-		var/type = pick_kill_type_for(TR)
+		var/type = pick_pool_type_for(TR, QUEST_POOL_KILL)
 		if(!type)
 			continue
 		generate_one(type, TR, is_replacement = TRUE)
@@ -266,14 +246,13 @@ SUBSYSTEM_DEF(questpool)
 	return TRUE
 
 /datum/controller/subsystem/questpool/proc/issue_rumor_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/innkeeper = null)
-	if(!type || !(type in GLOB.rumor_point_costs))
+	if(!type || !(type in get_quest_rumor_costs()))
 		return null
 	if(in_hands && !innkeeper)
 		return null
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
 		return null
-	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_RUMOR
 	Q.created_at = world.time
 	Q.issued_day = GLOB.dayspassed
@@ -324,14 +303,13 @@ SUBSYSTEM_DEF(questpool)
 	return Q
 
 /datum/controller/subsystem/questpool/proc/issue_defense_quest(type, datum/threat_region/preferred_region, area/override_destination, in_hands = FALSE, mob/living/carbon/human/steward = null)
-	if(!type || !(type in GLOB.defense_quest_tier_costs))
+	if(!type || !(type in get_quest_defense_costs()))
 		return null
 	if(in_hands && !steward)
 		return null
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
 		return null
-	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_DEFENSE
 	Q.created_at = world.time
 	Q.issued_day = GLOB.dayspassed
@@ -514,7 +492,6 @@ SUBSYSTEM_DEF(questpool)
 	var/datum/quest/Q = instantiate_quest_of_type(type)
 	if(!Q)
 		return null
-	Q.quest_difficulty = difficulty_for_type(type)
 	Q.source = QUEST_SOURCE_POOL
 	Q.created_at = world.time + rand(0, QUEST_POOL_STALE_JITTER)
 	Q.issued_day = GLOB.dayspassed
@@ -543,20 +520,6 @@ SUBSYSTEM_DEF(questpool)
 	log_event("generate", "[Q.quest_difficulty] [type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
 	return Q
 
-/// Map quest type to a legacy difficulty tier (still used for deposit tier and scroll icon).
-/proc/difficulty_for_type(type)
-	switch(type)
-		if(QUEST_KILL_EASY)
-			return QUEST_DIFFICULTY_EASY
-		if(QUEST_RETRIEVAL, QUEST_COURIER)
-			return QUEST_DIFFICULTY_EASY
-		if(QUEST_CLEAR_OUT, QUEST_RECOVERY)
-			return QUEST_DIFFICULTY_MEDIUM
-		if(QUEST_RAID, QUEST_BOUNTY)
-			return QUEST_DIFFICULTY_HARD
-		if(QUEST_NOTORIOUS_BOUNTY)
-			return QUEST_DIFFICULTY_NOTORIOUS
-	return QUEST_DIFFICULTY_EASY
 
 /datum/controller/subsystem/questpool/proc/instantiate_quest_of_type(type)
 	var/datum/quest/proto = GLOB.quest_prototypes[type]

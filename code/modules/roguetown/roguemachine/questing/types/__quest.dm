@@ -14,12 +14,33 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		.[qtype] = new path()
 	sortTim(., GLOBAL_PROC_REF(cmp_quest_chronicle_order), associative = TRUE)
 
-/proc/quest_types_for_landmark_kind(kind)
+/proc/get_quest_types_for_landmark_kind(kind)
 	. = list()
 	for(var/qtype in GLOB.quest_prototypes)
 		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
 		if(kind in proto.landmark_kinds)
 			. += qtype
+
+/proc/get_quest_pool_weights(pool_kind)
+	. = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(proto.pool_kind == pool_kind && proto.pool_weight > 0)
+			.[qtype] = proto.pool_weight
+
+/proc/get_quest_rumor_costs()
+	. = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(proto.rumor_cost > 0)
+			.[qtype] = proto.rumor_cost
+
+/proc/get_quest_defense_costs()
+	. = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(proto.defense_cost > 0)
+			.[qtype] = proto.defense_cost
 
 /datum/quest
 	abstract_type = /datum/quest
@@ -32,7 +53,12 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/list/eligible_regions = list()
 	var/list/landmark_kinds = list(QUEST_LANDMARK_GENERIC)
 	var/chronicle_order = QUEST_CHRONICLE_ORDER_DEFAULT
-	var/quest_difficulty = ""
+	var/pool_kind
+	var/pool_weight = 0
+	var/rumor_cost = 0
+	var/rumor_threat_gated = TRUE
+	var/defense_cost = 0
+	var/quest_difficulty = QUEST_DIFFICULTY_EASY
 	var/reward_amount = 0
 	var/deposit_amount = 0
 	var/complete = FALSE

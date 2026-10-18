@@ -1,6 +1,11 @@
 /datum/quest/kill/raid
 	quest_type = QUEST_RAID
 	chronicle_order = QUEST_CHRONICLE_ORDER_RAID
+	quest_difficulty = QUEST_DIFFICULTY_HARD
+	pool_kind = QUEST_POOL_KILL
+	pool_weight = 30
+	rumor_cost = RUMOR_COST_MAJOR
+	defense_cost = BURGHER_PLEDGE_COST_MAJOR
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
 		THREAT_REGION_TERRORBOG,

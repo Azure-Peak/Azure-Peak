@@ -1,6 +1,9 @@
 /datum/quest/kill/notorious_bounty
 	quest_type = QUEST_NOTORIOUS_BOUNTY
 	chronicle_order = QUEST_CHRONICLE_ORDER_NOTORIOUS_BOUNTY
+	pool_kind = QUEST_POOL_KILL
+	pool_weight = 5
+	rumor_cost = RUMOR_COST_TRIVIAL // Let innkeeper hand it out for cheap
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
 		THREAT_REGION_TERRORBOG,

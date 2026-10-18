@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/contractledger/proc/build_rumor_regions_by_type()
 	var/list/out = list()
-	for(var/qtype in GLOB.rumor_point_costs)
+	for(var/qtype in get_quest_rumor_costs())
 		var/list/regions = list()
 		for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
 			if(!TR.allows_quest_type(qtype))
@@ -12,7 +12,8 @@
 	return out
 
 /obj/structure/roguemachine/contractledger/proc/rumor_region_passes_threat_gate(datum/threat_region/TR, quest_type)
-	if(!(quest_type in GLOB.rumor_threat_gated_types))
+	var/datum/quest/proto = GLOB.quest_prototypes[quest_type]
+	if(!proto?.rumor_threat_gated)
 		return TRUE
 	return TR.get_threat_weight() >= RUMOR_THREAT_GATE_MIN
 
@@ -32,11 +33,12 @@
 		return
 
 	var/chosen_type = params["type"]
-	if(!(chosen_type in GLOB.rumor_point_costs))
+	var/list/rumor_costs = get_quest_rumor_costs()
+	if(!(chosen_type in rumor_costs))
 		to_chat(innkeeper, span_warning("That rumor type is not one the Guild accepts."))
 		return
 	var/lucrative = params["lucrative"] ? TRUE : FALSE
-	var/base_cost = GLOB.rumor_point_costs[chosen_type]
+	var/base_cost = rumor_costs[chosen_type]
 	var/cost = lucrative ? round(base_cost * RUMOR_LUCRATIVE_MULT) : base_cost
 	if(SStreasury.rumor_points < cost)
 		to_chat(innkeeper, span_warning("Not enough Rumor Points. You need [cost] and have [round(SStreasury.rumor_points, 0.1)]."))

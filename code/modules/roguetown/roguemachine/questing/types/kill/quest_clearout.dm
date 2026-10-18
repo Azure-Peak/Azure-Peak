@@ -1,6 +1,11 @@
 /datum/quest/kill/clearout
 	quest_type = QUEST_CLEAR_OUT
 	chronicle_order = QUEST_CHRONICLE_ORDER_CLEAR_OUT
+	quest_difficulty = QUEST_DIFFICULTY_MEDIUM
+	pool_kind = QUEST_POOL_KILL
+	pool_weight = 25
+	rumor_cost = RUMOR_COST_STANDARD
+	defense_cost = BURGHER_PLEDGE_COST_STANDARD
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,

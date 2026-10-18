@@ -57,18 +57,8 @@
 #define TOWNER_FLAT_BONUS_MEDIUM 50
 #define TOWNER_FLAT_BONUS_HARD 100
 
-// Recovery is intentionally omitted - the Steward cannot directly commission recoveries.
-// Those spawn from the pool (SSquestpool.regen_kill_targets) and from Innkeeper rumors only.
-// The rationale is roleplay: a Recovery is "a caravan was lost, find the cargo" - a rumor
-// reaching the Innkeeper's ear, not a Crown directive.
-GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
-	QUEST_KILL_EASY = BURGHER_PLEDGE_COST_TRIVIAL,
-	QUEST_CLEAR_OUT = BURGHER_PLEDGE_COST_STANDARD,
-	QUEST_BOUNTY = BURGHER_PLEDGE_COST_MAJOR,
-	QUEST_RAID = BURGHER_PLEDGE_COST_MAJOR,
-	QUEST_BLOCKADE_DEFENSE = BLOCKADE_SCROLL_PLEDGE_COST,
-	QUEST_HOARD_RECOVERY = BLOCKADE_SCROLL_PLEDGE_COST,
-))
+#define QUEST_POOL_KILL "kill"
+#define QUEST_POOL_EVERGREEN "evergreen"
 
 // Multipliers applied to the base TP for kill request rewards
 #define QUEST_KILL_THREAT_MULT 1.0
@@ -165,15 +155,6 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define QUEST_LANDMARK_MAX_LOCK_DURATION (60 MINUTES)
 
 
-#define QUEST_KILL_TYPE_WEIGHTS list(\
-	QUEST_KILL_EASY = 25,\
-	QUEST_CLEAR_OUT = 25,\
-	QUEST_RAID = 30,\
-	QUEST_BOUNTY = 15,\
-	QUEST_RECOVERY = 5,\
-	QUEST_NOTORIOUS_BOUNTY = 5,\
-)
-
 #define NOTORIOUS_BOUNTY_POLL_TIME (15 SECONDS)
 #define NOTORIOUS_BOUNTY_POLL_WIDTH 520
 #define NOTORIOUS_BOUNTY_POLL_HEIGHT 260
@@ -195,11 +176,6 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Grace period between the boss dying and the player being released to a ghost.
 #define NOTORIOUS_BOUNTY_DEATH_RELEASE (5 SECONDS)
 
-
-#define QUEST_EVERGREEN_TYPE_WEIGHTS list(\
-	QUEST_RETRIEVAL = 55,\
-	QUEST_COURIER = 45,\
-)
 
 #define QUEST_SOURCE_POOL "pool"
 #define QUEST_SOURCE_HANDLER "handler"

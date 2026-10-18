@@ -1,6 +1,7 @@
 /datum/quest/kill/blockade_defense
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
+	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
 	landmark_kinds = list(QUEST_LANDMARK_GENERIC, QUEST_LANDMARK_DEFENSE)
 	quest_difficulty = QUEST_DIFFICULTY_HARD
 	tp_budget = BLOCKADE_WAVE_BASE_TP

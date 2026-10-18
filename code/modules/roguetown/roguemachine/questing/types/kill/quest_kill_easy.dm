@@ -1,6 +1,10 @@
 /datum/quest/kill/easy
 	quest_type = QUEST_KILL_EASY
 	chronicle_order = QUEST_CHRONICLE_ORDER_KILL_EASY
+	pool_kind = QUEST_POOL_KILL
+	pool_weight = 25
+	rumor_cost = RUMOR_COST_TRIVIAL
+	defense_cost = BURGHER_PLEDGE_COST_TRIVIAL
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,

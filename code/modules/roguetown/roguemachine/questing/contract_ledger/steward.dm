@@ -73,7 +73,7 @@
 
 /obj/structure/roguemachine/contractledger/proc/build_defense_regions_by_type()
 	var/list/out = list()
-	for(var/qtype in GLOB.defense_quest_tier_costs)
+	for(var/qtype in get_quest_defense_costs())
 		var/list/regions = list()
 		if(qtype == QUEST_BLOCKADE_DEFENSE)
 			for(var/datum/blockade/B as anything in GLOB.active_blockades)
@@ -119,7 +119,8 @@
 		return
 
 	var/chosen_type = params["type"]
-	if(!(chosen_type in GLOB.defense_quest_tier_costs))
+	var/list/defense_costs = get_quest_defense_costs()
+	if(!(chosen_type in defense_costs))
 		to_chat(steward, span_warning("The Crown doesn't issue that kind of contract."))
 		return
 
@@ -132,7 +133,7 @@
 		to_chat(steward, span_warning("As Alderman, you can't use the Treasury or issue Requests."))
 		return
 
-	var/cost = GLOB.defense_quest_tier_costs[chosen_type]
+	var/cost = defense_costs[chosen_type]
 	var/bonus_pay_level = CLAMP(text2num("[params["bonus_pay_level"]]") || COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_FULL)
 	if(funding == "directive")
 		bonus_pay_level = COMMISSION_BONUS_PAY_NONE
