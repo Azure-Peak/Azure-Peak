@@ -3,36 +3,6 @@ GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
 	TOWNER_POSTING_TIER_HARD = TOWNER_POSTING_COST_HARD,
 ))
 
-GLOBAL_LIST_INIT(towner_posting_descriptors, list(
-	QUEST_TOWNER_SMITH_CARAVAN = list(
-		"label" = "A Caravan Gone Missing",
-		"blurb" = "A wagon of yours was lost on the road. Hire hands to secure the wreck and bring the strongbox home.",
-		"rules" = list(
-			"The strongbox is magickally sealed. Only you can open it.",
-			"You don't need to travel. The holder brings the strongbox to you.",
-		),
-		"postable_advclasses" = list(
-			/datum/advclass/blacksmith,
-			/datum/advclass/guildsman/blacksmith,
-			/datum/advclass/guildsman/artificer,
-			/datum/advclass/guildmaster,
-		),
-	),
-	QUEST_TOWNER_MINER_OREVEIN = list(
-		"label" = "A Miner's Lead",
-		"You found a vein guarded by elementals and mined a good haul before they drove you away. Hire hands to slay the elementals and haul out the crate.",
-		"rules" = list(
-			"The crate is magickally sealed. Only you can open it.",
-			"You don't need to travel. The holder brings the crate to you.",
-		),
-		"postable_advclasses" = list(
-			/datum/advclass/miner,
-			/datum/advclass/guildsman/architect,
-			/datum/advclass/guildmaster,
-		),
-	),
-))
-
 /proc/get_user_advclass_path(mob/user)
 	if(!ishuman(user))
 		return null
@@ -42,13 +12,13 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	return AC.type
 
 /proc/towner_trade_can_post(mob/user, posting_type)
-	var/list/desc = GLOB.towner_posting_descriptors[posting_type]
-	if(!desc)
+	var/datum/quest/kill/recovery/towner/proto = GLOB.towner_prototypes[posting_type]
+	if(!proto)
 		return FALSE
 	var/path = get_user_advclass_path(user)
 	if(!path)
 		return FALSE
-	return (path in desc["postable_advclasses"])
+	return (path in proto.postable_advclasses)
 
 /proc/user_can_post_crown_towner(mob/user)
 	if(!user)
@@ -65,14 +35,14 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	return user_can_post_crown_towner(user)
 
 /proc/user_can_post_towner_type(mob/user, posting_type)
-	if(!GLOB.towner_posting_descriptors[posting_type])
+	if(!GLOB.towner_prototypes[posting_type])
 		return FALSE
 	if(towner_trade_can_post(user, posting_type))
 		return TRUE
 	return user_can_post_crown_towner(user)
 
 /proc/user_can_post_any_towner(mob/user)
-	for(var/posting_type in GLOB.towner_posting_descriptors)
+	for(var/posting_type in GLOB.towner_prototypes)
 		if(user_can_post_towner_type(user, posting_type))
 			return TRUE
 	return FALSE
@@ -93,12 +63,8 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	return "combat & distance pay"
 
 /proc/towner_variety_table(posting_type)
-	switch(posting_type)
-		if(QUEST_TOWNER_SMITH_CARAVAN)
-			return GLOB.towner_smith_caravan_varieties
-		if(QUEST_TOWNER_MINER_OREVEIN)
-			return GLOB.towner_orevein_varieties
-	return null
+	var/datum/quest/kill/recovery/towner/proto = GLOB.towner_prototypes[posting_type]
+	return proto?.varieties
 
 /proc/towner_default_variety(posting_type)
 	var/list/vtable = towner_variety_table(posting_type)
@@ -143,8 +109,8 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 
 /proc/build_towner_posting_listing(mob/user)
 	var/list/out = list()
-	for(var/posting_type in GLOB.towner_posting_descriptors)
-		var/list/desc = GLOB.towner_posting_descriptors[posting_type]
+	for(var/posting_type in GLOB.towner_prototypes)
+		var/datum/quest/kill/recovery/towner/proto = GLOB.towner_prototypes[posting_type]
 		var/crown_funded = towner_posting_is_crown_funded(user, posting_type)
 		var/cost_mult = crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1
 		var/list/tiers = list()
@@ -155,11 +121,11 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 			)
 		out += list(list(
 			"type" = posting_type,
-			"label" = desc["label"],
-			"blurb" = desc["blurb"],
-			"rules" = desc["rules"] || list(),
+			"label" = proto.posting_label,
+			"blurb" = proto.posting_blurb,
+			"rules" = proto.posting_rules || list(),
 			"eligible" = user_can_post_towner_type(user, posting_type) ? TRUE : FALSE,
-			"eligible_jobs" = towner_advclass_names(desc["postable_advclasses"]),
+			"eligible_jobs" = towner_advclass_names(proto.postable_advclasses),
 			"crown_funded" = crown_funded ? TRUE : FALSE,
 			"tiers" = tiers,
 			"varieties" = towner_variety_listing(posting_type),
@@ -177,7 +143,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		return
 
 	var/chosen_type = params["type"]
-	if(!(chosen_type in GLOB.towner_posting_descriptors))
+	if(!(chosen_type in GLOB.towner_prototypes))
 		to_chat(poster, span_warning("That posting type is not one the Guild accepts."))
 		return
 

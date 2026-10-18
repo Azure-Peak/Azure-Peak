@@ -13,6 +13,16 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	TOWNER_POSTING_TIER_HARD = TOWNER_FLAT_BONUS_HARD,
 ))
 
+GLOBAL_LIST_INIT(towner_prototypes, build_towner_prototypes())
+
+/proc/build_towner_prototypes()
+	. = list()
+	for(var/datum/quest/kill/recovery/towner/path as anything in subtypesof(/datum/quest/kill/recovery/towner))
+		if(IS_ABSTRACT(path))
+			continue
+		var/datum/quest/kill/recovery/towner/proto = new path()
+		.[proto.quest_type] = proto
+
 /datum/quest/kill/recovery/towner
 	abstract_type = /datum/quest/kill/recovery/towner
 	writ_type = WRIT_TYPE_TOWNER
@@ -23,6 +33,21 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	var/loadout_variety
 	var/parcel_label = "sealed strongbox"
 	var/sealed_noun = "strongbox"
+	var/posting_label
+	var/posting_blurb
+	var/list/posting_rules = list(
+		"The crate is magickally sealed. Only you can open it.",
+		"You don't need to travel. The holder brings the crate to you.",
+	)
+	var/list/postable_advclasses = list()
+	var/list/eligible_regions = list()
+	var/list/eligible_factions = list()
+	var/list/tier_tp_budgets = list(
+		TOWNER_POSTING_TIER_MEDIUM = TOWNER_CARAVAN_TP_BUDGET_MEDIUM,
+		TOWNER_POSTING_TIER_HARD = TOWNER_CARAVAN_TP_BUDGET_HARD,
+	)
+	var/list/varieties = list()
+	var/list/bundle_pools = list()
 
 /datum/quest/kill/recovery/towner/calculate_deposit()
 	return 0
@@ -47,23 +72,35 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	data["towner_intro"] = get_writ_intro()
 	data["towner_seal_note"] = get_writ_seal_note()
 
-/datum/quest/kill/recovery/towner/proc/get_eligible_regions()
-	return list()
-
 /datum/quest/kill/recovery/towner/proc/get_tier_tp_budget()
-	return 0
+	return tier_tp_budgets[posting_tier] || tier_tp_budgets[TOWNER_POSTING_TIER_MEDIUM]
 
 /datum/quest/kill/recovery/towner/proc/get_tier_flat_bonus()
 	return GLOB.towner_tier_flat_bonus[posting_tier] || 0
 
-/datum/quest/kill/recovery/towner/proc/build_bundle()
-	return list()
+/datum/quest/kill/recovery/towner/pick_region_faction_for(datum/threat_region/TR)
+	var/list/weights = list()
+	for(var/id in TR.faction_weights)
+		if(!(id in eligible_factions))
+			continue
+		if(!get_quest_faction(id))
+			continue
+		weights[id] = TR.faction_weights[id]
+	if(!length(weights))
+		return null
+	return get_quest_faction(pickweight(weights))
 
-/datum/quest/kill/recovery/towner/proc/get_varieties()
-	return null
+/datum/quest/kill/recovery/towner/proc/build_bundle()
+	var/variety = effective_variety()
+	if(!variety)
+		return list()
+	var/list/meta = varieties[variety]
+	var/list/tiers = meta?["tiers"]
+	if(!tiers)
+		return list()
+	return resolve_bundle_spec(tiers[posting_tier] || tiers[TOWNER_POSTING_TIER_MEDIUM])
 
 /datum/quest/kill/recovery/towner/proc/effective_variety()
-	var/list/varieties = get_varieties()
 	if(!length(varieties))
 		return null
 	if(loadout_variety && (loadout_variety in varieties))
@@ -82,7 +119,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 			continue
 		var/pool = entry["pool"]
 		if(pool)
-			var/list/resolved = istext(pool) ? towner_bundle_pool(pool) : pool
+			var/list/resolved = istext(pool) ? bundle_pools[pool] : pool
 			if(!length(resolved))
 				continue
 			for(var/i in 1 to count)
@@ -93,12 +130,6 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 			bundle[path] = (bundle[path] || 0) + count
 	return bundle
 
-/proc/towner_bundle_pool(pool_id)
-	switch(pool_id)
-		if("orevein_gems")
-			return GLOB.towner_orevein_gem_types
-	return null
-
 /datum/quest/kill/recovery/towner/proc/get_parcel_name()
 	return "[quest_giver_name]'s [parcel_label]"
 
@@ -108,7 +139,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 /datum/quest/kill/recovery/towner/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
-	if(!(landmark.region in get_eligible_regions()))
+	if(!(landmark.region in eligible_regions))
 		return FALSE
 	tp_budget = get_tier_tp_budget()
 	. = ..()
