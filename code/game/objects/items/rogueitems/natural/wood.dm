@@ -130,7 +130,7 @@
 	firefuel = 20 MINUTES
 	twohands_required = FALSE
 	gripped_intents = null
-	w_class = WEIGHT_CLASS_BULKY
+	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = /obj/item/rogueore/coal/charcoal
 	lumber_amount = 0
 

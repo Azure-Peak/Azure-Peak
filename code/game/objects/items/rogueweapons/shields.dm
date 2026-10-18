@@ -97,9 +97,13 @@
 	item_d_type = "blunt"
 
 /datum/intent/shield/block/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
+	playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
 
 /datum/intent/shield/block/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
@@ -400,7 +404,7 @@
 
 /obj/item/rogueweapon/shield/tower/metal
 	name = "kite shield"
-	desc = "A kite-shaped iron shield. Reliable and sturdy."
+	desc = "A kite-shaped steel shield. Reliable and sturdy."
 	icon_state = "kitesh"
 	force = 20
 	throwforce = 10
@@ -480,8 +484,8 @@
 	desc = "'A Psydonian endures. A Psydonian preserves themselves. A Psydonian preserves His flock.' </br>A blessed silver pavise, capable of thwarting the deadliness of \
 	even the hottest balefires. The one who wields it shall never falter; and the ones behind them shall never suffer."
 	icon_state = "psyshield"
-	force = 12
-	throwforce = 5
+	force = 25
+	throwforce = 20
 	throw_speed = 1
 	throw_range = 3
 	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
@@ -492,9 +496,9 @@
 	coverage = 50
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 450
+	max_integrity = 380
 	is_silver = TRUE
-	smeltresult = /obj/item/ingot/silver
+	smeltresult = /obj/item/ingot/silverblessed
 
 /obj/item/rogueweapon/shield/tower/metal/psy/ComponentInitialize()
 	AddComponent(\

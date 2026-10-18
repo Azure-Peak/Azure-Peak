@@ -32,7 +32,7 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/leap_range = 4
-	var/base_damage = 30
+	var/base_damage = SPELL_DMG(30)
 	var/empowered_mult = 2
 	var/momentum_cost = 3
 	var/step_delay = 1
@@ -135,7 +135,7 @@
 		if(spell_guard_check(victim, FALSE, H, punish_caster = deflected ? FALSE : null))
 			deflected = TRUE
 			continue
-		arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!")
+		arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!", SPELL_STRIKE_SCALING)
 		hit_count++
 
 	if(!hit_count)
@@ -147,7 +147,7 @@
 			if(spell_guard_check(victim, FALSE, H, punish_caster = deflected ? FALSE : null))
 				deflected = TRUE
 				continue
-			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!")
+			arcyne_strike(H, victim, held_weapon, damage, def_zone, BCLASS_STAB, spell_name = "Advance!", SPELL_STRIKE_SCALING)
 			hit_count++
 
 	if(!hit_count)

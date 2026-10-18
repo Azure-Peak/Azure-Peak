@@ -825,6 +825,24 @@
 		else
 			dat += "<A href='?src=[REF(src)];[HrefToken()];limitjobslot=[job.title]'>Limit</A></td>"
 
+	dat += "</table>"
+
+	// Subclass slot counts, grouped by their parent job
+	for(var/datum/job/job as anything in SSjob.occupations)
+		if(!length(job.job_subclasses))
+			continue
+		dat += "<br><b>[html_encode(job.title)] subclasses</b><table>"
+		for(var/adv_path in job.job_subclasses)
+			var/datum/advclass/adv_initial = adv_path
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(adv_initial.name))
+			if(!subclass)
+				continue
+			count++
+			dat += "<tr><td>[html_encode(subclass.name)]:</td> <td>[subclass.total_slots_occupied]/[subclass.maximum_possible_slots < 0 ? " (unlimited)" : subclass.maximum_possible_slots]</td>"
+			dat += "<td><A href='?src=[REF(src)];[HrefToken()];setsubclassslot=[REF(subclass)]'>Set</A> | "
+			dat += "<A href='?src=[REF(src)];[HrefToken()];unlimitsubclassslot=[REF(subclass)]'>Unlimit</A></td></tr>"
+		dat += "</table>"
+
 	browser.height = min(100 + count * 20, 650)
 	browser.set_content(dat.Join())
 	browser.open()
@@ -911,26 +929,45 @@
 	set name = "Back to Lobby"
 
 	var/mob/living/carbon/human/H = mob
-	var/datum/job/mob_job
-	var/datum/advclass/target_job = H.get_advclass_datum()
+	H.admin_send_back_to_lobby(usr)
 
-	if(H.mind)
-		mob_job = SSjob.GetJob(H.mind.assigned_role)
+
+/mob/living/carbon/human/proc/admin_send_back_to_lobby(mob/admin, delete_character = FALSE)
+	var/datum/job/mob_job
+	var/target_job = SSrole_class_handler.get_advclass_by_name(advjob)
+	var/player_key = key ? key : mind?.key
+	if(mind)
+		mob_job = SSjob.GetJob(mind.assigned_role)
 		if(mob_job)
 			mob_job.current_positions = max(0, mob_job.current_positions - 1)
 		if(target_job)
 			SSrole_class_handler.adjust_class_amount(target_job, -1)
-		H.mind.unknow_all_people()
+		mind.unknow_all_people()
 		for(var/datum/mind/MF in get_minds())
-			H.mind.become_unknown_to(MF)
+			mind.become_unknown_to(MF)
 		for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
-			if(removing_bounty.target == H.real_name)
+			if(removing_bounty.target == real_name)
 				GLOB.head_bounties -= removing_bounty
+	else if(admin)
+		to_chat(admin, span_warning("Target has no mind!"))
+	GLOB.chosen_names -= real_name
+	if(!mob_job)
+		LAZYREMOVE(GLOB.actors_list[SSjob.bitflag_to_department(WANDERERS, FALSE)], mobid)
 	else
-		alert(usr, "Target has no mind!") // Optional Error check that may or may not be neccessary
-	GLOB.chosen_names -= H.real_name
-	LAZYREMOVE(GLOB.actors_list, H.mobid)
-	H.returntolobby()
+		LAZYREMOVE(GLOB.actors_list[SSjob.bitflag_to_department(mob_job.department_flag, mob_job.obfuscated_job)], mobid)
+	if(client)
+		SSdroning.kill_droning(client)
+		SSdroning.kill_loop(client)
+		SSdroning.kill_rain(client)
+	if(player_key)
+		var/mob/dead/new_player/NP = new()
+		NP.key = player_key
+	else if(admin)
+		to_chat(admin, span_warning("[src] has no key to return to the lobby."))
+	if(delete_character)
+		qdel(src)
+	return TRUE
+
 
 
 /datum/admins/proc/sleep_view()

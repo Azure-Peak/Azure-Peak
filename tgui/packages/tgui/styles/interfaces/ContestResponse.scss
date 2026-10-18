@@ -1,0 +1,85 @@
+/**
+ * SPDX-License-Identifier: MIT
+ */
+
+@use '../base';
+
+// The close button takes 45px on the right of the title bar, so the same amount on the left keeps
+// the title on the true centre of the window rather than of the space left beside the button.
+.ContestResponse__Title .TitleBar__title {
+  text-align: center;
+  padding-left: base.rem(45px);
+}
+
+.ContestResponse__Stat {
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: base.rem(2px);
+  // letter-spacing also trails the last glyph, so pad the start by the same amount to keep the word on the true centre.
+  padding-left: base.rem(2px);
+  font-size: base.rem(22px);
+  font-weight: bold;
+  color: #e2ddae;
+  margin-bottom: base.rem(8px);
+}
+
+.ContestResponse__Challenger {
+  display: block;
+  text-align: center;
+  font-size: base.rem(13px);
+  color: #bbbbad;
+  margin-bottom: base.rem(2px);
+}
+
+.ContestResponse__Decline {
+  width: 100%;
+  height: base.rem(34px);
+  line-height: base.rem(34px);
+  text-align: center;
+  font-size: base.rem(15px);
+  font-weight: bold;
+  margin-bottom: base.rem(8px);
+}
+
+.ContestResponse__Grid {
+  // Two rows of four. A single row of eight does not fit - a 1fr track will not shrink below
+  // its content, so the last stats were pushed out of the window.
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: base.rem(5px);
+}
+
+.ContestResponse__Option {
+  width: 100%;
+  height: base.rem(26px);
+  font-size: base.rem(12px);
+  padding: 0 base.rem(2px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+
+  &--wide {
+    grid-column: 1 / -1;
+  }
+}
+
+// One colour per stat, matching the chat spans of the god who watches over it. Declared last
+// so they win over the Stat's default colour.
+$gods: (
+  ravox: #7a1e30,
+  dendor: #43622e,
+  noc: #9acdff,
+  graggar: #19345e,
+  malum: #884610,
+  matthios: #e1c457,
+  xylix: #e2ddae,
+  baotha: #bb48a9,
+);
+
+@each $god, $colour in $gods {
+  .ContestResponse__God--#{$god} {
+    color: $colour;
+  }
+}

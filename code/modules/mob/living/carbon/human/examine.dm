@@ -715,9 +715,11 @@
 	if(name in unknown_names)
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 	else if(obscure_name && !client?.prefs?.masked_examine)
 		. += span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 	else
 		on_examine_face(user)
 		var/used_name = name
@@ -834,8 +836,15 @@
 
 		if(HAS_TRAIT(src, TRAIT_AGENT_MERCHANT))
 			. += span_notice("An agent of the Azurian Trading Company.")
-		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE))
-			. += span_notice("An agent of the Bathhouse.")
+
+		// only bath-house workers and other bath-house agents can recognize bath-house agents
+		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE) && ishuman(user))
+			var/mob/living/carbon/human/bath_viewer = user
+			if((bath_viewer.job in GLOB.bathhouse_positions) || HAS_TRAIT(bath_viewer, TRAIT_AGENT_BATHHOUSE))
+				. += span_notice("[m1] an agent of the Bathhouse.")
+
+		if(HAS_TRAIT(src, TRAIT_ARMOR_BREAK))
+			. += span_phobia("[capitalize(m2)] armor hangs on by a thread...")
 
 		if(src.job in GLOB.church_positions)
 			if(!HAS_TRAIT(user, TRAIT_CLERGY))
@@ -872,6 +881,7 @@
 			. += span_userdanger("OUTLAW!")
 
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 
 		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))

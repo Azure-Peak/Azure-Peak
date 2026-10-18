@@ -48,6 +48,14 @@
 	allowed_species = list(/datum/species/tabaxi, /datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/dullahan, /datum/species/elf/wood)
 	ui_fa_icon = "tree"
 
+/datum/quirk/watersleep
+	name = "Aquaphile"
+	desc = "I feel at home in the water. Sleeping beneath the waves is almost as comfortable as a bed to me."
+	mechdesc = "Does not come with water breathing."
+	added_traits = list(TRAIT_WATERSLEEP)
+	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/lizardfolk) // same as amphibious basically
+	ui_fa_icon = "water"
+
 /datum/quirk/caustic
 	name = "Prickly"
 	desc = "Through quills, spines, or a caustic makeup, touching me isn't exactly pleasant."

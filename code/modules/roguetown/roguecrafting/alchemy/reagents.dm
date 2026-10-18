@@ -791,7 +791,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 	description = "Alters the vocal chords, inflicting a silly voice on the imbiber."
 	taste_description = "a slight sweetness"
 	scent_description = "sweetness"
-	trait = TRAIT_COMICSANS
+	trait = TRAIT_ANNOYINGVOICE
 	color = "#fff789"
 	addmsg = "I feel something in my throat shift."
 	delmsg = "My voice returns to normal."

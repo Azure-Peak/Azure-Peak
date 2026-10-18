@@ -496,7 +496,7 @@
 	for(var/mob/living/target in oview(1, wearer))
 		var/throwtarget = get_edge_target_turf(wearer, get_dir(wearer, get_step_away(target, wearer)))
 		target.safe_throw_at(throwtarget, 2, 1, wearer, spin = FALSE, force = MOVE_FORCE_EXTREMELY_STRONG)
-		target.adjustBruteLoss(20)
+		target.adjustBruteLoss(SPELL_DMG_VS(target, SPELL_DMG(20)))
 
 #undef ARCYNE_WARD_FILTER
 #undef BASE_ARCYNE_INTEGRITY

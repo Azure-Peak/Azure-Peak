@@ -895,7 +895,7 @@
 	H.color = "#d3d3d3"
 	var/list/wCount = owner.get_wounds()
 	if(wCount.len > 0)
-		owner.heal_wounds(healing_on_tick * 1.75)
+		owner.heal_wounds(healing_on_tick * 2.25)
 		owner.update_damage_overlays()
 	owner.adjustOxyLoss(-healing_on_tick, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
@@ -2094,7 +2094,7 @@
 	blood_restore = 0
 	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
 	examine_text = "SUBJECTPRONOUN is enduring!"
-	duration = 8 SECONDS //This is on a 30 second cooldown miracle.
+	duration = 15 SECONDS //This is on a 30 second cooldown miracle.
 	adrenaline_stam = FALSE
 
 /datum/status_effect/buff/nocblessing
@@ -2550,11 +2550,11 @@
 // https://en.wikipedia.org/wiki/Transparent_eyeball
 /atom/movable/screen/alert/status_effect/buff/transparent_eyeball
 	name = "Transparent Eyeball"
-	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_gamedeadsay("\n...I AM NOTHING, I SEE ALL.")
+	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_blue("\n...I AM NOTHING, I SEE ALL.")
 
 /datum/status_effect/buff/transparent_eyeball/on_apply()
 	. = ..()
-	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil-- scrying orbs will be easier to use, for a time!"))
+	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil. Scrying orbs will be easier to use for a time!"))
 
 /datum/status_effect/buff/transparent_eyeball/on_remove()
 	. = ..()

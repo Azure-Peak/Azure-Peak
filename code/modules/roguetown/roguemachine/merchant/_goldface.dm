@@ -53,9 +53,11 @@
 		"Tools",
 		"Wardrobe",
 		"Zadpacks",
+		"Hunting Maps",
 	)
 	var/list/categories_gamer = list(
 		"Adventuring Supplies",
+		"Arcyne Supplies",
 		"Armor (Light)",
 		"Armor (Iron)",
 		"Armor (Steel)",
@@ -89,6 +91,7 @@
 	value_record_key = STATS_SILVERFACE_VALUE_SPENT
 	categories = list(
 		"Adventuring Supplies",
+		"Arcyne Supplies",
 		"Alcohols",
 		"Consumable",
 		"Gems",
@@ -99,6 +102,7 @@
 		"Seeds",
 		"Tools",
 		"Weapons (Foreign)",
+		"Hunting Maps",
 	)
 	categories_gamer = list()
 
@@ -328,6 +332,10 @@
 	data["dodging"] = dodging ? TRUE : FALSE
 	data["active_blockades"] = blockade_surcharge ? build_blockade_goldface_rows() : list()
 	data["blockade_gear_pct"] = blockade_surcharge ? get_blockade_gear_surcharge_pct() : 0
+	data["blockade_gear_base_pct"] = blockade_surcharge ? get_blockade_gear_surcharge_base_pct() : 0
+	data["blockade_mult_pct"] = SSeconomy.get_blockade_surcharge_mult_pct()
+	data["blockade_pop_half"] = BLOCKADE_SURCHARGE_POP_HALF
+	data["blockade_pop_full"] = BLOCKADE_SURCHARGE_POP_FULL
 	if(is_public)
 		var/effective_pct = round(get_effective_fee() * 100)
 		data["public_margin_pct"] = effective_pct
@@ -767,7 +775,7 @@
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, cost)
 			playsound(loc, 'sound/misc/gold_misc.ogg', 70, FALSE, -1)
 			if(!(is_tax_exempt(H)))
-				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])", null, LEDGER_CROWN_REV_IMPORT_TARIFF)
 				SStreasury.apply_concordat_tithe(cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
@@ -779,7 +787,7 @@
 			if(is_public && SSmerchant_trade?.gnome_automation_unlocked)
 				var/margin = round(PA.cost * get_effective_fee())
 				if(margin > 0)
-					SStreasury.mint(SStreasury.merchant_fund, margin, "Company Gnomes margin ([src.name])")
+					SStreasury.mint(SStreasury.merchant_fund, margin, "Company Gnomes margin ([src.name])", null, LEDGER_MERCHANT_MARGIN_IN)
 					SSmerchant_trade.gnome_margin_collected += margin
 					SSmerchant_trade.log_fund_movement("Gnomes margin ([src.name])", margin)
 			if(cost > 0 && SSmerchant_trade)
@@ -848,7 +856,7 @@
 			record_round_statistic(value_record_key, total_cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
 			if(!is_tax_exempt(H))
-				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])", null, LEDGER_CROWN_REV_IMPORT_TARIFF)
 				SStreasury.apply_concordat_tithe(total_cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
@@ -906,7 +914,7 @@
 			record_round_statistic(value_record_key, total_cost)
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
 			if(tariff_active)
-				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+				SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])", null, LEDGER_CROWN_REV_IMPORT_TARIFF)
 				SStreasury.apply_concordat_tithe(total_cost, TAX_CATEGORY_IMPORT_TARIFF, "[src.name]")
 				record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, tax_amt)
 				record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
@@ -973,7 +981,7 @@
 			record_round_statistic(STATS_TRADE_VALUE_IMPORTED, total_cost)
 			if(tariff_active)
 				if(tariff_float > 0)
-					SStreasury.mint_fractional(SStreasury.discretionary_fund, tariff_float, "[TAX_CATEGORY_IMPORT_TARIFF] (bulk import: [TG.name] x[qty])")
+					SStreasury.mint_fractional(SStreasury.discretionary_fund, tariff_float, "[TAX_CATEGORY_IMPORT_TARIFF] (bulk import: [TG.name] x[qty])", null, LEDGER_CROWN_REV_IMPORT_TARIFF)
 					SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_IMPORT_TARIFF, "bulk import")
 					record_featured_stat(FEATURED_STATS_TAX_PAYERS, H, round(tariff_float))
 					record_round_statistic(STATS_TAXES_COLLECTED, round(tariff_float))

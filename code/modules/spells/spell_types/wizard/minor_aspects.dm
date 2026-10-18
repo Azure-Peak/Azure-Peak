@@ -17,41 +17,28 @@
 		/datum/action/cooldown/spell/mending,
 	)
 
-/datum/magic_aspect/exowardry
-	name = "Exowardry"
-	latin_name = "Minor Aspectus Exotutelae"
-	desc = "TODO"
+/datum/magic_aspect/illusion
+	name = "Illusion"
+	latin_name = "Minor Aspectus Illusio"
+	desc = "The art of warping light and space, illusionists know that the best defense is to never be caught in a fight in the first place."
 	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_ARCANE
+	school_color = GLOW_COLOR_ILLUSION
 	binding_chants = list(
-		"Let me raise walls against my foes.",
-		"Exotutela, mihi adesse!",
+		"Let me weave what is not there.",
+		"Illusio, mihi adesse!",
 	)
 	unbinding_chants = list(
-		"I lower the walls I have raised.",
-		"Exotutela, me relinquere!",
+		"I unravel the veil I have spun.",
+		"Illusio, me relinquere!",
 	)
-	fixed_spells = list(
-		/datum/action/cooldown/spell/forcewall,
-	)
-
-
-/datum/magic_aspect/displacement
-	name = "Displacement"
-	latin_name = "Minor Aspectus Translationis"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_DISPLACEMENT
-	binding_chants = list(
-		"Let me step between the spaces between the realms.",
-		"Translatio, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I close the paths I have opened. I walk the realms no longer.",
-		"Translatio, me relinquere!",
-	)
-	fixed_spells = list(
+	pointbuy_budget = 3
+	pointbuy_spells = list(
 		/datum/action/cooldown/spell/phase,
+		/datum/action/cooldown/spell/invisibility,
+		// 1-cost utility filler
+		/datum/action/cooldown/spell/light,
+		/datum/action/cooldown/spell/nondetection,
+		/datum/action/cooldown/spell/projectile/waterbolt,
 	)
 
 /datum/magic_aspect/autowardry
@@ -73,8 +60,50 @@
 		/datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 	)
 
-/datum/magic_aspect/lesser_augmentation
-	name = "Lesser Augmentation"
+/datum/magic_aspect/allowardry
+	name = "Allowardry"
+	latin_name = "Minor Aspectus Allotutelae"
+	desc = "Allowardry is a second-order magical school. Most other schools channel destruction - allowardry specializes in the prevention of destruction. Allowardens lays their wards on top of their allies to protect them. Their specialization also allows them to lay down runes on the ground to protect allies or hold ground."
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_WARD
+	binding_chants = list(
+		"Let me clad my allies in an armor of arcyne.",
+		"Allotutela, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I lift the wards I have clad upon others.",
+		"Allotutela, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/bestow_ward,
+	)
+	pointbuy_budget = 2
+	pointbuy_spells = list(
+		/datum/action/cooldown/spell/arrow_ward,
+		/datum/action/cooldown/spell/touch/rune_ward,
+		/datum/action/cooldown/spell/augment_buff/restore_defense,
+	)
+
+/datum/magic_aspect/battlewardry
+	name = "Battlewardry"
+	latin_name = "Minor Aspectus Bellitutelae"
+	desc = "Battlewardry is a second-order magical school. Most other schools channel destruction - battlewardry specializes in the prevention of destruction. Battlewardens use a modified, tactical form of ward traps to punish the reckless, inscribing a single fragile rune where the fighting is thickest."
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_WARD
+	binding_chants = list(
+		"I raise the wards of war, protect!",
+		"Bellitutela, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I lower the wards I have raised, rest.",
+		"Bellitutela, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/battle_ward,
+	)
+
+/datum/magic_aspect/augmentation
+	name = "Augmentation"
 	latin_name = "Minor Aspectus Augmenti"
 	desc = "Scholars debate whether Augmentation is a first, second, or even third-order school. Its adherents consider themselves third-order - \
 	with the honor of imitating the divine by augmenting the boundless potential of the humen form. Its spells are focused on enhancing the body, \
@@ -102,28 +131,11 @@
 		/datum/action/cooldown/spell/augment_buff/surge,
 		/datum/action/cooldown/spell/augment_buff/precognition,
 		/datum/action/cooldown/spell/augment_buff/grasp,
+		/datum/action/cooldown/spell/augment_buff/restore_defense,
 		// 1-cost utility filler
 		/datum/action/cooldown/spell/light,
 		/datum/action/cooldown/spell/mending,
 		/datum/action/cooldown/spell/create_campfire,
-	)
-
-/datum/magic_aspect/illusion
-	name = "Illusion"
-	latin_name = "Minor Aspectus Illusio"
-	desc = "TODO"
-	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_ILLUSION
-	binding_chants = list(
-		"Let me weave what is not there.",
-		"Illusio, mihi adesse!",
-	)
-	unbinding_chants = list(
-		"I unravel the veil I have spun.",
-		"Illusio, me relinquere!",
-	)
-	fixed_spells = list(
-		/datum/action/cooldown/spell/invisibility,
 	)
 
 /datum/magic_aspect/hearthcraft
@@ -143,6 +155,7 @@
 	fixed_spells = list(
 		/datum/action/cooldown/spell/great_shelter,
 		/datum/action/cooldown/spell/create_campfire,
+		/datum/action/cooldown/spell/forcewall,
 	)
 
 /datum/magic_aspect/aegiscraft
@@ -179,4 +192,29 @@
 	)
 	fixed_spells = list(
 		/datum/action/cooldown/spell/wither,
+		/datum/action/cooldown/spell/readomen,
+	)
+
+/datum/magic_aspect/lesser_necromancy
+	name = "Lesser Necromancy"
+	latin_name = "Minor Aspectus Mortis"
+	desc = "Her lesser works, taught to the beginning necromancer."
+	aspect_type = ASPECT_MINOR
+	school_color = GLOW_COLOR_ZIZO
+	class_locked = TRUE
+	binding_chants = list(
+		"Let the dead heed my call.",
+		"Mors, mihi adesse!",
+	)
+	unbinding_chants = list(
+		"I let the dead return to rest.",
+		"Mors, me relinquere!",
+	)
+	fixed_spells = list(
+		/datum/action/cooldown/spell/bonechill,
+		/datum/action/cooldown/spell/bonemend,
+		/datum/action/cooldown/spell/raise_deadite,
+		/datum/action/cooldown/spell/tame_undead,
+		/datum/action/cooldown/spell/convert_heretic,
+		/datum/action/cooldown/spell/lacrima,
 	)

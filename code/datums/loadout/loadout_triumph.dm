@@ -415,6 +415,12 @@
 	triumph_cost = 3
 	sort_category = "Triumphs"
 
+/datum/loadout_item/triumph_armorkit_sabatons
+	name = "Triumph Kit - Foot Plates"
+	path = /obj/item/enchantingkit/sabatons
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
 /datum/loadout_item/triumph_armorkit_drow
 	name = "Triumph Kit - Drowcraft Armor"
 	path = /obj/item/enchantingkit/triumph_armorkit_drow

@@ -93,7 +93,7 @@
 			if("Knuckledusters")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/psydon/old
+					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/old
 				else
 					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/bronze
 			if("Quarterstaff")
@@ -239,11 +239,11 @@
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)
 			cloak = /obj/item/clothing/cloak/tabard/psydontabard/black
-			if(H.mind)
-				helmets += list("Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/psydonhelm,
-							"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/psybucket,
-							"Psydonic Volfskulle Bascinet" = /obj/item/clothing/head/roguetown/helmet/heavy/volfplate/psydonic,
-							"Greatplumed Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/knight/psy/greatplume)
+			helmets += list(
+				"Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate,
+				"Psydonic Bucket Helm" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket,
+				"Psydonic Volfskulle Bascinet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm,
+				"Greatplumed Psydonic Armet" = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/greatplume)
 		if(/datum/patron/divine/astrata)
 			cloak = /obj/item/clothing/cloak/templar/astratancleric
 			helmets += list(
@@ -320,7 +320,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/rogueweapon/spear/psyspear/old
+					r_hand = /obj/item/rogueweapon/spear/silver/psy/old
 				else
 					r_hand = /obj/item/rogueweapon/spear
 			if("Axe")
@@ -421,7 +421,7 @@
 		if (istype (H.patron, /datum/patron/inhumen/zizo))
 			if(H.mind)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -526,7 +526,7 @@
 		"The Verses and Acts of the Ten" = /obj/item/book/rogue/bibble,
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
-	extra_context = "This subclass regenerates Devotion far quicker, but only has access to lesser miracles."
+	extra_context = "This subclass has access to T3 miracles, but is weak in martial combat."
 
 /datum/outfit/job/roguetown/adventurer/missionary/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -753,7 +753,7 @@
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 		if(/datum/patron/inhumen/graggar)
 			shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots //tribal-esc shaman look
 			gloves = /obj/item/clothing/gloves/roguetown/angle/gronnfur/cleric //role-unique

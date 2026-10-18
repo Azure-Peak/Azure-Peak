@@ -47,8 +47,9 @@
 			// Check if target is dead
 			if(human_target.check_revive(user))
 				// Prompt ghost
-				to_chat(human_target, span_ghostalert("You sense someone spinning your core, attempting to pull you back to your body!"))
-				var/alert_result = alert(human_target, "They are calling for you. Are you ready?", "Reanimation", "I need to wake up", "Don't let me go")
+				var/mob/dead/observer/underworld_spirit = human_target.get_spirit()
+				to_chat(underworld_spirit || human_target, span_ghostalert("You sense someone spinning your core, attempting to pull you back to your body!"))
+				var/alert_result = alert(underworld_spirit || human_target, "They are calling for you. Are you ready?", "Reanimation", "I need to wake up", "Don't let me go")
 
 				// Verify occupant is still valid
 				if(human_target.stat != DEAD)

@@ -22,18 +22,20 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 	can_parry = FALSE
 	wlength = WLENGTH_SHORT
 	wdefense = 1
-	max_integrity = 200
+	max_integrity = 100
 	integrity_failure = 0.3
 	sewrepair = TRUE
 	anvilrepair = null
 	associated_skill = /datum/skill/combat/arcyne
+	is_implement = TRUE
 	possible_item_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood)
 	name = "\improper lesser tome of the arcyne"
 	desc = "A crackling, glowing book, filled with runes and symbols that hurt the mind to stare at. It can rebind aspect spells."
 	special = /datum/special_intent/arcyne_descent
 	implement_tier = IMPLEMENT_TIER_LESSER
 	implement_refund = IMPLEMENT_REFUND_LESSER
-	sellprice = 34
+	implement_upgradable = TRUE
+	sellprice = 12
 	var/picked // if the book has had it's style picked or not
 	var/curpage = 1
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME | CLAMP_BREAK
@@ -43,8 +45,8 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 	name = "\improper greater tome of the arcyne"
 	desc = "A well-bound arcyne tome set with a quality focus-gem. It can rebind aspect spells and return a generous share of spent spell energy."
 	force = 22
-	max_integrity = 100
-	sellprice = 42
+	max_integrity = 110
+	sellprice = 25
 	implement_tier = IMPLEMENT_TIER_GREATER
 	implement_refund = IMPLEMENT_REFUND_GREATER
 
@@ -54,9 +56,18 @@ Intended to be a reward or a goal for pure mage, allowing them to rebind their a
 	desc = "A masterwork arcyne tome crowned with a gem of extraordinary quality. It can rebind aspect spells and refine spent spell energy back to its bearer."
 	force = 25
 	max_integrity = 120
-	sellprice = 121
+	sellprice = 50
 	implement_tier = IMPLEMENT_TIER_GRAND
 	implement_refund = IMPLEMENT_REFUND_GRAND
+
+/obj/item/rogueweapon/spellbook/implement_tier_type(tier)
+	switch(tier)
+		if(IMPLEMENT_TIER_LESSER)
+			return /obj/item/rogueweapon/spellbook
+		if(IMPLEMENT_TIER_GREATER)
+			return /obj/item/rogueweapon/spellbook/greater
+		if(IMPLEMENT_TIER_GRAND)
+			return /obj/item/rogueweapon/spellbook/grand
 
 /obj/item/rogueweapon/spellbook/getonmobprop(tag)
 	. = ..()

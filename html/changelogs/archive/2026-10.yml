@@ -479,3 +479,309 @@
   - bugfix: Lacrima now extracts pure lux from Aasimirs
   - refactor: Refactored how Barter works, mostly added more soul to it. It should
       feel like you're dealing with Matthios better now.
+2026-10-10:
+  KatTheFox:
+  - bugfix: The black mirror will no longer become "stuck" closed when you close it
+      while bloody
+  - qol: Eoran missionaries and acolytes now spawn with a rabbit mask in their bag
+      instead of on their face
+  - bugfix: The 'message familiar' spell now should work to track your dead familiar's
+      vestige in all cases.
+  - rscadd: The breathless may now give mouth-to-mouth, though not if they lack lungs
+      or are skeletons
+  Traveler319:
+  - rscadd: Sanguine heels can now hold knives.
+  - code_imp: repathed Court Physician shoes to be a subtype of shoes/roguetown.
+2026-10-11:
+  Ryan180602:
+  - bugfix: lit objects lighting people on fire through armour when clicked
+  - bugfix: zigs needing a proper proc
+  borneblood:
+  - bugfix: fixed another oversight with bombs because I never fight void drakes normally,
+      sorry!
+  nauticall:
+  - image: Resprites donor weapons Darling and Aeternum.
+2026-10-12:
+  Acrepe:
+  - balance: Tweaked No Combat Role blacklist for Lite antagonists
+  BurpleBineapple:
+  - rscadd: Steel massive wrenches can be used with the Elegant Armory donor kit.
+  - rscadd: cynthia's donator wrench
+  - image: Adds icons for a steel massive wrench + cynthia's donator wrench
+  Etheo & TheGrendel:
+  - rscadd: Adds Fyritius Crown and Bouquet
+  - image: Sprites for Fyritius Crown and Bouquet by TheGrendel
+  FreeStylaLT:
+  - rscadd: Examine text for how long someone has been disconnected. Courtesy of Ratwood.
+  - bugfix: Fixed some players not being hearable in-game if they had ghost protection
+      toggled on.
+  KatTheFox:
+  - bugfix: Inhumen digestion once more properly allows organ eating without vomiting,
+      but you don't get the mood buff Graggarites do
+  - bugfix: Murklings no longer delete prosthetics on removal
+  - bugfix: You can now see who sent a letter upon opening it once more. It doesn't
+      get shown to the people around you, though.
+  - qol: Homesteaders now get a laborer's knife instead of a hunting knife, and a
+      dolabra instead of an iron pick.
+  Ketrai:
+  - balance: Zizo's pet cemetery is no longer a silent event.
+  OrbisAnima:
+  - balance: Makes a variant void dragon that doesnt drop the 4 dragon rings like
+      the summoning ritual onr and replaces it in the dunworld dungeon that has it
+      on the start of the game. (It already has a lot of loot surrounding  it)
+  Ryumi:
+  - rscadd: Cards decks and how they function have been completely reworked! Now featuring
+      better card hand functionality, rendering of your entire hands, the ability
+      to scry card decks, and more! Examine a card deck for more details on how to
+      use them.
+  - rscadd: Tarot cards can be reversed. Their chance to be reversed is determined
+      by a coin flip per card when tarot decks are shuffled.
+  - code_imp: Card decks can now be easily given variable sizes that allow coders
+      to make card decks that are double-sized, triple sized, etc.
+  - image: The card deck icon file have been split and re-organized entirely. Card
+      icon files are now organized by the card deck they're intended for. This allows
+      easier creation of new card decks, or even easy reskins of pre-existing ones.
+  Traveler319:
+  - bugfix: Duelist's Messer loadout now works properly.
+  WeNeedMorePhoron:
+  - bugfix: Character menu should no longer crash on Windows 7
+  - rscadd: Expanded the petty NPC bounty crime list
+  - rscdel: Removed National and Timeline, Noteworthy Concepts from the Lore Primer
+      that was contradicting our own wiki lore.
+  alaiaarcana:
+  - code_imp: Changed code relating to organ consumption to allow players with the
+      Inhumen Digestion trait to eat organs without vomiting. Standardized food preferences
+      for every species.
+  changelingonberry:
+  - rscadd: Better stat and dice rolling! Use the roll verbs in the emote tab or *dice,
+      *stat and *contested
+  - rscadd: Different stat colors
+  - config: add autostart and minimum flavor text config values
+  mumblemancer:
+  - bugfix: some status effect names should be more consistent
+  radarseas:
+  - image: added a bloodred recolored portal for graggar shit, dreamwalker keeps their
+      blue portal
+  - rscadd: graggar revival rift now uses its own icon'd portal instead of a re-colored
+      one w/ some sound effects, it also glows a bit now.
+  - balance: siege goblins recieved back their skills + higher int to fient better
+      + in the case of AI do specials
+  - balance: siege goblins once again have journeyman skills, fear them.
+  - balance: goblin portals now tochat, so you know when one spawns in front of you,
+      looking at only the chatbar.
+  - balance: cmode is now automatically enabled when spawning in as a portal goblin,
+      chances are you are already mid-fight anyway.
+  - qol: naming yourself as a goblin is moved to a 'spell' to spam you less w/ spawning
+      in prompts.
+2026-10-13:
+  FreeStylaLT:
+  - rscadd: A toggle for showing NSFW examine / gallery options even when clothed.
+  KatTheFox:
+  - qol: Painter visions can no longer make you scry someone that's in the bath-house
+  - qol: Abyssorite vision quests now ignore punctuation (periods, commas) in the
+      target phrase, so you can format it nicely.
+  - rscadd: A certain omen may now have more effects.
+  - bugfix: Murklings can now be operated on as if their ribcage is broken (since
+      they don't have bones). This means lux extraction and revival is now possible.
+  - qol: Revivals - all forms - now work when a player is ghosted, i.e. not in their
+      body but still inround.
+  Ketrai:
+  - balance: 'Reworked Pilgrim: changed base skills to Apprentice with softcap, reduced
+      Journeyman skills to Apprentice, and restricted from commerce roles'
+  - balance: Re-added Cunning Provisioner, but restricted them from commerce roles
+  - balance: 'Adjusted Skilled Chef: removed food bag, lowered starting Fishing and
+      Cooking, and left Cooking max level to Journeyman'
+  - balance: Skilled Chef now receives a pan and pot in their stash
+  - rscadd: Goat maps can be created using Apprentice literacy with three scrolls,
+      a feather, and a hide
+  - rscadd: Goat maps can now be purchased at the merchant
+  - rscadd: Hunter class now receives a goat map
+  - balance: Replaced most hunting track goats with hostile tough goats
+  - balance: Tough goats yield increased fat and fur, but reduced sinew and meat
+  - balance: Replaced hunting saiga with far slower 'fatty saiga'
+  - balance: Fatty saiga remain the exclusive source of venison meat and drop additional
+      fat
+  - balance: Reduced undead animal spawn rate in forests by 20% to aid hunting in
+      high-risk areas
+  - balance: Max hunting trail length from 7 => 6 piles
+  - balance: Min hunting trail length from 5 => 4 piles (Expert-master)
+  - qol: Moved all maps into their own dedicated category
+  Quinalion:
+  - refactor: Updated silver weapon paths across maps, loadouts, loot spawners and
+      the Inquisition's arsenal.
+  - refactor: Updated psydonic heavy helmet paths and related variants.
+  - balance: Standardized relic weapon buffs and adjusted relic values that were weaker
+      than regular silver weapons or overtuned compared to blacksteel alternatives.
+  - bugfix: Fixed missing detail sprites for grinning and gilded sallets.
+  - bugfix: Fixed thin spectacles onmob sprite.
+  Ryan180602:
+  - bugfix: Frei Pike sprite is a little shorter now.
+  - rscadd: Frei Pike gets a weak 0.6x cut.
+  azurexautyr-arch:
+  - rscadd: Added a donor xylixian estoc for _._yoshi
+  borneblood:
+  - bugfix: Sheaths work as intended on your wrist slot now.
+2026-10-14:
+  Ketrai:
+  - balance: Crafting now has escalating odds.
+  - balance: Crafting bonus per int slightly reduced due to escalating odds.
+  - balance: Experts, masters, and legendary craftspeople now get expertise bonus
+      to crafting.
+  - balance: Malumites now get a trait that improves the rate at which crafting odds
+      escalate.
+  - balance: There is now a chance to fail crafting when below the required skill
+      level. This can only start to occur once every 10 failed attempts.
+  Lamasmaster:
+  - rscadd: Fleshsculpting miracle from Ratwood as new Pestran T3
+  Ryan180602:
+  - bugfix: minor icon opts
+  WeNeedMorePhoron:
+  - rscadd: Blockade Surcharge is now completely waived below 40 active players
+  - rscadd: Blockade Surcharge is now halved below 80 active players
+  - rscadd: Armor that are repaired by armorsmithing, or need medium AC training,
+      and is not heavy armor are classified as medium armor as far as the navigator
+      is concerned. Grenzelhoft and Kazengun will demand them for now.
+  azurexautyr-arch:
+  - bugfix: fixed a few things with ckey
+  zeskorion:
+  - rscadd: wrenches can be twirled with expert Engineering
+  - rscdel: Removes demlish from wrench and bogbark clubs, again
+2026-10-15:
+  BobProductive:
+  - bugfix: (hopefully) fixes the ckey
+  BurpleBineapple:
+  - rscadd: Adds foot plates as a smithable item + triumph/donor kit for steel plated
+      boots
+  - image: Footplate icons + secondary detail colour
+  Dorodomki:
+  - rscadd: 'Added new donator armor
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Familiars and skeletons are no longer cursed to hear looping lobby music
+      forever.
+  - rscadd: '''Aquaphile'' trait, which lets you sleep underwater. Does NOT let you
+      breathe underwater itself. Given to Abyssorite clerics, or selectable as a quirk.'
+  Moku-Mok:
+  - rscadd: Added Trait DES_RIDER_FORTITUDE.
+  - balance: Desert Rider's Capstone momentum is much better.
+  - bugfix: Returns Desert Rider to pre-fortitude changes.
+  Ryan180602:
+  - bugfix: clinging onto walls once again has a stam drain.
+  - rscadd: add ckeys to certain donor items
+  Sutures:
+  - code_imp: Made soap code less duplicate-y
+  WeNeedMorePhoron:
+  - balance: Adjusted blockade surcharge waiver from 40 / 80 to 30 / 60
+  - rscadd: Increased ambush budget by 50%. Ambush aggro should spread out properly
+      between players in sight of NPCs, and regional cooldown on ambush has been reduced
+      from 5 minutes to 3 minutes.
+  kilozombie:
+  - rscadd: Agents of the Bathhouse can now put up advertisements on the Rosewall.
+  radarseas:
+  - bugfix: '''you can only cast this on living beings'' no longer shows up to everyone
+      around the spell caster but to the caster themselves. - It shows in span warning
+      like most other spells now when failing for consistancy sake.'
+  voidwytch:
+  - rscadd: Bloak Pariah armor choice between Medium and Light
+2026-10-16:
+  BobProductive:
+  - bugfix: fixes the name and description of Xylixian estoc
+  - rscadd: makes the elixir usable with an estoc
+  KatTheFox:
+  - bugfix: Midnight Rage (a warrior) can no longer receive dream visions.
+  changelingonberry:
+  - admin: subclasses can now be managed via Manage Job Slots
+  - rscadd: 'Xylix''s dice box: further improves stat rolling via a new UI. You can
+      also roll in chat e.g. *5d20+STR+67/DC100'
+2026-10-17:
+  KatTheFox:
+  - bugfix: Transformed werewolves can no longer use the panel
+  Quinalion:
+  - bugfix: Fixes avantyne bracers heresydesc.
+  Ryan180602:
+  - admin: add a staff log viewer.
+  - balance: rebalance arrow/bolt damages.
+  - balance: remove the arrow integ damage modifier.
+  mumblemancer:
+  - qol: wooden mallets and wood spades can now be searched in crafting menu thru
+      "wood hammer" and "wooden shovel" respectively
+  nauticall:
+  - qol: '''Set Laws'' menu now has an Import/Export button to save and load lawsets
+      using JSON.'
+  - balance: Vote multipliers now cap at 1.5x/voter; multipliers now step by 0.1x
+      instead of 0.2x per round.
+  - rscadd: Adds double-entry bookkeeping to the Stewardry. Can be found in the 'Ledger'
+      tab under the Trade and Stockpile menu of the Stewardry's nerve master.
+  - qol: Ledger tab has been moved further up the Trade & Stockpile tab list; Trade
+      Orders has been made the default tab on the Avisa page of the noticeboards.
+2026-10-18:
+  Blacklist897:
+  - rscadd: More cosmetic options for the nobility virtue
+  - rscadd: The consorts crown now spawns in the dukes bedroom
+  BobProductive:
+  - qol: Instruments no longer announce to everyone around you that you tried uploading
+      a song while the cooldown is still up
+  - bugfix: squire errants now get bolts
+  BurpleBineapple:
+  - rscadd: The training sword/feder now uses TRAIT_LONGSWORDSMAN for master skill.
+      It does not inherit master swordsman intents.
+  KatTheFox:
+  - bugfix: the blind vice now properly spawns you with a blindfold
+  - balance: Mage utility pool costs have been refactored. Powerful spells like mending
+      and campfire are now 3 points; fluff spells like water bolt and magician's stone
+      are 1 point; in-between spells like message and darkvision are 2 points.
+  - balance: Hearthcraft and exowardry minor aspects have been merged. Hex minor aspect
+      now also gets read omen for flavor.
+  - balance: Displacement and Illusion have been merged into one general-evasion minor,
+      so they can't be stacked. Point buy, 3pts, phase is 3, invis 2, then 1pt waterbolt/light/nondetection.
+  - balance: Utility point allotments increased a bit across the board; in general,
+      this means you'll be able to take your old loadout, unless you relied heavily
+      on the "meta" of mending+campfire+mindlink. This also applies to arcpot, which
+      gives 4pts instead of 3.
+  - balance: Arcyne Potential now grants 1 util point to roles with combat trait so
+      it's not entirely useless. With the spell values now properly balanced, this
+      gives them access to exclusively flavor-pick spells like water bolt and fetch,
+      rather than being a free create campfire.
+  Lamasmaster:
+  - bugfix: Tidecleaver having bugged intents
+  - image: New Undivided Dagger sprite
+  Ollanius:
+  - bugfix: The standalone 'oathtaker's crest' decoration should no longer be invisible.
+  OrbisAnima:
+  - code_imp: Keeps consistent the censoring json by removing specific language words
+      (baka, if I am allowed to say doof or stupido as grendel or etruscan, kazenguneses
+      are allowed to say baka.) And ordered the damn file alphabetically so its not
+      a pain to mantain.
+  - rscadd: Adds a craft recipe for small wood logs and an oven to make charcoal.
+  - qol: Allows small logs to fit in a backpack.
+  Quinalion:
+  - qol: Vices can now have choices, just like virtues.
+  - qol: Characters with Bad Eyesight can now choose their glasses, which spawn without
+      replacing existing mask-slot equipment.
+  Ryan180602:
+  - qol: you can now show your horns/frills out of your helm without your hair.
+  WeNeedMorePhoron:
+  - balance: Toned down glimmerwing and hellhound and NPCs when they are ganging on
+      you, but not too much
+  - rscadd: Cleaned up some unused mob attack speed code
+  borneblood:
+  - rscadd: Equipping knuckledusters informs you're now unable to wield weapons.
+  kilozombie:
+  - balance: '[Dun World] Made the church''s kitchen bigger and gave them a rooftop
+      garden. The alms room has been made smaller to fit it.'
+  mumblemancer:
+  - bugfix: hand-based surgery steps, like forcing out bad blood, will now ONLY intentionally
+      fail on strong intent.
+  - admin: annoying voice smite is now a datum/component that will apply on annoying
+      voice smite. can be removed by applying the smite again.
+  nauticall:
+  - bugfix: Patched a linter issue caused by LawsMenu.tsx.
+  radarseas:
+  - code_imp: Lore stuff, summoned skeletons are no longer animated by Avantyne strings
+      (What?), but instead Enochian magicka.
+  - balance: conjured cleric dagger skeletons no longer have Avantyne daggers. Those
+      are now exclusive to heretic spies and zpellblades if they spec into daggers.
+      - its barely much force reduction tbh.
+  twinklover22:
+  - balance: buffed Endure.

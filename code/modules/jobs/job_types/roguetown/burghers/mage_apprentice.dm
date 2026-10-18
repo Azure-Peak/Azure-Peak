@@ -59,7 +59,7 @@
 		STATKEY_SPD = 1
 	)
 	age_mod = /datum/class_age_mod/apprentice_associate
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 8, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -76,6 +76,12 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
+
+/datum/outfit/job/roguetown/wapprentice/associate
+	var/starting_implement_tier = "greater"
+
+/datum/outfit/job/roguetown/wapprentice/associate/apprentice
+	starting_implement_tier = "lesser"
 
 /datum/outfit/job/roguetown/wapprentice/associate/pre_equip(mob/living/carbon/human/H)
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
@@ -95,7 +101,7 @@
 		if(/datum/patron/inhumen/zizo)
 			H.cmode_music = 'sound/music/combat_heretic.ogg'
 	if(H.mind)
-		backr = choose_implement(H, "lesser")
+		backr = choose_implement(H, starting_implement_tier)
 		SStreasury.grant_savings(ECONOMIC_LOWER_MIDDLE_CLASS, H)
 
 /datum/outfit/job/roguetown/wapprentice/associate/post_equip(mob/living/carbon/human/H, visualsOnly)
@@ -120,12 +126,13 @@
 
 /datum/advclass/wapprentice/associate/apprentice // this has been maid less impactful on purpose - you lose a lot of combat power, but not skills/stats, so that you can actually be trained in the new gameplay loops
 	name = "Magician's Apprentice"
+	outfit = /datum/outfit/job/roguetown/wapprentice/associate/apprentice
 	tutorial = "The road to arcyne mastery is long and treacherous. Books, scrolls, gems, studies, \
 	singed hair, and summoning gone wrong. Expenses and death abound; it is not a path for the pauper \
 	or the coward. You, however, were given a place as an apprentice in the University of Azuria. \
 	Under the watchful gaze of the Court Magician and their associates, you may yet live \
 	to become a master of the arcyne arts. And even in the most rote of chores, there is knowledge to be found..."
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE) // lose arcyne power...
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 8, "ward" = TRUE) // lose arcyne power...
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE) // ...but the rote tasks you've been doing add to your mundane skills, or at least your potential
 
 // Here lies the grave of Azurcaephon Associate, removed because a good portion of mage players are using it as a validhunting class
@@ -152,7 +159,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 5)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,

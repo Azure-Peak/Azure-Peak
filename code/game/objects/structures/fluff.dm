@@ -1580,7 +1580,7 @@
 		/obj/item/clothing/head/roguetown/crown/serpcrown,
 		/obj/item/clothing/head/roguetown/vampire,
 		/obj/item/scomstone,
-		/obj/item/rogueweapon/greatsword/psygsword,
+		/obj/item/rogueweapon/greatsword/silver/psy,
 		/obj/item/clothing/head/roguetown/circlet,
 		/obj/item/carvedgem,	//Some of these aren't particularly worth much, but it'd be REALLY unintuitive for "valuables" to not actually be offerings
 		/obj/item/rogueweapon/huntingknife/combat/jadekukri,
@@ -2165,3 +2165,10 @@
 /obj/effect/wisp/prestidigitation/runelight
 	name = "arcyne mote"
 	desc = "An ethereal ball of pure light, manifested through an arcyne sigil."
+
+/obj/structure/fluff/statue/valmora
+	name = "saint valmora statue"
+	desc = "A statue of Valmora the Sword-Saint, who led the dark elves in the city-state of Llurth Dreir to slaughter the cruel lords and priests of the Arch-Enemy and begin an exodus to the surface. The dark elves of Otava praise her as a redeemer and savior."
+	icon_state = "valmora"
+	icon = 'icons/roguetown/structure/statues/statue_drow.dmi'
+	pixel_x = -16

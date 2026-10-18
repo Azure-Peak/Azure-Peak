@@ -92,7 +92,7 @@
 
 /obj/item/rogueweapon/huntingknife/idagger/steel/undivided
 	name = "equilibrium"
-	desc = "A kampfmesser adorned for use by crusader orders, balanced to perfection allowing to perform feats a normal one cannot. \
+	desc = "A dagger adorned for use by crusader orders, balanced to perfection allowing to perform feats a normal one cannot. \
 	Their devoted shall find it strikes true in the heart of evil."
 	icon = 'icons/roguetown/weapons/templar_daggers32.dmi'
 	icon_state = "undivided_dagger"

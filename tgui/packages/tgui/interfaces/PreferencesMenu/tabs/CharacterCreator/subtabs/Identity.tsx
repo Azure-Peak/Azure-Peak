@@ -525,7 +525,7 @@ const SubtabIdentityCardBark = () => {
               {constantData ? (
                 <Dropdown
                   fluid
-                  options={constantData.barksounds.toSorted()}
+                  options={[...constantData.barksounds].sort()}
                   selected={bark_name}
                   onSelected={(bs) =>
                     act('set_barksound', {
@@ -781,14 +781,44 @@ export const SubtabIdentityCardVices = () => {
   return (
     <Section title="Vices" className="PreferencesMenu__Section__Vices">
       {charflaws.map((flaw) => (
-        <Button
-          key={flaw.type}
-          fluid
-          onClick={() => act('toggle_charflaw', { flaw: flaw.type })}
-        >
-          {flaw.name}
-          {flaw.warning ? ' (Requires Extra Vice!)' : null}
-        </Button>
+        <Box key={flaw.type}>
+          <Button
+            fluid
+            onClick={() => act('toggle_charflaw', { flaw: flaw.type })}
+          >
+            {flaw.name}
+            {flaw.warning ? ' (Requires Extra Vice!)' : null}
+          </Button>
+          {flaw.picked_choices.map((choice) => (
+            <Button
+              key={choice.choice}
+              fluid
+              ml={2}
+              mt={1}
+              onClick={() =>
+                act('charflaw_subchoice', {
+                  flaw: flaw.type,
+                  task: 'remove',
+                  index: choice.index,
+                })
+              }
+            >
+              {choice.choice}
+            </Button>
+          ))}
+          {flaw.picked_choices.length < flaw.max_choices ? (
+            <Button
+              fluid
+              ml={2}
+              mt={1}
+              onClick={() =>
+                act('charflaw_subchoice', { flaw: flaw.type, task: 'add' })
+              }
+            >
+              Pick Option
+            </Button>
+          ) : null}
+        </Box>
       ))}
       <Button fluid icon="bars" ml={4} onClick={() => setPopupId('CharFlaw')}>
         Open Menu

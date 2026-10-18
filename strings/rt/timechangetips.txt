@@ -197,3 +197,4 @@ It possible, albeit rare, for both poisonous and safe jacksberries to be the sam
 Your "STANCE" determines a number of factors in combat. Check your HOTKEYS to see what is bound to what-- a quick switch to defense or aimed may save your lyfe!
 Most shields can be given heraldry by RIGHT-MOUSE clicking on them.
 ACTORS should take good care of their ears! Adjust your volume in the PREFERENCES menu. If your COMBATIVE ORCHESTRA is too loud, adjust the Music Volume!
+SURGERY will fail if your actor is in a STRONG stance. This can be used for discreet sabotage... or to demonstrate true incompetence.

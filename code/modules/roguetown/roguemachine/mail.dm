@@ -468,7 +468,7 @@
 				mark_free_send(user)
 				to_chat(user, span_notice("Your free letter has been sent. Another may be sent in [HERMES_FREE_COOLDOWN / 600] minute\s."))
 			else
-				SStreasury.mint(SStreasury.discretionary_fund, 1, "Mail Income")
+				SStreasury.mint(SStreasury.discretionary_fund, 1, "Mail Income", null, LEDGER_CROWN_REV_MAIL)
 				record_round_statistic(STATS_TAXES_COLLECTED, 1)
 				coin_loaded -= 1
 				if(coin_loaded <= 0)
@@ -970,6 +970,12 @@
 	anchored = TRUE
 	w_class = WEIGHT_CLASS_GIGANTIC
 	var/new_mail
+
+/obj/item/roguemachine/mastermail/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("All mail sent through the HERMES is stored here until collected. Opening its storage will allow one to intercept letters.")
+	. += span_info("Any letters removed and read can be re-sealed by clicking this machine with them, which will put them back into storage.")
+	. += span_info("If this is done before the recipient tries to withdraw the mail, they will never know.")
 
 /obj/item/roguemachine/mastermail/update_icon()
 	cut_overlays()

@@ -2,7 +2,7 @@
 	name = "Exiled Apprentice"
 	tutorial = "Your master found you talentless, and cast you from their tower with nothing but your staff and dreams of what could've been."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/vagabond/mage
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_VAGABOND)
@@ -12,7 +12,7 @@
 		STATKEY_WIL = -2,
 		STATKEY_SPD = -1
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 2, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
