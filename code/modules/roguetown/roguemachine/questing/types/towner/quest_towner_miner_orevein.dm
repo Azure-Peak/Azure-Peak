@@ -29,7 +29,7 @@
 		),
 	)
 	varieties = list(
-		OREVEIN_VARIETY_IRON = list(
+		"iron" = list(
 			"label" = "Iron Vein",
 			"blurb" = "Iron and coal, with a little cinnabar and the odd gem.",
 			"tiers" = list(
@@ -47,7 +47,7 @@
 				),
 			),
 		),
-		OREVEIN_VARIETY_CUPROSTANNIC = list(
+		"cuprostannic" = list(
 			"label" = "Copper Vein",
 			"blurb" = "Copper and tin, with a little cinnabar.",
 			"tiers" = list(
@@ -65,7 +65,7 @@
 				),
 			),
 		),
-		OREVEIN_VARIETY_GEMMIFEROUS = list(
+		"gemmiferous" = list(
 			"label" = "Gem Vein",
 			"blurb" = "Cut gems and raw gold, no base metal.",
 			"tiers" = list(
@@ -79,7 +79,7 @@
 				),
 			),
 		),
-		OREVEIN_VARIETY_AURICINNABAR = list(
+		"auricinnabar" = list(
 			"label" = "Cinnabar Vein",
 			"blurb" = "Cinnabar with gold, prized by alchemists.",
 			"tiers" = list(

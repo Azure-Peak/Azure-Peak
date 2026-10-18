@@ -56,6 +56,9 @@
 	return clamp(scaled, kill_target_floor, kill_target_floor + QUEST_KILL_CEILING_OFFSET)
 
 /datum/threat_region/proc/allows_quest_type(quest_type)
+	var/datum/quest/kill/recovery/towner/towner_proto = GLOB.towner_prototypes[quest_type]
+	if(towner_proto)
+		return (region_name in towner_proto.eligible_regions)
 	return (quest_type in allowed_quest_types)
 
 /datum/threat_region/proc/get_threat_weight()

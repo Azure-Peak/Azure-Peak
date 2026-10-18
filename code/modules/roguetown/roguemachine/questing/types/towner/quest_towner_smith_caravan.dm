@@ -23,7 +23,7 @@
 		QUEST_FACTION_BLEAKISLE_REAVER,
 	)
 	varieties = list(
-		CARAVAN_VARIETY_IRON = list(
+		"iron" = list(
 			"label" = "Iron & Steel",
 			"blurb" = "Iron and steel ingots.",
 			"tiers" = list(
@@ -37,7 +37,7 @@
 				),
 			),
 		),
-		CARAVAN_VARIETY_BRONZE = list(
+		"bronze" = list(
 			"label" = "Bronze",
 			"blurb" = "Cast bronze ingots.",
 			"tiers" = list(
@@ -49,7 +49,7 @@
 				),
 			),
 		),
-		CARAVAN_VARIETY_BULLION = list(
+		"bullion" = list(
 			"label" = "Bullion",
 			"blurb" = "A strongbox of gold bullion.",
 			"tiers" = list(

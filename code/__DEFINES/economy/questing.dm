@@ -41,15 +41,6 @@
 #define TOWNER_FLAT_BONUS_MEDIUM 50
 #define TOWNER_FLAT_BONUS_HARD 100
 
-#define OREVEIN_VARIETY_IRON "iron"
-#define OREVEIN_VARIETY_CUPROSTANNIC "cuprostannic"
-#define OREVEIN_VARIETY_GEMMIFEROUS "gemmiferous"
-#define OREVEIN_VARIETY_AURICINNABAR "auricinnabar"
-
-#define CARAVAN_VARIETY_IRON "iron"
-#define CARAVAN_VARIETY_BRONZE "bronze"
-#define CARAVAN_VARIETY_BULLION "bullion"
-
 // Recovery is intentionally omitted - the Steward cannot directly commission recoveries.
 // Those spawn from the pool (SSquestpool.regen_kill_targets) and from Innkeeper rumors only.
 // The rationale is roleplay: a Recovery is "a caravan was lost, find the cargo" - a rumor

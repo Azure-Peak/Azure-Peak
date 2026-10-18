@@ -63,7 +63,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.3,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 4,
 			_evergreen_target = 3
 		),
@@ -85,7 +85,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.2,
 			_delivery_reward_multiplier = 1.8,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_COAST
 		),
@@ -108,7 +108,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		),
@@ -131,7 +131,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.2,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
+			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		)

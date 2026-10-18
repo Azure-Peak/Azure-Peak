@@ -312,8 +312,6 @@ GLOBAL_LIST_INIT(contract_stat_type_order, list(
 	QUEST_COURIER,
 	QUEST_BLOCKADE_DEFENSE,
 	QUEST_HOARD_RECOVERY,
-	QUEST_TOWNER_SMITH_CARAVAN,
-	QUEST_TOWNER_MINER_OREVEIN,
 ))
 GLOBAL_LIST_INIT(contract_stat_group_order, list(
 	CONTRACT_GROUP_NOBILITY,
@@ -417,6 +415,11 @@ GLOBAL_LIST_INIT(contract_stat_group_order, list(
 	order.Insert(order.Find(CONTRACT_GROUP_OUTLAWS), titles)
 	return order
 
+// Return the order the quests are listed in for Economic Chronicle contract tables
+/proc/contract_type_order()
+	return GLOB.contract_stat_type_order + GLOB.towner_prototypes
+
+// Same as above but for regions
 /proc/contract_region_order()
 	var/list/order = list()
 	for(var/datum/threat_region/TR as anything in SSregionthreat?.threat_regions)
