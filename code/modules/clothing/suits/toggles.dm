@@ -5,6 +5,9 @@
 	var/connected_hood
 	var/hoodtoggled = FALSE
 	var/adjustable = CANT_CADJUST
+	var/staged_adjust = FALSE
+	var/list/adjust_stages
+	var/adjust_sound = null
 
 /obj/item/clothing/attack_right(mob/user)
 	. = ..()
@@ -14,15 +17,47 @@
 		ToggleHood(user)
 
 /obj/item/clothing/proc/AdjustClothes(mob/user)
-	return //override this in the clothing item itself so we can update the right inv
+	if(staged_adjust)
+		AdjustStaged(user)
+
+/obj/item/clothing/proc/AdjustStaged(mob/user)
+	if(loc != user || !length(adjust_stages))
+		return
+	if(adjustable == CAN_CADJUST || adjustable == CADJUSTED)
+		var/next = (adjustable == CAN_CADJUST) ? CADJUSTED : CADJUSTED_MORE
+		var/list/stage = adjust_stages[next - 1]
+		adjustable = next
+		adjusted_open = TRUE
+		if(toggle_icon_state && stage["icon"])
+			icon_state = stage["icon"]
+		flags_inv = adjust_inv_flags(stage["inv"])
+		body_parts_covered = stage["cover"]
+		body_parts_covered_dynamic = body_parts_covered
+	else
+		ResetAdjust(user)
+	if(adjust_sound)
+		playsound(get_turf(src), adjust_sound, 50, TRUE, -1)
+	refresh_adjust_visuals(user)
+
+/obj/item/clothing/proc/refresh_adjust_visuals(mob/user)
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	H.update_inv_neck()
+	H.update_inv_head()
+	H.update_inv_wear_mask()
+	H.update_hair()
+	H.update_body_parts(TRUE)
+	H.update_fov_angles()
 
 /obj/item/clothing/proc/ResetAdjust(mob/user)
+	adjusted_open = FALSE
 	adjustable = initial(adjustable)
 	icon_state = "[initial(icon_state)]"
 	slowdown = initial(slowdown)
 	body_parts_covered = initial(body_parts_covered)
 	body_parts_covered_dynamic = body_parts_covered
-	flags_inv = initial(flags_inv)
+	flags_inv = adjust_inv_flags(initial(flags_inv))
 	flags_cover = initial(flags_cover)
 	block2add = initial(block2add)
 
@@ -30,6 +65,7 @@
 	..()
 	if(adjustable)
 		ResetAdjust(user)
+		refresh_adjust_visuals(user)
 
 	if(hoodtoggled)
 		hoodtoggled = FALSE
