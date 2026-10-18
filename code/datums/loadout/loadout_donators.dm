@@ -1346,3 +1346,8 @@
 	name = "Donator Kit - Xylixian Estoc"
 	path = /obj/item/enchantingkit/weapon/yoshi_estoc
 	ckeywhitelist = list("limetease", "yosheh_3")
+
+/datum/loadout_item/donator/limeastratanhelm
+	name = "Donator Kit - Astratan Helmet"
+	path = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm
+	ckeywhitelist = list("limetease")

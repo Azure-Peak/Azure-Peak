@@ -1719,9 +1719,15 @@
 		/obj/item/rogueweapon/contraption/linker/mace/big
 	)
 	result_item = /obj/item/rogueweapon/example/forgefiend_wrench
+
 /obj/item/enchantingkit/weapon/yoshi_estoc
 	name = "'The Malignant Sabre' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Sabre."
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Longsword."
 	target_items = list(/obj/item/rogueweapon/sword/long/ap)
 	result_item = /obj/item/rogueweapon/sword/long/ap/yoshi_estoc
 
+/obj/item/enchantingkit/limeastratahelm
+	name = "The True Astratan Helmet"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Astratan Helmet."
+	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm)
+	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm
