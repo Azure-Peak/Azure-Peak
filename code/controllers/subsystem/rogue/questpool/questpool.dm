@@ -11,12 +11,16 @@ SUBSYSTEM_DEF(questpool)
 	var/list/registered_ledgers = list()
 	var/list/kill_count_by_region = list()
 	var/list/evergreen_count_by_region = list()
-	var/list/landmarks_by_type = list()
+	var/list/pool_weights = list()
 
 /datum/controller/subsystem/questpool/Initialize(mapload)
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(proto.pool_kind && proto.pool_weight > 0)
+			if(!pool_weights[proto.pool_kind])
+				pool_weights[proto.pool_kind] = list()
+			pool_weights[proto.pool_kind][qtype] = proto.pool_weight
 	init_quest_factions()
-	for(var/obj/effect/landmark/quest_spawner/landmark as anything in GLOB.quest_landmarks_list)
-		register_landmark(landmark)
 	// Front-load every region to its full target so roundstart has a healthy mix.
 	regen_kill_targets(total_kill_target())
 	regen_fetch_targets()
@@ -75,32 +79,8 @@ SUBSYSTEM_DEF(questpool)
 		else
 			evergreen_count_by_region[Q.region] = new_count
 
-/datum/controller/subsystem/questpool/proc/register_landmark(obj/effect/landmark/quest_spawner/landmark)
-	if(!landmark?.quest_type)
-		return
-	for(var/qtype in landmark.quest_type)
-		var/list/bucket = landmarks_by_type[qtype]
-		if(!bucket)
-			bucket = list()
-			landmarks_by_type[qtype] = bucket
-		bucket |= landmark
-
-/datum/controller/subsystem/questpool/proc/unregister_landmark(obj/effect/landmark/quest_spawner/landmark)
-	if(!landmark?.quest_type)
-		return
-	for(var/qtype in landmark.quest_type)
-		var/list/bucket = landmarks_by_type[qtype]
-		if(!bucket)
-			continue
-		bucket -= landmark
-		if(!length(bucket))
-			landmarks_by_type -= qtype
-
-/datum/controller/subsystem/questpool/proc/has_landmark_for_region(type, region)
-	var/list/candidates = landmarks_by_type[type]
-	if(!length(candidates))
-		return FALSE
-	for(var/obj/effect/landmark/quest_spawner/landmark as anything in candidates)
+/datum/controller/subsystem/questpool/proc/has_landmark_for_region(region)
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in GLOB.quest_landmarks_list)
 		if(QDELETED(landmark))
 			continue
 		if(region && landmark.region != region)
@@ -143,7 +123,7 @@ SUBSYSTEM_DEF(questpool)
 	return chosen
 
 /proc/region_allows_pool(datum/threat_region/TR, pool_kind)
-	for(var/qtype in get_quest_pool_weights(pool_kind))
+	for(var/qtype in SSquestpool.pool_weights[pool_kind])
 		if(TR.allows_quest_type(qtype))
 			return TRUE
 	return FALSE
@@ -173,10 +153,10 @@ SUBSYSTEM_DEF(questpool)
 			generate_one(type, TR)
 
 /datum/controller/subsystem/questpool/proc/pick_pool_type_for(datum/threat_region/TR, pool_kind)
-	var/list/weights = get_quest_pool_weights(pool_kind)
-	for(var/qtype in weights)
-		if(!TR.allows_quest_type(qtype))
-			weights -= qtype
+	var/list/weights = list()
+	for(var/qtype in pool_weights[pool_kind])
+		if(TR.allows_quest_type(qtype))
+			weights[qtype] = pool_weights[pool_kind][qtype]
 	if(!length(weights))
 		return null
 	return pickweight(weights)

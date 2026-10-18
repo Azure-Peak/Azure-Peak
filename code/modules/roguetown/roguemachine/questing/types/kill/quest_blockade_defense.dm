@@ -6,7 +6,6 @@
 	charges_deposit = FALSE
 	shows_commission_seal = TRUE
 	hand_claim_message = "You take up the blockade scroll. Travel to the marked region. The first wave begins when you arrive."
-	landmark_kinds = list(QUEST_LANDMARK_GENERIC, QUEST_LANDMARK_DEFENSE)
 	quest_difficulty = QUEST_DIFFICULTY_HARD
 	tp_budget = BLOCKADE_WAVE_BASE_TP
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE

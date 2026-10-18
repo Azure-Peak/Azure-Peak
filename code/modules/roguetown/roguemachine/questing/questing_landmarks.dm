@@ -2,8 +2,6 @@
 	name = "quest landmark"
 	icon = 'code/modules/roguetown/roguemachine/questing/questing.dmi'
 	icon_state = "quest_marker"
-	var/landmark_kind = QUEST_LANDMARK_GENERIC
-	var/list/quest_type
 	var/region
 	var/datum/weakref/claimed_by
 	var/locked_at = 0
@@ -16,12 +14,9 @@
 		var/area/A = get_area(src)
 		if(A)
 			region = A.threat_region
-	quest_type = get_quest_types_for_landmark_kind(landmark_kind)
-	SSquestpool?.register_landmark(src)
 
 /obj/effect/landmark/quest_spawner/Destroy()
 	GLOB.quest_landmarks_list -= src
-	SSquestpool?.unregister_landmark(src)
 	return ..()
 
 /obj/effect/landmark/quest_spawner/proc/get_safe_spawn_turf()
@@ -54,11 +49,6 @@
 	name = "generic quest landmark"
 	icon_state = "quest_marker_low"
 
-/obj/effect/landmark/quest_spawner/defense
-	name = "defense quest landmark"
-	icon_state = "quest_marker_high"
-	landmark_kind = QUEST_LANDMARK_DEFENSE
-
 /obj/effect/landmark/quest_spawner/proc/is_available_for_quest()
 	if(claimed_by?.resolve())
 		return FALSE
@@ -67,10 +57,7 @@
 	return TRUE
 
 /proc/find_quest_landmark(type, region = null, datum/quest/claiming_quest = null)
-	// Pre-filtered by type via the landmarks_by_type index. The type-in-landmark.quest_type
-	// check from the old passes is now implicit in the index membership, and pick() at the
-	// end of each pass randomizes without shuffling the full global list every call.
-	var/list/candidates = SSquestpool?.landmarks_by_type?[type]
+	var/list/candidates = GLOB.quest_landmarks_list
 	if(!length(candidates))
 		return null
 

@@ -99,12 +99,17 @@
 		out[TR.region_name] = TR.delivery_reward_multiplier
 	return out
 
-/obj/structure/roguemachine/contractledger/proc/build_defense_regions_by_type()
-	var/list/out = list()
-	for(var/qtype in get_quest_defense_costs())
+/obj/structure/roguemachine/contractledger/proc/add_defense_types(list/data)
+	var/list/costs = list()
+	var/list/regions_by_type = list()
+	for(var/qtype in GLOB.quest_prototypes)
 		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
-		out[qtype] = proto.get_defense_regions()
-	return out
+		if(!proto.defense_cost)
+			continue
+		costs[qtype] = proto.defense_cost
+		regions_by_type[qtype] = proto.get_defense_regions()
+	data["defense_costs"] = costs
+	data["defense_regions_by_type"] = regions_by_type
 
 /obj/structure/roguemachine/contractledger/proc/build_blockade_region_labels()
 	var/list/out = list()
@@ -129,8 +134,8 @@
 		return
 
 	var/chosen_type = params["type"]
-	var/list/defense_costs = get_quest_defense_costs()
-	if(!(chosen_type in defense_costs))
+	var/datum/quest/chosen_proto = GLOB.quest_prototypes[chosen_type]
+	if(!chosen_proto?.defense_cost)
 		to_chat(steward, span_warning("The Crown doesn't issue that kind of contract."))
 		return
 
@@ -143,7 +148,7 @@
 		to_chat(steward, span_warning("As Alderman, you can't use the Treasury or issue Requests."))
 		return
 
-	var/cost = defense_costs[chosen_type]
+	var/cost = chosen_proto.defense_cost
 	var/bonus_pay_level = CLAMP(text2num("[params["bonus_pay_level"]]") || COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_FULL)
 	if(funding == "directive")
 		bonus_pay_level = COMMISSION_BONUS_PAY_NONE

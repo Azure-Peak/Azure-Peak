@@ -152,8 +152,7 @@
 		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
 		data["rumor_refill_per_player"] = RUMOR_POINTS_PER_PLAYER
 		data["rumor_active_players"] = get_active_player_count()
-		data["rumor_costs"] = get_quest_rumor_costs()
-		data["rumor_regions_by_type"] = build_rumor_regions_by_type()
+		add_rumor_types(data)
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
 		data["rumor_issued"] = build_issued_listing(list(QUEST_SOURCE_RUMOR))
@@ -171,9 +170,7 @@
 		var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
 		data["pledge_golden_active"] = (golden?.active) ? TRUE : FALSE
 		data["crown_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
-		data["defense_costs"] = get_quest_defense_costs()
-		data["defense_labels"] = get_quest_commission_labels()
-		data["defense_regions_by_type"] = build_defense_regions_by_type()
+		add_defense_types(data)
 		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_log"] = SStreasury.defense_log
 		data["defense_issued"] = build_issued_listing(list(QUEST_SOURCE_DEFENSE, QUEST_SOURCE_BLOCKADE))

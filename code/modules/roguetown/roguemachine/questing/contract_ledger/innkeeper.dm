@@ -1,15 +1,18 @@
-/obj/structure/roguemachine/contractledger/proc/build_rumor_regions_by_type()
-	var/list/out = list()
-	for(var/qtype in get_quest_rumor_costs())
+/obj/structure/roguemachine/contractledger/proc/add_rumor_types(list/data)
+	var/list/costs = list()
+	var/list/regions_by_type = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(!proto.rumor_cost)
+			continue
+		costs[qtype] = proto.rumor_cost
 		var/list/regions = list()
 		for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-			if(!TR.allows_quest_type(qtype))
-				continue
-			if(!rumor_region_passes_threat_gate(TR, qtype))
-				continue
-			regions += TR.region_name
-		out[qtype] = regions
-	return out
+			if(TR.allows_quest_type(qtype) && rumor_region_passes_threat_gate(TR, qtype))
+				regions += TR.region_name
+		regions_by_type[qtype] = regions
+	data["rumor_costs"] = costs
+	data["rumor_regions_by_type"] = regions_by_type
 
 /obj/structure/roguemachine/contractledger/proc/rumor_region_passes_threat_gate(datum/threat_region/TR, quest_type)
 	var/datum/quest/proto = GLOB.quest_prototypes[quest_type]
@@ -33,12 +36,12 @@
 		return
 
 	var/chosen_type = params["type"]
-	var/list/rumor_costs = get_quest_rumor_costs()
-	if(!(chosen_type in rumor_costs))
+	var/datum/quest/chosen_proto = GLOB.quest_prototypes[chosen_type]
+	if(!chosen_proto?.rumor_cost)
 		to_chat(innkeeper, span_warning("That rumor type is not one the Guild accepts."))
 		return
 	var/lucrative = params["lucrative"] ? TRUE : FALSE
-	var/base_cost = rumor_costs[chosen_type]
+	var/base_cost = chosen_proto.rumor_cost
 	var/cost = lucrative ? round(base_cost * RUMOR_LUCRATIVE_MULT) : base_cost
 	if(SStreasury.rumor_points < cost)
 		to_chat(innkeeper, span_warning("Not enough Rumor Points. You need [cost] and have [round(SStreasury.rumor_points, 0.1)]."))
@@ -59,8 +62,7 @@
 
 	var/area/chosen_destination
 	var/dest_name
-	var/datum/quest/chosen_proto = GLOB.quest_prototypes[chosen_type]
-	if(chosen_proto?.takes_destination)
+	if(chosen_proto.takes_destination)
 		dest_name = params["destination"]
 		for(var/area/A as anything in GLOB.quest_recovery_shipments)
 			if(initial(A.name) == dest_name)

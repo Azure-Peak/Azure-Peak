@@ -36,12 +36,6 @@
 		return TRUE
 	return user_can_post_crown_towner(user)
 
-/proc/user_can_post_any_towner(mob/user)
-	for(var/posting_type in get_towner_prototypes())
-		if(user_can_post_towner_type(user, posting_type))
-			return TRUE
-	return FALSE
-
 /proc/towner_advclass_names(list/paths)
 	var/list/out = list()
 	for(var/path in paths)
