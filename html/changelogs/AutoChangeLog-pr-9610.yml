@@ -1,0 +1,4 @@
+author: "OMEGATHERION"
+delete-after: True
+changes:
+  - bugfix: "Masc vaqueros spawn with a saiga"
