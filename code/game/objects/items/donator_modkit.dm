@@ -1136,10 +1136,8 @@
 /obj/item/enchantingkit/morto_staff
 	name = "'Frozen Vow' morphing elixir"
 	target_items = list(
-		/obj/item/rogueweapon/woodstaff/implement/grand				=	/obj/item/rogueweapon/woodstaff/implement/grand/morto,
 		/obj/item/rogueweapon/woodstaff/implement/grand/magos		=	/obj/item/rogueweapon/woodstaff/implement/grand/magos/morto,
-		/obj/item/rogueweapon/woodstaff/implement/greater/quartz	=	/obj/item/rogueweapon/woodstaff/implement/greater/quartz/morto,
-		/obj/item/rogueweapon/woodstaff/implement/amethyst			=	/obj/item/rogueweapon/woodstaff/implement/amethyst/morto
+		/obj/item/rogueweapon/woodstaff/implement/					=	/obj/item/rogueweapon/woodstaff/implement/morto
 	)
 	result_item = null
 
@@ -1172,9 +1170,10 @@
 /obj/item/enchantingkit/racobio_staff
 	name = "'Obsidian Tower' morphing elixir"
 	target_items = list(
-		/obj/item/rogueweapon/woodstaff/implement/grand
+		/obj/item/rogueweapon/woodstaff/implement/grand/magos	= /obj/item/rogueweapon/woodstaff/implement/grand/magos/racobio,
+		/obj/item/rogueweapon/woodstaff/implement				= /obj/item/rogueweapon/woodstaff/implement/racobio
 	)
-	result_item = /obj/item/rogueweapon/woodstaff/implement/grand/racobio
+	result_item = null
 
 //Cobb Anti-Christ - Conviction
 /obj/item/enchantingkit/weapon/cobb_conviction

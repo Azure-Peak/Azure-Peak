@@ -1,0 +1,4 @@
+author: "eirenxiv"
+delete-after: True
+changes:
+  - balance: "changed dobo robe and subtypes to be ARMOR_LEATHER"

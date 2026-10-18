@@ -1,4 +1,0 @@
-author: "nauticall"
-delete-after: True
-changes:
-  - bugfix: "Patched a linter issue caused by LawsMenu.tsx."

@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - code_imp: "Keeps consistent the censoring json by removing specific language words (baka, if I am allowed to say doof or stupido as grendel or etruscan, kazenguneses are allowed to say baka.) And ordered the damn file alphabetically so its not a pain to mantain."

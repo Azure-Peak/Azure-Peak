@@ -370,7 +370,7 @@ LICH SKELETONS
 	ADD_TRAIT(H, TRAIT_TRAINED_SMITH, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 
-	H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
+	H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 5))
 	//For summoning rocks or whatever, or utility like mending/mindlink
 
 	// Sapper-exclusive self-exploding spell
@@ -615,7 +615,7 @@ LICH SKELETONS
 			cloak = /obj/item/clothing/cloak/tabard/toga/lich
 
 	if(H.mind) //2 slot, irreplacable skeletons.
-		H.mind.AddSpell(new /datum/action/cooldown/spell/mending) //Gets replaced w/weaker version w/ritual armor. it balances out.
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending) //Gets replaced w/weaker version w/rituos armor, balances out.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 
 	H.energy = H.max_energy
@@ -729,7 +729,7 @@ LICH SKELETONS
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend) //So you don't die from damaging yourself by your own gameplay loop.
-		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4))
+		H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 5))
 
 	H.adjust_blindness(-3)
 	switch(subclass_selected)

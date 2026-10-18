@@ -68,6 +68,7 @@
 #define span_nicegreen(str) ("<span class='nicegreen'>" + (str) + "</span>")
 #define span_notice(str) ("<span class='notice'>" + (str) + "</span>")
 #define span_ooc(str) ("<span class='ooc'>" + (str) + "</span>")
+#define span_papyrus(str) ("<span class='papyrus'>" + (str) + "</span>")
 #define span_phobia(str) ("<span class='phobia'>" + (str) + "</span>")
 #define span_prefix(str) ("<span class='prefix'>" + (str) + "</span>")
 #define span_purple(str) ("<span class='purple'>" + (str) + "</span>")

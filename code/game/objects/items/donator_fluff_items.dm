@@ -2929,7 +2929,7 @@ As Excaliber."
 	bigboy = TRUE
 
 // MORTOSASYE
-/obj/item/rogueweapon/woodstaff/implement/grand/morto
+/obj/item/rogueweapon/woodstaff/implement/morto
 	base_implement_name = null
 	name = "Frozen Vow"
 	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
@@ -2937,20 +2937,6 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/woodstaff/implement/grand/magos/morto
-	base_implement_name = null
-	name = "Frozen Vow"
-	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
-	icon_state = "mystralstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/greater/quartz/morto
-	base_implement_name = null
-	name = "Frozen Vow"
-	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
-	icon_state = "mystralstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/amethyst/morto
 	base_implement_name = null
 	name = "Frozen Vow"
 	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
@@ -3000,7 +2986,7 @@ As Excaliber."
 	worn_y_dimension = 64
 
 // RACOBIO
-/obj/item/rogueweapon/woodstaff/implement/grand/racobio
+/obj/item/rogueweapon/woodstaff/implement/racobio
 
 	base_implement_name = "Obsidian Tower"
 	name = "Obsidian Tower"
@@ -3008,7 +2994,17 @@ As Excaliber."
 	icon_state = "racobiostaff"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-/obj/item/rogueweapon/woodstaff/implement/grand/racobio/getonmobprop(tag)
+/obj/item/rogueweapon/woodstaff/implement/grand/magos/racobio
+
+	base_implement_name = "Obsidian Tower"
+	name = "Obsidian Tower"
+	desc = "An exceptionally long, smooth staff of polished black obsidian. It lacks the traditional gem-top of most casting implements. Careful observation would note that the flawless obelisk of stone does not reflect nearby lights, but light from some other place."
+	icon_state = "racobiostaff"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	possible_item_intents = list(/datum/intent/spear/bash/staff/onehand, /datum/intent/magos_electrocute)
+	gripped_intents = list(/datum/intent/spear/bash/staff, /datum/intent/mace/smash/wood/ranged, /datum/intent/magos_electrocute)
+
+/obj/item/rogueweapon/woodstaff/implement/racobio/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
