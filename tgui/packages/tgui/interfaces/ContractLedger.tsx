@@ -19,7 +19,6 @@ type Contract = {
   area: string;
   region: string;
   objective: string;
-  expected_count: number;
   threat_bands: number;
   levy_exempt: BooleanLike;
   guild_cut_rate: number;

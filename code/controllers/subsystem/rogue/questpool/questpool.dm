@@ -310,7 +310,6 @@ SUBSYSTEM_DEF(questpool)
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
 	if(!place_quest(Q, TR))
 		return null
-	Q.issued_at = world.time
 	var/obj/item/quest_writ/scroll = Q.bind_new_scroll(steward)
 	B.active_scroll_ref = WEAKREF(scroll)
 	B.active_quest_ref = WEAKREF(Q)
@@ -340,7 +339,6 @@ SUBSYSTEM_DEF(questpool)
 	Q.raised_by_fellowship = !is_commission
 	if(!place_quest(Q, TR))
 		return null
-	Q.issued_at = world.time
 	Q.bind_new_scroll(requester)
 	TR.active_hoard_recovery_ref = WEAKREF(Q)
 	record_issued(Q)

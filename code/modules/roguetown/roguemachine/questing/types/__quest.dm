@@ -63,7 +63,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/deposit_amount = 0
 	var/complete = FALSE
 
-	var/source = QUEST_SOURCE_HANDLER
+	var/source
 	var/created_at = 0
 	var/issued_day = 0
 

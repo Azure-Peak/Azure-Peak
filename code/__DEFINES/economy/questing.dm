@@ -178,7 +178,6 @@
 
 
 #define QUEST_SOURCE_POOL "pool"
-#define QUEST_SOURCE_HANDLER "handler"
 #define QUEST_SOURCE_RUMOR "rumor"
 #define QUEST_SOURCE_DEFENSE "defense"
 #define QUEST_SOURCE_BLOCKADE "blockade"

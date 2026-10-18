@@ -7,7 +7,7 @@
 	anchored = TRUE
 	max_integrity = 0
 	layer = ABOVE_MOB_LAYER
-	layer = GAME_PLANE_UPPER
+	plane = GAME_PLANE_UPPER
 	var/input_point
 	var/directives_issued_today = 0
 	var/directives_day_stamp = -1
@@ -289,7 +289,6 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 /obj/structure/roguemachine/contractledger/proc/build_pool_listing()
 	var/list/listing = list()
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
-		var/expected_count = Q.progress_required
 		var/threat_bands = 0
 		if(istype(Q, /datum/quest/kill))
 			var/datum/quest/kill/KQ = Q
@@ -305,7 +304,6 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,
 			"objective" = Q.get_objective_text(),
-			"expected_count" = expected_count,
 			"threat_bands" = threat_bands,
 			"levy_exempt" = Q.levy_exempt,
 			"guild_cut_rate" = Q.guild_cut_rate,

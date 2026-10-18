@@ -24,7 +24,6 @@
 	var/max_defenders_seen = 0
 	var/current_archetype = BLOCKADE_ARCHETYPE_WARBAND
 	var/wave_boss_name
-	var/issued_at = 0
 
 /datum/quest/kill/blockade_defense/get_scroll_type()
 	return /obj/item/quest_writ/blockade
@@ -71,12 +70,10 @@
 	return
 
 /datum/quest/kill/blockade_defense/populate_scroll_ui_static_data(list/data)
-	data["blockade_total_waves"] = BLOCKADE_TOTAL_WAVES
-	data["blockade_current_wave"] = current_wave
-	data["blockade_armed"] = armed ? TRUE : FALSE
 	data["blockade_failed"] = failed ? TRUE : FALSE
 
 /datum/quest/kill/blockade_defense/populate_scroll_ui_data(list/data)
+	data["blockade_armed"] = armed ? TRUE : FALSE
 	if(intermission_timer_id)
 		var/rest_left = timeleft(intermission_timer_id)
 		if(rest_left > 0)
