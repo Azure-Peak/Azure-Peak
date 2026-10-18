@@ -24,6 +24,9 @@
 /datum/quest/courier/get_base_reward()
 	return QUEST_REWARD_BASE_FETCH
 
+/datum/quest/courier/is_contract_item(obj/item/I)
+	return target_delivery_item && istype(I, target_delivery_item)
+
 /datum/quest/courier/get_title()
 	if(title)
 		return title

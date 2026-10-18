@@ -19,6 +19,9 @@
 /datum/quest/retrieval/get_base_reward()
 	return QUEST_REWARD_BASE_FETCH
 
+/datum/quest/retrieval/is_contract_item(obj/item/I)
+	return target_item_type && istype(I, target_item_type)
+
 /datum/quest/retrieval/get_title()
 	if(title)
 		return title

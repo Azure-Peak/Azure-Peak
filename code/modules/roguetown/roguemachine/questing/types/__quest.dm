@@ -114,6 +114,9 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	. = ..()
 	posted_at = world.time
 
+/datum/quest/proc/is_contract_item(obj/item/I)
+	return FALSE
+
 /datum/quest/proc/get_lapse_time()
 	var/window = (source == QUEST_SOURCE_POOL) ? QUEST_POOL_STALE_THRESHOLD : QUEST_PLAYER_STALE_THRESHOLD
 	return created_at + window
@@ -141,9 +144,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 				if(Q && Q.quest_ref?.resolve() == src)
 					M.remove_filter("quest_item_outline")
 					qdel(Q)
-			else if(!complete && target_item_type && quest_type == QUEST_RETRIEVAL && istype(target_atom, target_item_type))
-				qdel(target_atom)
-			else if(!complete && target_delivery_item && quest_type == QUEST_COURIER && istype(target_atom, target_delivery_item))
+			else if(!complete && is_contract_item(target_atom))
 				qdel(target_atom)
 	tracked_atoms.Cut()
 
