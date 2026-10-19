@@ -13,7 +13,7 @@
 		say("That contract is no longer available.")
 		play_reject_sound()
 		return
-	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name && !SSquestpool.debug_mode)
+	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name && !Q.issuer_may_claim && !SSquestpool.debug_mode)
 		say("You can't sign your own contract.")
 		play_reject_sound()
 		return
@@ -68,7 +68,8 @@
 /obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
 	if(user in scroll.get_quest_assignees(user))
 		return QUEST_TURNIN_SELF
-	if(istype(holder))
+	var/is_issuer = user.real_name == scroll.assigned_quest?.quest_giver_name
+	if(istype(holder) && !is_issuer)
 		var/datum/fellowship/F = holder.current_fellowship
 		if(F && F.has_member(user))
 			return QUEST_TURNIN_FELLOWSHIP

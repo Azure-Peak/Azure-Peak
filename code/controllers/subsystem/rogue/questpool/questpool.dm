@@ -314,6 +314,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.reward_amount = BLOCKADE_SCROLL_REWARD + TR.blockade_travel_fee
 	Q.required_fellowship_size = is_commission ? 0 : BLOCKADE_FELLOWSHIP_REQUIREMENT
 	Q.raised_by_fellowship = !is_commission
+	Q.issuer_may_claim = !is_commission
 	if(!place_quest(Q, TR))
 		return null
 	Q.bind_new_scroll(requester)

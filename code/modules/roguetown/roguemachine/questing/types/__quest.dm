@@ -68,6 +68,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/faction_id
 	var/datum/quest_faction/faction
 	var/required_fellowship_size = 0
+	var/issuer_may_claim = FALSE
 	var/levy_exempt = FALSE
 	var/guild_cut_rate = GUILD_REFERRAL_FEE_PCT
 	var/shows_commission_seal = FALSE
