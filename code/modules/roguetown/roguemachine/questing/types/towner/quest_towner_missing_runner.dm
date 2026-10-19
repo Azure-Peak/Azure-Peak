@@ -13,6 +13,11 @@
 		/datum/advclass/thug/bigman,
 		/datum/advclass/minstrel,
 		/datum/advclass/drunkard,
+		/datum/advclass/innkeeper,
+		/datum/advclass/tapster,
+		/datum/advclass/trader/brewer,
+		/datum/advclass/trader/harlequin,
+		/datum/advclass/jester,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,

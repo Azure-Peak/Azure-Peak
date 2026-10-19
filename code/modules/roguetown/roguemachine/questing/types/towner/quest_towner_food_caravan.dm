@@ -10,6 +10,15 @@
 		/datum/advclass/cook,
 		/datum/advclass/trader/brewer,
 		/datum/advclass/soilson,
+		/datum/advclass/masterchef,
+		/datum/advclass/farmermaster,
+		/datum/advclass/trader/cuisiner,
+		/datum/advclass/seneschal/seneschal,
+		/datum/advclass/seneschal/headmaid,
+		/datum/advclass/seneschal/chiefbutler,
+		/datum/advclass/servant/servant,
+		/datum/advclass/servant/maid,
+		/datum/advclass/servant/manservant,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,

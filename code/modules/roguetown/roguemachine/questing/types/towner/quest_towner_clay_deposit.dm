@@ -7,6 +7,8 @@
 		/datum/advclass/potter,
 		/datum/advclass/guildmaster,
 		/datum/advclass/guildsman/architect,
+		/datum/advclass/guildsman/artificer,
+		/datum/advclass/elder,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,

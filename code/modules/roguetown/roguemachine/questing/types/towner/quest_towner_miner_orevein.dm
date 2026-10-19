@@ -8,6 +8,10 @@
 		/datum/advclass/miner,
 		/datum/advclass/guildsman/architect,
 		/datum/advclass/guildmaster,
+		/datum/advclass/minermaster,
+		/datum/advclass/blacksmith,
+		/datum/advclass/guildsman/blacksmith,
+		/datum/advclass/masterblacksmith,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZUREAN_COAST,

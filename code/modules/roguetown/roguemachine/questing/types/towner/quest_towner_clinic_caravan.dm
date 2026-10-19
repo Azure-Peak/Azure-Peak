@@ -7,6 +7,15 @@
 		/datum/advclass/barbersurgeon,
 		/datum/advclass/apothecary,
 		/datum/advclass/physician,
+		/datum/advclass/witch,
+		/datum/advclass/courtmage,
+		/datum/advclass/archivist,
+		/datum/advclass/wapprentice/associate,
+		/datum/advclass/wapprentice/associate/apprentice,
+		/datum/advclass/trader/scholar,
+		/datum/advclass/trader/peddler,
+		/datum/advclass/elder,
+		/datum/advclass/heartfelt/retinue/physician,
 	)
 	eligible_regions = list(
 		THREAT_REGION_MOUNT_DECAP,

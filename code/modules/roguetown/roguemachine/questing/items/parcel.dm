@@ -45,15 +45,14 @@
 
 /obj/item/parcel/proc/get_area_jobs(area_type)
 	var/static/list/area_jobs = list(
-		/area/rogue/indoors/town/tavern = list("Innkeeper", "Tapster", "Cook"),
-		/area/rogue/indoors/town/bath = list("Bathhouse Attendant", "Bathmaster"),
-		/area/rogue/indoors/town/church = list("Bishop", "Acolyte", "Templar", "Sexton", "Martyr"),
+		/area/rogue/indoors/town/tavern = GLOB.tavern_positions,
+		/area/rogue/indoors/town/bath = GLOB.bathhouse_positions,
+		/area/rogue/indoors/town/church = GLOB.church_positions,
 		/area/rogue/indoors/town/dwarfin = list("Guildmaster", "Guildsman"),
-		/area/rogue/indoors/town/shop = list("Merchant", "Shophand"),
+		/area/rogue/indoors/town/shop = GLOB.atc_positions,
 		/area/rogue/indoors/town/manor = GLOB.noble_positions + GLOB.courtier_positions + GLOB.retinue_positions + list("Consort Dowager", "Servant"),
 		/area/rogue/indoors/town/magician = list("Court Magician", "Magicians Associate", "Archivist"),
 		/area/rogue/indoors/town/physician = list("Head Physician", "Apothecary"),
-		/area/rogue/indoors/town = list("Guild Handler")
 	)
 	return area_jobs[area_type] || list("Steward", "Merchant")
 

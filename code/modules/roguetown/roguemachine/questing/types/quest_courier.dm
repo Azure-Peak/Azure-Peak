@@ -13,6 +13,7 @@
 	writ_type = WRIT_TYPE_CARRIAGE
 	var/list/target_delivery_locations = list(
 		/area/rogue/indoors/town/tavern,
+		/area/rogue/indoors/town/bath,
 		/area/rogue/indoors/town/church,
 		/area/rogue/indoors/town/dwarfin,
 		/area/rogue/indoors/town/shop,

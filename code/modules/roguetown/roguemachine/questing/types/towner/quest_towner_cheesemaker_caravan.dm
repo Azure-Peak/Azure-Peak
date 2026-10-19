@@ -5,6 +5,9 @@
 	posting_blurb = "Beasts have hounded a cheesemaker's caravan. Hire hands to secure the caravan and bring them home."
 	postable_advclasses = list(
 		/datum/advclass/cheesemaker,
+		/datum/advclass/cook,
+		/datum/advclass/masterchef,
+		/datum/advclass/innkeeper,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,

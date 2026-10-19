@@ -8,6 +8,7 @@
 		/datum/advclass/guildsman/architect,
 		/datum/advclass/woodworker,
 		/datum/advclass/homesteader,
+		/datum/advclass/elder,
 	)
 	eligible_regions = list(
 		THREAT_REGION_MOUNT_DECAP,

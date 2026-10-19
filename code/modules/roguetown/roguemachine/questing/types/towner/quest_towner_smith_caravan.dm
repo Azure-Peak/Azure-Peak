@@ -8,6 +8,9 @@
 		/datum/advclass/guildsman/blacksmith,
 		/datum/advclass/guildsman/artificer,
 		/datum/advclass/guildmaster,
+		/datum/advclass/masterblacksmith,
+		/datum/advclass/trader/jeweler,
+		/datum/advclass/heartfelt/retinue/armorer,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,

@@ -7,6 +7,12 @@
 		/datum/advclass/tailor,
 		/datum/advclass/seamstress,
 		/datum/advclass/guildmaster,
+		/datum/advclass/hunter,
+		/datum/advclass/hunter/spear,
+		/datum/advclass/seneschal/seneschal,
+		/datum/advclass/seneschal/headmaid,
+		/datum/advclass/seneschal/chiefbutler,
+		/datum/advclass/elder,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
