@@ -128,7 +128,7 @@
 	return "A Caravan Missing"
 
 /datum/quest/kill/recovery/towner/food_caravan/get_objective_text()
-	return "Clear the wreck and carry the strongbox back to [quest_giver_name || "the client"]."
+	return "Clear the wreck and carry the package back to [quest_giver_name || "the client"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/food_caravan/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

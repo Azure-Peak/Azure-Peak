@@ -60,7 +60,7 @@
 	return "A Caravan Missing"
 
 /datum/quest/kill/recovery/towner/tailor_caravan/get_objective_text()
-	return "Clear the wreck and carry the strongbox back to [quest_giver_name || "the tailor"]."
+	return "Clear the wreck and carry the package back to [quest_giver_name || "the tailor"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/tailor_caravan/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

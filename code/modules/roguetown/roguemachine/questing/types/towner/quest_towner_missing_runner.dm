@@ -74,7 +74,7 @@
 	return "A Runner Gone Missing"
 
 /datum/quest/kill/recovery/towner/missing_runner/get_objective_text()
-	return "Get revenge and carry the strongbox back to [quest_giver_name || "the client"]."
+	return "Get revenge and carry the package back to [quest_giver_name || "the client"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/missing_runner/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

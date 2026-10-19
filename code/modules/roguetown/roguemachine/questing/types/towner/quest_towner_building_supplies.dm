@@ -51,7 +51,7 @@
 	return "A Stash of Building Supplies"
 
 /datum/quest/kill/recovery/towner/building_supplies/get_objective_text()
-	return "Clear the wreck and carry the building supplies back to [quest_giver_name || "the builder"]."
+	return "Clear the wreck and carry the package back to [quest_giver_name || "the builder"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/building_supplies/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

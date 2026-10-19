@@ -43,7 +43,7 @@
 	return "A Caravan Missing"
 
 /datum/quest/kill/recovery/towner/cheesemaker_caravan/get_objective_text()
-	return "Clear the wreck and carry the cheesy supplies back to [quest_giver_name || "the cheesemaker"]."
+	return "Clear the wreck and carry the package back to [quest_giver_name || "the cheesemaker"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/cheesemaker_caravan/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

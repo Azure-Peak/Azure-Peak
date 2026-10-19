@@ -43,7 +43,7 @@
 	return "A Clay Deposit"
 
 /datum/quest/kill/recovery/towner/clay_deposit/get_objective_text()
-	return "Clear the digsite and carry the strongbox back to [quest_giver_name || "the potter"]."
+	return "Clear the digsite and carry the package back to [quest_giver_name || "the potter"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/clay_deposit/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

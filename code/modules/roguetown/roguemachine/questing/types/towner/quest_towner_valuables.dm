@@ -113,7 +113,7 @@
 	return "Missing Valuables"
 
 /datum/quest/kill/recovery/towner/noble_trinket/get_objective_text()
-	return "Clear the wreck and carry the strongbox back to [quest_giver_name || "the noble"]."
+	return "Clear the wreck and carry the package back to [quest_giver_name || "the noble"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/noble_trinket/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"
