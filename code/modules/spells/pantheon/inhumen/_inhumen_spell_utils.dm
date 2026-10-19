@@ -237,6 +237,8 @@
 	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
 	eyes.Insert(user)
 	user.update_body_parts()
+	user.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw) //skeleton hands, buffs your punches into clawing at people.
+	user.update_a_intents()
 
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 

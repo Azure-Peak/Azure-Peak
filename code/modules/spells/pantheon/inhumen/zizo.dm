@@ -563,10 +563,22 @@
 
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
+	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver
+	//constructs are made of metal, there's no bone to take sire.
+    if(isrevenant(user) || (isconstruct(user)) && path_choice == "Unlife")
+        user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		if(isrevenant(user))
+			to_chat(user, "<i>...Considering I am already in some state of unlyfe, I feel as if She stares upon me in disappointment... or is it confusion?</i>")
+		if(isconstruct(user))
+			to_chat(user, "<i>...Why am I asking for unlyfe anyway, I lack flesh and my body is metal... What am I trying to achieve?</i>")
+        anti_spam = FALSE
+        return TRUE
+
 	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
 		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
-		user.mind?.RemoveSpell(src)
-		qdel(src)
+		//return if vamps can both cast this + exploit it, but usually this is just a failsafe.
+		//user.mind?.RemoveSpell(src)
+		//qdel(src)
 		anti_spam = FALSE
 		return TRUE
 
