@@ -18,6 +18,9 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "the grand magos' other request", "item" = /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry, "min" = 2, "max" = 4),
 		list("name" = "abandoned hats from the south", "item" = /obj/item/clothing/head/roguetown/wizhat/random, "min" = 4, "max" = 6),
 	),
+
+
+
 	// Manor: luxury goods and contraband
 	/area/rogue/indoors/town/manor = list(
 		list("name" = "aged cheese wheels", "item" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged, "min" = 4, "max" = 6),

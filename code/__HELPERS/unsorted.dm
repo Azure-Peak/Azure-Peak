@@ -707,6 +707,10 @@ will handle it, but:
 			wash_obj(H.cloak, clean)
 			H.update_inv_cloak()
 
+		for(var/obj/item/I in list(H.wear_wrists, H.backr, H.backl, H.beltr, H.beltl, H.mouth, H.wear_ring))
+			wash_obj(I, clean)
+			I.update_slot_icon()
+
 		SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
 	else
 		SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)

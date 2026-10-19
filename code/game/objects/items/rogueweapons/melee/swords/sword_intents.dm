@@ -421,8 +421,12 @@
 		force = H.move_force)
 
 /datum/intent/sword/chop/cleave/prewarning()
-	if(mastermob)
-		playsound(mastermob, pick('sound/combat/rend_start.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	playsound(mastermob, pick('sound/combat/rend_start.ogg'), 100, FALSE)
 
 /datum/intent/sword/chop/cleave/super
 	name = "unstoppable cleave"

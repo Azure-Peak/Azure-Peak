@@ -67,8 +67,9 @@
 	var/item_d_type = "blunt"
 	var/charging_slowdown = 0
 	var/warnoffset = 0
+	/// To make prewarning() respect clickcd!
+	var/last_prewarning_sound = 0
 	var/swingdelay = 0
-
 	var/swingdelay_type = SWINGDELAY_NORMAL
 	/// Causes a return in /attack() but still allows to be used in attackby()
 	var/no_attack = FALSE
