@@ -555,16 +555,14 @@
 		return FALSE
 
 	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver
-	if(isrevenant(user) && path_choice == "Unlife")
+	if(isdullahan(user) && path_choice == "Unlife")
 		to_chat(user, span_boldwarning("I already harbor some aspect of unlyfe, this rituos would not end well for me, considering my current state."))
-        anti_spam = FALSE
-        return TRUE
+		return FALSE
 
 	//constructs are made of metal, what flesh to turn to faith?
 	if(isconstruct(user) && path_choice == "Unlife")
 		to_chat(user, span_boldwarning("I lack flesh to sacrifice, lyfe to give. I am already an artifice, a construct; only Progress from here remains for me."))
-        anti_spam = FALSE
-        return TRUE
+		return FALSE
 
 	user.visible_message(span_boldwarning("[user] throws back [user.p_their()] head, arcyne energy crackling across [user.p_their()] body!"))
 	user.grant_language(/datum/language/undead)
@@ -579,7 +577,7 @@
 		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
 		user.mind?.RemoveSpell(src)
 		qdel(src)
-        anti_spam = FALSE
+		anti_spam = FALSE
 		return TRUE
 
 	switch(path_choice)

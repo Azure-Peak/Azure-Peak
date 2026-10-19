@@ -112,16 +112,16 @@
 
 	// Why do we do this? Lich isn't meant to accidentally be a construct/reverent.
 	// Ironman traits break us completely. As for Reverent we're unkillable b/c decapitation immunity + spellcast check bugs + only die to blessed silver + we're immune to decapitation kills.
-	var/had_godmode = (status_flags & GODMODE)
+	var/had_godmode = (L.status_flags & GODMODE)
 	L.status_flags |= GODMODE
 	if(isdullahan(L))
-		var/obj/item/bodypart/head/old_head = get_bodypart(BODY_ZONE_HEAD)
+		var/obj/item/bodypart/head/old_head = L.get_bodypart(BODY_ZONE_HEAD)
 		if(old_head)
 			var/obj/item/bodypart/head/new_head = new /obj/item/bodypart/head()
 			new_head.replace_limb(L, TRUE)
 			qdel(old_head)
 	L.set_species(/datum/species/human/northern)
-	if(!L.had_godmode)
+	if(!had_godmode)
 		L.status_flags &= ~GODMODE
 
 /datum/antagonist/lich/proc/equip_lich()
