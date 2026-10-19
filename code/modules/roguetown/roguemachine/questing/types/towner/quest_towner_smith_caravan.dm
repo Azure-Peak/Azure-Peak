@@ -3,10 +3,6 @@
 	parcel_label = "recovered ingots"
 	posting_label = "A Caravan Gone Missing"
 	posting_blurb = "A wagon of yours was lost on the road. Hire hands to secure the wreck and bring the strongbox home."
-	posting_rules = list(
-		"The strongbox is magickally sealed. Only you can open it.",
-		"You don't need to travel. The holder brings the strongbox to you.",
-	)
 	postable_advclasses = list(
 		/datum/advclass/blacksmith,
 		/datum/advclass/guildsman/blacksmith,
@@ -71,7 +67,7 @@
 	return "A Caravan Gone Missing"
 
 /datum/quest/kill/recovery/towner/smith_caravan/get_objective_text()
-	return "Clear the wreck and carry the strongbox back to [quest_giver_name || "the smith"]."
+	return "Clear the wreck and carry the package back to [quest_giver_name || "the smith"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/smith_caravan/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

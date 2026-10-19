@@ -103,7 +103,7 @@
 	return "A Miner's Lead"
 
 /datum/quest/kill/recovery/towner/miner_orevein/get_objective_text()
-	return "Break the elemental guard on the strike and carry the ore crate back to [quest_giver_name || "the miner"]."
+	return "Destroy the elemental guard at the ore vein and carry the package back to [quest_giver_name || "the miner"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/miner_orevein/get_parcel_name()
 	return "[quest_giver_name]'s ore-crate"
