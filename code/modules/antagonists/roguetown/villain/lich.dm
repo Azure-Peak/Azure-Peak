@@ -121,6 +121,7 @@
 			new_head.replace_limb(L, TRUE)
 			qdel(old_head)
 	L.set_species(/datum/species/human/northern)
+	change_origin(L, /datum/virtue/origin/unknown, "Origin") //Prevents Grenzelhoft origin
 	if(!had_godmode)
 		L.status_flags &= ~GODMODE
 
