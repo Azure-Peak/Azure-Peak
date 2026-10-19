@@ -21,6 +21,7 @@
 #define QUEST_FACTION_MOUNTAIN_TROLL "mountain_troll"
 #define QUEST_FACTION_BOG_TROLL "bog_troll"
 #define QUEST_FACTION_EARTH_ELEMENTAL "earth_elemental"
+#define QUEST_FACTION_GM "gm"
 
 #define FACTION_CAT_HUMANOID "humanoid"
 #define FACTION_CAT_BOG_DESERTER "bog_deserter"

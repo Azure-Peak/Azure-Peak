@@ -77,7 +77,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 /datum/quest/kill/recovery/towner/faction_fits(datum/quest_faction/F)
 	return (F.id in eligible_factions)
 
-/datum/quest/kill/recovery/towner/proc/build_bundle()
+/datum/quest/kill/recovery/towner/build_bundle()
 	var/variety = effective_variety()
 	if(!variety)
 		return list()

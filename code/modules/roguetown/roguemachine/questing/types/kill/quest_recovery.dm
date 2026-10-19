@@ -165,8 +165,10 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	start_hunt_timer(QUEST_RECOVERY_DELIVERY_TIMER)
 	announce_to_bearer("<b>The guardians are slain.</b> You have [DisplayTimeText(QUEST_RECOVERY_DELIVERY_TIMER)] to deliver the parcel.")
 
+/datum/quest/kill/recovery/proc/build_bundle()
+	. = list()
+	.[target_delivery_item] = shipment_count
+
 /datum/quest/kill/recovery/proc/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
-	var/list/bundle = list()
-	bundle[target_delivery_item] = shipment_count
 	var/parcel_desc = "A sealed parcel of [shipment_name] wrested back from its captors. Marked for delivery to [initial(target_delivery_location.name)]. The seal can only be broken by the recipient."
-	spawn_parcel(landmark, /obj/item/parcel, bundle, "lost shipment of [shipment_name]", parcel_desc, target_delivery_location)
+	spawn_parcel(landmark, /obj/item/parcel, build_bundle(), "lost shipment of [shipment_name]", parcel_desc, target_delivery_location)
