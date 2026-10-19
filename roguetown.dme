@@ -2240,6 +2240,7 @@
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\trader\maid.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\trader\peddler.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\trader\scholar.dm"
+#include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\_spellblade_chants.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\ancient_deathknight.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\ancient_spellblade.dm"
 #include "code\modules\jobs\job_types\roguetown\adventurer\types\wretch\berserker.dm"

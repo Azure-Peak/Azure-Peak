@@ -1,5 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - rscadd: "Adds a craft recipe for small wood logs and an oven to make charcoal."
-  - qol: "Allows small logs to fit in a backpack."

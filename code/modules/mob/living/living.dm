@@ -1125,8 +1125,12 @@
 	if(active_storage)
 		active_storage.close(src)
 
-	if(!(mobility_flags & MOBILITY_STAND) && !buckled && prob(getBruteLoss()*200/maxHealth))
+	if(!(mobility_flags & MOBILITY_STAND) && !buckled && bleed_rate)
 		makeTrail(newloc, T, old_direction)
+	if(. && bloodsteps && (mobility_flags & MOBILITY_STAND) && isturf(newloc))
+		bloodsteps--
+		var/obj/effect/decal/cleanable/blood/bigprint/print = new(newloc, stepcolour)
+		print.setDir(dir)
 	//Hearthstone port - track creation hook.
 	if(. && isturf(newloc))
 		check_track_creation(newloc)
@@ -1149,9 +1153,8 @@
 	if(isturf(start))
 		var/trail_type = getTrail()
 		if(trail_type)
-			var/brute_ratio = round(getBruteLoss() / maxHealth, 0.1)
-			if(blood_volume && blood_volume > max(BLOOD_VOLUME_NORMAL*(1 - brute_ratio * 0.25), 0))//don't leave trail if blood volume below a threshold
-				blood_volume = max(blood_volume - max(1, brute_ratio * 2), 0)					//that depends on our brute damage.
+			if(blood_volume)
+				blood_volume = max(blood_volume - max(1, round(getBruteLoss() / maxHealth, 0.1) * 2), 0)
 				var/newdir = get_dir(target_turf, start)
 				if(newdir != direction)
 					newdir = newdir | direction
@@ -1179,7 +1182,7 @@
 	..()
 
 /mob/living/proc/getTrail()
-	if(getBruteLoss() < 300)
+	if(bleed_rate < ARTERY_LIMB_BLEEDRATE / 2)
 		return pick("ltrails_1", "ltrails_2")
 	else
 		return pick("trails_1", "trails_2")
@@ -2435,7 +2438,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_one)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_one, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_ONE]"
@@ -2445,7 +2448,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_two)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_two, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_TWO]"
@@ -2455,7 +2458,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_three)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_three, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_THREE]"

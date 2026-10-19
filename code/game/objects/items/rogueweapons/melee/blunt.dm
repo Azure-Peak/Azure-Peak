@@ -51,8 +51,12 @@
 // Do not call handle_knockback like in knockback cuz that means it will hardstun.
 
 /datum/intent/mace/smash/prewarning()
-	if(mastermob)
-		playsound(mastermob, pick('sound/combat/wooshes/blunt/wooshhuge (2).ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	playsound(mastermob, pick('sound/combat/wooshes/blunt/wooshhuge (2).ogg'), 100, FALSE)
 
 /datum/intent/mace/smash/lesser
 	name = "one-handed smash" //Exclusive to Warhammers, and other mace-styled bludgeons that can only be wielded in one hand.

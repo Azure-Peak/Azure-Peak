@@ -60,6 +60,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon
 	name = "void drake"
+	mob_size = MOB_SIZE_LARGE
 	desc = "An ancient creature from a bygone age. Now would be a good time to run."
 	health = 5000
 	maxHealth = 5000
