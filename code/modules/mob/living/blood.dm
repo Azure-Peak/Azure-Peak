@@ -475,6 +475,50 @@
 
 #undef WALL_SPLATTER_CAP
 
+/mob/living/proc/blood_spray(sdir)
+	if(!sdir || !isturf(loc) || !get_blood_id() || (!iscarbon(src) && !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS)))
+		return
+	var/turf/T = get_step(src, sdir)
+	if(!T)
+		return
+	var/colour = get_blood_color()
+	if(isclosedturf(T))
+		new /obj/effect/decal/cleanable/blood/spray/wall(loc, colour, sdir)
+		return
+	var/mob/living/L = locate() in T
+	if(L)
+		L.drench(src)
+		return
+	var/obj/effect/decal/cleanable/blood/spray/S = new(T, colour)
+	S.setDir(sdir)
+
+/mob/living/proc/blood_squirt()
+	if(!isturf(loc) || !get_blood_id())
+		return
+	var/sdir = pick(GLOB.alldirs)
+	var/colour = get_blood_color()
+	var/turf/T = loc
+	for(var/i in 1 to rand(2, 3))
+		var/turf/next = get_step(T, sdir)
+		if(!next)
+			return
+		if(isclosedturf(next))
+			new /obj/effect/decal/cleanable/blood/spray/wall(T, colour, sdir)
+			return
+		T = next
+		var/mob/living/L = locate() in T
+		if(L)
+			L.drench(src)
+			return
+		var/obj/effect/decal/cleanable/blood/squirt/S = new(T, colour)
+		S.setDir(sdir)
+
+/mob/living/proc/drench(mob/living/source)
+	add_mob_blood(source)
+	for(var/obj/item/I as anything in get_equipped_items())
+		I.add_mob_blood(source)
+		I.update_slot_icon()
+
 /mob/living/proc/add_drip_floor(turf/T, amt)
 	if(!iscarbon(src))
 		if(!HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
@@ -513,8 +557,8 @@
 			D.drips++
 			D.update_icon()
 		else
-			D = new(T)
-			D.set_blood_color(get_blood_color())
+			var/drip_type = amt >= ARTERY_LIMB_BLEEDRATE / 4 ? /obj/effect/decal/cleanable/blood/drip/big : /obj/effect/decal/cleanable/blood/drip
+			new drip_type(T, get_blood_color())
 
 /mob/living/carbon/human/add_drip_floor(turf/T, amt)
 	if(!(NOBLOOD in dna.species.species_traits))

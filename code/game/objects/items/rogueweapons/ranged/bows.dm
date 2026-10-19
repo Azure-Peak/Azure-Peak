@@ -121,6 +121,7 @@
 	per_scales_damage = TRUE
 	early_release_acc_penalty = BOW_EARLY_RELEASE_ACC_PENALTY
 	early_release_embed_mult = BOW_EARLY_RELEASE_EMBED_MULT
+	steady_aim = TRUE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/bow/can_quick_load(mob/user)
 	if(user.get_num_arms(FALSE) < 2 || user.get_inactive_held_item())
