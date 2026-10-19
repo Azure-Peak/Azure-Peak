@@ -259,7 +259,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 		to_chat(user, span_warning("A recovery scroll for [TR.region_name] is already in circulation."))
 		return
 	var/datum/fellowship/F = user.current_fellowship
-	if(!F || length(F.get_members()) < BLOCKADE_FELLOWSHIP_REQUIREMENT)
+	if(!SSquestpool.debug_mode && (!F || length(F.get_members()) < BLOCKADE_FELLOWSHIP_REQUIREMENT))
 		to_chat(user, span_warning("You need a fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more to call for a Hoard Recovery."))
 		return
 	if(!SStreasury.has_account(user))

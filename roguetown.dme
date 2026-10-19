@@ -1604,6 +1604,7 @@
 #include "code\modules\admin\verbs\playsound.dm"
 #include "code\modules\admin\verbs\possess.dm"
 #include "code\modules\admin\verbs\pray.dm"
+#include "code\modules\admin\verbs\quest_debug_panel.dm"
 #include "code\modules\admin\verbs\randomverbs.dm"
 #include "code\modules\admin\verbs\reestablish_db_connection.dm"
 #include "code\modules\admin\verbs\schizohelp.dm"

@@ -13,7 +13,7 @@
 		say("That contract is no longer available.")
 		play_reject_sound()
 		return
-	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
+	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name && !SSquestpool.debug_mode)
 		say("You can't sign your own contract.")
 		play_reject_sound()
 		return

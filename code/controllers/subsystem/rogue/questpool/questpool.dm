@@ -12,6 +12,7 @@ SUBSYSTEM_DEF(questpool)
 	var/list/kill_count_by_region = list()
 	var/list/evergreen_count_by_region = list()
 	var/list/pool_weights = list()
+	var/debug_mode = FALSE
 
 /datum/controller/subsystem/questpool/Initialize(mapload)
 	for(var/qtype in GLOB.quest_prototypes)

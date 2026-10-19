@@ -270,6 +270,8 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 			. += TR.region_name
 
 /datum/quest/proc/force_complete()
+	if(complete)
+		return
 	progress_current = progress_required
 	mark_complete()
 
@@ -360,6 +362,8 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	return closest
 
 /datum/quest/proc/can_claim(mob/living/user)
+	if(SSquestpool.debug_mode)
+		return TRUE
 	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
 		if(!F)

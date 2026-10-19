@@ -71,7 +71,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 
 /obj/item/quest_writ/proc/try_hand_claim(mob/user)
 	var/datum/quest/Q = assigned_quest
-	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
+	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name && !SSquestpool.debug_mode)
 		to_chat(user, span_warning("You can't take a contract you issued."))
 		return FALSE
 	if(!Q.materialized)
