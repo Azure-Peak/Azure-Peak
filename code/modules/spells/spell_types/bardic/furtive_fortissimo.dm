@@ -22,7 +22,7 @@
 
 /datum/status_effect/buff/song/furtive_fortissimo/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("My steps becomes light. I can sneak much quicker now, traps won't affect me and caltrops have less effect."))
+	to_chat(owner, span_warning("My steps become light. I can sneak much quicker now. Traps won't affect me and caltrops have less effect."))
 	ADD_TRAIT(owner, TRAIT_LIGHT_STEP, id)
 
 /datum/status_effect/buff/song/furtive_fortissimo/on_remove()
