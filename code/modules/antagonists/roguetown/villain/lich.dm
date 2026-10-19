@@ -121,7 +121,6 @@
 			new_head.replace_limb(L, TRUE)
 			qdel(old_head)
 	L.set_species(/datum/species/human/northern)
-	change_origin(L, /datum/virtue/origin/unknown, "Origin") //Prevents Grenzelhoft origin
 	if(!had_godmode)
 		L.status_flags &= ~GODMODE
 
@@ -208,6 +207,7 @@
 	H.grant_language(/datum/language/undead)
 	// Grant a chalk so the lich can do rituals
 	H.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Prevents Grenzelhoft origin
 
 	if(H.mind)
 		// Our outburst version, its unique and a means to avoid softlocks
