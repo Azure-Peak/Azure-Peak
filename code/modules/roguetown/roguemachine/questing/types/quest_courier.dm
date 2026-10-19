@@ -44,10 +44,8 @@
 			/obj/item/cooking/pan,
 			/obj/item/rogueweapon/huntingknife/chefknife,
 			/obj/item/reagent_containers/glass/bucket,
-			// ration papers! always good to have extra.
 			/obj/item/ration,
 			/obj/item/reagent_containers/food/snacks/rogue/cheddar,
-			// LOTS of different alcohol variations.
 			/obj/item/reagent_containers/glass/bottle/rogue/spicedwineaged,
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/ratkept,
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/fireleaf,
@@ -67,8 +65,7 @@
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunlager,
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum,
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/baijiu,
-			/obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine // hehehe
-
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/nocshine,
 		),
 		/area/rogue/indoors/town/bath = list(
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian,
@@ -78,16 +75,14 @@
 			/obj/item/storage/belt/rogue/pouch/zigarrete/cannabis,
 			/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab,
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/whipwine,
-
 		),
 		/area/rogue/indoors/town/church = list(
 			/obj/item/natural/cloth,
 			/obj/item/reagent_containers/powder/ozium,
 			/obj/item/reagent_containers/food/snacks/rogue/crackerscooked,
-			/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum, // shitty health potion. NOT the good one.
+			/obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum,
 			/obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water,
 			/obj/item/book/rogue/bibble,
-
 		),
 		/area/rogue/indoors/town/dwarfin = list(
 			/obj/item/ingot/iron,
@@ -98,18 +93,18 @@
 			/obj/item/roguecoin/gold,
 			/obj/item/clothing/ring/silver,
 			/obj/item/scomstone/bad,
-			/obj/item/perfume/random, // idk this was o nthe other noble lists and i think its Ok.
-			/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena, // helps you get thru playing merchant
+			/obj/item/perfume/random,
+			/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena,
 			/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
 			/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
-			/obj/item/bomb, // oh my god JC
+			/obj/item/bomb,
 		),
 		/area/rogue/indoors/town/manor = list(
 			/obj/item/clothing/cloak/raincloak/furcloak,
 			/obj/item/reagent_containers/glass/bottle/rogue/whitewine,
 			/obj/item/reagent_containers/food/snacks/rogue/cheddar/aged,
 			/obj/item/perfume/random,
-			/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab, // in honor of ser psyras or hubert i cant remember who wanted this
+			/obj/item/reagent_containers/glass/bottle/alchemical/fermented_crab,
 		),
 		/area/rogue/indoors/town/magician = list(
 			/obj/item/rogueweapon/spellbook,
