@@ -3,6 +3,7 @@
 	anatomy_type = /datum/anatomy/quadruped/standard
 	icon = 'icons/roguetown/mob/monster/mole.dmi'
 	name = "mole"
+	mob_size = MOB_SIZE_LARGE
 	desc = "A mighty giant mole, said by many dwarves to have been created at Malum's command to dig the first and oldest caverns of the world for his faithful to live in."
 	icon_state = "mole"
 	icon_living = "mole"

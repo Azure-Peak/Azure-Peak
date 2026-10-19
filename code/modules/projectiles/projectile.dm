@@ -162,6 +162,8 @@
 	var/poisonfeel
 
 	var/aim_peak = 0
+	/// Ignores every zone hit penalty and ceiling
+	var/steady_aim = FALSE
 
 	/// Min tile distance for full damage.
 	var/min_range = 0
@@ -301,7 +303,10 @@
 			var/splatter_dir = dir
 			if(starting)
 				splatter_dir = get_dir(starting, target_loca)
-			var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(target_loca, splatter_dir)
+			var/splatter_type = (woundclass in GLOB.gore_bclasses) ? /obj/effect/temp_visual/dir_setting/bloodsplatter/spray : /obj/effect/temp_visual/dir_setting/bloodsplatter
+			var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new splatter_type(target_loca, splatter_dir)
+			if((woundclass in GLOB.splatter_bclasses) && prob(damage * 2))
+				L.blood_spray(splatter_dir)
 			splatter.set_blood_color(L.get_blood_color())
 			if(prob(33))
 				L.add_splatter_floor(target_loca)

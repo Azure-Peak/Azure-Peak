@@ -59,7 +59,7 @@
 		STATKEY_SPD = 1
 	)
 	age_mod = /datum/class_age_mod/apprentice_associate
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 8, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
@@ -132,7 +132,7 @@
 	or the coward. You, however, were given a place as an apprentice in the University of Azuria. \
 	Under the watchful gaze of the Court Magician and their associates, you may yet live \
 	to become a master of the arcyne arts. And even in the most rote of chores, there is knowledge to be found..."
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE) // lose arcyne power...
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 8, "ward" = TRUE) // lose arcyne power...
 	traits_applied = list(TRAIT_ARCYNE, TRAIT_SELF_RELIANCE) // ...but the rote tasks you've been doing add to your mundane skills, or at least your potential
 
 // Here lies the grave of Azurcaephon Associate, removed because a good portion of mage players are using it as a validhunting class
@@ -159,7 +159,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 1,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 4)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 5)
 	subclass_skills = list(
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/shields = SKILL_LEVEL_APPRENTICE,

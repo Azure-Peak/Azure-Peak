@@ -97,9 +97,13 @@
 	item_d_type = "blunt"
 
 /datum/intent/shield/block/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
+	playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
 
 /datum/intent/shield/block/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')

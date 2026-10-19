@@ -60,6 +60,7 @@
 	special = /datum/special_intent/bow_prime/crossbow
 	// Crossbows smite just a bit harder
 	bow_smite_base_damage = 52
+	steady_aim = TRUE
 
 /datum/special_intent/bow_prime/crossbow
 	cooldown = 36 SECONDS
@@ -405,14 +406,22 @@
 	charging_slowdown = 2.5 //Little more than before, with the assumption that you're taking your time for a more precise shot.
 
 /datum/intent/shoot/crossbow/heavy/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] readies [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] readies [masteritem]!"))
+	playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
 
 /datum/intent/arc/crossbow/heavy/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] readies [masteritem] for a precise shot!"))
-		playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] readies [masteritem] for a precise shot!"))
+	playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
 
 /datum/intent/buttstroke/heavy
 	name = "heavy buttstroke"

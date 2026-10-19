@@ -3,6 +3,7 @@
 	anatomy_type = /datum/anatomy/biped/tough
 	icon = 'icons/roguetown/mob/monster/trolls/trolls.dmi'
 	name = "troll"
+	mob_size = MOB_SIZE_LARGE
 	desc = "Elven legends say these monsters were servants of Dendor tasked to guard his realm; nowadays they are sometimes found in the company of orcs. It's said that fire curbs their almost magical regeneration."
 	icon_state = "troll"
 	icon_living = "troll"
