@@ -209,9 +209,9 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/roll_circumstance()
 	switch(writ_type)
 		if(WRIT_TYPE_RECOVERY)
-			return pick_recovery_circumstance()
+			return pick_writ_circumstance(/datum/writ_circumstance/recovery)
 		if(WRIT_TYPE_CARRIAGE)
-			return pick_carriage_circumstance()
+			return pick_writ_circumstance(/datum/writ_circumstance/carriage)
 	return ""
 
 /datum/quest/proc/get_named_target()

@@ -233,6 +233,20 @@
 /datum/book_entry/treasury_general/innkeeper
 	name = "08. The Innkeeper and the Guild"
 
+/datum/book_entry/treasury_general/innkeeper/proc/rumor_cost_lines()
+	var/list/types_by_cost = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(proto.rumor_cost > 0)
+			LAZYADD(types_by_cost["[proto.rumor_cost]"], qtype)
+	var/list/costs = list()
+	for(var/cost in types_by_cost)
+		costs += text2num(cost)
+	sortTim(costs, GLOBAL_PROC_REF(cmp_numeric_asc))
+	. = ""
+	for(var/cost in costs)
+		. += "<li><b>[english_list(types_by_cost["[cost]"])]</b> - [cost] points each.</li>"
+
 /datum/book_entry/treasury_general/innkeeper/inner_book_html(mob/user)
 	return {"
 		<div>
@@ -249,11 +263,7 @@
 
 		<p>Each rumor type has a fixed point cost:</p>
 		<ul>
-			<li><b>Retrieval, Courier, Easy Kill</b> -
-			[RUMOR_COST_TRIVIAL] points each.</li> <li><b>Clearout,
-			Recovery</b> - [RUMOR_COST_STANDARD] points each.</li>
-			<li><b>Raid, Bounty</b> - [RUMOR_COST_MAJOR] points
-			each.</li>
+			[rumor_cost_lines()]
 		</ul>
 
 		<h3>Composing a Rumor</h3>
