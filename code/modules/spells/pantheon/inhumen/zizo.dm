@@ -564,13 +564,14 @@
 	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver
-	//constructs are made of metal, there's no bone to take sire.
-    if(isrevenant(user) || (isconstruct(user)) && path_choice == "Unlife")
-        user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
-		if(isrevenant(user))
-			to_chat(user, "<i>...Considering I am already in some state of unlyfe, I feel as if She stares upon me in disappointment... or is it confusion?</i>")
-		if(isconstruct(user))
-			to_chat(user, "<i>...Why am I asking for unlyfe anyway, I lack flesh and my body is metal... What am I trying to achieve?</i>")
+	if(isrevenant(user) && path_choice == "Unlife")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+        anti_spam = FALSE
+        return TRUE
+
+	//constructs are made of metal, what flesh to turn to faith?
+	if(isconstruct(user) && path_choice == "Unlife")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
         anti_spam = FALSE
         return TRUE
 
