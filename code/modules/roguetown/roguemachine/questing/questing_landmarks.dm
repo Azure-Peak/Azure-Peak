@@ -56,6 +56,14 @@
 		return FALSE
 	return TRUE
 
+/proc/count_available_quest_landmarks(region)
+	. = 0
+	for(var/obj/effect/landmark/quest_spawner/landmark as anything in GLOB.quest_landmarks_list)
+		if(QDELETED(landmark) || landmark.region != region)
+			continue
+		if(landmark.is_available_for_quest())
+			.++
+
 /proc/find_quest_landmark(type, region = null, datum/quest/claiming_quest = null)
 	var/list/candidates = GLOB.quest_landmarks_list
 	if(!length(candidates))

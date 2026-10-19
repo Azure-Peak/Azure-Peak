@@ -1573,6 +1573,7 @@
 #include "code\modules\admin\callproc\callproc.dm"
 #include "code\modules\admin\game_master\game_master.dm"
 #include "code\modules\admin\game_master\game_master_categories.dm"
+#include "code\modules\admin\game_master\game_master_quests.dm"
 #include "code\modules\admin\game_master\game_master_roster.dm"
 #include "code\modules\admin\verbs\admin_spread_effect.dm"
 #include "code\modules\admin\verbs\adminhelp.dm"
