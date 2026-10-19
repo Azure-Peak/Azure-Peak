@@ -24,7 +24,7 @@
 #define QUEST_TOWNER_BUILDING_SUPPLIES "Building Supplies"
 #define QUEST_TOWNER_VALUABLES "Valuables"
 #define QUEST_NOTORIOUS_BOUNTY "Notorious Bounty"
-#define QUEST_GM_KILL "Special"
+#define QUEST_GM_KILL "Special Hunt"
 #define QUEST_GM_RECOVERY "Special Recovery"
 
 #define QUEST_CHRONICLE_ORDER_KILL_EASY 1
