@@ -4816,9 +4816,46 @@ As Excaliber."
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = TRUE
+
 // LIMETEASE
 /obj/item/rogueweapon/sword/long/ap/yoshi_estoc
 	name = "Dénouement"
 	desc = "A peculiar take on the more traditional Azurian estoc, fastened to it's crossguard are two small bells and held in place by purple and green tassles.  It's blade is wrapped in cloth, a more personalised addition by the wielder rather than the smith. The bells jingle with every graceful chassé the wielder performs in the dance of lyfe and death.          The curtain call is nigh but the show must go on! Dance for the Gods! Make thy foe bleed and roll the die, their tyme is nigh."
 	icon_state = "yoshi_estoc"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// LIMETEASE
+/obj/item/clothing/cloak/tabard/limeastratatabard
+	name = "Astratan Tabard"
+	desc = "A unique tabard adorned with the golden markings of the sun monarch, the wearers of this tabard are often."
+	icon_state = "limeastratatabard"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// LIMETEASE
+/obj/item/clothing/cloak/tabard/limetabard
+	name = "Leathery Tabard"
+	desc = "A warm tabard that's snatched at the waist, inside that leathery coffin is ."
+	icon_state = "limetabard"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// LIMETEASE
+/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm
+	name = "The True Astratan Helmet"
+	desc = "An ornate steel cap, adorned with a firey sun crown. Optionally worn with a coif, this fashionable statement of faith is usually given to astratans who give their nobility up in the sake of faith."
+	item_state = "limeastratahelm"
+	icon_state = "limeastratahelm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, \
+		(HEAD|EARS|HAIR), \
+		(HIDEEARS|HIDEHAIR),\
+		null, \
+		'sound/items/visor.ogg', \
+		null, \
+		UPD_HEAD)

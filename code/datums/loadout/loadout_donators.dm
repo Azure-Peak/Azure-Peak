@@ -1360,3 +1360,19 @@
 	name = "Donator Kit - Xylixian Estoc"
 	path = /obj/item/enchantingkit/weapon/yoshi_estoc
 	ckeywhitelist = list("limetease", "yosheh3") //yosheh3's ckey is Yosheh_3, but in the logic check its checking against yosheh3 so this is a workaround.
+
+/datum/loadout_item/donator/limeastratatabard
+	name = "Donator Item - Astratan Tabard"
+	path = /obj/item/clothing/cloak/tabard/limeastratatabard
+	ckeywhitelist = list("limetease")
+
+
+/datum/loadout_item/donator/limetabard
+	name = "Donator Item - Leathery Tabard"
+	path = /obj/item/clothing/cloak/tabard/limetabard
+	ckeywhitelist = list("limetease")
+
+/datum/loadout_item/donator/limeastratahelm
+	name = "Donator Item - Astratan Helmet"
+	path = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm
+	ckeywhitelist = list("limetease")
