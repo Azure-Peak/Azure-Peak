@@ -296,7 +296,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 		if(istype(Q, /datum/quest/kill))
 			var/datum/quest/kill/KQ = Q
 			threat_bands = KQ.threat_bands_cleared
-		var/lapse_minutes = max(0, round((Q.get_lapse_time() - world.time) / 600, 1))
+		var/lapse_minutes = Q.lapses ? max(0, round((Q.get_lapse_time() - world.time) / 600, 1)) : null
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",

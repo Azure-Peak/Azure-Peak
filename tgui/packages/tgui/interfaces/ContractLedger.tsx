@@ -31,7 +31,7 @@ type Contract = {
   is_towner: BooleanLike;
   is_standing: BooleanLike;
   required_fellowship_size: number;
-  lapse_minutes: number;
+  lapse_minutes: number | null;
 };
 
 type ActiveContract = {
@@ -619,12 +619,14 @@ const ContractCard = (props: { contract: Contract }) => {
         <span className="ContractLedger__CardLabel">Deposit</span>
         <span className="ContractLedger__CardValue">{c.deposit}</span>
       </div>
-      <div className="ContractLedger__CardRow">
-        <span className="ContractLedger__CardLabel">Lapses</span>
-        <span className="ContractLedger__CardValue">
-          {c.lapse_minutes > 0 ? `~${c.lapse_minutes}m` : '<1m'}
-        </span>
-      </div>
+      {c.lapse_minutes !== null && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Lapses</span>
+          <span className="ContractLedger__CardValue">
+            {c.lapse_minutes > 0 ? `~${c.lapse_minutes}m` : '<1m'}
+          </span>
+        </div>
+      )}
       {c.threat_bands > 0 && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">Clears</span>

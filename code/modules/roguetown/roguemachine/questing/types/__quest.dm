@@ -39,6 +39,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/quest_difficulty = QUEST_DIFFICULTY_EASY
 	var/reward_amount = 0
 	var/charges_deposit = TRUE
+	var/lapses = TRUE
 	var/deposit_amount = 0
 	var/complete = FALSE
 
@@ -140,7 +141,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	quest_scroll = scroll
 	quest_scroll_ref = WEAKREF(scroll)
 	scroll.update_quest_text()
-	holder.put_in_hands(scroll)
+	holder?.put_in_hands(scroll)
 	return scroll
 
 /datum/quest/proc/get_lapse_time()

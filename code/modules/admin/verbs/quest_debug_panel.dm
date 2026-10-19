@@ -1,5 +1,12 @@
 GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 
+// Blockade Defense requires a blockade and GM quests require custom variables, this make sure quest debug panel cannot issue them
+GLOBAL_LIST_INIT(quest_debug_unissuable_types, list(
+	QUEST_BLOCKADE_DEFENSE,
+	QUEST_GM_KILL,
+	QUEST_GM_RECOVERY,
+))
+
 /client/proc/cmd_admin_quest_debug_panel()
 	set category = "Debug"
 	set name = "Quest Debug Panel"
@@ -26,7 +33,7 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 /datum/quest_debug_panel/ui_static_data(mob/user)
 	var/list/types = list()
 	for(var/qtype in GLOB.quest_prototypes)
-		if(qtype == QUEST_BLOCKADE_DEFENSE)
+		if(!can_debug_issue(qtype))
 			continue
 		types += qtype
 	var/list/regions = list()
@@ -199,9 +206,12 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 			admin_log_fiscal("admin force completed contract [label]", "Quest Debug Complete")
 	return TRUE
 
+/datum/quest_debug_panel/proc/can_debug_issue(qtype)
+	return GLOB.quest_prototypes[qtype] && !(qtype in GLOB.quest_debug_unissuable_types)
+
 /datum/quest_debug_panel/proc/issue_contract(mob/user, list/params)
 	var/qtype = params["type"]
-	if(!GLOB.quest_prototypes[qtype] || qtype == QUEST_BLOCKADE_DEFENSE)
+	if(!can_debug_issue(qtype))
 		return
 	var/datum/threat_region/TR = params["region"] ? SSregionthreat.get_region(params["region"]) : null
 	var/in_hand = !!params["in_hand"]

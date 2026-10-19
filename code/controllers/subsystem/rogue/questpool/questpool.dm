@@ -166,7 +166,7 @@ SUBSYSTEM_DEF(questpool)
 	var/list/stale = list()
 	var/kill_replacements_needed = 0
 	for(var/datum/quest/Q as anything in pool)
-		if(Q.get_lapse_time() >= world.time)
+		if(!Q.lapses || Q.get_lapse_time() >= world.time)
 			continue
 		stale += Q
 		if(Q.pool_kind == QUEST_POOL_KILL)
@@ -343,6 +343,26 @@ SUBSYSTEM_DEF(questpool)
 	record_issued(TQ)
 	log_event("generate", "towner-[to_hand ? "hand" : "pool"] [TQ.quest_difficulty] [type] at [TQ.target_spawn_area || "unknown"] (poster [poster.real_name], tier [posting_tier], variety [TQ.effective_variety() || "none"], reward [TQ.reward_amount])")
 	return TQ
+
+/datum/controller/subsystem/questpool/proc/issue_gm_quest(datum/quest/Q, datum/threat_region/TR, reward, turf/floor_turf, mob/admin)
+	if(!Q || !TR)
+		qdel(Q)
+		return null
+	if(!Q.quest_giver_name)
+		Q.quest_giver_name = "The [SSticker.realm_type] of [SSticker.realm_name]"
+	if(!place_quest(Q, TR))
+		return null
+	Q.reward_amount = reward
+	if(floor_turf)
+		Q.bind_new_scroll(null, floor_turf)
+	else
+		add_to_pool(Q)
+	record_issued(Q)
+	log_event("generate", "gm-[floor_turf ? "floor" : "pool"] [Q.quest_type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
+	var/placement = floor_turf ? "the scroll has been dropped on the floor" : "has been added to the nearest ledger"
+	log_admin("[key_name(admin)]: A custom quest ([Q.title]) has been created for [TR.region_name] and [placement]. (reward [reward])")
+	message_admins("[key_name_admin(admin)]: A custom quest ([Q.title]) has been created for [TR.region_name] and [placement]. (reward [reward])")
+	return Q
 
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
 	var/datum/quest/Q = create_issued_quest(type, QUEST_SOURCE_POOL)

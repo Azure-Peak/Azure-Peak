@@ -6,8 +6,14 @@
 	pool_weight = 0
 	rumor_cost = 0
 	eligible_regions = list()
+	lapses = FALSE
 	var/list/quest_mobs = list()
 	var/list/quest_items = list()
+
+/datum/quest/kill/recovery/gm/materialize(obj/effect/landmark/quest_spawner/landmark)
+	. = ..()
+	if(.)
+		message_admins("A custom quest ([title]) has spawned its landmark at [ADMIN_VERBOSEJMP(landmark)].")
 
 /datum/quest/kill/recovery/gm/pick_region_faction_for(datum/threat_region/TR)
 	return get_quest_faction(QUEST_FACTION_GM)

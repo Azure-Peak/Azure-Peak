@@ -219,6 +219,7 @@
 #define QUEST_SOURCE_DEFENSE "defense"
 #define QUEST_SOURCE_BLOCKADE "blockade"
 #define QUEST_SOURCE_TOWNER "towner"
+#define QUEST_SOURCE_GM "gm"
 
 #define QUEST_DELIVERY_DISTANCE_DIVISOR 8 // Divides the distance for reward calculation
 #define QUEST_DELIVERY_DISTANCE_BONUS 1 // Adds a bonus for longer distances
