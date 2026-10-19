@@ -1,4 +1,0 @@
-author: "racobio"
-delete-after: True
-changes:
-  - bugfix: "fixed pathing on two specific donator staff pathing"
