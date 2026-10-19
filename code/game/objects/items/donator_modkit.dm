@@ -1737,3 +1737,8 @@
 	)
 	result_item = /obj/item/rogueweapon/sword/long/ap/yoshi_estoc
 
+/obj/item/enchantingkit/limeastratahelm
+	name = "The True Astratan Helmet"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of an Astratan Helmet."
+	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm)
+	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm

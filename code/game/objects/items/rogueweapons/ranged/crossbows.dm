@@ -57,6 +57,7 @@
 	obj_flags = UNIQUE_RENAME
 	damfactor = 1.2
 	accfactor = 1.1
+	steady_aim = TRUE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_mechanics_examine(mob/user)
 	. = ..()

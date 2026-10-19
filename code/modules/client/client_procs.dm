@@ -195,6 +195,10 @@ GLOBAL_LIST_EMPTY(respawncounts)
 
 	..()	//redirect to hsrc.Topic()
 
+/client/proc/is_localhost()
+	var/static/list/localhost_addresses = list("127.0.0.1", "::1")
+	return isnull(address) || (address in localhost_addresses)
+
 /client/proc/view_stats()
 	set name = "View Chronicle"
 	set category = "OOC"
@@ -336,8 +340,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			else
 				new /datum/admins(autorank, ckey)
 	if(CONFIG_GET(flag/enable_localhost_rank) && !connecting_admin)
-		var/localhost_addresses = list("127.0.0.1", "::1")
-		if(isnull(address) || (address in localhost_addresses))
+		if(is_localhost())
 			var/datum/admin_rank/localhost_rank = new("!localhost!", R_EVERYTHING, R_DBRANKS, R_EVERYTHING) //+EVERYTHING -DBRANKS *EVERYTHING
 			new /datum/admins(localhost_rank, ckey, 1, 1)
 	check_localhost_command_bar()

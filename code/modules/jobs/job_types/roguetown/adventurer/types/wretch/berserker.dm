@@ -38,9 +38,6 @@
 		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
 	)
 
-/datum/outfit/job/roguetown/wretch/berserker
-	var/subclass_selected
-
 /datum/outfit/job/roguetown/wretch/berserker/pre_equip(mob/living/carbon/human/H)
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
 	gloves = /obj/item/clothing/gloves/roguetown/plate

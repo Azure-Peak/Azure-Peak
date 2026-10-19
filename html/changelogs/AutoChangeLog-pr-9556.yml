@@ -1,0 +1,4 @@
+author: "Sutures"
+delete-after: True
+changes:
+  - refactor: "Refactored Spellblade roundstart setup to be gooder."
