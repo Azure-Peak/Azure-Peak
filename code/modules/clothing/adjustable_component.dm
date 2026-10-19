@@ -25,9 +25,6 @@
 /datum/component/adjustable_clothing/Initialize(arg_open_flags, arg_inv_flags, arg_cover_flags, arg_sound, arg_fov, arg_update_flags)
 	if(!isclothing(parent))
 		return COMPONENT_INCOMPATIBLE
-	var/obj/item/clothing/clothing_check = parent
-	if(clothing_check.staged_adjust)
-		return COMPONENT_INCOMPATIBLE
 	RegisterSignal(parent, COMSIG_ATOM_ATTACK_RIGHT, PROC_REF(on_attack_right))
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
@@ -83,6 +80,7 @@
 	H.update_fov_angles()
 
 /datum/component/adjustable_clothing/proc/toggle_open(obj/item/clothing/C, forced = FALSE)
+	C.adjusted_open = TRUE
 	if(!forced)	//We skip this if we're equipping or dropping the item to prevent coverage glitches.
 		if(!(C.body_parts_covered_dynamic == C.body_parts_covered))	//Our coverage does not match.
 			flags_removed = (C.body_parts_covered - C.body_parts_covered_dynamic)	//We store the difference.
@@ -97,6 +95,7 @@
 	toggled_open = TRUE
 
 /datum/component/adjustable_clothing/proc/toggle_closed(obj/item/clothing/C, forced = FALSE)
+	C.adjusted_open = FALSE
 	if(!forced)
 		if(!(C.body_parts_covered_dynamic == flags_open))
 			flags_removed = flags_open - C.body_parts_covered_dynamic
