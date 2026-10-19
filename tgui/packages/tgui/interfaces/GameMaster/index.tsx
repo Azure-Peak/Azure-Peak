@@ -7,7 +7,7 @@ import { ActionStrip } from './ActionStrip';
 import { CreaturePane } from './CreaturePane';
 import { DetailStrip } from './DetailStrip';
 import { FactionRail } from './FactionRail';
-import { QuestDraft } from './QuestDraft';
+import { QuestColumn } from './QuestColumn';
 import type { GameMasterData } from './types';
 
 export function GameMaster() {
@@ -72,7 +72,7 @@ export function GameMaster() {
           </Stack.Item>
           {questOpen && (
             <Stack.Item grow style={{ minWidth: 0 }}>
-              <QuestDraft />
+              <QuestColumn />
             </Stack.Item>
           )}
         </Stack>

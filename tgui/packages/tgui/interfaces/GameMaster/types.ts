@@ -1,5 +1,7 @@
 import type { BooleanLike } from 'tgui-core/react';
 
+import type { QuestRow } from '../QuestDebugPanel';
+
 export type WarbandMember = {
   name: string;
   count: number;
@@ -77,9 +79,14 @@ export type QuestStaticData = {
   guild_cut_rate: number;
 };
 
+export type GmQuestRow = QuestRow & {
+  reward: number;
+};
+
 export type GameMasterData = {
   quest_open: BooleanLike;
   quest?: QuestDraftData;
+  gm_quests?: GmQuestRow[];
   quest_static: QuestStaticData;
   selected_view: string;
   pinned_factions: string[];

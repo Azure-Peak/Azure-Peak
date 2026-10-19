@@ -364,6 +364,28 @@ SUBSYSTEM_DEF(questpool)
 	message_admins("[key_name_admin(admin)]: A custom quest ([Q.title]) has been created for [TR.region_name] and [placement]. (reward [reward])")
 	return Q
 
+/datum/controller/subsystem/questpool/proc/withdraw_gm_quest(datum/quest/Q, mob/admin)
+	if(!Q || Q.source != QUEST_SOURCE_GM)
+		return FALSE
+	var/label = Q.get_title() || Q.quest_type
+	var/mob/bearer = Q.quest_receiver_reference?.resolve()
+	if(bearer)
+		to_chat(bearer, span_warning("The contract <b>[label]</b> has been withdrawn by its issuer. The scroll crumbles to dust."))
+	var/obj/item/quest_writ/writ = Q.quest_scroll_ref?.resolve()
+	var/mob/holder = writ ? get(writ, /mob) : null
+	if(holder && holder != bearer)
+		to_chat(holder, span_warning("\The [writ] you carry crumbles to dust. Its issuer has withdrawn the contract."))
+	if(istype(Q, /datum/quest/kill))
+		var/datum/quest/kill/KQ = Q
+		KQ.despawn_live_hunt_mobs()
+	remove_from_pool(Q)
+	record_round_statistic(STATS_CONTRACTS_WITHDRAWN)
+	if(Q.quest_receiver_reference)
+		record_contract_stat(Q, CONTRACT_STAT_WITHDRAWN)
+	log_event("withdraw", "[describe_user(admin)] withdrew [Q.source] [Q.quest_type] \"[label]\"")
+	qdel(Q)
+	return TRUE
+
 /datum/controller/subsystem/questpool/proc/generate_one(type, datum/threat_region/preferred_region, is_replacement = FALSE)
 	var/datum/quest/Q = create_issued_quest(type, QUEST_SOURCE_POOL)
 	if(!Q)

@@ -165,6 +165,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 	data["quest_open"] = quest_open
 	if(quest_open)
 		data["quest"] = quest_ui_data()
+		data["gm_quests"] = gm_quest_rows()
 
 	return data
 

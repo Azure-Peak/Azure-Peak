@@ -231,6 +231,40 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 	data["levy_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	return data
 
+/datum/game_master/proc/gm_quest_rows()
+	. = list()
+	for(var/datum/quest/Q as anything in SSquestpool.pool | get_scroll_quests())
+		if(QDELETED(Q) || Q.source != QUEST_SOURCE_GM)
+			continue
+		var/list/row = GLOB.quest_debug_panel.quest_row(Q)
+		row["reward"] = Q.reward_amount
+		. += list(row)
+
+/datum/game_master/proc/locate_gm_quest(ref)
+	var/datum/quest/Q = locate(ref)
+	if(!istype(Q) || QDELETED(Q) || Q.source != QUEST_SOURCE_GM)
+		return null
+	return Q
+
+/datum/game_master/proc/gm_quest_act(action, datum/quest/Q, mob/user)
+	var/label = "[Q.quest_type] ([Q.get_title()])"
+	switch(action)
+		if("quest_gm_jump")
+			var/turf/T = GLOB.quest_debug_panel.get_jump_turf(Q)
+			if(!T)
+				to_chat(user, span_warning("That contract has nothing to jump to."))
+				return
+			user.forceMove(T)
+			admin_log_fiscal("admin jumped to contract [label]", "GM Quest Jump")
+		if("quest_gm_complete")
+			if(Q.complete)
+				return
+			Q.force_complete()
+			admin_log_fiscal("admin force completed contract [label]", "GM Quest Complete")
+		if("quest_gm_withdraw")
+			if(SSquestpool.withdraw_gm_quest(Q, user))
+				admin_log_fiscal("admin withdrew contract [label]", "GM Quest Withdraw")
+
 /datum/game_master/proc/quest_add_selected(count)
 	var/datum/gm_quest_draft/draft = get_quest_draft()
 	if(selected_view == GM_VIEW_WARBAND)
@@ -269,6 +303,10 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 			QDEL_NULL(quest_draft)
 		if("quest_post")
 			post_gm_quest(user)
+		if("quest_gm_jump", "quest_gm_complete", "quest_gm_withdraw")
+			var/datum/quest/Q = locate_gm_quest(params["ref"])
+			if(Q)
+				gm_quest_act(action, Q, user)
 	return TRUE
 
 /datum/game_master/proc/post_gm_quest(mob/user)

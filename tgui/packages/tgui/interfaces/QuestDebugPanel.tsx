@@ -12,7 +12,7 @@ import {
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
-type QuestRow = {
+export type QuestRow = {
   ref: string;
   type: string;
   title: string;
@@ -37,7 +37,7 @@ type Data = {
   hoard_type: string;
 };
 
-const STATUS_COLORS: Record<QuestRow['status'], string> = {
+export const STATUS_COLORS: Record<QuestRow['status'], string> = {
   pool: 'label',
   unclaimed: 'label',
   active: 'good',
@@ -45,7 +45,7 @@ const STATUS_COLORS: Record<QuestRow['status'], string> = {
   failed: 'bad',
 };
 
-const STATUS_LABELS: Record<QuestRow['status'], string> = {
+export const STATUS_LABELS: Record<QuestRow['status'], string> = {
   pool: 'on ledger',
   unclaimed: 'unclaimed',
   active: 'active',
@@ -55,7 +55,7 @@ const STATUS_LABELS: Record<QuestRow['status'], string> = {
 
 const ANY_REGION = '';
 
-const formatSeconds = (seconds: number) =>
+export const formatSeconds = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 
 export const QuestDebugPanel = () => {
