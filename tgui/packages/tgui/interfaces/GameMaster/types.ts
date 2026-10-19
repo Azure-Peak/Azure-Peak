@@ -36,6 +36,8 @@ export type QuestDraftData = {
   kind: string;
   title: string;
   description: string;
+  group_word: string;
+  foe_name: string;
   reward: number;
   threat_bands: number;
   region: string | null;
@@ -57,6 +59,9 @@ export type QuestDraftData = {
 };
 
 export type QuestStaticData = {
+  default_group_word: string;
+  default_foe_name: string;
+  foe_len: number;
   kill_kind: string;
   recovery_kind: string;
   destinations: QuestItemResult[];

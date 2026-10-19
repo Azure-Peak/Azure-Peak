@@ -10,6 +10,8 @@
 	var/list/quest_mobs = list()
 	var/list/quest_items = list()
 	var/objective_text
+	var/group_word
+	var/foe_name
 
 /datum/quest/kill/recovery/gm/get_objective_text()
 	return objective_text || ..()
@@ -20,7 +22,7 @@
 		message_admins("A custom quest ([title]) has spawned its landmark at [ADMIN_VERBOSEJMP(landmark)].")
 
 /datum/quest/kill/recovery/gm/pick_region_faction_for(datum/threat_region/TR)
-	return get_quest_faction(QUEST_FACTION_GM)
+	return new /datum/quest_faction/gm(group_word, foe_name)
 
 /datum/quest/kill/recovery/gm/pick_shipment()
 	target_delivery_location = override_destination

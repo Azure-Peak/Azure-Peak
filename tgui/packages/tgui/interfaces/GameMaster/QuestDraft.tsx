@@ -6,6 +6,7 @@ import {
   LabeledList,
   NumberInput,
   Section,
+  Stack,
   TextArea,
 } from 'tgui-core/components';
 
@@ -118,6 +119,35 @@ export function QuestDraft() {
               setField('description', value);
             }}
           />
+        </LabeledList.Item>
+        <LabeledList.Item label="Foes">
+          <Stack align="center">
+            <Stack.Item basis="30%">
+              <Input
+                fluid
+                expensive
+                maxLength={quest_static.foe_len}
+                placeholder={quest_static.default_group_word}
+                value={quest.group_word}
+                onChange={(value) => {
+                  setField('group_word', value);
+                }}
+              />
+            </Stack.Item>
+            <Stack.Item color="label">of</Stack.Item>
+            <Stack.Item grow>
+              <Input
+                fluid
+                expensive
+                maxLength={quest_static.foe_len}
+                placeholder={quest_static.default_foe_name}
+                value={quest.foe_name}
+                onChange={(value) => {
+                  setField('foe_name', value);
+                }}
+              />
+            </Stack.Item>
+          </Stack>
         </LabeledList.Item>
         <LabeledList.Item
           label="Region"

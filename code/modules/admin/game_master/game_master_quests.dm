@@ -23,7 +23,11 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 	for(var/area/area_type as anything in GLOB.gm_quest_destinations)
 		destinations += list(list("path" = "[area_type]", "name" = initial(area_type.name)))
 	var/datum/quest/proto = GLOB.quest_prototypes[QUEST_GM_KILL]
+	var/datum/quest_faction/gm_faction = get_quest_faction(QUEST_FACTION_GM)
 	return list(
+		"default_group_word" = gm_faction?.group_word,
+		"default_foe_name" = gm_faction?.name_plural,
+		"foe_len" = MAX_NAME_LEN,
 		"kill_kind" = QUEST_GM_KILL,
 		"recovery_kind" = QUEST_GM_RECOVERY,
 		"destinations" = destinations,
@@ -43,6 +47,8 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 	var/quest_type = QUEST_GM_KILL
 	var/title = ""
 	var/description = ""
+	var/group_word = ""
+	var/foe_name = ""
 	var/reward = GM_QUEST_DEFAULT_REWARD
 	var/threat_bands = 1
 	var/region
@@ -87,6 +93,10 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 			title = clean_text(value, GM_QUEST_TITLE_LEN)
 		if("description")
 			description = clean_text(replacetext("[value]", "\n", " "), GM_QUEST_DESCRIPTION_LEN)
+		if("group_word")
+			group_word = clean_text(value, MAX_NAME_LEN)
+		if("foe_name")
+			foe_name = clean_text(value, MAX_NAME_LEN)
 		if("reward")
 			reward = clamp(round(text2num(value) || 0), 0, GM_QUEST_MAX_REWARD)
 		if("threat_bands")
@@ -150,10 +160,14 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 		var/datum/quest/kill/gm/kill_quest = Q
 		kill_quest.quest_mobs = mob_list
 		kill_quest.objective_text = description
+		kill_quest.group_word = group_word
+		kill_quest.foe_name = foe_name
 	else if(istype(Q, /datum/quest/kill/recovery/gm))
 		var/datum/quest/kill/recovery/gm/recovery_quest = Q
 		recovery_quest.quest_mobs = mob_list
 		recovery_quest.objective_text = description
+		recovery_quest.group_word = group_word
+		recovery_quest.foe_name = foe_name
 		recovery_quest.quest_items = items.Copy()
 		recovery_quest.shipment_name = shipment_name
 		recovery_quest.override_destination = destination
@@ -185,6 +199,8 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 		"kind" = quest_type,
 		"title" = title,
 		"description" = description,
+		"group_word" = group_word,
+		"foe_name" = foe_name,
 		"reward" = reward,
 		"threat_bands" = threat_bands,
 		"region" = region,

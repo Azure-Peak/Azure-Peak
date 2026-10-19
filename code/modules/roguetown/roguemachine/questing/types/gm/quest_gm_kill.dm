@@ -5,6 +5,8 @@
 	lapses = FALSE
 	var/list/quest_mobs = list()
 	var/objective_text
+	var/group_word
+	var/foe_name
 
 /datum/quest/kill/gm/get_objective_text()
 	return objective_text || "Eliminate dire threats."
@@ -15,7 +17,7 @@
 		message_admins("A custom quest ([title]) has spawned its landmark at [ADMIN_VERBOSEJMP(landmark)].")
 
 /datum/quest/kill/gm/pick_region_faction_for(datum/threat_region/TR)
-	return get_quest_faction(QUEST_FACTION_GM)
+	return new /datum/quest_faction/gm(group_word, foe_name)
 
 /datum/quest/kill/gm/estimate_mob_count()
 	return max(length(quest_mobs), 1)
