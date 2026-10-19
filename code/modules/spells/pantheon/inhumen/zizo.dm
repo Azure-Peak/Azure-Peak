@@ -556,12 +556,12 @@
 
 	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver
 	if(isdullahan(user) && path_choice == "Unlife")
-		to_chat(user, span_boldwarning("I already harbor some aspect of unlyfe, this rituos would not end well for me, considering my current state."))
+		to_chat(user, span_boldwarning("I already harbor some aspect of unlyfe from being a Reverent, this path of the lesser work would not end well for me."))
 		return FALSE
 
 	//constructs are made of metal, what flesh to turn to faith?
 	if(isconstruct(user) && path_choice == "Unlife")
-		to_chat(user, span_boldwarning("I lack flesh to sacrifice, lyfe to give. I am already an artifice, a construct; only Progress from here remains for me."))
+		to_chat(user, span_boldwarning("I lack flesh to sacrifice, lyfe to give. I am already an artifice, a construct; only Progress through the lesser work remains for me."))
 		return FALSE
 
 	user.visible_message(span_boldwarning("[user] throws back [user.p_their()] head, arcyne energy crackling across [user.p_their()] body!"))
