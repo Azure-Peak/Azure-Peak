@@ -1,6 +1,6 @@
 /datum/quest/kill/recovery/towner/missing_runner
 	quest_type = QUEST_TOWNER_MISSING_RUNNER
-	parcel_label = "recovered fun supplies"
+	parcel_label = "recovered contraband"
 	posting_label = "A Missing Runner"
 	posting_blurb = "A supply runner has gone missing. Hire hands to track them down and get back what they were carrying."
 	postable_advclasses = list(
@@ -25,27 +25,27 @@
 	)
 	varieties = list(
 		"drugs" = list(
-			"label" = "Drugs",
+			"label" = "Medicines",
 			"blurb" = "A collection of mind and body altering substances.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
 					list("path" = /obj/item/reagent_containers/powder/moondust, "min" = 1, "max" = 2, "noun" = "moondust"),
 					list("path" = /obj/item/reagent_containers/powder/ozium, "min" = 3, "max" = 5, "noun" = "ozium"),
 					list("path" = /obj/item/reagent_containers/powder/spice, "min" = 2, "max" = 4, "noun" = "spice"),
-					list("path" = /obj/item/reagent_containers/powder/starsugar, "min" = 2, "max" = 4, "noun" = "spice"),
+					list("path" = /obj/item/reagent_containers/powder/starsugar, "min" = 2, "max" = 4, "noun" = "starsugar"),
 					list("path" = /obj/item/reagent_containers/powder/herozium, "min" = 1, "max" = 2, "noun" = "herozium"),
 				),
 				TOWNER_POSTING_TIER_HARD = list(
 					list("path" = /obj/item/reagent_containers/powder/moondust_purest, "min" = 3, "max" = 5, "noun" = "pure moondust"),
 					list("path" = /obj/item/reagent_containers/powder/ozium, "min" = 5, "max" = 7, "noun" = "ozium"),
 					list("path" = /obj/item/reagent_containers/powder/spice, "min" = 4, "max" = 6, "noun" = "spice"),
-					list("path" = /obj/item/reagent_containers/powder/starsugar, "min" = 4, "max" = 6, "noun" = "spice"),
+					list("path" = /obj/item/reagent_containers/powder/starsugar, "min" = 4, "max" = 6, "noun" = "starsugar"),
 					list("path" = /obj/item/reagent_containers/powder/herozium, "min" = 3, "max" = 5, "noun" = "herozium"),
 				),
 			),
 		),
 		"booze" = list(
-			"label" = "Booze",
+			"label" = "Spirits",
 			"blurb" = "A selection of potent spirits and brews.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
@@ -74,12 +74,12 @@
 	return "A Runner Gone Missing"
 
 /datum/quest/kill/recovery/towner/missing_runner/get_objective_text()
-	return "Get revenge and carry the package back to [quest_giver_name || "the client"] or put it into the nearest HERMES."
+	return "Run down the thieves and carry the package back to [quest_giver_name || "the client"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/missing_runner/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"
 	var/raiders = faction ? faction.name_plural : "brigands"
-	return "[quest_giver_name || "The client"]'s runner was taken by [raiders] on the road within [region]. They call for hands to get their stuff back."
+	return "[quest_giver_name || "The client"]'s runner was taken by [raiders] on the road within [region]. They call for hands to get their goods back."
 
 /datum/quest/kill/recovery/towner/missing_runner/get_parcel_desc()
 	return "A parcel magickally sealed for [quest_giver_name]. Only they can open it."

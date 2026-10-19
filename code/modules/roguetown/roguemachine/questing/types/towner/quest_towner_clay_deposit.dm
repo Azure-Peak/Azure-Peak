@@ -18,7 +18,7 @@
 	)
 	varieties = list(
 		"clay" = list(
-			"label" = "Pottering Materials",
+			"label" = "Pottery Materials",
 			"blurb" = "A large deposit of clay, alongside some glass and coal.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(

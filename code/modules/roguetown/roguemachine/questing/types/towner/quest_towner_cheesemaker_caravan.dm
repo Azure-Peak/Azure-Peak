@@ -1,7 +1,7 @@
 /datum/quest/kill/recovery/towner/cheesemaker_caravan
 	quest_type = QUEST_TOWNER_CHEESEMAKER_CARAVAN
 	parcel_label = "recovered cheesemaking supplies"
-	posting_label = "Cheesed Off"
+	posting_label = "A Cheesemaker's Caravan"
 	posting_blurb = "Beasts have hounded a cheesemaker's caravan. Hire hands to secure the caravan and bring them home."
 	postable_advclasses = list(
 		/datum/advclass/cheesemaker,
@@ -18,7 +18,7 @@
 	varieties = list(
 		"cheesemaker" = list(
 			"label" = "Cheesemaking Supplies",
-			"blurb" = "A supply of butter and milk for brewing cheese.",
+			"blurb" = "A supply of butter and milk for making cheese.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
 					list("path" = /obj/item/reagent_containers/powder/salt, "min" = 12, "max" = 16, "noun" = "salt"),
@@ -29,7 +29,7 @@
 					list("path" = /obj/item/reagent_containers/powder/salt, "min" = 20, "max" = 24, "noun" = "salt"),
 					list("path" = /obj/item/reagent_containers/glass/bottle/waterskin/milk, "min" = 5, "max" = 8, "noun" = "skins of milk"),
 					list("path" = /obj/item/reagent_containers/food/snacks/butter, "min" = 5, "max" = 8, "noun" = "butter"),
-					list("path" = /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel, "min" = 1, "max" = 2, "noun" = "cheese wheel"),
+					list("path" = /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel, "min" = 1, "max" = 2, "noun" = "cheese wheels"),
 				),
 			),
 		),

@@ -23,12 +23,12 @@
 			"blurb" = "A supply of hides and furs for leatherworking.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
-					list("path" = /obj/item/natural/hide/cured, "min" = 12, "max" = 16, "noun" = "cured hide"),
+					list("path" = /obj/item/natural/hide/cured, "min" = 12, "max" = 16, "noun" = "cured hides"),
 					list("path" = /obj/item/natural/fur, "min" = 11, "max" = 15, "noun" = "fur"),
 					list("path" = /obj/item/reagent_containers/food/snacks/tallow, "min" = 3, "max" = 5, "noun" = "tallow"),
 				),
 				TOWNER_POSTING_TIER_HARD = list(
-					list("path" = /obj/item/natural/hide/cured, "min" = 18, "max" = 24, "noun" = "cured hide"),
+					list("path" = /obj/item/natural/hide/cured, "min" = 18, "max" = 24, "noun" = "cured hides"),
 					list("path" = /obj/item/natural/fur, "min" = 18, "max" = 24, "noun" = "fur"),
 					list("path" = /obj/item/reagent_containers/food/snacks/tallow, "min" = 6, "max" = 10, "noun" = "tallow"),
 					list("path" = /obj/item/natural/fur/direbear, "min" = 1, "max" = 3, "noun" = "dire bear fur"),

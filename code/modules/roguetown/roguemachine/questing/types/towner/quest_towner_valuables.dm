@@ -6,7 +6,7 @@
 /datum/quest/kill/recovery/towner/noble_trinket
 	quest_type = QUEST_TOWNER_VALUABLES
 	parcel_label = "recovered trinkets"
-	posting_label = "The Personal Valuables"
+	posting_label = "Personal Valuables"
 	posting_blurb = "Your valuables have been lost, taken by brigands! Hire hands to get your revenge, and your belongings back."
 	postable_advclasses = list(
 		/datum/advclass/councillor/herald,
@@ -48,7 +48,7 @@
 	varieties = list(
 		"heirloom" = list(
 			"label" = "Heirloom",
-			"blurb" = "An irreplacable family heirloom.",
+			"blurb" = "An irreplaceable family heirloom.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
 					list("path" = /obj/item/clothing/neck/roguetown/ornateamulet/noble, "min" = 1, "max" = 1, "noun" = "heirloom amulet"),
@@ -56,7 +56,7 @@
 				),
 				TOWNER_POSTING_TIER_HARD = list(
 					list("path" = /obj/item/clothing/ring/diamond, "min" = 1, "max" = 1, "noun" = "valuable heirloom ring"),
-					list("path" = /obj/item/roguestatue/gold, "min" = 1, "max" = 2, "noun" = "golden statuette"),
+					list("path" = /obj/item/roguestatue/gold, "min" = 1, "max" = 2, "noun" = "golden statuettes"),
 				),
 			),
 		),
@@ -80,7 +80,7 @@
 		),
 		"coin" = list(
 			"label" = "Coin",
-			"blurb" = "Stolen Coin.",
+			"blurb" = "Stolen coin.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
 					list("path" = /obj/item/roguecoin/gold/virtuepile, "min" = 1, "max" = 1, "noun" = "gold pile"),
@@ -96,10 +96,10 @@
 			"blurb" = "Stolen documents containing compromising information.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
-					list("path" = /obj/item/paper/scroll/fake_evidence, "min" = 1, "max" = 1, "noun" = "Document"),
+					list("path" = /obj/item/paper/scroll/fake_evidence, "min" = 1, "max" = 1, "noun" = "document"),
 				),
 				TOWNER_POSTING_TIER_HARD = list(
-					list("path" = /obj/item/paper/scroll/fake_evidence, "min" = 1, "max" = 1, "noun" = "Document"),
+					list("path" = /obj/item/paper/scroll/fake_evidence, "min" = 1, "max" = 1, "noun" = "document"),
 				),
 			),
 		),
@@ -113,7 +113,7 @@
 	return "Missing Valuables"
 
 /datum/quest/kill/recovery/towner/noble_trinket/get_objective_text()
-	return "Clear the wreck and carry the package back to [quest_giver_name || "the noble"] or put it into the nearest HERMES."
+	return "Run down the thieves and carry the package back to [quest_giver_name || "the noble"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/noble_trinket/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"

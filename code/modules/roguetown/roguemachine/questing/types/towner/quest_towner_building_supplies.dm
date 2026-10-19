@@ -2,7 +2,7 @@
 	quest_type = QUEST_TOWNER_BUILDING_SUPPLIES
 	parcel_label = "recovered building supplies"
 	posting_label = "A Stash of Building Supplies"
-	posting_blurb = "We have discovered a stash of building supplies, in a dangerous area. Hire hands to secure the site and recover the materials."
+	posting_blurb = "A stash of building supplies has been discovered in a dangerous area. Hire hands to secure the site and recover the materials."
 	postable_advclasses = list(
 		/datum/advclass/guildmaster,
 		/datum/advclass/woodworker,
@@ -24,19 +24,19 @@
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
 					list("path" = /obj/item/grown/log/tree/small, "min" = 12, "max" = 16, "noun" = "wood"),
-					list("path" = /obj/item/natural/wood/plank, "min" = 10, "max" = 12, "noun" = "plank"),
+					list("path" = /obj/item/natural/wood/plank, "min" = 10, "max" = 12, "noun" = "planks"),
 					list("path" = /obj/item/natural/stone, "min" = 16, "max" = 20, "noun" = "stone"),
-					list("path" = /obj/item/natural/stoneblock, "min" = 10, "max" = 12, "noun" = "stone"),
-					list("path" = /obj/item/ingot/iron, "min" = 2, "max" = 4, "noun" = "iron ingot"),
+					list("path" = /obj/item/natural/stoneblock, "min" = 10, "max" = 12, "noun" = "stone blocks"),
+					list("path" = /obj/item/ingot/iron, "min" = 2, "max" = 4, "noun" = "iron ingots"),
 					list("path" = /obj/item/rogueore/coal, "min" = 2, "max" = 4, "noun" = "coal"),
 				),
 				TOWNER_POSTING_TIER_HARD = list(
 					list("path" = /obj/item/grown/log/tree/small, "min" = 20, "max" = 24, "noun" = "wood"),
-					list("path" = /obj/item/natural/wood/plank, "min" = 20, "max" = 24, "noun" = "plank"),
+					list("path" = /obj/item/natural/wood/plank, "min" = 20, "max" = 24, "noun" = "planks"),
 					list("path" = /obj/item/natural/stone, "min" = 30, "max" = 35, "noun" = "stone"),
-					list("path" = /obj/item/natural/stoneblock, "min" = 20, "max" = 24, "noun" = "stone"),
-					list("path" = /obj/item/construction/nail, "min" = 6, "max" = 10, "noun" = "nail"),
-					list("path" = /obj/item/ingot/iron, "min" = 4, "max" = 8, "noun" = "iron ingot"),
+					list("path" = /obj/item/natural/stoneblock, "min" = 20, "max" = 24, "noun" = "stone blocks"),
+					list("path" = /obj/item/construction/nail, "min" = 6, "max" = 10, "noun" = "nails"),
+					list("path" = /obj/item/ingot/iron, "min" = 4, "max" = 8, "noun" = "iron ingots"),
 					list("path" = /obj/item/rogueore/coal, "min" = 4, "max" = 8, "noun" = "coal"),
 				),
 			),
@@ -51,7 +51,7 @@
 	return "A Stash of Building Supplies"
 
 /datum/quest/kill/recovery/towner/building_supplies/get_objective_text()
-	return "Clear the wreck and carry the package back to [quest_giver_name || "the builder"] or put it into the nearest HERMES."
+	return "Secure the site and carry the package back to [quest_giver_name || "the builder"] or put it into the nearest HERMES."
 
 /datum/quest/kill/recovery/towner/building_supplies/get_writ_intro()
 	var/region = target_spawn_area || "the wilds"
