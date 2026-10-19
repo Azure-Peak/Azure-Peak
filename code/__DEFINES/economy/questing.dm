@@ -14,6 +14,14 @@
 #define QUEST_HOARD_RECOVERY "Hoard Recovery"
 #define QUEST_TOWNER_SMITH_CARAVAN "Smith Caravan"
 #define QUEST_TOWNER_MINER_OREVEIN "Ore Vein"
+#define QUEST_TOWNER_CLINIC_CARAVAN "Clinic Caravan"
+#define QUEST_TOWNER_MISSING_RUNNER "Missing Runner"
+#define QUEST_TOWNER_TAILOR_CARAVAN "Tailor Caravan"
+#define QUEST_TOWNER_CLAY_DEPOSIT "Clay Deposit"
+#define QUEST_TOWNER_FOOD_CARAVAN "Food Caravan"
+#define QUEST_TOWNER_CHEESEMAKER_CARAVAN "Cheesemaker Caravan"
+#define QUEST_TOWNER_BUILDING_SUPPLIES "Building Supplies"
+#define QUEST_TOWNER_VALUABLES "Valuables"
 #define QUEST_NOTORIOUS_BOUNTY "Notorious Bounty"
 
 #define QUEST_CHRONICLE_ORDER_KILL_EASY 1
