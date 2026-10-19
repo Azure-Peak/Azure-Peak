@@ -166,7 +166,7 @@
 // After a quest reroll is generated it is locked for this long to prevent regen
 #define QUEST_LANDMARK_COOLDOWN (5 MINUTES)
 
-#define QUEST_KILL_HUNT_TIMER (20 MINUTES)
+#define QUEST_KILL_HUNT_TIMER (15 MINUTES)
 // Measured as the time deducted from the timer
 #define QUEST_KILL_HUNT_WARN_EARLY (2 MINUTES)
 #define QUEST_KILL_HUNT_WARN_FINAL (30 SECONDS)
