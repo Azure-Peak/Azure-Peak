@@ -15,6 +15,7 @@
 	tp_budget = QUEST_TP_BUDGET_NOTORIOUS_GOONS
 	threat_bands_cleared = QUEST_BANDS_NOTORIOUS
 	required_fellowship_size = 2
+	hunt_duration = NOTORIOUS_BOUNTY_HUNT_TIMER
 	var/boss_name
 	var/datum/weakref/boss_ref
 	var/turf/leash_origin
@@ -25,24 +26,68 @@
 	var/hunter_marks_seeded = FALSE
 	var/hunt_engaged = FALSE
 	var/boss_paid = FALSE
+	var/takeover_resolved = FALSE
+	var/hunt_tick_id
+	var/party_down_since = 0
 
 /datum/quest/kill/notorious_bounty/Destroy()
+	stop_hunt_tick()
 	clear_hunter_marks()
 	clear_boss_marker()
 	return ..()
 
 /datum/quest/kill/notorious_bounty/mark_complete()
 	..()
+	stop_hunt_tick()
 	clear_hunter_marks()
 	clear_boss_marker()
 
-/datum/quest/kill/notorious_bounty/on_hunt_timeout()
-	if(complete)
-		return ..()
+/datum/quest/kill/notorious_bounty/on_first_pop()
+	. = ..()
+	if(complete || hunt_tick_id)
+		return
+	hunt_tick_id = addtimer(CALLBACK(src, PROC_REF(hunt_tick)), NOTORIOUS_BOUNTY_HUNT_TICK, TIMER_STOPPABLE | TIMER_LOOP)
+
+/datum/quest/kill/notorious_bounty/fail_hunt(message)
+	if(complete || failed)
+		return
+	stop_hunt_tick()
 	pay_out_boss(boss_ref?.resolve())
 	succour_fallen_hunters()
 	despawn_gang()
 	return ..()
+
+/datum/quest/kill/notorious_bounty/proc/stop_hunt_tick()
+	if(!hunt_tick_id)
+		return
+	deltimer(hunt_tick_id)
+	hunt_tick_id = null
+
+/datum/quest/kill/notorious_bounty/proc/hunt_tick()
+	if(complete || failed)
+		stop_hunt_tick()
+		return
+	var/mob/living/boss = boss_ref?.resolve()
+	if(!QDELETED(boss) && boss.client)
+		leash_boss(boss)
+		refresh_hunter_marks()
+	check_hunt_engaged(boss)
+	check_party_wipe()
+
+/datum/quest/kill/notorious_bounty/proc/check_party_wipe()
+	var/list/party = get_hunting_party()
+	if(!length(party))
+		return
+	for(var/mob/living/M as anything in party)
+		if(M.stat == CONSCIOUS && !M.mind?.has_antag_datum(/datum/antagonist/zombie))
+			party_down_since = 0
+			return
+	if(!party_down_since)
+		party_down_since = world.time
+	if(world.time - party_down_since < NOTORIOUS_BOUNTY_PARTY_DOWN_GRACE)
+		return
+	hunt_engaged = TRUE
+	fail_hunt("<b>The hunting party has fallen.</b> The scroll crumbles to ash in your hand.")
 
 /datum/quest/kill/notorious_bounty/on_claim(mob/user)
 	. = ..()
@@ -82,14 +127,16 @@
 
 
 /datum/quest/kill/notorious_bounty/get_objective_text()
-	return "Slay the target, but be warned! They are rumored to be a truly formidable opponent!"
+	. = "Slay the target, but be warned! They are rumored to be a truly formidable opponent!"
+	if(!takeover_resolved)
+		. += " If a ghost possesses the outlaw, the reward rises by [NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon. If not, their gang arrives and it rises by [NOTORIOUS_BOUNTY_NPC_BONUS]."
 
 /datum/quest/kill/notorious_bounty/get_additional_reward(turf/origin_turf, turf/target_turf)
 	if(!target_mob_type)
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
 	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : tp_budget
-	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT)
+	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT) + (faction?.notorious_bounty_amount || 0)
 
 /datum/quest/kill/notorious_bounty/estimate_mob_count()
 	return 1
@@ -102,9 +149,8 @@
 	spawn_boss(landmark)
 	spawn_goons(landmark, tp_budget, NOTORIOUS_BOUNTY_GOON_CAP)
 	progress_required = 1
-	// Rename after a delay so subtype after_creation() timers don't clobber it.
-	addtimer(CALLBACK(src, PROC_REF(apply_boss_name)), 2 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(preserve_boss_corpse)), 2 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(apply_boss_name)), QUEST_BOSS_RENAME_DELAY)
+	addtimer(CALLBACK(src, PROC_REF(preserve_boss_corpse)), QUEST_BOSS_RENAME_DELAY)
 	return TRUE
 
 /datum/quest/kill/notorious_bounty/proc/spawn_boss(obj/effect/landmark/quest_spawner/landmark)
@@ -113,6 +159,7 @@
 		return
 	grant_darkvision(boss)
 	boss_ref = WEAKREF(boss)
+	leash_origin = get_turf(boss)
 
 /datum/quest/kill/notorious_bounty/proc/spawn_goons(obj/effect/landmark/quest_spawner/landmark, budget, cap, immediate = FALSE)
 	var/saved_budget = tp_budget
@@ -159,6 +206,7 @@
 	var/list/candidates = pollGhostCandidates("A hunting party is after [boss_name || "a notorious outlaw"]. Will you play the outlaw and fight them off?", ROLE_NOTORIOUS_BOUNTY, null, null, NOTORIOUS_BOUNTY_POLL_TIME, POLL_IGNORE_NOTORIOUS_BOUNTY, poll_width = NOTORIOUS_BOUNTY_POLL_WIDTH, poll_height = NOTORIOUS_BOUNTY_POLL_HEIGHT)
 	if(QDELETED(boss) || boss.stat == DEAD || boss.client || complete || failed)
 		return
+	takeover_resolved = TRUE
 	// Only true dead mobs (observers, lobby) - a spirit's key belongs to a body elsewhere.
 	var/list/eligible = list()
 	for(var/mob/dead/M in candidates)
@@ -185,7 +233,6 @@
 	boss.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
 	// Signals to hunters that a player has taken the reins.
 	boss.add_filter("notorious_bounty_outline", 1, list("type" = "drop_shadow", "color" = "#ffee00", "size" = 0.1))
-	leash_origin = get_turf(boss)
 	boss.update_sight()
 	refresh_hunter_marks()
 	reward_amount += NOTORIOUS_BOUNTY_PLAYER_BONUS
@@ -201,12 +248,8 @@
 	var/mob/living/party_leader = F?.get_leader()
 	message_admins("[key_name_admin(boss)] has taken over notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]), fighting a fellowship led by [party_leader ? key_name_admin(party_leader) : "an unknown party"].")
 	addtimer(CALLBACK(src, PROC_REF(release_boss)), NOTORIOUS_BOUNTY_CONTROL_TIME)
-	leash_boss()
 
-/datum/quest/kill/notorious_bounty/proc/leash_boss()
-	var/mob/living/boss = boss_ref?.resolve()
-	if(QDELETED(boss))
-		return
+/datum/quest/kill/notorious_bounty/proc/leash_boss(mob/living/boss)
 	if(boss.stat == DEAD)
 		release_dead_boss(boss)
 		return
@@ -214,9 +257,6 @@
 	if(T && leash_origin && (T.z != leash_origin.z || get_dist(T, leash_origin) > NOTORIOUS_BOUNTY_LEASH_RANGE))
 		boss.forceMove(leash_origin)
 		to_chat(boss, span_userdanger("An unknown force drags you back. Stand and fight."))
-	check_hunt_engaged(boss)
-	refresh_hunter_marks()
-	addtimer(CALLBACK(src, PROC_REF(leash_boss)), NOTORIOUS_BOUNTY_LEASH_INTERVAL)
 
 /datum/quest/kill/notorious_bounty/proc/release_boss()
 	var/mob/living/boss = boss_ref?.resolve()

@@ -10,6 +10,7 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/list/boss_mob_types = list()
 	var/list/boss_title_templates = list()
 	var/boss_name_file
+	var/notorious_bounty_amount = 0
 	var/can_blockade = FALSE
 	var/category = FACTION_CAT_HUMANOID
 	var/list/crime_weights

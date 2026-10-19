@@ -7,6 +7,7 @@
 	var/kills_count_progress = TRUE
 	var/objective_verb = "Eliminate"
 	var/failed = FALSE
+	var/hunt_duration = QUEST_KILL_HUNT_TIMER
 	var/hunt_timer_id
 	var/hunt_warn_2m_id
 	var/hunt_warn_30s_id
@@ -29,10 +30,10 @@
 /datum/quest/kill/on_first_pop()
 	if(hunt_timer_id || complete)
 		return
-	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_TIMER, TIMER_STOPPABLE)
-	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_2M)]"), QUEST_KILL_HUNT_WARN_2M, TIMER_STOPPABLE)
-	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_30S)]"), QUEST_KILL_HUNT_WARN_30S, TIMER_STOPPABLE)
-	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(QUEST_KILL_HUNT_TIMER)] to kill them before they scatter and the contract lapses.")
+	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), hunt_duration, TIMER_STOPPABLE)
+	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)]"), hunt_duration - QUEST_KILL_HUNT_WARN_EARLY, TIMER_STOPPABLE)
+	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), hunt_duration - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
+	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(hunt_duration)] to kill them before they scatter and the contract lapses.")
 
 /datum/quest/kill/proc/clear_hunt_timers()
 	if(hunt_timer_id)
@@ -54,9 +55,15 @@
 	if(complete)
 		return
 	hunt_timer_id = null
+	fail_hunt("<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand.")
+
+/datum/quest/kill/proc/fail_hunt(message)
+	if(complete || failed)
+		return
+	clear_hunt_timers()
 	failed = TRUE
 	record_contract_stat(src, CONTRACT_STAT_FAILED)
-	announce_to_bearer("<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand.")
+	announce_to_bearer(message)
 	despawn_live_hunt_mobs()
 	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
@@ -216,7 +223,7 @@
 		new_mob.AddComponent(/datum/component/quest_object/kill, src)
 		add_tracked_atom(new_mob)
 	ADD_TRAIT(new_mob, TRAIT_FRESHSPAWN, "[type]")
-	addtimer(TRAIT_CALLBACK_REMOVE(new_mob, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
+	addtimer(TRAIT_CALLBACK_REMOVE(new_mob, TRAIT_FRESHSPAWN, "[type]"), QUEST_MOB_FRESHSPAWN_TIME)
 	if(spawn_effect)
 		spawn_effect.contained_atom = new_mob
 		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)

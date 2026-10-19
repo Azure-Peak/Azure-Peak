@@ -167,8 +167,12 @@
 #define QUEST_LANDMARK_COOLDOWN (5 MINUTES)
 
 #define QUEST_KILL_HUNT_TIMER (20 MINUTES)
-#define QUEST_KILL_HUNT_WARN_2M (18 MINUTES)
-#define QUEST_KILL_HUNT_WARN_30S (19 MINUTES + 30 SECONDS)
+// Measured as the time deducted from the timer
+#define QUEST_KILL_HUNT_WARN_EARLY (2 MINUTES)
+#define QUEST_KILL_HUNT_WARN_FINAL (30 SECONDS)
+#define QUEST_MOB_FRESHSPAWN_TIME (60 SECONDS)
+// Rename after a delay so subtype after_creation() timers don't override it.
+#define QUEST_BOSS_RENAME_DELAY (2 SECONDS)
 
 #define QUEST_LANDMARK_MAX_LOCK_DURATION (60 MINUTES)
 
@@ -178,15 +182,18 @@
 #define NOTORIOUS_BOUNTY_POLL_HEIGHT 260
 #define NOTORIOUS_BOUNTY_PROX_RANGE 35
 
-#define NOTORIOUS_BOUNTY_CONTROL_TIME (15 MINUTES)
+#define NOTORIOUS_BOUNTY_HUNT_TIMER (12 MINUTES)
+// Must stay below NOTORIOUS_BOUNTY_HUNT_TIMER so the player boss is released and paid before the hunt lapses.
+#define NOTORIOUS_BOUNTY_CONTROL_TIME (10 MINUTES)
 #define NOTORIOUS_BOUNTY_LEASH_RANGE 40
-#define NOTORIOUS_BOUNTY_LEASH_INTERVAL (10 SECONDS)
+#define NOTORIOUS_BOUNTY_HUNT_TICK (10 SECONDS)
+#define NOTORIOUS_BOUNTY_PARTY_DOWN_GRACE (20 SECONDS)
 #define NOTORIOUS_BOUNTY_GOON_CAP 3
 // Extra goons compensate when no ghost answers the poll and the boss stays an NPC.
 #define NOTORIOUS_BOUNTY_REINFORCE_TP 140
 #define NOTORIOUS_BOUNTY_REINFORCE_CAP 7
 // Flat mammon bump when a player assumes the boss - the hunt got harder, the pay follows.
-#define NOTORIOUS_BOUNTY_PLAYER_BONUS 125
+#define NOTORIOUS_BOUNTY_PLAYER_BONUS 250
 #define NOTORIOUS_BOUNTY_NPC_BONUS 60
 
 #define NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH 1

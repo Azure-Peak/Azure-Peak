@@ -191,7 +191,7 @@
 	progress_required += 1
 	if(faction.boss_name_file)
 		wave_boss_name = faction.generate_boss_name()
-		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), 2 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
 
 /datum/quest/kill/blockade_defense/proc/apply_wave_boss_name(datum/weakref/boss_ref, boss_name)
 	var/mob/living/boss = boss_ref?.resolve()

@@ -428,12 +428,16 @@
 		of the standard cut. See <i>The Innkeeper and the Guild</i>.</p>
 
 		<h3>Hunt Timer</h3> <p>Active kill contracts carry a hunt timer of
-		[QUEST_KILL_HUNT_TIMER / 600] minutes, with warnings at
-		[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_2M)] and
-		[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_30S)] left. If
+		[QUEST_KILL_HUNT_TIMER / (1 MINUTES)] minutes, with warnings at
+		[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)] and
+		[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)] left. If
 		the timer runs out, the scroll crumbles and any live wave mobs despawn. This
 		starts when the mobs in question spawn at the target location. Blockade Scrolls
 		use a longer timer for each wave. See <i>Defense and Blockades</i>.</p>
+
+		<p>Notorious Bounties are shorter, at [NOTORIOUS_BOUNTY_HUNT_TIMER / (1 MINUTES)] minutes. They also
+		end early if the whole hunting party is dead or down. When the timer runs out or the party falls,
+		fallen hunters near the outlaw's ground are revived.</p>
 		</div>
 	"}
 
