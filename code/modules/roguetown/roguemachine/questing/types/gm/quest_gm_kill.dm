@@ -4,9 +4,10 @@
 	quest_difficulty = QUEST_DIFFICULTY_SPECIAL
 	lapses = FALSE
 	var/list/quest_mobs = list()
+	var/objective_text
 
 /datum/quest/kill/gm/get_objective_text()
-	return "Eliminate dire threats."
+	return objective_text || "Eliminate dire threats."
 
 /datum/quest/kill/gm/materialize(obj/effect/landmark/quest_spawner/landmark)
 	. = ..()

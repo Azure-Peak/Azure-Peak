@@ -9,6 +9,10 @@
 	lapses = FALSE
 	var/list/quest_mobs = list()
 	var/list/quest_items = list()
+	var/objective_text
+
+/datum/quest/kill/recovery/gm/get_objective_text()
+	return objective_text || ..()
 
 /datum/quest/kill/recovery/gm/materialize(obj/effect/landmark/quest_spawner/landmark)
 	. = ..()

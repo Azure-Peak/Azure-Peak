@@ -359,7 +359,7 @@ SUBSYSTEM_DEF(questpool)
 		add_to_pool(Q)
 	record_issued(Q)
 	log_event("generate", "gm-[floor_turf ? "floor" : "pool"] [Q.quest_type] at [Q.target_spawn_area || "unknown"] (reward [Q.reward_amount])")
-	var/placement = floor_turf ? "the scroll has been dropped on the floor" : "has been added to the nearest ledger"
+	var/placement = floor_turf ? "the scroll has been dropped on the floor" : "has been added to the ledger"
 	log_admin("[key_name(admin)]: A custom quest ([Q.title]) has been created for [TR.region_name] and [placement]. (reward [reward])")
 	message_admins("[key_name_admin(admin)]: A custom quest ([Q.title]) has been created for [TR.region_name] and [placement]. (reward [reward])")
 	return Q

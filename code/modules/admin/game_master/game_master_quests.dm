@@ -24,8 +24,14 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 		destinations += list(list("path" = "[area_type]", "name" = initial(area_type.name)))
 	var/datum/quest/proto = GLOB.quest_prototypes[QUEST_GM_KILL]
 	return list(
-		"kinds" = list(QUEST_GM_KILL, QUEST_GM_RECOVERY),
+		"kill_kind" = QUEST_GM_KILL,
+		"recovery_kind" = QUEST_GM_RECOVERY,
 		"destinations" = destinations,
+		"max_reward" = GM_QUEST_MAX_REWARD,
+		"title_len" = GM_QUEST_TITLE_LEN,
+		"description_len" = GM_QUEST_DESCRIPTION_LEN,
+		"crimes_len" = GM_QUEST_CRIMES_LEN,
+		"kill_objective" = proto?.get_objective_text(),
 		"mob_cap" = QUEST_KILL_MAX_MOBS,
 		"item_cap" = GM_QUEST_MAX_ITEMS,
 		"max_threat_bands" = GM_QUEST_MAX_THREAT_BANDS,
@@ -36,6 +42,7 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 /datum/gm_quest_draft
 	var/quest_type = QUEST_GM_KILL
 	var/title = ""
+	var/description = ""
 	var/reward = GM_QUEST_DEFAULT_REWARD
 	var/threat_bands = 1
 	var/region
@@ -78,6 +85,8 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 				quest_type = value
 		if("title")
 			title = clean_text(value, GM_QUEST_TITLE_LEN)
+		if("description")
+			description = clean_text(replacetext("[value]", "\n", " "), GM_QUEST_DESCRIPTION_LEN)
 		if("reward")
 			reward = clamp(round(text2num(value) || 0), 0, GM_QUEST_MAX_REWARD)
 		if("threat_bands")
@@ -140,9 +149,11 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 	if(istype(Q, /datum/quest/kill/gm))
 		var/datum/quest/kill/gm/kill_quest = Q
 		kill_quest.quest_mobs = mob_list
+		kill_quest.objective_text = description
 	else if(istype(Q, /datum/quest/kill/recovery/gm))
 		var/datum/quest/kill/recovery/gm/recovery_quest = Q
 		recovery_quest.quest_mobs = mob_list
+		recovery_quest.objective_text = description
 		recovery_quest.quest_items = items.Copy()
 		recovery_quest.shipment_name = shipment_name
 		recovery_quest.override_destination = destination
@@ -173,6 +184,7 @@ GLOBAL_LIST_EMPTY(gm_quest_item_index)
 	return list(
 		"kind" = quest_type,
 		"title" = title,
+		"description" = description,
 		"reward" = reward,
 		"threat_bands" = threat_bands,
 		"region" = region,

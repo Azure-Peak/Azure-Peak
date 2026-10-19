@@ -39,7 +39,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 	var/spawn_dust_delete_gear = FALSE
 	var/spawn_spread = TRUE
 	var/spawn_click_intercept = FALSE
-	var/panel_mode = GM_MODE_SPAWN
+	var/quest_open = FALSE
 	var/datum/gm_quest_draft/quest_draft
 
 /datum/game_master/New(client/using_client)
@@ -162,8 +162,8 @@ GLOBAL_LIST_EMPTY(game_masters)
 	data["spawn_filters"] = warband_view ? GLOB.gm_warband_filters : GLOB.gm_spawn_filters
 	data["filter_counts"] = warband_view ? GLOB.gm_warband_filter_counts : GLOB.gm_spawn_filter_counts
 	data["max_pinned"] = GM_MAX_PINNED_FACTIONS
-	data["panel_mode"] = panel_mode
-	if(panel_mode == GM_MODE_QUESTS)
+	data["quest_open"] = quest_open
+	if(quest_open)
 		data["quest"] = quest_ui_data()
 
 	return data
@@ -186,12 +186,10 @@ GLOBAL_LIST_EMPTY(game_masters)
 		return quest_act(action, params, ui.user)
 
 	switch(action)
-		if("set_panel_mode")
-			var/new_mode = params["new_mode"]
-			if(!(new_mode in list(GM_MODE_SPAWN, GM_MODE_QUESTS)))
-				return
-			panel_mode = new_mode
-			reset_click_overrides()
+		if("toggle_quest_drawer")
+			quest_open = !quest_open
+			if(quest_open)
+				reset_click_overrides()
 			return TRUE
 
 		if("set_spawn_count")
