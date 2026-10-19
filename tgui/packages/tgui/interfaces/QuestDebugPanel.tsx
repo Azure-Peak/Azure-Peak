@@ -45,6 +45,14 @@ const STATUS_COLORS: Record<QuestRow['status'], string> = {
   failed: 'bad',
 };
 
+const STATUS_LABELS: Record<QuestRow['status'], string> = {
+  pool: 'on ledger',
+  unclaimed: 'unclaimed',
+  active: 'active',
+  complete: 'complete',
+  failed: 'failed',
+};
+
 const ANY_REGION = '';
 
 const formatSeconds = (seconds: number) =>
@@ -93,18 +101,16 @@ export const QuestDebugPanel = () => {
         >
           {debug_mode ? (
             <NoticeBox danger>
-              Fellowship size and self-issue checks are off for everyone. Turn
-              this off before a live round continues.
+              Fellowship size and self issue checks are off.
             </NoticeBox>
           ) : (
             <Box color="label">
-              When on, fellowship size and self-issue checks are skipped, so one
-              character can post, claim and turn in.
+              Remove the fellowship size and self issue checks.
             </Box>
           )}
         </Section>
 
-        <Section title="Issue contract">
+        <Section title="Issue Contract">
           <Stack wrap align="center">
             <Stack.Item>
               <Dropdown
@@ -152,7 +158,7 @@ export const QuestDebugPanel = () => {
                   })
                 }
               >
-                To my hand
+                In my hand
               </Button>
             </Stack.Item>
             <Stack.Item>
@@ -168,14 +174,14 @@ export const QuestDebugPanel = () => {
                   })
                 }
               >
-                To the board
+                Post on ledger
               </Button>
             </Stack.Item>
           </Stack>
           <Box color="label" mt={1}>
-            Free of charge. Towner postings name you as the poster and pick their
-            own region. Blockade Defense needs a blockade: place one from the
-            Economic Panel and issue it as Steward.
+            No deposit. Towner contracts will make you the poster and pick a
+            random region. Blockade Defense must be issued from the Ledger as a
+            Steward instead.
           </Box>
         </Section>
 
@@ -188,7 +194,7 @@ export const QuestDebugPanel = () => {
               options={[
                 { value: 'open', displayText: 'Open' },
                 { value: 'active', displayText: 'Active' },
-                { value: 'pool', displayText: 'On the board' },
+                { value: 'pool', displayText: 'On the ledger' },
                 { value: 'complete', displayText: 'Complete' },
                 { value: 'failed', displayText: 'Failed' },
                 { value: 'all', displayText: 'All' },
@@ -222,7 +228,7 @@ export const QuestDebugPanel = () => {
                     {q.giver && <Box color="label">by {q.giver}</Box>}
                   </Table.Cell>
                   <Table.Cell color={STATUS_COLORS[q.status]}>
-                    {q.status}
+                    {STATUS_LABELS[q.status]}
                   </Table.Cell>
                   <Table.Cell>
                     {q.progress}
@@ -272,7 +278,7 @@ export const QuestDebugPanel = () => {
                       <Stack.Item>
                         <Button.Confirm
                           icon="check"
-                          tooltip="Force-complete. The holder still turns it in at the Ledger, except blockades, which pay on completion."
+                          tooltip="Force complete the contract. It must be turned in at the Ledger except for blockades."
                           disabled={
                             q.status === 'complete' || q.status === 'failed'
                           }

@@ -3,7 +3,7 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 /client/proc/cmd_admin_quest_debug_panel()
 	set category = "Debug"
 	set name = "Quest Debug Panel"
-	set desc = "Issue, inspect and fast-forward contracts for testing."
+	set desc = "Issue, inspect and complete contracts for testing purpose."
 
 	if(!check_rights(R_ADMIN|R_DEBUG))
 		return
@@ -133,17 +133,17 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 		if(BQ.armed)
 			BQ.armed = FALSE
 			BQ.spawn_wave(1)
-			return "started wave 1"
+			return "admin started wave 1"
 		if(BQ.intermission_timer_id)
 			var/next_wave = BQ.current_wave + 1
 			BQ.clear_wave_timers()
 			BQ.end_intermission(next_wave)
-			return "ended the intermission early (wave [next_wave])"
+			return "admin ended a contract intermission (wave [next_wave])"
 		if(BQ.wave_timer_id)
 			var/wave = BQ.current_wave
 			BQ.clear_wave_timers()
 			BQ.on_wave_timeout(wave)
-			return "fired the wave [wave] timeout"
+			return "admin fired wave [wave] timeout"
 		return null
 	if(istype(Q, /datum/quest/kill))
 		var/datum/quest/kill/KQ = Q
@@ -151,7 +151,7 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 			return null
 		deltimer(KQ.hunt_timer_id)
 		KQ.on_hunt_timeout()
-		return "fired the hunt timeout"
+		return "admin fired hunt timeout"
 	return null
 
 /datum/quest_debug_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -160,7 +160,7 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 	switch(action)
 		if("toggle_debug_mode")
 			SSquestpool.debug_mode = !SSquestpool.debug_mode
-			admin_log_fiscal("turned quest debug mode [SSquestpool.debug_mode ? "ON (fellowship and self-issue gates ignored)" : "OFF"]", "Quest Debug Mode")
+			admin_log_fiscal("turned quest debug mode [SSquestpool.debug_mode ? "ON" : "OFF"]", "Quest Debug Mode")
 			return TRUE
 		if("issue")
 			issue_contract(usr, params)
@@ -177,7 +177,7 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 				to_chat(usr, span_warning("That contract has nothing to jump to."))
 				return TRUE
 			usr.forceMove(T)
-			admin_log_fiscal("jumped to quest [label]", "Quest Debug Jump")
+			admin_log_fiscal("admin jumped to contract [label]", "Quest Debug Jump")
 		if("slay")
 			var/list/targets = get_live_targets(Q)
 			if(!length(targets))
@@ -185,18 +185,18 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 				return TRUE
 			for(var/mob/living/L as anything in targets)
 				L.death()
-			admin_log_fiscal("slew [length(targets)] target(s) of quest [label]", "Quest Debug Slay")
+			admin_log_fiscal("admin killed [length(targets)] target(s) of contract [label]", "Quest Debug Slay")
 		if("skip_timer")
 			var/result = skip_timer(Q)
 			if(!result)
 				to_chat(usr, span_warning("That contract has no timer running."))
 				return TRUE
-			admin_log_fiscal("[result] for quest [label]", "Quest Debug Skip Timer")
+			admin_log_fiscal("[result] for contract [label]", "Quest Debug Skip Timer")
 		if("complete")
 			if(Q.complete)
 				return TRUE
 			Q.force_complete()
-			admin_log_fiscal("force-completed quest [label]", "Quest Debug Complete")
+			admin_log_fiscal("admin force completed contract [label]", "Quest Debug Complete")
 	return TRUE
 
 /datum/quest_debug_panel/proc/issue_contract(mob/user, list/params)
@@ -225,4 +225,4 @@ GLOBAL_DATUM_INIT(quest_debug_panel, /datum/quest_debug_panel, new)
 	if(!Q)
 		to_chat(user, span_warning("No landmark could take a [qtype] contract[TR ? " in [TR.region_name]" : ""]."))
 		return
-	admin_log_fiscal("issued a [qtype] contract ([Q.region || "any region"], [in_hand ? "in hand" : "to the board"])", "Quest Debug Issue")
+	admin_log_fiscal("admin-issued a [qtype] contract ([Q.region || "any region"], [in_hand ? "in hand" : "to the ledger"])", "Quest Debug Issue")
