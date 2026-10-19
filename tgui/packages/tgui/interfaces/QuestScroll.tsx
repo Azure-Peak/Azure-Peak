@@ -118,7 +118,7 @@ const MarginaliaSection = (props: MarginaliaSectionProps) => {
         <div style={marginaliaLine}>
           <i>
             Only {data.issued_by || 'the poster'} can open what you recover -
-            Carry it back to them.
+            Carry it back to them or put it into the nearest HERMES to complete the contract.
           </i>
         </div>
       )}
