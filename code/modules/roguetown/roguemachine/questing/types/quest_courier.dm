@@ -126,7 +126,7 @@
 			/obj/item/alch/viscera,
 			/obj/item/natural/bundle/cloth/bandage/full,
 			/obj/item/reagent_containers/powder/ozium,
-			/datum/supply_pack/rogue/drugs/moondust,
+			/obj/item/reagent_containers/powder/moondust,
 		),
 		/area/rogue/indoors/town = list(
 			/obj/item/ration,
