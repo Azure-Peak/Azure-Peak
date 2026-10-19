@@ -766,12 +766,18 @@
 	smeltresult = /obj/item/ingot/steel
 	smelt_bar_num = 2
 
-
 /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/cleric
 	name = "astrata plumed helmet"
 	desc = "Topped with a magnificent plume, this helmet turns the wearer into a walking beacon of Astrata's wrath. Designed to cut a striking silhouette, it strikes terror into the hearts of nonbelievers from afar."
 	icon_state = "astrataclerichelm"
 	item_state = "astrataclerichelm"
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate
+	name = "psydonic bascinet"
+	desc = "A helmet with a silvered gleam. This particular design's a century out of date - where the hell'd you <i>find</i> it, anyways?"
+	icon_state = "bascinet"
+	item_state = "bascinet"
+	smeltresult = /obj/item/ingot/silver
 
 /obj/item/clothing/head/roguetown/helmet/heavy/ornate/barbute
 	name = "psydonic barbute"
@@ -780,10 +786,9 @@
 	icon_state = "psydonbarbute"
 	item_state = "psydonbarbute"
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
-	adjustable = CANT_CADJUST
 	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL
 
-/obj/item/clothing/head/roguetown/helmet/heavy/ornate
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet
 	name = "psydonic armet"
 	desc = "An ornate helmet, whose visor has been bound shut with blacksteel chains. The Order of Saint Eora often decorates \
 	these armets with flowers - not only as a lucky charm gifted to them by fair maidens and family, but also as a vibrant reminder \
@@ -792,10 +797,9 @@
 	item_state = "psydonarmet"
 	adjustable = CAN_CADJUST
 	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
-	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 1
 
-/obj/item/clothing/head/roguetown/helmet/heavy/ornate/getonmobprop(tag)
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet/getonmobprop(tag)
 	if(tag)
 		switch(tag)
 			if("gen")
@@ -803,12 +807,12 @@
 			if("onbelt")
 				return list("shrink" = 0.32,"sx" = -3,"sy" = -8,"nx" = 6,"ny" = -8,"wx" = -1,"wy" = -8,"ex" = 3,"ey" = -8,"nturn" = 180,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 1,"sflip" = 0,"wflip" = 0,"eflip" = 8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/ornate/ComponentInitialize()
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 
-/obj/item/clothing/head/roguetown/helmet/heavy/ornate/attackby(obj/item/W, mob/living/user, params)
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
 		var/choice = input(user, "Choose a color.", "Orle") as anything in COLOR_MAP + GLOB.pridelist
@@ -833,7 +837,7 @@
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
 
-/obj/item/clothing/head/roguetown/helmet/heavy/ornate/update_icon()
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
@@ -855,16 +859,67 @@
 	that 'happiness has to be fought for.'"
 	icon_state = "psyknight"
 	item_state = "psyknight"
+	adjustable = CAN_CADJUST
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/ComponentInitialize()
+	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), (HIDEEARS|HIDEHAIR), null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Standard helmet
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/feather) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Plume") as anything in COLOR_MAP
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/greatplume
 	name = "psydonic armet with greatplume"
 	desc = "An ornate helmet, whose visor has been bound shut with blacksteel chains. The Order of Saint Eora often decorates \
 	these armets with flowers - not only as a lucky charm gifted to them by fair maidens and family, but also as a vibrant reminder \
 	that 'happiness has to be fought for.' This particular armet has a wider couplet, for accepting greatplumes."
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/greatplume/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/feather) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Greatplume") as anything in COLOR_MAP
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		user.visible_message(span_warning("[user] adds [W] to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_head()
+
+/obj/item/clothing/head/roguetown/helmet/heavy/ornate/knight/greatplume/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[get_detail_state(icon_state)][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm
 	name = "psydonic volfskulle bascinet"
@@ -874,6 +929,7 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/32x40/head.dmi'
 	worn_x_dimension = 32
 	worn_y_dimension = 40
+	adjustable = CAN_CADJUST
 
 /obj/item/clothing/head/roguetown/helmet/heavy/ornate/ordinator
 	name = "ordinator's blessed froggemund"
@@ -887,6 +943,8 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
 	bloody_icon = 'icons/effects/blood64.dmi'
 	smeltresult = /obj/item/ingot/silverblessed
+	adjustable = CAN_CADJUST
+	max_integrity = ARMOR_INT_HELMET_HEAVY_STEEL - ARMOR_INT_HELMET_HEAVY_ADJUSTABLE_PENALTY
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 	var/plumed = FALSE

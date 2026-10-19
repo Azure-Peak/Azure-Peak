@@ -715,3 +715,94 @@
       tab under the Trade and Stockpile menu of the Stewardry's nerve master.
   - qol: Ledger tab has been moved further up the Trade & Stockpile tab list; Trade
       Orders has been made the default tab on the Avisa page of the noticeboards.
+2026-10-18:
+  Blacklist897:
+  - rscadd: More cosmetic options for the nobility virtue
+  - rscadd: The consorts crown now spawns in the dukes bedroom
+  BobProductive:
+  - qol: Instruments no longer announce to everyone around you that you tried uploading
+      a song while the cooldown is still up
+  - bugfix: squire errants now get bolts
+  BurpleBineapple:
+  - rscadd: The training sword/feder now uses TRAIT_LONGSWORDSMAN for master skill.
+      It does not inherit master swordsman intents.
+  KatTheFox:
+  - bugfix: the blind vice now properly spawns you with a blindfold
+  - balance: Mage utility pool costs have been refactored. Powerful spells like mending
+      and campfire are now 3 points; fluff spells like water bolt and magician's stone
+      are 1 point; in-between spells like message and darkvision are 2 points.
+  - balance: Hearthcraft and exowardry minor aspects have been merged. Hex minor aspect
+      now also gets read omen for flavor.
+  - balance: Displacement and Illusion have been merged into one general-evasion minor,
+      so they can't be stacked. Point buy, 3pts, phase is 3, invis 2, then 1pt waterbolt/light/nondetection.
+  - balance: Utility point allotments increased a bit across the board; in general,
+      this means you'll be able to take your old loadout, unless you relied heavily
+      on the "meta" of mending+campfire+mindlink. This also applies to arcpot, which
+      gives 4pts instead of 3.
+  - balance: Arcyne Potential now grants 1 util point to roles with combat trait so
+      it's not entirely useless. With the spell values now properly balanced, this
+      gives them access to exclusively flavor-pick spells like water bolt and fetch,
+      rather than being a free create campfire.
+  Lamasmaster:
+  - bugfix: Tidecleaver having bugged intents
+  - image: New Undivided Dagger sprite
+  Ollanius:
+  - bugfix: The standalone 'oathtaker's crest' decoration should no longer be invisible.
+  OrbisAnima:
+  - code_imp: Keeps consistent the censoring json by removing specific language words
+      (baka, if I am allowed to say doof or stupido as grendel or etruscan, kazenguneses
+      are allowed to say baka.) And ordered the damn file alphabetically so its not
+      a pain to mantain.
+  - rscadd: Adds a craft recipe for small wood logs and an oven to make charcoal.
+  - qol: Allows small logs to fit in a backpack.
+  Quinalion:
+  - qol: Vices can now have choices, just like virtues.
+  - qol: Characters with Bad Eyesight can now choose their glasses, which spawn without
+      replacing existing mask-slot equipment.
+  Ryan180602:
+  - qol: you can now show your horns/frills out of your helm without your hair.
+  WeNeedMorePhoron:
+  - balance: Toned down glimmerwing and hellhound and NPCs when they are ganging on
+      you, but not too much
+  - rscadd: Cleaned up some unused mob attack speed code
+  borneblood:
+  - rscadd: Equipping knuckledusters informs you're now unable to wield weapons.
+  kilozombie:
+  - balance: '[Dun World] Made the church''s kitchen bigger and gave them a rooftop
+      garden. The alms room has been made smaller to fit it.'
+  mumblemancer:
+  - bugfix: hand-based surgery steps, like forcing out bad blood, will now ONLY intentionally
+      fail on strong intent.
+  - admin: annoying voice smite is now a datum/component that will apply on annoying
+      voice smite. can be removed by applying the smite again.
+  nauticall:
+  - bugfix: Patched a linter issue caused by LawsMenu.tsx.
+  radarseas:
+  - code_imp: Lore stuff, summoned skeletons are no longer animated by Avantyne strings
+      (What?), but instead Enochian magicka.
+  - balance: conjured cleric dagger skeletons no longer have Avantyne daggers. Those
+      are now exclusive to heretic spies and zpellblades if they spec into daggers.
+      - its barely much force reduction tbh.
+  twinklover22:
+  - balance: buffed Endure.
+2026-10-19:
+  OMEGATHERION:
+  - bugfix: Masc vaqueros spawn with a saiga
+  Ollanius:
+  - bugfix: Some Psydonic helmets - chiefly, the Greatplumed variants - should no
+      longer have glitched detail states.
+  - code_imp: Psydonic helmets are now forked off of a neutral tether, the unobtainable
+      'Psydonic Bascinet'.
+  borneblood:
+  - bugfix: Fixed an oddity with charged intents being able to have their sfx spammed,
+      despite clickcd.
+  eirenxiv:
+  - balance: changed dobo robe and subtypes to be ARMOR_LEATHER
+  pontifexminimus2:
+  - rscadd: 'Sojourner getting innate mending.
+
+      :cl:'
+  racobio:
+  - bugfix: fixed pathing on two specific donator staff pathing
+  twinklover22:
+  - qol: Couple new weapon options for Routier.

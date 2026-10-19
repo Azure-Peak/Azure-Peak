@@ -172,7 +172,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 6, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
 
-	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 4, "utilities" = 9, "locked_aspects" = list(/datum/magic_aspect/necromancy, /datum/magic_aspect/lesser_necromancy), "post_aspect_spells" = list(/obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo), "ward" = TRUE))
+	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 4, "utilities" = 13, "locked_aspects" = list(/datum/magic_aspect/necromancy, /datum/magic_aspect/lesser_necromancy), "post_aspect_spells" = list(/obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo), "ward" = TRUE))
 	// Give it decent combat stats to make up for loss of 2 extra lives
 
 	H.change_stat(STATKEY_STR, 3)
