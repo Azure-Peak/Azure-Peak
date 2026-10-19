@@ -157,6 +157,8 @@
 	var/forfeited = matched_quest.forfeit_deposit()
 	log_quest(user.ckey, user.mind, user, "Abandon [matched_quest.quest_type]")
 	SSquestpool.mark_abandoned(user, matched_quest, forfeited)
+	var/refund_fraction = matched_quest.has_started() ? REFUND_ON_FAILURE : REFUND_ON_NOT_TAKEN
+	SSquestpool.refund_closed_posting(matched_quest, QUEST_ISSUE_STATUS_ABANDONED, refund_fraction, "Abandoned posting refund", "was abandoned by [user.real_name]")
 	if(forfeited > 0)
 		to_chat(user, span_warning("You abandon the contract and lose your [forfeited] mammon deposit."))
 	else

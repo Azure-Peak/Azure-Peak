@@ -382,12 +382,16 @@
 		</ul>
 
 		<h3>Withdrawal</h3>
-		<p>Tavern staff may withdraw a rumor from the Issued tab of the Ledger. Anyone
-		who can issue defense contracts may withdraw those and blockade scrolls there. A
-		contract can be withdrawn at once while no one has taken it up. Once it is
-		taken, its holder has [QUEST_ISSUER_CANCEL_WINDOW / 600] minutes before it can
-		be withdrawn. It cannot be withdrawn once the contract has begun. The full
-		cost and deposit are returned. A Request's daily slot is not restored.</p>
+		<p>You can withdraw a contracts you posted at Your Postings at the bottom of the Ledger. Anyone
+		may withdraw a contract they posted themselves. Tavern staff may also withdraw any rumor, and anyone who can issue defense contracts may withdraw those and
+		blockade scrolls. A contract can be withdrawn instantly if no one has taken it
+		up. Once it is taken, its holder has [MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / 600]
+		minutes before it can be withdrawn. It cannot be withdrawn once the contract has
+		begun. [REFUND_ON_NOT_TAKEN * 100]% of the cost and the holder's deposit are
+		returned. If a contract fails, [REFUND_ON_FAILURE * 100]% of its cost is
+		returned to whoever paid for it. If its holder abandons it,
+		[REFUND_ON_NOT_TAKEN * 100]% is returned before the work begins and
+		[REFUND_ON_FAILURE * 100]% after. A Request's daily slot is not restored.</p>
 
 		<h3>Signing and Active Cap</h3> <p>Each person may hold up to
 		[QUEST_MAX_ACTIVE_PER_PLAYER] active contracts at a time. Some jobs override
@@ -434,6 +438,10 @@
 		the timer runs out, the scroll crumbles and any live wave mobs despawn. This
 		starts when the mobs in question spawn at the target location. Blockade Scrolls
 		use a longer timer for each wave. See <i>Defense and Blockades</i>.</p>
+
+		<p>Recovery contracts have  a delivery timer of
+		[QUEST_RECOVERY_DELIVERY_TIMER / (1 MINUTES)] minutes once every guardian is
+		slain. If the parcel is not delivered in time, the scroll crumbles and the parcel is lost with the contract refunded.</p>
 
 		<p>Notorious Bounties are shorter, at [NOTORIOUS_BOUNTY_HUNT_TIMER / (1 MINUTES)] minutes. They also
 		end early if the whole hunting party is dead or down. When the timer runs out or the party falls,

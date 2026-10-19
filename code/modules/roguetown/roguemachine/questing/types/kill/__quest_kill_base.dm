@@ -11,6 +11,9 @@
 	var/hunt_timer_id
 	var/hunt_warn_2m_id
 	var/hunt_warn_30s_id
+	var/hunt_timer_label = "Quarry slips away in"
+	var/hunt_warn_text = "before your targets scatter"
+	var/hunt_timeout_text = "<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand."
 
 /datum/quest/kill/Destroy()
 	clear_hunt_timers()
@@ -30,10 +33,14 @@
 /datum/quest/kill/on_first_pop()
 	if(hunt_timer_id || complete)
 		return
-	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), hunt_duration, TIMER_STOPPABLE)
-	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)]"), hunt_duration - QUEST_KILL_HUNT_WARN_EARLY, TIMER_STOPPABLE)
-	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), hunt_duration - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
-	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(hunt_duration)] to kill them before they scatter and the contract lapses.")
+	start_hunt_timer(hunt_duration)
+	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(hunt_duration)] to kill them before they scatter and the contract fails.")
+
+/datum/quest/kill/proc/start_hunt_timer(duration)
+	clear_hunt_timers()
+	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), duration, TIMER_STOPPABLE)
+	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)]"), duration - QUEST_KILL_HUNT_WARN_EARLY, TIMER_STOPPABLE)
+	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), duration - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
 
 /datum/quest/kill/proc/clear_hunt_timers()
 	if(hunt_timer_id)
@@ -49,13 +56,13 @@
 /datum/quest/kill/proc/warn_hunt_time_left(label)
 	if(complete || !hunt_timer_id)
 		return
-	announce_to_bearer("<b>[label] left</b> before your targets scatter.")
+	announce_to_bearer("<b>[label] left</b> [hunt_warn_text].")
 
 /datum/quest/kill/proc/on_hunt_timeout()
 	if(complete)
 		return
 	hunt_timer_id = null
-	fail_hunt("<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand.")
+	fail_hunt(hunt_timeout_text)
 
 /datum/quest/kill/proc/fail_hunt(message)
 	if(complete || failed)
@@ -64,6 +71,7 @@
 	failed = TRUE
 	record_contract_stat(src, CONTRACT_STAT_FAILED)
 	announce_to_bearer(message)
+	SSquestpool.refund_closed_posting(src, QUEST_ISSUE_STATUS_FAILED, REFUND_ON_FAILURE, "Failed posting refund", "failed")
 	despawn_live_hunt_mobs()
 	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
@@ -109,7 +117,7 @@
 	var/left = timeleft(hunt_timer_id)
 	if(left <= 0)
 		return
-	data["hunt_timer_label"] = "Quarry slips away in"
+	data["hunt_timer_label"] = hunt_timer_label
 	data["hunt_timer_seconds"] = round(left / 10)
 
 /datum/quest/kill/get_objective_text()
@@ -173,6 +181,9 @@
 
 /datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
 	return TRUE
+
+/datum/quest/kill/fits_region(datum/threat_region/TR)
+	return !!pick_region_faction_for(TR)
 
 /datum/quest/kill/proc/estimate_mob_count()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)

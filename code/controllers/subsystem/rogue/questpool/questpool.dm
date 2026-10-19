@@ -180,8 +180,8 @@ SUBSYSTEM_DEF(questpool)
 		log_event("reroll", "stale [Q.quest_difficulty] [Q.quest_type]")
 		record_contract_stat(Q, CONTRACT_STAT_LAPSED)
 		record_source_statistic(Q, CONTRACT_STAT_LAPSED)
-		if(Q.source != QUEST_SOURCE_POOL)
-			refund_lapsed_posting(Q)
+		if(refund_closed_posting(Q, QUEST_ISSUE_STATUS_LAPSED, REFUND_ON_NOT_TAKEN, "Lapsed posting refund", "lapsed untaken"))
+			record_round_statistic(STATS_CONTRACTS_LAPSE_REFUNDED)
 		qdel(Q)
 		record_round_statistic(STATS_CONTRACTS_REROLLED)
 	for(var/i in 1 to kill_replacements_needed)
@@ -193,18 +193,18 @@ SUBSYSTEM_DEF(questpool)
 			continue
 		generate_one(type, TR, is_replacement = TRUE)
 
-/datum/controller/subsystem/questpool/proc/refund_lapsed_posting(datum/quest/Q)
+/datum/controller/subsystem/questpool/proc/refund_closed_posting(datum/quest/Q, status, fraction, reason, outcome)
 	var/label = Q.get_title() || Q.quest_type
-	var/refund_text = Q.refund_issuer_funding("Lapsed posting refund")
-	Q.mark_issue_log(QUEST_ISSUE_STATUS_LAPSED, refund_text)
+	var/refund_text = Q.refund_issuer_funding(reason, null, fraction)
+	Q.mark_issue_log(status, refund_text)
 	if(!refund_text)
 		return
-	record_round_statistic(STATS_CONTRACTS_LAPSE_REFUNDED)
-	log_event("lapse_refund", "[Q.source] [Q.quest_type] \"[label]\" by [Q.quest_giver_name || "unknown"] refunded [refund_text]")
-	log_game("Contract posting \"[label]\" ([Q.source], issued by [Q.quest_giver_name || "unknown"]) lapsed untaken - refunded [refund_text].")
+	log_event("[status]_refund", "[Q.source] [Q.quest_type] \"[label]\" by [Q.quest_giver_name || "unknown"] refunded [refund_text]")
+	log_game("Contract posting \"[label]\" ([Q.source], issued by [Q.quest_giver_name || "unknown"]) [outcome] - refunded [refund_text].")
 	var/mob/poster = Q.quest_giver_reference?.resolve()
 	if(poster)
-		to_chat(poster, span_notice("Your posting <b>[label]</b> lapsed untaken. Refunded [refund_text]."))
+		to_chat(poster, span_notice("Your posting <b>[label]</b> [outcome]. Refunded [refund_text]."))
+	return refund_text
 
 /datum/controller/subsystem/questpool/proc/remove_from_pool(datum/quest/Q)
 	if(!(Q in pool))
@@ -222,6 +222,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.issued_day = GLOB.dayspassed
 	if(giver)
 		Q.quest_giver_name = giver.real_name
+		Q.quest_giver_reference = WEAKREF(giver)
 	Q.deposit_amount = Q.calculate_deposit()
 	return Q
 
@@ -333,7 +334,6 @@ SUBSYSTEM_DEF(questpool)
 	TQ.posting_tier = posting_tier
 	TQ.loadout_variety = loadout_variety
 	TQ.quest_difficulty = get_towner_tier_term(posting_tier, "difficulty") || QUEST_DIFFICULTY_EASY
-	TQ.quest_giver_reference = WEAKREF(poster)
 	if(!place_quest(TQ, null))
 		return null
 	if(to_hand)

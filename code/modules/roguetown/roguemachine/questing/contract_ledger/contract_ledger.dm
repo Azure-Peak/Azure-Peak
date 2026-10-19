@@ -38,8 +38,8 @@
 	. += span_info("Heads from <b>contract targets</b> fetch nothing at a HEADEATER, because the contract's reward already covers them. Heads from beasts and brigands you kill outside a contract still sell there.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here. They spend Rumor Points to seed contracts across the realm.")
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
-	. += span_info("You can <b>withdraw</b> any contract or scroll you issued from the Issued tab at any time while no one has taken it. Once someone takes it, you must wait [QUEST_ISSUER_CANCEL_WINDOW / (1 MINUTES)] minutes. You can't withdraw it once the work has begun. The full cost is refunded. Postings that lapse are refunded automatically.")
-	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own coin. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. Only the poster can open what is recovered.")
+	. += span_info("You can <b>withdraw</b> any contract or scroll you posted from Your Postings at any time while no one has taken it. Once someone takes it, you must wait [MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)] minutes. You can't withdraw it once the work has begun. Withdrawing refunds [REFUND_ON_NOT_TAKEN * 100]% of the cost, and so does a posting that lapses untaken. If a contract fails, [REFUND_ON_FAILURE * 100]% is refunded automatically. If its holder abandons it, you get [REFUND_ON_NOT_TAKEN * 100]% back before the work begins and [REFUND_ON_FAILURE * 100]% after.")
+	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. Only the poster can open what is recovered.")
 	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. The reward goes to whoever turns it in. Their levy exemption applies if they have one.")
 	. += span_info("A <b>fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more</b> can put up a stake of <b>[HOARD_RECOVERY_PLEDGE] mammon</b> to call for a <b>Hoard Recovery</b> in a region whose brigand hoard has reached <b>[HOARD_RECOVERY_HOARD_MINIMUM] mammon</b>. It pays the usual blockade reward. The Crown taxes the recovered hoard as <b>Recovered Spoils</b>. Crown officials can also issue a hoard recovery scroll like any other defense scroll.")
 	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon</b>. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b>.")
@@ -51,7 +51,11 @@
 		post_blockade_writ(user, P)
 		return
 	if(istype(P, /obj/item/quest_writ))
-		turn_in_contract(user, P)
+		var/obj/item/quest_writ/writ = P
+		if(writ.assigned_quest?.complete)
+			turn_in_contract(user, writ)
+		else
+			ui_interact(user)
 		return
 	return
 
@@ -142,7 +146,10 @@
 	data["region_delivery_multipliers"] = build_region_delivery_multipliers()
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
 	data["can_admin_complete"] = check_rights_for(user?.client, R_DEBUG) ? TRUE : FALSE
-	data["issuer_cancel_window_minutes"] = QUEST_ISSUER_CANCEL_WINDOW / (1 MINUTES)
+	data["issued"] = build_issued_listing(user)
+	data["issuer_cancel_window_minutes"] = MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)
+	data["refund_on_not_taken_pct"] = REFUND_ON_NOT_TAKEN * 100
+	data["refund_on_failure_pct"] = REFUND_ON_FAILURE * 100
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
 	data["dynamic_role"] = length(dynamic_roles) ? dynamic_roles[1] : null
@@ -154,7 +161,6 @@
 		add_rumor_types(data)
 		data["rumor_destinations"] = build_rumor_destinations()
 		data["rumor_log"] = SStreasury.rumor_log
-		data["rumor_issued"] = build_issued_listing(list(QUEST_SOURCE_RUMOR))
 		data["rumor_lucrative_mult"] = RUMOR_LUCRATIVE_MULT
 	if("steward" in dynamic_roles)
 		data["is_alderman_acting"] = (SScity_assembly?.is_alderman(user) && user.job != "Steward") ? TRUE : FALSE
@@ -172,7 +178,6 @@
 		add_defense_types(data)
 		data["blockade_region_labels"] = build_blockade_region_labels()
 		data["defense_log"] = SStreasury.defense_log
-		data["defense_issued"] = build_issued_listing(list(QUEST_SOURCE_DEFENSE, QUEST_SOURCE_BLOCKADE))
 		data["active_writ_regions"] = build_active_writ_regions()
 		data["bonus_pay_light_mult"] = COMMISSION_BONUS_PAY_LIGHT_MULT
 		data["bonus_pay_full_mult"] = COMMISSION_BONUS_PAY_MULT
@@ -182,6 +187,8 @@
 	if("towner" in dynamic_roles)
 		data["towner_postings"] = build_towner_posting_listing(user)
 		data["towner_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
+		data["towner_active_postings"] = count_active_towner_postings(user)
+		data["towner_max_postings"] = TOWNER_MAX_ACTIVE_POSTINGS
 	return data
 
 GLOBAL_LIST_INIT(crown_authority_roles, list(
@@ -388,8 +395,10 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			return TRUE
 
 /obj/structure/roguemachine/contractledger/proc/can_cancel_issued(mob/user, datum/quest/Q)
-	if(!Q.office_may_withdraw())
+	if(!Q.may_be_withdrawn())
 		return FALSE
+	if(Q.quest_giver_reference?.resolve() == user)
+		return TRUE
 	switch(Q.source)
 		if(QUEST_SOURCE_RUMOR)
 			return (user.job in GLOB.tavern_positions)
@@ -397,13 +406,13 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			return can_commission(user)
 	return FALSE
 
-/obj/structure/roguemachine/contractledger/proc/build_issued_listing(list/sources)
+/obj/structure/roguemachine/contractledger/proc/build_issued_listing(mob/user)
 	var/list/out = list()
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
-		if((Q.source in sources) && Q.office_may_withdraw())
+		if(can_cancel_issued(user, Q))
 			out += list(build_issued_entry(Q, "On the Ledger"))
 	for(var/datum/quest/Q as anything in get_scroll_quests())
-		if(!(Q.source in sources) || !Q.office_may_withdraw())
+		if(!can_cancel_issued(user, Q))
 			continue
 		var/status
 		if(!Q.quest_receiver_reference)

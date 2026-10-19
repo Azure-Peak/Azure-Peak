@@ -352,22 +352,18 @@
 	fail_quest("timeout")
 
 /datum/quest/kill/blockade_defense/proc/fail_quest(reason)
+	fail_hunt("<b>The blockade holds.</b> The scroll smolders and crumbles in your grip.")
+
+/datum/quest/kill/blockade_defense/fail_hunt(message)
 	if(failed || complete)
 		return
-	failed = TRUE
 	clear_wave_timers()
-	announce_to_bearer("<b>The blockade holds.</b> The scroll smolders and crumbles in your grip.")
 	record_round_statistic(STATS_BLOCKADE_CONTRACTS_FAILED, 1)
-	record_contract_stat(src, CONTRACT_STAT_FAILED)
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
-	despawn_live_wave_mobs()
-	quest_scroll?.update_quest_text()
-	var/obj/item/quest_writ/S = quest_scroll
-	if(S && !QDELETED(S))
-		qdel(S)
+	return ..()
 
 /datum/quest/kill/blockade_defense/get_party_size()
 	return max(max_defenders_seen, ..())
@@ -382,15 +378,6 @@
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
 	scom_announce("The [B ? "blockade" : "hoard recovery"] scroll for [ER ? ER.name : region] has been withdrawn.")
-
-/datum/quest/kill/blockade_defense/proc/despawn_live_wave_mobs()
-	for(var/datum/weakref/W in tracked_atoms)
-		var/mob/living/M = W.resolve()
-		if(QDELETED(M))
-			continue
-		if(M.stat == DEAD)
-			continue
-		qdel(M)
 
 /datum/quest/kill/blockade_defense/mark_complete()
 	..()
@@ -454,7 +441,7 @@
 		if(TR.banditry_hoard >= HOARD_RECOVERY_HOARD_MINIMUM && !TR.has_active_blockade())
 			. += TR.region_name
 
-/datum/quest/kill/blockade_defense/hoard_recovery/office_may_withdraw()
+/datum/quest/kill/blockade_defense/hoard_recovery/may_be_withdrawn()
 	return !raised_by_fellowship
 
 /datum/quest/kill/blockade_defense/hoard_recovery/get_title()

@@ -182,7 +182,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 			Q.assigned_quest = null
 			qdel(Q)
 		quest_scroll_ref = null
-		
+
 	return ..()
 
 /datum/quest/proc/add_tracked_atom(atom/movable/to_track)
@@ -263,6 +263,9 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/mark_complete()
 	complete = TRUE
 	quest_scroll?.update_quest_text()
+
+/datum/quest/proc/fits_region(datum/threat_region/TR)
+	return TRUE
 
 /datum/quest/proc/get_defense_regions()
 	. = list()
@@ -422,7 +425,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		return "the work has already begun"
 	if(!quest_receiver_reference)
 		return null
-	var/remaining = last_claimed_at + QUEST_ISSUER_CANCEL_WINDOW - world.time
+	var/remaining = last_claimed_at + MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST - world.time
 	if(remaining > 0)
 		return "its holder has [max(1, round(remaining / (1 MINUTES)))] more minute(s) before it can be withdrawn"
 	return null
@@ -439,24 +442,30 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	for(var/list/source as anything in funding_sources)
 		. += source["amount"]
 
-/datum/quest/proc/describe_issuer_refund()
+/datum/quest/proc/describe_issuer_refund(fraction = REFUND_ON_NOT_TAKEN)
 	var/list/parts = list()
 	for(var/list/source as anything in funding_sources)
 		var/datum/fund/fund = source["fund"]
-		parts += "[source["amount"]]m to [fund.name]"
-	if(funding_rumor_points > 0)
-		parts += "[funding_rumor_points] Rumor Points"
-	if(warrant_consumed > 0)
-		parts += "[warrant_consumed]p to the defense warrant"
+		var/amount = round(source["amount"] * fraction)
+		if(amount > 0)
+			parts += "[amount]m to [fund.name]"
+	var/rumor_points = round(funding_rumor_points * fraction, 0.1)
+	if(rumor_points > 0)
+		parts += "[rumor_points] Rumor Points"
+	var/warrant = round(warrant_consumed * fraction)
+	if(warrant > 0)
+		parts += "[warrant]p to the defense warrant"
 	return english_list(parts, nothing_text = "")
 
-/datum/quest/proc/refund_issuer_funding(reason, mob/actor)
-	. = describe_issuer_refund()
+/datum/quest/proc/refund_issuer_funding(reason, mob/actor, fraction = REFUND_ON_NOT_TAKEN)
+	. = describe_issuer_refund(fraction)
 	var/label = get_title() || quest_type
 	for(var/list/source as anything in funding_sources)
 		var/datum/fund/fund = source["fund"]
 		var/datum/fund/escrow = source["escrow"]
-		var/amount = source["amount"]
+		var/amount = round(source["amount"] * fraction)
+		if(amount <= 0)
+			continue
 		// The escrow side releases the held commitment; the fund side takes back what it committed.
 		// A posting fee the Crown kept as "other receipts" is reversed against that same account.
 		var/escrow_side = (escrow == SStreasury.discretionary_fund) ? LEDGER_CROWN_REV_OTHER : SStreasury.commitment_account(escrow)
@@ -466,13 +475,15 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 			record_round_statistic(STATS_PLEDGE_CONSUMED, -amount)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_REFUNDED, amount)
 	funding_sources = null
-	if(funding_rumor_points > 0)
-		SStreasury.rumor_points += funding_rumor_points
-		record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, -funding_rumor_points)
-		funding_rumor_points = 0
-	if(warrant_consumed > 0)
-		SScity_assembly?.refund_defense(warrant_consumed, actor, "[reason] - [label]")
-		warrant_consumed = 0
+	var/rumor_points = round(funding_rumor_points * fraction, 0.1)
+	if(rumor_points > 0)
+		SStreasury.rumor_points += rumor_points
+		record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, -rumor_points)
+	funding_rumor_points = 0
+	var/warrant = round(warrant_consumed * fraction)
+	if(warrant > 0)
+		SScity_assembly?.refund_defense(warrant, actor, "[reason] - [label]")
+	warrant_consumed = 0
 
 /datum/quest/proc/mark_issue_log(status, refund_text)
 	if(!issue_log_entry)
@@ -483,5 +494,5 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/on_issuer_withdrawn(mob/withdrawer)
 	return
 
-/datum/quest/proc/office_may_withdraw()
+/datum/quest/proc/may_be_withdrawn()
 	return TRUE

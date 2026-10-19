@@ -2,11 +2,7 @@ import { type ReactNode, useState } from 'react';
 
 import { useBackend } from '../backend';
 import { formatRatioPct } from './common/format';
-import {
-  type IssuedContract,
-  IssuedContractsView,
-  issueStatusSuffix,
-} from './ContractLedgerIssued';
+import { issueStatusSuffix, LedgerSubTabBar } from './ContractLedgerIssued';
 
 type DefenseLogEntry = {
   title: string;
@@ -38,8 +34,6 @@ type StewardData = {
   directives_per_day: number;
   directives_issued_today: number;
   is_alderman_acting: number | boolean;
-  defense_issued: IssuedContract[];
-  issuer_cancel_window_minutes: number;
   hoard_recovery_fellowship_min: number;
   blockade_defender_min: number;
   blockade_defender_max: number;
@@ -48,7 +42,7 @@ type StewardData = {
 
 type FundingSource = 'pledge' | 'crown' | 'directive';
 
-type SubTab = 'compose' | 'issued' | 'history';
+type SubTab = 'compose' | 'history';
 const BLOCKADE_TYPE = 'Blockade Defense';
 const HOARD_RECOVERY_TYPE = 'Hoard Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
@@ -108,37 +102,6 @@ const BonusPayOption = (props: {
     <span style={{ fontSize: '10px', color: '#8a7250' }}>{props.sublabel}</span>
   </button>
 );
-
-const SubTabBar = (props: {
-  active: SubTab;
-  onSelect: (t: SubTab) => void;
-  issuedCount: number;
-  historyCount: number;
-}) => {
-  const tabs: { id: SubTab; label: string }[] = [
-    { id: 'compose', label: 'Commission' },
-    { id: 'issued', label: `Issued (${props.issuedCount})` },
-    { id: 'history', label: `History (${props.historyCount})` },
-  ];
-  return (
-    <div className="ContractLedger__InnkeeperSubTabBar">
-      {tabs.map((t) => (
-        <div
-          key={t.id}
-          className={
-            'ContractLedger__InnkeeperSubTab' +
-            (t.id === props.active
-              ? ' ContractLedger__InnkeeperSubTab--active'
-              : '')
-          }
-          onClick={() => props.onSelect(t.id)}
-        >
-          {t.label}
-        </div>
-      ))}
-    </div>
-  );
-};
 
 const HistoryView = (props: { log: DefenseLogEntry[] }) => {
   if (!props.log.length) {
@@ -570,7 +533,7 @@ const ComposeView = () => {
       {regionHasActiveWrit && (
         <div className="ContractLedger__InnkeeperFlavor">
           A scroll is already in circulation for {region}. It can be withdrawn
-          from the Issued tab.
+          from Your Postings.
         </div>
       )}
 
@@ -632,21 +595,19 @@ export const StewardDefensePanel = () => {
         )}
       </div>
 
-      <SubTabBar
+      <LedgerSubTabBar
+        tabs={[
+          { id: 'compose', label: 'Commission' },
+          {
+            id: 'history',
+            label: `History (${(data.defense_log || []).length})`,
+          },
+        ]}
         active={subTab}
         onSelect={setSubTab}
-        issuedCount={(data.defense_issued || []).length}
-        historyCount={(data.defense_log || []).length}
       />
 
       {subTab === 'compose' && <ComposeView />}
-      {subTab === 'issued' && (
-        <IssuedContractsView
-          entries={data.defense_issued || []}
-          windowMinutes={data.issuer_cancel_window_minutes}
-          emptyText="No contracts are in circulation."
-        />
-      )}
       {subTab === 'history' && <HistoryView log={data.defense_log || []} />}
     </div>
   );

@@ -36,6 +36,13 @@
 		return TRUE
 	return user_can_post_crown_towner(user)
 
+/proc/count_active_towner_postings(mob/user)
+	. = 0
+	var/datum/weakref/user_ref = WEAKREF(user)
+	for(var/datum/quest/Q as anything in SSquestpool.pool + get_scroll_quests())
+		if(Q.source == QUEST_SOURCE_TOWNER && Q.quest_giver_reference == user_ref && !Q.complete)
+			.++
+
 /proc/towner_advclass_names(list/paths)
 	var/list/out = list()
 	for(var/path in paths)
@@ -130,6 +137,10 @@
 
 	if(!user_can_post_towner_type(poster, chosen_type))
 		to_chat(poster, span_warning("Your trade does not post that contract."))
+		return
+
+	if(count_active_towner_postings(poster) >= TOWNER_MAX_ACTIVE_POSTINGS)
+		to_chat(poster, span_warning("You already have [TOWNER_MAX_ACTIVE_POSTINGS] postings out. Withdraw one or wait for one to be fulfilled."))
 		return
 
 	var/tier = params["tier"]

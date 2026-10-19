@@ -60,7 +60,7 @@
 			<li><b>Defense contracts</b> - paid from the Pledge or the Treasury. They are
 			posted to the Ledger or handed to a holder.</li> <li><b>Blockade Scrolls</b> -
 			given to a fellowship of at least [BLOCKADE_FELLOWSHIP_REQUIREMENT]. It may
-			be withdrawn from the Issued tab like any defense contract.</li>
+			be withdrawn from Your Postings like any defense contract.</li>
 			<li><b>Requests</b> - the Steward alone may post up to
 			[COMMISSION_REQUESTS_PER_DAY] unpaid contracts a day.</li>
 		</ul>
@@ -112,7 +112,7 @@
 		<p>Multiple blockades may exist at once. One scroll per blockade at a time.
 		Blockades are rolled only at roundstart and never spawn during the round.</p>
 
-		<p>A Blockade Scroll may be withdrawn from the Issued tab until the first wave
+		<p>A Blockade Scroll may be withdrawn from Your Postings until the first wave
 		begins. The waves begin when the holder arrives. Each wave must be broken
 		within [BLOCKADE_WAVE_TIMER_DS / 600] minutes of spawning. There are warnings
 		at [DisplayTimeText(BLOCKADE_WAVE_WARN_FIRST)], [DisplayTimeText(BLOCKADE_WAVE_WARN_SECOND)] and

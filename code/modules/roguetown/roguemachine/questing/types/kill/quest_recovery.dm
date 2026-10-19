@@ -159,8 +159,11 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		return
 	if(any_guardians_alive())
 		return
-	clear_hunt_timers()
-	announce_to_bearer("<b>The guardians are slain.</b> Recover the parcel and deliver it at your leisure.")
+	hunt_timer_label = "Parcel must be delivered in"
+	hunt_warn_text = "to deliver the parcel"
+	hunt_timeout_text = "<b>The parcel was not delivered in time.</b> The scroll crumbles to ash in your hand."
+	start_hunt_timer(QUEST_RECOVERY_DELIVERY_TIMER)
+	announce_to_bearer("<b>The guardians are slain.</b> You have [DisplayTimeText(QUEST_RECOVERY_DELIVERY_TIMER)] to deliver the parcel.")
 
 /datum/quest/kill/recovery/proc/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
 	var/list/bundle = list()
