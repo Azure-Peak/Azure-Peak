@@ -306,8 +306,7 @@ export const TownerPostingPanel = () => {
         </span>
       </div>
       <div style={blurbStyle}>
-        Post a contract paid with your own mammon. Whoever takes it must bring
-        the goods to you. Only you can open them.
+        Post a contract paid with your own mammons for goods useful to you. The taker must bring it to you or send it through a HERMES. Only you can open the package.
       </div>
 
       {yourPostings.length > 0 && (
