@@ -8,7 +8,7 @@
 
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
-	advclass_cat_rolls = list(CTAG_CONSORT = 20)
+	advclass_cat_rolls = list(CTAG_SUITOR = 20)
 	tutorial = "You are a noble from a foreign house who has travelled to Azure Peak in order to win favour of the court nobles and secure a political ally for your house. Competition is fierce, and it seems you're not the only one vying for the courts favor..."
 
 	outfit = /datum/outfit/job/roguetown/suitor
@@ -36,7 +36,7 @@
 	name = "Envoy"
 	tutorial = "You're a graceful envoy - fluent in flattery, courtesy, and calculated sincerity. You'll charm your way into the heart of any noble, winning favor with warmth, wit, and well-timed smiles."
 	outfit = /datum/outfit/job/roguetown/suitor/envoy
-	category_tags = list(CTAG_CONSORT)
+	category_tags = list(CTAG_SUITOR)
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
 	subclass_stats = list(
 		STATKEY_INT = 3,
@@ -95,7 +95,7 @@
 	tutorial = "You're a silver-tongued snake - master of whispers, poison, and perfectly timed accidents. Why win hearts when you can twist them? With rivals removed and secrets weaponized, they will learn your value."
 	outfit = /datum/outfit/job/roguetown/suitor/schemer
 	traits_applied = list(TRAIT_CICERONE, TRAIT_LIGHT_STEP, TRAIT_ALCHEMY_EXPERT)
-	category_tags = list(CTAG_CONSORT)
+	category_tags = list(CTAG_SUITOR)
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 1,
@@ -148,7 +148,7 @@
 	name = "Gallant"
 	tutorial = "With honor and the flash of your steel, you meet your rivals in open challenge. You'll win favour not with whispers or warmth, but with roaring applause."
 	outfit = /datum/outfit/job/roguetown/suitor/gallant
-	category_tags = list(CTAG_CONSORT)
+	category_tags = list(CTAG_SUITOR)
 	traits_applied = list(TRAIT_MEDIUMARMOR) //now that i think about it, its funny if they lose their mind as people die (also consistant w/ astrocrat adv)
 	subclass_stats = list(
 		STATKEY_STR = 2,

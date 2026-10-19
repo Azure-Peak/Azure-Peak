@@ -5,6 +5,7 @@
 	posting_blurb = "A stash of building supplies has been discovered in a dangerous area. Hire hands to secure the site and recover the materials."
 	postable_advclasses = list(
 		/datum/advclass/guildmaster,
+		/datum/advclass/guildsman/architect,
 		/datum/advclass/woodworker,
 		/datum/advclass/homesteader,
 	)

@@ -25,6 +25,7 @@
 		/datum/advclass/suitor/envoy,
 		/datum/advclass/suitor/gallant,
 		/datum/advclass/suitor/schemer,
+		/datum/advclass/consort,
 	)
 	eligible_regions = list(
 		THREAT_REGION_MOUNT_DECAP,

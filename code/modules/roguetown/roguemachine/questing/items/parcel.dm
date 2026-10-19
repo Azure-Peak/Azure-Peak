@@ -50,7 +50,7 @@
 		/area/rogue/indoors/town/church = list("Bishop", "Acolyte", "Templar", "Sexton", "Martyr"),
 		/area/rogue/indoors/town/dwarfin = list("Guildmaster", "Guildsman"),
 		/area/rogue/indoors/town/shop = list("Merchant", "Shophand"),
-		/area/rogue/indoors/town/manor = list("Councillor", "Seneschal", "Servant", "Hand", "Knight", "Prince", "Marshal", "Steward", "Clerk", "Grand Duke"),
+		/area/rogue/indoors/town/manor = GLOB.noble_positions + GLOB.courtier_positions + GLOB.retinue_positions + list("Consort Dowager", "Servant"),
 		/area/rogue/indoors/town/magician = list("Court Magician", "Magicians Associate", "Archivist"),
 		/area/rogue/indoors/town/physician = list("Head Physician", "Apothecary"),
 		/area/rogue/indoors/town = list("Guild Handler")

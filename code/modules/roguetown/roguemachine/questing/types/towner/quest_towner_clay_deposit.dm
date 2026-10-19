@@ -6,6 +6,7 @@
 	postable_advclasses = list(
 		/datum/advclass/potter,
 		/datum/advclass/guildmaster,
+		/datum/advclass/guildsman/architect,
 	)
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
