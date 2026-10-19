@@ -2435,7 +2435,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_one)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_one, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_ONE]"
@@ -2445,7 +2445,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_two)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_two, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_TWO]"
@@ -2455,7 +2455,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_three)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_three, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_THREE]"
