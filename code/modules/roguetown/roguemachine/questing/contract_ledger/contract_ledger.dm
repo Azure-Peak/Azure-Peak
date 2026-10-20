@@ -145,7 +145,7 @@
 	data["region_tp_multipliers"] = build_region_tp_multipliers()
 	data["region_delivery_multipliers"] = build_region_delivery_multipliers()
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
-	data["can_admin_complete"] = check_rights_for(user?.client, R_DEBUG) ? TRUE : FALSE
+	data["can_admin_complete"] = can_admin_complete(user)
 	data["issued"] = build_issued_listing(user)
 	data["issuer_cancel_window_minutes"] = MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)
 	data["refund_on_not_taken_pct"] = REFUND_ON_NOT_TAKEN * 100

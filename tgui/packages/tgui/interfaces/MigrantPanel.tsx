@@ -59,6 +59,7 @@ type WaveInfo = {
   triumph_threshold: number;
   my_contribution: number;
   maxed: BooleanLike;
+  forming: BooleanLike;
   locked_until: number;
   queued: BooleanLike;
   min_optional_fills: number;
@@ -377,18 +378,23 @@ const PurchaseCard = (props: { wave: WaveInfo; now: number; act: ActFn }) => {
         >
           {wave.name}
           {!!wave.maxed && <span style={{ color: INK_FAINT }}> (maxed)</span>}
-          {ready && !wave.maxed && (
+          {!wave.maxed && !!wave.forming && (
+            <span style={{ color: SEAL_AMBER }}> (forming)</span>
+          )}
+          {ready && !wave.maxed && !wave.forming && (
             <span style={{ color: SEAL_AMBER }}> (ready!)</span>
           )}
         </span>
         <span
           style={{ fontSize: '11px', color: ready ? SEAL_AMBER : INK_SOFT }}
         >
-          {ready
-            ? 'summoning…'
-            : locked
-              ? `locked ${fmtClock(wave.locked_until - now)}`
-              : `${wave.roll_chance}%`}
+          {wave.forming
+            ? 'forming'
+            : ready
+              ? 'summoning…'
+              : locked
+                ? `locked ${fmtClock(wave.locked_until - now)}`
+                : `${wave.roll_chance}%`}
         </span>
       </div>
       <div style={{ minHeight: '32px' }}>
@@ -416,11 +422,11 @@ const PurchaseCard = (props: { wave: WaveInfo; now: number; act: ActFn }) => {
         <button
           type="button"
           style={{
-            ...inkButtonStyle({ disabled: !!wave.maxed }),
+            ...inkButtonStyle({ disabled: !!wave.maxed || !!wave.forming }),
             padding: '1px 8px',
             fontSize: '11px',
           }}
-          disabled={!!wave.maxed}
+          disabled={!!wave.maxed || !!wave.forming}
           onClick={() => act('buy_wave', { wave: wave.ref })}
         >
           Pledge

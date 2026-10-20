@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - admin: "The contract force complete button should only show on localhost, and is super obvious it is an admin only button now"

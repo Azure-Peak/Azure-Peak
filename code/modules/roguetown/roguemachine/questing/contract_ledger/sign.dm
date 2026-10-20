@@ -130,8 +130,14 @@
 		else
 			say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
 
+/obj/structure/roguemachine/contractledger/proc/can_admin_complete(mob/user)
+	var/client/C = user?.client
+	if(!C || !check_rights_for(C, R_DEBUG))
+		return FALSE
+	return isnull(C.address) || (C.address in list("127.0.0.1", "::1"))
+
 /obj/structure/roguemachine/contractledger/proc/admin_complete_by_ref(mob/user, ref)
-	if(!ref || !check_rights_for(user?.client, R_DEBUG))
+	if(!ref || !can_admin_complete(user))
 		return
 	var/datum/quest/matched_quest = locate(ref) in get_held_quests(user)
 	if(!matched_quest)
