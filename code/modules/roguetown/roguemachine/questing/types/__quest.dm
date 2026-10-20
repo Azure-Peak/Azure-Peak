@@ -298,6 +298,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	if(!spawn_turf)
 		return null
 	var/obj/item/parcel/parcel = new parcel_type(spawn_turf)
+	parcel.preserves_contents = TRUE
 	for(var/path in bundle)
 		for(var/i in 1 to bundle[path])
 			parcel.contained_items += new path(parcel)

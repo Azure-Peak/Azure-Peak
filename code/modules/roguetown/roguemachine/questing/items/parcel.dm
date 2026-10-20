@@ -11,6 +11,7 @@
 	var/list/allowed_jobs = list()
 	var/delivery_area_type
 	var/sealed_noun = "parcel"
+	var/preserves_contents = FALSE
 	var/datum/proximity_monitor/proximity_monitor
 
 /obj/item/parcel/Initialize(mapload)
