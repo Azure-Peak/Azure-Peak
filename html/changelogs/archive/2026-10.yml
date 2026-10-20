@@ -806,3 +806,49 @@
   - bugfix: fixed pathing on two specific donator staff pathing
   twinklover22:
   - qol: Couple new weapon options for Routier.
+2026-10-20:
+  BobProductive:
+  - bugfix: fixes book kits, people can make books again!
+  FreeStylaLT:
+  - balance: Maneaters integrity now scale with the victim's FOR and is now more randomized.
+  Guidesu:
+  - bugfix: Taur layering
+  Ketrai:
+  - rscadd: Incomplete vision quests have their parchment refunded at the dream pool
+      at a 5 minute interval.
+  Ollanius:
+  - code_imp: Ornate Gothic Armor-type elixirs are now pathed as "gothicornatecuirass"
+      and not "gothicpsydoniccuirass". It's recommended to double-check your loadout,
+      just in case this repathing has swapped your previously-saved elixir choice
+      around.
+  - rscadd: Adds the Psydonic Gothic Armor elixir, which replaces the original filepath.
+  - bugfix: Psydonic Chestplates should now properly transform when elixir-ed.
+  - bugfix: Minor typo corrections.
+  Ryan180602:
+  - rscadd: extra blood effects.
+  - balance: projectile subzone aim cap is gone.
+  - balance: bows/xbows don't contend with subzone aim malus anymore.
+  Sutures:
+  - refactor: Refactored Spellblade roundstart setup to be gooder.
+  WeNeedMorePhoron:
+  - bugfix: Booting the game on localhost should let you bypass minimum character
+      for FT and OOC notes again
+  - bugfix: 'Furtive Fortissimo''s description now describes what light steps does
+      better: ```My steps becomes light. I can sneak much quicker now, traps won''t
+      affect me and caltrops have less effect.```'
+  - bugfix: Fixes a bug where having light steps would make you unable to notice people
+      sneaking on another Z level, instead of the other way round
+  - bugfix: Items spawned by loot spawner will also have town property stamp
+  - admin: The contract force complete button should only show on localhost, and is
+      super obvious it is an admin only button now
+  - bugfix: You cannot pledge to a wave that is already rolled or forming by other
+      means (For example pledge to a Heartfelt wave when there's already one) to avoid
+      issues
+  - bugfix: Prevent race condition with saddleborn allowing you to summon infinite
+      mount
+  azurexautyr-arch:
+  - bugfix: fixed two donor items
+  - rscadd: three donor items, one of which is open to all donators -- Leathery Tabard
+  mumblemancer:
+  - rscadd: the courier and recovery system's rewards have been expanded by a fair
+      amount! keep an eye on any packages coming in for FRESH LOOT DROPS!

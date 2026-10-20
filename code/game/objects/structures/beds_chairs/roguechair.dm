@@ -380,6 +380,26 @@
 			if("wielded")
 				return list("shrink" = 0.7, "sx" = -12, "sy" = -8, "nx" = 13, "ny" = -7, "wx" = -10, "wy" = -5, "ex" = 7, "ey" = -6, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0, "nturn" = -13, "sturn" = 110, "wturn" = -60, "eturn" = -30, "nflip" = 1, "sflip" = 1, "wflip" = 8, "eflip" = 1)
 
+/obj/structure/chair/stool/rogue/stone
+	name = "stone stool"
+	desc = "A sturdy seat carved from stone."
+	icon_state = "stonestool"
+	item_chair = /obj/item/chair/stool/bar/rogue/stone
+	max_integrity = 300
+	destroy_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
+	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
+	debris = list(/obj/item/natural/stone = 1)
+
+/obj/item/chair/stool/bar/rogue/stone
+	name = "stone stool"
+	desc = "A sturdy seat carved from stone."
+	icon_state = "stonestoolfallen"
+	origin_type = /obj/structure/chair/stool/rogue/stone
+	max_integrity = 300
+	hitsound = 'sound/combat/hits/onstone/wallhit.ogg'
+	destroy_sound = 'sound/combat/hits/onstone/stonedeath.ogg'
+	attacked_sound = list('sound/combat/hits/onstone/wallhit.ogg', 'sound/combat/hits/onstone/wallhit2.ogg', 'sound/combat/hits/onstone/wallhit3.ogg')
+
 /obj/structure/bed/rogue
 	icon_state = "bed"
 	icon = 'icons/roguetown/misc/beds.dmi'
