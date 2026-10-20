@@ -183,24 +183,19 @@
 		poster_account = SStreasury.get_account(poster)
 		if(!poster_account)
 			return
-		if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "townsfolk contract posting ([chosen_type])", LEDGER_CITIZEN_CONTRACT_PAID, LEDGER_CROWN_REV_OTHER))
+		if(!SStreasury.burn(poster_account, cost, "townsfolk contract posting ([chosen_type])", LEDGER_CITIZEN_CONTRACT_PAID))
 			to_chat(poster, span_warning("The payment didn't go through."))
 			return
 
 	var/to_hand = (params["delivery"] == "hand")
 	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand, variety)
+	var/datum/fund/paying_fund = crown_funded ? SStreasury.discretionary_fund : poster_account
 	if(!dispatched)
-		if(crown_funded)
-			SStreasury.mint(SStreasury.discretionary_fund, cost, "Crown townsfolk contract refund (issue failure)", null, LEDGER_CROWN_EXP_CONTRACTS)
-		else
-			SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "townsfolk contract posting refund (issue failure)", LEDGER_CROWN_REV_OTHER, LEDGER_CITIZEN_CONTRACT_PAID)
+		SStreasury.mint(paying_fund, cost, "townsfolk contract posting refund (issue failure)", null, SStreasury.commitment_account(paying_fund))
 		to_chat(poster, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
 
-	if(crown_funded)
-		dispatched.add_funding(SStreasury.discretionary_fund, cost)
-	else
-		dispatched.add_funding(poster_account, cost, SStreasury.discretionary_fund)
+	dispatched.add_funding(paying_fund, cost)
 
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/purse_note = crown_funded ? " Paid from the Treasury." : ""

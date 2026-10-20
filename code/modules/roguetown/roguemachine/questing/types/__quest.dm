@@ -431,12 +431,12 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		return "its holder has [max(1, round(remaining / (1 MINUTES)))] more minute(s) before it can be withdrawn"
 	return null
 
-/datum/quest/proc/add_funding(datum/fund/fund, amount, datum/fund/escrow)
+/datum/quest/proc/add_funding(datum/fund/fund, amount)
 	if(!fund || amount <= 0)
 		return
 	if(!funding_sources)
 		funding_sources = list()
-	funding_sources += list(list("fund" = fund, "amount" = amount, "escrow" = escrow))
+	funding_sources += list(list("fund" = fund, "amount" = amount))
 
 /datum/quest/proc/get_funding_total()
 	. = 0
@@ -463,15 +463,10 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/label = get_title() || quest_type
 	for(var/list/source as anything in funding_sources)
 		var/datum/fund/fund = source["fund"]
-		var/datum/fund/escrow = source["escrow"]
 		var/amount = round(source["amount"] * fraction)
 		if(amount <= 0)
 			continue
-		// The escrow side releases the held commitment; the fund side takes back what it committed.
-		// A posting fee the Crown kept as "other receipts" is reversed against that same account.
-		var/escrow_side = (escrow == SStreasury.discretionary_fund) ? LEDGER_CROWN_REV_OTHER : SStreasury.commitment_account(escrow)
-		if(!escrow || !SStreasury.transfer(escrow, fund, amount, "[reason] - [label]", escrow_side, SStreasury.commitment_account(fund)))
-			SStreasury.mint(fund, amount, "[reason] - [label]", null, SStreasury.commitment_account(fund))
+		SStreasury.mint(fund, amount, "[reason] - [label]", null, SStreasury.commitment_account(fund))
 		if(fund == SStreasury.burgher_pledge_fund)
 			record_round_statistic(STATS_PLEDGE_CONSUMED, -amount)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_REFUNDED, amount)
