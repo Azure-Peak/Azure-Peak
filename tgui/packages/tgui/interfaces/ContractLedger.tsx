@@ -765,12 +765,12 @@ const ActiveStrip = (props: {
             )}
             {!!data.can_admin_complete && (
               <Button
-                icon="check"
-                color="good"
-                tooltip="Admin: force-complete and turn in this contract."
+                icon="user-shield"
+                color="purple"
+                tooltip="Admin (localhost only): force-complete and turn in this contract."
                 onClick={() => act('admin_complete', { ref: a.ref })}
               >
-                Complete
+                [ADMIN] Force Complete
               </Button>
             )}
           </div>

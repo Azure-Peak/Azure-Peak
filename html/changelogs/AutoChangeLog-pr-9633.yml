@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Incomplete vision quests have their parchment refunded at the dream pool at a 5 minute interval."

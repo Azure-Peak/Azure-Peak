@@ -1,0 +1,7 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - code_imp: "Ornate Gothic Armor-type elixirs are now pathed as \"gothicornatecuirass\" and not \"gothicpsydoniccuirass\". It's recommended to double-check your loadout, just in case this repathing has swapped your previously-saved elixir choice around."
+  - rscadd: "Adds the Psydonic Gothic Armor elixir, which replaces the original filepath."
+  - bugfix: "Psydonic Chestplates should now properly transform when elixir-ed."
+  - bugfix: "Minor typo corrections."
