@@ -30,8 +30,27 @@ GLOBAL_LIST_INIT(blockade_gear_categories, list(
 			count++
 	return count
 
-/proc/get_blockade_gear_surcharge_pct()
+/datum/controller/subsystem/economy/proc/get_blockade_surcharge_mult_pct()
+	if(world.time < blockade_surcharge_mult_expires)
+		return blockade_surcharge_mult_pct
+	var/pop = get_effective_player_count()
+	if(pop >= BLOCKADE_SURCHARGE_POP_FULL)
+		blockade_surcharge_mult_pct = 100
+	else if(pop >= BLOCKADE_SURCHARGE_POP_HALF)
+		blockade_surcharge_mult_pct = 50
+	else
+		blockade_surcharge_mult_pct = 0
+	blockade_surcharge_mult_expires = world.time + BLOCKADE_SURCHARGE_POP_RECHECK
+	return blockade_surcharge_mult_pct
+
+/proc/scale_blockade_surcharge_pct(pct)
+	return round(pct * SSeconomy.get_blockade_surcharge_mult_pct() / 100)
+
+/proc/get_blockade_gear_surcharge_base_pct()
 	return count_roundstart_blockades() * BLOCKADE_SURCHARGE_GEAR_PCT
+
+/proc/get_blockade_gear_surcharge_pct()
+	return scale_blockade_surcharge_pct(get_blockade_gear_surcharge_base_pct())
 
 /proc/get_blockade_goldface_surcharge_pct(category)
 	var/total = 0
@@ -46,7 +65,7 @@ GLOBAL_LIST_INIT(blockade_gear_categories, list(
 		var/list/cats = entry["categories"]
 		if(cats && !(category in cats))
 			continue
-		total += entry["pct"]
+		total += scale_blockade_surcharge_pct(entry["pct"])
 	return total
 
 /proc/build_blockade_goldface_rows()
@@ -61,7 +80,8 @@ GLOBAL_LIST_INIT(blockade_gear_categories, list(
 		var/list/cats = entry["categories"]
 		rows += list(list(
 			"region" = ER ? ER.name : B.region_id,
-			"pct" = entry["pct"],
+			"pct" = scale_blockade_surcharge_pct(entry["pct"]),
+			"base_pct" = entry["pct"],
 			"categories" = cats ? cats.Copy() : list(),
 			"reason" = entry["reason"] || "",
 		))

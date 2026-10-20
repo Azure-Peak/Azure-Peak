@@ -1,4 +1,0 @@
-author: "alaiaarcana"
-delete-after: True
-changes:
-  - code_imp: "Changed code relating to organ consumption to allow players with the Inhumen Digestion trait to eat organs without vomiting. Standardized food preferences for every species."

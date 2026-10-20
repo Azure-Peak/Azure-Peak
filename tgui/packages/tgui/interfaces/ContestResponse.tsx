@@ -4,23 +4,10 @@ import { Window } from 'tgui/layouts';
 import { Box, Button, Section, Stack } from 'tgui-core/components';
 import { isEscape, KEY } from 'tgui-core/keys';
 import { classes } from 'tgui-core/react';
+import { godClass } from './common/statGods';
 
-// The god who watches over each stat. Colours live in ContestResponse.scss.
-const GOD_BY_STAT: Record<string, string> = {
-  strength: 'ravox',
-  perception: 'dendor',
-  intelligence: 'noc',
-  willpower: 'graggar',
-  constitution: 'malum',
-  speed: 'matthios',
-  fortune: 'xylix',
-  charisma: 'baotha',
-};
-
-function godClass(stat: string) {
-  const god = GOD_BY_STAT[stat.toLowerCase()];
-  return god ? `ContestResponse__God--${god}` : '';
-}
+// Not a stat: the defender builds dice of their own instead. Spans the whole grid row.
+const CUSTOM_OPTION = 'Custom Roll';
 
 type Data = {
   title: string;
@@ -80,13 +67,20 @@ export function ContestResponse() {
   }
 
   return (
-    <Window width={460} height={250} title={title}>
+    <Window
+      width={460}
+      height={290}
+      title={title}
+      titleClassName="ContestResponse__Title"
+    >
       <Window.Content onKeyDown={keyDownHandler}>
         <Section fill>
           <Stack fill vertical>
             <Stack.Item>
               <Box className="ContestResponse__Challenger">
-                {challengerName} challenges you with their
+                {/* A stat is theirs, but dice are just the roll. */}
+                {challengerName} challenges you with
+                {godClass(attackingStat) ? ' their' : ''}
               </Box>
               <Box className={classes(['ContestResponse__Stat', godClass(attackingStat)])}>
                 {attackingStat}
@@ -111,7 +105,9 @@ export function ContestResponse() {
                     className={classes([
                       'ContestResponse__Option',
                       godClass(stat),
+                      stat === CUSTOM_OPTION && 'ContestResponse__Option--wide',
                     ])}
+                    textAlign="center"
                     selected={selected === index + 1}
                     onClick={() => activate(index + 1)}
                   >

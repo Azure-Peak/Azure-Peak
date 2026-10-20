@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "Inhumen digestion once more properly allows organ eating without vomiting, but you don't get the mood buff Graggarites do"

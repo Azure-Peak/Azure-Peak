@@ -634,7 +634,9 @@
 		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
 		target.dust()
 		return TRUE
-	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+
+	var/mob/dead/observer/underworld_spirit = target.get_spirit()
+	if(alert(underworld_spirit || target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_astrata("Nothing happens. They are not being let go."))
 		return FALSE
 	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
@@ -642,12 +644,7 @@
 		to_chat(owner, span_warning("Nothing happens."))
 		return FALSE
 
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
 	//GET OVER HERE!
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
 	target.grab_ghost(force = TRUE) // even suicides
 	target.emote("breathgasp")
 	target.Jitter(100)

@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - bugfix: "You can now see who sent a letter upon opening it once more. It doesn't get shown to the people around you, though."

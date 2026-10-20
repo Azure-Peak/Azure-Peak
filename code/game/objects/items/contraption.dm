@@ -208,6 +208,14 @@
 	grid_width = 64
 	grid_height = 32
 	var/active_item = FALSE
+	twirly = SKILL_LEVEL_EXPERT
+
+/obj/item/rogueweapon/contraption/linker/twirl_skill_needed()
+	if(ismob(loc))
+		var/mob/M = loc
+		if(M.get_skill_level(/datum/skill/craft/engineering) >= twirly)
+			return 0
+	return INFINITY //hacky, but you can only twirl with expert engineering
 
 /obj/item/rogueweapon/contraption/linker/master
 	name = "Guild Master's Wrench"

@@ -13,7 +13,14 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "cinnabar ore for the Archivist", "item" = /obj/item/rogueore/cinnabar, "min" = 2, "max" = 3),
 		list("name" = "blue elven wine", "item" = /obj/item/reagent_containers/glass/bottle/rogue/elfblue, "min" = 1, "max" = 2),
 		list("name" = "a bundle of parchment", "item" = /obj/item/paper, "min" = 8, "max" = 14),
+		list("name" = "the grand magos' special request", "item" = /obj/item/reagent_containers/powder/spice, "min" = 2, "max" = 4),
+		list("name" = "Mount Decapitation study materials", "item" = /obj/item/roguecoin/aalloy/pile, "min" = 1, "max" = 1),
+		list("name" = "the grand magos' other request", "item" = /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry, "min" = 2, "max" = 4),
+		list("name" = "abandoned hats from the south", "item" = /obj/item/clothing/head/roguetown/wizhat/random, "min" = 4, "max" = 6), // RIP all left behind hats at roundstart
 	),
+
+
+
 	// Manor: luxury goods and contraband
 	/area/rogue/indoors/town/manor = list(
 		list("name" = "aged cheese wheels", "item" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged, "min" = 4, "max" = 6),
@@ -23,6 +30,8 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "a cache of moondust", "item" = /obj/item/reagent_containers/powder/moondust, "min" = 2, "max" = 3),
 		list("name" = "dressed poultry", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry, "min" = 3, "max" = 5),
 		list("name" = "fresh steaks", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak, "min" = 3, "max" = 5),
+		list("name" = "well-aged tea", "item" = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry, "min" = 1, "max" = 2),
+		list("name" = "recovered sugars", "item" = /obj/item/reagent_containers/food/snacks/sugar, "min" = 2, "max" = 3),
 	),
 	// Tavern: food and drink for the Innkeeper
 	/area/rogue/indoors/town/tavern = list(
@@ -30,12 +39,28 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "aged spiced wine", "item" = /obj/item/reagent_containers/glass/bottle/rogue/spicedwineaged, "min" = 2, "max" = 4),
 		list("name" = "bottles of aurorian ale", "item" = /obj/item/reagent_containers/glass/bottle/rogue/beer/aurorian, "min" = 5, "max" = 8),
 		list("name" = "aged cheese wheels", "item" = /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged, "min" = 3, "max" = 5),
+		list("name" = "dressed poultry", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry, "min" = 1, "max" = 2),
+		list("name" = "fresh steaks", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/steak, "min" = 2, "max" = 4),
+		list("name" = "a chocolate ingot", "item" = /obj/item/reagent_containers/food/snacks/chocolate, "min" = 1, "max" = 2), // still fairly rare
+		list("name" = "fresh hams", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/ham, "min" = 2, "max" = 4),
+		list("name" = "a consortium of pork belly", "item" = /obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly, "min" = 2, "max" = 4), // rip piggy :(
+		list("name" = "a poor vendors cabbages", "item" = /obj/item/reagent_containers/food/snacks/grown/cabbage/rogue, "min" = 6, "max" = 10), // MY CABBAGES!!!!
+		list("name" = "recovered sugars", "item" = /obj/item/reagent_containers/food/snacks/sugar, "min" = 2, "max" = 4),
+		list("name" = "somewhat burnt coffee", "item" = /obj/item/reagent_containers/food/snacks/grown/coffeebeans, "min" = 2, "max" = 4),
+		list("name" = "well-aged tea", "item" = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry, "min" = 2, "max" = 4),
+
 	),
 	// Church: lost tithes — always a full bundle or two of the essentials
 	/area/rogue/indoors/town/church = list(
 		list("name" = "bundles of tithe cloth", "item" = /obj/item/natural/bundle/cloth, "min" = 1, "max" = 2),
 		list("name" = "ozium for the incense braziers", "item" = /obj/item/reagent_containers/powder/ozium, "min" = 1, "max" = 2),
 		list("name" = "sacramental wine", "item" = /obj/item/reagent_containers/glass/bottle/rogue/whitewine, "min" = 1, "max" = 2),
+		list("name" = "fishy healing aids", "item" = /obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum, "min" = 1, "max" = 2),
+		list("name" = "old surgeon's tools", "item" = /obj/item/storage/belt/rogue/surgery_bag, "min" = 1, "max" = 1), // someone stole the fucking surgeon's bag
+		list("name" = "spare verses", "item" = /obj/item/book/rogue/bibble, "min" = 3, "max" = 6), // not very useful but flavorful
+		list("name" = "countryside tithes", "item" = /obj/item/roguecoin/copper/pile, "min" = 1, "max" = 2), // just coins. lol.
+		list("name" = "Grenzelhoft-blessed holy vessels", "item" = /obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water, "min" = 1, "max" = 3), // not very useful but flavorful
+
 	),
 	// Physician / Apothecary: herbs and alchemical reagents for healing
 	/area/rogue/indoors/town/physician = list(
@@ -43,6 +68,10 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "jars of viscera", "item" = /obj/item/alch/viscera, "min" = 3, "max" = 5),
 		list("name" = "bundles of bandages", "item" = /obj/item/natural/bundle/cloth/bandage/full, "min" = 2, "max" = 3),
 		list("name" = "healing draughts", "item" = /obj/item/reagent_containers/glass/bottle/rogue/healthpot, "min" = 2, "max" = 4),
+		list("name" = "an abundance fishy healing aids", "item" = /obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum, "min" = 3, "max" = 5),
+		list("name" = "old surgeon's tools", "item" = /obj/item/storage/belt/rogue/surgery_bag, "min" = 1, "max" = 2),
+		list("name" = "tumor removing draughts", "item" = /obj/item/reagent_containers/glass/bottle/rogue/berrypoison, "min" = 1, "max" = 3), // hehehe
+		list("name" = "impure lux", "item" = /obj/item/reagent_containers/lux_impure, "min" = 1, "max" = 1), // ONE and ONE only.
 	),
 ))
 

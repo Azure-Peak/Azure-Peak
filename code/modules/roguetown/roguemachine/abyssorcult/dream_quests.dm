@@ -352,6 +352,21 @@
 	// Same as royal tick, but with some other influential roles as well.
 	valid_roles = list("Grand Duke","Grand Duchess","Prince", "Princess", "Steward", "Councillor", "Merchant")
 
+// add a bit of extra weight to this
+/datum/vision_quest/tier_1/royal_stag/on_complete(datum/component/vision_quest_tracker/VCT)
+	var/mob/living/carbon/human/target = VCT.target_ref?.resolve()
+	if(!target)
+		return
+	target.RegisterSignal(target, COMSIG_SLEEPING_ON_BED, GLOBAL_PROC_REF(stag_watches), TRUE) // in case the UNFATHOMABLY rare situation happens where the same person gets hit with this twice
+
+/proc/stag_watches(datum/source, mob/living/carbon/human/sleeper)
+	sleeper.UnregisterSignal(sleeper, COMSIG_SLEEPING_ON_BED)
+	var/list/candidates = oview(3, get_turf(sleeper))
+	var/list/candidate_turfs = list()
+	for(var/turf/open/candidate in candidates)
+		candidate_turfs += candidate
+	new /mob/living/carbon/human/species/wildshape/white_stag/noai(pick(candidate_turfs))
+
 /datum/vision_quest/tier_1/seven_daes_of_wrath
 	name = "The Sevenfold Reckoning"
 	description = "A week of strange portents grips Astrata's light, but only one Dae brings true misfortune."

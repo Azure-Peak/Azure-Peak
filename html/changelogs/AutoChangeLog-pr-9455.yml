@@ -1,6 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - rscadd: "Better stat and dice rolling! Use the roll verbs in the emote tab or *dice, *stat and *contested"
-  - rscadd: "Different stat colors"
-  - config: "add autostart and minimum flavor text config values"

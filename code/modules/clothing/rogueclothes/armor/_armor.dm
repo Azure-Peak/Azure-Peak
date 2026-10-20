@@ -171,6 +171,22 @@
 						standing.add_overlay(undies_piece)
 					continue
 //-------- Undies Code finishes here
+
+//-------- Taur Tabard Code Starts here
+				if(istype(thing, /obj/item/clothing/cloak/tabard))
+					var/mob/living/carbon/human/wearer = loc
+					if(istype(wearer))
+						var/obj/item/bodypart/taur/taur = wearer.get_taur_tail()
+						if(taur?.taur_clothing_category)
+							var/obj/item/clothing/cloak/tabard/stored_tabard = thing
+							var/list/taur_tabard_layers = wearer.build_taur_tabard_overlay(taur, stored_tabard)
+							if(taur_tabard_layers)
+								for(var/mutable_appearance/tabard_piece as anything in taur_tabard_layers)
+									tabard_piece.pixel_x += standing.pixel_x
+									tabard_piece.pixel_y += standing.pixel_y
+									standing.add_overlay(tabard_piece)
+								continue
+//-------- Taur Tabard Code finishes here
 				var/mutable_appearance/thing_appearance = thing.build_worn_icon(default_layer, default_icon_file, isinhands, femaleuniform, override_state, female, customi, sleeveindex, boobed_overlay, clip_mask)
 				thing_appearance.appearance_flags = RESET_COLOR
 				thing_appearance.pixel_x += standing.pixel_x

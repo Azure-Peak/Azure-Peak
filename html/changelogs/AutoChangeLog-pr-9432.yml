@@ -1,4 +1,0 @@
-author: "FreeStylaLT"
-delete-after: True
-changes:
-  - rscadd: "Examine text for how long someone has been disconnected. Courtesy of Ratwood."

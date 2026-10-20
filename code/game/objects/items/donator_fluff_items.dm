@@ -1,5 +1,3 @@
-//Lazily shoving all donator fluff items in here for now. Feel free to make this a sub-folder or something, I think it's just easier to keep a list here and just modify as needed.
-
 ///////////////////
 // UNIVERSAL	 //
 ///////////////////
@@ -843,7 +841,7 @@
 	color = null
 
 	//Originally found in icons/roguetown/topadd/johnie/noldor.dmi. Full credit to Johnie, who - from what I might guess - was a very early contributor to Roguetown. Hi!
-	//Hatcheted implementation. If someone ever finds out how to use onmob offsets, use the sprites in onmob/donor_clothes with an offset of +7 Y instead.______qdel_list_wrapper(list/L)
+	//Hatcheted implementation. If someone ever finds out how to use onmob offsets, use the sprites in onmob/donor_clothes with an offset of +7 Y instead.
 
 /obj/item/clothing/head/roguetown/decoration/orle/donator_oathkeeper
 	name = "oathkeeper's noble decoration"
@@ -2931,7 +2929,7 @@ As Excaliber."
 	bigboy = TRUE
 
 // MORTOSASYE
-/obj/item/rogueweapon/woodstaff/implement/grand/morto
+/obj/item/rogueweapon/woodstaff/implement/morto
 	base_implement_name = null
 	name = "Frozen Vow"
 	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
@@ -2939,20 +2937,6 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/woodstaff/implement/grand/magos/morto
-	base_implement_name = null
-	name = "Frozen Vow"
-	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
-	icon_state = "mystralstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/greater/quartz/morto
-	base_implement_name = null
-	name = "Frozen Vow"
-	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
-	icon_state = "mystralstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/amethyst/morto
 	base_implement_name = null
 	name = "Frozen Vow"
 	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
@@ -3002,7 +2986,7 @@ As Excaliber."
 	worn_y_dimension = 64
 
 // RACOBIO
-/obj/item/rogueweapon/woodstaff/implement/grand/racobio
+/obj/item/rogueweapon/woodstaff/implement/racobio
 
 	base_implement_name = "Obsidian Tower"
 	name = "Obsidian Tower"
@@ -3010,7 +2994,17 @@ As Excaliber."
 	icon_state = "racobiostaff"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
-/obj/item/rogueweapon/woodstaff/implement/grand/racobio/getonmobprop(tag)
+/obj/item/rogueweapon/woodstaff/implement/grand/magos/racobio
+
+	base_implement_name = "Obsidian Tower"
+	name = "Obsidian Tower"
+	desc = "An exceptionally long, smooth staff of polished black obsidian. It lacks the traditional gem-top of most casting implements. Careful observation would note that the flawless obelisk of stone does not reflect nearby lights, but light from some other place."
+	icon_state = "racobiostaff"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	possible_item_intents = list(/datum/intent/spear/bash/staff/onehand, /datum/intent/magos_electrocute)
+	gripped_intents = list(/datum/intent/spear/bash/staff, /datum/intent/mace/smash/wood/ranged, /datum/intent/magos_electrocute)
+
+/obj/item/rogueweapon/woodstaff/implement/racobio/getonmobprop(tag)
 	. = ..()
 	if(tag)
 		switch(tag)
@@ -3336,31 +3330,6 @@ As Excaliber."
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
 /obj/item/rogueweapon/woodstaff/implement/greater/blacksteel/donator_rhynn/glow
-	icon_state = "celestialstaffglow"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn
-	base_implement_name = "refined celestial staff"
-	name = "refined celestial staff"
-	desc = "Celestial Staves, or Himmelsstäbe, are often awarded to Gefechtsgelehrter who have completed at least two \
-	military campaigns. The possession of one marks the wielder as an individual who has not only seen the horrors of \
-	war, but delivered them firsthand. This one happens to be crested with a special ornament."
-	icon_state = "celestialstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/crested
-	icon_state = "celestialstaffcrest"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/winged
-	icon_state = "celestialstaffeagle"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/solar
-	icon_state = "celestialstaffsun"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel/donator_rhynn/glow
 	icon_state = "celestialstaffglow"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 
@@ -4847,3 +4816,46 @@ As Excaliber."
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = TRUE
+
+// LIMETEASE
+/obj/item/rogueweapon/sword/long/ap/yoshi_estoc
+	name = "Dénouement"
+	desc = "A peculiar take on the more traditional Azurian estoc, fastened to it's crossguard are two small bells and held in place by purple and green tassles.  It's blade is wrapped in cloth, a more personalised addition by the wielder rather than the smith. The bells jingle with every graceful chassé the wielder performs in the dance of lyfe and death.          The curtain call is nigh but the show must go on! Dance for the Gods! Make thy foe bleed and roll the die, their tyme is nigh."
+	icon_state = "yoshi_estoc"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// LIMETEASE
+/obj/item/clothing/cloak/tabard/limeastratatabard
+	name = "Astratan Tabard"
+	desc = "A unique tabard adorned with the golden markings of the sun monarch, the wearers of this tabard are often."
+	icon_state = "limeastratatabard"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// LIMETEASE
+/obj/item/clothing/cloak/tabard/limetabard
+	name = "Leathery Tabard"
+	desc = "A warm tabard that's snatched at the waist, inside that leathery coffin is ."
+	icon_state = "limetabard"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// LIMETEASE
+/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm
+	name = "The True Astratan Helmet"
+	desc = "An ornate steel cap, adorned with a firey sun crown. Optionally worn with a coif, this fashionable statement of faith is usually given to astratans who give their nobility up in the sake of faith."
+	item_state = "limeastratahelm"
+	icon_state = "limeastratahelm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, \
+		(HEAD|EARS|HAIR), \
+		(HIDEEARS|HIDEHAIR),\
+		null, \
+		'sound/items/visor.ogg', \
+		null, \
+		UPD_HEAD)

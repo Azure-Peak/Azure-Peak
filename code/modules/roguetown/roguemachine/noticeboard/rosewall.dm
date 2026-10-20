@@ -64,7 +64,7 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 		board.update_icon()
 
 /obj/structure/roguemachine/rosewall/proc/is_bathhouse_worker(mob/living/carbon/human/H)
-	return istype(H) && (H.job in list("Bathmaster", "Bathhouse Attendant"))
+	return istype(H) && (H.job in GLOB.bathhouse_positions) || HAS_TRAIT(H, TRAIT_AGENT_BATHHOUSE)
 
 /obj/structure/roguemachine/rosewall/attack_hand(mob/living/carbon/human/user)
 	. = ..()

@@ -94,7 +94,7 @@
 		var/post_grace = GLOB.dayspassed >= 1
 		if(account && is_keep_insider && post_grace && account.balance > 0)
 			recovered = account.balance
-			SStreasury.transfer(account, SStreasury.discretionary_fund, recovered, "Crown forfeiture: [departing_mob.real_name] (far-travel)")
+			SStreasury.transfer(account, SStreasury.discretionary_fund, recovered, "Crown forfeiture: [departing_mob.real_name] (far-travel)", null, LEDGER_CROWN_REV_OTHER)
 			record_round_statistic(STATS_FORFEITURE_AMOUNT, recovered)
 			record_round_statistic(STATS_FORFEITURE_COUNT, 1)
 		var/loose = 0

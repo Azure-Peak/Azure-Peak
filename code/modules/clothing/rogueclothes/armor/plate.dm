@@ -764,7 +764,7 @@
 	item_state = "gcuirass"
 	icon_state = "gcuirass"
 
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
 	name = "psydonic chestplate"
 	desc = "A form-fitting steel cuirass with flutings of blessed silver. It is much lighter and agile than its contemporaries, but breaks \
 	with much more ease. In lieu of traditional padding, the underside is backed with thickly-woven silk to thwart deadlier blows."
@@ -1198,3 +1198,22 @@
 		if(get_detail_color())
 			pic.color = get_detail_color()
 		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/iron/corslet
+	name = "iron corslet plate armor"
+	icon_state = "iplatecorsletnerd"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	desc = "A 'munition'-grade set of iron plate armor, fitted with pauldrons and tassets for additional coverage like Most \
+	of these sets, this variant keeps a full coverage while still allowing for a fair amount of mobility. It is, however, quite heavy and cumbersome like any other armor."
+	smeltresult = /obj/item/ingot/iron
+	max_integrity = ARMOR_INT_CHEST_PLATE_IRON
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/corslet
+	name = "steel corslet plate armor"
+	desc = "A pristine set of steel plate armor, fitted with tassets and bracers for additional coverage, this variant keeps a full coverage while still allowing for a fair amount of mobility. It is, however, quite heavy and cumbersome like any other armor."
+	icon_state = "platecorsletnerd"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'

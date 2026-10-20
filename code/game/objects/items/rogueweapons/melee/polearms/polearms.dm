@@ -114,6 +114,11 @@
 	swingdelay = 6
 	sharpness_penalty = 2
 
+/datum/intent/spear/cut/oneh/pike
+	name = "weak cut"
+	desc = "An awkward one-handed slash with a pike too long to swing properly."
+	damfactor = 0.6
+
 /datum/intent/spear/cut/scythe
 	reach = 3
 	damfactor = 1
@@ -210,6 +215,7 @@
 	name = "shillelagh"
 	desc = "A particularly long and sturdy walking stick with a variety of uses. It's heavier at one end, making it a little unbalanced."
 	associated_skill = /datum/skill/combat/polearms
+	is_implement = FALSE
 
 /obj/item/rogueweapon/spear
 	force = 22
@@ -429,27 +435,21 @@
 	icon_state = "ancient_spear"
 
 
-/obj/item/rogueweapon/spear/psyspear
+/obj/item/rogueweapon/spear/silver/psy
 	name = "psydonic spear"
 	desc = "An ornate spear, plated in a ceremonial veneer of silver. The barbs pierce your palm, and - for just a moment - you see red. Never \
 	forget that you are why Psydon wept."
 	icon_state = "psyspear"
-	force = 20
-	force_wielded = 30
-	minstr = 8
-	wdefense = 5
-	resistance_flags = FIRE_PROOF	//It's meant to be smacked by a "lamptern", and is special enough to warrant overriding the spear weakness
-	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/rogueweapon/spear/psyspear/ComponentInitialize()
+/obj/item/rogueweapon/spear/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/spear/psyspear/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/spear/silver/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -466,6 +466,7 @@
 	minstr = 8
 	wdefense = 5
 	is_silver = TRUE
+	resistance_flags = FIRE_PROOF	//It's meant to be smacked by a "lamptern", and is special enough to warrant overriding the spear weakness
 	smeltresult = /obj/item/ingot/silver
 
 /obj/item/rogueweapon/spear/silver/ComponentInitialize()
@@ -475,7 +476,7 @@
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/spear/psyspear/old
+/obj/item/rogueweapon/spear/silver/psy/old
 	name = "enduring spear"
 	desc = "An ornate spear, its silver tarnished by neglect. HE still guides the faithful's hand, if not this weapon."
 	icon_state = "psyspear"
@@ -487,7 +488,7 @@
 	smeltresult = /obj/item/ingot/steel
 	color = COLOR_FLOORTILE_GRAY
 
-/obj/item/rogueweapon/spear/psyspear/old/ComponentInitialize()
+/obj/item/rogueweapon/spear/silver/psy/old/ComponentInitialize()
 	return
 
 /obj/item/rogueweapon/spear/getonmobprop(tag)
@@ -966,20 +967,18 @@
 	force_wielded = 33 // +3
 	max_integrity = 300 // +50
 
-/obj/item/rogueweapon/halberd/psyhalberd/relic
+/obj/item/rogueweapon/halberd/silver/psy/relic
 	name = "\"Stigmata\""
 	desc = "Christened in the Siege of Lirvas, these silver-tipped poleaxes - wielded by a lonesome contingent of Saint Eora's \
 	paladins - kept the horrors at bay for forty daes-and-nites. Long-since-recovered from the rubble, this relic now serve as \
 	a bulwark for the defenseless."
 	icon_state = "psyhalberd"
 	force = 25
-	force_wielded = 25
-	minstr = 11
-	wdefense = 7.5
+	wdefense = 7
 	max_integrity = 350
 	max_blade_int = 380
 
-/obj/item/rogueweapon/halberd/psyhalberd/relic/ComponentInitialize()
+/obj/item/rogueweapon/halberd/silver/psy/relic/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -1001,22 +1000,20 @@
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/halberd/psyhalberd
+/obj/item/rogueweapon/halberd/silver/psy
 	name = "psydonic halberd"
 	desc = "A blessed polearm that has guarded the walls of kingdoms-a-plenty, ever since the first castles of mortar-and-stone arose in Syon's wake. It \
 	not only professes the elegance of its knightly wielder, but also their vow to keep the innocent guarded from the guilty."
-	icon_state = "silverhalberd"
-	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/rogueweapon/halberd/psyhalberd/ComponentInitialize()
+/obj/item/rogueweapon/halberd/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/halberd/psyhalberd/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/halberd/silver/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -1292,7 +1289,7 @@
 	icon_state = "citybanner"
 	force = 18
 	force_wielded = 33
-	possible_item_intents = list(/datum/intent/dagger/sucker_punch, SWORD_STRIKE)
+	possible_item_intents = list(/datum/intent/dagger/sucker_punch, SWORD_STRIKE, /datum/intent/spear/cut/oneh/pike)
 	gripped_intents = list(/datum/intent/spear/thrust/pike, /datum/intent/spear/thrust/pike/skewer)
 
 /obj/item/rogueweapon/spear/boar/frei/pike/reformist

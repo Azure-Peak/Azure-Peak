@@ -68,6 +68,7 @@
 #define span_nicegreen(str) ("<span class='nicegreen'>" + (str) + "</span>")
 #define span_notice(str) ("<span class='notice'>" + (str) + "</span>")
 #define span_ooc(str) ("<span class='ooc'>" + (str) + "</span>")
+#define span_papyrus(str) ("<span class='papyrus'>" + (str) + "</span>")
 #define span_phobia(str) ("<span class='phobia'>" + (str) + "</span>")
 #define span_prefix(str) ("<span class='prefix'>" + (str) + "</span>")
 #define span_purple(str) ("<span class='purple'>" + (str) + "</span>")
@@ -122,6 +123,19 @@
 #define span_zizo(str) ("<span class='zizo'>" + (str) + "</span>")
 #define span_vheslyn(str) ("<span class='vheslyn'>" + (str) + "</span>")
 #define span_mossmother(str) ("<span class='mossmother'>" + (str) + "</span>")
+
+// Same gods in the same colours, without the glow. For anything that is read rather than
+// announced, such as rolls.
+#define span_astrata_plain(str) ("<span class='astrata_plain'>" + (str) + "</span>")
+#define span_dendor_plain(str) ("<span class='dendor_plain'>" + (str) + "</span>")
+#define span_malum_plain(str) ("<span class='malum_plain'>" + (str) + "</span>")
+#define span_noc_plain(str) ("<span class='noc_plain'>" + (str) + "</span>")
+#define span_ravox_plain(str) ("<span class='ravox_plain'>" + (str) + "</span>")
+#define span_xylix_plain(str) ("<span class='xylix_plain'>" + (str) + "</span>")
+#define span_baotha_plain(str) ("<span class='baotha_plain'>" + (str) + "</span>")
+#define span_graggar_plain(str) ("<span class='graggar_plain'>" + (str) + "</span>")
+#define span_matthios_plain(str) ("<span class='matthios_plain'>" + (str) + "</span>")
+#define span_zizo_plain(str) ("<span class='zizo_plain'>" + (str) + "</span>")
 
 #define span_divine(str) ("<span class='divine'>" + (str) + "</span>")
 #define span_profane(str) ("<span class='profane'>" + (str) + "</span>")

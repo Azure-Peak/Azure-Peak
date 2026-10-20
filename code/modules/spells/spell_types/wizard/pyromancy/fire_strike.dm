@@ -22,7 +22,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MAJOR
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging_fire.ogg'
@@ -36,8 +36,8 @@
 	var/blast_radius = 2
 	var/impact_delay = 2 SECONDS
 	var/structural_damage = 600
-	var/mob_damage = 110
-	displayed_damage = 110
+	var/mob_damage = SPELL_DMG(110)
+	displayed_damage = SPELL_DMG(110)
 	var/curtain_life = 10 SECONDS
 
 /datum/action/cooldown/spell/fire_strike/cast(atom/cast_on)
@@ -80,10 +80,10 @@
 			if(spell_guard_check(L, TRUE))
 				continue
 			if(istype(caster) && ishuman(L))
-				if(arcyne_strike(caster, L, null, mob_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Fire Strike", damage_type = BURN, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				if(arcyne_strike(caster, L, null, mob_damage, BODY_ZONE_CHEST, BCLASS_BURN, spell_name = "Fire Strike", damage_type = BURN, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
-				L.adjustFireLoss(mob_damage)
+				L.adjustFireLoss(SPELL_DMG_VS(L, mob_damage))
 			apply_scorch_stack(L, 2)
 			L.Knockdown(3)
 
