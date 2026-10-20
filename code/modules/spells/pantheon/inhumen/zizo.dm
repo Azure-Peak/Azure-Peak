@@ -554,20 +554,6 @@
 	if(user.stat != CONSCIOUS)
 		return FALSE
 
-	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver
-	if(isdullahan(user) && path_choice == "Unlife")
-		to_chat(user, span_boldwarning("My lux and body is drastically altered into a completely different form of unlyfe from being a Reverant, this path of the lesser work would not end well for me."))
-		reset_spell_cooldown()
-		anti_spam = FALSE
-		return FALSE
-
-	//constructs are made of metal, what flesh to turn to faith?
-	if(isconstruct(user) && path_choice == "Unlife")
-		to_chat(user, span_boldwarning("I lack flesh to sacrifice, lyfe to give. I am already an artifice, a construct; only Progress through the lesser work remains for me."))
-		reset_spell_cooldown()
-		anti_spam = FALSE
-		return FALSE
-
 	user.visible_message(span_boldwarning("[user] throws back [user.p_their()] head, arcyne energy crackling across [user.p_their()] body!"))
 	user.grant_language(/datum/language/undead)
 
@@ -575,14 +561,31 @@
 		anti_spam = FALSE
 		return TRUE
 
-	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
-
-	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver.
+	if(isdullahan(user) && path_choice == "Unlife")
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
 		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
-		user.mind?.RemoveSpell(src)
-		qdel(src)
 		anti_spam = FALSE
 		return TRUE
+
+	//constructs are made of metal, what flesh to turn to faith?
+	if(isconstruct(user) && path_choice == "Unlife")
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		anti_spam = FALSE
+		return TRUE
+
+	//vampires are bloodloss immune + have their own healing that makes this impractical to use, not you can cast it as one.
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		anti_spam = FALSE
+		return TRUE
+
+	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	switch(path_choice)
 		if("Progress")
