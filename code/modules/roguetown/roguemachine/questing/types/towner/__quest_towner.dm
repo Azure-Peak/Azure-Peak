@@ -27,6 +27,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	levy_exempt = TRUE
 	guild_cut_rate = 0
 	charges_deposit = FALSE
+	lapses = FALSE
 	takes_destination = FALSE
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety
