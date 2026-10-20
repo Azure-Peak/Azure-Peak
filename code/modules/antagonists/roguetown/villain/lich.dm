@@ -110,8 +110,8 @@
 	// after a species swap. Replace the head with a vanilla one first under GODMODE,
 	// then swap species.
 
-	// Why do we do this? Lich isn't meant to accidentally be a construct/reverent.
-	// Ironman traits break us completely. As for Reverent we're unkillable b/c decapitation immunity + spellcast check bugs + only die to blessed silver + we're immune to decapitation kills.
+	// Why do we do this? Lich isn't meant to accidentally be a construct/reverant.
+	// Ironman traits break us completely. As for Reverant we're unkillable b/c decapitation immunity + spellcast check bugs + only die to blessed silver + we're immune to decapitation kills.
 	var/had_godmode = (L.status_flags & GODMODE)
 	L.status_flags |= GODMODE
 	if(isdullahan(L))

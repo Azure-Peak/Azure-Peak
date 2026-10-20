@@ -556,7 +556,7 @@
 
 	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver
 	if(isdullahan(user) && path_choice == "Unlife")
-		to_chat(user, span_boldwarning("I already harbor some aspect of unlyfe from being a Reverent, this path of the lesser work would not end well for me."))
+		to_chat(user, span_boldwarning("I already harbor some aspect of unlyfe from being a Reverant, this path of the lesser work would not end well for me."))
 		reset_spell_cooldown()
 		anti_spam = FALSE
 		return FALSE
