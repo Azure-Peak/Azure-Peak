@@ -157,6 +157,25 @@
 	else
 		return FALSE
 
+/obj/item/natural/bundle/attack_hand(mob/user)
+	if(!(item_flags & IN_STORAGE) && user.get_inactive_held_item() == src && amount > 1)
+		var/amount_to_split = input(user, "How many [stackname] to split? (1 to [amount - 1])", null, round(amount / 2, 1)) as null|num
+		if(QDELETED(user) || QDELETED(src) || user.get_inactive_held_item() != src || !user.Adjacent(src))
+			return
+		if(isnull(amount_to_split))
+			return
+		amount_to_split = round(clamp(amount_to_split, 0, amount - 1), 1)
+		if(!amount_to_split)
+			return
+		var/obj/item/natural/bundle/split_bundle = new type(get_turf(src))
+		split_bundle.amount = amount_to_split
+		split_bundle.update_bundle()
+		amount -= amount_to_split
+		update_bundle()
+		user.put_in_hands(split_bundle)
+		return
+	return ..()
+
 /obj/item/natural/bundle/attack_right(mob/user)
 	if(item_flags & IN_STORAGE)
 		return

@@ -67,7 +67,9 @@
 		to_chat(caster, span_warning("I need to be adjacent to the surface."))
 		return FALSE
 
-	var/obj/item/ash/ash_item = locate(/obj/item/ash) in caster.held_items
+	var/obj/item/ash_item = locate(/obj/item/ash) in caster.held_items
+	if(!ash_item)
+		ash_item = locate(/obj/item/natural/bundle/ash) in caster.held_items
 	if(!ash_item)
 		to_chat(caster, span_warning("I need ash in my other hand to draw a rune."))
 		return FALSE
@@ -119,7 +121,9 @@
 	if(!rune_path)
 		return FALSE
 
-	qdel(ash_item)
+	if(!consume_ash_unit(ash_item))
+		to_chat(caster, span_warning("I need ash in my other hand to draw a rune."))
+		return FALSE
 	var/obj/structure/rune_ward/rune = new rune_path(target_turf)
 	rune.owner_ref = WEAKREF(caster)
 	rune.spell_ref = WEAKREF(src)
@@ -235,4 +239,3 @@
 	var/datum/action/cooldown/spell/touch/rune_ward/spell = spell_which_made_us?.resolve()
 	if(spell)
 		spell.cast_on_hand_hit(src, target, user)
-
