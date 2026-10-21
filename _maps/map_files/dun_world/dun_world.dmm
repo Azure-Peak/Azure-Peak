@@ -9567,6 +9567,9 @@
 	pixel_y = -20
 	},
 /obj/structure/table/wood/long_table/mid/alt,
+/obj/structure/rack/rogue/shelf/notdense{
+	pixel_y = -27
+	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
 "bJe" = (
@@ -41396,6 +41399,8 @@
 /obj/item/reagent_containers/glass/cup/glass/flute,
 /obj/item/reagent_containers/glass/cup/glass/flute,
 /obj/item/reagent_containers/glass/cup/glass/flute,
+/obj/item/reagent_containers/glass/cup/glass/small,
+/obj/item/reagent_containers/glass/cup/glass/small,
 /obj/item/reagent_containers/glass/cup/glass/small,
 /obj/item/reagent_containers/glass/cup/glass/small,
 /obj/item/reagent_containers/glass/cup/glass/small,
@@ -90831,6 +90836,9 @@
 	pixel_x = 2;
 	pixel_y = 1
 	},
+/obj/structure/rack/rogue/shelf/notdense{
+	pixel_y = -27
+	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
 "pvQ" = (
@@ -103589,6 +103597,9 @@
 /obj/item/candle/skull/lit{
 	pixel_x = 8;
 	pixel_y = 29
+	},
+/obj/structure/rack/rogue/shelf/notdense{
+	pixel_y = -27
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
