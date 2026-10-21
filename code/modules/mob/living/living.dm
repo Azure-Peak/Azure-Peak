@@ -4,7 +4,7 @@
 	var/contract_spawned = FALSE
 	var/contract_dust_scheduled = FALSE
 	/// Set this to enable mindless mobs to take extra base damage from projectiles.
-	var/extra_projectile_damage_modifier = 1.5
+	var/extra_projectile_damage_modifier = PROJECTILE_SIMPLEMOB_DAMAGE_MULT
 
 /mob/living/Initialize(mapload)
 	. = ..()
