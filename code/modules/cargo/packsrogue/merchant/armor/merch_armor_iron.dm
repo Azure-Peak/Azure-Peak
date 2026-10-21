@@ -27,22 +27,22 @@
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/scale/iron)
 
 /datum/supply_pack/rogue/armor_iron/saigataurbarding_chain_iron
-	name = "Saiga-taur Barding, Chainmail (Iron)"
+	name = "Saiga-Centaur Barding, Chainmail (Iron)"
 	cost = 50
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/chain/iron)
 
 /datum/supply_pack/rogue/armor_iron/saigataurbarding_chain_bronze
-	name = "Saiga-taur Barding, Chainmail (Bronze)"
+	name = "Saiga-Centaur Barding, Chainmail (Bronze)"
 	cost = 50
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/chain/bronze)
 
 /datum/supply_pack/rogue/armor_iron/saigataurbarding_plate_iron
-	name = "Saiga-taur Barding, Plate (Iron)"
+	name = "Saiga-Centaur Barding, Plate (Iron)"
 	cost = 70
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/plate/iron)
 
 /datum/supply_pack/rogue/armor_iron/saigataurbarding_plate_bronze
-	name = "Saiga-taur Barding, Plate (Bronze)"
+	name = "Saiga-Centaur Barding, Plate (Bronze)"
 	cost = 70
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/plate/bronze)
 

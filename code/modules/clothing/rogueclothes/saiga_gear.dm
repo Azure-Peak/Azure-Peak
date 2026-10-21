@@ -46,6 +46,10 @@
 		var/mob/M = loc
 		M.update_inv_armor()
 
+/obj/item/clothing/suit/roguetown/armor/saiga_barding/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("MMB to toggle between full body barding, or a caparison.")
+
 /obj/item/clothing/suit/roguetown/armor/saiga_barding/cloth
 	name = "cloth saiga barding"
 	desc = "Protective covering, cut and fitted for a saiga-taur's body. Simple quilted cloth - offers no notable protection, more sight than shield."
