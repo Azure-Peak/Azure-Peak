@@ -256,6 +256,20 @@
 
 	var/on_hit_state = P.on_hit(src, armor)
 	var/actual_damage = P.damage
+	var/mindless_target
+	if(!src.mind || !src.ckey)
+		mindless_target = TRUE
+	if(mindless_target)
+		if(P.bow_smite_modifier)
+			var/pre_smite_damage = actual_damage
+			actual_damage = P.get_bow_smite_damage(src)
+			// Simple sanity to let players know they hit something effective.
+			if(actual_damage > pre_smite_damage)
+				playsound(loc, 'sound/effects/arrow_smite_hit.ogg', 100, TRUE, -1)
+		// If the projectile allows for it, add bonus base damage based on the animal to the projectile.
+		if(P.mindless_bonus_damage)
+			var/bonus_base_damage = round(initial(P.damage) * extra_projectile_damage_modifier)
+			actual_damage += bonus_base_damage
 	if(istype(src, /mob/living/simple_animal))
 		var/mob/living/simple_animal/weakpoint_target = src
 		actual_damage *= weakpoint_target.weakpoint_damage_mod(def_zone)

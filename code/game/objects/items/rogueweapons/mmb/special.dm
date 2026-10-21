@@ -28,13 +28,19 @@
 	var/skill_level = SKILL_LEVEL_NONE
 
 	if(istype(W, /obj/item/rogueweapon) && W.special)
-
 		if(W && W.obj_broken)
 			to_chat(user, span_warning("The weapon is in no state to be used like this!"))
 			return
 
 		active_special = W.special
 		skill_level = user.get_wskill(W)
+	else if(istype(W, /obj/item/gun) && W.special)
+		var/obj/item/gun/RW = W
+		active_special = W.special
+		if(RW.ranged_skill)
+			skill_level = user.get_skill_level(RW.ranged_skill)
+		else
+			skill_level = 3
 	else if(!W && ishuman(user))
 		var/mob/living/carbon/human/HU = user
 		if(HU.unarmed_special)

@@ -37,6 +37,7 @@
 
 	health = MINOTAUR_HEALTH
 	maxHealth = MINOTAUR_HEALTH
+	bow_smite_effective_modifier = 2.5
 	melee_damage_lower = 55
 	melee_damage_upper = 80
 	vision_range = 3
