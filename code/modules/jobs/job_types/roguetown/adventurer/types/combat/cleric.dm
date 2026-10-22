@@ -832,8 +832,6 @@
 	allowed_patrons = ALL_PATRONS
 
 /datum/outfit/job/roguetown/adventurer/cleric/zealot/pre_equip(mob/living/carbon/human/H)
-	..()
-
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -895,12 +893,12 @@
 	name = "Fervorous Prayer"
 	desc = "Proclaim your faith and inspire those who share it, granting +1 CON, +2 WIL, +1 SPD and +2 FOR, a mood buff and also protecting them from panic and heart attacks."
 	fluff_desc = "Raise your voice in prayer, and let the faithful find strength in their shared devotion."
-	button_icon_state = "united"
+	button_icon_state = "bcry"
 	sound = 'sound/magic/ravox_withstand.ogg'
 	glow_intensity = GLOW_INTENSITY_VERY_HIGH
 
 	click_to_activate = FALSE
-	cast_range = SPELL_RANGE_AURA
+	cast_range = SPELL_RANGE_GROUND
 
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 40
@@ -918,7 +916,6 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/list/valid_patron_groups = ALL_DIVINE_PATRONS
 	var/list/patron_invocations = list(
 		/datum/patron/divine/undivided = list(
 			"UNITED WE STAND, TOGETHER WE RIDE!!",
@@ -1059,6 +1056,16 @@
 	if(!istype(H))
 		return FALSE
 
+	var/list/valid_patron_groups
+	if(is_type_in_list(H.patron, ALL_DIVINE_PATRONS))
+		valid_patron_groups = ALL_DIVINE_PATRONS
+	else if(is_type_in_list(H.patron, ALL_INHUMEN_PATRONS))
+		valid_patron_groups = ALL_INHUMEN_PATRONS
+	else if(istype(H.patron, OLD_GOD_PATRON))
+		valid_patron_groups = list(OLD_GOD_PATRON)
+	else
+		return FALSE
+
 	var/invocation
 	for(var/patron_type in patron_invocations)
 		if(istype(H.patron, patron_type))
@@ -1071,7 +1078,6 @@
 	for(var/mob/living/carbon/target in view(cast_range, get_turf(H)))
 		if(!is_type_in_list(target.patron, valid_patron_groups))
 			continue
-
 		target.apply_status_effect(/datum/status_effect/buff/preach)
 		target.add_stress(/datum/stressevent/zealot_cry)
 
@@ -1079,6 +1085,7 @@
 
 /datum/status_effect/buff/preach
 	id = "preach"
+	status_type = STATUS_EFFECT_REFRESH
 	alert_type = /atom/movable/screen/alert/status_effect/buff/preach
 	duration = 3 MINUTES
 	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 2, STATKEY_SPD = 1, STATKEY_LCK = 2)
