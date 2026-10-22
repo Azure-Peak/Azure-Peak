@@ -724,7 +724,7 @@
 	if(HAS_TRAIT(owner, TRAIT_NOREGEN) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	owner.adjust_bodytemperature(8)
-	if(owner.in_combat_until > world.time)
+	if(owner.is_in_combat())
 		return
 	owner.energy_add(healing_on_tick * 2)
 
@@ -739,7 +739,7 @@
 	duration = 6 SECONDS
 
 /datum/status_effect/buff/campfire/tick()
-	if(owner.in_combat_until > world.time)
+	if(owner.is_in_combat())
 		return
 	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
