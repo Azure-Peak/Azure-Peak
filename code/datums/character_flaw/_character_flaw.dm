@@ -952,7 +952,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 		if(!has_lesser_role)
 			to_chat(user, span_warning("Forsaken and branded, yet still able to function under a veil of plausible deniability... My station is insignificant enough that, should matters turn dire, a hidden domicile awaits, somewhere..."))
-			ADD_TRAIT(user, TRAIT_ZURCH, "[type]") // this is a privledge, not a rule, it will be taken away if abused or if it fails to create the roleplay hooks I envision
+			ADD_TRAIT(user, TRAIT_ZURCH, "[type]") // this is a priviledge, not a rule, it will be taken away if abused or if it fails to create the roleplay hooks I envision
 			ADD_TRAIT(user, TRAIT_CAREFULTRIP, "[type]") // cannot teach the path to zurch to onlookers, stops you from entering the zurch while in company of people who don't have the zurch trait, also pings the admins that you're attempting to enter in bad company, to gotcha some bad faith rats who will definitely try
 		else
 			to_chat(user, span_warning("Forsaken and branded, yet still able to function under a veil of plausible deniability... Yet my station leaves me with nowhere to hide should matters turn dire. I must tread extra carefully."))
