@@ -96,6 +96,7 @@
 #define TRAIT_NOREGEN "Laden Body" // Only affects natural healing, such as resting, campfires, potions, etc.
 #define TRAIT_HALFHEAL "Laden Lux" // -50% Magic Heal.
 #define TRAIT_TAINTEDLUX "Tainted Lux" // lux can't be extracted surgically
+#define TRAIT_NOHERBPOTS "Addled Humors" // cannot drink health pots made by alchemy
 
 #define TRAIT_EASYDISMEMBER	"Easy Dismemberment"
 #define TRAIT_HARDDISMEMBER	"Hard Dismemberment"
@@ -788,6 +789,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect."),
 	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),
 	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
+	TRAIT_NOHERBPOTS = span_artery("I cannot keep herb-based potions down at all. I'll be hurling them as fast as they come in."),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
 	TRAIT_CAUSTIC = span_info("Touching me is... less than advisable."),
 ))

@@ -997,3 +997,30 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	desc = "Something lingers in my blood that the Inquisition's instruments are quick to mistake for a curse."
 	ui_fa_icon = "vial"
 	needs_extra_vice = TRUE
+
+/datum/charflaw/halfheal
+	name = "Addled Lux"
+	desc = "There's something quite bad within my very Lux, which makes it so I heal way slower compared to my peers when blessed by the supernatural."
+	ui_fa_icon = "vial"
+
+/datum/charflaw/halfheal/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_HALFHEAL, "[type]")
+
+/datum/charflaw/noregen
+	name = "Awful Recovery"
+	desc = "There's something quite bad within my humors, which makes it so I cannot naturally heal at all. Only the supernatural can help me."
+	ui_fa_icon = "vial"
+
+/datum/charflaw/noregen/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_NOREGEN, "[type]")
+
+/datum/charflaw/no_herbpotions
+	name = "Bad Metabolism"
+	desc = "There's something wrong with me. I can't seem to keep herb-based healing potions down at all, and will not benefit from most of them."
+	ui_fa_icon = "vial"
+
+/datum/charflaw/no_herbpotions/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_NOHERBPOTS, "[type]")
