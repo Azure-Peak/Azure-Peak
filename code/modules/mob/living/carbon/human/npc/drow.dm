@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "underdark"
 
 // Testing-only subtype: forced whip loadout to verify NPC reach handling on weapons with reach > 1.
@@ -164,6 +164,6 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	npc_archetype = /datum/npc_archetype/drow/archer
 
 /mob/living/carbon/human/species/elf/dark/drowraider/archer/ambush
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "underdark"
 

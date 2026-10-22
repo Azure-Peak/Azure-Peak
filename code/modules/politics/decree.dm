@@ -50,20 +50,14 @@
 /datum/decree/proc/apply_rate_cap(mob/living/payer, tax_category, current_cap)
 	return current_cap
 
-/// Returns the updated poll-tax daily rate (in mammon) for this payer. Decrees may narrow it.
-/// Applied after the base per-category rate is looked up. Return `current_rate` for no change.
-/datum/decree/proc/apply_poll_tax_cap(mob/living/payer, poll_category, current_rate)
-	return current_rate
-
 /datum/decree/proc/apply_wage_floor(job_title, current_floor)
 	return current_floor
 
 /datum/decree/proc/wage_floored_jobs()
 	return list()
 
-/// Returns the updated daily fine ceiling (in mammon) for this payer. Decrees may narrow it.
-/datum/decree/proc/apply_daily_fine_cap(mob/living/payer, current_remaining)
-	return current_remaining
+/datum/decree/proc/apply_charge_cap(mob/living/payer, charge_category, current)
+	return current
 
 /// Called after a fine is actually transferred, so decrees can track running totals.
 /datum/decree/proc/on_fine_applied(mob/living/payer, amount)

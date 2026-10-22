@@ -165,7 +165,6 @@ BOILING murk-water turns it into regular water. BOILING sea-water produces usabl
 Wild pumpkins are everywhere in the Grove. Roast their seeds for a quick snack.
 ROTATE items for better inventory management by pressing RIGHT-MOUSE BUTTON on an inventory slot.
 READY-UP for GOODIES in your ACTOR'S STASH!
-Paying POLL TAXES early prevents paying higher taxes, if the Regent decides to hike them up three daes into the week.
 Planning on head-hunting? Consider buying a HEADHOOK and enchanting it with a STORING scroll from a mage.
 POUCHES can hold far more than coins.
 MOST storage containers can be enchanted with an EFFICIENT STORING enchantment, vastly increasing their space.
