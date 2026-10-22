@@ -575,3 +575,8 @@
 	timer = 15 MINUTES
 	stressadd = -2
 	desc = span_green("I feel a presence scarcely watching over me. Ah, blessed be the Ten Saints and their guidance! They too will me to ENDURE!")
+
+/datum/stressevent/zealot_cry
+	timer = 3 MINUTES
+	stressadd = -2
+	desc = span_green("My Lux burns bright after hearing those words! I can do anything! My cause is righteous!")
