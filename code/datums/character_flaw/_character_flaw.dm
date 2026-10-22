@@ -935,32 +935,18 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ADD_TRAIT(user, TRAIT_LASTLEGS, "[type]")
 
 /datum/charflaw/heretic
-	name = "Known Heretic"
-	desc = "I have committed a grave sin and been excommunicated or exposed as a heretic, despite never having broken any actual laws."
+	name = "Branded Heretic"
+	desc = "I have committed a grave sin and been excommunicated or exposed as a heretic, despite never having broken any actual laws. While I am legally clean in the city, I will never be welcome by the Church nor the Inquisition, and may even be put to death if I cross them wrong."
 	ui_fa_icon = "skull"
 	needs_extra_vice = TRUE
 
 /datum/charflaw/heretic/on_mob_creation(mob/user)
 	. = ..()
-	spawn(120)
-		var/has_lesser_role = FALSE
-
-		for(var/X in GLOB.burgher_positions + GLOB.atc_positions + GLOB.church_positions + GLOB.retinue_positions + GLOB.sidefolk_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.courtier_positions + GLOB.inquisition_positions)
-			if(user.mind?.assigned_role == X && X != "Bathmaster" && X != "Vagabond" && X != "Lunatic")
-				has_lesser_role = TRUE
-				break
-
-		if(!has_lesser_role)
-			to_chat(user, span_warning("Forsaken and branded, yet still able to function under a veil of plausible deniability... My station is insignificant enough that, should matters turn dire, a hidden domicile awaits, somewhere..."))
-			ADD_TRAIT(user, TRAIT_ZURCH, "[type]") // this is a priviledge, not a rule, it will be taken away if abused or if it fails to create the roleplay hooks I envision
-			ADD_TRAIT(user, TRAIT_CAREFULTRIP, "[type]") // cannot teach the path to zurch to onlookers, stops you from entering the zurch while in company of people who don't have the zurch trait, also pings the admins that you're attempting to enter in bad company, to gotcha some bad faith rats who will definitely try
-		else
-			to_chat(user, span_warning("Forsaken and branded, yet still able to function under a veil of plausible deniability... Yet my station leaves me with nowhere to hide should matters turn dire. I must tread extra carefully."))
-
-		if(user.real_name)
-			GLOB.excommunicated_players += user.real_name
-		if(user.name && user.name != user.real_name)
-			GLOB.excommunicated_players += user.name
+	to_chat(user, span_warning("Forsaken and branded, yet still able to function under a veil of plausible deniability and corruption... I have nowhere to hide should matters turn dire. I must tread extra carefully."))
+	if(user.real_name)
+		GLOB.excommunicated_players += user.real_name
+	if(user.name && user.name != user.real_name)
+		GLOB.excommunicated_players += user.name
 
 /datum/charflaw/agoraphobe
 	name = "Agoraphobic"
