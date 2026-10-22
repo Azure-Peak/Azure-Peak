@@ -933,3 +933,17 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/dnr/on_mob_creation(mob/user)
 	. = ..()
 	ADD_TRAIT(user, TRAIT_LASTLEGS, "[type]")
+
+/datum/charflaw/heretic
+	name = "Known Heretic"
+	desc = "I have committed a grave sin and been excommunicated or exposed as a heretic, despite never having broken any actual laws."
+	ui_fa_icon = "skull"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/heretic/on_mob_creation(mob/user)
+	. = ..()
+	spawn(30)
+		if(user.real_name)
+			GLOB.excommunicated_players += user.real_name
+		if(user.name && user.name != user.real_name)
+			GLOB.excommunicated_players += user.name
