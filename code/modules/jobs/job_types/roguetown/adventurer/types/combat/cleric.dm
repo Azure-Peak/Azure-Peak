@@ -1081,13 +1081,7 @@
 	if(!center)
 		return FALSE
 
-	var/targets_found = 0
-	var/targets_eligible = 0
-	var/targets_affected = 0
-
 	for(var/mob/living/carbon/target in view(cast_range, center))
-		targets_found++
-
 		if(!target.patron)
 			continue
 
