@@ -947,3 +947,4 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			GLOB.excommunicated_players += user.real_name
 		if(user.name && user.name != user.real_name)
 			GLOB.excommunicated_players += user.name
+		ADD_TRAIT(user, TRAIT_ZURCH, "[type]") // May be removed, this is mostly for social testing purposes.
