@@ -117,6 +117,10 @@
 		pitch = L.get_emote_pitch()
 
 	var/sound/tmp_sound = get_sound(user)
+	// Myconids make no audible noise: every audible emote plays as soundlessly as a gagged
+	// mouth (no playsound at all), while visible emotes and forced/ignore_silent ones stay as they are.
+	if(emote_type == EMOTE_AUDIBLE && !ignore_silent && is_species(user, /datum/species/floran/myconid))
+		tmp_sound = null
 	if(!istype(tmp_sound))
 		tmp_sound = sound(get_sfx(tmp_sound))
 	tmp_sound.frequency = pitch

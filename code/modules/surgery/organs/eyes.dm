@@ -41,7 +41,7 @@
 
 /obj/item/organ/eyes/update_overlays()
 	. = ..()
-	if(eye_color && (icon_state == "eyeball"))
+	if(eye_color && (icon_state == "eyeball" || findtext(icon_state, "eyeball_")))
 		var/mutable_appearance/iris_overlay = mutable_appearance(src.icon, "eyeball-iris")
 		iris_overlay.color = "#" + eye_color
 		. += iris_overlay
@@ -167,6 +167,18 @@
 	if(!istype(owner?.dna?.species, /datum/species/construct/metal))
 		if(prob(10))
 			pain_from_rejection()
+
+/obj/item/organ/eyes/floran
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "eyeball_plant"
+
+/obj/item/organ/eyes/myconid
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "eyeball_myco"
+
+/obj/item/organ/eyes/construct/ent
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "eyeball_ent"
 
 /obj/item/organ/eyes/night_vision/werewolf
 	name = "moonlight eyes"

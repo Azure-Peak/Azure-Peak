@@ -350,6 +350,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(species_name)
 		var/newtype = GLOB.species_list[species_name]
+		if(!newtype && species_name == "Florans") // the Florans were renamed - keep old savefiles on the race
+			species_name = "Floran"
+			newtype = GLOB.species_list[species_name]
 		if(newtype)
 			pref_species = new newtype
 			if(!spec_check())

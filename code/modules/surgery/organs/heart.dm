@@ -88,6 +88,9 @@
 
 /obj/item/organ/heart/prepare_eat(mob/living/carbon/human/user)
 	var/obj/item/reagent_containers/food/snacks/organ/S = ..()
+	// The stopped-heart snack state only exists on the surgery sheet, so pin the
+	// food back to it when the heart itself was drawn on a race sheet.
+	S.icon = 'icons/obj/surgery.dmi'
 	S.icon_state = "heart-off"
 	var/nothing = FALSE
 /*	if(user.mind)
@@ -139,6 +142,29 @@
 	desc = "Swirling with a blessing of Astrata and pulsing with lux inside. This allows a construct to move."
 	icon_state = "heartcon-on"
 	icon_base = "heartcon"
+
+// The grovekin hearts are drawn as one finished sprite - there is no stopped
+// half to swap to, so the beating toggle leaves them as they are.
+/obj/item/organ/heart/floran
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "heart_plant"
+
+/obj/item/organ/heart/floran/update_icon()
+	return
+
+/obj/item/organ/heart/myconid
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "heart_myco"
+
+/obj/item/organ/heart/myconid/update_icon()
+	return
+
+/obj/item/organ/heart/construct/ent
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "heart_ent"
+
+/obj/item/organ/heart/construct/ent/update_icon()
+	return
 
 /obj/item/organ/heart/cursed
 	name = "cursed heart"

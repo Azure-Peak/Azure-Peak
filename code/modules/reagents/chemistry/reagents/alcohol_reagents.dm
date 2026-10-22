@@ -33,7 +33,14 @@ All effects don't start immediately, but rather get worse over time; the rate is
 */
 
 
+/datum/reagent/consumable/ethanol/on_mob_metabolize(mob/living/L)
+	. = ..()
+	if(HAS_TRAIT(L, TRAIT_ALCOHOL_INTOLERANCE))
+		to_chat(L, span_warning("The alcohol burns as it spreads through my flesh!"))
+
 /datum/reagent/consumable/ethanol/on_mob_life(mob/living/carbon/C)
+	if(HAS_TRAIT(C, TRAIT_ALCOHOL_INTOLERANCE) && boozepwr > 0)
+		C.adjustToxLoss(boozepwr * 0.01, 0) // poison to them: stronger alcohol hurts more (beer 0.25/tick, aqua vitae 1.5/tick)
 	if(C.drunkenness < volume * boozepwr * ALCOHOL_THRESHOLD_MODIFIER || boozepwr < 0)
 		var/booze_power = boozepwr
 		C.drunkenness = max((C.drunkenness + (sqrt(volume) * booze_power * ALCOHOL_RATE)), 0) //Volume, power, and server alcohol rate effect how quickly one gets drunk

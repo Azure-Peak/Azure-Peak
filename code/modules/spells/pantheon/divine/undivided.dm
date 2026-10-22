@@ -121,7 +121,7 @@
 	return TRUE
 
 /datum/status_effect/buff/recuperation/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(owner))
 		return
 	var/stamheal = healing_on_tick
 	if(!owner.cmode)

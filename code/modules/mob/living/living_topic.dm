@@ -13,7 +13,7 @@
 
 /mob/living/proc/check_heartbeat(mob/user)
 	var/list/message = list()
-	if(!HAS_TRAIT(src, TRAIT_IRONMAN)) // more sovl
+	if(!(IS_ARTIFICIAL(src))) // more sovl
 		if(stat >= DEAD || HAS_TRAIT(src, TRAIT_FAKEDEATH) || HAS_TRAIT(src, TRAIT_ROTMAN))
 			message += "<B>No heartbeat...</B>"
 		else

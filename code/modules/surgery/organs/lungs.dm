@@ -45,3 +45,15 @@
 	name = "construct aersource"
 	desc = "A complex hollow crystal, which courses with air through unknowable means. Steam wisps around it in a vortex."
 	icon_state = "lungs-con"
+
+/obj/item/organ/lungs/floran
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "lungs_plant"
+
+/obj/item/organ/lungs/myconid
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "lungs_myco"
+
+/obj/item/organ/lungs/construct/ent
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "lungs_ent"

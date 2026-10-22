@@ -21,7 +21,7 @@
 	healing_on_tick = 1 // Full bard (100%)
 
 /datum/status_effect/buff/healing/rejuvenationsong/tick()
-	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(IS_ARTIFICIAL(owner))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue(get_turf(owner))
 	H.color = "#660759"

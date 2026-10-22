@@ -29,7 +29,7 @@
 	return TRUE
 
 /datum/status_effect/buff/healing/spider_cocoon/tick()
-	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || (IS_ARTIFICIAL(owner)))
 		return
 	if(HAS_TRAIT(owner, TRAIT_HALFHEAL))
 		healing_on_tick /= 2

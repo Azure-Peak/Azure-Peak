@@ -139,6 +139,8 @@
 	SHOULD_CALL_PARENT(TRUE)
 	if(!self_operable && (user == target))
 		return FALSE
+	if(IS_ARTIFICIAL(target) && (surgery_flags & (SURGERY_BLOODY | SURGERY_INCISED)))
+		return FALSE
 
 	if(target_mobtypes)
 		var/valid_mobtype = FALSE

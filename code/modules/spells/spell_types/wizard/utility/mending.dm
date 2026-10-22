@@ -57,7 +57,7 @@
 		var/mob/living/M = cast_on
 
 		// IRONMAN allowed
-		if(HAS_TRAIT(M, TRAIT_IRONMAN))
+		if(IS_ARTIFICIAL(M))
 			if(M.getBruteLoss() <= 0 && M.getFireLoss() <= 0)
 				if(owner)
 					to_chat(owner, span_info("[M] appears to be in perfect condition."))
@@ -134,7 +134,7 @@
 			return FALSE
 
 		// IRONMAN HEAL
-		if(HAS_TRAIT(M, TRAIT_IRONMAN))
+		if(IS_ARTIFICIAL(M))
 			var/power = 5 + user.STAINT * 0.3 // jakk here, but basically, the more wounded, the less effective, goes from ~40 heal per cast to 5 per cast minimum
 			var/brute = M.getBruteLoss()
 			var/fire = M.getFireLoss()

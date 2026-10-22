@@ -86,6 +86,19 @@
 	name = "construct decay regulator"
 	icon_state = "liver-con"
 	desc = "A construct's decay regulator. Swirling with pestran energies, it prevents corrosion and rot. Unfortunately, this makes them susceptible to toxins."
+
+/obj/item/organ/liver/floran
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "liver_plant"
+
+/obj/item/organ/liver/myconid
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "liver_myco"
+
+/obj/item/organ/liver/construct/ent
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "liver_ent"
+
 /obj/item/organ/liver/alien
 	name = "alien liver" // doesnt matter for actual aliens because they dont take toxin damage
 	icon_state = "liver-x" // Same sprite as fly-person liver.

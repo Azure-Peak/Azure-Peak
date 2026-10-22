@@ -72,6 +72,18 @@
 	say_mod = "crackles"
 	taste_sensitivity = 30 //It's dead, jim.
 
+/obj/item/organ/tongue/floran
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "tongue_plant"
+
+/obj/item/organ/tongue/myconid
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "tongue_myco"
+
+/obj/item/organ/tongue/construct/ent
+	icon = 'icons/obj/surgery_shrubbery.dmi'
+	icon_state = "tongue_ent"
+
 /obj/item/organ/tongue/lizard
 	name = "forked tongue"
 	desc = ""

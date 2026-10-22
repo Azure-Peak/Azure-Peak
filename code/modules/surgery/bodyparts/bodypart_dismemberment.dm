@@ -110,9 +110,9 @@
 			return FALSE
 
 	var/obj/item/bodypart/affecting = C.get_bodypart(BODY_ZONE_CHEST)
-	if(affecting && dismember_wound && !isooze(C))
+	if(affecting && dismember_wound && !HAS_TRAIT(C, TRAIT_BONELESS))
 		affecting.add_wound(dismember_wound)
-	else if(affecting && dismember_wound && isooze(C))
+	else if(affecting && dismember_wound && HAS_TRAIT(C, TRAIT_BONELESS))
 		C.visible_message(span_danger("[C]'s wound closes rapidly to stem the flow of plasm."))
 	playsound(C, pick(dismemsound), 50, FALSE, -1)
 
@@ -346,7 +346,7 @@
 /obj/item/bodypart/r_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C) && !is_prosthetic_limb())
+	if(HAS_TRAIT(C, TRAIT_BONELESS))
 		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
@@ -367,7 +367,7 @@
 /obj/item/bodypart/l_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C) && !is_prosthetic_limb())
+	if(HAS_TRAIT(C, TRAIT_BONELESS))
 		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
@@ -387,7 +387,7 @@
 /obj/item/bodypart/r_leg/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C) && !is_prosthetic_limb())
+	if(HAS_TRAIT(C, TRAIT_BONELESS))
 		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
@@ -403,7 +403,7 @@
 /obj/item/bodypart/l_leg/drop_limb(special) //copypasta
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C) && !is_prosthetic_limb())
+	if(HAS_TRAIT(C, TRAIT_BONELESS))
 		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)

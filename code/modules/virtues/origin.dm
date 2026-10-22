@@ -234,6 +234,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 				/datum/species/anthromorphsmall,
 				/datum/species/dullahan,
 				/datum/species/ooze,
+				/datum/species/floran/myconid,
 				/datum/species/construct/metal,
 )
 	origin_desc = "Underdwellers are those who are descendants of their lengthy lineage that settled, lived and toiled in the darkest and deepest \

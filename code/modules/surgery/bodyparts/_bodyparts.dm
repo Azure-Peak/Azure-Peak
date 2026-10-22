@@ -120,6 +120,15 @@
 	var/list/appearance_list = list()
 //	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
 	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
+	// Only on the ent: its limbs cross the torso and every limb base shares -BODYPARTS_LAYER with
+	// this chunk, so a limb rendered later paints over the chest/head growths, and the body-feature
+	// organs (breasts, testicles) share -BODY_ADJ_LAYER. Lift the growths above both (appearance
+	// -43.9): still below BODY_LAYER features (underwear, eyes at -43) and every clothing layer
+	// (the most negative clothing sits at -38). Crotch features drawn at -BODY_FRONT_LAYER would
+	// still paint over the growths, so their front copy is tucked just under this layer for ents
+	// only (tuck_under_ent_growths), and the veil keeps its place just above the growths.
+	if(specific_layer == BODYPARTS_LAYER && istype(owner?.dna?.species, /datum/species/floran/ent))
+		specific_layer = BODY_ADJ_LAYER - 0.1
 	var/specific_render_zone = aux ? aux_zone : body_zone
 
 	for(var/key in specific_markings)
@@ -128,15 +137,18 @@
 
 		var/render_limb_string = specific_render_zone
 		var/pixel_y_offset = 0
+		var/marking_icon = BM.icon
 		if(BM.gendered && (!BM.gender_only_chest || specific_render_zone == BODY_ZONE_CHEST))
 			var/gendaar = human_owner.is_bulky_body() ? "m" : "f"
 			render_limb_string = "[render_limb_string]_[gendaar]"
+			if(gendaar == "f" && BM.icon_f)
+				marking_icon = BM.icon_f
 			// Only gendered markings need this: one drawn as a single shared sprite was never drawn against her
 			// body to begin with. The per-zone amounts live on the build, as marking_offsets.
 			if(gendaar == "f" && human_owner.gender == MALE)
 				pixel_y_offset = human_owner.get_marking_offset(specific_render_zone)
 
-		var/mutable_appearance/accessory_overlay = mutable_appearance(BM.icon, "[BM.icon_state]_[render_limb_string]", -specific_layer)
+		var/mutable_appearance/accessory_overlay = mutable_appearance(marking_icon, "[BM.icon_state]_[render_limb_string]", -specific_layer)
 		accessory_overlay.pixel_y += pixel_y_offset
 		if(override_color)
 			accessory_overlay.color = "#[override_color]"
@@ -251,7 +263,7 @@
 		var/mob/living/carbon/human/H = C
 		if(HAS_TRAIT(C, TRAIT_LIMBATTACHMENT))
 			if(!H.get_bodypart(body_zone))
-				if(HAS_TRAIT(C, TRAIT_IRONMAN)) // there we go, figured a way to give this a delay, now ima go sleep
+				if(IS_ARTIFICIAL(C)) // there we go, figured a way to give this a delay, now ima go sleep
 					if(!do_after(C, 20 SECONDS))
 						return
 				if(H == user)
@@ -334,7 +346,7 @@
 //Applies brute and burn damage to the organ. Returns 1 if the damage-icon states changed at all.
 //Damage will not exceed max_damage using this proc
 //Cannot apply negative damage
-/obj/item/bodypart/proc/receive_damage(brute = 0, burn = 0, stamina = 0, blocked = 0, updating_health = TRUE, required_status = null)
+/obj/item/bodypart/proc/receive_damage(brute = 0, burn = 0, stamina = 0, blocked = 0, updating_health = TRUE, required_status = null, pre_scaled = FALSE)
 	update_HP()
 	var/hit_percent = (100-blocked)/100
 	if((!brute && !burn && !stamina) || hit_percent <= 0)
@@ -345,17 +357,24 @@
 	if(required_status && (status != required_status))
 		return FALSE
 
-	var/dmg_mlt = CONFIG_GET(number/damage_multiplier) * hit_percent
-	brute = round(max(brute * dmg_mlt, 0),DAMAGE_PRECISION)
-	burn = round(max(burn * dmg_mlt, 0),DAMAGE_PRECISION)
-	stamina = round(max(stamina * dmg_mlt, 0),DAMAGE_PRECISION)
-	brute = max(0, brute - brute_reduction)
-	burn = max(0, burn - burn_reduction)
+	if(pre_scaled) // handed over by core_overflow(), already scaled and reduced
+		brute = round(max(brute, 0),DAMAGE_PRECISION)
+		burn = round(max(burn, 0),DAMAGE_PRECISION)
+		stamina = round(max(stamina, 0),DAMAGE_PRECISION)
+	else
+		var/dmg_mlt = CONFIG_GET(number/damage_multiplier) * hit_percent
+		brute = round(max(brute * dmg_mlt, 0),DAMAGE_PRECISION)
+		burn = round(max(burn * dmg_mlt, 0),DAMAGE_PRECISION)
+		stamina = round(max(stamina * dmg_mlt, 0),DAMAGE_PRECISION)
+		brute = max(0, brute - brute_reduction)
+		burn = max(0, burn - burn_reduction)
 	//No stamina scaling.. for now..
 
 	if(!brute && !burn && !stamina)
 		return FALSE
 	//cap at maxdamage
+	var/brute_over = max(0, (brute_dam + brute) - max_damage)
+	var/burn_over = max(0, (burn_dam + burn) - max_damage)
 	if(brute_dam + brute > max_damage)
 		brute_dam = max(brute_dam, max_damage)
 	else
@@ -364,6 +383,9 @@
 		burn_dam = max(burn_dam, max_damage)
 	else
 		burn_dam += burn
+
+	if(!pre_scaled && (brute_over > 0 || burn_over > 0))
+		core_overflow(brute_over, burn_over, updating_health, required_status)
 
 	//We've dealt the physical damages, if there's room lets apply the stamina damage.
 	stamina_dam += round(CLAMP(stamina, 0, max_stamina_damage - stamina_dam), DAMAGE_PRECISION)
@@ -391,6 +413,22 @@
 		if(hud_used?.zone_select)
 			hud_used.zone_select.update_limb(body_zone)
 	return .
+
+// An ent's sap flows like any blood and its core lattice only ruptures once the WHOLE body is wrecked,
+// so damage that a full chest or a full skull would normally absorb gets passed to its twin
+// vital part instead of being dropped by the cap - and the other way around.
+/obj/item/bodypart/proc/core_overflow(brute, burn, updating_health = TRUE, required_status = null)
+	if(!owner || (!brute && !burn))
+		return
+	if(!HAS_TRAIT(owner, TRAIT_ENTCORE)) // constructs keep their old behaviour
+		return
+	if(body_zone != BODY_ZONE_CHEST && body_zone != BODY_ZONE_HEAD)
+		return
+	var/twin_zone = (body_zone == BODY_ZONE_CHEST) ? BODY_ZONE_HEAD : BODY_ZONE_CHEST
+	var/obj/item/bodypart/twin = owner.get_bodypart(twin_zone)
+	if(!twin)
+		return
+	twin.receive_damage(brute, burn, 0, 0, updating_health, required_status, TRUE)
 
 //Heals brute and burn damage for the organ. Returns 1 if the damage-icon states changed at all.
 //Damage cannot go below zero.

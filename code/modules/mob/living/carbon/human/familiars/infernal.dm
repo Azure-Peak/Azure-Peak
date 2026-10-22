@@ -80,7 +80,7 @@
 		if(human == src)
 			return // don't get to benefit from your own aura
 		var/distance = get_dist(src, human)
-		if(distance > healing_range || HAS_TRAIT(human, TRAIT_NOREGEN) || HAS_TRAIT(human, TRAIT_IRONMAN))
+		if(distance > healing_range || HAS_TRAIT(human, TRAIT_NOREGEN) || (IS_ARTIFICIAL(human)))
 			continue
 		if(!human.has_status_effect(/datum/status_effect/buff/campfire_stamina))
 			to_chat(human, span_info("The warmth of [src.name]'s flames comforts me, affording me a short rest. I would need to lie down on a bed to get a better rest."))

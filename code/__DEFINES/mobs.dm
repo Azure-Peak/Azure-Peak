@@ -570,6 +570,11 @@
 #define SKIN_COLOR_WINTERMUTE "7da0a1"
 #define SKIN_COLOR_BLOOD "9e2f2f"
 
+//ENT SKIN TONES - the three woods an ent can be grown from
+#define SKIN_COLOR_ENT_BIRCH "FFFFFF"
+#define SKIN_COLOR_ENT_SWAMP "E3F2C6"
+#define SKIN_COLOR_ENT_OAK "FFEFBA"
+
 //HALF ELF SKIN TONES
 #define SKIN_COLOR_GRENZEL_AVAR "fff0e9"
 #define SKIN_COLOR_TIMBER_GRONN "ffe0d1"

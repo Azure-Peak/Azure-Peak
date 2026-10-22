@@ -83,6 +83,19 @@
 	desc = "I urgently need to drink something! Anything!"
 	icon_state = "thirst3"
 
+/datum/status_effect/debuff/myconid_regrow
+	id = "myconid_regrow"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/myconid_regrow
+	effectedstats = list(STATKEY_CON = -2, STATKEY_WIL = -2)
+	duration = 15 MINUTES
+	needs_processing = FALSE
+	examine_text = "<font color='#9b6dc6'>SUBJECTPRONOUN's newly regrown limbs still draw heavily on the rest of their body.</font>"
+
+/atom/movable/screen/alert/status_effect/debuff/myconid_regrow
+	name = "Regrowth"
+	desc = "Flesh drawn forth anew so recently still claims its due - my body works slowly until it settles."
+	icon_state = "debuff"
+
 /datum/status_effect/debuff/spell_vampire_block
 	id = "spell_vampire_block"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/spell_vampire_block
