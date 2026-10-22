@@ -47,6 +47,9 @@
 	to_chat(src, span_warning("I drink from [victim]'s [parse_zone(sublimb_grabbed)]."))
 	log_combat(src, victim, "drank blood from ")
 
+	if(HAS_TRAIT(victim, TRAIT_BLACKBLOOD) || HAS_TRAIT(victim, TRAIT_ROTMAN)) // not just vampires, but everyone who try this
+		add_stress(/datum/stressevent/foul_blood)
+
 	var/tox_drained = min(victim.getToxLoss(), 3) // no leeches? no problem!
 	if(tox_drained > 0)
 		victim.adjustToxLoss(-tox_drained)

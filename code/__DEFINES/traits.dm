@@ -114,13 +114,15 @@
 #define TRAIT_BLOOD_RESISTANCE "Thick Blooded" //50% less bleeding
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //shrug off a certain number of crits.
 
-#define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
 
 //Near the above, this makes you silver weak + while-sundered ignore paincrit traits, define another w/ TRAIT_LYCANRESILENCE if you need another silver weak, stun immune exemption that still burns from silver.
 #define TRAIT_SILVER_WEAK "Silver Weakness"
 
-//Second Chance related
+//Character-warping Traits
+#define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
 #define TRAIT_ROTMAN "Rotman" //No heartbeat + can invoke Zizo ascension/not regular ascensions - Also lets you eat brains
+#define TRAIT_PALLID "Pallid" // A hidden trait that comes up if you combine Hemovore with Agoraphobic or Sunlight Sensitive. It displays on your Examine that you have an unhealthy pallor about you. Makes vampires not enjoy the taste of your blood.
+#define TRAIT_BLACKBLOOD "Blackblood" // A hidden trait that only appears if you combine Odd Blood with Inhumen Digestion or Hemovore. It displays on your Examine that you have protruding fangs and a feral look to you. Makes vampires not enjoy the taste of your blood.
 
 //Gear Restriction Related Traits
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"
@@ -578,7 +580,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WILD_EATER = span_info("I can eat raw food and drink from dirty water."),
 	TRAIT_NISTEAN = "I refuse to eat the flesh of any land-dwelling beaste.",
 	TRAIT_VEGAN = "I refuse to eat the flesh or byproducts of any living being.",
-	TRAIT_SANGUIVORE = "I can drink blood without retching, though it does little to sate me.",
+	TRAIT_SANGUIVORE = "I can drink blood without retching.",
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
@@ -659,7 +661,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_JUSTICARSIGHT = span_info("I am able to remember someone's crimes by looking at them, and how much their bounty is."),
 	TRAIT_CICERONE = span_info("I am well-versed in the differences of brews and spirits, and can tell them apart at a glance."),
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
-	TRAIT_ROTMAN = span_necrosis("I am partially undead. My heart does not beat."),
+	TRAIT_PALLID = span_artery("My oddities have given me a horrible pallor that I cannot seem to hide from others. I can consume blood as I do water."),
+	TRAIT_BLACKBLOOD = span_artery("My oddities have warped me to be no different than a feral ghoul. I get energized from consuming organs, and my blood is quite foul."),
+	TRAIT_ROTMAN = span_necrosis("I am partially deadite. My heart does not beat, my blood is stale and foul and I won't ever feel nauseous."),
 	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance, regardless of my equipment. I am stiff and unthinking, my trait-defining techniques and smarts in lyfe will not always follow me into this undeath, I cannot benefit from woodwalker or falling immunity. <b>My wounds and injuries will passively regenerate away as long as I am not set ablaze.</b>"),
 	TRAIT_IRONMAN = span_info("I am an artificial being with a physiology unlike that of organics and react very little to physical trauma. Minerals, gems and ingots restore my structure, but electrocution is especially fatal to me. When critically damaged, I can be stabilized through sticks or rocks, but I will rapidly decay otherwise if not repaired in time. I can process certain materials on the go, and with empty hands, Combat Mode active, and a STRONG stance, I can mine mineral walls and topple trees by bumping into them."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),

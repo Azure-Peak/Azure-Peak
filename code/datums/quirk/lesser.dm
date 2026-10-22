@@ -177,10 +177,18 @@
 /datum/quirk/sanguivore
 	name = "Sanguivore"
 	desc = "Whether by habit or upbringing, I can stomach blood without retching."
-	mechdesc = "Drinking blood, by mouth or from a cup, will not make you sick. It grants no other benefit."
+	mechdesc = "Drinking blood, by mouth or from a cup, will not make you sick. It grants no other benefits."
 	added_traits = list(TRAIT_SANGUIVORE)
 	restricted_species = list(/datum/species/construct/metal)
 	ui_fa_icon = "tint"
+
+/datum/quirk/sanguivore/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	for(var/datum/charflaw/flaw as anything in recipient.charflaws)
+		if((istype(flaw, /datum/charflaw/agoraphobe) || istype(flaw, /datum/charflaw/skyfear/sun)) && ((istype(flaw, /datum/charflaw/silverweakness) || HAS_TRAIT(recipient, TRAIT_SILVER_WEAK)))) // hidden special interaction!
+			ADD_TRAIT(recipient, TRAIT_PALLID, TRAIT_GENERIC)
+			to_chat(recipient, span_artery("My unhealthy habits have given me a notable pallor and thirst..."))
+			break
 
 /datum/quirk/bloodcolour
 	name = "Odd Blood"
@@ -201,6 +209,11 @@
 /datum/quirk/bloodcolour/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
 	INVOKE_ASYNC(src, PROC_REF(pick_colour), recipient)
+	for(var/datum/charflaw/flaw as anything in recipient.charflaws)
+		if((istype(flaw, /datum/charflaw/silverweakness) || HAS_TRAIT(recipient, TRAIT_SILVER_WEAK)) && HAS_TRAIT(recipient, TRAIT_NASTY_EATER) || HAS_TRAIT(recipient, TRAIT_STRONGBITE) || HAS_TRAIT(recipient, TRAIT_QUICKSILVERRESISTANT)) // hidden special interaction!
+			ADD_TRAIT(recipient, TRAIT_BLACKBLOOD, TRAIT_GENERIC)
+			to_chat(recipient, span_artery("My unhealthy habits have given me a ghoulish hunger..."))
+			break
 
 /datum/quirk/bloodcolour/proc/pick_colour(mob/living/carbon/human/recipient)
 	var/choice = tgui_input_list(recipient, "What colour is your blood?", "ODD BLOOD", colours)

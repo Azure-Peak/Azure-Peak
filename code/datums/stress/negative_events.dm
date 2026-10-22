@@ -604,3 +604,13 @@
 	timer = 5 MINUTES
 	stressadd = 1
 	desc = list(span_artery("Even I found no satisfaction in striking someone so meek."), span_artery("They denied me the thrill of a real fight."), span_artery("Their refusal to resist leaves a bitter taste."), span_artery("There was no struggle... only acceptance. That's insane."), span_artery("I expected fear, hatred, anything... but not acceptance."), span_artery("A defenseless victim is hardly worth remembering, yet the thought lingers."), span_artery("Why won't the image of their helplessness leave my mind?"))
+
+/datum/stressevent/foul_blood
+	timer = 15 MINUTES
+	stressadd = 4
+	desc = span_necrosis("That flavor was UTTERLY FOUL! It lingers in my mouth!")
+
+/datum/stressevent/foul_blood_sniff
+	timer = 20 SECONDS
+	stressadd = 4
+	desc = span_necrosis("THEIR BREATH STINKS OF SOMETHING PUNGENT, ECH!")

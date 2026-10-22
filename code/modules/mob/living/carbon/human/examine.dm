@@ -880,6 +880,13 @@
 		if(name in GLOB.outlawed_players)
 			. += span_userdanger("OUTLAW!")
 
+		if(HAS_TRAIT(src, TRAIT_PALLID))
+			. += span_warning("<i>They seem to have an unhealthy pallor to them.</i>")
+		if(HAS_TRAIT(src, TRAIT_BLACKBLOOD))
+			. += span_warning("<i>They seem to have sharp fangs and a feral gaze.</i>")
+		if(src.has_stress_event(/datum/stressevent/foul_blood))
+			. += span_warning("<font color='#85b864'>Their breath STINKS of something ridiculously pungent!</font>")
+			user.add_stress(/datum/stressevent/foul_blood_sniff)
 		. += deadite_examine()
 		. += get_ssd_examine_text(m3)
 
