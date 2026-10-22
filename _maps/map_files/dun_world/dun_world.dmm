@@ -75260,6 +75260,10 @@
 /obj/item/grown/log/tree/stick,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"mPg" = (
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/town/bath)
 "mPk" = (
 /turf/closed/wall/mineral/rogue/wooddark,
 /area/rogue/indoors/town/shop)
@@ -80297,8 +80301,8 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/under/cavewet/bogcaves/north)
 "nLy" = (
-/obj/effect/decal/cleanable/blood/paint,
-/turf/open/floor/rogue/cobble,
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/town/bath)
 "nLC" = (
 /obj/structure/stairs,
@@ -160849,7 +160853,7 @@ wxV
 nPv
 rqY
 pyt
-lMz
+mPg
 cJN
 pjo
 eSf
@@ -161756,7 +161760,7 @@ lMz
 glb
 lMz
 nrq
-nLy
+ozx
 tAm
 lMz
 qrL
@@ -162206,9 +162210,9 @@ nPv
 rqY
 egh
 lMz
-lMz
+mPg
 pyT
-tAm
+nLy
 tAm
 lMz
 qWH

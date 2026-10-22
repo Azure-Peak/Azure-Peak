@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - refactor: "Veiled Whispers should work now, and shouldn't report deadite cures as a 'new death'. (Hopefully! Report any oddities!)"

@@ -1,0 +1,10 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Remove the old pot-based stew water + fruit fruit juice recipe"
+  - rscadd: "Add apple juice"
+  - rscadd: "Nutriments no longer transfer from juiced item into the juice, polluting the drinks and making them awkward to mix. Ported from OV"
+  - rscadd: "Allows you to juice / grind up to 4 items in a mortar at once"
+  - rscadd: "Allows you to empty non reagent container (sack / bag etc., but not pot to avoid weirdness) into a mortar for easier juicing"
+  - rscadd: " Increase the yield of juice from 5 drams (!) to 25 drams for juicing each piece of fruit"
+  - bugfix: " Makes skysugar no longer a subtype of blackberries or a type of plant"

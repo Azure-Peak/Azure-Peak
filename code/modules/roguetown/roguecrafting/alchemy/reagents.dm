@@ -15,7 +15,7 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum)
 
 /datum/reagent/medicine/healthpot/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
 		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/healthpot, 2) //No overhealing.
@@ -31,21 +31,13 @@
 		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1 * REAGENTS_EFFECT_MULTIPLIER)
 	..()
 
-/datum/reagent/medicine/healthpot/zarum/blood
-	name = "blackened sludge"
-	description = "A fairly disgusting, bubbling mess of an unknown origin that seems to be constantly fermenting onto itself, exhuding a foul smell."
-	color = "#241a1a"
-	taste_description = "sins of Otava"
-	scent_description = "dark darker yet darker"
-	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum, /datum/reagent/medicine/healthpot/zarum/bog)
-
 /datum/reagent/medicine/healthpot/zarum/bog // no changes, it's just more palatable :>
 	name = "honeyed zarum"
 	description = "A fermented sauce of fish innards, vinegar and honey, which gradually regenerates all types of damage while remaining surprisingly pleasant to the tastebuds."
 	color = "#dd9700"
 	taste_description = "sweet-sour fish-glazed honey"
 	scent_description = "sweet fermented pungence"
-	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum, /datum/reagent/medicine/healthpot/zarum/blood)
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum)
 
 /datum/reagent/medicine/healthpot/zarum
 	name = "zarum"
@@ -58,7 +50,7 @@
 	scent_description = "fermented pungence"
 	taste_mult = 8
 	var/hydration = 4
-	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum/bog, /datum/reagent/medicine/healthpot/zarum/blood)
+	conflicting_reagent_types = list(/datum/reagent/medicine/stronghealth, /datum/reagent/medicine/restoration, /datum/reagent/medicine/healthpot/zarum/bog)
 
 /datum/reagent/medicine/healthpot/zarum/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_NOREGEN))
@@ -91,7 +83,7 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/restoration)
 
 /datum/reagent/medicine/stronghealth/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
 		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/stronghealth, 2) //No overhealing.
@@ -150,7 +142,7 @@
 	conflicting_reagent_types = list(/datum/reagent/medicine/healthpot, /datum/reagent/medicine/stronghealth, /datum/reagent/medicine/manapot, /datum/reagent/medicine/strongmana)
 
 /datum/reagent/medicine/restoration/on_mob_life(mob/living/carbon/M)
-	if(HAS_TRAIT(M, TRAIT_NOREGEN) || HAS_TRAIT(M, TRAIT_BLACKBLOOD))
+	if(HAS_TRAIT(M, TRAIT_NOREGEN))
 		return ..()
 	if(volume >= 60)
 		M.reagents.remove_reagent(/datum/reagent/medicine/restoration, 2) //No overhealing.

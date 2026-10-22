@@ -1,38 +1,3 @@
-GLOBAL_LIST_INIT(towner_posting_tier_costs, list(
-	TOWNER_POSTING_TIER_MEDIUM = TOWNER_POSTING_COST_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = TOWNER_POSTING_COST_HARD,
-))
-
-GLOBAL_LIST_INIT(towner_posting_descriptors, list(
-	QUEST_TOWNER_SMITH_CARAVAN = list(
-		"label" = "A Caravan Gone Missing",
-		"blurb" = "A wagon of yours was lost on the road. Hire hands to secure the wreck and bring the strongbox home.",
-		"rules" = list(
-			"The strongbox is magickally sealed. Only you can open it.",
-			"You don't need to travel. The holder brings the strongbox to you.",
-		),
-		"postable_advclasses" = list(
-			/datum/advclass/blacksmith,
-			/datum/advclass/guildsman/blacksmith,
-			/datum/advclass/guildsman/artificer,
-			/datum/advclass/guildmaster,
-		),
-	),
-	QUEST_TOWNER_MINER_OREVEIN = list(
-		"label" = "A Miner's Lead",
-		"You found a vein guarded by elementals and mined a good haul before they drove you away. Hire hands to slay the elementals and haul out the crate.",
-		"rules" = list(
-			"The crate is magickally sealed. Only you can open it.",
-			"You don't need to travel. The holder brings the crate to you.",
-		),
-		"postable_advclasses" = list(
-			/datum/advclass/miner,
-			/datum/advclass/guildsman/architect,
-			/datum/advclass/guildmaster,
-		),
-	),
-))
-
 /proc/get_user_advclass_path(mob/user)
 	if(!ishuman(user))
 		return null
@@ -42,13 +7,13 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	return AC.type
 
 /proc/towner_trade_can_post(mob/user, posting_type)
-	var/list/desc = GLOB.towner_posting_descriptors[posting_type]
-	if(!desc)
+	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
+	if(!proto)
 		return FALSE
 	var/path = get_user_advclass_path(user)
 	if(!path)
 		return FALSE
-	return (path in desc["postable_advclasses"])
+	return (path in proto.postable_advclasses)
 
 /proc/user_can_post_crown_towner(mob/user)
 	if(!user)
@@ -65,17 +30,18 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	return user_can_post_crown_towner(user)
 
 /proc/user_can_post_towner_type(mob/user, posting_type)
-	if(!GLOB.towner_posting_descriptors[posting_type])
+	if(!get_towner_prototype(posting_type))
 		return FALSE
 	if(towner_trade_can_post(user, posting_type))
 		return TRUE
 	return user_can_post_crown_towner(user)
 
-/proc/user_can_post_any_towner(mob/user)
-	for(var/posting_type in GLOB.towner_posting_descriptors)
-		if(user_can_post_towner_type(user, posting_type))
-			return TRUE
-	return FALSE
+/proc/count_active_towner_postings(mob/user)
+	. = 0
+	var/datum/weakref/user_ref = WEAKREF(user)
+	for(var/datum/quest/Q as anything in SSquestpool.pool + get_scroll_quests())
+		if(Q.source == QUEST_SOURCE_TOWNER && Q.quest_giver_reference == user_ref && !Q.complete)
+			.++
 
 /proc/towner_advclass_names(list/paths)
 	var/list/out = list()
@@ -87,24 +53,10 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	return out
 
 /proc/towner_bearer_summary(tier)
-	var/bonus = GLOB.towner_tier_flat_bonus[tier] || 0
+	var/bonus = get_towner_tier_term(tier, "flat_bonus") || 0
 	if(bonus > 0)
 		return "combat & distance pay + [bonus]m bonus"
 	return "combat & distance pay"
-
-/proc/towner_variety_table(posting_type)
-	switch(posting_type)
-		if(QUEST_TOWNER_SMITH_CARAVAN)
-			return GLOB.towner_smith_caravan_varieties
-		if(QUEST_TOWNER_MINER_OREVEIN)
-			return GLOB.towner_orevein_varieties
-	return null
-
-/proc/towner_default_variety(posting_type)
-	var/list/vtable = towner_variety_table(posting_type)
-	if(!length(vtable))
-		return null
-	return vtable[1]
 
 /proc/towner_spec_summary(list/spec)
 	if(!length(spec))
@@ -123,7 +75,8 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 	return english_list(parts)
 
 /proc/towner_variety_listing(posting_type)
-	var/list/vtable = towner_variety_table(posting_type)
+	var/datum/quest/kill/recovery/towner/proto = get_towner_prototype(posting_type)
+	var/list/vtable = proto?.varieties
 	if(!length(vtable))
 		return list()
 	var/list/out = list()
@@ -131,7 +84,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		var/list/meta = vtable[key]
 		var/list/poster_summaries = list()
 		var/list/meta_tiers = meta["tiers"]
-		for(var/tier in GLOB.towner_posting_tier_costs)
+		for(var/tier in GLOB.towner_posting_tiers)
 			poster_summaries[tier] = towner_spec_summary(meta_tiers?[tier])
 		out += list(list(
 			"key" = key,
@@ -143,23 +96,24 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 
 /proc/build_towner_posting_listing(mob/user)
 	var/list/out = list()
-	for(var/posting_type in GLOB.towner_posting_descriptors)
-		var/list/desc = GLOB.towner_posting_descriptors[posting_type]
+	var/list/prototypes = get_towner_prototypes()
+	for(var/posting_type in prototypes)
+		var/datum/quest/kill/recovery/towner/proto = prototypes[posting_type]
 		var/crown_funded = towner_posting_is_crown_funded(user, posting_type)
 		var/cost_mult = crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1
 		var/list/tiers = list()
-		for(var/tier in GLOB.towner_posting_tier_costs)
+		for(var/tier in GLOB.towner_posting_tiers)
 			tiers[tier] = list(
-				"cost" = GLOB.towner_posting_tier_costs[tier] * cost_mult,
+				"cost" = get_towner_tier_term(tier, "cost") * cost_mult,
 				"bearer_summary" = towner_bearer_summary(tier),
 			)
 		out += list(list(
 			"type" = posting_type,
-			"label" = desc["label"],
-			"blurb" = desc["blurb"],
-			"rules" = desc["rules"] || list(),
+			"label" = proto.posting_label,
+			"blurb" = proto.posting_blurb,
+			"rules" = proto.posting_rules || list(),
 			"eligible" = user_can_post_towner_type(user, posting_type) ? TRUE : FALSE,
-			"eligible_jobs" = towner_advclass_names(desc["postable_advclasses"]),
+			"eligible_jobs" = towner_advclass_names(proto.postable_advclasses),
 			"crown_funded" = crown_funded ? TRUE : FALSE,
 			"tiers" = tiers,
 			"varieties" = towner_variety_listing(posting_type),
@@ -177,7 +131,7 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		return
 
 	var/chosen_type = params["type"]
-	if(!(chosen_type in GLOB.towner_posting_descriptors))
+	if(!get_towner_prototype(chosen_type))
 		to_chat(poster, span_warning("That posting type is not one the Guild accepts."))
 		return
 
@@ -185,20 +139,25 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		to_chat(poster, span_warning("Your trade does not post that contract."))
 		return
 
+	if(count_active_towner_postings(poster) >= TOWNER_MAX_ACTIVE_POSTINGS)
+		to_chat(poster, span_warning("You already have [TOWNER_MAX_ACTIVE_POSTINGS] postings out. Withdraw one or wait for one to be fulfilled."))
+		return
+
 	var/tier = params["tier"]
-	if(!(tier in GLOB.towner_posting_tier_costs))
+	if(!(tier in GLOB.towner_posting_tiers))
 		to_chat(poster, span_warning("That posting tier is not recognised."))
 		return
 
 	var/variety = params["variety"]
-	var/list/vtable = towner_variety_table(chosen_type)
+	var/datum/quest/kill/recovery/towner/chosen_proto = get_towner_prototype(chosen_type)
+	var/list/vtable = chosen_proto?.varieties
 	if(length(vtable))
 		if(!variety || !(variety in vtable))
 			variety = vtable[1]
 	else
 		variety = null
 	var/crown_funded = towner_posting_is_crown_funded(poster, chosen_type)
-	var/cost = GLOB.towner_posting_tier_costs[tier] * (crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1)
+	var/cost = get_towner_tier_term(tier, "cost") * (crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1)
 	if(!cost)
 		return
 
@@ -224,24 +183,19 @@ GLOBAL_LIST_INIT(towner_posting_descriptors, list(
 		poster_account = SStreasury.get_account(poster)
 		if(!poster_account)
 			return
-		if(!SStreasury.transfer(poster_account, SStreasury.discretionary_fund, cost, "townsfolk contract posting ([chosen_type])", LEDGER_CITIZEN_CONTRACT_PAID, LEDGER_CROWN_REV_OTHER))
+		if(!SStreasury.burn(poster_account, cost, "townsfolk contract posting ([chosen_type])", LEDGER_CITIZEN_CONTRACT_PAID))
 			to_chat(poster, span_warning("The payment didn't go through."))
 			return
 
 	var/to_hand = (params["delivery"] == "hand")
 	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand, variety)
+	var/datum/fund/paying_fund = crown_funded ? SStreasury.discretionary_fund : poster_account
 	if(!dispatched)
-		if(crown_funded)
-			SStreasury.mint(SStreasury.discretionary_fund, cost, "Crown townsfolk contract refund (issue failure)", null, LEDGER_CROWN_EXP_CONTRACTS)
-		else
-			SStreasury.transfer(SStreasury.discretionary_fund, poster_account, cost, "townsfolk contract posting refund (issue failure)", LEDGER_CROWN_REV_OTHER, LEDGER_CITIZEN_CONTRACT_PAID)
+		SStreasury.mint(paying_fund, cost, "townsfolk contract posting refund (issue failure)", null, SStreasury.commitment_account(paying_fund))
 		to_chat(poster, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
 
-	if(crown_funded)
-		dispatched.add_funding(SStreasury.discretionary_fund, cost)
-	else
-		dispatched.add_funding(poster_account, cost, SStreasury.discretionary_fund)
+	dispatched.add_funding(paying_fund, cost)
 
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/purse_note = crown_funded ? " Paid from the Treasury." : ""

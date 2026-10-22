@@ -1,0 +1,4 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - bugfix: "statpanel can once again interact with mobs"

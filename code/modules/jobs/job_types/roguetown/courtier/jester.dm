@@ -22,9 +22,21 @@
 	max_pq = null
 	round_contrib_points = 2
 	has_subprefs = FALSE // only one subclass
+	advclass_cat_rolls = list(CTAG_JESTER = 2)
+	job_subclasses = list(
+		/datum/advclass/jester
+	)
 
+/datum/advclass/jester
+	name = "Jester"
+	tutorial = "The Grenzelhofts were known for their Jesters, wisemen with a tongue just as sharp as their wit. \
+		You command a position of a fool, envious of the position your superiors have upon you. \
+		Your cheap tricks and illusions of intelligence will only work for so long, \
+		and someday you'll find yourself at the end of something sharper than you."
+	outfit = /datum/outfit/job/roguetown/jester/basic
+	category_tags = list(CTAG_JESTER)
 
-/datum/outfit/job/roguetown/jester/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/jester/basic/pre_equip(mob/living/carbon/human/H)
 	..()
 	shoes = /obj/item/clothing/shoes/roguetown/jester
 	saiga_shoes = /obj/item/clothing/shoes/roguetown/horseshoes/gold

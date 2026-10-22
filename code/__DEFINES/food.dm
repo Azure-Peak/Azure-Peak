@@ -1,18 +1,6 @@
-#define MEAT		(1<<0)
-#define VEGETABLES	(1<<1)
-#define RAW		(1<<2)
-#define JUNKFOOD	(1<<3)
-#define GRAIN		(1<<4)
-#define FRUIT		(1<<5)
-#define DAIRY		(1<<6)
-#define FRIED		(1<<7)
-#define ALCOHOL	(1<<8)
-#define SUGAR		(1<<9)
-#define GROSS		(1<<10)
-#define TOXIC		(1<<11)
-#define PINEAPPLE	(1<<12)
-#define BREAKFAST	(1<<13)
-#define CLOTH		(1<<14)
+// Food quality flags: how a food tastes or feels to eat, not what the dish is (see DISH_* for that).
+#define GROSS		(1<<0)
+#define TOXIC		(1<<1)
 
 #define DRINK_NICE	1
 #define DRINK_GOOD	2
@@ -55,6 +43,7 @@
 #define DISH_SWEET		(1<<9)
 #define DISH_EGG		(1<<10)
 #define DISH_NOODLES	(1<<11)
+#define DISH_HONEY		(1<<12)
 
 // Drink type flags - drink only.
 #define DRINKTYPE_WINE		(1<<0)

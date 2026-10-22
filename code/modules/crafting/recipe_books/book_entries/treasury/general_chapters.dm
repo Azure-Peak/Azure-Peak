@@ -23,12 +23,12 @@
 			levy.</li> <li><b>The Otavan Accords</b> - The Inquisition pays no tax and no
 			levy.</li> <li><b>The Golden Bull of Kingsfield</b> - burghers are capped at
 			[GOLDEN_BULL_BURGHER_CAP * 100]% of balance per levy or fine. Each fine is
-			capped at [GOLDEN_BULL_DAILY_FINE_CAP]m.</li> <li><b>The Covenant of Noc and
-			Pestra</b> - University members, Apothecary and Head Physician are limited to
-			the lightest poll tax of [NOC_PESTRA_POLL_CAP]m. They also get a minimum wage
+			capped at [CHARGE_CAP_CHARTER]m.</li> <li><b>The Covenant of Noc and
+			Pestra</b> - Scholars (University members, Apothecary and Head Physician) are limited to
+			the lightest poll levy of [CHARGE_CAP_CHARTER]m. They also get a minimum wage
 			from the Crown's payroll.</li> <li><b>The Guild Charter of Arms</b> - Guild
-			mercenaries are capped at [GUILD_CHARTER_OF_ARMS_POLL_CAP]m of poll tax per
-			day. While the Charter is in force, they remit
+			mercenaries are capped at [CHARGE_CAP_CHARTER]m per poll
+			levy. While the Charter is in force, they remit
 			[GUILD_CHARTER_OF_ARMS_PLEDGE_BONUS]m daily to the Burgher Pledge.</li>
 			<li><b>The Indenture of War</b> - Retinue and Garrison members get a minimum
 			salary while this is in force.</li>
@@ -47,7 +47,7 @@
 /datum/book_entry/treasury_general/levies/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p>Rates on Taxation and Levies are set by the Steward using the "Adjust Taxes" verb. This can be done even with a Grand Duke or Regent in place. Any conflict from both parties trying to set rates is an IC issue to resolve. The Grand Duke or Regent may also adjust tax rates at the throne by saying "Set Taxes". The poll tax and the levies can each be changed once per day. Whoever sets them first locks the other out until the next day.</p>
+		<p>Rates on Taxation and Levies are set by the Steward using the "Adjust Taxes" verb. This can be done even with a Grand Duke or Regent in place. Any conflict from both parties trying to set rates is an IC issue to resolve. The Grand Duke or Regent may also adjust tax rates at the throne by saying "Set Taxes". Whoever sets them first locks the other out until the next day.</p>
 		</div>
 
 		<h3>Transaction Levies</h3>
@@ -59,31 +59,23 @@
 			via the Navigator's balloon.</li>
 		</ul>
 
-		<h3>Poll Tax</h3> <p>Poll tax is one of the most powerful and most hated ways
-		for the Crown to raise revenue. It is a daily tax levied on each subject with
-		a bank account. It drains from their balance automatically. Rates are set by
-		the Steward or the Throne. Charters may exempt or cap certain categories of
-		subject while they are in force. Poll taxes are capped at
-		[POLL_TAX_MAX_RATE]m/day. They can be set as low as a subsidy of
-		-[POLL_TAX_MAX_SUBSIDY]m/day.</p>
-
-		<p>Unpaid poll tax accumulates arrears. After [POLL_TAX_DEBT_DAYS_TO_DEBTOR]
-		day(s) of arrears, the subject is marked <b>destitute</b>. Poll tax arrears do
-		not authorise killing or attacking on sight, and they do not override ERP
-		protection rules. The Crown imposes poll tax on its own. The subject has not
-		consented to being attacked or killed over it. Treat arrears as a roleplay
-		opportunity to recover or forgive the debt.</p>
-
-		<h3>Subsidy</h3>
-		<p>A category's rate may be set as far as <b>-[POLL_TAX_MAX_SUBSIDY]m/day</b>.
-		A negative rate is a <b>Crown subsidy</b>: each day, the Treasury pays that
-		mammon to every subject of the category. This includes classes a Charter
-		protects.</p>
-
-		<p>The tax setter shows the projected daily income or subsidy cost and the net
-		flow for the current head count. The Steward can see the budget impact before
-		committing. The projection is the rate × eligible head count. It doesn't
-		account for people who can't or won't pay.</p>
+		<h3>Poll Levy</h3>
+		<p>A one-off charge per head, set by class. Every subject with a bank account is charged at
+		once. Anyone already in game without an account will be charged when they open an account. Those who arrives after the round starts will not owe anything.</p>
+		<ul>
+			<li>Raised by the Grand Duke, the Regent or the Steward. The Steward may raise one levy per
+			week, even with a Grand Duke or Regent in place.</li>
+			<li>At most [POLL_LEVY_MAX_PER_ROUND] levies per week, none before day [POLL_LEVY_FIRST_DAY],
+			and at most one per day. A reason of at least [POLL_LEVY_REASON_MIN] characters is announced
+			with it.</li>
+			<li>Maximum [CHARGE_CAP_FLAT]m per head. Charters may cap a class at [CHARGE_CAP_CHARTER]m or
+			exempt it outright. No levies while the Magna Carta is in force.</li>
+			<li>The levy never taxes an account below <b>[POLL_LEVY_PROTECTED_BALANCE]m</b>, so everyone can afford some contract deposit.</li>
+			<li>Whatever a subject cannot pay becomes <b>arrears</b>. Arrears are drawn from the account whenever someone deposit in it and at dawn every day. The subject is marked <b>destitute</b> until
+			the debt is settled or forgiven.</li>
+		</ul>
+		<p>Arrears are not grounds for attacking or killing anyone and do not override ERP protection.
+		Recover or forgive the debt through play.</p>
 
 		<p>Meister deposits are not taxed.</p>
 		</div>
@@ -100,8 +92,8 @@
 		<ul>
 			<li>Subjects protected by a Charter cannot be fined.</li> <li>Golden Bull
 			subjects: maximum [GOLDEN_BULL_BURGHER_CAP * 100]% of balance per stroke and
-			at most [GOLDEN_BULL_DAILY_FINE_CAP]m.</li> <li>All others: maximum
-			[GENERIC_RATE_CAP * 100]% of balance per stroke.</li> <li><b>One fine per
+			at most [CHARGE_CAP_CHARTER]m.</li> <li>All others: maximum
+			[GENERIC_RATE_CAP * 100]% of balance per stroke and at most [CHARGE_CAP_FLAT]m.</li> <li><b>One fine per
 			subject per day.</b></li>
 		</ul>
 
@@ -215,10 +207,10 @@
 		<p>Both legal and illegal ways to dodge taxes exist.</p>
 
 		<p><b>Legal Evasion</b>: Subjects without a bank account are inherently immune
-		to poll taxes. Avoiding Contract Levy requires membership in a class exempt
+		to poll levies. Avoiding Contract Levy requires membership in a class exempt
 		from tax - nobles, church members, or holders of Church Benefactor status
 		(granted by the Bishop). The Church itself is not expected to adventure
-		without IC reason. Benefactor status is the practical channel. Tax immunity
+		without IC reason. Benefactor status is the usual route. Tax immunity
 		does not apply to indirect taxes like import tariffs or export duties.</p>
 
 		<p><b>Illegal Evasion</b>: The Merchant can stop paying taxes by toggling the
@@ -232,6 +224,20 @@
 
 /datum/book_entry/treasury_general/innkeeper
 	name = "08. The Innkeeper and the Guild"
+
+/datum/book_entry/treasury_general/innkeeper/proc/rumor_cost_lines()
+	var/list/types_by_cost = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(proto.rumor_cost > 0)
+			LAZYADD(types_by_cost["[proto.rumor_cost]"], qtype)
+	var/list/costs = list()
+	for(var/cost in types_by_cost)
+		costs += text2num(cost)
+	sortTim(costs, GLOBAL_PROC_REF(cmp_numeric_asc))
+	. = ""
+	for(var/cost in costs)
+		. += "<li><b>[english_list(types_by_cost["[cost]"])]</b> - [cost] points each.</li>"
 
 /datum/book_entry/treasury_general/innkeeper/inner_book_html(mob/user)
 	return {"
@@ -249,11 +255,7 @@
 
 		<p>Each rumor type has a fixed point cost:</p>
 		<ul>
-			<li><b>Retrieval, Courier, Easy Kill</b> -
-			[GLOB.rumor_point_costs[QUEST_RETRIEVAL]] points each.</li> <li><b>Clearout,
-			Recovery</b> - [GLOB.rumor_point_costs[QUEST_CLEAR_OUT]] points each.</li>
-			<li><b>Raid, Bounty</b> - [GLOB.rumor_point_costs[QUEST_RAID]] points
-			each.</li>
+			[rumor_cost_lines()]
 		</ul>
 
 		<h3>Composing a Rumor</h3>
@@ -266,8 +268,8 @@
 			to a chosen holder directly.</li> <li><b>Lucrative</b> - a
 			[round((RUMOR_LUCRATIVE_MULT - 1) * 100)]% premium on both point cost and
 			holder payout. It costs [RUMOR_LUCRATIVE_MULT]x the base points and pays
-			[RUMOR_LUCRATIVE_MULT]x the base reward. Use it to sweeten the pot for a job
-			that needs holders or earn more profit when there is a lack of holders.</li>
+			[RUMOR_LUCRATIVE_MULT]x the base reward. Use it to sweeten the rewards for a job
+			that needs someone to be taken or earn more when there is not many demands for contracts.</li>
 		</ul>
 
 		<p>One rumor of a given type, region, and destination may be composed per day.
@@ -347,8 +349,8 @@
 		[QUEST_POOL_REGEN_INTERVAL / 600] minutes. Each time, up to
 		[QUEST_KILL_REGEN_PER_TICK] new kill contracts are posted in the regions that
 		need them most. Evergreen contracts (Retrieval, Courier) top up independently
-		to a flat target in each region. The pool starts full at roundstart so there
-		is always a healthy spread of work available.</p>
+		to a flat target in each region. The pool starts full at roundstart so work
+		is available from the start.</p>
 
 		<p>Each region has its own kill target scaled to the number of active people.
 		The pool routes new kill contracts to whichever region is furthest below its
@@ -372,12 +374,16 @@
 		</ul>
 
 		<h3>Withdrawal</h3>
-		<p>Tavern staff may withdraw a rumor from the Issued tab of the Ledger. Anyone
-		who can issue defense contracts may withdraw those and blockade scrolls there. A
-		contract can be withdrawn at once while no one has taken it up. Once it is
-		taken, its holder has [QUEST_ISSUER_CANCEL_WINDOW / 600] minutes before it can
-		be withdrawn. It cannot be withdrawn once the contract has begun. The full
-		cost and deposit are returned. A Request's daily slot is not restored.</p>
+		<p>You can withdraw a contracts you posted at Your Postings at the bottom of the Ledger. Anyone
+		may withdraw a contract they posted themselves. Tavern staff may also withdraw any rumor, and anyone who can issue defense contracts may withdraw those and
+		blockade scrolls. A contract can be withdrawn instantly if no one has taken it
+		up. Once it is taken, its holder has [MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / 600]
+		minutes before it can be withdrawn. It cannot be withdrawn once the contract has
+		begun. [REFUND_ON_NOT_TAKEN * 100]% of the cost and the holder's deposit are
+		returned. If a contract fails, [REFUND_ON_FAILURE * 100]% of its cost is
+		returned to whoever paid for it. If its holder abandons it,
+		[REFUND_ON_NOT_TAKEN * 100]% is returned before the work begins and
+		[REFUND_ON_FAILURE * 100]% after. A Request's daily slot is not restored.</p>
 
 		<h3>Signing and Active Cap</h3> <p>Each person may hold up to
 		[QUEST_MAX_ACTIVE_PER_PLAYER] active contracts at a time. Some jobs override
@@ -400,7 +406,7 @@
 		<p>Most contracts require a small deposit on signing, scaled by difficulty:
 		<b>[QUEST_DEPOSIT_EASY]m</b> (Easy), <b>[QUEST_DEPOSIT_MEDIUM]m</b> (Medium),
 		<b>[QUEST_DEPOSIT_HARD]m</b> (Hard). The deposit is returned on completion and
-		lost if you abandon the contract. It is not taxed.</p>
+		lost if you abandon or fail the contract. It is not taxed.</p>
 
 		<h3>Abandonment</h3>
 		<p>A held contract may be abandoned at the Ledger. You lose the deposit.</p>
@@ -409,7 +415,7 @@
 		clicking the Ledger while holding the scroll. Retrieval items must be dropped on
 		the marked tile in front of the Ledger. On payout:</p>
 		<ul>
-			<li>The Crown's <b>Contract Levy</b> takes its tax cut (Levy Exempt contracts
+			<li>The Crown's <b>Contract Levy</b> is deducted (Levy Exempt contracts
 			skip this).</li> <li>The Guild takes a <b>[round(GUILD_REFERRAL_FEE_PCT * 100)]% referral fee</b> off the gross and remits it to the active
 			Innkeeper.</li> <li>The remainder is paid to the holder's account.</li>
 		</ul>
@@ -418,12 +424,20 @@
 		of the standard cut. See <i>The Innkeeper and the Guild</i>.</p>
 
 		<h3>Hunt Timer</h3> <p>Active kill contracts carry a hunt timer of
-		[QUEST_KILL_HUNT_TIMER / 600] minutes, with warnings at
-		[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_2M)] and
-		[DisplayTimeText(QUEST_KILL_HUNT_TIMER - QUEST_KILL_HUNT_WARN_30S)] left. If
+		[QUEST_KILL_HUNT_TIMER / (1 MINUTES)] minutes, with warnings at
+		[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)] and
+		[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)] left. If
 		the timer runs out, the scroll crumbles and any live wave mobs despawn. This
 		starts when the mobs in question spawn at the target location. Blockade Scrolls
 		use a longer timer for each wave. See <i>Defense and Blockades</i>.</p>
+
+		<p>Recovery contracts have  a delivery timer of
+		[QUEST_RECOVERY_DELIVERY_TIMER / (1 MINUTES)] minutes once every guardian is
+		slain. If the parcel is not delivered in time, the scroll crumbles and the parcel is lost with the contract refunded.</p>
+
+		<p>Notorious Bounties are shorter, at [NOTORIOUS_BOUNTY_HUNT_TIMER / (1 MINUTES)] minutes. They also
+		end early if the whole hunting party is dead or down. When the timer runs out or the party falls,
+		fallen hunters near the outlaw's ground are revived.</p>
 		</div>
 	"}
 
@@ -500,7 +514,6 @@
 			<li><b>Defense Authority</b> - a bracket vote setting the Alderman's daily defense warrant, denominated in Pledge. Brackets: [jointext(ASSEMBLY_DEFENSE_BRACKETS, "p, ")]p.</li>
 			<li><b>Recall</b> - removes a sitting Alderman. Passes on [ASSEMBLY_RECALL_THRESHOLD_PCT]% YAE of cast weight.</li>
 			<li><b>Censure</b> - bars a subject from holding office or wielding warrants for the rest of the round. Passes on [ASSEMBLY_CENSURE_THRESHOLD_PCT]% YAE of cast weight.</li>
-			<li><b>Poll Tax</b> - suspended pending reform.</li>
 		</ul>
 		<p>Recall and censure require at least [ASSEMBLY_REMOVAL_MOB_FLOOR] distinct
 		YAE voters casting a combined [ASSEMBLY_REMOVAL_WEIGHT_FLOOR / 2] weight.
@@ -596,10 +609,9 @@
 		Bathmaster's Zadcote may scry through the bonded zad on a Zadcage. Scrying
 		draws from a small <b>scrying fund</b> kept by the Zadcote itself. Feed coins
 		of any denomination directly into the Zadcote to add to the fund. Each scry
-		deducts [ZAD_VOYEUR_COST_MAMMON] mammon. The Zadcage holder feels arcane
-		energy stir, and the cage glows blue while the scrying is active. The view
-		lasts [DisplayTimeText(ZAD_VOYEUR_DURATION)]. That is long enough to confirm
-		the holder is safe or to make trouble. The Steward and Crown have no scrying
+		deducts [ZAD_VOYEUR_COST_MAMMON] mammon. The Zadcage holder is warned that the
+		zad is being used, and the cage glows blue while the scrying is active. The view
+		lasts [DisplayTimeText(ZAD_VOYEUR_DURATION)]. The Steward and Crown have no scrying
 		access through Zadcotes. They must rely on the Court Mage's scrying.</p>
 
 		<h3>Spare zadcages & zads</h3> <p>Spare Zadcages cost

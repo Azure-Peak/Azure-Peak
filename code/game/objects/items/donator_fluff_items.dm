@@ -564,7 +564,7 @@
 	item_state = "gcuirass"
 	icon_state = "gcuirass"
 
-/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/psydon/donator_gothic
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate/donator_gothic
 	name = "gothic chestplate"
 	desc = "A magnificent ornate cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
 	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
@@ -632,6 +632,26 @@
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 	item_state = "ghalfplate"
 	icon_state = "ghalfplate"
+
+//
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/donator_ornate
+	name = "silvered gothic cuirass"
+	desc = "A magnificent ornate cuirass, assembled by an Azurian mastersmith. The intricate fluting and interlocked plates are clear \
+	signs of its Grenzelhoftian heritage; expensive, but second-to-none when it comes to what truly matters in life."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	item_state = "gflutedcuirass"
+	icon_state = "gflutedcuirass"
+
+/datum/crafting_recipe/roguetown/survival/ornatemailledhauberk
+	name = "layer a silvered gothic cuirass atop hauberk"
+	result = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/donator_gothic)
+	reqs = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/donator_ornate = 1,
+				/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk = 1)
+	craftdiff = 0
+	req_table = TRUE
+	bypass_dupe_test = TRUE
 
 //
 
@@ -2670,6 +2690,18 @@ As Excaliber."
 	name = "inquisitorial tabis"
 	color = null
 	armor = ARMOR_PLATE
+
+/obj/item/clothing/shoes/roguetown/boots/tabi/hardened
+	name = "hardened tabis"
+	color = null
+	sewrepair = TRUE
+	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+
+/obj/item/clothing/shoes/roguetown/boots/tabi/hardened/ComponentInitialize()
+	. = ..()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
 //MAGI1138
 /obj/item/clothing/cloak/magi1138
@@ -4816,9 +4848,87 @@ As Excaliber."
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	bigboy = TRUE
+
 // LIMETEASE
 /obj/item/rogueweapon/sword/long/ap/yoshi_estoc
 	name = "Dénouement"
 	desc = "A peculiar take on the more traditional Azurian estoc, fastened to it's crossguard are two small bells and held in place by purple and green tassles.  It's blade is wrapped in cloth, a more personalised addition by the wielder rather than the smith. The bells jingle with every graceful chassé the wielder performs in the dance of lyfe and death.          The curtain call is nigh but the show must go on! Dance for the Gods! Make thy foe bleed and roll the die, their tyme is nigh."
 	icon_state = "yoshi_estoc"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
+
+// LIMETEASE
+/obj/item/clothing/cloak/tabard/limeastratatabard
+	name = "Astratan Tabard"
+	desc = "A unique tabard adorned with the golden markings of the sun monarch, the wearers of this tabard are often."
+	icon_state = "limeastratatabard"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// LIMETEASE
+/obj/item/clothing/cloak/tabard/limetabard
+	name = "Leathery Tabard"
+	desc = "A warm tabard that's snatched at the waist, inside that leathery coffin is ."
+	icon_state = "limetabard"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// LIMETEASE
+/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm
+	name = "The True Astratan Helmet"
+	desc = "An ornate steel cap, adorned with a firey sun crown. Optionally worn with a coif, this fashionable statement of faith is usually given to astratans who give their nobility up in the sake of faith."
+	item_state = "limeastratahelm"
+	icon_state = "limeastratahelm"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	adjustable = CAN_CADJUST
+
+/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm/ComponentInitialize()
+	..()
+	AddComponent(/datum/component/adjustable_clothing, \
+		(HEAD|EARS|HAIR), \
+		(HIDEEARS|HIDEHAIR),\
+		null, \
+		'sound/items/visor.ogg', \
+		null, \
+		UPD_HEAD)
+
+// LIMETEASE
+/obj/item/clothing/cloak/poncho/guidress
+	name = "Kazengun Silken Lounge Jacket"
+	desc = "A fine silken jacket from the shores of Kazegun, although calling this garment a jacket is a stretch. Typically worn by courtesans or those of ill-repute. The long sleaves give an air of elegance while the low-cut in front bring the viewer's eyes to the wearer's more delicate 'assets'."
+	icon_state = "guidress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/cloak/poncho/guidress/equipped(mob/user, slot)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/obj/item/organ/breasts/B = H.getorganslot(ORGAN_SLOT_BREASTS)
+
+		if(B && B.breast_size == 3)
+			flags_inv &= ~HIDEBOOB
+			boobed = TRUE
+			boobed_detail = TRUE
+		else
+			flags_inv |= HIDEBOOB
+			boobed = FALSE
+			boobed_detail = FALSE
+
+		H.update_inv_wear_suit()
+
+// LIMETEASE
+/obj/item/storage/belt/rogue/leather/ulqbelt
+	name = "Belt of the Potionkeeper"
+	desc = "Gronnic leather adorned with a golden volf-esque symbol, this belt carries heavy sloshing potions that radiate a terrible feeling."
+	icon_state = "ulqbelt"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+// LIMETEASE
+/obj/item/storage/belt/rogue/leather/ulqsusbelt
+	name = "Messy Belt of the Potionkeeper"
+	desc = "Gronnic leather adorned with a golden volf-esque symbol, this belt carries heavy sloshing waste that exudes a freeky feeling."
+	icon_state = "ulqsusbelt"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'

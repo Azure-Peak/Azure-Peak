@@ -785,3 +785,117 @@
       - its barely much force reduction tbh.
   twinklover22:
   - balance: buffed Endure.
+2026-10-19:
+  OMEGATHERION:
+  - bugfix: Masc vaqueros spawn with a saiga
+  Ollanius:
+  - bugfix: Some Psydonic helmets - chiefly, the Greatplumed variants - should no
+      longer have glitched detail states.
+  - code_imp: Psydonic helmets are now forked off of a neutral tether, the unobtainable
+      'Psydonic Bascinet'.
+  borneblood:
+  - bugfix: Fixed an oddity with charged intents being able to have their sfx spammed,
+      despite clickcd.
+  eirenxiv:
+  - balance: changed dobo robe and subtypes to be ARMOR_LEATHER
+  pontifexminimus2:
+  - rscadd: 'Sojourner getting innate mending.
+
+      :cl:'
+  racobio:
+  - bugfix: fixed pathing on two specific donator staff pathing
+  twinklover22:
+  - qol: Couple new weapon options for Routier.
+2026-10-20:
+  BobProductive:
+  - bugfix: fixes book kits, people can make books again!
+  FreeStylaLT:
+  - balance: Maneaters integrity now scale with the victim's FOR and is now more randomized.
+  Guidesu:
+  - bugfix: Taur layering
+  Ketrai:
+  - rscadd: Incomplete vision quests have their parchment refunded at the dream pool
+      at a 5 minute interval.
+  Ollanius:
+  - code_imp: Ornate Gothic Armor-type elixirs are now pathed as "gothicornatecuirass"
+      and not "gothicpsydoniccuirass". It's recommended to double-check your loadout,
+      just in case this repathing has swapped your previously-saved elixir choice
+      around.
+  - rscadd: Adds the Psydonic Gothic Armor elixir, which replaces the original filepath.
+  - bugfix: Psydonic Chestplates should now properly transform when elixir-ed.
+  - bugfix: Minor typo corrections.
+  Ryan180602:
+  - rscadd: extra blood effects.
+  - balance: projectile subzone aim cap is gone.
+  - balance: bows/xbows don't contend with subzone aim malus anymore.
+  Sutures:
+  - refactor: Refactored Spellblade roundstart setup to be gooder.
+  WeNeedMorePhoron:
+  - bugfix: Booting the game on localhost should let you bypass minimum character
+      for FT and OOC notes again
+  - bugfix: 'Furtive Fortissimo''s description now describes what light steps does
+      better: ```My steps becomes light. I can sneak much quicker now, traps won''t
+      affect me and caltrops have less effect.```'
+  - bugfix: Fixes a bug where having light steps would make you unable to notice people
+      sneaking on another Z level, instead of the other way round
+  - bugfix: Items spawned by loot spawner will also have town property stamp
+  - admin: The contract force complete button should only show on localhost, and is
+      super obvious it is an admin only button now
+  - bugfix: You cannot pledge to a wave that is already rolled or forming by other
+      means (For example pledge to a Heartfelt wave when there's already one) to avoid
+      issues
+  - bugfix: Prevent race condition with saddleborn allowing you to summon infinite
+      mount
+  azurexautyr-arch:
+  - bugfix: fixed two donor items
+  - rscadd: three donor items, one of which is open to all donators -- Leathery Tabard
+  mumblemancer:
+  - rscadd: the courier and recovery system's rewards have been expanded by a fair
+      amount! keep an eye on any packages coming in for FRESH LOOT DROPS!
+2026-10-21:
+  KatTheFox:
+  - rscadd: Axians and Murklings may now take the Aquaphile quirk.
+  Ollanius:
+  - bugfix: Improved the formatting of roughly twenty-or-so intent sprites, which
+      should hopefully make them a little easier to read.
+  - rscadd: Unifies the 'thrust' intent on forks and spoons to be 'gouges' / 'shallow
+      thrusts'. Same functionality as before.
+  - balance: Spoons now deal 5 > 0 damage.
+  - bugfix: Gothic Sallets and Psydonic Cuirasses now properly transform in all circumstances,
+      when hit with elixirs.
+  - rscadd: Gothic Psydonic Cuirasses should now be applicable for the "Gothic Plate-And-Maille"
+      recipe.
+  - code_imp: The "exact_type" variable on morphing elixirs seems to sometimes give
+      a false positive, if the 'target_item' listing isn't properly spaced out (when
+      used with the 'result_item = null' method.) Good to keep this in mind, in case
+      any transforming errors come up in the future.
+  Quinalion:
+  - bugfix: Fixed the padded coif.
+  - refactor: Removed unnecessary components from coifs with two opening stages.
+  azurexautyr-arch:
+  - rscadd: donor item for GuiMontag
+  changelingonberry:
+  - rscadd: custom descriptors now support multiple uppercase words
+  zRainbowcat:
+  - bugfix: Greedy message spam
+2026-10-22:
+  Ollanius:
+  - bugfix: A couple polearm sprites have been adjusted to be properly in-line with
+      the rest. In combination with some altered inhand code, this should fix most
+      cases of polearms (especially halberd- and polehammer-forked ones) mysteriously
+      floating below the wielder's grasp.
+  - rscadd: Bardiches now use a steel-bladed sprite, to accomadate them being classified
+      as steel weapons.
+  - code_imp: Slightly touches up the organization of blunt32.dmi, blunt64.dmi, and
+      polearms64.dmi.
+  Ryan180602:
+  - refactor: cleans up weapon special calcs
+  azurexautyr-arch:
+  - bugfix: fixed a donor item
+  changelingonberry:
+  - rscadd: honey as a favorite dish type
+  - bugfix: a lot of food now has the proper dish type set for the purposes of liked
+      foods
+  mumblemancer:
+  - rscdel: trolls wont hide on losing their target, anymore. this will also make
+      them not hide when they die.

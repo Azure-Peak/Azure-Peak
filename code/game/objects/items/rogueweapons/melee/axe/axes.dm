@@ -641,17 +641,33 @@
 	. = ..()
 	update_icon()
 
-
 /obj/item/rogueweapon/greataxe/steel/knight/silver
 	name = "silver poleaxe"
 	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of pure silver. It may not stop the darkness; but it will halt \
 	its march, long enough, to shepherd away the defenseless. </br>'O'er the Horizon, the stars and spirals I see; and below it, the horrors \
 	that've been felled by me. Through the darkness, I see my home and its beautiful light; and it will continue to shimmer, as long as I \
 	fight. Forever I stand, forever I'll hold - 'til the Horizon grows still, and my spirit trails home..'"
-	icon_state = "silverpolearm"
+	icon_state = "silverpoleaxe"
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 	resistance_flags = FIRE_PROOF
+
+/obj/item/rogueweapon/greataxe/steel/knight/silver/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "detail"
+		update_icon()
+
+/obj/item/rogueweapon/greataxe/steel/knight/silver/update_icon()
+	refresh_detail_overlay()
+
+/obj/item/rogueweapon/greataxe/steel/knight/silver/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
 
 /obj/item/rogueweapon/greataxe/steel/knight/silver/ComponentInitialize()
 	AddComponent(\
@@ -665,8 +681,25 @@
 	desc = "A poleaxe, fitted with a reinforced shaft and a beaked axhead of alloyed silver. As the fragility of swords've \
 	become more apparent, the Psydonic Orders - following the disastrous Massacre of Blastenghyll - have shifted their focus \
 	towards arming their paladins with longer-lasting greatweapons."
-	icon_state = "silverpolearm"
+	icon_state = "silverpoleaxe"
 	smeltresult = /obj/item/ingot/silverblessed
+
+/obj/item/rogueweapon/greataxe/steel/knight/silver/psy/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "detail"
+		update_icon()
+
+/obj/item/rogueweapon/greataxe/steel/knight/silver/psy/update_icon()
+	refresh_detail_overlay()
+
+/obj/item/rogueweapon/greataxe/steel/knight/silver/psy/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
 
 /obj/item/rogueweapon/greataxe/steel/knight/silver/psy/ComponentInitialize()
 	AddComponent(\
@@ -706,7 +739,7 @@
 	max_blade_int = 270
 	gripped_intents = list(/datum/intent/axe/cut/long, /datum/intent/axe/chop/long, /datum/intent/axe/sweep)
 	smeltresult = /obj/item/ingot/component/graggar
-	special = /datum/special_intent/vicious_swipe
+	special = /datum/special_intent/wave_swing/vicious
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/graggar/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)

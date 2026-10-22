@@ -220,11 +220,12 @@
 	if(!istype(W) || !W.special)
 		return FALSE
 	summon.face_atom(target)
-	if(!W.special.check_reqs(summon, W))
+	var/datum/special_intent/spec = W.get_special()
+	if(!spec.check_reqs(summon, W))
 		return FALSE
-	if(!W.special.apply_cost(summon))
+	if(!spec.apply_cost(summon))
 		return FALSE
-	W.special.deploy(summon, W, target)
+	spec.deploy(summon, W, target)
 	return TRUE
 
 /datum/action/cooldown/spell/command_word/proc/summon_guard(mob/living/summon, atom/aim)

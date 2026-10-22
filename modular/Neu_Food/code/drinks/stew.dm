@@ -227,61 +227,6 @@
 	metabolization_rate = 4
 	alpha = 222
 
-/datum/reagent/consumable/soup/lemon
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of lemon"
-	color = "#FFE88F"
-	taste_description = "puckeringly bright lemoniness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/lime
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of lime"
-	color = "#BAE88F"
-	taste_description = "puckeringly bright limeyness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/pear
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of pear"
-	color = "#BAAE8F"
-	taste_description = "pleasantly crisp peariness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/apple
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of apple"
-	color = "#E0BE6D"
-	taste_description = "pleasantly crisp appleness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/tangerine_marmalade
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of tangerine"
-	color = "#f0935d"
-	taste_description = "extremely sweet tangerines"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
 /datum/reagent/consumable/soup/bone_broth
 	name = "bone broth"
 	color = "#7F6556"

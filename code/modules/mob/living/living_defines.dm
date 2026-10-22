@@ -173,6 +173,10 @@
 
 	var/bleed_rate = 0 //how much are we bleeding
 	var/bleedsuppress = 0 //for stopping bloodloss, eventually this will be limb-based like bleeding
+	/// Bloody prints a large creature has left to leave after stepping in fresh blood
+	var/bloodsteps = 0
+	/// Colour of the blood those prints are made with
+	var/stepcolour
 
 	var/list/next_attack_msg = list()
 
@@ -263,5 +267,3 @@
 	/// Bypasses positioning and exposure checks entirely
 	var/freeuse = FALSE
 
-	/// Inquisition trauma should only happen once per examined.
-	var/list/examined_inquisitors = list()

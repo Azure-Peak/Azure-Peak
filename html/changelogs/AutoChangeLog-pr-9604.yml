@@ -1,5 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "Some Psydonic helmets - chiefly, the Greatplumed variants - should no longer have glitched detail states."
-  - code_imp: "Psydonic helmets are now forked off of a neutral tether, the unobtainable 'Psydonic Bascinet'."
