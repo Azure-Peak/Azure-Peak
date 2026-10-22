@@ -555,6 +555,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	Each point of strength at [STRENGTH_SOFTCAP + 1] or above only applies an additional +[round(STRENGTH_CAPPEDMULT * 100)]% damage, except on punches. Damage is also multiplied by damage factor on intents. \n\
 	Both multipliers are applied to the base number, and do not multiply each other. Reduced sharpness decreases the contribution of strength.\n\
 	Armor penetration on an intent determines whether an attack penetrates the target's armor. Armor penetrating attacks deal less damage to the armor itself."
+
+	var/throw_additional_explanation = "This determines the damage dealt when the weapon is thrown. The damage changes based on the armour penetration and damage type of the item."
 	if(href_list["showforce"])
 		var/output = span_info("Actual Force: ([force_dynamic]). [additional_explanation]")
 		if(!usr.client.prefs.no_examine_blocks)
@@ -563,6 +565,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 	if(href_list["showforcewield"])
 		var/output = span_info("Wielded Force: ([force_wielded]). [additional_explanation]")
+		if(!usr.client.prefs.no_examine_blocks)
+			output = examine_block(output)
+		to_chat(usr, output)
+
+	if(href_list["showthrowforce"])
+		var/output = span_info("Actual Throw Force: ([throwforce]). [throw_additional_explanation]")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -636,12 +644,14 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			inspec += "\n<b>MIN.STR:</b> [minstr]"
 		if(minstr_req)
 			inspec += "\n<b>NO HALVING ON WIELD</b>"
-
 		if(force)
 			inspec += "\n<b>FORCE:</b> [get_force_string(force_dynamic)] <span class='info'><a href='?src=[REF(src)];showforce=1'>{?}</a></span>"
 		if(gripped_intents && !wielded)
 			if(force_wielded)
 				inspec += "\n<b>WIELDED FORCE:</b> [get_force_string(force_wielded)] <span class='info'><a href='?src=[REF(src)];showforcewield=1'>{?}</a></span>"
+		if(throwforce)
+			inspec += "\n<b>THROW FORCE:</b> [get_throw_force_string(throwforce)] <span class='info'><a href='?src=[REF(src)];showthrowforce=1'>{?}</a></span>"
+
 
 		if(wbalance)
 			inspec += "\n<b>BALANCE: </b>"
@@ -714,15 +724,16 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(istype(src, /obj/item/ammo_casing/caseless/rogue))
 			var/obj/item/ammo_casing/caseless/rogue/rog_ammo = src
-			if(rog_ammo.BB.damage)
-				inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
-			inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
-			if(rog_ammo.BB.min_range)
-				inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
-			if(rog_ammo.BB.max_range)
-				inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
-			if(rog_ammo.BB.dam_falloff_factor)
-				inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
+			if(rog_ammo.BB) //javelins are also "ammo", so lets check if its ACTUALLY a projectile
+				if(rog_ammo.BB.damage)
+					inspec += "\n<b>PROJECTILE DAMAGE:</b> [rog_ammo.BB.damage]"
+				inspec += "\n<b>Armor Penetration:</b> [rog_ammo.BB.armor_penetration > PEN_NONE ? colorgrade_rating(uppertext(rog_ammo.BB.flag), rog_ammo.BB.armor_penetration) : "<font color='#808080'>NONE</font>"]"
+				if(rog_ammo.BB.min_range)
+					inspec += "\n<b>MINIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.min_range] tile(s)"
+				if(rog_ammo.BB.max_range)
+					inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
+				if(rog_ammo.BB.dam_falloff_factor)
+					inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
 
 //**** CLOTHING STUFF
 
@@ -1354,6 +1365,23 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/get_force_string(force)
 	switch(force)
+		if(0 to 9)
+			return "Puny"
+		if(10 to 14)
+			return "Weak"
+		if(15 to 19)
+			return "Modest"
+		if(20 to 24)
+			return "Fine"
+		if(25 to 29)
+			return "Great"
+		if(30 to 35)
+			return "Grand"
+		else
+			return "Mighty"
+
+/obj/item/proc/get_throw_force_string(throwforce)
+	switch(throwforce)
 		if(0 to 9)
 			return "Puny"
 		if(10 to 14)
