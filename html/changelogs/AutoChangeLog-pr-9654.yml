@@ -1,0 +1,5 @@
+author: "zeskorion"
+delete-after: True
+changes:
+  - rscadd: "trained smith trait allows for using an anvil, and leveling metalworking skills, as good as being a malumite does."
+  - qol: "being expert in a metalworking skill allows you to add items to recipes of that skill in the same manner being a trained smith does"

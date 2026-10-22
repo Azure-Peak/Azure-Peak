@@ -539,30 +539,35 @@
 	stressadd = 1
 	desc = list(span_red("Eugh, this brew just doesn't sit right with me.."), span_red("Something about that brew tastes a little funky.."))
 
-/datum/stressevent/pallid_outdoors
+/datum/stressevent/agoraphobia
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")
+	desc = span_red("I long for the shelter of walls and roofs. The open sky is too much for me to bear!")
+
+/datum/stressevent/claustrophobia
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("The walls are pressing in on me. I need to get out under the open sky!")
+
+/datum/stressevent/heliophobia
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("The sun glares down at me. I need to get out of its light!")
+
+/datum/stressevent/selenophobia
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("The moon watches me. I need to get out of its light!")
 
 /datum/stressevent/sun_sensitivity_dark
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_red("<b><i>The sunlight burns my eyes! It's too bright outside!</b></i>")
 
-/datum/stressevent/sun_sensitivity
-	timer = 2 MINUTES
-	stressadd = 10
-	desc = span_red("<b><i>The sunlight burns my eyes and skin! It's too bright outside!</b></i>")
-
 /datum/stressevent/lesser_sun_sensitivity
 	timer = 2 MINUTES
 	stressadd = 1
 	desc = span_red("I'm shielded from the the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
-
-/datum/stressevent/inq_trauma
-	timer = 3 MINUTES
-	stressadd = 4
-	desc = span_red("THE INQUISITION?! BY MY PATRON, NOT THEM!!")
 
 /datum/stressevent/water_splashed_noble
 	timer = 30 SECONDS
