@@ -237,3 +237,126 @@
 
 	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
 	var/show_descriptors = TRUE
+
+/mob/living/carbon/human/proc/arcyne_fluidity()
+	set name = "Spirit Fluidity"
+	set category = "RoleUnique.Quirk"
+
+	var/list/choices = list("Hairstyle", "Breast Size", "Penis", "Testicles", "Vagina")
+	var/choice = input(src, "What would you like to change?", "Spirit Fluidity") as null|anything in choices
+
+	if(!choice || QDELETED(src))
+		return
+
+	switch(choice)
+		if("Hairstyle")
+			var/obj/item/bodypart/head/head = get_bodypart(BODY_ZONE_HEAD)
+			if(!head || !head.bodypart_features)
+				return
+			var/datum/bodypart_feature/hair/head/current_hair
+			for(var/datum/bodypart_feature/hair/head/hair_feature in head.bodypart_features)
+				current_hair = hair_feature
+				break
+			if(!current_hair)
+				return
+			var/datum/customizer_choice/bodypart_feature/hair/head/humanoid/hair_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/hair/head/humanoid)
+			if(!hair_choice || !length(hair_choice.sprite_accessories))
+				return
+			var/list/valid_hairstyles = list("Default")
+			for(var/hair_type in hair_choice.sprite_accessories)
+				var/datum/sprite_accessory/hair/head/hair = new hair_type()
+				if(!hair)
+					continue
+				valid_hairstyles[hair.name] = hair_type
+				qdel(hair)
+			var/new_style = input(src, "Choose your hairstyle", "Spirit Fluidity") as null|anything in valid_hairstyles
+			if(!new_style || QDELETED(src))
+				return
+			var/datum/customizer_entry/hair/hair_entry = new()
+			hair_entry.hair_color = current_hair.hair_color
+			hair_entry.natural_gradient = current_hair.natural_gradient
+			hair_entry.natural_color = current_hair.natural_color
+			hair_entry.dye_gradient = current_hair.hair_dye_gradient
+			hair_entry.dye_color = current_hair.hair_dye_color
+			var/datum/bodypart_feature/hair/head/new_hair = new()
+			var/new_hair_type = new_style == "Default" ? initial(current_hair.accessory_type) : valid_hairstyles[new_style]
+			if(!new_hair_type)
+				qdel(new_hair)
+				qdel(hair_entry)
+				return
+			new_hair.set_accessory_type(new_hair_type, hair_entry.hair_color, src)
+			hair_choice.customize_feature(new_hair, src, null, hair_entry)
+			head.remove_bodypart_feature(current_hair)
+			head.add_bodypart_feature(new_hair)
+			update_hair()
+			update_body()
+			update_body_parts()
+			visible_message(span_warning("[src]'s hair briefly shimmers and settles into a different style."), span_warning("A faint, warm sensation passes over your scalp as your hair shifts into a new style."))
+
+		if("Breast Size")
+			var/obj/item/organ/breasts/breasts = getorganslot(ORGAN_SLOT_BREASTS)
+			if(!breasts)
+				to_chat(src, span_warning("You have no breasts to alter."))
+				return
+			var/list/breast_sizes = list("Flat", "Very Small", "Small", "Normal", "Large", "Enormous")
+			var/new_size = input(src, "Choose your breast size", "Spirit Fluidity") as null|anything in breast_sizes
+			if(!new_size || QDELETED(src))
+				return
+			var/size_index = breast_sizes.Find(new_size)
+			if(!size_index)
+				return
+			breasts.breast_size = size_index - 1
+			update_body()
+			update_body_parts()
+			visible_message(span_warning("[src]'s upper silhouette subtly shifts..."), span_warning("A gentle warmth spreads across your chest as your breasts change in size."))
+		if("Penis")
+			arcyne_toggle_organ(ORGAN_SLOT_PENIS)
+		if("Testicles")
+			arcyne_toggle_organ(ORGAN_SLOT_TESTICLES)
+		if("Vagina")
+			arcyne_toggle_organ(ORGAN_SLOT_VAGINA)
+
+/mob/living/carbon/human/proc/arcyne_toggle_organ(organ_slot)
+	var/obj/item/organ/existing_organ = getorganslot(organ_slot)
+	if(existing_organ)
+		existing_organ.Remove(src)
+		if(QDELETED(src))
+			return
+		update_body()
+		update_body_parts()
+		switch(organ_slot)
+			if(ORGAN_SLOT_PENIS)
+				visible_message(span_warning("[src]'s lower silhouette loses some volume."), span_red("A soft pulse passes through your groin. Your tool vanishes, leaving your body different beneath your clothes."))
+			if(ORGAN_SLOT_TESTICLES)
+				visible_message(span_warning("[src]'s lower silhouette loses some more volume."), span_red("A soft pulse passes through your groin. Your reserves vanish, leaving your body different beneath your clothes."))
+			if(ORGAN_SLOT_VAGINA)
+				visible_message(span_warning("[src] shifts a little uncomfortably."), span_red("A soft pulse passes through your groin. Your spot vanishes, leaving your body different beneath your clothes."))
+		return
+
+	var/datum/organ_dna/organ_template = dna?.organ_dna?[organ_slot]
+	if(!organ_template || !organ_template.can_create_organ())
+		to_chat(src, span_warning("Your body refuses to take that shape. You should probably panic, like. Enough to AHELP this!"))
+		return
+
+	var/obj/item/organ/organ_to_add = organ_template.create_organ(src)
+	if(!organ_to_add)
+		return
+
+	organ_to_add.Insert(src)
+
+	if(getorganslot(organ_slot) != organ_to_add)
+		if(!QDELETED(organ_to_add))
+			qdel(organ_to_add)
+		to_chat(src, span_warning("The change fails to take hold. You should probably panic, like. Enough to AHELP this!"))
+		return
+
+	update_body()
+	update_body_parts()
+
+	switch(organ_slot)
+		if(ORGAN_SLOT_PENIS)
+			visible_message(span_warning("[src]'s lower silhouette gains some volume."), span_green("A soft pulse passes through your groin. A tool shapes up, leaving your body different beneath your clothes."))
+		if(ORGAN_SLOT_TESTICLES)
+			visible_message(span_warning("[src]'s lower silhouette gains some more volume."), span_green("A soft pulse passes through your groin. Reserves shape up, leaving your body different beneath your clothes."))
+		if(ORGAN_SLOT_VAGINA)
+			visible_message(span_warning("[src] shifts a little comfortably."), span_green("A soft pulse passes through your groin. A spot opens up, leaving your body different beneath your clothes."))
