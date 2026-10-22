@@ -34,7 +34,7 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	cmode_music = 'sound/music/combat_noble.ogg'
 
 	// Can't use the Throat when you can't talk properly or.. at all for that matter.
-	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible)
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible, /datum/charflaw/heretic)
 
 	job_subclasses = list(
 		/datum/advclass/lord/warrior,
@@ -226,9 +226,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	backpack_contents = list(
 		/obj/item/storage/keyring/lord = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
-		/obj/item/blueprint/mace_mushroom = 1, 
-		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/blueprint/mace_mushroom = 1,
+		/obj/item/hunting_map/white_stag = 1,
 		/obj/item/rogueweapon/scabbard/sheath/royal = 1
 	)
 
@@ -285,9 +285,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	backpack_contents = list(
 		/obj/item/storage/keyring/lord = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
-		/obj/item/blueprint/mace_mushroom = 1, 
-		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/blueprint/mace_mushroom = 1,
+		/obj/item/hunting_map/white_stag = 1,
 		/obj/item/rogueweapon/scabbard/sheath/royal = 1
 	)
 	if(H.mind)
@@ -344,9 +344,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	backpack_contents = list(
 		/obj/item/storage/keyring/lord = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
-		/obj/item/blueprint/mace_mushroom = 1, 
-		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/blueprint/mace_mushroom = 1,
+		/obj/item/hunting_map/white_stag = 1,
 		/obj/item/rogueweapon/scabbard/sheath/royal = 1
 	)
 
@@ -397,9 +397,9 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	backpack_contents = list(
 		/obj/item/storage/keyring/lord = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1, 
-		/obj/item/blueprint/mace_mushroom = 1, 
-		/obj/item/hunting_map/white_stag = 1, 
+		/obj/item/rogueweapon/huntingknife/idagger/steel/decorated = 1,
+		/obj/item/blueprint/mace_mushroom = 1,
+		/obj/item/hunting_map/white_stag = 1,
 		/obj/item/rogueweapon/scabbard/sheath/royal = 1
 	)
 	H.adjust_skillrank(/datum/skill/combat/crossbows, pick(0,1), TRUE)

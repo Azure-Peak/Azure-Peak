@@ -372,6 +372,7 @@
 #define TRAIT_VAMPMANSION "vampiremansion" //Access to the vampire manor on the wretchcoast Z level
 #define TRAIT_LICHLAIR "lichlair" //Access to the lich's lair on the CentCom Z level.
 #define TRAIT_ZURCH	"Hidden Domiciles" //allows entry to ascendant church
+#define TRAIT_CAREFULTRIP "Careful Interloper" // severely limits a lot of shit regarding travel spots
 
 //Conversion Antag Related
 #define TRAIT_SILVER_BLESSED "Silverblessed"
@@ -709,6 +710,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HALLOWED = span_notice("I'm closer to the gods than most. I can utilize my miracles, regardless of if I bear an amulet or not."),
 	TRAIT_ZURCH = span_warning("I know of sacred sites of worship where followers of the Ascendants convene, and the path to the nearest conclave is etched into my memory."),
 	TRAIT_CAVEDWELLER = span_info("The mountains are my home. I prefer to live beneath the surface away from the sun's gaze and know the caves of this land like the back of my hand."),
+	TRAIT_CAREFULTRIP = span_warning("I am extremely careful and paranoid about leaving tracks behind when I try to travel to secret locations. I must always be alone, or with other people who knowingly share my knowledge, no exceptions."),
 	TRAIT_CURSE_ASTRATA = span_warning("I am forsaken by the Sun. I will find no rest under Her unwavering gaze."),
 	TRAIT_CURSE_NOC = span_warning("I am forsaken by the Moon. I will find no salvation in His grace."),
 	TRAIT_CURSE_DENDOR = span_warning("I am forsaken by the Treefather. Reason and common sense abandon me."),

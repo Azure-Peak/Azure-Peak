@@ -6,6 +6,7 @@
 	total_positions = 4
 	spawn_positions = 4
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
+	vice_restrictions = list(/datum/charflaw/heretic)
 	allowed_sexes = list(MALE, FEMALE)
 	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD)
 	tutorial = "Having proven yourself both loyal and capable, you have been knighted to serve the realm as the royal family's sentry. \

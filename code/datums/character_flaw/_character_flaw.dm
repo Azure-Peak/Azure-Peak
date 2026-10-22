@@ -942,9 +942,22 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/heretic/on_mob_creation(mob/user)
 	. = ..()
-	spawn(30)
+	spawn(120)
+		var/has_lesser_role = FALSE
+
+		for(var/X in GLOB.burgher_positions + GLOB.atc_positions + GLOB.church_positions + GLOB.retinue_positions + GLOB.sidefolk_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.courtier_positions + GLOB.inquisition_positions)
+			if(user.mind?.assigned_role == X && X != "Bathmaster" && X != "Vagabond" && X != "Lunatic")
+				has_lesser_role = TRUE
+				break
+
+		if(!has_lesser_role)
+			to_chat(user, span_warning("Forsaken and branded, yet still able to function under a veil of plausible deniability... My station is insignificant enough that, should matters turn dire, a hidden domicile awaits, somewhere..."))
+			ADD_TRAIT(user, TRAIT_ZURCH, "[type]") // this is a privledge, not a rule, it will be taken away if abused or if it fails to create the roleplay hooks I envision
+			ADD_TRAIT(user, TRAIT_CAREFULTRIP, "[type]") // cannot teach the path to zurch to onlookers, stops you from entering the zurch while in company of people who don't have the zurch trait, also pings the admins that you're attempting to enter in bad company, to gotcha some bad faith rats who will definitely try
+		else
+			to_chat(user, span_warning("Forsaken and branded, yet still able to function under a veil of plausible deniability... Yet my station leaves me with nowhere to hide should matters turn dire. I must tread extra carefully."))
+
 		if(user.real_name)
 			GLOB.excommunicated_players += user.real_name
 		if(user.name && user.name != user.real_name)
 			GLOB.excommunicated_players += user.name
-		ADD_TRAIT(user, TRAIT_ZURCH, "[type]") // May be removed, this is mostly for social testing purposes.

@@ -10,7 +10,7 @@
 	allowed_ages = list(AGE_ADULT)
 	advclass_cat_rolls = list(CTAG_SQUIRE = 20)
 	job_traits = list(TRAIT_SQUIRE_REPAIR, TRAIT_EXPERT_HUNTER)
-
+	vice_restrictions = list(/datum/charflaw/heretic)
 	tutorial = "Your folks said you were going to be something, they had better aspirations for you than the life of a peasant. You practiced the basics \
 		in the field alongside your friends, swordfighting with sticks, chasing rabbits with grain flail, and helping around the house lifting heavy \
 		bags of grain. The Knight took notice of your potential and brought you on as his personal ward. You're going to be something someday."
