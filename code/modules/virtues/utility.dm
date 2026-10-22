@@ -371,7 +371,7 @@
 						list(/datum/skill/labor/farming, 2, 2),
 						list(/datum/skill/labor/fishing, 2, 2),
 						list(/datum/skill/labor/lumberjacking, 2, 2),
-						list(/datum/skill/combat/knives, 2, 2)
+						list(/datum/skill/labor/butchering, 2, 2),
 	)
 
 /datum/virtue/utility/keenears
