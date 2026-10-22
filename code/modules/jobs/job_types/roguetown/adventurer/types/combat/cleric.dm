@@ -810,7 +810,6 @@
 	townie_contract_gate_hide_in_list = TRUE
 	class_select_category = CLASS_CAT_CLERIC
 	subclass_stats = list(
-		STATKEY_STR = 1,
 		STATKEY_WIL = 4,
 		STATKEY_SPD = 2,
 		STATKEY_LCK = 1,
@@ -901,7 +900,7 @@
 	cast_range = SPELL_RANGE_GROUND
 
 	primary_resource_type = SPELL_COST_DEVOTION
-	primary_resource_cost = SPELLCOST_MIRACLE_MAJOR + 40
+	primary_resource_cost = 5
 
 	secondary_resource_type = SPELL_COST_STAMINA
 	secondary_resource_cost = SPELLCOST_STAT_BUFF + 20
@@ -964,6 +963,7 @@
 			"THE RIGHTEOUS SHALL NOT FALTER BEFORE THE UNJUST!!",
 			"LET OUR DEEDS SPEAK LOUDER THAN OUR ENEMIES' LIES!!",
 			"FIGHT WITH HONOR, AND LET THE GUILTY TREMBLE!!",
+			"NEVER SHOW FEAR, NO MATTER THE ODDS!", // (++)larp, (--)the fact it's now 1/6 chance, rip
 		),
 		/datum/patron/divine/necra = list(
 			"THE UNDERMAIDEN IS WITH US!!",
@@ -1049,20 +1049,22 @@
 
 /datum/action/cooldown/spell/preach/cast(atom/cast_on)
 	. = ..()
-	if(!.)
-		return FALSE
 
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return FALSE
 
+	if(!H.patron)
+		return FALSE
+
 	var/list/valid_patron_groups
-	if(is_type_in_list(H.patron, ALL_DIVINE_PATRONS))
+
+	if(H.patron.type in ALL_DIVINE_PATRONS)
 		valid_patron_groups = ALL_DIVINE_PATRONS
-	else if(is_type_in_list(H.patron, ALL_INHUMEN_PATRONS))
+	else if(H.patron.type in ALL_INHUMEN_PATRONS)
 		valid_patron_groups = ALL_INHUMEN_PATRONS
-	else if(istype(H.patron, OLD_GOD_PATRON))
-		valid_patron_groups = list(OLD_GOD_PATRON)
+	else if(H.patron.type in OLD_GOD_PATRON)
+		valid_patron_groups = OLD_GOD_PATRON
 	else
 		return FALSE
 
@@ -1075,9 +1077,29 @@
 	if(invocation)
 		H.say(invocation)
 
-	for(var/mob/living/carbon/target in view(cast_range, get_turf(H)))
-		if(!is_type_in_list(target.patron, valid_patron_groups))
+	var/turf/center = get_turf(H)
+	if(!center)
+		return FALSE
+
+	var/targets_found = 0
+	var/targets_eligible = 0
+	var/targets_affected = 0
+
+	for(var/mob/living/carbon/target in view(cast_range, center))
+		targets_found++
+
+		if(!target.patron)
 			continue
+
+		var/eligible = FALSE
+		for(var/patron_type in valid_patron_groups)
+			if(istype(target.patron, patron_type))
+				eligible = TRUE
+				break
+
+		if(!eligible)
+			continue
+
 		target.apply_status_effect(/datum/status_effect/buff/preach)
 		target.add_stress(/datum/stressevent/zealot_cry)
 
