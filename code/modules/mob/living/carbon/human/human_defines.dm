@@ -333,12 +333,38 @@
 				visible_message(span_warning("[src] shifts a little uncomfortably."), span_red("A soft pulse passes through your groin. Your spot vanishes, leaving your body different beneath your clothes."))
 		return
 
-	var/datum/organ_dna/organ_template = dna?.organ_dna?[organ_slot]
+	var/datum/preferences/prefs = client?.prefs
+	if(!prefs)
+		to_chat(src, span_warning("Your body refuses to take that shape. You should probably panic, like. Enough to AHELP this!"))
+		return
+
+	var/datum/customizer_choice/organ/organ_choice
+	var/datum/customizer_entry/organ_entry
+
+	for(var/datum/customizer_entry/entry as anything in prefs.customizer_entries)
+		var/datum/customizer_choice/organ/candidate = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
+		if(!istype(candidate, /datum/customizer_choice/organ))
+			continue
+		if(candidate.organ_slot != organ_slot)
+			continue
+
+		organ_choice = candidate
+		organ_entry = entry
+		break
+
+	if(!organ_choice || !organ_entry)
+		to_chat(src, span_warning("Your body refuses to take that shape. You should probably panic, like. Enough to AHELP this!"))
+		return
+
+	var/datum/organ_dna/organ_template = organ_choice.create_organ_dna(organ_entry, prefs)
 	if(!organ_template || !organ_template.can_create_organ())
+		qdel(organ_template)
 		to_chat(src, span_warning("Your body refuses to take that shape. You should probably panic, like. Enough to AHELP this!"))
 		return
 
 	var/obj/item/organ/organ_to_add = organ_template.create_organ(src)
+	qdel(organ_template)
+
 	if(!organ_to_add)
 		return
 
