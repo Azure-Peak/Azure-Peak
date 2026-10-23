@@ -3390,7 +3390,7 @@
 #include "code\modules\spells\spell_types\divine\projectiles_single\divine_blast.dm"
 #include "code\modules\spells\spell_types\divine\projectiles_single\unholy_blast.dm"
 #include "code\modules\spells\spell_types\lux\eyescry.dm"
-#include "code\modules\spells\spell_types\lux\luxbreath.dm"
+#include "code\modules\spells\spell_types\lux\luxbarf.dm"
 #include "code\modules\spells\spell_types\lux\luxinfusion.dm"
 #include "code\modules\spells\spell_types\skills\invoked_aoe\huntersyell.dm"
 #include "code\modules\spells\spell_types\skills\invoked_aoe\orders.dm"
