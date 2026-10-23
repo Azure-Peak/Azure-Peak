@@ -37,9 +37,9 @@
 	var/message
 	switch(GLOB.tod)
 		if("night")
-			message = "The pale moon glimmers with an unnatural light as a pale, sickly mist forms beneath; followed by the wails of Creechers filling the night."
+			message = "The pale moon glimmers with an unnatural light as a pale, sickly mist forms beneath; followed by the wails of creechers filling the night."
 		if("dawn")
-			message = "With the dawn rolls in a pale, sickly fog. The birds chirp a warped tune, followed by the distant wails of Creechers and a scream."
+			message = "With the dawn rolls in a pale, sickly fog. The birds chirp a warped tune, followed by the distant wails of creechers and a scream."
 		if("dusk")
 			message = "The fading twilight turns blood red for a moment as pale, sickly fog rolls in. Creechers do not quieten, it is too dangerous to sleep."
 		else
