@@ -1027,3 +1027,14 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/no_herbpotions/on_mob_creation(mob/user)
 	. = ..()
 	ADD_TRAIT(user, TRAIT_NOHERBPOTS, "[type]")
+
+/datum/charflaw/stuntedhealing
+	name = "Damaged Humors"
+	desc = "There's something extremely wrong with me. I am almost incapable of being healed, be it naturally or otherwise, and only more radical or intrusive treatments work. I'll hurl any forms of alchemy-based healing potions and most miracles will outright not work on me."
+	ui_fa_icon = "vial"
+
+/datum/charflaw/stuntedhealing/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_NOHERBPOTS, "[type]")
+	ADD_TRAIT(user, TRAIT_NOREGEN, "[type]")
+	ADD_TRAIT(user, TRAIT_NOHEAL, "[type]")
