@@ -1,7 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - balance: "cmode passive drain (-2) to (-1), you should have blue last twice as long instead of having to juggle cmode as much."
-  - balance: "stab intent can now skullcrack to T2. You no longer are forced to use maces/axes against undead and you can actually kill skeletons by stabbing them now."
-  - balance: "taking any form of critical injury like fractures/arteries now gives you an eight minute long debuff \"Critical Dazing\" that increases cmode costs for energy, to (-3). - This does not include people who do not tire as easily like skeletons, VL, lich, WW etc."
-  - balance: "running out of blood unless you're immune to bloodless also inflicts fatal dazing."

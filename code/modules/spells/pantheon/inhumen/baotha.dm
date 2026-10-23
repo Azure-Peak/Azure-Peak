@@ -178,7 +178,7 @@
 // T1 - polls the caster's mood and vice satiety before giving a buff. as you can tell by the typepath i had an entiurely different idea for this ubt whatever
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve
 	name = "Phentis / Melancholia"
-	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. Every sated vice doubles the duration; every unsated vice doubles every attribute change. This works for up to three vices."
+	desc = "Give myne soul to wild joy or vicious heartbreak. In a good mood, I and those around me find calm and clarity. When suffering from the world's ails, I alone benefit- with some drawbacks. Every sated vice doubles the duration; every unsated vice doubles every attribute change. This works for up to two vices. The cooldown is a minute longer than the effect."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
@@ -186,7 +186,8 @@
 	releasedrain = 30
 	chargedrain = 0
 	chargetime = 2 SECONDS //BIG, VERY IMPORTANT spell
-	recharge_time = 2 MINUTES
+	recharge_time = 105 SECONDS
+	is_cdr_exempt = TRUE
 	invocations = list("Melancholy! Mania!") //fuck dude I don't know I'm so fried
 	sound = 'sound/magic/heal.ogg'
 	chargedloop = /datum/looping_sound/invokeholy
@@ -194,7 +195,7 @@
 	antimagic_allowed = TRUE
 	miracle = TRUE
 	devotion_cost = 30
-	var/spell_max_vices = 3
+	var/spell_max_vices = 2
 	var/aura_range = 1
 
 /obj/effect/proc_holder/spell/invoked/heart_on_sleeve/cast(list/targets, mob/living/carbon/user)
@@ -220,6 +221,7 @@
 			else
 				stat_multiplier *= 2
 			vices_covered++
+	recharge_time = effect_duration + 1 MINUTES
 
 	if(is_good_mood)
 		for(var/mob/living/nearby_soul in view(aura_range, user))
@@ -267,7 +269,9 @@
 	\
 	Strong intent will throw herozium at the target, giving them -5 SPD, +4 WILL, -3 INT, +3 CON, pain immunity, and resistance to damage slowdown. \n\
 	\
-	Swift intent will throw starsugar at the target, giving them +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert."
+	Swift intent will throw starsugar at the target, giving them +4 SPD, +4 WILL -3 INT, -3 CON, darkvision, and dodge expert. \n\
+	\
+	The cooldown lasts a little longer than the high of the drug thrown."
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_icon = 'icons/mob/actions/baothamiracles.dmi'
 	overlay_state = "powder"
@@ -279,7 +283,8 @@
 	releasedrain = 10
 	chargedrain = 0
 	chargetime = 15
-	recharge_time = 10 SECONDS
+	recharge_time = 40 SECONDS
+	is_cdr_exempt = TRUE
 	invocation_type = "emote"
 	invocations = list("flicks their wrist, filling the air in front of them with a fine powder.")
 	devotion_cost = 30
@@ -333,6 +338,8 @@
 			projectile_type = /obj/projectile/magic/blowingdust/starsugar
 		else
 			projectile_type = /obj/projectile/magic/blowingdust
+	var/obj/projectile/magic/blowingdust/dust = projectile_type
+	recharge_time = initial(dust.cooldown)
 
 	. = ..()
 
@@ -345,6 +352,8 @@
 	poisontype = /datum/reagent/herozium
 	poisonfeel = "burning" //Insufflation delivery method.
 	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
+	/// Enrapturing Powder cooldown after throwing this dust, a little over how long its high lasts
+	var/cooldown = 40 SECONDS
 
 /obj/projectile/magic/blowingdust/starsugar
 	name = "unholy dust"
@@ -363,6 +372,7 @@
 	poisontype = /datum/reagent/druqks
 	poisonfeel = "buzzing" //Insufflation go brr.
 	poisonamount = 4 //Lower than the others as it's got an OD threshold of 16 - takes 4 hits to OD if you hit it perfectly, but more like 5.
+	cooldown = 50 SECONDS
 
 /obj/projectile/magic/blowingdust/moondust
 	name = "unholy dust"
@@ -372,6 +382,7 @@
 	poisontype = /datum/reagent/moondust_purest
 	poisonfeel = "tingling" //Insufflation go brr.
 	poisonamount = 8 //Decent bit of high, three doses would be just above the overdose threshold if applied fast enough - in practice usually 4.
+	cooldown = 130 SECONDS
 
 
 /obj/projectile/magic/blowingdust/on_hit(target, blocked = FALSE)
