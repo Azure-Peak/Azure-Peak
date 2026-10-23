@@ -610,7 +610,7 @@
 /datum/stressevent/rageeventmild
 	timer = 30 SECONDS
 	stressadd = 1
-	desc = list(span_red("Another day at the shit factory."), span_red("I should have stayed in bed todae."), span_red("What is that buzzing?"), span_red("The birds are chirping too loudly."), span_red("Another lovely day in paradise."), span_red("Not this again..."), span_red("A small pang in my amygdala."), span_red("My lux is irritable todae..."), span_red("My eyes are itchy."), span_red("My boots are wet."), span_red("My peace, interrupted."), span_red("Hello, anger, my old friend."))
+	desc = list(span_red("Another dae at the shit factory."), span_red("I should have stayed in bed todae."), span_red("What is that buzzing?"), span_red("The birds are chirping too loudly."), span_red("Another lovely dae in paradise."), span_red("Not this again..."), span_red("A small pang in my amygdala."), span_red("My lux is irritable todae..."), span_red("My eyes are itchy."), span_red("My boots are wet."), span_red("My peace, interrupted."), span_red("Hello, anger, my old friend."))
 
 /datum/stressevent/rageeventmoderate
 	timer = 30 SECONDS
