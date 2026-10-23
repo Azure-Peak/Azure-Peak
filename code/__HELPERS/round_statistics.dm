@@ -80,19 +80,24 @@
 #define STATS_RURAL_TAXES_COLLECTED "rural_taxes_collected" // Azure only. Lowpop safety
 #define STATS_LOANS_ISSUED "loans_issued"
 #define STATS_LOANS_DEFAULTED "loans_defaulted"
-#define STATS_POLL_TAX_COLLECTED "poll_tax_collected"
-// Poll tax revenue split by civic category, so tuning can see which classes are carrying the levy.
-#define STATS_POLL_TAX_NOBLE "poll_tax_noble"
-#define STATS_POLL_TAX_CLERGY "poll_tax_clergy"
-#define STATS_POLL_TAX_INQUISITION "poll_tax_inquisition"
-#define STATS_POLL_TAX_COURTIER "poll_tax_courtier"
-#define STATS_POLL_TAX_GARRISON "poll_tax_garrison"
-#define STATS_POLL_TAX_GUILDS "poll_tax_guilds"
-#define STATS_POLL_TAX_MERCHANT "poll_tax_merchant"
-#define STATS_POLL_TAX_BURGHER "poll_tax_burgher"
-#define STATS_POLL_TAX_ADVENTURER "poll_tax_adventurer"
-#define STATS_POLL_TAX_MERCENARY "poll_tax_mercenary"
-#define STATS_POLL_TAX_PEASANT "poll_tax_peasant"
+#define STATS_POLL_LEVY_COLLECTED "poll_levy_collected"
+// Poll levy revenue split by civic category, so tuning can see which classes are carrying the levy.
+#define STATS_POLL_LEVY_NOBLE "poll_levy_noble"
+#define STATS_POLL_LEVY_CLERGY "poll_levy_clergy"
+#define STATS_POLL_LEVY_INQUISITION "poll_levy_inquisition"
+#define STATS_POLL_LEVY_COURTIER "poll_levy_courtier"
+#define STATS_POLL_LEVY_GARRISON "poll_levy_garrison"
+#define STATS_POLL_LEVY_GUILDS "poll_levy_guilds"
+#define STATS_POLL_LEVY_MERCHANT "poll_levy_merchant"
+#define STATS_POLL_LEVY_BURGHER "poll_levy_burgher"
+#define STATS_POLL_LEVY_SCHOLAR "poll_levy_scholar"
+#define STATS_POLL_LEVY_ADVENTURER "poll_levy_adventurer"
+#define STATS_POLL_LEVY_MERCENARY "poll_levy_mercenary"
+#define STATS_POLL_LEVY_PEASANT "poll_levy_peasant"
+#define STATS_POLL_LEVIES_ENACTED "poll_levies_enacted"
+#define STATS_POLL_LEVY_ARREARS "poll_levy_arrears"
+#define STATS_POLL_LEVY_ARREARS_FORGIVEN "poll_levy_arrears_forgiven"
+#define STATS_POLL_LEVY_ARREARS_RECOVERED "poll_levy_arrears_recovered"
 // Crown's Purse revenue breakdown by tax category (mammon actually collected by the Crown).
 #define STATS_REVENUE_CONTRACT_LEVY "revenue_contract_levy"
 #define STATS_REVENUE_HEADEATER_LEVY "revenue_headeater_levy"
@@ -105,7 +110,7 @@
 #define STATS_EXEMPTED_IMPORT_TARIFF "exempted_import_tariff"
 #define STATS_EXEMPTED_EXPORT_DUTY "exempted_export_duty"
 #define STATS_EXEMPTED_FINE "exempted_fine"
-#define STATS_EXEMPTED_POLL_TAX "exempted_poll_tax"
+#define STATS_EXEMPTED_POLL_LEVY "exempted_poll_levy"
 #define STATS_STANDING_ORDER_REVENUE "standing_order_revenue"
 #define STATS_STANDING_ORDERS_FULFILLED "standing_orders_fulfilled"
 #define STATS_STANDING_ORDERS_EXPIRED "standing_orders_expired"
@@ -287,6 +292,32 @@ GLOBAL_LIST_EMPTY(azure_round_stats)
 #define CONTRACT_STAT_PARTY "party"
 #define CONTRACT_STAT_DEATHS "deaths"
 
+GLOBAL_LIST_INIT(contract_source_stats, list(
+	QUEST_SOURCE_POOL = list(
+		CONTRACT_STAT_POSTED = STATS_CONTRACTS_GENERATED_POOL,
+		CONTRACT_STAT_TAKEN = STATS_CONTRACTS_TAKEN_POOL,
+		CONTRACT_STAT_COMPLETED = STATS_CONTRACTS_COMPLETED_POOL,
+		CONTRACT_STAT_LAPSED = STATS_CONTRACTS_LAPSED_POOL,
+	),
+	QUEST_SOURCE_RUMOR = list(
+		CONTRACT_STAT_POSTED = STATS_CONTRACTS_GENERATED_RUMOR,
+		CONTRACT_STAT_TAKEN = STATS_CONTRACTS_TAKEN_RUMOR,
+		CONTRACT_STAT_COMPLETED = STATS_CONTRACTS_COMPLETED_RUMOR,
+		CONTRACT_STAT_LAPSED = STATS_CONTRACTS_LAPSED_RUMOR,
+	),
+	QUEST_SOURCE_DEFENSE = list(
+		CONTRACT_STAT_POSTED = STATS_CONTRACTS_GENERATED_DEFENSE,
+		CONTRACT_STAT_TAKEN = STATS_CONTRACTS_TAKEN_DEFENSE,
+		CONTRACT_STAT_COMPLETED = STATS_CONTRACTS_COMPLETED_DEFENSE,
+		CONTRACT_STAT_LAPSED = STATS_CONTRACTS_LAPSED_DEFENSE,
+	),
+))
+
+/proc/record_source_statistic(datum/quest/Q, metric)
+	var/list/stats = GLOB.contract_source_stats[Q?.source]
+	if(stats && stats[metric])
+		record_round_statistic(stats[metric])
+
 #define CONTRACT_AXIS_TYPE "type"
 #define CONTRACT_AXIS_REGION "region"
 #define CONTRACT_AXIS_GROUP "group"
@@ -301,20 +332,6 @@ GLOBAL_LIST_EMPTY(azure_round_stats)
 
 GLOBAL_LIST_EMPTY(contract_stats)
 GLOBAL_LIST_EMPTY(contract_signers)
-GLOBAL_LIST_INIT(contract_stat_type_order, list(
-	QUEST_KILL_EASY,
-	QUEST_CLEAR_OUT,
-	QUEST_RAID,
-	QUEST_BOUNTY,
-	QUEST_NOTORIOUS_BOUNTY,
-	QUEST_RECOVERY,
-	QUEST_RETRIEVAL,
-	QUEST_COURIER,
-	QUEST_BLOCKADE_DEFENSE,
-	QUEST_HOARD_RECOVERY,
-	QUEST_TOWNER_SMITH_CARAVAN,
-	QUEST_TOWNER_MINER_OREVEIN,
-))
 GLOBAL_LIST_INIT(contract_stat_group_order, list(
 	CONTRACT_GROUP_NOBILITY,
 	CONTRACT_GROUP_GARRISON,
@@ -417,6 +434,7 @@ GLOBAL_LIST_INIT(contract_stat_group_order, list(
 	order.Insert(order.Find(CONTRACT_GROUP_OUTLAWS), titles)
 	return order
 
+// Same as above but for regions
 /proc/contract_region_order()
 	var/list/order = list()
 	for(var/datum/threat_region/TR as anything in SSregionthreat?.threat_regions)

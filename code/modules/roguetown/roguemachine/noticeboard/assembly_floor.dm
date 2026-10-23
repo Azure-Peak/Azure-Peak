@@ -27,7 +27,6 @@
 	return list(
 		"trade_brackets" = ASSEMBLY_TRADE_BRACKETS,
 		"defense_brackets" = ASSEMBLY_DEFENSE_BRACKETS,
-		"poll_brackets" = ASSEMBLY_POLL_BRACKETS,
 		"quorum_voters" = ASSEMBLY_QUORUM_VOTERS,
 		"recall_threshold_pct" = ASSEMBLY_RECALL_THRESHOLD_PCT,
 		"censure_threshold_pct" = ASSEMBLY_CENSURE_THRESHOLD_PCT,

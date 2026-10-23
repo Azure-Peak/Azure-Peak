@@ -12,7 +12,6 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "peppersteak"
-	foodtype = MEAT
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -38,7 +37,6 @@
 	icon_state = "onionsteak"
 	tastes = list("steak" = 1, "onions" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
-	foodtype = MEAT
 	faretype = FARE_NEUTRAL
 	portable = FALSE
 	warming = 5 MINUTES
@@ -56,7 +54,6 @@
 	icon_state = "carrotsteak"
 	tastes = list("steak" = 1, "carrot" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
-	foodtype = MEAT
 	faretype = FARE_FINE
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
@@ -73,7 +70,6 @@
 	desc = ""
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "steakmeal"
-	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	faretype = FARE_LAVISH
 	rotprocess = SHELFLIFE_DECENT
@@ -82,7 +78,7 @@
 /*	.................	Wiener Cabbage	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienercabbage
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_MEAT|DISH_VEGETABLE
+	dish_type = DISH_MEAT|DISH_VEGETABLE|DISH_POULTRY|DISH_SEAFOOD
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	tastes = list("savory sausage" = 1, "cabbage" = 1)
 	name = "wiener on cabbage"
@@ -91,7 +87,6 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "wienercabbage"
-	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -100,7 +95,7 @@
 /*	.................	Wiener & Fried potato	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotato
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_NORTHERN
-	dish_type = DISH_MEAT|DISH_VEGETABLE
+	dish_type = DISH_MEAT|DISH_VEGETABLE|DISH_POULTRY|DISH_SEAFOOD
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	tastes = list("savory sausage" = 1, "potato" = 1)
 	name = "wiener on tato"
@@ -109,7 +104,6 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "wienerpotato"
-	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -117,7 +111,7 @@
 /*	.................	Wiener & Fried onions	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wieneronions
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_MEAT|DISH_VEGETABLE
+	dish_type = DISH_MEAT|DISH_VEGETABLE|DISH_POULTRY|DISH_SEAFOOD
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	tastes = list("savory sausage" = 1, "fried onions" = 1)
 	name = "wiener and onions"
@@ -126,7 +120,6 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "wieneronion"
-	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -134,7 +127,7 @@
 /*	.................	Wiener & potato & onions	................... */
 /obj/item/reagent_containers/food/snacks/rogue/wienerpotatonions
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_NORTHERN
-	dish_type = DISH_MEAT|DISH_VEGETABLE
+	dish_type = DISH_MEAT|DISH_VEGETABLE|DISH_POULTRY|DISH_SEAFOOD
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("savory sausage" = 1, "potato" = 1)
 	name = "wiener meal"
@@ -143,7 +136,6 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "wpotonion"
-	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/greatmealbuff
@@ -171,6 +163,7 @@
 
 /*	.................	Baked Butter Poultry	................... */
 /obj/item/reagent_containers/food/snacks/rogue/meat/poultry/baked/butter
+	dish_type = DISH_POULTRY|DISH_DAIRY
 	cuisine = CUISINE_OTAVAIS
 	name = "butter bird-roast"
 	desc = "A plump bird, roasted perfection, overflowing with butter from the inside."
@@ -201,7 +194,6 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "frybirdtato"
-	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -218,7 +210,6 @@
 	portable = FALSE
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
 	icon_state = "frybirdbucket"
-	foodtype = VEGETABLES | MEAT
 	warming = 3 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -234,6 +225,7 @@
 
 /* .............	Fried Cabbit w/ Garlick & Cucumber ................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit/fried/garlick/cucumber
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "elven cabbit roast"
 	desc = "A slab of cabbit, fried to a perfect crispy texture - coated over in glove of garlick and served with side of cucumber. Thought to bring good luck by rangers!"
 	icon_state = "frycabbit_garlick_cucumber"
@@ -250,6 +242,7 @@
 
 /* .............	Garlicked Fried Volf w/ Cucumber	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick/cucumber
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "hunter's feast"
 	desc = "A slab of volf, fried to a perfect medium rare. A bit gamey and chewy, but tasty. This piece has been coated over in glove of garlick and served with side of cucumber."
 	icon_state = "fryvolf_garlick_cucumber"
@@ -258,6 +251,7 @@
 
 /* .............	Honey glazed venison ribs	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs/cooked/glazed
+	dish_type = DISH_MEAT|DISH_HONEY
 	name = "forest glaze"
 	desc = "A helping of venison ribs glazed to perfection in honey. The golden brown flesh is almost shiny enough for you to see your own reflection."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
@@ -268,6 +262,7 @@
 
 /* .............	Wine glazed venison loins	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked/sauced
+	dish_type = DISH_MEAT|DISH_FRUIT
 	name = "forest bounty"
 	desc = "Venison tenderloin cut into fine slices, covered in a mixture of berry paste and wine-glazing. The liqour seems to have caramelized into a tasty layer of glaze."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
@@ -287,6 +282,7 @@
 	eat_effect = /datum/status_effect/buff/mealbuff
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked/choice/butter
+	dish_type = DISH_MEAT|DISH_DAIRY
 	name = "mellow forest trove"
 	desc = "A choice cut of venison seared to perfection with a hint of pink flesh still visible. Drowned in a good slice of butter, as if it weren't soft enough before."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
@@ -311,6 +307,7 @@
 
 /* .............	Deadite saiga rib crown	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z/cooked/crown
+	dish_type = DISH_MEAT|DISH_FRUIT
 	name = "couronne de baies-noires"
 	desc = "A crown fashioned from wyrd meat rib-bones, cooked to the point most of the juicy meat has sagged to the bottom. The meat-mash is dotted with countless jackberries down below."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'
@@ -407,6 +404,7 @@
 
 /* .............	Pale Tartar (Stag venison)	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w/cooked/tartar
+	dish_type = DISH_MEAT|DISH_EGG
 	name = "royal tartar"
 	desc = "A collection of finely ground murder. Prepared by a murderer. Covered with the entrails of various plants and the unborn child of a majestic avian."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_meal.dmi'

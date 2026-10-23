@@ -44,6 +44,8 @@ type TownerData = {
   towner_purse_balance: number;
   towner_postings: Posting[];
   towner_crown_cost_mult: number;
+  towner_active_postings: number;
+  towner_max_postings: number;
 };
 
 const toggleStyle = (selected: boolean): React.CSSProperties =>
@@ -100,6 +102,7 @@ const ActivePostingCard = (props: {
   balance: number;
   purseBalance: number;
   crownCostMult: number;
+  atCap: boolean;
   onPost: (tier: Tier, delivery: Delivery, variety: string) => void;
 }) => {
   const [tier, setTier] = useState<Tier>('medium');
@@ -195,13 +198,15 @@ const ActivePostingCard = (props: {
         <button
           type="button"
           className="ContractLedger__SignButton"
-          disabled={!canAfford}
+          disabled={!canAfford || props.atCap}
           title={
-            !canAfford
-              ? crown
-                ? `The Treasury can't afford ${cost}m.`
-                : `You need ${cost}m on account.`
-              : undefined
+            props.atCap
+              ? 'You have as many postings out as you can. Withdraw one or wait for one to be fulfilled.'
+              : !canAfford
+                ? crown
+                  ? `The Treasury can't afford ${cost}m.`
+                  : `You need ${cost}m on account.`
+                : undefined
           }
           onClick={() =>
             props.onPost(tier, delivery, selectedVariety?.key || '')
@@ -301,18 +306,18 @@ export const TownerPostingPanel = () => {
           Towner Postings
         </span>
         <span>
+          Postings: {data.towner_active_postings} / {data.towner_max_postings} |
           Balance: {data.balance}m
           {anyCrown && <> | Treasury: {data.towner_purse_balance ?? 0}m</>}
         </span>
       </div>
       <div style={blurbStyle}>
-        Post a contract paid with your own mammon. Whoever takes it must bring
-        the goods to you. Only you can open them.
+        Post a contract paid with your own mammons for goods useful to you. The taker must bring it to you or send it through a HERMES. Only you can open the package.
       </div>
 
       {yourPostings.length > 0 && (
         <>
-          <div style={sectionStyle}>YOUR POSTINGS</div>
+          <div style={sectionStyle}>AVAILABLE TO YOU</div>
           <div className="ContractLedger__Grid">
             {yourPostings.map((p) => (
               <ActivePostingCard
@@ -321,6 +326,7 @@ export const TownerPostingPanel = () => {
                 balance={data.balance}
                 purseBalance={data.towner_purse_balance ?? 0}
                 crownCostMult={data.towner_crown_cost_mult}
+                atCap={data.towner_active_postings >= data.towner_max_postings}
                 onPost={(t, d, v) => post(p.type, t, d, v)}
               />
             ))}

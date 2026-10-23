@@ -267,5 +267,3 @@
 	/// Bypasses positioning and exposure checks entirely
 	var/freeuse = FALSE
 
-	/// Inquisition trauma should only happen once per examined.
-	var/list/examined_inquisitors = list()

@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Booting the game on localhost should let you bypass minimum character for FT and OOC notes again"

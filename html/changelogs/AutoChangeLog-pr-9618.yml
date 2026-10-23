@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "You cannot pledge to a wave that is already rolled or forming by other means (For example pledge to a Heartfelt wave when there's already one) to avoid issues"

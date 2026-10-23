@@ -490,6 +490,10 @@
 	grid_height = 32
 	dropshrink = 0.9
 
+/obj/item/natural/bundle/cloth/roll
+	icon_state = "clothroll2"
+	amount = 10
+
 /obj/item/natural/bundle/stick
 	name = "bundle of sticks"
 	icon_state = "stickbundle1"
