@@ -61,11 +61,11 @@
 			follower.add_stress(/datum/stressevent/something_stirs)
 			follower.playsound_local(follower, 'sound/magic/psydonbleeds.ogg', 40, TRUE)
 			return TRUE
-	// Allows prayer if holding silver psycross.
-	if(istype(follower.get_active_held_item(), /obj/item/clothing/neck/roguetown/psicross/silver))
-		return TRUE
 	// Allows prayer if bleeding.
 	if(follower.bleed_rate > 0)
+		return TRUE
+	// Allows prayer if holding silver psycross.
+	if(istype(follower.get_active_held_item(), /obj/item/clothing/neck/roguetown/psicross/silver))
 		return TRUE
 	to_chat(follower, span_danger("..yet, I feel incomplete. To complete my prayer, I must stand before a structured cross, be grasping a silvered psycross, be bleeding from a wound, or be standing in the rain. Just as He weeps, so must I."))
 	return FALSE
