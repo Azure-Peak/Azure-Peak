@@ -401,6 +401,16 @@
 	stressadd = -3
 	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
 
+/datum/stressevent/zizo_fog
+	timer = 1 MINUTES
+	stressadd = -1 //Not totally a good omen, but Zizites know exactly what's going on
+	desc = list(span_zizo_plain("I feel a familar chill in this mist, brief moments of clarity between forbidden truths, the dead will rise again."))
+
+/datum/stressevent/zizo_fog_nonbeliever
+	timer = 1 MINUTES
+	stressadd = 2 //That ain't right
+	desc = list(span_boldred("I feel a chill on my shoulders and a smell of sickly decay faintly in the air, something is wrong.."))
+
 // Intended to proc upon exposure to gentle rain.
 /datum/stressevent/abyssor_rain
 	timer = 1 MINUTES
