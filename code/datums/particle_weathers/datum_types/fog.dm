@@ -24,7 +24,7 @@
 
 /particles/weather/fog/zizo
 	gradient				= list(0,"#7c9b88",100,"#7eada7","loop")
-	wind					= 4 //slightly slower
+	wind					= 4 //slightly less
 
 /particles/weather/fog/bloodfog
 	gradient				= list(0,"#5e0101",100,"#230000","loop")
