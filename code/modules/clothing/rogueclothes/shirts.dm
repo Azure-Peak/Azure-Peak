@@ -72,7 +72,7 @@
 	flags_inv = HIDEBOOB|HIDECROTCH
 	body_parts_covered = CHEST|GROIN|ARMS|VITALS
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
-	armor = ARMOR_PADDED_BAD
+	armor = ARMOR_PADDED
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	break_sound = 'sound/foley/cloth_rip.ogg'
