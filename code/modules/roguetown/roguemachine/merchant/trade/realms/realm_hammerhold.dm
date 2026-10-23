@@ -104,9 +104,31 @@
 	)
 	hail_lines = list(
 		"Finest arms, armor, and dwarven crafts from Hammerhold! Second to none!",
-		"Have you a taste for caviar or sturgeon? I have brought some live one to sell to the nobles of your land",
-		"The damned Grenzelhoftian has been charging me a quarter of my cargo in toll for the last yil. So I rounded the cape. Took me six months, but at least I will make a profit. Now, please, do not waste my time.",
-		"I brought along three Atgervi whom have served their time north and wishes to adventure here. Know of any employers? I hear Azuria is full of strife and opportunities.",
-		"Voddena! Voddena! Best Voddena in the world! Pure water from the mountains of Hammerhold! I even have one flavored with fruits, if you have stranger tastes!",
-		"One of your templar had me terrified when he walked near me on the pier. He was clad in full Ravoxian plate, and moved with unusual speed. I thought he was the notorious Brazen Bull, but I looked behind him, and saw a catte's tail, and I remembered there are not many catte half-kin in Hammerhold. Phew."
+
+		"Have you a taste for caviar or sturgeon? We've got live ones to sell to the nobles of your land!",
+
+		"Grenzelhoftian ports have been charging me a quarter of my cargo in toll for the last yil. \
+		So I rounded the cape. Took me six months, but at least I'll make a profit. Now, please, do not waste my time.",
+
+		"I brought along three Atgervi whom have served their time north and wish to adventure here! \
+		Know of any employers? I hear Azuria is full of strife and violent opportunities.",
+
+		"Voddena! Voddena! Best Voddena in the world! Pure water from the mountains of Hammerhold! \
+		I even have one flavored with fruits, if you have stranger tastes!",
+
+		"Do you have dwarves about? We've got slayer and grudgebearer weaponry, suited for any of their size! AKUR, AKIR, AKAM!", // https://www.youtube.com/watch?v=02nLHpSLTxo
+
+		"I saw one of your templar from the pier! A terrifying manne, I thought he was the Brazen Bull of legend! \
+		Swift! In all that Ravoxian plate armor! ...then I saw his catte tail. Safe for the nite, we are!",
+
+		"Have any tea? Hides? Hammerholdian Trolls have hard to work leathers.",
+
+		"Ever met a friendly minotaur? My uncle said he had in the old country's underground! Shame the second time he went to that inn he was \
+		wearing red.",
+
+		"ÏLUN KINEM!",
+
+		"Let's hope Dendor brought you a bountiful harvest of wheat this yil, yae?",
+
+		"TÔSED! NO, YOU DRUNK BASTE-- FACTOR! GIVE US A MOTE TO BE UNLOADED! These fools just LET A CRATE GO OVERBOARD!", // tosed = stop
 	)

@@ -976,7 +976,7 @@
 						. += span_voyeurvice("[m1] [english_list(vice_desc)]...")
 
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
-				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
+				. += span_notice("[m3] no voice. [m1] mute!") // [they have] no voice [they are] mute.
 
 		var/villain_text = get_villain_text(user)
 		if(villain_text)

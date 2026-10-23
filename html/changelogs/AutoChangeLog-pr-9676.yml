@@ -1,0 +1,4 @@
+author: "OMEGATHERION"
+delete-after: True
+changes:
+  - rscdel: "Removed gnoll name pop-up"
