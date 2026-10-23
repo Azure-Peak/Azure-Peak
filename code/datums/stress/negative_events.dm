@@ -506,6 +506,11 @@
 	stressadd = 4
 	desc = span_boldred("I feel watched... did something *hear* me?")
 
+/datum/stressevent/zizo_fog_nonbeliever
+	timer = 1 MINUTES
+	stressadd = 2
+	desc = list(span_red("I feel a chill down my spine and a faint smell of sickly decay in the air, something is wrong..."))
+
 /datum/stressevent/something_stirs/telescope
 	desc = span_boldred("That THING'S red eyes are still burning in my mind...")
 

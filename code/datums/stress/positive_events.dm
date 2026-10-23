@@ -406,11 +406,6 @@
 	stressadd = -1 //Not totally a good omen, but Zizites feel slightly at peace in it.
 	desc = list(span_zizo_plain("I feel a familar chill in this mist, forbidden truths faintly whispering through the air and darkness."))
 
-/datum/stressevent/zizo_fog_nonbeliever
-	timer = 1 MINUTES
-	stressadd = 2 //keep it insignificant, it builds up w/ other mood debuffs.
-	desc = list(span_red("I feel a chill down my spine and a faint smell of sickly decay in the air, something is wrong.."))
-
 // Intended to proc upon exposure to gentle rain.
 /datum/stressevent/abyssor_rain
 	timer = 1 MINUTES
