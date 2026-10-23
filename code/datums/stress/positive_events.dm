@@ -399,7 +399,7 @@
 /datum/stressevent/graggarite_blood_rain
 	timer = 1 MINUTES
 	stressadd = -3
-	desc = list(span_graggar_plain("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
+	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
 
 // Intended to proc upon exposure to Zizo's fog, for Zizites
 /datum/stressevent/zizo_fog
