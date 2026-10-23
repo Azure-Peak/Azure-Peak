@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - qol: "You can put smeltables in a bag, then dump the bag in a smelter, and it will dump it contents into it, reducing burn out rates on blacksmith players by 23%."

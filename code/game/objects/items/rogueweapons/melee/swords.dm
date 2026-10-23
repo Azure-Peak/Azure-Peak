@@ -2042,6 +2042,7 @@
 /obj/item/rogueweapon/sword/long/oathkeeper
 	name = "\"Oathkeeper\""
 	desc = "An ornate golden longsword with a ruby embedded in the hilt, given to the Knight Commander for their valiant service to the crown."
+	force_wielded = 33
 	sellprice = 140
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike)
 	icon_state = "kingslayer"

@@ -161,6 +161,13 @@
 	color = "#D2B48C"
 	taste_description = "tarty sweetness"
 
+/datum/reagent/consumable/juice/apple
+	cuisine = CUISINE_SOUTHEASTERN
+	name = "Apple juice"
+	description = "A crisp and sweet golden juice from an apple."
+	color = "#E0BE6D"
+	taste_description = "pleasantly crisp appleness"
+
 /datum/reagent/consumable/juice/plum
 	cuisine = CUISINE_SOUTHEASTERN
 	name = "Plum juice"

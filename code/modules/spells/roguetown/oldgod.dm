@@ -661,6 +661,14 @@
 		if(HAS_TRAIT(user, TRAIT_IRONMAN))
 			user.adjustFireLoss(25)
 
+	// CMODE FATIGUE TRANSFER
+	if(H.has_status_effect(/datum/status_effect/debuff/critwounded))
+		user.apply_status_effect(/datum/status_effect/debuff/critwounded)
+		H.remove_status_effect(/datum/status_effect/debuff/critwounded)
+		to_chat(H, span_blue("I feel the daze of being critically wounded lift from my body."))
+		if(!user.has_status_effect(/datum/status_effect/debuff/critwounded))
+			to_chat(user, span_artery("I feel myself clouded with dizziness and fatigue as I connect my lux with [H]'s'."))
+
 	// WOUND TRANSFER
 	for(var/datum/wound/targetwound in tw_List)
 		if(istype(targetwound, /datum/wound/dismemberment))
@@ -960,6 +968,14 @@
 
 		if(tBP)
 			tBP.remove_wound(W.type)
+
+	// CMODE FATIGUE TRANSFER
+	if(H.has_status_effect(/datum/status_effect/debuff/critwounded))
+		C.apply_status_effect(/datum/status_effect/debuff/critwounded)
+		H.remove_status_effect(/datum/status_effect/debuff/critwounded)
+		to_chat(H, span_blue("I feel the daze of being critically wounded lift from my body."))
+		if(!user.has_status_effect(/datum/status_effect/debuff/critwounded))
+			to_chat(user, span_artery("I feel myself clouded with dizziness and fatigue as I connect my lux with [H]'s'."))
 
 	// DAMAGE TRANSFER
 	var/brute_transfer = H.getBruteLoss()

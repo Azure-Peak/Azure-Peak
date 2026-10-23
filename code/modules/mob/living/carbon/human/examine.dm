@@ -976,7 +976,7 @@
 						. += span_voyeurvice("[m1] [english_list(vice_desc)]...")
 
 			if(HAS_TRAIT(user, TRAIT_EMPATH) && HAS_TRAIT(src, TRAIT_PERMAMUTE))
-				. += span_notice("[m1] lacks a voice. [m1] is a mute!")
+				. += span_notice("[m3] no voice. [m1] mute!") // [they have] no voice [they are] mute.
 
 		var/villain_text = get_villain_text(user)
 		if(villain_text)
@@ -1023,26 +1023,6 @@
 		var/datum/antagonist/vampire/vamp_inspect =src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_redtext("[m3] strange glowing eyes and fangs!")
-
-		if((HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(user, TRAIT_BLACKBLOOD)) && src != user)
-			var/mob/living/carbon/carbs = user
-			if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(user, TRAIT_NOMOOD))
-				return
-
-			if(!(src in examined_inquisitors))
-				examined_inquisitors += src
-
-				if(!carbs.has_stress_event(/datum/stressevent/inq_trauma))
-					carbs.add_stress(/datum/stressevent/inq_trauma)
-					if(prob(20))
-						carbs.stress_freakout()
-					else if(prob(40))
-						carbs.freak_out()
-					else
-						carbs.emote("gulp")
-				if(!HAS_TRAIT(user, TRAIT_STEELHEARTED))
-					carbs.Jitter(10)
-					carbs.stuttering += 25
 
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
 			if(!HAS_TRAIT(user, TRAIT_DEATHSIGHT))

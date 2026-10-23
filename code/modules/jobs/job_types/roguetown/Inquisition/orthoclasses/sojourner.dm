@@ -80,7 +80,7 @@
 		if("katar")
 			H.put_in_hands(new /obj/item/rogueweapon/katar/silver/psy(H))
 		if("knuckledusters")
-			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/silver/psydon(H))
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/silver/psy(H))
 
 	head = /obj/item/clothing/head/roguetown/headband/naledi
 	if(H.has_flaw(/datum/charflaw/badsight))

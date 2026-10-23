@@ -45,19 +45,20 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		"filter_options" = list(
 			"categories" = list(
 				"all",
-				POLL_TAX_CAT_NOBLE,
-				POLL_TAX_CAT_CLERGY,
-				POLL_TAX_CAT_INQUISITION,
-				POLL_TAX_CAT_COURTIER,
-				POLL_TAX_CAT_GARRISON,
-				POLL_TAX_CAT_GUILDS,
-				POLL_TAX_CAT_MERCHANT,
-				POLL_TAX_CAT_BURGHER,
-				POLL_TAX_CAT_ADVENTURER,
-				POLL_TAX_CAT_MERCENARY,
-				POLL_TAX_CAT_PEASANT,
+				POLL_LEVY_CAT_NOBLE,
+				POLL_LEVY_CAT_CLERGY,
+				POLL_LEVY_CAT_INQUISITION,
+				POLL_LEVY_CAT_COURTIER,
+				POLL_LEVY_CAT_GARRISON,
+				POLL_LEVY_CAT_GUILDS,
+				POLL_LEVY_CAT_MERCHANT,
+				POLL_LEVY_CAT_BURGHER,
+				POLL_LEVY_CAT_SCHOLAR,
+				POLL_LEVY_CAT_ADVENTURER,
+				POLL_LEVY_CAT_MERCENARY,
+				POLL_LEVY_CAT_PEASANT,
 			),
-			"statuses" = list("all", "arrears", "advance", "debtor", "low_balance", "exempt"),
+			"statuses" = list("all", "arrears", "debtor", "low_balance", "exempt"),
 		),
 	)
 
@@ -306,16 +307,16 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			return TRUE
 		if("advance_day")
 			GLOB.dayspassed++
-			// Run the full dawn cadence so testing matches in-game timing: rural tax, poll tax,
+			// Run the full dawn cadence so testing matches in-game timing: rural tax,
 			// loans, pledge, estate incomes, then payroll (which itself triggers SSeconomy.daily_tick).
 			// Rural mints first so it's in the pool when payroll checks solvency. Payroll runs last
 			// because it's the call that may transition the solvency state.
 			SStreasury.tick_rural_tax()
-			SStreasury.tick_poll_tax()
 			SStreasury.tick_loans()
 			SStreasury.tick_burgher_pledge()
 			SStreasury.distribute_estate_incomes()
 			SStreasury.distribute_daily_payments()
+			SStreasury.tick_poll_levy_arrears()
 			for(var/mob/living/carbon/human/H in GLOB.human_list)
 				var/datum/charflaw/indebted/I = locate(/datum/charflaw/indebted) in H.charflaws
 				if(!I || !I.is_active)
@@ -327,10 +328,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 		if("fire_rural_tick")
 			SStreasury.tick_rural_tax()
 			admin_log_fiscal("fired tick_rural_tax", "Fire Rural Tick")
-			return TRUE
-		if("fire_poll_tick")
-			SStreasury.tick_poll_tax()
-			admin_log_fiscal("fired tick_poll_tax", "Fire Poll Tick")
 			return TRUE
 		if("fire_loan_tick")
 			SStreasury.tick_loans()
@@ -446,34 +443,8 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 			var/mob/living/target = locate(params["ref"])
 			if(!istype(target))
 				return TRUE
-			SStreasury.clear_poll_tax_debt(target)
-			admin_log_fiscal("cleared poll-tax debt for [key_name(target)]", "Clear Poll Debt")
-			return TRUE
-		if("player_add_advance")
-			var/mob/living/target = locate(params["ref"])
-			if(!istype(target))
-				return TRUE
-			var/days = text2num(params["days"]) || 1
-			SStreasury.poll_tax_advance_days[target] = (SStreasury.poll_tax_advance_days[target] || 0) + days
-			admin_log_fiscal("added [days] days advance to [key_name(target)]", "Add Advance")
-			return TRUE
-		if("player_remove_advance")
-			var/mob/living/target = locate(params["ref"])
-			if(!istype(target))
-				return TRUE
-			var/days = text2num(params["days"]) || 1
-			var/existing = SStreasury.poll_tax_advance_days[target] || 0
-			var/new_val = max(0, existing - days)
-			// Days removed by an admin no longer count as deferred revenue; recognise their share.
-			var/days_left_to_release = existing
-			for(var/i in 1 to min(days, existing))
-				SStreasury.release_poll_tax_advance(target, days_left_to_release)
-				days_left_to_release--
-			if(new_val <= 0)
-				SStreasury.poll_tax_advance_days -= target
-			else
-				SStreasury.poll_tax_advance_days[target] = new_val
-			admin_log_fiscal("removed [days] days advance from [key_name(target)]", "Remove Advance")
+			SStreasury.clear_poll_levy_debt(target)
+			admin_log_fiscal("cleared poll-levy debt for [key_name(target)]", "Clear Poll Debt")
 			return TRUE
 		if("player_toggle_debtor")
 			var/mob/living/target = locate(params["ref"])
@@ -655,9 +626,9 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 				var/mob/living/target = locate(entry["ref"])
 				if(!istype(target))
 					continue
-				SStreasury.clear_poll_tax_debt(target)
+				SStreasury.clear_poll_levy_debt(target)
 				count++
-			admin_log_fiscal("bulk-cleared poll-tax debt for [count] players (filter cat=[filter_category] status=[filter_status])", "Bulk Clear Debt")
+			admin_log_fiscal("bulk-cleared poll-levy debt for [count] players (filter cat=[filter_category] status=[filter_status])", "Bulk Clear Debt")
 			return TRUE
 		if("spawn_trade_ship")
 			if(!SSmerchant_trade)
@@ -705,18 +676,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 					to_chat(usr, span_warning("No dock spots free - send a ship away first."))
 				if("no_ships")
 					to_chat(usr, span_warning("No available ships in the pool to hail."))
-			return TRUE
-		if("bulk_add_advance")
-			var/days = text2num(params["days"]) || 1
-			var/list/matches = SStreasury.compute_filtered_players(filter_category, filter_status, filter_search)
-			var/count = 0
-			for(var/entry in matches)
-				var/mob/living/target = locate(entry["ref"])
-				if(!istype(target))
-					continue
-				SStreasury.poll_tax_advance_days[target] = (SStreasury.poll_tax_advance_days[target] || 0) + days
-				count++
-			admin_log_fiscal("bulk-added [days] advance days to [count] players", "Bulk Add Advance")
 			return TRUE
 		if("dump_pricing_audits")
 			run_pricing_audits_runtime()

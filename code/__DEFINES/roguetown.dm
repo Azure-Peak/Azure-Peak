@@ -502,7 +502,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_MENATARMS		"CAT_MENATARMS"		// Men-at-Arms class - Handles Men-at-Arms class selector
 #define CTAG_SERGEANT		"CAT_SERGEANT"		// Sergeant class - Handles Sergeant class selector (weapons selection)
 #define CTAG_ROYALGUARD		"CAT_ROYALGUARD"	// Royal Guard class - Handles Royal Guard class selector
-#define CTAG_CONSORT		"CAT_CONSORT"		// Consort/Suitor subclasses
+#define CTAG_SUITOR		"CAT_SUITOR"		// Suitor subclasses
 #define CTAG_MERCENARY		"CAT_MERCENARY"		// Mercenary class - Handles Mercenary class selector
 #define CTAG_HAND			"CAT_HAND"			// Hand class - Handles Hand class selector
 #define CTAG_TEMPLAR		"CAT_TEMPLAR"		// Templar class - Handles Templar class selector
@@ -541,6 +541,8 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_STEWARD		"CAT_STEWARD"
 #define CTAG_CLERK			"CAT_CLERK"
 #define CTAG_COUNCILLOR		"CAT_COUNCIL"
+#define CTAG_CONSORT		"CAT_CONSORT"
+#define CTAG_JESTER		"CAT_JESTER"
 
 #define CTAG_COURTMAGE		"CAT_COURTMAGE"
 
@@ -614,3 +616,10 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define ARMOR_MAT_PLATE 1
 #define ARMOR_MAT_LEATHER 2
 #define ARMOR_MAT_CHAINMAIL 3
+
+//Intent-saving defines. If a weapon has more than 3 altgrip states it's likely to runtime somewhere.
+#define UNWIELDED_INTENT 0
+#define WIELDED_INTENT 1
+#define ALTGRIP_ONE_INTENT 2
+#define ALTGRIP_TWO_INTENT 3
+#define ALTGRIP_THREE_INTENT 4

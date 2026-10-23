@@ -191,7 +191,7 @@
 		quick_empty(M)
 
 /datum/component/storage/proc/preattack_intercept(datum/source, obj/O, mob/M, params)
-	if(!isitem(O) || !click_gather || SEND_SIGNAL(O, COMSIG_CONTAINS_STORAGE))
+	if(!isitem(O) || !click_gather || SEND_SIGNAL(O, COMSIG_CONTAINS_STORAGE) || O.get_dumping_location(src, M) == O)
 		return FALSE
 	. = COMPONENT_NO_ATTACK
 	if(locked)

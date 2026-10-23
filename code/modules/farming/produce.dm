@@ -158,6 +158,7 @@
 	slot_flags = ITEM_SLOT_HEAD
 	worn_x_dimension = 64
 	list_reagents = list(/datum/reagent/consumable/nutriment = 3)
+	juice_results = list(/datum/reagent/consumable/juice/apple = JUICE_YIELD)
 	worn_y_dimension = 64
 	rotprocess = SHELFLIFE_SHORT
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced
@@ -231,7 +232,7 @@
 	icon_state = "pear"
 	tastes = list("pear" = 1)
 	splat_color = "#D2B48C"
-	juice_results = list(/datum/reagent/consumable/juice/pear = 5)
+	juice_results = list(/datum/reagent/consumable/juice/pear = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/lemon
 	name = "lemon"
@@ -240,7 +241,7 @@
 	icon_state = "lemon"
 	tastes = list("lemon" = 1)
 	splat_color = "#FFFF00"
-	juice_results = list(/datum/reagent/consumable/juice/lemon = 5)
+	juice_results = list(/datum/reagent/consumable/juice/lemon = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/lime
 	name = "lime"
@@ -249,7 +250,7 @@
 	icon_state = "lime"
 	tastes = list("lime" = 1)
 	splat_color = "#00FF00"
-	juice_results = list(/datum/reagent/consumable/juice/lime = 5)
+	juice_results = list(/datum/reagent/consumable/juice/lime = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/lime/Initialize(mapload)
 	. = ..()
@@ -270,7 +271,7 @@
 	icon_state = "tangerine"
 	tastes = list("tangerine" = 1)
 	splat_color = "#FFA500"
-	juice_results = list(/datum/reagent/consumable/juice/orange = 5)
+	juice_results = list(/datum/reagent/consumable/juice/orange = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine_sugared
 	cuisine = CUISINE_RANESHENI
@@ -283,7 +284,7 @@
 	tastes = list("overpoweringly sweet" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	eat_effect = /datum/status_effect/buff/sweet
-	juice_results = list(/datum/reagent/consumable/juice/orange = 5)
+	juice_results = list(/datum/reagent/consumable/juice/orange = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/plum
 	name = "plum"
@@ -292,7 +293,7 @@
 	icon_state = "plum"
 	tastes = list("plum" = 1)
 	splat_color = "#8B008B"
-	juice_results = list(/datum/reagent/consumable/juice/plum = 5)
+	juice_results = list(/datum/reagent/consumable/juice/plum = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry
 	name = "strawberry"
@@ -301,7 +302,7 @@
 	icon_state = "strawberry"
 	tastes = list("strawberry" = 1)
 	splat_color = "#9A1B00"
-	juice_results = list(/datum/reagent/consumable/juice/strawberry = 5)
+	juice_results = list(/datum/reagent/consumable/juice/strawberry = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/strawberry/Initialize(mapload)
 	. = ..()
@@ -321,7 +322,7 @@
 	icon_state = "blackberry"
 	tastes = list("blackberry" = 1)
 	splat_color = "#272C3F"
-	juice_results = list(/datum/reagent/consumable/juice/blackberry = 5)
+	juice_results = list(/datum/reagent/consumable/juice/blackberry = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/Initialize(mapload)
 	. = ..()
@@ -345,7 +346,7 @@
 	tastes = list("overpoweringly sweet" = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	eat_effect = /datum/status_effect/buff/sweet
-	juice_results = list(/datum/reagent/consumable/juice/blackberry = 5)
+	juice_results = list(/datum/reagent/consumable/juice/blackberry = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/raspberry
 	name = "raspberry"
@@ -354,7 +355,7 @@
 	icon_state = "raspberry"
 	tastes = list("raspberry" = 1)
 	splat_color = "#A01600"
-	juice_results = list(/datum/reagent/consumable/juice/raspberry = 5)
+	juice_results = list(/datum/reagent/consumable/juice/raspberry = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato
 	name = "tomato"
@@ -366,7 +367,7 @@
 	slice_path = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
 	slices_num = 1
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
-	juice_results = list(/datum/reagent/consumable/juice/tomato = 5)
+	juice_results = list(/datum/reagent/consumable/juice/tomato = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
 	name = "split tomato"
@@ -377,7 +378,7 @@
 	tastes = list("to" = 1, "mato" = 1)
 	splat_color = "#CD5320"
 	mill_result = /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
-	juice_results = list(/datum/reagent/consumable/juice/tomato = 5)
+	juice_results = list(/datum/reagent/consumable/juice/tomato = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sauce
 	name = "tomato sauce"
@@ -402,7 +403,7 @@
 	dropshrink = 0.75
 	var/color_index = "good"
 	rotprocess = SHELFLIFE_SHORT
-	juice_results = list(/datum/reagent/consumable/juice/jackberry = 5)
+	juice_results = list(/datum/reagent/consumable/juice/jackberry = JUICE_YIELD)
 
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/examine(mob/user)
 	. = ..()
@@ -454,7 +455,7 @@
 	icon_state = "berries"
 	tastes = list("berry" = 1)
 	list_reagents = list(/datum/reagent/berrypoison = 5, /datum/reagent/consumable/nutriment = 3, /datum/reagent/water = 5)
-	grind_results = list(/datum/reagent/berrypoison = 5)
+	juice_results = list(/datum/reagent/berrypoison = 5, /datum/reagent/consumable/juice/jackberry = JUICE_YIELD)
 	color_index = "bad"
 
 /obj/item/reagent_containers/food/snacks/grown/berries/rogue/poison/Initialize(mapload)
@@ -863,57 +864,6 @@
 		/datum/element/slapcrafting,\
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
-
-///////////	Skysugar	//////////////
-// Stored here, as it uses deepfrying to make. Let's cook, yo!
-
-/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase
-	name = "panacea of skysugar"
-	desc = "A combination of perplexingly diverse ingredients, that - when specifically boiled in fat - merges together to create an \
-	alchemically pure substance. South of Azuria's border, it's known as 'skysugar'; a Pestran heresy, rumored to've originally been \
-	brewed to cure that which even a quicksilver poultice couldn't mend. Despite its fruity aroma, it probably shouldn't be nibbled at."
-	icon = 'icons/roguetown/items/produce.dmi'
-	icon_state = "lux_impure_combo"
-	faretype = FARE_IMPOVERISHED
-	eat_effect = /datum/status_effect/debuff/uncookedfood
-	tastes = list("a horrifically bad idea" = 1, "slightly fruity aftertaste" = 1)
-	bitesize = 2
-	list_reagents = list(/datum/reagent/toxin/killersice = 1, /datum/reagent/starsugar = 8, /datum/reagent/water = 7, /datum/reagent/consumable/nutriment = 3) //Feeling a little.. under the weather?
-	sellprice = 23
-
-/obj/item/reagent_containers/food/snacks/grown/skysugarslab
-	dish_type = DISH_MEAT
-	name = "skysugar slab"
-	desc = "A crystalline brick that radiates with an almost-ethereal hue, yet to be broken up at an alchemical lab. They call \
-	it 'luchtblauw' in Old Azurian; alchemically purified starsugar, to a ninth-of-a-hundreth dram. Born of a Pestran heresy, this \
-	mysterious substance is both ludicrously potent and condemned by the Church. Even so, it's worth its weight in gold; and in the \
-	hands of a yeoman willing to 'break bad', it can be sold to an amoral Merchant or Bathmatron for a hefty sum."
-	icon = 'icons/roguetown/items/produce.dmi'
-	icon_state = "lux_slab"
-	gender = PLURAL
-	bitesize = 7
-	faretype = FARE_IMPOVERISHED //Have you ever tried eating a solid chunk of soul-meth, before?
-	tastes = list("a slightly less bad idea" = 1, "shards of fruit-tinged glass" = 1)
-	list_reagents = list(/datum/reagent/starsugar = 16, /datum/reagent/water = 6, /datum/reagent/consumable/nutriment = 6)
-	grind_results = list(/datum/reagent/starsugar = 98) //Add a custom reagent if you wish. I think that'd be pretty cool.
-	sellprice = 137
-	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
-
-/obj/item/reagent_containers/powder/starsugar/skysugar
-	name = "skysugar"
-	desc = "A crystalline powder that radiates with an almost-ethereal hue, and feels deathly cold to the touch. They call \
-	it 'luchtblauw' in Old Azurian; alchemically purified starsugar, to a ninth-of-a-hundreth dram. Born of a Pestran heresy, this \
-	mysterious substance is both ludicrously potent and condemned by the Church. Even so, it's worth its weight in gold; and in the \
-	hands of a yeoman willing to 'break bad', it can be sold to an amoral Merchant or Bathmatron for a hefty sum."
-	icon = 'icons/roguetown/items/produce.dmi'
-	icon_state = "lux_powder"
-	item_state = "lux_powder"
-	possible_transfer_amounts = list()
-	volume = 38
-	list_reagents = list(/datum/reagent/starsugar = 38, /datum/reagent/consumable/nutriment = 38) //Yeah, psyence!
-	grind_results = list(/datum/reagent/starsugar = 38)
-	sellprice = 123 //Tight, tight, tight! Blue, red, green; whatever, man, just bring me more!
-	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
 
 /*	..................	Cucumber	................... */
 /obj/item/reagent_containers/food/snacks/grown/cucumber

@@ -93,7 +93,7 @@
 			if("Knuckledusters")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/old
+					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/silver/psy/old
 				else
 					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/bronze
 			if("Quarterstaff")

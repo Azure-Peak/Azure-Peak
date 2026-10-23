@@ -899,3 +899,89 @@
   mumblemancer:
   - rscdel: trolls wont hide on losing their target, anymore. this will also make
       them not hide when they die.
+2026-10-23:
+  BobProductive:
+  - bugfix: statpanel can once again interact with mobs
+  Quinalion:
+  - bugfix: Added missing anvil recipes for several Psydonic weapons and Silver Knuckles.
+  - image: Added sprites for the Psydonic Poleaxe and Silver Poleaxe, including support
+      for wrapped banners.
+  Ryan180602:
+  - rscdel: Pallid, Blackblood is removed.
+  - rscadd: Agoraphobic, Claustrophobic, Selanophobic and Heliophobic and Sullied
+      Blood as vices.
+  - rscadd: Odd Blood and Sanguivore as quirks.
+  - bugfix: Changes Second Chance back to Rotcured.
+  - balance: Veteran gains Bad Trainer.
+  Traveler319:
+  - rscadd: Beds and tables can be unanchored with a stake to be moved around.
+  WeNeedMorePhoron:
+  - rscadd: Ported 8 additional towner expanded quest by SatinIsles from our downstream
+      Ochre Valley. Enjoy!
+  - rscadd: Notorious Contract's default timer is now 15 instead of 20 minutes, and
+      will now count the entire party going unconscious as a victory for the target
+  - rscadd: Towner quests can now be turned in at the nearest HERMES by putting the
+      package in it, allowing the towner to open it at their own leisure and making
+      it way less troublesome for both party.
+  - rscadd: Refactored the entirety of the contract system, report any oddities
+  - rscadd: Failing a contract now forfeits your deposit
+  - rscadd: Smith Caravan can now spawn in Azure Grove
+  - rscadd: Deposits are only returned if actually paid
+  - rscadd: Contract issuers can no longer cash in their own contract
+  - rscadd: A "Your Postings" tab now exists in the ledger in the bottom, replacing
+      the Steward / Innkeeper's special tab, where you can withdraw contracts
+  - rscadd: Contracts withdrawn before it is taken will refund fully, contracts withdrawn
+      when someone failed it or it is taken will refunds partially. Contract partially
+      refunds on failure.
+  - rscadd: Towner may issue up to 5 contracts simultaneously.
+  - rscadd: Added 30 minutes timer for delivery post killing of guardians in Towner
+      quests so it cannot be stalled forever.
+  - rscadd: Ported SatinIsles' GM quests system from Ochre and integrated it into
+      the Game Master panel, GM can now issue special kill and recovery quests
+  - rscadd: Remove the old pot-based stew water + fruit fruit juice recipe
+  - rscadd: Add apple juice
+  - rscadd: Nutriments no longer transfer from juiced item into the juice, polluting
+      the drinks and making them awkward to mix. Ported from OV
+  - rscadd: Allows you to juice / grind up to 4 items in a mortar at once
+  - rscadd: Allows you to empty non reagent container (sack / bag etc., but not pot
+      to avoid weirdness) into a mortar for easier juicing
+  - rscadd: ' Increase the yield of juice from 5 drams (!) to 25 drams for juicing
+      each piece of fruit'
+  - bugfix: ' Makes skysugar no longer a subtype of blackberries or a type of plant'
+  - rscadd: Nobility no longer makes you immune to contract levy. Only levy-exempt
+      contract will exempts you from it
+  - rscadd: Poll taxes mechanics has been replaced with a twice a week one off poll
+      levy that will also backcharge any accounts created later in the week, except
+      latejoiners. It will leave a minimum balance of 30m
+  - rscadd: For poll levy purpose, University and Apothecary members now counts as
+      the separate "Scholars" class protected specifically by the Covenant
+  azurexautyr-arch:
+  - rscadd: donor item for SeraphLemonade
+  borneblood:
+  - refactor: Veiled Whispers should work now, and shouldn't report deadite cures
+      as a 'new death'. (Hopefully! Report any oddities!)
+  changelingonberry:
+  - rscadd: The bag equip hotkey (shift & alt with q & e by default) can now be used
+      to load projectile weapons from quivers, etc.
+  radarseas:
+  - balance: cmode passive drain (-2) to (-1), you should have blue last twice as
+      long instead of having to juggle cmode as much.
+  - balance: stab intent can now skullcrack to T2. You no longer are forced to use
+      maces/axes against undead and you can actually kill skeletons by stabbing them
+      now.
+  - balance: taking any form of critical injury like fractures/arteries now gives
+      you an eight minute long debuff "Critical Dazing" that increases cmode costs
+      for energy, to (-3). - This does not include people who do not tire as easily
+      like skeletons, VL, lich, WW etc.
+  - balance: running out of blood unless you're immune to bloodless also inflicts
+      fatal dazing.
+  saltprjak:
+  - balance: Marshal subclass loadouts updated. Renamed classic Marshal Constable
+      receives sleuth virtue, Knight-Commander receives Saddleborn.
+  zRainbowcat:
+  - bugfix: Sneaking into someting no longer transfers you to backrooms in some circumstances
+  zeskorion:
+  - rscadd: trained smith trait allows for using an anvil, and leveling metalworking
+      skills, as good as being a malumite does.
+  - qol: being expert in a metalworking skill allows you to add items to recipes of
+      that skill in the same manner being a trained smith does

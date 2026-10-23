@@ -70,7 +70,6 @@ type Tallies = {
   election?: ElectionTally;
   trade_auth?: BracketTally;
   defense_auth?: BracketTally;
-  poll_tax?: BracketTally;
   recall?: YaeNayTally;
   censure?: YaeNayTally;
 };
@@ -94,7 +93,6 @@ type Data = {
   history: HistoryEntry[];
   trade_brackets: number[];
   defense_brackets: number[];
-  poll_brackets: number[];
   quorum_voters: number;
   recall_threshold_pct: number;
   censure_threshold_pct: number;
@@ -103,7 +101,6 @@ type Data = {
 
 const MOTION_TRADE = 'trade_auth';
 const MOTION_DEFENSE = 'defense_auth';
-const MOTION_POLL = 'poll_tax';
 const MOTION_RECALL = 'recall';
 const MOTION_CENSURE = 'censure';
 const MOTION_ELECTION = 'election';
