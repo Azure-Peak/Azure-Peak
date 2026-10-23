@@ -72,7 +72,7 @@
 	spawned_scroll.update_quest_text()
 
 	var/datum/fund/deposit_account = SStreasury.get_account(user)
-	if(SStreasury.burn(deposit_account, deposit, "contract deposit"))
+	if(SStreasury.burn(deposit_account, deposit, "contract deposit", LEDGER_CITIZEN_CONTRACT_PAID))
 		Q.deposit_payer = deposit_account
 		Q.deposit_paid = deposit
 
@@ -124,7 +124,7 @@
 	qdel(scroll.assigned_quest)
 	qdel(scroll)
 
-	SStreasury.mint(benef_account, gross_reward, "contract reward - [src.name]")
+	SStreasury.mint(benef_account, gross_reward, "contract reward - [src.name]", null, LEDGER_CITIZEN_CONTRACTS)
 
 	// Levy applies only to the base reward, not the returned deposit. The deposit is the
 	// bearer's own money being given back; taxing it would be a hidden levy on principal.
@@ -158,8 +158,14 @@
 		else
 			say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
 
+/obj/structure/roguemachine/contractledger/proc/can_admin_complete(mob/user)
+	var/client/C = user?.client
+	if(!C || !check_rights_for(C, R_DEBUG))
+		return FALSE
+	return isnull(C.address) || (C.address in list("127.0.0.1", "::1"))
+
 /obj/structure/roguemachine/contractledger/proc/admin_complete_by_ref(mob/user, ref)
-	if(!ref || !check_rights_for(user?.client, R_DEBUG))
+	if(!ref || !can_admin_complete(user))
 		return
 	var/datum/weakref/user_ref = WEAKREF(user)
 	var/obj/item/quest_writ/matched_scroll

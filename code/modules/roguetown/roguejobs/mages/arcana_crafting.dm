@@ -205,7 +205,7 @@
 
 /datum/crafting_recipe/roguetown/arcana/arcyne_dagger
 	name = "arcyne silver dagger"
-	result = /obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
-	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/silver = 1,
+	result = /obj/item/rogueweapon/huntingknife/idagger/steel/silver/arcyne
+	reqs = list(/obj/item/rogueweapon/huntingknife/idagger/steel/silver = 1,
 				/obj/item/rogueore/cinnabar = 1)
 

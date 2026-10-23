@@ -174,7 +174,7 @@
 				l_hand = /obj/item/rogueweapon/sword/sabre
 				r_hand = /obj/item/rogueweapon/shield/buckler
 				beltr = /obj/item/rogueweapon/scabbard/sword
-			if("Steel Messer & Buckler")
+			if("Messer & Buckler")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/short/messer/duelist
 				r_hand = /obj/item/rogueweapon/shield/buckler
@@ -521,7 +521,7 @@
 		switch(silver_choice)
 			if("Silver Dagger")
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/huntingknife/idagger/silver
+				r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/silver
 				beltr = /obj/item/rogueweapon/scabbard/sheath
 			if("Silver Shortsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -541,7 +541,7 @@
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Silver Broadsword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/sword/long/kriegmesser/silver
+				r_hand = /obj/item/rogueweapon/sword/long/broadsword/silver
 				beltr = /obj/item/rogueweapon/scabbard/sword
 			if("Silver Executioner Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -560,7 +560,7 @@
 				r_hand = /obj/item/rogueweapon/whip/silver
 			if("Silver War Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/stoneaxe/woodcut/silver
+				r_hand = /obj/item/rogueweapon/stoneaxe/battle/silver
 			if("Silver Tomahawk")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				r_hand = /obj/item/rogueweapon/stoneaxe/handaxe/silver
@@ -578,7 +578,7 @@
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Silver Quarterstaff")
 				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/silver
+				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
 			if("Silver Katar (+1 Athletics)")	//For these 2 unarmed weapon options, get a level of athletics as a consolation prize, since this class gets jman unarmed already, and expert would be OP.
 				if(H.age != AGE_OLD)	//BUT ONLY IF THE CHARACTER IS NOT OLD, because old exorcists get expert EVERYTHING anyway, no need for compensation.
@@ -622,7 +622,7 @@
 				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/staker
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Blessed Silver Stake")
-				l_hand = /obj/item/rogueweapon/huntingknife/idagger/silver/stake/preblessed
+				l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/silver/stake/preblessed
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Blessed Silver Hunting Knife")
 				l_hand = /obj/item/rogueweapon/huntingknife/combat/silver/preblessed

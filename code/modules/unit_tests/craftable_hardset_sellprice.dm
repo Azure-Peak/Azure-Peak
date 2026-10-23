@@ -17,7 +17,7 @@
 		/obj/item/ingot/component/berserkswordgrip,
 		/obj/item/ingot/component/heapofrawiron,
 		/obj/item/listenstone,
-		/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase,
+		/obj/item/reagent_containers/food/snacks/skysugarbase,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn,
 		/obj/item/reagent_containers/lux,
@@ -30,18 +30,10 @@
 		/obj/item/rogueweapon/huntingknife/idagger/stake,
 		/obj/item/rogueweapon/mace/steel/silver/decorated,
 		/obj/item/rogueweapon/spellbook,
-		/obj/item/rogueweapon/spellbook/grand,
-		/obj/item/rogueweapon/spellbook/greater,
 		/obj/item/rogueweapon/woodstaff/implement,
 		/obj/item/rogueweapon/woodstaff/implement/amethyst,
-		/obj/item/rogueweapon/woodstaff/implement/grand,
-		/obj/item/rogueweapon/woodstaff/implement/grand/blacksteel,
-		/obj/item/rogueweapon/woodstaff/implement/grand/riddle,
-		/obj/item/rogueweapon/woodstaff/implement/greater,
-		/obj/item/rogueweapon/woodstaff/implement/greater/quartz,
-		/obj/item/rogueweapon/woodstaff/implement/greater/ruby,
-		/obj/item/rogueweapon/woodstaff/implement/greater/sapphire,
 		/obj/item/runicflask/charged,
+		/obj/item/natural/goathorn,
 	)
 
 	var/list/offenders = list()

@@ -110,6 +110,8 @@
 	var/damage = 10
 	/// Bonus damage vs simple animals. DO NOT EVER SET THIS OUTSIDE THE CROSSBOW / SLURBOW / STAKER AMMO FAMILY. It used to exists on nearly every projectile to get around simple animals being unfun. I don't see a way to make it "viable" in PVE without using this multiplier. DO NOT UNDER ANY CIRCUMSTANCES PROLIFERATE THIS.
 	var/npc_simple_damage_mult = 1
+	/// Damage was reduced by SPELL_DMG. Simple animals take the unscaled value.
+	var/spell_damage_scaled = FALSE
 	var/damage_type = BRUTE //BRUTE, BURN, TOX, OXY, CLONE are the only things that should be in here
 	var/nodamage = FALSE //Determines if the projectile will skip any damage inflictions
 	var/flag = "piercing" //Defines what armor to use when it hits things. Setting this to "blunt" might result in unexpected behavior (i.e. knockout on hit, figure out the root causes and excise it)
@@ -160,6 +162,8 @@
 	var/poisonfeel
 
 	var/aim_peak = 0
+	/// Ignores every zone hit penalty and ceiling
+	var/steady_aim = FALSE
 
 	/// Min tile distance for full damage.
 	var/min_range = 0
@@ -299,7 +303,10 @@
 			var/splatter_dir = dir
 			if(starting)
 				splatter_dir = get_dir(starting, target_loca)
-			var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(target_loca, splatter_dir)
+			var/splatter_type = (woundclass in GLOB.gore_bclasses) ? /obj/effect/temp_visual/dir_setting/bloodsplatter/spray : /obj/effect/temp_visual/dir_setting/bloodsplatter
+			var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new splatter_type(target_loca, splatter_dir)
+			if((woundclass in GLOB.splatter_bclasses) && prob(damage * 2))
+				L.blood_spray(splatter_dir)
 			splatter.set_blood_color(L.get_blood_color())
 			if(prob(33))
 				L.add_splatter_floor(target_loca)

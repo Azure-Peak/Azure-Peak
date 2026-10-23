@@ -116,7 +116,7 @@
 /datum/supply_pack/rogue/Mage/sdagger
 	name = "Silver Dagger"
 	cost = 100
-	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver)
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/silver)
 
 //////////////////
 // ✨ MAGIC ✨ //
@@ -177,15 +177,15 @@
 
 /datum/supply_pack/rogue/Mage/lesser_implement
 	name = "Lesser Implement"
-	cost = 55
+	cost = 25
 	contains = list(/obj/item/rogueweapon/woodstaff/implement)
 
 /datum/supply_pack/rogue/Mage/greater_implement
 	name = "Greater Implement"
-	cost = 120
+	cost = 55
 	contains = list(/obj/item/rogueweapon/woodstaff/implement/greater)
 
 /datum/supply_pack/rogue/Mage/grand_implement
 	name = "Grand Implement"
-	cost = 180
+	cost = 115
 	contains = list(/obj/item/rogueweapon/woodstaff/implement/grand)

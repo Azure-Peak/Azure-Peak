@@ -21,6 +21,7 @@
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
 #define TRAIT_NISTEAN "Nistean" //mood debuff whewn eating meat
 #define TRAIT_VEGAN "Végétal" // ditto, but for meat, seafood, dairy, etc
+#define TRAIT_SANGUIVORE "Sanguivore"
 #define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician" // unlocks bardic inspiration stuff
 #define TRAIT_SPELLCOCKBLOCK "Bewitched" //prevents spellcasting
 #define TRAIT_ANTIMAGIC	"Anti-Magic"
@@ -39,6 +40,7 @@
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
 #define TRAIT_MARRIAGE_CAPABLE "Marriage Capable"
 #define TRAIT_OUTDOORSMAN "Outdoorsman"
+#define TRAIT_WATERSLEEP "Aquaphile" // outdoorsman but for water tiles. does NOT come with water breathing
 #define TRAIT_SEA_DRINKER "Denizen of the Deep"
 #define TRAIT_STUDENT		"Student"
 #define TRAIT_INTELLECTUAL "Intellectual"
@@ -69,6 +71,7 @@
 #define TRAIT_IWASREVIVED "iwasrevived" //prevents PQ gain from reviving the same person twice
 #define TRAIT_IWASUNZOMBIFIED "iwasunzombified" //prevents PQ gain from curing a zombie twice
 #define TRAIT_IWASHAUNTED "iwashaunted" //prevents spawning a haunt from a decapitated body twice
+#define TRAIT_IWASROTCURED "iwasrotcured" // used to stop rotcuring zombies from interacting with TRAIT_DEATHSIGHT
 
 //used for a far-travel zone I am uncertain we even have anymore/ever to begin with
 #define TRAIT_CAVEDWELLER "Cave Dweller"
@@ -118,8 +121,6 @@
 
 //Second Chance related
 #define TRAIT_ROTMAN "Rotman" //No heartbeat + can invoke Zizo ascension/not regular ascensions - Also lets you eat brains
-#define TRAIT_PALLID "Pallid" //Drink the blood, bleeggh!
-#define TRAIT_BLACKBLOOD "Blackblooded" //Passive healing at the price of hunger, blood is always SLIGHTLY cursed on inquis indexer checks
 
 //Gear Restriction Related Traits
 #define TRAIT_ARMOUR_LIKED "Fitting Armour"
@@ -184,7 +185,7 @@
 
 // ROGUEspecialTRAITS (description when rmb skills button)
 #define TRAIT_CIVILIZEDBARBARIAN "Expert Pugilist"
-#define TRAIT_COMICSANS "Annoying Voice"
+#define TRAIT_ANNOYINGVOICE "Annoying Voice"
 #define TRAIT_WATERBREATHING "Water Breathing"
 
 // TENNITE PATRON GOD TRAITS
@@ -216,6 +217,7 @@
 //Malum
 #define TRAIT_FORGEBLESSED "Blessing of Malum" //Reduces the fatigue cost of smithing a bit.
 #define TRAIT_MALUMCHOSEN "Chosen of Malum" //Massively increase chance to craft items.
+#define TRAIT_MALUM_CRAFTER "Crafter of Malum" // A small bonus to pseudorandomness increases when crafting items.
 #define TRAIT_BETTER_SLEEP	"Better Sleep" //Recover more energy (blue bar) when sleeping
 //Ravox
 #define TRAIT_SHARPER_BLADES "Sharper Blades" //Weapons lose less blade integrity
@@ -285,6 +287,7 @@
 #define TRAIT_SHOCKIMMUNE "Shock Immunity"
 #define TRAIT_INFINITE_ENERGY "Boundless Energy" //infinite fatigue (blue bar) but not infinite stamina
 #define TRAIT_BREADY "Battleready" //Above, but to a lesser degree. No cmode drain.
+#define TRAIT_HIGHER_CMODE_DRAIN "Short of Breath"
 #define TRAIT_LONGSTRIDER "Longstrider" //No slowdown on mud tiles
 #define TRAIT_RALLIED "Rallied" //Immunity to panic / heart attack
 
@@ -535,6 +538,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DRUG_SUPPLY = span_info("The Guild keeps me supplied. I get a fresh drug delivery from HERMES each day."),
 	TRAIT_BOMBER_EXPERT = span_info("I have trained my whole lyfe in the explosive arts, both in safety and otherwise. I can more readily prepare bombs through jury-rigged crafting, and I can prepare and handle tripwire traps with greater dexterity. My bombs can also sometimes critically strike certain enemies, causing fatal damage."),
 	TRAIT_BREADY = span_info("Defensive stance does not passively fatigue me. I regain energy slowly over time."),
+	TRAIT_HIGHER_CMODE_DRAIN = span_warning("Defensive stance passively fatigues me. I lose energy quicker over time."),
 	TRAIT_ARMOUR_LIKED = span_greentext("I'm wearing something more suited to my style."),
 	TRAIT_ARMOUR_DISLIKED = span_warning("I'm wearing something that burdens me."),
 	TRAIT_FENCERDEXTERITY = span_info("I've trained my entire lyfe around the art of unarmoured fencing, affording myself unmatched speed when wearing very light armour. I'm very choosy otherwise."),
@@ -574,6 +578,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WILD_EATER = span_info("I can eat raw food and drink from dirty water."),
 	TRAIT_NISTEAN = "I refuse to eat the flesh of any land-dwelling beaste.",
 	TRAIT_VEGAN = "I refuse to eat the flesh or byproducts of any living being.",
+	TRAIT_SANGUIVORE = "I can drink blood without retching, though it does little to sate me.",
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
@@ -599,7 +604,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PERFECT_TRACKER = span_info("I am a master at pursuing those I hunt. I can discern every last detail within a spotted track, and any attempts to hide said-tracks will fail to deceive me."),//Hearthstone port.
 	TRAIT_ZIZOSIGHT = span_info("Zizo blesses my eyes to be unburdened by the night. I can also somewhat judge if a corpse can be reanimated or not."), //Hearthstone change.
 	TRAIT_CIVILIZEDBARBARIAN = span_info("My rigorous training in the martial arts has turned me into a living weapon. No limb is out of reach for my fists and feet, and my unarmed strikes are now stronger (+4 Unarmed Damage). My parrying with bracers, knuckles, or bandages is significantly more effective."),
-	TRAIT_COMICSANS = span_sans("I am cursed with a odd voice."),
+	TRAIT_ANNOYINGVOICE = span_sans("I am cursed with a odd voice."),
 	TRAIT_SQUIRE_REPAIR = span_info("Trained at my Master's side, I can restore any kind of gears with time and polish them until they gleam like new."),
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
@@ -611,6 +616,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DEATHSIGHT = span_info("I can feel when someone nearby draws the Undermaiden's attention."),
 	TRAIT_FORGEBLESSED = span_info("Countless long nights spent forging metal have honed my endurance, allowing me to work an anvil far longer than most without tiring."),
 	TRAIT_MALUMCHOSEN = span_info("He guides my hands in my crafts, allowing for feats I'd normally not be able to achieve."),
+	TRAIT_MALUM_CRAFTER = span_info("My dedication to Malum guides my craft, I find it easier to assemble items."),
 	TRAIT_XYLIX = span_info("I know how to speak in code that only fellow tricksters can understand."),
 	TRAIT_XYLIX_DEVOTEE = span_info("Xylix smiles upon me. When there's a juncture in fate, I will be pulled toward the better outcome."),
 	TRAIT_APRICITY = span_info("Astrata's light blesses and rejuvenates me, allowing me to regain my stamina quicker."),
@@ -623,6 +629,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BLACKBAGGER = span_info("I've been trained to properly abduct individuals through the use of seizing garrotes and blackbags."),
 	TRAIT_LYCANRESILENCE = span_info("Dendor's fury flows through my veins, my wounds regenerate over time..."),
 	TRAIT_FORTITUDE = span_info("The typical drain I feel from day to day life is lessened, my athleticism greater."),
+	TRAIT_MOMENTUM_RIDER = span_info("Momentum lessens the stamina drain I feel from exertion."),
 	TRAIT_DEPRAVED = span_info("The languid scent of Her debauchery is known to me."),
 	TRAIT_SILVER_BLESSED = span_info("I have been baptized in fire. Blessed silverdust flows through my blood, protecting me from both vampyrism and lycanthropy."),
 	TRAIT_UNLYCKERABLE = span_info("My kind cannot bear the Sun curse for it already has another."),
@@ -632,6 +639,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
 	TRAIT_BIGGUY = span_info("My immense frame and size allows me to smash through wooden doors, and throw people more easily."),
 	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like treebranches as if they were beds."),
+	TRAIT_WATERSLEEP = span_info("I am most comfortable sleeping beneath the waves. Assuming, of course, I can breathe there."),
 	TRAIT_STUDENT =	span_info("I am overwhelmed by all this knowledge!"),
 	TRAIT_LEGENDARY_ALCHEMIST = span_info("An expert in the art of finding herbs in the wild."),
 	TRAIT_INTELLECTUAL = span_info("I have a keen eye and can assess a person's prowess in wit and blade."),
@@ -737,8 +745,6 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels. I am also quite savvy at repairing damaged equipment."),
 	TRAIT_SELF_RELIANCE = span_greentext("I've spent enough time standing on my own that I've learned to either adapt or die young. All crafting and labor skills can progress to Journeyman levels."),
 	TRAIT_SILVER_WEAK = span_warning("Silver is the greatest threat to my lyfe. Blows from silver weapons will set me alight, inhibit my ability to regenerate, and - if blessed - can outright destroy my vessel."),
-	TRAIT_PALLID = span_artery("I was once a creature of the night, but cured by divine intervention. The open sky fills me with unease, but my eyes pierce the darkness and my lungs need no air."),
-	TRAIT_BLACKBLOOD = span_artery("I was once a creature of the night, but cured by the Otavan Inquisition at a heavy cost. My blood, tainted with tinctures, rites and concoctions, endures infection and holds an odd regenerative factor to it. Unfortunately, most healing miracles do not affect me at all, and I am sensitive to sunlight, aswell."),
 	TRAIT_COMBAT_AWARE = span_notice("My honed senses and intuition allow me to spot notable things in the midst of battle with ease."),
 	TRAIT_TEMPO	= span_greentext("I can keep up with multiple opponents at once."),
 	TRAIT_BLACKOAK = span_warning("The Black Oaks can spot <b>any</b> foreigners and outsiders, no matter how long they've lived in Azuria. I can spot an invader at a glance."),
@@ -1010,6 +1016,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 // unique trait sources, still defines
 #define TRAIT_FORTITUDE "Fortitude"
+#define TRAIT_MOMENTUM_RIDER "Momentum Adrenaline"
 #define EYES_COVERED "eyes_covered"
 #define SCRYING_ORB "scrying-orb"
 #define REVERSE_BEAR_TRAP_TRAIT "reverse-bear-trap"

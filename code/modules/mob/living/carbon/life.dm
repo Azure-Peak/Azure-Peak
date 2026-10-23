@@ -117,7 +117,7 @@
 /mob/living/carbon/human/handle_roguebreath()
 	..()
 	if(HAS_TRAIT(src, TRAIT_PSYDONITE))
-		if(!HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_IRONMAN)) //Explicitly incompatible with Blackblood, Constructs have their own healing mechanics + are barred from healing miracles already, which overlaps with the intended weakness of Psydonian healing.
+		if(!HAS_TRAIT(src, TRAIT_IRONMAN)) //Constructs have their own healing mechanics + are barred from healing miracles already, which overlaps with the intended weakness of Psydonian healing.
 			var/list/wCount = src.get_wounds()
 			if(wCount.len > 0)
 				heal_wounds(0.4, psydonite = TRUE)
@@ -616,6 +616,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					var/obj/structure/flora/newbranch/branch = locate() in loc
 					if(branch)
 						sleepy_mod = 2 // just equivalent to a bedroll
+				if(HAS_TRAIT(src, TRAIT_WATERSLEEP) && istype(loc, /turf/open/water))
+					sleepy_mod = 2 // ditto
 		if(nutrition > 0 || doesnt_hunger)
 			energy_add(sleepy_mod * 15)
 		if(hydration > 0 || doesnt_hunger)
@@ -643,6 +645,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)
 				SEND_SIGNAL(bed, COMSIG_SLEEPING_ON_BED, src)
+				SEND_SIGNAL(src, COMSIG_SLEEPING_ON_BED, src) // send this to both the mob and bed, they're used for different things
 				sleepy_mod = bed.sleepy
 			else
 				sleepy_mod = 1
@@ -650,6 +653,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					var/obj/structure/flora/newbranch/branch = locate() in loc
 					if(branch)
 						sleepy_mod = 2 //Worse than a bedroll, better than nothing.
+				if(HAS_TRAIT(src, TRAIT_WATERSLEEP) && istype(loc, /turf/open/water))
+					sleepy_mod = 2 // ditto
 		if(sleepy_mod > 0)
 			if(eyesclosed)
 				if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !sleepless_flaw)

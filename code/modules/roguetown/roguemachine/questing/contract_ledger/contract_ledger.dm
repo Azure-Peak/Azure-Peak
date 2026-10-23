@@ -141,7 +141,7 @@
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
 	data["guild_cut_rate"] = GUILD_REFERRAL_FEE_PCT
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
-	data["can_admin_complete"] = check_rights_for(user?.client, R_DEBUG) ? TRUE : FALSE
+	data["can_admin_complete"] = can_admin_complete(user)
 	data["issuer_cancel_window_minutes"] = QUEST_ISSUER_CANCEL_WINDOW / (1 MINUTES)
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
@@ -272,12 +272,12 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	if(SStreasury.get_balance(user) < HOARD_RECOVERY_PLEDGE)
 		to_chat(user, span_warning("You need [HOARD_RECOVERY_PLEDGE] mammon in your account for the stake."))
 		return
-	if(!SStreasury.burn(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery stake ([TR.region_name])"))
+	if(!SStreasury.burn(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery stake ([TR.region_name])", LEDGER_CITIZEN_CONTRACT_PAID))
 		to_chat(user, span_warning("The deposit could not be taken from your account."))
 		return
 	var/datum/quest/kill/blockade_defense/Q = SSquestpool.issue_hoard_recovery_request(TR, user)
 	if(!Q)
-		SStreasury.mint(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery deposit refund (issue failure)")
+		SStreasury.mint(pledge_account, HOARD_RECOVERY_PLEDGE, "Hoard Recovery deposit refund (issue failure)", null, LEDGER_CITIZEN_CONTRACT_PAID)
 		to_chat(user, span_warning("No recovery scroll can be raised for [TR.region_name] right now. Your deposit is returned."))
 		return
 	Q.add_funding(pledge_account, HOARD_RECOVERY_PLEDGE)
@@ -477,7 +477,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	Q.mark_issue_log(QUEST_ISSUE_STATUS_WITHDRAWN, refund_text)
 	var/deposit_returned = 0
 	if(Q.deposit_payer && Q.deposit_paid > 0)
-		SStreasury.mint(Q.deposit_payer, Q.deposit_paid, "Deposit returned - [label] withdrawn")
+		SStreasury.mint(Q.deposit_payer, Q.deposit_paid, "Deposit returned - [label] withdrawn", null, LEDGER_CITIZEN_CONTRACT_PAID)
 		deposit_returned = Q.deposit_paid
 	var/mob/bearer = Q.quest_receiver_reference?.resolve()
 	if(bearer)

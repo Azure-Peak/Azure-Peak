@@ -49,7 +49,8 @@
 			"[user] works the lux into [target]'s innards.")
 		return FALSE
 	if (target.mind)
-		if(alert(target, "Are you ready to face the world, once more?", "THE HEART'S BEAT, TUNED TO YOUR WILL.", "I must go on!", "Let me rest..") != "I must go on!")
+		var/mob/dead/observer/underworld_spirit = target.get_spirit()
+		if(alert(underworld_spirit || target, "Are you ready to face the world, once more?", "THE HEART'S BEAT, TUNED TO YOUR WILL.", "I must go on!", "Let me rest..") != "I must go on!")
 			display_results(user, target, span_notice("[target]'s heart refuses the lux. They're only in sweet dreams, now."),
 				"[user] works the lux into [target]'s innards, but nothing happens.",
 				"[user] works the lux into [target]'s innards, but nothing happens.")
@@ -63,11 +64,6 @@
 	display_results(user, target, span_notice("You succeed in restarting [target]'s heart with the infusion of lux."),
 		"[user] works the lux into [target]'s innards.",
 		"[user] works the lux into [target]'s innards.")
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
 	target.grab_ghost(force = TRUE) // even suicides
 	target.emote("breathgasp")
 	target.Jitter(100)

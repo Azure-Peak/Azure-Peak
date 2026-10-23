@@ -16,9 +16,15 @@
 	var/list/spawned
 	/// Expected mammon value of what this spawner rolls. Used by the loot pool budget system.
 	var/loot_value = 5
+	var/town_stamped = FALSE
 
-/obj/effect/spawner/lootdrop/Initialize(mapload)
+/obj/effect/spawner/lootdrop/Initialize(mapload, inherited_town_stamp = FALSE)
 	..()
+	town_stamped = inherited_town_stamp
+	if(mapload)
+		var/area/A = get_area(src)
+		if(A && is_type_in_typecache(A, GLOB.roguetown_areas_typecache))
+			town_stamped = TRUE
 	// Spawners inside containers (e.g. loot chests) fire immediately - they can't participate in area pools
 	if(!isturf(loc))
 		spawn_loot()
@@ -47,7 +53,8 @@
 			loot.Remove(lootspawn)
 
 		if(lootspawn)
-			var/atom/movable/spawned_loot = new lootspawn(T)
+			var/atom/movable/spawned_loot = ispath(lootspawn, /obj/effect/spawner/lootdrop) ? new lootspawn(T, town_stamped) : new lootspawn(T)
+			stamp_town_property(spawned_loot)
 			if (!fan_out_items)
 				if (pixel_x != 0)
 					spawned_loot.pixel_x = pixel_x
@@ -70,11 +77,17 @@
 	var/turf/T = loc
 	if(T)
 		var/junk_type = pickweight(junk_loot)
-		new junk_type(T)
+		stamp_town_property(new junk_type(T))
 
 /obj/effect/spawner/lootdrop/proc/do_spawn()
 	if(prob(probby))
 		if(!spawned)
 			return
 		var/obj/new_type = pick(spawned)
-		new new_type(get_turf(src))
+		stamp_town_property(new new_type(get_turf(src)))
+
+/obj/effect/spawner/lootdrop/proc/stamp_town_property(atom/movable/spawned_loot)
+	if(!town_stamped || !isitem(spawned_loot))
+		return
+	var/obj/item/I = spawned_loot
+	I.unmintable = TRUE

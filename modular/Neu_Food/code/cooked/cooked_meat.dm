@@ -17,6 +17,7 @@
 	smoked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/steak/smoked
+	dish_type = DISH_MEAT|DISH_POULTRY
 	eat_effect = null
 	slices_num = 0
 	name = "jerky bundle"

@@ -429,6 +429,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 			return 1
 
 	return 0
+/mob/proc/equip_to_appropriate_slot_or_hands(obj/item/equipping_item)
+	. = equip_to_appropriate_slot(equipping_item)
+	if(!.)
+		return put_in_hands(equipping_item, FALSE)
 /**
  * Reset the attached clients perspective (viewpoint)
  *

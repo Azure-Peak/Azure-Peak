@@ -65,6 +65,11 @@
 	if(!target.revive_check(owner))
 		return FALSE
 
+	var/mob/dead/observer/underworld_spirit = target.get_spirit()
+	if(alert(underworld_spirit || target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+		target.visible_message(span_astrata("Nothing happens. They are not being let go."))
+		return FALSE
+
 	var/is_matthios = istype(found_cross, /obj/structure/fluff/psycross/matthios)
 	var/is_astrata = istype(found_cross, /obj/structure/fluff/psycross/astrata)
 
@@ -111,12 +116,6 @@
 	if(!target.revive(full_heal = FALSE))
 		to_chat(owner, span_warning("Nothing happens."))
 		return FALSE
-
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
 
 	target.grab_ghost(force = TRUE)
 	target.emote("breathgasp")

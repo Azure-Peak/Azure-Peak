@@ -90,11 +90,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			return
 		if(is_pregame)
 			if(tready == PLAYER_READY_TO_PLAY)
-				if(length(client.prefs.flavortext) < MINIMUM_FLAVOR_TEXT)
-					to_chat(src, span_boldwarning("You need a minimum of [MINIMUM_FLAVOR_TEXT] characters in your flavor text in order to play."))
-					return
-				if(length(client.prefs.ooc_notes) < MINIMUM_OOC_NOTES)
-					to_chat(src, span_boldwarning("You need at least a few words in your OOC notes in order to play."))
+				if(!check_description_minimums())
 					return
 
 			if(ready != tready)
@@ -175,12 +171,7 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 			to_chat(usr, span_boldwarning("You are in the migrant queue."))
 			return
 
-		if(length(client.prefs.flavortext) < MINIMUM_FLAVOR_TEXT)
-			to_chat(usr, span_boldwarning("You need a minimum of [MINIMUM_FLAVOR_TEXT] characters in your flavor text in order to play."))
-			return
-
-		if(length(client.prefs.ooc_notes) < MINIMUM_OOC_NOTES)
-			to_chat(src, span_boldwarning("You need at least a few words in your OOC notes in order to play."))
+		if(!check_description_minimums())
 			return
 
 		AttemptLateSpawn(href_list["SelectedJob"])
@@ -253,6 +244,22 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	return "Error: Unknown job availability."
 
 //used for latejoining
+/mob/dead/new_player/proc/check_description_minimums()
+	if(!client?.prefs)
+		return FALSE
+	var/list/missing = list()
+	if(length(client.prefs.flavortext) < MINIMUM_FLAVOR_TEXT)
+		missing += "flavor text ([MINIMUM_FLAVOR_TEXT] characters)"
+	if(length(client.prefs.ooc_notes) < MINIMUM_OOC_NOTES)
+		missing += "OOC notes ([MINIMUM_OOC_NOTES] characters)"
+	if(!length(missing))
+		return TRUE
+	if(client.is_localhost())
+		to_chat(src, span_warning("Your character does not meet the minimum text required for [english_list(missing)], but you are allowed to join the game on localhost."))
+		return TRUE
+	to_chat(src, span_boldwarning("Your character does not meet the minimum text required for [english_list(missing)] in order to play."))
+	return FALSE
+
 /mob/dead/new_player/proc/IsJobUnavailable(rank, latejoin = FALSE)
 	if(QDELETED(src))
 		return JOB_UNAVAILABLE_GENERIC

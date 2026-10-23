@@ -188,6 +188,9 @@
 						remove_status_effect(/datum/status_effect/debuff/bleedingworse)
 
 			if(blood_volume <= BLOOD_VOLUME_BAD)
+				if(mind && !has_status_effect(/datum/status_effect/debuff/critwounded)) //check if we have a mind and lack the status effect before we do our four trait condition check. - So every NPC isn't running this.
+					if(!HAS_TRAIT(src, TRAIT_BREADY) || !HAS_TRAIT(src, TRAIT_INFINITE_ENERGY) || !HAS_TRAIT(src, TRAIT_INFINITE_STAMINA) || !HAS_TRAIT(src, TRAIT_BLOODLOSS_IMMUNE)) //uniquely rituos users/vampires don't care for bloodloss, they do on arteries though.
+						apply_status_effect(/datum/status_effect/debuff/critwounded) //apply critically wounded - more energy in cmode cost. Until fixed.
 				var/oxy_amt = blood_volume <= BLOOD_VOLUME_SURVIVE ? 3 : 1
 				if(!mind)
 					oxy_amt *= 3
@@ -443,7 +446,9 @@
 
 //to add splatters of blood onto nearby walls. When provided a certain force amount, also increases the range at which blood can appear on the walls.
 //spill_amount also increases the amount of times to try and spill more blood; Particularly to give better feedback to dismembering something.
-/mob/living/proc/add_splatter_wall(mob/M, turf/T, force, spill_amount)
+#define WALL_SPLATTER_CAP 3
+
+/mob/living/proc/add_splatter_wall(turf/T, force, spill_amount)
 	var/force_distance = force / 10
 	if(force <= 0) //If the force doesn't do enough damage then dont do anything.
 		return
@@ -454,15 +459,68 @@
 		return
 	if(!T)
 		T = get_turf(src)
+	if(!isturf(T))
+		return
+	var/room = WALL_SPLATTER_CAP
+	for(var/obj/effect/decal/cleanable/blood/splatter/walls/existing in T)
+		room--
 	for(var/turf/closed/w in orange(abs(force_distance), T))
-		var/loc = get_step(T, M)
-		var/obj/effect/decal/cleanable/blood/splatter/walls/wall_blood = new(loc)
+		if(room <= 0)
+			return
+		room--
+		var/obj/effect/decal/cleanable/blood/splatter/walls/wall_blood = new(T)
 		wall_blood.set_blood_color(get_blood_color())
 		if(spill_amount > 0)
 			spill_amount--
 			continue
 		else
 			break
+
+#undef WALL_SPLATTER_CAP
+
+/mob/living/proc/blood_spray(sdir)
+	if(!sdir || !isturf(loc) || !get_blood_id() || (!iscarbon(src) && !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS)))
+		return
+	var/turf/T = get_step(src, sdir)
+	if(!T)
+		return
+	var/colour = get_blood_color()
+	if(isclosedturf(T))
+		new /obj/effect/decal/cleanable/blood/spray/wall(loc, colour, sdir)
+		return
+	var/mob/living/L = locate() in T
+	if(L)
+		L.drench(src)
+		return
+	var/obj/effect/decal/cleanable/blood/spray/S = new(T, colour)
+	S.setDir(sdir)
+
+/mob/living/proc/blood_squirt()
+	if(!isturf(loc) || !get_blood_id())
+		return
+	var/sdir = pick(GLOB.alldirs)
+	var/colour = get_blood_color()
+	var/turf/T = loc
+	for(var/i in 1 to rand(2, 3))
+		var/turf/next = get_step(T, sdir)
+		if(!next)
+			return
+		if(isclosedturf(next))
+			new /obj/effect/decal/cleanable/blood/spray/wall(T, colour, sdir)
+			return
+		T = next
+		var/mob/living/L = locate() in T
+		if(L)
+			L.drench(src)
+			return
+		var/obj/effect/decal/cleanable/blood/squirt/S = new(T, colour)
+		S.setDir(sdir)
+
+/mob/living/proc/drench(mob/living/source)
+	add_mob_blood(source)
+	for(var/obj/item/I as anything in get_equipped_items())
+		I.add_mob_blood(source)
+		I.update_slot_icon()
 
 /mob/living/proc/add_drip_floor(turf/T, amt)
 	if(!iscarbon(src))
@@ -502,8 +560,8 @@
 			D.drips++
 			D.update_icon()
 		else
-			D = new(T)
-			D.set_blood_color(get_blood_color())
+			var/drip_type = amt >= ARTERY_LIMB_BLEEDRATE / 4 ? /obj/effect/decal/cleanable/blood/drip/big : /obj/effect/decal/cleanable/blood/drip
+			new drip_type(T, get_blood_color())
 
 /mob/living/carbon/human/add_drip_floor(turf/T, amt)
 	if(!(NOBLOOD in dna.species.species_traits))

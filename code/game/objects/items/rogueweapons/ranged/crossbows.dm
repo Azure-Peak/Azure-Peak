@@ -57,6 +57,7 @@
 	obj_flags = UNIQUE_RENAME
 	damfactor = 1.2
 	accfactor = 1.1
+	steady_aim = TRUE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_mechanics_examine(mob/user)
 	. = ..()
@@ -386,14 +387,22 @@
 	charging_slowdown = 2.5 //Little more than before, with the assumption that you're taking your time for a more precise shot.
 
 /datum/intent/shoot/crossbow/heavy/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] readies [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] readies [masteritem]!"))
+	playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
 
 /datum/intent/arc/crossbow/heavy/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] readies [masteritem] for a precise shot!"))
-		playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] readies [masteritem] for a precise shot!"))
+	playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
 
 /datum/intent/buttstroke/heavy
 	name = "heavy buttstroke"

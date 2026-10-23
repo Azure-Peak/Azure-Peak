@@ -15,6 +15,7 @@
 #define ISDIAGONALDIR(d) (d&(d-1))
 
 //Human Overlays Indexes/////////
+#define UNDER_ARMOR_CACHE_INDEX	56		// Cache only; use UNDER_ARMOR_LAYER for the fractional render layer.
 #define JOYBRINGER_LAYER		55
 #define BLACK_ROT_LAYER			54
 #define POTENCE_LAYER			53
@@ -73,7 +74,7 @@
 #define SUNDER_LAYER			3
 #define FIRE_LAYER				2		//If you're on fire
 #define TURF_LAYER				1		//If you're on fire
-#define TOTAL_LAYERS			55		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
+#define TOTAL_LAYERS			56		//KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
 
 #define INHAND_FRONT		1
 #define INHAND_BEHIND		2
@@ -176,6 +177,8 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define BLOOD_LOSS_PER_STEP			5
 #define BLOOD_LOSS_IN_SPREAD		20
 #define BLOOD_AMOUNT_PER_DECAL		20
+/// Bloody prints a large creature leaves after stepping in fresh blood
+#define BIGPRINT_STEPS				8
 
 //Bloody shoe blood states
 #define BLOOD_STATE_MUD				"mud"
@@ -236,6 +239,19 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define GHOST_ORBIT_HEXAGON		"hexagon"
 #define GHOST_ORBIT_SQUARE		"square"
 #define GHOST_ORBIT_PENTAGON	"pentagon"
+
+#define GHOST_OTHERS_SIMPLE 			1
+#define GHOST_OTHERS_DEFAULT_SPRITE		50
+#define GHOST_OTHERS_THEIR_SETTING 		100
+
+#define GHOST_OTHERS_SIMPLE_NAME 			"white ghost"
+#define GHOST_OTHERS_DEFAULT_SPRITE_NAME 	"default sprites"
+#define GHOST_OTHERS_THEIR_SETTING_NAME 	"their setting"
+
+#define GHOST_OTHERS_DEFAULT_OPTION			GHOST_OTHERS_THEIR_SETTING
+
+#define GHOST_MAX_VIEW_RANGE_DEFAULT 10
+#define GHOST_MAX_VIEW_RANGE_MEMBER 14
 
 //pda fonts
 #define MONO		"Monospaced"
@@ -495,5 +511,6 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 #define ZOMBIE_INFECTION_TIME 2 MINUTES	/// Time taken until zombie infection kicks in (unit wakes up as a zombie)
 #define DEAD_TO_ZOMBIE_TIME 7 MINUTES	/// Time spent dead before rising as a deadite.
 #define REVIVED_DEBUFF_DURATION 15 MINUTES	/// Revival Sickness.
+#define CRITICAL_WOUNDED_DEBUFF_DURATION 8 MINUTES	/// Critically wounded. - Higher cmode drain debuff
 #define DEATHMARK_GRACE_PERIOD 5 MINUTES	/// Grace after a chair revival before the deathmark is checked for and applied.
 #define PERMADEATH_DURATION 10 MINUTES	/// How long the deathmark lasts once it lands. Dying inside it is permanent for the round.

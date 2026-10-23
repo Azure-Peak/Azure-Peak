@@ -88,6 +88,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/joblessrole = RETURNTOLOBBY  //defaults to 1 for fewer assistants
 
 	var/clientfps = 100//0 is sync
+	var/icon/admin_ghost_icon
 
 	var/ambientocclusion = TRUE
 	var/auto_fit_viewport = FALSE
@@ -110,6 +111,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/no_redflash = FALSE
 	var/no_storyteller_events = FALSE
 	var/top_examine = FALSE
+	var/show_nsfw_clothed = FALSE
 
 	var/list/exp = list()
 	var/list/menuoptions
@@ -120,6 +122,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
 	var/list/charflaws = list()
+	var/list/charflaw_choices = list()
 
 	var/static/default_cmusic_type = /datum/combat_music/default
 	var/datum/combat_music/combat_music
@@ -201,7 +204,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preset_bounty_severity_b_key
 	var/preset_bounty_severity_v_key
 	var/preset_bounty_crime
-
 
 	var/averse_chosen_faction = "Inquisition"
 

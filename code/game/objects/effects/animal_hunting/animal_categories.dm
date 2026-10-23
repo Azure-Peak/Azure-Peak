@@ -55,12 +55,15 @@
 	bonus_animal_amount = 5
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 15,
-		/mob/living/simple_animal/hostile/retaliate/rogue/goat = 20,
-		/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 15
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat = 2,
+		/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 3,
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat/game = 30,
 	)
 	preferred_tracks = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = "canine",
-		/mob/living/simple_animal/hostile/retaliate/rogue/goat = "cervine"
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat = "cervine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = "cervine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat/game = "cervine",
 	)
 	preferred_areas = list(
 		/area/rogue/outdoors/woods = 50,
@@ -148,7 +151,23 @@
 		// Pilgrim counterparts
 		/area/rogue/outdoors/beach/forest/grim = 1000,
 		/area/rogue/outdoors/beach/forest/north/grim = 1000,
-		/area/rogue/outdoors/beach/forest/south/grim = 1000
+		/area/rogue/outdoors/beach/forest/south/grim = 1000,
+		/area/rogue/outdoors/woods = -20,
+		/area/rogue/outdoors/woods/north = -20,
+		/area/rogue/outdoors/woods/northeast = -20,
+		/area/rogue/outdoors/woods/southeast = -20,
+		/area/rogue/outdoors/woods/south = -20,
+		/area/rogue/outdoors/woods/southwest = -20,
+		/area/rogue/outdoors/woods/northwest = -20,
+		// Pilgrim counterparts
+		/area/rogue/outdoors/woods/grim = -20,
+		/area/rogue/outdoors/woods/grim/north = -20,
+		/area/rogue/outdoors/woods/grim/northeast = -20,
+		/area/rogue/outdoors/woods/grim/northeast/wardenscheckpoint = -20,
+		/area/rogue/outdoors/woods/grim/southeast = -20,
+		/area/rogue/outdoors/woods/grim/south = -20,
+		/area/rogue/outdoors/woods/grim/southwest = -20,
+		/area/rogue/outdoors/woods/grim/northwest = -20,
 	)
 
 /datum/hunting_category/spiders
@@ -230,5 +249,21 @@
 	)
 	preferred_tracks = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/boar = "suidae"
+	)
+	preferred_areas = list()
+
+/datum/hunting_category/goats
+	name = "Bickering Goats"
+	skill_weights = list(0, 0, 0, 0, 0, 0, 0)
+	bonus_animal_amount = 1
+	animals = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat = 1,
+		/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 1,
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat/game = 14,
+	)
+	preferred_tracks = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat = "cervine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = "cervine",
+		/mob/living/simple_animal/hostile/retaliate/rogue/goat/game = "cervine",
 	)
 	preferred_areas = list()

@@ -136,7 +136,7 @@
 	return FALSE
 
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/arcyne
 	name = "arcyne silver dagger"
 	desc = "This dagger glows a faint purple. Quicksilver runs across its blade."
 	icon_state = "arcynedagger"
@@ -144,11 +144,11 @@
 	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
 	var/chosen_keyword
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/Initialize(mapload)
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/arcyne/Initialize(mapload)
 	. = ..()
 	filter(type="drop_shadow", x=0, y=0, size=2, offset=1, color=rgb(128, 0, 128, 1))
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/arcyne/attack_self(mob/living/carbon/human/user)
 	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		return
 	if(!is_bled)

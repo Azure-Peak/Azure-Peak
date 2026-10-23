@@ -29,8 +29,10 @@
 /mob/living/proc/update_energy()
 	calculate_energy()
 	if(cmode)
-		if(!HAS_TRAIT(src, TRAIT_BREADY))
-			energy_add(-2)
+		if(!HAS_TRAIT(src, TRAIT_BREADY) || !HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
+			energy_add(-1)
+			if(HAS_TRAIT(src, TRAIT_HIGHER_CMODE_DRAIN))
+				energy_add(-2) //(total of -3 per cycle)
 	if(HAS_TRAIT(src, TRAIT_INFINITE_ENERGY))
 		energy = max_energy
 	if(HAS_TRAIT(src, TRAIT_BREADY))
@@ -105,7 +107,9 @@
 
 	var/true_added = added
 	if(added > 0)
-		if(HAS_TRAIT(src, TRAIT_FORTITUDE))
+		if(HAS_TRAIT(src, TRAIT_MOMENTUM_RIDER))
+			added = added * 0.5
+		else if(HAS_TRAIT(src, TRAIT_FORTITUDE))
 			added = added * 0.85
 
 	if(added < 0 && HAS_TRAIT(src, TRAIT_FROZEN_STAMINA))

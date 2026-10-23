@@ -638,61 +638,6 @@
 	block_combat_mode = TRUE
 	healing_on_tick = 5 // quarter strength, sorry! it's soap, what'd you expect
 
-//lasts shorter than magic, one chomp every 3 seconds is good enough, let's not forget food can have multiple slices. This does not heal wounds, wounds are healed automatically like psydonitian trait, but it consumes 1% hunger a tick.
-#define CONSUME_AURA "consumehealing"
-
-/datum/status_effect/buff/foodhealing
-	id = "consumehealing"
-	status_type = STATUS_EFFECT_UNIQUE
-	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
-	duration = 4 SECONDS
-	examine_text = "<font color='#b3b3b3'>SUBJECTPRONOUN is healing unnaturally fast!</font>"
-	var/fare_power = 0
-	var/healing_on_tick = 1
-	var/outline_colour = "#8a8a8a"
-
-/datum/status_effect/buff/foodhealing/on_creation(mob/living/new_owner, new_healing_on_tick, new_fare_power)
-	if(!isnull(new_healing_on_tick))
-		healing_on_tick = new_healing_on_tick
-	if(!isnull(new_fare_power))
-		fare_power = new_fare_power
-	return ..()
-
-/datum/status_effect/buff/foodhealing/on_apply()
-	var/filter = owner.get_filter(CONSUME_AURA)
-	if(!filter)
-		owner.add_filter(CONSUME_AURA, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
-	return TRUE
-
-/datum/status_effect/buff/foodhealing/on_remove()
-	. = ..()
-	owner.remove_filter(CONSUME_AURA)
-
-/datum/status_effect/buff/foodhealing/tick()
-	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
-	H.color = "#bdbdbd"
-	// Base heal.
-	var/base_heal = healing_on_tick
-	// Fare: +10% healing per tier
-	var/fare_mult = 1 + (fare_power * 0.10)
-	// Nutrition multiplier
-	var/effective_nutrition = clamp(owner.nutrition, 0, NUTRITION_LEVEL_FULL)
-	var/hunger_ratio = (NUTRITION_LEVEL_FULL - effective_nutrition) / NUTRITION_LEVEL_FULL
-	var/nutrition_mult = 0.75 + (hunger_ratio * 0.75)
-	// Final healing
-	var/heal_amount = base_heal * fare_mult * nutrition_mult
-	owner.adjustBruteLoss(-heal_amount, 0)
-	owner.adjustFireLoss(-heal_amount, 0)
-	owner.adjustOxyLoss(-heal_amount, 0)
-	owner.adjustToxLoss(-heal_amount, 0)
-	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -heal_amount)
-	owner.adjustCloneLoss(-heal_amount, 0)
-	owner.energy_add(10)
-	owner.update_damage_overlays()
-
-#undef CONSUME_AURA
-
-
 /atom/movable/screen/alert/status_effect/buff/healing/campfire
 	name = "Camp Rest"
 	desc = "The warmth of a fire and a bed soothes my ails."
@@ -895,7 +840,7 @@
 	H.color = "#d3d3d3"
 	var/list/wCount = owner.get_wounds()
 	if(wCount.len > 0)
-		owner.heal_wounds(healing_on_tick * 1.75)
+		owner.heal_wounds(healing_on_tick * 2.25)
 		owner.update_damage_overlays()
 	owner.adjustOxyLoss(-healing_on_tick, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
@@ -2094,7 +2039,7 @@
 	blood_restore = 0
 	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
 	examine_text = "SUBJECTPRONOUN is enduring!"
-	duration = 8 SECONDS //This is on a 30 second cooldown miracle.
+	duration = 15 SECONDS //This is on a 30 second cooldown miracle.
 	adrenaline_stam = FALSE
 
 /datum/status_effect/buff/nocblessing
@@ -2550,11 +2495,11 @@
 // https://en.wikipedia.org/wiki/Transparent_eyeball
 /atom/movable/screen/alert/status_effect/buff/transparent_eyeball
 	name = "Transparent Eyeball"
-	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_gamedeadsay("\n...I AM NOTHING, I SEE ALL.")
+	desc = "Nepolx's red surface has blessed me... I shall find it easier to use scrying orbs." + span_blue("\n...I AM NOTHING, I SEE ALL.")
 
 /datum/status_effect/buff/transparent_eyeball/on_apply()
 	. = ..()
-	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil-- scrying orbs will be easier to use, for a time!"))
+	to_chat(owner, span_gamedeadsay("I feel unbound to my mortal coil. Scrying orbs will be easier to use for a time!"))
 
 /datum/status_effect/buff/transparent_eyeball/on_remove()
 	. = ..()

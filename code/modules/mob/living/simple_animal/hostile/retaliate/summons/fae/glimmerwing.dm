@@ -16,7 +16,7 @@
 	turns_per_move = 6
 	see_in_dark = 6
 	move_to_delay = 6
-	base_intents = list(/datum/intent/simple/bite)
+	base_intents = list(/datum/intent/simple/bite/glimmerwing)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/fae/iridescentscale = 2)
 	faction = list(FACTION_FAE)
@@ -38,7 +38,7 @@
 	pooptype = null
 	STACON = 7
 	STASTR = 9
-	STASPD = 15
+	STASPD = 13
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	candodge = TRUE
@@ -49,11 +49,11 @@
 	dodgetime = 40
 	aggressive = 1
 
-	ai_controller = /datum/ai_controller/fae/skirmisher/melee/reactive
+	ai_controller = /datum/ai_controller/fae/skirmisher/melee
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/Initialize(mapload)
-	src.adjust_skillrank(/datum/skill/combat/unarmed, 3, TRUE)
+	src.adjust_skillrank(/datum/skill/combat/unarmed, 1, TRUE)
 	. = ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/glimmerwing/death(gibbed)
@@ -61,3 +61,6 @@
 	update_icon()
 	spill_embedded_objects()
 	qdel(src)
+
+/datum/intent/simple/bite/glimmerwing
+	clickcd = GLIMMERWING_ATTACK_SPEED

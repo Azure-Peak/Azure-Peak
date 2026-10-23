@@ -27,7 +27,6 @@
 		/datum/advclass/acolyte,
 		/datum/advclass/herald,
 	)
-	has_subprefs = FALSE // only one subclass
 
 /datum/advclass/acolyte
 	name = "Acolyte"

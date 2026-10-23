@@ -4,7 +4,6 @@
 	icon_state = "srat"
 	icon = 'icons/roguetown/mob/monster/rat.dmi'
 	list_reagents = list(/datum/reagent/consumable/nutriment = 5)
-	foodtype = RAW
 	verb_say = "squeaks"
 	verb_yell = "squeaks"
 	obj_flags = CAN_BE_HIT

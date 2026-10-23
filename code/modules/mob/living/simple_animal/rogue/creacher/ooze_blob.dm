@@ -63,7 +63,6 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	move_base_delay = MOVEMENT_DELAY_SPD_3
-	melee_cooldown = WOLF_ATTACK_SPEED
 	color = "#88ff7d"
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/AttackingTarget() //7+1d6 vs con to knock ppl down

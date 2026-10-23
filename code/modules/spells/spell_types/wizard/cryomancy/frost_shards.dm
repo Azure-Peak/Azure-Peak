@@ -24,8 +24,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
-	charge_swingdelay_duration = 6 SECONDS
+	charge_swingdelay_type = SWINGDELAY_NORMAL
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
 	hold_drain = 1
@@ -53,7 +52,7 @@
 	name = "frost shard"
 	expose_caster_on_deflect = TRUE
 	icon_state = "ice_2"
-	damage = 35
+	damage = SPELL_DMG(35)
 	damage_type = BURN
 	woundclass = BCLASS_BURN
 	flag = "fire"
@@ -62,13 +61,15 @@
 	suppress_effects_past_range = TRUE
 	speed = MAGE_PROJ_FAST
 	nodamage = FALSE
-	var/reduced_damage = 9
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
+	var/reduced_damage = SPELL_DMG(9)
 	var/repeat_hit = FALSE
 
 /obj/projectile/magic/frost_shard/arc
 	name = "arced frost shard"
-	damage = 30
-	reduced_damage = 8
+	damage = SPELL_DMG(30)
+	reduced_damage = SPELL_DMG(8)
 	arcshot = TRUE
 
 /obj/projectile/magic/frost_shard/prehit(atom/target)

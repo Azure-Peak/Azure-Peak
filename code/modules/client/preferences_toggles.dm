@@ -48,7 +48,7 @@
 		mob.toggle_action_buttons()
 
 /client/verb/masked_examine()
-	set category = "Preferences.Options"
+	set category = "Preferences.Examine"
 	set name = "Toggle Masked Examine"
 	if(prefs)
 		prefs.masked_examine = !prefs.masked_examine
@@ -119,7 +119,7 @@
 			to_chat(src, "You will no longer be notified in chat when toggling Compliance Mode.")
 
 /client/verb/toggle_examine_blocks()
-	set category = "Preferences.Options"
+	set category = "Preferences.Examine"
 	set name = "Toggle Examine Blocks"
 	if(prefs)
 		prefs.no_examine_blocks = !prefs.no_examine_blocks
@@ -173,8 +173,15 @@
 			C.update_damage_hud() // Fixes that the overlay is not removed when toggling if already present.
 		to_chat(src, "You will see the red flashing effect [prefs.no_redflash ? "less" : "more"] frequently.")
 
+/client/verb/toggle_nsfwclothed()
+	set category = "Preferences.Examine"
+	set name = "Always Show NSFW Examine"
+	if(prefs)
+		prefs.show_nsfw_clothed = !prefs.show_nsfw_clothed
+	to_chat(src, "Your character's NSFW Examine & Gallery will[prefs.show_nsfw_clothed ? "" : " not"] be visible through clothing.")
+
 /client/verb/toggle_topexamine()
-	set category = "Preferences.Options"
+	set category = "Preferences.Examine"
 	set name = "Toggle Top Examine"
 	if(prefs)
 		prefs.top_examine = !prefs.top_examine

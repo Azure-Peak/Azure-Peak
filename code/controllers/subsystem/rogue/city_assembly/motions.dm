@@ -225,14 +225,14 @@
 			continue
 		if(account.balance < amount)
 			continue
-		if(SStreasury.burn(account, amount, "City Assembly poll levy for common defense"))
+		if(SStreasury.burn(account, amount, "City Assembly poll levy for common defense", LEDGER_CITIZEN_TAXES))
 			total_collected += amount
 			payers++
 	if(total_collected <= 0)
 		return
 	var/pledge_gain = total_collected * ASSEMBLY_POLL_PLEDGE_MULTIPLIER
 	if(SStreasury.burgher_pledge_fund)
-		SStreasury.mint(SStreasury.burgher_pledge_fund, pledge_gain, "City Assembly poll-levy bonus (2x magic multiplier)")
+		SStreasury.mint(SStreasury.burgher_pledge_fund, pledge_gain, "City Assembly poll-levy bonus (2x magic multiplier)", null, ledger_acct(LEDGER_BOOK_PLEDGE, LEDGER_KEY_INCOME))
 	log_game("CITY ASSEMBLY: poll tax levied - [amount]m from [payers] payer(s); [total_collected]m collected, [pledge_gain]p minted into Pledge.")
 
 /datum/controller/subsystem/city_assembly/proc/build_summary_text(list/summary)

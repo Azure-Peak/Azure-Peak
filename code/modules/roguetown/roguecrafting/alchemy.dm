@@ -255,7 +255,7 @@
 /datum/crafting_recipe/roguetown/alchemy/skysugarbase
 	name = "panacea of skysugar"
 	category = "Basic Transmutation"
-	result = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase = 1)
+	result = list(/obj/item/reagent_containers/food/snacks/skysugarbase = 1)
 	reqs = list(/obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry = 1, /obj/item/reagent_containers/lux_impure = 1, /obj/item/reagent_containers/powder/starsugar = 1)
 	craftdiff = 5 //Better hope you've been practicing!
 	verbage_simple = "transmute"
@@ -266,7 +266,7 @@
 	result = list(/obj/item/reagent_containers/powder/starsugar/skysugar,
 					/obj/item/reagent_containers/powder/starsugar/skysugar,
 					/obj/item/reagent_containers/powder/starsugar/skysugar)
-	reqs = list(/obj/item/reagent_containers/food/snacks/grown/skysugarslab = 1)
+	reqs = list(/obj/item/reagent_containers/food/snacks/skysugarslab = 1)
 	craftdiff = 1 //Hard part's done. Time to break it up!
 	verbage_simple = "transmute"
 

@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - balance: "Marshal subclass loadouts updated. Renamed classic Marshal Constable receives sleuth virtue, Knight-Commander receives Saddleborn."

@@ -93,11 +93,6 @@
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
 
-	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
-		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		spelltarget.emote("pain")
-
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
 		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_blue("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
@@ -175,7 +170,7 @@
 
 /datum/action/cooldown/spell/miracle/fortify
 	name = "Fortify"
-	desc = "Amplifies all incoming sources of healing by 30% for the chosen target. If the target already carries the buff they will instead recieve an instant heal. Undead take burn damage and get set on fire. Does not work on devout Psydonites, Constructs or Blackblooded individuals."
+	desc = "Amplifies all incoming sources of healing by 30% for the chosen target. If the target already carries the buff they will instead recieve an instant heal. Undead take burn damage and get set on fire. Does not work on devout Psydonites or Constructs."
 	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
 	button_icon_state = "fortify"
 	sound = 'sound/magic/heal.ogg'
@@ -211,11 +206,6 @@
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
-
-	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
-		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		spelltarget.emote("pain")
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
 		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_notice("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
@@ -634,7 +624,9 @@
 		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
 		target.dust()
 		return TRUE
-	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+
+	var/mob/dead/observer/underworld_spirit = target.get_spirit()
+	if(alert(underworld_spirit || target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_astrata("Nothing happens. They are not being let go."))
 		return FALSE
 	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
@@ -642,12 +634,7 @@
 		to_chat(owner, span_warning("Nothing happens."))
 		return FALSE
 
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
 	//GET OVER HERE!
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
 	target.grab_ghost(force = TRUE) // even suicides
 	target.emote("breathgasp")
 	target.Jitter(100)

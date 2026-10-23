@@ -715,9 +715,11 @@
 	if(name in unknown_names)
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 	else if(obscure_name && !client?.prefs?.masked_examine)
 		. += span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 	else
 		on_examine_face(user)
 		var/used_name = name
@@ -879,6 +881,7 @@
 			. += span_userdanger("OUTLAW!")
 
 		. += deadite_examine()
+		. += get_ssd_examine_text(m3)
 
 		var/datum/antagonist/vampire/vamp_inspect_vlord = src.mind?.has_antag_datum(/datum/antagonist/vampire/lord)
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
@@ -1020,26 +1023,6 @@
 		var/datum/antagonist/vampire/vamp_inspect =src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(vamp_inspect && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_redtext("[m3] strange glowing eyes and fangs!")
-
-		if((HAS_TRAIT(src, TRAIT_INQUISITION) && HAS_TRAIT(user, TRAIT_BLACKBLOOD)) && src != user)
-			var/mob/living/carbon/carbs = user
-			if(HAS_TRAIT(user, TRAIT_PSYDONIAN_GRIT) || HAS_TRAIT(user, TRAIT_NOMOOD))
-				return
-
-			if(!(src in examined_inquisitors))
-				examined_inquisitors += src
-
-				if(!carbs.has_stress_event(/datum/stressevent/inq_trauma))
-					carbs.add_stress(/datum/stressevent/inq_trauma)
-					if(prob(20))
-						carbs.stress_freakout()
-					else if(prob(40))
-						carbs.freak_out()
-					else
-						carbs.emote("gulp")
-				if(!HAS_TRAIT(user, TRAIT_STEELHEARTED))
-					carbs.Jitter(10)
-					carbs.stuttering += 25
 
 		if(HAS_TRAIT(src, TRAIT_DNR) && src != user)
 			if(!HAS_TRAIT(user, TRAIT_DEATHSIGHT))
