@@ -69,6 +69,9 @@
 				return
 			if(blocked < 100)
 				L.lightning_shock(src)
+	else if(isturf(target))
+		var/turf/T = target
+		T.fire_act(maxlevel = 1)
 	else if(isatom(target))
 		var/atom/A = target
 		A.fire_act()

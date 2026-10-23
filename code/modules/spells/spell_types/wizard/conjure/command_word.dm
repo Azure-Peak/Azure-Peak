@@ -345,7 +345,7 @@
 	playsound(epicenter, pick('sound/misc/explode/explosionclose (1).ogg', 'sound/misc/explode/explosionclose (2).ogg', 'sound/misc/explode/explosionclose (3).ogg'), 100, TRUE)
 	for(var/turf/T in range(1, epicenter))
 		new /obj/effect/temp_visual/dragonfire(T)
-		new /obj/effect/curtain_fire(T, curtain_life, caster)
+		new /obj/effect/curtain_fire(T, curtain_life, caster, null, 1)
 		for(var/mob/living/victim in T)
 			if(victim == summon || victim == caster || victim.stat == DEAD)
 				continue
