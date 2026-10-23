@@ -26,6 +26,7 @@
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/chop/cleaver)
 	gripped_intents = null
 	associated_skill = /datum/skill/combat/axes
+	secondary_skills = list(/datum/skill/craft/carpentry = 0.6, /datum/skill/craft/masonry = 0.6)
 
 	swingsound = list('sound/combat/wooshes/blunt/shovel_swing.ogg', 'sound/combat/wooshes/blunt/shovel_swing2.ogg')
 	drop_sound = 'sound/foley/dropsound/shovel_drop.ogg'
@@ -74,6 +75,7 @@
 
 	possible_item_intents = list(/datum/intent/stab)
 	associated_skill = /datum/skill/combat/knives
+	secondary_skills = list(/datum/skill/craft/carpentry = 0.6, /datum/skill/craft/masonry = 0.6)
 
 	swingsound = list('sound/combat/wooshes/blunt/shovel_swing.ogg', 'sound/combat/wooshes/blunt/shovel_swing2.ogg')
 	drop_sound = 'sound/foley/dropsound/shovel_drop.ogg'

@@ -25,7 +25,12 @@
 	clickcd = CLICK_CD_CHARGED
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
+//
+
 /obj/item/rogueweapon/woodstaff
+	name = "wooden staff"
+	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
+	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
 	force = 10
 	force_wielded = 15
 	possible_item_intents = list(/datum/intent/spear/bash/woodstaff)
@@ -54,6 +59,7 @@
 	resistance_flags = FLAMMABLE
 	twirly = SKILL_LEVEL_JOURNEYMAN
 	twirl_speed = 6
+	secondary_skills = list(/datum/skill/combat/polearms = 0.8)
 
 /obj/item/rogueweapon/woodstaff/getonmobprop(tag)
 	. = ..()
@@ -84,6 +90,7 @@
 	pixel_x = -22
 	possible_item_intents = list(SPEAR_BASH, /datum/intent/bless)
 	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged, /datum/intent/bless)
+	secondary_skills = list(/datum/skill/combat/polearms = 0.8, /datum/skill/magic/holy = 0.6)
 
 /obj/item/rogueweapon/woodstaff/aries/icarus // more boisterous with aura
 	name = "staff of the guide"
@@ -355,4 +362,3 @@
 	sellprice = 80
 	no_loot_taint = TRUE
 	max_integrity = 250 //equal to psydonite; putting it at half of this was a neat little experiment but agonizing
-

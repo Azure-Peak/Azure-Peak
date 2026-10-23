@@ -145,6 +145,11 @@
 	cost = 70 // 2 Steel Ingot
 	contains = list(/obj/item/rogueweapon/estoc)
 
+/datum/supply_pack/rogue/steel_weapons/greatflail
+	name = "Greatflail"
+	cost = 85 // 2 Steel Ingots, 1 Small Log, 1 Chain.
+	contains = list(/obj/item/rogueweapon/flail/peasantwarflail/iron/steel)
+
 /datum/supply_pack/rogue/steel_weapons/aplongsword
 	name = "Stecher"
 	cost = 75 // 2 Steel Ingot, 1 Small Log
@@ -181,7 +186,7 @@
 	contains = list(/obj/item/rogueweapon/halberd/bardiche)
 
 /datum/supply_pack/rogue/steel_weapons/eaglebeak
-	name = "Eagle's Beak"
+	name = "Polehammer, Eagle's Beak"
 	cost = 75 // 2 Steel Ingot, 1 Small Log
 	contains = list(/obj/item/rogueweapon/eaglebeak)
 

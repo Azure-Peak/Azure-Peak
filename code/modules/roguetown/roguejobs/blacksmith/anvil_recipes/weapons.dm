@@ -823,6 +823,14 @@
 	display_category = ITEM_CAT_WEAPONS_AMMO
 	createditem_num = 2
 
+/datum/anvil_recipe/weapons/iron/ibardiche
+	name = "Bardiche, Iron (+1 Iron, +1 Small Log)"
+	category = "Iron"
+	req_bar = /obj/item/ingot/iron
+	additional_items = list(/obj/item/ingot/iron, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/halberd/bardiche/iron
+	display_category = ITEM_CAT_WEAPONS_POLEARMS
+
 /datum/anvil_recipe/weapons/iron/maul
 	name = "Maul (+1 Iron)"
 	category = "Iron"
@@ -1133,6 +1141,13 @@
 	additional_items = list(/obj/item/ingot/steel, /obj/item/ingot/steel, /obj/item/grown/log/tree/small)
 	created_item = /obj/item/rogueweapon/greataxe/steel/doublehead
 	display_category = ITEM_CAT_WEAPONS_AXES
+
+/datum/anvil_recipe/weapons/steel/sgreatflail
+	name = "Greatflail, Steel (+1 Steel, +1 Chain, +1 Small Log)"
+	req_bar = /obj/item/ingot/steel
+	additional_items = list(/obj/item/ingot/steel, /obj/item/rope/chain, /obj/item/grown/log/tree/small)
+	created_item = /obj/item/rogueweapon/flail/peasantwarflail/iron/steel
+	display_category = ITEM_CAT_WEAPONS_FLAILS
 
 /datum/anvil_recipe/weapons/steel/billhook
 	name = "Billhook, Steel (+1 Small Log)"
@@ -1673,7 +1688,6 @@
 	additional_items = list(/obj/item/ingot/aalloy, /obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/great/aalloy
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
-
 	craftdiff = 2
 
 /datum/anvil_recipe/weapons/paalloy/hoplonshield
@@ -1684,7 +1698,6 @@
 	created_item = /obj/item/rogueweapon/shield/bronze/paalloy
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
 
-
 /datum/anvil_recipe/weapons/aalloy/hoplonshield
 	name = "Hoplon Shield, Decrepit (+1 Alloy, +1 Cured Leather)"
 	category = "Decrepit Alloy"
@@ -1692,7 +1705,6 @@
 	additional_items = list(/obj/item/natural/hide/cured)
 	created_item = /obj/item/rogueweapon/shield/bronze/aalloy
 	display_category = ITEM_CAT_WEAPONS_SHIELDS
-
 
 /datum/anvil_recipe/weapons/iron/towershield
 	name = "Tower Shield (+1 Small Log)"

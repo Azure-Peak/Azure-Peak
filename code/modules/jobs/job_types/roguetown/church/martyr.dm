@@ -384,7 +384,7 @@
 
 //This is called once all the checks are passed and the options are made by the player to commit.
 /datum/component/martyrweapon/proc/activate(mob/user, status_flag)
-	current_holder.visible_message("[span_notice("[current_holder] begins invoking their Oath!")]", span_notice("You begin to invoke your oath."))
+	current_holder.visible_message("[span_notice("[current_holder] begins invoking their Oath!")]", span_notice("You begin to invoke your Oath!"))
 	switch(status_flag)
 		if(STATE_MARTYR)
 			user.playsound_local(user, 'sound/misc/martyrcharge.ogg', 100, FALSE)
@@ -599,14 +599,14 @@
 
 
 /obj/item/rogueweapon/sword/long/martyr
+	name = "divine longsword"
+	desc = "A relic from the Holy See's own vaults; a blessed silver longsword, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
 	force = 30
 	force_wielded = 36
 	icon_state = "martyrsword"
 	item_state = "martyrsword"
 	lefthand_file = 'icons/mob/inhands/weapons/roguemartyr_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/roguemartyr_righthand.dmi'
-	name = "divine longsword"
-	desc = "A relic from the Holy See's own vaults; a blessed silver longsword, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
 	parrysound = "bladedmedium"
 	swingsound = BLADEWOOSH_LARGE
 	pickup_sound = 'sound/foley/equip/swordlarge2.ogg'
@@ -626,7 +626,7 @@
 	override_state = null
 	is_important = TRUE
 	special = /datum/special_intent/martyr_blazing_sweep_sword
-	alt_grips = list(/datum/alt_grip/mordhau/sword/lesser, /datum/alt_grip/halfsword/lesser)
+	alt_grips = list(/datum/alt_grip/special/montante)
 
 /obj/item/rogueweapon/sword/long/martyr/ComponentInitialize()
 	AddComponent(\
@@ -699,9 +699,10 @@
 			if("wielded") return list("shrink" = 0.5,"sx" = 9,"sy" = -2,"nx" = -7,"ny" = 0,"wx" = -9,"wy" = -0.2,"ex" = 9,"ey" = -0.2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 5,"sturn" = -190,"wturn" = -170,"eturn" = -10,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 			if("onback") return list("shrink" = 0.5, "sx" = -1, "sy" = 2, "nx" = 0, "ny" = 2, "wx" = 2, "wy" = 1, "ex" = 0, "ey" = 1, "nturn" = 0, "sturn" = 0, "wturn" = 70, "eturn" = 15, "nflip" = 1, "sflip" = 1, "wflip" = 1, "eflip" = 1, "northabove" = 1, "southabove" = 0, "eastabove" = 0, "westabove" = 0)
 			if("onbelt") return list("shrink" = 0.4, "sx" = -4, "sy" = -6, "nx" = 5, "ny" = -6, "wx" = 0, "wy" = -6, "ex" = -1, "ey" = -6, "nturn" = 100, "sturn" = 156, "wturn" = 90, "eturn" = 180, "nflip" = 0, "sflip" = 0, "wflip" = 0, "eflip" = 0, "northabove" = 0, "southabove" = 1, "eastabove" = 1, "westabove" = 0)
-			if("altgrip") return list("shrink" = 0.5,"sx" = 4,"sy" = 0,"nx" = -7,"ny" = 1,"wx" = -8,"wy" = 0,"ex" = 8,"ey" = -1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -135,"sturn" = -35,"wturn" = 45,"eturn" = 145,"nflip" = 8,"sflip" = 8,"wflip" = 1,"eflip" = 0)
 
 /obj/item/rogueweapon/greataxe/steel/doublehead/martyr
+	name = "divine axe"
+	desc = "A relic from the Holy See's own vaults; a blessed silver axe, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
 	force = 20
 	force_wielded = 35
 	possible_item_intents = list(/datum/intent/axe/cut, /datum/intent/axe/chop, /datum/intent/axe/bash)
@@ -709,8 +710,6 @@
 	icon_state = "martyraxe"
 	icon = 'icons/roguetown/weapons/axes64.dmi'
 	item_state = "martyraxe"
-	name = "divine axe"
-	desc = "A relic from the Holy See's own vaults; a blessed silver axe, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
 	minstr = 12
 	max_blade_int = 250
 	bigboy = 1
@@ -878,6 +877,8 @@
 	return ..()
 
 /obj/item/rogueweapon/spear/partizan/martyr
+	name = "divine trident"
+	desc = "A relic from the Holy See's own vaults; a blessed silver spear, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
 	force = 25
 	force_wielded = 35
 	max_blade_int = 250
@@ -886,8 +887,6 @@
 	icon_state = "martyrtrident"
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	item_state = "martyrtrident"
-	name = "divine trident"
-	desc = "A relic from the Holy See's own vaults; a blessed silver spear, marked with the ten-pointed sigil of Astrata's undivided might. </br>It simmers with godly energies, and will only yield to the hands of those who have taken the Oath."
 	bigboy = 1
 	wlength = WLENGTH_LONG
 	associated_skill = /datum/skill/combat/polearms

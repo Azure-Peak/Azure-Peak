@@ -15,6 +15,8 @@ python -m http.server 8000 --bind 127.0.0.1
 
 Then open `http://localhost:8000`.
 
+Alternatively, you can right-click [index.html](index.html)'s tab while it's opened in [VSC](https://code.visualstudio.com/) and select 'Open In Integrated Browser' to access it.
+
 ## What The Tool Does
 
 The editor has two main jobs:
