@@ -616,3 +616,10 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define ARMOR_MAT_PLATE 1
 #define ARMOR_MAT_LEATHER 2
 #define ARMOR_MAT_CHAINMAIL 3
+
+//Intent-saving defines. If a weapon has more than 3 altgrip states it's likely to runtime somewhere.
+#define UNWIELDED_INTENT 0
+#define WIELDED_INTENT 1
+#define ALTGRIP_ONE_INTENT 2
+#define ALTGRIP_TWO_INTENT 3
+#define ALTGRIP_THREE_INTENT 4

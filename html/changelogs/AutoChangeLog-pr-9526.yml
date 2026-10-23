@@ -1,0 +1,6 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - code_imp: "redid the merchant's ship-hailing lines"
+  - rscadd: "new time change tips"
+  - rscadd: "new time change tips (lore)"
