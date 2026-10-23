@@ -697,7 +697,7 @@
 					custom_offset = 23
 					taunt_message = "[user] flips [M] off with extreme prejudice!"
 
-				else if(istype(L.patron, /datum/patron/inhumen/graggar))
+				else if(istype(L.patron, /datum/patron/inhumen/graggar) || L.get_flaw(/datum/charflaw/illtempered))
 					taunticon = "midfinger"
 					custom_offset = 23
 					taunt_message = "[user] rudely flips [M] off!"

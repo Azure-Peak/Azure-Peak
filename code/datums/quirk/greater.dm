@@ -64,3 +64,11 @@
 	var/datum/language/langpath = choices[tgui_input_list(recipient, "Which language do you study?", "LINGUISTIC BOON", choices)]
 	if(langpath && ispath(langpath, /datum/language))
 		holder.grant_language(langpath)
+
+/datum/quirk/strong_jaws
+	name = "Strong Jaws"
+	desc = "Be it through Dendor's blessing, or simply a natural quirk of my anatomy, my bite is stronger than most."
+	added_traits = list(TRAIT_STRONGBITE)
+	restricted_species = list(/datum/species/ooze)
+	greater = TRUE
+	ui_fa_icon = "teeth"
