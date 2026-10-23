@@ -29,7 +29,7 @@ export const SequestrationBanner = (props: {
           opacity: 0.7,
         }}
       >
-        sealed under the Burghers&apos; mark
+        sealed under the ATC&apos;s mark
       </div>
       <div
         style={{
@@ -41,11 +41,10 @@ export const SequestrationBanner = (props: {
         SEQUESTRATION DECLARED
       </div>
       <div style={{ fontVariant: 'normal' }}>
-        Following the Crown&apos;s default, the Azurian Trading Company holds
-        the sequestered revenues of the realm and farms the customs and salt
-        tolls in perpetuity until the {sequestration.debt}m debt is repaid.
-        Trade controls and stockpile pricing stand locked. Petitions, taxation,
-        and the lash of fines remain.
+        The Crown defaulted, so the ATC now collects the realm&apos;s revenues
+        until the {sequestration.debt}m debt is repaid. You can&apos;t change
+        trade settings or stockpile prices until then. Petitions, taxes and
+        fines still work.
       </div>
     </div>
   );

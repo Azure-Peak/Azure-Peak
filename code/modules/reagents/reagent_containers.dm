@@ -100,11 +100,6 @@
 	. = ..()
 	SplashReagents(hit_atom, TRUE)
 
-/obj/item/reagent_containers/proc/bartender_check(atom/target)
-	. = FALSE
-	if(target.CanPass(src, get_turf(src)) && thrownby && HAS_TRAIT(thrownby, TRAIT_BOOZE_SLIDER))
-		. = TRUE
-
 /obj/item/reagent_containers/proc/SplashReagents(atom/target, thrown = FALSE)
 	if(!reagents || !reagents.total_volume || !spillable)
 		return
@@ -122,10 +117,6 @@
 		if(thrownby)
 			log_combat(thrownby, M, "splashed", R)
 		reagents.reaction(target, TOUCH)
-
-	else if(bartender_check(target) && thrown)
-		visible_message(span_notice("[src] lands onto the [target.name] without spilling a single drop."))
-		return
 
 	else
 		if(isturf(target) && reagents.reagent_list.len && thrownby)

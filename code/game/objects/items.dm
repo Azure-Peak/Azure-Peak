@@ -147,7 +147,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/list/secondary_skills
 
 	var/list/possible_item_intents = list(/datum/intent/use)
-	var/saved_intent_index = 1 // Stores the last selected intent index when item is dropped
+	var/alist/saved_intents = alist(
+		UNWIELDED_INTENT = 1,
+		WIELDED_INTENT = 1,
+		ALTGRIP_ONE_INTENT = 1,
+		ALTGRIP_TWO_INTENT = 1,
+		ALTGRIP_THREE_INTENT = 1,
+	) // Stores the last selected intent index when item is dropped
 
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
@@ -161,7 +167,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/current_alt_grip_index = 0
 	/// Original values for vars overridden by the active alt grip state.
 	var/list/alt_grip_restore_vars
-	///intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
+	/// TRUE while a timed shift into an alt grip is in progress.
+	var/gripswapping = FALSE
+	/// TRUE when swapping is interrupted.
+	var/gripswap_interrupt = FALSE
+	/// Intents while gripped, replacing main intents. if list != null, will allow the weapon to be wielded. set to null to remove wielding.
 	var/list/gripped_intents
 	var/force_wielded = 0
 	var/gripsprite = FALSE //use alternate grip sprite for inhand
@@ -541,7 +551,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		Targeting large limbs such as arms, head or legs has a defense reduction cap of [SWIFTCAP_LIMBS]%. \n\
 		Targeting the chest only has a cap of [SWIFTCAP_CHEST]% parry reduction. \n\
 		Swift Balance does not work if the attacker is wearing Medium or Heavy AC equipment on their outerwear, innerwear or pants slots. \n\
-		Defender's difference in INT and PER (if higher) may reduce the parry penalty in some circumstances.")
+		Defender's difference in INT and PER (if higher) may reduce the parry penalty in some circumstances. \n\
+		Having a swift weapon in your dominant hand and nothing in your off-hand increases your parry chance.")
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -698,7 +709,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(istype(src, /obj/item/rogueweapon))
 			var/obj/item/rogueweapon/W = src
 			if(W.special)
-				inspec += "[W.special.get_examine()]"
+				inspec += "[W.get_special().get_examine()]"
 
 		if(istype(src, /obj/item/rogueweapon/shield))
 			var/obj/item/rogueweapon/shield/S = src
@@ -975,6 +986,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				if(user.m_intent != MOVE_INTENT_SNEAK) // Don't play a sound if we're sneaking, for assassination purposes.
 					playsound(src, pickup_sound, PICKUP_SOUND_VOLUME, ignore_walls = FALSE)
 	user.update_equipment_speed_mods()
+	user.check_equipment_mood_penalty()
 
 	if(!user.is_holding(src))
 		if(altgripped || wielded)
@@ -1153,6 +1165,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 	if(SEND_SIGNAL(loc, COMSIG_CONTAINS_STORAGE))
 		return SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, newLoc, TRUE)
+	return FALSE
+
+/obj/item/proc/held_contents()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		return STR.contents()
+	return list()
+
+/obj/item/proc/release_held(obj/item/I, atom/dest)
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	if(STR)
+		return STR.remove_from_storage(I, dest)
 	return FALSE
 
 /obj/item/proc/get_belt_overlay() //Returns the icon used for overlaying the object on a belt
@@ -1550,8 +1574,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/proc/cycle_altgrip(mob/living/carbon/user, direction = 1)
 	if(!length(alt_grips) || !direction)
 		return FALSE
+	if(gripswapping)
+		return FALSE
 
-	var/message
 	var/next_index
 	var/datum/alt_grip/next_state
 	var/index_step = 1
@@ -1580,12 +1605,24 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		return FALSE
 	if(next_state.is_two_handed(src) && !can_wield_two_handed(user))
 		return FALSE
+	INVOKE_ASYNC(src, PROC_REF(swap_altgrip), user, next_index, next_state)
+	return TRUE
+
+/obj/item/proc/swap_altgrip(mob/living/carbon/user, next_index, datum/alt_grip/next_state)
+	if(!do_altgrip_swap(user, next_state))
+		return FALSE
+	if(next_index > length(alt_grips) || get_altgrip_state(next_index) != next_state || !next_state.usable_by(src, user))
+		return FALSE
+	if(next_state.is_two_handed(src) && !can_wield_two_handed(user))
+		return FALSE
+	if(wielded && !altgripped)
+		ungrip(user, FALSE)
 	if(!set_altgrip_state(next_index))
 		return FALSE
 	altgripped = TRUE
 	update_transform()
 	user.update_inv_hands()
-	message = get_altgrip_message(user)
+	var/message = get_altgrip_message(user)
 	to_chat(user, span_notice(message))
 	show_altgrip_balloon(user)
 	if(user.get_active_held_item() == src)

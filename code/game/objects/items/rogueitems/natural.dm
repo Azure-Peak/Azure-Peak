@@ -105,6 +105,13 @@
 /obj/item/natural/bundle/attackby(obj/item/W, mob/living/user)
 	if(item_flags & IN_STORAGE)
 		return
+
+	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+			return
+		W.attackby(src, user)
+		return
+
 	if(istype(W, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = W
 		if(src.stacktype == B.stacktype)
@@ -163,6 +170,14 @@
 			qdel(src)
 			return
 		else
+			// bandaid. if it's 1 it shouldnt be a bundle. if its 0 or below it DEFINITELY shouldnt be a bundle.
+			if(amount <= 1)
+				// this SHOULD stop at 1 so we'll still give you the one back.
+				var/obj/I = new stacktype(src.loc)
+				log_runtime("BUNDLE: [src] somehow had [src.amount] items in it when [user.name] ([user.real_name] - [user.client.ckey]) tried to retrieve [src.stacktype]!")
+				H.put_in_hands(I)
+				qdel(src)
+				return
 			amount -= 1
 			var/obj/F = new stacktype(src.loc)
 			H.put_in_hands(F)

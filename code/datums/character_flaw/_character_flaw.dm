@@ -32,6 +32,12 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	/// Intended for addiction types only.
 	var/voyeur_descriptor
 	var/list/restricted_species = list()
+	var/max_choices = 0
+	var/list/extra_choices = list()
+
+/datum/charflaw/proc/get_picked_choices(mob/user)
+	var/list/all_choices = user?.client?.prefs?.charflaw_choices
+	return LAZYACCESS(all_choices, type)
 
 /// Constant UI data for TGUI to display these in the prefs menu
 /datum/charflaw/proc/constant_ui_data()
@@ -144,6 +150,15 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	name = "Bad Eyesight"
 	desc = "I need spectacles to see normally from my years spent reading books."
 	ui_fa_icon = "glasses"
+	max_choices = 1
+	extra_choices = list(
+		"Spectacles" = /obj/item/clothing/mask/rogue/spectacles,
+		"Thin Spectacles" = /obj/item/clothing/mask/rogue/spectacles/thin,
+		"Fancy Spectacles" = /obj/item/clothing/mask/rogue/spectacles/fancy,
+		"Fancy Tinted Spectacles" = /obj/item/clothing/mask/rogue/spectacles/fancy/dark,
+		"Silver Monocle" = /obj/item/clothing/mask/rogue/spectacles/monocle,
+		"Smokey Onyxa Spectacles" = /obj/item/clothing/mask/rogue/spectacles/sglasses,
+	)
 
 /datum/charflaw/badsight/flaw_on_life(mob/user)
 	if(!ishuman(user))
@@ -159,6 +174,15 @@ GLOBAL_LIST_INIT(averse_factions, list(
 				var/obj/item/G = H.head
 				if(!G.obj_broken)
 					return
+			// Naledi masks let us see properly if they have inlaid spectacles and if the mask is not broken
+			if(istype(H.wear_mask, /obj/item/clothing/mask/rogue/lordmask/naledi))
+				var/obj/item/clothing/mask/rogue/lordmask/naledi/M = H.wear_mask
+				if(M.has_inlaid_spectacles && !M.obj_broken)
+					return
+			if(istype(H.head, /obj/item/clothing/mask/rogue/lordmask/naledi))
+				var/obj/item/clothing/mask/rogue/lordmask/naledi/M = H.head
+				if(M.has_inlaid_spectacles && !M.obj_broken)
+					return
 	H.blur_eyes(2)
 	H.apply_status_effect(/datum/status_effect/debuff/badvision)
 
@@ -172,17 +196,25 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	..()
 	if(!ishuman(user))
 		return
-	var/mob/living/carbon/human/H = user
-	if(!H.wear_mask)
-		H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/spectacles(H), SLOT_WEAR_MASK)
-	else
-		new /obj/item/clothing/mask/rogue/spectacles(get_turf(H))
-
 	// we don't seem to have a mind when on_mob_creation fires, so set up a timer to check when we probably will
-	addtimer(CALLBACK(src, PROC_REF(apply_reading_skill), H), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(apply_reading_skill), user), 5 SECONDS)
 
 /datum/charflaw/badsight/proc/apply_reading_skill(mob/living/carbon/human/H)
 	H.adjust_skillrank(/datum/skill/misc/reading, 1, TRUE)
+
+/datum/charflaw/badsight/apply_post_equipment(mob/user)
+	..()
+	if(!ishuman(user))
+		return
+	var/mob/living/carbon/human/H = user
+	var/glasses_type = /obj/item/clothing/mask/rogue/spectacles
+	var/list/picked = get_picked_choices(user)
+	if(length(picked))
+		glasses_type = extra_choices[picked[1]] || glasses_type
+	if(!H.wear_mask)
+		H.equip_to_slot_or_del(new glasses_type(H), SLOT_WEAR_MASK)
+	else
+		new glasses_type(get_turf(H))
 
 /datum/charflaw/proc/get_nearby_humans(mob/user, range)
 	. = list()
@@ -364,7 +396,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		return
 	var/mob/living/carbon/human/H = user
 	if(!H.wear_mask)
-		H.equip_to_slot_or_del(new /obj/item/clothing/glasses/blindfold(H), SLOT_WEAR_MASK)
+		H.equip_to_slot_or_del(new /obj/item/clothing/mask/rogue/blindfold(H), SLOT_WEAR_MASK)
 	H.overlay_fullscreen("blind_flaw", /atom/movable/screen/fullscreen/impaired, 2)
 	ADD_TRAIT(H, TRAIT_NITEVISION, TRAIT_GENERIC)
 	H.update_sight()
@@ -389,6 +421,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		ADD_TRAIT(H, TRAIT_ARMOR_BREAK, TRAIT_GENERIC)
+
 /datum/charflaw/hunted
 	name = "Hunted"
 	desc = "Something in my past has made me a target. I'm always looking over my shoulder.	\
@@ -463,6 +496,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/last_passed_check = 0
 	var/first_tick = FALSE
 	var/extra_increment_value = 0
+	var/satisfied = FALSE
 
 /datum/charflaw/greedy/on_mob_creation(mob/user)
 	next_mammon_increase = world.time + rand(15 MINUTES, 25 MINUTES)
@@ -506,14 +540,18 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/do_update_msg = TRUE
 	if(new_mammon_amount >= required_mammons)
 		// Feel better
-		if(user.has_stress_event(/datum/stressevent/vice))
-			to_chat(user, span_blue("[new_mammon_amount] mammons... That's more like it.."))
-		user.remove_stress(/datum/stressevent/vice)
-		user.remove_status_effect(/datum/status_effect/debuff/addiction)
 		last_passed_check = world.time
+		if(!satisfied)
+			satisfied = TRUE
+			if(user.has_stress_event(/datum/stressevent/vice))
+				to_chat(user, span_blue("[new_mammon_amount] mammons... That's more like it.."))
+				if(!has_other_unsated_vice(user))
+					user.remove_stress(/datum/stressevent/vice)
+			user.remove_status_effect(/datum/status_effect/debuff/addiction)
 		do_update_msg = FALSE
 	else
 		// Feel bad
+		satisfied = FALSE
 		user.add_stress(/datum/stressevent/vice)
 		user.apply_status_effect(/datum/status_effect/debuff/addiction)
 
@@ -527,6 +565,15 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			to_chat(user, span_boldwarning("No! My precious mammons..."))
 
 	last_checked_mammons = new_mammon_amount
+
+/datum/charflaw/greedy/proc/has_other_unsated_vice(mob/living/carbon/human/user)
+	for(var/datum/charflaw/cf in user.charflaws)
+		if(cf == src || !istype(cf, /datum/charflaw/addiction))
+			continue
+		var/datum/charflaw/addiction/other = cf
+		if(!other.sated)
+			return TRUE
+	return FALSE
 
 /datum/charflaw/narcoleptic
 	name = "Narcoleptic"
@@ -876,3 +923,77 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
 		return
 	wretch_select_bounty(H)
+
+/datum/charflaw/dnr
+	name = "Last Legs"
+	desc = "My lux is worn. I am not truly unrevivable, not yet; but the next shall be my last."
+	ui_fa_icon = "skull"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/dnr/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_LASTLEGS, "[type]")
+
+/datum/charflaw/agoraphobe
+	name = "Agoraphobic"
+	desc = "I long for the shelter of walls and roofs. The open sky fills me with unease."
+	ui_fa_icon = "house-chimney"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/agoraphobe/flaw_on_life(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/area/A = get_area(H)
+	if(A?.outdoors)
+		H.add_stress(/datum/stressevent/agoraphobia)
+	else
+		H.remove_stress(/datum/stressevent/agoraphobia)
+
+/datum/charflaw/claustrophobe
+	name = "Claustrophobic"
+	desc = "Walls and roofs close in around me. I only breathe easy under the open sky."
+	ui_fa_icon = "door-closed"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/claustrophobe/flaw_on_life(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/area/A = get_area(H)
+	if(A && !A.outdoors)
+		H.add_stress(/datum/stressevent/claustrophobia)
+	else
+		H.remove_stress(/datum/stressevent/claustrophobia)
+
+/datum/charflaw/skyfear
+	abstract_type = /datum/charflaw/skyfear
+	needs_extra_vice = TRUE
+	///time of day that brings on the stress
+	var/tod
+	///stress event applied under that sky
+	var/stress
+
+/datum/charflaw/skyfear/flaw_on_life(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/turf/T = get_turf(H)
+	if(GLOB.tod == tod && T?.can_see_sky())
+		H.add_stress(stress)
+	else
+		H.remove_stress(stress)
+
+/datum/charflaw/skyfear/sun
+	name = "Heliophobic"
+	desc = "The light of the sun fills me with dread. I keep to shade and shelter by day."
+	ui_fa_icon = "sun"
+	tod = "day"
+	stress = /datum/stressevent/heliophobia
+
+/datum/charflaw/skyfear/moon
+	name = "Selenophobic"
+	desc = "The light of the moon fills me with dread. I keep to shade and shelter by night."
+	ui_fa_icon = "moon"
+	tod = "night"
+	stress = /datum/stressevent/selenophobia
+
+/datum/charflaw/sullied
+	name = "Sullied Blood"
+	desc = "Something lingers in my blood that the Inquisition's instruments are quick to mistake for a curse."
+	ui_fa_icon = "vial"
+	needs_extra_vice = TRUE

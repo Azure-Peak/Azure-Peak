@@ -60,6 +60,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon
 	name = "void drake"
+	mob_size = MOB_SIZE_LARGE
 	desc = "An ancient creature from a bygone age. Now would be a good time to run."
 	health = 5000
 	maxHealth = 5000
@@ -113,6 +114,9 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	/obj/effect/proc_holder/spell/self/summon_obelisks,
 	/obj/effect/proc_holder/spell/invoked/dragon_swoop,
 	/obj/effect/proc_holder/spell/invoked/chain_lightning_breath)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/no_loot
+	death_loot = list(/obj/item/roguecoin/gold = 4) // Yes I lied, it drops 4 gold coins.
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/get_sound(input)
 	switch(input)

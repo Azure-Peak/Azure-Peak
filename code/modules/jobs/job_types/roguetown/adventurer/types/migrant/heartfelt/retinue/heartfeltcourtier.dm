@@ -12,7 +12,7 @@
 	category_tags = list(CTAG_HFT_RETINUE)
 	class_select_category = CLASS_CAT_HFT_COURT
 	vice_limits = list(/datum/charflaw/silverweakness)
-	
+
 // HIGH COURT - /ONE SLOT/ Roles that were previously in the Court, but moved here.
 
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_NOBLE, TRAIT_NUTCRACKER, TRAIT_HEARTFELT)
@@ -56,7 +56,7 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/armordress
 	belt = /obj/item/storage/belt/rogue/leather/cloth/upgraded/lady
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/silver
+	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/silver
 	id = /obj/item/clothing/ring/silver
 	shoes = /obj/item/clothing/shoes/roguetown/shortboots
 	backl = /obj/item/storage/backpack/rogue/satchel/black

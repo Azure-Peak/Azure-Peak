@@ -19,7 +19,7 @@
 
 /datum/status_effect/buff/song/accelakathist
 	var/outline_colour = "#F0E68C"
-	id = "haste"
+	id = "haste_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/accelakathist
 	effectedstats = list(STATKEY_SPD = BARD_STAT_LESSER)
 	duration = 15 SECONDS

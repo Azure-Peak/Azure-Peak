@@ -113,7 +113,8 @@
 			target.dust()
 			return TRUE
 
-		if(alert(target, "They are calling for you. Are you ready?", "TEETERING BETWEEN PARADISE AND PERDITION.", "I need to wake up!", "Don't let me go..") != "I need to wake up!")
+		var/mob/dead/observer/underworld_spirit = target.get_spirit()
+		if(alert(underworld_spirit || target, "They are calling for you. Are you ready?", "TEETERING BETWEEN PARADISE AND PERDITION.", "I need to wake up!", "Don't let me go..") != "I need to wake up!")
 			target.visible_message(span_notice("Nothing happens. They are not being let go."))
 			return FALSE
 		target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
@@ -121,12 +122,8 @@
 			to_chat(user, span_warning("Nothing happens."))
 			revert_cast()
 			return FALSE
-		var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
+
 		//GET OVER HERE!
-		if(underworld_spirit)
-			var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-			qdel(underworld_spirit)
-			ghost.mind.transfer_to(target, TRUE)
 		target.grab_ghost(force = TRUE) // even suicides
 		target.emote("breathgasp")
 		target.Jitter(100)
@@ -149,7 +146,7 @@
 
 /proc/deathmark(mob/living/victim)
 	if(victim.stat != DEAD)
-		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
+		victim.apply_status_effect(HAS_TRAIT(victim, TRAIT_LASTLEGS) ? /datum/status_effect/debuff/permadeath/permanent : /datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
 		victim.play_permadeath_indicator()
 		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 

@@ -1,13 +1,19 @@
 /datum/quest/kill
+	abstract_type = /datum/quest/kill
 	var/tp_budget = 0
 	var/min_mobs = 1
 	var/threat_bands_cleared = 0
 	var/total_spawned_tp = 0
 	var/kills_count_progress = TRUE
+	var/objective_verb = "Eliminate"
 	var/failed = FALSE
+	var/hunt_duration = QUEST_KILL_HUNT_TIMER
 	var/hunt_timer_id
 	var/hunt_warn_2m_id
 	var/hunt_warn_30s_id
+	var/hunt_timer_label = "Quarry slips away in"
+	var/hunt_warn_text = "before your targets scatter"
+	var/hunt_timeout_text = "<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand."
 
 /datum/quest/kill/Destroy()
 	clear_hunt_timers()
@@ -22,15 +28,19 @@
 	if(!TR)
 		return
 	TR.reduce_latent_ambush(threat_bands_cleared * THREAT_POINTS_PER_BAND)
-	announce_to_bearer("<b>The road breathes easier.</b> This contract has driven [threat_bands_cleared] band(s) of threat from the region.")
+	announce_to_bearer("<b>The road is safer.</b> This contract drove [threat_bands_cleared] band(s) of threat out of the region.")
 
 /datum/quest/kill/on_first_pop()
 	if(hunt_timer_id || complete)
 		return
-	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_TIMER, TIMER_STOPPABLE)
-	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "two minutes"), QUEST_KILL_HUNT_WARN_2M, TIMER_STOPPABLE)
-	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "thirty seconds"), QUEST_KILL_HUNT_WARN_30S, TIMER_STOPPABLE)
-	announce_to_bearer("<b>The quarry stirs.</b> Finish the work within twenty minutes, or they will scatter and the writ will lapse.")
+	start_hunt_timer(hunt_duration)
+	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(hunt_duration)] to kill them before they scatter and the contract fails.")
+
+/datum/quest/kill/proc/start_hunt_timer(duration)
+	clear_hunt_timers()
+	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), duration, TIMER_STOPPABLE)
+	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)]"), duration - QUEST_KILL_HUNT_WARN_EARLY, TIMER_STOPPABLE)
+	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), duration - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
 
 /datum/quest/kill/proc/clear_hunt_timers()
 	if(hunt_timer_id)
@@ -46,18 +56,30 @@
 /datum/quest/kill/proc/warn_hunt_time_left(label)
 	if(complete || !hunt_timer_id)
 		return
-	announce_to_bearer("<b>[label] remain</b> before the quarry slips away.")
+	announce_to_bearer("<b>[label] left</b> [hunt_warn_text].")
 
 /datum/quest/kill/proc/on_hunt_timeout()
 	if(complete)
 		return
 	hunt_timer_id = null
+	fail_hunt(hunt_timeout_text)
+
+/datum/quest/kill/proc/fail_hunt(message)
+	if(complete || failed)
+		return
+	clear_hunt_timers()
 	failed = TRUE
-	announce_to_bearer("<b>The quarry has slipped away.</b> The writ smolders and crumbles in your grip.")
+	record_contract_stat(src, CONTRACT_STAT_FAILED)
+	announce_to_bearer(message)
+	SSquestpool.refund_closed_posting(src, QUEST_ISSUE_STATUS_FAILED, REFUND_ON_FAILURE, "Failed posting refund", "failed")
 	despawn_live_hunt_mobs()
 	var/obj/item/quest_writ/S = quest_scroll
 	if(S && !QDELETED(S))
 		qdel(S)
+
+/datum/quest/kill/force_complete()
+	despawn_live_hunt_mobs()
+	return ..()
 
 /datum/quest/kill/proc/despawn_live_hunt_mobs()
 	for(var/datum/weakref/W in tracked_atoms)
@@ -95,8 +117,19 @@
 	var/left = timeleft(hunt_timer_id)
 	if(left <= 0)
 		return
-	data["hunt_timer_label"] = "Quarry slips away in"
+	data["hunt_timer_label"] = hunt_timer_label
 	data["hunt_timer_seconds"] = round(left / 10)
+
+/datum/quest/kill/get_objective_text()
+	if(!faction)
+		return "[objective_verb] ~[progress_required] [initial(target_mob_type.name)]."
+	return "[objective_verb] ~[progress_required] [faction.name_plural]."
+
+/datum/quest/kill/materialize(obj/effect/landmark/quest_spawner/landmark)
+	if(!landmark)
+		return FALSE
+	spawn_kill_mobs(landmark)
+	return TRUE
 
 /datum/quest/kill/proc/announce_to_bearer(msg)
 	var/mob/bearer = quest_receiver_reference?.resolve()
@@ -139,15 +172,18 @@
 	var/list/weights = list()
 	for(var/id in TR.faction_weights)
 		var/datum/quest_faction/F = get_quest_faction(id)
-		if(!F)
-			continue
-		if(!F.allows_quest_type(quest_type))
+		if(!F || !faction_fits(F))
 			continue
 		weights[id] = TR.faction_weights[id]
 	if(!length(weights))
 		return null
-	var/picked_id = pickweight(weights)
-	return get_quest_faction(picked_id)
+	return get_quest_faction(pickweight(weights))
+
+/datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
+	return TRUE
+
+/datum/quest/kill/fits_region(datum/threat_region/TR)
+	return !!pick_region_faction_for(TR)
 
 /datum/quest/kill/proc/estimate_mob_count()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)
@@ -175,28 +211,35 @@
 	var/spawned = 0
 	total_spawned_tp = 0
 	for(var/mob_path in to_spawn)
-		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-		if(!spawn_turf)
+		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
+		if(!new_mob)
 			continue
-
-		var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-		var/mob/living/new_mob = new mob_path(spawn_effect)
-		new_mob.faction |= "quest"
-		if(faction?.faction_tag)
-			new_mob.faction |= faction.faction_tag
-		new_mob.mark_contract_spawned()
-		new_mob.AddComponent(/datum/component/quest_object/kill, src)
-		ADD_TRAIT(new_mob, TRAIT_FRESHSPAWN, "[type]")
-		addtimer(TRAIT_CALLBACK_REMOVE(new_mob, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-		spawn_effect.contained_atom = new_mob
-		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-		register_spawner(spawn_effect)
-		add_tracked_atom(new_mob)
 		total_spawned_tp += initial(new_mob.threat_point) || 0
 		spawned++
 		sleep(1)
 	if(spawned > 0 && kills_count_progress)
 		progress_required = spawned
+
+/datum/quest/kill/proc/spawn_hidden_mob(obj/effect/landmark/quest_spawner/landmark, mob_path, is_target = TRUE, tag_faction = TRUE, effect_type = /obj/effect/quest_spawn, dust_corpse = TRUE)
+	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
+	if(!spawn_turf)
+		return null
+	var/obj/effect/quest_spawn/spawn_effect = effect_type ? new effect_type(spawn_turf) : null
+	var/mob/living/new_mob = new mob_path(spawn_effect || spawn_turf)
+	new_mob.faction |= "quest"
+	if(tag_faction && faction?.faction_tag)
+		new_mob.faction |= faction.faction_tag
+	new_mob.mark_contract_spawned(dust_corpse)
+	if(is_target)
+		new_mob.AddComponent(/datum/component/quest_object/kill, src)
+		add_tracked_atom(new_mob)
+	ADD_TRAIT(new_mob, TRAIT_FRESHSPAWN, "[type]")
+	addtimer(TRAIT_CALLBACK_REMOVE(new_mob, TRAIT_FRESHSPAWN, "[type]"), QUEST_MOB_FRESHSPAWN_TIME)
+	if(spawn_effect)
+		spawn_effect.contained_atom = new_mob
+		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
+		register_spawner(spawn_effect)
+	return new_mob
 
 /datum/quest/kill/proc/compose_candidates()
 	return faction.mob_types.Copy()

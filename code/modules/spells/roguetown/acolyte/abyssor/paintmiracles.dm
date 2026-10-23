@@ -51,8 +51,8 @@
 	)
 	invocation_type = INVOCATION_SHOUT
 	charge_required = TRUE
-	charge_time = 2 SECONDS
-	cooldown_time = 10 SECONDS
+	charge_time = 1.5 SECONDS
+	cooldown_time = 1 SECONDS
 	devotion_cost = 30
 	associated_skill = /datum/skill/magic/holy
 
@@ -127,7 +127,7 @@
 
 	user.visible_message(span_notice("[user] begins painting beneath [target]'s feet!"))
 
-	if(!do_after(user, 5 SECONDS, target = target))
+	if(!do_after(user, 1 SECONDS, target = target))
 		to_chat(user, span_warning("The attunement ritual was broken by movement!"))
 		return FALSE
 

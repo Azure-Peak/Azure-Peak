@@ -9,25 +9,18 @@
 	droning_sound = 'sound/music/area/bog.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	ambush_times = list("night","dawn","dusk","day")
 	//Minotaurs too strong for the lazy amount of places this area covers
+	ambush_factions = list()
 	ambush_mobs = list(
-				// Singles — budget filler across all factions present in the bog
-				/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog = 20,
-				/mob/living/simple_animal/hostile/retaliate/rogue/spider = 40,
-				/mob/living/carbon/human/species/skeleton/npc/bogguard = 20,
-				/mob/living/carbon/human/species/goblin/npc/ambush/cave = 30,
-				/mob/living/carbon/human/species/goblin/npc/archer/cave = 7,
-				/mob/living/carbon/human/species/human/northern/bog_deserters/ambush = 15,
-				/mob/living/carbon/human/species/human/northern/bog_deserters/better_gear/ambush = 10,
-				/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,
-				// Packs — big-ticket purchases for high budgets
-				/datum/npc_warband/bog_guard_deserters = 50,
-				/datum/npc_warband/bog_guard_deserters/hard = 25,
-				/datum/npc_warband/mirespiders_ambush = 110,
-				/datum/npc_warband/mirespiders_crawlers = 25,
-				/datum/npc_warband/mirespiders_aragn = 10,
-				/datum/npc_warband/mirespiders_unfair = 5)
+		/mob/living/simple_animal/hostile/retaliate/rogue/spider = 39,
+		/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob = 5,
+		/datum/npc_warband/bog_guard_deserters = 49,
+		/datum/npc_warband/bog_guard_deserters/hard = 25,
+		/datum/npc_warband/mirespiders_ambush = 108,
+		/datum/npc_warband/mirespiders_crawlers = 25,
+		/datum/npc_warband/mirespiders_aragn = 10,
+		/datum/npc_warband/mirespiders_unfair = 5,
+	)
 	first_time_text = "THE TERRORBOG"
 	converted_type = /area/rogue/indoors/shelter/bog
 	threat_region = THREAT_REGION_TERRORBOG

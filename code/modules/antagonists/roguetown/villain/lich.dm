@@ -61,6 +61,9 @@
 	return 3
 
 /datum/antagonist/lich/on_gain()
+	owner.unknow_all_people() //ancient lich, nobody knows them
+	for(var/datum/mind/MF in get_minds())
+		owner.become_unknown_to(MF)
 	SSmapping.retainer.liches |= owner
 	. = ..()
 	owner.special_role = name
@@ -169,7 +172,7 @@
 	H.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 6, TRUE)
 	H.adjust_skillrank_up_to(/datum/skill/magic/arcane, 6, TRUE)
 
-	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 3, "utilities" = 9, "ward" = TRUE))
+	H?.mind.setup_mage_aspects(list("mastery" = TRUE, "major" = 2, "minor" = 4, "utilities" = 13, "locked_aspects" = list(/datum/magic_aspect/necromancy, /datum/magic_aspect/lesser_necromancy), "post_aspect_spells" = list(/obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo), "ward" = TRUE))
 	// Give it decent combat stats to make up for loss of 2 extra lives
 
 	H.change_stat(STATKEY_STR, 3)
@@ -182,8 +185,6 @@
 	H.change_stat(STATKEY_WIL, 7) //Only affects your ability to withstand keeling over from pain while sundered. Intended to be disgustingly high, as they're not supposed to easily fall over.
 
 	H.grant_language(/datum/language/undead)
-	// Grant a spellbook so the lich can pick aspects
-	H.equip_to_slot_or_del(new /obj/item/rogueweapon/spellbook/grand,SLOT_IN_BACKPACK, TRUE)
 	// Grant a chalk so the lich can do rituals
 	H.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 
@@ -196,22 +197,10 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/remotebomb)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/lich_announce)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/zizo/bestowcant/lich)
-		// Other role required spells.
+		// Infinite Skeletons will be kept for Lich, they're a major antag
 		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_undead_formation)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/tame_undead)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/raise_deadite) //Zombifies dead people
-		// Our Utility Spells
-		H.mind.AddSpell(new /datum/action/cooldown/spell/convert_heretic)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo)
 		// This is probably a bad idea, but let's live a little.
 		H.mind.AddSpell(new /datum/action/cooldown/spell/summon_terrorhog)
-		// Consistancy as they're basically a ruler in the hierarchy above Necromancers
-		H.mind.AddSpell(new /datum/action/cooldown/spell/eyebite)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/lacrima)
 	H.ambushable = FALSE
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/lich]
 
@@ -258,6 +247,7 @@
 ///Called post death to equip new body with armour and stats. Order of equipment matters
 /datum/antagonist/lich/proc/equip_and_traits()
 	var/mob/living/carbon/human/body = owner.current
+	body.unequip_everything_delete() //ensure we get the "fit" by stripping first
 	var/list/equipment_slots = list(
 		SLOT_HEAD,
 		SLOT_PANTS,
@@ -282,12 +272,12 @@
 		/obj/item/clothing/neck/roguetown/chaincoif,
 		/obj/item/clothing/suit/roguetown/shirt/robe/unholy/lich,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel,
-		/obj/item/clothing/suit/roguetown/shirt/tunic/ucolored,
+		/obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy,
 		/obj/item/clothing/wrists/roguetown/bracers,
 		/obj/item/clothing/gloves/roguetown/chain,
 		/obj/item/storage/belt/rogue/leather/black,
-		/obj/item/reagent_containers/glass/bottle/rogue/manapot,
-		/obj/item/rogueweapon/huntingknife/idagger/steel,
+		/obj/item/rogueweapon/spellbook/grand,
+		/obj/item/rogueweapon/huntingknife/idagger/blacksteel, //major antagonist, fuck it. you get a nice dagger. (I WOULD DO AVANTYNE BUT SOME CLASSES DO FORCE-SET PATRON AFTER LICH ROLLS)
 		/obj/item/rogueweapon/woodstaff/implement/grand,
 		/obj/item/storage/backpack/rogue/satchel/black,
 	)
@@ -318,15 +308,11 @@
 	new_body.real_name = old_body.real_name
 	new_body.dna.real_name = old_body.real_name
 	new_body.mob_biotypes |= MOB_UNDEAD
-	new_body.faction = list(FACTION_UNDEAD)
+	new_body.faction = list(FACTION_UNDEAD, "[new_body.real_name]_faction")
 	new_body.set_patron(/datum/patron/inhumen/zizo)
 	new_body.mind.grab_ghost(force = TRUE)
 	new_body.ambushable = FALSE
 	new_body.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/other/lich] //evil ass voice stays
-	// Grant a spellbook so the lich can pick aspects
-	new_body.equip_to_slot_or_del(new /obj/item/rogueweapon/spellbook/grand,SLOT_IN_BACKPACK, TRUE)
-	// Grant a chalk so the lich can do rituals
-	new_body.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 
 	for (var/obj/item/bodypart/body_part in new_body.bodyparts)
 		body_part.skeletonize(FALSE)
@@ -335,6 +321,8 @@
 	set_stats()
 	skele_look()
 	equip_and_traits()
+	// Grant a chalk post-equip so the lich can do rituals again
+	new_body.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 	// Delete the old body if it still exists
 	if (!QDELETED(old_body))
 		old_body.visible_message(

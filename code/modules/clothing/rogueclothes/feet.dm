@@ -13,6 +13,18 @@
 	experimental_inhand = TRUE
 	salvage_amount = 0
 	salvage_result = null
+	var/bootknife = FALSE
+
+/obj/item/clothing/shoes/roguetown/Initialize(mapload)
+	.=..()
+	if(bootknife)
+		AddComponent(/datum/component/holster/boot)
+
+/obj/item/clothing/shoes/roguetown/get_mechanics_examine(mob/user)
+	.=..()
+	if(bootknife)
+		.+= span_info("This footwear can hold a tossblade, laborer's knife, rotfang, or profane dagger. Left click it with one to sheathe it.")
+		.+= span_info("Right click to draw a sheathed weapon.")
 
 /obj/item/clothing/shoes/roguetown/boots
 	name = "dark boots"
@@ -27,39 +39,12 @@
 	salvage_amount = 1
 	armor = ARMOR_CLOTHING
 	salvage_result = /obj/item/natural/hide/cured
-	var/atom/movable/holdingknife = null
-
-/obj/item/clothing/shoes/roguetown/boots/examine(mob/user)
-	. = ..()
-	if(holdingknife)
-		. += span_notice("There is a knife tucked into the side of the boot.")
-
-/obj/item/clothing/shoes/roguetown/boots/attackby(obj/item/W, mob/living/carbon/user, params)
-	// Special exception for rotfang to help deal with inventory woes / make it harder to steal.
-	if(istype(W, /obj/item/rogueweapon/huntingknife/throwingknife) || istype(W, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang))
-		if(holdingknife == null)
-			for(var/obj/item/clothing/shoes/roguetown/boots/B in user.get_equipped_items(TRUE))
-				to_chat(loc, span_warning("I quickly slot [W] into [B]!"))
-				user.transferItemToLoc(W, holdingknife)
-				holdingknife = W
-				playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-		else
-			to_chat(loc, span_warning("My boot already holds a knife."))
-		return
-	. = ..()
-
-/obj/item/clothing/shoes/roguetown/boots/attack_right(mob/user)
-	if(holdingknife != null)
-		if(!user.get_active_held_item())
-			user.put_in_active_hand(holdingknife, user.active_hand_index)
-			holdingknife = null
-			playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-			return TRUE
+	bootknife = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/aalloy
 	name = "decrepit boots"
 	desc = "Rotted metal greaves, shingled atop boots of rotted leather. The toebones of its former legionnaire remain within, rattling about with every step taken."
-	max_integrity = 40
+	max_integrity = ARMOR_INT_SIDE_DECREPIT
 	armor = ARMOR_BRONZE
 	icon_state = "ancientboots"
 	smeltresult = /obj/item/ingot/aaslag
@@ -93,6 +78,7 @@
 	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/shoes/roguetown/boots/psydonboots/ComponentInitialize()
+	.=..()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
@@ -110,6 +96,7 @@
 	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/shoes/roguetown/boots/nobleboot/ComponentInitialize()
+	.=..()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
@@ -140,33 +127,7 @@
 	sewrepair = TRUE
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
-	var/atom/movable/holdingknife = null
-
-/obj/item/clothing/shoes/roguetown/ridingboots/examine(mob/user)
-	. = ..()
-	if(holdingknife)
-		. += span_notice("There is a knife tucked into the side of the boot.")
-
-/obj/item/clothing/shoes/roguetown/ridingboots/attackby(obj/item/W, mob/living/carbon/user, params)
-	if(istype(W, /obj/item/rogueweapon/huntingknife/throwingknife) || istype(W, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang))
-		if(holdingknife == null)
-			for(var/obj/item/clothing/shoes/roguetown/ridingboots/B in user.get_equipped_items(TRUE))
-				to_chat(loc, span_warning("I quickly slot [W] into [B]!"))
-				user.transferItemToLoc(W, holdingknife)
-				holdingknife = W
-				playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-		else
-			to_chat(loc, span_warning("My boot already holds a knife."))
-		return
-	. = ..()
-
-/obj/item/clothing/shoes/roguetown/ridingboots/attack_right(mob/user)
-	if(holdingknife != null)
-		if(!user.get_active_held_item())
-			user.put_in_active_hand(holdingknife, user.active_hand_index)
-			holdingknife = null
-			playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-			return TRUE
+	bootknife = TRUE
 
 ///obj/item/clothing/shoes/roguetown/ridingboots/Initialize(mapload)
 //	. = ..()
@@ -203,11 +164,12 @@
 
 /obj/item/clothing/shoes/roguetown/gladiator
 	name = "leather sandals"
-	desc = ""
+	desc = "A pair of sturdy sandal-boots with extra straps on the shins."
 	gender = PLURAL
 	icon_state = "gladiator"
 	item_state = "gladiator"
 	sewrepair = TRUE
+	bootknife = TRUE
 
 /obj/item/clothing/shoes/roguetown/sandals
 	name = "sandals"
@@ -224,15 +186,16 @@
 	desc = "Rotted metal platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
 	color = "#bb9696"
-	armor = ARMOR_LEATHER
+	max_integrity = ARMOR_INT_SIDE_DECREPIT
+	armor = ARMOR_BRONZE
 
 /obj/item/clothing/shoes/roguetown/sandals/paalloy
 	name = "ancient sandals"
 	desc = "Polished gilbranze platforms, laced with bog-reeds to remain secured beneath skeletal soles. A thousand yils later, and they still clack-and-clop like new."
 	icon_state = "ancientsandals"
 	color = null
-	max_integrity = 100			//Half that of iron boots
-	armor = ARMOR_LEATHER			//Better than regular leather.
+	max_integrity = ARMOR_INT_SIDE_IRON
+	armor = ARMOR_MAILLE			//Better than regular leather.
 
 /obj/item/clothing/shoes/roguetown/shalal
 	name = "babouche"
@@ -257,6 +220,7 @@
 	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/shoes/roguetown/boots/leather/ComponentInitialize()
+	.=..()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_HONORBOUND)
 
@@ -291,6 +255,7 @@
 	sewrepair = TRUE
 
 /obj/item/clothing/shoes/roguetown/boots/otavan/ComponentInitialize()
+	.=..()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
@@ -304,35 +269,10 @@
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
-	var/atom/movable/holdingknife = null
-
-/obj/item/clothing/shoes/roguetown/grenzelhoft/examine(mob/user)
-	. = ..()
-	if(holdingknife)
-		. += span_notice("There is a knife tucked into the side of the boot.")
-
-/obj/item/clothing/shoes/roguetown/grenzelhoft/attackby(obj/item/W, mob/living/carbon/user, params)
-	if(istype(W, /obj/item/rogueweapon/huntingknife/throwingknife) || istype(W, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang) || istype(W, /obj/item/rogueweapon/huntingknife/throwingknife/triumph))
-		if(holdingknife == null)
-			for(var/obj/item/clothing/shoes/roguetown/grenzelhoft/B in user.get_equipped_items(TRUE))
-				to_chat(loc, span_warning("I quickly slot [W] into [B]!"))
-				user.transferItemToLoc(W, holdingknife)
-				holdingknife = W
-				playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-		else
-			to_chat(loc, span_warning("My boot already holds a knife."))
-		return
-	. = ..()
-
-/obj/item/clothing/shoes/roguetown/grenzelhoft/attack_right(mob/user)
-	if(holdingknife != null)
-		if(!user.get_active_held_item())
-			user.put_in_active_hand(holdingknife, user.active_hand_index)
-			holdingknife = null
-			playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-			return TRUE
+	bootknife = TRUE
 
 /obj/item/clothing/shoes/roguetown/grenzelhoft/ComponentInitialize()
+	.=..()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
@@ -405,6 +345,7 @@
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/shoes/roguetown/boots/armor/ComponentInitialize()
+	.=..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
@@ -445,6 +386,7 @@
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/clothing/shoes/roguetown/boots/maille/ComponentInitialize()
+	.=..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
 
@@ -718,7 +660,6 @@
 	sewrepair = TRUE
 	is_barefoot = TRUE
 	armor = ARMOR_CLOTHING
-	is_barefoot = TRUE
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/fur
 
@@ -767,6 +708,41 @@
 	else
 		user.visible_message(span_notice("[user] stops adjusting [src]."))
 		return
+
+/obj/item/clothing/shoes/roguetown/boots/armor/bare
+	name = "sabatons"
+	desc = "A set of overlapping metal lames that protect the feet and are usually worn with boots or a hose - you <b>are</b> wearing a hose, right?"
+	icon_state = "feetplate"
+	item_state = "feetplate"
+	detail_tag = "_det"
+	detail_color = "#FFFFFF"
+	var/picked = FALSE
+
+/obj/item/clothing/shoes/roguetown/boots/armor/bare/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/shoes/roguetown/boots/armor/bare/attack_right(mob/user)
+	..()
+	if(!picked)
+		var/choice = input(user, "Choose a color.", "Sabaton colors") as null|anything in COLOR_MAP
+		if(!choice)
+			return
+		picked = TRUE
+		detail_color = COLOR_MAP[choice]
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_shoes()
+
+/obj/item/clothing/shoes/roguetown/boots/armor/bare/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
 
 // ----------------- BLACKSTEEL -----------------------
 
@@ -880,7 +856,7 @@
 	sewrepair = FALSE
 	smeltresult = /obj/item/ingot/bronze
 
-/obj/item/clothing/shoes/courtphysician
+/obj/item/clothing/shoes/roguetown/courtphysician
 	name = "sanguine shoes"
 	desc = "Leather shoes, the solemn tap of these bears grim news, or salvation."
 	icon_state = "docshoes"
@@ -891,7 +867,7 @@
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
 
-/obj/item/clothing/shoes/courtphysician/female
+/obj/item/clothing/shoes/roguetown/courtphysician/female
 	name = "sanguine heels"
 	desc = "Leather heels, the solemn tap of these bears grim news, or salvation."
 	icon_state = "docheels"
@@ -901,17 +877,18 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/courtphys.dmi'
 	detail_tag = "_detail"
 	detail_color = CLOTHING_RED
+	bootknife = TRUE
 
-/obj/item/clothing/shoes/courtphysician/female/Initialize(mapload)
+/obj/item/clothing/shoes/roguetown/courtphysician/female/Initialize(mapload)
 	. = ..()
 	update_icon()
 
-/obj/item/clothing/shoes/courtphysician/female/ComponentInitialize()
+/obj/item/clothing/shoes/roguetown/courtphysician/female/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
 	stepnoise_flag = STEPNOISE_HEELS // This will prevent default footstep noise from being made by the heels (sounds odd)
 
-/obj/item/clothing/shoes/courtphysician/female/update_icon()
+/obj/item/clothing/shoes/roguetown/courtphysician/female/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
@@ -920,7 +897,7 @@
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
-/obj/item/clothing/shoes/courtphysician/female/keeper //unique to keepers, intended to also be unarmored. Role is grab-immune sire, please.
+/obj/item/clothing/shoes/roguetown/courtphysician/female/keeper //unique to keepers, intended to also be unarmored. Role is grab-immune sire, please.
 	name = "pestrian heels"
 	desc = "Leather heels, oft worn by those of Pestra's sects.</br> Raised just enough to fit the warped feet of those mutated by sickness without being uncomfortable; the solemn tap of these oft bears grim news, or salvation."
 	detail_color = CLOTHING_GREEN
@@ -934,34 +911,7 @@
 	icon_state = "footwraps"
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	var/atom/movable/holdingknife = null
-
-/obj/item/clothing/shoes/roguetown/footwraps/examine(mob/user)
-	. = ..()
-	if(holdingknife)
-		. += span_notice("There is a knife tucked into the side of the footwraps.")
-
-/obj/item/clothing/shoes/roguetown/footwraps/attackby(obj/item/W, mob/living/carbon/user, params)
-	// Special exception for rotfang to help deal with inventory woes / make it harder to steal.
-	if(istype(W, /obj/item/rogueweapon/huntingknife/throwingknife) || istype(W, /obj/item/rogueweapon/huntingknife/idagger/steel/rotfang))
-		if(holdingknife == null)
-			for(var/obj/item/clothing/shoes/roguetown/footwraps/B in user.get_equipped_items(TRUE))
-				to_chat(loc, span_warning("I quickly slot [W] into [B]!"))
-				user.transferItemToLoc(W, holdingknife)
-				holdingknife = W
-				playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-		else
-			to_chat(loc, span_warning("My boot already holds a knife."))
-		return
-	. = ..()
-
-/obj/item/clothing/shoes/roguetown/footwraps/attack_right(mob/user)
-	if(holdingknife != null)
-		if(!user.get_active_held_item())
-			user.put_in_active_hand(holdingknife, user.active_hand_index)
-			holdingknife = null
-			playsound(loc, 'sound/foley/equip/swordsmall1.ogg')
-			return TRUE
+	bootknife = TRUE
 
 /obj/item/clothing/shoes/roguetown/footwraps/padded
 	name = "padded cloth footwraps"
@@ -985,6 +935,7 @@
 	item_state = "togasandals"
 	salvage_amount = 1
 	salvage_result = /obj/item/natural/cloth
+	bootknife = TRUE
 
 /obj/item/clothing/shoes/roguetown/rosa
 	name = "ivory shoes"

@@ -197,7 +197,10 @@
 	var/static/list/possible_areas = list(
 		/area/rogue/outdoors/beach,
 		/area/rogue/outdoors/beach/north,
-		/area/rogue/outdoors/beach/south
+		/area/rogue/outdoors/beach/south,
+		/area/rogue/outdoors/beach/grim,
+		/area/rogue/outdoors/beach/north/grim,
+		/area/rogue/outdoors/beach/south/grim
 	)
 	var/area/destination_area = GLOB.areas_by_type[pick(possible_areas)]
 	if(!destination_area)

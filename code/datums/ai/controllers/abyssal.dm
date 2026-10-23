@@ -44,9 +44,6 @@
 
 	if(retaliation_count <= 0)
 		controller.set_blackboard_key(BB_RETALIATE_ATTACKS_LEFT, 2)
-	if (isliving(dreamfiend))
-		if (world.time < dreamfiend.melee_cooldown)
-			return AI_BEHAVIOR_INSTANT
 
 	. = ..()
 	//targetting datum will kill the action if not real anymore

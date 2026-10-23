@@ -27,7 +27,6 @@
 	return list(
 		"trade_brackets" = ASSEMBLY_TRADE_BRACKETS,
 		"defense_brackets" = ASSEMBLY_DEFENSE_BRACKETS,
-		"poll_brackets" = ASSEMBLY_POLL_BRACKETS,
 		"quorum_voters" = ASSEMBLY_QUORUM_VOTERS,
 		"recall_threshold_pct" = ASSEMBLY_RECALL_THRESHOLD_PCT,
 		"censure_threshold_pct" = ASSEMBLY_CENSURE_THRESHOLD_PCT,
@@ -128,7 +127,7 @@
 
 /datum/city_assembly_panel/proc/build_next_resolution_label()
 	if(SScity_assembly?.first_session_resolve_at > world.time)
-		return "the first session (~[ASSEMBLY_FIRST_SESSION_MINUTES]m post roundstart)"
+		return "the first session (~[ASSEMBLY_FIRST_SESSION_MINUTES]m into the round)"
 	return "the next dawn"
 
 /datum/city_assembly_panel/ui_act(action, list/params)
@@ -175,13 +174,13 @@
 			// Bypasses the physical-access problem (the Stewardry is locked against them) without
 			// bypassing the warrant cap (the Steward machine's own gate still enforces it).
 			if(!SScity_assembly.is_alderman(usr))
-				to_chat(usr, span_warning("Only the sitting Alderman may open the trade writ."))
+				to_chat(usr, span_warning("Only the Alderman can trade from this board."))
 				return TRUE
 			if(!SScity_assembly.current_warrant || SScity_assembly.current_warrant.trade_remaining <= 0)
-				to_chat(usr, span_warning("The Commons have set no trade warrant for you, or its coin is spent for the day."))
+				to_chat(usr, span_warning("As Alderman, you can't trade right now. The Assembly set no trade warrant, or today's warrant is spent."))
 				return TRUE
 			if(!SStreasury.steward_machine)
-				to_chat(usr, span_warning("The Nerve Master is not present in the Realm."))
+				to_chat(usr, span_warning("There is no Nerve Master in the realm to trade through."))
 				return TRUE
 			SStreasury.steward_machine.open_trade_tgui(usr)
 			return TRUE

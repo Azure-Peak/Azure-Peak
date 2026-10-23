@@ -246,8 +246,8 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/survival/tarot_deck
-	name = "tarot deck"
-	result = list(/obj/item/toy/cards/deck/tarot)
+	name = "tarot deck (major arcana only)"
+	result = list(/obj/item/deck/tarot)
 	reqs = list(
 		/obj/item/paper/scroll = 3,
 		/obj/item/grown/log/tree/small = 1,
@@ -258,9 +258,9 @@
 	req_table = TRUE
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/survival/tarot_deck_majorarcana
-	name = "tarot deck (major arcana)"
-	result = list(/obj/item/toy/cards/deck/tarot/majorarcana)
+/datum/crafting_recipe/roguetown/survival/tarot_deck_minorarcana
+	name = "tarot deck (major and minor arcana)"
+	result = list(/obj/item/deck/tarot/includes_minor_arcana)
 	reqs = list(
 		/obj/item/paper/scroll = 3,
 		/obj/item/grown/log/tree/small = 1,
@@ -459,3 +459,14 @@
 		)
 	skillcraft = /datum/skill/craft/cooking
 	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/survival/charcoal
+	name = "wood into charcoal"
+	result = /obj/item/rogueore/coal/charcoal
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	structurecraft = /obj/machinery/light/rogue/oven
+	craftsound = 'sound/misc/frying.ogg'
+	verbage_simple = "char"
+	verbage = "chars"
+	craftdiff = 0
+	time = 10 SECONDS

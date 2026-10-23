@@ -63,6 +63,8 @@
 	var/chunkcolor = "#5e5e5e"
 	var/material_category = ARMOR_MAT_LEATHER
 	var/throw_on_break = FALSE
+	/// Whitelist of armour that can be worn underneath something despite restrictions. Should be a small list, only.
+	var/list/underlayers
 
 /obj/item
 	var/blocking_behavior
@@ -319,7 +321,6 @@
 	desc = ""
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	tastes = list("dust" = 1, "lint" = 1)
-	foodtype = CLOTH
 
 /obj/item/clothing/attack(mob/living/M, mob/living/user, def_zone)
 	if(user.used_intent.type != INTENT_HARM && ismoth(M))

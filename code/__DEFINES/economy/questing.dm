@@ -2,6 +2,7 @@
 #define QUEST_DIFFICULTY_MEDIUM "Medium"
 #define QUEST_DIFFICULTY_HARD "Hard"
 #define QUEST_DIFFICULTY_NOTORIOUS "Notorious"
+#define QUEST_DIFFICULTY_SPECIAL "Special"
 
 #define QUEST_RETRIEVAL "Retrieval"
 #define QUEST_COURIER "Courier"
@@ -14,7 +15,31 @@
 #define QUEST_HOARD_RECOVERY "Hoard Recovery"
 #define QUEST_TOWNER_SMITH_CARAVAN "Smith Caravan"
 #define QUEST_TOWNER_MINER_OREVEIN "Ore Vein"
+#define QUEST_TOWNER_CLINIC_CARAVAN "Clinic Caravan"
+#define QUEST_TOWNER_MISSING_RUNNER "Missing Runner"
+#define QUEST_TOWNER_TAILOR_CARAVAN "Tailor Caravan"
+#define QUEST_TOWNER_CLAY_DEPOSIT "Clay Deposit"
+#define QUEST_TOWNER_FOOD_CARAVAN "Food Caravan"
+#define QUEST_TOWNER_CHEESEMAKER_CARAVAN "Cheesemaker Caravan"
+#define QUEST_TOWNER_BUILDING_SUPPLIES "Building Supplies"
+#define QUEST_TOWNER_VALUABLES "Valuables"
 #define QUEST_NOTORIOUS_BOUNTY "Notorious Bounty"
+#define QUEST_GM_KILL "Special Hunt"
+#define QUEST_GM_RECOVERY "Special Recovery"
+
+#define QUEST_CHRONICLE_ORDER_KILL_EASY 1
+#define QUEST_CHRONICLE_ORDER_CLEAR_OUT 2
+#define QUEST_CHRONICLE_ORDER_RAID 3
+#define QUEST_CHRONICLE_ORDER_BOUNTY 4
+#define QUEST_CHRONICLE_ORDER_NOTORIOUS_BOUNTY 5
+#define QUEST_CHRONICLE_ORDER_RECOVERY 6
+#define QUEST_CHRONICLE_ORDER_RETRIEVAL 7
+#define QUEST_CHRONICLE_ORDER_COURIER 8
+#define QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE 9
+#define QUEST_CHRONICLE_ORDER_HOARD_RECOVERY 10
+#define QUEST_CHRONICLE_ORDER_TOWNER 20
+#define QUEST_CHRONICLE_ORDER_GM 30
+#define QUEST_CHRONICLE_ORDER_DEFAULT 100
 
 #define QUEST_TURNIN_SELF 1
 #define QUEST_TURNIN_FELLOWSHIP 2
@@ -27,6 +52,8 @@
 #define TOWNER_POSTING_COST_HARD 200
 
 #define TOWNER_POSTING_CROWN_COST_MULT 2
+
+#define TOWNER_MAX_ACTIVE_POSTINGS 5
 
 #define TOWNER_REWARD_CAP_MEDIUM 300
 #define TOWNER_REWARD_CAP_HARD 500
@@ -41,27 +68,21 @@
 #define TOWNER_FLAT_BONUS_MEDIUM 50
 #define TOWNER_FLAT_BONUS_HARD 100
 
-#define OREVEIN_VARIETY_IRON "iron"
-#define OREVEIN_VARIETY_CUPROSTANNIC "cuprostannic"
-#define OREVEIN_VARIETY_GEMMIFEROUS "gemmiferous"
-#define OREVEIN_VARIETY_AURICINNABAR "auricinnabar"
+#define QUEST_POOL_KILL "kill"
+#define QUEST_POOL_EVERGREEN "evergreen"
 
-#define CARAVAN_VARIETY_IRON "iron"
-#define CARAVAN_VARIETY_BRONZE "bronze"
-#define CARAVAN_VARIETY_BULLION "bullion"
+// Relative odds of each type to generate within their own pool
+// KILL pool (Kill quests dependent on regional threats to generate)
+#define QUEST_POOL_WEIGHT_KILL_EASY 25
+#define QUEST_POOL_WEIGHT_CLEAR_OUT 25
+#define QUEST_POOL_WEIGHT_RAID 30
+#define QUEST_POOL_WEIGHT_BOUNTY 15
+#define QUEST_POOL_WEIGHT_RECOVERY 5
+#define QUEST_POOL_WEIGHT_NOTORIOUS_BOUNTY 5
 
-// Recovery is intentionally omitted - the Steward cannot directly commission recoveries.
-// Those spawn from the pool (SSquestpool.regen_kill_targets) and from Innkeeper rumors only.
-// The rationale is roleplay: a Recovery is "a caravan was lost, find the cargo" - a rumor
-// reaching the Innkeeper's ear, not a Crown directive.
-GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
-	QUEST_KILL_EASY = BURGHER_PLEDGE_COST_TRIVIAL,
-	QUEST_CLEAR_OUT = BURGHER_PLEDGE_COST_STANDARD,
-	QUEST_BOUNTY = BURGHER_PLEDGE_COST_MAJOR,
-	QUEST_RAID = BURGHER_PLEDGE_COST_MAJOR,
-	QUEST_BLOCKADE_DEFENSE = BLOCKADE_SCROLL_PLEDGE_COST,
-	QUEST_HOARD_RECOVERY = BLOCKADE_SCROLL_PLEDGE_COST,
-))
+// EVERGREEN pool (Fetch quests that will always be available)
+#define QUEST_POOL_WEIGHT_RETRIEVAL 55
+#define QUEST_POOL_WEIGHT_COURIER 45
 
 // Multipliers applied to the base TP for kill request rewards
 #define QUEST_KILL_THREAT_MULT 1.0
@@ -140,10 +161,15 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // Player-issued listings (rumor/defense) get a longer window before reroll.
 #define QUEST_PLAYER_STALE_THRESHOLD (30 MINUTES)
 
-#define QUEST_ISSUER_CANCEL_WINDOW (30 MINUTES)
+#define MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST (30 MINUTES)
+
+#define REFUND_ON_FAILURE 0.5
+#define REFUND_ON_NOT_TAKEN 1.0
 
 #define QUEST_ISSUE_STATUS_LAPSED "lapsed"
 #define QUEST_ISSUE_STATUS_WITHDRAWN "withdrawn"
+#define QUEST_ISSUE_STATUS_FAILED "failed"
+#define QUEST_ISSUE_STATUS_ABANDONED "abandoned"
 
 // Per CKEY cap
 #define QUEST_TAKE_COOLDOWN (10 MINUTES)
@@ -151,36 +177,35 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 // After a quest reroll is generated it is locked for this long to prevent regen
 #define QUEST_LANDMARK_COOLDOWN (5 MINUTES)
 
-#define QUEST_KILL_HUNT_TIMER (20 MINUTES)
-#define QUEST_KILL_HUNT_WARN_2M (18 MINUTES)
-#define QUEST_KILL_HUNT_WARN_30S (19 MINUTES + 30 SECONDS)
+#define QUEST_KILL_HUNT_TIMER (15 MINUTES)
+#define QUEST_RECOVERY_DELIVERY_TIMER (30 MINUTES)
+// Measured as the time deducted from the timer
+#define QUEST_KILL_HUNT_WARN_EARLY (2 MINUTES)
+#define QUEST_KILL_HUNT_WARN_FINAL (30 SECONDS)
+#define QUEST_MOB_FRESHSPAWN_TIME (60 SECONDS)
+// Rename after a delay so subtype after_creation() timers don't override it.
+#define QUEST_BOSS_RENAME_DELAY (2 SECONDS)
 
 #define QUEST_LANDMARK_MAX_LOCK_DURATION (60 MINUTES)
 
-
-#define QUEST_KILL_TYPE_WEIGHTS list(\
-	QUEST_KILL_EASY = 25,\
-	QUEST_CLEAR_OUT = 25,\
-	QUEST_RAID = 30,\
-	QUEST_BOUNTY = 15,\
-	QUEST_RECOVERY = 5,\
-	QUEST_NOTORIOUS_BOUNTY = 20,\
-)
 
 #define NOTORIOUS_BOUNTY_POLL_TIME (15 SECONDS)
 #define NOTORIOUS_BOUNTY_POLL_WIDTH 520
 #define NOTORIOUS_BOUNTY_POLL_HEIGHT 260
 #define NOTORIOUS_BOUNTY_PROX_RANGE 35
 
-#define NOTORIOUS_BOUNTY_CONTROL_TIME (15 MINUTES)
+#define NOTORIOUS_BOUNTY_HUNT_TIMER (12 MINUTES)
+// Must stay below NOTORIOUS_BOUNTY_HUNT_TIMER so the player boss is released and paid before the hunt lapses.
+#define NOTORIOUS_BOUNTY_CONTROL_TIME (10 MINUTES)
 #define NOTORIOUS_BOUNTY_LEASH_RANGE 40
-#define NOTORIOUS_BOUNTY_LEASH_INTERVAL (10 SECONDS)
+#define NOTORIOUS_BOUNTY_HUNT_TICK (10 SECONDS)
+#define NOTORIOUS_BOUNTY_PARTY_DOWN_GRACE (20 SECONDS)
 #define NOTORIOUS_BOUNTY_GOON_CAP 3
 // Extra goons compensate when no ghost answers the poll and the boss stays an NPC.
 #define NOTORIOUS_BOUNTY_REINFORCE_TP 140
 #define NOTORIOUS_BOUNTY_REINFORCE_CAP 7
 // Flat mammon bump when a player assumes the boss - the hunt got harder, the pay follows.
-#define NOTORIOUS_BOUNTY_PLAYER_BONUS 125
+#define NOTORIOUS_BOUNTY_PLAYER_BONUS 250
 #define NOTORIOUS_BOUNTY_NPC_BONUS 60
 
 #define NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH 1
@@ -189,17 +214,12 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 #define NOTORIOUS_BOUNTY_DEATH_RELEASE (5 SECONDS)
 
 
-#define QUEST_EVERGREEN_TYPE_WEIGHTS list(\
-	QUEST_RETRIEVAL = 55,\
-	QUEST_COURIER = 45,\
-)
-
 #define QUEST_SOURCE_POOL "pool"
-#define QUEST_SOURCE_HANDLER "handler"
 #define QUEST_SOURCE_RUMOR "rumor"
 #define QUEST_SOURCE_DEFENSE "defense"
 #define QUEST_SOURCE_BLOCKADE "blockade"
 #define QUEST_SOURCE_TOWNER "towner"
+#define QUEST_SOURCE_GM "gm"
 
 #define QUEST_DELIVERY_DISTANCE_DIVISOR 8 // Divides the distance for reward calculation
 #define QUEST_DELIVERY_DISTANCE_BONUS 1 // Adds a bonus for longer distances
@@ -212,6 +232,13 @@ GLOBAL_LIST_INIT(defense_quest_tier_costs, list(
 
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
 #define BLOCKADE_WAVE_TIMER_DS (15 MINUTES)
+#define BLOCKADE_INTERMISSION_DS (3 MINUTES)
+#define BLOCKADE_INTERMISSION_BELL_DS (15 SECONDS)
+#define BLOCKADE_HORN_EXTRARANGE 10
+#define BLOCKADE_WAVE_WARN_FIRST (7.5 MINUTES)
+#define BLOCKADE_WAVE_WARN_SECOND (5 MINUTES)
+#define BLOCKADE_WAVE_WARN_THIRD (2 MINUTES)
+#define NOM_DE_GUERRE_MAX_LENGTH 60
 
 // Minimum Pledge to call a hoard recovery writ from a fellowship without being the Steward.
 #define HOARD_RECOVERY_PLEDGE 200

@@ -50,16 +50,20 @@
 	body_parts_covered = EYES
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HEAD
 	anvilrepair = /datum/skill/craft/armorsmithing
-//	block2add = FOV_BEHIND
 	grid_width = 32
 	grid_height = 32
+	/// Can these spectacles be attached to specific items? (Make this FALSE if it's something too unusual to do this with)
+	var/attachable = TRUE
+
+/obj/item/clothing/mask/rogue/spectacles/thin
+	name = "thin-lensed spectacles"
+	icon_state = "glassesa"
 
 /obj/item/clothing/mask/rogue/spectacles/fancy
 	name = "fancy spectacles"
 	desc = "Delicate, thin-lensed spectacles of foreign make, their craft finer than most local wares."
 	icon_state = "glassesb"
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/masks.dmi'
-	max_integrity = 30
+	max_integrity = 35
 
 /obj/item/clothing/mask/rogue/spectacles/fancy/dark
 	name = "fancy tinted spectacles"
@@ -85,6 +89,7 @@
 	desc = "Made to both ENDURE and incite debate within those few Noc-Sainted within Otava. Noc-lit walks, yae or nae? The lenses look like they can be brushed aside with a carefully guided right-pointer finger led motion."
 	max_integrity = 300
 	var/lensmoved = FALSE
+	attachable = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/inq/equipped(mob/user, slot)
 	..()
@@ -169,6 +174,7 @@
 	name = "silver monocle"
 	icon_state = "monocle"
 	max_integrity = 35
+	attachable = FALSE // It's only one lens!
 
 /obj/item/clothing/mask/rogue/spectacles/sglasses
 	name = "smokey onyxa spectacles"
@@ -274,6 +280,22 @@
 	max_integrity = ARMOR_INT_MASK_STEEL
 	smeltresult = /obj/item/ingot/steel
 
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/pyro
+	name = "insulated breath-mask"
+	desc = "A product of strange artifice, painstakingly replicated from ancient design. Protects the wearer from noxious fumes and shrapnel to the eyes. You can taste soot whenever you draw breath."
+	icon_state = "pyromask"
+	max_integrity = ARMOR_INT_MASK_IRON
+	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
+	armor = ARMOR_INSULATED_LEATHER
+	smeltresult = /obj/item/ingot/bronze
+	block2add = FOV_DEFAULT //similar to the malpractitioner's mask, you get full vision for the sake of drip. You do not, however, gain the full integrity of the confessor's mask
+
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/pyro/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/clothing/mask/rogue/spectacles/inq))
+		to_chat(user, span_info("These lenses won't fit in this mask."))
+		return
+	return ..()
+
 /obj/item/clothing/mask/rogue/facemask/steel/confessor
 	name = "strange mask"
 	desc = "It is said that the original version of this mask was used for obscure rituals prior to the fall of the Empire of the Holy Celestia, and now it has been repurposed as a veil for the cunning hand of the Otavan Orthodoxy.<br> <br>Others say it is a piece of heresy, a necessary evil, capable of keeping its user safe from left-handed magicks. You can taste copper whenever you draw breath."
@@ -329,7 +351,6 @@
 			return
 
 /obj/item/clothing/mask/rogue/facemask/steel/confessor/lensed/attack_right(mob/user, slot)
-	..()
 	if(!lensmoved)
 		playsound(user, 'sound/items/inqglassesoff.ogg', 80)
 		to_chat(user, span_info("You discreetly slide the inner lenses out of the way."))
@@ -603,6 +624,9 @@
 	name = "naledian runed mask"
 	desc = "Runes and wards, meant for daemons; the gold has somehow rusted in unnatural, impossible agony. The most prominent of these etchings is in the shape of the Naledian psycross. Lightly armored to protect the wearer's face."
 
+/obj/item/clothing/mask/rogue/lordmask/naledi/lesser/inlaid_spectacles
+	has_inlaid_spectacles = TRUE
+
 /obj/item/clothing/mask/rogue/lordmask/naledi
 	name = "war scholar's mask"
 	item_state = "naledimask"
@@ -613,9 +637,57 @@
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	flags_inv = HIDEFACE|HIDESNOUT
 	sellprice = 10
+	/// If TRUE, this mask will function as spectacles... So long as it isn't broken.
+	var/has_inlaid_spectacles = FALSE
 
 /obj/item/clothing/mask/rogue/lordmask/naledi/ComponentInitialize()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_NALEDI, "naledi_mask")
+
+/obj/item/clothing/mask/rogue/lordmask/naledi/attackby(obj/item/I, mob/user, params)
+	. = ..()
+	if(!ishuman(user))
+		return
+	if(istype(I, /obj/item/clothing/mask/rogue/spectacles) && !has_inlaid_spectacles)
+		var/mob/living/carbon/human/H = user
+		var/obj/item/clothing/mask/rogue/spectacles/S = I
+		if(!S.attachable)
+			to_chat(user, span_notice("This eyewear is too esoteric to fit onto the mask."))
+			return
+		if(!ontable())
+			to_chat(user, span_notice("I need to put the mask on a table first."))
+		user.visible_message(span_notice("\The [user] starts fitting \the [S] into \the [src]."), span_notice("I begin to fit \the [S] into \the [src]. This is a delicate process..."))
+		if(!do_after(user, 5 SECONDS, target = src))
+			return
+		playsound(src, 'sound/items/gems (2).ogg', 50)
+		balloon_alert_to_viewers("*click!*")
+		H.dropItemToGround(I, silent = TRUE)
+		qdel(I)
+		has_inlaid_spectacles = TRUE
+		// Integrity loss for having easily breakable spectacles
+		name = "bespectacled [name]"
+		max_integrity *= 0.75
+		obj_integrity = min(obj_integrity, max_integrity)
+
+/obj/item/clothing/mask/rogue/lordmask/naledi/Initialize(mapload)
+	. = ..()
+	// If we have spectacles, we lose some integrity.
+	if(has_inlaid_spectacles)
+		max_integrity *= 0.75
+		obj_integrity = max_integrity
+		name = "bespectacled [name]"
+
+/obj/item/clothing/mask/rogue/lordmask/naledi/examine(mob/user)
+	. = ..()
+	if(has_inlaid_spectacles)
+		. += span_notice("It has a pair of spectacle lenses embedded into the eye sockets. The mask is a bit more fragile as a result.")
+
+/obj/item/clothing/mask/rogue/lordmask/naledi/get_mechanics_examine()
+	. = ..()
+	if(!has_inlaid_spectacles)
+		. += span_smallracialstatinfo("This mask can have a set of spectacles embedded into it, for Naledians with poor eyesight, at the cost of some of its durability. Place the mask on a table and use a pair of spectacles to set them in. Spectacles that have been summoned via magicks or those that are generally too unusual cannot be inlaid.")
+
+/obj/item/clothing/mask/rogue/lordmask/naledi/inlaid_spectacles
+	has_inlaid_spectacles = TRUE
 
 /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
 	name = "sojourner's mask"
@@ -627,6 +699,9 @@
 	flags_inv = HIDEFACE|HIDESNOUT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	sellprice = 0
+
+/obj/item/clothing/mask/rogue/lordmask/naledi/sojourner/inlaid_spectacles
+	has_inlaid_spectacles = TRUE
 
 /obj/item/clothing/mask/rogue/silkmask
 	name = "giltsilk mask"
@@ -757,7 +832,7 @@
 	armor = null
 	flags_inv = HIDEFACE|HIDESNOUT
 	body_parts_covered = FACE
-	block2add = FOV_BEHIND
+	block2add = FOV_DEFAULT
 	slot_flags = ITEM_SLOT_MASK|ITEM_SLOT_HIP
 	smeltresult = null
 	anvilrepair = /datum/skill/craft/ceramics
@@ -770,8 +845,12 @@
 	desc = "An ancient ceramic face. It looks weathered, the sort molded by Xylixian worshippers of many yils past. Even when cast aside, it feels like the hardened clay has never left your hands. As if it always finds a way back into your palms."
 	// No armor anyways
 	max_integrity = 200
-	// Not messing with jester mask, but again, it has no armor. many other masks also don't block vision.
-	block2add = FOV_DEFAULT
+
+/obj/item/clothing/mask/rogue/xylixmask/ceramic
+	name = "ceramic mask"
+	item_state = "ceramicmask"
+	icon_state = "ceramicmask"
+	desc = "An ivory ceramic mask, plain and vacant. What is a joke with a smile missing? Ever so drought of what used to be painted with colors and joy."
 
 /obj/item/clothing/mask/rogue/spectacles/iron
 	name = "iron spectacles"
@@ -817,6 +896,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ash
 	stack_fovs = TRUE
+	attachable = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/duelist/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
@@ -944,3 +1024,19 @@
 	name = "clerical helmetless visor"
 	desc = "A thin visor of flimsy iron and a thin-silver coating with faint runic-wards and etchings into the material in strange runic wards and sigils, \
 	while this flimsy mask offers barely any protection, the many Noccite cults of Psydonia aclaim the gaps make it easier for Noc's silvered light to enighten the mind."
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter
+	name = "lamplighter's mask"
+	desc = "A leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask1"
+	adjustable = CANT_CADJUST
+
+/obj/item/clothing/mask/rogue/facemask/leather/lamplighter/beaked
+	name = "lamplighter's beaked mask"
+	desc = "A beaked leather mask meant to shield your face from claw and oil."
+	icon = 'icons/roguetown/clothing/special/lamplighter.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/lamplighter.dmi'
+	icon_state = "lampmask2"
+	flags_inv = HIDEFACE|HIDESNOUT|HIDEHAIR|HIDEEARS

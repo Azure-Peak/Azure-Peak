@@ -5,7 +5,7 @@
 	job = "Militia"
 	category = FACTION_STATION
 	body = /datum/npc_body/northern_commoner/soldier/militia
-	statpack = /datum/npc_statpack/rabble
+	statpack = /datum/npc_statpack/line/t1
 	armor_training = ARMOR_CLASS_MEDIUM
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE

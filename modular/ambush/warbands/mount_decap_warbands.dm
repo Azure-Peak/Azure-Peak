@@ -6,6 +6,15 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear = 2,
 	)
 
+/datum/npc_warband/direvolfmountpack
+	name = "Dire Volfpack"
+	category = FACTION_WOLFS
+	faction_tag = "wildlife"
+	members = list(
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf/dire = 2,
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 4,
+	)
+
 /datum/npc_warband/trio_of_highwaymen
 	name = "Highwayman Gang"
 	category = FACTION_BANDITS

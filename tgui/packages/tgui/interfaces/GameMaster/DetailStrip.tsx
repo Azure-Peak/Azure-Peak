@@ -1,16 +1,57 @@
-import { Box, Section, Stack, Tooltip } from 'tgui-core/components';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  NumberInput,
+  Section,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
 
 import { useBackend } from '../../backend';
 import { ELLIPSIS, type GameMasterData, shortPath, toTitle } from './types';
 
 export function DetailStrip() {
-  const { data } = useBackend<GameMasterData>();
-  const { selected_detail } = data;
+  const { act, data } = useBackend<GameMasterData>();
+  const { selected_detail, quest_open, quest, quest_static } = data;
+  const [questCount, setQuestCount] = useState(1);
+
+  const questRoom = quest_static.mob_cap - (quest?.mob_total ?? 0);
+  const questControls = !!quest_open && (
+    <>
+      <Stack.Item>
+        <NumberInput
+          width="3.5rem"
+          minValue={1}
+          maxValue={quest_static.mob_cap}
+          step={1}
+          value={questCount}
+          onChange={setQuestCount}
+        />
+      </Stack.Item>
+      <Stack.Item>
+        <Button
+          icon="plus"
+          disabled={!selected_detail || questRoom <= 0}
+          onClick={() => {
+            act('quest_add_selected', { count: questCount });
+          }}
+        >
+          Add
+        </Button>
+      </Stack.Item>
+    </>
+  );
 
   if (!selected_detail) {
     return (
       <Section>
-        <Box color="label">Nothing selected.</Box>
+        <Stack align="center">
+          <Stack.Item grow color="label">
+            Nothing selected.
+          </Stack.Item>
+          {questControls}
+        </Stack>
       </Section>
     );
   }
@@ -24,8 +65,13 @@ export function DetailStrip() {
   return (
     <Section>
       <Stack vertical>
-        <Stack.Item bold style={ELLIPSIS}>
-          {name}
+        <Stack.Item>
+          <Stack align="center">
+            <Stack.Item grow bold style={ELLIPSIS}>
+              {name}
+            </Stack.Item>
+            {questControls}
+          </Stack>
         </Stack.Item>
         <Stack.Item>
           <Stack>

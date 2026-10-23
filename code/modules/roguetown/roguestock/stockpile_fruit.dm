@@ -10,7 +10,7 @@
 
 /datum/roguestock/stockpile/pear
 	name = "Pear"
-	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
+	desc = "Too sweet for many. Little ones favor them. Dwarves do love them."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/pear
 	trade_good_id = TRADE_GOOD_PEAR
 	importexport_amt = 5
@@ -20,7 +20,7 @@
 
 /datum/roguestock/stockpile/jacksberry
 	name = "Jacksberries"
-	desc = "Sweet berries, prime for winemaking."
+	desc = "Sweet berries prime for winemaking."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/berries/rogue
 	trade_good_id = TRADE_GOOD_JACKSBERRY
 	importexport_amt = 10
@@ -80,7 +80,7 @@
 
 /datum/roguestock/stockpile/tangerine
 	name = "Tangerine"
-	desc = "Too sweet for many, a favored treat for little ones. Dwarves do love them."
+	desc = "A small, sweet orange fruit that peels easily."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/fruit/tangerine
 	trade_good_id = TRADE_GOOD_TANGERINE
 	importexport_amt = 5

@@ -1,5 +1,6 @@
 // -------------- FAT -----------------
 /obj/item/reagent_containers/food/snacks/fat
+	dish_type = DISH_MEAT
 	icon = 'modular/Neu_Food/icons/others/fat.dmi'
 	name = "fat"
 	desc = "A lump of animal fat, fit for oiling and sausage-stuffing."
@@ -44,6 +45,7 @@
 
 // TALLOW is used as an intermediate crafting ingredient for other recipes.
 /obj/item/reagent_containers/food/snacks/tallow
+	dish_type = DISH_MEAT
 	name = "tallow"
 	desc = "Fatty tissue is harvested from slain creachurs and rendered of its membraneous sinew to produce a hard shelf-stable \
 	grease."

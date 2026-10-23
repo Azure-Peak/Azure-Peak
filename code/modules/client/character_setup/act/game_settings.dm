@@ -150,3 +150,7 @@
 		if("toggle_deadmin_head")
 			toggles ^= DEADMIN_POSITION_HEAD
 			return TRUE
+
+		if("vv_dark_mode")
+			vv_dark_mode = !vv_dark_mode
+			return TRUE

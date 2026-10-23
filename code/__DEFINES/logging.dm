@@ -43,6 +43,7 @@
 #define SEEN_LOG_SAY 1
 #define SEEN_LOG_EMOTE 2
 #define SEEN_LOG_ATTACK 3
+#define SEEN_LOG_OFFSCREEN_DIST 7
 
 //Individual logging panel pages
 #define INDIVIDUAL_ATTACK_LOG		(LOG_ATTACK)
@@ -58,12 +59,6 @@
 
 #define LOGSRC_CLIENT "Client"
 #define LOGSRC_MOB "Mob"
-/// The number of entries to store per category, don't make this too large or you'll start to see performance issues
-#define CONFIG_MAX_CACHED_LOG_ENTRIES 1000
-
-/// The number of *minimum* ticks between each log re-render, making this small will cause performance issues
-/// Admins can still manually request a re-render
-#define LOG_UPDATE_TIMEOUT 5 SECONDS
 
 // Log entry keys
 #define LOG_ENTRY_KEY_TIMESTAMP "ts"

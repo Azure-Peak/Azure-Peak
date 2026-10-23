@@ -21,6 +21,7 @@
 	layer = TABLE_LAYER
 	climbable = TRUE
 	pass_flags = LETPASSTHROW //You can throw objects over this, despite it's density.")
+	drag_slowdown = 5 //can move it up to 10 if this is too low
 	var/frame
 	var/framestack
 	var/buildstack
@@ -38,6 +39,7 @@
 	debris = list(/obj/item/grown/log/tree/small = 1)
 	hidingspot = TRUE
 	var/mob/living/hiddenguy = null // So we can find them with fixed eye search
+	var/stakeable = TRUE
 
 /proc/has_table_surface(location)
 	return !!get_table_surface(location)
@@ -50,7 +52,8 @@
 /obj/structure/table/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Some structures can be used as hiding places. Toggle the 'SNEAK' button on your HUD, then click the structure to hide in it. You can stop hiding by clicking the structure again, or by moving out of it.")
-
+	if(stakeable)
+		. += span_info("This table can be unanchored to be dragged around. Left click it with a stake on combat mode to toggle anchoring.")
 /obj/structure/table/examine(mob/user)
 	. = ..()
 //	. += deconstruction_hints(user)
@@ -121,7 +124,7 @@
 	if(occupied)
 		to_chat(user, span_warning("Someone is already hiding under [src]!"))
 		return
-	if(!do_after(user, sneaktime, src))
+	if(!do_after(user, sneaktime, target = src))
 		return
 	if(!QDELETED(src) && !isturf(loc))//prevents folding tables from nullspacing people
 		return
@@ -241,41 +244,27 @@
 				I.pixel_y = initial(I.pixel_y) += CLAMP(text2num(click_params["icon-y"]) - 16, -(world.icon_size/2), world.icon_size/2)
 				return 1
 
+	if(stakeable)
+		if(istype(I, /obj/item/grown/log/tree/stake))
+			if(hiddenguy)
+				to_chat(user, span_warning("Someone is hiding under there!"))
+				return
+			if(anchored)
+				anchored = FALSE
+				to_chat(user, span_warning("[src] can now be moved."))
+			else
+				anchored = TRUE
+				to_chat(user, span_warning("You anchor [src]."))
+			playsound(src,pick('sound/foley/woodclimb.ogg'), 100, TRUE)
+			return
+	..()
+
 	return ..()
 
 /obj/structure/table/ongive(mob/user, params)
 	var/obj/item/I = user.get_active_held_item()
 	if(I)
 		if(!(I.item_flags & ABSTRACT))
-			if(istype(I, /obj/item/toy/cards/singlecard))
-				var/obj/item/toy/cards/singlecard/C = I
-				if(!C.flipped)
-					C.Flip()
-			else if(istype(I, /obj/item/toy/cards/cardhand))
-				var/obj/item/toy/cards/cardhand/H = I
-				user.visible_message("<span class='notice'>[user] lays [user.p_their()] hand of cards face-up on the table.</span>",
-					"<span class='notice'>I lay my cards face-up on the table.</span>")
-
-				var/turf/T = get_turf(src)
-				if(!T)
-					return
-
-				// Fan them out slightly so they don’t stack perfectly
-				var/offset = -((H.currenthand.len - 1) * 4) / 2
-
-				for(var/cardname in H.currenthand)
-					var/obj/item/toy/cards/singlecard/C = new(T)
-					C.parentdeck = H.parentdeck
-					C.cardname = cardname
-					C.apply_card_vars(C, H)
-					C.forceMove(T)
-					C.Flip()
-					C.pixel_x = offset
-					offset += 8
-
-				// delete the hand after laying them down
-				qdel(H)
-				return 1
 			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 				var/list/click_params = params2list(params)
 				//Center the icon where the user clicked.
@@ -331,6 +320,7 @@
 
 /obj/structure/table/wood/large_table
 	icon_state = "largetable"
+	stakeable = FALSE
 
 /obj/structure/table/wood/large_table/south_west
 	dir = 10
@@ -358,6 +348,7 @@
 
 /obj/structure/table/wood/long_table
 	icon_state = "longtable"
+	stakeable = FALSE
 
 /obj/structure/table/wood/long_table/right
 	dir = 1
@@ -377,6 +368,7 @@
 
 /obj/structure/table/wood/map
 	icon_state = "map1"
+	stakeable = FALSE
 
 /obj/structure/table/wood/map/two
 	icon_state = "map2"
@@ -402,6 +394,7 @@
 	smooth = 0
 	climb_offset = 10
 	debris = list(/obj/item/natural/stone = 1)
+	stakeable = FALSE
 
 /obj/structure/table/church/OnCrafted(dirin, user)
 	if(dirin == NORTH || dirin == SOUTH)
@@ -444,6 +437,7 @@
 	climb_offset = 10
 	debris = list(/obj/item/natural/stoneblock = 1)
 	var/smooth_icon = 'icons/obj/smooth_structures/stone_table.dmi'
+	stakeable = FALSE
 
 /obj/structure/table/finestone/Initialize(mapload)
 	. = ..()
@@ -458,6 +452,7 @@
 	smooth = 0
 	climb_offset = 10
 	debris = list(/obj/item/grown/log/tree/small = 1)
+	stakeable = FALSE
 
 /obj/structure/table/vtable/v2
 	icon = 'icons/roguetown/misc/tables.dmi'
@@ -491,6 +486,7 @@
 	smooth = 0
 	debris = list(/obj/item/grown/log/tree/small, /obj/item/roguegear)
 	climb_offset = 10
+	stakeable = FALSE
 
 
 
@@ -583,6 +579,7 @@
 	debris = list(/obj/item/grown/log/tree/small = 1)
 	climbable = TRUE
 	climb_offset = 10
+	stakeable = FALSE
 
 /obj/structure/table/wood/folding/examine()
 	. = ..()
@@ -659,16 +656,21 @@
 				W.pixel_y = initial(W.pixel_y) + CLAMP(pixel_y + text2num(click_params["icon-y"]) - 16, pixel_y + -(world.icon_size/2), pixel_y + world.icon_size/2)
 				return 1
 
-
-
 /obj/structure/rack/rogue
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "rack"
 	climbable = TRUE
 	climb_offset = 10
+	drag_slowdown = 5
+	var/stakeable = TRUE
 
 /obj/structure/rack/rogue/deconstruct(disassembled = TRUE)
 	qdel(src)
+
+/obj/structure/rack/rogue/get_mechanics_examine(mob/user)
+	. = ..()
+	if(stakeable)
+		. += span_info("Left click the rack with a stake on combat mode to toggle anchoring.")
 
 /obj/structure/rack/rogue/shelf
 	icon = 'icons/roguetown/misc/structure.dmi'
@@ -696,6 +698,7 @@
 /obj/structure/rack/rogue/shelf/notdense // makes the wall mounted one less weird in a way, got downside of offset when loaded again tho
 	density = FALSE
 	pixel_y = 24
+	stakeable = FALSE
 
 // Necessary to avoid a critical bug with disappearing weapons.
 /obj/structure/rack/rogue/attackby(obj/item/W, mob/user, params)
@@ -710,6 +713,18 @@
 				return 1
 	else
 		. = ..()
+
+	if(stakeable)
+		if(istype(W, /obj/item/grown/log/tree/stake))
+			if(anchored)
+				anchored = FALSE
+				to_chat(user, span_warning("[src] can now be moved."))
+			else
+				anchored = TRUE
+				to_chat(user, span_warning("You anchor [src]."))
+			playsound(src,pick('sound/foley/woodclimb.ogg'), 100, TRUE)
+			return
+		..()
 
 
 /obj/structure/table/optable

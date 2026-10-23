@@ -64,7 +64,7 @@
 	icon_state = "bs_lance"
 	force = 20
 	force_wielded = 25
-	wdefense_wbonus = 2 //+1 over the traditional spear, once wielded.
+	wdefense_wbonus = 4 //8 defense wielded
 	max_integrity = 300
 	max_blade_int = 300
 	resistance_flags = FIRE_PROOF

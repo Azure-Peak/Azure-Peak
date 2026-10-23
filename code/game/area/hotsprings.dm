@@ -2,7 +2,6 @@
 	name = "Eoran Shrine"
 	icon_state = "eora"
 	soundenv = 19
-	ambush_times = list("night")
 	first_time_text = "EORAN SHRINE"
 	droning_sound = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_dusk = 'sound/newmusic/lovecraft2.ogg'
@@ -17,7 +16,6 @@
 	name = "Abandoned Hot Springs"
 	icon_state = "eora"
 	soundenv = 19
-	ambush_times = list("night")
 	first_time_text = "ABANDONED HOT SPRINGS"
 	droning_sound = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_dusk = 'sound/newmusic/lovecraft2.ogg'
@@ -32,7 +30,6 @@
 	icon_state = "eora"
 	loot_budget = LOOT_BUDGET_HOT_SPRINGS
 	soundenv = 19
-	ambush_times = list("night")
 	droning_sound = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_dusk = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_night = 'sound/newmusic/lovecraft2.ogg'
@@ -43,7 +40,6 @@
 	name = "Infested Hot Springs"
 	icon_state = "eora"
 	soundenv = 19
-	ambush_times = list("night")
 	first_time_text = "INFESTED HOT SPRINGS"
 	droning_sound = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
@@ -57,7 +53,6 @@
 	icon_state = "eora"
 	loot_budget = LOOT_BUDGET_HOT_SPRINGS
 	soundenv = 19
-	ambush_times = list("night")
 	droning_sound = 'sound/newmusic/lovecraft2.ogg'
 	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'
 	droning_sound_night = 'sound/music/area/grimsprings.ogg'
@@ -67,7 +62,6 @@
 	name = "Eoran Shrine"
 	icon_state = "eora"
 	soundenv = 19
-	ambush_times = list("night")
 	first_time_text = "EORAN SHRINE"
 	droning_sound = list('sound/music/area/grimfountain.ogg', 'sound/music/area/grimpeace.ogg', 'sound/music/area/grimtwilight.ogg')
 	droning_sound_dusk = 'sound/music/area/grimdusk.ogg'

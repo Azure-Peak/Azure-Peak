@@ -16,6 +16,11 @@
 
 	addtimer(CALLBACK(src, PROC_REF(timed_out)), duration)
 
+/obj/effect/temp_visual/Destroy()
+	for(var/atom/movable/holder in vis_locs)
+		holder.vis_contents -= src
+	return ..()
+
 /obj/effect/temp_visual/proc/timed_out()
 	if(fade_time)
 		animate(src, time = fade_time, alpha = 0)
@@ -68,6 +73,11 @@
 /obj/effect/temp_visual/special_intent
 	layer = HUD_LAYER
 	plane = ABOVE_LIGHTING_PLANE
+
+/obj/effect/temp_visual/special_intent/telegraph
+	icon = 'icons/effects/telegraph.dmi'
+	icon_state = "warning"
+	randomdir = FALSE
 
 /obj/effect/temp_visual/armor_chunk
 	randomdir = FALSE

@@ -31,9 +31,9 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/pierce_length = 3
-	var/pierce_damage = 35
+	var/pierce_damage = SPELL_DMG(35)
 	var/empowered_pierce_length = 4
-	var/empowered_pierce_damage = 50
+	var/empowered_pierce_damage = SPELL_DMG(50)
 	var/momentum_cost = 3
 
 /datum/action/cooldown/spell/azurean_phalanx/cast(atom/cast_on)
@@ -121,7 +121,7 @@
 		if(spell_guard_check(struck, FALSE, user))
 			deflected = TRUE
 		else
-			arcyne_strike(user, struck, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_animation = TRUE)
+			arcyne_strike(user, struck, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_animation = TRUE, SPELL_STRIKE_SCALING)
 			hit_count++
 			already_hit += struck
 
@@ -132,7 +132,7 @@
 			if(spell_guard_check(victim, FALSE, user, punish_caster = deflected ? FALSE : null))
 				deflected = TRUE
 				continue
-			arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_animation = TRUE)
+			arcyne_strike(user, victim, weapon, damage, def_zone, BCLASS_STAB, spell_name = "Azurean Phalanx", skip_animation = TRUE, SPELL_STRIKE_SCALING)
 			hit_count++
 			already_hit += victim
 

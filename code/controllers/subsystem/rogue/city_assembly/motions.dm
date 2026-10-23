@@ -204,37 +204,6 @@
 		return
 	current_warrant.set_defense_cap(result["winning_bracket"])
 
-// Assembly poll tax is disabled from the resolution slate pending anti-dodge design - the
-// assess-against-bank-only check invited a trivial exploit (pull cash to on-person before
-// the vote resolves, appear broke, skip the levy, redeposit after). levy_poll_tax remains
-// callable from the admin verb for direct testing. See design doc for the replacement proposal.
-//
-// /datum/controller/subsystem/city_assembly/proc/apply_poll_tax(list/result)
-//		... (formerly wired into resolve_session)
-
-/datum/controller/subsystem/city_assembly/proc/levy_poll_tax(amount)
-	var/total_collected = 0
-	var/payers = 0
-	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.stat == DEAD)
-			continue
-		if(HAS_TRAIT(H, TRAIT_OUTLAW))
-			continue
-		var/datum/fund/account = SStreasury.get_account(H)
-		if(!account)
-			continue
-		if(account.balance < amount)
-			continue
-		if(SStreasury.burn(account, amount, "City Assembly poll levy for common defense"))
-			total_collected += amount
-			payers++
-	if(total_collected <= 0)
-		return
-	var/pledge_gain = total_collected * ASSEMBLY_POLL_PLEDGE_MULTIPLIER
-	if(SStreasury.burgher_pledge_fund)
-		SStreasury.mint(SStreasury.burgher_pledge_fund, pledge_gain, "City Assembly poll-levy bonus (2x magic multiplier)")
-	log_game("CITY ASSEMBLY: poll tax levied - [amount]m from [payers] payer(s); [total_collected]m collected, [pledge_gain]p minted into Pledge.")
-
 /datum/controller/subsystem/city_assembly/proc/build_summary_text(list/summary)
 	var/list/lines = list()
 	if(summary["flavor_prefix"])
@@ -326,7 +295,6 @@
 	var/list/brackets_by_motion = list(
 		ASSEMBLY_MOTION_TRADE_AUTH = ASSEMBLY_TRADE_BRACKETS,
 		ASSEMBLY_MOTION_DEFENSE_AUTH = ASSEMBLY_DEFENSE_BRACKETS,
-		// ASSEMBLY_MOTION_POLL_TAX disabled pending anti-dodge design.
 	)
 	for(var/motion_id in brackets_by_motion)
 		var/list/result = resolve_bracket_motion(S, motion_id, brackets_by_motion[motion_id])

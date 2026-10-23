@@ -124,6 +124,34 @@
 			if(!.)
 				return
 
+	if(istype(attacking_item, /obj/item/storage/roguebag) && length(attacking_item.held_contents()))
+		if(actively_smelting)
+			to_chat(user, span_warning("\The [src] is currently smelting. Wait for it to finish."))
+			return TRUE
+		if(length(contained_items) >= max_contained_items)
+			to_chat(user, span_warning("\The [src] is already full!"))
+			return TRUE
+		var/added_any = FALSE
+		var/list/bag_items = list()
+		bag_items += attacking_item.held_contents()
+		for(var/obj/item/bagged_item in bag_items)
+			if(!bagged_item.smeltresult)
+				continue
+			if(length(contained_items) >= max_contained_items)
+				break
+			if(!attacking_item.release_held(bagged_item, get_turf(src)))
+				continue
+			var/count_before = length(contained_items)
+			add_item(bagged_item, user)
+			if(length(contained_items) > count_before)
+				added_any = TRUE
+		if(added_any)
+			to_chat(user, span_info("I dump all the smeltables inside [attacking_item] into [src]."))
+		else
+			to_chat(user, span_warning("There's nothing in [attacking_item] that can be smelted."))
+		attacking_item.update_icon()
+		return TRUE
+
 	if(attacking_item.firefuel)
 		. = ..()
 		if(!attacking_item || QDELING(attacking_item) || attacking_item.loc != user) //Tries to use the item as fuel. ..() returns true even if it does get consumed so we have to loc check.

@@ -28,7 +28,15 @@
 		"Ladylike Cloak" = /obj/item/clothing/cloak/lordcloak/ladycloak,							//Ladylike Cloak
 		"Golden Scabbard" = /obj/item/rogueweapon/scabbard/sword/royal,							//Decorated Scabbard, Golden
 		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,								//Decorated Sheath, Golden
-		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph								//Golden Dorpel Ring, Ornate
+		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph,								//Golden Dorpel Ring, Ornate
+		"Jade Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/jade,					//Gem Circlets, same as noble adventurer
+		"Amber Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/amber,
+		"Shell Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/shell,
+		"Rosestone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/rose,
+		"Cerulite Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/turq,
+		"Onyxa Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/onyxa,
+		"Heartstone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/coral,
+		"Opal Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/opal
 	)
 
 
@@ -78,11 +86,16 @@
 						record_round_statistic(STATS_MAMMONS_DEPOSITED, rand(80, 120))
 			if(NOTABLE_RESIDENCY)
 				ADD_TRAIT(recipient, TRAIT_RESIDENT, TRAIT_VIRTUE)
+				ADD_TRAIT(recipient, TRAIT_WELLKNOWN, TRAIT_VIRTUE)
 				if(recipient.mind)
 					for(var/X in (GLOB.peasant_positions + GLOB.burgher_positions + GLOB.retinue_positions + GLOB.garrison_positions + GLOB.noble_positions + GLOB.inquisition_positions))
 						for(var/datum/mind/MF in get_minds(X))
 							recipient.mind.person_knows_me(MF)
 							recipient.mind.i_know_person(MF)
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(HAS_TRAIT(H, TRAIT_WELLKNOWN)) // if we're joining late, we need to make sure we check for virtue and quirk havers
+							recipient.mind.person_knows_me(H)
+							recipient.mind.i_know_person(H)
 
 				if (!recipient.islatejoin)
 					var/target_z = 0
@@ -287,7 +300,7 @@
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
 		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
-		"Second Voice" = "I am able to change my voice at will (Grants a button in 'Virtue' tab to change voice color)."
+		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab)."
 	)
 	extra_choices = list(
 		"Darksight" = TRAIT_DARKVISION,
@@ -295,7 +308,7 @@
 		"Stashed Lockpick Ring" = /obj/item/lockpickring/mundane,
 		"Sneak Skill (+2, Up to Legendary)" = /datum/skill/misc/sneaking,
 		"Lockpick Skill (+3, Up to Legendary)" = /datum/skill/misc/lockpicking,
-		"Second Voice"
+		"Alter Ego"
 		)
 
 /datum/virtue/utility/prowler/apply_to_human(mob/living/carbon/human/recipient)
@@ -317,17 +330,14 @@
 			else if(ispath(extra_choices[choice], /obj/item))
 				var/obj/item/I = extra_choices[choice]
 				recipient.mind?.special_items[capitalize(I::name)] = extra_choices[choice]
-			else if(choice == "Second Voice")
-				add_verb(recipient, /mob/living/carbon/human/proc/changevoice)
-				add_verb(recipient, /mob/living/carbon/human/proc/swapvoice)
-				recipient.AddComponent(/datum/component/voice_handler)
+			else if(choice == "Alter Ego")
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_color)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_voice)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_looks)
+				add_verb(recipient, /mob/living/carbon/human/proc/alterego_swap)
+				recipient.AddComponent(/datum/component/alter_ego)
 
-/datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
-	if(triumph_check(recipient))
-		for(var/choice in picked_choices)
-			if(ispath(extra_choices[choice], /obj/item))
-				recipient.mind?.special_items[choice] = extra_choices[choice]
-
+// Grim fandango
 /datum/virtue/utility/granary
 	name = "Cunning Provisioner"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
@@ -337,9 +347,17 @@
 	added_skills = list(list(/datum/skill/craft/cooking, 3, 6),
 						list(/datum/skill/labor/fishing, 2, 6))
 
+/datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
+	if(triumph_check(recipient))
+		for(var/choice in picked_choices)
+			if(ispath(extra_choices[choice], /obj/item))
+				recipient.mind?.special_items[choice] = extra_choices[choice]
+
+
 /datum/virtue/utility/homesteader
 	name = "Pilgrim (-3 TRI)"
 	added_traits = list(TRAIT_HOMESTEAD_EXPERT)
+	softcap = TRUE
 	desc= "As they say, 'hearth is where the heart is'. You are intimately familiar with the labors of lyfe, and have stowed away everything necessary to start anew: a hunting dagger, your trusty hoe, and a sack of assorted supplies."
 	ui_fa_icon = "house-fire"
 	triumph_cost = 3
@@ -348,27 +366,13 @@
 		"Bag of Food" = /obj/item/storage/roguebag/food,
 		"Hunting Knife" = /obj/item/rogueweapon/huntingknife
 	)
-	added_skills = list(list(/datum/skill/craft/cooking, 3, 3),
+	added_skills = list(list(/datum/skill/craft/cooking, 2, 2),
 						list(/datum/skill/misc/athletics, 2, 2),
-						list(/datum/skill/labor/farming, 3, 3),
-						list(/datum/skill/labor/fishing, 3, 3),
+						list(/datum/skill/labor/farming, 2, 2),
+						list(/datum/skill/labor/fishing, 2, 2),
 						list(/datum/skill/labor/lumberjacking, 2, 2),
 						list(/datum/skill/combat/knives, 2, 2)
 	)
-
-/datum/virtue/utility/ugly
-	name = "Ugly"
-	desc = "Be it your family's habits in and out of womb, your own choices or Xylix's cruel roll of fate, you have been left unbearable to look at. Stuck to the unseen pits and crevices of the town, you've grown used to the foul odours of lyfe that often follow you. Corpses do not stink for you, and that is all the company you might find."
-	ui_fa_icon = "eye-slash"
-	custom_text = "Incompatible with Beautiful virtue."
-	added_traits = list(TRAIT_UNSEEMLY, TRAIT_NOSTINK)
-
-/datum/virtue/utility/ugly/handle_traits(mob/living/carbon/human/recipient)
-	..()
-	if(HAS_TRAIT(recipient, TRAIT_BEAUTIFUL))
-		to_chat(recipient, "Your repulsiveness is cancelled out! You become normal.")
-		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
 
 /datum/virtue/utility/keenears
 	name = "Keen Ears"
@@ -446,12 +450,13 @@
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.
 // Hags don't get a boon on this person, that's perhaps a choice to add later.
+// DEVOTION NOTE - it'll be touching this later to add a bit more to it to justify the statnuke n its presence as a virtue over the quirk form. do not remove
 /datum/virtue/utility/feytouched
-	name = "Feytouched"
-	desc = "A vessel or creation of the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
+	name = "Feybound"
+	desc = "A vessel for the Mossmother, or perhaps a puppet of the past. You are sympathetic to the hag's cause. Your connection to the fey allows you to offer lux or bloated leechticks and traverse the roots, or pure lux to gain the bog's blessing, though your mortal form is frail (-1 INT, -2 STR). The hag is aware of you; your lux is corrupted. You may know of old events, but as the decades lengthen, so does your recollection of them fade. Hag-boons cannot take hold."
 	ui_fa_icon = "ghost"
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
-	added_traits = list(TRAIT_FEYTOUCHED)
+	added_traits = list(TRAIT_FEYBOUND)
 	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),
 						list(/datum/skill/craft/alchemy, 1, 4)
 	)
@@ -468,5 +473,38 @@
 		hag_mind.i_know_person(recipient)
 		recipient.mind.i_know_person(hag_mind)
 		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name] is walking the lands this week."))
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a feybound, is walking the lands this week."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
+
+//Virtue to skip roundstart grind, but gives nothing unique on its own. Should never raise any skill caps, and should always have minimal monetary value.
+//Could add lumberjacking, fishing, engineering, ceramics down the line if a boost is desired.
+//Should never have combat skills or 'niche protected' skills like hunting, arcyne, miracles.
+/datum/virtue/utility/preperation
+	name = "Handily Prepared"
+	desc = "I've dabbled in the basics of many skills and trades, and make sure to always keep some improvised tools at hand."
+	ui_fa_icon = "hammer"
+	added_stashed_items = list(
+		"Whetstone" = /obj/item/natural/whetstone,
+		"Thorn Needle" = /obj/item/needle/thorn,
+		"Sack" = /obj/item/storage/roguebag,
+		"Stone Hammer" = /obj/item/rogueweapon/hammer/stone,
+		"Stone Knife" = /obj/item/rogueweapon/huntingknife/stoneknife,
+		"Stone Axe" = /obj/item/rogueweapon/stoneaxe,
+		"Stone Hoe" = /obj/item/rogueweapon/hoe/stone,
+		"Wood Spade" = /obj/item/rogueweapon/shovel/small
+		)
+	added_skills = list(list(/datum/skill/craft/crafting, 1, 1),
+						list(/datum/skill/craft/carpentry, 1, 1),
+						list(/datum/skill/craft/masonry, 1, 1),
+						list(/datum/skill/craft/sewing, 1, 1),
+						list(/datum/skill/craft/tanning, 1, 1),
+						list(/datum/skill/craft/blacksmithing, 1, 1),
+						list(/datum/skill/craft/weaponsmithing, 1, 1),
+						list(/datum/skill/craft/armorsmithing, 1, 1),
+						list(/datum/skill/craft/cooking, 1, 1),
+						list(/datum/skill/labor/butchering, 1, 1),
+						list(/datum/skill/misc/medicine, 1, 1),
+						list(/datum/skill/misc/athletics, 1, 1),
+						list(/datum/skill/misc/climbing, 1, 1),
+						list(/datum/skill/misc/swimming, 1, 1)
+	)

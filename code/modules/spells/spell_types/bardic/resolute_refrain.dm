@@ -16,7 +16,7 @@
 	icon_state = "buff"
 
 /datum/status_effect/buff/song/resolute_refrain
-	id = "resoluterefrain"
+	id = "resolute_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/resolute_refrain
 	duration = 15 SECONDS
 	effectedstats = list(STATKEY_CON = BARD_STAT_LESSER)

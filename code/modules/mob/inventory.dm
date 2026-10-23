@@ -200,6 +200,17 @@
 /mob/living/put_in_hand_check(obj/item/I)
 	if(I.twohands_required && get_inactive_held_item())
 		return FALSE
+	var/static/list/fistweapons = typecacheof(list(/obj/item/rogueweapon/handclaw, /obj/item/rogueweapon/katar))
+	var/fists = is_type_in_typecache(I, fistweapons)
+	if(fists || istype(I, /obj/item/rogueweapon/shield))
+		var/obj/item/gloves = get_item_by_slot(SLOT_GLOVES)
+		if(!fists && istype(gloves, /obj/item/clothing/gloves/roguetown/knuckles))
+			to_chat(src, span_warning("I can't use a shield alongside [gloves]."))
+			return FALSE
+		for(var/obj/item/held in held_items)
+			if(fists ? istype(held, /obj/item/rogueweapon/shield) : is_type_in_typecache(held, fistweapons))
+				to_chat(src, span_warning("I can't use a shield alongside [fists ? I : held]."))
+				return FALSE
 	if((I.is_silver || (I.is_even_lesser_silver && is_npc(src)) || I.smeltresult == /obj/item/ingot/silver) && !I.is_lesser_silver && (HAS_TRAIT(src, TRAIT_SILVER_WEAK) &&	!has_status_effect(STATUS_EFFECT_ANTIMAGIC)))
 		var/datum/antagonist/vampire/V_lord = mind?.has_antag_datum(/datum/antagonist/vampire)
 		if(!istype(V_lord) || V_lord?.generation < GENERATION_METHUSELAH)
@@ -340,6 +351,7 @@
 	update_a_intents()
 	SEND_SIGNAL(I, COMSIG_ITEM_POST_UNEQUIP, force, newloc, no_move, invdrop, silent)
 	SEND_SIGNAL(src, COMSIG_MOB_UNEQUIPPED_ITEM, I, force, newloc, no_move, invdrop, silent)
+	check_equipment_mood_penalty()
 	return TRUE
 
 //Outdated but still in use apparently. This should at least be a human proc.
@@ -408,6 +420,13 @@
 	items |= get_equipped_items(TRUE)
 	for(var/I in items)
 		dropItemToGround(I)
+	drop_all_held_items()
+
+/mob/living/proc/unequip_everything_delete()
+	var/list/items = list()
+	items |= get_equipped_items(TRUE)
+	for(var/I in items) //we delete it
+		qdel(I)
 	drop_all_held_items()
 
 

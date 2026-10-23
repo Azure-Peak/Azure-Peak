@@ -65,6 +65,7 @@ GLOBAL_LIST_INIT(npc_parts, build_npc_parts())
 /datum/npc_loadout
 	parent_type = /datum/npc_part
 	abstract_type = /datum/npc_loadout
+	var/statpack
 	var/list/skills
 	var/list/traits
 	var/list/weapons
@@ -120,8 +121,15 @@ GLOBAL_LIST_INIT(npc_parts, build_npc_parts())
 	apply_weapons(outfit)
 	apply_backpack(outfit)
 	if(!visualsOnly)
+		apply_statpack(H)
 		apply_skills(H)
 		apply_traits(H)
+
+/datum/npc_loadout/proc/apply_statpack(mob/living/carbon/human/H)
+	if(!H || !statpack)
+		return
+	var/datum/npc_statpack/pack = get_npc_part(statpack)
+	pack?.apply(H)
 
 /datum/npc_loadout/proc/apply_weapons(datum/outfit/npc/outfit)
 	if(!length(weapons))

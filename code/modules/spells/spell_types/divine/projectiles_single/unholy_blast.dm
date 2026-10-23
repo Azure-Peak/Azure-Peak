@@ -23,7 +23,7 @@
 	charge_swingdelay_type = SWINGDELAY_PENALTY
 	charge_sound = 'sound/magic/charging.ogg'
 
-	cooldown_time = 10 SECONDS
+	cooldown_time = 15 SECONDS
 	associated_skill = /datum/skill/magic/holy
 	spell_impact_intensity = SPELL_IMPACT_LOW
 	spell_requirements = SPELL_REQUIRES_HUMAN
@@ -130,7 +130,7 @@
 		return
 	L.visible_message(span_profane("--Divine Smite!!"))
 	var/godless = !L.mind
-	var/fire_stacks = godless ? 10 : 5
+	var/fire_stacks = godless ? 4 : 2
 	if(godless)
 		if(iscarbon(L))
 			L.emote("superagony")

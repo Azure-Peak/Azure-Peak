@@ -1,6 +1,6 @@
 /obj/structure/roguemachine/noticeboard
 	name = "Notice Board"
-	desc = "A large wooden notice board, carrying postings from all across Azuria. A ZAD perch sits atop it."
+	desc = "A large wooden notice board with postings from all across Azuria. A zad perch sits atop it."
 	icon = 'icons/roguetown/structure/noticeboard64.dmi'
 	icon_state = "noticeboard0"
 	density = TRUE
@@ -33,7 +33,7 @@
 
 /obj/structure/roguemachine/noticeboard/wall/bulletinboard
 	name = "Bulletin Board"
-	desc = "A rough wooden bulletin board, various worn parchments dotting the face"
+	desc = "A rough wooden bulletin board dotted with worn parchments."
 	icon = 'icons/roguetown/structure/bulletinboard32.dmi'
 	icon_state = "bulletinboard0"
 
@@ -101,6 +101,9 @@
 	var/list/data = list()
 	data["realm_name"] = SSticker.realm_name
 	data["market_data"] = build_market_data()
+	data["market_refresh_cooldown"] = MARKET_REFRESH_COOLDOWN / (1 SECONDS)
+	data["partial_threshold_pct"] = round(STANDING_ORDER_PARTIAL_THRESHOLD * 100)
+	data["partial_payout_pct"] = round(STANDING_ORDER_PARTIAL_PAYOUT_MULT * 100)
 	return data
 
 /obj/structure/roguemachine/noticeboard/ui_data(mob/user)
@@ -184,7 +187,7 @@
 	if(!SSmerchant_trade)
 		return rows
 	for(var/datum/trade_ship/ship in SSmerchant_trade.all_ships)
-		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+		if(!ship.accepts_deliveries())
 			continue
 		var/datum/foreign_realm/realm = SSmerchant_trade.realms[ship.realm_id]
 		var/realm_name = realm ? realm.name : ship.realm_id
@@ -201,9 +204,10 @@
 				"qty_remaining" = remaining,
 				"offered_price" = line["offered_price"],
 			))
+		var/departing = ship.dock_state == TRADE_SHIP_STATE_DEPARTING
 		var/list/cultural = list()
 		for(var/list/entry in ship.cultural_stock)
-			if(entry["qty"] <= 0)
+			if(departing || entry["qty"] <= 0)
 				continue
 			var/discounted = round(entry["base_cost"] * (100 - TRADE_CULTURAL_SHIP_DISCOUNT_PERCENT) / 100)
 			cultural += list(list(
@@ -220,6 +224,7 @@
 			"realm_name" = realm_name,
 			"realm_id" = ship.realm_id,
 			"seconds_until_departure" = seconds_left,
+			"departing" = departing,
 			"lines" = lines,
 			"cultural_stock" = cultural,
 		))
@@ -295,6 +300,9 @@
 		"categories" = list(),
 		"pop_snapshot" = 0,
 		"category_count" = 0,
+		"no_ship_pct" = round(MARKET_DEMAND_NO_SHIP_FLOOR * 100),
+		"bm_daily_clear_pct" = round(MARKET_BM_DAILY_SATURATION_REGEN * 100),
+		"bm_pool_pct" = round(MARKET_BM_POOL_FRACTION * 100),
 	)
 	if(!SSmerchant_trade)
 		return data
@@ -368,8 +376,8 @@
 		return TRUE
 	switch(action)
 		if("refresh_market")
-			if(world.time < last_market_refresh + 5 SECONDS)
-				to_chat(H, span_warning("The factors haven't tallied fresh numbers yet. Wait a moment."))
+			if(world.time < last_market_refresh + MARKET_REFRESH_COOLDOWN)
+				to_chat(H, span_warning("You just refreshed the market. Wait a moment."))
 				return TRUE
 			last_market_refresh = world.time
 			update_static_data(H)
@@ -400,14 +408,14 @@
 		to_chat(H, span_warning("Unknown posting kind."))
 		return
 	if(tier == POSTING_TIER_LISTING && !(H.job in NOTICEBOARD_LISTING_ROLES))
-		to_chat(H, span_warning("Only certain offices may pin a Standing Listing."))
+		to_chat(H, span_warning("Your role can't pin a Standing Listing."))
 		return
 	var/title = sanitize_input("[params["title"]]", NOTICEBOARD_TITLE_MAX_LENGTH)
 	var/body = sanitize_input("[params["body"]]", NOTICEBOARD_BODY_MAX_LENGTH, multiline = TRUE)
 	var/poster_name = sanitize_input("[params["poster_name"]]", NOTICEBOARD_NAME_MAX_LENGTH)
 	var/poster_title = sanitize_input("[params["poster_title"]]", NOTICEBOARD_ROLE_MAX_LENGTH)
 	if(!title || !body || !poster_name)
-		to_chat(H, span_warning("The posting must bear a title, a body, and a name."))
+		to_chat(H, span_warning("Add a title, a message, and your name."))
 		return
 	noticeboard_add_posting(tier, title, body, poster_name, poster_title, H)
 	message_admins("[ADMIN_LOOKUPFLW(H)] has made a [tier] noticeboard post. The message was: [body]")
@@ -427,14 +435,14 @@
 
 /obj/structure/roguemachine/noticeboard/proc/handle_authority_remove_post(mob/living/carbon/human/H, list/params)
 	if(!(H.job in NOTICEBOARD_AUTHORITY_ROLES))
-		to_chat(H, span_warning("You hold no authority to take down another's posting."))
+		to_chat(H, span_warning("You can't take down other people's postings."))
 		return
 	var/posting_id = "[params["posting_id"]]"
 	var/datum/noticeboard_posting/P = noticeboard_find_post_by_id(posting_id)
 	if(!P)
 		return
 	if(P.tier == POSTING_TIER_LISTING)
-		to_chat(H, span_warning("A Standing Listing may not be taken down by authority while its issuer lives."))
+		to_chat(H, span_warning("You can't take down a Standing Listing. Only the person who pinned it can."))
 		return
 	playsound(loc, 'sound/foley/dropsound/paper_drop.ogg', 50, FALSE, -1)
 	loc.visible_message(span_smallred("[H] tears down a posting!"))

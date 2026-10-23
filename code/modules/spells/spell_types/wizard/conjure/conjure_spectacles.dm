@@ -55,6 +55,7 @@
 	spectacles_choice = spectacles[spectacles_choice]
 
 	var/obj/item/clothing/mask/rogue/spectacles/R = new spectacles_choice(user.drop_location())
+	R.attachable = FALSE // Summoned spectacles don't work for attachment purposes!
 	if(!QDELETED(R))
 		R.AddComponent(/datum/component/conjured_item, GLOW_COLOR_ARCANE, FALSE, user, src)
 	user.put_in_hands(R)
@@ -75,6 +76,7 @@
 	desc = "An argument between the chosen of Noc and the Otavan Orthodoxy has raged on for years.\n\
 	No-one truly knows who the original creator of these glasses was.\n\
 	But one thing, at least, is certain: they are quite fashionable."
+	attachable = FALSE
 
 // Smokey onyxa spectacles summonable lesser varient - with no mechanical effects (seperate cause my third-eye senses potental for the original varient)
 // ALso because your specs aren't the authentic real-deal, its funnier to have them visably a knockoff varient.
@@ -83,6 +85,7 @@
 	name = "summoned smokey onyxa spectacles"
 	icon_state = "sglasses"
 	desc = "Death has come to your little town, Sheriff. Now, you can either ignore it, or you can help me to stop it." //KEEPING IT, ITS PEAK SIRE
+	attachable = FALSE
 
 // Golden spectacles summonable lesser varient - with no mechanical effects
 
@@ -98,6 +101,7 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	adjustable = CAN_CADJUST
 	var/active_item = FALSE
+	attachable = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/golden_lesser_summoned/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask

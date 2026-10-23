@@ -19,6 +19,11 @@
 	path = /obj/item/clothing/mask/rogue/spectacles
 	sort_category = "Accessories"
 
+/datum/loadout_item/thinspectacles
+	name = "Thin Spectacles"
+	path = /obj/item/clothing/mask/rogue/spectacles/thin
+	sort_category = "Accessories"
+
 /datum/loadout_item/fingerless
 	name = "Fingerless Gloves"
 	path = /obj/item/clothing/gloves/roguetown/fingerless
@@ -166,6 +171,11 @@
 	path = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/blackbelt
 	sort_category = "Accessories"
 
+/datum/loadout_item/clothloincloth
+	name = "Belt with Loincloth"
+	path = /obj/item/storage/belt/rogue/leather/battleskirt/loincloth
+	sort_category = "Accessories"
+
 /datum/loadout_item/doublebelt
 	name = "Paired Slim Belts"
 	path = /obj/item/storage/belt/rogue/leather/double
@@ -229,6 +239,11 @@
 /datum/loadout_item/weatheredmask
 	name = "Weathered Xylixian Mask"
 	path = /obj/item/clothing/mask/rogue/xylixmask/weathered
+	sort_category = "Accessories"
+
+/datum/loadout_item/carapacedmask
+	name = "Ceramic Mask"
+	path = /obj/item/clothing/mask/rogue/xylixmask/ceramic
 	sort_category = "Accessories"
 
 /datum/loadout_item/belthooks

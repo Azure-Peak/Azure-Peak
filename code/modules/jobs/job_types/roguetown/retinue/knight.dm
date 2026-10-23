@@ -567,9 +567,9 @@
 
 /datum/advclass/knight/knightchampion
 	name = "Knight Banneret"
-	tutorial = "Wrought through warfare, or nepotism. The crowned apex of chivalry and ability, \
-	you are the prime bodyguard of the ducal family. \
-	You are charged with protecting both the ruler and their heirs. If battle comes to the city, your arms and armor will decide \
+	tutorial = "Wrought through warfare or nepotism, you are the apex of chivalry and ability; \
+	Chosen Champion of the Ducal Family and their closest confidant within the martial caste. \
+	You are charged with upholding the peace and stability of the realm from all manners of threats inside or out, and are steadfastly loyal <b>only</b> to the Court. If battle comes to the city, your arms and armor will decide \
 	whether Azure Peak continues a benevolent reign or falls to the dark powers beyond these comforting walls..."
 	maximum_possible_slots = 1
 
@@ -618,7 +618,6 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rogueweapon/scabbard/sheath/royal = 1,
 		/obj/item/clothing/cloak/banneret = 1,
-		/obj/item/scomstone/garrison = 1
 		)
 	cloak = /obj/item/clothing/cloak/tabard/retinue/banneret
 	neck = /obj/item/clothing/neck/roguetown/bevor

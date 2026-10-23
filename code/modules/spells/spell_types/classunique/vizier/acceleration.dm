@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/vizier/acceleration
 	name = "Acceleration"
 	desc = "Displace a target slightly ahead of local time, dramatically increasing their speed and reactions. When reality catches up, the resulting temporal strain leaves them sluggish and exhausted."
-	fluff_desc = "One of the earliest applications of Origin Magick, Acceleration was first devised to hasten crop growth and shorten agricultural cycles. The experiment revealed a fundamental limitation of the art: while a subject's personal timeline can be advanced, the debt incurred cannot be avoided. Reality inevitably reconciles the discrepancy, repaying every stolen moment in equal measure. Though unsuitable for cultivation, the technique found lasting use among Naledi Viziers as a potent, if taxing, combat tool."	
+	fluff_desc = "One of the earliest applications of Origin Magick, Acceleration was first devised to hasten crop growth and shorten agricultural cycles. The experiment revealed a fundamental limitation of the art: while a subject's personal timeline can be advanced, the debt incurred cannot be avoided. Reality inevitably reconciles the discrepancy, repaying every stolen moment in equal measure. Though unsuitable for cultivation, the technique found lasting use among Naledi Viziers as a potent, if taxing, combat tool."
 	button_icon_state = "accel"
 	sound = list('sound/magic/haste.ogg')
 	cast_range = 6
@@ -17,10 +17,13 @@
 	var/mob/living/carbon/target = cast_on
 
 	if(!istype(target))
+		to_chat(owner, span_warning("I can't use this on them!"))
 		return FALSE
 	if(target.has_status_effect(/datum/status_effect/buff/accel))
+		to_chat(owner, span_warning("They are already magically hasted, I can't pinpoint their current entropy."))
 		return FALSE
 	if(target.has_status_effect(/datum/status_effect/buff/attune_haste))
+		to_chat(owner, span_warning("They are already magically hasted, I can't pinpoint their current entropy."))
 		return FALSE
 	var/obj/effect/temp_visual/origin_restoration/V = new
 	target.vis_contents += V

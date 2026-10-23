@@ -3,7 +3,7 @@
 	domain = "God of Fire, Destruction and Rebirth"
 	desc = "Opinionless god of the crafts. He teaches that great works for killing or saving are great works, either way. The well-oiled guillotine and the well-sharpened axe are tools, and there is no good and evil to their craft."
 	worshippers = "Smiths, Miners, Engineers"
-	mob_traits = list(TRAIT_FORGEBLESSED)
+	mob_traits = list(TRAIT_FORGEBLESSED, TRAIT_MALUM_CRAFTER)
 	miracles = list(/datum/action/cooldown/spell/touch/orison				= CLERIC_ORI,
 					/datum/action/cooldown/spell/miracle/ignition/malum		= CLERIC_T0,
 					/datum/action/cooldown/spell/malum/reconstruction		= CLERIC_T0,

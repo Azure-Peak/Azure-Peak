@@ -35,7 +35,11 @@ const formatDuration = (totalSeconds: number) => {
 const HarborDemandCard = ({ demand }: { demand: HarborDemand }) => (
   <div style={{ ...cardStyle, marginBottom: 0 }}>
     <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
-      <span style={badgeStyle(SEAL_BLUE)}>SHIP IN PORT</span>
+      {demand.departing ? (
+        <span style={badgeStyle(SEAL_AMBER)}>DEPARTING</span>
+      ) : (
+        <span style={badgeStyle(SEAL_BLUE)}>SHIP IN PORT</span>
+      )}
     </div>
     <div
       style={{

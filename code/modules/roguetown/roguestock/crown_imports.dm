@@ -40,7 +40,7 @@
 
 /datum/crown_import/rotpotion
 	name = "Crate of Rot Cure Potions"
-	desc = "A sought-after crate of rare potions of rot-curing."
+	desc = "A crate of rare rot cure potions."
 	item_type = /obj/structure/closet/crate/chest/steward/rotpotion
 	base_cost = 400		//Expensive, 200 each roughly. Four uses total, as only 5u needed to reverse rot. Each bottle is 10u.
 	source_region_id = TRADE_REGION_ROCKHILL
@@ -52,7 +52,7 @@
 
 /datum/crown_import/saigabuck
 	name = "Saigabuck"
-	desc = "One Saigabuck tamed with a saddle from a far away land."
+	desc = "A tame saigabuck with a saddle, from a faraway land."
 	item_type = /obj/structure/closet/crate/chest/steward/saigabuck
 	base_cost = 100
 
@@ -63,7 +63,7 @@
 
 /datum/crown_import/cow
 	name = "Cow"
-	desc = "Farmer's best friend, reliable provider of milk and meat."
+	desc = "A farmer's best friend. A reliable source of milk and meat."
 	item_type = /obj/structure/closet/crate/chest/steward/cow
 	base_cost = 100
 	source_region_id = TRADE_REGION_KINGSFIELD
@@ -74,7 +74,7 @@
 
 /datum/crown_import/bull
 	name = "Bull"
-	desc = "Horned and aggressive, required to start a herd."
+	desc = "Horned and aggressive. You need one to start a herd."
 	item_type = /obj/structure/closet/crate/chest/steward/bull
 	base_cost = 100
 	source_region_id = TRADE_REGION_KINGSFIELD
@@ -85,7 +85,7 @@
 
 /datum/crown_import/goat
 	name = "Doe Goat"
-	desc = "An all-purpose source of milk, hide and fat."
+	desc = "A source of milk, hide and fat."
 	item_type = /obj/structure/closet/crate/chest/steward/goat
 	base_cost = 100
 	source_region_id = TRADE_REGION_KINGSFIELD
@@ -96,7 +96,7 @@
 
 /datum/crown_import/goatmale
 	name = "Billy Goat"
-	desc = "Bearded, male goat capable of saddling."
+	desc = "A bearded male goat that can be saddled."
 	item_type = /obj/structure/closet/crate/chest/steward/goatmale
 	base_cost = 100
 	source_region_id = TRADE_REGION_KINGSFIELD
@@ -107,7 +107,7 @@
 
 /datum/crown_import/chicken
 	name = "Chicken"
-	desc = "A reliable source of egg and meat."
+	desc = "A reliable source of eggs and meat."
 	item_type = /obj/structure/closet/crate/chest/steward/chicken
 	base_cost = 50
 	source_region_id = TRADE_REGION_KINGSFIELD
@@ -134,7 +134,7 @@
 
 /datum/crown_import/blacksmith
 	name = "Smith Crate"
-	desc = "Stone, coal , iron ingot, wood bin, bucket with hammer and tongs."
+	desc = "Stone, coal, an iron ingot, a bin, a bucket, a hammer and tongs."
 	item_type = /obj/structure/closet/crate/chest/steward/blacksmith
 	base_cost = 100
 	source_region_id = TRADE_REGION_DAFTSMARCH
@@ -172,7 +172,7 @@
 
 /datum/crown_import/glasscrate
 	name = "Glass Crate"
-	desc = "A crate full of glass for windows, repairs, and works of art.."
+	desc = "A crate full of glass for windows, repairs, and works of art."
 	item_type = /obj/structure/closet/crate/chest/steward/glasscrate
 	base_cost = 150
 	source_region_id = TRADE_REGION_DAFTSMARCH
@@ -204,7 +204,7 @@
 
 /datum/crown_import/alcoholset
 	name = "Alcohol Crate"
-	desc = "A crate with a selection of beers and liquors, fit for a party."
+	desc = "A crate with a selection of beers and liquors. Fit for a party."
 	item_type = /obj/structure/closet/crate/chest/steward/alcoholset
 	base_cost = 800
 
@@ -226,7 +226,7 @@
 
 /datum/crown_import/minecarttracks
 	name = "Minecart Tracks"
-	desc = "A crate with One hundred minecart tracks and four break tracks"
+	desc = "A crate with one hundred minecart tracks and four brake tracks."
 	item_type = /obj/structure/closet/crate/chest/steward/minecarttracks
 	base_cost = 310
 	source_region_id = TRADE_REGION_DAFTSMARCH
@@ -240,7 +240,7 @@
 
 /datum/crown_import/rotationalnetwork
 	name = "Rotational Network"
-	desc = "A crate of ten large gears, sixteen small gears, three gearboxes, three verticle gearboxes, and twenty shafts"
+	desc = "A crate of ten large gears, sixteen small gears, three gearboxes, three vertical gearboxes, and twenty shafts."
 	item_type = /obj/structure/closet/crate/chest/steward/rotationalnetwork
 	base_cost = 362
 	source_region_id = TRADE_REGION_DAFTSMARCH
@@ -260,7 +260,7 @@
 
 /datum/crown_import/waterwheels
 	name = "Waterwheels"
-	desc = "A crate of five waterwheels"
+	desc = "A crate of five waterwheels."
 	item_type = /obj/structure/closet/crate/chest/steward/waterwheels
 	base_cost = 75
 	source_region_id = TRADE_REGION_ROSAWOOD
@@ -272,7 +272,7 @@
 
 /datum/crown_import/stoneblocks
 	name = "Stoneblocks"
-	desc = "A crate of twenty Stoneblocks, useful in building"
+	desc = "A crate of twenty stoneblocks for building."
 	item_type = /obj/structure/closet/crate/chest/steward/stoneblocks
 	base_cost = 40
 	source_region_id = TRADE_REGION_DAFTSMARCH
@@ -284,7 +284,7 @@
 
 /datum/crown_import/planks
 	name = "Planks"
-	desc = "A crate of twenty planks, useful in building"
+	desc = "A crate of twenty planks for building."
 	item_type = /obj/structure/closet/crate/chest/steward/planks
 	base_cost = 60
 	source_region_id = TRADE_REGION_ROSAWOOD
@@ -308,8 +308,8 @@
 	new /obj/item/storage/keyring/manatarms(src)
 
 /datum/crown_import/crossbow
-	name = "Crossbows Crate"
-	desc = "A crate with 3 crossbows with 3 full quivers."
+	name = "Crossbow Crate"
+	desc = "A crate with three crossbows and three full quivers."
 	item_type = /obj/structure/closet/crate/chest/steward/crossbow
 	base_cost = 300
 

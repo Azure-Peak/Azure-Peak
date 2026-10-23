@@ -1,6 +1,4 @@
 /mob/living
-	//used by the basic ai controller /datum/ai_behavior/basic_melee_attack to determine how fast a mob can attack
-	var/melee_cooldown = CLICK_CD_MELEE
 	var/pain_threshold = 0
 	var/no_head_bounty = FALSE
 	var/contract_spawned = FALSE
@@ -24,6 +22,7 @@
 	init_faith()
 
 /mob/living/Destroy()
+	cancel_disconnected_admin_alert()
 	surgeries = null
 	if(LAZYLEN(status_effects))
 		for(var/s in status_effects)
@@ -919,8 +918,10 @@
 	if(!mind)
 		return FALSE
 	if(!mind.active)
-		to_chat(user, span_warning("They are unresponsive to my attempts. For now."))
-		return FALSE
+		var/mob/dead/observer/underworld_spirit = get_spirit()
+		if(!(underworld_spirit && underworld_spirit.client))
+			to_chat(user, span_warning("They are unresponsive to my attempts. For now."))
+			return FALSE
 	if(HAS_TRAIT(src, TRAIT_DNR))
 		to_chat(user, span_danger("None of the divine have them. Their only chance is spent. Where did they go?"))
 		return FALSE
@@ -1008,6 +1009,7 @@
 	set_disgust(0)
 	set_sunder(0)
 	set_nutrition(NUTRITION_LEVEL_FED + 50)
+	set_hydration(HYDRATION_LEVEL_FULL)
 	bodytemperature = BODYTEMP_NORMAL
 	set_blindness(0)
 	set_blurriness(0)
@@ -1019,6 +1021,7 @@
 	cure_paralysis()
 	hallucination = 0
 	heal_overall_damage(INFINITY, INFINITY, INFINITY, null, TRUE) //heal brute and burn dmg on both organic and robotic limbs, and update health right away.
+	energy_add(max_energy)
 	for(var/datum/wound/wound as anything in get_wounds())
 		if(admin_revive)
 			qdel(wound)
@@ -1122,8 +1125,12 @@
 	if(active_storage)
 		active_storage.close(src)
 
-	if(!(mobility_flags & MOBILITY_STAND) && !buckled && prob(getBruteLoss()*200/maxHealth))
+	if(!(mobility_flags & MOBILITY_STAND) && !buckled && bleed_rate)
 		makeTrail(newloc, T, old_direction)
+	if(. && bloodsteps && (mobility_flags & MOBILITY_STAND) && isturf(newloc))
+		bloodsteps--
+		var/obj/effect/decal/cleanable/blood/bigprint/print = new(newloc, stepcolour)
+		print.setDir(dir)
 	//Hearthstone port - track creation hook.
 	if(. && isturf(newloc))
 		check_track_creation(newloc)
@@ -1146,9 +1153,8 @@
 	if(isturf(start))
 		var/trail_type = getTrail()
 		if(trail_type)
-			var/brute_ratio = round(getBruteLoss() / maxHealth, 0.1)
-			if(blood_volume && blood_volume > max(BLOOD_VOLUME_NORMAL*(1 - brute_ratio * 0.25), 0))//don't leave trail if blood volume below a threshold
-				blood_volume = max(blood_volume - max(1, brute_ratio * 2), 0)					//that depends on our brute damage.
+			if(blood_volume)
+				blood_volume = max(blood_volume - max(1, round(getBruteLoss() / maxHealth, 0.1) * 2), 0)
 				var/newdir = get_dir(target_turf, start)
 				if(newdir != direction)
 					newdir = newdir | direction
@@ -1176,7 +1182,7 @@
 	..()
 
 /mob/living/proc/getTrail()
-	if(getBruteLoss() < 300)
+	if(bleed_rate < ARTERY_LIMB_BLEEDRATE / 2)
 		return pick("ltrails_1", "ltrails_2")
 	else
 		return pick("trails_1", "trails_2")
@@ -1931,6 +1937,9 @@
 	if(HAS_TRAIT(spread_to, TRAIT_NOFIRE) || HAS_TRAIT(src, TRAIT_NOFIRE))
 		return
 
+	if(HAS_TRAIT(src, TRAIT_NOFIREDECAY))
+		return
+
 	if(!prob(25))
 		return
 
@@ -2429,7 +2438,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_one)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_one, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_ONE]"
@@ -2439,7 +2448,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_two)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_two, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_TWO]"
@@ -2449,7 +2458,7 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 
 			if(turf_up_three)
 				for(var/mob/living/L in get_hearers_in_range(search_range, turf_up_three, RECURSIVE_CONTENTS_CLIENT_MOBS))
-					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(src, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
+					if((L.m_intent == MOVE_INTENT_SNEAK || HAS_TRAIT(L, TRAIT_LIGHT_STEP)) && !has_tracking_perk)
 						continue
 					var/turf/T = locate(L.x, L.y, src.z) // We'll want to highlight the turf on -our- z-level.
 					var/val = "[ZTAG_THREE]"

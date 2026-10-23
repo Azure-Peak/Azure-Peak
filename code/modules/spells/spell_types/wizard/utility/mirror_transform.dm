@@ -48,7 +48,7 @@
 	if (!H)
 		return
 	var/should_update = FALSE
-	var/list/choices = list("Accessory", "Breast Quantity", "Breast Size", "Ears", "Ear Color One", "Ear Color Two", "Eye Color", "Skin Color", "Skin Color 2", "Skin Color 3", "Facial Hairstyle", "Facial Hair Color", "Face Detail", "Hairstyle", "Hair Primary Color", "Hair Secondary Gradient", "Hair Secondary Natural Color", "Hair Third Gradient", "Hair Third Dye Color", "Horns", "Horn Color", "Penis", "Penis Size", "Tail", "Tail Color One", "Tail Color Two", "Tail Color Three", "Snout", "Snout Color One", "Snout Color Two", "Snout Color Three", "Fluff", "Fluff Color One", "Fluff Color Two", "Testicles", "Testicle Size", "Vagina", "Wings", "Wing Color")
+	var/list/choices = list("Accessory", "Breast Quantity", "Breast Size", "Ears", "Ear Color One", "Ear Color Two", "Eye Color", "Skin Color", "Skin Color 2", "Skin Color 3", "Facial Hairstyle", "Facial Hair Color", "Face Detail", "Hairstyle", "Hair Primary Color", "Hair Secondary Gradient", "Hair Secondary Natural Color", "Hair Third Gradient", "Hair Third Dye Color", "Horns", "Horn Color", "Penis", "Penis Size", "Pubes", "Pits", "Tail", "Tail Color One", "Tail Color Two", "Tail Color Three", "Snout", "Snout Color One", "Snout Color Two", "Snout Color Three", "Fluff", "Fluff Color One", "Fluff Color Two", "Testicles", "Testicle Size", "Vagina", "Wings", "Wing Color")
 	if(HAS_TRAIT(H, TRAIT_EDIT_DESCRIPTORS))
 		choices += "Descriptors"
 	var/chosen = input(H, "Change what?", "Appearance") as null|anything in choices
@@ -391,6 +391,54 @@
 						var/datum/bodypart_feature/face_detail/detail_feature = new()
 						detail_feature.set_accessory_type(valid_details[new_detail], H.hair_color, H)
 						head.add_bodypart_feature(detail_feature)
+					should_update = TRUE
+
+		if("Pubes")
+			var/datum/customizer_choice/bodypart_feature/pubes/pubes_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/pubes)
+			var/list/valid_pubes = list("none")
+			for(var/pubes_type in pubes_choice.sprite_accessories)
+				var/datum/sprite_accessory/pubes/pube_accessory = new pubes_type()
+				valid_pubes[pube_accessory.name] = pubes_type
+
+			var/new_pubes = input(H, "Style your pubic hair", "Pube Styling") as null|anything in valid_pubes
+			if(new_pubes)
+				var/obj/item/bodypart/chest = H.get_bodypart(BODY_ZONE_CHEST)
+				if(chest && chest.bodypart_features)
+					var/datum/bodypart_feature/pubes/old_pubes
+					for(var/datum/bodypart_feature/pubes/existing in chest.bodypart_features)
+						old_pubes = existing
+						break
+					if(old_pubes)
+						chest.remove_bodypart_feature(old_pubes)
+
+					if(new_pubes != "none")
+						var/datum/bodypart_feature/pubes/pubes_feature = new()
+						pubes_feature.set_accessory_type(valid_pubes[new_pubes], null, H)
+						chest.add_bodypart_feature(pubes_feature)
+					should_update = TRUE
+
+		if("Pits")
+			var/datum/customizer_choice/bodypart_feature/pits/pits_choice = CUSTOMIZER_CHOICE(/datum/customizer_choice/bodypart_feature/pits)
+			var/list/valid_pits = list("none")
+			for(var/pits_type in pits_choice.sprite_accessories)
+				var/datum/sprite_accessory/pits/pits_accessory = new pits_type()
+				valid_pits[pits_accessory.name] = pits_type
+
+			var/new_pits = input(H, "Style your armpit hair", "Armpit Hair Styling") as null|anything in valid_pits
+			if(new_pits)
+				var/obj/item/bodypart/chest = H.get_bodypart(BODY_ZONE_CHEST)
+				if(chest && chest.bodypart_features)
+					var/datum/bodypart_feature/pits/old_pits
+					for(var/datum/bodypart_feature/pits/existing in chest.bodypart_features)
+						old_pits = existing
+						break
+					if(old_pits)
+						chest.remove_bodypart_feature(old_pits)
+
+					if(new_pits != "none")
+						var/datum/bodypart_feature/pits/pits_feature = new()
+						pits_feature.set_accessory_type(valid_pits[new_pits], null, H)
+						chest.add_bodypart_feature(pits_feature)
 					should_update = TRUE
 
 		if("Penis")

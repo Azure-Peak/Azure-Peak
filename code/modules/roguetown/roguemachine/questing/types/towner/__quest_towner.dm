@@ -1,34 +1,57 @@
-GLOBAL_LIST_INIT(towner_tier_difficulties, list(
-	TOWNER_POSTING_TIER_MEDIUM = QUEST_DIFFICULTY_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = QUEST_DIFFICULTY_HARD,
+GLOBAL_LIST_INIT(towner_posting_tiers, list(
+	TOWNER_POSTING_TIER_MEDIUM = list("cost" = TOWNER_POSTING_COST_MEDIUM, "difficulty" = QUEST_DIFFICULTY_MEDIUM, "reward_cap" = TOWNER_REWARD_CAP_MEDIUM, "flat_bonus" = TOWNER_FLAT_BONUS_MEDIUM),
+	TOWNER_POSTING_TIER_HARD = list("cost" = TOWNER_POSTING_COST_HARD, "difficulty" = QUEST_DIFFICULTY_HARD, "reward_cap" = TOWNER_REWARD_CAP_HARD, "flat_bonus" = TOWNER_FLAT_BONUS_HARD),
 ))
 
-GLOBAL_LIST_INIT(towner_reward_caps, list(
-	TOWNER_POSTING_TIER_MEDIUM = TOWNER_REWARD_CAP_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = TOWNER_REWARD_CAP_HARD,
-))
+/proc/get_towner_tier_term(tier, term)
+	var/list/terms = GLOB.towner_posting_tiers[tier]
+	return terms?[term]
 
-GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
-	TOWNER_POSTING_TIER_MEDIUM = TOWNER_FLAT_BONUS_MEDIUM,
-	TOWNER_POSTING_TIER_HARD = TOWNER_FLAT_BONUS_HARD,
-))
+/proc/get_towner_prototype(quest_type)
+	var/datum/quest/kill/recovery/towner/proto = GLOB.quest_prototypes[quest_type]
+	return istype(proto) ? proto : null
+
+/proc/get_towner_prototypes()
+	. = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		if(get_towner_prototype(qtype))
+			.[qtype] = GLOB.quest_prototypes[qtype]
 
 /datum/quest/kill/recovery/towner
+	abstract_type = /datum/quest/kill/recovery/towner
+	chronicle_order = QUEST_CHRONICLE_ORDER_TOWNER
+	pool_kind = null
+	pool_weight = 0
+	rumor_cost = 0 // We don't want the Innkeeper to be able to issue these quests, so these overrides prevent it from appearing in their list.
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
-	guild_cut_exempt = TRUE
-	override_destination = /area/rogue/indoors/town/dwarfin
+	guild_cut_rate = 0
+	charges_deposit = FALSE
+	lapses = FALSE
+	takes_destination = FALSE
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety
 	var/parcel_label = "sealed strongbox"
 	var/sealed_noun = "strongbox"
-
-/datum/quest/kill/recovery/towner/calculate_deposit()
-	return 0
+	var/posting_label
+	var/posting_blurb
+	var/list/posting_rules = list(
+		"The crate is magickally sealed. Only you can open it.",
+		"You don't need to travel along. The holder will bring the package to you or send it by HERMES to be opened at your leisure.",
+	)
+	eligible_regions = list()
+	var/list/postable_advclasses = list()
+	var/list/eligible_factions = list()
+	var/list/tier_tp_budgets = list(
+		TOWNER_POSTING_TIER_MEDIUM = TOWNER_CARAVAN_TP_BUDGET_MEDIUM,
+		TOWNER_POSTING_TIER_HARD = TOWNER_CARAVAN_TP_BUDGET_HARD,
+	)
+	var/list/varieties = list()
+	var/list/bundle_pools = list()
 
 /datum/quest/kill/recovery/towner/calculate_reward(turf/origin_turf, turf/target_turf)
 	. = ..()
-	var/cap = GLOB.towner_reward_caps[posting_tier]
+	var/cap = get_towner_tier_term(posting_tier, "reward_cap")
 	if(cap)
 		. = min(., cap)
 
@@ -36,33 +59,36 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 	return /obj/item/quest_writ/towner
 
 /datum/quest/kill/recovery/towner/proc/get_writ_intro()
-	return "A townsman calls for hands to recover what was lost to the wilds and bear it home."
+	return "One of the townsfolk calls for hands to recover what was lost to the wilds and bring it home."
 
 /datum/quest/kill/recovery/towner/proc/get_writ_seal_note()
-	return "The [sealed_noun] is magickally sealed to [quest_giver_name || "the poster"] - carry it back, only they can open it."
+	return "The [sealed_noun] is magickally sealed to [quest_giver_name || "the poster"]. You can deposit the package in the nearest HERMES to complete the contract, or have them open it by hand."
 
 /datum/quest/kill/recovery/towner/populate_scroll_ui_static_data(list/data)
 	..()
 	data["towner_intro"] = get_writ_intro()
 	data["towner_seal_note"] = get_writ_seal_note()
 
-/datum/quest/kill/recovery/towner/proc/get_eligible_regions()
-	return list()
-
 /datum/quest/kill/recovery/towner/proc/get_tier_tp_budget()
-	return 0
+	return tier_tp_budgets[posting_tier] || tier_tp_budgets[TOWNER_POSTING_TIER_MEDIUM]
 
 /datum/quest/kill/recovery/towner/proc/get_tier_flat_bonus()
-	return GLOB.towner_tier_flat_bonus[posting_tier] || 0
+	return get_towner_tier_term(posting_tier, "flat_bonus") || 0
 
-/datum/quest/kill/recovery/towner/proc/build_bundle()
-	return list()
+/datum/quest/kill/recovery/towner/faction_fits(datum/quest_faction/F)
+	return (F.id in eligible_factions)
 
-/datum/quest/kill/recovery/towner/proc/get_varieties()
-	return null
+/datum/quest/kill/recovery/towner/build_bundle()
+	var/variety = effective_variety()
+	if(!variety)
+		return list()
+	var/list/meta = varieties[variety]
+	var/list/tiers = meta?["tiers"]
+	if(!tiers)
+		return list()
+	return resolve_bundle_spec(tiers[posting_tier] || tiers[TOWNER_POSTING_TIER_MEDIUM])
 
 /datum/quest/kill/recovery/towner/proc/effective_variety()
-	var/list/varieties = get_varieties()
 	if(!length(varieties))
 		return null
 	if(loadout_variety && (loadout_variety in varieties))
@@ -81,7 +107,7 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 			continue
 		var/pool = entry["pool"]
 		if(pool)
-			var/list/resolved = istext(pool) ? towner_bundle_pool(pool) : pool
+			var/list/resolved = istext(pool) ? bundle_pools[pool] : pool
 			if(!length(resolved))
 				continue
 			for(var/i in 1 to count)
@@ -92,27 +118,21 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 			bundle[path] = (bundle[path] || 0) + count
 	return bundle
 
-/proc/towner_bundle_pool(pool_id)
-	switch(pool_id)
-		if("orevein_gems")
-			return GLOB.towner_orevein_gem_types
-	return null
-
 /datum/quest/kill/recovery/towner/proc/get_parcel_name()
 	return "[quest_giver_name]'s [parcel_label]"
 
 /datum/quest/kill/recovery/towner/proc/get_parcel_desc()
-	return "A [sealed_noun] magickally sealed for [quest_giver_name] - only they can open it."
+	return "A [sealed_noun] magickally sealed for [quest_giver_name]. Only they can open it."
 
 /datum/quest/kill/recovery/towner/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
-	if(!(landmark.region in get_eligible_regions()))
+	if(!(landmark.region in eligible_regions))
 		return FALSE
 	tp_budget = get_tier_tp_budget()
-	. = ..()
-	if(!.)
-		return FALSE
+	return ..()
+
+/datum/quest/kill/recovery/towner/pick_shipment()
 	shipment_name = parcel_label
 	return TRUE
 
@@ -121,31 +141,12 @@ GLOBAL_LIST_INIT(towner_tier_flat_bonus, list(
 
 /datum/quest/kill/recovery/towner/on_claim(mob/user)
 	. = ..()
-	to_chat(user, span_warning("The [sealed_noun] is magickally sealed - only [quest_giver_name] can open it."))
+	to_chat(user, span_warning("The [sealed_noun] is magickally sealed. Only [quest_giver_name] can open it."))
 
 /datum/quest/kill/recovery/towner/spawn_recovery_parcel(obj/effect/landmark/quest_spawner/landmark)
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
+	var/obj/item/parcel/towner_caravan/recovered = spawn_parcel(landmark, /obj/item/parcel/towner_caravan, build_bundle(), get_parcel_name(), get_parcel_desc())
+	if(!recovered)
 		return
-	var/obj/item/parcel/towner_caravan/recovered = new(spawn_turf)
-	var/list/bundle = build_bundle()
-	for(var/path in bundle)
-		var/count = bundle[path]
-		for(var/i in 1 to count)
-			var/obj/item/I = new path(recovered)
-			recovered.contained_items += I
-	recovered.delivery_area_type = target_delivery_location
-	recovered.allowed_jobs = recovered.get_area_jobs(target_delivery_location)
 	recovered.unlocked_by_owner_ref = quest_giver_reference
 	recovered.owner_name = quest_giver_name
 	recovered.sealed_noun = sealed_noun
-	recovered.name = get_parcel_name()
-	recovered.desc = get_parcel_desc()
-	recovered.icon_state = "ration_large"
-	recovered.dropshrink = 1
-	recovered.update_icon()
-	recovered.AddComponent(/datum/component/quest_object/courier, src)
-	add_tracked_atom(recovered)
-
-/datum/quest/kill/recovery/towner/proc/on_turn_in_pay_giver(mob/bearer, turf/ledger_turf)
-	return

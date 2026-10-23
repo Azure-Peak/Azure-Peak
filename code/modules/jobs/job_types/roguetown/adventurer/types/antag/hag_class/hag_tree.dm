@@ -161,7 +161,7 @@
 				harvest_count++
 
 				var/obj/structure/roguemachine/mossmother/destination_tree = null
-				var/is_fey = HAS_TRAIT(usr, TRAIT_FEYTOUCHED)
+				var/is_fey = HAS_TRAIT(usr, TRAIT_FEYBOUND)
 				if(is_fey)
 					for(var/obj/structure/roguemachine/mossmother/T in GLOB.hag_trees)
 						var/area/A = get_area(T)
@@ -209,7 +209,7 @@
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
 	else if (HAS_TRAIT(user, TRAIT_ROOT_WALKER))
 		contents += "<a href='?src=[REF(src)];action=travel'>[span_boldnotice("Walk the Roots")]</a><BR>"
-	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && length(GLOB.active_hags))
+	if((HAS_TRAIT(user, TRAIT_FEYBOUND) || HAS_TRAIT(user, TRAIT_FEYTOUCHED)) && length(GLOB.active_hags))
 		contents += "<a href='?src=[REF(src)];action=message'>[span_boldnotice("Whisper to the Roots")]</a><BR>"
 	contents += "</center>"
 	var/datum/browser/popup = new(user, "mossmother", "The Mossmother", 300, 300)
@@ -342,11 +342,11 @@
 
 /obj/structure/roguemachine/mossmother/proc/check_fey_ascension(pure = FALSE, mob/living/user)
 	var/did_something = FALSE
-	if(HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_ROOT_WALKER))
+	if(HAS_TRAIT(user, TRAIT_FEYBOUND) && !HAS_TRAIT(user, TRAIT_ROOT_WALKER))
 		ADD_TRAIT(user, TRAIT_ROOT_WALKER, TRAIT_HAG_BOON)
 		to_chat(user, span_userdanger("As the Lux flows, the roots under your feet soften. You feel the map of the bog etched into your mind. You can now walk the deep paths."))
 		did_something = TRUE
-	if(pure && HAS_TRAIT(user, TRAIT_FEYTOUCHED) && !HAS_TRAIT(user, TRAIT_BOGWALKER))
+	if(pure && HAS_TRAIT(user, TRAIT_FEYBOUND) && !HAS_TRAIT(user, TRAIT_BOGWALKER))
 		ADD_TRAIT(user, TRAIT_BOGWALKER, TRAIT_HAG_BOON)
 		to_chat(user, span_userdanger("As the roots drink the purified Lux, the heart of the bog beats in response. You feel a renewed kinship. The bog's wrath turns its gaze from you."))
 		did_something = TRUE

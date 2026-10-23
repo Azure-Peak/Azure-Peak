@@ -435,7 +435,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		dat += "<b>DISCONNECTED</b>[FOURSPACES][ClosureLinks(ref_src)]<br>"
 	dat += "<br><b>Log:</b><br><br>"
 	for(var/I in _interactions)
-		dat += "[I]<br>"
+		dat += "[replacetext(I, "\n", "<br>")]<br>"
 
 	usr << browse(dat.Join(), "window=ahelp[id];size=620x480")
 
@@ -522,7 +522,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	if(handle_spam_prevention(msg,MUTE_ADMINHELP))
 		return
 
-	msg = sanitize(trim(msg))
+	msg = sanitize(trim(msg), list("\t"="#"))
 
 	if(!msg)
 		return

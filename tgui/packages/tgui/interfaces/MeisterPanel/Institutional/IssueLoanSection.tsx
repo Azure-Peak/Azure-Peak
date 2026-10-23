@@ -51,7 +51,7 @@ export const IssueLoanSection = ({
       <div style={sectionHeaderStyle}>Draft a Loan</div>
       {pastWindow && (
         <div style={{ color: INK_FAINT, marginBottom: 8 }}>
-          New loans may not be drawn after day {data.max_issuance_day}.
+          You can't issue new loans after day {data.max_issuance_day}.
         </div>
       )}
       <div style={tabBarStyle}>
@@ -78,8 +78,8 @@ export const IssueLoanSection = ({
               marginBottom: 10,
             }}
           >
-            Indentures are publicly proclaimed upon acceptance and upon default.
-            The whole realm will hear.
+            The whole realm hears when an indenture is accepted and if it
+            defaults.
           </div>
           <div style={fieldRowStyle}>
             <div style={fieldLabelStyle}>Target</div>

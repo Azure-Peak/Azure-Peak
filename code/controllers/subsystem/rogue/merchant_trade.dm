@@ -22,6 +22,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/list/pool_theme_jitters = list()
 	var/pool_pop_snapshot = 0
 	var/resnapshot_timer_id
+	var/passive_drain_timer_id
 	var/merchant_favor = 0
 	var/merchant_favor_high = 0
 	var/favor_from_sendoffs = 0
@@ -68,8 +69,8 @@ SUBSYSTEM_DEF(merchant_trade)
 		"source" = source,
 		"amount" = amount,
 	)))
-	if(length(merchant_fund_log) > 12)
-		merchant_fund_log.Cut(13)
+	if(length(merchant_fund_log) > MERCHANT_FUND_LOG_MAX)
+		merchant_fund_log.Cut(MERCHANT_FUND_LOG_MAX + 1)
 
 /datum/controller/subsystem/merchant_trade/Initialize(mapload)
 	for(var/path in subtypesof(/datum/foreign_realm))
@@ -122,6 +123,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		bm_pool_consumed[bucket] = 0
 		lifetime_bm_pool_credited[bucket] = 0
 	schedule_pool_resnapshot()
+	schedule_passive_pool_drain()
 
 /datum/controller/subsystem/merchant_trade/proc/schedule_pool_resnapshot()
 	if(resnapshot_timer_id)
@@ -145,6 +147,30 @@ SUBSYSTEM_DEF(merchant_trade)
 	schedule_pool_resnapshot()
 	if(changed)
 		broadcast_market_change()
+
+/datum/controller/subsystem/merchant_trade/proc/schedule_passive_pool_drain()
+	if(passive_drain_timer_id)
+		deltimer(passive_drain_timer_id)
+	passive_drain_timer_id = addtimer(CALLBACK(src, PROC_REF(passive_pool_drain_tick)), MARKET_POOL_PASSIVE_DRAIN_INTERVAL, TIMER_STOPPABLE)
+
+/datum/controller/subsystem/merchant_trade/proc/passive_pool_drain_tick()
+	if(apply_passive_pool_drain())
+		broadcast_market_change()
+	schedule_passive_pool_drain()
+
+/datum/controller/subsystem/merchant_trade/proc/apply_passive_pool_drain()
+	var/changed = FALSE
+	for(var/bucket in pool_capacity)
+		if(!is_passive_drain_bucket(bucket))
+			continue
+		var/before = pool_consumed[bucket] || 0
+		if(before <= 0)
+			continue
+		var/after = max(0, before - round(pool_capacity[bucket] * MARKET_POOL_PASSIVE_DRAIN))
+		pool_consumed[bucket] = after
+		lifetime_pool_relieved[bucket] = (lifetime_pool_relieved[bucket] || 0) + (before - after)
+		changed = TRUE
+	return changed
 
 /datum/controller/subsystem/merchant_trade/proc/regen_bm_saturation_daily()
 	for(var/cat in bm_pool_capacity)
@@ -243,10 +269,7 @@ SUBSYSTEM_DEF(merchant_trade)
 		return 1.0
 	var/demand = pending_ship_demand[category] || 0
 	if(demand <= 0)
-		// Buckets exempt from the no-ship dampener. Valuables are precious by nature
-		// and Seafood is the fishermen's baseline livelihood - neither should crash
-		// just because no foreign ship is in port.
-		if(category == NAVIGATOR_BUCKET_VALUABLES_CRAFTED || category == NAVIGATOR_BUCKET_VALUABLES_LOOTED || category == NAVIGATOR_BUCKET_SEAFOOD)
+		if(is_floor_exempt_bucket(category))
 			return 1.0
 		return MARKET_DEMAND_NO_SHIP_FLOOR
 	var/ratio = demand / cap
@@ -401,12 +424,37 @@ SUBSYSTEM_DEF(merchant_trade)
 		return "ship_gone"
 	if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 		return "ship_gone"
-	var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
-	if(!ship.auto_hailed && !honored && world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
+	if(!ship.auto_hailed && !ship.is_honored() && world.time < ship.docked_at + TRADE_SHIP_SEND_AWAY_GRACE)
 		return "early"
-	finalize_ship_departure(ship, auto = FALSE)
+	var/departing = cast_off_ship(ship, auto = FALSE)
 	broadcast_market_change()
-	return "ok"
+	return departing ? "departing" : "ok"
+
+/datum/controller/subsystem/merchant_trade/proc/cast_off_ship(datum/trade_ship/ship, auto = FALSE)
+	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+		return FALSE
+	ship.departure_auto = auto
+	if(!ship.has_open_demand())
+		finalize_ship_departure(ship, auto = auto)
+		return FALSE
+	ship.dock_state = TRADE_SHIP_STATE_DEPARTING
+	refund_hail_if_honored(ship)
+	bank_ship_favor(ship)
+	announce_cast_off(ship)
+	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/refund_hail_if_honored(datum/trade_ship/ship)
+	if(ship.dock_state != TRADE_SHIP_STATE_DEPARTING || ship.auto_hailed || !ship.is_honored())
+		return
+	if(refund_hail(ship))
+		broadcast_market_change()
+
+/datum/controller/subsystem/merchant_trade/proc/refund_hail(datum/trade_ship/ship)
+	if(ship.hail_refunded || hails_remaining >= TRADE_SHIPS_HAIL_PER_DAY)
+		return FALSE
+	hails_remaining++
+	ship.hail_refunded = TRUE
+	return TRUE
 
 /datum/controller/subsystem/merchant_trade/proc/finalize_ship_departure(datum/trade_ship/ship, auto = FALSE)
 	if(!ship)
@@ -426,30 +474,16 @@ SUBSYSTEM_DEF(merchant_trade)
 	if(!ship)
 		return
 	favor_earned_by_realm[ship.realm_id] = (favor_earned_by_realm[ship.realm_id] || 0) + ship.favor_earned
-	var/expected = max(1, ship.expected_favor)
-	var/ratio = ship.favor_earned / expected
-	var/outcome
-	var/awarded = 0
-	var/refunded = FALSE
-	if(ship.auto_hailed)
-		outcome = FAVOR_OUTCOME_PARTIAL
-	else if(ratio >= FAVOR_SEND_CLEAN_THRESHOLD)
-		outcome = FAVOR_OUTCOME_HONORED
-		awarded = round(ship.favor_earned * FAVOR_SEND_CLEAN_MULT)
-		if(hails_remaining < TRADE_SHIPS_HAIL_PER_DAY)
-			hails_remaining++
-			refunded = TRUE
-	else if(ratio >= FAVOR_SEND_PARTIAL_THRESHOLD)
-		outcome = FAVOR_OUTCOME_PARTIAL
-		awarded = round(ship.favor_earned * FAVOR_SEND_PARTIAL_MULT)
+	var/outcome = ship_favor_outcome(ship)
+	var/awarded = ship_favor_award(ship, outcome)
+	if(outcome == FAVOR_OUTCOME_HONORED)
+		refund_hail(ship)
+	var/owed = awarded - ship.favor_banked
+	adjust_merchant_favor(owed, allow_negative = auto)
+	if(owed >= 0)
+		favor_from_sendoffs += owed
 	else
-		outcome = FAVOR_OUTCOME_DISHONORED
-		awarded = -round(FAVOR_SEND_FAILURE_PENALTY * ship.tonnage_scale_mult())
-	adjust_merchant_favor(awarded, allow_negative = auto)
-	if(awarded >= 0)
-		favor_from_sendoffs += awarded
-	else
-		favor_penalties += -awarded
+		favor_penalties += -owed
 	favor_ledger.Insert(1, list(list(
 		"realm_label" = realm ? realm.name : ship.realm_id,
 		"ship_name" = ship.ship_name,
@@ -457,11 +491,42 @@ SUBSYSTEM_DEF(merchant_trade)
 		"earned" = ship.favor_earned,
 		"expected" = ship.expected_favor,
 		"awarded" = awarded,
-		"refunded_hail" = refunded,
+		"refunded_hail" = ship.hail_refunded,
 		"auto" = auto,
 	)))
 	if(length(favor_ledger) > 8)
 		favor_ledger.Cut(9)
+
+/datum/controller/subsystem/merchant_trade/proc/ship_favor_outcome(datum/trade_ship/ship)
+	if(ship.auto_hailed)
+		return FAVOR_OUTCOME_PARTIAL
+	var/ratio = ship.favor_earned / max(1, ship.expected_favor)
+	if(ratio >= FAVOR_SEND_CLEAN_THRESHOLD)
+		return FAVOR_OUTCOME_HONORED
+	if(ratio >= FAVOR_SEND_PARTIAL_THRESHOLD)
+		return FAVOR_OUTCOME_PARTIAL
+	return FAVOR_OUTCOME_DISHONORED
+
+/datum/controller/subsystem/merchant_trade/proc/ship_favor_award(datum/trade_ship/ship, outcome)
+	if(ship.auto_hailed)
+		return 0
+	switch(outcome)
+		if(FAVOR_OUTCOME_HONORED)
+			return round(ship.favor_earned * FAVOR_SEND_CLEAN_MULT)
+		if(FAVOR_OUTCOME_PARTIAL)
+			return round(ship.favor_earned * FAVOR_SEND_PARTIAL_MULT)
+	return -round(FAVOR_SEND_FAILURE_PENALTY * ship.tonnage_scale_mult())
+
+/datum/controller/subsystem/merchant_trade/proc/bank_ship_favor(datum/trade_ship/ship)
+	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DEPARTING)
+		return
+	var/award = ship_favor_award(ship, ship_favor_outcome(ship))
+	if(award <= ship.favor_banked)
+		return
+	var/delta = award - ship.favor_banked
+	ship.favor_banked = award
+	adjust_merchant_favor(delta)
+	favor_from_sendoffs += delta
 
 /datum/controller/subsystem/merchant_trade/proc/adjust_merchant_favor(amt, allow_negative = FALSE)
 	merchant_favor = merchant_favor + amt
@@ -525,12 +590,11 @@ SUBSYSTEM_DEF(merchant_trade)
 	for(var/datum/trade_ship/ship in all_ships)
 		if(ship.dock_state != TRADE_SHIP_STATE_DOCKED)
 			continue
-		var/honored = ship.expected_favor > 0 && ship.favor_earned >= ship.expected_favor
 		var/timed_out = world.time >= ship.docked_at + AUTO_HAILER_DOCK_TIMEOUT
-		if(honored || timed_out)
+		if(ship.is_honored() || timed_out)
 			to_dismiss += ship
 	for(var/datum/trade_ship/ship as anything in to_dismiss)
-		auto_dismiss_ship(ship)
+		cast_off_ship(ship, auto = TRUE)
 	var/spots_free = get_dock_spots_max() - length(get_docked_ships())
 	while(spots_free > 0 && hails_remaining > 0)
 		var/datum/trade_ship/picked = pick_available_ship_weighted()
@@ -556,9 +620,10 @@ SUBSYSTEM_DEF(merchant_trade)
 	return pickweight(weighted)
 
 /datum/controller/subsystem/merchant_trade/proc/auto_dismiss_ship(datum/trade_ship/ship)
-	if(!ship || ship.dock_state != TRADE_SHIP_STATE_DOCKED)
+	if(!ship || !ship.accepts_deliveries())
 		return
-	finalize_ship_departure(ship, auto = TRUE)
+	finalize_ship_departure(ship, auto = ship.departure_auto)
+	broadcast_market_change()
 
 /datum/controller/subsystem/merchant_trade/proc/touch_merchant_activity()
 	last_merchant_activity = world.time
@@ -573,7 +638,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	picked.dock()
 	auto_hail_used_day = GLOB.dayspassed
 	hails_by_realm[picked.realm_id] = (hails_by_realm[picked.realm_id] || 0) + 1
-	scom_announce("The [picked.ship_type] [picked.ship_name] has sailed into the Azurian Docks unbidden, hoping to find a buyer.")
+	scom_announce("The [picked.ship_type] [picked.ship_name] has sailed into the Azurian Docks unbidden to look for a buyer.")
 	broadcast_market_change()
 	return "ok"
 
@@ -601,7 +666,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	picked.dock()
 	auto_hail_used_day = GLOB.dayspassed
 	hails_by_realm[picked.realm_id] = (hails_by_realm[picked.realm_id] || 0) + 1
-	scom_announce("The [picked.ship_type] [picked.ship_name] has sailed into the Azurian Docks unbidden, hoping to find a buyer.")
+	scom_announce("The [picked.ship_type] [picked.ship_name] has sailed into the Azurian Docks unbidden to look for a buyer.")
 	broadcast_market_change()
 	schedule_auto_hail_tick()
 
@@ -657,3 +722,6 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/datum/foreign_realm/realm = realms[ship.realm_id]
 	var/realm_name = realm ? realm.name : ship.realm_id
 	scom_announce("The [ship.ship_type] [ship.ship_name], flying the colors of [realm_name], has made port at the Azurian Docks.")
+
+/datum/controller/subsystem/merchant_trade/proc/announce_cast_off(datum/trade_ship/ship)
+	scom_announce("The [ship.ship_type] [ship.ship_name] has been sent away. She will no longer sell any goods but will take on cargoes from the Fulfillment Crate until she departs.")

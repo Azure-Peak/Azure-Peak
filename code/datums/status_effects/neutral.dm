@@ -76,20 +76,6 @@
 		new /obj/effect/temp_visual/love_heart/invisible(get_turf(date.loc), owner)
 
 
-/datum/status_effect/throat_soothed
-	id = "throat_soothed"
-	duration = 60 SECONDS
-	status_type = STATUS_EFFECT_REFRESH
-	alert_type = null
-
-/datum/status_effect/throat_soothed/on_apply()
-	. = ..()
-	ADD_TRAIT(owner, TRAIT_SOOTHED_THROAT, "[STATUS_EFFECT_TRAIT]_[id]")
-
-/datum/status_effect/throat_soothed/on_remove()
-	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_SOOTHED_THROAT, "[STATUS_EFFECT_TRAIT]_[id]")
-
 /datum/status_effect/bounty
 	id = "bounty"
 	status_type = STATUS_EFFECT_UNIQUE
@@ -144,7 +130,7 @@
 /atom/movable/screen/alert/bugged
 	name = "BUGGED"
 	desc = "AN AUDIO-PARASITE ON ME."
-	icon_state = "blackeye"	
+	icon_state = "blackeye"
 
 /atom/movable/screen/alert/bugged/Click()
 	var/mob/living/L = usr
@@ -174,7 +160,7 @@
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 3000 //Lasts five minutes
 	var/wheeleffect
-	
+
 /datum/status_effect/wheel/on_apply()
 	. = ..()
 	wheeleffect = rand(-5,5)

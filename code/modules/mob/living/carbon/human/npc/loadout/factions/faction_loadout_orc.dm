@@ -2,6 +2,7 @@
 
 /datum/npc_archetype/orc
 	abstract_type = /datum/npc_archetype/orc
+	stat_modifiers = list("intelligence" = -2, "strength" = 1)
 	job = "Savage Orc"
 	category = FACTION_ORCS
 	faction_tag = "orcs"
@@ -12,7 +13,7 @@
 
 /datum/npc_archetype/orc/savage
 	name = "Savage Orc"
-	statpack = /datum/npc_statpack/orc
+	statpack = /datum/npc_statpack/heavy/t1
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	crafting = SKILL_LEVEL_NOVICE //light labor skills for armor repairs and such, equipment is so-so, with good stats
@@ -25,7 +26,7 @@
 /datum/npc_archetype/orc/savage/archer
 	name = "Savage Orc Archer"
 	threat_point = THREAT_HIGH
-	statpack = /datum/npc_statpack/orc/archer
+	statpack = /datum/npc_statpack/marksman/t1
 	skills = list(/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN)
 	loadouts = list(
 		/datum/npc_loadout/armor/light/hide,
@@ -38,7 +39,7 @@
 /datum/npc_archetype/orc/footsoldier
 	name = "Orc Footsoldier"
 	threat_point = THREAT_HIGH
-	statpack = /datum/npc_statpack/orc/footsoldier
+	statpack = /datum/npc_statpack/heavy/t1
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE
 	loadouts = list(
@@ -51,7 +52,7 @@
 /datum/npc_archetype/orc/marauder
 	name = "Orc Marauder"
 	threat_point = THREAT_DANGEROUS
-	statpack = /datum/npc_statpack/orc/marauder
+	statpack = /datum/npc_statpack/heavy/t2
 	armor_training = ARMOR_CLASS_MEDIUM
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
@@ -66,7 +67,7 @@
 /datum/npc_archetype/orc/berserker
 	name = "Orc Berserker"
 	threat_point = THREAT_DANGEROUS
-	statpack = /datum/npc_statpack/orc/berserker
+	statpack = /datum/npc_statpack/line/t2
 	traits = list(TRAIT_NOPAINSTUN, TRAIT_CRITICAL_RESISTANCE)
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	skills = list(
@@ -84,7 +85,7 @@
 /datum/npc_archetype/orc/warlord
 	name = "Orc Warlord"
 	threat_point = THREAT_DEADLY
-	statpack = /datum/npc_statpack/orc/warlord
+	statpack = /datum/npc_statpack/heavy/t3
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
@@ -99,7 +100,7 @@
 	job = "Orc Juggernaut"
 	threat_point = THREAT_ELITE
 	body = /datum/npc_body/orc/juggernaut
-	statpack = /datum/npc_statpack/orc/warlord/juggernaut
+	statpack = /datum/npc_statpack/heavy/t4
 	traits = list(TRAIT_BADTRAINER)
 	melee = SKILL_LEVEL_MASTER
 	skills = list(/datum/skill/combat/wrestling = SKILL_LEVEL_MASTER)
@@ -113,49 +114,6 @@
 
 /datum/npc_body/orc/juggernaut/get_head_sellprice()
 	return HEAD_BOUNTY_BIG_GUY
-
-//** STATS **//
-
-/datum/npc_statpack/orc
-	strength = 12
-	speed = 8
-	constitution = 8
-	willpower = 8
-	intelligence = 6
-
-/datum/npc_statpack/orc/archer
-	strength = 10
-	constitution = 7
-	willpower = 7
-	perception = 6
-
-/datum/npc_statpack/orc/footsoldier
-	strength = 11
-	constitution = 7
-	willpower = 6
-	intelligence = 4 // Very dumb
-
-/datum/npc_statpack/orc/marauder
-	constitution = 9
-	intelligence = 4
-
-/datum/npc_statpack/orc/berserker
-	strength = 13
-	speed = 10 // Fast, for an orc
-	constitution = 11
-	willpower = 10
-	intelligence = 1 // Minmax department
-
-/datum/npc_statpack/orc/warlord
-	strength = 14
-	constitution = 9
-	willpower = 11
-	intelligence = 8 //Minimal req to do special attacks.
-
-/datum/npc_statpack/orc/warlord/juggernaut
-	strength = 16
-	constitution = 13
-	willpower = 13
 
 //** FLAVOR **//
 

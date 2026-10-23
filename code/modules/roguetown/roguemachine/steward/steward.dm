@@ -23,14 +23,11 @@
 	var/compact = TRUE
 	var/total_deposit = 0
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
-	var/list/daily_payments = list() // Associative list: job name -> payment amount
+	var/list/daily_payments = list()
 	var/residency_print_cooldown = 0
-	// Last trade-modal quote keyed by ckey. Read by ui_data to round-trip per-user.
 	var/list/last_trade_quote = list()
-	// Per-user ledger view state keyed by ckey: list("open", "page", "filter"). Only populated
-	// into ui_static_data while a user has the Ledger tab open, so the full ledger never rides
-	// the per-tick Market Scroll payload.
 	var/list/ledger_view = list()
+	var/list/petition_view = list()
 	COOLDOWN_DECLARE(fulfill_retry_cooldown)
 
 /obj/structure/roguemachine/steward/Initialize(mapload)
@@ -110,7 +107,7 @@
 		return
 	if(istype(P, /obj/item/roguecoin))
 		record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
-		SStreasury.mint(SStreasury.discretionary_fund, P.get_real_price(), "NERVE MASTER deposit")
+		SStreasury.mint(SStreasury.discretionary_fund, P.get_real_price(), "NERVE MASTER deposit", null, LEDGER_CROWN_REV_OTHER)
 		qdel(P)
 		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
 		return
@@ -128,8 +125,8 @@
 		if(!D)
 			return
 		var/amt = D.get_import_price()
-		if(!SStreasury.burn(SStreasury.discretionary_fund, amt, "imported [D.name]"))
-			say("Insufficient mammon.")
+		if(!SStreasury.burn(SStreasury.discretionary_fund, amt, "imported [D.name]", LEDGER_CROWN_EXP_IMPORTS))
+			say("The Treasury can't afford this.")
 			return
 		SStreasury.total_import += amt
 		record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, amt)
@@ -141,7 +138,7 @@
 		if(!D)
 			return
 		if(!SStreasury.do_export(D))
-			say("Insufficient stock.")
+			say("Not enough in the stockpile.")
 			return
 	if(href_list["givemoney"])
 		var/X = locate(href_list["givemoney"])
@@ -149,7 +146,7 @@
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
-				var/newtax = input(usr, "How much to give [X]", src) as null|num
+				var/newtax = input(usr, "How much to give [X]?", src) as null|num
 				if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 					return
 				if(findtext(num2text(newtax), "."))
@@ -165,18 +162,18 @@
 		if(!X)
 			return
 		if(!has_fiscal_authority(usr))
-			say("Only the Steward, Clerk, or Ruler may levy fines.")
+			say("Only Crown officials can fine people.")
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
 		if(X == usr)
-			say("You cannot fine yourself.")
+			say("You can't fine yourself.")
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
 		for(var/mob/living/A in SStreasury.bank_accounts)
 			if(A == X)
 				var/max_fine = SStreasury.get_max_fine_for(A)
 				if(max_fine <= 0)
-					say("[A] cannot be fined by the Crown at this time.")
+					say("You can't fine [A]. They are exempt or their account is empty.")
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
 				var/newtax = input(usr, "How much to fine [A]? (Maximum [max_fine]m)", src, max_fine) as null|num
@@ -190,35 +187,35 @@
 					return
 				if(newtax > max_fine)
 					newtax = max_fine
-					say("The ledger will accept no more than [max_fine]m from [A]. Amount adjusted.")
+					say("You can fine [A] at most [max_fine]m. The fine is set to [max_fine]m.")
 				SStreasury.give_money_account(-newtax, A, "NERVE MASTER")
 				break
 	if(href_list["printresidency"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		if(world.time < residency_print_cooldown)
-			say("The machine is still warming its quill.")
+			say("You just printed a letter. Wait [DisplayTimeText(residency_print_cooldown - world.time)] and try again.")
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
 		var/mob/living/carbon/human/H = usr
 		var/obj/item/citizenry_letter/letter = new(get_turf(src))
 		letter.issuer_name = H.real_name
 		letter.issuer_year = CALENDAR_EPOCH_YEAR
-		residency_print_cooldown = world.time + 1 MINUTES
+		residency_print_cooldown = world.time + RESIDENCY_PRINT_COOLDOWN
 		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 		say("Letter of Citizenry issued, signed by [H.real_name].")
 	if(href_list["setpurchasefloor"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		var/current_floor = SStreasury.stockpile_purchase_floor
-		var/new_floor = input(usr, "Set the Crown's Purchase Floor. Below this balance the stockpile refuses purchases - goods stay with the seller. (0-10000m)", src, current_floor) as null|num
+		var/new_floor = input(usr, "Set the purchase floor (0-10000m). If the Treasury drops below this, the stockpile stops paying people for goods.", src, current_floor) as null|num
 		if(isnull(new_floor))
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		new_floor = CLAMP(round(new_floor), 0, 10000)
 		SStreasury.stockpile_purchase_floor = new_floor
-		say("Crown's Purchase Floor set to [new_floor]m.")
+		say("Treasury purchase floor set to [new_floor]m.")
 		log_game("PURCHASE FLOOR: [key_name(usr)] set stockpile purchase floor to [new_floor]m")
 	if(href_list["clearloandebtor"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -228,9 +225,9 @@
 			if(HAS_TRAIT(H, TRAIT_DEBTOR))
 				debtors["[H.real_name]"] = H
 		if(!length(debtors))
-			say("No debtors currently marked.")
+			say("No one is marked as a debtor.")
 			return
-		var/pick = input(usr, "Clear defaulter mark from which debtor?", src) as null|anything in debtors
+		var/pick = input(usr, "Clear the defaulter mark from which debtor?", src) as null|anything in debtors
 		if(!pick)
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -242,23 +239,24 @@
 		var/datum/loan/forgiven = SStreasury.get_loan_for(target)
 		var/loan_amt = forgiven ? forgiven.get_remaining_due() : 0
 		if(forgiven)
+			SStreasury.write_off_loan(forgiven, "Debt forgiven by the Steward")
 			SStreasury.loans -= forgiven
 			qdel(forgiven)
-		SStreasury.clear_poll_tax_debt(target)
-		say("[target.real_name]'s debtor mark has been cleared; all Crown debts forgiven.")
+		SStreasury.clear_poll_levy_debt(target)
+		say("[target.real_name]'s debtor mark has been cleared and all Crown loans have been forgiven.")
 		log_game("DEBT FORGIVEN: [key_name(usr)] cleared debtor mark on [key_name(target)][loan_amt ? " (wrote off [loan_amt]m loan)" : ""]")
-		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name. My debts to the Crown are forgiven."))
-	if(href_list["clearpolltax"])
+		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name. My Crown debts are forgiven."))
+	if(href_list["clearpolllevy"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		var/list/in_arrears = list()
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(SStreasury.poll_tax_owed[H] || SStreasury.poll_tax_debt_days[H] || HAS_TRAIT(H, TRAIT_ARREARS))
+			if(SStreasury.poll_levy_owed[H] || HAS_TRAIT(H, TRAIT_ARREARS))
 				in_arrears["[H.real_name]"] = H
 		if(!length(in_arrears))
-			say("No poll tax arrears on the ledger.")
+			say("No one owes poll levy.")
 			return
-		var/pick = input(usr, "Clear poll tax arrears for which subject?", src) as null|anything in in_arrears
+		var/pick = input(usr, "Clear poll levy arrears for which subject?", src) as null|anything in in_arrears
 		if(!pick)
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -266,12 +264,11 @@
 		var/mob/living/carbon/human/target = in_arrears[pick]
 		if(!target)
 			return
-		var/was_owed = SStreasury.poll_tax_owed[target] || 0
-		var/was_overdue = SStreasury.poll_tax_debt_days[target] || 0
-		SStreasury.clear_poll_tax_debt(target)
-		say("[target.real_name]'s poll tax arrears have been cleared.")
-		log_game("POLL TAX CLEARED: [key_name(usr)] cleared [was_owed]m poll tax arrears on [key_name(target)] ([was_overdue] day\s overdue)")
-		to_chat(target, span_notice("The Stewardry has cleared my poll tax arrears. The Crown's ledger on my head is wiped clean."))
+		var/was_owed = SStreasury.poll_levy_owed[target] || 0
+		SStreasury.clear_poll_levy_debt(target)
+		say("[target.real_name]'s poll levy arrears have been cleared.")
+		log_game("POLL LEVY CLEARED: [key_name(usr)] cleared [was_owed]m poll levy arrears on [key_name(target)]")
+		to_chat(target, span_notice("The Stewardry has cleared my poll levy arrears."))
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.atc_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -283,7 +280,7 @@
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
-		var/amount_to_pay = input(usr, "How much to pay every [job_to_pay]", src) as null|num
+		var/amount_to_pay = input(usr, "How much to pay each [job_to_pay]?", src) as null|num
 		if(!amount_to_pay)
 			return
 		if(amount_to_pay<1)
@@ -308,7 +305,7 @@
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		var/wage_floor = SStreasury.get_wage_floor(job_to_pay)
-		var/prompt = wage_floor > 0 ? "Set daily payment for [job_to_pay] (floor: [wage_floor]m by Charter; 0 not permitted)" : "Set daily payment for [job_to_pay] (0 to remove)"
+		var/prompt = wage_floor > 0 ? "Set the daily payment for [job_to_pay]. A Charter requires at least [wage_floor]m." : "Set the daily payment for [job_to_pay] (0 to remove)."
 		var/amount_to_pay = input(usr, prompt, src, daily_payments[job_to_pay] ? daily_payments[job_to_pay] : wage_floor) as null|num
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
@@ -319,7 +316,7 @@
 		amount_to_pay = CLAMP(amount_to_pay, 0, 999)
 		if(wage_floor > 0 && amount_to_pay < wage_floor)
 			amount_to_pay = wage_floor
-			say("By Charter, [job_to_pay]'s wage may not fall below [wage_floor]m. Payment set to the floor.")
+			say("A Charter requires at least [wage_floor]m for [job_to_pay]. Payment set to [wage_floor]m.")
 		if(amount_to_pay == 0)
 			daily_payments -= job_to_pay
 			say("Daily payment for [job_to_pay] removed.")
@@ -331,7 +328,7 @@
 		var/removal_floor = SStreasury.get_wage_floor(job_to_remove)
 		if(removal_floor > 0)
 			daily_payments[job_to_remove] = removal_floor
-			say("By Charter, [job_to_remove]'s wage cannot be removed. Payment held at the floor of [removal_floor]m.")
+			say("A Charter requires at least [removal_floor]m for [job_to_remove], so you can't remove it. Payment set to [removal_floor]m.")
 		else
 			daily_payments -= job_to_remove
 			say("Daily payment for [job_to_remove] removed.")
@@ -340,7 +337,7 @@
 		if(!istype(A))
 			return
 		if(!has_fiscal_authority(usr))
-			say("Only the Steward, Clerk, or Ruler may suspend wages.")
+			say("Only Crown officials can suspend wages.")
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return
 		var/datum/fund/account = SStreasury.bank_accounts[A]
@@ -483,7 +480,7 @@
 	for(var/i in 1 to quantity)
 		total += SSeconomy.compute_import_unit_price(good_id, region, starting_index + i)
 	if(is_alderman_acting && !SScity_assembly.can_consume_trade(total))
-		to_chat(user, span_warning("Your warrant cannot cover this trade. Remaining: [SScity_assembly.current_warrant.trade_remaining]m."))
+		to_chat(user, span_warning("Your warrant can't cover this trade. You have [SScity_assembly.current_warrant.trade_remaining]m left today."))
 		return
 	var/spent = SSeconomy.manual_import(user, region_id, good_id, quantity)
 	if(spent > 0)
@@ -512,7 +509,7 @@
 		return
 	var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
 	if(!entry || entry.stockpile_amount < quantity)
-		to_chat(user, span_warning("Insufficient [tg.name] in stockpile: have [entry?.stockpile_amount || 0], need [quantity]."))
+		to_chat(user, span_warning("Not enough [tg.name] in the stockpile. You have [entry?.stockpile_amount || 0] and need [quantity]."))
 		return
 	var/demands_today = region.demands_today[good_id] || 0
 	var/starting_index = max(0, daily_pace - demands_today)
@@ -520,7 +517,7 @@
 	for(var/i in 1 to quantity)
 		total += SSeconomy.compute_export_unit_price(good_id, region, starting_index + i)
 	if(is_alderman_acting && !SScity_assembly.can_consume_trade(total))
-		to_chat(user, span_warning("Your warrant cannot cover this trade. Remaining: [SScity_assembly.current_warrant.trade_remaining]m."))
+		to_chat(user, span_warning("Your warrant can't cover this trade. You have [SScity_assembly.current_warrant.trade_remaining]m left today."))
 		return
 	var/gained = SSeconomy.manual_export(user, region_id, good_id, quantity)
 	if(gained > 0)
@@ -545,7 +542,7 @@
 			continue
 		options["[tg.name]"] = good_id
 	if(!length(options))
-		to_chat(user, span_warning("[region.name] has no importable goods."))
+		to_chat(user, span_warning("[region.name] has no goods to import."))
 		return
 	var/pick_name = input(user, "Import what from [region.name]?", src) as null|anything in options
 	if(!pick_name)
@@ -572,7 +569,7 @@
 			continue
 		options["[tg.name]"] = good_id
 	if(!length(options))
-		to_chat(user, span_warning("[region.name] has no demanded goods."))
+		to_chat(user, span_warning("[region.name] has no demand for any goods."))
 		return
 	var/pick_name = input(user, "Export what to [region.name]?", src) as null|anything in options
 	if(!pick_name)
@@ -616,7 +613,7 @@
 		open_trade_tgui(user)
 		return
 	if(locked)
-		to_chat(user, span_warning("It's locked. Of course."))
+		to_chat(user, span_warning("It's locked."))
 		return
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	playsound(loc, 'sound/misc/keyboard_enter.ogg', 100, FALSE, -1)
@@ -646,7 +643,7 @@
 			var/list/priority_accounts = list() // debtors or in arrears
 			var/list/normal_accounts = list()
 			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-				var/owed = SStreasury.poll_tax_owed[A] || 0
+				var/owed = SStreasury.poll_levy_owed[A] || 0
 				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
 				if(is_debtor || owed > 0)
 					priority_accounts += A
@@ -659,18 +656,17 @@
 				var/datum/fund/A_account = SStreasury.bank_accounts[A]
 				var/A_suspended = A_account?.wages_suspended ? TRUE : FALSE
 				var/wage_status_short = A_suspended ? "UNSUSPEND" : "SUSPEND"
-				var/wage_status_long = A_suspended ? "Unsuspend Wages" : "Suspend Wages"
+				var/wage_status_long = A_suspended ? "Reinstate Wages" : "Suspend Wages"
 				var/fine_label = max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)"
 				var/fine_long_label = max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)"
-				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
-				var/overdue_days = SStreasury.poll_tax_debt_days[A] || 0
+				var/poll_owed = SStreasury.poll_levy_owed[A] || 0
 				var/a_is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
 				var/debt_tag = ""
 				if(a_is_debtor)
 					var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
 					debt_tag = " <font color='#d9534f'>\[DEBTOR[owed_str]\]</font>"
 				else if(poll_owed > 0)
-					debt_tag = " <font color='#e07b39'>\[ARREARS: [poll_owed]m, [overdue_days] day[overdue_days == 1 ? "" : "s"]\]</font>"
+					debt_tag = " <font color='#e07b39'>\[ARREARS: [poll_owed]m\]</font>"
 				if(compact)
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
@@ -701,41 +697,41 @@
 				var/crown_loans = 0
 				var/crown_loan_content = ""
 				for(var/datum/loan/L in SStreasury.loans)
-					crown_loans++
 					if(L.source_fund == SStreasury.discretionary_fund)
+						crown_loans++
 						var/loan_color = L.defaulted ? "#d9534f" : "#e07b39"
 						crown_loan_content += "<font color='[loan_color]'>[L.format()]</font><BR>"
 				contents += "<b>Active Crown Loans ([crown_loans]):</b><BR>"
+				contents += crown_loan_content
 				contents += "<BR>"
 			else
 				contents += "<i>No active loans.</i><BR><BR>"
-			// ── Poll Tax Arrears & Debtors ────────────────────────────────────
+			// ── Poll Levy Arrears & Debtors ────────────────────────────────────
 			var/list/debt_rows = list()
 			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
+				var/poll_owed = SStreasury.poll_levy_owed[A] || 0
 				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
 				if(poll_owed > 0 || is_debtor)
 					debt_rows += A
 			if(length(debt_rows))
-				contents += "<b>Poll Tax Debtors / Arrears ([length(debt_rows)]):</b><BR>"
+				contents += "<b>Poll Levy Debtors / Arrears ([length(debt_rows)]):</b><BR>"
 				for(var/mob/living/carbon/human/A in debt_rows)
-					var/poll_owed = SStreasury.poll_tax_owed[A] || 0
-					var/overdue_days = SStreasury.poll_tax_debt_days[A] || 0
+					var/poll_owed = SStreasury.poll_levy_owed[A] || 0
 					var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR_CROWN)
 					var/balance = SStreasury.get_balance(A)
 					if(is_debtor)
 						var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
 						contents += "<font color='#d9534f'><b>[A.real_name]</b> \[DEBTOR[owed_str]\]</font> - balance: [balance]m"
 					else
-						contents += "<font color='#e07b39'><b>[A.real_name]</b> \[ARREARS: [poll_owed]m, [overdue_days] day[overdue_days == 1 ? "" : "s"]\]</font> - balance: [balance]m"
+						contents += "<font color='#e07b39'><b>[A.real_name]</b> \[ARREARS: [poll_owed]m\]</font> - balance: [balance]m"
 					contents += "<BR>"
 				contents += "<BR>"
 			else
-				contents += "<i>No poll tax arrears.</i><BR><BR>"
+				contents += "<i>No poll levy arrears.</i><BR><BR>"
 			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
-			contents += "<font color='gray'><i>(Forgives outstanding loans entirely and lifts the defaulter mark.)</i></font><BR>"
-			contents += "<a href='?src=\ref[src];clearpolltax=1'>\[Clear Poll Tax Obligation\]</a><BR>"
-			contents += "<font color='gray'><i>(Wipes a subject's poll tax arrears.)</i></font><BR>"
+			contents += "<font color='gray'><i>(Forgives their loan and poll levy arrears and removes the defaulter mark.)</i></font><BR>"
+			contents += "<a href='?src=\ref[src];clearpolllevy=1'>\[Clear Poll Levy Obligation\]</a><BR>"
+			contents += "<font color='gray'><i>(Wipes a subject's poll levy arrears.)</i></font><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
@@ -757,13 +753,13 @@
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a><BR>"
 			var/list/snap = SStreasury.compute_fiscal_snapshot()
 			var/list/charters = SStreasury.compute_charter_states()
-			contents += "<center><b>Fiscal Ledger &mdash; Day [GLOB.dayspassed]</b></center>"
+			contents += "<center><b>Fiscal Ledger, Day [GLOB.dayspassed]</b></center>"
 			contents += "<hr>"
 
 			// Balances (two-column)
 			contents += "<b><font color='#e6b327'>BALANCES</font></b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
-			contents += "<tr><td>Crown's Purse</td><td align='right'><font color='#e6b327'>[snap["discretionary"]]m</font></td>"
+			contents += "<tr><td>Treasury</td><td align='right'><font color='#e6b327'>[snap["discretionary"]]m</font></td>"
 			contents += "<td>Burgher Pledge</td><td align='right'><font color='#e6b327'>[snap["burgher_pledge"]]m</font></td></tr>"
 			contents += "<tr><td>Total Bank Coin</td><td align='right'>[snap["total_bank"]]m</td>"
 			contents += "<td>Held Accounts</td><td align='right'>[snap["held_accounts"]]</td></tr>"
@@ -776,7 +772,7 @@
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
 			contents += "<tr><td>Rural Tax</td><td align='right'><font color='#5cb85c'>[SStreasury.total_rural_tax]m</font></td>"
 			contents += "<td>Fines</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_FINES_INCOME]]m</font></td></tr>"
-			contents += "<tr><td>Poll Tax</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]m</font></td>"
+			contents += "<tr><td>Poll Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_POLL_LEVY_COLLECTED]]m</font></td>"
 			contents += "<td>Deposit Tax</td><td align='right'><font color='#5cb85c'>[SStreasury.total_deposit_tax]m</font></td></tr>"
 			contents += "<tr><td>Contract Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]m</font></td>"
 			contents += "<td>Headeater Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]m</font></td></tr>"
@@ -792,7 +788,7 @@
 			var/exempt_import = GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF]
 			var/exempt_export = GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY]
 			var/exempt_fine = GLOB.azure_round_stats[STATS_EXEMPTED_FINE]
-			var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
+			var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_LEVY]
 			var/exempt_total = exempt_contract + exempt_headeater + exempt_import + exempt_export + exempt_fine + exempt_poll
 			contents += "<b><font color='#8f7a5a'>FORGONE REVENUE (tax exempted)</font></b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
@@ -801,11 +797,11 @@
 			contents += "<tr><td>Import Tariff</td><td align='right'><font color='#8f7a5a'>[exempt_import]m</font></td>"
 			contents += "<td>Export Duty</td><td align='right'><font color='#8f7a5a'>[exempt_export]m</font></td></tr>"
 			contents += "<tr><td>Fines Waived</td><td align='right'><font color='#8f7a5a'>[exempt_fine]m</font></td>"
-			contents += "<td>Poll Tax</td><td align='right'><font color='#8f7a5a'>[exempt_poll]m</font></td></tr>"
+			contents += "<td>Poll Levy</td><td align='right'><font color='#8f7a5a'>[exempt_poll]m</font></td></tr>"
 			contents += "<tr><td><b>Total Forgone</b></td><td align='right'><b><font color='#8f7a5a'>[exempt_total]m</font></b></td>"
 			contents += "<td></td><td></td></tr>"
 			contents += "</table>"
-			contents += "<font size='1'><i>Charter exemptions, levy-exempt stamps, and rate-cap gaps. Mammon the Crown would have collected had no exemption applied.</i></font><br><br>"
+			contents += "<font size='1'><i>Mammon the Crown would have collected without Charter exemptions, tax exempt stamps and rate limits.</i></font><br><br>"
 
 			// Trade (two-column, mixed)
 			contents += "<b><font color='#c0b283'>TRADE</font></b>"
@@ -845,38 +841,6 @@
 				contents += "</tr>"
 			contents += "</table><br>"
 
-			// Poll Tax Rates (two columns: category | m/day)
-			contents += "<b>POLL TAX RATES (daily)</b>"
-			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
-			var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
-			var/golden_active = golden?.active
-			var/datum/decree/covenant = SStreasury.get_decree(DECREE_NOC_PESTRA_COVENANT)
-			var/covenant_active = covenant?.active
-			var/datum/decree/merc_charter = SStreasury.get_decree(DECREE_GUILD_CHARTER_OF_ARMS)
-			var/merc_charter_active = merc_charter?.active
-			var/list/poll_entries = list()
-			for(var/pcat in SStreasury.poll_tax_rates)
-				var/rate = SStreasury.poll_tax_rates[pcat]
-				var/pretty = SStreasury.get_poll_tax_category_pretty_name(pcat)
-				var/rate_display = "[rate]m"
-				if(pcat == POLL_TAX_CAT_BURGHER && golden_active && rate > GOLDEN_BULL_POLL_CAP)
-					rate_display = "<font color='#e07b39'>[GOLDEN_BULL_POLL_CAP]m</font> (raw [rate]m, capped)"
-				else if(pcat == POLL_TAX_CAT_MERCENARY && merc_charter_active && rate > GUILD_CHARTER_OF_ARMS_POLL_CAP)
-					rate_display = "<font color='#e07b39'>[GUILD_CHARTER_OF_ARMS_POLL_CAP]m</font> (raw [rate]m, capped)"
-				poll_entries += "<td>[pretty]</td><td align='right'>[rate_display]</td>"
-			for(var/i = 1, i <= length(poll_entries), i += 2)
-				contents += "<tr>"
-				contents += poll_entries[i]
-				if(i + 1 <= length(poll_entries))
-					contents += poll_entries[i + 1]
-				else
-					contents += "<td></td><td></td>"
-				contents += "</tr>"
-			contents += "</table>"
-			if(covenant_active)
-				contents += "<i><font color='#e07b39'>Covenant of Noc & Pestra in force: University and Apothecary pay no more than [NOC_PESTRA_POLL_CAP]m/day regardless of category rate.</font></i><br>"
-			contents += "<br>"
-
 			// Charters (two-column)
 			contents += "<b>CHARTERS</b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
@@ -901,9 +865,9 @@
 			contents += "<b><font color='#e07b39'>DEBT &amp; LOANS</font></b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
 			contents += "<tr><td>Accounts in Arrears</td><td align='right'><font color='#e07b39'>[snap["in_arrears"]]</font></td>"
-			contents += "<td>Accounts in Advance</td><td align='right'>[snap["in_advance"]]</td></tr>"
-			contents += "<tr><td>Default Debtors</td><td align='right'><font color='#d9534f'>[snap["debtor_count"]]</font></td>"
-			contents += "<td>Loans Outstanding</td><td align='right'>[snap["loans_outstanding"]] ([snap["loan_exposure"]]m)</td></tr>"
+			contents += "<td>Default Debtors</td><td align='right'><font color='#d9534f'>[snap["debtor_count"]]</font></td></tr>"
+			contents += "<tr><td>Loans Outstanding</td><td align='right'>[snap["loans_outstanding"]] ([snap["loan_exposure"]]m)</td>"
+			contents += "<td></td><td></td></tr>"
 			contents += "</table><br>"
 
 			// Contracts (three-column: Issued / Taken / Completed, by issuing authority)
@@ -948,19 +912,19 @@
 			contents += "Projected Daily Payroll: [total_payroll]m</center><BR>"
 			contents += "<a href='?src=\ref[src];setdailypay=1'>\[Add/Modify Job Payment\]</a><BR><BR>"
 			if(daily_payments.len)
-				contents += "<center>Configured Payments:</center><BR>"
+				contents += "<center>Current Payments:</center><BR>"
 				for(var/job_name in daily_payments)
 					var/amt = daily_payments[job_name]
 					var/count = headcount_by_job[job_name] || 0
 					var/job_floor = SStreasury.get_wage_floor(job_name)
 					contents += "<b>[job_name]:</b> [amt]m/day"
 					if(job_floor > 0)
-						contents += " <font color='#e07b39'>\[FLOORED [job_floor]m by Charter\]</font>"
+						contents += " <font color='#e07b39'>\[Charter minimum: [job_floor]m\]</font>"
 					if(count > 0)
 						contents += " ([count] employed, [amt * count]m total/day)"
 					contents += " <a href='?src=\ref[src];removedailypay=[job_name]'>\[Remove\]</a><BR>"
 			else
-				contents += "<center>No daily payments configured.</center><BR>"
+				contents += "<center>No daily payments set.</center><BR>"
 
 	if(!canread)
 		contents = stars(contents)

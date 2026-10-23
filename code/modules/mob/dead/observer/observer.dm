@@ -52,6 +52,22 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	see_in_dark = 100
 	draw_icon = FALSE
 
+/mob/dead/observer/proc/apply_admin_ghost_image()
+	if(!client?.holder)
+		return
+	if(client?.prefs?.admin_ghost_icon)
+		icon = client.prefs.admin_ghost_icon
+		icon_state = ""
+	else
+		icon = initial(icon)
+		icon_state = initial(icon_state)
+	if(ghostimage_default)
+		ghostimage_default.icon = icon
+		ghostimage_default.icon_state = icon_state
+	if(ghostimage_simple)
+		ghostimage_simple.icon = icon
+		ghostimage_simple.icon_state = icon_state
+
 /mob/dead/observer/nodraw
 	draw_icon = FALSE
 	icon = 'icons/roguetown/mob/misc.dmi'
@@ -126,6 +142,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 
 /mob/dead/observer/Initialize(mapload)
+	GLOB.observer_list += src
 	set_invisibility(GLOB.observer_default_invisibility)
 
 	add_verb(src, list(
@@ -220,6 +237,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 10)
 
 /mob/dead/observer/Destroy()
+	GLOB.observer_list -= src
 	STOP_PROCESSING(SShaunting, src)
 
 	QDEL_NULL(spawners_menu)

@@ -212,6 +212,9 @@
 	color = CLOTHING_WHITE
 	boobed = TRUE
 
+/obj/item/clothing/suit/roguetown/shirt/tunic/noblecoat/astrocrat
+	detail_color = CLOTHING_BLACK
+
 /obj/item/clothing/suit/roguetown/shirt/undershirt/artificer
 	name = "tinker suit"
 	desc = "Typical fashion of the best engineers."
@@ -282,6 +285,9 @@
 
 // End royal clothes
 
+//Is this terrible, Y E S. But who cares, its gonna be copy royal colors anyway so I just *shrug*
+/obj/item/clothing/suit/roguetown/shirt/dress/royal/prince/lord
+	desc = "A gold-embroidered dress shirt specially tailored by the finest tailors in the land for the monarch of Azuria."
 
 //Is this terrible, yes, but at this point ehhhhhhhh.
 /obj/item/clothing/suit/roguetown/shirt/dress/royal/hand_m
@@ -719,6 +725,14 @@
 	icon_state = "loudmouthrobe"
 	item_state = "loudmouthrobe"
 
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/bishop
+	color = null
+	name = "bishop's cassock"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "bishoprobe"
+	item_state = "bishoprobe"
+	allowed_race = NON_DWARVEN_RACE_TYPES
+
 //WEDDING CLOTHES
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/weddingdress
 	name = "wedding silk dress"
@@ -1062,12 +1076,8 @@
 	detail_color = CLOTHING_BLACK
 	color = CLOTHING_BLACK
 
-/obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/azure
-	detail_color = CLOTHING_WHITE
-	color = CLOTHING_AZURE
-
 /obj/item/clothing/suit/roguetown/shirt/tunic/thinwinterdress/raneshen
-	detail_color = CLOTHING_WHITE
+	detail_color = CLOTHING_RED
 	color = CLOTHING_RED
 
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosa
@@ -1120,3 +1130,21 @@
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosacoat/four
 	name = "stately coat"
 	icon_state = "rosacoat10"
+
+/obj/item/clothing/suit/roguetown/shirt/blamellar
+	name = "bronze lamellar vest"
+	desc = "A solid and flexible shirt made of interlocking bronze plates, providing protection while allowing for ease of movement."
+	icon_state = "b_lamellar"
+	item_state = "b_lamellar"
+	boobed = TRUE
+	sleeved = null
+	body_parts_covered = CHEST|VITALS
+
+/obj/item/clothing/suit/roguetown/shirt/ilamellar
+	name = "iron lamellar vest"
+	desc = "A solid and flexible shirt made of interlocking iron plates, providing protection while allowing for ease of movement."
+	icon_state = "i_lamellar"
+	item_state = "i_lamellar"
+	boobed = TRUE
+	sleeved = null
+	body_parts_covered = CHEST|VITALS

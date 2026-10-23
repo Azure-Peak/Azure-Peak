@@ -27,7 +27,7 @@ const LockedView = (props: { motto: string; canRead: boolean }) => (
         color: INK_SOFT,
       }}
     >
-      It is locked. Of course.
+      It is locked.
     </div>
   </div>
 );
@@ -57,6 +57,12 @@ export const VendingPanel = (props: { data: VendingData; act: ActFn }) => {
         dodging={!!data.dodging}
         publicMarginPct={data.public_margin_pct}
         publicMarginLabel={data.public_margin_label}
+        blockades={data.active_blockades}
+        gearPct={data.blockade_gear_pct}
+        gearBasePct={data.blockade_gear_base_pct}
+        blockadeMultPct={data.blockade_mult_pct}
+        blockadePopHalf={data.blockade_pop_half}
+        blockadePopFull={data.blockade_pop_full}
       />
       <div style={subTabBarStyle}>
         {data.categories.map((cat) => {

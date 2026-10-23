@@ -1185,14 +1185,14 @@
 /mob/living/carbon/extinguish_mob(itemz = TRUE)
 	if(itemz)
 		for(var/obj/item/I as anything in get_equipped_items())
-			if(I.extinguishable)
+			if(I.extinguishable && !istype(I, /obj/item/clothing/mask/cigarette))
 				I.extinguish() //extinguishes our clothes
 			I.acid_level = 0 //washes off the acid on our clothes
 		var/obj/item/I = get_active_held_item()
-		if(I && I.extinguishable)
+		if(I && I.extinguishable && !istype(I, /obj/item/clothing/mask/cigarette))
 			I.extinguish()
 		I = get_inactive_held_item()
-		if(I && I.extinguishable)
+		if(I && I.extinguishable && !istype(I, /obj/item/clothing/mask/cigarette))
 			I.extinguish()
 	..()
 
@@ -1233,7 +1233,7 @@
 
 /mob/living/carbon/vv_get_dropdown()
 	. = ..()
-	VV_DROPDOWN_OPTION("", "---------")
+	VV_DROPDOWN_OPTION("", "--- /carbon ---")
 	VV_DROPDOWN_OPTION(VV_HK_MODIFY_BODYPART, "Modify bodypart")
 	VV_DROPDOWN_OPTION(VV_HK_MODIFY_ORGANS, "Modify organs")
 	VV_DROPDOWN_OPTION(VV_HK_HALLUCINATION, "Hallucinate")
@@ -1351,8 +1351,6 @@
 	if(hallucinating())
 		return TRUE
 	if(IsSleeping())
-		return TRUE
-	if(HAS_TRAIT(src, TRAIT_DUMB))
 		return TRUE
 
 /mob/living/carbon/can_speak_vocal()

@@ -86,7 +86,7 @@
 		/datum/supply_pack/rogue/aavnr/hatanga,
 		/datum/supply_pack/rogue/aavnr/steppe_scale,
 		/datum/supply_pack/rogue/aavnr/szabrista_kit,
-		/datum/supply_pack/rogue/aavnr/druzhina_kit, 
+		/datum/supply_pack/rogue/aavnr/druzhina_kit,
 		/datum/supply_pack/rogue/aavnr/freifechter_kit,
 		/datum/supply_pack/rogue/aavnr/saiga_sausage,
 		/datum/supply_pack/rogue/aavnr/coppiette,
@@ -95,13 +95,22 @@
 		/datum/supply_pack/rogue/alcohol/saigamilk,
 	)
 	hail_lines = list(
-		"Greetings, Factor. Hide, grain, fish and fur. Of the finest quality from the Steppes of Aavnr. Bring me silk and gemerald or do not bring me anything at all.",
-		"The Hetman of Tomorzurkh sends his regards and his demand for lemons. The second is not optional.",
-		"My crossing was peaceful. The four crossings before were not. I would speak to your Bleakisles watch about that.",
-		"Trade quickly, friend. The steppes do not wait, and neither do the wolves on my home road.",
-		"A saiga priest of Dalainkhair is in my hold blessing the cargo. He will not come out. He has been there three days. The cargo seems content.",
-		"The saiga milk is for selling, not for drinking on duty. Tell your stevedores. I have already told mine.",
-		"The Potentate weighs heavy on the keel and heavier on my purse. Lighten one and the other follows.",
-		"A saiga-binder of the Astrava-line rides with me, last of his teaching. For two zennies he will lay hands on a fogbeast and the creature will know your name without it ever being told. He sails because his sons cannot learn what he knows, and the line will end with him on this voyage or the next. Pay him while you can.",
-		"Pickled herrings for the sons and daughters of the steppes. Mare's milk and saiga sausage are great, but our warriors do like to have something foreign to chew on on their march."
+		"Finest hides and fur from Aavnr! Saiga sausages and cheese!",
+
+		"Send an acolyte when we anchor! \
+		I took on a Freifechter who kept preaching about Psydon to my passengers and crew \
+		until a fight broke out between them. He held off eight of them with blows to the hands-and-feet until a bolt ran through his guts. \
+		Now I've got four whiskey barrels with bodies in them. MAKE HASTE!",
+
+		"You ought to build more lighthouses along the Bleakisles! I saw two ships aground on the way here, mine almost joined them! Necra's fog, \
+		they say.",
+
+		"I come seeking the finest Azurian silk, the most precious gemeralds, and the freshest lemons. I have even brought a \
+		few barrels of fermented saiga milk - Arkhi, as we call it. I am told a lot of your men at arms are from my homeland, \
+		and they have a taste for it.",
+
+		"FACTOR! Summon the armsmen! I hear many of them are from my homeland! Give them a taste of our Arakhi! It's been a while since any \
+		of them had any fermented saiga milk, eh?",
+
+		"Bring us SILKS, GEMERALDS, and your LEMONS! Tangerines, too! Half the crew are bleeding from the gums!",
 	)

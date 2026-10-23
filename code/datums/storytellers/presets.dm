@@ -89,7 +89,7 @@
 /datum/storyteller/gamemode/guaranteed_antag
 	name = "High Intensity"
 	vote_desc = "Guaranteed hard antagonist. Some soft antagonists remain."
-	desc = "Guaranteed roundstart hard antag. Wretches up to 8. Gnolls max 2. Hag present. Dreamwalker may roll."
+	desc = "Guaranteed roundstart hard antag. Wretches up to 9. Gnolls max 2. Hag present. Dreamwalker may roll."
 	welcome_text = "A cold dread settles over the town.."
 	color_theme = "#a43c3c"
 	preset_pool = GAMEMODE_POOL_GUARANTEED
@@ -102,24 +102,13 @@
 	preferred_gnoll_mode = GNOLL_SCALING_FLAT	// max 2
 	wretch_slot_cap = 9
 
-/datum/storyteller/gamemode/guaranteed_antag/low_wretch
-	name = "Tempered Intensity"
-	vote_desc = "Guaranteed hard antagonist of a random variety. A few soft antagonists too."
-	desc = "Guaranteed roundstart hard antag with more aggressive pop scaling. Wretches up to 4. Gnoll max 1. Hag present. No dreamwalker."
-	color_theme = "#7a1f1f"
-	hard_mult = 2
-	block_soft = FALSE
-	allow_dreamwalker = FALSE
-	preferred_gnoll_mode = GNOLL_SCALING_SINGLE	// max 1
-	wretch_slot_cap = 4
-
 // ----------------------------------------------------------------------------------------------------------
 // TEN pool - no hard antags, soft antags only. Standard is the lighter option, Medium the default fallback.
 // ----------------------------------------------------------------------------------------------------------
 /datum/storyteller/gamemode/no_antag	// DEFAULT (inconclusive-vote fallback)
 	name = "Medium Intensity"
 	vote_desc = "No hard antagonists. Soft antagonists scale reasonably."
-	desc = "No hard antags. Wretches scale normally (5 -> 12). Gnolls max 3. Hag present. Dreamwalker may roll."
+	desc = "No hard antags. Wretches scale normally (5 -> 12). Gnolls max 3. Hag present. No dreamwalker."
 	welcome_text = "The warmth of daelight rouses you from your slumber.."
 	color_theme = "#2b8c87"
 	preset_pool = GAMEMODE_POOL_NOANTAG

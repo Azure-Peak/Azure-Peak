@@ -1495,7 +1495,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/alchserum/matthios_kingsblood/examine(mob/user)
 	. = ..()
 
-	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || HAS_TRAIT(user, TRAIT_PALLID) || HAS_TRAIT(user, TRAIT_ORGAN_EATER))
+	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || HAS_TRAIT(user, TRAIT_ORGAN_EATER))
 		. += span_warning("TIP: You could drink this instead of applying it. Aim for your mouth and use it on yourself.")
 
 /obj/item/alchserum/matthios_kingsblood/attack(mob/living/carbon/human/target, mob/living/user)
@@ -1503,7 +1503,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return ..()
 
 	var/is_vampire = target.mind?.has_antag_datum(/datum/antagonist/vampire)
-	var/is_blood_drinker = is_vampire || HAS_TRAIT(target, TRAIT_PALLID) || HAS_TRAIT(target, TRAIT_ORGAN_EATER)
+	var/is_blood_drinker = is_vampire || HAS_TRAIT(target, TRAIT_ORGAN_EATER)
 
 	if(target == user && user.zone_selected == BODY_ZONE_PRECISE_MOUTH && is_blood_drinker)
 		if(do_after(user, 2 SECONDS, target = target))
@@ -1590,8 +1590,13 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return
 	if(!do_after(user, 1 SECONDS))
 		return
-	to_chat(user, span_warning(swap_message))
 	playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
+	if(findtext(LOWER_TEXT(name), "ruined"))
+		to_chat(user, span_warning("[src] crumbles into ash in your hands."))
+		new /obj/item/ash(get_turf(src))
+		qdel(src)
+		return
+	to_chat(user, span_warning(swap_message))
 	swap_form(user)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gilded/get_examine_highlight_status()
@@ -1675,6 +1680,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	aura_color = "#fffb00"
 	var/active_item = FALSE
 	is_important = TRUE
+	attachable = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/matthios/equipped(mob/living/carbon/human/user, slot)
 	. = ..()

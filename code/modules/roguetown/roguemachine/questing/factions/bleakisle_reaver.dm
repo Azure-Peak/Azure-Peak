@@ -12,6 +12,7 @@
 		/mob/living/carbon/human/species/human/northern/searaider/huscarl/ambush = 9,
 		/mob/living/carbon/human/species/human/northern/highwayman/ambush = 55,
 		/mob/living/carbon/human/species/human/northern/highwayman/crossbowman = 8,
+		/mob/living/carbon/human/species/human/northern/highwayman/bulwark = 10,
 		/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 8,
 		/mob/living/carbon/human/species/human/northern/militia/deserter = 10,
 	)

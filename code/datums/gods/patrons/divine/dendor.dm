@@ -43,12 +43,15 @@
 	// Allows prayer in the druid tower + houses in the forest
 	if(istype(get_area(follower), /area/rogue/indoors/shelter/woods))
 		return TRUE
+	// Allows prayer druid's grove as it should be part of dendor's wilds
+	if(istype(get_area(follower), /area/rogue/druidsgrove))
+		return TRUE
 	// Allows prayer in outdoors wilderness, such as bog
 	if(istype(get_area(follower), /area/rogue/outdoors/rtfield))
 		return TRUE
 	for(var/obj/structure/flora/roguetree/wise in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Pantheon Cross for the Treefather to hear my prays..."))
+	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Pantheon Cross for the Treefather to hear my prayers..."))
 	return FALSE
 
 /datum/patron/divine/dendor/on_gain(mob/living/H)

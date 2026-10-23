@@ -33,12 +33,14 @@
 		/datum/virtue/combat/dualwielder, //Hags are too powerful, abusable
 		/datum/virtue/combat/combat_virtue, //They do not need shield skills or anything in here
 		/datum/virtue/utility/notable, //No resident (????) or free-money-stash hags
+		/datum/virtue/utility/socialite, // Not intended to be residents
 		/datum/virtue/utility/bronzelimbs, //They should feel pain in their limbs given their state
 		/datum/virtue/movement/acrobatic, //This should be given to them when they are actually after a Hunted
 		/datum/virtue/utility/woodwalker, //This should be given to them when they are actually after a Hunted
 		/datum/virtue/utility/feytouched, // They are already FAE
 		/datum/virtue/utility/riding, // Hags literally get a teleportation mechanic, it doesn't make much sense.
 		)
+	quirk_restrictions = list(/datum/quirk/noble, /datum/quirk/feytouched)
 	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted) // could you fucking imagine
 	job_subclasses = list(
 		/datum/advclass/hag,

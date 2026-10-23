@@ -63,12 +63,17 @@
 	description = "Why are you seeing this?"
 	hydration_factor = 5
 	overdose_threshold = 60
+	brew_buff = /datum/status_effect/buff/brew/vigorized
+
+/datum/reagent/consumable/caffeine/on_mob_metabolize(mob/living/L)
+	. = ..()
+	apply_brew(L, TRUE)
 
 /datum/reagent/consumable/caffeine/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
 		M.energy_add(5) // 1/6th of mana pot
-	M.apply_status_effect(/datum/status_effect/buff/vigorized)
+	apply_brew(M)
 	M.sate_addiction(/datum/charflaw/addiction/caffiend)
 
 /datum/reagent/consumable/caffeine/overdose_process(mob/living/carbon/M)
@@ -88,6 +93,56 @@
 	alpha = 200
 	quality = DRINK_VERYGOOD
 
+/datum/reagent/consumable/caffeine/coffee/milk
+	cuisine = CUISINE_ETRUSCAN
+	name = "etruccino"
+	description = "Milk added to a wonderfully brewed coffee, savory and smooth."
+	reagent_state = LIQUID
+	color = "#7a5f49"
+	taste_description = "savory caramelization"
+	metabolization_rate = REAGENTS_METABOLISM
+	alpha = 200
+	quality = DRINK_FANTASTIC
+
+/datum/chemical_reaction/alch/etruccino
+	name = "Etruccino"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/caffeine/coffee/milk
+	results = list(/datum/reagent/consumable/caffeine/coffee/milk = 2)
+	required_reagents = list(/datum/reagent/consumable/caffeine/coffee = 1, /datum/reagent/consumable/milk = 1)
+
+/datum/reagent/consumable/caffeine/coffee/milk/on_mob_life(mob/living/carbon/M) // milk is good for your bones or something idk
+	. = ..()
+	if (M.mob_biotypes & MOB_BEAST)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+	else
+		M.adjustBruteLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOxyLoss(-0.15, 0)
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
+
+/datum/reagent/consumable/caffeine/coffee/cheese // cheese is milk right?
+	cuisine = CUISINE_ETRUSCAN
+	name = "lumpy etruccino"
+	description = "A thing of coffee with... with cheese in it. What. Who thought cheese was milk?"
+	reagent_state = LIQUID
+	color = "#aa894c"
+	taste_description = "savory... lumpy caramelization- is that cheese?"
+	metabolization_rate = REAGENTS_METABOLISM
+	alpha = 200
+	quality = DRINK_GOOD // it made the coffee worse
+
+/datum/chemical_reaction/alch/lumpyetruccino
+	name = "Lumpy Etruccino"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/caffeine/coffee/cheese
+	results = list(/datum/reagent/consumable/caffeine/coffee/cheese = 2)
+	required_reagents = list(/datum/reagent/consumable/caffeine/coffee = 1, /datum/reagent/consumable/soup/stew/thickcheese = 1)
+
 /datum/reagent/consumable/caffeine/coffee_spiced
 	cuisine = CUISINE_RANESHENI
 	name = "spiced coffee"
@@ -97,7 +152,7 @@
 	taste_description = "caramelized spiciness"
 	metabolization_rate = 0.5
 	alpha = 200
-	quality = DRINK_GOOD
+	quality = DRINK_FANTASTIC
 
 /datum/reagent/consumable/caffeine/coffee_spiced/on_mob_life(mob/living/carbon/M)
 	. = ..()
@@ -123,6 +178,38 @@
 	metabolization_rate = REAGENTS_METABOLISM
 	alpha = 173
 	quality = DRINK_VERYGOOD
+
+/datum/reagent/consumable/caffeine/tea/milk
+	cuisine = CUISINE_SOUTHEASTERN
+	name = "milk tea"
+	description = "A hot tea mixture with the savoryness of milk added to it. Very refreshing."
+	reagent_state = LIQUID
+	color = "#768b70" // Deeper green to make it look better
+	taste_description = "smooth, savory grassiness" // Yeah, uh.
+	metabolization_rate = REAGENTS_METABOLISM
+	alpha = 173
+	quality = DRINK_FANTASTIC
+
+/datum/chemical_reaction/alch/milktea
+	name = "Milk Tea"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/caffeine/tea/milk
+	results = list(/datum/reagent/consumable/caffeine/tea/milk = 2)
+	required_reagents = list(/datum/reagent/consumable/caffeine/tea = 1, /datum/reagent/consumable/milk = 1)
+
+/datum/reagent/consumable/caffeine/tea/milk/on_mob_life(mob/living/carbon/M) // milk is good for your bones or something idk
+	. = ..()
+	if (M.mob_biotypes & MOB_BEAST)
+		M.adjustFireLoss(-0.1	* REAGENTS_EFFECT_MULTIPLIER)
+	else
+		M.adjustBruteLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustFireLoss(-0.3	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustOxyLoss(-0.15, 0)
+		var/list/our_wounds = M.get_wounds()
+		if (LAZYLEN(our_wounds))
+			var/upd = M.heal_wounds(1)
+			if (upd)
+				M.update_damage_overlays()
 
 /datum/reagent/consumable/caffeine/tea_spiced
 	cuisine = CUISINE_SOUTHEASTERN

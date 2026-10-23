@@ -24,7 +24,6 @@
 	desc = ""
 	slices_num = 0
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
-	foodtype = GRAIN
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 	cooktime = 30 SECONDS
 	var/process_step // used for pie making and other similar modular foods
@@ -446,6 +445,7 @@
 
 /* -------------- RICE ----------------- */
 /obj/item/reagent_containers/food/snacks/grown/rice
+	dish_type = DISH_VEGETABLE
 	list_reagents = list(/datum/reagent/floure = 1)
 	volume = 1
 	sellprice = 3

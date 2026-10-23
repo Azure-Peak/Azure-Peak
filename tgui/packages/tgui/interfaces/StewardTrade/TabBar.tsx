@@ -47,6 +47,12 @@ export const TabBar = (props: {
         Market
       </div>
       <div
+        style={tabStyle(tab === 'ledger')}
+        onClick={() => onSwitch('ledger')}
+      >
+        Ledger
+      </div>
+      <div
         style={tabStyle(tab === 'regions')}
         onClick={() => onSwitch('regions')}
       >
@@ -56,19 +62,13 @@ export const TabBar = (props: {
         style={tabStyle(tab === 'auto_import')}
         onClick={() => onSwitch('auto_import')}
       >
-        Imports
+        Autoimport
       </div>
       <div
         style={tabStyle(tab === 'petition')}
         onClick={() => onSwitch('petition')}
       >
         Petition
-      </div>
-      <div
-        style={tabStyle(tab === 'ledger')}
-        onClick={() => onSwitch('ledger')}
-      >
-        Ledger
       </div>
       <div
         style={tabStyle(tab === 'royal_custom')}

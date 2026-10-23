@@ -18,7 +18,7 @@
 
 /datum/roguestock/stockpile/dried_fish
 	name = "Dried Fish Filet"
-	desc = "Salt-cured fish, fit for the fleet's long voyages."
+	desc = "Fish cured in salt for the fleet's long voyages."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
 	trade_good_id = TRADE_GOOD_DRIED_FISH
 	importexport_amt = 5
@@ -99,7 +99,7 @@
 
 /datum/roguestock/stockpile/shrimp
 	name = "Shrimp"
-	desc = "Whole slab of shrimp."
+	desc = "A handful of whole shrimp."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/shrimp
 	trade_good_id = TRADE_GOOD_SHRIMP
 	importexport_amt = 10

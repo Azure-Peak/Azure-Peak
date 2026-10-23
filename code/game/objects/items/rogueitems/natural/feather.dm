@@ -43,7 +43,7 @@
 			if(oldname == input)
 				to_chat(user, span_notice("I changed \the [O.name] to... well... \the [O.name]."))
 			else
-				O.name = "[input] ([initial(O.name)])"
+				O.name = "[input] <font size = 1>([initial(O.name)])</font>"
 				to_chat(user, span_notice("\The [oldname] has been successfully been renamed to \the [input]."))
 				O.renamedByPlayer = TRUE
 

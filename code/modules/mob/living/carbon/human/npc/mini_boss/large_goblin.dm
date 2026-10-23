@@ -14,13 +14,16 @@ GLOBAL_LIST_INIT(large_goblin_aggro, list(
 /mob/living/carbon/human/species/goblin/npc/large
 	threat_point = THREAT_ELITE
 	name = "unusually large goblin"
-	gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
+	npc_archetype = null // Bespoke boss, keeps its own outfit below
+	var/gob_outfit = /datum/outfit/job/roguetown/npc/mini_boss/large_goblin
 	faction = list(FACTION_DUNDEAD, FACTION_ORCS)
 	dodgetime = 20
 	d_intent = INTENT_PARRY
 
 /mob/living/carbon/human/species/goblin/npc/large/after_creation()
 	..()
+	if(gob_outfit)
+		equipOutfit(new gob_outfit)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.large_goblin_aggro, TRUE)
 	ADD_TRAIT(src, TRAIT_BIGGUY, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_HEAVYARMOR, TRAIT_GENERIC)

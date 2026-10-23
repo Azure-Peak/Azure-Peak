@@ -103,9 +103,13 @@
 	out += chronicle_kv("	Import tariff", "[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]")
 	out += chronicle_kv("	Export duty", "[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]")
 	out += chronicle_kv("	Recovered spoils", "[GLOB.azure_round_stats[STATS_REVENUE_RECOVERED_SPOILS]]")
-	out += chronicle_kv("Poll tax collected", "[GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]")
+	out += chronicle_kv("Poll levy collected", "[GLOB.azure_round_stats[STATS_POLL_LEVY_COLLECTED]]")
+	out += chronicle_kv("	Levies raised", "[GLOB.azure_round_stats[STATS_POLL_LEVIES_ENACTED]]")
+	out += chronicle_kv("	Arrears incurred", "[GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS]]")
+	out += chronicle_kv("	Arrears forgiven", "[GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS_FORGIVEN]]")
+	out += chronicle_kv("	Arrears recovered", "[GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS_RECOVERED]]")
 	out += chronicle_kv("Taxes evaded", "[GLOB.azure_round_stats[STATS_TAXES_EVADED]]")
-	var/exempt_total = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF] + GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY] + GLOB.azure_round_stats[STATS_EXEMPTED_FINE] + GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
+	var/exempt_total = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF] + GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY] + GLOB.azure_round_stats[STATS_EXEMPTED_FINE] + GLOB.azure_round_stats[STATS_EXEMPTED_POLL_LEVY]
 	out += chronicle_kv("Forgone revenue (exemptions)", "[exempt_total]")
 	out += chronicle_kv("Wages paid", "[GLOB.azure_round_stats[STATS_WAGES_PAID]]")
 	out += chronicle_kv("Fines income", "[GLOB.azure_round_stats[STATS_FINES_INCOME]]")
@@ -230,11 +234,54 @@
 	out += chronicle_kv("Generated (total / pool / rumor / def)", "[GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED]] / [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_POOL]] / [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_RUMOR]] / [GLOB.azure_round_stats[STATS_CONTRACTS_GENERATED_DEFENSE]]")
 	out += chronicle_kv("Taken (total / pool / rumor / def)", "[GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN]] / [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_POOL]] / [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_RUMOR]] / [GLOB.azure_round_stats[STATS_CONTRACTS_TAKEN_DEFENSE]]")
 	out += chronicle_kv("Completed (total / pool / rumor / def)", "[GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED]] / [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_POOL]] / [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_RUMOR]] / [GLOB.azure_round_stats[STATS_CONTRACTS_COMPLETED_DEFENSE]]")
+	out += chronicle_kv("Lapsed (pool / rumor / def)", "[GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_POOL] || 0] / [GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_RUMOR] || 0] / [GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_DEFENSE] || 0]")
 	out += chronicle_kv("Abandoned / Rerolled", "[GLOB.azure_round_stats[STATS_CONTRACTS_ABANDONED]] / [GLOB.azure_round_stats[STATS_CONTRACTS_REROLLED]]")
 	out += chronicle_kv("Lapsed & refunded / Withdrawn", "[GLOB.azure_round_stats[STATS_CONTRACTS_LAPSE_REFUNDED]] / [GLOB.azure_round_stats[STATS_CONTRACTS_WITHDRAWN]]")
 	out += chronicle_kv("Mammons paid / taxed / forfeited / refunded", "[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_PAID]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_TAXED]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_FORFEITED]] / [GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_REFUNDED]]")
+	out += chronicle_kv("Guild cut", "[GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_GUILD_CUT] || 0]")
+	out += "\n"
+	out += chronicle_section_contract_types()
+	return jointext(out, "")
+
+/proc/chronicle_avg_minutes(total_ds, count)
+	if(!count)
+		return "-"
+	return "[round(total_ds / count / 600, 0.1)]m"
+
+/proc/chronicle_section_contract_types()
+	var/list/out = list()
+	out += chronicle_section_header("Contracts by Type")
+	out += "	[chronicle_pad_right("Contract", 18)] | Posted | Taken | Lapsed | Players | Done | Failed | Aband | Withdr | Open | Done% | Wait | Run | Party | Deaths | Paid\n"
+	for(var/quest_type in GLOB.quest_prototypes)
+		out += chronicle_contract_row(CONTRACT_AXIS_TYPE, quest_type)
+	out += chronicle_kv("Distinct signers (all types)", "[count_all_contract_signers()]")
+	out += "\n"
+	out += chronicle_section_header("Contracts by Region")
+	out += "	[chronicle_pad_right("Region", 18)] | Posted | Taken | Lapsed | Players | Done | Failed | Aband | Withdr | Open | Done% | Wait | Run | Party | Deaths | Paid\n"
+	for(var/region in contract_region_order())
+		out += chronicle_contract_row(CONTRACT_AXIS_REGION, region)
+	out += "\n"
+	out += chronicle_section_header("Contracts by Role")
+	out += "	[chronicle_pad_right("Role", 18)] | Posted | Taken | Lapsed | Players | Done | Failed | Aband | Withdr | Open | Done% | Wait | Run | Party | Deaths | Paid\n"
+	for(var/group in contract_group_order())
+		out += chronicle_contract_row(CONTRACT_AXIS_GROUP, group)
 	out += "\n"
 	return jointext(out, "")
+
+/proc/chronicle_contract_row(axis, key)
+	var/posted = get_contract_stat(axis, key, CONTRACT_STAT_POSTED)
+	var/taken = get_contract_stat(axis, key, CONTRACT_STAT_TAKEN)
+	var/lapsed = get_contract_stat(axis, key, CONTRACT_STAT_LAPSED)
+	var/done = get_contract_stat(axis, key, CONTRACT_STAT_COMPLETED)
+	var/failed = get_contract_stat(axis, key, CONTRACT_STAT_FAILED)
+	var/abandoned = get_contract_stat(axis, key, CONTRACT_STAT_ABANDONED)
+	var/withdrawn = get_contract_stat(axis, key, CONTRACT_STAT_WITHDRAWN)
+	var/open = max(0, taken - done - failed - abandoned - withdrawn)
+	var/done_pct = taken ? "[round(done / taken * 100)]%" : "-"
+	var/wait = chronicle_avg_minutes(get_contract_stat(axis, key, CONTRACT_STAT_WAIT_DS), taken)
+	var/run = chronicle_avg_minutes(get_contract_stat(axis, key, CONTRACT_STAT_RUN_DS), done)
+	var/party = done ? "[round(get_contract_stat(axis, key, CONTRACT_STAT_PARTY) / done, 0.1)]" : "-"
+	return "	[chronicle_pad_right(key, 18)] | [chronicle_pad_left(posted, 6)] | [chronicle_pad_left(taken, 5)] | [chronicle_pad_left(lapsed, 6)] | [chronicle_pad_left(count_contract_signers(axis, key), 7)] | [chronicle_pad_left(done, 4)] | [chronicle_pad_left(failed, 6)] | [chronicle_pad_left(abandoned, 5)] | [chronicle_pad_left(withdrawn, 6)] | [chronicle_pad_left(open, 4)] | [chronicle_pad_left(done_pct, 5)] | [chronicle_pad_left(wait, 4)] | [chronicle_pad_left(run, 3)] | [chronicle_pad_left(party, 5)] | [chronicle_pad_left(get_contract_stat(axis, key, CONTRACT_STAT_DEATHS), 6)] | [get_contract_stat(axis, key, CONTRACT_STAT_PAID)]\n"
 
 /proc/chronicle_section_events()
 	var/list/out = list()

@@ -183,7 +183,7 @@
 	var/mob/living/spelltarget = cast_on
 
 	if (!isliving(spelltarget))
-		show_visible_message(owner, "You can only cast this on living beings.")
+		to_chat(owner, span_warning("You can only cast this on living beings."))
 		return FALSE
 	if (spelltarget == H)
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) / 2)//You only get half
@@ -214,7 +214,7 @@
 	impact_delay = 4
 	detonate_sound = null
 	immobilize_on_hit = 2 SECONDS
-	stop_at_dense = FALSE
+	stop_at_dense = TRUE
 	var/hammer_scale = 1.9
 
 	parent_type = /datum/action/cooldown/spell/telegraphed_strike

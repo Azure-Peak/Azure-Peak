@@ -34,7 +34,6 @@
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/spirit_vengeance
 	move_base_delay = MOVEMENT_DELAY_SPD_23
-	melee_cooldown = SKELETON_ATTACK_SPEED
 
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance/get_sound(input)
 	switch(input)

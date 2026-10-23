@@ -39,7 +39,7 @@ export const SummonsClause = (props: {
       <>
         That a {groupWord} of {namePlural}, gathered under one called{' '}
         <b>{ringleader}</b>, hath been thrice summoned at {courts}, and to none
-        of those summons did the ringleader nor any of their fellows answer.
+        of those summons did the ringleader or any of their fellows answer.
       </>
     );
   } else if (groupWord && namePlural) {
@@ -60,13 +60,12 @@ export const IndictmentList = (props: { crimes: string[] }) => {
   return (
     <>
       <p style={{ ...writParagraph, marginBottom: '4px' }}>
-        Whereof they stand accused of:
+        Whereof they stand accused:
       </p>
       <ul style={indictmentList}>
         {props.crimes.map((c, i) => (
           <li key={i} style={indictmentItem}>
             {capitalize(c)}
-            {';'}
           </li>
         ))}
       </ul>
@@ -77,8 +76,7 @@ export const IndictmentList = (props: { crimes: string[] }) => {
 export const SacralPlea = (props: { rulerTitle: string }) => (
   <p style={sacralPlea}>
     Wherefore the temples of the Tens have made plea unto the {props.rulerTitle}
-    , that this work be done with haste, lest further blasphemy compound the
-    wrong.
+    , that this work be done with haste and the wrong go no further.
   </p>
 );
 
@@ -113,9 +111,9 @@ const CondemnationCaputLupinum = (props: CondemnationProps) => {
     <p style={writParagraph}>
       By writ of the {rulerTitle}, and by counsel of the estates, {subject}{' '}
       {plural ? 'are' : 'is'} declared{' '}
-      <span style={caputLupinum}>CAPUT LUPINUM</span>, volf
-      {plural ? "'s heads" : "'s head"}, for that a volf is a beast hated of all
-      folk.
+      <span style={caputLupinum}>CAPUT LUPINUM</span>,{' '}
+      {plural ? "volves' heads" : "volf's head"}, for that a volf is a beast
+      hated of all folk.
     </p>
   );
 };
@@ -141,8 +139,7 @@ const CondemnationVolkomir = (props: CondemnationProps) => {
     <p style={writParagraph}>
       By writ of the {rulerTitle}, and by counsel of the estates, let {subject}{' '}
       be named <span style={caputLupinum}>VOLKOMIR</span>, volf cast out of the
-      realm&apos;s peace. Driven from every hearth and hall, harboured by no
-      kin, mourned by no friend.
+      realm&apos;s peace. Let no kin harbour them.
     </p>
   );
 };
@@ -164,8 +161,7 @@ export const CorruptionOfBloodClause = () => (
   <p style={{ ...writParagraph, fontStyle: 'italic' }}>
     And for that they have broken faith sworn before Ravox, their blood is held
     corrupt: no kin of their line shall inherit name, land, or honour from them,
-    nor claim any title by their blood. The taint passes through the line, and
-    there it ends.
+    nor claim any title by their blood.
   </p>
 );
 
@@ -177,8 +173,8 @@ export const LicenceToSlay = (props: {
 }) => (
   <p style={writParagraph}>
     From this day forward it is lawful for any to slay them as volves. Upon
-    their death the writ shall fall silent and mark itself; return it then to
-    the Contract Ledger, that the bounty of{' '}
+    their death this writ shall mark itself. Return it then to the Contract
+    Ledger, that the sum of{' '}
     <RewardClause
       reward={props.reward}
       levyRate={props.levyRate}
@@ -203,24 +199,21 @@ export const RecoveryAddendum = (props: {
     case 'beast':
       lead = (
         <>
-          And further: scattered where the beast attacked lies {what}, fallen
-          from lawful carriage.
+          And further: where the beast attacked, a carrier lost {what}.
         </>
       );
       break;
     case 'undead':
       lead = (
         <>
-          And further: strewn where the dead now wander lies {what}, dropped in
-          the breaking of lawful carriage.
+          And further: where the dead now wander, a carrier lost {what}.
         </>
       );
       break;
     default:
       lead = (
         <>
-          And further: among the spoils of this band lies {what}, taken from
-          lawful carriage.
+          And further: this band holds {what}, taken from lawful carriage.
         </>
       );
   }
@@ -273,13 +266,13 @@ export const HumanoidWrit = (props: {
       groupWord={props.groupWord}
       rulerTitle={props.rulerTitle}
     />
+    {props.oathBreach && <CorruptionOfBloodClause />}
     <LicenceToSlay
       reward={props.reward}
       levyRate={props.levyRate}
       levyExempt={props.levyExempt}
       guildCutRate={props.guildCutRate}
     />
-    {props.oathBreach && <CorruptionOfBloodClause />}
     {props.hasRecoveryAddendum && (
       <RecoveryAddendum
         shipment={props.recoveryShipment}

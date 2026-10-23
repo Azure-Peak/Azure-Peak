@@ -147,6 +147,7 @@
 	grid_width = 64
 	grid_height = 64
 	already_assembled = TRUE
+	is_tool = TRUE
 
 	possible_item_intents = list(/datum/intent/hit)
 	gripped_intents = list(/datum/intent/chisel)
@@ -179,5 +180,12 @@
 	blade_class = BCLASS_CHISEL
 	chargetime = 0
 	swingdelay = 3
+
+/obj/item/rogueweapon/chisel/assembly/arcyne
+	name = "arcyne chisel set"
+	desc = "Ready to shape stones when held in a steady grip. One cannot be without the other."
+
+/obj/item/rogueweapon/chisel/assembly/arcyne/attack_right(mob/user)
+	return
 
 #undef BCLASS_CHISEL

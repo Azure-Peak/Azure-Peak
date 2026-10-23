@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Nickname highlight colors are no longer squished (again). Your name will no longer be inexplicably highlighted in green instead of your chosen color."

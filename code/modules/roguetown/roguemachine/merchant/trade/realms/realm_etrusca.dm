@@ -108,18 +108,15 @@
 		/datum/supply_pack/rogue/alcohol/beer,
 	)
 	hail_lines = list(
-		"Ah, the Azurian shore at last! Por favor, have my tariff men ready - I am not a patient man when the sun is high.",
-		"By Abissoro, we have crossed two storms to reach this pier. I trust your purse is as wide as my hold.",
-		"Greetings, signore. My wine is the best in Psydonia, and my crew has been told not to spit on your stones. See that you give them no reason.",
-		"My chaplain has held sermon every sunsdae since we cleared Porto del Re. Ravox watches over honest weights at this gangway - bear that in mind.",
-		"Gran Zafiro sends greetings under the seal of House Zaragoza. My hold sends lemons. Take both with the respect they are owed.",
-		"I sailed from the southern isle, signore - Montecarina born, navy trained, no smuggler. Should any Navarno cousin tell you otherwise upon making port, do not believe them.",
-		"Open the chain and have a notary at the gangway. I trade in coin, not in promises - Heathen temptations have ruined cleaner pursers than yours.",
-		"Salve. I have lemons enough to drown your fevers and salt enough to bury your dead - which would you like first?",
-		"My cousin sailed this run last spring and was paid in clipped coin. I will be weighing every piece.",
-		"A Vaquero of the Montejaral hills rides with us, returning from a contract abroad. The crown calls him outlaw. My grandfather called him kin. Treat him as the latter and we will have no quarrel.",
-		"I carry a Condottieri captain bound for sellsword work in Otavan service. His arms are stowed, his crossbow is oiled, and his pay is none of our concern until we make port.",
-		"The crossing was kind. The Factor, I am told, is less so. Let us see if both rumors hold.",
-		"A priest aboard swears the figurehead wept blood off the Bleak Coast. I have him locked in the hold. Buy quickly so I may sail before the rest of the crew gets ideas.",
-		"My second cousin Federico travels with the cargo. He is - how shall I put this - acquainted with men who can move things quietly and quickly between Porto del Re and your Goldface, when official channels prove inconvenient. His fee is modest. His memory is shorter. Ask for him by name and not by trade, signore.",
+
+		"The FINEST bitters and wines from Etrusca! Have any sea-food of your own? My first-mate is craving some Azurian clams...",
+
+		"Need any hire hands? I've got saigas and their vaquero riders on my ship. Fine blades... just don't question their past.",
+
+		"Fancy any marksmen? I've got Condottieri on board! Rowdy, but the most accurate bastards in Etrusca. Pay them in zenar, \
+		good wines, or some company. I hear the Peak has an abundance of the latter!",
+
+		"Buy and sell something swell, factor. Abyssor must be stirring, we lost two deckhands to a water spout half-way here.",
+
+		"Ever had chocolate? We'll trade you for some produce.",
 	)

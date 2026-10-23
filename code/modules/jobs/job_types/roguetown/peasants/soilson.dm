@@ -92,6 +92,7 @@
 			"Rocknut seeds" = /obj/item/storage/roguebag/farmer_rocknut,
 			"Exotic fruit seeds" = /obj/item/storage/roguebag/farmer_fruits,
 			"Some extra smokes" = /obj/item/storage/roguebag/farmer_smokes,
+			"Seeds from Naledi" = /obj/item/storage/roguebag/farmer_naledi,
 		)
 		var/seedbag_names = list()
 		for (var/name in seeds)
@@ -140,4 +141,14 @@
 		/obj/item/seeds/swampweed,
 		/obj/item/seeds/pipeweed,
 		/obj/item/seeds/pipeweed,
+	)
+
+/obj/item/storage/roguebag/farmer_naledi
+	populate_contents = list(
+		/obj/item/seeds/lentils,
+		/obj/item/seeds/lentils,
+		/obj/item/seeds/lentils,
+		/obj/item/seeds/beans,
+		/obj/item/seeds/beans,
+		/obj/item/seeds/beans,
 	)

@@ -7,6 +7,19 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 
 /datum/quest/kill/bounty
 	quest_type = QUEST_BOUNTY
+	chronicle_order = QUEST_CHRONICLE_ORDER_BOUNTY
+	quest_difficulty = QUEST_DIFFICULTY_HARD
+	pool_kind = QUEST_POOL_KILL
+	pool_weight = QUEST_POOL_WEIGHT_BOUNTY
+	rumor_cost = RUMOR_COST_MAJOR
+	defense_cost = BURGHER_PLEDGE_COST_MAJOR
+	eligible_regions = list(
+		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+		THREAT_REGION_AZUREAN_COAST,
+		THREAT_REGION_MOUNT_DECAP,
+		THREAT_REGION_UNDERDARK,
+	)
 	tp_budget = QUEST_TP_BUDGET_BOUNTY_GOONS
 	threat_bands_cleared = QUEST_BANDS_BOUNTY
 	required_fellowship_size = 2
@@ -16,9 +29,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 /datum/quest/kill/bounty/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
-	pending_landmark_ref = WEAKREF(landmark)
-	target_spawn_area = get_area_name(get_turf(landmark))
-	region = landmark.region
+	bind_landmark(landmark)
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
 	if(!TR)
 		return FALSE
@@ -73,29 +84,11 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		return FALSE
 	if(!faction)
 		return FALSE
-	spawn_boss(landmark)
+	spawn_hidden_mob(landmark, target_mob_type)
 	spawn_goons(landmark)
 	progress_required = 1
 	addtimer(CALLBACK(src, PROC_REF(apply_boss_name)), 2 SECONDS)
 	return TRUE
-
-/datum/quest/kill/bounty/proc/spawn_boss(obj/effect/landmark/quest_spawner/landmark)
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
-		return
-	var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-	var/mob/living/boss = new target_mob_type(spawn_effect)
-	boss.faction |= "quest"
-	if(faction?.faction_tag)
-		boss.faction |= faction.faction_tag
-	boss.mark_contract_spawned()
-	boss.AddComponent(/datum/component/quest_object/kill, src)
-	ADD_TRAIT(boss, TRAIT_FRESHSPAWN, "[type]")
-	addtimer(TRAIT_CALLBACK_REMOVE(boss, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-	spawn_effect.contained_atom = boss
-	spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-	register_spawner(spawn_effect)
-	add_tracked_atom(boss)
 
 /datum/quest/kill/bounty/proc/apply_boss_name()
 	for(var/datum/weakref/ref in tracked_atoms)
@@ -114,36 +107,16 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	var/list/to_spawn = compose_warband()
 	total_spawned_tp = 0
 	for(var/goon_type in to_spawn)
-		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-		if(!spawn_turf)
-			continue
-		var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-		var/mob/living/goon = new goon_type(spawn_effect)
-		goon.faction |= "quest"
-		if(faction?.faction_tag)
-			goon.faction |= faction.faction_tag
-		goon.mark_contract_spawned()
-		ADD_TRAIT(goon, TRAIT_FRESHSPAWN, "[type]")
-		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-		spawn_effect.contained_atom = goon
-		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-		register_spawner(spawn_effect)
-		total_spawned_tp += initial(goon.threat_point) || 0
+		var/mob/living/goon = spawn_hidden_mob(landmark, goon_type, is_target = FALSE)
+		if(goon)
+			total_spawned_tp += initial(goon.threat_point) || 0
 
 /datum/quest/kill/bounty/proc/spawn_goblin_horde(obj/effect/landmark/quest_spawner/landmark)
 	total_spawned_tp = 0
 	for(var/i in 1 to rand(5, 9))
-		var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-		if(!spawn_turf)
-			continue
-		var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-		var/goon_path = pick(GLOB.quest_bounty_goblin_goons)
-		var/mob/living/goon = new goon_path(spawn_effect)
-		goon.faction |= "quest"
-		goon.mark_contract_spawned()
-		ADD_TRAIT(goon, TRAIT_FRESHSPAWN, "[type]")
-		addtimer(TRAIT_CALLBACK_REMOVE(goon, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-		spawn_effect.contained_atom = goon
-		spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-		register_spawner(spawn_effect)
-		total_spawned_tp += initial(goon.threat_point) || 0
+		var/mob/living/goon = spawn_hidden_mob(landmark, pick(GLOB.quest_bounty_goblin_goons), is_target = FALSE, tag_faction = FALSE)
+		if(goon)
+			total_spawned_tp += initial(goon.threat_point) || 0
+
+/datum/quest/kill/bounty/faction_fits(datum/quest_faction/F)
+	return ..() && length(F.boss_mob_types)

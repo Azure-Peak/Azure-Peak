@@ -40,6 +40,7 @@
 	anchored = TRUE
 	var/cooldown = 5 MINUTES
 	var/on_cooldown = FALSE
+	/// The area this bell sits in, resolved once at init. Recipient roles are picked by area type, not area name.
 	var/area/localarea
 	/// If there is a location more specific than the area you need this to call people to, fill this in while mapping.
 	/// Implemented for use inside the keep, so servant bells can declare the exact location you're being called to despite
@@ -54,7 +55,7 @@
 
 /obj/structure/standingbell/Initialize(mapload)
 	. = ..()
-	localarea = get_area_name(src)
+	localarea = get_area(src)
 	if(specific_location)
 		desc += "This one calls to the [specific_location]."
 
@@ -70,31 +71,33 @@
 			playsound(src, 'sound/misc/bell_small.ogg', 100, extrarange = 5)
 			addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), cooldown)
 			var/list/rolestonotify = list()
-			switch(localarea)
-				if("church")
-					rolestonotify = list("Bishop", "Acolyte", "Druid", "Martyr", "Templar", "Sexton")
-				if("Shop")
-					rolestonotify = list("Merchant", "Shophand")
-				if("Physician")
-					rolestonotify = list("Head Physician", "Apothecary")
-				if("The Guild of Craft")
-					rolestonotify = list("Guildmaster", "Guildsman")
-				if("Steward")
-					rolestonotify = list("Steward", "Clerk")
-				if("Baths")
-					rolestonotify = list("Bathmaster", "Bathhouse Attendant")
-				if("The Inquisition")
-					rolestonotify = list("Inquisitor", "Orthodoxist", "Absolver")
-				if("Garrison")
-					rolestonotify = list("Man at Arms", "Sergeant", "Watchman")
-				if("Manor", "keep basement")
-					rolestonotify = list("Servant", "Seneschal")
-			if(!specific_location)
-				send_ooc_note(span_blue(("I hear the distant sound of [src] ringing. I'm being called to the <b>[localarea]</b>.")), \
-				job = rolestonotify)
-			else
-				send_ooc_note(span_blue(("I hear the distant sound of [src] ringing. I'm being called to the <b>[specific_location]</b>.")), \
-				job = rolestonotify)
+			if(istype(localarea, /area/rogue/indoors/town/church/grim/infirmary))
+				rolestonotify = list("Head Physician", "Apothecary")
+			else if(istype(localarea, /area/rogue/indoors/town/church))
+				rolestonotify = list("Bishop", "Acolyte", "Druid", "Martyr", "Templar", "Sexton")
+			else if(istype(localarea, /area/rogue/indoors/town/shop))
+				rolestonotify = list("Merchant", "Shophand")
+			else if(istype(localarea, /area/rogue/indoors/town/physician))
+				rolestonotify = list("Head Physician", "Apothecary")
+			else if(istype(localarea, /area/rogue/indoors/town/dwarfin))
+				rolestonotify = list("Guildmaster", "Guildsman")
+			else if(istype(localarea, /area/rogue/indoors/town/steward))
+				rolestonotify = list("Steward", "Clerk")
+			else if(istype(localarea, /area/rogue/indoors/town/bath))
+				rolestonotify = list("Bathmaster", "Bathhouse Attendant")
+			else if(istype(localarea, /area/rogue/indoors/inq))
+				rolestonotify = list("Inquisitor", "Orthodoxist", "Absolver")
+			else if(istype(localarea, /area/rogue/indoors/town/garrison))
+				rolestonotify = list("Man at Arms", "Sergeant", "Watchman")
+			else if(istype(localarea, /area/rogue/indoors/town/manor) || istype(localarea, /area/rogue/under/town/basement/keep))
+				rolestonotify = list("Servant", "Seneschal")
+			if(!length(rolestonotify))
+				log_game("[src] in [localarea ? localarea.name : "an unknown area"] rang, but no job list is defined for its area type.")
+			var/called_to = specific_location
+			if(!called_to)
+				called_to = localarea ? localarea.name : "an unknown place"
+			send_ooc_note(span_blue(("I hear the distant sound of [src] ringing. I'm being called to the <b>[called_to]</b>.")), \
+			job = rolestonotify)
 
 /obj/structure/standingbell/proc/reset_cooldown()
 	visible_message(span_notice ("[src] is ready for use again."))

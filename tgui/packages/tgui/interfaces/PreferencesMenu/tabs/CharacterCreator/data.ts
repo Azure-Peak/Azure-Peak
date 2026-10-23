@@ -10,6 +10,8 @@ export type AllPagesData = {
   loaded_slot: number;
   real_name: string;
   headshot_link: string | null; // null indicates unset
+  headshot_artist_credit: string | null;
+  headshot_artist_link: string | null;
 
   pq: TrustedHTML;
   hide_pq: BooleanLike;
@@ -218,6 +220,15 @@ export type ExamineData = {
 };
 
 // --------------- IdentityData ---------------
+export type CharToggle = {
+  flag: number;
+  name: string;
+  desc: string;
+  off: string;
+  on: string;
+  enabled: BooleanLike;
+};
+
 export type IdentityData = {
   species_base_name: string;
   species_sub_name: string;
@@ -235,7 +246,6 @@ export type IdentityData = {
   statpack_name: string;
   domhand: number;
   combat_music: string;
-  dnr_pref: BooleanLike;
 
   favorite_cuisine: number; // bitflag
   favorite_dish: number; // bitflag
@@ -267,7 +277,11 @@ export type IdentityData = {
   min_bark_variance: number;
   max_bark_variance: number;
 
+  char_toggles: CharToggle[];
+
   virtues: VirtueWithMetadata[];
+
+  quirks: QuirkWithMetadata[];
 
   charflaws: CharFlaw[]; // look at constant.MAX_VICES
   has_averse: BooleanLike;
@@ -295,10 +309,23 @@ export type VirtueChoice = {
   tooltip: string | null; // null indicates no details
 };
 
+export type QuirkWithMetadata = {
+  id: number;
+  slot_name: string;
+  quirk: Quirk;
+  spawn_error: string | null; // null indicates all is okay
+};
+
+export type Quirk = {
+  name: string;
+};
+
 export type CharFlaw = {
   name: string;
   type: Path;
   warning: BooleanLike;
+  max_choices: number;
+  picked_choices: { index: number; choice: string }[];
 };
 
 // --------------- VillainData ---------------
@@ -306,7 +333,11 @@ export type VillainData = {
   antag_banned: BooleanLike;
 
   lich_headshot_link: string | null; // null means unset
+  lich_headshot_artist_credit: string | null;
+  lich_headshot_artist_link: string | null;
   vampire_headshot_link: string | null; // null means unset
+  vampire_headshot_artist_credit: string | null;
+  vampire_headshot_artist_link: string | null;
 
   vampire_skin: string | null; // null means unset
   vampire_eyes: string | null; // null means unset

@@ -123,7 +123,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed,	SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling,	SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_STR, 1)
-				gloves = /obj/item/clothing/gloves/roguetown/knuckles
+				backpack_contents[/obj/item/clothing/gloves/roguetown/knuckles] = 1
 				beltl	= /obj/item/rogueweapon/katar
 			if("Chanter")
 				H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -132,7 +132,7 @@
 			if("Cipher")
 				ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 5))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 8))
 				r_hand = /obj/item/rogueweapon/spellbook
 				grant_poke_spell(H)
 

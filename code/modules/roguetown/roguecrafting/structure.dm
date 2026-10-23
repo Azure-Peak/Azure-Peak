@@ -396,6 +396,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/couchright
 	name = "couch (right)"
@@ -407,6 +408,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/blackcouchleft
 	name = "black couch (left)"
@@ -418,6 +420,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/blackcouchright
 	name = "black couch (right)"
@@ -429,6 +432,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/ultimacouchleft
 	name = "ultima couch (left)"
@@ -440,6 +444,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/ultimacouchright
 	name = "ultima couch (right)"
@@ -451,6 +456,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/ultimacouchleft
 	name = "ultima couch (left)"
@@ -462,6 +468,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/ultimacouchright
 	name = "ultima couch (right)"
@@ -473,6 +480,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/altcouchleft
 	name = "couch alt (left)"
@@ -484,6 +492,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/altcouchright
 	name = "couch alt (right)"
@@ -495,6 +504,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/magentacouchleft
 	name = "magenta couch (left)"
@@ -506,6 +516,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 
 /datum/crafting_recipe/roguetown/structure/magentacouchright
 	name = "magenta couch (right)"
@@ -517,6 +528,7 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 4
+	do_not_turn = TRUE
 //------------
 
 //---Pillows---
@@ -641,6 +653,16 @@
 	verbage = "constructs"
 
 /obj/item/chair/stool/bar/rogue/crafted
+
+/datum/crafting_recipe/roguetown/structure/stone_stool
+	name = "stone stool"
+	category = "Seats"
+	result = /obj/item/chair/stool/bar/rogue/stone
+	reqs = list(/obj/item/natural/stone = 2)
+	tools = list(/obj/item/rogueweapon/chisel)
+	verbage_simple = "chisel"
+	verbage = "chisels"
+	skillcraft = /datum/skill/craft/masonry
 
 /datum/crafting_recipe/roguetown/structure/anvil
 	name = "anvil"
@@ -929,6 +951,16 @@
 	verbage = "constructs"
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/structure/haybale
+	name = "hay bale"
+	category = "Misc"
+	result = /obj/structure/haybale
+	reqs = list(/obj/item/natural/chaff/wheat = 3,
+				/obj/item/natural/fibers = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/structure/chest
 	name = "chest"
 	category = "Containers"
@@ -1038,6 +1070,16 @@
 				/obj/item/rogueore/coal = 1)
 	verbage_simple = "assembles"
 	verbage = "assembles"
+
+/datum/crafting_recipe/roguetown/structure/lamplighter_brazier // Cheap brazier recipe for lamplighters only.
+	name = "brazier (Lamplighter)"
+	category = "Lighting"
+	result = /obj/machinery/light/rogue/firebowl/stump
+	reqs = list(/obj/item/grown/log/tree/small = 1,
+				/obj/item/natural/stone = 1)
+	verbage_simple = "assembles"
+	verbage = "assembles"
+	always_availible = FALSE
 
 /datum/crafting_recipe/roguetown/structure/standing
 	name = "standing fire"

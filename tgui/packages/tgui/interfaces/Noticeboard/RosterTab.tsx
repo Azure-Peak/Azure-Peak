@@ -34,7 +34,7 @@ export const RosterTab = ({ data }: TabProps) => {
         Mercenary Roster
       </div>
       <div style={subtitleStyle}>
-        The names and detailings of those registered to the Mercenary Guild
+        Names and details of everyone registered with the Mercenary's Guild
       </div>
       <hr style={rulerStyle} />
 

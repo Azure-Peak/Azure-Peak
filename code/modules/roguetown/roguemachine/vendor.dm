@@ -21,8 +21,8 @@
 
 /obj/structure/roguemachine/vendor/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Owners of the storefront's PEDDLER can unlock it, allowing them both restock wares and vend whatever coinage might've been earned from completed sales.")
-	. += span_info("Left-clicking a PEDDLER with an open land allows you to browse and purchase its wares. Click on the 'Stored Mammons' option to retrieve any coinage or change left behind.")
+	. += span_info("Owners of the storefront's PEDDLER can unlock it. They can then restock wares and vend whatever coinage might've been earned from completed sales.")
+	. += span_info("Left-clicking a PEDDLER with an open hand allows you to browse and purchase its wares. Click on the 'Stored Mammon' option to retrieve any coinage or change left behind.")
 
 /obj/structure/roguemachine/vendor/proc/get_group_items(param)
 	// Accepts either:
@@ -335,7 +335,7 @@
 						namer += "s" //add a plural s!
 						break
 
-			say("[namer] for sale! [held_items[I]["PRICE"]] mammons!")
+			say("[namer] for sale! [held_items[I]["PRICE"]] mammon!")
 
 /obj/structure/roguemachine/vendor/centcom
 	name = "LANDLORD"
@@ -715,10 +715,10 @@
 
 /obj/structure/roguemachine/vendor/mobile/get_mechanics_examine(mob/user)
 	. = list()
-	. += span_info("Left-clicking a PEDDLER CART with an open land allows you to browse and purchase its wares. Click on the 'Stored Mammons' option to retrieve any coinage or change left behind.")
+	. += span_info("Left-clicking a PEDDLER CART with an open hand allows you to browse and purchase its wares. Click on the 'Stored Mammon' option to retrieve any coinage or change left behind.")
 	. += span_info("The PEDDLER CART will bind to the first key inserted into its lock by left-clicking with said key.")
-	. += span_info("Owners of the PEDDLER CART can UNLOCK it by left-clicking with the relevant key, allowing them both restock wares and vend whatever coinage might've been earned from completed sales.")
-	. += span_info("Owners of the PEDDLER CART can ANCHOR it by right-clicking with the relevant key, preventing the wheels from moving.")
+	. += span_info("Owners of the PEDDLER CART can UNLOCK it by left-clicking with the relevant key. They can then restock wares and vend whatever coinage might've been earned from completed sales.")
+	. += span_info("Owners of the PEDDLER CART can ANCHOR it by right-clicking with the relevant key. This locks the wheels in place.")
 //PILGRIM
 
 /obj/structure/roguemachine/vendor/church_bedroomset_grim

@@ -376,7 +376,6 @@
 	summons_per_cast = 1
 	summon_replace_mode = CONJURE_SUMMON_SINGLES
 
-	recoil_energy_floor = 500
 	recoil_severity = CONJURE_RECOIL_PARTIAL
 	reclaim_recoil = TRUE
 
@@ -400,8 +399,6 @@
 
 	var/mob/living/carbon/human/species/skeleton/conjured/skeleton = new(dest)
 	skeleton.summoner_ref = WEAKREF(user)
-	skeleton.arcane_scale = clamp(user.get_skill_level(/datum/skill/magic/holy), 1, 6)
-	skeleton.gear_tier = get_summon_tier(user)
 	skeleton.loadout = modes[current_mode]["loadout"]
 
 	skeleton.add_filter("zizo_conjure_glow", 2, list("outline", "size" = 2, "color" = "#9B59FF"))
@@ -590,7 +587,7 @@
 // Explode your summoned skeletons if you are in combat mode, or absorb them into energy if not.
 /datum/action/cooldown/spell/zizo/bone_cataclysm
 	name = "Bone Cataclysm"
-	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and Gravemarked allies will not be harmed by it.<br><br>If used outside Combat Mode, you will disintegrate them and restore your energy."
+	desc = "Detonate all of your nearby skeletons in a wave of profane bone shrapnel. You and marked allies will not be harmed by it.<br><br>If used outside Combat Mode, you will disintegrate them and restore your energy."
 	fluff_desc = "Zizo taught her faithful that the dead must always serve twice: once in unlife, and once more when their bones are shattered in her name."
 	button_icon_state = "cataclysm"
 	click_to_activate = FALSE

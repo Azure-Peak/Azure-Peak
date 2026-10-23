@@ -62,7 +62,9 @@
 			/obj/item/reagent_containers/food/snacks/rogue/meat/saiga,
 			/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs,
 			/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_z,
-			/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z
+			/obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs_z,
+			/obj/item/reagent_containers/food/snacks/grown/beans,
+			/obj/item/reagent_containers/food/snacks/grown/lentils,
 		)
 
 		var/num_items = rand(9, 15)

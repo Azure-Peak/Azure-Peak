@@ -81,7 +81,7 @@
 		return
 
 	if(stockpile_entry.stockpile_amount >= AUTO_IMPORT_FLOOR)
-		today_lines += "[tg.name]: stockpile [stockpile_entry.stockpile_amount] >= floor [AUTO_IMPORT_FLOOR], no import needed."
+		today_lines += "[tg.name]: [stockpile_entry.stockpile_amount] in stock, at or above [AUTO_IMPORT_FLOOR]. No import needed."
 		return
 
 	// exclude_blockaded = TRUE: the price cap implicitly skips blockaded producers (2x import
@@ -110,16 +110,16 @@
 
 	var/price_cap = tg.base_price * AUTO_IMPORT_MAX_PRICE_MULT
 	if(max_unit_price > price_cap)
-		today_lines += "[tg.name]: skipped (unit price [max_unit_price]m > [AUTO_IMPORT_MAX_PRICE_MULT]x base price [tg.base_price]m)."
+		today_lines += "[tg.name]: skipped, [max_unit_price]m each is more than [AUTO_IMPORT_MAX_PRICE_MULT]x its usual price of [tg.base_price]m."
 		return
 
 	if(discretionary_fund.balance - total_cost < auto_import_purse_floor)
-		today_lines += "[tg.name]: skipped (purse floor [auto_import_purse_floor]m would be breached)."
+		today_lines += "[tg.name]: skipped, buying it would take the Treasury below [auto_import_purse_floor]m."
 		return
 
 	var/spent = SSeconomy.manual_import(null, region_id, good_id, AUTO_IMPORT_BATCH)
 	if(!spent)
-		today_lines += "[tg.name]: import failed (treasury or region state changed mid-tick)."
+		today_lines += "[tg.name]: import failed (Treasury or region changed during the import)."
 		return
 
 	auto_import_daily_spent += spent

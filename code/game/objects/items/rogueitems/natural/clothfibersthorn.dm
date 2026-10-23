@@ -74,6 +74,13 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/natural/fibers/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+			return
+		W.attackby(src, user, params)
+		return
+	..()
 
 /obj/item/natural/silk
 	name = "silk"
@@ -482,6 +489,10 @@
 	grid_width = 32
 	grid_height = 32
 	dropshrink = 0.9
+
+/obj/item/natural/bundle/cloth/roll
+	icon_state = "clothroll2"
+	amount = 10
 
 /obj/item/natural/bundle/stick
 	name = "bundle of sticks"
