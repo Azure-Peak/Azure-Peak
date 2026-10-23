@@ -37,18 +37,19 @@
 	..()
 	to_chat(H, span_warning("You are a treasure hunter trained in hunting for valuables. Discern what is treasure or not, your fortune could be hidden anywhere."))
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/cuirass
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	backr = /obj/item/rogueweapon/shovel
 	head = /obj/item/clothing/head/roguetown/fedora
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/lockpick = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -100,13 +101,13 @@
 /datum/outfit/job/roguetown/adventurer/thief/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a scoundrel and a thief. A master in getting into places you shouldn't be and taking things that aren't rightfully yours."))
-	armor = /obj/item/clothing/suit/roguetown/armor/leather
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/cuirass
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	backl = /obj/item/storage/backpack/rogue/backpack
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
@@ -114,7 +115,8 @@
 	beltl = /obj/item/quiver/Warrows
 	beltr = /obj/item/rogueweapon/mace/cudgel
 	backpack_contents = list(
-		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 1,
 		/obj/item/lockpickring/mundane = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -151,20 +153,21 @@
 	..()
 	to_chat(H, span_warning("You make your fortune in brothels, flop houses, and taverns – gaining fame for your songs and legends. If there is any truth to them, that is."))
 	head = /obj/item/clothing/head/roguetown/bardhat
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt = /obj/item/clothing/suit/roguetown/shirt/shortshirt
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest
+	beltl = /obj/item/rogueweapon/scabbard/sheath
+	beltr = /obj/item/flashlight/flare/torch/lantern
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/cuirass
 	backl = /obj/item/storage/backpack/rogue/satchel
 	cloak = /obj/item/clothing/cloak/half/red
 	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/lockpick = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1
 		)
 	var/datum/inspiration/I = new /datum/inspiration(H)
 	I.grant_inspiration(H, bard_tier = BARD_T2)
@@ -231,18 +234,21 @@
 	..()
 	to_chat(H, span_warning("You are a daring rogue of the seas! Swashbucklers wield agile swordplay and acrobatic prowess - fighting dirty to outmaneuver foes with flair."))
 	head = /obj/item/clothing/head/roguetown/helmet/tricorn
-	pants = /obj/item/clothing/under/roguetown/tights/sailor
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/sailor/red
+	pants = /obj/item/clothing/under/roguetown/tights/clothlegs
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogue/instrument/hurdygurdy
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	beltl = /obj/item/flashlight/flare/torch/lantern
-	beltr = /obj/item/rogueweapon/sword/cutlass
+	beltr = /obj/item/rogueweapon/scabbard/sword
+	l_hand = /obj/item/rogueweapon/sword/cutlass
 	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/bomb = 1,
 		/obj/item/lockpick = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
@@ -289,8 +295,10 @@
 	belt = /obj/item/storage/belt/rogue/leather
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	cloak = /obj/item/clothing/cloak/thief_cloak
-	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
+	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	head = /obj/item/clothing/head/roguetown/roguehood
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	neck = /obj/item/clothing/neck/roguetown/leather

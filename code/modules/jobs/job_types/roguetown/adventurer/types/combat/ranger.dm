@@ -42,19 +42,19 @@
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/darkgreen
 	neck = /obj/item/clothing/neck/roguetown/coif
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/green
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltr = /obj/item/flashlight/flare/torch/lantern
+	beltl = /obj/item/rogueweapon/scabbard/sheath
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/bait = 1,
-		/obj/item/rogueweapon/huntingknife/combat = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/rogueweapon/huntingknife/combat = 1
 		)
 	if(H.mind)
 		var/weapons = list("Bow","Crossbow")
@@ -100,22 +100,24 @@
 /datum/outfit/job/roguetown/adventurer/assassin/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You've lived the life of a hired killer and have spent your time training with blades and crossbows alike."))
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	head = /obj/item/clothing/head/roguetown/armingcap/padded
+	neck = /obj/item/clothing/neck/roguetown/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
-	armor = /obj/item/clothing/suit/roguetown/armor/leather
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 	cloak = /obj/item/clothing/cloak/raincloak/mortus
 	backl = /obj/item/storage/backpack/rogue/satchel
-	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel
+	beltl = /obj/item/rogueweapon/scabbard/sheath
 	beltr = /obj/item/quiver/bolt/standard
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 	backpack_contents = list(
-		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel = 1
 		)
 	H.set_blindness(0)
 
@@ -149,7 +151,7 @@
 /datum/outfit/job/roguetown/adventurer/bombardier/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"))
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	head = /obj/item/clothing/head/roguetown/headband/monk
 	wrists = /obj/item/rogueweapon/scabbard/sheath
@@ -236,8 +238,8 @@
 	to_chat(H, span_warning("You have crossed forests, marshes, and open country, learning to find food, shelter, and a way through each."))
 	head = /obj/item/clothing/head/roguetown/helmet/leather/volfhelm
 	mask = /obj/item/clothing/head/roguetown/roguehood
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
@@ -325,7 +327,7 @@
 						armor = /obj/item/clothing/suit/roguetown/armor/leather/hide
 						pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 					if("Padded Gambeson")
-						armor = /obj/item/clothing/suit/roguetown/armor/gambeson
+						armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
 						pants = /obj/item/clothing/under/roguetown/trou/leather
 						head = /obj/item/clothing/head/roguetown/armingcap/padded
 			if("Medium Armor")
@@ -342,7 +344,7 @@
 						gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 					if("Iron Breastplate")
 						armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
-						shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+						shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 						neck = /obj/item/clothing/neck/roguetown/coif/padded
 		if(uses_wits)
 			wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk

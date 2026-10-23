@@ -88,26 +88,27 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				r_hand = /obj/item/rogueweapon/flail/peasantwarflail/iron
 				backr = /obj/item/rogueweapon/scabbard/gwstrap
-		var/armors = list("Chainmaille Set","Iron Breastplate","Gambeson & Helmet","Light Raneshi Armor")
+		var/armors = list("Chainmaille Set","Iron Breastplate","Gambeson & Cuirass","Light Raneshi Armor")
 		var/armor_choice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		switch(armor_choice)
 			if("Chainmaille Set")
 				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/iron
-				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random//giving them something to wear under their armors
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
 				neck = /obj/item/clothing/neck/roguetown/chaincoif/iron
 				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
+				head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
 			if("Iron Breastplate")
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron
 				neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
-				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 				pants = /obj/item/clothing/under/roguetown/splintlegs
 				gloves = /obj/item/clothing/gloves/roguetown/angle
-			if("Gambeson & Helmet")
-				armor = /obj/item/clothing/suit/roguetown/armor/gambeson
-				neck = /obj/item/clothing/neck/roguetown/coif/padded//neck cover
-				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/random
-				wrists = /obj/item/clothing/wrists/roguetown/bracers/splint//adding it since this set feels far too weak compared to the other two, gets one helmet and arm cover at least
+				head = /obj/item/clothing/head/roguetown/helmet/kettle/iron
+			if("Gambeson & Cuirass")
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/cuirass
+				neck = /obj/item/clothing/neck/roguetown/coif/padded
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 				pants = /obj/item/clothing/under/roguetown/trou/leather
 				head = /obj/item/clothing/head/roguetown/helmet/kettle
 				gloves = /obj/item/clothing/gloves/roguetown/angle
@@ -116,14 +117,15 @@
 				pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex/raneshen
 				head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab
 				gloves = /obj/item/clothing/gloves/roguetown/angle
+				neck = /obj/item/clothing/neck/roguetown/coif/padded
 	belt = /obj/item/storage/belt/rogue/leather
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron/chain
+	shoes = /obj/item/clothing/shoes/roguetown/boots/maille/iron
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
 	backpack_contents = list(
-		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
@@ -204,23 +206,23 @@
 				mask = /obj/item/clothing/mask/rogue/duelmask
 				cloak = /obj/item/clothing/cloak/half
 				armor = /obj/item/clothing/suit/roguetown/armor/leather
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 			if("Cuirass Set")
 				cloak = /obj/item/clothing/suit/roguetown/armor/longcoat
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/cuirass
-				shirt = /obj/item/clothing/suit/roguetown/shirt/tunic/white
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
 				gloves = /obj/item/clothing/gloves/roguetown/leather
 
 	head = /obj/item/clothing/head/roguetown/duelhat
-	neck = /obj/item/clothing/neck/roguetown/gorget
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
 	backpack_contents = list(
-		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
@@ -323,7 +325,8 @@
 			backr = /obj/item/rogueweapon/scabbard/gwstrap
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt/barbarian
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/bronzeskirt
-	shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	if(should_wear_masc_clothes(H))
 		H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
@@ -332,7 +335,7 @@
 			armor = /obj/item/clothing/suit/roguetown/armor/leather/bikini
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
-		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/rogueweapon/huntingknife/bronze = 1,
@@ -397,7 +400,7 @@
 		var/armors = list(
 			"Breastplate, Hauberk, & Kilt",
 			"Half-Plate, Gambeson, & Chausses",
-			"Banded Iron, Light Gambeson, & Pants"
+			"Banded Iron, Light Arming Jacket, & Cloth Chausses"
 			)
 		var/armorchoice = input(H, "Choose your armor.", "TAKE UP ARMOR") as anything in armors
 		switch(armorchoice)
@@ -413,12 +416,12 @@
 				gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 				neck = /obj/item/clothing/neck/roguetown/bevor/iron
 				pants = /obj/item/clothing/under/roguetown/chainlegs/iron
-			if("Banded Iron, Light Gambeson, & Pants")
+			if("Banded Iron, Light Arming Jacket, & Cloth Chausses")
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/iron/banded
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/light
 				gloves = /obj/item/clothing/gloves/roguetown/plate/iron/banded
 				neck = /obj/item/clothing/neck/roguetown/gorget
-				pants = /obj/item/clothing/under/roguetown/tights/black
+				pants = /obj/item/clothing/under/roguetown/tights/clothlegs
 
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
@@ -638,16 +641,14 @@
 				ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC) //'Witcher' archetype. Well-rounded, and vamp immune, but not exceptional in any particular field.
 				H.change_stat(STATKEY_INT, 1)
 				head = /obj/item/clothing/head/roguetown/puritan/armored
-				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
+				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 				belt = /obj/item/storage/belt/rogue/leather/black
 			if("Reformist - Chainmaille & Dodge Expert (+I SPD)")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) //'Puritan' archetype. Closer to the Roguetown-era Inquisitor in portrayal. No armor training, but overprepared with silver throwing daggers and excellent evasive maneuvers.
 				H.change_stat(STATKEY_SPD, 1)
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				head = /obj/item/clothing/head/roguetown/puritan
-				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
-				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
+				armor = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
 				belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver
 			if("Orthodoxist - Cuirass & Plate Training (+I CON / -I SPD)")
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
@@ -655,7 +656,6 @@
 				H.change_stat(STATKEY_CON, 1)
 				H.change_stat(STATKEY_SPD, -1)
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted
-				shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				belt = /obj/item/storage/belt/rogue/leather/black
 				var/helmets = list("Puritan's Armored Hat", "Visored Sallet","Snouted Visored Sallet", "Volfskulle Bascinet", "Fluted Armet", "Fluted Armet With Greatplume", "Sugarloaf Greathelm", "Barbute Greathelm", "Snouted Burgonet", "Pigface Bascinet", "Roundface Bascinet","Snouted Roundface Bascinet")
 				var/helmet_choice = input(H, "Choose your VISAGE.", "GET PSYCHED.") as anything in helmets
@@ -686,7 +686,8 @@
 						head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	pants = /obj/item/clothing/under/roguetown/tights/puritan
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord
+	pants = /obj/item/clothing/under/roguetown/splintlegs
 	cloak = /obj/item/clothing/cloak/cape/puritan
 	neck = /obj/item/clothing/neck/roguetown/chaincoif
 	gloves = /obj/item/clothing/gloves/roguetown/angle

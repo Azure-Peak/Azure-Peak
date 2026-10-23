@@ -33,7 +33,8 @@
 /datum/outfit/job/roguetown/adventurer/mage/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are a learned mage and a scholar, having spent your life studying the arcane and its ways."))
-	head = /obj/item/clothing/head/roguetown/roguehood/mage
+	mask = /obj/item/clothing/head/roguetown/roguehood/mage
+	head = /obj/item/clothing/head/roguetown/headband/monk/barbarian
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -97,7 +98,8 @@
 /datum/outfit/job/roguetown/adventurer/alchemist/pre_equip(mob/living/carbon/human/H)
 	..()
 	to_chat(H, span_warning("You are an alchemist traveling the world in search of rare reagents and new discoveries. You turn the spoils of your adventures into strange and useful concoctions."))
-	head = /obj/item/clothing/head/roguetown/roguehood/mage
+	mask = /obj/item/clothing/head/roguetown/roguehood/mage
+	head = /obj/item/clothing/head/roguetown/headband/monk/barbarian
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -151,19 +153,19 @@
 
 /datum/outfit/job/roguetown/adventurer/spellblade
 	head = /obj/item/clothing/head/roguetown/bucklehat
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	belt = /obj/item/storage/belt/rogue/leather
-	neck = /obj/item/clothing/neck/roguetown/chaincoif
+	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 
 /datum/outfit/job/roguetown/adventurer/spellblade/pre_equip(mob/living/carbon/human/H)
 	..()
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
+	backpack_contents = list(/obj/item/flashlight/flare/torch/lantern = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
@@ -269,19 +271,19 @@
 	..()
 	to_chat(H, span_warning("You belong to a school of bards renowned for their study of both the arcane and the arts."))
 	head = /obj/item/clothing/head/roguetown/spellcasterhat
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/dark
 	gloves = /obj/item/clothing/gloves/roguetown/angle
 	belt = /obj/item/storage/belt/rogue/leather
-	neck = /obj/item/clothing/neck/roguetown/gorget/steel
+	neck = /obj/item/clothing/neck/roguetown/leather
 	armor = /obj/item/clothing/suit/roguetown/shirt/robe/spellcasterrobe
 	backl = /obj/item/storage/backpack/rogue/satchel
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	beltr = /obj/item/rogueweapon/scabbard/sword
 	r_hand = /obj/item/rogueweapon/sword/sabre
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
+	backpack_contents = list(/obj/item/flashlight/flare/torch/lantern = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
 	var/datum/inspiration/I = new /datum/inspiration(H)
 	I.grant_inspiration(H, bard_tier = BARD_T1)
 	if(H.mind)
@@ -328,7 +330,7 @@
 /datum/outfit/job/roguetown/adventurer/spellfist/pre_equip(mob/living/carbon/human/H)
 	..()
 	head = /obj/item/clothing/head/roguetown/headband/monk
-	shoes = /obj/item/clothing/shoes/roguetown/boots
+	shoes = /obj/item/clothing/shoes/roguetown/footwraps/padded
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt =	/obj/item/clothing/suit/roguetown/armor/gambeson
 	armor =	/obj/item/clothing/suit/roguetown/armor/leather/heavy
@@ -341,7 +343,7 @@
 	beltr = /obj/item/rogueweapon/huntingknife
 	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
-		/obj/item/flashlight/flare/torch = 1,
+		/obj/item/flashlight/flare/torch/lantern = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		(naledi_book) = 1,
 		/obj/item/rogueweapon/spellbook = 1,
@@ -420,13 +422,14 @@
 	to_chat(H, span_warning("You are an Arcyne Trickster, a thief and hooligan gifted in the arcyne arts."))
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	backl = /obj/item/storage/backpack/rogue/satchel
 	belt = /obj/item/storage/belt/rogue/leather
-	shoes = /obj/item/clothing/shoes/roguetown/boots
-	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+	neck = /obj/item/clothing/neck/roguetown/leather
 	beltl = /obj/item/rogueweapon/scabbard/sheath
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
-	backpack_contents = list(/obj/item/flashlight/flare/torch = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
+	backpack_contents = list(/obj/item/flashlight/flare/torch/lantern = 1,/obj/item/storage/belt/rogue/pouch/coins/poor = 1, /obj/item/chalk = 1, /obj/item/rogueweapon/spellbook = 1)
 
 	// This just changes your starting cantrips and if you wear snazzy blue or edgy black.
 	var/origin = input(H, "Arcyne Thief or a Magos Hooligan?", "ORIGIN") as anything in list("Arcyne Thief (Aetherknife)", "Magos Hooligan (Magician's Brick)")
