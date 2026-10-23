@@ -23,7 +23,7 @@
 	gradient				= list(0,"#7c9b98",100,"#5ea9b6","loop")
 
 /particles/weather/fog/zizo
-	gradient				= list(0,"#7c9b88",100,"#7eada7","loop")
+	gradient				= list(0,"#7c9b88",100,"#7ead93","loop")
 	wind					= 4 //slightly less
 
 /particles/weather/fog/bloodfog
