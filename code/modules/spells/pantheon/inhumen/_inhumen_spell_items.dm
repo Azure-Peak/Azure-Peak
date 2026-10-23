@@ -914,8 +914,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 			if(initial(food_type.faretype) != FARE_IMPOVERISHED)
 				continue
-			if(initial(food_type.foodtype) & RAW)
-				continue
+//			if(initial(food_type.foodtype) & RAW) // whoever removed this, I hate you so much, I like, really hate you so, so much, I am furious, my fury knows no bounds, my head is fire and my heart is flames
+//				continue // gotta rethink on a way to cover this later
 			if(initial(food_type.eat_effect) in list(/datum/status_effect/debuff/uncookedfood, /datum/status_effect/debuff/rotfood, /datum/status_effect/debuff/burnedfood))
 				continue
 
@@ -950,8 +950,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		if(initial(food_type.faretype) != selected_fare_type)
 			continue
 
-		if(initial(food_type.foodtype) & RAW)
-			continue
+//		if(initial(food_type.foodtype) & RAW)
+//			continue
 
 		var/food_name = LOWER_TEXT(initial(food_type.name))
 		var/blacklisted = FALSE
