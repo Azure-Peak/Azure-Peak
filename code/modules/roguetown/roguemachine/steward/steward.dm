@@ -242,21 +242,21 @@
 			SStreasury.write_off_loan(forgiven, "Debt forgiven by the Steward")
 			SStreasury.loans -= forgiven
 			qdel(forgiven)
-		SStreasury.clear_poll_tax_debt(target)
+		SStreasury.clear_poll_levy_debt(target)
 		say("[target.real_name]'s debtor mark has been cleared and all Crown loans have been forgiven.")
 		log_game("DEBT FORGIVEN: [key_name(usr)] cleared debtor mark on [key_name(target)][loan_amt ? " (wrote off [loan_amt]m loan)" : ""]")
 		to_chat(target, span_notice("The Stewardry has cleared the defaulter mark from my name. My Crown debts are forgiven."))
-	if(href_list["clearpolltax"])
+	if(href_list["clearpolllevy"])
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
 			return
 		var/list/in_arrears = list()
 		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(SStreasury.poll_tax_owed[H] || SStreasury.poll_tax_debt_days[H] || HAS_TRAIT(H, TRAIT_ARREARS))
+			if(SStreasury.poll_levy_owed[H] || HAS_TRAIT(H, TRAIT_ARREARS))
 				in_arrears["[H.real_name]"] = H
 		if(!length(in_arrears))
-			say("No one owes poll tax.")
+			say("No one owes poll levy.")
 			return
-		var/pick = input(usr, "Clear poll tax arrears for which subject?", src) as null|anything in in_arrears
+		var/pick = input(usr, "Clear poll levy arrears for which subject?", src) as null|anything in in_arrears
 		if(!pick)
 			return
 		if(!usr.canUseTopic(src, BE_CLOSE) || locked)
@@ -264,12 +264,11 @@
 		var/mob/living/carbon/human/target = in_arrears[pick]
 		if(!target)
 			return
-		var/was_owed = SStreasury.poll_tax_owed[target] || 0
-		var/was_overdue = SStreasury.poll_tax_debt_days[target] || 0
-		SStreasury.clear_poll_tax_debt(target)
-		say("[target.real_name]'s poll tax arrears have been cleared.")
-		log_game("POLL TAX CLEARED: [key_name(usr)] cleared [was_owed]m poll tax arrears on [key_name(target)] ([was_overdue] day\s overdue)")
-		to_chat(target, span_notice("The Stewardry has cleared my poll tax arrears."))
+		var/was_owed = SStreasury.poll_levy_owed[target] || 0
+		SStreasury.clear_poll_levy_debt(target)
+		say("[target.real_name]'s poll levy arrears have been cleared.")
+		log_game("POLL LEVY CLEARED: [key_name(usr)] cleared [was_owed]m poll levy arrears on [key_name(target)]")
+		to_chat(target, span_notice("The Stewardry has cleared my poll levy arrears."))
 	if(href_list["payroll"])
 		var/list/L = list(GLOB.noble_positions) + list(GLOB.retinue_positions) + list(GLOB.garrison_positions) + list(GLOB.courtier_positions) + list(GLOB.church_positions) + list(GLOB.burgher_positions) + list(GLOB.atc_positions) + list(GLOB.peasant_positions) + list(GLOB.sidefolk_positions) + list(GLOB.inquisition_positions)
 		var/list/things = list()
@@ -644,7 +643,7 @@
 			var/list/priority_accounts = list() // debtors or in arrears
 			var/list/normal_accounts = list()
 			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-				var/owed = SStreasury.poll_tax_owed[A] || 0
+				var/owed = SStreasury.poll_levy_owed[A] || 0
 				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
 				if(is_debtor || owed > 0)
 					priority_accounts += A
@@ -660,15 +659,14 @@
 				var/wage_status_long = A_suspended ? "Reinstate Wages" : "Suspend Wages"
 				var/fine_label = max_fine > 0 ? "FINE (Max [max_fine]m)" : "FINE (exempt)"
 				var/fine_long_label = max_fine > 0 ? "Fine Account (Max [max_fine]m)" : "Fine Account (exempt)"
-				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
-				var/overdue_days = SStreasury.poll_tax_debt_days[A] || 0
+				var/poll_owed = SStreasury.poll_levy_owed[A] || 0
 				var/a_is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
 				var/debt_tag = ""
 				if(a_is_debtor)
 					var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
 					debt_tag = " <font color='#d9534f'>\[DEBTOR[owed_str]\]</font>"
 				else if(poll_owed > 0)
-					debt_tag = " <font color='#e07b39'>\[ARREARS: [poll_owed]m, [overdue_days] day[overdue_days == 1 ? "" : "s"]\]</font>"
+					debt_tag = " <font color='#e07b39'>\[ARREARS: [poll_owed]m\]</font>"
 				if(compact)
 					if(ishuman(A))
 						var/mob/living/carbon/human/tmp = A
@@ -708,33 +706,32 @@
 				contents += "<BR>"
 			else
 				contents += "<i>No active loans.</i><BR><BR>"
-			// ── Poll Tax Arrears & Debtors ────────────────────────────────────
+			// ── Poll Levy Arrears & Debtors ────────────────────────────────────
 			var/list/debt_rows = list()
 			for(var/mob/living/carbon/human/A in SStreasury.bank_accounts)
-				var/poll_owed = SStreasury.poll_tax_owed[A] || 0
+				var/poll_owed = SStreasury.poll_levy_owed[A] || 0
 				var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR)
 				if(poll_owed > 0 || is_debtor)
 					debt_rows += A
 			if(length(debt_rows))
-				contents += "<b>Poll Tax Debtors / Arrears ([length(debt_rows)]):</b><BR>"
+				contents += "<b>Poll Levy Debtors / Arrears ([length(debt_rows)]):</b><BR>"
 				for(var/mob/living/carbon/human/A in debt_rows)
-					var/poll_owed = SStreasury.poll_tax_owed[A] || 0
-					var/overdue_days = SStreasury.poll_tax_debt_days[A] || 0
+					var/poll_owed = SStreasury.poll_levy_owed[A] || 0
 					var/is_debtor = HAS_TRAIT(A, TRAIT_DEBTOR_CROWN)
 					var/balance = SStreasury.get_balance(A)
 					if(is_debtor)
 						var/owed_str = poll_owed > 0 ? ", owes [poll_owed]m" : ""
 						contents += "<font color='#d9534f'><b>[A.real_name]</b> \[DEBTOR[owed_str]\]</font> - balance: [balance]m"
 					else
-						contents += "<font color='#e07b39'><b>[A.real_name]</b> \[ARREARS: [poll_owed]m, [overdue_days] day[overdue_days == 1 ? "" : "s"]\]</font> - balance: [balance]m"
+						contents += "<font color='#e07b39'><b>[A.real_name]</b> \[ARREARS: [poll_owed]m\]</font> - balance: [balance]m"
 					contents += "<BR>"
 				contents += "<BR>"
 			else
-				contents += "<i>No poll tax arrears.</i><BR><BR>"
+				contents += "<i>No poll levy arrears.</i><BR><BR>"
 			contents += "<a href='?src=\ref[src];clearloandebtor=1'>\[Clear Defaulter Mark\]</a><BR>"
-			contents += "<font color='gray'><i>(Forgives their loan and poll tax arrears and removes the defaulter mark.)</i></font><BR>"
-			contents += "<a href='?src=\ref[src];clearpolltax=1'>\[Clear Poll Tax Obligation\]</a><BR>"
-			contents += "<font color='gray'><i>(Wipes a subject's poll tax arrears.)</i></font><BR>"
+			contents += "<font color='gray'><i>(Forgives their loan and poll levy arrears and removes the defaulter mark.)</i></font><BR>"
+			contents += "<a href='?src=\ref[src];clearpolllevy=1'>\[Clear Poll Levy Obligation\]</a><BR>"
+			contents += "<font color='gray'><i>(Wipes a subject's poll levy arrears.)</i></font><BR>"
 		if(TAB_IMPORT)
 			contents += "<a href='?src=\ref[src];switchtab=[TAB_MAIN]'>\[Return\]</a>"
 			contents += " <a href='?src=\ref[src];compact=1'>\[Compact: [compact? "ENABLED" : "DISABLED"]\]</a><BR>"
@@ -775,7 +772,7 @@
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
 			contents += "<tr><td>Rural Tax</td><td align='right'><font color='#5cb85c'>[SStreasury.total_rural_tax]m</font></td>"
 			contents += "<td>Fines</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_FINES_INCOME]]m</font></td></tr>"
-			contents += "<tr><td>Poll Tax</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]m</font></td>"
+			contents += "<tr><td>Poll Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_POLL_LEVY_COLLECTED]]m</font></td>"
 			contents += "<td>Deposit Tax</td><td align='right'><font color='#5cb85c'>[SStreasury.total_deposit_tax]m</font></td></tr>"
 			contents += "<tr><td>Contract Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY]]m</font></td>"
 			contents += "<td>Headeater Levy</td><td align='right'><font color='#5cb85c'>[GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY]]m</font></td></tr>"
@@ -791,7 +788,7 @@
 			var/exempt_import = GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF]
 			var/exempt_export = GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY]
 			var/exempt_fine = GLOB.azure_round_stats[STATS_EXEMPTED_FINE]
-			var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
+			var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_LEVY]
 			var/exempt_total = exempt_contract + exempt_headeater + exempt_import + exempt_export + exempt_fine + exempt_poll
 			contents += "<b><font color='#8f7a5a'>FORGONE REVENUE (tax exempted)</font></b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
@@ -800,7 +797,7 @@
 			contents += "<tr><td>Import Tariff</td><td align='right'><font color='#8f7a5a'>[exempt_import]m</font></td>"
 			contents += "<td>Export Duty</td><td align='right'><font color='#8f7a5a'>[exempt_export]m</font></td></tr>"
 			contents += "<tr><td>Fines Waived</td><td align='right'><font color='#8f7a5a'>[exempt_fine]m</font></td>"
-			contents += "<td>Poll Tax</td><td align='right'><font color='#8f7a5a'>[exempt_poll]m</font></td></tr>"
+			contents += "<td>Poll Levy</td><td align='right'><font color='#8f7a5a'>[exempt_poll]m</font></td></tr>"
 			contents += "<tr><td><b>Total Forgone</b></td><td align='right'><b><font color='#8f7a5a'>[exempt_total]m</font></b></td>"
 			contents += "<td></td><td></td></tr>"
 			contents += "</table>"
@@ -844,38 +841,6 @@
 				contents += "</tr>"
 			contents += "</table><br>"
 
-			// Poll Tax Rates (two columns: category | m/day)
-			contents += "<b>POLL TAX RATES (daily)</b>"
-			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
-			var/datum/decree/golden = SStreasury.get_decree(DECREE_GOLDEN_BULL)
-			var/golden_active = golden?.active
-			var/datum/decree/covenant = SStreasury.get_decree(DECREE_NOC_PESTRA_COVENANT)
-			var/covenant_active = covenant?.active
-			var/datum/decree/merc_charter = SStreasury.get_decree(DECREE_GUILD_CHARTER_OF_ARMS)
-			var/merc_charter_active = merc_charter?.active
-			var/list/poll_entries = list()
-			for(var/pcat in SStreasury.poll_tax_rates)
-				var/rate = SStreasury.poll_tax_rates[pcat]
-				var/pretty = SStreasury.get_poll_tax_category_pretty_name(pcat)
-				var/rate_display = "[rate]m"
-				if(pcat == POLL_TAX_CAT_BURGHER && golden_active && rate > GOLDEN_BULL_POLL_CAP)
-					rate_display = "<font color='#e07b39'>[GOLDEN_BULL_POLL_CAP]m</font> (raw [rate]m, capped)"
-				else if(pcat == POLL_TAX_CAT_MERCENARY && merc_charter_active && rate > GUILD_CHARTER_OF_ARMS_POLL_CAP)
-					rate_display = "<font color='#e07b39'>[GUILD_CHARTER_OF_ARMS_POLL_CAP]m</font> (raw [rate]m, capped)"
-				poll_entries += "<td>[pretty]</td><td align='right'>[rate_display]</td>"
-			for(var/i = 1, i <= length(poll_entries), i += 2)
-				contents += "<tr>"
-				contents += poll_entries[i]
-				if(i + 1 <= length(poll_entries))
-					contents += poll_entries[i + 1]
-				else
-					contents += "<td></td><td></td>"
-				contents += "</tr>"
-			contents += "</table>"
-			if(covenant_active)
-				contents += "<i><font color='#e07b39'>The Covenant of Noc & Pestra is in force. University and Apothecary staff pay no more than [NOC_PESTRA_POLL_CAP]m a day in poll tax.</font></i><br>"
-			contents += "<br>"
-
 			// Charters (two-column)
 			contents += "<b>CHARTERS</b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
@@ -900,9 +865,9 @@
 			contents += "<b><font color='#e07b39'>DEBT &amp; LOANS</font></b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
 			contents += "<tr><td>Accounts in Arrears</td><td align='right'><font color='#e07b39'>[snap["in_arrears"]]</font></td>"
-			contents += "<td>Accounts in Advance</td><td align='right'>[snap["in_advance"]]</td></tr>"
-			contents += "<tr><td>Default Debtors</td><td align='right'><font color='#d9534f'>[snap["debtor_count"]]</font></td>"
-			contents += "<td>Loans Outstanding</td><td align='right'>[snap["loans_outstanding"]] ([snap["loan_exposure"]]m)</td></tr>"
+			contents += "<td>Default Debtors</td><td align='right'><font color='#d9534f'>[snap["debtor_count"]]</font></td></tr>"
+			contents += "<tr><td>Loans Outstanding</td><td align='right'>[snap["loans_outstanding"]] ([snap["loan_exposure"]]m)</td>"
+			contents += "<td></td><td></td></tr>"
 			contents += "</table><br>"
 
 			// Contracts (three-column: Issued / Taken / Completed, by issuing authority)

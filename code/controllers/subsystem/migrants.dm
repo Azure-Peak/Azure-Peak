@@ -311,6 +311,8 @@ SUBSYSTEM_DEF(migrants)
 
 	character.islatejoin = TRUE
 	SSjob.EquipRank(character, rank, TRUE)
+	// We don't want latejoiner to get hit by poll levies when they haven't participated in the round, which feels unfair
+	SStreasury.waive_past_poll_levies(character)
 
 	var/datum/migrant_role/role = MIGRANT_ROLE(assignment.role_type)
 	character.migrant_type = assignment.role_type

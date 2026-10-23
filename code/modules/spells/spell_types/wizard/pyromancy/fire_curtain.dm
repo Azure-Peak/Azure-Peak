@@ -134,6 +134,8 @@
 	ai_path_weight = 15
 	var/lifetime = 10 SECONDS
 	var/tick_damage = SPELL_DMG(CURTAIN_TICK_DAMAGE)
+	/// Scorched stacks applied per burn
+	var/scorch = CURTAIN_SCORCH_PER_TICK
 	var/burn_cooldown = 1 SECONDS
 	var/list/burn_times
 	var/datum/weakref/caster_ref
@@ -194,7 +196,8 @@
 		var/fallback_zone = check_zone(hit_zone)
 		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, intdamfactor = SPELL_INTDAM(1), no_debuff = TRUE)
 		L.apply_damage(SPELL_DMG_VS(L, tick_damage), BURN, fallback_zone, armor_block)
-	apply_scorch_stack(L, CURTAIN_SCORCH_PER_TICK, hit_zone)
+	if(scorch)
+		apply_scorch_stack(L, scorch, hit_zone)
 	L.emote("pain", forced = TRUE)
 
 #undef CURTAIN_TICK_DAMAGE

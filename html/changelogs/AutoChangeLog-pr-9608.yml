@@ -1,5 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - bugfix: "Added missing anvil recipes for several Psydonic weapons and Silver Knuckles."
-  - image: "Added sprites for the Psydonic Poleaxe and Silver Poleaxe, including support for wrapped banners."

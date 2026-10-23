@@ -40,16 +40,12 @@ export type QuestScrollData = {
   z_hint?: string;
   complete?: BooleanLike;
   levy_exempt?: BooleanLike;
-  is_rumor?: BooleanLike;
-  is_defense?: BooleanLike;
+  shows_commission_seal?: BooleanLike;
   is_towner?: BooleanLike;
   towner_intro?: string;
   towner_seal_note?: string;
-  guild_cut_exempt?: BooleanLike;
   blockade_timer_label?: string;
   blockade_timer_seconds?: number;
-  blockade_current_wave?: number;
-  blockade_total_waves?: number;
   blockade_armed?: BooleanLike;
   blockade_failed?: BooleanLike;
   hunt_timer_label?: string;

@@ -109,8 +109,14 @@
 	)
 	hail_lines = list(
 
-		"I have the finest bitters and wines from Etrusca. I hope you have fresh seafood to match. I have a particular thing for Azurian oysters.",
-		"My holds have a few Vaqueros seeking better employment. Just don't question their past.",
-		"I am carrying a small company of Condottieri. A little bit rowdy, but they're the finest marksmen in Etrusca. They'll take pay in zenars, good wines and company. I hear Azuria is particularly abundant with the last one.",
-		"I sailed through the biggest storm I have seen in my entire lyfe on the way here. I almost lost two crewmen overboard. Abyssor must be upset with me."
+		"The FINEST bitters and wines from Etrusca! Have any sea-food of your own? My first-mate is craving some Azurian clams...",
+
+		"Need any hire hands? I've got saigas and their vaquero riders on my ship. Fine blades... just don't question their past.",
+
+		"Fancy any marksmen? I've got Condottieri on board! Rowdy, but the most accurate bastards in Etrusca. Pay them in zenar, \
+		good wines, or some company. I hear the Peak has an abundance of the latter!",
+
+		"Buy and sell something swell, factor. Abyssor must be stirring, we lost two deckhands to a water spout half-way here.",
+
+		"Ever had chocolate? We'll trade you for some produce.",
 	)

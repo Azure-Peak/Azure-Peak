@@ -40,14 +40,10 @@
 	var/mob/living/carbon/human/H = user
 	var/list/data = list()
 	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
-	data["poll_tax_static"] = list(
-		"max_advance_days" = POLL_TAX_MAX_ADVANCE_DAYS,
-		"fallback_rate" = POLL_TAX_ADVANCE_FALLBACK_RATE,
-	)
-	var/poll_category = istype(H) ? SStreasury.get_poll_tax_category(H) : null
-	data["poll_tax_user"] = list(
+	var/poll_category = istype(H) ? SStreasury.get_poll_levy_category(H) : null
+	data["poll_levy_user"] = list(
 		"category" = poll_category || "",
-		"category_label" = poll_category ? SStreasury.get_poll_tax_category_pretty_name(poll_category) : "",
+		"category_label" = poll_category ? SStreasury.get_poll_levy_category_pretty_name(poll_category) : "",
 	)
 	var/list/funds = list()
 	var/list/patron_rosters_static = list()
@@ -103,14 +99,11 @@
 	else
 		data["active_loan"] = null
 
-	var/poll_category = SStreasury.get_poll_tax_category(H)
-	var/poll_rate = poll_category ? SStreasury.get_poll_tax_rate_for(H, poll_category) : 0
-	var/poll_exempt = poll_category ? SStreasury.is_poll_tax_charter_exempt(H, poll_category) : FALSE
-	var/existing_advance = SStreasury.poll_tax_advance_days[H] || 0
-	data["poll_tax"] = list(
-		"rate" = poll_rate,
+	var/poll_category = SStreasury.get_poll_levy_category(H)
+	var/poll_exempt = poll_category ? SStreasury.is_tax_exempt(H, TAX_CATEGORY_POLL_LEVY) : FALSE
+	data["poll_levy"] = list(
 		"exempt" = poll_exempt ? TRUE : FALSE,
-		"advance_days_held" = existing_advance,
+		"owed" = SStreasury.poll_levy_owed[H] || 0,
 	)
 
 	var/has_any_institutional_access = FALSE
@@ -219,10 +212,6 @@
 			return TRUE
 		if("repay_loan")
 			handle_repay_loan(H, params)
-			SStgui.update_uis(src)
-			return TRUE
-		if("advance_poll_tax")
-			handle_advance_poll_tax(H, params)
 			SStgui.update_uis(src)
 			return TRUE
 		if("withdraw_institutional")
@@ -385,44 +374,6 @@
 	else
 		var/datum/loan/still = SStreasury.get_loan_for(H)
 		say("[paid]m transferred. [still.get_remaining_due()]m remains.")
-
-/obj/structure/roguemachine/atm/proc/handle_advance_poll_tax(mob/living/carbon/human/H, list/params)
-	var/poll_category = SStreasury.get_poll_tax_category(H)
-	if(!poll_category)
-		say("The Crown does not tax your class.")
-		return
-	if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
-		say("A Charter exempts your class from the poll tax.")
-		return
-	var/days = round(text2num("[params["days"]]"))
-	if(isnull(days) || days < 1)
-		return
-	var/eff_rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
-	if(eff_rate <= 0)
-		eff_rate = POLL_TAX_ADVANCE_FALLBACK_RATE
-	var/balance = SStreasury.get_balance(H)
-	if(balance <= 0)
-		say("Your account is empty.")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	var/existing = SStreasury.poll_tax_advance_days[H] || 0
-	var/cap_remaining = POLL_TAX_MAX_ADVANCE_DAYS - existing
-	if(cap_remaining <= 0)
-		say("You can't pay more than [POLL_TAX_MAX_ADVANCE_DAYS] days of poll tax ahead.")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	var/affordable = floor(balance / eff_rate)
-	days = min(days, cap_remaining, affordable)
-	if(days < 1)
-		say("You cannot afford a single day at [eff_rate]m.")
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		return
-	if(!SStreasury.poll_tax_pay_advance(H, days))
-		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
-		say("The payment failed.")
-		return
-	playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-	say("[days] day\s of poll tax paid ahead for [H.real_name].")
 
 /obj/structure/roguemachine/atm/proc/handle_withdraw_institutional(mob/living/carbon/human/H, list/params)
 	var/fund_id = "[params["fund_id"]]"

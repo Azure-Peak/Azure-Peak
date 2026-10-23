@@ -96,7 +96,21 @@
 	)
 	hail_lines = list(
 		"Finest hides and fur from Aavnr! Saiga sausages and cheese!",
-		"I need an acolyte at the dock as soon as we anchor. I took on a Freifechter who kept preaching about Psydon to my crew and my half-orc passengers, until a fight broke out between them. He held off eight of my crewmen and the orcs, stabbing all of them in the feet and hands, until one of my men shot him in the guts with a crossbow. Now I have four fewer barrels of whiskey to sell, and four bodies in them. Please, make haste.",
-		"You ought to build more lighthouses along the Bleakisles. I nearly ran my ship aground on the isles, and I saw at least two ships wrecked last night. Necra's fog, they say.",
-		"I come seeking the finest Azurian silk, the most precious gemeralds, and the freshest lemons. I have even brought a few barrels of fermented saiga milk - Arkhi, as we call it. I am told a lot of your men at arms are from my homeland, and they have a taste for it."
+
+		"Send an acolyte when we anchor! \
+		I took on a Freifechter who kept preaching about Psydon to my passengers and crew \
+		until a fight broke out between them. He held off eight of them with blows to the hands-and-feet until a bolt ran through his guts. \
+		Now I've got four whiskey barrels with bodies in them. MAKE HASTE!",
+
+		"You ought to build more lighthouses along the Bleakisles! I saw two ships aground on the way here, mine almost joined them! Necra's fog, \
+		they say.",
+
+		"I come seeking the finest Azurian silk, the most precious gemeralds, and the freshest lemons. I have even brought a \
+		few barrels of fermented saiga milk - Arkhi, as we call it. I am told a lot of your men at arms are from my homeland, \
+		and they have a taste for it.",
+
+		"FACTOR! Summon the armsmen! I hear many of them are from my homeland! Give them a taste of our Arakhi! It's been a while since any \
+		of them had any fermented saiga milk, eh?",
+
+		"Bring us SILKS, GEMERALDS, and your LEMONS! Tangerines, too! Half the crew are bleeding from the gums!",
 	)

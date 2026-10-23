@@ -123,20 +123,32 @@ All foods are distributed among various categories. Use common sense.
 /obj/item/reagent_containers/food/snacks/proc/begin_rotting()
 	START_PROCESSING(SSobj, src)
 
+GLOBAL_LIST_INIT(food_preserving_locs, typecacheof(list(
+	/obj/structure/closet/crate/chest,
+	/obj/item/cooking/platter,
+	/obj/structure/roguemachine/vendor,
+	/obj/item/storage/backpack/rogue/artibackpack,
+	/obj/structure/table/cooling,
+	/obj/machinery/light/rogue/smoker,
+)))
+
+/obj/item/reagent_containers/food/snacks/proc/is_preserved()
+	if(is_type_in_typecache(loc, GLOB.food_preserving_locs))
+		return TRUE
+	var/obj/item/parcel/parcel = loc
+	return istype(parcel) && parcel.preserves_contents
+
 /obj/item/reagent_containers/food/snacks/process()
 	..()
-	if(rotprocess)
-		if(!istype(loc, /obj/structure/closet/crate/chest) && ! istype(loc, /obj/item/cooking/platter)	&& !istype(loc, /obj/structure/roguemachine/vendor) && !istype (loc, /obj/item/storage/backpack/rogue/artibackpack)&& !istype (loc, /obj/structure/table/cooling) && !istype (loc, /obj/machinery/light/rogue/smoker))
-			if(!locate(/obj/structure/table) in loc)
-				warming -= 20 //ssobj processing has a wait of 20
-			else
-				if(locate(/obj/structure/table/cooling) in loc)
-					warming -= 0
-				else
-					warming -= 10
-			if(warming < (-1*rotprocess))
-				if(become_rotten())
-					STOP_PROCESSING(SSobj, src)
+	if(!rotprocess || is_preserved())
+		return
+	if(!locate(/obj/structure/table) in loc)
+		warming -= 20 //ssobj processing has a wait of 20
+	else if(!locate(/obj/structure/table/cooling) in loc)
+		warming -= 10
+	if(warming < (-1*rotprocess))
+		if(become_rotten())
+			STOP_PROCESSING(SSobj, src)
 
 /obj/item/reagent_containers/food/snacks/can_craft_with()
 	if(eat_effect == /datum/status_effect/debuff/rotfood)
