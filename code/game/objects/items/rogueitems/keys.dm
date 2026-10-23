@@ -56,7 +56,7 @@
 	always_destroy = TRUE
 
 	grid_width = 32
-	grid_height = 64
+	grid_height = 32
 
 /obj/item/lockpick/get_mechanics_examine(mob/user)
 	. = ..()
@@ -85,9 +85,6 @@
 	anvilrepair = /datum/skill/craft/armorsmithing
 	associated_skill = /datum/skill/misc/lockpicking
 	var/material = "gold"
-
-	grid_width = 32
-	grid_height = 32
 
 /obj/item/lockpick/goldpin/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
