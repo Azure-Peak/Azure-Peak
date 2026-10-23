@@ -802,9 +802,9 @@
 
 /datum/advclass/cleric/zealot
 	name = "Zealot"
-	tutorial = "A fervent servant of the divine, devoted to either the mastery of miracles or the art of warfare. You will make your faith heard, whether through holy words or the force of your arms."
+	tutorial = "A fervent servant of the divine, devoted to the mastery of miracles and the art of war. You forsake armor and the safety of evasion, offering your body and soul to the fires of battle. Every wound you suffer is a testament to your faith, and every blow you strike, a lesson to the unbelievers. You shall make your faith known, through holy words or the might of your arms."
 	outfit = /datum/outfit/job/roguetown/adventurer/cleric/zealot
-	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE)
 	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
 	townie_contract_gate_exempt = TRUE
 	townie_contract_gate_hide_in_list = TRUE
@@ -825,7 +825,7 @@
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
 	)
-	extra_context = "Choose Strong Devotion for T2 miracles and JOURNEYMAN proficiency in one weapon skill, or Strong Conviction for T1 miracles and EXPERT proficiency in one weapon skill."
+	extra_context = "Zealots start with a skill that allows them to perform a god-based war cry that further emboldens themselves and all allies of the same clerical faction."
 
 /datum/outfit/job/roguetown/adventurer/cleric/zealot
 	allowed_patrons = ALL_PATRONS
@@ -849,16 +849,11 @@
 	if(istype(H.patron, /datum/patron/divine/dendor))
 		H.adjust_skillrank_up_to(/datum/skill/magic/druidic, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/sacrifice)
 	H.mind?.AddSpell(new /datum/action/cooldown/spell/preach)
 
-	var/zealot_paths = list("Strong Devotion", "Strong Conviction")
-	var/zealot_choice = tgui_input_list(H, "Choose your discipline.", "PROVE YOUR FAITH", zealot_paths)
 	var/miracle_tier = CLERIC_T2
 	var/weapon_rank = SKILL_LEVEL_JOURNEYMAN
-
-	if(zealot_choice == "Strong Conviction")
-		miracle_tier = CLERIC_T1
-		weapon_rank = SKILL_LEVEL_EXPERT
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = miracle_tier, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
@@ -1122,3 +1117,201 @@
 	to_chat(owner, span_notice("The fervor of my prayer fades."))
 	REMOVE_TRAIT(owner, TRAIT_RALLIED, "preach")
 	REMOVE_TRAIT(owner, TRAIT_STEELHEARTED, "preach")
+
+/datum/action/cooldown/spell/sacrifice
+	name = "Sacrifice"
+	desc = "Invoke your faith and empower your next strike. The more wounded you are, the greater the damage you inflict, up to 40 bonus damage."
+	fluff_desc = "Offer your suffering as tribute, and let your wounds become the instrument of your enemy's ruin."
+	button_icon_state = "judgement"
+	sound = 'sound/magic/ravox_withstand.ogg'
+	glow_intensity = GLOW_INTENSITY_HIGH
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/list/patron_invocations = list(
+		/datum/patron/divine/undivided = list(
+			"LET OUR SUFFERING BIND US, AND OUR ENEMIES BREAK!!",
+			"THE TEN WITNESS OUR SACRIFICE!!",
+		),
+		/datum/patron/divine/astrata = list(
+			"BY HER FLAME, LET MY WOUNDS BURN BRIGHT!!",
+			"SUNLIGHT, CONSUME MY PAIN AND SMITE MY FOES!!",
+			"HALLOWED FLAMES CONSUME YOU!!"
+		),
+		/datum/patron/divine/noc = list(
+			"BY HIS WISDOM, LET MY SUFFERING FIND PURPOSE!!",
+			"FROM THE DARKEST NIGHT, LET JUDGEMENT STRIKE!!",
+			"NIGHT'S VEIL CONSUME YOU!!"
+		),
+		/datum/patron/divine/dendor = list(
+			"LET MY BLOOD FEED THE WILD!!",
+			"BY THORN AND ROOT, LET MY PAIN BECOME WRATH!!",
+			"BREAK LIKE THE PREY YOU ARE!!"
+		),
+		/datum/patron/divine/abyssor = list(
+			"LET THE ABYSS DRINK DEEP OF MY SUFFERING!!",
+			"BY THE RAGING TIDE, LET MY FOES BE SWEPT AWAY!!",
+			"SINK IN A SEA OF YOUR OWN BLOOD!!"
+		),
+		/datum/patron/divine/ravox = list(
+			"JUSTICAR, LET MY WOUNDS DELIVER JUSTICE!!",
+			"MY PAIN IS MY PROOF, MY STRIKE MY JUDGEMENT!!",
+			"FOR JUSTICE!!"
+		),
+		/datum/patron/divine/necra = list(
+			"MY HOUR HAS NOT COME, BUT YOURS MAY!!",
+			"BY THE UNDERMAIDEN, LET DEATH CLAIM ITS DUE!!",
+			"INVITATION TO THE UNDERWORLD!!"
+		),
+		/datum/patron/divine/xylix = list(
+			"LET FATE WAGER WITH MY BLOOD!!",
+			"ONE LAST THROW, AND LET THE DICE RUN RED!!",
+			"EVEN THE ODDS!!"
+		),
+		/datum/patron/divine/pestra = list(
+			"LET EVERY WOUND TEACH MY ENEMIES AGONY!!",
+			"ROTMOTHER! LET SUFFERING BE RETURNED IN FULL!!",
+			"ROT APART AND BE REBORN!!"
+		),
+		/datum/patron/divine/malum = list(
+			"LET MY PAIN TEMPER THE HAMMER OF MY WILL!!",
+			"BY FIRE AND IRON, LET MY FOES CRUMBLE!!",
+			"FOR ROCK AND STONE!!"
+		),
+		/datum/patron/divine/eora = list(
+			"LET MY SUFFERING SHIELD THOSE I LOVE!!",
+			"IN THE NAME OF LOVE, I SHALL PUNISH YOU!!",
+			"FOR LOVE!!"
+		),
+		/datum/patron/inhumen/zizo = list(
+			"DO WHAT IT TAKES, NO SACRIFICE IS TOO SMALL!!",
+			"LET PAIN BE THE PRICE OF TRANSCENDENCE!!",
+			"FOR THE GREAT WORK!!"
+		),
+		/datum/patron/inhumen/graggar = list(
+			"MY WOUNDS PROVE MY STRENGTH, AND MY STRENGTH SHALL CRUSH YOU!!",
+			"LET THE WEAK BLEED BENEATH MY MIGHT!!",
+			"SHATTER MY LIMITS, SHATTER MY BINDS!!"
+		),
+		/datum/patron/inhumen/matthios = list(
+			"NO AGONY SHALL BAR THE FREE!!",
+			"THIS FYRE BURNS FOR MORTALKIND!!",
+			"BURN DOWN THE DOGMA!!"
+		),
+		/datum/patron/inhumen/baotha = list(
+			"LET MY PASSION TURN MY PAIN INTO FURY!!",
+			"NO WOUND SHALL QUENCH THE FIRE WITHIN ME!!",
+			"FALL FOR ME!!"
+		),
+		/datum/patron/old_god = list(
+			"ALLFATHER! ONLY IN DEATH DOES DUTY END!!",
+			"WITH EVERY BROKEN BONE, I NEEDN'T SWEAR, I LIVE!!",
+			"ENDURE THIS!!",
+		),
+	)
+
+/datum/action/cooldown/spell/sacrifice/cast(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H) || !H.patron)
+		return FALSE
+
+	var/invocation
+	for(var/patron_type in patron_invocations)
+		if(istype(H.patron, patron_type))
+			invocation = pick(patron_invocations[patron_type])
+			break
+
+	if(invocation)
+		H.say(invocation)
+
+	H.apply_status_effect(/datum/status_effect/sacrifice, H.get_active_held_item())
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/sacrifice
+	name = "Sacrifice"
+	desc = "My suffering shall fuel my next strike. The more wounded I am, the harder I shall hit."
+	icon_state = "judgement"
+
+/datum/status_effect/sacrifice
+	id = "sacrifice"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sacrifice
+	on_remove_on_mob_delete = TRUE
+
+	var/datum/weakref/buffed_item
+
+/datum/status_effect/sacrifice/on_creation(mob/living/new_owner, obj/item/I)
+	. = ..()
+	if(!.)
+		return
+
+	if(istype(I) && !(I.item_flags & ABSTRACT))
+		buffed_item = WEAKREF(I)
+		RegisterSignal(I, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
+	else
+		RegisterSignal(owner, COMSIG_MOB_ATTACK_HAND, PROC_REF(hand_attack))
+
+/datum/status_effect/sacrifice/on_remove()
+	. = ..()
+	UnregisterSignal(owner, COMSIG_MOB_ATTACK_HAND)
+
+	if(buffed_item)
+		var/obj/item/I = buffed_item.resolve()
+		if(I)
+			UnregisterSignal(I, COMSIG_ITEM_AFTERATTACK)
+
+/datum/status_effect/sacrifice/proc/get_sacrifice_damage(mob/living/carbon/human/H)
+	var/suffering = H.getBruteLoss()
+	suffering += H.getFireLoss()
+	suffering += H.getToxLoss()
+	suffering += H.getOxyLoss()
+	suffering += H.getCloneLoss()
+	suffering += ((BLOOD_VOLUME_NORMAL - H.blood_volume) / 4)
+
+	return min(40, round(suffering * 0.5))
+
+/datum/status_effect/sacrifice/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag || user != owner || !isliving(target))
+		return
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return
+
+	var/mob/living/D = target
+	var/bonus_damage = get_sacrifice_damage(H)
+	var/obj/item/I = source
+
+	if(bonus_damage > 0)
+		arcyne_strike(H, D, I, bonus_damage, H.zone_selected, null, null, "Sacrifice", FALSE, FALSE, FALSE, BRUTE, 1, 1)
+		D.visible_message(span_warning("[H]'s suffering fuels a devastating strike against [D]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+
+	qdel(src)
+
+/datum/status_effect/sacrifice/proc/hand_attack(datum/source, mob/living/carbon/human/user, mob/living/carbon/human/D, datum/martial_art/attacker_style)
+	if(user != owner || !istype(user) || !istype(D))
+		return
+	if(!istype(user.used_intent, INTENT_HARM))
+		return
+	var/bonus_damage = get_sacrifice_damage(user)
+	if(bonus_damage > 0)
+		arcyne_strike(user, D, null, bonus_damage, user.zone_selected, BCLASS_BLUNT, 0, "Sacrifice", FALSE, FALSE, FALSE, BRUTE, 1, 1)
+		D.visible_message(span_warning("[user]'s suffering fuels a devastating strike against [D]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	qdel(src)
