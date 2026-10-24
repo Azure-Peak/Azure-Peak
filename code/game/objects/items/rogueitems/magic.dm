@@ -76,7 +76,7 @@
 	if(!do_after(user, time_to_use, target = user))
 		to_chat(user, span_warning("I need to focus..."))
 		return
-	
+
 	var/success_chance = 0
 
 	var/break_on_fail = FALSE
@@ -135,7 +135,7 @@
 				success_chance = 100
 
 	// fairly rarely, if you look into a telescope at night w/ an arcyne tier, you can get this buff.
-	// ensures your orb doesnt break and gives you a teensy boost. 
+	// ensures your orb doesnt break and gives you a teensy boost.
 	if(user.has_status_effect(/datum/status_effect/buff/transparent_eyeball))
 		break_on_fail = FALSE
 		if(success_chance < 100)
@@ -163,7 +163,7 @@
 		if(break_on_fail)
 			failure_break(user)
 		return
-	
+
 	playsound(src, 'sound/magic/whiteflame.ogg', 100, TRUE)
 	scry(user, target)
 
@@ -209,7 +209,7 @@
 		if(target.STAPER >= 15)
 			if(target.mind)
 				if(target.mind.do_i_know(name=user.real_name))
-					to_chat(target, span_warning("I can clearly see the face of [user.real_name] staring at me!."))
+					to_chat(target, span_warning("I can clearly see the face of [user.get_unmasked_name()] staring at me!."))
 					return
 				to_chat(target, span_warning("I can clearly see the face of an unknown [user.gender == FEMALE ? "woman" : "man"] staring at me!"))
 				return

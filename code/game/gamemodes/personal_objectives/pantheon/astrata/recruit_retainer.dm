@@ -15,7 +15,7 @@
 
 /datum/objective/retainer/proc/on_retainer_recruited(datum/source, mob/living/carbon/human/recruiter, mob/living/carbon/human/recruit, new_role)
 	SIGNAL_HANDLER
-	if(recruiter != owner.current || new_role != "Retainer of [recruiter.real_name]")
+	if(recruiter != owner.current || new_role != "Retainer of [recruiter.get_unmasked_name()]")
 		return
 
 	retainers_recruited++
@@ -46,7 +46,7 @@
 	if(QDELETED(recruit) || QDELETED(recruiter))
 		return FALSE
 
-	new_role = "Retainer of [recruiter.real_name]"
+	new_role = "Retainer of [recruiter.get_unmasked_name()]"
 
 	. = ..()
 	if(!.)
