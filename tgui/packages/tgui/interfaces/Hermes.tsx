@@ -37,7 +37,7 @@ const FORMATTING_HELP: [string, string][] = [
   ['%s', 'Inserts a signature of your name in a foolproof way.'],
   [
     '%f',
-    'Inserts an invisible field which lets you start type from there. Useful for forms.',
+    'Inserts an invisible field which lets you start typing from there. Useful for forms.',
   ],
   ['* item', 'An unordered list item.'],
   ['  * item', 'An unordered list child item.'],

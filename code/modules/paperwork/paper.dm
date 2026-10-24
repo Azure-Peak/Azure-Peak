@@ -374,7 +374,7 @@
 		*text* : Makes the text <i>italic</i>.<br>
 		^text^ : Increases the <font size = \"4\">size</font> of the text.<br>
 		%s : Inserts a signature of your name in a foolproof way.<br>
-		%f : Inserts an invisible field which lets you start type from there. Useful for forms.<br>
+		%f : Inserts an invisible field which lets you start typing from there. Useful for forms.<br>
 		((text)) : Decreases the <font size = \"1\">size</font> of the text.<br>
 		* item : An unordered list item.<br>
 		&nbsp;&nbsp;* item: An unordered list child item.<br>
