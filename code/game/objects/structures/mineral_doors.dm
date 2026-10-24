@@ -1052,7 +1052,7 @@
 
 /obj/structure/mineral_door/wood/towner/generic/vagabond
 	resident_role = /datum/job/roguetown/vagabond
-	icon_state = "stone"
+	icon_state = "wcg"
 	resident_key_type = /obj/item/roguekey/sewer
 
 /obj/structure/mineral_door/wood/towner/blacksmith
