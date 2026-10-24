@@ -53661,9 +53661,9 @@
 	},
 /area/rogue/outdoors/exposed/magiciantower)
 "jfU" = (
-/obj/structure/stairs/stone,
-/turf/closed/wall/mineral/rogue/stone,
-/area/rogue/indoors/town)
+/obj/machinery/light/rogue/candle/r,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "jfV" = (
 /obj/structure/fluff/railing/border{
 	dir = 6
@@ -131977,8 +131977,8 @@
 /obj/structure/table/wood/large_table/north_east,
 /obj/item/reagent_containers/glass/cup/wooden,
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -2;
-	pixel_y = -8
+	pixel_x = -7;
+	pixel_y = -4
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
@@ -290073,7 +290073,7 @@ njB
 cDX
 gyu
 cDX
-njB
+pWT
 fpx
 fpx
 fpx
@@ -290525,7 +290525,7 @@ pWT
 lKo
 pqo
 lKo
-njB
+pWT
 fpx
 fpx
 fpx
@@ -290975,9 +290975,9 @@ tlp
 taS
 pWT
 lKo
-pqo
+jtR
 lKo
-pWT
+njB
 fpx
 fpx
 fpx
@@ -291427,13 +291427,13 @@ rQx
 taS
 pWT
 cDX
-jtR
-lKo
-qyR
+gyu
+cDX
+njB
 fpx
 fpx
 fpx
-pWT
+daQ
 pWT
 pWT
 njB
@@ -291879,13 +291879,13 @@ gRo
 dJN
 qyR
 lKo
-gyu
+pqo
 lKo
-qyR
+njB
 fpx
 fpx
 fpx
-pWT
+daQ
 pWT
 jhP
 njB
@@ -292337,7 +292337,7 @@ qyR
 fpx
 fpx
 fpx
-pWT
+njB
 pWT
 jhP
 jhP
@@ -294132,7 +294132,7 @@ pLh
 njB
 njB
 pWT
-aFv
+jfU
 qyR
 qyR
 qyR
@@ -294589,7 +294589,7 @@ gyu
 gyu
 cDX
 phl
-phl
+pLh
 phl
 phl
 phl
@@ -295043,9 +295043,9 @@ lKo
 phl
 phl
 phl
-jfU
+cDX
 phl
-pLh
+phl
 pLh
 fpx
 fpx
@@ -295496,7 +295496,7 @@ phl
 phl
 phl
 phl
-pLh
+phl
 pLh
 pLh
 fpx
@@ -295950,7 +295950,7 @@ phl
 phl
 phl
 pLh
-yhF
+exD
 exD
 qfA
 qfA
