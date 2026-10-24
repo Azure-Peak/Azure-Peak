@@ -1050,12 +1050,11 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/physician)
 "ake" = (
-/obj/structure/chair/stool/rogue,
-/obj/effect/decal/cleanable/debris/woody{
-	dir = 1
+/obj/structure/fluff/walldeco/customflag{
+	pixel_x = -32
 	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/under/town/sewer)
+/turf/open/floor/rogue/rooftop/green/east,
+/area/rogue/outdoors/mountains)
 "akh" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -2509,13 +2508,11 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/town/sewer)
 "axY" = (
-/obj/structure/fluff/railing/border/north,
-/obj/structure/chair/bench/church/smallbench,
-/obj/effect/decal/cobble/mossy{
+/obj/structure/stairs/stone{
 	dir = 4
 	},
-/turf/open/floor/rogue/cobblerock,
-/area/rogue/outdoors/town)
+/turf/open/floor/rogue/blocks/green,
+/area/rogue/under/town/sewer)
 "axZ" = (
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/rogue/churchrough,
@@ -53661,13 +53658,11 @@
 	},
 /area/rogue/outdoors/exposed/magiciantower)
 "jfU" = (
-/obj/structure/bars/passage{
-	density = 0;
-	icon_state = "passage1";
-	redstone_id = "SewerEntry"
+/obj/structure/chair/bench/church/smallbench{
+	pixel_y = 7
 	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town)
+/turf/open/floor/rogue/cobblerock,
+/area/rogue/outdoors/town)
 "jfV" = (
 /obj/structure/fluff/railing/border{
 	dir = 6
@@ -74837,10 +74832,9 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/beach)
 "mCE" = (
-/obj/structure/flora/roguegrass,
-/obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/town)
+/obj/machinery/light/rogue/candle/l,
+/turf/open/transparent/openspace,
+/area/rogue/indoors/town)
 "mCG" = (
 /obj/structure/hotspring,
 /obj/effect/lily_petal/three{
@@ -79027,11 +79021,6 @@
 /area/rogue/outdoors/woods/north)
 "npT" = (
 /obj/structure/curtain/brown,
-/obj/structure/bars/passage{
-	density = 0;
-	icon_state = "passage1";
-	redstone_id = "SewerEntry"
-	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/sewer)
 "npV" = (
@@ -98047,8 +98036,13 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
 "qwv" = (
-/obj/structure/stairs/stone,
-/turf/open/floor/rogue/cobble,
+/obj/structure/bars/passage{
+	density = 0;
+	icon_state = "passage1";
+	redstone_id = "SewerEntry";
+	name = "Sewer Bypass"
+	},
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town)
 "qwy" = (
 /turf/closed/wall/mineral/rogue/pipe,
@@ -99598,9 +99592,11 @@
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/scarymaze)
 "qJH" = (
-/obj/structure/stairs/stone,
-/turf/open/floor/rogue/blocks/green,
-/area/rogue/under/town/sewer)
+/obj/structure/stairs/stone{
+	dir = 4
+	},
+/turf/open/transparent/openspace,
+/area/rogue/indoors/town)
 "qJN" = (
 /obj/machinery/light/rogue/firebowl/standing/blue,
 /turf/open/floor/rogue/concrete,
@@ -105611,6 +105607,11 @@
 /obj/effect/decal/remains/mole,
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"rKx" = (
+/obj/effect/spawner/lootdrop/roguetown/sewers,
+/obj/structure/closet/crate/coffin,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/town/sewer)
 "rKy" = (
 /obj/structure/table/wood/crafted,
 /obj/structure/bars/shoptwo,
@@ -108665,10 +108666,6 @@
 /obj/effect/spawner/roguemap/stump,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest/south)
-"sjH" = (
-/obj/machinery/light/rogue/torchholder/c,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/town)
 "sjJ" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -127799,6 +127796,10 @@
 	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
+"vsn" = (
+/obj/structure/stairs/stone,
+/turf/closed/wall/mineral/rogue/stone,
+/area/rogue/indoors/town)
 "vsp" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/roguegrass,
@@ -132006,7 +132007,7 @@
 	pixel_y = -1;
 	redstone_id = "SewerEntry";
 	dir = 1;
-	name = "Sewer Entry"
+	name = "Sewer Bypass"
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
@@ -132467,10 +132468,9 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "whr" = (
-/obj/effect/spawner/lootdrop/roguetown/sewers,
-/obj/structure/closet/crate/coffin,
+/obj/machinery/light/rogue/torchholder/c,
 /turf/open/floor/rogue/dirt,
-/area/rogue/under/town/sewer)
+/area/rogue/outdoors/town)
 "whs" = (
 /obj/structure/stairs,
 /turf/open/floor/rogue/hexstone,
@@ -177554,7 +177554,7 @@ oxE
 bjc
 xam
 gBf
-iZp
+qPr
 vPL
 orc
 daP
@@ -178461,7 +178461,7 @@ cqm
 czZ
 rXc
 wLj
-ake
+fqo
 czZ
 xCK
 xCK
@@ -178911,9 +178911,9 @@ mMx
 urZ
 cqm
 qPr
-qPr
 sKF
 sKF
+mXN
 xhx
 xCK
 xCK
@@ -179361,8 +179361,8 @@ ylh
 nsR
 oGQ
 ylh
-dlK
-sIr
+cqm
+qPr
 wia
 jZV
 cTZ
@@ -179813,9 +179813,9 @@ mMx
 mMx
 mMx
 ylh
-qJH
-cqm
-qPr
+dlK
+iZp
+sIr
 bQB
 bQB
 mhy
@@ -180265,9 +180265,9 @@ ylh
 ylh
 urZ
 ylh
-dlK
-tZm
-qPr
+nmh
+ylh
+cqm
 qPr
 waQ
 fqo
@@ -180715,11 +180715,11 @@ ylh
 ylh
 daP
 vPL
-qPr
-qPr
-qPr
-qPr
-qPr
+daP
+ylh
+vVx
+axY
+cqm
 qPr
 sKF
 rjX
@@ -181169,9 +181169,9 @@ daP
 wgv
 qPr
 qPr
-qPr
-qPr
-qPr
+dlK
+dlK
+dlK
 xhx
 rZG
 mXN
@@ -181617,7 +181617,7 @@ ylh
 oGQ
 ylh
 vPL
-whr
+rKx
 qPr
 qPr
 qPr
@@ -182068,11 +182068,11 @@ dlK
 ylh
 mMx
 ylh
-gau
-iZp
-iZp
-iZp
-sIr
+dlK
+qPr
+qPr
+qPr
+qPr
 qPr
 qPr
 qPr
@@ -182522,10 +182522,10 @@ mMx
 nsR
 cqm
 xCK
-xCK
-xCK
-cqm
-rXi
+qPr
+qPr
+qPr
+qPr
 qPr
 rXi
 rXi
@@ -182976,7 +182976,7 @@ vPK
 xCK
 xCK
 vPL
-cqm
+qPr
 rXi
 rXi
 rXi
@@ -183428,7 +183428,7 @@ sTz
 xCK
 xCK
 wBN
-cqm
+qPr
 rXi
 rXi
 rXi
@@ -183880,7 +183880,7 @@ cqm
 xCK
 vPL
 wBN
-cqm
+qPr
 rXi
 xCK
 orc
@@ -184332,7 +184332,7 @@ iIm
 iZp
 iZp
 iZp
-dNN
+sIr
 rXi
 rXi
 orc
@@ -294623,9 +294623,9 @@ cDX
 phl
 phl
 phl
-pLh
-pLh
-pLh
+phl
+phl
+phl
 phl
 fpx
 fpx
@@ -295074,11 +295074,11 @@ pqo
 lKo
 phl
 phl
-wss
-qwv
-jdu
-gIW
-jfU
+phl
+vsn
+phl
+phl
+pLh
 fpx
 fpx
 daQ
@@ -295526,9 +295526,9 @@ gyu
 cDX
 phl
 phl
-pLh
-pLh
-pLh
+phl
+phl
+phl
 pLh
 pLh
 fpx
@@ -295979,10 +295979,10 @@ aFv
 aFv
 phl
 phl
-phl
-phl
+mCE
 pLh
-yhF
+pLh
+exD
 exD
 qfA
 qfA
@@ -296429,10 +296429,10 @@ cDX
 uBc
 uBc
 cDX
-pWp
+pWT
 phl
-phl
-phl
+qJH
+pLh
 exD
 exD
 qfA
@@ -296882,9 +296882,9 @@ fmp
 sVK
 uBc
 aFv
-mCE
-wyE
-vwt
+pLh
+qwv
+pLh
 exD
 exD
 jZh
@@ -297333,10 +297333,10 @@ uBc
 fhh
 qNj
 uBc
-aFv
-uTJ
-clU
-axY
+pQX
+exD
+exD
+exD
 exD
 exD
 exD
@@ -297785,10 +297785,10 @@ cDX
 cDX
 tQS
 cDX
+jfU
 exD
-lHQ
-gVQ
-xeQ
+exD
+exD
 exD
 exD
 exD
@@ -300944,7 +300944,7 @@ phl
 daQ
 daQ
 cne
-sjH
+whr
 aFv
 pBY
 sns
@@ -411239,10 +411239,10 @@ aBB
 aBB
 aBB
 phl
-phl
+pLh
 jdu
-phl
-phl
+pLh
+pLh
 aBB
 aBB
 aBB
@@ -411691,9 +411691,9 @@ sqG
 sqG
 sqG
 aBB
-phl
+pLh
 xdi
-phl
+pLh
 aBB
 aBB
 aBB
@@ -412143,9 +412143,9 @@ sqG
 sqG
 sqG
 aBB
-rQI
-aBB
-rQI
+ake
+sqG
+ake
 aBB
 aBB
 aBB
