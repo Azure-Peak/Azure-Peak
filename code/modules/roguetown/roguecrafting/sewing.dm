@@ -2173,7 +2173,7 @@
 // -- saiga-taur barding (worn by the player-controlled saiga-taur race, not the mount barding above)
 
 /datum/crafting_recipe/roguetown/sewing/saigataurbarding_cloth
-	name = "cloth saiga barding"
+	name = "cloth saiga-centaur barding"
 	category = "Misc"
 	display_category = ITEM_CAT_ARMOR_BARDING
 	result = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/cloth)
@@ -2183,7 +2183,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/saigataurbarding_leather
-	name = "leather saiga barding"
+	name = "leather saiga-centaur barding"
 	category = "Misc"
 	display_category = ITEM_CAT_ARMOR_BARDING
 	result = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/leather)
@@ -2192,7 +2192,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/saigataurbarding_padded
-	name = "padded saiga barding"
+	name = "padded saiga-centaur barding"
 	category = "Misc"
 	display_category = ITEM_CAT_ARMOR_BARDING
 	result = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/padded)
@@ -2202,7 +2202,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/saigataurtabard
-	name = "saiga tabard"
+	name = "saiga-centaur tabard"
 	category = "Misc"
 	display_category = ITEM_CAT_ARMOR_BARDING
 	result = list(/obj/item/clothing/cloak/tabard/saiga)

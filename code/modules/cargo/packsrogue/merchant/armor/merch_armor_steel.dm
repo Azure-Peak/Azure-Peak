@@ -32,12 +32,12 @@
 	contains = list(/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk)
 
 /datum/supply_pack/rogue/armor_steel/saigataurbarding_chain
-	name = "Saiga-taur Barding, Chainmail"
+	name = "Saiga-Centaur Barding, Chainmail"
 	cost = 100 // 2 Ingots
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/chain)
 
 /datum/supply_pack/rogue/armor_steel/saigataurbarding_plate
-	name = "Saiga-taur Barding, Plate"
+	name = "Saiga-Centaur Barding, Plate"
 	cost = 130 // 2 Ingots, bigger piece
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/plate)
 

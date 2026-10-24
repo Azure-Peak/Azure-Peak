@@ -19,6 +19,9 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	// "fullbod" (barding drapes the whole body) or "caparison" (a lighter saddle-blanket look) - purely cosmetic, toggled by middle-clicking the worn barding
 	var/barding_style = "fullbod"
+	var/shiftable = TRUE
+	var/shifted = FALSE
+
 
 /obj/item/clothing/suit/roguetown/armor/saiga_barding/mob_can_equip(mob/living/M, mob/living/equipper, slot, disable_warning)
 	var/mob/living/equipped_to_mob = equipper || M
@@ -46,14 +49,32 @@
 		var/mob/M = loc
 		M.update_inv_armor()
 
+/obj/item/clothing/suit/roguetown/armor/saiga_barding/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("MMB to toggle between full body barding, or a caparison.")
+
 /obj/item/clothing/suit/roguetown/armor/saiga_barding/cloth
 	name = "cloth saiga barding"
 	desc = "Protective covering, cut and fitted for a saiga-taur's body. Simple quilted cloth - offers no notable protection, more sight than shield."
 	icon_state = "saiga_barding_cloth"
 	armor = ARMOR_CLOTHING
 	armor_class = ARMOR_CLASS_NONE
+	blocksound = SOFTUNDERHIT
 	material_category = ARMOR_MAT_LEATHER
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+
+/obj/item/clothing/suit/roguetown/armor/saiga_barding/padded
+	name = "padded saiga barding"
+	desc = "Protective covering, cut and fitted for a saiga-taur's body. A thick padded coat, warding off blunt blows."
+	icon_state = "saiga_barding_padded"
+	color = "#976E6B"
+	armor = ARMOR_PADDED
+	armor_class = ARMOR_CLASS_LIGHT
+	material_category = ARMOR_PADDED
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER // equivalent to padded gambeson
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
 
 /obj/item/clothing/suit/roguetown/armor/saiga_barding/leather
 	name = "leather saiga barding"
@@ -61,18 +82,13 @@
 	icon_state = "saiga_barding_leather"
 	armor = ARMOR_LEATHER
 	armor_class = ARMOR_CLASS_LIGHT
+	blocksound = SOFTHIT
 	material_category = ARMOR_MAT_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER - ARMOR_INT_LIGHT_BETWEENTIER_MODIFIER
+	slot_flags = ITEM_SLOT_ARMOR
+	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET //equivalent to leather armour base, but slightly better
 	salvage_result = /obj/item/natural/hide/cured
-
-/obj/item/clothing/suit/roguetown/armor/saiga_barding/padded
-	name = "padded saiga barding"
-	desc = "Protective covering, cut and fitted for a saiga-taur's body. A thick padded coat, warding off blunt blows."
-	icon_state = "saiga_barding_padded"
-	armor = ARMOR_PADDED
-	armor_class = ARMOR_CLASS_LIGHT
-	material_category = ARMOR_MAT_LEATHER
-	max_integrity = ARMOR_INT_CHEST_LIGHT_MEDIUM
+	shiftable = FALSE
 
 /obj/item/clothing/suit/roguetown/armor/saiga_barding/chain
 	name = "chainmail saiga barding"
@@ -80,9 +96,12 @@
 	icon_state = "saiga_barding_chain"
 	armor = ARMOR_MAILLE
 	armor_class = ARMOR_CLASS_MEDIUM
+	blocksound = CHAINHIT
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET //makes chain options hauberk equivalent
 	material_category = ARMOR_MAT_CHAINMAIL
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_STEEL
 	sewrepair = FALSE
+	slot_flags = ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT
 	anvilrepair = /datum/skill/craft/armorsmithing
 	smeltresult = /obj/item/ingot/steel
 
@@ -108,6 +127,7 @@
 	armor = ARMOR_PLATE
 	armor_class = ARMOR_CLASS_HEAVY
 	material_category = ARMOR_MAT_PLATE
+	blocksound = PLATEHIT
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
 	sewrepair = FALSE
 	anvilrepair = /datum/skill/craft/armorsmithing

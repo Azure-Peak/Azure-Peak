@@ -67,17 +67,17 @@
 	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini)
 
 /datum/supply_pack/rogue/light_armor/saigataurbarding_cloth
-	name = "Saiga-taur Barding, Cloth"
+	name = "Saiga-Centaur Barding, Cloth"
 	cost = 15
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/cloth)
 
 /datum/supply_pack/rogue/light_armor/saigataurbarding_leather
-	name = "Saiga-taur Barding, Leather"
+	name = "Saiga-Centaur Barding, Leather"
 	cost = 30
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/leather)
 
 /datum/supply_pack/rogue/light_armor/saigataurbarding_padded
-	name = "Saiga-taur Barding, Padded"
+	name = "Saiga-Centaur Barding, Padded"
 	cost = 35
 	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/padded)
 
