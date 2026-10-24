@@ -60063,8 +60063,12 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/indoors/town/bath)
 "kgE" = (
-/obj/structure/plasticflaps/opaque,
-/turf/open/floor/rogue/blocks/green,
+/obj/structure/mineral_door/bars{
+	color = "#755f48";
+	name = "rusted iron door";
+	locked = 1
+	},
+/turf/open/floor/rogue/concrete,
 /area/rogue/under/town/sewer)
 "kgF" = (
 /obj/structure/chair/bench/church/mid{
@@ -153977,7 +153981,7 @@ bhJ
 bhJ
 cqm
 dxA
-mMx
+oGQ
 urZ
 ylh
 ylh
@@ -153988,7 +153992,7 @@ ylh
 urZ
 urZ
 urZ
-mMx
+oGQ
 ylh
 ylh
 xNL
@@ -156236,7 +156240,7 @@ mMx
 mMx
 mMx
 mMx
-mMx
+oGQ
 mMx
 cqm
 cPX
@@ -158039,7 +158043,7 @@ dKl
 uHW
 cqm
 mMx
-mMx
+oGQ
 wuQ
 mMx
 mMx
@@ -159845,7 +159849,7 @@ rPk
 oZC
 gau
 tZm
-ylh
+phU
 mMx
 mMx
 mMx
@@ -161203,7 +161207,7 @@ dlK
 ylh
 ylh
 ylh
-mMx
+oGQ
 ylh
 ylh
 cqm
@@ -161656,8 +161660,8 @@ sIr
 rbn
 gau
 wuQ
-iZp
-iZp
+xam
+enI
 cqm
 cPX
 nbm
@@ -163464,7 +163468,7 @@ aJx
 dyb
 hJJ
 ylh
-mMx
+oGQ
 ylh
 cqm
 cPX
@@ -163914,7 +163918,7 @@ spI
 spI
 cyN
 dlK
-cqm
+tZm
 ylh
 mMx
 ylh
@@ -164366,7 +164370,7 @@ xXD
 dBD
 dbh
 cqm
-cqm
+ylh
 ylh
 mMx
 ylh
@@ -164818,7 +164822,7 @@ iZp
 iZp
 iZp
 sIr
-cqm
+ylh
 mMx
 mMx
 phU
@@ -165270,7 +165274,7 @@ urZ
 ylh
 sMT
 gBf
-tZm
+ylh
 mMx
 gau
 iZp
@@ -177067,7 +177071,7 @@ urZ
 urZ
 nsR
 ylh
-mMx
+oGQ
 ylh
 dlK
 qPr
@@ -182031,10 +182035,10 @@ itm
 dlK
 gru
 jtd
-itm
-dlK
+jtd
+kgE
 ylh
-mMx
+oGQ
 ylh
 gau
 iZp
@@ -182484,7 +182488,7 @@ cqm
 rgQ
 itm
 squ
-cqm
+dlK
 urZ
 mMx
 nsR
@@ -289621,7 +289625,7 @@ njB
 lKo
 jtR
 lKo
-njB
+pWT
 fpx
 fpx
 fpx
@@ -290531,7 +290535,7 @@ fpx
 fpx
 daQ
 daQ
-njB
+pWT
 pWT
 njB
 aDx
@@ -293243,7 +293247,7 @@ fpx
 fpx
 njB
 njB
-njB
+pWT
 pWT
 pWT
 hvv
