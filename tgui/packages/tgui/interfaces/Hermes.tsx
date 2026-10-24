@@ -53,7 +53,6 @@ export const Hermes = (props: any, context: any) => {
   } = data;
 
   const [recipient, setRecipient] = useState('');
-  const [sender, setSender] = useState('');
   const [letterContent, setLetterContent] = useState('');
 
   const isFree = !!free_send_ready;
@@ -103,14 +102,6 @@ export const Hermes = (props: any, context: any) => {
                           onChange={(value) => setRecipient(value)}
                         />
                       </Stack.Item>
-                      <Stack.Item grow>
-                        <Input
-                          fluid
-                          placeholder="From: Anonymous"
-                          value={sender}
-                          onChange={(value) => setSender(value)}
-                        />
-                      </Stack.Item>
                     </Stack>
                   </Stack.Item>
                   <Stack.Item grow>
@@ -132,7 +123,6 @@ export const Hermes = (props: any, context: any) => {
                       onClick={() =>
                         act('send_letter', {
                           recipient: recipient,
-                          sender: sender || 'Anonymous',
                           content: letterContent,
                         })
                       }
@@ -218,14 +208,6 @@ export const Hermes = (props: any, context: any) => {
                         onChange={(value) => setRecipient(value)}
                       />
                     </Stack.Item>
-                    <Stack.Item grow>
-                      <Input
-                        fluid
-                        placeholder="From: Anonymous"
-                        value={sender}
-                        onChange={(value) => setSender(value)}
-                      />
-                    </Stack.Item>
                   </Stack>
                 </Stack.Item>
                 <Stack.Item grow>
@@ -249,7 +231,6 @@ export const Hermes = (props: any, context: any) => {
                         onClick={() =>
                           act('send_letter', {
                             recipient: recipient,
-                            sender: sender || 'Anonymous',
                             content: letterContent,
                           })
                         }
@@ -266,7 +247,6 @@ export const Hermes = (props: any, context: any) => {
                           disabled={!canSendTube}
                           onClick={() =>
                             act('send_tube', {
-                              sender: sender || 'Anonymous',
                               content: letterContent,
                             })
                           }
