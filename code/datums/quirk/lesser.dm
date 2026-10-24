@@ -109,15 +109,6 @@
 			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a feytouched, is walking the lands this week."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))
 
-/datum/quirk/blackoak
-	name = "Black Oak"
-	desc = "Whether through merit or heritage, I have walked with the Black Oaks; the irregular militia that fights for the ancestral elven homelands of Azuria."
-	mechdesc = "Restricts you to the Adventurer and Wretch roles. You can recognize fellow members of the enclave, and spot any foreigners and outsiders at a glance."
-	added_traits = list(TRAIT_BLACKOAK)
-	allowed_species = list(/datum/species/elf/wood, /datum/species/elf/dark, /datum/species/human/halfelf)
-	allowed_jobs = list("Adventurer", "Wretch", "Court Agent", "Trader")
-	ui_fa_icon = "leaf"
-
 /datum/quirk/wellknown
 	name = "Well-known"
 	desc = "I may not be a resident of Azure Peak myself, but I spend enough time in and around the city that my face and name are known."
