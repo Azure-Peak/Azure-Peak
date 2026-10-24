@@ -8,8 +8,10 @@
 	subclass_languages = list(/datum/language/etruscan)
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_virtues = list(
-		/datum/virtue/combat/guarded
+		/datum/virtue/combat/guarded,
+		/datum/virtue/utility/riding // So they can pick their mount, and its part of their identity.
 	)
+	virtue_limits = list(/datum/virtue/utility/riding) // So you cant get two saigas, bill.
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
@@ -28,14 +30,10 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
-
-/datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H, dummy)
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
-	return ..()
 
 /datum/outfit/job/roguetown/mercenary/vaquero/pre_equip(mob/living/carbon/human/H)
 	..()
