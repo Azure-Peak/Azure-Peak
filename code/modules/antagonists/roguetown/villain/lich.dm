@@ -105,6 +105,24 @@
 	L.update_body()
 	L.update_hair()
 	L.update_body_parts(redraw = TRUE)
+	// Revenant's on_species_loss and on_head_destroyed both call death() — and the
+	// dullahan head's drop_limb assumes the owner is still dullahan, so it runtimes
+	// after a species swap. Replace the head with a vanilla one first under GODMODE,
+	// then swap species.
+
+	// Why do we do this? Lich isn't meant to accidentally be a construct/reverant.
+	// Ironman traits break us completely. As for Reverant we're unkillable b/c decapitation immunity + spellcast check bugs + only die to blessed silver + we're immune to decapitation kills.
+	var/had_godmode = (L.status_flags & GODMODE)
+	L.status_flags |= GODMODE
+	if(isdullahan(L))
+		var/obj/item/bodypart/head/old_head = L.get_bodypart(BODY_ZONE_HEAD)
+		if(old_head)
+			var/obj/item/bodypart/head/new_head = new /obj/item/bodypart/head()
+			new_head.replace_limb(L, TRUE)
+			qdel(old_head)
+	L.set_species(/datum/species/human/northern)
+	if(!had_godmode)
+		L.status_flags &= ~GODMODE
 
 /datum/antagonist/lich/proc/equip_lich()
 	owner.unknow_all_people()
@@ -121,6 +139,8 @@
 
 	L.mob_biotypes |= MOB_UNDEAD
 	replace_eyes(L)
+	L.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
+	L.update_a_intents()
 
 	for (var/obj/item/bodypart/B in L.bodyparts)
 		B.skeletonize(FALSE)
@@ -187,6 +207,7 @@
 	H.grant_language(/datum/language/undead)
 	// Grant a chalk so the lich can do rituals
 	H.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
+	change_origin(H, /datum/virtue/origin/unknown, "Origin") //Prevents Grenzelhoft origin
 
 	if(H.mind)
 		// Our outburst version, its unique and a means to avoid softlocks
@@ -321,6 +342,8 @@
 	set_stats()
 	skele_look()
 	equip_and_traits()
+	new_body.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
+	new_body.update_a_intents()
 	// Grant a chalk post-equip so the lich can do rituals again
 	new_body.equip_to_slot_or_del(new /obj/item/ritechalk,SLOT_IN_BACKPACK, TRUE)
 	// Delete the old body if it still exists

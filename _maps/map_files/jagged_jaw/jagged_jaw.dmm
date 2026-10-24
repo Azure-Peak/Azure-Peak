@@ -12726,7 +12726,7 @@
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/grim)
 "bAY" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/effect/decal/cleanable/debris/stony,
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/shelter)
@@ -20599,7 +20599,7 @@
 /turf/open/floor/rogue/blocks/flipped,
 /area/rogue/indoors/town/shop)
 "cAl" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/grimspyre/depths)
 "cAm" = (
@@ -26970,7 +26970,7 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/indoors/town/grim)
 "dlK" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/remains/human,
 /obj/structure/chair/wood/rogue/throne,
@@ -27405,7 +27405,7 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/outdoors/beach/forest/hamlet/grim)
 "dod" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/church,
 /area/rogue/under/cave/spider/lost)
 "doe" = (
@@ -33210,7 +33210,7 @@
 /turf/open/transparent/openspace,
 /area/rogue/indoors/shelter)
 "dZC" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/spider/lost)
 "dZE" = (
@@ -35842,7 +35842,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/grim)
 "epW" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/under/cave/dukecourt/grim)
@@ -36031,8 +36031,9 @@
 /area/rogue/under/cave/water_temple/one)
 "erA" = (
 /obj/structure/fluff/alch,
-/obj/item/ash,
-/obj/item/ash,
+/obj/item/natural/bundle/ash{
+	amount = 2
+	},
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
@@ -46077,7 +46078,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "fCo" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/under/cave/dukecourt/grim)
@@ -66987,7 +66988,7 @@
 /area/rogue/under/cave/taricheamanor)
 "ieH" = (
 /obj/machinery/light/rogue/candle,
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/grimspyre/depths/ancientforge)
 "ieL" = (
@@ -80102,7 +80103,7 @@
 	desc = "...?";
 	name = "ancient intake"
 	},
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/structure/spider/stickyweb,
 /turf/open/floor/rogue/churchmarble,
 /area/rogue/under/cave/spider/lost)
@@ -87475,7 +87476,7 @@
 /turf/open/floor/rogue/grasscold,
 /area/rogue/indoors/cave/southern)
 "kBP" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/structure/ritualcircle/zizo,
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/hellhound,
 /turf/open/floor/rogue/blocks/stonered,
@@ -105881,7 +105882,7 @@
 /obj/structure/stairs/fancy/l{
 	dir = 1
 	},
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/rogue/carpet/lord{
 	icon_state = "carpet_l"
@@ -114775,7 +114776,7 @@
 /area/rogue/under/town/basement/keep/grim)
 "nVe" = (
 /obj/effect/decal/cleanable/blood/old,
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/grimspyre/depths)
 "nVh" = (
@@ -121179,11 +121180,11 @@
 /obj/machinery/light/rogue/hearth{
 	pixel_y = 8
 	},
-/obj/item/ash{
+/obj/item/natural/ash{
 	pixel_x = -4;
 	pixel_y = 7
 	},
-/obj/item/ash{
+/obj/item/natural/ash{
 	pixel_x = 4;
 	pixel_y = 7
 	},
@@ -128682,12 +128683,7 @@
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/grim)
 "pDf" = (
-/obj/structure/mannequin/male{
-	dir = 4;
-	pixel_x = -10;
-	pixel_y = 0;
-	density = 0
-	},
+/obj/structure/roguemachine/contractledger,
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/shop)
 "pDi" = (
@@ -139012,7 +139008,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/bog/south/grim)
 "qPx" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/under/cave/grimspyre/depths)
 "qPy" = (
@@ -147716,10 +147712,9 @@
 /area/rogue/indoors/town/grim)
 "rTF" = (
 /obj/structure/closet/crate/chest/crate,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
-/obj/item/ash,
+/obj/item/natural/bundle/ash{
+	amount = 4
+	},
 /obj/structure/fluff/walldeco/med4{
 	pixel_x = 32
 	},
@@ -150524,7 +150519,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter/bog/skeletonfort/grim)
 "skn" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/under/cave/dukecourt/grim)
@@ -155584,7 +155579,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grimspyre)
 "sOg" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/shelter)
 "sOh" = (
@@ -159509,8 +159504,9 @@
 /area/rogue/indoors/town/grim)
 "tnf" = (
 /obj/machinery/light/rogue/candle/floorcandle,
-/obj/item/ash,
-/obj/item/ash,
+/obj/item/natural/bundle/ash{
+	amount = 2
+	},
 /obj/structure/table/wood/large_table/north,
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/shelter)
@@ -171359,8 +171355,9 @@
 /turf/open/water/cleanshallow/deep,
 /area/rogue/outdoors/woods/grim/northeast/wardenscheckpoint)
 "uGD" = (
-/obj/item/ash,
-/obj/item/ash,
+/obj/item/natural/bundle/ash{
+	amount = 2
+	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/grimspyre/depths/ancientforge)
 "uGF" = (
@@ -175371,7 +175368,7 @@
 /turf/closed/wall/mineral/rogue/decostone,
 /area/rogue/outdoors/town/grim)
 "veL" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/grimspyre/depths/ancientforge)
 "veM" = (

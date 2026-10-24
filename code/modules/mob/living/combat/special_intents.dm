@@ -350,10 +350,9 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		return
 	howner.apply_status_effect(/datum/status_effect/debuff/specialcd, cd_to_apply)
 
-/datum/special_intent/proc/settle_visuals(pz = 0, matrix/tf)
+/datum/special_intent/proc/settle_visuals(pz = 0)
 	if(QDELETED(howner))
 		return
-	howner.transform = tf
 	animate(howner, pixel_z = pz, time = 1)
 
 /// Resolves the attacker's aimed zone against a specific target using the shared accuracy formula.
@@ -1388,7 +1387,6 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/self_immob_dur = 1.5 SECONDS
 	var/dam = 50
 	var/prev_pixel_z
-	var/prev_transform
 
 
 /datum/special_intent/upper_cut/npc_use_chance(mob/living/user, atom/target)
@@ -1401,8 +1399,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.Immobilize(self_immob_dur)
 	dam = initial(dam)
 	prev_pixel_z = howner.pixel_z
-	prev_transform = howner.transform
-	addtimer(CALLBACK(src, PROC_REF(settle_visuals), prev_pixel_z, prev_transform), delay + fade_delay)
+	addtimer(CALLBACK(src, PROC_REF(settle_visuals), prev_pixel_z), delay + fade_delay)
 	playsound(howner, 'sound/combat/ground_smash_start.ogg', 100, TRUE)
 	if(HAS_TRAIT(howner, TRAIT_BIGGUY))
 		return // windup
@@ -1436,9 +1433,10 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	if(HAS_TRAIT(howner, TRAIT_BIGGUY))
 		return
 	else
+		var/matrix/tf = matrix(howner.transform)
 		animate(howner, pixel_z = prev_pixel_z + 12, time = 2) //shoryuken
-		animate(pixel_z = prev_pixel_z, transform = turn(prev_transform, pick(-12, 0, 12)), time=2)
-		animate(transform = prev_transform, time = 0)
+		animate(pixel_z = prev_pixel_z, transform = turn(tf, pick(-12, 0, 12)), time=2)
+		animate(transform = tf, time = 0)
 
 	..()
 
@@ -1455,7 +1453,6 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	var/self_immob_dur = 1.5 SECONDS
 	var/dam = 50
 	var/prev_pixel_z
-	var/prev_transform
 
 /datum/special_intent/arcyne_descent/npc_use_chance(mob/living/user, atom/target)
 	return npc_finisher_chance(target)
@@ -1467,8 +1464,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	howner.Immobilize(self_immob_dur)
 	dam = initial(dam)
 	prev_pixel_z = howner.pixel_z
-	prev_transform = howner.transform
-	addtimer(CALLBACK(src, PROC_REF(settle_visuals), prev_pixel_z, prev_transform), delay + fade_delay)
+	addtimer(CALLBACK(src, PROC_REF(settle_visuals), prev_pixel_z), delay + fade_delay)
 	howner.visible_message(span_warning("[howner] rises on a surge of arcyne force!"), span_warning("I rise on a surge of arcyne force!"))
 	playsound(howner, 'sound/magic/charging.ogg', 100, TRUE)
 	if(!HAS_TRAIT(howner, TRAIT_BIGGUY))
@@ -1478,7 +1474,7 @@ tile_coordinates = list(list(1,1), list(-1,1), list(-1,-1), list(1,-1),list(0,0)
 	playsound(T, 'sound/magic/whiteflame.ogg', 100, TRUE)
 	if(!HAS_TRAIT(howner, TRAIT_BIGGUY))
 		animate(howner, pixel_z = prev_pixel_z - 2, time = 2)
-		animate(pixel_z = prev_pixel_z, transform = prev_transform, time = 2)
+		animate(pixel_z = prev_pixel_z, time = 2)
 
 	for(var/mob/living/L in T)
 		if(L == howner)

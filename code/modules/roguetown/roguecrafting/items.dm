@@ -251,7 +251,7 @@
 	reqs = list(
 		/obj/item/paper/scroll = 3,
 		/obj/item/grown/log/tree/small = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		)
 	skillcraft = /datum/skill/misc/reading
 	tools = list(/obj/item/natural/feather)
@@ -264,7 +264,7 @@
 	reqs = list(
 		/obj/item/paper/scroll = 3,
 		/obj/item/grown/log/tree/small = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		)
 	skillcraft = /datum/skill/misc/reading
 	tools = list(/obj/item/natural/feather)

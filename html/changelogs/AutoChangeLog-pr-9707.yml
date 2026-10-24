@@ -1,0 +1,7 @@
+author: "Shaman"
+delete-after: True
+changes:
+  - spellcheck: "Standardized names of Dominion donator items"
+  - rscadd: "Dominion Cestus elixir works on hardened leather gloves"
+  - rscadd: "Dominion Greatsword elixir works on executioner's swords"
+  - rscadd: "Dominion Shield elixir works on bronze shields, iron shields, and bucklers"

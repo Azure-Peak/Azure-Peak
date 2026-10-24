@@ -43,14 +43,14 @@
 	if(!spell_path || !(spell_path in choice_spells))
 		return
 	chosen_spell = spell_path
-	if(target.has_spell(spell_path))
+	if(target.has_spell(spell_path, specific = TRUE))
 		return
 	var/datum/new_spell = new spell_path
 	mark_aspect_spell(new_spell)
 	target.AddSpell(new_spell)
 
 /datum/magic_aspect/proc/grant_fixed_one(datum/mind/target, spell_path)
-	if(!spell_path || target.has_spell(spell_path))
+	if(!spell_path || target.has_spell(spell_path, specific = TRUE))
 		return null
 	var/datum/new_spell = new spell_path
 	mark_aspect_spell(new_spell)
@@ -83,7 +83,7 @@
 			grant_fixed_one(target, entry)
 	for(var/spell_path in fixed_spells)
 		grant_fixed_one(target, spell_path)
-	if(choice_spell && !target.has_spell(choice_spell))
+	if(choice_spell && !target.has_spell(choice_spell, specific = TRUE))
 		grant_choice_spell(target, choice_spell)
 
 /// Apply a named variant's spell swaps. T4 casters automatically get "mastery".

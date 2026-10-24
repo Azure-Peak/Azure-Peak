@@ -86,7 +86,7 @@ All foods are distributed among various categories. Use common sense.
 	var/fertamount = 50
 
 	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	//Placeholder for effect that trigger on eating that aren't tied to reagents.
 
 	var/cooked_smell
