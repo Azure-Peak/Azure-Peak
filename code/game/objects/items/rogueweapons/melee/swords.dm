@@ -2232,6 +2232,23 @@
 	sheathe_icon = "ssangsudo"
 	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/long/deep, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
 
+/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		update_icon()
+
+/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo/update_icon()
+	refresh_detail_overlay()
+
+/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
+
 /obj/item/rogueweapon/sword/long/kriegmesser/pestran
 	name = "\"Cleansing Edge\""
 	desc = "A cut in time saves a life."
@@ -2407,7 +2424,6 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
-	dropshrink = 0.8
 	max_integrity = 150 //Sword with two tile reach but very low integrity.
 	max_blade_int = 150
 

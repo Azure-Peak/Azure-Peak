@@ -46,7 +46,7 @@
 	backpack_contents = list(
 						/obj/item/seeds/wheat=1,
 						/obj/item/seeds/apple=1,
-						/obj/item/ash=1,
+						/obj/item/natural/ash=1,
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/rogueweapon/scabbard/sheath = 1
 						)

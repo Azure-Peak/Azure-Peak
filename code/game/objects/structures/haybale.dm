@@ -157,7 +157,7 @@
 		hidebale(AM)
 
 /obj/structure/haybale/burn()
-	static_debris = list(/obj/item/ash = 1)
+	static_debris = list(/obj/item/natural/ash = 1)
 	return ..()
 
 /obj/structure/haybale/deconstruct(disassembled = TRUE)
