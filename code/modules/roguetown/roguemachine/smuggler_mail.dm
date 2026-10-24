@@ -81,7 +81,7 @@
 		return
 	if(alert(user, "Send through the tube?",,"YES","NO") != "YES")
 		return
-	P.mailer = "Anonymous"
+	P.mailer = MAILER_ANONYMOUS
 	P.mailedto = "Clandestine Tube"
 	P.update_icon()
 	send_through_tube(P, user)

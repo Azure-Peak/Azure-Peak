@@ -370,7 +370,7 @@
 	var/obj/item/paper/P = new
 	var/parsed_content = parsemarkdown(html_encode(content), user)
 	P.info += "<font face=\"[FOUNTAIN_PEN_FONT]\" color=#14103f>[parsed_content]</font>"
-	P.mailer = "Anonymous"
+	P.mailer = MAILER_ANONYMOUS
 	if(!(findtext(recipient,"#")==1))
 		recipient = reject_bad_name(recipient, max_length=MAX_HERMES_NAME_LEN) // reject_bad_name doesn't let you use #s in names, so we only apply this if it's NOT a hermes number
 	P.mailedto = recipient
@@ -839,7 +839,7 @@
 				to_chat(user, span_warning(mail_fail_msg(send2place)))
 				return
 			var/list/record = mail_item_record(P)
-			if(!deliver_mail(P, send2place, "Anonymous", key_name(user)))
+			if(!deliver_mail(P, send2place, MAILER_ANONYMOUS, key_name(user)))
 				to_chat(user, span_warning("The master of mails has perished?"))
 				return
 			if(!findtext(send2place, "#"))

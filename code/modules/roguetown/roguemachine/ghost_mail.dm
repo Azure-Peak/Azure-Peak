@@ -107,7 +107,7 @@ GLOBAL_DATUM_INIT(ghost_hermes, /datum/ghost_hermes, new)
 	var/body = ""
 	for(var/i = length(box), i >= 1, i--)
 		var/datum/ghost_letter/GL = box[i]
-		body += "<b>From [GL.sender], to [GL.recipient]</b><br>"
+		body += "<b>[GL.sender == MAILER_ANONYMOUS ? "To" : "From [GL.sender], to"] [GL.recipient]</b><br>"
 		body += GL.content
 		GL.unread = FALSE
 		if(i > 1)

@@ -174,6 +174,8 @@
 	. = ..()
 	if(!mailer)
 		. += "<a href='?src=[REF(src)];read=1'>Read</a> (<a href='?src=[REF(src)];Help=1'>Help</a>)"
+	else if(mailer == MAILER_ANONYMOUS)
+		. += "It's a sealed letter, addressed to [mailedto]."
 	else
 		. += "It's from [mailer], addressed to [mailedto].</a>"
 
@@ -251,7 +253,7 @@
 
 /obj/item/paper/attack_self(mob/user)
 	if(mailer)
-		user.visible_message(span_notice("[user] opens a letter."), span_notice("I open the letter from [mailer]."))
+		user.visible_message(span_notice("[user] opens a letter."), span_notice(mailer == MAILER_ANONYMOUS ? "I open the letter." : "I open the letter from [mailer]."))
 		cached_mailer = mailer
 		cached_mailedto = mailedto
 		mailer = null
@@ -611,7 +613,9 @@
 		else
 			. += "There's a [note.name] attached to it..."
 			. += note.examine(user)
-	if(mailer)
+	if(mailer == MAILER_ANONYMOUS)
+		. += "It's addressed to [mailedto]."
+	else if(mailer)
 		. += "It's from [mailer], addressed to [mailedto].</a>"
 
 /obj/item/smallDelivery/attackby(obj/item/W, mob/user, params)
