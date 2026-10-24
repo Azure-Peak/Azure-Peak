@@ -3,6 +3,7 @@ GLOBAL_LIST_INIT(quest_difficulty_terms, list(
 	QUEST_DIFFICULTY_MEDIUM = list("bonus" = QUEST_DIFFICULTY_BONUS_MEDIUM, "deposit" = QUEST_DEPOSIT_MEDIUM, "icon" = "scroll_quest_mid"),
 	QUEST_DIFFICULTY_HARD = list("bonus" = QUEST_DIFFICULTY_BONUS_HARD, "deposit" = QUEST_DEPOSIT_HARD, "icon" = "scroll_quest_high"),
 	QUEST_DIFFICULTY_NOTORIOUS = list("bonus" = QUEST_DIFFICULTY_BONUS_NOTORIOUS, "deposit" = QUEST_DEPOSIT_NOTORIOUS, "icon" = "scroll_quest_notorious"),
+	QUEST_DIFFICULTY_INCURSION = list("bonus" = QUEST_DIFFICULTY_BONUS_INCURSION, "deposit" = QUEST_DEPOSIT_INCURSION, "icon" = "scroll_quest_high"),
 ))
 
 GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
@@ -69,6 +70,15 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/faction_id
 	var/datum/quest_faction/faction
 	var/required_fellowship_size = 0
+	var/fellowship_threat_rate = 0
+	var/fellowship_reward_rate = 0
+	var/list/fellowship_roster
+	var/fellowship_extras = 0
+	var/fellowship_threat_mult = 1
+	var/fellowship_reward_mult = 1
+	var/fellowship_split_payout = FALSE
+	var/turf/reward_origin_turf
+	var/turf/reward_target_turf
 	var/issuer_may_claim = FALSE
 	var/levy_exempt = FALSE
 	var/guild_cut_rate = GUILD_REFERRAL_FEE_PCT
@@ -378,6 +388,63 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 			return FALSE
 	return TRUE
 
+/datum/quest/proc/count_fellowship_extras(mob/living/user)
+	var/datum/fellowship/F = user?.current_fellowship
+	var/size = F ? min(length(F.get_members()), QUEST_FELLOWSHIP_SCALE_MAX) : 1
+	return max(0, size - max(1, required_fellowship_size))
+
+/datum/quest/proc/lock_fellowship(mob/living/user)
+	if(fellowship_roster)
+		return
+	fellowship_roster = list()
+	var/datum/fellowship/F = user?.current_fellowship
+	var/list/members = F ? F.get_members() : list(user)
+	for(var/mob/living/M as anything in members)
+		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
+			break
+		fellowship_roster += WEAKREF(M)
+	fellowship_split_payout = F?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
+	fellowship_extras = count_fellowship_extras(user)
+	if(!fellowship_extras || (!fellowship_threat_rate && !fellowship_reward_rate))
+		return
+	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
+	fellowship_reward_mult = 1 + fellowship_reward_rate * fellowship_extras
+	reward_amount = round(calculate_reward(reward_origin_turf, reward_target_turf) * fellowship_reward_mult)
+
+/datum/quest/proc/fellowship_shares(amount, mob/living/fallback)
+	. = list()
+	var/list/payees = list()
+	for(var/datum/weakref/W as anything in fellowship_roster)
+		var/mob/living/M = W.resolve()
+		if(M && SStreasury.has_account(M))
+			payees |= M
+	if(fallback && !SStreasury.has_account(fallback) && length(payees))
+		fallback = payees[1]
+	if(!fellowship_split_payout || length(fellowship_roster) < 2 || !length(payees))
+		if(fallback)
+			.[fallback] = amount
+		return
+	var/share = FLOOR(amount / length(fellowship_roster), 1)
+	for(var/mob/living/M as anything in payees)
+		.[M] = share
+
+/datum/quest/proc/fellowship_leftover_sink(list/shares, mob/living/fallback)
+	if(fallback in shares)
+		return fallback
+	return length(shares) ? shares[1] : null
+
+/datum/quest/proc/project_fellowship_objective(mob/living/user)
+	return get_objective_text()
+
+/datum/quest/proc/project_fellowship_reward(mob/living/user)
+	var/extras = count_fellowship_extras(user)
+	if(!extras || (!fellowship_threat_rate && !fellowship_reward_rate))
+		return reward_amount
+	var/saved_mult = fellowship_threat_mult
+	fellowship_threat_mult = 1 + fellowship_threat_rate * extras
+	. = round(calculate_reward(reward_origin_turf, reward_target_turf) * (1 + fellowship_reward_rate * extras))
+	fellowship_threat_mult = saved_mult
+
 /datum/quest/proc/claim_failure_reason(mob/living/user)
 	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
@@ -397,6 +464,8 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	record_contract_signer(src, user.ckey)
 
 /datum/quest/proc/get_party_size()
+	if(fellowship_roster)
+		return length(fellowship_roster)
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(!istype(bearer) || !bearer.current_fellowship)
 		return 1

@@ -24,17 +24,56 @@
 		return TRUE
 	return FALSE
 
-/proc/towner_posting_is_crown_funded(mob/user, posting_type)
-	if(towner_trade_can_post(user, posting_type))
+/proc/user_can_post_company_towner(mob/user)
+	if(!user)
 		return FALSE
-	return user_can_post_crown_towner(user)
+	return (user.job in GLOB.atc_positions)
 
-/proc/user_can_post_towner_type(mob/user, posting_type)
+/proc/towner_posting_funder(mob/user, posting_type)
 	if(!get_towner_prototype(posting_type))
-		return FALSE
+		return null
+	if(user_can_post_company_towner(user))
+		return TOWNER_FUNDER_COMPANY
 	if(towner_trade_can_post(user, posting_type))
-		return TRUE
-	return user_can_post_crown_towner(user)
+		return TOWNER_FUNDER_PERSONAL
+	if(user_can_post_crown_towner(user))
+		return TOWNER_FUNDER_CROWN
+	return null
+
+/proc/towner_posting_cost(tier, funder)
+	var/base = get_towner_tier_term(tier, "cost")
+	switch(funder)
+		if(TOWNER_FUNDER_CROWN)
+			return round(base * TOWNER_POSTING_CROWN_COST_MULT)
+		if(TOWNER_FUNDER_COMPANY)
+			return round(base * TOWNER_POSTING_COMPANY_COST_MULT)
+	return base
+
+/proc/towner_funder_fund(mob/user, funder)
+	switch(funder)
+		if(TOWNER_FUNDER_CROWN)
+			return SStreasury.discretionary_fund
+		if(TOWNER_FUNDER_COMPANY)
+			return SStreasury.merchant_fund
+		if(TOWNER_FUNDER_PERSONAL)
+			return SStreasury.get_account(user)
+	return null
+
+/proc/towner_funder_label(funder)
+	switch(funder)
+		if(TOWNER_FUNDER_CROWN)
+			return "the Treasury"
+		if(TOWNER_FUNDER_COMPANY)
+			return "the ATC"
+	return "your account"
+
+/proc/towner_funder_log_label(funder)
+	switch(funder)
+		if(TOWNER_FUNDER_CROWN)
+			return "crown purse"
+		if(TOWNER_FUNDER_COMPANY)
+			return "ATC coffers"
+	return "personal"
 
 /proc/count_active_towner_postings(mob/user)
 	. = 0
@@ -99,12 +138,11 @@
 	var/list/prototypes = get_towner_prototypes()
 	for(var/posting_type in prototypes)
 		var/datum/quest/kill/recovery/towner/proto = prototypes[posting_type]
-		var/crown_funded = towner_posting_is_crown_funded(user, posting_type)
-		var/cost_mult = crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1
+		var/funder = towner_posting_funder(user, posting_type)
 		var/list/tiers = list()
 		for(var/tier in GLOB.towner_posting_tiers)
 			tiers[tier] = list(
-				"cost" = get_towner_tier_term(tier, "cost") * cost_mult,
+				"cost" = towner_posting_cost(tier, funder),
 				"bearer_summary" = towner_bearer_summary(tier),
 			)
 		out += list(list(
@@ -112,9 +150,9 @@
 			"label" = proto.posting_label,
 			"blurb" = proto.posting_blurb,
 			"rules" = proto.posting_rules || list(),
-			"eligible" = user_can_post_towner_type(user, posting_type) ? TRUE : FALSE,
+			"eligible" = funder ? TRUE : FALSE,
 			"eligible_jobs" = towner_advclass_names(proto.postable_advclasses),
-			"crown_funded" = crown_funded ? TRUE : FALSE,
+			"funder" = funder,
 			"tiers" = tiers,
 			"varieties" = towner_variety_listing(posting_type),
 		))
@@ -135,7 +173,8 @@
 		to_chat(poster, span_warning("That posting type is not one the Guild accepts."))
 		return
 
-	if(!user_can_post_towner_type(poster, chosen_type))
+	var/funder = towner_posting_funder(poster, chosen_type)
+	if(!funder)
 		to_chat(poster, span_warning("Your trade does not post that contract."))
 		return
 
@@ -156,40 +195,42 @@
 			variety = vtable[1]
 	else
 		variety = null
-	var/crown_funded = towner_posting_is_crown_funded(poster, chosen_type)
-	var/cost = get_towner_tier_term(tier, "cost") * (crown_funded ? TOWNER_POSTING_CROWN_COST_MULT : 1)
+	var/cost = towner_posting_cost(tier, funder)
 	if(!cost)
 		return
 
-	var/datum/fund/poster_account
-	if(crown_funded)
-		if(!SStreasury.discretionary_fund)
-			to_chat(poster, span_warning("The Treasury isn't open yet."))
-			return
-		if(SStreasury.discretionary_fund.balance < cost)
-			to_chat(poster, span_warning("The Treasury can't afford this. Need [cost]m, have [SStreasury.discretionary_fund.balance]m."))
-			return
-		if(!SStreasury.burn(SStreasury.discretionary_fund, cost, "Crown townsfolk contract ([chosen_type])", LEDGER_CROWN_EXP_CONTRACTS))
-			to_chat(poster, span_warning("The payment didn't go through."))
-			return
-		record_treasury_expense(TREASURY_FLOW_CONTRACT, treasury_role_of(poster), cost)
-	else
-		if(!SStreasury.has_account(poster))
-			to_chat(poster, span_warning("You have no bank account."))
-			return
-		if(SStreasury.get_balance(poster) < cost)
+	var/datum/fund/paying_fund = towner_funder_fund(poster, funder)
+	if(!paying_fund)
+		switch(funder)
+			if(TOWNER_FUNDER_CROWN)
+				to_chat(poster, span_warning("The Treasury isn't ready yet."))
+			if(TOWNER_FUNDER_COMPANY)
+				to_chat(poster, span_warning("The ATC's treasury is not ready yet."))
+			else
+				to_chat(poster, span_warning("You have no bank account."))
+		return
+	if(paying_fund.balance < cost)
+		if(funder == TOWNER_FUNDER_PERSONAL)
 			to_chat(poster, span_warning("You need [cost] mammon in your account to post this."))
-			return
-		poster_account = SStreasury.get_account(poster)
-		if(!poster_account)
-			return
-		if(!SStreasury.burn(poster_account, cost, "townsfolk contract posting ([chosen_type])", LEDGER_CITIZEN_CONTRACT_PAID))
-			to_chat(poster, span_warning("The payment didn't go through."))
-			return
+		else
+			to_chat(poster, span_warning("[capitalize(towner_funder_label(funder))] can't afford this. Need [cost]m, have [paying_fund.balance]m."))
+		return
+	var/burn_reason
+	switch(funder)
+		if(TOWNER_FUNDER_CROWN)
+			burn_reason = "Crown townsfolk contract ([chosen_type])"
+		if(TOWNER_FUNDER_COMPANY)
+			burn_reason = "ATC townsfolk contract ([chosen_type])"
+		else
+			burn_reason = "townsfolk contract posting ([chosen_type])"
+	if(!SStreasury.burn(paying_fund, cost, burn_reason, SStreasury.commitment_account(paying_fund)))
+		to_chat(poster, span_warning("The payment didn't go through."))
+		return
+	if(funder == TOWNER_FUNDER_CROWN)
+		record_treasury_expense(TREASURY_FLOW_CONTRACT, treasury_role_of(poster), cost)
 
 	var/to_hand = (params["delivery"] == "hand")
 	var/datum/quest/dispatched = SSquestpool.issue_towner_quest(chosen_type, poster, tier, to_hand, variety)
-	var/datum/fund/paying_fund = crown_funded ? SStreasury.discretionary_fund : poster_account
 	if(!dispatched)
 		SStreasury.mint(paying_fund, cost, "townsfolk contract posting refund (issue failure)", null, SStreasury.commitment_account(paying_fund))
 		to_chat(poster, span_warning("No landmark could take that contract. Your funds are refunded."))
@@ -198,9 +239,9 @@
 	dispatched.add_funding(paying_fund, cost)
 
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	var/purse_note = crown_funded ? " Paid from the Treasury." : ""
+	var/purse_note = funder == TOWNER_FUNDER_PERSONAL ? "" : " Paid from [towner_funder_label(funder)]."
 	if(to_hand)
 		to_chat(poster, span_notice("Contract drawn up: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] Hand it to whoever you want to hire."))
 	else
 		to_chat(poster, span_notice("Contract posted: <b>[dispatched.title || dispatched.quest_type]</b> ([tier], [cost]m).[purse_note] Only you can open the recovered goods."))
-	log_game("[key_name(poster)] posted towner contract \"[dispatched.title || dispatched.quest_type]\" ([tier], [cost]m, [crown_funded ? "crown purse" : "personal"], [to_hand ? "in hand" : "board"]).")
+	log_game("[key_name(poster)] posted towner contract \"[dispatched.title || dispatched.quest_type]\" ([tier], [cost]m, [towner_funder_log_label(funder)], [to_hand ? "in hand" : "board"]).")

@@ -108,6 +108,7 @@ SUBSYSTEM_DEF(treasury)
 	var/loan_max_issuance_day = 5
 	var/list/poll_levy_owed = list()
 	var/list/poll_levies = list()
+	var/list/poll_levy_grace_until = list()
 	var/levy_rates_changed_day = -1
 	/// Steward-settable floor. Stockpile refuses purchases when Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
@@ -348,7 +349,7 @@ SUBSYSTEM_DEF(treasury)
 		return FALSE
 	return mint(account, amt, "Savings", null, LEDGER_CITIZEN_ESTATE)
 
-/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label, is_salary = FALSE, expense_acct, income_acct)
+/datum/controller/subsystem/treasury/proc/give_money_account(amt, target, source, mint_new = FALSE, mint_label, is_salary = FALSE, expense_acct, income_acct, flow)
 	if(!amt)
 		return
 	if(!target)
@@ -371,9 +372,10 @@ SUBSYSTEM_DEF(treasury)
 			var/payee_acct = income_acct || (is_salary ? LEDGER_CITIZEN_WAGES : null)
 			if(!transfer(discretionary_fund, account, amt, source, payer_acct, payee_acct))
 				return FALSE
-		record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 		if(!mint_new)
-			record_treasury_payout(usr, istype(target, /mob/living) ? target : null, amt, is_salary)
+			if(!is_salary && !flow)
+				record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
+			record_treasury_payout(usr, istype(target, /mob/living) ? target : null, amt, is_salary, flow)
 		send_ooc_note(source ? "<b>MEISTER:</b> You received [amt]m. ([source])" : "<b>MEISTER:</b> You received [amt]m.", name = target_name)
 		log_game("CROWN GRANT: [usr ? key_name(usr) : "system"] granted [amt]m to [istype(target, /mob/living) ? key_name(target) : target_name] via [source || "unknown"]")
 		if(isliving(target))
@@ -629,6 +631,7 @@ SUBSYSTEM_DEF(treasury)
 	bank_accounts -= person
 	write_off_poll_levy_receivable(poll_levy_owed[person] || 0, "Poll levy arrears written off (departed)")
 	poll_levy_owed -= person
+	poll_levy_grace_until -= person
 	return TRUE
 
 /datum/controller/subsystem/treasury/proc/apply_rate_adjustments(list/adjustments, good_announcement_text, bad_announcement_text)
