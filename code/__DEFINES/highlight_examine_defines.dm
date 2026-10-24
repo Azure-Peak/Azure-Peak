@@ -58,7 +58,8 @@
 #define VIBEDESC_FRIEND "A loyal ally of Azure Peak."
 #define VIBEDESC_FOE "A disloyal enemy of Azure Peak."
 #define VIBEDESC_CROWN "A relic anointed by Astrata."
-#define VIBEDESC_GOLGATHA "A relic of Psydon's creation."
+#define VIBEDESC_GOLGATHA "The enduring light of PSYDON."
+#define VIBEDESC_PSYRELIC "A relic of PSYDON's faithful."
 
 /**
 * -========= HERESY ITEM SEVERITY LEVELS =========-
@@ -88,18 +89,19 @@
 */
 #define EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD 3
 
-#define EXAMINEHIGHLIGHT_VIBE_FRIEND 4
-#define EXAMINEHIGHLIGHT_VIBE_FOE 5
-#define EXAMINEHIGHLIGHT_VIBE_CROWN 6
-#define EXAMINEHIGHLIGHT_VIBE_GOLGATHA 7
-
 /** For items that are unnautral or clearly cursed, I.E ancient ceremonial armor, the vlord sword
 * not defined enough that the average Tennite / Psydonite would always attack on sight but definitely it will
 * get you probably taken captive/questioned by the Inqusition or pulled over by the Clergy/Garrison if you were just openly showing it.
 *
 * i.e. The Ichor Fang, Weeping Psycross, Blacksite Items like Listeners in their Obvious Form
 */
-#define EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD 8
+#define EXAMINEHIGHLIGHT_HERESYSEVERITY_VERYODD 4
+
+#define EXAMINEHIGHLIGHT_VIBE_FRIEND 5
+#define EXAMINEHIGHLIGHT_VIBE_FOE 6
+#define EXAMINEHIGHLIGHT_VIBE_CROWN 7
+#define EXAMINEHIGHLIGHT_VIBE_GOLGATHA 8
+#define EXAMINEHIGHLIGHT_VIBE_PSYRELIC 9
 
 // Heresy severity colors
 #define COLOR_HERESYSEVERITY_ALARMING "#c43535"
@@ -122,7 +124,8 @@
 #define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FRIEND "<font color=[COLOR_VIBE_FRIEND]><b>A loyal bearing.</b></font><br>This carries the look of one who stands with the Crown and its laws. Many subjects may view its bearer as a friend, servant, or ally of the realm."
 #define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_FOE "<font color=[COLOR_VIBE_FOE]><b>A disloyal bearing.</b></font><br>This carries the look of one who stands apart from the Crown and its laws. Many subjects may view its bearer with suspicion, seeing a potential rebel, outlaw, or enemy of the realm."
 #define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_CROWN "<font color=[COLOR_VIBE_CROWN]><b>Heavy the Crown is, and ever shall it be.</b></font><br>Such symbols are not lightly bestowed, for they signify authority exercised beneath Astrata's eternal light. This is a recognized mark of divine sovereignty, symbolizing the sacred right to rule granted by the Sun-Tyrant to a chosen bloodline. Most subjects should regard its bearer with reverence, recognizing a station and authority very few can claim."
-#define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_GOLGATHA "<font color=[COLOR_VIBE_GOLGATHA]><b>`Oh, how graceful His power was! And His sacrifice, ever so noble!`</b></font><br>It is said to contain a volatile fragment of the <font color=[COLOR_VIBE_GOLGATHA]><b>Comet Syon</b></font>, a sacred artifact to those of Psydonite Faith, such a relic is only entrusted within the capable hands of the Otavian Orthodoxy, Those who serve the Orthodoxy or others of Psydonite Faith are <b>very likely respond with violence</b> if I am not supposed to have it."
+#define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_GOLGATHA "<font color=[COLOR_VIBE_GOLGATHA]><b>'Oh, how graceful His power was! And His sacrifice, ever so noble!'</b></font><br>It is said to contain a volatile fragment of the <font color=[COLOR_VIBE_GOLGATHA]><b>Comet Syon</b></font>, a sacred artifact to those of Psydonite Faith, such a relic is only entrusted within the capable hands of the Absolver of the Psydonite Orthodoxy. Those who place their faith in PSYDON are <b>very likely respond with violence</b> if I am not supposed to have it."
+#define EXAMINEHIGHLIGHT_TOOLTIP_VIBE_PSYRELIC "<font color=[COLOR_VIBE_GOLGATHA]><b>'Faith is purest when it is unquestioning.'</b></font><br>This is a known weapon of legend among Psydonites that date times of eld, such a relic is only entrusted within the capable hands of the Holy Otavan Inquisition, Those who serve the Inquisition or others of Psydonite Faith are <b>very likely respond with violence</b> if I am not supposed to have it."
 
 // Heresy severity symbols
 #define EXAMINEHIGHLIGHT_SYMBOL_HERESYSEVERITY_SUSPICIOUS "!"

@@ -221,6 +221,10 @@
 	wdefense = 8
 	max_integrity = 350
 	max_blade_int = 400
+	aura_color = "#8bf2ff"
+
+/obj/item/rogueweapon/greatsword/silver/psy/relic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
 
 /obj/item/rogueweapon/greatsword/silver/psy/relic/ComponentInitialize()
 	AddComponent(\

@@ -49,7 +49,7 @@
 	/// sigh
 	var/hoe_damage = null //the durability damage recieved for every work cycle
 	var/work_time = 3 SECONDS // the time it takes to make new soil or till soil
-
+	var/demolish_percent = 0 // This defines the % of current durability demolish intent will deal. It's based on the weapon, and easier to jakk this way. Mostly for Downstream and co, since they have their special snowflake wrenches and stuff.
 
 /obj/item/rogueweapon/Initialize(mapload)
 	. = ..()
