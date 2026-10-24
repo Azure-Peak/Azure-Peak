@@ -1,5 +1,11 @@
 /datum/quest/kill/blockade_defense
 	quest_type = QUEST_BLOCKADE_DEFENSE
+	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
+	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
+	guild_cut_rate = 0
+	charges_deposit = FALSE
+	shows_commission_seal = TRUE
+	hand_claim_message = "You take up the blockade scroll. Travel to the marked region. The first wave begins when you arrive."
 	quest_difficulty = QUEST_DIFFICULTY_HARD
 	tp_budget = BLOCKADE_WAVE_BASE_TP
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE
@@ -19,7 +25,13 @@
 	var/max_defenders_seen = 0
 	var/current_archetype = BLOCKADE_ARCHETYPE_WARBAND
 	var/wave_boss_name
-	var/issued_at = 0
+
+/datum/quest/kill/blockade_defense/get_defense_regions()
+	. = list()
+	for(var/datum/blockade/B as anything in GLOB.active_blockades)
+		var/datum/economic_region/ER = B.get_region()
+		if(ER)
+			. += ER.name
 
 /datum/quest/kill/blockade_defense/get_scroll_type()
 	return /obj/item/quest_writ/blockade
@@ -27,9 +39,7 @@
 /datum/quest/kill/blockade_defense/preview(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
-	pending_landmark_ref = WEAKREF(landmark)
-	target_spawn_area = get_area_name(get_turf(landmark))
-	region = landmark.region
+	bind_landmark(landmark)
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
 		faction = B.get_faction()
@@ -66,12 +76,11 @@
 	return
 
 /datum/quest/kill/blockade_defense/populate_scroll_ui_static_data(list/data)
-	data["blockade_total_waves"] = BLOCKADE_TOTAL_WAVES
-	data["blockade_current_wave"] = current_wave
-	data["blockade_armed"] = armed ? TRUE : FALSE
 	data["blockade_failed"] = failed ? TRUE : FALSE
 
 /datum/quest/kill/blockade_defense/populate_scroll_ui_data(list/data)
+	data["blockade_armed"] = armed ? TRUE : FALSE
+	data["reward"] = round(reward_amount * reward_turnout_mult())
 	if(intermission_timer_id)
 		var/rest_left = timeleft(intermission_timer_id)
 		if(rest_left > 0)
@@ -95,7 +104,6 @@
 	return reward_amount
 
 /datum/quest/kill/blockade_defense/materialize(obj/effect/landmark/quest_spawner/landmark)
-	..()
 	if(!landmark)
 		return FALSE
 	wave_landmark_ref = WEAKREF(landmark)
@@ -176,27 +184,14 @@
 	var/boss_type = faction.pick_boss_mob_type() || priciest_mob_type()
 	if(!boss_type)
 		return
-	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
-	if(!spawn_turf)
+	var/mob/living/boss = spawn_hidden_mob(landmark, boss_type)
+	if(!boss)
 		return
-	var/obj/effect/quest_spawn/spawn_effect = new /obj/effect/quest_spawn(spawn_turf)
-	var/mob/living/boss = new boss_type(spawn_effect)
-	boss.faction |= "quest"
-	if(faction.faction_tag)
-		boss.faction |= faction.faction_tag
-	boss.mark_contract_spawned()
-	boss.AddComponent(/datum/component/quest_object/kill, src)
-	ADD_TRAIT(boss, TRAIT_FRESHSPAWN, "[type]")
-	addtimer(TRAIT_CALLBACK_REMOVE(boss, TRAIT_FRESHSPAWN, "[type]"), 60 SECONDS)
-	spawn_effect.contained_atom = boss
-	spawn_effect.AddComponent(/datum/component/quest_object/mob_spawner, src)
-	register_spawner(spawn_effect)
-	add_tracked_atom(boss)
 	total_spawned_tp += initial(boss.threat_point) || 0
 	progress_required += 1
 	if(faction.boss_name_file)
 		wave_boss_name = faction.generate_boss_name()
-		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), 2 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(apply_wave_boss_name), WEAKREF(boss), wave_boss_name), QUEST_BOSS_RENAME_DELAY)
 
 /datum/quest/kill/blockade_defense/proc/apply_wave_boss_name(datum/weakref/boss_ref, boss_name)
 	var/mob/living/boss = boss_ref?.resolve()
@@ -357,22 +352,18 @@
 	fail_quest("timeout")
 
 /datum/quest/kill/blockade_defense/proc/fail_quest(reason)
+	fail_hunt("<b>The blockade holds.</b> The scroll smolders and crumbles in your grip.")
+
+/datum/quest/kill/blockade_defense/fail_hunt(message)
 	if(failed || complete)
 		return
-	failed = TRUE
 	clear_wave_timers()
-	announce_to_bearer("<b>The blockade holds.</b> The scroll smolders and crumbles in your grip.")
 	record_round_statistic(STATS_BLOCKADE_CONTRACTS_FAILED, 1)
-	record_contract_stat(src, CONTRACT_STAT_FAILED)
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
-	despawn_live_wave_mobs()
-	quest_scroll?.update_quest_text()
-	var/obj/item/quest_writ/S = quest_scroll
-	if(S && !QDELETED(S))
-		qdel(S)
+	return ..()
 
 /datum/quest/kill/blockade_defense/get_party_size()
 	return max(max_defenders_seen, ..())
@@ -388,15 +379,6 @@
 		B.active_quest_ref = null
 	scom_announce("The [B ? "blockade" : "hoard recovery"] scroll for [ER ? ER.name : region] has been withdrawn.")
 
-/datum/quest/kill/blockade_defense/proc/despawn_live_wave_mobs()
-	for(var/datum/weakref/W in tracked_atoms)
-		var/mob/living/M = W.resolve()
-		if(QDELETED(M))
-			continue
-		if(M.stat == DEAD)
-			continue
-		qdel(M)
-
 /datum/quest/kill/blockade_defense/mark_complete()
 	..()
 	clear_wave_timers()
@@ -408,16 +390,13 @@
 	var/mob/lead = quest_receiver_reference?.resolve()
 	var/payout = round(reward_amount * reward_turnout_mult())
 	record_completion_stats(payout)
+	var/tax_amt = 0
+	var/paid = 0
 	if(payout > 0)
 		if(lead && SStreasury.has_account(lead))
 			var/datum/fund/lead_account = SStreasury.get_account(lead)
-			SStreasury.mint(lead_account, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", null, LEDGER_CITIZEN_CONTRACTS)
-			var/tax_amt = 0
-			if(!levy_exempt)
-				tax_amt = SStreasury.apply_tax(lead_account, payout, TAX_CATEGORY_CONTRACT_LEVY, "Blockade defense")
-				if(tax_amt > 0)
-					record_featured_stat(FEATURED_STATS_TAX_PAYERS, lead, tax_amt)
-					record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
+			tax_amt = pay_reward(lead_account, lead, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", "Blockade defense")
+			paid = payout - tax_amt
 			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
 			announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [payout]m. Tax: [tax_amt]m. Net: [payout - tax_amt]m.")
 		else
@@ -425,6 +404,7 @@
 			announce_to_bearer("The final wave breaks. You have no bank account. Your share went to the Treasury.")
 	else
 		announce_to_bearer("The final wave breaks. A Request carries no reward.")
+	SSquestpool.record_completion(lead, src, paid, tax_amt)
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
 	if(TR && TR.banditry_hoard > 0)
 		var/spoils = TR.banditry_hoard
@@ -452,9 +432,16 @@
 // region alone and never blocks trade.
 /datum/quest/kill/blockade_defense/hoard_recovery
 	quest_type = QUEST_HOARD_RECOVERY
+	chronicle_order = QUEST_CHRONICLE_ORDER_HOARD_RECOVERY
 	var/raised_by_fellowship = FALSE
 
-/datum/quest/kill/blockade_defense/hoard_recovery/office_may_withdraw()
+/datum/quest/kill/blockade_defense/hoard_recovery/get_defense_regions()
+	. = list()
+	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+		if(TR.banditry_hoard >= HOARD_RECOVERY_HOARD_MINIMUM && !TR.has_active_blockade())
+			. += TR.region_name
+
+/datum/quest/kill/blockade_defense/hoard_recovery/may_be_withdrawn()
 	return !raised_by_fellowship
 
 /datum/quest/kill/blockade_defense/hoard_recovery/get_title()

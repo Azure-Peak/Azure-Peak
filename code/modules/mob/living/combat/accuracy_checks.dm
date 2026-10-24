@@ -141,28 +141,24 @@
 	to_chat(user, span_warning("[roll_out?["double_fail"] ? "Double accuracy fail!" : "Accuracy fail!"] [roll_out?["chance"]]% - hit the [hit_zone_name(landed_zone)] instead."))
 
 // Based on the remaining accuracy of the projectile and the aimed zone, return the zone, precise zone or chest
-/mob/living/proc/bullet_hit_accuracy_check(final_accuracy, def_zone = BODY_ZONE_CHEST, list/roll_out)
-	// No matter what, 5% chance to hit the zone. No benefit from overaccuracy (unlikely)
+/mob/living/proc/bullet_hit_accuracy_check(final_accuracy, def_zone = BODY_ZONE_CHEST, list/roll_out, obj/projectile/P)
 	var/zone_type = ranged_zone_difficulty(def_zone)
 	var/chance2hit = final_accuracy + get_zone_ranged_hit_bonus(def_zone)
-	// If you aim very precisely, you take -25 on hit chance, and then no matter what, it is clamped at 50%
-	// If you aim precisely (at limb), -10, 75% max.
-	// Aiming very precise part has a chance of hitting the parent limb instead.
 
 	// We only want these limits vs Players
 	if(zone_type == PRECISE_FACE_ZONE && !mind)
 		zone_type = ULTRA_PRECISE_ZONE
+	if(P.steady_aim)
+		zone_type = NO_PENALTY_ZONE
 
 	switch(zone_type)
 		if(ULTRA_PRECISE_ZONE)
 			chance2hit += RANGED_ULTRA_PRECISE_HIT_PENALTY
-			chance2hit = CLAMP(chance2hit, 5, RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE)
 		if(PRECISE_ZONE)
 			chance2hit += RANGED_PRECISE_HIT_PENALTY
 			chance2hit = CLAMP(chance2hit, 5, RANGED_MAX_PRECISE_HIT_CHANCE)
 		if(PRECISE_FACE_ZONE)
 			chance2hit += (RANGED_ULTRA_PRECISE_HIT_PENALTY + RANGED_PRECISE_HIT_PENALTY)
-			chance2hit = CLAMP(chance2hit, 5, RANGED_MAX_FACE_HIT_CHANCE)
 
 	if(roll_out)
 		roll_out["chance"] = chance2hit
@@ -190,7 +186,6 @@
 	if(!P)
 		return
 	P.aim_peak = ACC_RANGED_BASE + ((STAPER - ACC_SPELL_PER_BASELINE) * ACC_SPELL_PER_STEP)
-
 /// aim_stat defaults to Perception, the archery case. Spells pass Intelligence.
 /mob/living/proc/get_ranged_lead_error(moved, aim_stat)
 	// If you have not moved, they don't miss

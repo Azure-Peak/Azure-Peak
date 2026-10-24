@@ -9,7 +9,6 @@
 	icon_state = "friedegg"
 	portable = FALSE
 	faretype = FARE_POOR
-	foodtype = MEAT
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 
@@ -31,14 +30,13 @@
 
 /*	.............	Deviled Eggs	................ */
 /obj/item/reagent_containers/food/snacks/rogue/stuffedegg
-	dish_type = DISH_EGG
+	dish_type = DISH_EGG|DISH_DAIRY
 	name = "raw stuffed egg"
 	desc = "Raw egg stuffed with a creamy cheese filling."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "deviledegg_raw"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/stuffedegg/cooked
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/stuffedegg/cooked
-	foodtype = MEAT
 	warming = 5 MINUTES
 	rotprocess = SHELFLIFE_DECENT
 	faretype = FARE_POOR
@@ -53,11 +51,11 @@
 /*	.............	Tartar	................ */
 //This doesn't really count as either cooked or egg recipe (it does contain an egg at least) so whatever.
 /obj/item/reagent_containers/food/snacks/rogue/tartar
+	dish_type = DISH_EGG|DISH_MEAT|DISH_POULTRY|DISH_SEAFOOD
 	name = "tartar"
 	desc = "Grounded meat covered over with uncooked egg, favorite of the steppesmen. Said to have been named after a famous brigand."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_egg.dmi'
 	icon_state = "tartar"
-	foodtype = MEAT
 	rotprocess = SHELFLIFE_DECENT
 	faretype = FARE_POOR //It's raw meat and egg... come now now
 
@@ -70,6 +68,7 @@
 
 /*	.................	Valerian Omelette	................... */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/tiberian
+	dish_type = DISH_EGG|DISH_DAIRY
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "cheese" = 1)
 	name = "valerian omelette"
@@ -83,6 +82,7 @@
 
 /*	.................	Bacon & Eggs	................... */
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/bacon
+	dish_type = DISH_EGG|DISH_MEAT
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "bacon" = 1)
 	name = "bacon and egg"
@@ -96,6 +96,7 @@
 /*	.................	Hammerholdian Breakfast	................... */
 //This is an extremely convoluded recipe probably not even worth it but yknow what, why not.
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausage
+	dish_type = DISH_EGG|DISH_MEAT|DISH_POULTRY|DISH_SEAFOOD
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "sausage" = 1)
 	name = "wiener egg"
@@ -107,6 +108,7 @@
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/sausagebacon
+	dish_type = DISH_EGG|DISH_MEAT|DISH_POULTRY|DISH_SEAFOOD
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "sausage" = 1, "bacon" = 1)
 	name = "wiener egg with bacon"
@@ -118,6 +120,7 @@
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/friedegg/hammerhold
+	dish_type = DISH_EGG|DISH_MEAT|DISH_POULTRY|DISH_SEAFOOD
 	cuisine = CUISINE_NORTHERN
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	tastes = list("fried egg" = 1, "sausage" = 1, "bacon" = 1, "toast" = 1)
@@ -136,7 +139,6 @@
 	desc = "Beaten eggs, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omeletteraw"
-	foodtype = MEAT
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/omelette
 	rotprocess = SHELFLIFE_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
@@ -147,7 +149,6 @@
 	desc = "Beaten eggs with chopped onion, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omeletteraw_onion"
-	foodtype = MEAT | VEGETABLES
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/omelette_veggie
 	rotprocess = SHELFLIFE_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
@@ -158,7 +159,6 @@
 	desc = "Beaten eggs loaded with onion and greens, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omeletteraw_veggie"
-	foodtype = MEAT | VEGETABLES
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/omelette_veggie
 	rotprocess = SHELFLIFE_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
@@ -169,7 +169,6 @@
 	desc = "Beaten eggs mixed with meat, ready for the pan."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omeletteraw_meat"
-	foodtype = MEAT
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/omelette_meat
 	rotprocess = SHELFLIFE_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
@@ -180,7 +179,6 @@
 	desc = "A fluffy omelette."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omelette"
-	foodtype = MEAT
 	faretype = FARE_NEUTRAL
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	rotprocess = SHELFLIFE_DECENT
@@ -197,7 +195,6 @@
 	desc = "A wedge of fluffy omelette."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omelette_slice"
-	foodtype = MEAT
 	faretype = FARE_NEUTRAL
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
 	rotprocess = SHELFLIFE_DECENT
@@ -210,7 +207,6 @@
 	desc = "An omelette packed with onion and greens."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omelette_veggie"
-	foodtype = MEAT | VEGETABLES
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_QUARTER)
 	rotprocess = SHELFLIFE_DECENT
@@ -228,7 +224,6 @@
 	desc = "A hearty wedge of vegetable omelette."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omelette_veggie_slice"
-	foodtype = MEAT | VEGETABLES
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
 	rotprocess = SHELFLIFE_DECENT
@@ -241,7 +236,6 @@
 	desc = "An omelette rich with meat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omelette_meat"
-	foodtype = MEAT
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_MEAL_AND_HALF)
 	rotprocess = SHELFLIFE_DECENT
@@ -259,7 +253,6 @@
 	desc = "A savory wedge of minced meat omelette."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_omelette.dmi'
 	icon_state = "omelette_meat_slice"
-	foodtype = MEAT
 	faretype = FARE_FINE
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
 	rotprocess = SHELFLIFE_DECENT

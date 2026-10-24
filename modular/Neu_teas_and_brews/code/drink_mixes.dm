@@ -10,7 +10,7 @@
 	faretype = FARE_IMPOVERISHED
 	eat_effect = null
 	rotprocess = null
-	foodtype = GROSS
+	food_quality = GROSS
 
 /obj/item/reagent_containers/food/snacks/mix_utricasalvia
 	name = "urtica-salvia tea mix"
@@ -23,7 +23,7 @@
 	faretype = FARE_IMPOVERISHED
 	eat_effect = null
 	rotprocess = null
-	foodtype = GROSS
+	food_quality = GROSS
 
 /obj/item/reagent_containers/food/snacks/mix_sbiten
 	cuisine = CUISINE_NORTHERN
@@ -37,7 +37,6 @@
 	faretype = FARE_FINE //because its a yammy honey
 	eat_effect = null
 	rotprocess = null
-	foodtype = SUGAR
 
 //NOT REALLY A TEA, but it kinda expands on smoking options and is a derivative of, so I think its kinda coolish
 // also maybe in future someone will make tea bricks to use in the teapots and etc

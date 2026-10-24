@@ -67,8 +67,9 @@
 	var/item_d_type = "blunt"
 	var/charging_slowdown = 0
 	var/warnoffset = 0
+	/// To make prewarning() respect clickcd!
+	var/last_prewarning_sound = 0
 	var/swingdelay = 0
-
 	var/swingdelay_type = SWINGDELAY_NORMAL
 	/// Causes a return in /attack() but still allows to be used in attackby()
 	var/no_attack = FALSE
@@ -701,7 +702,7 @@
 					custom_offset = 23
 					taunt_message = "[user] rudely flips [M] off!"
 
-				else if(L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/paranoid))
+				else if(L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/factionalist))
 					taunticon = "midfinger"
 					custom_offset = 23
 					taunt_message = "[user] flips [M] off!"

@@ -51,10 +51,8 @@ SUBSYSTEM_DEF(migrants)
 	if(world.time < track_next_roll[track])
 		return
 	var/wave_type = roll_wave(track)
-	if(wave_type)
-		begin_forming(track, wave_type)
-		if(announce)
-			announce_special_wave(wave_type)
+	if(wave_type && begin_forming(track, wave_type) && announce)
+		announce_special_wave(wave_type)
 	track_next_roll[track] = world.time + roll_interval
 
 /datum/controller/subsystem/migrants/proc/process_triumph_track()
@@ -65,8 +63,7 @@ SUBSYSTEM_DEF(migrants)
 		resolve_forming_wave(MIGRANT_TRACK_TRIUMPH)
 		return
 	var/wave_type = get_maxed_wave()
-	if(wave_type)
-		begin_forming(MIGRANT_TRACK_TRIUMPH, wave_type)
+	if(wave_type && begin_forming(MIGRANT_TRACK_TRIUMPH, wave_type))
 		announce_special_wave(wave_type)
 
 /datum/controller/subsystem/migrants/proc/should_resolve_forming(track)
@@ -97,11 +94,34 @@ SUBSYSTEM_DEF(migrants)
 			return TRUE
 	return FALSE
 
+/datum/controller/subsystem/migrants/proc/get_spawn_key(datum/migrant_wave/wave)
+	return wave.shared_wave_type ? wave.shared_wave_type : wave.type
+
+/datum/controller/subsystem/migrants/proc/get_forming_track(datum/migrant_wave/wave)
+	var/key = get_spawn_key(wave)
+	for(var/track in track_forming)
+		var/forming_type = track_forming[track]
+		if(!forming_type)
+			continue
+		if(get_spawn_key(MIGRANT_WAVE(forming_type)) == key)
+			return track
+	return null
+
+/datum/controller/subsystem/migrants/proc/is_wave_maxed(datum/migrant_wave/wave)
+	if(isnull(wave.max_spawns))
+		return FALSE
+	return spawned_waves[get_spawn_key(wave)] >= wave.max_spawns
+
 /datum/controller/subsystem/migrants/proc/begin_forming(track, wave_type, forced = FALSE)
+	var/existing_track = get_forming_track(MIGRANT_WAVE(wave_type))
+	if(existing_track && existing_track != track)
+		log_game("Migrants: [track] track refused [wave_type], already forming on the [existing_track] track")
+		return FALSE
 	track_forming[track] = wave_type
 	track_arrival[track] = world.time + wave_wait_time
 	track_forced[track] = forced
 	log_game("Migrants: [track] track rolled wave: [wave_type][forced ? " (forced)" : ""]")
+	return TRUE
 
 /datum/controller/subsystem/migrants/proc/resolve_forming_wave(track)
 	var/wave_type = track_forming[track]
@@ -128,6 +148,8 @@ SUBSYSTEM_DEF(migrants)
 	return wave.is_raid ? raid_fail_cooldown : faction_fail_cooldown
 
 /datum/controller/subsystem/migrants/proc/try_spawn_wave(datum/migrant_wave/wave, forced = FALSE)
+	if(!forced && is_wave_maxed(wave))
+		return FALSE
 	var/list/active_migrants
 	active_migrants = get_wave_candidates(wave.type)
 	active_migrants = shuffle(active_migrants)
@@ -162,9 +184,7 @@ SUBSYSTEM_DEF(migrants)
 	for(var/datum/migrant_assignment/assignment as anything in assignments)
 		spawn_migrant(wave, assignment, wave.spawn_on_location, greet_text)
 
-	var/used_wave_type = wave.type
-	if(wave.shared_wave_type)
-		used_wave_type = wave.shared_wave_type
+	var/used_wave_type = get_spawn_key(wave)
 	if(!spawned_waves[used_wave_type])
 		spawned_waves[used_wave_type] = 0
 	spawned_waves[used_wave_type] += 1
@@ -249,12 +269,8 @@ SUBSYSTEM_DEF(migrants)
 			continue
 		if(!wave.can_roll())
 			continue
-		if(!isnull(wave.max_spawns))
-			var/used_wave_type = wave.type
-			if(wave.shared_wave_type)
-				used_wave_type = wave.shared_wave_type
-			if(spawned_waves[used_wave_type] && spawned_waves[used_wave_type] >= wave.max_spawns)
-				continue
+		if(is_wave_maxed(wave))
+			continue
 		waves += wave_type
 	return waves
 
@@ -295,6 +311,8 @@ SUBSYSTEM_DEF(migrants)
 
 	character.islatejoin = TRUE
 	SSjob.EquipRank(character, rank, TRUE)
+	// We don't want latejoiner to get hit by poll levies when they haven't participated in the round, which feels unfair
+	SStreasury.waive_past_poll_levies(character)
 
 	var/datum/migrant_role/role = MIGRANT_ROLE(assignment.role_type)
 	character.migrant_type = assignment.role_type
@@ -469,10 +487,10 @@ SUBSYSTEM_DEF(migrants)
 		return FALSE
 	if(!isnull(wave.max_pop) && active_players > wave.max_pop)
 		return FALSE
-	if(!isnull(wave.max_spawns))
-		var/used_wave_type = wave.shared_wave_type ? wave.shared_wave_type : wave.type
-		if(spawned_waves[used_wave_type] && spawned_waves[used_wave_type] >= wave.max_spawns)
-			return FALSE
+	if(is_wave_maxed(wave))
+		return FALSE
+	if(get_forming_track(wave))
+		return FALSE
 	return TRUE
 
 /datum/controller/subsystem/migrants/proc/roll_wave(track)
@@ -523,6 +541,14 @@ SUBSYSTEM_DEF(migrants)
 
 	var/datum/migrant_wave/wave = MIGRANT_WAVE(wave_type)
 	if(!wave)
+		return FALSE
+
+	if(is_wave_maxed(wave))
+		to_chat(player, span_warning("[wave.name] has already arrived this round."))
+		return FALSE
+
+	if(get_forming_track(wave))
+		to_chat(player, span_warning("[wave.name] is already forming."))
 		return FALSE
 
 	var/current_triumph = SStriumphs.get_triumphs(player.ckey)
@@ -707,7 +733,8 @@ SUBSYSTEM_DEF(migrants)
 	message_admins("Admin [key_name_admin(user)] forced next migrant wave: [picked_wave_type]")
 	log_game("Admin [key_name_admin(user)] forced next migrant wave: [picked_wave_type]")
 	var/datum/migrant_wave/wave = MIGRANT_WAVE(picked_wave_type)
-	SSmigrants.begin_forming(wave.track, picked_wave_type, forced = TRUE)
+	if(!SSmigrants.begin_forming(wave.track, picked_wave_type, forced = TRUE))
+		to_chat(user, span_warning("[wave.name] is already forming on the [SSmigrants.get_forming_track(wave)] track."))
 
 /proc/get_spawn_turf_for_job(jobname)
 	var/list/landmarks = list()

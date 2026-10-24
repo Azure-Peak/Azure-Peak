@@ -526,7 +526,18 @@
 			else
 				var/obj/item/held_item = get_active_held_item()
 				if(held_item)
-					held_item.saved_intent_index = numb
+					var/saved_index = UNWIELDED_INTENT
+					if(held_item.altgripped)
+						switch(held_item.current_alt_grip_index)
+							if(1)
+								saved_index = ALTGRIP_ONE_INTENT
+							if(2)
+								saved_index = ALTGRIP_TWO_INTENT
+							if(3)	// If we ever get more altgrips per weapon than.. three.. somehow, this should be expanded.
+								saved_index = ALTGRIP_THREE_INTENT
+					else if(held_item.wielded)
+						saved_index = WIELDED_INTENT
+					held_item.saved_intents[saved_index] = numb
 				else
 					if(active_hand_index == 1)
 						l_ua_index = numb
@@ -607,11 +618,24 @@
 		else
 			hud_used.action_intent.update_icon(possible_offhand_intents,possible_a_intents,oactive)
 	var/obj/item/active_item = get_active_held_item()
-	if(active_item && active_item.saved_intent_index > 0 && active_item.saved_intent_index <= possible_a_intents.len)
+	if(active_item)
+		var/intent_index = 1
+		if(active_item.wielded && active_item.saved_intents[WIELDED_INTENT] > 0)
+			intent_index = active_item.saved_intents[WIELDED_INTENT]
+		switch(active_item.current_alt_grip_index)
+			if(1)
+				intent_index = active_item.saved_intents[ALTGRIP_ONE_INTENT]
+			if(2)
+				intent_index = active_item.saved_intents[ALTGRIP_TWO_INTENT]
+			if(3)
+				intent_index = active_item.saved_intents[ALTGRIP_THREE_INTENT]
+		if(!active_item.wielded && !active_item.current_alt_grip_index)
+			if(active_item.saved_intents[UNWIELDED_INTENT] > 0)
+				intent_index = active_item.saved_intents[UNWIELDED_INTENT]
 		if(active_hand_index == 1)
-			l_index = active_item.saved_intent_index
+			l_index = intent_index
 		else
-			r_index = active_item.saved_intent_index
+			r_index = intent_index
 	if(active_hand_index == 1)
 		if(l_index > possible_a_intents.len)
 			l_index = 1

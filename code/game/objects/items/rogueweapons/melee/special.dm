@@ -1069,15 +1069,16 @@
 	<small>Runes glow near the head of the pike. A sure sign of the arcyne.</small>"
 	force = 15
 	force_wielded = 30
-	throwforce = 10 //No
 	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
+	gripped_intents = list(/datum/intent/spear/thrust/pike, /datum/intent/spear/thrust/pike/skewer, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
 	icon = 'icons/roguetown/weapons/polearms64.dmi'
 	icon_state = "standard"
-	max_blade_int = 200
-	max_integrity = 250
 	smeltresult = /obj/item/ingot/blacksteel
 	resistance_flags = FIRE_PROOF
+	slot_flags = ITEM_SLOT_BACK
+	equip_delay_self = 2 SECONDS
+	unequip_delay_self = 2 SECONDS
+	inv_storage_delay = 1 SECONDS
 	var/active_item = FALSE
 
 /obj/item/rogueweapon/spear/keep_standard/equipped(mob/living/user)
@@ -1117,8 +1118,10 @@
 	GLOB.lordcolor += src
 
 /obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
-	detail_tag = "_det"
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	detail_color = primary
+	altdetail_color = secondary
 	update_icon()
 
 /obj/item/rogueweapon/spear/keep_standard/Destroy()

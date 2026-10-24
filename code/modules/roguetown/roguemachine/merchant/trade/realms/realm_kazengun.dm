@@ -82,7 +82,6 @@
 		/datum/supply_pack/rogue/merc_weapons/hookblade,
 		/datum/supply_pack/rogue/merc_weapons/kodachi,
 		/datum/supply_pack/rogue/merc_weapons/tanto,
-
 		/datum/supply_pack/rogue/kazengun/kanabo,
 		/datum/supply_pack/rogue/kazengun/samsibsa,
 		/datum/supply_pack/rogue/kazengun/haraate,
@@ -106,10 +105,22 @@
 		/datum/supply_pack/rogue/alcohol/kgunshochu,
 	)
 	hail_lines = list(
-		"I trade on behalf of Clan Mita of Tamiro isles. All of my goods are of the finest quality.",
-		"I have brought along a tea master from Aisataiji, who will demonstrate tea ceremony to nobles and commoners alike. He is an old man in his sixties, please show him the proper respect and courtesy.",
-		"I have a few Koukens who are seeking fortunes away from Kazengun. They'll be disembarking soon, and I hope you can find them employment, because they're the rowdy sort and seems to be eyeing the few Lingyuese on the dock suspiciously.",
-		"My great-grandfather sailed here when he was fifteen, my grandfather spoke highly of Azurian crabs and salmon, and my father says he misses Azurian wenches. I am here now, and I want to know what is so famous about Azurian pies and eels.",
-		"I have heard of the fame of Azurian fishes. Big! Long! Fat, tasty and succulent. Full of umami. We have Lingyuese runic chest to preserve it for the journey home. Now, summon your best fisherman and sell me your best price for a catch of Azurian cod, salmon, and crabs. I only want the expensive, truly good ones, not the cheap one - these are not worth the space on my ship. Please, do not be like the last Factor who tried to offer me cheap fishes and pass them off. Us Kazengunese know the difference, and I will not be fooled.",
+		"I trade on behalf of Clan Mita of the Tamiro Isles. All of my goods are of the finest quality.",
 
+		"I have brought along a tea master from Aisataiji to demonstrate the tea ceremony to nobles and commoners alike. \
+		He is an old man in his sixties, please show him proper respect and courtesy.",
+
+		"I have a few Koukens who are seeking fortunes away from Kazengun. \
+		They'll be disembarking soon. I hope you can find them employment, they're a rowdy \
+		sort and seem to be eyeing the few Lingyuese on the dock.",
+
+		"My great-grandfather sailed here when he was fifteen, my grandfather spoke highly of \
+		Azurian crabs and salmon, and my father says he misses Azurian \
+		wenches. I am here now, and I want to know what is so famous about Azurian pies and eels.",
+
+		"I have heard tales of Azurian fishes. Big! Long! Fat! Tasty! Succulent! Full of umami. We have \
+		a Lingyuese runic chest to preserve it for the journey home!",
+
+		"Summon your best fishermen and sell your best catch of cod, salmon, and crab! We from Kazengun will not be fooled by any \
+		peasant trite."
 	)

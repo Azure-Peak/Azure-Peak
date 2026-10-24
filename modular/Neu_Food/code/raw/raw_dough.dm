@@ -35,6 +35,7 @@
 
 /*	.................	Tomatoplate	................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked tomatoplate"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "pizza_base"
@@ -42,9 +43,9 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_cheese
+	dish_type = DISH_DAIRY|DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked tomatoplate with cheese"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "pizza_uncooked"
@@ -53,11 +54,11 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/tomatoplate
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_sausage
+	dish_type = DISH_DAIRY|DISH_MEAT|DISH_FRUIT|DISH_VEGETABLE|DISH_POULTRY|DISH_SEAFOOD
 	name = "uncooked tomatoplate with sausages"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "sausage_pizza_uncooked"
@@ -66,9 +67,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate_meat
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meattomatoplate
-	foodtype = GRAIN | FRUIT | DAIRY | MEAT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_fish
+	dish_type = DISH_DAIRY|DISH_SEAFOOD|DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked tomatoplate with fishes"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "fish_pizza_uncooked"
@@ -77,9 +78,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate_fish
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fishtomatoplate
-	foodtype = GRAIN | FRUIT | DAIRY | MEAT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_truffles
+	dish_type = DISH_DAIRY|DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked tomatoplate with truffles"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "truffle_pizza_uncooked"
@@ -88,9 +89,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate_truffle
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/truffletomatoplate
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_poisontruffles
+	dish_type = DISH_DAIRY|DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked tomatoplate with truffles"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "truffle_pizza_uncooked"
@@ -100,9 +101,9 @@
 	list_reagents = list(/datum/reagent/berrypoison = 5)
 	cooked_smell = /datum/pollutant/food/tomatoplate_truffle
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/poisontruffletomatoplate
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_onion
+	dish_type = DISH_DAIRY|DISH_VEGETABLE|DISH_FRUIT
 	name = "uncooked tomatoplate with onions"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "onion_pizza_uncooked"
@@ -111,9 +112,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate_onion
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/oniontomatoplate
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tomatoplate_raw_pear
+	dish_type = DISH_DAIRY|DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked tomatoplate with pears"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "pear_pizza_uncooked"
@@ -122,7 +123,6 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate_pear
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/peartomatoplate
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /*	.................	Smalldough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/doughslice
@@ -136,6 +136,7 @@
 
 /*	.................	Butterdough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/butterdough
+	dish_type = DISH_DAIRY
 	name = "butterdough"
 	desc = "What is a triumph, to a legacy?"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -152,6 +153,7 @@
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/pearbread_uncooked
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "pear-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_pear"
@@ -160,9 +162,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/pearbookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/plumbread_uncooked
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "plum-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_plum"
@@ -171,9 +173,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/plumbookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/lemonbread_uncooked
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "lemon-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_lemon"
@@ -182,9 +184,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/lemonbookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/tangerinebread_uncooked
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "tangerine-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_tangerine"
@@ -193,9 +195,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/tangerinebookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/blackberrybread_uncooked
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "blackberry-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_blackberry"
@@ -204,9 +206,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/blackberrybookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/raspberrybread_uncooked
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "raspberry-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_raspberry"
@@ -215,9 +217,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/raspberrybookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/jackberrybread_uncooked
+	dish_type = DISH_DAIRY|DISH_FRUIT|DISH_VEGETABLE
 	name = "jackberry-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_jacksberry"
@@ -226,9 +228,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/jackberrybookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/poisonberrybread_uncooked
+	dish_type = DISH_DAIRY|DISH_FRUIT|DISH_VEGETABLE
 	name = "jackberry-stuffed butterdough" //Like pies, these are Evil. Indistinguishable from traditional jackberried variants, until eaten.
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_jacksberry"
@@ -238,9 +240,9 @@
 	cooked_smell = /datum/pollutant/food/fruity_bookbread
 	list_reagents = list(/datum/reagent/berrypoison = 12)
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/poisonberrybookbread
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/chocolatebread_uncooked
+	dish_type = DISH_VEGETABLE
 	name = "chocolate-stuffed butterdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "butterdough_chocolate"
@@ -249,10 +251,10 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/chocolate_bookbread
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/chocolatebookbread
-	foodtype = GRAIN | DAIRY
 
 /*	.................	Butterdough Piece	................... */
 /obj/item/reagent_containers/food/snacks/rogue/butterdoughslice
+	dish_type = DISH_DAIRY
 	name = "butterdough piece"
 	desc = "A slice of pedigree, to create lines of history."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -266,6 +268,7 @@
 
 /*	.................	Muffindough Piece	................... */
 /obj/item/reagent_containers/food/snacks/rogue/muffindough
+	dish_type = DISH_DAIRY
 	name = "muffindough"
 	desc = "It's muffin time!"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -277,6 +280,7 @@
 
 /*	.................	Piedough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/piedough
+	dish_type = DISH_DAIRY
 	name = "piedough"
 	desc = "The beginning of greater things to come."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -287,6 +291,7 @@
 
 /*	.................	Strudel Dough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/strudeldough
+	dish_type = DISH_DAIRY
 	name = "strudeldough"
 	desc = "An empty shell of a greatness to come."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -297,6 +302,7 @@
 
 /*	.................	Tartdough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/tartdough
+	dish_type = DISH_DAIRY
 	name = "dotted tartdough"
 	desc = "A hollow bowl that has yet to show its fullest potential."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -306,6 +312,7 @@
 	slice_sound = TRUE
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_tangerine
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with tangerines"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "tangerine_dottart_base"
@@ -314,9 +321,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/tangerine
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_plum
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with plums"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "plum_dottart_base"
@@ -325,9 +332,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/plum
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_blackberry
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with blackberries"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "blackberry_dottart_base"
@@ -336,9 +343,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/blackberry
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_raspberry
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with raspberries"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "raspberry_dottart_base"
@@ -347,9 +354,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/raspberry
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_strawberry
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with strawberries"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "strawberry_dottart_base"
@@ -358,9 +365,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/strawberry
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_pear
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with pears"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "pear_dottart_base"
@@ -369,9 +376,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/pear
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_apple
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with apples"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "apple_dottart_base"
@@ -380,9 +387,9 @@
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/apple
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_goldapple
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "uncooked dot tart with ambrosia"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "gapple_dottart_base"
@@ -392,7 +399,6 @@
 	cooked_smell = /datum/pollutant/food/fruity_dottart
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/dot_tart/goldapple
 	list_reagents = list(/datum/reagent/medicine/stronghealth = 6) //Because you're going to want something after vomiting up all your guts up for eating raw dough.
-	foodtype = GRAIN | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tartdough_goldapple/Initialize(mapload)
 	..()
@@ -400,6 +406,7 @@
 
 /*	.................	Eggdough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/eggdough
+	dish_type = DISH_EGG
 	name = "eggdough"
 	desc = "Without tradition, legacy is left solivagant."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -415,6 +422,7 @@
 
 /*	.................	Eggdough Piece	................... */
 /obj/item/reagent_containers/food/snacks/rogue/eggdoughslice
+	dish_type = DISH_EGG
 	name = "eggdough piece"
 	desc = "A slice of childhood, to remember one's roots."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -426,7 +434,7 @@
 
 /*	.................	Noodle Dough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/eggdoughnoodles
-	dish_type = DISH_NOODLES
+	dish_type = DISH_NOODLES|DISH_EGG
 	cuisine = CUISINE_ETRUSCAN
 	name = "uncooked noodles"
 	desc = "A bundle of soft and wobbly uncooked noodles, ready to make dreams come true."
@@ -438,7 +446,7 @@
 
 /*	.................	Sheet Noodle Dough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles
-	dish_type = DISH_NOODLES
+	dish_type = DISH_NOODLES|DISH_EGG
 	cuisine = CUISINE_ETRUSCAN
 	name = "uncooked sheet noodles"
 	desc = "Flat sheets of sheet noodles, ready to be mixed with sauce and/or cheese."
@@ -450,7 +458,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_red
-	dish_type = DISH_NOODLES
+	dish_type = DISH_NOODLES|DISH_EGG|DISH_FRUIT
 	cuisine = CUISINE_ETRUSCAN
 	name = "uncooked red lasagna"
 	desc = "Flat sheets of sheet noodles smothered in tomato sauce, ready to be cooked in the oven or have cheese added."
@@ -462,7 +470,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_white
-	dish_type = DISH_NOODLES
+	dish_type = DISH_NOODLES|DISH_DAIRY|DISH_EGG
 	cuisine = CUISINE_ETRUSCAN
 	name = "uncooked white lasagna"
 	desc = "Flat sheets of sheet noodles smothered in cheese, Valorian style, ready to be cooked in the oven or have sauce added."
@@ -474,7 +482,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_redwhite
-	dish_type = DISH_NOODLES
+	dish_type = DISH_NOODLES|DISH_DAIRY|DISH_EGG|DISH_FRUIT
 	cuisine = CUISINE_ETRUSCAN
 	name = "uncooked red and white lasagna"
 	desc = "Flat sheets of sheet noodles smothered in cheese and sauce, Montecarinan style, ready to be cooked in the oven."
@@ -486,7 +494,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 
 /obj/item/reagent_containers/food/snacks/rogue/eggdoughsheetnoodles_pesto
-	dish_type = DISH_NOODLES
+	dish_type = DISH_NOODLES|DISH_EGG|DISH_VEGETABLE
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "uncooked pesto lasagna"
 	desc = "Flat sheets of sheet noodles spread with pesto, Azurian style, ready to be cooked in the oven."
@@ -499,6 +507,7 @@
 
 /*	.................	Griddle Dough	................... */
 /obj/item/reagent_containers/food/snacks/rogue/griddle_uncooked
+	dish_type = DISH_EGG
 	name = "griddle dough"
 	desc = "A flat eggy mess of batter dough, desperate to be thrown onto a pan."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -524,6 +533,7 @@
 
 // Dürümdough + Uncooked Bulgur
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_bulgur
+	dish_type = DISH_VEGETABLE
 	name = "bulgur-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_bulgur"
@@ -531,11 +541,11 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/bread
-	foodtype = GRAIN
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/durum_bulgur
 
 // Dürümdough + Poultry
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_poultry
+	dish_type = DISH_POULTRY|DISH_VEGETABLE
 	name = "poultry-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_poultry"
@@ -543,10 +553,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fried_meat
-	foodtype = GRAIN | MEAT
 
 // Dürümdough + Poultry + Bulgur
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_poultry_bulgur
+	dish_type = DISH_POULTRY|DISH_VEGETABLE
 	name = "poultry bulgur-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_poultry_bulgur"
@@ -554,11 +564,11 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fried_meat
-	foodtype = GRAIN | MEAT
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/durum_poultry_bulgur
 
 // Dürümdough + Mince
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_mince
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "mince-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_mince"
@@ -566,10 +576,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fried_meat
-	foodtype = GRAIN | MEAT
 
 // Dürümdough + Cabbage
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cabbage
+	dish_type = DISH_VEGETABLE
 	name = "cabbage-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_cabbage"
@@ -577,10 +587,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fried_meat
-	foodtype = GRAIN | MEAT
 
 // Dürümdough + Mince + Cabbage
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_mince_cabbage
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "mince cabbage-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_mince_cabbage"
@@ -588,11 +598,11 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fried_meat
-	foodtype = GRAIN | MEAT | VEGETABLES
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/durum_mince_cabbage
 
 // Dürümdough + Beans
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_beans
+	dish_type = DISH_VEGETABLE
 	name = "bean-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_beans"
@@ -600,10 +610,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/bread
-	foodtype = GRAIN | VEGETABLES
 
 // Dürümdough + Beans + Mince
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_beans_mince
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "bean mince-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_mince_beans"
@@ -611,11 +621,11 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/fried_meat
-	foodtype = GRAIN | MEAT | VEGETABLES
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/durum_beans_mince
 
 // Dürümdough + Cheese
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cheese
+	dish_type = DISH_DAIRY|DISH_VEGETABLE
 	name = "cheese-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_cheese"
@@ -623,10 +633,10 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/pastry
-	foodtype = GRAIN | DAIRY
 
 // Dürümdough + Cheese + Beans
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/durum_cheese_beans
+	dish_type = DISH_DAIRY|DISH_VEGETABLE
 	name = "cheese bean-stuffed dürümdough"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "durum_cheese_beans"
@@ -634,5 +644,4 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/pastry
-	foodtype = GRAIN | DAIRY | VEGETABLES
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/durum_cheese_beans

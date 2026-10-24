@@ -72,7 +72,7 @@
 		if("Sallet")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/sallet, SLOT_HEAD, TRUE)
 		if("Armet")
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/ornate, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet, SLOT_HEAD, TRUE)
 		if("Bucket Helm")
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket, SLOT_HEAD, TRUE)
 		if("Greatplumed Armet")

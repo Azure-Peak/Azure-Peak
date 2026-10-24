@@ -58,3 +58,40 @@
 	icon_state = "sssangsudo_long"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
+
+//Obsidian sickle
+/obj/item/rogueweapon/example/obsidian_sickle
+	name = "Dominion Sickle"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "obby_sickle"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//Obsidian knife
+/obj/item/rogueweapon/example/obsidian_knife
+	name = "Dominion Knife"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "obby_knife"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+//Obsidian greatsword
+/obj/item/rogueweapon/example/obsidian_greatsword
+	name = "Dominion greatsword"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "obby_gsword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+
+//Obsidian shotel
+/obj/item/rogueweapon/example/obsidian_shotel
+	name = "Dominion shotel"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "obby_shotel"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+
+//Dominion shield
+/obj/item/rogueweapon/example/dominion_shield
+	name = "Dominion heater shield"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Amaranth wood with a swirling grain, fashioned into a rounded triangle with a geometer's precision."
+	icon_state = "dominion_shield"
+	icon = 'icons/obj/items/donor_weapons.dmi'

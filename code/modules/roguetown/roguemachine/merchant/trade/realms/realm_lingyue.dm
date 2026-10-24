@@ -104,12 +104,34 @@
 		/datum/supply_pack/rogue/alcohol/truewhipwine,
 	)
 	hail_lines = list(
-	"We're out of rice",
-	"Can you help me find our lucky tabaxi? Yellow fur, long fluffy tail. I think he went to the market and followed another yellow-tailed tabaxi lady. I will offer thirty zenars for his return before we leave port. It is essential for the journey back home.",
-	"Please keep the Inquisition away from our ship.",
-	"I have a few Shizu, trained Scholar Mages who can help you with your magical needs. Is the University hiring? If not, perhaps one of your band of adventurers?",
-	"I carries four families in the hold who is escaping the Chengtian rebellion. If you would be so kind, show them Eora's compassion and help them find a new home.",
-	"I bring with me a skilled masseur trained in the ancient art of Lingyuese medical massage. He evens know of Pyromantic and Cryomantic magic and can warm and chill your body to help you recover from injuries and illness. If you pay him enough, he will settle here for the next yil or two. Otherwise, I'll bring him over to Grenzelhoft.",
-	"Tis dire, I'm out of rice wine. Do you have any local rice wine to trade?",
-		"Ah! Azurian fishes and crabs! Legendary, I know at least twenty housewives and househusbands who would kill for a taste of them. I have a runic chest from Shenzhou to preserve them for the journey home. Now, excuse me, I would like, uhhh, ...three salmon of twenty catty, and - oh, oh, before I forget - one salmon of forty-five catty, the prettiest one, the one you were saving, yes that one, for Magistrate Chan, who counts cargo with his eyes and his eyes, you understand, can be occupied. And one crab. The biggest crab. Sixty catty, claws bound but not too tightly, Ms. Wen likes a little fight in them, she has prepared a tank. A tank, friend. The woman has prepared a tank. And - wait, wait - six smaller crabs, ten catty each, for the housewives who only think they want the big one, because none of them have a tank, none of them, I have asked. Also ice. Do you have ice? The runic chest is good but ice is better, ice is insurance, and Magistrate Chan's salmon must arrive looking like it leaped fresh out of the river.",
+	"...we're out of rice.",
+
+	"Can you help me find our lucky tabaxi? Yellow fur, long fluffy tail? \
+	I think he chased another's tail down to the market. Thirty zenarii if you can find him. \
+	He's essential for the journey back home.",
+
+	"Please keep the Otavans away from our ship.",
+
+	"I have a few Shizu, trained arcyne scholars who can help you with your magickal needs. \
+	Is the University hiring? If not, perhaps one of your bands of adventurers?",
+
+	"I carry four families in the hold who are escaping the Chengtian rebellion. \
+	If you would be so kind, show them Eora's compassion and help them find a new home?",
+
+	"I bring with me a skilled masseur trained in the ancient art of Lingyuese medical massage. \
+	He can even warm or chill your body with his magick to help you recover from injuries. \
+	If you pay him enough, he will settle here for the next yil or two. \
+	Otherwise, I'll bring him over to Grenzelhoft.",
+
+	"Tis dire, I'm out of rice wine! Do you have any local rice wine to trade?",
+
+	"Ah! Azurian fishes and crabs! Legendary, I know at least twenty families who would kill for a taste of them! \
+	We brought a runic chest from Shenzhou to preserve them for the journey home!",
+
+	"Quite the large order for you, factor! We require three salmon of twenty catty, one salmon of forty-five catty, \
+	the prettiest one for Magistrate Chan... and one crab! The biggest crab! Bind it, but not too tightly!",
+
+	"A dozen crabs of at least twenty catty for the families back home!",
+
+	"Jade, pepper, and a variety of weapons and armor to suit your needs!"
 	)

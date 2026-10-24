@@ -16,6 +16,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 	var/activecolor_altdetail = "#FFFFFF"
 	var/list/allowed_types = list(
 			/obj/item/clothing,
+			/obj/item/rogueweapon,
 			/obj/item/storage,
 			/obj/item/bedroll,
 			/obj/item/flowercrown,
@@ -59,10 +60,15 @@ GLOBAL_LIST_EMPTY(used_colors)
 	return ..()
 
 /obj/machinery/gear_painter/attackby(obj/item/I, mob/living/user)
+	if(istype(I, /obj/item/rogueweapon) && user.cmode)
+		return ..()
 	if(inserted)
 		to_chat(user, span_warning("Something is already inside!"))
 		return ..()
 	if(!is_type_in_list(I, allowed_types))
+		to_chat(user, span_warning("[I] cannot be dyed!"))
+		return ..()
+	if(istype(I, /obj/item/rogueweapon) && !I.detail_tag)
 		to_chat(user, span_warning("[I] cannot be dyed!"))
 		return ..()
 	if(!user.transferItemToLoc(I, src))
@@ -109,6 +115,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 		return
 
 	var/obj/item/inserted_item = inserted
+	var/is_weapon = istype(inserted_item, /obj/item/rogueweapon)
 
 	// == Preview system ==
 	dat += "<div style='text-align:center;'>"
@@ -117,7 +124,8 @@ GLOBAL_LIST_EMPTY(used_colors)
 	var/obj/item/preview_item = inserted_item
 	var/icon/preview_icon = new /icon()
 	preview_icon.Insert(new /icon(preview_item.icon, preview_item.icon_state), "", SOUTH, 0)
-	preview_icon.Blend(activecolor, ICON_MULTIPLY)
+	if(!is_weapon)
+		preview_icon.Blend(activecolor, ICON_MULTIPLY)
 
 	// Apply detail overlay if exists
 	if(preview_item.detail_tag && preview_item.detail_color)
@@ -196,10 +204,11 @@ GLOBAL_LIST_EMPTY(used_colors)
 
 	dat += "Item inserted: [inserted]<BR><BR>"
 
-	dat += "Color: <font color='[activecolor]'>&#10070;</font> "
-	dat += "<A href='?src=\ref[src];select=1'>Select new color.</A><BR>"
-	dat += "<A href='?src=\ref[src];paint_primary=1'>Apply new color</A> | "
-	dat += "<A href='?src=\ref[src];clear_primary=1'>Remove paintjob</A><BR>"
+	if(!is_weapon)
+		dat += "Color: <font color='[activecolor]'>&#10070;</font> "
+		dat += "<A href='?src=\ref[src];select=1'>Select new color.</A><BR>"
+		dat += "<A href='?src=\ref[src];paint_primary=1'>Apply new color</A> | "
+		dat += "<A href='?src=\ref[src];clear_primary=1'>Remove paintjob</A><BR>"
 
 	if(inserted_item.detail_color)
 		dat += "Detail Color: <font color='[activecolor_detail]'>&#10070;</font> "
@@ -232,6 +241,8 @@ GLOBAL_LIST_EMPTY(used_colors)
 		return
 
 	if(href_list["select"])
+		if(istype(inserted, /obj/item/rogueweapon))
+			return
 		var/c = pick_dye(usr, activecolor, "Primary Dye")
 		if(!c) return
 		activecolor = c
@@ -250,7 +261,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 		interact(usr)
 
 	if(href_list["paint_primary"])
-		if(!inserted)
+		if(!inserted || istype(inserted, /obj/item/rogueweapon))
 			return
 		var/obj/item/inserted_item = inserted
 		inserted.add_atom_colour(activecolor, FIXED_COLOUR_PRIORITY)
@@ -281,7 +292,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 		interact(usr)
 
 	if(href_list["clear_primary"])
-		if(!inserted)
+		if(!inserted || istype(inserted, /obj/item/rogueweapon))
 			return
 		var/obj/item/inserted_item = inserted
 		inserted.remove_atom_colour(FIXED_COLOUR_PRIORITY)

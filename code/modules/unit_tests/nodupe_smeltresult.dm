@@ -21,7 +21,7 @@
 		var/smelt_bar_num = initial(created_item.smelt_bar_num)
 		var/list/bad_materials = list(
 			/obj/item/ingot/aaslag,
-			/obj/item/ash,
+			/obj/item/natural/ash,
 			/obj/item/rogueore/coal
 		)
 

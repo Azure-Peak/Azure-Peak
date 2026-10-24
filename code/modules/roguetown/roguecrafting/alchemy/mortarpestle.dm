@@ -22,24 +22,29 @@
 	experimental_inhand = TRUE
 	reagent_flags = OPENCONTAINER|REFILLABLE|DRAINABLE
 	spillable = TRUE
-	var/obj/item/to_grind
+	var/list/obj/item/to_grind = list()
 
 	grid_width = 32
 	grid_height = 32
 
 /obj/item/reagent_containers/glass/mortar/examine()
 	. += ..()
-	if(to_grind)
-		. += ("[to_grind] is inside the mortar.")
-	. += span_notice("Left click with a pestle to grind the item inside into alchemical ingredients. Middle Click with a pestle to grind or juice them. Right click to remove it.")
+	if(length(to_grind))
+		. += ("[english_list(to_grind)] [length(to_grind) == 1 ? "is" : "are"] inside the mortar ([length(to_grind)]/[MORTAR_MAX_ITEMS]).")
+	. += span_notice("Left click with a pestle to grind the items inside into alchemical ingredients. Middle Click with a pestle to grind or juice them. Right click to remove one. Click it with a container that cannot hold reagents to dump its grindable or juiceable contents in.")
+
+/obj/item/reagent_containers/glass/mortar/Exited(atom/movable/gone, direction)
+	. = ..()
+	to_grind -= gone
 
 /obj/item/reagent_containers/glass/mortar/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
-	if(to_grind)
-		to_chat(user, "<span class='notice'>I remove [to_grind] from the mortar.</span>")
-		if(!user.put_in_hands(to_grind))
-			to_chat(user, span_warning("My hands are full! I drop [to_grind] on the ground"))
-		to_grind = null
+	if(length(to_grind))
+		var/obj/item/removed = to_grind[length(to_grind)]
+		to_chat(user, "<span class='notice'>I remove [removed] from the mortar.</span>")
+		if(!user.put_in_hands(removed))
+			to_chat(user, span_warning("My hands are full! I drop [removed] on the ground"))
+			removed.forceMove(get_turf(src))
 		return
 	to_chat(user, "<span class='notice'>It's empty.</span>")
 
@@ -51,40 +56,53 @@
 	if(!istype(pestle, /obj/item/pestle))
 		to_chat(user, "<span class='warning'>You need a pestle to grind!</span>")
 		return
-	if(!to_grind)
+	if(!length(to_grind))
 		to_chat(user, "<span class='warning'>There's nothing to grind.</span>")
 		return
-	if((!to_grind.juice_results && !to_grind?.grind_results?.len)) // A lot of reagents are grindable but empty
+	var/list/juiced = list()
+	var/list/ground = list()
+	var/too_full = FALSE
+	for(var/obj/item/item as anything in to_grind.Copy())
+		var/list/results = item.juice_results || item.grind_results //prioritize juicing
+		if(!length(results))
+			continue
+		if(reagents.total_volume + counterlist_sum(results) > reagents.maximum_volume)
+			too_full = TRUE
+			continue
+		if(item.juice_results)
+			item.on_juice()
+			juiced += item.name
+		else
+			item.on_grind()
+			ground += item.name
+		reagents.add_reagent_list(results)
+		qdel(item)
+	if(length(juiced))
+		to_chat(user, span_notice("I juice [english_list(juiced)] into a fine liquid."))
+	if(length(ground))
+		to_chat(user, span_notice("I break [english_list(ground)] into powder."))
+	if(too_full)
+		to_chat(user, span_warning("[src] is too full!"))
+	else if(!length(juiced) && !length(ground))
 		to_chat(user, "<span class='warning'>You don't think that will work!</span>")
-		return
-	if(to_grind.juice_results) //prioritize juicing
-		to_grind.on_juice()
-		reagents.add_reagent_list(to_grind.juice_results)
-		to_chat(user, span_notice("I juice [to_grind] into a fine liquid."))
-		if(to_grind.reagents) //food and pills
-			to_grind.reagents.trans_to(src, to_grind.reagents.total_volume, transfered_by = user)
-			onfill(to_grind, user, silent = FALSE)
-		QDEL_NULL(to_grind)
-		return
-	if(to_grind.grind_results.len) // grind, if there's a grind result
-		to_grind.on_grind()
-		reagents.add_reagent_list(to_grind.grind_results)
-		to_chat(user, span_notice("I break [to_grind] into powder."))
-		QDEL_NULL(to_grind)
-		return
 
 /obj/item/reagent_containers/glass/mortar/attackby(obj/item/I, mob/living/carbon/human/user)
 	if(istype(I,/obj/item/pestle))
-		if(!to_grind)
+		if(!length(to_grind))
 			to_chat(user, "<span class='warning'>There's nothing to grind.</span>")
 			return
-		var/datum/alch_grind_recipe/foundrecipe = find_recipe()
-		if(foundrecipe == null)
-			to_chat(user, "<span class='warning'>You don't think that will work!</span>")
-			return
-		user.visible_message("<span class='info'>[user] begins grinding up [to_grind].</span>")
-		playsound(loc, 'sound/foley/mortarpestle.ogg', 100, FALSE)
-		if(do_after(user, 10, target = src))
+		var/found_recipe = FALSE
+		for(var/obj/item/item as anything in to_grind.Copy())
+			var/datum/alch_grind_recipe/foundrecipe = find_recipe(item)
+			if(!foundrecipe)
+				continue
+			found_recipe = TRUE
+			user.visible_message("<span class='info'>[user] begins grinding up [item].</span>")
+			playsound(loc, 'sound/foley/mortarpestle.ogg', 100, FALSE)
+			if(!do_after(user, 10, target = src))
+				return
+			if(QDELETED(item) || item.loc != src)
+				continue
 			for(var/output in foundrecipe.valid_outputs)
 				for(var/i in 1 to foundrecipe.valid_outputs[output])
 					new output(get_turf(src))
@@ -93,16 +111,18 @@
 					if(foundrecipe.bonus_chance_outputs[foundrecipe.bonus_chance_outputs[i]] >= roll(1,100))
 						var/obj/item/bonusduck = foundrecipe.bonus_chance_outputs[i]
 						new bonusduck(get_turf(user))
-			if(istype(to_grind,/obj/item/rogueore) || istype(to_grind,/obj/item/ingot))
+			if(istype(item,/obj/item/rogueore) || istype(item,/obj/item/ingot))
 				user.flash_fullscreen("whiteflash")
 				var/datum/effect_system/spark_spread/S = new()
 				var/turf/front = get_turf(src)
 				S.set_up(1, 1, front)
 				S.start()
-			QDEL_NULL(to_grind)
+			qdel(item)
 			if(user.mind)
 				add_sleep_experience(user, /datum/skill/craft/alchemy, user.STAINT)
-			return
+		if(!found_recipe)
+			to_chat(user, "<span class='warning'>You don't think that will work!</span>")
+		return
 	if(istype(I ,/obj/item/reagent_containers/glass))
 		if(user.used_intent.type == INTENT_POUR) //Something like a glass. Player probably wants to transfer TO it.
 
@@ -156,24 +176,52 @@
 					break
 
 			return
-	if(to_grind)
+	var/datum/component/storage/dumped_storage = I.GetComponent(/datum/component/storage)
+	if(dumped_storage && !istype(I, /obj/item/reagent_containers))
+		storage_contents_dump_act(dumped_storage, user)
+		return
+	if(length(to_grind) >= MORTAR_MAX_ITEMS)
 		to_chat(user, "<span class='warning'>[src] is full!</span>")
 		return
-	var/recipe = find_recipe(I)
-	if(recipe == null && I.grind_results == null && I.juice_results == null)
+	if(!can_grind(I))
 		to_chat(user, "<span class='warning'>[I] can't be ground!!</span>")
 		return
 	if(!user.transferItemToLoc(I,src))
 		to_chat(user, "<span class='warning'>[I] is stuck to my hand!</span>")
 		return
-	if(!istype(I,/obj/item/pestle) && !to_grind && user.transferItemToLoc(I,src))
-		to_chat(user, "<span class='info'>I add [I] to [src].</span>")
-		to_grind = I
-		return
-	..()
+	to_grind += I
+	to_chat(user, "<span class='info'>I add [I] to [src].</span>")
+
+/obj/item/reagent_containers/glass/mortar/get_dumping_location(datum/component/storage/source, mob/user)
+	return src
+
+/obj/item/reagent_containers/glass/mortar/storage_contents_dump_act(datum/component/storage/src_object, mob/user)
+	if(src_object.parent == src)
+		return FALSE
+	var/added = 0
+	for(var/obj/item/item in src_object.contents())
+		if(length(to_grind) >= MORTAR_MAX_ITEMS)
+			break
+		if(!can_grind(item))
+			continue
+		if(!src_object.remove_from_storage(item, src))
+			continue
+		to_grind += item
+		added++
+	if(!added)
+		if(length(to_grind) >= MORTAR_MAX_ITEMS)
+			to_chat(user, "<span class='warning'>[src] is full!</span>")
+		else
+			to_chat(user, "<span class='warning'>Nothing in [src_object.parent] can be ground.</span>")
+		return FALSE
+	to_chat(user, "<span class='info'>I dump [added] item\s from [src_object.parent] into [src].</span>")
+	return TRUE
+
+/obj/item/reagent_containers/glass/mortar/proc/can_grind(obj/item/I)
+	return find_recipe(I) || I.grind_results || I.juice_results
 
 ///Looks through all the alch grind recipes to find what it should create, returns the correct one.
-/obj/item/reagent_containers/glass/mortar/proc/find_recipe(obj/item/check_item = to_grind)
+/obj/item/reagent_containers/glass/mortar/proc/find_recipe(obj/item/check_item)
 	for(var/datum/alch_grind_recipe/grindRec in GLOB.alch_grind_recipes)
 		if(grindRec.picky)
 			if(check_item.type == grindRec.valid_input)
