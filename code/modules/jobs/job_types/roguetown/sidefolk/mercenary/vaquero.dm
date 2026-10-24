@@ -11,6 +11,7 @@
 		/datum/virtue/combat/guarded,
 		/datum/virtue/utility/riding // So they can pick their mount, and its part of their identity.
 	)
+	virtue_limits = list(/datum/virtue/utility/riding) // So you cant get two saigas, bill.
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
