@@ -38659,6 +38659,10 @@
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/indoors/town/bath)
+"gHI" = (
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/wooddark/window,
+/area/rogue/under/town/sewer)
 "gHJ" = (
 /obj/structure/flora/roguegrass/herb/hypericum,
 /turf/open/floor/rogue/grassred,
@@ -73306,6 +73310,12 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/manor)
+"muQ" = (
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Rogue's Den"
+	},
+/turf/open/floor/rogue/tile/brownbrick,
+/area/rogue/under/town/sewer)
 "muS" = (
 /turf/closed/wall/mineral/rogue/wooddark/window,
 /area/rogue/druidsgrove)
@@ -183565,7 +183575,7 @@ cqm
 uWR
 uWR
 aiH
-bDl
+gHI
 xAW
 spI
 cqm
@@ -185375,7 +185385,7 @@ fFs
 hoc
 bDl
 gED
-spI
+muQ
 spI
 aJH
 dlK

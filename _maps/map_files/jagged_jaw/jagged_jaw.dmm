@@ -17432,6 +17432,12 @@
 /obj/structure/flora/ausbushes/brflowers,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/town/grim)
+"ceH" = (
+/obj/structure/roguemachine/mail/r{
+	mailtag = "Rogue's Den"
+	},
+/turf/open/floor/rogue/tile/brownbrick/browner,
+/area/rogue/outdoors/exposed/under/sewer/grim)
 "ceK" = (
 /obj/effect/landmark/quest_spawner/generic,
 /turf/open/floor/rogue/grassred,
@@ -143116,6 +143122,10 @@
 /obj/structure/rogue/trophy/deer,
 /turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town/grim)
+"rnK" = (
+/obj/structure/roguemachine/talkstatue/mercenary,
+/turf/closed/wall/mineral/rogue/wooddark/window,
+/area/rogue/outdoors/exposed/under/sewer/grim)
 "rnM" = (
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/dirt/road,
@@ -261127,7 +261137,7 @@ mcE
 dsM
 dsM
 dJt
-afw
+rnK
 jxj
 jxj
 mpi
@@ -262657,7 +262667,7 @@ nAy
 dHq
 afw
 wxv
-jxj
+ceH
 jxj
 qOa
 kfL
