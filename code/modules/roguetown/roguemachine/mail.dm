@@ -291,7 +291,7 @@
 	if(!destination)
 		return null
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
-		if(H.real_name == destination)
+		if(strip_diacritics(H.real_name) == strip_diacritics(destination))
 			return H
 	return null
 
@@ -299,7 +299,7 @@
 	if(!destination)
 		return null
 	for(var/mob/dead/observer/G in GLOB.dead_mob_list)
-		if(G.ckey && G.real_name == destination)
+		if(G.ckey && strip_diacritics(G.real_name) == strip_diacritics(destination))
 			return G
 	return null
 
@@ -344,9 +344,12 @@
 		playsound(box, 'sound/misc/hiss.ogg', 100, FALSE, -1)
 		return TRUE
 	var/mob/living/carbon/human/H = find_mail_human(destination)
+	if(H)
+		destination = H.real_name // stamp the real name, as retrieving mail compares names exactly
 	if(I.type == /obj/item/paper && (!H || H.stat == DEAD))
 		var/mob/dead/observer/G = find_mail_ghost(destination)
 		if(G)
+			destination = G.real_name
 			var/obj/item/paper/P = I
 			deliver_ghost(G, sender, destination, P.info, sender_log)
 			qdel(I)

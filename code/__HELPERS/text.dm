@@ -1048,3 +1048,70 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 		text2num(semver_regex.group[2]),
 		text2num(semver_regex.group[3]),
 	)
+
+/// Maps accented Latin letters (the 192 to 383 range that reject_bad_name allows) to their plain equivalents.
+GLOBAL_LIST_INIT(diacritic_map, init_diacritic_map())
+
+/proc/init_diacritic_map()
+	var/list/map = list()
+	var/list/groups = list(
+		"A" = "ÀÁÂÃÄÅĀĂĄ",
+		"a" = "àáâãäåāăą",
+		"C" = "ÇĆĈĊČ",
+		"c" = "çćĉċč",
+		"D" = "ĎĐ",
+		"d" = "ďđ",
+		"E" = "ÈÉÊËĒĔĖĘĚ",
+		"e" = "èéêëēĕėęě",
+		"G" = "ĜĞĠĢ",
+		"g" = "ĝğġģ",
+		"H" = "ĤĦ",
+		"h" = "ĥħ",
+		"I" = "ÌÍÎÏĨĪĬĮİ",
+		"i" = "ìíîïĩīĭįı",
+		"J" = "Ĵ",
+		"j" = "ĵ",
+		"K" = "Ķ",
+		"k" = "ķ",
+		"L" = "ĹĻĽĿŁ",
+		"l" = "ĺļľŀł",
+		"N" = "ÑŃŅŇ",
+		"n" = "ñńņň",
+		"O" = "ÒÓÔÕÖØŌŎŐ",
+		"o" = "òóôõöøōŏő",
+		"R" = "ŔŖŘ",
+		"r" = "ŕŗř",
+		"S" = "ŚŜŞŠ",
+		"s" = "śŝşš",
+		"T" = "ŢŤŦ",
+		"t" = "ţťŧ",
+		"U" = "ÙÚÛÜŨŪŬŮŰŲ",
+		"u" = "ùúûüũūŭůűų",
+		"W" = "Ŵ",
+		"w" = "ŵ",
+		"Y" = "ÝŶŸ",
+		"y" = "ýÿŷ",
+		"Z" = "ŹŻŽ",
+		"z" = "źżž"
+	)
+	for(var/plain in groups)
+		var/accented = groups[plain]
+		for(var/i in 1 to length(accented))
+			map[copytext(accented, i, i + 1)] = plain
+	map["Æ"] = "AE"
+	map["æ"] = "ae"
+	map["Œ"] = "OE"
+	map["œ"] = "oe"
+	map["ß"] = "ss"
+	return map
+
+/// Replaces accented letters with their plain equivalents, so names can be compared without diacritics.
+/proc/strip_diacritics(text)
+	if(!text)
+		return text
+	var/list/map = GLOB.diacritic_map
+	var/out = ""
+	for(var/i in 1 to length(text))
+		var/char = copytext(text, i, i + 1)
+		out += map[char] || char
+	return out
