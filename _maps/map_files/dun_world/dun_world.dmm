@@ -43028,12 +43028,6 @@
 "hrE" = (
 /turf/closed/wall/mineral/rogue/stone/moss,
 /area/rogue/indoors/town/garrison)
-"hrI" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	dir = 8
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town)
 "hrJ" = (
 /turf/open/floor/rogue/dirt,
 /area/rogue/indoors/town/church/basement)
@@ -56899,10 +56893,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/church/chapel)
-"jHG" = (
-/obj/structure/flora/roguegrass/water/reeds,
-/turf/open/water/cleanshallow,
-/area/rogue/under/cavewet/bogcaves/west)
 "jHI" = (
 /obj/structure/fluff/railing/wood/north,
 /turf/open/floor/rogue/ruinedwood/turned,
@@ -81476,9 +81466,8 @@
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/bath)
 "nPy" = (
-/obj/structure/well,
-/turf/open/floor/rogue/dirt,
-/area/rogue/indoors/cave/underhamlet)
+/turf/open/water/river/flow/north,
+/area/rogue/under/cavewet/bogcaves/west)
 "nPA" = (
 /obj/item/restraints/legcuffs/beartrap/armed,
 /turf/open/floor/rogue/dirt/road,
@@ -113285,10 +113274,6 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/under/cave/his_vault)
-"sZR" = (
-/obj/structure/well/poisoned,
-/turf/open/floor/rogue/grass,
-/area/rogue/outdoors/mountains)
 "sZW" = (
 /obj/structure/flora/roguetree/stump,
 /turf/open/floor/rogue/dirt,
@@ -142755,9 +142740,7 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/druidsgrove)
 "xYH" = (
-/obj/structure/flora/roguegrass/water/reeds,
-/turf/open/water/swamp/deep,
-/area/rogue/under/cavewet/bogcaves/south)
+)
 "xYI" = (
 /obj/machinery/light/rogue/candle/blue/r,
 /obj/structure/lever/wall{
@@ -144239,12 +144222,6 @@
 /obj/structure/fluff/railing/corner/north_east,
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/mountains)
-"ykM" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	dir = 4
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town)
 "ykO" = (
 /obj/structure/fluff/railing/corner/south_east,
 /turf/open/floor/rogue/cobble,
@@ -198032,8 +198009,8 @@ kJf
 kJf
 kJf
 kJf
-nPy
-nPy
+xcQ
+xcQ
 pbF
 pbF
 pbF
@@ -198483,9 +198460,9 @@ pbF
 kJf
 kJf
 kJf
-nPy
-nPy
-nPy
+xcQ
+xcQ
+xcQ
 pbF
 pbF
 xcQ
@@ -217463,7 +217440,7 @@ jPN
 jPN
 jPN
 jPN
-xYH
+mnr
 wHu
 wHu
 fxt
@@ -217915,7 +217892,7 @@ jPN
 jPN
 jPN
 jPN
-xYH
+mnr
 wHu
 wHu
 bKq
@@ -219272,7 +219249,7 @@ jPN
 jPN
 jPN
 jPN
-xYH
+mnr
 wHu
 pLh
 akC
@@ -219477,6 +219454,7 @@ miF
 miF
 ogs
 ogs
+xYH
 "}
 (167,1,1) = {"
 neE
@@ -219723,7 +219701,7 @@ jPN
 jPN
 jPN
 jPN
-xYH
+mnr
 wHu
 pLh
 het
@@ -220629,9 +220607,9 @@ jPN
 jPN
 jPN
 wHu
-xYH
-xYH
-xYH
+mnr
+mnr
+mnr
 jPN
 jPN
 jPN
@@ -221083,7 +221061,7 @@ plu
 wHu
 wHu
 wHu
-xYH
+mnr
 jPN
 jPN
 jPN
@@ -221536,7 +221514,7 @@ plu
 wHu
 wHu
 wHu
-xYH
+mnr
 jPN
 jPN
 jPN
@@ -222437,7 +222415,7 @@ plu
 plu
 jPN
 jPN
-xYH
+mnr
 wHu
 wHu
 wHu
@@ -223342,7 +223320,7 @@ jPN
 jPN
 jPN
 jPN
-xYH
+mnr
 wHu
 wHu
 wHu
@@ -331153,7 +331131,7 @@ ldp
 ldp
 ldp
 ldp
-jRV
+xYH
 ldp
 ldp
 ldp
@@ -335680,7 +335658,7 @@ ldp
 ldp
 ldp
 ldp
-jRV
+xYH
 lfT
 lfT
 lfT
@@ -429536,7 +429514,7 @@ cDX
 uBc
 uBc
 cDX
-hrI
+jkC
 cDX
 cDX
 pSe
@@ -493566,7 +493544,7 @@ lYW
 qOD
 qOD
 qOD
-rkR
+xYH
 fcU
 qjy
 oCy
@@ -503024,7 +503002,7 @@ cqN
 vBH
 bAa
 bAa
-bAa
+vBH
 fjj
 fjj
 ykK
@@ -503474,7 +503452,7 @@ vBH
 vBH
 vBH
 bAa
-sZR
+bAa
 bAa
 bAa
 vBH
