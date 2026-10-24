@@ -40203,9 +40203,10 @@
 /obj/effect/decal/cleanable/dirt/cobweb{
 	dir = 4
 	},
-/obj/structure/rack/rogue/shelf/biggest,
-/obj/item/natural/stone,
-/turf/open/floor/rogue/concrete,
+/obj/structure/closet/crate/chest/neu,
+/obj/effect/spawner/lootdrop/roguetown/sewers,
+/obj/structure/spider/stickyweb,
+/turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
 "gQG" = (
 /obj/structure/table/wood/poor,
@@ -77695,13 +77696,14 @@
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/shelter)
 "nei" = (
-/obj/effect/decal/cleanable/debris/glassy,
-/obj/structure/fluff/sign{
-	pixel_y = 6;
-	desc = "A wooden sign informing the reader that this area has been condemned by the local Artisan's Guild.";
-	name = "CONDEMNED BY THE GUILD"
+/obj/structure/mineral_door/wood/deadbolt{
+	color = "#778079";
+	dir = 1;
+	max_integrity = 500;
+	name = "rotting door";
+	locked = 1
 	},
-/turf/open/floor/rogue/blocks/green,
+/turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
 "nej" = (
 /obj/structure/fluff/railing/border/west,
@@ -108495,12 +108497,10 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/puzzle)
 "sib" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	color = "#778079";
-	dir = 1;
-	max_integrity = 500;
-	name = "rotting door";
-	locked = 1
+/obj/structure/fluff/sign{
+	pixel_y = 6;
+	desc = "A wooden sign informing the reader that this area has been condemned by the local Artisan's Guild.";
+	name = "CONDEMNED BY THE GUILD"
 	},
 /turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
@@ -115136,9 +115136,10 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault/puzzle)
 "tlt" = (
-/obj/structure/closet/crate/chest/neu,
-/obj/effect/spawner/lootdrop/roguetown/sewers,
-/turf/open/floor/rogue/cobble,
+/obj/structure/rack/rogue/shelf/biggest,
+/obj/item/natural/stone,
+/obj/item/natural/stone,
+/turf/open/floor/rogue/concrete,
 /area/rogue/under/town/sewer)
 "tlw" = (
 /obj/structure/flora/ausbushes/ppflowers,
@@ -185631,7 +185632,7 @@ mMx
 cqm
 uvm
 epN
-smQ
+cHC
 gQF
 cqm
 ylh
@@ -186081,11 +186082,11 @@ pfU
 ylh
 mMx
 cqm
+smQ
 cHC
-uvm
-xpi
-cHC
+oYE
 dlK
+tZm
 ylh
 mMx
 xNL
@@ -186533,12 +186534,12 @@ dlK
 ylh
 mMx
 cqm
+tlt
 cHC
-uvm
 cHC
-cHC
-sib
 nei
+sib
+nsR
 mMx
 urZ
 cqm
@@ -186987,9 +186988,9 @@ mMx
 cqm
 oYE
 lmI
-tlt
 cHC
 dlK
+sIr
 ylh
 mMx
 ylh
@@ -187439,7 +187440,7 @@ mMx
 cqm
 uvm
 cHC
-rpx
+cHC
 daP
 cqm
 ylh
@@ -187890,7 +187891,7 @@ ylh
 mMx
 cqm
 mZy
-cHC
+xpi
 daP
 xCK
 dlK
@@ -189699,7 +189700,7 @@ mMx
 cqm
 alG
 cHC
-cHC
+rpx
 jtt
 cqm
 ylh
