@@ -53661,10 +53661,13 @@
 	},
 /area/rogue/outdoors/exposed/magiciantower)
 "jfU" = (
-/obj/effect/spawner/lootdrop/roguetown/sewers,
-/obj/structure/closet/crate/coffin,
-/turf/open/floor/rogue/dirt,
-/area/rogue/under/town/sewer)
+/obj/structure/bars/passage{
+	density = 0;
+	icon_state = "passage1";
+	redstone_id = "SewerEntry"
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town)
 "jfV" = (
 /obj/structure/fluff/railing/border{
 	dir = 6
@@ -108662,6 +108665,10 @@
 /obj/effect/spawner/roguemap/stump,
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest/south)
+"sjH" = (
+/obj/machinery/light/rogue/torchholder/c,
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/town)
 "sjJ" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -132460,13 +132467,10 @@
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town)
 "whr" = (
-/obj/structure/bars/passage{
-	density = 0;
-	icon_state = "passage1";
-	redstone_id = "SewerEntry"
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town)
+/obj/effect/spawner/lootdrop/roguetown/sewers,
+/obj/structure/closet/crate/coffin,
+/turf/open/floor/rogue/dirt,
+/area/rogue/under/town/sewer)
 "whs" = (
 /obj/structure/stairs,
 /turf/open/floor/rogue/hexstone,
@@ -181613,7 +181617,7 @@ ylh
 oGQ
 ylh
 vPL
-jfU
+whr
 qPr
 qPr
 qPr
@@ -295074,7 +295078,7 @@ wss
 qwv
 jdu
 gIW
-whr
+jfU
 fpx
 fpx
 daQ
@@ -300940,7 +300944,7 @@ phl
 daQ
 daQ
 cne
-aFv
+sjH
 aFv
 pBY
 sns
