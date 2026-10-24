@@ -38,6 +38,24 @@
 	sellprice = 15
 	dropshrink = 0.7
 
+/obj/item/reagent_containers/lux_infernal
+	name = "infernal lux"
+	desc = "A lock of accursed, burning lifeforce. Threads of ash run through a congealed shell, replete with the rotten scent of brimstone. This substance is useless, at best."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_infernal"
+	item_state = "lux_infernal"
+	sellprice = 1
+	dropshrink = 0.7
+
+/obj/item/reagent_containers/lux_tainted
+	name = "tainted lux"
+	desc = "The stuff of a poor, tainted soul. This useless hunk of rotten lux drips with stinking decay, staining the hands of whomever touches it. "
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_tainted"
+	item_state = "lux_tainted"
+	sellprice = 1
+	dropshrink = 0.7
+
 /obj/item/reagent_containers/lux_moss
 	name = "corrupted lux"
 	desc = "Something is amiss with this piece of lifeforce. You can see a faint glimpse of a rock piece hurling through the sky."

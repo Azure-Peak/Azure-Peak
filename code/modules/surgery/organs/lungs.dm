@@ -45,3 +45,34 @@
 	name = "construct aersource"
 	desc = "A complex hollow crystal, which courses with air through unknowable means. Steam wisps around it in a vortex."
 	icon_state = "lungs-con"
+
+/obj/item/organ/lungs/lux
+	name = "artificed lungs"
+	desc = "A set of gilbranze chambers, with bellows set into the bottom. A gilbranze tube extends from the top"
+	icon_state = "lungs-lux"
+	decay_factor = 0
+	organ_flags = ORGAN_LUX
+
+/obj/item/organ/lungs/lux/prepare_eat()
+	return FALSE //this thing isn't edible flesh
+
+/obj/item/organ/lungs/lux/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_ORGAN)
+
+/obj/item/organ/lungs/lux/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("An Artificed Stomach harnesses its host's Lux, allowing them to ")
+	. += span_info("If the user has no lux to spare, they can only support one Artificed Organ, or one pair of Gilbranze Limbs")
+	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
+
+/obj/item/organ/lungs/lux/on_life()
+	..()
+	if(owner.check_lux_organ_cap())
+		if((!failed))
+			if(owner.stat == CONSCIOUS)
+				owner.visible_message("<span class='danger'>[owner] grabs [owner.p_their()] throat, struggling for breath!</span>", \
+									"<span class='danger'>I suddenly feel like you can't breathe!</span>")
+			failed = TRUE
+		return
+	else if(!(organ_flags & ORGAN_FAILING))
+		failed = FALSE

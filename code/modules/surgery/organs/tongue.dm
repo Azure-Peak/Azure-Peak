@@ -264,3 +264,27 @@
 		/mob/living/carbon/human/proc/emote_flutter,
 		/mob/living/proc/emote_squeak,
 	)
+
+/obj/item/organ/tongue/wild_tongue/lux
+	name = "silver tongue"
+	desc = "A tongue formed of segmented silver. Gilbranze wires dangle where viscera ought be. A humen form could only hold one such piece of artifice at any given time."
+	icon_state = "tongue-lux"
+	organ_flags = ORGAN_LUX
+	decay_factor = 0
+
+/obj/item/organ/tongue/wild_tongue/lux/on_life()
+	if(owner.check_lux_organ_cap())
+		owner.stuttering = max(owner.stuttering, 2)
+		owner.slurring = max(owner.slurring, 10)
+
+/obj/item/organ/tongue/wild_tongue/lux/prepare_eat()
+	return FALSE //this thing isn't edible flesh
+
+/obj/item/organ/tongue/wild_tongue/lux/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_ORGAN)
+
+/obj/item/organ/tongue/wild_tongue/lux/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A Silvered Tongue harnesses its host's Lux, allowing them to ")
+	. += span_info("If the user has no lux to spare, they can only support one Artificed Organ, or one pair of Gilbranze Limbs")
+	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
