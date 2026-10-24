@@ -317,16 +317,6 @@
 	desc = "I should get some rest."
 	icon_state = "sleepy"
 
-/datum/status_effect/debuff/muscle_sore
-	id = "muscle_sore"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/muscle_sore
-	effectedstats = list(STATKEY_STR = -1, STATKEY_WIL = -1)
-
-/atom/movable/screen/alert/status_effect/debuff/muscle_sore
-	name = "Muscle Soreness"
-	desc = "My muscles need some sleep to recover."
-	icon_state = "muscles"
-
 /datum/status_effect/debuff/sunder_stacks
 	id = "sundered"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/sunder_stacks

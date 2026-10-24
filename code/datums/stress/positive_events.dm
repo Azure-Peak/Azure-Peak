@@ -293,6 +293,19 @@
 	stressadd = -1
 	desc = span_green("I'm just a bit cleaner.")
 
+/datum/stressevent/massage
+	timer = 30 MINUTES
+	stressadd = -1
+	desc = span_green("My muscles feel relaxed")
+
+/datum/stressevent/massage/good
+	stressadd = -2
+	desc = span_green("My muscles feel relaxed and better than before")
+
+/datum/stressevent/massage/great
+	stressadd = -3
+	desc = span_green("My body feels better than ever!")
+
 /datum/stressevent/alchsoap
 	timer = 20 MINUTES
 	stressadd = -1

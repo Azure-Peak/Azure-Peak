@@ -82,6 +82,11 @@
 	stressadd = 2
 	desc = span_red("THE PAIN!")
 
+/datum/stressevent/muscle_sore
+	timer = 30 MINUTES
+	stressadd = 1
+	desc = span_red("My muscles need some rest to recover.")
+
 /datum/stressevent/painmax/can_apply(mob/living/user)
 	if(user.has_flaw(/datum/charflaw/addiction/masochist))
 		return FALSE

@@ -80,7 +80,7 @@
 				to_chat(massager, span_warning("They can't agree right now.")) //a final catch all
 				return
 
-			if(massagee.has_status_effect(/datum/status_effect/debuff/muscle_sore) || massagee.has_status_effect(/datum/status_effect/buff/massage) || massagee.has_status_effect(/datum/status_effect/buff/goodmassage) || massagee.has_status_effect(/datum/status_effect/buff/greatmassage))
+			if(massagee.has_stress_event(/datum/stressevent/muscle_sore) || massagee.has_stress_event(/datum/stressevent/massage) || massagee.has_stress_event(/datum/stressevent/massage/good) || massagee.has_stress_event(/datum/stressevent/massage/great))
 				to_chat(massagee, span_warning("My muscles are still recovering!"))
 				to_chat(massager, span_warning("my client has had too many strains on their muscles and need time!"))
 				return // can not continually give massages, the buff needs to wear off and you need to sleep off any cramps
@@ -93,15 +93,15 @@
 					switch(chance)
 						if(0 to 49)
 							to_chat(massagee, span_notice("Ah, a massage helps my body relax."))
-							massagee.apply_status_effect(/datum/status_effect/buff/massage)
+							massagee.add_stress(/datum/stressevent/massage)
 							to_chat(massager, span_warning("I gave an ok massage."))
 						if(50 to 95)
 							to_chat(massagee, span_notice("That massage made my body feel really good!"))
-							massagee.apply_status_effect(/datum/status_effect/buff/goodmassage)
+							massagee.add_stress(/datum/stressevent/massage/good)
 							to_chat(massager, span_warning("I gave a good massage."))
 						if (96 to 100)
 							to_chat(massagee, span_notice("WOW! That massage made me feel great!"))
-							massagee.apply_status_effect(/datum/status_effect/buff/greatmassage)
+							massagee.add_stress(/datum/stressevent/massage/great)
 							to_chat(massager, span_warning("I gave a great massage!"))
 		else
 			to_chat(massager, span_warning("[massagee] needs to stay near me during their massage!"))
@@ -110,4 +110,4 @@
 				to_chat(massagee, span_warning("Ah, I barely managed to escape a cramp just then, I must be careful."))
 			else
 				to_chat(massagee, span_bad("OH NO, I feel a CRAMP!"))
-				massagee.apply_status_effect(/datum/status_effect/debuff/muscle_sore)
+				massagee.add_stress(/datum/stressevent/muscle_sore)

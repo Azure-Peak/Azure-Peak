@@ -45,12 +45,8 @@
 #define GLOW_INTENSITY_HIGH 3 // Large AOE
 #define GLOW_INTENSITY_VERY_HIGH 4 // Greater Fireball or Massive AOE / T4 spells
 
-// Constants for enchantment effects (used by fit_clothing, gems, etc.)
-#define FORCE_BLADE_ENCHANT 2
-#define DURABILITY_ENCHANT 3
-#define DURABILITY_INCREASE 100
+// Constants for enchantment effects (used by gems, etc.)
 #define FORCE_FILTER "force_blade"
-#define DURABILITY_FILTER "durability_enchant"
 
 // Spell CD / Chargetime Scaling
 #define SPELL_SCALING_THRESHOLD 10 // The threshold at which the spell scaling starts to kick in
