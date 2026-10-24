@@ -11869,7 +11869,6 @@
 /area/rogue/under/cave/dungeon1/gethsmane)
 "cbI" = (
 /obj/structure/table/wood/poor,
-/obj/item/lockpick,
 /obj/machinery/light/rogue/campfire/fireplace{
 	pixel_y = 32
 	},
@@ -164373,7 +164372,7 @@ cqm
 ylh
 ylh
 mMx
-ylh
+nGU
 cqm
 aIp
 uUF
@@ -165726,7 +165725,7 @@ oGQ
 mMx
 ylh
 cqm
-nGU
+ylh
 mMx
 cqm
 hyt
