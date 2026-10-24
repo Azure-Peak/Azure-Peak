@@ -1,6 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Nobility no longer makes you immune to contract levy. Only levy-exempt contract will exempts you from it"
-  - rscadd: "Poll taxes mechanics has been replaced with a twice a week one off poll levy that will also backcharge any accounts created later in the week, except latejoiners. It will leave a minimum balance of 30m"
-  - rscadd: "For poll levy purpose, University and Apothecary members now counts as the separate \"Scholars\" class protected specifically by the Covenant"

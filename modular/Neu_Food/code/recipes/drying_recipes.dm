@@ -439,7 +439,7 @@
 	reqs = list(
 		/obj/item/reagent_containers/food/snacks/grown/fruit/lemon = 1,
 		/obj/item/reagent_containers/food/snacks/sugar = 1,
-		/obj/item/ash = 1)
+		/obj/item/natural/ash = 1)
 	result = /obj/item/reagent_containers/food/snacks/rogue/lemoncoppiette
 	structurecraft = /obj/machinery/tanningrack
 	craftdiff = 1

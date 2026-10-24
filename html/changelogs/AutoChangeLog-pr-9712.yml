@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - bugfix: "Fixes an icon issue with enchantingkit items that have no two-handing gripssprite"

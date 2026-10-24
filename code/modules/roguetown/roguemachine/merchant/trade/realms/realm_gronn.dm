@@ -98,10 +98,19 @@
 		/datum/supply_pack/rogue/alcohol/gronnmead,
 	)
 	hail_lines = list(
-		"Finest Gronnic mead and honey! Gives me your best iron and steel - in the form of ingots, please.",
-		"Winter is coming. Give me all of your salt so my kin may preserve meat and fish.",
-		"Before you ask, no, we did not help any of the raiders on the way here. My family are peaceful traders, and we have traded for four generations in peace with yours. What other tribes does is none of my concern.",
-		"Please keep your priests off the pier.",
-		"While rounding the Rosawood coast, I saw fire and smoke rising from the hills. Pray tell, do your people worship Elddan too?",
-		"I saw three longships wrecked on the shore north of the city, a few ballista bolts sticking out of the hulls. One gronnman was nailed to the mast - unburied. Gruesome sight."
+		"Finest Gronnic mead and honey! Pay us in iron and steel, bars, both!",
+
+		"Winter is coming. Bring us salt for our kin's meat and fish.",
+
+		"No, we did not help any of the raiders on the way here. My peaceful people have been trading with yours for \
+		four generations. What the other Gronnmen do is not our concern.",
+
+		"Please keep your Bishop off the pier.",
+
+		"While rounding the Rosawood Coast, I saw fire and smoke rising from the hills. Pray tell, do your people worship Elddan too?",
+
+		"Gruesome sights to the north of the city. I saw three longships wrecked through with ballista bolts. Gronnmen nailed to the masts, \
+		unburied.",
+
+		"Have cabbages? Grains? Coal? We may be willing to trade for some of our weapons and armor."
 	)

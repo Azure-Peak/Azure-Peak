@@ -1394,3 +1394,28 @@
 	name = "Donator Item - Potionkeeper's Messy Belt"
 	path = /obj/item/storage/belt/rogue/leather/ulqsusbelt
 	ckeywhitelist = list("seraphlemonade")
+
+// Solar Dominion Items
+/datum/loadout_item/donator/universal/dominion_sword
+	name = "Elixir - Dominion Sword"
+	path = /obj/item/enchantingkit/weapon/dominion_sword
+
+/datum/loadout_item/donator/universal/dominion_knife
+	name = "Elixir - Dominion Knife"
+	path = /obj/item/enchantingkit/weapon/dominion_knife
+
+/datum/loadout_item/donator/universal/dominion_greatsword
+	name = "Elixir - Dominion Greatsword"
+	path = /obj/item/enchantingkit/weapon/dominion_greatsword
+
+/datum/loadout_item/donator/universal/dominion_shotel
+	name = "Elixir - Dominion Shotel"
+	path = /obj/item/enchantingkit/weapon/dominion_shotel
+
+/datum/loadout_item/donator/universal/dominion_shield
+	name = "Elixir - Dominion Shield"
+	path = /obj/item/enchantingkit/weapon/dominion_shield
+
+/datum/loadout_item/donator/universal/dominion_cestus
+	name = "Elixir - Dominion Cestus"
+	path = /obj/item/enchantingkit/dominion_cestus

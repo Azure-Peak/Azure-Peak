@@ -673,7 +673,7 @@
 
 /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius/bloodied/become_rotten()
 	visible_message(span_danger("[src] burns into ash!"))
-	new /obj/item/ash(get_turf(src))
+	new /obj/item/natural/ash(get_turf(src))
 	qdel(src)
 	return TRUE
 

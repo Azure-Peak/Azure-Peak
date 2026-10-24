@@ -926,7 +926,7 @@
 		user.visible_message(span_warning("[user] adds a banner to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
-		detail_tag = "detail"
+		detail_tag = "_detail"
 		update_icon()
 
 /obj/item/rogueweapon/halberd/blacksteel/update_icon()
@@ -1105,7 +1105,7 @@
 		user.visible_message(span_warning("[user] adds a banner to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
-		detail_tag = "detail"
+		detail_tag = "_detail"
 		update_icon()
 
 /obj/item/rogueweapon/eaglebeak/blacksteel/update_icon()

@@ -36,8 +36,8 @@
 			qdel(B)
 			qdel(src)
 			user.put_in_hands(N)
-	else
-		return ..()
+			return
+	return ..()
 
 // All "natural" items may have a "bundletype". Let's make bundling stuff a universal proc!
 /obj/item/natural/attack_right(mob/user)
@@ -149,8 +149,13 @@
 		src.update_bundle()
 		switch(src.amount)
 			if(1)
-				new src.stacktype(src.loc)
+				var/atom/old_loc = loc
+				var/single_type = stacktype
 				qdel(src)
+				var/obj/item/single = new single_type(old_loc)
+				if(ismob(old_loc))
+					var/mob/holder = old_loc
+					holder.put_in_hands(single)
 			if(0)
 				qdel(src)
 		return TRUE
@@ -209,10 +214,12 @@
 
 /obj/item/natural/bundle/examine(mob/user)
 	. = ..()
+	var/list/examine_list = .
+	var/after_desc = desc ? 3 : 2
 	if(amount == maxamount )
-		to_chat(user, span_notice("There are [amount] [stackname] in this bundle. It can not take any more."))
+		examine_list.Insert(after_desc, span_smallnotice("There are [amount] [stackname] in this bundle. It can not take any more."))
 	else
-		to_chat(user, span_notice("There are [amount] [stackname] in this bundle."))
+		examine_list.Insert(after_desc, span_smallnotice("There are [amount] [stackname] in this bundle. It can hold [maxamount - amount] more."))
 
 /obj/item/natural/bundle/proc/update_bundle()
 	if(firefuel != 0)
