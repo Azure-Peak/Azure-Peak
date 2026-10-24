@@ -87,6 +87,7 @@
 	rotprocess = SHELFLIFE_LONG
 
 /obj/item/reagent_containers/food/snacks/rogue/eggplantstuffedraw
+	dish_type = DISH_MEAT|DISH_VEGETABLE|DISH_FRUIT
 	name = "raw stuffed aubergine"
 	desc = "A stuffed aubergine with raw meat and tomato, ready to be cooked."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_veggies.dmi'
@@ -96,7 +97,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffed
 	cuisine = CUISINE_ETRUSCAN|CUISINE_RANESHENI
-	dish_type = DISH_VEGETABLE|DISH_MEAT
+	dish_type = DISH_VEGETABLE|DISH_MEAT|DISH_FRUIT
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	name = "stuffed aubergine"
 	desc = "Eggplant stuffed with meat and tomato. Delicious!"
@@ -109,7 +110,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/preserved/eggplantstuffedcheese
 	cuisine = CUISINE_ETRUSCAN|CUISINE_RANESHENI
-	dish_type = DISH_VEGETABLE|DISH_DAIRY
+	dish_type = DISH_VEGETABLE|DISH_DAIRY|DISH_MEAT|DISH_FRUIT
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THREE_QUARTER_MEAL)
 	name = "stuffed aubergine with cheese"
 	desc = "Stuffed aubergine with cheese on top. Fit for a king!"
@@ -130,7 +131,6 @@
 	icon_state = "roastseeds"
 	dropshrink = 0.8
 	color = "#e5b175"
-	foodtype = VEGETABLES
 	rotprocess = null
 
 /obj/item/reagent_containers/food/snacks/roastseeds/sunflower

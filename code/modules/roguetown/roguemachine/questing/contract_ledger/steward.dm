@@ -50,6 +50,34 @@
 	for(var/list/draw as anything in draws)
 		Q.add_funding(draw["fund"], draw["amount"])
 
+/obj/structure/roguemachine/contractledger/proc/apply_commission_terms(datum/quest/Q, list/params, cost, list/draws, funding, is_directive, bonus_pay_level, is_alderman_acting, region_name, in_hands)
+	attach_commission_draws(Q, draws)
+	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
+	if(bonus_mult != 1.0)
+		Q.reward_amount = round(Q.reward_amount * bonus_mult)
+	if(is_directive)
+		Q.reward_amount = 0
+		Q.is_directive = TRUE
+		directives_issued_today++
+	var/levy_exempt = (!is_directive && !is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
+	if(levy_exempt)
+		Q.levy_exempt = TRUE
+	var/list/log_entry = list(
+		"title" = Q.get_title() || Q.quest_type,
+		"type" = Q.quest_type,
+		"region" = region_name,
+		"cost" = cost,
+		"in_hands" = in_hands,
+		"levy_exempt" = levy_exempt,
+		"bonus_pay_level" = bonus_pay_level,
+		"funding" = funding,
+		"day" = GLOB.dayspassed,
+	)
+	SStreasury.defense_log += list(log_entry)
+	Q.issue_log_entry = log_entry
+	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
+	return levy_exempt
+
 /obj/structure/roguemachine/contractledger/proc/commission_source_label(is_directive, list/draws)
 	if(is_directive)
 		return "as a Request"
@@ -71,30 +99,17 @@
 		out[TR.region_name] = TR.delivery_reward_multiplier
 	return out
 
-/obj/structure/roguemachine/contractledger/proc/build_defense_regions_by_type()
-	var/list/out = list()
-	for(var/qtype in GLOB.defense_quest_tier_costs)
-		var/list/regions = list()
-		if(qtype == QUEST_BLOCKADE_DEFENSE)
-			for(var/datum/blockade/B as anything in GLOB.active_blockades)
-				var/datum/economic_region/ER = B.get_region()
-				if(ER)
-					regions += ER.name
-		else if(qtype == QUEST_HOARD_RECOVERY)
-			for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-				if(TR.banditry_hoard < HOARD_RECOVERY_HOARD_MINIMUM)
-					continue
-				// A true blockade takes precedence
-				if(TR.has_active_blockade())
-					continue
-				regions += TR.region_name
-		else
-			for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-				if(!TR.allows_quest_type(qtype))
-					continue
-				regions += TR.region_name
-		out[qtype] = regions
-	return out
+/obj/structure/roguemachine/contractledger/proc/add_defense_types(list/data)
+	var/list/costs = list()
+	var/list/regions_by_type = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(!proto.defense_cost)
+			continue
+		costs[qtype] = proto.defense_cost
+		regions_by_type[qtype] = proto.get_defense_regions()
+	data["defense_costs"] = costs
+	data["defense_regions_by_type"] = regions_by_type
 
 /obj/structure/roguemachine/contractledger/proc/build_blockade_region_labels()
 	var/list/out = list()
@@ -119,7 +134,8 @@
 		return
 
 	var/chosen_type = params["type"]
-	if(!(chosen_type in GLOB.defense_quest_tier_costs))
+	var/datum/quest/chosen_proto = GLOB.quest_prototypes[chosen_type]
+	if(!chosen_proto?.defense_cost)
 		to_chat(steward, span_warning("The Crown doesn't issue that kind of contract."))
 		return
 
@@ -132,7 +148,7 @@
 		to_chat(steward, span_warning("As Alderman, you can't use the Treasury or issue Requests."))
 		return
 
-	var/cost = GLOB.defense_quest_tier_costs[chosen_type]
+	var/cost = chosen_proto.defense_cost
 	var/bonus_pay_level = CLAMP(text2num("[params["bonus_pay_level"]]") || COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_NONE, COMMISSION_BONUS_PAY_FULL)
 	if(funding == "directive")
 		bonus_pay_level = COMMISSION_BONUS_PAY_NONE
@@ -206,8 +222,6 @@
 		to_chat(steward, span_warning("That region does not host contracts of this sort."))
 		return
 
-	var/area/chosen_destination
-
 	if(!draw_commission_funds(draws, "Defense contract ([chosen_type] in [chosen_region.region_name])"))
 		to_chat(steward, span_warning("The payment didn't go through."))
 		return
@@ -216,8 +230,7 @@
 	var/in_hands = params["in_hands"] ? TRUE : FALSE
 	if(is_directive)
 		in_hands = TRUE
-	var/levy_exempt = (!is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
-	var/datum/quest/dispatched = SSquestpool.issue_defense_quest(chosen_type, chosen_region, chosen_destination, in_hands, steward)
+	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_DEFENSE, chosen_region, null, in_hands, steward)
 	if(!dispatched)
 		refund_commission_draws(draws, "Defense contract refund (landmark failure)")
 		// Restore the Alderman's warrant too - it was consumed above but the commission never issued.
@@ -226,33 +239,13 @@
 		SSquestpool.log_event("defense_refund", "landmark failure [chosen_type] in [chosen_region.region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could take that contract. Your funds are refunded."))
 		return
-	if(levy_exempt)
-		dispatched.levy_exempt = TRUE
-	if(bonus_mult != 1.0)
-		dispatched.reward_amount = round(dispatched.reward_amount * bonus_mult)
-	if(is_directive)
-		dispatched.reward_amount = 0
-		dispatched.is_directive = TRUE
-		directives_issued_today++
-	attach_commission_draws(dispatched, draws)
+	dispatched.guild_cut_rate = 0
+	dispatched.shows_commission_seal = TRUE
 	if(is_alderman_acting && cost > 0)
 		dispatched.warrant_consumed = cost
+	var/levy_exempt = apply_commission_terms(dispatched, params, cost, draws, funding, is_directive, bonus_pay_level, is_alderman_acting, chosen_region.region_name, in_hands)
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
-	var/list/log_entry = list(
-		"title" = dispatched.title || dispatched.quest_type,
-		"type" = dispatched.quest_type,
-		"region" = chosen_region.region_name,
-		"cost" = cost,
-		"in_hands" = in_hands,
-		"levy_exempt" = levy_exempt,
-		"bonus_pay_level" = bonus_pay_level,
-		"funding" = funding,
-		"day" = GLOB.dayspassed,
-	)
-	SStreasury.defense_log += list(log_entry)
-	dispatched.issue_log_entry = log_entry
 	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned [dispatched.quest_difficulty] [chosen_type] in [chosen_region.region_name] for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""][in_hands ? " (in hand)" : ""]")
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = commission_source_label(is_directive, draws)
 	var/bonus_label =bonus_label_text ? " - <i>[bonus_label_text]</i>" : ""
 	if(in_hands)
@@ -283,36 +276,12 @@
 		SSquestpool.log_event("defense_refund", "landmark failure blockade [region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could take that scroll. Your funds are refunded."))
 		return
-	attach_commission_draws(Q, draws)
 	if(is_alderman_acting && cost > 0 && SScity_assembly.consume_defense(cost, steward, "blockade defense scroll ([region_name])"))
 		Q.warrant_consumed = cost
-	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
-	if(bonus_mult != 1.0)
-		Q.reward_amount = round(Q.reward_amount * bonus_mult)
-	if(is_directive)
-		Q.reward_amount = 0
-		Q.is_directive = TRUE
-		directives_issued_today++
-	var/levy_exempt = (!is_directive && !is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
-	if(levy_exempt)
-		Q.levy_exempt = TRUE
+	var/levy_exempt = apply_commission_terms(Q, params, cost, draws, funding, is_directive, bonus_pay_level, is_alderman_acting, region_name, TRUE)
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
-	var/list/log_entry = list(
-		"title" = Q.get_title(),
-		"type" = QUEST_BLOCKADE_DEFENSE,
-		"region" = region_name,
-		"cost" = cost,
-		"in_hands" = TRUE,
-		"levy_exempt" = levy_exempt,
-		"bonus_pay_level" = bonus_pay_level,
-		"funding" = funding,
-		"day" = GLOB.dayspassed,
-	)
-	SStreasury.defense_log += list(log_entry)
-	Q.issue_log_entry = log_entry
 	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned blockade defense on [region_name] (faction [Q.faction_id]) for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""]")
 	scom_announce("A blockade defense scroll has been issued for [region_name][bonus_label_text ? ". It carries [bonus_label_text]" : ""].")
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = commission_source_label(is_directive, draws)
 	to_chat(steward, span_notice("Blockade scroll issued [source_label] and placed in your hand: <b>[Q.get_title()]</b>[levy_exempt ? " - <i>levy exempt</i>" : ""][bonus_label_text ? " - <i>[bonus_label_text]</i>" : ""]."))
 
@@ -338,35 +307,11 @@
 		SSquestpool.log_event("defense_refund", "landmark failure hoard recovery [region_name] refunded [cost]m")
 		to_chat(steward, span_warning("No landmark could take that scroll. Your funds are refunded."))
 		return
-	attach_commission_draws(Q, draws)
 	if(is_alderman_acting && cost > 0 && SScity_assembly.consume_defense(cost, steward, "hoard recovery scroll ([region_name])"))
 		Q.warrant_consumed = cost
-	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
-	if(bonus_mult != 1.0)
-		Q.reward_amount = round(Q.reward_amount * bonus_mult)
-	if(is_directive)
-		Q.reward_amount = 0
-		Q.is_directive = TRUE
-		directives_issued_today++
-	var/levy_exempt = (!is_directive && !is_alderman_acting && params["levy_exempt"]) ? TRUE : FALSE
-	if(levy_exempt)
-		Q.levy_exempt = TRUE
+	var/levy_exempt = apply_commission_terms(Q, params, cost, draws, funding, is_directive, bonus_pay_level, is_alderman_acting, region_name, TRUE)
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
-	var/list/log_entry = list(
-		"title" = Q.get_title(),
-		"type" = QUEST_HOARD_RECOVERY,
-		"region" = region_name,
-		"cost" = cost,
-		"in_hands" = TRUE,
-		"levy_exempt" = levy_exempt,
-		"bonus_pay_level" = bonus_pay_level,
-		"funding" = funding,
-		"day" = GLOB.dayspassed,
-	)
-	SStreasury.defense_log += list(log_entry)
-	Q.issue_log_entry = log_entry
 	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned hoard recovery on [region_name] (faction [Q.faction_id], hoard [TR.banditry_hoard]) for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""]")
 	scom_announce("A hoard recovery scroll has been issued for [region_name][bonus_label_text ? ". It carries [bonus_label_text]" : ""].")
-	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
 	var/source_label = commission_source_label(is_directive, draws)
 	to_chat(steward, span_notice("Hoard recovery scroll issued [source_label] and placed in your hand: <b>[Q.get_title()]</b>[levy_exempt ? " - <i>levy exempt</i>" : ""][bonus_label_text ? " - <i>[bonus_label_text]</i>" : ""]."))

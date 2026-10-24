@@ -159,6 +159,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	var/icon_off = "cigoff"
 	var/type_butt = /obj/item/cigbutt
 	var/lastHolder = null
+	/// The amount of time a smokeable will last for. Be careful: the higher the time, the less will be put into the mob per tick.
 	var/smoketime = 180 // 1 is 2 seconds, so a single cigarette will last 6 minutes.
 	var/chem_volume = 30
 	var/smoke_all = TRUE /// Should we smoke all of the chems in the cig before it runs out. Splits each puff to take a portion of the overall chems so by the end you'll always have consumed all of the chems inside.
@@ -328,7 +329,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(lit)
 		user.visible_message(span_notice("[user] calmly drops and treads on \the [src], putting it out instantly."))
 		new type_butt(user.loc)
-		new /obj/item/ash(user.loc)
+		new /obj/item/natural/ash(user.loc)
 		qdel(src)
 	. = ..()
 
@@ -765,6 +766,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 			packeditem = 1
 			if(G.list_reagents?.len)
 				reagents.add_reagent_list(G.list_reagents)
+				reagents.add_reagent(/datum/reagent/ozium, 5) // arbitrary extra amount so it still processes w/ current smoketime
 			qdel(O)
 		else
 			to_chat(user, span_warning("It is already packed!"))
@@ -791,7 +793,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(!lit && smoketime > 0)
 		smoketime = 0
 		to_chat(user, span_notice("I empty [src] onto [location]."))
-		new /obj/item/ash(location)
+		new /obj/item/natural/ash(location)
 		packeditem = 0
 		reagents.clear_reagents()
 //		name = "empty [initial(name)]"
@@ -812,7 +814,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	if(!lit && smoketime > 0)
 		smoketime = 0
 		to_chat(user, span_notice("I empty [src] onto [location]."))
-		new /obj/item/ash(location)
+		new /obj/item/natural/ash(location)
 		packeditem = 0
 		reagents.clear_reagents()
 //		name = "empty [initial(name)]"

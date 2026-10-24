@@ -22,10 +22,11 @@
 	ingredient_size = 4
 	rotprocess = SHELFLIFE_LONG
 
+// Author note - Please do not add loins & prime cut to the stockpile as these are meant to be noble foods, and therefore difficult to come across / illegal trade.
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "venison loins"
-	desc = "The loin cut of a cervine, the most tender cut of venison, often desired by the upper class. Only skilled butchers have a chance at cutting this free without ruining the meat."
+	desc = "The loin cut of a cervine, the most tender cut of venison, desired by the upper echelons of society. It is considered improper in the hands of commoners, therefore it tends to only find trade on the black market. Only skilled butchers have a chance at cutting this free without ruining the meat."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
 	icon_state = "loin"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked
@@ -34,10 +35,11 @@
 	ingredient_size = 4
 	rotprocess = SHELFLIFE_LONG
 
+// Author note - Please do not add loins & prime cut to the stockpile as these are meant to be noble foods, and therefore difficult to come across / illegal trade.
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "venison prime cut"
-	desc = "A prime cut of venison prepared by a skilled butcher. Not only tender, but incredibly filling too. A meal fit for a duke, often regarded by others with jealousy."
+	desc = "A prime cut of venison prepared by a skilled butcher. Not only tender, but incredibly filling too. A meal fit for a duke, often regarded by others with jealousy. It is considered sacrilegious in the hands of commoners, therefore it tends to only find trade on the black market"
 	icon = 'modular/Neu_Food/icons/raw/raw_meat_saiga.dmi'
 	icon_state = "ossobuco"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked

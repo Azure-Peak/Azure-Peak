@@ -952,36 +952,6 @@
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/raspberry = 1)
 	created_reagent = /datum/reagent/consumable/soup/stew/berry
 
-/datum/container_craft/cooking/lemon_grown_fruit_lemon
-	name = "Juice Of Lemon"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lemon = 1)
-	created_reagent = /datum/reagent/consumable/soup/lemon
-
-/datum/container_craft/cooking/lemon_lemoncoppiette
-	name = "Juice Of Lemon"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/rogue/lemoncoppiette = 1)
-	created_reagent = /datum/reagent/consumable/soup/lemon
-
-/datum/container_craft/cooking/lime
-	name = "Juice Of Lime"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/lime = 1)
-	created_reagent = /datum/reagent/consumable/soup/lime
-
-/datum/container_craft/cooking/pear
-	name = "Juice Of Pear"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/pear = 1)
-	created_reagent = /datum/reagent/consumable/soup/pear
-
-/datum/container_craft/cooking/apple_grown_apple
-	name = "Juice Of Apple"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/apple = 1)
-	created_reagent = /datum/reagent/consumable/soup/apple
-
-/datum/container_craft/cooking/apple_fruit_apple_sliced
-	name = "Juice Of Apple"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/rogue/fruit/apple_sliced = 1)
-	created_reagent = /datum/reagent/consumable/soup/apple
-
 /datum/container_craft/cooking/parmesan_cheddarwedge_aged
 	name = "Aged Cheese Soup"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/rogue/cheddarwedge/aged = 1)
@@ -1151,11 +1121,6 @@
 	name = "Plum Soup"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/plum = 1)
 	created_reagent = /datum/reagent/consumable/soup/stew/plum_soup
-
-/datum/container_craft/cooking/tangerine_marmalade
-	name = "Juice Of Tangerine"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/tangerine = 1)
-	created_reagent = /datum/reagent/consumable/soup/tangerine_marmalade
 
 /datum/container_craft/cooking/squash_soup
 	name = "Squash Soup"

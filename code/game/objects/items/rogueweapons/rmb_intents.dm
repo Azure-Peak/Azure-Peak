@@ -143,38 +143,7 @@
 		return
 	if(user.incapacitated())
 		return
-	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
-		return
-	if(HAS_TRAIT(user, TRAIT_DEADITE)) //Deadites get extremely funny messages trying to do this.
-		to_chat(user, span_warning(pick("I use the ancient technique... of nearly falling over..", "I muster all of my strength... and forgot what I was doing..", "I trip and stumble while wildly flailing around..", "I focus... and... feel too hungry to do so..", "I... feel suddenly very... what is stupid..?", "I focus... but the concept slipped my mind..")))
-		return
-
-	user.face_atom(target)
-
-	var/obj/item/rogueweapon/W = user.get_active_held_item()
-	var/datum/special_intent/active_special
-	var/skill_level = SKILL_LEVEL_NONE
-
-	if(istype(W, /obj/item/rogueweapon) && W.special)
-		active_special = W.special
-		skill_level = user.get_wskill(W)
-	else if(!W && ishuman(user))
-		var/mob/living/carbon/human/HU = user
-		if(HU.unarmed_special)
-			active_special = HU.unarmed_special
-			skill_level = user.get_skill_level(/datum/skill/combat/unarmed)
-
-	if(active_special)
-		if(active_special.custom_skill)
-			skill_level = user.get_skill_level(active_special.custom_skill)
-		if(!HAS_TRAIT(user, TRAIT_BATTLEMASTER))
-			if(skill_level < SKILL_LEVEL_JOURNEYMAN)
-				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
-				return
-		var/atom/parent = W ? W : user
-		if(active_special.check_range(user, target) && active_special.check_reqs(user, parent))
-			if(active_special.apply_cost(user))
-				active_special.deploy(user, parent, target)
+	user.try_special(target)
 
 /datum/rmb_intent/swift
 	name = "swift"

@@ -284,7 +284,7 @@
 	if(QDELETED(src))
 		return
 	visible_message(span_purple("[src] crumbles into dust..."), span_purple("[src] crumbles into dust..."))
-	new /obj/item/ash(get_turf(src))
+	new /obj/item/natural/ash(get_turf(src))
 	qdel(src)
 
 /obj/projectile/magic/profane
@@ -561,14 +561,31 @@
 		anti_spam = FALSE
 		return TRUE
 
-	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
-
-	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver.
+	if(isdullahan(user) && path_choice == "Unlife")
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
 		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
-		user.mind?.RemoveSpell(src)
-		qdel(src)
 		anti_spam = FALSE
 		return TRUE
+
+	//constructs are made of metal, what flesh to turn to faith?
+	if(isconstruct(user) && path_choice == "Unlife")
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		anti_spam = FALSE
+		return TRUE
+
+	//vampires are bloodloss immune + have their own healing that makes this impractical to use, not you can cast it as one.
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		anti_spam = FALSE
+		return TRUE
+
+	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	switch(path_choice)
 		if("Progress")

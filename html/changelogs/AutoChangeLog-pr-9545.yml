@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - balance: "Toned down glimmerwing and hellhound and NPCs when they are ganging on you, but not too much"
-  - rscadd: "Cleaned up some unused mob attack speed code"

@@ -310,11 +310,11 @@
 	if(next_technique && world.time < next_technique)
 		return FALSE
 
-	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!istype(held_weapon, /obj/item/rogueweapon) || !held_weapon:special)
+	var/obj/item/rogueweapon/held_weapon = pawn.get_active_held_item()
+	if(!istype(held_weapon) || !held_weapon.special)
 		return FALSE
 
-	var/datum/special_intent/special = held_weapon:special
+	var/datum/special_intent/special = held_weapon.get_special()
 	if(special.stamcost)
 		var/cost = (special.stamcost < 1) ? (pawn.max_stamina * special.stamcost) : special.stamcost
 		if(pawn.stamina + cost > pawn.max_stamina)

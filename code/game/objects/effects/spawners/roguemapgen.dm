@@ -75,7 +75,7 @@
 	icon_state = "lootpotion"
 	lootcount = 1
 	loot_value = LOOT_VALUE_POTION_VITALS
-	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 5,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew = 1,
@@ -89,7 +89,7 @@
 	icon_state = "lootpoison"
 	lootcount = 1
 	loot_value = LOOT_VALUE_POTION_POISONS
-	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/berrypoison = 10,
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 5,
@@ -140,7 +140,7 @@
 	icon_state = "lootstatpot"
 	lootcount = 1
 	loot_value = LOOT_VALUE_POTION_STATS
-	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/alchemical/strpot = 10,
 		/obj/item/reagent_containers/glass/bottle/alchemical/perpot = 10,

@@ -63,8 +63,8 @@
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(8)
-			if(HAS_TRAIT(Hu, TRAIT_BLACKBLOOD))
-				Hu.reagents.add_reagent(/datum/reagent/medicine/healthpot/zarum/blood, 0.5) // this is a fraction of a fraction in the end, I didn't heal too much from local tests, it's more for situations where you don't have food in pve
+		return
+	if(HAS_TRAIT(H, TRAIT_SANGUIVORE))
 		return
 	H.add_nausea(12)
 	H.adjustToxLoss(2)
@@ -78,6 +78,8 @@
 		if(ishuman(H))
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
+		return
+	if(HAS_TRAIT(H, TRAIT_SANGUIVORE))
 		return
 	H.add_nausea(18) //Do not drink dirty blood!
 	H.adjustToxLoss(4)

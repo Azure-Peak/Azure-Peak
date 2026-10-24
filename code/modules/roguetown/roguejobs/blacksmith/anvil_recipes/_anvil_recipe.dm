@@ -58,7 +58,7 @@
 		return FALSE
 	if(needed_item)
 		var/auto_success = FALSE
-		if(source && HAS_TRAIT(user, TRAIT_TRAINED_SMITH))
+		if(source && ((HAS_TRAIT(user, TRAIT_TRAINED_SMITH) || (skill_level > SKILL_LEVEL_JOURNEYMAN))))
 			var/turf/T = get_turf(source)
 			var/turf/TU = get_turf(user)
 			var/list/conts = T.GetAllContents()

@@ -726,21 +726,25 @@
 					simple_add_embedded_object(I, silent = FALSE, crit_message = TRUE)
 					src.grabbedby(user, 1, item_override = I)
 				*/
-			var/haha = user.used_intent.blade_class
+			var/bclass = user.used_intent.blade_class
 			if(newforce > 5)
-				if(haha != BCLASS_BLUNT)
+				if(bclass != BCLASS_BLUNT)
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
 					add_splatter_wall(location, force = newforce)
+					if((bclass in GLOB.splatter_bclasses) && prob(newforce * 2))
+						blood_spray(get_dir(user, src))
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 			if(newforce > 15)
-				if(haha == BCLASS_BLUNT)
+				if(bclass == BCLASS_BLUNT)
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
 					add_splatter_wall(location, force = newforce)
+					if(prob(newforce * 2))
+						blood_spray(get_dir(user, src))
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 	send_item_attack_message(I, user, hitlim)

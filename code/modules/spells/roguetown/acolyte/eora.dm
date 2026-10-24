@@ -624,7 +624,7 @@
 			qdel(I)
 			update_icon()
 			return TRUE
-	if(istype(I, /obj/item/ash))
+	if(is_ash_item(I))
 		if(iscarbon(user))
 			var/mob/living/carbon/c = user
 			if(c.patron.type != /datum/patron/divine/eora)
@@ -632,12 +632,12 @@
 				return TRUE
 		if(ash_offered)
 			to_chat(user, span_warning("Covering the tree in additional ash seems to anger it, leaves flare out and the ash flutters to the floor. The aura is renewed."))
-			qdel(I)
+			consume_ash_unit(I)
 			ash_offered = FALSE
 			aura_range = 7
 			return TRUE
 
-		qdel(I)
+		consume_ash_unit(I)
 		ash_offered = TRUE
 		ash_effect_start_time = world.time
 		to_chat(user, span_notice("The tree shudders as you coats its leaves in ash. The leaves seem to wilt ever so slightly whilst its aura starts to wane."))

@@ -2,7 +2,7 @@
 /*	.................	Pastry	................... */
 /obj/item/reagent_containers/food/snacks/rogue/pastry
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY
 	name = "pastry"
 	desc = "Crispy, buttery, and delightfully flaky. A favorite treat among children and sweetlovers."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -17,7 +17,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/biscuit
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_FRUIT
 	name = "raisin biscuit"
 	desc = "A crispy buttery pastry with chewy raisins inside."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -29,9 +29,9 @@
 	bitesize = 3
 	tastes = list("crispy butterdough" = 1, "raisins" = 1)
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/biscuit_raw
+	dish_type = DISH_DAIRY|DISH_FRUIT
 	name = "uncooked raisin biscuit"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "biscuit_raw"
@@ -42,7 +42,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/chocolatebiscuit
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY
 	name = "chocolate biscuit"
 	desc = "A crispy buttery pastry with gooey specklings of chocolate inside."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -54,9 +54,9 @@
 	bitesize = 3
 	tastes = list("crispy butterdough" = 1, "richly sweet and molten chocolate" = 1)
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
-	foodtype = GRAIN| DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/chocolatebiscuit_raw
+	dish_type = DISH_DAIRY
 	name = "uncooked chocolate biscuit"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "chocolatebiscuit_raw"
@@ -67,7 +67,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/plumbiscuit
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_FRUIT
 	name = "plum biscuit"
 	desc = "A crispy buttery pastry with streaked frosting and tender plums."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -79,9 +79,9 @@
 	bitesize = 3
 	tastes = list("crispy butterdough" = 1, "tangy frosting" = 1, "sweetly baked plums" = 1)
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/plumbiscuit_raw
+	dish_type = DISH_DAIRY|DISH_FRUIT
 	name = "uncooked plum biscuit"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "plumbiscuit_raw"
@@ -92,7 +92,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/tangerinebiscuit
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_FRUIT
 	name = "tangerine biscuit"
 	desc = "A crispy buttery pastry with caked frosting and ripe tangerines."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -104,9 +104,9 @@
 	bitesize = 3
 	tastes = list("crispy butterdough" = 1, "zesty frosting" = 1, "lightly jammed and juicy tangerines" = 1)
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/tangerinebiscuit_raw
+	dish_type = DISH_DAIRY|DISH_FRUIT
 	name = "uncooked tangerine biscuit"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "tangerinebiscuit_raw"
@@ -117,6 +117,7 @@
 
 /*	.................	Cookies	................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/halfcookie_raw
+	dish_type = DISH_DAIRY|DISH_VEGETABLE
 	name = "slab of half-done cookiedough"
 	desc = "Doughy, soft, and speckled with chocolate. A little less than 'unacceptable', but still far too raw to peck at.. maybe some more chocolate, to round it out?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -124,9 +125,9 @@
 	cooked_smell = /datum/pollutant/food/cookies_chocolate
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cookie_raw
+	dish_type = DISH_DAIRY|DISH_VEGETABLE
 	name = "slab of cookiedough"
 	desc = "Doughy, soft, and drenched in chocolate. Now that is acceptable, through-and-through! Time for a stint in the oven, first!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -135,11 +136,10 @@
 	eat_effect = null
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/cookie
 	cooked_smell = /datum/pollutant/food/cookies_chocolate
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/cookie
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY
 	name = "baked slab of cookiedough"
 	desc = "The inverse to hardtack; both in reputation and taste. Just a passing whiff reminds you of home - though, perhaps it wouldn't hurt to bring out a knife and share that feeling with some friends."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -147,7 +147,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	faretype = FARE_LAVISH
 	w_class = WEIGHT_CLASS_TINY
-	tastes = list("rich and gooey chocolate" = 1, "crispy dough with a hint of butteriness" = 1)
+	tastes = list("rich and gooey chocolate" = 1, "crispy dough with a hint of sweetness" = 1)
 	bitesize = 8
 	slices_num = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/cookieslice
@@ -155,7 +155,6 @@
 	cooked_smell = /datum/pollutant/food/cookies_chocolate
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/cookie/update_icon()
 	if(slices_num)
@@ -179,7 +178,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/cookieslice
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY
 	name = "cookie"
 	desc = "Crispy, moist, sweet and savory; a sliver of ontological goodness, cradled in the palm of your hand."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -190,12 +189,12 @@
 	bitesize = 2
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
-	tastes = list("rich and gooey chocolate" = 1, "crispy dough with a hint of butteriness" = 1)
-	foodtype = GRAIN | DAIRY
+	tastes = list("rich and gooey chocolate" = 1, "crispy dough with a hint of sweetness" = 1)
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/halfcookied_raw
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "slab of half-done dragéelidough"
 	desc = "Doughy, soft, and speckled with dragée dropplings. A little less than 'unacceptable', but still far too raw to peck at.. maybe some more dragée, to round it out?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -203,9 +202,9 @@
 	cooked_smell = /datum/pollutant/food/cookies_dragee
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cookied_raw
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "slab of dragéelidough"
 	desc = "Doughy, soft, and drenched in dragée. Now that is acceptable, through-and-through! Time for a stint in the oven, first!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -214,11 +213,10 @@
 	eat_effect = null
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/cookied
 	cooked_smell = /datum/pollutant/food/cookies_dragee
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/cookied
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_MEAT
 	name = "baked slab of dragéelidough"
 	desc = "The inverse to hardtack; both in reputation and taste. Just a passing whiff reminds you of your youth - though, perhaps it wouldn't hurt to bring out a knife and share that feeling with some friends."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -226,7 +224,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_TINY
-	tastes = list("shards of candied herbiness" = 1, "crispy dough with a hint of butteriness" = 1)
+	tastes = list("shards of candied herbiness" = 1, "crispy dough with a hint of sweetness" = 1)
 	bitesize = 8
 	slices_num = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/cookiesliced
@@ -234,7 +232,6 @@
 	cooked_smell = /datum/pollutant/food/cookies_dragee
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/cookied/update_icon()
 	if(slices_num)
@@ -258,7 +255,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/cookiesliced
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_MEAT
 	name = "dragéelie"
 	desc = "Crispy, moist, sweet and savory.. and in this case, oozing with sweetened lifeblood; a sliver of ontological goodness, cradled in the palm of your hand."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -269,12 +266,12 @@
 	bitesize = 2
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
-	tastes = list("shards of candied herbiness" = 1, "crispy dough with a hint of butteriness" = 1)
-	foodtype = GRAIN | DAIRY
+	tastes = list("shards of candied herbiness" = 1, "crispy dough with a hint of sweetness" = 1)
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/halfcookiec_raw
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "slab of half-done carameliedough"
 	desc = "Doughy, soft, and speckled with caramel dropplings. A little less than 'unacceptable', but still far too raw to peck at.. maybe some more caramel, to round it out?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -282,9 +279,9 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	cooked_smell = /datum/pollutant/food/cookies_caramel
 	eat_effect = null
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cookiec_raw
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "slab of carameliedough"
 	desc = "Doughy, soft, and drenched in caramel. Now that is acceptable, through-and-through! Time for a stint in the oven, first!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -293,11 +290,10 @@
 	eat_effect = null
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/cookiec
 	cooked_smell = /datum/pollutant/food/cookies_caramel
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/cookiec
 	cuisine = CUISINE_RANESHENI
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_MEAT
 	name = "baked slab of carameliedough"
 	desc = "The inverse to hardtack; both in reputation and taste. Just a passing whiff reminds you of times abroad - though, perhaps it wouldn't hurt to bring out a knife and share that feeling with some friends."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -305,7 +301,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_TINY
-	tastes = list("tooth-grippingly sweet caramel" = 1, "crispy dough with a hint of butteriness" = 1)
+	tastes = list("tooth-grippingly sweet caramel" = 1, "crispy dough with a hint of sweetness" = 1)
 	bitesize = 8
 	slices_num = 6
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/cookieslicec
@@ -313,7 +309,6 @@
 	cooked_smell = /datum/pollutant/food/cookies_caramel
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/cookiec/update_icon()
 	if(slices_num)
@@ -337,7 +332,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/cookieslicec
 	cuisine = CUISINE_RANESHENI
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_MEAT
 	name = "caramelie"
 	desc = "Crispy, moist, sweet and savory.. and a bit stickier than usual; a sliver of ontological goodness, cradled in the palm of your hand."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -348,12 +343,12 @@
 	bitesize = 2
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
-	tastes = list("tooth-grippingly sweet caramel" = 1, "crispy dough with a hint of butteriness" = 1)
-	foodtype = GRAIN | DAIRY
+	tastes = list("tooth-grippingly sweet caramel" = 1, "crispy dough with a hint of sweetness" = 1)
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/halfcookier_raw
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "slab of half-done raelseinidough"
 	desc = "Doughy, soft, and speckled with raisins. A little less than 'unacceptable', but still far too raw to peck at.. maybe some more raisins, to round it out?"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -361,9 +356,9 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	cooked_smell = /datum/pollutant/food/cookies_raisins
 	eat_effect = null
-	foodtype = GRAIN | DAIRY | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cookier_raw
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "slab of raelseinidough"
 	desc = "Doughy, soft, and drenched in raisins. Now that is acceptable, through-and-through! Time for a stint in the oven, first!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -372,11 +367,10 @@
 	eat_effect = null
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/cookier
 	cooked_smell = /datum/pollutant/food/cookies_raisins
-	foodtype = GRAIN | DAIRY | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/cookier
 	cuisine = CUISINE_RANESHENI
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_FRUIT
 	name = "baked slab of raelseinidough"
 	desc = "The inverse to hardtack; both in reputation and taste. Just a passing whiff reminds you of warmer daes - though, perhaps it wouldn't hurt to bring out a knife and share that feeling with some friends."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -384,7 +378,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_TINY
-	tastes = list("little bursts of fruity sweetness" = 1, "crispy dough with a hint of butteriness" = 1)
+	tastes = list("little bursts of fruity sweetness" = 1, "crispy dough with a hint of sweetness" = 1)
 	bitesize = 8
 	slices_num = 6
 	cooked_smell = /datum/pollutant/food/cookies_raisins
@@ -392,7 +386,6 @@
 	slice_batch = FALSE
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
-	foodtype = GRAIN | DAIRY | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/cookier/update_icon()
 	if(slices_num)
@@ -416,7 +409,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/cookieslicer
 	cuisine = CUISINE_RANESHENI
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_FRUIT
 	name = "raelseini"
 	desc = "Crispy, moist, sweet and savory.. and the dreams of a warmer tomorrow; a sliver of ontological goodness, cradled in the palm of your hand."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -427,8 +420,7 @@
 	bitesize = 2
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
-	tastes = list("little bursts of fruity sweetness" = 1, "crispy dough with a hint of butteriness" = 1)
-	foodtype = GRAIN | DAIRY | FRUIT
+	tastes = list("little bursts of fruity sweetness" = 1, "crispy dough with a hint of sweetness" = 1)
 
 // MISSING RECIPE
 /obj/item/reagent_containers/food/snacks/rogue/cookie_unused		//It's a biscuit.......
@@ -441,6 +433,7 @@
 	eat_effect = null
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/prezzel_raw
+	dish_type = DISH_DAIRY
 	name = "uncooked prezzel"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "prezzel_raw"
@@ -450,7 +443,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/prezzel
 	cuisine = CUISINE_NORTHERN
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY
 	name = "prezzel"
 	desc = "The next best thing after sliced bread. The recipe is a closely guarded secret among the dwarves. So dire is their conviction that not even the Inquisition's most agonizing methods could force them to reveal it."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -464,6 +457,7 @@
 
 /*	.............	Pumpkin balls	................ */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinball_raw
+	dish_type = DISH_DAIRY|DISH_VEGETABLE
 	name = "uncooked pumpkin ball"
 	desc = "A simple ball of dough, yearning to be cookied or fried."
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -476,7 +470,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/pumpkinball
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_VEGETABLE
 	name = "pumpkin balls"
 	desc = "Crispy and soft ball of dough mixed with pumpkin. A surprisingly nice snack."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -500,6 +494,7 @@
 
 /*	.............	Pumpkin loaf	................ */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/pumpkinloaf_raw
+	dish_type = DISH_DAIRY|DISH_VEGETABLE
 	name = "raw pumpkin loaf"
 	desc = "Into the oven you go!"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
@@ -512,7 +507,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/pumpkinloaf
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_VEGETABLE
 	name = "pumpkin loaf"
 	desc = "A loaf of sweetbread baked into a shape worthy of its name. Pumpkin loaves are surprising desserts, easily shared."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -553,7 +548,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/pumpkinloafslice
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_VEGETABLE
 	name = "pumpkin loaf slice"
 	desc = "Soft and chewy. It's surprisingly light despite its origin."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -579,68 +574,68 @@
 	dropshrink = 0.8
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/mushroom
+	dish_type = DISH_VEGETABLE
 	name = "raw mushroom handpie"
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie
-	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie
+	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/mushroom
+	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/mushroom
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_QUARTER_MEAL)
-	foodtype = GRAIN | VEGETABLES
 	tastes = list("mushrooms" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/fish
+	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "raw fish handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/fish
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/fish
-	foodtype = GRAIN | MEAT
 	tastes = list("fish" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/meat
+	dish_type = DISH_MEAT|DISH_VEGETABLE
 	name = "raw meat handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/meat
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/meat
-	foodtype = GRAIN | MEAT
 	tastes = list("meat" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/crab
+	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "raw crab handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/crab
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/crab
-	foodtype = GRAIN | MEAT
 	tastes = list("crab" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/berry
+	dish_type = DISH_FRUIT
 	name = "raw berry handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/berry
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/berry
-	foodtype = GRAIN | FRUIT
 	tastes = list("berry" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/poison
+	dish_type = DISH_FRUIT
 	name = "raw berry handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/poison
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/poison
 	list_reagents = list(/datum/reagent/berrypoison = 5)
-	foodtype = GRAIN | FRUIT
 	tastes = list("bitter berry" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/apple
+	dish_type = DISH_FRUIT
 	name = "raw apple handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/apple
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/apple
-	foodtype = GRAIN | FRUIT
 	tastes = list("apple" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/potato
+	dish_type = DISH_VEGETABLE
 	name = "raw potato handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/potato
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/potato
-	foodtype = GRAIN | VEGETABLES
 	tastes = list("potato" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/handpieraw/cabbage//These two are classics no idea how it didn't already exist.
+	dish_type = DISH_VEGETABLE
 	name = "raw cabbage handpie"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/cabbage
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/handpie/cabbage
-	foodtype = GRAIN | VEGETABLES
 	tastes = list("cabbage" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie
@@ -659,30 +654,39 @@
 	dropshrink = 0.8
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/mushroom
+	dish_type = DISH_PASTRY|DISH_VEGETABLE
 	name = "mushroom handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/fish
+	dish_type = DISH_PASTRY|DISH_SEAFOOD
 	name = "fish handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/meat
+	dish_type = DISH_PASTRY|DISH_MEAT
 	name = "meat handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/potato
+	dish_type = DISH_PASTRY|DISH_VEGETABLE
 	name = "potato handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/cabbage
+	dish_type = DISH_PASTRY|DISH_VEGETABLE
 	name = "cabbage handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/crab
+	dish_type = DISH_PASTRY|DISH_SEAFOOD
 	name = "crab handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/berry
+	dish_type = DISH_PASTRY|DISH_FRUIT
 	name = "berry handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/poison
+	dish_type = DISH_PASTRY|DISH_FRUIT
 	name = "berry handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/apple
+	dish_type = DISH_PASTRY|DISH_FRUIT
 	name = "apple handpie"
 
 /obj/item/reagent_containers/food/snacks/rogue/handpie/On_Consume(mob/living/eater)
@@ -694,7 +698,7 @@
 
 /*	.................	Muffins	................... */
 /obj/item/reagent_containers/food/snacks/rogue/muffin
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY
 	name = "muffin"
 	desc = "Simple to prepare and enjoyed by everyone. Treat in a mushroom shaped package. Could do with something on top."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -715,6 +719,7 @@
 	cooked_smell = /datum/pollutant/food/muffin
 
 /obj/item/reagent_containers/food/snacks/rogue/muffin/cheese/baked
+	dish_type = DISH_PASTRY|DISH_DAIRY
 	cuisine = CUISINE_NORTHERN
 	name = "cheese muffin"
 	desc = "A mushroom shaped treat for whole topped off with cheese. Fit for a yeoman."
@@ -725,6 +730,7 @@
 	cooked_type = null
 
 /obj/item/reagent_containers/food/snacks/rogue/muffin/honey
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_HONEY
 	name = "raw honey muffin"
 	desc = "A mushroom shaped treat for whole topped off with honey. Still needs to be baked!"
 	icon_state = "muffin_honey_raw"
@@ -736,7 +742,6 @@
 	name = "honey muffin"
 	desc = "A mushroom shaped treat for whole topped off with honey. Fit for a burgher."
 	icon_state = "muffin_honey"
-	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/muffin/cheese/baked
 	cooked_smell = /datum/pollutant/food/muffin
 	faretype = FARE_FINE
 	cooked_type = null
@@ -744,14 +749,13 @@
 /*	.................	Strudel	................... */
 /obj/item/reagent_containers/food/snacks/rogue/strudel
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_FRUIT
 	name = "strudel"
 	desc = "The peak of Grenzelhoftian peasant food - an elongated pastry filled with apple paste and nuts is sure to keep the hunger cramps away."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "strudel"
 	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGH_NUTRITION*2)
 	tastes = list("crispy apples" = 1, "rocknut" = 1)
-	foodtype = GRAIN | FRUIT
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	bitesize = 3
@@ -764,7 +768,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/strudelslice
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_FRUIT
 	name = "strudel slice"
 	desc = "A slice of tasty apple goodness - just looking at it makes your mouth wet."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -772,7 +776,6 @@
 	slices_num = 0
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
 	tastes = list("crispy apples" = 1, "rocknut" = 1)
-	foodtype = GRAIN | FRUIT
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	cooked_type = null
@@ -798,7 +801,7 @@
 /*	.................	Tarts	................... */
 /obj/item/reagent_containers/food/snacks/rogue/dot_tart
 	cuisine = CUISINE_OTAVAIS
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_FRUIT
 	name = "dot tart"
 	desc = "A small pastry filled with jammed fruits, for when a whole pie would be inappropiate for canapes."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -806,7 +809,6 @@
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
 	bitesize = 3
 	faretype = FARE_FINE
-	foodtype = GRAIN | FRUIT | DAIRY
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = BUTTERDOUGHSLICE_NUTRITION + NUTRITION_HALF_MEAL)
 	tastes = list("crispy dough" = 1)
 	rotprocess = SHELFLIFE_LONG
@@ -824,7 +826,7 @@
 	desc = "A small pastry filled with jammed plums, for when a whole pie would be inappropiate for canapes."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "plum_dottart"
-	tastes = list("crispy dough" = 1, "plum jam with a hint of honey-sweetness" = 1)
+	tastes = list("crispy dough" = 1, "plum jam with a hint of sweetness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/dot_tart/blackberry
 	name = "blackberry dot tart"
@@ -852,7 +854,7 @@
 	desc = "A small pastry filled with jammed pears, for when a whole pie would be inappropiate for canapes."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
 	icon_state = "pear_dottart"
-	tastes = list("crispy dough" = 1, "pear jam with a hint of tarty-honeyiness" = 1)
+	tastes = list("crispy dough" = 1, "pear jam with a hint of tartness" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/dot_tart/apple
 	name = "apple dot tart"
@@ -876,7 +878,7 @@
 /*	.................	Bookbread	................... */
 /obj/item/reagent_containers/food/snacks/rogue/bookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD
 	name = "bookbread loaf"
 	desc = "On the days when Noc's reign lengthens to its apex, all proper Pantheon-fearing folk huddle by their warm hearths, exchanging both books and pastries such as this."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -892,7 +894,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/bookbread/update_icon()
 	if(slices_num)
@@ -916,7 +917,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/bookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD
 	name = "sliced bookbread"
 	desc = "About the same size and taste as an encyclopedia."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -929,11 +930,10 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/bookbread_slice_jamtallowed
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_MEAT|DISH_FRUIT
 	name = "slice of jamtallowed bookbread"
 	desc = "'Don't think that I'd forget, or I'd regret, the special love I had for you - my baby blue!'"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -946,11 +946,10 @@
 	rotprocess = SHELFLIFE_EXTREME
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
-	foodtype = GRAIN | DAIRY | FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/bookbread_slice_marmaladed
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_MEAT|DISH_FRUIT
 	name = "slice of marmaladed bookbread"
 	desc = "'I always keep a marmalade sandwich under my sallet, just in case!'"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -963,13 +962,12 @@
 	rotprocess = SHELFLIFE_EXTREME
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
-	foodtype = GRAIN | DAIRY | FRUIT
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/pearbookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "pear bookbread"
 	desc = "Children on Nocsmas are traditionally granted both book and pastry without expectation of exchange, this variety is prefered by most little ones."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -985,7 +983,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/pearbookbread/update_icon()
 	if(slices_num)
@@ -1009,7 +1006,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/pearbookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced pear bookbread"
 	desc = "Evokes the sweetness of younger, simpler times, and simpler books."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1022,13 +1019,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/plumbookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "plum bookbread"
 	desc = "The origin of Nocsmas are shrouded in mystery, perhaps intentionally so, though some theorize it may have had its origins as an originally Psydonian holidae."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1044,7 +1040,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/plumbookbread/update_icon()
 	if(slices_num)
@@ -1068,7 +1063,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/plumbookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced plum bookbread"
 	desc = "A subtle flavor, best for enjoying subtler books. Mysteries prefered."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1081,13 +1076,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/lemonbookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "lemon bookbread"
 	desc = "Though many followers of Her find the holidae laughable, it's undeniably an important respite from the doom and gloom of the darkest month."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1103,7 +1097,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/lemonbookbread/update_icon()
 	if(slices_num)
@@ -1127,7 +1120,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/lemonbookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced lemon bookbread"
 	desc = "Sweet but a little sour, like a good Xylixian comedy."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1140,13 +1133,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/tangerinebookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "tangerine bookbread"
 	desc = "Even the coldest, darkest nites end eventually. Better to weather them with friends than to hide away."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1162,7 +1154,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/tangerinebookbread/update_icon()
 	if(slices_num)
@@ -1186,7 +1177,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/tangerinebookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced tangerine bookbread"
 	desc = "Fills one with heroic vigor and hopeful enthusiasm, similar to historic-fantasies of old."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1199,13 +1190,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/blackberrybookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "blackberry bookbread"
 	desc = "Following Her ascension, the great exchanging of books has met steady decline, as neighbor suspects neighbor more and more. Yet, even such prejudices could never hope to fully smother the spirit of Nocmas."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1221,7 +1211,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/blackberrybookbread/update_icon()
 	if(slices_num)
@@ -1245,7 +1234,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/blackberrybookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced blackberry bookbread"
 	desc = "It evokes a feeling of contrasting fascination and dread, not unlike novels that may foretell a doom similar to what befell this very berry."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1258,13 +1247,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/raspberrybookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "raspberry bookbread"
 	desc = "Spending the long cold months in academic rather than intimate pursuit is preferable for most devout Noccians."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1280,7 +1268,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/raspberrybookbread/update_icon()
 	if(slices_num)
@@ -1304,7 +1291,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/raspberrybookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced raspberry bookbread"
 	desc = "Has a taste that puts one in the mood for a good romance novel. For obvious reasons, this flavor isnt very popular with mages."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1317,13 +1304,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/jackberrybookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "jacksberried bookbread"
 	desc = "As Nocsmas gained broader appeal, more and more commonfolk with poor access to books instead chose to simply forego their exchanging, focusing instead on the preparation of food."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1339,7 +1325,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/jackberrybookbread/update_icon()
 	if(slices_num)
@@ -1363,7 +1348,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/jackberrybookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced jacksberried bookbread"
 	desc = "Has an earthy taste that reminds the eater of growth cycles and rainfall percentages. Like a delicious almanac."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1376,13 +1361,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/poisonberrybookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "jacksberried bookbread"
 	desc = "As Nocsmas gained broader appeal, more and more commonfolk with poor access to books instead chose to simply forego their exchanging, focusing instead on the preparation of food."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1398,7 +1382,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/poisonberrybookbread/update_icon()
 	if(slices_num)
@@ -1422,7 +1405,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/poisonberrybookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD|DISH_FRUIT
 	name = "sliced jacksberried bookbread"
 	desc = "Has an earthy taste that reminds the eater of growth cycles and rainfall percentages. Like a delicious almanac."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1435,13 +1418,12 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | FRUIT | DAIRY
 
 //
 
 /obj/item/reagent_containers/food/snacks/rogue/chocolatebookbread
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD
 	name = "chocolate bookbread"
 	desc = "Nocsmas is not only a holiday for children and commoners, for Noccians are found most concentrated in the upper echelons of society. For these academics, it provies a much needed opportunity to share their secrets."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1457,7 +1439,6 @@
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
-	foodtype = GRAIN | DAIRY
 
 /obj/item/reagent_containers/food/snacks/rogue/chocolatebookbread/update_icon()
 	if(slices_num)
@@ -1481,7 +1462,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/chocolatebookbread_slice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PASTRY
+	dish_type = DISH_PASTRY|DISH_DAIRY|DISH_BREAD
 	name = "sliced chocolate bookbread"
 	desc = "As thick and rich as a child's bedtyme story."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_pastry.dmi'
@@ -1494,4 +1475,3 @@
 	rotprocess = SHELFLIFE_LONG
 	dropshrink = 0.8
 	eat_effect = /datum/status_effect/buff/greatsnackbuff
-	foodtype = GRAIN | DAIRY

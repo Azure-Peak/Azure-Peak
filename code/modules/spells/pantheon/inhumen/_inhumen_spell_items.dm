@@ -1495,7 +1495,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/alchserum/matthios_kingsblood/examine(mob/user)
 	. = ..()
 
-	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || HAS_TRAIT(user, TRAIT_PALLID) || HAS_TRAIT(user, TRAIT_ORGAN_EATER))
+	if(user?.mind?.has_antag_datum(/datum/antagonist/vampire) || HAS_TRAIT(user, TRAIT_ORGAN_EATER))
 		. += span_warning("TIP: You could drink this instead of applying it. Aim for your mouth and use it on yourself.")
 
 /obj/item/alchserum/matthios_kingsblood/attack(mob/living/carbon/human/target, mob/living/user)
@@ -1503,7 +1503,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		return ..()
 
 	var/is_vampire = target.mind?.has_antag_datum(/datum/antagonist/vampire)
-	var/is_blood_drinker = is_vampire || HAS_TRAIT(target, TRAIT_PALLID) || HAS_TRAIT(target, TRAIT_ORGAN_EATER)
+	var/is_blood_drinker = is_vampire || HAS_TRAIT(target, TRAIT_ORGAN_EATER)
 
 	if(target == user && user.zone_selected == BODY_ZONE_PRECISE_MOUTH && is_blood_drinker)
 		if(do_after(user, 2 SECONDS, target = target))
@@ -1560,7 +1560,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	icon_state = "matthios"
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK | ITEM_SLOT_RING
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	aura_color = "#ffe761"
 	var/stolen_fyre = FALSE
 	var/grant_chant = FALSE
@@ -1593,7 +1593,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
 	if(findtext(LOWER_TEXT(name), "ruined"))
 		to_chat(user, span_warning("[src] crumbles into ash in your hands."))
-		new /obj/item/ash(get_turf(src))
+		new /obj/item/natural/ash(get_turf(src))
 		qdel(src)
 		return
 	to_chat(user, span_warning(swap_message))
@@ -2075,7 +2075,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	color = "#fdff86"
 	aura_color = "#fff385"
 	matthios_chains = TRUE
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 
 /obj/item/rope/chain/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)

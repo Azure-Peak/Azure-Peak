@@ -143,6 +143,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/bull
 	icon = 'icons/roguetown/mob/monster/cow.dmi'
 	name = "bull"
+	mob_size = MOB_SIZE_LARGE
 	desc = "Cattle are a staple of animal husbandry across the world, both for their milk and for their meat."
 	icon_state = "bull"
 	icon_living = "bull"

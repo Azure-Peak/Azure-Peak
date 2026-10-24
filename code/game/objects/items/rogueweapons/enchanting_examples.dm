@@ -58,3 +58,41 @@
 	icon_state = "sssangsudo_long"
 	icon = 'icons/obj/items/donor_weapons_64.dmi'
 	bigboy = TRUE
+
+// Solar Dominion Sword
+/obj/item/rogueweapon/example/dominion_sword
+	name = "Dominion sword"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "dominion_sword"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+// Solar Dominion Knife
+/obj/item/rogueweapon/example/dominion_knife
+	name = "Dominion knife"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "dominion_knife"
+	icon = 'icons/obj/items/donor_weapons.dmi'
+
+// Solar Dominion Greatsword
+/obj/item/rogueweapon/example/dominion_greatsword
+	name = "Dominion greatsword"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "dominion_greatsword"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+
+// Solar Dominion Shotel
+/obj/item/rogueweapon/example/dominion_shotel
+	name = "Dominion shotel"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Intricately carved from dark onyxa and imbued with the strength of steel through arcyne craft."
+	icon_state = "dominion_shotel"
+	icon = 'icons/obj/items/donor_weapons_64.dmi'
+	bigboy = TRUE
+	gripsprite = FALSE
+
+// Solar Dominion Shield
+/obj/item/rogueweapon/example/dominion_shield
+	name = "Dominion shield"
+	desc = "A sun-elven treasure, likely seized amid the rebellions in Raneshen. Amaranth wood with a swirling grain, fashioned into a rounded triangle with a geometer's precision."
+	icon_state = "dominion_shield"
+	icon = 'icons/obj/items/donor_weapons.dmi'

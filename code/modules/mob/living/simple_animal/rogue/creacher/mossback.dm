@@ -2,6 +2,7 @@
 	anatomy_type = /datum/anatomy/quadruped/standard
 	icon = 'icons/roguetown/mob/monster/boglobster.dmi'
 	name = "mossback"
+	mob_size = MOB_SIZE_LARGE
 	desc = "Much feared by all those who live on Psydonia's coasts, these creatures are said to be the envoys of Abyssor. They engender respect for the ocean through the violence they inflict to the unwary, and provide rich meals to those able to hunt them; as the seas take from the unready, they give back to those deserving."
 	icon_state = "mossback"
 	icon_living = "mossback"
