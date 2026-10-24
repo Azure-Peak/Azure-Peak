@@ -1,4 +1,5 @@
 /datum/antagonist/lich
+	overrides_forlorne_vice = TRUE
 	name = "Lich"
 	roundend_category = "Lich"
 	antagpanel_category = "Lich"

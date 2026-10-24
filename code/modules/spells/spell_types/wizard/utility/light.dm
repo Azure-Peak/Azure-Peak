@@ -89,6 +89,23 @@
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
+/// Dim, short-lived orb dropped at the feet of those with the Forlorne vice.
+/obj/item/flashlight/flare/light/forlorne
+	name = "fading light"
+	desc = "A faint wisp of condensed light. Your last hope to get home."
+	light_outer_range = 3
+	light_power = 0.6
+	light_color = "#a0a0a0"
+	var/lifetime = 180 SECONDS
+
+/obj/item/flashlight/flare/light/forlorne/Initialize(mapload)
+	. = ..()
+	// The Light spell adds this overlay in make_item(); that's the orb's actual sprite
+	var/mutable_appearance/orb = mutable_appearance('icons/obj/projectiles.dmi', "gumball")
+	orb.color = "#a0a0a0"
+	add_overlay(orb)
+	QDEL_IN(src, lifetime)
+
 /obj/item/flashlight/flare/light/Initialize(mapload)
 	. = ..()
 	soundloop = new(list(src), FALSE)
