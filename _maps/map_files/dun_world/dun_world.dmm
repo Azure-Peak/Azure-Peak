@@ -54503,7 +54503,11 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/druidsgrove)
 "jtq" = (
-/obj/machinery/tanningrack,
+/obj/machinery/tanningrack{
+	pixel_x = 12;
+	pixel_y = -7;
+	density = 0
+	},
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/tavern)
 "jtt" = (
