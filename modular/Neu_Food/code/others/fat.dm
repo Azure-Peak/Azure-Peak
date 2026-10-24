@@ -133,9 +133,9 @@
 					return
 				if(success)
 					changefood(/obj/item/reagent_containers/food/snacks/tallow/red, user)
-	if(istype(I, /obj/item/ash))
+	if(is_ash_item(I))
 		if(alert(user, "STAIN THE TALLOW?", "IT'S JUST ASH", "YES", "NO") != "NO")
 			changefood(/obj/item/reagent_containers/food/snacks/tallow/black, user)
-			qdel(I)
+			consume_ash_unit(I)
 		else
 			return

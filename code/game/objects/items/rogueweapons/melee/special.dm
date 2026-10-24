@@ -1117,8 +1117,10 @@
 	GLOB.lordcolor += src
 
 /obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
-	detail_tag = "_det"
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	detail_color = primary
+	altdetail_color = secondary
 	update_icon()
 
 /obj/item/rogueweapon/spear/keep_standard/Destroy()

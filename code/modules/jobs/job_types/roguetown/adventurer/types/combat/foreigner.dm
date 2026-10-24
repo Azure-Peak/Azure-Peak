@@ -277,7 +277,7 @@
 
 			if(H.mind)
 				grant_poke_spell(H)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep/vizier)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration/lesser)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)

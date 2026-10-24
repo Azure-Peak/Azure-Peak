@@ -985,3 +985,68 @@
       skills, as good as being a malumite does.
   - qol: being expert in a metalworking skill allows you to add items to recipes of
       that skill in the same manner being a trained smith does
+2026-10-24:
+  KatTheFox:
+  - bugfix: Nickname highlight colors are no longer squished (again). Your name will
+      no longer be inexplicably highlighted in green instead of your chosen color.
+  Ketrai:
+  - rscadd: Dominion donator items available for all donators
+  OMEGATHERION:
+  - rscdel: Removed gnoll name pop-up
+  OrbisAnima:
+  - balance: Gives all Acolytes a starting thorns needle.
+  - bugfix: Fixes Eorans Acolytes and Missionaries  not starting with scissors.
+  - qol: You can put smeltables in a bag, then dump the bag in a smelter, and it will
+      dump it contents into it, reducing burn out rates on blacksmith players by 23%.
+  Quinalion:
+  - image: Ported Ducal Pike and Freifechter Lancer Pike sprites from Ratwood.
+  - qol: The Ducal Pike can now be equipped directly in the back slot and uses the
+      Freifechter Lancer Pike's two pike intents.
+  - balance: Set the Ducal Pike's throwforce to 25.
+  - image: Updated Ducal polearm banners to feature both colors of the Ducal scheme.
+  - qol: Weapons with detail tags can now have their detail and alternative detail
+      colors changed at the Dye Station.
+  - image: Updated the Ssangsudo sprite to support banner wrapping.
+  RosySaturniidae:
+  - bugfix: blacksteel flail now costs 1 blacksteel, as stated
+  Ryan180602:
+  - bugfix: bellshoes jingle, again.
+  - balance: Gives Melancholia and Enrapturing Powder uptime-related cooldowns.
+  - balance: Serenity Bloom flower now incurs a -1 STR.
+  - bugfix: Heretic Spies can no longer cast Rite of Armament on themselves. Baotha
+      still can do it.
+  - bugfix: arm markings layer under sleeves, now.
+  - balance: nerfs bottlebombs to be less about direct damage and more about area
+      denial (as it should be)
+  - balance: nerfs impact grenades to have less fire, less force, and be more about
+      the shrapnel (to a lesser degree).
+  - balance: buffs satchelbombs immensely.
+  - balance: buffs blastpowder sticks to be above impact grenades without the shrapnel.
+  - bugfix: adjusts the side-sprite silhouette for men by 1 pixel
+  Sutures:
+  - bugfix: fixed wall spells being incompatible with each other when picking spells.
+  WeNeedMorePhoron:
+  - rscadd: Added stockbait, a new form of bait that requires Essence of Wilderness
+      and lures exclusively livestock, including bulls and pigs!
+  - rscadd: Contract Ledger has been added to the Merchant's shop on Dun World and
+      Pilgrim
+  - rscadd: Added bulls and billy goat to merchant stock
+  - rscadd: Added saiga meat to the stockpile
+  - balance: Reverted the 20% damage nerf to Spellfist
+  - balance: Reduced cooldown of Spellfist's shadowstep by 8 seconds from 24 seconds
+      to 16 second, since they are a melee class and could use the mobility.
+  - config: Tried to fix CI failures by caching stuffs
+  - rscadd: Ash are now stackable and bundleable. Please report any issue
+  - rscadd: Bundle now display how many is in the bundle and the maximum number in
+      a small notice after the main description, instead of separate from the information
+      box
+  borneblood:
+  - balance: Explosions use the new fire tiles instead of the legacy fire tiles now.
+  eirenxiv:
+  - balance: changed bombardier dexpert from +2 SPD to +2 SPD/-2 STR +1 WIL to adhere
+      to stat weight
+  mumblemancer:
+  - code_imp: redid the merchant's ship-hailing lines
+  - rscadd: new time change tips
+  - rscadd: new time change tips (lore)
+  - bugfix: smoking ozium should work again

@@ -362,7 +362,7 @@
 	wdefense = 1
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
 	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze)
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	anvilrepair = /datum/skill/craft/carpentry
 	minstr = 7
 	resistance_flags = FLAMMABLE
@@ -401,7 +401,7 @@
 	icon_state = "cudgel"
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop, /datum/intent/effect/daze)
 	gripped_intents = null //One-handed. Pseudo-sidegrade between the Mace and Warhammer. Exchanges smashing for dislocation.
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
 	wbalance = WBALANCE_HEAVY
@@ -618,7 +618,7 @@
 	//dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/mace/strike/wood) //Allows for the teaching of both core Mace mechanics and alternative Sword mechanics.
 	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze) //..ala, Daze and Dislocate.
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	minstr = 7
 	wdefense = 5
 	wbalance = WBALANCE_NORMAL
@@ -652,7 +652,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = null
 	associated_skill = /datum/skill/combat/maces
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	swingsound = BLUNTWOOSH_LARGE
 	minstr = 10
 	wdefense = 3

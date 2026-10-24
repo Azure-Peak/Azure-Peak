@@ -1,4 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "Heretic Spies can no longer cast Rite of Armament on themselves. Baotha still can do it."

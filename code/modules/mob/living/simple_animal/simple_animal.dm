@@ -759,7 +759,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/spawn_dust(just_ash = FALSE)
 	if(just_ash || !remains_type)
 		for(var/i in 1 to 5)
-			new /obj/item/ash(loc)
+			new /obj/item/natural/ash(loc)
 	else
 		new remains_type(loc)
 
