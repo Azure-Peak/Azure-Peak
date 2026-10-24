@@ -310,7 +310,7 @@
 		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
 		grant_poke_spell(H)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep/vizier)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diminish)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/reversion)

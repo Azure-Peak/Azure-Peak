@@ -141,9 +141,27 @@
 		/datum/supply_pack/rogue/alcohol/wineraneshen,
 	)
 	hail_lines = list(
-		"Silk from Chorodiaki, sugar and saffira from Mücevkabher, wine from Nshkormh! And ladies from Raneshen.",
-		"I have a few Desert Riders for hire if you do not mind their pasts, or present.",
-		"I need a quiet word with you, Factor. I have a few things to discuss in private.",
+		"Silk from Chorodiaki, sugar and saffira from Mücevkabher, wine from Nshkormh!",
+
+		"...need some muddy work done? We've some desert riders on our ship, should you require martial aid.",
+
+		"I need a quiet word with you, Factor. We have a few things to discuss in private.",
+
 		"The last Factor was flustered when I asked them to have dinner with me before we talk over business. I wonder why.",
-		"Have you quality fur and iron? There's plenty of demand for them back home."
+
+		"Have you quality fur and iron? There's plenty of demand for them back home.",
+
+		"Live and drink, Factor!", // hehe
+
+		"Are the warriors of the Peak familiar with bronze weaponry? We've qintars of it! Trade us some of your steel in return, hmm?",
+		// raneshen is also very ??? but its one of the furthest places FROM AP so prolly some distance based lines would be good
+		"We've been sailing for months! Tell us you have something to send back home!",
+
+		"We passed through Etrusca on the way here! Their port nearly rivals yours!",
+
+		"In some parts of the Empire, our catte-people have no hair. The same for the dogs... very curious, is it not?",
+
+		"AH! THREE YILS since I last visited Azure Peak! Is that 'Bintu' cat still in the inn?",
+
+		"VE YINE! GOOD TO SEE YOU, FACTOR!" // shoutout  she past away.
 	)

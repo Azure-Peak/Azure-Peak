@@ -16,7 +16,6 @@
 	faretype = FARE_POOR
 	eat_effect = null
 	rotprocess = null
-	foodtype = FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/On_Consume(mob/living/eater)
 	..()
@@ -116,7 +115,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass
 	cuisine = CUISINE_RANESHENI
-	dish_type = DISH_FRUIT|DISH_SWEET
+	dish_type = DISH_FRUIT|DISH_SWEET|DISH_HONEY|DISH_MEAT
 	name = "sweetglass"
 	desc = "A palmful of crystallized dried raisins, popular amongst the elders and children-of-nobility. Their tendancy to only \
 	spoil under very specific circumstances makes it a favored treat for those traveling afar; so long as they can afford it, of course."
@@ -128,7 +127,6 @@
 	faretype = FARE_LAVISH
 	color = "#A060FF" //Placeholder until someone wants to twiddle it for themselves. Should be fine, otherwise.
 	eat_effect = /datum/status_effect/buff/sweet
-	foodtype = FRUIT
 
 /obj/item/reagent_containers/food/snacks/rogue/raisins/sweetglass/On_Consume(mob/living/eater)
 	..()
@@ -201,6 +199,7 @@
 
 // -------------- Trail-mix -----------------
 /obj/item/reagent_containers/food/snacks/rogue/trailmix
+	dish_type = DISH_FRUIT|DISH_VEGETABLE
 	name = "trail-mix"
 	desc = "A collection of dried and long lasting snacks tucked into a neat package to be indulged in as needed. Favorite of rangers due to its simplicity and availability."
 	icon = 'modular/Neu_food/icons/cookware/ration.dmi'

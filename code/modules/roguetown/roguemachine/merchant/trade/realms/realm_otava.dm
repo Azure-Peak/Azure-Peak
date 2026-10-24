@@ -119,8 +119,18 @@
 		/datum/supply_pack/rogue/alcohol/winevalorwhite,
 	)
 	hail_lines = list(
-		"Last time I docked, your Factor accused me of cheating them on my weight. I swear by Psydon I'm honest merchant and if your men mistreat me again, I will be complaining to the Otavais Inquisition!",
-		"I have the finest wine from País-Occitanie, fit for consumption by royalty.",
+		"Last time I docked, your Factor accused me of cheating them on my weight. By Syon, I'm an HONEST MERCHANT! You know, \
+		I have an in with the inquisitor...",
+
+		"I have the finest wine from País-Occitanie, all fit for royalty!",
+
 		"Notre Dieu, Qui Es Aux Cieux! Sauvez-Les, S'il Vous Plaitez. Oh. The SCOM was on.",
-		"I need sole in white wines for the royalties of Otava. Please make haste."
+
+		"I need sole in white wines for the royalties of Otava. Please make haste!",
+
+		"Purity afloat, Factor!",
+
+		"We passed a ship of Gronnmenn on the way in! Have you been doing business with heathens?",
+
+		"Otavan weaponry in exchange for your goods. Have any coffee from Raneshen? Sugar? Ingots and leather are always appreciated.",
 	)

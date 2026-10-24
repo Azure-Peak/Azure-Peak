@@ -852,3 +852,201 @@
   mumblemancer:
   - rscadd: the courier and recovery system's rewards have been expanded by a fair
       amount! keep an eye on any packages coming in for FRESH LOOT DROPS!
+2026-10-21:
+  KatTheFox:
+  - rscadd: Axians and Murklings may now take the Aquaphile quirk.
+  Ollanius:
+  - bugfix: Improved the formatting of roughly twenty-or-so intent sprites, which
+      should hopefully make them a little easier to read.
+  - rscadd: Unifies the 'thrust' intent on forks and spoons to be 'gouges' / 'shallow
+      thrusts'. Same functionality as before.
+  - balance: Spoons now deal 5 > 0 damage.
+  - bugfix: Gothic Sallets and Psydonic Cuirasses now properly transform in all circumstances,
+      when hit with elixirs.
+  - rscadd: Gothic Psydonic Cuirasses should now be applicable for the "Gothic Plate-And-Maille"
+      recipe.
+  - code_imp: The "exact_type" variable on morphing elixirs seems to sometimes give
+      a false positive, if the 'target_item' listing isn't properly spaced out (when
+      used with the 'result_item = null' method.) Good to keep this in mind, in case
+      any transforming errors come up in the future.
+  Quinalion:
+  - bugfix: Fixed the padded coif.
+  - refactor: Removed unnecessary components from coifs with two opening stages.
+  azurexautyr-arch:
+  - rscadd: donor item for GuiMontag
+  changelingonberry:
+  - rscadd: custom descriptors now support multiple uppercase words
+  zRainbowcat:
+  - bugfix: Greedy message spam
+2026-10-22:
+  Ollanius:
+  - bugfix: A couple polearm sprites have been adjusted to be properly in-line with
+      the rest. In combination with some altered inhand code, this should fix most
+      cases of polearms (especially halberd- and polehammer-forked ones) mysteriously
+      floating below the wielder's grasp.
+  - rscadd: Bardiches now use a steel-bladed sprite, to accomadate them being classified
+      as steel weapons.
+  - code_imp: Slightly touches up the organization of blunt32.dmi, blunt64.dmi, and
+      polearms64.dmi.
+  Ryan180602:
+  - refactor: cleans up weapon special calcs
+  azurexautyr-arch:
+  - bugfix: fixed a donor item
+  changelingonberry:
+  - rscadd: honey as a favorite dish type
+  - bugfix: a lot of food now has the proper dish type set for the purposes of liked
+      foods
+  mumblemancer:
+  - rscdel: trolls wont hide on losing their target, anymore. this will also make
+      them not hide when they die.
+2026-10-23:
+  BobProductive:
+  - bugfix: statpanel can once again interact with mobs
+  Quinalion:
+  - bugfix: Added missing anvil recipes for several Psydonic weapons and Silver Knuckles.
+  - image: Added sprites for the Psydonic Poleaxe and Silver Poleaxe, including support
+      for wrapped banners.
+  Ryan180602:
+  - rscdel: Pallid, Blackblood is removed.
+  - rscadd: Agoraphobic, Claustrophobic, Selanophobic and Heliophobic and Sullied
+      Blood as vices.
+  - rscadd: Odd Blood and Sanguivore as quirks.
+  - bugfix: Changes Second Chance back to Rotcured.
+  - balance: Veteran gains Bad Trainer.
+  Traveler319:
+  - rscadd: Beds and tables can be unanchored with a stake to be moved around.
+  WeNeedMorePhoron:
+  - rscadd: Ported 8 additional towner expanded quest by SatinIsles from our downstream
+      Ochre Valley. Enjoy!
+  - rscadd: Notorious Contract's default timer is now 15 instead of 20 minutes, and
+      will now count the entire party going unconscious as a victory for the target
+  - rscadd: Towner quests can now be turned in at the nearest HERMES by putting the
+      package in it, allowing the towner to open it at their own leisure and making
+      it way less troublesome for both party.
+  - rscadd: Refactored the entirety of the contract system, report any oddities
+  - rscadd: Failing a contract now forfeits your deposit
+  - rscadd: Smith Caravan can now spawn in Azure Grove
+  - rscadd: Deposits are only returned if actually paid
+  - rscadd: Contract issuers can no longer cash in their own contract
+  - rscadd: A "Your Postings" tab now exists in the ledger in the bottom, replacing
+      the Steward / Innkeeper's special tab, where you can withdraw contracts
+  - rscadd: Contracts withdrawn before it is taken will refund fully, contracts withdrawn
+      when someone failed it or it is taken will refunds partially. Contract partially
+      refunds on failure.
+  - rscadd: Towner may issue up to 5 contracts simultaneously.
+  - rscadd: Added 30 minutes timer for delivery post killing of guardians in Towner
+      quests so it cannot be stalled forever.
+  - rscadd: Ported SatinIsles' GM quests system from Ochre and integrated it into
+      the Game Master panel, GM can now issue special kill and recovery quests
+  - rscadd: Remove the old pot-based stew water + fruit fruit juice recipe
+  - rscadd: Add apple juice
+  - rscadd: Nutriments no longer transfer from juiced item into the juice, polluting
+      the drinks and making them awkward to mix. Ported from OV
+  - rscadd: Allows you to juice / grind up to 4 items in a mortar at once
+  - rscadd: Allows you to empty non reagent container (sack / bag etc., but not pot
+      to avoid weirdness) into a mortar for easier juicing
+  - rscadd: ' Increase the yield of juice from 5 drams (!) to 25 drams for juicing
+      each piece of fruit'
+  - bugfix: ' Makes skysugar no longer a subtype of blackberries or a type of plant'
+  - rscadd: Nobility no longer makes you immune to contract levy. Only levy-exempt
+      contract will exempts you from it
+  - rscadd: Poll taxes mechanics has been replaced with a twice a week one off poll
+      levy that will also backcharge any accounts created later in the week, except
+      latejoiners. It will leave a minimum balance of 30m
+  - rscadd: For poll levy purpose, University and Apothecary members now counts as
+      the separate "Scholars" class protected specifically by the Covenant
+  azurexautyr-arch:
+  - rscadd: donor item for SeraphLemonade
+  borneblood:
+  - refactor: Veiled Whispers should work now, and shouldn't report deadite cures
+      as a 'new death'. (Hopefully! Report any oddities!)
+  changelingonberry:
+  - rscadd: The bag equip hotkey (shift & alt with q & e by default) can now be used
+      to load projectile weapons from quivers, etc.
+  radarseas:
+  - balance: cmode passive drain (-2) to (-1), you should have blue last twice as
+      long instead of having to juggle cmode as much.
+  - balance: stab intent can now skullcrack to T2. You no longer are forced to use
+      maces/axes against undead and you can actually kill skeletons by stabbing them
+      now.
+  - balance: taking any form of critical injury like fractures/arteries now gives
+      you an eight minute long debuff "Critical Dazing" that increases cmode costs
+      for energy, to (-3). - This does not include people who do not tire as easily
+      like skeletons, VL, lich, WW etc.
+  - balance: running out of blood unless you're immune to bloodless also inflicts
+      fatal dazing.
+  saltprjak:
+  - balance: Marshal subclass loadouts updated. Renamed classic Marshal Constable
+      receives sleuth virtue, Knight-Commander receives Saddleborn.
+  zRainbowcat:
+  - bugfix: Sneaking into someting no longer transfers you to backrooms in some circumstances
+  zeskorion:
+  - rscadd: trained smith trait allows for using an anvil, and leveling metalworking
+      skills, as good as being a malumite does.
+  - qol: being expert in a metalworking skill allows you to add items to recipes of
+      that skill in the same manner being a trained smith does
+2026-10-24:
+  KatTheFox:
+  - bugfix: Nickname highlight colors are no longer squished (again). Your name will
+      no longer be inexplicably highlighted in green instead of your chosen color.
+  Ketrai:
+  - rscadd: Dominion donator items available for all donators
+  OMEGATHERION:
+  - rscdel: Removed gnoll name pop-up
+  OrbisAnima:
+  - balance: Gives all Acolytes a starting thorns needle.
+  - bugfix: Fixes Eorans Acolytes and Missionaries  not starting with scissors.
+  - qol: You can put smeltables in a bag, then dump the bag in a smelter, and it will
+      dump it contents into it, reducing burn out rates on blacksmith players by 23%.
+  Quinalion:
+  - image: Ported Ducal Pike and Freifechter Lancer Pike sprites from Ratwood.
+  - qol: The Ducal Pike can now be equipped directly in the back slot and uses the
+      Freifechter Lancer Pike's two pike intents.
+  - balance: Set the Ducal Pike's throwforce to 25.
+  - image: Updated Ducal polearm banners to feature both colors of the Ducal scheme.
+  - qol: Weapons with detail tags can now have their detail and alternative detail
+      colors changed at the Dye Station.
+  - image: Updated the Ssangsudo sprite to support banner wrapping.
+  RosySaturniidae:
+  - bugfix: blacksteel flail now costs 1 blacksteel, as stated
+  Ryan180602:
+  - bugfix: bellshoes jingle, again.
+  - balance: Gives Melancholia and Enrapturing Powder uptime-related cooldowns.
+  - balance: Serenity Bloom flower now incurs a -1 STR.
+  - bugfix: Heretic Spies can no longer cast Rite of Armament on themselves. Baotha
+      still can do it.
+  - bugfix: arm markings layer under sleeves, now.
+  - balance: nerfs bottlebombs to be less about direct damage and more about area
+      denial (as it should be)
+  - balance: nerfs impact grenades to have less fire, less force, and be more about
+      the shrapnel (to a lesser degree).
+  - balance: buffs satchelbombs immensely.
+  - balance: buffs blastpowder sticks to be above impact grenades without the shrapnel.
+  - bugfix: adjusts the side-sprite silhouette for men by 1 pixel
+  Sutures:
+  - bugfix: fixed wall spells being incompatible with each other when picking spells.
+  WeNeedMorePhoron:
+  - rscadd: Added stockbait, a new form of bait that requires Essence of Wilderness
+      and lures exclusively livestock, including bulls and pigs!
+  - rscadd: Contract Ledger has been added to the Merchant's shop on Dun World and
+      Pilgrim
+  - rscadd: Added bulls and billy goat to merchant stock
+  - rscadd: Added saiga meat to the stockpile
+  - balance: Reverted the 20% damage nerf to Spellfist
+  - balance: Reduced cooldown of Spellfist's shadowstep by 8 seconds from 24 seconds
+      to 16 second, since they are a melee class and could use the mobility.
+  - config: Tried to fix CI failures by caching stuffs
+  - rscadd: Ash are now stackable and bundleable. Please report any issue
+  - rscadd: Bundle now display how many is in the bundle and the maximum number in
+      a small notice after the main description, instead of separate from the information
+      box
+  borneblood:
+  - balance: Explosions use the new fire tiles instead of the legacy fire tiles now.
+  eirenxiv:
+  - balance: changed bombardier dexpert from +2 SPD to +2 SPD/-2 STR +1 WIL to adhere
+      to stat weight
+  mumblemancer:
+  - code_imp: redid the merchant's ship-hailing lines
+  - rscadd: new time change tips
+  - rscadd: new time change tips (lore)
+  - bugfix: smoking ozium should work again

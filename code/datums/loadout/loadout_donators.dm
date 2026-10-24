@@ -1384,3 +1384,38 @@
 	name = "Donator Item - Gilded Dress"
 	path = /obj/item/clothing/cloak/poncho/guidress
 	ckeywhitelist = list("guimontag", "limetease")
+
+/datum/loadout_item/donator/ulqbelt
+	name = "Donator Item - Potionkeeper's Belt"
+	path = /obj/item/storage/belt/rogue/leather/ulqbelt
+	ckeywhitelist = list("seraphlemonade")
+
+/datum/loadout_item/donator/ulqsusbelt
+	name = "Donator Item - Potionkeeper's Messy Belt"
+	path = /obj/item/storage/belt/rogue/leather/ulqsusbelt
+	ckeywhitelist = list("seraphlemonade")
+
+//Obsidian weapons
+/datum/loadout_item/donator/universal/obsidian_sickle
+	name = "Elixir - Obsidian sickle (sword)"
+	path = /obj/item/enchantingkit/weapon/obsidian_sickle
+
+/datum/loadout_item/donator/universal/obsidian_knife
+	name = "Elixir - Obsidian knife"
+	path = /obj/item/enchantingkit/weapon/obsidian_knife
+
+/datum/loadout_item/donator/universal/obsidian_greatsword
+	name = "Elixir - Obsidian greatsword"
+	path = /obj/item/enchantingkit/weapon/obsidian_greatsword
+
+/datum/loadout_item/donator/universal/obsidian_shotel
+	name = "Elixir - Obsidian shotel"
+	path = /obj/item/enchantingkit/weapon/obsidian_shotel
+
+/datum/loadout_item/donator/universal/dominion_shield
+	name = "Elixir - Dominion shield"
+	path = /obj/item/enchantingkit/weapon/dominion_shield
+
+/datum/loadout_item/donator/universal/donor_stone
+	name = "Elixir - Stone gauntlets"
+	path = /obj/item/enchantingkit/stone_gauntlets

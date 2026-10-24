@@ -387,23 +387,21 @@
 	strip_delay = STRIP_DELAY_ARMOR
 	smelt_bar_num = 3
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa
-	name = "samsibsa scaleplate"
-	desc = "A heavy set of armour worn by the kouken of distant Kazengun. As opposed to the plate armour utilized by most of \
-	Psydonia and the West, samsiba-cheolpan is made of thirty-four rows of composite scales, each an ultra-thin sheet of \
-	blacksteel gilded over steel. </br> It is an extremely common practice to engrave characters onto individual plates - such \
-	as LUCK, HONOR, or HEAVEN."
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa
+	name = "samsibsa smoothplate"
+	desc = "A set of armour worn by the kouken of the distant east. Whilst similarities could be drawn between it and it's cousin of the west, plate armor, it has a certain lightness and ease of movement that are necessary for on-foot combat against other Kazengunese-- and for putting down Lingyuese revolts."
 	icon_state = "kazengunheavy"
 	item_state = "kazengunheavy"
 	detail_tag = "_detail"
 	boobed_detail = FALSE
 	color = null
 	detail_color = CLOTHING_WHITE
-	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+	armor_class = ARMOR_CLASS_HEAVY
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL - 75
 	var/picked = FALSE
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/attack_right(mob/user)
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa/attack_right(mob/user)
 	..()
 	if(!picked)
 		var/choice = input(user, "Choose a color.", "Uniform colors") as anything in COLOR_MAP
@@ -417,11 +415,11 @@
 			H.update_inv_armor()
 			H.update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa/Initialize(mapload)
 	. = ..()
 	update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/update_icon()
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))

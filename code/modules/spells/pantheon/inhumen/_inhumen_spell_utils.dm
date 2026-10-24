@@ -137,8 +137,8 @@
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
 	caster.energy_add(120)
 	caster.stamina_add(-50)
-	new /obj/item/ash(T)
-	new /obj/item/ash(T)
+	new /obj/item/natural/ash(T)
+	new /obj/item/natural/ash(T)
 	qdel(S)
 
 /datum/action/cooldown/spell/zizo/rituos/proc/run_ritual_chant(mob/living/carbon/human/user, path_choice)

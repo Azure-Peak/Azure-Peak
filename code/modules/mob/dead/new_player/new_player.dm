@@ -362,6 +362,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 	if(isliving(equip))	//Borgs get borged in the equip, so we need to make sure we handle the new mob.
 		character = equip
 
+	SStreasury.waive_past_poll_levies(character)
+
 	var/datum/job/job = SSjob.GetJob(rank)
 
 

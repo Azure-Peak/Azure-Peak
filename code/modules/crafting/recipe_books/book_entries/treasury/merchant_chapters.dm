@@ -19,7 +19,7 @@
 /datum/book_entry/treasury_merchant/navigator/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p><b>NAVIGATOR:</b> The heart of commerce of Azuria. This ancient machine lifts goods up by balloons to ships at the dock and the ATC's warehouse. The mechanisms are a trade secret of
+		<p><b>NAVIGATOR:</b> Lifts goods by balloon to ships at the dock and to the ATC's warehouse. The mechanisms are a trade secret of
 		Azurian Trading Company. There are three variants: Public Navigator, Navigator and Smuggler's Navigator.</p>
 
 		<h3>How it works</h3>
@@ -66,7 +66,7 @@
 		<h3>Tax Collection</h3>
 		<ul>
 			<li>Crown duty goes to the Treasury. A share goes to the Church for the
-			Concordat tithe if it is in force.</li> <li>Merchant's levy remits to the
+			Concordat tithe if it is in force.</li> <li>The Merchant's levy goes to the
 			Merchant's Fund, held in a secure Jawbank.</li>
 		</ul>
 		</div>
@@ -119,12 +119,11 @@
 
 		<h3>How it relates to the Navigator</h3>
 		<ul>
-			<li>The Navigator is the right tool for anything you want to sell at the
-			prevailing market rate. It takes anything sellable.</li> <li>The Fulfillment
-			Crate is the right tool for goods the docked ships specifically want, paid at
-			the ship's offered (usually better) price.</li> <li>Favor toward docked
-			vessels accrues on bulk and victualling fulfillment alike. The Merchant's
-			reputation depends on sellers showing up at the crate.</li>
+			<li>Sell at the market rate through the Navigator. It takes anything
+			sellable.</li> <li>Sell what a docked ship asks for through the Crate, at the
+			ship's price, which is usually better.</li> <li>Bulk and victualling deliveries
+			both earn Favor with the ship. The Merchant's reputation depends on sellers
+			showing up at the crate.</li>
 		</ul>
 		</div>
 	"}
@@ -218,7 +217,7 @@
 			<li>Each realm wants specific categories. A docked ship raises demand on
 			those categories, and the Navigator pays above base for goods in them.</li>
 			<li>Capped at [MARKET_DEMAND_PAYOUT_MAX_MULT]x payout. Two ships wanting the
-			same category stack up to the cap and no further.</li> <li>Demand evaporates
+			same category stack up to the cap and no further.</li> <li>Demand ends
 			when the ship leaves. With no ship wanting it, a category pays
 			[MARKET_DEMAND_NO_SHIP_FLOOR]x (valuables, seafood, pottery and carved goods stay at 1.0x).</li>
 		</ul>
@@ -232,8 +231,8 @@
 			[MARKET_DEMAND_SHIP_SATURATION_DRAIN * 100]% of that category's capacity.
 			This opens room for more sales while it's in port.</li>
 			<li>Seafood, pottery and carved goods also clear [MARKET_POOL_PASSIVE_DRAIN * 100]% of their capacity every
-			[DisplayTimeText(MARKET_POOL_PASSIVE_DRAIN_INTERVAL)], ensuring towners can still make some profit even without ships.</li>
-			<li>A full warehouse refuses further intake. The Navigator sends the goods back with a \"market is choked\" message.</li>
+			[DisplayTimeText(MARKET_POOL_PASSIVE_DRAIN_INTERVAL)], so towners can still sell something when no ship is in port.</li>
+			<li>When a warehouse is full, the Navigator sends the goods back with a \"market is choked\" message.</li>
 			<li>The Black Market runs in parallel. It has [MARKET_BM_POOL_FRACTION * 100]% of the capacity, flat prices (no demand mechanic), and clears
 			[MARKET_BM_DAILY_SATURATION_REGEN * 100]% of its capacity each day.</li>
 		</ul>

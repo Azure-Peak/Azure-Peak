@@ -455,7 +455,6 @@
 	gloves = /obj/item/clothing/gloves/roguetown/chain/iron
 	r_hand = /obj/item/rogueweapon/spear/keep_standard
 	beltl = /obj/item/rogueweapon/mace/cudgel
-	backl = /obj/item/rogueweapon/scabbard/gwstrap
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/special = 1,
 		/obj/item/rope/chain = 1,

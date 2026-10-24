@@ -17,7 +17,7 @@
 		/obj/item/ingot/component/berserkswordgrip,
 		/obj/item/ingot/component/heapofrawiron,
 		/obj/item/listenstone,
-		/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase,
+		/obj/item/reagent_containers/food/snacks/skysugarbase,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/gnoll,
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/vilespawn,
 		/obj/item/reagent_containers/lux,

@@ -362,7 +362,7 @@
 	wdefense = 1
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
 	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze)
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	anvilrepair = /datum/skill/craft/carpentry
 	minstr = 7
 	resistance_flags = FLAMMABLE
@@ -401,7 +401,7 @@
 	icon_state = "cudgel"
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop, /datum/intent/effect/daze)
 	gripped_intents = null //One-handed. Pseudo-sidegrade between the Mace and Warhammer. Exchanges smashing for dislocation.
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
 	wbalance = WBALANCE_HEAVY
@@ -593,19 +593,12 @@
 	smeltresult = /obj/item/ingot/copper
 	wdefense = 2
 
-/obj/item/rogueweapon/mace/cudgel/justice
+/obj/item/rogueweapon/mace/cudgel/flanged/justice
 	name = "\"Justice\""
 	desc = "The icon of the right of office of the Marshal. While mostly ceremonial in design, it serves its purpose in dishing out some much needed justice."
 	force = 30
 	icon_state = "justice"
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/mace/strike/dislocate)
-	smeltresult = /obj/item/ingot/steel
-	wlength = WLENGTH_SHORT
-	w_class = WEIGHT_CLASS_NORMAL
-	wbalance = WBALANCE_SWIFT
-	resistance_flags = FIRE_PROOF
-	minstr = 7
-	wdefense = 5
+	wdefense = 6
 
 /obj/item/rogueweapon/mace/cudgel/justice/getonmobprop(tag)
 	. = ..()
@@ -625,7 +618,7 @@
 	//dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/mace/strike/wood) //Allows for the teaching of both core Mace mechanics and alternative Sword mechanics.
 	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze) //..ala, Daze and Dislocate.
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	minstr = 7
 	wdefense = 5
 	wbalance = WBALANCE_NORMAL
@@ -659,7 +652,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = null
 	associated_skill = /datum/skill/combat/maces
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	swingsound = BLUNTWOOSH_LARGE
 	minstr = 10
 	wdefense = 3

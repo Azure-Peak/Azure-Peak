@@ -389,9 +389,9 @@
 		qdel(I)
 		new /obj/item/rogueore/coal/charcoal(get_turf(user))
 		if(prob(50))
-			new /obj/item/ash(get_turf(user))
+			new /obj/item/natural/ash(get_turf(user))
 		if(prob(50))
-			new /obj/item/ash(get_turf(user))
+			new /obj/item/natural/ash(get_turf(user))
 		return TRUE
 
 	// === LOG ===

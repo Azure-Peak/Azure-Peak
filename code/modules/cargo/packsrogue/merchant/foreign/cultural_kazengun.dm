@@ -21,7 +21,7 @@
 /datum/supply_pack/rogue/kazengun/samsibsa
 	name = "Samsibsa Plate"
 	cost = 380
-	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa)
+	contains = list(/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa)
 	ship_qty_min = 1
 	ship_qty_max = 1
 
@@ -143,7 +143,7 @@
 	no_name_quantity = TRUE
 	cost = 800
 	contains = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa,
+		/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa,
 		/obj/item/clothing/head/roguetown/helmet/heavy/kabuto,
 		/obj/item/clothing/mask/rogue/facemask/steel/kazengun/full,
 		/obj/item/clothing/neck/roguetown/gorget/steel/kazengun,

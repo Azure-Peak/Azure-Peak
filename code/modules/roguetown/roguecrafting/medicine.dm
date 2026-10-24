@@ -84,7 +84,7 @@
 	reqs = list(
 		/obj/item/natural/cloth = 1,
 		/obj/item/natural/silk = 1,
-		/obj/item/ash = 1)
+		/obj/item/natural/ash = 1)
 	skillcraft = /datum/skill/misc/medicine
 	craftdiff = 2
 
