@@ -754,6 +754,9 @@
 			display_as_wanderer = FALSE
 		if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord) && SSticker.rulermob != src && SSticker.regentmob != src)
 			display_as_wanderer = TRUE
+		if(fake_title)
+			used_title = fake_title
+			display_as_wanderer = FALSE
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		var/datum/antagonist/lich/lichplayer = src.mind?.has_antag_datum(/datum/antagonist/lich)
