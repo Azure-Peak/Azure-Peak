@@ -1431,8 +1431,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 						user.put_in_hands(I)
 						if(!LI?.triumph_cost)
 							I.special_item = TRUE
-							I.smeltresult = /obj/item/ash
-							I.salvage_result = /obj/item/ash
+							I.smeltresult = /obj/item/natural/ash
+							I.salvage_result = /obj/item/natural/ash
 						var/list/metadata = user.mind.special_items_metadata[base_name]
 						if(islist(metadata))
 							if(metadata["color"])

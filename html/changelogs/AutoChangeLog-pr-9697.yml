@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - balance: "Reverted the 20% damage nerf to Spellfist"
+  - balance: "Reduced cooldown of Spellfist's shadowstep by 8 seconds from 24 seconds to 16 second, since they are a melee class and could use the mobility."

@@ -284,7 +284,7 @@
 	if(QDELETED(src))
 		return
 	visible_message(span_purple("[src] crumbles into dust..."), span_purple("[src] crumbles into dust..."))
-	new /obj/item/ash(get_turf(src))
+	new /obj/item/natural/ash(get_turf(src))
 	qdel(src)
 
 /obj/projectile/magic/profane

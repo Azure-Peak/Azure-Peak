@@ -1326,12 +1326,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/burn(amount = 1)
 	if(!QDELETED(src))
 		var/turf/T = get_turf(src)
-		var/ash_type = /obj/item/ash
+		var/ash_type = /obj/item/natural/ash
 		if(w_class == WEIGHT_CLASS_HUGE || w_class == WEIGHT_CLASS_GIGANTIC)
-			ash_type = /obj/item/ash
+			ash_type = /obj/item/natural/ash
 		// Override for children that want more than 1 ash per item (Bundle as pseudo-stack)
 		for(var/i in 1 to amount)
-			var/obj/item/ash/A = new ash_type(T)
+			var/obj/item/natural/ash/A = new ash_type(T)
 			A.desc += "\nLooks like this used to be \an [name] some time ago."
 		..()
 

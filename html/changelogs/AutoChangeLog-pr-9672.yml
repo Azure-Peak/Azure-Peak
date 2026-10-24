@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ash are now stackable and bundleable. Please report any issue"
+  - rscadd: "Bundle now display how many is in the bundle and the maximum number in a small notice after the main description, instead of separate from the information box"

@@ -41,7 +41,7 @@
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "snappop"
 	w_class = WEIGHT_CLASS_TINY
-	var/ash_type = /obj/item/ash
+	var/ash_type = /obj/item/natural/ash
 
 /obj/item/toy/snappop/proc/pop_burst(n=3, c=1)
 	var/datum/effect_system/spark_spread/s = new()
@@ -70,15 +70,16 @@
 /obj/item/toy/snappop/phoenix
 	name = "magic powder pack"
 	desc = ""
-	ash_type = /obj/item/ash/snappop_phoenix
+	ash_type = /obj/item/natural/ash/snappop_phoenix
 
-/obj/item/ash/snappop_phoenix
+/obj/item/natural/ash/snappop_phoenix
+	bundletype = null
 	var/respawn_time = 300
 
-/obj/item/ash/snappop_phoenix/Initialize(mapload)
+/obj/item/natural/ash/snappop_phoenix/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(respawn)), respawn_time)
 
-/obj/item/ash/snappop_phoenix/proc/respawn()
+/obj/item/natural/ash/snappop_phoenix/proc/respawn()
 	new /obj/item/toy/snappop/phoenix(get_turf(src))
 	qdel(src)

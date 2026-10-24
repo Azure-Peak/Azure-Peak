@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added bulls and billy goat to merchant stock"
+  - rscadd: "Added saiga meat to the stockpile"

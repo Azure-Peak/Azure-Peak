@@ -2407,7 +2407,6 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
-	dropshrink = 0.8
 	max_integrity = 150 //Sword with two tile reach but very low integrity.
 	max_blade_int = 150
 

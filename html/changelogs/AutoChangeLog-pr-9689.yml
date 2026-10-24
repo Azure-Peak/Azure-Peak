@@ -1,0 +1,4 @@
+author: "Sutures"
+delete-after: True
+changes:
+  - bugfix: "fixed wall spells being incompatible with each other when picking spells."

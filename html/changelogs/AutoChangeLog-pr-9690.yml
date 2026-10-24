@@ -1,0 +1,5 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - balance: "Gives all Acolytes a starting thorns needle."
+  - bugfix: "Fixes Eorans Acolytes and Missionaries  not starting with scissors."

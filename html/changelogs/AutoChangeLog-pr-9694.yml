@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added stockbait, a new form of bait that requires Essence of Wilderness and lures exclusively livestock, including bulls and pigs!"
