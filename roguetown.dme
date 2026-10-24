@@ -747,6 +747,7 @@
 #include "code\datums\brewing_recipes\cabbage.dm"
 #include "code\datums\brewing_recipes\cider.dm"
 #include "code\datums\brewing_recipes\fermented_crab.dm"
+#include "code\datums\brewing_recipes\fyritius.dm"
 #include "code\datums\brewing_recipes\grain.dm"
 #include "code\datums\brewing_recipes\limoncello.dm"
 #include "code\datums\brewing_recipes\liquor.dm"
