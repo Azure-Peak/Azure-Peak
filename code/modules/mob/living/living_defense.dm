@@ -256,6 +256,14 @@
 
 	var/on_hit_state = P.on_hit(src, armor)
 	var/actual_damage = P.damage
+	var/mindless_target
+	if(!src.mind || !src.ckey)
+		mindless_target = TRUE
+	if(mindless_target)
+		// If the projectile allows for it, add bonus base damage based on the animal to the projectile.
+		if(P.mindless_bonus_damage)
+			var/bonus_base_damage = round(initial(P.damage) * extra_projectile_damage_modifier)
+			actual_damage += bonus_base_damage
 	if(istype(src, /mob/living/simple_animal))
 		var/mob/living/simple_animal/weakpoint_target = src
 		actual_damage *= weakpoint_target.weakpoint_damage_mod(def_zone)
