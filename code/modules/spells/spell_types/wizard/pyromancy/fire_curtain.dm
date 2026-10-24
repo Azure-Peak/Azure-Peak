@@ -148,6 +148,7 @@
 	if(new_caster)
 		caster_ref = WEAKREF(new_caster)
 	aim_zone = aimed_zone
+	loc.fire_act()
 	START_PROCESSING(SSobj, src)
 	QDEL_IN(src, lifetime)
 

@@ -327,7 +327,7 @@
 	. = ..()
 	var/turf/center = user.loc
 	for(var/turf/T in range(2, center))
-		new /obj/effect/hotspot(T, null, null, 10)
+		new /obj/effect/hotspot(T, 10)
 		new /obj/effect/temp_visual/fire(T)
 
 /datum/action/cooldown/spell/magicians_stone/elemental

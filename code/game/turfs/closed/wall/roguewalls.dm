@@ -56,9 +56,8 @@
 	baseturfs = /turf/open/floor/rogue/ruinedwood
 	neighborlay = "dirtedge"
 	climbdiff = 3
-
-	burn_power = 20
-	spread_chance = 4
+	burn_power = 40
+	spread_chance = 1
 
 /turf/closed/wall/mineral/rogue/wood/window
 	name = "wooden window"
@@ -91,8 +90,8 @@
 	baseturfs = /turf/open/floor/rogue/ruinedwood
 	neighborlay = "dirtedge"
 	climbdiff = 3
-	burn_power = 20
-	spread_chance = 4
+	burn_power = 40
+	spread_chance = 1
 
 /turf/closed/wall/mineral/rogue/wooddark/horizontal
 	icon_state = "horizwooddark"
@@ -129,8 +128,8 @@
 	baseturfs = /turf/open/floor/rogue/ruinedwood
 	neighborlay = "dirtedge"
 	climbdiff = 3
-	burn_power = 20
-	spread_chance = 4
+	burn_power = 40
+	spread_chance = 1
 
 /turf/closed/wall/mineral/rogue/woodbark/Initialize(mapload)
 	dir = pick(NORTH, SOUTH, EAST, WEST)
@@ -172,8 +171,8 @@
 	baseturfs = /turf/open/floor/rogue/ruinedwood
 	neighborlay = "dirtedge"
 	climbdiff = 3
-	burn_power = 20
-	spread_chance = 4
+	burn_power = 40
+	spread_chance = 1
 
 /turf/closed/wall/mineral/rogue/roofwall/center
 	icon_state = "roofTurf_I"
@@ -229,8 +228,8 @@
 	baseturfs = /turf/open/floor/rogue/ruinedwood
 	neighborlay = "dirtedge"
 	climbdiff = 3
-	burn_power = 20
-	spread_chance = 4
+	burn_power = 40
+	spread_chance = 1
 
 /turf/closed/wall/mineral/rogue/decowood/Initialize(mapload)
 	. = ..()
@@ -567,9 +566,8 @@
 	baseturfs = /turf/open/floor/rogue/twig
 	neighborlay = "dirtedge"
 	climbdiff = 1
-
 	burn_power = 20
-	spread_chance = 9
+	spread_chance = 6
 
 /turf/closed/wall/shroud //vines
 	name = "thick treetop"

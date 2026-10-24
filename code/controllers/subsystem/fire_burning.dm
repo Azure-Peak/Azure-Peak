@@ -31,6 +31,8 @@ SUBSYSTEM_DEF(fire_burning)
 				O.take_damage(15, BURN, "fire", 0)
 			else
 				O.extinguish()
+			if(isturf(O.loc) && !istype(O, /obj/structure/flora) && prob(20))
+				O.loc.fire_act()
 			if(!O.fire_burn_start)
 				O.fire_burn_start = world.time
 			if(world.time > O.fire_burn_start + 30 SECONDS)

@@ -77,6 +77,7 @@
 		return
 	for(var/turf/T in get_pattern_turfs(H, facing))
 		new /obj/effect/temp_visual/dragonfire(T)
+		T.fire_act()
 		for(var/atom/movable/A in T)
 			if(ismob(A))
 				continue
