@@ -78970,6 +78970,9 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
+/obj/structure/roguemachine/atm{
+	location_tag = "Tavern Kitchen"
+	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern/grim)
 "jxH" = (
