@@ -13243,20 +13243,6 @@
 /obj/structure/fluff/railing/border,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grimspyre)
-"bDz" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/structure/lever/wall{
-	pixel_x = 1;
-	redstone_id = "inn_shutter";
-	pixel_y = 32;
-	dir = 1;
-	name = "shutters"
-	},
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/tavern/grim)
 "bDB" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/dirt,
@@ -18261,9 +18247,7 @@
 /obj/structure/table/wood/large_table{
 	dir = 4
 	},
-/obj/structure/bars/passage/shutter{
-	redstone_id = "inn_shutter"
-	},
+/obj/structure/bars/shoptwo,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "cjw" = (
@@ -56094,9 +56078,7 @@
 /obj/structure/table/wood/large_table{
 	dir = 8
 	},
-/obj/structure/bars/passage/shutter{
-	redstone_id = "inn_shutter"
-	},
+/obj/structure/bars/shoptwo,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "gNA" = (
@@ -78968,7 +78950,6 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/structure/roguemachine/withdraw,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern/grim)
 "jxH" = (
@@ -127989,9 +127970,7 @@
 "pxi" = (
 /obj/structure/table/wood/large_table,
 /obj/machinery/light/rogue/torchholder/l,
-/obj/structure/bars/passage/shutter{
-	redstone_id = "inn_shutter"
-	},
+/obj/structure/bars/shoptwo,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "pxk" = (
@@ -130176,9 +130155,7 @@
 /area/rogue/under/cave/licharena/grim)
 "pJO" = (
 /obj/structure/table/wood/large_table,
-/obj/structure/bars/passage/shutter{
-	redstone_id = "inn_shutter"
-	},
+/obj/structure/bars/shoptwo,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "pJP" = (
@@ -132871,9 +132848,7 @@
 "qav" = (
 /obj/structure/table/wood/large_table,
 /obj/machinery/light/rogue/torchholder/r,
-/obj/structure/bars/passage/shutter{
-	redstone_id = "inn_shutter"
-	},
+/obj/structure/bars/shoptwo,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "qaw" = (
@@ -161040,9 +161015,7 @@
 /obj/structure/table/wood/large_table{
 	dir = 8
 	},
-/obj/structure/bars/passage/shutter{
-	redstone_id = "inn_shutter"
-	},
+/obj/structure/bars/shoptwo,
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "tuM" = (
@@ -177211,6 +177184,14 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/physician)
+"vnG" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/structure/roguemachine/withdraw,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/tavern/grim)
 "vnL" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -501821,7 +501802,7 @@ jbz
 jbz
 hPl
 pVS
-jxA
+vnG
 koe
 vuo
 cKR
@@ -502203,7 +502184,7 @@ cjv
 cjv
 vlg
 pVS
-bDz
+jxA
 caS
 caS
 caS
