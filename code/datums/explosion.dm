@@ -2,13 +2,30 @@ GLOBAL_LIST_EMPTY(explosions)
 //Against my better judgement, I will return the explosion datum
 //If I see any GC errors for it I will find you
 //and I will gib you
-/proc/explosion(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE, soundin, mob/bomb_owner = null)
-	return new /datum/explosion(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin, bomb_owner)
+/proc/explosion(atom/epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flash_range, adminlog = TRUE, ignorecap = FALSE, flame_range = 0, silent = FALSE, smoke = FALSE, soundin, mob/bomb_owner = null)
+	return new /datum/explosion(epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin, bomb_owner)
 
 //This datum creates 3 async tasks
 //1 GatherSpiralTurfsProc runs spiral_range_turfs(tick_checked = TRUE) to populate the affected_turfs list
 //2 CaculateExplosionBlock adds the blockings to the cached_exp_block list
 //3 The main thread explodes the prepared turfs
+
+// NOTE FOR OTHER PEOPLE!
+// EXTREME IMPACT RANGE = BLACKSTEEL PENETRATION
+// HEAVY IMPACT RANGE = PLATE PENETRATION
+// LIGHT IMPACT RANGE = NO PENETRATION
+
+// The values above should always be at least half the level from the other, multiplicatively.
+// Light Impact = The bomb's max reach.
+// Heavy Impact = The bomb's max effectiveness range. Half the above, minus one.
+// Extreme Impact = The bomb's epicenter of devastation which should basically be where it 'critically hits'. Same idea as above, half the total, then -1. If the value ends below 1, set to 0. DO NOT USE THIS LIGHTLY, IT PENETRATES BLACKSTEEL!
+
+// Examples:
+// Bomb of 8 range (Light) has a 3 effectiveness range (Heavy), and 0 devastation (Extreme). (8 Light /// 4 - 1 = "3" Heavy ///  1.5 - 1 = "0" Extreme)
+// Bomb of 4 range. (4 Light /// 2 - 1 = "1" Heavy /// 0 Extreme))
+// Bomb of 10 range. (10 Light /// 5 - 1 = "4" Heavy /// 2 - 1 = "1" Extreme)
+
+// This is just a recommendation, but if you want to play safe, never use Extreme unless it's extreme, and you could leave Heavy to always be point blank at 1.
 
 /datum/explosion
 	var/explosion_id
@@ -32,7 +49,7 @@ GLOBAL_LIST_EMPTY(explosions)
 		EX_PREPROCESS_EXIT_CHECK\
 	}
 
-/datum/explosion/New(atom/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin = 'sound/misc/explode/explosion.ogg', mob/bomb_owner = null)
+/datum/explosion/New(atom/epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flash_range, adminlog, ignorecap, flame_range, silent, smoke, soundin = 'sound/misc/explode/explosion.ogg', mob/bomb_owner = null)
 	set waitfor = FALSE
 
 	var/id = ++id_counter
@@ -48,14 +65,14 @@ GLOBAL_LIST_EMPTY(explosions)
 	if(isnull(flame_range))
 		flame_range = light_impact_range
 	if(isnull(flash_range))
-		flash_range = devastation_range
+		flash_range = extreme_impact_range
 
 	// Archive the uncapped explosion for the doppler array
-	var/orig_dev_range = devastation_range
+	var/orig_dev_range = extreme_impact_range
 	var/orig_heavy_range = heavy_impact_range
 	var/orig_light_range = light_impact_range
 
-	var/orig_max_distance = max(devastation_range, heavy_impact_range, light_impact_range, flash_range, flame_range)
+	var/orig_max_distance = max(extreme_impact_range, heavy_impact_range, light_impact_range, flash_range, flame_range)
 
 	//Zlevel specific bomb cap multiplier
 	var/cap_multiplier = SSmapping.level_trait(epicenter.z, ZTRAIT_BOMBCAP_MULTIPLIER)
@@ -63,7 +80,7 @@ GLOBAL_LIST_EMPTY(explosions)
 		cap_multiplier = 1
 
 	if(!ignorecap)
-		devastation_range = min(GLOB.MAX_EX_DEVESTATION_RANGE * cap_multiplier, devastation_range)
+		extreme_impact_range = min(GLOB.MAX_EX_DEVESTATION_RANGE * cap_multiplier, extreme_impact_range)
 		heavy_impact_range = min(GLOB.MAX_EX_HEAVY_RANGE * cap_multiplier, heavy_impact_range)
 		light_impact_range = min(GLOB.MAX_EX_LIGHT_RANGE * cap_multiplier, light_impact_range)
 		flash_range = min(GLOB.MAX_EX_FLASH_RANGE * cap_multiplier, flash_range)
@@ -82,17 +99,17 @@ GLOBAL_LIST_EMPTY(explosions)
 
 	started_at = REALTIMEOFDAY
 
-	var/max_range = max(devastation_range, heavy_impact_range, light_impact_range, flame_range)
+	var/max_range = max(extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 
 	if(adminlog)
-		message_admins("Explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [ADMIN_VERBOSEJMP(epicenter)]")
-		log_game("Explosion with size ([devastation_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)]")
+		message_admins("Explosion with size ([extreme_impact_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [ADMIN_VERBOSEJMP(epicenter)]")
+		log_game("Explosion with size ([extreme_impact_range], [heavy_impact_range], [light_impact_range], [flame_range]) in [loc_name(epicenter)]")
 
 	var/x0 = epicenter.x
 	var/y0 = epicenter.y
 	var/z0 = epicenter.z
 	var/area/areatype = get_area(epicenter)
-	SSblackbox.record_feedback("associative", "explosion", 1, list("dev" = devastation_range, "heavy" = heavy_impact_range, "light" = light_impact_range, "flash" = flash_range, "flame" = flame_range, "orig_dev" = orig_dev_range, "orig_heavy" = orig_heavy_range, "orig_light" = orig_light_range, "x" = x0, "y" = y0, "z" = z0, "area" = areatype.type, "time" = time_stamp("YYYY-MM-DD hh:mm:ss", 1)))
+	SSblackbox.record_feedback("associative", "explosion", 1, list("extreme" = extreme_impact_range, "heavy" = heavy_impact_range, "light" = light_impact_range, "flash" = flash_range, "flame" = flame_range, "orig_dev" = orig_dev_range, "orig_heavy" = orig_heavy_range, "orig_light" = orig_light_range, "x" = x0, "y" = y0, "z" = z0, "area" = areatype.type, "time" = time_stamp("YYYY-MM-DD hh:mm:ss", 1)))
 
 	// Play sounds; we want sounds to be different depending on distance so we will manually do it ourselves.
 	// Stereo users will also hear the direction of the explosion!
@@ -102,7 +119,7 @@ GLOBAL_LIST_EMPTY(explosions)
 
 	var/far_dist = 0
 	far_dist += heavy_impact_range * 5
-	far_dist += devastation_range * 209
+	far_dist += extreme_impact_range * 209
 
 	if(!silent)
 		var/frequency = get_rand_frequency()
@@ -137,7 +154,7 @@ GLOBAL_LIST_EMPTY(explosions)
 			EX_PREPROCESS_CHECK_TICK
 
 	//postpone processing for a bit
-	var/postponeCycles = max(round(devastation_range/8),1)
+	var/postponeCycles = max(round(extreme_impact_range/8),1)
 	SSlighting.postpone(postponeCycles)
 	SSmachines.postpone(postponeCycles)
 
@@ -158,32 +175,36 @@ GLOBAL_LIST_EMPTY(explosions)
 				continue
 			L.flash_act()
 
-	//damage. WTF, where it?
+	//damage. WTF, where it? -- Kunai: well, here goes nothing
 	var/dist_epi
 	var/brute
 	var/burn
-	if(!isnull(devastation_range))
-		for(var/mob/living/L in viewers(devastation_range, epicenter))
+	if(!isnull(extreme_impact_range))
+		for(var/mob/living/L in viewers(extreme_impact_range, epicenter))
 			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
 				continue
 			dist_epi = get_dist(L, epicenter)
-			if(!L.mind)
-				burn = rand(100,250)
-				brute = rand(50,150)
-				L.adjustBruteLoss(brute)
-				L.adjustFireLoss(burn)
+			brute = rand(100,250) / 5
+			burn = rand(100,250) / 5
+			for(var/i in 1 to 5)
+				var/zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_BSTEEL, "extreme concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
+				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_BSTEEL, "extreme concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+
 	if(!isnull(heavy_impact_range))
 		for(var/mob/living/L in viewers(heavy_impact_range, epicenter))
 			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
 				continue
 			dist_epi = get_dist(L, epicenter)
-			if(dist_epi <= devastation_range)
+			if(dist_epi <= extreme_impact_range)
 				continue
-			if(!L.mind)
-				burn = rand(50,180)
-				brute = rand(30,120)
-				L.adjustFireLoss(burn)
-				L.adjustBruteLoss(brute)
+			brute = rand(30,120) / 5
+			burn = rand(50,180) / 5
+			for(var/i in 1 to 5)
+				var/zone = pick(BODY_ZONE_HEAD,	BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_HEAVY, "heavy concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
+				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_HEAVY, "heavy concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+
 	if(!isnull(light_impact_range))
 		for(var/mob/living/L in viewers(light_impact_range, epicenter))
 			if(L == bomb_owner && HAS_TRAIT(L, TRAIT_BOMBER_EXPERT))
@@ -191,11 +212,13 @@ GLOBAL_LIST_EMPTY(explosions)
 			dist_epi = get_dist(L, epicenter)
 			if(dist_epi <= heavy_impact_range)
 				continue
-			if(!L.mind)
-				burn = rand(25,90)
-				brute = rand(15,60)
-				L.adjustFireLoss(burn)
-				L.adjustBruteLoss(brute)
+			brute = rand(15,60) / 5
+			burn = rand(25,90) / 5
+			for(var/i in 1 to 5)
+				var/zone = pick(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
+				arcyne_strike(L, L, null, brute, zone, BCLASS_BLUNT, PEN_NONE, "concussive impact", TRUE, TRUE, FALSE, BRUTE, null, TRUE)
+				arcyne_strike(L, L, null, burn, zone, BCLASS_BURN, PEN_NONE, "concussive blast", TRUE, TRUE, FALSE, BURN, null, TRUE)
+
 	EX_PREPROCESS_CHECK_TICK
 
 	var/list/exploded_this_tick = list()	//open turfs that need to be blocked off while we sleep
@@ -227,7 +250,7 @@ GLOBAL_LIST_EMPTY(explosions)
 		var/flame_dist = dist < flame_range
 		//var/throw_dist = dist
 
-		if(dist < devastation_range)
+		if(dist < extreme_impact_range)
 			dist = EXPLODE_DEVASTATE
 		else if(dist < heavy_impact_range)
 			dist = EXPLODE_HEAVY
@@ -257,7 +280,7 @@ GLOBAL_LIST_EMPTY(explosions)
 			T.explosion_id = id
 			if(istype(T, /turf/closed/wall))
 				var/turf/closed/wall/W = T
-				W.ex_act(dist, epicenter, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+				W.ex_act(dist, epicenter, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 			else
 				T.ex_act(dist)
 			exploded_this_tick += T
@@ -324,7 +347,7 @@ GLOBAL_LIST_EMPTY(explosions)
 
 	//You need to press the DebugGame verb to see these now....they were getting annoying and we've collected a fair bit of data. Just -test- changes to explosion code using this please so we can compare
 	if(GLOB.Debug2)
-		log_world("## DEBUG: Explosion([x0],[y0],[z0])(d[devastation_range],h[heavy_impact_range],l[light_impact_range]): Took [took] seconds.")
+		log_world("## DEBUG: Explosion([x0],[y0],[z0])(d[extreme_impact_range],h[heavy_impact_range],l[light_impact_range]): Took [took] seconds.")
 
 	++stopped
 	qdel(src)
@@ -401,7 +424,7 @@ GLOBAL_LIST_EMPTY(explosions)
 			heavy = 5
 			light = 7
 		if("Custom Bomb")
-			dev = input(usr, "Devastation range (Tiles):") as num
+			dev = input(usr, "Extreme impact range (Tiles):") as num
 			heavy = input(usr, "Heavy impact range (Tiles):") as num
 			light = input(usr, "Light impact range (Tiles):") as num
 
