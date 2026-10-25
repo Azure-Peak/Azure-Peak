@@ -1,0 +1,5 @@
+author: "Stutternov"
+delete-after: True
+changes:
+  - rscadd: "Re-adds old Paranoid system; minus the racism, plus a stress event from half-heard whispers"
+  - refactor: "Moves the prior Paranoid trait over to a new trait named 'Factionalist'"

@@ -158,17 +158,22 @@
 /datum/stressevent/parablood
 	timer = 15 SECONDS
 	stressadd = 3
-	desc = span_red("There is far too much blood here! Iron stings my nostrils!")
+	desc = span_red("There is all so much blood - I'm bound to be next!")
 
 /datum/stressevent/parastr
 	timer = 2 MINUTES
 	stressadd = 2
-	desc = span_red("That beast there is stronger than I, and could quite easily kill me...")
+	desc = span_red("That person there is stronger than I, and could quite easily kill me...")
 
 /datum/stressevent/paratalk
 	timer = 2 MINUTES
 	stressadd = 2
 	desc = span_red("They are plotting against me in evil tongues...")
+
+/datum/stressevent/parawhisper
+	timer = 2 MINUTES
+	stressadd = 2
+	desc = span_red("I can just barely hear them whispering, surely it's about me..!")
 
 /datum/stressevent/crowd
 	timer = 2 MINUTES

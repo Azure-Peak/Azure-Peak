@@ -137,8 +137,8 @@
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
 	caster.energy_add(120)
 	caster.stamina_add(-50)
-	new /obj/item/ash(T)
-	new /obj/item/ash(T)
+	new /obj/item/natural/ash(T)
+	new /obj/item/natural/ash(T)
 	qdel(S)
 
 /datum/action/cooldown/spell/zizo/rituos/proc/run_ritual_chant(mob/living/carbon/human/user, path_choice)
@@ -237,6 +237,8 @@
 	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
 	eyes.Insert(user)
 	user.update_body_parts()
+	user.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw) //skeleton hands, buffs your punches into clawing at people.
+	user.update_a_intents()
 
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 

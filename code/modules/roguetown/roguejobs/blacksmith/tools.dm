@@ -12,7 +12,7 @@
 	slot_flags = ITEM_SLOT_HIP
 	w_class = WEIGHT_CLASS_NORMAL
 	associated_skill = /datum/skill/combat/maces
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	grid_width = 32
 	grid_height = 64
 	var/quality = 1

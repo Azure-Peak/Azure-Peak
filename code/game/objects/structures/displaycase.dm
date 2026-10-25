@@ -219,7 +219,7 @@
 	if (showpiece)
 		if(added_roundstart)
 			visible_message("<span class='danger'>The [showpiece] crumbles to dust!</span>")
-			new /obj/item/ash(loc)
+			new /obj/item/natural/ash(loc)
 			QDEL_NULL(showpiece)
 		else
 			..()

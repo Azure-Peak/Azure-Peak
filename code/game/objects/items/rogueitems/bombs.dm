@@ -520,7 +520,7 @@
 	var/datum/effect_system/smoke_spread/smoke = new /datum/effect_system/smoke_spread
 	smoke.set_up(radius, T)
 	smoke.start()
-	new /obj/item/ash(T)
+	new /obj/item/natural/ash(T)
 	qdel(src)
 	return TRUE
 

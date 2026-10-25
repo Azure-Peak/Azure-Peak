@@ -1,4 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "adjusts the side-sprite silhouette for men by 1 pixel"
