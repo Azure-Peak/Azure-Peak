@@ -43483,14 +43483,6 @@
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/basement)
-"hud" = (
-/obj/effect/decal/cleanable/debris/glassy,
-/obj/structure/plasticflaps{
-	color = "#b89e82";
-	name = "rusted iron bars"
-	},
-/turf/open/water/sewer,
-/area/rogue/under/town/sewer)
 "huf" = (
 /obj/structure/stairs{
 	dir = 1
@@ -98748,10 +98740,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/bog/south)
-"qCq" = (
-/obj/effect/decal/remains/human,
-/turf/open/floor/rogue/blocks/green,
-/area/rogue/under/town/sewer)
 "qCs" = (
 /obj/structure/roguemachine/scomm/l{
 	scom_tag = "Inn - Kitchen"
@@ -113007,8 +112995,10 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/mountains)
 "sTz" = (
-/obj/effect/spawner/lootdrop/roguetown/sewers,
-/turf/open/water/sewer,
+/obj/effect/decal/cleanable/blood{
+	icon_state = "floor6-old"
+	},
+/turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "sTD" = (
 /obj/structure/closet/crate/chest/gold{
@@ -115270,10 +115260,6 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
-"tmB" = (
-/obj/structure/fluff/walldeco/wantedposter,
-/turf/closed/wall/mineral/rogue/pipe,
-/area/rogue/under/town/sewer)
 "tmD" = (
 /obj/structure/flora/roguegrass/herb/random,
 /obj/effect/decal/edge{
@@ -121034,6 +121020,10 @@
 /obj/item/natural/stone,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cavewet/bogcaves/north)
+"ukF" = (
+/obj/structure/fluff/walldeco/wantedposter,
+/turf/closed/wall/mineral/rogue/pipe,
+/area/rogue/under/town/sewer)
 "ukG" = (
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/magician)
@@ -126046,6 +126036,10 @@
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
+"vdl" = (
+/obj/effect/decal/remains/human,
+/turf/open/floor/rogue/blocks/green,
+/area/rogue/under/town/sewer)
 "vdo" = (
 /obj/structure/chair/stool/rogue,
 /mob/living/carbon/human/species/human/northern/highwayman,
@@ -130391,10 +130385,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/orcdungeon)
 "vPK" = (
-/obj/effect/decal/cleanable/blood{
-	icon_state = "floor6-old"
-	},
-/turf/open/floor/rogue/blocks/green,
+/obj/effect/spawner/lootdrop/roguetown/sewers,
+/turf/open/water/sewer,
 /area/rogue/under/town/sewer)
 "vPL" = (
 /obj/structure/glowshroom,
@@ -136125,6 +136117,14 @@
 /obj/effect/decal/cleanable/dirt/cobweb,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/shelter)
+"wNv" = (
+/obj/effect/decal/cleanable/debris/glassy,
+/obj/structure/plasticflaps{
+	color = "#b89e82";
+	name = "rusted iron bars"
+	},
+/turf/open/water/sewer,
+/area/rogue/under/town/sewer)
 "wNw" = (
 /obj/effect/decal/cleanable/roguerune/god/psydon,
 /turf/open/floor/rogue/cobble,
@@ -156263,7 +156263,7 @@ cSb
 cPX
 cPX
 cqm
-vPK
+sTz
 ylh
 ylh
 ylh
@@ -157605,7 +157605,7 @@ mMx
 ylh
 dlK
 mMx
-sTz
+vPK
 mMx
 mMx
 mMx
@@ -158060,7 +158060,7 @@ mMx
 mMx
 mMx
 mMx
-sTz
+vPK
 cqm
 cPX
 eBf
@@ -160801,7 +160801,7 @@ orc
 xam
 ylh
 urZ
-qCq
+vdl
 ylh
 nsR
 enI
@@ -163982,7 +163982,7 @@ spI
 cqm
 ylh
 mMx
-vPK
+sTz
 vPL
 qHj
 qHj
@@ -167996,7 +167996,7 @@ pfU
 ylh
 mMx
 mMx
-hud
+wNv
 mMx
 mMx
 mMx
@@ -168051,7 +168051,7 @@ cqm
 oGQ
 mMx
 mMx
-mMx
+bjc
 jaT
 jaT
 jaT
@@ -168503,7 +168503,7 @@ cqm
 oGQ
 mMx
 mMx
-mMx
+bjc
 jaT
 jaT
 jaT
@@ -168955,7 +168955,7 @@ cqm
 oGQ
 mMx
 mMx
-mMx
+bjc
 jaT
 jaT
 jaT
@@ -169353,7 +169353,7 @@ iZp
 iZp
 iZp
 iZp
-tmB
+ukF
 ylh
 oGQ
 ylh
@@ -169407,7 +169407,7 @@ cqm
 oGQ
 mMx
 mMx
-mMx
+wuQ
 jaT
 jaT
 jaT
@@ -169859,7 +169859,7 @@ cqm
 oGQ
 mMx
 mMx
-mMx
+bjc
 jaT
 jaT
 jaT
@@ -173013,7 +173013,7 @@ hSR
 uES
 xPZ
 cqm
-qCq
+vdl
 sMT
 ylh
 urZ
