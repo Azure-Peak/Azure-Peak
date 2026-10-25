@@ -28333,9 +28333,7 @@
 /turf/open/floor/carpet/red,
 /area/rogue/outdoors/town/roofs/grim)
 "dsG" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	name = "bath"
-	},
+/obj/structure/mineral_door/wood/deadbolt,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave/central)
 "dsH" = (
@@ -145444,9 +145442,7 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cave/mazedungeon)
 "rBz" = (
-/obj/structure/mineral_door/wood/deadbolt{
-	name = "bath"
-	},
+/obj/structure/mineral_door/wood/deadbolt,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/cave/central)
 "rBB" = (
