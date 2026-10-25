@@ -149,6 +149,9 @@
 	name = "lamplighter's staff"
 	desc = "An iron lamptern stave ending with fittings built to hold up in self defense, these are made in the fashion of the Lamplighters who travel the road and bring the light of civilization through the dark wilds."
 	possible_item_intents = list(/datum/intent/spear/bash, /datum/intent/use)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged, /datum/intent/effect/hobble/quarterstaff)
+	signature_intent = /datum/intent/effect/hobble/quarterstaff
+	wbalance = WBALANCE_NORMAL
 	icon_state = "ironlamp"
 	light_system = MOVABLE_LIGHT
 	light_outer_range = 15
@@ -182,6 +185,9 @@
 	name = "lampwarden's staff"
 	desc = "A Lamptern staff made of steel and iron, built to both break heads and burn forevermore in the Lamplighters fashion."
 	possible_item_intents = list(/datum/intent/spear/bash, /datum/intent/use)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/quarterstaff, /datum/intent/effect/daze/quarterstaff)
+	signature_intent = /datum/intent/effect/daze/quarterstaff
+	wbalance = WBALANCE_HEAVY
 	icon_state = "wardlamp"
 	light_system = MOVABLE_LIGHT
 	light_outer_range = 15
