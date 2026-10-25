@@ -247,7 +247,7 @@
 	name = "fancy door"
 	category = "Doors"
 	result = /obj/structure/mineral_door/wood/fancywood
-	reqs = list(/obj/item/grown/log/tree/small = 2)
+	reqs = list(/obj/item/natural/wood/plank = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -351,7 +351,7 @@
 	name = "park bench (left)"
 	category = "Seats"
 	result = /obj/structure/chair/hotspring_bench/left
-	reqs = list(/obj/item/grown/log/tree/small = 1)
+	reqs = list(/obj/item/natural/wood/plank = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -360,7 +360,7 @@
 	name = "park bench (middle)"
 	category = "Seats"
 	result = /obj/structure/chair/hotspring_bench
-	reqs = list(/obj/item/grown/log/tree/small = 1)
+	reqs = list(/obj/item/natural/wood/plank = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -369,7 +369,7 @@
 	name = "park bench (right)"
 	category = "Seats"
 	result = /obj/structure/chair/hotspring_bench/right
-	reqs = list(/obj/item/grown/log/tree/small = 1)
+	reqs = list(/obj/item/natural/wood/plank = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -378,7 +378,7 @@
 	name = "fancy wooden chair"
 	category = "Seats"
 	result = /obj/item/chair/rogue/fancy/crafted
-	reqs = list(/obj/item/grown/log/tree/small = 1,
+	reqs = list(/obj/item/natural/wood/plank = 1,
 				/obj/item/natural/silk = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -754,7 +754,7 @@
 	name = "loom"
 	category = "Misc"
 	result = /obj/machinery/loom
-	reqs = list(/obj/item/grown/log/tree/small = 2,
+	reqs = list(/obj/item/natural/wood/plank = 2,
 				/obj/item/grown/log/tree/stick = 2,
 				/obj/item/natural/fibers = 2)
 	verbage_simple = "construct"
@@ -965,7 +965,7 @@
 	name = "chest"
 	category = "Containers"
 	result = /obj/structure/closet/crate/chest/crafted
-	reqs = list(/obj/item/grown/log/tree/small = 1)
+	reqs = list(/obj/item/natural/wood/plank = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -978,7 +978,7 @@
 	name = "closet"
 	category = "Containers"
 	result = /obj/structure/closet/crate/roguecloset
-	reqs = list(/obj/item/grown/log/tree/small = 2)
+	reqs = list(/obj/item/natural/wood/plank = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -987,7 +987,7 @@
 	name = "wooden coffin"
 	category = "Containers"
 	result = /obj/structure/closet/crate/coffin
-	reqs = list(/obj/item/grown/log/tree/small = 2)
+	reqs = list(/obj/item/natural/wood/plank = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -1036,7 +1036,7 @@
 	name = "smoker"
 	category = "Misc"
 	result = /obj/machinery/light/rogue/smoker
-	reqs = list(/obj/item/grown/log/tree/small = 2,
+	reqs = list(/obj/item/natural/wood/plank = 2,
 				/obj/item/natural/stone = 1,
 				/obj/item/rope = 1)
 	craftdiff = 3
@@ -1051,7 +1051,7 @@
 	name = "smoker (wheeled)"
 	category = "Misc"
 	result = /obj/machinery/light/rogue/smoker/wheeled
-	reqs = list(/obj/item/grown/log/tree/small = 4,
+	reqs = list(/obj/item/natural/wood/plank = 3,
 				/obj/item/natural/stone = 1,
 				/obj/item/rope = 2)
 	craftdiff = 4
@@ -1146,7 +1146,7 @@
 	name = "bed, nice"
 	category = "Beds"
 	result = /obj/structure/bed/rogue/inn
-	reqs = list(/obj/item/grown/log/tree/small = 2,
+	reqs = list(/obj/item/natural/wood/plank = 2,
 				/obj/item/natural/cloth = 2)
 	tools = list(/obj/item/needle)
 	verbage_simple = "construct"
@@ -1204,7 +1204,7 @@
 	name = "betting table"
 	category = "Tables"
 	result = /obj/structure/table/wood/betting
-	reqs = list(/obj/item/grown/log/tree/small = 1,
+	reqs = list(/obj/item/natural/wood/plank = 1,
 				/obj/item/natural/cloth = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
@@ -1381,7 +1381,7 @@
 	name = "custom sign"
 	category = "Displays"
 	result = /obj/structure/fluff/customsign
-	reqs = list(/obj/item/grown/log/tree/small = 1)
+	reqs = list(/obj/item/natural/wood/plank = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
@@ -1667,7 +1667,7 @@
 	name = "pillory"
 	category = "Misc"
 	result = /obj/structure/pillory/crafted
-	reqs = list(/obj/item/grown/log/tree/small = 2,
+	reqs = list(/obj/item/natural/wood/plank = 2,
 				/obj/item/natural/stone = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"

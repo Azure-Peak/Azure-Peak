@@ -553,6 +553,17 @@
 			S.pixel_y = rand(-3, 3)
 		return
 
+//Wood rod subtype
+/obj/item/natural/bundle/stick/rod
+	name = "bundle of wood rods"
+	icon_state = "rodbundle1"
+	desc = "A bundle of wood rods. You know where to stick em'."
+	stacktype = /obj/item/grown/log/tree/stick/rod
+	stackname = "rods"
+	icon1 = "rodbundle1"
+	icon2 = "rodbundle2"
+	icon3 = "rodbundle3"
+
 /obj/item/natural/bundle/bone
 	name = "stack of bones"
 	icon_state = "bonestack1"

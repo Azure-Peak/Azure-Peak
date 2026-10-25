@@ -118,7 +118,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	name = "Black Oak Rebellion"
 	description = "The Black Oaks have risen in Rosawood again. Woodcutters won't enter the deep groves without escorts."
 	announcement = "<font color='#c44'>BLACK OAK REBELLION: The Black Oaks have risen in Rosawood. Wood is scarce.</font>"
-	affected_goods = list(TRADE_GOOD_WOOD)
+	affected_goods = list(TRADE_GOOD_WOOD, TRADE_GOOD_PLANK)
 	price_mod = ECON_SHORTAGE_MAJOR
 	event_type = ECON_EVENT_SHORTAGE
 
@@ -195,7 +195,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 	name = "Rosawood Overcut"
 	description = "Rosawood's lumber camps have cut far past their quotas. Timber barges crowd the coast."
 	announcement = "<font color='#5cb85c'>ROSAWOOD OVERCUT: Timber glut on the river.</font>"
-	affected_goods = list(TRADE_GOOD_WOOD)
+	affected_goods = list(TRADE_GOOD_WOOD, TRADE_GOOD_PLANK)
 	price_mod = ECON_OVERSUPPLY_MAJOR
 	event_type = ECON_EVENT_OVERSUPPLY
 

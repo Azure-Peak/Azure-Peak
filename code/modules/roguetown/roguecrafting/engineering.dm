@@ -21,7 +21,7 @@
 	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/structure/table/cooling
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/ingot/iron = 1,
 		/obj/item/roguegear = 1,
 	)
@@ -36,7 +36,7 @@
 	display_category = ITEM_CAT_ENG_MACHINERY
 	result = /obj/structure/roguemachine/potionseller/crafted
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/ingot/iron = 1,
 		/obj/item/natural/glass = 1,
 		/obj/item/roguegear = 1,
@@ -52,7 +52,7 @@
 	category = "Machines"
 	result = /obj/structure/roguemachine/vendor/mobile
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 2,
 		/obj/item/ingot/iron = 1,
 		/obj/item/natural/glass = 1,
 		/obj/item/roguegear = 2,
@@ -76,7 +76,7 @@
 	display_category = ITEM_CAT_ENG_CONSTRUCTION
 	result = /obj/structure/floordoor
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 1,
 		/obj/item/roguegear = 1,
 	)
 	verbage_simple = "engineer"
@@ -785,7 +785,7 @@
 		/obj/item/rotation_contraption/cog,
 	)
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 1,
 		/obj/item/roguegear = 2,
 		/obj/item/grown/log/tree/stick = 2,
 	)
@@ -840,7 +840,7 @@
 		/obj/item/rotation_contraption/large_cog,
 	)
 	reqs = list(
-		/obj/item/grown/log/tree/small = 1,
+		/obj/item/natural/wood/plank = 1,
 		/obj/item/ingot/bronze = 1,
 		/obj/item/grown/log/tree/stick = 1,
 	)
