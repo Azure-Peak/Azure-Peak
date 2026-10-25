@@ -62,6 +62,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	overlay_state = "book1"
 	chargedrain = 0
 	chargetime = 0
+	var/vaquero = FALSE // To limit or otherwise alter the vaquero's version of the spell. Currently only prevents sending the mount away.
 	var/choosing = FALSE
 
 /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount/cast(list/targets, mob/living/carbon/human/user = usr)
@@ -158,8 +159,11 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 			playsound(the_real_honse, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
 
 	// give us all the saddleborn summon/send-away spells and all that jazz
-	user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/sendaway)
-	user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/whistle)
+	if(!vaquero)
+		user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/sendaway)
+		user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/whistle)
+	else
+		user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/whistle/vaquero)
 	QDEL_IN(src, 0)
 
 // dirty subtype for saddleborn spells that handles checking if we can actually do fucking anything at all

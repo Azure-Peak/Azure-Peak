@@ -8,10 +8,8 @@
 	subclass_languages = list(/datum/language/etruscan)
 	traits_applied = list(TRAIT_DODGEEXPERT)
 	subclass_virtues = list(
-		/datum/virtue/combat/guarded,
-		/datum/virtue/utility/riding // So they can pick their mount, and its part of their identity.
+		/datum/virtue/combat/guarded
 	)
-	virtue_limits = list(/datum/virtue/utility/riding) // So you cant get two saigas, bill.
 	subclass_stats = list(
 		STATKEY_SPD = 3,
 		STATKEY_INT = 2,
@@ -30,7 +28,7 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/riding = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
@@ -97,4 +95,12 @@
 				var/datum/inspiration/I = new /datum/inspiration(H)
 				I.grant_inspiration(H, bard_tier = BARD_T1)
 				H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery) //I guess all the other bards have it too?
+	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount/vaquero)
 	H.merctype = 13
+
+/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount/vaquero
+	desc = "Recall the form of your treasured Vaquero's mount."
+	vaquero = TRUE
+
+/obj/effect/proc_holder/spell/self/saddleborn/whistle/vaquero
+	recharge_time = 30 MINUTES
