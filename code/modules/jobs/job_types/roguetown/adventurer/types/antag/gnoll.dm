@@ -36,8 +36,12 @@
 		/datum/virtue/utility/bronzelimbs, //They should feel pain in their limbs given their state
 		/datum/virtue/movement/acrobatic, //This should be given to them when they are actually after a Hunted
 		/datum/virtue/utility/woodwalker, //This should be given to them when they are actually after a Hunted
+		/datum/virtue/utility/socialite //no massages, no beauty trait, etc.
 		)
-	quirk_restrictions = list(/datum/quirk/noble)
+	quirk_restrictions = list(
+		/datum/quirk/noble,
+		/datum/quirk/vegan
+		)
 	job_subclasses = list(
 		/datum/advclass/gnoll/berserker,
 		/datum/advclass/gnoll/knight,
