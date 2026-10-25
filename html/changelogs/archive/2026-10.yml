@@ -1050,3 +1050,49 @@
   - rscadd: new time change tips
   - rscadd: new time change tips (lore)
   - bugfix: smoking ozium should work again
+2026-10-25:
+  KatTheFox:
+  - bugfix: The antagonist filter for the well-known quirk works properly now.
+  Ketrai:
+  - rscdel: Removes venison loins & prime cuts from the stockpile again as these are
+      noble & protected meats.
+  - bugfix: Fixes an icon issue with enchantingkit items that have no two-handing
+      gripssprite
+  OrbisAnima:
+  - balance: Light Steps now only counts as two extra levels of sneaking for sneaking
+      speed movement, but it properly stacks with all tiers of sneaking up to base
+      walking speed (legendary sneaking or expert/master and light steps).
+  Ryan180602:
+  - bugfix: reverted the pike's intents/stats/gwstrap need.
+  - bugfix: heelification applies directly to shoes, now
+  - bugfix: sprite adjustments are no longer stale for uppercut and other related
+      spells
+  Shaman:
+  - spellcheck: Standardized names of Dominion donator items
+  - rscadd: Dominion Cestus elixir works on hardened leather gloves
+  - rscadd: Dominion Greatsword elixir works on executioner's swords
+  - rscadd: Dominion Shield elixir works on bronze shields, iron shields, and bucklers
+  Stutternov:
+  - rscadd: Re-adds old Paranoid system; minus the racism, plus a stress event from
+      half-heard whispers
+  - refactor: Moves the prior Paranoid trait over to a new trait named 'Factionalist'
+  WeNeedMorePhoron:
+  - bugfix: 'NPC that uses simple_find_target behavior is no longer treated as having
+      low health all of the time, which decrease the time they need to find someone
+      sneaking between 25 - 75%.  This affects: Rous, Bramblesnout, Mossback, deadite
+      saiga, troll, deadite rous, headless, dagger, haunt, depth hound, tamed undead
+      etc. (So not a lot of mobs)'
+  - bugfix: Rat now uses their lower intended visual range of 2 instead of 5.
+  radarseas:
+  - balance: rituos users can no longer take undeath as a reverent/construct.
+  - balance: vamps if they somehow cast rituos no longer lose it.
+  - bugfix: vamps no longer gain arcane training if they somehow 'complete' rituos
+      which failed it anyway. they're not meant to benefit from something they can't
+      complete.
+  - balance: liches are forced to the humen race, to prevent issues like construct/reverent
+      lich breaking the antag completely. - Cosmetically they look the same anyway.
+  - balance: liches/rituos users now claw when punching, they also flip off the non-deathless
+      with taunts. Rage against the lyving!
+  - balance: burncrit now applies critically dazed.
+  - bugfix: less checks for critical dazing since most weren't working anyway. - You
+      shouldn't really notice much difference ingame anyway.

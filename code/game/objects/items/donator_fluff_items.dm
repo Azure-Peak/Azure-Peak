@@ -1732,6 +1732,16 @@
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
+//Lucine's donator item - violet silk gown
+/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward/donator_fregian_mage
+	name = "violet silk gown"
+	desc = "A gown of deep plum silk, seamed in silver thread, with a slate yoke rising to a high collar."
+	icon_state = "raina_dress"
+	item_state = "raina_dress"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
 //Strudles donator item - mage vest, xylix tabard, etruscan cloak, and formfitted gambeson
 /obj/item/clothing/cloak/tabard/stabard/surcoat/sofiavest
 	name = "grenzelhoftian mages vest"
