@@ -505,14 +505,6 @@
 	desc = "A quarterstaff reinforced with silver tips. A relatively new design, purportedly inspired by the warstaffs oft-carried by Naledian \
 	warscholars. Durable enough to catch-and-disarm avantyne to the shaft, without so much as a splinter - or so, they say."
 	icon_state = "quarterstaff_silver"
-	force = 18
-	force_wielded = 25
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/quarterstaff, /datum/intent/effect/hobble/quarterstaff)
-	signature_intent = /datum/intent/effect/hobble/quarterstaff
-	wbalance = WBALANCE_NORMAL
-	max_integrity = 260
-	wdefense = 5
-	wdefense_wbonus = 5
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silver
 
