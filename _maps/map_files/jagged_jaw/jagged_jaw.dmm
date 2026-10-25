@@ -1010,6 +1010,26 @@
 /area/rogue/outdoors/woods/grim/southeast)
 "agC" = (
 /obj/structure/table/wood/poor,
+/obj/item/reagent_containers/glass/carafe{
+	pixel_x = 7;
+	pixel_y = 17
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = -11;
+	pixel_y = 21
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = 10;
+	pixel_y = 2
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = -6;
+	pixel_y = 13
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = -6;
+	pixel_y = 0
+	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/bath/grim)
 "agD" = (
@@ -7764,17 +7784,19 @@
 /obj/structure/rack/rogue{
 	density = 0
 	},
-/obj/structure/fermentation_keg/random/beer{
+/obj/structure/fermentation_keg/beer{
 	icon_state = "barrel_tapped_ready";
-	pixel_x = -10
+	pixel_x = -9;
+	pixel_y = 0
 	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 1
 	},
-/obj/structure/fermentation_keg/random/beer{
+/obj/structure/fermentation_keg/beer{
 	icon_state = "barrel_tapped_ready";
-	pixel_x = 7
+	pixel_x = 8;
+	pixel_y = 0
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
@@ -101128,8 +101150,13 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/dukecourt/grim)
 "mjV" = (
-/turf/open/floor/rogue/blocks/newstone/alt,
-/area/rogue/outdoors/town/roofs/grim)
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/obj/structure/roguemachine/withdraw,
+/turf/open/floor/rogue/hexstone,
+/area/rogue/indoors/town/tavern/grim)
 "mjX" = (
 /obj/structure/table/wood/poor,
 /obj/item/candle/silver/lit{
@@ -115994,6 +116021,42 @@
 	},
 /obj/structure/rack/rogue/shelf/notdense,
 /obj/structure/rack/rogue/shelf/big,
+/obj/item/reagent_containers/glass/carafe{
+	pixel_x = -10;
+	pixel_y = 38
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 2;
+	pixel_y = 43
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 9;
+	pixel_y = 37
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 0;
+	pixel_y = 37
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 13;
+	pixel_y = 43
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = 4;
+	pixel_y = 22
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = -7;
+	pixel_y = 22
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = -3;
+	pixel_y = 19
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = 10;
+	pixel_y = 19
+	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/manor/grim)
 "oaN" = (
@@ -138420,55 +138483,64 @@
 	pixel_y = 0
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
-	},
-/obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8
+	pixel_x = -12;
+	pixel_y = 6
 	},
 /obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
+	pixel_x = 12;
+	pixel_y = 8
 	},
 /obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
+	pixel_x = 12;
+	pixel_y = 8
 	},
 /obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
+	pixel_x = 12;
+	pixel_y = 8
 	},
 /obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
+	pixel_x = 12;
+	pixel_y = 8
 	},
 /obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
+	pixel_x = 12;
+	pixel_y = 8
 	},
 /obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
+	pixel_x = 12;
+	pixel_y = 8
 	},
 /obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
-	},
-/obj/item/reagent_containers/glass/cup{
-	pixel_x = 8
+	pixel_x = 12;
+	pixel_y = 8
 	},
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_y = -8
@@ -138479,8 +138551,53 @@
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_y = -8
 	},
+/obj/item/reagent_containers/glass/carafe{
+	pixel_x = -1;
+	pixel_y = 20
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = -12;
+	pixel_y = 6
+	},
+/obj/item/reagent_containers/glass/cup{
+	pixel_x = 12;
+	pixel_y = 8
+	},
 /obj/item/reagent_containers/glass/cup/silver{
+	pixel_y = -8;
+	pixel_x = 0
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = -13;
 	pixel_y = -8
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = -13;
+	pixel_y = -8
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = -13;
+	pixel_y = -8
+	},
+/obj/item/reagent_containers/glass/cup/glass/small{
+	pixel_x = -13;
+	pixel_y = -8
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 11;
+	pixel_y = -4
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 11;
+	pixel_y = -4
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 11;
+	pixel_y = -4
+	},
+/obj/item/reagent_containers/glass/cup/glass/flute{
+	pixel_x = 11;
+	pixel_y = -4
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
@@ -157756,12 +157873,12 @@
 "sZm" = (
 /obj/structure/table/wood/poor,
 /obj/structure/fermentation_keg/water{
-	pixel_x = -6;
+	pixel_x = -7;
 	pixel_y = 14
 	},
 /obj/item/reagent_containers/glass/bucket{
-	pixel_x = 5;
-	pixel_y = 9
+	pixel_x = 12;
+	pixel_y = 12
 	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/bath/grim)
@@ -177185,13 +177302,8 @@
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/physician)
 "vnG" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/obj/structure/roguemachine/withdraw,
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/tavern/grim)
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/outdoors/town/roofs/grim)
 "vnL" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -200368,6 +200480,14 @@
 	},
 /obj/item/reagent_containers/glass/bottle/rogue{
 	pixel_x = 5
+	},
+/obj/item/reagent_containers/glass/bottle/claybottle{
+	pixel_x = 9;
+	pixel_y = 0
+	},
+/obj/item/reagent_containers/glass/bottle/claybottle{
+	pixel_x = -8;
+	pixel_y = 0
 	},
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/basement/grim)
@@ -501802,7 +501922,7 @@ jbz
 jbz
 hPl
 pVS
-vnG
+mjV
 koe
 vuo
 cKR
@@ -624026,7 +624146,7 @@ bFo
 pVh
 soV
 pdp
-mjV
+vnG
 fLM
 dHo
 dHo
@@ -624408,7 +624528,7 @@ bFo
 pVh
 soV
 smW
-mjV
+vnG
 vBs
 coR
 hho
@@ -624790,7 +624910,7 @@ bFo
 pVh
 soV
 wCT
-mjV
+vnG
 piX
 rED
 rED
@@ -625554,7 +625674,7 @@ sCy
 pVh
 soV
 pdp
-mjV
+vnG
 fLM
 dHo
 dHo
@@ -625936,7 +626056,7 @@ xox
 pVh
 soV
 pdp
-mjV
+vnG
 vBs
 ujB
 qkE
@@ -626318,7 +626438,7 @@ xox
 pVh
 soV
 rIV
-mjV
+vnG
 piX
 cEp
 cEp
@@ -627082,7 +627202,7 @@ bFo
 pVh
 soV
 bsk
-mjV
+vnG
 fLM
 dHo
 dHo
@@ -627464,7 +627584,7 @@ bFo
 pVh
 soV
 pdp
-mjV
+vnG
 vBs
 wcm
 aiH
@@ -627846,7 +627966,7 @@ bFo
 pVh
 soV
 flg
-mjV
+vnG
 piX
 vYi
 vYi
@@ -629767,10 +629887,10 @@ fLM
 ezb
 vzM
 fLM
-mjV
-mjV
+vnG
+vnG
 rYK
-mjV
+vnG
 ukc
 bFo
 quu
@@ -630142,17 +630262,17 @@ pVh
 poX
 pdp
 rYK
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
 rYK
-mjV
+vnG
 ukc
 bFo
 aTh
@@ -630524,17 +630644,17 @@ pVh
 poX
 pdp
 rYK
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
-mjV
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
+vnG
 rYK
-mjV
+vnG
 ukc
 bFo
 mDI
@@ -743612,7 +743732,7 @@ euF
 kxO
 kxO
 tPj
-mjV
+vnG
 ukc
 bFo
 pVh
@@ -743994,7 +744114,7 @@ nMq
 tRs
 bjw
 uCB
-mjV
+vnG
 ukc
 bFo
 pVh
@@ -749721,7 +749841,7 @@ rFg
 fLM
 fLM
 fLM
-mjV
+vnG
 nDy
 nDy
 nDy
@@ -750104,9 +750224,9 @@ fLM
 fLM
 fLM
 tZo
-mjV
+vnG
 pxn
-mjV
+vnG
 ope
 bFo
 pVh
@@ -750485,10 +750605,10 @@ cnX
 lNw
 dBk
 fLM
-mjV
-mjV
-mjV
-mjV
+vnG
+vnG
+vnG
+vnG
 ukc
 bFo
 pVh
@@ -750867,10 +750987,10 @@ cnX
 cnX
 wUJ
 dCF
-mjV
-mjV
-mjV
-mjV
+vnG
+vnG
+vnG
+vnG
 ukc
 bFo
 pVh
@@ -751249,10 +751369,10 @@ cnX
 cnX
 prH
 stR
-mjV
-mjV
-mjV
-mjV
+vnG
+vnG
+vnG
+vnG
 ukc
 bFo
 pVh
@@ -751631,10 +751751,10 @@ prH
 qFH
 tOG
 fLM
-mjV
-mjV
-mjV
-mjV
+vnG
+vnG
+vnG
+vnG
 ukc
 bFo
 pVh
@@ -752014,9 +752134,9 @@ ezb
 fLM
 fLM
 tPj
-mjV
-mjV
-mjV
+vnG
+vnG
+vnG
 ukc
 bFo
 pVh
