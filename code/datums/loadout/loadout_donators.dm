@@ -461,6 +461,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	ckeywhitelist = list("funkemonke", "droolingcowboy")
 
+/datum/loadout_item/donator/fregian_mage
+	name = "Violet Silk Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward/donator_fregian_mage
+	ckeywhitelist = list("lucine")
+
 /datum/loadout_item/donator/eekasqueak
 	name = "Saffira encrusted tiara"
 	path = /obj/item/clothing/head/roguetown/circlet/saffiratiara
