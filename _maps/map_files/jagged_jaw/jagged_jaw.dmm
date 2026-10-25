@@ -522,8 +522,11 @@
 	color = "#3f3f3f";
 	dir = 9
 	},
-/obj/structure/fluff/railing/border,
-/turf/open/floor/rogue/rooftop/green/corner1,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 1
+	},
+/turf/open/floor/rogue/blocks/stonered,
 /area/rogue/outdoors/town/roofs/grim)
 "adk" = (
 /obj/structure/fluff/railing/border,
@@ -13241,10 +13244,16 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grimspyre)
 "bDz" = (
-/obj/structure/roguemachine/withdraw,
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 1
+	},
+/obj/structure/lever/wall{
+	pixel_x = 1;
+	redstone_id = "inn_shutter";
+	pixel_y = 32;
+	dir = 1;
+	name = "shutters"
 	},
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern/grim)
@@ -18251,6 +18260,9 @@
 "cjv" = (
 /obj/structure/table/wood/large_table{
 	dir = 4
+	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "inn_shutter"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
@@ -56082,6 +56094,9 @@
 /obj/structure/table/wood/large_table{
 	dir = 8
 	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "inn_shutter"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "gNA" = (
@@ -64688,12 +64703,12 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/under/cave/water_temple/one)
 "hPl" = (
-/obj/machinery/light/rogue/candle{
-	pixel_y = -32
-	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 8
+	},
+/obj/machinery/light/rogue/candle{
+	pixel_y = -32
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/tavern/grim)
@@ -78953,6 +78968,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
+/obj/structure/roguemachine/withdraw,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/tavern/grim)
 "jxH" = (
@@ -83629,11 +83645,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/beach/north/grim)
-"kbL" = (
-/obj/structure/fluff/railing/corner/south_west,
-/obj/structure/fluff/railing/border/east,
-/turf/open/floor/rogue/rooftop/green/west,
-/area/rogue/outdoors/town/roofs/grim)
 "kbP" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/grimspyre)
@@ -101137,7 +101148,6 @@
 /area/rogue/under/cave/dukecourt/grim)
 "mjV" = (
 /turf/open/floor/rogue/blocks/newstone/alt,
-/area/rogue/outdoors/town/roofs/grim,
 /area/rogue/outdoors/town/roofs/grim)
 "mjX" = (
 /obj/structure/table/wood/poor,
@@ -127979,6 +127989,9 @@
 "pxi" = (
 /obj/structure/table/wood/large_table,
 /obj/machinery/light/rogue/torchholder/l,
+/obj/structure/bars/passage/shutter{
+	redstone_id = "inn_shutter"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "pxk" = (
@@ -130163,6 +130176,9 @@
 /area/rogue/under/cave/licharena/grim)
 "pJO" = (
 /obj/structure/table/wood/large_table,
+/obj/structure/bars/passage/shutter{
+	redstone_id = "inn_shutter"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "pJP" = (
@@ -131057,10 +131073,6 @@
 /area/rogue/under/underdark/north/grim)
 "pPp" = (
 /obj/machinery/light/rogue/torchholder/l,
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 8
-	},
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/outdoors/town/roofs/grim)
 "pPq" = (
@@ -132683,13 +132695,6 @@
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/dirt,
 /area/rogue/under/underdark/south/grim)
-"pYW" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 9
-	},
-/turf/open/floor/rogue/blocks/stonered,
-/area/rogue/outdoors/town/roofs/grim)
 "pYZ" = (
 /mob/living/carbon/human/species/skeleton/npc/mediumspread,
 /turf/open/floor/rogue/cobble,
@@ -132866,6 +132871,9 @@
 "qav" = (
 /obj/structure/table/wood/large_table,
 /obj/machinery/light/rogue/torchholder/r,
+/obj/structure/bars/passage/shutter{
+	redstone_id = "inn_shutter"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "qaw" = (
@@ -161032,6 +161040,9 @@
 /obj/structure/table/wood/large_table{
 	dir = 8
 	},
+/obj/structure/bars/passage/shutter{
+	redstone_id = "inn_shutter"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "tuM" = (
@@ -176927,14 +176938,14 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/licharena/grim)
 "vmg" = (
-/obj/machinery/light/rogue/campfire/create_campfire{
-	lifespan = 14400;
-	name = "blessed bonfire";
-	pixel_x = 0;
-	pixel_y = 6
+/obj/structure/fluff/railing/border,
+/obj/structure/fluff/railing/border/east,
+/obj/effect/decal/edge{
+	color = "#3f3f3f";
+	dir = 9
 	},
-/turf/open/transparent/openspace,
-/area/rogue/outdoors/mountains/grim)
+/turf/open/floor/rogue/rooftop/green/corner1,
+/area/rogue/outdoors/town/roofs/grim)
 "vmh" = (
 /turf/closed/wall/mineral/rogue/tent{
 	dir = 8
@@ -177200,9 +177211,6 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/physician)
-"vnG" = (
-/turf/open/floor/rogue/blocks/newstone/alt,
-/area/rogue/outdoors/town/roofs/grim)
 "vnL" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -502194,7 +502202,7 @@ vdB
 cjv
 cjv
 vlg
-fLM
+pVS
 bDz
 caS
 caS
@@ -624037,7 +624045,7 @@ bFo
 pVh
 soV
 pdp
-vnG
+mjV
 fLM
 dHo
 dHo
@@ -624419,7 +624427,7 @@ bFo
 pVh
 soV
 smW
-vnG
+mjV
 vBs
 coR
 hho
@@ -624801,7 +624809,7 @@ bFo
 pVh
 soV
 wCT
-vnG
+mjV
 piX
 rED
 rED
@@ -625565,7 +625573,7 @@ sCy
 pVh
 soV
 pdp
-vnG
+mjV
 fLM
 dHo
 dHo
@@ -625947,7 +625955,7 @@ xox
 pVh
 soV
 pdp
-vnG
+mjV
 vBs
 ujB
 qkE
@@ -626329,7 +626337,7 @@ xox
 pVh
 soV
 rIV
-vnG
+mjV
 piX
 cEp
 cEp
@@ -627093,7 +627101,7 @@ bFo
 pVh
 soV
 bsk
-vnG
+mjV
 fLM
 dHo
 dHo
@@ -627475,7 +627483,7 @@ bFo
 pVh
 soV
 pdp
-vnG
+mjV
 vBs
 wcm
 aiH
@@ -627598,7 +627606,7 @@ qrO
 qrO
 qrO
 qrO
-vmg
+qrO
 qrO
 qrO
 qrO
@@ -627857,7 +627865,7 @@ bFo
 pVh
 soV
 flg
-vnG
+mjV
 piX
 vYi
 vYi
@@ -629778,10 +629786,10 @@ fLM
 ezb
 vzM
 fLM
-vnG
-vnG
+mjV
+mjV
 rYK
-vnG
+mjV
 ukc
 bFo
 quu
@@ -630153,17 +630161,17 @@ pVh
 poX
 pdp
 rYK
-vnG
-vnG
-vnG
-vnG
-vnG
-vnG
-vnG
 mjV
-vnG
+mjV
+mjV
+mjV
+mjV
+mjV
+mjV
+mjV
+mjV
 rYK
-vnG
+mjV
 ukc
 bFo
 aTh
@@ -630535,17 +630543,17 @@ pVh
 poX
 pdp
 rYK
-vnG
-vnG
-vnG
-vnG
-vnG
-vnG
-vnG
-vnG
-vnG
+mjV
+mjV
+mjV
+mjV
+mjV
+mjV
+mjV
+mjV
+mjV
 rYK
-vnG
+mjV
 ukc
 bFo
 mDI
@@ -743623,7 +743631,7 @@ euF
 kxO
 kxO
 tPj
-vnG
+mjV
 ukc
 bFo
 pVh
@@ -744005,7 +744013,7 @@ nMq
 tRs
 bjw
 uCB
-vnG
+mjV
 ukc
 bFo
 pVh
@@ -749732,7 +749740,7 @@ rFg
 fLM
 fLM
 fLM
-vnG
+mjV
 nDy
 nDy
 nDy
@@ -750073,8 +750081,8 @@ pVh
 pVh
 pVh
 pVh
-pVh
-uTQ
+pKg
+vmg
 hPu
 qzW
 qzW
@@ -750115,9 +750123,9 @@ fLM
 fLM
 fLM
 tZo
-vnG
+mjV
 pxn
-vnG
+mjV
 ope
 bFo
 pVh
@@ -750455,8 +750463,8 @@ pVh
 pVh
 pVh
 pVh
-pVh
 uTQ
+gUc
 hPu
 qzW
 qzW
@@ -750496,10 +750504,10 @@ cnX
 lNw
 dBk
 fLM
-vnG
-vnG
-vnG
-vnG
+mjV
+mjV
+mjV
+mjV
 ukc
 bFo
 pVh
@@ -750837,7 +750845,7 @@ pVh
 pVh
 pVh
 pVh
-kQk
+uTQ
 adf
 hPu
 qzW
@@ -750878,10 +750886,10 @@ cnX
 cnX
 wUJ
 dCF
-vnG
-vnG
-vnG
-vnG
+mjV
+mjV
+mjV
+mjV
 ukc
 bFo
 pVh
@@ -751219,8 +751227,8 @@ pVh
 pVh
 pVh
 pVh
-dUA
-kbL
+uTQ
+qUf
 iiT
 xbG
 qin
@@ -751260,10 +751268,10 @@ cnX
 cnX
 prH
 stR
-vnG
-vnG
-vnG
-vnG
+mjV
+mjV
+mjV
+mjV
 ukc
 bFo
 pVh
@@ -751602,9 +751610,9 @@ pVh
 pVh
 pVh
 uTQ
-gUc
+qUf
 pPp
-pYW
+oCr
 qin
 rbk
 rbk
@@ -751642,10 +751650,10 @@ prH
 qFH
 tOG
 fLM
-vnG
-vnG
-vnG
-vnG
+mjV
+mjV
+mjV
+mjV
 ukc
 bFo
 pVh
@@ -752025,9 +752033,9 @@ ezb
 fLM
 fLM
 tPj
-vnG
-vnG
-vnG
+mjV
+mjV
+mjV
 ukc
 bFo
 pVh
