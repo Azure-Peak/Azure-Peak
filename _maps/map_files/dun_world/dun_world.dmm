@@ -22284,6 +22284,12 @@
 	},
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/indoors/town/manor)
+"dQa" = (
+/obj/effect/decal/cleanable/blood{
+	icon_state = "floor6-old"
+	},
+/turf/open/floor/rogue/blocks/green,
+/area/rogue/under/town/sewer)
 "dQd" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -112996,10 +113002,8 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/mountains)
 "sTz" = (
-/obj/structure/bars{
-	density = 0
-	},
-/turf/open/water/swamp,
+/obj/effect/decal/remains/human,
+/turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "sTD" = (
 /obj/structure/closet/crate/chest/gold{
@@ -117959,6 +117963,12 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors)
+"tKv" = (
+/obj/effect/decal/cleanable/blood{
+	icon_state = "floor5-old"
+	},
+/turf/open/floor/rogue/blocks/green,
+/area/rogue/under/town/sewer)
 "tKw" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/naturalstone,
@@ -122838,6 +122848,10 @@
 "uAY" = (
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/beach/forest/north)
+"uBb" = (
+/obj/structure/fluff/walldeco/wantedposter,
+/turf/closed/wall/mineral/rogue/pipe,
+/area/rogue/under/town/sewer)
 "uBc" = (
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors/town)
@@ -130378,13 +130392,8 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/orcdungeon)
 "vPK" = (
-/obj/structure/bars{
-	density = 0
-	},
-/obj/structure/bars{
-	density = 0
-	},
-/turf/open/water/swamp,
+/obj/effect/spawner/lootdrop/roguetown/sewers,
+/turf/open/water/sewer,
 /area/rogue/under/town/sewer)
 "vPL" = (
 /obj/structure/glowshroom,
@@ -135175,6 +135184,7 @@
 /area/rogue/outdoors/bog/north)
 "wFw" = (
 /obj/effect/decal/cleanable/debris/glassy,
+/obj/structure/bars/grille,
 /turf/open/water/sewer,
 /area/rogue/under/town/sewer)
 "wFx" = (
@@ -142239,6 +142249,14 @@
 "xPZ" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/town/basement)
+"xQc" = (
+/obj/effect/decal/cleanable/debris/glassy,
+/obj/structure/plasticflaps{
+	color = "#b89e82";
+	name = "rusted iron bars"
+	},
+/turf/open/water/sewer,
+/area/rogue/under/town/sewer)
 "xQe" = (
 /obj/item/flashlight/flare/torch,
 /turf/open/floor/rogue/naturalstone,
@@ -154448,7 +154466,7 @@ bjc
 enI
 dlK
 iZp
-ydF
+iZp
 iZp
 dlK
 iZp
@@ -155781,9 +155799,9 @@ bhJ
 qHj
 qHj
 qHj
-gau
+dlK
 wuQ
-iZp
+dlK
 iZp
 iZp
 iZp
@@ -156252,7 +156270,7 @@ cSb
 cPX
 cPX
 cqm
-ylh
+dQa
 ylh
 ylh
 ylh
@@ -156691,7 +156709,7 @@ ylh
 sMT
 urZ
 ylh
-ylh
+tuP
 ylh
 mMx
 cqm
@@ -157594,7 +157612,7 @@ mMx
 ylh
 dlK
 mMx
-mMx
+vPK
 mMx
 mMx
 mMx
@@ -158049,7 +158067,7 @@ mMx
 mMx
 mMx
 mMx
-mMx
+vPK
 cqm
 cPX
 eBf
@@ -160790,7 +160808,7 @@ orc
 xam
 ylh
 urZ
-ylh
+sTz
 ylh
 nsR
 enI
@@ -161243,7 +161261,7 @@ enI
 ylh
 ylh
 ylh
-ylh
+tKv
 ylh
 xam
 ylh
@@ -161659,7 +161677,7 @@ iZp
 sIr
 rbn
 gau
-wuQ
+bjc
 xam
 enI
 cqm
@@ -162563,7 +162581,7 @@ spI
 xKT
 cqm
 cqm
-ylh
+vey
 mMx
 ylh
 cqm
@@ -163015,9 +163033,9 @@ spI
 cyN
 dlK
 cqm
-ylh
+xNL
 mMx
-urZ
+ylh
 cqm
 cPX
 cPX
@@ -163971,7 +163989,7 @@ spI
 cqm
 ylh
 mMx
-ylh
+dQa
 vPL
 qHj
 qHj
@@ -165725,7 +165743,7 @@ mMx
 oGQ
 mMx
 ylh
-cqm
+dlK
 ylh
 mMx
 cqm
@@ -166177,7 +166195,7 @@ ylh
 nsR
 mmt
 ylh
-ydF
+bEw
 ylh
 mMx
 cqm
@@ -166629,9 +166647,9 @@ sIr
 ylh
 mMx
 urZ
-cqm
+dlK
 tuP
-oGQ
+mMx
 hJJ
 gHH
 iIe
@@ -167080,9 +167098,9 @@ upY
 cqm
 ylh
 mMx
-mMx
-wuQ
-mMx
+ylh
+cqm
+ylh
 mMx
 ltb
 iZp
@@ -167533,11 +167551,11 @@ dlK
 urZ
 mMx
 ylh
-ltb
 dlK
+ylh
 wFw
-mMx
-mMx
+ylh
+ylh
 cqm
 rqY
 rqY
@@ -167984,12 +168002,12 @@ daP
 pfU
 ylh
 mMx
-ylh
-nsR
-bEw
-ylh
 mMx
-urZ
+xQc
+mMx
+mMx
+mMx
+ylh
 cqm
 rqY
 seo
@@ -168435,10 +168453,10 @@ ylh
 ylh
 dlK
 wUW
-ylh
+sMT
 urZ
-gau
 dlK
+ylh
 eew
 mMx
 ylh
@@ -168890,8 +168908,8 @@ iZp
 iZp
 iZp
 tZm
-cqm
 urZ
+ylh
 mMx
 ylh
 cqm
@@ -169342,10 +169360,10 @@ iZp
 iZp
 iZp
 iZp
-tZm
-tjB
-mMx
-urZ
+uBb
+ylh
+oGQ
+ylh
 cqm
 nPv
 kLf
@@ -170236,20 +170254,20 @@ oGQ
 bjc
 mMx
 mMx
+oGQ
 mMx
 mMx
 mMx
 mMx
 mMx
 mMx
-mMx
-mMx
+oGQ
 mMx
 mMx
 bjc
 oGQ
 mMx
-ylh
+urZ
 cqm
 aIp
 ean
@@ -170699,9 +170717,9 @@ ylh
 ylh
 ylh
 oxE
-urZ
+ylh
 mMx
-mMx
+xNL
 cqm
 aIp
 fJN
@@ -173002,7 +173020,7 @@ hSR
 uES
 xPZ
 cqm
-ylh
+sTz
 sMT
 ylh
 urZ
@@ -180229,7 +180247,7 @@ vHZ
 eiV
 nPv
 cqm
-ylh
+tuP
 mMx
 ylh
 ylh
@@ -182944,7 +182962,7 @@ tZm
 ylh
 mMx
 ylh
-vPK
+jIN
 xCK
 xCK
 vPL
@@ -183396,7 +183414,7 @@ ylh
 ylh
 mMx
 ylh
-sTz
+jIN
 xCK
 xCK
 wBN
@@ -184298,7 +184316,7 @@ gBf
 iZp
 iZp
 enI
-amm
+bjc
 dlK
 iIm
 iZp
@@ -185654,7 +185672,7 @@ iIm
 iZp
 iZp
 enI
-amm
+bjc
 dlK
 iZp
 iZp
