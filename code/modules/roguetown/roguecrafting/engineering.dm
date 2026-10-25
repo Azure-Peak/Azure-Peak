@@ -1092,7 +1092,7 @@
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/datum/reagent/water = 48,
 	)
 	structurecraft = /obj/structure/artificer_table
@@ -1111,7 +1111,7 @@
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/datum/reagent/berrypoison = 5,
 		/obj/item/alch/airdust = 1,
 		/datum/reagent/water = 48,
@@ -1132,7 +1132,7 @@
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 2,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/alch/firedust = 1,
 		/obj/item/alch/solardust = 1,
 		/datum/reagent/water = 48,
@@ -1153,7 +1153,7 @@
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced = 1,
 		/obj/item/natural/dirtclod = 1,
 		/datum/reagent/water = 48,
@@ -1174,7 +1174,7 @@
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/alch/irondust = 1,
 		/obj/item/rogueore/cinnabar = 1,
 		/datum/reagent/water = 48,
@@ -1195,7 +1195,7 @@
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/alch/viscera = 2,
 		/obj/item/alch/bonemeal = 2,
 		/datum/reagent/water = 48,
@@ -1283,7 +1283,7 @@
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1293,7 +1293,7 @@
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1303,7 +1303,7 @@
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 

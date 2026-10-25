@@ -309,8 +309,8 @@
 	debuff = null
 	partial_sating = FALSE
 
-/datum/charflaw/addiction/paranoid
-	name = "Paranoid"
+/datum/charflaw/addiction/factionalist
+	name = "Factionalist"
 	desc = "I only feel comfortable around one of my own kind."
 	ui_fa_icon = "user-tag"
 	time = ADDICT_TIME_OFTEN
@@ -319,10 +319,10 @@
 	partial_sating = FALSE
 	var/chosen_faction
 
-/datum/charflaw/addiction/paranoid/apply_post_equipment(mob/user)
+/datum/charflaw/addiction/factionalist/apply_post_equipment(mob/user)
 	assign_faction(user)
 
-/datum/charflaw/addiction/paranoid/proc/assign_faction(mob/user)
+/datum/charflaw/addiction/factionalist/proc/assign_faction(mob/user)
 	var/datum/job/J = SSjob.GetJob(user.job)
 	if(!J)
 		CRASH("[user] had an invalid job datum associated with their job: [user.job]")
@@ -331,7 +331,7 @@
 	else
 		chosen_faction = J.department_flag
 
-/datum/charflaw/addiction/paranoid/proc/check_faction(mob/living/target)
+/datum/charflaw/addiction/factionalist/proc/check_faction(mob/living/target)
 	var/datum/job/J = SSjob.GetJob(target.job)
 	if(J)
 		if(chosen_faction & J.department_flag)

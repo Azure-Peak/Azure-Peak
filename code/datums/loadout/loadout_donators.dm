@@ -461,6 +461,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	ckeywhitelist = list("funkemonke", "droolingcowboy")
 
+/datum/loadout_item/donator/fregian_mage
+	name = "Violet Silk Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward/donator_fregian_mage
+	ckeywhitelist = list("lucine")
+
 /datum/loadout_item/donator/eekasqueak
 	name = "Saffira encrusted tiara"
 	path = /obj/item/clothing/head/roguetown/circlet/saffiratiara
@@ -1394,3 +1399,28 @@
 	name = "Donator Item - Potionkeeper's Messy Belt"
 	path = /obj/item/storage/belt/rogue/leather/ulqsusbelt
 	ckeywhitelist = list("seraphlemonade")
+
+// Solar Dominion Items
+/datum/loadout_item/donator/universal/dominion_sword
+	name = "Elixir - Dominion Sword"
+	path = /obj/item/enchantingkit/weapon/dominion_sword
+
+/datum/loadout_item/donator/universal/dominion_knife
+	name = "Elixir - Dominion Knife"
+	path = /obj/item/enchantingkit/weapon/dominion_knife
+
+/datum/loadout_item/donator/universal/dominion_greatsword
+	name = "Elixir - Dominion Greatsword"
+	path = /obj/item/enchantingkit/weapon/dominion_greatsword
+
+/datum/loadout_item/donator/universal/dominion_shotel
+	name = "Elixir - Dominion Shotel"
+	path = /obj/item/enchantingkit/weapon/dominion_shotel
+
+/datum/loadout_item/donator/universal/dominion_shield
+	name = "Elixir - Dominion Shield"
+	path = /obj/item/enchantingkit/weapon/dominion_shield
+
+/datum/loadout_item/donator/universal/dominion_cestus
+	name = "Elixir - Dominion Cestus"
+	path = /obj/item/enchantingkit/dominion_cestus

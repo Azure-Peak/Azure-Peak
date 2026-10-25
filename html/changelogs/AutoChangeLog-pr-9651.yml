@@ -1,7 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - rscdel: "Pallid, Blackblood is removed."
-  - rscadd: "Agoraphobic, Claustrophobic, Selanophobic and Heliophobic and Sullied Blood as vices."
-  - rscadd: "Odd Blood and Sanguivore as quirks."
-  - bugfix: "Changes Second Chance back to Rotcured."

@@ -187,7 +187,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 
 /obj/structure/soil/proc/try_handle_fertilizing(obj/item/attacking_item, mob/user, params)
 	var/fertilize_amount = 0
-	if(istype(attacking_item, /obj/item/ash))
+	if(is_ash_item(attacking_item))
 		fertilize_amount = 80
 	else if (istype(attacking_item, /obj/item/natural/poo))
 		fertilize_amount = 150
@@ -204,7 +204,7 @@ GLOBAL_LIST_EMPTY(soil_list)
 		else
 			to_chat(user, span_notice("I fertilize the soil."))
 			adjust_nutrition(fertilize_amount)
-			qdel(attacking_item)
+			consume_ash_unit(attacking_item)
 		return TRUE
 	return FALSE
 

@@ -515,7 +515,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	sellprice = 1
 	bundletype = /obj/item/natural/bundle/plank
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 
 /obj/item/natural/bundle/plank
 	name = "stack of wooden planks"
@@ -539,7 +539,7 @@
 	icon1step = 3
 	icon2 = "plankbundle3"
 	icon2step = 5
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 
 /obj/item/natural/wood/plank/attackby(obj/item/I, mob/living/user, params)
 	if(item_flags & IN_STORAGE)
