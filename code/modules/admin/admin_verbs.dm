@@ -710,8 +710,8 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 		if("Maxcap")
 			explosion(epicenter, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
 		if("Custom Bomb")
-			var/devastation_range = input(usr, "Devastation range (in tiles):") as null|num
-			if(devastation_range == null)
+			var/extreme_impact_range = input(usr, "Extreme impact range (in tiles):") as null|num
+			if(extreme_impact_range == null)
 				return
 			var/heavy_impact_range = input(usr, "Heavy impact range (in tiles):") as null|num
 			if(heavy_impact_range == null)
@@ -722,11 +722,11 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 			var/flash_range = input(usr, "Flash range (in tiles):") as null|num
 			if(flash_range == null)
 				return
-			if(devastation_range > GLOB.MAX_EX_DEVESTATION_RANGE || heavy_impact_range > GLOB.MAX_EX_HEAVY_RANGE || light_impact_range > GLOB.MAX_EX_LIGHT_RANGE || flash_range > GLOB.MAX_EX_FLASH_RANGE)
+			if(extreme_impact_range > GLOB.MAX_EX_DEVESTATION_RANGE || heavy_impact_range > GLOB.MAX_EX_HEAVY_RANGE || light_impact_range > GLOB.MAX_EX_LIGHT_RANGE || flash_range > GLOB.MAX_EX_FLASH_RANGE)
 				if(alert(usr, "Bomb is bigger than the maxcap. Continue?",,"Yes","No") != "Yes")
 					return
 			epicenter = mob.loc //We need to reupdate as they may have moved again
-			explosion(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, TRUE, TRUE)
+			explosion(epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flash_range, TRUE, TRUE)
 	message_admins("[ADMIN_LOOKUPFLW(usr)] creating an admin explosion at [epicenter.loc].")
 	log_admin("[key_name(usr)] created an admin explosion at [epicenter.loc].")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Drop Bomb") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!

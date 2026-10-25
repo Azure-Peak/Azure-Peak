@@ -422,7 +422,7 @@ Inquisitorial armory down here
 	if(ismob(A) && on && (user.used_intent.type == /datum/intent/flail/smash/golgotha) && user.cmode)
 		user.visible_message(span_warningbig("[user] smashes the exposed [src], shattering the shard of SYON!"))
 		user.visible_message(span_blue(pick("WHY--!!","SYON BLAS--!!","ENDU--!!","ENDURE THI--!!","WHAT THE F--!!","OH MY ALLFA--!!","OH PSYDO--!!","KABOO--!!","MASHALLA--!!","OH ADONA--!!","OH SHI--!!","PSYDO--!!","PSYDON BLAS--!!")))
-		explosion(get_turf(A),devastation_range = 3, heavy_impact_range = 5, light_impact_range = 6, flame_range = 3, flash_range = 6, smoke = FALSE)
+		explosion(get_turf(A), extreme_impact_range = 3, heavy_impact_range = 5, light_impact_range = 6, flame_range = 3, flash_range = 6, smoke = FALSE)
 		fuel = 0
 		turn_off()
 		icon_state = "psycenser-broken"
