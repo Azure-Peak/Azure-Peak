@@ -22284,12 +22284,6 @@
 	},
 /turf/open/floor/rogue/carpet/lord/right,
 /area/rogue/indoors/town/manor)
-"dQa" = (
-/obj/effect/decal/cleanable/blood{
-	icon_state = "floor6-old"
-	},
-/turf/open/floor/rogue/blocks/green,
-/area/rogue/under/town/sewer)
 "dQd" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -43489,6 +43483,14 @@
 	},
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/church/basement)
+"hud" = (
+/obj/effect/decal/cleanable/debris/glassy,
+/obj/structure/plasticflaps{
+	color = "#b89e82";
+	name = "rusted iron bars"
+	},
+/turf/open/water/sewer,
+/area/rogue/under/town/sewer)
 "huf" = (
 /obj/structure/stairs{
 	dir = 1
@@ -50701,11 +50703,10 @@
 /turf/open/floor/rogue/hexstone,
 /area/rogue/outdoors/rtfield)
 "iFk" = (
-/obj/structure/bars{
-	color = "#755f48";
-	name = "rusted bars"
+/obj/effect/decal/cleanable/blood{
+	icon_state = "floor5-old"
 	},
-/turf/open/floor/rogue/dirt,
+/turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "iFl" = (
 /obj/effect/decal/cobbleedge{
@@ -98747,6 +98748,10 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/outdoors/bog/south)
+"qCq" = (
+/obj/effect/decal/remains/human,
+/turf/open/floor/rogue/blocks/green,
+/area/rogue/under/town/sewer)
 "qCs" = (
 /obj/structure/roguemachine/scomm/l{
 	scom_tag = "Inn - Kitchen"
@@ -113002,8 +113007,8 @@
 /turf/open/floor/rogue/twig,
 /area/rogue/outdoors/mountains)
 "sTz" = (
-/obj/effect/decal/remains/human,
-/turf/open/floor/rogue/blocks/green,
+/obj/effect/spawner/lootdrop/roguetown/sewers,
+/turf/open/water/sewer,
 /area/rogue/under/town/sewer)
 "sTD" = (
 /obj/structure/closet/crate/chest/gold{
@@ -115265,6 +115270,10 @@
 	},
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
+"tmB" = (
+/obj/structure/fluff/walldeco/wantedposter,
+/turf/closed/wall/mineral/rogue/pipe,
+/area/rogue/under/town/sewer)
 "tmD" = (
 /obj/structure/flora/roguegrass/herb/random,
 /obj/effect/decal/edge{
@@ -117963,12 +117972,6 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors)
-"tKv" = (
-/obj/effect/decal/cleanable/blood{
-	icon_state = "floor5-old"
-	},
-/turf/open/floor/rogue/blocks/green,
-/area/rogue/under/town/sewer)
 "tKw" = (
 /obj/structure/roguetent,
 /turf/open/floor/rogue/naturalstone,
@@ -122848,10 +122851,6 @@
 "uAY" = (
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/beach/forest/north)
-"uBb" = (
-/obj/structure/fluff/walldeco/wantedposter,
-/turf/closed/wall/mineral/rogue/pipe,
-/area/rogue/under/town/sewer)
 "uBc" = (
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors/town)
@@ -130392,8 +130391,10 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/orcdungeon)
 "vPK" = (
-/obj/effect/spawner/lootdrop/roguetown/sewers,
-/turf/open/water/sewer,
+/obj/effect/decal/cleanable/blood{
+	icon_state = "floor6-old"
+	},
+/turf/open/floor/rogue/blocks/green,
 /area/rogue/under/town/sewer)
 "vPL" = (
 /obj/structure/glowshroom,
@@ -142249,14 +142250,6 @@
 "xPZ" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/town/basement)
-"xQc" = (
-/obj/effect/decal/cleanable/debris/glassy,
-/obj/structure/plasticflaps{
-	color = "#b89e82";
-	name = "rusted iron bars"
-	},
-/turf/open/water/sewer,
-/area/rogue/under/town/sewer)
 "xQe" = (
 /obj/item/flashlight/flare/torch,
 /turf/open/floor/rogue/naturalstone,
@@ -156270,7 +156263,7 @@ cSb
 cPX
 cPX
 cqm
-dQa
+vPK
 ylh
 ylh
 ylh
@@ -157612,7 +157605,7 @@ mMx
 ylh
 dlK
 mMx
-vPK
+sTz
 mMx
 mMx
 mMx
@@ -158067,7 +158060,7 @@ mMx
 mMx
 mMx
 mMx
-vPK
+sTz
 cqm
 cPX
 eBf
@@ -158081,7 +158074,7 @@ hBq
 cPX
 cPX
 cqm
-vPL
+vey
 mMx
 urZ
 cqm
@@ -158533,9 +158526,9 @@ qfW
 oDh
 cPX
 dlK
-iFk
+xam
 wuQ
-iFk
+xam
 dlK
 iZp
 iZp
@@ -160808,7 +160801,7 @@ orc
 xam
 ylh
 urZ
-sTz
+qCq
 ylh
 nsR
 enI
@@ -161261,7 +161254,7 @@ enI
 ylh
 ylh
 ylh
-tKv
+iFk
 ylh
 xam
 ylh
@@ -163989,7 +163982,7 @@ spI
 cqm
 ylh
 mMx
-dQa
+vPK
 vPL
 qHj
 qHj
@@ -168003,7 +167996,7 @@ pfU
 ylh
 mMx
 mMx
-xQc
+hud
 mMx
 mMx
 mMx
@@ -169360,7 +169353,7 @@ iZp
 iZp
 iZp
 iZp
-uBb
+tmB
 ylh
 oGQ
 ylh
@@ -173020,7 +173013,7 @@ hSR
 uES
 xPZ
 cqm
-sTz
+qCq
 sMT
 ylh
 urZ
