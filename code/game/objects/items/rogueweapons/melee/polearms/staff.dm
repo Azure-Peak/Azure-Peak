@@ -59,7 +59,7 @@
 	desc = "Short, quick blows from a choked-up grip. Keeps pressure on lightly armored foes."
 	attack_verb = list("raps", "strikes", "cracks")
 	damfactor = 0.85
-	clickcd = CLICK_CD_QUICK
+	clickcd = CLICK_CD_NORMAL
 
 /datum/intent/mace/strike/dislocate/quarterstaff
 	name = "joint strike"
@@ -69,7 +69,7 @@
 
 /datum/intent/effect/daze/longsword/clinch/quarterstaff
 	name = "shaft clinch"
-	desc = "Step inside your opponent's guard and drive the middle of the shaft into their face. Very briefly reduces opponent's strength and constitution, making it more difficult for them to escape grabs. Works on the head, skull, nose, and mouth."
+	desc = "Step inside your opponent's guard and drive the middle of the shaft into their face. Very briefly reduces opponent's strength, making it easier to escape a grab."
 	attack_verb = list("clinches and bars")
 	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
 
