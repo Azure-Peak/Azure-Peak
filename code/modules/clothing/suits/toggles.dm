@@ -39,7 +39,7 @@
 /obj/item/clothing/dropped(mob/user)
 	..()
 	// Delete any linked hood.
-	if(connected_hood) 
+	if(connected_hood)
 		qdel(connected_hood)
 
 	// Reset dropped clothes to base state.
@@ -71,7 +71,7 @@
 		return
 
 	var/mob/living/carbon/human/H = user
- 
+
 	// Hood is already UP, make it go DOWN
 	if(hoodtoggled)
 		if(connected_hood)
@@ -106,7 +106,7 @@
 		// redraw_mob = FALSE because we'll do that here.
 		if(toggle_icon_state)
 			src.icon_state = "[initial(icon_state)]_t"
-		
+
 		H.update_inv_wear_suit()
 		H.update_inv_cloak()
 		H.update_inv_head()

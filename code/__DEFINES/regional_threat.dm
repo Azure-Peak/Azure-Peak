@@ -23,6 +23,7 @@
 #define THREAT_DANGEROUS 30	// Bog deserter, orc berserker/marauder, troll, bog troll, drider
 #define THREAT_DEADLY 40		// Searaider huscarl, road knight, sharpshooter, orc warlord, direbear — champion-tier
 #define THREAT_ELITE 50		// Minotaur, mirespider lurker/paralytic, dwarf skeleton, mad-touched — boss-tier mobs
+#define THREAT_ELITE_PLUS 60	// For mad-touched madman so we can account for their strength w/o nerfing them
 #define THREAT_APEX 70		// Half-drakkyn, ancient dreamfiend
 #define THREAT_LEGENDARY 100 // Drakkyn broodmother
 

@@ -40,7 +40,7 @@
 		return FALSE
 
 	var/mob/living/carbon/human/M = cast_on
-	if(!HAS_TRAIT(M, TRAIT_ZOMBIE_IMMUNE) && M.mind)
+	if(!HAS_TRAIT(M, TRAIT_ZOMBIE_IMMUNE) && !HAS_TRAIT(M, TRAIT_DNR) && M.mind)
 		if(M.stat < DEAD && !M.InCritical())
 			to_chat(owner, span_notice("They aren't dead enough yet!"))
 			reset_spell_cooldown()

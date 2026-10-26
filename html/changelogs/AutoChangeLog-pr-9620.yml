@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Prevent race condition with saddleborn allowing you to summon infinite mount"

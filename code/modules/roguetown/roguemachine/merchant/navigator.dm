@@ -65,7 +65,7 @@
 /obj/item/roguemachine/navigator/smuggler/examine(mob/user)
 	. = ..()
 	. += span_notice("The rates here are disastrous. A facilitator from the bathhouse nearby brings them up to 100%.")
-	. += span_notice("The handler asks no questions about provenance. Goods the legitimate market refuses to mint move through here all the same.")
+	. += span_notice("Goods that cannot be sold at the legitimate market can be sold here.")
 	if(fixed_tax <= 0)
 		. += span_notice("A facilitator is present. Current handler's fee: [fixed_tax * 100]%.")
 	else

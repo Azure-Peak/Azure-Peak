@@ -6,7 +6,7 @@
 	/// Set this to enable bow smites to have an effect upon hitting this mob, and by how much to multiply the base damage.
 	var/bow_smite_effective_modifier = 1.6
 	/// Set this to enable mindless mobs to take extra base damage from projectiles.
-	var/extra_projectile_damage_modifier = 1.5
+	var/extra_projectile_damage_modifier = PROJECTILE_SIMPLEMOB_DAMAGE_MULT
 
 /mob/living/Initialize(mapload)
 	. = ..()

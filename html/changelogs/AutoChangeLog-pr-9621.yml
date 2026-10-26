@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "Furtive Fortissimo's description now describes what light steps does better: ```My steps becomes light. I can sneak much quicker now, traps won't affect me and caltrops have less effect.```"
-  - bugfix: "Fixes a bug where having light steps would make you unable to notice people sneaking on another Z level, instead of the other way round"

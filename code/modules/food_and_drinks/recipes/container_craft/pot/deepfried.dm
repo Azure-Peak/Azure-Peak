@@ -46,5 +46,5 @@
 
 /datum/container_craft/cooking/deepfry/skysugarslab
 	name = "Skysugar Slab"
-	requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase = 1)
-	output = /obj/item/reagent_containers/food/snacks/grown/skysugarslab
+	requirements = list(/obj/item/reagent_containers/food/snacks/skysugarbase = 1)
+	output = /obj/item/reagent_containers/food/snacks/skysugarslab

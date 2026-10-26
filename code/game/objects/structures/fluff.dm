@@ -232,6 +232,23 @@
 	leaving.Bump(src)
 	return COMPONENT_ATOM_BLOCK_EXIT
 
+/obj/structure/fluff/railing/Bumped(atom/movable/AM)
+	. = ..()
+	if(!isliving(AM) || !climbable || (dir in CORNERDIRS))
+		return
+	var/mob/living/L = AM
+	if(L.buckled)
+		return
+	if(!HAS_TRAIT(L, TRAIT_KICKED) && !((L.mobility_flags & MOBILITY_STAND) && L.has_status_effect(/datum/status_effect/buff/drunk) && prob(50)))
+		return
+	var/turf/dest = (get_turf(L) == loc) ? get_step(loc, dir) : loc
+	if(!dest || dest.is_blocked_turf(source_atom = L))
+		return
+	L.visible_message(span_danger("[L] tumbles over [src]!"), span_userdanger("I tumble over [src]!"))
+	L.forceMove(dest)
+	L.Knockdown(2 SECONDS)
+	playsound(L, "bodyfall", 100, TRUE)
+
 /obj/structure/fluff/railing/proc/flown_over(atom/movable/mover)
 	if(!pass_flying || !isliving(mover))
 		return FALSE

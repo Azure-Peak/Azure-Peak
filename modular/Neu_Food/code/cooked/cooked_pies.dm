@@ -23,7 +23,6 @@
 	portable = FALSE
 	warming = 10 MINUTES
 	eat_effect = null
-	foodtype = GRAIN | DAIRY
 	chopping_sound = TRUE
 	eat_effect = /datum/status_effect/buff/snackbuff
 	dropshrink = 0.8
@@ -73,7 +72,6 @@
 	filling_color = "#FFFFFF"
 	faretype = FARE_FINE
 	portable = FALSE
-	foodtype = GRAIN | DAIRY
 	warming = 5 MINUTES
 	bitesize = 3
 	eat_effect = /datum/status_effect/buff/snackbuff
@@ -83,20 +81,19 @@
 // -------------- MEAT PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat // bae item
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PIE|DISH_MEAT
+	dish_type = DISH_PIE|DISH_MEAT|DISH_DAIRY
 	name = "meat pie"
 	desc = "A delicious, homemade pie made with minced meat. Still needs to be sliced."
 	icon_state = "meatpie"
 	tastes = list("succulent meat and crispy butterdough" = 1)
 	eat_effect = /datum/status_effect/buff/snackbuff
-	foodtype = GRAIN | DAIRY | MEAT
 	filling_color = "#b43628"
 	slice_name = "meat pie slice"
 
 // -------------- FISH PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/fish
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_PIE|DISH_SEAFOOD
+	dish_type = DISH_PIE|DISH_SEAFOOD|DISH_DAIRY
 	name = "fish pie"
 	desc = "A delicious, homemade pie made with fresh fish. Still needs to be sliced."
 	icon_state = "fishpie"
@@ -106,6 +103,7 @@
 
 // -------------- SPIDER PIE --------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/meat/spider
+	dish_type = DISH_PIE|DISH_DAIRY|DISH_MEAT
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
 	name = "de-scallax pie"
 	desc = "A delicious, homemade pie made with the inside of a spider. It was often used as a gesture of reconciliation between drow clans. Still needs to be sliced."
@@ -117,19 +115,18 @@
 // -------------- POT PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pot
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PIE|DISH_MEAT
+	dish_type = DISH_PIE|DISH_MEAT|DISH_DAIRY
 	name = "pot pie"
 	desc = "A delicious, homemade pie. Still needs to be sliced."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	tastes = list("succulent filling and crispy butterdough" = 1)
 	filling_color = "#755430"
-	foodtype = GRAIN | DAIRY | MEAT
 	slice_name = "pot pie slice"
 
 // -------------- BERRY PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/berry
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PIE|DISH_FRUIT
+	dish_type = DISH_PIE|DISH_FRUIT|DISH_DAIRY
 	name = "berry pie"
 	desc = "A delicious, homemade pie made with wild berries. Still needs to be sliced."
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
@@ -141,6 +138,7 @@
 
 // -------------- POISON PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/poison
+	dish_type = DISH_PIE|DISH_FRUIT|DISH_DAIRY
 	name = "berry pie"
 	desc = "A delicious, homemade pie made with wild berries. Still needs to be sliced."
 	slices_num = 4
@@ -153,7 +151,7 @@
 // -------------- APPLE PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/apple
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PIE|DISH_FRUIT
+	dish_type = DISH_PIE|DISH_FRUIT|DISH_DAIRY
 	name = "apple pie"
 	desc = "A delicious, homemade pie made with the sliced apples. Still needs to be cut."
 	slices_num = 4
@@ -166,7 +164,7 @@
 // -------------- CRAB PIE -----------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/crab
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN
-	dish_type = DISH_PIE|DISH_SEAFOOD
+	dish_type = DISH_PIE|DISH_SEAFOOD|DISH_DAIRY|DISH_VEGETABLE
 	name = "crab pie"
 	desc = "A delicious, homemade pie made with the inside of a crustacean. Still needs to be sliced."
 	slices_num = 4
@@ -179,7 +177,7 @@
 // -------------- PUMPKIN PIE --------------
 /obj/item/reagent_containers/food/snacks/rogue/pie/cooked/pumpkin
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_PIE|DISH_VEGETABLE
+	dish_type = DISH_PIE|DISH_VEGETABLE|DISH_DAIRY|DISH_EGG|DISH_SWEET
 	name = "pumpkin pie"
 	desc = "A delicious, homemade pie made with pumpkin and cheese. Still needs to be sliced."
 	icon_state = "pumpkinpie"
@@ -190,13 +188,12 @@
 	slice_name = "pumpkin pie slice"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	tastes = list("crispy butterdough" = 1,"pumpkin"=1,"cheese"=1)
-	foodtype = GRAIN | DAIRY | FRUIT | SUGAR
 	bitesize = 8
 	dropshrink = 0.85
 
 /obj/item/reagent_containers/food/snacks/rogue/pieslice/pumpkin
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_VEGETABLE|DISH_PIE
+	dish_type = DISH_VEGETABLE|DISH_PIE|DISH_DAIRY|DISH_EGG|DISH_SWEET
 	name = "pumpkin pie slice"
 	desc = "A delicious slice of homemade pie, made with pumpkin and cheese."
 	icon_state = "pumpkinslice"
@@ -205,7 +202,6 @@
 	tastes = list("crispy butterdough"=1,"pumpkin"=1,"cheese"=1)
 	faretype = FARE_FINE
 	portable = FALSE
-	foodtype = GRAIN | DAIRY | FRUIT | SUGAR
 	warming = 5 MINUTES
 	bitesize = 3
 	eat_effect = /datum/status_effect/buff/snackbuff
