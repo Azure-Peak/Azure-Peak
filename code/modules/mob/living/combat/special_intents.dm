@@ -125,7 +125,7 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 		var/obj/item/gun/RW = W
 		active_special = W.special
 		if(RW.ranged_skill)
-			skill_level = user.get_skill_level(RW.ranged_skill)
+			skill_level = src.get_skill_level(RW.ranged_skill)
 		else
 			skill_level = 3
 	else if(!W)
