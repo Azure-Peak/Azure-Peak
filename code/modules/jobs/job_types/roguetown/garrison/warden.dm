@@ -112,11 +112,11 @@
 		var/weapon_options = list("Longbowman - Blackhorn Longbow / Weaker Axe Skill", "Bowhunter - Blackhorn Bow + 20 Broadheads, +I PER / -I STR", "Spearhunter - Spear + Sling, +I STR / -I SPD")
 		var/weapon_choice = input(H, "Choose your SPECIALITY.", "JACK OF MANY TRADES, MASTER OF NONE.") as anything in weapon_options
 		switch(weapon_choice)
-			if("Longbowman - Blackhorn Longbow, Weaker Axe Skill")
+			if("Longbowman - Blackhorn Longbow / Weaker Axe Skill")
 				beltr = /obj/item/quiver/arrows
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/warden
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_down_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if("Bowhunter - Blackhorn Bow + 20 Broadheads, +I PER / -I STR")
 				beltr = /obj/item/quiver/arrows
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden
