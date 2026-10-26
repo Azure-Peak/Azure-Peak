@@ -33,7 +33,7 @@
 	neck = /obj/item/clothing/neck/roguetown/coif/padded
 	cloak = /obj/item/clothing/cloak/wardencloak
 	backr = /obj/item/storage/backpack/rogue/satchel
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded/warden/upgraded
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	belt = /obj/item/storage/belt/rogue/leather
 	beltl = /obj/item/rogueweapon/stoneaxe/woodcut/wardenpick
@@ -109,13 +109,21 @@
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
-		var/weapon_options = list("Bowhunter - Blackhorn Bow + 20 Broadheads", "Spearhunter - Spear + Sling, +I STR / -I SPD")
+		var/weapon_options = list("Longbowman - Blackhorn Longbow + 20 Broadheads, Weaker Axe Skill", "Bowhunter - Blackhorn Bow + 20 Broadheads, +I PER / -I STR", "Spearhunter - Spear + Sling, +I STR / -I SPD")
 		var/weapon_choice = input(H, "Choose your SPECIALITY.", "JACK OF MANY TRADES, MASTER OF NONE.") as anything in weapon_options
 		switch(weapon_choice)
-			if("Bowhunter - Blackhorn Bow + 20 Broadheads")
+			if("Longbowman - Blackhorn Longbow + 20 Broadheads, Weaker Axe Skill")
+				beltr = /obj/item/quiver/arrows
+				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/warden
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
+				H.adjust_skillrank_down_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			if("Bowhunter - Blackhorn Bow + 20 Broadheads, +I PER / -I STR")
 				beltr = /obj/item/quiver/arrows
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
+				// No axes skill adjustment for Bowhunter so that it isn't a straight downgrade to longbowman
+				H.change_stat(STATKEY_PER, 1)
+				H.change_stat(STATKEY_STR, -1)
 			if("Spearhunter - Spear + Sling, +I STR / -I SPD")
 				beltr = /obj/item/quiver/sling/iron
 				r_hand = /obj/item/rogueweapon/spear
