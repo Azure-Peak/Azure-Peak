@@ -106,8 +106,8 @@
 	damfactor = 1
 	chargetime = 8
 	chargedrain = 1
-	clickcd = CLICK_CD_CHARGED
-	intent_intdamage_factor = 2.2
+	clickcd = CLICK_CD_HEAVY
+	intent_intdamage_factor = 1.5
 
 /datum/alt_grip/quarterstaff
 	two_handed = TRUE
