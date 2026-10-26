@@ -59,7 +59,7 @@
 	subclass_skills = list(
 		/datum/skill/combat/bows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/slings = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/axes = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -109,18 +109,19 @@
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
-		var/weapon_options = list("Longbowman - Blackhorn Longbow / Weaker Axe Skill", "Bowhunter - Blackhorn Bow + 20 Broadheads, +I PER / -I STR", "Spearhunter - Spear + Sling, +I STR / -I SPD")
+		var/weapon_options = list("Longbowman - Blackhorn Longbow, JMAN Axes, Expert Knives", "Bowhunter - Blackhorn Bow + 20 Broadheads, +I PER / -I STR", "Spearhunter - Spear + Sling, +I STR / -I SPD")
 		var/weapon_choice = input(H, "Choose your SPECIALITY.", "JACK OF MANY TRADES, MASTER OF NONE.") as anything in weapon_options
 		switch(weapon_choice)
-			if("Longbowman - Blackhorn Longbow / Weaker Axe Skill")
+			if("Longbowman - Blackhorn Longbow, JMAN Axes, Expert Knives")
 				beltr = /obj/item/quiver/arrows
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow/warden
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
-				H.adjust_skillrank_down_to(/datum/skill/combat/axes, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
 			if("Bowhunter - Blackhorn Bow + 20 Broadheads, +I PER / -I STR")
 				beltr = /obj/item/quiver/arrows
 				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/warden
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_MASTER, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				// No axes skill adjustment for Bowhunter so that it isn't a straight downgrade to longbowman
 				H.change_stat(STATKEY_PER, 1)
 				H.change_stat(STATKEY_STR, -1)
@@ -130,6 +131,7 @@
 				backl = /obj/item/rogueweapon/scabbard/gwstrap
 				l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/sling
 				H.adjust_skillrank_up_to(/datum/skill/combat/slings, SKILL_LEVEL_EXPERT, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_SPD, -1)
 				H.change_stat(STATKEY_STR, 1)
 
