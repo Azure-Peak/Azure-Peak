@@ -59,7 +59,7 @@
 	desc = "Short, quick blows from a choked-up grip. Keeps pressure on lightly armored foes."
 	attack_verb = list("raps", "strikes", "cracks")
 	damfactor = 0.85
-	clickcd = CLICK_CD_NORMAL
+	clickcd = CLICK_CD_MELEE
 
 /datum/intent/mace/strike/dislocate/quarterstaff
 	name = "joint strike"
