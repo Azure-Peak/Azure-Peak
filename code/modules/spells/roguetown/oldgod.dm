@@ -126,9 +126,36 @@
 // T1 - ENDURE //
 /////////////////
 
+/datum/action/cooldown/spell/psydon/endure/lesser
+	desc = "Invoke a lesser invigorating prayer for those who are faltering in willpower. For the faithful and the mortally wounded, it eases both the pain from wounds and shortness of breath, and improves blood regeneration if your body has the reserves for it.<br><br><i>(Lesser version of the Miracle, which does not benefit from any bonuses, nor staunches bleeding. Has no effect on non-Psydonites, or people who are not dying.)</i>"
+	button_icon_state = "PRAYER"
+	lesser = TRUE
+
+/datum/action/cooldown/spell/psydon/endure/lesser/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
+	if(isliving(cast_on))
+		var/mob/living/target = cast_on
+
+		if(H.cmode)
+			if(H != target)
+				H.visible_message(span_blue("[H] fervently recites an orison, invoking the warmth of a dying light."))
+				H.say(pick("ENDURE!!","ENDURE!!","ENDURE!!","ENDURE!!","ENDURE!!","COME ON!!","COME ON!!","HANG ON!!","GRIT!!","STAND TALL!!"))
+			else
+				H.visible_message(span_blue("[H] grits their teeth and recites an orison, invoking the warmth of a dying light."))
+		else
+			H.visible_message(span_blue("[H] quietly recites an orison, invoking the warmth of a dying light."))
+
+		target.apply_status_effect(/datum/status_effect/buff/psyhealing_lesser)
+
+		return TRUE
+
+	return FALSE
+
 /datum/action/cooldown/spell/psydon/endure
 	name = "ENDURE"
-	desc = "Invoke an envigoring prayer for those who're faltering in willpower. </br>‎	</br>Provides minor wound regeneration, temporarily halts the target's bleeding, and helps to alleviate those who're struggling to breathe. The more valuable a caster's psycross is, the more health that is restored unto the target - this is further increased if they have been mortally wounded."
+	desc = "Invoke an invigorating prayer for those who are faltering in willpower. </br>‎	</br>Provides minor wound regeneration, temporarily halts the target's bleeding, and helps to alleviate those who're struggling to breathe. The more valuable a caster's psycross is, the more health that is restored unto the target - this is further increased if they have been mortally wounded."
+	fluff_desc = "<font color='#64f5ff'>To ENDURE is to hold faith when the flesh begins to fail. HE does not bestow HIS light upon us, we channel it with all our fervor, all our hearts. For both, endurance is not freedom from suffering, but the refusal to yield to it. So LIVE, as does HE!</font>"
 	button_icon_state = "ENDURE"
 	sound = 'sound/magic/ENDVRE.ogg'
 
@@ -142,9 +169,12 @@
 
 	charge_required = FALSE
 	cooldown_time = 30 SECONDS
+	var/lesser = FALSE
 
 /datum/action/cooldown/spell/psydon/endure/cast(atom/cast_on)
 	. = ..()
+	if(lesser)
+		return TRUE
 	var/mob/living/carbon/human/H = owner
 	if(isliving(cast_on))
 		var/mob/living/target = cast_on

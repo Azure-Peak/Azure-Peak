@@ -832,7 +832,7 @@
 	id = "psyhealing"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/psyhealing
 	duration = 15 SECONDS
-	examine_text = "SUBJECTPRONOUN stirs with a sense of ENDURING!"
+	examine_text = "<font color=white>SUBJECTPRONOUN stirs with a sense of ENDURING!</font>"
 	var/healing_on_tick = 1
 	var/outline_colour = "#d3d3d3"
 
@@ -845,6 +845,7 @@
 	var/filter = owner.get_filter(PSYDON_HEALING_FILTER)
 	if (!filter)
 		owner.add_filter(PSYDON_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	owner.visible_message(span_info("A strange stirring feeling pours from [owner]!"), span_info("Sentimental thoughts drive away my pain..."))
 	return TRUE
 
 /datum/status_effect/buff/psyhealing/tick()
@@ -857,11 +858,63 @@
 	var/list/wCount = owner.get_wounds()
 	if(wCount.len > 0)
 		owner.heal_wounds(healing_on_tick * 2.25)
+		for(var/datum/wound/wound as anything in wCount)
+			if(wound.woundpain)
+				wound.woundpain = max(0, wound.woundpain - healing_on_tick)
 		owner.update_damage_overlays()
-	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustOxyLoss(-healing_on_tick * 2.25, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 	owner.adjustCloneLoss(-healing_on_tick, 0)
+	if(!HAS_TRAIT(owner, TRAIT_NOHUNGER) && owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.nutrition = max(owner.nutrition - CEILING(max(owner.nutrition, 0) * 0.025, 1), 0)
+		owner.hydration = max(owner.hydration - CEILING(max(owner.hydration, 0) * 0.025, 1), 0)
+		owner.blood_volume = min(owner.blood_volume + (owner.nutrition * 0.025 + owner.hydration * 0.025), BLOOD_VOLUME_NORMAL)
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/status_effect/buff/psyhealing_lesser
+	id = "psyhealing" // same ID so they don't stack!
+	alert_type = /atom/movable/screen/alert/status_effect/buff/psyhealing
+	duration = 15 SECONDS
+	examine_text = "<font color=white>SUBJECTPRONOUN stirs with a soft sense of ENDURING!</font>"
+	var/healing_on_tick = 1
+	var/outline_colour = "#d3d3d3"
+
+/datum/status_effect/buff/psyhealing_lesser/on_creation(mob/living/new_owner, new_healing_on_tick)
+	healing_on_tick = new_healing_on_tick
+	return ..()
+
+/datum/status_effect/buff/psyhealing_lesser/on_apply()
+	SEND_SIGNAL(owner, COMSIG_LIVING_MIRACLE_HEAL_APPLY, healing_on_tick, src)
+	var/filter = owner.get_filter(PSYDON_HEALING_FILTER)
+	if (!filter)
+		owner.add_filter(PSYDON_HEALING_FILTER, 2, list("type" = "outline", "color" = outline_colour, "alpha" = 60, "size" = 1))
+	owner.visible_message(span_info("A soft stirring feeling pours from [owner]!"), span_info("Sentimental thoughts comfort me..."))
+	return TRUE
+
+/datum/status_effect/buff/psyhealing_lesser/tick()
+	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
+		return
+	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
+	H.color = "#d3d3d3"
+	var/list/wCount = owner.get_wounds()
+	if(HAS_TRAIT(owner, TRAIT_HALFHEAL))
+		healing_on_tick /= 2
+	if(!HAS_TRAIT(owner, TRAIT_PSYDONIAN_GRIT) && (owner.health > SOFT_CRIT || !owner.surrendering))
+		return
+	if(wCount.len > 0)
+		for(var/datum/wound/wound as anything in wCount)
+			if(wound.woundpain)
+				wound.woundpain = max(0, wound.woundpain - healing_on_tick * 5)
+		owner.update_damage_overlays()
+	owner.adjustOxyLoss(-healing_on_tick * 2.25, 0)
+	if(!HAS_TRAIT(owner, TRAIT_NOHUNGER) && owner.blood_volume < BLOOD_VOLUME_NORMAL)
+		owner.nutrition = max(owner.nutrition - CEILING(max(owner.nutrition, 0) * 0.025, 1), 0)
+		owner.hydration = max(owner.hydration - CEILING(max(owner.hydration, 0) * 0.025, 1), 0)
+		owner.blood_volume = min(owner.blood_volume + (owner.nutrition * 0.025 + owner.hydration * 0.025), BLOOD_VOLUME_NORMAL)
+
+////////////////////////////////////////////////////////////////////////////////////////////
 
 /datum/status_effect/buff/psyvived
 	id = "psyvived"
@@ -2016,13 +2069,15 @@
 	effectedstats = list(STATKEY_WIL = 1)
 	var/adrenaline_stam = TRUE
 	var/blood_restore = 30
+	var/calmer_rush = FALSE
 
 /datum/status_effect/buff/adrenaline_rush/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
 	var/mob/living/carbon/human/human = owner
 	if(istype(human))
-		human.playsound_local(get_turf(human), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
+		if(!calmer_rush)
+			human.playsound_local(get_turf(human), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
 		human.blood_volume = min((human.blood_volume + blood_restore), BLOOD_VOLUME_NORMAL)
 		if(adrenaline_stam)
 			human.stamina -= max((human.stamina - (human.max_stamina / 2)), 0)
@@ -2052,11 +2107,13 @@
 	effectedstats = list(STATKEY_CON = 3)
 
 /datum/status_effect/buff/adrenaline_rush/psydon
-	blood_restore = 0
 	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
 	examine_text = "SUBJECTPRONOUN is enduring!"
 	duration = 15 SECONDS //This is on a 30 second cooldown miracle.
+	blood_restore = 0
 	adrenaline_stam = FALSE
+	calmer_rush = TRUE // stops the badumpbadump sound effect, given ENDURE already has its own.
+	effectedstats = list(STATKEY_WIL = 3) // on pair with graggar, but WIL
 
 /datum/status_effect/buff/nocblessing
 	id = "nocblessing"

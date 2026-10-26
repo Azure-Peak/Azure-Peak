@@ -64,6 +64,8 @@
 			recipient.mind?.special_items["Amulet of Malum"] = /obj/item/clothing/neck/roguetown/psicross/malum
 		if(/datum/patron/old_god)
 			ADD_TRAIT(recipient, TRAIT_PSYDONITE, TRAIT_GENERIC)
+			if(!locate(/datum/action/cooldown/spell/psydon/endure) in recipient.mind?.spell_list)
+				recipient.mind?.AddSpell(new /datum/action/cooldown/spell/psydon/endure/lesser)
 			recipient.mind?.special_items["Psycross"] = /obj/item/clothing/neck/roguetown/psicross
 		if(/datum/patron/divine/undivided)
 			recipient.mind?.special_items["Amulet of the Undivided"] = /obj/item/clothing/neck/roguetown/psicross/undivided
