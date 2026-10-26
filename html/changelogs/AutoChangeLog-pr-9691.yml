@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Bogmen received swimming lesson to not die as quick in their native environment"
+  - rscadd: "AI is slightly smarter about not exhausting themselves in water."

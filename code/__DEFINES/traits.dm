@@ -1079,3 +1079,5 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_MOVEMENT_BLOCKED "movement_blocked"
 /// Mobs that have this trait cannot be extinguished
 #define TRAIT_NO_EXTINGUISH "no_extinguish"
+/// Set on a mob for the length of the shove step of a kick
+#define TRAIT_KICKED "kicked"

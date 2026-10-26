@@ -11,6 +11,7 @@
 	traits = list(TRAIT_STEELHEARTED)
 	melee = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
+	survival = SKILL_LEVEL_APPRENTICE
 	athletics = SKILL_LEVEL_JOURNEYMAN
 
 /datum/npc_archetype/bog_deserter/mixed

@@ -53,6 +53,11 @@
 	desc = ""
 	icon_state = "drunk"
 
+/atom/movable/screen/alert/status_effect/buff/fyreball
+	name = "Fyreball Endurance"
+	desc = "It burns so good..."
+	icon_state = "drunk"
+
 /datum/status_effect/buff/murkwine
 	id = "murkwine"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/drunkmurk
@@ -71,6 +76,17 @@
 	duration = 2 MINUTES
 
 /datum/status_effect/buff/nocshine/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
+
+/datum/status_effect/buff/fyreball
+	id = "fyreball"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/fyreball
+	effectedstats = list(STATKEY_WIL = 1) // Feel the burn. Endure the burn. (Two sips / 10 drams gets you drunk, for a total of +2will/-2int)
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/fyreball/on_creation(mob/living/new_owner)
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
 	. = ..()
