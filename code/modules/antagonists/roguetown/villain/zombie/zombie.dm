@@ -426,16 +426,7 @@
 	id = "deadite_grace_period"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/deadite_grace
 	duration = 2 MINUTES // this buff is cancelled early if you attack a mob with mind. Mind your targets, sire.
-
-/datum/status_effect/debuff/deadite_grace/proc/on_life() //make freshly reanimated corpses super obvious
-	SIGNAL_HANDLER
-	var/mob/living/carbon/human/zombie = owner
-	var/next_idle_sound
-	if(!owner || owner.stat >= DEAD)
-		return
-	if(world.time > next_idle_sound)
-		zombie.emote("idle")
-		next_idle_sound = world.time + rand(10 SECONDS, 20 SECONDS)
+	examine_text = "<font color='#ff0000'>SUBJECTPRONOUN is in an unstoppable fury of undeath!</font>"
 
 /datum/status_effect/debuff/deadite_grace/on_apply()
 	. = ..()
@@ -445,8 +436,6 @@
 	ADD_TRAIT(owner, TRAIT_IGNORESLOWDOWN, id)
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	ADD_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
-	to_chat(owner, span_userdanger("I feel my body tense up immensely in response to this hunger, tendrils of darkness crawling under my skin."))
-	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
 /datum/status_effect/debuff/deadite_grace/on_remove()
 	. = ..()
@@ -456,9 +445,10 @@
 	REMOVE_TRAIT(owner, TRAIT_IGNORESLOWDOWN, id)
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
-	to_chat(owner, span_userdanger("I feel my body relax a little, and that is the last thing I feel before unnatural rage wells up inside of me, my Lux wanes... I am fading."))
+	to_chat(owner, span_cult("I feel my body relax a little, and that is the last thing I feel before unnatural rage wells up inside of me, my Lux wanes... I am fading."))
+	owner.show_visible_message(owner, "[owner]'s body relaxes, but [p_their()]'s eyes fill with rage, as [p_their()] movements become more looser and pick up a pace!")
 	if(!HAS_TRAIT(owner, TRAIT_NORUN))
-		to_chat(owner, span_cult("I CAN NOW SPRINT AGAIN! HUNT THE LYVING, FEAST ON THEIR FLESH!"))
+		to_chat(owner, span_userdanger("I CAN NOW SPRINT AGAIN! HUNT THE LYVING, FEAST ON THEIR FLESH!"))
 
 #undef ZOMBIE_FIRST_BITE_CHANCE
 #undef ZOMBIE_BITE_CONVERSION_TIME
