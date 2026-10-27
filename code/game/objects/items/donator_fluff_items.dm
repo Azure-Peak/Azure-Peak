@@ -5078,3 +5078,18 @@ As Excaliber."
 /obj/item/clothing/gloves/roguetown/bandages/pugilist/dominion_cestus/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/dominion_cestus_cycle)
+
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman
+	name = "prototype strange mask"
+	desc = "It doesn’t seem to serve it’s purpose well anymore, Aeon’s grip slowly fraying it’s structure. The inside of it is filled with scripture in an older, defunct Otavais tongue. Sometimes, it wheezes on its own, lending credence to the whispers of heresy surrounding its invention. Wearing it, you taste copper whenever you draw breath."
+	armor = null
+	smeltresult = null
+
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman/ComponentInitialize()
+	return
+
+/obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/clothing/mask/rogue/spectacles/inq))
+		to_chat(user, span_info("These lenses won't fit in this mask."))
+		return
+	return ..()
