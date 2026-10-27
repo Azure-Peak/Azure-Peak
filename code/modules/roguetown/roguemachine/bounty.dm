@@ -443,11 +443,26 @@
 	item_chair = null
 	anchored = TRUE
 	var/submission = TRUE
+	var/bounty_faction
 	max_integrity = 999999
+
+/obj/structure/chair/arrestchair/crown
+	name = "CROWN CASTIFICO"
+	bounty_faction = "crown"
+
+/obj/structure/chair/arrestchair/church
+	name = "CHURCH CASTIFICO"
+	bounty_faction = "church"
+
+/obj/structure/chair/arrestchair/inquisition
+	name = "INQUISITION CASTIFICO"
+	bounty_faction = "inquisition"
 
 /obj/structure/chair/arrestchair/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Buckle a bounty target to the chair, then right-click to process them.")
+	if(bounty_faction)
+		. += span_info("This CASTIFICO only claims bounties posted by [bounty_faction].")
 	. += span_info("If they have an active bounty, they will be fitted with a pacification collar and you will receive a reward.")
 	. += span_info("The target can submit or resist. Resisting is fatal.")
 	. += span_info("Outlaws cannot operate this machine.")
@@ -496,7 +511,8 @@
 	var/reward_amount = 0
 
 	for(var/datum/bounty/b in GLOB.head_bounties)
-		if(b.target == M.real_name)
+		var/bounty_entry_faction = b.faction || get_bounty_faction_for_employer(b.employer)
+		if(bounty_faction && b.target == M.real_name && bounty_entry_faction == bounty_faction)
 			correct_head = TRUE
 			reward_amount += b.amount
 			GLOB.head_bounties -= b
