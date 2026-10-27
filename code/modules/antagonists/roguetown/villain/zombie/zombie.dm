@@ -197,7 +197,7 @@
 		zombie.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/zombie/f]
 	base_intents = zombie.base_intents
 	if(!isooze(zombie)) //murklings retain their slime colors, instead of rotted blood
-		zombie.dna.species.blood_color = "#3D1B14"
+		zombie.dna.species.blood_color = "#161616"
 	zombie.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	zombie.update_a_intents()
 	ambushable = zombie.ambushable
