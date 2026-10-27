@@ -414,7 +414,7 @@
 
 /datum/loadout_item/donator/universal/regional/anthraxishirt
 	name = "Gift - Regional, Darksilk Shirt (Tall Humanoid Only)"
-	path = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
+	path = /obj/item/clothing/suit/roguetown/shirt/shadowshirt
 
 /datum/loadout_item/donator/universal/regional/anthraxirobe
 	name = "Gift - Regional, Darksilk Robe (Tall Humanoid Only)"
@@ -422,7 +422,7 @@
 
 /datum/loadout_item/donator/universal/regional/anthraxigloves
 	name = "Gift - Regional, Darksilk Gloves (Tall Humanoid Only)"
-	path = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock/loadout
+	path = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves
 
 /datum/loadout_item/donator/universal/regional/anthraxicloak
 	name = "Gift - Regional, Darksilk Cloak"
@@ -430,7 +430,7 @@
 
 /datum/loadout_item/donator/universal/regional/anthraxipants
 	name = "Gift - Regional, Darksilk Pants (Tall Humanoid Only)"
-	path = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
+	path = /obj/item/clothing/under/roguetown/trou/shadowpants
 
 /datum/loadout_item/donator/universal/regional/trophyfurs
 	name = "Gift - Regional, Trophy Robes"

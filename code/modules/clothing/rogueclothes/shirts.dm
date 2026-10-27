@@ -180,13 +180,6 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	armor = ARMOR_PADDED
 
-/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
-	name = "aesthetic silk shirt"
-
-/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout/Initialize(mapload)
-	. = ..()
-	loadoutize()
-
 /obj/item/clothing/suit/roguetown/shirt/apothshirt
 	name = "apothecary shirt"
 	desc = "When trudging through late-autumn forests, one needs to keep warm."

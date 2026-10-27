@@ -30,7 +30,7 @@
 	sort_category = "Shirts"
 
 /datum/loadout_item/silkshirt
-	name = "Silk Shirt"
+	name = "Darksilk Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/shadowshirt
 	sort_category = "Shirts"
 
