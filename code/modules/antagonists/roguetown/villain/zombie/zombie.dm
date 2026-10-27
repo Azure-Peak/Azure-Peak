@@ -446,7 +446,6 @@
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
 	to_chat(owner, span_userdanger("I feel my body relax a little, and that is the last thing I feel before unnatural rage wells up inside of me, my Lux wanes... I am fading."))
-	show_visible_message(owner, "[owner]'s body relaxes, but [p_their()]'s eyes fill with rage, as [p_their()] movements become more looser and pick up a pace!")
 	if(!HAS_TRAIT(owner, TRAIT_NORUN))
 		to_chat(owner, span_notice("I CAN NOW SPRINT AGAIN! HUNT THE LYVING, FEAST ON THEIR FLESH!"))
 
