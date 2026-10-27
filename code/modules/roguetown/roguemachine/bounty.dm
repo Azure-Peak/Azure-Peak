@@ -11,7 +11,7 @@
 /obj/structure/roguemachine/bounty/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Click to interact with the bounty system.")
-	. += span_info("You can consult active bounties, set new bounties, print a list, or remove your own bounties.")
+	. += span_info("You can consult active bounties and print a list. Authorized officials can set or remove bounties for their faction.")
 	. += span_info("Setting a bounty costs mammon from your bank account.")
 
 /datum/bounty
@@ -27,6 +27,8 @@
 	var/amount
 	var/reason
 	var/employer
+	var/faction
+	var/unremovable = FALSE
 
 	/// Whats displayed when consulting the bounties
 	var/banner
@@ -41,7 +43,7 @@
 	var/mob/living/carbon/human/H = user
 
 	// Main Menu
-	var/list/choices = list("Consult Bounties", "Set Bounty", "Print List of Bounties", "Remove Bounty")
+	var/list/choices = list("Consult Bounties", "Print List of Bounties")
 	var/selection = input(user, "The Excidium listens", src) as null|anything in choices
 
 	switch(selection)
@@ -49,14 +51,8 @@
 		if("Consult Bounties")
 			consult_bounties(H)
 
-		if("Set Bounty")
-			set_bounty(H)
-
 		if("Print List of Bounties")
 			print_bounty_scroll(H)
-
-		if("Remove Bounty")
-			remove_bounty(H)
 
 /obj/structure/roguemachine/bounty/attackby(obj/item/P, mob/user, params)
 
@@ -64,124 +60,193 @@
 
 ///Shows all active bounties to the user.
 /obj/structure/roguemachine/bounty/proc/consult_bounties(mob/living/carbon/human/user)
-	var/bounty_found = FALSE
-	var/consult_menu
-	consult_menu += "<center>BOUNTIES<BR>"
-	consult_menu += "--------------<BR>"
+	ui_interact(user)
+
+/obj/structure/roguemachine/bounty/ui_state(mob/user)
+	return GLOB.human_adjacent_state
+
+/obj/structure/roguemachine/bounty/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Bounty", "Active Bounties")
+		ui.open()
+
+/obj/structure/roguemachine/bounty/ui_data(mob/user)
+	return get_bounty_tgui_data(user)
+
+/obj/structure/roguemachine/bounty/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
+		return
+	return handle_bounty_ui_action(src, action, params, usr)
+
+/proc/get_bounty_tgui_data(mob/user)
+	var/list/data = list()
+	var/list/bounties = list()
 	for(var/datum/bounty/saved_bounty in GLOB.head_bounties)
-		consult_menu += saved_bounty.banner
-		bounty_found = TRUE
+		var/bounty_faction = saved_bounty.faction || get_bounty_faction_for_employer(saved_bounty.employer)
+		if(!bounty_faction)
+			continue
+		var/display_reason = html_decode(saved_bounty.reason)
+		display_reason = replacetext(display_reason, "<BR>", "\n")
+		bounties += list(list(
+			"ref" = "\ref[saved_bounty]",
+			"target" = saved_bounty.target,
+			"employer" = saved_bounty.employer,
+			"faction" = bounty_faction,
+			"unremovable" = saved_bounty.unremovable,
+			"amount" = saved_bounty.amount,
+			"reason" = display_reason,
+			"race" = "[saved_bounty.target_race]",
+			"height" = saved_bounty.target_height,
+			"body_type" = saved_bounty.target_body_type,
+			"body" = saved_bounty.target_body_prefix,
+			"voice" = saved_bounty.target_voice_prefix,
+		))
+	data["bounties"] = bounties
+	var/faction = ishuman(user) ? get_bounty_faction_for_job(user.job) : null
+	data["can_manage"] = faction ? TRUE : FALSE
+	data["manage_faction"] = faction || ""
+	var/list/known_targets = list()
+	data["balance"] = 0
+	data["has_account"] = FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.mind?.known_people?.len)
+			for(var/mob/living/carbon/human/known_person in GLOB.human_list)
+				if(known_person.real_name in H.mind.known_people)
+					known_targets += known_person.real_name
+		data["has_account"] = SStreasury.has_account(H)
+		if(data["has_account"])
+			data["balance"] = SStreasury.get_balance(H)
+	data["known_targets"] = known_targets
+	return data
 
-	if(bounty_found)
-		var/datum/browser/popup = new(user, "BOUNTIES", "", 500, 300)
-		popup.set_content(consult_menu)
-		popup.open()
-	else
-		say("No bounties are currently active.")
+/proc/get_bounty_faction_for_job(job)
+	switch(job)
+		if("Marshal", "Grand Duke", "Hand")
+			return "crown"
+		if("Bishop", "Martyr")
+			return "church"
+		if("Inquisitor", "Absolver")
+			return "inquisition"
 
-/obj/structure/roguemachine/bounty/proc/remove_bounty(mob/living/carbon/human/user)
-	var/list/bounty_list = list()
+/proc/get_bounty_faction_for_employer(employer)
+	switch(employer)
+		if("The Justiciary of Azuria")
+			return "crown"
+		if("The Grenzelhoftian Holy See")
+			return "church"
+		if("The Otavan Orthodoxy")
+			return "inquisition"
 
-	for(var/datum/bounty/removable_bounties in GLOB.head_bounties)
-		if(removable_bounties.employer == user.real_name)
-			bounty_list += removable_bounties.target
+/proc/get_bounty_for_target_faction(target_name, faction)
+	for(var/datum/bounty/saved_bounty in GLOB.head_bounties)
+		var/bounty_faction = saved_bounty.faction || get_bounty_faction_for_employer(saved_bounty.employer)
+		if(saved_bounty.target == target_name && bounty_faction == faction)
+			return saved_bounty
 
-	if(!bounty_list.len)
-		say("You have no active bounty listings to remove.")
-		return
+/proc/handle_bounty_ui_action(atom/movable/source, action, list/params, mob/user)
+	if(!ishuman(user))
+		return FALSE
+	var/mob/living/carbon/human/H = user
+	var/faction = get_bounty_faction_for_job(user.job)
+	if(!faction)
+		to_chat(user, span_warning("You are not authorized to manage bounties."))
+		return TRUE
 
-	var/target_name = input(user, "Whose name shall be struck from the wanted list?", src) as null|anything in bounty_list
-	if(!target_name)
-		return
+	switch(action)
+		if("set_bounty")
+			var/target_name = params["target"]
+			if(!H.mind || !(target_name in H.mind.known_people))
+				to_chat(user, span_warning("You may only set bounties on people you know."))
+				return TRUE
+			var/mob/living/carbon/human/target
+			for(var/mob/living/carbon/human/known_person in GLOB.human_list)
+				if(known_person.real_name == target_name)
+					target = known_person
+					break
+			if(!target)
+				to_chat(user, span_warning("That target is no longer available."))
+				return TRUE
 
-	say("Removing [target_name] from bounty list...")
+			var/datum/bounty/existing_bounty = get_bounty_for_target_faction(target.real_name, faction)
+			var/amount = text2num(params["amount"])
+			var/minimum_amount = existing_bounty ? 1 : 100
+			if(amount < minimum_amount || amount > 500 || round(amount) != amount)
+				to_chat(user, span_warning("Bounty amount must be a whole number between [minimum_amount] and 500 mammon."))
+				return TRUE
+			if(existing_bounty && existing_bounty.amount + amount > 500)
+				to_chat(user, span_warning("The combined bounty cannot exceed 500 mammon."))
+				return TRUE
+			if(!SStreasury.has_account(user))
+				to_chat(user, span_warning("You have no bank account."))
+				return TRUE
+			if(SStreasury.get_balance(user) < amount)
+				to_chat(user, span_warning("Insufficient funds."))
+				return TRUE
 
-	for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
-		if(removing_bounty.target == target_name && user.real_name == removing_bounty.employer)
+			var/reason = params["reason"]
+			if(!istext(reason) || !length(trim(reason)))
+				to_chat(user, span_warning("A reason is required."))
+				return TRUE
+
+			amount = round(amount)
+			var/datum/fund/user_account = SStreasury.get_account(user)
+			if(!SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]", LEDGER_CITIZEN_CONTRACT_PAID))
+				to_chat(user, span_warning("Insufficient funds."))
+				return TRUE
+
+			var/list/d_list = target.get_mob_descriptors()
+			var/descriptor_height = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
+			var/descriptor_body = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
+			var/descriptor_voice = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
+			add_bounty(target.real_name, target.dna.species, target.gender, descriptor_height, descriptor_body, descriptor_voice, amount, FALSE, reason, user.real_name, faction)
+
+			playsound(source, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+			var/bounty_announcement = "The Excidium hungers for [target]."
+			source.say(bounty_announcement)
+			scom_announce(bounty_announcement)
+			message_admins("[ADMIN_LOOKUPFLW(user)] has set a bounty on [ADMIN_LOOKUPFLW(target)] with the reason of: '[reason]'")
+			return TRUE
+
+		if("remove_bounty")
+			var/datum/bounty/removing_bounty = locate(params["ref"]) in GLOB.head_bounties
+			if(!removing_bounty || removing_bounty.unremovable)
+				to_chat(user, span_warning("That bounty cannot be removed."))
+				return TRUE
+			var/bounty_faction = removing_bounty.faction || get_bounty_faction_for_employer(removing_bounty.employer)
+			if(bounty_faction != faction)
+				to_chat(user, span_warning("You may only remove bounties from your faction."))
+				return TRUE
+
+			var/target_name = removing_bounty.target
 			GLOB.head_bounties -= removing_bounty
 			scom_announce("The bounty posting on [target_name] has been removed.")
 			message_admins("[ADMIN_LOOKUPFLW(user)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
-			return
-	say("Error. Bounty no longer active.")
+			return TRUE
 
-///Sets a bounty on a target player through user input.
-///@param user: The player setting the bounty.
-/obj/structure/roguemachine/bounty/proc/set_bounty(mob/living/carbon/human/user)
-	var/list/eligible_players = list()
+	return FALSE
 
-	if(user.mind.known_people.len)
-		for(var/mob/living/carbon/human/H in GLOB.human_list)
-			if(H.real_name in user.mind.known_people)
-				eligible_players[H.real_name] = H
-	else
-		to_chat(user, span_warning("I don't know anyone."))
-		return
+/proc/add_bounty(target_realname, race, gender, descriptor_height, descriptor_body, descriptor_voice, amount, bandit_status, reason, employer_name, bounty_faction = null, unremovable = FALSE)
+	var/resolved_faction = bounty_faction || get_bounty_faction_for_employer(employer_name)
+	var/datum/bounty/existing_bounty = get_bounty_for_target_faction(target_realname, resolved_faction)
+	if(existing_bounty)
+		existing_bounty.amount = min(existing_bounty.amount + amount, 500)
+		existing_bounty.reason += "\n[html_encode(reason)]"
+		existing_bounty.unremovable = existing_bounty.unremovable || unremovable
+		existing_bounty.banner = ""
+		compose_bounty(existing_bounty)
+		return existing_bounty
 
-	var/choice = input(user, "Whose name shall be etched on the wanted list?", src) as null|anything in eligible_players
-	if(isnull(choice))
-		say("No target selected.")
-		return
-
-	var/mob/living/carbon/human/target = eligible_players[choice]
-
-	var/amount = input(user, "How much mammon shall be stained red for their demise?", src) as null|num
-	if(isnull(amount))
-		say("Invalid amount.")
-		return
-	if(amount < 100)
-		say("Insufficient amount. Bounty must be at least 100 mammon.")
-		return
-	if(amount > 500)
-		say("Too much. A bounty cannot be more than 500 mammon.")
-		return
-
-	// Has user a bank account?
-	if(!SStreasury.has_account(user))
-		say("You have no bank account.")
-		return
-
-	// Has user enough money?
-	if(SStreasury.get_balance(user) < amount)
-		say("Insufficient funds.")
-		return
-
-	var/reason = input(user, "For what sins do you summon the hounds of hell?", src) as null|text
-	if(isnull(reason) || reason == "")
-		say("No reason given.")
-		return
-
-	var/confirm = input(user, "Do you dare unleash this darkness upon the world? Your name will be known.", src) as null|anything in list("Yes", "No")
-	if(isnull(confirm) || confirm == "No") return
-
-	var/datum/fund/user_account = SStreasury.get_account(user)
-	amount = round(amount)
-	SStreasury.burn(user_account, amount, "bounty placement - [target.real_name]", LEDGER_CITIZEN_CONTRACT_PAID)
-
-	var/race = target.dna.species
-	var/gender = target.gender
-	var/list/d_list = target.get_mob_descriptors()
-	var/descriptor_height = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
-	var/descriptor_body = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
-	var/descriptor_voice = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
-
-	// Finally create bounty
-	add_bounty(target.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, amount, FALSE, reason, user.real_name)
-
-	//Announce it locally and on scomm
-	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-	var/bounty_announcement = "The Excidium hungers for [target]."
-	say(bounty_announcement)
-	scom_announce(bounty_announcement)
-
-	message_admins("[ADMIN_LOOKUPFLW(user)] has set a bounty on [ADMIN_LOOKUPFLW(target)] with the reason of: '[reason]'")
-
-/proc/add_bounty(target_realname, race, gender, descriptor_height, descriptor_body, descriptor_voice, amount, bandit_status, reason, employer_name)
 	var/datum/bounty/new_bounty = new /datum/bounty
-	new_bounty.amount = amount
+	new_bounty.amount = min(amount, 500)
 	new_bounty.target = target_realname
 	new_bounty.bandit = bandit_status
 	new_bounty.reason = html_encode(reason)
 	new_bounty.employer = employer_name
+	new_bounty.faction = resolved_faction
+	new_bounty.unremovable = unremovable
 	new_bounty.target_race = race
 	new_bounty.target_height = LOWER_TEXT(descriptor_height)
 	new_bounty.target_body = LOWER_TEXT(descriptor_body)
@@ -233,31 +298,63 @@
 
 	SStreasury.transfer(SStreasury.get_account(user), SStreasury.discretionary_fund, cost, "bounty scroll fee", null, LEDGER_CROWN_REV_OTHER)
 
-	var/obj/item/paper/scroll/bounty/scroll = new(get_turf(src))
-	scroll.update_bounty_text()
+	new /obj/item/bountyscroll(get_turf(src))
 	playsound(src, 'sound/items/scroll_open.ogg', 100, TRUE)
 	visible_message(span_notice("The [src] prints out a weathered scroll."))
 	say("Your scroll is ready.")
 
-/obj/item/paper/scroll/bounty
+/obj/item/bountyscroll
 	name = "enchanted bounty scroll"
 	desc = "A weathered scroll enchanted to list the active bounties from the Excidium."
-	icon_state = "scroll"
-	open = FALSE
+	icon = 'icons/roguetown/items/misc.dmi'
+	icon_state = "scroll_prep"
+	w_class = WEIGHT_CLASS_TINY
+	slot_flags = null
+	var/open = FALSE
+	dropshrink = 0.6
 
-/obj/item/paper/scroll/bounty/examine(mob/user)
-	. = ..()
+/obj/item/bountyscroll/attack_self(mob/user)
+	if(!open)
+		attack_right(user)
+	ui_interact(user)
+
+/obj/item/bountyscroll/rmb_self(mob/user, keybind = FALSE)
+	attack_right(user)
+	return
+
+/obj/item/bountyscroll/attack_right(mob/user)
 	if(open)
-		update_bounty_text()
+		slot_flags |= ITEM_SLOT_HIP
+		open = FALSE
+		playsound(src, 'sound/items/scroll_close.ogg', 100, FALSE)
+		SStgui.close_uis(src)
+	else
+		slot_flags &= ~ITEM_SLOT_HIP
+		open = TRUE
+		playsound(src, 'sound/items/scroll_open.ogg', 100, FALSE)
+	update_icon_state()
+	user.update_inv_hands()
 
-/obj/item/paper/scroll/bounty/proc/update_bounty_text()
-	var/scroll_text = "<center>WANTED BY THE EXCIDIUM</center><br><br>"
+/obj/item/bountyscroll/update_icon_state()
+	icon_state = open ? "scrollred" : "scroll_prep"
 
-	for(var/datum/bounty/saved_bounty in GLOB.head_bounties)
-		scroll_text += saved_bounty.banner
-		scroll_text += "<br>"
+/obj/item/bountyscroll/ui_state(mob/user)
+	return GLOB.hold_or_view_state
 
-	info = scroll_text
+/obj/item/bountyscroll/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "Bounty", "Active Bounties")
+		ui.open()
+
+/obj/item/bountyscroll/ui_data(mob/user)
+	return get_bounty_tgui_data(user)
+
+/obj/item/bountyscroll/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
+		return
+	return handle_bounty_ui_action(src, action, params, usr)
 
 /obj/structure/chair/freedomchair
 	name = "LIBERTAS"

@@ -465,6 +465,10 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
+"ns" = (
+/obj/structure/roguemachine/bounty,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "nv" = (
 /obj/effect/landmark/latejoin,
 /turf/open/floor/rogue/carpet/lord/center,
@@ -1078,6 +1082,9 @@
 /obj/item/clothing/ring/gold,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
+"Bg" = (
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/town/manor)
 "Bm" = (
 /obj/item/roguemachine/zadcote/hand,
 /obj/item/hand_files,
@@ -2716,11 +2723,11 @@ Lg
 yF
 "}
 (16,1,1) = {"
-dB
-dB
-dB
-dB
-dB
+Bg
+Bg
+Bg
+Bg
+Bg
 AO
 AO
 zo
@@ -2768,11 +2775,11 @@ Lg
 yF
 "}
 (17,1,1) = {"
-dB
-dB
-dB
-dB
-dB
+ev
+ev
+ev
+ev
+ev
 AO
 AO
 zo
@@ -2820,11 +2827,11 @@ rk
 rk
 "}
 (18,1,1) = {"
-dB
-dB
-dB
-dB
-dB
+Il
+ev
+ev
+ev
+Il
 AO
 zo
 zo
@@ -2976,7 +2983,7 @@ rk
 rk
 "}
 (21,1,1) = {"
-ev
+ns
 ev
 ev
 ev
@@ -3028,11 +3035,11 @@ bW
 rk
 "}
 (22,1,1) = {"
+Il
 ev
 ev
 ev
-ev
-ev
+Il
 zo
 LM
 Oh
