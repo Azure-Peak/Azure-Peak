@@ -258,7 +258,7 @@
 	zombie.Immobilize(33) //Don't want to move during this
 	zombie.Stun(33)
 	zombie.Jitter(15) //Convulse a bit.
-	zombie.emote("groan") // First audio warning to nearby players on top of the above message
+	zombie.emote("idle") // First audio warning to nearby players on top of the above message
 	zombie.drop_all_held_items()
 	zombie.Unconscious(15) //Brief Knockout
 	zombie.flash_fullscreen("redflash3")
@@ -426,7 +426,7 @@
 	id = "deadite_grace_period"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/deadite_grace
 	duration = 2 MINUTES // this buff is cancelled early if you attack a mob with mind. Mind your targets, sire.
-	examine_text = "<font color='#ff0000'>SUBJECTPRONOUN is in an unstoppable fury of undeath!</font>"
+	examine_text = "<font color='#ff0000'>SUBJECTPRONOUN is shambling in a stiff unstoppable fury of undeath!</font>"
 
 /datum/status_effect/debuff/deadite_grace/on_apply()
 	. = ..()
