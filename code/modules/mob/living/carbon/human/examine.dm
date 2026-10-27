@@ -32,13 +32,10 @@
 	var/race_name = "<a href='?src=[REF(src)];species_lore=1'><u>[dna.species.name]</u></A> "
 	var/origin_name = "<a href='?src=[REF(src)];origin_lore=1'><u>[dna.species.origin]</u></A>"
 	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac)
-	var/datum/antagonist/skeleton/skeleton = user.mind?.has_antag_datum(/datum/antagonist/skeleton)
 	var/datum/antagonist/zombie/zombie = user.mind?.has_antag_datum(/datum/antagonist/zombie)
-	if(maniac && (user != src))
+	if(maniac && (user != src) && !isobserver(src))
 		race_name = "disgusting pig"
-	if(skeleton && (user != src))
-		race_name = "[pick("shambling", "taut", "decrepit")]"
-	if(zombie && (user != src))
+	if(zombie && (user != src) && !isobserver(src))
 		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...")]"
 
 	var/m1 = "[t_He] [t_is]"
@@ -112,7 +109,7 @@
 			if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 				guarded = TRUE
 
-	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == !DEAD && !isobserver(src)) //don't add DNR to the checks, I know they can't turn but you're meant to still hunt them down and kill them.
+	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == !DEAD) //don't add DNR to the checks, I know they can't turn but you're meant to still hunt them down and kill them.
 		. += span_cult(pick("KILL IT. KILL IT", "FLESH. HUNGER.", "KILL. CONSUME.", "CONSUME.", "CLAW. BITE. KILL.", "EAT. FLESH. HUNGER.", "KILL THE RASPING THING.", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
 
 	if(user != src)

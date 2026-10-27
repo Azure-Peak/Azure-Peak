@@ -619,7 +619,10 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		"[repeat_string(rand(1, 3), "U")][repeat_string(rand(1, 6), "H")]...",
 		"[repeat_string(rand(1, 3), "R")][repeat_string(rand(1, 2), "U")][repeat_string(rand(1, 3), "G")][repeat_string(rand(1, 2), "H")]...",
 		"G[repeat_string(rand(1, 4), "R")]G[repeat_string(rand(1, 2), "H")]...",
+		"[repeat_string(rand(1, 2), "U")][repeat_string(rand(1, 3), "R")][repeat_string(rand(1, 5), "H")]...",
 		"[repeat_string(rand(1, 3), "R")][repeat_string(rand(1, 2), "G")][repeat_string(rand(1, 4), "H")]...")
+		//doesn't matter what tongue we speak, if its not zizocant we force it to imperial. sorry.
+		language = /datum/language/common
 	else if(HAS_TRAIT(src, TRAIT_GARGLE_SPEECH))
 		message = vocal_cord_torn(message)
 
