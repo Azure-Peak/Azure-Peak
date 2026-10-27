@@ -24,7 +24,7 @@
 		"I can smell my own flesh, it smells foul."
 	)
 
-/datum/status_effect/zombie_infection/on_creation(mob/living/new_owner, time_to_transform = 5 MINUTES, infected_wake_flag = FALSE)
+/datum/status_effect/zombie_infection/on_creation(mob/living/new_owner, time_to_transform = 4 MINUTES, infected_wake_flag = FALSE)
 	. = ..()
 	transformation_time = world.time + time_to_transform
 	message_cooldown_time = world.time + message_cooldown_amount
@@ -45,7 +45,7 @@
 
 	if(transformation_time > 40 SECONDS && !HAS_TRAIT(owner, TRAIT_ZOMBIE_SPEECH)) //you are almost beyond recovery, RRGHHH
 		ADD_TRAIT(owner, TRAIT_ZOMBIE_SPEECH, "zombie_infection_traits")
-		to_chat(owner, span_danger(pick("My sense of language completely slips away.","Coherent words fade away from my mind.","Words fade from my mind, everything is slipping away")))
+		to_chat(owner, span_danger(pick("My ability to speak language completely slips away.","Coherent words fade away from my mind.","Words and how to speak them fray from my mind.")))
 
 	if(world.time <= transformation_time)
 		return
