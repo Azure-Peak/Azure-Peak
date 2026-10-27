@@ -233,7 +233,7 @@
 //We greet them there, play a stinger and yeah.
 	zombie.update_body()
 	zombie.playsound_local(get_turf(zombie), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE) //Extra bit of AURA
-	to_chat(zombie, span_infection("My mind grows numb and empty as unlyfe takes ahold of my body..."))
+	to_chat(zombie, span_cult(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
 	zombie.cmode_music = 'sound/music/combat_weird.ogg'
 	zombie.apply_status_effect(/datum/status_effect/debuff/deadite_grace)
 
@@ -257,7 +257,6 @@
 
 	//small cutscene now we are a zombie, phew! lets make it a little dramatic. This can probably be done in a far better way but whatever.
 	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff before applying more, we want to be lightning quick.
-	to_chat(zombie, span_cult("Death is not the end..."))
 	zombie.Knockdown(33)
 	zombie.Immobilize(33) //Don't want to move during this
 	zombie.Stun(33)
@@ -277,15 +276,18 @@
 	zombie.visible_message(span_danger("[zombie] [pick("stands back up!","shambles upright!","lumbers to [zombie.p_their()] feet!","rises from [zombie.p_their()] shallow grave!","snaps to [zombie.p_their()] feet!","reanimates onto [zombie.p_their()] feet!")]")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
-	to_chat(zombie, span_cult(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
 	zombie.set_blurriness(0) //Unblind us so we aren't blurred forever
 	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
 		zombie.toggle_cmode()
 	//Now we pop our mechanics introduction message
 	to_chat(owner.current, span_boldwarning("\
-	I have turned into a feral, mindless zombie. I can identify those whom I can spread my gift of unlyfe onto by a mere examine, \
-	I can no longer use weapons, climb most walls, or make use of advanced fighting tactics I could in lyfe, nor recognise those I held any connecton to in lyfe, be it hatred or loyalty, \
-	only endless hunger that commands me to bite and claw! to hunt the lyving! to feast upon their flesh!"))
+	I have risen from death anew as a feral, mindless zombie, I can no longer use weapons, climb most walls, cast spells, or make use of advanced \
+	fighting tactics I could in lyfe, nor recognise those I held any connecton to in lyfe. \
+	Only endless and mostly mindless hunger remains that commands me to bite and claw! to hunt the lyving! to feast upon their flesh!"))
+	to_chat(owner.current, span_notice("I can identify those whom I can spread my gift of unlyfe onto by a mere examine, I should hunt them."))
+	if(living_player_count() < 30) //if at very lowpop we just make it clear OOCly to be a good sport. Deadite hordes can be rough here.
+		to_chat(owner.current, span_danger("The current alive player count is lower than 30, remember to play in good faith due to the low player population."))
+
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
 // Prevoously you just died without warning in ~3 min, now you just become an antag instead of having to die first if infected.
