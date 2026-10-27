@@ -308,7 +308,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 // Inherent to Lich/Skeletons, they aren't of this era. Ancient kynds.
 
 /datum/virtue/origin/unselectable/skeleton
-	name = "Ancient Times"
+	name = "Ancients"
 	origin_name = "The Forgotten Empires"
 	origin_desc = "Throughout the history of Psydonia there were are many, many great empires that once stood the test of aeon's grip; most notably there was the Holy Celestrial Empyre, \
 	which stood for yills upon yills as the largest and most notable during Psydonia's Golden eras of the Ten, whom sheparded by the Ten displaying their divinity \
