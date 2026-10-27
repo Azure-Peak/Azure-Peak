@@ -1,5 +1,3 @@
-var/SEEK_BRAINS_COOLDOWN = 15 SECONDS
-
 /obj/effect/proc_holder/spell/invoked/zombie_seek
 	name = "Seek the Lyving"
 	desc = "Sniff the air and find the scent of the nearest living person to seek out."
