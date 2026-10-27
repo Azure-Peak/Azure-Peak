@@ -243,6 +243,10 @@
 	// I know this has a flaw that Eora can shutdown deadites, I can't do much
 	// About Eoran miracles being "no fun allowed", pacifistic zombies inherently
 	// Are too funny, like absolver zombie just staring you down menacingly.
+
+	// Even now, if you've seen the whismy in pacifist checks on claws, you know
+	// I still fuck with this, its absolutely stupid and hilarious to get a zombie
+	// Just thumbs you down w/ taunts, menacingly while it can't physically do anything to you.
 	var/static/list/removed_slots = list(
 		SLOT_MOUTH,
 	)
@@ -281,7 +285,7 @@
 	to_chat(owner.current, span_boldwarning("\
 	I have turned into a feral, mindless zombie. I can identify those whom I can spread my gift of unlyfe onto by a mere examine, \
 	I can no longer use weapons, climb most walls, or make use of advanced fighting tactics I could in lyfe, nor recognise those I held any connecton to in lyfe, be it hatred or loyalty, \
-	only endless hunger to bite and claw! to hunt the lyving! to feast upon their flesh!"))
+	only endless hunger that commands me to bite and claw! to hunt the lyving! to feast upon their flesh!"))
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
 // Prevoously you just died without warning in ~3 min, now you just become an antag instead of having to die first if infected.
@@ -322,10 +326,6 @@
 	if(zombie.stat >= DEAD)
 		//could not revive
 		qdel(src)
-
-/datum/antagonist/zombie/greet()
-	to_chat(owner.current, span_userdanger("Death is not the end..."))
-	return ..()
 
 /*
 	Proc for our newly infected to wake up as a zombie

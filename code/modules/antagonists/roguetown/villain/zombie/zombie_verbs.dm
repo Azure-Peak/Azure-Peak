@@ -43,6 +43,6 @@ var/SEEK_BRAINS_COOLDOWN = 30 SECONDS
 	if(!closest_dist)
 		to_chat(src, span_warning("I failed to smell anything..."))
 		return FALSE
-	to_chat(src, span_warning("[closest_dist] meters away, [dir2text(the_dir)]..."))
+	to_chat(src, span_warning("[pick("Flesh","Consume","Food","Lyving","Find it","Rasping thing")] [closest_dist] meters away, [dir2text(the_dir)]..."))
 	src.playsound_local(loc, 'sound/misc/notice.ogg', 30, TRUE)
 	return TRUE

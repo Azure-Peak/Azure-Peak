@@ -31,12 +31,21 @@
 	var/obscure_name = FALSE
 	var/race_name = "<a href='?src=[REF(src)];species_lore=1'><u>[dna.species.name]</u></A> "
 	var/origin_name = "<a href='?src=[REF(src)];origin_lore=1'><u>[dna.species.origin]</u></A>"
-	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac)
-	var/datum/antagonist/zombie/zombie = user.mind?.has_antag_datum(/datum/antagonist/zombie)
+	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac) //obfusicate examining other races
+	var/datum/antagonist/zombie/zombie = user.mind?.has_antag_datum(/datum/antagonist/zombie) //obfusicate examining other races
+	var/datum/antagonist/skeleton/skeleton = mind?.has_antag_datum(/datum/antagonist/skeleton) //obfusicate race
+	var/datum/antagonist/lich/lich = mind?.has_antag_datum(/datum/antagonist/lich) //obfusicate race
+	//outwards examine obfusicates
 	if(maniac && (user != src) && !isobserver(src))
 		race_name = "disgusting pig"
 	if(zombie && (user != src) && !isobserver(src))
-		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...")]"
+		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...", "something", "walking thing", "decaying thing", "rotting thing")]"
+		origin_name = "[pick("what..", "huh..", "remember..", "home..", "hell..", "heaven..", "where..", "here..", "somewhere..", "where am I..")]" //confused walking corpse hours
+	//inwards I.E we don't show race of these antags
+	if(skeleton)
+		race_name = "[pick("shambling corpse", "taut corpse", "decrepit corpse")]"
+	if(lich)
+		race_name = "[pick("shambling corpse", "taut corpse", "decrepit corpse")]"
 
 	var/m1 = "[t_He] [t_is]"
 	var/m2 = "[t_his]"
