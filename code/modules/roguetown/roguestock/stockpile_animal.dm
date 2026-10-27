@@ -30,6 +30,18 @@
 	withdraw_price = 16
 	category = "Animal"
 
+/datum/roguestock/stockpile/deerribs
+	name = "Venison Ribs"
+	desc = "Luxuriously edible flesh on-the-bone harvested from saiga."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 8
+	withdraw_price = 16
+	category = "Animal"
+
 /datum/roguestock/stockpile/volf
 	name = "Bushmeat"
 	desc = "Barely edible flesh harvested from volfs."
@@ -113,6 +125,23 @@
 	trade_good_id = TRADE_GOOD_HAM
 	importexport_amt = 5
 	stockpile_limit = 25
+	category = "Animal"
+
+/datum/roguestock/stockpile/ham/check_item(obj/item/I)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar))
+		return FALSE
+	return ..()
+
+/datum/roguestock/stockpile/boarham
+	name = "Boar Ham"
+	desc = "Delicious flesh carved from a wild boar, perfect for smoking or steaming."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 8
+	withdraw_price = 16
 	category = "Animal"
 
 /datum/roguestock/stockpile/pork_belly

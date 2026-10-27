@@ -1,40 +1,22 @@
-GLOBAL_LIST_EMPTY(quest_circumstances_recovery)
-GLOBAL_LIST_EMPTY(quest_circumstances_carriage)
-GLOBAL_LIST_EMPTY(quest_circumstances_recovery_bandits)
+GLOBAL_LIST_EMPTY(writ_circumstances)
 
 /datum/writ_circumstance
 	var/list/phrasings
 
-/datum/writ_circumstance/proc/render()
-	if(!length(phrasings))
-		return null
-	return pick(phrasings)
-
 /proc/init_writ_circumstances()
-	GLOB.quest_circumstances_recovery = list()
-	for(var/path in subtypesof(/datum/writ_circumstance/recovery))
-		GLOB.quest_circumstances_recovery += new path()
-	GLOB.quest_circumstances_carriage = list()
-	for(var/path in subtypesof(/datum/writ_circumstance/carriage))
-		GLOB.quest_circumstances_carriage += new path()
-	GLOB.quest_circumstances_recovery_bandits = list()
-	for(var/path in subtypesof(/datum/writ_circumstance/recovery_bandits))
-		GLOB.quest_circumstances_recovery_bandits += new path()
+	GLOB.writ_circumstances = list()
+	for(var/path in subtypesof(/datum/writ_circumstance))
+		var/datum/writ_circumstance/C = new path()
+		if(!length(C.phrasings))
+			continue
+		LAZYADD(GLOB.writ_circumstances[C.parent_type], C)
 
-/proc/pick_circumstance_from(list/pool)
+/proc/pick_writ_circumstance(category)
+	var/list/pool = GLOB.writ_circumstances[category]
 	if(!length(pool))
 		return ""
 	var/datum/writ_circumstance/C = pick(pool)
-	return C.render()
-
-/proc/pick_recovery_circumstance()
-	return pick_circumstance_from(GLOB.quest_circumstances_recovery)
-
-/proc/pick_carriage_circumstance()
-	return pick_circumstance_from(GLOB.quest_circumstances_carriage)
-
-/proc/pick_recovery_bandits_circumstance()
-	return pick_circumstance_from(GLOB.quest_circumstances_recovery_bandits)
+	return pick(C.phrasings)
 
 
 /datum/writ_circumstance/recovery/caravan_storm

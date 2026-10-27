@@ -335,8 +335,8 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 /datum/outfit/job/roguetown/conjured_skeleton/dual_daggers/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
-	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
-	l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/zizo
+	r_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
+	l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel/padagger
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	neck = /obj/item/clothing/neck/roguetown/gorget/copper

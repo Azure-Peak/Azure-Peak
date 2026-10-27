@@ -1,4 +1,0 @@
-author: "BurpleBineapple"
-delete-after: True
-changes:
-  - rscadd: "The training sword/feder now uses TRAIT_LONGSWORDSMAN for master skill. It does not inherit master swordsman intents."

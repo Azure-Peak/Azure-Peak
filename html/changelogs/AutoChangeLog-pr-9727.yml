@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - balance: "Changes the resource consumption of Rhythms to half since during combat the energy cost is doubled and there is no offset against it as other classes have."

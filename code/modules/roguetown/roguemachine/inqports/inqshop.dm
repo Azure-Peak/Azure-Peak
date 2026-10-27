@@ -537,7 +537,7 @@
 	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/barbute(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/sallet(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/bucket(src)
-	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate(src)
+	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/volfhelm(src)
 	new /obj/item/clothing/head/roguetown/helmet/heavy/ornate/absolver/unblessed(src)
 

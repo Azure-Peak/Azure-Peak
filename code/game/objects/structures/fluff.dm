@@ -232,6 +232,23 @@
 	leaving.Bump(src)
 	return COMPONENT_ATOM_BLOCK_EXIT
 
+/obj/structure/fluff/railing/Bumped(atom/movable/AM)
+	. = ..()
+	if(!isliving(AM) || !climbable || (dir in CORNERDIRS))
+		return
+	var/mob/living/L = AM
+	if(L.buckled)
+		return
+	if(!HAS_TRAIT(L, TRAIT_KICKED) && !((L.mobility_flags & MOBILITY_STAND) && L.has_status_effect(/datum/status_effect/buff/drunk) && prob(50)))
+		return
+	var/turf/dest = (get_turf(L) == loc) ? get_step(loc, dir) : loc
+	if(!dest || dest.is_blocked_turf(source_atom = L))
+		return
+	L.visible_message(span_danger("[L] tumbles over [src]!"), span_userdanger("I tumble over [src]!"))
+	L.forceMove(dest)
+	L.Knockdown(2 SECONDS)
+	playsound(L, "bodyfall", 100, TRUE)
+
 /obj/structure/fluff/railing/proc/flown_over(atom/movable/mover)
 	if(!pass_flying || !isliving(mover))
 		return FALSE
@@ -1496,39 +1513,46 @@
 /obj/structure/fluff/statue/tdummy/attackby(obj/item/attacking_weapon, mob/user, params)
 	if(user.cmode || !attacking_weapon.associated_skill || !user.mind || !isliving(user))
 		return ..()
-	if(attacking_weapon.max_blade_int)
-		attacking_weapon.remove_bintegrity(5)
 	if(!ispath(attacking_weapon.associated_skill, /datum/skill/combat))
-		to_chat(user, span_warning("I don't think this weapon's skill cannot be practiced on a dummy..."))
+		to_chat(user, span_warning("I don't think this weapon's skill can be practiced on a dummy..."))
 		return
-	practice(user, attacking_weapon.associated_skill, user.used_intent.animname)
+	practice(user, attacking_weapon.associated_skill, user.used_intent.animname, attacking_weapon)
 
-/obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation)
-	living_mob.changeNext_move(CLICK_CD_MELEE)
-	living_mob.stamina_add(rand(4, 6))
+/obj/structure/fluff/statue/tdummy/proc/can_practice(mob/living/living_mob)
+	return !QDELETED(src) && !QDELETED(living_mob) && living_mob.mind && !living_mob.cmode && (living_mob.mobility_flags & MOBILITY_STAND)
 
-	var/probby = (living_mob.STALUC / 10) * 100
-	probby = min(probby, 99)
-	if(!(living_mob.mobility_flags & MOBILITY_STAND))
-		probby = 0
-	if(living_mob.STAINT < 3)
-		probby = 0
-	if(prob(probby) && !living_mob.buckled)
-		living_mob.do_attack_animation(src, attack_animation)
-		living_mob.visible_message(span_info("[living_mob] trains on [src]!"))
-		var/amt2raise = living_mob.STAINT * 0.35
+/obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation, obj/item/attacking_weapon = null)
+	if(living_mob.doing || !can_practice(living_mob))
+		return
+	living_mob.visible_message(span_notice("[living_mob] begins training on [src]..."))
+	while(do_after(living_mob, 1 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(can_practice), living_mob)))
 		if(!can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
 			to_chat(living_mob, span_warning("I've learned all I can from doing this, it's time for the real thing."))
-			amt2raise = 0
-		if(amt2raise > 0)
-			living_mob.mind.add_sleep_experience(associated_skill, amt2raise, FALSE)
-		playsound(loc, pick('sound/combat/hits/onwood/education1.ogg', 'sound/combat/hits/onwood/education2.ogg', 'sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
-	else
-		living_mob.visible_message(span_danger("[living_mob] trains on [src], but [src] ripostes!"))
-		living_mob.AdjustKnockdown(1)
-		living_mob.throw_at(get_step(living_mob, get_dir(src,living_mob)), 2, 2, living_mob, spin = FALSE)
-		playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
-	flick(pick("p_dummy_smashed", "p_dummy_smashedalt"), src)
+			break
+		if(attacking_weapon?.max_blade_int)
+			attacking_weapon.remove_bintegrity(5)
+		living_mob.changeNext_move(CLICK_CD_MELEE)
+		living_mob.stamina_add(rand(4, 6))
+
+		var/probby = (living_mob.STALUC / 10) * 100
+		probby = min(probby, 99)
+		if(living_mob.STAINT < 3)
+			probby = 0
+		if(prob(probby) && !living_mob.buckled)
+			living_mob.do_attack_animation(src, attack_animation)
+			living_mob.visible_message(span_info("[living_mob] trains on [src]!"))
+			var/amt2raise = living_mob.STAINT * 0.35
+			if(amt2raise > 0)
+				living_mob.mind.add_sleep_experience(associated_skill, amt2raise, FALSE)
+			playsound(loc, pick('sound/combat/hits/onwood/education1.ogg', 'sound/combat/hits/onwood/education2.ogg', 'sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
+			flick(pick("p_dummy_smashed", "p_dummy_smashedalt"), src)
+		else
+			living_mob.visible_message(span_danger("[living_mob] trains on [src], but [src] ripostes!"))
+			living_mob.AdjustKnockdown(1)
+			living_mob.throw_at(get_step(living_mob, get_dir(src,living_mob)), 2, 2, living_mob, spin = FALSE)
+			playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
+			flick(pick("p_dummy_smashed", "p_dummy_smashedalt"), src)
+			break
 
 /obj/structure/fluff/statue/spider
 	name = "mother"

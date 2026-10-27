@@ -1,0 +1,4 @@
+author: "fffelinid"
+delete-after: True
+changes:
+  - bugfix: "fixed missing location tags on some meisters"

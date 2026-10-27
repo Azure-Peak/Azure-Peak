@@ -1,0 +1,4 @@
+author: "FreeStylaLT"
+delete-after: True
+changes:
+  - rscdel: "Fitted clothing as a feature has been disabled."

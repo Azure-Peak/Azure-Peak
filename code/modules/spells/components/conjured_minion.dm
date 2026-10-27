@@ -189,7 +189,7 @@
 	var/mob/living/summoner = summoner_ref?.resolve()
 
 	if(istype(parent, /mob/living/carbon/human/species/skeleton))
-		examine_list += span_notice("An unnatural skeleton, its form seems bound and reanimated by <font color='#940000'>avantyne strings</font>, and the will of a nearby magus.")
+		examine_list += span_notice("An unnatural skeleton, its form seems bound and reanimated by <font color='#7b0094'>enochian magicka</font>, to the will of a nearby magus.")
 		return
 
 	examine_list += span_notice("A phantasmal servant, bound to the will of [summoner ? summoner.real_name : "an unknown magus"].")

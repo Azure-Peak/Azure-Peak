@@ -1457,7 +1457,10 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
+			var/is_spy = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic/spy)
 			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(is_spy && persononrune == user)
+					continue
 				if(HAS_TRAIT(persononrune, TRAIT_CABAL))
 					folksonrune += persononrune
 			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
@@ -1702,7 +1705,10 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
+			var/is_spy = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic/spy)
 			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(is_spy && persononrune == user)
+					continue
 				if(HAS_TRAIT(persononrune, TRAIT_FREEMAN))
 					folksonrune += persononrune
 			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
@@ -1882,7 +1888,10 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
+			var/is_spy = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic/spy)
 			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(is_spy && persononrune == user)
+					continue
 				if(HAS_TRAIT(persononrune, TRAIT_HORDE))
 					folksonrune += persononrune
 			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune

@@ -18,39 +18,5 @@
 			var/mob/living/carbon/human/H = user
 			H.attempt_steal(user, target)
 			return
-	if(user.has_status_effect(/datum/status_effect/debuff/specialcd))
-		return
-
-	user.face_atom(target)
-
-	var/obj/item/rogueweapon/W = user.get_active_held_item()
-	var/datum/special_intent/active_special
-	var/skill_level = SKILL_LEVEL_NONE
-
-	if(istype(W, /obj/item/rogueweapon) && W.special)
-
-		if(W && W.obj_broken)
-			to_chat(user, span_warning("The weapon is in no state to be used like this!"))
-			return
-
-		active_special = W.special
-		skill_level = user.get_wskill(W)
-	else if(!W && ishuman(user))
-		var/mob/living/carbon/human/HU = user
-		if(HU.unarmed_special)
-			active_special = HU.unarmed_special
-			skill_level = user.get_skill_level(/datum/skill/combat/unarmed)
-
-	if(active_special)
-		if(active_special.custom_skill)
-			skill_level = user.get_skill_level(active_special.custom_skill)
-		if(!HAS_TRAIT(user, TRAIT_BATTLEMASTER))
-			if(skill_level < SKILL_LEVEL_JOURNEYMAN)
-				to_chat(user, span_info("I'm not knowledgeable enough in the arts of this weapon to use this."))
-				return
-		var/atom/parent = W ? W : user
-		if(active_special.check_range(user, target) && active_special.check_reqs(user, parent))
-			if(active_special.apply_cost(user))
-				active_special.deploy(user, parent, target)
-
+	user.try_special(target)
 	. = ..()

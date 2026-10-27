@@ -60,6 +60,7 @@
 		"Meats" = DISH_MEAT,
 		"Eggs" = DISH_EGG,
 		"Dairy" = DISH_DAIRY,
+		"Honey" = DISH_HONEY,
 		"Vegetables" = DISH_VEGETABLE,
 		"Fruits" = DISH_FRUIT,
 	)

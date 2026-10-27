@@ -1,5 +1,28 @@
 GLOBAL_LIST_EMPTY(quest_scrolls)
 
+/proc/get_scroll_quests()
+	. = list()
+	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
+		if(scroll.assigned_quest)
+			. += scroll.assigned_quest
+
+/proc/get_held_quests(mob/user)
+	. = list()
+	var/datum/weakref/user_ref = WEAKREF(user)
+	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(Q?.quest_receiver_reference == user_ref)
+			. += Q
+
+/proc/find_quest_by_ref(ref)
+	var/datum/quest/Q = locate(ref)
+	if(!istype(Q) || QDELETED(Q))
+		return null
+	if(Q in SSquestpool.pool)
+		return Q
+	var/obj/item/quest_writ/scroll = Q.quest_scroll_ref?.resolve()
+	return scroll?.assigned_quest == Q ? Q : null
+
 #define WHISPER_COOLDOWN 10 SECONDS
 
 /obj/item/quest_writ
@@ -30,15 +53,6 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 /obj/item/quest_writ/Destroy()
 	GLOB.quest_scrolls -= src
 	if(assigned_quest)
-		if(!assigned_quest.complete)
-			var/refund = assigned_quest.calculate_deposit()
-			var/mob/giver = assigned_quest.quest_giver_reference?.resolve()
-			if(giver && SStreasury.has_account(giver))
-				SStreasury.transfer(SStreasury.discretionary_fund, SStreasury.get_account(giver), refund, "contract scroll refund to [giver.real_name]", LEDGER_CROWN_EXP_CONTRACTS, LEDGER_CITIZEN_CONTRACT_PAID)
-			else if(assigned_quest.quest_receiver_reference)
-				var/mob/receiver = assigned_quest.quest_receiver_reference.resolve()
-				if(receiver && SStreasury.has_account(receiver))
-					SStreasury.transfer(SStreasury.discretionary_fund, SStreasury.get_account(receiver), refund, "contract scroll refund to [receiver.real_name]", LEDGER_CROWN_EXP_CONTRACTS, LEDGER_CITIZEN_CONTRACT_PAID)
 		qdel(assigned_quest)
 		assigned_quest = null
 	STOP_PROCESSING(SSprocessing, src)
@@ -55,20 +69,33 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		last_whisper = world.time
 		target_whisper()
 
+/obj/item/quest_writ/proc/try_hand_claim(mob/user)
+	var/datum/quest/Q = assigned_quest
+	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name && !Q.issuer_may_claim && !SSquestpool.debug_mode)
+		to_chat(user, span_warning("You can't take a contract you issued."))
+		return FALSE
+	if(!Q.materialized)
+		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
+		if(!landmark || !Q.materialize(landmark))
+			to_chat(user, span_warning("Odd. It appears no landmark is available for this contract!"))
+			return FALSE
+		Q.materialized = TRUE
+	Q.on_claim(user)
+	to_chat(user, span_notice(Q.hand_claim_message))
+	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type] (hand-delivered)")
+	update_quest_text()
+	return TRUE
+
+/obj/item/quest_writ/proc/get_carrying_bearer()
+	var/mob/living/bearer = assigned_quest?.quest_receiver_reference?.resolve()
+	if(bearer && get(src, /mob/living) == bearer)
+		return bearer
+	return null
+
 /obj/item/quest_writ/proc/target_whisper()
-	if(!assigned_quest || assigned_quest.complete || !assigned_quest.quest_receiver_reference)
+	if(!assigned_quest || assigned_quest.complete)
 		return
-	var/atom/itemloc = src.loc
-	var/mob/quest_bearer = assigned_quest.quest_receiver_reference?.resolve()
-	if(!istype(itemloc, /mob/living))
-		while(!istype(itemloc, /mob/living))
-			if(isnull(itemloc))
-				return
-			itemloc = itemloc.loc
-			if(istype(itemloc, /turf))
-				return
-	if(itemloc != quest_bearer)
-		return
+	var/mob/living/quest_bearer = get_carrying_bearer()
 	if(opened && quest_bearer)
 		update_compass(quest_bearer)
 		var/message = "[last_compass_direction]"
@@ -84,7 +111,6 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		. += span_notice("This contract hasn't been claimed yet. Open it to claim it for yourself!")
 	else if(assigned_quest.complete)
 		. += span_notice("\nThis contract is complete! Return it to the Contract Ledger to claim your reward.")
-		. += span_info("\nPlace it on the marked area or put it on the Ledger.")
 	else
 		. += span_notice("\nThis contract is still in progress.")
 
@@ -129,15 +155,11 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	log_game("[key_name(user)] stamped quest \"[assigned_quest.title || assigned_quest.quest_type]\" as LEVY EXEMPT via signet ring.")
 	to_chat(user, span_notice("You press the signet into the scroll and the Crown's seal glows. This contract is now levy exempt."))
 
-/obj/item/quest_writ/proc/get_quest_assignees(mob/user, include_giver = FALSE)
+/obj/item/quest_writ/proc/get_quest_assignees(mob/user)
 	var/list/assignees = list()
 	var/mob/quest_receiver = assigned_quest?.quest_receiver_reference?.resolve()
 	if(quest_receiver)
 		assignees += quest_receiver
-	if(include_giver)
-		var/mob/quest_giver = assigned_quest?.quest_giver_reference?.resolve()
-		if(quest_giver)
-			assignees += quest_giver
 	return assignees
 
 /obj/item/quest_writ/fire_act(exposed_temperature, exposed_volume)
@@ -150,16 +172,8 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	if(!assigned_quest)
 		return ..()
 
-	if(!assigned_quest.quest_receiver_reference)
-		if(assigned_quest.quest_giver_name && assigned_quest.quest_giver_name == user.real_name)
-			to_chat(user, span_warning("You can't take a contract you issued."))
-			return
-		if(!SStreasury.has_account(user))
-			to_chat(user, span_warning("You have no bank account. Register with a Meister before taking a contract."))
-			return
-		assigned_quest.on_claim(user)
-		to_chat(user, span_notice("You claim this contract for yourself!"))
-		update_quest_text()
+	if(!assigned_quest.quest_receiver_reference && !try_hand_claim(user))
+		return
 
 	opened = TRUE
 	update_icon_state()
@@ -218,12 +232,10 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["fetch_count"] = Q.progress_required
 	data["recovery_shipment"] = Q.get_recovery_shipment_name()
 	data["levy_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	data["guild_cut_rate"] = (Q.source == QUEST_SOURCE_DEFENSE) ? 0 : GUILD_REFERRAL_FEE_PCT
+	data["guild_cut_rate"] = Q.guild_cut_rate
 	data["progress_required"] = Q.progress_required
-	data["is_rumor"] = Q.source == QUEST_SOURCE_RUMOR
-	data["is_defense"] = Q.source == QUEST_SOURCE_DEFENSE
+	data["shows_commission_seal"] = Q.shows_commission_seal
 	data["is_towner"] = Q.source == QUEST_SOURCE_TOWNER
-	data["guild_cut_exempt"] = Q.guild_cut_exempt
 	Q.populate_scroll_ui_static_data(data)
 	return data
 

@@ -147,7 +147,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/list/secondary_skills
 
 	var/list/possible_item_intents = list(/datum/intent/use)
-	var/saved_intent_index = 1 // Stores the last selected intent index when item is dropped
+	var/alist/saved_intents = alist(
+		UNWIELDED_INTENT = 1,
+		WIELDED_INTENT = 1,
+		ALTGRIP_ONE_INTENT = 1,
+		ALTGRIP_TWO_INTENT = 1,
+		ALTGRIP_THREE_INTENT = 1,
+	) // Stores the last selected intent index when item is dropped
 
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
@@ -703,7 +709,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(istype(src, /obj/item/rogueweapon))
 			var/obj/item/rogueweapon/W = src
 			if(W.special)
-				inspec += "[W.special.get_examine()]"
+				inspec += "[W.get_special().get_examine()]"
 
 		if(istype(src, /obj/item/rogueweapon/shield))
 			var/obj/item/rogueweapon/shield/S = src
@@ -1320,12 +1326,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/burn(amount = 1)
 	if(!QDELETED(src))
 		var/turf/T = get_turf(src)
-		var/ash_type = /obj/item/ash
+		var/ash_type = /obj/item/natural/ash
 		if(w_class == WEIGHT_CLASS_HUGE || w_class == WEIGHT_CLASS_GIGANTIC)
-			ash_type = /obj/item/ash
+			ash_type = /obj/item/natural/ash
 		// Override for children that want more than 1 ash per item (Bundle as pseudo-stack)
 		for(var/i in 1 to amount)
-			var/obj/item/ash/A = new ash_type(T)
+			var/obj/item/natural/ash/A = new ash_type(T)
 			A.desc += "\nLooks like this used to be \an [name] some time ago."
 		..()
 

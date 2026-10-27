@@ -1754,7 +1754,9 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(stander)
 				shove_blocked = TRUE
 
+		ADD_TRAIT(target, TRAIT_KICKED, "kick")
 		target.Move(target_shove_turf, shove_dir)
+		REMOVE_TRAIT(target, TRAIT_KICKED, "kick")
 
 		if(get_turf(target) == target_oldturf)
 			if(stander)
@@ -2055,9 +2057,9 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(prob(I.force * 2) || bloody)	//blood spatter!
 				bloody = 1
 				var/turf/location = H.loc
-				var/splatter_dir = get_dir(H, user)
-				var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(H.loc, splatter_dir)
-				splatter.set_blood_color(H.get_blood_color())
+				if(!(bladec in GLOB.gore_bclasses))
+					var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(H.loc, get_dir(H, user))
+					splatter.set_blood_color(H.get_blood_color())
 				if(istype(location))
 					H.add_splatter_floor(location)
 					H.add_splatter_wall(location, force = I.force)

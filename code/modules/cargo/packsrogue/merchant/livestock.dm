@@ -26,11 +26,25 @@
 					/mob/living/simple_animal/hostile/retaliate/rogue/cow,
 				)
 
+/datum/supply_pack/rogue/livestock/bull
+	name = "Bull"
+	cost = 100
+	contains = list(
+					/mob/living/simple_animal/hostile/retaliate/rogue/bull,
+				)
+
 /datum/supply_pack/rogue/livestock/goat
 	name = "Goat"
 	cost = 80
 	contains = list(
 					/mob/living/simple_animal/hostile/retaliate/rogue/goat,
+				)
+
+/datum/supply_pack/rogue/livestock/boygoat
+	name = "Billy Goat"
+	cost = 100
+	contains = list(
+					/mob/living/simple_animal/hostile/retaliate/rogue/goatmale,
 				)
 
 /datum/supply_pack/rogue/livestock/cat

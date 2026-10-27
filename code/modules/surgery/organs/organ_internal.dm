@@ -162,21 +162,22 @@
 	return S
 
 /obj/item/reagent_containers/food/snacks/organ
+	dish_type = DISH_MEAT
 	name = "appendix"
 	icon_state = "appendix"
 	icon = 'icons/obj/surgery.dmi'
 	list_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/organpoison = 1)
-	foodtype = RAW | MEAT | GROSS
+	food_quality = GROSS
 	eat_effect = /datum/status_effect/debuff/uncookedfood
 	var/obj/item/organ/organ_inside
 
 /obj/item/reagent_containers/food/snacks/organ/On_Consume(mob/living/eater)		//Graggarites looove eating organs, they loooove eating organs!
 	if(HAS_TRAIT(eater, TRAIT_ORGAN_EATER))
 		eat_effect = /datum/status_effect/buff/snackbuff
-		foodtype = RAW | MEAT
+		food_quality = NONE
 	else
 		eat_effect = initial(eat_effect)
-		foodtype = initial(foodtype)
+		food_quality = initial(food_quality)
 	if(bitecount >= bitesize)
 		record_featured_stat(FEATURED_STATS_CRIMINALS, eater)
 		record_round_statistic(STATS_ORGANS_EATEN)

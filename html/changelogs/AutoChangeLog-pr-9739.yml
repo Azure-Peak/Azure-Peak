@@ -1,0 +1,4 @@
+author: "Guidesu"
+delete-after: True
+changes:
+  - rscadd: "Training dummies do not longer require manual click to train."

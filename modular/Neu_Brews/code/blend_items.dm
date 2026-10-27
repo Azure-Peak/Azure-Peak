@@ -100,3 +100,9 @@
 	desc = "Some ports make it illegal for sailors to not enter before they have consumed a quart of Avantare - a mixture of lemon juice and minthra, to fend off shipborne disease and bad breath."
 	icon_state = "avantare"
 	tastes = list("fresh sourness" = 1)
+
+/obj/item/reagent_containers/food/snacks/grown/rogue/blend/fyrebloom
+	name = "Fyrebloom Blend"
+	desc = "Some brave scholars that fancy the heat of Tì Teine and the refreshing sweetness of bloom tea took to experimenting with the herbs. This is the result, a preparation that when steeped will create a perpetually hot tea, will the flavors of both, with the harshness of the fyritius dulled down to just the flavor. The powder may dull the burning, but its ill advised to eat this before steeping."
+	icon_state = "fyrebloom"
+	tastes = list("bitterness" = 1, "a lancing heat through your palate" = 1)

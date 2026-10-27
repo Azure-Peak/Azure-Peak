@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - bugfix: "The standalone 'oathtaker's crest' decoration should no longer be invisible."
