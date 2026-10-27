@@ -39,7 +39,7 @@
 	if(maniac && (user != src) && !isobserver(user)) //don't obfusicate in dchat
 		race_name = "disgusting pig"
 	if(zombie && (user != src) && !isobserver(user)) //don't obfusicate in dchat
-		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...", "something", "walking thing", "decaying thing")]"
+		race_name = span_boldred("[pick("Shambling Thing", "Taut Thing", "Decrepit Thing", "Wyrd thing", "UHHHHHHH...", "Something", "Walking Thing", "Decaying Thing")]")
 		origin_name = "[pick("what..", "huh..", "remember..", "home..", "hell..", "heaven..", "where..", "here..", "somewhere..", "where am I..")]" //confused walking corpse hours
 	//inwards I.E we don't show race of these antags, but examining others shows their races
 	if(skeleton)
