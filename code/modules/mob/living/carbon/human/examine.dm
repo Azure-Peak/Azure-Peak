@@ -44,7 +44,7 @@
 	//inwards I.E we don't show race of these antags, but examining others shows their races
 	if(skeleton)
 		race_name = span_boldred("[pick("Shambling Skeleton", "Ancient Skeleton", "Taut Skeleton", "Decrepit Skeleton")]")
-		if(!mind)
+		if(!mind) //NPCs get forgotten empires
 			origin_name = span_boldred("The Forgotten Empires")
 	if(lich)
 		race_name = span_boldred("[pick("Ancient Skeleton", "Unnatural Skeleton", "Decrepit Skeleton")]")
