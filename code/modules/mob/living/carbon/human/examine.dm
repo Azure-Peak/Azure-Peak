@@ -33,7 +33,7 @@
 	var/origin_name = "<a href='?src=[REF(src)];origin_lore=1'><u>[dna.species.origin]</u></A>"
 	var/datum/antagonist/maniac/maniac = user.mind?.has_antag_datum(/datum/antagonist/maniac) //obfusicate examining other races
 	var/datum/antagonist/zombie/zombie = user.mind?.has_antag_datum(/datum/antagonist/zombie) //obfusicate examining other races
-	var/datum/antagonist/skeleton/skeleton = mind?.has_antag_datum(/datum/antagonist/skeleton) //obfusicate race
+	var/datum/antagonist/skeleton/skeleton = (mind?.has_antag_datum(/datum/antagonist/skeleton) || /mob/living/carbon/human/species/skeleton && !mind?.has_antag_datum(/datum/antagonist/lich)) //obfusicate race
 	var/datum/antagonist/lich/lich = mind?.has_antag_datum(/datum/antagonist/lich) //obfusicate race
 	//outwards examine obfusicates
 	if(maniac && (user != src) && !isobserver(user)) //don't obfusicate in dchat
