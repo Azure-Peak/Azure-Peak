@@ -39,8 +39,6 @@
 		var/warning_message = pick(infection_messages)
 		if(prob(10))
 			to_chat(owner, span_userdanger("[warning_message]"))
-			if(prob(35))
-				owner.vomit(1, blood = TRUE, stun = TRUE)
 		else
 			to_chat(owner, span_danger("[warning_message]"))
 		message_cooldown_time = world.time + message_cooldown_amount
