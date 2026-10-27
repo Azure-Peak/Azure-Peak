@@ -283,7 +283,7 @@
 	to_chat(owner.current, span_boldwarning("\
 	I have risen from death anew as a feral, mindless zombie, I can no longer use weapons, climb most walls, cast spells, or make use of advanced \
 	fighting tactics I could in lyfe, nor recognise those I held any connecton to in lyfe. \
-	Only endless and mostly mindless hunger remains that commands me to bite and claw! to hunt the lyving! to feast upon their flesh!"))
+	Only endless, hunger remains that commands me to bite and claw! to hunt the lyving! to feast upon their flesh!"))
 	to_chat(owner.current, span_notice("I can identify those whom I hunt and can spread my gift of unlyfe onto by a mere examine."))
 
 
