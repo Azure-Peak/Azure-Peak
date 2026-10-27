@@ -112,8 +112,8 @@
 			if(HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS))
 				guarded = TRUE
 
-	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == CONSCIOUS)
-		. += span_narsie(pick("KILL IT. KILL IT", "FLESH. HUNGER.", "KILL. CONSUME.", "CONSUME.", "KILL THE RASPING THING.", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
+	if(HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE) && src.stat == !DEAD && !isobserver(src))
+		. += span_cult(pick("KILL IT. KILL IT", "FLESH. HUNGER.", "KILL. CONSUME.", "CONSUME.", "CLAW. BITE. KILL.", "EAT. FLESH. HUNGER.", "KILL THE RASPING THING.", "HUNGER.", "EAT IT.", "MUST HAVE FLESH."))
 
 	if(user != src)
 		var/datum/mind/Umind = user.mind

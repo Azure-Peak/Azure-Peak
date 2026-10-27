@@ -24,6 +24,7 @@
 
 	var/cmode_music
 	var/list/base_intents
+	var/base_species_blood_color
 
 	/// Whether or not we have been turned
 	var/has_turned = FALSE
@@ -93,6 +94,7 @@
 		soundpack_m = zombie.dna.species.soundpack_m
 		soundpack_f = zombie.dna.species.soundpack_f
 	base_intents = zombie.base_intents
+	base_species_blood_color = zombie.dna.species.blood_color
 
 	cmode_music = zombie.cmode_music
 
@@ -120,6 +122,7 @@
 			zombie.dna.species.soundpack_f = soundpack_f
 		zombie.base_intents = base_intents
 		zombie.update_a_intents()
+		zombie.dna.species.blood_color = base_species_blood_color
 		for(var/datum/charflaw/cf in zombie.charflaws)
 			cf.ephemeral = FALSE
 		zombie.update_body()
@@ -176,7 +179,7 @@
 		return
 
 	revived = TRUE //so we can die for real later
-	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for zombies to tell, fellow zombies.
+	add_antag_hud(antag_hud_type, antag_hud_name, owner.current) //Easier for zombies to tell, fellow zombies. Nessessary because our screen is black and white.
 
 	zombie.grant_language(/datum/language/undead) //Now we give you the language.
 	var/datum/language_holder/language_holder = zombie.get_language_holder()
@@ -193,6 +196,7 @@
 		zombie.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/zombie/m]
 		zombie.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/zombie/f]
 	base_intents = zombie.base_intents
+	zombie.dna.species.blood_color = "#161616"
 	zombie.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	zombie.update_a_intents()
 	ambushable = zombie.ambushable
@@ -247,7 +251,8 @@
 	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
 
 	//small cutscene now we are a zombie, phew! lets make it a little dramatic. This can probably be done in a far better way but whatever.
-
+	to_chat(zombie, span_zizo_plain("Wake up. Wake up. Wake up."))
+	to_chat(zombie, span_cult("Death is not the end..."))
 	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff before applying more, we want to be lightning quick.
 	zombie.Knockdown(33)
 	zombie.Immobilize(33) //Don't want to move during this
@@ -259,20 +264,24 @@
 	zombie.flash_fullscreen("redflash3")
 	zombie.visible_message(span_warning("[zombie] convulses on the floor momentarily, skin rotting away unnaturally fast..."))
 	sleep(2 SECONDS) //Second message, another small gap to notice something is very fucking wrong if the previous que wasn't enough.
-	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up with an eerie glow."))
+	zombie.visible_message(span_warning("[zombie]'s lyfeless eyes begin to light up anew with an eerie glow."))
 	zombie.vomit(1, blood = TRUE, stun = FALSE)
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //Horrible noises
-	to_chat(zombie, span_narsie("Death is not the end..."))
 	sleep(2 SECONDS) //now get them up to go fight and die
 	if(zombie.resting)
 		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
-	zombie.visible_message(span_danger("[zombie] stands back up.")) //On par with deadite animals reanimating.
+	zombie.visible_message(span_danger("[zombie] [pick("stands back up!","shambles upright!","lumbers to [p_their()] feet!","rises from [p_their()] shallow grave!","snaps to [p_their()] feet!","reanimates onto [p_their()] feet!")]")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
-	to_chat(zombie, span_narsie(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
+	to_chat(zombie, span_cult(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
 	zombie.set_blurriness(0) //Unblind us so we aren't blurred forever
 	if(!zombie.cmode)	//Turns on combat mode if its not on, so you're immedately ready to do your thing
 		zombie.toggle_cmode()
+	//Now we pop our mechanics introduction message
+	to_chat(owner.current, span_boldwarning("\
+	I have turned into a feral, mindless zombie. I can identify those whom I can spread my gift of unlyfe onto by a mere examine, \
+	I can no longer use weapons, climb most walls, or make use of advanced fighting tactics I could in lyfe, nor recognise those I held any connecton to in lyfe, be it hatred or loyalty, \
+	only endless hunger to bite and claw! to hunt the lyving! to feast upon their flesh!"))
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
 // Prevoously you just died without warning in ~3 min, now you just become an antag instead of having to die first if infected.
@@ -416,7 +425,17 @@
 /datum/status_effect/debuff/deadite_grace
 	id = "deadite_grace_period"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/deadite_grace
-	duration = 3 MINUTES // this buff is cancelled early if you attack a mob with mind. Mind your targets, sire.
+	duration = 2 MINUTES // this buff is cancelled early if you attack a mob with mind. Mind your targets, sire.
+
+/datum/status_effect/debuff/deadite_grace/proc/on_life() //make freshly reanimated corpses super obvious
+	SIGNAL_HANDLER
+	var/mob/living/carbon/human/zombie = owner
+	var/next_idle_sound
+	if(!owner || owner.stat >= DEAD)
+		return
+	if(world.time > next_idle_sound)
+		zombie.emote("idle")
+		next_idle_sound = world.time + rand(10 SECONDS, 20 SECONDS)
 
 /datum/status_effect/debuff/deadite_grace/on_apply()
 	. = ..()
@@ -427,6 +446,7 @@
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	ADD_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
 	to_chat(owner, span_userdanger("I feel my body tense up immensely in response to this hunger, tendrils of darkness crawling under my skin."))
+	RegisterSignal(owner, COMSIG_LIVING_LIFE, PROC_REF(on_life))
 
 /datum/status_effect/debuff/deadite_grace/on_remove()
 	. = ..()
@@ -436,7 +456,9 @@
 	REMOVE_TRAIT(owner, TRAIT_IGNORESLOWDOWN, id)
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
-	to_chat(owner, span_userdanger("I feel my body relax a little, and that is the last thing I feel as my Lux wanes... I am fading."))
+	to_chat(owner, span_userdanger("I feel my body relax a little, and that is the last thing I feel before unnatural rage wells up inside of me, my Lux wanes... I am fading."))
+	if(!HAS_TRAIT(owner, TRAIT_NORUN))
+		to_chat(owner, span_cult("I CAN NOW SPRINT AGAIN! HUNT THE LYVING, FEAST ON THEIR FLESH!"))
 
 #undef ZOMBIE_FIRST_BITE_CHANCE
 #undef ZOMBIE_BITE_CONVERSION_TIME

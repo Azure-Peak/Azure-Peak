@@ -19,6 +19,7 @@
 	if(!istype(src, /obj/item/grabbing) && !istype(src, /obj/item/rogueweapon/werewolf_claw) && !istype(src, /obj/item/bodypart)) //Limbs/Claws are fine
 		if(HAS_TRAIT(user, TRAIT_CHUNKYFINGERS))
 			to_chat(user, span_warning("...What?"))
+			user.drop_all_held_items()
 			return
 		// FAR less aggressive version of chunkyfingers, designed to be used with nudist. Shrimply lets the user still use neat stuff like orison without letting them weaponize.
 		if(HAS_TRAIT(user, TRAIT_GNARLYDIGITS))

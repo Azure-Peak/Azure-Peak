@@ -73,7 +73,7 @@
 	if(QDELETED(L) || L.stat == DEAD || L.no_reanimate)
 		return
 
-	L.visible_message(span_danger("The [L.name] stands back up."))
+	L.visible_message(span_danger("The [L.name] [pick("stands back up!","shambles upright!","lumbers to [p_their()] feet!","rises from [p_their()] shallow grave!","snaps to [p_their()] feet!","reanimates onto [p_their()] feet!")]"))
 	L.health = L.maxHealth
 	is_downed = FALSE
 	L.reset_part_damage()
