@@ -252,9 +252,8 @@
 	record_round_statistic(STATS_DEADITES_WOKEN_UP) //Turning into a deadite in-general raises this now. ZIZO. ZIZO. ZIZO.
 
 	//small cutscene now we are a zombie, phew! lets make it a little dramatic. This can probably be done in a far better way but whatever.
-	to_chat(zombie, span_zizo_plain("Wake up. Wake up. Wake up."))
-	to_chat(zombie, span_cult("Death is not the end..."))
 	sleep(0.1) //Quickly make sure we already cleared our stuns and stuff before applying more, we want to be lightning quick.
+	to_chat(zombie, span_cult("Death is not the end..."))
 	zombie.Knockdown(33)
 	zombie.Immobilize(33) //Don't want to move during this
 	zombie.Stun(33)
