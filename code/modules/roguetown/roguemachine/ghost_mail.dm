@@ -149,9 +149,10 @@ GLOBAL_DATUM_INIT(ghost_hermes, /datum/ghost_hermes, new)
 	if(length(content) > 2000)
 		to_chat(user, span_warning("Letter too long."))
 		return FALSE
-	var/obj/item/paper/P = build_sanitized_letter(null, params["recipient"], content)
+	var/obj/item/paper/P = build_sanitized_letter(null, params["recipient"], content, params["sender"])
 	var/target = P.mailedto
 	var/sender = P.mailer
+	sign_mail(P, sender)
 	if(!mail_exists(target))
 		to_chat(user, span_warning(mail_fail_msg(target)))
 		qdel(P)

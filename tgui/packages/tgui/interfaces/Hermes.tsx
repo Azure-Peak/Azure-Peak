@@ -73,6 +73,15 @@ const FormattingHelp = () => (
         );
       })}
     </Table>
+    <Box
+      mt={1}
+      pt={1}
+      color="label"
+      style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
+    >
+      A name in the From field is appended to the letter as a signature (or to
+      a package's wrapping note). Leave it blank to send anonymously, unsigned.
+    </Box>
   </Box>
 );
 
@@ -106,6 +115,7 @@ export const Hermes = (props: any, context: any) => {
   } = data;
 
   const [recipient, setRecipient] = useState('');
+  const [sender, setSender] = useState('');
   const [letterContent, setLetterContent] = useState('');
 
   const helpButton = (
@@ -184,6 +194,14 @@ export const Hermes = (props: any, context: any) => {
                           onChange={(value) => setRecipient(value)}
                         />
                       </Stack.Item>
+                      <Stack.Item grow>
+                        <Input
+                          fluid
+                          placeholder="From: Anonymous"
+                          value={sender}
+                          onChange={(value) => setSender(value)}
+                        />
+                      </Stack.Item>
                     </Stack>
                   </Stack.Item>
                   <Stack.Item grow>
@@ -205,6 +223,7 @@ export const Hermes = (props: any, context: any) => {
                       onClick={() =>
                         act('send_letter', {
                           recipient: recipient,
+                          sender: sender || 'Anonymous',
                           content: letterContent,
                         })
                       }
@@ -290,6 +309,14 @@ export const Hermes = (props: any, context: any) => {
                         onChange={(value) => setRecipient(value)}
                       />
                     </Stack.Item>
+                    <Stack.Item grow>
+                      <Input
+                        fluid
+                        placeholder="From: Anonymous"
+                        value={sender}
+                        onChange={(value) => setSender(value)}
+                      />
+                    </Stack.Item>
                   </Stack>
                 </Stack.Item>
                 <Stack.Item grow>
@@ -313,6 +340,7 @@ export const Hermes = (props: any, context: any) => {
                         onClick={() =>
                           act('send_letter', {
                             recipient: recipient,
+                            sender: sender || 'Anonymous',
                             content: letterContent,
                           })
                         }

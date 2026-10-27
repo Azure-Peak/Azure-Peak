@@ -1096,8 +1096,8 @@ GLOBAL_LIST_INIT(diacritic_map, init_diacritic_map())
 	)
 	for(var/plain in groups)
 		var/accented = groups[plain]
-		for(var/i in 1 to length(accented))
-			map[copytext(accented, i, i + 1)] = plain
+		for(var/i in 1 to length_char(accented))
+			map[copytext_char(accented, i, i + 1)] = plain
 	map["Æ"] = "AE"
 	map["æ"] = "ae"
 	map["Œ"] = "OE"
@@ -1111,7 +1111,7 @@ GLOBAL_LIST_INIT(diacritic_map, init_diacritic_map())
 		return text
 	var/list/map = GLOB.diacritic_map
 	var/out = ""
-	for(var/i in 1 to length(text))
-		var/char = copytext(text, i, i + 1)
+	for(var/i in 1 to length_char(text))
+		var/char = copytext_char(text, i, i + 1)
 		out += map[char] || char
 	return out

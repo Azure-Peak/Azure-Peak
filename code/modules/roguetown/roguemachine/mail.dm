@@ -246,7 +246,7 @@
 		return FALSE
 	user << browse_rsc('html/book.png')
 	var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
-		<html><head><style type=\"text/css\">
+		<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><style type=\"text/css\">
 		body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
 	dat += body
 	dat += "</body></html>"
@@ -330,6 +330,28 @@
 	I.mailedto = destination
 	I.update_icon()
 
+/// Signs a letter, or a package's paper, for a named sender. Call before mail_item_record so the log includes it.
+/proc/sign_mail(obj/item/I, sender)
+	if(sender && sender != MAILER_ANONYMOUS)
+		sign_mail_paper(I, sender)
+
+#define MAIL_SIGNATURE_TAIL 150
+
+/// Appends the sender as a signature to a letter, or to the wrapping note of a package.
+/proc/sign_mail_paper(obj/item/I, sender)
+	var/obj/item/paper/P
+	if(istype(I, /obj/item/paper))
+		P = I
+	else if(istype(I, /obj/item/smallDelivery))
+		var/obj/item/smallDelivery/D = I
+		P = D.note
+	if(!P)
+		return
+	// Skip if the sender already signed the end of the letter themselves
+	if(findtext_char(copytext_char(P.info, -MAIL_SIGNATURE_TAIL), sender))
+		return
+	P.info += "<br><br><font face=\"[SIGNFONT]\" size=\"5\"><i>[sender]</i></font>"
+
 /// sender_log identifies the sender (ckey and character) for the logs, as sender is only the anonymous stamp.
 /proc/deliver_mail(obj/item/I, destination, sender, sender_log)
 	if(QDELETED(I) || !destination)
@@ -369,11 +391,15 @@
 		H.playsound_local(H, 'sound/misc/mail.ogg', 100, FALSE, -1)
 	return TRUE
 
-/proc/build_sanitized_letter(mob/user, recipient, content)
+/proc/sanitize_mail_sender(sender)
+	return sanitize(sender) || MAILER_ANONYMOUS
+
+/// sender is the optional signature; blank means the letter goes out anonymous.
+/proc/build_sanitized_letter(mob/user, recipient, content, sender)
 	var/obj/item/paper/P = new
 	var/parsed_content = parsemarkdown(html_encode(content), user)
 	P.info += "<font face=\"[FOUNTAIN_PEN_FONT]\" color=#14103f>[parsed_content]</font>"
-	P.mailer = MAILER_ANONYMOUS
+	P.mailer = sanitize_mail_sender(sender)
 	if(!(findtext(recipient,"#")==1))
 		recipient = reject_bad_name(recipient, max_length=MAX_HERMES_NAME_LEN) // reject_bad_name doesn't let you use #s in names, so we only apply this if it's NOT a hermes number
 	P.mailedto = recipient
@@ -415,12 +441,13 @@
 			if(length(content) > 2000)
 				to_chat(user, span_warning("Letter too long."))
 				return TRUE
-			var/obj/item/paper/P = build_sanitized_letter(user, params["recipient"], content)
+			var/obj/item/paper/P = build_sanitized_letter(user, params["recipient"], content, params["sender"])
 			var/send2place = P.mailedto
 			if(!mail_exists(send2place))
 				to_chat(user, span_warning(mail_fail_msg(send2place)))
 				qdel(P)
 				return TRUE
+			sign_mail(P, P.mailer)
 			var/list/record = mail_item_record(P)
 			if(!deliver_mail(P, send2place, P.mailer, key_name(user)))
 				to_chat(user, span_warning("The master of mails has perished?"))
@@ -841,8 +868,10 @@
 			if(!mail_exists(send2place))
 				to_chat(user, span_warning(mail_fail_msg(send2place)))
 				return
+			var/sentfrom = sanitize_mail_sender(input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null))
+			sign_mail(P, sentfrom)
 			var/list/record = mail_item_record(P)
-			if(!deliver_mail(P, send2place, MAILER_ANONYMOUS, key_name(user)))
+			if(!deliver_mail(P, send2place, sentfrom, key_name(user)))
 				to_chat(user, span_warning("The master of mails has perished?"))
 				return
 			if(!findtext(send2place, "#"))
@@ -882,6 +911,7 @@
 		return
 	..()
 
+#undef MAIL_SIGNATURE_TAIL
 #undef INDEXER_MISTAKE_MAX
 #undef INDEXER_MISTAKE_MIN
 
