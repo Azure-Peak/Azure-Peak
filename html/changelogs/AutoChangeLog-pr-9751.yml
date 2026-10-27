@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - balance: "Masquerade and masquerade lite now scale with one vamp per 20 players, up to a maximum of six."

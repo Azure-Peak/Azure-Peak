@@ -75,9 +75,6 @@
 /datum/withdraw_tab/proc/do_direct_import(datum/roguestock/D, mob/user)
 	if(!D || !ishuman(user) || !parent_structure)
 		return FALSE
-	if(D.withdraw_disabled && !has_fiscal_authority(user))
-		parent_structure.say("Not available.")
-		return FALSE
 	if(!D.trade_good_id)
 		parent_structure.say("Not available.")
 		return FALSE
@@ -105,7 +102,9 @@
 	var/spent = SSeconomy.manual_import(user, region.region_id, D.trade_good_id, 1, using_stipend)
 	if(!spent)
 		return FALSE
-	if(!using_stipend)
+	if(using_stipend)
+		record_treasury_expense(TREASURY_FLOW_SUBSIDY, treasury_role_of(user), spent)
+	else
 		budget -= price
 	D.stockpile_amount = max(0, D.stockpile_amount - 1)
 	SStreasury.dirty_market_view()

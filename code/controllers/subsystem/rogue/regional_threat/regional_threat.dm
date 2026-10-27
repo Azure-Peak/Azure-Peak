@@ -59,8 +59,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 5,
 			),
 			_tp_budget_multiplier = 1.5,
-			_delivery_reward_multiplier = 2.0,
-			_payout_multiplier = 1.3,
+			_delivery_reward_multiplier = 1.5,
+			_payout_multiplier = 1.1, // Close by, so it is pretty convenient
 			_kill_target_floor = 4,
 			_evergreen_target = 3
 		),
@@ -82,6 +82,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.2,
 			_delivery_reward_multiplier = 1.8,
+			_payout_multiplier = 1.3, // Farther away, higher implicit threat of antag
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_COAST
 		),
@@ -104,6 +105,7 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
+			_payout_multiplier = 1.35,
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		),

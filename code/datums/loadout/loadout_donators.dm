@@ -1405,6 +1405,11 @@
 	path = /obj/item/storage/belt/rogue/leather/ulqsusbelt
 	ckeywhitelist = list("seraphlemonade")
 
+/datum/loadout_item/donator/saxyman
+	name = "Donator Item - Prototype Strange Mask"
+	path = /obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman
+	ckeywhitelist = list("mrsaxyman")
+
 // Solar Dominion Items
 /datum/loadout_item/donator/universal/dominion_sword
 	name = "Elixir - Dominion Sword"

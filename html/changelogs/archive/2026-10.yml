@@ -1101,3 +1101,36 @@
   - bugfix: Fix certain enchanting kit donor sprites when wielding.
   zydras:
   - image: Updated Headeater and Treasure Seeker sprites.
+2026-10-27:
+  BurpleBineapple:
+  - rscadd: Donator kits for DasFox
+  Etheo:
+  - rscadd: "New Tea: T\xEC Teine"
+  - rscadd: 'New Tea: Fyrebloom Fizz'
+  - rscadd: 'New Ferment: Maize Wash'
+  - rscadd: 'New Distillation: Whiskey'
+  - rscadd: 'New Distillation: Fyreball Whiskey'
+  - rscadd: 'New Ferment: Fyritius Gruit'
+  - rscadd: 'New Distillation: Fyrmenty'
+  FreeStylaLT:
+  - rscdel: Fitted clothing as a feature has been disabled.
+  - rscdel: Socialite no longer has the Massage option.
+  Guidesu:
+  - rscadd: Training dummies do not longer require manual click to train.
+  OrbisAnima:
+  - balance: Changes the resource consumption of Rhythms to half since during combat
+      the energy cost is doubled and there is no offset against it as other classes
+      have.
+  Ryan180602:
+  - bugfix: DNR truly prevents deaditing.
+  - bugfix: loose straps double examine is no longer a thing
+  - rscadd: let people topple over railings if kicked into or drunk
+  WeNeedMorePhoron:
+  - rscadd: Bogmen received swimming lesson to not die as quick in their native environment
+  - rscadd: AI is slightly smarter about not exhausting themselves in water.
+  changelingonberry:
+  - bugfix: Cosmetic slot side sprites now layer correctly.
+  fffelinid:
+  - bugfix: fixed missing location tags on some meisters
+  - bugfix: Hopefully fixed a few exploits that allowed players to skip large parts
+      of the menagerie dungeon.

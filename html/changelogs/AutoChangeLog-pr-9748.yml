@@ -1,0 +1,7 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - bugfix: "Hunting trails will now avoid spawning on the other side of open spaces, walls, and lava."
+  - rscadd: "Rabbit hunting map at the merchant."
+  - balance: "Lowered fresh mound of dirt hunting trail cooldown from 90 to 70 seconds."
+  - balance: "There is now a static 25% chance to find an extra animal on a hunt, if the hunting category allows for it."

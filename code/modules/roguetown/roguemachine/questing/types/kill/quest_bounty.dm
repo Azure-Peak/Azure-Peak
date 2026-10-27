@@ -23,6 +23,8 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	tp_budget = QUEST_TP_BUDGET_BOUNTY_GOONS
 	threat_bands_cleared = QUEST_BANDS_BOUNTY
 	required_fellowship_size = 2
+	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	var/boss_name
 	var/goblin_warlord_variant = FALSE
 
@@ -73,7 +75,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 	if(!target_mob_type)
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
-	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : tp_budget
+	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : round(tp_budget * fellowship_threat_mult)
 	return (boss_threat * QUEST_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT)
 
 /datum/quest/kill/bounty/estimate_mob_count()

@@ -1105,3 +1105,8 @@
 
 /obj/structure/mineral_door/wood/bath/courtesan
 	resident_advclass = list(/datum/advclass/bathworker/harlot, /datum/advclass/bathworker/courtesan)
+
+/obj/structure/table/wood/decorativefolding
+	name = "wooden table"
+	icon = 'icons/roguetown/misc/gadgets.dmi'
+	icon_state = "foldingtableDeployed"

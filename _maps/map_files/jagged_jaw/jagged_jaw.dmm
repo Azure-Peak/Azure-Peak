@@ -38962,7 +38962,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave/peace/grim)
 "eIx" = (
-/obj/structure/table/wood/folding,
+/obj/structure/table/wood/decorativefolding,
 /turf/open/floor/rogue/grass,
 /area/rogue/indoors/inq/embassy)
 "eIA" = (
@@ -42905,7 +42905,9 @@
 /turf/open/floor/rogue/ruinedwood/turned,
 /area/rogue/outdoors/town/roofs/grim)
 "fgt" = (
-/obj/structure/roguemachine/atm,
+/obj/structure/roguemachine/atm{
+	location_tag = "Apothecary"
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/physician)
 "fgw" = (
@@ -65266,10 +65268,10 @@
 /turf/closed/wall/mineral/rogue/roofwall/outercorner/dir4,
 /area/rogue/indoors/town/church/chapel/grim)
 "hRW" = (
-/obj/structure/table/wood/folding,
 /obj/effect/decal/mossy{
 	dir = 4
 	},
+/obj/structure/table/wood/decorativefolding,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/outdoors/rtfield/eora/grim)
 "hRX" = (
@@ -66369,11 +66371,11 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/physician)
 "hYT" = (
-/obj/structure/table/wood/folding,
 /obj/item/reagent_containers/glass/bottle/rogue/redwine{
 	pixel_x = 6;
 	pixel_y = 13
 	},
+/obj/structure/table/wood/decorativefolding,
 /turf/open/floor/rogue/grass,
 /area/rogue/under/cave/peace/grim)
 "hYU" = (
@@ -115898,7 +115900,9 @@
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/outdoors/town/roofs/grim)
 "nYz" = (
-/obj/structure/roguemachine/atm,
+/obj/structure/roguemachine/atm{
+	location_tag = "Church - Garden"
+	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/outdoors/town/grim)
 "nYB" = (
@@ -180475,13 +180479,13 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/rtfield/abandonedhotsprings/grim)
 "vFx" = (
-/obj/structure/table/wood/folding,
 /obj/item/candle/yellow{
 	pixel_y = 6
 	},
 /obj/effect/decal/carpet/kover_darkred{
 	pixel_y = 6
 	},
+/obj/structure/table/wood/decorativefolding,
 /turf/open/floor/rogue/herringbone,
 /area/rogue/indoors/inq/basement)
 "vFz" = (
