@@ -238,49 +238,47 @@
 			if(!T)
 				continue
 
-			for(var/turf/step in get_line(src, T))
-				if(step.density)
-					continue
+			if(!validate_turf(T) || !has_clear_path(user, T))
+				continue
 
-			if(validate_turf(T))
-				// Let's make sure tracks replenish themselves eventually.
-				if(trail_depth == 0)
-					new /obj/effect/landmark/hunting_spawner(get_turf(src))
+			// Let's make sure tracks replenish themselves eventually.
+			if(trail_depth == 0)
+				new /obj/effect/landmark/hunting_spawner(get_turf(src))
 
-				// Do this before reveal trail to make sure the icon is locked if need be
-				if(trail_depth == 0 && !target_animal_type)
-					initialize_hunt_group(user)
-					initialize_hunt_chain(user)
-				//Reveal THIS track before moving on
-				reveal_track(T)
+			// Do this before reveal trail to make sure the icon is locked if need be
+			if(trail_depth == 0 && !target_animal_type)
+				initialize_hunt_group(user)
+				initialize_hunt_chain(user)
+			//Reveal THIS track before moving on
+			reveal_track(T)
 
-				// Spawn Animal if depth reached
-				if(trail_depth >= max_trail_depth)
-					to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
-					var/mob/living/L = target_animal_type
-					var/chosen_rot = initial(L.rot_type) ? /datum/component/rot/simple/hunt : null
-					new /obj/effect/temp_visual/hunting_phantom(T, target_animal_type, chosen_rot)
-					var/bonus_spawned = spawn_group_bonus_animals(T, target_animal_type)
-					if(bonus_spawned)
-						visible_message(span_boldwarning("There seems to be a herd in the distance!"))
-					distribute_party_exp(35 + (15 * bonus_spawned))
-					return TRUE
-
-				//Spawn the NEXT hidden mound
-				var/obj/effect/hunting_track/next_trail = new(T)
-				next_trail.party_refs = src.party_refs.Copy()
-				next_trail.hunter_ref = src.hunter_ref
-				next_trail.trail_depth = src.trail_depth + 1
-				next_trail.max_trail_depth = src.max_trail_depth
-				next_trail.target_animal_type = src.target_animal_type
-				next_trail.hunt_category = src.hunt_category
-				next_trail.locked_track_icon = src.locked_track_icon
-				next_trail.linked_areas = src.linked_areas
-				next_trail.color = "#ff9100"
-				next_trail.linked_areas = src.linked_areas
-				next_trail.plane = GAME_PLANE_HIGHEST
-				next_trail.setup_hunter_visibility()
+			// Spawn Animal if depth reached
+			if(trail_depth >= max_trail_depth)
+				to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
+				var/mob/living/L = target_animal_type
+				var/chosen_rot = initial(L.rot_type) ? /datum/component/rot/simple/hunt : null
+				new /obj/effect/temp_visual/hunting_phantom(T, target_animal_type, chosen_rot)
+				var/bonus_spawned = spawn_group_bonus_animals(T, target_animal_type)
+				if(bonus_spawned)
+					visible_message(span_boldwarning("There seems to be a herd in the distance!"))
+				distribute_party_exp(35 + (15 * bonus_spawned))
 				return TRUE
+
+			//Spawn the NEXT hidden mound
+			var/obj/effect/hunting_track/next_trail = new(T)
+			next_trail.party_refs = src.party_refs.Copy()
+			next_trail.hunter_ref = src.hunter_ref
+			next_trail.trail_depth = src.trail_depth + 1
+			next_trail.max_trail_depth = src.max_trail_depth
+			next_trail.target_animal_type = src.target_animal_type
+			next_trail.hunt_category = src.hunt_category
+			next_trail.locked_track_icon = src.locked_track_icon
+			next_trail.linked_areas = src.linked_areas
+			next_trail.color = "#ff9100"
+			next_trail.linked_areas = src.linked_areas
+			next_trail.plane = GAME_PLANE_HIGHEST
+			next_trail.setup_hunter_visibility()
+			return TRUE
 	return FALSE
 
 /obj/effect/hunting_track/proc/initialize_hunt_group(mob/living/revealer)
@@ -372,6 +370,7 @@
 	M.Turn(angle)
 	transform = M
 
+// turf/path helpers for validation
 /obj/effect/hunting_track/proc/validate_turf(turf/T)
 	if(!T || T.density)
 		return FALSE
@@ -389,6 +388,24 @@
 	if(target_A == A || (target_A.type in linked_areas))
 		return TRUE
 	return FALSE
+
+// Slightly less restrictive validation for the path itself, we only care about full blockers, not stuff like tables.
+/obj/effect/hunting_track/proc/has_clear_path(atom/from, turf/destination)
+	var/turf/from_turf = get_turf(from)
+	if(!from_turf || !destination)
+		return FALSE
+
+	for(var/turf/step in get_line(from_turf, destination))
+		if(step == from_turf || step == destination)
+			continue
+		if(step.density)
+			return FALSE
+		if(istransparentturf(step))
+			return FALSE
+		if(istype(step, /turf/open/lava))
+			return FALSE
+
+	return TRUE
 
 /obj/effect/hunting_track/proc/fade_and_die(mob/living/user)
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)
