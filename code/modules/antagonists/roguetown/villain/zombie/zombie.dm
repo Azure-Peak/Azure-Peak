@@ -270,7 +270,7 @@
 	sleep(2 SECONDS) //now get them up to go fight and die
 	if(zombie.resting)
 		zombie.set_resting(FALSE, FALSE) //GET UP, KILL, CONSUME.
-	zombie.visible_message(span_danger("[zombie] [pick("stands back up!","shambles upright!","lumbers to [p_their()] feet!","rises from [p_their()] shallow grave!","snaps to [p_their()] feet!","reanimates onto [p_their()] feet!")]")) //On par with deadite animals reanimating.
+	zombie.visible_message(span_danger("[zombie] [pick("stands back up!","shambles upright!","lumbers to [zombie.p_their()] feet!","rises from [zombie.p_their()] shallow grave!","snaps to [zombie.p_their()] feet!","reanimates onto [zombie.p_their()] feet!")]")) //On par with deadite animals reanimating.
 	zombie.emote("rage") // This is where the fun begins
 	playsound(get_turf(zombie), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1) //More horrible noises
 	to_chat(zombie, span_cult(pick("SO... HUNGRY... CRAVE FLESH!", "FLESH... MUST HAVE FLESH!", "HUNGER... KILL... FLESH!")))
