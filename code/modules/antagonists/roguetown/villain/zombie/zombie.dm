@@ -284,9 +284,7 @@
 	I have risen from death anew as a feral, mindless zombie, I can no longer use weapons, climb most walls, cast spells, or make use of advanced \
 	fighting tactics I could in lyfe, nor recognise those I held any connecton to in lyfe. \
 	Only endless and mostly mindless hunger remains that commands me to bite and claw! to hunt the lyving! to feast upon their flesh!"))
-	to_chat(owner.current, span_notice("I can identify those whom I can spread my gift of unlyfe onto by a mere examine, I should hunt them."))
-	if(living_player_count() < 30) //if at very lowpop we just make it clear OOCly to be a good sport. Deadite hordes can be rough here.
-		to_chat(owner.current, span_danger("The current alive player count is lower than 30, remember to play in good faith due to the low player population."))
+	to_chat(owner.current, span_notice("I can identify those whom I hunt and can spread my gift of unlyfe onto by a mere examine."))
 
 
 // Infected wake param is just a transition from living to zombie, via zombie_infect()
@@ -447,10 +445,10 @@
 	REMOVE_TRAIT(owner, TRAIT_IGNORESLOWDOWN, id)
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
-	to_chat(owner, span_cult("I feel my body relax a little, and that is the last thing I feel before unnatural rage wells up inside of me, my Lux wanes... I am fading."))
+	to_chat(owner, span_userdanger("I feel my body relax a little, and that is the last thing I feel before unnatural rage wells up inside of me, my Lux wanes... I am fading."))
 	show_visible_message(owner, "[owner]'s body relaxes, but [p_their()]'s eyes fill with rage, as [p_their()] movements become more looser and pick up a pace!")
 	if(!HAS_TRAIT(owner, TRAIT_NORUN))
-		to_chat(owner, span_userdanger("I CAN NOW SPRINT AGAIN! HUNT THE LYVING, FEAST ON THEIR FLESH!"))
+		to_chat(owner, span_notice("I CAN NOW SPRINT AGAIN! HUNT THE LYVING, FEAST ON THEIR FLESH!"))
 
 #undef ZOMBIE_FIRST_BITE_CHANCE
 #undef ZOMBIE_BITE_CONVERSION_TIME

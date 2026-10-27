@@ -36,16 +36,16 @@
 	var/datum/antagonist/skeleton/skeleton = mind?.has_antag_datum(/datum/antagonist/skeleton) //obfusicate race
 	var/datum/antagonist/lich/lich = mind?.has_antag_datum(/datum/antagonist/lich) //obfusicate race
 	//outwards examine obfusicates
-	if(maniac && (user != src) && !isobserver(src))
+	if(maniac && (user != src) && !isobserver(user))
 		race_name = "disgusting pig"
-	if(zombie && (user != src) && !isobserver(src))
-		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...", "something", "walking thing", "decaying thing", "rotting thing")]"
+	if(zombie && (user != src) && !isobserver(user))
+		race_name = "[pick("shambling thing", "taut thing", "decrepit thing", "wyrd thing", "UHHHHHHH...", "something", "walking thing", "decaying thing")]"
 		origin_name = "[pick("what..", "huh..", "remember..", "home..", "hell..", "heaven..", "where..", "here..", "somewhere..", "where am I..")]" //confused walking corpse hours
 	//inwards I.E we don't show race of these antags
 	if(skeleton)
-		race_name = "[pick("shambling corpse", "taut corpse", "decrepit corpse")]"
+		race_name = span_boldred("[pick("shambling skeleton", "ancient skeleton", "taut skeleton", "decrepit skeleton")]")
 	if(lich)
-		race_name = "[pick("shambling corpse", "taut corpse", "decrepit corpse")]"
+		race_name = span_boldred("[pick("ancient skeleton", "unnatural skeleton", "decrepit skeleton")]")
 
 	var/m1 = "[t_He] [t_is]"
 	var/m2 = "[t_his]"
