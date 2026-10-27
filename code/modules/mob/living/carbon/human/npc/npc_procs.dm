@@ -360,7 +360,8 @@ GLOBAL_LIST_INIT(zombie_aggro, list(
 	if(organ_ears)
 		organ_ears.accessory_colors = "#868e79"
 	src.regenerate_icons()
-	src.dna.species.blood_color = "#161616"
+	if(!isooze(src)) //murklings retain their slime colors, instead of rotted blood
+		src.dna.species.blood_color = "#3D1B14"
 
 	//now we take every trait an actual deadite has and apply it.
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)

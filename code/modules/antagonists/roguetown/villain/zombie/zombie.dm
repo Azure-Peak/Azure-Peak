@@ -196,7 +196,8 @@
 		zombie.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/zombie/m]
 		zombie.dna.species.soundpack_f = GLOB.voice_packs[/datum/voicepack/zombie/f]
 	base_intents = zombie.base_intents
-	zombie.dna.species.blood_color = "#161616"
+	if(!isooze(zombie)) //murklings retain their slime colors, instead of rotted blood
+		zombie.dna.species.blood_color = "#3D1B14"
 	zombie.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw)
 	zombie.update_a_intents()
 	ambushable = zombie.ambushable
@@ -446,7 +447,7 @@
 	REMOVE_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, id)
 	to_chat(owner, span_cult("I feel my body relax a little, and that is the last thing I feel before unnatural rage wells up inside of me, my Lux wanes... I am fading."))
-	owner.show_visible_message(owner, "[owner]'s body relaxes, but [p_their()]'s eyes fill with rage, as [p_their()] movements become more looser and pick up a pace!")
+	show_visible_message(owner, "[owner]'s body relaxes, but [p_their()]'s eyes fill with rage, as [p_their()] movements become more looser and pick up a pace!")
 	if(!HAS_TRAIT(owner, TRAIT_NORUN))
 		to_chat(owner, span_userdanger("I CAN NOW SPRINT AGAIN! HUNT THE LYVING, FEAST ON THEIR FLESH!"))
 
