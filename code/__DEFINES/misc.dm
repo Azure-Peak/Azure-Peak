@@ -509,7 +509,7 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 // Zombie infection defines
 #define ZOMBIE_INFECTION_PROBABILITY 20	/// Zombie infection probability for bites on a wound
 #define ZOMBIE_INFECTION_TIME 2 MINUTES	/// Time taken until zombie infection kicks in (unit wakes up as a zombie)
-#define DEAD_TO_ZOMBIE_TIME 6 MINUTES	/// Time spent dead before rising as a deadite.
+#define DEAD_TO_ZOMBIE_TIME 7 MINUTES	/// Time spent dead before rising as a deadite.
 #define REVIVED_DEBUFF_DURATION 15 MINUTES	/// Revival Sickness.
 #define CRITICAL_WOUNDED_DEBUFF_DURATION 8 MINUTES	/// Critically wounded. - Higher cmode drain debuff
 #define DEATHMARK_GRACE_PERIOD 5 MINUTES	/// Grace after a chair revival before the deathmark is checked for and applied.
