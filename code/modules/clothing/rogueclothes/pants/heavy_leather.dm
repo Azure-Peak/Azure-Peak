@@ -153,22 +153,17 @@
 	max_integrity = ARMOR_INT_LEG_HARDLEATHER
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
-	name = "silk tights"
-	desc = "Form-fitting legwear. Almost too form-fitting."
+	name = "darksilk tights"
+	desc = "Form-fitting legwear. Almost too form-fitting. It seems to be made from a dark, glossy material."
 	icon_state = "shadowpants"
 	allowed_race = NON_DWARVEN_RACE_TYPES
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout
-	name = "aesthetic shadowy silk tights"
+	name = "aesthetic darksilk tights"
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/loadout/Initialize(mapload)
 	. = ..()
 	loadoutize()
-
-/obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
-	name = "custom-fit silk tights"
-	desc = "Form-fitting legwear. Almost too form-fitting. Custom-fit for its (now deceased) wearer."
-	allowed_race = list(/datum/species/elf/dark/raider)
 
 /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/spymaster
 	name = "hand's tights"

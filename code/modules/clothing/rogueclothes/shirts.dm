@@ -164,8 +164,8 @@
 	icon_state = "lowcut"
 
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt
-	name = "silk shirt"
-	desc = "A sleeveless shirt woven from glossy material."
+	name = "darksilk shirt"
+	desc = "A sleeveless shirt woven from a mysterious, glossy dark material."
 	icon_state = "shadowshirt"
 	item_state = "shadowshirt"
 	r_sleeve_status = SLEEVE_TORN
@@ -173,19 +173,15 @@
 	body_parts_covered = CHEST|VITALS
 
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock
+	name = "padded darksilk shirt"
+	desc = "A sleeveless shirt woven from a mysterious, glossy dark material. Layered with extra padding."
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	body_parts_covered = COVERAGE_ALL_BUT_ARMFEET
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	armor = ARMOR_PADDED
 
-/obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
-	desc = "custom-fit silk shirt"
-	desc = "A sleeveless shirt woven from glossy material. Custom-fit for its (now deceased) wearer."
-	allowed_race = list(/datum/species/elf/dark/raider)
-	sellprice = 10
-
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout
-	name = "aesthetic custom-fit silk shirt"
+	name = "aesthetic silk shirt"
 
 /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/loadout/Initialize(mapload)
 	. = ..()

@@ -46,9 +46,9 @@
 //** ARMOR **//
 
 /datum/npc_loadout/armor/light/drow
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
-	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock/drowraider
-	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants/drowraider
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
+	shirt = /obj/item/clothing/suit/roguetown/shirt/shadowshirt/elflock
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/shadowpants
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless/shadowgloves/elflock
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather/heavy
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
