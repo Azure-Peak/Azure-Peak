@@ -19,7 +19,7 @@
 	if(m_intent == MOVE_INTENT_RUN)
 		prob2defend = max(prob2defend-15,0)
 
-	if(HAS_TRAIT(src, TRAIT_DEADITE)) //so WWs can claw parry again
+	if(HAS_TRAIT(src, TRAIT_CHUNKYFINGERS))
 		return FALSE
 	if(pulledby || pulling)
 		return FALSE
