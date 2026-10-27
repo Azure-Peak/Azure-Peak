@@ -85,7 +85,6 @@
 /datum/status_effect/zombie_infection/on_remove() //For trait/stat debuffs potentally in future to be removed via
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, "zombie_infection_traits")
-	REMOVE_TRAIT(owner, TRAIT_ZOMBIE_SPEECH, "zombie_infection_traits")
 
 /atom/movable/screen/alert/status_effect/zombie_infection
 	name = "Zombie Infection"
