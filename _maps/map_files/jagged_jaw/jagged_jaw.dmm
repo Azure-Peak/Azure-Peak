@@ -1234,6 +1234,11 @@
 	},
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/his_vault)
+"ahA" = (
+/turf/closed/wall/mineral/rogue/stone{
+	density = 0
+	},
+/area/rogue/indoors/town/magician/grim)
 "ahC" = (
 /obj/effect/decal/mossy{
 	dir = 8
@@ -175436,6 +175441,10 @@
 	},
 /obj/effect/decal/mossy{
 	dir = 8
+	},
+/obj/structure/haybale{
+	pixel_x = 0;
+	pixel_y = 11
 	},
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors/town/grim)
@@ -645201,8 +645210,8 @@ awC
 awC
 exC
 exC
-exC
-exC
+ahA
+ahA
 xdP
 lDj
 iMT
