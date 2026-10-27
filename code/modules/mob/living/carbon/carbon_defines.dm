@@ -91,8 +91,6 @@
 	var/stam_regen_start_time = 0
 	///knocks you down
 	var/stam_paralyzed = FALSE
-	///jankcode for zombies
-	var/last_seek_brains_use = 0
 
 	var/next_smell = 0
 

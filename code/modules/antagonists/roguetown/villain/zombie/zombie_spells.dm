@@ -16,16 +16,16 @@ var/SEEK_BRAINS_COOLDOWN = 15 SECONDS
 	breaks_invisibility = FALSE
 
 /obj/effect/proc_holder/spell/invoked/zombie_seek/cast(list/humie, mob/user)
-
+	var/last_seek_brains_use
 	//we do this before the checks because if we have this as a non-zombie, something is VERY wrong.
-	if(!mind.has_antag_datum(/datum/antagonist/zombie))
+	if(!user.mind.has_antag_datum(/datum/antagonist/zombie))
 		to_chat(user, span_zizo_plain("I am not a zombie and should not have access to this verb, report this bug to coders."))
 		return FALSE
 	if(world.time < user.last_seek_brains_use + SEEK_BRAINS_COOLDOWN)
 		var/remaining = round((user.last_seek_brains_use + SEEK_BRAINS_COOLDOWN - world.time) / 10, 1)
 		to_chat(user, span_warning("You must wait [remaining] seconds before using Seek again!"))
 		return
-	if(stat >= UNCONSCIOUS)
+	if(user.stat >= UNCONSCIOUS)
 		return FALSE
 	//set cooldown
 	user.last_seek_brains_use = world.time
