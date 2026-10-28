@@ -11,6 +11,7 @@
 
 	//no visuals, these are just /inherent/ deadite verbs spellified
 	has_visual_effects = FALSE
+	sound = null
 	charge_sound = null
 
 	primary_resource_type = SPELL_COST_NONE
@@ -59,7 +60,7 @@
 			if(total_distance < closest_dist)
 				closest_dist = total_distance
 				the_dir = get_dir(user, humie)
-	if(!closest_dist)
+	if(!the_dir)
 		to_chat(user, span_warning("I failed to smell anything..."))
 		return FALSE
 	to_chat(user, span_cult("[pick("Flesh","Consume","Food","Lyving","Find it","Rasping thing")] [closest_dist] meters away, [dir2text(the_dir)]..."))
