@@ -53,6 +53,11 @@
 	desc = ""
 	icon_state = "drunk"
 
+/atom/movable/screen/alert/status_effect/buff/fyreball
+	name = "Fyreball Endurance"
+	desc = "It burns so good..."
+	icon_state = "drunk"
+
 /datum/status_effect/buff/murkwine
 	id = "murkwine"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/drunkmurk
@@ -71,6 +76,17 @@
 	duration = 2 MINUTES
 
 /datum/status_effect/buff/nocshine/on_creation(mob/living/new_owner)
+	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
+		return FALSE
+	. = ..()
+
+/datum/status_effect/buff/fyreball
+	id = "fyreball"
+	alert_type = /atom/movable/screen/alert/status_effect/buff/fyreball
+	effectedstats = list(STATKEY_WIL = 1) // Feel the burn. Endure the burn. (Two sips / 10 drams gets you drunk, for a total of +2will/-2int)
+	duration = 2 MINUTES
+
+/datum/status_effect/buff/fyreball/on_creation(mob/living/new_owner)
 	if(HAS_TRAIT(new_owner, TRAIT_NOHUNGER))
 		return FALSE
 	. = ..()
@@ -841,8 +857,11 @@
 	var/list/wCount = owner.get_wounds()
 	if(wCount.len > 0)
 		owner.heal_wounds(healing_on_tick * 2.25)
+		for(var/datum/wound/wound as anything in wCount)
+			if(wound.woundpain)
+				wound.woundpain = max(0, wound.woundpain - healing_on_tick)
 		owner.update_damage_overlays()
-	owner.adjustOxyLoss(-healing_on_tick, 0)
+	owner.adjustOxyLoss(-healing_on_tick * 2.25, 0)
 	owner.adjustToxLoss(-healing_on_tick, 0)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
 	owner.adjustCloneLoss(-healing_on_tick, 0)
@@ -2000,13 +2019,15 @@
 	effectedstats = list(STATKEY_WIL = 1)
 	var/adrenaline_stam = TRUE
 	var/blood_restore = 30
+	var/calmer_rush = FALSE
 
 /datum/status_effect/buff/adrenaline_rush/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
 	var/mob/living/carbon/human/human = owner
 	if(istype(human))
-		human.playsound_local(get_turf(human), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
+		if(!calmer_rush)
+			human.playsound_local(get_turf(human), 'sound/misc/adrenaline_rush.ogg', 100, TRUE)
 		human.blood_volume = min((human.blood_volume + blood_restore), BLOOD_VOLUME_NORMAL)
 		if(adrenaline_stam)
 			human.stamina -= max((human.stamina - (human.max_stamina / 2)), 0)
@@ -2036,11 +2057,13 @@
 	effectedstats = list(STATKEY_CON = 3)
 
 /datum/status_effect/buff/adrenaline_rush/psydon
-	blood_restore = 0
 	alert_type = /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
 	examine_text = "SUBJECTPRONOUN is enduring!"
 	duration = 15 SECONDS //This is on a 30 second cooldown miracle.
+	blood_restore = 0
 	adrenaline_stam = FALSE
+	calmer_rush = TRUE // stops the badumpbadump sound effect, given ENDURE already has its own.
+	effectedstats = list(STATKEY_WIL = 3) // on pair with graggar, but WIL
 
 /datum/status_effect/buff/nocblessing
 	id = "nocblessing"

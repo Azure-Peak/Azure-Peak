@@ -37,10 +37,10 @@
 	category_tags = list(CTAG_BATHMOM)
 	subclass_languages = list(/datum/language/thievescant)
 	subclass_stats = list(
-		STATKEY_WIL = 2,
+		STATKEY_WIL = 1,
 		STATKEY_STR = 1,
 		STATKEY_CON = 1,
-		STATKEY_INT = -1
+		STATKEY_INT = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,

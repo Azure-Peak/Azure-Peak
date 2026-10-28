@@ -772,18 +772,6 @@
 	target_items = list(/obj/item/rogueweapon/shovel)
 	result_item = /obj/item/rogueweapon/shovel/zoe_silence
 
-//DasFox - Armet
-/obj/item/enchantingkit/dasfox_helm
-	name = "'archaic valkyrhelm' morphing elixir"
-	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
-	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dasfox
-
-//DasFox - Cuirass
-/obj/item/enchantingkit/dasfox_cuirass
-	name = "'archaic cermonial cuirass' morphing elixir"
-	target_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted)
-	result_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox
-
 //DasFox - Lance
 /obj/item/enchantingkit/dasfox_lance
 	name = "'decorated jousting lance' morphing elixir"
@@ -1185,6 +1173,48 @@
 	result_item = null
 	exact_type = TRUE
 
+//DasFox - Black Oak Ranger
+/obj/item/enchantingkit/dasfox_ranger_woadsleeve
+	name = "'ranger's woadmaille bodysleeve' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of Woad Elven Plate."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate			= /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/dasfox_ranger,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk			= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dasfox_ranger
+	)
+	result_item = null
+	exact_type = TRUE
+	custom_name = TRUE
+
+/obj/item/enchantingkit/dasfox_ranger_undersuit
+	name = "'ranger's undersuit' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy				= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/dasfox_ranger
+	)
+	result_item = null
+	exact_type = TRUE
+	custom_name = TRUE
+
+/obj/item/enchantingkit/dasfox_ranger_demigaunts
+	name = "'ranger's woadwoven demigaunts' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Woad Elven Gloves or Hardened Leather Gloves."
+	target_items = list(
+		/obj/item/clothing/gloves/roguetown/elven_gloves					= /obj/item/clothing/gloves/roguetown/elven_gloves/dasfox_ranger,
+		/obj/item/clothing/gloves/roguetown/angle							= /obj/item/clothing/gloves/roguetown/angle/dasfox_ranger
+	)
+	result_item = null
+	custom_name = TRUE
+
+/obj/item/enchantingkit/dasfox_ranger_schynbalds
+	name = "'ranger's woadwoven stirruped schynbalds' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Woad Elven Boots or Hardened Leather Boots."
+	target_items = list(
+		/obj/item/clothing/shoes/roguetown/boots/elven_boots				= /obj/item/clothing/shoes/roguetown/boots/elven_boots/dasfox_ranger,
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced			= /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/dasfox_ranger
+	)
+	result_item = null
+	custom_name = TRUE
+
 //Racobio - Obsidian Staff
 /obj/item/enchantingkit/racobio_staff
 	name = "'Obsidian Tower' morphing elixir"
@@ -1450,47 +1480,6 @@
 		/obj/item/clothing/head/roguetown/helmet/sallet/visored
 	)
 	result_item = /obj/item/clothing/head/roguetown/helmet/sallet_winged
-
-/obj/item/enchantingkit/hellpossum_grandmaster_helm
-	name = "'Grandmaster's Burgeonet' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Pigface Bascinet, Hounskull Bascinet, Roundface Bascinet, or its Aventailed \
-	variant."
-	target_items = list(
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface		= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/grandmaster,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull		= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/grandmaster,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface				= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/grandmaster,
-		/obj/item/clothing/head/roguetown/helmet/heavy/aventail					= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/aventail/grandmaster
-	)
-	result_item = null
-	exact_type = TRUE
-
-/obj/item/enchantingkit/hellpossum_grandmaster_habit
-	name = "'Grandmaster's Habit' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Pigface Bascinet, Hounskull Bascinet, Roundface Bascinet, or its Aventailed \
-	variant."
-	target_items = list(
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface		= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull		= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface				= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit,
-		/obj/item/clothing/head/roguetown/helmet/heavy/aventail					= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit/aventail
-	)
-	result_item = null
-	exact_type = TRUE
-
-/obj/item/enchantingkit/hellpossum_grandmaster_armor
-	name = "'Grandmaster's Armor' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of Steel Plate Armor, or a set of Steel Plate-and-Maille, alongside \
-	its Fluted variants."
-	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate		= /obj/item/clothing/suit/roguetown/armor/plate/full/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate		= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted		= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy			= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/full/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/plate/full						= /obj/item/clothing/suit/roguetown/armor/plate/full/robed/grandmaster
-	)
-	result_item = null
-	exact_type = TRUE
 
 // RosySaturniidae - Beaked Mask
 /obj/item/enchantingkit/rosy/birdmask

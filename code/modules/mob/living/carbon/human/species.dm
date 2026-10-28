@@ -1754,7 +1754,9 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(stander)
 				shove_blocked = TRUE
 
+		ADD_TRAIT(target, TRAIT_KICKED, "kick")
 		target.Move(target_shove_turf, shove_dir)
+		REMOVE_TRAIT(target, TRAIT_KICKED, "kick")
 
 		if(get_turf(target) == target_oldturf)
 			if(stander)
