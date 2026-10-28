@@ -1775,7 +1775,7 @@
 	. += span_info("This cursed collar enforces pacifism and blocks spellcasting.")
 	if(issuing_faction)
 		. += span_info("Issued by the [issuing_faction].")
-	. += span_info("It can be removed by a LIBERTAS machine or a castifico key issued by the same faction.")
+	. += span_info("It can be removed by a LIBERTAS machine or a key of absolution issued by the same faction.")
 
 /obj/item/clothing/neck/roguetown/collar/prisoner/Initialize(mapload)
 	. = ..()

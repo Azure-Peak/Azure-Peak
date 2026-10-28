@@ -44,7 +44,7 @@
 
 	// Main Menu
 	var/list/choices = list("Consult Bounties", "Print List of Bounties")
-	if(get_bounty_faction_for_job(H.job))
+	if(get_bounty_faction_for_user(H))
 		choices += "Print Key of Absolution"
 	var/selection = input(user, "The Excidium listens", src) as null|anything in choices
 
@@ -109,7 +109,7 @@
 			"voice" = saved_bounty.target_voice_prefix,
 		))
 	data["bounties"] = bounties
-	var/faction = ishuman(user) ? get_bounty_faction_for_job(user.job) : null
+	var/faction = get_bounty_faction_for_user(user)
 	data["can_manage"] = faction ? TRUE : FALSE
 	data["manage_faction"] = faction || ""
 	var/list/known_targets = list()
@@ -127,14 +127,30 @@
 	data["known_targets"] = known_targets
 	return data
 
-/proc/get_bounty_faction_for_job(job)
-	switch(job)
-		if("Marshal", "Grand Duke", "Hand")
+/proc/get_bounty_faction_for_user(mob/user)
+	if(!ishuman(user))
+		return
+	if(user == SSticker.rulermob || user == SSticker.regentmob)
+		return "crown"
+	switch(user.job)
+		if("Marshal", "Hand")
 			return "crown"
 		if("Bishop", "Martyr")
 			return "church"
+		if("Templar")
+			if(!bounty_faction_has_primary_leader(list("Bishop", "Martyr")))
+				return "church"
 		if("Inquisitor", "Absolver")
 			return "inquisition"
+		if("Orthodoxist")
+			if(!bounty_faction_has_primary_leader(list("Inquisitor", "Absolver")))
+				return "inquisition"
+
+/proc/bounty_faction_has_primary_leader(list/primary_jobs)
+	for(var/mob/living/carbon/human/leader in GLOB.human_list)
+		if(leader.job in primary_jobs)
+			return TRUE
+	return FALSE
 
 /proc/get_bounty_faction_for_employer(employer)
 	switch(employer)
@@ -158,7 +174,7 @@
 		to_chat(user, span_warning("The scroll only displays active bounties."))
 		return TRUE
 	var/mob/living/carbon/human/H = user
-	var/faction = get_bounty_faction_for_job(user.job)
+	var/faction = get_bounty_faction_for_user(user)
 	if(!faction)
 		to_chat(user, span_warning("You are not authorized to manage bounties."))
 		return TRUE
@@ -312,9 +328,9 @@
 	say("Your scroll is ready.")
 
 /obj/structure/roguemachine/bounty/proc/print_castifico_key(mob/living/carbon/human/user)
-	var/faction = get_bounty_faction_for_job(user.job)
+	var/faction = get_bounty_faction_for_user(user)
 	if(!faction)
-		to_chat(user, span_warning("You are not authorized to issue castifico keys."))
+		to_chat(user, span_warning("You are not authorized to issue keys of absolution."))
 		return
 
 	var/cost = 50
