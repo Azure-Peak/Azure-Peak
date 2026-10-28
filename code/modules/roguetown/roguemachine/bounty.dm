@@ -648,7 +648,7 @@
 	desc = "A key issued by a faction of the realm, made to unlock that faction's castifico collars."
 	icon = 'icons/roguetown/items/keys.dmi'
 	icon_state = "castikey"
-	dropshrink = 0.7
+	dropshrink = 0.75
 	w_class = WEIGHT_CLASS_TINY
 	force = 0
 	throwforce = 0
@@ -709,20 +709,27 @@
 
 /obj/item/castifico_key/get_mechanics_examine(mob/user)
 	. = ..()
-	if(faction)
-		. += span_info("A single-use key for removing castifico collars. Use it on someone wearing a collar issued by [faction].")
-	else
-		. += span_info("A single-use lockpick designed for removing castifico collars, regardless of the faction they belong to.")
-		. += span_info("Success chance scales with the user's lockpicking skill. A failed pick attempt will break the lockpick.")
+	if(!istype(src, /obj/item/castifico_key/liberation))
+		var/key_faction = faction || "a faction of the realm"
+		. += span_info("A single-use key for removing castifico collars. Use it on someone wearing a collar issued by [key_faction].")
 
 /obj/item/castifico_key/liberation
 	name = "key of liberation"
-	desc = "A special lockpick designed to unlock any faction's castifico collar. Don't let the law see you carrying this."
-	icon_state = "lpick"
+	desc = "It looks to be a modified lockpick. A profane instrument of Baothan design, fashioned to undo the shackles of the condemned and downtrodden. None should stand between a soul and its desires."
+	icon_state = "lockpick"
+	color = "#FF69B4"
 	unlock_time = 15 SECONDS
+
+/obj/item/castifico_key/liberation/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("A single-use lockpick designed for removing castifico collars, regardless of the faction they belong to.")
+	. += span_info("Success chance scales with the user's lockpicking skill. A failed pick attempt will break the lockpick.")
 
 /obj/item/castifico_key/liberation/can_unlock_collar(obj/item/clothing/neck/roguetown/collar/prisoner/collar)
 	return TRUE
 
 /obj/item/castifico_key/liberation/get_unlock_success_chance(mob/user)
 	return clamp(60 + user.get_skill_level(/datum/skill/misc/lockpicking) * 10, 0, 100)
+
+/obj/item/castifico_key/liberation/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)
