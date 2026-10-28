@@ -16,14 +16,21 @@
 
 	spell_flags = SPELL_IGNORE_SPELLBLOCK //need to be able to use this as a zombie to begin with, else it wouldn't be a good zombie spell now.
 
+/datum/action/cooldown/spell/zombie_seek/can_cast_spell(feedback = TRUE)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!ishuman(owner))
+		return FALSE
+	if(!owner.mind.has_antag_datum(/datum/antagonist/zombie))
+		to_chat(owner, span_zizo_plain("I am not a zombie and should not have access to this spell, something went very wrong! Please report this to a coder w/ your roundID and how/when this happened."))
+		return FALSE
+	if(owner.stat >= UNCONSCIOUS)
+		return FALSE
+	return TRUE
+
 /datum/action/cooldown/spell/zombie_seek/cast(mob/living/carbon/user)
 	//we do this before the checks because if we have this as a non-zombie, something is VERY wrong.
-	if(!user.mind.has_antag_datum(/datum/antagonist/zombie))
-		to_chat(user, span_zizo_plain("I am not a zombie and should not have access to this spell, something went very wrong! Please report this to a coder w/ your roundID and how/when this happened."))
-		return FALSE
-	if(user.stat >= UNCONSCIOUS)
-		return FALSE
-	//set cooldown
 	var/closest_dist
 	var/the_dir
 	for(var/mob/living/carbon/human/humie as anything in GLOB.human_list)
