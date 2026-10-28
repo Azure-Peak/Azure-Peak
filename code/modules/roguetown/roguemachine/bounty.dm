@@ -154,6 +154,9 @@
 /proc/handle_bounty_ui_action(atom/movable/source, action, list/params, mob/user)
 	if(!ishuman(user))
 		return FALSE
+	if(istype(source, /obj/item/bountyscroll))
+		to_chat(user, span_warning("The scroll only displays active bounties."))
+		return TRUE
 	var/mob/living/carbon/human/H = user
 	var/faction = get_bounty_faction_for_job(user.job)
 	if(!faction)
@@ -314,7 +317,7 @@
 		to_chat(user, span_warning("You are not authorized to issue castifico keys."))
 		return
 
-	var/cost = 100
+	var/cost = 50
 	var/choice = alert(user, "Print a key of absolution for [cost] mammon?", "Print Key of Absolution", "Yes", "No")
 	if(choice != "Yes")
 		return
@@ -383,7 +386,9 @@
 		ui.open()
 
 /obj/item/bountyscroll/ui_data(mob/user)
-	return get_bounty_tgui_data(user)
+	var/list/data = get_bounty_tgui_data(user)
+	data["can_manage"] = FALSE
+	return data
 
 /obj/item/bountyscroll/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
