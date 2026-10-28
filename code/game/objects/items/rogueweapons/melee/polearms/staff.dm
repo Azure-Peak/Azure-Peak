@@ -32,7 +32,7 @@
 	item_d_type = "blunt"
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intent_intdamage_factor = 1
 
 /datum/intent/mace/smash/quarterstaff
 	reach = 2
