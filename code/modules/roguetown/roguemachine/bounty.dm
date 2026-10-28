@@ -44,6 +44,8 @@
 
 	// Main Menu
 	var/list/choices = list("Consult Bounties", "Print List of Bounties")
+	if(get_bounty_faction_for_job(H.job))
+		choices += "Print Key of Absolution"
 	var/selection = input(user, "The Excidium listens", src) as null|anything in choices
 
 	switch(selection)
@@ -53,6 +55,9 @@
 
 		if("Print List of Bounties")
 			print_bounty_scroll(H)
+
+		if("Print Key of Absolution")
+			print_castifico_key(H)
 
 /obj/structure/roguemachine/bounty/attackby(obj/item/P, mob/user, params)
 
@@ -283,7 +288,7 @@
 		say("No bounties are currently active.")
 		return
 
-	var/cost = 50
+	var/cost = 100
 	var/choice = alert(user, "Print a continuously updated list of active bounties for [cost] mammon?", "Print Bounty Scroll", "Yes", "No")
 	if(choice != "Yes")
 		return
@@ -302,6 +307,36 @@
 	playsound(src, 'sound/items/scroll_open.ogg', 100, TRUE)
 	visible_message(span_notice("The [src] prints out a weathered scroll."))
 	say("Your scroll is ready.")
+
+/obj/structure/roguemachine/bounty/proc/print_castifico_key(mob/living/carbon/human/user)
+	var/faction = get_bounty_faction_for_job(user.job)
+	if(!faction)
+		to_chat(user, span_warning("You are not authorized to issue castifico keys."))
+		return
+
+	var/cost = 100
+	var/choice = alert(user, "Print a key of absolution for [cost] mammon?", "Print Key of Absolution", "Yes", "No")
+	if(choice != "Yes")
+		return
+
+	if(!SStreasury.has_account(user))
+		to_chat(user, span_warning("You have no bank account."))
+		return
+
+	var/datum/fund/user_account = SStreasury.get_account(user)
+	if(SStreasury.get_balance(user) < cost)
+		to_chat(user, span_warning("Insufficient funds. [cost] mammon required."))
+		return
+	if(!SStreasury.transfer(user_account, SStreasury.discretionary_fund, cost, "castifico key fee", null, LEDGER_CROWN_REV_OTHER))
+		to_chat(user, span_warning("The Excidium could not process the payment."))
+		return
+
+	var/obj/item/castifico_key/key = new(get_turf(src))
+	key.faction = faction
+	key.desc = "A key issued by the [faction], made to unlock castifico collars issued by the same faction."
+	playsound(src, 'sound/items/scroll_open.ogg', 100, TRUE)
+	visible_message(span_notice("The [src] produces a key of absolution."))
+	say("Your key is ready.")
 
 /obj/item/bountyscroll
 	name = "enchanted bounty scroll"
@@ -370,6 +405,7 @@
 /obj/structure/chair/freedomchair/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Buckle a collared prisoner to the chair, then right-click to remove their castifico collar.")
+	. += span_info("Using this will leave the subject's body weakened for some time. Dying during this time will leave them unrevivable.")
 	. += span_info("Crafted versions are unstable and will explode when used on a prisoner.")
 
 /obj/structure/chair/freedomchair/crafted
@@ -430,6 +466,9 @@
 		if(istype(old_mask, /obj/item/clothing/neck/roguetown/collar/prisoner))
 			say("COLLAR DISCARDED. FREEDOM, AT LAST...")
 			M.dropItemToGround(old_mask, TRUE)
+			M.apply_status_effect(/datum/status_effect/debuff/devitalised)
+			M.apply_status_effect(/datum/status_effect/debuff/permadeath)
+			M.play_permadeath_indicator()
 	else
 		say("ANALYSIS COMPLETE. NO CURSED COLLAR FOUND. ABORT.")
 		return
@@ -550,7 +589,8 @@
 		if(old_mask)
 			M.dropItemToGround(old_mask, TRUE)
 		var/obj/item/clothing/neck/roguetown/collar/prisoner/prisonmask = new(get_turf(M))
-		prisonmask.bounty_amount = reward_amount
+		prisonmask.issuing_faction = bounty_faction
+		prisonmask.name = "[bounty_faction] castifico collar"
 		M.equip_to_slot_or_del(prisonmask, SLOT_NECK, TRUE)
 		playsound(src.loc, 'sound/items/beartrap.ogg', 100, TRUE, -1)
 	else
@@ -576,8 +616,48 @@
 	unbuckle_all_mobs()
 
 /obj/structure/chair/arrestchair/proc/giveup(mob/living/carbon/human/M)
-	if(alert(M, "Do you submit to the Mask, or do you die? You have 10 seconds to decide.", "CHOICE OF LYFE", "Submit", "Perish") == "Perish")
+	if(alert(M, "Submit to the collar, or resist and die? You have 10 seconds to decide.", "CHOICE OF LYFE", "Submit", "Perish") == "Perish")
 		message_admins("[M.real_name] chose to die to the EXCIDIUM.")
 		log_admin("[M.real_name] opted to die to the EXCIDIUM.")
 		if(M.Adjacent(src))	//No buffering this for later
 			submission = FALSE
+
+/obj/item/castifico_key
+	name = "key of absolution"
+	desc = "A key issued by a faction of the realm, made to unlock that faction's castifico collars."
+	icon = 'icons/roguetown/items/keys.dmi'
+	icon_state = "castikey"
+	dropshrink = 0.75
+	w_class = WEIGHT_CLASS_TINY
+	force = 0
+	throwforce = 0
+	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
+	var/faction
+
+/obj/item/castifico_key/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	. = ..()
+	if(!proximity_flag || !ishuman(target))
+		return
+
+	var/mob/living/carbon/human/recipient = target
+	var/obj/item/clothing/neck/roguetown/collar/prisoner/collar = recipient.get_item_by_slot(SLOT_NECK)
+	if(!collar)
+		to_chat(user, span_warning("[recipient] is not wearing a castifico collar."))
+		return
+	if(!faction || collar.issuing_faction != faction)
+		to_chat(user, span_warning("This key cannot unlock a collar issued by another faction."))
+		return
+	if(!do_after(user, 3 SECONDS, TRUE, recipient))
+		return
+	if(recipient.get_item_by_slot(SLOT_NECK) != collar || collar.issuing_faction != faction)
+		to_chat(user, span_warning("The collar is no longer secured for unlocking."))
+		return
+
+	recipient.visible_message(span_notice("[user] uses the key of absolution to unlock [recipient]'s collar. The key snaps in the lock and breaks."))
+	playsound(recipient, 'sound/items/pickgood1.ogg', 75, TRUE)
+	recipient.dropItemToGround(collar, TRUE)
+	qdel(src)
+
+/obj/item/castifico_key/examine(mob/user)
+	. = ..()
+	. += span_info("A single-use key for removing castifico collars. Use it on someone wearing a collar issued by [faction].")

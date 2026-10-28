@@ -1469,6 +1469,10 @@
 "LM" = (
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors/town/physician)
+"LS" = (
+/obj/structure/chair/freedomchair,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "Ml" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -2789,7 +2793,7 @@ yF
 (17,1,1) = {"
 Il
 ev
-ev
+LS
 ev
 Il
 AO
