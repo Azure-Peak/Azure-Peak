@@ -16,7 +16,7 @@
 
 	spell_flags = SPELL_IGNORE_SPELLBLOCK //need to be able to use this as a zombie to begin with, else it wouldn't be a good zombie spell now.
 
-/datum/action/cooldown/spell/zombie_seek/cast(mob/user)
+/datum/action/cooldown/spell/zombie_seek/cast(mob/living/carbon/user)
 	//we do this before the checks because if we have this as a non-zombie, something is VERY wrong.
 	if(!user.mind.has_antag_datum(/datum/antagonist/zombie))
 		to_chat(user, span_zizo_plain("I am not a zombie and should not have access to this spell, something went very wrong! Please report this to a coder w/ your roundID and how/when this happened."))
