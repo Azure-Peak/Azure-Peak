@@ -16,19 +16,21 @@
 
 /datum/intent/spear/bash/ranged/quarterstaff
 	damfactor = 1
+	intent_intdamage_factor = 1
 
 /datum/intent/spear/bash/quarterstaff
 	damfactor = 0.8
+	intent_intdamage_factor = 1
 
 /datum/intent/spear/thrust/quarterstaff
 	name = "jab"
-	desc = "A quick, blunt jab with the end of the staff. Unlike a spear's thrust, it has no sweet spot to find."
+	desc = "A quick, light jab with the end of the staff. Weaker than a bash, but faster. Unlike a spear's thrust, it has no sweet spot to find."
 	blade_class = BCLASS_BLUNT
 	attack_verb = list("jabs", "prods")
 	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
 	penfactor = PEN_NONE
-	damfactor = 1.1
-	clickcd = CLICK_CD_MELEE
+	damfactor = 0.9
+	clickcd = CLICK_CD_QUICK
 	item_d_type = "blunt"
 	effective_range = null
 	effective_range_type = EFF_RANGE_NONE
@@ -53,6 +55,7 @@
 	name = "counterweight strike"
 	desc = "Whip the metal-weighted butt of the staff up into the target's head, dazing them."
 	attack_verb = list("cracks", "dazes")
+	intent_intdamage_factor = 1
 
 /datum/intent/spear/bash/quarterstaff/rapid
 	name = "rapid strike"
@@ -71,6 +74,7 @@
 	name = "shaft clinch"
 	desc = "Step inside your opponent's guard and drive the middle of the shaft into their face. Very briefly reduces opponent's strength, making it easier to escape a grab."
 	attack_verb = list("clinches and bars")
+	intent_intdamage_factor = 1
 	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
 
 /datum/intent/spear/bash/quarterstaff/long
@@ -81,6 +85,7 @@
 	damfactor = 1.25
 	swingdelay = 4
 	clickcd = CLICK_CD_CHARGED
+	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
 
 /datum/intent/spear/thrust/quarterstaff/long
 	name = "long thrust"
