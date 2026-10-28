@@ -29,8 +29,9 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/spell/zombie_seek/cast(mob/living/carbon/user)
+/datum/action/cooldown/spell/zombie_seek/after_cast(atom/cast_on)
 	//we do this before the checks because if we have this as a non-zombie, something is VERY wrong.
+	var/mob/living/carbon/human/user = owner
 	var/closest_dist
 	var/the_dir
 	for(var/mob/living/carbon/human/humie as anything in GLOB.human_list)
