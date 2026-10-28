@@ -7,6 +7,7 @@
 	self_cast_possible = TRUE
 	invocations = null
 	invocation_type = INVOCATION_NONE
+	ignore_can_speak = TRUE
 
 	primary_resource_type = SPELL_COST_NONE
 	primary_resource_cost = 0
@@ -29,7 +30,8 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/spell/zombie_seek/after_cast(atom/cast_on)
+/datum/action/cooldown/spell/zombie_seek/cast(atom/cast_on)
+	. = ..()
 	//we do this before the checks because if we have this as a non-zombie, something is VERY wrong.
 	var/mob/living/carbon/human/user = owner
 	var/closest_dist
