@@ -648,12 +648,22 @@
 	desc = "A key issued by a faction of the realm, made to unlock that faction's castifico collars."
 	icon = 'icons/roguetown/items/keys.dmi'
 	icon_state = "castikey"
-	dropshrink = 0.75
+	dropshrink = 0.7
 	w_class = WEIGHT_CLASS_TINY
 	force = 0
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
 	var/faction
+	var/unlock_time = 3 SECONDS
+
+/obj/item/castifico_key/proc/can_unlock_collar(obj/item/clothing/neck/roguetown/collar/prisoner/collar)
+	return faction && collar.issuing_faction == faction
+
+/obj/item/castifico_key/proc/get_unlock_success_chance(mob/user)
+	return 100
+
+/obj/item/castifico_key/proc/play_unlock_sound(atom/target)
+	playsound(target, pick('sound/items/pickgood1.ogg', 'sound/items/pickgood2.ogg'), 75, TRUE)
 
 /obj/item/castifico_key/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
@@ -661,24 +671,58 @@
 		return
 
 	var/mob/living/carbon/human/recipient = target
-	var/obj/item/clothing/neck/roguetown/collar/prisoner/collar = recipient.get_item_by_slot(SLOT_NECK)
-	if(!collar)
+	var/obj/item/neck_item = recipient.get_item_by_slot(SLOT_NECK)
+	if(!istype(neck_item, /obj/item/clothing/neck/roguetown/collar/prisoner))
 		to_chat(user, span_warning("[recipient] is not wearing a castifico collar."))
 		return
-	if(!faction || collar.issuing_faction != faction)
+	var/obj/item/clothing/neck/roguetown/collar/prisoner/collar = neck_item
+	if(!can_unlock_collar(collar))
 		to_chat(user, span_warning("This key cannot unlock a collar issued by another faction."))
 		return
-	if(!do_after(user, 3 SECONDS, TRUE, recipient))
+
+	var/list/sound_timer_ids = list()
+	if(istype(src, /obj/item/castifico_key/liberation))
+		play_unlock_sound(recipient)
+		sound_timer_ids = list(
+			addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient), 5 SECONDS),
+			addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient), 10 SECONDS),
+		)
+	var/unlock_completed = do_after(user, unlock_time, TRUE, recipient)
+	for(var/timer_id in sound_timer_ids)
+		deltimer(timer_id)
+	if(!unlock_completed)
 		return
-	if(recipient.get_item_by_slot(SLOT_NECK) != collar || collar.issuing_faction != faction)
+	if(recipient.get_item_by_slot(SLOT_NECK) != collar || !istype(collar) || !can_unlock_collar(collar))
 		to_chat(user, span_warning("The collar is no longer secured for unlocking."))
 		return
 
-	recipient.visible_message(span_notice("[user] uses the key of absolution to unlock [recipient]'s collar. The key snaps in the lock and breaks."))
+	if(!prob(get_unlock_success_chance(user)))
+		recipient.visible_message(span_warning("[user] fails to pick [recipient]'s collar. The key snaps."))
+		playsound(recipient, 'sound/items/pickbad.ogg', 75, TRUE)
+		qdel(src)
+		return
+
+	recipient.visible_message(span_notice("[user] uses [src] to unlock [recipient]'s collar. The key snaps in the lock and breaks."))
 	playsound(recipient, 'sound/items/pickgood1.ogg', 75, TRUE)
 	recipient.dropItemToGround(collar, TRUE)
 	qdel(src)
 
-/obj/item/castifico_key/examine(mob/user)
+/obj/item/castifico_key/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("A single-use key for removing castifico collars. Use it on someone wearing a collar issued by [faction].")
+	if(faction)
+		. += span_info("A single-use key for removing castifico collars. Use it on someone wearing a collar issued by [faction].")
+	else
+		. += span_info("A single-use lockpick designed for removing castifico collars, regardless of the faction they belong to.")
+		. += span_info("Success chance scales with the user's lockpicking skill. A failed pick attempt will break the lockpick.")
+
+/obj/item/castifico_key/liberation
+	name = "key of liberation"
+	desc = "A special lockpick designed to unlock any faction's castifico collar. Don't let the law see you carrying this."
+	icon_state = "lpick"
+	unlock_time = 15 SECONDS
+
+/obj/item/castifico_key/liberation/can_unlock_collar(obj/item/clothing/neck/roguetown/collar/prisoner/collar)
+	return TRUE
+
+/obj/item/castifico_key/liberation/get_unlock_success_chance(mob/user)
+	return clamp(60 + user.get_skill_level(/datum/skill/misc/lockpicking) * 10, 0, 100)
