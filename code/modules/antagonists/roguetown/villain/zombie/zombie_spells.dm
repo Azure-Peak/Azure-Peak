@@ -9,6 +9,10 @@
 	invocation_type = INVOCATION_NONE
 	ignore_can_speak = TRUE
 
+	//no visuals, these are just /inherent/ deadite verbs spellified
+	has_visual_effects = FALSE
+	charge_sound = null
+
 	primary_resource_type = SPELL_COST_NONE
 	primary_resource_cost = 0
 	background_icon = 'icons/mob/actions/zombie_spells.dmi'
