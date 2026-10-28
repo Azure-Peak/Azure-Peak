@@ -113,7 +113,7 @@
 	if(zombie)
 		remove_antag_hud(antag_hud_type, owner.current) //No more HUD sire.
 		zombie.infected = FALSE // Makes sure admins removing deadification removes the infected var if they do it before they turn
-		zombie.mind.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/zombie_seek)
+		zombie.mind.RemoveSpell(new /datum/action/cooldown/spell/zombie_seek)
 		zombie.mind?.special_role = special_role
 		zombie.ambushable = ambushable
 
@@ -209,7 +209,7 @@
 	zombie.faction += "undead"
 	zombie.faction += "zombie"
 	zombie.faction -= "neutral"
-	zombie.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/zombie_seek)
+	zombie.mind.AddSpell(new /datum/action/cooldown/spell/zombie_seek)
 	for(var/obj/item/bodypart/zombie_part as anything in zombie.bodyparts)
 		if(!zombie_part.rotted && !zombie_part.skeletonized)
 			zombie_part.rotted = TRUE
