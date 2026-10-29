@@ -94,6 +94,8 @@
 	. += "	• Curse 1 person → Tier 2 (Requires 20 points)"
 	. += "	• Curse 2 people → Tier 3 (Requires 60 points total)"
 	. += ""
+	. += "NOTE: Curses granted to feybound do not count towards this!"
+	. += ""
 	. += "AFFECTED TARGETS:"
 	. += "	• Positive Boons: 4/5/6 people (scales with tier)"
 	. += ""

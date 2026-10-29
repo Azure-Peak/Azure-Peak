@@ -117,8 +117,6 @@
 
 	var/mob/living/victim = find_target(true_name)
 	var/datum/hag_boon/B = new boon_path(true_name, src, set_points, parent)
-	if(victim && HAS_TRAIT(victim, TRAIT_FEYTOUCHED))
-		B.transmutable = FALSE // you can't curse your feytouched for ez levelups
 	var/list/name_list = boon_registry[true_name]
 	name_list += B
 
