@@ -276,7 +276,8 @@
 		return FALSE
 
 	var/mob/living/L = find_target(name_to_check)
-	if(!ispath(/datum/hag_boon/name) && L && !antag_check(L)) // restoring names DOES need to be possible to do to antags and feybound
+	var/datum/hag_boon/boon = boon_path
+	if(!(boon::ignores_antag_checks) && L && !antag_check(L)) // restoring names DOES need to be possible to do to antags and feybound
 		to_chat(parent, span_warning("[name_to_check] can't hold your ancient magycks, they are already blessed by another force."))
 		return FALSE
 

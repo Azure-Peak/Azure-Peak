@@ -151,6 +151,8 @@ GLOBAL_LIST_EMPTY(displaced_souls)
 	var/datum/hag_identity/original_identity	// we use this to store voice color and descriptor, nothing more
 	var/datum/devotion/vessel_devotion			// storing this, because the possessor can have devotion and in that case we transfer it over
 	var/datum/patron/vessel_patron				// ditto
+	var/datum/skill_holder/archived_skills		// why are minds like this
+	var/vessel_skills							// tells us whose skills these actually are
 
 /mob/dead/observer/eye/screye/displaced_soul/Initialize(mapload)
 	. = ..()

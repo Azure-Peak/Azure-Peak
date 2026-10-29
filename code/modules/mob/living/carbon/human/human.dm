@@ -1173,6 +1173,7 @@
 	if(ID)
 		return ID.identity.name
 	return real_name
+
 // mood penalties for poor equipment as a noble: if they're not spawn equipment and are poor quality, mood debuff. if you're covered in blood, mood debuff
 /mob/living/carbon/human/check_equipment_mood_penalty()
 	if(HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED))

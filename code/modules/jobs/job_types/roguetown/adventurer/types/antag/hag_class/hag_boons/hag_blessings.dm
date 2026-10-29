@@ -30,7 +30,7 @@
 /datum/hag_boon/rejuvenate // ok, this isn't actually a status effect. but it belongs here more than any of the other files
 	name = "Wyrd Rejuvenation"
 	desc = "Cures all long-term physical ailments, including: blindness, ugliness, missing limbs, and leprosy. Does not heal immediate wounds such as fractures and bleeds, and will not fix divine curses such as lux-taint, silver-weakness, vampirisim, or lycanthropy."
-	points = 20 // todo is this too small? maybe bump to 40
+	points = 40
 	var/list/restored_limbs = list() // limbs we healed, which will vanish when the boon is removed
 	var/list/cfs = list() // vices we removed, that'll be re-added when the boon is removed
 	var/cured_blindness = FALSE // used for text since we don't check charflaw type later
@@ -99,6 +99,7 @@
 		if(istype(cf, /datum/charflaw/colorblind))
 			H.remove_client_colour(/datum/client_colour/monochrome)
 			blindness_flaws += cf
+			cured_blindness = TRUE
 		if(istype(cf, /datum/charflaw/leprosy))
 			leper = cf
 	if(length(blindness_flaws))
@@ -131,7 +132,7 @@
 		if(limb_zone in regenerable_zones)
 			restored_limbs += limb_zone
 			H.regenerate_limb(limb_zone)
-			H.visible_message(span_warning("[H]'s [limb_zone] rapidly regrows!"), span_smallgreen("I feel a terrible itching sensation as my [limb_zone] regrows!"))
+			H.visible_message(span_warning("[H]'s [parse_zone(limb_zone)] rapidly regrows!"), span_smallgreen("I feel a terrible itching sensation as my [limb_zone] regrows!"))
 	if(HAS_TRAIT(H, TRAIT_UNSEEMLY))
 		REMOVE_TRAIT(H, TRAIT_UNSEEMLY, null)
 		cured_ugly = TRUE
@@ -147,6 +148,7 @@
 		to_chat(H, span_danger("My vision falters once more, my borrowed sight fading to naught!"))
 	if(cured_leper)
 		to_chat(H, span_danger("My affliction returns in full force, as if it had never left!"))
+		H.adjust_triumphs(-3) // we reapply the charflaw which gives 3 triumphs - don't want to farm this
 	if(cured_ugly)
 		ADD_TRAIT(H, TRAIT_UNSEEMLY, TRAIT_HAG_BOON)
 		to_chat(H, span_danger("My disfigurement returns, my visage is horrific once more."))

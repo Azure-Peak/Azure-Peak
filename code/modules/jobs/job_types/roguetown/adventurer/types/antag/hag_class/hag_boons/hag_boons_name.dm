@@ -27,3 +27,18 @@
 	H.AddComponent(/datum/component/hag_name, ID)
 
 	HCT.stored_names -= name2give
+
+/datum/hag_boon/name/remove_boon_effect(mob/living/L)
+	. = ..()
+	var/mob/living/carbon/human/H = L
+	if(!istype(H) || !granter) // should never happen
+		return
+
+	var/datum/component/hag_curio_tracker/HCT = granter.GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT)
+		return // again, should never happen
+
+	var/datum/component/hag_name/ID = H.GetComponent(/datum/component/hag_name)
+	HCT.stored_names[ID.identity.name] = ID.identity
+	HCT.prepared_boons[/datum/hag_boon/name] = (HCT.prepared_boons[/datum/hag_boon/name] || 0) + 1
+	QDEL_NULL(ID)

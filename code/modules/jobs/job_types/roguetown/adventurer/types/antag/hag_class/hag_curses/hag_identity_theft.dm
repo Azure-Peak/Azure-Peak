@@ -110,7 +110,7 @@ GLOBAL_LIST_EMPTY(orphaned_names)
 	var/datum/component/hag_name/ID = GetComponent(/datum/component/hag_name)
 	if(!ID || (ID.identity.name == "Unknown")) // safe to call on people who don't actually need it
 		return
-	if(LAZYLEN(GLOB.active_hags))
+	if(LAZYLEN(GLOB.active_hags) && !HAS_TRAIT(src, TRAIT_ANCIENT_HAG)) // if the hag herself is leaving, we don't want to give it to her
 		var/mob/living/carbon/human/hag = pick(GLOB.active_hags) // usually only one of these so i wouldn't bother adding a bespoke method to choose which if admins open multiple slots
 		var/datum/component/hag_curio_tracker/HCT = hag.GetComponent(/datum/component/hag_curio_tracker) // guaranteed to exist for anything in that list as it's what controls mobs being added to/removed from the list
 		HCT.stored_names[ID.identity.name] = ID.identity

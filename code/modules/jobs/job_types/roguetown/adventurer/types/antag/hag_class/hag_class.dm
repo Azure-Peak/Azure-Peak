@@ -64,6 +64,7 @@
 		add_verb(H, /mob/living/carbon/human/proc/commune_with_roots)
 		add_verb(H, /mob/living/carbon/human/proc/toggle_guarded)
 		add_verb(H, /mob/living/carbon/human/proc/remember_feytouched)
+		add_verb(H, /mob/living/carbon/human/proc/adopt_name)
 		H.ambushable = FALSE
 		H.faction |= list(FACTION_HAG)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/wildshape/hag_true_form)
