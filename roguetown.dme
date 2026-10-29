@@ -673,6 +673,7 @@
 #include "code\datums\ai\controllers\headless.dm"
 #include "code\datums\ai\controllers\human_npc.dm"
 #include "code\datums\ai\controllers\infernal.dm"
+#include "code\datums\ai\controllers\lamia.dm"
 #include "code\datums\ai\controllers\leyline_lycan.dm"
 #include "code\datums\ai\controllers\mimic.dm"
 #include "code\datums\ai\controllers\minotaur.dm"
