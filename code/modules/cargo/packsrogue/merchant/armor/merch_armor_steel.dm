@@ -326,6 +326,11 @@
 	cost = 50 // 1 Steel
 	contains = list(/obj/item/clothing/mask/rogue/facemask/steel)
 
+/datum/supply_pack/rogue/armor_steel/helmetless_visor
+	name = "Helmetless Visor"
+	cost = 50 // 1 Steel
+	contains = list(/obj/item/clothing/mask/rogue/facemask/steel/visor)
+
 /datum/supply_pack/rogue/armor_steel/steel/belt
 	name = "Belt"
 	cost = 50 // 1 Steel
