@@ -95,3 +95,11 @@
 	skill_chances = list(70, 80, 90, 95, 100, 100, 100)
 	degradation_rate = 0
 	uses_left = 5
+
+/obj/item/hunting_map/small_game
+	name = "rabbit burrows"
+	desc = "An intermediate map that notes where rabbits like to eat and sleep, beware of predators."
+	target_category = /datum/hunting_category/small_map
+	skill_chances = list(60, 70, 80, 85, 95, 100, 100)
+	degradation_rate = 0
+	uses_left = 5

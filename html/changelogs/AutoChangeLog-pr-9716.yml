@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "NPC that uses simple_find_target behavior is no longer treated as having low health all of the time, which decrease the time they need to find someone sneaking between 25 - 75%.  This affects: Rous, Bramblesnout, Mossback, deadite saiga, troll, deadite rous, headless, dagger, haunt, depth hound, tamed undead etc. (So not a lot of mobs)"
-  - bugfix: "Rat now uses their lower intended visual range of 2 instead of 5."

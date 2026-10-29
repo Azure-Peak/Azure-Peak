@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - balance: "Light Steps now only counts as two extra levels of sneaking for sneaking speed movement, but it properly stacks with all tiers of sneaking up to base walking speed (legendary sneaking or expert/master and light steps)."

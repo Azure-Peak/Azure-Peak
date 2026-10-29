@@ -890,9 +890,6 @@
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_userdanger("A MONSTER!")
 
-		if(HAS_TRAIT(src, TRAIT_ARMOR_BREAK))
-			. += span_phobia("[capitalize(m2)] armor hangs on by a thread...")
-
 		if(HAS_TRAIT(src, TRAIT_ARREARS))
 			if(ishuman(user))
 				var/mob/living/carbon/human/viewer = user

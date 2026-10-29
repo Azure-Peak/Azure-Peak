@@ -54,6 +54,7 @@
 	attach_commission_draws(Q, draws)
 	var/bonus_mult = get_commission_bonus_pay_mult(bonus_pay_level)
 	if(bonus_mult != 1.0)
+		Q.reward_bonus_mult *= bonus_mult
 		Q.reward_amount = round(Q.reward_amount * bonus_mult)
 	if(is_directive)
 		Q.reward_amount = 0

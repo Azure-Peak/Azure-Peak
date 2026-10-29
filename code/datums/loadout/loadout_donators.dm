@@ -461,6 +461,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	ckeywhitelist = list("funkemonke", "droolingcowboy")
 
+/datum/loadout_item/donator/fregian_mage
+	name = "Violet Silk Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward/donator_fregian_mage
+	ckeywhitelist = list("lucine")
+
 /datum/loadout_item/donator/eekasqueak
 	name = "Saffira encrusted tiara"
 	path = /obj/item/clothing/head/roguetown/circlet/saffiratiara
@@ -629,6 +634,26 @@
 /datum/loadout_item/donator/dasfox/tyesca_scabbard
 	name = "Donator Item - Tyesca's scabbard"
 	path = /obj/item/rogueweapon/scabbard/sword/tyesca
+
+/datum/loadout_item/donator/dasfox/ranger_woadsleeve
+	name = "Donator Kit - Ranger's Woadmaille Bodysleeve"
+	path = /obj/item/enchantingkit/dasfox_ranger_woadsleeve
+
+/datum/loadout_item/donator/dasfox/ranger_undersuit
+	name = "Donator Kit - Ranger's Undersuit"
+	path = /obj/item/enchantingkit/dasfox_ranger_undersuit
+
+/datum/loadout_item/donator/dasfox/ranger_demigaunts
+	name = "Donator Kit - Ranger's Woadwoven Demigaunts"
+	path = /obj/item/enchantingkit/dasfox_ranger_demigaunts
+
+/datum/loadout_item/donator/dasfox/ranger_schynbalds
+	name = "Donator Kit - Ranger's Woadwoven Stirruped Schynbalds"
+	path = /obj/item/enchantingkit/dasfox_ranger_schynbalds
+
+/datum/loadout_item/donator/dasfox/ranger_mantle
+	name = "Donator Item - Black Oak Ranger's Mantle"
+	path = /obj/item/clothing/cloak/dasfox_ranger
 
 /datum/loadout_item/donator/ryan
 	name = "Donator Item - Western Estates Caparison"
@@ -1080,21 +1105,6 @@
 	path = /obj/item/enchantingkit/hellpossum_apostle_wingsallet
 	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
-/datum/loadout_item/donator/hellpossum_grandmaster_armor
-	name = "Donator Kit - Grandmaster's Armor, Robed"
-	path = /obj/item/enchantingkit/hellpossum_grandmaster_armor
-	ckeywhitelist = list("dasfox")
-
-/datum/loadout_item/donator/hellpossum_grandmaster_helm
-	name = "Donator Kit - Grandmaster's Burgeonet"
-	path = /obj/item/enchantingkit/hellpossum_grandmaster_helm
-	ckeywhitelist = list("dasfox")
-
-/datum/loadout_item/donator/hellpossum_grandmaster_helm_habit
-	name = "Donator Kit - Grandmaster's Burgeonet, Habited"
-	path = /obj/item/enchantingkit/hellpossum_grandmaster_habit
-	ckeywhitelist = list("dasfox")
-
 /datum/loadout_item/donator/rosy/birdmask
 	name = "Donator Kit - Beaked Mask"
 	path = /obj/item/enchantingkit/rosy/birdmask
@@ -1394,6 +1404,11 @@
 	name = "Donator Item - Potionkeeper's Messy Belt"
 	path = /obj/item/storage/belt/rogue/leather/ulqsusbelt
 	ckeywhitelist = list("seraphlemonade")
+
+/datum/loadout_item/donator/saxyman
+	name = "Donator Item - Prototype Strange Mask"
+	path = /obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman
+	ckeywhitelist = list("mrsaxyman")
 
 // Solar Dominion Items
 /datum/loadout_item/donator/universal/dominion_sword

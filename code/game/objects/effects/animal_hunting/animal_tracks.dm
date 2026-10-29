@@ -130,8 +130,8 @@
 	. = ..()
 	layer = HIGH_LANDMARK_LAYER
 	// Add some visual variety
-	pixel_x = rand(-8, 8)
-	pixel_y = rand(-8, 8)
+	pixel_x = rand(-6, 6)
+	pixel_y = rand(-6, 6)
 
 /obj/effect/hunting_track/Destroy()
 	clear_party_images()
@@ -238,49 +238,47 @@
 			if(!T)
 				continue
 
-			for(var/turf/step in get_line(src, T))
-				if(step.density)
-					continue
+			if(!validate_turf(T) || !has_clear_path(user, T))
+				continue
 
-			if(validate_turf(T))
-				// Let's make sure tracks replenish themselves eventually.
-				if(trail_depth == 0)
-					new /obj/effect/landmark/hunting_spawner(get_turf(src))
+			// Let's make sure tracks replenish themselves eventually.
+			if(trail_depth == 0)
+				new /obj/effect/landmark/hunting_spawner(get_turf(src))
 
-				// Do this before reveal trail to make sure the icon is locked if need be
-				if(trail_depth == 0 && !target_animal_type)
-					initialize_hunt_group(user)
-					initialize_hunt_chain(user)
-				//Reveal THIS track before moving on
-				reveal_track(T)
+			// Do this before reveal trail to make sure the icon is locked if need be
+			if(trail_depth == 0 && !target_animal_type)
+				initialize_hunt_group(user)
+				initialize_hunt_chain(user)
+			//Reveal THIS track before moving on
+			reveal_track(T)
 
-				// Spawn Animal if depth reached
-				if(trail_depth >= max_trail_depth)
-					to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
-					var/mob/living/L = target_animal_type
-					var/chosen_rot = initial(L.rot_type) ? /datum/component/rot/simple/hunt : null
-					new /obj/effect/temp_visual/hunting_phantom(T, target_animal_type, chosen_rot)
-					var/bonus_spawned = spawn_group_bonus_animals(T, target_animal_type)
-					if(bonus_spawned)
-						visible_message(span_boldwarning("There seems to be a herd in the distance!"))
-					distribute_party_exp(35 + (15 * bonus_spawned))
-					return TRUE
-
-				//Spawn the NEXT hidden mound
-				var/obj/effect/hunting_track/next_trail = new(T)
-				next_trail.party_refs = src.party_refs.Copy()
-				next_trail.hunter_ref = src.hunter_ref
-				next_trail.trail_depth = src.trail_depth + 1
-				next_trail.max_trail_depth = src.max_trail_depth
-				next_trail.target_animal_type = src.target_animal_type
-				next_trail.hunt_category = src.hunt_category
-				next_trail.locked_track_icon = src.locked_track_icon
-				next_trail.linked_areas = src.linked_areas
-				next_trail.color = "#ff9100"
-				next_trail.linked_areas = src.linked_areas
-				next_trail.plane = GAME_PLANE_HIGHEST
-				next_trail.setup_hunter_visibility()
+			// Spawn Animal if depth reached
+			if(trail_depth >= max_trail_depth)
+				to_chat(user, span_boldwarning("You see your quarry in the distance faintly!"))
+				var/mob/living/L = target_animal_type
+				var/chosen_rot = initial(L.rot_type) ? /datum/component/rot/simple/hunt : null
+				new /obj/effect/temp_visual/hunting_phantom(T, target_animal_type, chosen_rot)
+				var/bonus_spawned = spawn_group_bonus_animals(T, target_animal_type)
+				if(bonus_spawned)
+					visible_message(span_boldwarning("There seems to be a herd in the distance!"))
+				distribute_party_exp(35 + (15 * bonus_spawned))
 				return TRUE
+
+			//Spawn the NEXT hidden mound
+			var/obj/effect/hunting_track/next_trail = new(T)
+			next_trail.party_refs = src.party_refs.Copy()
+			next_trail.hunter_ref = src.hunter_ref
+			next_trail.trail_depth = src.trail_depth + 1
+			next_trail.max_trail_depth = src.max_trail_depth
+			next_trail.target_animal_type = src.target_animal_type
+			next_trail.hunt_category = src.hunt_category
+			next_trail.locked_track_icon = src.locked_track_icon
+			next_trail.linked_areas = src.linked_areas
+			next_trail.color = "#ff9100"
+			next_trail.linked_areas = src.linked_areas
+			next_trail.plane = GAME_PLANE_HIGHEST
+			next_trail.setup_hunter_visibility()
+			return TRUE
 	return FALSE
 
 /obj/effect/hunting_track/proc/initialize_hunt_group(mob/living/revealer)
@@ -372,6 +370,7 @@
 	M.Turn(angle)
 	transform = M
 
+// turf/path helpers for validation
 /obj/effect/hunting_track/proc/validate_turf(turf/T)
 	if(!T || T.density)
 		return FALSE
@@ -389,6 +388,24 @@
 	if(target_A == A || (target_A.type in linked_areas))
 		return TRUE
 	return FALSE
+
+// Slightly less restrictive validation for the path itself, we only care about full blockers, not stuff like tables.
+/obj/effect/hunting_track/proc/has_clear_path(atom/from, turf/destination)
+	var/turf/from_turf = get_turf(from)
+	if(!from_turf || !destination)
+		return FALSE
+
+	for(var/turf/step in get_line(from_turf, destination))
+		if(step == from_turf || step == destination)
+			continue
+		if(step.density)
+			return FALSE
+		if(istransparentturf(step))
+			return FALSE
+		if(istype(step, /turf/open/lava))
+			return FALSE
+
+	return TRUE
 
 /obj/effect/hunting_track/proc/fade_and_die(mob/living/user)
 	var/skill = user.get_skill_level(/datum/skill/misc/hunting)
@@ -462,29 +479,37 @@
 		if(!L || L.stat == DEAD || L == leader)
 			continue
 		valid_hunters += L
+
+	// Solo hunter - flat 25% chance, still respecting the category's bonus cap
 	if(!valid_hunters.len)
+		if(hunt_category.bonus_animal_amount >= 1 && prob(25))
+			spawn_bonus_phantom(T)
+			return 1
 		return 0
 
 	var/group_bonus = valid_hunters.len * 10 // Flat 10% per person
-	var/list/nearby_turfs = list()
-	for(var/dir in GLOB.alldirs)
-		var/turf/neighbor = get_step(T, dir)
-		if(validate_turf(neighbor))
-			nearby_turfs += neighbor
 
 	for(var/mob/living/hunter in valid_hunters)
 		if(spawned_count >= hunt_category.bonus_animal_amount)
 			break
 		var/skill = hunter.get_skill_level(/datum/skill/misc/hunting)
-		var/success_chance = clamp(((skill + 1) * 20) + group_bonus, 0, 100)
+		var/success_chance = clamp(((skill + 1) * 20) + group_bonus, 25, 100)
 		if(prob(success_chance))
-			var/turf/spawn_turf = (nearby_turfs.len) ? pick(nearby_turfs) : T
-			var/bonus_type = pickweight(hunt_category.animals)
-			var/mob/living/example_mob = bonus_type
-			var/chosen_rot = initial(example_mob.rot_type) ? /datum/component/rot/simple/hunt : null
-			new /obj/effect/temp_visual/hunting_phantom(spawn_turf, bonus_type, chosen_rot)
+			spawn_bonus_phantom(T)
 			spawned_count++
 	return spawned_count
+
+/obj/effect/hunting_track/proc/spawn_bonus_phantom(turf/T)
+	var/list/nearby_turfs = list()
+	for(var/dir in GLOB.alldirs)
+		var/turf/neighbor = get_step(T, dir)
+		if(validate_turf(neighbor))
+			nearby_turfs += neighbor
+	var/turf/spawn_turf = (nearby_turfs.len) ? pick(nearby_turfs) : T
+	var/bonus_type = pickweight(hunt_category.animals)
+	var/mob/living/example_mob = bonus_type
+	var/chosen_rot = initial(example_mob.rot_type) ? /datum/component/rot/simple/hunt : null
+	new /obj/effect/temp_visual/hunting_phantom(spawn_turf, bonus_type, chosen_rot)
 
 /obj/effect/hunting_track/proc/clear_party_images()
 	if(!party_images.len)

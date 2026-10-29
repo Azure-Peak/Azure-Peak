@@ -33,6 +33,7 @@ GLOBAL_LIST_EMPTY(brewing_recipe_by_reagent)
 	var/expected_favor
 	var/spawned_at
 	var/dock_state = TRADE_SHIP_STATE_AVAILABLE
+	var/sent_for = FALSE
 	var/docked_at = 0
 	var/dock_expires_at = 0
 	var/dock_expiry_timer_id

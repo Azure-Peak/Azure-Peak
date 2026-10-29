@@ -87,6 +87,7 @@
 		to_chat(innkeeper, span_warning("No landmark could take that rumor. Try another region or type."))
 		return
 	if(lucrative)
+		dispatched.reward_bonus_mult *= RUMOR_LUCRATIVE_MULT
 		dispatched.reward_amount = round(dispatched.reward_amount * RUMOR_LUCRATIVE_MULT)
 	dispatched.funding_rumor_points = cost
 	SStreasury.rumor_issued_today[dup_key] = GLOB.dayspassed
