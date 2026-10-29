@@ -31,6 +31,11 @@
 	name = "Wyrd Rejuvenation"
 	desc = "Cures all long-term physical ailments, including: blindness, ugliness, missing limbs, and leprosy. Does not heal immediate wounds such as fractures and bleeds, and will not fix divine curses such as lux-taint, silver-weakness, vampirisim, or lycanthropy."
 	points = 20 // todo is this too small? maybe bump to 40
+	var/list/restored_limbs = list() // limbs we healed, which will vanish when the boon is removed
+	var/list/cfs = list() // vices we removed, that'll be re-added when the boon is removed
+	var/cured_blindness = FALSE // used for text since we don't check charflaw type later
+	var/cured_leper = FALSE // ditto
+	var/cured_ugly = FALSE // this one isn't a vice so this is actually checked to re-add it and also for text
 
 /// notably we do not actually apply any woundheal or thelike here; as a hag, you have very high medskill, use that if you want someone alyve, this is for curing permanent disabilities
 /datum/hag_boon/rejuvenate/apply_boon_effect(mob/living/L)
@@ -97,11 +102,15 @@
 		if(istype(cf, /datum/charflaw/leprosy))
 			leper = cf
 	if(length(blindness_flaws))
+		cured_blindness = TRUE
 		to_chat(H, span_smallgreen("Light floods my senses as my sight is restored!"))
 		for(var/datum/charflaw/cf in blindness_flaws)
+			cfs += cf.type
 			H.charflaws.Remove(cf)
 			qdel(cf)
 	if(leper)
+		cured_leper = TRUE
+		cfs += leper.type
 		REMOVE_TRAIT(H, TRAIT_LEPROSY, TRAIT_GENERIC)
 		H.change_stat(STATKEY_STR, 1)
 		H.change_stat(STATKEY_INT, 1)
@@ -120,9 +129,37 @@
 	var/missing_limbs = H.get_missing_limbs()
 	for(var/limb_zone in missing_limbs)
 		if(limb_zone in regenerable_zones)
+			restored_limbs += limb_zone
 			H.regenerate_limb(limb_zone)
 			H.visible_message(span_warning("[H]'s [limb_zone] rapidly regrows!"), span_smallgreen("I feel a terrible itching sensation as my [limb_zone] regrows!"))
 	if(HAS_TRAIT(H, TRAIT_UNSEEMLY))
 		REMOVE_TRAIT(H, TRAIT_UNSEEMLY, null)
+		cured_ugly = TRUE
 		to_chat(H, span_smallgreen("My posture straigtens, my face is mended; my disfigurement is lifted!"))
 	clean_body_parts(H)
+
+// oh you poor soul
+/datum/hag_boon/rejuvenate/remove_boon_effect(mob/living/L)
+	if(!ishuman(L))
+		return
+	var/mob/living/carbon/human/H = L
+	if(cured_blindness)
+		to_chat(H, span_danger("My vision falters once more, my borrowed sight fading to naught!"))
+	if(cured_leper)
+		to_chat(H, span_danger("My affliction returns in full force, as if it had never left!"))
+	if(cured_ugly)
+		ADD_TRAIT(H, TRAIT_UNSEEMLY, TRAIT_HAG_BOON)
+		to_chat(H, span_danger("My disfigurement returns, my visage is horrific once more."))
+	if(length(restored_limbs))
+		for(var/limb_zone in restored_limbs)
+			var/obj/item/bodypart/BP = H.get_bodypart(limb_zone)
+			if(!BP.is_prosthetic_limb()) // to avoid the edge case of someone getting blessed with this, then losing the limb AGAIN and getting a prosthetic, THEN being cursed
+				BP.dismember(skip_checks = TRUE)
+				H.visible_message(span_danger("[H]'s [BP] rapidly wilts away!"))
+				QDEL_NULL(BP)
+	for(var/path in cfs)
+		if(ispath(path, /datum/charflaw))
+			var/datum/charflaw/cf = new path
+			H.charflaws += cf
+			cf.on_mob_creation(H)
+			cf.apply_post_equipment(H)
