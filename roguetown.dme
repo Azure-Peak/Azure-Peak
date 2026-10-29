@@ -2567,6 +2567,7 @@
 #include "code\modules\mob\living\carbon\human\inventory.dm"
 #include "code\modules\mob\living\carbon\human\life.dm"
 #include "code\modules\mob\living\carbon\human\physiology.dm"
+#include "code\modules\mob\living\carbon\human\possession.dm"
 #include "code\modules\mob\living\carbon\human\say.dm"
 #include "code\modules\mob\living\carbon\human\skeletonize.dm"
 #include "code\modules\mob\living\carbon\human\species.dm"
