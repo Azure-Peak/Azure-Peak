@@ -170,10 +170,7 @@
 		if(!statpack.virtuous)
 			return "This virtue slot will only be used with virtuous stat packs."
 
-	var/heretic = FALSE
-	if(istype(selected_patron, /datum/patron/inhumen))
-		heretic = TRUE
-	if(!virtue_check(V, heretic, pref_species))
+	if(!virtue_check(V, pref_species))
 		return "Incorrect virtue parameters."
 
 	return null

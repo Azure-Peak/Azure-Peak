@@ -14,8 +14,6 @@
 
 		// everything else is available for the UI to display, but may not be able to be selected.
 		var/unavailable = null
-		if(istype(V, /datum/virtue/heretic) && !istype(selected_patron, /datum/patron/inhumen))
-			unavailable = "Must be an Ascendent worshipper."
 		if(V.restricted == TRUE)
 			if((pref_species.type in V.races))
 				unavailable = "Restricted from species \"[pref_species.name]\"."
