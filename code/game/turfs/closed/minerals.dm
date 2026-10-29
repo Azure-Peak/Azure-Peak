@@ -124,7 +124,7 @@
 						if(turf_integrity < olddam)
 							if(prob(50))
 								if(user.Adjacent(src))
-									var/obj/item/natural/stone/S = new(src)
+									var/obj/item/natural/stone/generic/S = new(src) // rocks generated won't have enchantments
 									S.forceMove(get_turf(user))
 						if(!density)
 							break
@@ -141,7 +141,7 @@
 						if(turf_integrity < olddam)
 							if(prob(50))
 								if(user.Adjacent(src))
-									var/obj/item/natural/stone/S = new(src)
+									var/obj/item/natural/stone/generic/S = new(src) // rocks generated won't have enchantments
 									S.forceMove(get_turf(user))
 						if(!density)
 							break
@@ -181,9 +181,9 @@
 		if(T)
 			GLOB.mined_resource_loc |= T
 		queue_smooth_neighbors(src)
-		new /obj/item/natural/stone(src)
+		new /obj/item/natural/stone/generic(src) // rocks generated won't have enchantments
 		if(prob(30))
-			new /obj/item/natural/stone(src)
+			new /obj/item/natural/stone/generic(src)
 		if (explo_mineral && (explo_mineral_amount > 0))
 			if(prob(33)) //chance to spawn ore directly
 				new explo_mineral(src)
@@ -202,7 +202,7 @@
 	..()
 
 /turf/closed/mineral/proc/gets_drilled(mob/living/user, triggered_by_explosion = FALSE, give_exp = TRUE)
-	new /obj/item/natural/stone(src)
+	new /obj/item/natural/stone/generic(src) // rocks generated won't have enchantments
 	var/autodestroy = FALSE
 	var/weak_hp = FALSE
 	if(!isnull(user))
@@ -213,7 +213,7 @@
 			if(P.weak_boulders)
 				weak_hp = 20
 	if(prob(30))
-		new /obj/item/natural/stone(src)
+		new /obj/item/natural/stone/generic(src) // rocks generated won't have enchantments
 	if (mineralType && (mineralAmt > 0))
 		if(prob(33)) //chance to spawn ore directly
 			new mineralType(src)

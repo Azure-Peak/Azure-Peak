@@ -368,6 +368,46 @@ GLOBAL_LIST_INIT(stone_personality_descs, list(
 	else // if we're in cmode, beat them to death with rocks.
 		return ..()
 
+// Use this for most methods of generating new rocks within a round, so that you can't farm for enchanted rocks
+/obj/item/natural/stone/generic
+
+// Still gets random intents (including sharp ones) but not any damage buffs or special names
+/obj/item/natural/stone/generic/stone_lore()
+	icon_state = "stone[rand(1,5)]"
+
+	var/list/given_intent_list = list(/datum/intent/hit) // By default you get this at least
+	var/list/extra_intent_list = list() // List of intents that we can possibly give it by the end of this
+	var/list/blunt_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood)
+	var/list/sharp_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust, /datum/intent/dagger/chop)
+
+	var/bluntness_rating = rand(0,10)
+	var/sharpness_rating = rand(0,10)
+
+	switch(bluntness_rating)
+		if(2 to 8)
+			extra_intent_list += pick(blunt_intents) // Add one
+		if(9 to 10)
+			for(var/muhdik in blunt_intents) // add all intent to possible things
+				extra_intent_list += muhdik
+
+	switch(sharpness_rating)
+		if(2 to 8)
+			extra_intent_list += pick(sharp_intents) // Add one
+		if(9 to 10)
+			for(var/mofugga in sharp_intents) // add all intent to possible things
+				extra_intent_list += mofugga // Why the fuck are they muhdik and mofugga and cock. whatever
+
+	if(extra_intent_list.len)
+		for(var/i in 1 to min(4, extra_intent_list.len))
+			// No more than 4 bro, and if we are empty on intents just stop here
+			if(!length(extra_intent_list))
+				break
+			var/cock = pick(extra_intent_list) // We pick one
+			given_intent_list += cock // Add it to the list
+			extra_intent_list -= cock // Remove it from the prev list
+
+	possible_item_intents = given_intent_list // Gives the rock its intent list
+
 /obj/item/natural/rock
 	name = "boulder"
 	desc = "They're not 'rocks', they're minerals!"

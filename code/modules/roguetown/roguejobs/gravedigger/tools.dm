@@ -238,10 +238,10 @@
 							if(prob(80))
 								new /obj/item/natural/clay(TD)
 							else
-								new /obj/item/natural/stone(TD)
+								new /obj/item/natural/stone/generic(TD) // rocks generated won't have enchantments
 						else
 							if(prob(80))
-								new /obj/item/natural/stone(TD)
+								new /obj/item/natural/stone/generic(TD) // rocks generated won't have enchantments
 							else
 								new /obj/item/natural/clay(TD)
 					playsound(T,'sound/items/empty_shovel.ogg', 100, TRUE)

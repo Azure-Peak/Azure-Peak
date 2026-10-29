@@ -421,7 +421,7 @@
 					new /obj/item/natural/clay(T)
 		else
 			if(prob(23))
-				new /obj/item/natural/stone(T)
+				new /obj/item/natural/stone/generic(T) // rocks generated won't have enchantments
 			if(prob(18))
 				new /obj/item/natural/clay(T)
 	return ..()
