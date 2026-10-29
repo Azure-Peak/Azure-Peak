@@ -681,6 +681,7 @@
 #include "code\datums\ai\controllers\mudcrab.dm"
 #include "code\datums\ai\controllers\primordial.dm"
 #include "code\datums\ai\controllers\rat_undead.dm"
+#include "code\datums\ai\controllers\revenant.dm"
 #include "code\datums\ai\controllers\rous.dm"
 #include "code\datums\ai\controllers\skeleton.dm"
 #include "code\datums\ai\controllers\spider.dm"

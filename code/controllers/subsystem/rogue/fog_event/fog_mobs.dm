@@ -12,19 +12,18 @@
 	maxHealth = 150
 	melee_damage_lower = 20
 	melee_damage_upper = 30
-	aggressive = 1
-	vision_range = 9
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
-	retreat_health = 0.1
 	base_intents = list(/datum/intent/simple/bite, /datum/intent/simple/claw)
+
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/revenant
 
 	var/target_alpha = 150
 	var/fade_time = 1.5 SECONDS
 
 /mob/living/simple_animal/hostile/retaliate/rogue/revenant/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
 	AddComponent(/datum/component/fog_entity)
 	appear_animated()
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
