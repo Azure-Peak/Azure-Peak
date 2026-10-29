@@ -16,6 +16,7 @@
 	var/weather_resistant = FALSE
 	possible_item_intents = list(INTENT_GENERIC)
 	var/on = FALSE
+	anvilrepair = /datum/skill/craft/crafting
 
 /obj/item/flashlight/Initialize(mapload)
 	. = ..()
