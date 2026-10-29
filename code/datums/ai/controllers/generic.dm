@@ -28,3 +28,30 @@
 		/datum/ai_planning_subtree/find_food,
 		/datum/ai_planning_subtree/eat_food/farm_animals,
 		)
+
+/datum/ai_controller/generic/retaliate
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/target_retaliate,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+
+		/datum/ai_planning_subtree/find_food,
+		/datum/ai_planning_subtree/eat_food/farm_animals,
+
+		/datum/ai_planning_subtree/simple_self_recovery/genericanimal,
+	)
+
+/datum/ai_controller/generic/skittish
+	blackboard = list(
+		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+		BB_FLEE_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+	)
+
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/target_retaliate/to_flee,
+		/datum/ai_planning_subtree/flee_target/from_flee_key/retaliation,
+
+		/datum/ai_planning_subtree/find_food,
+		/datum/ai_planning_subtree/eat_food/farm_animals,
+
+		/datum/ai_planning_subtree/simple_self_recovery/genericanimal,
+	)

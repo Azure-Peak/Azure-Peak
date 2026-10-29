@@ -16,9 +16,7 @@
 	blood_toll_bucket = STATS_KILLED_GREATER_BEASTS
 	emote_see = list("looks around.", "chews some leaves.")
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
-	move_to_delay = 8//Fastest mount
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck
 	botched_butcher_results = list(
 								/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
@@ -60,8 +58,6 @@
 	attack_verb_simple = "headbutt"
 	melee_damage_lower = 60
 	melee_damage_upper = 90
-	retreat_distance = 10
-	minimum_distance = 10
 	rapid_melee = 1
 	STASPD = 15
 	STACON = 8
@@ -76,8 +72,11 @@
 	buckle_lying = 0
 	can_saddle = TRUE
 	max_buckled_mobs = 2
-	aggressive = 1
 	remains_type = /obj/effect/decal/remains/saiga
+
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic/skittish
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigakid
 	threat_point = THREAT_TRASH
@@ -104,7 +103,6 @@
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/saiga
 	tame = TRUE
 	can_buckle = FALSE
-	aggressive = 1
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck
@@ -116,15 +114,11 @@
 	gender = MALE
 	emote_see = list("stares.")
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
 	faction = list(FACTION_SAIGA)
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
-	retreat_health = 0.3
 	rapid_melee = 1
 	milkies = FALSE //what the fuck
 	STACON = 15
@@ -134,9 +128,9 @@
 	buckle_lying = 0
 	tame_chance = 25
 	bonus_tame_chance = 15
-	aggressive = 1
 	remains_type = /obj/effect/decal/remains/saiga
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
+	ai_controller = /datum/ai_controller/generic/retaliate
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigaboy
 	threat_point = THREAT_TRASH
@@ -165,7 +159,6 @@
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck
 	tame = TRUE
 	can_buckle = FALSE
-	aggressive = 1
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame
@@ -176,12 +169,10 @@
 
 //the saiga's procs
 
-/mob/living/simple_animal/hostile/retaliate/rogue/saiga/find_food()
-	..()
-	var/obj/structure/vine/SV = locate(/obj/structure/vine) in loc
-	if(SV)
-		SV.eat(src)
-		food = max(food + 30, 100)
+/mob/living/simple_animal/hostile/retaliate/rogue/saiga/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/ai_retaliate)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_typecache)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/update_icon()
 	cut_overlays()
@@ -192,7 +183,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tamed()
 	..()
-	deaggroprob = 30
+	ai_controller?.set_blackboard_key(BB_BASIC_MOB_TAMED, TRUE)
 	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/death()
@@ -227,9 +218,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
-	return
+	ai_controller?.force_aggro(user)
 
 /obj/effect/decal/remains/saiga
 	name = "remains"
@@ -274,7 +263,6 @@
 	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck
 	tame = TRUE
 	can_buckle = FALSE
-	aggressive = 1
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame
 	tame = TRUE
