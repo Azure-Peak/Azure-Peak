@@ -180,4 +180,4 @@
 	var/descriptor_voice = build_coalesce_description_nofluff(
 		d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%"
 	)
-	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster, null, TRUE)
+	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, my_crime, bounty_poster, null, TRUE)

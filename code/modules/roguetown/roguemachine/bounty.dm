@@ -19,10 +19,8 @@
 	var/target_race
 	var/gender
 	var/target_body_type
-	var/target_body
 	var/target_body_prefix
 	var/target_height
-	var/target_voice
 	var/target_voice_prefix
 	var/amount
 	var/reason
@@ -32,8 +30,6 @@
 
 	/// Whats displayed when consulting the bounties
 	var/banner
-	///Is this a bandit bounty?
-	var/bandit
 
 /obj/structure/roguemachine/bounty/attack_hand(mob/user)
 
@@ -178,6 +174,14 @@
 	if(!faction)
 		to_chat(user, span_warning("You are not authorized to manage bounties."))
 		return TRUE
+	var/faction_name
+	switch(faction)
+		if("crown")
+			faction_name = "The Crown"
+		if("church")
+			faction_name = "The Church"
+		if("inquisition")
+			faction_name = "The Inquisition"
 
 	switch(action)
 		if("set_bounty")
@@ -225,12 +229,13 @@
 			var/descriptor_height = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
 			var/descriptor_body = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
 			var/descriptor_voice = build_coalesce_description_nofluff(d_list, target, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
-			add_bounty(target.real_name, target.dna.species, target.gender, descriptor_height, descriptor_body, descriptor_voice, amount, FALSE, reason, user.real_name, faction)
-
+			add_bounty(target.real_name, target.dna.species, target.gender, descriptor_height, descriptor_body, descriptor_voice, amount, reason, user.real_name, faction)
 			playsound(source, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
-			var/bounty_announcement = "The Excidium hungers for [target]."
-			source.say(bounty_announcement)
-			scom_announce(bounty_announcement)
+			source.say("The Excidium hungers for [target].")
+			if(existing_bounty)
+				scom_announce("[faction_name]'s bounty on [target] has increased by [amount] mammon to [existing_bounty.amount] mammon.")
+			else
+				scom_announce("[faction_name] has posted a bounty of [amount] mammon for [target].")
 			message_admins("[ADMIN_LOOKUPFLW(user)] has set a bounty on [ADMIN_LOOKUPFLW(target)] with the reason of: '[reason]'")
 			return TRUE
 
@@ -246,13 +251,13 @@
 
 			var/target_name = removing_bounty.target
 			GLOB.head_bounties -= removing_bounty
-			scom_announce("The bounty posting on [target_name] has been removed.")
+			scom_announce("[faction_name]'s bounty posting on [target_name] has been removed.")
 			message_admins("[ADMIN_LOOKUPFLW(user)] has removed the bounty on [ADMIN_LOOKUPFLW(target_name)]")
 			return TRUE
 
 	return FALSE
 
-/proc/add_bounty(target_realname, race, gender, descriptor_height, descriptor_body, descriptor_voice, amount, bandit_status, reason, employer_name, bounty_faction = null, unremovable = FALSE)
+/proc/add_bounty(target_realname, race, gender, descriptor_height, descriptor_body, descriptor_voice, amount, reason, employer_name, bounty_faction = null, unremovable = FALSE)
 	var/resolved_faction = bounty_faction || get_bounty_faction_for_employer(employer_name)
 	var/datum/bounty/existing_bounty = get_bounty_for_target_faction(target_realname, resolved_faction)
 	if(existing_bounty)
@@ -266,14 +271,12 @@
 	var/datum/bounty/new_bounty = new /datum/bounty
 	new_bounty.amount = min(amount, 500)
 	new_bounty.target = target_realname
-	new_bounty.bandit = bandit_status
 	new_bounty.reason = html_encode(reason)
 	new_bounty.employer = employer_name
 	new_bounty.faction = resolved_faction
 	new_bounty.unremovable = unremovable
 	new_bounty.target_race = race
 	new_bounty.target_height = LOWER_TEXT(descriptor_height)
-	new_bounty.target_body = LOWER_TEXT(descriptor_body)
 	if(descriptor_body == "Average" || descriptor_body == "Athletic")
 		var/bro_unreal = "an "
 		new_bounty.target_body_prefix = LOWER_TEXT(bro_unreal += descriptor_body)
@@ -662,6 +665,9 @@
 /obj/item/castifico_key/proc/get_unlock_success_chance(mob/user)
 	return 100
 
+/obj/item/castifico_key/proc/get_unlock_time(mob/user)
+	return unlock_time
+
 /obj/item/castifico_key/proc/play_unlock_sound(atom/target)
 	playsound(target, pick('sound/items/pickgood1.ogg', 'sound/items/pickgood2.ogg'), 75, TRUE)
 
@@ -680,14 +686,13 @@
 		to_chat(user, span_warning("This key cannot unlock a collar issued by another faction."))
 		return
 
+	var/unlock_duration = get_unlock_time(user)
 	var/list/sound_timer_ids = list()
 	if(istype(src, /obj/item/castifico_key/liberation))
 		play_unlock_sound(recipient)
-		sound_timer_ids = list(
-			addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient), 5 SECONDS),
-			addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient), 10 SECONDS),
-		)
-	var/unlock_completed = do_after(user, unlock_time, TRUE, recipient)
+		for(var/sound_time = 3 SECONDS; sound_time < unlock_duration; sound_time += 3 SECONDS)
+			sound_timer_ids += addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient), sound_time, TIMER_STOPPABLE)
+	var/unlock_completed = do_after(user, unlock_duration, TRUE, recipient)
 	for(var/timer_id in sound_timer_ids)
 		deltimer(timer_id)
 	if(!unlock_completed)
@@ -716,20 +721,23 @@
 /obj/item/castifico_key/liberation
 	name = "key of liberation"
 	desc = "It looks to be a modified lockpick. A profane instrument of Baothan design, fashioned to undo the shackles of the condemned and downtrodden. None should stand between a soul and its desires."
-	icon_state = "lockpick"
+	icon_state = "lockpick" //Placeholder. I'd really like to add a unique sprite for this later, but I'm not a spriter.
 	color = "#FF69B4"
-	unlock_time = 15 SECONDS
+	unlock_time = 20 SECONDS
 
 /obj/item/castifico_key/liberation/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("A single-use lockpick designed for removing castifico collars, regardless of the faction they belong to.")
-	. += span_info("Success chance scales with the user's lockpicking skill. A failed pick attempt will break the lockpick.")
+	. += span_info("Unlock speed and success chance scale with the user's lockpicking skill. A failed pick attempt will break the lockpick.")
 
 /obj/item/castifico_key/liberation/can_unlock_collar(obj/item/clothing/neck/roguetown/collar/prisoner/collar)
 	return TRUE
 
 /obj/item/castifico_key/liberation/get_unlock_success_chance(mob/user)
 	return clamp(60 + user.get_skill_level(/datum/skill/misc/lockpicking) * 10, 0, 100)
+
+/obj/item/castifico_key/liberation/get_unlock_time(mob/user)
+	return unlock_time - user.get_skill_level(/datum/skill/misc/lockpicking) * 2 SECONDS
 
 /obj/item/castifico_key/liberation/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)
