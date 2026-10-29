@@ -115,7 +115,6 @@
 			hag_mob.mind.i_know_person(victim)
 
 
-	var/mob/living/victim = find_target(true_name)
 	var/datum/hag_boon/B = new boon_path(true_name, src, set_points, parent)
 	var/list/name_list = boon_registry[true_name]
 	name_list += B
