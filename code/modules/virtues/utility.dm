@@ -448,7 +448,7 @@
 
 /datum/virtue/utility/zchurch_keyholder
 	name = "Defiled Keyholder"
-	desc = "The 'Holy' See has their blood-stained grounds, and so does the conclave. Underneath their noses, prayers and ritual are afoot. I have been initiated; secrecy is paramount. I won't risk entering their grounds, observed, if I don't swear allegiance to the Four. The local safe-houses are open to me."
+	desc = "The 'Holy' See has their blood-stained grounds, and so does the conclave. Underneath their noses, prayers and ritual are afoot. I have been initiated; secrecy is paramount. I won't risk entering their grounds observed, if I don't swear allegiance to the Four. The local safe-houses are open to me."
 	ui_fa_icon = "mask"
 	added_traits = list(TRAIT_ZURCH)
 
