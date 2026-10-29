@@ -755,7 +755,7 @@
 	category = "Misc"
 	result = /obj/machinery/loom
 	reqs = list(/obj/item/natural/wood/plank = 2,
-				/obj/item/grown/log/tree/stick = 2,
+				/obj/item/grown/log/tree/stick/dowel = 2,
 				/obj/item/natural/fibers = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"

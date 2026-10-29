@@ -367,7 +367,7 @@
 		else
 			user.visible_message(span_warning("[user] sharpens [src]."))
 		return
-	if(istype(I, /obj/item/grown/log/tree/stick/rod))	//Fallback disabling stacking to avoid turning rods into sticks on accident.
+	if(istype(I, /obj/item/grown/log/tree/stick/dowel))	//Fallback disabling stacking to avoid turning rods into sticks on accident.
 		to_chat(user, span_info("You cannot bundle rods with sticks! Unthinkable!"))
 		return
 	if(istype(I, /obj/item/grown/log/tree/stick))
@@ -497,7 +497,7 @@
 
 /obj/item/natural/wood/plank
 	name = "wooden plank"
-	desc = "A flat piece of wood, useful for all sorts of fine wood crafts! Or for sawing down further into wood rods."
+	desc = "A flat piece of wood, useful for all sorts of fine wood crafts! Or for sawing down further into wood dowels."
 	icon = 'icons/roguetown/items/crafting.dmi'
 	icon_state = "plank"
 	grid_width = 64
@@ -548,7 +548,7 @@
 	var/skill_level = user.get_skill_level(/datum/skill/craft/carpentry)
 	var/sawing_time = (31 - (skill_level * 5))
 	var/sticktotal = 1
-	switch (skill_level) //how many wood rods you get is random, but higher with more carpentry skill
+	switch (skill_level) //how many wood dowels you get is random, but higher with more carpentry skill
 		if (0)
 			sticktotal = pick(1,2)
 		if (1)
@@ -568,7 +568,7 @@
 	if(HAS_TRAIT(user, TRAIT_MASTER_CARPENTER)) //we give extra to those in the role
 		sticktotal += pick(1,2)
 	if(I.tool_behaviour == TOOL_SAW)
-		user.visible_message("<span class='notice'>[user] starts sawing [src] into wood rods.</span>")
+		user.visible_message("<span class='notice'>[user] starts sawing [src] into wood dowels.</span>")
 		var/location = src.loc
 		for(var/obj/item/grown/log/tree/small/S in get_turf(src))
 			playsound(get_turf(location), 'sound/foley/sawing.ogg', 100)
@@ -585,19 +585,19 @@
 		return
 	..()
 
-// Wood rods are basically a stick sub-type. Intended since rods can be used in place of sticks AND have some unique crafts requiring them over sticks.
-/obj/item/grown/log/tree/stick/rod
-	name = "wood rod"
-	icon_state = "rod1"
+// Wood dowels are basically a stick sub-type. Intended since rods can be used in place of sticks AND have some unique crafts requiring them over sticks.
+/obj/item/grown/log/tree/stick/dowel
+	name = "wood dowel"
+	icon_state = "dowel"
 	desc = "A cylindrical piece of sawed wood, serving as a fancy alternative for a stick - or for craftsmanship of elegant or complicated designs!."
 	max_integrity = 50	//It's a rod it'll last long.. for what reason, idk.
 
-/obj/item/grown/log/tree/stick/rod/get_mechanics_examine(mob/user)
+/obj/item/grown/log/tree/stick/dowel/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("All stick recipies will accept wood rods as a substitute for sticks. However some recipes, such as fancy furniture, mechanisms, or other high-end crafts involving wood, will use rods specifically.")
-	. += span_info("'Slapcrafts' for wood rods include torches, arrows, spades, tools, and knives. Left-click a wood rod with a tool that has the 'CUT' intent selected to carve it into a stake.")
+	. += span_info("All stick recipies will accept wood dowels as a substitute for sticks. However some recipes, such as fancy furniture, mechanisms, or other high-end crafts involving wood, will use rods specifically.")
+	. += span_info("'Slapcrafts' for wood dowels include torches, arrows, spades, tools, and knives. Left-click a wood dowel with a tool that has the 'CUT' intent selected to carve it into a stake.")
 
-/obj/item/grown/log/tree/stick/rod/attackby(obj/item/I, mob/living/user, params)
+/obj/item/grown/log/tree/stick/dowel/attackby(obj/item/I, mob/living/user, params)
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 	if(user.used_intent?.blade_class == BCLASS_CUT)
 		playsound(get_turf(src.loc), 'sound/items/wood_sharpen.ogg', 100)
@@ -612,14 +612,14 @@
 		else
 			user.visible_message(span_warning("[user] sharpens [src]."))
 		return
-	if(istype(I, /obj/item/grown/log/tree/stick/rod))
+	if(istype(I, /obj/item/grown/log/tree/stick/dowel))
 		var/obj/item/natural/B = I
-		var/obj/item/natural/bundle/stick/rod/N = new(src.loc)
-		to_chat(user, span_info("I tie the rods into a bundle."))
+		var/obj/item/natural/bundle/stick/dowel/N = new(src.loc)
+		to_chat(user, span_info("I tie the wood dowels into a bundle."))
 		qdel(B)
 		qdel(src)
 		user.put_in_hands(N)
-	else if(istype(I, /obj/item/natural/bundle/stick/rod))
+	else if(istype(I, /obj/item/natural/bundle/stick/dowel))
 		var/obj/item/natural/bundle/B = I
 		if(istype(src, B.stacktype))
 			if(B.amount < B.maxamount)
@@ -628,7 +628,7 @@
 				user.visible_message(span_info("[user] adds [src] to [I]."), span_info("I add [src] to [I]."))
 				qdel(src)
 			else
-				to_chat(user, span_info("I can't add any more wood rods to the bundle without it falling apart."))
+				to_chat(user, span_info("I can't add any more wood dowels to the bundle without it falling apart."))
 			return
 
 /obj/item/grown/log/tree/stick/attack_right(mob/user)
@@ -639,7 +639,7 @@
 		// list that contains all items we're going to try to bundle.
 		var/list/bundle_jutsu = list()
 		// search for items of the stacktype in the src turf.
-		for(var/obj/item/grown/log/tree/stick/rod/S in get_turf(src))
+		for(var/obj/item/grown/log/tree/stick/dowel/S in get_turf(src))
 			bundle_jutsu += S
 		// bundlecount is now = bundle_jutsu.len for easy counting purposes.
 		var/bundlecount = bundle_jutsu.len
@@ -649,7 +649,7 @@
 				bundle_jutsu.Remove(N)
 				bundlecount--
 			else if(bundlecount >= 2)
-				var/obj/item/natural/bundle/B = new /obj/item/natural/bundle/stick/rod(get_turf(user))
+				var/obj/item/natural/bundle/B = new /obj/item/natural/bundle/stick/dowel(get_turf(user))
 				var/add_amount_clamped = clamp(bundlecount, 2, B.maxamount)
 				B.amount = add_amount_clamped
 				B.update_bundle()
