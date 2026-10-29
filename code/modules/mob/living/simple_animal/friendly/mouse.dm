@@ -9,7 +9,9 @@
 	emote_hear = list("squeaks.")
 	emote_see = list("runs in a circle.", "shakes.")
 	speak_chance = 1
-	turns_per_move = 5
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic/critter
 	see_in_dark = 6
 	maxHealth = 5
 	health = 5

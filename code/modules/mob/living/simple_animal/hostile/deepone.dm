@@ -169,7 +169,9 @@
 	emote_hear = list("clicks its jaws.", "makes a low wet gurgle.")
 	emote_see = list("shakes sea foam from its back.", "scratches its webbed ears.")
 	speak_chance = 2
-	turns_per_move = 4
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic/critter
 	see_in_dark = 6
 	health = DEEPONE_HOUND_HEALTH
 	maxHealth = DEEPONE_HOUND_HEALTH

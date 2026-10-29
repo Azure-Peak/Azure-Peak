@@ -24,5 +24,12 @@
 	attack_sound = 'sound/blank.ogg'
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
 	mob_size = MOB_SIZE_TINY
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/generic/critter/retaliate
 
 	var/stepped_sound = 'sound/blank.ogg'
+
+/mob/living/simple_animal/hostile/retaliate/smallrat/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/ai_retaliate)

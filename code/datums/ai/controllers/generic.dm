@@ -40,6 +40,15 @@
 		/datum/ai_planning_subtree/simple_self_recovery/genericanimal,
 	)
 
+/datum/ai_controller/generic/critter
+	planning_subtrees = list()
+
+/datum/ai_controller/generic/critter/retaliate
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/target_retaliate,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+	)
+
 /datum/ai_controller/generic/skittish
 	blackboard = list(
 		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
