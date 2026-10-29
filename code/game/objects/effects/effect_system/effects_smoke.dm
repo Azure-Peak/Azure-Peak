@@ -62,7 +62,7 @@
 		return FALSE
 	if(C.smoke_delay)
 		return FALSE
-	if(istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor))
+	if(istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor) && !istype(C.wear_mask, /obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman))
 		return FALSE
 	if(HAS_TRAIT(C, TRAIT_NOBREATH) || HAS_TRAIT(C, TRAIT_NOMETABOLISM))
 		if(breathin)

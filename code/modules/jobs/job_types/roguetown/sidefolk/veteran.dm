@@ -103,7 +103,7 @@
 		)
 	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.", mint_new = TRUE, mint_label = "Retirement savings", income_acct = LEDGER_CITIZEN_ESTATE)
 
 /datum/outfit/job/roguetown/vet/battlemaster/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
@@ -223,7 +223,7 @@
 		)
 	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.", mint_new = TRUE, mint_label = "Retirement savings", income_acct = LEDGER_CITIZEN_ESTATE)
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
@@ -328,7 +328,7 @@
 		)
 	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.", mint_new = TRUE, mint_label = "Retirement savings", income_acct = LEDGER_CITIZEN_ESTATE)
 
 	H.adjust_blindness(-3)
 	if(H.mind)
@@ -451,7 +451,7 @@
 		)
 	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.", mint_new = TRUE, mint_label = "Retirement savings", income_acct = LEDGER_CITIZEN_ESTATE)
 
 /datum/outfit/job/roguetown/vet/merc/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
@@ -581,7 +581,7 @@
 	add_verb(H, /mob/proc/haltyell)
 	H.cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg' // so apparently this works for veteran, but not for advents. i dont know why.
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.", mint_new = TRUE, mint_label = "Retirement savings", income_acct = LEDGER_CITIZEN_ESTATE)
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")
@@ -689,7 +689,7 @@
 		)
 	add_verb(H, /mob/proc/haltyell)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.")
+		SStreasury.give_money_account(ECONOMIC_RICH, H, "Retirement.", mint_new = TRUE, mint_label = "Retirement savings", income_acct = LEDGER_CITIZEN_ESTATE)
 	H.adjust_blindness(-3)
 	if(H.mind)
 		var/retirement = list("Pursue Homesteading", "Dabble in Artisan Smithing", "Write an autobiography", "Keep up with your old regimen")

@@ -72,7 +72,7 @@ export const QuestDebugPanel = () => {
   const [issueType, setIssueType] = useState(quest_types[0] || '');
   const [issueRegion, setIssueRegion] = useState(ANY_REGION);
   const [issueTier, setIssueTier] = useState(towner_tiers[0] || '');
-  const [statusFilter, setStatusFilter] = useState('open');
+  const [statusFilter, setStatusFilter] = useState('active');
 
   const isTowner = towner_types.includes(issueType);
   const needsRegion = issueType === hoard_type;

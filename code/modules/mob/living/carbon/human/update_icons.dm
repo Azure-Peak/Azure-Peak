@@ -1226,6 +1226,18 @@ There are several things that need to be remembered:
 			if(wear_armor.sleeved && armsindex > 0 && !should_hide_sleeves_for_layer(ARMORSLEEVE_LAYER))
 				sleeves = get_sleeves_layer(wear_armor,armsindex,ARMORSLEEVE_LAYER)
 
+			//cosmetics stored in the armor's aesthetic storage need their sleeves drawn too
+			var/obj/item/clothing/suit/roguetown/armor/worn_armor = wear_armor
+			if(armsindex > 0 && istype(worn_armor) && worn_armor.attachment_component)
+				var/datum/component/storage/concrete/roguetown/armor_storage = worn_armor.GetComponent(worn_armor.attachment_component)
+				if(armor_storage)
+					for(var/obj/item/stored as anything in armor_storage.item_to_grid_coordinates)
+						if(!stored.sleeved || (stored.item_flags & NOT_SHOW_IN_STORAGE) || should_hide_sleeves_for_layer(ARMORSLEEVE_LAYER))
+							continue
+						var/list/stored_sleeves = get_sleeves_layer(stored, armsindex, ARMORSLEEVE_LAYER)
+						if(length(stored_sleeves))
+							sleeves += stored_sleeves
+
 			if(sleeves)
 				for(var/mutable_appearance/S as anything in sleeves)
 					apply_offset(S, OFFSET_ARMOR, OFFSET_ARMOR_F)

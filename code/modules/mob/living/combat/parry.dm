@@ -24,7 +24,7 @@
 	if(pulledby || pulling)
 		return FALSE
 
-	var/paired_swing = user?.dualwield_twoswing
+	var/paired_swing = user?.dualwield_processing
 	if(!paired_swing && world.time < (last_parry + parrydelay))
 		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 			return FALSE

@@ -56,6 +56,12 @@
 	created_reagent = /datum/reagent/consumable/caffeine/bloomtea
 	crafting_time = BREW_COOKING_TIME
 
+/datum/container_craft/cooking/brew/fyretea
+	name = "Tì Teine"
+	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1)
+	created_reagent = /datum/reagent/consumable/caffeine/fyretea
+	crafting_time = BREW_COOKING_TIME
+
 /datum/container_craft/cooking/brew/eorantea
 	name = "Eoran Tea"
 	wildcard_requirements = list(/obj/item/alch/calendula = 1)
@@ -180,6 +186,12 @@
 	name = "Avantare"
 	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/blend/avantare = 1)
 	created_reagent = /datum/reagent/consumable/brew/avantare
+	crafting_time = BREW_COOKING_TIME
+
+/datum/container_craft/cooking/brew/fyrebloom
+	name = "Fyrebloom Tea"
+	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/grown/rogue/blend/fyrebloom = 1)
+	created_reagent = /datum/reagent/consumable/caffeine/fyrebloom
 	crafting_time = BREW_COOKING_TIME
 
 #undef BREW_COOKING_TIME

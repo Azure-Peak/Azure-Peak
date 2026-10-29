@@ -132,10 +132,11 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/spellblade
 	traits_applied = list(TRAIT_ARCYNE)
 	subclass_stats = list(
+		STATKEY_STR = 1,
 		STATKEY_INT = 1,
 		STATKEY_PER = 1,
 		STATKEY_CON = 1,
-		STATKEY_WIL = 1,
+		STATKEY_WIL = 2,
 	)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 5)
 	subclass_skills = list(

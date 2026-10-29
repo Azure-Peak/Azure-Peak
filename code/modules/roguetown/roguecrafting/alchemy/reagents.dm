@@ -746,7 +746,7 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 
 /datum/reagent/medicine/trait/wyrdlaborer
 	name = "Laborer's Draught"
-	description = "Deadens the heart, protecting one from the ravages of stress - but dulling the joys of lyfe just as much."
+	description = "Strengthens the body, granting increased efficiency in tasks such as mining and woodcutting."
 	taste_description = "strangely invigorating earthiness"
 	scent_description = "earthiness"
 	trait = TRAIT_WYRD_LABOURER
