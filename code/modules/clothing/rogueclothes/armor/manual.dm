@@ -21,7 +21,7 @@
 	blocking_behavior = SAMEWEAR //skin roles either start with a secondary skin layer or are intended to layer with armor.
 
 	var/repairmsg_end = "My form has become taut with newfound vigor!"
-	var/repairmsg_continue = "My armour mends some of its abuse.."
+	var/repairmsg_continue = "My form mends some of its abuse..."
 	/// Shown when a repair is attempted while the skin is already at full integrity.
 	var/repairmsg_full = "My form isn't wounded."
 	/// Fraction of max_integrity restored per repair cycle. Overridden per repair method (resting/sewing/prayer/etc.).
@@ -110,6 +110,8 @@
 
 	meditating = TRUE
 	to_chat(user, span_notice("I close my eyes and focus on rebuilding my resilience..."))
+	user.Stun(5)
+	user.OffBalance(5)
 	var/start_time = world.time
 	var/completed = do_after(user, total_time, target = src, extra_checks = CALLBACK(src, PROC_REF(meditate_can_continue), user))
 	meditating = FALSE
