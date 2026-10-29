@@ -1721,7 +1721,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(altgripped || wielded)
 		ungrip(M, FALSE)
 
-	to_chat(M, "\The [src] BREAKS...!")
+	var/break_verb = "BREAKS"
+	if(istype(src, /obj/item/clothing/suit/roguetown/armor/manual))
+		break_verb = "RUPTURES"
+
+	to_chat(M, "\The [src] [break_verb]...!")
 
 /obj/item/obj_fix(mob/user, full_repair = TRUE)
 	..()
