@@ -161,10 +161,6 @@
 	item_d_type = "stab"
 	clickcd = MINOTAUR_AXE_ATTACK_SPEED
 
-/mob/living/simple_animal/hostile/retaliate/rogue/minotaur/original
-	AIStatus = AI_ON
-	can_have_ai = TRUE
-
 // Dungeon-taur - Less health then normal.
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/wounded
 	name = "Wounded Minotaur"

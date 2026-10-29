@@ -45,6 +45,8 @@
 	check_friendly_fire = 1
 	health = 200
 	maxHealth = 200
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/reiver_crossbow
 	gender = MALE
 	mob_biotypes = MOB_HUMANOID
@@ -76,6 +78,8 @@
 	icon_living = "lance_rider"
 	icon_dead = "lance_rider_dead"
 	attack_sound = 'sound/foley/pierce.ogg'
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/reiver_rider/lance
 	health = 650
 	maxHealth = 650
