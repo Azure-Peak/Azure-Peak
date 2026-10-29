@@ -20,10 +20,10 @@
 	unenchantable = TRUE
 	blocking_behavior = SAMEWEAR //skin roles either start with a secondary skin layer or are intended to layer with armor.
 
-	var/repairmsg_end = "My skin has become taut with newfound vigor!"
+	var/repairmsg_end = "My form has become taut with newfound vigor!"
 	var/repairmsg_continue = "My armour mends some of its abuse.."
 	/// Shown when a repair is attempted while the skin is already at full integrity.
-	var/repairmsg_full = "My skin isn't wounded."
+	var/repairmsg_full = "My form isn't wounded."
 	/// Fraction of max_integrity restored per repair cycle. Overridden per repair method (resting/sewing/prayer/etc.).
 	var/repair_fraction = 0.35
 	/// Flat integrity restored per cycle. Defaults to repair_fraction * max_integrity at Initialize; set directly for a flat per-armour override.
@@ -35,6 +35,10 @@
 	/// cooldown between RMB repairs, so it can't be spammed, fucksake
 	var/meditate_cooldown_time = 1 MINUTES
 	var/meditate_next_use = 0
+
+/obj/item/clothing/suit/roguetown/armor/manual/meditation/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Right-click to refocus your endurance over your form. You must be out of combat to do this, and the time it takes is equal to how long it would take for you to manually repair it over time. Interrupting this will only heal a percentage equal to how much time you'd spend repairing it.")
 
 /obj/item/clothing/suit/roguetown/armor/manual/Initialize(mapload)
 	..()
@@ -76,10 +80,10 @@
 		to_chat(H, span_warning(repairmsg_full))
 		return TRUE
 	if(world.time < meditate_next_use)
-		to_chat(H, span_warning("My skin needs a moment before I can focus on it again. ([round((meditate_next_use - world.time) / 10)]s)"))
+		to_chat(H, span_warning("I need a moment to gather my willpower... ([round((meditate_next_use - world.time) / 10)]s)"))
 		return TRUE
 	if(H.cmode)
-		to_chat(H, span_warning("I can't focus on my body while on edge."))
+		to_chat(H, span_warning("I can't focus on my body while on edge. I need to relax."))
 		return TRUE
 	INVOKE_ASYNC(src, PROC_REF(meditate_repair), H)
 	return TRUE
@@ -105,7 +109,7 @@
 	var/actual_time = max(1, total_time * user.do_after_coefficent())
 
 	meditating = TRUE
-	to_chat(user, span_notice("I close my eyes and focus on my skin..."))
+	to_chat(user, span_notice("I close my eyes and focus on rebuilding my resilience..."))
 	var/start_time = world.time
 	var/completed = do_after(user, total_time, target = src, extra_checks = CALLBACK(src, PROC_REF(meditate_can_continue), user))
 	meditating = FALSE
@@ -395,8 +399,8 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER //defaults to a leather armor
 
 /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/confessor
-	name = "arbalist's skin"
-	desc = "Taut lyke the bow I draw."
+	name = "resolute skin"
+	desc = "Taut and resolute, lyke the bow I draw."
 	armor = ARMOR_PADDED
 	max_integrity = ARMOR_INT_CHEST_CIVILIAN //Half of a gambeson. Allows armor layering atop it.
 
