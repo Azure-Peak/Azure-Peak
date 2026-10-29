@@ -5,7 +5,8 @@
 	icon_dead = "cockroach"
 	health = 1
 	maxHealth = 1
-	turns_per_move = 5
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
 	loot = list(/obj/effect/decal/cleanable/insectguts)
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 270
