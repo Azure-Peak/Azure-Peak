@@ -733,6 +733,7 @@
 #include "code\datums\ai\subtrees\targeted_ability_use.dm"
 #include "code\datums\ai\subtrees\travel_to_point.dm"
 #include "code\datums\ai\subtrees\use_throwing_weapon.dm"
+#include "code\datums\ai\targetting_datum\lizard.dm"
 #include "code\datums\ai\targetting_datum\not_friends.dm"
 #include "code\datums\ai\targetting_datum\simple_targetting_allow_item.dm"
 #include "code\datums\ai\targetting_datum\simple_targetting_datum.dm"
