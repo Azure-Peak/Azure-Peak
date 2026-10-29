@@ -437,6 +437,20 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[BB_AI_ALERT_MODE_UNTIL] = world.time + 30 SECONDS
 	set_ai_status(AI_STATUS_ON)
 
+/datum/ai_controller/proc/force_aggro(mob/living/target, threat = AGGRO_THREAT_TAUNT)
+	if(QDELETED(target) || target == pawn)
+		return FALSE
+	insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, target)
+	var/datum/component/ai_aggro_system/aggro = pawn.GetComponent(/datum/component/ai_aggro_system)
+	if(aggro)
+		aggro.add_threat_to_mob(target, threat)
+		return TRUE
+	set_blackboard_key(BB_HIGHEST_THREAT_MOB, target)
+	set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
+	wake_for_combat()
+	CancelActions()
+	return TRUE
+
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
 	set_ai_status(get_expected_ai_status())
@@ -499,6 +513,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	if(isliving(pawn))
 		var/mob/living/living_pawn = pawn
 		if(living_pawn.stat >= UNCONSCIOUS)
+			return FALSE
+	if(isanimal(pawn))
+		var/mob/living/simple_animal/animal_pawn = pawn
+		if(animal_pawn.tame && animal_pawn.has_buckled_mobs())
 			return FALSE
 	return TRUE
 

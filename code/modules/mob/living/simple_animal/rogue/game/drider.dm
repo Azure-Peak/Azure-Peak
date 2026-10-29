@@ -25,9 +25,6 @@
 	milkies = FALSE
 	melee_damage_lower = 60
 	melee_damage_upper = 90
-	retreat_distance = 0
-	minimum_distance = 0
-	retreat_health = 0.3
 	STASPD = 18
 	STACON = 8
 	STASTR = 10
@@ -36,14 +33,18 @@
 	bonus_tame_chance = 15
 	can_saddle = TRUE
 	can_buckle = TRUE
-	aggressive = 1
-	move_to_delay = 8
+
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/spider/drider
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame
 	tame = TRUE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/ai_aggro_system)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_typecache)
 	ADD_TRAIT(src, TRAIT_CRITICAL_RESISTANCE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOFALLDAMAGE2, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOFIRE, TRAIT_GENERIC)
@@ -57,7 +58,6 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/tamed()
 	..()
-	deaggroprob = 20
 	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/get_sound(input)
@@ -73,9 +73,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
-	return
+	ai_controller?.force_aggro(user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/eat_plants()
 	..()

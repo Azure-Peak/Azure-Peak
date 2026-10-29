@@ -275,18 +275,9 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	return TRUE
 
 /proc/apply_ambush_aggro(mob/living/ambusher, mob/living/victim)
-	if(QDELETED(ambusher) || QDELETED(victim) || ambusher.stat == DEAD)
+	if(QDELETED(ambusher) || ambusher.stat == DEAD)
 		return
-	var/datum/ai_controller/controller = ambusher.ai_controller
-	if(!istype(controller))
-		return
-	var/datum/component/ai_aggro_system/aggro_comp = ambusher.GetComponent(/datum/component/ai_aggro_system)
-	if(aggro_comp)
-		aggro_comp.add_threat_to_mob(victim, AMBUSH_AGGRO_THREAT)
-		return
-	controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, victim)
-	controller.wake_for_combat()
-	controller.CancelActions()
+	ambusher.ai_controller?.force_aggro(victim, AMBUSH_AGGRO_THREAT)
 
 /proc/add_ambush_purchase(entry, list/mobs_to_spawn)
 	if(ispath(entry, /mob/living))
