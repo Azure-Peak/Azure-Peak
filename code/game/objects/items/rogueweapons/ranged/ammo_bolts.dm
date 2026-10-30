@@ -251,7 +251,7 @@
 /obj/item/ammo_casing/caseless/rogue/heavy_bolt/aalloy
 	name = "decrepit heavy bolt"
 	desc = "A length of rotted metal, quilled to take flight and tear down the living. \
-	Metal flakes occassionally peel off from its core, mysteriously hovering about - \
+	Metal flakes occasionally peel off from its core, mysteriously hovering about - \
 	tolerable by the undying, but unbearibly noxious to the living."
 	icon_state = "ancientheavybolt"
 	projectile_type = /obj/projectile/bullet/reusable/heavy_bolt/aalloy
@@ -298,7 +298,7 @@
 /obj/item/ammo_casing/caseless/rogue/bolt/silver
 	name = "silver bolt"
 	desc = "A masterworked bolt of silver, fitted to a winged rod of boswellia wood. Expensive, yet uncompromisingly lethal; the \
-	final adjucation of abberants, delivered from afar. </br>'Non timebo mala..' - '..I will fear no evil.'"
+	final adjucation of aberrants, delivered from afar. </br>'Non timebo mala..' - '..I will fear no evil.'"
 	projectile_type = /obj/projectile/bullet/reusable/bolt/silver
 	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
 	caliber = "regbolt"

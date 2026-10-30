@@ -23,7 +23,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/bronze
 	name = "bronze barbute"
-	desc = "A greathelm of bronze, who's nasalguard and mandibles leave the wearer's face cloaked in darkness. The heroes of yore have long since \
+	desc = "A greathelm of bronze, whose nasalguard and mandibles leave the wearer's face cloaked in darkness. The heroes of yore have long since \
 	passed, yet their blood still courses through the veins of Psydonia's children; you are no different. Quiff a feather to its skullcap to bear \
 	your allegience with pride."
 	body_parts_covered = FULL_HEAD
@@ -283,7 +283,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/gold
 	name = "golden helmet"
-	desc = "A resplendant barbute, masterfully forged from pure gold. Its nasalguard is marked by a holy sigil, and its interior is fitted \
+	desc = "A resplendent barbute, masterfully forged from pure gold. Its nasalguard is marked by a holy sigil, and its interior is fitted \
 	with a besilked arming cap. Even in absolute darkness, the polished surface sparkles with imbued sunlight."
 	icon_state = "goldbarbute"
 	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
@@ -298,7 +298,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/sheriff/gold/king
 	name = "royal golden helmet"
-	desc = "A resplendant barbute, masterfully forged from pure gold. Its nasalguard is marked by a holy sigil, and its interior is fitted \
+	desc = "A resplendent barbute, masterfully forged from pure gold. Its nasalguard is marked by a holy sigil, and its interior is fitted \
 	with a besilked arming cap. The dorpeled crown atop its brow invokes authority, be it misbegotten or endowed."
 	icon_state = "goldbarbute_crown"
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.
@@ -495,7 +495,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/gold
 	name = "golden knight's armet"
-	desc = "A resplendant armet, masterfully forged from pure gold. Hexagrammic etchings of a holy sigil line its visor, and its interior is fitted \
+	desc = "A resplendent armet, masterfully forged from pure gold. Hexagrammic etchings of a holy sigil line its visor, and its interior is fitted \
 	with a besilked arming cap. Even in absolute darkness, the polished surface sparkles with imbued sunlight."
 	icon_state = "goldknight"
 	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
@@ -536,7 +536,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/knight/gold/king
 	name = "royal golden armet"
-	desc = "A resplendant armet, masterfully forged from pure gold. Hexagrammic etchings of a holy sigil line its visor, and its interior is fitted \
+	desc = "A resplendent armet, masterfully forged from pure gold. Hexagrammic etchings of a holy sigil line its visor, and its interior is fitted \
 	with a besilked arming cap. The dorpeled crown atop its brow invokes authority, be it misbegotten or endowed."
 	icon_state = "goldknight_crown"
 	max_integrity = ARMOR_INT_SIDE_GOLDPLUS // Doubled integrity.

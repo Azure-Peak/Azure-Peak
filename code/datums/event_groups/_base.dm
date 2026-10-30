@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT_TYPED(event_groups, /datum/event_group, initialize_event_groups
 	/// for a random cooldown between the given numbers, which will bias towards the upper bound
 	/// the more the event group has occured.
 	var/cooldown_time
-	/// The amount of time events in this group have ran.
+	/// The amount of time events in this group have run.
 	VAR_FINAL/occurrences = 0
 	/// If [cooldown_time] is set, this will be set to the minimum world.time where the next event in this group can run.
 	COOLDOWN_DECLARE(event_cooldown)

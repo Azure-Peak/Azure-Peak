@@ -34,7 +34,7 @@ GLOBAL_LIST_EMPTY(crimson_crucible_personal_servant_summons)
 
 /obj/structure/vampire/bloodpool
 	name = "Crimson Crucible"
-	desc = "An ominious bloodstained Crucible, humming with unholy energies and crackling with untold potental. A thick smell of copper invades your nose just looking upon it, is that blood?"
+	desc = "An ominous bloodstained Crucible, humming with unholy energies and crackling with untold potential. A thick smell of copper invades your nose just looking upon it, is that blood?"
 	icon_state = "vat"
 	var/current = 0
 	var/datum/clan/owner_clan

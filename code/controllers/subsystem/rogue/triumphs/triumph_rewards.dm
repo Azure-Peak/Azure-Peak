@@ -38,7 +38,7 @@
 
 /obj/item/clothing/neck/roguetown/ornateamulet/noble/triumph
 	name = "ornate amulet"
-	desc = "An opulent, golden necklace. When it catches the candelight, it offers a warped yet unmarred reflection of its wearer's guise."
+	desc = "An opulent, golden necklace. When it catches the candlelight, it offers a warped yet unmarred reflection of its wearer's guise."
 	sellprice = 33
 
 /obj/item/clothing/neck/roguetown/psicross/g/triumph
@@ -117,7 +117,7 @@
 
 /obj/item/clothing/ring/gold/triumph
 	name = "ornate gold ring"
-	desc = "A ring of golden beauty, who's story could only be retold by a lonesome tongue."
+	desc = "A ring of golden beauty, whose story could only be retold by a lonesome tongue."
 	sellprice = 33
 
 /obj/item/clothing/head/roguetown/circlet/triumph

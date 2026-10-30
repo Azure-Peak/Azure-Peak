@@ -216,7 +216,7 @@
 
 /// Segments of the actual beam, these hurt if you stand in them
 /obj/effect/obeliskbeam
-	name = "abberant beam"
+	name = "aberrant beam"
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "obeliskbeam_mid"
 	layer = ABOVE_MOB_LAYER

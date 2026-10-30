@@ -29,6 +29,8 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	charges_deposit = FALSE
 	lapses = FALSE
 	takes_destination = FALSE
+	fellowship_threat_rate = 0
+	fellowship_reward_rate = 0
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety
 	var/parcel_label = "sealed strongbox"

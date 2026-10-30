@@ -14,7 +14,7 @@
 
 	low_threshold_passed = span_info("Distant objects become somewhat less tangible.")
 	high_threshold_passed = span_info("Everything starts to look a lot less clear.")
-	now_failing = span_warning("Darkness envelopes you, as my eyes go blind!")
+	now_failing = span_warning("Darkness envelops me, as my eyes go blind!")
 	now_fixed = span_info("Color and shapes are once again perceivable.")
 	high_threshold_cleared = span_info("My vision functions passably once more.")
 	low_threshold_cleared = span_info("My vision is cleared of any ailment.")

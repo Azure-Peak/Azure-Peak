@@ -705,39 +705,13 @@
 	target_items = list(/obj/item/rogueweapon/greataxe)
 	result_item = /obj/item/rogueweapon/greataxe/zygreataxe
 
-//Eiren - Zweihander and sabres
-/obj/item/enchantingkit/weapon/eiren
-	name = "'Regret' morphing elixir"
-	target_items = list(
-		/obj/item/rogueweapon/greatsword/grenz/flamberge,
-		/obj/item/rogueweapon/greatsword/zwei,
-		/obj/item/rogueweapon/greatsword
-		)
-	result_item = /obj/item/rogueweapon/example/eiren_greatsword
-
-/obj/item/enchantingkit/weapon/eirensabre
-	name = "'Lunae' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/sabre)
-	result_item = /obj/item/rogueweapon/example/eiren_sabre
-
-/obj/item/enchantingkit/weapon/eirensabre2
-	name = "'Cinis' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/sabre)
-	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
-
+//Eiren
 /obj/item/enchantingkit/weapon/eiren_m
 	name = "'glintstone longsword' morphing elixir"
 	target_items = list(
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eiren_m
-
-/obj/item/enchantingkit/weapon/eirensword
-	name = "'stygian longsword' morphing elixir"
-	target_items = list(
-		/obj/item/rogueweapon/sword/long
-	)
-	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
 
 //waffai - silver for monsters, steel for men
 /obj/item/enchantingkit/weapon/waff

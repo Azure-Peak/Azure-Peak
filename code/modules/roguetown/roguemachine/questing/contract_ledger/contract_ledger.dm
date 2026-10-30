@@ -9,16 +9,20 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/input_point
+	var/input_point_y_offset = -1
 	var/directives_issued_today = 0
 	var/directives_day_stamp = -1
 
 /obj/structure/roguemachine/contractledger/Initialize(mapload)
 	. = ..()
-	input_point = locate(x, y - 1, z)
+	input_point = locate(x, y + input_point_y_offset, z)
 	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))
 	marker.desc = "Drop items for retrieval contracts here to turn them in."
 	marker.layer = ABOVE_OBJ_LAYER
 	SSquestpool.registered_ledgers += src
+
+/obj/structure/roguemachine/contractledger/south
+	input_point_y_offset = 1
 
 /obj/structure/roguemachine/contractledger/Destroy()
 	SSquestpool.registered_ledgers -= src
@@ -39,7 +43,7 @@
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here. They spend Rumor Points to seed contracts across the realm.")
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
 	. += span_info("You can <b>withdraw</b> any contract or scroll you posted from Your Postings at any time while no one has taken it. Once someone takes it, you must wait [MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)] minutes. You can't withdraw it once the work has begun. Withdrawing refunds [REFUND_ON_NOT_TAKEN * 100]% of the cost, and so does a posting that lapses untaken. If a contract fails, [REFUND_ON_FAILURE * 100]% is refunded automatically. If its holder abandons it, you get [REFUND_ON_NOT_TAKEN * 100]% back before the work begins and [REFUND_ON_FAILURE * 100]% after.")
-	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. Only the poster can open what is recovered.")
+	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. The <b>[english_list(GLOB.atc_positions)]</b> can post any of them from the ATC's treasury at [TOWNER_POSTING_COMPANY_COST_MULT] times the price. Only the poster can open what is recovered.")
 	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. The reward goes to whoever turns it in. Their levy exemption applies if they have one.")
 	. += span_info("A <b>fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more</b> can put up a stake of <b>[HOARD_RECOVERY_PLEDGE] mammon</b> to call for a <b>Hoard Recovery</b> in a region whose brigand hoard has reached <b>[HOARD_RECOVERY_HOARD_MINIMUM] mammon</b>. It pays the usual blockade reward. The Crown taxes the recovered hoard as <b>Recovered Spoils</b>. Crown officials can also issue a hoard recovery scroll like any other defense scroll.")
 	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon</b>. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b>.")
@@ -125,7 +129,7 @@
 	var/mob/living/L = user
 	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
 	data["user_fellowship_size"] = F ? length(F.get_members()) : 0
-	data["pool"] = build_pool_listing()
+	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
 	data["regions"] = build_region_listing()
 	data["hoard_recovery_regions"] = build_hoard_recovery_region_listing()
@@ -133,9 +137,10 @@
 	data["hoard_recovery_fellowship_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
 	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
 	data["townie_gate_minutes"] = CONTRACT_TOWNIE_GATE_TIME / (1 MINUTES)
-	data["blockade_defender_min"] = BLOCKADE_DEFENDER_SCALE_MIN
-	data["blockade_defender_max"] = BLOCKADE_DEFENDER_SCALE_MAX
-	data["blockade_extra_defender_pct"] = round(BLOCKADE_REWARD_PER_EXTRA_DEFENDER * 100)
+	data["blockade_defender_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
+	data["blockade_defender_max"] = QUEST_FELLOWSHIP_SCALE_MAX
+	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100)
+	data["blockade_extra_threat_pct"] = round(QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100)
 	data["towner_crown_cost_mult"] = TOWNER_POSTING_CROWN_COST_MULT
 	data["fellowship_bonus_pair"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR
 	data["fellowship_bonus_band"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND
@@ -187,6 +192,8 @@
 	if("towner" in dynamic_roles)
 		data["towner_postings"] = build_towner_posting_listing(user)
 		data["towner_purse_balance"] = SStreasury?.discretionary_fund?.balance || 0
+		data["towner_company_balance"] = SStreasury?.merchant_fund?.balance || 0
+		data["towner_company_cost_mult"] = TOWNER_POSTING_COMPANY_COST_MULT
 		data["towner_active_postings"] = count_active_towner_postings(user)
 		data["towner_max_postings"] = TOWNER_MAX_ACTIVE_POSTINGS
 	return data
@@ -289,7 +296,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	to_chat(user, span_notice("Recovery scroll issued for [TR.region_name]."))
 	SSquestpool.log_event("hoard_recovery_request", "[user.real_name] called a hoard recovery on [TR.region_name] (hoard [TR.banditry_hoard], pledge [HOARD_RECOVERY_PLEDGE])")
 
-/obj/structure/roguemachine/contractledger/proc/build_pool_listing()
+/obj/structure/roguemachine/contractledger/proc/build_pool_listing(mob/living/user)
 	var/list/listing = list()
 	for(var/datum/quest/Q as anything in SSquestpool.pool)
 		var/threat_bands = 0
@@ -303,10 +310,14 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"type" = Q.quest_type,
 			"difficulty" = Q.quest_difficulty,
 			"reward" = Q.reward_amount,
+			"projected_reward" = Q.project_fellowship_reward(user),
+			"fellowship_threat_rate" = Q.fellowship_threat_rate,
+			"fellowship_reward_rate" = Q.fellowship_reward_rate,
+			"fellowship_group_bonus" = Q.fellowship_reward_rate ? (Q.get_difficulty_term("group_bonus") || 0) : 0,
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,
-			"objective" = Q.get_objective_text(),
+			"objective" = Q.project_fellowship_objective(user),
 			"threat_bands" = threat_bands,
 			"levy_exempt" = Q.levy_exempt,
 			"guild_cut_rate" = Q.guild_cut_rate,

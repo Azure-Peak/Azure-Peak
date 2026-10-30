@@ -291,6 +291,18 @@
 	adjustStaminaLoss(stamina, FALSE)
 	if(updating_health)
 		updatehealth()
+
+// heal MANY bodyparts, in random order, scaling from the damage. EXCLUSIVE FOR PSYDONITES.
+/mob/living/proc/heal_psydonite(brute = 0, burn = 0, stamina = 0, required_status, updating_health = TRUE)
+	brute += getBruteLoss() * 0.015
+	burn += getFireLoss() * 0.015
+	stamina += getStaminaLoss() * 0.015
+	adjustBruteLoss(-brute, FALSE)
+	adjustFireLoss(-burn, FALSE)
+	adjustStaminaLoss(-stamina, FALSE)
+	if(updating_health)
+		updatehealth()
+
 // heal MANY bodyparts, in random order
 /mob/living/proc/heal_overall_damage(brute = 0, burn = 0, stamina = 0, required_status, updating_health = TRUE)
 	adjustBruteLoss(-brute, FALSE) //zero as argument for no instant health update
