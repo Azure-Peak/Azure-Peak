@@ -235,6 +235,8 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	var/turf/landmark_turf = get_turf(landmark)
 	var/turf/origin = get_nearest_ledger_turf(landmark_turf) || landmark_turf
+	Q.reward_origin_turf = origin
+	Q.reward_target_turf = landmark_turf
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	return landmark
 
@@ -410,6 +412,7 @@ SUBSYSTEM_DEF(questpool)
 		return FALSE
 	if(!Q.can_claim(user))
 		return FALSE
+	Q.lock_fellowship(user)
 	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q)
 	if(!landmark)
 		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")

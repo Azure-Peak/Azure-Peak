@@ -412,7 +412,7 @@
 
 /datum/action/cooldown/spell/lamplighter/provide_beacon
 	name = "Provide Beacon"
-	desc = "Raise your lamptern high, taking fire stacks every five seconds over the course of fourty seconds, every five seconds anyone around you regenerates energy. You do NOT gain resistance against the fire, be ready to pat the flames out."
+	desc = "Raise your lamptern high, taking fire stacks every five seconds over the course of forty seconds, every five seconds anyone around you regenerates energy. You do NOT gain resistance against the fire, be ready to pat the flames out."
 	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
 	button_icon_state = "beacon"
 	sound = 'sound/misc/smelter_sound2.ogg'

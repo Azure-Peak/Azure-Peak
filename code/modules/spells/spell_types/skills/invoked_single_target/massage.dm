@@ -89,20 +89,31 @@
 				to_chat(massager, span_notice("[massagee] starts to receive a massage."))
 				playsound(massager, pick('modular/Neu_Food/sound/kneading.ogg','modular/Neu_Food/sound/kneading_alt.ogg'), 10, TRUE)
 				massagetime = pick(20 SECONDS, 25 SECONDS, 30 SECONDS, 35 SECONDS, 40 SECONDS) //randomize times
-				if(do_after(massager, massagetime, target = massagee))
+				var/massager_message = "I gave an alright massage."
+				var/massagee_message = "Ahh... that massage helped my body relax."
+
+				if(!do_after(massager, massagetime, target = massagee))
+					return
+
+				if(HAS_TRAIT(massager, TRAIT_GOOD_MASSEUR))
 					switch(chance)
 						if(0 to 49)
-							to_chat(massagee, span_notice("Ah, a massage helps my body relax."))
 							massagee.apply_status_effect(/datum/status_effect/buff/massage)
-							to_chat(massager, span_warning("I gave an ok massage."))
 						if(50 to 95)
-							to_chat(massagee, span_notice("That massage made my body feel really good!"))
+							massagee_message = "That massage made my body feel really good!"
 							massagee.apply_status_effect(/datum/status_effect/buff/goodmassage)
-							to_chat(massager, span_warning("I gave a good massage."))
+							massagee_message = "I think I gave a pretty good massage!"
 						if (96 to 100)
-							to_chat(massagee, span_notice("WOW! That massage made me feel great!"))
+							massagee_message = "WOW! That massage made me feel great!"
 							massagee.apply_status_effect(/datum/status_effect/buff/greatmassage)
-							to_chat(massager, span_warning("I gave a great massage!"))
+							massager_message = "I gave a great massage!"
+				else
+					massagee.apply_status_effect(/datum/status_effect/buff/middling_massage)
+					massager_message = "I gave a decent massage."
+					massagee_message = "That massage was fine."
+
+				to_chat(massager, span_notice("[massager_message]"))
+				to_chat(massagee, span_notice("[massagee_message]"))
 		else
 			to_chat(massager, span_warning("[massagee] needs to stay near me during their massage!"))
 			to_chat(massagee, span_warning("I need to stay near [massager] during my massage!"))

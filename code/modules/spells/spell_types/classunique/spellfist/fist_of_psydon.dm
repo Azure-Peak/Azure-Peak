@@ -36,11 +36,16 @@
 	sound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	spell_tier = 2
 
-	var/base_damage = SPELL_DMG(40)
+	var/base_damage = 40
 	var/empowered_mult = 2
 	var/momentum_cost = 3
 	var/area_of_effect = 1 // 1-tile radius = 3x3
 	var/telegraph_delay = TELEGRAPH_DODGEABLE
+
+/datum/action/cooldown/spell/fist_of_psydon/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Damage: [base_damage] blunt ([base_damage * empowered_mult] at [momentum_cost]+ momentum)")
+	return stats
 
 /datum/action/cooldown/spell/fist_of_psydon/cast(atom/cast_on)
 	. = ..()
@@ -85,7 +90,7 @@
 			if(spell_guard_check(victim, FALSE, H, punish_caster = deflected ? FALSE : null))
 				deflected = TRUE
 				continue
-			if(arcyne_strike(H, victim, null, damage, def_zone, BCLASS_BLUNT, spell_name = "Fist of Psydon", SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+			if(arcyne_strike(H, victim, null, damage, def_zone, BCLASS_BLUNT, spell_name = "Fist of Psydon") == ARCYNE_STRIKE_WARDED)
 				continue
 			hit_count++
 

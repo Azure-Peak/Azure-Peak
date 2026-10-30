@@ -59,7 +59,7 @@
 
 	dreamfiend.face_atom()
 	dreamfiend.a_intent = pick(dreamfiend.possible_a_intents) //randomized intent
-	
+
 	if(hiding_target) //Slap it!
 		dreamfiend.ClickOn(hiding_target, list())
 	else
@@ -74,7 +74,7 @@
 		if(dreamfiend.stat == DEAD)
 			return . | AI_BEHAVIOR_DELAY
 		dreamfiend.combat_sidestep(target, sidestep_offsets, sidestep_seeks_flank)
-		
+
 	if(retaliation_count <= 0)
 		var/main_target = controller.blackboard[BB_MAIN_TARGET]
 		controller.clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
@@ -116,7 +116,7 @@
 		return
 	controller.queue_behavior(/datum/ai_behavior/kick, BB_BASIC_MOB_CURRENT_TARGET, BB_TARGETTING_DATUM, BB_BASIC_MOB_CURRENT_TARGET_HIDING_LOCATION)
 	return SUBTREE_RETURN_FINISH_PLANNING
-	
+
 /datum/ai_behavior/kick
 	action_cooldown = 20 SECONDS
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
@@ -140,7 +140,7 @@
 
 	if(!istype(mob, /mob/living/carbon/human))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
-	
+
 	var/mob/living/carbon/human/target = mob
 
 	if(!targetting_datum.can_attack(user, target))
@@ -174,7 +174,7 @@
 				target.Knockdown(target.IsOffBalanced() ? SHOVE_KNOCKDOWN_SOLID : 100)
 				target.drop_all_held_items()
 				target.visible_message(span_danger("[user.name] charges [target.name], knocking them down!"),
-				span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+				span_danger("I'm knocked down from a devastating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 				log_combat(user, target, "kicked", "knocking them down")
 
 	if(shove_blocked && !target.is_shove_knockdown_blocked() && !target.buckled)
@@ -194,13 +194,13 @@
 			target.Knockdown(SHOVE_KNOCKDOWN_SOLID)
 			target.drop_all_held_items()
 			target.visible_message(span_danger("[user.name] charges [target.name], knocking them down!"),
-			span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+			span_danger("I'm knocked down from a devastating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 			log_combat(user, target, "kicked", "knocking them down")
 		else if(target_table)
 			target.Knockdown(SHOVE_KNOCKDOWN_TABLE)
 			target.drop_all_held_items()
 			target.visible_message(span_danger("[user.name] charges [target.name] onto \the [target_table]!"),
-			span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+			span_danger("I'm knocked down from a devastating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 			target.throw_at(target_table, 1, 1, null, FALSE) //1 speed throws with no spin are basically just forcemoves with a hard collision check
 			log_combat(user, target, "kicked", "onto [target_table] (table)")
 		else if(target_collateral_mob)
@@ -208,11 +208,11 @@
 			target.drop_all_held_items()
 			target_collateral_mob.Knockdown(SHOVE_KNOCKDOWN_COLLATERAL)
 			target.visible_message(span_danger("[user.name] charges [target.name] into [target_collateral_mob.name]!"),
-			span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+			span_danger("I'm knocked down from a devastating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 			log_combat(user, target, "kicked", "into [target_collateral_mob.name]")
 	else
 		target.visible_message(span_danger("[user.name] charges [target.name]!"),
-		span_danger("I'm knocked down from a devestating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
+		span_danger("I'm knocked down from a devastating leg swipe by the [user.name]!"), span_hear("I hear aggressive clacking followed by a loud thud!"), COMBAT_MESSAGE_RANGE, user)
 		log_combat(user, target, "kicked")
 
 	var/obj/item/bodypart/affecting = target.get_bodypart(BODY_ZONE_CHEST)

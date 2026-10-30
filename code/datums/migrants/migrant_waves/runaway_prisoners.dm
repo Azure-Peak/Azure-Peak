@@ -12,7 +12,7 @@
 		/datum/migrant_role/runaway_prisoner = 3
 	)
 	min_optional_fills = 0
-	greet_text = "You've been rotting for years in a cell. Though you escaped, you have nothing - your body atrophied, your mind dulled. But one thing you kknow clearly - you are not going back."
+	greet_text = "You've been rotting for years in a cell. Though you escaped, you have nothing - your body atrophied, your mind dulled. But one thing you know clearly - you are not going back."
 
 /datum/migrant_role/runaway_prisoner
 	name = "Escaped Prisoner"

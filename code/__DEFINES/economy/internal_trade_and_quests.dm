@@ -49,7 +49,7 @@
 #define STANDING_ORDER_POP_SCALE_PER_PLAYER 0
 #define STANDING_ORDER_POP_SCALE_MAX 3.0
 
-#define STANDING_ORDER_BASE_BONUS 1.0
+#define STANDING_ORDER_BASE_BONUS 1.5
 
 // Scarcity bonus: boosts order PAYOUT (never required quantity) below reference pop, ramping
 // linearly up to +MAX_BONUS at pop 0. Crown income only, no player-side cut.
@@ -138,15 +138,6 @@
 #define BLOCKADE_SCROLL_REWARD 715
 #define BLOCKADE_TRAVEL_FEE_COAST 75
 #define BLOCKADE_TRAVEL_FEE_MOUNTAIN 150
-
-#define BLOCKADE_SURCHARGE_CATEGORY_PCT 30
-#define BLOCKADE_SURCHARGE_PIRACY_PCT 15
-#define BLOCKADE_SURCHARGE_DEMAND_PCT 10
-#define BLOCKADE_SURCHARGE_GEAR_PCT 10
-// Lowpop can't clear blockades reliably, so Goldface surcharges are waived below HALF and halved below FULL.
-#define BLOCKADE_SURCHARGE_POP_HALF 30
-#define BLOCKADE_SURCHARGE_POP_FULL 60
-#define BLOCKADE_SURCHARGE_POP_RECHECK (1 MINUTES)
 
 #define BLOCKADE_REPLENISH_FLOOR 1
 #define BLOCKADE_REPLENISH_BUDGET_BASE 1

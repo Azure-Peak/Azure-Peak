@@ -334,12 +334,12 @@
 		return
 
 	user.regenerate_icons()
-	to_chat(user, span_notice("Tis' complete."))
+	to_chat(user, span_notice("'Tis complete."))
 	qdel(src)
 
 /obj/item/alch/puresalt
 	name = "purified salts"
-	desc = "Salts that have been finely sifted to enchance their healing properties and to bolster its connection to the arcyne."
+	desc = "Salts that have been finely sifted to enhance their healing properties and to bolster its connection to the arcyne."
 	icon_state = "puresalt"
 	sellprice = 8
 

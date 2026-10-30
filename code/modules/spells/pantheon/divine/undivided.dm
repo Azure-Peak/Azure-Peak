@@ -50,7 +50,7 @@
 /datum/action/cooldown/spell/undivided/recuperation
 	name = "Recuperation"
 	desc = "Restores the targets Energy and provides brief regeneration to it. Twice as effective on target other than yourself."
-	fluff_desc = "Behind every great work is a hard-working master, dilligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
+	fluff_desc = "Behind every great work is a hard-working master, diligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
 	button_icon_state = "calming_respite"
 	sound = 'sound/magic/undivided_recuperation.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -241,7 +241,7 @@
 /datum/action/cooldown/spell/undivided/undivided_spellpack
 	name = "Divine Inspiration"
 	desc = "Allows you to pick out 2 miracles from three different sets - Generalist, Acolyte, Templar."
-	fluff_desc = "They protect against the enroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
+	fluff_desc = "They protect against the encroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
 	button_icon_state = "inspiration"
 	sound = 'sound/magic/undivided_bless.ogg'
 	glow_intensity = 0
@@ -333,7 +333,7 @@
 /datum/action/cooldown/spell/undivided/perseverance
 	name = "Perseverance"
 	desc = "Slow down the bleed rate, increase clotting speed and decrease pain of wounds on a targeted limb, as well giving slight stress reduction to living beings."
-	fluff_desc = "Born of an union between compassion of Eora and persistance of Ravox, the couple heeds pleas of dying warriors as well the innocents lost to ravages of war offering them but a mote of respite and chance at lyfe."
+	fluff_desc = "Born of an union between compassion of Eora and persistence of Ravox, the couple heeds pleas of dying warriors as well the innocents lost to ravages of war offering them but a mote of respite and chance at lyfe."
 	button_icon_state = "perseverance"
 	sound = 'sound/magic/undivided_perserverance.ogg'
 	glow_intensity = GLOW_INTENSITY_MEDIUM
@@ -517,7 +517,7 @@
 /datum/action/cooldown/spell/undivided/undivided_battlecry
 	name = "Ten United"
 	desc = "Rally the faithful to fight by your side, providing a buff (CONSTITUTION 2, WILLPOWER 2, FORTUNE 4) to Divine worshippers and prevents Panic/Heart attacks."
-	fluff_desc = "From one whole they were created, molded by eachother into the beings they are now, alone they would wither away and die by enroaching darkness."
+	fluff_desc = "From one whole they were created, molded by each other into the beings they are now, alone they would wither away and die by encroaching darkness."
 	button_icon_state = "united"
 	sound = 'sound/magic/battle_cry_undivided.ogg'
 	glow_intensity = GLOW_INTENSITY_VERY_HIGH

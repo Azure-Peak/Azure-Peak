@@ -126,7 +126,7 @@
 //T1, Baotha's version of Eora's Bud (now renamed True Peace Bloom). Applies the TRAIT_CRACKHEAD baothans have.
 /obj/effect/proc_holder/spell/invoked/griefflower
 	name = "False Serenity Bloom"
-	desc = "A gift for those whom you have choosen as worthy of Her grace, to be able to imbibe in Her gifts as you do."
+	desc = "A gift for those whom you have chosen as worthy of Her grace, to be able to imbibe in Her gifts as you do."
 	clothes_req = FALSE
 	range = 7
 	action_icon = 'icons/mob/actions/baothamiracles.dmi'

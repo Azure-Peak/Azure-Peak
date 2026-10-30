@@ -3,6 +3,9 @@
 		return
 	if(user.mind)
 		user.mind.i_know_person(src)
+	if(user.has_flaw(/datum/charflaw/paranoid))	//The weak should fear the strong..
+		if((STASTR - user.STASTR) > 1 && !has_flaw(/datum/charflaw/paranoid))
+			user.add_stress(/datum/stressevent/parastr)
 	if(HAS_TRAIT(user, TRAIT_JESTERPHOBIA) && job == "Jester")
 		user.add_stress(/datum/stressevent/jesterphobia)
 	if(HAS_TRAIT(src, TRAIT_BEAUTIFUL) && user != src)
@@ -887,9 +890,6 @@
 		if(vamp_inspect_vlord && (!SEND_SIGNAL(src, COMSIG_DISGUISE_STATUS)))
 			. += span_userdanger("A MONSTER!")
 
-		if(HAS_TRAIT(src, TRAIT_ARMOR_BREAK))
-			. += span_phobia("[capitalize(m2)] armor hangs on by a thread...")
-
 		if(HAS_TRAIT(src, TRAIT_ARREARS))
 			if(ishuman(user))
 				var/mob/living/carbon/human/viewer = user
@@ -938,16 +938,16 @@
 			if(has_flaw(/datum/charflaw/addiction/alcoholic) && user.has_flaw(/datum/charflaw/addiction/alcoholic))
 				. += span_syndradio("[m1] struggling to hide the hangover, and the stench of spirits. We're alike.")
 
-			if(user.has_flaw(/datum/charflaw/addiction/paranoid))
-				var/datum/charflaw/addiction/paranoid/pflaw = user.get_flaw(/datum/charflaw/addiction/paranoid)
+			if(user.has_flaw(/datum/charflaw/addiction/factionalist))
+				var/datum/charflaw/addiction/factionalist/pflaw = user.get_flaw(/datum/charflaw/addiction/factionalist)
 				if(ishuman(user))
-					if(has_flaw(/datum/charflaw/addiction/paranoid))
+					if(has_flaw(/datum/charflaw/addiction/factionalist))
 						. += span_nicegreen("[m1] is the kind who sticks to their own. I understand.")
-						user.sate_addiction(/datum/charflaw/addiction/paranoid)
+						user.sate_addiction(/datum/charflaw/addiction/factionalist)
 					else if(pflaw)
 						if(pflaw.check_faction(src))
 							. += span_nicegreen("One of my own.")
-							user.sate_addiction(/datum/charflaw/addiction/paranoid)
+							user.sate_addiction(/datum/charflaw/addiction/factionalist)
 						else
 							user.add_stress(/datum/stressevent/paracrowd)
 

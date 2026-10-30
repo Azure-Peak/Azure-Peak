@@ -178,7 +178,7 @@
 			H.adjust_fire_stacks(8, /datum/status_effect/fire_handler/fire_stacks/vheslyn) //Unique violet firestacks, ANCIENT ENEMY
 			H.ignite_mob()
 			H.adjustBruteLoss(25)
-			owner.visible_message(span_warning("[owner] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body catches aflame. a feeling of ominious dread washes over me."))
+			owner.visible_message(span_warning("[owner] shuddered. Something's very wrong."), span_userdanger("Cold shoots through my spine, yet my body catches aflame. a feeling of ominous dread washes over me."))
 			return TRUE
 
 		// Bonuses! Flavour! SOVL!

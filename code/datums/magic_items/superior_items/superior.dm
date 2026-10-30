@@ -119,7 +119,7 @@
 		else
 			user.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 
-		to_chat(user, span_notice("I feel more dexterious!"))
+		to_chat(user, span_notice("I feel more dextrous!"))
 
 /datum/magic_item/superior/thievery/on_drop(obj/item/i, mob/living/user)
 	. = ..()

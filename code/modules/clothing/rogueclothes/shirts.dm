@@ -708,7 +708,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward
 	color = null
 	name = "ornate silk dress"
-	desc = "A dress woven of only the finest, softest silks. Golden thread is inlaid with a deep royal crimson, expressing the owner's exquisitve wealth."
+	desc = "A dress woven of only the finest, softest silks. Golden thread is inlaid with a deep royal crimson, expressing the owner's exquisite wealth."
 	icon_state = "stewarddress"
 	item_state = "stewarddress"
 
@@ -800,7 +800,7 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/captainrobe
 	slot_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_ARMOR
 	name = "foreign robes"
-	desc = "Flower-styled robes. The Azurian Trading Company's factor swears they came up the harbor from the southern Kazeungese region."
+	desc = "Flower-styled robes. The Azurian Trading Company's factor swears they came up the harbor from the southern Kazengunese region."
 	icon = 'icons/roguetown/clothing/armor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/armor.dmi'
 	icon_state = "eastsuit4"

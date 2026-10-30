@@ -353,7 +353,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/devitalised
 	name = "Devitalised"
-	desc = "Something vital has been taken from me; my heart beats in arrythmia, as it struggles to restore what has been lost."
+	desc = "Something vital has been taken from me; my heart beats in arrhythmia, as it struggles to restore what has been lost."
 	icon_state = "lux"
 
 /datum/status_effect/debuff/vamp_dreams
@@ -535,11 +535,11 @@
 		if(/datum/patron/divine/ravox)
 			to_chat(owner, span_gamedeadsay("One by one - the injustices I committed were set upon the scales. Sweat ran down my back as I watched those that I saved plead my case. One by one - the scale lifted so slowly. The line of petitioners growing shorter.."))
 		if(/datum/patron/inhumen/matthios) // Slightly better placeholder, feel free to rewrite.
-			to_chat(owner, span_gamedeadsay("Darkness, cold, my body curled around a fading golden flame. The endless void fades into a spiral of flickering lights, blazing together agaist the dark."))
+			to_chat(owner, span_gamedeadsay("Darkness, cold, my body curled around a fading golden flame. The endless void fades into a spiral of flickering lights, blazing together against the dark."))
 		if(/datum/patron/inhumen/graggar) // Slightly better placeholder. Graggar is going to ultrakill you. Might be too long
 			to_chat(owner, span_gamedeadsay("The Sinistar screamed and raged and wept in ten thousand voices as my body was crushed and torn within its jaws. I felt my self being torn away, victory, defeat, my mortal lyfe all sinking into a river of wrath and regret.."))
 		if(/datum/patron/inhumen/baotha) // Slightly better placeholder, feel free to rewrite
-			to_chat(owner, span_gamedeadsay("I woke upon a bed of silk and roses, my body weightless as a lyfetime of pain and heartbreak melted away into a bissful haze. I want to go back.. "))
+			to_chat(owner, span_gamedeadsay("I woke upon a bed of silk and roses, my body weightless as a lyfetime of pain and heartbreak melted away into a blissful haze. I want to go back.. "))
 		if(/datum/patron/inhumen/zizo)
 			to_chat(owner, span_gamedeadsay(" I rise, the twice dammed carcass world shrinks below me. My mind expands, filling with forbidden truth as my body is drawn towards a twisting bloody vortex. I sink into the endless storm, it screams its hate in a million voices.."))
 		if(/datum/patron/godless) //Pseudoplaceholder. Feel free to rewrite, if desired.
@@ -571,7 +571,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
 	name = "Decomposing"
-	desc = "Rotting flesh, dangling innards - the decay of what once was, no longer guarded by lyfe's thrumbings. Your spirit is struggling to remain rooted within this world.."
+	desc = "Rotting flesh, dangling innards - the decay of what once was, no longer guarded by lyfe's thrummings. Your spirit is struggling to remain rooted within this world.."
 	icon_state = "rot"
 
 /datum/status_effect/debuff/permadeath
@@ -582,7 +582,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath
 	name = "Death's Door"
-	desc = "Your heart beats with arrythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again within a half-dae's tyme, nothing will be able to bring you back from death's grasp."
+	desc = "Your heart beats with arrhythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again within a half-dae's tyme, nothing will be able to bring you back from death's grasp."
 	icon_state = "permadeath"
 
 /datum/status_effect/debuff/permadeath/on_apply()
@@ -606,7 +606,7 @@
 	REMOVE_TRAIT(owner, TRAIT_LASTLEGS, null) // no need to have both this AND dnr
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath/permanent
-	desc = "Your heart beats with arrythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again, nothing will be able to bring you back from death's grasp."
+	desc = "Your heart beats with arrhythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again, nothing will be able to bring you back from death's grasp."
 
 /// CONT. DEBUFFS
 /datum/status_effect/debuff/dazed
@@ -953,7 +953,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/mesmerised
 	name = "Mesmerised"
-	desc = span_warning("Their beauty is otherwordly..")
+	desc = span_warning("Their beauty is otherworldly..")
 	icon_state = "acid"
 
 /datum/status_effect/debuff/liver_failure

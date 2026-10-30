@@ -272,7 +272,7 @@
 	name = "bottle of Shieldmaiden Mead"
 	icon_state = "red_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/gronnmead = 50)
-	desc = "A bottle with a Shieldmaiden Berewrey cork-seal. A deep red honey-wine, refined with the red berries native to Gronns highlands."
+	desc = "A bottle with a Shieldmaiden Brewery cork-seal. A deep red honey-wine, refined with the red berries native to Gronns highlands."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/avarmead
 	name = "bottle of Zögiin Bal Mead"
@@ -302,7 +302,7 @@
 	name = "bottle of Junmai-Ginjo"
 	icon_state = "white_wine"
 	list_reagents = list(/datum/reagent/consumable/ethanol/kgunsake = 50)
-	desc = "A bottle with a Golden Swan cork-seal. A translucient, pale-blue liquid made from rice. A favourite drink of the warlords and nobles of Kazengun."
+	desc = "A bottle with a Golden Swan cork-seal. A translucent, pale-blue liquid made from rice. A favourite drink of the warlords and nobles of Kazengun."
 
 /obj/item/reagent_containers/glass/bottle/rogue/beer/kgunplum
 	name = "bottle of Umeshu"
@@ -387,7 +387,7 @@
 
 /obj/item/reagent_containers/glass/bottle/claybottle/gronnmead
 	list_reagents = list(/datum/reagent/consumable/ethanol/gronnmead = 75)
-	desc = "A clay bottle with a Shieldmaiden Berewrey cork-seal. A deep red honey-wine, refined with the red berries native to Gronns highlands."
+	desc = "A clay bottle with a Shieldmaiden Brewery cork-seal. A deep red honey-wine, refined with the red berries native to Gronns highlands."
 
 /obj/item/reagent_containers/glass/bottle/claybottle/whitewine
 	list_reagents = list(/datum/reagent/consumable/ethanol/whitewine = 75)

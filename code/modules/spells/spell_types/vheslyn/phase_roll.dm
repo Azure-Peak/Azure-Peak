@@ -90,12 +90,12 @@
 //	owner.adjust_fire_stacks(7, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
 
 /datum/stressevent/witnessvheslyn
-	timer = 8 MINUTES 
+	timer = 8 MINUTES
 	stressadd = 6 //What the fuck was that? A hefty incentive to deal with them.
 	desc = span_boldred("I feel ill, like I'm burning from inside, those flames... Something is wrong..")
 
 /datum/stressevent/witnessvheslyninquis
-	timer = 8 MINUTES 
+	timer = 8 MINUTES
 	stressadd = 3 //Hardened, you know what you're dealing with, sire. ENDVRE, SLAY THE ARCHDEVIL FOLLOWER!
 	desc = span_boldred("A follower of the archdevil, an abomination that defies Him!")
 
@@ -104,7 +104,7 @@ Vague lore note guideline for adding spells ->
 
 When the SYON, was sent down by Psydon to topple Vheslyn, the world was met with a blinding light and then silence...
 Just like that, a great evil slain. However the surviving cultists, fragments of the Earth Mover's lingering corruption were not detered,
-for yills, centuries they waited until Her ascension shattered the world and with one of the Leylines permanently severed.
+for yils, centuries they waited until Her ascension shattered the world and with one of the Leylines permanently severed.
 
 she unknowingly brought forth unstable magicka to channel, those whom bare Vheslyn's corruption can channel and further corrupt this to make
 unspeakable spells unbound by restrictions of coventional laws of magic to create but a pale imitation of their long lost divine spark
