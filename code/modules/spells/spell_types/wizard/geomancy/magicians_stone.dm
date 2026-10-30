@@ -46,7 +46,7 @@
 	var/handed = FALSE
 
 	for(var/i in 1 to count)
-		var/obj/item/natural/stone/S = new /obj/item/natural/stone(T)
+		var/obj/item/natural/stone/generic/S = new /obj/item/natural/stone/generic(T)
 		if(!handed && user.put_in_hands(S))
 			handed = TRUE
 
