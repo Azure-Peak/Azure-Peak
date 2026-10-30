@@ -1300,6 +1300,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		return
 	. = ..()
 	if(.)
+		if(stat == CONSCIOUS && ai_controller?.ai_status == AI_STATUS_ON)
+			handle_automated_speech()
 		if(food > 0)
 			food--
 			pooprog++
