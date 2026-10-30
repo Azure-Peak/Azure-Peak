@@ -177,7 +177,7 @@ GLOBAL_LIST_INIT(cmode_tracks_by_type, build_cmode_tracks())
 /datum/combat_music/combat
 	name = "Combat Classic (Adventurer)"
 	desc = ""
-	shortname = "Combt Classic"
+	shortname = "Combat Classic"
 	musicpath = list('sound/music/combat.ogg')
 
 /* Unused

@@ -19,6 +19,10 @@ type Contract = {
   type: string;
   difficulty: string;
   reward: number;
+  projected_reward: number;
+  fellowship_threat_rate: number;
+  fellowship_reward_rate: number;
+  fellowship_group_bonus: number;
   deposit: number;
   area: string;
   region: string;
@@ -107,7 +111,7 @@ type ContractLedgerData = {
 const ALL_REGIONS = 'All';
 const ALL_DIFFICULTIES = 'All';
 const STANDING_FILTER = 'Standing';
-const DIFFICULTIES = ['Easy', 'Medium', 'Hard', 'Notorious'];
+const DIFFICULTIES = ['Easy', 'Medium', 'Hard', 'Incursion', 'Notorious'];
 const FILTER_BUTTONS = [ALL_DIFFICULTIES, STANDING_FILTER, ...DIFFICULTIES];
 
 type LedgerMode =
@@ -144,6 +148,8 @@ const difficultyPinClass = (difficulty: string) => {
       return 'ContractLedger__Pin ContractLedger__Pin--medium';
     case 'Hard':
       return 'ContractLedger__Pin ContractLedger__Pin--hard';
+    case 'Incursion':
+      return 'ContractLedger__Pin ContractLedger__Pin--incursion';
     case 'Notorious':
       return 'ContractLedger__Pin ContractLedger__Pin--notorious';
     default:
@@ -497,6 +503,7 @@ const ContractCard = (props: { contract: Contract }) => {
     cantAfford ||
     fellowshipShort;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
+  const payout = c.projected_reward ?? c.reward;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : gateRemaining > 0
@@ -565,14 +572,39 @@ const ContractCard = (props: { contract: Contract }) => {
       )}
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Reward</span>
-        <span className="ContractLedger__CardValue">{c.reward}</span>
+        <span className="ContractLedger__CardValue">
+          {payout}
+          {payout !== c.reward && (
+            <span style={{ color: '#8a7a5a', marginLeft: '0.4em' }}>
+              ({c.reward} base)
+            </span>
+          )}
+        </span>
       </div>
+      {c.fellowship_group_bonus > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Group bonus</span>
+          <span className="ContractLedger__CardValue">
+            +{formatRatioPct(c.fellowship_group_bonus)} pay
+          </span>
+        </div>
+      )}
+      {c.fellowship_reward_rate > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Per extra fellow</span>
+          <span className="ContractLedger__CardValue">
+            +{formatRatioPct(c.fellowship_reward_rate)} pay
+            {c.fellowship_threat_rate > 0 &&
+              `, +${formatRatioPct(c.fellowship_threat_rate)} foes`}
+          </span>
+        </div>
+      )}
       {(() => {
         const levyRate = c.levy_exempt ? 0 : data.tax_rate;
         const guildRate = c.guild_cut_rate || 0;
-        const levy = Math.round(c.reward * levyRate);
-        const guild = Math.round(c.reward * guildRate);
-        const purse = c.reward - levy - guild;
+        const levy = Math.round(payout * levyRate);
+        const guild = Math.round(payout * guildRate);
+        const purse = payout - levy - guild;
         return (
           <>
             {!c.levy_exempt && data.tax_rate > 0 && (
@@ -687,7 +719,7 @@ const ActiveStrip = (props: {
   const fellowshipNote =
     fellowshipBonus > 0
       ? `+${fellowshipBonus} from leading your fellowship`
-      : 'Form a fellowship for more contract slots.';
+      : 'Form a fellowship for more benefits.';
   return (
     <div className="ContractLedger__ActiveStrip">
       <div className="ContractLedger__ActiveStripHeader">
@@ -738,10 +770,14 @@ const ActiveStrip = (props: {
               {data.fellowship_bonus_pair} more with two members,{' '}
               {data.fellowship_bonus_band} more with three or more.
             </div>
-            <div>
+            <div style={{ marginBottom: '6px' }}>
               Fellowship members can turn in each other&apos;s contracts. The
               reward goes to whoever turns it in. Their levy exemption applies
               if they have one.
+            </div>
+            <div>
+              Threat is increased for each additional fellow, but rewards scale
+              up even more.
             </div>
           </div>
         </Dialog>

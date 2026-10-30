@@ -477,8 +477,8 @@
 		if(!hand_games_check(player1,player2))
 			return
 		if(prob(50))
-			player1.visible_message(span_notice("After a gruelling battle, [player1] eventually manages to subdue the thumb of [player2]!"))
+			player1.visible_message(span_notice("After a grueling battle, [player1] eventually manages to subdue the thumb of [player2]!"))
 		else
-			player2.visible_message(span_notice("After a gruelling battle, [player2] eventually manages to subdue the thumb of [player1]!"))
+			player2.visible_message(span_notice("After a grueling battle, [player2] eventually manages to subdue the thumb of [player1]!"))
 
 

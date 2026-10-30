@@ -64,7 +64,7 @@
 
 /obj/item/melee/touch_attack/rogueweapon/bladeofpsydon
 	name = "\improper arcyne katar"
-	desc = "This blade throbs, translucent and iridiscent, blueish arcyne energies running through its translucent surface..."
+	desc = "This blade throbs, translucent and iridescent, blueish arcyne energies running through its translucent surface..."
 	catchphrase = null
 	icon = 'icons/mob/actions/roguespells.dmi'
 	icon_state = "katar_bound"

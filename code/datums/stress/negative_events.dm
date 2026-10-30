@@ -316,7 +316,7 @@
 
 /datum/stressevent/unlanded_noble_bloody_equipment
 	stressadd = 1
-	desc = span_red("I should have better hygeine than this...")
+	desc = span_red("I should have better hygiene than this...")
 	timer = 999 MINUTES // removed via code
 
 /datum/stressevent/unlanded_noble_poor_sleep
@@ -504,7 +504,7 @@
 /datum/stressevent/revenant_cross // When a revenant looks at a necran cross that's blessed.
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_boldred("The undermaiden is watching me with disgust!")
+	desc = span_boldred("The Undermaiden is watching me with disgust!")
 
 /datum/stressevent/something_stirs // Psydonites can pray in blood rain. For a price.
 	timer = 5 MINUTES
@@ -572,7 +572,7 @@
 /datum/stressevent/lesser_sun_sensitivity
 	timer = 2 MINUTES
 	stressadd = 1
-	desc = span_red("I'm shielded from the the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
+	desc = span_red("I'm shielded from the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
 
 /datum/stressevent/water_splashed_noble
 	timer = 30 SECONDS

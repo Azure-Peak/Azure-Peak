@@ -64,7 +64,7 @@
 
 /obj/effect/proc_holder/spell/invoked/deaths_door
 	name = "Death's Door"
-	desc = "Opens a one-way portal into a realm on the edge of death, People can be dragged into the portal to prevent their decay. Undead with be set aflame. Those whom enter the domain will find their Will to continue heavily weaken. <br>Necras domain can be left through a portal within to a shrine, or a grave/psycross marked with necra's sight."
+	desc = "Opens a one-way portal into a realm on the edge of death, People can be dragged into the portal to prevent their decay. Undead with be set aflame. Those whom enter the domain will find their Will to continue heavily weaken. <br>Necra's domain can be left through a portal within to a shrine, or a grave/psycross marked with necra's sight."
 	range = 6
 	no_early_release = TRUE
 	chargedrain = 0

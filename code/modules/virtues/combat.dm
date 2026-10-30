@@ -179,7 +179,8 @@
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"
-	desc = "Whether it was by the Naledi scholars, Etruscan privateers or even the Kazengan senseis. I've been graced with the knowledge of how to wield two weapons at once."
+	desc = "A weapon in each hand, a threat from every angle. Through solitary practice or under the tutelage of masters, I've honed my skill in wielding two weapons at once."
+	custom_text = "You can perform these attacks unarmed as well, though their finishers work a little differently. Journeyman proficiency or higher is still required. Being knocked down or leaving combat mode will reset your combo."
 	ui_fa_icon = "2"
 	added_traits = list(TRAIT_DUALWIELDER)
 

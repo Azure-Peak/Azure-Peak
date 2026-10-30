@@ -86,7 +86,7 @@
 					continue
 
 		// Basic movement for targets on the same z-level with no existing path
-		if(end_turf?.z == movable_pawn?.z && !length(controller.movement_path) && !cliented && !always_advanced)
+		if(end_turf?.z == movable_pawn?.z && !length(controller.movement_path) && !cliented && !always_advanced && !swim_needs_planning(movable_pawn, current_turf, target_turf))
 			advanced = FALSE
 			var/can_move = controller.can_move()
 
@@ -297,3 +297,12 @@
 					controller.movement_path.Cut(1, 2)
 				controller.clear_blackboard_key(future_path_blackboard_key) // Clear any future path as we have a fresh main path
 				SEND_SIGNAL(controller.pawn, COMSIG_AI_PATH_GENERATED, controller.movement_path)
+
+/datum/ai_movement/hybrid_pathing/proc/swim_needs_planning(atom/movable/pawn, turf/current_turf, turf/target_turf)
+	if(!isliving(pawn))
+		return FALSE
+	var/move_dir = get_dir(current_turf, target_turf)
+	for(var/turf/open/water/water_turf in list(current_turf, target_turf))
+		if(water_turf.is_swim_exhausting(pawn, move_dir))
+			return TRUE
+	return FALSE

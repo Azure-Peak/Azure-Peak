@@ -274,7 +274,7 @@
 		ensnare(target)
 
 /obj/projectile/magic/unholy_grasp/proc/ensnare(mob/living/carbon/carbon)
-	carbon.visible_message(span_warning("[src] ensnares [carbon] around their legs in a horrid cacophany of blood and guts!"), span_warning("I AM ENCAPTURED BY BLOOD AND GUTS! THERES A NET ON MY LEGS!"))
+	carbon.visible_message(span_warning("[src] ensnares [carbon] around their legs in a horrid cacophany of blood and guts!"), span_warning("I AM ENTRAPPED BY BLOOD AND GUTS! THERE'S A NET ON MY LEGS!"))
 	carbon.apply_status_effect(/datum/status_effect/debuff/netted/vile)
 	playsound(src, 'sound/combat/caught.ogg', 20, TRUE)
 

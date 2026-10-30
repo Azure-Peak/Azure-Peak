@@ -53,7 +53,7 @@
 			return
 
 		if(!M.bounds)
-			to_chat(src, span_warning("Map '[map_file]' has non-existant bounds."))
+			to_chat(src, span_warning("Map '[map_file]' has non-existent bounds."))
 			qdel(M)
 			return
 

@@ -23,7 +23,7 @@
 	if(!ishuman(target) || !istype(affecting))
 		return
 	var/mob/living/carbon/human/H = target
-	if(!H.mind || HAS_TRAIT(H, TRAIT_ZOMBIE_IMMUNE))
+	if(!H.mind || HAS_TRAIT(H, TRAIT_ZOMBIE_IMMUNE) || HAS_TRAIT(H, TRAIT_DNR))
 		return
 	if(H.mind.has_antag_datum(/datum/antagonist/zombie) || H.has_status_effect(/datum/status_effect/zombie_infection))
 		return
@@ -73,7 +73,7 @@ GLOBAL_LIST_INIT(animal_to_undead, list(
 		return COMPONENT_INCOMPATIBLE
 
 	var/mob/living/simple_animal/mob = parent
-	if(mob.stat != DEAD || !get_undead_type(mob.type))
+	if(mob.stat != DEAD || HAS_TRAIT(mob, TRAIT_DNR) || !get_undead_type(mob.type))
 		// Not an error, we don't want this logged.
 		return COMPONENT_INCOMPATIBLE_SILENT
 

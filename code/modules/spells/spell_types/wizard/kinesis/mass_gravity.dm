@@ -5,7 +5,7 @@
 	desc = "Weighten space in an entire area, crushing everyone within and bringing them to the ground. \
 	Stronger opponents will resist and merely be off-balanced. \
 	The spell takes longer to materialize than its single-target counterpart, but covers a much larger zone.\n\n\
-	Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against conseuctive hit."
+	Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against consecutive hits."
 	button_icon_state = "mass_gravity"
 	sound = 'sound/magic/gravity.ogg'
 	spell_color = GLOW_COLOR_KINESIS

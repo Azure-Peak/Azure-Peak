@@ -1,6 +1,6 @@
 /datum/advclass/noble
 	name = "Aristocrat"
-	tutorial = "You are a traveling noble visiting the lands of Azure Peak's dutchy. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grizzly end."
+	tutorial = "You are a traveling noble visiting the lands of Azure Peak's dutchy. With wealth, come the poor, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly unless you want to meet a grizzly end."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	outfit = /datum/outfit/job/roguetown/adventurer/noble
@@ -277,7 +277,7 @@
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
 			if("Decorated Sabre + Maille Training + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
@@ -286,7 +286,7 @@
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
 			if("Decorated Rapier + Dodge Expert + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
@@ -295,7 +295,7 @@
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
 			if("Decorated Rapier + Maille Training + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
@@ -304,7 +304,7 @@
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
 			if("Decorated Arming Sword + Maille Training + 1 WIL") //Rich Battlemaster Lite (Without the Armor or Proper Training)
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_JOURNEYMAN, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_APPRENTICE, TRUE) //Not a complete pushover
@@ -313,7 +313,7 @@
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/rich = 1)
 				H.change_stat(STATKEY_WIL, 1)
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With wealth, come the poor, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly unless you want to meet a grisly end."))
 			if("Bow + Hunting Skill/Masterful Hunter Trait + Boar Maps + 1 PER") //Huntmaster lite, a poacher or perhaps an offical hunter?
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/labor/butchering, SKILL_LEVEL_APPRENTICE, TRUE) //To make it worth it w/trait too
@@ -324,7 +324,7 @@
 				backpack_contents = list(/obj/item/hunting_map/boars = 1, /obj/item/storage/belt/rogue/pouch/coins/mid = 1)
 				ADD_TRAIT(H, TRAIT_MASTERFUL_HUNTER, TRAIT_GENERIC) //Unique starting prompt, you sort of did actually earn that
 				ADD_TRAIT(H, TRAIT_EXPERT_HUNTER, TRAIT_GENERIC)
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands for a great hunter. With wealth, come the poor, ready to pilfer you of your hard earned coin, so tread lightly unless you want to meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands for a great hunter. With wealth, come the poor, ready to pilfer you of your hard-earned coin, so tread lightly unless you want to meet a grisly end."))
 			if("Extra Coin + Expert Appraiser + Intellectual") //RP route, sacrifices practical skills for massive utility + wealth
 				H.adjust_skillrank_up_to(/datum/skill/misc/reading, SKILL_LEVEL_MASTER, TRUE)
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1, /obj/item/storage/belt/rogue/pouch/coins/rich = 1)
@@ -347,7 +347,7 @@
 				var/crownchoice = input(H, "Choose your Crown/Hat.", "TAKE UP OPULANCE") as anything in crowns
 				if(crownchoice != "None")
 					head = crowns[crownchoice]
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With great wealth, come the poor and the greedy, ready to pilfer you of your hard earned (inherited) coin, so tread lightly, trust few unless you want to meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. With great wealth, come the poor and the greedy, ready to pilfer you of your hard-earned (inherited) coin, so tread lightly, trust few unless you want to meet a grisly end."))
 			if("Inbred Noble - +5 LCK + Stat 8 baseline + Crit Weakness + No Run + Maille Training") //The Shitpost Option
 				//Honestly, the fact you can even wear maile is fucking hilarious
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/veryrich = 1) //Hilarious
@@ -362,7 +362,7 @@
 				H.change_stat(STATKEY_PER, -4)
 				H.change_stat(STATKEY_INT, -4)
 				H.change_stat(STATKEY_LCK, 5) //Congratulations, you survived this long! Somehow. Here's our exclusion.
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. Despite all of the attempts of your family to off you, you've managed to make it this far somehow. Yet tread lightly, unless you want to meet a grisly end separated from your hard earned (inherited) riches"))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. Despite all of the attempts of your family to off you, you've managed to make it this far somehow. Yet tread lightly, unless you want to meet a grisly end separated from your hard-earned (inherited) riches"))
 			if("Survival Skills + Expert Hunter + Outdoorsman + Less Starting Coin + 1 PER") //Survival Skill Pack w/ outdoorsman on top
 				backpack_contents = list(/obj/item/storage/belt/rogue/pouch/coins/poor = 1)
 				ADD_TRAIT(H, TRAIT_OUTDOORSMAN, TRAIT_GENERIC)
@@ -398,7 +398,7 @@
 
 				//No darkvision, you're not /amazing/ at this vs a proper specialist
 				H.grant_language(/datum/language/thievescant)
-				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. Perhaps sent as a spy, a liason, a part of a smuggling network or perhaps simply a hand to some small-time court, tread lightly however as your skills in espionage never covered escape, lest you meet a grisly end."))
+				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. Perhaps sent as a spy, a liaison, a part of a smuggling network or perhaps simply a hand to some small-time court, tread lightly however as your skills in espionage never covered escape, lest you meet a grisly end."))
 
 /datum/advclass/noble/knighte
 	name = "Knight Errant"
