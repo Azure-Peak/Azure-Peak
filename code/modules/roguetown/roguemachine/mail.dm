@@ -350,7 +350,7 @@
 	// Skip if the sender already signed the end of the letter themselves
 	if(findtext_char(copytext_char(P.info, -MAIL_SIGNATURE_TAIL), sender))
 		return
-	P.info += "<br>[sender]"
+	P.info += "<br><font face=\"[FOUNTAIN_PEN_FONT]\" color=#14103f>[sender]</font>"
 
 /// sender_log identifies the sender (ckey and character) for the logs, as sender is only the anonymous stamp.
 /proc/deliver_mail(obj/item/I, destination, sender, sender_log)
