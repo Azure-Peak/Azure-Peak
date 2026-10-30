@@ -2155,7 +2155,7 @@
 	name = "Psydonic Armet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/greatplumearmetpsy
@@ -2239,7 +2239,7 @@
 	name = "Psydonic Armet"
 	category = "Blessed Silver"
 	req_bar = /obj/item/ingot/silverblessed/bullion
-	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate
+	created_item = /obj/item/clothing/head/roguetown/helmet/heavy/ornate/armet
 	display_category = ITEM_CAT_ARMOR_HELMETS
 
 /datum/anvil_recipe/armor/blessedsilver/greatplumearmetpsy/inq

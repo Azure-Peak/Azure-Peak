@@ -24,7 +24,6 @@
 	desc = ""
 	slices_num = 0
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
-	foodtype = GRAIN
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 	cooktime = 30 SECONDS
 	var/process_step // used for pie making and other similar modular foods
@@ -265,7 +264,7 @@
 	. += span_info("Rarer foods and drinks, or those made from more expensive recipes, can provide increased bonuses to the indulger's mood and health.")
 	. += span_info("Everyone favours a certain cuisine, dish, and drink. Serving someone Fine or better food or a Nice or better drink that matches one of their tastes lifts their mood.")
 	. += span_info("Those of nobility have much higher standards, when it comes to what - and how - they eat. They prefer to eat plattered meals with proper utensils, while disliking plainer and cheaper food.")
-	. += span_info("Set a recipe on accident? middleclick the item to reset the recipe back to nothing and pick a different one.")
+	. += span_info("Set a recipe on accident? Middle-click the item to reset the recipe back to nothing and pick a different one.")
 
 /obj/item/reagent_containers/food/snacks/rogue/Initialize(mapload)
 	. = ..()
@@ -446,6 +445,7 @@
 
 /* -------------- RICE ----------------- */
 /obj/item/reagent_containers/food/snacks/grown/rice
+	dish_type = DISH_VEGETABLE
 	list_reagents = list(/datum/reagent/floure = 1)
 	volume = 1
 	sellprice = 3
@@ -470,7 +470,7 @@
 	if(is_container && (!R.reagents.has_reagent(/datum/reagent/water, 10)))
 		to_chat(user, "<span class='notice'>Needs more water to work it.</span>")
 		return TRUE
-	to_chat(user, "<span class='notice'>Adding water, now it's time to hand wash it...</span>")
+	to_chat(user, "<span class='notice'>Adding water, now it's time to hand-wash it...</span>")
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user,2 SECONDS, target = src))
 		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.8)

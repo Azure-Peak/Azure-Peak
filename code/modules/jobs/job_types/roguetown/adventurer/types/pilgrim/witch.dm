@@ -1,6 +1,6 @@
 /datum/advclass/witch
 	name = "Witch"
-	tutorial = "You are a witch, seen as wisefolk to some and a demon to many. Ostracized and sequestered for wrongthinks or outright heresy, your potions are what the commonfolk turn to when all else fails, and for this they tolerate you — at an arm's length. Take care not to end 'pon a pyre, for the church condemns your left handed arts."
+	tutorial = "You are a witch, seen as wisefolk to some and a demon to many. Ostracized and sequestered for wrongthink or outright heresy, your potions are what the commonfolk turn to when all else fails, and for this they tolerate you — at an arm's length. Take care not to end 'pon a pyre, for the church condemns your left handed arts."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/witch
@@ -84,7 +84,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/arcyne, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_JOURNEYMAN, TRUE)
 			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 5, "ward" = TRUE))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 8, "ward" = TRUE))
 			backl = /obj/item/storage/backpack/rogue/satchel
 			backr = choose_implement(H, "lesser")
 			backpack_contents = list(
@@ -125,7 +125,7 @@
 			ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 			H.adjust_skillrank(/datum/skill/magic/arcane, SKILL_LEVEL_NOVICE, TRUE)
 			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 3))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 5))
 			neck = /obj/item/clothing/neck/roguetown/psicross/wood
 			backl = /obj/item/storage/backpack/rogue/satchel
 			backpack_contents = list(

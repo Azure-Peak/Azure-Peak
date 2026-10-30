@@ -85,6 +85,45 @@
 	if(SEND_SIGNAL(follower, COMSIG_CARBON_PRAY, prayer) & CARBON_PRAY_CANCEL)
 		return
 
+// Suicide prayer emote granted by the Hollow virtue.
+/datum/emote/living/praysuicide
+	key = "praysuicide"
+	key_third_person = "utters their last words"
+	message = ""
+	stat_allowed = list(CONSCIOUS, UNCONSCIOUS)
+	show_runechat = FALSE
+	emote_type = EMOTE_VISIBLE
+	restraint_check = FALSE
+
+/datum/emote/living/praysuicide/run_emote(mob/user, params, type_override, intentional)
+	if(!user)
+		return FALSE
+
+	var/mob/living/L = user
+	var/lastmsg = params
+	if(!lastmsg)
+		lastmsg = input(L, "Whisper your final words:", "Last Words") as text|null
+	if(!lastmsg)
+		return FALSE
+
+	to_chat(L, span_danger("I pray to my patron for my death... and I am heard."))
+	L.whisper(lastmsg)
+
+	L.visible_message(span_warning("[L]'s body begins to shake violently!"))
+	L.Jitter(5 SECONDS)
+	shake_camera(L, 30, 1)
+	if(QDELETED(L) || L.stat == DEAD)
+		return FALSE
+	L.emote("scream", forced = TRUE)
+	sleep(30)
+
+	if(QDELETED(L) || L.stat == DEAD)
+		return FALSE
+	L.suicide_log()
+	L.visible_message(span_danger("[L] suddenly collapses, dead!"))
+	L.death()
+	return TRUE
+
 /datum/emote/living/meditate
 	key = "meditate"
 	key_third_person = "meditates"
@@ -542,12 +581,6 @@
 			to_chat(target, span_smallred("Ouch...")) // note that this doesn't deal real pain to prevent people from. like. spamming kisses to paincrit? as funny as that would be
 	playsound(target.loc, pick('sound/vo/kiss (1).ogg','sound/vo/kiss (2).ogg'), 100, FALSE, -1)
 	if(user.mind)
-		/// Blackblood hidden interactions
-		var/mob/living/carbon/carbs = target
-		if(HAS_TRAIT(carbs, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_INQUISITION) && !HAS_TRAIT(carbs, TRAIT_PSYDONIAN_GRIT))
-			user.add_stress(/datum/stressevent/inq_trauma)
-			carbs.emote("whimper")
-
 		record_round_statistic(STATS_KISSES_MADE)
 
 /datum/emote/living/lick
@@ -668,11 +701,6 @@
 				target.flash_fullscreen("redflash1")
 			to_chat(target, span_smallred("Ouch...")) // note that this doesn't deal real pain to prevent people from. like. spamming hugs to paincrit?
 		if(user.mind)
-			/// Blackblood hidden interactions
-			var/mob/living/carbon/carbs = target
-			if(HAS_TRAIT(carbs, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_INQUISITION) && !HAS_TRAIT(carbs, TRAIT_PSYDONIAN_GRIT))
-				carbs.add_stress(/datum/stressevent/inq_trauma)
-				carbs.stress_freakout()
 			record_round_statistic(STATS_HUGS_MADE)
 			SEND_SIGNAL(user, COMSIG_MOB_HUGGED, target)
 
@@ -755,12 +783,6 @@
 				user.flash_fullscreen("redflash1")
 			to_chat(user, span_smallred("Ouch..."))
 		playsound(target.loc, 'sound/foley/slap.ogg', 100, TRUE, -1)
-		/// Blackblood hidden interactions
-		var/mob/living/carbon/carbs = target
-		if(HAS_TRAIT(target, TRAIT_BLACKBLOOD) && HAS_TRAIT(user, TRAIT_INQUISITION) && !HAS_TRAIT(target, TRAIT_PSYDONIAN_GRIT))
-			user.add_stress(/datum/stressevent/inq_trauma)
-			carbs.emote("whimper")
-
 
 /datum/emote/living/pinch
 	key = "pinch"

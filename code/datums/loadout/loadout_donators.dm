@@ -19,11 +19,11 @@
 	path = /obj/item/alch/rosa/azure
 
 /datum/loadout_item/donator/universal/ilamellard
-	name = "Gift - Iron Lamellar Armor decoration"
+	name = "Gift - Iron Lamellar Armor Ddecoration"
 	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
 
 /datum/loadout_item/donator/universal/blamellard
-	name = "Gift - Bronze Lamellar Armor decoration"
+	name = "Gift - Bronze Lamellar Armor Decoration"
 	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
 
 /datum/loadout_item/donator/universal/azurosa_seeds
@@ -129,6 +129,10 @@
 /datum/loadout_item/donator/universal/armor_gothic_burgeonet
 	name = "Gift - Kit, Gothic Burgeonet"
 	path = /obj/item/enchantingkit/gothicburgeonet
+
+/datum/loadout_item/donator/universal/armor_gothic_ornate
+	name = "Gift - Kit, Gothic Fluted Armor"
+	path = /obj/item/enchantingkit/gothicornatecuirass
 
 /datum/loadout_item/donator/universal/armor_gothic_psydonic
 	name = "Gift - Kit, Gothic Psydonic Cuirass"
@@ -457,6 +461,11 @@
 	path = /obj/item/clothing/suit/roguetown/shirt/dress/funkydress
 	ckeywhitelist = list("funkemonke", "droolingcowboy")
 
+/datum/loadout_item/donator/fregian_mage
+	name = "Violet Silk Gown"
+	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/steward/donator_fregian_mage
+	ckeywhitelist = list("lucine")
+
 /datum/loadout_item/donator/eekasqueak
 	name = "Saffira encrusted tiara"
 	path = /obj/item/clothing/head/roguetown/circlet/saffiratiara
@@ -524,21 +533,6 @@
 	path = /obj/item/enchantingkit/zydrasgreataxe
 	ckeywhitelist = list("1ceres")
 
-/datum/loadout_item/donator/eiren
-	name = "Donator Kit - Regret"
-	path = /obj/item/enchantingkit/weapon/eiren
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren2
-	name = "Donator Kit - Lunae"
-	path = /obj/item/enchantingkit/weapon/eirensabre
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren3
-	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/weapon/eirensabre2
-	ckeywhitelist = list("eirenxiv")
-
 /datum/loadout_item/donator/eiren4
 	name = "Donator Kit - Darkwood's Embrace"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
@@ -548,11 +542,6 @@
 	name = "Donator Kit - Glintstone Longsword"
 	path = /obj/item/enchantingkit/weapon/eiren_m
 	ckeywhitelist = list("eirenxiv", "magicalbard", "naorgteine")
-
-/datum/loadout_item/donator/eiren6
-	name = "Donator Kit - Stygian Longsword"
-	path = /obj/item/enchantingkit/weapon/eirensword
-	ckeywhitelist = list("eirenxiv", "muhsollini")
 
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
@@ -625,6 +614,26 @@
 /datum/loadout_item/donator/dasfox/tyesca_scabbard
 	name = "Donator Item - Tyesca's scabbard"
 	path = /obj/item/rogueweapon/scabbard/sword/tyesca
+
+/datum/loadout_item/donator/dasfox/ranger_woadsleeve
+	name = "Donator Kit - Ranger's Woadmaille Bodysleeve"
+	path = /obj/item/enchantingkit/dasfox_ranger_woadsleeve
+
+/datum/loadout_item/donator/dasfox/ranger_undersuit
+	name = "Donator Kit - Ranger's Undersuit"
+	path = /obj/item/enchantingkit/dasfox_ranger_undersuit
+
+/datum/loadout_item/donator/dasfox/ranger_demigaunts
+	name = "Donator Kit - Ranger's Woadwoven Demigaunts"
+	path = /obj/item/enchantingkit/dasfox_ranger_demigaunts
+
+/datum/loadout_item/donator/dasfox/ranger_schynbalds
+	name = "Donator Kit - Ranger's Woadwoven Stirruped Schynbalds"
+	path = /obj/item/enchantingkit/dasfox_ranger_schynbalds
+
+/datum/loadout_item/donator/dasfox/ranger_mantle
+	name = "Donator Item - Black Oak Ranger's Mantle"
+	path = /obj/item/clothing/cloak/dasfox_ranger
 
 /datum/loadout_item/donator/ryan
 	name = "Donator Item - Western Estates Caparison"
@@ -1076,21 +1085,6 @@
 	path = /obj/item/enchantingkit/hellpossum_apostle_wingsallet
 	ckeywhitelist = list("dasfox", "purplepineapple", "bigfoot02", "ryan180602", "oddbomber3768", "yeeteryieter")
 
-/datum/loadout_item/donator/hellpossum_grandmaster_armor
-	name = "Donator Kit - Grandmaster's Armor, Robed"
-	path = /obj/item/enchantingkit/hellpossum_grandmaster_armor
-	ckeywhitelist = list("dasfox")
-
-/datum/loadout_item/donator/hellpossum_grandmaster_helm
-	name = "Donator Kit - Grandmaster's Burgeonet"
-	path = /obj/item/enchantingkit/hellpossum_grandmaster_helm
-	ckeywhitelist = list("dasfox")
-
-/datum/loadout_item/donator/hellpossum_grandmaster_helm_habit
-	name = "Donator Kit - Grandmaster's Burgeonet, Habited"
-	path = /obj/item/enchantingkit/hellpossum_grandmaster_habit
-	ckeywhitelist = list("dasfox")
-
 /datum/loadout_item/donator/rosy/birdmask
 	name = "Donator Kit - Beaked Mask"
 	path = /obj/item/enchantingkit/rosy/birdmask
@@ -1360,3 +1354,63 @@
 	name = "Donator Kit - Xylixian Estoc"
 	path = /obj/item/enchantingkit/weapon/yoshi_estoc
 	ckeywhitelist = list("limetease", "yosheh3") //yosheh3's ckey is Yosheh_3, but in the logic check its checking against yosheh3 so this is a workaround.
+
+/datum/loadout_item/donator/limeastratatabard
+	name = "Donator Item - Astratan Tabard"
+	path = /obj/item/clothing/cloak/tabard/limeastratatabard
+	ckeywhitelist = list("limetease")
+
+
+/datum/loadout_item/donator/limetabard
+	name = "Donator Item - Leathery Tabard"
+	path = /obj/item/clothing/cloak/tabard/limetabard
+
+/datum/loadout_item/donator/limeastratahelm
+	name = "Donator Item - Astratan Helmet"
+	path = /obj/item/enchantingkit/limeastratahelm
+	ckeywhitelist = list("limetease")
+
+/datum/loadout_item/donator/guidress
+	name = "Donator Item - Gilded Dress"
+	path = /obj/item/clothing/cloak/poncho/guidress
+	ckeywhitelist = list("guimontag", "limetease")
+
+/datum/loadout_item/donator/ulqbelt
+	name = "Donator Item - Potionkeeper's Belt"
+	path = /obj/item/storage/belt/rogue/leather/ulqbelt
+	ckeywhitelist = list("seraphlemonade")
+
+/datum/loadout_item/donator/ulqsusbelt
+	name = "Donator Item - Potionkeeper's Messy Belt"
+	path = /obj/item/storage/belt/rogue/leather/ulqsusbelt
+	ckeywhitelist = list("seraphlemonade")
+
+/datum/loadout_item/donator/saxyman
+	name = "Donator Item - Prototype Strange Mask"
+	path = /obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman
+	ckeywhitelist = list("mrsaxyman")
+
+// Solar Dominion Items
+/datum/loadout_item/donator/universal/dominion_sword
+	name = "Elixir - Dominion Sword"
+	path = /obj/item/enchantingkit/weapon/dominion_sword
+
+/datum/loadout_item/donator/universal/dominion_knife
+	name = "Elixir - Dominion Knife"
+	path = /obj/item/enchantingkit/weapon/dominion_knife
+
+/datum/loadout_item/donator/universal/dominion_greatsword
+	name = "Elixir - Dominion Greatsword"
+	path = /obj/item/enchantingkit/weapon/dominion_greatsword
+
+/datum/loadout_item/donator/universal/dominion_shotel
+	name = "Elixir - Dominion Shotel"
+	path = /obj/item/enchantingkit/weapon/dominion_shotel
+
+/datum/loadout_item/donator/universal/dominion_shield
+	name = "Elixir - Dominion Shield"
+	path = /obj/item/enchantingkit/weapon/dominion_shield
+
+/datum/loadout_item/donator/universal/dominion_cestus
+	name = "Elixir - Dominion Cestus"
+	path = /obj/item/enchantingkit/dominion_cestus

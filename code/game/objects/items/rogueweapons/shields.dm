@@ -97,9 +97,13 @@
 	item_d_type = "blunt"
 
 /datum/intent/shield/block/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] raises [masteritem]!"))
+	playsound(mastermob, pick('sound/combat/shieldraise.ogg'), 100, FALSE)
 
 /datum/intent/shield/block/metal
 	hitsound = list('sound/combat/parry/shield/metalshield (1).ogg')
@@ -456,7 +460,7 @@
 
 /obj/item/rogueweapon/shield/tower/metal/gold
 	name = "golden shield"
-	desc = "A resplendant kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, \
+	desc = "A resplendent kite shield, assembled from six golden plates that've been hooked together by a glimmering holy sigil. Nobility may be fragile, \
 	but - so long as its grip remains steadfast - none could ever hope to sever its weakest link."
 	icon_state = "goldshield"
 	force = 25

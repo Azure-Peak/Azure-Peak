@@ -213,7 +213,7 @@
 
 /datum/advclass/mercenary/grenzelhoft_mage
 	name = "Gefechtsgelehrter"
-	tutorial = "You are a Gefechtsgelehrter - \"Combat Scholar\" - A proud magos from the Celestial Academy of Magos, who's skills in Siege Magic and Arcyne Physics are unmatched."
+	tutorial = "You are a Gefechtsgelehrter - \"Combat Scholar\" - A proud magos from the Celestial Academy of Magos, whose skills in Siege Magic and Arcyne Physics are unmatched."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/mercenary/grenzelhoft_mage
@@ -222,7 +222,7 @@
 	cmode_music = 'sound/music/combat_grenzelhoft.ogg'
 	subclass_languages = list(/datum/language/grenzelhoftian)
 	traits_applied = list(TRAIT_INTELLECTUAL, TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 6, "allowed_majors" = list(/datum/magic_aspect/pyromancy, /datum/magic_aspect/geomancy, /datum/magic_aspect/ferramancy, /datum/magic_aspect/conjuration), "variants" = list(/datum/magic_aspect/pyromancy = "gefechtsgelehrter", /datum/magic_aspect/geomancy = "gefechtsgelehrter", /datum/magic_aspect/ferramancy = "gefechtsgelehrter", /datum/magic_aspect/conjuration = "gefechtsgelehrter"), "post_aspect_spells" = list(/datum/action/cooldown/spell/message, /datum/action/cooldown/spell/aetherknife), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 8, "allowed_majors" = list(/datum/magic_aspect/pyromancy, /datum/magic_aspect/geomancy, /datum/magic_aspect/ferramancy, /datum/magic_aspect/conjuration), "variants" = list(/datum/magic_aspect/pyromancy = "gefechtsgelehrter", /datum/magic_aspect/geomancy = "gefechtsgelehrter", /datum/magic_aspect/ferramancy = "gefechtsgelehrter", /datum/magic_aspect/conjuration = "gefechtsgelehrter"), "post_aspect_spells" = list(/datum/action/cooldown/spell/message, /datum/action/cooldown/spell/aetherknife), "ward" = TRUE)
 	subclass_stats = list(
 		STATKEY_INT = 3,
 		STATKEY_WIL = 3,
@@ -251,7 +251,7 @@
 
 /datum/outfit/job/roguetown/mercenary/grenzelhoft_mage/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You are a Gefechtgelehrter - \"Combat Scholar\" - A proud magos from the Celestial Academy of Magos, who's skills in Siege Magic and Arcyne Physics are unmatched."))
+	to_chat(H, span_warning("You are a Gefechtgelehrter - \"Combat Scholar\" - A proud magos from the Celestial Academy of Magos, whose skills in Siege Magic and Arcyne Physics are unmatched."))
 	belt = /obj/item/storage/belt/rogue/leather/battleskirt
 	backl = /obj/item/rogueweapon/woodstaff/implement/greater/blacksteel
 	cloak = /obj/item/clothing/cloak/tabard/stabard/grenzelmage

@@ -234,11 +234,11 @@
 		<p>A target you have Exposed, made Vulnerable, or held in an aggressive grab is far easier to strike precisely. Someone off their feet is easier to aim at, too. SHORT weapons also aim better, at +[ACC_SHORT_WEAPON_BONUS].</p>
 
 		<h3>Ranged and Spells</h3>
-		<p>Ranged accuracy is simpler than melee. Your weapon skill sets the ceiling, at [ACC_RANGED_BASE] plus [ACC_RANGED_PER_SKILL] per level. Spells read Perception in place of any skill, each point above [ACC_SPELL_PER_BASELINE] worth as much as a level of training - and each point below it costing the same. Some weapons multiply the result.</p>
+		<p>Ranged accuracy is simpler than melee. Your weapon skill sets the ceiling, at [ACC_RANGED_BASE] plus [ACC_RANGED_PER_SKILL] per level. Spells read Perception in place of any skill, each point above [ACC_SPELL_PER_BASELINE] worth as much as a level of training - and each point below it costing the same. Some weapons multiply the result, and some ammunition, sling shot above all, takes a flat amount off it.</p>
 
 		<p>Shoot closer than a projectile's minimum range, or past its maximum, and the shot can only land on the chest. Past [ACC_RANGED_VISUAL_REACH] tiles, about as far as you can see, accuracy falls by [ACC_RANGED_FARSIGHT_PENALTY] for every further tile, so only a practiced shot keeps any of it at that distance. Loosing at a floor above or below costs another [ACC_RANGED_ZCROSS_PENALTY].</p>
 
-		<p>The same zones apply, but the ceilings are harsher than in melee. A limb or the head can never exceed [RANGED_MAX_PRECISE_HIT_CHANCE]%, hands and feet [RANGED_MAX_ULTRA_PRECISE_HIT_CHANCE]%, and a face zone [RANGED_MAX_FACE_HIT_CHANCE]%. As in melee, a shot aimed at the chest always lands there.</p>
+		<p>Bows and crossbows aim at any part of the body as easily as the chest. Slings and spells are clumsier. A limb or the head costs them [-RANGED_PRECISE_HIT_PENALTY] and can never exceed [RANGED_MAX_PRECISE_HIT_CHANCE]%. Hands and feet cost them [-RANGED_ULTRA_PRECISE_HIT_PENALTY] and a face zone [-(RANGED_ULTRA_PRECISE_HIT_PENALTY + RANGED_PRECISE_HIT_PENALTY)]. As in melee, a shot aimed at the chest always lands there.</p>
 		</div>
 	"}
 

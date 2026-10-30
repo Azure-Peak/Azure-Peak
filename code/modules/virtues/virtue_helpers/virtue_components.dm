@@ -82,7 +82,7 @@
 	var/text = tgui_input_text(H, "Describe it", "ALTER EGO", max_length = CUSTOM_DESCRIPTOR_TEXT_LENGTH, encode = FALSE)
 	if(!text)
 		return
-	entry.content_text = STRIP_HTML_SIMPLE(LOWER_TEXT(text), PREVENT_CHARACTER_TRIM_LOSS(CUSTOM_DESCRIPTOR_TEXT_LENGTH))
+	entry.content_text = sanitize_custom_descriptor_text(text)
 	alter_customs["[index]"] = entry
 	return path
 

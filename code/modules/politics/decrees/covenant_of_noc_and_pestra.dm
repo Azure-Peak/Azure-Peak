@@ -2,7 +2,7 @@
 	id = DECREE_NOC_PESTRA_COVENANT
 	name = "The Covenant of Noc & Pestra"
 	category = DECREE_CATEGORY_NEW
-	mechanical_text = "Caps poll tax for university and apothecary staff, and floors their wages: Court Magician 40m, Archivist 20m, Magicians Associate 10m, Head Physician 80m, Apothecary 40m."
+	mechanical_text = "Caps poll levy for university and apothecary staff, and floors their wages: Court Magician 40m, Archivist 20m, Magicians Associate 10m, Head Physician 80m, Apothecary 40m."
 	/// Jobs covered by the scholarly half of the covenant (Noc's mantle).
 	var/static/list/university_jobs = list(
 		"Court Magician",
@@ -44,10 +44,12 @@ Yeven under the seal of the Crown, in witness of Noc and Pestra."}
 		return TRUE
 	return FALSE
 
-/datum/decree/noc_pestra_covenant/apply_poll_tax_cap(mob/living/payer, poll_category, current_rate)
+/datum/decree/noc_pestra_covenant/apply_charge_cap(mob/living/payer, charge_category, current)
+	if(charge_category != TAX_CATEGORY_POLL_LEVY)
+		return current
 	if(!is_protected(payer))
-		return current_rate
-	return min(current_rate, NOC_PESTRA_POLL_CAP)
+		return current
+	return min(current, CHARGE_CAP_CHARTER)
 
 /datum/decree/noc_pestra_covenant/apply_wage_floor(job_title, current_floor)
 	var/mandated = wage_floors[job_title] || 0

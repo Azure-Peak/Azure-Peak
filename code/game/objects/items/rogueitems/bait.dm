@@ -26,7 +26,7 @@
 	. = ..()
 	. += span_info("Activate the bait in your hand to plant it down. Left-click it, once planted, to gather it back up.")
 	. += span_info("Planted bait can attract various creechers for hunting, but only if it is left alone for long enough. Ensure no one is within seven paces of the bait, or can otherwise see it without obstruction.")
-	. += span_info("The deeper that bait is planted within the wilderness, the less time it'll take for it to attract more creechers. For the best results, hunters traditionally nestle it amongst the trees and tallgrass.")
+	. += span_info("The deeper that bait is planted within the wilderness, the less time it'll take for it to attract more creechers. For the best results, hunters traditionally nestle it amongst the trees and tall grass.")
 	. += span_info("Certain types of bait attract certain kinds of creechers. Sweeter treats allure calmer creechers, while meatier treats allure harsher creechers.")
 	. += span_info("More bait can be crafted by combining sacks with jackberries, raw meat, and more.")
 
@@ -124,6 +124,17 @@
 							/mob/living/simple_animal/hostile/retaliate/rogue/bigrat = 30,			//Scavenger, so lower chance
 							/mob/living/simple_animal/hostile/retaliate/rogue/wolf = 10)			//Predator, doesn't eat berries but attacted to prey
 
+/obj/item/bait/stockbait
+	name = "bag of stockbait"
+	desc = "Bait infused with verdant essence. Smells like petrichor and fresh-cut grass..."
+	icon_state = "bait"
+	attracted_types = list(/mob/living/simple_animal/hostile/retaliate/rogue/goat = 25,
+							/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = 25,
+							/mob/living/simple_animal/hostile/retaliate/rogue/chicken = 20,
+							/mob/living/simple_animal/hostile/retaliate/rogue/cow = 5,
+							/mob/living/simple_animal/hostile/retaliate/rogue/bull = 5,
+							/mob/living/simple_animal/hostile/retaliate/rogue/swine = 15,
+							/mob/living/simple_animal/hostile/retaliate/rogue/swine/hog = 15)
 
 /obj/item/bait/bloody
 	name = "bag of bloodbait"

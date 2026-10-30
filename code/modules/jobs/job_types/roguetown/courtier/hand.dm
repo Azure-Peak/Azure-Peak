@@ -109,7 +109,7 @@
 /datum/advclass/hand/spymaster
 	name = "Spymaster"
 	tutorial = " You have played spymaster and confidant to the Noble-Family for so long that you are a vault of intrigue, something you exploit with potent conviction. Let no man ever forget whose ear you whisper into. You've killed more men with those lips than any blademaster could ever claim to."
-	extra_context = "This subclass recieves 'Perfect Tracker' and 'Keen Ears' for free."
+	extra_context = "This subclass receives 'Perfect Tracker' and 'Keen Ears' for free."
 	outfit = /datum/outfit/job/roguetown/hand/spymaster
 	category_tags = list(CTAG_HAND)
 	subclass_languages = list(/datum/language/thievescant)
@@ -179,7 +179,7 @@
 		STATKEY_LCK = 2,
 	)
 	age_mod = /datum/class_age_mod/hand_advisor
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 2, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 4, "ward" = TRUE)
 	subclass_skills = list(
 		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,

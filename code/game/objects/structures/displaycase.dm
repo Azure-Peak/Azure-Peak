@@ -177,7 +177,7 @@
 		return
 
 	if(is_locked)
-		to_chat(user, "<span class='warning'>The case is shut tight with an old fashioned physical lock. Maybe you should ask the curator for the key?</span>")
+		to_chat(user, "<span class='warning'>The case is shut tight with an old-fashioned physical lock. Maybe you should ask the curator for the key?</span>")
 		return
 
 	if(!added_roundstart)
@@ -205,7 +205,7 @@
 				trophy_message = chosen_plaque
 				to_chat(user, "<span class='notice'>I set the plaque's text.</span>")
 			else
-				to_chat(user, "<span class='warning'>I are too far to set the plaque's text!</span>")
+				to_chat(user, "<span class='warning'>I am too far to set the plaque's text!</span>")
 
 		SSpersistence.SaveTrophy(src)
 		return TRUE
@@ -219,7 +219,7 @@
 	if (showpiece)
 		if(added_roundstart)
 			visible_message("<span class='danger'>The [showpiece] crumbles to dust!</span>")
-			new /obj/item/ash(loc)
+			new /obj/item/natural/ash(loc)
 			QDEL_NULL(showpiece)
 		else
 			..()

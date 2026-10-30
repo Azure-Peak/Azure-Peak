@@ -163,7 +163,7 @@
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	possible_item_intents = list(/datum/intent/simple/stag_gore)
 	item_flags = DROPDEL
-	special = /datum/special_intent/greatsword_swing/white_stag
+	special = /datum/special_intent/wave_swing/greatsword/white_stag
 	max_blade_int = 8000
 	max_integrity = 8000
 
@@ -172,7 +172,7 @@
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
 
-/datum/special_intent/greatsword_swing/white_stag
+/datum/special_intent/wave_swing/greatsword/white_stag
 	requires_wielding = FALSE
 	dam = 80
 	cooldown = 25 SECONDS

@@ -16,7 +16,7 @@
 		STATKEY_WIL = 1
 	)
 	age_mod = /datum/class_age_mod/wretch/rogue_mage
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 3, "utilities" = 4, "locked_aspects" = list(/datum/magic_aspect/lesser_necromancy), "unlocked_aspects" = list(/datum/magic_aspect/necromancy), "post_aspect_spells" = list(/datum/action/cooldown/spell/message, /datum/action/cooldown/spell/mindlink, /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo), "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 3, "utilities" = 5, "locked_aspects" = list(/datum/magic_aspect/lesser_necromancy), "unlocked_aspects" = list(/datum/magic_aspect/necromancy), "post_aspect_spells" = list(/datum/action/cooldown/spell/message, /datum/action/cooldown/spell/mindlink, /obj/effect/proc_holder/spell/invoked/diagnose/secular/zizo), "ward" = TRUE)
 	//VS rogue mage, weaker combat skills + less alchemy (works with the living less often) to make up for their minions doing the work for them.
 	subclass_skills = list(
 		/datum/skill/combat/polearms = SKILL_LEVEL_APPRENTICE,
@@ -74,7 +74,7 @@
 			beltl = /obj/item/rogueweapon/huntingknife
 		if("Progress (Open Necromancer Robes)") //Good light armored potental, at a price of being super obvious with unique robes.
 			head = /obj/item/clothing/head/roguetown/roguehood/unholy/enchanted
-			neck = /obj/item/clothing/neck/roguetown/leather //Lesser gorget for more armor elsewhere, have to aquire one in the round.
+			neck = /obj/item/clothing/neck/roguetown/leather //Lesser gorget for more armor elsewhere, have to acquire one in the round.
 			belt = /obj/item/storage/belt/rogue/leather/black
 			beltr = /obj/item/reagent_containers/glass/bottle/rogue/manapot //Hacky solution so you don't lose em.
 			beltl = /obj/item/rogueweapon/huntingknife

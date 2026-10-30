@@ -153,7 +153,7 @@ GLOBAL_LIST_INIT(capstone_pool, list(
 			addomen(ASCEND_FIRST)
 			priority_announce("The leylines begin to tremble in unnatural perversion - MAJOR ARCANA: THE FOOL, UPRIGHT.", "THE DREAMER", 'sound/villain/dreamer_warning.ogg')
 		if(2)
-			to_chat(user, span_danger("The second capstone. Stuck in filth- FILTH AND SHIT! I grab the rotted, fetted thing and begin to peel it back. LAYER BY LAYER- THE COMET SYON. THE ARCHDEVIL. IS HE DEAD, OR SLEEPING? ..."))
+			to_chat(user, span_danger("The second capstone. Stuck in filth- FILTH AND SHIT! I grab the rotted, fetid thing and begin to peel it back. LAYER BY LAYER- THE COMET SYON. THE ARCHDEVIL. IS HE DEAD, OR SLEEPING? ..."))
 			sleep(30)
 			to_chat(user, span_userdanger("IS HE WEAK - OR A COWARD??"))
 			sleep(20)

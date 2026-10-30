@@ -12,7 +12,7 @@
 
 /* Transfix currently, how it works:
 - You cast the spell, it gives you a list of everyone nearby
-- You transfix someone, after typing sufficent characters (10+ letters)
+- You transfix someone, after typing sufficient characters (10+ letters)
 - If they/you have cmode on, you full stop cannot use it. Yes, you have to play along with this to start with.
 - They can just walk away, seriously, this is a thing and why I want this short again.
 - Surprisingly, yes. Drowsiness wears off over time so we need to account for that.

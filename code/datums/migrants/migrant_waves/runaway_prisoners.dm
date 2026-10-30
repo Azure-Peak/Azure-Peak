@@ -12,7 +12,7 @@
 		/datum/migrant_role/runaway_prisoner = 3
 	)
 	min_optional_fills = 0
-	greet_text = "You've been rotting for years in a cell. Though you escaped, you have nothing - your body atrophied, your mind dulled. But one thing you kknow clearly - you are not going back."
+	greet_text = "You've been rotting for years in a cell. Though you escaped, you have nothing - your body atrophied, your mind dulled. But one thing you know clearly - you are not going back."
 
 /datum/migrant_role/runaway_prisoner
 	name = "Escaped Prisoner"
@@ -90,7 +90,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/runaway_prisoner
 	traits_applied = list(TRAIT_CRITICAL_RESISTANCE, TRAIT_ARCYNE, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_RUNAWAY_PRISONER)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 6, "ward" = TRUE)
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 1, "utilities" = 8, "ward" = TRUE)
 	subclass_stats = list(
 		STATKEY_LCK = 3,
 		STATKEY_CON = -1,

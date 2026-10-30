@@ -21,6 +21,48 @@
 	taste_description = "tingling sweetness with hints of caramel and vanilla"
 	quality = DRINK_NICE
 
+/datum/reagent/consumable/ethanol/whiskey
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	drink_type = DRINKTYPE_SPIRIT
+	name = "whiskey"
+	description = "Ah, whiskey. Can it get any more local than this?"
+	color = "#D59A6F"
+	boozepwr = 60
+	taste_description = "subtly sweet, woody spice and a lingering burn"
+	quality = DRINK_VERYGOOD
+
+/datum/reagent/consumable/ethanol/fyreball
+	cuisine = CUISINE_SOUTH_IMPERIAL
+	drink_type = DRINKTYPE_SPIRIT
+	name = "fyreball"
+	description = "A bold, brave or stupid take on whiskey, using the nectar of fyritius flowers and other spices to give the brew a kick that some argue it never needed."
+	color = "#e6813a"
+	boozepwr = 80 // Probably bad for you, and not because of this, either.
+	taste_description = "well defined oaky-sweet, warmth, with a quickly ebbing intense sting"
+	quality = DRINK_VERYGOOD
+
+/datum/reagent/consumable/ethanol/fyreball/on_mob_life(mob/living/carbon/M)
+	M.apply_status_effect(/datum/status_effect/buff/fyreball)
+	if(HAS_TRAIT(M, TRAIT_CRACKHEAD))
+		M.adjustToxLoss(0.2, 0)
+	else
+		M.adjustFireLoss(1, 0) // Spicy boy
+	..()
+	. = 1
+
+/datum/reagent/consumable/ethanol/fyreball/on_mob_end_metabolize(mob/living/M)
+	M.remove_status_effect(/datum/status_effect/buff/fyreball)
+
+/datum/reagent/consumable/ethanol/fyrmenty
+	cuisine = CUISINE_NORTHERN
+	drink_type = DRINKTYPE_SPIRIT
+	name = "fyrmenty"
+	description = "An exotic herbal grain alcohol. It seems to retain the warmth of the fyritius, but lacks the hostile burn. Good for sleeping away a harsh winter night. Very, very flammable."
+	color = "#e4a171"
+	boozepwr = 100 // This shit is basically everclear, and very small amounts can be made at a time.
+	taste_description = "a light sweetness, quickly overwhelmed by warmth and an inability to taste"
+	quality = DRINK_VERYGOOD
+
 /datum/reagent/consumable/ethanol/cider
 	cuisine = CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	drink_type = DRINKTYPE_CIDER
@@ -90,7 +132,7 @@
 /datum/reagent/consumable/ethanol/brandy/plum
 	name = "plum brandy"
 	boozepwr = 60
-	taste_description = "purple sweetness and vanila"
+	taste_description = "purple sweetness and vanilla"
 	color = "#5c0449"
 	quality = DRINK_VERYGOOD
 
@@ -205,7 +247,7 @@
 	drink_type = DRINKTYPE_WINE
 	name = "Aurorian"
 	boozepwr = 5
-	taste_description = "subtle herbacious undertones"
+	taste_description = "subtle herbaceous undertones"
 	color = "#5D8A8A"
 	quality = DRINK_NICE
 
@@ -767,7 +809,7 @@
 	cuisine = CUISINE_RANESHENI
 	drink_type = DRINKTYPE_CIDER
 	name = "Bloody Mary"
-	description = "Possibly the only way blood can be paletteable for the normal non-graggarite. How moral it is to drink? Still questionable."
+	description = "Possibly the only way blood can be palatable for the normal non-graggarite. How moral it is to drink? Still questionable."
 	color = "#570000"
 	quality = DRINK_FANTASTIC
 	boozepwr = 30
@@ -827,7 +869,7 @@
 	cuisine = CUISINE_OTAVAIS
 	drink_type = DRINKTYPE_WINE
 	name = "Sangria D'Otavais"
-	description = "A refreshingly sweet and tart blackberry mixture, screams Otavain. This alcohol is practically a dessert."
+	description = "A refreshingly sweet and tart blackberry mixture, screams Otavan. This alcohol is practically a dessert."
 	color = "#2E2047"
 	quality = DRINK_FANTASTIC
 	boozepwr = 40

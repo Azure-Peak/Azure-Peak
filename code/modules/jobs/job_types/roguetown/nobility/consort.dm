@@ -22,6 +22,41 @@
 	round_contrib_points = 3
 	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/unintelligible) //Needs to use the throat - sometimes
 
+	advclass_cat_rolls = list(CTAG_CONSORT = 2)
+	job_subclasses = list(
+		/datum/advclass/consort
+	)
+	has_subprefs = FALSE
+
+/datum/advclass/consort
+	name = "Consort"
+	tutorial = "Picked out of your political value rather than likely any form of love, you have become the rulers most trusted confidant--and likely friend--throughout your time at their side. Your loyalty, patience and trust will be tested this day... for the daggers that threaten the neck of the one who wears the crown are as equally pointed at your own."
+	outfit = /datum/outfit/job/roguetown/lady/basic
+	category_tags = list(CTAG_CONSORT)
+	subclass_stats = list(
+		STATKEY_INT = 3,
+		STATKEY_WIL = 3,
+		STATKEY_SPD = 2,
+		STATKEY_PER = 2,
+		STATKEY_LCK = 5,
+	)
+	subclass_skills = list(
+		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
+		/datum/skill/misc/tracking = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/crossbows = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN, //not that easy to grab after all
+		/datum/skill/misc/swimming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/athletics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, //of course
+	)
+
 /datum/job/roguetown/exlady
 	title = "Consort Dowager"
 	flag = LADY
@@ -33,6 +68,9 @@
 	give_bank_account = TRUE
 
 /datum/outfit/job/roguetown/lady
+	job_bitflag = BITFLAG_ROYALTY
+
+/datum/outfit/job/roguetown/lady/basic
 	head = /obj/item/clothing/head/roguetown/nyle/consortcrown
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord //weaker than duke's one
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
@@ -42,9 +80,8 @@
 	neck = /obj/item/clothing/neck/roguetown/ornateamulet/noble
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	id = /obj/item/scomstone/garrison
-	job_bitflag = BITFLAG_ROYALTY
 
-/datum/outfit/job/roguetown/lady/pre_equip(mob/living/carbon/human/H)
+/datum/outfit/job/roguetown/lady/basic/pre_equip(mob/living/carbon/human/H)
 	. = ..()
 	ADD_TRAIT(H, TRAIT_SEEPRICES, TRAIT_GENERIC)
 	ADD_TRAIT(H, TRAIT_NOBLE, TRAIT_GENERIC)
@@ -71,25 +108,6 @@
 		/obj/item/storage/keyring/lord = 1,
 		/obj/item/roguekey/skeleton = 1
 	)
-	H.adjust_skillrank(/datum/skill/misc/stealing, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/lockpicking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/tracking, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/sneaking, 4, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/knives, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/unarmed, 2, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/combat/wrestling, 3, TRUE) //not that easy to grab after all
-	H.adjust_skillrank(/datum/skill/misc/swimming, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/climbing, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/reading, 5, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/medicine, 3, TRUE)
-	H.adjust_skillrank(/datum/skill/misc/riding, 4, TRUE) //of course
-	H.change_stat(STATKEY_INT, 3)
-	H.change_stat(STATKEY_WIL, 3)
-	H.change_stat(STATKEY_SPD, 2)
-	H.change_stat(STATKEY_PER, 2)
-	H.change_stat(STATKEY_LCK, 5)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_RICH, H)
 		record_round_statistic(STATS_MARRIAGES_MADE)//Terrible way to do this but like, it wouldn't work off the "I'm married proc" so here we are.

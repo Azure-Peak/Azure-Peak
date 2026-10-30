@@ -161,6 +161,13 @@
 	color = "#D2B48C"
 	taste_description = "tarty sweetness"
 
+/datum/reagent/consumable/juice/apple
+	cuisine = CUISINE_SOUTHEASTERN
+	name = "Apple juice"
+	description = "A crisp and sweet golden juice from an apple."
+	color = "#E0BE6D"
+	taste_description = "pleasantly crisp appleness"
+
 /datum/reagent/consumable/juice/plum
 	cuisine = CUISINE_SOUTHEASTERN
 	name = "Plum juice"
@@ -202,7 +209,7 @@
 	name = "Orange juice"
 	description = "A tangy and energizing juice of a tangerine."
 	color = "#FFA500"
-	taste_description = "citrussy sweetness."
+	taste_description = "citrusy sweetness."
 	hydration_factor = 12
 
 //drink mixes - post reagent reaction
@@ -252,7 +259,7 @@
 	description = "A soft mix of chamomilesque herbs, honey, and a little mint. You should probably not take this in the field."
 	color = "#9FC4D6"
 	quality = DRINK_GOOD
-	taste_description = "a soft and minty herbacious mix."
+	taste_description = "a soft and minty herbaceous mix."
 	metabolization_rate = 1 * REAGENTS_METABOLISM
 
 /datum/reagent/consumable/virgin_drink/abyssors_rest/on_mob_metabolize(mob/living/carbon/M)

@@ -350,7 +350,7 @@
 	. = ..()
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
-	. += span_hypnophrase("'..the thrumbing of madness, to think that your suffering was all-for-naught to Adonai's sacrifical lamb..'")
+	. += span_hypnophrase("'..the thrumming of madness, to think that your suffering was all-for-naught to Adonai's sacrificial lamb..'")
 
 // HEAVY
 /obj/item/clothing/suit/roguetown/armor/plate/full
@@ -387,23 +387,21 @@
 	strip_delay = STRIP_DELAY_ARMOR
 	smelt_bar_num = 3
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa
-	name = "samsibsa scaleplate"
-	desc = "A heavy set of armour worn by the kouken of distant Kazengun. As opposed to the plate armour utilized by most of \
-	Psydonia and the West, samsiba-cheolpan is made of thirty-four rows of composite scales, each an ultra-thin sheet of \
-	blacksteel gilded over steel. </br> It is an extremely common practice to engrave characters onto individual plates - such \
-	as LUCK, HONOR, or HEAVEN."
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa
+	name = "samsibsa smoothplate"
+	desc = "A set of armour worn by the kouken of the distant east. Whilst similarities could be drawn between it and it's cousin of the west, plate armor, it has a certain lightness and ease of movement that are necessary for on-foot combat against other Kazengunese-- and for putting down Lingyuese revolts."
 	icon_state = "kazengunheavy"
 	item_state = "kazengunheavy"
 	detail_tag = "_detail"
 	boobed_detail = FALSE
 	color = null
 	detail_color = CLOTHING_WHITE
-	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
-	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL
+	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET
+	armor_class = ARMOR_CLASS_HEAVY
+	max_integrity = ARMOR_INT_CHEST_PLATE_STEEL - 75
 	var/picked = FALSE
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/attack_right(mob/user)
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa/attack_right(mob/user)
 	..()
 	if(!picked)
 		var/choice = input(user, "Choose a color.", "Uniform colors") as anything in COLOR_MAP
@@ -417,11 +415,11 @@
 			H.update_inv_armor()
 			H.update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/Initialize(mapload)
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa/Initialize(mapload)
 	. = ..()
 	update_icon()
 
-/obj/item/clothing/suit/roguetown/armor/plate/full/samsibsa/update_icon()
+/obj/item/clothing/suit/roguetown/armor/brigandine/samsibsa/update_icon()
 	cut_overlays()
 	if(get_detail_tag())
 		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
@@ -695,7 +693,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "steel cuirass"
-	desc = "A steel cuirass. It bears all the hallmarks of sixteenth-century nobility: angularity, polishedness, and - above all else - class."
+	desc = "A steel cuirass. It bears all the hallmarks of sixteenth-century nobility: angularity, polish, and - above all else - class."
 	body_parts_covered = COVERAGE_VEST
 	icon_state = "cuirass"
 	item_state = "cuirass"
@@ -813,7 +811,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold
 	name = "golden cuirass"
 	icon_state = "goldcuirass"
-	desc = "A resplendant cuirass of pure gold, fitted with tassets for additional coverage. It is dressed atop a besilked arming \
+	desc = "A resplendent cuirass of pure gold, fitted with tassets for additional coverage. It is dressed atop a besilked arming \
 	jacket to ensure the absolute comfort of its wearer, and the holy sigil has been meticulously formed from its slanted plates."
 	armor = ARMOR_INDESTRUCTIBLE //Renders its wearer completely invulnerable to damage. The caveat is, however..
 	max_integrity = ARMOR_INT_SIDE_GOLD // ..is that it's extraordinarily fragile, especially against blunt damage.
@@ -828,7 +826,7 @@
 /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/gold/heroic
 	name = "golden heroic cuirass"
 	icon_state = "heroiccuirass"
-	desc = "A resplendant cuirass of pure gold, fitted with tassets for additional coverage. It has been meticulously waxed-and-assembled \
+	desc = "A resplendent cuirass of pure gold, fitted with tassets for additional coverage. It has been meticulously waxed-and-assembled \
 	from dozens of smaller golden plates, in order to replicate the statuesque physique of Psydonia's legendary heroes."
 	unenchantable = TRUE
 
@@ -842,7 +840,7 @@
 	name = "psydonic cuirass"
 	icon_state = "ornatecuirass"
 	desc = "A beautiful steel cuirass, fitted with tassets for additional coverage. Strips of blessed silver have been meticulously \
-	incorporated into the fluting; a laborous decoration that denotes it as originating from the Order of the Silver \
+	incorporated into the fluting; a laborious decoration that denotes it as originating from the Order of the Silver \
 	Psycross."
 	smeltresult = /obj/item/ingot/silverblessed
 	smelt_bar_num = 1

@@ -6,6 +6,7 @@
 	var/hott = null
 	var/obj/item/ingot/hingot
 	max_integrity = 500
+	drag_slowdown = 5
 	density = TRUE
 	damage_deflection = 25
 	climbable = TRUE
@@ -18,9 +19,10 @@
 	. += span_info("Ingots, when held in a pair of tongs and heated at a forge, can be placed onto the anvil via left-clicking.")
 	. += span_info("Once on the anvil, left-clicking the ingot with a hammer allows for you to start pounding it into a recipe of your choice.")
 	. += span_info("Smithing armor uses the Armorsmithing skill, smithing weapons uses the Weaponsmithing skill, and smithing everything else - valuables, cutlery, tools - uses the Blacksmithing skill.")
-	. += span_info("If you attempt to smith a recipe that excedes your current skill's level, you'll run the risk of damaging and destroying the ingot-in-question.")
+	. += span_info("If you attempt to smith a recipe that exceeds your current skill's level, you'll run the risk of damaging and destroying the ingot-in-question.")
 	. += span_info("Once the recipe has been smithed to completion, pick the finished ingot back up and reheat it before quenching it in a water-filled washbin. This transforms the ingot into the smithed item.")
 	. += span_info("Armor, weapons, and other repairable items can be placed onto the anvil via left-clicking. Repairing items on an anvil is quicker and safer than repairing them on a table.")
+	. += span_info("Left click the anvil with a stake on combat mode to toggle anchoring on it.")
 
 /obj/machinery/anvil/crafted
 	icon_state = "caveanvil"
@@ -110,7 +112,7 @@
 					var/mob/living/carbon/carbon_user = user
 					if(carbon_user.domhand)
 						used_str = carbon_user.get_str_arms(carbon_user.used_hand)
-					if(HAS_TRAIT(carbon_user, TRAIT_FORGEBLESSED))
+					if(HAS_TRAIT(carbon_user, TRAIT_FORGEBLESSED) || HAS_TRAIT(carbon_user, TRAIT_TRAINED_SMITH))
 						carbon_user.stamina_add(max(21 - (used_str * 3), 0)*advance_multiplier)
 					else
 						carbon_user.stamina_add(max(40 - (used_str * 3), 0)*advance_multiplier)
@@ -157,6 +159,17 @@
 	if(!user.cmode)
 		W.forceMove(src.loc)
 		return
+
+	if(istype(W, /obj/item/grown/log/tree/stake))
+		if(anchored)
+			anchored = FALSE
+			to_chat(user, span_warning("[src] can now be moved."))
+		else
+			anchored = TRUE
+			to_chat(user, span_warning("You anchor [src]."))
+		playsound(src,pick('sound/foley/woodclimb.ogg'), 100, TRUE)
+		return
+	..()
 
 	..()
 

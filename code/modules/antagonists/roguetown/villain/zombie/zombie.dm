@@ -141,7 +141,7 @@
 		if(has_turned && become_rotman)
 			for(var/trait in traits_rotman)
 				ADD_TRAIT(zombie, trait, "[type]")
-			to_chat(zombie, span_green("I no longer crave for flesh... <i>But I still feel ill.</i>"))
+			to_chat(zombie, span_green("I no longer crave flesh... <i>But I still feel ill.</i>"))
 		else
 			if(!was_i_undead)
 				zombie.mob_biotypes &= ~MOB_UNDEAD
@@ -150,7 +150,7 @@
 			zombie.faction += "neutral"
 			zombie.regenerate_organs()
 			if(has_turned)
-				to_chat(zombie, span_green("I no longer crave for flesh..."))
+				to_chat(zombie, span_green("I no longer crave flesh..."))
 
 		for(var/obj/item/bodypart/zombie_part as anything in zombie.bodyparts) //Cure all limbs
 			zombie_part.rotted = FALSE
@@ -283,7 +283,7 @@
 	if(!zombie || !istype(zombie))
 		return
 	var/obj/item/bodypart/head = zombie.get_bodypart(BODY_ZONE_HEAD)
-	if(!head)
+	if(!head || HAS_TRAIT(zombie, TRAIT_DNR))
 		qdel(src)
 		return
 	if(zombie.stat != DEAD && !infected_wake)
@@ -329,6 +329,11 @@
 		return
 
 	if (!istype(zombie, /mob/living/carbon/human)) // Ensure the zombie is human
+		return
+
+	if(HAS_TRAIT(zombie, TRAIT_DNR))
+		zombie.infected = FALSE
+		qdel(zombie.mind?.has_antag_datum(/datum/antagonist/zombie))
 		return
 
 	var/obj/item/bodypart/head = zombie.get_bodypart(BODY_ZONE_HEAD)
@@ -378,6 +383,12 @@
 		qdel(zombie)
 		return
 
+
+/datum/antagonist/zombie/can_be_owned(datum/mind/new_owner)
+	var/datum/mind/tested = new_owner || owner
+	if(tested?.current && HAS_TRAIT(tested.current, TRAIT_DNR))
+		return FALSE
+	return ..()
 
 ///Making sure they're not any other antag as well as adding the zombie datum to their mind
 /mob/living/carbon/human/proc/zombie_check_can_convert()

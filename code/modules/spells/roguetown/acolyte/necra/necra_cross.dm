@@ -68,7 +68,7 @@
 
 /obj/structure/fluff/psycross/necra
 	name = "necran cross"
-	desc = "Not all of the ten bear crosses, but as they oft mark the grave, so do Necrans raise these in honor of the dead. The undermaiden watches."
+	desc = "Not all of the ten bear crosses, but as they oft mark the grave, so do Necrans raise these in honor of the dead. The Undermaiden watches."
 	icon_state = "cross_necra"
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
 	max_integrity = 300
@@ -80,7 +80,7 @@
 	lose_hearing_sensitivity()
 
 /obj/structure/fluff/psycross/necra/cloth
-	desc = "A Necran cross blessed by a loyal follower. The strips of fabric symbolize the tears of the undermaiden as she welcomes another soul back. It seems sturdy."
+	desc = "A Necran cross blessed by a loyal follower. The strips of fabric symbolize the tears of the Undermaiden as she welcomes another soul back. It seems sturdy."
 	icon_state = "cross_necra_cloth"
 	// It's going to be hard to get rid of these when they're not active.
 	max_integrity = 1200
@@ -250,10 +250,10 @@
 	if(is_lich)
 		// Stronger debuff for liches
 		target.apply_status_effect(/datum/status_effect/debuff/necran_cross/strong)
-		to_chat(target, span_danger("You feel the hateful gaze of the undermaiden burn bright upon your very soul!"))
+		to_chat(target, span_danger("You feel the hateful gaze of the Undermaiden burn bright upon your very soul!"))
 	else
 		target.apply_status_effect(/datum/status_effect/debuff/necran_cross)
-		to_chat(target, span_danger("You feel the hateful gaze of the undermaiden burn upon your very soul!"))
+		to_chat(target, span_danger("You feel the hateful gaze of the Undermaiden burn upon your very soul!"))
 
 /obj/structure/fluff/psycross/necra/cloth/proc/remove_undead_debuff(mob/living/target)
 	if(!target)
@@ -274,11 +274,11 @@
 		. += span_notice("The energy coursing through the cross seems to make it more fragile.")
 	else if(necran_blessing)
 		. += span_info("You can touch it to activate its holy aura.")
-		. += span_good("A necran blessed this cross, the undermaiden is watching.")
+		. += span_good("A Necran blessed this cross, the Undermaiden is watching.")
 	if(ishuman(user) && necran_blessing)
 		var/mob/living/carbon/human/H = user
 		if(H.dna?.species?.id == "revenant")
-			. += span_danger("I feel the undermaiden's scornful gaze!")
+			. += span_danger("I feel the Undermaiden's scornful gaze!")
 			user.add_stress(/datum/stressevent/revenant_cross)
 
 #define MOVESPEED_ID_NECRAN_CROSS "movespeed_necran_cross"

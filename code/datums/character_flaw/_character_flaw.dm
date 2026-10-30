@@ -462,7 +462,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
 		if(H.name) // If you don't check this, the log entry wont have a name as flaw_on_life is checked at least once before the name is set.
-			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.") // we log this in the same place as hunted because making a seperate log for it would be silly
+			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.") // we log this in the same place as hunted because making a separate log for it would be silly
 			logged = TRUE
 
 /datum/charflaw/targeted/apply_post_equipment(mob/user)
@@ -496,6 +496,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/last_passed_check = 0
 	var/first_tick = FALSE
 	var/extra_increment_value = 0
+	var/satisfied = FALSE
 
 /datum/charflaw/greedy/on_mob_creation(mob/user)
 	next_mammon_increase = world.time + rand(15 MINUTES, 25 MINUTES)
@@ -539,14 +540,18 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/do_update_msg = TRUE
 	if(new_mammon_amount >= required_mammons)
 		// Feel better
-		if(user.has_stress_event(/datum/stressevent/vice))
-			to_chat(user, span_blue("[new_mammon_amount] mammons... That's more like it.."))
-		user.remove_stress(/datum/stressevent/vice)
-		user.remove_status_effect(/datum/status_effect/debuff/addiction)
 		last_passed_check = world.time
+		if(!satisfied)
+			satisfied = TRUE
+			if(user.has_stress_event(/datum/stressevent/vice))
+				to_chat(user, span_blue("[new_mammon_amount] mammons... That's more like it.."))
+				if(!has_other_unsated_vice(user))
+					user.remove_stress(/datum/stressevent/vice)
+			user.remove_status_effect(/datum/status_effect/debuff/addiction)
 		do_update_msg = FALSE
 	else
 		// Feel bad
+		satisfied = FALSE
 		user.add_stress(/datum/stressevent/vice)
 		user.apply_status_effect(/datum/status_effect/debuff/addiction)
 
@@ -560,6 +565,15 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			to_chat(user, span_boldwarning("No! My precious mammons..."))
 
 	last_checked_mammons = new_mammon_amount
+
+/datum/charflaw/greedy/proc/has_other_unsated_vice(mob/living/carbon/human/user)
+	for(var/datum/charflaw/cf in user.charflaws)
+		if(cf == src || !istype(cf, /datum/charflaw/addiction))
+			continue
+		var/datum/charflaw/addiction/other = cf
+		if(!other.sated)
+			return TRUE
+	return FALSE
 
 /datum/charflaw/narcoleptic
 	name = "Narcoleptic"
@@ -612,7 +626,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			user.emote("yawn", forced = TRUE)
 			next_sleep = world.time + rand(7 SECONDS, 11 SECONDS)
 			if(drugged_up)
-				to_chat(user, span_blue("The drugs keeps me awake, for now..."))
+				to_chat(user, span_blue("The drugs keep me awake, for now..."))
 			else
 				to_chat(user, span_blue("I'm getting drowsy..."))
 
@@ -919,3 +933,67 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/dnr/on_mob_creation(mob/user)
 	. = ..()
 	ADD_TRAIT(user, TRAIT_LASTLEGS, "[type]")
+
+/datum/charflaw/agoraphobe
+	name = "Agoraphobic"
+	desc = "I long for the shelter of walls and roofs. The open sky fills me with unease."
+	ui_fa_icon = "house-chimney"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/agoraphobe/flaw_on_life(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/area/A = get_area(H)
+	if(A?.outdoors)
+		H.add_stress(/datum/stressevent/agoraphobia)
+	else
+		H.remove_stress(/datum/stressevent/agoraphobia)
+
+/datum/charflaw/claustrophobe
+	name = "Claustrophobic"
+	desc = "Walls and roofs close in around me. I only breathe easy under the open sky."
+	ui_fa_icon = "door-closed"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/claustrophobe/flaw_on_life(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/area/A = get_area(H)
+	if(A && !A.outdoors)
+		H.add_stress(/datum/stressevent/claustrophobia)
+	else
+		H.remove_stress(/datum/stressevent/claustrophobia)
+
+/datum/charflaw/skyfear
+	abstract_type = /datum/charflaw/skyfear
+	needs_extra_vice = TRUE
+	///time of day that brings on the stress
+	var/tod
+	///stress event applied under that sky
+	var/stress
+
+/datum/charflaw/skyfear/flaw_on_life(mob/user)
+	var/mob/living/carbon/human/H = user
+	var/turf/T = get_turf(H)
+	if(GLOB.tod == tod && T?.can_see_sky())
+		H.add_stress(stress)
+	else
+		H.remove_stress(stress)
+
+/datum/charflaw/skyfear/sun
+	name = "Heliophobic"
+	desc = "The light of the sun fills me with dread. I keep to shade and shelter by day."
+	ui_fa_icon = "sun"
+	tod = "day"
+	stress = /datum/stressevent/heliophobia
+
+/datum/charflaw/skyfear/moon
+	name = "Selenophobic"
+	desc = "The light of the moon fills me with dread. I keep to shade and shelter by night."
+	ui_fa_icon = "moon"
+	tod = "night"
+	stress = /datum/stressevent/selenophobia
+
+/datum/charflaw/sullied
+	name = "Sullied Blood"
+	desc = "Something lingers in my blood that the Inquisition's instruments are quick to mistake for a curse."
+	ui_fa_icon = "vial"
+	needs_extra_vice = TRUE

@@ -1,6 +1,6 @@
 /obj/structure/vampthrone
 	name = "The Blood Throne"
-	desc = "A big ominous throne, decorated with crimson and velvet silk lain upon an enchanted gilbranze chair of magnificence. It radiates opulance and elegance yet shimmers with unnatural presence."
+	desc = "A big ominous throne, decorated with crimson and velvet silk lain upon an enchanted gilbranze chair of magnificence. It radiates opulence and elegance yet shimmers with unnatural presence."
 	icon = 'icons/roguetown/misc/vthrone.dmi'
 	icon_state = "throne"
 	density = FALSE

@@ -53,7 +53,7 @@
 	desc = "I feel at home in the water. Sleeping beneath the waves is almost as comfortable as a bed to me."
 	mechdesc = "Does not come with water breathing."
 	added_traits = list(TRAIT_WATERSLEEP)
-	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/lizardfolk) // same as amphibious basically
+	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/lizardfolk, /datum/species/ooze, /datum/species/akula) // same as amphibious except with races that already can breathe water
 	ui_fa_icon = "water"
 
 /datum/quirk/caustic
@@ -115,7 +115,6 @@
 	mechdesc = "You will be treated as a resident for purposes of knowing, and being known by, those in town. Be warned: this will allow others to message, scry, and otherwise know about you from afar."
 	ui_fa_icon = "user-group"
 	restricted_virtues = list(/datum/virtue/utility/notable) // can't already be a resident
-	added_traits = list(TRAIT_WELLKNOWN)
 	var/static/list/blacklisted_antag_datums = list( // should be self-explanatory. no town-known gnolls, lich skeletons, etc
 		/datum/antagonist/assassin,
 		/datum/antagonist/bandit,
@@ -140,6 +139,7 @@
 			if(recipient.mind.has_antag_datum(antag, TRUE))
 				to_chat(recipient, span_warning("My nature is not conducive to being welcomed in town. I am not well-known amongst them.")) // tell them why it's not applied
 				return
+		ADD_TRAIT(recipient, TRAIT_WELLKNOWN, TRAIT_QUIRK)
 		for(var/X in all_resident_positions)
 			for(var/datum/mind/MF in get_minds(X))
 				recipient.mind.person_knows_me(MF)
@@ -173,3 +173,36 @@
 /datum/quirk/bioluminescent/apply_to_human(mob/living/carbon/human/recipient)
 	. = ..()
 	recipient.AddComponent(/datum/component/bioluminescence)
+
+/datum/quirk/sanguivore
+	name = "Sanguivore"
+	desc = "Whether by habit or upbringing, I can stomach blood without retching."
+	mechdesc = "Drinking blood, by mouth or from a cup, will not make you sick. It grants no other benefit."
+	added_traits = list(TRAIT_SANGUIVORE)
+	restricted_species = list(/datum/species/construct/metal)
+	ui_fa_icon = "tint"
+
+/datum/quirk/bloodcolour
+	name = "Odd Blood"
+	desc = "My blood is not quite the colour one would expect."
+	mechdesc = "You will be asked to pick your blood colour once you spawn."
+	restricted_species = list(/datum/species/construct/metal, /datum/species/ooze)
+	ui_fa_icon = "droplet"
+	///blood colours on offer
+	var/static/list/colours = list(
+		"Dark Red" = "#530000",
+		"Rust Red" = "#3D1B14",
+		"Coal Black" = "#161616",
+		"Bruise Purple" = "#3B1E3F",
+		"Bog Green" = "#2A3A1C",
+		"Deep Blue" = "#1B2447",
+	)
+
+/datum/quirk/bloodcolour/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	INVOKE_ASYNC(src, PROC_REF(pick_colour), recipient)
+
+/datum/quirk/bloodcolour/proc/pick_colour(mob/living/carbon/human/recipient)
+	var/choice = tgui_input_list(recipient, "What colour is your blood?", "ODD BLOOD", colours)
+	if(choice && !QDELETED(recipient))
+		recipient.dna.species.blood_color = colours[choice]

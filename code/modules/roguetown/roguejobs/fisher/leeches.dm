@@ -139,7 +139,7 @@
 		if(0.8 to INFINITY)
 			. += span_bloody("<B>[p_theyre(TRUE)] fat and engorged with blood.</B>")
 		if(0.5 to 0.8)
-			. += span_bloody("[p_theyre(TRUE)] well fed.")
+			. += span_bloody("[p_theyre(TRUE)] well-fed.")
 		if(0.1 to 0.5)
 			. += span_warning("[p_they(TRUE)] want[p_s()] a meal.")
 		if(-INFINITY to 0.1)

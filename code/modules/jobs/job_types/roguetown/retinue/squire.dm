@@ -98,7 +98,7 @@
 
 /datum/advclass/squire/footman
 	name = "Squire at Arms"
-	tutorial = "Your training has been singularly focused on the fine techniques of melee, suited to to your \
+	tutorial = "Your training has been singularly focused on the fine techniques of melee, suited to your \
 	future dominance on the battlefield."
 	outfit = /datum/outfit/job/roguetown/squire/footman
 
