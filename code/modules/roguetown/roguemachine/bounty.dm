@@ -657,31 +657,38 @@
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
 	var/faction
-	var/unlock_time = 3 SECONDS
+	var/unlock_time = 5 SECONDS
 
 /obj/item/castifico_key/proc/can_unlock_collar(obj/item/clothing/neck/roguetown/collar/prisoner/collar)
 	return faction && collar.issuing_faction == faction
 
-/obj/item/castifico_key/proc/get_unlock_success_chance(mob/user)
-	return 100
-
 /obj/item/castifico_key/proc/get_unlock_time(mob/user)
 	return unlock_time
 
-/obj/item/castifico_key/proc/play_unlock_sound(atom/target)
-	playsound(target, pick('sound/items/pickgood1.ogg', 'sound/items/pickgood2.ogg'), 75, TRUE)
+/obj/item/castifico_key/proc/play_unlock_sound(atom/target, silent_pick)
+	var/sound_volume = silent_pick ? 2 : 5
+	playsound(target, pick('sound/items/pickgood1.ogg', 'sound/items/pickgood2.ogg'), sound_volume, TRUE)
 
 /obj/item/castifico_key/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
-	if(!proximity_flag || !ishuman(target))
+	if(!proximity_flag)
 		return
 
-	var/mob/living/carbon/human/recipient = target
-	var/obj/item/neck_item = recipient.get_item_by_slot(SLOT_NECK)
-	if(!istype(neck_item, /obj/item/clothing/neck/roguetown/collar/prisoner))
-		to_chat(user, span_warning("[recipient] is not wearing a castifico collar."))
+	var/mob/living/carbon/human/recipient
+	var/obj/item/clothing/neck/roguetown/collar/prisoner/collar
+	if(istype(target, /obj/item/clothing/neck/roguetown/collar/prisoner))
+		collar = target
+		if(ishuman(collar.loc))
+			recipient = collar.loc
+	else if(ishuman(target))
+		recipient = target
+		var/obj/item/neck_item = recipient.get_item_by_slot(SLOT_NECK)
+		if(istype(neck_item, /obj/item/clothing/neck/roguetown/collar/prisoner))
+			collar = neck_item
+	if(!recipient || !collar || recipient.get_item_by_slot(SLOT_NECK) != collar)
+		to_chat(user, span_warning("The castifico collar must be worn to unlock it."))
 		return
-	var/obj/item/clothing/neck/roguetown/collar/prisoner/collar = neck_item
+
 	if(!can_unlock_collar(collar))
 		to_chat(user, span_warning("This key cannot unlock a collar issued by another faction."))
 		return
@@ -689,22 +696,22 @@
 	var/unlock_duration = get_unlock_time(user)
 	var/list/sound_timer_ids = list()
 	if(istype(src, /obj/item/castifico_key/liberation))
-		play_unlock_sound(recipient)
+		var/silent_pick = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
+		recipient.visible_message(span_warning("[user] begins picking at [recipient]'s castifico collar..."))
+		play_unlock_sound(recipient, silent_pick)
 		for(var/sound_time = 3 SECONDS; sound_time < unlock_duration; sound_time += 3 SECONDS)
-			sound_timer_ids += addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient), sound_time, TIMER_STOPPABLE)
+			sound_timer_ids += addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient, silent_pick), sound_time, TIMER_STOPPABLE)
+	else
+		recipient.visible_message(span_warning("[user] begins unlocking [recipient]'s castifico collar..."))
 	var/unlock_completed = do_after(user, unlock_duration, TRUE, recipient)
 	for(var/timer_id in sound_timer_ids)
 		deltimer(timer_id)
 	if(!unlock_completed)
 		return
-	if(recipient.get_item_by_slot(SLOT_NECK) != collar || !istype(collar) || !can_unlock_collar(collar))
-		to_chat(user, span_warning("The collar is no longer secured for unlocking."))
+	if(QDELETED(src))
 		return
-
-	if(!prob(get_unlock_success_chance(user)))
-		recipient.visible_message(span_warning("[user] fails to pick [recipient]'s collar. The key snaps."))
-		playsound(recipient, 'sound/items/pickbad.ogg', 75, TRUE)
-		qdel(src)
+	if(recipient.get_item_by_slot(SLOT_NECK) != collar || !can_unlock_collar(collar))
+		to_chat(user, span_warning("The collar is no longer secured for unlocking."))
 		return
 
 	recipient.visible_message(span_notice("[user] uses [src] to unlock [recipient]'s collar. The key snaps in the lock and breaks."))
@@ -720,24 +727,19 @@
 
 /obj/item/castifico_key/liberation
 	name = "key of liberation"
-	desc = "It looks to be a modified lockpick. A profane instrument of Baothan design, fashioned to undo the shackles of the condemned and downtrodden. None should stand between a soul and its desires."
-	icon_state = "lockpick" //Placeholder. I'd really like to add a unique sprite for this later, but I'm not a spriter.
+	desc = "A profane instrument fashioned to undo the shackles of the condemned and downtrodden."
+	icon_state = "liberkey" //Shitty placeholder coder sprite edit. If someone re-sprites this later I'll love you forever.
 	color = "#FF69B4"
-	unlock_time = 20 SECONDS
+	unlock_time = 25 SECONDS
 
 /obj/item/castifico_key/liberation/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("A single-use lockpick designed for removing castifico collars, regardless of the faction they belong to.")
-	. += span_info("Unlock speed and success chance scale with the user's lockpicking skill. A failed pick attempt will break the lockpick.")
+	. += span_info("The lockpick makes noise while in use. Unlock speed scales with lockpicking skill.")
 
 /obj/item/castifico_key/liberation/can_unlock_collar(obj/item/clothing/neck/roguetown/collar/prisoner/collar)
 	return TRUE
 
-/obj/item/castifico_key/liberation/get_unlock_success_chance(mob/user)
-	return clamp(60 + user.get_skill_level(/datum/skill/misc/lockpicking) * 10, 0, 100)
-
 /obj/item/castifico_key/liberation/get_unlock_time(mob/user)
-	return unlock_time - user.get_skill_level(/datum/skill/misc/lockpicking) * 2 SECONDS
-
-/obj/item/castifico_key/liberation/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_BAOTHA_MISC)
+	var/pickskill = user.get_skill_level(/datum/skill/misc/lockpicking)
+	return max(6 SECONDS, unlock_time - pickskill * 3 SECONDS)
