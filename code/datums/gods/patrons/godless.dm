@@ -1,7 +1,7 @@
 /datum/patron/godless
 	name = "Godless"
 	domain = "Humenity"
-	desc = "The Gods exists, but either you do not know them or do not worship them. You guide yourself by your instincts or your reasons."
+	desc = "The Gods exist, but either you do not know them or do not worship them. You guide yourself by your instincts or your reasons."
 	worshippers = "Beasts, Apostates, and the truly Cynical"
 	associated_faith = /datum/faith/godless
 	preference_accessible = FALSE

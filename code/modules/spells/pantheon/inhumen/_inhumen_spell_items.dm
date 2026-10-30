@@ -1644,7 +1644,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
 	name = "gilded fingerless gloves"
-	desc = "Those who grasp at Fyre, are bount to be burned."
+	desc = "Those who grasp at Fyre, are bound to be burned."
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
 	color = "#fce517" // we golden

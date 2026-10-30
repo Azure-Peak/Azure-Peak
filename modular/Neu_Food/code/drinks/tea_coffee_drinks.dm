@@ -1,7 +1,7 @@
 // If there's ever more than 10 drinks maybe split this file OK?
 /obj/item/reagent_containers/food/snacks/grown/rogue/rosa_petals
 	name = "fresh rosa petals"
-	desc = "Crushed rosa petals with humor-balancing properties, yearing to be further dried to draw out its flavor."
+	desc = "Crushed rosa petals with humor-balancing properties, yearning to be further dried to draw out its flavor."
 	icon = 'modular/Neu_Food/icons/drinks.dmi'
 	icon_state = "rosamatter"
 	tastes = list("mild sweetness" = 1)
@@ -109,7 +109,7 @@
 	dish_type = DISH_DAIRY
 	cuisine = CUISINE_RANESHENI
 	name = "spiced chocolate"
-	desc = "A spiced sliver of heaven, awaiting to be brewed into a velvetly rich drink."
+	desc = "A spiced sliver of heaven, awaiting to be brewed into a velvety and rich drink."
 	icon = 'modular/Neu_Food/icons/drinks.dmi'
 	icon_state = "chocolate_spiced"
 	bitesize = 2

@@ -233,7 +233,7 @@
 
 /datum/virtue/utility/intellectual
 	name = "Intellectual"
-	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal closeby. I can tell people's exact prowess."
+	desc = "I've spent my life surrounded by various books or sophisticated foreigners, be it through travel or other fortunes beset on my life. I've picked up several tongues and wits, and keep a journal close-by. I can tell people's exact prowess."
 	ui_fa_icon = "book"
 	custom_text = "Maximizes Assess benefits with a bonus of the target's Stats. Allows the choice of up to 6 languages to learn."
 	added_traits = list(TRAIT_INTELLECTUAL)
@@ -398,7 +398,7 @@
 	name = "Bronze Limbs"
 	desc = "Through connections or wealth, my limb had been replaced by one of bronze and gears, that can grip and hold onto things. I've learned just a bit of Engineering as a result."
 	ui_fa_icon = "robot"
-	custom_text = "Replaces your chosen limbs with a prosthetic Bronze ones."
+	custom_text = "Replaces your chosen limbs with prosthetic bronze ones."
 	added_skills = list(list(/datum/skill/craft/engineering, 1, 6))
 	max_choices = 4
 	stackable = TRUE //We're OK with this, it's fairly innocuous

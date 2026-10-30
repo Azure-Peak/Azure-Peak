@@ -155,7 +155,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/mealbuff
 	name = "Good Meal"
-	desc = "A meal a day keeps the barber away, or at least it makes it slighly easier."
+	desc = "A meal a day keeps the barber away, or at least it makes it slightly easier."
 	icon_state = "foodbuff"
 
 /datum/status_effect/buff/mealbuff/on_creation(mob/living/new_owner)
@@ -1250,9 +1250,9 @@
 	REMOVE_TRAIT(owner, TRAIT_NOMOOD, MAGIC_TRAIT)
 	//we now check for our removal message.
 	if(HAS_TRAIT(owner, TRAIT_NOMOOD))
-		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds."))
+		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light recedes."))
 	else
-		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds and I feel that vibrant feeling of emotion again."))
+		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light recedes and I feel that vibrant feeling of emotion again."))
 
 
 /datum/status_effect/buff/utilityrituos
@@ -1263,7 +1263,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	name = "Progressive Trance"
-	desc = "Zizo's mandate and her absolute truth reshapes my mynd, I learn unnaturally fast and my hands work wrydly fast."
+	desc = "Zizo's mandate and her absolute truth reshapes my mynd, I learn unnaturally fast and my hands work wyrdly fast."
 	icon_state = "rituos_exchange"
 
 
@@ -1411,7 +1411,7 @@
 
 /datum/status_effect/buff/lesserwolf/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("I feel my leg muscles grow taut, my teeth sharp, I am embued with the power of a predator. Branches and brush reach out for my soul..."))
+	to_chat(owner, span_warning("I feel my leg muscles grow taut, my teeth sharp, I am imbued with the power of a predator. Branches and brush reach out for my soul..."))
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	ADD_TRAIT(owner, TRAIT_STRONGBITE, id)
 
@@ -1433,7 +1433,7 @@
 
 /datum/status_effect/buff/malumritual/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("I feel Malum's persistance envelop me..."))
+	to_chat(owner, span_warning("I feel Malum's persistence envelop me..."))
 	ADD_TRAIT(owner, TRAIT_MALUMCHOSEN , id)
 
 /datum/status_effect/buff/malumritual/on_remove()
@@ -2501,7 +2501,7 @@
 
 
 /atom/movable/screen/alert/status_effect/buff/stagehands_silence
-	name = "Stangehand's Silence"
+	name = "Stagehand's Silence"
 	desc = "The slow quicken. My footsteps are quiet and I can move faster while sneaking."
 
 /datum/status_effect/buff/stagehands_silence/on_apply()
@@ -2582,7 +2582,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerstr
 	name = "Artificer Athletic"
-	desc = "This armor fills me with atheletic power and strength."
+	desc = "This armor fills me with athletic power and strength."
 	icon_state = "buff"
 
 //construct buffing
@@ -2892,7 +2892,7 @@
 
 /datum/status_effect/buff/overclock/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("The interals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
+	to_chat(owner, span_warning("The internals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
 
 /datum/status_effect/buff/overclock/on_remove()
 	. = ..()

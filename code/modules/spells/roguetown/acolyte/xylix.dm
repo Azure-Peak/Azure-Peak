@@ -513,7 +513,7 @@
 	if(vendettatarget != user)
 		user.visible_message("[user] locks eyes with [vendettatarget].")
 		to_chat(user, span_notice("I have formed a Vendetta against [vendettatarget], our battle shall be dramatic!"))
-		to_chat(vendettatarget, span_notice("A Vendetta has been made agaisnt me and [user], our fight shall be dramatic!"))
+		to_chat(vendettatarget, span_notice("A Vendetta has been made against me and [user], our fight shall be dramatic!"))
 		vendettatarget.apply_status_effect(/datum/status_effect/buff/vendetta)
 		user.apply_status_effect(/datum/status_effect/buff/vendetta)
 		if(istype(vendettatarget.patron, /datum/patron/inhumen)) // make the fight even more interesting

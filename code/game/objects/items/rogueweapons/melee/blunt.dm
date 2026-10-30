@@ -305,7 +305,7 @@
 /obj/item/rogueweapon/mace/cleric
 	name = "anointed mace"
 	desc = "A crusader's mace, adorned with a head of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
-	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes."
+	sunder those who bear greater curses, it nevertheless channels enough power to dispel the lesser curses of mindless fiends-and-foes."
 	icon_state = "crusadermace"
 	is_even_lesser_silver = TRUE // adv paladin exclusive weapon, works like unblessed silver but only in pve
 
@@ -445,7 +445,7 @@
 
 /obj/item/rogueweapon/mace/cudgel/flanged
 	name = "flanged mace"
-	desc = "Chivalry. </br>A one-handed derivative of the mace, purpose-made to dazzle armored opponents. Quartered into four symmetrical ridges, its flanged macehead can comfortably carve maille-and-bone behind the safety of an accompying shield."
+	desc = "Chivalry. </br>A one-handed derivative of the mace, purpose-made to dazzle armored opponents. Quartered into four symmetrical ridges, its flanged macehead can comfortably carve maille-and-bone behind the safety of an accompanying shield."
 	force = 27 //+2 (1H) but -5 (2H), compared to the Steel Mace.
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/dislocate, /datum/intent/effect/daze, /datum/intent/mace/warhammer/stab)
 	gripped_intents = null //One-handed. Pseudo-sidegrade between the Mace and Warhammer, offering more damage and dislocations at the cost of no Picking or Smashing.
@@ -595,7 +595,7 @@
 
 /obj/item/rogueweapon/mace/cudgel/flanged/justice
 	name = "\"Justice\""
-	desc = "The icon of the right of office of the Marshal. While mostly ceremonial in design, it serves its purpose in dishing out some much needed justice."
+	desc = "The icon of the right of office of the Marshal. While mostly ceremonial in design, it serves its purpose in dishing out some much-needed justice."
 	force = 30
 	icon_state = "justice"
 	wdefense = 6
@@ -771,7 +771,7 @@
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab/lesser)
 	gripped_intents = null //Warhammers are purpose-made to kill. Smaller maceheads lock them out from the 'Dislocate' intent and 'Smash' intent's full knockback. Still, their boon comes from being a 'jack of all trades'.
 	name = "warhammer"
-	desc = "A one-handed derivative of the mace, purpose-made to defeat armored opponents in battle. Paired nicely with a mug of Azuria's finest zenny-liqour and a heater shield."
+	desc = "A one-handed derivative of the mace, purpose-made to defeat armored opponents in battle. Paired nicely with a mug of Azuria's finest zenny-liquor and a heater shield."
 	icon_state = "iwarhammer"
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/iron
@@ -831,7 +831,7 @@
 /obj/item/rogueweapon/mace/warhammer/bronze/decorated
 	force = 30 // this requires GOLD to make, its going to be a bit more heavy.
 	name = "decorated bronze warclub"
-	desc = "Beads, silk, and gold caress this carved-and-spiked log; a honored totem who's roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
+	desc = "Beads, silk, and gold caress this carved-and-spiked log; a honored totem whose roots trace back to the daes before Syon's impact. Myths speak of ancient elve-and-humen alike, wielding such bronzen bludgeons against the Archdevil's rampaging hordes."
 	icon_state = "bronzeclubdec"
 	smeltresult = /obj/item/ingot/gold
 	wdefense = 5
@@ -878,7 +878,7 @@
 
 /obj/item/rogueweapon/mace/warhammer/blacksteel
 	name = "blacksteel warhammer"
-	desc = "A magnificent warhammer of blacksteel. Ornamental, resplendant, and - above all else - lethal; the ideal sidearm for a knight in the sixteenth century."
+	desc = "A magnificent warhammer of blacksteel. Ornamental, resplendent, and - above all else - lethal; the ideal sidearm for a knight in the sixteenth century."
 	icon_state = "bs_hammer"
 	force = 30
 	minstr = 10
@@ -889,7 +889,7 @@
 
 /obj/item/rogueweapon/mace/warhammer/steel/silver
 	name = "silver warhammer"
-	desc = "A heavy warhammer, forged from pure silver. It follows the Otavan design of a 'lucerene'; a shortened polehammer with a pronounced spike, rebalanced for one-handed usage. Resplendent in presentation, righteous in purpose."
+	desc = "A heavy warhammer, forged from pure silver. It follows the Otavan design of a 'lucerne'; a shortened polehammer with a pronounced spike, rebalanced for one-handed usage. Resplendent in presentation, righteous in purpose."
 	icon_state = "silverhammer"
 	smeltresult = /obj/item/ingot/silver
 	smelt_bar_num = 2
@@ -1164,7 +1164,7 @@
 
 	var/current_time = world.time
 
-	// Reset hit count if it's been too long since the last succesful hit.
+	// Reset hit count if it's been too long since the last successful hit.
 	if(hit_count > 0 && (current_time - last_hit_time) > reset_timeout)
 		hit_count = 1
 		last_hit_time = current_time

@@ -1255,3 +1255,10 @@
   - bugfix: Lava/Acid hazards are fatal once more.
   fffelinid:
   - rscadd: Added 'suicide prayer' verb for those with the Hollow virtue.
+2026-10-30:
+  Voidastra:
+  - qol: added cackle to the affected emotes to trigger xylix_joy
+  WeNeedMorePhoron:
+  - rscadd: Shields blocking a projectile will no longer delete it.
+  - balance: Reverted the 20% damage haircut applied to Spellblades during Mage 3.1
+  - rscdel: Removed ALCHEMY EXPERT trait from heretical fiend NPC

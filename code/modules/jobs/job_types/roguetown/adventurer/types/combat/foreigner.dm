@@ -645,7 +645,7 @@
 				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/gladiator //a gambeson
 				pants = /obj/item/clothing/under/roguetown/loincloth/brown
 				belt = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
-				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo untill someone figures out how to grant it.
+				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo until someone figures out how to grant it.
 			if("Shieldbearer - Well-Armored & Maille Training")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				head = /obj/item/clothing/head/roguetown/helmet/heavy/bronze
@@ -799,7 +799,7 @@
 	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/cut, /datum/intent/spear/cut/bardiche/cleave, /datum/intent/spear/cut/glaive/sweep)
 	name = "autumned elvish bardiche"
 	desc = "A cleaving polearm, hewn from the branch of an Azurian elk tree and tipped with a wide blade of faeiron. The \
-	tapered edge can thrust through an oppressor's armor at the right range, while its wide sweeps can dispell even the \
+	tapered edge can thrust through an oppressor's armor at the right range, while its wide sweeps can dispel even the \
 	rowdiest of lumberfoots."
 	icon_state = "aebardiche"
 	max_blade_int = 200
@@ -892,7 +892,7 @@
 	name = "autumnwoad elven boots"
 	desc = "A pair of mossboots that ache with the sounds of living nature, and teem with the colors \
 	of perpetual autumnage. It is said that a Black Oak's armor will only fully blossom once they've \
-	earned the mantle of guardianship; to forsake one's oath to nature is to dispell the ancient songs, \
+	earned the mantle of guardianship; to forsake one's oath to nature is to dispel the ancient songs, \
 	and to let the bark wither away. </br>'..those fallen leaves lie undisturbed now, 'cause you're not here!'"
 
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'

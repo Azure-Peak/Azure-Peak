@@ -8,7 +8,7 @@
 
 	allowed_sexes = list(MALE, FEMALE) //same as town guard
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED RACES_OOZE) //Constructs are too new to even exist long enough to be veterans, plus noble title.
-	tutorial = "You've known combat your entire life. There isn't a way to kill a man you havent practiced in the tapestries of war itself. You wouldn't call yourself a hero--those belong to the men left rotting in the fields where you honed your ancient trade. You don't sleep well at night anymore, you don't like remembering what you've had to do to survive. Trading adventure for stable pay was the only logical solution, and maybe someday you'll get to lay down the blade and rest your weary body..."
+	tutorial = "You've known combat your entire life. There isn't a way to kill a man you haven't practiced in the tapestries of war itself. You wouldn't call yourself a hero--those belong to the men left rotting in the fields where you honed your ancient trade. You don't sleep well at night anymore, you don't like remembering what you've had to do to survive. Trading adventure for stable pay was the only logical solution, and maybe someday you'll get to lay down the blade and rest your weary body..."
 	allowed_ages = list(AGE_OLD) //VETERANS!! ARE!!! OLD!!!
 	advclass_cat_rolls = list(CTAG_VETERAN = 20)
 	display_order = JDO_VETERAN
@@ -268,7 +268,7 @@
 
 /datum/advclass/veteran/calvaryman
 	name = "Tarnished Knight"
-	tutorial = "You were once a member of a knightly calvary regiment, a prestigious title. You were ontop of the world, the townspeople rejoiced when you rode through their streets. Now, all you can hear is the screams of your brothers-in-arms as they fell. You specialize in mounted warfare."
+	tutorial = "You were once a member of a knightly calvary regiment, a prestigious title. You were on top of the world, the townspeople rejoiced when you rode through their streets. Now, all you can hear is the screams of your brothers-in-arms as they fell. You specialize in mounted warfare."
 	outfit = /datum/outfit/job/roguetown/vet/calvaryman
 
 	category_tags = list(CTAG_VETERAN)
@@ -626,7 +626,7 @@
 
 /datum/advclass/veteran/spy
 	name = "Ex-Spy"
-	tutorial = "You didn't serve on the frontlines, you were an informant, a spy, an assassin. You wove your way through enemy courts, finding information, neutralizing loose ends. You lived old in a career that many die young. It's a miracle you stand here today. You specialize in knives, whips, and stealth."
+	tutorial = "You didn't serve on the front lines, you were an informant, a spy, an assassin. You wove your way through enemy courts, finding information, neutralizing loose ends. You lived old in a career that many die young. It's a miracle you stand here today. You specialize in knives, whips, and stealth."
 	outfit = /datum/outfit/job/roguetown/vet/spy
 	subclass_languages = list(/datum/language/thievescant)
 	cmode_music = 'sound/music/cmode/nobility/combat_spymaster.ogg'

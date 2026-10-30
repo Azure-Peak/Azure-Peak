@@ -149,7 +149,7 @@
 	STACON = 9
 	STASTR = 9
 	STASPD = 14
-	// These things will crit. Slow attacks, devestating consequences.
+	// These things will crit. Slow attacks, devastating consequences.
 	STAPER = 15
 	pixel_x = -4
 
