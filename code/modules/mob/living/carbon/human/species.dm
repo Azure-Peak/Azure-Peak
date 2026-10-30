@@ -2491,7 +2491,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	if(H.buckled)
 		buckled_obj = H.buckled
 
-	to_chat(H, span_notice("My wings spazz out and launch you!"))
+	to_chat(H, span_notice("My wings spasm wildly and launch me!"))
 
 	playsound(H.loc, 'sound/blank.ogg', 100, TRUE, -3)
 

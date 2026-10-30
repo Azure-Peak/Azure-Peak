@@ -92,7 +92,7 @@
 
 /datum/reagent/consumable/tea/fourtwenty
 	name = "swampweed brew"
-	description = "Swampweed leaf brewed into a drink. Used by shamans and other spiritual guides. Its gemerald color hides its true earhty taste. "
+	description = "Swampweed leaf brewed into a drink. Used by shamans and other spiritual guides. Its gemerald color hides its true earthy taste. "
 	color = "#04750a"
 	nutriment_factor = 2
 	metabolization_rate = 1
@@ -140,7 +140,7 @@
 	metabolization_rate = 0.2 // 20% of normal metab
 	taste_description = "strong berry taste, its very sweet"
 	taste_mult = 4
-	hydration_factor = 3 //a hydrating, nutritious and convinient drink made of raisins
+	hydration_factor = 3 //a hydrating, nutritious and convenient drink made of raisins
 	nutriment_factor = 2
 	quality = 2
 

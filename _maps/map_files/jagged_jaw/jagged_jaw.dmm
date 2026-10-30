@@ -46095,6 +46095,10 @@
 "fAV" = (
 /turf/closed/wall/mineral/rogue/stone/window,
 /area/rogue/indoors/town/grim)
+"fAZ" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/grass,
+/area/rogue/outdoors/rtfield/grim)
 "fBc" = (
 /obj/effect/landmark/chimeric_calyx_spawner/fifteen,
 /turf/open/floor/rogue/AzureSand,
@@ -76698,6 +76702,29 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors)
 "jiR" = (
+/obj/structure/rack/rogue/shelf/big{
+	icon_state = "shelf_biggest";
+	pixel_y = 0
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 8;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = -8;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = -7;
+	pixel_y = -8
+	},
+/obj/item/reagent_containers/glass/cup/wooden{
+	pixel_x = 7;
+	pixel_y = -8
+	},
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
 	},
@@ -94105,6 +94132,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood/platform,
 /area/rogue/outdoors/beach/grim)
+"loU" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/rtfield/grim)
 "loX" = (
 /obj/structure/flora/roguegrass,
 /obj/structure/flora/ausbushes/ppflowers,
@@ -94608,9 +94639,7 @@
 /obj/structure/roguemachine/talkstatue/mercenary{
 	pixel_y = -32
 	},
-/obj/structure/roguemachine/contractledger{
-	layer = 3
-	},
+/obj/structure/roguemachine/contractledger/south,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/tavern/grim)
 "lsJ" = (
@@ -119344,6 +119373,11 @@
 /obj/item/reagent_containers/peppermill{
 	pixel_x = 15;
 	pixel_y = 12
+	},
+/obj/structure/rack/rogue/shelf/notdense{
+	layer = 2.9;
+	pixel_x = 0;
+	pixel_y = 20
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
@@ -160352,6 +160386,10 @@
 	},
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town/roofs/keep/grim)
+"tnR" = (
+/obj/effect/landmark/quest_spawner/generic,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/outdoors/rtfield/grim/south)
 "tnS" = (
 /obj/effect/decal/remains/human,
 /obj/item/rogueweapon/huntingknife,
@@ -161339,6 +161377,10 @@
 /area/rogue/indoors/town/magician/grim)
 "tuh" = (
 /obj/structure/closet/crate/drawer,
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_x = 32;
+	pixel_y = 0
+	},
 /turf/open/floor/carpet/stellar{
 	color = "#E8C716"
 	},
@@ -172462,6 +172504,11 @@
 "uIQ" = (
 /obj/structure/table/cooling,
 /obj/item/ration_lootbox,
+/obj/structure/rack/rogue/shelf/notdense{
+	layer = 2.9;
+	pixel_x = 0;
+	pixel_y = 20
+	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "uIR" = (
@@ -175507,7 +175554,8 @@
 	alpha = 0;
 	mouse_opacity = 0
 	},
-/turf/closed/wall/mineral/rogue/wooddark/window,
+/obj/structure/roguewindow,
+/turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/tavern/grim)
 "vaU" = (
 /turf/closed/wall/mineral/rogue/stone/window/moss,
@@ -177164,10 +177212,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter)
-"vlg" = (
-/obj/structure/mineral_door/swing_door,
-/turf/open/floor/rogue/concrete,
-/area/rogue/indoors/town/tavern/grim)
 "vlh" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -193104,29 +193148,7 @@
 /turf/open/floor/rogue/blocks/flipped,
 /area/rogue/outdoors/exposed/under/sewer/grim)
 "xdi" = (
-/obj/structure/rack/rogue/shelf/big{
-	icon_state = "shelf_biggest";
-	pixel_y = 0
-	},
-/obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = 8;
-	pixel_y = 4
-	},
-/obj/item/reagent_containers/glass/cup/wooden{
-	pixel_y = 4
-	},
-/obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -8;
-	pixel_y = 4
-	},
-/obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = -7;
-	pixel_y = -8
-	},
-/obj/item/reagent_containers/glass/cup/wooden{
-	pixel_x = 7;
-	pixel_y = -8
-	},
+/obj/structure/table/cooling,
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/tavern/grim)
 "xdn" = (
@@ -202692,7 +202714,6 @@
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/shelter/town/grim)
 "ykS" = (
-/obj/machinery/light/rogue/campfire/fireplace,
 /obj/structure/table/wood/poor,
 /turf/open/floor/carpet/stellar{
 	color = "#E8C716"
@@ -352207,7 +352228,7 @@ mkX
 rbd
 mkX
 cVV
-cVV
+loU
 mkX
 tWg
 tWg
@@ -360955,7 +360976,7 @@ mkX
 mkX
 lIV
 cVV
-mkX
+fAZ
 mkX
 paV
 tWg
@@ -360995,7 +361016,7 @@ mkX
 nbl
 mkX
 mkX
-cVV
+loU
 cVV
 mkX
 cVV
@@ -363632,7 +363653,7 @@ mkX
 tWg
 paV
 lIV
-cVV
+loU
 cch
 tWg
 dTk
@@ -364785,7 +364806,7 @@ tWg
 paV
 tWg
 tWg
-mkX
+fAZ
 dTk
 mkX
 mqY
@@ -367098,7 +367119,7 @@ mkX
 cch
 mkX
 cVV
-cVV
+loU
 cVV
 mkX
 mkX
@@ -368202,7 +368223,7 @@ bMz
 mkX
 cVV
 cVV
-cVV
+loU
 cVV
 mDI
 aTh
@@ -369379,7 +369400,7 @@ cVV
 lIV
 dTk
 mkX
-cVV
+loU
 cVV
 mkX
 mkX
@@ -369739,7 +369760,7 @@ mkX
 cVV
 cVV
 mkX
-mkX
+fAZ
 cVV
 cVV
 cVV
@@ -502654,7 +502675,7 @@ bKl
 vdB
 cjv
 cjv
-vlg
+wKb
 pVS
 jxA
 caS
@@ -518047,7 +518068,7 @@ bDh
 bQx
 bDh
 icy
-aTS
+tnR
 aTS
 sNk
 pLW
@@ -521089,7 +521110,7 @@ pLW
 iPR
 sLc
 pRy
-aTS
+tnR
 aTS
 sNk
 iPR
@@ -523016,7 +523037,7 @@ iPR
 bQx
 uNY
 cua
-bQx
+unb
 cua
 aTS
 iaW
@@ -529869,7 +529890,7 @@ dIi
 fPd
 fPd
 fPd
-fPd
+oPM
 oOx
 oOx
 vWW
@@ -629470,7 +629491,7 @@ fLM
 llC
 wNT
 wUY
-dHo
+vzM
 wEA
 pdo
 vCA
@@ -629852,7 +629873,7 @@ oQA
 icn
 hfq
 dGd
-dHo
+vzM
 ykS
 tuh
 aZU
@@ -630235,9 +630256,9 @@ dHo
 dHo
 ezb
 fLM
-fLM
+dHo
+dHo
 ezb
-vzM
 fLM
 vnG
 vnG

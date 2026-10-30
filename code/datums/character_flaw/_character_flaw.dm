@@ -462,7 +462,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
 		if(H.name) // If you don't check this, the log entry wont have a name as flaw_on_life is checked at least once before the name is set.
-			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.") // we log this in the same place as hunted because making a seperate log for it would be silly
+			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.") // we log this in the same place as hunted because making a separate log for it would be silly
 			logged = TRUE
 
 /datum/charflaw/targeted/apply_post_equipment(mob/user)
@@ -626,7 +626,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			user.emote("yawn", forced = TRUE)
 			next_sleep = world.time + rand(7 SECONDS, 11 SECONDS)
 			if(drugged_up)
-				to_chat(user, span_blue("The drugs keeps me awake, for now..."))
+				to_chat(user, span_blue("The drugs keep me awake, for now..."))
 			else
 				to_chat(user, span_blue("I'm getting drowsy..."))
 

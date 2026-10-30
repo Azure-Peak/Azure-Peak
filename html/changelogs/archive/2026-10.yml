@@ -1226,3 +1226,39 @@
       up to a maximum of six.
   kilozombie:
   - balance: Bathmaster has an INT bonus instead of an INT malus, but is less strong
+2026-10-29:
+  Guidesu:
+  - rscadd: adds a greyscale version of astratan cloak in the loadout
+  NonQueueingMatt:
+  - rscadd: Re-added massage to socialite virtue. This version of massage does not
+      give any mechanical buffs, only a placebo buff.
+  OrbisAnima:
+  - balance: Gives the Mage Lord a Greater Tome and a silver arcane dagger instead
+      of the gold decorated dagger. Fixes their royal sheat not appearing.
+  Ryan180602:
+  - rscadd: lampterns to vaqueros.
+  - balance: deweaponises familiars. they are pacifists, now.
+  - rscadd: added a way to add aim mod to projectiles.
+  - balance: slings are capped to expert effectiveness like xbows/bows.
+  - balance: heavier sling bullets now have aim malus.
+  WeNeedMorePhoron:
+  - bugfix: Mirespider lurkers will now melee attack properly on top of shooting gob
+      at you.
+  borneblood:
+  - rscadd: Added a quirkier finisher for unarmed dual wielders.
+  - bugfix: Fixed a few oversights with TRAIT_DUALWIELDER, such as 'when you proc
+      it your next 3 attacks are cancelled' (thats fucked up).
+  - code_imp: Cleaned up a little TRAIT_DUALWIELDER's code to make it more legible.
+  - balance: Biting/Chewing no longer randomly exposes you.
+  - bugfix: Nausea will properly decay on some things that were immune to it, such
+      as Rotcured.
+  - bugfix: Lava/Acid hazards are fatal once more.
+  fffelinid:
+  - rscadd: Added 'suicide prayer' verb for those with the Hollow virtue.
+2026-10-30:
+  Voidastra:
+  - qol: added cackle to the affected emotes to trigger xylix_joy
+  WeNeedMorePhoron:
+  - rscadd: Shields blocking a projectile will no longer delete it.
+  - balance: Reverted the 20% damage haircut applied to Spellblades during Mage 3.1
+  - rscdel: Removed ALCHEMY EXPERT trait from heretical fiend NPC

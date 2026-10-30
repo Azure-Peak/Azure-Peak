@@ -255,7 +255,7 @@
 	introduce_member(user)
 	return TRUE
 
-// So that you don't have to shift click before you can scry / message / mindlink eachother
+// So that you don't have to shift click before you can scry / message / mindlink each other
 /datum/fellowship/proc/introduce_member(mob/living/user)
 	if(!user.mind)
 		return

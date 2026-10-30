@@ -128,7 +128,7 @@ SUBSYSTEM_DEF(spatial_grid)
 ///add a movable to the pre init queue for whichever type is specified so that when the subsystem initializes they get added to the grid
 /datum/controller/subsystem/spatial_grid/proc/enter_pre_init_queue(atom/movable/waiting_movable, type)
 	RegisterSignal(waiting_movable, COMSIG_QDELETING, PROC_REF(queued_item_deleted), override = TRUE)
-	//override because something can enter the queue for two different types but that is done through unrelated procs that shouldnt know about eachother
+	//override because something can enter the queue for two different types but that is done through unrelated procs that shouldnt know about each other
 	waiting_to_add_by_type[type] += waiting_movable
 
 ///removes an initialized and probably deleted movable from our pre init queue before we're initialized

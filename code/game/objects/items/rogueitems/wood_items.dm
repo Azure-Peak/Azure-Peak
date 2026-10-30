@@ -33,7 +33,7 @@
 
 /obj/item/carvedwood/cameo
 	name = "wooden cameo"
-	desc = "A cameo carved out of wood depicting depicting someone's grandest features in greater detail; a memoir, perhaps."
+	desc = "A cameo carved out of wood depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_wood"
 
 /obj/item/carvedwood/plinth

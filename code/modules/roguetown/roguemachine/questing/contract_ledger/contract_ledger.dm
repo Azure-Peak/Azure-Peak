@@ -9,16 +9,20 @@
 	layer = ABOVE_MOB_LAYER
 	plane = GAME_PLANE_UPPER
 	var/input_point
+	var/input_point_y_offset = -1
 	var/directives_issued_today = 0
 	var/directives_day_stamp = -1
 
 /obj/structure/roguemachine/contractledger/Initialize(mapload)
 	. = ..()
-	input_point = locate(x, y - 1, z)
+	input_point = locate(x, y + input_point_y_offset, z)
 	var/obj/effect/decal/marker_export/marker = new(get_turf(input_point))
 	marker.desc = "Drop items for retrieval contracts here to turn them in."
 	marker.layer = ABOVE_OBJ_LAYER
 	SSquestpool.registered_ledgers += src
+
+/obj/structure/roguemachine/contractledger/south
+	input_point_y_offset = 1
 
 /obj/structure/roguemachine/contractledger/Destroy()
 	SSquestpool.registered_ledgers -= src

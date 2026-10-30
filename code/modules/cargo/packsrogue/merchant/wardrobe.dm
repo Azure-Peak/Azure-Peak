@@ -526,7 +526,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 				)
 
 /datum/supply_pack/rogue/wardrobe/shirt/undervestements
-	name = "Undervestements"
+	name = "Undervestments"
 	cost = 15
 	contains = list(
 					/obj/item/clothing/suit/roguetown/shirt/undershirt/priest

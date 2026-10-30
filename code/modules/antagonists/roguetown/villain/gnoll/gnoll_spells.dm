@@ -148,7 +148,7 @@
 		to_chat(user, span_notice("You begin setting your anchor for abduction."))
 		if(do_after(user, 10 SECONDS, target = user))
 			destination_turf = get_turf(user)
-			to_chat(user, span_notice("You anchor your connection to graggar's plane here. Any abducted will be fetched here."))
+			to_chat(user, span_notice("You anchor your connection to Graggar's plane here. Any abducted will be fetched here."))
 		// We are reverting cast because we're only setting the destination.
 		revert_cast()
 		return FALSE
@@ -184,7 +184,7 @@
 	if(target.has_flaw(/datum/charflaw/hunted))
 		channel_time = 6 SECONDS
 
-	to_chat(user, span_notice("You begin pulling [target] into graggar's plane"))
+	to_chat(user, span_notice("You begin pulling [target] into Graggar's plane."))
 	to_chat(target, span_userdanger("The world around you begins to dissolve into a blood scented nightmare!"))
 	user.visible_message(span_userdanger("[user] tears a blood red rift into space with a claw, and begins dragging [target] into it!"))
 	tracker.channeling_abduction = TRUE

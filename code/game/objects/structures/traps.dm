@@ -27,7 +27,7 @@
 /obj/structure/trap/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right-clicking the eye on your HUD allows you to check your surroundings for hidden threats, traps, and ambushes. The chance to spot each instance scales with your character's Perception.")
-	. += span_info("Most traps are almost completely invisible. Examining an adjacent trap by shift-clicking it will momentarily dispell the invisiblity, and temporarily disables it.")
+	. += span_info("Most traps are almost completely invisible. Examining an adjacent trap by shift-clicking it will momentarily dispel the invisibility, and temporarily disables it.")
 
 /obj/structure/trap/Initialize(mapload)
 	. = ..()
