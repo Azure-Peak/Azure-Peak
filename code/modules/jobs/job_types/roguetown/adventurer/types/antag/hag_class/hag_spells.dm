@@ -517,12 +517,15 @@
 	action_icon = 'icons/mob/actions/hagspells.dmi'
 	overlay_state = "hand_down"
 	var/mob/dead/observer/eye/screye/displaced_soul/soul	// self explanatory
+	var/owner // we need to keep track of this ourselves, apparently
 
 /obj/effect/proc_holder/spell/invoked/possess_vessel/cast(list/targets, mob/living/user)
 	var/datum/component/hag_curio_tracker/HCT = user.GetComponent(/datum/component/hag_curio_tracker)
 	if(!HCT || !ishuman(user))
 		to_chat(user, span_warning("You lack the connection needed to take control of a vessel."))
 		return FALSE
+	if(user.client)
+		owner = user.client
 	var/mob/living/carbon/human/H = user
 	if(!soul) // we're casting this from our original body: possess a vessel.
 		var/list/vessels = list()
@@ -549,6 +552,7 @@
 			return FALSE
 		choice.TakeComponent(HCT)
 		RegisterSignal(choice, COMSIG_MOB_POSSESS_RELEASE, PROC_REF(release_vessel))
+		RegisterSignal(soul, COMSIG_DEAD_RESIST, PROC_REF(handle_resist))
 		return TRUE
 	// we're casting this from a vessel: restore them, and return to our original body
 	var/mob/living/carbon/human/vessel = soul.vessel // soul gets QDEL'd in release_vessel so we store a ref to the vessel here
@@ -557,6 +561,10 @@
 		return FALSE
 	UnregisterSignal(vessel, COMSIG_MOB_POSSESS_RELEASE) // they're not possessed by us anymore
 	return TRUE
+
+// hag vessels signed up for this with a virtue, and left the possession toggle on: they don't get to actually kick the hag out
+/obj/effect/proc_holder/spell/invoked/possess_vessel/proc/handle_resist(mob/dead/observer/eye/screye/displaced_soul/resister)
+	to_chat(owner, span_warning("[resister]'s soul squirms and writhes; it seems they want control of their body back."))
 
 /obj/effect/proc_holder/spell/invoked/possess_vessel/after_cast(list/targets, mob/user)
 	. = ..()
@@ -582,6 +590,7 @@
 	return TRUE
 
 /obj/effect/proc_holder/spell/invoked/possess_vessel/proc/release_vessel(mob/living/carbon/human/vessel, mob/dead/observer/eye/screye/displaced_soul/dsoul, mob/living/carbon/human/original, dying)
+	UnregisterSignal(dsoul, COMSIG_DEAD_RESIST)
 	if(!dying)
 		GLOB.fey_vessels[vessel] = TRUE													// make them possessable again
 	var/datum/component/hag_curio_tracker/HCT = vessel.GetComponent(/datum/component/hag_curio_tracker)

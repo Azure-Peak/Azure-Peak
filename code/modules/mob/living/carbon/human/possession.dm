@@ -92,6 +92,7 @@
 	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
 	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
 	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
+	add_verb(dsoul, /mob/dead/observer/eye/screye/displaced_soul/proc/resist_possession) // failsafe: if a possessor is badfaithing/afk, or in certain ic circumstances, you can resist. what that does depends on the possession source
 	return dsoul
 
 /// removes all actions not belonging to a spell in the mind's spell list. good way to 'reset' actionlists after mind transfers
@@ -109,3 +110,10 @@
 					if(X == S.action)
 						continue outer
 			X.Remove(src)
+
+// both an escape hatch if the possessor is acting in bad faith, and an intended ic mechanic for certain types of possession. what it does depends on the possession source, so make sure to hook into COMSIG_DEAD_RESIST for your possession mechanic!
+/mob/dead/observer/eye/screye/displaced_soul/proc/resist_possession()
+	set name = "Resist Possession"
+	set category = "RoleUnique.Displaced Soul"
+
+	SEND_SIGNAL(src, COMSIG_DEAD_RESIST)
