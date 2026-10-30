@@ -53,7 +53,6 @@
 	var/mob/new_mob
 	var/spawned_mobs = 0
 	var/minions_to_spawn = 1
-	var/next_summon = 0
 	var/phase_two_health = 1500
 	var/list/minions = list( /mob/living/carbon/human/species/dwarfskeleton/ambush/knight/summoned = 100)
 
@@ -64,17 +63,12 @@
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Not undead but if we ever change this.
 	AddComponent(/datum/component/ai_aggro_system, aggro_range = 8, maintain_range = 24)
+	var/datum/action/cooldown/baroness_summon/summon = new(src)
+	summon.Grant(src)
 
 /mob/living/simple_animal/hostile/boss/baroness/Shoot()
 	projectiletype = pick(allowed_projectile_types)
 	..()
-
-/mob/living/simple_animal/hostile/boss/baroness/proc/try_summon()
-	if(health >= phase_two_health || next_summon > world.time)
-		return
-	spawn_minions(minions_to_spawn)
-	INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "Defend your Matriarch!", null, list("colossus", "yell"))
-	next_summon = world.time + 1800
 
 /obj/projectile/magic/frostbolt/Baroness
 	speed = 11

@@ -613,6 +613,7 @@
 #include "code\datums\actions\items\organ_action.dm"
 #include "code\datums\actions\mobs\_hurled_rock.dm"
 #include "code\datums\actions\mobs\_mob_ability.dm"
+#include "code\datums\actions\mobs\baroness_abilities.dm"
 #include "code\datums\actions\mobs\boar_charge.dm"
 #include "code\datums\actions\mobs\boulder_throw.dm"
 #include "code\datums\actions\mobs\deepone_pounce.dm"
