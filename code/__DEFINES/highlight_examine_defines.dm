@@ -55,6 +55,12 @@
 #define HERESYDESC_INQUIS_WHISPERER "A blatently unusual design of ring...? that seems to whisper" //Only shows while not equipped on ring slot
 #define HERESYDESC_INQUIS_CHURNER "I CAN HEAR SCREAMS COMING FROM WITHIN, WHAT THE HELL IS THAT THING?!!" //Only shows while active
 
+
+//Lux organs
+#define HERESYDESC_LUX_HEART "An engine of gilbranze wrought around preserved flesh. Lux pulses within its abominable confines"
+#define HERESYDESC_LUX_ORGAN "Living flesh and metal, conjoined in unholy unity"
+#define HERESYDESC_LUX_LIMB "Gilbranze artifice and bone alike, moving together as one macabre limb"
+
 #define VIBEDESC_FRIEND "A loyal ally of Azure Peak."
 #define VIBEDESC_FOE "A disloyal enemy of Azure Peak."
 #define VIBEDESC_CROWN "A relic anointed by Astrata."
