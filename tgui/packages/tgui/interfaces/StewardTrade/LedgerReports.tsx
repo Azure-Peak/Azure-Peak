@@ -385,18 +385,18 @@ export const SubsidiaryPanel = (props: { sub?: Subsidiary }) => {
         />
       ))}
 
-      <div style={sectionHeaderStyle}>Poll Tax Receivable</div>
+      <div style={sectionHeaderStyle}>Poll Levy Receivable</div>
       <TableRow
         header
-        widths={[null, null, '70px', '70px']}
-        cells={['Subject', 'Station', 'Owed', 'Days late']}
+        widths={[null, null, '70px']}
+        cells={['Subject', 'Station', 'Owed']}
       />
       {sub.poll_arrears.length === 0 && <Empty>No arrears.</Empty>}
       {sub.poll_arrears.map((a, i) => (
         <TableRow
           key={i}
-          widths={[null, null, '70px', '70px']}
-          cells={[a.name, a.job, num(a.owed), a.days]}
+          widths={[null, null, '70px']}
+          cells={[a.name, a.job, num(a.owed)]}
         />
       ))}
 

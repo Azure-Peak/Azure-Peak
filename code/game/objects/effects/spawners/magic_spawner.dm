@@ -13,7 +13,7 @@
 	icon_state = "infernal"
 	lootcount = 1
 	loot_value = LOOT_VALUE_DUNGEON_MIXED
-	junk_loot = list(/obj/item/ash = 2, /obj/item/candle/skull/lit = 1, /obj/item/candle/yellow = 1)
+	junk_loot = list(/obj/item/natural/ash = 2, /obj/item/candle/skull/lit = 1, /obj/item/candle/yellow = 1)
 	loot = list(
 		// TIER ONE - 70%
 		/obj/item/magic/infernal/ash = 70,
@@ -85,7 +85,7 @@
 	lootcount = 1
 	loot_value = LOOT_VALUE_COMPONENTS_TIER1
 	junk_loot = list(/obj/item/natural/stone = 1, /obj/item/natural/feather = 1, /obj/item/flint = 1,
-					/obj/item/candle/yellow = 1, /obj/item/ash = 1)
+					/obj/item/candle/yellow = 1, /obj/item/natural/ash = 1)
 	loot = list(
 		/obj/item/magic/infernal/ash = 1,
 		/obj/item/magic/fae/fairydust = 1,

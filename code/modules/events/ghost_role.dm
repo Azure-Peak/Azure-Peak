@@ -51,7 +51,7 @@
 	processing = TRUE
 
 /datum/round_event/ghost_role/proc/spawn_role()
-	// Return true if role was successfully spawned, false if insufficent
+	// Return true if role was successfully spawned, false if insufficient
 	// players could be found, and just runtime if anything else happens
 	return TRUE
 

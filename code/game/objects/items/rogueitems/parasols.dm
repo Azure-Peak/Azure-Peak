@@ -9,7 +9,7 @@
 	wdefense = 1
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
 	gripped_intents = null
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	anvilrepair = /datum/skill/craft/sewing
 	max_integrity = 150 // The working man's parasol
 	minstr = 1

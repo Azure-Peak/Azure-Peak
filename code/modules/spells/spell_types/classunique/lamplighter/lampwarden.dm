@@ -2,7 +2,7 @@
 
 /datum/action/cooldown/spell/lamplighter/cauterize
 	name = "Cauterize"
-	desc = "Use the heat of your staff to cauterize someones wounds."
+	desc = "Use the heat of your staff to cauterize someone's wounds."
 	button_icon = 'icons/mob/actions/classuniquespells/lamplighter.dmi'
 	button_icon_state = "cauterize"
 	sound = 'sound/surgery/cautery1.ogg'

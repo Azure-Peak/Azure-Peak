@@ -1,7 +1,6 @@
 GLOBAL_LIST_EMPTY(quest_crimes)
 
 /datum/quest_crime
-	var/id
 	var/tier = CRIME_TIER_COMMON
 	var/list/phrasings
 
@@ -13,19 +12,13 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 /proc/init_quest_crimes()
 	GLOB.quest_crimes = list()
 	for(var/path in subtypesof(/datum/quest_crime))
-		var/datum/quest_crime/C = new path()
-		if(!C.id)
-			continue
-		if(GLOB.quest_crimes[C.id])
-			CRASH("Duplicate quest_crime id: [C.id]")
-		GLOB.quest_crimes[C.id] = C
+		GLOB.quest_crimes[path] = new path()
 
-/proc/get_quest_crime(id)
-	return GLOB.quest_crimes[id]
+/proc/get_quest_crime(crime_type)
+	return GLOB.quest_crimes[crime_type]
 
 
 /datum/quest_crime/petty_temple_wine
-	id = CRIME_PETTY_TEMPLE_WINE
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the drinking of wine set by for the temple's rites, against the peace of the Tens",
@@ -33,7 +26,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_alms_theft
-	id = CRIME_PETTY_ALMS_THEFT
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the theft of six zennies' worth of bread set aside for the poor",
@@ -41,7 +33,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_relieving
-	id = CRIME_PETTY_RELIEVING
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"fouling a wayside shrine",
@@ -50,7 +41,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_chicken
-	id = CRIME_PETTY_CHICKEN
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the taking of a hen worth two zennies from a cottar's yard",
@@ -58,7 +48,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_orchard
-	id = CRIME_PETTY_ORCHARD
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the stripping of an orchard not their own",
@@ -66,7 +55,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_offering_eating
-	id = CRIME_PETTY_OFFERING_EATING
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the eating of votive cake left at the shrine",
@@ -74,7 +62,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_priest_mocking
-	id = CRIME_PETTY_PRIEST_MOCKING
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"mocking a priest in the market square",
@@ -82,7 +69,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_drinking_temple
-	id = CRIME_PETTY_DRINKING_TEMPLE
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"entering the temple drunk at midnight",
@@ -90,7 +76,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_brawl
-	id = CRIME_PETTY_BRAWL
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"brawling in a tavern, against the peace of the Duke",
@@ -98,7 +83,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_dueling
-	id = CRIME_PETTY_DUELING
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the drawing of steel over an unpaid wager of two zennies",
@@ -106,7 +90,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_dog_kicking
-	id = CRIME_PETTY_DOG_KICKING
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the kicking of a herald's dog",
@@ -114,7 +97,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_signpost
-	id = CRIME_PETTY_SIGNPOST
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"pulling down the Duke's signpost",
@@ -122,7 +104,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_proposal_scorn
-	id = CRIME_PETTY_PROPOSAL_SCORN
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the spurning with insult of a suitor who proposed in good faith, against the peace of Eora",
@@ -130,7 +111,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_barren_mock
-	id = CRIME_PETTY_BARREN_MOCK
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"mocking a childless woman in the market",
@@ -138,7 +118,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_guest_wine
-	id = CRIME_PETTY_GUEST_WINE
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"spitting in a guest's wine before pouring it",
@@ -146,7 +125,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_tombstone_insult
-	id = CRIME_PETTY_TOMBSTONE_INSULT
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the carving of unkind verse upon a tombstone",
@@ -154,42 +132,36 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/petty_lewd_hermes
-	id = CRIME_PETTY_LEWD_HERMES
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the sending of obscene and lewd arts, poorly drawn, through HERMES, to members of the royal family unwarranted",
 	)
 
 /datum/quest_crime/petty_lewd_gods_art
-	id = CRIME_PETTY_LEWD_GODS_ART
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the drawing of the gods in position and actions inappropriate, and the soliciting of sales of such arts to the bishopry",
 	)
 
 /datum/quest_crime/petty_telescope_peeping
-	id = CRIME_PETTY_TELESCOPE_PEEPING
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"usage of the University telescope without consent to peer into the bathhouse and inn, against the rules of privacy of abode, and to report the details to others, publicly and without concern for dignity of those within",
 	)
 
 /datum/quest_crime/petty_badger_notice
-	id = CRIME_PETTY_BADGER_NOTICE
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"pinning of a false notice that the Duke will pay ten zennies to anyone who brings him a live badger, an outrageous usurpation of the Duke's authority",
 	)
 
 /datum/quest_crime/petty_hermes_fish
-	id = CRIME_PETTY_HERMES_FISH
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"hiding of a rotten, dead fish in the HERMES mail, such that its putrid flesh was found at the Steward's desk two dae later",
 	)
 
 /datum/quest_crime/petty_false_hammerhold
-	id = CRIME_PETTY_FALSE_HAMMERHOLD
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"creation of metallic goods of shoddy quality, and attempt to pass them off as good Hammerholdian metallic goods, in front of a grumble of dwarves from Hammerhold",
@@ -197,7 +169,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 
 
 /datum/quest_crime/brigandage
-	id = CRIME_BRIGANDAGE
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"brigandage upon the Duke's Road",
@@ -205,7 +176,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/road_robbery
-	id = CRIME_ROAD_ROBBERY
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the robbery of merchants on the road, against the peace of the Duke",
@@ -213,7 +183,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/pilgrim_robbery
-	id = CRIME_PILGRIM_ROBBERY
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the robbery of pilgrims bearing offerings to the shrines",
@@ -221,7 +190,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/murder_stealth
-	id = CRIME_MURDER_STEALTH
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"murder by stealth and ambush",
@@ -231,7 +199,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/murder_watch
-	id = CRIME_MURDER_WATCH
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the slaying of a man of the Retinue, knowing him to be such",
@@ -239,7 +206,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/herald_slaying
-	id = CRIME_HERALD_SLAYING
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the murder of a herald carrying sealed letters",
@@ -248,7 +214,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/arson_night
-	id = CRIME_ARSON_NIGHT
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"arson of a steading by night",
@@ -257,7 +222,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/granary_burning
-	id = CRIME_GRANARY_BURNING
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the burning of a granary in time of want",
@@ -266,7 +230,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/burglary
-	id = CRIME_BURGLARY
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"burglary of a household at night",
@@ -274,7 +237,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/cattle_lifting
-	id = CRIME_CATTLE_LIFTING
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"driving off cattle from the common pasture",
@@ -283,7 +245,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/horse_theft
-	id = CRIME_HORSE_THEFT
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"stealing a horse and selling it back to its owner",
@@ -291,7 +252,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/coin_clipping
-	id = CRIME_COIN_CLIPPING
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the passing of clipped zennies, knowing them to be such",
@@ -299,7 +259,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/seal_forgery
-	id = CRIME_SEAL_FORGERY
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"forging the Steward's seal",
@@ -307,7 +266,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/prison_breaking
-	id = CRIME_PRISON_BREAKING
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"breach of prison",
@@ -315,7 +273,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/harbouring_outlaws
-	id = CRIME_HARBOURING_OUTLAWS
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the harbouring of outlaws, knowing them to be such",
@@ -323,7 +280,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/receiving_stolen
-	id = CRIME_RECEIVING_STOLEN
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"receiving stolen goods, knowing them to be stolen",
@@ -331,7 +287,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/poaching_land
-	id = CRIME_POACHING_LAND
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the slaying of deer beyond need and leaving them to rot, against the strictures of Dendor",
@@ -339,7 +294,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/poaching_fish
-	id = CRIME_POACHING_FISH
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the netting of forty baskets of fish left to spoil on the shore",
@@ -347,7 +301,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/false_relics
-	id = CRIME_FALSE_RELICS
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the selling of a relic of Astrata that was a pig's knuckle",
@@ -356,7 +309,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 
 
 /datum/quest_crime/treason_lord
-	id = CRIME_TREASON_LORD
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"treason against their sworn lord",
@@ -365,7 +317,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/oath_breaking
-	id = CRIME_OATH_BREAKING
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"the breaking of the oath sworn before Ravox upon hilt and altar",
@@ -373,7 +324,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/desertion
-	id = CRIME_DESERTION
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"desertion from the Duke's levy in time of war",
@@ -382,7 +332,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/foreign_pay
-	id = CRIME_FOREIGN_PAY
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"taking a foreign captain's pay",
@@ -390,7 +339,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/sedition
-	id = CRIME_SEDITION
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"the stirring of common folk to riot, against the peace of the Duke",
@@ -398,7 +346,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/compass_death
-	id = CRIME_COMPASS_DEATH
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"compassing the death of a sworn officer of the Duke",
@@ -407,7 +354,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/adhering_enemies
-	id = CRIME_ADHERING_ENEMIES
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"adhering to the Duke's enemies, and giving them aid and counsel",
@@ -415,7 +361,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/oath_betrayal
-	id = CRIME_OATH_BETRAYAL
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"the betrayal of an oathed companion in the hour of need, against the faith sworn before Ravox",
@@ -423,7 +368,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/marriage_vow_broken
-	id = CRIME_MARRIAGE_VOW_BROKEN
 	tier = CRIME_TIER_OATH
 	phrasings = list(
 		"the breaking of marriage vow sworn before Eora",
@@ -431,7 +375,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/sacrilege_temple
-	id = CRIME_SACRILEGE_TEMPLE
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"sacrilege in a temple of the Tens",
@@ -439,7 +382,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/priest_slaying
-	id = CRIME_PRIEST_SLAYING
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the slaying of a priest before their own altar",
@@ -448,7 +390,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/shrine_robbery
-	id = CRIME_SHRINE_ROBBERY
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the robbery of a shrine and the bearing away of holy gear",
@@ -456,7 +397,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/defiling_ground
-	id = CRIME_DEFILING_GROUND
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the defiling of consecrated ground",
@@ -465,7 +405,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/sanctuary_breaking
-	id = CRIME_SANCTUARY_BREAKING
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the breaking of sanctuary, and the dragging forth of those who had sought it",
@@ -473,7 +412,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/cleric_robbery
-	id = CRIME_CLERIC_ROBBERY
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the robbery of a cleric upon the road, in their vestments",
@@ -481,7 +419,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/tomb_desecration
-	id = CRIME_TOMB_DESECRATION
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"breaking open a tomb",
@@ -490,7 +427,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/relic_theft
-	id = CRIME_RELIC_THEFT
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the theft of a holy bone and the leaving of a chicken bone in its place",
@@ -498,7 +434,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/simony
-	id = CRIME_SIMONY
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the buying of a priest's office for two hundred zennies",
@@ -506,7 +441,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/altar_casting_down
-	id = CRIME_ALTAR_CASTING_DOWN
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the casting down of an altar of the Tens",
@@ -514,7 +448,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/pilgrim_slaughter
-	id = CRIME_PILGRIM_SLAUGHTER
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the murder of pilgrims on the road",
@@ -522,7 +455,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/temple_peace_breaking
-	id = CRIME_TEMPLE_PEACE_BREAKING
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the breaking of the temple's peace, that bared steel was borne within the precinct",
@@ -530,7 +462,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/well_poisoning
-	id = CRIME_WELL_POISONING
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the poisoning of a holy well",
@@ -539,7 +470,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/eoran_tree_felled
-	id = CRIME_EORAN_TREE_FELLED
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the felling of an Eoran shrine tree hung with lovers' ribbons, against the peace of Eora",
@@ -547,7 +477,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/necran_procession_broken
-	id = CRIME_NECRAN_PROCESSION_BROKEN
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the disturbance of a funeral procession, against the peace of Necra",
@@ -556,7 +485,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 
 
 /datum/quest_crime/apostasy
-	id = CRIME_APOSTASY
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"apostasy from the Tens",
@@ -564,7 +492,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/forbidden_doctrine
-	id = CRIME_FORBIDDEN_DOCTRINE
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the teaching of doctrines forbidden by the Holy See",
@@ -572,7 +499,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/forbidden_books
-	id = CRIME_FORBIDDEN_BOOKS
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the keeping of forbidden books, knowing them to be such",
@@ -580,7 +506,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/ascendant_consorting
-	id = CRIME_ASCENDANT_CONSORTING
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"consorting with the false gods Ascendant",
@@ -588,7 +513,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/demonic_pact
-	id = CRIME_DEMONIC_PACT
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the making of a pact with demons",
@@ -596,7 +520,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/maleficium
-	id = CRIME_MALEFICIUM
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the working of a curse that killed a neighbour's eleven cows",
@@ -604,7 +527,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/summoning
-	id = CRIME_SUMMONING
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the summoning of that which the Tens had cast down",
@@ -612,7 +534,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/necromancy
-	id = CRIME_NECROMANCY
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the raising of a dead ox to pull their plough",
@@ -620,7 +541,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/blasphemy
-	id = CRIME_BLASPHEMY
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"blasphemy openly spoken in market and at the temple door",
@@ -628,7 +548,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/host_desecration
-	id = CRIME_HOST_DESECRATION
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"feeding consecrated bread to dogs",
@@ -637,7 +556,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/priestly_blood
-	id = CRIME_PRIESTLY_BLOOD
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the shedding of priestly blood with malice aforethought",
@@ -645,7 +563,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/dreamer_sacrifice
-	id = CRIME_DREAMER_SACRIFICE
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the drowning of bound captives to wake the Dreamer",
@@ -653,7 +570,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/inhumen_invocation
-	id = CRIME_INHUMEN_INVOCATION
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"speaking the names the Holy See forbids",
@@ -661,7 +577,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 
 
 /datum/quest_crime/piracy
-	id = CRIME_PIRACY
 	tier = CRIME_TIER_PIRACY
 	phrasings = list(
 		"piracy upon the Duke's Sea, and the boarding of ships under a flag of truce",
@@ -669,7 +584,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/bondage_taking
-	id = CRIME_BONDAGE_TAKING
 	tier = CRIME_TIER_PIRACY
 	phrasings = list(
 		"the selling of free sailors into bondage",
@@ -677,7 +591,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/shore_slaving
-	id = CRIME_SHORE_SLAVING
 	tier = CRIME_TIER_PIRACY
 	phrasings = list(
 		"slaving on the coast",
@@ -685,7 +598,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/coastal_burning
-	id = CRIME_COASTAL_BURNING
 	tier = CRIME_TIER_PIRACY
 	phrasings = list(
 		"the burning of fishing villages and wanton slaughter of fishermen",
@@ -693,7 +605,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/coastal_rapine
-	id = CRIME_COASTAL_RAPINE
 	tier = CRIME_TIER_PIRACY
 	phrasings = list(
 		"rapine upon the coast",
@@ -701,7 +612,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/temple_ship_burned
-	id = CRIME_TEMPLE_SHIP_BURNED
 	tier = CRIME_TIER_PIRACY
 	phrasings = list(
 		"the burning of a temple ship with its relics aboard",
@@ -710,7 +620,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 
 
 /datum/quest_crime/beast_sheep
-	id = CRIME_BEAST_SHEEP
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"taken nine ewes from the eastern fold",
@@ -719,7 +628,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/beast_child
-	id = CRIME_BEAST_CHILD
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"taken a child of the woodward",
@@ -727,7 +635,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/beast_traveller
-	id = CRIME_BEAST_TRAVELLER
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"set upon three travellers on the road",
@@ -735,7 +642,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/beast_cattle
-	id = CRIME_BEAST_CATTLE
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"hamstrung kine in the byre",
@@ -743,7 +649,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/beast_dogs
-	id = CRIME_BEAST_DOGS
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"slain the hounds set against it",
@@ -751,7 +656,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/beast_winter
-	id = CRIME_BEAST_WINTER
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"come down from the hills for want of food",
@@ -759,7 +663,6 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	)
 
 /datum/quest_crime/beast_corpse
-	id = CRIME_BEAST_CORPSE
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"left bones picked clean in the ditch",

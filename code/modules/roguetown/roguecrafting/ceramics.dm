@@ -292,14 +292,14 @@
 	name = "glass batch (using limestone)"
 	tools = list(/obj/item/reagent_containers/glass/mortar, /obj/item/pestle)
 	result = list(/obj/item/natural/glassbatch)
-	reqs = list(/obj/item/natural/clay = 2, /obj/item/ash = 2, /obj/item/natural/stone = 1)
+	reqs = list(/obj/item/natural/clay = 2, /obj/item/natural/ash = 2, /obj/item/natural/stone = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/ceramics/glassraw_bone
 	name = "glass batch (using bonemeal)"
 	tools = list(/obj/item/reagent_containers/glass/mortar, /obj/item/pestle)
 	result = list(/obj/item/natural/glassbatch)
-	reqs = list(/obj/item/natural/clay = 2, /obj/item/ash = 2, /obj/item/alch/bonemeal = 1)
+	reqs = list(/obj/item/natural/clay = 2, /obj/item/natural/ash = 2, /obj/item/alch/bonemeal = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/ceramics/clay/claystatue

@@ -193,7 +193,7 @@
 /obj/structure/roguemachine/mail/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right click to access the terminal for writing letters or purchasing supplies.")
-	. += span_info("Insert coins to purchase supplies or send a letters.")
+	. += span_info("Insert coins to purchase supplies or send letters.")
 	. += span_info("Left click with a paper or package to send a prewritten letter for free.")
 	. += span_info("You can wrap an item in paper to create a mailable package.")
 	if(isobserver(user) && ghosts_allowed())
@@ -486,6 +486,10 @@
 #define INDEXER_MISTAKE_MIN 20 // minimum false positive chance roll for heresy. a reduced value is used for the antag checks. used to be 1
 
 /obj/structure/roguemachine/mail/attackby(obj/item/P, mob/user, params)
+	if(istype(P, /obj/item/parcel/towner_caravan))
+		var/obj/item/parcel/towner_caravan/box = P
+		box.post_to_owner(src, user)
+		return
 	if(istype(P, /obj/item/merctoken))
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
@@ -660,7 +664,7 @@
 					if(selfreport)
 						to_chat(user, span_notice("Why was that confession signed by an inquisition member? What?"))
 					if(indexed)
-						visible_message(span_warning("[user] recieves something."))
+						visible_message(span_warning("[user] receives something."))
 						var/obj/item/inqarticles/indexer/replacement = new /obj/item/inqarticles/indexer/
 						user.put_in_hands(replacement)
 					return
@@ -814,7 +818,7 @@
 						visible_message(span_warning("[user] sends something."))
 						playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 						if(!cursedblood)
-							visible_message(span_warning("[user] recieves something."))
+							visible_message(span_warning("[user] receives something."))
 							var/obj/item/inqarticles/indexer/replacement = new /obj/item/inqarticles/indexer/
 							user.put_in_hands(replacement)
 							if(specialno)

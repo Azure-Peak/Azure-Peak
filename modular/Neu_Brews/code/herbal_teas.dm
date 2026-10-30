@@ -78,6 +78,24 @@
 	overdose_threshold = 0
 	metabolization_rate = REAGENTS_METABOLISM
 
+/datum/reagent/consumable/caffeine/fyretea
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN
+	quality = DRINK_NICE
+	name = "Tì Teine"
+	description = "Fire Tea. A brew that spawned from the desire from emboldened quisiners desire to enjoy the flavor of fyritius. The brewing process draws out the nectar's sweetness, and quenches the burn."
+	reagent_state = LIQUID
+	color = "#c05a1e"
+	taste_description = "a stinging, herbal sweetness"
+	metabolization_rate = REAGENTS_METABOLISM
+
+/datum/reagent/consumable/caffeine/fyrebloom
+	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN
+	quality = DRINK_GOOD
+	name = "Fyrebloom Fizz"
+	description = "A refreshing mixture of powdered manabloom and fyritius. The manabloom diffuses the burn of the fyritius, and unlocks a flavor combination that neither can match. If you look and listen closely, it seems to bubble and fizz..."
+	color = "#ffff66"
+	taste_description = "sweet, fizzy cinnamon"
+
 /datum/reagent/consumable/brew/eorantea
 	cuisine = CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	quality = DRINK_NICE

@@ -13,7 +13,7 @@
 		say("That contract is no longer available.")
 		play_reject_sound()
 		return
-	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name)
+	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name && !Q.issuer_may_claim && !SSquestpool.debug_mode)
 		say("You can't sign your own contract.")
 		play_reject_sound()
 		return
@@ -61,25 +61,15 @@
 
 	SSquestpool.mark_taken(user)
 
-	var/scroll_type = Q.get_scroll_type()
-	var/obj/item/quest_writ/spawned_scroll = new scroll_type(get_turf(src))
-	user.put_in_hands(spawned_scroll)
+	Q.bind_new_scroll(user, get_turf(src))
 	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
-	spawned_scroll.base_icon_state = Q.get_scroll_icon()
-	spawned_scroll.assigned_quest = Q
-	Q.quest_scroll = spawned_scroll
-	Q.quest_scroll_ref = WEAKREF(spawned_scroll)
-	spawned_scroll.update_quest_text()
-
-	var/datum/fund/deposit_account = SStreasury.get_account(user)
-	if(SStreasury.burn(deposit_account, deposit, "contract deposit", LEDGER_CITIZEN_CONTRACT_PAID))
-		Q.deposit_payer = deposit_account
-		Q.deposit_paid = deposit
+	Q.take_deposit(SStreasury.get_account(user))
 
 /obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
-	if(user in scroll.get_quest_assignees(user, TRUE))
+	if(user in scroll.get_quest_assignees(user))
 		return QUEST_TURNIN_SELF
-	if(istype(holder))
+	var/is_issuer = user.real_name == scroll.assigned_quest?.quest_giver_name
+	if(istype(holder) && !is_issuer)
 		var/datum/fellowship/F = holder.current_fellowship
 		if(F && F.has_member(user))
 			return QUEST_TURNIN_FELLOWSHIP
@@ -114,42 +104,59 @@
 		return
 
 	var/base_reward = completed_quest.reward_amount
-	var/deposit_return = completed_quest.calculate_deposit()
-	var/gross_reward = base_reward + deposit_return
+	var/deposit_return = completed_quest.return_deposit("contract deposit returned - [src.name]")
 
-	var/quest_levy_exempt = completed_quest.levy_exempt
 	completed_quest.record_completion_stats(base_reward)
-	if(completed_quest.source == QUEST_SOURCE_TOWNER && hascall(completed_quest, "on_turn_in_pay_giver"))
-		call(completed_quest, "on_turn_in_pay_giver")(user, get_turf(src))
-	qdel(scroll.assigned_quest)
-	qdel(scroll)
 
-	SStreasury.mint(benef_account, gross_reward, "contract reward - [src.name]", null, LEDGER_CITIZEN_CONTRACTS)
-
-	// Levy applies only to the base reward, not the returned deposit. The deposit is the
-	// bearer's own money being given back; taxing it would be a hidden levy on principal.
 	var/tax_amt = 0
-	if(!quest_levy_exempt)
-		tax_amt = SStreasury.apply_tax(benef_account, base_reward, TAX_CATEGORY_CONTRACT_LEVY, src.name)
-		if(tax_amt > 0)
-			record_featured_stat(FEATURED_STATS_TAX_PAYERS, beneficiary, tax_amt)
-			record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
-	else
-		var/levy_rate = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-		SStreasury.record_tax_exemption(TAX_CATEGORY_CONTRACT_LEVY, FLOOR(base_reward * levy_rate, 1))
-
-	var/guild_fee_paid = pay_innkeeper_referral_fees(benef_account, completed_quest, gross_reward)
-
-	var/take_home = gross_reward - tax_amt - guild_fee_paid
+	var/guild_fee_paid = 0
+	var/list/shares = completed_quest.fellowship_shares(base_reward, beneficiary)
+	var/split_ways = completed_quest.fellowship_split_payout ? length(completed_quest.fellowship_roster) : 0
+	var/share_memo = split_ways ? "Contract Reward (Split) - [src.name]" : "contract reward - [src.name]"
+	var/paid_out = 0
+	var/list/nets = list()
+	for(var/mob/living/payee as anything in shares)
+		var/datum/fund/payee_account = SStreasury.get_account(payee)
+		var/payee_tax = completed_quest.pay_reward(payee_account, payee, shares[payee], share_memo, src.name)
+		var/payee_fee = pay_innkeeper_referral_fees(payee_account, completed_quest, shares[payee])
+		tax_amt += payee_tax
+		guild_fee_paid += payee_fee
+		nets[payee] = shares[payee] - payee_tax - payee_fee
+		paid_out += shares[payee]
+	var/leftover = base_reward - paid_out
+	var/mob/living/sink = completed_quest.fellowship_leftover_sink(shares, beneficiary)
+	if(leftover > 0 && sink)
+		var/datum/fund/sink_account = SStreasury.get_account(sink)
+		tax_amt += completed_quest.pay_reward(sink_account, sink, leftover, "Contract Reward (No account leftover) - [src.name]", src.name)
+		guild_fee_paid += pay_innkeeper_referral_fees(sink_account, completed_quest, leftover)
+	var/unbanked = split_ways ? split_ways - length(shares) : 0
+	var/take_home = base_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
+	qdel(completed_quest)
+	qdel(scroll)
 
 	var/list/deductions = list()
 	if(tax_amt > 0)
-		deductions += "[tax_amt] mammon to the Contract Levy"
+		deductions += "[tax_amt] mammon of contract levy"
 	if(guild_fee_paid > 0)
-		deductions += "[guild_fee_paid] mammon to the Guild's cut"
+		deductions += "[guild_fee_paid] mammon for the Guild's cut"
 	var/deductions_clause = length(deductions) ? ", less [english_list(deductions)]" : ""
 	var/deposit_clause = deposit_return > 0 ? " The deposit of [deposit_return] mammon is also returned." : ""
+	if(split_ways)
+		var/leftover_clause = unbanked > 0 ? " Because [unbanked] member[unbanked == 1 ? " does" : "s do"] not have an account, the remaining sum of [leftover] mammon is deposited into [sink.real_name]'s account." : ""
+		var/list/net_values = list()
+		for(var/mob/living/payee as anything in nets)
+			net_values |= nets[payee]
+		var/net_clause
+		if(length(net_values) == 1)
+			net_clause = "Each member receives [net_values[1]] mammon."
+		else
+			var/list/net_lines = list()
+			for(var/mob/living/payee as anything in nets)
+				net_lines += "[payee.real_name] [nets[payee]]"
+			net_clause = "Shares: [jointext(net_lines, ", ")]."
+		say("The reward of [base_reward] mammon[deductions_clause] for a purse of [take_home], has been split [split_ways] ways between [holder_name]'s fellowship. [net_clause][leftover_clause][deposit_clause]")
+		return
 	switch(mode)
 		if(QUEST_TURNIN_OFFICIAL)
 			say("On behalf of [holder_name], a reward of [base_reward] mammon has been credited to their account[deductions_clause].[deposit_clause]")
@@ -167,56 +174,38 @@
 /obj/structure/roguemachine/contractledger/proc/admin_complete_by_ref(mob/user, ref)
 	if(!ref || !can_admin_complete(user))
 		return
-	var/datum/weakref/user_ref = WEAKREF(user)
-	var/obj/item/quest_writ/matched_scroll
-	var/datum/quest/matched_quest
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.quest_receiver_reference != user_ref)
-			continue
-		if(REF(Q) != ref)
-			continue
-		matched_scroll = scroll
-		matched_quest = Q
-		break
+	var/datum/quest/matched_quest = locate(ref) in get_held_quests(user)
 	if(!matched_quest)
 		return
+	var/obj/item/quest_writ/matched_scroll = matched_quest.quest_scroll_ref?.resolve()
 	log_admin("[key_name(user)] force-completed a [matched_quest.quest_type] contract at the Contract Ledger.")
 	if(!matched_quest.complete)
-		if(istype(matched_quest, /datum/quest/kill))
-			var/datum/quest/kill/KQ = matched_quest
-			KQ.despawn_live_hunt_mobs()
-		matched_quest.progress_current = matched_quest.progress_required
-		matched_quest.mark_complete()
+		matched_quest.force_complete()
 	if(!QDELETED(matched_scroll) && matched_scroll.assigned_quest?.complete)
 		turn_in_scroll(user, matched_scroll, QUEST_TURNIN_SELF)
 
 /obj/structure/roguemachine/contractledger/proc/abandon_by_ref(mob/user, ref)
 	if(!ref)
 		return
-	var/datum/weakref/user_ref = WEAKREF(user)
-	var/obj/item/quest_writ/matched_scroll
-	var/datum/quest/matched_quest
-	for(var/obj/item/quest_writ/scroll in GLOB.quest_scrolls)
-		var/datum/quest/Q = scroll.assigned_quest
-		if(!Q || Q.quest_receiver_reference != user_ref)
-			continue
-		if(REF(Q) != ref)
-			continue
-		matched_scroll = scroll
-		matched_quest = Q
-		break
+	var/datum/quest/matched_quest = locate(ref) in get_held_quests(user)
 	if(!matched_quest)
 		to_chat(user, span_warning("That contract is not yours to abandon."))
 		return
+	var/obj/item/quest_writ/matched_scroll = matched_quest.quest_scroll_ref?.resolve()
 	if(matched_quest.complete)
 		to_chat(user, span_warning("That contract is already complete. Turn it in instead."))
 		return
-	var/forfeited = matched_quest.calculate_deposit()
+	var/forfeited = matched_quest.forfeit_deposit()
 	log_quest(user.ckey, user.mind, user, "Abandon [matched_quest.quest_type]")
 	SSquestpool.mark_abandoned(user, matched_quest, forfeited)
-	to_chat(user, span_warning("You abandon the contract and lose your [forfeited] mammon deposit."))
-	matched_scroll.assigned_quest = null
+	var/refund_fraction = matched_quest.has_started() ? REFUND_ON_FAILURE : REFUND_ON_NOT_TAKEN
+	SSquestpool.refund_closed_posting(matched_quest, QUEST_ISSUE_STATUS_ABANDONED, refund_fraction, "Abandoned posting refund", "was abandoned by [user.real_name]")
+	if(forfeited > 0)
+		to_chat(user, span_warning("You abandon the contract and lose your [forfeited] mammon deposit."))
+	else
+		to_chat(user, span_warning("You abandon the contract."))
+	if(matched_scroll)
+		matched_scroll.assigned_quest = null
 	qdel(matched_quest)
 	qdel(matched_scroll)
 

@@ -1,7 +1,7 @@
 /mob/living/simple_animal/flesh_decoy
 	icon = 'icons/obj/structures/heart_items.dmi'
 	name = "flesh decoy"
-	desc = "A fleshy, immoving golem with a nasty grin. You can clearly tell it isn't alive, yet the scent of its putrid flesh is strangely alluring. Can be picked up with middle click."
+	desc = "A fleshy, immobile golem with a nasty grin. You can clearly tell it isn't alive, yet the scent of its putrid flesh is strangely alluring. Can be picked up with middle click."
 	icon_state = "flesh_golem"
 	icon_living = "flesh_golem"
 	AIStatus = AI_OFF
@@ -14,7 +14,7 @@
 	icon = 'icons/obj/structures/heart_items.dmi'
 	icon_state = "flesh_golem_item"
 	name = "flesh decoy"
-	desc = "A fleshy, immoving golem with a nasty grin. You can clearly tell it isn't alive, yet the scent of its putrid flesh is strangely alluring."
+	desc = "A fleshy, immobile golem with a nasty grin. You can clearly tell it isn't alive, yet the scent of its putrid flesh is strangely alluring."
 	w_class = WEIGHT_CLASS_SMALL
 	var/mob_health = 100
 	var/mob_maxHealth = 100

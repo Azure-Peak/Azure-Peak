@@ -75,6 +75,7 @@
 	var/detail_color
 	var/altdetail_color
 	var/mutable_appearance/detail_overlay
+	var/mutable_appearance/altdetail_overlay
 	var/boobed_detail = TRUE
 	var/sleeved_detail = TRUE
 	var/malumblessed_c = FALSE
@@ -160,17 +161,29 @@
 	if(detail_overlay)
 		cut_overlay(detail_overlay)
 		detail_overlay = null
-	if(!get_detail_tag())
-		return
-	var/detail_state = "[icon_state][detail_tag]"
-	if(!icon_exists(icon, detail_state))
-		detail_state = "[initial(icon_state)][detail_tag]"
-	var/mutable_appearance/pic = mutable_appearance(icon(icon, detail_state))
-	pic.appearance_flags = RESET_COLOR
-	if(get_detail_color())
-		pic.color = get_detail_color()
-	add_overlay(pic)
-	detail_overlay = pic
+	if(altdetail_overlay)
+		cut_overlay(altdetail_overlay)
+		altdetail_overlay = null
+	if(get_detail_tag())
+		var/detail_state = "[icon_state][detail_tag]"
+		if(!icon_exists(icon, detail_state))
+			detail_state = "[initial(icon_state)][detail_tag]"
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, detail_state))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+		detail_overlay = pic
+	if(get_altdetail_tag())
+		var/altdetail_state = "[icon_state][altdetail_tag]"
+		if(!icon_exists(icon, altdetail_state))
+			altdetail_state = "[initial(icon_state)][altdetail_tag]"
+		var/mutable_appearance/pic2 = mutable_appearance(icon(icon, altdetail_state))
+		pic2.appearance_flags = RESET_COLOR
+		if(get_altdetail_color())
+			pic2.color = get_altdetail_color()
+		add_overlay(pic2)
+		altdetail_overlay = pic2
 
 /obj/item/clothing/get_mechanics_examine(mob/user)
 	. = ..()

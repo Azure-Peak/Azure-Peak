@@ -28,7 +28,7 @@
 // Acolyte variant
 /datum/advclass/herald
 	name = "Herald of the Abyss"
-	tutorial = "One of Abyssor's acolytes dedicated to the path of the dream painter. You are amongst the most studious of the cult, capable of casting the most powerful miracles. Detail your visions, bring great tidings... Perfom the grunt work to prepare the greatest rituals. You are beholden to the word of the Bishop whose basement you dwell in."
+	tutorial = "One of Abyssor's acolytes dedicated to the path of the dream painter. You are amongst the most studious of the cult, capable of casting the most powerful miracles. Detail your visions, bring great tidings... Perform the grunt work to prepare the greatest rituals. You are beholden to the word of the Bishop whose basement you dwell in."
 	outfit = /datum/outfit/job/roguetown/herald
 	category_tags = list(CTAG_ACOLYTE)
 	allowed_patrons = list(/datum/patron/divine/abyssor)
@@ -94,7 +94,7 @@
 // Basically the world's worst leader just to not pump church's combat capabilities too much.
 /datum/advclass/voice
 	name = "Voice of the Seas"
-	tutorial = "One of Abyssor's visionaries dedicated to the path of the dream painter. You are amongst the exhalted of the cult, leading this little branch of abyssorite misfits. Keep in mind your authority does not reach past the cult, and you are beholden to the word of the Bishop whose basement you dwell in. Perhaps you can recruit some of the loyal abyssorites around here."
+	tutorial = "One of Abyssor's visionaries dedicated to the path of the dream painter. You are amongst the exalted of the cult, leading this little branch of abyssorite misfits. Keep in mind your authority does not reach past the cult, and you are beholden to the word of the Bishop whose basement you dwell in. Perhaps you can recruit some of the loyal abyssorites around here."
 	outfit = /datum/outfit/job/roguetown/voice
 	category_tags = list(CTAG_PAINTER)
 	// Not sold on them having civ barb, but parrying without is hell.
@@ -149,7 +149,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T4, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_4)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.", mint_new = TRUE, mint_label = "Church funding", income_acct = LEDGER_CITIZEN_ESTATE)
 	var/weapons = list("Discipline - Unarmed","Knuckledusters","Sylveric Trident")
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)
@@ -232,7 +232,7 @@
 	ADD_TRAIT(H, TRAIT_INK_AFFINITY, ROUNDSTART_TRAIT)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.", mint_new = TRUE, mint_label = "Church funding", income_acct = LEDGER_CITIZEN_ESTATE)
 	var/weapons = list("Discipline - Unarmed","Knuckledusters","Paintbrush")
 	var/weapon_choice = input(H,"Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 	switch(weapon_choice)

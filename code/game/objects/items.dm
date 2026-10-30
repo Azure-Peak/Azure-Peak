@@ -147,7 +147,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/list/secondary_skills
 
 	var/list/possible_item_intents = list(/datum/intent/use)
-	var/saved_intent_index = 1 // Stores the last selected intent index when item is dropped
+	var/alist/saved_intents = alist(
+		UNWIELDED_INTENT = 1,
+		WIELDED_INTENT = 1,
+		ALTGRIP_ONE_INTENT = 1,
+		ALTGRIP_TWO_INTENT = 1,
+		ALTGRIP_THREE_INTENT = 1,
+	) // Stores the last selected intent index when item is dropped
 
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
@@ -1320,12 +1326,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/burn(amount = 1)
 	if(!QDELETED(src))
 		var/turf/T = get_turf(src)
-		var/ash_type = /obj/item/ash
+		var/ash_type = /obj/item/natural/ash
 		if(w_class == WEIGHT_CLASS_HUGE || w_class == WEIGHT_CLASS_GIGANTIC)
-			ash_type = /obj/item/ash
+			ash_type = /obj/item/natural/ash
 		// Override for children that want more than 1 ash per item (Bundle as pseudo-stack)
 		for(var/i in 1 to amount)
-			var/obj/item/ash/A = new ash_type(T)
+			var/obj/item/natural/ash/A = new ash_type(T)
 			A.desc += "\nLooks like this used to be \an [name] some time ago."
 		..()
 
@@ -1802,46 +1808,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!isnull(forced_tier))
 		tier = forced_tier
 	else
-		var/skill_level = 0
+		var/skill_level = SKILL_LEVEL_NONE
 		if(crafter && skill_path)
 			skill_level = crafter.get_skill_level(skill_path)
-		var/roll = rand(1, 100)
-		switch(skill_level)
-			if(SKILL_LEVEL_NONE, SKILL_LEVEL_NOVICE)
-				if(roll <= 60)
-					tier = ITEM_QUALITY_CRUDE
-				else if(roll <= 95)
-					tier = ITEM_QUALITY_ROUGH
-				else
-					tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_APPRENTICE)
-				if(roll <= 20)
-					tier = ITEM_QUALITY_CRUDE
-				else if(roll <= 75)
-					tier = ITEM_QUALITY_ROUGH
-				else
-					tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_JOURNEYMAN)
-				tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_EXPERT)
-				if(roll <= 70)
-					tier = ITEM_QUALITY_FINE
-				else if(roll <= 95)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
-			if(SKILL_LEVEL_MASTER)
-				if(roll <= 30)
-					tier = ITEM_QUALITY_FINE
-				else if(roll <= 80)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
-			else
-				if(roll <= 40)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
+		tier = roll_skill_quality(skill_level)
 	item_quality = tier
 	var/prefix
 	switch(tier)

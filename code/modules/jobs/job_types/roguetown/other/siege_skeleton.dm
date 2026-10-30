@@ -58,7 +58,7 @@
 
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
 	H.choose_name_popup("Decrepit Feral")
-	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stir some conflict! Remember to roleplay where possible."))
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -144,7 +144,7 @@
 
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
 	H.choose_name_popup("Decrepit Feral")
-	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stir some conflict! Remember to roleplay where possible."))
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -203,7 +203,7 @@
 
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
 	H.choose_name_popup("Decrepit Feral")
-	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stir some conflict! Remember to roleplay where possible."))
 
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 

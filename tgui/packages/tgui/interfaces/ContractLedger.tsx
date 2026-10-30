@@ -6,6 +6,10 @@ import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { formatRatioPct } from './common/format';
 import { InnkeeperRumorPanel } from './ContractLedgerInnkeeper';
+import {
+  type IssuedContract,
+  IssuedContractsView,
+} from './ContractLedgerIssued';
 import { StewardDefensePanel } from './ContractLedgerSteward';
 import { TownerPostingPanel } from './ContractLedgerTowner';
 
@@ -15,20 +19,23 @@ type Contract = {
   type: string;
   difficulty: string;
   reward: number;
+  projected_reward: number;
+  fellowship_threat_rate: number;
+  fellowship_reward_rate: number;
+  fellowship_group_bonus: number;
   deposit: number;
   area: string;
   region: string;
   objective: string;
-  expected_count: number;
   threat_bands: number;
   levy_exempt: BooleanLike;
-  guild_cut_exempt: BooleanLike;
+  guild_cut_rate: number;
   is_rumor: BooleanLike;
-  is_defense: BooleanLike;
+  shows_commission_seal: BooleanLike;
   is_towner: BooleanLike;
   is_standing: BooleanLike;
   required_fellowship_size: number;
-  lapse_minutes: number;
+  lapse_minutes: number | null;
 };
 
 type ActiveContract = {
@@ -79,6 +86,10 @@ type ContractLedgerData = {
   user_fellowship_size: number;
   pool: Contract[];
   active: ActiveContract[];
+  issued: IssuedContract[];
+  issuer_cancel_window_minutes: number;
+  refund_on_not_taken_pct: number;
+  refund_on_failure_pct: number;
   regions: string[];
   hoard_recovery_regions: HoardRecoveryRegion[];
   hoard_recovery_pledge: number;
@@ -87,7 +98,6 @@ type ContractLedgerData = {
   scout_regions: ScoutRegion[];
   spoils_tax_rate: number;
   tax_rate: number;
-  guild_cut_rate: number;
   can_proxy_turnin: BooleanLike;
   can_admin_complete?: BooleanLike;
   dynamic_role: string | null;
@@ -101,13 +111,15 @@ type ContractLedgerData = {
 const ALL_REGIONS = 'All';
 const ALL_DIFFICULTIES = 'All';
 const STANDING_FILTER = 'Standing';
-const DIFFICULTIES = ['Easy', 'Medium', 'Hard', 'Notorious'];
+const DIFFICULTIES = ['Easy', 'Medium', 'Hard', 'Incursion', 'Notorious'];
 const FILTER_BUTTONS = [ALL_DIFFICULTIES, STANDING_FILTER, ...DIFFICULTIES];
 
 type LedgerMode =
   | { kind: 'contracts' }
   | { kind: 'scouts' }
   | { kind: 'dynamic'; role: string };
+
+type StripTab = 'contracts' | 'postings';
 
 const DYNAMIC_TAB_LABELS: Record<string, string> = {
   innkeeper: 'Rumors',
@@ -136,6 +148,8 @@ const difficultyPinClass = (difficulty: string) => {
       return 'ContractLedger__Pin ContractLedger__Pin--medium';
     case 'Hard':
       return 'ContractLedger__Pin ContractLedger__Pin--hard';
+    case 'Incursion':
+      return 'ContractLedger__Pin ContractLedger__Pin--incursion';
     case 'Notorious':
       return 'ContractLedger__Pin ContractLedger__Pin--notorious';
     default:
@@ -489,6 +503,7 @@ const ContractCard = (props: { contract: Contract }) => {
     cantAfford ||
     fellowshipShort;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
+  const payout = c.projected_reward ?? c.reward;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : gateRemaining > 0
@@ -504,7 +519,7 @@ const ContractCard = (props: { contract: Contract }) => {
               : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
-  if (c.is_defense)
+  if (c.shows_commission_seal)
     stamps.push({ label: 'COMMISSIONED', modifier: 'commissioned' });
   if (c.levy_exempt) stamps.push({ label: 'LEVY EXEMPT', modifier: 'exempt' });
   const contentTopPad = stamps.length > 0 ? 8 + stamps.length * 16 : 0;
@@ -557,15 +572,39 @@ const ContractCard = (props: { contract: Contract }) => {
       )}
       <div className="ContractLedger__CardRow">
         <span className="ContractLedger__CardLabel">Reward</span>
-        <span className="ContractLedger__CardValue">{c.reward}</span>
+        <span className="ContractLedger__CardValue">
+          {payout}
+          {payout !== c.reward && (
+            <span style={{ color: '#8a7a5a', marginLeft: '0.4em' }}>
+              ({c.reward} base)
+            </span>
+          )}
+        </span>
       </div>
+      {c.fellowship_group_bonus > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Group bonus</span>
+          <span className="ContractLedger__CardValue">
+            +{formatRatioPct(c.fellowship_group_bonus)} pay
+          </span>
+        </div>
+      )}
+      {c.fellowship_reward_rate > 0 && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Per extra fellow</span>
+          <span className="ContractLedger__CardValue">
+            +{formatRatioPct(c.fellowship_reward_rate)} pay
+            {c.fellowship_threat_rate > 0 &&
+              `, +${formatRatioPct(c.fellowship_threat_rate)} foes`}
+          </span>
+        </div>
+      )}
       {(() => {
         const levyRate = c.levy_exempt ? 0 : data.tax_rate;
-        const guildRate =
-          c.is_defense || c.guild_cut_exempt ? 0 : data.guild_cut_rate || 0;
-        const levy = Math.round(c.reward * levyRate);
-        const guild = Math.round(c.reward * guildRate);
-        const purse = c.reward - levy - guild;
+        const guildRate = c.guild_cut_rate || 0;
+        const levy = Math.round(payout * levyRate);
+        const guild = Math.round(payout * guildRate);
+        const purse = payout - levy - guild;
         return (
           <>
             {!c.levy_exempt && data.tax_rate > 0 && (
@@ -612,12 +651,14 @@ const ContractCard = (props: { contract: Contract }) => {
         <span className="ContractLedger__CardLabel">Deposit</span>
         <span className="ContractLedger__CardValue">{c.deposit}</span>
       </div>
-      <div className="ContractLedger__CardRow">
-        <span className="ContractLedger__CardLabel">Lapses</span>
-        <span className="ContractLedger__CardValue">
-          {c.lapse_minutes > 0 ? `~${c.lapse_minutes}m` : '<1m'}
-        </span>
-      </div>
+      {c.lapse_minutes !== null && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">Lapses</span>
+          <span className="ContractLedger__CardValue">
+            {c.lapse_minutes > 0 ? `~${c.lapse_minutes}m` : '<1m'}
+          </span>
+        </div>
+      )}
       {c.threat_bands > 0 && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">Clears</span>
@@ -650,7 +691,20 @@ const ActiveStrip = (props: {
   balance: number;
 }) => {
   const { act, data } = useBackend<ContractLedgerData>();
+  const [tab, setTab] = useState<StripTab>('contracts');
   const [showFellowshipHelp, setShowFellowshipHelp] = useState(false);
+  const issued = data.issued || [];
+  const stripTab = (id: StripTab, label: string) => (
+    <span
+      className={
+        'ContractLedger__HeaderMode' +
+        (tab === id ? ' ContractLedger__HeaderMode--active' : '')
+      }
+      onClick={() => setTab(id)}
+    >
+      {label}
+    </span>
+  );
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
@@ -665,46 +719,42 @@ const ActiveStrip = (props: {
   const fellowshipNote =
     fellowshipBonus > 0
       ? `+${fellowshipBonus} from leading your fellowship`
-      : 'Form a fellowship for more contract slots.';
+      : 'Form a fellowship for more benefits.';
   return (
     <div className="ContractLedger__ActiveStrip">
       <div className="ContractLedger__ActiveStripHeader">
         <span>
-          Your Contracts ({props.active.length} / {props.activeMax})
-          <span
-            style={{
-              marginLeft: '10px',
-              fontSize: '0.85em',
-              color: fellowshipBonus > 0 ? '#2a6b2a' : '#7a6a4a',
-              fontWeight: 'normal',
-            }}
-          >
-            {fellowshipNote}
-          </span>
-          <Button
-            compact
-            ml={0.5}
-            icon="question-circle"
-            selected={showFellowshipHelp}
-            tooltip="Fellowship benefits"
-            onClick={() => setShowFellowshipHelp(true)}
-          />
+          {stripTab(
+            'contracts',
+            `Your Contracts (${props.active.length} / ${props.activeMax})`,
+          )}
+          <span className="ContractLedger__HeaderSep">|</span>
+          {stripTab('postings', `Your Postings (${issued.length})`)}
+          {tab === 'contracts' && (
+            <>
+              <span
+                style={{
+                  marginLeft: '10px',
+                  fontSize: '0.85em',
+                  color: fellowshipBonus > 0 ? '#2a6b2a' : '#7a6a4a',
+                  fontWeight: 'normal',
+                }}
+              >
+                {fellowshipNote}
+              </span>
+              <Button
+                compact
+                ml={0.5}
+                icon="question-circle"
+                selected={showFellowshipHelp}
+                tooltip="Fellowship benefits"
+                onClick={() => setShowFellowshipHelp(true)}
+              />
+            </>
+          )}
         </span>
         <span>Balance: {props.balance} mammon</span>
       </div>
-      {!!data.can_proxy_turnin && (
-        <div
-          style={{
-            fontSize: '0.85em',
-            fontStyle: 'italic',
-            color: '#7a6a4a',
-            marginBottom: '4px',
-          }}
-        >
-          You can turn in any completed contract on its holder&apos;s behalf.
-          The reward goes to the holder. You take no cut.
-        </div>
-      )}
       {showFellowshipHelp && (
         <Dialog
           title="Form a fellowship for more benefits"
@@ -720,61 +770,91 @@ const ActiveStrip = (props: {
               {data.fellowship_bonus_pair} more with two members,{' '}
               {data.fellowship_bonus_band} more with three or more.
             </div>
-            <div>
+            <div style={{ marginBottom: '6px' }}>
               Fellowship members can turn in each other&apos;s contracts. The
               reward goes to whoever turns it in. Their levy exemption applies
               if they have one.
             </div>
+            <div>
+              Threat is increased for each additional fellow, but rewards scale
+              up even more.
+            </div>
           </div>
         </Dialog>
       )}
-      {blockReason && (
-        <div
-          className="ContractLedger__ActiveRow"
-          style={{ color: '#c44', fontWeight: 'bold' }}
-        >
-          {blockReason}
-        </div>
-      )}
-      {props.active.length === 0 ? (
-        <div className="ContractLedger__ActiveRow">
-          <span className="ContractLedger__ActiveRow__Meta">
-            You hold no active contracts.
-          </span>
-        </div>
+      {tab === 'postings' ? (
+        <IssuedContractsView
+          entries={issued}
+          windowMinutes={data.issuer_cancel_window_minutes}
+          notTakenPct={data.refund_on_not_taken_pct}
+          failurePct={data.refund_on_failure_pct}
+        />
       ) : (
-        props.active.map((a) => (
-          <div key={a.ref} className="ContractLedger__ActiveRow">
-            <span className="ContractLedger__ActiveRow__Title">{a.title}</span>
-            <span className="ContractLedger__ActiveRow__Meta">
-              {a.type} &middot; {a.difficulty} &middot;{' '}
-              {a.region || a.area || 'Unknown'}
-              {a.progress_required > 1 &&
-                ` - ${a.progress_current}/${a.progress_required}`}
-              {!!a.complete && ' - ready to turn in'}
-            </span>
-            {!a.complete && (
-              <Button
-                icon="times"
-                color="bad"
-                tooltip="Give up the contract and lose your deposit."
-                onClick={() => act('abandon', { ref: a.ref })}
-              >
-                Abandon
-              </Button>
-            )}
-            {!!data.can_admin_complete && (
-              <Button
-                icon="user-shield"
-                color="purple"
-                tooltip="Admin (localhost only): force-complete and turn in this contract."
-                onClick={() => act('admin_complete', { ref: a.ref })}
-              >
-                [ADMIN] Force Complete
-              </Button>
-            )}
-          </div>
-        ))
+        <>
+          {!!data.can_proxy_turnin && (
+            <div
+              style={{
+                fontSize: '0.85em',
+                fontStyle: 'italic',
+                color: '#7a6a4a',
+                marginBottom: '4px',
+              }}
+            >
+              You can turn in any completed contract on its holder&apos;s
+              behalf. The reward goes to the holder. You take no cut.
+            </div>
+          )}
+          {blockReason && (
+            <div
+              className="ContractLedger__ActiveRow"
+              style={{ color: '#c44', fontWeight: 'bold' }}
+            >
+              {blockReason}
+            </div>
+          )}
+          {props.active.length === 0 ? (
+            <div className="ContractLedger__ActiveRow">
+              <span className="ContractLedger__ActiveRow__Meta">
+                You hold no active contracts.
+              </span>
+            </div>
+          ) : (
+            props.active.map((a) => (
+              <div key={a.ref} className="ContractLedger__ActiveRow">
+                <span className="ContractLedger__ActiveRow__Title">
+                  {a.title}
+                </span>
+                <span className="ContractLedger__ActiveRow__Meta">
+                  {a.type} &middot; {a.difficulty} &middot;{' '}
+                  {a.region || a.area || 'Unknown'}
+                  {a.progress_required > 1 &&
+                    ` - ${a.progress_current}/${a.progress_required}`}
+                  {!!a.complete && ' - ready to turn in'}
+                </span>
+                {!a.complete && (
+                  <Button
+                    icon="times"
+                    color="bad"
+                    tooltip="Give up the contract and lose your deposit."
+                    onClick={() => act('abandon', { ref: a.ref })}
+                  >
+                    Abandon
+                  </Button>
+                )}
+                {!!data.can_admin_complete && (
+                  <Button
+                    icon="user-shield"
+                    color="purple"
+                    tooltip="Admin (localhost only): force-complete and turn in this contract."
+                    onClick={() => act('admin_complete', { ref: a.ref })}
+                  >
+                    [ADMIN] Force Complete
+                  </Button>
+                )}
+              </div>
+            ))
+          )}
+        </>
       )}
     </div>
   );

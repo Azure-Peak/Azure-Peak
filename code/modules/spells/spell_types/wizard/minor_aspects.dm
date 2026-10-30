@@ -161,7 +161,7 @@
 /datum/magic_aspect/aegiscraft
 	name = "Aegiscraft"
 	latin_name = "Minor Aspectus Aegidis"
-	desc = "The art of projecting a shield of raw arcyne force. The shield offers some much needed external protection for a wise magi. "
+	desc = "The art of projecting a shield of raw arcyne force. The shield offers some much-needed external protection for a wise magi. "
 	aspect_type = ASPECT_MINOR
 	school_color = GLOW_COLOR_ARCANE
 	binding_chants = list(

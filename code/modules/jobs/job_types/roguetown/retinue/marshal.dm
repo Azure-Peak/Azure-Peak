@@ -39,6 +39,7 @@
 /datum/outfit/job/roguetown/marshal/pre_equip(mob/living/carbon/human/H)
 	..()
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
+	gloves = /obj/item/clothing/gloves/roguetown/plate
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	backl = /obj/item/storage/backpack/rogue/satchel
 	id = /obj/item/scomstone/garrison

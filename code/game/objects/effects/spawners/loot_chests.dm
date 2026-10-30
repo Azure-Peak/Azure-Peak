@@ -14,7 +14,7 @@
 	var/loot_value = LOOT_VALUE_CHEST
 	/// Junk to spawn inside the chest when it loses the budget lottery
 	var/list/junk_loot = list(
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/natural/stone = 3,
 	)
