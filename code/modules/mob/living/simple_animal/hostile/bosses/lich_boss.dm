@@ -7,9 +7,9 @@
 	del_on_death = TRUE
 	icon = 'icons/mob/evilpope.dmi'
 	icon_state = "EvilPope"
-	wander = 0
-	vision_range = 8
-	aggro_vision_range = 24
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/lich
 	ranged = 1
 	rapid = 3
 	rapid_fire_delay = 8
@@ -17,9 +17,6 @@
 	ranged_cooldown_time = 40
 	ranged_ignores_vision = TRUE
 	environment_smash = 0
-	minimum_distance = 8
-	retreat_distance = 0
-	move_to_delay = 10
 	obj_damage = 100
 	base_intents = list(/datum/intent/simple/lich)
 	melee_damage_lower = 60
@@ -45,12 +42,8 @@
 	stat_attack = UNCONSCIOUS
 
 	var/obj/effect/proc_holder/spell/targeted/turf_teleport/blink/blink = null
-	var/next_cast = 0
-	var/next_blink = 0
 	var/list/taunt = list("Witness my power!", "Die!", "Suffer!")
 	var/minions_to_spawn = 6
-	var/next_summon = 0
-	var/next_blaststrong = 0
 	var/mob_type
 	var/mob/new_mob
 	var/spawned_mobs = 0
@@ -75,6 +68,15 @@
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //I know what you are
 	//REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC) //Ditto.
+	AddComponent(/datum/component/ai_aggro_system, aggro_range = 8, maintain_range = 24)
+	for(var/ability_type in list(
+		/datum/action/cooldown/lich/summon_minions,
+		/datum/action/cooldown/lich/blink,
+		/datum/action/cooldown/lich/fireball_wave,
+		/datum/action/cooldown/lich/projectile_wave,
+	))
+		var/datum/action/cooldown/ability = new ability_type(src)
+		ability.Grant(src)
 
 /mob/living/simple_animal/hostile/boss/lich/Shoot()
 	projectiletype = pick(allowed_projectile_types)
@@ -101,72 +103,42 @@
 			new minions_chosen (get_step(boss,pick_n_take(directions)), 1)
 		summoned_minions += 1;
 
-/mob/living/simple_animal/hostile/boss/lich/handle_automated_action()
-	. = ..()
-	if(target && next_cast < world.time && next_summon < world.time) //Second summon ability. Spawns a mob of simple skeletons
-		spawn_minions(minions_to_spawn)
-		INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "Minions, to me!", null, list("colossus", "yell"))
-		next_cast = world.time + 10
-		next_summon = world.time + 600
-		return .
-	if(target && next_cast < world.time && next_blink < world.time) //Triggers a blink spell
-		if(blink.cast_check(0,src))
-			blink.choose_targets(src)
-			blink.invocations += pick(taunt)
-			next_cast = world.time + 20
-			next_blink = world.time + 120
-			return .
-	if(target && next_cast < world.time && health < maxHealth * 0.33 && next_blaststrong < world.time) //Fires a wave of greater fireballs after blinking
-		INVOKE_ASYNC(src, TYPE_PROC_REF(/atom/movable, say), "I am immortal, you are NOTHING!", null, list("colossus", "yell"))
-		playsound(get_turf(src), 'sound/magic/antimagic.ogg', 70, TRUE)
-		blaststrong()
-		next_cast = world.time + 100
-		next_blaststrong = world.time + 300
-		return .
-	if(target && next_cast < world.time) //fires a wave of a random projectile after blinking
-		blast()
-		next_cast = world.time + 100
-		return .
-
-
-/mob/living/simple_animal/hostile/boss/lich/proc/blast(set_angle)
-	var/turf/target_turf = get_turf(target)
+/mob/living/simple_animal/hostile/boss/lich/proc/blast(atom/victim, set_angle)
+	var/turf/target_turf = get_turf(victim)
 	var/angle_to_target = Get_Angle(src, target_turf)
 	if(isnum(set_angle))
 		angle_to_target = set_angle
 	var/static/list/colossus_shotgun_shot_angles = list(30, 20, 10, 0, -10, -20, -30)
 	for(var/i in colossus_shotgun_shot_angles)
-		shoot_projectile(target_turf, angle_to_target + i)
+		shoot_projectile(victim, target_turf, angle_to_target + i)
 
-/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectile(turf/marker, set_angle)
+/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectile(atom/victim, turf/marker, set_angle)
 	if(!isnum(set_angle) && (!marker || marker == loc))
 		return
 	var/turf/startloc = get_turf(src)
 	var/obj/projectile/P = new projectiletype(startloc)
 	P.preparePixelProjectile(marker, startloc)
 	P.firer = src
-	if(target)
-		P.original = target
+	P.original = victim
 	P.fire(set_angle)
 
-/mob/living/simple_animal/hostile/boss/lich/proc/blaststrong(set_angle)
-	var/turf/target_turf = get_turf(target)
+/mob/living/simple_animal/hostile/boss/lich/proc/blaststrong(atom/victim, set_angle)
+	var/turf/target_turf = get_turf(victim)
 	var/angle_to_target = Get_Angle(src, target_turf)
 	if(isnum(set_angle))
 		angle_to_target = set_angle
 	var/static/list/colossus_shotgun_shot_angles = list(45, 30, 15, 0, -15, -30, -45)
 	for(var/i in colossus_shotgun_shot_angles)
-		shoot_projectilestrong(target_turf, angle_to_target + i)
+		shoot_projectilestrong(victim, target_turf, angle_to_target + i)
 
-/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectilestrong(turf/marker, set_angle)
+/mob/living/simple_animal/hostile/boss/lich/proc/shoot_projectilestrong(atom/victim, turf/marker, set_angle)
 	if(!isnum(set_angle) && (!marker || marker == loc))
 		return
 	var/turf/startloc = get_turf(src)
 	var/obj/projectile/P = new /obj/projectile/magic/aoe/fireball/rogue/great/lich(startloc)
 	P.preparePixelProjectile(marker, startloc)
 	P.firer = src
-	if(target)
-		P.original = target
+	P.original = victim
 	P.fire(set_angle)
 
 /obj/projectile/magic/sickness/lich
