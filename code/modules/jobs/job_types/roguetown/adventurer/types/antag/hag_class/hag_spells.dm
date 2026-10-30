@@ -567,7 +567,7 @@
 	var/datum/component/hag_curio_tracker/HCT = hag.GetComponent(/datum/component/hag_curio_tracker)
 	if(!HCT) // don't add this spell to nonhags kthxbye
 		return FALSE
-	if(!istype(vessel) || !vessel.key || vessel.GetComponent(/datum/component/hag_curio_tracker)) // you should never be able to possess other hags. lmao
+	if(!istype(vessel) || !vessel.mind || vessel.GetComponent(/datum/component/hag_curio_tracker)) // you should never be able to possess other hags. lmao
 		to_chat(hag, span_warning("Invalid vessel!"))
 		return FALSE
 	if(!(vessel in GLOB.fey_vessels)) // shouldn't happen, but just in case there's an edge case
@@ -576,7 +576,7 @@
 	if(HAS_TRAIT(vessel, TRAIT_POSSESSED))
 		to_chat(src, span_warning("They are already under the sway of another power!"))
 		return FALSE
-	if(!GLOB.fey_vessels[vessel] || !vessel.mind || vessel.stat)
+	if(!GLOB.fey_vessels[vessel] || !vessel.key || !vessel.mind.active || vessel.stat)
 		to_chat(hag, span_warning("They are beyond your grasp, for now at least.")) // they're probably sceneing. or they're SSD, or incapacitated
 		return FALSE
 	return TRUE
