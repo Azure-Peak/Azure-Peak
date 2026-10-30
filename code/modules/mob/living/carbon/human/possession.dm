@@ -1,5 +1,8 @@
 ///src is the vessel, currently-possessed, that we want to restore. given as a verb as a fallback for if spells or other options don't make sense
 /mob/living/carbon/human/proc/release_vessel(dying = FALSE)
+	set name = "Release Vessel"
+	set category = "RoleUnique.Displaced Soul"
+
 	if(!HAS_TRAIT(src, TRAIT_POSSESSED))
 		return // just to be safe against spamclicks and thelike
 	var/mob/dead/observer/eye/screye/displaced_soul/estranged_lux
