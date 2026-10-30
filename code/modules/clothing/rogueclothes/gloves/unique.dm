@@ -87,10 +87,12 @@
 /obj/item/clothing/gloves/roguetown/knuckles/equipped(mob/user, slot)
 	. = ..()
 	if(slot == SLOT_GLOVES)
+		to_chat(user, span_warning("[src] strengthens my unarmed strikes, but hinders my ability to wield most things!"))
 		ADD_TRAIT(user, TRAIT_WEAPONLESS, REF(src))
 
 /obj/item/clothing/gloves/roguetown/knuckles/dropped(mob/user)
 	. = ..()
+	to_chat(user, span_warning("Free from [src], my fingers feel lithe and dexterous once more. I can wield most things again."))
 	REMOVE_TRAIT(user, TRAIT_WEAPONLESS, REF(src))
 
 /obj/item/clothing/gloves/roguetown/knuckles/bronze
@@ -112,13 +114,13 @@
 	smeltresult = /obj/item/ingot/iron
 	unarmed_bonus = 7
 
-/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psy
 	name = "psydonic knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, finished with three stumps - Psydon's crown - to crush the heretics' garments and armor into smithereens."
 	icon_state = "psyknuckle"
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/ComponentInitialize()
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
@@ -140,14 +142,14 @@
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/old
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psy/old
 	name = "enduring knuckles"
 	desc = "A simple piece of harm molded in a holy mixture of steel and silver, its holy blessing long since faded. You are HIS weapon, you needn't fear Aeon."
 	icon_state = "opsyknuckle"
 	is_silver = FALSE
 	smeltresult = /obj/item/ingot/steel
 
-/obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/old/ComponentInitialize()
+/obj/item/clothing/gloves/roguetown/knuckles/silver/psy/old/ComponentInitialize()
 	return
 
 /obj/item/clothing/gloves/roguetown/knuckles/decrepit

@@ -93,7 +93,7 @@
 			if("Knuckledusters")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/silver/psydon/old
+					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/silver/psy/old
 				else
 					r_hand = /obj/item/clothing/gloves/roguetown/knuckles/bronze
 			if("Quarterstaff")
@@ -421,7 +421,7 @@
 		if (istype (H.patron, /datum/patron/inhumen/zizo))
 			if(H.mind)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
@@ -668,7 +668,7 @@
 		if (/datum/patron/divine/eora)
 			backpack_contents[/obj/item/clothing/head/roguetown/eoramask] = 1
 			backpack_contents[/obj/item/reagent_containers/eoran_seed] = 1
-			r_hand = /obj/item/rogueweapon/huntingknife/scissors
+			l_hand = /obj/item/rogueweapon/huntingknife/scissors
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
@@ -753,7 +753,7 @@
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded/dark
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 		if(/datum/patron/inhumen/graggar)
 			shoes = /obj/item/clothing/shoes/roguetown/boots/furlinedboots //tribal-esc shaman look
 			gloves = /obj/item/clothing/gloves/roguetown/angle/gronnfur/cleric //role-unique

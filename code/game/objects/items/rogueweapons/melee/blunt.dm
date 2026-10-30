@@ -51,8 +51,12 @@
 // Do not call handle_knockback like in knockback cuz that means it will hardstun.
 
 /datum/intent/mace/smash/prewarning()
-	if(mastermob)
-		playsound(mastermob, pick('sound/combat/wooshes/blunt/wooshhuge (2).ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	playsound(mastermob, pick('sound/combat/wooshes/blunt/wooshhuge (2).ogg'), 100, FALSE)
 
 /datum/intent/mace/smash/lesser
 	name = "one-handed smash" //Exclusive to Warhammers, and other mace-styled bludgeons that can only be wielded in one hand.
@@ -62,6 +66,20 @@
 /datum/intent/mace/demolish
 	name = "break"
 	desc = "A deliberate strike that is much more effective at demolishing structures."
+	icon_state = "incrush"
+	blade_class = BCLASS_SMASH
+	attack_verb = list("demolishes", "crushes", "wrecks")
+	animname = "strike"
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	item_d_type = "blunt"
+	penfactor = PEN_NONE
+	demolition_mod = 3
+	clickcd = CLICK_CD_HEAVY
+	swingdelay = 10
+
+/datum/intent/mace/lesserdemolish
+	name = "break"
+	desc = "A deliberate structure-breaking blow. Deals triple the damage to structures"
 	icon_state = "incrush"
 	blade_class = BCLASS_SMASH
 	attack_verb = list("demolishes", "crushes", "wrecks")
@@ -330,7 +348,7 @@
 	name = "bogbark club"
 	desc = "A primitive cudgel carved of a stout piece of treefall, from the deepest parts of the Terrorbog. An unmistakable aura of power surrounds it. This thing looks dangerously strong."
 	aura_color = "#00ff00"
-	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/demolish)
+	gripped_intents = list(/datum/intent/mace/strike/wood/, /datum/intent/mace/smash/wood, /datum/intent/effect/daze, /datum/intent/mace/lesserdemolish)
 	w_class = WEIGHT_CLASS_NORMAL // it's just a stick, can put it in your backpack
 
 /obj/item/rogueweapon/mace/woodclub
@@ -344,7 +362,7 @@
 	wdefense = 1
 	possible_item_intents = list(/datum/intent/mace/strike/wood)
 	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze)
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	anvilrepair = /datum/skill/craft/carpentry
 	minstr = 7
 	resistance_flags = FLAMMABLE
@@ -383,7 +401,7 @@
 	icon_state = "cudgel"
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/strike/wallop, /datum/intent/effect/daze)
 	gripped_intents = null //One-handed. Pseudo-sidegrade between the Mace and Warhammer. Exchanges smashing for dislocation.
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_NORMAL
 	wbalance = WBALANCE_HEAVY
@@ -575,19 +593,12 @@
 	smeltresult = /obj/item/ingot/copper
 	wdefense = 2
 
-/obj/item/rogueweapon/mace/cudgel/justice
+/obj/item/rogueweapon/mace/cudgel/flanged/justice
 	name = "\"Justice\""
 	desc = "The icon of the right of office of the Marshal. While mostly ceremonial in design, it serves its purpose in dishing out some much needed justice."
 	force = 30
 	icon_state = "justice"
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash, /datum/intent/effect/daze, /datum/intent/mace/strike/dislocate)
-	smeltresult = /obj/item/ingot/steel
-	wlength = WLENGTH_SHORT
-	w_class = WEIGHT_CLASS_NORMAL
-	wbalance = WBALANCE_SWIFT
-	resistance_flags = FIRE_PROOF
-	minstr = 7
-	wdefense = 5
+	wdefense = 6
 
 /obj/item/rogueweapon/mace/cudgel/justice/getonmobprop(tag)
 	. = ..()
@@ -607,7 +618,7 @@
 	//dropshrink = 0.75
 	possible_item_intents = list(/datum/intent/mace/strike/wood) //Allows for the teaching of both core Mace mechanics and alternative Sword mechanics.
 	gripped_intents = list(/datum/intent/mace/strike/wood, /datum/intent/mace/smash/wood, /datum/intent/effect/daze) //..ala, Daze and Dislocate.
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	minstr = 7
 	wdefense = 5
 	wbalance = WBALANCE_NORMAL
@@ -641,7 +652,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = null
 	associated_skill = /datum/skill/combat/maces
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	swingsound = BLUNTWOOSH_LARGE
 	minstr = 10
 	wdefense = 3
@@ -1295,7 +1306,7 @@
 	force = 13
 	force_wielded = 25
 	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/bash/ranged)
-	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/demolish)
+	gripped_intents = list(/datum/intent/mace/strike, /datum/intent/use, /datum/intent/mace/strike/dislocate, /datum/intent/mace/lesserdemolish)
 	minstr = 8
 	max_integrity = 350
 	w_class = WEIGHT_CLASS_BULKY

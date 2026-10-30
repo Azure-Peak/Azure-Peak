@@ -1,14 +1,14 @@
 #define CURTAIN_TICK_DAMAGE 50
 #define CURTAIN_SCORCH_PER_TICK 2
 #define CURTAIN_THROWN_BURN_COOLDOWN (2 SECONDS)
-#define CURTAIN_THROWN_GRACE (1 SECONDS)
+#define CURTAIN_THROWN_GRACE (2 SECONDS)
 #define CURTAIN_BURN_KEY "curtain_burn"
 #define CURTAIN_GRACE_KEY "curtain_grace"
 
 /datum/action/cooldown/spell/fire_curtain
 	button_icon = 'icons/mob/actions/mage_pyromancy.dmi'
 	name = "Fire Curtain"
-	desc = "Conjure a 5x2 curtain of flame at a target location, perpendicular to your facing. \
+	desc = "Conjure a 5x3 curtain of flame at a target location, perpendicular to your facing. \
 	After a 3-second telegraph, the fire erupts. Burning for 10 seconds. \
 	The fire does not block movement but will burn anything that passes through or stands in it, \
 	applying two scorched stacks per burn. You are not immune to your own curtain.\n\
@@ -44,13 +44,13 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
 	var/curtain_width = 5
-	var/curtain_depth = 2
+	var/curtain_depth = 3
 	var/curtain_life = 10 SECONDS
 	var/telegraph_time = 3 SECONDS
 
 /datum/action/cooldown/spell/fire_curtain/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
-	stats += span_info("Damage: [CURTAIN_TICK_DAMAGE] burn per second (up to [DisplayTimeText(curtain_life)] in the flames)")
+	stats += span_info("Damage: [SPELL_DMG(CURTAIN_TICK_DAMAGE)] burn per tile entered, once per second per tile. Lasts [DisplayTimeText(curtain_life)].")
 	stats += span_info("Scorched: [CURTAIN_SCORCH_PER_TICK] stacks per burn")
 	return stats
 
@@ -133,7 +133,9 @@
 	light_color = LIGHT_COLOR_FIRE
 	ai_path_weight = 15
 	var/lifetime = 10 SECONDS
-	var/tick_damage = CURTAIN_TICK_DAMAGE
+	var/tick_damage = SPELL_DMG(CURTAIN_TICK_DAMAGE)
+	/// Scorched stacks applied per burn
+	var/scorch = CURTAIN_SCORCH_PER_TICK
 	var/burn_cooldown = 1 SECONDS
 	var/list/burn_times
 	var/datum/weakref/caster_ref
@@ -157,14 +159,17 @@
 	. = ..()
 	if(isliving(AM))
 		var/mob/living/L = AM
-		burn_occupant(L, !!L.throwing)
+		burn_occupant(L, is_displaced(L))
 
 /obj/effect/curtain_fire/process(seconds_per_tick)
 	var/turf/T = get_turf(src)
 	if(!isturf(T))
 		return
 	for(var/mob/living/L in T)
-		burn_occupant(L, !!L.throwing)
+		burn_occupant(L, is_displaced(L))
+
+/obj/effect/curtain_fire/proc/is_displaced(mob/living/L)
+	return !!(L.throwing || L.pulledby)
 
 /obj/effect/curtain_fire/proc/burn_occupant(mob/living/L, involuntary = FALSE)
 	if(HAS_TRAIT(L, TRAIT_NOFIRE))
@@ -185,13 +190,14 @@
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
 	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
-		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE) == ARCYNE_STRIKE_WARDED)
+		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 			return
 	else
 		var/fallback_zone = check_zone(hit_zone)
-		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, no_debuff = TRUE)
-		L.apply_damage(tick_damage, BURN, fallback_zone, armor_block)
-	apply_scorch_stack(L, CURTAIN_SCORCH_PER_TICK, hit_zone)
+		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, intdamfactor = SPELL_INTDAM(1), no_debuff = TRUE)
+		L.apply_damage(SPELL_DMG_VS(L, tick_damage), BURN, fallback_zone, armor_block)
+	if(scorch)
+		apply_scorch_stack(L, scorch, hit_zone)
 	L.emote("pain", forced = TRUE)
 
 #undef CURTAIN_TICK_DAMAGE

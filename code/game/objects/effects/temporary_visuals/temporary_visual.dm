@@ -74,6 +74,11 @@
 	layer = HUD_LAYER
 	plane = ABOVE_LIGHTING_PLANE
 
+/obj/effect/temp_visual/special_intent/telegraph
+	icon = 'icons/effects/telegraph.dmi'
+	icon_state = "warning"
+	randomdir = FALSE
+
 /obj/effect/temp_visual/armor_chunk
 	randomdir = FALSE
 	icon = 'icons/effects/effects.dmi'

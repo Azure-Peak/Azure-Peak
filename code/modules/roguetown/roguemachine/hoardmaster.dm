@@ -73,9 +73,9 @@
 				newitem.mark_as_worn()
 				newitem.sellprice = 0
 				if(newitem.smeltresult)
-					newitem.smeltresult = /obj/item/ash
+					newitem.smeltresult = /obj/item/natural/ash
 				if(newitem.salvage_result)
-					newitem.salvage_result = /obj/item/ash
+					newitem.salvage_result = /obj/item/natural/ash
 	if(href_list["changecat"])
 		current_cat = href_list["changecat"]
 	return attack_hand(usr)

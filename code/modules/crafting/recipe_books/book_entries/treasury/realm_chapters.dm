@@ -60,7 +60,7 @@
 			<li><b>Defense contracts</b> - paid from the Pledge or the Treasury. They are
 			posted to the Ledger or handed to a holder.</li> <li><b>Blockade Scrolls</b> -
 			given to a fellowship of at least [BLOCKADE_FELLOWSHIP_REQUIREMENT]. It may
-			be withdrawn from the Issued tab like any defense contract.</li>
+			be withdrawn from Your Postings like any defense contract.</li>
 			<li><b>Requests</b> - the Steward alone may post up to
 			[COMMISSION_REQUESTS_PER_DAY] unpaid contracts a day.</li>
 		</ul>
@@ -100,19 +100,18 @@
 		Steward can use this to steer adventurers toward regions the realm most needs
 		cleared.</p>
 
-		<p><b>Blockade Scrolls</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m
+		<p><b>Blockade Scrolls</b> costs [BLOCKADE_SCROLL_PLEDGE_COST]m
 		draft regardless of region. The scroll pays a base of [BLOCKADE_SCROLL_REWARD]m
 		plus a flat travel stipend based on distance. The waves are the same strength
-		everywhere. The actual threat varies with regional faction composition. Each
-		person in range of the blockade beyond the first
-		[BLOCKADE_DEFENDER_SCALE_MIN], up to [BLOCKADE_DEFENDER_SCALE_MAX] in total,
-		increases the wave's strength and the payout.</p>
-
+		everywhere. The actual threat varies with regional faction composition.
+		Each person in range of the blockade when the first wave starts beyond <b>[BLOCKADE_FELLOWSHIP_REQUIREMENT]</b> will increase the threat and reward by [QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100]% and [QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100]% respectively, up to a maximum of <b>[QUEST_FELLOWSHIP_SCALE_MAX]</b>. This non-linear scaling is meant to encourage you to bring extra friends along for your blockade!
+		Completing a blockade gives a triumph reward of [BLOCKADE_CLEAR_TRIUMPHS] to all participants in the fellowship.
+		</p>
 
 		<p>Multiple blockades may exist at once. One scroll per blockade at a time.
 		Blockades are rolled only at roundstart and never spawn during the round.</p>
 
-		<p>A Blockade Scroll may be withdrawn from the Issued tab until the first wave
+		<p>A Blockade Scroll may be withdrawn from Your Postings until the first wave
 		begins. The waves begin when the holder arrives. Each wave must be broken
 		within [BLOCKADE_WAVE_TIMER_DS / 600] minutes of spawning. There are warnings
 		at [DisplayTimeText(BLOCKADE_WAVE_WARN_FIRST)], [DisplayTimeText(BLOCKADE_WAVE_WARN_SECOND)] and
@@ -160,7 +159,8 @@
 		</ul>
 		<p>Where <code>import_ref = base × event_mod</code> and <code>export_ref =
 		import_ref × [(1 - IMPORT_EXPORT_SPREAD) * 100]%</code>. At small base prices
-		the 1m margin sets the buy price. At larger prices the [IMPORT_EXPORT_SPREAD * 100]% cut takes over and the Crown's margin grows with the price. Regional
+		the buy price is <code>export_ref - 1m</code>. At larger prices it is
+		<code>[(1 - IMPORT_EXPORT_SPREAD) * 100]% × export_ref</code>, so the Crown's margin grows with the price. Regional
 		shortages, blockades and route congestion only affect imports and exports.
 		They do not change stockpile prices. The Steward can set prices by hand when
 		needed.</p>
@@ -387,7 +387,7 @@
 
 		<h3>What the Steward Still Has</h3>
 		<ul>
-			<li><b>Tax authority</b>: poll tax, contract levy, headeater levy, import
+			<li><b>Tax authority</b>: poll levy, contract levy, headeater levy, import
 			tariff, export duty. All may be set up to the cap. The Golden Bull still
 			limits burghers.</li> <li><b>Fine authority</b>: subject to the usual rule of
 			one fine per day and the Golden Bull cap on burghers.</li> <li><b>Burgher
@@ -451,15 +451,153 @@
 		issued by a fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more.</p>
 
 		<h3>The Floor and Banditry Debt</h3> <p>Banditry alone won't take the Treasury
-		below <b>[BANDITRY_DEBT_FLOOR]m</b>. Anything beyond that becomes <b>banditry
-		debt</b>, which skims everything paid into the Treasury (stockpile earnings,
-		taxes, levies, fines, loan repayments) until paid.</p>
+		below <b>[BANDITRY_DEBT_FLOOR]m</b>. Anything beyond that is recorded as
+		<b>banditry debt</b>. Until it is paid, a share of everything paid into the Treasury
+		(stockpile earnings, taxes, levies, fines, loan repayments) is taken against it.</p>
 
 		<h3>What You Can Do</h3> <p>Issue defense contracts and Blockade Scrolls against
 		Dangerous and Bleak regions. Use levy exemption as bait. The retinue and
-		garrison can also clear regions directly. As regional threat falls, so does
-		the dawn drain. Banditry debt only shrinks as new income is earned and
+		garrison can also clear regions directly. The banditry drains fall with the
+		region's threat. Banditry debt only shrinks as new income is earned and
 		skimmed. The hoards can be reclaimed by clearing a Blockade or with a Hoard
 		Recovery scroll.</p>
 		</div>
+	"}
+
+
+/datum/book_entry/treasury_realm/books
+	name = "09. The Books of the Treasury"
+
+/datum/book_entry/treasury_realm/books/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>Every movement of coin is written down twice: once where it came from and
+		once where it went. This is called double-entry bookkeeping. Each entry has a
+		<b>debit side</b> and a <b>credit side</b>, and the two must always match. If an
+		entry somehow fails to balance, the entry is logged as an error; this shows up
+		in the Reconciliation section in the Trial Balance sheet as <b>Drift</b>.</p>
+		</div>
+
+		<h3>Accounts</h3>
+		<ul>
+			<li><b>Assets</b> - what the Crown holds or is owed: the Crown Purse, Loans Receivable,
+			Poll Levy Receivable, Interest Receivable and the Stockpile Inventory.</li>
+			<li><b>Liabilities</b> - what the Crown owes: the ATC loan (if applicable),
+			the Burghers' arrears advance, sequestration debt and brigand debt.</li>
+			<li><b>Equity</b> - opening capital, and grants and adjustments (what is left when debts
+			are cleared by decree rather than paid).</li>
+			<li><b>Revenue</b> - each tax and levy, export sales, standing orders, the
+			rural subsidy, fines, quality premiums and interest.</li>
+			<li><b>Expenses</b> - wages, imports, stockpile purchases, contracts, brigand losses,
+			tithe, loan losses and so on.</li>
+			<li><b>Unclassified</b> - the catch-all. Coin that was not classified goes here. A large
+			balance means entries are not being labeled.</li>
+		</ul>
+
+		<h3>The Journal</h3>
+		<p>A numbered list of entries, newest first. Each shows who paid whom, the reason, the amount,
+		and the accounts debited and credited beneath. Small identical entries in quick succession are
+		merged into one with a count, such as (x3). "By" shows who caused the entry. "System"
+		marks a bookkeeping adjustment such as an accrual, a stock count or a bankruptcy move. Where
+		one side of an entry has no fund, such as a tax receipt, wages or imports, it is named after
+		the account on the other side. "The Realm" is used only when there is nothing better to call
+		it.</p>
+
+		<h3>The General Ledger</h3>
+		<p>The General Ledger displays accounts and every entry that affects them. This is the place to see
+		where a given transaction might have originated from.</p>
+	"}
+
+
+/datum/book_entry/treasury_realm/statements
+	name = "10. Statements and Reconciliation"
+
+/datum/book_entry/treasury_realm/statements/inner_book_html(mob/user)
+	return {"
+		<div>
+		<h3>Trial Balance</h3>
+		<p>Every account that has seen activity, with its balance on the debit or credit side. The two
+		totals match when the books are in order. Any Drift is marked on the sheet.</p>
+
+		<h3>Income Statement</h3>
+		<p>Revenue minus expenses, shown for the whole round, for today and for yesterday. The fiscal
+		day begins at dawn, with "today" showing everything happening since then.</p>
+
+		<h3>Balance Sheet</h3>
+		<p>The Balance Sheet indicates what the Crown holds, set against what it owes and what is left over.
+		Assets equal liabilities, plus equity, plus the surplus. Anything left over is shown as Unclassified.</p>
+
+		<h3>Subsidiary</h3>
+		<p>The Subsidiary tab holds detailed breakdowns of given totals, including open loans, receivables,
+		what the Crown owes, the stockpile inventory by good, the payroll register, and a tax ledger with rates,
+		amounts collected and amounts exempted.</p>
+
+		<h3>Reconciliation</h3>
+		<p>Compares the books with the real thing:</p>
+		<ul>
+			<li>The Crown Purse against the coin actually in the purse.</li>
+			<li>The Crown's debt accounts against the treasury debt, and Brigand Debt against
+			banditry debt.</li>
+			<li>Poll Levy Receivable against the arrears owed, and Interest Receivable against the
+			interest accrued on open loans.</li>
+			<li>Total debits against total credits.</li>
+		</ul>
+
+		<p>A <b>drift</b> that is not zero means coin moved without being written down, or something
+		was written down that never happened. Common causes are an admin editing a balance directly,
+		an account vanishing without being closed out, or an entry refused as unbalanced. The morning
+		report warns when a line is out by half a mammon or more.</p>
+		</div>
+	"}
+
+
+/datum/book_entry/treasury_realm/accruals
+	name = "11. Accruals, Receivables and Stock Counts"
+
+/datum/book_entry/treasury_realm/accruals/inner_book_html(mob/user)
+	return {"
+		<div>
+		<p>The books recognize some things when they are earned, not when coin changes hands.</p>
+		</div>
+
+		<h3>Poll Levy</h3>
+		<ul>
+			<li>A levy is counted as earned when it is enacted, whether or not the subject can pay it.</li>
+			<li>What is not collected is carried as a <b>receivable</b> against the subject. It is drawn from their account whenever someone deposits in it and at dawn every day.</li>
+			<li>Arrears that are forgiven (by the Steward, by an admin, or because the subject has
+			left for good) are <b>written off</b> as an expense, "Poll Levy Written Off."</li>
+		</ul>
+
+		<h3>Loan Interest</h3>
+		<ul>
+			<li>Interest on loans the Crown has made is counted day by day, as a receivable and as
+			income, before it is paid.</li>
+			<li>Repayments go to principal first, then to interest.</li>
+			<li>A forgiven or orphaned loan writes off the unpaid principal and the unpaid interest as
+			Loan Losses.</li>
+		</ul>
+
+		<h3>The Stockpile</h3>
+		<ul>
+			<li>Coin paid for goods is an expense when it is paid: Stockpile Purchases, or Imports and
+			Purchases.</li>
+			<li>The goods on hand are counted as an asset, the <b>Stockpile Inventory</b>, valued at
+			the Crown's current buying price per unit. The count is taken at dawn and whenever the
+			Ledger is opened or refreshed.</li>
+			<li>Each count moves the asset up or down to match the stock on hand, and the difference goes to
+			<b>Stock Count Variance</b>. When goods are exported the stock falls, and the variance
+			charges the cost of what left, alongside the Export Sales revenue. The charge appears at
+			the next count, not at the moment of sale.</li>
+			<li>This is not the same figure as the Market tab's arbitrage potential.</li>
+		</ul>
+
+		<h3>Debts</h3>
+		<ul>
+			<li>Brigand losses the purse can pay are an expense. What it cannot pay becomes
+			<b>Brigand Debt</b>, and [round(BANDITRY_DEBT_SKIM_RATE * 100)]% of later receipts goes to
+			paying it down.</li>
+			<li>The ATC loan, the Burghers' arrears advance and sequestration debt are liabilities.
+			They are repaid out of incoming money, in an order that depends on the Treasury's
+			condition.</li>
+		</ul>
 	"}

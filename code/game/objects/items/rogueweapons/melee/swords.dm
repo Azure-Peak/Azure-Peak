@@ -331,8 +331,7 @@
 	max_integrity = 180
 	wdefense_wbonus = 5
 	smeltresult = /obj/item/ingot/blacksteel
-	var/used = FALSE
-	var/list/selection = list(
+	special_picks = list(
 		/datum/special_intent/side_sweep,
 		/datum/special_intent/axe_swing,
 		/datum/special_intent/piercing_lunge,
@@ -341,28 +340,6 @@
 		/datum/special_intent/dagger_dash,
 		/datum/special_intent/flail_sweep,
 		)
-
-/obj/item/rogueweapon/sword/long/blacksteel/examine(mob/user)
-	. = ..()
-	if(!used)
-		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
-
-/obj/item/rogueweapon/sword/long/blacksteel/attack_right(mob/user)
-	. = ..()
-	if(used)
-		return
-
-	var/list/special_options = list()
-	for(var/intent in selection)
-		var/datum/special_intent/S = intent // Hate this DM quirk.
-		special_options[S::name] = S
-
-	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
-	if(choice)
-		qdel(special)
-		var/datum/special_intent/S = special_options[choice]
-		special = new S()
-		used = TRUE
 
 /obj/item/rogueweapon/sword/long/ap
 	name = "stecher"
@@ -484,6 +461,10 @@
 	icon_state = "feder"
 	throwforce = 5
 	thrown_bclass = BCLASS_BLUNT
+
+/obj/item/rogueweapon/sword/long/training/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/skill_blessed, TRAIT_LONGSWORDSMAN, /datum/skill/combat/swords, SKILL_LEVEL_MASTER)
 
 /obj/item/rogueweapon/sword/long/cleric
 	name = "anointed longsword"
@@ -1813,35 +1794,12 @@
 	max_blade_int = 400
 	possible_item_intents = list(/datum/intent/sword/thrust/rapier, /datum/intent/sword/cut/rapier, /datum/intent/sword/thrust/rapier/lunge)
 	wdefense = 9 //Absurdly high defense, but no added integrity; for the discerning duelmaster.
-	var/used = FALSE
-	var/list/selection = list(
+	special_picks = list(
 		/datum/special_intent/piercing_lunge,
 		/datum/special_intent/polearm_backstep,
 		/datum/special_intent/dagger_dash,
 		/datum/special_intent/limbguard
 		)
-
-/obj/item/rogueweapon/sword/rapier/blacksteel/examine(mob/user)
-	. = ..()
-	if(!used)
-		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
-
-/obj/item/rogueweapon/sword/rapier/blacksteel/attack_right(mob/user)
-	. = ..()
-	if(used)
-		return
-
-	var/list/special_options = list()
-	for(var/intent in selection)
-		var/datum/special_intent/S = intent // Hate this DM quirk.
-		special_options[S::name] = S
-
-	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in special_options
-	if(choice)
-		qdel(special)
-		var/datum/special_intent/S = special_options[choice]
-		special = new S()
-		used = TRUE
 
 /obj/item/rogueweapon/sword/rapier/silver
 	name = "silver rapier"
@@ -2084,6 +2042,7 @@
 /obj/item/rogueweapon/sword/long/oathkeeper
 	name = "\"Oathkeeper\""
 	desc = "An ornate golden longsword with a ruby embedded in the hilt, given to the Knight Commander for their valiant service to the crown."
+	force_wielded = 33
 	sellprice = 140
 	possible_item_intents = list(/datum/intent/sword/cut/sabre, /datum/intent/sword/thrust, /datum/intent/sword/strike)
 	icon_state = "kingslayer"
@@ -2273,6 +2232,23 @@
 	sheathe_icon = "ssangsudo"
 	gripped_intents = list(/datum/intent/sword/cut/krieg, /datum/intent/sword/thrust/long/deep, /datum/intent/rend, /datum/intent/sword/strike) // better rend by .05
 
+/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo/attackby(obj/item/W, mob/living/user, params)
+	..()
+	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
+		var/choice = input(user, "Choose a color.", "Banner") as anything in COLOR_MAP
+		user.visible_message(span_warning("[user] adds a banner to [src]."))
+		user.transferItemToLoc(W, src, FALSE, FALSE)
+		detail_color = COLOR_MAP[choice]
+		detail_tag = "_detail"
+		update_icon()
+
+/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo/update_icon()
+	refresh_detail_overlay()
+
+/obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo/attack_self(mob/living/user)
+	. = ..()
+	update_icon()
+
 /obj/item/rogueweapon/sword/long/kriegmesser/pestran
 	name = "\"Cleansing Edge\""
 	desc = "A cut in time saves a life."
@@ -2448,7 +2424,6 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
-	dropshrink = 0.8
 	max_integrity = 150 //Sword with two tile reach but very low integrity.
 	max_blade_int = 150
 

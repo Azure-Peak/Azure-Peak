@@ -1050,6 +1050,11 @@
 	resident_role = /datum/job/roguetown/wretch
 	require_wretch_trait = TRUE
 
+/obj/structure/mineral_door/wood/towner/generic/vagabond
+	resident_role = /datum/job/roguetown/vagabond
+	icon_state = "wcg"
+	resident_key_type = /obj/item/roguekey/sewer
+
 /obj/structure/mineral_door/wood/towner/blacksmith
 	resident_advclass = list(/datum/advclass/blacksmith, /datum/advclass/masterblacksmith)
 	lockid = "towner_blacksmith"
@@ -1100,3 +1105,8 @@
 
 /obj/structure/mineral_door/wood/bath/courtesan
 	resident_advclass = list(/datum/advclass/bathworker/harlot, /datum/advclass/bathworker/courtesan)
+
+/obj/structure/table/wood/decorativefolding
+	name = "wooden table"
+	icon = 'icons/roguetown/misc/gadgets.dmi'
+	icon_state = "foldingtableDeployed"

@@ -358,6 +358,12 @@
 	boobed = FALSE
 	resistance_flags = FIRE_PROOF
 
+/obj/item/clothing/cloak/templar/astratancleric/grey
+	name = "frayed cloak"
+	desc = "A flowing cloak with frayed edges, cut in the style of Astratan clergy. Its plain cloth takes dye readily."
+	icon_state = "greyastrataclerictabard"
+	resistance_flags = FLAMMABLE
+
 /obj/item/clothing/cloak/tabard/abyssorite
 	name = "abyssorite tabard"
 	desc = "A tabard worn by Abyssorite devouts. It reeks of brine."

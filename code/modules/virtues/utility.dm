@@ -30,7 +30,15 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 		"Ladylike Cloak" = /obj/item/clothing/cloak/lordcloak/ladycloak,							//Ladylike Cloak
 		"Golden Scabbard" = /obj/item/rogueweapon/scabbard/sword/royal,							//Decorated Scabbard, Golden
 		"Golden Sheath" = /obj/item/rogueweapon/scabbard/sheath/royal,								//Decorated Sheath, Golden
-		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph								//Golden Dorpel Ring, Ornate
+		"Golden Dorpel Ring" = /obj/item/clothing/ring/diamond/triumph,								//Golden Dorpel Ring, Ornate
+		"Jade Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/jade,					//Gem Circlets, same as noble adventurer
+		"Amber Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/amber,
+		"Shell Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/shell,
+		"Rosestone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/rose,
+		"Cerulite Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/turq,
+		"Onyxa Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/onyxa,
+		"Heartstone Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/coral,
+		"Opal Circlet"	= /obj/item/clothing/head/roguetown/circlet/carvedgem/opal
 	)
 
 
@@ -184,9 +192,6 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 	..()
 	for(var/choice in picked_choices)
 		switch(choice)
-			if(SOCIALITE_MASSAGE)
-				if(recipient.mind)
-					recipient.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
 			if(SOCIALITE_BEAUTIFUL)
 				if(isdullahan(recipient))
 					ADD_TRAIT(recipient, TRAIT_BEAUTIFUL_UNCANNY, TRAIT_VIRTUE)
@@ -199,14 +204,17 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 				ADD_TRAIT(recipient, TRAIT_EMPATH, TRAIT_VIRTUE)
 			if(SOCIALITE_PERFORMER)
 				recipient.adjust_skillrank_up_to(/datum/skill/misc/music, SKILL_LEVEL_EXPERT, silent = TRUE)
+			if(SOCIALITE_MASSAGE)
+				if(recipient.mind)
+					recipient.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/massage)
 			else
 				recipient.mind.special_items[choice] = extra_choices[choice]
 
 #undef SOCIALITE_BEAUTIFUL
-#undef SOCIALITE_MASSAGE
 #undef SOCIALITE_NUTCRACKER
 #undef SOCIALITE_EMPATH
 #undef SOCIALITE_PERFORMER
+#undef SOCIALITE_MASSAGE
 
 /datum/virtue/utility/failed_squire
 	name = "Failed Squire"
@@ -270,8 +278,13 @@ GLOBAL_LIST_EMPTY(fey_vessels)
 /datum/virtue/utility/hollow
 	name = "Hollow"
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
+	custom_text = "Grants a unique verb called 'suicide prayer' which allows you to immediately end your feeble lyfe."
 	ui_fa_icon = "lungs"
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
+
+/datum/virtue/utility/hollow/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	add_verb(recipient, /mob/living/carbon/human/proc/praysuicide)
 
 /datum/virtue/utility/deadened
 	name = "Deadened"

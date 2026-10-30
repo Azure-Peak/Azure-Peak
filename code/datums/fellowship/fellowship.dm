@@ -6,6 +6,7 @@
 	// pending_invites[real_name] = list(expires_at_world_time, /datum/weakref of target mob)
 	var/list/pending_invites = list()
 	var/list/active_contracts = list()
+	var/payout_mode = FELLOWSHIP_PAYOUT_LEADER
 	var/created_time
 
 /datum/fellowship/New(mob/living/founder, chosen_name)

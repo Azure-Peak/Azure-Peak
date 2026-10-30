@@ -709,6 +709,41 @@
 		user.visible_message(span_notice("[user] stops adjusting [src]."))
 		return
 
+/obj/item/clothing/shoes/roguetown/boots/armor/bare
+	name = "sabatons"
+	desc = "A set of overlapping metal lames that protect the feet and are usually worn with boots or a hose - you <b>are</b> wearing a hose, right?"
+	icon_state = "feetplate"
+	item_state = "feetplate"
+	detail_tag = "_det"
+	detail_color = "#FFFFFF"
+	var/picked = FALSE
+
+/obj/item/clothing/shoes/roguetown/boots/armor/bare/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/shoes/roguetown/boots/armor/bare/attack_right(mob/user)
+	..()
+	if(!picked)
+		var/choice = input(user, "Choose a color.", "Sabaton colors") as null|anything in COLOR_MAP
+		if(!choice)
+			return
+		picked = TRUE
+		detail_color = COLOR_MAP[choice]
+		update_icon()
+		if(loc == user && ishuman(user))
+			var/mob/living/carbon/H = user
+			H.update_inv_shoes()
+
+/obj/item/clothing/shoes/roguetown/boots/armor/bare/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
 // ----------------- BLACKSTEEL -----------------------
 
 /obj/item/clothing/shoes/roguetown/boots/armor/blacksteel/modern

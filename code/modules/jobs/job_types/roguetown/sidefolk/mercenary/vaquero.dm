@@ -34,8 +34,7 @@
 	)
 
 /datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H, dummy)
-	if(should_wear_femme_clothes(H))
-		horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
+	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
 	return ..()
 
 /datum/outfit/job/roguetown/mercenary/vaquero/pre_equip(mob/living/carbon/human/H)
@@ -60,7 +59,7 @@
 					/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 					/obj/item/rogueweapon/huntingknife/idagger/navaja = 1,
 					/obj/item/lockpick = 1,
-					/obj/item/flashlight/flare/torch = 1,
+					/obj/item/flashlight/flare/torch/lantern = 1,
 					/obj/item/roguekey/mercenary = 1,
 					/obj/item/rogueweapon/scabbard/sheath = 1
 					)

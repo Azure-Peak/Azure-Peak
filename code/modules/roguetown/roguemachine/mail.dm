@@ -468,7 +468,7 @@
 				mark_free_send(user)
 				to_chat(user, span_notice("Your free letter has been sent. Another may be sent in [HERMES_FREE_COOLDOWN / 600] minute\s."))
 			else
-				SStreasury.mint(SStreasury.discretionary_fund, 1, "Mail Income")
+				SStreasury.mint(SStreasury.discretionary_fund, 1, "Mail Income", null, LEDGER_CROWN_REV_MAIL)
 				record_round_statistic(STATS_TAXES_COLLECTED, 1)
 				coin_loaded -= 1
 				if(coin_loaded <= 0)
@@ -486,6 +486,10 @@
 #define INDEXER_MISTAKE_MIN 20 // minimum false positive chance roll for heresy. a reduced value is used for the antag checks. used to be 1
 
 /obj/structure/roguemachine/mail/attackby(obj/item/P, mob/user, params)
+	if(istype(P, /obj/item/parcel/towner_caravan))
+		var/obj/item/parcel/towner_caravan/box = P
+		box.post_to_owner(src, user)
+		return
 	if(istype(P, /obj/item/merctoken))
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
@@ -774,7 +778,7 @@
 								GLOB.cursedsamples += ", [I.paired.subject.mind]"
 							else
 								GLOB.cursedsamples += "[I.paired.subject.mind]"
-					else if (second_fp_chance && prob(mistake/((HAS_TRAIT(I.paired.subject, TRAIT_VAMP_BITTEN) || HAS_TRAIT(I.paired.subject, TRAIT_PALLID)) ? 2 : 4)))
+					else if (second_fp_chance && prob(mistake/((HAS_TRAIT(I.paired.subject, TRAIT_VAMP_BITTEN) || I.paired.subject.has_flaw(/datum/charflaw/sullied)) ? 2 : 4)))
 						if(HAS_TRAIT(I.paired.subject.mind, TRAIT_CBLOOD))
 							stopfarming = TRUE
 						if(!stopfarming)

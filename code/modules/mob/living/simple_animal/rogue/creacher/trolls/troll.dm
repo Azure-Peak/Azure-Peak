@@ -3,6 +3,7 @@
 	anatomy_type = /datum/anatomy/biped/tough
 	icon = 'icons/roguetown/mob/monster/trolls/trolls.dmi'
 	name = "troll"
+	mob_size = MOB_SIZE_LARGE
 	desc = "Elven legends say these monsters were servants of Dendor tasked to guard his realm; nowadays they are sometimes found in the company of orcs. It's said that fire curbs their almost magical regeneration."
 	icon_state = "troll"
 	icon_living = "troll"
@@ -81,7 +82,6 @@
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/troll
 	move_base_delay = MOVEMENT_DELAY_SPD_17
-	melee_cooldown = TROLL_ATTACK_SPEED
 
 	var/critvuln = FALSE
 

@@ -610,9 +610,10 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		for(var/S in new_convert.devotion.granted_spells)
 			new_convert.mind.RemoveSpell(S)
 
-		// gravemark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; also, necromancers and liches get them through arcyne means
-		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark) && !istype(SSrole_class_handler.get_advclass_by_name(new_convert.advjob), /datum/advclass/wretch/necromancer) && !new_convert.mind.has_antag_datum(/datum/antagonist/lich))
-			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/gravemark)
+		// minion mark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; aspect-granted marks are kept
+		var/datum/action/cooldown/spell/mark = new_convert.mind.get_spell(/datum/action/cooldown/spell/minion_mark, TRUE)
+		if(mark && !mark.source_aspect)
+			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_mark)
 			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_order)
 
 		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/projectile/divine_blast))
@@ -641,8 +642,8 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 				var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/unholy_blast)
 				new_convert.mind.AddSpell(new blast_to_grant)
 			// why are you like this
-			if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark))
-				new_convert.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/minion_mark))
+				new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 				new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 		else // however, they can have TRAIT_PSYDONITE as a treat; and bootcheck, because why not (this is identical to the effects of the devotee virtue)
 			ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)

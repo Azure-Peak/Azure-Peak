@@ -177,6 +177,8 @@
 					/obj/item/flint = 1,
 					)
 				H.change_stat(STATKEY_SPD, 2)
+				H.change_stat(STATKEY_STR, -2)
+				H.change_stat(STATKEY_WIL, 1)
 
 			if("Medium Armor")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)

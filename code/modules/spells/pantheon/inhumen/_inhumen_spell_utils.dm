@@ -137,8 +137,8 @@
 	playsound(T, 'sound/magic/swap.ogg', 50, TRUE)
 	caster.energy_add(120)
 	caster.stamina_add(-50)
-	new /obj/item/ash(T)
-	new /obj/item/ash(T)
+	new /obj/item/natural/ash(T)
+	new /obj/item/natural/ash(T)
 	qdel(S)
 
 /datum/action/cooldown/spell/zizo/rituos/proc/run_ritual_chant(mob/living/carbon/human/user, path_choice)
@@ -180,7 +180,7 @@
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 
 	if(user.mind)
-		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 6))
+		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 9))
 		new /obj/effect/temp_visual/zizorite(get_turf(user))
 		ADD_TRAIT(user, TRAIT_STEELHEARTED, "[type]")
 		ADD_TRAIT(user, TRAIT_JACKOFALLTRADES, "[type]")
@@ -237,11 +237,13 @@
 	eyes = SSwardrobe.provide_type(/obj/item/organ/eyes/night_vision/zombie)
 	eyes.Insert(user)
 	user.update_body_parts()
+	user.base_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, /datum/intent/unarmed/claw) //skeleton hands, buffs your punches into clawing at people.
+	user.update_a_intents()
 
 	user.adjust_skillrank(/datum/skill/magic/arcane, 3, TRUE)
 
 	if(user.mind)
-		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 4))
+		user.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 2, "utilities" = 5))
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonechill)
 		user.mind.AddSpell(new /datum/action/cooldown/spell/bonemend)
 		grant_poke_spell_zizo(user)

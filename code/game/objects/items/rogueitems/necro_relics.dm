@@ -93,6 +93,8 @@
 	if(!C || !istype(C, /mob/dead))
 		return FALSE
 
+	C.stop_sound_channel(CHANNEL_LOBBYMUSIC)
+
 	if(istype(C, /mob/dead/new_player))
 		var/mob/dead/new_player/N = C
 		N.close_spawn_windows()

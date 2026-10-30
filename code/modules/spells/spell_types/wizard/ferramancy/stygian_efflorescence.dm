@@ -4,7 +4,7 @@
 /datum/action/cooldown/spell/projectile/stygian_efflorescence
 	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
 	name = "Stygian Efflorescence"
-	desc = "Charge up, then loose a volley of five sharpened obsidian shards in a wide spread, blasting out in the direction you face. The first shard can cause a critical wound, but shards on the same target deal greatly reduced damage (8 damage) and cannot crit. Projectile effectiveness decreases after 5 tiles."
+	desc = "Charge up, then loose a volley of five sharpened obsidian shards in a wide spread, blasting out in the direction you face. The first shard can cause a critical wound, but shards on the same target deal greatly reduced damage (5.6 damage) and cannot crit. Projectile effectiveness decreases after 5 tiles."
 	fluff_desc = "Before the first men learned to refine metal, men fought with sharpened stones - particularly obsidian from the foot of volcanos. \
 	It is said that Mount Golgotha had the best obsidian in all the world, sharp enough to cut flesh with ease. \
 	Malice, energy, and the imagination of the Magi cutting someone apart with Obsidian. \
@@ -32,7 +32,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE // Use it with an arcyne armament noob 
 	charge_time = CHARGETIME_MINOR
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
@@ -65,14 +65,16 @@
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "stygian"
 	max_range = MAGE_LONG_PROJ_RANGE // Effective range is lower than its maximal range
-	damage = 34
+	damage = SPELL_DMG(34)
 	damage_type = BRUTE
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
 	woundclass = BCLASS_STAB
 	armor_penetration = PEN_LIGHT
 	speed = MAGE_PROJ_VERY_SLOW
 	flag = "stab"
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
-	var/reduced_damage = 7 // 34 + 7 * 4 = 62. A point blank is gonna be as much damage as most of your melee Ferramantic attack, on purpose as a ranged pressure tool as not as a replacement to compete with your fancy NotSpecial
+	var/reduced_damage = SPELL_DMG(7) // 34 + 7 * 4 = 62. A point blank is gonna be as much damage as most of your melee Ferramantic attack, on purpose as a ranged pressure tool as not as a replacement to compete with your fancy NotSpecial
 
 /obj/projectile/energy/stygian/prehit(atom/target)
 	if(ismob(target))

@@ -429,6 +429,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 			return 1
 
 	return 0
+/mob/proc/equip_to_appropriate_slot_or_hands(obj/item/equipping_item)
+	. = equip_to_appropriate_slot(equipping_item)
+	if(!.)
+		return put_in_hands(equipping_item, FALSE)
 /**
  * Reset the attached clients perspective (viewpoint)
  *
@@ -685,6 +689,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * handles the strip panel equip and unequip as well if "item" sent
  */
 /mob/Topic(href, href_list)
+	. = ..()
 	if(href_list["mach_close"])
 		var/t1 = text("window=[href_list["mach_close"]]")
 		unset_machine()

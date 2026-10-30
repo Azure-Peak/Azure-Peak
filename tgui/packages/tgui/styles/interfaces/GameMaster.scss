@@ -16,6 +16,27 @@
   gap: 0.25em 0.5em;
 }
 
+.GameMaster__drawerToggle {
+  height: 100%;
+  padding: 0 var(--space-s);
+}
+
+.GameMaster__drawerToggle .Button__content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+}
+
+.GameMaster__drawerLabel {
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: bold;
+}
+
 .GameMaster__member {
   display: inline-flex;
   align-items: baseline;

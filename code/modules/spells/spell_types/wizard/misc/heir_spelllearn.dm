@@ -18,7 +18,7 @@
 	)
 	var/list/buff_bundle = list( //Support a knight, maybe. Or like, ERP harder without stamcritting.
 		/datum/action/cooldown/spell/augment_buff/blood_rush,
-		/datum/action/cooldown/spell/augment_buff/fortitude
+		/datum/action/cooldown/spell/bestow_ward
 	)
 /obj/effect/proc_holder/spell/self/heir_spell_bundle/cast(list/targets, mob/user)
 	. = ..()

@@ -46,49 +46,36 @@
 		//passively heal even wounds with no passive healing
 		heal_wounds(1)
 
+	// PSYDONITE REGEN -- Passively heals wounds and damage. Damage cannot be healed in combat or while bleeding.
+	// Blocks Constructs, Deadites, Werewolves, NoRegen and disabled users.
+	if(!stat && (HAS_TRAIT(src, TRAIT_PSYDONITE) && blood_volume >= BLOOD_VOLUME_SURVIVE && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !HAS_TRAIT(src, TRAIT_NOREGEN) && !HAS_TRAIT(src, TRAIT_IRONMAN) && !HAS_TRAIT(src, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE)))
+		var/list/wCount = src.get_wounds()
+		var/bleeding = FALSE
+		for(var/datum/wound/wound as anything in wCount)
+			if(istype(wound, /datum/wound/slash/incision) || wound.severity > WOUND_SEVERITY_SEVERE) // Also this, prevents healing arteries and other lethal injuries. It's been unnerfed in the psydon changes for some reason, so bringing it back.
+				continue
+			if(wound.bleed_rate)
+				var/obj/item/bodypart/BP = wound.bodypart_owner
+				var/stemmed = BP && length(BP.grabbedby)
+				if(!stemmed)
+					bleeding = TRUE
+			wound.heal_wound(0.4) // 40% of the heal happens naturally.
+			if(HAS_TRAIT(src, TRAIT_DEATHLESS))
+				wound.heal_wound(0.6) // The other bulk of the effects, only if you are not Deathless.
+				heal_psydonite(0.1, 0.1)
+		if(!(in_combat_until > world.time) && !cmode && !bleeding)
+			heal_psydonite(0.2, 0.2) // Heals damage over time, but you must be completely out of trouble to proc.
+
+	if(!stat && HAS_TRAIT(src, TRAIT_PSYDONIAN_GRIT) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !HAS_TRAIT(src, TRAIT_NOREGEN) && !HAS_TRAIT(src, TRAIT_IRONMAN) && !HAS_TRAIT(src, TRAIT_DEADITE) && !HAS_TRAIT(src, TRAIT_LYCANRESILENCE))
+		var/in_combat = in_combat_until > world.time
+		if(!in_combat && !cmode)
+			var/list/wCount = src.get_wounds()
+			for(var/datum/wound/wound as anything in wCount)
+				if(wound.woundpain)
+					wound.woundpain = max(0, wound.woundpain - 0.2) // ENDURE! Over time it will make the wound hurt less.
+
 	// REGEN RESTRICTIONS -- Starving, or being on fire/silverfired.
 	var/noregen = nutrition < NUTRITION_LEVEL_STARVING - 75 || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder) || has_status_effect(/datum/status_effect/fire_handler/fire_stacks/sunder/blessed)
-
-	// BLACKBLOOD REGEN -- Every tick from this will cost hunger across three different instances, so the more hurt, the more hungry you'll become. If you're not hurt, then this basically is skipped.
-	if(stat != DEAD && HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
-		handle_wounds()
-		var/list/wounds = get_wounds() // literally was calling get_wounds() 3x so just stuffing this into a list and being done with it
-		var/has_brute = getBruteLoss() > 0 // teehee D:
-		var/has_healable_wound = FALSE
-		var/has_bleeding_wound = FALSE
-		for(var/datum/wound/wound as anything in wounds)
-			if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
-				has_healable_wound = TRUE
-			if(wound?.bleed_rate > 0)
-				has_bleeding_wound = TRUE
-		if(has_brute || has_healable_wound || has_bleeding_wound)
-			var/mob/living/carbon/human/H = src
-			var/healing_multiplier = max(0.5 ** (
-				(in_combat_until > world.time) + (H.highest_ac_worn() > ARMOR_CLASS_LIGHT) + has_stress_event(/datum/stressevent/sun_sensitivity) + has_stress_event(/datum/stressevent/thirst) + has_stress_event(/datum/stressevent/inq_trauma)), 0.15)
-			if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-				healing_multiplier = 0.15
-			// Wound healing.
-			if(has_healable_wound)
-				for(var/datum/wound/wound as anything in wounds)
-					if(!istype(wound, /datum/wound/slash/incision) && wound?.severity <= WOUND_SEVERITY_SEVERE)
-						wound.heal_wound(healing_multiplier)
-			// Brute healing.
-			if(has_brute)
-				var/healing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
-				heal_overall_damage(3 * healing_multiplier, 0, 0)
-				nutrition = max(0, nutrition - healing_cost)
-			// Bleeding/sealing.
-			if(has_bleeding_wound)
-				var/sealing_cost = NUTRITION_LEVEL_FULL * 0.00125 * healing_multiplier
-				for(var/datum/wound/wound as anything in wounds)
-					if(wound.bleed_rate > 0)
-						var/bleed_heal = max(wound.bleed_rate * 0.2, 0.1) * healing_multiplier
-						wound.set_bleed_rate(max(wound.bleed_rate - bleed_heal, 0.025))
-						if(wound.bleed_rate <= 0 && wound.sew_threshold)
-							wound.sew_progress = wound.sew_threshold
-							wound.sew_wound()
-							to_chat(src, span_artery("<i>The [wound] stitched itself...</i>"))
-				nutrition = max(0, nutrition - sealing_cost)
 
 	// LYCAN RESILIENCE -- This had a nasty return which was causing an awful glitch. Don't use return on Life(), pls.
 	if(!stat && HAS_TRAIT(src, TRAIT_LYCANRESILENCE) && !HAS_TRAIT(src, TRAIT_PARALYSIS) && !noregen)
@@ -107,7 +94,7 @@
 			for(var/datum/wound/wound as anything in get_wounds())
 				wound.heal_wound(0.5)
 
-	if(blood_volume <= BLOOD_VOLUME_SURVIVE && stat)
+	if(blood_volume <= BLOOD_VOLUME_BAD && stat)
 		handle_passive_blood()
 
 	if(QDELETED(src)) // diseases can qdel the mob via transformations

@@ -634,6 +634,9 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/fermentedcrab
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/calendula_tea
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/valerian_tea
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/whiskey
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/fyreball
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/fyrmenty
 
 /obj/structure/fermentation_keg/distiller
 	name = "copper distiller"

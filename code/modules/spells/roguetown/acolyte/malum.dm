@@ -183,7 +183,7 @@
 	var/mob/living/spelltarget = cast_on
 
 	if (!isliving(spelltarget))
-		show_visible_message(owner, "You can only cast this on living beings.")
+		to_chat(owner, span_warning("You can only cast this on living beings."))
 		return FALSE
 	if (spelltarget == H)
 		spelltarget.energy_add((energytoregen * (owner.get_skill_level(associated_skill))) / 2)//You only get half
@@ -369,7 +369,7 @@
 
 /proc/handle_living_entity(mob/target, mob/user, list/nosmeltore)
 	var/obj/item/targeteditem = get_targeted_item(user, target)
-	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE))
+	if (!targeteditem || targeteditem.smeltresult == /obj/item/natural/ash || target.anti_magic_check(TRUE,TRUE))
 		show_visible_message(user, "After their incantation, [user] points at [target] but it seems to have no effect.", "After your incantation, you point at [target] but it seems to have no effect.")
 		return
 	if (istype(targeteditem, /obj/item/rogueweapon/tongs))
@@ -454,8 +454,8 @@
 /proc/handle_heating_equipped(mob/living/carbon/target, obj/item/clothing/targeteditem, mob/user)
 	var/obj/item/armor = target.get_item_by_slot(SLOT_ARMOR)
 	var/obj/item/shirt = target.get_item_by_slot(SLOT_SHIRT)
-	var/armor_can_heat = armor && armor.smeltresult && armor.smeltresult != /obj/item/ash
-	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt
+	var/armor_can_heat = armor && armor.smeltresult && armor.smeltresult != /obj/item/natural/ash
+	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/natural/ash // Full damage if no shirt
 	var/damage_to_apply = 20 // How much damage should your armor burning you should do.
 	if (user.zone_selected == BODY_ZONE_CHEST)
 		if (armor_can_heat && (!shirt_can_heat && shirt))

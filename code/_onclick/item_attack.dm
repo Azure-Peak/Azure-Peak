@@ -198,9 +198,9 @@
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
 	var/dualwield_armed = FALSE
-	if(HAS_TRAIT(user, TRAIT_DUALWIELDER))
+	if(HAS_TRAIT(user, TRAIT_DUALWIELDER) && !user.dualwield_processing && user != M)
 		var/datum/intent/dualwield_cached_intent = user.used_intent
-		dualwield_armed = user.process_dualwield(src)
+		dualwield_armed = user.process_dualwield(src) // if we return TRUE, we're primed
 		user.used_intent = dualwield_cached_intent
 
 	M.on_attacked_as_pacifist(user)
@@ -726,21 +726,25 @@
 					simple_add_embedded_object(I, silent = FALSE, crit_message = TRUE)
 					src.grabbedby(user, 1, item_override = I)
 				*/
-			var/haha = user.used_intent.blade_class
+			var/bclass = user.used_intent.blade_class
 			if(newforce > 5)
-				if(haha != BCLASS_BLUNT)
+				if(bclass != BCLASS_BLUNT)
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
 					add_splatter_wall(location, force = newforce)
+					if((bclass in GLOB.splatter_bclasses) && prob(newforce * 2))
+						blood_spray(get_dir(user, src))
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 			if(newforce > 15)
-				if(haha == BCLASS_BLUNT)
+				if(bclass == BCLASS_BLUNT)
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
 					add_splatter_wall(location, force = newforce)
+					if(prob(newforce * 2))
+						blood_spray(get_dir(user, src))
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 	send_item_attack_message(I, user, hitlim)
