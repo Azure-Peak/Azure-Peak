@@ -42044,8 +42044,8 @@
 /area/rogue/under/town/sewer)
 "hhF" = (
 /obj/effect/landmark/forlorne,
-/turf/open/water/swamp/deep,
-/area/rogue/outdoors/bog/north)
+/turf/open/floor/rogue/dirt,
+/area/rogue/outdoors/bog/south)
 "hhK" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 6
@@ -80190,6 +80190,10 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
+"nBs" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/underdark/north)
 "nBA" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/concrete,
@@ -81183,6 +81187,10 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/town/basement)
+"nKJ" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter)
 "nKO" = (
 /obj/structure/bars/pipe{
 	dir = 8
@@ -84594,6 +84602,10 @@
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
+"onV" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/outdoors/bog/south)
 "onW" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -166216,7 +166228,7 @@ xYB
 xYB
 lUW
 xYB
-xYB
+nBs
 xYB
 lUW
 gcw
@@ -191076,8 +191088,8 @@ rpC
 rpC
 rpC
 rpC
-whG
-whG
+twA
+twA
 uNW
 syP
 syP
@@ -386917,7 +386929,7 @@ pMO
 mjV
 eWk
 eWk
-hhF
+eWk
 uHo
 eWk
 eWk
@@ -387855,7 +387867,7 @@ lCD
 sxN
 sxN
 sxN
-sxN
+hhF
 mAW
 sxN
 xot
@@ -388307,8 +388319,8 @@ sxN
 xot
 sxN
 sxN
-mAW
-mAW
+onV
+onV
 sxN
 sxN
 sxN
@@ -493491,7 +493503,7 @@ wHp
 kNH
 idZ
 lRZ
-lRZ
+bfq
 lRZ
 oyf
 oyf
@@ -493944,7 +493956,7 @@ kNH
 eMt
 lRZ
 bfq
-lRZ
+bfq
 eAq
 eAq
 eAq
@@ -582915,8 +582927,8 @@ mIp
 mIp
 uvy
 yiA
-uZT
-uZT
+nKJ
+nKJ
 aOC
 uZT
 uvy
@@ -583367,7 +583379,7 @@ ddn
 ddn
 uvy
 uZT
-uZT
+nKJ
 cjJ
 uZT
 koR
