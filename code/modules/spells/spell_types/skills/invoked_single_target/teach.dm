@@ -108,7 +108,7 @@
 					return // cannot teach the same student twice
 				if(!(item in list(/datum/skill/misc/music, /datum/skill/craft/cooking, /datum/skill/craft/sewing, /datum/skill/misc/lockpicking, /datum/skill/misc/climbing, /datum/language/aavnic, /datum/language/celestial, /datum/language/raneshi, /datum/language/draconic, /datum/language/dwarvish, /datum/language/elvish, /datum/language/etruscan, /datum/language/grenzelhoftian, /datum/language/gronnic, /datum/language/hellspeak, /datum/language/kazengunese, /datum/language/lingyuese, /datum/language/orcish, /datum/language/otavan)) && L.get_skill_level(item) < SKILL_LEVEL_NOVICE)
 					to_chat(L, span_warning("I cannot understand the lesson on [item.name], I need to get more skilled first!"))
-					to_chat(usr, span_warning("I try teaching [L] [item.name] but my student couldnt grasp the lesson!"))
+					to_chat(usr, span_warning("I try teaching [L] [item.name] but my student couldn't grasp the lesson!"))
 					return // some basic skill will not require you novice level
 				if(L.has_language(item))
 					to_chat(L, span_warning("I already know! [item.name]!"))

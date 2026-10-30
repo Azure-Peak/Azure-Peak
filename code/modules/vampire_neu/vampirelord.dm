@@ -166,7 +166,7 @@
 			continue
 		possible[member.real_name] = member
 	if(!length(possible))
-		to_chat(src, span_warning("You have no subordinates to punish , assign them in the clan menu!"))
+		to_chat(src, span_warning("You have no subordinates to punish, assign them in the clan menu!"))
 		return
 	var/name_choice = input(src, "Who to punish?", "PUNISHMENT") as null|anything in possible
 	if(!name_choice)

@@ -1,4 +1,0 @@
-author: "fffelinid"
-delete-after: True
-changes:
-  - bugfix: "Hopefully fixed a few exploits that allowed players to skip large parts of the menagerie dungeon."

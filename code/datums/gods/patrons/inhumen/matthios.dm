@@ -42,7 +42,7 @@
 	// Allows prayer near EEEVIL psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == TRUE)
-			to_chat(follower, span_danger("That acсursed cross interupts my prayers!"))
+			to_chat(follower, span_danger("That accursed cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer if the user has more than 100 mammon on them.

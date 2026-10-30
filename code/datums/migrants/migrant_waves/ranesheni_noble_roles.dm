@@ -129,7 +129,7 @@
 
 /datum/migrant_role/ranesheni/janissary
 	name = "Janissary"
-	greet_text = "You are a dilligent soldier in employ of the Emir for protection and to assure that their mission goes as planned."
+	greet_text = "You are a diligent soldier in employ of the Emir for protection and to assure that their mission goes as planned."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_CONSTRUCT RACES_DESPISED)
 	advclass_cat_rolls = list(CTAG_RANESHENI_JANISSARY = 20)

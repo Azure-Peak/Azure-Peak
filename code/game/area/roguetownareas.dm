@@ -373,7 +373,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	droning_sound = 'sound/music/area/underworlddrone.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	first_time_text = "The Forest of Repentence"
+	first_time_text = "The Forest of Repentance"
 
 /area/rogue/underworld/dream
 	name = "dream realm"

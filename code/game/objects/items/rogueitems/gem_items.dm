@@ -34,7 +34,7 @@
 
 /obj/item/carvedgem/shell/cameo
 	name = "shell cameo"
-	desc = "A cameo carved out of shell depicting depicting someone's grandest features in greater detail; a memoir, perhaps."
+	desc = "A cameo carved out of shell depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_shell"
 	grid_height = 32
 	grid_width = 32
@@ -364,7 +364,7 @@
 
 /obj/item/carvedgem/onyxa/cameo
 	name = "onyxa cameo"
-	desc = "A cameo carved out of onyxa depicting depicting someone's grandest features in greater detail; a memoir, perhaps."
+	desc = "A cameo carved out of onyxa depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_onyxa"
 	grid_height = 32
 	grid_width = 32
@@ -462,7 +462,7 @@
 
 /obj/item/rogueweapon/sword/short/messer/onyxa
 	name = "onyxa macuahuitl"
-	desc = "A resplendant macuahuitl carved out of onyxa, intended for ceremonies over combat. Traditionally made with shards of onyxa or \
+	desc = "A resplendent macuahuitl carved out of onyxa, intended for ceremonies over combat. Traditionally made with shards of onyxa or \
 	obsidian, this paddle-like cleaver - though absurdly fragile - remains sharp enough to carve straight through a saiga's neck in one blow."
 	icon = 'icons/roguetown/gems/gem_onyxa.dmi'
 	icon_state = "macuahuitl_onyxa"
@@ -823,7 +823,7 @@
 
 /obj/item/rogueweapon/sword/amber
 	name = "amber kaskara"
-	desc = "A resplendant kaskara carved out of amber, intended for ceremonies over combat. It's believed that each piece of amber contains \
+	desc = "A resplendent kaskara carved out of amber, intended for ceremonies over combat. It's believed that each piece of amber contains \
 	a sliver of Astrata's divine warmth; something that once made it invaluable to decorating the reigns of Psydonia's earliest kings."
 	icon = 'icons/roguetown/gems/gem_amber.dmi'
 	icon_state = "kaskara_amber"

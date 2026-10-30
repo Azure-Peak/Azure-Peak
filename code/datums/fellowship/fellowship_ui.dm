@@ -31,10 +31,12 @@
 		ui.send_full_update()
 
 /datum/fellowship_ui/ui_data(mob/user)
-	// Everything the panel cares about is static and pushed on change. ui_data only carries
-	// the server clock so the client can render countdowns for invite expiry without the
-	// server refreshing every tick.
-	return list("server_time" = world.time)
+	var/datum/fellowship/F = holder.current_fellowship
+	return list(
+		"server_time" = world.time,
+		"payout_mode" = F?.payout_mode,
+		"debug_local" = !!holder.client?.is_localhost(),
+	)
 
 /datum/fellowship_ui/ui_static_data(mob/user)
 	var/list/data = list()
@@ -114,6 +116,10 @@
 			return handle_rescind(params)
 		if("accept_invite")
 			return handle_accept(params)
+		if("payout_mode")
+			return handle_payout_mode()
+		if("debug_invite")
+			return handle_debug_invite()
 
 /datum/fellowship_ui/proc/handle_create(list/params)
 	if(holder.current_fellowship)
@@ -135,6 +141,39 @@
 		return TRUE
 	new /datum/fellowship(holder, candidate)
 	to_chat(holder, span_notice("You have founded the fellowship '[candidate]'."))
+	return TRUE
+
+/datum/fellowship_ui/proc/handle_debug_invite()
+	var/datum/fellowship/F = holder.current_fellowship
+	if(!F || !F.is_leader(holder) || !holder.client?.is_localhost())
+		return TRUE
+	var/list/candidates = list()
+	for(var/mob/living/carbon/human/H in GLOB.human_list)
+		if(H == holder || H.stat == DEAD || H.current_fellowship)
+			continue
+		candidates["[H.real_name] ([H.ckey || "npc"])"] = H
+	if(!length(candidates))
+		to_chat(holder, span_warning("No one is available to force in."))
+		return TRUE
+	var/choice = tgui_input_list(holder, "Force whom into the fellowship?", "Fellowship (debug)", candidates)
+	var/mob/living/target = candidates[choice]
+	if(!target)
+		return TRUE
+	F.add_member(target)
+	return TRUE
+
+/datum/fellowship_ui/proc/handle_payout_mode()
+	var/datum/fellowship/F = holder.current_fellowship
+	if(!F || !F.is_leader(holder))
+		return TRUE
+	F.payout_mode = (F.payout_mode == FELLOWSHIP_PAYOUT_SPLIT) ? FELLOWSHIP_PAYOUT_LEADER : FELLOWSHIP_PAYOUT_SPLIT
+	if(F.payout_mode == FELLOWSHIP_PAYOUT_SPLIT)
+		F.notify_members("Contract rewards will now be split evenly among fellowship members.")
+	else
+		F.notify_members("Contract rewards will now go to whoever turns the contract in.")
+	for(var/mob/living/M in F.get_members())
+		if(M != holder)
+			refresh_fellowship_ui_for(M)
 	return TRUE
 
 /datum/fellowship_ui/proc/handle_leave()

@@ -67,7 +67,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/heavy/necran
 	name = "necran helmet"
-	desc = "The darkest of blacks, this hooded helm is reminiscent of an executioner's head, striking fear into those who look upon it that they too may soon face the undermaiden."
+	desc = "The darkest of blacks, this hooded helm is reminiscent of an executioner's head, striking fear into those who look upon it that they too may soon face the Undermaiden."
 	icon_state = "necranhelm"
 	item_state = "necranhelm"
 	emote_environment = 3

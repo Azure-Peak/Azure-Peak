@@ -1101,3 +1101,164 @@
   - bugfix: Fix certain enchanting kit donor sprites when wielding.
   zydras:
   - image: Updated Headeater and Treasure Seeker sprites.
+2026-10-27:
+  BurpleBineapple:
+  - rscadd: Donator kits for DasFox
+  Etheo:
+  - rscadd: "New Tea: T\xEC Teine"
+  - rscadd: 'New Tea: Fyrebloom Fizz'
+  - rscadd: 'New Ferment: Maize Wash'
+  - rscadd: 'New Distillation: Whiskey'
+  - rscadd: 'New Distillation: Fyreball Whiskey'
+  - rscadd: 'New Ferment: Fyritius Gruit'
+  - rscadd: 'New Distillation: Fyrmenty'
+  FreeStylaLT:
+  - rscdel: Fitted clothing as a feature has been disabled.
+  - rscdel: Socialite no longer has the Massage option.
+  Guidesu:
+  - rscadd: Training dummies do not longer require manual click to train.
+  OrbisAnima:
+  - balance: Changes the resource consumption of Rhythms to half since during combat
+      the energy cost is doubled and there is no offset against it as other classes
+      have.
+  Ryan180602:
+  - bugfix: DNR truly prevents deaditing.
+  - bugfix: loose straps double examine is no longer a thing
+  - rscadd: let people topple over railings if kicked into or drunk
+  WeNeedMorePhoron:
+  - rscadd: Bogmen received swimming lesson to not die as quick in their native environment
+  - rscadd: AI is slightly smarter about not exhausting themselves in water.
+  changelingonberry:
+  - bugfix: Cosmetic slot side sprites now layer correctly.
+  fffelinid:
+  - bugfix: fixed missing location tags on some meisters
+  - bugfix: Hopefully fixed a few exploits that allowed players to skip large parts
+      of the menagerie dungeon.
+2026-10-28:
+  Ketrai:
+  - bugfix: Hunting trails will now avoid spawning on the other side of open spaces,
+      walls, and lava.
+  - rscadd: Rabbit hunting map at the merchant.
+  - balance: Lowered fresh mound of dirt hunting trail cooldown from 90 to 70 seconds.
+  - balance: There is now a static 25% chance to find an extra animal on a hunt, if
+      the hunting category allows for it.
+  Ryan180602:
+  - rscadd: add a new donor item.
+  WeNeedMorePhoron:
+  - rscadd: Nerfed bogmen gears a little so they no longer routinely carry BIS bogmen
+      armor.
+  - rscadd: Clearing a blockade gives +1 triumphs to everyone involved in the fellowship
+      now
+  - balance: Adv. Spellblade get +1 Str and +1 WIL and now have a +7 Statweight
+  - rscadd: More contracts are spawned per player on medium to high pop and one more
+      minimum quest will appear for Decap and Coast
+  - rscadd: Removed blockade surcharge as a feature completely.
+  - rscadd: Unified blacksmithing and normal crafting quality formula. Legendary once
+      again guarantee Masterwork as intended etc.
+  - rscadd: Disabling withdrawal no longer prevent direct import at the stockpile.
+  - rscadd: Merchant and Shophand can now issue contrats with ATC money. They pay
+      1.5x more to reflect their stronger financial power.
+  - rscadd: Added a leashing mechanic to kill quest to teleport NPC that stray too
+      far and is out of sight. may or may not work
+  - rscadd: Parcel will now only appears after you have killed all of the guardians
+      on a recovery quest. Also fixed an issue that might've caused it to spawn 2x
+      the strongboxes / people
+  - rscadd: Restored masterwork quality polishing which was removed by accident in
+      Econ 3
+  - rscadd: Increased threat points of certain skeletons because it appears too many
+      are spawning. For some reason medium skeleton was costing less than easy (!).
+      Archer cost also increased.
+  - bugfix: Fixes issues where a stockpile purchase and various other flows were misattributed
+      as "Unauthorized Withdrawal" in the economic chronicle
+  - bugfix: Fixes issues with some roles (mainly church roles and then veteran) still
+      taking money from the treasury account instead of minting it anew on account
+      creation and then counting as "Unauthorized Withdrawal"
+  - rscadd: Implemented fellowship based rewards and threat scaling. Every type of
+      contracts that is not a towner contract or notorious contract will now scales
+      up the amount of enemies and rewards based on your fellowship size beyond its
+      minimum requirements. This is multiplicative with eachother but not itself.
+      Easy contracts scales +50% threat / head, medium 33%, hard 25% / head. And then
+      each extra person gives a +20% multiplier to rewards. Therefor, for example
+      at a 6 fellowship with easy contract designed for 1 person you will get +200%
+      more threat (250% the goblins), and then get 500% the original rewards since
+      it is a multiplicative +100%. This is (blatantly gamey) and intended to make
+      up for the friction of gathering a larger group and splitting the rewards between
+      you all.
+  - rscadd: Blockade scaling was also reimplemented. Previously, it was +20% threat
+      and +20% Reward. Now, the scaling is +10% threat, but +33% rewards, to encourage
+      you to bring more people for more rewards. This is done because of my observations
+      that without very trustworthy and well equipped players our players will generally
+      struggle to handle blockade and it led to people avoiding randoms like they're
+      playing competitive MMO. I don't want that. Blockade was meant to be the no.1
+      way for you to meet new friends and not pick your competitive league team
+  - rscadd: Implemented Incursion contract, which requires a fellowship of 3 person,
+      and is a two wave contract with more rewards. It costs 250 pledge and 8 rumor
+      points to issue and will spawn naturally
+  - rscadd: Fellowship scaling will be indicated clearly in UI and in writ
+  - rscadd: Added local debug to allow you to forcibly invite someone into your fellowship
+      for testing purpose
+  - bugfix: You cannot take a blockade writ without a bank account anymore
+  - rscadd: Quest Debug Panel now defaults to active contracts instead of open contracts
+  - rscadd: Implemented fellowship rewards splitting, shown in fellowship UI. On SIGNING
+      UP FOR A CONTRACT, it will inherit your fellowship's reward splitting mode.
+      Rewards will be split after contract evenly between every single members of
+      your fellowship with a bank account, with anyone who don't have a bank account's
+      leftover given to the person who turns it in.
+  - balance: Standing order base bonus is now 1.5x instead of 1.0
+  - rscadd: Latejoiners are immune to poll levy for 30 minutes after joining
+  - rscadd: Merchant can send for a single ship a day for 250 Favor from a specific
+      realm
+  - balance: Reduced rewards of easy / medium soloable mission a bit
+  - balance: Reduced flat payout a bit
+  - balance: Reduced payout multiplier on Terrorbog, increased them on Coast and Decap
+  borneblood:
+  - bugfix: Readded a lot, LOT, of missing balance conditionals to Psydonite passive
+      heal.
+  - bugfix: Endure no longer has adrenalinerush.ogg overlayering its own sfx.
+  - bugfix: Fixed a softlock involving Deathless sleep-healing fatal wounds.
+  - balance: Psydonite heal now very minorly heals brute and fire damage while out
+      of combat, and very minorly reduces wound pain.
+  - balance: Endure heals suffocation a little better now, and grants +3 WIL from
+      +1 WIL, to mirror Graggar's +3 CON. Also very minorly reduces wound pain.
+  - code_imp: Moved Psydonite passive heal back to life().
+  changelingonberry:
+  - balance: Masquerade and masquerade lite now scale with one vamp per 20 players,
+      up to a maximum of six.
+  kilozombie:
+  - balance: Bathmaster has an INT bonus instead of an INT malus, but is less strong
+2026-10-29:
+  Guidesu:
+  - rscadd: adds a greyscale version of astratan cloak in the loadout
+  NonQueueingMatt:
+  - rscadd: Re-added massage to socialite virtue. This version of massage does not
+      give any mechanical buffs, only a placebo buff.
+  OrbisAnima:
+  - balance: Gives the Mage Lord a Greater Tome and a silver arcane dagger instead
+      of the gold decorated dagger. Fixes their royal sheat not appearing.
+  Ryan180602:
+  - rscadd: lampterns to vaqueros.
+  - balance: deweaponises familiars. they are pacifists, now.
+  - rscadd: added a way to add aim mod to projectiles.
+  - balance: slings are capped to expert effectiveness like xbows/bows.
+  - balance: heavier sling bullets now have aim malus.
+  WeNeedMorePhoron:
+  - bugfix: Mirespider lurkers will now melee attack properly on top of shooting gob
+      at you.
+  borneblood:
+  - rscadd: Added a quirkier finisher for unarmed dual wielders.
+  - bugfix: Fixed a few oversights with TRAIT_DUALWIELDER, such as 'when you proc
+      it your next 3 attacks are cancelled' (thats fucked up).
+  - code_imp: Cleaned up a little TRAIT_DUALWIELDER's code to make it more legible.
+  - balance: Biting/Chewing no longer randomly exposes you.
+  - bugfix: Nausea will properly decay on some things that were immune to it, such
+      as Rotcured.
+  - bugfix: Lava/Acid hazards are fatal once more.
+  fffelinid:
+  - rscadd: Added 'suicide prayer' verb for those with the Hollow virtue.
+2026-10-30:
+  Voidastra:
+  - qol: added cackle to the affected emotes to trigger xylix_joy
+  WeNeedMorePhoron:
+  - rscadd: Shields blocking a projectile will no longer delete it.
+  - balance: Reverted the 20% damage haircut applied to Spellblades during Mage 3.1
+  - rscdel: Removed ALCHEMY EXPERT trait from heretical fiend NPC

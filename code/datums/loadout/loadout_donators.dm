@@ -533,21 +533,6 @@
 	path = /obj/item/enchantingkit/zydrasgreataxe
 	ckeywhitelist = list("1ceres")
 
-/datum/loadout_item/donator/eiren
-	name = "Donator Kit - Regret"
-	path = /obj/item/enchantingkit/weapon/eiren
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren2
-	name = "Donator Kit - Lunae"
-	path = /obj/item/enchantingkit/weapon/eirensabre
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren3
-	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/weapon/eirensabre2
-	ckeywhitelist = list("eirenxiv")
-
 /datum/loadout_item/donator/eiren4
 	name = "Donator Kit - Darkwood's Embrace"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
@@ -557,11 +542,6 @@
 	name = "Donator Kit - Glintstone Longsword"
 	path = /obj/item/enchantingkit/weapon/eiren_m
 	ckeywhitelist = list("eirenxiv", "magicalbard", "naorgteine")
-
-/datum/loadout_item/donator/eiren6
-	name = "Donator Kit - Stygian Longsword"
-	path = /obj/item/enchantingkit/weapon/eirensword
-	ckeywhitelist = list("eirenxiv", "muhsollini")
 
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
@@ -1404,6 +1384,11 @@
 	name = "Donator Item - Potionkeeper's Messy Belt"
 	path = /obj/item/storage/belt/rogue/leather/ulqsusbelt
 	ckeywhitelist = list("seraphlemonade")
+
+/datum/loadout_item/donator/saxyman
+	name = "Donator Item - Prototype Strange Mask"
+	path = /obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman
+	ckeywhitelist = list("mrsaxyman")
 
 // Solar Dominion Items
 /datum/loadout_item/donator/universal/dominion_sword

@@ -36,7 +36,7 @@ SUBSYSTEM_DEF(event_scheduler)
 /datum/controller/subsystem/event_scheduler/proc/trigger_fog_event()
 	fog_active = TRUE
 	SSParticleWeather.run_weather(/datum/particle_weather/fog/necra, TRUE)
-	priority_announce("The fog bellows in from over the hills, coating the peaks in ominous hue.\n\n\
+	priority_announce("The fog bellows in from over the hills, coating the peaks in an ominous hue.\n\n\
 	- The fog is lethal; do not venture forth without a fog-repelling lamptern. These relics protect those in their light.\n\
 	- Necran clergy may ward off the fog or perform rituals to safeguard entire areas.\n\
 	- Lampterns are not eternal; they must be refilled with blessed, golden-colored oils.",

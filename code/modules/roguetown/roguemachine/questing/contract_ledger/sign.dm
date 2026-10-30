@@ -108,8 +108,28 @@
 
 	completed_quest.record_completion_stats(base_reward)
 
-	var/tax_amt = completed_quest.pay_reward(benef_account, beneficiary, base_reward, "contract reward - [src.name]", src.name)
-	var/guild_fee_paid = pay_innkeeper_referral_fees(benef_account, completed_quest, base_reward)
+	var/tax_amt = 0
+	var/guild_fee_paid = 0
+	var/list/shares = completed_quest.fellowship_shares(base_reward, beneficiary)
+	var/split_ways = completed_quest.fellowship_split_payout ? length(completed_quest.fellowship_roster) : 0
+	var/share_memo = split_ways ? "Contract Reward (Split) - [src.name]" : "contract reward - [src.name]"
+	var/paid_out = 0
+	var/list/nets = list()
+	for(var/mob/living/payee as anything in shares)
+		var/datum/fund/payee_account = SStreasury.get_account(payee)
+		var/payee_tax = completed_quest.pay_reward(payee_account, payee, shares[payee], share_memo, src.name)
+		var/payee_fee = pay_innkeeper_referral_fees(payee_account, completed_quest, shares[payee])
+		tax_amt += payee_tax
+		guild_fee_paid += payee_fee
+		nets[payee] = shares[payee] - payee_tax - payee_fee
+		paid_out += shares[payee]
+	var/leftover = base_reward - paid_out
+	var/mob/living/sink = completed_quest.fellowship_leftover_sink(shares, beneficiary)
+	if(leftover > 0 && sink)
+		var/datum/fund/sink_account = SStreasury.get_account(sink)
+		tax_amt += completed_quest.pay_reward(sink_account, sink, leftover, "Contract Reward (No account leftover) - [src.name]", src.name)
+		guild_fee_paid += pay_innkeeper_referral_fees(sink_account, completed_quest, leftover)
+	var/unbanked = split_ways ? split_ways - length(shares) : 0
 	var/take_home = base_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
 	qdel(completed_quest)
@@ -122,6 +142,21 @@
 		deductions += "[guild_fee_paid] mammon for the Guild's cut"
 	var/deductions_clause = length(deductions) ? ", less [english_list(deductions)]" : ""
 	var/deposit_clause = deposit_return > 0 ? " The deposit of [deposit_return] mammon is also returned." : ""
+	if(split_ways)
+		var/leftover_clause = unbanked > 0 ? " Because [unbanked] member[unbanked == 1 ? " does" : "s do"] not have an account, the remaining sum of [leftover] mammon is deposited into [sink.real_name]'s account." : ""
+		var/list/net_values = list()
+		for(var/mob/living/payee as anything in nets)
+			net_values |= nets[payee]
+		var/net_clause
+		if(length(net_values) == 1)
+			net_clause = "Each member receives [net_values[1]] mammon."
+		else
+			var/list/net_lines = list()
+			for(var/mob/living/payee as anything in nets)
+				net_lines += "[payee.real_name] [nets[payee]]"
+			net_clause = "Shares: [jointext(net_lines, ", ")]."
+		say("The reward of [base_reward] mammon[deductions_clause] for a purse of [take_home], has been split [split_ways] ways between [holder_name]'s fellowship. [net_clause][leftover_clause][deposit_clause]")
+		return
 	switch(mode)
 		if(QUEST_TURNIN_OFFICIAL)
 			say("On behalf of [holder_name], a reward of [base_reward] mammon has been credited to their account[deductions_clause].[deposit_clause]")

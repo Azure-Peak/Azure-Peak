@@ -55,7 +55,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/gold
 	name = "golden bracers"
-	desc = "A resplendant pair of golden vambraces, further padded with besilked sleeves. Each halve is marked with a holy sigil, sloped upwards to help catch-and-reflect sunlight into the eyes of unsuspecting assailants."
+	desc = "A resplendent pair of golden vambraces, further padded with besilked sleeves. Each halve is marked with a holy sigil, sloped upwards to help catch-and-reflect sunlight into the eyes of unsuspecting assailants."
 	icon_state = "goldbracers"
 	item_state = "goldbracers"
 	body_parts_covered = ARMS | HANDS //Experimental, but should compliment the cost. Let all handhitters fear your presence.. for exactly five strikes.
@@ -137,7 +137,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/bronze
 	name = "bronze wristguards"
-	desc = "Padded with hide and cuffed to comfort the joints, these bronze plates fit perfectly around both forearms. Your fingers tingle with an unspoken purpose, as the bracers clasp into place; primordial, yet everclear."
+	desc = "Padded with hide and cuffed to comfort the joints, these bronze plates fit perfectly around both forearms. Your fingers tingle with an unspoken purpose, as the bracers clasp into place; primordial, yet ever-clear."
 	icon_state = "bronzebracers"
 	body_parts_covered = ARMS | HANDS //Experimental, but should play well with the increased durability.
 	smeltresult = /obj/item/ingot/bronze
@@ -236,7 +236,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/cloth/naledi
 	name = "sojourner's wrappings"
-	desc = "Sheared burlap and cloth, meticulously fashioned around the forearms. Naledian-trained monks rarely share the same fatalistic mindset as their Otavan cousins, and - consequency - tend to be averse with binding their wrists in jagged thorns. Unbloodied fingers tend to work far better with the arcyne, too. </br>'..And so, the great tears that they wept when it took its last breath, the rain of the Weeper, is what marked this era of silence. Fools would tell you that Psydon has died, that they splintered into ‘ten smaller fragments', but that does not make sense. They are everything within and without, they are beyond size and shape. How can everything become something? No, they have merely turned their ear from us. They mourn, for their greatest child and their worst..'"
+	desc = "Sheared burlap and cloth, meticulously fashioned around the forearms. Naledian-trained monks rarely share the same fatalistic mindset as their Otavan cousins, and - consequently - tend to be averse with binding their wrists in jagged thorns. Unbloodied fingers tend to work far better with the arcyne, too. </br>'..And so, the great tears that they wept when it took its last breath, the rain of the Weeper, is what marked this era of silence. Fools would tell you that Psydon has died, that they splintered into ‘ten smaller fragments', but that does not make sense. They are everything within and without, they are beyond size and shape. How can everything become something? No, they have merely turned their ear from us. They mourn, for their greatest child and their worst..'"
 	color = "#48443B"
 
 /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
@@ -416,7 +416,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/aalloy/chain
 	name = "decrepit chain sleeves"
-	desc = "Coverings of rotted metal maille, fashioned from hundreds of interlinked rings. An aura of decaying harlotry eminates from these sleeves. \
+	desc = "Coverings of rotted metal maille, fashioned from hundreds of interlinked rings. An aura of decaying harlotry emanates from these sleeves. \
 	</br>I can adjust these sleeves to hang further down, rather than simply hugging my wrists."
 	icon_state = "ancientchainsleevesalt"
 	item_state = "ancientchainsleevesalt"
@@ -456,7 +456,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/paalloy/chain
 	name = "ancient chain sleeves"
-	desc = "Coverings of polished gilbranze-maille, fashioned from hundreds of interlinked rings. An aura of undying harlotry eminates from these sleeves. \
+	desc = "Coverings of polished gilbranze-maille, fashioned from hundreds of interlinked rings. An aura of undying harlotry emanates from these sleeves. \
 	</br>I can adjust these sleeves to hang further down, rather than simply hugging my wrists."
 	icon_state = "ancientchainsleevesalt"
 	item_state = "ancientchainsleevesalt"
@@ -496,7 +496,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/iron/chain
 	name = "iron chain sleeves"
-	desc = "Coverings of iron maille, fashioned from hundreds of interlinked rings. An aura of traditional harlotry eminates from these sleeves. \
+	desc = "Coverings of iron maille, fashioned from hundreds of interlinked rings. An aura of traditional harlotry emanates from these sleeves. \
 	</br>I can adjust these sleeves to hang further down, rather than simply hugging my wrists."
 	icon_state = "ichainsleevesalt"
 	item_state = "ichainsleevesalt"
@@ -536,7 +536,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/bronze/chain
 	name = "bronze chain sleeves"
-	desc = "Coverings of bronze maille, fashioned from hundreds of interlinked rings. An aura of antiqual harlotry eminates from these sleeves. \
+	desc = "Coverings of bronze maille, fashioned from hundreds of interlinked rings. An aura of antiqual harlotry emanates from these sleeves. \
 	</br>I can adjust these sleeves to hang further down, rather than simply hugging my wrists."
 	icon_state = "bchainsleevesalt"
 	item_state = "bchainsleevesalt"
@@ -577,7 +577,7 @@
 
 /obj/item/clothing/wrists/roguetown/bracers/chain
 	name = "chain sleeves"
-	desc = "Coverings of steel maille, fashioned from hundreds of interlinked rings. An aura of inexplicable harlotry eminates from these sleeves. \
+	desc = "Coverings of steel maille, fashioned from hundreds of interlinked rings. An aura of inexplicable harlotry emanates from these sleeves. \
 	</br>I can adjust these sleeves to hang further down, rather than simply hugging my wrists."
 	icon_state = "chainsleevesalt"
 	item_state = "chainsleevesalt"

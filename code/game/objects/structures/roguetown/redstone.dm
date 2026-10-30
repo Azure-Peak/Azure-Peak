@@ -185,7 +185,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename doors."))
+		to_chat(user, span_warning("You must use both hands to rename doors."))
 
 /obj/structure/lever/onkick(mob/user)
 	if(isliving(user))
@@ -334,7 +334,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename plates."))
+		to_chat(user, span_warning("You must use both hands to rename plates."))
 
 /*
 /obj/structure/pressure_plate/attack_hand(mob/user) //commented out for now, they're stuposed to be anchored structures for dungeons. End of vanderlin traps port. Maybe an artificer subtype craft in the future.
@@ -455,7 +455,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the launcher."))
+		to_chat(user, span_warning("You must use both hands to rename the launcher."))
 	playsound(loc, 'sound/misc/keyboard_enter.ogg', 100, FALSE, -1)
 	sleep(7)
 	if(containment)
@@ -904,7 +904,7 @@ GLOBAL_LIST_EMPTY(redstone_objs)
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(held, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the plate."))
+		to_chat(user, span_warning("You must use both hands to rename the plate."))
 
 /obj/structure/kybraxor
 	name = "Kybraxor the Devourer"

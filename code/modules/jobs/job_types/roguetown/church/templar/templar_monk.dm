@@ -106,7 +106,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles.
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.", mint_new = TRUE, mint_label = "Church funding", income_acct = LEDGER_CITIZEN_ESTATE)
 
 /datum/outfit/job/roguetown/templar/monk/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

@@ -1,0 +1,4 @@
+author: "effyank"
+delete-after: True
+changes:
+  - bugfix: "Assassins' peculate ability now also (correctly) changes voicepacks and pronouns."
