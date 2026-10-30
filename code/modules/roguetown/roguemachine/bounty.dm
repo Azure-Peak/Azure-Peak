@@ -657,7 +657,7 @@
 	throwforce = 0
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH|ITEM_SLOT_NECK
 	var/faction
-	var/unlock_time = 5 SECONDS
+	var/unlock_time = 4 SECONDS
 
 /obj/item/castifico_key/proc/can_unlock_collar(obj/item/clothing/neck/roguetown/collar/prisoner/collar)
 	return faction && collar.issuing_faction == faction
@@ -695,14 +695,14 @@
 
 	var/unlock_duration = get_unlock_time(user)
 	var/list/sound_timer_ids = list()
+	var/silent_pick = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
 	if(istype(src, /obj/item/castifico_key/liberation))
-		var/silent_pick = HAS_TRAIT(user, TRAIT_SILENT_LOCKPICK)
 		recipient.visible_message(span_warning("[user] begins picking at [recipient]'s castifico collar..."))
-		play_unlock_sound(recipient, silent_pick)
-		for(var/sound_time = 3 SECONDS; sound_time < unlock_duration; sound_time += 3 SECONDS)
-			sound_timer_ids += addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient, silent_pick), sound_time, TIMER_STOPPABLE)
 	else
 		recipient.visible_message(span_warning("[user] begins unlocking [recipient]'s castifico collar..."))
+	play_unlock_sound(recipient, silent_pick)
+	for(var/sound_time = 3 SECONDS; sound_time < unlock_duration; sound_time += 3 SECONDS)
+		sound_timer_ids += addtimer(CALLBACK(src, PROC_REF(play_unlock_sound), recipient, silent_pick), sound_time, TIMER_STOPPABLE)
 	var/unlock_completed = do_after(user, unlock_duration, TRUE, recipient)
 	for(var/timer_id in sound_timer_ids)
 		deltimer(timer_id)
@@ -729,7 +729,6 @@
 	name = "key of liberation"
 	desc = "A profane instrument fashioned to undo the shackles of the condemned and downtrodden."
 	icon_state = "liberkey" //Shitty placeholder coder sprite edit. If someone re-sprites this later I'll love you forever.
-	color = "#FF69B4"
 	unlock_time = 25 SECONDS
 
 /obj/item/castifico_key/liberation/get_mechanics_examine(mob/user)
