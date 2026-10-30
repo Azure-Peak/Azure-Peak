@@ -42,6 +42,7 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/list/filtered_targets = list()
+	var/low_hp = (living_mob.health <= living_mob.maxHealth * 0.5)
 
 	for(var/atom/pot_target in potential_targets)
 		if(targetting_datum.can_attack(living_mob, pot_target))//Can we attack it?
@@ -58,7 +59,7 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 		if(targets_from_above && (living_target in targets_from_above))
 			filtered_targets -= living_target
 			continue
-		var/extra_chance = (living_mob.health <= living_mob.maxHealth * 50) ? 30 : 0 // if we're below half health, we're way more alert
+		var/extra_chance = low_hp ? 30 : 0
 		if (!living_mob.npc_detect_sneak(living_target, extra_chance))
 			filtered_targets -= living_target
 

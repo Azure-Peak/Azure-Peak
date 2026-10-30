@@ -147,7 +147,7 @@
 /datum/action/cooldown/spell/malum/vigorousexchange
 	name = "Vigorous Exchange"
 	desc = "Restores the target's Energy, twice as effective on someone else."
-	fluff_desc = "Behind every great work is a hard-working master, dilligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
+	fluff_desc = "Behind every great work is a hard-working master, diligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
 	button_icon_state = "vigorousexchange"
 	sound = 'sound/magic/undivided_recuperation.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW

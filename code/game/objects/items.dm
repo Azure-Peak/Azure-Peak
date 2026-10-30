@@ -1808,46 +1808,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!isnull(forced_tier))
 		tier = forced_tier
 	else
-		var/skill_level = 0
+		var/skill_level = SKILL_LEVEL_NONE
 		if(crafter && skill_path)
 			skill_level = crafter.get_skill_level(skill_path)
-		var/roll = rand(1, 100)
-		switch(skill_level)
-			if(SKILL_LEVEL_NONE, SKILL_LEVEL_NOVICE)
-				if(roll <= 60)
-					tier = ITEM_QUALITY_CRUDE
-				else if(roll <= 95)
-					tier = ITEM_QUALITY_ROUGH
-				else
-					tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_APPRENTICE)
-				if(roll <= 20)
-					tier = ITEM_QUALITY_CRUDE
-				else if(roll <= 75)
-					tier = ITEM_QUALITY_ROUGH
-				else
-					tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_JOURNEYMAN)
-				tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_EXPERT)
-				if(roll <= 70)
-					tier = ITEM_QUALITY_FINE
-				else if(roll <= 95)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
-			if(SKILL_LEVEL_MASTER)
-				if(roll <= 30)
-					tier = ITEM_QUALITY_FINE
-				else if(roll <= 80)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
-			else
-				if(roll <= 40)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
+		tier = roll_skill_quality(skill_level)
 	item_quality = tier
 	var/prefix
 	switch(tier)

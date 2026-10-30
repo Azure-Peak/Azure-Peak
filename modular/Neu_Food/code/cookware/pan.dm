@@ -82,7 +82,7 @@
 		return
 	var/turf/target_turf = get_step(user, user.dir)
 	if(!target_turf || target_turf.density || !user.CanReach(target_turf))
-		to_chat(user, span_warning("I need some room to to flip the content of [src] onto."))
+		to_chat(user, span_warning("I need some room to flip the content of [src] onto."))
 		return
 	var/obj/item/storage/bag/tray/tray = locate() in target_turf
 	var/obj/structure/table/table = locate() in target_turf

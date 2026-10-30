@@ -73,6 +73,7 @@
 	first_time_text = "PILGRIM KEEP"
 	keep_area = TRUE
 	detail_text = DETAIL_TEXT_MANOR
+	deathsight_message = "A grand and decorated manor hosting the banners and iconography of the crown."
 
 /area/rogue/outdoors/exposed/town/keep/grim
 	name = "Keep"
@@ -84,6 +85,7 @@
 	keep_area = TRUE
 	town_area = TRUE
 	detail_text = DETAIL_TEXT_KEEP
+	deathsight_message = "A grand courtyard surrounded by walls, decorated with with banners of the crown."
 
 /area/rogue/outdoors/exposed/town/keep/grim/training
 	name = "Training Yard"
@@ -104,6 +106,7 @@
 	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
 	keep_area = TRUE
 	town_area = TRUE
+	deathsight_message = "the battlements within the Pilgrim Keep, flashes of towering walls and dark brick work."
 
 /area/rogue/outdoors/exposed/town/grim
 	icon_state = "town"
@@ -120,6 +123,7 @@
 	droning_sound_dusk = 'sound/music/area/townalright.ogg'
 	droning_sound_night = list('sound/music/area/bathchill.ogg', 'sound/music/area/grimpeace.ogg', 'sound/music/area/bathcalm.ogg')
 	converted_type = /area/rogue/outdoors/exposed/bath
+	deathsight_message = "Steam and flowing water, low purple light illuminates your view of an otherwise dark interior"
 
 /area/rogue/indoors/town/church/grim
 	name = "The House of the Ten"
@@ -157,6 +161,7 @@
 	droning_sound_night = null
 	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
 	detail_text = DETAIL_TEXT_CHAPEL
+	deathsight_message = "a hallowed place, sworn to the Ten"
 
 /area/rogue/indoors/town/church/chapel/grim/almonry
 	icon_state = "chapel"
@@ -178,6 +183,7 @@
 	spookynight = SPOOKY_MYSTICAL
 	first_time_text = "THE PESTRAN CRYPTS"
 	keep_area = TRUE
+	deathsight_message = "A dark crypt pulsing with otherworldly rhythm, deep thrumming vibration, echoes like a heart beating in your mind."
 
 /area/rogue/indoors/town/church/basement/grim
 	icon_state = "church"
@@ -186,6 +192,7 @@
 	droning_sound_night = null
 	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
 	first_time_text = "CATHEDRAL CRYPTS"
+	deathsight_message = "a hallowed place sworn to the Ten, lit by candle light and filled with the smoke of incense"
 
 /area/rogue/indoors/town/tavern/grim
 	first_time_text = "THE BLUSHING BOGMAN"
@@ -206,14 +213,38 @@
 	icon_state = "magician"
 	spookysounds = SPOOKY_MYSTICAL
 	spookynight = SPOOKY_MYSTICAL
-	droning_sound = 'sound/music/area/magiciantower.ogg'
-	droning_sound_dusk = null
-	droning_sound_night = null
+	droning_sound = list('sound/music/area/towngen.ogg', 'sound/music/area/townchill.ogg', 'sound/music/area/townstroll.ogg', 'sound/music/area/townwander.ogg', 'sound/music/area/townstreets.ogg')
+	droning_sound_dusk = 'sound/music/area/townalright.ogg'
+	droning_sound_night = list( 'sound/music/area/townambient.ogg', 'sound/music/area/grimnight.ogg')
+	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
 	first_time_text = "THE ARCYNE UNIVERSITY"
 	converted_type = /area/rogue/outdoors/exposed/magiciantower
 	keep_area = TRUE
 	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
 	deathsight_message = "A location wreathed in arcyne energies- swirling mists of purples and blues clouding the edges of your vision"
+
+/area/rogue/outdoors/exposed/magiciantower/grim
+	icon_state = "magiciantower"
+	droning_sound = list('sound/music/area/towngen.ogg', 'sound/music/area/townchill.ogg', 'sound/music/area/townstroll.ogg', 'sound/music/area/townwander.ogg', 'sound/music/area/townstreets.ogg')
+	droning_sound_dusk = 'sound/music/area/townalright.ogg'
+	droning_sound_night = list( 'sound/music/area/townambient.ogg', 'sound/music/area/grimnight.ogg')
+	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
+	keep_area = TRUE
+	town_area = TRUE
+	detail_text = DETAIL_TEXT_UNIVERSITY_OF_AZURIA
+	deathsight_message = "A location wreathed in arcyne energies- swirling mists of purples and blues clouding the edges of your vision"
+
+/area/rogue/indoors/town/dwarfin/grim
+	name = "The Guild of Craft"
+	icon_state = "dwarfin"
+	droning_sound = list('sound/music/area/towngen.ogg', 'sound/music/area/townchill.ogg', 'sound/music/area/townstroll.ogg', 'sound/music/area/townwander.ogg')
+	droning_sound_dusk = 'sound/music/area/townalright.ogg'
+	droning_sound_night = list( 'sound/music/area/townambient.ogg', 'sound/music/area/grimnight.ogg')
+	droning_sound_dawn = 'sound/music/area/grimtowndawn.ogg'
+	first_time_text = "AZUREAN GUILD OF CRAFT"
+	converted_type = /area/rogue/outdoors/exposed/dwarf
+	detail_text = DETAIL_TEXT_AZUREAN_GUILD_OF_CRAFT
+	deathsight_message = "Steam and smoke fill the edges of your vision, sparks, gears and industrious activity is before you"
 
 //PILGRIM END
 

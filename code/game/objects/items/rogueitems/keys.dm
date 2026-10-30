@@ -23,7 +23,7 @@
 
 /obj/item/roguekey/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click an locked door to unlock it.")
+	. += span_info("Left-click a locked door to unlock it.")
 	. += span_info("Right-click an unlocked door to lock it.")
 	. += span_info("Most keys can only open a specific type of door.")
 

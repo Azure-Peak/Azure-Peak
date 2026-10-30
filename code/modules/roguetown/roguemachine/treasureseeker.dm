@@ -5,6 +5,7 @@
 /obj/structure/roguemachine/headeater/treasureseeker
 	name = "TREASURE SEEKER"
 	desc = "A kin of the HEADEATER, its brass gullet re-tuned by the Bathhouse for gentler appetites. Feed it any trinket and the prize is whisked away - where the hoard remembers its worth. Its jaws open only for the Bathhouse's own."
+	icon_state = "goldeater"
 
 /obj/structure/roguemachine/headeater/treasureseeker/examine()
 	. = ..()

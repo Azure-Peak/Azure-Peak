@@ -100,14 +100,13 @@
 		Steward can use this to steer adventurers toward regions the realm most needs
 		cleared.</p>
 
-		<p><b>Blockade Scrolls</b> draw the same flat [BLOCKADE_SCROLL_PLEDGE_COST]m
+		<p><b>Blockade Scrolls</b> costs [BLOCKADE_SCROLL_PLEDGE_COST]m
 		draft regardless of region. The scroll pays a base of [BLOCKADE_SCROLL_REWARD]m
 		plus a flat travel stipend based on distance. The waves are the same strength
-		everywhere. The actual threat varies with regional faction composition. Each
-		person in range of the blockade beyond the first
-		[BLOCKADE_DEFENDER_SCALE_MIN], up to [BLOCKADE_DEFENDER_SCALE_MAX] in total,
-		increases the wave's strength and the payout.</p>
-
+		everywhere. The actual threat varies with regional faction composition.
+		Each person in range of the blockade when the first wave starts beyond <b>[BLOCKADE_FELLOWSHIP_REQUIREMENT]</b> will increase the threat and reward by [QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100]% and [QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100]% respectively, up to a maximum of <b>[QUEST_FELLOWSHIP_SCALE_MAX]</b>. This non-linear scaling is meant to encourage you to bring extra friends along for your blockade!
+		Completing a blockade gives a triumph reward of [BLOCKADE_CLEAR_TRIUMPHS] to all participants in the fellowship.
+		</p>
 
 		<p>Multiple blockades may exist at once. One scroll per blockade at a time.
 		Blockades are rolled only at roundstart and never spawn during the round.</p>

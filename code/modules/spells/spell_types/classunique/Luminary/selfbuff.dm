@@ -23,7 +23,7 @@
 	cooldown_time = 4 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-	
+
 	var/buff = 0 // define the baseline number out of the buffing-targeting loop
 
 /datum/action/cooldown/spell/selfbuff/cast(atom/cast_on)
@@ -31,7 +31,7 @@
 	var/mob/living/carbon/human/H = owner
 	if(!istype(H))
 		return
-	
+
 	for(var/mob/living/carbon/target in view(cast_range, get_turf(owner)))
 		if(buff >= 4)
 			buff = 0
@@ -63,7 +63,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/healingaura
 	name = "Recovery"
-	desc = "Holy light shoothes the Heart.(very light health regeneration effect)"
+	desc = "Holy light soothes the Heart.(very light health regeneration effect)"
 	icon_state = "buff"
 
 #define HYBRID_BUFF_FILTER "Hybrid_Buff_Glow"

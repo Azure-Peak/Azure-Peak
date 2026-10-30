@@ -1,7 +1,7 @@
 /datum/patron/divine/undivided
 	name = "Undivided"
 	domain = "The Divine, Lyfe, Death, Existence"
-	desc = "Ten Eternal, Divine Pantheon United, Bulwark against the Darkness. The Ten dilligently watch over their flock granting them potent boons, but not every man catches the attention of merely one. Take lessons from all from them all, for they are your masters and mentors."
+	desc = "Ten Eternal, Divine Pantheon United, Bulwark against the Darkness. The Ten diligently watch over their flock granting them potent boons, but not every man catches the attention of merely one. Take lessons from all from them all, for they are your masters and mentors."
 	worshippers = "Commonfolk, Grenzelhoftians, Clergymen of the Holy See, and Pragmatists of the Ten"
 	mob_traits = list(TRAIT_UNDIVIDED)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
@@ -43,7 +43,7 @@
 	// Undivided - More restricted, needs to be within range of a pantheon cross or the church itself.
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church

@@ -54,7 +54,7 @@
 		H.AddSpell(new /obj/effect/proc_holder/spell/self/claws/gnoll)
 		H.set_patron(/datum/patron/inhumen/graggar)
 
-		to_chat(H, span_bignotice("Born out of echoes of violence, I am no true champion of graggar. But whoever summoned me is, even if they don't heed his call. They've bested his mightiests gnolls, ready to provide a worthy challenge. As long as they don't deny any honorful duels, I shall serve them."))
+		to_chat(H, span_bignotice("Born out of echoes of violence, I am no true champion of Graggar. But whoever summoned me is, even if they don't heed his call. They've bested his mightiest gnolls, ready to provide a worthy challenge. As long as they don't deny any honorable duels, I shall serve them."))
 		spawn(50)
 			var/name_choice = alert(H, "What name do you want?", "MY NAME IS [H.real_name]", "Pick New Name", "Random Gnoll Name")
 			switch(name_choice)

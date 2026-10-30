@@ -18,6 +18,6 @@
 	return ..()
 
 /datum/antagonist/chosen/greet()
-	to_chat(owner.current,span_userdanger("I have been CHOSEN for tasks by an external entity, or the TUMOR within my mind... I must SURVIVE to recieve further instructions."))
+	to_chat(owner.current,span_userdanger("I have been CHOSEN for tasks by an external entity, or the TUMOR within my mind... I must SURVIVE to receive further instructions."))
 	owner.announce_objectives()
 	return ..()

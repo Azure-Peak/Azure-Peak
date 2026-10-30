@@ -76,7 +76,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/malum_reinforcement
 	name = "Malum's Resonance"
-	desc = "My armor resonates with Malum's dilligence. Shards fly off when damaged, I can collect them to regain some integrity."
+	desc = "My armor resonates with Malum's diligence. Shards fly off when damaged, I can collect them to regain some integrity."
 	icon_state = "buff"
 
 /datum/action/cooldown/spell/apply_malum

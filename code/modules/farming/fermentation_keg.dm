@@ -248,7 +248,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 		return
 
 	if(user.get_skill_level(/datum/skill/craft/cooking) < SKILL_LEVEL_APPRENTICE)
-		to_chat(user, span_notice("I am not knowledgable enough to brew."))
+		to_chat(user, span_notice("I am not knowledgeable enough to brew."))
 		return FALSE
 
 	options = sortList(options)
@@ -634,6 +634,9 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/fermentedcrab
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/calendula_tea
 /obj/item/reagent_containers/glass/bottle/brewing_bottle/valerian_tea
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/whiskey
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/fyreball
+/obj/item/reagent_containers/glass/bottle/brewing_bottle/fyrmenty
 
 /obj/structure/fermentation_keg/distiller
 	name = "copper distiller"

@@ -247,7 +247,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		user.visible_message(span_notice("Patting [honse] on the haunches, [user] sends them trotting away."), span_notice("With a brief pat on the haunches, I send [honse] away to fend for themselves."))
 		if (should_heal)
 			honse.apply_status_effect(/datum/status_effect/buff/healing/saddleborn)
-			to_chat(user, span_info("In these surroundings, they should be able to rest and recouperate a little."))
+			to_chat(user, span_info("In these surroundings, they should be able to rest and recuperate a little."))
 		return TRUE
 	else
 		honse.SetImmobilized(0)
@@ -319,7 +319,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	if (do_after(user, callback_time))
 		if (!back_from_the_void && honse_place && !honse_place.outdoors)
-			to_chat(user, span_warning("...but nothing comes. They musn't have heard your whistling."))
+			to_chat(user, span_warning("...but nothing comes. They mustn't have heard your whistling."))
 			return TRUE
 
 		honse.forceMove(user.loc)

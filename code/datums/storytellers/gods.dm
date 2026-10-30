@@ -90,7 +90,7 @@
 
 /datum/storyteller/noc
 	name = "Noc"
-	vote_desc = "Knowledge reigns. Occurrences are tame, but remain suspectable to arcyne intervention. His favor shines upon those who dream for greater ambitions."
+	vote_desc = "Knowledge reigns. Occurrences are tame, but remain susceptible to arcyne intervention. His favor shines upon those who dream for greater ambitions."
 	desc = "Magical events fire 1.2x more often, haunted 1.1x. Higher event cost variance. No antag pool changes. Single gnoll possible."
 	welcome_text = "The air crackles with arcyne energy.."
 	weight = 4
@@ -368,7 +368,7 @@
 	name = "Eora"
 	vote_desc = " Love reigns. Positive affairs occur more often, and She wills for none to be ill. No villains, no gnolls; only a small handful of wretches lurk at the fringe. Her favor shines upon romance."
 	desc = "Widespread events get a 1.5x weight bump, boons 1.2x. No antagonists, no raids. Divine intervention fires 2x more often, personal events 1.4x. Wretches hard-capped at 5 slots. Gnolls absent."
-	welcome_text = "\"Love is in the air? Nay; tis the smell of freshly-baked pies upon the windowsills!\""
+	welcome_text = "\"Love is in the air? Nay; 'tis the smell of freshly-baked pies upon the windowsills!\""
 	color_theme = "#9966CC"
 	preferred_gnoll_mode = GNOLL_SCALING_NONE
 	wretch_slot_cap = 5
@@ -518,7 +518,7 @@
 	name = "Baotha"
 	vote_desc = "Spice reigns. Occurrences are more erratic and negative. Her favor shines upon drunkards and addicts."
 	desc = "Insanity, magic, and disaster events get weight bumps (1.1x to 1.4x). Vampire Lord is guaranteed roundstart - bandits, liches, and werewolves cannot roll. All event tracks accelerated. Gnoll mode randomized. Wretch T2 garrison expansion can fire."
-	welcome_text = "The sickly sweet aromas of liqour and spice fills the air.."
+	welcome_text = "The sickly sweet aromas of liquor and spice fills the air.."
 	weight = 4
 	always_votable = TRUE
 	color_theme = "#9933FF"

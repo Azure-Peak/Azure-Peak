@@ -450,7 +450,7 @@
 /datum/action/cooldown/spell/zizo/bestowcant
 	name = "Bestow Zizocant"
 	desc = "Bestow the forbidden tongue of Zizo's chant, requires a semi-lengthy ritual and a fellow Cabalist of Zizo's faith. You must remain still during the ritual."
-	fluff_desc = "A tongue known to the initated of Zizo's Cabal, as well as the reanimated by those whom serve in her name. To the ignorant it is but gibberish with an eerie resemblance to the elven tongue; but to the enlightened it is a hallowed tongue reborn from the reminants of all that were lost."
+	fluff_desc = "A tongue known to the initiated of Zizo's Cabal, as well as the reanimated by those whom serve in her name. To the ignorant it is but gibberish with an eerie resemblance to the elven tongue; but to the enlightened it is a hallowed tongue reborn from the remnants of all that were lost."
 	button_icon_state = "zizocant"
 	sound = 'sound/magic/baotha_blessdrink.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -489,7 +489,7 @@
 
 	if(spelltarget != H && HAS_TRAIT(spelltarget, TRAIT_CABAL))
 		to_chat(H, span_warning("I bestow Zizo's sacred tongue upon [spelltarget]!"))
-		to_chat(spelltarget, span_warning("A strange chant settles into familarity in my mind. I can use ,W to speak Zizo's tongue, however its best I do so carefully as to not draw attention."))
+		to_chat(spelltarget, span_warning("A strange chant settles into familiarity in my mind. I can use ,W to speak Zizo's tongue, however its best I do so carefully as to not draw attention."))
 		spelltarget.grant_language(/datum/language/undead)
 	return TRUE
 

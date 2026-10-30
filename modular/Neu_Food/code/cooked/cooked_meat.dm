@@ -177,7 +177,7 @@
 	eat_effect = null
 	slices_num = 0
 	name = "fried rous"
-	desc = "A small, chewy chunk of rous meat. Certain races loves this, others... Not so much."
+	desc = "A small, chewy chunk of rous meat. Certain races love this, others... Not so much."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "rat"
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
@@ -329,7 +329,7 @@
 /*	.............	Cooked Ham	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
 	name = "steamed ham"
-	desc = "Salted cut of meat ready to be torn into further with a knife. You would be hard pressed to find this lacking in a pantry of anyone with modicum of wealth."
+	desc = "Salted cut of meat ready to be torn into further with a knife. You would be hard-pressed to find this lacking in a pantry of anyone with modicum of wealth."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "ham5"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
