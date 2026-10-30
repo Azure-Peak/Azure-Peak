@@ -1,5 +1,7 @@
-///src is the vessel, currently-possessed, that we want to restore
+///src is the vessel, currently-possessed, that we want to restore. given as a verb as a fallback for if spells or other options don't make sense
 /mob/living/carbon/human/proc/release_vessel(dying = FALSE)
+	if(!HAS_TRAIT(src, TRAIT_POSSESSED))
+		return // just to be safe against spamclicks and thelike
 	var/mob/dead/observer/eye/screye/displaced_soul/estranged_lux
 	for(var/mob/dead/observer/eye/screye/displaced_soul/one_among_many in GLOB.displaced_souls)
 		if(one_among_many.vessel == src)
@@ -26,8 +28,9 @@
 	QDEL_NULL(estranged_lux)																	// resets the state and clears the slate
 	original.reset_perspective()																// needed for revs and such
 	reset_perspective()
-	original.clear_orphaned_actions()															// if remove_spells = FALSE this will be needed to prevent a familiar
-	return TRUE																					// getting all the CM's spells for example
+	original.clear_orphaned_actions()															// if remove_spells = FALSE this will be needed to prevent a familiar getting all the CM's spells for example
+	remove_verb(src, /mob/living/carbon/human/proc/release_vessel)								// well, you're already released. what do you want?
+	return TRUE
 
 ///src is the possessing mob, vessel is the mob to be possessed. role-agnostic and can be called on non-hags safely, have fun. set remove_spells to FALSE if you want the possessor to have access to the possessee's spells. set vessel_skills to TRUE if you want the vessel's skills to be used instead of the possessor's
 /mob/living/carbon/human/proc/possess_vessel(mob/living/carbon/human/vessel, trait_source = TRAIT_GENERIC, remove_spells = TRUE, vessel_skills = FALSE)
@@ -85,6 +88,7 @@
 	vessel.reset_perspective() // needed for revs and such
 	ADD_TRAIT(vessel, TRAIT_POSSESSED, trait_source)
 	SEND_SIGNAL(vessel, COMSIG_MOB_POSSESS, dsoul, src)
+	add_verb(vessel, /mob/living/carbon/human/proc/release_vessel) // failsafe: if a possession method doesn't add a revert method, they'll have a verb for it
 	return dsoul
 
 /// removes all actions not belonging to a spell in the mind's spell list. good way to 'reset' actionlists after mind transfers
