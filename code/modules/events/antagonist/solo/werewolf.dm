@@ -16,7 +16,7 @@
 	base_antags = 2
 	maximum_antags = 2
 	min_players = 25
-	weight = 0
+	weight = 0 // Disabled because bad, re-enable if it becomes less bad
 
 	earliest_start = 0 SECONDS
 
