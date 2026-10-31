@@ -1,6 +1,6 @@
 /obj/effect/proc_holder/spell/invoked/fortifyingvapors
 	name = "Fortifying Vapors"
-	desc = "An insuffulation of medicinal vapor. Provides long, slow healing."
+	desc = "An insufflation of medicinal vapor. Provides long, slow healing."
 	action_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	overlay_icon = 'icons/mob/actions/antiquarianspells.dmi'
 	overlay_state = "fortifyingvapors"
@@ -25,9 +25,9 @@
 	if(!isliving(targets[1]))
 		revert_cast()
 		return FALSE
-	
+
 	var/mob/living/target = targets[1]
-	
+
 	if(target.has_status_effect(/datum/status_effect/buff/fortifyingvapors))
 		to_chat(user, span_warning("They are already under the effects of the vapors!"))
 		revert_cast()

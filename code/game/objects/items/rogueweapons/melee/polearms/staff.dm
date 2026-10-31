@@ -246,7 +246,7 @@
 	max_integrity = 150
 	wdefense = 5
 	wdefense_wbonus = 5	// 90% in a same-skill matchup, 80% in a one-skill-below matchup.
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/virtue
 	name = "shepherd's quarterstaff" //Reskinned iron quarterstaff without the smeltability-into-ingotry.

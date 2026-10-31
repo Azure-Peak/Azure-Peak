@@ -503,7 +503,7 @@
 /obj/item/rogueweapon/spear/cleric
 	name = "anointed spear"
 	desc = "A crusader's spear, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
-	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes."
+	sunder those who bear greater curses, it nevertheless channels enough power to dispel the lesser curses of mindless fiends-and-foes."
 	icon_state = "crusaderspear"
 	force = 20
 	force_wielded = 25
@@ -926,7 +926,7 @@
 		user.visible_message(span_warning("[user] adds a banner to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
-		detail_tag = "detail"
+		detail_tag = "_detail"
 		update_icon()
 
 /obj/item/rogueweapon/halberd/blacksteel/update_icon()
@@ -964,7 +964,7 @@
 
 /obj/item/rogueweapon/halberd/silver
 	name = "silver halberd"
-	desc = "A resplendant polearm with a forked eagle's beak, a maillebreaker's point, and an axhead with a silvered edge. While traditionally \
+	desc = "A resplendent polearm with a forked eagle's beak, a maillebreaker's point, and an axhead with a silvered edge. While traditionally \
 	reserved for ceremonial affairs, the ever-creeping threat of undeath has seen these halberds being used for war once more."
 	icon_state = "silverhalberd"
 	is_silver = TRUE
@@ -1105,7 +1105,7 @@
 		user.visible_message(span_warning("[user] adds a banner to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
-		detail_tag = "detail"
+		detail_tag = "_detail"
 		update_icon()
 
 /obj/item/rogueweapon/eaglebeak/blacksteel/update_icon()

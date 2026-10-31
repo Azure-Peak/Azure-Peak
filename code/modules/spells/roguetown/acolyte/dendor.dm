@@ -196,6 +196,6 @@
 
 	if (!first_cast)
 		to_chat(user, span_boldwarning("So it is murmured in the Earth and Air: the Call of the Moon is sacred, and to share knowledge gleaned from it with those not of Him is a SIN."))
-		to_chat(user, span_boldwarning("Ware thee well, child of Dendor."))
+		to_chat(user, span_boldwarning("Fare thee well, child of Dendor."))
 		first_cast = TRUE
 	. = ..()

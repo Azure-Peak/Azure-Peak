@@ -267,7 +267,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/summon_obelisk()
 	var/list/spawnLists = list(/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk,/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk)
 	var/reinforcement_count = 2
-	src.visible_message(span_cultbigbold("[src] summons abberant obelisks from beneath the ground."))
+	src.visible_message(span_cultbigbold("[src] summons aberrant obelisks from beneath the ground."))
 	summon_cd = world.time + 2000
 	while(reinforcement_count > 0)
 		var/list/turflist = list()

@@ -4,7 +4,7 @@
 	anatomy_type = /datum/anatomy/quadruped/standard
 	icon = 'icons/roguetown/mob/monster/direvolf.dmi'
 	name = "direvolf"
-	desc = "A large snarling beast of mangy fur and yellowed teeth. Direvolves oft hail from mountaineous areas and are known to attack hapless travelers in the deep forests when prey is scarce."
+	desc = "A large snarling beast of mangy fur and yellowed teeth. Direvolves oft hail from mountainous areas and are known to attack hapless travelers in the deep forests when prey is scarce."
 	icon_state = "direvolf_brown"
 	icon_living = "direvolf_brown_dead"
 	icon_dead = "direvolf_brown_dead"

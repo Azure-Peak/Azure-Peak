@@ -6,7 +6,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/intelligence_infusion
 	name = "Intelligence Infusion"
-	desc = "Abyssor's dream is vivid in my mind, improving my ability to imagine all sorts of new posibilities."
+	desc = "Abyssor's dream is vivid in my mind, improving my ability to imagine all sorts of new possibilities."
 
 /datum/status_effect/infusion/perception
 	id = "Perception Infusion"

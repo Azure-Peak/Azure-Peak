@@ -3,7 +3,7 @@
 	name = "dungeon spawner"
 	loot_value = LOOT_VALUE_DUNGEON_MIXED
 	junk_loot = list(
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/natural/stone = 3,
 		/obj/item/candle/yellow = 3,
@@ -46,7 +46,7 @@
 
 		// Garbage and Miscellanous
 		/obj/item/rogue/instrument/flute = 3,
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
@@ -177,7 +177,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/clothing
 	icon_state = "clothing"
 	loot_value = LOOT_VALUE_DUNGEON_CLOTHING
-	junk_loot = list(/obj/item/natural/fibers = 5, /obj/item/ash = 5)
+	junk_loot = list(/obj/item/natural/fibers = 5, /obj/item/natural/ash = 5)
 	loot = list(
 		// Clothing
 		/obj/item/clothing/cloak/tabard/stabard = 3,
@@ -199,7 +199,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/money
 	icon_state = "money"
 	loot_value = LOOT_VALUE_DUNGEON_MONEY
-	junk_loot = list(/obj/item/roguecoin/copper = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/roguecoin/copper = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		// Money
 		/obj/item/roguecoin/copper = 5,
@@ -219,7 +219,7 @@
 		/obj/item/rogue/instrument/flute = 3,
 		/obj/item/rogue/instrument/lute = 3,
 		/obj/item/rogue/instrument/accord = 3,
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
@@ -251,7 +251,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/medical
 	icon_state = "medical"
 	loot_value = LOOT_VALUE_DUNGEON_MEDICAL
-	junk_loot = list(/obj/item/natural/cloth/bandage = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/natural/cloth/bandage = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		//medical
 		/obj/item/needle = 4,
@@ -400,7 +400,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/food
 	icon_state = "food"
 	loot_value = LOOT_VALUE_DUNGEON_FOOD
-	junk_loot = list(/obj/item/ash = 5, /obj/item/natural/stone = 3)
+	junk_loot = list(/obj/item/natural/ash = 5, /obj/item/natural/stone = 3)
 	loot = list(
 		//food
 		/obj/item/reagent_containers/food/snacks/rogue/crackerscooked = 3,
@@ -413,7 +413,7 @@
 /obj/effect/spawner/lootdrop/roguetown/dungeon/spells
 	icon_state = "spells"
 	loot_value = LOOT_VALUE_DUNGEON_SPELLS
-	junk_loot = list(/obj/item/paper/scroll = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/paper/scroll = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/book/granter/spell/bonechill = 2,
 	)

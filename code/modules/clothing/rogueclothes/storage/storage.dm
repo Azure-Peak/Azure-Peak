@@ -733,7 +733,7 @@
 
 /obj/item/storage/belt/rogue/leather/suspenders
 	name = "suspenders"
-	desc = "A pair of suspenders which go over the shoulders. Used for keeping one's pants in place in an admittably fashionable style."
+	desc = "A pair of suspenders which go over the shoulders. Used for keeping one's pants in place in an admittedly fashionable style."
 	icon_state = "suspenders"
 	alternate_worn_layer = ARMOR_LAYER
 

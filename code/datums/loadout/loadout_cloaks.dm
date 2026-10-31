@@ -194,6 +194,11 @@
 	path = /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
 	sort_category = "Cloaks"
 
+/datum/loadout_item/frayedcloak
+	name = "Frayed Cloak"
+	path = /obj/item/clothing/cloak/templar/astratancleric/grey
+	sort_category = "Cloaks"
+
 /datum/loadout_item/scaledcloak
 	name = "Scaled Cloak"
 	path = /obj/item/clothing/cloak/scaledcloak

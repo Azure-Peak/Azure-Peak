@@ -160,7 +160,7 @@
 
 /datum/special_trait/screenshake
 	name = "Tremors"
-	greet_text = span_crit("I'm not too steady any more...")
+	greet_text = span_crit("I'm not too steady anymore...")
 	weight = 100
 
 /datum/special_trait/maniac_awoken
@@ -237,7 +237,7 @@
 
 /datum/special_trait/languagesavant
 	name = "Polyglot"
-	greet_text = span_notice("I have always picked up on languages easily, even those that are forbidden to mortals... except that accursed beastial chatter. What even is that nonsense?")
+	greet_text = span_notice("I have always picked up on languages easily, even those that are forbidden to mortals... except that accursed bestial chatter. What even is that nonsense?")
 	weight = 100
 
 /datum/special_trait/languagesavant/on_apply(mob/living/carbon/human/character, silent)
@@ -546,7 +546,7 @@
 
 /datum/special_trait/my_precious
 	name = "My Precious"
-	greet_text = span_notice("The ring, it's so shiny... so valuable, I can feel it's power. It's all mine!")
+	greet_text = span_notice("The ring, it's so shiny... so valuable, I can feel its power. It's all mine!")
 	req_text = "Be a beggar"
 	weight = 50
 

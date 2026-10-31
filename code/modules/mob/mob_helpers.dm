@@ -771,6 +771,7 @@
 		return
 	var/mob/living/L = src
 	var/client/client = L.client
+	L.dualwield_attack_count = 0
 	if(L.IsSleeping() || L.surrendering)
 		if(cmode)
 			playsound_local(src, 'sound/misc/comboff.ogg', 100)

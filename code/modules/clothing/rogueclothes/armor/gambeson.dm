@@ -93,7 +93,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	name = "light gambeson"
-	desc = "A light and insulative jacket, hewn from cloth. Peasants tend to wear these in the colder months, though they've also been repurposed - by more desperate hands - as armor-padding."
+	desc = "A light and insulating jacket, hewn from cloth. Peasants tend to wear these in the colder months, though they've also been repurposed - by more desperate hands - as armor-padding."
 	armor = ARMOR_PADDED_BAD
 	max_integrity = ARMOR_INT_CHEST_LIGHT_BASE
 	shiftable = FALSE
@@ -103,14 +103,14 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy
 	name = "padded arming jacket"
-	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
+	desc = "A collared jacket, intended to be worn underneath plate armor. The thicker padding ensures that any gaps left within its alloyed shell are thoroughly protected - lest an unforeseen bowstrike, landing true, ruptures the vulnerable flesh beneath."
 	icon_state = "dgamb"
 	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
 	max_integrity = ARMOR_INT_CHEST_LIGHT_ELITE //More integ than a padded gamberson, at the cost of leg protection
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/lord/heavy/silkjacket
 	name = "besilked jacket"
-	desc = "A lightweight jacket, who's besilked stitchwork allows it to catch thrusts-and-arrows alike without compromise. For reasons that needn't be spoken, such traits make it coveted among lesser nobility."
+	desc = "A lightweight jacket, whose besilked stitchwork allows it to catch thrusts-and-arrows alike without compromise. For reasons that needn't be spoken, such traits make it coveted among lesser nobility."
 	icon = 'icons/roguetown/clothing/shirts.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/shirts.dmi'
 	icon_state = "puritan_shirt"
@@ -405,7 +405,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/baotha
 	name = "saccharine vestments"
-	desc = "Although mighty Ravox's hand demanded justice for the Eoran priestess' treachery, Eora stayed it, and merely stripped her of vestements and title. The lepers would die, but they would die in comfort and love."
+	desc = "Although mighty Ravox's hand demanded justice for the Eoran priestess' treachery, Eora stayed it, and merely stripped her of vestments and title. The lepers would die, but they would die in comfort and love."
 	icon_state = "baothagamb"
 	armor_class = ARMOR_CLASS_LIGHT
 	armor = ARMOR_PADDED
