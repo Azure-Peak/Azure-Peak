@@ -76407,10 +76407,6 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/underdark/south)
-"mSx" = (
-/obj/item/grown/log/tree/stake,
-/turf/closed/mineral/random/rogue/high,
-/area/rogue/under/cave)
 "mSz" = (
 /obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/tile/harem,
@@ -204541,7 +204537,7 @@ qHj
 qHj
 qHj
 qHj
-mSx
+qHj
 qHj
 qHj
 qHj
