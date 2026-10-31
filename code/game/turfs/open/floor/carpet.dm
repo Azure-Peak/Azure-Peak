@@ -13,8 +13,9 @@
 	clawfootstep = FOOTSTEP_SOFT_BAREFOOT
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
-
-	spread_chance = 15
+	burn_power = 20
+	spread_chance = 4
+	burnthrough = TRUE
 
 /turf/open/floor/carpet/examine(mob/user)
 	. = ..()

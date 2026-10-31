@@ -151,7 +151,7 @@
 		for(var/turf/T in turfs)
 			if(!isopenturf(T) || (T in burnt_turfs))
 				continue
-			new /obj/effect/hotspot/vampiric(T, 125, 100+T0C, owner.clan)
+			new /obj/effect/hotspot/vampiric(T, owner.clan)
 			for(var/mob/living/L in T.contents)
 				if(L.clan == owner.clan)
 					continue

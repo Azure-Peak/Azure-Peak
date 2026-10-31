@@ -7,6 +7,7 @@
 	droning_sound_dusk = null
 	droning_sound_night = null
 	detail_text = DETAIL_TEXT_SPILLWAY
+	ceiling_protected = TRUE
 
 /area/rogue/under/cave/dungeon1/gethsmane/inner
 	name = "Gethsmane"

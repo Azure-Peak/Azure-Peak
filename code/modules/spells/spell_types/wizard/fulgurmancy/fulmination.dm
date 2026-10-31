@@ -120,7 +120,7 @@
 /datum/action/cooldown/spell/fulmination/proc/heavens_strike_damage(turf/T)
 	new /obj/effect/temp_visual/thunderstrike_actual(T)
 	playsound(T, 'sound/magic/lightning.ogg', 80)
-	T.fire_act()
+	T.fire_act(maxlevel = 1)
 	for(var/atom/A in T.contents)
 		if(!ismob(A))
 			A.fire_act()
@@ -163,7 +163,7 @@
 		if(!(T in get_hear(radius, centerpoint)))
 			continue
 		new /obj/effect/temp_visual/thunderstrike_actual(T)
-		T.fire_act()
+		T.fire_act(maxlevel = 1)
 		for(var/atom/A in T.contents)
 			if(!ismob(A))
 				A.fire_act()

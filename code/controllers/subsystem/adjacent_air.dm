@@ -47,16 +47,17 @@ SUBSYSTEM_DEF(adjacent_air)
 /turf
 	//list of open turfs adjacent to us
 	var/list/atmos_adjacent_turfs
-	///the chance this turf has to spread, basically 3% by default
+	///percent chance per hotspot tick and per neighbouring fire level that fire spreads onto this turf
 	var/spread_chance = 0
-	///means fires last at base 15 seconds
+	///fuel in half-second hotspot ticks at fire level 1, 0 is not flammable
 	var/burn_power = 0
+	///burnt out over a lower level, this turf collapses into open space
+	var/burnthrough = FALSE
+	var/obj/effect/hotspot/active_hotspot
 	var/obj/effect/abstract/liquid_turf/liquids
 	var/liquid_height = 0
 	var/turf_height = 0
 
-/turf/open
-	var/obj/effect/hotspot/active_hotspot
 /turf/CanAtmosPass = ATMOS_PASS_NO
 /turf/CanAtmosPassVertical = ATMOS_PASS_NO
 /turf/open/CanAtmosPass = ATMOS_PASS_PROC

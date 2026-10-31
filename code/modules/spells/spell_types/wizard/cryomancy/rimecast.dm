@@ -117,14 +117,12 @@
 			qdel(src)
 			return . || BULLET_ACT_HIT
 		return BULLET_ACT_FORCE_PIERCE
-	else if(isobj(target))
-		var/obj/O = target
-		O.extinguish()
+	else
+		if(isobj(target))
+			var/obj/O = target
+			O.extinguish()
 		var/turf/target_turf = get_turf(target)
-		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in target_turf)
-		if(hotspot)
-			new /obj/effect/temp_visual/small_smoke(target_turf)
-			qdel(hotspot)
+		target_turf.quench()
 	qdel(src)
 	return . || BULLET_ACT_HIT
 
@@ -176,10 +174,7 @@
 			// Extinguish burning objects and hotspots in the blast radius
 			for(var/obj/O in T)
 				O.extinguish()
-			var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
-			if(hotspot)
-				new /obj/effect/temp_visual/small_smoke(T)
-				qdel(hotspot)
+			T.quench()
 			for(var/mob/living/L in T)
 				if(L == direct_hit || L.stat == DEAD)
 					continue

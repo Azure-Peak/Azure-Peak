@@ -12,6 +12,36 @@
 /turf/open/hotspot_expose(added, maxstacks, soh)
 	return
 
+///spreading and turf ignitions stop while this many hotspots exist
+#define MAX_FIRES 400
+///scales every spread roll, lower makes fire creep slower and reach less far
+#define SPREAD_RATE 0.75
+///mob_timers key for the cooldown between scorch stacks from standing in fire
+#define FIRE_SCORCH_KEY "fire_scorch"
+///half-second steps each SShotspots tick covers; fuel, life and spread odds are tuned per half-second
+#define FIRE_STEP 2
+///colour multiplied onto turfs a fire burnt out on or uncovered
+#define CHAR_TINT "#a09488"
+
+/turf/fire_act(added, maxstacks, maxlevel = 3)
+	. = ..()
+	if(!burn_power || active_hotspot || length(SShotspots.hotspots) >= MAX_FIRES)
+		return
+	for(var/dir in GLOB.alldirs)
+		if(istype(get_step(src, dir), /turf/open/water))
+			burn_power = 0
+			return
+	new /obj/effect/hotspot(src, null, maxlevel)
+
+/turf/proc/quench(hold)
+	var/obj/effect/hotspot/H = locate() in src
+	if(H)
+		new /obj/effect/temp_visual/small_smoke(src)
+		qdel(H)
+	if(hold)
+		. = burn_power
+		burn_power = 0
+
 //This is the icon for fire on turfs, also helps for nurturing small fires until they are full tile
 /obj/effect/hotspot
 	anchored = TRUE
@@ -19,198 +49,174 @@
 	icon = 'icons/effects/fire.dmi'
 	icon_state = "1"
 	layer = GASFIRE_LAYER
-	light_outer_range =	LIGHT_RANGE_FIRE
+	light_outer_range = 2
 	light_color = LIGHT_COLOR_FIRE
 	blend_mode = BLEND_ADD
 
-	var/volume = 125
-	var/temperature = 100+T0C
 	var/just_spawned = TRUE
-	var/bypassing = FALSE
-	var/visual_update_tick = 0
 	var/life = 20
 	var/firelevel = 1 //RTD new firehotspot mechanics
+	///fuel taken from the turf and its flammable contents, burnt by firelevel each tick; life is used instead at 0
+	var/fuel = 0
+	///highest firelevel this fire and the fires it spreads can reach; spell fire lights at 1
+	var/maxlevel = 3
+	///smoke emitter shared by every fire at level 2 or higher
+	var/static/particles/plume
 
 //obj/effect/hotspot/extinguish() handled in other_reagents
 //	if(isturf(loc))
 //		new /obj/effect/temp_visual/small_smoke(src.loc)
 //	qdel(src)
 
-/obj/effect/hotspot/Initialize(mapload, starting_volume, starting_temperature, life)
+/obj/effect/hotspot/Initialize(mapload, life, maxlevel)
+	for(var/dir in GLOB.alldirs)
+		var/turf/T = get_step(src, dir)
+		if(T?.active_hotspot?.light_outer_range)
+			light_outer_range = 0
+			break
 	. = ..()
 	SShotspots.hotspots += src
-
-	if(!isnull(starting_volume))
-		volume = starting_volume
-
-	if(!isnull(starting_temperature))
-		temperature = starting_temperature
 
 	if(!isnull(life))
 		src.life = life
 
-	perform_exposure()
+	if(maxlevel)
+		src.maxlevel = maxlevel
+
+	var/turf/T = loc
+	if(isturf(T) && T.burn_power)
+		fuel = T.burn_power
+		T.burn_power = 0
+		for(var/obj/O in T)
+			if(O.resistance_flags & FLAMMABLE)
+				fuel += istype(O, /obj/structure/flora) ? 2 : 5
+
+	change_firelevel(firelevel)
+	perform_exposure(TRUE)
 	setDir(pick(GLOB.cardinals))
-	air_update_turf()
-	addtimer(CALLBACK(src, PROC_REF(trigger_weather)), rand(5,20))
 
 /obj/effect/hotspot/proc/try_fire_act(atom/target, added, maxstacks)
 	SHOULD_CALL_PARENT(FALSE)
-	target.fire_act(added, maxstacks)
+	if(!isliving(target))
+		target.fire_act(added, maxstacks)
+		return
+	var/mob/living/L = target
+	if(L.stat == DEAD || HAS_TRAIT(L, TRAIT_NOFIRE) || L.mob_timers[FIRE_SCORCH_KEY] > world.time)
+		return
+	L.mob_timers[FIRE_SCORCH_KEY] = world.time + 2 SECONDS
+	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(apply_scorch_stack), L)
 
-/obj/effect/hotspot/proc/perform_exposure()
+/obj/effect/hotspot/proc/perform_exposure(fresh)
 
-	var/turf/open/location = loc
-	if(!istype(location))
+	var/turf/location = loc
+	if(!isturf(location))
 		return
 
 	location.active_hotspot = src
 
 	for(var/A in location)
 		var/atom/AT = A
-		if(!QDELETED(AT) && AT != src) // It's possible that the item is deleted in temperature_expose
+		if(QDELETED(AT) || AT == src) // It's possible that the item is deleted in temperature_expose
+			continue
+		if(isliving(AT))
+			try_fire_act(AT, 1, 20)
+			continue
+		var/obj/O = AT
+		if(isobj(O) && (O.resistance_flags & FLAMMABLE))
+			try_fire_act(O, firelevel * 250 * FIRE_STEP, 20)
+		else if(fresh)
 			try_fire_act(AT, 1, 20)
 
-/obj/effect/hotspot/proc/gauss_lerp(x, x1, x2)
-	var/b = (x1 + x2) * 0.5
-	var/c = (x2 - x1) / 6
-	return NUM_E ** -((x - b) ** 2 / (2 * c) ** 2)
-
-/obj/effect/hotspot/proc/update_color()
-	cut_overlays()
-
-	var/heat_r = heat2colour_r(temperature)
-	var/heat_g = heat2colour_g(temperature)
-	var/heat_b = heat2colour_b(temperature)
-	var/heat_a = 255
-	var/greyscale_fire = 1 //This determines how greyscaled the fire is.
-
-	if(temperature < 5000) //This is where fire is very orange, we turn it into the normal fire texture here.
-		var/normal_amt = gauss_lerp(temperature, 1000, 3000)
-		heat_r = LERP(heat_r,255,normal_amt)
-		heat_g = LERP(heat_g,255,normal_amt)
-		heat_b = LERP(heat_b,255,normal_amt)
-		heat_a -= gauss_lerp(temperature, -5000, 5000) * 128
-		greyscale_fire -= normal_amt
-	if(temperature > 40000) //Past this temperature the fire will gradually turn a bright purple
-		var/purple_amt = temperature < LERP(40000,200000,0.5) ? gauss_lerp(temperature, 40000, 200000) : 1
-		heat_r = LERP(heat_r,255,purple_amt)
-	if(temperature > 200000 && temperature < 500000) //Somewhere at this temperature nitryl happens.
-		var/sparkle_amt = gauss_lerp(temperature, 200000, 500000)
-		var/mutable_appearance/sparkle_overlay = mutable_appearance('icons/effects/effects.dmi', "shieldsparkles")
-		sparkle_overlay.blend_mode = BLEND_ADD
-		sparkle_overlay.alpha = sparkle_amt * 255
-		add_overlay(sparkle_overlay)
-	if(temperature > 400000 && temperature < 1500000) //Lightning because very anime.
-		var/mutable_appearance/lightning_overlay = mutable_appearance(icon, "overcharged")
-		lightning_overlay.blend_mode = BLEND_ADD
-		add_overlay(lightning_overlay)
-	if(temperature > 4500000) //This is where noblium happens. Some fusion-y effects.
-		var/fusion_amt = temperature < LERP(4500000,12000000,0.5) ? gauss_lerp(temperature, 4500000, 12000000) : 1
-		var/mutable_appearance/fusion_overlay = mutable_appearance('icons/effects/atmospherics.dmi', "fusion_gas")
-		fusion_overlay.blend_mode = BLEND_ADD
-		fusion_overlay.alpha = fusion_amt * 255
-		var/mutable_appearance/rainbow_overlay = mutable_appearance('icons/mob/screen_gen.dmi', "druggy")
-		rainbow_overlay.blend_mode = BLEND_ADD
-		rainbow_overlay.alpha = fusion_amt * 255
-		rainbow_overlay.appearance_flags = RESET_COLOR
-		heat_r = LERP(heat_r,150,fusion_amt)
-		heat_g = LERP(heat_g,150,fusion_amt)
-		heat_b = LERP(heat_b,150,fusion_amt)
-		add_overlay(fusion_overlay)
-		add_overlay(rainbow_overlay)
-
-	set_light(l_color = rgb(LERP(250,heat_r,greyscale_fire),LERP(160,heat_g,greyscale_fire),LERP(25,heat_b,greyscale_fire)))
-
-	heat_r /= 255
-	heat_g /= 255
-	heat_b /= 255
-
-	color = list(LERP(0.3, 1, 1-greyscale_fire) * heat_r,0.3 * heat_g * greyscale_fire,0.3 * heat_b * greyscale_fire, 0.59 * heat_r * greyscale_fire,LERP(0.59, 1, 1-greyscale_fire) * heat_g,0.59 * heat_b * greyscale_fire, 0.11 * heat_r * greyscale_fire,0.11 * heat_g * greyscale_fire,LERP(0.11, 1, 1-greyscale_fire) * heat_b, 0,0,0)
-	alpha = heat_a
-
-#define INSUFFICIENT(path) (!location.air.gases[path] || location.air.gases[path][MOLES] < 0.5)
 /obj/effect/hotspot/process()
 	if(just_spawned)
 		just_spawned = FALSE
 		return
 
-	var/turf/open/location = loc
-	if(!istype(location))
-		qdel(src)
-		return
-
-	icon_state = "[rand(1,3)]"
-
-	life--
-
-	if(life <= 0)
+	var/turf/location = loc
+	if(!isturf(location))
 		qdel(src)
 		return
 
 	perform_exposure()
-	return
+
+	if(fuel <= 0)
+		life -= FIRE_STEP
+		if(life <= 0)
+			qdel(src)
+		return
+
+	var/wet = SSParticleWeather.runningWeather?.running && SSParticleWeather.runningWeather.target_trait == PARTICLEWEATHER_RAIN && location.outdoor_effect && !location.outdoor_effect.weatherproof
+	fuel -= (wet ? firelevel * 2 : firelevel) * FIRE_STEP
+	if(fuel <= 0)
+		qdel(src)
+		if(iswallturf(location))
+			location.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
+			return
+		var/under = islist(location.baseturfs) ? location.baseturfs[length(location.baseturfs)] : location.baseturfs
+		var/turf/below = GET_TURF_BELOW(location)
+		var/area/rogue/belowarea = below?.loc
+		var/sealed = !below || isclosedturf(below) || (istype(belowarea) && belowarea.ceiling_protected)
+		if(!location.burnthrough || (sealed && ispath(under, /turf/open/transparent/openspace)))
+			location.add_atom_colour(CHAR_TINT, FIXED_COLOUR_PRIORITY)
+			return
+		var/turf/hole = location.ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
+		if(!istype(hole, /turf/open/transparent/openspace))
+			hole.add_atom_colour(CHAR_TINT, FIXED_COLOUR_PRIORITY)
+			return
+		for(var/atom/movable/AM in hole)
+			hole.zFall(AM)
+		below.fire_act()
+		return
+
+	if(firelevel < maxlevel && prob(location.spread_chance * FIRE_STEP))
+		change_firelevel(firelevel + 1)
+
+	var/heat = (wet ? firelevel * 0.5 : firelevel) * SPREAD_RATE * FIRE_STEP
+	for(var/dir in GLOB.cardinals)
+		var/turf/T = get_step(location, dir)
+		if(T?.burn_power && prob(T.spread_chance * heat))
+			T.fire_act(maxlevel = maxlevel)
 
 /obj/effect/hotspot/Destroy()
+	if(light_outer_range)
+		for(var/dir in GLOB.alldirs)
+			var/turf/N = get_step(src, dir)
+			var/obj/effect/hotspot/H = N?.active_hotspot
+			if(H && !H.light_outer_range && !QDELETED(H))
+				H.set_light(initial(H.light_outer_range), 0)
+				break
 	set_light(0)
+	particles = null
 	SShotspots.hotspots -= src
-	var/turf/open/T = loc
-	if(istype(T) && T.active_hotspot == src)
-		T.active_hotspot = null
+	var/turf/T = loc
+	if(isturf(T))
+		if(fuel > 0)
+			T.burn_power += fuel
+		if(T.active_hotspot == src)
+			T.active_hotspot = null
 	return ..()
 
 /obj/effect/hotspot/Crossed(atom/movable/AM, oldLoc)
 	..()
-	if(isliving(AM))
-		var/mob/living/L = AM
-		try_fire_act(L, 1, 20)
+	if(!isprojectile(AM))
+		try_fire_act(AM, 1, 20)
 
 /obj/effect/dummy/lighting_obj/moblight/fire
 	name = "fire"
 	light_color = LIGHT_COLOR_FIRE
 	light_outer_range =	LIGHT_RANGE_FIRE
 
-/obj/effect/hotspot/proc/handle_automatic_spread()
-	///maybe add sound probably not
-
-	for(var/obj/object in loc)
-		if(QDELETED(object) || isnull(object))
-			continue
-		var/can_break = TRUE
-		if((object.resistance_flags & INDESTRUCTIBLE) || (object.resistance_flags & FIRE_PROOF))
-			can_break = FALSE
-		if(!can_break)
-			continue
-		object.fire_act(temperature * firelevel)
-
-	var/burn_power = 0
-	var/modifier = 1
-	if(SSParticleWeather.runningWeather?.target_trait == PARTICLEWEATHER_RAIN) //this does apply to indoor turfs but w/e
-		var/turf/floor= get_turf(src)
-		if(!floor?.outdoor_effect?.weatherproof)
-			modifier = 0.5
-	if(isfloorturf(get_turf(src)))
-		var/turf/floor= get_turf(src)
-		floor.burn_power = max(0, floor.burn_power - (1 * firelevel))
-		if(floor.burn_power == 0)
-			extinguish()
-		burn_power += floor.burn_power
-		if(prob(floor.spread_chance * modifier))
-			change_firelevel(min(3, firelevel+1))
-
-		if(burn_power)
-			for(var/turf/ranged_floor in range(1, src))
-				if(ranged_floor == src || !ranged_floor.burn_power)
-					continue
-				var/obj/effect/hotspot/located_fire = locate() in ranged_floor
-				if(prob(ranged_floor.spread_chance * modifier) && !located_fire)
-					new /obj/effect/hotspot(ranged_floor, volume, temperature)
-
 /obj/effect/hotspot/proc/change_firelevel(level = 1)
 	firelevel = level
 	icon_state = "[firelevel]"
+	if(firelevel >= 2)
+		particles = plume ||= new /particles/smoke/burning/plume
 
-#undef INSUFFICIENT
+#undef MAX_FIRES
+#undef SPREAD_RATE
+#undef FIRE_SCORCH_KEY
+#undef FIRE_STEP
+#undef CHAR_TINT
 
 /// For use with demonic T5 ability
 /obj/effect/hotspot/vampiric
@@ -220,11 +226,11 @@
 	light_color = COLOR_LIME
 	var/datum/clan/owner_clan
 
-/obj/effect/hotspot/vampiric/Initialize(mapload, starting_volume, starting_temperature, datum/clan/owner_clan)
+/obj/effect/hotspot/vampiric/Initialize(mapload, datum/clan/owner_clan)
 	if(!istype(owner_clan))
 		return INITIALIZE_HINT_QDEL
 	src.owner_clan = owner_clan
-	. = ..()
+	. = ..(mapload)
 
 /obj/effect/hotspot/vampiric/Destroy()
 	owner_clan = null

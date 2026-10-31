@@ -134,15 +134,21 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	light_outer_range = 1
 	light_color = GLOW_COLOR_ICE
+	///turf fuel held back while the ice covers it
+	var/fuel = 0
 
 /obj/effect/verglas/Initialize(mapload, lifespan = 0)
 	. = ..()
-	RegisterSignal(get_turf(src), COMSIG_ATOM_ENTERED, PROC_REF(on_entered))
+	var/turf/T = get_turf(src)
+	RegisterSignal(T, COMSIG_ATOM_ENTERED, PROC_REF(on_entered))
+	fuel = T.quench(TRUE)
 	if(lifespan)
 		QDEL_IN(src, lifespan)
 
 /obj/effect/verglas/Destroy()
-	UnregisterSignal(get_turf(src), COMSIG_ATOM_ENTERED)
+	var/turf/T = get_turf(src)
+	UnregisterSignal(T, COMSIG_ATOM_ENTERED)
+	T?.burn_power += fuel
 	return ..()
 
 /obj/effect/verglas/proc/on_entered(datum/source, atom/movable/AM, atom/old_loc)

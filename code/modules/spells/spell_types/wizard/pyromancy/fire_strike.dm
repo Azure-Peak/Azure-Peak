@@ -88,7 +88,7 @@
 			L.Knockdown(3)
 
 	for(var/turf/T in range(blast_radius, center))
-		new /obj/effect/curtain_fire(T, curtain_life, owner)
+		new /obj/effect/curtain_fire(T, curtain_life, owner, null, 1)
 
 	var/datum/effect_system/smoke_spread/smoke = new
 	smoke.set_up(4, center)
