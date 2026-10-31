@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "The \"Paint robes (Rain Pattern)\" painter rite now gives the rainfall robes, instead of the sea robes."
