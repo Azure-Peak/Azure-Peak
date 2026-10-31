@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - admin: "Prayers can now be responded to via direct narrate hotlink instead of subtle message."
