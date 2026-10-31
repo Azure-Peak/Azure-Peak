@@ -38,7 +38,6 @@
 		// ASSASSIN ESSENTIALS
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 	)
 	extra_context = "All assassins are DODGE EXPERTS, able to access the ZURCH, have NOSTINK, have ANTI-SCRYING, and are steel-hearted. \
 	Each class also can summon the 'PROFANE DAGGER', which they are all experts in using."

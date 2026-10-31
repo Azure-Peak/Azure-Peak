@@ -106,13 +106,13 @@
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/fae/iridescentscale = 2)
 	result_atoms = list(/obj/item/enchantmentscroll/superior/climbing)
 
-/datum/runeritual/enchanting/thievery
-	name = "Thievery"
-	desc = "Better pickpocketing and lockpicks!"
+/datum/runeritual/enchanting/lockpicking
+	name = "Lockpicking"
+	desc = "Better lockpicking!"
 	blacklisted = FALSE
 	tier = 2
 	required_atoms = list(/obj/item/rogueore/cinnabar = 1, /obj/item/reagent_containers/glass/bottle/alchemical = 1, /obj/item/magic/infernal/fang = 2)
-	result_atoms = list(/obj/item/enchantmentscroll/superior/thievery)
+	result_atoms = list(/obj/item/enchantmentscroll/superior/lockpicking)
 
 /datum/runeritual/enchanting/smithing
 	name = "Smithing"

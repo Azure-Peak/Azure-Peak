@@ -217,7 +217,6 @@
 		/datum/skill/misc/riding = SKILL_LEVEL_EXPERT, //Commanding role
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_LEGENDARY, //Very, talented spy
-		/datum/skill/misc/stealing = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN, //Practiced kidnapper, good at sewing people back up.
 		/datum/skill/misc/music = SKILL_LEVEL_JOURNEYMAN, //Nobility Sovl
