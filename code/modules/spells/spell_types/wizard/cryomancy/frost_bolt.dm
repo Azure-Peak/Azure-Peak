@@ -1,6 +1,6 @@
 // This is for legacy poke spell, as the shotgun is designed for Cryo which has less spell as a budget
-#define FROST_BOLT_DAMAGE 50 // Making it symmetrical with spitfire
-#define FROST_BOLT_ARC_DAMAGE 38
+#define FROST_BOLT_DAMAGE 40 // Making it slightly weaker than spitfire due to powerful rider effect
+#define FROST_BOLT_ARC_DAMAGE 30
 
 /datum/action/cooldown/spell/projectile/frostbolt
 	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
