@@ -157,13 +157,14 @@
 			net_clause = "Shares: [jointext(net_lines, ", ")]."
 		say("The reward of [base_reward] mammon[deductions_clause] for a purse of [take_home], has been split [split_ways] ways between [holder_name]'s fellowship. [net_clause][leftover_clause][deposit_clause]")
 		return
+	var/net_suffix = length(deductions) ? ", net [take_home] mammon" : ""
 	switch(mode)
 		if(QUEST_TURNIN_OFFICIAL)
-			say("On behalf of [holder_name], a reward of [base_reward] mammon has been credited to their account[deductions_clause].[deposit_clause]")
+			say("On behalf of [holder_name], a reward of [base_reward] mammon has been credited to their account[deductions_clause][net_suffix].[deposit_clause]")
 		if(QUEST_TURNIN_FELLOWSHIP)
-			say("You turned in [holder_name]'s contract. [base_reward] mammon has been credited to you[deductions_clause].[deposit_clause]")
+			say("You turned in [holder_name]'s contract. [base_reward] mammon has been credited to you[deductions_clause][net_suffix].[deposit_clause]")
 		else
-			say("Your reward of [base_reward] mammon has been credited[deductions_clause].[deposit_clause]")
+			say("Your reward of [base_reward] mammon has been credited[deductions_clause][net_suffix].[deposit_clause]")
 
 /obj/structure/roguemachine/contractledger/proc/can_admin_complete(mob/user)
 	var/client/C = user?.client

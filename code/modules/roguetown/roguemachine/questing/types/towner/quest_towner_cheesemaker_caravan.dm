@@ -2,7 +2,7 @@
 	quest_type = QUEST_TOWNER_CHEESEMAKER_CARAVAN
 	parcel_label = "recovered cheesemaking supplies"
 	posting_label = "A Cheesemaker's Caravan"
-	posting_blurb = "Beasts have hounded a cheesemaker's caravan. Hire hands to secure the caravan and bring them home."
+	posting_blurb = "A cheesemaker's caravan was ambushed. Hire hands to secure the caravan and bring them home."
 	postable_advclasses = list(
 		/datum/advclass/cheesemaker,
 		/datum/advclass/cook,
@@ -12,11 +12,7 @@
 	eligible_regions = list(
 		THREAT_REGION_AZURE_GROVE,
 		THREAT_REGION_AZUREAN_COAST,
-	)
-	eligible_factions = list(
-		QUEST_FACTION_GREAT_BEAST,
-		QUEST_FACTION_WILD_BEAST,
-		QUEST_FACTION_MINOTAUR,
+		THREAT_REGION_MOUNT_DECAP,
 	)
 	varieties = list(
 		"cheesemaker" = list(
@@ -33,6 +29,12 @@
 					list("path" = /obj/item/reagent_containers/glass/bottle/waterskin/milk, "min" = 5, "max" = 8, "noun" = "skins of milk"),
 					list("path" = /obj/item/reagent_containers/food/snacks/butter, "min" = 5, "max" = 8, "noun" = "butter"),
 					list("path" = /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel, "min" = 1, "max" = 2, "noun" = "cheese wheels"),
+				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/reagent_containers/powder/salt, "min" = 32, "max" = 38, "noun" = "salt"),
+					list("path" = /obj/item/reagent_containers/glass/bottle/waterskin/milk, "min" = 8, "max" = 12, "noun" = "skins of milk"),
+					list("path" = /obj/item/reagent_containers/food/snacks/butter, "min" = 8, "max" = 12, "noun" = "butter"),
+					list("path" = /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel, "min" = 2, "max" = 4, "noun" = "cheese wheels"),
 				),
 			),
 		),

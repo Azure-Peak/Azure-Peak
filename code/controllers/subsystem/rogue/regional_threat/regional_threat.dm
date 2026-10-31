@@ -156,12 +156,13 @@ SUBSYSTEM_DEF(regionthreat)
 		var/datum/threat_region/TR = T
 		if(!TR.allows_quest_type(quest_type))
 			continue
-		var/weight = TR.get_threat_weight()
+		// Threat level is 0 to 1, but pickweight only works with whole numbers, so scale it to 0 to 100.
+		var/weight = round(TR.get_threat_weight() * 100)
 		if(weight <= 0)
 			continue
 		weights[TR] = weight
 	if(!length(weights))
-		// Fall back: any region that allows the type, ignoring fill ratio.
+		// No allowed region has any threat right now, so pick between them evenly.
 		for(var/T in threat_regions)
 			var/datum/threat_region/TR = T
 			if(TR.allows_quest_type(quest_type))

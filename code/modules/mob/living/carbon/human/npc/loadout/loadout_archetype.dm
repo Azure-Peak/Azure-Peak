@@ -53,6 +53,8 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/list/variants
 	var/ai_controller
 	var/list/traits
+	var/taur_type
+	var/list/taur_colors
 	// Factional stat modifiers. These are applied on top of statpacks. They do not need to be even trade
 	var/list/stat_modifiers
 
@@ -81,6 +83,9 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	apply_armor_training(H)
 	if(ai_controller)
 		H.upgrade_ai_controller(ai_controller)
+	// Before the outfit, as Taurize drops worn shoes
+	if(taur_type)
+		H.Taurize(taur_type, length(taur_colors) ? pick(taur_colors) : "#ffffff")
 	H.equipOutfit(build_outfit())
 	apply_stat_modifiers(H)
 	if(npc_body)

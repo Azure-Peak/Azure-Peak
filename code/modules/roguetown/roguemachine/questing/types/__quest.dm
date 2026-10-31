@@ -1,6 +1,6 @@
 GLOBAL_LIST_INIT(quest_difficulty_terms, list(
-	QUEST_DIFFICULTY_EASY = list("bonus" = QUEST_DIFFICULTY_BONUS_EASY, "deposit" = QUEST_DEPOSIT_EASY, "threat_pay_mult" = QUEST_KILL_THREAT_MULT_EASY, "group_bonus" = QUEST_FELLOWSHIP_GROUP_BONUS_EASY, "icon" = "scroll_quest_low"),
-	QUEST_DIFFICULTY_MEDIUM = list("bonus" = QUEST_DIFFICULTY_BONUS_MEDIUM, "deposit" = QUEST_DEPOSIT_MEDIUM, "threat_pay_mult" = QUEST_KILL_THREAT_MULT_MEDIUM, "group_bonus" = QUEST_FELLOWSHIP_GROUP_BONUS_MEDIUM, "min_region_tp_mult" = QUEST_MIN_REGION_TP_MULT_MEDIUM, "icon" = "scroll_quest_mid"),
+	QUEST_DIFFICULTY_EASY = list("bonus" = QUEST_DIFFICULTY_BONUS_EASY, "deposit" = QUEST_DEPOSIT_EASY, "icon" = "scroll_quest_low"),
+	QUEST_DIFFICULTY_MEDIUM = list("bonus" = QUEST_DIFFICULTY_BONUS_MEDIUM, "deposit" = QUEST_DEPOSIT_MEDIUM, "min_region_tp_mult" = QUEST_MIN_REGION_TP_MULT_MEDIUM, "icon" = "scroll_quest_mid"),
 	QUEST_DIFFICULTY_HARD = list("bonus" = QUEST_DIFFICULTY_BONUS_HARD, "deposit" = QUEST_DEPOSIT_HARD, "icon" = "scroll_quest_high"),
 	QUEST_DIFFICULTY_NOTORIOUS = list("bonus" = QUEST_DIFFICULTY_BONUS_NOTORIOUS, "deposit" = QUEST_DEPOSIT_NOTORIOUS, "icon" = "scroll_quest_notorious"),
 	QUEST_DIFFICULTY_INCURSION = list("bonus" = QUEST_DIFFICULTY_BONUS_INCURSION, "deposit" = QUEST_DEPOSIT_INCURSION, "icon" = "scroll_quest_high"),
@@ -337,7 +337,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/group_reward_mult(extras)
 	if(!extras || !fellowship_reward_rate)
 		return 1
-	return (1 + (get_difficulty_term("group_bonus") || 0)) * (1 + fellowship_reward_rate * extras)
+	return 1 + fellowship_reward_rate * extras
 
 /datum/quest/proc/get_difficulty_term(term)
 	var/list/terms = GLOB.quest_difficulty_terms[quest_difficulty]

@@ -336,6 +336,7 @@ SUBSYSTEM_DEF(questpool)
 	TQ.posting_tier = posting_tier
 	TQ.loadout_variety = loadout_variety
 	TQ.quest_difficulty = get_towner_tier_term(posting_tier, "difficulty") || QUEST_DIFFICULTY_EASY
+	TQ.required_fellowship_size = get_towner_tier_term(posting_tier, "fellowship") || 0
 	if(!place_quest(TQ, null))
 		return null
 	if(to_hand)
