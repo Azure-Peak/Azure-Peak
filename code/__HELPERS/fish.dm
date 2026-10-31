@@ -15,3 +15,25 @@
 			return bait.reagents?.has_reagent(special_identifier[FISH_BAIT_VALUE], special_identifier[FISH_BAIT_AMOUNT], check_subtypes = TRUE)
 		else
 			CRASH("Unknown bait identifier in fish favourite/disliked list")
+
+/proc/fishing_skill_prized_mult(skill_level)
+	switch(skill_level)
+		if(SKILL_LEVEL_EXPERT)
+			return FISHING_SKILL_PRIZED_MULT_EXPERT
+		if(SKILL_LEVEL_MASTER)
+			return FISHING_SKILL_PRIZED_MULT_MASTER
+		if(SKILL_LEVEL_LEGENDARY)
+			return FISHING_SKILL_PRIZED_MULT_LEGENDARY
+	return 1
+
+/proc/fishing_skill_dud_mult(skill_level)
+	switch(skill_level)
+		if(SKILL_LEVEL_JOURNEYMAN)
+			return FISHING_SKILL_DUD_MULT_JOURNEYMAN
+		if(SKILL_LEVEL_EXPERT)
+			return FISHING_SKILL_DUD_MULT_EXPERT
+		if(SKILL_LEVEL_MASTER)
+			return FISHING_SKILL_DUD_MULT_MASTER
+		if(SKILL_LEVEL_LEGENDARY)
+			return FISHING_SKILL_DUD_MULT_LEGENDARY
+	return 1

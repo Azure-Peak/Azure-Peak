@@ -271,6 +271,18 @@
 #define FISHING_STOCK_LOW_RATIO 0.35
 #define FISHING_HOSTILE_WARNING_DELAY (5 SECONDS)
 
+// Each fishing level past Novice fills the minigame bar this percent faster and drains it this percent slower. Below Novice it becomes a penalty.
+#define FISHING_SKILL_COMPLETION_PERCENT 10
+// Weight multiplier on prized fish by fishing skill
+#define FISHING_SKILL_PRIZED_MULT_EXPERT 1.25
+#define FISHING_SKILL_PRIZED_MULT_MASTER 1.5
+#define FISHING_SKILL_PRIZED_MULT_LEGENDARY 2
+// Weight multiplier on empty catches by fishing skill
+#define FISHING_SKILL_DUD_MULT_JOURNEYMAN 0.75
+#define FISHING_SKILL_DUD_MULT_EXPERT 0.5
+#define FISHING_SKILL_DUD_MULT_MASTER 0.25
+#define FISHING_SKILL_DUD_MULT_LEGENDARY 0.1
+
 // Make cages slower so that fishing manually is competitive
 /// Seconds between a baited fishing cage's catches at no skill and at legendary skill.
 #define FISHING_CAGE_CATCH_TIME_SLOWEST 90

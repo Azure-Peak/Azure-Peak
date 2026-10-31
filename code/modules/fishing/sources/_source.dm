@@ -469,6 +469,8 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 	var/result_multiplier = 1
 	///Multiplier on counted fish only.
 	var/prized_multiplier = 1
+	var/skill_level = fisherman ? min(fisherman.get_skill_level(/datum/skill/labor/fishing), SKILL_LEVEL_LEGENDARY) : SKILL_LEVEL_NONE
+	var/skill_prized_multiplier = fishing_skill_prized_mult(skill_level)
 
 	var/list/base_table = get_fish_table(location)
 	var/list/final_table = list()
@@ -512,6 +514,8 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 					final_table -= FISHING_DUD
 			else
 				weight = round(weight * FISH_WEIGHT_MULT_WITHOUT_BAIT, 1) //Fishing without bait is not going to be easy
+			if(is_limited(result))
+				weight = round(weight * skill_prized_multiplier, 1)
 
 			// Apply fish trait modifiers using the actual fish instance
 			weight = get_fish_trait_catch_mods(weight, fish, rod, fisherman, location)
@@ -525,6 +529,9 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 			// Non-fish items
 			if(weight > 0)
 				final_table[result] = weight
+
+	if(final_table[FISHING_DUD])
+		final_table[FISHING_DUD] = max(round(final_table[FISHING_DUD] * fishing_skill_dud_mult(skill_level), 1), 1)
 
 	if(leveling_exponent)
 		level_out_fish(final_table, leveling_exponent)

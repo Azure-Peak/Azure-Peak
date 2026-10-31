@@ -177,9 +177,9 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 			completion_loss += FISHING_REEL_BLESSED_LOSS
 			completion_gain += FISHING_REEL_BLESSED_GAIN
 
-	//Finish the minigame faster at higher skill. The value modifiers for fishing are negative values btw.
-	completion_loss += user.get_skill_speed_modifier(/datum/skill/labor/fishing)
-	completion_gain -= user.get_skill_speed_modifier(/datum/skill/labor/fishing)
+	var/skill_completion = (min(user.get_skill_level(/datum/skill/labor/fishing), SKILL_LEVEL_LEGENDARY) - SKILL_LEVEL_NOVICE) * FISHING_SKILL_COMPLETION_PERCENT / 100
+	completion_gain *= 1 + skill_completion
+	completion_loss *= 1 - skill_completion
 	// Floor so high skill can never make completion_loss zero or negative (minigame must remain losable)
 	completion_loss = max(1, completion_loss)
 
