@@ -1,3 +1,76 @@
+/datum/intent/staff/polevault
+
+	name = "vault"
+	attack_verb = list("clips", "taps")
+	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
+	chargedrain = 2
+	chargetime = 5
+	damfactor = 0.1
+	icon_state = "invault"
+	desc = "A technique utillizing the weapon's length and sturdy frame. By driving it into the ground, vault right over your opponent's head.</br>Each Vault incurs a five second cooldown period before another may be performed, an average amount of strength(10) is required drive yourself high enough."
+
+/datum/intent/staff/polevault/spec_on_apply_effect(mob/living/H, mob/living/user, params)
+	if(user.STASTR > 9)
+		if(user.STASTR < 13 && HAS_TRAIT(user, TRAIT_ARCYNE))
+			to_chat(user, span_warning("I am too weak to vault."))
+			return FALSE//Too weak of a mage to get access to vault. Apparently you can only get this with Orc + Statpack on your general mage. Maybe should raise this to 14?
+
+		if(user.incapacitated(ignore_restraints = TRUE))
+			return FALSE
+		if(user.pulledby && user.pulledby != user)
+			to_chat(user, span_warning("I'm being grabbed."))
+			user.resist_grab()
+			return FALSE
+		if(!(user.mobility_flags & MOBILITY_STAND))
+			if(!HAS_TRAIT(user, TRAIT_LEAPER) || !user.STASPD > 14) //Agile or very speed sorts get to vault from the ground?
+				to_chat(user, span_warning("I should stand up first."))
+				return FALSE
+
+		var/turf/target_turf = get_step(H, get_dir(user, H))
+		if(target_turf.density < 1 && !user.has_status_effect(/datum/status_effect/debuff/staffvaultcd))
+			user.apply_status_effect(/datum/status_effect/debuff/staffvaultcd)
+			new /obj/effect/temp_visual/telegraph/primordial(target_turf) //Placeholder telegraph, borrowed but somewhat accurate. Exists so people on the receiving end don't suddenly lose track of where someone went after using this. Might also implement "Landing on someone else" behaviour.
+
+			animate(user, pixel_y = 16, time = 2, flags = ANIMATION_PARALLEL)
+			user.emote("jump", forced = TRUE)
+
+			var/goombastomp = FALSE
+			var/goombatargetStand = 0
+
+			spawn(3)
+				animate(user, pixel_y = 0, time = 2)
+				user.forceMove(target_turf)
+				if(target_turf.landsound)
+					playsound(target_turf, target_turf.landsound, 100, FALSE)
+
+				for(var/mob/M in view(user))
+					to_chat(M, span_warning("[user] vaults right over [H]'s head!"))
+
+				for(var/mob/living/victim in target_turf) //If we actually land ontop of other mobs, knock us all over in the collision.
+					if(victim == user) //Not sure if this will ever happen, but let's skip the scenario.
+						continue
+					if(victim.mobility_flags & MOBILITY_STAND)
+						goombatargetStand += 1
+					victim.Knockdown(10) //Need to figure out how to make this look better.
+					victim.adjustBruteLoss(rand(5,10))
+					goombastomp = TRUE
+
+				if(goombastomp == TRUE)
+					spawn(2)
+						if(goombatargetStand > 0) //We only knock ourselves down if we jump onto a standing opponent. Maybe this should use a Strength/Con logic.
+							user.Knockdown(10)
+						user.adjustBruteLoss(rand(5,10))
+						playsound(user, pick('sound/foley/zfall.ogg'), 100, FALSE)
+	else
+		to_chat(user, span_warning("I am too weak to vault."))
+		return FALSE //Too weak to vault in general at 9 and below.
+
+/datum/intent/staff/polevault/prewarning()
+	if(mastermob)
+		playsound(mastermob, pick('sound/combat/wooshes/blunt/wooshhuge (2).ogg'), 100, FALSE)
+		//Placeholder Sound/Warning
+
+
 /datum/intent/spear/bash/staff
 	name = "staff bash"
 	damfactor = 1
@@ -28,8 +101,8 @@
 /obj/item/rogueweapon/woodstaff
 	force = 10
 	force_wielded = 15
-	possible_item_intents = list(/datum/intent/spear/bash/woodstaff)
-	gripped_intents = list(/datum/intent/spear/bash/ranged/woodstaff, /datum/intent/mace/smash/wood/ranged)
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged, /datum/intent/staff/polevault)
 	name = "wooden staff"
 	desc = "A solid dependable walking stick that allows one to traverse rough terrain with ease, keep the weight off an \
 	injured leg, or reliably fend off incoming blows. Perfect for beggars, pilgrims, and mages."
@@ -83,7 +156,7 @@
 	pixel_y = -22
 	pixel_x = -22
 	possible_item_intents = list(SPEAR_BASH, /datum/intent/bless)
-	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged, /datum/intent/bless)
+	gripped_intents = list(/datum/intent/spear/bash/ranged, /datum/intent/mace/smash/wood/ranged, /datum/intent/bless, /datum/intent/staff/polevault)
 
 /obj/item/rogueweapon/woodstaff/aries/icarus // more boisterous with aura
 	name = "staff of the guide"
@@ -239,7 +312,6 @@
 	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
 	force = 15
 	force_wielded = 20
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	is_implement = FALSE
@@ -252,7 +324,6 @@
 	name = "shepherd's quarterstaff" //Reskinned iron quarterstaff without the smeltability-into-ingotry.
 	force = 16
 	force_wielded = 22
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
 	icon_state = "quarterstaff_virtue"
 	max_integrity = 200
 
