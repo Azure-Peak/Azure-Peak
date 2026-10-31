@@ -92,6 +92,7 @@
 	to_chat(body, span_danger("I feel my connection to the arcyne and divine weaken as dream energies assert themselves..."))
 	REMOVE_TRAIT(body, TRAIT_ARCYNE, TRAIT_GENERIC)
 	body.devotion = null
+	disable_vessel(body)
 
 /datum/outfit/job/roguetown/dreamwalker/pre_equip(mob/living/carbon/human/H) //Equipment is located below
 	..()

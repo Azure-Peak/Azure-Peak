@@ -96,9 +96,9 @@
 	var/weight = get_vote_weight(faithful)
 	var/voice_desc = weight >= BISHOPRIC_VOTE_RESIDENT ? "a full voice" : "half a voice"
 	faithful.visible_message( \
-		span_notice("[faithful.real_name] speaks their assent to the Rite of Sacred Supercession."), \
+		span_notice("[faithful.get_unmasked_name()] speaks their assent to the Rite of Sacred Supercession."), \
 		span_notice("You speak your assent. Astrata acknowledges your devotion."))
-	to_chat(invoker, span_notice("[faithful.real_name] has assented as [voice_desc]. ([get_assent_total()]/[BISHOPRIC_REQUIRED_ASSENTS])"))
+	to_chat(invoker, span_notice("[faithful.get_unmasked_name()] has assented as [voice_desc]. ([get_assent_total()]/[BISHOPRIC_REQUIRED_ASSENTS])"))
 
 /datum/usurpation_rite/sacred_supercession/check_assent_threshold()
 	if(get_assent_total() >= BISHOPRIC_REQUIRED_ASSENTS)
@@ -106,7 +106,7 @@
 
 /datum/usurpation_rite/sacred_supercession/on_contesting_started()
 	priority_announce( \
-		"[invoker.real_name] has invoked the Rite of Sacred Supercession!\n\n" + \
+		"[invoker.get_unmasked_name()] has invoked the Rite of Sacred Supercession!\n\n" + \
 		"In the name of Astrata, Goddess of Order, the Church reluctantly makes a claim upon the throne of [SSticker.realm_name], to restore order and faith!\n\n" + \
 		"The faithful have affirmed this claim.\n\n" + \
 		"The Sun's judgment shall fall in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.", \
@@ -117,14 +117,14 @@
 
 /datum/usurpation_rite/sacred_supercession/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	..()
 	priority_announce( \
 		"The sun rises on a new order.\n\n" + \
-		"The faithful of Astrata declare [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a HOLY reign.\n\n" + \
+		"The faithful of Astrata declare [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], establishing a HOLY reign.\n\n" + \
 		"[old_ruler_name], unable to contest this succession, has been found lacking in faith, " + \
 		"and their divine mandate is hereby revoked.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!", \
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("The radiance of Astrata crowns you. The throne is yours."))
@@ -144,13 +144,13 @@
 		if(RITE_STAGE_GATHERING)
 			return "The Rite of Sacred Supercession is underway. [get_assent_total()]/[BISHOPRIC_REQUIRED_ASSENTS] voices have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "The faithful have affirmed [invoker?.real_name]'s claim. The Sun's judgment approaches."
+			return "The faithful have affirmed [invoker?.get_unmasked_name()]'s claim. The Sun's judgment approaches."
 	return null
 
 /datum/usurpation_rite/sacred_supercession/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne by Astrata's mandate. Faithful, speak your assent -- or stop them. ([get_assent_total()]/[BISHOPRIC_REQUIRED_ASSENTS] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne by Astrata's mandate. Faithful, speak your assent -- or stop them. ([get_assent_total()]/[BISHOPRIC_REQUIRED_ASSENTS] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = ""
 			if(contest_time_remaining > 0)
@@ -159,7 +159,7 @@
 				remaining = "[round(left / (1 SECONDS))] seconds"
 			else
 				remaining = "moments"
-			return "The faithful have spoken. [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "The faithful have spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null
 
 /// Returns TRUE if the mob qualifies: either a church position holder, or has T1+ Divine devotion.
