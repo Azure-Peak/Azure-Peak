@@ -997,3 +997,60 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	desc = "Something lingers in my blood that the Inquisition's instruments are quick to mistake for a curse."
 	ui_fa_icon = "vial"
 	needs_extra_vice = TRUE
+
+/datum/charflaw/illtempered
+	name = "Ill-Tempered"
+	desc = "My mood is constantly poor, and stress affects me more than others."
+	ui_fa_icon = "heart-crack"
+	needs_extra_vice = TRUE
+
+/datum/charflaw/illtempered/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_BAD_MOOD, "[type]")
+
+/datum/charflaw/dendorrage
+	name = "Bestial Rage (+1 TRI)"
+	desc = "A fiery, unnatural anger burns through my veins, and I'm gripped by unpredictable bouts of emotion."
+	ui_fa_icon = "burst"
+	needs_extra_vice = TRUE
+	var/next_stress = 0
+	// var for when the next stress event will occur
+	var/grace_period = TRUE
+	// grace period on spawn so that only mild/moderate events happen as the first event
+	var/list/rage_stressevents_spawn = list(
+		/datum/stressevent/rageeventmild,
+		/datum/stressevent/rageeventmoderate,
+	)
+	// list of stress events that can be applied when grace_period = true (i,e the first trigger after spawning)
+	var/list/rage_stressevents = list(
+		/datum/stressevent/rageeventmild,
+		/datum/stressevent/rageeventmoderate,
+		/datum/stressevent/rageeventsevere,
+		/datum/stressevent/rageeventextreme,
+	)
+	// list of stress events when grace_period = false (i,e after the first trigger)
+
+/datum/charflaw/dendorrage/on_mob_creation(mob/user)
+	. = ..()
+	user.adjust_triumphs(1)
+	next_stress = world.time + rand(3 MINUTES, 15 MINUTES)
+
+/datum/charflaw/dendorrage/flaw_on_life(mob/user)
+	if(!ishuman(user) || user.stat != CONSCIOUS)
+		return
+	if(world.time < next_stress)
+		return
+
+	var/list/selected_events
+	// var for what stress events to use depending on if grace_period = true
+	if(grace_period)
+		selected_events = rage_stressevents_spawn
+		// sets selected events to = ragestressevents_spawn
+		grace_period = FALSE
+		// sets grace_period to false after first trigger
+	else
+		selected_events = rage_stressevents
+
+	next_stress = world.time + rand(3 MINUTES, 15 MINUTES)
+	user.add_stress(pick(selected_events))
+

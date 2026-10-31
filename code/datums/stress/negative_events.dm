@@ -609,3 +609,25 @@
 	timer = 5 MINUTES
 	stressadd = 1
 	desc = list(span_artery("Even I found no satisfaction in striking someone so meek."), span_artery("They denied me the thrill of a real fight."), span_artery("Their refusal to resist leaves a bitter taste."), span_artery("There was no struggle... only acceptance. That's insane."), span_artery("I expected fear, hatred, anything... but not acceptance."), span_artery("A defenseless victim is hardly worth remembering, yet the thought lingers."), span_artery("Why won't the image of their helplessness leave my mind?"))
+
+// Stressevents for the Bestial Rage Vice
+
+/datum/stressevent/rageeventmild
+	timer = 30 SECONDS
+	stressadd = 1
+	desc = list(span_red("Another dae at the shit factory."), span_red("I should have stayed in bed todae."), span_red("What is that buzzing?"), span_red("The birds are chirping too loudly."), span_red("Another lovely dae in paradise."), span_red("Not this again..."), span_red("A small pang in my amygdala."), span_red("My lux is irritable todae..."), span_red("My eyes are itchy."), span_red("My boots are wet."), span_red("My peace, interrupted."), span_red("Hello, anger, my old friend."))
+
+/datum/stressevent/rageeventmoderate
+	timer = 30 SECONDS
+	stressadd = 3
+	desc = list(span_red("God damn it."), span_red("I hate this place."), span_red("Stop giving me that look."), span_red("Why am I so angry?"), span_red("I want to punch something."), span_red("I live in Hell, and I have to smile."), span_red("Shut up."), span_red("Breathe in, breathe out, breathe in, breathe out..."), span_red("Boiling, boiling, boiling..."), span_red("Simmering, simmering, simmering..."), span_red("It calls. I can't cover my ears."), span_red("The world is dying, and I am powerless to stop it."))
+
+/datum/stressevent/rageeventsevere
+	timer = 45 SECONDS
+	stressadd = 5
+	desc = list(span_boldred("Fucking rodents all around me."), span_boldred("Vermin. I was put into this world to kill them."), span_boldred("They laugh at me. Hate me. Fuck them."), span_boldred("Fuck them. Fuck all of them."), span_boldred("This world is dying because of them. Excise them."), span_boldred("Make them bleed. Make them suffer."), span_boldred("I need to bite something and squeeze until it stops moving."), span_boldred("Stab into the gut. Feel the muscles tense as the blade rips through."), span_boldred("I am going to rip someone's eyes out."), span_boldred("Their throats, exposed. I can rip them open and watch them bleed. I should."))
+
+/datum/stressevent/rageeventextreme
+	timer = 1 MINUTES
+	stressadd = 7
+	desc = list(span_artery("They hate me? GOOD. GOOD! I HATE THEM TOO!"), span_artery("Fuck this. Fuck YOU! FUCK EVERYTHING!"), span_artery("I'm going to rip someone's FUCKING throat out!"), span_artery("I WAS GIVEN TEETH TO BITE! TO TEAR! TO MAIM!"), span_artery("I CAN'T FUCKING TAKE IT ANYMORE!"), span_artery("SUFFER. MAKE THEM SUFFER. EVERYTHING. EVERYONE."), span_artery("THIS WORLD IS FUCKING DYING."), span_artery("They keep FUCKING staring at me. FUCKING DO IT ALREADY."), span_artery("VERMIN. THEY HAVE POLLUTED THIS WORLD. THEY DESERVE TO DIE."), span_artery("I AM THE HUNTER. THEY ARE THE HUNTED. I AM THE PREDATOR, THEY ARE THE PREY."), span_artery("God damn it. God DAMN IT. GOD DAMN IT!"), span_artery("FUCK THE TEN. FUCK THE FOUR. FUCK THE ONE! FUCK EVERYTHING!"))
