@@ -206,3 +206,14 @@
 	var/choice = tgui_input_list(recipient, "What colour is your blood?", "ODD BLOOD", colours)
 	if(choice && !QDELETED(recipient))
 		recipient.dna.species.blood_color = colours[choice]
+
+/datum/quirk/fluidity
+	name = "Spirit Fluidity"
+	desc = "I have a minor gift in the Arcyne, or perhaps the whims of a God, which allows some of my body's features to be in constant flux."
+	mechdesc = "Grants a verb to alter your hairstyle, breast size, and some organs."
+	ui_fa_icon = "droplet"
+
+/datum/quirk/fluidity/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	recipient.verbs += /mob/living/carbon/human/proc/arcyne_fluidity
+	to_chat(recipient, span_blue("My very spirit ebbs and flows through my form... and it yields to its whims. (RoleUnique tab)"))
