@@ -239,6 +239,8 @@ SUBSYSTEM_DEF(gamemode)
 	var/soft_scaling = TRUE
 	/// When TRUE, every player who spawns this round receives TRAIT_DNR.
 	var/dnr_round = FALSE
+	/// When TRUE, every player who spawns this round receives TRAIT_LASTLEGS.
+	var/lastlegs_round = FALSE
 	/// Admin per-antag roundstart slot overrides. null = derive from preset; a number = hard override.
 	var/list/admin_slots = list(
 		"Wretch" = null,
@@ -1566,6 +1568,7 @@ SUBSYSTEM_DEF(gamemode)
 
 	dat += "<HR><b>--- Round Types ---</b>"
 	dat += "<BR>Merciless Round (all spawning players get TRAIT_DNR): <a href='byond://?src=[REF(src)];panel=main;action=toggle_dnr_round'>[dnr_round ? "<font color='red'>ON</font>" : "OFF"]</a>"
+	dat += "<BR>One-Chance Round (all spawning players get TRAIT_LASTLEGS): <a href='byond://?src=[REF(src)];panel=main;action=toggle_lastlegs_round'>[lastlegs_round ? "<font color='red'>ON</font>" : "OFF"]</a>"
 
 	dat += "<HR>Active Players: [active_players]	(Royalty: [royalty], Garrison: [garrison], Town Workers: [constructor], Holy Warriors: [holy_warrior], Acolytes: [half_combatant])"
 	dat += "<BR>Effective Population: [effective_pop] (Total: [active_players] + Garrison Bonus: [garrison * 2] + Holy Warrior Bonus: [holy_warrior * 2] + Acolyte Bonus: [half_combatant * 1])"
@@ -1893,6 +1896,19 @@ SUBSYSTEM_DEF(gamemode)
 						to_world(span_boldannounce("This round is <b>MERCILESS</b>. All who walk these lands carry the burden of a final death."))
 					else
 						to_world(span_boldannounce("The Merciless decree has been lifted. Death is no longer final."))
+				if("toggle_lastlegs_round")
+					lastlegs_round = !lastlegs_round
+					message_admins("[key_name_admin(usr)] has turned the Last Legs round type [lastlegs_round ? "ON" : "OFF"]. All spawning players will [lastlegs_round ? "" : "no longer "]receive TRAIT_LASTLEGS, and it has been [lastlegs_round ? "added to" : "removed from"] everyone currently playing.")
+					log_admin("[key_name(usr)] set Last Legs round = [lastlegs_round ? "ON" : "OFF"].")
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(lastlegs_round)
+							ADD_TRAIT(H, TRAIT_LASTLEGS, MERCILESS_ROUND)
+						else
+							REMOVE_TRAIT(H, TRAIT_LASTLEGS, MERCILESS_ROUND)
+					if(lastlegs_round)
+						to_world(span_boldannounce("This round is <b>One-Chance</b>. All who walk these lands will only taste revival once."))
+					else
+						to_world(span_boldannounce("The One-Chance decree has been lifted. Revival is no longer restricted."))
 				if("vars")
 					var/track = href_list["track"]
 					switch(href_list["var"])
