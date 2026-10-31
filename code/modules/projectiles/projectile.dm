@@ -108,8 +108,8 @@
 	var/ignore_source_check = FALSE
 
 	var/damage = 10
-	/// Bonus damage vs simple animals. DO NOT EVER SET THIS OUTSIDE THE CROSSBOW / SLURBOW / STAKER AMMO FAMILY. It used to exists on nearly every projectile to get around simple animals being unfun. I don't see a way to make it "viable" in PVE without using this multiplier. DO NOT UNDER ANY CIRCUMSTANCES PROLIFERATE THIS.
-	var/npc_simple_damage_mult = 1
+	/// Damage multiplier against simple animals. Use the ANTIBEAST_* defines.
+	var/antibeast_factor = 1
 	/// Damage was reduced by SPELL_DMG. Simple animals take the unscaled value.
 	var/spell_damage_scaled = FALSE
 	var/damage_type = BRUTE //BRUTE, BURN, TOX, OXY, CLONE are the only things that should be in here

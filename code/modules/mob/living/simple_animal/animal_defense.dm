@@ -36,6 +36,7 @@
 				visible_message(span_biginfo("[src] is struck while vulnerable!"))
 				remove_status_effect(/datum/status_effect/debuff/vulnerable)
 			newforce *= weakpoint_damage_mod(selzone)
+			newforce *= I.antibeast_factor
 			apply_damage(newforce, I.damtype, hitlim, armor)
 			I.remove_bintegrity(1)
 			if(I.damtype == BRUTE && !nodmg)

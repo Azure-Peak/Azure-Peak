@@ -37,10 +37,14 @@
 /mob/living/proc/register_part_damage(zone, damage, mob/living/user, obj/item/weapon, ranged = FALSE, bclass, penfactor = PEN_NONE, part_mult = 1)
 	return
 
-/mob/living/proc/get_zone_melee_hit_bonus(zone)
+// For applying monster hunter trait. Does not care about clients, to keep PVP and PVE symmetrical. If you're a good monster hunter, you are a good monster hunter.
+/mob/living/proc/is_monster_hunting(mob/living/target)
+	return HAS_TRAIT(src, TRAIT_MONSTER_HUNTER) && isanimal(target)
+
+/mob/living/proc/get_zone_melee_hit_bonus(zone, mob/living/user)
 	return 0
 
-/mob/living/proc/get_zone_ranged_hit_bonus(zone)
+/mob/living/proc/get_zone_ranged_hit_bonus(zone, mob/living/user)
 	return 0
 
 /mob/living/simple_animal/proc/get_anatomy()
@@ -82,23 +86,29 @@
 		return 1
 	return hit_zone.damage_mult
 
-/mob/living/simple_animal/get_zone_melee_hit_bonus(zone)
+/mob/living/simple_animal/get_zone_melee_hit_bonus(zone, mob/living/user)
 	var/datum/anatomy/profile = get_anatomy()
 	if(!profile)
 		return 0
 	var/datum/anatomy_zone/hit_zone = profile.get_zone(zone)
 	if(!hit_zone)
 		return 0
-	return hit_zone.melee_hit_bonus
+	var/bonus = hit_zone.melee_hit_bonus
+	if(isliving(user) && user.is_monster_hunting(src))
+		bonus += MONSTER_HUNTER_ACCURACY_BONUS
+	return bonus
 
-/mob/living/simple_animal/get_zone_ranged_hit_bonus(zone)
+/mob/living/simple_animal/get_zone_ranged_hit_bonus(zone, mob/living/user)
 	var/datum/anatomy/profile = get_anatomy()
 	if(!profile)
 		return 0
 	var/datum/anatomy_zone/hit_zone = profile.get_zone(zone)
 	if(!hit_zone)
 		return 0
-	return hit_zone.ranged_hit_bonus
+	var/bonus = hit_zone.ranged_hit_bonus
+	if(isliving(user) && user.is_monster_hunting(src))
+		bonus += MONSTER_HUNTER_ACCURACY_BONUS
+	return bonus
 
 /mob/living/simple_animal/register_part_damage(zone, damage, mob/living/user, obj/item/weapon, ranged = FALSE, bclass, penfactor = PEN_NONE, part_mult = 1)
 	if(damage <= 0 || !HAS_TRAIT(src, TRAIT_SIMPLE_WOUNDS))
@@ -119,6 +129,8 @@
 		return
 	if(!part_damage)
 		part_damage = list()
+	if(user?.is_monster_hunting(src))
+		part_mult *= MONSTER_HUNTER_PART_DAMAGE_MULT
 	var/pen_mult = profile.get_pen_part_mult(penfactor, bclass)
 	part_damage[norm_zone] += damage * part_mult * (ranged ? RANGED_PART_CONTRIBUTION : 1) * profile.get_part_damage_mult(bclass) * pen_mult
 	if(pen_mult > 1)

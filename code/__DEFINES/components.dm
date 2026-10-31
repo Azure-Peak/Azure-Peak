@@ -382,6 +382,7 @@
 #define COMSIG_ITEM_WEARERCROSSED "wearer_crossed"				//called on item when crossed by something (): (/atom/movable, mob/living/crossed)
 #define COMSIG_ITEM_ATTACK_TURF "item_attack_turf"
 #define COMSIG_ITEM_GUN_PROCESS_FIRE	"item_gun_process_fire"		//called on /obj/item/gun/proc/process_fire
+#define COMSIG_MOB_FIRED_GUN "mob_fired_gun"		//from base of /obj/item/gun/proc/process_fire(): (obj/item/gun/gun_fired, atom/target, params, zone_override)
 #define COMSIG_ITEM_RESTORE_BINTEGRITY "item_restore_bintegrity"	//called on /obj/item/proc/restore_bintegrity()
 
 // /obj/item/clothing signals

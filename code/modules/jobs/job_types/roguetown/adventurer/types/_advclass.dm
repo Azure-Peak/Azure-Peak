@@ -45,6 +45,9 @@
 	/// Subclass languages.
 	var/list/subclass_languages
 
+	/// Subclass spells. Granted to the mind on equip.
+	var/list/subclass_spells
+
 	/// Subclass virtues.
 	var/list/subclass_virtues
 
@@ -127,6 +130,10 @@
 	if(length(subclass_languages))
 		for(var/lang in subclass_languages)
 			H.grant_language(lang)
+
+	if(length(subclass_spells) && H.mind)
+		for(var/spell in subclass_spells)
+			H.mind.AddSpell(new spell)
 
 	if(reset_stats)
 		H.reset_stats()

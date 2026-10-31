@@ -109,6 +109,8 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		return FALSE
 	if(!mind)
 		return FALSE
+	if(HAS_TRAIT(src, TRAIT_RUN_FOR_IT))
+		return FALSE
 	return ambushable
 
 /mob/living/proc/consider_ambush(always = FALSE, ignore_cooldown = FALSE, min_dist = 1, max_dist = 9, silent = FALSE, budget_multiplier_floor = 0)

@@ -260,6 +260,9 @@
 		if(bookweapon.intdamage_factor != 1 && bookweapon.force >= 5)
 			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
 
+		if(bookweapon.antibeast_factor != 1 && bookweapon.force >= 5)
+			html += "\n<b>ANTI-BEAST MODIFIER:</b> [bookweapon.antibeast_factor * 100]%<br>"
+
 	if(craftdiff > 0)
 		html += "<br><b>Skills Required:</b> [capitalize(SSskills.level_names_plain[craftdiff])]<br>"
 	else
