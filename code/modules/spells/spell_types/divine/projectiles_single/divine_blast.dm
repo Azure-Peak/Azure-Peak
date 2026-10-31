@@ -51,6 +51,7 @@
 	flag = "fire"
 	light_outer_range = 4
 	color = "#00f7ff"
+	mindless_bonus_damage = FALSE
 
 /obj/projectile/energy/divineblast/arc
 	name = "arced divine blast"

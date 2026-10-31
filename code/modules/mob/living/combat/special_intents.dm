@@ -121,6 +121,13 @@ This allows the devs to draw whatever shape they want at the cost of it feeling 
 			return
 		active_special = W.get_special()
 		skill_level = get_wskill(W)
+	else if(istype(W, /obj/item/gun) && W.special)
+		var/obj/item/gun/RW = W
+		active_special = W.special
+		if(RW.ranged_skill)
+			skill_level = src.get_skill_level(RW.ranged_skill)
+		else
+			skill_level = 3
 	else if(!W)
 		active_special = unarmed_special
 		skill_level = get_skill_level(/datum/skill/combat/unarmed)

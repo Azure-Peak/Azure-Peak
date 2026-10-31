@@ -3,7 +3,10 @@
 	var/no_head_bounty = FALSE
 	var/contract_spawned = FALSE
 	var/contract_dust_scheduled = FALSE
-
+	/// Set this to enable bow smites to have an effect upon hitting this mob, and by how much to multiply the base damage.
+	var/bow_smite_effective_modifier = 1.6
+	/// Set this to enable mindless mobs to take extra base damage from projectiles.
+	var/extra_projectile_damage_modifier = PROJECTILE_SIMPLEMOB_DAMAGE_MULT
 
 /mob/living/Initialize(mapload)
 	. = ..()
@@ -2858,3 +2861,13 @@ GLOBAL_LIST_INIT(sight_trait_signals, build_sight_trait_signals())
 	if(QDELETED(src) || stat != DEAD) // skip if it was somehow revived in the meantime
 		return
 	dust()
+
+/mob/living/get_mechanics_examine(mob/user)
+	. = ..()
+
+	if(!mind && !ckey)
+		if(bow_smite_effective_modifier > 1)
+			var/extra_damage_pct = round((bow_smite_effective_modifier - 1) * 100)
+			. += span_notice("It looks vulnerable to empowered ranged projectiles, taking [extra_damage_pct]% extra damage from them.")
+		else if (bow_smite_effective_modifier <= 1)
+			. += span_notice("It doesn't look susceptible to empowered ranged projectiles")

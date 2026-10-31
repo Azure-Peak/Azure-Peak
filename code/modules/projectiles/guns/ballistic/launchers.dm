@@ -16,7 +16,6 @@
 	var/npc_force_arc = FALSE // Set by AI to force arc shot over allies
 	var/uses_draw_curve = FALSE
 	var/quickloading = FALSE
-	var/ranged_skill = null
 	var/draw_base = 0
 	var/draw_floor = 0
 	var/draw_per_skill = 0

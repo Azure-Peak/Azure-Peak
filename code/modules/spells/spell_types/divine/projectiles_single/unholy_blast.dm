@@ -51,6 +51,7 @@
 	flag = "fire"
 	light_outer_range = 4
 	color = "#ff0000"
+	mindless_bonus_damage = FALSE
 
 /obj/projectile/energy/unholyblast/arc
 	name = "arced divine blast"

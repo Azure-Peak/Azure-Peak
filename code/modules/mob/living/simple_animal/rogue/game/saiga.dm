@@ -45,6 +45,8 @@
 	base_intents = list(/datum/intent/simple/headbutt/saiga)
 	health = SAIGA_HEALTH
 	maxHealth = SAIGA_HEALTH
+	// Takes signficicantly more damage from being bow-smitten
+	bow_smite_effective_modifier = 4
 	food_type = list(
 				/obj/item/reagent_containers/food/snacks/grown/wheat,
 				/obj/item/reagent_containers/food/snacks/grown/oat,

@@ -38,6 +38,7 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = MOLE_HEALTH
 	maxHealth = MOLE_HEALTH
+	bow_smite_effective_modifier = 2
 	melee_damage_lower = 19
 	melee_damage_upper = 29
 	vision_range = 7

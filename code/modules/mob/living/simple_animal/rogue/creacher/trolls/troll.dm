@@ -51,6 +51,7 @@
 	head_butcher = /obj/item/natural/head/troll
 	health = TROLL_HEALTH * 1.1
 	maxHealth = TROLL_HEALTH
+	bow_smite_effective_modifier = 2
 	food_type = list(
 					/obj/item/reagent_containers/food/snacks/rogue/meat,
 					/obj/item/bodypart,
