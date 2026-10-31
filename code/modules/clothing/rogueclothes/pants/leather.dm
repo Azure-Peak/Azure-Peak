@@ -32,7 +32,7 @@
 	color = "#151615"
 
 /obj/item/clothing/under/roguetown/trou/shadowpants
-	name = "silk tights"
+	name = "darksilk tights"
 	desc = "Form-fitting legwear. Almost too form-fitting."
 	icon_state = "shadowpants"
 	allowed_race = NON_DWARVEN_RACE_TYPES

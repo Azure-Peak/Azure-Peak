@@ -228,16 +228,13 @@
 	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest
-	name = "drowcraft vest"
-	desc = "Traditional Drow armour, made from the hide of one of the Underdark's many beasts. Durable yet still flexible, perfect for skirmishers."
+	name = "drowcraft brigandine"
+	desc = "Traditional Drow armour, made from a mixture of hides, with thorny layers of plate and bone from the Underdark's many beasts. Durable yet still flexible, perfect for skirmishers of a certain frame, and repulsive for about anyone else."
 	icon_state = "shadowvest"
 	item_state = "shadowvest"
-	allowed_race = NON_DWARVEN_RACE_TYPES
-
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/shadowvest/drowraider
-	name = "custom-fit drowcraft vest"
-	desc = "Traditional Drow armour, made from the hide of one of the Underdark's many beasts. Durable yet still flexible, perfect for skirmishers. Custom-fit for its (now deceased) wearer."
-	allowed_race = list(/datum/species/elf/dark/raider)
+	armor = ARMOR_BRIGANDINE
+	max_integrity = ARMOR_INT_CHEST_LIGHT_MASTER
+	allowed_race = list(/datum/species/elf/dark/raider, /datum/species/elf/dark)
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/freifechter
 	name = "fencing jacket"

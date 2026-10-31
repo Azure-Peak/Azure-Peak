@@ -247,7 +247,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/shadowshirt
-	name = "silk shirt"
+	name = "darksilk shirt"
 	category = "Shirts"
 	result = /obj/item/clothing/suit/roguetown/shirt/shadowshirt
 	reqs = list(/obj/item/natural/cloth = 2,
@@ -1678,7 +1678,7 @@
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/shadowpants
-	name = "silk tights"
+	name = "darksilk tights"
 	category = "Pants"
 	result = list(/obj/item/clothing/under/roguetown/trou/shadowpants)
 	reqs = list(/obj/item/natural/cloth = 2,
