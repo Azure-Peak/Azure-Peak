@@ -29,6 +29,10 @@
 			R.show_letter(usr)
 		return
 
+	if(href_list["letter_log"])
+		show_letter_log()
+		return
+
 	// Open Heal Panel from Player Panel
 	if(href_list["heal_panel"])
 		var/mob/living/M = locate(href_list["heal_panel"])
@@ -1863,3 +1867,28 @@
 	dat += {"<A href='?src=[REF(src)];[HrefToken()];f_secret2=secret'>Random (default)</A><br>"}
 	dat += {"Now: [GLOB.secret_force_mode]"}
 	usr << browse(dat, "window=f_secret")
+
+/datum/admins/proc/show_letter_log()
+	var/list/archive = SSroguemachine.letter_archive
+	var/total = length(archive)
+	if(!total)
+		to_chat(usr, span_notice("No letters or packages have been archived this round."))
+		return
+	var/body = "<b style='font-size:15px'>HERMES Archive &mdash; [total] total</b><hr>"
+	var/show_from = max(1, total - 99)
+	for(var/i = total, i >= show_from, i--)
+		var/datum/letter_record/R = archive[i]
+		var/kind = R.is_package ? "<b>PACKAGE</b> " : ""
+		var/recipient_label = "<b>[R.recipient]</b>"
+		var/link = " <a href='?_src_=holder;[HrefToken()];read_letter=[i]'>\[[R.is_package ? "View Contents" : "Read"]\]</a>"
+		body += "<div>#[i] &mdash; [kind][R.sender_key] &rarr; [recipient_label][link]</div>"
+	usr << browse_rsc('html/book.png')
+	var/page = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+<html><head><style type=\"text/css\">
+body { background-image:url('book.png'); background-repeat: repeat; font-family: Verdana, Arial, sans-serif; font-size: 13px; font-style: normal; color: #1a1208; }
+div { margin: 4px 0; padding: 6px 4px; border-bottom: 1px solid #8a7a5a; }
+a { color: #0b2a6b; font-weight: bold; }
+</style></head><body>"}
+	page += body
+	page += "</body></html>"
+	usr << browse(page, "window=letter_log;size=650x480;can_close=1;can_resize=1;titlebar=1")

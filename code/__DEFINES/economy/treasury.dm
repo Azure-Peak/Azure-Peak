@@ -8,6 +8,8 @@
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
 #define HERMES_FREE_COOLDOWN (5 MINUTES)
+/// Stamped on player letters as the seal flag. Letters stamped with it do not show a sender.
+#define MAILER_ANONYMOUS "Anonymous"
 
 #define GHOST_LETTER_DELAY_MIN (5 MINUTES)
 #define GHOST_LETTER_DELAY_MAX (10 MINUTES)
