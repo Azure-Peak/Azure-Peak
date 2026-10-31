@@ -7,6 +7,15 @@
 	source_region_id = TRADE_REGION_ROSAWOOD
 	item_type = /obj/item/grown/log/tree/small
 
+/datum/trade_good/plank
+	id = TRADE_GOOD_PLANK
+	name = "Plank"
+	category = TRADE_CATEGORY_ARTISAN
+	behavior = TRADE_BEHAVIOR_INTERMEDIARY
+	base_price = SELLPRICE_PLANK
+	source_region_id = TRADE_REGION_ROSAWOOD
+	item_type = /obj/item/natural/wood/plank
+
 /datum/trade_good/dendor_essence
 	id = TRADE_GOOD_DENDOR_ESSENCE
 	name = "Essence of Wilderness"
