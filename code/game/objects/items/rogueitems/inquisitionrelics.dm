@@ -475,8 +475,6 @@ Inquisitorial armory down here
 					H.add_stress(/datum/stressevent/psycenser_evil)
 				playsound(H, 'sound/magic/holyshield.ogg', 100)
 				new /obj/effect/temp_visual/censer_dust(get_turf(H))
-				if(!H.mind && ishuman(H))
-					H.apply_status_effect(/datum/status_effect/syonchurn, user)
 		else
 			to_chat(user, span_warning("They've already been blessed."))
 
@@ -564,7 +562,7 @@ Inquisitorial armory down here
 		return
 
 	owner.adjustFireLoss(damage_per_tick * intensity) // the 'damaging armor over time' noises were infuriating for me
-	if((owner.getFireLoss() >= 300 || owner.getBruteLoss() >= 300 || owner.getOxyLoss() >= 105 || owner.getToxLoss() >= 105 || owner.blood_volume <= 0) && !owner.mind && ishuman(owner))
+	if(owner.getFireLoss() >= 300 && !owner.mind)
 		owner.apply_status_effect(/datum/status_effect/syonforgive,	source)
 		qdel(src)
 		return
@@ -601,9 +599,11 @@ Inquisitorial armory down here
 	var/mob/living/L = owner
 	if(!L)
 		return FALSE
-	if(L.mob_biotypes & MOB_UNDEAD || !L.get_bodypart(check_zone(BODY_ZONE_HEAD)) || !(L.get_bodypart(check_zone(BODY_ZONE_L_LEG)) && L.get_bodypart(check_zone(BODY_ZONE_R_LEG))))
+	if(L.mob_biotypes & MOB_UNDEAD)
 		L.Stun(5 SECONDS)
-		L.visible_message(span_blue("<i>[L] falls still in tranquility and acceptance. Their body soon crumbles into ash.</i>"))
+		L.revive(full_heal = TRUE)
+		L.set_resting(FALSE, FALSE)
+		L.visible_message(span_blue("<i>[L] falls still as the dark forces keeping it together wane. Their body crumbles into ash.</i>"))
 		addtimer(CALLBACK(src, PROC_REF(exorcise)), 2 SECONDS)
 		return TRUE
 	var/list/guilt_messages = list(
@@ -618,28 +618,6 @@ Inquisitorial armory down here
 		"[L] is haunted by their own conscience and flees in despair.",
 		"[L]'s soul cries out beneath the weight of their guilt. They retreat, weeping."
 	)
-	var/list/surrender_messages = list(
-		"I yield! Please, I yield! Don't make me suffer anymore!",
-		"Please! I don't want to die! I'm not ready to face Him!",
-		"I swear I'll change! I swear it on my very soul!",
-		"Psydon, forgive me! I see my sins now! I see them all!",
-		"I was blind! I was so blind! Please, let me make things right!",
-		"I have sinned against His sacrifice! Please, give me a chance to repent!",
-		"I was made to do this! I never wanted any of it! Please, believe me!",
-		"Please! I don't want to die like this! I don't want to die with these sins!",
-		"I regret it all! Every cruel word, every wicked deed! I regret it all!",
-		"No! Please! There must still be hope for me! I cannot end like this!",
-		"I should have lived a simple life! I should have worked the soil and harmed no one!",
-		"I see the light now! Please, don't take me before I can walk in it!",
-		"Please, I beg you! I have nothing left but my remorse!",
-		"I was wrong! All of it was wrong! Please, let me atone!",
-		"Have mercy! I have seen what I have become, and I cannot bear it!",
-		"I don't want to fight anymore! I don't want to hurt anyone anymore!",
-		"Please! I will kneel! I will pray! Just let me live long enough to repent!",
-		"I thought I was beyond saving! I was wrong! Please, let me prove it!",
-		"I am afraid! I am so afraid! Please, don't let my soul be lost!",
-		"Enough! I cannot bear another moment of this! I yield to you, I yield to Psydon!",
-	)
 	L.visible_message(span_blue(pick(guilt_messages)))
 	L.revive(full_heal = TRUE)
 	L.set_resting(FALSE, FALSE)
@@ -651,8 +629,6 @@ Inquisitorial armory down here
 	var/mob/living/source = redeemer?.resolve()
 	if(source)
 		walk_away(L, source, 100, 2)
-	if(ishumannorthern(L) && prob(50))
-		L.say(pick(surrender_messages))
 	addtimer(CALLBACK(src, PROC_REF(fade)), 5 SECONDS)
 	return TRUE
 
