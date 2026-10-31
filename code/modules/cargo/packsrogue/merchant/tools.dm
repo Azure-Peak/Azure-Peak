@@ -184,6 +184,11 @@
 	cost = 10
 	contains = list(/obj/item/fishingrod)
 
+/datum/supply_pack/rogue/tools/creel
+	name = "Fisherman's Creel"
+	cost = 13
+	contains = list(/obj/item/storage/meatbag/creel)
+
 /datum/supply_pack/rogue/tools/fishinghooks
 	name = "Iron Fishing Hooks (x3)"
 	cost = 10

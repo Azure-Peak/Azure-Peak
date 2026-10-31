@@ -27,6 +27,16 @@
 		)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/survival/fishing/creel
+	name = "fisherman's creel"
+	result = /obj/item/storage/meatbag/creel
+	reqs = list(
+		/obj/item/grown/log/tree/stick = 3,
+		/obj/item/natural/fibers = 2,
+		)
+	verbage_simple = "weave"
+	verbage = "weaves"
+
 /datum/crafting_recipe/roguetown/survival/fishing/bobber
 	name = "wooden bobber"
 	result = /obj/item/fishing/line/bobber
