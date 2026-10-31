@@ -289,8 +289,35 @@
 
 	dna.update_ui_block(DNA_HAIR_COLOR_BLOCK)
 
-//MAKE DEADITE - TODO make this work for all NPCs + forcefully change their AI//
+//Is this a bad place to put it. yes, but I want you know where these lines are called, so it goes above our make_deadite() Proc
+//Anything that isn't in zizocant (,w) is automatically translated to RGGGHH, UHHHH, GRRRGHH
+GLOBAL_LIST_INIT(zombie_aggro, list(
+	"I feel quite hungry!",
+	"I feel quite hungry!",
+	"I feel quite hungry!",
+	",w Kill...",
+	",w Consume...",
+	",w Cold...",
+	",w Join...",
+	",w Hunger...",
+	",w Flesh...",
+	",w Brains...",
+	",w Die...",
+	"*scream",
+	"*scream",
+	"*groan",
+	"*groan",
+	"*groan",
+	"*groan",
+	"*sigh",
+	"*sigh",
+	"*rage",
+	"*rage",
+	"*rage",
+	"*rage",
+)) //Single Words or noises, feral and empty of mind.
 
+//MAKE DEADITE - TODO make this work for all NPCs + forcefully change their AI//
 /mob/living/carbon/human/proc/make_deadite()
 
 	blood_toll_bucket = STATS_KILLED_DEADITES //change to deadite kills
@@ -337,6 +364,8 @@
 	if(organ_ears)
 		organ_ears.accessory_colors = "#868e79"
 	src.regenerate_icons()
+	if(!isooze(src)) //murklings retain their slime colors, instead of rotted blood
+		src.dna.species.blood_color = "#161616"
 
 	//now we take every trait an actual deadite has and apply it.
 	ADD_TRAIT(src, TRAIT_LIMBATTACHMENT, TRAIT_GENERIC)
@@ -376,3 +405,4 @@
 
 	//lastly, nessessity for ALL NPCs -> our examine trait
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.skeleton_aggro, TRUE)

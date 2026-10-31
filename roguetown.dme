@@ -1678,7 +1678,7 @@
 #include "code\modules\antagonists\roguetown\villain\zombie\remove_rot.dm"
 #include "code\modules\antagonists\roguetown\villain\zombie\zombie.dm"
 #include "code\modules\antagonists\roguetown\villain\zombie\zombie_disease.dm"
-#include "code\modules\antagonists\roguetown\villain\zombie\zombie_verbs.dm"
+#include "code\modules\antagonists\roguetown\villain\zombie\zombie_spells.dm"
 #include "code\modules\antagonists\roguetown\villain\zombie\zombie_wound_infection.dm"
 #include "code\modules\antagonists\separatist\separatist.dm"
 #include "code\modules\antagonists\space_dragon\space_dragon.dm"
