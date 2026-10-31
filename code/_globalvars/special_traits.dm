@@ -95,11 +95,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return
 
 	var/virtuous = FALSE
-	var/heretic = FALSE
 	var/species = character.dna.species
-
-	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
-		heretic = TRUE
 
 	if(player.prefs.statpack.virtuous)
 		virtuous = TRUE
@@ -109,12 +105,12 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	var/datum/virtue/origin_type = player.prefs.virtue_origin
 	var/language_type = player.prefs.extra_language
 	if(virtue_type)
-		if(virtue_check(virtue_type, heretic, species))
+		if(virtue_check(virtue_type, species))
 			apply_virtue(character, virtue_type)
 		else
 			to_chat(character, "Incorrect Virtue parameters! It will not be applied.")
 	if(virtuetwo_type && virtuous)
-		if(virtue_check(virtuetwo_type, heretic, species))
+		if(virtue_check(virtuetwo_type, species))
 			apply_virtue(character, virtuetwo_type)
 		else
 			to_chat(character, "Incorrect Second Virtue parameters! It will not be applied.")
@@ -220,10 +216,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(bonus in GLOB.roguetraits)
 		ADD_TRAIT(character, bonus, SPECIES_TRAIT)
 
-/proc/virtue_check(datum/virtue/V, heretic = FALSE, datum/species/species)
+/proc/virtue_check(datum/virtue/V, datum/species/species)
 	if(V)
-		if(istype(V,/datum/virtue/heretic) && !heretic)
-			return FALSE
 		if(V.restricted)
 			if((species.type in V.races))
 				return FALSE

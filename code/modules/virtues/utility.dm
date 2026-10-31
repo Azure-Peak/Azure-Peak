@@ -446,11 +446,17 @@
 	ui_fa_icon = "tree"
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
 
-/datum/virtue/heretic/zchurch_keyholder
+/datum/virtue/utility/zchurch_keyholder
 	name = "Defiled Keyholder"
-	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
+	desc = "The 'Holy' See has their blood-stained grounds, and so does the conclave. Underneath their noses, prayers and ritual are afoot. I have been initiated; secrecy is paramount. I won't risk entering their grounds observed, if I don't swear allegiance to the Four. The local safe-houses are open to me."
 	ui_fa_icon = "mask"
 	added_traits = list(TRAIT_ZURCH)
+
+/datum/virtue/utility/zchurch_keyholder/apply_to_human(mob/living/carbon/human/recipient)
+	..()
+	// Non-Ascendant followers can only walk the secret paths unobserved.
+	if(!istype(recipient.patron, /datum/patron/inhumen))
+		ADD_TRAIT(recipient, TRAIT_CAREFULTRIP, TRAIT_VIRTUE)
 
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.
