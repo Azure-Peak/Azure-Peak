@@ -415,7 +415,11 @@
 			reason = "heresy"
 		if(7)
 			reason = "robbing a noble"
-	add_bounty(character.real_name, amount, FALSE, reason, employer)
+	var/list/descriptors = character.get_mob_descriptors()
+	var/descriptor_height = build_coalesce_description_nofluff(descriptors, character, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
+	var/descriptor_body = build_coalesce_description_nofluff(descriptors, character, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
+	var/descriptor_voice = build_coalesce_description_nofluff(descriptors, character, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
+	add_bounty(character.real_name, character.dna.species, character.gender, descriptor_height, descriptor_body, descriptor_voice, amount, reason, employer, "crown", TRUE)
 	if(!silent)
 		to_chat(character, span_notice("Whether I done it or not, I have been accused of [reason], and the [employer] put a bounty on my head!"))
 

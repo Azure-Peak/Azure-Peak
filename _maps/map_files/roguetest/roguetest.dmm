@@ -455,6 +455,10 @@
 /obj/item/clothing/ring/emeralds,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
+"mU" = (
+/obj/structure/chair/arrestchair/inquisition,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "ne" = (
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/indoors/town/bath)
@@ -465,6 +469,10 @@
 /obj/machinery/light/rogue/candle,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors)
+"ns" = (
+/obj/structure/roguemachine/bounty,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "nv" = (
 /obj/effect/landmark/latejoin,
 /turf/open/floor/rogue/carpet/lord/center,
@@ -1078,6 +1086,9 @@
 /obj/item/clothing/ring/gold,
 /turf/open/floor/rogue/churchbrick,
 /area/rogue/outdoors/exposed/bath/vault)
+"Bg" = (
+/turf/closed/mineral/rogue/bedrock,
+/area/rogue/indoors/town/manor)
 "Bm" = (
 /obj/item/roguemachine/zadcote/hand,
 /obj/item/hand_files,
@@ -1194,6 +1205,10 @@
 /obj/effect/landmark/latejoin,
 /obj/effect/landmark/start,
 /turf/open/floor/rogue/carpet/lord/left,
+/area/rogue/indoors/town/manor)
+"DB" = (
+/obj/structure/chair/arrestchair/church,
+/turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/manor)
 "DO" = (
 /obj/structure/table/wood{
@@ -1454,6 +1469,10 @@
 "LM" = (
 /turf/closed/wall/mineral/rogue/decowood/vert,
 /area/rogue/indoors/town/physician)
+"LS" = (
+/obj/structure/chair/freedomchair,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "Ml" = (
 /obj/effect/decal/cobbleedge{
 	dir = 1;
@@ -1618,6 +1637,10 @@
 /obj/structure/bakers_trough,
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/indoors)
+"PH" = (
+/obj/structure/chair/arrestchair/crown,
+/turf/open/floor/rogue/blocks/newstone/alt,
+/area/rogue/indoors/town/manor)
 "PN" = (
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/blocks/newstone/alt,
@@ -2716,11 +2739,11 @@ Lg
 yF
 "}
 (16,1,1) = {"
-dB
-dB
-dB
-dB
-dB
+Bg
+Bg
+Bg
+Bg
+Bg
 AO
 AO
 zo
@@ -2768,11 +2791,11 @@ Lg
 yF
 "}
 (17,1,1) = {"
-dB
-dB
-dB
-dB
-dB
+Il
+ev
+LS
+ev
+Il
 AO
 AO
 zo
@@ -2820,11 +2843,11 @@ rk
 rk
 "}
 (18,1,1) = {"
-dB
-dB
-dB
-dB
-dB
+mU
+ev
+ev
+ev
+ev
 AO
 zo
 zo
@@ -2872,7 +2895,7 @@ dB
 dB
 "}
 (19,1,1) = {"
-ev
+DB
 ev
 ev
 ev
@@ -2924,7 +2947,7 @@ dB
 dB
 "}
 (20,1,1) = {"
-ev
+PH
 ev
 ev
 ev
@@ -2976,7 +2999,7 @@ rk
 rk
 "}
 (21,1,1) = {"
-ev
+ns
 ev
 ev
 ev
@@ -3028,11 +3051,11 @@ bW
 rk
 "}
 (22,1,1) = {"
+Il
 ev
 ev
 ev
-ev
-ev
+Il
 zo
 LM
 Oh
