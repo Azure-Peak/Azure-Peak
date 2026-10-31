@@ -42,7 +42,7 @@
 	var/list/record = mail_item_record(I)
 	I.forceMove(target)
 	playsound(target, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-	log_mail_send(user, recipient_name, record, machine = src, recipient_desc = target.name)
+	log_mail_send(user, recipient_name, record, machine = src, recipient_desc = I?.mailedto ? "[I.mailedto] ([target.name])" : target.name)
 	visible_message(span_warning("[user] sends something."))
 	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 	if(target.notify_bathhouse)

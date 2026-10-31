@@ -236,9 +236,9 @@
 	var/via = machine ? " via [machine.name]" : ""
 	var/contents_note = is_package ? " containing: [record["summary"]]" : ""
 	var/sender_desc = key_name(user)
-	user.log_message("[what][via] to [recipient_name] ([recipient_desc])[contents_note]", LOG_GAME)
-	var/link = archive_letter(recipient_name, recipient_desc, record?["content"], sender_desc, is_package)
-	message_admins("[sender_desc] [what][via] to [recipient_name] ([recipient_desc])[contents_note][link]")
+	user.log_message("[what][via] to [recipient_desc][contents_note]", LOG_GAME)
+	var/link = archive_letter(recipient_desc, record?["content"], sender_desc, is_package)
+	message_admins("[sender_desc] [what][via] to [recipient_desc][contents_note][link]")
 	return link
 
 /proc/show_parchment(mob/user, body, window = "parchment")
@@ -255,27 +255,25 @@
 
 /datum/letter_record
 	var/recipient
-	var/recipient_key
 	var/content
 	var/sender_key
 	var/is_package = FALSE
 
-/datum/letter_record/New(to_whom, to_key, body, posted_by, package = FALSE)
+/datum/letter_record/New(to_whom, body, posted_by, package = FALSE)
 	. = ..()
 	is_package = package
 	recipient = to_whom
-	recipient_key = to_key
 	content = body
 	sender_key = posted_by
 
 /datum/letter_record/proc/show_letter(mob/user)
-	var/header = "[is_package ? "<b>PACKAGE</b> to " : "Letter to "]<b>[recipient]</b> ([recipient_key])<br>From [sender_key]"
+	var/header = "[is_package ? "<b>PACKAGE</b> to " : "Letter to "]<b>[recipient]</b><br>From [sender_key]"
 	return show_parchment(user, "<div style='font-style:normal;font-family:Verdana,Arial,sans-serif;font-size:13px;color:#1a1208'>[header]<hr>[content]</div>", "letterlog")
 
-/proc/archive_letter(recipient, recipient_key, content, sender_key, package = FALSE)
+/proc/archive_letter(recipient, content, sender_key, package = FALSE)
 	if(!content)
 		return ""
-	SSroguemachine.letter_archive += new /datum/letter_record(recipient, recipient_key, content, sender_key, package)
+	SSroguemachine.letter_archive += new /datum/letter_record(recipient, content, sender_key, package)
 	return " <a href='?_src_=holder;[HrefToken(TRUE)];read_letter=[length(SSroguemachine.letter_archive)]'>\[[package ? "View Contents" : "Read Letter"]\]</a>"
 
 /proc/find_mail_box(destination)
@@ -309,11 +307,11 @@
 		return "*null*"
 	if(findtext(destination, "#"))
 		var/obj/structure/roguemachine/mail/box = find_mail_box(destination)
-		return box ? box.name : "no such HERMES"
+		return box ? "[destination] ([box.name])" : "[destination] (no such HERMES)"
 	var/mob/recipient = find_mail_human(destination)
 	if(!recipient || recipient.stat == DEAD)
 		recipient = find_mail_ghost(destination) || recipient
-	return recipient ? key_name(recipient) : "no such recipient"
+	return recipient ? key_name(recipient) : "[destination] (no such recipient)"
 
 /proc/mail_fail_msg(destination)
 	return findtext(destination, "#") ? "Cannot send it. Bad number?" : "There's no one by that name to receive it."

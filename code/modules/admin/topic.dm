@@ -1879,7 +1879,7 @@
 	for(var/i = total, i >= show_from, i--)
 		var/datum/letter_record/R = archive[i]
 		var/kind = R.is_package ? "<b>PACKAGE</b> " : ""
-		var/recipient_label = "<b>[R.recipient]</b>[R.recipient_key ? " ([R.recipient_key])" : ""]"
+		var/recipient_label = "<b>[R.recipient]</b>"
 		var/link = " <a href='?_src_=holder;[HrefToken()];read_letter=[i]'>\[[R.is_package ? "View Contents" : "Read"]\]</a>"
 		body += "<div>#[i] &mdash; [kind][R.sender_key] &rarr; [recipient_label][link]</div>"
 	usr << browse_rsc('html/book.png')

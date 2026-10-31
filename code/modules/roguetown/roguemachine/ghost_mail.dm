@@ -26,7 +26,7 @@
 	box += new /datum/ghost_letter(sender, recipient, content)
 	to_chat(G, span_biginfo("A new letter has arrived for you. Click the HERMES button on the HUD to read it."))
 	G.playsound_local(G, 'sound/misc/mail.ogg', 100, FALSE, -1)
-	log_game("GHOST MAIL: letter from [sender_log || "unknown sender"] delivered to the ghost of [recipient] ([key_name(G)]).")
+	log_game("GHOST MAIL: letter from [sender_log || "unknown sender"] delivered to the ghost [key_name(G, include_name = FALSE)]/([recipient]).")
 	return TRUE
 
 /datum/pending_mail
@@ -53,7 +53,7 @@
 	return ..()
 
 /datum/pending_mail/proc/deliver()
-	var/desc = "letter from [sender_desc] to [recipient] ([mail_recipient_desc(recipient)])"
+	var/desc = "letter from [sender_desc] to [mail_recipient_desc(recipient)]"
 	if(QDELETED(letter))
 		log_game("GHOST MAIL: [desc] was destroyed in transit.")
 		return FALSE
