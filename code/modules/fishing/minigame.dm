@@ -491,11 +491,6 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 		icon_key = caught.type
 	fish_icon = GLOB.specific_fish_icons[icon_key] || FISH_ICON_DEF
 
-	if(auto_handling && (ispath(reward_path, /obj/item/reagent_containers/food/snacks/fish) || is_fish_instance) && fish_source.is_limited(fish_source.get_fish_path(reward_path)))
-		user.balloon_alert(user, "too strong for the auto reel!")
-		complete(FALSE)
-		return
-
 	/// Fish minigame properties
 	if(ispath(reward_path,/obj/item/reagent_containers/food/snacks/fish) || is_fish_instance)
 		var/obj/item/reagent_containers/food/snacks/fish/fish = reward_path

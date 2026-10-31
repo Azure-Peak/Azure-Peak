@@ -301,11 +301,12 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 /datum/fish_source/proc/roll_reward_minigame(datum/source, obj/item/fishingrod/rod, mob/fisherman, atom/location, list/rewards)
 	SIGNAL_HANDLER
 	SHOULD_NOT_OVERRIDE(TRUE)
-	rewards += roll_reward(rod, fisherman, location)
+	var/datum/fishing_challenge/challenge = source
+	rewards += roll_reward(rod, fisherman, location, challenge.auto_handling)
 
 /// Returns a fish instance or another special value which we use for dispensing a reward later.
-/datum/fish_source/proc/roll_reward(obj/item/fishingrod/rod, mob/fisherman, atom/location)
-	var/list/table = get_modified_fish_table(rod, fisherman, location)
+/datum/fish_source/proc/roll_reward(obj/item/fishingrod/rod, mob/fisherman, atom/location, exclude_prized = FALSE)
+	var/list/table = get_modified_fish_table(rod, fisherman, location, exclude_prized)
 	var/result = pickweight(table) || FISHING_DUD
 	for(var/candidate in table)
 		if(candidate != result && isfish(candidate))
@@ -461,7 +462,7 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 	return table
 
 /// Builds a fish weights table modified by bait/rod/user properties
-/datum/fish_source/proc/get_modified_fish_table(obj/item/fishingrod/rod, mob/fisherman, atom/location)
+/datum/fish_source/proc/get_modified_fish_table(obj/item/fishingrod/rod, mob/fisherman, atom/location, exclude_prized = FALSE)
 	var/obj/item/bait = rod.baited
 	///An exponent used to level out the table weight differences between fish depending on bait quality.
 	var/leveling_exponent = 0
@@ -488,6 +489,8 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 
 	// Generate fish instances and build the weighted table
 	for(var/result in base_table)
+		if(exclude_prized && ispath(result, /obj/item/reagent_containers/food/snacks/fish) && is_limited(result))
+			continue
 		var/weight = base_table[result]
 		var/obj/item/reagent_containers/food/snacks/fish/fish = generate_fish_instance(result)
 
