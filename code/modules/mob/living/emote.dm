@@ -77,13 +77,52 @@
 
 	/* admin stuff - tells you the followers name, key, and what patron they follow */
 	var/follower_ident = "[follower.key]/([follower.real_name]) ([devout ? "devout " : ""]follower of [patron])"
-	message_admins("[follower_ident] [ADMIN_SM(follower)] [ADMIN_FLW(follower)] prays: [span_info(prayer)]")
+	message_admins("[follower_ident] [ADMIN_DN(follower)] [ADMIN_FLW(follower)] prays: [span_info(prayer)]")
 	user.log_message("(follower of [patron]) prays: [prayer]", LOG_GAME)
 
 	follower.whisper(prayer, sanitize=FALSE) // we already sanitized this above
 
 	if(SEND_SIGNAL(follower, COMSIG_CARBON_PRAY, prayer) & CARBON_PRAY_CANCEL)
 		return
+
+// Suicide prayer emote granted by the Hollow virtue.
+/datum/emote/living/praysuicide
+	key = "praysuicide"
+	key_third_person = "utters their last words"
+	message = ""
+	stat_allowed = list(CONSCIOUS, UNCONSCIOUS)
+	show_runechat = FALSE
+	emote_type = EMOTE_VISIBLE
+	restraint_check = FALSE
+
+/datum/emote/living/praysuicide/run_emote(mob/user, params, type_override, intentional)
+	if(!user)
+		return FALSE
+
+	var/mob/living/L = user
+	var/lastmsg = params
+	if(!lastmsg)
+		lastmsg = input(L, "Whisper your final words:", "Last Words") as text|null
+	if(!lastmsg)
+		return FALSE
+
+	to_chat(L, span_danger("I pray to my patron for my death... and I am heard."))
+	L.whisper(lastmsg)
+
+	L.visible_message(span_warning("[L]'s body begins to shake violently!"))
+	L.Jitter(5 SECONDS)
+	shake_camera(L, 30, 1)
+	if(QDELETED(L) || L.stat == DEAD)
+		return FALSE
+	L.emote("scream", forced = TRUE)
+	sleep(30)
+
+	if(QDELETED(L) || L.stat == DEAD)
+		return FALSE
+	L.suicide_log()
+	L.visible_message(span_danger("[L] suddenly collapses, dead!"))
+	L.death()
+	return TRUE
 
 /datum/emote/living/meditate
 	key = "meditate"

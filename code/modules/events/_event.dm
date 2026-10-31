@@ -67,6 +67,8 @@
 	var/storyteller_rumour_name
 	/// Lets events under the same antag datum be handled differently.
 	var/storyteller_slot_key
+	/// To disable a particular antag
+	var/storyteller_blacklisted = FALSE
 
 
 /datum/round_event_control/proc/valid_for_map()
@@ -172,7 +174,7 @@
 	..()
 	if(href_list["cancel"])
 		if(!triggering)
-			to_chat(usr, span_admin("I are too late to cancel that event"))
+			to_chat(usr, span_admin("I am too late to cancel that event"))
 			return
 		triggering = FALSE
 		message_admins("[key_name_admin(usr)] cancelled event [name].")
@@ -312,7 +314,7 @@
 	SSevents.running -= src
 
 
-//Sets up the event then adds the event to the the list of running events
+//Sets up the event then adds the event to thet of running events
 /datum/round_event/New(my_processing = TRUE, datum/round_event_control/source)
 	control = source
 	processing = my_processing

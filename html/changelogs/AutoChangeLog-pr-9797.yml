@@ -1,0 +1,5 @@
+author: "NonQueueingMatt"
+delete-after: True
+changes:
+  - rscadd: "Arbalest now has cuir-bouilli instead of the skin item."
+  - bugfix: "Arbalest no longer has dexpert."

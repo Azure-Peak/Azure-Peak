@@ -115,6 +115,9 @@
 	TI.righthand_file = RI::righthand_file
 	TI.sheathe_icon = RI::sheathe_icon ? RI::sheathe_icon : TI.sheathe_icon
 	TI.bigboy = RI::bigboy
+	TI.gripsprite = RI::gripsprite
+	if(!TI.gripsprite)
+		TI.override_state = null
 	TI.examine_highlight_severity = RI::examine_highlight_severity
 	TI.examine_highlight_desc = RI::examine_highlight_desc
 	TI.twirly = RI::twirly
@@ -163,9 +166,11 @@
 	I.visible_message(span_notice("The dust sparkles over the item, the contours shifting as \the [I] grows a pair of heels..?"))
 	var/datum/component/SFX = I.GetComponent(/datum/component/item_equipped_movement_rustle)
 	if(SFX)
-		SFX.Destroy()
+		qdel(SFX)
 	I.name += " (heeled)"
-	I.AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	var/datum/component/item_equipped_movement_rustle/heels = I.AddComponent(/datum/component/item_equipped_movement_rustle, SFX_HEELS, 2)
+	if(ismob(I.loc))
+		heels.on_equip(I, I.loc)
 	var/obj/item/clothing/shoes/roguetown/SH = I
 	SH.stepnoise_flag = STEPNOISE_HEELS
 	do_sparks(2, TRUE, get_turf(SH))
@@ -700,39 +705,13 @@
 	target_items = list(/obj/item/rogueweapon/greataxe)
 	result_item = /obj/item/rogueweapon/greataxe/zygreataxe
 
-//Eiren - Zweihander and sabres
-/obj/item/enchantingkit/weapon/eiren
-	name = "'Regret' morphing elixir"
-	target_items = list(
-		/obj/item/rogueweapon/greatsword/grenz/flamberge,
-		/obj/item/rogueweapon/greatsword/zwei,
-		/obj/item/rogueweapon/greatsword
-		)
-	result_item = /obj/item/rogueweapon/example/eiren_greatsword
-
-/obj/item/enchantingkit/weapon/eirensabre
-	name = "'Lunae' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/sabre)
-	result_item = /obj/item/rogueweapon/example/eiren_sabre
-
-/obj/item/enchantingkit/weapon/eirensabre2
-	name = "'Cinis' morphing elixir"
-	target_items = list(/obj/item/rogueweapon/sword/sabre)
-	result_item = /obj/item/rogueweapon/example/eiren_sabre_alt
-
+//Eiren
 /obj/item/enchantingkit/weapon/eiren_m
 	name = "'glintstone longsword' morphing elixir"
 	target_items = list(
 		/obj/item/rogueweapon/sword/long
 	)
 	result_item = /obj/item/rogueweapon/eirenxiv/eiren_m
-
-/obj/item/enchantingkit/weapon/eirensword
-	name = "'stygian longsword' morphing elixir"
-	target_items = list(
-		/obj/item/rogueweapon/sword/long
-	)
-	result_item = /obj/item/rogueweapon/eirenxiv/eirensword
 
 //waffai - silver for monsters, steel for men
 /obj/item/enchantingkit/weapon/waff
@@ -766,18 +745,6 @@
 	name = "'Silence' morphing elixir"
 	target_items = list(/obj/item/rogueweapon/shovel)
 	result_item = /obj/item/rogueweapon/shovel/zoe_silence
-
-//DasFox - Armet
-/obj/item/enchantingkit/dasfox_helm
-	name = "'archaic valkyrhelm' morphing elixir"
-	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/knight/armet)
-	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/dasfox
-
-//DasFox - Cuirass
-/obj/item/enchantingkit/dasfox_cuirass
-	name = "'archaic cermonial cuirass' morphing elixir"
-	target_items = list(/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted)
-	result_item = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/dasfox
 
 //DasFox - Lance
 /obj/item/enchantingkit/dasfox_lance
@@ -1180,6 +1147,48 @@
 	result_item = null
 	exact_type = TRUE
 
+//DasFox - Black Oak Ranger
+/obj/item/enchantingkit/dasfox_ranger_woadsleeve
+	name = "'ranger's woadmaille bodysleeve' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of Woad Elven Plate."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate			= /obj/item/clothing/suit/roguetown/armor/plate/elven_plate/dasfox_ranger,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk			= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/dasfox_ranger
+	)
+	result_item = null
+	exact_type = TRUE
+	custom_name = TRUE
+
+/obj/item/enchantingkit/dasfox_ranger_undersuit
+	name = "'ranger's undersuit' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Padded Gambeson."
+	target_items = list(
+		/obj/item/clothing/suit/roguetown/armor/gambeson/heavy				= /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/dasfox_ranger
+	)
+	result_item = null
+	exact_type = TRUE
+	custom_name = TRUE
+
+/obj/item/enchantingkit/dasfox_ranger_demigaunts
+	name = "'ranger's woadwoven demigaunts' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Woad Elven Gloves or Hardened Leather Gloves."
+	target_items = list(
+		/obj/item/clothing/gloves/roguetown/elven_gloves					= /obj/item/clothing/gloves/roguetown/elven_gloves/dasfox_ranger,
+		/obj/item/clothing/gloves/roguetown/angle							= /obj/item/clothing/gloves/roguetown/angle/dasfox_ranger
+	)
+	result_item = null
+	custom_name = TRUE
+
+/obj/item/enchantingkit/dasfox_ranger_schynbalds
+	name = "'ranger's woadwoven stirruped schynbalds' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a pair of Woad Elven Boots or Hardened Leather Boots."
+	target_items = list(
+		/obj/item/clothing/shoes/roguetown/boots/elven_boots				= /obj/item/clothing/shoes/roguetown/boots/elven_boots/dasfox_ranger,
+		/obj/item/clothing/shoes/roguetown/boots/leather/reinforced			= /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/dasfox_ranger
+	)
+	result_item = null
+	custom_name = TRUE
+
 //Racobio - Obsidian Staff
 /obj/item/enchantingkit/racobio_staff
 	name = "'Obsidian Tower' morphing elixir"
@@ -1445,47 +1454,6 @@
 		/obj/item/clothing/head/roguetown/helmet/sallet/visored
 	)
 	result_item = /obj/item/clothing/head/roguetown/helmet/sallet_winged
-
-/obj/item/enchantingkit/hellpossum_grandmaster_helm
-	name = "'Grandmaster's Burgeonet' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Pigface Bascinet, Hounskull Bascinet, Roundface Bascinet, or its Aventailed \
-	variant."
-	target_items = list(
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface		= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/grandmaster,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull		= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/grandmaster,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface				= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/grandmaster,
-		/obj/item/clothing/head/roguetown/helmet/heavy/aventail					= /obj/item/clothing/head/roguetown/helmet/bascinet/apostle/aventail/grandmaster
-	)
-	result_item = null
-	exact_type = TRUE
-
-/obj/item/enchantingkit/hellpossum_grandmaster_habit
-	name = "'Grandmaster's Habit' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Pigface Bascinet, Hounskull Bascinet, Roundface Bascinet, or its Aventailed \
-	variant."
-	target_items = list(
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface		= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull		= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit,
-		/obj/item/clothing/head/roguetown/helmet/bascinet/pigface				= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit,
-		/obj/item/clothing/head/roguetown/helmet/heavy/aventail					= /obj/item/clothing/head/roguetown/helmet/grandmaster_habit/aventail
-	)
-	result_item = null
-	exact_type = TRUE
-
-/obj/item/enchantingkit/hellpossum_grandmaster_armor
-	name = "'Grandmaster's Armor' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a set of Steel Plate Armor, or a set of Steel Plate-and-Maille, alongside \
-	its Fluted variants."
-	target_items = list(
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate		= /obj/item/clothing/suit/roguetown/armor/plate/full/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate		= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted		= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy			= /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/plate/full/fluted				= /obj/item/clothing/suit/roguetown/armor/plate/full/robed/grandmaster,
-		/obj/item/clothing/suit/roguetown/armor/plate/full						= /obj/item/clothing/suit/roguetown/armor/plate/full/robed/grandmaster
-	)
-	result_item = null
-	exact_type = TRUE
 
 // RosySaturniidae - Beaked Mask
 /obj/item/enchantingkit/rosy/birdmask
@@ -1757,9 +1725,9 @@
 	target_items = list(/obj/item/clothing/head/roguetown/helmet/heavy/astratahelm)
 	result_item = /obj/item/clothing/head/roguetown/helmet/heavy/astratahelm/limeastratahelm
 
-// Obsidian items
-/obj/item/enchantingkit/weapon/obsidian_sickle
-	name = "'Dominion sickle' morphing elixir"
+// Solar Dominion Items
+/obj/item/enchantingkit/weapon/dominion_sword
+	name = "'Dominion Sword' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Falchion, a Falx, an Arming Sword, or a Silver Sword."
 	target_items = list(
 		/obj/item/rogueweapon/sword/short/falchion,
@@ -1768,10 +1736,10 @@
 		/obj/item/rogueweapon/sword/iron,
 		/obj/item/rogueweapon/sword/silver
 	)
-	result_item = /obj/item/rogueweapon/example/obsidian_sickle
+	result_item = /obj/item/rogueweapon/example/dominion_sword
 
-/obj/item/enchantingkit/weapon/obsidian_knife
-	name = "'Dominion knife' morphing elixir"
+/obj/item/enchantingkit/weapon/dominion_knife
+	name = "'Dominion Knife' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Steel Dagger, an Iron Dagger, an Iron Combat Knife, \
 	a Steel Combat Knife, a Parrying Dagger, or a Messer."
 	target_items = list(
@@ -1782,56 +1750,65 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying,
 		/obj/item/rogueweapon/huntingknife/combat/messser,
 		)
-	result_item = /obj/item/rogueweapon/example/obsidian_knife
+	result_item = /obj/item/rogueweapon/example/dominion_knife
 
-/obj/item/enchantingkit/weapon/obsidian_greatsword
-	name = "'Dominion greatsword' morphing elixir"
+/obj/item/enchantingkit/weapon/dominion_greatsword
+	name = "'Dominion Greatsword' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Greatsword, an Iron Greatsword, a Zweihänder, \
-	a Grenzlander, a Flamberge, or a Blacksteel Flamberge."
+	a Grenzlander, a Flamberge, a Blacksteel Flamberge, an Executioner's Sword, a Silver Executioner's Sword, or Terminus Est."
 	target_items = list(
 		/obj/item/rogueweapon/greatsword,
 		/obj/item/rogueweapon/greatsword/iron,
 		/obj/item/rogueweapon/greatsword/zwei,
 		/obj/item/rogueweapon/greatsword/grenz,
 		/obj/item/rogueweapon/greatsword/grenz/flamberge,
-		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel
+		/obj/item/rogueweapon/greatsword/grenz/flamberge/blacksteel,
+		/obj/item/rogueweapon/sword/long/exe,
+		/obj/item/rogueweapon/sword/long/exe/silver,
+		/obj/item/rogueweapon/sword/long/exe/cloth
 	)
-	result_item = /obj/item/rogueweapon/example/obsidian_greatsword
+	result_item = /obj/item/rogueweapon/example/dominion_greatsword
 
-/obj/item/enchantingkit/weapon/obsidian_shotel
-	name = "'Dominion shotel' morphing elixir"
+/obj/item/enchantingkit/weapon/dominion_shotel
+	name = "'Dominion Shotel' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Shotel or an Iron Shotel."
 	target_items = list(
 		/obj/item/rogueweapon/sword/long/shotel,
 		/obj/item/rogueweapon/sword/long/shotel/iron,
 	)
-	result_item = /obj/item/rogueweapon/example/obsidian_shotel
+	result_item = /obj/item/rogueweapon/example/dominion_shotel
 
 /obj/item/enchantingkit/weapon/dominion_shield
-	name = "'Dominion shield' morphing elixir"
-	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Metal Tower Shield, a Wooden Tower Shield, or a Heater Shield."
+	name = "'Dominion Shield' morphing elixir"
+	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of a Metal Tower Shield, a Wooden Tower Shield, a Heater Shield, \
+	an Iron Shield, a Buckler Shield, a Hoplon Shield, or a Hoplon Greatshield."
 	target_items = list(
 		/obj/item/rogueweapon/shield/tower/metal,
 		/obj/item/rogueweapon/shield/tower,
 		/obj/item/rogueweapon/shield/heater,
+		/obj/item/rogueweapon/shield/iron,
+		/obj/item/rogueweapon/shield/buckler,
+		/obj/item/rogueweapon/shield/bronze,
+		/obj/item/rogueweapon/shield/bronze/great,
 	)
 	result_item = /obj/item/rogueweapon/example/dominion_shield
 
-// Stone gauntlets
-/obj/item/enchantingkit/stone_gauntlets
-	name = "'Stone Gauntlet' morphing elixir"
+// Solar Dominion Cestus
+/obj/item/enchantingkit/dominion_cestus
+	name = "'Dominion Cestus' morphing elixir"
 	desc = "A small container of special morphing dust, perfect to make a specific item. It can be used to alter the appearance of Weighted Bandages, Pugilistic Bandages, \
-	Leather Gloves, Chain Gauntlets, Plate Gauntlets, Steel Knuckles, Bronze Knuckles, Iron Knuckles, Silver Knuckles, or Blacksteel Knuckles."
+	Leather Gloves, Hardened Leather Gloves, Chain Gauntlets, Plate Gauntlets, Steel Knuckles, Bronze Knuckles, Iron Knuckles, Silver Knuckles, or Blacksteel Knuckles."
 	target_items = list(
-		/obj/item/clothing/gloves/roguetown/bandages/weighted					= /obj/item/clothing/gloves/roguetown/bandages/weighted/donor_stone,
-		/obj/item/clothing/gloves/roguetown/bandages/pugilist					= /obj/item/clothing/gloves/roguetown/bandages/pugilist/donor_stone,
-		/obj/item/clothing/gloves/roguetown/leather							= /obj/item/clothing/gloves/roguetown/leather/donor_stone,
-		/obj/item/clothing/gloves/roguetown/chain								= /obj/item/clothing/gloves/roguetown/chain/donor_stone,
-		/obj/item/clothing/gloves/roguetown/plate								= /obj/item/clothing/gloves/roguetown/plate/donor_stone,
-		/obj/item/clothing/gloves/roguetown/knuckles							= /obj/item/clothing/gloves/roguetown/knuckles/donor_stone,
-		/obj/item/clothing/gloves/roguetown/knuckles/bronze					= /obj/item/clothing/gloves/roguetown/knuckles/bronze/donor_stone,
-		/obj/item/clothing/gloves/roguetown/knuckles/iron						= /obj/item/clothing/gloves/roguetown/knuckles/iron/donor_stone,
-		/obj/item/clothing/gloves/roguetown/knuckles/silver					= /obj/item/clothing/gloves/roguetown/knuckles/silver/donor_stone,
-		/obj/item/clothing/gloves/roguetown/knuckles/blacksteel				= /obj/item/clothing/gloves/roguetown/knuckles/blacksteel/donor_stone
+		/obj/item/clothing/gloves/roguetown/bandages/weighted					= /obj/item/clothing/gloves/roguetown/bandages/weighted/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/bandages/pugilist					= /obj/item/clothing/gloves/roguetown/bandages/pugilist/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/leather							= /obj/item/clothing/gloves/roguetown/leather/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/angle							= /obj/item/clothing/gloves/roguetown/angle/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/chain								= /obj/item/clothing/gloves/roguetown/chain/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/plate								= /obj/item/clothing/gloves/roguetown/plate/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/knuckles/bronze					= /obj/item/clothing/gloves/roguetown/knuckles/bronze/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/knuckles/iron						= /obj/item/clothing/gloves/roguetown/knuckles/iron/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/knuckles/silver					= /obj/item/clothing/gloves/roguetown/knuckles/silver/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/knuckles/blacksteel				= /obj/item/clothing/gloves/roguetown/knuckles/blacksteel/dominion_cestus,
+		/obj/item/clothing/gloves/roguetown/knuckles							= /obj/item/clothing/gloves/roguetown/knuckles/dominion_cestus
 	)
 	result_item = null

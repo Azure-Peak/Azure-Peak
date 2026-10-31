@@ -101,7 +101,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)	//Capped to T1 miracles.
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Church Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Church Funding.", mint_new = TRUE, mint_label = "Church funding", income_acct = LEDGER_CITIZEN_ESTATE)
 
 
 /datum/advclass/sexton/gravetender
@@ -159,7 +159,7 @@
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/self/locate_dead) //Gives Grovetender no healing nor combat miracles. Fetch them bodies, boy!
 
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Church Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Church Funding.", mint_new = TRUE, mint_label = "Church funding", income_acct = LEDGER_CITIZEN_ESTATE)
 
 	var/prev_real_name = H.real_name
 	var/prev_name = H.name

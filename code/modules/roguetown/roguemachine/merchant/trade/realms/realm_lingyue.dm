@@ -123,7 +123,7 @@
 	If you pay him enough, he will settle here for the next yil or two. \
 	Otherwise, I'll bring him over to Grenzelhoft.",
 
-	"Tis dire, I'm out of rice wine! Do you have any local rice wine to trade?",
+	"'Tis dire, I'm out of rice wine! Do you have any local rice wine to trade?",
 
 	"Ah! Azurian fishes and crabs! Legendary, I know at least twenty families who would kill for a taste of them! \
 	We brought a runic chest from Shenzhou to preserve them for the journey home!",

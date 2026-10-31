@@ -175,7 +175,7 @@
 
 /obj/item/clothing/head/peaceflower//Eora content from Stonekeep
 	name = "eoran bud"
-	desc = "A flower of gentle petals, associated with Eora or Necra. Usually adorned as a headress or laid at graves as a symbol of love or peace."
+	desc = "A flower of gentle petals, associated with Eora or Necra. Usually adorned as a headdress or laid at graves as a symbol of love or peace."
 	icon = 'icons/roguetown/items/produce.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
 	icon_state = "peaceflower"
@@ -514,7 +514,7 @@
 /obj/effect/proc_holder/spell/invoked/pomegranate
 	name = "Amaranth Sanctuary"
 	invocations = list("Eora, provide sanctuary for your beauty!")
-	desc = "Grow a pomegrenate tree that when tended to grows Aurils with variety of effects. Additionally heals beatiful people and HEAVILY debuffs both STR and PER for everyone in visible range."
+	desc = "Grow a pomegranate tree that when tended to grows Aurils with variety of effects. Additionally heals beautiful people and HEAVILY debuffs both STR and PER for everyone in visible range."
 	sound = 'sound/magic/magnet.ogg'
 	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
 	devotion_cost = 500
@@ -780,7 +780,7 @@
 	if(ash_offered)
 		ash_offered = FALSE
 		aura_range = 7
-		visible_message(span_notice("The tree shudders as it is harmmed, ash previously covering the leaves is shaken off, and the aura ignites once more."))
+		visible_message(span_notice("The tree shudders as it is harmed, ash previously covering the leaves is shaken off, and the aura ignites once more."))
 	else
 		visible_message(span_notice("The tree shudders as it is harmed. You feel dread emanating from it."))
 	. = ..()
@@ -812,7 +812,7 @@
 		. += span_info("It is fully sated.")
 
 	if(prune_count < 4)
-		. += span_info("The branches look messy. Perhaps a scissor can right this mess.")
+		. += span_info("The branches look messy. Perhaps scissors can right this mess.")
 	else
 		. += span_info("The branches are elaborately pruned.")
 

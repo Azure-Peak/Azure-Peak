@@ -293,7 +293,7 @@
 
 /datum/advclass/heir/scamp
 	name = "Nettlesome Scamp"
-	tutorial = "The stories told to you by your bedside of valiant rogues and thieves with hearts of gold saving the worlds. The misunderstood hero. The clammor of Knights, the dull books of the arcyne and the wise never interested you. So you donned the cloak, and with your plump figure learned the arts of stealth. Surely the populace will be forgiving of your antics."
+	tutorial = "The stories told to you by your bedside of valiant rogues and thieves with hearts of gold saving the worlds. The misunderstood hero. The clamor of Knights, the dull books of the arcyne and the wise never interested you. So you donned the cloak, and with your plump figure learned the arts of stealth. Surely the populace will be forgiving of your antics."
 	outfit = /datum/outfit/job/roguetown/heir/scamp
 	traits_applied = list(TRAIT_SEEPRICES_SHITTY, TRAIT_ALCHEMY_EXPERT)
 	category_tags = list(CTAG_HEIR)

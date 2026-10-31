@@ -211,6 +211,7 @@
 
 		if(check_shields(P, P.damage, "the [P.name]", PROJECTILE_ATTACK, P.armor_penetration))
 			P.on_hit(src, 100, def_zone)
+			P.handle_drop()
 			return BULLET_ACT_HIT
 
 	return ..(P, def_zone)

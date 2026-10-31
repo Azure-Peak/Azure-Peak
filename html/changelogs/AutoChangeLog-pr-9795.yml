@@ -1,0 +1,4 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - admin: "SLOOC Mute hotlink has been removed."

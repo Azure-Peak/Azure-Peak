@@ -30,7 +30,7 @@
 	droning_sound = 'sound/music/area/peace.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	area_sniff_message = "You smell sweetly scenter water and old roots."
+	area_sniff_message = "You smell sweetly-scented water and old roots."
 
 // Shameless copy of peace cave since someone liked it so much.
 /area/rogue/under/cave/abyssor
