@@ -263,6 +263,10 @@
 	force = 35
 	minstr = 11
 	max_integrity = 250
+	aura_color = "#8bf2ff"
+
+/obj/item/rogueweapon/flail/sflail/silver/psy/relic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
 
 /obj/item/rogueweapon/flail/sflail/silver/psy/relic/ComponentInitialize()
 	AddComponent(\

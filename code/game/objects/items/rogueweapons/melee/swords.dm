@@ -1086,6 +1086,10 @@
 	max_integrity = 350
 	max_blade_int = 400
 	awakens = FALSE
+	aura_color = "#8bf2ff"
+
+/obj/item/rogueweapon/sword/long/broadsword/silver/psy/forgotten/relic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
 
 /obj/item/rogueweapon/sword/long/broadsword/silver/psy/forgotten/relic/ComponentInitialize()
 	AddComponent(\
@@ -1850,6 +1854,10 @@
 	max_blade_int = 330
 	minstr = 7
 	wdefense = 9
+	aura_color = "#8bf2ff"
+
+/obj/item/rogueweapon/sword/rapier/silver/psy/relic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
 
 /obj/item/rogueweapon/sword/rapier/silver/psy/relic/ComponentInitialize()
 	AddComponent(\
@@ -1929,6 +1937,10 @@
 	max_blade_int = 333
 	max_integrity = 333
 	smeltresult = /obj/item/ingot/avantyne
+	aura_color = "#ff8b8b"
+
+/obj/item/rogueweapon/sword/rapier/avantyne/relic/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_VIBE_PSYRELIC, VIBEDESC_PSYRELIC)
 
 /obj/item/rogueweapon/sword/cutlass
 	name = "cutlass"
