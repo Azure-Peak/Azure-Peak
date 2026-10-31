@@ -9,6 +9,7 @@
 	antag_flag = ROLE_NBEAST
 	shared_occurence_type = SHARED_HIGH_THREAT
 	storyteller_antag_flags = STORYTELLER_ANTAG_VILLAIN | STORYTELLER_ANTAG_ROUNDSTART
+	storyteller_blacklisted = TRUE
 	denominator = 80
 
 	base_antags = 2

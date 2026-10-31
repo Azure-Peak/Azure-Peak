@@ -35,6 +35,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/storyteller_slot_default_cap = 0
 	var/list/storyteller_maxcaps
 	var/storyteller_min_players = 0
+	/// To disable a particular antag
+	var/storyteller_blacklisted = FALSE
 	var/override_candidatereq = FALSE
 
 /datum/antagonist/New()

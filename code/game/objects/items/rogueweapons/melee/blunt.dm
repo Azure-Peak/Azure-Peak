@@ -379,6 +379,12 @@
 	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
 	penfactor = PEN_NONE
 
+/datum/intent/mace/smash/wood/stone
+	desc = "A heavy blow. You're not knocking anyone back with this."
+
+/datum/intent/mace/smash/wood/stone/spec_on_apply_effect(mob/living/H, mob/living/user, params)
+	return
+
 /obj/item/rogueweapon/mace/woodclub/deprived
 	name = "warped club"
 	desc = "It's a piece of wood marred by age and strife alike."
