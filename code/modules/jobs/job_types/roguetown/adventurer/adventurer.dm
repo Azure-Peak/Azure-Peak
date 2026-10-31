@@ -41,6 +41,7 @@ GLOBAL_VAR_INIT(adventurer_hugbox_duration_still, 3 MINUTES)
 		/datum/advclass/cleric,
 		/datum/advclass/cleric/paladin,
 		/datum/advclass/cleric/cantor,
+		/datum/advclass/cleric/zealot,
 		/datum/advclass/cleric/missionary,
 		/datum/advclass/sfighter,
 		/datum/advclass/sfighter/duelist,
