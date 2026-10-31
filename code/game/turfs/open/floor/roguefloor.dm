@@ -1845,8 +1845,8 @@
 
 // Chopping or picking a hole in the ice puts the water back for the rest of the round -
 // SSseason only re-freezes on a season change, so a hole you cut stays a hole. This is what
-// keeps the fisher employed in winter: getfishingloot()'s freshwater list wants a real
-// /turf/open/water underfoot, and the thaw-through leaves exactly the subtype that was there.
+// keeps the fisher employed in winter: a fishing spot needs a real /turf/open/water
+// underfoot, and the thaw-through leaves exactly the subtype that was there.
 //
 // (axe/chop, sword/chop, dagger/chop/cleaver, etc), not just axes.
 /turf/open/floor/rogue/frozen_water/attackby(obj/item/C, mob/user, params)

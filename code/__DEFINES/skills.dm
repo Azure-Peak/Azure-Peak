@@ -8,6 +8,16 @@
 #define SKILL_LEVEL_MASTER 5 //master
 #define SKILL_LEVEL_LEGENDARY 6 //legendary
 
+// Per-level speed divisor for skill-timed actions: +50% speed per level, except -25% at no skill.
+// Cooking divides its cook time by this, fishing use the inverse.
+#define SKILL_SPEED_DIVISOR_NONE 0.75
+#define SKILL_SPEED_DIVISOR_NOVICE 1
+#define SKILL_SPEED_DIVISOR_APPRENTICE 1.5
+#define SKILL_SPEED_DIVISOR_JOURNEYMAN 2
+#define SKILL_SPEED_DIVISOR_EXPERT 2.5
+#define SKILL_SPEED_DIVISOR_MASTER 3
+#define SKILL_SPEED_DIVISOR_LEGENDARY 3.5
+
 #define SKILL_EXP_NOVICE 100
 #define SKILL_EXP_APPRENTICE 250
 #define SKILL_EXP_JOURNEYMAN 500

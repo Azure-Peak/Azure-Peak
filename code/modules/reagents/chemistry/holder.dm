@@ -787,11 +787,11 @@
 
 	return FALSE
 
-/datum/reagents/proc/has_reagent(reagent, amount = -1, needs_metabolizing = FALSE)
+/datum/reagents/proc/has_reagent(reagent, amount = -1, needs_metabolizing = FALSE, check_subtypes = FALSE)
 	var/list/cached_reagents = reagent_list
 	for(var/_reagent in cached_reagents)
 		var/datum/reagent/R = _reagent
-		if (R.type == reagent)
+		if (check_subtypes ? istype(R, reagent) : R.type == reagent)
 			if(!amount)
 				if(needs_metabolizing && !R.metabolizing)
 					return 0
@@ -806,14 +806,17 @@
 
 	return 0
 
-/datum/reagents/proc/get_reagent_amount(reagent)
+/datum/reagents/proc/get_reagent_amount(reagent, include_subtypes = FALSE)
 	var/list/cached_reagents = reagent_list
+	var/total = 0
 	for(var/_reagent in cached_reagents)
 		var/datum/reagent/R = _reagent
-		if (R.type == reagent)
-			return round(R.volume, CHEMICAL_QUANTISATION_LEVEL)
+		if (include_subtypes ? istype(R, reagent) : R.type == reagent)
+			if(!include_subtypes)
+				return round(R.volume, CHEMICAL_QUANTISATION_LEVEL)
+			total += R.volume
 
-	return 0
+	return round(total, CHEMICAL_QUANTISATION_LEVEL)
 
 /datum/reagents/proc/get_reagents()
 	var/list/names = list()

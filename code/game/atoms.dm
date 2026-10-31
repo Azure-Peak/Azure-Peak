@@ -395,6 +395,19 @@
 	return ""
 
 /**
+ * Called when a mob examines this atom twice within EXAMINE_MORE_WINDOW.
+ * Extra detail that would clutter the first look.
+ *
+ * Produces a signal COMSIG_ATOM_EXAMINE_MORE
+ */
+/atom/proc/examine_more(mob/user)
+	SHOULD_CALL_PARENT(TRUE)
+	RETURN_TYPE(/list)
+
+	. = list()
+	SEND_SIGNAL(src, COMSIG_ATOM_EXAMINE_MORE, user, .)
+
+/**
  * Called when a mob examines (shift click or verb) this atom
  *
  * Default behaviour is to get the name and icon of the object and it's reagents where

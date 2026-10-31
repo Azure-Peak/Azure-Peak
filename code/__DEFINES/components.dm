@@ -174,6 +174,7 @@
 /////////////////
 #define COMSIG_ATOM_ATTACK_GHOST "atom_attack_ghost"			//from base of atom/attack_ghost(): (mob/dead/observer/ghost)
 #define COMSIG_ATOM_ATTACK_HAND "atom_attack_hand"				//from base of atom/attack_hand(): (mob/user)
+#define COMSIG_ATOM_ATTACK_PAW "atom_attack_paw"				//from base of atom/attack_paw(): (mob/user)
 #define COMSIG_ATOM_ATTACK_RIGHT "atom_attack_right"				//from base of atom/proc/attack_right()): (mob/user)
 	#define COMPONENT_NO_ATTACK_HAND 1							//works on all 3.
 ///from base of atom/animal_attack(): (/mob/user)

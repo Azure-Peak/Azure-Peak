@@ -234,7 +234,7 @@
 	var/mob/living/carbon/human/lastuser = lastuser_ref?.resolve()
 	if(lastuser)
 		var/datum/skill/craft/cooking/cs = lastuser.get_skill_level(/datum/skill/craft/cooking)
-		cooktime_divisor = get_cooktime_divisor(cs)
+		cooktime_divisor = get_skill_speed_divisor(cs)
 
 	current_cook_progress += (10 * cooktime_divisor)
 

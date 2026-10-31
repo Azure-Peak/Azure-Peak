@@ -120,8 +120,13 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 			bundle[path] = (bundle[path] || 0) + count
 	return bundle
 
+/datum/quest/kill/recovery/towner/proc/get_parcel_label()
+	var/variety = effective_variety()
+	var/list/meta = variety ? varieties[variety] : null
+	return meta?["parcel_label"] || parcel_label
+
 /datum/quest/kill/recovery/towner/proc/get_parcel_name()
-	return "[quest_giver_name]'s [parcel_label]"
+	return "[quest_giver_name]'s [get_parcel_label()]"
 
 /datum/quest/kill/recovery/towner/proc/get_parcel_desc()
 	return "A [sealed_noun] magickally sealed for [quest_giver_name]. Only they can open it."
@@ -135,7 +140,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	return ..()
 
 /datum/quest/kill/recovery/towner/pick_shipment()
-	shipment_name = parcel_label
+	shipment_name = get_parcel_label()
 	return TRUE
 
 /datum/quest/kill/recovery/towner/get_additional_reward(turf/origin_turf, turf/target_turf)

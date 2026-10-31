@@ -68,6 +68,8 @@
 	var/object_damage_multiplier = 1
 	/// Whether or not our projectile can damage walls
 	var/damages_turf_walls = FALSE
+	/// If true directly targeted turfs can be hit
+	var/can_hit_turfs = FALSE
 	/// Chance for our projectile to break upon impacting a wall for reusable projectiles.
 	var/wall_impact_break_probability = 0
 	/// Hit state used to track whether or not we hit a turf for reusable projectiles.
@@ -760,13 +762,15 @@
 		var/mob/M = firer
 		if((target == firer) || (target in firer.buckled_mobs) || (istype(M) && (M.buckled == target)))
 			return FALSE
-	if(!ignore_loc && (loc != target.loc))
+	if(!ignore_loc && (loc != target.loc) && !(can_hit_turfs && direct_target && loc == target))
 		return FALSE
 	if(target in passthrough)
 		return FALSE
 	if(target.density)		//This thing blocks projectiles, hit it regardless of layer/mob stuns/etc.
 		return TRUE
 	if(!isliving(target))
+		if(isturf(target))		// non dense turfs
+			return can_hit_turfs && direct_target
 		if(target.layer < PROJECTILE_HIT_THRESHHOLD_LAYER)
 			return FALSE
 	else

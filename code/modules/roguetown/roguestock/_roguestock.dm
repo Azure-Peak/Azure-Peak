@@ -41,9 +41,9 @@
 		"baseline" = baseline,
 		"q_mult" = 1.0,
 	)
-	if(!istype(I) || !I.has_item_quality)
+	if(!istype(I))
 		return out
-	var/q_mult = ITEM_QUALITY_MULT(I.item_quality)
+	var/q_mult = I.get_stockpile_quality_mult()
 	if(q_mult == 1.0)
 		return out
 	var/buy_price = baseline * q_mult

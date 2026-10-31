@@ -13,8 +13,8 @@
 
 /obj/item/reagent_containers/proc/update_cooktime(mob/user)
 	if(user.mind)
-		short_cooktime = (initial(short_cooktime) / get_cooktime_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
-		long_cooktime = (initial(long_cooktime) / get_cooktime_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
+		short_cooktime = (initial(short_cooktime) / get_skill_speed_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
+		long_cooktime = (initial(long_cooktime) / get_skill_speed_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
 	else
 		short_cooktime = initial(short_cooktime)
 		long_cooktime = initial(long_cooktime)

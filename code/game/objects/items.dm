@@ -326,6 +326,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		pixel_x = rand(-5,5)
 		pixel_y = rand(-5,5)
 
+	if(bait_quality)
+		ADD_TRAIT(src, bait_quality, INNATE_TRAIT)
+
 	if(grid_width <= 0)
 		grid_width = (w_class * world.icon_size)
 	if(grid_height <= 0)
@@ -1839,6 +1842,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(sellprice > 0)
 		sellprice = max(1, round(sellprice * ITEM_QUALITY_MULT(tier)))
 	return tier
+
+/obj/item/proc/get_stockpile_quality_mult()
+	if(!has_item_quality)
+		return 1
+	return ITEM_QUALITY_MULT(item_quality)
 
 /obj/item/proc/mark_as_looted()
 	if(looted)

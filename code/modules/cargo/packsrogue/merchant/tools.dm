@@ -179,6 +179,119 @@
 					/obj/item/natural/worms/leech,
 				)
 
+/datum/supply_pack/rogue/tools/fishingrod
+	name = "Fishing Rod"
+	cost = 10
+	contains = list(/obj/item/fishingrod)
+
+/datum/supply_pack/rogue/tools/creel
+	name = "Fisherman's Creel"
+	cost = 13
+	contains = list(/obj/item/storage/meatbag/creel)
+
+/datum/supply_pack/rogue/tools/fishinghooks
+	name = "Iron Fishing Hooks (x3)"
+	cost = 10
+	contains = list(
+					/obj/item/fishing/hook/iron,
+					/obj/item/fishing/hook/iron,
+					/obj/item/fishing/hook/iron,
+				)
+
+/datum/supply_pack/rogue/tools/fishingline
+	name = "Silk Fishing Line"
+	cost = 30
+	contains = list(/obj/item/fishing/reel/silk)
+
+/datum/supply_pack/rogue/tools/fishingfloats
+	name = "Bobber and Sinker"
+	cost = 5
+	contains = list(
+					/obj/item/fishing/line/bobber,
+					/obj/item/fishing/line/sinker,
+				)
+
+/datum/supply_pack/rogue/tools/fishinglinedeluxe
+	name = "Deluxe Fishing Line"
+	cost = 100
+	contains = list(/obj/item/fishing/reel/deluxe)
+
+/datum/supply_pack/rogue/tools/fishinglure
+	name = "Carved Minnow Hook"
+	cost = 100
+	contains = list(/obj/item/fishing/hook/deluxe)
+
+/datum/supply_pack/rogue/tools/baitenchanted
+	name = "Enchanted Bait (x5)"
+	cost = 20
+	contains = list(
+					/obj/item/fishing/bait/deluxe,
+					/obj/item/fishing/bait/deluxe,
+					/obj/item/fishing/bait/deluxe,
+					/obj/item/fishing/bait/deluxe,
+					/obj/item/fishing/bait/deluxe,
+				)
+
+/datum/supply_pack/rogue/tools/baitred
+	name = "Red Bait (x6)"
+	cost = 6
+	contains = list(
+					/obj/item/fishing/bait/meat,
+					/obj/item/fishing/bait/meat,
+					/obj/item/fishing/bait/meat,
+					/obj/item/fishing/bait/meat,
+					/obj/item/fishing/bait/meat,
+					/obj/item/fishing/bait/meat,
+				)
+
+/datum/supply_pack/rogue/tools/baitdough
+	name = "Doughy Bait (x6)"
+	cost = 6
+	contains = list(
+					/obj/item/fishing/bait/dough,
+					/obj/item/fishing/bait/dough,
+					/obj/item/fishing/bait/dough,
+					/obj/item/fishing/bait/dough,
+					/obj/item/fishing/bait/dough,
+					/obj/item/fishing/bait/dough,
+				)
+
+/datum/supply_pack/rogue/tools/baitgray
+	name = "Gray Bait (x6)"
+	cost = 10
+	contains = list(
+					/obj/item/fishing/bait/gray,
+					/obj/item/fishing/bait/gray,
+					/obj/item/fishing/bait/gray,
+					/obj/item/fishing/bait/gray,
+					/obj/item/fishing/bait/gray,
+					/obj/item/fishing/bait/gray,
+				)
+
+/datum/supply_pack/rogue/tools/baitspeckled
+	name = "Speckled Bait (x6)"
+	cost = 18
+	contains = list(
+					/obj/item/fishing/bait/speckled,
+					/obj/item/fishing/bait/speckled,
+					/obj/item/fishing/bait/speckled,
+					/obj/item/fishing/bait/speckled,
+					/obj/item/fishing/bait/speckled,
+					/obj/item/fishing/bait/speckled,
+				)
+
+/datum/supply_pack/rogue/tools/baitshell
+	name = "Shell Bait (x6)"
+	cost = 12
+	contains = list(
+					/obj/item/fishing/bait/shell,
+					/obj/item/fishing/bait/shell,
+					/obj/item/fishing/bait/shell,
+					/obj/item/fishing/bait/shell,
+					/obj/item/fishing/bait/shell,
+					/obj/item/fishing/bait/shell,
+				)
+
 
 /datum/supply_pack/rogue/tools/bottl
 	name = "Glass Bottles"

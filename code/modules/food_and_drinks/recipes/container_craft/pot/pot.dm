@@ -409,7 +409,7 @@
 
 /datum/container_craft/cooking/evilfryfish
 	name = "Evil Fish Stew"
-	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/rogue/fryfish/zizo_abberation = 1)
+	wildcard_requirements = list(/obj/item/reagent_containers/food/snacks/rogue/fryfish/murkfang = 1)
 	created_reagent = /datum/reagent/consumable/soup/stew/evilfryfish
 
 /datum/container_craft/cooking/pepperfryfish

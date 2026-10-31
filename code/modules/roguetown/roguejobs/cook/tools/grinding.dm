@@ -18,7 +18,7 @@
 
 /obj/item/millstone/attackby(obj/item/W, mob/living/user, params)
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
-	var/scaled_grind_time = BASE_GRIND_TIME / get_cooktime_divisor(cs)
+	var/scaled_grind_time = BASE_GRIND_TIME / get_skill_speed_divisor(cs)
 	if(W.mill_result)
 		if(do_after(user, scaled_grind_time, target = src))
 			new W.mill_result(get_turf(loc))

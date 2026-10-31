@@ -114,6 +114,12 @@
 	component_type = /datum/component/storage/concrete/grid/meatsack
 	dropshrink = 0.8
 
+/obj/item/storage/meatbag/creel
+	name = "fisherman's creel"
+	desc = "A wicker basket used by a fisherman to store their catch."
+	icon_state = "creel" // Reused wicker basket icon from storage, for now
+	component_type = /datum/component/storage/concrete/grid/meatsack/fish
+
 /obj/item/storage/meatbag/attack_right(mob/user)
 	. = ..()
 	if(.)

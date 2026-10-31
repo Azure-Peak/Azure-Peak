@@ -356,21 +356,13 @@
 	possible_item_intents = list(SPEAR_THRUST, SPEAR_BASH, SPEAR_CAST)
 	gripped_intents = null
 	smeltresult = /obj/item/ingot/bronze
-	fishingMods=list(
-		"commonFishingMod" = 0.8,
-		"rareFishingMod" = 1.4,
-		"treasureFishingMod" = 0,
-		"trashFishingMod" = 0,
-		"dangerFishingMod" = 0.9,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
-	)
 
 /obj/item/rogueweapon/spear/trident/afterattack(obj/target, mob/user, proximity)
 	var/sl = user.get_skill_level(/datum/skill/labor/fishing)
 	var/ft = 150
 	var/fpp =	90 - (sl * 15)
 	if(istype(target, /turf/open/water))
+		var/turf/water = target
 		if(user.used_intent.type == SPEAR_CAST && !user.doing)
 			if(target in range(user,3))
 				user.visible_message("<span class='warning'>[user] searches for a fish!</span>", \
@@ -386,26 +378,29 @@
 						else
 							fishchance -= fpp
 					var/mob/living/fisherman = user
-					if(prob(fishchance))
-						var/A = getfishingloot(user, fishingMods.Copy(), target)
-						if(A)
-							var/ow = 30 + (sl * 10)
-							to_chat(user, "<span class='notice'>You see something!</span>")
-							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
-							if(!do_after(user,ow, target = target))
-								if(ispath(A, /mob/living))
+					var/datum/fish_source/source = water.get_fish_source()
+					var/A = FISHING_DUD
+					if(source && prob(fishchance))
+						A = source.roll_simple_reward(water)
+					if(A != FISHING_DUD)
+						var/ow = 30 + (sl * 10)
+						to_chat(user, "<span class='notice'>You see something!</span>")
+						playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+						if(!do_after(user,ow, target = target))
+							if(ispath(A, /mob/living))
+								if(source.spend_reward_count(A))
 									new /obj/effect/temp_visual/hunting_phantom(target, A, /datum/component/rot/simple/hunt, 2 SECONDS)
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2)
-								else
-									new A(user.loc)
-									teleport_to_dream(user, 10000, 1)
-									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE)
-									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
-									GLOB.azure_round_stats[STATS_FISH_CAUGHT]++
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+								user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2)
 							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
+								source.simple_dispense_reward(A, user.loc, water)
+								teleport_to_dream(user, 10000, 1)
+								to_chat(user, "<span class='warning'>Pull 'em in!</span>")
+								user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE)
+								record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+								GLOB.azure_round_stats[STATS_FISH_CAUGHT]++
+								playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+						else
+							to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
 					else
 						to_chat(user, "<span class='warning'>Not a single fish...</span>")
 						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2)
@@ -640,15 +635,6 @@
 	thrown_bclass = BCLASS_STAB
 	throwforce = 35
 	resistance_flags = FLAMMABLE
-	fishingMods=list(
-		"commonFishingMod" = 0.8,
-		"rareFishingMod" = 1.4,
-		"treasureFishingMod" = 0,
-		"trashFishingMod" = 0,
-		"dangerFishingMod" = 1,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
-	)
 
 /obj/item/rogueweapon/fishspear/depthseek //DO NOT ADD RECIPE. MEANT TO BE AN ABYSSORITE RELIC. IDEA COURTESY OF LORDINQPLAS
 	force = 45
@@ -672,6 +658,7 @@
 	var/ft = 160 //Time to get a catch, in ticks
 	var/fpp =	90 - (sl * 15) // Fishing power penalty based on fishing skill level
 	if(istype(target, /turf/open/water))
+		var/turf/water = target
 		if(user.used_intent.type == SPEAR_CAST && !user.doing)
 			if(target in range(user,3))
 				user.visible_message("<span class='warning'>[user] searches for a fish!</span>", \
@@ -687,29 +674,30 @@
 						else
 							fishchance -= fpp // Deduct a penalty the lower our fishing level is (-0 at legendary)
 					var/mob/living/fisherman = user
-					if(prob(fishchance)) // Finally, roll the dice to see if we fish.
-						var/A = getfishingloot(user, fishingMods.Copy(), target)
-						if(A)
-							var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
-							to_chat(user, "<span class='notice'>You see something!</span>")
-							playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
-							if(!do_after(user,ow, target = target))
-								if(A in subtypesof(/mob/living))
-									var/mob/M = A
-									new M(target)
-									if (!(M.type == /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab))
-										user.playsound_local(src, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
-								else
-									new A(user.loc)
-									teleport_to_dream(user, 10000, 1)
-									to_chat(user, "<span class='warning'>Pull 'em in!</span>")
-									user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
-									record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
-									record_round_statistic(STATS_FISH_CAUGHT)
-									playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+					var/datum/fish_source/source = water.get_fish_source()
+					var/A = FISHING_DUD
+					if(source && prob(fishchance)) // Finally, roll the dice to see if we fish.
+						A = source.roll_simple_reward(water)
+					if(A != FISHING_DUD)
+						var/ow = 30 + (sl * 10) // Opportunity window, in ticks. Longer means you get more time to cancel your bait
+						to_chat(user, "<span class='notice'>You see something!</span>")
+						playsound(src.loc, 'sound/items/fishing_plouf.ogg', 100, TRUE)
+						if(!do_after(user,ow, target = target))
+							if(ispath(A, /mob/living))
+								source.simple_dispense_reward(A, water, water)
+								if(!ispath(A, /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab))
+									user.playsound_local(src, pick('sound/misc/jumpscare (1).ogg','sound/misc/jumpscare (2).ogg','sound/misc/jumpscare (3).ogg','sound/misc/jumpscare (4).ogg'), 100)
+								user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT*2) // High risk high reward
 							else
-								to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
+								source.simple_dispense_reward(A, user.loc, water)
+								teleport_to_dream(user, 10000, 1)
+								to_chat(user, "<span class='warning'>Pull 'em in!</span>")
+								user.mind.add_sleep_experience(/datum/skill/labor/fishing, round(fisherman.STAINT, 2), FALSE) // Level up!
+								record_featured_stat(FEATURED_STATS_FISHERS, fisherman)
+								record_round_statistic(STATS_FISH_CAUGHT)
+								playsound(src.loc, 'sound/items/Fish_out.ogg', 100, TRUE)
+						else
+							to_chat(user, "<span class='warning'>Damn, it got away... I should <b>pull away</b> next time.</span>")
 					else
 						to_chat(user, "<span class='warning'>Not a single fish...</span>")
 						user.mind.add_sleep_experience(/datum/skill/labor/fishing, fisherman.STAINT/2) // Pity XP.

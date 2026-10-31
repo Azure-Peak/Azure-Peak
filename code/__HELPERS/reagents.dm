@@ -86,3 +86,49 @@
 		return
 	for(var/mob/M in viewers(5, location))
 		to_chat(M, notification)
+
+/proc/reagent_amount_of_types(datum/reagents/holder, reagent_types)
+	if(!holder)
+		return 0
+	if(!islist(reagent_types))
+		return holder.get_reagent_amount(reagent_types)
+	. = 0
+	for(var/reagent_type in reagent_types)
+		. += holder.get_reagent_amount(reagent_type)
+
+/proc/find_reagent_containers(list/candidates, reagent_types, needed, list/found)
+	var/volume = 0
+	for(var/obj/item/reagent_containers/container as anything in candidates)
+		if(!container.is_drainable())
+			continue
+		var/contained = reagent_amount_of_types(container.reagents, reagent_types)
+		if(!contained)
+			continue
+		if(found)
+			found += container
+		volume += contained
+		if(volume >= needed)
+			return TRUE
+	return FALSE
+
+/proc/reagent_volume_in_containers(list/candidates, reagent_types)
+	. = 0
+	for(var/obj/item/reagent_containers/container as anything in candidates)
+		if(!container.is_drainable())
+			continue
+		. += reagent_amount_of_types(container.reagents, reagent_types)
+
+/proc/drain_reagent_from_containers(list/containers, reagent_types, amount)
+	var/list/types = islist(reagent_types) ? reagent_types : list(reagent_types)
+	for(var/obj/item/reagent_containers/container as anything in containers)
+		if(!container.reagents)
+			continue
+		for(var/reagent_type in types)
+			var/take = min(container.reagents.get_reagent_amount(reagent_type), amount)
+			if(!take)
+				continue
+			container.reagents.remove_reagent(reagent_type, take)
+			amount -= take
+			if(amount <= 0)
+				return TRUE
+	return FALSE

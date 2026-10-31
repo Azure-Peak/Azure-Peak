@@ -104,7 +104,7 @@
 
 /mob/living/carbon/human/species/familiar/infernal/attackby(obj/item/I, mob/living/user, params)
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
-	var/cooktime_divisor = get_cooktime_divisor(cs)
+	var/cooktime_divisor = get_skill_speed_divisor(cs)
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 			to_chat(user, "<span class='warning'>I wouldn't be able to cook this over the fire...</span>")

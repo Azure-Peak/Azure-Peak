@@ -250,6 +250,47 @@
 						L[T] = TRUE
 		return L
 
+/proc/zebra_typecacheof(path, single_value = TRUE, only_root_path = FALSE, ignore_root_path = FALSE, clear_nulls = FALSE)
+	if(isnull(path))
+		return
+
+	if(ispath(path))
+		if (isnull(single_value))
+			return
+
+		. = list()
+		if(only_root_path)
+			.[path] = single_value
+			return
+
+		for(var/subtype in (ignore_root_path ? subtypesof(path) : typesof(path)))
+			.[subtype] = single_value
+		return
+
+	if(!islist(path))
+		CRASH("Tried to create a typecache of [path] which is neither a typepath nor a list.")
+
+	. = list()
+	var/list/pathlist = path
+	if(only_root_path)
+		for(var/current_path in pathlist)
+			.[current_path] = pathlist[current_path]
+	else if(ignore_root_path)
+		for(var/current_path in pathlist)
+			for(var/subtype in subtypesof(current_path))
+				.[subtype] = pathlist[current_path]
+	else
+		for(var/current_path in pathlist)
+			for(var/subpath in typesof(current_path))
+				.[subpath] = pathlist[current_path]
+
+	if(!clear_nulls)
+		return
+
+	for(var/cached_path in .)
+		if (isnull(.[cached_path]))
+			. -= cached_path
+
 //Empties the list by setting the length to 0. Hopefully the elements get garbage collected
 /proc/clearlist(list/list)
 	if(istype(list))

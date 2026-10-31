@@ -25,6 +25,7 @@
 #define QUEST_TOWNER_CHEESEMAKER_CARAVAN "Cheesemaker Caravan"
 #define QUEST_TOWNER_BUILDING_SUPPLIES "Building Supplies"
 #define QUEST_TOWNER_VALUABLES "Valuables"
+#define QUEST_TOWNER_FISHER_CARRIAGE "Fisher Carriage"
 #define QUEST_NOTORIOUS_BOUNTY "Notorious Bounty"
 #define QUEST_GM_KILL "Special Hunt"
 #define QUEST_GM_RECOVERY "Special Recovery"

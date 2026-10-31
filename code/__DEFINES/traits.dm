@@ -34,7 +34,7 @@
 #define TRAIT_SEEDKNOW "Seed Knower"
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
-#define TRAIT_CAUTIOUS_FISHER "Cautious Fisher"
+#define TRAIT_EXPERT_FISHER "Expert Fisher"
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
@@ -614,7 +614,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DEEP_DREAMER = span_info("My dreams run deeper than those of my peers, and I often find myself drifting into strange and unknowable places while I sleep. (Grants between 1-2 extra points of Dream per rest)."),
 	TRAIT_LONGSTRIDER = span_info("Each of my steps finds its footing no matter how treacherous the terrain is."),
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
-	TRAIT_CAUTIOUS_FISHER = span_info("I know my way around the dangers of fishing, and know how to avoid unwanted attention from the depths."),
+	TRAIT_EXPERT_FISHER = span_info("I am experienced at fishing, and fish come to my hands more easily than most. I can learn how well stocked a body of water is, and I know ahead of time when something hostile takes the hook."),
 	TRAIT_DEATHSIGHT = span_info("I can feel when someone nearby draws the Undermaiden's attention."),
 	TRAIT_FORGEBLESSED = span_info("Countless long nights spent forging metal have honed my endurance, allowing me to work an anvil far longer than most without tiring."),
 	TRAIT_MALUMCHOSEN = span_info("He guides my hands in my crafts, allowing for feats I'd normally not be able to achieve."),

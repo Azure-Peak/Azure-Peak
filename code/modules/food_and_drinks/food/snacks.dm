@@ -646,7 +646,7 @@ GLOBAL_LIST_INIT(food_preserving_locs, typecacheof(list(
 	if(chopping_sound)
 		playsound(get_turf(user), 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1) // added some choppy sound
 	if(slice_batch)
-		var/cd = get_cooktime_divisor(user.get_skill_level(/datum/skill/craft/cooking))
+		var/cd = get_skill_speed_divisor(user.get_skill_level(/datum/skill/craft/cooking))
 		if(!do_after(user, 1 SECONDS / cd, target = src))
 			return FALSE
 		var/reagents_per_slice = reagents.total_volume/slices_num

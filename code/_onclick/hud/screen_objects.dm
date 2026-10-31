@@ -13,6 +13,8 @@
 	plane = HUD_PLANE
 	appearance_flags = APPEARANCE_UI
 	var/obj/master = null	//A reference to the object in the slot. Grabs or items, generally.
+	/// A reference to the object in the slot. Grabs or items, generally, but any datum will do.
+	var/datum/weakref/master_ref = null
 	var/datum/hud/hud = null // A reference to the owner HUD, if any.
 	var/lastclick
 	var/category
@@ -33,6 +35,7 @@
 
 /atom/movable/screen/Destroy()
 	master = null
+	master_ref = null
 	hud = null
 	return ..()
 

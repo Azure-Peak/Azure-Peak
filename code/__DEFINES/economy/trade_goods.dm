@@ -358,15 +358,15 @@
 // Seafood
 #define SELLPRICE_FISH_FILET 3
 #define SELLPRICE_FISH_MINCE 2
-#define SELLPRICE_SALMON 4
-#define SELLPRICE_COD 4
-#define SELLPRICE_CRAB 4
-#define SELLPRICE_BASS 4
-#define SELLPRICE_CARP 4
-#define SELLPRICE_SOLE 4
-#define SELLPRICE_CLAM 4
-#define SELLPRICE_LOBSTER 4
-#define SELLPRICE_SHRIMP 4
+#define SELLPRICE_SALMON FISH_PRICE_FINE
+#define SELLPRICE_COD FISH_PRICE_GOOD
+#define SELLPRICE_CRAB FISH_PRICE_GOOD
+#define SELLPRICE_BASS FISH_PRICE_GOOD
+#define SELLPRICE_CARP FISH_PRICE_COMMON
+#define SELLPRICE_SOLE FISH_PRICE_COMMON
+#define SELLPRICE_CLAM FISH_PRICE_FINE
+#define SELLPRICE_LOBSTER FISH_PRICE_FINE
+#define SELLPRICE_SHRIMP FISH_PRICE_FAIR
 
 // Potions (50dr bottle = one base unit). Priced below steel-ingot / armor pieces since
 // alchemy is faster and materially cheaper than smithing. The 1.75x order bonus brings

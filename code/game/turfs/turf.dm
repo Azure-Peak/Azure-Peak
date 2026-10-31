@@ -72,6 +72,9 @@
 
 	var/list/panel_listeners
 
+	///The typepath we use for lazy fishing on turfs, to save on world init time.
+	var/fish_source
+
 /turf/vv_edit_var(var_name, new_value)
 	var/static/list/banned_edits = list("x", "y", "z")
 	if(var_name in banned_edits)
@@ -890,3 +893,36 @@
 		qdel(neighborlay_list[key])
 		neighborlay_list[key] = null
 		LAZYREMOVE(neighborlay_list, key)
+
+/**
+ * the following are some fishing-related optimizations to shave off as much
+ * time we spend implementing the fishing as possible, even if that means
+ * hackier code, because we've hundreds of turfs like lava, water etc every round,
+ */
+/turf/proc/add_lazy_fishing(fish_source_path)
+	RegisterSignal(src, COMSIG_FISHING_ROD_CAST, PROC_REF(add_fishing_spot_comp))
+	RegisterSignal(src, COMSIG_TURF_CHANGE, PROC_REF(remove_lazy_fishing))
+	ADD_TRAIT(src, TRAIT_FISHING_SPOT, INNATE_TRAIT)
+	fish_source = fish_source_path
+
+/turf/proc/remove_lazy_fishing()
+	SIGNAL_HANDLER
+	UnregisterSignal(src, list(
+		COMSIG_FISHING_ROD_CAST,
+		COMSIG_TURF_CHANGE,
+	))
+	REMOVE_TRAIT(src, TRAIT_FISHING_SPOT, INNATE_TRAIT)
+	fish_source = null
+
+/turf/proc/add_fishing_spot_comp(datum/source, obj/item/fishingrod/rod, mob/user, automated)
+	SIGNAL_HANDLER
+	var/datum/component/fishing_spot/spot = source.AddComponent(/datum/component/fishing_spot, get_regional_fish_source(fish_source, get_area(src)))
+	remove_lazy_fishing()
+	return spot.handle_cast(arglist(args))
+
+/// The fish source this turf draws from, whether still lazy or already a fishing spot component. Null for unfishable turfs.
+/turf/proc/get_fish_source()
+	if(fish_source)
+		return get_regional_fish_source(fish_source, get_area(src))
+	var/datum/component/fishing_spot/spot = GetComponent(/datum/component/fishing_spot)
+	return spot?.fish_source
