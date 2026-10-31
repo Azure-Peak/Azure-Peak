@@ -200,9 +200,6 @@
 /datum/magic_aspect/pseudo/hierophant
 	name = "Hierophant"
 
-/datum/magic_aspect/pseudo/luminary
-	name = "Luminary"
-
 /datum/magic_aspect/pseudo/desertrider
 	name = "Desert Rider"
 
