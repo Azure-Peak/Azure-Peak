@@ -111,53 +111,5 @@
 			qdel(hotspot)
 	qdel(src)
 
-/obj/projectile/magic/frostbolt
-	name = "frost bolt"
-	expose_caster_on_deflect = TRUE
-	icon_state = "ice_2"
-	damage = 30
-	damage_type = BURN
-	woundclass = BCLASS_BURN
-	flag = "fire"
-	range = SPELL_RANGE_PROJECTILE
-	speed = MAGE_PROJ_FAST
-	nodamage = FALSE
-
-/obj/projectile/magic/frostbolt/arc
-	name = "arced frost bolt"
-	damage = 23
-	arcshot = TRUE
-
-/obj/projectile/magic/frostbolt/on_hit(target, blocked = FALSE)
-	. = ..()
-	if(ismob(target))
-		var/mob/M = target
-		if(M.anti_magic_check())
-			visible_message(span_warning("[src] fizzles on contact with \the [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
-			qdel(src)
-			return BULLET_ACT_BLOCK
-		if(isliving(target))
-			var/mob/living/L = target
-			if(out_of_effective_range())
-				return
-			if(blocked >= 100)
-				return
-			if(L.on_fire)
-				L.adjust_fire_stacks(-1)
-				L.visible_message(span_warning("The frost dampens the flames on [L]!"))
-			apply_frost_stack(L)
-			playsound(get_turf(L), pick('sound/combat/fracture/fracturedry (1).ogg', 'sound/combat/fracture/fracturedry (2).ogg', 'sound/combat/fracture/fracturedry (3).ogg'), 80, TRUE)
-			new /obj/effect/temp_visual/snap_freeze(get_turf(L))
-	else if(isobj(target))
-		var/obj/O = target
-		O.extinguish()
-		var/turf/target_turf = get_turf(target)
-		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in target_turf)
-		if(hotspot)
-			new /obj/effect/temp_visual/small_smoke(target_turf)
-			qdel(hotspot)
-	qdel(src)
-
 #undef MT_FROST_SHARD
 #undef FROST_SHARD_DR_DURATION
