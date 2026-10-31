@@ -251,3 +251,54 @@
 			In bataille and in tourneyment,<br>\
 			His name was Sir Thopas. (Mood buff while around your protégé)"
 	icon_state = "protege_buff"
+
+/datum/action/cooldown/spell/vetprotege
+	name = "Take Protégé"
+	desc = "Mark a nearby person as your protégé. You can teach your protégés up to one skill level below your own, though they will be poor teachers themselves. \
+	You may only ever take two."
+	button_icon = 'icons/mob/actions/actions_clockcult.dmi'
+	button_icon_state = "eminence_rally"
+	cast_range = 1
+	primary_resource_cost = 0
+	primary_resource_type = SPELL_COST_NONE
+	cooldown_time = 30 SECONDS
+	charge_required = TRUE
+	charge_time = 3 SECONDS
+	associated_skill = /datum/skill/misc/reading
+	self_cast_possible = FALSE
+	spell_requirements = SPELL_REQUIRES_SAME_Z
+	antimagic_flags = NONE
+	/// How many protégés this veteran has ever taken
+	var/taken = 0
+
+/datum/action/cooldown/spell/vetprotege/is_valid_target(atom/cast_on)
+	return ishuman(cast_on)
+
+/datum/action/cooldown/spell/vetprotege/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/L = cast_on
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		reset_spell_cooldown()
+		return FALSE
+	var/key = REF(H)
+	if(HAS_TRAIT_FROM(L, TRAIT_BADTRAINER, key))
+		to_chat(H, span_warning("[L.name] is already my protégé."))
+		reset_spell_cooldown()
+		return FALSE
+	if(taken >= 2)
+		to_chat(H, span_warning("I have already taken two protégés. I will take no more."))
+		reset_spell_cooldown()
+		return FALSE
+	if(alert(L, "[H.name] offers to take you as their protégé. They will teach you with more patience, but you will be a poor teacher yourself, for good. Do you accept?", "Take Protégé", "I ACCEPT", "I REFUSE") != "I ACCEPT")
+		to_chat(H, span_warning("[L.name] has declined."))
+		reset_spell_cooldown()
+		return FALSE
+	if(QDELETED(L) || QDELETED(H) || taken >= 2 || HAS_TRAIT_FROM(L, TRAIT_BADTRAINER, key))
+		return FALSE
+	taken++
+	ADD_TRAIT(L, TRAIT_BADTRAINER, key)
+	ADD_TRAIT(L, TRAIT_BADTRAINER, PROTEGE_TRAIT)
+	H.visible_message(span_notice("[H] takes [L] on as a protégé."))
+	to_chat(L, span_nicegreen("[H.name] has taken me as their protégé."))
+	return TRUE

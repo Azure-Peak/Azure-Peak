@@ -120,9 +120,13 @@
 						to_chat(M, "<span class='warning'>I don't know any languages.</span>")
 					to_chat(M, "*----*")
 		for(var/X in GLOB.roguetraits)
-			if(HAS_TRAIT(L, X))
-				to_chat(L, "[X] - <span class='info'>[GLOB.roguetraits[X]]</span>")
-				ht = TRUE
+			if(!HAS_TRAIT(L, X))
+				continue
+			ht = TRUE
+			if(X == TRAIT_BADTRAINER && HAS_TRAIT_FROM(L, X, PROTEGE_TRAIT))
+				to_chat(L, "Protégé - <span class='info'>A veteran has taken me under their wing and can teach me up to one skill level below their own. I am too green to pass it on, though.</span>")
+				continue
+			to_chat(L, "[X] - <span class='info'>[GLOB.roguetraits[X]]</span>")
 		if(!ht)
 			to_chat(L, "<span class='warning'>I have no special traits.</span>")
 		to_chat(L, "*----*")

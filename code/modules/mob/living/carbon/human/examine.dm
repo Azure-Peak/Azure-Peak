@@ -840,6 +840,11 @@
 		if(HAS_TRAIT(src, TRAIT_AGENT_MERCHANT))
 			. += span_notice("An agent of the Azurian Trading Company.")
 
+		if(HAS_TRAIT_FROM(src, TRAIT_BADTRAINER, REF(user)))
+			. += span_nicegreen("This is my protégé.")
+		else if(HAS_TRAIT_FROM(user, TRAIT_BADTRAINER, REF(src)))
+			. += span_nicegreen("This is my mentor.")
+
 		// only bath-house workers and other bath-house agents can recognize bath-house agents
 		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE) && ishuman(user))
 			var/mob/living/carbon/human/bath_viewer = user
