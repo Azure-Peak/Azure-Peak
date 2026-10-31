@@ -49,6 +49,7 @@
 /datum/magic_aspect/cryomancy
 	name = "Cryomancy"
 	latin_name = "Maior Aspectus Glaciei"
+	// TODO: Rewrite desc
 	desc = "A first-order school focused on degrading its opponents with every strike. What it lacks for in pure destruction \
 	or speed, it makes up for in building, debilitating effects as the Magi's opponent shudders, slows, then finally freezes under every blow.\
 	This school is most prevalent in Gronn, Hammerhold and Grenzelhoftian circle, and likely originated from one of these countries where frost is a daily \
@@ -90,9 +91,10 @@
 /datum/magic_aspect/fulgurmancy
 	name = "Fulgurmancy"
 	latin_name = "Maior Aspectus Fulminis"
+	// TODO: Rewrite desc
 	desc = "A first-order school focused on striking with numbing speed and overwhelming force. \
 	Fulgurmancers are valued for their reliability - their spells are fast, accurate, and consistent in ways that flashier schools are not. \
-	It is said the most skilled Fulgurmancer has never once seen their bolt go wide."
+	It is said the most skilled Fulgurmancer never miss."
 	aspect_type = ASPECT_MAJOR
 	attuned_name = ASPECT_NAME_FULGURMANCY
 	school_color = GLOW_COLOR_LIGHTNING
