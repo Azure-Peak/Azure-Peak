@@ -68,14 +68,14 @@
 		"Glacies, a me discede!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/frost_bolt,
+		/datum/action/cooldown/spell/projectile/frost_shards,
 		/datum/action/cooldown/spell/projectile/rimecast,
 		/datum/action/cooldown/spell/forcewall/ice,
 		/datum/action/cooldown/spell/verglas,
 		/datum/action/cooldown/spell/fridigitation,
 	)
 	spell_order = list(
-		/datum/action/cooldown/spell/projectile/frost_bolt,
+		/datum/action/cooldown/spell/projectile/frost_shards,
 		/datum/action/cooldown/spell/projectile/rimecast,
 		/datum/action/cooldown/spell/forcewall/ice,
 		/datum/action/cooldown/spell/verglas,

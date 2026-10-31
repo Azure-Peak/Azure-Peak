@@ -1,7 +1,7 @@
 #define MT_FROST_SHARD "frost_shard"
 #define FROST_SHARD_DR_DURATION 1 SECONDS
 
-/datum/action/cooldown/spell/projectile/frost_bolt
+/datum/action/cooldown/spell/projectile/frost_shards
 	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
 	name = "Frost Shards"
 	desc = "Loose a concentrated spray of frozen shards. The shards lose damage and efffects past 4 paces . \
@@ -40,7 +40,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-/datum/action/cooldown/spell/projectile/frost_bolt/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
+/datum/action/cooldown/spell/projectile/frost_shards/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
 	var/base_angle = to_fire.Angle
 	if(isnull(base_angle))
