@@ -86,7 +86,7 @@
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
 				shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
-				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_JOB)
+				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, ADVENTURER_TRAIT)
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_CON, 1)
