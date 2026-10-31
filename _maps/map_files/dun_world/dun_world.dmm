@@ -9689,6 +9689,7 @@
 /obj/structure/stairs{
 	dir = 8
 	},
+/obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/cobblerock{
 	smooth = 0
 	},
@@ -12877,6 +12878,9 @@
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 1
+	},
+/obj/structure/fluff/railing/corner{
+	pixel_x = 15
 	},
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/town)
@@ -20055,7 +20059,7 @@
 	locked = 1;
 	lockid = "walls"
 	},
-/turf/closed/basic,
+/turf/open/floor/rogue/cobble,
 /area/rogue/indoors/town)
 "dxm" = (
 /obj/effect/decal/cobbleedge{
@@ -36875,12 +36879,9 @@
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/sewer)
 "gmw" = (
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/turf/closed/wall/mineral/rogue/stone/moss,
-/area/rogue/outdoors/town)
+/obj/structure/fluff/railing/corner/south_west,
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/town)
 "gmx" = (
 /obj/structure/stairs{
 	dir = 8
@@ -40140,6 +40141,11 @@
 "gQq" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/bog/south)
+"gQv" = (
+/obj/structure/fluff/railing/border/east,
+/obj/structure/fluff/railing/corner,
+/turf/open/transparent/openspace,
+/area/rogue/indoors/town/garrison)
 "gQB" = (
 /turf/closed/mineral/random/rogue/high,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
@@ -75682,6 +75688,15 @@
 /obj/machinery/light/rogue/torchholder/hotspring/standing,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
+"mLq" = (
+/obj/effect/decal/edge{
+	color = "#3f3f3f"
+	},
+/obj/structure/fluff/railing/corner{
+	dir = 10
+	},
+/turf/open/floor/rogue/grassyel,
+/area/rogue/outdoors/town)
 "mLw" = (
 /mob/living/carbon/human/species/skeleton/npc/medium,
 /turf/open/floor/rogue/cobble,
@@ -76392,10 +76407,6 @@
 /obj/structure/fluff/railing/wood,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/underdark/south)
-"mSx" = (
-/obj/item/grown/log/tree/stake,
-/turf/closed/mineral/random/rogue/high,
-/area/rogue/under/cave)
 "mSz" = (
 /obj/machinery/light/rogue/candle/blue/l,
 /turf/open/floor/rogue/tile/harem,
@@ -80587,9 +80598,14 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/mountains)
 "nFl" = (
-/obj/structure/fluff/railing/corner,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/tavern)
+/obj/structure/stairs{
+	dir = 8
+	},
+/obj/structure/fluff/railing/border,
+/turf/open/floor/rogue/cobblerock{
+	smooth = 0
+	},
+/area/rogue/indoors/town)
 "nFn" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-sread"
@@ -81504,7 +81520,7 @@
 	color = "#3f3f3f";
 	dir = 1
 	},
-/turf/closed/wall/mineral/rogue/stone/moss,
+/turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "nNK" = (
 /obj/machinery/tanningrack,
@@ -87341,9 +87357,13 @@
 /turf/open/floor/carpet/purple,
 /area/rogue/indoors/town/garrison)
 "oKA" = (
-/obj/structure/fluff/railing/corner/north_east,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/tavern)
+/obj/structure/fluff/railing/corner{
+	dir = 10
+	},
+/turf/open/floor/rogue/cobblerock{
+	smooth = 0
+	},
+/area/rogue/outdoors/town)
 "oKC" = (
 /obj/structure/table/wood/poor,
 /obj/item/paper{
@@ -101297,7 +101317,7 @@
 /area/rogue/under/cave/scarymaze)
 "qYZ" = (
 /obj/machinery/light/rogue/torchholder/r,
-/turf/open/floor/carpet/royalblack,
+/turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "qZf" = (
 /obj/structure/gate/bars/preopen{
@@ -103265,7 +103285,6 @@
 /area/rogue/outdoors/rtfield/eora)
 "rsi" = (
 /obj/structure/fluff/railing/border/east,
-/obj/structure/fluff/railing/border/west,
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/garrison)
 "rsn" = (
@@ -118836,7 +118855,7 @@
 /obj/structure/fluff/walldeco/sparrowflag{
 	pixel_y = -32
 	},
-/turf/open/floor/carpet/royalblack,
+/turf/open/floor/rogue/wood,
 /area/rogue/indoors/town/tavern)
 "tSE" = (
 /obj/machinery/light/rogue/torchholder/l,
@@ -136016,6 +136035,8 @@
 /area/rogue/under/town/basement/keep)
 "wNL" = (
 /obj/structure/closet/crate/chest/old_crate,
+/obj/item/kitchen/spoon,
+/obj/item/kitchen/spoon,
 /obj/item/kitchen/spoon,
 /obj/item/kitchen/spoon,
 /obj/item/kitchen/fork,
@@ -204516,7 +204537,7 @@ qHj
 qHj
 qHj
 qHj
-mSx
+qHj
 qHj
 qHj
 qHj
@@ -282239,7 +282260,7 @@ phl
 phl
 phl
 bJb
-bJb
+nFl
 cDX
 gyu
 gyu
@@ -282689,9 +282710,9 @@ nus
 nus
 qgW
 uIO
-iCr
-xqO
-xqO
+mLq
+kcK
+oKA
 clG
 nea
 nea
@@ -291739,10 +291760,10 @@ pvg
 pvg
 pvg
 pvg
-pFq
-xdW
-xdW
-xdW
+gvx
+gvx
+pvg
+pvg
 btF
 bVw
 nYQ
@@ -292192,9 +292213,9 @@ pvg
 pvg
 pvg
 qYZ
-oOu
-oKA
-xdW
+tiB
+kOg
+pvg
 ruo
 any
 kOg
@@ -292645,7 +292666,7 @@ kOg
 pvg
 taS
 bVw
-nFl
+nYQ
 tSD
 taS
 taS
@@ -293097,8 +293118,8 @@ bVw
 kOm
 taS
 any
-oKA
-xdW
+kOg
+pvg
 scj
 ado
 hvv
@@ -297613,7 +297634,7 @@ hfw
 xqO
 exD
 nNI
-gmw
+pZM
 vTF
 sYV
 sYV
@@ -331441,7 +331462,7 @@ waI
 flT
 iBM
 iBM
-iBM
+gmw
 tSK
 xeQ
 exD
@@ -331892,8 +331913,8 @@ jeC
 xGc
 flT
 iBM
-iBM
-iBM
+thX
+oQz
 gsU
 miq
 exD
@@ -332794,7 +332815,7 @@ exD
 exD
 exD
 exD
-exD
+lHQ
 gVQ
 xeQ
 lHQ
@@ -440424,7 +440445,7 @@ arw
 tGl
 tGl
 tRp
-rsi
+gQv
 rsi
 dxD
 rZf
