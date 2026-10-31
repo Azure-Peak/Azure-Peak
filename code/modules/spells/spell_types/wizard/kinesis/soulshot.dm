@@ -1,42 +1,5 @@
 #define SOULSHOT_BASE_DAMAGE SPELL_DMG(80)
 #define SOULSHOT_PIERCE_DAMAGE_MULT 0.75
-/datum/action/cooldown/spell/projectile/soulshot
-	button_icon = 'icons/mob/actions/mage_shared.dmi'
-	name = "Soulshot"
-	desc = "Fire a devastating beam of kinetic force that pierces through up to 4 targets. Stopped by solid objects. \
-	Damage is three-quartered after the first target. \
-	Basic offensive magic, refined for over a millennium since the first Magi expelled mana from their body with pure malice and determination to destroy another."
-	fluff_desc = "Basic offensive magic, refined for over two millennium since the first Magi expelled mana from their body with pure malice and determination to destroy another. The natural evolution of the arcyne bolt - a barely held together ball of energy - into a focused beam of destructive force. The name 'soulshot' is derived from the original idea that one must put their soul into it to exert such a powerful projectiles. Its alignment - of pure arcynic energy, means that most magis cannot cast the spell when they are attuned to a 'unpure' aspect - like fire or lightning. Instead, this spell is generally used when one is attuned to Augmentation - one's own body, or Kinesis - the usage of motional force to displace your foes."
-	button_icon_state = "soulshot"
-	sound = 'sound/magic/soulshot.ogg'
-	spell_color = GLOW_COLOR_KINESIS
-	glow_intensity = GLOW_INTENSITY_MEDIUM
-
-	projectile_type = /obj/projectile/magic/soulshot
-	cast_range = SPELL_RANGE_PROJECTILE
-	point_cost = 3
-
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MAJOR_PROJECTILE
-
-	invocations = list("Animus Ictus!")
-	invocation_type = INVOCATION_SHOUT
-
-	charge_required = TRUE
-	weapon_cast_penalized = TRUE
-	charge_time = CHARGETIME_MAJOR
-	charge_swingdelay_type = SWINGDELAY_PENALTY
-	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 12 SECONDS
-	attunement_school = ASPECT_NAME_KINESIS
-
-	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
-
 /obj/projectile/magic/soulshot
 	name = "soulshot"
 	tracer_type = /obj/effect/projectile/tracer/bloodsteal

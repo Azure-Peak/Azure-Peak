@@ -46,16 +46,3 @@
 	// Only the center stone can roll for blunt crit/knockout
 	if(iteration != center_index)
 		to_fire.woundclass = null
-
-// --- Lesser Gravel Blast: 3-projectile variant for poke option picks ---
-
-/datum/action/cooldown/spell/projectile/gravel_blast/lesser
-	name = "Lesser Gravel Blast"
-	desc = "Spray a trio of stones at a target. Stones ricochet off walls. Subsequent hits on the same target deal reduced damage. \
-	Stones are particularly effective at degrading armor. Deals 2x damage to structures. \
-	Toggle arc mode (Shift+G) to lob over obstacles at reduced damage."
-	button_icon_state = "gravel_blast"
-	projectiles_per_fire = 3
-	attunement_school = null
-	spell_tier = 0
-	point_cost = 0

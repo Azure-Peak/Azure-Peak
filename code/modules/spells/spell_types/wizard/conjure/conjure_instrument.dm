@@ -63,6 +63,3 @@
 	user.put_in_hands(R)
 	src.conjured_instrument = R
 	return TRUE
-
-/datum/action/cooldown/spell/conjure_instrument/miracle
-	associated_skill = /datum/skill/magic/holy
