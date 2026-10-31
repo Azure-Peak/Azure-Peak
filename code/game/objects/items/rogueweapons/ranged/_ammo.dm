@@ -54,6 +54,8 @@
 /obj/projectile
 	var/is_silver_proj = FALSE //Self-explanatory.
 	var/datum/action/cooldown/spell/source_spell
+	/// Whether or not this projectile deals bonus base damage versus mindless mobs susceptible to it
+	var/mindless_bonus_damage = TRUE
 
 //handles the infliction of special effects upon projectile impact, such as silver-blighting
 /obj/projectile/proc/do_special_projectile_effect(firer, obj/item/bodypart/affecting, mob/living/victim, selzone)
