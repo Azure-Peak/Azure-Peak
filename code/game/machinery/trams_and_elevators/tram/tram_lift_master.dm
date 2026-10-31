@@ -91,12 +91,12 @@
 				continue
 
 			if(isliving(tram_contents))
-				explosion(tram_contents, devastation_range = rand(0, 1), heavy_impact_range = 2, light_impact_range = 3) //50% chance of gib
+				explosion(tram_contents, extreme_impact_range = rand(0, 1), heavy_impact_range = 2, light_impact_range = 3) //50% chance of gib
 
 			else if(prob(9))
-				explosion(tram_contents, devastation_range = 1, heavy_impact_range = 2, light_impact_range = 3)
+				explosion(tram_contents, extreme_impact_range = 1, heavy_impact_range = 2, light_impact_range = 3)
 
-			explosion(tram_part, devastation_range = 1, heavy_impact_range = 2, light_impact_range = 3)
+			explosion(tram_part, extreme_impact_range = 1, heavy_impact_range = 2, light_impact_range = 3)
 			qdel(tram_part)
 
 /**

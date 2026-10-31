@@ -529,10 +529,10 @@
  *
  * Default behaviour is to call contents_explosion() and send the COMSIG_ATOM_EX_ACT signal
  */
-/atom/proc/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+/atom/proc/ex_act(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 	set waitfor = FALSE
-	contents_explosion(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
-	SEND_SIGNAL(src, COMSIG_ATOM_EX_ACT, severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+	contents_explosion(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
+	SEND_SIGNAL(src, COMSIG_ATOM_EX_ACT, severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 
 /atom/proc/fire_act(added, maxstacks)
 	SEND_SIGNAL(src, COMSIG_ATOM_FIRE_ACT, added, maxstacks)

@@ -250,7 +250,7 @@
 	if(!source)
 		return
 	// look what you FUCKING did!!! D:
-	explosion(source, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 0, flash_range = 3, adminlog = FALSE, ignorecap = TRUE)
+	explosion(source, extreme_impact_range = 0, heavy_impact_range = 0, light_impact_range = 0, flash_range = 3, adminlog = FALSE, ignorecap = TRUE)
 
 	var/list/thrownatoms = list()
 	for(var/turf/T in get_hear(2, source))
