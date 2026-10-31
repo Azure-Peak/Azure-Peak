@@ -1,4 +1,12 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aaa" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/cave/west)
+"aab" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/underdark/north)
 "aac" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5;
@@ -12,12 +20,29 @@
 /obj/machinery/light/rogue/candle/floorcandle,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield)
+"aae" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/twig,
+/area/rogue/outdoors/bog/south)
 "aaf" = (
 /obj/structure/glowshroom{
 	color = "#87CEEB"
 	},
 /turf/open/water/ocean/abyssal,
 /area/rogue/under/cave/fishmandungeon)
+"aag" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/grasscold,
+/area/rogue/outdoors/mountains/decap)
+"aah" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter)
+"aai" = (
+/obj/structure/fluff/wallclock/r,
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter)
 "aal" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
@@ -6329,10 +6354,6 @@
 /obj/machinery/light/rogue/torchholder/l,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/rtfield)
-"bfq" = (
-/obj/effect/landmark/forlorne,
-/turf/open/floor/rogue/grasscold,
-/area/rogue/outdoors/mountains/decap)
 "bfy" = (
 /obj/item/roguestatue/gold,
 /obj/structure/table/wood,
@@ -42042,10 +42063,6 @@
 /obj/item/reagent_containers/glass/bottle/rogue/beer,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/town/sewer)
-"hhF" = (
-/obj/effect/landmark/forlorne,
-/turf/open/floor/rogue/dirt,
-/area/rogue/outdoors/bog/south)
 "hhK" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 6
@@ -80190,10 +80207,6 @@
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town)
-"nBs" = (
-/obj/effect/landmark/forlorne,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/under/underdark/north)
 "nBA" = (
 /obj/item/roguebin/water,
 /turf/open/floor/rogue/concrete,
@@ -81187,10 +81200,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/town/basement)
-"nKJ" = (
-/obj/effect/landmark/forlorne,
-/turf/open/floor/rogue/ruinedwood,
-/area/rogue/indoors/shelter)
 "nKO" = (
 /obj/structure/bars/pipe{
 	dir = 8
@@ -84602,10 +84611,6 @@
 /mob/living/carbon/human/species/lizardfolk/psy_vault_guard,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/his_vault)
-"onV" = (
-/obj/effect/landmark/forlorne,
-/turf/open/floor/rogue/dirt/road,
-/area/rogue/outdoors/bog/south)
 "onW" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 4
@@ -116284,10 +116289,6 @@
 	},
 /turf/open/floor/rogue/wood,
 /area/rogue/indoors/shelter)
-"twA" = (
-/obj/effect/landmark/forlorne,
-/turf/open/floor/rogue/cobble/mossy,
-/area/rogue/indoors/cave/west)
 "twB" = (
 /obj/effect/decal/remains/fox,
 /turf/open/floor/rogue/dirt/road,
@@ -166227,8 +166228,8 @@ xYB
 xYB
 xYB
 lUW
+aab
 xYB
-nBs
 xYB
 lUW
 gcw
@@ -190636,7 +190637,7 @@ rpC
 rpC
 bNW
 rpC
-twA
+aaa
 whG
 tCn
 bYW
@@ -191088,8 +191089,8 @@ rpC
 rpC
 rpC
 rpC
-twA
-twA
+aaa
+aaa
 uNW
 syP
 syP
@@ -381991,9 +381992,9 @@ sxN
 xot
 sxN
 sxN
-xcc
-xcc
-xcc
+aae
+aae
+aae
 aay
 jYu
 jYu
@@ -387867,7 +387868,7 @@ lCD
 sxN
 sxN
 sxN
-hhF
+sxN
 mAW
 sxN
 xot
@@ -388319,8 +388320,8 @@ sxN
 xot
 sxN
 sxN
-onV
-onV
+mAW
+mAW
 sxN
 sxN
 sxN
@@ -493503,7 +493504,7 @@ wHp
 kNH
 idZ
 lRZ
-bfq
+lRZ
 lRZ
 oyf
 oyf
@@ -493955,8 +493956,8 @@ wHp
 kNH
 eMt
 lRZ
-bfq
-bfq
+aag
+aag
 eAq
 eAq
 eAq
@@ -494407,7 +494408,7 @@ wHp
 kNH
 kNH
 lRZ
-lRZ
+aag
 lRZ
 eAq
 eAq
@@ -582927,8 +582928,8 @@ mIp
 mIp
 uvy
 yiA
-nKJ
-nKJ
+uZT
+uZT
 aOC
 uZT
 uvy
@@ -583378,8 +583379,8 @@ tDV
 ddn
 ddn
 uvy
-uZT
-nKJ
+aah
+aah
 cjJ
 uZT
 koR
@@ -583830,7 +583831,7 @@ tDV
 rVf
 rVf
 uvy
-uZT
+aai
 mno
 uZT
 uZT
