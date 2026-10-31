@@ -22,6 +22,10 @@
 /particles/weather/fog/necra
 	gradient				= list(0,"#7c9b98",100,"#5ea9b6","loop")
 
+/particles/weather/fog/zizo
+	gradient				= list(0,"#7c9b88",100,"#7ead93","loop")
+	wind					= 4 //slightly less
+
 /particles/weather/fog/bloodfog
 	gradient				= list(0,"#5e0101",100,"#230000","loop")
 
@@ -148,3 +152,28 @@
 	particleEffectType = /particles/weather/fog/bloodfog
 	probability = 1
 
+/datum/particle_weather/fog/zizo
+	name = "Omen of Zizo Defilment Fog"
+	particleEffectType = /particles/weather/fog/zizo
+	weather_duration_upper = 15 MINUTES //long as Zizo's defilement lasts
+
+/datum/particle_weather/fog/zizo/weather_act(mob/living/L)
+	if(HAS_TRAIT(L, TRAIT_WEATHER_PROTECTED))
+		return
+	if(HAS_TRAIT(L, TRAIT_CABAL)) //zizites see this as slightly good omen
+		L.add_stress(/datum/stressevent/zizo_fog)
+	if(!HAS_TRAIT(L, TRAIT_CABAL)) //everyone else does not
+		L.add_stress(/datum/stressevent/zizo_fog_nonbeliever)
+
+/datum/particle_weather/fog/zizo_short
+	name = "Omen of Zizo Fog"
+	particleEffectType = /particles/weather/fog/zizo
+	//shorter duration, used for pet cemetary
+
+/datum/particle_weather/fog/zizo_short/weather_act(mob/living/L)
+	if(HAS_TRAIT(L, TRAIT_WEATHER_PROTECTED))
+		return
+	if(HAS_TRAIT(L, TRAIT_CABAL)) //zizites see this as slightly good omen
+		L.add_stress(/datum/stressevent/zizo_fog)
+	if(!HAS_TRAIT(L, TRAIT_CABAL)) //everyone else does not
+		L.add_stress(/datum/stressevent/zizo_fog_nonbeliever)

@@ -506,6 +506,11 @@
 	stressadd = 3
 	desc = span_boldred("The Undermaiden is watching me with disgust!")
 
+/datum/stressevent/zizo_fog_nonbeliever // Non-Zizites during Defilement/Pet Cemetary outside get this
+	timer = 1 MINUTES
+	stressadd = 2
+	desc = list(span_red("I feel a chill down my spine and a faint smell of sickly decay in the air, something is wrong.."))
+
 /datum/stressevent/something_stirs // Psydonites can pray in blood rain. For a price.
 	timer = 5 MINUTES
 	stressadd = 4
