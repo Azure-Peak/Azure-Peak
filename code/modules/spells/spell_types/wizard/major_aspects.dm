@@ -327,7 +327,7 @@
 	latin_name = "Maior Aspectus Mortis"
 	desc = "Zizo! Mistress of Progress! Grants me power over the mortal coils! Zizo! Mistress of Undeath! Grants me the power to bind lyfe unto the dead! Zizo! Mistress of Magick! Grants me power unbound to smite the unworthy!"
 	aspect_type = ASPECT_MAJOR
-	school_color = GLOW_COLOR_ZIZO
+	school_color = PATRON_COLOR_ZIZO
 	class_locked = TRUE
 	// No one is hearing these chants by design but better safe than sorry
 	binding_chants = list(

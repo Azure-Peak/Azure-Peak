@@ -2,7 +2,7 @@
 /datum/action/cooldown/spell/undivided
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	spell_color = GLOW_COLOR_UNDIVIDED
+	spell_color = PATRON_COLOR_UNDIVIDED
 
 	ignore_armor_penalty = TRUE
 
@@ -32,7 +32,7 @@
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon_state = "enkindle"
-	spell_color = GLOW_COLOR_UNDIVIDED
+	spell_color = PATRON_COLOR_UNDIVIDED
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MINOR + 5
 
@@ -397,7 +397,7 @@
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon_state = "gallows"
-	spell_color = GLOW_COLOR_UNDIVIDED
+	spell_color = PATRON_COLOR_UNDIVIDED
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	projectile_type = /obj/projectile/magic/gallows
@@ -575,5 +575,5 @@
 	fluff_desc = "The greatest feat any priest can manage is reversion of death, a true rebirth unlike the perversion Necromancers aspire to."
 	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
 	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	spell_color = GLOW_COLOR_UNDIVIDED
+	spell_color = PATRON_COLOR_UNDIVIDED
 	cooldown_time = 15 MINUTES

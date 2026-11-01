@@ -16,29 +16,6 @@
 #define GLOW_COLOR_WARD "#D4A844" // Warm amber-gold, for battlewardry / protective ward spells
 #define GLOW_COLOR_BARDIC "#E8837C" // Warm rose, for bardic songs and cadences
 
-//Gods - Tennite
-#define GLOW_COLOR_UNDIVIDED "#28908C" //Undivided Cyan
-#define GLOW_COLOR_ASTRATA "#F9B362" //Astratan Yellow/Orange
-#define GLOW_COLOR_NOC "#9acdff" //Noc's lightbulb
-#define GLOW_COLOR_RAVOX "#7A1E30" //Ravox Crimson
-#define GLOW_COLOR_MALUM "#884610" //Malum Orange
-#define GLOW_COLOR_ABYSSOR "#4a6193" //Abyssor Dream Blue 
-#define GLOW_COLOR_DENDOR "#43622e" //Dendor Forest Green
-#define GLOW_COLOR_PESTRA "#838341" //Pestra Sickly Olive
-#define GLOW_COLOR_NECRA "#30203a" //Necra Shadow Violet
-#define GLOW_COLOR_EORA "#a95650" //Eora Bleeding Heart 
-#define GLOW_COLOR_XYLIX "#e2ddae" //Xylix Pale Gold
-
-//Gods - Ascendant
-#define GLOW_COLOR_GRAGGAR "#19345E" //Graggar Dark Blue
-#define GLOW_COLOR_ZIZO "#b76bff" //
-#define GLOW_COLOR_BAOTHA "#bb48a9" //Baotha Violent Rose
-#define GLOW_COLOR_MATTHIOS "#e1c457" //Matthios Golden
-
-//Gods - Other
-#define GLOW_COLOR_VHESLYN "#710113" //Placeholder?
-#define GLOW_COLOR_MOSSMOTHER "#a6b074" //Placeholder?
-
 // Constants for spell glow intensity. These are literally 1 2 3 4 but it is for documenting design purposes
 #define GLOW_INTENSITY_LOW 1 // For spam projectiles or generic buffs
 #define GLOW_INTENSITY_MEDIUM 2 // Anything that would hurt quite a bit
