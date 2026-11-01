@@ -123,7 +123,7 @@
 				return
 
 			if(H.mind.has_antag_datum(/datum/antagonist/vampire/lord) || H.mind.has_antag_datum(/datum/antagonist/lich) || H.mind.has_antag_datum(/datum/antagonist/dreamwalker)) //(prevents exploits w/ the rod like muting a lich/dreamwalker or shocking a pre-ascension VL)
-				to_chat(user, span_danger("[H] doesn't seem remotely suspectable to the rod's influence!"))
+				to_chat(user, span_danger("[H] doesn't seem remotely susceptible to the rod's influence!"))
 				return
 
 			if(!COOLDOWN_FINISHED(src, scepter))
@@ -1117,8 +1117,10 @@
 	GLOB.lordcolor += src
 
 /obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
-	detail_tag = "_det"
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	detail_color = primary
+	altdetail_color = secondary
 	update_icon()
 
 /obj/item/rogueweapon/spear/keep_standard/Destroy()

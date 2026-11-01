@@ -56,7 +56,7 @@
 /turf/open/water/swamp/deep,
 /area/rogue/indoors/vampire_manor)
 "ah" = (
-/obj/item/ash,
+/obj/item/natural/ash,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/inhumen)
 "ai" = (

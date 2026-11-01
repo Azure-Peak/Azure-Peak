@@ -7,7 +7,7 @@
 /datum/action/cooldown/spell/projectile/zizo
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 	ignore_armor_penalty = TRUE
 	attunement_school = null
 	primary_resource_type = SPELL_COST_DEVOTION
@@ -25,7 +25,7 @@
 /datum/action/cooldown/spell/zizo
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 	ignore_armor_penalty = TRUE
 	attunement_school = null
 	primary_resource_type = SPELL_COST_DEVOTION
@@ -112,124 +112,6 @@
 	REMOVE_TRAIT(owner, TRAIT_NITEVISION, "snuff_lights")
 	owner.update_sight()
 
-/////////////////////////////////
-// T1 - Zizo Miracle Selection //
-/////////////////////////////////
-
-/datum/action/cooldown/spell/zizo/stripknowledgeorprofane
-	name = "Means of Progress"
-	desc = "Choose between Zizo's Knowledge at the price of your sanity and perception (Insight), or Zizo's Power for offensively embedding bone lances into victims at range (Profane Bone)."
-	fluff_desc = "There is always a cost to Progress, if there's anything every follower of Zizo knows; 'Progress commands sacrifice'."
-	button_icon_state = "firstspellpack"
-
-	click_to_activate = FALSE
-	cast_range = SPELL_RANGE_ADJACENT
-
-	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
-
-	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
-
-	invocation_type = INVOCATION_NONE //It has seperate message ON USE
-
-	charge_required = FALSE
-	cooldown_time = 10 SECONDS//Does not matter it's single use
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-	var/chosen_spell
-	var/zizo_stripknowledge = /datum/action/cooldown/spell/zizo/stripknowledge
-	var/zizo_profane = /datum/action/cooldown/spell/projectile/zizo/profane
-	var/choosingspell = FALSE
-
-/datum/action/cooldown/spell/zizo/stripknowledgeorprofane/cast(atom/cast_on)
-	. = ..()
-	if(choosingspell == TRUE)
-		to_chat(owner, span_warning("I'm already choosing a spell!"))
-	else
-		var/choice = chosen_spell
-		choosingspell = TRUE
-		if(!chosen_spell)
-			choice = alert(owner, "What shalt you take from them? Knowledge or Lyfe", "PROGRESS COMMANDS SACRIFICE", "Knowledge - Strip Wisdom", "Lyfe - Profane Bone")
-			chosen_spell = choice
-		switch(choice)
-			if("Knowledge - Strip Wisdom")
-				owner.mind?.AddSpell(new zizo_stripknowledge, owner)
-				owner.mind?.RemoveSpell(src.type)
-			if("Lyfe - Profane Bone")
-				owner.mind?.AddSpell(new zizo_profane, owner)
-				owner.mind?.RemoveSpell(src.type)
-			else
-				return FALSE
-
-///////////////////////
-// T1 - Strip Wisdom. //
-///////////////////////
-// Reverse-enlightenment, as a twisted mockery of Noc's miracle. This one debuffs the int of whoever you cast it upon. -2 to be precise. sire.
-
-/datum/action/cooldown/spell/zizo/stripknowledge
-	name = "Strip Wisdom"
-	desc = "Invoke Zizo's will onto a target, stripping their unworthy knowledge and dulling their mynd."
-	fluff_desc = "Truth, Inzanity, Progress, the Absolute mandate of her Design. It is a difficult matter for the ignorant masses to even comprehend the means, but even Zizo knows not all are beyond the grasp of her ultimate truth, no matter how much they deny it."
-	button_icon_state = "stripknowledge"
-	sound = 'sound/magic/baotha_blessdrink.ogg'
-	glow_intensity = GLOW_INTENSITY_LOW
-
-	cast_range = SPELL_RANGE_GROUND
-	self_cast_possible = FALSE
-
-	primary_resource_cost = 30 //slightly more expensive vs profane
-	secondary_resource_cost = 20
-
-	invocations = list("Zizo! Zizo! Strip away this unworthy mynd!") //Slightly louder whisper than Noc
-	invocation_type = INVOCATION_WHISPER
-
-	spell_flags = SPELL_PSYDON
-
-	charge_required = TRUE
-	charge_time = 1 SECONDS
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/chargingold.ogg'
-	cooldown_time = 2 MINUTES
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-/datum/action/cooldown/spell/zizo/stripknowledge/cast(atom/cast_on)
-	. = ..()
-	var/mob/living/carbon/human/H = owner
-	if(!istype(H))
-		return FALSE
-
-	if(!isliving(cast_on))
-		to_chat(H, span_warning("That is not a valid target!"))
-		return FALSE
-
-	if(HAS_TRAIT(cast_on, TRAIT_DEADITE)) //unique funny easter egg for deadites
-		to_chat(H, span_warning("My target lacks any signs of intelligence to strip!"))
-		return FALSE
-
-	var/mob/living/spelltarget = cast_on
-
-	H.visible_message("[H] mutters a profane incantation and [spelltarget]'s glint of intelligence dulls'.")
-	spelltarget.apply_status_effect(/datum/status_effect/buff/zizo_knowledge)
-	spelltarget.add_stress(/datum/stressevent/zizo_knowledge)
-	return TRUE
-
-/atom/movable/screen/alert/status_effect/buff/zizo_knowledge
-	name = "Stripped Knowledge"
-	desc = "Profane magic is hindering my intelligence."
-	icon_state = "stripknowledge"
-
-/datum/status_effect/buff/zizo_knowledge
-	id = "zizo_knowledge"
-	alert_type = /atom/movable/screen/alert/status_effect/buff/zizo_knowledge
-	duration = 2 MINUTES
-	effectedstats = list(STATKEY_INT = -2)
-
-/datum/stressevent/zizo_knowledge
-	timer = 2 MINUTES
-	stressadd = 3
-	desc = span_red("I feel a shiver down my spine as unnatural magicka dulls my mynd.")
-
 ////////////////
 //T1 - PROFANE//
 ////////////////
@@ -284,7 +166,7 @@
 	if(QDELETED(src))
 		return
 	visible_message(span_purple("[src] crumbles into dust..."), span_purple("[src] crumbles into dust..."))
-	new /obj/item/ash(get_turf(src))
+	new /obj/item/natural/ash(get_turf(src))
 	qdel(src)
 
 /obj/projectile/magic/profane
@@ -352,7 +234,7 @@
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "skeleton_formation"
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 60
@@ -381,9 +263,9 @@
 
 	invocation_type = null
 	invocations = null
-	modes = list(list("name" = "Sword and Shield", "tag" = "SWD", "loadout" = "sword_shield", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Scutum et Gladius!"),
-		list("name" = "Spear", "tag" = "SPR", "loadout" = "spear", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Hasta!"),
-		list("name" = "Two Daggers", "tag" = "2DG", "loadout" = "dual_daggers", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Pugiones!"),
+	modes = list(list("name" = "Sword and Shield", "tag" = "SWD", "loadout" = "sword_shield", "color" = PATRON_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Scutum et Gladius!"),
+		list("name" = "Spear", "tag" = "SPR", "loadout" = "spear", "color" = PATRON_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Hasta!"),
+		list("name" = "Two Daggers", "tag" = "2DG", "loadout" = "dual_daggers", "color" = PATRON_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Pugiones!"),
 	)
 
 /datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm/spawn_summon(turf/T, mob/living/user)
@@ -450,7 +332,7 @@
 /datum/action/cooldown/spell/zizo/bestowcant
 	name = "Bestow Zizocant"
 	desc = "Bestow the forbidden tongue of Zizo's chant, requires a semi-lengthy ritual and a fellow Cabalist of Zizo's faith. You must remain still during the ritual."
-	fluff_desc = "A tongue known to the initated of Zizo's Cabal, as well as the reanimated by those whom serve in her name. To the ignorant it is but gibberish with an eerie resemblance to the elven tongue; but to the enlightened it is a hallowed tongue reborn from the reminants of all that were lost."
+	fluff_desc = "A tongue known to the initiated of Zizo's Cabal, as well as the reanimated by those whom serve in her name. To the ignorant it is but gibberish with an eerie resemblance to the elven tongue; but to the enlightened it is a hallowed tongue reborn from the remnants of all that were lost."
 	button_icon_state = "zizocant"
 	sound = 'sound/magic/baotha_blessdrink.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -489,7 +371,7 @@
 
 	if(spelltarget != H && HAS_TRAIT(spelltarget, TRAIT_CABAL))
 		to_chat(H, span_warning("I bestow Zizo's sacred tongue upon [spelltarget]!"))
-		to_chat(spelltarget, span_warning("A strange chant settles into familarity in my mind. I can use ,W to speak Zizo's tongue, however its best I do so carefully as to not draw attention."))
+		to_chat(spelltarget, span_warning("A strange chant settles into familiarity in my mind. I can use ,W to speak Zizo's tongue, however its best I do so carefully as to not draw attention."))
 		spelltarget.grant_language(/datum/language/undead)
 	return TRUE
 
@@ -561,14 +443,31 @@
 		anti_spam = FALSE
 		return TRUE
 
-	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
-
-	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+	//issue is without decapitation instant kills, + bugs w/ missing a head + no bloodloss, you physically can't kill them outside of gibbing/admin involvement/blessed silver.
+	if(isdullahan(user) && path_choice == "Unlife")
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
 		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
-		user.mind?.RemoveSpell(src)
-		qdel(src)
 		anti_spam = FALSE
 		return TRUE
+
+	//constructs are made of metal, what flesh to turn to faith?
+	if(isconstruct(user) && path_choice == "Unlife")
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		anti_spam = FALSE
+		return TRUE
+
+	//vampires are bloodloss immune + have their own healing that makes this impractical to use, not you can cast it as one.
+	if(user.mind?.has_antag_datum(/datum/antagonist/vampire))
+		user.playsound_local(user,'sound/villain/littlescary.ogg', 10)
+		to_chat(user, "</br><i>...I don't feel anything different from attempting this... How strange..?</i>")
+		user.visible_message(span_boldwarning("[user]'s prayers are unanswered!"))
+		anti_spam = FALSE
+		return TRUE
+
+	ADD_TRAIT(user, TRAIT_ARCYNE, "[type]")
 
 	switch(path_choice)
 		if("Progress")

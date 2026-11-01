@@ -146,6 +146,8 @@
 	var/charge_swingdelay_type = SWINGDELAY_NORMAL
 	/// If nonzero, overrides the charge swingdelay penalty/disrupt duration (deciseconds) instead of charge_time + 20.
 	var/charge_swingdelay_duration = 0
+	/// Click spells only: a middle click on the target starts a do_after channel for charge_time instead of a mouse hold.
+	var/channel_cast = FALSE
 	/// Whether we're currently charging the spell.
 	var/currently_charging = FALSE
 	/// Whether the charge bar has completed and the spell is being held ready. While TRUE, hold_drain bleeds per process tick.
@@ -425,7 +427,7 @@
 			UnregisterSignal(on_who.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 
 		if(owner.client) // NPC skip this
-			if(charge_required)
+			if(charge_required && !channel_cast)
 				// If pointed we setup signals to override mouse down to call InterceptClickOn()
 				RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 			else
@@ -443,7 +445,7 @@
 		return
 	// Defensive: ensure clean slate before re-registering
 	UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
-	if(charge_required)
+	if(charge_required && !channel_cast)
 		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 	else
 		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(intercept_mousedown))
@@ -543,7 +545,7 @@
 		else
 			clicker.balloon_alert(clicker, "no fellow in range!")
 
-	if(charge_required && !charged)
+	if(charge_required && !charged && !channel_cast)
 		end_charging()
 		return
 
@@ -844,7 +846,7 @@
 
 	// Extra safety
 	if(!check_cost())
-		if(charge_required && click_to_activate && owner?.client)
+		if(charge_required && click_to_activate && !channel_cast && owner?.client)
 			UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 		return FALSE
@@ -886,7 +888,7 @@
 	// If cast() returns FALSE, the spell fizzled - skip cooldown, cost, and feedback
 	if(cast_result == FALSE)
 		weapon_penalty_active = FALSE
-		if(charge_required && click_to_activate && owner?.client)
+		if(charge_required && click_to_activate && !channel_cast && owner?.client)
 			UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 		build_all_button_icons()
@@ -978,7 +980,7 @@
 			return sig_return | SPELL_CANCEL_CAST
 
 	// An NPC has no mouse to hold, so it charges through a do_after even on click-to-activate spells.
-	if(charge_required && (!click_to_activate || npc_controlled()))
+	if(charge_required && (!click_to_activate || channel_cast || npc_controlled()))
 		// Use a simple do_after for non-click charge spells
 		var/require_no_move = (spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		on_start_charge()
@@ -992,6 +994,8 @@
 
 		if(currently_charging) // in case charging was interrupted elsewhere
 			on_end_charge(success)
+		if(channel_cast)
+			charged = FALSE
 
 	return sig_return
 
@@ -999,6 +1003,8 @@
 	if(!currently_charging)
 		return FALSE
 	if(!can_cast_spell(TRUE))
+		return FALSE
+	if(channel_cast && get_dist(owner, cast_on) > cast_range)
 		return FALSE
 	if(!is_valid_target(cast_on))
 		return FALSE
@@ -1285,7 +1291,7 @@
 
 	// Always restore the spell to "selected and listening" if it's still the active click intercept.
 	// This prevents dead-spell states where charging ends but no input handler is registered.
-	if(click_to_activate && charge_required && owner?.client)
+	if(click_to_activate && charge_required && !channel_cast && owner?.client)
 		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 
 /datum/action/cooldown/spell/proc/apply_charge_intent()
@@ -1327,7 +1333,7 @@
 
 /// Bypass the straining / mouse hold mechanics for NPC
 /datum/action/cooldown/spell/proc/is_held_ready()
-	return charge_required && click_to_activate && !npc_controlled()
+	return charge_required && click_to_activate && !channel_cast && !npc_controlled()
 
 /datum/action/cooldown/spell/proc/has_hold_cap()
 	return is_held_ready() && !charge_then_click && hold_max_time > hold_grace_time

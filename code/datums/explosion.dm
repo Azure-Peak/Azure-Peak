@@ -250,7 +250,7 @@ GLOBAL_LIST_EMPTY(explosions)
 					A.ex_act(dist)
 
 		if(flame_dist && !istransparentturf(T))
-			new /obj/effect/hotspot(T) //Mostly for ambience!
+			new /obj/effect/curtain_fire(T, 10 SECONDS, bomb_owner, BODY_ZONE_CHEST) // fuck yo ambience, you ruined this games balance >:(
 
 		if(dist > EXPLODE_NONE)
 			T.explosion_level = max(T.explosion_level, dist)	//let the bigger one have it

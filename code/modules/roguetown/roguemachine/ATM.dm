@@ -50,13 +50,14 @@
 		if(H.show_redflash())
 			H.flash_fullscreen("redflash3")
 		playsound(H, 'sound/combat/hits/bladed/genstab (1).ogg', 100, FALSE, -1)
-		SStreasury.create_bank_account(H)
+		SStreasury.create_bank_account(H, defer_levies = FALSE)
 		if(H.mind)
 			var/datum/job/target_job = SSjob.GetJob(H.mind.assigned_role)
 			if(target_job && target_job.noble_income)
 				SStreasury.noble_incomes[H] = target_job.noble_income
+		var/levy_summary = SStreasury.apply_past_poll_levies(H, announce = FALSE)
 		spawn(5)
-			say("New account created.")
+			say(levy_summary ? "New account created. [levy_summary]" : "New account created.")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 		return
 	open_meister_tgui(H)
@@ -85,7 +86,6 @@
 					record_round_statistic(STATS_MAMMONS_DEPOSITED, P.get_real_price())
 				qdel(P)
 				playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-				SStreasury.clear_poll_tax_debt(H)
 				return
 
 		if(istype(P, /obj/item/coveter))
@@ -130,19 +130,13 @@
 		. += span_smallnotice("Under the Concordat of Zenitstadt, the Church of Azuria takes [round(CONCORDAT_TITHE_RATE * 100)]% of every taxed payment out of the Crown's share.")
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/poll_category = SStreasury.get_poll_tax_category(H)
+		var/poll_category = SStreasury.get_poll_levy_category(H)
 		if(poll_category)
-			var/pretty = SStreasury.get_poll_tax_category_pretty_name(poll_category)
-			if(SStreasury.is_poll_tax_charter_exempt(H, poll_category))
-				. += span_smallnotice("Poll tax ([pretty]): exempt by Charter")
+			var/pretty = SStreasury.get_poll_levy_category_pretty_name(poll_category)
+			if(SStreasury.is_tax_exempt(H, TAX_CATEGORY_POLL_LEVY))
+				. += span_smallnotice("Poll levy ([pretty]): exempt by Charter")
 			else
-				var/rate = SStreasury.get_poll_tax_rate_for(H, poll_category)
-				if(rate > 0)
-					. += span_smallnotice("Poll tax ([pretty]): [rate]m/day")
-				else if(rate < 0)
-					. += span_smallnotice("Poll tax ([pretty]): [-rate]m/day subsidy")
-				else
-					. += span_smallnotice("Poll tax ([pretty]): none")
+				. += span_smallnotice("Poll levy class: [pretty]")
 
 
 /obj/structure/roguemachine/atm/proc/drill(obj/structure/roguemachine/atm)

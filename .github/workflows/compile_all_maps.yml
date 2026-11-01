@@ -11,7 +11,7 @@ jobs:
   compile_all_stations:
     name: Compile All Station Maps
     runs-on: ubuntu-22.04
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
@@ -23,10 +23,7 @@ jobs:
         uses: ./.github/actions/restore_or_install_byond
         
       - name: Install BYOND dependencies
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
-          sudo apt-get install libcurl4-openssl-dev:i386
+        uses: ./.github/actions/install_byond_deps
 
       - name: Compile All Maps
         run: |
@@ -42,7 +39,7 @@ jobs:
   compile_all_templates:
     name: Compile All Templates
     runs-on: ubuntu-22.04
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
@@ -54,10 +51,7 @@ jobs:
         uses: ./.github/actions/restore_or_install_byond
 
       - name: Install BYOND dependencies
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
-          sudo apt-get install libcurl4-openssl-dev:i386
+        uses: ./.github/actions/install_byond_deps
 
       - name: Compile All Templates
         run: |

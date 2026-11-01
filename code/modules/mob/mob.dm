@@ -443,7 +443,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(client)
 		if(A)
 			if(ismovableatom(A))
-				//Set the the thing unless it's us
+				//Set the thing unless it's us
 				if(A != src)
 					client.perspective = EYE_PERSPECTIVE
 					client.eye = A
@@ -689,6 +689,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * handles the strip panel equip and unequip as well if "item" sent
  */
 /mob/Topic(href, href_list)
+	. = ..()
 	if(href_list["mach_close"])
 		var/t1 = text("window=[href_list["mach_close"]]")
 		unset_machine()

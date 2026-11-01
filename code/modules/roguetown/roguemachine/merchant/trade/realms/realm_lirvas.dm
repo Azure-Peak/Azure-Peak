@@ -2,7 +2,7 @@
 	id = REALM_LIRVAS
 	name = "Lirvas"
 	roll_weight = TRADE_REALM_WEIGHT_RARE
-	demanded_categories = list(NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_HEAVY, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_TOOLS, NAVIGATOR_BUCKET_MISCELLANEOUS)
+	demanded_categories = list(NAVIGATOR_BUCKET_GARMENT_FINELUX, NAVIGATOR_BUCKET_WEAPONS, NAVIGATOR_BUCKET_ARMOR_HEAVY_METAL, NAVIGATOR_BUCKET_SEAFOOD, NAVIGATOR_BUCKET_TOOLS, NAVIGATOR_BUCKET_MISCELLANEOUS)
 	ship_name_words = list(
 		"Zarvlor", "Drak", "Aurum", "Mammon", "Debt",
 		"Hoard", "Indenture", "Zardman", "Coil", "Scale",
@@ -89,8 +89,18 @@
 		/datum/supply_pack/rogue/alcohol/rtoper,
 	)
 	hail_lines = list(
-		"By Zarvlor! I hope you have a deal worth my time",
-		"There will soon be a famine in the Inner Ring. Luckily for you, I have plenty of gems and gold to trade for grain.",
-		"Rumors says that Lord Zarvlor does not eat food and only eats gold. Can't say the same about the people of the Inner Ring, however. Send me the best seafood you have.",
-		"I am bringing along two tithebounds, faithful servants of Astrata. Maybe the company could use some proper fighter, hmmph?",
+		"By Zarvlor! I hope you have a deal worth my time!",
+
+		"Rumors of famine in the Inner Ring! Lucky for you, I have plenty of gems and gold to trade for grain.",
+
+		"Rumor says that Lord Zarvlor only eats gold. Can't say the same about the people of the Inner Ring, \
+		however. Send me the best seafood you have.",
+
+		"I've brought two tithebound, faithful servants of Astrata! Maybe your company could use some capable fighers, hmm?",
+
+		"What we lack in arms and armament, we make up for in our valuables. Purchase some.",
+
+		"What is ours is yours... for a price.", // mandaloregaming were you here too
+
+		"Glittering gems! Shiny gold!", // theyre kinda empty cus theres not really a whole lot to work with :(
 	)

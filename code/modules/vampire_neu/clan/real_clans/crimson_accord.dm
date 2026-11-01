@@ -12,7 +12,7 @@
 /// Banu Haqim from Temu, kinda.
 /datum/clan/crimson_fang
 	name = "Crimson Fang"
-	desc = "Crimson Fangs, often seen by other kindred as dangerous assassins and diablerists, but in truth they are decendants of an ancient bloodlyne of guardians, warriors,and scholars whom in recent tymes resurfaced, compelled by their Astrata-cursed instinct of craving power and authority."
+	desc = "Crimson Fangs, often seen by other kindred as dangerous assassins and diablerists, but in truth they are descendants of an ancient bloodlyne of guardians, warriors,and scholars whom in recent tymes resurfaced, compelled by their Astrata-cursed instinct of craving power and authority."
 	curse = "Addiction to blood of kindred and nobility."
 	clanicon = "presence"
 	blood_preference = BLOOD_PREFERENCE_FANCY | BLOOD_PREFERENCE_KIN //Diablerists and assassins, mingling and betraying nobility, clergy, inquisition and kindred alike.

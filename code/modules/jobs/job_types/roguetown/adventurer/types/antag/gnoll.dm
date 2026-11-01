@@ -99,17 +99,6 @@
 		else
 			to_chat(H, span_bignotice("Isolated from my pack, I am likely a lone soul this week. I should especially avoid getting killed, and look for my pack next week."))
 		to_chat(H, span_bignotice("Graggar is patient, and values good strategy. I mustn't be hasty, especially if my marks prove difficult to isolate.\n Perhaps there is merit in forging alliances, or setting up camp."))
-		spawn(50)
-			var/name_choice = alert(H, "What name do you want?", "MY NAME IS [H.real_name]", "Pick New Name", "Random Gnoll Name", "Keep Current Name")
-			switch(name_choice)
-				if("Pick New Name")
-					H.choose_name_popup("GNOLL")
-					to_chat(H, span_notice("Your name is now [H.real_name]."))
-				if("Random Gnoll Name")
-					H.real_name = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
-					to_chat(H, span_notice("Your name is now [H.real_name]."))
-				if("Keep Current Name")
-					to_chat(H, span_notice("You keep your name as [H.real_name]."))
 
 /// Population-scaled gnoll count for a scaling mode, capped at the mode's maximum (DYNAMIC 3, FLAT 2, SINGLE 1,
 /// NONE 0). Scales with population like wretch slots (+1 per 10 players above 40), just clamped lower.

@@ -197,7 +197,8 @@
 		/obj/item/herbseed,
 		/obj/item/reagent_containers/food/snacks/grown/manabloom,
 		/obj/item/reagent_containers/food/snacks/grown/berries/rogue,
-		/obj/item/ash,
+		/obj/item/natural/ash,
+		/obj/item/natural/bundle/ash,
 		/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius
 		))
 

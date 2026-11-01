@@ -702,7 +702,7 @@
 					custom_offset = 23
 					taunt_message = "[user] rudely flips [M] off!"
 
-				else if(L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/paranoid))
+				else if(L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/factionalist))
 					taunticon = "midfinger"
 					custom_offset = 23
 					taunt_message = "[user] flips [M] off!"

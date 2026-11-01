@@ -91,7 +91,7 @@ GLOBAL_LIST_EMPTY(last_words)
 	if(contract_spawned)
 		return
 	for(var/i in 1 to 3)
-		new /obj/item/ash(loc)
+		new /obj/item/natural/ash(loc)
 
 
 

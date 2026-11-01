@@ -146,7 +146,7 @@
 /datum/reagent/consumable/caffeine/coffee_spiced
 	cuisine = CUISINE_RANESHENI
 	name = "spiced coffee"
-	description = "Spiced offee beans brewed into a hot drink, with a hint of bitterness. Modestly rejuvenating."
+	description = "Spiced coffee beans brewed into a hot drink, with a hint of bitterness. Modestly rejuvenating."
 	reagent_state = LIQUID
 	color = "#8C4221"
 	taste_description = "caramelized spiciness"
@@ -182,7 +182,7 @@
 /datum/reagent/consumable/caffeine/tea/milk
 	cuisine = CUISINE_SOUTHEASTERN
 	name = "milk tea"
-	description = "A hot tea mixture with the savoryness of milk added to it. Very refreshing."
+	description = "A hot tea mixture with the savoriness of milk added to it. Very refreshing."
 	reagent_state = LIQUID
 	color = "#768b70" // Deeper green to make it look better
 	taste_description = "smooth, savory grassiness" // Yeah, uh.
@@ -214,7 +214,7 @@
 /datum/reagent/consumable/caffeine/tea_spiced
 	cuisine = CUISINE_SOUTHEASTERN
 	name = "spiced tea"
-	description = "Spiced tea leaves brewed into a hot drink. Slight hint of bitterness. Smoothly rejuvinating."
+	description = "Spiced tea leaves brewed into a hot drink. Slight hint of bitterness. Smoothly rejuvenating."
 	reagent_state = LIQUID
 	color = "#788C41" // Deeper green to make it look better
 	taste_description = "spiced grassiness"
@@ -314,7 +314,7 @@
 	name = "spiced chocolate"
 	description = "Impossibly smooth, velvety, and rich. Provides a generous portion of health regeneration, and minor stamina regeneration."
 	color = "#6D472F"
-	taste_description = "an impossible blemd of richness, sweetness, and a hint of throat-tingling spiciness"
+	taste_description = "an impossible blend of richness, sweetness, and a hint of throat-tingling spiciness"
 	quality = DRINK_VERYGOOD
 	alpha = 250
 

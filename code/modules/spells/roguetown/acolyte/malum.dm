@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/malum
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
-	spell_color = GLOW_COLOR_MALUM
+	spell_color = PATRON_COLOR_MALUM
 	sparks_amt = 3 //God of fire
 
 	attunement_school = null
@@ -29,7 +29,7 @@
 /datum/action/cooldown/spell/miracle/ignition/malum
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
-	spell_color = GLOW_COLOR_MALUM
+	spell_color = PATRON_COLOR_MALUM
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross/malum, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
 /////////////////////////
@@ -147,7 +147,7 @@
 /datum/action/cooldown/spell/malum/vigorousexchange
 	name = "Vigorous Exchange"
 	desc = "Restores the target's Energy, twice as effective on someone else."
-	fluff_desc = "Behind every great work is a hard-working master, dilligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
+	fluff_desc = "Behind every great work is a hard-working master, diligent and patient yet not immune from intricacies of lyfe. Even Malum has once fallen to such after losing His hammer, exhausted and weak he was nursed back to health by Pestra so that even he may continue on. Now Their shared gift fuels the forges of Psydonia for no great work shall go unfinished so long as They maintain vigil."
 	button_icon_state = "vigorousexchange"
 	sound = 'sound/magic/undivided_recuperation.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -295,7 +295,7 @@
 	animate(alpha = 0, time = 3)
 
 /obj/effect/temp_visual/telegraph/hammerfall
-	light_color = GLOW_COLOR_MALUM
+	light_color = PATRON_COLOR_MALUM
 	duration = 3 SECONDS
 
 /obj/effect/temp_visual/ferramancy_hammer/malum
@@ -369,7 +369,7 @@
 
 /proc/handle_living_entity(mob/target, mob/user, list/nosmeltore)
 	var/obj/item/targeteditem = get_targeted_item(user, target)
-	if (!targeteditem || targeteditem.smeltresult == /obj/item/ash || target.anti_magic_check(TRUE,TRUE))
+	if (!targeteditem || targeteditem.smeltresult == /obj/item/natural/ash || target.anti_magic_check(TRUE,TRUE))
 		show_visible_message(user, "After their incantation, [user] points at [target] but it seems to have no effect.", "After your incantation, you point at [target] but it seems to have no effect.")
 		return
 	if (istype(targeteditem, /obj/item/rogueweapon/tongs))
@@ -454,8 +454,8 @@
 /proc/handle_heating_equipped(mob/living/carbon/target, obj/item/clothing/targeteditem, mob/user)
 	var/obj/item/armor = target.get_item_by_slot(SLOT_ARMOR)
 	var/obj/item/shirt = target.get_item_by_slot(SLOT_SHIRT)
-	var/armor_can_heat = armor && armor.smeltresult && armor.smeltresult != /obj/item/ash
-	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/ash // Full damage if no shirt
+	var/armor_can_heat = armor && armor.smeltresult && armor.smeltresult != /obj/item/natural/ash
+	var/shirt_can_heat = shirt && shirt.smeltresult && shirt.smeltresult != /obj/item/natural/ash // Full damage if no shirt
 	var/damage_to_apply = 20 // How much damage should your armor burning you should do.
 	if (user.zone_selected == BODY_ZONE_CHEST)
 		if (armor_can_heat && (!shirt_can_heat && shirt))

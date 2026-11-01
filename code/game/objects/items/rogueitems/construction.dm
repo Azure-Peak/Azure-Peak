@@ -153,10 +153,12 @@
 
 /obj/item/construction/bundle/examine(mob/user)
 	. = ..()
+	var/list/examine_list = .
+	var/after_desc = desc ? 3 : 2
 	if(amount == maxamount )
-		to_chat(user, span_notice("There are [amount] [stackname] in this bundle. It can not take any more."))
+		examine_list.Insert(after_desc, span_smallnotice("There are [amount] [stackname] in this bundle. It can not take any more."))
 	else
-		to_chat(user, span_notice("There are [amount] [stackname] in this bundle."))
+		examine_list.Insert(after_desc, span_smallnotice("There are [amount] [stackname] in this bundle. It can hold [maxamount - amount] more."))
 
 /obj/item/construction/bundle/proc/update_bundle()
 	if(firefuel != 0)

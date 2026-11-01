@@ -31,7 +31,7 @@
 	reagents.add_reagent(/datum/reagent/water,900)
 
 /obj/structure/fermentation_keg/beer
-	name = "liqour barrel"
+	name = "liquor barrel"
 	desc = "A barrel containing a generic housebrewed small-beer."
 
 /obj/structure/fermentation_keg/beer/Initialize(mapload)
@@ -41,7 +41,7 @@
 
 // Alcohol
 /obj/structure/fermentation_keg/zagul
-	name = "liqour barrel"
+	name = "liquor barrel"
 	desc = "A barrel marked with a coastal zagul. An extremely cheap lager hailing from a local brewery."
 
 /obj/structure/fermentation_keg/zagul/Initialize(mapload)
@@ -75,7 +75,7 @@
 
 /obj/structure/fermentation_keg/sourwine
 	name = "overwhelmingly sour-toned barrel"
-	desc = "A barrel that contains a Grenzelhoftian classic. An extremely sour wine that is watered down with fresh water, shriveling to all but the most well-atuned lips."
+	desc = "A barrel that contains a Grenzelhoftian classic. An extremely sour wine that is watered down with fresh water, shriveling to all but the most well-attuned lips."
 
 /obj/structure/fermentation_keg/sourwine/Initialize(mapload)
 	. = ..()
@@ -116,7 +116,7 @@
 
 /obj/structure/fermentation_keg/kgsunsake
 	name = "richly sour-toned barrel"
-	desc = "A barrel with a Golden Swan mark. A translucient, pale-blue liquid made from rice, and a favourite drink of the warlords and nobles of Kazengun."
+	desc = "A barrel with a Golden Swan mark. A translucent, pale-blue liquid made from rice, and a favourite drink of the warlords and nobles of Kazengun."
 
 /obj/structure/fermentation_keg/kgsunsake/Initialize(mapload)
 	. = ..()

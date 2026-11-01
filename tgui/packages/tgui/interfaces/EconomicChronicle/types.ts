@@ -8,9 +8,14 @@ export type PollSnapshot = {
   guilds: number;
   merchant: number;
   burgher: number;
+  scholar: number;
   adventurer: number;
   mercenary: number;
   peasant: number;
+  levies: number;
+  arrears: number;
+  forgiven: number;
+  recovered: number;
 };
 
 export type RoyalSnapshot = {
@@ -30,7 +35,7 @@ export type ExemptSnapshot = {
   import: number;
   export: number;
   fines: number;
-  poll_tax: number;
+  poll_levy: number;
 };
 
 export type StandingSnapshot = {

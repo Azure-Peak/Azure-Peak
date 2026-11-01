@@ -2623,7 +2623,7 @@
 	name = "Blacksteel Flail (+1 Silk)"
 	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
-	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/natural/silk)
+	additional_items = list(/obj/item/natural/silk)
 	created_item = /obj/item/rogueweapon/flail/blacksteel
 	display_category = ITEM_CAT_WEAPONS_FLAILS
 

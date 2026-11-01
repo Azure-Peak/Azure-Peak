@@ -1,11 +1,11 @@
 /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter
 	name = "Shatter"
-	desc = "Wind up a blow, then strike a line straight ahead of you, hurling those struck back a tile. Cuts for 32 damage \
+	desc = "Wind up a blow, then strike a line straight ahead of you, hurling those struck back a tile. Cuts for 40 damage \
 		The strike will not carry through walls, but it batters any structure in its path. \
 		At 3+ momentum: consumes 3 to double damage. Builds momentum on a multi-target hit. Can be deflected by Defend stance."
 	button_icon_state = "shatter"
 	invocations = list("Frange!")
-	damage = SPELL_DMG(40)
+	damage = 40
 	empowered_mult = 2
 	windup_time = TELEGRAPH_DODGEABLE
 	sweep_step = 0

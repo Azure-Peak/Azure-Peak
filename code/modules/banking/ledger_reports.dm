@@ -71,16 +71,10 @@
 		rows += list(ledger_recon_row("Brigand Debt vs banditry debt", banditry.get_balance(), banditry_debt))
 
 		var/arrears_total = 0
-		for(var/owner in poll_tax_owed)
-			arrears_total += poll_tax_owed[owner]
+		for(var/owner in poll_levy_owed)
+			arrears_total += poll_levy_owed[owner]
 		var/datum/ledger_account/poll_rec = chart_of_accounts[LEDGER_CROWN_POLL_RECEIVABLE]
-		rows += list(ledger_recon_row("Poll Tax Receivable vs arrears owed", poll_rec.get_balance(), arrears_total))
-
-		var/advance_total = 0
-		for(var/owner in poll_tax_advance_value)
-			advance_total += poll_tax_advance_value[owner]
-		var/datum/ledger_account/poll_def = chart_of_accounts[LEDGER_CROWN_POLL_DEFERRED]
-		rows += list(ledger_recon_row("Poll Tax Received in Advance vs prepaid balances", poll_def.get_balance(), advance_total))
+		rows += list(ledger_recon_row("Poll Levy Receivable vs arrears owed", poll_rec.get_balance(), arrears_total))
 
 		var/interest_total = 0
 		for(var/datum/loan/L as anything in loans)
@@ -381,18 +375,17 @@
 		))
 
 	var/list/arrears_rows = list()
-	for(var/mob/living/owner as anything in poll_tax_owed)
+	for(var/mob/living/owner as anything in poll_levy_owed)
 		if(!owner)
 			continue
 		arrears_rows += list(list(
 			"name" = owner.real_name,
 			"job" = owner.job,
-			"owed" = poll_tax_owed[owner],
-			"days" = poll_tax_debt_days[owner] || 0,
+			"owed" = poll_levy_owed[owner],
 		))
 
 	var/list/payables = list()
-	for(var/id in list(LEDGER_CROWN_ARREARS_ADVANCE, LEDGER_CROWN_ATC_LOAN, LEDGER_CROWN_SEQUESTRATION_DEBT, LEDGER_CROWN_BANDITRY_DEBT, LEDGER_CROWN_POLL_DEFERRED))
+	for(var/id in list(LEDGER_CROWN_ARREARS_ADVANCE, LEDGER_CROWN_ATC_LOAN, LEDGER_CROWN_SEQUESTRATION_DEBT, LEDGER_CROWN_BANDITRY_DEBT))
 		var/datum/ledger_account/A = chart_of_accounts[id]
 		payables += list(list("name" = A.name, "balance" = A.get_balance()))
 	// Fractions owed to the Church are not posted until they accrue to a whole coin.
@@ -452,8 +445,8 @@
 			"collected" = A.get_balance(),
 			"exempted" = spec[3] ? (GLOB.azure_round_stats[spec[3]] || 0) : 0,
 		))
-	var/datum/ledger_account/poll = chart_of_accounts[LEDGER_CROWN_REV_POLL_TAX]
-	tax_rows += list(list("name" = "Poll Tax", "rate_pct" = null, "collected" = poll.get_balance(), "exempted" = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX] || 0))
+	var/datum/ledger_account/poll = chart_of_accounts[LEDGER_CROWN_REV_POLL_LEVY]
+	tax_rows += list(list("name" = "Poll Levy", "rate_pct" = null, "collected" = poll.get_balance(), "exempted" = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_LEVY] || 0))
 
 	return list(
 		"loans" = loan_rows,

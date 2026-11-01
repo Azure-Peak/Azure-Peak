@@ -82,7 +82,7 @@
 	var/obj/effect/proc_holder/spell/invoked/divine_rebirth/existing = parent_mob.mind.get_spell(/obj/effect/proc_holder/spell/invoked/divine_rebirth)
 	if(existing)
 		parent_mob.mind.RemoveSpell(existing)
-		to_chat(parent_mob, span_warning("As the infestation of pestra within me wanes, I am robbed of her strongest gift for now. [existing.name] is no longer available."))
+		to_chat(parent_mob, span_warning("As the infestation of Pestra within me wanes, I am robbed of her strongest gift for now. [existing.name] is no longer available."))
 
 /datum/component/infestation_charges/proc/divine_rebirth_cast(mob/living/user, mob/living/target)
 	SIGNAL_HANDLER
@@ -224,7 +224,7 @@
 		return
 
 	if(parent_mob.has_status_effect(/datum/status_effect/black_rot_debility))
-		to_chat(parent_mob, span_warning("My black rot is surpressed by my immunity!"))
+		to_chat(parent_mob, span_warning("My black rot is suppressed by my immunity!"))
 		return
 
 	if(!isliving(target) || target == parent_mob)

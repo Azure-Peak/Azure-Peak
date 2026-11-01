@@ -33,6 +33,7 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_NOFALLDAMAGE1,
 		TRAIT_TINYPAWS,
+		TRAIT_PACIFISM,
 		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOMOOD,
 		TRAIT_NOHUNGER,
@@ -254,7 +255,7 @@
 /mob/living/carbon/human/species/familiar/fae/ripplefox
 	name = "Ripplefox"
 	desc = "They flicker when not directly observed. Leaves no tracks. You're not always sure they're still nearby."
-	summoning_emote = "A ripple in the air becomes a sleek fox, their fur twitching between shades of color as they pads forth."
+	summoning_emote = "A ripple in the air becomes a sleek fox, their fur twitching between shades of color as they pad forth."
 	icon_state = "ripple"
 	speak_emote = list("whispers fast", "speaks quickly") // why the FUCK do we have so many fox noises and 13 of them are whining variants
 	voiceclips = list('sound/vo/mobs/venard/fox1.ogg','sound/vo/mobs/venard/fox2.ogg','sound/vo/mobs/venard/fox3.ogg','sound/vo/mobs/venard/fox4.ogg','sound/vo/mobs/venard/fox5.ogg','sound/vo/mobs/venard/fox6.ogg','sound/vo/mobs/venard/fox7.ogg','sound/vo/mobs/venard/fox8.ogg','sound/vo/mobs/venard/fox9.ogg','sound/vo/mobs/venard/fox10.ogg','sound/vo/mobs/venard/fox11.ogg','sound/vo/mobs/venard/fox12.ogg','sound/vo/mobs/venard/fox13.ogg', 'sound/vo/yip.ogg', 'sound/vo/yip2.ogg', 'sound/vo/yip3.ogg')

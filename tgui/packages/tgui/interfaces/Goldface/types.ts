@@ -164,6 +164,12 @@ export type FavorLedgerEntry = {
   refunded_hail: BooleanLike;
 };
 
+export type SendForRealm = {
+  id: string;
+  name: string;
+  available: BooleanLike;
+};
+
 export type FavorData = {
   current: number;
   high_water: number;
@@ -179,6 +185,9 @@ export type FavorData = {
   auto_hailer_cost: number;
   auto_hailer_unlocked: BooleanLike;
   auto_hailer_on: BooleanLike;
+  send_for_ship_cost: number;
+  send_for_ship_used_today: BooleanLike;
+  send_for_realms: SendForRealm[];
   brackets: number[];
   from_sendoffs: number;
   from_navigator: number;
@@ -196,17 +205,7 @@ export type VendingPack = {
   qty: number;
   price: number;
   price_base: number;
-  price_blockade: number;
-  blockade_pct: number;
   price_tariff: number;
-};
-
-export type BlockadeRow = {
-  region: string;
-  pct: number;
-  base_pct: number;
-  categories: string[];
-  reason: string;
 };
 
 export type VendingData = {
@@ -223,12 +222,6 @@ export type VendingData = {
   dodging: BooleanLike;
   public_margin_pct?: number;
   public_margin_label?: string;
-  active_blockades?: BlockadeRow[];
-  blockade_gear_pct?: number;
-  blockade_gear_base_pct?: number;
-  blockade_mult_pct?: number;
-  blockade_pop_half?: number;
-  blockade_pop_full?: number;
   categories: string[];
   current_category: string;
   search: string;
