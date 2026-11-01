@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Replaced the frost shards in poke spell selection with a single target frost bolt, which is as intended."
