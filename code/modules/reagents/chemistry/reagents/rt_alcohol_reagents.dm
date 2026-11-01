@@ -580,7 +580,7 @@
 	quality = DRINK_NICE
 
 /datum/reagent/consumable/ethanol/rtoper
-	drink_type = DRINKTYPE_SPIRIT
+	drink_type = DRINKTYPE_CIDER
 	name = "Lirvas Toper"
 	boozepwr = 40
 	taste_description = "overwhelming tartness"
@@ -589,8 +589,8 @@
 
 /datum/reagent/consumable/ethanol/nred
 	cuisine = CUISINE_NORTHERN
-	drink_type = DRINKTYPE_WINE
-	name = "Norwardine Red"
+	drink_type = DRINKTYPE_ALE
+	name = "Norwandine Red"
 	boozepwr = 30
 	taste_description = "heavy caramel note and slight bitterness"
 	color = "#543633"
