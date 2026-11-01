@@ -129,6 +129,7 @@
 	var/mob/living/L = user
 	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
 	data["user_fellowship_size"] = F ? length(F.get_members()) : 0
+	data["user_is_fellowship_leader"] = F ? F.is_leader(L) : FALSE
 	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
 	data["regions"] = build_region_listing()

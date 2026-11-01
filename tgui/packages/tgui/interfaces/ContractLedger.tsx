@@ -83,6 +83,7 @@ type ContractLedgerData = {
   townie_contract_gate_exempt_jobs: string[];
   take_cooldown_remaining: number;
   user_fellowship_size: number;
+  user_is_fellowship_leader: BooleanLike;
   pool: Contract[];
   active: ActiveContract[];
   issued: IssuedContract[];
@@ -494,13 +495,18 @@ const ContractCard = (props: { contract: Contract }) => {
   const fellowshipShort =
     c.required_fellowship_size > 0 &&
     (data.user_fellowship_size || 0) < c.required_fellowship_size;
+  const notLeader =
+    c.required_fellowship_size > 0 &&
+    !fellowshipShort &&
+    !data.user_is_fellowship_leader;
   const disabled =
     noAccount ||
     gateRemaining > 0 ||
     takeCooldown > 0 ||
     atCap ||
     cantAfford ||
-    fellowshipShort;
+    fellowshipShort ||
+    notLeader;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
   const payout = c.projected_reward ?? c.reward;
   const title = noAccount
@@ -515,7 +521,9 @@ const ContractCard = (props: { contract: Contract }) => {
             ? `You need ${c.deposit} mammon in your account for the deposit.`
             : fellowshipShort
               ? `You need a fellowship of ${c.required_fellowship_size}. Yours has ${data.user_fellowship_size || 0}.`
-              : undefined;
+              : notLeader
+                ? 'Only the fellowship leader can sign this contract.'
+                : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
   if (c.shows_commission_seal)
