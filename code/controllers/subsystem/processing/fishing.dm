@@ -1,9 +1,7 @@
-/// subsystem for the fishing minigame processing.
+/// subsystem holding the fishing caches. The minigame itself runs in the Fishing tgui interface.
 PROCESSING_SUBSYSTEM_DEF(fishing)
 	name = "Fishing"
-	flags = SS_POST_FIRE_TIMING
-	priority = FIRE_PRIORITY_FISHING
-	wait = 0.05 SECONDS // If you raise it to 0.1 SECONDS, you better also modify [datum/fish_movement/move_fish()]
+	flags = SS_NO_FIRE
 	///A list of cached fish icons
 	var/list/cached_fish_icons
 	///A list of cached fish icons turns into outlines with a queston mark in the middle, denoting fish you haven't caught yet.
@@ -16,23 +14,6 @@ PROCESSING_SUBSYSTEM_DEF(fishing)
 	var/list/bait_catchables
 	///A list of fish types with list of turfs where they can happily hop around without dying as assoc value
 	var/list/fish_safe_turfs_by_type = list()
-
-/datum/controller/subsystem/processing/fishing/fire(resumed = 0)
-	if (!resumed)
-		currentrun = processing.Copy()
-	//cache for sanic speed (lists are references anyways)
-	var/list/current_run = currentrun
-
-	while(current_run.len)
-		var/datum/thing = current_run[current_run.len]
-		current_run.len--
-		if(QDELETED(thing))
-			processing -= thing
-		else if(thing.process(wait * 0.1) == PROCESS_KILL)
-			// fully stop so that a future START_PROCESSING will work
-			STOP_PROCESSING(src, thing)
-		if (MC_TICK_CHECK)
-			return
 
 /datum/controller/subsystem/processing/fishing/Initialize(start_timeofday)
 	cached_fish_icons = list()

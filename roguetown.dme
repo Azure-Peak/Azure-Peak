@@ -1698,6 +1698,7 @@
 #include "code\modules\asset_cache\assets\anvil_recipes.dm"
 #include "code\modules\asset_cache\assets\blackedstone.dm"
 #include "code\modules\asset_cache\assets\common.dm"
+#include "code\modules\asset_cache\assets\fishing.dm"
 #include "code\modules\asset_cache\assets\fontawesome.dm"
 #include "code\modules\asset_cache\assets\icon_ref_map.dm"
 #include "code\modules\asset_cache\assets\jquery.dm"

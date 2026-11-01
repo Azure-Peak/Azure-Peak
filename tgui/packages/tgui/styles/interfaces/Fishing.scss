@@ -1,0 +1,23 @@
+.Fishing__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.Fishing {
+  position: relative;
+  overflow: hidden;
+}
+
+.Fishing__hud {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 96px;
+  transform-origin: top left;
+  image-rendering: pixelated;
+}

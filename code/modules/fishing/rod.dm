@@ -475,9 +475,6 @@
 	M.pixel_y = -6
 	. += M
 
-/obj/item/fishingrod/proc/get_frame(datum/fishing_challenge/challenge)
-	return mutable_appearance('icons/hud/fishing_hud.dmi', frame_state)
-
 /obj/item/fishingrod/Initialize(mapload, ...)
 	. = ..()
 	if(starting_reel)

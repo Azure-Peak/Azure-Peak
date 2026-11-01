@@ -48,7 +48,7 @@
 		if(!isnull(ratio) && ratio < FISHING_STOCK_LOW_RATIO)
 			to_chat(user, span_smallred("This body of water seems depleted of good fishes, maybe I should fish elsewhere."))
 	if(!rod.baited)
-		to_chat(user, span_warning("My hook is bare. Little but junk will bite without bait."))
+		to_chat(user, span_warning("My hook has no bait. I should bait it if I want to catch anything worthwhile."))
 	var/datum/fishing_challenge/challenge = new(src, rod, user, automated)
 	fish_source.pre_challenge_started(rod, user, challenge)
 	challenge.start(user)
