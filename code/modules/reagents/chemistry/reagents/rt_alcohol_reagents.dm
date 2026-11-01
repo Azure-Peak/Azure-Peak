@@ -148,6 +148,7 @@
 
 /datum/reagent/consumable/ethanol/light
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_ALE
 	name = "light beer"
 	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety has reduced calorie and alcohol content."
 	boozepwr = 5 //Space Europeans hate it
@@ -157,6 +158,7 @@
 
 /datum/reagent/consumable/ethanol/green
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_ALE
 	name = "green beer"
 	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety is dyed a festive green."
 	color = "#A8E61D"
@@ -192,6 +194,7 @@
 
 /datum/reagent/consumable/ethanol/zagul
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_ALE
 	name = "Zagul Brew"
 	boozepwr = 15
 	taste_description = "cheap pisswater"
@@ -208,6 +211,7 @@
 
 /datum/reagent/consumable/ethanol/spottedhen
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_ALE
 	name = "Spotted Hen"
 	boozepwr = 15
 	taste_description = "cheap pisswater"
@@ -332,6 +336,7 @@
 
 /datum/reagent/consumable/ethanol/sourwine // Peasant grade shit.
 	cuisine = CUISINE_NORTH_IMPERIAL
+	drink_type = DRINKTYPE_WINE
 	name = "sour wine"
 	boozepwr = 20
 	taste_description = "sour wine"
@@ -725,6 +730,7 @@
 
 // Special Drugs
 /datum/reagent/consumable/ethanol/murkwine // not Toilet wine
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Mürkwine"
 	boozepwr = 50	// bubba's best
 	taste_description = "hints of questionable choices--a bouqet of murkwater and pure ethanol"
@@ -761,6 +767,7 @@
 	M.remove_status_effect(/datum/status_effect/buff/nocshine)
 
 /datum/reagent/consumable/ethanol/nocmash
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Noc Mash"
 	description = "A raw, grain-fortified distillate. Must be distilled with swampweed before it becomes the notorious Noc's Shine."
 	boozepwr = 55
@@ -783,6 +790,7 @@
 	..()
 
 /datum/reagent/consumable/ethanol/whipwine // dont ask
+	drink_type = DRINKTYPE_RICEWINE
 	name = "Magickal Whip Wine"
 	description = "A recipe recently floated into the Peaks. Magickal Whip Wine is said to increase one's potence and stamina sevenfold."
 	boozepwr = 10 // it's a whip. it's an actual whip.
