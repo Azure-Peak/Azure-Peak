@@ -162,8 +162,6 @@
 		return
 	if(HAS_TRAIT(L, TRAIT_CABAL)) //zizites see this as slightly good omen
 		L.add_stress(/datum/stressevent/zizo_fog)
-	if(!HAS_TRAIT(L, TRAIT_CABAL)) //everyone else does not
-		L.add_stress(/datum/stressevent/zizo_fog_nonbeliever)
 
 /datum/particle_weather/fog/zizo_short
 	name = "Omen of Zizo Fog"
