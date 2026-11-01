@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/psydon
 	background_icon = 'icons/mob/actions/psydonmiracles.dmi'
 	button_icon = 'icons/mob/actions/psydonmiracles.dmi'
-	spell_color = PATRON_COLOR_ASTRATA //TESTING, see if this or psydon is better (was astrata before)
+	spell_color = PATRON_COLOR_PSYDON //the glow is invisible anyway but it's fine
 	glow_intensity = null
 
 	ignore_armor_penalty = TRUE

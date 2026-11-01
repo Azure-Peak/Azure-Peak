@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/vheslyn
 	background_icon = 'icons/mob/actions/vheslynspells.dmi'
 	button_icon = 'icons/mob/actions/vheslynspells.dmi'
-	spell_color = PATRON_COLOR_GRAGGAR //TESTING, we have a vhesyln color for this so check that as well
+	spell_color = PATRON_COLOR_GRAGGAR //theres a vheslyn color but im not touching this without solis' permission
 
 	ignore_armor_penalty = TRUE
 	attunement_school = null
