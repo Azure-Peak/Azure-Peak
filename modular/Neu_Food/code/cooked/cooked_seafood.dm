@@ -13,7 +13,7 @@
 	warming = 5 MINUTES
 	dropshrink = 0.6
 	var/fish_name
-	var/list/fried_filet_tastes
+	var/list/filet_tastes
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/initialize_slice(obj/item/reagent_containers/food/snacks/slice, reagents_per_slice)
 	. = ..()
@@ -21,7 +21,7 @@
 	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = slice
 	if(istype(filet))
 		filet.fish_name = fish_name
-		filet.set_tastes(fried_filet_tastes)
+		filet.set_tastes(filet_tastes)
 
 /obj/item/reagent_containers/food/snacks/rogue/smokefish
 	name = "smoked fish"

@@ -53,7 +53,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/filetmeal/ducal
 	name = "ducal filet"
-	desc = ""
+	desc = "Fish fried and coated in pepper and garlick. The garlick gives a savory kick to the fish and neutralizes the fishy odor, and the pepper adds a bit of heat. The preferred way of royalty to eat fish since time immeorial in Azuria."
 	icon_state = "filet_ducal"
 	tastes = list("warm fish" = 1, "pepper" = 1, "garlick" = 1)
 	garnish_tastes = list("pepper" = 1, "garlick" = 1)
@@ -66,7 +66,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "filet with onion"
-	desc = ""
+	desc = "A simple and delicious preparation of fish filet with fried onions, which counters the fishy smell and add a bit of sweetness and aroma to the dish."
 	icon_state = "filet_onion"
 	tastes = list("warm fish" = 1, "onion" = 1)
 	garnish_tastes = list("onion" = 1)
@@ -75,7 +75,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/filetmeal/potato
 	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "filet with potatoes"
-	desc = ""
+	desc = "A staple in the north in Rosawood amongst the Rossan elves. Lean fish fillets served with a side of roasted potatoes."
 	icon_state = "filet_potato"
 	tastes = list("warm fish" = 1, "potato" = 1)
 	garnish_tastes = list("potato" = 1)
@@ -84,7 +84,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/filetmeal/tomato
 	dish_type = DISH_SEAFOOD|DISH_FRUIT
 	name = "filet with tomato"
-	desc = ""
+	desc = "Tomatoes have a savory and acidic taste to it, making it exceptionally suitable for pairing with fishes that have a mild taste. It is particularly popular amongst the Etruscan as a pairing."
 	icon_state = "filet_tomato"
 	tastes = list("warm fish" = 1, "tomato" = 1)
 	garnish_tastes = list("tomato" = 1)
@@ -93,7 +93,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/filetmeal/jacksberry
 	dish_type = DISH_SEAFOOD|DISH_FRUIT
 	name = "filet with jacksberries"
-	desc = ""
+	desc = "A sweet and tangy combination of jackberries with fish fillet. Sometimes served with salmons, as appropriate for a bear, or served with lighter fishes. It is said to be a Gronnic dish, but is also popular in Azuria particularly in the south due to its symbolic association with the first Bishop of the Azurian church. It is also wildly believed to be a 'pious' dish as it combines the domain of Dendor and Abyssor."
 	icon_state = "filet_jacksberry"
 	tastes = list("warm fish" = 1, "jacksberries" = 1)
 	garnish_tastes = list("jacksberries" = 1)
@@ -102,7 +102,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/filetmeal/honey
 	dish_type = DISH_SEAFOOD|DISH_HONEY
 	name = "honeyed filet"
-	desc = ""
+	desc = "Fish filets served with sweet honey. Often used with firm fishes like sturgeons or salmon to complement its rich taste. It is a popular Gronnic and Grenzelhoftian dish."
 	icon_state = "filet_honey"
 	tastes = list("warm fish" = 1, "honey" = 1)
 	garnish_tastes = list("honey" = 1)
@@ -111,7 +111,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/filetmeal/cucumber
 	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "filet with cucumber"
-	desc = ""
+	desc = "A cooked fish fillet paired with sliced raw cucumber. The cucumber have a refreshing and crisp tastes. Amongst the Kazengunese and Lingyuese, this is preferably served with some herbs and vinegar to make it light and refreshing. In Azuria, local herbs like oregano and thyme are usually sprinkled on top."
 	icon_state = "filet_cucumber"
 	tastes = list("warm fish" = 1, "cucumber" = 1)
 	garnish_tastes = list("cucumber" = 1)
@@ -267,7 +267,7 @@
 	cuisine = CUISINE_RANESHENI
 	dish_type = DISH_SEAFOOD
 	name = "peppered sunny"
-	desc = ""
+	desc = "Sunny, the furtive and abundant fishes that seek Astrata's light and considered a poor man's fish, is much elevated with the proper addition of pepper. It is a simple dish that is a staple in Raneshen, where pepper is cheap."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "sunny_pepper"
 	tastes = list("warm fish" = 1, "pepper" = 1)
@@ -282,7 +282,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/sunnypepper/ducal
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "ducal sunny"
-	desc = ""
+	desc = "How to elevate a humble fish to a dish fit for the Grand Duke themselves? Add garlic on top of pepper. And besides, what more fitting fish for the blessed of Astrata than a fish named sunny? It is said that nobles really prefer any other fishes, but a pepper and garlicked sunny is always presented in most feast due to its symbolic value."
 	icon_state = "sunny_ducal"
 	tastes = list("warm fish" = 1, "pepper" = 1, "garlick" = 1)
 	faretype = FARE_FINE
@@ -292,7 +292,7 @@
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "sunny with potatoes"
-	desc = ""
+	desc = "A poor, bait fish served with potatoes, making for a proper peasant's meal. A common staple amongst coastal Azurians. But even peasants would prefer to eat any other fishes."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "sunny_potato"
 	tastes = list("warm fish" = 1, "potato" = 1)
@@ -308,7 +308,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "sunny with onion"
-	desc = ""
+	desc = "The addition of fried onions add savoriness and aroma to a troublesome, furtive, tiny fish full of bone and lacking in meat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "sunny_onion"
 	tastes = list("warm fish" = 1, "onion" = 1)
@@ -325,7 +325,7 @@
 	cuisine = CUISINE_RANESHENI
 	dish_type = DISH_SEAFOOD
 	name = "peppered plaice"
-	desc = ""
+	desc = "Plaice! A fish found in abundance and yet with delicious and delicate flesh. Adding pepper makes it properly suited for noble tastes."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "plaice_pepper"
 	tastes = list("warm fish" = 1, "pepper" = 1)
@@ -340,7 +340,7 @@
 /obj/item/reagent_containers/food/snacks/rogue/plaicepepper/ducal
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	name = "ducal plaice"
-	desc = ""
+	desc = "Pepper alone may elevate the plaice, but the addition of garlick lends the dish some much needed complexity for the discerning gourmet."
 	icon_state = "plaice_ducal"
 	tastes = list("warm fish" = 1, "pepper" = 1, "garlick" = 1)
 	faretype = FARE_LAVISH

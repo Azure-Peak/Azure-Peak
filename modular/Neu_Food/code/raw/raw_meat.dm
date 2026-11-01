@@ -204,7 +204,7 @@
 	faretype = FARE_NEUTRAL
 	cooked_smell = /datum/pollutant/food/cooked_fish
 	var/fish_name
-	var/list/fried_tastes
+	var/list/filet_tastes
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish/initialize_cooked_food(obj/item/reagent_containers/food/snacks/S, cooking_efficiency = 1)
 	. = ..()
@@ -216,7 +216,7 @@
 	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = S
 	if(istype(filet))
 		filet.fish_name = fish_name
-		filet.set_tastes(fried_tastes)
+		filet.set_tastes(filet_tastes)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon
 	name = "salmon filet"
