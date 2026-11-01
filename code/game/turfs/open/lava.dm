@@ -150,9 +150,16 @@
 				continue
 
 			if(L)
-				L.adjustFireLoss(100)
-				L.adjust_fire_stacks(100)
-				L.ignite_mob()
+				var/def_zone_random = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_ARM, BODY_ZONE_R_LEG)
+				L.adjustFireLoss(30)
+				L.adjustOxyLoss(30)
+				L.fire_act(99, 99)
+				arcyne_strike(L, L, null, 70, def_zone_random, BCLASS_BURN, PEN_BSTEEL, "acid", TRUE, FALSE, FALSE, BURN, 0, 0, 10)
+				to_chat(L, span_userdanger("THE LAVA BURNS!"))
+				if(prob(50))
+					L.emote("superagony")
+				if(!L.mind && L.getFireLoss() > 300)
+					L.dust(TRUE, FALSE, TRUE)
 
 /turf/open/lava/onbite(mob/user)
 	if(isliving(user))
@@ -167,12 +174,13 @@
 		user.visible_message(span_info("[user] starts to drink from [src]."))
 		if(do_after(L, 25, target = src))
 			var/mob/living/carbon/C = user
-			to_chat(C, span_userdanger("OH SWEET PSYDON, WHY DID I THINK THIS WAS A GOOD IDEA???"))
+			to_chat(C, span_userdanger("OH SWEET PSYDON, WHY DID I THINK THIS WAS A GOOD IDEA?!"))
 			C.flash_fullscreen("redflash3")
 			C.emote("superagony", forced = TRUE)
 			C.adjust_fire_stacks(500) //you deserve this.
 			C.ignite_mob()
 			C.adjustFireLoss(1000) //you, literally, deserve this.
+			C.death()
 
 /turf/open/lava/smooth
 	name = "lava"
@@ -190,6 +198,7 @@
 
 /turf/open/lava/acid
 	name = "acid"
+	desc = "Thick, viscous bubbles swell and burst, spewing clouds of choking fumes. What once lay dormant now seethes and gurgles, eating away at all it touches with a merciless hiss. If you touch it, you will regret it."
 	icon_state = "acid"
 	light_outer_range =	4
 	light_power = 1
@@ -237,9 +246,16 @@
 				if(C.obj_integrity <= 0)
 					to_chat(L, span_danger("Your [C.name] is destroyed by the acid!"))
 					qdel(C)
-
-			L.adjustFireLoss(100)
+			var/def_zone_random = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_ARM, BODY_ZONE_R_LEG)
+			L.adjustFireLoss(30)
+			L.adjustToxLoss(15)
+			L.adjustOxyLoss(15)
+			arcyne_strike(L, L, null, 70, def_zone_random, BCLASS_BURN, PEN_BSTEEL, "acid", TRUE, FALSE, FALSE, BURN, 0, 0, 10)
 			to_chat(L, span_userdanger("THE ACID BURNS!"))
+			if(prob(50))
+				L.emote("superagony")
+			if(!L.mind && L.getFireLoss() > 300)
+				L.dust(TRUE, FALSE, TRUE)
 
 /turf/open/lava/acid/onbite(mob/user)
 	if(isliving(user))

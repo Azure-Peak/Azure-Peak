@@ -237,7 +237,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddar/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("If left undisturbed for long enough, cheese wheels will eventually age into a more decadant and delicious result.")
+	. += span_info("If left undisturbed for long enough, cheese wheels will eventually age into a more decadent and delicious result.")
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged
 	name = "wheel of aged cheese"

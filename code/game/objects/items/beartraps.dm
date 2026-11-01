@@ -32,7 +32,7 @@
 /obj/item/restraints/legcuffs/beartrap/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Activate in your hand to prime it. Depending on its age, this might take multiple attempts to successfully prepare.")
-	. += span_info("Beartraps can be safely disarmed by either left-clicking them with a open hand, or - at the cost of some durability - left-clicking them with a weapon.")
+	. += span_info("Bear traps can be safely disarmed by either left-clicking them with an open hand, or - at the cost of some durability - left-clicking them with a weapon.")
 
 /obj/item/restraints/legcuffs/beartrap/attack_hand(mob/user)
 	if(iscarbon(user) && armed && isturf(loc))

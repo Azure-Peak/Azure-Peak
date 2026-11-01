@@ -1,8 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - balance: "rituos users can no longer take undeath as a reverent/construct."
-  - balance: "vamps if they somehow cast rituos no longer lose it."
-  - bugfix: "vamps no longer gain arcane training if they somehow 'complete' rituos which failed it anyway. they're not meant to benefit from something they can't complete."
-  - balance: "liches are forced to the humen race, to prevent issues like construct/reverent lich breaking the antag completely. - Cosmetically they look the same anyway."
-  - balance: "liches/rituos users now claw when punching, they also flip off the non-deathless with taunts. Rage against the lyving!"

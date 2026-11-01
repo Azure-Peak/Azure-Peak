@@ -125,7 +125,6 @@
 	H.pass_flags |= PASSMOB
 	H.throwing = TRUE
 	var/prev_pixel_z = H.pixel_z
-	var/prev_transform = H.transform
 
 	animate(H, pixel_z = prev_pixel_z + 18, time = 1, easing = EASE_OUT)
 
@@ -161,6 +160,7 @@
 			sleep(step_delay)
 
 	var/land_angle = pick(-20, -15, 15, 20)
+	var/matrix/prev_transform = matrix(H.transform)
 	animate(H, pixel_z = prev_pixel_z, transform = turn(prev_transform, land_angle), time = 1, easing = EASE_IN)
 	animate(transform = prev_transform, time = 2)
 

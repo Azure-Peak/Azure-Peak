@@ -16,6 +16,8 @@
 	)
 	tp_budget = QUEST_TP_BUDGET_CLEAR_OUT
 	threat_bands_cleared = QUEST_BANDS_CLEAR_OUT
+	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_MEDIUM
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 
 /datum/quest/kill/clearout/get_title()
 	if(title)

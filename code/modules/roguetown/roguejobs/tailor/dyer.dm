@@ -333,7 +333,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 /obj/item/dye_brush
 	icon = 'icons/roguetown/items/misc.dmi'
 	name = "dye brush"
-	desc = "A sizeable brush made of the finest mane-hairs. Thick dye adheres to it well."
+	desc = "A sizable brush made of the finest mane-hairs. Thick dye adheres to it well."
 	icon_state = "dbrush"
 	w_class = WEIGHT_CLASS_SMALL
 	dropshrink = 0.7

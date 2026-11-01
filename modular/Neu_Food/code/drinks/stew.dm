@@ -311,7 +311,7 @@
 /datum/reagent/consumable/soup/stew/thickcheese
 	cuisine = CUISINE_OTAVAIS
 	name = "fondue"
-	description = "A ridiculously thick cheese soup. Creamy, comforting, and decadant."
+	description = "A ridiculously thick cheese soup. Creamy, comforting, and decadent."
 	color = "#c4be70"
 	taste_description = "velvety cheese"
 	nutriment_factor = 30 //You're throwing an entire wheel of cheese into this thing. It'd be criminal if you didn't get something in return!
@@ -329,7 +329,7 @@
 /datum/reagent/consumable/soup/stew/thickparmesan
 	cuisine = CUISINE_OTAVAIS
 	name = "aged fondue"
-	description = "A ridiculously thick aged cheese soup. Creamy, comforting, and decadant."
+	description = "A ridiculously thick aged cheese soup. Creamy, comforting, and decadent."
 	color = "#A8AA70"
 	taste_description = "velvety aged cheese"
 	metabolization_rate = 0.6
@@ -618,7 +618,7 @@
 /datum/reagent/consumable/soup/stew/seafoodbroil
 	name = "seabroil chowder"
 	color = "#FFA74F"
-	taste_description = "creamy shellfish with the occassional crunch"
+	taste_description = "creamy shellfish with the occasional crunch"
 	nutriment_factor = 25
 	alpha = 200
 

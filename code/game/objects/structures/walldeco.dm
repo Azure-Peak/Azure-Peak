@@ -36,7 +36,7 @@
 	. = ..()
 	. += span_info("The kingdom is often beset with antagonists, both lesser and greater. Their presence is greatly influenced by the round's chosen storyteller, the whims of many higher powers, and pure circumstance-and-chance.")
 	. += span_info("Clicking the 'Villain Selection' tab in the character creation menu allows you to opt into being a villain at the round's start, yourself. Such include bandits, vampyres, liches, verebeasts, usurpers, and more.")
-	. += span_info("Ghosts, voyeurs, and those still in the lobby can intermittently receive prompts to spawn in as a lesser villan or an arcyne-summoned familiar. These roles are usually less independant, and are oft-beheld to another's command.")
+	. += span_info("Ghosts, voyeurs, and those still in the lobby can intermittently receive prompts to spawn in as a lesser villain or an arcyne-summoned familiar. These roles are usually less independent, and are oft-beheld to another's command.")
 	. += span_info("Uniquely, the 'Wretch' role functions as a static slot for villainy. While Wretches can spawn in nearly all rounds, they're also held to a higher standard and have a customizable bounty planted on their heads.")
 	. += span_info("With all that being said, however, villainy isn't restricted to just the antagonists. All roles can indulge in villainy, both lesser and greater, so long as it can be justified beyond 'meaningless violence' or 'witless kleptomania.'")
 	. += span_info("Remember that you are ultimately an actor in this virtual theatre, alongside everyone else. Working with the tempo-and-tact of others is the key to making a memorable - and enjoyable - experience for everyone involved.")
@@ -87,9 +87,9 @@
 /obj/structure/fluff/walldeco/steward/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Mammons reign as the primary form of currency within the kingdom, with bargaining and trading as a lesser alternative. There are three types of mammons; ZENNIES, ZILIQUAE, and ZENARII.")
-	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liqour at the inn, or some lesser supplies.")
+	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liquor at the inn, or some lesser supplies.")
 	. += span_info("ZILIQUAE, better known as SILVER, are each worth FIVE MAMMONS. A stack of TEN ziliquae can usually afford a freshly-forged longsword of steel, or enough supplies for a dae's adventure.")
-	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usuaully afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
+	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usually afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
 	. += span_info("Your character almost always spawns with mammons; either in pouches, or inside their MEISTER's account. Earning more can be as simple as laboring, adventuring, or otherwise driving a hard bargain.")
 
 /obj/structure/fluff/walldeco/bsmith
@@ -103,7 +103,7 @@
 	. = ..()
 	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
 	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
-	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
+	. += span_info("Skills determine how proficient you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
 	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")
 	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
 	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
@@ -185,7 +185,7 @@
 	. = ..()
 	. += span_info("Most roles naturally rely on weapons and armor, either to protect themselves from those who'd do harm or to better leverage their position in an ongoing story.")
 	. += span_info("Left-clicking the 'SKILLS' button in your HUD will show whatever skills your character currently has. Right-clicking it will instead show their traits, and - if applicable - their armor training.")
-	. += span_info("Skills determine how proficent you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
+	. += span_info("Skills determine how proficient you are in a given field. There are six levels to every skill; NOVICE, APPRENTICE, JOURNEYMAN, EXPERT, MASTER, and LEGENDARY. For weapons, JOURNEYMAN is considered the baseline.")
 	. += span_info("Most weapons specifically call upon a certain skill when determining their effectiveness. Using a longsword, for example, will check the character's Swordsmanship skill when determining its accuracy and chance to parry.")
 	. += span_info("Armor is simpler, for the most part. There are three weight classes; LIGHT, MEDIUM (for the 'Maille Training' trait), and HEAVY (for the 'Plate Training' trait). Wearing armor you aren't trained in leaves you sluggish and open for attacks.")
 	. += span_info("Certain armor types provide better protection to certain attacks than others. A cloth gambeson, for example, thwarts piercing and blunt damage. A steel cuirass, on the other hand, stops slashing and clawing damage dead in its tracks.")
@@ -214,9 +214,9 @@
 /obj/structure/fluff/walldeco/sign/merchantsign/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Mammons reign as the primary form of currency within the kingdom, with bargaining and trading as a lesser alternative. There are three types of mammons; ZENNIES, ZILIQUAE, and ZENARII.")
-	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liqour at the inn, or some lesser supplies.")
+	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liquor at the inn, or some lesser supplies.")
 	. += span_info("ZILIQUAE, better known as SILVER, are each worth FIVE MAMMONS. A stack of TEN ziliquae can usually afford a freshly-forged longsword of steel, or enough supplies for a dae's adventure.")
-	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usuaully afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
+	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usually afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
 	. += span_info("Your character almost always spawns with mammons; either in pouches, or inside their MEISTER's account. Earning more can be as simple as laboring, adventuring, or otherwise driving a hard bargain.")
 
 /obj/structure/fluff/walldeco/sign/merchantsign/left
@@ -290,7 +290,7 @@
 	. += span_info("Your character can choose from a wide variety of patrons to worship. The three most relevant groups, as of todae, are the PANTHEON, the ASCENDANTS, and GENESISM.")
 	. += span_info("The PANTHEON, as the Church's official religion, is considered the 'status quo' within Azuria. They worship ONE of TEN GODS, all embodying certain aspects and virtues of humenity.")
 	. += span_info("The ASCENDANTS are considered 'heathens' by the PANTHEON, and are actively hunted if made apparent within Azuria. They worship ONE of FOUR MORTALS-TURNED-GODS, who seek to usurp the 'status quo'.")
-	. += span_info("At last, GENESISM is considered 'archaic' by both the PANTHEON and ASCENDANTS. They worship PSYDON; the SAVIOR of this world who's presence is all-but-gone. They are, for lack of a better term, a 'wild card'.")
+	. += span_info("At last, GENESISM is considered 'archaic' by both the PANTHEON and ASCENDANTS. They worship PSYDON; the SAVIOR of this world whose presence is all-but-gone. They are, for lack of a better term, a 'wild card'.")
 	. += span_info("Irregardless of the chosen patron, your character is free - within reason - to interpret and worship their GOD in whatever way they see fit. After all, who's to say they aren't the only one that knows the TRUTH?")
 
 /obj/structure/fluff/walldeco/stone
@@ -725,7 +725,7 @@
 
 /obj/structure/fluff/walldeco/sign/saiga
 	name = "The Drunken Saiga"
-	desc = "Well, that's what comes from too much spice and liqour! </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
+	desc = "Well, that's what comes from too much spice and liquor! </br>By toggling the 'Mechanics' tab, I can learn much more about this poster's given topic."
 	icon_state = "shopsign_inn_saiga_right"
 	plane = -1
 	pixel_x = 3

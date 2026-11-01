@@ -91,10 +91,13 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	)
 	tp_budget = QUEST_TP_BUDGET_RECOVERY
 	threat_bands_cleared = QUEST_BANDS_RECOVERY
+	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_MEDIUM
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	kills_count_progress = FALSE
 	takes_destination = TRUE
 	var/shipment_name
 	var/shipment_count = 0
+	var/parcel_released = FALSE
 
 /datum/quest/kill/recovery/get_base_reward()
 	return QUEST_REWARD_BASE_RECOVERY
@@ -151,19 +154,34 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	if(!faction)
 		return FALSE
 	. = ..()
-	if(.)
-		spawn_recovery_parcel(landmark)
+	if(. && !any_guardians_alive())
+		release_parcel(landmark)
+
+/datum/quest/kill/recovery/mark_complete()
+	..()
+	despawn_live_hunt_mobs()
 
 /datum/quest/kill/recovery/on_guardian_killed()
-	if(!hunt_timer_id)
-		return
 	if(any_guardians_alive())
+		return
+	release_parcel()
+	if(!hunt_timer_id)
 		return
 	hunt_timer_label = "Parcel must be delivered in"
 	hunt_warn_text = "to deliver the parcel"
 	hunt_timeout_text = "<b>The parcel was not delivered in time.</b> The scroll crumbles to ash in your hand."
 	start_hunt_timer(QUEST_RECOVERY_DELIVERY_TIMER)
 	announce_to_bearer("<b>The guardians are slain.</b> You have [DisplayTimeText(QUEST_RECOVERY_DELIVERY_TIMER)] to deliver the parcel.")
+
+/datum/quest/kill/recovery/proc/release_parcel(obj/effect/landmark/quest_spawner/landmark)
+	if(parcel_released)
+		return
+	if(!landmark)
+		landmark = pending_landmark_ref?.resolve()
+	if(!landmark)
+		return
+	parcel_released = TRUE
+	spawn_recovery_parcel(landmark)
 
 /datum/quest/kill/recovery/proc/build_bundle()
 	. = list()

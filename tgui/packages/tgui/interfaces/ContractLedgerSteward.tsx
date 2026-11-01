@@ -38,6 +38,7 @@ type StewardData = {
   blockade_defender_min: number;
   blockade_defender_max: number;
   blockade_extra_defender_pct: number;
+  blockade_extra_threat_pct: number;
 };
 
 type FundingSource = 'pledge' | 'crown' | 'directive';
@@ -511,21 +512,17 @@ const ComposeView = () => {
         <div className="ContractLedger__InnkeeperFlavor">
           Blockade scrolls always go to your hand. Pin one to the Ledger and it
           needs a fellowship of {data.hoard_recovery_fellowship_min} to sign.
-          You can also give it to a fellowship you trust. Each defender at the
-          blockade beyond the first {data.blockade_defender_min} adds{' '}
-          {data.blockade_extra_defender_pct}% to both the waves and the payout.
-          This counts up to {data.blockade_defender_max} defenders.
+          You can also give it to a fellowship you trust.
         </div>
       )}
 
       {isHoardRecovery && funding !== 'directive' && (
-        // TODO: flavor - plain placeholder, rewrite
         <div className="ContractLedger__InnkeeperFlavor">
           Hoard recovery scrolls always go to your hand and work like blockade
           scrolls: pin one to the Ledger and it needs a fellowship of{' '}
           {data.hoard_recovery_fellowship_min} to sign. You can also give it to
           a fellowship you trust. On top of the usual blockade reward, the
-          holder seizes the region&apos;s brigand hoard. The hoard is taxed as
+          holder takes the region&apos;s brigand hoard. The hoard is taxed as
           Recovered Spoils. The scroll doesn&apos;t block any trade route.
         </div>
       )}
