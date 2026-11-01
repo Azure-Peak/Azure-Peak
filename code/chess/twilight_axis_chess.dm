@@ -1949,7 +1949,7 @@
 /datum/chess_match/proc/normalize_promotion_choice(choice)
 	if(!choice)
 		return CHESS_QUEEN
-	switch(lowertext("[choice]"))
+	switch(LOWER_TEXT("[choice]"))
 		if("queen")
 			return CHESS_QUEEN
 		if("rook")
