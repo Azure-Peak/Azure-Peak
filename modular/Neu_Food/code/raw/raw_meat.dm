@@ -213,6 +213,7 @@
 	if(name != initial(name))
 		S.name = "fried [name]"
 	S.faretype = faretype
+	S.cuisine = cuisine
 	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = S
 	if(istype(filet))
 		filet.fish_name = fish_name

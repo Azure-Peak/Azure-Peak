@@ -57,6 +57,7 @@
 	. = ..()
 	slice.name = "[initial(name)] filet"
 	slice.faretype = faretype
+	slice.cuisine = cuisine
 	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = slice
 	if(istype(filet))
 		filet.fish_name = initial(name)
@@ -70,6 +71,7 @@
 	S.slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
 	S.slice_bclass = slice_bclass
 	S.slice_name = "fried [initial(name)] filet"
+	S.cuisine = cuisine
 	var/obj/item/reagent_containers/food/snacks/rogue/fryfish/cooked = S
 	if(istype(cooked))
 		cooked.fish_name = initial(name)
@@ -165,6 +167,7 @@
 		),
 	)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_OTAVAIS
 	filet_tastes = list("rich salmon" = 1, "flaky fish" = 1)
 	slices_num = FISH_FILLETS_LARGE
 	no_rarity_sprite = TRUE
@@ -191,6 +194,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/camouflage, /datum/fish_trait/heavy)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_OTAVAIS
 	filet_tastes = list("sweet white fish" = 1, "tender fish" = 1)
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
@@ -217,6 +221,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/camouflage)
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	filet_tastes = list("fishiness" = 1, "chewy fish" = 1)
 	slices_num = FISH_FILLETS_TINY
 	no_rarity_sprite = TRUE
@@ -242,6 +247,7 @@
 		),
 	)
 	faretype = FARE_NEUTRAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	filet_tastes = list("buttery fish" = 1, "firm fish" = 1)
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
@@ -267,6 +273,7 @@
 		),
 	)
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTH_IMPERIAL // AAVNIC
 	filet_tastes = list("sweet small fish" = 1, "bony fish" = 1)
 	slices_num = FISH_FILLETS_TINY
 	no_rarity_sprite = TRUE
@@ -283,6 +290,7 @@
 	name = "carp"
 	desc = "A mudraking creacher of the river depths. It is kept in ponds and lakes for its meat, and is a very common fish for commoners to eat. It is said to be the Queen of Rivers, and has a subtle, but muddy taste."
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTH_IMPERIAL|CUISINE_SOUTHEASTERN|CUISINE_NALEDI // AAVNIC
 	filet_tastes = list("muddy fish" = 1, "bony fish" = 1)
 	slices_num = FISH_FILLETS_SMALL
 	sellprice = FISH_PRICE_COMMON
@@ -324,6 +332,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/camouflage, /datum/fish_trait/picky_eater)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	filet_tastes = list("mediocre fish" = 1, "mushy fish" = 1)
 	slices_num = FISH_FILLETS_TINY
 	sellprice = FISH_PRICE_PRIZED
@@ -335,6 +344,7 @@
 	name = "anglerfish"
 	desc = "A menacing abyssal creature with a massive head. They are said to be a relative of the frog, and have grown a great lure to draw lesser fishes to their doom. They yield a lot of meat, which is succulent and dense around the tail."
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN
 	filet_tastes = list("sweet dense fish" = 1, "meaty fish" = 1)
 	slices_num = FISH_FILLETS_LARGE
 	icon_state = "angler"
@@ -376,6 +386,7 @@
 		/obj/item/fishing/bait/gray,
 	)
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN|CUISINE_NORTH_IMPERIAL
 	filet_tastes = list("rich oily eel" = 1, "fatty fish" = 1)
 	slices_num = FISH_FILLETS_SMALL
 	sellprice = FISH_PRICE_COMMON
@@ -400,6 +411,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/camouflage, /datum/fish_trait/heavy)
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_OTAVAIS
 	filet_tastes = list("sweet white fish" = 1, "soft fish" = 1)
 	slices_num = FISH_FILLETS_SMALL
 	no_rarity_sprite = TRUE
@@ -426,6 +438,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/heavy)
 	faretype = FARE_NEUTRAL
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN
 	filet_tastes = list("sweet white fish" = 1, "thick moist flakes" = 1)
 	slices_num = FISH_FILLETS_LARGE
 	sellprice = FISH_PRICE_GOOD
@@ -589,6 +602,7 @@
 		),
 	)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN
 	filet_tastes = list("oily salmon" = 1, "flaky fish" = 1)
 	slices_num = FISH_FILLETS_LARGE
 	no_rarity_sprite = TRUE
@@ -615,6 +629,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/camouflage, /datum/fish_trait/heavy)
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	filet_tastes = list("mild white fish" = 1, "delicate fish" = 1)
 	slices_num = FISH_FILLETS_SMALL
 	no_rarity_sprite = TRUE
@@ -747,6 +762,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/heavy, /datum/fish_trait/prehistoric)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_RANESHENI|CUISINE_NORTH_IMPERIAL // AAVNIC
 	filet_tastes = list("lean white fish" = 1, "firm fish" = 1)
 	slices_num = FISH_FILLETS_GIANT
 	no_rarity_sprite = TRUE
@@ -773,6 +789,7 @@
 		),
 	)
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_RANESHENI|CUISINE_SOUTHEASTERN
 	filet_tastes = list("strong oily fish" = 1, "bony fish" = 1)
 	slices_num = FISH_FILLETS_SMALL
 	no_rarity_sprite = TRUE
@@ -799,6 +816,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/carnivore)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NALEDI|CUISINE_SOUTHEASTERN
 	filet_tastes = list("grassy reef fish" = 1, "firm fish" = 1)
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
@@ -841,6 +859,7 @@
 	)
 	fish_traits = list(/datum/fish_trait/carnivore)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_RANESHENI
 	filet_tastes = list("grilled steak fish" = 1, "firm fish" = 1)
 	slices_num = FISH_FILLETS_GIANT
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swordfish

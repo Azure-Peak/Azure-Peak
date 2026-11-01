@@ -41,6 +41,7 @@
 	fish_movement_type = /datum/fish_movement/slow
 	fish_traits = list(/datum/fish_trait/vegan, /datum/fish_trait/heavy)
 	faretype = FARE_FINE
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	filet_tastes = list("briny clam" = 1, "chewy shellfish" = 1)
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_FINE
@@ -94,6 +95,7 @@
 		/obj/item/fishing/bait/shell,
 	)
 	faretype = FARE_POOR
+	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
 	filet_tastes = list("sweet shrimp" = 1, "snappy shellfish" = 1)
 	sellprice = FISH_PRICE_FAIR
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp
