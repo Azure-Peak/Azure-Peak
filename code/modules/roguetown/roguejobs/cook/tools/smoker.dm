@@ -251,6 +251,8 @@
 			var/obj/item/reagent_containers/food/snacks/result = new S.smoked_type(src)
 			if(S.reagents && result.reagents)
 				S.reagents.trans_to(result, S.reagents.total_volume)
+			if(istype(S, /obj/item/reagent_containers/food/snacks/rogue/meat/fish))
+				result.faretype = S.faretype
 			qdel(S)
 			new_foods += result
 			items_transformed++

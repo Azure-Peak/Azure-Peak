@@ -41,6 +41,8 @@
 	fish_movement_type = /datum/fish_movement/slow
 	fish_traits = list(/datum/fish_trait/vegan, /datum/fish_trait/heavy)
 	faretype = FARE_FINE
+	filet_tastes = list()
+	fried_filet_tastes = list()
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_FINE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
@@ -92,6 +94,9 @@
 		/obj/item/fishing/bait/gray,
 		/obj/item/fishing/bait/shell,
 	)
+	faretype = FARE_POOR
+	filet_tastes = list()
+	fried_filet_tastes = list()
 	sellprice = FISH_PRICE_FAIR
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp

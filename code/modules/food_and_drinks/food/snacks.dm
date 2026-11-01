@@ -691,6 +691,15 @@ GLOBAL_LIST_INIT(food_preserving_locs, typecacheof(list(
 //	if(desc != initial(desc))
 //		slice.desc = ""
 
+/obj/item/reagent_containers/food/snacks/proc/set_tastes(list/new_tastes)
+	if(!length(new_tastes))
+		return
+	tastes = new_tastes.Copy()
+	if(!reagents)
+		return
+	for(var/datum/reagent/consumable/nutriment/N in reagents.reagent_list)
+		N.data = counterlist_normalise(new_tastes.Copy())
+
 /obj/item/reagent_containers/food/snacks/proc/generate_trash(atom/location)
 	if(trash)
 		if(ispath(trash, /obj/item))

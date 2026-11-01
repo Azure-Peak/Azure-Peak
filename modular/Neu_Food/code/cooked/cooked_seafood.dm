@@ -12,10 +12,16 @@
 	icon_state = "carpcooked"
 	warming = 5 MINUTES
 	dropshrink = 0.6
+	var/fish_name
+	var/list/fried_filet_tastes
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/initialize_slice(obj/item/reagent_containers/food/snacks/slice, reagents_per_slice)
 	. = ..()
 	slice.faretype = faretype
+	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = slice
+	if(istype(filet))
+		filet.fish_name = fish_name
+		filet.set_tastes(fried_filet_tastes)
 
 /obj/item/reagent_containers/food/snacks/rogue/smokefish
 	name = "smoked fish"
@@ -73,15 +79,14 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster
 	name = "cooked lobster"
-	desc = "A cooked lobster. It has a rich and sweet flavor, but not much meat. On its own it is considered\
-	food for the poor, but buttered or peppered it is a delicacy."
+	desc = "A cooked lobster. It has a rich and sweet flavor, but not much meat. On its own it is sweet and succulent, but they are best buttered or peppered to turn it into a delicacy."
 	icon_state = "lobstercooked"
 	faretype = FARE_FINE
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/salmon
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	name = "cooked salmon"
-	desc = "A cooked salmon. Less terrifying now that it is cooked. It has rich and oily flesh, making it quite popular once spiced."
+	desc = "A cooked salmon. It has rich, oily and savory flesh, making it quite popular once spiced."
 	icon_state = "salmoncooked"
 	faretype = FARE_FINE
 

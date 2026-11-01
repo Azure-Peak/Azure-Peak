@@ -253,9 +253,15 @@
 	var/turf/T = get_turf(src)
 	cut_overlays()
 	for(var/i in 1 to amount)
-		new res_type(T)
+		var/obj/item/reagent_containers/food/snacks/rogue/result = new res_type(T)
+		if(istype(result))
+			result.inherit_recipe_base(src)
 	active_recipe = null
 	qdel(src)
+
+// Helper function, used for things like "Inherit the base recipe's name/quality and boost it up", i.e. fish fillet
+/obj/item/reagent_containers/food/snacks/rogue/proc/inherit_recipe_base(obj/item/reagent_containers/food/snacks/rogue/base)
+	return
 
 /obj/item/reagent_containers/food/snacks/rogue/get_mechanics_examine(mob/user)
 	. = ..()
