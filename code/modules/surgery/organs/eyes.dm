@@ -123,16 +123,6 @@
 	var/luxblind = FALSE
 	var/luximpair = FALSE
 
-/obj/item/organ/eyes/night_vision/lux/Insert(mob/living/carbon/M, special, drop_if_replaced, initialising)
-	. = ..()
-	if(!M?.mind)
-		M.mind.AddSpell(new /datum/action/cooldown/spell/eyescry)
-
-/obj/item/organ/eyes/night_vision/lux/Remove(mob/living/carbon/M, special)
-	. = ..()
-	if(M?.mind)
-		M.mind.RemoveSpell(new /datum/action/cooldown/spell/eyescry)
-
 /obj/item/organ/eyes/night_vision/lux/on_life()
 	..()
 	var/mob/living/carbon/C = owner
@@ -159,11 +149,28 @@
 /obj/item/organ/eyes/night_vision/lux/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_LUX_ORGAN)
 
-/obj/item/organ/heart/lux/get_mechanics_examine(mob/user)
+/obj/item/organ/eyes/night_vision/lux/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("An Artificed Eye harnesses its host's Lux, allowing them to see in the dark. They may expend their Lux to focus their ire into a bolt of vicious energy")
+	. += span_info("An Artificed Eye harnesses its host's Lux, allowing them to see in the dark.")
 	. += span_info("If the user has no lux to spare, they can only support one Artificed Organ, or one pair of Gilbranze Limbs. Artificed Eyes will always become blurry whilst bereft of Lux.")
 	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
+
+/obj/item/organ/eyes/night_vision/lux/infused
+	name = "infused artificed eyes"
+
+/obj/item/organ/eyes/night_vision/lux/infused/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("An Infused Artificed Eye allows the host to invoke a being's true name, to spy upon it from a distance.")
+
+/obj/item/organ/eyes/night_vision/lux/infused/Insert(mob/living/carbon/M, special, drop_if_replaced, initialising)
+	. = ..()
+	if(!M?.mind)
+		M.mind.AddSpell(new /datum/action/cooldown/spell/eyescry)
+
+/obj/item/organ/eyes/night_vision/lux/infused/Remove(mob/living/carbon/M, special)
+	. = ..()
+	if(M?.mind)
+		M.mind.RemoveSpell(new /datum/action/cooldown/spell/eyescry)
 
 /obj/item/organ/eyes/night_vision
 	name = "shadow eyes"

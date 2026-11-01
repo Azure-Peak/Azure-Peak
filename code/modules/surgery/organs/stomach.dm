@@ -145,7 +145,45 @@
 
 /obj/item/organ/stomach/lux/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("An Artificed Stomach harnesses its host's Lux, ")
+	. += span_info("An Artificed Stomach harnesses its host's Lux to fucnction.")
 	. += span_info("If the user has no lux to spare, they can only support one Artificed Organ, or one pair of Gilbranze Limbs.")
 	. += span_info("Whilst the wearer has Lux, they can support up to two Artificed Organs, or pairs of Gilbranze Limbs, without failure. An Artificed Heart increases this capacity by one")
 
+/obj/item/organ/stomach/lux/infused
+	name = "infused artificed stomach"
+	var/luxtype
+
+/obj/item/organ/stomach/lux/infused/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("An Infused Artificed Stomach allows the host to retch up their lux, as a volatile explosive.")
+
+/obj/item/organ/stomach/lux/infused/Insert(mob/living/carbon/M, special, drop_if_replaced, initialising)
+	. = ..()
+	luxtype = M.get_lux_type()
+	if(!M?.mind)
+		switch(luxtype)
+			if("tainted")
+				M.mind.AddSpell(new /datum/action/cooldown/spell/projectile/retch/tainted)
+			if("corrupted")
+				M.mind.AddSpell(new /datum/action/cooldown/spell/projectile/retch/corrupt)
+			if("infernal")
+				M.mind.AddSpell(new /datum/action/cooldown/spell/projectile/retch/infernal)
+			if("impure")
+				M.mind.AddSpell(new /datum/action/cooldown/spell/projectile/retch/impure)
+			if("pure")
+				M.mind.AddSpell(new /datum/action/cooldown/spell/projectile/retch/pure)
+
+/obj/item/organ/stomach/lux/infused/Remove(mob/living/carbon/M, special)
+	. = ..()
+	if(M?.mind)
+		switch(luxtype)
+			if("tainted")
+				M.mind.RemoveSpell(new /datum/action/cooldown/spell/projectile/retch/tainted)
+			if("corrupted")
+				M.mind.RemoveSpell(new /datum/action/cooldown/spell/projectile/retch/corrupt)
+			if("infernal")
+				M.mind.RemoveSpell(new /datum/action/cooldown/spell/projectile/retch/infernal)
+			if("impure")
+				M.mind.RemoveSpell(new /datum/action/cooldown/spell/projectile/retch/impure)
+			if("pure")
+				M.mind.RemoveSpell(new /datum/action/cooldown/spell/projectile/retch/pure)
