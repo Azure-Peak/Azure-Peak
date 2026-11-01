@@ -7,19 +7,7 @@
 #define BOARD_MODE_NARDS "nards"
 #define BOARD_MODE_NONE "none"
 
-#define CHESS_SOUND_NOTIFY 'sound/chess/notify.ogg'
-#define CHESS_SOUND_MOVE 'sound/chess/chess_move.ogg'
-#define CHESS_SOUND_CAPTURE 'sound/chess/capture.ogg'
-#define CHESS_SOUND_CHECKERS_MOVE 'sound/chess/move-shashka.ogg'
-#define CHESS_SOUND_RAGE 'sound/chess/rage_chess.ogg'
-#define CHESS_SOUND_RESET 'sound/chess/sbor_chess.ogg'
-#define CHESS_SOUND_PICKUP 'sound/chess/pick_up_chess.ogg'
-#define CHESS_SOUND_WIN 'sound/chess/win.ogg'
-#define CHESS_SOUND_LOSS 'sound/chess/loss.ogg'
-#define CHESS_SOUND_CHECK 'sound/chess/schah_chess.ogg'
-#define CHESS_SOUND_DICE1 'sound/chess/dice1.ogg'
-#define CHESS_SOUND_DICE2 'sound/chess/dice2.ogg'
-#define CHESS_SOUND_DICE3 'sound/chess/dice3.ogg'
+//Sounds are defined in  __DEFINES/chess.dm, this is to make replacing sounds easier.
 
 #define CHESS_PAWN   "p"
 #define CHESS_ROOK   "r"
