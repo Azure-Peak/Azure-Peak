@@ -146,35 +146,6 @@
 	color = "#8a0b0b"
 	quality = DRINK_NICE
 
-/datum/reagent/consumable/ethanol/light
-	cuisine = CUISINE_NORTH_IMPERIAL
-	drink_type = DRINKTYPE_ALE
-	name = "light beer"
-	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety has reduced calorie and alcohol content."
-	boozepwr = 5 //Space Europeans hate it
-	taste_description = "dish water"
-	glass_name = "glass of light beer"
-	glass_desc = ""
-
-/datum/reagent/consumable/ethanol/green
-	cuisine = CUISINE_NORTH_IMPERIAL
-	drink_type = DRINKTYPE_ALE
-	name = "green beer"
-	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety is dyed a festive green."
-	color = "#A8E61D"
-	taste_description = "green piss water"
-	glass_icon_state = "greenbeerglass"
-	glass_name = "glass of green beer"
-	glass_desc = ""
-
-/datum/reagent/consumable/ethanol/green/on_mob_life(mob/living/carbon/M)
-	if(M.color != color)
-		M.add_atom_colour(color, TEMPORARY_COLOUR_PRIORITY)
-	return ..()
-
-/datum/reagent/consumable/ethanol/green/on_mob_end_metabolize(mob/living/M)
-	M.remove_atom_colour(TEMPORARY_COLOUR_PRIORITY, color)
-
 /datum/reagent/consumable/ethanol/ale
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_ALE
@@ -209,14 +180,6 @@
 	color = "#809978"
 	quality = DRINK_NICE
 
-/datum/reagent/consumable/ethanol/spottedhen
-	cuisine = CUISINE_NORTH_IMPERIAL
-	drink_type = DRINKTYPE_ALE
-	name = "Spotted Hen"
-	boozepwr = 15
-	taste_description = "cheap pisswater"
-	color = "#DBD77F"
-
 /datum/reagent/consumable/ethanol/hagwoodbitter
 	cuisine = CUISINE_NORTH_IMPERIAL
 	drink_type = DRINKTYPE_ALE
@@ -248,7 +211,7 @@
 
 /datum/reagent/consumable/ethanol/aurorian
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	drink_type = DRINKTYPE_WINE
+	drink_type = DRINKTYPE_ALE
 	name = "Aurorian"
 	boozepwr = 5
 	taste_description = "subtle herbaceous undertones"
@@ -257,7 +220,7 @@
 
 /datum/reagent/consumable/ethanol/fireleaf // cabbbage
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	drink_type = DRINKTYPE_WINE
+	drink_type = DRINKTYPE_ALE
 	name = "Fireleaf"
 	boozepwr = 2
 	taste_description = "awful liquor"
@@ -815,7 +778,7 @@
 
 /datum/reagent/consumable/ethanol/bloodymary
 	cuisine = CUISINE_RANESHENI
-	drink_type = DRINKTYPE_CIDER
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Bloody Mary"
 	description = "Possibly the only way blood can be palatable for the normal non-graggarite. How moral it is to drink? Still questionable."
 	color = "#570000"
@@ -894,7 +857,7 @@
 
 /datum/reagent/consumable/ethanol/xylix_spice
 	cuisine = CUISINE_OTAVAIS
-	drink_type = DRINKTYPE_WINE
+	drink_type = DRINKTYPE_SPIRIT
 	name = "Spice of Xylix"
 	description = "A gamble to your senses, this drink is harsh and definitely an acquired taste."
 	color = "#EBBD1C"
