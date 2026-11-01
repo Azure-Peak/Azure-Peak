@@ -21,3 +21,14 @@
 
 	if(cnt > 6)
 		H.add_stress(/datum/stressevent/parablood)
+
+/datum/charflaw/pacifist
+	name = "Pacifist"
+	desc = "I have taken a vow of pacifism. I will never do harm to another person, and I do not condone violence as an answer."
+	ui_fa_icon = "person-praying"
+	needs_extra_vice = TRUE
+	voyeur_descriptor = "pacifist"
+
+/datum/charflaw/pacifist/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_PACIFISM, "[type]")
