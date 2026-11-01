@@ -1,0 +1,8 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Endure can no longer heal severe wounds. Minor/Moderate only."
+  - balance: "Endure doesn't restore blood. It halves bleeding (instead of fully killing bleed)"
+  - balance: "Disciples lose thick blooded, once again. (They've Endure)"
+  - balance: "Absolver rebuke where you hit them and it hurts you is removed."
+  - balance: "Weep/Absolve need the Golgotha in hand and are a red-intent 3/5s (respectively) channel cast."
