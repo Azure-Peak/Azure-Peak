@@ -933,28 +933,10 @@
 
 
 /mob/living/carbon/human/proc/admin_send_back_to_lobby(mob/admin, delete_character = FALSE)
-	var/datum/job/mob_job
-	var/target_job = SSrole_class_handler.get_advclass_by_name(advjob)
 	var/player_key = key ? key : mind?.key
-	if(mind)
-		mob_job = SSjob.GetJob(mind.assigned_role)
-		if(mob_job)
-			mob_job.current_positions = max(0, mob_job.current_positions - 1)
-		if(target_job)
-			SSrole_class_handler.adjust_class_amount(target_job, -1)
-		mind.unknow_all_people()
-		for(var/datum/mind/MF in get_minds())
-			mind.become_unknown_to(MF)
-		for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
-			if(removing_bounty.target == real_name)
-				GLOB.head_bounties -= removing_bounty
-	else if(admin)
+	if(!mind && admin)
 		to_chat(admin, span_warning("Target has no mind!"))
-	GLOB.chosen_names -= real_name
-	if(!mob_job)
-		LAZYREMOVE(GLOB.actors_list[SSjob.bitflag_to_department(WANDERERS, FALSE)], mobid)
-	else
-		LAZYREMOVE(GLOB.actors_list[SSjob.bitflag_to_department(mob_job.department_flag, mob_job.obfuscated_job)], mobid)
+	process_far_travel(admin)
 	if(client)
 		SSdroning.kill_droning(client)
 		SSdroning.kill_loop(client)
