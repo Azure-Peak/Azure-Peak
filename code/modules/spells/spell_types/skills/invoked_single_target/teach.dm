@@ -47,7 +47,6 @@
 	/datum/skill/craft/sewing,
 	/datum/skill/craft/smelting,
 	/datum/skill/misc/sneaking,
-	/datum/skill/misc/stealing,
 	/datum/skill/misc/swimming,
 
 	/datum/skill/craft/tanning,
