@@ -68,9 +68,9 @@
 	pixel_x = -16
 	bigboy = TRUE
 	force = 15
-	wdefense = 10
-	coverage = 30
-	max_integrity = 220
+	wdefense = 7
+	coverage = 35
+	max_integrity = 160
 	special = null
 	unenchantable = TRUE
 	sellprice = 0

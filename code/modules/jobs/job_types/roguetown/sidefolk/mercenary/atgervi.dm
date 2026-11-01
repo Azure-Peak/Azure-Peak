@@ -231,10 +231,11 @@
 	force = 15
 	throwforce = 10
 	dropshrink = 0.8
-	coverage = 80
+	wdefense = 8
+	coverage = 70
 	attacked_sound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
-	max_integrity = 300
+	max_integrity = 150
 	experimental_inhand = FALSE
 
 /obj/item/rogueweapon/shield/atgervi/getonmobprop(tag)

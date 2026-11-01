@@ -17,7 +17,7 @@
 	resistance_flags = FLAMMABLE
 	can_parry = TRUE
 	associated_skill = /datum/skill/combat/shields		//Trained via blocking or attacking dummys with; makes better at parrying w/ shields.
-	wdefense = 10										//should be pretty baller
+	wdefense = 7										//should be pretty baller
 	var/coverage = 50
 	var/heraldry_state = null
 	var/heraldry_preview = null
@@ -128,7 +128,7 @@
 	icon_state = "woodsh"
 	dropshrink = 0.8
 	anvilrepair = /datum/skill/craft/carpentry
-	coverage = 30
+	coverage = 35
 	max_integrity = 120
 	heraldry_x_offset = 1
 	heraldry_y_offset = -1 // 1px right and down to make it look centered
@@ -137,7 +137,7 @@
 	name = "ghastly shield"
 	desc = "A frail looking amalgamation of planks. Yet somehow, the very wood itself seem to be filling you with resolve."
 	icon_state = "deprived"
-	coverage = 40
+	coverage = 45
 	max_integrity = 200
 
 /// Returns list of heraldry names native to this shield type (stripped of prefix)
@@ -354,10 +354,10 @@
 	wlength = WLENGTH_NORMAL
 	resistance_flags = FLAMMABLE
 	var/swapped = FALSE
-	wdefense = 10
-	coverage = 55
+	wdefense = 6
+	coverage = 80
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
-	max_integrity = 280
+	max_integrity = 320
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/iron
 
@@ -373,11 +373,11 @@
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
-	wdefense = 11
-	coverage = 50
+	wdefense = 7
+	coverage = 75
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 330
+	max_integrity = 370
 	smeltresult = /obj/item/ingot/steelholy
 
 /obj/item/rogueweapon/shield/tower/holysee/MiddleClick(mob/user, params)
@@ -414,12 +414,12 @@
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
-	wdefense = 12
-	coverage = 55
+	wdefense = 8
+	coverage = 70
 	heraldry_x_offset = 1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 280
+	max_integrity = 170
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/steel
 
@@ -451,10 +451,10 @@
 	desc = "An interloper in causality's ever-so-fragile stream, woven from wafers to ward against those who're not yet ready to comprehend \
 	the gospel of Her disciples. Zizo sought to ward Her children from extinction, but failed; and in the throes of divine mania, She had come \
 	to realize that this world was no longer worth saving."
-	max_integrity = 400
+	max_integrity = 290
 	force = 25
 	throwforce = 20
-	coverage = 75
+	coverage = 85
 	icon_state = "zizoshield"
 	smeltresult = /obj/item/ingot/avantyne
 
@@ -471,8 +471,8 @@
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
-	wdefense = 14
-	coverage = 50
+	wdefense = 10
+	coverage = 65
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	max_integrity = 50
@@ -492,11 +492,11 @@
 	wlength = WLENGTH_NORMAL
 	resistance_flags = null
 	flags_1 = CONDUCT_1
-	wdefense = 15
-	coverage = 50
+	wdefense = 11
+	coverage = 65
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 380
+	max_integrity = 270
 	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
@@ -511,8 +511,8 @@
 	name = "decrepit shield"
 	desc = "A hefty tower shield, wrought from rotted metal. Looped with dried kelp and reeking of saltwater, you'd assume that this had been fished \
 	out from the remains of a long-sunken warship.. alongside its former legionnaire."
-	max_integrity = 120
-	wdefense = 9
+	max_integrity = 80
+	wdefense = 5
 	icon_state = "ancientsh"
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
@@ -533,8 +533,8 @@
 	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK)
 	force = 25
 	throwforce = 25 //for cosplaying captain raneshen
-	wdefense = 11
-	max_integrity = 220 //not fully metal but not fully wood either
+	wdefense = 7
+	max_integrity = 260 //not fully metal but not fully wood either
 	anvilrepair = /datum/skill/craft/carpentry
 
 /obj/item/rogueweapon/shield/tower/raneshen/getonmobprop(tag)
@@ -550,7 +550,6 @@
 	name = "spider shield"
 	desc = "A bulky shield of spike-like lengths molten together. The motifs evoke anything but safety and protection."
 	icon_state = "spidershield"
-	coverage = 55
 	smeltresult = /obj/item/ingot/drow
 	smelt_bar_num = 1
 
@@ -564,11 +563,11 @@
 	dropshrink = 0.8
 	resistance_flags = null
 	possible_item_intents = list(SHIELD_BASH_METAL, SHIELD_BLOCK, SHIELD_SMASH_METAL)
-	wdefense = 9
+	wdefense = 7
 	coverage = 10
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 130
+	max_integrity = 110
 	associated_skill = /datum/skill/combat/shields
 	grid_width = 32
 	grid_height = 64
@@ -614,7 +613,7 @@
 	desc = "An object once before its time, now out of it. The artisan's hammerstrikes are still visible in the mottled surface, yet \
 	the encroach of rust and rot threatens even this memory."
 	icon_state = "ancient_buckler"
-	max_integrity = 85
+	max_integrity = 65
 	smeltresult = /obj/item/ingot/aaslag
 
 // unique, better buckler for champion
@@ -623,7 +622,7 @@
 	desc = "A special buckler made out of blacksteel for the Knight Banneret, adorned with a crest. An inscription along the top reads,\"RUAT CAELUM\""
 	icon_state = "capbuckler"
 	icon = 'icons/roguetown/weapons/special/captain.dmi'
-	max_integrity = 150
+	max_integrity = 130
 	slot_flags = ITEM_SLOT_HIP | ITEM_SLOT_BACK
 	sellprice = 100 // lets not make it too profitable
 	smeltresult = /obj/item/ingot/blacksteel
@@ -636,10 +635,10 @@
 	force = 15
 	throwforce = 10
 	dropshrink = 0.8
-	coverage = 30
+	coverage = 35
 	attacked_sound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
-	max_integrity = 220
+	max_integrity = 160
 
 /obj/item/rogueweapon/shield/heater/getonmobprop(tag)
 	. = ..()
@@ -657,13 +656,14 @@
 	force = 20
 	throwforce = 25 // "I can do this all day."
 	dropshrink = 0.8
-	coverage = 30
+	wdefense = 9
+	coverage = 20
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	possible_item_intents = list(SHIELD_SMASH_METAL, SHIELD_BLOCK) // No SHIELD_BASH. Too heavy to swing quickly, or something.
-	max_integrity = 220
+	max_integrity = 240
 	anvilrepair = /datum/skill/craft/weaponsmithing
 	smeltresult = /obj/item/ingot/iron
 
@@ -689,7 +689,7 @@
 	no matter the scorching heat – no matter the wrath of their enemies, Graggar never faltered in His arms. When Ravox broke their oath and \
 	rescinded their claim to Godhood, grief could not describe what He had felt."
 	icon_state = "graggarshield"
-	max_integrity = 300
+	max_integrity = 320
 
 /obj/item/rogueweapon/shield/iron/graggar/Initialize(mapload)
 	. = ..()
@@ -707,14 +707,15 @@
 	force = 25
 	throwforce = 30 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
 	dropshrink = 0.8 // Free free to add actual designs to this shield, too, if-or-whenever.
-	coverage = 30
+	wdefense = 9
+	coverage = 20
 	resistance_flags = null
 	flags_1 = CONDUCT_1
 	minstr = 11 //Particularly heavy to use as a melee weapon.
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	possible_item_intents = list(/datum/intent/shield/block, /datum/intent/mace/smash/shield/metal, /datum/intent/effect/daze) // No SHIELD_BASH. Able to inflict Daze due to its weight.
-	max_integrity = 260
+	max_integrity = 240
 	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/shield/bronze/getonmobprop(tag)
@@ -732,11 +733,11 @@
 	and for one final time, it shall ward this dying world from a crueler fate."
 	icon_state = "bronzegreatshield"
 	item_state = "bronzegreatshield"
-	max_integrity = 360 //Highest integrity and passive projectile-blocking chance of most non-unique shields.
+	max_integrity = 320 //Highest integrity and passive projectile-blocking chance of most non-unique shields.
 	possible_item_intents = list(/datum/intent/shield/block, /datum/intent/mace/smash/shield/metal/great, /datum/intent/effect/daze) // No SHIELD_BASH. Able to inflict Daze due to its weight.
 	force = 28
-	coverage = 75
-	wdefense = 10
+	coverage = 80
+	wdefense = 6
 	minstr = 12 //Requires a natural +STR modifier or statpack to double as a melee weapon, for its given class. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
 
 /obj/item/rogueweapon/shield/bronze/great/get_mechanics_examine(mob/user)
@@ -747,7 +748,7 @@
 	name = "steppesman shield"
 	desc = "A banded iron shield decorated with traditional Aavnic colours, often seen in the hands of the Steppesmen."
 	icon_state = "ironsh_steppeman"
-	max_integrity = 250 //+30
+	max_integrity = 270 //+30
 
 /*/obj/item/rogueweapon/shield/buckler/freelancer
 	name = "fencer's wrap"
@@ -768,7 +769,7 @@
 	coverage = 60
 	attacked_sound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
-	max_integrity = 200
+	max_integrity = 160
 	var/smoke_path = /obj/effect/particle_effect/smoke
 	var/cooldowny
 	var/cdtime = 30 SECONDS
@@ -834,7 +835,7 @@
 	icon_state = "dwshield"
 	force = 22 //10% More damage, why not?
 	throw_range = 2 //Heavy
-	max_integrity = 360 //20% more integrity. It's unique and race-locked.
+	max_integrity = 250 //20% more integrity. It's unique and race-locked.
 	sellprice = 60
 	smeltresult = /obj/item/ingot/steel
 
@@ -842,11 +843,11 @@
 	name = "blacksteel shield"
 	desc = "A magnificent kite shield of blacksteel. Be it knight-or-knave, those who have the strength to lift it shall yet stand against perdition."
 	icon_state = "blacksteelsh"
-	max_integrity = 400
+	max_integrity = 290
 	force = 25
 	throwforce = 20
-	coverage = 60
+	coverage = 75
 	smeltresult = /obj/item/ingot/blacksteel
 	possible_item_intents = list(/datum/intent/shield/bash/metal, /datum/intent/shield/block, /datum/intent/mace/smash/shield/metal, /datum/intent/effect/daze)
 	minstr = 11
-	wdefense = 13
+	wdefense = 9

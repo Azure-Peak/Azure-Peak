@@ -1046,7 +1046,7 @@ LICH SKELETONS
 	and yet it serves in a twisted change against its old purpose to preserve lyfe, it shall serve as a bulwark to herald the march of Her legionarries to end lyfe."
 	icon_state = "ancientgreatshield"
 	item_state = "ancientgreatshield"
-	max_integrity = 400 //High integrity and passive projectile-blocking as a difficult to obtain usually role exclusive shield.
+	max_integrity = 360 //High integrity and passive projectile-blocking as a difficult to obtain usually role exclusive shield.
 	force = 30
 	smeltresult = /obj/item/ingot/aaslag
 
@@ -1056,9 +1056,9 @@ LICH SKELETONS
 	a battered hunk of metal with dents threatening to rip open. It failed its former owner and it won't be long until its own frail husk is reduced to nothing."
 	icon_state = "ancientgreatshield"
 	item_state = "ancientgreatshield"
-	max_integrity = 180 //Generous integrity and passive projectile-blocking for a decrepit shield.
+	max_integrity = 140 //Generous integrity and passive projectile-blocking for a decrepit shield.
 	force = 18
-	coverage = 60
+	coverage = 65
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
 	minstr = 13 //Requires a hefty natural +STR modifier and statpack/potions to double as a melee weapon (not you'd want to use it as one), for most classes. Note that it has a heavier charge time and active stamina drain, too, as.. well, it's quite heavy.
@@ -1071,7 +1071,7 @@ LICH SKELETONS
 	force = 15
 	throwforce = 25 // DO NOT GIVE ANYTHING; BUT TAKE FROM THEM.. EVERYTHING!
 	minstr = 9 //Decently heavy to use as a melee weapon. But lighter due to thinner material.
-	max_integrity = 180 //Intended to be weaker than the bronze shield, for balance reasonings but its cheaper than an iron shield ingot wise
+	max_integrity = 160 //Intended to be weaker than the bronze shield, for balance reasonings but its cheaper than an iron shield ingot wise
 	//for lore's sake its thinner than steel shields since it used to work as well since gilbranze was once stronger than steel, now its sort of worn its former durability away.
 
 /obj/item/rogueweapon/shield/bronze/aalloy
@@ -1082,6 +1082,6 @@ LICH SKELETONS
 	throwforce = 8 // Its basically a chunk of crumbling metal
 	blade_dulling = DULLING_SHAFT_CONJURED
 	color = "#bb9696"
-	coverage = 25
+	coverage = 15
 	minstr = 8 //Barely anything left of it sire.
 	max_integrity = 60
