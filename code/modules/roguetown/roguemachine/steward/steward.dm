@@ -484,6 +484,7 @@
 		return
 	var/spent = SSeconomy.manual_import(user, region_id, good_id, quantity)
 	if(spent > 0)
+		record_treasury_expense(TREASURY_FLOW_IMPORT, treasury_role_of(user), spent)
 		if(is_alderman_acting)
 			SScity_assembly.consume_trade(spent, user, "import [quantity] [tg.name] from [region.name]")
 		say("Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon.")
@@ -819,7 +820,7 @@
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
 			contents += "<tr><td>Wages Paid</td><td align='right'><font color='#d9534f'>-[GLOB.azure_round_stats[STATS_WAGES_PAID]]m</font></td>"
 			contents += "<td>Treasury Transfers</td><td align='right'><font color='#d9534f'>-[GLOB.azure_round_stats[STATS_DIRECT_TREASURY_TRANSFERS]]m</font></td></tr>"
-			contents += "<tr><td>Stockpile Imports <font size='1'><i>(see Trade)</i></font></td><td align='right'><font color='#d9534f'>-[SStreasury.total_import]m</font></td>"
+			contents += "<tr><td>Crown Imports</td><td align='right'><font color='#d9534f'>-[crown_import_spending()]m</font></td>"
 			contents += "<td></td><td></td></tr>"
 			contents += "</table><br>"
 

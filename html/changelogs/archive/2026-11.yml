@@ -1,0 +1,11 @@
+2026-11-01:
+  KatTheFox:
+  - bugfix: The "Paint robes (Rain Pattern)" painter rite now gives the rainfall robes,
+      instead of the sea robes.
+  NonQueueingMatt:
+  - rscadd: Arbalest now has cuir-bouilli instead of the skin item.
+  - bugfix: Arbalest no longer has dexpert.
+  changelingonberry:
+  - admin: SLOOC Mute hotlink has been removed.
+  - admin: Prayers can now be responded to via direct narrate hotlink instead of subtle
+      message.

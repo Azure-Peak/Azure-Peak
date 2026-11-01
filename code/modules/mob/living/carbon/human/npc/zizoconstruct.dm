@@ -72,7 +72,7 @@ GLOBAL_LIST_INIT(zizoconstruct_aggro, world.file2list("strings/rt/zconstructaggr
 
 /obj/item/clothing/gloves/roguetown/knuckles/bronze/zizoconstruct //Gives construct NPC a lootable knuckle item
 	name = "construct knuckles"
-	desc = "A vicous pair of bronze knuckles designed specifically for constructs. There is a terrifying, hollow spike in the center of the grip. There doesn't seem to be a way to wield it without impaling yourself."
+	desc = "A vicious pair of bronze knuckles designed specifically for constructs. There is a terrifying, hollow spike in the center of the grip. There doesn't seem to be a way to wield it without impaling yourself."
 	color = "#5f1414"
 	max_integrity = 500
 	anvilrepair = /datum/skill/craft/engineering

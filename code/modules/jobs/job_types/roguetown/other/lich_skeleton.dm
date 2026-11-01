@@ -226,7 +226,7 @@ LICH SKELETONS
 	H.energy = H.max_energy
 
 // Heavy/Tanky goon. Heavy armor but without an armaments rite, their skill is locked at journeyman. Death knights perform better than them and thus lich is encouraged to arm those first.
-// This one specialises in 3 different playstyles (disiplines) which your statline changes around the weapon choice, all choices are intended to have a noticable flaw as these are disposable goons.
+// This one specialises in 3 different playstyles (disiplines) which your statline changes around the weapon choice, all choices are intended to have a noticeable flaw as these are disposable goons.
 /datum/advclass/greater_skeleton/lich/bulwark
 	name = "Ancient Death Bulwark"
 	tutorial = "All throughout, you've borne the brunt. And even in death, will you continue. Shrug off terrible blows and deliver crushing sweeps with your greatweapons, in order to see your master's will done."
@@ -762,7 +762,7 @@ LICH SKELETONS
 //Yes the name is a bitter irony because Sectarian means a closed-minded us vs them, mindset. Aka limited or bigoted, but this fits the "slaughter the living so they may walk with her" mindset of skeletons.
 /datum/advclass/greater_skeleton/lich/sectarian
 	name = "Ancient Zizite Sectarian"
-	tutorial = "'Progress. Ascension. Destiny. A mandate, commanded by God, to be fufilled by Man.' - Amongst the many fallen, few not only take their place not only in reverence but through faith and channeling divinity. No matter how far you've fallen, your faith will be that which shall peirce the heavens - Let Progress be your chariot, let her will be your guide and let your master's vision become reality."
+	tutorial = "'Progress. Ascension. Destiny. A mandate, commanded by God, to be fulfilled by Man.' - Amongst the many fallen, few not only take their place not only in reverence but through faith and channeling divinity. No matter how far you've fallen, your faith will be that which shall pierce the heavens - Let Progress be your chariot, let her will be your guide and let your master's vision become reality."
 	outfit = /datum/outfit/job/roguetown/greater_skeleton/lich/sectarian
 	maximum_possible_slots = 3 //don't want too many healers for skeletons in a round but we want leniency for when they die and get replaced
 
@@ -860,7 +860,7 @@ LICH SKELETONS
 /////////////////////////////
 /obj/item/clothing/suit/roguetown/armor/vestments_padded/lich //Zizo acolyte esc-robes, armor is meant to be the same as padded vestaments
 	name = "decrepit unholy undervestaments"
-	desc = "Roughspan fabrics, silks and burlap from beyond your lyfetyme, wrapped and coiled around the waist uncomfortably tight.</br>Its adorned with inverted psycrosses in the stitchwork, a sworn unbreakable promise against the orders that bind this world to stagnation.</br></br>‎<font color='FF0000'>..Just looking at the fabric makes you feel like you're being watched..</font>"
+	desc = "Roughspun fabrics, silks and burlap from beyond your lyfetyme, wrapped and coiled around the waist uncomfortably tight.</br>Its adorned with inverted psycrosses in the stitchwork, a sworn unbreakable promise against the orders that bind this world to stagnation.</br></br>‎<font color='FF0000'>..Just looking at the fabric makes you feel like you're being watched..</font>"
 	icon_state = "monkvestments" //placeholdery as fuck
 	item_state = "monkvestments"
 	icon = 'icons/roguetown/clothing/armor.dmi'
@@ -875,7 +875,7 @@ LICH SKELETONS
 
 /obj/item/clothing/wrists/roguetown/bracers/cloth/lich
 	name = "decrepit padded wrappings"
-	desc = "Roughspan fabrics and burlap from beyond your lyfetyme, wrapped and coiled around the wrists by those who have embraced what they've truly become."
+	desc = "Roughspun fabrics and burlap from beyond your lyfetyme, wrapped and coiled around the wrists by those who have embraced what they've truly become."
 	color = "#5c5a55"
 
 /obj/item/clothing/gloves/roguetown/bandages/weighted/lich
@@ -883,7 +883,7 @@ LICH SKELETONS
 
 /obj/item/clothing/head/roguetown/roguehood/lich_sectarian
 	name = "decrepit unholy hood"
-	desc = "A padded and reinforced hood of roughspun fabrics, silks and worn leather from beyond your lyfetime, splinted across creating a cocooon to shroud the face. It bares the sigil of the inverted Psycross upon its crest in defiance to the world.</br></br>‎<font color='FF0000'>..Should you stare too long into it, you could almost glimpse something staring back with eternal malice..</font>"
+	desc = "A padded and reinforced hood of roughspun fabrics, silks and worn leather from beyond your lyfetime, splinted across creating a cocoon to shroud the face. It bares the sigil of the inverted Psycross upon its crest in defiance to the world.</br></br>‎<font color='FF0000'>..Should you stare too long into it, you could almost glimpse something staring back with eternal malice..</font>"
 	color = CLOTHING_BLACK
 	max_integrity = ARMOR_INT_HELMET_HARDLEATHER //to encourage keeping it
 	armor = ARMOR_LEATHER
@@ -910,7 +910,7 @@ LICH SKELETONS
 
 /obj/item/clothing/head/roguetown/articap/lich
 	name = "decrepit sapper cap"
-	desc = "A cap of decrepit leather from beyond your lyfetime, donned by those who are condemned forever to restless toil. </br>It holds an eerie resemblence to those worn by artificers of this dae and yill."
+	desc = "A cap of decrepit leather from beyond your lyfetime, donned by those who are condemned forever to restless toil. </br>It holds an eerie resemblence to those worn by artificers of this dae and yil."
 	color = "#d6bbbb"
 
 //Do not make this craftable, please. Role Specific. ^
@@ -1027,7 +1027,7 @@ LICH SKELETONS
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge/paalloy
 	name = "ancient flamberge"
-	desc = "Polished gilbranze and velvety saigaleather, masterfully bound together to hewn a greatsword of archaic opulance. One must remember that even the undying aren't consigned to the Archdevil's grasp; for those of true faith and nobleheartedness can persist in penitence."
+	desc = "Polished gilbranze and velvety saigaleather, masterfully bound together to hewn a greatsword of archaic opulence. One must remember that even the undying aren't consigned to the Archdevil's grasp; for those of true faith and nobleheartedness can persist in penitence."
 	icon_state = "ancientflamb"
 	smeltresult = /obj/item/ingot/aaslag
 
@@ -1076,7 +1076,7 @@ LICH SKELETONS
 
 /obj/item/rogueweapon/shield/bronze/aalloy
 	name = "decrepit hoplon shield"
-	desc = "A near-paradoxally thin-yet-somehow-intact shield of fraying bronze, impossibly remaining barely intact; yet in spite of this, a mere press of the thumb alone will bend a dent into it irreversably."
+	desc = "A near-paradoxically thin-yet-somehow-intact shield of fraying bronze, impossibly remaining barely intact; yet in spite of this, a mere press of the thumb alone will bend a dent into it irreversibly."
 	icon_state = "ancientlegionshield"
 	force = 10
 	throwforce = 8 // Its basically a chunk of crumbling metal

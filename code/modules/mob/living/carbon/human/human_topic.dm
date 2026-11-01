@@ -373,7 +373,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 				else
 					dat += "<tr><td colspan='6'><b><center>I don't know! Just hit them!</center></b></td></tr>"
 			else
-				dat += "<tr><td colspan='6'><b><center>They're wearing nothing. The naked man fears no pickpocket.</center></b></td></tr>"
+				dat += "<tr><td colspan='6'><b><center>They're wearing nothing.</center></b></td></tr>"
 			dat += "</table></span>"
 
 			dat += "<span style='width:30%;text-align:center;vertical-align: text-top;box-sizing:border-box'>"

@@ -64,7 +64,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 // Medium tier skeleton, 3 skills.
 /mob/living/carbon/human/species/skeleton/npc/medium
-	threat_point = THREAT_LOW
+	threat_point = THREAT_MODERATE
 	npc_archetype = /datum/npc_archetype/skeleton/medium
 
 // High tier skeleton, 4 skills. Heavy Armor.
@@ -74,7 +74,7 @@ GLOBAL_LIST_INIT(skeleton_aggro, list(
 
 // Medium tier skeleton archer, bow skill 3.
 /mob/living/carbon/human/species/skeleton/npc/archer
-	threat_point = THREAT_LOW
+	threat_point = THREAT_MODERATE
 	npc_archetype = /datum/npc_archetype/skeleton/archer
 
 // For Duke Manor & Zizo Manor - Ground based spread, so no pirate in pool!

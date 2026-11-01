@@ -34,7 +34,7 @@
 // Abyssor dream items
 #define HERESYDESC_DREAM_ITEM "A weapon from Abyssor's dream. It is dangerous, and shouldn't be seen outside of capable, sanctified hands"
 // Dreamwalker items
-#define HERESYDESC_DREAMWALKER_WEAPON "An enchanced weapon from Abyssor's dream, wielded by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
+#define HERESYDESC_DREAMWALKER_WEAPON "An enchanted weapon from Abyssor's dream, wielded by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
 #define HERESYDESC_DREAMWALKER_ARMOR "An armor piece from Abyssor's dream, worn by Abyssor's cursed - the enigmatic and violent Dreamwalkers"
 
 // Pestran Herecy

@@ -121,7 +121,7 @@
 		leyline = L
 		break
 	if(!leyline)
-		to_chat(user, span_warning("There is no leyline of sufficent strength nearby. Only the most powerful of leylines will do, for this."))
+		to_chat(user, span_warning("There is no leyline of sufficient strength nearby. Only the most powerful of leylines will do, for this."))
 		return FALSE
 	user.visible_message(
 		span_danger("[user] begins to chant, channeling energy into the leyline!"),

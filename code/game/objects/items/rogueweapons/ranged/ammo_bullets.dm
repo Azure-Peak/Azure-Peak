@@ -4,6 +4,8 @@
 #define HEAVY_AMMO_SPEED	3.5
 #define HEAVY_AMMO_CHARGE	1.5
 #define MIN_SCATTER_RANGE	1
+#define SLING_AIM	-10
+#define HEAVY_AIM	-25
 
 // Slings - 1x Charge Time, 2x ammo capacity in pouch
 // Never penetrate armor, it is meant to win by attrition, so it starts off with
@@ -148,6 +150,7 @@
 	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR // Slings are meant to break armor so this will help
 	flag = "blunt"
 	speed = 0.4
+	aim_mod = SLING_AIM
 
 /obj/projectile/bullet/sling_bullet/on_hit(atom/target)
 	. = ..()
@@ -158,7 +161,7 @@
 		var/mob/living/T = target
 		if(T.stat != DEAD) // If theyre alive
 			skill_multiplier = 4
-	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/slings, SKILL_LEVEL_LEGENDARY))
+	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/slings, SKILL_LEVEL_EXPERT))
 		L.mind.add_sleep_experience(/datum/skill/combat/slings, L.STAINT * skill_multiplier)
 
 /obj/projectile/bullet/reusable/sling_bullet //parent for proper reusable sling bullets
@@ -176,6 +179,7 @@
 	woundclass = BCLASS_BLUNT
 	flag = "blunt"
 	speed = 0.4
+	aim_mod = SLING_AIM
 	ricochets_max = 2
 	ricochet_chance = 80
 	ricochet_auto_aim_angle = 40
@@ -196,7 +200,7 @@
 		var/mob/living/T = target
 		if(T.stat != DEAD) // If theyre alive
 			skill_multiplier = 4
-	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/slings, SKILL_LEVEL_LEGENDARY))
+	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/slings, SKILL_LEVEL_EXPERT))
 		L.mind.add_sleep_experience(/datum/skill/combat/slings, L.STAINT * skill_multiplier)
 
 /obj/projectile/bullet/reusable/sling_bullet/stone
@@ -244,6 +248,7 @@
 	icon = 'icons/roguetown/weapons/ranged/sling_proj.dmi'
 	icon_state = "scatter_proj"
 	damage = 20
+	aim_mod = 0
 	ricochets_max = 0
 	ricochet_chance = 0
 	min_range = MIN_SCATTER_RANGE
@@ -263,6 +268,7 @@
 	icon = 'icons/roguetown/weapons/ranged/sling_proj.dmi'
 	icon_state = "bsscatter_proj"
 	damage = 30
+	aim_mod = 0
 	ricochets_max = 1
 	ricochet_chance = 25
 	min_range = MIN_SCATTER_RANGE
@@ -281,6 +287,7 @@
 	icon = 'icons/roguetown/weapons/ranged/sling_proj.dmi'
 	icon_state = "blacksteelslingbullet_proj"
 	damage = 30
+	aim_mod = -15
 	ricochets_max = 5
 	ricochet_chance = 100
 	ricochet_decay_damage = 0
@@ -301,6 +308,7 @@
 	damage = 50
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/sling_bullet/heavy_sling_bullet
 	speed = HEAVY_AMMO_SPEED
+	aim_mod = HEAVY_AIM
 	ricochets_max = 0
 	ricochet_chance = 0
 	max_range = 5
@@ -337,6 +345,7 @@
 	woundclass = BCLASS_BURN
 	flag = "fire"
 	speed = HEAVY_AMMO_SPEED
+	aim_mod = HEAVY_AIM
 	min_range = MIN_BULLET_RANGE
 	max_range = MAX_BULLET_RANGE
 	dam_falloff_factor = DAM_FALLOFF_BULLET
@@ -477,3 +486,5 @@
 #undef HEAVY_AMMO_SPEED
 #undef HEAVY_AMMO_CHARGE
 #undef MIN_SCATTER_RANGE
+#undef SLING_AIM
+#undef HEAVY_AIM

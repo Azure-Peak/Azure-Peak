@@ -15,7 +15,7 @@
 	friction = 0.3
 	grow = 0.037
 
-///these were unfortunately requested to not be smoothed. I will likely create a smooth helper version aswell though
+///these were unfortunately requested to not be smoothed. I will likely create a smooth helper version as well though
 ///the issue is they would need atleast a 2x2 to smooth proper.
 /obj/structure/hotspring
 	abstract_type = /obj/structure/hotspring
@@ -196,7 +196,7 @@
 
 /obj/machinery/light/rogue/torchholder/hotspring
 	name = "stone lantern"
-	desc = "A stone lantern, built in Kazengunese style. It is believed these lanterns attracts spirits and guide their way."
+	desc = "A stone lantern, built in Kazengunese style. It is believed these lanterns attract spirits and guide their way."
 	icon = 'icons/obj/structures/hotspring.dmi'
 	icon_state = "stonelantern1"
 	torch_off_state = "stonelantern"

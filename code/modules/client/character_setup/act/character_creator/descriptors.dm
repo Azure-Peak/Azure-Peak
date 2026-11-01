@@ -303,7 +303,7 @@
 
 		if("ooc_extra")
 			to_chat(user, span_notice("Add a link from a suitable host (catbox, etc) to an mp3 to embed in your flavor text."))
-			to_chat(user, span_notice("If the song doesn't  play properly, ensure that it's a direct link that opens properly in a browser."))
+			to_chat(user, span_notice("If the song doesn't play properly, ensure that it's a direct link that opens properly in a browser."))
 			to_chat(user, "<font color='#d6d6d6'>Leave blank to clear your current song.</font>")
 			to_chat(user, span_danger("Abuse of this will get you banned."))
 			var/new_extra_link = tgui_input_text(user, "Input the accessory link (https, hosts: discord, catbox):", "Song URL", ooc_extra, max_length = MAX_MESSAGE_LEN, encode = FALSE)
@@ -357,7 +357,7 @@
 		if("NSFW Gallery")
 			to_chat(user, span_notice("Please use an explicit image [span_bold("of your character")] only when it fits the character and server rules."))
 			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
-			to_chat(user, span_notice("Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best."))
+			to_chat(user, span_notice("Keep in mind that all three images are displayed next to each other and justified to fill a horizontal rectangle. As such, vertical images work best."))
 			to_chat(user, span_notice("You can only have a maximum of [span_bold("THREE IMAGES")] in your NSFW gallery at a time."))
 		if("OOC Extra Image") // For OOC Extra
 			to_chat(user, span_notice("Add a link to an image/gif that will be displayed beneath your flavortext."))
@@ -372,7 +372,7 @@
 		else
 			to_chat(user, span_notice("Please use a relatively SFW image [span_bold("of your character")] to maintain immersion level. Lastly, [span_bold("do not use a real life photo or use any image that is less than serious.")]"))
 			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
-			to_chat(user, span_notice("Keep in mind that all three images are displayed next to eachother and justified to fill a horizontal rectangle. As such, vertical images work best."))
+			to_chat(user, span_notice("Keep in mind that all three images are displayed next to each other and justified to fill a horizontal rectangle. As such, vertical images work best."))
 			to_chat(user, span_notice("You can only have a maximum of [span_bold("THREE IMAGES")] in your gallery at a time."))
 
 	// Get input

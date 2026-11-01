@@ -201,7 +201,7 @@
 			else
 				user.adjust_skillrank(/datum/skill/combat/slings, 2, TRUE)
 
-		to_chat(user, span_notice("I feel more dexterious!"))
+		to_chat(user, span_notice("I feel more dextrous!"))
 		active_item = TRUE
 
 /datum/magic_item/greater/archery/on_drop(obj/item/i, mob/living/user)

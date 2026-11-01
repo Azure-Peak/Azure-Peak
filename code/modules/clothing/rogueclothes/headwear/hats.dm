@@ -287,7 +287,7 @@
 
 /obj/item/clothing/head/roguetown/longveil
 	name = "long veil"
-	desc = "A long, trailing veil made of cloth meant to conceal ones hair. OFten worn by soilbrides and the devout."
+	desc = "A long, trailing veil made of cloth meant to conceal ones hair. Often worn by soilbrides and the devout."
 	icon_state = "headveil"
 	detail_tag = "_detail"
 	detail_color = CLOTHING_CHALK_WHITE
@@ -309,7 +309,7 @@
 
 /obj/item/clothing/head/roguetown/headband/bloodied
 	name = "bloodied headband"
-	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulative properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
+	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulating properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
 	icon_state = "headband"
 	item_state = "headband"
 	color = "#851a16"
@@ -370,7 +370,7 @@
 
 /obj/item/clothing/head/roguetown/inqhat
 	name = "inquisitorial hat"
-	desc = "A fine leather slouch, beplumed with a crimson feather and fitted with a hidden steel skull cap. It serves as a reminder that the Holy Otavan Inquisition triumphs in one avenue above all else - fashion. </br>'To keep ones vision away from the heavens, and focused on the sin beneath the soil.'"
+	desc = "A fine leather slouch, beplumed with a crimson feather and fitted with a hidden steel skull cap. It serves as a reminder that the Holy Otavan Inquisition triumphs in one avenue above all else - fashion. </br>\"To keep one's vision away from the heavens, and focused on the sin beneath the soil.\""
 	icon_state = "inqhat"
 	item_state = "inqhat"
 	max_integrity = 200

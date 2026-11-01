@@ -544,6 +544,7 @@ const FavorCard = (props: {
           act={act}
         />
       )}
+      <SendForShip favor={favor} act={act} />
       {/* TODO: flavor - charter button label + flavor (catalog.desc from DM, origin note inline) */}
       {catalogs.map((catalog) => (
         <SinkButton
@@ -564,6 +565,108 @@ const FavorCard = (props: {
           act={act}
         />
       ))}
+    </div>
+  );
+};
+
+const SendForShip = (props: { favor: FavorData; act: ActFn }) => {
+  const { favor, act } = props;
+  const [picked, setPicked] = useState<string | null>(null);
+  const realms = favor.send_for_realms ?? [];
+  const usedToday = !!favor.send_for_ship_used_today;
+  const canAfford = favor.current >= favor.send_for_ship_cost;
+  const pickedRealm = realms.find((r) => r.id === picked && !r.available);
+  const disabled = usedToday || !canAfford || !pickedRealm;
+  return (
+    <div
+      style={{
+        padding: '8px 10px',
+        border: `1px solid ${INK_FAINT}`,
+        background: usedToday ? 'rgba(180,200,160,0.18)' : 'var(--p-card-bg)',
+        borderRadius: '2px',
+        marginTop: '6px',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'baseline',
+          justifyContent: 'space-between',
+          marginBottom: '4px',
+        }}
+      >
+        <span style={{ ...labelStyle, color: INK, fontSize: FONT_BODY }}>
+          Send the zads for a ship
+        </span>
+        <span style={{ ...valueStyle, fontWeight: 'bold' }}>
+          {usedToday ? (
+            <span style={{ color: SEAL_GREEN }}>SENT TODAY</span>
+          ) : (
+            <>
+              {favor.send_for_ship_cost} favor
+              <span
+                style={{
+                  color: canAfford ? INK_SOFT : SEAL_RED,
+                  fontWeight: 'normal',
+                }}
+              >
+                {' '}
+                ({favor.current} on hand)
+              </span>
+            </>
+          )}
+        </span>
+      </div>
+      <div style={{ ...noteStyle, marginBottom: '6px' }}>
+        Send for a ship from the realm of your choosing. She
+        waits offshore for your hail until the next dae. Once per dae.
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '4px',
+          marginBottom: '6px',
+        }}
+      >
+        {realms.map((r) => {
+          const blocked = !!r.available;
+          const selected = picked === r.id && !blocked;
+          return (
+            <button
+              key={r.id}
+              type="button"
+              disabled={blocked}
+              title={blocked ? 'A ship from here is already offshore.' : ''}
+              style={inkButtonStyle({
+                disabled: blocked,
+                color: selected ? SEAL_AMBER : undefined,
+              })}
+              onClick={() => !blocked && setPicked(r.id)}
+            >
+              {r.name}
+            </button>
+          );
+        })}
+      </div>
+      <button
+        type="button"
+        disabled={disabled}
+        style={inkButtonStyle({ disabled })}
+        onClick={() => {
+          if (disabled || !pickedRealm) return;
+          act('send_for_ship', { realm: pickedRealm.id });
+          setPicked(null);
+        }}
+      >
+        {usedToday
+          ? 'Already sent today'
+          : !canAfford
+            ? 'Not enough favor'
+            : pickedRealm
+              ? `Send the zads for a ${pickedRealm.name} ship`
+              : 'Choose a realm'}
+      </button>
     </div>
   );
 };

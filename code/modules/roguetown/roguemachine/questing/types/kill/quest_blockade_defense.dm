@@ -10,6 +10,8 @@
 	tp_budget = BLOCKADE_WAVE_BASE_TP
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE
 	required_fellowship_size = 0
+	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE
 
 	var/current_wave = 0
 	var/wave_timer_id
@@ -22,7 +24,6 @@
 	var/datum/weakref/wave_landmark_ref
 	var/datum/weakref/blockade_ref
 	var/armed = FALSE
-	var/max_defenders_seen = 0
 	var/current_archetype = BLOCKADE_ARCHETYPE_WARBAND
 	var/wave_boss_name
 
@@ -80,7 +81,7 @@
 
 /datum/quest/kill/blockade_defense/populate_scroll_ui_data(list/data)
 	data["blockade_armed"] = armed ? TRUE : FALSE
-	data["reward"] = round(reward_amount * reward_turnout_mult())
+	data["reward"] = reward_amount
 	if(intermission_timer_id)
 		var/rest_left = timeleft(intermission_timer_id)
 		if(rest_left > 0)
@@ -102,6 +103,14 @@
 
 /datum/quest/kill/blockade_defense/calculate_reward(turf/origin_turf, turf/target_turf)
 	return reward_amount
+
+/datum/quest/kill/blockade_defense/lock_fellowship(mob/living/user)
+	return
+
+/datum/quest/kill/blockade_defense/count_fellowship_extras(mob/living/user)
+	var/datum/fellowship/F = user?.current_fellowship
+	var/size = F ? min(length(F.get_members()), QUEST_FELLOWSHIP_SCALE_MAX) : 1
+	return max(0, size - BLOCKADE_FELLOWSHIP_REQUIREMENT)
 
 /datum/quest/kill/blockade_defense/materialize(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
@@ -130,31 +139,41 @@
 	announce_to_bearer("<b>You have reached the blockade.</b> Ready yourselves.")
 	spawn_wave(1)
 
-/datum/quest/kill/blockade_defense/proc/count_defenders(obj/effect/landmark/quest_spawner/landmark)
-	if(!landmark)
-		return BLOCKADE_DEFENDER_SCALE_MIN
+/datum/quest/kill/blockade_defense/proc/lock_defenders(obj/effect/landmark/quest_spawner/landmark)
+	if(fellowship_roster)
+		return
+	fellowship_roster = list()
+	var/list/present = list()
+	var/mob/living/bearer = quest_receiver_reference?.resolve()
+	if(bearer)
+		present |= bearer
+		if(bearer.current_fellowship)
+			present |= bearer.current_fellowship.get_members()
 	var/turf/center = get_turf(landmark)
-	if(!center)
-		return BLOCKADE_DEFENDER_SCALE_MIN
-	var/count = 0
-	for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
-		if(!L.client)
-			continue
-		if(L.stat == DEAD)
-			continue
-		count++
-	return count
+	if(center)
+		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
+			if(L.client && L.stat != DEAD)
+				present |= L
+	for(var/mob/living/M as anything in present)
+		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
+			break
+		fellowship_roster += WEAKREF(M)
+	fellowship_split_payout = bearer?.current_fellowship?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
+	fellowship_extras = max(0, length(fellowship_roster) - BLOCKADE_FELLOWSHIP_REQUIREMENT)
+	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
+	fellowship_reward_mult = 1 + fellowship_reward_rate * fellowship_extras
+	reward_amount = round(reward_amount * fellowship_reward_mult)
 
-/datum/quest/kill/blockade_defense/proc/wave_tp_budget(defenders, wave_num)
-	var/n = clamp(defenders, BLOCKADE_DEFENDER_SCALE_MIN, BLOCKADE_DEFENDER_SCALE_MAX)
-	var/mult = 1 + (n - BLOCKADE_DEFENDER_SCALE_MIN) * BLOCKADE_TP_PER_EXTRA_DEFENDER
-	if(wave_num < BLOCKADE_TOTAL_WAVES)
-		mult *= BLOCKADE_EARLY_WAVE_TP_MULT
-	return round(BLOCKADE_WAVE_BASE_TP * mult)
+/datum/quest/kill/blockade_defense/proc/award_defender_triumphs(region_name)
+	for(var/datum/weakref/W as anything in fellowship_roster)
+		var/mob/living/M = W.resolve()
+		if(QDELETED(M) || !M.mind)
+			continue
+		M.mind.adjust_triumphs(BLOCKADE_CLEAR_TRIUMPHS, TRUE, "Blockade cleared ([region_name])", "You have made [SSticker.realm_name] safer todae.")
 
-/datum/quest/kill/blockade_defense/proc/reward_turnout_mult()
-	var/n = clamp(max_defenders_seen, BLOCKADE_DEFENDER_SCALE_MIN, BLOCKADE_DEFENDER_SCALE_MAX)
-	return 1 + (n - BLOCKADE_DEFENDER_SCALE_MIN) * BLOCKADE_REWARD_PER_EXTRA_DEFENDER
+/datum/quest/kill/blockade_defense/proc/wave_tp_budget(wave_num)
+	var/mult = (wave_num < BLOCKADE_TOTAL_WAVES) ? BLOCKADE_EARLY_WAVE_TP_MULT : 1
+	return BLOCKADE_WAVE_BASE_TP * mult
 
 /datum/quest/kill/blockade_defense/compose_candidates()
 	var/list/base = faction.mob_types.Copy()
@@ -210,9 +229,9 @@
 		fail_quest("landmark_lost")
 		return
 	current_wave = wave_num
-	var/defenders = count_defenders(landmark)
-	max_defenders_seen = max(max_defenders_seen, defenders)
-	tp_budget = wave_tp_budget(defenders, wave_num)
+	if(wave_num == 1)
+		lock_defenders(landmark)
+	tp_budget = wave_tp_budget(wave_num)
 	current_archetype = pickweight(BLOCKADE_ARCHETYPE_WEIGHTS)
 	total_spawned_tp = 0
 	progress_current = 0
@@ -365,9 +384,6 @@
 		B.active_quest_ref = null
 	return ..()
 
-/datum/quest/kill/blockade_defense/get_party_size()
-	return max(max_defenders_seen, ..())
-
 /datum/quest/kill/blockade_defense/has_started()
 	return ..() || current_wave > 0 || failed
 
@@ -384,24 +400,44 @@
 	clear_wave_timers()
 	var/datum/blockade/B = blockade_ref?.resolve()
 	if(B)
+		var/datum/economic_region/ER = B.get_region()
 		B.active_scroll_ref = null
 		B.active_quest_ref = null
 		SSeconomy.clear_blockade(B, "cleared")
+		award_defender_triumphs(ER ? ER.name : region)
 	var/mob/lead = quest_receiver_reference?.resolve()
-	var/payout = round(reward_amount * reward_turnout_mult())
+	var/payout = reward_amount
 	record_completion_stats(payout)
 	var/tax_amt = 0
 	var/paid = 0
 	if(payout > 0)
-		if(lead && SStreasury.has_account(lead))
-			var/datum/fund/lead_account = SStreasury.get_account(lead)
-			tax_amt = pay_reward(lead_account, lead, payout, "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead.real_name])", "Blockade defense")
-			paid = payout - tax_amt
-			record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
-			announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [payout]m. Tax: [tax_amt]m. Net: [payout - tax_amt]m.")
-		else
-			SStreasury.mint(SStreasury.discretionary_fund, payout, "Blockade defense reward (unbanked holder)", null, LEDGER_CROWN_REV_BLOCKADE)
-			announce_to_bearer("The final wave breaks. You have no bank account. Your share went to the Treasury.")
+		var/list/shares = fellowship_shares(payout, lead)
+		var/share_memo = fellowship_split_payout ? "Blockade Reward (Split)" : "Blockade defense reward ([quest_giver_name || "Crown"] -> [lead ? lead.real_name : "unknown"])"
+		var/paid_out = 0
+		for(var/mob/living/payee as anything in shares)
+			var/share = shares[payee]
+			if(!SStreasury.has_account(payee))
+				continue
+			var/share_tax = pay_reward(SStreasury.get_account(payee), payee, share, share_memo, "Blockade defense")
+			tax_amt += share_tax
+			paid += share - share_tax
+			paid_out += share
+			if(fellowship_split_payout)
+				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m."))
+			else
+				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m.")
+		var/leftover = payout - paid_out
+		var/mob/living/sink = fellowship_leftover_sink(shares, lead)
+		if(leftover > 0)
+			if(sink && SStreasury.has_account(sink))
+				var/leftover_tax = pay_reward(SStreasury.get_account(sink), sink, leftover, "Blockade Reward (No account leftover)", "Blockade defense")
+				tax_amt += leftover_tax
+				paid += leftover - leftover_tax
+				to_chat(sink, span_notice("[leftover]m of the reward belonged to fellows without an account. It has been deposited into yours. Tax: [leftover_tax]m."))
+			else
+				SStreasury.mint(SStreasury.discretionary_fund, leftover, "Blockade defense reward (unbanked holder)", null, LEDGER_CROWN_REV_BLOCKADE)
+				announce_to_bearer("The final wave breaks. You have no bank account. Your share went to the Treasury.")
+		record_round_statistic(STATS_BLOCKADE_REWARDS_PAID, payout)
 	else
 		announce_to_bearer("The final wave breaks. A Request carries no reward.")
 	SSquestpool.record_completion(lead, src, paid, tax_amt)

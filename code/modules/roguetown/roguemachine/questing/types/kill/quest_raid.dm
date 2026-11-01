@@ -16,6 +16,8 @@
 	tp_budget = QUEST_TP_BUDGET_RAID
 	threat_bands_cleared = QUEST_BANDS_RAID
 	required_fellowship_size = 2
+	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 
 /datum/quest/kill/raid/get_title()
 	if(title)

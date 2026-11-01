@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Renamed the light, medium and heavy armor economic category to fabric, metal and heavy metal to reduce confusion."

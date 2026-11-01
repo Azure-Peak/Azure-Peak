@@ -30,7 +30,7 @@
 /datum/brewing_recipe/brandy/tangerine
 	name = "Brandy, Tangerine"
 	bottle_name = "tangerine brandy"
-	bottle_desc = "A bottle of locally-distilled tangerine brandy. Has a light, citrusty flavor with a hint of spice."
+	bottle_desc = "A bottle of locally-distilled tangerine brandy. Has a light, citrusy flavor with a hint of spice."
 	pre_reqs = /datum/reagent/consumable/ethanol/tangerine
 	reagent_to_brew = /datum/reagent/consumable/ethanol/brandy/tangerine
 	output_bottle_type = /obj/item/reagent_containers/glass/bottle/brewing_bottle

@@ -248,7 +248,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 		return
 
 	if(user.get_skill_level(/datum/skill/craft/cooking) < SKILL_LEVEL_APPRENTICE)
-		to_chat(user, span_notice("I am not knowledgable enough to brew."))
+		to_chat(user, span_notice("I am not knowledgeable enough to brew."))
 		return FALSE
 
 	options = sortList(options)

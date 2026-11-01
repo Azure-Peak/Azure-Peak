@@ -254,6 +254,11 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	to_chat(src, "I will see [HAS_TRAIT(src, TRAIT_COMBAT_AWARE) ? "more" : "less"] combat information now.")
 
 
+/mob/living/carbon/human/proc/praysuicide()
+	set name = "Suicidal Prayer"
+	set category = "RoleUnique.Virtue"
+	emote("praysuicide", intentional = TRUE)
+
 /mob/living/carbon/human/proc/toggle_descriptors()
 	set name = "Toggle Anonimity"
 	set category = "RoleUnique.Virtue"
