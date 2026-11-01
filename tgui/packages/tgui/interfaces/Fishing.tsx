@@ -68,9 +68,10 @@ const FISH_FRICTION_MULT = 0.9;
 const FISH_SHORT_JUMP_MIN_DISTANCE = 100;
 const FISH_SHORT_JUMP_MAX_DISTANCE = 200;
 
-const HUD_SCALE = 4;
-const HUD_WIDTH = 32;
-const HUD_HEIGHT = 96;
+const HUD_SCALE = 3;
+const HUD_CROP_TOP = 12;
+const HUD_CROP_WIDTH = 28;
+const HUD_CROP_HEIGHT = 84;
 const MINIGAME_SLIDER_HEIGHT = 76;
 const MINIGAME_BAIT_HEIGHT = 27;
 const MINIGAME_BAIT_TOP_AND_BOTTOM_HEIGHT = 6;
@@ -86,6 +87,7 @@ const roundTo = (value: number, step: number) =>
   Math.round(value / step) * step;
 
 type FinishCallbacks = {
+  ready: () => void;
   win: (fightTime: number, onFishTime: number) => void;
   lose: () => void;
   effect: (effect: ActiveEffect, active: boolean) => void;
@@ -548,6 +550,7 @@ const FishingMinigame = (props: FishingMinigameProps) => {
       }
     };
     animationId = window.requestAnimationFrame(updateAnimation);
+    callbacks.ready();
     return () => window.cancelAnimationFrame(animationId);
   }, []);
 
@@ -651,14 +654,16 @@ const FishingMinigame = (props: FishingMinigameProps) => {
     <div
       className="Fishing"
       style={{
-        width: `${HUD_WIDTH * HUD_SCALE}px`,
-        height: `${HUD_HEIGHT * HUD_SCALE}px`,
+        width: `${HUD_CROP_WIDTH * HUD_SCALE}px`,
+        height: `${HUD_CROP_HEIGHT * HUD_SCALE}px`,
       }}
     >
       <KeyListener onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} />
       <div
         className="Fishing__hud"
-        style={{ transform: `scale(${HUD_SCALE})` }}
+        style={{
+          transform: `scale(${HUD_SCALE}) translateY(${-HUD_CROP_TOP}px)`,
+        }}
       >
         <Sprite state={background} />
         <Sprite state={data.frame} />
@@ -690,6 +695,7 @@ const FishingMinigame = (props: FishingMinigameProps) => {
 export const Fishing = () => {
   const { act, data } = useBackend<FishingData>();
   const callbacksRef = useRef<FinishCallbacks>({
+    ready: () => act('ready'),
     win: (fightTime, onFishTime) =>
       act('win', { fight_time: fightTime, on_fish_time: onFishTime }),
     lose: () => act('lose'),
@@ -697,13 +703,16 @@ export const Fishing = () => {
       act('effect', { effect: effect, active: active ? 1 : 0 }),
   });
   return (
-    <Window width={160} height={432} title="Fishing" theme="parchment">
-      <Window.Content fitted>
-        <div className="Fishing__container">
-          {data.mover && (
-            <FishingMinigame data={data} callbacks={callbacksRef.current} />
-          )}
-        </div>
+    <Window
+      width={HUD_CROP_WIDTH * HUD_SCALE}
+      height={HUD_CROP_HEIGHT * HUD_SCALE}
+      title="Fishing"
+      chromeless
+    >
+      <Window.Content fitted className="Fishing__container">
+        {data.mover && (
+          <FishingMinigame data={data} callbacks={callbacksRef.current} />
+        )}
       </Window.Content>
     </Window>
   );

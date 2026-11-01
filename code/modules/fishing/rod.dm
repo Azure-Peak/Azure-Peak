@@ -185,6 +185,7 @@
 	. = ..()
 	. += span_info("Needs a fishing line and a hook. Bait helps. Left-click water to cast, left-click again when the float dips, right-click or use the rod in hand to pull the line back in.")
 	. += span_info("Hold left-click to lift the green bar, release to let it sink, and keep it on the fish until the progress bar fills. With a carved minnow hook the bar stays put and right-click lowers it. Gold means you are doing well, red means you are not.")
+	. += span_info("Use the rod in hand (Q / E by default in the hand it is in) to exit the fishing minigame while in it.")
 
 /obj/item/fishingrod/examine(mob/user)
 	. = ..()

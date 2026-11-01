@@ -92,6 +92,10 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	var/catch_band = CATCH_BAND_CLEAN
 	/// Timer that lets the fish go when the minigame runs too long
 	var/minigame_timer
+	/// Whether the fisher is already reeling in to give up
+	var/stopping = FALSE
+	/// Add a time limit before it get away. Counted from when the UI is ready
+	var/time_limit
 
 /datum/fishing_challenge/New(datum/component/fishing_spot/comp, obj/item/fishingrod/rod, mob/user, _auto_handling)
 	src.user = user
@@ -279,10 +283,17 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	INVOKE_ASYNC(src, PROC_REF(stop_fishing), source, user)
 
 /datum/fishing_challenge/proc/stop_fishing(obj/item/rod, mob/user)
-	if((phase != MINIGAME_PHASE || do_after(user, 3 SECONDS, target = rod)) && !QDELETED(src) && !completed)
+	if(stopping)
+		return
+	stopping = TRUE
+	if(phase == MINIGAME_PHASE)
+		to_chat(user, span_warning("Not worth my time. Reeling it in."))
+	if((phase != MINIGAME_PHASE || do_after(user, 2 SECONDS, target = rod)) && !QDELETED(src) && !completed)
 		experience_multiplier *= 0.5
 		send_alert("stopped fishing")
 		complete(FALSE)
+		return
+	stopping = FALSE
 
 ///The multiplier of the fishing experience malus if the user's level is substantially above the difficulty.
 #define EXPERIENCE_MALUS_MULT 0.08
@@ -486,8 +497,13 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	var/hardness = clamp((difficulty - FISHING_DEFAULT_DIFFICULTY) / (FISHING_MINIGAME_HARD_DIFFICULTY - FISHING_DEFAULT_DIFFICULTY), 0, 1)
 	announce_hardness(hardness)
 	if(!(special_effects & FISHING_MINIGAME_RULE_NO_ESCAPE))
-		var/time_limit = LERP(FISHING_MINIGAME_EASY_TIME, FISHING_MINIGAME_HARD_TIME, hardness)
-		minigame_timer = addtimer(CALLBACK(src, PROC_REF(out_of_time)), time_limit, TIMER_STOPPABLE|TIMER_DELETE_ME)
+		time_limit = LERP(FISHING_MINIGAME_EASY_TIME, FISHING_MINIGAME_HARD_TIME, hardness)
+		addtimer(CALLBACK(src, PROC_REF(start_time_limit)), FISHING_UI_READY_GRACE, TIMER_DELETE_ME)
+
+/datum/fishing_challenge/proc/start_time_limit()
+	if(completed || minigame_timer || !time_limit)
+		return
+	minigame_timer = addtimer(CALLBACK(src, PROC_REF(out_of_time)), time_limit, TIMER_STOPPABLE|TIMER_DELETE_ME)
 
 /// Tells the fisher how hard the fight will be.
 /datum/fishing_challenge/proc/announce_hardness(hardness)
@@ -610,6 +626,8 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 		return
 
 	switch(action)
+		if("ready")
+			start_time_limit()
 		if("win")
 			judge_catch_band(text2num(params["fight_time"]), text2num(params["on_fish_time"]))
 			complete(win = TRUE)

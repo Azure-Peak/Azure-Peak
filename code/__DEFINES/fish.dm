@@ -118,6 +118,8 @@
 // Difficulty is the sum of the water, the fish, your rod, your bait, the fish's traits and your skill. A sunny in still water is around 25, an anglerfish in the deep ocean around 45, a river sturgeon over 60. The thorn hook ignores the clock.
 #define FISHING_MINIGAME_EASY_TIME (50 SECONDS)
 #define FISHING_MINIGAME_HARD_TIME (15 SECONDS)
+// Give a grace for the player to react to the minigame starting, so they don't lose because of latency
+#define FISHING_UI_READY_GRACE (5 SECONDS)
 #define FISHING_MINIGAME_HARD_DIFFICULTY 75
 
 // When the fight starts the fisher is told how hard it will be, so they learn what the clock means. Hardness runs from 0 (easiest) to 1 (the hard difficulty above).
