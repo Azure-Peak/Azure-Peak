@@ -127,14 +127,13 @@
 		return
 	var/length_text = size < 1 ? "[round(size * FISH_INCHES_PER_HAND, 0.5)] inches" : "[round(size, 0.1)] hands"
 	var/weight_text = weight < 1 ? "[round(weight * FISH_OUNCES_PER_POUND, 0.5)] ounces" : "[round(weight, 0.1)] pounds"
-	. += span_notice("It is [length_text] long and weighs some [weight_text].")
-	var/fillet_text = "It can be chopped into [slices_num] [slices_num == 1 ? "fillet" : "fillets"]"
+	var/fillet_text = "It yields [slices_num] [slices_num == 1 ? "fillet" : "fillets"]"
 	var/extra = slices_num - initial(slices_num)
 	if(extra > 0)
-		fillet_text += ", [extra] more than the usual due to its rarity"
+		fillet_text += ", [extra] more than usual"
 	else if(extra < 0)
-		fillet_text += ", [-extra] fewer than the usual"
-	. += span_notice("[fillet_text].")
+		fillet_text += ", [-extra] less than usual"
+	. += span_smallnotice("It is [length_text] long and weighs some [weight_text]. [fillet_text].")
 
 /obj/item/reagent_containers/food/snacks/fish/proc/apply_traits()
 	for(var/fish_trait_type in fish_traits)

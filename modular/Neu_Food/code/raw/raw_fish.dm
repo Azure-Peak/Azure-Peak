@@ -120,6 +120,12 @@
 	sellprice = initial(sellprice) * mult * price_mult
 	if(!no_rarity_sprite)
 		icon_state = "[initial(icon_state)][suffix]"
+	var/datum/component/glint = GetComponent(/datum/component/metal_glint)
+	if(rarity_rank >= FISH_RARITY_ULTRA)
+		if(!glint)
+			AddComponent(/datum/component/metal_glint)
+	else if(glint)
+		qdel(glint)
 
 /obj/item/reagent_containers/food/snacks/fish/get_stockpile_quality_mult()
 	if(!initial(sellprice))
