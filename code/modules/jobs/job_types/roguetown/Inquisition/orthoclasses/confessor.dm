@@ -8,6 +8,7 @@
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	traits_applied = list(
+		TRAIT_DODGEEXPERT,
 		TRAIT_BLACKBAGGER,
 		TRAIT_PERFECT_TRACKER,
 		TRAIT_PSYDONITE
@@ -73,7 +74,6 @@
 			if("Confessor - Dodge Expert, Complete Coverage")
 				head = /obj/item/clothing/head/roguetown/roguehood/psydon/confessor
 				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
-				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				var/shirts = list("Inquisitorial Leather Tunic", "Cuir-Bouilli Vest")
 				var/shirt_choice = input(H, "Choose your UNDERLAYER.", "TAKE UP PSYDON'S VESTMENTS.") as anything in shirts
 				switch(shirt_choice)
@@ -85,6 +85,7 @@
 				head = /obj/item/clothing/head/roguetown/headband/bloodied
 				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
 				shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
+				REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_CON, 1)
