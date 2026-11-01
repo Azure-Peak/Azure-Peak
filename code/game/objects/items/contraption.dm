@@ -308,7 +308,7 @@
 	on_icon = "metalizer_flick"
 	off_icon = "metalizer_off"
 	w_class = WEIGHT_CLASS_NORMAL
-	misfire_chance = 15
+//	misfire_chance = 15  // Commented because it doesn't seem capable of misfiring in any way currently
 	charge_per_source = 5
 	max_stored_charge = 100
 	grid_height = 64
