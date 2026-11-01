@@ -51,7 +51,7 @@
 
 /obj/item/reagent_containers/food/snacks/fish/lobster
 	name = "lobster"
-	desc = "The lobster is a bloodless creechur, protected by a fragile rind. They stay in the water for five months every yil without rest, and battle each other with their claws for territory. They are quite a delicacy, and are often boiled alive to ensure they are fresh. However, this practice has fallen out of use in Azuria due to the cruelty of it after advocacy by Abyssorite and Dendorite clerics, and now they are often killed by a quick blow to the head with a special knife. They are often served with butter and spices."
+	desc = "The lobster is a bloodless creechur, protected by a fragile rind. They stay in the water for five months every yil without rest, and battle each other with their claws for territory. They are quite a delicacy, and are often boiled alive to ensure they are fresh. However, this practice has fallen out of use in Azuria due to the cruelty of it after advocacy by Abyssorite and Dendorite clerics, and now they are often killed by a quick blow to the head with a special knife. They are often served with butter and spices. In Azurian waters, there's predominantly two types of lobsters - the Bleakisles blue or Azurian blue lobster, which is spiny, with most of its meat near its tail, and the Rossan red, which exclusively dwell in the colder waters around Rosawood with larger size and much more meat in its claw. The Rossan red lobster is considered superior but more expensive and harder to catch. Despite their name, both of them have bluish-green shells. The Azurian blue lobsters, however, is noted for its property of keeping a blue shell even when cooked."
 	icon_state = "lobster"
 	fish_id = "lobster"
 	average_size = 4
