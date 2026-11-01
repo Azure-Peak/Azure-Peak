@@ -388,7 +388,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		return TRUE
 	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
-		if(!F)
+		if(!F || !F.is_leader(user))
 			return FALSE
 		if(length(available_fellowship_members(user)) < required_fellowship_size)
 			return FALSE
@@ -400,7 +400,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		return
 	. += user
 	var/datum/fellowship/F = user.current_fellowship
-	if(!F || !F.is_leader(user))
+	if(!F)
 		return
 	for(var/mob/living/M as anything in F.get_members())
 		if(length(.) >= QUEST_FELLOWSHIP_SCALE_MAX)

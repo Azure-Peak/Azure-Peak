@@ -189,7 +189,7 @@ const FellowshipView = () => {
           Any member may turn in a fellow&apos;s completed contract at the Grand
           Contract Ledger, even if the holder has fallen.{' '}
           {split
-            ? 'The reward is split evenly among everyone who was in the fellowship when the contract was signed.'
+            ? 'The reward is split evenly among everyone who was present during the contract when it spawns.'
             : 'The reward is credited to whoever hands it in.'}
         </Section>
       </Stack.Item>
