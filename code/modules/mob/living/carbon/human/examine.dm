@@ -1047,7 +1047,6 @@
 
 	if((HAS_TRAIT(src, TRAIT_PACIFISM) && HAS_TRAIT(src, TRAIT_NODEF)) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
 		if(isliving(user))
-			var/mob/living/L = user
 			. += span_redtext("<i>[m1] completely harmless!</i>")
 
 	var/medical_text = ""
