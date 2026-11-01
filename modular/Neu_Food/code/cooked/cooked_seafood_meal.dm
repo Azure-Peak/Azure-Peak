@@ -20,6 +20,10 @@
 	var/name_suffix
 	var/list/filet_tastes
 	var/list/garnish_tastes
+	var/fish_quality_mult = 1
+
+/obj/item/reagent_containers/food/snacks/rogue/filetmeal/get_stockpile_quality_mult()
+	return fish_quality_mult
 
 /obj/item/reagent_containers/food/snacks/rogue/filetmeal/inherit_recipe_base(obj/item/reagent_containers/food/snacks/rogue/base)
 	if(istype(base, /obj/item/reagent_containers/food/snacks/rogue/filetmeal))
@@ -27,11 +31,13 @@
 		fish_name = meal.fish_name
 		filet_faretype = meal.filet_faretype
 		filet_tastes = meal.filet_tastes?.Copy()
+		fish_quality_mult = meal.fish_quality_mult
 	else if(istype(base, /obj/item/reagent_containers/food/snacks/rogue/meat/fish))
 		var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = base
 		fish_name = filet.fish_name
 		filet_faretype = filet.faretype
 		filet_tastes = filet.tastes?.Copy()
+		fish_quality_mult = filet.fish_quality_mult
 	else
 		return
 	faretype = min(filet_faretype + fare_bonus, FARE_LAVISH)

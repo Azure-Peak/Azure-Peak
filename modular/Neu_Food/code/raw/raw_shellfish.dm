@@ -43,6 +43,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	filet_tastes = list("briny clam" = 1, "chewy shellfish" = 1)
+	filet_desc = "Clams deprived of its shell and rendered down to its sweet and squishy meat. Sometimes cooked in a soup or fried with a light batter."
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_FINE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
@@ -97,6 +98,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN|CUISINE_RANESHENI
 	filet_tastes = list("sweet shrimp" = 1, "snappy shellfish" = 1)
+	filet_desc = "Shrimp meat processed from its shell and rendered down into a bouncy, delicious shrimp fillets. Laborious to make, but it sure improves the eating experience. Best pan-fried or deep fried to elevate its texture."
 	sellprice = FISH_PRICE_FAIR
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp

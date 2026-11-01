@@ -14,15 +14,26 @@
 	dropshrink = 0.6
 	var/fish_name
 	var/list/filet_tastes
+	var/fish_quality_mult = 1
+	var/rarity_rank = FISH_RARITY_COMMON
+	var/rarity_label
+
+/obj/item/reagent_containers/food/snacks/rogue/fryfish/get_stockpile_quality_mult()
+	return fish_quality_mult
 
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/initialize_slice(obj/item/reagent_containers/food/snacks/slice, reagents_per_slice)
 	. = ..()
 	slice.faretype = faretype
 	slice.cuisine = cuisine
+	if(fish_name)
+		slice.desc = "A filet of [fish_name], fried golden."
 	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = slice
 	if(istype(filet))
 		filet.fish_name = fish_name
 		filet.set_tastes(filet_tastes)
+		filet.fish_quality_mult = fish_quality_mult
+		filet.rarity_rank = rarity_rank
+		filet.rarity_label = rarity_label
 
 /obj/item/reagent_containers/food/snacks/rogue/smokefish
 	name = "smoked fish"

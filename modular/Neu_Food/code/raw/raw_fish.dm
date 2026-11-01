@@ -26,6 +26,8 @@
 	force = 8
 	materia = list(/datum/materia_aspect/water)
 	var/list/filet_tastes
+	var/filet_desc
+	var/rarity_label = "common"
 
 /datum/intent/mace/slap
 	name = "slap"
@@ -55,13 +57,17 @@
 
 /obj/item/reagent_containers/food/snacks/fish/initialize_slice(obj/item/reagent_containers/food/snacks/slice, reagents_per_slice)
 	. = ..()
-	slice.name = "[initial(name)] filet"
+	slice.name = "[rarity_rank > FISH_RARITY_COMMON ? "[rarity_label] " : ""][initial(name)] filet"
+	slice.desc = filet_desc || "A filet cut from a [initial(name)]."
 	slice.faretype = faretype
 	slice.cuisine = cuisine
 	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = slice
 	if(istype(filet))
 		filet.fish_name = initial(name)
 		filet.filet_tastes = filet_tastes
+		filet.fish_quality_mult = get_stockpile_quality_mult()
+		filet.rarity_rank = rarity_rank
+		filet.rarity_label = rarity_label
 
 /obj/item/reagent_containers/food/snacks/fish/initialize_cooked_food(obj/item/reagent_containers/food/snacks/S, cooking_efficiency = 1)
 	. = ..()
@@ -70,12 +76,17 @@
 	S.slices_num = slices_num
 	S.slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
 	S.slice_bclass = slice_bclass
-	S.slice_name = "fried [initial(name)] filet"
+	var/label = rarity_rank > FISH_RARITY_COMMON ? "[rarity_label] " : ""
+	S.slice_name = "fried [label][initial(name)] filet"
+	S.name = "[label][initial(S.name)]"
 	S.cuisine = cuisine
 	var/obj/item/reagent_containers/food/snacks/rogue/fryfish/cooked = S
 	if(istype(cooked))
 		cooked.fish_name = initial(name)
 		cooked.filet_tastes = filet_tastes
+		cooked.fish_quality_mult = get_stockpile_quality_mult()
+		cooked.rarity_rank = rarity_rank
+		cooked.rarity_label = rarity_label
 	var/target = FISH_COOKED_NUTRIMENT_PER_FILLET * slices_num
 	var/current = S.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
 	if(target > current)
@@ -104,6 +115,7 @@
 		suffix = "rare"
 		mult = FISH_RARITY_RARE_PRICE_MULT
 		rarity_rank = FISH_RARITY_RARE
+	rarity_label = label
 	name = "[label] [initial(name)]"
 	sellprice = initial(sellprice) * mult * price_mult
 	if(!no_rarity_sprite)
@@ -169,6 +181,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_OTAVAIS
 	filet_tastes = list("rich salmon" = 1, "flaky fish" = 1)
+	filet_desc = "A filet of salmon, prized by Dendorites for its ability to dance upon river, sea, and your plate alike."
 	slices_num = FISH_FILLETS_LARGE
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_FINE
@@ -196,6 +209,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_OTAVAIS
 	filet_tastes = list("sweet white fish" = 1, "tender fish" = 1)
+	filet_desc = "A filet of plaice, with a subtle and sweet taste."
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_FINE
@@ -223,6 +237,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	filet_tastes = list("fishiness" = 1, "chewy fish" = 1)
+	filet_desc = "A filet of mudskipper, with a fishy and earthy taste. Quite popular in Blackholt, not so anywhere else. Also eaten by the Lingyuese, who favors its chewy texture."
 	slices_num = FISH_FILLETS_TINY
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_COMMON
@@ -249,6 +264,7 @@
 	faretype = FARE_NEUTRAL
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_ETRUSCAN
 	filet_tastes = list("buttery fish" = 1, "firm fish" = 1)
+	filet_desc = "A filet of sea bass, with dense and flaky meat."
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_GOOD
@@ -275,6 +291,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTH_IMPERIAL // AAVNIC
 	filet_tastes = list("sweet small fish" = 1, "bony fish" = 1)
+	filet_desc = "A filet of sunny, tiny with plenty of bones. Barely suitable for eating for humen."
 	slices_num = FISH_FILLETS_TINY
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_BAIT
@@ -292,6 +309,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTH_IMPERIAL|CUISINE_SOUTHEASTERN|CUISINE_NALEDI // AAVNIC
 	filet_tastes = list("muddy fish" = 1, "bony fish" = 1)
+	filet_desc = "A filet of carp, with a subtle and muddy taste."
 	slices_num = FISH_FILLETS_SMALL
 	sellprice = FISH_PRICE_COMMON
 	icon_state = "carp"
@@ -334,6 +352,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN
 	filet_tastes = list("mediocre fish" = 1, "mushy fish" = 1)
+	filet_desc = "A filet of clownfish. A small fish with mediocre meat, but it is said to bring good luck and certainly look vibrant before it is fileted."
 	slices_num = FISH_FILLETS_TINY
 	sellprice = FISH_PRICE_PRIZED
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/clownfish
@@ -346,6 +365,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS|CUISINE_ETRUSCAN|CUISINE_SOUTHEASTERN
 	filet_tastes = list("sweet dense fish" = 1, "meaty fish" = 1)
+	filet_desc = "A filet of angler, with a succulent and dense texture, quite similar to lobster, but far more meaty. Now it looks less terrifying fileted."
 	slices_num = FISH_FILLETS_LARGE
 	icon_state = "angler"
 	fish_id = "angler"
@@ -388,6 +408,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_SOUTHEASTERN|CUISINE_NORTH_IMPERIAL
 	filet_tastes = list("rich oily eel" = 1, "fatty fish" = 1)
+	filet_desc = "A filet of eel, with a rich and oily taste. Served in Azuria with a hint of garum and preferably something sweet at hand. Lingyuese and Kazengunese both favors it, with the former preferring savory black beans and the Kazengunese liking sweet soy sauce with it. Said to be an aphrodisiac."
 	slices_num = FISH_FILLETS_SMALL
 	sellprice = FISH_PRICE_COMMON
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/eel
@@ -396,7 +417,7 @@
 
 /obj/item/reagent_containers/food/snacks/fish/sole
 	name = "sole"
-	desc = "An ugly flatfish, slimy and with both eyes on one side of its head. Yet just like the plaice, its flesh is sweet and tender and it can be caught in abundance. Best served fried with a light butter, a slice of Etruscan lemon, and a bit of herbs."
+	desc = "An ugly flatfish, slimy and with both eyes on one side of its head. Yet just like the plaice, its flesh is sweet and tender and it can be caught in abundance. Best served fried with a light batter, a slice of Etruscan lemon, and a bit of herbs."
 	icon_state = "sole"
 	fish_id = "sole"
 	average_size = 3
@@ -413,6 +434,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_OTAVAIS
 	filet_tastes = list("sweet white fish" = 1, "soft fish" = 1)
+	filet_desc = "A filet of sole, with a sweet and tender taste. Best served fried with a light batter, a slice of Etruscan lemon, and a bit of herbs."
 	slices_num = FISH_FILLETS_SMALL
 	no_rarity_sprite = TRUE
 	sellprice = FISH_PRICE_COMMON
@@ -440,6 +462,7 @@
 	faretype = FARE_NEUTRAL
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN
 	filet_tastes = list("sweet white fish" = 1, "thick moist flakes" = 1)
+	filet_desc = "A filet of cod, found in colder waters up north in Azuria, but occasionally swim south near the Bleakisles. Very popular amongst the Rossan. It is served fried with pesto in south Azuria and called 'Elf Fish'. Up north, they are sometimes battered and fried with lard."
 	slices_num = FISH_FILLETS_LARGE
 	sellprice = FISH_PRICE_GOOD
 	no_rarity_sprite = TRUE
@@ -466,6 +489,7 @@
 	)
 	faretype = FARE_IMPOVERISHED
 	filet_tastes = list("something mundane" = 1, "fatty fish" = 1)
+	filet_desc = "A filet of creepy eel, PICK ME UP PICK ME UP PICK ME UP PICK ME UP PICK ME UP PICK ME UP PICK ME UP PICK ME UP!"
 	no_rarity_sprite = TRUE
 	var/was_i_picked_up = FALSE
 	dropshrink = 0
@@ -496,6 +520,7 @@
 	)
 	faretype = FARE_IMPOVERISHED
 	filet_tastes = list("strange thoughts" = 1, "rubbery squid" = 1)
+	filet_desc = "A filet of squid, it seems to wiggle and makes people feel strange."
 	no_rarity_sprite = TRUE
 	dropshrink = 0
 
@@ -541,6 +566,7 @@
 	fish_traits = list(/datum/fish_trait/heavy, /datum/fish_trait/carnivore)
 	faretype = FARE_IMPOVERISHED
 	filet_tastes = list("refracted light" = 1, "firm fish" = 1)
+	filet_desc = "Even after being fileted, the shark's meat seems refractive..."
 	no_rarity_sprite = TRUE
 	dropshrink = 0
 	var/loot_spawn_cooldown
@@ -604,6 +630,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN
 	filet_tastes = list("oily salmon" = 1, "flaky fish" = 1)
+	filet_desc = "A filet of the black-headed salmon, distinguished from its common cousin by an even more vibrant, orange and fattier meat."
 	slices_num = FISH_FILLETS_LARGE
 	no_rarity_sprite = TRUE
 	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon
@@ -631,6 +658,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	filet_tastes = list("mild white fish" = 1, "delicate fish" = 1)
+	filet_desc = "A filet of flounder, with a mild and slightly sweet taste. Best served fried with a light batter and a squeeze of lemon."
 	slices_num = FISH_FILLETS_SMALL
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/flounder
@@ -657,6 +685,7 @@
 	fish_traits = list(/datum/fish_trait/vegan)
 	faretype = FARE_POOR
 	filet_tastes = list("muddy shrimp" = 1, "snappy shellfish" = 1)
+	filet_desc = "A filet of swamp shrimp, with a slightly gamey taste and a firm texture. Best served grilled or in a spicy stew."
 	slices_num = FISH_FILLETS_TINY
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_shrimp
@@ -684,6 +713,7 @@
 	fish_traits = list(/datum/fish_trait/heavy, /datum/fish_trait/carnivore)
 	faretype = FARE_FINE
 	filet_tastes = list("swampy fish" = 1, "firm fish" = 1)
+	filet_desc = "A filet of swamp mother, with a rich and earthy taste. Blackholters like to serves it in a stew preferably with chili pepper to overcome its earthy taste."
 	slices_num = FISH_FILLETS_HUGE
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swamp_mother
@@ -710,6 +740,7 @@
 	fish_traits = list(/datum/fish_trait/carnivore)
 	faretype = FARE_NEUTRAL
 	filet_tastes = list("meaty bass" = 1, "firm fish" = 1)
+	filet_desc = "A filet of black bass, far rarer than its sea bass. Firm and delicious, and unlikely to drag you down to the depths in a fileted form."
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/black_bass
@@ -737,6 +768,7 @@
 	fish_traits = list(/datum/fish_trait/carnivore)
 	faretype = FARE_NEUTRAL
 	filet_tastes = list("bloody fish" = 1, "bony fish" = 1)
+	filet_desc = "A filet of murkfang, with a tough and gamey taste. Rare to find and even rarer to eat. Said to be a warrior's food in the Underdark."
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/murkfang
@@ -764,6 +796,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_RANESHENI|CUISINE_NORTH_IMPERIAL // AAVNIC
 	filet_tastes = list("lean white fish" = 1, "firm fish" = 1)
+	filet_desc = "A filet of sturgeon. Oh! Most noble and King of all fishes! How rare you are! How delicious and clean your flesh is! How noble your scales and how abundant your roe! It is said all sturgeons that land in Azuria are the property of the Grand Duke. Does it applies to a fileted form?"
 	slices_num = FISH_FILLETS_GIANT
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/sturgeon
@@ -791,6 +824,7 @@
 	faretype = FARE_POOR
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_RANESHENI|CUISINE_SOUTHEASTERN
 	filet_tastes = list("strong oily fish" = 1, "bony fish" = 1)
+	filet_desc = "A filet of mackerel, with a rich and oily taste. Best served after being deboned and cooked in a spiced sauce."
 	slices_num = FISH_FILLETS_SMALL
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/mackerel
@@ -818,6 +852,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_NALEDI|CUISINE_SOUTHEASTERN
 	filet_tastes = list("grassy reef fish" = 1, "firm fish" = 1)
+	filet_desc = "A filet of beaksnapper, with a firm and slightly gamey taste. Best served grilled or in a spicy stew."
 	slices_num = FISH_FILLETS_MEDIUM
 	no_rarity_sprite = TRUE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/beaksnapper
@@ -861,6 +896,7 @@
 	faretype = FARE_FINE
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_ETRUSCAN|CUISINE_RANESHENI
 	filet_tastes = list("grilled steak fish" = 1, "firm fish" = 1)
+	filet_desc = "A filet of swordfish, the common form in which it is served after cutting it into steak, lest some children at the table grab onto the whole fish and skewer someone out of curiousity. The flesh are firm and orange-ish, and it can be cooked like land-meats."
 	slices_num = FISH_FILLETS_GIANT
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swordfish
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/swordfish
