@@ -132,9 +132,6 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	var/catch_band = CATCH_BAND_CLEAN
 	/// Timer that lets the fish go when the minigame runs too long
 	var/minigame_timer
-	var/lag_seconds = 0
-	var/list/fish_history = list()
-	var/ping_speed_mult = 1
 
 /datum/fishing_challenge/New(datum/component/fishing_spot/comp, obj/item/fishingrod/rod, mob/user, _auto_handling)
 	src.user = user
@@ -530,7 +527,6 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 		return
 
 	adjust_to_difficulty()
-	adjust_to_ping()
 
 	phase = MINIGAME_PHASE
 	deltimer(next_phase_timer)
@@ -553,25 +549,6 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	if(!(special_effects & FISHING_MINIGAME_RULE_NO_ESCAPE))
 		var/time_limit = LERP(FISHING_MINIGAME_EASY_TIME, FISHING_MINIGAME_HARD_TIME, hardness)
 		minigame_timer = addtimer(CALLBACK(src, PROC_REF(out_of_time)), time_limit, TIMER_STOPPABLE|TIMER_DELETE_ME)
-
-/datum/fishing_challenge/proc/adjust_to_ping()
-	if(auto_handling || !user.client)
-		return
-	var/ping = clamp(user.client.avgping, 0, FISHING_LAG_COMP_MAX_PING)
-	lag_seconds = ping / 1000
-	ping_speed_mult = clamp(1 - FISHING_PING_SLOWDOWN_PER_100MS * (ping / 100), FISHING_PING_SLOWDOWN_FLOOR, 1)
-	reeling_velocity *= ping_speed_mult
-	gravity_velocity *= ping_speed_mult
-	max_bait_velocity *= ping_speed_mult
-
-/datum/fishing_challenge/proc/record_fish_position(seconds_per_tick)
-	fish_history += fish_position
-	var/keep = round(lag_seconds / seconds_per_tick) + 1
-	if(length(fish_history) > keep)
-		fish_history.Cut(1, length(fish_history) - keep + 1)
-
-/datum/fishing_challenge/proc/judged_fish_position()
-	return length(fish_history) ? fish_history[1] : fish_position
 
 /// Tells the fisher how hard the fight will be.
 /datum/fishing_challenge/proc/announce_hardness(hardness)
@@ -685,7 +662,6 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	if(length(active_effects) && COOLDOWN_FINISHED(src, active_effect_cd))
 		select_active_effect()
 	mover.move_fish(seconds_per_tick)
-	record_fish_position(seconds_per_tick)
 	if(auto_handling)
 		move_towards_fish(seconds_per_tick)
 	move_bait(seconds_per_tick)
@@ -771,8 +747,8 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	var/bait_sweep_top = min_pos
 	var/bait_sweep_bottom = max_pos + bait_height
 
-	var/fish_top = judged_fish_position()
-	var/fish_bottom = fish_top + fish_height
+	var/fish_top = fish_position
+	var/fish_bottom = fish_position + fish_height
 
 	var/fish_on_bait = (bait_sweep_bottom >= fish_top) && (fish_bottom >= bait_sweep_top)
 

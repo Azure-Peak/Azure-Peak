@@ -148,7 +148,7 @@
 
 ///Called at the end of move_fish(), for updating the position of the fish in the fishing minigame.
 /datum/fish_movement/proc/set_fish_position(seconds_per_tick)
-	master.fish_position = clamp(master.fish_position + fish_velocity * master.ping_speed_mult * seconds_per_tick, 0, FISHING_MINIGAME_AREA - master.fish_height)
+	master.fish_position = clamp(master.fish_position + fish_velocity * seconds_per_tick, 0, FISHING_MINIGAME_AREA - master.fish_height)
 
 ///Generic fish movement datum that only performs slow, uninterrupted long jumps
 /datum/fish_movement/slow
@@ -201,7 +201,7 @@
 	var/faux_position = 0
 
 /datum/fish_movement/choppy/set_fish_position(seconds_per_tick)
-	faux_position = clamp(faux_position + fish_velocity * master.ping_speed_mult * seconds_per_tick, 0, FISHING_MINIGAME_AREA - master.fish_height)
+	faux_position = clamp(faux_position + fish_velocity * seconds_per_tick, 0, FISHING_MINIGAME_AREA - master.fish_height)
 	if(!((times_fired * SSfishing.wait) % (0.5 SECONDS)))
 		master.fish_position = faux_position
 

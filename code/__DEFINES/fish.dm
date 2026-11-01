@@ -114,11 +114,6 @@
 // Auto Reel is slower and cannot catch priced fish.
 #define FISHING_AUTO_REEL_SPEED_MULT 0.75
 
-// Latency compensation for the fishing minigame
-#define FISHING_LAG_COMP_MAX_PING 400
-#define FISHING_PING_SLOWDOWN_PER_100MS 0.1
-#define FISHING_PING_SLOWDOWN_FLOOR 0.6
-
 // How long you have to land a fish before it gets away.
 // Difficulty is the sum of the water, the fish, your rod, your bait, the fish's traits and your skill. A sunny in still water is around 25, an anglerfish in the deep ocean around 45, a river sturgeon over 60. The thorn hook ignores the clock.
 #define FISHING_MINIGAME_EASY_TIME (50 SECONDS)
