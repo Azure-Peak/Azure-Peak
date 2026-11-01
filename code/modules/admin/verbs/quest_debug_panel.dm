@@ -90,6 +90,9 @@ GLOBAL_LIST_INIT(quest_debug_unissuable_types, list(
 		else if(BQ.wave_timer_id)
 			timer_label = "Wave [BQ.current_wave] timeout"
 			timer_id = BQ.wave_timer_id
+	else if(get_intermission_timer(Q))
+		timer_label = "Intermission before next wave"
+		timer_id = get_intermission_timer(Q)
 	else if(KQ?.hunt_timer_id)
 		timer_label = "Hunt timeout"
 		timer_id = KQ.hunt_timer_id
@@ -134,7 +137,28 @@ GLOBAL_LIST_INIT(quest_debug_unissuable_types, list(
 	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 	return landmark ? get_turf(landmark) : null
 
+/datum/quest_debug_panel/proc/get_intermission_timer(datum/quest/Q)
+	if(istype(Q, /datum/quest/kill/incursion))
+		var/datum/quest/kill/incursion/IQ = Q
+		return IQ.intermission_timer_id
+	if(istype(Q, /datum/quest/kill/recovery/towner))
+		var/datum/quest/kill/recovery/towner/TQ = Q
+		return TQ.intermission_timer_id
+	return null
+
 /datum/quest_debug_panel/proc/skip_timer(datum/quest/Q)
+	if(istype(Q, /datum/quest/kill/incursion))
+		var/datum/quest/kill/incursion/IQ = Q
+		if(IQ.intermission_timer_id)
+			IQ.clear_intermission_timers()
+			IQ.spawn_second_wave()
+			return "admin ended an incursion intermission"
+	if(istype(Q, /datum/quest/kill/recovery/towner))
+		var/datum/quest/kill/recovery/towner/TQ = Q
+		if(TQ.intermission_timer_id)
+			TQ.clear_intermission_timers()
+			TQ.spawn_next_wave()
+			return "admin ended a towner intermission (wave [TQ.current_wave])"
 	if(istype(Q, /datum/quest/kill/blockade_defense))
 		var/datum/quest/kill/blockade_defense/BQ = Q
 		if(BQ.armed)
