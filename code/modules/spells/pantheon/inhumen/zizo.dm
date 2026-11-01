@@ -7,7 +7,7 @@
 /datum/action/cooldown/spell/projectile/zizo
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 	ignore_armor_penalty = TRUE
 	attunement_school = null
 	primary_resource_type = SPELL_COST_DEVOTION
@@ -25,7 +25,7 @@
 /datum/action/cooldown/spell/zizo
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 	ignore_armor_penalty = TRUE
 	attunement_school = null
 	primary_resource_type = SPELL_COST_DEVOTION
@@ -352,7 +352,7 @@
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "skeleton_formation"
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 
 	primary_resource_type = SPELL_COST_DEVOTION
 	primary_resource_cost = 60
@@ -381,9 +381,9 @@
 
 	invocation_type = null
 	invocations = null
-	modes = list(list("name" = "Sword and Shield", "tag" = "SWD", "loadout" = "sword_shield", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Scutum et Gladius!"),
-		list("name" = "Spear", "tag" = "SPR", "loadout" = "spear", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Hasta!"),
-		list("name" = "Two Daggers", "tag" = "2DG", "loadout" = "dual_daggers", "color" = GLOW_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Pugiones!"),
+	modes = list(list("name" = "Sword and Shield", "tag" = "SWD", "loadout" = "sword_shield", "color" = PATRON_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Scutum et Gladius!"),
+		list("name" = "Spear", "tag" = "SPR", "loadout" = "spear", "color" = PATRON_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Hasta!"),
+		list("name" = "Two Daggers", "tag" = "2DG", "loadout" = "dual_daggers", "color" = PATRON_COLOR_ZIZO, "invocation" = ",w Liga Ossum, Eleva Pugiones!"),
 	)
 
 /datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm/spawn_summon(turf/T, mob/living/user)

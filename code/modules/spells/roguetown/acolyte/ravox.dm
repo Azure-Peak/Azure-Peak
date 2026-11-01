@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/ravox
 	background_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	button_icon = 'icons/mob/actions/ravoxmiracles.dmi'
-	spell_color = GLOW_COLOR_RAVOX
+	spell_color = PATRON_COLOR_RAVOX
 
 	ignore_armor_penalty = TRUE
 
@@ -159,7 +159,7 @@
 	background_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	button_icon = 'icons/mob/actions/ravoxmiracles.dmi'
 	button_icon_state = "ravox_tug"
-	spell_color = GLOW_COLOR_RAVOX
+	spell_color = PATRON_COLOR_RAVOX
 	sound = 'sound/magic/battletrance.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
 
