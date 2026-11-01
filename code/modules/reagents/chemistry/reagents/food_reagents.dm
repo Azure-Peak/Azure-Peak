@@ -122,6 +122,10 @@
 	name = "molasses"
 	color = "#835c5c"
 
+/datum/reagent/consumable/maizewash
+	name = "maize wash"
+	color = "#7e7d70"
+
 /datum/reagent/consumable/sodiumchloride
 	name = "table salt"
 	description = "A salt made of sodium chloride. Commonly used to season food."

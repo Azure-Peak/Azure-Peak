@@ -105,7 +105,7 @@
 	if(!owner)
 		return FALSE
 	if(!owner.can_speak())
-		to_chat(owner, "<span class='warning'>I are unable to speak!</span>")
+		to_chat(owner, "<span class='warning'>I am unable to speak!</span>")
 		return FALSE
 	return TRUE
 

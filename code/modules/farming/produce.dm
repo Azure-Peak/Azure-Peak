@@ -951,7 +951,7 @@
 	if(is_container && (!R.reagents.has_reagent(/datum/reagent/water, 10)))
 		to_chat(user, "<span class='notice'>Needs more water to work it.</span>")
 		return TRUE
-	to_chat(user, "<span class='notice'>Adding water, now it's time to hand wash it...</span>")
+	to_chat(user, "<span class='notice'>Adding water, now it's time to hand-wash it...</span>")
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user,2 SECONDS, target = src))
 		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.8)

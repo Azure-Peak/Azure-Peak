@@ -316,7 +316,7 @@
 		var/obj/item/clothing/C = item_to_check
 		//Thank you DM Refrence website for telling me how to find out negative if in arguments.
 		if(!(gender in C.allowed_sex) || !(/datum/species/human/northern in C.allowed_race))
-			to_chat(user, "<span class='warning'>This clothing wont fit this mannequins frame.</span>")
+			to_chat(user, "<span class='warning'>This clothing won't fit this mannequin's frame.</span>")
 			return FALSE
 
 	if(item_to_check.slot_flags & selected_area)
@@ -547,7 +547,7 @@
 
 //For picking the mannequin back up off the floor
 /obj/structure/mannequin/proc/StandUp(mob/living/L)
-	//This is here to prevent mannequins from being stacked ontop of eachother.
+	//This is here to prevent mannequins from being stacked ontop of each other.
 	for(var/obj/structure/mannequin/O in get_turf(src))
 		if(O.density && !O.tipped_over)
 			return
@@ -561,7 +561,7 @@
 /*
 * Procs at creation or mapload. If no items_to_wear then it will equip
 * the mannequin with whatever is in the mapping variables.
-* Remember when equipping mannequin with a spawner to to create the
+* Remember when equipping mannequin with a spawner to create the
 * items in the list with new /obj/whatever(src).
 */
 

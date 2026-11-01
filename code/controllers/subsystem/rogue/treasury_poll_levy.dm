@@ -48,6 +48,8 @@
 	if(!base)
 		return null
 	levy["charged"] |= owner.real_name
+	if(world.time < poll_levy_grace_until[owner])
+		return null
 	if(is_tax_exempt(owner, TAX_CATEGORY_POLL_LEVY))
 		record_tax_exemption(TAX_CATEGORY_POLL_LEVY, base)
 		return null
@@ -152,6 +154,7 @@
 /datum/controller/subsystem/treasury/proc/waive_past_poll_levies(mob/living/arrival)
 	if(!arrival)
 		return
+	poll_levy_grace_until[arrival] = world.time + POLL_LEVY_LATEJOIN_GRACE
 	for(var/list/levy as anything in poll_levies)
 		levy["charged"] |= arrival.real_name
 

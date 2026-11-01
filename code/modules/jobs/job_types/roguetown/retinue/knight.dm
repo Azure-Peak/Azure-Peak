@@ -294,7 +294,7 @@
 	tutorial = "You are the picture-perfect knight from a high tale, knowledgeable in riding steeds into battle. You specialize in weapons most useful on a saiga including spears, swords, maces, and a variety of ranged weaponry."
 	outfit = /datum/outfit/job/roguetown/knight/mountedknight
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
-	extra_context = "This subclass recieves Azurean Caparison in its stash."
+	extra_context = "This subclass receives Azurean Caparison in its stash."
 
 	category_tags = list(CTAG_ROYALGUARD)
 
@@ -578,7 +578,7 @@
 	traits_applied = list(TRAIT_HEAVYARMOR)
 
 	subclass_stashed_items = list("Ducal Caparison" = /obj/item/caparison/azure)
-	extra_context = "This class gains Master skill in their weapon of choice. Recieves Azurean Caparison in its stash."
+	extra_context = "This class gains Master skill in their weapon of choice. Receives Azurean Caparison in its stash."
 
 	subclass_stats = list(
 		STATKEY_STR = 2,

@@ -50,14 +50,39 @@ const BountyHeader = (props: {
   levyRate: number;
   levyExempt: boolean;
   guildCutRate: number;
+  fellowshipSize: number;
+  fellowshipExtras: number;
+  fellowshipSplit: boolean;
+  fellowshipThreatPct: number;
+  fellowshipRewardPct: number;
 }) => {
-  const { reward, levyRate, levyExempt, guildCutRate } = props;
+  const {
+    reward,
+    levyRate,
+    levyExempt,
+    guildCutRate,
+    fellowshipSize,
+    fellowshipExtras,
+    fellowshipSplit,
+    fellowshipThreatPct,
+    fellowshipRewardPct,
+  } = props;
   const net = netReward(reward, levyRate, levyExempt, guildCutRate);
   return (
     <div style={bountyHeader}>
       <span style={marginaliaLabel}>Bounty as it now stands:</span>
       <b>{reward} mammon</b>
       {net !== reward && <span>({net} in hand after deductions)</span>}
+      {fellowshipSize > 1 && (
+        <>
+          <span>
+            Fellowship Size: {fellowshipSize}
+            {fellowshipExtras > 0 &&
+              ` (+${fellowshipExtras} > Contract Requirement. +${fellowshipThreatPct}% threat +${fellowshipRewardPct}% reward)`}
+          </span>
+          <span>Rewards: {fellowshipSplit ? 'Split' : 'Turned In'}</span>
+        </>
+      )}
     </div>
   );
 };
@@ -349,6 +374,11 @@ export const QuestScroll = () => {
               levyRate={levyRate}
               levyExempt={levyExempt}
               guildCutRate={guildCutRate}
+              fellowshipSize={data.fellowship_size ?? 0}
+              fellowshipExtras={data.fellowship_extras ?? 0}
+              fellowshipSplit={!!data.fellowship_split}
+              fellowshipThreatPct={data.fellowship_threat_pct ?? 0}
+              fellowshipRewardPct={data.fellowship_reward_pct ?? 0}
             />
           )}
 

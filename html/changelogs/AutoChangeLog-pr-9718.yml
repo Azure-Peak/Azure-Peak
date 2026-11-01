@@ -1,0 +1,7 @@
+author: "Etheo"
+delete-after: True
+changes:
+  - rscadd: "Adds saddleborn to Vaquero"
+  - rscdel: "Removes Vaquero's now redundant loadout saiga"
+  - balance: "Lowers Vaquero's Riding skill to apprentice, which is offset back to jman by their saddleborn virtue"
+  - balance: "Restricts Saddleborn Characters From Picking Vaquero"

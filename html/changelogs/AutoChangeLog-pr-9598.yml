@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Blind vice now lets you mouseover things in your vision cone, so you can track people behind you just as well as in front. You could already see their footsteps, but before you couldn't hover over them to actively track."

@@ -37,6 +37,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	armor = ARMOR_INDESTRUCTIBLE
 	var/base_icon_state = "scroll_quest"
 	var/datum/quest/assigned_quest
+	var/claim_in_progress = FALSE
 	var/last_compass_direction = ""
 	var/last_z_level_hint = ""
 	var/last_whisper = 0
@@ -70,10 +71,21 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		target_whisper()
 
 /obj/item/quest_writ/proc/try_hand_claim(mob/user)
+	if(claim_in_progress)
+		return FALSE
+	claim_in_progress = TRUE
+	. = do_hand_claim(user)
+	claim_in_progress = FALSE
+
+/obj/item/quest_writ/proc/do_hand_claim(mob/user)
 	var/datum/quest/Q = assigned_quest
 	if(Q.quest_giver_name && Q.quest_giver_name == user.real_name && !Q.issuer_may_claim && !SSquestpool.debug_mode)
 		to_chat(user, span_warning("You can't take a contract you issued."))
 		return FALSE
+	if(!SStreasury.has_account(user))
+		to_chat(user, span_warning("You have no bank account. Register with a Meister first."))
+		return FALSE
+	Q.lock_fellowship(user)
 	if(!Q.materialized)
 		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
 		if(!landmark || !Q.materialize(landmark))
@@ -248,6 +260,11 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["z_hint"] = last_z_level_hint
 	data["objective"] = assigned_quest.get_objective_text()
 	data["reward"] = assigned_quest.reward_amount
+	data["fellowship_size"] = length(assigned_quest.fellowship_roster)
+	data["fellowship_extras"] = assigned_quest.fellowship_extras
+	data["fellowship_split"] = assigned_quest.fellowship_split_payout
+	data["fellowship_threat_pct"] = round((assigned_quest.fellowship_threat_mult - 1) * 100)
+	data["fellowship_reward_pct"] = round((assigned_quest.fellowship_reward_mult - 1) * 100)
 	data["progress_current"] = assigned_quest.progress_current
 	data["complete"] = assigned_quest.complete
 	data["levy_exempt"] = assigned_quest.levy_exempt

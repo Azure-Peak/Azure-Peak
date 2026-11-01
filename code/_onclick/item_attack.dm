@@ -198,9 +198,9 @@
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
 	var/dualwield_armed = FALSE
-	if(HAS_TRAIT(user, TRAIT_DUALWIELDER))
+	if(HAS_TRAIT(user, TRAIT_DUALWIELDER) && !user.dualwield_processing && user != M)
 		var/datum/intent/dualwield_cached_intent = user.used_intent
-		dualwield_armed = user.process_dualwield(src)
+		dualwield_armed = user.process_dualwield(src) // if we return TRUE, we're primed
 		user.used_intent = dualwield_cached_intent
 
 	M.on_attacked_as_pacifist(user)
@@ -214,9 +214,6 @@
 	// Release drain on attacks besides unarmed attacks/grabs is 1, so it'll just be whatever the penalty is + 1.
 	// Unarmed attacks are the only ones right now that have differing releasedrain, see unarmed attacks for their calc.
 	user.stamina_add(user.used_intent.releasedrain + rmb_stam_penalty)
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		H.process_golgatha_rebuke(user)
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))

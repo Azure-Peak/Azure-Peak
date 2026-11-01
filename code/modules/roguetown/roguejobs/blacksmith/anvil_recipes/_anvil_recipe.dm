@@ -20,7 +20,7 @@
 	var/bar_health = 100 // Current material bar health, reduced by failures. At 0 HP it is deleted.
 	var/numberofhits = 0 // Increased every time you hit the bar, the more you have to hit the bar the less quality of the product.
 	var/numberofbreakthroughs = 0 // How many good hits we got on the metal, advances recipes 50% faster, reduces number of hits total, and restores bar_health
-	var/smith_skill_level = 0 // Highest skill level of any smith who landed a hit on this bar. Used to clamp final tier.
+	var/smith_skill_level = 0 // Highest skill level of any smith who landed a hit on this bar. Clamps the final tier to that skill's quality band.
 	var/datum/parent
 	// Whether this recipe will be hidden from recipe books
 	var/hides_from_books = FALSE
@@ -32,6 +32,7 @@
 	var/display_category = ITEM_CAT_SMITHING_MISC
 	var/skip_quality = FALSE
 	var/min_input_quality = null
+	var/result_quality = null
 
 /datum/anvil_recipe/New(datum/P, ...)
 	parent = P
@@ -182,36 +183,8 @@
 	skill_quality = floor((skill_quality/num_of_materials)/1500)+material_quality
 	// Finally, the more hits the thing required, the less quality it will be, to prevent low level smiths from dishing good stuff
 	skill_quality -= floor(numberofhits * 0.25)
-	// Floor/cap the tier based on the highest smith skill that hit the bar.
-	// Mirrors the generic apply_quality bands: Journeyman = Standard only,
-	// Expert+ guarantees Fine or above, low skill cannot luck into bonuses.
-	var/skill_floor
-	var/skill_ceiling
-	switch(smith_skill_level)
-		if(SKILL_LEVEL_NONE)
-			skill_floor = BLACKSMITH_LEVEL_MIN
-			skill_ceiling = BLACKSMITH_LEVEL_CRUDE
-		if(SKILL_LEVEL_NOVICE)
-			skill_floor = BLACKSMITH_LEVEL_MIN
-			skill_ceiling = BLACKSMITH_LEVEL_ROUGH
-		if(SKILL_LEVEL_APPRENTICE)
-			skill_floor = BLACKSMITH_LEVEL_CRUDE
-			skill_ceiling = BLACKSMITH_LEVEL_COMPETENT
-		if(SKILL_LEVEL_JOURNEYMAN)
-			skill_floor = BLACKSMITH_LEVEL_COMPETENT
-			skill_ceiling = BLACKSMITH_LEVEL_COMPETENT
-		if(SKILL_LEVEL_EXPERT)
-			skill_floor = BLACKSMITH_LEVEL_FINE
-			skill_ceiling = BLACKSMITH_LEVEL_FLAWLESS
-		if(SKILL_LEVEL_MASTER)
-			skill_floor = BLACKSMITH_LEVEL_FLAWLESS
-			skill_ceiling = BLACKSMITH_LEVEL_LEGENDARY
-		else
-			skill_floor = BLACKSMITH_LEVEL_LEGENDARY
-			skill_ceiling = BLACKSMITH_LEVEL_MAX
-	skill_quality = clamp(skill_quality, skill_floor, skill_ceiling)
 	var/tier
-	switch(skill_quality)
+	switch(clamp(skill_quality, BLACKSMITH_LEVEL_MIN, BLACKSMITH_LEVEL_MAX))
 		if(BLACKSMITH_LEVEL_MIN to BLACKSMITH_LEVEL_SPOIL)
 			tier = ITEM_QUALITY_RUINED
 		if(BLACKSMITH_LEVEL_AWFUL)
@@ -234,16 +207,28 @@
 	if(skip_quality)
 		if(!initial(I.has_item_quality) || isnull(min_input_quality))
 			return
-		I.apply_quality(null, null, min_input_quality)
+		result_quality = min_input_quality
+		apply_result_quality(I)
 		return
 
-	I.has_item_quality = TRUE
-	I.apply_quality(null, null, tier)
-	if(tier == ITEM_QUALITY_MASTERWORK)
+	result_quality = clamp_skill_quality(tier, smith_skill_level)
+	apply_result_quality(I)
+	if(result_quality == ITEM_QUALITY_MASTERWORK)
 		record_round_statistic(STATS_MASTERWORKS_FORGED)
+
+/datum/anvil_recipe/proc/apply_result_quality(obj/item/I)
+	if(isnull(result_quality))
+		return
+	if(skip_quality)
+		I.apply_quality(null, null, result_quality)
+		return
+	I.has_item_quality = TRUE
+	I.apply_quality(null, null, result_quality)
+	if(result_quality == ITEM_QUALITY_MASTERWORK && I.anvilrepair)
+		I.apply_full_polish()
 	if(istype(I, /obj/item/lockpick))
 		var/obj/item/lockpick/L = I
-		L.picklvl = ITEM_QUALITY_MULT(tier)
+		L.picklvl = ITEM_QUALITY_MULT(result_quality)
 
 /datum/anvil_recipe/proc/show_menu(mob/user)
 	user << browse(generate_html(user),"window=new_recipe;size=500x810")

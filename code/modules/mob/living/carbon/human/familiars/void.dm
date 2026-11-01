@@ -35,8 +35,8 @@
 	if(user.mind)
 		knows |= (user.mind.mage_aspect_config && user.mind.mage_aspect_config["major"])
 	if(knows)
-		ret.Insert(2, span_userdanger("AN ABBERANT...?"))
-		ret[3] = "A fragment of a void abberant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What work of hubris has been wrought, here? Who would—or even could—create such a thing?"
+		ret.Insert(2, span_userdanger("AN ABERRANT...?"))
+		ret[3] = "A fragment of a void aberrant's power, torn away and fashioned into a familiar; its eyes shine with a voracious hunger. What work of hubris has been wrought, here? Who would—or even could—create such a thing?"
 	return ret
 
 /mob/living/carbon/human/species/familiar/void/proc/grant_essence(type)
@@ -48,8 +48,8 @@
 			TryAddFlight()
 			src.mind.AddSpell(new /datum/action/cooldown/spell/projectile/fetch/fae/void)
 			src.mind.AddSpell(new /datum/action/cooldown/spell/invisibility/fae)
-		if("infernal") // nerfed abberant beam, fire res
-			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an abberant beam to blast your foes."))
+		if("infernal") // nerfed aberrant beam, fire res
+			to_chat(src, span_notice("As you absorb the essence of the hells, you take on some of their nature. Flames will harm you no more, and you can now manifest an aberrant beam to blast your foes."))
 			src.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/fire_obelisk_beam/drakeling)
 		if("elemental") // stat buff, inherits spell
 			to_chat(src, span_notice("As you absorb the essence of the depths, you take on some of its nature. Your body grows sturdier, and you can now tear stones from the earth itself, or reshape your form."))
