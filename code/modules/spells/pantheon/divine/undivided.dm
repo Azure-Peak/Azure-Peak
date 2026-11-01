@@ -133,19 +133,6 @@
 	owner.remove_filter(RECUPERATION_BASE_FILTER)
 
 #undef RECUPERATION_BASE_FILTER
-/*
-///////////////////
-// T1 - Miracle	//
-///////////////////
-
-/datum/action/cooldown/spell/miracle/heal/undivided
-	name = "Greater Miracle"
-	desc = "Blesses the target with minor health regeneration. If casted in conjunction with the 'Fortify' blessing, its healing power is greatly \
-	increased. Most healing Miracles cannot affect devoted Psydonians."
-	fluff_desc = "Within Their realm disease and ailments hold no sway over the devout, even the deepest wound shall soon come apart in Their light."
-	background_icon = 'icons/mob/actions/undividedmiracles.dmi'
-	button_icon = 'icons/mob/actions/undividedmiracles.dmi'
-*/
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // T1 - Twinned Gaze - Removes vision cone for duration as well grants night vision on high enough level. //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

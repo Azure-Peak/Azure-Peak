@@ -271,56 +271,6 @@
 	caught.Stun(1 SECONDS)
 	caught.visible_message(span_warning("The chain snaps taut and hauls [caught] in!"), span_userdanger("The chain bites into me and drags me forward!"))
 
-////////////////////////////////////////////////////////////////////////////////////////
-// T2 - Provocation - Ravox Trial Selector. CON/STR or INT/PER equalise.				//
-////////////////////////////////////////////////////////////////////////////////////////
-
-/datum/action/cooldown/spell/ravox/provocation
-	name = "Provocation"
-	desc = "Declare the measure by which Ravox will weigh me against my foes. Choose between the Trial of Glory (brawn) or the Trial of Wits (mind). This choice is made once and cannot be unmade."
-	fluff_desc = "No duel pleases Him where one side was never in danger. Before He grants His judgement, He asks only which scale you would be set upon."
-	button_icon_state = "provocation"
-
-	click_to_activate = FALSE
-	cast_range = SPELL_RANGE_ADJACENT
-
-	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
-
-	secondary_resource_cost = SPELLCOST_MINOR_PROJECTILE
-
-	invocation_type = INVOCATION_NONE
-
-	charge_required = FALSE
-	cooldown_time = 10 SECONDS
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
-
-	var/trial_glory = /datum/action/cooldown/spell/ravox/trial/glory
-	var/trial_wits = /datum/action/cooldown/spell/ravox/trial/wits
-	var/choosingspell = FALSE
-
-/datum/action/cooldown/spell/ravox/provocation/cast(atom/cast_on)
-	. = ..()
-	if(choosingspell)
-		to_chat(owner, span_warning("I'm already declaring my trial!"))
-		return FALSE
-
-	choosingspell = TRUE
-	var/choice = tgui_alert(owner, "By which measure shall Ravox weigh you?", "DECLARE THE TRIAL", list("Trial of Glory", "Trial of Wits", "Cancel"))
-	choosingspell = FALSE
-
-	switch(choice)
-		if("Trial of Glory")
-			owner.mind?.AddSpell(new trial_glory, owner)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-		if("Trial of Wits")
-			owner.mind?.AddSpell(new trial_wits, owner)
-			owner.mind?.RemoveSpell(src.type)
-			return TRUE
-		else
-			return FALSE
-
 /datum/action/cooldown/spell/ravox/trial
 	sound = 'sound/magic/battletrance.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
@@ -408,14 +358,6 @@
 	button_icon_state = "provocation"
 	invocations = list("By Ravox, stand and face me!")
 	weighed_stats = list(STATKEY_STR, STATKEY_CON)
-
-/datum/action/cooldown/spell/ravox/trial/wits
-	name = "Trial of Wits"
-	desc = "Set myself and my foe upon Ravox's scales and level our minds. The sharper of us is dulled and the duller sharpened, in intelligence and perception alike. Lasts 20 seconds. Both of us must be ready to fight.."
-	fluff_desc = "A justicar who wins only because his foe was a fool has proven nothing at all."
-	button_icon_state = "provocation"
-	invocations = list("By Ravox, match me in wit!")
-	weighed_stats = list(STATKEY_INT, STATKEY_PER)
 
 /atom/movable/screen/alert/status_effect/buff/ravox_provocation
 	name = "Weighed by Ravox"
