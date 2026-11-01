@@ -15,6 +15,11 @@
 	path = /obj/item/storage/pill_bottle/dice/farkle
 	sort_category = "Misc"
 
+/datum/loadout_item/chess
+	name = "Foldable Board Game Set"
+	path = /obj/item/chessboard_folded
+	sort_category = "Misc"
+
 /datum/loadout_item/tarot_deck
 	name = "Tarot Deck (Major Arcana Only)"
 	path = /obj/item/deck/tarot
