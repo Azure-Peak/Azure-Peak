@@ -15,7 +15,6 @@
 		src.adjust_skillrank(/datum/skill/misc/athletics, 3, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/sneaking, 5, TRUE) //Who's a sneaky fellow?
 		src.adjust_skillrank(/datum/skill/misc/climbing, 5, TRUE) //May as well be magical
-		src.adjust_skillrank(/datum/skill/misc/stealing, 3, TRUE)
 		src.adjust_skillrank(/datum/skill/misc/tracking, 1, TRUE)
 
 		src.STASTR = 2

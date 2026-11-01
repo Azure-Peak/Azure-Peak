@@ -350,8 +350,8 @@
 //For non-antags to exempt them from curses, currently only the bishop has this (Why?)
 #define TRAIT_CURSE_RESIST "Curse Resistance"
 
-// ASCENDANT CULTIST TRAITS (cursed-gear related) -> Matthiosians recognise eachother.
-#define TRAIT_FREEMAN "Blessing of Matthios" //Matthiosian cultists can recognise eachother + can use exclusive gear
+// ASCENDANT CULTIST TRAITS (cursed-gear related) -> Matthiosians recognise each other.
+#define TRAIT_FREEMAN "Blessing of Matthios" //Matthiosian cultists can recognise each other + can use exclusive gear
 #define TRAIT_CABAL "Of the Cabal" //Zizo cultists can use exclusive gear
 #define TRAIT_HORDE "Anointed" //Graggarites can use exclusive gear
 #define TRAIT_DEPRAVED "Fallen" //Baothans can use exclusive gear
@@ -562,8 +562,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_JOURNEYS_END = span_info ("As the lyfe ebbs from my veins, my resolve hardens to push through. Do not go quietly into that good nite."),
 	TRAIT_RAGE = span_info ("PAIN AND INJURY FUELS MY BATTLERAGE!"),
 	TRAIT_CRITICAL_WEAKNESS = span_danger("I am weak to wounds that others could survive."),
-	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will be crippled if my ribs shatter or die if I am paralyised."),
-	TRAIT_DNR = span_danger("My lux' vigor is weak. There is no hope for me. This lyfe is all I have."),
+	TRAIT_SHATTER_KILL = span_danger("My form is vulnerable to chest fractures and paralysis, I will be crippled if my ribs shatter or die if I am paralysed."),
+	TRAIT_DNR = span_danger("My lux's vigor is weak. There is no hope for me. This lyfe is all I have."),
 	TRAIT_TAINTEDLUX = span_danger("My lux is accursed; it is not safe to transplant."),
 	TRAIT_LASTLEGS = span_danger("My lux is worn. I am not truly unrevivable, not yet; but the next shall be my last."),
 	TRAIT_CLAIMED_BY_DARKSTAR = span_danger("My soul has been trapped inside an assassin's dagger. I will not be able to return to lyfe until the dagger is destroyed..."),
@@ -606,7 +606,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PERFECT_TRACKER = span_info("I am a master at pursuing those I hunt. I can discern every last detail within a spotted track, and any attempts to hide said-tracks will fail to deceive me."),//Hearthstone port.
 	TRAIT_ZIZOSIGHT = span_info("Zizo blesses my eyes to be unburdened by the night. I can also somewhat judge if a corpse can be reanimated or not."), //Hearthstone change.
 	TRAIT_CIVILIZEDBARBARIAN = span_info("My rigorous training in the martial arts has turned me into a living weapon. No limb is out of reach for my fists and feet, and my unarmed strikes are now stronger (+4 Unarmed Damage). My parrying with bracers, knuckles, or bandages is significantly more effective."),
-	TRAIT_ANNOYINGVOICE = span_sans("I am cursed with a odd voice."),
+	TRAIT_ANNOYINGVOICE = span_sans("I am cursed with an odd voice."),
 	TRAIT_SQUIRE_REPAIR = span_info("Trained at my Master's side, I can restore any kind of gears with time and polish them until they gleam like new."),
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
 	TRAIT_NUDE_SLEEPER = span_warning("I can't fall asleep unless I'm nude and in bed."),
@@ -640,7 +640,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BADTRAINER = span_info("I've spent yils studying the art of a single weapon, but unfortunately I've no patience to train anyone else. Everyone learning from me will only learn up to two skill levels below mine."),
 	TRAIT_SEA_DRINKER = span_info("As a denizen of the deep, I can drink salty ocean water safely."),
 	TRAIT_BIGGUY = span_info("My immense frame and size allows me to smash through wooden doors, and throw people more easily."),
-	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like treebranches as if they were beds."),
+	TRAIT_OUTDOORSMAN = span_info("My experience in the wilds allows me to fall asleep on surfaces like tree branches as if they were beds."),
 	TRAIT_WATERSLEEP = span_info("I am most comfortable sleeping beneath the waves. Assuming, of course, I can breathe there."),
 	TRAIT_STUDENT =	span_info("I am overwhelmed by all this knowledge!"),
 	TRAIT_LEGENDARY_ALCHEMIST = span_info("An expert in the art of finding herbs in the wild."),
@@ -742,7 +742,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SURVIVAL_EXPERT = span_greentext("I'm experienced with the arts of survival in the wild. Cooking, Fishing, Butchering and Skincrafting can progress to Legendary levels. Sewing can progress to Journeyman levels."),
 	TRAIT_HOMESTEAD_EXPERT = span_greentext("I'm experienced with the arts of homesteading. Farming, Mining, Cooking, Fishing, Butchering, Lumberjacking, Masonry and Pottery can progress to Legendary levels. Sewing and Skincrafting can progress to Journeyman levels."),
 	TRAIT_MASTERFUL_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a masterful hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
-	TRAIT_EXPERT_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a expert hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
+	TRAIT_EXPERT_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming an expert hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
 	TRAIT_ENCHANTING_EXPERT = span_greentext("I'm experienced with the arts of enchanting, with my skills in the arcyne craft Blacksmithing, Engineering, and Smelting can progress to Legendary levels."),
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels. I am also quite savvy at repairing damaged equipment."),
 	TRAIT_SELF_RELIANCE = span_greentext("I've spent enough time standing on my own that I've learned to either adapt or die young. All crafting and labor skills can progress to Journeyman levels."),

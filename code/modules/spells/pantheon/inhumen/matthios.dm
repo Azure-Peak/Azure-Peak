@@ -3,7 +3,7 @@
 /datum/action/cooldown/spell/matthios
 	background_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	spell_color = GLOW_COLOR_MATTHIOS
+	spell_color = PATRON_COLOR_MATTHIOS
 	ignore_armor_penalty = TRUE
 	attunement_school = null
 	primary_resource_type = SPELL_COST_DEVOTION

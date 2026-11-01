@@ -94,7 +94,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more.")) // If you have already done a ritual in the last 30 minutes, you cannot do another.
 		return
-	var/riteselection = input(user, "Rituals of the Sun", src) as null|anything in solarrites // When you use a open hand on a rune, It'll give you a selection of all the rites available from that rune
+	var/riteselection = input(user, "Rituals of the Sun", src) as null|anything in solarrites // When you use an open hand on a rune, It'll give you a selection of all the rites available from that rune
 	switch(riteselection) // rite selection goes in this section, try to do something fluffy. Presentation is most important here, truthfully.
 		if("Guiding Light") // User selects Guiding Light, begins the stuff for it
 			if(!do_after(user, 5 SECONDS)) // just flavor stuff before activation
@@ -460,7 +460,7 @@
 	var/ritualtargets = view(4, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/malumritual)
-		to_chat(target,span_cultsmall("Malum's persistance guides me forward!"))
+		to_chat(target,span_cultsmall("Malum's persistence guides me forward!"))
 
 /obj/structure/ritualcircle/abyssor
 	name = "Rune of Storms"
@@ -1216,7 +1216,7 @@
 		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
 	target.add_stress(/datum/stressevent/necrarevive)
 	src.coinslot -= 1 // -1 coin, please insert more coins.
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended) // only after a succesful revive
+	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended) // only after a successful revive
 
 /obj/structure/ritualcircle/necra/proc/undermaidenbargain(src)
 	var/ritualtargets = view(7, loc)
@@ -1525,7 +1525,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			user.say("ZIZO! ZIZO! TRUTH TO A WORLD OF IGNORAANCE!!")
 			icon_state = "zizo_active"
-			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her darkness now guides you, for the light now spurns you."))
+			to_chat(user,span_cultsmall("Her Inzanity, although incomprehensible to the ignorant, is invaluable to the enlightened. Her darkness now guides you, for the light now spurns you."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			zizolightsnuff(src)
 			spawn(10)
@@ -1547,7 +1547,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			user.say("ZIZO! ZIZO! PROGRESS AT AAANY COST!!")
 			icon_state = "zizo_active"
-			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her hands guide your mynd and dreamed talent to rapidly Progress."))
+			to_chat(user,span_cultsmall("Her Inzanity, although incomprehensible to the ignorant, is invaluable to the enlightened. Her hands guide your mynd and dreamed talent to rapidly Progress."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			zizolightsnuff(src)
 			spawn(10)

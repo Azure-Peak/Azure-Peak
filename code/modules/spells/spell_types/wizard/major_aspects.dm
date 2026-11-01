@@ -49,6 +49,7 @@
 /datum/magic_aspect/cryomancy
 	name = "Cryomancy"
 	latin_name = "Maior Aspectus Glaciei"
+	// TODO: Rewrite desc
 	desc = "A first-order school focused on degrading its opponents with every strike. What it lacks for in pure destruction \
 	or speed, it makes up for in building, debilitating effects as the Magi's opponent shudders, slows, then finally freezes under every blow.\
 	This school is most prevalent in Gronn, Hammerhold and Grenzelhoftian circle, and likely originated from one of these countries where frost is a daily \
@@ -68,14 +69,14 @@
 		"Glacies, a me discede!",
 	)
 	fixed_spells = list(
-		/datum/action/cooldown/spell/projectile/frost_bolt,
+		/datum/action/cooldown/spell/projectile/frost_shards,
 		/datum/action/cooldown/spell/projectile/rimecast,
 		/datum/action/cooldown/spell/forcewall/ice,
 		/datum/action/cooldown/spell/verglas,
 		/datum/action/cooldown/spell/fridigitation,
 	)
 	spell_order = list(
-		/datum/action/cooldown/spell/projectile/frost_bolt,
+		/datum/action/cooldown/spell/projectile/frost_shards,
 		/datum/action/cooldown/spell/projectile/rimecast,
 		/datum/action/cooldown/spell/forcewall/ice,
 		/datum/action/cooldown/spell/verglas,
@@ -90,9 +91,10 @@
 /datum/magic_aspect/fulgurmancy
 	name = "Fulgurmancy"
 	latin_name = "Maior Aspectus Fulminis"
+	// TODO: Rewrite desc
 	desc = "A first-order school focused on striking with numbing speed and overwhelming force. \
 	Fulgurmancers are valued for their reliability - their spells are fast, accurate, and consistent in ways that flashier schools are not. \
-	It is said the most skilled Fulgurmancer has never once seen their bolt go wide."
+	It is said the most skilled Fulgurmancer never miss."
 	aspect_type = ASPECT_MAJOR
 	attuned_name = ASPECT_NAME_FULGURMANCY
 	school_color = GLOW_COLOR_LIGHTNING
@@ -325,7 +327,7 @@
 	latin_name = "Maior Aspectus Mortis"
 	desc = "Zizo! Mistress of Progress! Grants me power over the mortal coils! Zizo! Mistress of Undeath! Grants me the power to bind lyfe unto the dead! Zizo! Mistress of Magick! Grants me power unbound to smite the unworthy!"
 	aspect_type = ASPECT_MAJOR
-	school_color = GLOW_COLOR_ZIZO
+	school_color = PATRON_COLOR_ZIZO
 	class_locked = TRUE
 	// No one is hearing these chants by design but better safe than sorry
 	binding_chants = list(

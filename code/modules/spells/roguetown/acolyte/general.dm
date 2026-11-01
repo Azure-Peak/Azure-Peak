@@ -51,7 +51,7 @@
 	<li><b>Matthios:</b> +16.67% if the target has the Freeman trait.</li>\
 	<li><b>Zizo:</b> Up to +16.67% scaling with nearby bones and bone bundles.</li>\
 	</ul>"
-	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
+	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped deity within mortal realm."
 	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
 
@@ -171,7 +171,7 @@
 /datum/action/cooldown/spell/miracle/fortify
 	name = "Fortify"
 	desc = "Amplifies all incoming sources of healing by 30% for the chosen target. If the target already carries the buff they will instead recieve an instant heal. Undead take burn damage and get set on fire. Does not work on devout Psydonites or Constructs."
-	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
+	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped deity within the mortal realm."
 	button_icon_state = "fortify"
 	sound = 'sound/magic/heal.ogg'
 
@@ -469,7 +469,7 @@
 /datum/action/cooldown/spell/miracle/bishop_pack
 	name = "Sacred Ascendance"
 	desc = "Allows you to select miracles out of packs Focus (1 T4) or Diversity (2 T3) from static list."
-	fluff_desc = "They protect against the enroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
+	fluff_desc = "They protect against the encroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
 	button_icon_state = "spellpack"
 	sound = 'sound/magic/undivided_bless.ogg'
 	glow_intensity = 0

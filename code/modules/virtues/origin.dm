@@ -246,7 +246,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	\
 	Despite vast differences amongst these races, they all have things in common. Their forms over the generations have garnered darker or \
 	paler complexions, their bodies slightly shorter than their surface dwelling compatriots, dark elves being amongst the tallest species in \
-	the Underdark, despite on average being shorted than an average Hammerholdian humen. Despite this in most cases noticable lack of height, these \
+	the Underdark, despite on average being shorted than an average Hammerholdian humen. Despite this in most cases noticeable lack of height, these \
 	races have also grown sturdier, more resilient and more cautious and keen, out of pure necessity. Survival in these depths demands one's all.	\
 	A fact those of the surface that delve deep into these cavers, tend to forget, resulting in their untimely demise. Or worse.\n<br><br>\
 	\
@@ -277,7 +277,7 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 		if("Strict (Sunlight Sensitivity + Advanced Darksight)")
 			ADD_TRAIT(H, TRAIT_SUNLIGHT_SENSITIVE, TRAIT_GENERIC)
 			ADD_TRAIT(H, TRAIT_NITEVISION, TRAIT_GENERIC)
-			to_chat(H, span_notice("The sun is irritantly bright for you, but your eyes cut the darkness better!"))
+			to_chat(H, span_notice("The sun is irritatingly bright for you, but your eyes cut the darkness better!"))
 		else
 			to_chat(H, span_notice("You're quick to adapt."))
 
@@ -311,13 +311,13 @@ GLOBAL_LIST_EMPTY(origins) // alist: origin name = origin desc. so we don't have
 	name = "Ancient Times"
 	origin_name = "The Forgotten Empires"
 	origin_desc = "Throughout the history of Psydonia there were are many, many great empires that once stood the test of aeon's grip; most notably there was the Holy Celestrial Empyre, \
-	which stood for yills upon yills as the largest and most notable during Psydonia's Golden eras of the Ten, whom sheparded by the Ten displaying their divinity \
+	which stood for yils upon yils as the largest and most notable during Psydonia's Golden eras of the Ten, whom sheparded by the Ten displaying their divinity \
 	and true power against the Psydonic worshippers of past, brought upon a new era of worship and the rise of Celestia as the world's \
-	largest empire to stand the test of aeon. Notably one of the most tolerant empires of the many yills in the history of Psydonia which accepted the worship of Psydon \
+	largest empire to stand the test of aeon. Notably one of the most tolerant empires of the many yils in the history of Psydonia which accepted the worship of Psydon \
 	and the Ten's faithful alyke, yet when Zizo rose and ascended to divinity, everything crumbled apart.\n<br><br>\
 	\
 	Now all that remains is but hollow shells, rubble and ruins of the greatest empyre that stood the test of time; hundreds and thousands of the fallen; \
-	legionnaries, soldiers, warriors, toilers, heros, champions and forgotten souls were given lyfe anew, \
+	legionnaires, soldiers, warriors, toilers, heros, champions and forgotten souls were given lyfe anew, \
 	yet from such hubris came nothing but legions upon legions of myndless, gibbering deadites in what was a second chance in lyfe, quickly turned into a war of rage \
 	against the lyving; as their lyfelux withered and with it, their mynds and purpose turned from steps towards Progress into endless war without reason.\n<br><br>\
 	\

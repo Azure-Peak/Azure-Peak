@@ -34,7 +34,7 @@
 
 			if(!marked_item)
 				if(hand_items)
-					message = span_warning("I aren't holding anything that can be imbued to summon!")
+					message = span_warning("I'm not holding anything that can be imbued to summon!")
 				else
 					message = span_warning("I must hold the desired weapon in my hands to imbue it for summoning!")
 

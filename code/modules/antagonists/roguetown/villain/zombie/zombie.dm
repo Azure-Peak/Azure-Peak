@@ -141,7 +141,7 @@
 		if(has_turned && become_rotman)
 			for(var/trait in traits_rotman)
 				ADD_TRAIT(zombie, trait, "[type]")
-			to_chat(zombie, span_green("I no longer crave for flesh... <i>But I still feel ill.</i>"))
+			to_chat(zombie, span_green("I no longer crave flesh... <i>But I still feel ill.</i>"))
 		else
 			if(!was_i_undead)
 				zombie.mob_biotypes &= ~MOB_UNDEAD
@@ -150,7 +150,7 @@
 			zombie.faction += "neutral"
 			zombie.regenerate_organs()
 			if(has_turned)
-				to_chat(zombie, span_green("I no longer crave for flesh..."))
+				to_chat(zombie, span_green("I no longer crave flesh..."))
 
 		for(var/obj/item/bodypart/zombie_part as anything in zombie.bodyparts) //Cure all limbs
 			zombie_part.rotted = FALSE

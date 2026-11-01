@@ -993,9 +993,11 @@
 	faction = target.faction
 	deathsound = target.deathsound
 	gender = target.gender
+	pronouns = target.pronouns
 	real_name = target.real_name
 	voice_color = target.voice_color
 	voice_pitch = target.voice_pitch
+	voice_type = target.voice_type
 	detail_color = target.detail_color
 	skin_tone = target.skin_tone
 	lip_style = target.lip_style

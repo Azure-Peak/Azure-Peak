@@ -70,7 +70,7 @@
 /obj/effect/proc_holder/spell/self/sapperbomb
 	name = "Calcic Obliteration"
 	desc = "Explode in a wonderful arcayne blast of osseous shrapnel, specially prepared to tear down the walls and buildings \
-	that would halt the advance of your fellow legionnaries and violently sunder anything caught in the blast. \
+	that would halt the advance of your fellow legionnaires and violently sunder anything caught in the blast. \
 	takes more time to explode compared to regular calic outburst and will weaken your vessel to blows, cannot be triggered manually by your Exarch."
 	overlay_state = "firewalk"
 	chargedrain = 0

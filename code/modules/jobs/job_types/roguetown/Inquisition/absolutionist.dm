@@ -7,7 +7,7 @@
 	spawn_positions = 1
 	forbidden_races = list(RACES_OOZE)
 	allowed_patrons = list(/datum/patron/old_god) //Requires the character to be a practicing Psydonite.
-	tutorial = "Once, you were alone in this monastery; a chapel of stone, protecting a shard of Psydon's divinity. Now, you've a whole sect to shepherd - and their propensity for violence oft-clashes with your own vows of pacifism. Temper the floch with your wisdom, siphon away their wounds with your blessings, and guide the wayard towards absolution."
+	tutorial = "Once, you were alone in this monastery; a chapel of stone, protecting a shard of Psydon's divinity. Now, you've a whole sect to shepherd - and their propensity for violence oft-clashes with your own vows of pacifism. Temper the floch with your wisdom, siphon away their wounds with your blessings, and guide the wayward towards absolution."
 	selection_color = JCOLOR_INQUISITION
 	outfit = /datum/outfit/job/roguetown/absolver
 	display_order = JDO_ABSOLVER
@@ -38,7 +38,7 @@
 
 /datum/advclass/absolver
 	name = "Absolver"
-	tutorial = "Once, you were alone in this monastery; a chapel of stone, protecting a shard of Psydon's divinity. Now, you've a whole sect to shepherd - and their propensity for violence oft-clashes with your own vows of pacifism. Temper the floch with your wisdom, siphon away their wounds with your blessings, and guide the wayard towards absolution."
+	tutorial = "Once, you were alone in this monastery; a chapel of stone, protecting a shard of Psydon's divinity. Now, you've a whole sect to shepherd - and their propensity for violence oft-clashes with your own vows of pacifism. Temper the floch with your wisdom, siphon away their wounds with your blessings, and guide the wayward towards absolution."
 	outfit = /datum/outfit/job/roguetown/absolver/basic
 	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ABSOLVER)
@@ -79,8 +79,8 @@
 		var/mob/living/carbon/human/H = L
 		if(H.mind)
 			H.mind.AddSpell(new /datum/action/cooldown/spell/psydon/persist)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonlux_tamper)
-			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/psydonabsolve)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/psydon/lux/weep)
+			H.mind.AddSpell(new /datum/action/cooldown/spell/psydon/lux/absolve)
 			H.mind.RemoveSpell(/datum/action/cooldown/spell/psydon/respite)
 			H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 			H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)

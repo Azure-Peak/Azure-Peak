@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/astrata
 	background_icon = 'icons/mob/actions/astratamiracles.dmi'
 	button_icon = 'icons/mob/actions/astratamiracles.dmi'
-	spell_color = GLOW_COLOR_ASTRATA
+	spell_color = PATRON_COLOR_ASTRATA
 
 	attunement_school = null
 
@@ -28,7 +28,7 @@
 /datum/action/cooldown/spell/miracle/ignition/astrata
 	background_icon = 'icons/mob/actions/astratamiracles.dmi'
 	button_icon = 'icons/mob/actions/astratamiracles.dmi'
-	spell_color = GLOW_COLOR_ASTRATA
+	spell_color = PATRON_COLOR_ASTRATA
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross/astrata, /obj/item/clothing/neck/roguetown/psicross/silver/astrata, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
@@ -133,7 +133,7 @@
 	button_icon = 'icons/mob/actions/astratamiracles.dmi'
 	button_icon_state = "bolt"
 	sound = 'sound/magic/lightning.ogg'
-	spell_color = GLOW_COLOR_ASTRATA
+	spell_color = PATRON_COLOR_ASTRATA
 	glow_intensity = GLOW_INTENSITY_MEDIUM
 	attunement_school = null
 
@@ -230,7 +230,7 @@
 	desc = "Creates a pyre dedicated to Astrata, lasts 30 minutes."
 	button_icon_state = "pyre"
 	sound = 'sound/magic/astrata_choir.ogg'
-	spell_color = GLOW_COLOR_ASTRATA
+	spell_color = PATRON_COLOR_ASTRATA
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	click_to_activate = TRUE
@@ -280,8 +280,8 @@
 	layer = 2.8
 	brightness = 10
 	fueluse = 15 MINUTES
-	color = GLOW_COLOR_ASTRATA
-	bulb_colour = GLOW_COLOR_ASTRATA
+	color = PATRON_COLOR_ASTRATA
+	bulb_colour = PATRON_COLOR_ASTRATA
 	max_integrity = 150
 	healing_range = 2
 	var/lifespan = 15 MINUTES
@@ -335,7 +335,7 @@
 	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/heal_rogue/campfire(get_turf(owner))
-	H.color = GLOW_COLOR_ASTRATA
+	H.color = PATRON_COLOR_ASTRATA
 	if(owner.blood_volume < BLOOD_VOLUME_OKAY)
 		owner.blood_volume = min(owner.blood_volume+healing_on_tick_pyre, BLOOD_VOLUME_OKAY)
 	var/list/wCount = owner.get_wounds()
@@ -407,7 +407,7 @@
 	fluff_desc = "The greatest feat any priest can manage is reversion of death, a true rebirth unlike the perversion Necromancers aspire to."
 	background_icon = 'icons/mob/actions/astratamiracles.dmi'
 	button_icon = 'icons/mob/actions/astratamiracles.dmi'
-	spell_color = GLOW_COLOR_ASTRATA
+	spell_color = PATRON_COLOR_ASTRATA
 
 // =====================
 // Immolation Component

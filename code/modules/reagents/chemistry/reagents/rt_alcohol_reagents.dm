@@ -132,7 +132,7 @@
 /datum/reagent/consumable/ethanol/brandy/plum
 	name = "plum brandy"
 	boozepwr = 60
-	taste_description = "purple sweetness and vanila"
+	taste_description = "purple sweetness and vanilla"
 	color = "#5c0449"
 	quality = DRINK_VERYGOOD
 
@@ -247,7 +247,7 @@
 	drink_type = DRINKTYPE_WINE
 	name = "Aurorian"
 	boozepwr = 5
-	taste_description = "subtle herbacious undertones"
+	taste_description = "subtle herbaceous undertones"
 	color = "#5D8A8A"
 	quality = DRINK_NICE
 
@@ -809,7 +809,7 @@
 	cuisine = CUISINE_RANESHENI
 	drink_type = DRINKTYPE_CIDER
 	name = "Bloody Mary"
-	description = "Possibly the only way blood can be paletteable for the normal non-graggarite. How moral it is to drink? Still questionable."
+	description = "Possibly the only way blood can be palatable for the normal non-graggarite. How moral it is to drink? Still questionable."
 	color = "#570000"
 	quality = DRINK_FANTASTIC
 	boozepwr = 30
@@ -869,7 +869,7 @@
 	cuisine = CUISINE_OTAVAIS
 	drink_type = DRINKTYPE_WINE
 	name = "Sangria D'Otavais"
-	description = "A refreshingly sweet and tart blackberry mixture, screams Otavain. This alcohol is practically a dessert."
+	description = "A refreshingly sweet and tart blackberry mixture, screams Otavan. This alcohol is practically a dessert."
 	color = "#2E2047"
 	quality = DRINK_FANTASTIC
 	boozepwr = 40

@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/noc
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
-	spell_color = GLOW_COLOR_NOC
+	spell_color = PATRON_COLOR_NOC
 
 	ignore_armor_penalty = TRUE
 
@@ -208,7 +208,7 @@
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon_state = "blindness"
-	spell_color = GLOW_COLOR_NOC
+	spell_color = PATRON_COLOR_NOC
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	projectile_type = /obj/projectile/magic/noc_owl
