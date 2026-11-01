@@ -58,15 +58,17 @@
 	to_chat(H, span_warning("You father your unholy cause through the most time-tested of ways: hard, heavy steel in both arms and armor."))
 	H.set_blindness(0)
 	if(H.mind)
-		var/weapons = list("Arming Sword", "Longsword", "Mace", "Flail", "Battle Axe", "Billhook")
+		var/weapons = list("Arming Sword", "Longsword", "Mace", "Flail", "Battle Axe")
 		if(!HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT)) //Remove Regular Axe BEFORE choice, is picked (so we don't mislead)
-			weapons += "Steel Axe"
+			weapons += list("Steel Axe", "Billhook")
+		else
+			weapons += list("Grand Mace", "Maul", "Whip", "Halberd")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		switch(weapon_choice)
 			if("Arming Sword")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/rogueweapon/sword/silver/psy
+					r_hand = /obj/item/rogueweapon/sword/silver/psy/preblessed
 				else
 					r_hand = /obj/item/rogueweapon/sword
 				beltr = /obj/item/rogueweapon/scabbard/sword
@@ -74,20 +76,30 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				beltr = /obj/item/rogueweapon/scabbard/sword
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/rogueweapon/sword/long/silver/psy
+					r_hand = /obj/item/rogueweapon/sword/long/silver/psy/preblessed
 				else
 					r_hand = /obj/item/rogueweapon/sword/long
 			if("Mace")
 				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/rogueweapon/mace/goden/psy
-					l_hand = /obj/item/rogueweapon/scabbard/gwstrap
+					beltr = /obj/item/rogueweapon/mace/cudgel/flanged/silver/psy/preblessed
 				else
 					beltr = /obj/item/rogueweapon/mace/steel
+			if("Grand Mace")
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/mace/goden/psy/preblessed
+				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Maul")
+				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/mace/maul/grand/psy/preblessed
+				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
+			if("Whip")
+				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
+				beltr = /obj/item/rogueweapon/whip/silver/psy/preblessed
 			if("Flail")
 				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					beltr = /obj/item/rogueweapon/flail/sflail/silver/psy
+					beltr = /obj/item/rogueweapon/flail/sflail/silver/psy/preblessed
 				else
 					beltr = /obj/item/rogueweapon/flail/sflail
 			if("Steel Axe")
@@ -96,16 +108,17 @@
 			if("Battle Axe")
 				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					beltr = /obj/item/rogueweapon/stoneaxe/battle/silver/psy
+					beltr = /obj/item/rogueweapon/stoneaxe/battle/silver/psy/preblessed
 				else
 					beltr = /obj/item/rogueweapon/stoneaxe/battle
 			if("Billhook")
 				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
-				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					r_hand = /obj/item/rogueweapon/spear/silver/psy
-				else
-					r_hand = /obj/item/rogueweapon/spear/billhook
+				r_hand = /obj/item/rogueweapon/spear/billhook
+			if("Halberd")
+				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
+				r_hand = /obj/item/rogueweapon/halberd/silver/psy/preblessed
+				l_hand = /obj/item/rogueweapon/scabbard/gwstrap
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		if(istype(H.patron, /datum/patron/divine))
 			C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)	//Capped to T2 miracles. Templar equivalent.
@@ -124,7 +137,7 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backr = /obj/item/rogueweapon/shield/tower/metal
 	belt = /obj/item/storage/belt/rogue/leather
-	beltl = /obj/item/rogueweapon/huntingknife
+	beltl = HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT) ? /obj/item/rogueweapon/huntingknife/idagger/steel/silver/psy : /obj/item/rogueweapon/huntingknife
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/ritechalk = 1,
@@ -313,10 +326,9 @@
 						H.equip_to_slot_or_del(new /obj/item/clothing/cloak/templar/undividedcleric, SLOT_CLOAK, TRUE)
 		if(/datum/patron/old_god)
 			H.equip_to_slot_or_del(new /obj/item/clothing/neck/roguetown/psicross/silver, SLOT_RING, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate, SLOT_ARMOR, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate, SLOT_ARMOR, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/chain/psydon, SLOT_GLOVES, TRUE)
-			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/cloak/tabard/psydontabard/black, SLOT_CLOAK, TRUE)
 			H.change_stat(STATKEY_WIL, 2)
 			H.change_stat(STATKEY_CON, 2)
@@ -397,7 +409,10 @@
 	H.cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg'
 	if(H.mind)
 		var/weapons = list("Daggers", "Rapier", "Sabre", "Bow", "Crossbow", "Slurbow")
+		if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
+			weapons += list("Psydonic Shortsword", "Psydonic Tomahawk")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+		var/rangedlvl = HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT) ? SKILL_LEVEL_EXPERT : SKILL_LEVEL_JOURNEYMAN
 		H.set_blindness(0)
 		switch(weapon_choice)
 			if("Daggers")
@@ -420,7 +435,7 @@
 			if("Rapier")
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				if(HAS_TRAIT(H, TRAIT_PSYDONIAN_GRIT))
-					l_hand = /obj/item/rogueweapon/sword/rapier/silver/psy //Fuck you it's aura
+					l_hand = /obj/item/rogueweapon/sword/rapier/silver/psy/preblessed //Fuck you it's aura
 				else
 					l_hand = /obj/item/rogueweapon/sword/rapier
 				beltl = /obj/item/rogueweapon/scabbard/sword
@@ -428,8 +443,15 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				l_hand = /obj/item/rogueweapon/sword/sabre
 				beltl = /obj/item/rogueweapon/scabbard/sword
+			if("Psydonic Shortsword")
+				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+				l_hand = /obj/item/rogueweapon/sword/short/silver/psy/preblessed
+				beltl = /obj/item/rogueweapon/scabbard/sword
+			if("Psydonic Tomahawk")
+				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+				l_hand = /obj/item/rogueweapon/stoneaxe/handaxe/silver/psy/preblessed
 			if("Bow")
-				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_JOURNEYMAN, TRUE)
+				H.adjust_skillrank_up_to(/datum/skill/combat/bows, rangedlvl, TRUE)
 				beltr = /obj/item/quiver/arrows
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
@@ -447,7 +469,7 @@
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if("Crossbow")
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE) //have to specifically go into bows/crossbows unlike outlaw
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, rangedlvl, TRUE) //have to specifically go into bows/crossbows unlike outlaw
 				beltr = /obj/item/quiver/bolt/standard
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
@@ -465,7 +487,7 @@
 				else
 					l_hand = /obj/item/rogueweapon/huntingknife/idagger/steel
 			if("Slurbow")
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_JOURNEYMAN, TRUE) // I think this is a very good alternative to the crossbow, given that this role involves mobile combat.
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, rangedlvl, TRUE) // I think this is a very good alternative to the crossbow, given that this role involves mobile combat.
 				beltr = /obj/item/quiver/bolt/light
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
@@ -569,6 +591,11 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/otavan/psygloves, SLOT_GLOVES, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/shoes/roguetown/boots/psydonboots, SLOT_SHOES, TRUE)
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan, SLOT_PANTS, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/inqarticles/garrote, SLOT_IN_BACKPACK, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/inqarticles/blackbag, SLOT_IN_BACKPACK, TRUE)
+			ADD_TRAIT(H, TRAIT_BLACKBAGGER, JOB_TRAIT)
+			H.change_stat(STATKEY_SPD, 1)
+			H.change_stat(STATKEY_WIL, 1)
 			H.cmode_music = 'sound/music/cmode/antag/combat_adonai.ogg'
 	H.equip_to_slot_or_del(new /obj/item/clothing/under/roguetown/heavy_leather_pants, SLOT_PANTS, TRUE)
 	H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat, SLOT_ARMOR, TRUE)
