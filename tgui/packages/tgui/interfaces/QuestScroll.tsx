@@ -136,7 +136,14 @@ const MarginaliaSection = (props: MarginaliaSectionProps) => {
       )}
       {!!data.blockade_armed && !data.blockade_timer_label && (
         <div style={marginaliaLine}>
-          <i>Travel to the blockade, waves descend on arrival.</i>
+          <i>Travel to the blockade, waves arrives on arrival.</i>
+        </div>
+      )}
+      {!!data.armed && !data.complete && (
+        <div style={marginaliaLine}>
+          <i>
+            Fellows who are not next to you when the contract starts does not count toward its final scaling.
+          </i>
         </div>
       )}
       {!!data.is_towner && !data.complete && (
@@ -356,6 +363,7 @@ export const QuestScroll = () => {
     hasBlockadeTimer ||
     hasHuntTimer ||
     !!data.blockade_armed ||
+    !!data.armed ||
     hasTownerSeal;
   const hasSealBanners = !!(data.shows_commission_seal || data.levy_exempt);
 
