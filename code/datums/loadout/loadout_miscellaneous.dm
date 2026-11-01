@@ -16,7 +16,7 @@
 	sort_category = "Misc"
 
 /datum/loadout_item/chess
-	name = "Foldable Board Game Set"
+	name = "Foldable Chessboard"
 	path = /obj/item/chessboard_folded
 	sort_category = "Misc"
 
