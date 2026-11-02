@@ -38,7 +38,6 @@
 	STASTR = 13
 	STASPD = 10
 	deaggroprob = 0
-	del_on_deaggro = 999 SECONDS
 	food = 0
 	dodgetime = 15
 	aggressive = 1

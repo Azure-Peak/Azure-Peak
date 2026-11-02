@@ -64,7 +64,6 @@
 	STAWIL = 17
 
 	deaggroprob = 0
-	del_on_deaggro = 99 SECONDS
 	food = 0
 	dodgetime = 20
 	aggressive = TRUE

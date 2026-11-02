@@ -53,7 +53,6 @@
 	STASPD = 12
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	del_on_deaggro = 44 SECONDS
 	food = 0
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 	dodgetime = 30

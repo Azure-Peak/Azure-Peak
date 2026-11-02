@@ -37,7 +37,6 @@
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	canparry = TRUE
-	// del_on_deaggro = 44 SECONDS
 	food = 0
 	attack_sound = list('sound/misc/lava_death.ogg')
 	dodgetime = 30

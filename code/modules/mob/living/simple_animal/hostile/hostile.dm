@@ -21,8 +21,6 @@
 	var/ranged_cooldown_time = 30 //How long, in deciseconds, the cooldown of ranged attacks is
 	var/check_friendly_fire = 0 // Should the ranged mob check for friendlies when shooting
 
-	var/del_on_deaggro = 0 //seconds to delete after losing aggro
-
 	cmode = 1
 	setparrytime = 30
 	dodgetime = 30

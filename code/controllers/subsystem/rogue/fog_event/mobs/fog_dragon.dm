@@ -26,7 +26,6 @@
 	STASTR = 20
 	STASPD = 13
 	deaggroprob = 0
-	del_on_deaggro = 9999 SECONDS
 	dodgetime = 30
 
 /mob/living/simple_animal/hostile/retaliate/rogue/revenant/dragon/Initialize(mapload)

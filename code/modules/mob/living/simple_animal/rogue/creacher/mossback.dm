@@ -36,7 +36,6 @@
 	)
 	pooptype = null
 	deaggroprob = 0
-	del_on_deaggro = 10 SECONDS
 	food = 0
 	attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg','sound/combat/wooshes/blunt/wooshhuge (3).ogg')
 	dodgetime = 0

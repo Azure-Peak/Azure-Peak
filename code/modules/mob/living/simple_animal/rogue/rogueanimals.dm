@@ -96,7 +96,6 @@
 	ADD_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/tamed(mob/user)
-	del_on_deaggro = 0
 	aggressive = 0
 	if(ai_controller?.has_aggro())
 		if(prob(23))

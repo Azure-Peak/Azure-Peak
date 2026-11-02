@@ -42,7 +42,6 @@
 	STASPD = 9
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	del_on_deaggro = 44 SECONDS
 	food = 0
 	attack_sound = list('sound/gore/flesh_eat_01.ogg','sound/gore/flesh_eat_02.ogg','sound/gore/flesh_eat_03.ogg')
 	dodgetime = 30

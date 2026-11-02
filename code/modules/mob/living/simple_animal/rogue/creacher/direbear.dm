@@ -55,7 +55,6 @@
 	STASPD = 9
 	simple_detect_bonus = 40	//No sneaking by our boy..
 	deaggroprob = 0
-	del_on_deaggro = FALSE //we dont despawn, our boy chills
 	food = 0
 	remains_type = /obj/effect/decal/remains/bear
 	attack_sound = list('sound/vo/mobs/direbear/direbear_attack1.ogg','sound/vo/mobs/direbear/direbear_attack2.ogg','sound/vo/mobs/direbear/direbear_attack3.ogg')

@@ -53,7 +53,6 @@
 	STASTR = 20
 	STASPD = 13
 	deaggroprob = 0
-	del_on_deaggro = 9999 SECONDS
 	food = 0
 	attack_sound = list('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg','sound/combat/hits/blunt/flailhit.ogg')
 	dodgetime = 30

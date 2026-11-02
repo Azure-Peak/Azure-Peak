@@ -38,7 +38,6 @@
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	candodge = TRUE
-	// del_on_deaggro = 44 SECONDS
 	food = 0
 	attack_sound = 'sound/combat/hits/bladed/smallslash (1).ogg'
 	attack_verb_continuous = "jabs"

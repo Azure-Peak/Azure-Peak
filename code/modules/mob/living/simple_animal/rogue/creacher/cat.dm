@@ -39,7 +39,6 @@
 	faction = list(FACTION_ROGUEANIMAL)
 	deaggroprob = 15
 	dodgetime = 10
-	del_on_deaggro = 99 SECONDS
 
 	//new ai, old ai off
 	ai_controller = /datum/ai_controller/generic

@@ -799,6 +799,7 @@
 #include "code\datums\components\cursed_item.dm"
 #include "code\datums\components\deadchat_control.dm"
 #include "code\datums\components\deaditeslayer.dm"
+#include "code\datums\components\deaggro_despawn.dm"
 #include "code\datums\components\decal.dm"
 #include "code\datums\components\dejavu.dm"
 #include "code\datums\components\earprotection.dm"
