@@ -453,6 +453,18 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	CancelActions()
 	return TRUE
 
+/datum/ai_controller/proc/has_aggro()
+	return length(blackboard[BB_BASIC_MOB_RETALIATE_LIST]) || length(blackboard[BB_MOB_AGGRO_TABLE])
+
+/datum/ai_controller/proc/clear_aggro()
+	clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
+	clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+	clear_blackboard_key(BB_BASIC_MOB_FLEE_TARGET)
+	clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+	if(blackboard[BB_MOB_AGGRO_TABLE])
+		blackboard[BB_MOB_AGGRO_TABLE] = list()
+	CancelActions()
+
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
 	set_ai_status(get_expected_ai_status())

@@ -70,11 +70,6 @@
 	if(mimicking_chest::desc)
 		. += span_info("[mimicking_chest::desc]")
 
-/mob/living/simple_animal/hostile/retaliate/rogue/mimic/find_food()
-	. = ..()
-	if(!.)
-		return eat_bodies()
-
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Life()
 	..()
 	if(pulledby)

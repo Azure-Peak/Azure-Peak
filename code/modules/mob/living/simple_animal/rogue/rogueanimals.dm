@@ -91,95 +91,11 @@
 			for(var/i in 1 to death_loot[loot_path])
 				new loot_path(deathspot)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/handle_automated_movement()
-	set waitfor = FALSE
-	if(!stop_automated_movement && wander && !doing)
-		if(ssaddle && has_buckled_mobs())
-			return 0
-		if(find_food())
-			return
-		else
-			..()
-
-/mob/living/simple_animal/hostile/retaliate/rogue/proc/find_food()
-	if(food > 50 && !eat_forever)
-		return
-	var/list/foundfood = list()
-	if(stat || !food_typecache)
-		return
-	for(var/obj/item/F in view(1, src))
-		if(!food_typecache[F.type])
-			continue
-		if(!src.Adjacent(F))
-			foundfood += F
-			continue
-		face_atom(F)
-		playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
-		qdel(F)
-		food = max(food + 30, 100)
-		return TRUE
-	for(var/obj/item/F in foundfood)
-		var/turf/T = get_turf(F)
-		Goto(T, 0)
-		return TRUE
-	return FALSE
-
 /mob/living/simple_animal/hostile/retaliate/rogue/AttackingTarget()
 	//If you can't act and dont have a player stop moving.
 	if(!can_act && !client)
 		return FALSE
 	return ..()
-
-/mob/living/simple_animal/hostile/retaliate/rogue/proc/eat_bodies()
-	var/mob/living/L
-//	var/list/around = view(aggro_vision_range, src)
-	var/list/around = hearers(1, src)
-	var/list/foundfood = list()
-	if(stat)
-		return
-	for(var/mob/living/eattarg in around)
-		if(eattarg.stat != CONSCIOUS)
-			// Skip mobs that were ever player-controlled — don't RR player corpses
-			if(eattarg.mind || (iscarbon(eattarg) && eattarg:last_mind))
-				continue
-			foundfood += eattarg
-			L = eattarg
-			if(src.Adjacent(L))
-				if(iscarbon(L))
-					var/mob/living/carbon/C = L
-					if(attack_sound)
-						playsound(src, pick(attack_sound), 100, TRUE, -1)
-					face_atom(C)
-					src.visible_message(span_danger("[src] starts to rip apart [C]!"))
-					if(do_after(src,100, target = L))
-						var/obj/item/bodypart/limb
-						var/list/limb_list = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
-						for(var/zone in limb_list)
-							limb = C.get_bodypart(zone)
-							if(limb)
-								limb.dismember()
-								return TRUE
-						limb = C.get_bodypart(BODY_ZONE_HEAD)
-						if(limb)
-							limb.dismember()
-							return TRUE
-						limb = C.get_bodypart(BODY_ZONE_CHEST)
-						if(limb)
-							if(!limb.dismember())
-								C.gib()
-							return TRUE
-				else
-					if(attack_sound)
-						playsound(src, pick(attack_sound), 100, TRUE, -1)
-					src.visible_message(span_danger("[src] starts to rip apart [L]!"))
-					if(do_after(src,100, target = L))
-						L.gib()
-						return TRUE
-	for(var/mob/living/eattarg in foundfood)
-		var/turf/T = get_turf(eattarg)
-		Goto(T, 0)
-		return TRUE
-	return FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/Initialize(mapload)
 	. = ..()
@@ -189,19 +105,13 @@
 		tamed()
 	ADD_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/LoseTarget()
-	..()
-	retreat_distance = initial(retreat_distance)
-	minimum_distance = initial(minimum_distance)
-
 /mob/living/simple_animal/hostile/retaliate/rogue/tamed(mob/user)
 	del_on_deaggro = 0
 	aggressive = 0
-	if(enemies.len)
+	if(ai_controller?.has_aggro())
 		if(prob(23))
-			clear_enemies()
+			ai_controller.clear_aggro()
 			src.visible_message(span_notice("[src] calms down."))
-			LoseTarget()
 		else
 			return
 	if(user)
@@ -215,17 +125,12 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/Life()
 	. = ..()
 	if(.)
-		if(enemies.len)
+		if(ai_controller?.has_aggro())
 			if(prob(4))
 				emote("cidle")
-			if(prob(deaggroprob))
-				if(mob_timers["aggro_time"])
-					if(world.time > mob_timers["aggro_time"] + 30 SECONDS)
-						clear_enemies()
-						src.visible_message(span_info("[src] calms down."))
-						LoseTarget()
-				else
-					mob_timers["aggro_time"] = world.time
+			if(prob(deaggroprob) && world.time > ai_controller.blackboard[BB_LAST_HIT_TIME] + 30 SECONDS)
+				ai_controller.clear_aggro()
+				src.visible_message(span_info("[src] calms down."))
 		else
 			if(prob(2)) //Plays an idle sound
 				emote("idle")
@@ -247,15 +152,6 @@
 				production--
 				udder.generateMilk()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/Retaliate()
-//	if(!enemies.len && message)
-//		src.visible_message(span_warning("[src] panics!"))
-//	if(flee)
-//		retreat_distance = 10
-//		minimum_distance = 10
-	mob_timers["aggro_time"] = world.time
-	..()
-
 /mob/living/simple_animal/hostile/retaliate/rogue/attackby(obj/item/O, mob/user, params)
 	if(!stat && istype(O, /obj/item/reagent_containers/glass))
 		if(udder)
@@ -269,8 +165,8 @@
 	walk(src,0)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/shood(mob/user)
-	if(tame)
-		Retaliate()
+	if(tame && !(user in friends))
+		ai_controller?.force_aggro(user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/onkick(mob/M)
 	..()

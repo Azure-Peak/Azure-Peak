@@ -152,20 +152,17 @@
 /mob/living/simple_animal/hostile/rogue/skeleton/beckoned(mob/user)
 	if (can_control(user))
 		for(var/mob/living/simple_animal/hostile/rogue/skeleton/target in viewers(user))
-			target.LoseTarget()
-			target.search_objects = 2
+			target.pet_passive = TRUE
+			target.ai_controller?.clear_aggro()
 			target.add_overlay("peace_overlay")
 		return
 
 /mob/living/simple_animal/hostile/rogue/skeleton/shood(mob/user)
 	if (can_control(user))
 		for(var/mob/living/simple_animal/hostile/rogue/skeleton/target in viewers(user))
-			target.RegainSearchObjects()
+			target.pet_passive = FALSE
+			target.cut_overlay("peace_overlay")
 		return
-
-/mob/living/simple_animal/hostile/rogue/skeleton/RegainSearchObjects(value)
-	cut_overlay("peace_overlay")
-	. = ..()
 
 
 /datum/intent/simple/claw/skeleton_unarmed
