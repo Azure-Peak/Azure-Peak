@@ -101,6 +101,10 @@
 					"westabove" = 0
 				)
 
+/obj/item/quiver/Destroy()
+	QDEL_LIST(arrows)
+	return ..()
+
 /obj/item/quiver/proc/get_current_weight()
 	. = 0
 	for(var/obj/item/ammo_casing/caseless/rogue/A in arrows)
