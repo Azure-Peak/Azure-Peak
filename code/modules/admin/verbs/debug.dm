@@ -1523,6 +1523,18 @@ GLOBAL_LIST_EMPTY(loadout_selected_advclasses)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Show SendMaps Profiling")
 	log_admin("[key_name(src)] opened sendmaps profiling.")
 
+/client/proc/show_byond_profiling()
+	set category = "Debug.Profile"
+	set name = "Show BYOND Profiling"
+	set desc = "Opens BYOND's native proc profiler."
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	src << link("?debug=profile&window=test")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Show BYOND Profiling")
+	log_admin("[key_name(src)] opened the BYOND profiler.")
+
 /client/proc/reload_configuration()
 	set category = "Debug"
 	set name = "Reload Configuration"

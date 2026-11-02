@@ -1,0 +1,5 @@
+author: "Etheo"
+delete-after: True
+changes:
+  - image: "Fixed Fyrebloom Blend's Missing Sprite"
+  - image: "Fixed Valorian Sword's Missing Sprite"

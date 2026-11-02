@@ -1,8 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Added Perilous towner quest, which cost 350m and yield more materials. Needs a group of 3 to take on on the board."
-  - bugfix: "Fixed an issue where the player is booted out of a Noto bounty before the NPC disappear"
-  - rscadd: "Genericized some towner quest description. Made them roll from all factions in a region instead of each towner quest having bespoke factions. Improved their distribution a bit."
-  - rscadd: "Ported 1 new mob type from our downstream for the Underdark"
-  - balance: "Reverted the nerf to easy and medium contracts payout"

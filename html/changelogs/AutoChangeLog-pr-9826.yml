@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Disable AI should work on archer NPC now"
+  - bugfix: "Possibly fixed issue with NPC retrieving arrows out of other people's inventory and \"deleting\" it"

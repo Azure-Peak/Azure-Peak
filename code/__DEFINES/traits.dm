@@ -276,6 +276,7 @@
 #define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
 #define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
 #define TRAIT_NPC_EXAMINE "NPC Examination" //Mindless NPC examination check, goes through armor.
+#define TRAIT_AI_DISABLED "AI Disabled"
 
 //Temp Traits - Usually Short-Term Buffs
 #define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
