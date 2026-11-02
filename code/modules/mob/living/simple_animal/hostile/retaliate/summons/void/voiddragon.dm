@@ -11,6 +11,16 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	ADD_TRAIT(src, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_SHOCKIMMUNE, TRAIT_GENERIC)
 	src.adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE)	//parrying the voiddragon should be hard
+	AddComponent(/datum/component/ai_aggro_system, aggro_range = 5, maintain_range = 18)
+	for(var/ability_type in list(
+		/datum/action/cooldown/spell/voiddragon/sundering_lightning,
+		/datum/action/cooldown/spell/voiddragon/chain_lightning,
+		/datum/action/cooldown/spell/voiddragon/summon_obelisks,
+		/datum/action/cooldown/spell/voiddragon/swoop,
+		/datum/action/cooldown/spell/voiddragon/slam,
+	))
+		var/datum/action/cooldown/spell/ability = new ability_type(src)
+		ability.Grant(src)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)	//no wounding the void dragon
 	return
@@ -18,8 +28,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 		TailSwipe(pulledby)
 
 #define DRAKE_SWOOP_HEIGHT 270 //how high up drakes go, in pixels
@@ -28,10 +37,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 #define SWOOP_DAMAGEABLE 1
 #define SWOOP_INVULNERABLE 2
 
-
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/SetRecoveryTime(buffer_time)
-	recovery_time = world.time + buffer_time
-	ranged_cooldown = world.time + buffer_time
 
 /// This proc is called by the HRD-MDE grenade to enrage the megafauna. This should increase the megafaunas attack speed if possible, give it new moves, or disable weak moves. This should be reverseable, and reverses on zlvl change.
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/enrage()
@@ -81,14 +86,12 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	obj_damage = 400	//Behold, nothing shall keep the dragon out
 	melee_damage_lower = 80
 	melee_damage_upper = 80
-	retreat_distance = 0
-	retreat_health = 0
-	minimum_distance = 0
+	AIStatus = AI_OFF
+	can_have_ai = FALSE
+	ai_controller = /datum/ai_controller/voiddragon
 	aggressive = 1
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
-	move_to_delay = 5
-	ranged = TRUE
 	canparry = TRUE
 	pixel_x = -32
 	var/swooping = NONE
@@ -96,24 +99,12 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	deathmessage = "collapses to the floor with a final roar, the impact rocking the ground."
 	footstep_type = FOOTSTEP_MOB_HEAVY
 
-	var/anger_modifier = 0
-	var/recovery_time = 0
 	var/chosen_attack = 1 // chosen attack num
 	/// Has someone enabled hard mode?
 	var/enraged = FALSE
 	var/sound/Snd // so far only way i can think of to stop a sound, thank MSO for the idea.
-	var/cl_cd
-	var/lightning_cd
-	var/summon_cd
-	var/slam_cd
 	summon_primer = "You are ancient. A creature long since banished to the void ages past, you were trapped in a seemingly timeless abyss. Now you've been freed, returned to the world- and everything has changed. It seems some of your constructs remain buried beneath the ground. How you react to these events, only time can tell."
 	summon_tier = 5
-	inherent_spells = list(
-	/obj/effect/proc_holder/spell/invoked/dragon_lightning,
-	/obj/effect/proc_holder/spell/self/dragon_slam,
-	/obj/effect/proc_holder/spell/self/summon_obelisks,
-	/obj/effect/proc_holder/spell/invoked/dragon_swoop,
-	/obj/effect/proc_holder/spell/invoked/chain_lightning_breath)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/no_loot
 	death_loot = list(/obj/item/roguecoin/gold = 4) // Yes I lied, it drops 4 gold coins.
@@ -152,89 +143,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	M.chosen_attack = chosen_attack_num
 	to_chat(M, chosen_message)
 
-/obj/effect/proc_holder/spell/invoked/dragon_lightning
-	name = "Summon Sundering Lightning"
-	recharge_time = 20 SECONDS
-	overlay_state = "lightning_sunder"//this icon is really awful but it's consistent with the existing spell
-	chargetime = 0
-	range = 15
-	antimagic_allowed = TRUE
-/obj/effect/proc_holder/spell/invoked/dragon_lightning/cast(list/targets, mob/living/user = usr)
-	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon))
-		var/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/dragon = user
-		if(world.time <= dragon.lightning_cd)
-			to_chat(user,span_warning("Too soon!"))
-			revert_cast()
-			return FALSE
-		dragon.visible_message(span_danger("[dragon] calls forth lightning from the sky!"))
-		dragon.create_lightning(targets[1])
-
-/obj/effect/proc_holder/spell/self/dragon_slam
-	name = "Slam"
-	recharge_time = 15 SECONDS
-	overlay_state = "bloodrage"
-	chargetime = 0
-	antimagic_allowed = TRUE
-
-/obj/effect/proc_holder/spell/self/dragon_slam/cast(list/targets, mob/living/user = usr)
-	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon))
-		var/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/dragon = user
-		if(world.time <= dragon.slam_cd)
-			to_chat(user,span_warning("Too soon!"))
-			revert_cast()
-			return FALSE
-		dragon.visible_message(span_colossus("[dragon] slams the ground, creating a shockwave!"))
-		dragon.dragon_slam(dragon,2,10,8)
-
-/obj/effect/proc_holder/spell/self/summon_obelisks
-	name = "Summon Obelisks"
-	recharge_time = 200 SECONDS
-	overlay_state = "sands_of_time"
-	chargetime = 0
-	antimagic_allowed = TRUE
-
-/obj/effect/proc_holder/spell/self/summon_obelisks/cast(list/targets, mob/living/user = usr)
-	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon))
-		var/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/dragon = user
-		if(world.time <= dragon.summon_cd)
-			to_chat(user,span_warning("Too soon!"))
-			revert_cast()
-			return FALSE
-		dragon.summon_obelisk()
-
-/obj/effect/proc_holder/spell/invoked/dragon_swoop
-	name = "Swoop Attack"
-	recharge_time = 30 SECONDS//there's not a fitting var for this because the lightning swoop thing is handled differently than other procs, just gonna make it do this instead
-	overlay_state = "dendor"
-	chargetime = 0
-	range = 15
-	antimagic_allowed = TRUE
-
-/obj/effect/proc_holder/spell/invoked/dragon_swoop/cast(list/targets, mob/living/user = usr)
-	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon))
-		var/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/dragon = user
-		dragon.swoop_attack(manual_target = targets[1])
-
-/obj/effect/proc_holder/spell/invoked/chain_lightning_breath
-	name = "Chain Lightning"
-	recharge_time = 50 SECONDS
-	overlay_state = "lightning"
-	chargetime = 0
-	range = 15
-	antimagic_allowed = TRUE
-
-/obj/effect/proc_holder/spell/invoked/chain_lightning_breath/cast(list/targets, mob/living/user = usr)
-	if(istype(user, /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon))
-		var/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/dragon = user
-		if(world.time <= dragon.cl_cd)
-			to_chat(user,span_warning("Too soon!"))
-			revert_cast()
-			return FALSE
-		dragon.visible_message(span_colossus("[src] opens its maw, and lightning crackles beyond its teeth!"))
-		if(!dragon.chain_lightning(targets[1], dragon))
-			revert_cast()
-			return FALSE
-
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/TailSwipe(mob/victim)
 	var/mob/living/target = victim
 	src.visible_message(span_notice("[src] slams [target] with its tail, knocking them to the floor!"))
@@ -242,33 +150,10 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	target.apply_damage(20, BRUTE)
 	shake_camera(target, 2, 1)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/OpenFire()
-	if(swooping)
-		return
-
-	anger_modifier = clamp(max((maxHealth - health) / 50, enraged ? 15 : 0), 0, 20)
-	ranged_cooldown = world.time + ranged_cooldown_time
-
-	if(client)
-		return
-	if(prob(15 + anger_modifier))
-		lava_swoop()
-	if(world.time >= cl_cd)
-		src.visible_message(span_colossus("[src] opens its maw, and lightning crackles beyond its teeth."))
-		chain_lightning(target, src)
-		return
-	if(health <= 0.75 * maxHealth && world.time >= summon_cd)
-		summon_obelisk()
-		return
-	if(world.time >= lightning_cd)
-		create_lightning(target)
-		return
-
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/summon_obelisk()
 	var/list/spawnLists = list(/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk,/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk)
 	var/reinforcement_count = 2
 	src.visible_message(span_cultbigbold("[src] summons abberant obelisks from beneath the ground."))
-	summon_cd = world.time + 2000
 	while(reinforcement_count > 0)
 		var/list/turflist = list()
 		for(var/turf/t in RANGE_TURFS(1, src))
@@ -282,25 +167,10 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		reinforcement_count--
 		continue
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/MeleeAction(patience = TRUE)
-	if(rapid_melee > 1)
-		var/datum/callback/cb = CALLBACK(src, PROC_REF(CheckAndAttack))
-		var/delay = SSnpcpool.wait / rapid_melee
-		for(var/i in 1 to rapid_melee)
-			addtimer(cb, (i - 1)*delay)
-	else
-		if(world.time >= slam_cd && !client)
-			src.visible_message(span_colossus("[src] slams the ground, creating a shockwave!"))
-			dragon_slam(src,2,10,8)
-		AttackingTarget()
-	if(patience)
-		GainPatience()
-
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/dragon_slam(mob/owner, range, delay, throw_range)
 	var/turf/origin = get_turf(owner)
 	if(!origin)
 		return
-	slam_cd = world.time + 150
 	var/list/all_turfs = RANGE_TURFS(range, origin)
 	for(var/sound_range = 0 to range)
 		playsound(origin,'sound/misc/bamf.ogg', 600, TRUE, 10)
@@ -324,7 +194,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		return
 	var/turf/targetturf = get_turf(target)
 	var/last_dist = 0
-	lightning_cd = world.time + 250
 	for(var/t in spiral_range_turfs(4, targetturf))
 		var/turf/T = t
 		if(!T)
@@ -335,36 +204,22 @@ It will also call down lightning strikes from the sky, and fling people with it'
 			sleep(2 + min(4 - last_dist, 12) * 0.5) //gets faster
 		new /obj/effect/temp_visual/telegraph/targetlightning(T)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/lightning_strikes(amount, delay = 0.8)
-	if(!target)
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/lightning_strikes(atom/victim, amount, delay = 0.8)
+	if(!victim)
 		return
-	target.visible_message(span_colossus("Lightning starts to strike down from the sky!"))
+	victim.visible_message(span_colossus("Lightning starts to strike down from the sky!"))
 	while(amount > 0)
-		if(QDELETED(target))
+		if(QDELETED(victim))
 			break
-		var/turf/T = pick(RANGE_TURFS(enraged ? 2 : 1, target))
+		var/turf/T = pick(RANGE_TURFS(enraged ? 2 : 1, victim))
 		new /obj/effect/temp_visual/telegraph/targetlightning(T)
 		amount--
 		SLEEP_CHECK_DEATH(delay)
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/lava_swoop(amount = 30)
-	if(health < maxHealth * 0.5)
-		return swoop_attack(lava_arena = TRUE, swoop_cooldown = enraged ? 2 SECONDS : 6 SECONDS)
-	INVOKE_ASYNC(src, PROC_REF(lightning_strikes), enraged ? 60 : amount)
-	swoop_attack(FALSE, target, 1000) // longer cooldown until it gets reset below
-	SLEEP_CHECK_DEATH(0)
-	if(health < maxHealth*0.5)
-		SetRecoveryTime(40)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/swoop_attack(lava_arena = FALSE, atom/movable/manual_target, swoop_cooldown = 30)
-	if(stat || swooping)
-		return
-	if(manual_target)
-		GiveTarget(manual_target)
-	if(!target)
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/swoop_attack(atom/victim)
+	if(stat || swooping || !victim)
 		return
 	playsound(loc, 'sound/vo/mobs/vdragon/drgnroar.ogg', 50, TRUE, -1)
-	stop_automated_movement = TRUE
 	swooping |= SWOOP_DAMAGEABLE
 	movement_type = FLYING
 	density = FALSE
@@ -373,11 +228,11 @@ It will also call down lightning strikes from the sky, and fling people with it'
 
 	var/negative
 	var/initial_x = x
-	if(target.x < initial_x) //if the target's x is lower than ours, swoop to the left
+	if(victim.x < initial_x) //if the target's x is lower than ours, swoop to the left
 		negative = TRUE
-	else if(target.x > initial_x)
+	else if(victim.x > initial_x)
 		negative = FALSE
-	else if(target.x == initial_x) //if their x is the same, pick a direction
+	else if(victim.x == initial_x) //if their x is the same, pick a direction
 		negative = prob(50)
 	var/obj/effect/temp_visual/dragon_flight/F = new /obj/effect/temp_visual/dragon_flight(loc, negative)
 
@@ -399,8 +254,8 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	SLEEP_CHECK_DEATH(7)
 
-	while(target && loc != get_turf(target))
-		forceMove(get_step(src, get_dir(src, target)))
+	while(!QDELETED(victim) && loc != get_turf(victim))
+		forceMove(get_step(src, get_dir(src, victim)))
 		SLEEP_CHECK_DEATH(0.5)
 
 	// Ash drake flies onto its target and rains fire down upon them
@@ -436,7 +291,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	density = TRUE
 	SLEEP_CHECK_DEATH(1)
 	swooping &= ~SWOOP_DAMAGEABLE
-	SetRecoveryTime(swoop_cooldown)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/ex_act(severity, target)
 	if(severity == EXPLODE_LIGHT)
@@ -454,18 +308,10 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	if(!swooping)
 		return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/DestroySurroundings()
-	if(!swooping)
-		..()
-
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/Move()
 	if(binded)
 		to_chat(src,span_warning("You're currently bound and unable to move!"))
 		return
-	if(!swooping)
-		..()
-
-/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/Goto(target, minimum_distance)
 	if(!swooping)
 		..()
 
@@ -585,7 +431,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	if(do_after(user, 2 SECONDS, target = src))
 		user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
 		src.visible_message(span_colossus("[src] unleashes a storm of lightning from its maw!"))
-		cl_cd = world.time + 500
 		Bolt(user,target,30,5,user)
 		src.move_resist = initial(src.move_resist)
 		return TRUE
