@@ -52,6 +52,8 @@
 		dir2wall = get_dir(user,src)
 	if(!(dir2wall in GLOB.cardinals))
 		return
+	if(user.cmode)
+		return
 	user.wallpressed = dir2wall
 	user.update_wallpress_slowdown()
 	if(user.m_intent == MOVE_INTENT_SNEAK)
