@@ -9,3 +9,66 @@
   - admin: SLOOC Mute hotlink has been removed.
   - admin: Prayers can now be responded to via direct narrate hotlink instead of subtle
       message.
+2026-11-02:
+  BurpleBineapple:
+  - image: Fixes some incorrectly offset icons for DasFox's donator items
+  Etheo:
+  - rscadd: Adds saddleborn to Vaquero
+  - rscdel: Removes Vaquero's now redundant loadout saiga
+  - balance: Lowers Vaquero's Riding skill to apprentice, which is offset back to
+      jman by their saddleborn virtue
+  - balance: Restricts Saddleborn Characters From Picking Vaquero
+  IHaveNoOriginality:
+  - rscadd: 'expert skill over jman if you choose a ranged option as hspy
+
+      :cl:
+
+      <!-- Both :cl:''s are required for the changelog to work! You can put your name
+      to the right of the first :cl: if you want to overwrite your GitHub username
+      as author ingame. -->
+
+      <!-- You can use multiple of the same prefix (they''re only used for the icon
+      ingame) and delete the unneeded ones. Despite some of the tags, changelogs should
+      generally represent how a player might be affected by the changes rather than
+      a summary of the PR''s contents. -->'
+  KatTheFox:
+  - bugfix: Blind vice now lets you mouseover things in your vision cone, so you can
+      track people behind you just as well as in front. You could already see their
+      footsteps, but before you couldn't hover over them to actively track.
+  RosySaturniidae:
+  - code_imp: patron color defines are now in colors.dm
+  - code_imp: replaced all instances of GLOW_COLOR_patron
+  Ryan180602:
+  - balance: Endure can no longer heal severe wounds. Minor/Moderate only.
+  - balance: Endure doesn't restore blood. It halves bleeding (instead of fully killing
+      bleed)
+  - balance: Disciples lose thick blooded, once again. (They've Endure)
+  - balance: Absolver rebuke where you hit them and it hurts you is removed.
+  - balance: Weep/Absolve need the Golgotha in hand and are a red-intent 3/5s (respectively)
+      channel cast.
+  WatermelonsEverywhere:
+  - rscadd: Added the helmetless visor to the SILVERFACE
+  WeNeedMorePhoron:
+  - rscdel: Removed pickpocketing mechanics and stealing skills.
+  - rscadd: Replaced the frost shards in poke spell selection with a single target
+      frost bolt, which is as intended.
+  - rscadd: Added Perilous towner quest, which cost 350m and yield more materials.
+      Needs a group of 3 to take on on the board.
+  - bugfix: Fixed an issue where the player is booted out of a Noto bounty before
+      the NPC disappear
+  - rscadd: Genericized some towner quest description. Made them roll from all factions
+      in a region instead of each towner quest having bespoke factions. Improved their
+      distribution a bit.
+  - rscadd: Ported 1 new mob type from our downstream for the Underdark
+  - balance: Reverted the nerf to easy and medium contracts payout
+  - rscadd: 'Reclassified some erroneous alcohol classifications: -Norwandine Ale
+      wine -> ale. Lirvas Toper spirit -> cider. Zagul -> Ale. Aurorian Wine -> Ale
+      (It says it is an elven BEER brewed from a herbal gruit). Fireleaf Wine -> Ale.
+      Sourwine None -> Wine. Murkwine None -> Spirit. Nocmash None -> Spirit'
+  - rscdel: Deleted unused spotted hen, green beer and light beer
+  - spellcheck: Rewrote some spell descriptions
+  - rscadd: Renamed the light, medium and heavy armor economic category to fabric,
+      metal and heavy metal to reduce confusion.
+  - refactor: Removed a bunch of unreferenced spells
+  changelingonberry:
+  - server: Byond profiler is now accessible via verb
