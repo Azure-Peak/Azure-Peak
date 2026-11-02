@@ -36,7 +36,6 @@
 	/obj/projectile/magic/spitfire)
 	patron = /datum/patron/inhumen/zizo
 	footstep_type = FOOTSTEP_MOB_SHOE
-	stat_attack = UNCONSCIOUS
 
 	var/minions_to_spawn = 6
 	var/mob_type

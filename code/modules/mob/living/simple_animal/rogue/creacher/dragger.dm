@@ -19,7 +19,6 @@
 	response_help_simple = "pass through"
 	maxHealth = DRAGGER_HEALTH
 	health = DRAGGER_HEALTH
-	stat_attack = UNCONSCIOUS
 	harm_intent_damage = 1
 	obj_damage = 1
 	melee_damage_lower = 30

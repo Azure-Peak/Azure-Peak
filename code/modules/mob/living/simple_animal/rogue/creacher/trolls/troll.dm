@@ -68,7 +68,6 @@
 	food = 0
 	dodgetime = 20
 	aggressive = TRUE
-//	stat_attack = UNCONSCIOUS
 	remains_type = /obj/effect/decal/remains/troll
 
 	ai_controller = /datum/ai_controller/troll

@@ -30,7 +30,6 @@
 	speak_emote = list("clatters")
 
 	faction = list(FACTION_MIMIC, FACTION_HOSTILE)
-	stat_attack = UNCONSCIOUS
 
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, /obj/item/bodypart, /obj/item/organ)
 	food = 0

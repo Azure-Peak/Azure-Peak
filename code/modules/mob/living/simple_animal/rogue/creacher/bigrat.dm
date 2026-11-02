@@ -61,7 +61,6 @@
 //new ai, old ai off
 	ai_controller = /datum/ai_controller/big_rat
 	move_base_delay = MOVEMENT_DELAY_SPD_3
-	stat_attack = UNCONSCIOUS
 	var/undead_rat = FALSE
 
 /obj/effect/decal/remains/bigrat

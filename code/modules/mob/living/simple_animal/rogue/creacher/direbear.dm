@@ -61,7 +61,6 @@
 	attack_sound = list('sound/vo/mobs/direbear/direbear_attack1.ogg','sound/vo/mobs/direbear/direbear_attack2.ogg','sound/vo/mobs/direbear/direbear_attack3.ogg')
 	dodgetime = 30
 	aggressive = 1
-	stat_attack = UNCONSCIOUS	//You falling unconcious won't save you, little one..
 	eat_forever = TRUE
 
 //new ai, old ai off

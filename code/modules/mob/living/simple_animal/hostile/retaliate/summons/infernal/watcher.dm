@@ -40,7 +40,6 @@
 	attack_sound = list('sound/misc/lava_death.ogg')
 	dodgetime = 30
 	aggressive = 1
-//	stat_attack = UNCONSCIOUS
 	ai_controller = /datum/ai_controller/infernal/harasser
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 

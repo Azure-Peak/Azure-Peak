@@ -58,7 +58,6 @@
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 	dodgetime = 30
 	aggressive = 1
-//	stat_attack = UNCONSCIOUS
 	remains_type = /obj/effect/decal/remains/wolf
 	eat_forever = TRUE
 	var/chomp_cd = 0

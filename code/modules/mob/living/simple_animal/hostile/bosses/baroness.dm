@@ -44,7 +44,6 @@
 	var/allowed_projectile_types = list(/obj/projectile/magic/lightning, /obj/projectile/magic/frostbolt, /obj/projectile/energy/rogue3, /obj/projectile/magic/acidsplash)
 	patron = /datum/patron/inhumen/zizo
 	footstep_type = FOOTSTEP_MOB_SHOE
-	stat_attack = UNCONSCIOUS
 
 	var/mob_type
 	var/mob/new_mob

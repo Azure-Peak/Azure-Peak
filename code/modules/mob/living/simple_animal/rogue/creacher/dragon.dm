@@ -63,7 +63,6 @@
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
 	limb_destroyer = TRUE
-//	stat_attack = UNCONSCIOUS
 
 	var/breath_ability = /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/drakkyn
 	var/fireball_ability = /datum/action/cooldown/spell/projectile/fireball/mob_ability/drakkyn

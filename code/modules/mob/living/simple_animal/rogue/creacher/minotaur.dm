@@ -58,8 +58,6 @@
 	ai_controller = /datum/ai_controller/minotaur
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
-//	stat_attack = UNCONSCIOUS
-
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)

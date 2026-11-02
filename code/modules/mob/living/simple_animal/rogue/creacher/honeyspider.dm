@@ -49,7 +49,6 @@
 	//new ai, old ai off
 	ai_controller = /datum/ai_controller/spider
 	move_base_delay = MOVEMENT_DELAY_SPD_10
-	stat_attack = UNCONSCIOUS
 
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated
 	threat_point = THREAT_HIGH
