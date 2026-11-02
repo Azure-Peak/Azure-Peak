@@ -106,44 +106,66 @@
 	else
 		..()
 
+/obj/item/fishingrod/proc/unseat(obj/item/old, mob/user)
+	if(!old)
+		return
+	if(!user.put_in_hands(old))
+		old.forceMove(get_turf(user))
+
 /obj/item/fishingrod/attackby(obj/item/I, mob/user, params)
-	if(baited && reel && hook && line)
+	if(!I.isbait && !istype(I, /obj/item/natural/bundle/worms) && !istype(I, /obj/item/fishing))
 		return ..()
 
 	if(I.isbait)
-		if(!baited)
-			I.forceMove(src)
-			baited = I
+		var/obj/item/old = baited
+		I.forceMove(src)
+		baited = I
+		unseat(old, user)
+		if(old)
+			user.visible_message("<span class='notice'>[user] swaps the bait on [src].</span>", "<span class='notice'>I swap [old] for [I] on [src].</span>")
+		else
 			user.visible_message("<span class='notice'>[user] hooks something to [src].</span>", "<span class='notice'>I hook [I] to [src].</span>")
-			playsound(src, 'sound/foley/pierce.ogg', 50, FALSE)
+		playsound(src, 'sound/foley/pierce.ogg', 50, FALSE)
 	else if(istype(I, /obj/item/natural/bundle/worms))
-		if(!baited)
-			var/obj/item/natural/bundle/worms/W = I
-			baited = new W.stacktype(src)
-			W.amount--
-			if(W.amount == 1)
-				new W.stacktype(get_turf(user))
-				qdel(W)
-			user.visible_message("<span class='notice'>[user] hooks something to [src].</span>", "<span class='notice'>I hook [W.stacktype] to [src].</span>")
-			playsound(src, 'sound/foley/pierce.ogg', 50, FALSE)
-	else if(istype(I, /obj/item/fishing))
+		var/obj/item/old = baited
+		baited = null
+		unseat(old, user)
+		var/obj/item/natural/bundle/worms/W = I
+		baited = new W.stacktype(src)
+		W.amount--
+		if(W.amount == 1)
+			new W.stacktype(get_turf(user))
+			qdel(W)
+		if(old)
+			user.visible_message("<span class='notice'>[user] swaps the bait on [src].</span>", "<span class='notice'>I swap [old] for [baited] on [src].</span>")
+		else
+			user.visible_message("<span class='notice'>[user] hooks something to [src].</span>", "<span class='notice'>I hook [baited] to [src].</span>")
+		playsound(src, 'sound/foley/pierce.ogg', 50, FALSE)
+	else
 		var/obj/item/fishing/T = I
+		var/obj/item/old
 		switch(T.attachtype)
 			if("line")
-				if(!line)
-					I.forceMove(src)
-					line = I
-					to_chat(user, "<span class='notice'>I add [I] to [src]...</span>")
+				old = line
+				I.forceMove(src)
+				line = I
+				unseat(old, user)
 			if("hook")
-				if(!hook)
-					I.forceMove(src)
-					hook = I
-					to_chat(user, "<span class='notice'>I add [I] to [src]...</span>")
+				old = hook
+				I.forceMove(src)
+				hook = I
+				unseat(old, user)
 			if("reel")
-				if(!reel)
-					I.forceMove(src)
-					reel = I
-					to_chat(user, "<span class='notice'>I add [I] to [src]...</span>")
+				old = reel
+				I.forceMove(src)
+				reel = I
+				unseat(old, user)
+			else
+				return ..()
+		if(old)
+			to_chat(user, "<span class='notice'>I swap [old] for [I] on [src]...</span>")
+		else
+			to_chat(user, "<span class='notice'>I add [I] to [src]...</span>")
 	vand_update_appearance(UPDATE_OVERLAYS)
 
 /obj/item/fishingrod/attack_right(mob/user)

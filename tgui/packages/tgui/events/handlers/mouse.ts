@@ -10,6 +10,14 @@ export function byondMouseUp(): void {
   globalEvents.emit('byond/mouseup');
 }
 
+export function byondRightMouseDown(): void {
+  globalEvents.emit('byond/rightmousedown');
+}
+
+export function byondRightMouseUp(): void {
+  globalEvents.emit('byond/rightmouseup');
+}
+
 export function byondCtrlDown(): void {
   globalEvents.emit('byond/ctrldown');
 }

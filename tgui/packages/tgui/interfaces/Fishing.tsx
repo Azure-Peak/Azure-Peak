@@ -579,6 +579,15 @@ const FishingMinigame = (props: FishingMinigameProps) => {
         sim.reeling = ReelingState.Idle;
       }
     };
+    const startReelingDownFromMap = () => {
+      if (
+        !data.auto_reel &&
+        data.bidirectional &&
+        sim.reeling !== ReelingState.ReelingDown
+      ) {
+        sim.reeling = ReelingState.ReelingDown;
+      }
+    };
     const handleMouseDown = (event: MouseEvent) => {
       if (event.button === 2) {
         startReelingDown();
@@ -601,6 +610,8 @@ const FishingMinigame = (props: FishingMinigameProps) => {
     globalEvents.on('byond/mouseup', stopReeling);
     globalEvents.on('byond/ctrldown', startReelingDown);
     globalEvents.on('byond/ctrlup', stopReelingDown);
+    globalEvents.on('byond/rightmousedown', startReelingDownFromMap);
+    globalEvents.on('byond/rightmouseup', stopReelingDown);
     return () => {
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);
@@ -609,6 +620,8 @@ const FishingMinigame = (props: FishingMinigameProps) => {
       globalEvents.off('byond/mouseup', stopReeling);
       globalEvents.off('byond/ctrldown', startReelingDown);
       globalEvents.off('byond/ctrlup', stopReelingDown);
+      globalEvents.off('byond/rightmousedown', startReelingDownFromMap);
+      globalEvents.off('byond/rightmouseup', stopReelingDown);
     };
   }, []);
 

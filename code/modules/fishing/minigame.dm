@@ -272,6 +272,23 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 		start_minigame_phase()
 	return COMSIG_MOB_CANCEL_CLICKON
 
+/datum/fishing_challenge/proc/on_client_mousedown(client/source, atom/object, turf/location, control, params)
+	SIGNAL_HANDLER
+	send_right_mouse_event(params, "byond/rightmousedown")
+
+/datum/fishing_challenge/proc/on_client_mouseup(client/source, atom/object, turf/location, control, params)
+	SIGNAL_HANDLER
+	send_right_mouse_event(params, "byond/rightmouseup")
+
+/datum/fishing_challenge/proc/send_right_mouse_event(params, event)
+	if(completed || phase != MINIGAME_PHASE)
+		return
+	var/list/modifiers = params2list(params)
+	if(!LAZYACCESS(modifiers, RIGHT_CLICK))
+		return
+	var/datum/tgui/ui = SStgui.get_open_ui(user, src)
+	ui?.window.send_message(event)
+
 /// Challenge interrupted by something external
 /datum/fishing_challenge/proc/interrupt()
 	if(!completed)
@@ -304,6 +321,8 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 	deltimer(next_phase_timer)
 	deltimer(minigame_timer)
 	completed = TRUE
+	if(user?.client)
+		UnregisterSignal(user.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 
 	if(!QDELETED(user) && user.mind && start_time && !(special_effects & FISHING_MINIGAME_RULE_NO_EXP))
 		var/seconds_spent = (world.time - start_time) * 0.1
@@ -493,6 +512,9 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 			RegisterSignal(reward, COMSIG_FISH_STATUS_CHANGED, PROC_REF(on_fish_death))
 	start_time = world.time
 	RegisterSignal(user, COMSIG_MOB_LOGOUT, PROC_REF(on_user_logout))
+	if(special_effects & FISHING_MINIGAME_RULE_BIDIRECTIONAL)
+		RegisterSignal(user.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(on_client_mousedown))
+		RegisterSignal(user.client, COMSIG_CLIENT_MOUSEUP, PROC_REF(on_client_mouseup))
 	INVOKE_ASYNC(src, TYPE_PROC_REF(/datum, ui_interact), user)
 	var/hardness = clamp((difficulty - FISHING_DEFAULT_DIFFICULTY) / (FISHING_MINIGAME_HARD_DIFFICULTY - FISHING_DEFAULT_DIFFICULTY), 0, 1)
 	announce_hardness(hardness)

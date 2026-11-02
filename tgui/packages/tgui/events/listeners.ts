@@ -10,6 +10,8 @@ import {
   byondCtrlUp,
   byondMouseDown,
   byondMouseUp,
+  byondRightMouseDown,
+  byondRightMouseUp,
 } from './handlers/mouse';
 import { ping } from './handlers/ping';
 import { suspend } from './handlers/suspense';
@@ -30,6 +32,8 @@ const listeners = {
   // Mouse hook
   'byond/mousedown': byondMouseDown,
   'byond/mouseup': byondMouseUp,
+  'byond/rightmousedown': byondRightMouseDown,
+  'byond/rightmouseup': byondRightMouseUp,
   'byond/ctrldown': byondCtrlDown,
   'byond/ctrlup': byondCtrlUp,
   // Chunking
