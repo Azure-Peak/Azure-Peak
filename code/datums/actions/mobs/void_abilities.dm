@@ -6,7 +6,7 @@
 	use_chance = 100
 	shared_cooldown = "mob_special"
 	lockout_time = 3 SECONDS
-	npc_min_range = 2
+	npc_min_range = 0
 	npc_max_range = 15
 	cast_range = 15
 
@@ -51,7 +51,7 @@
 	. = ..()
 	var/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/dragon = owner
 	dragon.visible_message(span_colossus("[dragon] opens its maw, and lightning crackles beyond its teeth!"))
-	return dragon.chain_lightning(cast_on, dragon)
+	return dragon.chain_lightning(cast_on)
 
 /datum/action/cooldown/spell/voiddragon/summon_obelisks
 	name = "Summon Obelisks"
