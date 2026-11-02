@@ -7,8 +7,6 @@
 	del_on_death = TRUE
 	icon = 'icons/mob/evilpope.dmi'
 	icon_state = "EvilPope"
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/lich
 	ranged = 1
 	rapid = 3

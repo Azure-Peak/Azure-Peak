@@ -56,8 +56,6 @@
 	)
 	ai_controller = /datum/ai_controller/undead
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead/Initialize(mapload)
 	. = ..()

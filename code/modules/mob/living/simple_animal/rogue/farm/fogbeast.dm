@@ -50,8 +50,6 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	max_buckled_mobs = 2
 	remains_type = /obj/effect/decal/remains/saiga
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/retaliate
 
 	var/fogbeast_color

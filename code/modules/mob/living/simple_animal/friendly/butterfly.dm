@@ -4,8 +4,6 @@
 	icon_state = "butterfly"
 	icon_living = "butterfly"
 	icon_dead = "butterfly_dead"
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/critter
 	response_help_continuous = "shoos"
 	response_help_simple = "shoo"

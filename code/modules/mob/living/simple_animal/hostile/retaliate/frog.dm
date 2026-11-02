@@ -8,8 +8,6 @@
 	speak = list("ribbit","croak")
 	emote_see = list("hops in a circle.", "shakes.")
 	speak_chance = 1
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/critter/retaliate
 	maxHealth = 15
 	health = 15

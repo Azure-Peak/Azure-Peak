@@ -30,8 +30,6 @@
 	speak_emote = list("growls")
 	footstep_type = null
 	del_on_death = TRUE
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/spirit_vengeance
 	move_base_delay = MOVEMENT_DELAY_SPD_23
 

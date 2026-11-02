@@ -1,8 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae
 	obj_damage = 75
 	blood_toll_bucket = STATS_KILLED_FAE
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/Initialize(mapload)
 	. = ..()

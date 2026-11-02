@@ -188,8 +188,6 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 1
 	maxHealth = 1
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	// High-tier loot table
 	// Yae, the loot of this thing is fairly lame, but that's because I ain't got the energy to sprite unique crafts right now.
 	// It serves as a roleplay tool more than well enough without special loot.

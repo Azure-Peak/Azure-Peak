@@ -46,8 +46,6 @@
 	emote_hear = list("chops.")
 	emote_see = list("dances.", "stares.")
 	speak_chance = 1
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/critter
 	see_in_dark = 6
 	butcher_results = list(/obj/item/roguekey/porta = 1)

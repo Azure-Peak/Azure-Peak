@@ -75,8 +75,6 @@
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = TRUE
 	loot = list(/obj/item/bomb/smoke/decoy)
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/rat/undead/summoned
 
 

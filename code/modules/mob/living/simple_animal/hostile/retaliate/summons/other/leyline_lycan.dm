@@ -17,8 +17,6 @@
 	emote_hear = null
 	emote_see = null
 	see_in_dark = 9
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/leyline_lycan
 
 	butcher_results = list()

@@ -41,8 +41,6 @@
 	food = 0
 	dodgetime = 15
 	remains_type = null
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/lamia
 	var/sneaking = FALSE
 	var/light_check = 0

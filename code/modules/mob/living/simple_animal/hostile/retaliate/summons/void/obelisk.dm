@@ -34,8 +34,6 @@
 	faction = list(FACTION_ABBERANT)
 	emote_hear = null
 	emote_see = null
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/voidstoneobelisk
 	move_base_delay = MOVEMENT_DELAY_CRAWLING
 	see_in_dark = 9

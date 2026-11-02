@@ -74,8 +74,6 @@
 	max_buckled_mobs = 2
 	remains_type = /obj/effect/decal/remains/saiga
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/skittish
 
 /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigakid

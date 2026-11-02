@@ -78,8 +78,6 @@
 //	stat_attack = UNCONSCIOUS
 	remains_type = /obj/effect/decal/remains/troll
 
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/troll
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 

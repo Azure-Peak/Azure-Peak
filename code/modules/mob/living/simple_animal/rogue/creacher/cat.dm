@@ -45,8 +45,6 @@
 	del_on_deaggro = 99 SECONDS
 
 	//new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
 

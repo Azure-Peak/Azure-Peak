@@ -59,8 +59,6 @@
 	eat_forever = TRUE
 	var/chomp_cd = 0
 	var/chomp_roll = 0
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 	color = "#88ff7d"

@@ -74,8 +74,6 @@
 	dodgetime = 30
 	aggressive = 1
 	remains_type = /obj/effect/decal/remains/mole
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/boar
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 	var/charge_type = /datum/action/cooldown/spell/telegraphed_strike/mob_ability/boar_charge

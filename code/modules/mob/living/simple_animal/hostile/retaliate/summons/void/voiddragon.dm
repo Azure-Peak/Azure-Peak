@@ -86,8 +86,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	obj_damage = 400	//Behold, nothing shall keep the dragon out
 	melee_damage_lower = 80
 	melee_damage_upper = 80
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/voiddragon
 	aggressive = 1
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE

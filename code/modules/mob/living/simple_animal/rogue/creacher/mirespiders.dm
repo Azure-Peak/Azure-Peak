@@ -51,8 +51,6 @@
 	retreat_health = 0
 	food = 0
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
@@ -151,8 +149,6 @@
 	STAPER = 15
 	pixel_x = -4
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_lurker
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 	projectiletype = /obj/projectile/bullet/spider
@@ -277,8 +273,6 @@
 	STASPD = 12
 	STAPER = 7
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_paralytic
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 

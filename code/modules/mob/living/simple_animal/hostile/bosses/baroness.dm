@@ -9,8 +9,6 @@
 	icon = 'icons/mob/baroness.dmi'
 	icon_state = "baroness"
 	icon_dead = "baronessdead"
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/baroness
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 	ranged = 1

@@ -42,8 +42,6 @@
 	footstep_type = null
 	retreat_health = null
 
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/dragger
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
 

@@ -62,8 +62,6 @@
 						/obj/item/alch/viscera = 1,
 						/obj/item/natural/fur/wolf = 2,
 						/obj/item/natural/bone = 4)
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 

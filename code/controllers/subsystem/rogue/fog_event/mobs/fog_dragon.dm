@@ -23,8 +23,6 @@
 
 	mob_biotypes = MOB_UNDEAD | MOB_BEAST
 	base_intents = list(/datum/intent/simple/bite/dragon_bite)
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/dragon
 	limb_destroyer = TRUE
 

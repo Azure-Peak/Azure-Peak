@@ -4,8 +4,6 @@
 	desc = "A fleshy, immoving golem with a nasty grin. You can clearly tell it isn't alive, yet the scent of its putrid flesh is strangely alluring. Can be picked up with middle click."
 	icon_state = "flesh_golem"
 	icon_living = "flesh_golem"
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = null
 	health = 100
 	maxHealth = 100

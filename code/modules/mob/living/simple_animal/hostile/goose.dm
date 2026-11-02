@@ -8,8 +8,6 @@
 	icon_dead = "goose_dead"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	speak_chance = 0
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/goose
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2)
 	response_help_continuous = "pets"

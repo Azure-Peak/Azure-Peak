@@ -34,8 +34,6 @@
 	can_saddle = TRUE
 	can_buckle = TRUE
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/spider/drider
 
 /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame

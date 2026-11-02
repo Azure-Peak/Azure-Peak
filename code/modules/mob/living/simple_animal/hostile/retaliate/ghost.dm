@@ -6,8 +6,6 @@
 	icon_living = "ghost"
 	mob_biotypes = MOB_SPIRIT
 	speak_chance = 0
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/critter/retaliate
 	response_help_continuous = "passes through"
 	response_help_simple = "pass through"
@@ -71,8 +69,6 @@
 	icon_living = "mist"
 	mob_biotypes = MOB_SPIRIT
 	speak_chance = 0
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	response_help_continuous = "passes through"
 	response_help_simple = "pass through"
 	base_intents = list(/datum/intent/simple/claw)

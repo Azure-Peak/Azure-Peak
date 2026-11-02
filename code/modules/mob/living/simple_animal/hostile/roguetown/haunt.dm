@@ -41,8 +41,6 @@
 	var/obj/structure/bonepile/slavepile
 
 	food_type = list(/obj/item/reagent_containers/food/snacks, /obj/item/bodypart)
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/haunt
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 

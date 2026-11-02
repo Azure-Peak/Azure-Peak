@@ -6,8 +6,6 @@
 	icon_living = "bat"
 	icon_dead = "bat_dead"
 	icon_gib = "bat_dead"
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
 	response_disarm_continuous = "flails at"

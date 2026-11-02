@@ -42,9 +42,6 @@
 	ambush_faction = "deepones"
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 
-	can_have_ai = FALSE
-	AIStatus = AI_OFF
-
 	ai_controller = /datum/ai_controller/deepone
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 
@@ -169,8 +166,6 @@
 	emote_hear = list("clicks its jaws.", "makes a low wet gurgle.")
 	emote_see = list("shakes sea foam from its back.", "scratches its webbed ears.")
 	speak_chance = 2
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic/critter
 	see_in_dark = 6
 	health = DEEPONE_HOUND_HEALTH

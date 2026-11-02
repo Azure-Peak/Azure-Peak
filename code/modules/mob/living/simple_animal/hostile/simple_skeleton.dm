@@ -36,8 +36,6 @@
 	del_on_death = TRUE
 	var/wither = 2.5
 
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/simple_skeleton
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 

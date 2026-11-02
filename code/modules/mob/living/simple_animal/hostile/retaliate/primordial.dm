@@ -54,8 +54,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial
 	anatomy_type = /datum/anatomy/construct/primordial
 	icon = 'icons/roguetown/mob/monster/primordial.dmi'
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	faction = list(FACTION_NEUTRAL)
 	var/next_heal_time = 0
 	var/datum/weakref/summoner_ref

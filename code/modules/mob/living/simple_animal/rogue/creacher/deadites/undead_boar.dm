@@ -253,8 +253,6 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = 1
 	maxHealth = 1
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat_rotten = 2,

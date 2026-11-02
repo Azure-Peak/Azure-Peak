@@ -67,8 +67,6 @@
 	eat_forever = TRUE
 
 //new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/direbear
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 

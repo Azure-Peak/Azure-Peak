@@ -50,8 +50,6 @@
 	STASTR = 10
 	STAWIL = 10
 
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = null
 
 /mob/living/simple_animal/hostile/retaliate/rogue/hag_shapeshift/Initialize(mapload)

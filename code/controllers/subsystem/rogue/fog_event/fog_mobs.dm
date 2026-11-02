@@ -14,8 +14,6 @@
 	melee_damage_upper = 30
 	base_intents = list(/datum/intent/simple/bite, /datum/intent/simple/claw)
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/revenant
 
 	var/target_alpha = 150

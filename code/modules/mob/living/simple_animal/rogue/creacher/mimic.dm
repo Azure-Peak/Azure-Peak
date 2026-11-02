@@ -47,8 +47,6 @@
 
 	ai_controller = /datum/ai_controller/mimic
 	move_base_delay = MOVEMENT_DELAY_SLOW
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	/// The typepath of the chest this mimic is mimicking.
 	var/obj/structure/closet/crate/chest/mimicking_chest = /obj/structure/closet/crate/chest
 	var/spooked = FALSE
