@@ -1445,10 +1445,6 @@
 									M.real_name = obj_name
 							if(href_list["disable_ai"] && ismob(O))
 								var/mob/spawned_mob = O
-								if(isanimal(spawned_mob))
-									var/mob/living/simple_animal/SA = spawned_mob
-									SA.toggle_ai(AI_OFF)
-									SA.can_have_ai = FALSE
 								if(spawned_mob.ai_controller)
 									QDEL_NULL(spawned_mob.ai_controller)
 							if(faction_override && ismob(O))

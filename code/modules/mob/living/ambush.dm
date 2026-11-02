@@ -260,7 +260,6 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			M.attack_same = FALSE
 			M.del_on_deaggro = 44 SECONDS
 			M.faction += "ambush"
-			M.GiveTarget(aggro_target)
 		if(istype(spawnedmob, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = spawnedmob
 			H.faction += "ambush"
