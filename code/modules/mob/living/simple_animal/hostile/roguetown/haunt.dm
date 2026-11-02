@@ -164,10 +164,10 @@
 	if(user)
 		for(var/H in haunts)
 			var/mob/living/simple_animal/hostile/rogue/haunt/D = H
-			D.GiveTarget(user)
+			D.ai_controller?.force_aggro(user)
 
 /mob/living/simple_animal/hostile/rogue/haunt/taunted(mob/user)
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/rogue/haunt/Initialize(mapload)

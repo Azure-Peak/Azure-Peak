@@ -119,8 +119,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/spider/Life()
@@ -137,8 +136,7 @@
 	if(pulledby && !tame)
 		if(HAS_TRAIT(pulledby, TRAIT_WEBWALK))
 			return
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /datum/intent/simple/bite/honeyspider
 	clickcd = HONEYSPIDER_ATTACK_SPEED

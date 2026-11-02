@@ -97,15 +97,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker
 	anatomy_type = /datum/anatomy/spider/spitter

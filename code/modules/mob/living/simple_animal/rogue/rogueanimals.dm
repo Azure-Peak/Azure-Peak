@@ -274,8 +274,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/onkick(mob/M)
 	..()
-	Retaliate()
-	GiveTarget(M)
+	ai_controller?.force_aggro(M)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/beckoned(mob/user)
 	if(tame && !stop_automated_movement)

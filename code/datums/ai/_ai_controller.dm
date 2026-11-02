@@ -445,6 +445,8 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	if(aggro)
 		aggro.add_threat_to_mob(target, threat)
 		return TRUE
+	if(blackboard[BB_BASIC_MOB_CURRENT_TARGET] == target)
+		return TRUE
 	set_blackboard_key(BB_HIGHEST_THREAT_MOB, target)
 	set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
 	wake_for_combat()

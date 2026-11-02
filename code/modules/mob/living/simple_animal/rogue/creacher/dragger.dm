@@ -51,7 +51,7 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/rogue/dragger/taunted(mob/user)
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/rogue/dragger/Initialize(mapload)

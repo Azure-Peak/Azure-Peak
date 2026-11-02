@@ -126,15 +126,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 
 /datum/intent/simple/bite/bigrat

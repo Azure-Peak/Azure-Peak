@@ -18,8 +18,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/infernal/attackby(obj/item/I, mob/living/carbon/human/user, params)
 	if(istype(I, /obj/item/magic))

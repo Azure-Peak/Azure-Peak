@@ -138,7 +138,7 @@
 
 /mob/living/simple_animal/hostile/rogue/skeleton/taunted(mob/user)
 	emote("aggro")
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/rogue/skeleton/proc/can_control(mob/user)

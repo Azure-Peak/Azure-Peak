@@ -141,15 +141,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /datum/intent/simple/bite/dragon_bite //the model/hitbox is too big so it never got to attack. Increase reach
 	reach = 2

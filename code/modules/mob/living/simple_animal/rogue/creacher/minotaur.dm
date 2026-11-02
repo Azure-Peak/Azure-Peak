@@ -109,15 +109,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/minotaur/get_sound(input)
 	switch(input)

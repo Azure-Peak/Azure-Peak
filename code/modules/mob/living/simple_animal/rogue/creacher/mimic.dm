@@ -78,13 +78,11 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/attack_hand(mob/user)
 	..()
-	Retaliate(user)
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/proc/disguise()
 	if(stat)

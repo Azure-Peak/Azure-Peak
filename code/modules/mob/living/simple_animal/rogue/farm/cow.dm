@@ -202,8 +202,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bull/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/bull/simple_limb_hit(zone)
@@ -245,11 +244,6 @@
 		if(BODY_ZONE_L_ARM)
 			return "foreleg"
 	return ..()
-
-/mob/living/simple_animal/hostile/retaliate/bull/taunted(mob/user)
-	Retaliate()
-	GiveTarget(user)
-	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bull/Initialize(mapload)
 	. = ..()

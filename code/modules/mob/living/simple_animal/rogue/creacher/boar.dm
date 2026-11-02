@@ -108,7 +108,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/boar/taunted(mob/user)
 	emote("aggro")
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /datum/intent/simple/claw/boar
