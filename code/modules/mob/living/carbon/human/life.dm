@@ -109,10 +109,6 @@
 				has_stubble = TRUE
 				update_hair()
 
-/mob/living/carbon/human/handle_environment()
-
-	dna.species.handle_environment(src)
-
 /mob/living/carbon/human/proc/get_thermal_protection()
 	var/thermal_protection = 0 //Simple check to estimate how protected we are against multiple temperatures
 	if(wear_armor)
