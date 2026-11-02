@@ -453,8 +453,12 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	CancelActions()
 	return TRUE
 
-/datum/ai_controller/proc/has_aggro()
-	return length(blackboard[BB_BASIC_MOB_RETALIATE_LIST]) || length(blackboard[BB_MOB_AGGRO_TABLE])
+/datum/ai_controller/proc/has_aggro(atom/towards)
+	var/list/retaliate_list = blackboard[BB_BASIC_MOB_RETALIATE_LIST]
+	var/list/aggro_table = blackboard[BB_MOB_AGGRO_TABLE]
+	if(towards)
+		return (towards in retaliate_list) || aggro_table?[towards]
+	return length(retaliate_list) || length(aggro_table)
 
 /datum/ai_controller/proc/clear_aggro()
 	clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)

@@ -60,12 +60,3 @@
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	AddElement(/datum/element/ai_flee_while_injured, 0.75, retreat_health)
-
-//Consume the corpses of allies code.
-/mob/living/simple_animal/hostile/retaliate/rogue/headless/CanAttack(atom/the_target)
-	. = ..()
-	if(!.)
-		if(isliving(the_target))
-			var/mob/living/L = the_target
-			if(L.stat == DEAD)
-				return TRUE
