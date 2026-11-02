@@ -561,14 +561,7 @@
 
 /turf/open/floor/rogue/dirt/get_slowdown(mob/user)
 	. = ..()
-	var/negate_slowdown = FALSE
-
-	if((isliving(user))&&(user?.movement_type == FLYING))
-		negate_slowdown = TRUE
-	if(HAS_TRAIT(user, TRAIT_LONGSTRIDER))
-		negate_slowdown = TRUE
-
-	if(negate_slowdown)
+	if((user.movement_type & FLYING) || HAS_TRAIT(user, TRAIT_LONGSTRIDER))
 		. -= 2
 	return max(., 0)
 
