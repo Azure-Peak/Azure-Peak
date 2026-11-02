@@ -8,6 +8,7 @@
 	subclass_languages = list(/datum/language/otavan)
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	traits_applied = list(
+		TRAIT_DODGEEXPERT,
 		TRAIT_BLACKBAGGER,
 		TRAIT_PERFECT_TRACKER,
 		TRAIT_PSYDONITE
@@ -43,81 +44,7 @@
 
 /datum/outfit/job/roguetown/confessor/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
-	if(H.mind)
-		var/weapons = list("Psydonic Rapier", "Psydonic Shortsword", "Psydonic Tomahawk", "Psydonic Cudgel", "Psydonic Flanged Mace", "Psydonic Whip")
-		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
-		switch(weapon_choice)
-			if("Psydonic Rapier")
-				l_hand = /obj/item/rogueweapon/sword/rapier/silver/psy
-				r_hand = /obj/item/rogueweapon/scabbard/sword
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-			if("Psydonic Shortsword")
-				l_hand = /obj/item/rogueweapon/sword/short/silver/psy
-				r_hand = /obj/item/rogueweapon/scabbard/sword
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-			if("Psydonic Tomahawk")
-				l_hand = /obj/item/rogueweapon/stoneaxe/handaxe/silver/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-			if("Psydonic Cudgel")
-				l_hand = /obj/item/rogueweapon/mace/cudgel/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-			if("Psydonic Flanged Mace")
-				l_hand = /obj/item/rogueweapon/mace/cudgel/flanged/silver/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-			if("Psydonic Whip")
-				l_hand = /obj/item/rogueweapon/whip/silver/psy
-				H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
-		var/armors = list("Confessor - Dodge Expert, Complete Coverage", "Arbalist - Master Crossbows, +III STR / -III SPD")
-		var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
-		switch(armor_choice)
-			if("Confessor - Dodge Expert, Complete Coverage")
-				head = /obj/item/clothing/head/roguetown/roguehood/psydon/confessor
-				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor
-				ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
-				var/shirts = list("Inquisitorial Leather Tunic", "Cuir-Bouilli Vest")
-				var/shirt_choice = input(H, "Choose your UNDERLAYER.", "TAKE UP PSYDON'S VESTMENTS.") as anything in shirts
-				switch(shirt_choice)
-					if("Inquisitorial Leather Tunic")
-						shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
-					if("Cuir-Bouilli Vest")
-						shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
-			if("Arbalist - Master Crossbows, +III STR / -III SPD")
-				head = /obj/item/clothing/head/roguetown/headband/bloodied
-				armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
-				shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
-				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
-				H.change_stat(STATKEY_CON, 1)
-				H.change_stat(STATKEY_STR, 3)
-				H.change_stat(STATKEY_PER, 1) //Applies a base statblock of 11/12/10/13 to CON, STR, SPD and PER - compared to the standard 10/9/13/12 + DODGE EXPERT. Physically adept and capable of higher ranged damage..
-				H.change_stat(STATKEY_SPD, -3) //..but with a massive loss to mobility and damage evasion, alongside the naturally low defense of their sidearms.
-		var/rangedweapons = list("Slurbow - Lesser Damage, Rapid & Accurate", "Crossbow - Access To Special Bolts", "Siegebow - Greater Damage, Structurebreaker")
-		var/rangedweapon_choice = input(H,"Choose your BOW.", "TAKE UP PSYDON'S ARCAGE.") as anything in rangedweapons
-		switch(rangedweapon_choice)
-			if("Slurbow - Lesser Damage, Rapid & Accurate")
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-				var/lightquivers = list("Light Bolts - Steel-Tipped", "Light Sunderbolts - Silver-Tipped, Halved Damage")
-				var/lightboltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in lightquivers
-				switch(lightboltchoice)
-					if("Light Bolts - Steel-Tipped")
-						beltl = /obj/item/quiver/bolt/light
-					if("Light Sunderbolts - Silver-Tipped, Halved Damage")
-						beltl = /obj/item/quiver/bolt/lightholy
-			if("Crossbow - Access To Special Bolts")
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
-				var/quivers = list("Bolts - Steel-Tipped", "Sunderbolts - Silver-Tipped, Halved Damage", "Pyrobolts - Incendiary-Tipped, Minimal Damage")
-				var/boltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in quivers
-				switch(boltchoice)
-					if("Bolts - Steel-Tipped")
-						beltl = /obj/item/quiver/bolt/standard
-					if("Sunderbolts - Silver-Tipped, Halved Damage")
-						beltl = /obj/item/quiver/bolt/holy
-					if("Pyrobolts - Incendiary-Tipped, Minimal Damage")
-						beltl = /obj/item/quiver/bolt/pyro
-			if("Siegebow - Greater Damage, Structurebreaker")
-				backl = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
-				beltl = /obj/item/quiver/bolt/heavy/stake
-
+	has_loadout = TRUE
 	cloak = /obj/item/storage/backpack/rogue/satchel/beltpack
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
@@ -143,4 +70,83 @@
 
 	add_verb(H, /mob/living/carbon/human/proc/faith_test)
 	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
+
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+
+/datum/outfit/job/roguetown/confessor/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/armors = list("Confessor - Dodge Expert, Complete Coverage", "Arbalist - Master Crossbows, +III STR / -III SPD")
+	var/armor_choice = input(H, "Choose your ARCHETYPE.", "TAKE UP PSYDON'S DUTY.") as anything in armors
+	switch(armor_choice)
+		if("Confessor - Dodge Expert, Complete Coverage")
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/roguehood/psydon/confessor, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/confessor, SLOT_ARMOR, TRUE)
+			var/shirts = list("Inquisitorial Leather Tunic", "Cuir-Bouilli Vest")
+			var/shirt_choice = input(H, "Choose your UNDERLAYER.", "TAKE UP PSYDON'S VESTMENTS.") as anything in shirts
+			switch(shirt_choice)
+				if("Inquisitorial Leather Tunic")
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq, SLOT_SHIRT, TRUE)
+				if("Cuir-Bouilli Vest")
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli, SLOT_SHIRT, TRUE)
+		if("Arbalist - Master Crossbows, +III STR / -III SPD")
+			REMOVE_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
+			H.equip_to_slot_or_del(new /obj/item/clothing/head/roguetown/headband/bloodied, SLOT_HEAD, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate, SLOT_ARMOR, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli, SLOT_SHIRT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
+			H.change_stat(STATKEY_CON, 1)
+			H.change_stat(STATKEY_STR, 3)
+			H.change_stat(STATKEY_PER, 1) //Applies a base statblock of 11/12/10/13 to CON, STR, SPD and PER - compared to the standard 10/9/13/12 + DODGE EXPERT. Physically adept and capable of higher ranged damage..
+			H.change_stat(STATKEY_SPD, -3) //..but with a massive loss to mobility and damage evasion, alongside the naturally low defense of their sidearms.
+
+	var/weapons = list("Psydonic Rapier", "Psydonic Shortsword", "Psydonic Tomahawk", "Psydonic Cudgel", "Psydonic Flanged Mace", "Psydonic Whip")
+	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	switch(weapon_choice)
+		if("Psydonic Rapier")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/rapier/silver/psy)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+		if("Psydonic Shortsword")
+			H.put_in_hands(new /obj/item/rogueweapon/sword/short/silver/psy)
+			H.put_in_hands(new /obj/item/rogueweapon/scabbard/sword)
+			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
+		if("Psydonic Tomahawk")
+			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/handaxe/silver/psy)
+			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
+		if("Psydonic Cudgel")
+			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/psy)
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+		if("Psydonic Flanged Mace")
+			H.put_in_hands(new /obj/item/rogueweapon/mace/cudgel/flanged/silver/psy)
+			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
+		if("Psydonic Whip")
+			H.put_in_hands(new /obj/item/rogueweapon/whip/silver/psy)
+			H.adjust_skillrank_up_to(/datum/skill/combat/whipsflails, SKILL_LEVEL_EXPERT, TRUE)
+
+	var/rangedweapons = list("Slurbow - Lesser Damage, Rapid & Accurate", "Crossbow - Access To Special Bolts", "Siegebow - Greater Damage, Structurebreaker")
+	var/rangedweapon_choice = input(H,"Choose your BOW.", "TAKE UP PSYDON'S ARCAGE.") as anything in rangedweapons
+	switch(rangedweapon_choice)
+		if("Slurbow - Lesser Damage, Rapid & Accurate")
+			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow, SLOT_BACK_L, TRUE)
+			var/lightquivers = list("Light Bolts - Steel-Tipped", "Light Sunderbolts - Silver-Tipped, Halved Damage")
+			var/lightboltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in lightquivers
+			switch(lightboltchoice)
+				if("Light Bolts - Steel-Tipped")
+					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/light, SLOT_BELT_L, TRUE)
+				if("Light Sunderbolts - Silver-Tipped, Halved Damage")
+					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/lightholy, SLOT_BELT_L, TRUE)
+		if("Crossbow - Access To Special Bolts")
+			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, SLOT_BACK_L, TRUE)
+			var/quivers = list("Bolts - Steel-Tipped", "Sunderbolts - Silver-Tipped, Halved Damage", "Pyrobolts - Incendiary-Tipped, Minimal Damage")
+			var/boltchoice = input(H,"Choose your MUNITIONS.", "TAKE UP PSYDON'S MISSILES.") as anything in quivers
+			switch(boltchoice)
+				if("Bolts - Steel-Tipped")
+					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/standard, SLOT_BELT_L, TRUE)
+				if("Sunderbolts - Silver-Tipped, Halved Damage")
+					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/holy, SLOT_BELT_L, TRUE)
+				if("Pyrobolts - Incendiary-Tipped, Minimal Damage")
+					H.equip_to_slot_or_del(new /obj/item/quiver/bolt/pyro, SLOT_BELT_L, TRUE)
+		if("Siegebow - Greater Damage, Structurebreaker")
+			H.equip_to_slot_or_del(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy, SLOT_BACK_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/quiver/bolt/heavy/stake, SLOT_BELT_L, TRUE)
