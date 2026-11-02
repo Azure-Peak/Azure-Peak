@@ -13,7 +13,6 @@
 	rapid_fire_delay = 8
 	ranged_message = "casts a spell"
 	ranged_cooldown_time = 40
-	ranged_ignores_vision = TRUE
 	environment_smash = 0
 	obj_damage = 100
 	base_intents = list(/datum/intent/simple/lich)

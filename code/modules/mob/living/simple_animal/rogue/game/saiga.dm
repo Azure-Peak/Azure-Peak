@@ -17,6 +17,7 @@
 	emote_see = list("looks around.", "chews some leaves.")
 	speak_chance = 1
 	see_in_dark = 6
+	ride_move_delay = 8//Fastest mount
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/saigabuck
 	botched_butcher_results = list(
 								/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 1,
@@ -58,7 +59,6 @@
 	attack_verb_simple = "headbutt"
 	melee_damage_lower = 60
 	melee_damage_upper = 90
-	rapid_melee = 1
 	STASPD = 15
 	STACON = 8
 	STASTR = 12
@@ -117,7 +117,6 @@
 	attack_verb_continuous = "headbutts"
 	attack_verb_simple = "headbutt"
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	rapid_melee = 1
 	milkies = FALSE //what the fuck
 	STACON = 15
 	STASTR = 12

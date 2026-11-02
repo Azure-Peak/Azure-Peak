@@ -11,13 +11,9 @@
 	emote_hear = list("squeaks.")
 	emote_see = list("cleans its nose.")
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 5
 	pixel_x = -16
 	pixel_y = -8
-	vision_range = 5
-	aggro_vision_range = 9
 	base_intents = list(/datum/intent/simple/bite/bigrat)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rat = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rat = 1,
@@ -44,8 +40,6 @@
 	melee_damage_lower = 17
 	melee_damage_upper = 21
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks,
 //					/obj/item/bodypart,
@@ -58,8 +52,6 @@
 	STASTR = 9
 	STASPD = 10
 	deaggroprob = 0
-	attack_same = 1
-	retreat_health = 0.3
 	aggressive = 1
 
 

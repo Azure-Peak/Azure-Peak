@@ -13,7 +13,6 @@
 	emote_hear = list("meows.", "mews.")
 	emote_see = list("shakes its head.", "shivers.")
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
 	ventcrawler = VENTCRAWLER_ALWAYS
 	pass_flags = PASSTABLE
@@ -258,7 +257,6 @@
 						sleep(3)
 						visible_message("<span class='notice'>\The [src] kills the rat!</span>")
 						M.obj_destruction()
-						stop_automated_movement = 0
 						break
 
 

@@ -12,10 +12,6 @@
 	maxHealth = DRAGON_HEALTH
 	melee_damage_lower = 50
 	melee_damage_upper = 70
-	move_to_delay = 3
-	turns_per_move = 3
-	vision_range = 7
-	aggro_vision_range = 9
 
 	footstep_type = FOOTSTEP_MOB_HEAVY
 	attack_sound = list('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg','sound/combat/hits/blunt/flailhit.ogg')
@@ -31,7 +27,6 @@
 	STASPD = 13
 	deaggroprob = 0
 	del_on_deaggro = 9999 SECONDS
-	retreat_health = 0.05
 	dodgetime = 30
 
 /mob/living/simple_animal/hostile/retaliate/rogue/revenant/dragon/Initialize(mapload)

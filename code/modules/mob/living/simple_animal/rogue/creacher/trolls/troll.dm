@@ -22,11 +22,7 @@
 	verb_exclaim = "roars"
 	verb_yell = "roars"
 
-	turns_per_move = 2
 	see_in_dark = 10
-	move_to_delay = 7
-	vision_range = 6
-	aggro_vision_range = 6
 	botched_butcher_results = list (
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll = 2,
 		/obj/item/natural/bundle/bone/full = 1,
@@ -67,11 +63,8 @@
 	STASPD = 2
 	STAWIL = 17
 
-	retreat_distance = 0
-	minimum_distance = 0
 	deaggroprob = 0
 	del_on_deaggro = 99 SECONDS
-	retreat_health = 0
 	food = 0
 	dodgetime = 20
 	aggressive = TRUE

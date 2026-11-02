@@ -39,8 +39,6 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!
 	melee_damage_upper = 60		// We're gonna take his pick-in-ick basket!
-	vision_range = 6
-	aggro_vision_range = 8
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES // silly furniture won't stop our boy
 	milkies = FALSE
 	footstep_type = FOOTSTEP_MOB_BAREFOOT

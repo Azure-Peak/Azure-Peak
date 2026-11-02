@@ -13,9 +13,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf = 1, /obj/item/alch/viscera = 1, /obj/item/alch/sinew = 1, /obj/item/natural/bone = 2)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/wolf = 2,
@@ -41,11 +39,7 @@
 	maxHealth = WOLF_HEALTH
 	melee_damage_lower = 19
 	melee_damage_upper = 29
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks,
 					//obj/item/bodypart,
@@ -60,7 +54,6 @@
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
 	food = 0
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 	dodgetime = 30

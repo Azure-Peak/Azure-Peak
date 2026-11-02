@@ -12,7 +12,6 @@
 	emote_hear = list("clicks.")
 	emote_see = list("clacks.")
 	speak_chance = 1
-	turns_per_move = 5
 	base_intents = list(/datum/intent/use)
 	maxHealth = MUDCRAB_HEALTH
 	health = MUDCRAB_HEALTH
@@ -27,7 +26,6 @@
 	response_disarm_simple = "gently push aside"
 	response_harm_continuous = "stomps"
 	response_harm_simple = "stomp"
-	stop_automated_movement = 1
 	friendly_verb_continuous = "pinches"
 	friendly_verb_simple = "pinch"
 	ventcrawler = VENTCRAWLER_ALWAYS
@@ -43,13 +41,6 @@
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
-
-/mob/living/simple_animal/mudcrabcrab/Life()
-	..()
-	//CRAB movement
-	if(!ckey && !stat)
-		if(isturf(loc) && !resting && !buckled)		//This is so it only moves if it's not inside a closet, gentics machine, etc.
-			turns_since_move++
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mudcrab/get_sound(input)
 	switch(input)

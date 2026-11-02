@@ -11,9 +11,7 @@
 	icon_dead = "vvd"
 	gender = MALE
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 8
 	base_intents = list(/datum/intent/simple/elemental_unarmed)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/elemental/mote = 4)
@@ -24,19 +22,14 @@
 	threat_point = 15
 	melee_damage_lower = 15
 	melee_damage_upper = 17
-	vision_range = 8
-	aggro_vision_range = 11
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 	simple_detect_bonus = 20
-	retreat_distance = 0
-	minimum_distance = 0
 	food_type = list()
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/combat/hits/onstone/wallhit.ogg'
 	attack_verb_continuous = "pounds"

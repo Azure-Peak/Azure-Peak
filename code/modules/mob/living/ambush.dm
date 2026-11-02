@@ -257,7 +257,6 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		var/mob/spawnedmob = new mob_type(spawnloc)
 		if(istype(spawnedmob, /mob/living/simple_animal/hostile))
 			var/mob/living/simple_animal/hostile/M = spawnedmob
-			M.attack_same = FALSE
 			M.del_on_deaggro = 44 SECONDS
 			M.faction += "ambush"
 		if(istype(spawnedmob, /mob/living/carbon/human))

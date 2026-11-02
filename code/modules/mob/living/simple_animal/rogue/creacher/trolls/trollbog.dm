@@ -4,8 +4,6 @@
 	pixel_x = -16
 	threat_point = THREAT_DANGEROUS
 
-	wander = FALSE		// bog trolls are ambush predators
-	turns_per_move = 4
 	see_in_dark = 10
 
 	melee_damage_lower = 30

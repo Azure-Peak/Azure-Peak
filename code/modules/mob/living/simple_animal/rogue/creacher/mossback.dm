@@ -14,9 +14,7 @@
 	gender = MALE
 	emote_hear = null
 	emote_see = null
-	turns_per_move = 3
 	see_in_dark = 10
-	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/claw/mossback)
 	botched_butcher_results = list (/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 1, /obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/crab = 3,
@@ -31,10 +29,6 @@
 	maxHealth = MOSSBACK_HEALTH
 	melee_damage_lower = 35
 	melee_damage_upper = 50
-	vision_range = 4
-	aggro_vision_range = 3
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
 	//obj/item/bodypart,
@@ -43,7 +37,6 @@
 	pooptype = null
 	deaggroprob = 0
 	del_on_deaggro = 10 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg','sound/combat/wooshes/blunt/wooshhuge (3).ogg')
 	dodgetime = 0

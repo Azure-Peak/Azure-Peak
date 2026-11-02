@@ -9,9 +9,6 @@
 	icon_dead = "deep1_d"
 	gender = MALE
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
-	robust_searching = 1
-	turns_per_move = 2
-	move_to_delay = 3
 	STACON = 11
 	STASTR = 13
 	STASPD = 9
@@ -26,10 +23,6 @@
 	harm_intent_damage = 20
 	melee_damage_lower = 10
 	melee_damage_upper = 25
-	vision_range = 7
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
 	limb_destroyer = 0
 	base_intents = list(/datum/intent/simple/claw/deepone_unarmed)
 	attack_verb_continuous = "slashes"
@@ -71,8 +64,6 @@
 	projectiletype = /obj/projectile/bullet/reusable/deepone
 	projectilesound = 'sound/combat/wooshes/punch/punchwoosh (1).ogg'
 	ranged = 1
-	retreat_distance = 2
-	minimum_distance = 5
 	ranged_cooldown_time = 40
 	check_friendly_fire = 1
 	ai_controller = /datum/ai_controller/deepone_ranged
@@ -88,8 +79,6 @@
 	projectiletype = /obj/projectile/magic
 	projectilesound = 'sound/magic/fireball.ogg'
 	ranged = 1
-	retreat_distance = 2
-	minimum_distance = 5
 	ranged_cooldown_time = 70
 	check_friendly_fire = 1
 	ai_controller = /datum/ai_controller/deepone_ranged
@@ -100,13 +89,9 @@
 	projectiletype = pick(allowed_projectile_types)
 	..()
 /mob/living/simple_animal/hostile/rogue/deepone/wiz/boss
-	wander = FALSE
 /mob/living/simple_animal/hostile/rogue/deepone/spit/boss
-	wander = FALSE
 /mob/living/simple_animal/hostile/rogue/deepone/arm/boss
-	wander = FALSE
 /mob/living/simple_animal/hostile/rogue/deepone/boss
-	wander = FALSE
 /datum/intent/simple/claw/deepone_unarmed
 	attack_verb = list("claws", "strikes")
 	blade_class = BCLASS_CHOP

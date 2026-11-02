@@ -8,9 +8,6 @@
 	gender = MALE
 	mob_biotypes = MOB_UNDEAD|MOB_HUMANOID
 	blood_toll_bucket = STATS_KILLED_DEADITES
-	robust_searching = 1
-	turns_per_move = 1
-	move_to_delay = 3
 	STACON = 9
 	STASTR = 9
 	STASPD = 8
@@ -19,10 +16,6 @@
 	harm_intent_damage = 10
 	melee_damage_lower = 10
 	melee_damage_upper = 25
-	vision_range = 7
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
 	limb_destroyer = 1
 	base_intents = list(/datum/intent/simple/claw/skeleton)
 	attack_verb_continuous = "hacks"
@@ -100,8 +93,6 @@
 	projectiletype = /obj/projectile/bullet/reusable/arrow/ancient
 	projectilesound = 'sound/combat/Ranged/flatbow-shot-01.ogg'
 	ranged = 1
-	retreat_distance = 2
-	minimum_distance = 5
 	ranged_cooldown_time = 60
 	check_friendly_fire = 1
 	loot = list(

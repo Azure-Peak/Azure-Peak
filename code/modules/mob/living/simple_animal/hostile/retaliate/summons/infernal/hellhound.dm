@@ -15,9 +15,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 6
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/hellhound)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/infernal/fang = 2)
@@ -27,12 +25,8 @@
 	maxHealth = 270
 	melee_damage_lower = 22
 	melee_damage_upper = 32
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 	simple_detect_bonus = 20
-	retreat_distance = 0
-	minimum_distance = 0
 	food_type = list()
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -43,7 +37,6 @@
 	deaggroprob = 0
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/vo/mobs/vw/attack (1).ogg','sound/vo/mobs/vw/attack (2).ogg','sound/vo/mobs/vw/attack (3).ogg','sound/vo/mobs/vw/attack (4).ogg')
 	dodgetime = 30

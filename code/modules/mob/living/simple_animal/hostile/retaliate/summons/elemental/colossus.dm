@@ -13,10 +13,8 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
 	move_base_delay = MOVEMENT_DELAY_CRAWLING
-	move_to_delay = 16
 	base_intents = list(/datum/intent/simple/elementalt2_unarmed)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/elemental/relic = 1)
@@ -28,12 +26,8 @@
 	obj_damage = 150
 	melee_damage_lower = 40
 	melee_damage_upper = 70
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_WALLS
 	simple_detect_bonus = 20
-	retreat_distance = 0
-	minimum_distance = 0
 	food_type = list()
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -42,7 +36,6 @@
 	canparry = TRUE
 	// defdrain = 10
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/combat/hits/onstone/wallhit.ogg'
 	pixel_x = -32

@@ -53180,8 +53180,7 @@
 /area/rogue/under/cave/orcdungeon)
 "gve" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother{
-	faction = list("wolfs");
-	retreat_health = 0.1
+	faction = list("wolfs")
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/dragonden)
@@ -140942,8 +140941,7 @@
 /area/rogue/under/cave/grim/hamlet)
 "qWy" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon{
-	faction = list("wolfs");
-	retreat_health = 0.1
+	faction = list("wolfs")
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/dragonden)

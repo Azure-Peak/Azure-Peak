@@ -6,9 +6,6 @@
 	icon_living = "spirit_vengeance"
 	gender = MALE
 	mob_biotypes = MOB_HUMANOID
-	robust_searching = 1
-	turns_per_move = 1
-	move_to_delay = 3
 	STACON = 9
 	STASTR = 9
 	STASPD = 14
@@ -17,10 +14,6 @@
 	harm_intent_damage = 5
 	melee_damage_lower = 5
 	melee_damage_upper = 7
-	vision_range = 7
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
 	limb_destroyer = 1
 	base_intents = list(/datum/intent/simple/bite)
 	attack_verb_continuous = "hacks"

@@ -14,9 +14,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 6
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/unarmed/claw)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/fae/fairydust = 4)
@@ -28,12 +26,8 @@
 	ranged = FALSE
 	melee_damage_lower = 8
 	melee_damage_upper = 12
-	vision_range = 8
-	aggro_vision_range = 11
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	simple_detect_bonus = 20
-	retreat_distance = 0
-	minimum_distance = 0
 	food_type = list()
 	movement_type = FLYING
 	pooptype = null
@@ -45,7 +39,6 @@
 	deaggroprob = 0
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/combat/hits/bladed/smallslash (1).ogg'
 	attack_verb_continuous = "jabs"

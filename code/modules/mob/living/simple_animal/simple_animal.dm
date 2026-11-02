@@ -42,18 +42,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///Unlike speak_emote, the list of things in this variable only show by themselves with no spoken text. IE: Ian barks, Ian yaps
 	var/list/emote_see = list()
 
-	var/move_skip = FALSE
-	var/action_skip = FALSE
-
-	var/turns_per_move = 1
-	var/turns_since_move = 0
-	///Use this to temporarely stop random movement or to if you write special movement code for animals.
-	var/stop_automated_movement = 0
-	///Does the mob wander around when idle?
-	var/wander = 1
-	///When set to 1 this stops the animal from moving when someone is pulling it.
-	var/stop_automated_movement_when_pulled = 1
-
 	var/obj/item/handcuffed = null //Whether or not the mob is handcuffed
 	var/obj/item/legcuffed = null	//Same as handcuffs but for legs. Bear traps use this.
 
@@ -121,8 +109,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/move_base_delay = null
 	var/run_multiplier = SIMPLEMOB_RUN_MULTIPLIER
 	var/sneak_multiplier = SIMPLEMOB_SNEAK_MULTIPLIER
-	///Delay for movement and riding logic across the simple-animal hierarchy.
-	var/move_to_delay = 3
+	var/ride_move_delay = 3
 
 	///Hot simple_animal baby making vars.
 	var/list/childtype = null
@@ -153,8 +140,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	///Causes mob to be deleted on death, useful for mobs that spawn lootable corpses.
 	var/del_on_death = 0
 	var/deathmessage = ""
-
-	var/allow_movement_on_non_turfs = FALSE
 
 	///Played when someone punches the creature.
 	var/attacked_sound = "punch"
@@ -378,7 +363,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/proc/tamed(mob/user)
 	INVOKE_ASYNC(src, PROC_REF(emote), "lower_head", null, null, null, TRUE)
 	tame = TRUE
-	stop_automated_movement_when_pulled = TRUE
 	if(user)
 		owner = user
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
@@ -393,27 +377,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	..()
 	update_damage_overlays()
 	show_damage_stage()
-
-/mob/living/simple_animal/hostile
-	var/retreating
-
-/mob/living/simple_animal/hostile/updatehealth()
-	..()
-	if(!retreating)
-		if(target)
-			if(retreat_health)
-				if(health <= round(maxHealth*retreat_health))
-					emote("retreat")
-					retreat_distance = 20
-					minimum_distance = 20
-					retreating = world.time
-	if(!retreating || (world.time > retreating + 10 SECONDS))
-		retreating = null
-		retreat_distance = initial(retreat_distance)
-		minimum_distance = initial(minimum_distance)
-	if(HAS_TRAIT(src, TRAIT_RIGIDMOVEMENT))
-		return
-	move_to_delay = initial(move_to_delay)
 
 /mob/living/simple_animal/hostile/forceMove(turf/T)
 	var/list/BM = list()
@@ -1024,9 +987,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	add_overlay(mounted_overlay)
 
 /mob/living/simple_animal/proc/adjust_speed(mob/living/driver)
-	var/delay = vars["move_to_delay"]
-	if(!isnum(delay))
-		delay = 3
+	var/delay = ride_move_delay
 	if(driver?.m_intent == MOVE_INTENT_RUN)
 		delay -= 1
 	if(driver?.mind)

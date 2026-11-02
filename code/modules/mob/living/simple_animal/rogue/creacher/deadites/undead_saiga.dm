@@ -16,9 +16,6 @@
 	melee_damage_lower = 60
 	melee_damage_upper = 90
 	aggressive = 1
-	retreat_health = 0
-	retreat_distance = 0
-	minimum_distance = 0
 	tame_chance = 0
 	bonus_tame_chance = 0
 	can_buckle = TRUE

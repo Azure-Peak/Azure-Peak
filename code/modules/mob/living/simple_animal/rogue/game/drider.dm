@@ -33,6 +33,7 @@
 	bonus_tame_chance = 15
 	can_saddle = TRUE
 	can_buckle = TRUE
+	ride_move_delay = 8
 
 	ai_controller = /datum/ai_controller/spider/drider
 

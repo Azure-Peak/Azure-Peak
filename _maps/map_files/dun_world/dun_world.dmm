@@ -3181,8 +3181,7 @@
 /area/rogue/outdoors/town/roofs)
 "aEf" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/broodmother{
-	faction = list("wolfs");
-	retreat_health = 0.1
+	faction = list("wolfs")
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/dragonden)
@@ -80928,8 +80927,7 @@
 /area/rogue/indoors/cave)
 "nIC" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon{
-	faction = list("undead");
-	retreat_health = 0.1
+	faction = list("undead")
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/menageriedungeon)
@@ -94663,8 +94661,7 @@
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "pSV" = (
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon{
-	faction = list("wolfs");
-	retreat_health = 0.1
+	faction = list("wolfs")
 	},
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/dragonden)
@@ -117661,8 +117658,7 @@
 "tII" = (
 /obj/effect/decal/cleanable/blood/gibs/old,
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon{
-	faction = list("undead");
-	retreat_health = 0.1
+	faction = list("undead")
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/menageriedungeon)

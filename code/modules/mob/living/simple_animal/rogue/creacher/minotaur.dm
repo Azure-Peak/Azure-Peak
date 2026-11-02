@@ -15,9 +15,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 2
 	see_in_dark = 10
-	move_to_delay = 3
 
 	STACON = 19
 	STASTR = 16
@@ -39,13 +37,9 @@
 	maxHealth = MINOTAUR_HEALTH
 	melee_damage_lower = 55
 	melee_damage_upper = 80
-	vision_range = 3
-	aggro_vision_range = 8
 	limb_destroyer = 0 // seems strong
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 	obj_damage = 1
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
 	//obj/item/bodypart,
@@ -55,7 +49,6 @@
 	pooptype = null
 
 	deaggroprob = 0
-	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/combat/wooshes/blunt/wooshhuge (1).ogg','sound/combat/wooshes/blunt/wooshhuge (2).ogg','sound/combat/wooshes/blunt/wooshhuge (3).ogg')
 	dodgetime = 0

@@ -11,9 +11,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 2
 	see_in_dark = 10
-	move_to_delay = 3
 
 	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
 	threat_point = THREAT_TRASH
@@ -37,18 +35,13 @@
 	maxHealth = MIRESPIDER_CRAWLER_HEALTH
 	melee_damage_lower = 17
 	melee_damage_upper = 26
-	vision_range = 10
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 
 	STACON = 7
 	STASTR = 7
 	STASPD = 13
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	retreat_health = 0
 	food = 0
 
 	ai_controller = /datum/ai_controller/mirespider
@@ -154,7 +147,6 @@
 	projectiletype = /obj/projectile/bullet/spider
 
 	ranged = 1
-	minimum_distance = 1
 	ranged_cooldown_time = 100
 	check_friendly_fire = 1
 

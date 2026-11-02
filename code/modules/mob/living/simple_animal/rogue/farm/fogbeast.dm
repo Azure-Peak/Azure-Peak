@@ -13,6 +13,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	emote_see = list("looks around.", "chews some leaves.", "neighs")
 	speak_chance = 1
 	see_in_dark = 6
+	ride_move_delay = 8
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 		/obj/item/reagent_containers/food/snacks/fat = 2,

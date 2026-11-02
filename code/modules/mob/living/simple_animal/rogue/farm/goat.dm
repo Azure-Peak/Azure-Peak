@@ -52,9 +52,8 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	emote_see = list("shakes her head.", "chews her cud.")
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
-	move_to_delay = 8
+	ride_move_delay = 8
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/goatmale
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 									/obj/item/reagent_containers/food/snacks/fat = 1,
@@ -202,9 +201,8 @@
 	gender = MALE
 	emote_see = list("shakes his head.", "chews his cud.")
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 8
+	ride_move_delay = 8
 	base_intents = list(/datum/intent/simple/headbutt)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2,
 									/obj/item/reagent_containers/food/snacks/fat = 1,
@@ -230,8 +228,6 @@
 	melee_damage_lower = 25
 	melee_damage_upper = 50
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(
 		/obj/item/reagent_containers/food/snacks/grown/wheat,

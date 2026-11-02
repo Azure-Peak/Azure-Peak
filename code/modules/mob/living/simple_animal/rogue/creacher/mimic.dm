@@ -16,9 +16,6 @@
 	mob_biotypes = NONE
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2, /obj/effect/spawner/lootdrop/valuable_jewelry_spawner = 1)
-	retreat_distance = 0
-	minimum_distance = 0
-	aggro_vision_range = 2
 	see_in_dark = 6
 
 	harm_intent_damage = 5
@@ -33,8 +30,6 @@
 	speak_emote = list("clatters")
 
 	faction = list(FACTION_MIMIC, FACTION_HOSTILE)
-	stop_automated_movement = 1
-	wander = 0
 	stat_attack = UNCONSCIOUS
 
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, /obj/item/bodypart, /obj/item/organ)

@@ -17,7 +17,6 @@
 	ranged_message = "casts a spell"
 	ranged_cooldown = 0
 	ranged_cooldown_time = 90
-	ranged_ignores_vision = TRUE
 	check_friendly_fire = 1
 	environment_smash = 0
 	obj_damage = 100

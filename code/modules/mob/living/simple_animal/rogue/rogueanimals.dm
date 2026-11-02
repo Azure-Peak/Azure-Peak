@@ -2,7 +2,6 @@
 
 //these mobs run away when attacked
 /mob/living/simple_animal/hostile/retaliate/rogue
-	turns_per_move = 5
 	see_in_dark = 6
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
@@ -12,18 +11,12 @@
 	response_harm_simple = "kick"
 	faction = list(FACTION_ROGUEANIMAL)
 	blood_toll_bucket = STATS_KILLED_LESSER_BEASTS
-	robust_searching = 1
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	attack_sound = PUNCHWOOSH
 	health = 40
 	maxHealth = 40
-	move_to_delay = 5
 	minbodytemp = 180
-	lose_patience_timeout = 150
-	vision_range = 5
-	aggro_vision_range = 18
 	harm_intent_damage = 5
-	attack_same = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	blood_volume = BLOOD_VOLUME_NORMAL
 	food_type = list(
@@ -33,10 +26,7 @@
 	var/obj/item/udder/udder = null
 	footstep_type = FOOTSTEP_MOB_SHOE
 	var/milkies = FALSE
-	stop_automated_movement_when_pulled = 0
 	tame_chance = 0
-	retreat_distance = 10
-	minimum_distance = 10
 	dodge_sound = 'sound/combat/dodge.ogg'
 	dodge_prob = 0
 

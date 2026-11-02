@@ -13,9 +13,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 6
 	see_in_dark = 6
-	move_to_delay = 6
 	base_intents = list(/datum/intent/simple/bite/glimmerwing)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/fae/iridescentscale = 2)
@@ -26,13 +24,9 @@
 	threat_point = THREAT_HIGH
 	melee_damage_lower = 18
 	melee_damage_upper = 25
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 	simple_detect_bonus = 20
 	ranged = FALSE
-	retreat_distance = 0
-	minimum_distance = 0
 	food_type = list()
 	movement_type = FLYING
 	pooptype = null
@@ -43,7 +37,6 @@
 	deaggroprob = 0
 	candodge = TRUE
 	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = 'sound/blank.ogg'
 	dodgetime = 40
