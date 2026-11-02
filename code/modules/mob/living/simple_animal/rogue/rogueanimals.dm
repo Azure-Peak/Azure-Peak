@@ -160,10 +160,6 @@
 	else
 		return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/proc/return_action()
-	stop_automated_movement = FALSE
-	walk(src,0)
-
 /mob/living/simple_animal/hostile/retaliate/rogue/shood(mob/user)
 	if(tame && !(user in friends))
 		ai_controller?.force_aggro(user)
@@ -173,15 +169,9 @@
 	ai_controller?.force_aggro(M)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/beckoned(mob/user)
-	if(tame && !stop_automated_movement)
-		stop_automated_movement = TRUE
-		Goto(user)
-		addtimer(CALLBACK(src, PROC_REF(return_action)), 3 SECONDS)
+	if(tame)
+		ai_controller?.travel_for(user, 3 SECONDS)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/food_tempted(obj/item/O, mob/user)
-
-	if(food_typecache?[O.type] && !stop_automated_movement)
-
-		stop_automated_movement = TRUE
-		Goto(user)
-		addtimer(CALLBACK(src, PROC_REF(return_action)), 3 SECONDS)
+	if(food_typecache?[O.type])
+		ai_controller?.travel_for(user, 3 SECONDS)

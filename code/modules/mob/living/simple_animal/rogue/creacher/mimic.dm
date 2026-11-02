@@ -70,6 +70,9 @@
 	if(mimicking_chest::desc)
 		. += span_info("[mimicking_chest::desc]")
 
+/mob/living/simple_animal/hostile/retaliate/rogue/mimic/food_tempted(obj/item/O, mob/user)
+	return
+
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Life()
 	..()
 	if(pulledby)

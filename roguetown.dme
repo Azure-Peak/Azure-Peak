@@ -738,6 +738,7 @@
 #include "code\datums\ai\subtrees\spacing.dm"
 #include "code\datums\ai\subtrees\stamina_disengage.dm"
 #include "code\datums\ai\subtrees\targeted_ability_use.dm"
+#include "code\datums\ai\subtrees\timed_travel.dm"
 #include "code\datums\ai\subtrees\travel_to_point.dm"
 #include "code\datums\ai\subtrees\use_throwing_weapon.dm"
 #include "code\datums\ai\targetting_datum\lizard.dm"

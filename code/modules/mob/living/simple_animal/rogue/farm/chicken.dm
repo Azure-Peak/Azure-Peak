@@ -134,7 +134,7 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Life()
 	..()
-	if(!stat && (production > 29) && egg_type && isturf(loc) && !enemies.len)
+	if(!stat && (production > 29) && egg_type && isturf(loc) && !ai_controller?.has_aggro())
 
 		if(locate(/obj/structure/fluff/nest) in loc)
 			visible_message(span_alertalien("[src] [pick(layMessage)]"))
@@ -145,7 +145,7 @@
 			if(eggsFertile)
 				if(chicken_count < MAX_CHICKENS && prob(50))
 					E.fertile = TRUE
-		else if(!stop_automated_movement)
+		else if(!ai_controller?.is_timed_traveling())
 			//look for nests
 			var/list/foundnests = list()
 			for(var/obj/structure/fluff/nest/N in oview(src))
@@ -172,13 +172,9 @@
 					for(var/obj/item/grown/log/tree/stick/S in oview(src))
 						foundchaff += S
 				if(foundchaff.len)
-					stop_automated_movement = TRUE
-					Goto(pick(foundchaff))
-					addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
+					ai_controller?.travel_for(get_turf(pick(foundchaff)), 15 SECONDS)
 			else
-				stop_automated_movement = TRUE
-				Goto(pick(foundnests))
-				addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
+				ai_controller?.travel_for(get_turf(pick(foundnests)), 15 SECONDS)
 
 
 /obj/structure/fluff/nest
