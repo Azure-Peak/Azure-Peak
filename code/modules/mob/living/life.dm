@@ -60,7 +60,7 @@
 				if(!stemmed)
 					bleeding = TRUE
 			wound.heal_wound(0.4) // 40% of the heal happens naturally.
-			if(HAS_TRAIT(src, TRAIT_DEATHLESS))
+			if(!HAS_TRAIT(src, TRAIT_DEATHLESS))
 				wound.heal_wound(0.6) // The other bulk of the effects, only if you are not Deathless.
 				heal_psydonite(0.1, 0.1)
 		if(!(in_combat_until > world.time) && !cmode && !bleeding)
