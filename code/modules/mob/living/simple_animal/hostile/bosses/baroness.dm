@@ -63,7 +63,7 @@
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOZIZORECRUIT, TRAIT_GENERIC) //Not undead but if we ever change this.
 	AddComponent(/datum/component/ai_aggro_system, aggro_range = 8, maintain_range = 24)
-	var/datum/action/cooldown/baroness_summon/summon = new(src)
+	var/datum/action/cooldown/spell/baroness_summon/summon = new(src)
 	summon.Grant(src)
 
 /mob/living/simple_animal/hostile/boss/baroness/Shoot()

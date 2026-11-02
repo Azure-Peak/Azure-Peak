@@ -41,8 +41,6 @@
 	footstep_type = FOOTSTEP_MOB_SHOE
 	stat_attack = UNCONSCIOUS
 
-	var/obj/effect/proc_holder/spell/targeted/turf_teleport/blink/blink = null
-	var/list/taunt = list("Witness my power!", "Die!", "Suffer!")
 	var/minions_to_spawn = 6
 	var/mob_type
 	var/mob/new_mob
@@ -54,15 +52,6 @@
 /mob/living/simple_animal/hostile/boss/lich/Initialize(mapload)
 	projectiletype = /obj/projectile/bullet/reusable/deepone
 	. = ..()
-	blink = new /obj/effect/proc_holder/spell/targeted/turf_teleport/blink
-	blink.clothes_req = 0
-	blink.human_req = 0
-	blink.player_lock = 0
-	blink.inner_tele_radius = 5
-	blink.outer_tele_radius = 6
-	blink.invocations += pick(taunt)
-	blink.invocation_type = "shout"
-	AddSpell(blink)
 	//ADD_TRAIT(src, TRAIT_NOFIRE, TRAIT_GENERIC) //Testing vulnerability to the new silver changes. Un-// these if it becomes too easy.
 	ADD_TRAIT(src, TRAIT_SILVER_WEAK, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NPC_EXAMINE, TRAIT_GENERIC)
@@ -70,12 +59,12 @@
 	//REMOVE_TRAIT(src, TRAIT_SIMPLE_WOUNDS, TRAIT_GENERIC) //Ditto.
 	AddComponent(/datum/component/ai_aggro_system, aggro_range = 8, maintain_range = 24)
 	for(var/ability_type in list(
-		/datum/action/cooldown/lich/summon_minions,
-		/datum/action/cooldown/lich/blink,
-		/datum/action/cooldown/lich/fireball_wave,
-		/datum/action/cooldown/lich/projectile_wave,
+		/datum/action/cooldown/spell/lich/summon_minions,
+		/datum/action/cooldown/spell/lich/blink,
+		/datum/action/cooldown/spell/lich/fireball_wave,
+		/datum/action/cooldown/spell/lich/projectile_wave,
 	))
-		var/datum/action/cooldown/ability = new ability_type(src)
+		var/datum/action/cooldown/spell/ability = new ability_type(src)
 		ability.Grant(src)
 
 /mob/living/simple_animal/hostile/boss/lich/Shoot()
@@ -328,25 +317,3 @@
 	desc = "A strange key the Archlich dropped."
 	icon_state = "eyekey"
 	lockid = "lich"
-
-/obj/effect/proc_holder/spell/targeted/turf_teleport/blink
-	name = "Blink"
-	desc = ""
-
-	school = "abjuration"
-	recharge_time = 20
-	clothes_req = FALSE
-	range = -1
-	include_user = TRUE
-	cooldown_min = 5 //4 deciseconds reduction per rank
-
-
-	smoke_spread = 1
-	smoke_amt = 0
-
-	inner_tele_radius = 0
-	outer_tele_radius = 6
-
-	action_icon_state = "blink"
-	sound1 = 'sound/blank.ogg'
-	sound2 = 'sound/blank.ogg'
