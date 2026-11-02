@@ -57,6 +57,12 @@
 	destination.dna.body_markings = deepCopyList(body_markings)
 	destination.dna.update_body_size()
 
+	// Meisters work by taking a blood sample, so it would make sense to transfer meister accounts wih DNA.
+	if(SStreasury.has_account(destination) && destination.key) // key check in case you somehow copy from an NPC who happens to have an account
+		var/datum/fund/account = get_account(destination)
+		destination.account = account.Copy()
+		/* bank_accounts[destination] = bank_accounts[].Copy() ---fallback attempt */
+
 /datum/dna/proc/copy_dna(datum/dna/new_dna)
 	new_dna.unique_enzymes = unique_enzymes
 	new_dna.uni_identity = uni_identity
@@ -201,14 +207,14 @@
 
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = TRUE, datum/preferences/pref_load = null)
 	set waitfor = 0
-	
+
 	if(pref_load)
 		skin_tone = pref_load.skin_tone
 	..()
 	if(icon_update)
 		update_body()
 		update_hair()
-		update_body_parts(TRUE)	
+		update_body_parts(TRUE)
 
 /mob/proc/has_dna()
 	return
