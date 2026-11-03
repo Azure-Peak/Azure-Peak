@@ -73,7 +73,7 @@
 	button_icon_state = "art_summon"
 	usage_probability = 100
 	boss_cost = 70
-	boss_type = /mob/living/simple_animal/hostile/retaliate/rogue/boss/lich
+	boss_type = /mob/living/simple_animal/hostile/boss/lich
 	needs_target = TRUE
 	say_when_triggered = "Hgf'ant'kthar!"
 	var/static/summoned_minions = 0
@@ -217,7 +217,7 @@
 	new /obj/item/roguekey/mage/lich(T)
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boss/lich/simple_limb_hit(zone)
+/mob/living/simple_animal/hostile/boss/lich/simple_limb_hit(zone)
 	if(!zone)
 		return ""
 	switch(zone)

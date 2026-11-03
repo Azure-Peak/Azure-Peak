@@ -175,7 +175,7 @@
 	new /obj/item/clothing/neck/roguetown/ornateamulet(T)
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/boss/baroness/simple_limb_hit(zone)
+/mob/living/simple_animal/hostile/boss/baroness/simple_limb_hit(zone)
 	if(!zone)
 		return ""
 	switch(zone)
