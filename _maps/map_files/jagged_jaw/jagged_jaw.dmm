@@ -20655,13 +20655,6 @@
 /obj/item/seeds/coffee,
 /turf/open/floor/rogue/grasscold,
 /area/rogue/druidsgrove/grim)
-"czK" = (
-/obj/structure/standingbell{
-	name = "church service bell";
-	specific_location = "Cathedral Nave"
-	},
-/turf/open/floor/rogue/churchmarble,
-/area/rogue/indoors/town/church/chapel/grim)
 "czL" = (
 /obj/structure/fluff/railing/border/west,
 /turf/open/water/ocean,
@@ -52567,13 +52560,6 @@
 /obj/structure/flora/roguegrass/water/reeds,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/woods/grim/southwest)
-"gqG" = (
-/obj/structure/standingbell{
-	dir = 1;
-	name = "merchant service bell"
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/shop)
 "gqJ" = (
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/grasscold,
@@ -57411,9 +57397,6 @@
 	dir = 1
 	},
 /obj/structure/fluff/wallclock/l,
-/obj/structure/standingbell{
-	name = "clinic service bell"
-	},
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/town/physician)
 "gWa" = (
@@ -117333,13 +117316,6 @@
 /obj/structure/stairs/stone,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/spider/grim)
-"ohO" = (
-/obj/structure/standingbell{
-	name = "church service bell";
-	specific_location = "Public Kitchen"
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town/church/chapel/grim/almonry)
 "ohP" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -123584,17 +123560,6 @@
 /obj/structure/hotspring/border/seven,
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/under/cave/peace/grim)
-"oUC" = (
-/obj/structure/standingbell{
-	name = "keeper service bell";
-	dir = 1
-	},
-/obj/effect/decal/edge_corner{
-	color = "#3f3f3f";
-	dir = 4
-	},
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/church/basement/grim)
 "oUE" = (
 /obj/effect/decal/edge{
 	color = "#371A14";
@@ -131092,14 +131057,6 @@
 /obj/item/ingot/copper,
 /turf/open/floor/rogue/blocks/stonered,
 /area/rogue/indoors/town/dwarfin/grim)
-"pNy" = (
-/obj/structure/standingbell{
-	specific_location = "Infirmary of Pestra";
-	name = "church service bell";
-	dir = 1
-	},
-/turf/open/floor/rogue/blocks,
-/area/rogue/indoors/town/church/grim/infirmary)
 "pNA" = (
 /obj/structure/flora/newtree,
 /turf/open/floor/rogue/grassred,
@@ -169310,12 +169267,6 @@
 	},
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/exposed/town/keep/grim)
-"uql" = (
-/obj/structure/standingbell{
-	name = "steward service bell"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/steward)
 "uqm" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
@@ -178856,10 +178807,6 @@
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/woods/grim/southeast)
 "vvr" = (
-/obj/structure/standingbell{
-	dir = 1;
-	name = "guild service bell"
-	},
 /obj/machinery/light/rogue/torchholder{
 	dir = 1
 	},
@@ -383923,7 +383870,7 @@ mbX
 ppx
 cVf
 rUm
-oUC
+pIF
 mNf
 sXR
 wzW
@@ -506550,7 +506497,7 @@ iKJ
 lON
 bMm
 xGc
-ohO
+teK
 bcr
 hel
 tRh
@@ -508073,7 +508020,7 @@ avX
 ycn
 tMD
 jgg
-pNy
+jgg
 koW
 teK
 gOG
@@ -508083,7 +508030,7 @@ pwC
 xQM
 xQM
 xQM
-czK
+xQM
 gRV
 jxs
 qii
@@ -508382,7 +508329,7 @@ sDp
 wxZ
 woF
 rmv
-gqG
+gvr
 sDp
 tyO
 iHh
@@ -511856,7 +511803,7 @@ aOu
 fRr
 aOu
 aOu
-uql
+aOu
 tyu
 gRB
 gRB
