@@ -479,6 +479,27 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		/datum/patron/inhumen/baotha = "Lady of Heartbreak, grant mercy to this wounded soul!" // once more, similar to eora's. emphasizes the "mercy" baotha grants to the broken
 		))
 
+/mob/living/carbon/human/proc/poll_conversion(mob/living/carbon/human/new_convert, convert_message, list/result, list/poll_done)
+	var/list/accepted = SSpolling.poll_candidates(
+		question = convert_message,
+		poll_time = 10 SECONDS,
+		flash_window = FALSE,
+		group = list(new_convert),
+		alert_pic = src,
+		role_name_text = "Conversion",
+		custom_response_messages = list(
+			POLL_RESPONSE_SIGNUP = "You accept the conversion.",
+			POLL_RESPONSE_ALREADY_SIGNED = "You have already accepted.",
+			POLL_RESPONSE_NOT_SIGNED = "You have not accepted.",
+			POLL_RESPONSE_TOO_LATE_TO_UNREGISTER = "It is too late to back out.",
+			POLL_RESPONSE_UNREGISTERED = "You withdraw your acceptance.",
+		),
+		announce_chosen = FALSE,
+	)
+	if(length(accepted))
+		result += accepted
+	poll_done += TRUE
+
 /mob/living/carbon/human/proc/convert_other(atom/victim)
 
 	var/mob/living/carbon/human/caster = src
@@ -547,15 +568,16 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			else // this should not happen but if people add more gods and don't update this it's good to have a fallback
 				convert_message = "[caster.real_name] is trying to convert you to [get_god_name(caster.patron)]. Will you accept?"
 	convert_message += " THIS WILL CHANGE YOUR PATRON."
-	// this is going to look slightly jank, and it is. but this is the best way to get a window that doesn't steal focus, can't intercept your clicks, and can't be meta'd; all concerns people had with alert()
-	var/list/result = list(new_convert)
+	var/list/result = list()
+	var/list/poll_done = list()
 	if(!is_tennite && istype(caster.patron, new_convert.patron.type))
-		result -= new_convert
+		poll_done += TRUE
 	else
-		showCandidatePollWindow(new_convert, 10 SECONDS, convert_message, result, null, world.time, flashwindow = FALSE)
+		INVOKE_ASYNC(src, PROC_REF(poll_conversion), new_convert, convert_message, result, poll_done)
 	if(!do_mob(caster, new_convert, 10 SECONDS, can_move = FALSE) || caster.cmode || new_convert.cmode)
 		to_chat(caster, span_info("I lose focus! The rite fails."))
 		return FALSE
+	UNTIL(length(poll_done))
 	if(!length(result))
 		if(is_tennite)
 			to_chat(caster, span_warning("[new_convert] is not responsive to my proselytizing..."))
