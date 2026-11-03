@@ -495,6 +495,7 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			POLL_RESPONSE_UNREGISTERED = "You withdraw your acceptance.",
 		),
 		announce_chosen = FALSE,
+		signup_verb = "Convert",
 	)
 	if(length(accepted))
 		result += accepted

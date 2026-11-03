@@ -54,6 +54,7 @@ SUBSYSTEM_DEF(polling)
 	amount_to_pick = 0,
 	chat_text_border_icon,
 	announce_chosen = TRUE,
+	signup_verb,
 )
 	if(group.len == 0)
 		return
@@ -146,7 +147,7 @@ SUBSYSTEM_DEF(polling)
 		var/custom_link_style_end = "style='color:DodgerBlue;font-weight:bold;-dm-text-outline: 1px black'"
 		if(isatom(alert_pic) && isobserver(candidate_mob))
 			act_jump = "[custom_link_style_start]<a href='byond://?src=[REF(poll_alert_button)];jump=1'[custom_link_style_end]>\[Teleport\]</a>"
-		var/act_signup = "[custom_link_style_start]<a href='byond://?src=[REF(poll_alert_button)];signup=1'[custom_link_style_end]>\[[start_signed_up ? "Opt out" : "Sign Up"]\]</a>"
+		var/act_signup = "[custom_link_style_start]<a href='byond://?src=[REF(poll_alert_button)];signup=1'[custom_link_style_end]>\[[signup_verb || (start_signed_up ? "Opt out" : "Sign Up")]\]</a>"
 		var/act_never = ""
 		if(ignore_category)
 			act_never = "[custom_link_style_start]<a href='byond://?src=[REF(poll_alert_button)];never=1'[custom_link_style_end]>\[Never For This Round\]</a>"
