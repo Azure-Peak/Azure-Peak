@@ -83,6 +83,11 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 		if("Psydonic War Axe")
 			H.put_in_hands(new /obj/item/rogueweapon/stoneaxe/battle/silver/psy)
+			var/obj/item/hip = H.beltr
+			qdel(H.belt)
+			H.equip_to_slot_or_del(new /obj/item/storage/belt/rogue/leather/tossbelt/tomahawk/black/psy, SLOT_BELT, TRUE)
+			if(hip)
+				H.equip_to_slot_or_del(hip, SLOT_BELT_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
 
 	var/bows = list("Crossbow - Access To Special Bolts", "Siegebow - Greater Damage, Structurebreaker")

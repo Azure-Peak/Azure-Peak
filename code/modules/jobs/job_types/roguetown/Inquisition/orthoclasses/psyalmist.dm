@@ -51,7 +51,7 @@
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/preblessed
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/psy/preblessed
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/clothing/ring/signet/psy
 	backpack_contents = list(

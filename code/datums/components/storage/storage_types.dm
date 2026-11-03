@@ -88,7 +88,7 @@
 	. = ..()
 	can_hold = typecacheof(list(/obj/item/roguekey))
 
-/datum/component/storage/concrete/roguetown/belt/knife_belt
+/datum/component/storage/concrete/roguetown/belt/tossbelt
 	screen_max_rows = 3		//Lets you hold a regular knife + keys basically.
 	screen_max_columns = 1
 

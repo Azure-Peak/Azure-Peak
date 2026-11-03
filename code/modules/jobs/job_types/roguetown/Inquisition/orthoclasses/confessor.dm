@@ -51,7 +51,7 @@
 	gloves = /obj/item/clothing/gloves/roguetown/otavan/psygloves
 	neck = /obj/item/clothing/neck/roguetown/gorget
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/preblessed
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/psy/preblessed
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots

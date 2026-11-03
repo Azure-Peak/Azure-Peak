@@ -402,7 +402,7 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/iron
 	beltr = /obj/item/rogueweapon/huntingknife/idagger/steel/special
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/poor
 	var/is_bard = FALSE

@@ -98,7 +98,7 @@
 		/obj/item/bomb/smoke = 3,
 		)
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/kazengun
 	gloves = /obj/item/clothing/gloves/roguetown/eastgloves1
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/eastpants1
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt1

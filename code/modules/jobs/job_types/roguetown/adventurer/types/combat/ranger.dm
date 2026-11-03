@@ -106,7 +106,7 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/iron
 	armor = /obj/item/clothing/suit/roguetown/armor/leather
 	cloak = /obj/item/clothing/cloak/raincloak/mortus
 	backl = /obj/item/storage/backpack/rogue/satchel
@@ -287,7 +287,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_APPRENTICE, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_APPRENTICE, TRUE)
 				ADD_TRAIT(H, TRAIT_CIVILIZEDBARBARIAN, TRAIT_GENERIC)
-				belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+				belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/iron
 				beltl = /obj/item/quiver/javelin/iron
 				beltr = /obj/item/net
 		if(!uses_wits)
