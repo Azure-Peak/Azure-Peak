@@ -201,11 +201,11 @@
 			var/datum/bounty/existing_bounty = get_bounty_for_target_faction(target.real_name, faction)
 			var/amount = text2num(params["amount"])
 			var/minimum_amount = existing_bounty ? 1 : 100
-			if(amount < minimum_amount || amount > 500 || round(amount) != amount)
-				to_chat(user, span_warning("Bounty amount must be a whole number between [minimum_amount] and 500 mammon."))
+			if(amount < minimum_amount || amount > 600 || round(amount) != amount)
+				to_chat(user, span_warning("Bounty amount must be a whole number between [minimum_amount] and 600 mammon."))
 				return TRUE
-			if(existing_bounty && existing_bounty.amount + amount > 500)
-				to_chat(user, span_warning("The combined bounty cannot exceed 500 mammon."))
+			if(existing_bounty && existing_bounty.amount + amount > 600)
+				to_chat(user, span_warning("The combined bounty cannot exceed 600 mammon."))
 				return TRUE
 			if(!SStreasury.has_account(user))
 				to_chat(user, span_warning("You have no bank account."))
@@ -261,7 +261,7 @@
 	var/resolved_faction = bounty_faction || get_bounty_faction_for_employer(employer_name)
 	var/datum/bounty/existing_bounty = get_bounty_for_target_faction(target_realname, resolved_faction)
 	if(existing_bounty)
-		existing_bounty.amount = min(existing_bounty.amount + amount, 500)
+		existing_bounty.amount = min(existing_bounty.amount + amount, 600)
 		existing_bounty.reason += "\n[html_encode(reason)]"
 		existing_bounty.unremovable = existing_bounty.unremovable || unremovable
 		existing_bounty.banner = ""
@@ -269,7 +269,7 @@
 		return existing_bounty
 
 	var/datum/bounty/new_bounty = new /datum/bounty
-	new_bounty.amount = min(amount, 500)
+	new_bounty.amount = min(amount, 600)
 	new_bounty.target = target_realname
 	new_bounty.reason = html_encode(reason)
 	new_bounty.employer = employer_name
@@ -490,6 +490,7 @@
 		if(istype(old_mask, /obj/item/clothing/neck/roguetown/collar/prisoner))
 			say("COLLAR DISCARDED. FREEDOM, AT LAST...")
 			M.dropItemToGround(old_mask, TRUE)
+			M.visible_message(span_warning("The collar's magic flares as it comes free, and [M] crumples, feeling drained."))
 			M.apply_status_effect(/datum/status_effect/debuff/devitalised)
 			M.apply_status_effect(/datum/status_effect/debuff/permadeath)
 			M.play_permadeath_indicator()
@@ -526,7 +527,7 @@
 	. += span_info("Buckle a bounty target to the chair, then right-click to process them.")
 	if(bounty_faction)
 		. += span_info("This CASTIFICO only claims bounties posted by [bounty_faction].")
-	. += span_info("If they have an active bounty, they will be fitted with a pacification collar and you will receive a reward.")
+	. += span_info("If they have an active bounty, they will be fitted with a castifico collar whose effects scale with their bounty, and you will receive a reward.")
 	. += span_info("The target can submit or resist. Resisting is fatal.")
 	. += span_info("Outlaws cannot operate this machine.")
 
@@ -580,6 +581,8 @@
 			reward_amount += b.amount
 			GLOB.head_bounties -= b
 
+	var/collar_bounty_amount = reward_amount
+
 	say(pick(list("Processing subject...", "Commencing PUNISHMENT routine...", "Restoring ORDER...")))
 
 	sleep(1 SECONDS)
@@ -614,6 +617,7 @@
 			M.dropItemToGround(old_mask, TRUE)
 		var/obj/item/clothing/neck/roguetown/collar/prisoner/prisonmask = new(get_turf(M))
 		prisonmask.issuing_faction = bounty_faction
+		prisonmask.bounty_amount = collar_bounty_amount
 		prisonmask.name = "[bounty_faction] castifico collar"
 		M.equip_to_slot_or_del(prisonmask, SLOT_NECK, TRUE)
 		playsound(src.loc, 'sound/items/beartrap.ogg', 100, TRUE, -1)
@@ -741,4 +745,7 @@
 
 /obj/item/castifico_key/liberation/get_unlock_time(mob/user)
 	var/pickskill = user.get_skill_level(/datum/skill/misc/lockpicking)
-	return max(6 SECONDS, unlock_time - pickskill * 3 SECONDS)
+	var/picktime = max(6 SECONDS, unlock_time - pickskill * 3 SECONDS)
+	if(HAS_TRAIT(user, TRAIT_GILDED_SIGHT))
+		picktime = clamp(picktime, 10, 15)
+	return picktime

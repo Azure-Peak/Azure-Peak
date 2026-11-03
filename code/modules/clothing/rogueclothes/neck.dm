@@ -1766,13 +1766,14 @@
 	desc = "A metal collar that seals around the neck, making it impossible to remove. It seems to be enchanted with some kind of vile magic..."
 	var/active_item
 	var/issuing_faction
+	var/bounty_amount = 0
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
 	body_parts_covered = NONE //it's not armor
 
 /obj/item/clothing/neck/roguetown/collar/prisoner/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("This cursed collar enforces pacifism and blocks spellcasting.")
+	. += span_info("This cursed collar blocks spellcasting and weakens its wearer according to their bounty amount. A bounty of 500 mammon or more pacifies the wearer instead.")
 	. += span_info("It can be removed using a LIBERTAS machine, a key of liberation, or a key of absolution issued by the same faction.")
 
 /obj/item/clothing/neck/roguetown/collar/prisoner/Initialize(mapload)
@@ -1783,6 +1784,9 @@
 	. = ..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
 	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+	user.remove_status_effect(/datum/status_effect/debuff/castificot1)
+	user.remove_status_effect(/datum/status_effect/debuff/castificot2)
+	user.remove_status_effect(/datum/status_effect/debuff/castificot3)
 	if(QDELETED(src))
 		return
 	qdel(src)
@@ -1793,9 +1797,17 @@
 		return
 	else if(slot == SLOT_NECK)
 		active_item = TRUE
-		to_chat(user, span_warning("This accursed collar pacifies me!"))
-		ADD_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+		to_chat(user, span_warning("This accursed collar blocks my spellcasting!"))
 		ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+		if(bounty_amount >= 100 && bounty_amount <= 200)
+			user.apply_status_effect(/datum/status_effect/debuff/castificot1)
+		else if(bounty_amount <= 400 && bounty_amount > 200)
+			user.apply_status_effect(/datum/status_effect/debuff/castificot2)
+		else if(bounty_amount > 400 && bounty_amount < 500)
+			user.apply_status_effect(/datum/status_effect/debuff/castificot3)
+		if(bounty_amount >= 500)
+			to_chat(user, span_warning("The collar's magic overwhelms your body, forcing you into pacifism!"))
+			ADD_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
 		if(HAS_TRAIT(user, TRAIT_RITUALIST))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 	return

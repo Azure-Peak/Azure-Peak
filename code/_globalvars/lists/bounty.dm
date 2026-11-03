@@ -7,7 +7,8 @@ GLOBAL_LIST_INIT(bounty_posters, list(
 GLOBAL_LIST_INIT(wretch_severities, list(
 	"MISDEED" = "Misdeed",
 	"HARM" = "Harm towards lyfe",
-	"ATROCITY" = "Horrific atrocities"
+	"ATROCITY" = "Horrific atrocities",
+	"UNFORGIVABLE" = "Unforgivable sins against mankind"
 ))
 
 GLOBAL_LIST_INIT(vagabond_severities, list(
@@ -49,12 +50,17 @@ GLOBAL_LIST_INIT(wretch_bounty_severities, list(
 	"HARM" = list(
 		"name" = "Harm towards lyfe",
 		"min" = 200,
-		"max" = 300
+		"max" = 400
 	),
 	"ATROCITY" = list(
 		"name" = "Horrific atrocities",
-		"min" = 300,
-		"max" = 400
+		"min" = 400,
+		"max" = 499
+	),
+	"UNFORGIVABLE" = list(
+		"name" = "Unforgivable sins against mankind",
+		"min" = 500,
+		"max" = 600
 	)
 ))
 

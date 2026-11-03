@@ -70,7 +70,7 @@ export const Bounty = () => {
     (bounty) => bounty.target === target,
   );
   const minimumAmount = existingTargetBounty ? 1 : 100;
-  const maximumAmount = Math.max(0, 500 - (existingTargetBounty?.amount ?? 0));
+  const maximumAmount = Math.max(0, 600 - (existingTargetBounty?.amount ?? 0));
   const canManageFaction = !!data.can_manage && data.manage_faction === faction;
   const numericAmount = Number(amount);
   const canSubmit =
@@ -230,7 +230,7 @@ export const Bounty = () => {
                   </span>{' '}
                   mammon.
                 </div>
-                <div>Bounty rewards may range between 100 and 500 mammon.</div>
+                <div>Bounty rewards may range between 100 and 600 mammon.</div>
               </div>
               {data.known_targets.length ? (
                 <>
@@ -276,8 +276,9 @@ export const Bounty = () => {
                         marginTop: '4px',
                       }}
                     >
-                      This will add to the existing bounty (up to{' '}
-                      {maximumAmount} more mammon) and append the reason.
+                      {maximumAmount === 0
+                        ? 'This bounty cannot be increased any further.'
+                        : `This will add to the existing bounty (up to ${maximumAmount} more mammon) and append the reason.`}
                     </div>
                   )}
                   <TextArea
