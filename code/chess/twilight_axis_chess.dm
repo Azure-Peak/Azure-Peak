@@ -163,18 +163,6 @@
 	rotate_board_clockwise(user)
 	return TRUE
 
-
-/obj/structure/chessboard/attack_ghost(mob/dead/observer/user)
-	if(!in_range(src, user))
-		return ..()
-	ui_interact(user)
-	return TRUE
-
-/obj/structure/chessboard/ui_status(mob/user, datum/ui_state/state)
-	if(isobserver(user))
-		return in_range(src, user) ? UI_UPDATE : UI_CLOSE
-	return ..()
-
 /obj/structure/chessboard/ui_interact(mob/user, datum/tgui/ui)
 	mark_viewer_active(user)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -233,8 +221,6 @@
 
 	var/mob/user = usr
 	if(!user)
-		return FALSE
-	if(isobserver(user))
 		return FALSE
 	if(!user.canUseTopic(src, be_close = TRUE))
 		return FALSE
@@ -438,7 +424,7 @@
 	update_board_transform()
 
 /obj/structure/chessboard/proc/mark_viewer_active(mob/user)
-	if(!user || !user.ckey || isobserver(user))
+	if(!user || !user.ckey)
 		return
 	if(!active_ui_ckeys)
 		active_ui_ckeys = list()
