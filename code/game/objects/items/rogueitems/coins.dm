@@ -60,7 +60,7 @@
 /obj/item/roguecoin/examine(mob/user)
 	. = ..()
 	if(quantity > 1)
-		. += span_info("\Roman [quantity] coins.")
+		. += span_info("[quantity] coins.")
 
 /obj/item/roguecoin/proc/merge(obj/item/roguecoin/G, mob/user)
 	if(!G)
