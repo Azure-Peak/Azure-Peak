@@ -85,18 +85,15 @@
 			user.adjust_skillrank(/datum/skill/misc/climbing, -2, TRUE)
 		to_chat(user, span_notice("I feel mundane once more"))
 
-/datum/magic_item/superior/thievery
-	name = "fast fingers"
+/datum/magic_item/superior/lockpicking
+	name = "lockpicking"
 	description = "It looks like it fits just right"
 	glow_color = "#483D8B"
 	var/active_item = FALSE
-	var/masterstealer = FALSE
-	var/legendstealer = FALSE
-	var/legendlockpick = FALSE
 
-/datum/magic_item/superior/thievery/on_equip(obj/item/i, mob/living/user, slot)
+/datum/magic_item/superior/lockpicking/on_equip(obj/item/i, mob/living/user, slot)
 	. = ..()
-	if((user.get_skill_level(/datum/skill/misc/stealing)== 6) && (user.get_skill_level(/datum/skill/misc/lockpicking)== 6))
+	if(user.get_skill_level(/datum/skill/misc/lockpicking) == 6)
 		to_chat(user, span_notice("I'm too skilled to use this"))
 		return
 	if(slot == ITEM_SLOT_HANDS)
@@ -105,33 +102,14 @@
 		return
 	else
 		active_item = TRUE
-		if (user.get_skill_level(/datum/skill/misc/stealing) == 6)
-			legendstealer = TRUE
-			masterstealer = FALSE
-		if (user.get_skill_level(/datum/skill/misc/stealing)== 5)
-			user.adjust_skillrank(/datum/skill/misc/stealing, 1, TRUE)
-			masterstealer = TRUE
-		else
-			user.adjust_skillrank(/datum/skill/misc/stealing, 2, TRUE)
-
-		if (user.get_skill_level(/datum/skill/misc/lockpicking)== 6)
-			legendlockpick = TRUE
-		else
-			user.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
-
+		user.adjust_skillrank(/datum/skill/misc/lockpicking, 1, TRUE)
 		to_chat(user, span_notice("I feel more dextrous!"))
 
-/datum/magic_item/superior/thievery/on_drop(obj/item/i, mob/living/user)
+/datum/magic_item/superior/lockpicking/on_drop(obj/item/i, mob/living/user)
 	. = ..()
 	if(active_item)
 		active_item = FALSE
-		if (!legendstealer)
-			if (masterstealer)
-				user.adjust_skillrank(/datum/skill/misc/stealing, -1, TRUE)
-			else
-				user.adjust_skillrank(/datum/skill/misc/stealing, -2, TRUE)
-		if(!legendlockpick)
-			user.adjust_skillrank(/datum/skill/misc/lockpicking, -1, TRUE)
+		user.adjust_skillrank(/datum/skill/misc/lockpicking, -1, TRUE)
 		to_chat(user, span_notice("I feel mundane once more"))
 
 /datum/magic_item/superior/smithing

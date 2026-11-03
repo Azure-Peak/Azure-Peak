@@ -174,6 +174,8 @@
 	. = ..()
 	if(!mailer)
 		. += "<a href='?src=[REF(src)];read=1'>Read</a> (<a href='?src=[REF(src)];Help=1'>Help</a>)"
+	else if(mailer == MAILER_ANONYMOUS)
+		. += "It's a sealed letter, addressed to [mailedto]."
 	else
 		. += "It's from [mailer], addressed to [mailedto].</a>"
 
@@ -196,7 +198,7 @@
 //		var/obj/screen/read/R = user.hud_used.reads
 		user << browse_rsc('html/book.png')
 		var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
-			<html><head><style type=\"text/css\">
+			<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><style type=\"text/css\">
 			body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
 		dat += info
 		dat += "<br>"
@@ -210,10 +212,10 @@
 /*
 	if(in_range(user, src) || isobserver(user))
 		if(user.is_literate())
-			user << browse("<HTML><HEAD><TITLE>[name]</TITLE>[extra_headers]</HEAD><BODY>[info]<HR></BODY></HTML>", "window=paper[md5(name)]")
+			user << browse("<HTML><HEAD><TITLE>[name]</TITLE><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">[extra_headers]</HEAD><BODY>[info]<HR></BODY></HTML>", "window=paper[md5(name)]")
 			onclose(user, "paper[md5(name)]")
 		else
-			user << browse("<HTML><HEAD><TITLE>[name]</TITLE>[extra_headers]</HEAD><BODY>[stars(info)]<HR></BODY></HTML>", "window=paper[md5(name)]")
+			user << browse("<HTML><HEAD><TITLE>[name]</TITLE><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">[extra_headers]</HEAD><BODY>[stars(info)]<HR></BODY></HTML>", "window=paper[md5(name)]")
 			onclose(user, "paper[md5(name)]")
 	else
 		return "<span class='warning'>You're too far away to read it.</span>"
@@ -222,7 +224,7 @@
 /obj/item/paper/proc/format_browse(t, mob/user)
 	user << browse_rsc('html/book.png')
 	var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
-			<html><head><style type=\"text/css\">
+			<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><style type=\"text/css\">
 			body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
 	dat += "[t]<br>"
 	dat += "<a href='?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
@@ -251,7 +253,7 @@
 
 /obj/item/paper/attack_self(mob/user)
 	if(mailer)
-		user.visible_message(span_notice("[user] opens a letter."), span_notice("I open the letter from [mailer]."))
+		user.visible_message(span_notice("[user] opens a letter."), span_notice(mailer == MAILER_ANONYMOUS ? "I open the letter." : "I open the letter from [mailer]."))
 		cached_mailer = mailer
 		cached_mailedto = mailedto
 		mailer = null
@@ -362,7 +364,7 @@
 
 
 /obj/item/paper/proc/openhelp(mob/user)
-	user << browse({"<HTML><HEAD><TITLE>Paper Help</TITLE></HEAD>
+	user << browse({"<HTML><HEAD><TITLE>Paper Help</TITLE><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></HEAD>
 	<BODY>
 		You can use backslash (\\) to escape special characters.<br>
 		<br>
@@ -372,7 +374,7 @@
 		*text* : Makes the text <i>italic</i>.<br>
 		^text^ : Increases the <font size = \"4\">size</font> of the text.<br>
 		%s : Inserts a signature of your name in a foolproof way.<br>
-		%f : Inserts an invisible field which lets you start type from there. Useful for forms.<br>
+		%f : Inserts an invisible field which lets you start typing from there. Useful for forms.<br>
 		((text)) : Decreases the <font size = \"1\">size</font> of the text.<br>
 		* item : An unordered list item.<br>
 		&nbsp;&nbsp;* item: An unordered list child item.<br>
@@ -611,7 +613,9 @@
 		else
 			. += "There's a [note.name] attached to it..."
 			. += note.examine(user)
-	if(mailer)
+	if(mailer == MAILER_ANONYMOUS)
+		. += "It's addressed to [mailedto]."
+	else if(mailer)
 		. += "It's from [mailer], addressed to [mailedto].</a>"
 
 /obj/item/smallDelivery/attackby(obj/item/W, mob/user, params)

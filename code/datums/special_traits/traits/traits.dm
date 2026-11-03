@@ -231,7 +231,6 @@
 	weight = 100
 
 /datum/special_trait/thief/on_apply(mob/living/carbon/human/character, silent)
-	character.adjust_skillrank_up_to(/datum/skill/misc/stealing, 5, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/misc/sneaking, 4, TRUE)
 	character.adjust_skillrank_up_to(/datum/skill/misc/climbing, 3, TRUE)
 
@@ -527,7 +526,6 @@
 	character.adjust_skillrank(/datum/skill/combat/knives, 2, TRUE)
 	character.adjust_skillrank(/datum/skill/misc/reading, -2, TRUE)
 	character.adjust_skillrank(/datum/skill/misc/sneaking, -2, TRUE)
-	character.adjust_skillrank(/datum/skill/misc/stealing, -2, TRUE)
 
 /datum/special_trait/vengantbum
 	name = "Vengant Bum"

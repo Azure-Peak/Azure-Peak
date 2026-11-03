@@ -331,6 +331,8 @@ GLOBAL_LIST_INIT(roleplay_readme, world.file2list("strings/rt/rp_prompt.txt"))
 				break
 		if(has_restricted_virtue || has_restricted_quirk || has_restricted_vice)
 			return JOB_UNAVAILABLE_VIRTUESVICE
+	if(length(job.get_quirk_job_lock_names(client.prefs)))
+		return JOB_UNAVAILABLE_VIRTUESVICE
 	if(job.prefs_all_subclasses_restricted(client))
 		return JOB_UNAVAILABLE_VIRTUESVICE
 	if(latejoin && !job.special_check_latejoin(client))

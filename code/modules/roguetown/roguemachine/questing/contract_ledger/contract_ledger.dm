@@ -313,7 +313,6 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"projected_reward" = Q.project_fellowship_reward(user),
 			"fellowship_threat_rate" = Q.fellowship_threat_rate,
 			"fellowship_reward_rate" = Q.fellowship_reward_rate,
-			"fellowship_group_bonus" = Q.fellowship_reward_rate ? (Q.get_difficulty_term("group_bonus") || 0) : 0,
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,

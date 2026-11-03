@@ -200,7 +200,7 @@
 	latin_name = "Minor Aspectus Mortis"
 	desc = "Her lesser works, taught to the beginning necromancer."
 	aspect_type = ASPECT_MINOR
-	school_color = GLOW_COLOR_ZIZO
+	school_color = PATRON_COLOR_ZIZO
 	class_locked = TRUE
 	binding_chants = list(
 		"Let the dead heed my call.",

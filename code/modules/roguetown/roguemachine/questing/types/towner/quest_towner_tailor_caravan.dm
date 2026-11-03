@@ -18,11 +18,6 @@
 		THREAT_REGION_AZURE_GROVE,
 		THREAT_REGION_AZUREAN_COAST,
 	)
-	eligible_factions = list(
-		QUEST_FACTION_HIGHWAYMAN,
-		QUEST_FACTION_SEA_GOBLIN,
-		QUEST_FACTION_GRONNMAN,
-	)
 	varieties = list(
 		"leathers" = list(
 			"label" = "Hides & Furs",
@@ -39,6 +34,12 @@
 					list("path" = /obj/item/reagent_containers/food/snacks/tallow, "min" = 6, "max" = 10, "noun" = "tallow"),
 					list("path" = /obj/item/natural/fur/direbear, "min" = 1, "max" = 3, "noun" = "dire bear fur"),
 				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/natural/hide/cured, "min" = 28, "max" = 36, "noun" = "cured hides"),
+					list("path" = /obj/item/natural/fur, "min" = 28, "max" = 36, "noun" = "fur"),
+					list("path" = /obj/item/reagent_containers/food/snacks/tallow, "min" = 10, "max" = 14, "noun" = "tallow"),
+					list("path" = /obj/item/natural/fur/direbear, "min" = 3, "max" = 4, "noun" = "dire bear fur"),
+				),
 			),
 		),
 		"silks" = list(
@@ -53,6 +54,11 @@
 					list("path" = /obj/item/natural/bundle/cloth/roll, "min" = 5, "max" = 8, "noun" = "rolls of cloth"),
 					list("path" = /obj/item/natural/silk, "min" = 24, "max" = 30, "noun" = "silk"),
 					list("path" = /obj/item/natural/cured/essence, "min" = 3, "max" = 5, "noun" = "essence of wilderness"),
+				),
+				TOWNER_POSTING_TIER_PERILOUS = list(
+					list("path" = /obj/item/natural/bundle/cloth/roll, "min" = 8, "max" = 12, "noun" = "rolls of cloth"),
+					list("path" = /obj/item/natural/silk, "min" = 38, "max" = 46, "noun" = "silk"),
+					list("path" = /obj/item/natural/cured/essence, "min" = 5, "max" = 7, "noun" = "essence of wilderness"),
 				),
 			),
 		),

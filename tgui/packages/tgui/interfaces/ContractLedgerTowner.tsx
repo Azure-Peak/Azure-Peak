@@ -4,16 +4,17 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 
-type Tier = 'medium' | 'hard';
+type Tier = 'medium' | 'hard' | 'perilous';
 type Funder = 'personal' | 'crown' | 'company';
 
 type Delivery = 'hand' | 'board';
 
-const TIER_ORDER: Tier[] = ['medium', 'hard'];
+const TIER_ORDER: Tier[] = ['medium', 'hard', 'perilous'];
 
 const TIER_LABELS: Record<Tier, string> = {
   medium: 'Medium',
   hard: 'Hard',
+  perilous: 'Perilous',
 };
 
 type TierSummary = {
@@ -179,7 +180,11 @@ const ActivePostingCard = (props: {
       />
       <div
         className="ContractLedger__CardRow"
-        style={{ marginTop: 8, justifyContent: 'flex-start' }}
+        style={{
+          marginTop: 8,
+          justifyContent: 'flex-start',
+          flexWrap: 'wrap',
+        }}
       >
         {TIER_ORDER.map((t) => (
           <Button

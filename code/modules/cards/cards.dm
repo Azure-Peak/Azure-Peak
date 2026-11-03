@@ -471,7 +471,7 @@
 		if(CH.our_deck != src)
 			to_chat(user, span_warning("[CH.cards.len > 1 ? "These cards" : "This card"] didn't come the same deck as [cards.len > 1 ? "those" : "that one"]!"))
 			return
-		cards.Add(CH.cards)
+		cards.Insert(1, CH.cards)
 		user.visible_message(span_notice("\The [user] returns \the [CH] to the bottom of \the [src]."), span_notice("I return \the [CH] to the bottom of \the [src]."))
 		qdel(CH)
 		user.changeNext_move(CLICK_CD_FAST)
