@@ -37,11 +37,11 @@ LOBBY_COUNTDOWN 600
 
 ## Minimum flavor text: How many characters of flavor text a player needs before they can join. 0 disables the requirement.
 ## Defaults to 200. Uncomment and set to 0 for development.
-#MINIMUM_FLAVOR_TEXT 0
+#MINIMUM_FLAVOR_TEXT 200
 
 ## Minimum OOC notes: How many characters of OOC notes a player needs before they can join. 0 disables the requirement.
 ## Defaults to 5. Uncomment and set to 0 for development.
-#MINIMUM_OOC_NOTES 0
+#MINIMUM_OOC_NOTES 5
 
 ## Round End Time: This is the amount of time after the round ends that players have to murder death kill each other.
 ROUND_END_COUNTDOWN 180
