@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/graggar
 	background_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	button_icon = 'icons/mob/actions/graggarmiracles.dmi'
-	spell_color = GLOW_COLOR_GRAGGAR
+	spell_color = PATRON_COLOR_GRAGGAR
 
 	ignore_armor_penalty = TRUE
 
@@ -210,7 +210,7 @@
 	button_icon = 'icons/mob/actions/graggarmiracles.dmi'
 	sound = 'sound/magic/blood_net.ogg'
 	button_icon_state = "graggarnet"
-	spell_color = GLOW_COLOR_GRAGGAR
+	spell_color = PATRON_COLOR_GRAGGAR
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	projectile_type = /obj/projectile/magic/unholy_grasp
@@ -274,7 +274,7 @@
 		ensnare(target)
 
 /obj/projectile/magic/unholy_grasp/proc/ensnare(mob/living/carbon/carbon)
-	carbon.visible_message(span_warning("[src] ensnares [carbon] around their legs in a horrid cacophany of blood and guts!"), span_warning("I AM ENCAPTURED BY BLOOD AND GUTS! THERES A NET ON MY LEGS!"))
+	carbon.visible_message(span_warning("[src] ensnares [carbon] around their legs in a horrid cacophany of blood and guts!"), span_warning("I AM ENTRAPPED BY BLOOD AND GUTS! THERE'S A NET ON MY LEGS!"))
 	carbon.apply_status_effect(/datum/status_effect/debuff/netted/vile)
 	playsound(src, 'sound/combat/caught.ogg', 20, TRUE)
 
@@ -470,7 +470,7 @@
 /datum/status_effect/buff/bloodrage
 	id = "bloodrage"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/graggar_bloodrage
-	var/outline_color = GLOW_COLOR_GRAGGAR
+	var/outline_color = PATRON_COLOR_GRAGGAR //"blood" rage (its blue)
 	duration = 1 MINUTES
 	effectedstats = list(STATKEY_STR = 3)
 

@@ -38,7 +38,7 @@
 
 /obj/item/clothing/gloves/roguetown/bandages/pontifex
 	name = "rune-scrybed wrappings"
-	desc = "Paper and cloth bandages enscrybed with powerful naledian runes. They do an ample job of protecting their user's hands in combat."
+	desc = "Paper and cloth bandages inscrybed with powerful naledian runes. They do an ample job of protecting their user's hands in combat."
 	color = "#ffffff"
 	unarmed_bonus = 5
 

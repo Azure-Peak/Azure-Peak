@@ -2,10 +2,10 @@
 
 /datum/advclass/fishermaster
 	name = "Master Fisher"
-	tutorial = "You are a Master Fisher, you cast your rod with might, and are able to pull fish larger than Eoras Bosom."
+	tutorial = "You are a Master Fisher, you cast your rod with might, and are able to pull fish larger than Eora's bosom."
 	allowed_sexes = list(MALE, FEMALE)
 	forbidden_races = list(RACES_DESPISED)
-	
+
 	outfit = /datum/outfit/job/roguetown/adventurer/fishermaster
 	traits_applied = list(TRAIT_CAUTIOUS_FISHER, TRAIT_HOMESTEAD_EXPERT)
 
@@ -14,6 +14,7 @@
 	age_mod = /datum/class_age_mod/fisher
 
 	category_tags = list(CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_PER = 2,

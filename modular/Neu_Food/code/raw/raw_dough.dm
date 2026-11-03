@@ -84,7 +84,7 @@
 	name = "uncooked tomatoplate with truffles"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "truffle_pizza_uncooked"
-	desc = "Flatdough with a healthy smearing of sauced tomatoes, a sprinkling of fresh cheese, and a dotting of rare truffles upon its surface. It is ready to be baked into a deliciously decadant tomatoplate."
+	desc = "Flatdough with a healthy smearing of sauced tomatoes, a sprinkling of fresh cheese, and a dotting of rare truffles upon its surface. It is ready to be baked into a deliciously decadent tomatoplate."
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	cooked_smell = /datum/pollutant/food/tomatoplate_truffle
@@ -95,7 +95,7 @@
 	name = "uncooked tomatoplate with truffles"
 	icon = 'modular/Neu_Food/icons/raw/raw_dough.dmi'
 	icon_state = "truffle_pizza_uncooked"
-	desc = "Flatdough with a healthy smearing of sauced tomatoes, a sprinkling of fresh cheese, and a dotting of rare truffles upon its surface. It is ready to be baked into a deliciously decadant tomatoplate."
+	desc = "Flatdough with a healthy smearing of sauced tomatoes, a sprinkling of fresh cheese, and a dotting of rare truffles upon its surface. It is ready to be baked into a deliciously decadent tomatoplate."
 	w_class = WEIGHT_CLASS_NORMAL
 	eat_effect = null
 	list_reagents = list(/datum/reagent/berrypoison = 5)

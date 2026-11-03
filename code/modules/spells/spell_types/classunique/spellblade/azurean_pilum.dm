@@ -34,8 +34,8 @@
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	var/base_damage = SPELL_DMG(35)
-	var/empowered_damage = SPELL_DMG(50)
+	var/base_damage = 35
+	var/empowered_damage = 50
 	var/momentum_cost = 3
 	var/cached_damage = 0
 	var/cached_empowered = FALSE
@@ -77,13 +77,11 @@
 	icon_state = "air_blade_stab"
 	color = "#88BFFF"
 	expose_caster_on_deflect = TRUE
-	damage = SPELL_DMG(35)
+	damage = 35
 	damage_type = BRUTE
 	flag = "piercing"
 	woundclass = BCLASS_STAB
 	nodamage = FALSE
-	intdamfactor = SPELL_INTDAM(1)
-	spell_damage_scaled = TRUE
 	speed = 1.5
 	hitsound = 'sound/combat/hits/bladed/genthrust (1).ogg'
 	/// How many frost stacks to apply on hit
@@ -127,10 +125,10 @@
 
 /obj/projectile/magic/azurean_pilum/arc
 	name = "Arced Azurean Pilum"
-	damage = SPELL_DMG(26)
+	damage = 26
 	arcshot = TRUE
 
 /obj/projectile/magic/azurean_pilum/empowered/arc
 	name = "Empowered Arced Azurean Pilum"
-	damage = SPELL_DMG(26)
+	damage = 26
 	arcshot = TRUE

@@ -533,21 +533,6 @@
 	path = /obj/item/enchantingkit/zydrasgreataxe
 	ckeywhitelist = list("1ceres")
 
-/datum/loadout_item/donator/eiren
-	name = "Donator Kit - Regret"
-	path = /obj/item/enchantingkit/weapon/eiren
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren2
-	name = "Donator Kit - Lunae"
-	path = /obj/item/enchantingkit/weapon/eirensabre
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren3
-	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/weapon/eirensabre2
-	ckeywhitelist = list("eirenxiv")
-
 /datum/loadout_item/donator/eiren4
 	name = "Donator Kit - Darkwood's Embrace"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
@@ -557,11 +542,6 @@
 	name = "Donator Kit - Glintstone Longsword"
 	path = /obj/item/enchantingkit/weapon/eiren_m
 	ckeywhitelist = list("eirenxiv", "magicalbard", "naorgteine")
-
-/datum/loadout_item/donator/eiren6
-	name = "Donator Kit - Stygian Longsword"
-	path = /obj/item/enchantingkit/weapon/eirensword
-	ckeywhitelist = list("eirenxiv", "muhsollini")
 
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"

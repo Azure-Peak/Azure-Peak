@@ -10,7 +10,7 @@
 	smeltresult = null
 	grid_width = 32
 	grid_height = 64
-	
+
 /obj/item/forgeable/gold
 	name = "UH OH SISTERS TWO: ELECTRIC BOOGALOO"
 	desc = "If your seeing this, you encountered a BUG! report this to a CODER ASAP!!!"
@@ -18,16 +18,16 @@
 /obj/item/forgeable/bronze
 	name = "UH OH SISTERS THREE: THIS TIME ITS GET REAL"
 	desc = "If your seeing this, you encountered a BUG! report this to a CODER ASAP!!!"
-	
+
 /obj/item/forgeable/silver
 	name = "UH OH SISTERS FOUR: ARE YOU READY FOR MORE"
 	desc = "If your seeing this, you encountered a BUG! report this to a CODER ASAP!!!"
 
-// GOLD! 
+// GOLD!
 
 /obj/item/forgeable/gold/ashtray
 	name = "golden zigtray"
-	desc = "An zigtray forged out of gold. Truly, this is the pinnacle of zig extinguishment."
+	desc = "A zigtray forged out of gold. Truly, this is the pinnacle of zig extinguishment."
 	icon_state = "ashtray_gold"
 	grid_width = 32
 	grid_height = 32
@@ -80,7 +80,7 @@
 	icon_state = "fish_gold"
 	grid_width = 32
 	grid_height = 32
-	
+
 /obj/item/forgeable/gold/saiga
 	name = "golden saiga figurine"
 	desc = "A golden figurine made to resemble a saiga."
@@ -103,7 +103,7 @@
 	grid_height = 32
 
 /obj/item/forgeable/gold/cameo
-	name = "golden cameo" 
+	name = "golden cameo"
 	desc = "A cameo forged out of gold depicting...someone? use your imagination on who it could be."
 	icon_state = "cameo_gold"
 	grid_width = 32
@@ -158,11 +158,11 @@
 	grid_width = 32
 	grid_height = 32
 
-// SILVER 
+// SILVER
 
 /obj/item/forgeable/silver/ashtray
 	name = "silver zigtray"
-	desc = "An zigtray forged out of silver. Truly, this is the pinnacle of zig extinguishment."
+	desc = "A zigtray forged out of silver. Truly, this is the pinnacle of zig extinguishment."
 	icon_state = "ashtray_silver"
 	grid_width = 32
 	grid_height = 32
@@ -215,7 +215,7 @@
 	icon_state = "fish_silver"
 	grid_width = 32
 	grid_height = 32
-	
+
 /obj/item/forgeable/silver/saiga
 	name = "silver saiga figurine"
 	desc = "A silver figurine made to resemble a saiga."
@@ -238,7 +238,7 @@
 	grid_height = 32
 
 /obj/item/forgeable/silver/cameo
-	name = "silver cameo" 
+	name = "silver cameo"
 	desc = "A cameo forged out of silver depicting...someone? use your imagination on who it could be."
 	icon_state = "cameo_silver"
 	grid_width = 32
@@ -293,11 +293,11 @@
 	grid_width = 32
 	grid_height = 32
 
-// BRONZE 
+// BRONZE
 
 /obj/item/forgeable/bronze/ashtray
 	name = "bronze zigtray"
-	desc = "An zigtray forged out of bronze. Truly, this is the pinnacle of zig extinguishment."
+	desc = "A zigtray forged out of bronze. Truly, this is the pinnacle of zig extinguishment."
 	icon_state = "ashtray_bronze"
 	grid_width = 32
 	grid_height = 32
@@ -350,7 +350,7 @@
 	icon_state = "fish_bronze"
 	grid_width = 32
 	grid_height = 32
-	
+
 /obj/item/forgeable/bronze/saiga
 	name = "bronze saiga figurine"
 	desc = "A bronze figurine made to resemble a saiga."
@@ -373,7 +373,7 @@
 	grid_height = 32
 
 /obj/item/forgeable/bronze/cameo
-	name = "bronze cameo" 
+	name = "bronze cameo"
 	desc = "A cameo forged out of bronze depicting...someone? use your imagination on who it could be."
 	icon_state = "cameo_bronze"
 	grid_width = 32

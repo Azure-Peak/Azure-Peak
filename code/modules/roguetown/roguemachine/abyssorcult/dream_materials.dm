@@ -79,7 +79,7 @@
 
 /obj/item/dream_material/parchment_gold
 	name = "auric parchment"
-	desc = "A piece of parchment treated with a flakey, gold-like substance. Said to hold greater visions without warping the words."
+	desc = "A piece of parchment treated with a flaky, gold-like substance. Said to hold greater visions without warping the words."
 	icon_state = "tier2_open"
 	is_parchment = TRUE
 	examine_blurb = "Can be used near or on a dream ritual rune by the dream pool to receive a vision. Only works for those who follow Abyssor, or are attuned to Abyssorite paints by an Abyssorite."

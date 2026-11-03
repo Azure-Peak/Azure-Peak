@@ -195,7 +195,7 @@
 	if(do_after(user, crafttime, target = src))
 		user.visible_message(
 			span_warning("[user] carves an arcyne rune with [user.p_their()] [name]!"), \
-			span_notice("I finish dragging the blade in symbols and circles, leaving behind an ritual rune")
+			span_notice("I finish dragging the blade in symbols and circles, leaving behind a ritual rune.")
 		)
 		new rune_to_scribe(Turf, chosen_keyword)
 
@@ -276,7 +276,7 @@
 		target = get_turf(src)
 		victim = user
 	else
-		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convinient to use.
+		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convenient to use.
 		stop()
 
 /obj/item/hourglass/temporal/stop()
@@ -315,7 +315,7 @@
 		return
 	if(cooldowny)
 		if(world.time < cooldowny + cdtime)
-			to_chat(user, span_warning("Pulses weakily-! It must still be gathering arcana."))
+			to_chat(user, span_warning("Pulses weakly-! It must still be gathering arcana."))
 			return
 	user.visible_message(span_warning("[user] looks through the [src]!"))
 	if(activate_sound)
