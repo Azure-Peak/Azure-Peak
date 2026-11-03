@@ -429,7 +429,7 @@
 	name = "bronze death mask"
 	icon_state = "bronzemask_legacy"
 	item_state = "bronzemask_legacy"
-	desc = "Glimmering bronze, meticuliusly shaped to mimic the guise of another. One of civilization's oldest superstitions is the belief that donning such masks would impart a sliver of the mimicked facebearer's power unto its wearer."
+	desc = "Glimmering bronze, meticulously shaped to mimic the guise of another. One of civilization's oldest superstitions is the belief that donning such masks would impart a sliver of the mimicked facebearer's power unto its wearer."
 
 /obj/item/clothing/mask/rogue/facemask/bronze/anthro
 	name = "bronze mask"
@@ -693,7 +693,7 @@
 	name = "sojourner's mask"
 	item_state = "naledimask"
 	icon_state = "naledimask"
-	desc = "A golden mask, gnarled by the sustained agonies of djinnic corruption; yet as long as its Naledian hexes endure, so too will its wearer. Hand-fitted shingles flank the sides to repel incoming strikes. </br>'..Clad with the stereotype of abruptly disappearing without any forewarning, the typical Sojourner is in constant pursuit of diversifying their erudition. One might arrive to learn the local witch's recipe of sanctifying atropa extract and spend yils in the community trying to master it, while another might work alongside the region's Orthodoxic chapter to slay a lycker lord in exchange for his archive, only to vanish the very next day..'"
+	desc = "A golden mask, gnarled by the sustained agonies of djinnic corruption; yet as long as its Naledian hexes endure, so too will its wearer. Hand-fitted shingles flank the sides to repel incoming strikes. </br>'... Clad with the stereotype of abruptly disappearing without any forewarning, the typical Sojourner is in constant pursuit of diversifying their erudition. One might arrive to learn the local witch's recipe of sanctifying atropa extract and spend yils in the community trying to master it, while another might work alongside the region's Orthodoxic chapter to slay a lycker lord in exchange for his archive, only to vanish the very next day...'"
 	max_integrity = ARMOR_INT_MASK_IRON + 50
 	armor = ARMOR_PLATE
 	flags_inv = HIDEFACE|HIDESNOUT
@@ -874,7 +874,7 @@
 
 /obj/item/clothing/mask/rogue/spectacles/steel
 	name = "steel spectacles"
-	desc = "Steel spectacles wrought with a artificier's pragmatism. Clear sight is worth little if the frame shatters at the first strike."
+	desc = "Steel spectacles wrought with a artificer's pragmatism. Clear sight is worth little if the frame shatters at the first strike."
 	icon_state = "sgoggles"
 	max_integrity = 40 // slightly more durable for the cqc nerds (stills 1 hit to break)
 	armor = ARMOR_PLATE_BSTEEL

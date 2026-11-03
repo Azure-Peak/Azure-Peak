@@ -39,7 +39,7 @@
 		if(used_intent.releasedrain)
 			stamina_add(ceil(used_intent.releasedrain * rmb_stam_penalty))
 		var/dualwield_armed = FALSE
-		if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && !dualwield_processing && L != src)
+		if(HAS_TRAIT(src, TRAIT_DUALWIELDER) && !dualwield_processing && L != src && cmode)
 			var/datum/intent/dualwield_cached_intent = used_intent
 			dualwield_armed = process_dualwield() // if we return TRUE, we're primed
 			used_intent = dualwield_cached_intent
@@ -48,9 +48,6 @@
 			var/obj/item/IM = L.get_active_held_item()
 			H.process_clash(src, IM)
 			return
-		if(ishuman(L))
-			var/mob/living/carbon/human/H = L
-			H.process_golgatha_rebuke(src)
 		if(mob_biotypes & MOB_UNDEAD)
 			if(L.has_status_effect(/datum/status_effect/buff/necras_vow))
 				if(isnull(mind))

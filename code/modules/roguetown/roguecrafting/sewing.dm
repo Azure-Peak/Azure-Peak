@@ -203,6 +203,14 @@
 				/obj/item/natural/silk = 1)
 	craftdiff = 1
 
+/datum/crafting_recipe/roguetown/sewing/nightcap
+	name = "nitecap"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/nightcap)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 1
+
 /datum/crafting_recipe/roguetown/sewing/doublefabricbedsheet
 	name = "bedsheet, double fabric"
 	category = "Misc"
@@ -509,6 +517,44 @@
 	result = list(/obj/item/clothing/gloves/roguetown/cloth)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/doublehennin
+	name = "dual hennin"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/doublehennin)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/flotsam
+	name = "flotsam bonnet"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/flotsam)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/veiledhat
+	name = "veiled hat"
+	category = "Hats"
+	result = list(/obj/item/clothing/head/roguetown/veiledhat)
+	reqs = list(/obj/item/natural/cloth = 2,
+				/obj/item/natural/fibers = 1)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/cravat
+	name = "cravat"
+	category = "Coifs"
+	result = list(/obj/item/clothing/neck/roguetown/cravat)
+	reqs = list(/obj/item/natural/cloth = 2)
+	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/ruffledcollar
+	name = "ruffled collar"
+	category = "Coifs"
+	result = list(/obj/item/clothing/neck/roguetown/ruffle)
+	reqs = list(/obj/item/natural/cloth = 2)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/wrappings

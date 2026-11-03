@@ -5,7 +5,7 @@
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "raise_deadite"
 
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 	sound = 'sound/magic/whiteflame.ogg'
 
 	click_to_activate = TRUE

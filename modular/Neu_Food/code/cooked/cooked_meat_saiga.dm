@@ -30,7 +30,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins/cooked
 	name = "tender venison loins"
-	desc = "Tender, the meat oozes delectable juices when squeezed. One of the best cuts of venison, cherised by nobility. The skilled butcher reaps their reward."
+	desc = "Tender, the meat oozes delectable juices when squeezed. One of the best cuts of venison, cherished by nobility. The skilled butcher reaps their reward."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "loin"
 	eat_effect = /datum/status_effect/buff/mealbuff
@@ -45,7 +45,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_prime/cooked
 	name = "venison prime steak"
-	desc = "A cut worked free from a beast like it is art. A meal fit for royalty, with a bite sufficient to feel like one is back in those woods, staring down that saiga. Often nomikered as 'poacher's demise'."
+	desc = "A cut worked free from a beast like it is art. A meal fit for royalty, with a bite sufficient to feel like one is back in those woods, staring down that saiga. Often monikered as 'poacher's demise'."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "ossobuco"
 	eat_effect = /datum/status_effect/buff/greatmealbuff
@@ -155,7 +155,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_loins_w/cooked
 	name = "royal venison loins"
-	desc = "A welt forms under the touch. It takes little to dent, it swells back to shape in a satisfying manner. The beast may not bleed, yet the abscence of grease does not detract from the heavenly taste."
+	desc = "A welt forms under the touch. It takes little to dent, it swells back to shape in a satisfying manner. The beast may not bleed, yet the absence of grease does not detract from the heavenly taste."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat_saiga.dmi'
 	icon_state = "loin_w"
 	eat_effect = /datum/status_effect/buff/greatmealbuff

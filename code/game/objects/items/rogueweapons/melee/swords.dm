@@ -469,7 +469,7 @@
 /obj/item/rogueweapon/sword/long/cleric
 	name = "anointed longsword"
 	desc = "A crusader's longsword, adorned with a blade of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
-	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes. </br>'Strike \
+	sunder those who bear greater curses, it nevertheless channels enough power to dispel the lesser curses of mindless fiends-and-foes. </br>'Strike \
 	true, my child, for thy blade is thine God..'"
 	icon_state = "crusaderlongsword"
 	sheathe_icon = "crusaderlongsword"
@@ -585,7 +585,7 @@
 
 /obj/item/rogueweapon/sword/long/zizo
 	name = "avantyne longsword"
-	desc = "A wicked, unconventional, and otherwordly blade that was created by no swordsmith - a manifestation of hate for the state of this world \
+	desc = "A wicked, unconventional, and otherworldly blade that was created by no swordsmith - a manifestation of hate for the state of this world \
 	that follows no design principles but spite and anger."
 	icon_state = "zizosword"
 	sheathe_icon = "zizosword"
@@ -646,7 +646,7 @@
 /obj/item/rogueweapon/sword/long/judgement
 	name = "\"Judgement\""
 	desc = "A noble longsword, and the cherished heirloom of Azuria's royal bloodline. Its blade is made from Aavnr's finest Vyšvou steel - held \
-	from an ornate carved ivory grip from the region's \"Mamük\" megafauna, and decorated with heraldric engravings of silver. ‎</br>‎‎ </br>'When \
+	from an ornate carved ivory grip from the region's \"Mamük\" megafauna, and decorated with heraldic engravings of silver. ‎</br>‎‎ </br>'When \
 	you stand before thine lord, you cannot say, '..but I was told by others to do thus..', or that, '..virtue was not convenient at the time.' This \
 	will not suffice. Remember that.'"
 	icon_state = "judgement"
@@ -744,7 +744,7 @@
 
 /obj/item/rogueweapon/sword/long/judgement/vlord/Initialize(mapload)
 	..()
-	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 2)) //Its a cursed blade, it gets to glow ominiously now.
+	add_filter(FORCE_FILTER, 2, list("type" = "outline", "color" = GLOW_COLOR_VAMPIRIC, "alpha" = 120, "size" = 2)) //Its a cursed blade, it gets to glow ominously now.
 
 /obj/item/rogueweapon/sword/long/marlin
 	name = "shalal sabre"
@@ -858,7 +858,7 @@
 
 /obj/item/rogueweapon/sword/long/exe/silver
 	name = "silver executioners sword"
-	desc = "A resplendant executioner's sword, whose massive silver blade lays mounted atop an intricately-carved \
+	desc = "A resplendent executioner's sword, whose massive silver blade lays mounted atop an intricately-carved \
 	handle. Though the grooves dig into your hands, it's said that such chaffings will only draw blood if the \
 	silvered edge falls upon the neck of the innocent."
 	icon_state = "silvexe"
@@ -997,7 +997,7 @@
 
 /obj/item/rogueweapon/sword/long/broadsword/silver/psy/forgotten
 	name = "forgotten blade"
-	desc = "'Let His name be naught but forgot'n.' </br>The remnants of a legendary champion, who's name has been lost to the annals of tyme. Even so, the tarnished \
+	desc = "'Let His name be naught but forgot'n.' </br>The remnants of a legendary champion, whose name has been lost to the annals of tyme. Even so, the tarnished \
 	silver still glimmers with otherworldly strength; to exorcise, to eradicate, and to endure."
 	icon_state = "oldpsybroadsword"
 	force = 15
@@ -1426,7 +1426,7 @@
 /obj/item/rogueweapon/sword/short/messer/bronze
 	name = "makhaira"
 	desc = "A heavy shortsword of similar design to the Kopis, fit for cleaving through both foliage and flesh. </br>Infamous for its \
-	presence amongst the gladitorial arenas of Lirvas and Raneshen, where gashes provide the kind of crimson spectacle that liqour-addled \
+	presence amongst the gladitorial arenas of Lirvas and Raneshen, where gashes provide the kind of crimson spectacle that liquor-addled \
 	crowds adore the most."
 	icon_state = "makhaira"
 	minstr = 6
@@ -1584,7 +1584,7 @@
 
 /obj/item/rogueweapon/sword/sabre/elf
 	name = "elvish sabre"
-	desc = "A single-edged masterwork of Elven design, who's silvered blade glimmers under the sun's glare."
+	desc = "A single-edged masterwork of Elven design, whose silvered blade glimmers under the sun's glare."
 	icon_state = "esabre"
 	item_state = "esabre"
 	sheathe_icon = "esabre"
@@ -1608,7 +1608,7 @@
 
 /obj/item/rogueweapon/sword/sabre/stalker
 	name = "stalker sabre"
-	desc = "A once-elegant blade of ketryl, who's sunless edge now menaces with obsidian-hued mirth."
+	desc = "A once-elegant blade of ketryl, whose sunless edge now menaces with obsidian-hued mirth."
 	icon_state = "spidersabre"
 	force = 23
 	force_wielded = 23
@@ -1981,7 +1981,7 @@
 
 /obj/item/rogueweapon/sword/silver/decorated
 	name = "decorated silver khadga" //While ostensibly a sword, it's functionally identical - if a little weaker - than the Silver War Axe.
-	desc = "Beautifully designed for nobility, yet born from an ignoble purpose; to satiate the powers of ancient mythos with sacrifical blood. This Naledian \
+	desc = "Beautifully designed for nobility, yet born from an ignoble purpose; to satiate the powers of ancient mythos with sacrificial blood. This Naledian \
 	sword, better known as a 'ram-dao', now serves to satiate the spite of vengeful spirits - not through bloodshed, but through sunderance."
 	icon_state = "ram_dao"
 	sheathe_icon = "scabbard_decsword3"
@@ -2493,7 +2493,7 @@
 
 /obj/item/rogueweapon/sword/gold
 	name = "golden arming sword"
-	desc = "A heavenly arming sword, who's golden blade and besilked handle lays separated by a duocruciformic crossguard. This particular weapon \
+	desc = "A heavenly arming sword, whose golden blade and besilked handle lays separated by a duocruciformic crossguard. This particular weapon \
 	seems to have innovatively combined the lethal cutting prowess of Psydonia's oldest weapon with the psychological damage of knowing that its \
 	wielder could likely bribe the Carriageman himself, and still chose to personally kill you."
 	icon_state = "goldsword"
@@ -2525,7 +2525,7 @@
 /obj/item/rogueweapon/sword/blacksteel/decorated
 	name = "decorated blacksteel arming sword"
 	desc = "A broad blade of blacksteel, mounted atop a golden sabreguard that's been meticulously engraved with its commissoner's heraldry. It is \
-	a masterwork of unmatched opulance and lethality, and is - perhaps - the finest arming sword your eyes'll ever lay upon."
+	a masterwork of unmatched opulence and lethality, and is - perhaps - the finest arming sword your eyes'll ever lay upon."
 	icon_state = "bs_swordregal"
 	sheathe_icon = "bs_swordregal"
 	wdefense = 7

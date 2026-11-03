@@ -261,6 +261,8 @@ SUBSYSTEM_DEF(gamemode)
 	/// What is our currently desired/selected roundstart event
 	var/datum/round_event_control/antagonist/solo/current_roundstart_event
 	var/list/last_round_events = list()
+	/// Event type of the last roundstart hard antag rolled
+	var/last_villain
 	/// Has a roundstart event been run
 	var/ran_roundstart = FALSE
 	/// Are we able to run roundstart events
@@ -305,9 +307,15 @@ SUBSYSTEM_DEF(gamemode)
 		if(event.holidayID || event.wizardevent)
 			uncategorized += event
 			continue
+		var/datum/round_event_control/antagonist/solo/antag_event = event
+		var/datum/antagonist/antag_path = istype(antag_event) ? antag_event.antag_datum : null
+		if(event.storyteller_blacklisted || (ispath(antag_path, /datum/antagonist) && initial(antag_path.storyteller_blacklisted)))
+			uncategorized += event
+			continue
 		event_pools[event.track] += event //Add it to the categorized event pools
 
 	load_roundstart_data()
+	last_villain = text2path(trim(file2text(LAST_VILLAIN_FILE)))
 
 	check_roundstart_gods_rankings()
 	. = ..()
@@ -1160,6 +1168,8 @@ SUBSYSTEM_DEF(gamemode)
 	// guarantee a specific hard antag - that is driven by the block flags and the admin-opened slots instead.
 	if(storyteller_blocks_antag(event.storyteller_antag_flags, event.roundstart, storyteller_type))
 		return 0
+	if(event.type == last_villain)
+		return CEILING(base_weight * LAST_VILLAIN_MULT, 1)
 	return base_weight
 
 /datum/controller/subsystem/gamemode/proc/antag_roll_reason(datum/round_event_control/antagonist/solo/event, player_count = null, storyteller_type = null)

@@ -79,7 +79,7 @@
 /datum/hag_boon/trait/dodge_expert
 	name = "Trait - Dodge Expert"
 	trait_to_apply = TRAIT_DODGEEXPERT
-	desc = "Enhances the bearer's abiliy to dodge, so long as they are not wearing medium or heavy armor."
+	desc = "Enhances the bearer's ability to dodge, so long as they are not wearing medium or heavy armor."
 	points = 30
 
 /datum/hag_boon/trait/bleed_resistance

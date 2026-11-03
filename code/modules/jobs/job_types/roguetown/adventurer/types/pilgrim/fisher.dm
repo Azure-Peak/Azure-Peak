@@ -7,6 +7,7 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/fisher
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
 	traits_applied = list(TRAIT_CAUTIOUS_FISHER, TRAIT_HOMESTEAD_EXPERT)
 	subclass_stats = list(
 		STATKEY_PER = 2,
