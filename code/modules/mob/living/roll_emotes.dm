@@ -930,7 +930,7 @@ GLOBAL_LIST_INIT(dice_stat_names, list(
 	)
 
 	crit_success_message_list = list(
-		"steals a zenny off Matthios!",
+		"steals an as off Matthios!",
 	)
 
 	crit_failure_message_list = list(

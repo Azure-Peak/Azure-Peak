@@ -673,21 +673,24 @@ GLOBAL_LIST_EMPTY(active_lifts_by_type)
 	var/obj/structure/industrial_lift/tram/picked = pick(platform.moving_lifts)
 	var/turf/location = get_turf(picked)
 
-	var/gold = floor(total_coin_value/10)
-	new /obj/item/roguecoin/gold(location, gold)
-	total_coin_value -= gold*10
+	var/gold = floor(total_coin_value / COIN_VALUE_GOLD)
+	if(gold)
+		new /obj/item/roguecoin/gold(location, gold)
+	total_coin_value -= gold * COIN_VALUE_GOLD
 	if(!total_coin_value)
 		return
 
-	var/silver = floor(total_coin_value/5)
-	new /obj/item/roguecoin/silver(location, silver)
-	total_coin_value -= silver*5
+	var/silver = floor(total_coin_value / COIN_VALUE_SILVER)
+	if(silver)
+		new /obj/item/roguecoin/silver(location, silver)
+	total_coin_value -= silver * COIN_VALUE_SILVER
 	if(!total_coin_value)
 		return
 
-	var/copper = floor(total_coin_value)
-	new /obj/item/roguecoin/copper(location, copper)
-	total_coin_value -= copper
+	var/copper = floor(total_coin_value / COIN_VALUE_COPPER)
+	if(copper)
+		new /obj/item/roguecoin/copper(location, copper)
+	total_coin_value -= copper * COIN_VALUE_COPPER
 
 	var/obj/structure/closet/crate/chest/chest = new /obj/structure/closet/crate/chest(location)
 	chest.open() //teehee

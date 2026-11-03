@@ -101,7 +101,7 @@ export const BathhouseOrdinanceSection = ({
               </li>
               <li style={{ marginBottom: 4 }}>
                 {
-                  'To give no shelter to thieves nor fugitives, neither within the stews nor beneath them. Violation shall be fined a zenny, and the stolen goods rendered unto the Church for remedy.'
+                  'To give no shelter to thieves nor fugitives, neither within the stews nor beneath them. Violation shall be fined an as, and the stolen goods rendered unto the Church for remedy.'
                 }
               </li>
               <li style={{ marginBottom: 4 }}>
@@ -111,7 +111,7 @@ export const BathhouseOrdinanceSection = ({
               </li>
               <li style={{ marginBottom: 4 }}>
                 {
-                  'To turn no soul away for want of coin who beareth the wounds of soldiery or the marks of pilgrimage, but to grant unto them the public bath without charge, once in the week. Failing this charity, the Bathmaster shall be fined a zenny, rendered unto the alms of the Church.'
+                  'To turn no soul away for want of coin who beareth the wounds of soldiery or the marks of pilgrimage, but to grant unto them the public bath without charge, once in the week. Failing this charity, the Bathmaster shall be fined an as, rendered unto the alms of the Church.'
                 }
               </li>
               <li style={{ marginBottom: 4 }}>

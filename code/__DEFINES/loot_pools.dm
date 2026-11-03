@@ -1,6 +1,6 @@
 // Loot Pool Defines
 // All values are in mammons (copper coins). Tune everything from here.
-// Reference: copper=1, silver=5, gold=10, iron ingot=15, steel ingot=20
+// Reference: copper=1, silver=4, gold=16, iron ingot=15, steel ingot=20
 // Leather armor=20-25, chainmail=50-80, plate=300-400
 // Iron sword=10, steel sword=30, decorated=140, spellbook=50+
 

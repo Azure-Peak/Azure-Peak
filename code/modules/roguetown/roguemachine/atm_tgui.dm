@@ -40,6 +40,16 @@
 	var/mob/living/carbon/human/H = user
 	var/list/data = list()
 	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
+	var/obj/item/roguecoin/gold/gold_coin = /obj/item/roguecoin/gold
+	var/obj/item/roguecoin/silver/silver_coin = /obj/item/roguecoin/silver
+	var/obj/item/roguecoin/copper/copper_coin = /obj/item/roguecoin/copper
+	data["coin_denominations"] = list(
+		list("id" = "GOLD", "label" = capitalize(initial(gold_coin.name)), "value" = COIN_VALUE_GOLD),
+		list("id" = "SILVER", "label" = capitalize(initial(silver_coin.name)), "value" = COIN_VALUE_SILVER),
+		list("id" = "BRONZE", "label" = capitalize(initial(copper_coin.name)), "value" = COIN_VALUE_COPPER),
+	)
+	data["max_coins_per_withdrawal"] = MAX_COIN_STACK_SIZE
+	data["bathhouse_withdraw_limit_max"] = BATHHOUSE_DAILY_WITHDRAW_MAX
 	var/poll_category = istype(H) ? SStreasury.get_poll_levy_category(H) : null
 	data["poll_levy_user"] = list(
 		"category" = poll_category || "",
@@ -284,11 +294,11 @@
 	if(group != "worker" && group != "agent")
 		return
 	if(isnull(params["amount"]))
-		to_chat(H, span_warning("Set a daily withdrawal limit between 0 and 10000m."))
+		to_chat(H, span_warning("Set a daily withdrawal limit between 0 and [BATHHOUSE_DAILY_WITHDRAW_MAX]m."))
 		return
 	var/limit = round(text2num("[params["amount"]]"))
-	if(limit < 0 || limit > 10000)
-		to_chat(H, span_warning("A daily withdrawal limit must be between 0 and 10000m."))
+	if(limit < 0 || limit > BATHHOUSE_DAILY_WITHDRAW_MAX)
+		to_chat(H, span_warning("A daily withdrawal limit must be between 0 and [BATHHOUSE_DAILY_WITHDRAW_MAX]m."))
 		return
 	if(group == "worker")
 		SStreasury.bathhouse_worker_daily_withdraw_limit = limit
@@ -327,15 +337,15 @@
 		return
 	if(isnull(coin_amt) || coin_amt < 1)
 		return
-	if(coin_amt > 20)
-		to_chat(H, span_warning("Maximum 20 coins per withdrawal."))
+	if(coin_amt > MAX_COIN_STACK_SIZE)
+		to_chat(H, span_warning("Maximum [MAX_COIN_STACK_SIZE] coins per withdrawal."))
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
-	var/mod = 1
+	var/mod = COIN_VALUE_COPPER
 	if(denom == "GOLD")
-		mod = 10
+		mod = COIN_VALUE_GOLD
 	else if(denom == "SILVER")
-		mod = 5
+		mod = COIN_VALUE_SILVER
 	var/total = coin_amt * mod
 	if(SStreasury.get_balance(H) < total)
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)

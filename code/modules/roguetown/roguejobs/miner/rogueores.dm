@@ -30,7 +30,7 @@
 
 
 /obj/item/rogueore/silver
-	name = "raw silver" //Mechanically left unsilverified - like with ziliquae - for the sake of gameplay. Can be handwaved as not being pure enough to directly harm the unholy.
+	name = "raw silver" //Mechanically left unsilverified - like with zestertii - for the sake of gameplay. Can be handwaved as not being pure enough to directly harm the unholy.
 	desc = "A gleaming ore of moonlight hue."
 	icon_state = "oresilv1"
 	smeltresult = /obj/item/ingot/silver

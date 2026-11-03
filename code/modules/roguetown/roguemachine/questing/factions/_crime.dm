@@ -28,7 +28,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 /datum/quest_crime/petty_alms_theft
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"the theft of six zennies' worth of bread set aside for the poor",
+		"the theft of six asses' worth of bread set aside for the poor",
 		"eating the bread laid out for the alms bowl",
 	)
 
@@ -43,7 +43,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 /datum/quest_crime/petty_chicken
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"the taking of a hen worth two zennies from a cottar's yard",
+		"the taking of a hen worth two asses from a cottar's yard",
 		"stealing a goose that bit the watchman",
 	)
 
@@ -85,7 +85,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 /datum/quest_crime/petty_dueling
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"the drawing of steel over an unpaid wager of two zennies",
+		"the drawing of steel over an unpaid wager of two asses",
 		"brawling with drawn steel over a trifle",
 	)
 
@@ -128,7 +128,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
 		"the carving of unkind verse upon a tombstone",
-		"the daubing of a rude rhyme upon a tombstone that cost its family forty zennies",
+		"the daubing of a rude rhyme upon a tombstone that cost its family forty asses",
 	)
 
 /datum/quest_crime/petty_lewd_hermes
@@ -152,7 +152,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 /datum/quest_crime/petty_badger_notice
 	tier = CRIME_TIER_PETTY
 	phrasings = list(
-		"pinning of a false notice that the Duke will pay ten zennies to anyone who brings him a live badger, an outrageous usurpation of the Duke's authority",
+		"pinning of a false notice that the Duke will pay ten asses to anyone who brings him a live badger, an outrageous usurpation of the Duke's authority",
 	)
 
 /datum/quest_crime/petty_hermes_fish
@@ -179,7 +179,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"the robbery of merchants on the road, against the peace of the Duke",
-		"the taking of a wool cart worth ninety zennies from a merchant on the road",
+		"the taking of a wool cart worth ninety asses from a merchant on the road",
 	)
 
 /datum/quest_crime/pilgrim_robbery
@@ -233,14 +233,14 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"burglary of a household at night",
-		"the taking of thirty zennies from under a tanner's floorboards by night",
+		"the taking of thirty asses from under a tanner's floorboards by night",
 	)
 
 /datum/quest_crime/cattle_lifting
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
 		"driving off cattle from the common pasture",
-		"the driving off of four cows worth eighty zennies from a farmer's byre",
+		"the driving off of four cows worth eighty asses from a farmer's byre",
 		"the reiving of kine from honest holders, a theft of Dendor's bounty",
 	)
 
@@ -254,7 +254,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 /datum/quest_crime/coin_clipping
 	tier = CRIME_TIER_COMMON
 	phrasings = list(
-		"the passing of clipped zennies, knowing them to be such",
+		"the passing of clipped asses, knowing them to be such",
 		"counterfeiting the Duke's coin",
 	)
 
@@ -393,7 +393,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the robbery of a shrine and the bearing away of holy gear",
-		"the taking of a silver offering bowl worth fifty zennies from a shrine",
+		"the taking of a silver offering bowl worth fifty asses from a shrine",
 	)
 
 /datum/quest_crime/defiling_ground
@@ -415,7 +415,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the robbery of a cleric upon the road, in their vestments",
-		"the taking of eight zennies and a prayer book from a priest on the Duke's Road",
+		"the taking of eight asses and a prayer book from a priest on the Duke's Road",
 	)
 
 /datum/quest_crime/tomb_desecration
@@ -436,7 +436,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 /datum/quest_crime/simony
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
-		"the buying of a priest's office for two hundred zennies",
+		"the buying of a priest's office for two hundred asses",
 		"selling blessings for mammon",
 	)
 
@@ -473,7 +473,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_SACRAL
 	phrasings = list(
 		"the felling of an Eoran shrine tree hung with lovers' ribbons, against the peace of Eora",
-		"the cutting down of a tree sacred to Eora for eight zennies' worth of firewood",
+		"the cutting down of a tree sacred to Eora for eight asses' worth of firewood",
 	)
 
 /datum/quest_crime/necran_procession_broken
@@ -559,7 +559,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_HERESY
 	phrasings = list(
 		"the shedding of priestly blood with malice aforethought",
-		"the paying of thirty zennies for the murder of a priest",
+		"the paying of thirty asses for the murder of a priest",
 	)
 
 /datum/quest_crime/dreamer_sacrifice
@@ -580,7 +580,7 @@ GLOBAL_LIST_EMPTY(quest_crimes)
 	tier = CRIME_TIER_PIRACY
 	phrasings = list(
 		"piracy upon the Duke's Sea, and the boarding of ships under a flag of truce",
-		"the taking of a fishing boat and its catch worth fifteen zennies",
+		"the taking of a fishing boat and its catch worth fifteen asses",
 	)
 
 /datum/quest_crime/bondage_taking

@@ -1799,7 +1799,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		return FALSE
 
 	playsound(loc, 'sound/combat/gib (1).ogg', 100, FALSE, -1)
-	loc.visible_message(span_cult("[victim]'s lux pours from their nose, into the rune.. transforming into freshly minted zennies!"))
+	loc.visible_message(span_cult("[victim]'s lux pours from their nose, into the rune.. transforming into freshly minted asses!"))
 	new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
 	new /obj/item/roguecoin/silver/pile(get_turf(src))
 	new /obj/item/roguecoin/silver/pile(get_turf(src))

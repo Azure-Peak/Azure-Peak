@@ -54,17 +54,9 @@
 	var/min_amt = base_min * tier_multiplier
 	var/max_amt = base_max * tier_multiplier
 
-	// Generate a random number within the range, then round it to the nearest multiple of 5
+	// Generate a random number within the range, then round it to the nearest whole silver coin
 	var/raw_amt = rand(min_amt, max_amt)
-	var/final_amt
-	var/multiple
-	if(raw_amt > 100)
-		multiple = 10
-	else
-		multiple = 5
-
-	final_amt = round(raw_amt / multiple) * multiple
-	return final_amt
+	return max(COIN_VALUE_SILVER, round(raw_amt / COIN_VALUE_SILVER) * COIN_VALUE_SILVER)
 
 /datum/flesh_quirk/hoarder/proc/convert_mammon_to_coins(amt, datum/component/chimeric_heart_beast/beast)
 	if(!amt || amt < 1 || !beast)
@@ -78,15 +70,15 @@
 	var/remaining_mammon = amt
 	var/list/coins_to_spawn = list()
 
-	if(remaining_mammon > 100)
-		var/gold_count = floor(remaining_mammon / 10)
+	if(remaining_mammon >= COIN_VALUE_GOLD)
+		var/gold_count = floor(remaining_mammon / COIN_VALUE_GOLD)
 		coins_to_spawn[ /obj/item/roguecoin/gold ] = gold_count
-		remaining_mammon -= gold_count * 10
+		remaining_mammon -= gold_count * COIN_VALUE_GOLD
 
-	if(remaining_mammon > 20)
-		var/silver_count = floor(remaining_mammon / 5)
+	if(remaining_mammon >= COIN_VALUE_SILVER)
+		var/silver_count = floor(remaining_mammon / COIN_VALUE_SILVER)
 		coins_to_spawn[ /obj/item/roguecoin/silver ] = silver_count
-		remaining_mammon -= silver_count * 5
+		remaining_mammon -= silver_count * COIN_VALUE_SILVER
 
 	if(remaining_mammon >= 1)
 		coins_to_spawn[ /obj/item/roguecoin/copper ] = remaining_mammon

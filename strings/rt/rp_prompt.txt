@@ -25,7 +25,7 @@ For the setting's lore, mechanics, and more, see Azure Peak's Wiki - https://azu
 		<p><strong> Fogbeast </strong> - Horses, in our world. A rarely-seen alternative to the Saiga, due to its regional exclusivity to a few specific places in Psydonia. </p>
 		<p><strong> Red </strong> - A healing potion - specifically, the regenerative juices inside. Additionally known as 'lyfeblood'.  </p>
 		<p><strong> Blue </strong> - A fatigue potion - or, rather, the energy-boosting juices inside. Additionally known as 'manna'. </p>
-		<p><strong> Mammon </strong> - Currency. A copper zenny is one mammon, a silver ziliquae is five mammons, and a gold zenar is ten mammons. </p>
+		<p><strong> Mammon </strong> - Currency. A copper as is one mammon, a silver zestertius is four mammons, and a gold zenar is sixteen mammons. </p>
 		<p><strong> Scom </strong> - A rous-powered communication machine. Also functions as a verb, when used to describe 'calling' or 'contacting' someone. </p>
 		<p><strong> Meister </strong> - A coinage-machine that - with the cost of a bloodied finger - allows one to access their personal reserve of mammons. </p>
 		<p><strong> Nervemaster </strong> - The nexus that all coinage-machines are connected to. It can both deposit and tax mammons from all personal reserves. Said to be a machine originating from the Celestial Era. Few knows how to build and maintain them.</p>

@@ -81,7 +81,16 @@ export type LogEntry = {
   reason: string;
 };
 
+export type CoinDenomination = {
+  id: string;
+  label: string;
+  value: number;
+};
+
 export type Data = {
+  coin_denominations: CoinDenomination[];
+  max_coins_per_withdrawal: number;
+  bathhouse_withdraw_limit_max: number;
   funds: FundEntry[];
   account_balance: number;
   day: number;

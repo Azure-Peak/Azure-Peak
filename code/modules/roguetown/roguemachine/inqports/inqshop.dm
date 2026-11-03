@@ -56,6 +56,7 @@
 	new /obj/item/roguecoin/silver/inqpile(src)
 	new /obj/item/roguecoin/silver/inqpile(src)
 	new /obj/item/roguecoin/silver/inqpile(src)
+	new /obj/item/roguecoin/silver/inqpile(src)
 
 /datum/inqports/supplies/bullion
 	name = "The Archibishop's Bullion - Blessed Silver Ingots"

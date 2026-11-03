@@ -3,7 +3,6 @@
 #define CTYPE_COPP "c"
 #define CTYPE_ICOIN "i"
 #define CTYPE_ANCIENT "a"
-#define MAX_COIN_STACK_SIZE 20
 
 /obj/item/roguecoin
 	name = "coin"
@@ -54,6 +53,9 @@
 	quantity = new_quantity
 	update_icon()
 	update_transform()
+
+/obj/item/roguecoin/proc/set_quantity_by_value(mammons)
+	set_quantity(clamp(round(mammons / sellprice, 1), 1, MAX_COIN_STACK_SIZE))
 
 /obj/item/roguecoin/examine(mob/user)
 	. = ..()
@@ -225,7 +227,7 @@
 	name = "zenar"
 	desc = "A gold coin bearing the symbol of the Taurus and the pre-kingdom psycross. These were in the best condition of the provincial gold mints, the rest were melted down."
 	icon_state = "g1"
-	sellprice = 10
+	sellprice = COIN_VALUE_GOLD
 	base_type = CTYPE_GOLD
 	plural_name = "zenarii"
 	materia = list(/datum/materia_aspect/solar)
@@ -233,22 +235,22 @@
 
 // SILVER
 /obj/item/roguecoin/silver
-	name = "ziliqua"
+	name = "zestertius"
 	desc = "An ancient silver coin still in use due to their remarkable ability to last the ages."
 	icon_state = "s1"
-	sellprice = 5
+	sellprice = COIN_VALUE_SILVER
 	base_type = CTYPE_SILV
-	plural_name = "ziliquae"
+	plural_name = "zestertii"
 	materia = list(/datum/materia_aspect/lunar)
 
 // COPPER
 /obj/item/roguecoin/copper
-	name = "zenny"
+	name = "as"
 	desc = "A brand-new bronze coin minted by the capital in an effort to be rid of the financial use of silver."
 	icon_state = "c1"
-	sellprice = 1
+	sellprice = COIN_VALUE_COPPER
 	base_type = CTYPE_COPP
-	plural_name = "zennies"
+	plural_name = "asses"
 	materia = list(/datum/materia_aspect/change)
 
 // ANCIENT
@@ -275,35 +277,35 @@
 
 /obj/item/roguecoin/copper/pile/Initialize(mapload)
 	. = ..()
-	set_quantity(rand(4,19))
+	set_quantity_by_value(rand(4, 19))
 
 /obj/item/roguecoin/silver/pile/Initialize(mapload)
 	. = ..()
-	set_quantity(rand(4,19))
+	set_quantity_by_value(rand(20, 95))
 
 /obj/item/roguecoin/silver/pile/readyuppile/Initialize(mapload)
 	. = ..()
-	set_quantity(4) // 20 mammons combine with starting pouch to buy something
+	set_quantity_by_value(20) // 20 mammons combine with starting pouch to buy something
 
 /obj/item/roguecoin/silver/pile/wretchpile/Initialize(mapload)
 	. = ..()
-	set_quantity(10) // 50 mammons, to avoid being dead broke when latejoining
+	set_quantity_by_value(50) // 50 mammons, to avoid being dead broke when latejoining
 
 /obj/item/roguecoin/silver/pile/munitioneerpile/Initialize(mapload) //for muntineer, exclusely to speed up them aquiring materials w/ out having to benefit town by selling to them or lose the arms race against the guild.
 	. = ..()
-	set_quantity(16) // 80 mammons, to avoid being dead broke when latejoining
+	set_quantity_by_value(80) // 80 mammons, to avoid being dead broke when latejoining
 
 /obj/item/roguecoin/gold/pile/Initialize(mapload)
 	. = ..()
-	set_quantity(rand(4,19))
+	set_quantity_by_value(rand(40, 190))
 
 /obj/item/roguecoin/gold/virtuepile/Initialize(mapload)
 	. = ..()
-	set_quantity(rand(8,12))
+	set_quantity_by_value(rand(80, 120))
 
 /obj/item/roguecoin/gold/aspirantpile/Initialize(mapload)
 	. = ..()
-	set_quantity(20) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
+	set_quantity_by_value(200) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
 
 
 #undef CTYPE_GOLD
@@ -311,4 +313,3 @@
 #undef CTYPE_COPP
 #undef CTYPE_ANCIENT
 #undef CTYPE_ICOIN
-#undef MAX_COIN_STACK_SIZE

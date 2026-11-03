@@ -358,7 +358,7 @@
 
 /datum/special_trait/nopouch
 	name = "No Pouch"
-	greet_text = span_boldwarning("I lost my pouch recently, I'm without a zenny..")
+	greet_text = span_boldwarning("I lost my pouch recently, I'm without an as..")
 	weight = 200
 
 /datum/special_trait/nopouch/on_apply(mob/living/carbon/human/character, silent)

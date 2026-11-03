@@ -105,8 +105,8 @@
 	. += span_info("Can be interacted with to heal. Part of the heal is long-lasting.")
 	. += span_info("Can be interacted with once per person.")
 	. += span_info("Provides heartbeast research to echo slabs in the world when used. Research is capped at tier 1 out of 4 tiers")
-	. += span_info("Provides a heartblood vial and some zennies when used.")
-	. += span_info("Holy skill and medicine skill increase the amount of research, zennies, and heartblood generated.")
+	. += span_info("Provides a heartblood vial and some asses when used.")
+	. += span_info("Holy skill and medicine skill increase the amount of research, asses, and heartblood generated.")
 	. += span_info("Heartblood can be applied to self or others to restore some blue, or to purify impure lux to make it usable for revival surgery and crafts.")
 
 /obj/structure/roguemachine/chimeric_calyx/attack_hand(mob/user)

@@ -218,7 +218,7 @@ GLOBAL_LIST_EMPTY(active_economic_events)
 /datum/economic_event/quarry_windfall
 	name = "Quarry Windfall"
 	description = "Quarrymen at Mount Decapitation have struck a rich new seam of quality stone and coal."
-	announcement = "<font color='#5cb85c'>QUARRY WINDFALL: New seams found. Quality stone and coal are sold for zennies.</font>"
+	announcement = "<font color='#5cb85c'>QUARRY WINDFALL: New seams found. Quality stone and coal are sold for asses.</font>"
 	affected_goods = list(TRADE_GOOD_STONE, TRADE_GOOD_COAL)
 	price_mod = ECON_OVERSUPPLY_MINOR
 	event_type = ECON_EVENT_OVERSUPPLY

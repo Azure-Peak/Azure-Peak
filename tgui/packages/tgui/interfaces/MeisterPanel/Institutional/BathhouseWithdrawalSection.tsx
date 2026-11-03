@@ -42,7 +42,10 @@ export const BathhouseWithdrawalSection = ({
     suspended: boolean,
   ) => {
     const limit = Number(value);
-    const invalid = !Number.isInteger(limit) || limit < 0 || limit > 10000;
+    const invalid =
+      !Number.isInteger(limit) ||
+      limit < 0 ||
+      limit > data.bathhouse_withdraw_limit_max;
 
     return (
       <div style={fieldRowStyle}>
@@ -63,7 +66,7 @@ export const BathhouseWithdrawalSection = ({
               <input
                 type="number"
                 min={0}
-                max={10000}
+                max={data.bathhouse_withdraw_limit_max}
                 step={1}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}

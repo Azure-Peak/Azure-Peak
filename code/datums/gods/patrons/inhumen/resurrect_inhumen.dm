@@ -246,6 +246,9 @@
 		coins_to_remove = min(coins_to_remove, quantity)
 		C.set_quantity(quantity - coins_to_remove)
 		var/removed_value = coins_to_remove * value_per
+		if(removed_value > remaining)
+			budget2change(removed_value - remaining, custom_turf = get_turf(A))
+			removed_value = remaining
 		remaining -= removed_value
 		if(C.quantity <= 0)
 			qdel(C)

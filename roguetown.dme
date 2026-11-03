@@ -220,6 +220,7 @@
 #include "code\__DEFINES\dcs\signals_atoms\movable_lighting.dm"
 #include "code\__DEFINES\dcs\signals_atoms\signals_atom.dm"
 #include "code\__DEFINES\dcs\signals_atoms\signals_atom_movable.dm"
+#include "code\__DEFINES\economy\coinage.dm"
 #include "code\__DEFINES\economy\internal_trade_and_quests.dm"
 #include "code\__DEFINES\economy\item_categories.dm"
 #include "code\__DEFINES\economy\ledger.dm"

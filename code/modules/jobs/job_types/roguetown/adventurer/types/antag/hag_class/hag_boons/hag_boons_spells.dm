@@ -189,10 +189,10 @@
 		to_chat(H, span_boldnotice("A hoard of Zenarii!"))
 	else if(luck_roll >= 10)
 		found_thing = new /obj/item/roguecoin/silver/pile(T)
-		to_chat(H, span_notice("A collection of Ziliquae. This will buy much."))
+		to_chat(H, span_notice("A collection of Zestertii. This will buy much."))
 	else
 		found_thing = new /obj/item/roguecoin/copper/pile(T)
-		to_chat(H, span_info("A few measly Zennies... better than nothing."))
+		to_chat(H, span_info("A few measly Asses... better than nothing."))
 
 	if(!H.put_in_hands(found_thing, FALSE))
 		found_thing.forceMove(T)

@@ -134,22 +134,22 @@
 			say("Your peasant's tithe is NEGATIVE.")
 			return
 		var/list/choicez = list()
-		if(gamblingprice > 10)
+		if(gamblingprice >= COIN_VALUE_GOLD)
 			choicez += "GOLD"
-		if(gamblingprice > 5)
+		if(gamblingprice >= COIN_VALUE_SILVER)
 			choicez += "SILVER"
 		choicez += "BRONZE"
 		var/selection = input(user, "Make a Selection", src) as null|anything in choicez
 		if(!selection)
 			return
-		var/mod = 1
+		var/mod = COIN_VALUE_COPPER
 		if(selection == "GOLD")
-			mod = 10
+			mod = COIN_VALUE_GOLD
 		if(selection == "SILVER")
-			mod = 5
-		var/maxwithdraw = min(floor(gamblingprice/mod), 20)
+			mod = COIN_VALUE_SILVER
+		var/maxwithdraw = min(floor(gamblingprice/mod), MAX_COIN_STACK_SIZE)
 		var/coin_amt = input(user, "Sayyid, you have [src.gamblingprice] mammon in tithes. You may withdraw [maxwithdraw] [selection] COINS.", src) as null|num
-		coin_amt = min(round(coin_amt), 20)
+		coin_amt = min(round(coin_amt), MAX_COIN_STACK_SIZE)
 		if(coin_amt < 1)
 			return
 		if(!Adjacent(user))

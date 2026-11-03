@@ -524,7 +524,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BAD_MOOD = span_warning("Everything just seems to piss me off"),
 	TRAIT_LEAPER = "I can leap like a frog, landing where I want.",
 	TRAIT_NUTCRACKER = "I love kicking idiots on the nuts!",
-	TRAIT_SEEPRICES = "I can tell the prices of things down to the zenny.",
+	TRAIT_SEEPRICES = "I can tell the prices of things down to the as.",
 	TRAIT_SEEPRICES_SHITTY = "I can tell the prices of things... <i>Kind of</i>.",
 	TRAIT_STRONGBITE = span_info("Stronger bites, critical bite attacks."),
 	TRAIT_VAMPBITE = span_info("Victims of your bite will feel immense pleasure."),

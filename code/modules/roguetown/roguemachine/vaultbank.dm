@@ -110,7 +110,7 @@
 			src.say("IT WILL NEVER BE ENOUGH.")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 		if(9)
-			src.say("ANOTHER HANDFUL. ANOTHER ZENNY.")
+			src.say("ANOTHER HANDFUL. ANOTHER AS.")
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 		if(10)
 			src.say("A LITTLE RICHER. NONE THE POORER.")

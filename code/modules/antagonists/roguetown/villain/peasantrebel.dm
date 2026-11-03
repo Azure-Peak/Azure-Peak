@@ -580,7 +580,14 @@
 		new path(sack)
 	if(is_leader)
 		// Seed funding for couriers, mantles, and bribes.
-		new /obj/item/roguecoin/gold(sack, REBELLION_LEADER_FUNDS / 10)
+		var/funds = REBELLION_LEADER_FUNDS
+		new /obj/item/roguecoin/gold(sack, floor(funds / COIN_VALUE_GOLD))
+		funds %= COIN_VALUE_GOLD
+		if(funds >= COIN_VALUE_SILVER)
+			new /obj/item/roguecoin/silver(sack, floor(funds / COIN_VALUE_SILVER))
+		funds %= COIN_VALUE_SILVER
+		if(funds)
+			new /obj/item/roguecoin/copper(sack, funds)
 	if(!H.put_in_hands(sack))
 		to_chat(H, span_notice("I knew this would come to use, somedae."))
 	H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/rebel_kit)

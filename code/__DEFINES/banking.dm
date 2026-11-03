@@ -151,3 +151,4 @@
 #define BATHHOUSE_AGENT_DAILY_WITHDRAW_DEFAULT 50
 /// Default daily withdrawal cap for Bathhouse workers drawing from the bathhouse fund.
 #define BATHHOUSE_WORKER_DAILY_WITHDRAW_DEFAULT 50
+#define BATHHOUSE_DAILY_WITHDRAW_MAX 10000
