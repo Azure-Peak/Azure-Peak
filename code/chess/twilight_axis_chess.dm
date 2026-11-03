@@ -152,6 +152,12 @@
 	ui_interact(user)
 	return TRUE
 
+/obj/structure/chessboard/attack_ghost(mob/dead/observer/user)
+	if(!in_range(src, user))
+		return ..()
+	ui_interact(user)
+	return TRUE
+
 /obj/structure/chessboard/AltClick(mob/user)
 	return ..()
 
