@@ -20,7 +20,7 @@
 /// Sanity caps on a freeform roll, so nobody throws 9999d9999 and floods the chat.
 #define DICE_MAX_COUNT 24
 #define DICE_MAX_SIDES 100
-#define DICE_MAX_BONUS 100 
+#define DICE_MAX_BONUS 100
 /// Most dice a freeform roll writes out one by one in its sum. Beyond this they are added up first.
 #define DICE_SUM_MAX_TERMS 6
 
@@ -930,11 +930,11 @@ GLOBAL_LIST_INIT(dice_stat_names, list(
 	)
 
 	crit_success_message_list = list(
-		"steals a zenny off Matthios!",
+		"leaves afterimages behind!",
 	)
 
 	crit_failure_message_list = list(
-		"is slow like the jester!",
+		"is slower than a training dummy!",
 	)
 
 /mob/living/carbon/human/verb/emote_speed_roll()
