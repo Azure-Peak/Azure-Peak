@@ -1,0 +1,7 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "Fixed a few unintended Bottlebomb behaviors, and the expected duration of fire tiles."
+  - bugfix: "Bomber Expert was not blocking some hazardous interactions with your field effects, and they can now light bombs from their belt's lamptern."
+  - bugfix: "Chain Reactions are back now, a bomb will light another into a catastrophic outcome. Keep your bombs safe and unlit."
+  - code_imp: "Updated Explosion() to use arcyne_strike(), so now it might be usable again."
