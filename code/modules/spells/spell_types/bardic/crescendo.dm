@@ -212,7 +212,7 @@
 
 // Crescendo Mending - heal-over-time applied to audience
 /datum/status_effect/buff/healing/crescendo_mending
-	id = "crescendo_mending"
+	id = "crescendo_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
 	duration = CRESCENDO_MENDING_DURATION
 	healing_on_tick = CRESCENDO_MENDING_TICK

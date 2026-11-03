@@ -227,21 +227,6 @@
 		else
 			return
 
-/datum/brain_trauma/severe/discoordination
-	name = "Discoordination"
-	desc = ""
-	scan_desc = ""
-	gain_text = span_warning("I can barely control my hands!")
-	lose_text = span_notice("I feel in control of my hands again.")
-
-/datum/brain_trauma/severe/discoordination/on_gain()
-	ADD_TRAIT(owner, TRAIT_MONKEYLIKE, TRAUMA_TRAIT)
-	..()
-
-/datum/brain_trauma/severe/discoordination/on_lose()
-	REMOVE_TRAIT(owner, TRAIT_MONKEYLIKE, TRAUMA_TRAIT)
-	..()
-
 /datum/brain_trauma/severe/pacifism
 	name = "Traumatic Non-Violence"
 	desc = ""

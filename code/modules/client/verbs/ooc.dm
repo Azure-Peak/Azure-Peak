@@ -257,7 +257,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	if(!check_rights(0))
 		return
 	if(GLOB.admin_notice)
-		to_chat(src, "<span class='boldnotice'>Admin Notice:</span>\n \t [GLOB.admin_notice]")
+		to_chat(src, "<div class=\"motd\"><b>Admin Notice:</b>\n \t [GLOB.admin_notice]</div>")
 	else
 		to_chat(src, span_notice("There are no admin notices at the moment."))
 #ifdef TESTSERVER

@@ -46,6 +46,9 @@
 
 	var/last_special = 0 //Used by the resist verb, likely used to prevent players from bypassing next_move by logging in/out.
 	var/timeofdeath = 0
+	var/last_logout_time = 0
+	var/disconnected_admin_alert_timer
+	var/disconnected_admin_alert_sent = FALSE
 
 	var/infected = FALSE //Used to tell if the mob is in progress of turning into deadite
 
@@ -149,6 +152,7 @@
 	var/gm_name // Display label in the game master panel. Unset derives one from the type path.
 	var/gm_category // Filter category in the game master panel. Unset uses the primary faction.
 	var/gm_hidden = FALSE // Keep this type out of the game master panel entirely.
+	var/datum/npc_archetype/npc_archetype // NPC Archetype that is composed from multiple components to make them more reusable
 
 	var/datum/fellowship/current_fellowship
 	var/list/incoming_fellowship_invites = list() // list of /datum/weakref to /datum/fellowship; kept in sync with fellowship.pending_invites
@@ -160,6 +164,7 @@
 	var/compliance = 0
 
 	var/defprob = 50 //base chance to defend against this mob's attacks, for simple mob combat
+	var/pack_swing_ready_at = 0
 	var/encumbrance = 0
 
 	var/eyesclosed = 0
@@ -168,6 +173,10 @@
 
 	var/bleed_rate = 0 //how much are we bleeding
 	var/bleedsuppress = 0 //for stopping bloodloss, eventually this will be limb-based like bleeding
+	/// Bloody prints a large creature has left to leave after stepping in fresh blood
+	var/bloodsteps = 0
+	/// Colour of the blood those prints are made with
+	var/stepcolour
 
 	var/list/next_attack_msg = list()
 
@@ -250,7 +259,6 @@
 	var/dualwield_finisher = FALSE
 	var/dualwield_resets_in = 0
 	var/dualwield_buff_cd = 0
-	var/dualwield_twoswing = FALSE
 
 	/// "In Combat" timer that is used to prevent stealth and a few other mechanics while active.
 	var/in_combat_until
@@ -258,5 +266,3 @@
 	/// Bypasses positioning and exposure checks entirely
 	var/freeuse = FALSE
 
-	/// Inquisition trauma should only happen once per examined.
-	var/list/examined_inquisitors = list()

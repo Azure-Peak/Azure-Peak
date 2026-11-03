@@ -123,6 +123,9 @@
 	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
 	return entry.content_text
 
+/datum/mob_descriptor/voice/custom/get_examine_description(mob/living/described)
+	return LOWER_TEXT(get_description(described))
+
 /datum/mob_descriptor/voice/custom/get_pre_string(mob/living/described)
 	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
 	switch(entry.prefix_type)

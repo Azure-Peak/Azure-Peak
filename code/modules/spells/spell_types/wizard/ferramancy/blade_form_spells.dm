@@ -33,7 +33,7 @@
 	/// Selectable forms, cycled with Shift+G. Each: label, weapon path, invocation.
 	var/list/forms = list(
 		list("label" = "Khopesh", "weapon" = /obj/item/rogueweapon/sword/sabre/ferramancy, "say" = "Forma Falx!"),
-		list("label" = "Rapier", "weapon" = /obj/item/rogueweapon/sword/rapier/ferramancy, "say" = "Forma Acus!"),
+		list("label" = "Dagger", "weapon" = /obj/item/rogueweapon/huntingknife/idagger/steel/ferramancy, "say" = "Forma Pugio!"),
 		list("label" = "Greatsword", "weapon" = /obj/item/rogueweapon/greatsword/ferramancy, "say" = "Forma Ferrum!"),
 		list("label" = "Greataxe", "weapon" = /obj/item/rogueweapon/greataxe/steel/doublehead/ferramancy, "say" = "Forma Bipennis!"),
 		list("label" = "Halberd", "weapon" = /obj/item/rogueweapon/halberd/ferramancy, "say" = "Forma Hasta!"),

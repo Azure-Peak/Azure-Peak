@@ -206,3 +206,13 @@
 		qdel(owner.legwear_socks)
 	owner.legwear_socks = legwear_item
 	legwear_item.color = accessory_colors
+
+/datum/bodypart_feature/pubes
+	name = "Pubic Hair"
+	feature_slot = BODYPART_FEATURE_PUBES
+	body_zone = BODY_ZONE_CHEST
+
+/datum/bodypart_feature/pits
+	name = "Armpit Hair"
+	feature_slot = BODYPART_FEATURE_PITS
+	body_zone = BODY_ZONE_CHEST

@@ -17,6 +17,7 @@
 	animals = list(
 		/mob/living/simple_animal/hostile/retaliate/rogue/wolf,
 		/mob/living/simple_animal/hostile/retaliate/rogue/direbear,
+		/mob/living/simple_animal/hostile/retaliate/rogue/wolf/dire,
 		/mob/living/simple_animal/hostile/retaliate/rogue/bigrat,
 		/mob/living/simple_animal/hostile/retaliate/rogue/mole,
 		/mob/living/simple_animal/hostile/retaliate/rogue/bobcat,

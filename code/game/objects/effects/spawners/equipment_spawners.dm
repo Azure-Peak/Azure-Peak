@@ -7,7 +7,7 @@
 	icon_state = "larmor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_LIGHT_ARMOR
-	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/leather = 6,
 		/obj/item/clothing/suit/roguetown/armor/leather/cuirass = 4,
@@ -31,7 +31,7 @@
 	icon_state = "marmor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_MEDIUM_ARMOR
-	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail = 3,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 6,
@@ -56,7 +56,7 @@
 	icon_state = "harmor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_HEAVY_ARMOR
-	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/fibers = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate = 6,
 		/obj/item/clothing/suit/roguetown/armor/plate/fluted = 3,
@@ -78,7 +78,7 @@
 	icon_state = "helmetarmor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_HELMET
-	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/ash = 5)
 	loot = list(
 		/obj/item/clothing/head/roguetown/helmet/coppercap = 10,
 		/obj/item/clothing/head/roguetown/helmet/skullcap = 8,
@@ -118,7 +118,7 @@
 	icon_state = "glovearmor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_GLOVES
-	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/ash = 5)
 	loot = list(
 		/obj/item/clothing/gloves/roguetown/leather = 8,
 		/obj/item/clothing/gloves/roguetown/angle = 6,
@@ -135,7 +135,7 @@
 	icon_state = "bootarmor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_BOOTS
-	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/ash = 5)
 	loot = list(
 		/obj/item/clothing/shoes/roguetown/boots = 10,
 		/obj/item/clothing/shoes/roguetown/boots/nobleboot = 5,
@@ -152,7 +152,7 @@
 	icon_state = "wristarmor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_WRISTS
-	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/ash = 5)
+	junk_loot = list(/obj/item/natural/hide = 5, /obj/item/natural/ash = 5)
 	loot = list(
 		/obj/item/clothing/wrists/roguetown/bracers = 1,
 		/obj/item/clothing/wrists/roguetown/bracers/chain = 2,
@@ -290,22 +290,22 @@
 	icon_state = "silverweapon"
 	lootcount = 1
 	loot_value = LOOT_VALUE_SILVER_WEAPON
-	junk_loot = list(/obj/item/rope/chain = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/rope/chain = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/rogueweapon/sword/silver = 1,
 		/obj/item/rogueweapon/mace/steel/silver = 1,
 		/obj/item/rogueweapon/greataxe/steel/knight/silver = 1,
 		/obj/item/rogueweapon/flail/sflail/silver = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/silver = 3,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/silver = 3,
 		/obj/item/rogueweapon/mace/warhammer/steel/silver = 1,
-		/obj/item/rogueweapon/stoneaxe/woodcut/silver = 1,
+		/obj/item/rogueweapon/stoneaxe/battle/silver = 1,
 		/obj/item/rogueweapon/spear/silver = 1,
 		/obj/item/rogueweapon/sword/long/silver = 1,
-		/obj/item/rogueweapon/sword/long/kriegmesser/silver = 1,
+		/obj/item/rogueweapon/sword/long/broadsword/silver = 1,
 		/obj/item/rogueweapon/sword/short/silver = 1,
 		/obj/item/rogueweapon/sword/rapier/silver = 1,
 		/obj/item/rogueweapon/whip/silver = 1,
-		/obj/item/rogueweapon/woodstaff/quarterstaff/silver = 1,
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver = 1,
 		/obj/item/rogueweapon/sword/long/exe/silver = 1,
 		/obj/item/rogueweapon/greatsword/silver = 1,
 		/obj/item/rogueweapon/handclaw/gronn/silver = 1,
@@ -317,7 +317,7 @@
 	icon_state = "dweapon/armor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_DECREPIT_EQUIPMENT
-	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/ash = 5)
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/natural/ash = 5)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/aalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy = 1,
@@ -356,7 +356,7 @@
 	icon_state = "paweapon/armor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_ANCIENT_EQUIPMENT
-	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/ash = 5)
+	junk_loot = list(/obj/item/natural/stone = 5, /obj/item/natural/ash = 5)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/paalloy = 1,
 		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy = 1,
@@ -389,14 +389,14 @@
 	icon_state = "eweapon/armor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_ELVEN_EQUIPMENT
-	junk_loot = list(/obj/item/natural/feather = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/natural/feather = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate/light = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/elven_plate = 1,
 		/obj/item/clothing/shoes/roguetown/boots/elven_boots = 1,
 		/obj/item/clothing/gloves/roguetown/elven_gloves = 1,
 		/obj/item/rogueweapon/sword/sabre/elf = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/silver/elvish = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/silver/elvish = 1,
 		/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm/light = 1,
 		/obj/item/clothing/head/roguetown/helmet/heavy/elven_helm = 1,
 		/obj/item/clothing/head/roguetown/helmet/elvenbarbute = 1,
@@ -408,7 +408,7 @@
 	icon_state = "bsweapon/armor"
 	lootcount = 1
 	loot_value = LOOT_VALUE_BLACKSTEEL_EQUIPMENT
-	junk_loot = list(/obj/item/rope/chain = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/rope/chain = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/clothing/suit/roguetown/armor/plate/full/blacksteel/modern = 1,
 		/obj/item/clothing/suit/roguetown/armor/plate/blacksteel/modern = 2,

@@ -198,9 +198,9 @@
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
 	var/dualwield_armed = FALSE
-	if(HAS_TRAIT(user, TRAIT_DUALWIELDER))
+	if(HAS_TRAIT(user, TRAIT_DUALWIELDER) && !user.dualwield_processing && user != M && user.cmode)
 		var/datum/intent/dualwield_cached_intent = user.used_intent
-		dualwield_armed = user.process_dualwield(src)
+		dualwield_armed = user.process_dualwield(src) // if we return TRUE, we're primed
 		user.used_intent = dualwield_cached_intent
 
 	M.on_attacked_as_pacifist(user)
@@ -214,9 +214,6 @@
 	// Release drain on attacks besides unarmed attacks/grabs is 1, so it'll just be whatever the penalty is + 1.
 	// Unarmed attacks are the only ones right now that have differing releasedrain, see unarmed attacks for their calc.
 	user.stamina_add(user.used_intent.releasedrain + rmb_stam_penalty)
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		H.process_golgatha_rebuke(user)
 	if(user.mob_biotypes & MOB_UNDEAD)
 		if(M.has_status_effect(/datum/status_effect/buff/necras_vow))
 			if(isnull(user.mind))
@@ -540,6 +537,7 @@
 				user.visible_message(span_warning("[user] melts down \the [src] with [I]!"))
 				obj_destruction(need_scrap ? BRUTE : BURN)
 				playsound(user, 'sound/surgery/cautery2.ogg', 100)
+				user.mind.add_sleep_experience(/datum/skill/craft/smelting, (user.STAINT*0.2))
 				return
 
 	var/newforce = get_complex_damage(I, user, blade_dulling)
@@ -725,21 +723,25 @@
 					simple_add_embedded_object(I, silent = FALSE, crit_message = TRUE)
 					src.grabbedby(user, 1, item_override = I)
 				*/
-			var/haha = user.used_intent.blade_class
+			var/bclass = user.used_intent.blade_class
 			if(newforce > 5)
-				if(haha != BCLASS_BLUNT)
+				if(bclass != BCLASS_BLUNT)
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
 					add_splatter_wall(location, force = newforce)
+					if((bclass in GLOB.splatter_bclasses) && prob(newforce * 2))
+						blood_spray(get_dir(user, src))
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 			if(newforce > 15)
-				if(haha == BCLASS_BLUNT)
+				if(bclass == BCLASS_BLUNT)
 					I.add_mob_blood(src)
 					var/turf/location = get_turf(src)
 					add_splatter_floor(location)
 					add_splatter_wall(location, force = newforce)
+					if(prob(newforce * 2))
+						blood_spray(get_dir(user, src))
 					if(get_dist(user, src) <= 1)	//people with TK won't get smeared with blood
 						user.add_mob_blood(src)
 	send_item_attack_message(I, user, hitlim)

@@ -51,7 +51,7 @@
 	<li><b>Matthios:</b> +16.67% if the target has the Freeman trait.</li>\
 	<li><b>Zizo:</b> Up to +16.67% scaling with nearby bones and bone bundles.</li>\
 	</ul>"
-	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
+	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped deity within mortal realm."
 	button_icon_state = "heal"
 	sound = 'sound/magic/heal.ogg'
 
@@ -85,24 +85,19 @@
 		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		return FALSE
+		return TRUE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_UNFORGIVABLE))
 		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth passes through your hollow husk of a body, only to fade as quickly as it arrived."))
 		playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		return FALSE
-
-	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
-		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		spelltarget.emote("pain")
+		return TRUE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
 		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_blue("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		return FALSE
+		return TRUE
 
 	if(spelltarget.has_status_effect(/datum/status_effect/buff/healing))
 		to_chat(owner, span_warning("They are already under the effects of a healing aura!"))
@@ -175,9 +170,8 @@
 
 /datum/action/cooldown/spell/miracle/fortify
 	name = "Fortify"
-	desc = "Amplifies all incoming sources of healing for the chosen target. Combining this with the 'Miracle' blessing allows for the mending \
-	of more extreme injuries. </br>Most healing Miracles cannot affect devoted Psydonians."
-	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped diety within mortal realm."
+	desc = "Amplifies all incoming sources of healing by 30% for the chosen target. If the target already carries the buff they will instead recieve an instant heal. Undead take burn damage and get set on fire. Does not work on devout Psydonites or Constructs."
+	fluff_desc = "The lyfeline of any devotee, channeling restorative energies of their worshipped deity within the mortal realm."
 	button_icon_state = "fortify"
 	sound = 'sound/magic/heal.ogg'
 
@@ -208,18 +202,13 @@
 		return FALSE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_PSYDONITE))
-		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+		spelltarget.visible_message(span_info("[spelltarget] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		return FALSE
-
-	if(HAS_TRAIT(spelltarget, TRAIT_BLACKBLOOD))
-		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-		spelltarget.emote("pain")
+		return TRUE
 
 	if(HAS_TRAIT(spelltarget, TRAIT_IRONMAN))
-		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_notice("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
+		spelltarget.visible_message(span_info("[spelltarget] doesn't seem to be organic, the miracle dissipates."), span_blue("A dull warmth never meets your non-existent heart, it fades as quickly as it arrives."))
 		owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		playsound(spelltarget, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 		return FALSE
@@ -227,15 +216,16 @@
 	owner.Beam(spelltarget,icon_state="lichbeam",time=1 SECONDS)
 
 	if(H.patron?.undead_hater && (spelltarget.mob_biotypes & MOB_UNDEAD)) //positive energy harms the undead
-		spelltarget.visible_message(span_danger("[spelltarget] is burned by holy light!"), span_userdanger("I'm burned by holy light!"))
+		spelltarget.visible_message(span_danger("[spelltarget] is seared by divine light!"), span_userdanger("I'm lit ablaze by divine light!"))
 		spelltarget.adjustFireLoss(25)
 		spelltarget.fire_act(1,10)
 		return TRUE
 
-	spelltarget.visible_message(span_info("A wreath of gentle light passes over [spelltarget]!"), span_notice("I'm bathed in holy light!"))
 	if(iscarbon(spelltarget) && !spelltarget.has_status_effect(/datum/status_effect/buff/fortify))
+		spelltarget.visible_message(span_info("A gentle glow surrounds [spelltarget]!"), span_notice("I'm emboldened by divine favour!"))
 		spelltarget.apply_status_effect(/datum/status_effect/buff/fortify)
 	else
+		spelltarget.visible_message(span_info("A ray of divine light encompasses [spelltarget]!"), span_notice("I'm restored by divine light!"))
 		spelltarget.adjustBruteLoss(-25)
 		spelltarget.adjustFireLoss(-25)
 		spelltarget.adjustOxyLoss(-15)
@@ -268,6 +258,7 @@
 	charge_time = 1 SECONDS
 	hold_drain = 0
 	charge_slowdown = CHARGING_SLOWDOWN_NONE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	cooldown_time = 2 MINUTES
 
 	spell_flags = SPELL_PSYDON
@@ -290,10 +281,10 @@
 		var/obj/item/bodypart/affecting = target.get_bodypart(def_zone)
 
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
+			return TRUE
 
 		if(!affecting)
 			return FALSE
@@ -349,12 +340,12 @@
 	invocation_type = INVOCATION_NONE
 
 	charge_required = FALSE
+	charge_swingdelay_type = SWINGDELAY_CANCEL
 	cooldown_time = 1 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z | SPELL_REQUIRES_NO_MOVE
 
 	var/blood_price = 5
-	var/blood_vol_restore = 7.5 //30 every 2 seconds.
 	var/vol_per_skill = 1	//54 with legendary
 	var/delay = 0.5 SECONDS
 
@@ -377,26 +368,27 @@
 			return FALSE
 
 		if(HAS_TRAIT(target, TRAIT_PSYDONITE))
-			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_notice("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
+			target.visible_message(span_info("[target] stirs for a moment, the miracle dissipates."), span_blue("A dull warmth swells in your heart, only to fade as quickly as it arrived."))
 			owner.playsound_local(owner, 'sound/magic/PSY.ogg', 100, FALSE, -1)
 			playsound(target, 'sound/magic/PSY.ogg', 100, FALSE, -1)
-			return FALSE
+			return TRUE
 
 		UH.visible_message(span_warning("Tiny strands of red link between [UH] and [target], blood being transferred!"))
 		playsound(UH, 'sound/magic/bloodheal_start.ogg', 100, TRUE)
 		var/user_skill = UH.get_skill_level(associated_skill)
 		var/user_informed = FALSE
+		var/blood_vol_restore = 7
 		switch(user_skill)	//Bleeding happens every life(), which is every 2 seconds. Multiply these numbers by 4 to get the "bleedrate" equivalent values.
 			if(SKILL_LEVEL_APPRENTICE)
-				blood_price = 3.75
+				blood_price = 3.75 // We pay 15 to restore 9
 			if(SKILL_LEVEL_JOURNEYMAN)
-				blood_price = 2.5
+				blood_price = 2.5 //10:10
 			if(SKILL_LEVEL_EXPERT)
-				blood_price = 2
+				blood_price = 2 //8:11
 			if(SKILL_LEVEL_MASTER)
-				blood_price = 1.625
+				blood_price = 1.625 //6.5:12
 			if(SKILL_LEVEL_LEGENDARY)
-				blood_price = 1.25
+				blood_price = 1.25 //5:13
 		if(user_skill > SKILL_LEVEL_NOVICE)
 			blood_vol_restore += vol_per_skill * user_skill
 		var/max_loops = round(UH.blood_volume / blood_price, 1) * 2	// x2 just in case the user is trying to fill themselves up while using it.
@@ -430,15 +422,15 @@
 
 /datum/action/cooldown/spell/miracle/ignition
 	name = "Ignition"
-	desc = "Ignites target, living or object."
+	desc = "Ignite an object."
 	fluff_desc = "The first gift to men, a sliver of Her radiance at fingertips of those devoted to Her wae of lyfe. Some sae it was Matthios who forced Astrata's hand in relinquishing such force to lowly mortals."
 	button_icon_state = "ignite"
 	sound = 'sound/items/firelight.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
-	sparks_amt = 2
+	sparks_amt = 1
 
 	click_to_activate = TRUE
-	cast_range = 2
+	cast_range = 4
 
 	primary_resource_cost = SPELLCOST_MIRACLE_MINOR
 
@@ -446,14 +438,10 @@
 
 	invocation_type = INVOCATION_NONE //It has seperate message ON USE
 
-	charge_required = TRUE
-	charge_time = CHARGETIME_POKE
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/holycharging.ogg'
-	cooldown_time = 15 SECONDS
+	charge_required = FALSE
+	cooldown_time = 2 SECONDS
 
-	spell_flags = SPELL_PSYDON
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_SAME_Z
 
 /datum/action/cooldown/spell/miracle/ignition/cast(atom/cast_on)
 	. = ..()
@@ -472,20 +460,7 @@
 			to_chat(owner, span_warning("You attempt to ignite [spelltarget], but it fails to catch fire."))
 			return FALSE
 	else
-		owner.visible_message("<font color='yellow'>[owner] engulfs [spelltarget] in sacred flame!</font>")
-		if(spelltarget.anti_magic_check(TRUE, TRUE))
-			return FALSE
-		if(spell_guard_check(spelltarget, TRUE))
-			spelltarget.visible_message(span_warning("[spelltarget] shields against the divine flame!"))
-			return TRUE
-		if(spelltarget.fire_stacks < 1)
-			spelltarget.adjust_fire_stacks(1)
-			spelltarget.ignite_mob()
-			log_combat(owner, spelltarget, "ignited", addition="with the miracle [name]", zone=owner.zone_selected)
-			return TRUE
-		else
-			spelltarget.visible_message(span_warning("[spelltarget] is already engulfed in flames!"))
-			return TRUE
+		return FALSE
 
 /////////////////////////////////
 // MIRACLE - SACRED ASCENDANCE //
@@ -494,7 +469,7 @@
 /datum/action/cooldown/spell/miracle/bishop_pack
 	name = "Sacred Ascendance"
 	desc = "Allows you to select miracles out of packs Focus (1 T4) or Diversity (2 T3) from static list."
-	fluff_desc = "They protect against the enroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
+	fluff_desc = "They protect against the encroaching darkness, when He abandoned us we wept a thousand tears in His name. They liberated us from the sorrow, gave us a path to absolution denied to us - for this we will be grateful and obedient to Their machinations."
 	button_icon_state = "spellpack"
 	sound = 'sound/magic/undivided_bless.ogg'
 	glow_intensity = 0
@@ -515,11 +490,11 @@
 		/obj/effect/proc_holder/spell/invoked/immolation::name				= /obj/effect/proc_holder/spell/invoked/immolation,
 		/obj/effect/proc_holder/spell/self/howl/call_of_the_moon::name		= /obj/effect/proc_holder/spell/self/howl/call_of_the_moon,
 		/obj/effect/proc_holder/spell/invoked/pomegranate::name				= /obj/effect/proc_holder/spell/invoked/pomegranate,
-		//Malum lacks one for the time being.
+		/datum/action/cooldown/spell/malum/fortress::name					= /datum/action/cooldown/spell/malum/fortress,
 		/obj/effect/proc_holder/spell/invoked/deaths_door::name				= /obj/effect/proc_holder/spell/invoked/deaths_door,
-		//Noc gets one after the rework passes.
+		/datum/action/cooldown/spell/noc/moonlight::name					= /datum/action/cooldown/spell/noc/moonlight,
 		//Pestra has actually nothing, son 😢
-		//Ravox will get something else.
+		/datum/action/cooldown/spell/ravox/challenge::name					= /datum/action/cooldown/spell/ravox/challenge,
 		/datum/action/cooldown/spell/undivided/undivided_battlecry::name	= /datum/action/cooldown/spell/undivided/undivided_battlecry,
 		/obj/effect/proc_holder/spell/invoked/abscond::name					= /obj/effect/proc_holder/spell/invoked/abscond
 	)
@@ -532,7 +507,6 @@
 		//Noc is fine as is
 		//Pestra has actually nothing, son 😢
 		/datum/action/cooldown/spell/ravox/battlecry::name					= /datum/action/cooldown/spell/ravox/battlecry,
-		/datum/action/cooldown/spell/undivided/gallow_humor::name			= /datum/action/cooldown/spell/undivided/gallow_humor,
 		/obj/effect/proc_holder/spell/targeted/touch/parlor_trick::name		= /obj/effect/proc_holder/spell/targeted/touch/parlor_trick
 	)
 
@@ -650,7 +624,9 @@
 		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
 		target.dust()
 		return TRUE
-	if(alert(target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+
+	var/mob/dead/observer/underworld_spirit = target.get_spirit()
+	if(alert(underworld_spirit || target, "They are calling for you. Are you ready?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_astrata("Nothing happens. They are not being let go."))
 		return FALSE
 	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
@@ -658,12 +634,7 @@
 		to_chat(owner, span_warning("Nothing happens."))
 		return FALSE
 
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
 	//GET OVER HERE!
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
 	target.grab_ghost(force = TRUE) // even suicides
 	target.emote("breathgasp")
 	target.Jitter(100)

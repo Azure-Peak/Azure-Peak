@@ -68,9 +68,10 @@
 	cloak = /obj/item/clothing/cloak/thief_cloak
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 	H.change_stat(STATKEY_STR, 2)
-	H.change_stat(STATKEY_CON, 3)
+	H.change_stat(STATKEY_CON, 1)
 	H.change_stat(STATKEY_WIL, 3)
-	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC) //No crit resist - you can still get folded pretty easily if overwhelmed
+	ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
+	ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC)
 	if(H.mind)
 		var/weapons = list("THE FISTS OF JUSTICE ARE UNISEX!","JUSTICE DISPENSED THROUGH KNUCKLE AND BLADE!")
 		var/weapon_choice = input(H, "Choose your WEAPON.", "THY FISTS ARE THY IMPLEMENT, WATCHMAN!") as anything in weapons
@@ -101,6 +102,7 @@
 		/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 		/obj/item/rope/chain = 1,
 		)
+	ADD_TRAIT(H, TRAIT_BLOOD_RESISTANCE, TRAIT_GENERIC) //Bloodres but no nopainstun, this is very squishy for a light armor class.
 	H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, 4, TRUE) //Investigations
 	H.adjust_skillrank_up_to(/datum/skill/combat/slings, 4, TRUE) // Funny as shit to use.
 	H.adjust_skillrank_up_to(/datum/skill/combat/polearms, 3, TRUE) //Last resort CQC. Enough def on a quarterstaff to fight defensively, not enough to be truly offensive.

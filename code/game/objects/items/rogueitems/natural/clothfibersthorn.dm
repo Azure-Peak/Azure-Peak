@@ -2,6 +2,7 @@
 	name = "fibers"
 	icon_state = "fibers"
 	possible_item_intents = list(/datum/intent/use)
+	gender = PLURAL
 	desc = "Plant fibers. Peasants make their living turning these into clothing, courtesy of a needle-and-thread."
 	force = 0
 	throwforce = 0
@@ -18,12 +19,13 @@
 	experimental_inhand = TRUE
 	sellprice = 2
 	bundletype = /obj/item/natural/bundle/fibers
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/natural/fibers/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Fibers can be acquired by cutting grass or by foraging through bushes, alongside thorns. Likewise, two fibers can be crafted into a piece of cloth, once you have a needle.")
 	. += span_info("A thorn and fiber can be combined into a needle, by left-clicking the 'CRAFT' button on your HUD's upper-left corner and selecting the 'needle' recipe.")
-	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
+	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducible if you don't match the minimum skill requirement.")
 	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
 	. += span_info("Fibers can also be 'slapcrafted' into new items by left-clicking them with certain tools and materials. 'Slapcrafted' items don't require a Crafting skill to make.")
 	. += span_info("'Slapcrafts' for fibers include tools, bows, torches, amulets, bouquets, needles, bags, and flower crowns.")
@@ -72,6 +74,13 @@
 		slapcraft_recipes = slapcraft_recipe_list,\
 		)
 
+/obj/item/natural/fibers/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+			return
+		W.attackby(src, user, params)
+		return
+	..()
 
 /obj/item/natural/silk
 	name = "silk"
@@ -92,6 +101,7 @@
 	spitoutmouth = FALSE
 	experimental_inhand = TRUE
 	bundletype = /obj/item/natural/bundle/silk
+	materia = list(/datum/materia_aspect/animal)
 
 #ifdef TESTSERVER
 
@@ -142,11 +152,12 @@
 	/// If the bandage is soaked in some kind of medicine.
 	var/medicine_quality
 	var/medicine_amount = 0
+	materia = list(/datum/materia_aspect/plant, /datum/materia_aspect/air)
 
 /obj/item/natural/cloth/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right-clicking a washbin or pool of water allows you to soak the cloth, which can then clean up various stains-and-dirtiness by left-clicking them.")
-	. += span_info("Left-clicking someone will banadage the targeted limb. Examine yourself - or click the heart on your HUD - to check your limbs, and click any highlighted mentions of the bandaging to remove it.")
+	. += span_info("Left-clicking someone will bandage the targeted limb. Examine yourself - or click the heart on your HUD - to check your limbs, and click any highlighted mentions of the bandaging to remove it.")
 	. += span_info("Bandaged limbs will bleed much slower. If the underlying wounds are severe enough, however, the bandagings'll eventually bleed through and negate its effectiveness.")
 	. += span_info("This scales with the bandaged individual's Constitution. The higher their Constitution is, the longer it'll take for the effects of blood loss to be felt.")
 	. += span_info("Drinking water and, to a lesser extent, lifeblood can help counteract the effects of blood loss. Lifeblood, needles, cauteries, and miracles can stop a wound from bleeding.")
@@ -355,12 +366,13 @@
 	embedding = list("embedded_unsafe_removal_time" = 20, "embedded_pain_chance" = 10, "embedded_pain_multiplier" = 1, "embed_chance" = 35, "embedded_fall_chance" = 0)
 	resistance_flags = FLAMMABLE
 	max_integrity = 20
+	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/natural/thorn/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Thorns can be acquired by foraging through bushes, alongside fibers.")
 	. += span_info("A thorn and fiber can be combined into a needle, by left-clicking the 'CRAFT' button on your HUD's upper-left corner and selecting the 'needle' recipe.")
-	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducable if you don't match the minimum skill requirement.")
+	. += span_info("Crafting recipes can require certain tools, stations, and skills. Your chances to successfully craft an item are reducible if you don't match the minimum skill requirement.")
 	. += span_info("Having a high Intelligence bonus or partial skills in whatever's required can increase your chance to successfully craft an item that's beyond your current skill level.")
 
 /obj/item/natural/thorn/Initialize(mapload)
@@ -477,6 +489,10 @@
 	grid_width = 32
 	grid_height = 32
 	dropshrink = 0.9
+
+/obj/item/natural/bundle/cloth/roll
+	icon_state = "clothroll2"
+	amount = 10
 
 /obj/item/natural/bundle/stick
 	name = "bundle of sticks"

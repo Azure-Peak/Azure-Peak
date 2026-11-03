@@ -33,6 +33,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/tgui_theme = "azure_default"
 	var/parchment_skin = "leatherbound"
 	var/statbrowser_theme = "dark"
+	var/vv_dark_mode = TRUE
 	var/windowflashing = TRUE
 	var/verbose_character_creator = TRUE // Output chat messages for every change you make as a psuedo-history
 
@@ -56,6 +57,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/datum/virtue/virtue = new /datum/virtue/none // LETHALSTONE EDIT: the virtue we get for not picking a statpack
 	var/datum/virtue/virtuetwo = new /datum/virtue/none
 	var/datum/virtue/virtue_origin = new /datum/virtue/origin/unknown
+	var/datum/quirk/quirklesser = new /datum/quirk/none
+	var/datum/quirk/quirkgreater = new /datum/quirk/none
 	var/age = AGE_ADULT						//age of character
 	var/skin_tone = "caucasian1"		//Skin color
 	var/vampire_skin = null
@@ -73,6 +76,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/shake = TRUE
 	var/sexable = FALSE
 	var/compliance_notifs = TRUE
+	/// Extra chances for rolling if you've lost before. Max 2
+	var/roll_tokens = 0
 
 	//Job preferences 2.0 - indexed by job title , no key or value implies never
 	var/list/job_preferences = list()
@@ -83,6 +88,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/joblessrole = RETURNTOLOBBY  //defaults to 1 for fewer assistants
 
 	var/clientfps = 100//0 is sync
+	var/icon/admin_ghost_icon
 
 	var/ambientocclusion = TRUE
 	var/auto_fit_viewport = FALSE
@@ -105,6 +111,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/no_redflash = FALSE
 	var/no_storyteller_events = FALSE
 	var/top_examine = FALSE
+	var/show_nsfw_clothed = FALSE
 
 	var/list/exp = list()
 	var/list/menuoptions
@@ -115,6 +122,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/nickname = "Please Change Me"
 	var/highlight_color = "#FF0000"
 	var/list/charflaws = list()
+	var/list/charflaw_choices = list()
 
 	var/static/default_cmusic_type = /datum/combat_music/default
 	var/datum/combat_music/combat_music
@@ -122,17 +130,29 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 	var/crt = FALSE
 	var/grain = TRUE
-	var/dnr_pref = FALSE
 	var/qsr_pref = FALSE
+	var/char_toggles = NONE
 
 	var/list/customizer_entries = list()
 	var/list/list/body_markings = list()
 	var/update_mutant_colors = TRUE // if TRUE, resets accessory and marking colors when mutant colors change
 
+	///direct link to a headshot image on a whitelisted site. it would rather these 3 fields be a list, but that's actually less efficient at runtime
 	var/headshot_link
+	///text displayed in a box just below the headshot, i.e. the artist's name (human-readable)
+	var/headshot_artist_credit
+	///if set, clicking the artist credit box will take you here. use this for linking to the artist's portfolio/dono page/etc
+	var/headshot_artist_link
+	// ditto, for lich
 	var/lich_headshot_link
+	var/lich_headshot_artist_credit
+	var/lich_headshot_artist_link
 	var/vampire_headshot_link
+	var/vampire_headshot_artist_credit
+	var/vampire_headshot_artist_link
 	var/werewolf_headshot_link //not used but setting up for the future
+	var/werewolf_headshot_artist_credit
+	var/werewolf_headshot_artist_link
 	var/chatheadshot = FALSE
 	var/ooc_extra
 	var/song_artist
@@ -184,7 +204,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preset_bounty_severity_b_key
 	var/preset_bounty_severity_v_key
 	var/preset_bounty_crime
-
 
 	var/averse_chosen_faction = "Inquisition"
 

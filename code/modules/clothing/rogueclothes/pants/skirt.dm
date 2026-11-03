@@ -79,7 +79,7 @@
 
 /obj/item/clothing/under/roguetown/skirt/courtphysician
 	name = "sanguine skirt"
-	desc = "An elegant velvet skirt that does you no good when running to someones aid."
+	desc = "An elegant velvet skirt that does you no good when running to someone's aid."
 	icon_state = "docskirt"
 	item_state = "docskirt"
 	icon = 'icons/roguetown/clothing/special/courtphys.dmi'
@@ -198,5 +198,5 @@
 	sleevetype = "skirt"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_pants.dmi'
 	detail_tag = "_detail"
-	detail_color = "CLOTHING_WHITE"
+	detail_color = CLOTHING_WHITE
 

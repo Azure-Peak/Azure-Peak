@@ -161,6 +161,12 @@
 	color = CLOTHING_DARK_GREY
 	detail_color = CLOTHING_SCARLET
 
+/obj/item/clothing/head/roguetown/chaperon/noble/steward
+	name = "Steward's chaperon"
+	desc = "A noble's chaperon made for the local Steward. \"All that glitters is not always gold.\""
+	color = "#722017"
+	detail_color = "#b68e37ff"
+
 /obj/item/clothing/head/roguetown/chaperon/noble/bailiff
 	name = "Marshal's chaperon"
 	desc = "A noble's chaperon made for the local Marshal. \"How terribly unfortunate you are!\""
@@ -178,11 +184,54 @@
 	color = "#1f1818ff"
 	detail_color = "#dbe6e5ff"
 
+/obj/item/clothing/head/roguetown/chaperon/noble/court
+	name = "councillor's chaperon"
+	desc = "A noble's chaperon made for the courtiers of Azuria."
+	color = CLOTHING_AZURE
+	detail_color = CLOTHING_WHITE
+
+//copies lord colors
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/Initialize(mapload)
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary,GLOB.lordsecondary)
+	GLOB.lordcolor += src
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/lordcolor(primary,secondary)
+	color = primary
+	detail_color = secondary
+	update_icon()
+	if(ismob(loc))
+		var/mob/L = loc
+		L.update_inv_head()
+
+/obj/item/clothing/head/roguetown/chaperon/noble/court/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
+
 /obj/item/clothing/head/roguetown/chaperon/noble/hand
 	name = "hand's chaperon"
 	desc = "A noble's chaperon made for the right hand man. \"Heavy is the head that bears the crown.\""
 	color = CLOTHING_AZURE
 	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/chaperon/noble/hand/blademaster
+	color = "#715944"
+	detail_color = CLOTHING_AZURE
+
+/obj/item/clothing/head/roguetown/chaperon/noble/hand/advisor
+	color = "#445671"
+	detail_color = CLOTHING_AZURE
 
 /obj/item/clothing/head/roguetown/chaperon/councillor
 	name = "chaperon hat"
@@ -230,6 +279,37 @@
 	icon_state = "tiyon"
 	sewrepair = TRUE
 
+
+/obj/item/clothing/head/roguetown/doublehennin
+	name = "dual hennin"
+	desc = "A fancy hennin framed by two cones that sit atop ones head. Worn most commonly by the old-fashioned and elderly."
+	icon_state = "hennin_double"
+	sewrepair = TRUE
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/veiledhat
+	name = "veiled hat"
+	desc = "A luxurious, wide-brimmed hat defined by two flanking sheets of cloth sewn under the brim, it frames the face well."
+	icon_state = "veilhat"
+	sewrepair = TRUE
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/flotsam
+	name = "flotsam bonnet"
+	desc = "A flexible cloth bonnet of elven fashion that holds a strong resemblance to a leaf. Worn oft by those who dwell in forests and swamps."
+	icon_state = "flotsam"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/nightcap
+	name = "nitecap"
+	desc = "A simple nightcap, used to keep the baldest of heads warm during the nite."
+	icon_state = "link"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/durag
 	name = "durag"
 	desc = "A fashionable garment worn to protect one's hair."
@@ -238,7 +318,7 @@
 
 /obj/item/clothing/head/roguetown/longveil
 	name = "long veil"
-	desc = "A long, trailing veil made of cloth meant to conceal ones hair. OFten worn by soilbrides and the devout."
+	desc = "A long, trailing veil made of cloth meant to conceal ones hair. Often worn by soilbrides and the devout."
 	icon_state = "headveil"
 	detail_tag = "_detail"
 	detail_color = CLOTHING_CHALK_WHITE
@@ -260,7 +340,7 @@
 
 /obj/item/clothing/head/roguetown/headband/bloodied
 	name = "bloodied headband"
-	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulative properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
+	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulating properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
 	icon_state = "headband"
 	item_state = "headband"
 	color = "#851a16"
@@ -321,7 +401,7 @@
 
 /obj/item/clothing/head/roguetown/inqhat
 	name = "inquisitorial hat"
-	desc = "A fine leather slouch, beplumed with a crimson feather and fitted with a hidden steel skull cap. It serves as a reminder that the Holy Otavan Inquisition triumphs in one avenue above all else - fashion. </br>'To keep ones vision away from the heavens, and focused on the sin beneath the soil.'"
+	desc = "A fine leather slouch, beplumed with a crimson feather and fitted with a hidden steel skull cap. It serves as a reminder that the Holy Otavan Inquisition triumphs in one avenue above all else - fashion. </br>\"To keep one's vision away from the heavens, and focused on the sin beneath the soil.\""
 	icon_state = "inqhat"
 	item_state = "inqhat"
 	max_integrity = 200
@@ -351,6 +431,11 @@
 	worn_x_dimension = 64
 	worn_y_dimension = 64
 	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/priesthat/bishop
+	name = "bishop's hat"
+	desc = "Thine authority, divine; thine faith, unfettered."
+	icon_state = "bishop"
 
 /obj/item/clothing/head/roguetown/reqhat
 	name = "serpent crown"
@@ -398,20 +483,15 @@
 	detail_tag = "_detail"
 	detail_color = COLOR_SILVER
 
-/obj/item/clothing/head/roguetown/duelhat/aristocrat
-	name = "noble's feathered hat"
-	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
-	icon_state = "duelhat"
-	sewrepair = TRUE
-	color = COLOR_ORANGE
-	detail_tag = "_detail"
-	detail_color = COLOR_RED
-
 /obj/item/clothing/head/roguetown/duelisthat //vanderlin sprite
 	name = "dashing feathered hat"
 	desc = "A feathered leather hat, for a daring rogue."
 	icon_state = "duelisthat"
 	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/duelisthat/aristocrat //different flavor, same thing
+	name = "noble's feathered hat"
+	desc = "A feathered leather hat, with silken inseams and a silver trim, to show them all your superiority."
 
 /obj/item/clothing/head/roguetown/flamboyant
 	name = "flamboyant hat"
@@ -730,3 +810,11 @@
 /obj/item/clothing/head/roguetown/rosa/six
 	name = "maroon cap"
 	icon_state = "rosahat6"
+
+/obj/item/clothing/head/roguetown/headband/fur
+	name = "fur headband"
+	desc = "A rough thick fur headband, worn by the more rugged folk."
+	icon_state = "fur_headband"
+	item_state = "fur_headband"
+	body_parts_covered = HEAD|HAIR|EARS
+	salvage_result = /obj/item/natural/hide/cured

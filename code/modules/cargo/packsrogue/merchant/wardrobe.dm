@@ -165,6 +165,13 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 					/obj/item/clothing/mask/rogue/spectacles,
 				)
 
+/datum/supply_pack/rogue/wardrobe/masks/thinspecs
+	name = "Thin Spectacles"
+	cost = 25
+	contains = list(
+					/obj/item/clothing/mask/rogue/spectacles/thin,
+				)
+
 /datum/supply_pack/rogue/luxury/fancyspecs
 	name = "Fancy Spectacles"
 	cost = 30
@@ -256,6 +263,11 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	name = "Jupon, Short"
 	cost = 30
 	contains = list(/obj/item/clothing/cloak/tabard/stabard/surcoat/short)
+
+/datum/supply_pack/rogue/wardrobe/cloaks/saigatabard
+	name = "Saiga Tabard"
+	cost = 30
+	contains = list(/obj/item/clothing/cloak/tabard/saiga)
 
 /datum/supply_pack/rogue/wardrobe/cloaks/halfcloak
 	name = "Halfcloak"
@@ -514,7 +526,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 				)
 
 /datum/supply_pack/rogue/wardrobe/shirt/undervestements
-	name = "Undervestements"
+	name = "Undervestments"
 	cost = 15
 	contains = list(
 					/obj/item/clothing/suit/roguetown/shirt/undershirt/priest

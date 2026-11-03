@@ -245,7 +245,7 @@
 
 /datum/runeritual/summoning/leyline_encounter/fae_t4
 	name = "Grand Ritual of Fae Fury"
-	desc = "Rend the balanace of the fae realm asunder with uncontrolled arcyne energy, attracting the wrath of a sylph and their followers!"
+	desc = "Rend the balance of the fae realm asunder with uncontrolled arcyne energy, attracting the wrath of a sylph and their followers!"
 	blacklisted = FALSE
 	tier = 4
 	req_invokers = 3
@@ -382,7 +382,7 @@
 		to_chat(user, span_boldwarning("You've reached into the leyline too many times. Further interference might result in catastrophic consequences for yourself. Wait for another dae."))
 		return FALSE
 	if(tier > get_max_leyline_tier())
-		to_chat(user, span_warning("Tis too early in the week. The power of the leylines grows and waxes. Wait until later for such powerful summoning."))
+		to_chat(user, span_warning("'Tis too early in the week. The power of the leylines grows and waxes. Wait until later for such powerful summoning."))
 		return FALSE
 	if(leyline.max_tier && tier > leyline.max_tier)
 		to_chat(user, span_warning("This leyline is too weak for a ritual of this circle."))

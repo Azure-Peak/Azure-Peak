@@ -211,6 +211,7 @@
 
 		if(check_shields(P, P.damage, "the [P.name]", PROJECTILE_ATTACK, P.armor_penetration))
 			P.on_hit(src, 100, def_zone)
+			P.handle_drop()
 			return BULLET_ACT_HIT
 
 	return ..(P, def_zone)
@@ -374,11 +375,11 @@
 		if(nodmg)
 			return FALSE
 
-/mob/living/carbon/human/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+/mob/living/carbon/human/ex_act(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 	..()
 	if (!severity)
 		return
-	var/ddist = devastation_range
+	var/ddist = extreme_impact_range
 	var/hdist = heavy_impact_range
 	var/ldist = light_impact_range
 	var/fdist = flame_range
@@ -643,12 +644,6 @@
 		return
 
 	if(src == M)
-		if(has_status_effect(STATUS_EFFECT_CHOKINGSTRAND))
-			to_chat(src, span_notice("I attempt to remove the durathread strand from around my neck."))
-			if(do_after(src, 35, null, src))
-				to_chat(src, span_notice("I succesfuly remove the durathread strand."))
-				remove_status_effect(STATUS_EFFECT_CHOKINGSTRAND)
-			return
 		check_for_injuries(M)
 		return
 

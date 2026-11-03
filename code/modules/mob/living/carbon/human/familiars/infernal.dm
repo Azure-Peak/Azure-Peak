@@ -12,7 +12,7 @@
 		span_info("You can now breathe flame, conjuring a line of hellfire in front of you."),
 		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
-	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
+	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite, /datum/action/cooldown/spell/earthen_forge/infernal)
 	t1_spell = list(/datum/action/cooldown/spell/matthios/raze/infernal)
 	t2_spell = list(/obj/effect/proc_holder/spell/self/infernal_surge)
 	var/healing_range = 1
@@ -28,6 +28,7 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_NOFALLDAMAGE1,
 		TRAIT_TINYPAWS,
+		TRAIT_PACIFISM,
 		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOMOOD,
 		TRAIT_NOHUNGER,
@@ -47,7 +48,7 @@
 		TRAIT_UNCONVERTIBLE,
 	)
 	origin = "The Hells"
-	origin_default = /datum/virtue/origin/familiar/infernal
+	origin_default = /datum/virtue/origin/unselectable/infernal
 
 // they get to glow because they're on fire
 /mob/living/carbon/human/species/familiar/infernal/Initialize(mapload)

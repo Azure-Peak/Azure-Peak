@@ -41,3 +41,189 @@
 
 	if(closed)
 		add_overlay("vial_cork")
+
+/obj/item/alch/catalyzation_reagent
+	name = "catalyzing reagent"
+	icon_state = "catreagent"
+	desc = "An alchemical powder essential for the process of transmuting seed items into stable catalysts."
+	gender = PLURAL
+
+/obj/item/storage/roguebag/trans
+	populate_contents = list( // sack of twelve. why do we do this like this sfklgdsjaf
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent,
+		/obj/item/alch/catalyzation_reagent
+	)
+
+/obj/item/alchemical_bathbomb
+	name = "alchemical diffuser"
+	icon = 'icons/roguetown/misc/alchemy.dmi'
+	icon_state = "irondust" // placeholder
+	desc = "A strange ball of powder, tightly-packed to remain solid until exposed to water. When tossed into a bath or hot spring, infuses the water with its alchemical properties, soothing and healing any within."
+	var/effect_desc = "herbal"	// change this to change what the bath tells people it is. "The water's herbal infusion..." by default, so you can change it to like... floral, or something more specific
+	var/boost = 1 				// bonus to the strength of the bathing buff. bathing is so anti-gamer that this is probably unimpactful but it is flavor, so.
+	var/duration = 15 MINUTES	// how long the infusion lasts. remember that a full bath takes 2 minutes, so don't set this much shorter!
+	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/herb)
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/alchemical_bathbomb/rosa
+	effect_desc = "floral" // that's it that's the only change. well besides a new icon when one exists
+
+/obj/item/alchemical_bathbomb/Initialize(mapload)
+	. = ..()
+	desc += "<br><br>This one has a [effect_desc] scent."
+
+/obj/item/alchemical_bathbomb/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Throw or left click this on a hot spring or bath tile to apply its effects. It spreads to all connected tiles of the same type, and lasts for [floor(duration / (1 MINUTES))] minutes.")
+
+/obj/item/alchemical_bathbomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	. = ..()
+	var/turf/turf = get_turf(hit_atom)
+	if(istype(turf, /turf/open/water/bath))
+		apply_to_turf(turf)
+	var/obj/structure/hotspring/bath = locate(/obj/structure/hotspring) in turf
+	if(bath)
+		apply_to_struc(bath)
+
+/obj/item/alchemical_bathbomb/attack_turf(turf/T, mob/living/user, multiplier)
+	. = ..()
+	if(istype(T, /turf/open/water/bath))
+		apply_to_turf(T)
+
+/obj/item/alchemical_bathbomb/attack_obj(obj/O, mob/living/user)
+	. = ..()
+	if(istype(O, /obj/structure/hotspring))
+		apply_to_struc(O)
+
+// when you slap a hot spring or bath, or toss the bomb onto one of those two, the bathbomb spreads to all connected tiles and applies its component
+/obj/item/alchemical_bathbomb/proc/apply_to_struc(obj/structure/hotspring/target)
+	var/list/tiles_to_check = list(get_turf(target))
+	var/list/checked_tiles = list()
+	var/turf/cur_tile
+	var/obj/structure/hotspring/spring
+	while(length(tiles_to_check))
+		cur_tile = tiles_to_check[1]
+		checked_tiles += cur_tile
+		tiles_to_check -= cur_tile
+		spring = locate(/obj/structure/hotspring) in cur_tile
+		if(spring)
+			spring.AddComponent(/datum/component/bath_infusion, effect_desc, duration, boost)
+			for(var/direc in GLOB.cardinals)
+				var/turf/test = get_step(cur_tile, direc)
+				if(!checked_tiles.Find(test))
+					tiles_to_check += test
+	target.visible_message(span_blue("\The [src] bubbles and fizzes as it hits \the [target], dissolving completely. \A [effect_desc] scent wafts from the pool!"))
+	qdel(src)
+
+// this check is separate because it's slightly more performant and therefore we want to use it when possible
+/obj/item/alchemical_bathbomb/proc/apply_to_turf(turf/open/water/bath/target)
+	var/list/tiles_to_check = list(target)
+	var/list/checked_tiles = list()
+	var/turf/cur_tile
+	while(length(tiles_to_check))
+		cur_tile = tiles_to_check[1]
+		checked_tiles += cur_tile
+		tiles_to_check -= cur_tile
+		if(istype(cur_tile, /turf/open/water/bath))
+			cur_tile.AddComponent(/datum/component/bath_infusion, effect_desc, duration, boost)
+			for(var/direc in GLOB.cardinals)
+				var/turf/test = get_step(cur_tile, direc)
+				if(!checked_tiles.Find(test))
+					tiles_to_check += test
+	target.visible_message(span_blue("\The [src] bubbles and fizzes as it hits \the [target], dissolving completely. \A [effect_desc] scent wafts from the pool!"))
+	qdel(src)
+
+/obj/item/soap/alch
+	name = "soothing soap"
+	desc = "An alchemical soap infused with Eora's sacred herbs. Has a slight restorative effect."
+	icon = 'icons/obj/items_and_weapons.dmi'
+	icon_state = "soap"
+	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
+	w_class = WEIGHT_CLASS_TINY
+	item_flags = NOBLUDGEON
+	uses = 10 // since it has a mechanical effect (albeit a mild one), it's limited in dura
+	materia = list(/datum/materia_aspect/water, /datum/materia_aspect/herb)
+	// lasts 10 seconds, heals slowly. strictly worse than other options in most cases but it's flavorful
+	// for reference weak red is about equal to 1.75 healstrength. healing soap has 0.5. lesser miracle is 1
+	wash_effect = /datum/status_effect/buff/healing/soap
+	slipperiness = 80
+
+#define TRAIT_SOURCE_EORAN_SOAP "alchsoap"
+/obj/item/soap/alch/bathe_target(mob/living/carbon/human/target, mob/user)
+	if(!(. = ..()))
+		return
+	if(istype(target.patron, /datum/patron/inhumen/baotha))
+		target.add_stress(/datum/stressevent/alchsoap/baotha)
+	else
+		target.add_stress(/datum/stressevent/alchsoap)
+	ADD_TRAIT(target, TRAIT_EORAN_CALM, TRAIT_SOURCE_EORAN_SOAP) // you get an hour of freakout protection, as a treat; note that this is not the "actually removes stress" trait it just stops you from screaming
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), target, TRAIT_EORAN_CALM, TRAIT_SOURCE_EORAN_SOAP), 1 HOURS)
+#undef TRAIT_SOURCE_EORAN_SOAP
+
+/obj/item/mutation_reagent
+	name = "transformative reagent"
+	desc = "A moderately-unstable catalyst for transformation. When applied to an herb bush, transforms it into something new - what exactly is unpredictable."
+	materia = list(/datum/materia_aspect/change, /datum/materia_aspect/herb)
+	icon = 'icons/roguetown/misc/alchemy.dmi'
+	icon_state = "transisdust" // placeholder
+	w_class = WEIGHT_CLASS_TINY
+	var/list/results = list( // adds up to  96% normal herbs, 4% fyritius
+		/obj/structure/flora/roguegrass/herb/atropa = 6,
+		/obj/structure/flora/roguegrass/herb/matricaria = 6,
+		/obj/structure/flora/roguegrass/herb/symphitum = 6,
+		/obj/structure/flora/roguegrass/herb/taraxacum = 6,
+		/obj/structure/flora/roguegrass/herb/euphrasia = 6,
+		/obj/structure/flora/roguegrass/herb/paris = 6,
+		/obj/structure/flora/roguegrass/herb/calendula = 6,
+		/obj/structure/flora/roguegrass/herb/mentha = 6,
+		/obj/structure/flora/roguegrass/herb/urtica = 6,
+		/obj/structure/flora/roguegrass/herb/salvia = 6,
+		/obj/structure/flora/roguegrass/herb/hypericum = 6,
+		/obj/structure/flora/roguegrass/herb/benedictus = 6,
+		/obj/structure/flora/roguegrass/herb/valeriana = 6,
+		/obj/structure/flora/roguegrass/herb/artemisia = 6,
+		/obj/structure/flora/roguegrass/herb/rosa = 6,
+		/obj/structure/flora/roguegrass/swampweed = 6,
+		/obj/structure/flora/roguegrass/herb/fyritius = 4 // rare treat
+	)
+
+/obj/item/mutation_reagent/attack_obj(obj/O, mob/living/user)
+	. = ..()
+	var/obj/structure/flora/roguegrass/herb/bush = O
+	if(!istype(bush))
+		to_chat(user, span_warning("I don't think that will do anything beneficial."))
+		return
+	if(istype(bush, /obj/structure/flora/roguegrass/herb/manabloom)) // manabloom is mapping-only and too limited to allow people to delete
+		to_chat(user, span_warning("The arcyne energies in [bush] would make this process too dangerous for even me."))
+		return
+	var/obj/structure/flora/roguegrass/result = pickweight(results)
+	if(result)
+		var/obj/instantiated = new result(O.loc)
+		O.visible_message(span_notice("\The [O] wilts and writhes, transforming into \a [instantiated]!"))
+		instantiated.add_fingerprint(user)
+		qdel(O)
+		qdel(src)
+		return
+
+/obj/item/goldslag
+	name = "lustrous slag"
+	desc = "One of the greatest triumphs of Lirvan metallurgy is their ability to work with alchemical gold. Their mastery and alloying of it has reached such a point that they use it in everything, from decoration, to armor, to the weapons of their Tithebound mercenaries. You, however, are not in one of the great Lirvan forges. And this is not a pure sample. \n \n <b>Good enough for alchemical work or purifying certain alloys—but not smithing.</b>"
+	icon = 'icons/roguetown/items/ore.dmi'
+	icon_state = "goldslag"
+	smeltresult = /obj/item/goldslag
+	w_class = WEIGHT_CLASS_NORMAL
+	resistance_flags = FIRE_PROOF
+	grid_width = 64
+	grid_height = 32
+	materia = list(/datum/materia_aspect/solar, /datum/materia_aspect/metal)

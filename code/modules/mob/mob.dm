@@ -429,6 +429,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 			return 1
 
 	return 0
+/mob/proc/equip_to_appropriate_slot_or_hands(obj/item/equipping_item)
+	. = equip_to_appropriate_slot(equipping_item)
+	if(!.)
+		return put_in_hands(equipping_item, FALSE)
 /**
  * Reset the attached clients perspective (viewpoint)
  *
@@ -439,7 +443,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(client)
 		if(A)
 			if(ismovableatom(A))
-				//Set the the thing unless it's us
+				//Set the thing unless it's us
 				if(A != src)
 					client.perspective = EYE_PERSPECTIVE
 					client.eye = A
@@ -519,7 +523,17 @@ GLOBAL_VAR_INIT(mobids, 1)
 				mech_lines += "<span class='smallnotice'> - </span>[line]"
 			var/mechanics_result_str = "<details><summary><span class='smallnotice'>Mechanics</span></summary>[mech_lines.Join("<br>")]</details>"
 			result[result.len] += mechanics_result_str // append to last line so the join doesn't insert a blank line before the dropdown
+
+		var/obj/item/O = A
+		if(can_transmute(src) && isitem(A) && length(O.materia))
+			var/list/materia_lines = list()
+			for(var/path in O.materia)
+				var/datum/materia_aspect/aspect = path
+				materia_lines += "<span class='info'> - </span><span data-component=\"TooltipHTML\" data-html=\"[html_encode(aspect::desc)]\" class=\"tooltip info\">[aspect::name]</span>"
+			var/materia_result_str = "<details><summary><span class='smallnotice'>Prima Materia</span></summary>[materia_lines.Join("<br>")]</details>"
+			result[result.len] += materia_result_str // append to last line so the join doesn't insert a blank line before the dropdown
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
+
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
 
 ///Can this mob resist (default FALSE)
@@ -675,6 +689,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  * * handles the strip panel equip and unequip as well if "item" sent
  */
 /mob/Topic(href, href_list)
+	. = ..()
 	if(href_list["mach_close"])
 		var/t1 = text("window=[href_list["mach_close"]]")
 		unset_machine()
@@ -1150,7 +1165,7 @@ GLOBAL_VAR_INIT(mobids, 1)
  */
 /mob/vv_get_dropdown()
 	. = ..()
-	VV_DROPDOWN_OPTION("", "---------")
+	VV_DROPDOWN_OPTION("", "--- /mob ---")
 	VV_DROPDOWN_OPTION(VV_HK_GIB, "Gib")
 	VV_DROPDOWN_OPTION(VV_HK_GIVE_SPELL, "Give Spell")
 	VV_DROPDOWN_OPTION(VV_HK_REMOVE_SPELL, "Remove Spell")
@@ -1295,14 +1310,14 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 /mob/proc/adjust_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		nutrition = HYDRATION_LEVEL_FULL
+		hydration = HYDRATION_LEVEL_FULL
 	hydration = max(0, hydration + change)
 	if(hydration > HYDRATION_LEVEL_FULL)
 		hydration = HYDRATION_LEVEL_FULL
 
 /mob/proc/set_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
-		nutrition = HYDRATION_LEVEL_FULL
+		hydration = HYDRATION_LEVEL_FULL
 	hydration = max(0, change)
 	if(hydration > HYDRATION_LEVEL_FULL)
 		hydration = HYDRATION_LEVEL_FULL
@@ -1380,3 +1395,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 /mob/proc/get_stats_tab_items()
 	return list()
+
+/mob/proc/check_equipment_mood_penalty()
+	return

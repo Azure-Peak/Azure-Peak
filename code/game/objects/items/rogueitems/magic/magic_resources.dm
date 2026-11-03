@@ -56,6 +56,7 @@
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_MASK
 	body_parts_covered = NONE
 	alternate_worn_layer	= 8.9
+	materia = list(/datum/materia_aspect/arcyne, /datum/materia_aspect/herb)
 
 /obj/item/magic/manacrystal
 	name = "crystalized mana"
@@ -160,25 +161,25 @@
 /obj/item/magic/elemental/mote
 	name = "elemental mote"
 	icon_state = "mote"
-	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	desc = "A mystical essence imbued with the power of Dendor. Merely holding it transports one's mind to ancient times."
 	tier = 1
 
 /obj/item/magic/elemental/shard
 	name = "elemental shard"
 	icon_state = "shard"
-	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	desc = "A mystical essence imbued with the power of Dendor. Merely holding it transports one's mind to ancient times."
 	tier = 2
 
 /obj/item/magic/elemental/fragment
 	name = "elemental fragment"
 	icon_state = "fragment"
-	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	desc = "A mystical essence imbued with the power of Dendor. Merely holding it transports one's mind to ancient times."
 	tier = 3
 
 /obj/item/magic/elemental/relic
 	name = "elemental relic"
 	icon_state = "relic"
-	desc = "A mystical essence embued with the power of Dendor. Merely holding it transports one's mind to ancient times."
+	desc = "A mystical essence imbued with the power of Dendor. Merely holding it transports one's mind to ancient times."
 	tier = 4
 
 #undef LEYLINE_SELLPRICE

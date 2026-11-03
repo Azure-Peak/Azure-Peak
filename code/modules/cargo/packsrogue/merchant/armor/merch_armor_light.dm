@@ -66,6 +66,21 @@
 	cost = 43 // ditto
 	contains = list(/obj/item/clothing/suit/roguetown/armor/leather/studded/bikini)
 
+/datum/supply_pack/rogue/light_armor/saigataurbarding_cloth
+	name = "Saiga-taur Barding, Cloth"
+	cost = 15
+	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/cloth)
+
+/datum/supply_pack/rogue/light_armor/saigataurbarding_leather
+	name = "Saiga-taur Barding, Leather"
+	cost = 30
+	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/leather)
+
+/datum/supply_pack/rogue/light_armor/saigataurbarding_padded
+	name = "Saiga-taur Barding, Padded"
+	cost = 35
+	contains = list(/obj/item/clothing/suit/roguetown/armor/saiga_barding/padded)
+
 /datum/supply_pack/rogue/light_armor/leather_gorget
 	name = "Hardened Leather Gorget"
 	cost = 30 // Base sellprice of 10

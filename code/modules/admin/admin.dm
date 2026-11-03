@@ -84,6 +84,7 @@
 		var/pq = get_playerquality(M.ckey, TRUE)
 		var/pq_num = get_playerquality(M.ckey, FALSE)
 		body += "<br><br>Player Quality: [pq] ([pq_num])"
+		body += "<br>Roll Tokens: [M.client.prefs.roll_tokens]/[MAX_ROLL_TOKENS]"
 		body += "<br><a href='?_src_=holder;[HrefToken()];editpq=add;mob=[REF(M)]'>\[Modify PQ\]</a> "
 		body += "<a href='?_src_=holder;[HrefToken()];showpq=add;mob=[REF(M)]'>\[Check PQ\]</a> "
 		body += "<br><a href='?_src_=holder;[HrefToken()];edittriumphs=add;mob=[REF(M)]'>\[Modify Triumphs\]</a> "
@@ -273,7 +274,7 @@
 /datum/admins/proc/admin_heal(mob/living/M in GLOB.mob_list)
 	set name = "Mob - Heal"
 	set desc = "Heal a mob to full health"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 
 	if(!check_rights())
 		return
@@ -283,7 +284,7 @@
 	log_admin("[key_name(usr)] healed [key_name(M)].")
 
 /datum/admins/proc/show_player_panel(mob/M in GLOB.mob_list)
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set name = "Show Player Panel"
 	set desc="Edit player (respawn, ban, heal, etc)"
 
@@ -298,7 +299,7 @@
 /datum/admins/proc/admin_revive(mob/living/M in GLOB.mob_list)
 	set name = "Mob - Revive"
 	set desc = "Resuscitate a mob"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 
 	if(!check_rights())
 		return
@@ -324,7 +325,7 @@
 /datum/admins/proc/admin_sleep(mob/living/M in GLOB.mob_list)
 	set name = "Toggle Sleeping"
 	set desc = "Toggle a mob's sleeping state"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 
 	if(!check_rights())
 		return
@@ -485,6 +486,7 @@
 	if(message)
 		if(!check_rights(R_SERVER,0))
 			message = adminscrub(message,500)
+		message = parse_admin_spans(message)
 		to_world("<span class='adminnotice'><b>[usr.client.holder.fakekey ? "Administrator" : usr.key] Announces:</b></span>\n \t [message]")
 		log_admin("Announce: [key_name(usr)] : [message]")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Announce") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -511,6 +513,48 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Set Admin Notice") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	GLOB.admin_notice = new_admin_notice
 	return
+
+#define PERSISTENT_ADMIN_NOTICE_FILE "data/persistent_admin_notice.txt"
+
+/proc/load_persistent_admin_notice()
+	if(!fexists(PERSISTENT_ADMIN_NOTICE_FILE))
+		return ""
+	return file2text(PERSISTENT_ADMIN_NOTICE_FILE)
+
+/proc/save_persistent_admin_notice(text)
+	fdel(PERSISTENT_ADMIN_NOTICE_FILE)
+	if(text)
+		text2file(text, PERSISTENT_ADMIN_NOTICE_FILE)
+
+#undef PERSISTENT_ADMIN_NOTICE_FILE
+
+/datum/admins/proc/set_persistent_admin_notice()
+	set category = "Server"
+	set name = "Set Persistent Admin Notice"
+	set desc = "Set an announcement that appears to everyone who joins the server, every round, until cleared."
+	if(!check_rights(0))
+		return
+
+	var/old_notice = GLOB.persistent_admin_notice
+	var/new_notice = input(src, "Set a public notice that persists across rounds. Everyone who joins the server will see it until it is cleared.\n(Leaving it blank will delete the current persistent notice):", "Set Persistent Notice", old_notice) as message|null
+	if(new_notice == null)
+		return
+	if(new_notice == old_notice)
+		return
+
+	GLOB.persistent_admin_notice = new_notice
+	save_persistent_admin_notice(new_notice)
+	if(new_notice == "")
+		if(GLOB.admin_notice == old_notice)
+			GLOB.admin_notice = ""
+		message_admins("[key_name(usr)] removed the persistent admin notice.")
+		log_admin("[key_name(usr)] removed the persistent admin notice:\n[old_notice]")
+	else
+		GLOB.admin_notice = new_notice
+		message_admins("[key_name(usr)] set the persistent admin notice.")
+		log_admin("[key_name(usr)] set the persistent admin notice:\n[new_notice]")
+		to_world(span_adminnotice("<b>Admin Notice:</b>\n \t [new_notice]"))
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Set Persistent Admin Notice")
 
 /datum/admins/proc/toggleooc()
 	set category = "Server"
@@ -633,7 +677,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////ADMIN HELPER PROCS
 
 /datum/admins/proc/spawn_atom(object as text)
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set desc = ""
 	set name = "Spawn..."
 
@@ -781,6 +825,24 @@
 		else
 			dat += "<A href='?src=[REF(src)];[HrefToken()];limitjobslot=[job.title]'>Limit</A></td>"
 
+	dat += "</table>"
+
+	// Subclass slot counts, grouped by their parent job
+	for(var/datum/job/job as anything in SSjob.occupations)
+		if(!length(job.job_subclasses))
+			continue
+		dat += "<br><b>[html_encode(job.title)] subclasses</b><table>"
+		for(var/adv_path in job.job_subclasses)
+			var/datum/advclass/adv_initial = adv_path
+			var/datum/advclass/subclass = SSrole_class_handler.get_advclass_by_name(initial(adv_initial.name))
+			if(!subclass)
+				continue
+			count++
+			dat += "<tr><td>[html_encode(subclass.name)]:</td> <td>[subclass.total_slots_occupied]/[subclass.maximum_possible_slots < 0 ? " (unlimited)" : subclass.maximum_possible_slots]</td>"
+			dat += "<td><A href='?src=[REF(src)];[HrefToken()];setsubclassslot=[REF(subclass)]'>Set</A> | "
+			dat += "<A href='?src=[REF(src)];[HrefToken()];unlimitsubclassslot=[REF(subclass)]'>Unlimit</A></td></tr>"
+		dat += "</table>"
+
 	browser.height = min(100 + count * 20, 650)
 	browser.set_content(dat.Join())
 	browser.open()
@@ -867,31 +929,32 @@
 	set name = "Back to Lobby"
 
 	var/mob/living/carbon/human/H = mob
-	var/datum/job/mob_job
-	var/datum/advclass/target_job = H.get_advclass_datum()
+	H.admin_send_back_to_lobby(usr)
 
-	if(H.mind)
-		mob_job = SSjob.GetJob(H.mind.assigned_role)
-		if(mob_job)
-			mob_job.current_positions = max(0, mob_job.current_positions - 1)
-		if(target_job)
-			SSrole_class_handler.adjust_class_amount(target_job, -1)
-		H.mind.unknow_all_people()
-		for(var/datum/mind/MF in get_minds())
-			H.mind.become_unknown_to(MF)
-		for(var/datum/bounty/removing_bounty in GLOB.head_bounties)
-			if(removing_bounty.target == H.real_name)
-				GLOB.head_bounties -= removing_bounty
-	else
-		alert(usr, "Target has no mind!") // Optional Error check that may or may not be neccessary
-	GLOB.chosen_names -= H.real_name
-	LAZYREMOVE(GLOB.actors_list, H.mobid)
-	H.returntolobby()
+
+/mob/living/carbon/human/proc/admin_send_back_to_lobby(mob/admin, delete_character = FALSE)
+	var/player_key = key ? key : mind?.key
+	if(!mind && admin)
+		to_chat(admin, span_warning("Target has no mind!"))
+	process_far_travel(admin)
+	if(client)
+		SSdroning.kill_droning(client)
+		SSdroning.kill_loop(client)
+		SSdroning.kill_rain(client)
+	if(player_key)
+		var/mob/dead/new_player/NP = new()
+		NP.key = player_key
+	else if(admin)
+		to_chat(admin, span_warning("[src] has no key to return to the lobby."))
+	if(delete_character)
+		qdel(src)
+	return TRUE
+
 
 
 /datum/admins/proc/sleep_view()
 	set name = "inview Sleep"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set hidden = FALSE
 
 	if(!check_rights(R_ADMIN))
@@ -906,7 +969,7 @@
 
 /datum/admins/proc/wake_view()
 	set name = "inview Wake"
-	set category = "Game Master"
+	set category = "Game Master.Misc"
 	set hidden = FALSE
 
 	if(!check_rights(R_ADMIN))

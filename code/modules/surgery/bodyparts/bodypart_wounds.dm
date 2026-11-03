@@ -110,10 +110,9 @@
 /obj/item/bodypart/proc/get_bleed_rate()
 	var/bleed_rate = bleeding
 	if(bandage && !HAS_BLOOD_DNA(bandage))
-		process_bandage(bleed_rate)
 		var/obj/item/natural/cloth/cloth = bandage
 		bleed_rate *= cloth.bandage_effectiveness
-		if(bleed_rate <= 1) //if the bleeding is below this after being bandaged, bleeding stops completely, but the bandage still takes damage
+		if(bleed_rate <= 1) //if the bleeding is below this after being bandaged, bleeding stops completely
 			return 0
 		return bleed_rate
 	/*
@@ -143,18 +142,7 @@
 		return null
 	var/do_crit = TRUE
 	var/debuff_applies = !no_debuff && !istype(weapon, /obj/projectile)
-	var/acheck_dflag
-	switch(bclass)
-		if(BCLASS_BLUNT, BCLASS_SMASH, BCLASS_TWIST, BCLASS_PUNCH)
-			acheck_dflag = "blunt"
-		if(BCLASS_CHOP, BCLASS_CUT, BCLASS_LASHING, BCLASS_PUNISH)
-			acheck_dflag = "slash"
-		if(BCLASS_PICK, BCLASS_STAB, BCLASS_BITE)
-			acheck_dflag = "stab"
-		if(BCLASS_PIERCE)
-			acheck_dflag = "piercing"
-		if(BCLASS_BURN)
-			acheck_dflag = "fire"
+	var/acheck_dflag = bclass_to_armor_rating(bclass)
 	if(!armor)
 		armor = owner.run_armor_check(zone_precise, acheck_dflag, damage = 0)
 	if(ishuman(owner) && bclass != BCLASS_PICK)
@@ -175,12 +163,18 @@
 		do_crit = FALSE
 
 	var/datum/wound/dynwound = manage_dynamic_wound(bclass, dam, armor, pen_info, debuff_applies)
+	if((bclass in GLOB.splatter_bclasses) && !istype(weapon, /obj/projectile) && prob(dam * 2))
+		var/turf/from = get_turf(user || weapon)
+		if(from)
+			owner.blood_spray(get_dir(from, owner))
 
 	if(do_crit)
 		var/datum/component/silverbless/psyblessed = weapon?.GetComponent(/datum/component/silverbless)
 		var/sundering = HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && istype(weapon) && weapon?.is_silver && psyblessed?.is_blessed
 		var/crit_attempt = try_crit(sundering ? BCLASS_SUNDER : bclass, dam, user, zone_precise, silent, crit_message)
 		if(crit_attempt)
+			if((bclass in GLOB.gore_bclasses) && istype(crit_attempt, /datum/wound))
+				owner.blood_squirt()
 			if(bclass == BCLASS_BURN && user && user != owner)
 				shake_camera(user, 2, 2)
 				flash_color(user, "#a83c1a", 15)
@@ -564,8 +558,11 @@
 						attempted_wounds +=/datum/wound/fracture/head/nose
 					else
 						attempted_wounds += /datum/wound/facial/disfigurement/nose
-				else if(zone_precise in knockout_zones)
-					attempted_wounds += /datum/wound/fracture/head/brain
+				else if(zone_precise in knockout_zones) //because vampires/skeletons exist
+					if(has_wound(/datum/wound/fracture/head/brain))
+						attempted_wounds += /datum/wound/fracture/head/brain/shatter
+					else
+						attempted_wounds += /datum/wound/fracture/head/brain
 	if(bclass in GLOB.sunder_bclasses)
 		if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			used = round(damage_dividend * 20 + (dam / 2), 1)
@@ -638,7 +635,8 @@
 			if (!owner.has_status_effect(/datum/status_effect/buff/drunk) && !owner.has_status_effect(/datum/status_effect/buff/ozium))
 				owner.emote("embed")
 		if(crit_message)
-			owner.next_attack_msg += " <span class='userdanger'>[embedder] runs through [owner]'s [src]!</span>"
+			var/embeds = pick("impales", "impales", "impales", "impales", "impales", "lodges in", "runs through", "buries inside", "sinks into", "drives into", "embeds in", "jams into", "gets stuck in", "lodges in", "burrows into", "penetrates into", "wedges into", "pierces into", "buries deep into")
+			owner.next_attack_msg += " <span class='userdanger'>[embedder] [embeds] [owner]'s [src]!</span>"
 			if(ranged)
 				playsound(owner, 'sound/combat/brutal_impalement.ogg', 100, vary = TRUE)
 		update_disabled()
@@ -646,7 +644,8 @@
 		if((embedder.is_silver || (embedder.is_even_lesser_silver && is_npc(owner))) && HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 			var/datum/component/silverbless/psyblessed = embedder.GetComponent(/datum/component/silverbless)
 			owner.adjust_fire_stacks(1, psyblessed?.is_blessed ? /datum/status_effect/fire_handler/fire_stacks/sunder/blessed : /datum/status_effect/fire_handler/fire_stacks/sunder)
-			to_chat(owner, span_danger("the [embedder] in your body painfully jostles!"))
+			owner.ignite_mob()
+			to_chat(owner, span_silver("The embedded [embedder] sunders you from within!"))
 	return TRUE
 
 /// Removes an embedded object from this bodypart
@@ -801,7 +800,7 @@
 			returned_flags |= SURGERY_CLAMPED
 	if(has_wound(/datum/wound/dislocation))
 		returned_flags |= SURGERY_DISLOCATED
-	if(has_wound(/datum/wound/fracture))
+	if(has_wound(/datum/wound/fracture) || isooze(owner))
 		returned_flags |= SURGERY_BROKEN
 	if(has_wound(/datum/wound/slash/vein))
 		returned_flags |= SURGERY_CUTVEIN

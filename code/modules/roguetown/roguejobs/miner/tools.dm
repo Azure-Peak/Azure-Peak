@@ -68,7 +68,7 @@
 
 /obj/item/rogueweapon/pick/blacksteel
 	name = "blacksteel pick"
-	desc = "Glimmering with silvered blackness, this is a pretigious tool for miners delving into the darkness. It looks like it will strike hard enough to shatter any boulders within a rocky surface instantly."
+	desc = "Glimmering with silvered blackness, this is a prestigious tool for miners delving into the darkness. It looks like it will strike hard enough to shatter any boulders within a rocky surface instantly."
 	possible_item_intents = list(/datum/intent/pick/bad)
 	gripped_intents = list(/datum/intent/pick)
 	force = 25
@@ -92,7 +92,7 @@
 
 /obj/item/rogueweapon/pick/aalloy
 	name = "decrepit pick"
-	desc = "A chisel of wrought bronze, which once labored to gather the ores necessary for an ancient alloy; such was lost in the aftermath of Her ascension."
+	desc = "A chisel of rotted metal, which once labored to gather the ores necessary for an ancient alloy; such was lost in the aftermath of Her ascension."
 	force = 12
 	force_wielded = 17
 	icon_state = "apick"

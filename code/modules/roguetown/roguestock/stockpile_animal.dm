@@ -30,6 +30,18 @@
 	withdraw_price = 16
 	category = "Animal"
 
+/datum/roguestock/stockpile/deerribs
+	name = "Venison Ribs"
+	desc = "Luxuriously edible flesh on-the-bone harvested from saiga."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 8
+	withdraw_price = 16
+	category = "Animal"
+
 /datum/roguestock/stockpile/volf
 	name = "Bushmeat"
 	desc = "Barely edible flesh harvested from volfs."
@@ -66,7 +78,7 @@
 
 /datum/roguestock/stockpile/crabbo
 	name = "Crab Meat"
-	desc = "Edible flesh carefully harvested from crabs."
+	desc = "Edible flesh harvested from crabs."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
 	importexport_amt = 5
@@ -98,7 +110,7 @@
 
 /datum/roguestock/stockpile/pork
 	name = "Pork"
-	desc = "Edible flesh harvested from swines."
+	desc = "Edible flesh harvested from swine."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty
 	trade_good_id = TRADE_GOOD_PORK
 	stockpile_amount = 2
@@ -115,6 +127,23 @@
 	stockpile_limit = 25
 	category = "Animal"
 
+/datum/roguestock/stockpile/ham/check_item(obj/item/I)
+	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar))
+		return FALSE
+	return ..()
+
+/datum/roguestock/stockpile/boarham
+	name = "Boar Ham"
+	desc = "Delicious flesh carved from a wild boar, perfect for smoking or steaming."
+	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
+	trade_good_id = TRADE_GOOD_MEAT_EXOTIC
+	importexport_amt = 5
+	stockpile_amount = 0
+	stockpile_limit = 20
+	payout_price = 8
+	withdraw_price = 16
+	category = "Animal"
+
 /datum/roguestock/stockpile/pork_belly
 	name = "Pork Belly"
 	desc = "A fatty slab of swine belly, raw and ready to be cured into bacon."
@@ -126,7 +155,7 @@
 
 /datum/roguestock/stockpile/bones
 	name = "Bones"
-	desc = "Indescript leftovers that make a good stock for soup and other things."
+	desc = "Nondescript leftovers that make a good stock for soup and other things."
 	item_type = /obj/item/natural/bone
 	trade_good_id = TRADE_GOOD_BONES
 	stockpile_amount = 0
@@ -195,7 +224,7 @@
 
 /datum/roguestock/stockpile/salumoi
 	name = "Salumoi"
-	desc = "Dwarven smoked sausage, cured against ten yils of spoilage."
+	desc = "Dwarven smoked sausage cured to keep for ten yils."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/salami
 	trade_good_id = TRADE_GOOD_SALUMOI
 	importexport_amt = 3
@@ -204,7 +233,7 @@
 
 /datum/roguestock/stockpile/sausage
 	name = "Sausage"
-	desc = "Cooked flesh stuffed into intestine casing, shelf-stable for the season."
+	desc = "Cooked meat stuffed into a casing. It keeps for the season."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
 	trade_good_id = TRADE_GOOD_SAUSAGE
 	importexport_amt = 3

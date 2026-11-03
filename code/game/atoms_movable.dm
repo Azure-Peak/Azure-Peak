@@ -1004,6 +1004,15 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 	if(wiggle)
 		wiggle(A)
 
+/atom/movable/proc/do_attack_animation_at(atom/A, visual_effect_icon, wiggle = TRUE, datum/intent/used_intent)
+	var/newdir = get_dir(src, A)
+	var/obj/effect/temp_visual/dir_setting/attack_effect/atk = new(get_turf(A), newdir)
+	atk.icon_state = visual_effect_icon
+	atk.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	atk.layer = ABOVE_MOB_LAYER
+	if(wiggle)
+		wiggle(A)
+
 ///Bit of a shoddy copy paste specifically for more static swingdelays
 /atom/movable/proc/draw_swingdelay(atom/A, visual_effect_icon, delay)
 	var/newdir = get_dir(src, A)
@@ -1031,8 +1040,32 @@ GLOBAL_VAR_INIT(pixel_diff_time, 1)
 
 /atom/movable/vv_get_dropdown()
 	. = ..()
-	. += "<option value='?_src_=holder;[HrefToken()];adminplayerobservefollow=[REF(src)]'>Follow</option>"
-	. += "<option value='?_src_=holder;[HrefToken()];admingetmovable=[REF(src)]'>Get</option>"
+	VV_DROPDOWN_OPTION("", "--- /movable ---")
+	VV_DROPDOWN_OPTION(VV_HK_OBSERVE_FOLLOW, "Observe Follow")
+	VV_DROPDOWN_OPTION(VV_HK_GET_MOVABLE, "Get Movable")
+	VV_DROPDOWN_OPTION(VV_HK_EDIT_PARTICLES, "Edit Particles")
+
+/atom/movable/vv_do_topic(list/href_list)
+	. = ..()
+
+	if(!.)
+		return
+
+	if(href_list[VV_HK_OBSERVE_FOLLOW])
+		if(!check_rights(R_ADMIN))
+			return
+		usr.client?.admin_follow(src)
+
+	if(href_list[VV_HK_GET_MOVABLE])
+		if(!check_rights(R_ADMIN))
+			return
+		if(QDELETED(src))
+			return
+		forceMove(get_turf(usr))
+
+	if(href_list[VV_HK_EDIT_PARTICLES])
+		var/client/C = usr.client
+		C?.open_particle_editor(src)
 
 /atom/movable/proc/ex_check(ex_id)
 	if(!ex_id)

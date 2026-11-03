@@ -153,7 +153,8 @@
 		/datum/crafting_recipe/roguetown/structure/cauldronalchemy,
 		/datum/crafting_recipe/roguetown/alchemy,
 		/datum/alch_grind_recipe,
-		/datum/alch_cauldron_recipe
+		/datum/alch_cauldron_recipe,
+		/datum/transmutation_recipe
 		)
 
 /obj/item/recipe_book/brewing

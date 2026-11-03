@@ -47,7 +47,7 @@
 		user.visible_message(span_warning("[user] adds a banner to [src]."))
 		user.transferItemToLoc(W, src, FALSE, FALSE)
 		detail_color = COLOR_MAP[choice]
-		detail_tag = "detail"
+		detail_tag = "_detail"
 		update_icon()
 
 /obj/item/rogueweapon/spear/lance/update_icon()
@@ -64,7 +64,7 @@
 	icon_state = "bs_lance"
 	force = 20
 	force_wielded = 25
-	wdefense_wbonus = 2 //+1 over the traditional spear, once wielded.
+	wdefense_wbonus = 4 //8 defense wielded
 	max_integrity = 300
 	max_blade_int = 300
 	resistance_flags = FIRE_PROOF

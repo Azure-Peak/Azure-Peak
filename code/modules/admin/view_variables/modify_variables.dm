@@ -7,6 +7,42 @@ GLOBAL_PROTECT(VVckey_edit)
 GLOBAL_LIST_INIT(VVpixelmovement, list("bound_x", "bound_y", "step_x", "step_y", "step_size", "bound_height", "bound_width", "bounds"))		//No editing ever.
 GLOBAL_PROTECT(VVpixelmovement)
 
+/// Last datum this client opened in VV, used to find which var a standalone list window belongs to
+/client/var/datum/weakref/vvdatum
+
+/proc/vv_mob(datum/D)
+	if(ismob(D))
+		return D
+	if(istype(D, /datum/skill_holder))
+		var/datum/skill_holder/S = D
+		return S.current
+	if(istype(D, /datum/mind))
+		var/datum/mind/mind = D
+		return mind.current
+	if(istype(D, /obj/item/bodypart))
+		var/obj/item/bodypart/BP = D
+		return BP.owner
+	if(istype(D, /obj/item/organ))
+		var/obj/item/organ/organ = D
+		return organ.owner
+
+/client/proc/vv_log(datum/O, objectvar, detail, list/L)
+	var/datum/parent = vvdatum?.resolve()
+	if(!O && L && parent)
+		for(var/V in parent.vars)
+			if(parent.vars[V] == L)
+				O = parent
+				objectvar = V
+				break
+	var/mob/M = vv_mob(O)
+	var/what = O ? "[O]" : (isalist(L) ? "alist" : "list")
+	if(M)
+		what = M == O ? key_name(M) : "[key_name(M)]'s [O.type]"
+	var/text = "modified [what]'s [objectvar]: [html_encode("[detail]")]"
+	log_admin("[key_name(src)] [text]")
+	message_admins("[key_name_admin(src)] [text]")
+	M?.log_message("was VV edited by [key_name(src)]: [text]", LOG_ADMIN, log_globally = FALSE)
+
 /client/proc/vv_parse_text(O, new_var)
 	if(O && findtext(new_var,"\["))
 		var/process_vars = alert(usr,"\[] detected in string, process as variables?","Process Variables?","Yes","No")
@@ -95,7 +131,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 	if (O)
 		L = L.Copy()
 
-	L += var_value
+	L += list(var_value) //var_value could be a list
 
 	switch(alert(usr, "Would you like to associate a value with the list entry?",,"Yes","No"))
 		if("Yes")
@@ -105,17 +141,16 @@ GLOBAL_PROTECT(VVpixelmovement)
 			to_chat(src, "Your edit was rejected by the object.")
 			return
 	log_world("### ListVarEdit by [src]: [(O ? O.type : "/list")] [objectvar]: ADDED=[var_value]")
-	log_admin("[key_name(src)] modified [original_name]'s [objectvar]: ADDED=[var_value]")
-	message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: ADDED=[var_value]")
+	vv_log(O, objectvar, "ADDED [var_value]", L)
 
 /client/proc/mod_list(list/L, atom/O, original_name, objectvar, index, autodetect_class = FALSE)
 	if(!check_rights(R_VAREDIT))
 		return
-	if(istype(L, /alist))
-		debug_variables(L)
-		return
 	if(!istype(L, /list))
 		to_chat(src, "Not a List.")
+		return
+	if(isalist(L))
+		debug_variables(L)
 		return
 
 	if(L.len > 1000)
@@ -150,8 +185,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 				to_chat(src, "Your edit was rejected by the object.")
 				return
 			log_world("### ListVarEdit by [src]: [O.type] [objectvar]: CLEAR NULLS")
-			log_admin("[key_name(src)] modified [original_name]'s [objectvar]: CLEAR NULLS")
-			message_admins("[key_name_admin(src)] modified [original_name]'s list [objectvar]: CLEAR NULLS")
+			vv_log(O, objectvar, "CLEAR NULLS", L)
 			return
 
 		if(variable == "(CLEAR DUPES)")
@@ -160,8 +194,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 				to_chat(src, "Your edit was rejected by the object.")
 				return
 			log_world("### ListVarEdit by [src]: [O.type] [objectvar]: CLEAR DUPES")
-			log_admin("[key_name(src)] modified [original_name]'s [objectvar]: CLEAR DUPES")
-			message_admins("[key_name_admin(src)] modified [original_name]'s list [objectvar]: CLEAR DUPES")
+			vv_log(O, objectvar, "CLEAR DUPES", L)
 			return
 
 		if(variable == "(SHUFFLE)")
@@ -170,8 +203,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 				to_chat(src, "Your edit was rejected by the object.")
 				return
 			log_world("### ListVarEdit by [src]: [O.type] [objectvar]: SHUFFLE")
-			log_admin("[key_name(src)] modified [original_name]'s [objectvar]: SHUFFLE")
-			message_admins("[key_name_admin(src)] modified [original_name]'s list [objectvar]: SHUFFLE")
+			vv_log(O, objectvar, "SHUFFLE", L)
 			return
 
 		index = names[variable]
@@ -253,8 +285,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 					to_chat(src, "Your edit was rejected by the object.")
 					return
 			log_world("### ListVarEdit by [src]: [O.type] [objectvar]: REMOVED=[html_encode("[original_var]")]")
-			log_admin("[key_name(src)] modified [original_name]'s [objectvar]: REMOVED=[original_var]")
-			message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: REMOVED=[original_var]")
+			vv_log(O, objectvar, "REMOVED [original_var]", L)
 			return
 
 		if(VV_TEXT)
@@ -275,8 +306,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 			to_chat(src, "Your edit was rejected by the object.")
 			return
 	log_world("### ListVarEdit by [src]: [(O ? O.type : "/list")] [objectvar]: [original_var]=[new_var]")
-	log_admin("[key_name(src)] modified [original_name]'s [objectvar]: [original_var]=[new_var]")
-	message_admins("[key_name_admin(src)] modified [original_name]'s varlist [objectvar]: [original_var]=[new_var]")
+	vv_log(O, objectvar, "[assoc ? assoc_key : "#[index]"]: [original_var] -> [new_var]", L)
 
 /proc/vv_varname_lockcheck(param_var_name)
 	if(param_var_name in GLOB.VVlocked)
@@ -309,7 +339,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 		for (var/V in O.vars)
 			names += V
 
-		names = sortList(names)
+		names = sort_list(names)
 
 		variable = input(src, "Which var?","Var") as null|anything in names
 		if(!variable)
@@ -385,10 +415,8 @@ GLOBAL_PROTECT(VVpixelmovement)
 		return
 	vv_update_display(O, "varedited", VV_MSG_EDITED)
 	log_world("### VarEdit by [key_name(src)]: [O.type] [variable]=[var_value] => [var_new]")
-	log_admin("[key_name(src)] modified [original_name]'s [variable] from [html_encode("[var_value]")] to [html_encode("[var_new]")]")
-	var/msg = "[key_name_admin(src)] modified [original_name]'s [variable] from [var_value] to [var_new]"
-	message_admins(msg)
-	admin_ticket_log(O, msg)
+	vv_log(O, variable, "[var_value] -> [var_new]")
+	admin_ticket_log(O, "[key_name_admin(src)] modified [original_name]'s [variable] from [var_value] to [var_new]")
 	return TRUE
 
 /proc/index_alist_key(alist/A, index)
@@ -404,7 +432,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 /client/proc/mod_alist(alist/A, datum/O, original_name, objectvar, enum_index, autodetect_class = FALSE)
 	if(!check_rights(R_VAREDIT))
 		return
-	if(!istype(A, /alist))
+	if(!isalist(A))
 		to_chat(src, "Not an alist.")
 		return
 	var/key = index_alist_key(A, enum_index)
@@ -433,8 +461,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 		A.Remove(key)
 		A[new_key] = current_value
 		log_world("### alistVarEdit by [src]: [(O ? O.type : "/alist")] [objectvar]: KEY [html_encode("[key]")] => [html_encode("[new_key]")]")
-		log_admin("[key_name(src)] modified [original_name]'s [objectvar]: KEY [key] => [new_key]")
-		message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: KEY [key] => [new_key]")
+		vv_log(O, objectvar, "KEY [key] -> [new_key]", A)
 		return
 
 	var/default = vv_get_class(objectvar, current_value)
@@ -458,13 +485,12 @@ GLOBAL_PROTECT(VVpixelmovement)
 			new_value = replacetext(new_value, "\[[V]]", "[O.vars[V]]")
 	A[key] = new_value
 	log_world("### alistVarEdit by [src]: [(O ? O.type : "/alist")] [objectvar]: \[[html_encode("[key]")]] => [html_encode("[new_value]")]")
-	log_admin("[key_name(src)] modified [original_name]'s [objectvar]: [key] => [new_value]")
-	message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: [key] => [new_value]")
+	vv_log(O, objectvar, "[key]: [current_value] -> [new_value]", A)
 
 /client/proc/mod_alist_add(alist/A, datum/O, original_name, objectvar)
 	if(!check_rights(R_VAREDIT))
 		return
-	if(!istype(A, /alist))
+	if(!isalist(A))
 		to_chat(src, "Not an alist.")
 		return
 	to_chat(src, "Choose the new entry's KEY:")
@@ -489,5 +515,4 @@ GLOBAL_PROTECT(VVpixelmovement)
 			new_value = replacetext(new_value, "\[[V]]", "[O.vars[V]]")
 	A[new_key] = new_value
 	log_world("### alistVarEdit by [src]: [(O ? O.type : "/alist")] [objectvar]: ADDED \[[html_encode("[new_key]")]] = [html_encode("[new_value]")]")
-	log_admin("[key_name(src)] modified [original_name]'s [objectvar]: ADDED [new_key]=[new_value]")
-	message_admins("[key_name_admin(src)] modified [original_name]'s [objectvar]: ADDED [new_key]=[new_value]")
+	vv_log(O, objectvar, "ADDED [new_key] = [new_value]", A)

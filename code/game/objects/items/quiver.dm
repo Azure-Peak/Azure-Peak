@@ -101,6 +101,10 @@
 					"westabove" = 0
 				)
 
+/obj/item/quiver/Destroy()
+	QDEL_LIST(arrows)
+	return ..()
+
 /obj/item/quiver/proc/get_current_weight()
 	. = 0
 	for(var/obj/item/ammo_casing/caseless/rogue/A in arrows)
@@ -265,6 +269,17 @@
 	. += span_info("Shift-Right-click to select which ammo type to load first.")
 	. += span_info("Ctrl-Click to drop all ammo on the ground one by one.")
 	. += span_info("Right-click to pull out a single piece of ammo.")
+
+/obj/item/quiver/held_contents()
+	return arrows.Copy()
+
+/obj/item/quiver/release_held(obj/item/I, atom/dest)
+	if(!(I in arrows))
+		return FALSE
+	arrows -= I
+	I.forceMove(dest)
+	update_icon()
+	return TRUE
 
 /obj/item/quiver/update_icon()
 	if(arrows.len)

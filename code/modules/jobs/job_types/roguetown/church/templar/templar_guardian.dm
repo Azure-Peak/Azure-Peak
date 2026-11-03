@@ -1,6 +1,6 @@
 /datum/advclass/templar/guardian
 	name = "Guardian"
-	tutorial = "You are heavily armoured temple guardian clad in plate. A holy knight maintaining order wherever he might be."
+	tutorial = "You are the heavily-armoured guardian of this temple, clad in plate. Your presence alone maintains order amongst the pews; and in \n	the most dire tymes, you may yet be the one thing that stands between the flock and the volves."
 	outfit = /datum/outfit/job/roguetown/templar/guardian
 	category_tags = list(CTAG_TEMPLAR)
 	subclass_languages = list(/datum/language/grenzelhoftian)
@@ -129,7 +129,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles with paladin devotion.
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Church Funding.", mint_new = TRUE, mint_label = "Church funding", income_acct = LEDGER_CITIZEN_ESTATE)
 
 /datum/outfit/job/roguetown/templar/guardian/choose_loadout(mob/living/carbon/human/H)
 	. = ..()

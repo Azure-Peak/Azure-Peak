@@ -11,12 +11,67 @@
 	/// Tracks if a group ritual is actively processing right now
 	var/ritual_active = FALSE
 	redstone_structure = TRUE
+	/// Ticks until the next refund. only counts while processing
+	var/refund_ticks = 0
 
 /obj/structure/roguemachine/dream_pool/Initialize(mapload)
 	. = ..()
 	linked_door = new /obj/structure/dream_pool_door(get_turf(src))
 	linked_door.linked_pool = src
 	update_icon()
+
+/obj/structure/roguemachine/dream_pool/Destroy()
+	STOP_PROCESSING(SSmachines, src)
+	// Dump any stored parchments so they aren't silently deleted
+	var/list/turf/outer_rim = get_outer_rim_turfs()
+	for(var/obj/item/I in contents)
+		var/turf/dump = length(outer_rim) ? pick(outer_rim) : get_turf(src)
+		I.forceMove(dump)
+	return ..()
+
+/obj/structure/roguemachine/dream_pool/process()
+	if(!length(contents))
+		refund_ticks = 0
+		STOP_PROCESSING(SSmachines, src)
+		return
+	if(refund_ticks > 0)
+		refund_ticks--
+		return
+	refund_stored_parchments()
+
+/obj/structure/roguemachine/dream_pool/proc/ensure_refund_processing()
+	if(!length(contents))
+		return
+	if(refund_ticks <= 0)
+		refund_ticks = 5 MINUTES / (1 SECONDS)
+		START_PROCESSING(SSmachines, src)
+
+/obj/structure/roguemachine/dream_pool/proc/store_parchment(obj/item/parchment)
+	if(!parchment)
+		return FALSE
+	parchment.forceMove(src)
+	ensure_refund_processing()
+	return TRUE
+
+/obj/structure/roguemachine/dream_pool/proc/refund_stored_parchments()
+	var/list/turf/outer_rim = get_outer_rim_turfs()
+	var/refunded = 0
+	if(length(outer_rim))
+		for(var/obj/item/I in contents)
+			var/list/turf/valid = list()
+			for(var/turf/T in outer_rim)
+				if(!T.density)
+					valid += T
+			if(!length(valid))
+				valid = outer_rim
+			I.forceMove(pick(valid))
+			refunded++
+	if(refunded)
+		visible_message(span_purple("The dream pool shudders, expelling [refunded] parchment(s) onto its rim!"))
+		playsound(src, 'sound/magic/abyssor_splash.ogg', 80, TRUE)
+	// Sanity fallback in case there's no valid edge turfs to stop errors
+	if(length(contents))
+		refund_ticks = 5 MINUTES / (1 SECONDS)
 
 /obj/structure/roguemachine/dream_pool/proc/get_outer_rim_turfs()
 	var/list/turf/outer_rim = list()
@@ -72,7 +127,7 @@
 		if(/datum/patron/divine/malum)
 			out_text = skill_check_text("Malum", TRUE, "The cool air of the pool swells to searing oppression. The inner hollow of Psydonia, deep underground. Yet none of the riches shine as bright as the hot metal poised upon the anvil in the center of it all. Pick up the hammer, work, do not bother me again.")
 		if(/datum/patron/divine/necra)
-			out_text = skill_check_text("Necra", TRUE, "A cold mist drifts from the pool. A veiled silhouette beckons as whispy tethers of fog surround you, reassuring you that whatever lies beyond the pool is merely the natural end of all things. Countless eyes shall awaken, all will return to the undermaiden.")
+			out_text = skill_check_text("Necra", TRUE, "A cold mist drifts from the pool. A veiled silhouette beckons as whispy tethers of fog surround you, reassuring you that whatever lies beyond the pool is merely the natural end of all things. Countless eyes shall awaken, all will return to the Undermaiden.")
 		if(/datum/patron/divine/noc)
 			out_text = skill_check_text("Noc", TRUE, "Faint, glowing scripts of forgotten arcana float within the swirling mist. Whispers of lost, ancient knowledge buried underneath the sea. Sights of deep ones hoarding artefacts of distant lands.")
 		if(/datum/patron/divine/pestra)

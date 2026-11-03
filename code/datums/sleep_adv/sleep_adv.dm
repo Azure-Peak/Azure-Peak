@@ -90,6 +90,8 @@
 		#ifndef USES_TRAIT_SKILL_GATING
 		pre_cap = SKILL_LEVEL_LEGENDARY
 		#endif
+		if(HAS_TRAIT(L, TRAIT_COMBAT_JMAN) && istype(skill, /datum/skill/combat))
+			pre_cap = SKILL_LEVEL_JOURNEYMAN
 		if(pre_cap < SKILL_LEVEL_APPRENTICE && L.get_skill_level(skill) >= pre_cap)
 			var/skillname = pre_skillref.name ? pre_skillref.name : "ERROR"
 			var/captimer = LAZYACCESS(L.mob_timers, "skillcap_[skillname]")
@@ -188,6 +190,9 @@
 	var/dream_dust = retained_dust
 	dream_dust += BASE_DREAM_DUST
 
+	if(HAS_TRAIT(mind.current, TRAIT_GOODSLEEP))
+		dream_dust += floor(BASE_DREAM_DUST)
+
 	var/int = mind.current.STAINT
 	dream_dust += mind.current.STAINT * DREAM_DUST_PER_INT //25% dream points for each int
 	if(int < 10)
@@ -218,6 +223,8 @@
 	retained_dust = dream_dust_modulo
 
 	sleep_adv_points += dream_points + 1 //Have a dream point. Because you're awesome.
+	if(HAS_TRAIT(mind.current, TRAIT_DEEP_DREAMER)) // God of Dreams and Nightmares check
+		sleep_adv_points += rand(1,2)
 	sleep_adv_cycle++
 
 	show_ui(mind.current)
@@ -412,6 +419,14 @@
 	var/user_skill_level = user.get_skill_level(skill_type)
 	var/level_diff = target_skill_level - user_skill_level
 	if(level_diff <= 0)
+		return FALSE
+	if(HAS_TRAIT(user, TRAIT_COMBAT_JMAN) && ispath(skill_type, /datum/skill/combat))
+		if(user_skill_level >= SKILL_LEVEL_JOURNEYMAN)
+			return FALSE
+		if(level_diff >= 1)
+			if(user_skill_level == SKILL_LEVEL_APPRENTICE && user.mind.sleep_adv.enough_sleep_xp_to_advance(skill_type, 1))
+				return FALSE
+	if(HAS_TRAIT(user, TRAIT_NOSHIELDS) && ispath(skill_type, /datum/skill/combat/shields))
 		return FALSE
 	if(user.mind.sleep_adv.enough_sleep_xp_to_advance(skill_type, level_diff))
 		return FALSE

@@ -116,6 +116,12 @@
 	valid_outputs = list(/obj/item/alch/golddust = 1)
 	bonus_chance_outputs = list(/obj/item/alch/golddust = 33)
 
+/datum/alch_grind_recipe/gold_slag // identical to gold ore
+	name = "Gold Slag"
+	valid_input = /obj/item/goldslag
+	valid_outputs = list(/obj/item/alch/golddust = 1)
+	bonus_chance_outputs = list(/obj/item/alch/golddust = 33)
+
 /datum/alch_grind_recipe/silver_ore
 	name = "Silver Ore"
 	valid_input = /obj/item/rogueore/silver
@@ -212,6 +218,12 @@
 	valid_input = /obj/item/roguegem/blue
 	valid_outputs = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/waterdust = 2, /obj/item/alch/golddust = 4)
 	bonus_chance_outputs = list(/obj/item/alch/waterdust = 66)
+
+/datum/alch_grind_recipe/mineraldustred // not part of the usual chain, but IS a mage gem. sellprice is between blortz and dorpel, so it's considered blortz-equivalent here
+	name = "Mineral Dust (Rontz)"
+	valid_input = /obj/item/roguegem/ruby
+	valid_outputs = list(/obj/item/alch/mineraldust = 1, /obj/item/alch/waterdust = 2, /obj/item/alch/golddust = 4)
+	bonus_chance_outputs = list(/obj/item/alch/silverdust = 33) // this is the one gem that's explicitly divine and not producable by mages. even accounting for silverface markup and high export duty (used 30% as an extreme example) it "only" takes selling 6 rontz to the balloon to buy a silver dagger to smelt for an ingot. at 3 silver dust per ore, you need _nine_ rontz to get any usable silver with this + reconstitution, so good fucking luck. you can use it for potions and other things though!
 
 /datum/alch_grind_recipe/mineraldustdiamond // costs a whopping 18 gold to make, why are you doing this
 	name = "Mineral Dust (Dorpel)"

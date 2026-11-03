@@ -9,7 +9,7 @@
 					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
 					/datum/action/cooldown/spell/noc/enlightenment				= CLERIC_T1,
-					/datum/action/cooldown/spell/projectile/moonscorch				= CLERIC_T2,
+					/datum/action/cooldown/spell/projectile/moonscorch			= CLERIC_T2,
 					/datum/action/cooldown/spell/noc/invisibility				= CLERIC_T2,
 					/datum/action/cooldown/spell/noc/spellpack					= CLERIC_T3,
 					/datum/action/cooldown/spell/noc/moonlight					= CLERIC_T4,
@@ -36,7 +36,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the church

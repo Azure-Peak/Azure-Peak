@@ -16,7 +16,7 @@
 /obj/structure/well/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-clicking a well with a bucket, pot, or similarly-sized container will eventually fill it to the brim with freshwater.")
-	. += span_info("Some wells might provide alternatives to freshwater. Having a level in the Alchemy skill allows you to specifically check for non-freshwatered reagents inside the filled container.")
+	. += span_info("Some wells might provide alternatives to freshwater. Having a level in the Alchemy skill allows you to specifically check for non-freshwater reagents inside the filled container.")
 
 /obj/structure/well/attackby(obj/item/I, mob/user, params)
 	if(istype(I, /obj/item/reagent_containers/glass/bucket))
@@ -33,11 +33,10 @@
 	else ..()
 
 /obj/structure/well/poisoned
-	name = "dubious well"
-	desc = "A fetid stench eminates from this orifice of brick-and-wood, yearning to be ladled into unsuspecting buckets."
+	name = "rancid well"
+	desc = "A fetid stench emanates from this orifice of brick-and-wood, yearning to be ladled into unsuspecting buckets."
 	icon = 'icons/roguetown/misc/structure.dmi'
 	icon_state = "well"
-	color = "#59aa65"
 	anchored = TRUE
 	density = TRUE
 	opacity = 0
@@ -53,12 +52,23 @@
 			to_chat(user, span_warning("[W] is full."))
 			return
 		if(do_after(user, 30, target = src))
-			var/list/waterl = list(/datum/reagent/water = 50, /datum/reagent/organpoison = 50)
-			W.reagents.add_reagent_list(waterl)
+			var/list/waterl = list(
+				/datum/reagent/water/gross/sewage/well,
+				/datum/reagent/water/gross,
+				/datum/reagent/water,
+				/datum/reagent/organpoison,
+				/datum/reagent/berrypoison,
+				/datum/reagent/blood,
+				/datum/reagent/blood/shitty,
+			)
+			var/list/reagents_to_add = list(/datum/reagent/water = 50, pick(waterl) = 50,) // same value as before, but our second reagent is randomized from the list above
+			W.reagents.add_reagent_list(reagents_to_add)
+
 			to_chat(user, "<span class='notice'>I fill [W] from [src]. The water looks vile, am I really going to drink this?</span>")
 			playsound(user, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 80, FALSE)
 			return
-	else ..()
+	else
+		..()
 
 /obj/structure/well/fountain
 	name = "water fountain"

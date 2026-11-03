@@ -11,6 +11,7 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sellprice = 8
 	dropshrink = 0.9
+	materia = list(/datum/materia_aspect/animal)
 
 /obj/item/natural/hide/get_mechanics_examine(mob/user)
 	. = ..()
@@ -163,6 +164,7 @@
 	gripped_intents = null
 	slot_flags = ITEM_SLOT_MOUTH|ITEM_SLOT_HIP
 	bundletype = /obj/item/natural/bundle/bone
+	materia = list(/datum/materia_aspect/death)
 
 /obj/item/natural/bone/Initialize(mapload)
 	. = ..()
@@ -224,3 +226,10 @@
 	desc = "A rabbit's foot. A lucky charm."
 	w_class = WEIGHT_CLASS_TINY
 	sellprice = 10
+
+/obj/item/natural/goathorn
+	name = "bundle of goat horns"
+	icon_state = "goat_horn"
+	desc = "Two high quality, ornate looking goat horns bundled together with fiber."
+	w_class = WEIGHT_CLASS_SMALL
+	sellprice = 25

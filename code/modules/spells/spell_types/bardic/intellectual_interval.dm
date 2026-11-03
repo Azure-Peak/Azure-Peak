@@ -16,7 +16,7 @@
 	icon_state = "buff"
 
 /datum/status_effect/buff/song/intellectual_interval
-	id = "intellectualinterval"
+	id = "intellectual_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/intellectual_interval
 	duration = 15 SECONDS
 	effectedstats = list(STATKEY_INT = BARD_STAT_LESSER)

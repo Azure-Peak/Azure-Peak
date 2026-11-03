@@ -22,7 +22,7 @@
 	name = "Elemental"
 	id = "elemental"
 	origin = "The Depths"
-	origin_default = /datum/virtue/origin/familiar/elemental
+	origin_default = /datum/virtue/origin/unselectable/elemental
 
 // so they can actually do repairs
 /mob/living/carbon/human/species/familiar/elemental/Initialize(mapload)

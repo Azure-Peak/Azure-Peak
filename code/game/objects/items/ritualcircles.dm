@@ -94,7 +94,7 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more.")) // If you have already done a ritual in the last 30 minutes, you cannot do another.
 		return
-	var/riteselection = input(user, "Rituals of the Sun", src) as null|anything in solarrites // When you use a open hand on a rune, It'll give you a selection of all the rites available from that rune
+	var/riteselection = input(user, "Rituals of the Sun", src) as null|anything in solarrites // When you use an open hand on a rune, It'll give you a selection of all the rites available from that rune
 	switch(riteselection) // rite selection goes in this section, try to do something fluffy. Presentation is most important here, truthfully.
 		if("Guiding Light") // User selects Guiding Light, begins the stuff for it
 			if(!do_after(user, 5 SECONDS)) // just flavor stuff before activation
@@ -439,13 +439,16 @@
 		if("Bestow Blessing")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Aid my craft, oh Forgefather!!")
+			user.say("I am a Wallbuilder. Let my walls endure, from season to season, year to year, and age to age.")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Guide my hand unto creation!!")
+			user.say("Let my walls stand, while families toil, armies march, and empires fall.")
 			if(!do_after(user, 5 SECONDS))
 				return
-			user.say("Let it be molded within your name!!")
+			user.say("I am a Wallbuilder, and my walls will stand always as a shield against evil.")
+			if(!do_after(user, 5 SECONDS))
+				return
+			user.say("This I pray, that will the Forgefather grant.")
 			icon_state = "malum_active"
 			malumblessing(src)
 			playsound(user, 'sound/magic/magearmorup.ogg', 60, FALSE, -1)
@@ -457,7 +460,7 @@
 	var/ritualtargets = view(4, loc)
 	for(var/mob/living/carbon/human/target in ritualtargets)
 		target.apply_status_effect(/datum/status_effect/buff/malumritual)
-		to_chat(target,span_cultsmall("Malum's persistance guides me forward!"))
+		to_chat(target,span_cultsmall("Malum's persistence guides me forward!"))
 
 /obj/structure/ritualcircle/abyssor
 	name = "Rune of Storms"
@@ -1188,18 +1191,14 @@
 		target.dust()
 		return TRUE
 
-	if(alert(target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
+	var/mob/dead/observer/underworld_spirit = target.get_spirit()
+	if(alert(underworld_spirit || target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
 		target.visible_message(span_notice("Nothing happens. They are not being let go."))
 		return
 	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
 	if(!target.revive(full_heal = FALSE))
 		to_chat(user, span_warning("Nothing happens."))
 		return
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
 	target.grab_ghost(force = TRUE)
 	target.emote("breathgasp")
 	target.Jitter(100)
@@ -1217,7 +1216,7 @@
 		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
 	target.add_stress(/datum/stressevent/necrarevive)
 	src.coinslot -= 1 // -1 coin, please insert more coins.
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended) // only after a succesful revive
+	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended) // only after a successful revive
 
 /obj/structure/ritualcircle/necra/proc/undermaidenbargain(src)
 	var/ritualtargets = view(7, loc)
@@ -1458,7 +1457,10 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
+			var/is_spy = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic/spy)
 			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(is_spy && persononrune == user)
+					continue
 				if(HAS_TRAIT(persononrune, TRAIT_CABAL))
 					folksonrune += persononrune
 			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
@@ -1523,7 +1525,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			user.say("ZIZO! ZIZO! TRUTH TO A WORLD OF IGNORAANCE!!")
 			icon_state = "zizo_active"
-			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her darkness now guides you, for the light now spurns you."))
+			to_chat(user,span_cultsmall("Her Inzanity, although incomprehensible to the ignorant, is invaluable to the enlightened. Her darkness now guides you, for the light now spurns you."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			zizolightsnuff(src)
 			spawn(10)
@@ -1545,7 +1547,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			user.say("ZIZO! ZIZO! PROGRESS AT AAANY COST!!")
 			icon_state = "zizo_active"
-			to_chat(user,span_cultsmall("Her Inzanity although incomprehendable to the ignorant, is invaluable to the enlightened. Her hands guide your mynd and dreamed talent to rapidly Progress."))
+			to_chat(user,span_cultsmall("Her Inzanity, although incomprehensible to the ignorant, is invaluable to the enlightened. Her hands guide your mynd and dreamed talent to rapidly Progress."))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 			zizolightsnuff(src)
 			spawn(10)
@@ -1703,7 +1705,10 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
+			var/is_spy = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic/spy)
 			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(is_spy && persononrune == user)
+					continue
 				if(HAS_TRAIT(persononrune, TRAIT_FREEMAN))
 					folksonrune += persononrune
 			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune
@@ -1883,7 +1888,10 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()
+			var/is_spy = istype(user.mind?.picked_advclass, /datum/advclass/wretch/heretic/spy)
 			for(var/mob/living/carbon/human/persononrune in onrune)
+				if(is_spy && persononrune == user)
+					continue
 				if(HAS_TRAIT(persononrune, TRAIT_HORDE))
 					folksonrune += persononrune
 			var/mob/living/carbon/human/target = input(user, "Choose a host") as null|anything in folksonrune

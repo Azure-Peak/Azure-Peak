@@ -36,6 +36,7 @@ SUBSYSTEM_DEF(role_class_handler)
 		CTAG_ALLCLASS = list(every single class datum that exists outside of the parent)
 */
 	var/list/sorted_class_categories = list()
+	var/list/classes_by_name = list()
 
 
 	/// Whether bandits have been injected in the game
@@ -46,6 +47,9 @@ SUBSYSTEM_DEF(role_class_handler)
 
 	/// Assoc list of class registers to keep track of what townies and migrant parties are and message listeners
 	var/list/class_registers = list()
+
+	/// subclass roll losers
+	var/list/roll_losers = list()
 
 /*
 	We init and build the ass lists
@@ -66,6 +70,8 @@ SUBSYSTEM_DEF(role_class_handler)
 
 	//Time to sort these classes, and sort them we shall.
 	for(var/datum/advclass/class in all_classes)
+		if(!classes_by_name[class.name])
+			classes_by_name[class.name] = class
 		for(var/ctag in class.category_tags)
 			if(!sorted_class_categories[ctag]) // New cat
 				sorted_class_categories[ctag] = list()
@@ -98,8 +104,10 @@ SUBSYSTEM_DEF(role_class_handler)
 		//XTRA_MEATY.PQ_boost_divider = 10
 	else
 		var/datum/job/roguetown/RT_JOB = SSjob.GetJob(H.job)
-		if(RT_JOB.advclass_cat_rolls.len)
+		if(LAZYLEN(RT_JOB.advclass_cat_rolls))
 			XTRA_MEATY.class_cat_alloc_attempts = RT_JOB.advclass_cat_rolls
+		else // no advclasses here sire
+			return
 
 		//if(RT_JOB.PQ_boost_divider)
 			//XTRA_MEATY.PQ_boost_divider = RT_JOB.PQ_boost_divider
@@ -116,6 +124,26 @@ SUBSYSTEM_DEF(role_class_handler)
 		return // There was just one advclass that got automatically selected
 	class_select_handlers[H.client.ckey] = XTRA_MEATY
 
+
+/datum/controller/subsystem/role_class_handler/proc/roll_roundstart_favorites(list/humans)
+	var/list/contenders = list()
+	for(var/mob/living/carbon/human/H in humans)
+		var/datum/job/roguetown/job = SSjob.GetJob(H.job)
+		var/list/subprefs = H.client?.prefs?.job_subprefs
+		if(!job || !subprefs || !subprefs[H.job] || !subprefs[H.job]["favorite_advclass"])
+			continue
+		var/favorite_type = subprefs[H.job]["favorite_advclass"]
+		for(var/ctag in job.advclass_cat_rolls)
+			for(var/datum/advclass/AC as anything in sorted_class_categories[ctag])
+				if(AC.type != favorite_type || AC.maximum_possible_slots == -1 || !AC.check_requirements(H))
+					continue
+				if(!contenders[AC])
+					contenders[AC] = list()
+				contenders[AC] |= H
+	for(var/datum/advclass/AC as anything in contenders)
+		var/list/candidates = contenders[AC]
+		for(var/mob/living/carbon/human/loser as anything in candidates - SSjob.pick_roll_winners(candidates, AC.maximum_possible_slots - AC.total_slots_occupied))
+			roll_losers += loser.ckey
 
 /*
 	Attempt to finish the class handling ordeal, aka they picked something
@@ -170,12 +198,7 @@ SUBSYSTEM_DEF(role_class_handler)
 					found_menu.rolled_class_is_full(target_datum) //	inform the datum of its error.
 
 /datum/controller/subsystem/role_class_handler/proc/get_advclass_by_name(advclass_name)
-	for(var/category in sorted_class_categories)
-		for(var/datum/advclass/class as anything in sorted_class_categories[category])
-			if(class.name != advclass_name)
-				continue
-			return class
-	return null
+	return classes_by_name[advclass_name]
 
 
 /datum/controller/subsystem/role_class_handler/proc/get_class_register(register_id)

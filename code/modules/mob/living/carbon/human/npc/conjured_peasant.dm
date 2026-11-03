@@ -4,8 +4,6 @@
 	faction = list(FACTION_NEUTRAL)
 	dodgetime = 25
 	var/loadout = "pitchfork"
-	var/arcane_scale = 3
-	var/gear_tier = 1
 	var/datum/weakref/summoner_ref
 
 /mob/living/carbon/human/species/human/northern/conjured_peasant/Initialize(mapload)

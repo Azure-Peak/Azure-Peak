@@ -3,6 +3,7 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { formatRatioPct } from './common/format';
+import { issueStatusSuffix, LedgerSubTabBar } from './ContractLedgerIssued';
 
 type RumorLogEntry = {
   title: string;
@@ -10,6 +11,8 @@ type RumorLogEntry = {
   region: string;
   in_hands: BooleanLike;
   day: number;
+  status?: string;
+  refund?: string;
 };
 
 type InnkeeperData = {
@@ -40,9 +43,9 @@ const regionRewardFlavor = (
   if (typeof mult !== 'number' || mult === 1) return null;
   if (mult > 1) {
     const descriptor = mult >= 1.4 ? 'bleak' : 'dangerous';
-    return `${regionName} is a ${descriptor} region - rumors from there tend to be ${formatRatioPct(mult - 1)} more lucrative.`;
+    return `${regionName} is a ${descriptor} region. Rumors from it tend to pay ${formatRatioPct(mult - 1)} more.`;
   }
-  return `${regionName} is a settled region - rumors from there tend to be ${formatRatioPct(1 - mult)} less lucrative.`;
+  return `${regionName} is a safe region. Rumors from it tend to pay ${formatRatioPct(1 - mult)} less.`;
 };
 
 const FormRow = (props: { label: string; children: ReactNode }) => (
@@ -96,35 +99,6 @@ const ModeRadio = (props: {
   </label>
 );
 
-const SubTabBar = (props: {
-  active: SubTab;
-  onSelect: (t: SubTab) => void;
-  historyCount: number;
-}) => {
-  const tabs: { id: SubTab; label: string }[] = [
-    { id: 'compose', label: 'Compose' },
-    { id: 'history', label: `History (${props.historyCount})` },
-  ];
-  return (
-    <div className="ContractLedger__InnkeeperSubTabBar">
-      {tabs.map((t) => (
-        <div
-          key={t.id}
-          className={
-            'ContractLedger__InnkeeperSubTab' +
-            (t.id === props.active
-              ? ' ContractLedger__InnkeeperSubTab--active'
-              : '')
-          }
-          onClick={() => props.onSelect(t.id)}
-        >
-          {t.label}
-        </div>
-      ))}
-    </div>
-  );
-};
-
 const HistoryView = (props: { log: RumorLogEntry[] }) => {
   if (!props.log.length) {
     return (
@@ -143,7 +117,8 @@ const HistoryView = (props: { log: RumorLogEntry[] }) => {
           </span>
           <span className="ContractLedger__InnkeeperHistoryMeta">
             {r.type} &middot; {r.region} &middot; day {r.day} &middot;{' '}
-            {r.in_hands ? 'in hands' : 'on board'}
+            {r.in_hands ? 'in hands' : 'on the Ledger'}
+            {issueStatusSuffix(r.status, r.refund)}
           </span>
         </div>
       ))}
@@ -184,7 +159,7 @@ const ComposeView = () => {
         : needsDestination && !destination
           ? "Pick whose shipment it's rumored to be."
           : data.rumor_points < cost
-            ? `Insufficient Rumor Points (need ${cost}, have ${data.rumor_points}).`
+            ? `Not enough Rumor Points (need ${cost}, have ${data.rumor_points}).`
             : undefined;
 
   const dispatch = () => {
@@ -203,8 +178,8 @@ const ComposeView = () => {
   return (
     <>
       <div className="ContractLedger__InnkeeperFlavor">
-        A whisper to the Guild carries weight. Select a rumor to pass along;
-        point cost scales with the trouble it will bring.
+        Pick a rumor to pass to the Guild. The more trouble it brings, the more
+        points it costs.
       </div>
 
       <FormRow label="Rumor Type">
@@ -292,7 +267,7 @@ const ComposeView = () => {
             value="board"
             selected={mode}
             onChange={setMode}
-            label="Post on public board"
+            label="Post on the Ledger"
           />
           <ModeRadio
             value="hands"
@@ -363,17 +338,20 @@ export const InnkeeperRumorPanel = () => {
         </div>
       </div>
 
-      <SubTabBar
+      <LedgerSubTabBar
+        tabs={[
+          { id: 'compose', label: 'Compose' },
+          {
+            id: 'history',
+            label: `History (${(data.rumor_log || []).length})`,
+          },
+        ]}
         active={subTab}
         onSelect={setSubTab}
-        historyCount={(data.rumor_log || []).length}
       />
 
-      {subTab === 'compose' ? (
-        <ComposeView />
-      ) : (
-        <HistoryView log={data.rumor_log || []} />
-      )}
+      {subTab === 'compose' && <ComposeView />}
+      {subTab === 'history' && <HistoryView log={data.rumor_log || []} />}
     </div>
   );
 };

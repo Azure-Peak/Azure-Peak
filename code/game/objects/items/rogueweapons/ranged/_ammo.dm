@@ -3,12 +3,17 @@
 	firing_effect_type = null
 	icon = 'icons/roguetown/weapons/ammo.dmi'
 	var/ammo_weight = 1 // Weight cost in a quiver. Default 1, heavy ammo costs more.
+	materia = list(/datum/materia_aspect/air, /datum/materia_aspect/weapon)
 
 /obj/item/ammo_casing/caseless/rogue/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Projectiles have maximum and minimum falloff ranges, with particular falloff factors for damage.")
 	. += span_info("If the target is hit between the maximum and minimum tile range, then the full force is delivered.")
 	. += get_sweetspot_examine()
+	var/obj/projectile/proj = projectile_type
+	var/aimmod = BB ? BB.aim_mod : (proj ? initial(proj.aim_mod) : 0)
+	if(aimmod)
+		. += span_info("Its heft throws off my aim by <b>[-aimmod]</b>.")
 
 /// Returns examine lines describing the sweetspot (full-force range) of this casing's projectile, or an empty list if it has none.
 /obj/item/ammo_casing/proc/get_sweetspot_examine(subject = "This projectile")

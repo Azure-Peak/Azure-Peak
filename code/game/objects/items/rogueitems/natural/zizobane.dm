@@ -64,7 +64,6 @@
 	icon_state = "zizo_bane"
 	filling_color = "#772681"
 	bitesize = 1
-	foodtype = VEGETABLES
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/sleep_powder = 5)
 	tastes = list("numbing mintiness" = 1,"purpliness" = 1)
 	eat_effect = /datum/status_effect/debuff/knockout

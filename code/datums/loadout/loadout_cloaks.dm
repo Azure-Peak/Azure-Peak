@@ -4,6 +4,11 @@
 	path = /obj/item/clothing/cloak/tabard
 	sort_category = "Cloaks"
 
+/datum/loadout_item/saigatabard
+	name = "Saiga Tabard"
+	path = /obj/item/clothing/cloak/tabard/saiga
+	sort_category = "Cloaks"
+
 /datum/loadout_item/surcoat
 	name = "Surcoat"
 	path = /obj/item/clothing/cloak/tabard/stabard
@@ -187,6 +192,11 @@
 /datum/loadout_item/surcoatsilverorderuni
 	name = "Surcoat, Silver Order, Undivided"
 	path = /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
+	sort_category = "Cloaks"
+
+/datum/loadout_item/frayedcloak
+	name = "Frayed Cloak"
+	path = /obj/item/clothing/cloak/templar/astratancleric/grey
 	sort_category = "Cloaks"
 
 /datum/loadout_item/scaledcloak

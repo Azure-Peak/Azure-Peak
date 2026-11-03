@@ -36,8 +36,8 @@
 			qdel(B)
 			qdel(src)
 			user.put_in_hands(N)
-	else
-		return ..()
+			return
+	return ..()
 
 // All "natural" items may have a "bundletype". Let's make bundling stuff a universal proc!
 /obj/item/natural/attack_right(mob/user)
@@ -105,6 +105,13 @@
 /obj/item/natural/bundle/attackby(obj/item/W, mob/living/user)
 	if(item_flags & IN_STORAGE)
 		return
+
+	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
+			return
+		W.attackby(src, user)
+		return
+
 	if(istype(W, /obj/item/natural/bundle))
 		var/obj/item/natural/bundle/B = W
 		if(src.stacktype == B.stacktype)
@@ -142,8 +149,13 @@
 		src.update_bundle()
 		switch(src.amount)
 			if(1)
-				new src.stacktype(src.loc)
+				var/atom/old_loc = loc
+				var/single_type = stacktype
 				qdel(src)
+				var/obj/item/single = new single_type(old_loc)
+				if(ismob(old_loc))
+					var/mob/holder = old_loc
+					holder.put_in_hands(single)
 			if(0)
 				qdel(src)
 		return TRUE
@@ -163,6 +175,14 @@
 			qdel(src)
 			return
 		else
+			// bandaid. if it's 1 it shouldnt be a bundle. if its 0 or below it DEFINITELY shouldnt be a bundle.
+			if(amount <= 1)
+				// this SHOULD stop at 1 so we'll still give you the one back.
+				var/obj/I = new stacktype(src.loc)
+				log_runtime("BUNDLE: [src] somehow had [src.amount] items in it when [user.name] ([user.real_name] - [user.client.ckey]) tried to retrieve [src.stacktype]!")
+				H.put_in_hands(I)
+				qdel(src)
+				return
 			amount -= 1
 			var/obj/F = new stacktype(src.loc)
 			H.put_in_hands(F)
@@ -194,10 +214,12 @@
 
 /obj/item/natural/bundle/examine(mob/user)
 	. = ..()
+	var/list/examine_list = .
+	var/after_desc = desc ? 3 : 2
 	if(amount == maxamount )
-		to_chat(user, span_notice("There are [amount] [stackname] in this bundle. It can not take any more."))
+		examine_list.Insert(after_desc, span_smallnotice("There are [amount] [stackname] in this bundle. It can not take any more."))
 	else
-		to_chat(user, span_notice("There are [amount] [stackname] in this bundle."))
+		examine_list.Insert(after_desc, span_smallnotice("There are [amount] [stackname] in this bundle. It can hold [maxamount - amount] more."))
 
 /obj/item/natural/bundle/proc/update_bundle()
 	if(firefuel != 0)
@@ -219,3 +241,18 @@
 
 		storage.update_item(src)
 		storage.orient2hud()
+
+/obj/item/natural/snowball
+	name = "snowball"
+	desc = "A tightly packed ball of snow."
+	icon_state = "snowball"
+	dropshrink = 0
+	force = 0
+	throwforce = 0
+	throw_speed = 2
+	w_class = WEIGHT_CLASS_TINY
+
+/obj/item/natural/snowball/throw_impact(atom/hit_atom, datum/thrownthing/thrownthing)
+	if(!..()) //wasn't caught by a mob
+		playsound(get_turf(src), 'sound/foley/footsteps/ftsnow4.ogg', 50, TRUE)
+		qdel(src)

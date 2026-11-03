@@ -13,6 +13,7 @@
 #define COLOR_FLOORTILE_GRAY		"#8D8B8B"
 #define COLOR_ALMOST_BLACK			"#333333"
 #define COLOR_BLACK			"#000000"
+#define COLOR_HALF_TRANSPARENT_BLACK "#0000007A"
 #define COLOR_RED				"#FF0000"
 #define COLOR_RED_LIGHT		"#FF3333"
 #define COLOR_MAROON				"#800000"
@@ -176,3 +177,26 @@
 )
 
 #define COLOR_MAP (CLOTHING_COLOR_MAP + EXTENDED_COLOR_MAP)
+
+//patron colors (formerly in spell_defines.dm)
+#define PATRON_COLOR_PSYDON "#94f8ff" //Fragment of Psydon
+
+#define PATRON_COLOR_UNDIVIDED "#28908C" //Undivided Cyan
+#define PATRON_COLOR_ASTRATA "#F9B362" //Astratan Sunbeam
+#define PATRON_COLOR_NOC "#9acdff" //Noc's Lightbulb
+#define PATRON_COLOR_RAVOX "#7A1E30" //Ravox Crimson
+#define PATRON_COLOR_MALUM "#884610" //Malum Orange
+#define PATRON_COLOR_ABYSSOR "#4a6193" //Abyssor Dream Blue
+#define PATRON_COLOR_DENDOR "#43622e" //Dendor Forest Green
+#define PATRON_COLOR_PESTRA "#838341" //Pestra Sickly Olive
+#define PATRON_COLOR_NECRA "#30203a" //Necra Shadow Violet
+#define PATRON_COLOR_EORA "#a95650" //Eora Bleeding Heart
+#define PATRON_COLOR_XYLIX "#e2ddae" //Xylix Pale Gold
+
+#define PATRON_COLOR_GRAGGAR "#19345E" //Graggar Dark Blue
+#define PATRON_COLOR_ZIZO "#b76bff" //Zizo Necromantic Lavender
+#define PATRON_COLOR_BAOTHA "#bb48a9" //Baotha Violent Rose
+#define PATRON_COLOR_MATTHIOS "#e1c457" //Matthios Golden
+
+#define PATRON_COLOR_VHESLYN "#710113" //Archdemonic Crimson Ichor (placeholder color?)
+#define PATRON_COLOR_MOSSMOTHER "#a6b074" //Mossmother Vermillion (placeholder color?)

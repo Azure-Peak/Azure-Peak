@@ -133,3 +133,63 @@ SUBSYSTEM_DEF(overlays)
 			overlays |= cached_other
 	else if(cut_old)
 		cut_overlays()
+
+// Debug procs
+
+/atom
+	/// List of overlay "keys" (info about the appearance) -> mutable versions of static appearances
+	/// Drawn from the overlays list
+	var/list/realized_overlays
+	/// List of underlay "keys" (info about the appearance) -> mutable versions of static appearances
+	/// Drawn from the underlays list
+	var/list/realized_underlays
+
+/image
+	/// List of overlay "keys" (info about the appearance) -> mutable versions of static appearances
+	/// Drawn from the overlays list
+	var/list/realized_overlays
+	/// List of underlay "keys" (info about the appearance) -> mutable versions of static appearances
+	/// Drawn from the underlays list
+	var/list/realized_underlays
+
+/// Takes the atoms's existing overlays and underlays, and makes them mutable so they can be properly vv'd in the realized_overlays/underlays list
+/atom/proc/realize_overlays()
+	realized_overlays = realize_appearance_queue(overlays)
+	realized_underlays = realize_appearance_queue(underlays)
+
+/// Takes the image's existing overlays, and makes them mutable so they can be properly vv'd in the realized_overlays list
+/image/proc/realize_overlays()
+	realized_overlays = realize_appearance_queue(overlays)
+	realized_underlays = realize_appearance_queue(underlays)
+
+/// Takes a list of appearnces, makes them mutable so they can be properly vv'd and inspected
+/proc/realize_appearance_queue(list/appearances)
+	var/list/real_appearances = list()
+	var/list/queue = appearances.Copy()
+	var/queue_index = 0
+	while(queue_index < length(queue))
+		queue_index++
+		// If it's not a command, we assert that it's an appearance
+		var/mutable_appearance/appearance = queue[queue_index]
+		if(!appearance) // Who fucking adds nulls to their sublists god you people are the worst
+			continue
+
+		var/mutable_appearance/new_appearance = new /mutable_appearance()
+		new_appearance.appearance = appearance
+		var/key = "[appearance.icon]-[appearance.icon_state]-[appearance.plane]-[appearance.layer]-[appearance.dir]-[appearance.color]"
+		var/tmp_key = key
+		var/appearance_indx = 1
+		while(real_appearances[tmp_key])
+			tmp_key = "[key]-[appearance_indx]"
+			appearance_indx++
+
+		real_appearances[tmp_key] = new_appearance
+		var/add_index = queue_index
+		// Now check its children
+		for(var/mutable_appearance/child_appearance as anything in appearance.overlays)
+			add_index++
+			queue.Insert(add_index, child_appearance)
+		for(var/mutable_appearance/child_appearance as anything in appearance.underlays)
+			add_index++
+			queue.Insert(add_index, child_appearance)
+	return real_appearances

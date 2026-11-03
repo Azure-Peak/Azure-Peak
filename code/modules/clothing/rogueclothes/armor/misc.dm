@@ -7,6 +7,7 @@
 	body_parts_covered = CHEST
 	salvage_result = /obj/item/natural/hide/cured
 	sewrepair = TRUE
+	flags_inv = null
 	salvage_amount = 1
 	grid_height = 64
 	grid_width = 64
@@ -39,7 +40,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/workervest
 	name = "striped tunic"
-	desc = "This cheap tunic is often used by sturdy laborous men and women."
+	desc = "This cheap tunic is often used by sturdy laborious men and women."
 	icon_state = "workervest"
 	armor = null
 	blocksound = SOFTHIT

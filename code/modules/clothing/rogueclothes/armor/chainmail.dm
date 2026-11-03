@@ -60,6 +60,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_HONORBOUND)
+	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/iron
 	icon_state = "ihaubergeon"
@@ -148,6 +149,7 @@
 	item_state = "bhauberk"
 	smeltresult = /obj/item/ingot/bronze
 	max_integrity = ARMOR_INT_CHEST_MEDIUM_BRONZE
+	armor = ARMOR_BRONZE
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/aalloy
 	name = "decrepit hauberk"
@@ -212,7 +214,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 	name = "ancient plate-and-maille"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked \
-	beneath a matching cuirass. It eminates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
+	beneath a matching cuirass. It emanates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
 	come, do you suppose Her death knights would bear such a mantle?"
 	slot_flags = ITEM_SLOT_ARMOR
 	icon_state = "ancientcuirasshauberk"
@@ -221,10 +223,10 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/fluted
+	name = "fluted plate-and-maille"
 	slot_flags = ITEM_SLOT_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_PLATE
-	name = "fluted plate-and-maille"
 	desc = "A beautiful steel cuirass, decorated with fluting and worn atop thick chainmaille. While it falters against \
 	arrows and bolts, these interlinked layers are superb at warding off the blows of swords and axes."
 	icon_state = "ornatehauberk"
@@ -232,13 +234,12 @@
 	max_integrity = ARMOR_INT_CHEST_PLATE_STEELLIGHT
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate
+	name = "psydonic plate-and-maille"
 	slot_flags = ITEM_SLOT_ARMOR
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_PLATE
-	name = "psydonic plate-and-maille"
 	desc = "A beautiful steel cuirass, decorated with blessed silver fluting and worn atop thick chainmaille. While it falters against \
-	arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes. </br>‎	</br>'..the \
-	knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'"
+	arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes."
 	icon_state = "ornatehauberk"
 	item_state = "ornatehauberk"
 	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON + 50
@@ -248,6 +249,7 @@
 	. = ..()
 	. += span_info("With more blessed silver and an armorsmith's hammer, this armor can be further upgraded.")
 	. += span_info("If a character has the 'Maille Training' trait and has Psydon as their selected patron, they can comfortably wear Psydonic plate armor without suffering any downsides.")
+	. += span_hypnophrase("'..the knowledge of evil, and the burden of carrying Psydonia's hope upon thine shoulders..'")
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/heavy/decorated
 	name = "decorated plate-and-maille"

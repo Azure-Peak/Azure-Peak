@@ -7,3 +7,4 @@
 	smeltresult = null
 	grid_width = 64
 	grid_height = 32
+	materia = list(/datum/materia_aspect/motion)

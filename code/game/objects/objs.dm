@@ -55,7 +55,6 @@
 
 	var/attacked_sound = 'sound/blank.ogg'
 	var/component_block = FALSE
-	var/object_slowdown = 0
 	/// Extra AI pathfinding cost for this object. Higher values make NPCs avoid this tile.
 	var/ai_path_weight = 0
 	var/weatherproof = FALSE
@@ -193,16 +192,18 @@
 
 /obj/vv_get_dropdown()
 	. = ..()
-	VV_DROPDOWN_OPTION("", "---")
+	VV_DROPDOWN_OPTION("", "--- /obj ---")
 	VV_DROPDOWN_OPTION(VV_HK_MASS_DEL_TYPE, "Delete all of type")
 	VV_DROPDOWN_OPTION(VV_HK_OSAY, "Object Say")
 
 /obj/vv_do_topic(list/href_list)
 	if(!(. = ..()))
 		return
+
 	if(href_list[VV_HK_OSAY])
 		if(check_rights(R_FUN, FALSE))
 			usr.client.object_say(src)
+
 	if(href_list[VV_HK_MASS_DEL_TYPE])
 		if(check_rights(R_DEBUG|R_SERVER))
 			var/action_type = alert(usr, "Strict type ([type]) or type and all subtypes?",,"Strict type","Type and subtypes","Cancel")

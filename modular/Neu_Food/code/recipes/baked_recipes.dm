@@ -218,6 +218,34 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/decabun_marmaladed
 
+// ZIZO BUN / ZUN (ZBUN) RECIPES
+// Zun + Jamtallow -> Jamtallowed Zun
+/datum/food_recipe/sandwich/jamtallowed_zun
+	name = "jamtallowed zun"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/zbun
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/jamtallowslice
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/zbun_jamtallow
+
+// Zun + Marmalade -> Marmaladed Zun
+/datum/food_recipe/sandwich/marmaladed_zun
+	name = "marmaladed zun"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/zbun
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/marmaladeslice
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/zbun_marmalade
+
+// Zun + Westleach -> Zyn
+/datum/food_recipe/sandwich/zyn_zbun
+	name = "zyn"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/zbun
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/zbun_zyn
+
 // Half Raisin Dough + Raisins -> Raw Raisin Loaf
 /datum/food_recipe/baked/raisin_bread_complete
 	name = "complete raisin dough"
@@ -412,3 +440,40 @@
 	cook_method = COOK_FRY
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/griddle/fruit/apple
 	inline_ancestry = TRUE
+
+// Naledi cuisine
+// Bulgur + Onion -> Onion'd Bulgur
+/datum/food_recipe/baked/bulgur_onion
+	name = "onion'd bulgur"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/bulgur
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/bulgur/onion
+
+// Bulgur + Carrot -> Carrot'd Bulgur
+/datum/food_recipe/baked/bulgur_carrot
+	name = "carrot'd bulgur"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/bulgur
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/carrot
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/bulgur/carrot
+
+// Onion'd Bulgur + Carrot -> Bulgur Meal
+/datum/food_recipe/baked/bulgur_meal_from_onion
+	name = "bulgur meal"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/bulgur/onion
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/carrot
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/bulgur/meal
+
+// Carrot'd Bulgur + Onion -> Bulgur Meal
+/datum/food_recipe/baked/bulgur_meal_from_carrot
+	name = "bulgur meal"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/bulgur/carrot
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/preserved/onion_fried
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/bulgur/meal

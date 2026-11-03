@@ -46,6 +46,9 @@
 	var/list/cached_display_data
 	var/cached_category
 	var/display_category
+	/// If you have this TRAIT, the recipe is available for you. Otherwise, it is not.
+	var/required_trait = null
+	var/do_not_turn = FALSE
 /*
 /datum/crafting_recipe/example
 	name = ""
@@ -256,6 +259,9 @@
 
 		if(bookweapon.intdamage_factor != 1 && bookweapon.force >= 5)
 			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
+
+		if(bookweapon.antibeast_factor != 1 && bookweapon.force >= 5)
+			html += "\n<b>ANTI-BEAST MODIFIER:</b> [bookweapon.antibeast_factor * 100]%<br>"
 
 	if(craftdiff > 0)
 		html += "<br><b>Skills Required:</b> [capitalize(SSskills.level_names_plain[craftdiff])]<br>"

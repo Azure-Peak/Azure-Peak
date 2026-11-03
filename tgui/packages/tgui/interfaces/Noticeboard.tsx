@@ -26,7 +26,7 @@ export const Noticeboard = () => {
         <div style={{ ...pageStyle, position: 'relative' }}>
           <button
             type="button"
-            title="Refresh market data (5s cooldown)"
+            title={`Refresh market data (${data.market_refresh_cooldown}s cooldown)`}
             style={{
               ...inkButtonStyle({}),
               position: 'absolute',

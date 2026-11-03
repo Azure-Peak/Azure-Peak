@@ -9,3 +9,4 @@
 	var/turf/T = get_turf(src)
 	if(isturf(T))
 		update_z(T.z)
+	apply_admin_ghost_image()

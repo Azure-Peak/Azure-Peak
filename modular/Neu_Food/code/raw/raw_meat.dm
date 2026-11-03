@@ -10,11 +10,11 @@
 	filling_color = "#8f433a"
 	rotprocess = SHELFLIFE_DECENT
 	chopping_sound = TRUE
-	foodtype = MEAT
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 	cooked_smell = /datum/pollutant/food/fried_meat
 	var/fresh_meat = FALSE
 	become_rot_type = /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
+	materia = list(/datum/materia_aspect/animal)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
 	eat_effect = /datum/status_effect/debuff/rotfood
@@ -24,6 +24,7 @@
 	of stomachs."
 	icon = 'modular/Neu_Food/icons/raw/raw_meat.dmi'
 	icon_state = "meat_rotten"
+	materia = list(/datum/materia_aspect/change)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten/Initialize(mapload)
 	. = ..()
@@ -267,6 +268,7 @@
 	cooked_smell = /datum/pollutant/food/cooked_chicken
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/sausage
+	dish_type = DISH_MEAT|DISH_POULTRY|DISH_SEAFOOD
 	cuisine = CUISINE_NORTH_IMPERIAL
 	name = "raw sausage"
 	icon_state = "raw_sausage"
@@ -439,6 +441,7 @@
 
 // Raw mushroom from weird underdarky places
 /obj/item/reagent_containers/food/snacks/rogue/mushroom
+	dish_type = DISH_VEGETABLE
 	eat_effect = null
 	//Not really filling uncooked.
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
@@ -451,7 +454,6 @@
 	rotprocess = SHELFLIFE_DECENT
 	chopping_sound = TRUE
 	//can't believe it's not a vegetable.
-	foodtype = MEAT
 	drop_sound = 'sound/foley/dropsound/gen_drop.ogg'
 	cooked_smell = /datum/pollutant/food/fried_mushroom
 	tastes = list("wyvern and natural gas" = 1)

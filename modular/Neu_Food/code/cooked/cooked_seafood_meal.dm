@@ -39,7 +39,7 @@
 /* salmon wit the berry on it */
 /obj/item/reagent_containers/food/snacks/rogue/berrysalmon
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_SEAFOOD
+	dish_type = DISH_SEAFOOD|DISH_FRUIT
 	name = "berrymash salmon"
 	desc = "A dish of jacksberries mashed atop peppered salmon. Hearty."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
@@ -93,7 +93,7 @@
 /*milk clam*/
 /obj/item/reagent_containers/food/snacks/rogue/milkclam
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
-	dish_type = DISH_SEAFOOD
+	dish_type = DISH_SEAFOOD|DISH_DAIRY
 	name = "milkclams"
 	desc = "Clams, simmered in milk... How queer."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
@@ -129,7 +129,7 @@
 /*onion plaice*/
 /obj/item/reagent_containers/food/snacks/rogue/onionplaice
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_SEAFOOD
+	dish_type = DISH_SEAFOOD|DISH_VEGETABLE
 	name = "plaice with onion"
 	desc = "A slab of plaice with fried onion. Delicious!"
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
@@ -147,7 +147,7 @@
 /*buttery soles*/
 /obj/item/reagent_containers/food/snacks/rogue/buttersole
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
-	dish_type = DISH_SEAFOOD
+	dish_type = DISH_SEAFOOD|DISH_DAIRY
 	name = "buttered sole"
 	desc = "A slab of sole, buttered and crispy at the edges."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
@@ -181,6 +181,7 @@
 
 /* ............ Shellfish ................... */
 /obj/item/reagent_containers/food/snacks/rogue/fryfish/lobster/meal
+	dish_type = DISH_SEAFOOD|DISH_DAIRY
 	cuisine = CUISINE_SOUTH_IMPERIAL|CUISINE_OTAVAIS
 	name = "buttered lobster"
 	desc = "A lobster, covered in butter. Delicious!"
@@ -197,7 +198,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/crabcake
 	cuisine = CUISINE_SOUTH_IMPERIAL
-	dish_type = DISH_SEAFOOD
+	dish_type = DISH_SEAFOOD|DISH_DAIRY
 	name = "crab cake"
 	desc = "A variant of the handpie filled with buttery, savory shellfish meat and made with a buttered slice of dough."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'

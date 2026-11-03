@@ -289,9 +289,9 @@
 	. = ..()
 
 /datum/status_effect/debuff/netted/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
+	. = ..()
+	var/mob/living/carbon/C = owner
+	C.add_movespeed_modifier(MOVESPEED_ID_NET_SLOWDOWN, multiplicative_slowdown = 3)
 
 /datum/status_effect/debuff/netted/on_remove()
 	. = ..()
@@ -353,7 +353,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/devitalised
 	name = "Devitalised"
-	desc = "Something vital has been taken from me; my heart beats in arrythmia, as it struggles to restore what has been lost."
+	desc = "Something vital has been taken from me; my heart beats in arrhythmia, as it struggles to restore what has been lost."
 	icon_state = "lux"
 
 /datum/status_effect/debuff/vamp_dreams
@@ -474,6 +474,26 @@
 	desc = "My spirit is momentarily stretched thin!"
 	icon_state = "luxstrain"
 
+/// CRITICAL INJURY DEBUFF - Higher cmode drain, for those cleric-healable.
+
+/datum/status_effect/debuff/critwounded
+	id = "critically_dazed" //For crits + revival - you did suffer fatal damage, this one is a shorter time. - Meant to punish people who linger in combat after they've been already beaten, even if healers got you up.
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/critwounded
+	duration = CRITICAL_WOUNDED_DEBUFF_DURATION
+
+/atom/movable/screen/alert/status_effect/debuff/critwounded
+	name = "Critically Dazed" //Effectively a 'Critical Sickness' designed to prevent people bumrushing back into fights. - Undead do not suffer this, nor does anyone with supernatural means to ignore bloodloss, or fatigue.
+	desc = "My body has taken a crippling blow, I feel increasingly sluggish, my head spins and my feet are unsteady. I must give myself tyme to recover from fighting as being in a defensive stance is more exhausting."
+	icon_state = "critwounded"
+
+/datum/status_effect/debuff/critwounded/on_apply()
+	. = ..()
+	ADD_TRAIT(owner, TRAIT_HIGHER_CMODE_DRAIN, id)
+
+/datum/status_effect/debuff/critwounded/on_remove()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_HIGHER_CMODE_DRAIN, id)
+
 /// RESURRECTION DEBUFFS
 /datum/status_effect/debuff/revived
 	id = "revived" //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.
@@ -515,11 +535,11 @@
 		if(/datum/patron/divine/ravox)
 			to_chat(owner, span_gamedeadsay("One by one - the injustices I committed were set upon the scales. Sweat ran down my back as I watched those that I saved plead my case. One by one - the scale lifted so slowly. The line of petitioners growing shorter.."))
 		if(/datum/patron/inhumen/matthios) // Slightly better placeholder, feel free to rewrite.
-			to_chat(owner, span_gamedeadsay("Darkness, cold, my body curled around a fading golden flame. The endless void fades into a spiral of flickering lights, blazing together agaist the dark."))
+			to_chat(owner, span_gamedeadsay("Darkness, cold, my body curled around a fading golden flame. The endless void fades into a spiral of flickering lights, blazing together against the dark."))
 		if(/datum/patron/inhumen/graggar) // Slightly better placeholder. Graggar is going to ultrakill you. Might be too long
 			to_chat(owner, span_gamedeadsay("The Sinistar screamed and raged and wept in ten thousand voices as my body was crushed and torn within its jaws. I felt my self being torn away, victory, defeat, my mortal lyfe all sinking into a river of wrath and regret.."))
 		if(/datum/patron/inhumen/baotha) // Slightly better placeholder, feel free to rewrite
-			to_chat(owner, span_gamedeadsay("I woke upon a bed of silk and roses, my body weightless as a lyfetime of pain and heartbreak melted away into a bissful haze. I want to go back.. "))
+			to_chat(owner, span_gamedeadsay("I woke upon a bed of silk and roses, my body weightless as a lyfetime of pain and heartbreak melted away into a blissful haze. I want to go back.. "))
 		if(/datum/patron/inhumen/zizo)
 			to_chat(owner, span_gamedeadsay(" I rise, the twice dammed carcass world shrinks below me. My mind expands, filling with forbidden truth as my body is drawn towards a twisting bloody vortex. I sink into the endless storm, it screams its hate in a million voices.."))
 		if(/datum/patron/godless) //Pseudoplaceholder. Feel free to rewrite, if desired.
@@ -551,7 +571,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/rotted_zombie
 	name = "Decomposing"
-	desc = "Rotting flesh, dangling innards - the decay of what once was, no longer guarded by lyfe's thrumbings. Your spirit is struggling to remain rooted within this world.."
+	desc = "Rotting flesh, dangling innards - the decay of what once was, no longer guarded by lyfe's thrummings. Your spirit is struggling to remain rooted within this world.."
 	icon_state = "rot"
 
 /datum/status_effect/debuff/permadeath
@@ -562,7 +582,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/permadeath
 	name = "Death's Door"
-	desc = "Your heart beats with arrythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again within a half-dae's tyme, nothing will be able to bring you back from death's grasp."
+	desc = "Your heart beats with arrhythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again within a half-dae's tyme, nothing will be able to bring you back from death's grasp."
 	icon_state = "permadeath"
 
 /datum/status_effect/debuff/permadeath/on_apply()
@@ -572,9 +592,21 @@
 
 /datum/status_effect/debuff/permadeath/on_remove()
 	. = ..()
-	REMOVE_TRAIT(owner, TRAIT_DNR, id)
+	if(owner.stat != DEAD) //removing DNR if the user is dead means they'll just be able to get rezzed after 10 mins elapse
+		REMOVE_TRAIT(owner, TRAIT_DNR, id)
 	owner.remove_stress(/datum/stressevent/permadeath_threat)
 	owner.add_stress(/datum/stressevent/permadeath_end)
+
+/datum/status_effect/debuff/permadeath/permanent
+	duration = -1
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/permadeath/permanent
+
+/datum/status_effect/debuff/permadeath/permanent/on_apply()
+	. = ..()
+	REMOVE_TRAIT(owner, TRAIT_LASTLEGS, null) // no need to have both this AND dnr
+
+/atom/movable/screen/alert/status_effect/debuff/permadeath/permanent
+	desc = "Your heart beats with arrhythmic fright, as an otherworldly chill rolls through your very spirit. Should you perish again, nothing will be able to bring you back from death's grasp."
 
 /// CONT. DEBUFFS
 /datum/status_effect/debuff/dazed
@@ -736,9 +768,9 @@
 	icon_state = "dazed"
 
 /datum/status_effect/debuff/staggered/on_apply()
-		. = ..()
-		var/mob/living/carbon/C = owner
-		C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
+	. = ..()
+	var/mob/living/carbon/C = owner
+	C.add_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN, multiplicative_slowdown = 1.5)
 
 /datum/status_effect/debuff/staggered/on_remove()
 	. = ..()
@@ -862,7 +894,7 @@
 	var/mob/living/carbon/human/climber
 
 /datum/status_effect/debuff/climbing_lfwb/on_creation(mob/living/new_owner, new_stamcost)
-	stamcost = new_stamcost
+	stamcost = new_stamcost || round(initial(stamcost) / max(new_owner.get_skill_level(/datum/skill/misc/climbing), SKILL_LEVEL_NOVICE), 1)
 	return ..()
 
 /datum/status_effect/debuff/climbing_lfwb/on_apply()
@@ -874,13 +906,6 @@
 /datum/status_effect/debuff/climbing_lfwb/tick() // do we wanna do this shit every single second? I guess we do boss
 	. = ..()
 	climber = owner
-	if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
-		stamcost_final = stamcost / 2
-		climber.stamina_add(stamcost_final) // every tick interval this much stamina is deducted
-	else
-		stamcost_final = stamcost
-		climber.stamina_add(stamcost_final) // every tick interval this much stamina is deducted
-//	to_chat(climber, span_warningbig("[stamcost_final] REMOVED!")) // debug msg
 	var/turf/tile_under_climber = climber.loc
 	var/list/random_shit_under_climber = list()
 	for(var/obj/structure/flora/newbranch/branch in climber.loc)
@@ -889,11 +914,16 @@
 		random_shit_under_climber += chandelier
 	for(var/obj/structure/kybraxor/fucking_hatch in climber.loc)
 		random_shit_under_climber += fucking_hatch
-	if(!istype(tile_under_climber, /turf/open/transparent/openspace))// if we aren't on open space turf, remove debuff (aka our feet are on solid shi or water)
+	// if we aren't on open space turf (feet on solid shi or water), or standing on a branch/chandelier/hatch, we're done climbing
+	if(!istype(tile_under_climber, /turf/open/transparent/openspace) || random_shit_under_climber.len)
 		climber.remove_status_effect(/datum/status_effect/debuff/climbing_lfwb)
-	if(random_shit_under_climber.len) // branches dont remove open space turf, so we have to check for it separately
-		climber.remove_status_effect(/datum/status_effect/debuff/climbing_lfwb)
-	else if(climber.stamina >= climber.max_stamina) // if we run out of green bar stamina, we fall
+		return
+	if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
+		stamcost_final = stamcost / 2
+	else
+		stamcost_final = stamcost
+	climber.stamina_add(stamcost_final) // every tick interval this much stamina is deducted
+	if(climber.stamina >= climber.max_stamina) // if we run out of green bar stamina, we fall
 		to_chat(climber, span_dead("I can't hold onto the ledge for any longer!"))
 		climber.remove_status_effect(/datum/status_effect/debuff/climbing_lfwb)
 		tile_under_climber.zFall(climber)
@@ -923,7 +953,7 @@
 
 /atom/movable/screen/alert/status_effect/debuff/mesmerised
 	name = "Mesmerised"
-	desc = span_warning("Their beauty is otherwordly..")
+	desc = span_warning("Their beauty is otherworldly..")
 	icon_state = "acid"
 
 /datum/status_effect/debuff/liver_failure

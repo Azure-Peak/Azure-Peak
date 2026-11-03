@@ -19,6 +19,8 @@
 #define FOOD_CAT_OVEN "Oven"
 #define FOOD_CAT_PAN "Pan"
 #define FOOD_CAT_SMOKED "Smoker"
+#define FOOD_CAT_BREWS "Tea & Brews"
+#define FOOD_CAT_BLENDS "Blends"
 
 #define COOKSTEP_TOOL "tool"
 #define COOKSTEP_SHARP "sharp"
@@ -30,3 +32,6 @@
 
 #define STEW_WATER_REQUIRED 30
 #define STEW_TEMPERATURE 374
+
+#define JUICE_YIELD 25
+#define MORTAR_MAX_ITEMS 4

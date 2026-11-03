@@ -875,6 +875,12 @@
 	var/list/cached_reagents = reagent_list
 	. = locate(type) in cached_reagents
 
+/datum/reagents/proc/examine_line(datum/reagent/R)
+	var/shown_name = R.name
+	if(R.description)
+		shown_name = "<span class='tooltip' title=\"[html_encode(R.description)]\">[R.name]</span>"
+	return "[round(R.volume, 0.1)] [UNIT_FORM_STRING(round(R.volume, 0.1))] of <font color=[R.color]>[shown_name]</font>"
+
 /datum/reagents/proc/generate_scent_message(minimum_percent=15)
 	// the lower the minimum percent, the more sensitive the message is.
 	var/list/out = list()

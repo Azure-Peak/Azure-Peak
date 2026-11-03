@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/mending
 	button_icon = 'icons/mob/actions/roguespells.dmi'
-	name = "Mending"
+	name = "Greater Mending"
 	desc = "Uses arcyne energy to mend an item, prosthetic or artificial being. Effect of repair scales off of your Intelligence."
 	button_icon_state = "mending"
 	sound = 'sound/magic/whiteflame.ogg'
@@ -24,7 +24,7 @@
 	spell_tier = 1
 	spell_impact_intensity = SPELL_IMPACT_NONE
 
-	point_cost = 2
+	point_cost = 3
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -198,14 +198,13 @@
 
 /datum/action/cooldown/spell/mending/malum
 	name = "Reforge"
-	desc = "Uses divine power to mend an item, prosthetic or artificial being. Effect of repair scales off of your Intelligence."
+	desc = "Uses divine power to mend an item, prosthetic or artificial being."
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon_state = "repair"
-	spell_color = GLOW_COLOR_MALUM
-	sparks_amt = 1
+	spell_color = PATRON_COLOR_MALUM //not actually a malumite-specific thing, but yknow
 
-	invocations = list("Reforge")
+	invocations = list("Malum, let Thy hammer strike me and grant me shape.")
 	invocation_type = INVOCATION_SHOUT
 
 	repair_percent = 0.30

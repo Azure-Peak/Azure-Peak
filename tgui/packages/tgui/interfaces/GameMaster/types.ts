@@ -1,11 +1,93 @@
+import type { BooleanLike } from 'tgui-core/react';
+
+import type { QuestRow } from '../QuestDebugPanel';
+
+export type WarbandMember = {
+  name: string;
+  count: number;
+  threat: number;
+};
+
 export type SpawnDetail = {
   name: string;
   category: string;
   threat: number;
   path: string;
+  size?: number;
+  members?: WarbandMember[];
+};
+
+export type QuestEntry = {
+  path: string;
+  name: string;
+  count: number;
+  threat?: number;
+};
+
+export type QuestItemResult = {
+  path: string;
+  name: string;
+};
+
+export type QuestRegion = {
+  name: string;
+  free_landmarks: number;
+};
+
+export type QuestDraftData = {
+  kind: string;
+  title: string;
+  description: string;
+  group_word: string;
+  foe_name: string;
+  reward: number;
+  threat_bands: number;
+  region: string | null;
+  crimes: string;
+  fellowship_size: number;
+  on_floor: BooleanLike;
+  mobs: QuestEntry[];
+  mob_total: number;
+  shipment_name: string;
+  destination: string | null;
+  items: QuestEntry[];
+  item_total: number;
+  item_query: string;
+  item_results: QuestItemResult[];
+  regions: QuestRegion[];
+  ready: BooleanLike;
+  posted: BooleanLike;
+  levy_rate: number;
+};
+
+export type QuestStaticData = {
+  default_group_word: string;
+  default_foe_name: string;
+  foe_len: number;
+  kill_kind: string;
+  recovery_kind: string;
+  destinations: QuestItemResult[];
+  max_reward: number;
+  title_len: number;
+  description_len: number;
+  crimes_len: number;
+  kill_objective: string;
+  mob_cap: number;
+  item_cap: number;
+  max_threat_bands: number;
+  max_fellowship: number;
+  guild_cut_rate: number;
+};
+
+export type GmQuestRow = QuestRow & {
+  reward: number;
 };
 
 export type GameMasterData = {
+  quest_open: BooleanLike;
+  quest?: QuestDraftData;
+  gm_quests?: GmQuestRow[];
+  quest_static: QuestStaticData;
   selected_view: string;
   pinned_factions: string[];
   max_pinned: number;
@@ -19,6 +101,7 @@ export type GameMasterData = {
   spawn_dust: boolean;
   spawn_dust_leave_head: boolean;
   spawn_dust_delete_gear: boolean;
+  spawn_spread: boolean;
   spawn_click_intercept: boolean;
   selectable_mobs: string[];
   spawn_filters: string[];
@@ -71,6 +154,9 @@ export const TRAILING = {
   fontVariantNumeric: 'tabular-nums',
 } as const;
 
-export function filterLabel(value: string): string {
-  return value === FILTER_ALL ? 'All creatures' : toTitle(value);
+export function filterLabel(value: string, warband = false): string {
+  if (value === FILTER_ALL) {
+    return warband ? 'All warbands' : 'All creatures';
+  }
+  return toTitle(value);
 }

@@ -53,6 +53,20 @@
 	var/job_bitflag = NONE
 	/// Can select equipment after you spawn in.
 	var/has_loadout = FALSE
+	/// Used to block unexpected subclass selection via href hacking.
+	var/tmp/awaiting_subclass = FALSE
+	/// The subclass used for sub-subclasses (like spellblade chants).
+	/// TODO: Make this more generic/reusable?
+	var/tmp/subclass_chosen = null
+
+/datum/outfit/job/roguetown/Topic(href, href_list)
+	. = ..()
+	if(!awaiting_subclass) // we aren't expecting spellblade setup!
+		return
+	if(href_list["subclass"])
+		subclass_chosen = href_list["subclass"]
+	else if(href_list["close"])
+		subclass_chosen = "blade" // hardcoded default lol
 
 /datum/outfit/job/roguetown/proc/snouthelm_pick(mob/living/carbon/human/H, plain_path, snouted_path)
 	if(!H || !H.mind)
@@ -62,6 +76,21 @@
 	if(!choice)
 		return plain_path
 	return visages[choice]
+
+// SNOWFLAKE SNOWFLAKE SNOWFLAKE
+/datum/outfit/job/roguetown/proc/prompt_spellblade_choice(mob/living/carbon/human/H, selection_html)
+	awaiting_subclass = TRUE
+	H << browse(selection_html, "window=spellblade_chant;size=1300x1000")
+	onclose(H, "spellblade_chant", src)
+	var/open_time = world.time
+	UNTIL(!isnull(subclass_chosen) || ((world.time - open_time) >= 5 MINUTES))
+	awaiting_subclass = FALSE
+	H << browse(null, "window=spellblade_chant") // close it in case we timed out
+	return subclass_chosen
+
+// SNOWFLAKE SNOWFLAKE SNOWFLAKE
+/datum/outfit/job/roguetown/proc/equip_spellblade_chant(mob/living/carbon/human/H, spellblade_chant_selected = "blade")
+	return
 
 /// applies the proper cleric combat mode music per patron. applies trait_heresiarch if ascendent patron. returns the proper amulet/psicross for the patron, which will be assigned to either neck or wrist depending on the class
 /datum/outfit/job/roguetown/proc/apply_cleric_pre_equip(mob/living/carbon/human/H)

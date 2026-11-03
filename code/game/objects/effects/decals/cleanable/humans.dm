@@ -36,18 +36,25 @@
 	var/blood_timer
 	var/blood_color = BLOOD_COLOR_RED
 	var/is_gibs = FALSE
+	/// Whether this blood has dried and can no longer be stepped through
+	var/dry = FALSE
+	/// Whether this blood is nudged off-centre when it spawns
+	var/jitter = TRUE
 
 /obj/effect/decal/cleanable/blood/proc/set_blood_color(new_blood_color)
 	blood_color = new_blood_color || BLOOD_COLOR_RED
 	color = blood_color
 
 /obj/effect/decal/cleanable/blood/Initialize(mapload, color)
+	if(color)
+		set_blood_color(color)
 	. = ..()
 	GLOB.weather_act_upon_list += src
 	if(. == INITIALIZE_HINT_QDEL)
 		return .
-	pixel_x = rand(-5,5)
-	pixel_y = rand(5,5)
+	if(jitter)
+		pixel_x = rand(-5,5)
+		pixel_y = rand(5,5)
 	blood_timer = addtimer(CALLBACK(src, PROC_REF(become_dry)), rand(5 MINUTES,8 MINUTES), TIMER_STOPPABLE)
 
 /obj/effect/decal/cleanable/blood/proc/become_dry()
@@ -62,6 +69,7 @@
 		// Very soft darkening.
 		color = "#cfbebe"
 	bloodiness = 0
+	dry = TRUE
 
 /obj/effect/decal/cleanable/blood/replace_decal(obj/effect/decal/cleanable/C)
 	. = ..()
@@ -83,11 +91,22 @@
 		return
 	qdel(src)
 
+/obj/effect/decal/cleanable/blood/Crossed(atom/movable/O)
+	. = ..()
+	if(dry || !isliving(O) || istype(src, /obj/effect/decal/cleanable/blood/footprints) || istype(src, /obj/effect/decal/cleanable/blood/bigprint))
+		return
+	var/mob/living/L = O
+	if(L.mob_size < MOB_SIZE_LARGE || (L.movement_type & FLYING))
+		return
+	L.bloodsteps = BIGPRINT_STEPS
+	L.stepcolour = blood_color
+
 /obj/effect/decal/cleanable/blood/old
 	name = "dried blood"
 	desc = ""
 	bloodiness = 0
 	icon_state = "floor1-old"
+	dry = TRUE
 
 /obj/effect/decal/cleanable/blood/old/Initialize(mapload)
 	add_blood_DNA(list("Non-human DNA" = random_blood_type())) // Needs to happen before ..()
@@ -119,6 +138,42 @@
 	desc = ""
 	random_icon_states = null
 	beauty = -50
+
+/obj/effect/decal/cleanable/blood/squirt
+	icon_state = "squirt_greyscale"
+	random_icon_states = null
+	mergeable_decal = FALSE
+	jitter = FALSE
+
+/obj/effect/decal/cleanable/blood/spray
+	icon_state = "splatter_greyscale"
+	random_icon_states = list("splatter_greyscale", "splatterbloodalt_greyscale")
+	jitter = FALSE
+
+/obj/effect/decal/cleanable/blood/spray/wall
+	plane = GAME_PLANE
+	layer = BULLET_HOLE_LAYER
+
+/obj/effect/decal/cleanable/blood/spray/wall/Initialize(mapload, color, sdir)
+	. = ..()
+	setDir(sdir)
+	if(sdir & NORTH)
+		pixel_y = 32
+	else if(sdir & SOUTH)
+		pixel_y = -32
+	if(sdir & EAST)
+		pixel_x = 32
+	else if(sdir & WEST)
+		pixel_x = -32
+
+/obj/effect/decal/cleanable/blood/bigprint
+	name = "bloody prints"
+	icon_state = "bubblegumfoot"
+	random_icon_states = null
+	bloodiness = 0
+	alpha = 160
+	beauty = -50
+	jitter = FALSE
 
 /obj/effect/decal/cleanable/trail_holder //not a child of blood on purpose
 	name = "blood"
@@ -237,6 +292,18 @@
 	icon_state = "gibmid1"
 	random_icon_states = list("gibmid1", "gibmid2", "gibmid3")
 
+/obj/effect/decal/cleanable/blood/gibs/beast
+	icon_state = "gibbear1"
+	random_icon_states = list("gibbear1", "gibbear2", "gibbear3", "gibbear4", "gibbear5")
+
+/obj/effect/decal/cleanable/blood/gibs/beast/head
+	icon_state = "gibbearhead"
+	random_icon_states = null
+
+/obj/effect/decal/cleanable/blood/gibs/beast/core
+	icon_state = "gibbearcore"
+	random_icon_states = null
+
 /obj/effect/decal/cleanable/blood/gibs/old
 	name = "old rotting gibs"
 	desc = ""
@@ -293,6 +360,16 @@
 		else
 			P.update_icon()
 		return TRUE
+
+/obj/effect/decal/cleanable/blood/drip/big
+	name = "drops of blood"
+	icon_state = "bigdrip_1"
+	random_icon_states = list("bigdrip_1", "bigdrip_2", "bigdrip_3", "bigdrip_4")
+
+/obj/effect/decal/cleanable/blood/drip/big/update_icon()
+	var/state = icon_state
+	..()
+	icon_state = state
 
 /obj/effect/decal/cleanable/blood/puddle
 	name = "puddle of blood"

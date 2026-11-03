@@ -124,9 +124,15 @@
 			verbose_pref_log_change(user, "notice", "Dominant Hand", domhand == 1 ? "Right-handed" : "Left-handed", domhand == 2 ? "Right-handed" : "Left-handed")
 			return CHARACTER_ACT_DATA_UPDATE
 
-		if("dnr_pref")
-			dnr_pref = !dnr_pref
-			verbose_pref_log_change(user, "notice", "Do-Not-Revive Preference", !dnr_pref ? "Do Not Revive" : "Revive", dnr_pref ? "Do Not Revive" : "Revive")
+		if("char_toggle")
+			var/flag = text2num(params["flag"])
+			for(var/list/entry as anything in GLOB.char_toggles)
+				if(entry["flag"] != flag)
+					continue
+				var/old = (char_toggles & flag) ? entry["on"] : entry["off"]
+				char_toggles ^= flag
+				verbose_pref_log_change(user, "notice", entry["name"], old, (char_toggles & flag) ? entry["on"] : entry["off"])
+				break
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("set_culinary_axis")
@@ -199,6 +205,9 @@
 				verbose_pref_log_change(user, "notice", "Averse Chosen Faction", averse_chosen_faction, choice)
 				averse_chosen_faction = choice
 			return CHARACTER_ACT_DATA_UPDATE
+
+		if("charflaw_subchoice")
+			return ui_act_character_creator_identity_subcharflaw(params, user)
 
 		if("open_loadout")
 			var/datum/loadout_menu/LM = new(user.client)
@@ -389,5 +398,36 @@
 				var/old = relevant_virtue.picked_choices.Join(", ")
 				relevant_virtue.picked_choices.Remove(v_to_remove)
 				verbose_pref_log_change(user, "notice", "[relevant_virtue.name] strength removed", old, relevant_virtue.picked_choices.Join(", "))
+
+	return CHARACTER_ACT_DATA_UPDATE
+
+/datum/preferences/proc/ui_act_character_creator_identity_subcharflaw(list/params, mob/user)
+	var/cf_type = text2path(params["flaw"])
+	if(!(cf_type in charflaws))
+		return CHARACTER_ACT_DATA_UPDATE
+	var/datum/charflaw/cf = GLOB.character_flaws_singletons[cf_type]
+	if(!cf || !cf.max_choices)
+		return CHARACTER_ACT_DATA_UPDATE
+
+	if(!islist(charflaw_choices[cf_type]))
+		charflaw_choices[cf_type] = list()
+	var/list/picked = charflaw_choices[cf_type]
+
+	switch(params["task"])
+		if("add")
+			if(length(picked) < cf.max_choices)
+				var/list/options = cf.extra_choices.Copy()
+				options -= picked
+				var/result = tgui_input_list(user, "Choose an option:", "[uppertext(cf.name)]", options)
+				if(result && (result in options))
+					var/old = picked.Join(", ")
+					picked += result
+					verbose_pref_log_change(user, "notice", "[cf.name] choice added", old, picked.Join(", "))
+		if("remove")
+			var/index = text2num(params["index"])
+			if(index && (index >= 1) && (index <= length(picked)))
+				var/old = picked.Join(", ")
+				picked.Cut(index, index + 1)
+				verbose_pref_log_change(user, "notice", "[cf.name] choice removed", old, picked.Join(", "))
 
 	return CHARACTER_ACT_DATA_UPDATE

@@ -1,5 +1,5 @@
 /obj/item/kitchen/fork
-	name = "wooden fork"	
+	name = "wooden fork"
 	icon = 'modular/Neu_Food/icons/cookware/fork.dmi'
 	icon_state = "fork_wooden"
 	flags_1 = CONDUCT_1
@@ -11,7 +11,7 @@
 	max_integrity = 40
 	wbalance = WBALANCE_SWIFT
 	thrown_bclass = BCLASS_STAB
-	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/fork)
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/cutlery)
 	swingsound = list('sound/combat/wooshes/bladed/wooshsmall (1).ogg','sound/combat/wooshes/bladed/wooshsmall (2).ogg','sound/combat/wooshes/bladed/wooshsmall (3).ogg')
 
 /obj/item/kitchen/fork/get_mechanics_examine(mob/user)
@@ -19,8 +19,13 @@
 	. += span_info("Left-clicking most foodstuffs with the fork allows you to take a bite from it.")
 	. += span_info("Nobler appetites prefer utensils over simply eating and drinking with one's bare hands.")
 
-/datum/intent/dagger/thrust/fork
+/datum/intent/dagger/thrust/cutlery
+	name = "shallow thrust"
 	penfactor = PEN_LIGHT
+	icon_state = "ingouge"
+	attack_verb = list("thrusts","gouges")
+
+//
 
 /obj/item/kitchen/fork/aalloy
 	name = "decrepit fork"
@@ -57,7 +62,7 @@
 /obj/item/kitchen/fork/carved/shell
 	name = "shell fork"
 	icon_state = "fork_shell"
-	
+
 /obj/item/kitchen/fork/carved/rose
 	name = "rosestone fork"
 	icon_state = "fork_rose"

@@ -20,6 +20,7 @@
 	var/burning = 0				// This variable measures the progress of the burning act
 	var/burntime = 5 MINUTES	// How long must it be left unattended to burn and be ruined?
 	var/burned_color = "#302d2d"
+	materia = list(/datum/materia_aspect/earth, /datum/materia_aspect/change)
 
 /obj/item/natural/clay/Initialize(mapload)
 	if(cooked_type)
@@ -43,7 +44,7 @@
 		if(cooked_type)
 			result = new cooked_type(A)
 		return result
-	result = new /obj/item/ash(A) // No cooked_type? Pulverized.
+	result = new /obj/item/natural/ash(A) // No cooked_type? Pulverized.
 	return result
 
 /obj/item/natural/clay/burning(input as num) // Overrides the generic /obj/item/proc/burning in snacks.dm

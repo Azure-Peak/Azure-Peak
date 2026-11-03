@@ -12,9 +12,9 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	layer = GHOST_LAYER
 	stat = DEAD
 	density = FALSE
-	sight = 0
+	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS
 	see_invisible = SEE_INVISIBLE_OBSERVER
-	see_in_dark = 10
+	see_in_dark = 100
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	invisibility = INVISIBILITY_OBSERVER
 	hud_type = /datum/hud/ghost
@@ -52,6 +52,22 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	see_in_dark = 100
 	draw_icon = FALSE
 
+/mob/dead/observer/proc/apply_admin_ghost_image()
+	if(!client?.holder)
+		return
+	if(client?.prefs?.admin_ghost_icon)
+		icon = client.prefs.admin_ghost_icon
+		icon_state = ""
+	else
+		icon = initial(icon)
+		icon_state = initial(icon_state)
+	if(ghostimage_default)
+		ghostimage_default.icon = icon
+		ghostimage_default.icon_state = icon_state
+	if(ghostimage_simple)
+		ghostimage_simple.icon = icon
+		ghostimage_simple.icon_state = icon_state
+
 /mob/dead/observer/nodraw
 	draw_icon = FALSE
 	icon = 'icons/roguetown/mob/misc.dmi'
@@ -63,6 +79,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	icon = 'icons/roguetown/mob/misc.dmi'
 	icon_state = "hollow"
 	alpha = 60
+	sight = 0
+	see_in_dark = 10
 
 /mob/dead/observer/profane/Move(NewLoc, direct)
 	// this is how i fixed it on my super old branch idk why the if client is there but im trusting old me
@@ -83,7 +101,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 
 /mob/dead/observer/eye
-	see_in_dark = 0
+	see_in_dark = 10
+	sight = 0
 	draw_icon = FALSE
 	hud_type = /datum/hud/obs
 
@@ -110,6 +129,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	return FALSE
 
 /mob/dead/observer/eye/screye
+	sight = 0
+	see_in_dark = 10
 
 /mob/dead/observer/eye/screye/blackmirror
 	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS
@@ -121,6 +142,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 
 
 /mob/dead/observer/Initialize(mapload)
+	GLOB.observer_list += src
 	set_invisibility(GLOB.observer_default_invisibility)
 
 	add_verb(src, list(
@@ -215,6 +237,7 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 10)
 
 /mob/dead/observer/Destroy()
+	GLOB.observer_list -= src
 	STOP_PROCESSING(SShaunting, src)
 
 	QDEL_NULL(spawners_menu)
@@ -589,11 +612,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 /mob/dead/observer/memory()
 	set hidden = 1
-	to_chat(src, span_danger("I are dead! You have no mind to store memory!"))
+	to_chat(src, span_danger("I am dead! I have no mind to store memory!"))
 
 /mob/dead/observer/add_memory()
 	set hidden = 1
-	to_chat(src, span_danger("I are dead! You have no mind to store memory!"))
+	to_chat(src, span_danger("I am dead! I have no mind to store memory!"))
 
 /mob/dead/observer/verb/toggle_ghostsee()
 	set name = "Toggle Ghost Vision"

@@ -41,7 +41,6 @@
 		// ASSASSIN ESSENTIALS
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_MASTER,
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 	)
 	extra_context = "All assassins are DODGE EXPERTS, able to access the ZURCH, have NOSTINK, have ANTI-SCRYING, and are steel-hearted. \
 	Each class also can summon the 'PROFANE DAGGER', which they are all experts in using."
@@ -54,9 +53,9 @@
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
-	gloves = /obj/item/clothing/gloves/roguetown/knuckles
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
+					/obj/item/clothing/gloves/roguetown/knuckles = 1,
 					/obj/item/flashlight/flare/torch/lantern/prelit = 1,
 					/obj/item/lockpickring/mundane = 1,
 					/obj/item/clothing/head/inqarticles/blackbag = 1,

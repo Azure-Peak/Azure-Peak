@@ -759,13 +759,18 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/spawn_dust(just_ash = FALSE)
 	if(just_ash || !remains_type)
 		for(var/i in 1 to 5)
-			new /obj/item/ash(loc)
+			new /obj/item/natural/ash(loc)
 	else
 		new remains_type(loc)
 
 /mob/living/simple_animal/gib_animation()
 	if(icon_gib)
 		new /obj/effect/temp_visual/gib_animation/animal(loc, icon_gib)
+
+/mob/living/simple_animal/spawn_gibs()
+	if(mob_size < MOB_SIZE_LARGE)
+		return ..()
+	new /obj/effect/gibspawner/beast(drop_location(), src)
 
 /mob/living/simple_animal/say_mod(input, message_mode)
 	if(speak_emote && speak_emote.len)

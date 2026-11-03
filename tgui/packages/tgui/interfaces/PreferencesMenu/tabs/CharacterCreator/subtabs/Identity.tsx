@@ -34,7 +34,12 @@ import {
   Stack,
 } from 'tgui-core/components';
 import { classes } from 'tgui-core/react';
-import type { AllPagesData, IdentityData, VirtueWithMetadata } from '../data';
+import type {
+  AllPagesData,
+  IdentityData,
+  QuirkWithMetadata,
+  VirtueWithMetadata,
+} from '../data';
 
 export const SubtabIdentity = () => {
   return (
@@ -54,6 +59,9 @@ export const SubtabIdentity = () => {
           <Stack.Item>
             <SubtabIdentityCardBark />
           </Stack.Item>
+          <Stack.Item>
+            <SubtabIdentityCardToggles />
+          </Stack.Item>
           <SubtabIdentityDownstreamPaneLeft />
         </Stack>
         <Stack vertical>
@@ -62,6 +70,9 @@ export const SubtabIdentity = () => {
           </Stack.Item>
           <Stack.Item>
             <SubtabIdentityCardVirtues />
+          </Stack.Item>
+          <Stack.Item>
+            <SubtabIdentityCardQuirks />
           </Stack.Item>
           <Stack.Item>
             <SubtabIdentityCardVices />
@@ -227,7 +238,6 @@ export const SubtabIdentityCardGameplay = () => {
   const {
     age,
     combat_music,
-    dnr_pref,
     domhand,
     free_language,
     loadout_cost,
@@ -291,11 +301,6 @@ export const SubtabIdentityCardGameplay = () => {
             <LabeledGridList.Item label="Free Language">
               <Button fluid onClick={() => act('extra_language')}>
                 {free_language}
-              </Button>
-            </LabeledGridList.Item>
-            <LabeledGridList.Item label="Unrevivable">
-              <Button fluid onClick={() => act('dnr_pref')}>
-                {dnr_pref ? 'Yes' : 'No'}
               </Button>
             </LabeledGridList.Item>
             <SubtabIdentityCardGameplayCardCulinary />
@@ -520,7 +525,7 @@ const SubtabIdentityCardBark = () => {
               {constantData ? (
                 <Dropdown
                   fluid
-                  options={constantData.barksounds.toSorted()}
+                  options={[...constantData.barksounds].sort()}
                   selected={bark_name}
                   onSelected={(bs) =>
                     act('set_barksound', {
@@ -595,6 +600,44 @@ const SubtabIdentityCardBark = () => {
   );
 };
 
+const SubtabIdentityCardToggles = () => {
+  const { act, data } = useBackendStrict<IdentityData>();
+  const { char_toggles } = data;
+
+  return (
+    <Section
+      fill
+      mt={1}
+      title={
+        <LabeledListLikeTooltip
+          tooltip="Per-character settings applied when this character spawns."
+          tooltipPosition="bottom-start"
+        >
+          Toggles
+        </LabeledListLikeTooltip>
+      }
+    >
+      <LabeledGridList>
+        {char_toggles.map((toggle) => (
+          <LabeledGridList.Item
+            key={toggle.flag}
+            label={toggle.name}
+            tooltip={toggle.desc}
+          >
+            <Button.Checkbox
+              fluid
+              checked={!!toggle.enabled}
+              onClick={() => act('char_toggle', { flag: toggle.flag })}
+            >
+              {toggle.enabled ? toggle.on : toggle.off}
+            </Button.Checkbox>
+          </LabeledGridList.Item>
+        ))}
+      </LabeledGridList>
+    </Section>
+  );
+};
+
 export const SubtabIdentityCardVirtues = () => {
   const { data } = useBackendStrict<IdentityData>();
   const { virtues } = data;
@@ -653,7 +696,11 @@ export const VirtueEntry = (props: { entry: VirtueWithMetadata }) => {
           fluid
           ml={2}
           mt={1}
-          tooltip={choice.tooltip}
+          tooltip={
+            choice.tooltip ? (
+              <Box dangerouslySetInnerHTML={{ __html: choice.tooltip }} />
+            ) : null
+          }
           onClick={() =>
             act('subvirtue', {
               id,
@@ -679,6 +726,53 @@ export const VirtueEntry = (props: { entry: VirtueWithMetadata }) => {
   );
 };
 
+export const SubtabIdentityCardQuirks = () => {
+  const { data } = useBackendStrict<IdentityData>();
+  const { quirks } = data;
+
+  return (
+    <Section title="Quirks" className="PreferencesMenu__Section__Quirks">
+      <Stack vertical>
+        {quirks.map((quirk) => (
+          <Stack.Item key={quirk.id}>
+            <QuirkEntry entry={quirk} />
+          </Stack.Item>
+        ))}
+      </Stack>
+    </Section>
+  );
+};
+
+export const QuirkEntry = (props: { entry: QuirkWithMetadata }) => {
+  const { entry } = props;
+  const { id, slot_name, quirk, spawn_error } = entry;
+  const [, setPopupId] = usePopupId();
+
+  return (
+    <Box>
+      <Stack align="center">
+        <Stack.Item>{slot_name}:</Stack.Item>
+        <Stack.Item grow>
+          <Button
+            fluid
+            icon="bars"
+            className={spawn_error ? 'Quirk__SpawnError' : undefined}
+            tooltip={
+              spawn_error
+                ? `This quirk will not be applied on spawn: ${spawn_error}`
+                : null
+            }
+            onClick={() => setPopupId('Quirk', { id })}
+          >
+            {quirk.name}
+            {spawn_error ? ' (!)' : null}
+          </Button>
+        </Stack.Item>
+      </Stack>
+    </Box>
+  );
+};
+
 export const SubtabIdentityCardVices = () => {
   const { act, data } = useBackendStrict<IdentityData>();
   const { charflaws, has_averse, averse_chosen_faction } = data;
@@ -687,14 +781,44 @@ export const SubtabIdentityCardVices = () => {
   return (
     <Section title="Vices" className="PreferencesMenu__Section__Vices">
       {charflaws.map((flaw) => (
-        <Button
-          key={flaw.type}
-          fluid
-          onClick={() => act('toggle_charflaw', { flaw: flaw.type })}
-        >
-          {flaw.name}
-          {flaw.warning ? ' (Requires Extra Vice!)' : null}
-        </Button>
+        <Box key={flaw.type}>
+          <Button
+            fluid
+            onClick={() => act('toggle_charflaw', { flaw: flaw.type })}
+          >
+            {flaw.name}
+            {flaw.warning ? ' (Requires Extra Vice!)' : null}
+          </Button>
+          {flaw.picked_choices.map((choice) => (
+            <Button
+              key={choice.choice}
+              fluid
+              ml={2}
+              mt={1}
+              onClick={() =>
+                act('charflaw_subchoice', {
+                  flaw: flaw.type,
+                  task: 'remove',
+                  index: choice.index,
+                })
+              }
+            >
+              {choice.choice}
+            </Button>
+          ))}
+          {flaw.picked_choices.length < flaw.max_choices ? (
+            <Button
+              fluid
+              ml={2}
+              mt={1}
+              onClick={() =>
+                act('charflaw_subchoice', { flaw: flaw.type, task: 'add' })
+              }
+            >
+              Pick Option
+            </Button>
+          ) : null}
+        </Box>
       ))}
       <Button fluid icon="bars" ml={4} onClick={() => setPopupId('CharFlaw')}>
         Open Menu

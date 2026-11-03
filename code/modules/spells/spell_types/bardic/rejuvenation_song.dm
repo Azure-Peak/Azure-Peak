@@ -11,7 +11,7 @@
 	buff_to_apply_full = /datum/status_effect/buff/healing/rejuvenationsong/full
 
 /datum/status_effect/buff/healing/rejuvenationsong
-	id = "healingrejuvesong"
+	id = "rejuvination_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/healing
 	duration = 15 SECONDS
 	healing_on_tick = 0.6 // Lesser bard (66%)

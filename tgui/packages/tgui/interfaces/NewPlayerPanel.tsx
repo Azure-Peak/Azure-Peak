@@ -168,7 +168,7 @@ const PreGame = () => {
                   </Button.Checkbox>
                 </Stack.Item>
                 <Stack.Item>
-                  <Tooltip content="Ready up for 20 mammons in a stashed pouch, full hydration, a great meal buff and +1 triumph!">
+                  <Tooltip content="Ready up for 20 mammons in a stashed pouch, full hydration, full nutrition, a great meal buff and +1 triumph!">
                     {ready ? (
                       <Box color="good">Ready Bonus! (?)</Box>
                     ) : (

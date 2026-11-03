@@ -16,6 +16,7 @@
 	alternate_worn_layer = NECK_LAYER
 	no_loot_taint = TRUE
 	var/overarmor
+	materia = list(/datum/materia_aspect/solar) // in absence of other traits, they're valuable
 
 /obj/item/clothing/ring/MiddleClick(mob/user, params)
 	. = ..()
@@ -39,8 +40,9 @@
 
 /obj/item/clothing/ring/bronze
 	name = "bronze ring"
-	desc = "A ring of bronzen resiliance."
+	desc = "A ring of bronzen resilience."
 	icon_state = "ring_b"
+	materia = list(/datum/materia_aspect/motion)
 
 /obj/item/clothing/ring/silver
 	name = "silver ring"
@@ -48,6 +50,7 @@
 	icon_state = "ring_s"
 	is_silver = TRUE
 	is_lesser_silver = TRUE
+	materia = list(/datum/materia_aspect/lunar)
 
 /obj/item/clothing/ring/silver/cleric
 	name = "clerical silver ring"
@@ -64,10 +67,11 @@
 	name = "blacksteel ring"
 	desc = "A ring of mythical blacksteel."
 	icon_state = "ring_bs"
+	materia = list(/datum/materia_aspect/defense)
 
 /obj/item/clothing/ring/jade
 	name = "jade ring"
-	desc = "A ring of emeraldesque wisdom."
+	desc = "A ring of emeraldine wisdom."
 	icon_state = "ring_jade"
 
 /obj/item/clothing/ring/coral
@@ -102,7 +106,7 @@
 
 /obj/item/clothing/ring/opal
 	name = "opal ring"
-	desc = "A ring of evershifting hues."
+	desc = "A ring of ever-shifting hues."
 	icon_state = "ring_opal"
 
 /obj/item/clothing/ring/porcelain
@@ -330,8 +334,8 @@
 // These are meant to not be smelted down for anything or sell for much. Loadout items for roleplay, kinda simple.
 // Also, can rename their name/desc to put parnters name in it and stuff. Some customization. TODO: allow sprite selection between 2-3 types of wedding band sprites.
 /obj/item/clothing/ring/band
-	name = "silver weddingband"
-	desc = "A glimmering weddingband of silver, ornately decorated with the engravings of a lover's name."
+	name = "silver wedding band"
+	desc = "A glimmering wedding band of silver, ornately decorated with the engravings of a lover's name."
 	icon_state = "s_ring_wedding"
 	var/choicename = FALSE
 	var/choicedesc = FALSE
@@ -358,29 +362,29 @@
 
 /obj/item/clothing/ring/band/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Right-click to add a custom name and description to the weddingband.")
+	. += span_info("Right-click to add a custom name and description to the wedding band.")
 	. += span_info("If your character is meant to be already married to someone else, offer the ring to them while they are offering theirs to you. This will mark you as spouses, but will not change your names.")
 
 /obj/item/clothing/ring/band/gold
-	name = "gold weddingband"
-	desc = "A beautiful weddingband of gold, ornately decorated with the engravings of a lover's name."
+	name = "gold wedding band"
+	desc = "A beautiful wedding band of gold, ornately decorated with the engravings of a lover's name."
 	icon_state = "g_ring_wedding"
 
 /obj/item/clothing/ring/band/bronze
-	name = "bronze weddingband"
-	desc = "A resilient weddingband of bronze, ornately decorated with the engravings of a lover's name."
+	name = "bronze wedding band"
+	desc = "A resilient wedding band of bronze, ornately decorated with the engravings of a lover's name."
 	icon_state = "b_ring_wedding"
 
 /obj/item/clothing/ring/band/aalloy
-	name = "decrepit weddingband"
-	desc = "A decaying weddingband of tarnished bronze, ornately decorated with the engravings of a lover's name."
+	name = "decrepit wedding band"
+	desc = "A decaying wedding band of rotted metal, ornately decorated with the engravings of a lover's name."
 	icon_state = "a_ring_wedding"
 	color = "#bb9696"
 	anvilrepair = null
 
 /obj/item/clothing/ring/band/paalloy
-	name = "ancient weddingband"
-	desc = "An enchanting weddingband of polished gilbranze, ornately decorated with the engravings of a lover's name."
+	name = "ancient wedding band"
+	desc = "An enchanting wedding band of polished gilbranze, ornately decorated with the engravings of a lover's name."
 	icon_state = "a_ring_wedding"
 
 /////////////////////////
@@ -633,3 +637,8 @@
 		icon_state = "factive"
 	else
 		icon_state = "dragonring"
+
+/obj/item/clothing/ring/lief_ring
+	name = "Blortz Blacksteel Engagement Ring"
+	desc = "A promise bound in blacksteel and a memory to stand the tests of time. The glimmering gem winks back at you to remind you of a time unchanged. Delicately engraved on the inside of the band, Always there for you. -Lief."
+	icon_state = "blacksteel_blortz"

@@ -10,7 +10,6 @@
 	faretype = FARE_POOR
 	desc = "A charred fish, crisped to perfection."
 	icon_state = "carpcooked"
-	foodtype = MEAT
 	warming = 5 MINUTES
 	dropshrink = 0.6
 
@@ -25,7 +24,6 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 10)
 	tastes = list("smoky fish" = 1)
 	faretype = FARE_NEUTRAL
-	foodtype = MEAT
 	warming = 5 MINUTES
 	dropshrink = 0.8
 

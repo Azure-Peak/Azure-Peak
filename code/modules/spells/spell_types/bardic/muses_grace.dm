@@ -16,7 +16,7 @@
 	icon_state = "buff"
 
 /datum/status_effect/buff/song/muses_grace
-	id = "musesgrace"
+	id = "muses_song"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/song/muses_grace
 	duration = 15 SECONDS
 

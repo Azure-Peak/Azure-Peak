@@ -79,7 +79,6 @@
 #define TRAIT_SPELLBLOCK "spellblock"
 /// Applied after using a non-bloodheal vampire, blocking you from using mages abilities
 #define TRAIT_SPELL_VAMPIRE_BLOCK "spell_vampire_block"
-#define TRAIT_NOC_CURSE "noc_curse"
 #define TRAIT_NOSTAMINA "nostamina"
 #define TRAIT_ATHEISM_CURSE "atheism_curse"
 #define TRAIT_CONJURED_SUMMON "conjured_summon"

@@ -57,6 +57,7 @@
 	obj_flags = UNIQUE_RENAME
 	damfactor = 1.2
 	accfactor = 1.1
+	steady_aim = TRUE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/get_mechanics_examine(mob/user)
 	. = ..()
@@ -91,6 +92,8 @@
 
 /datum/intent/shoot/crossbow
 	chargedrain = 0 //no drain to aim a crossbow
+	hold_grace = 0
+	hold_ramp = 0
 
 /datum/intent/shoot/crossbow/slurbow
 	chargedrain = 0 //no drain to aim a crossbow
@@ -118,6 +121,8 @@
 /datum/intent/arc/crossbow
 	chargetime = 1
 	chargedrain = 0 //no drain to aim a crossbow
+	hold_grace = 0
+	hold_ramp = 0
 
 /datum/intent/arc/crossbow/slurbow
 	chargetime = 1
@@ -320,6 +325,7 @@
 	draw_base = SLURBOW_DRAW_BASE
 	draw_floor = SLURBOW_DRAW_FLOOR
 	draw_per_skill = SLURBOW_DRAW_PER_SKILL
+	arc_draw_floor_extra = SLURBOW_ARC_DRAW_FLOOR_EXTRA
 	damfactor = 0.6
 	accfactor = 1.3
 	reloadtime = 20
@@ -381,14 +387,22 @@
 	charging_slowdown = 2.5 //Little more than before, with the assumption that you're taking your time for a more precise shot.
 
 /datum/intent/shoot/crossbow/heavy/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] readies [masteritem]!"))
-		playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] readies [masteritem]!"))
+	playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
 
 /datum/intent/arc/crossbow/heavy/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] readies [masteritem] for a precise shot!"))
-		playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] readies [masteritem] for a precise shot!"))
+	playsound(mastermob, pick('sound/combat/Ranged/crossbow_medium_reload-02.ogg'), 100, FALSE)
 
 /datum/intent/buttstroke/heavy
 	name = "heavy buttstroke"
@@ -435,6 +449,7 @@
 	draw_base = SLURBOW_DRAW_BASE
 	draw_floor = SLURBOW_DRAW_FLOOR
 	draw_per_skill = SLURBOW_DRAW_PER_SKILL
+	arc_draw_floor_extra = SLURBOW_ARC_DRAW_FLOOR_EXTRA
 	damfactor = 1 //No damage malus, as it uses proprietary ammunition.
 	accfactor = 1.3
 	reloadtime = 20

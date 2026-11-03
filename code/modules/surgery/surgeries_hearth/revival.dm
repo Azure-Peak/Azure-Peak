@@ -49,7 +49,8 @@
 			"[user] works the lux into [target]'s innards.")
 		return FALSE
 	if (target.mind)
-		if(alert(target, "Are you ready to face the world, once more?", "THE HEART'S BEAT, TUNED TO YOUR WILL.", "I must go on!", "Let me rest..") != "I must go on!")
+		var/mob/dead/observer/underworld_spirit = target.get_spirit()
+		if(alert(underworld_spirit || target, "Are you ready to face the world, once more?", "THE HEART'S BEAT, TUNED TO YOUR WILL.", "I must go on!", "Let me rest..") != "I must go on!")
 			display_results(user, target, span_notice("[target]'s heart refuses the lux. They're only in sweet dreams, now."),
 				"[user] works the lux into [target]'s innards, but nothing happens.",
 				"[user] works the lux into [target]'s innards, but nothing happens.")
@@ -63,11 +64,6 @@
 	display_results(user, target, span_notice("You succeed in restarting [target]'s heart with the infusion of lux."),
 		"[user] works the lux into [target]'s innards.",
 		"[user] works the lux into [target]'s innards.")
-	var/mob/living/carbon/spirit/underworld_spirit = target.get_spirit()
-	if(underworld_spirit)
-		var/mob/dead/observer/ghost = underworld_spirit.ghostize()
-		qdel(underworld_spirit)
-		ghost.mind.transfer_to(target, TRUE)
 	target.grab_ghost(force = TRUE) // even suicides
 	target.emote("breathgasp")
 	target.Jitter(100)
@@ -86,14 +82,8 @@
 		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
 		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
 		return
-	addtimer(CALLBACK(src, PROC_REF(deathmark), target), 5 MINUTES)
+	addtimer(CALLBACK(src, GLOBAL_PROC_REF(deathmark), target), 5 MINUTES)
 	return TRUE
-
-/datum/surgery_step/infuse_lux/proc/deathmark(mob/living/victim)
-	if(victim.stat != DEAD)
-		victim.apply_status_effect(/datum/status_effect/debuff/permadeath) //The deathmark in question. This temporarily adds unrevivability to the target; die again while it's active, and your story'll be over.. for now.
-		victim.play_permadeath_indicator()
-		to_chat(victim, span_danger("You suddenly feel a deathly chill from within, as the lux begins to creep across your heart once more. The thread betwixt your soul and body remains thin; to succumb again so soon would ensure its total severance."))
 
 /datum/surgery_step/infuse_lux/failure(mob/user, mob/living/target, target_zone, obj/item/tool, datum/intent/intent, success_prob)
 	display_results(user, target, span_warning("I screwed up!"),

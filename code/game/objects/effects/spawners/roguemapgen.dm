@@ -75,7 +75,7 @@
 	icon_state = "lootpotion"
 	lootcount = 1
 	loot_value = LOOT_VALUE_POTION_VITALS
-	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpot = 5,
 		/obj/item/reagent_containers/glass/bottle/rogue/healthpotnew = 1,
@@ -89,7 +89,7 @@
 	icon_state = "lootpoison"
 	lootcount = 1
 	loot_value = LOOT_VALUE_POTION_POISONS
-	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/rogue/berrypoison = 10,
 		/obj/item/reagent_containers/glass/bottle/rogue/poison = 5,
@@ -108,7 +108,10 @@
 
 /obj/effect/spawner/lootdrop/potion_ingredient/Initialize(mapload)
 	if(!all_potion_ings.len)
-		all_potion_ings = (subtypesof(/obj/item/alch) - subtypesof(/obj/item/alch/hag_moss))
+		all_potion_ings = subtypesof(/obj/item/alch)
+		all_potion_ings.RemoveAll(typesof(/obj/item/alch/hag_moss))
+		all_potion_ings.RemoveAll(typesof(/obj/item/alch/catalyst)) // sorry, that'd make it too easy
+		all_potion_ings.RemoveAll(typesof(/obj/item/alch/precursor)) // ditto
 	if(!loot.len)
 		loot = all_potion_ings.Copy()
 	return ..()
@@ -137,7 +140,7 @@
 	icon_state = "lootstatpot"
 	lootcount = 1
 	loot_value = LOOT_VALUE_POTION_STATS
-	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/ash = 3)
+	junk_loot = list(/obj/item/reagent_containers/glass/bottle/claybottle = 5, /obj/item/natural/ash = 3)
 	loot = list(
 		/obj/item/reagent_containers/glass/bottle/alchemical/strpot = 10,
 		/obj/item/reagent_containers/glass/bottle/alchemical/perpot = 10,

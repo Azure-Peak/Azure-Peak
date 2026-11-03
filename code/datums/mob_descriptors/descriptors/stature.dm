@@ -338,11 +338,14 @@
 	var/custom_index
 
 /datum/mob_descriptor/stature/custom/can_describe(mob/living/described)
-	return length(described.custom_descriptors) >= custom_index
+	return !!described.custom_entry(custom_index)
 
 /datum/mob_descriptor/stature/custom/get_description(mob/living/described)
-	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
+	var/datum/custom_descriptor_entry/entry = described.custom_entry(custom_index)
 	return entry.content_text
+
+/datum/mob_descriptor/stature/custom/get_examine_description(mob/living/described)
+	return LOWER_TEXT(get_description(described))
 
 /datum/mob_descriptor/stature/custom/ten
 	name = "Custom Stature"

@@ -32,6 +32,18 @@
 	integer = FALSE
 	min_val = 0
 
+/datum/config_entry/flag/autostart	// Skip the lobby countdown and start the round as soon as the server is ready.
+
+/datum/config_entry/number/minimum_flavor_text	// Characters of flavor text a player needs before they can join.
+	config_entry_value = 200
+	integer = TRUE
+	min_val = 0
+
+/datum/config_entry/number/minimum_ooc_notes	// Characters of OOC notes a player needs before they can join.
+	config_entry_value = 5
+	integer = TRUE
+	min_val = 0
+
 /datum/config_entry/number/round_end_countdown	// Post round murder death kill countdown
 	config_entry_value = 25
 	integer = FALSE

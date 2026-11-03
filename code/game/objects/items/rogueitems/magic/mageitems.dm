@@ -42,6 +42,15 @@
 
 /obj/item/storage/magebag/starter
 	populate_contents = list()
+
+
+/obj/item/storage/magebag/witch
+	populate_contents = list(
+		/obj/item/alch/catalyst/nigredo,
+		/obj/item/alch/catalyst/albedo,
+		/obj/item/herbseed/manabloom,
+	)
+
 /obj/item/chalk
 	name = "stick of chalk"
 	desc = "A stark-white stick of chalk, possibly made from quicksilver. "
@@ -127,7 +136,7 @@
 	return FALSE
 
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/arcyne
 	name = "arcyne silver dagger"
 	desc = "This dagger glows a faint purple. Quicksilver runs across its blade."
 	icon_state = "arcynedagger"
@@ -135,11 +144,11 @@
 	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
 	var/chosen_keyword
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/Initialize(mapload)
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/arcyne/Initialize(mapload)
 	. = ..()
 	filter(type="drop_shadow", x=0, y=0, size=2, offset=1, color=rgb(128, 0, 128, 1))
 
-/obj/item/rogueweapon/huntingknife/idagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
+/obj/item/rogueweapon/huntingknife/idagger/steel/silver/arcyne/attack_self(mob/living/carbon/human/user)
 	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
 		return
 	if(!is_bled)
@@ -186,7 +195,7 @@
 	if(do_after(user, crafttime, target = src))
 		user.visible_message(
 			span_warning("[user] carves an arcyne rune with [user.p_their()] [name]!"), \
-			span_notice("I finish dragging the blade in symbols and circles, leaving behind an ritual rune")
+			span_notice("I finish dragging the blade in symbols and circles, leaving behind a ritual rune.")
 		)
 		new rune_to_scribe(Turf, chosen_keyword)
 
@@ -267,7 +276,7 @@
 		target = get_turf(src)
 		victim = user
 	else
-		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convinient to use.
+		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convenient to use.
 		stop()
 
 /obj/item/hourglass/temporal/stop()
@@ -306,7 +315,7 @@
 		return
 	if(cooldowny)
 		if(world.time < cooldowny + cdtime)
-			to_chat(user, span_warning("Pulses weakily-! It must still be gathering arcana."))
+			to_chat(user, span_warning("Pulses weakly-! It must still be gathering arcana."))
 			return
 	user.visible_message(span_warning("[user] looks through the [src]!"))
 	if(activate_sound)

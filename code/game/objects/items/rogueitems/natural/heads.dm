@@ -55,6 +55,14 @@
 	grid_height = 32
 	sellprice = 5
 
+/obj/item/natural/head/goat_wild
+	name = "tough goat head"
+	desc = "The head of a tough wilden goat with a majestic set of curld horns."
+	icon_state = "goathead_tough"
+	layer = 3.1
+	grid_height = 32
+	sellprice = 10
+
 /obj/item/natural/head/fox
 	name = "venard head"
 	desc = "The head of a majestic venard."

@@ -45,6 +45,7 @@ export type AdminPrefData = {
   deadmin_antagonist: BooleanLike;
   auto_deadmin_heads: BooleanLike;
   deadmin_head: BooleanLike;
+  vv_dark_mode: BooleanLike;
 };
 
 export type KeybindsPageData = {

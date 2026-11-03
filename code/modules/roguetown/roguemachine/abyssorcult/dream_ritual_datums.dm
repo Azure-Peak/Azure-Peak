@@ -230,7 +230,7 @@
 	desc = "Offer up three simple undervestments to have the paints of the pool infuse them with a new look."
 	base_channel_time = 150
 	reward_items = list(
-		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter_sea = 3,
+		/obj/item/clothing/suit/roguetown/shirt/robe/abyssor_painter = 3,
 		/obj/item/clothing/head/roguetown/roguehood/abyssor_painter = 3
 	)
 
@@ -313,7 +313,10 @@
 	var/static/list/beach_areas = list(
 		/area/rogue/outdoors/beach,
 		/area/rogue/outdoors/beach/north,
-		/area/rogue/outdoors/beach/south
+		/area/rogue/outdoors/beach/south,
+		/area/rogue/outdoors/beach/grim,
+		/area/rogue/outdoors/beach/north/grim,
+		/area/rogue/outdoors/beach/south/grim
 	)
 
 	var/list/water_turfs = list()

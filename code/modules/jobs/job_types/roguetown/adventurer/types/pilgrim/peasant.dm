@@ -46,7 +46,7 @@
 	backpack_contents = list(
 						/obj/item/seeds/wheat=1,
 						/obj/item/seeds/apple=1,
-						/obj/item/ash=1,
+						/obj/item/natural/ash=1,
 						/obj/item/flashlight/flare/torch = 1,
 						/obj/item/rogueweapon/scabbard/sheath = 1
 						)
@@ -60,6 +60,7 @@
 			"Rocknut seeds" = /obj/item/storage/roguebag/farmer_rocknut,
 			"Exotic fruit seeds" = /obj/item/storage/roguebag/farmer_fruits,
 			"Some extra smokes" = /obj/item/storage/roguebag/farmer_smokes,
+			"Seeds from Naledi" = /obj/item/storage/roguebag/farmer_naledi,
 		)
 		var/seedbag_names = list()
 		for (var/name in seeds)

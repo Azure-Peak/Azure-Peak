@@ -8,6 +8,7 @@ import {
   type GameMasterData,
   ROW,
   TRAILING,
+  VIEW_WARBAND,
 } from './types';
 
 type Props = {
@@ -19,6 +20,7 @@ export function FactionRail(props: Props) {
   const { query, onQuery } = props;
   const { act, data } = useBackend<GameMasterData>();
   const {
+    selected_view,
     selected_filter,
     pinned_factions = [],
     spawn_filters = [],
@@ -26,9 +28,10 @@ export function FactionRail(props: Props) {
     max_pinned,
   } = data;
 
+  const warband = selected_view === VIEW_WARBAND;
   const needle = query.toLowerCase();
   const matches = spawn_filters.filter((value) =>
-    filterLabel(value).toLowerCase().includes(needle),
+    filterLabel(value, warband).toLowerCase().includes(needle),
   );
   const pinned = matches.filter((value) => pinned_factions.includes(value));
   const rest = matches.filter((value) => !pinned_factions.includes(value));
@@ -69,7 +72,7 @@ export function FactionRail(props: Props) {
             }}
           >
             <Box style={ROW}>
-              <Box style={ELLIPSIS}>{filterLabel(value)}</Box>
+              <Box style={ELLIPSIS}>{filterLabel(value, warband)}</Box>
               <Box style={TRAILING}>{filter_counts[value] ?? 0}</Box>
             </Box>
           </Button>

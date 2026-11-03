@@ -11,6 +11,14 @@ export type VendingPack = {
   contraband: BooleanLike;
 };
 
+export type HoardEntry = {
+  kind: string;
+  time: string;
+  text: string;
+  amount: number;
+  who: string;
+};
+
 export type BrassfaceData = {
   motto: string;
   budget: number;
@@ -33,6 +41,7 @@ export type BrassfaceData = {
   result_cap: number;
   total_matches: number;
   packs: VendingPack[];
+  hoard_log: HoardEntry[];
 };
 
 export type ActFn = (action: string, params?: Record<string, unknown>) => void;

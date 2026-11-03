@@ -41,7 +41,7 @@
 	result = /obj/vehicle/ridden/dinghy
 	reqs = list(
 		/obj/item/grown/log/tree = 4,
-		/obj/item/ash = 3,
+		/obj/item/natural/ash = 3,
 		/obj/item/natural/fibers = 5
 		)
 	time = 50
