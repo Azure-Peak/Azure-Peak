@@ -141,7 +141,7 @@
 		. = step(A,get_dir(A,src.loc))
 		density = TRUE
 
-/obj/structure/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+/obj/structure/ex_act(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 	if(QDELETED(src))
 		return
 	var/fodist = 0
@@ -151,7 +151,7 @@
 	var/brute_loss = 0
 	switch(severity)
 		if(EXPLODE_DEVASTATE)
-			var/ddist = max(0, devastation_range)
+			var/ddist = max(0, extreme_impact_range)
 			brute_loss = (1500 + 250 * ddist) - (250 * fodist)
 			if(fodist == 0)
 				brute_loss *= 2

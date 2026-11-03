@@ -1209,7 +1209,7 @@
 /datum/component/mushroom_mace/proc/mushroom_boom(mob/living/target, mob/living/user)
 	var/turf/T = get_turf(target)
 	T.visible_message(span_boldwarning("The mushroom mace releases a massive fungal detonation!"))
-	explosion(T, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/explosion.ogg'))
+	explosion(T, extreme_impact_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/explosion.ogg'))
 
 	for(var/mob/living/L in range(2, T))
 		var/damage = 25
