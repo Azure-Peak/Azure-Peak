@@ -22,7 +22,7 @@
 
 /datum/sprite_accessory/underwear/briefs
 	name = "Briefs"
-	icon_state = "briefs"
+	icon_state = "male_reg"
 	underwear_type = /obj/item/clothing/undies
 
 /datum/sprite_accessory/underwear/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
@@ -34,7 +34,8 @@
 
 /datum/sprite_accessory/underwear/bikini_top
 	name = "Bikini Top"
-	icon_state = "bikini"
+	icon = 'icons/obj/items/clothes/on_mob/bra.dmi'
+	icon_state = "bikini_top"
 	underwear_type = /obj/item/clothing/bra/bikini
 
 /datum/sprite_accessory/underwear/bikini
@@ -49,17 +50,17 @@
 		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
 		var/tag = "bikini_f"
 		if(breasts.breast_size == 0)
-			tag = tag + "_B0"
+			tag = tag + "_0"
 		if(breasts.breast_size == 1)
-			tag = tag + "_B1"
+			tag = tag + "_1"
 		if(breasts.breast_size == 2)
-			tag = tag + "_B2"
+			tag = tag + "_2"
 		if(breasts.breast_size == 3)
-			tag = tag + "_B3"
+			tag = tag + "_3"
 		if(breasts.breast_size == 4)
-			tag = tag + "_B4"
+			tag = tag + "_4"
 		if(breasts.breast_size == 5)
-			tag = tag + "_B5"
+			tag = tag + "_5"
 		return tag
 	else
 		return "bikini_f_0"
@@ -79,22 +80,22 @@
 /datum/sprite_accessory/underwear/leotard/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
 		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
-		var/tag = "leotard_f"
+		var/tag = "female_leotard"
 		if(breasts.breast_size == 0)
-			tag = tag + "_B0"
+			tag = tag + "_0"
 		if(breasts.breast_size == 1)
-			tag = tag + "_B1"
+			tag = tag + "_1"
 		if(breasts.breast_size == 2)
-			tag = tag + "_B2"
+			tag = tag + "_2"
 		if(breasts.breast_size == 3)
-			tag = tag + "_B3"
+			tag = tag + "_3"
 		if(breasts.breast_size == 4)
-			tag = tag + "_B4"
+			tag = tag + "_4"
 		if(breasts.breast_size == 5)
-			tag = tag + "_B5"
+			tag = tag + "_5"
 		return tag
 	else
-		return "leotard_m"
+		return "male_leotard"
 
 /datum/sprite_accessory/underwear/athletic_leotard
 	name = "Athletic Leotard"
@@ -111,7 +112,7 @@
 /datum/sprite_accessory/underwear/braies
 	name = "Braies"
 	icon_state = "braies"
-	underwear_type = /obj/item/clothing/undies
+	underwear_type = /obj/item/clothing/undies/braies
 
 /datum/sprite_accessory/underwear/braies/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(!owner.is_bulky_body())
@@ -121,7 +122,7 @@
 /datum/sprite_accessory/underwear/briefs/eoran
 	name = "Briefs - Eoran"
 	icon_state = "eoran_reg"
-	underwear_type = /obj/item/clothing/undies
+	underwear_type = /obj/item/clothing/undies/briefs_eoran
 
 /datum/sprite_accessory/underwear/briefs/eoran/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(is_species(owner,/datum/species/dwarf))

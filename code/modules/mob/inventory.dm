@@ -408,6 +408,10 @@
 		items += wear_shirt
 	if(underwear)
 		items += underwear
+	if(legwear_socks)
+		items += legwear_socks
+	if(armsleeves)
+		items += armsleeves
 	if(bra)
 		items += bra
 	if(undershirt)
@@ -484,6 +488,13 @@
 	if(hidden_slots & HIDESUITSTORAGE)
 		obscured += SLOT_S_STORE
 
+	if(transparent_protection)
+		for(var/obj/item/covering as anything in equipped)
+			var/cover_flags = covering.flags_inv | covering.transparent_protection
+			if((cover_flags & HIDECROTCH) && covering != underwear && covering != garter)
+				obscured |= list(SLOT_UNDER_BOTTOM, SLOT_GARTER)
+			if((cover_flags & HIDEBOOB) && covering != bra)
+				obscured |= SLOT_UNDER_TOP
 	return obscured
 
 /obj/item/proc/equip_to_best_slot(mob/M)

@@ -260,7 +260,7 @@
 		if(SLOT_SOCKS)
 			legwear_socks = I
 			update_inv_socks()
-		if(ITEM_SLOT_ARMSLEEVES)
+		if(SLOT_ARMSLEEVES)
 			armsleeves = I
 			update_inv_armsleeves()
 		else

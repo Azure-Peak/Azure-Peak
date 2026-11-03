@@ -300,32 +300,31 @@
 			str = "[m3] something on [m2] wrists!"
 		. += str
 
-	var/extra_obscured = (obscured << 1) >> 1 //We "cut off" the 24th bit of the extra slots flag so that the bitwise & can work.
-	if(underwear && !((extra_obscured & ITEM_SLOT_UNDER_BOTTOM) && (obscured & ITEM_SLOT_EXTRA)))
+	if(underwear && !(SLOT_UNDER_BOTTOM in obscured))
 		. += "[m3] [underwear.get_examine_string(user)]."
 
-	if(bra && !((extra_obscured & ITEM_SLOT_UNDER_TOP) && (obscured & ITEM_SLOT_EXTRA)))
+	if(bra && !(SLOT_UNDER_TOP in obscured))
 		. += "[m3] [bra.get_examine_string(user)]."
 
-	if(undershirt && !((extra_obscured & ITEM_SLOT_UNDERSHIRT) && (obscured & ITEM_SLOT_EXTRA)))
+	if(undershirt && !(SLOT_UNDERSHIRT in obscured))
 		. += "[m3] [undershirt.get_examine_string(user)]."
 
-	if(armsleeves && !((extra_obscured & ITEM_SLOT_ARMSLEEVES) && (obscured & ITEM_SLOT_EXTRA)))
+	if(armsleeves && !(SLOT_ARMSLEEVES in obscured))
 		. += "[m3] [armsleeves.get_examine_string(user)] on [m2] arms."
 
-	if(garter && !((extra_obscured & ITEM_SLOT_GARTER) && (obscured & ITEM_SLOT_EXTRA)))
+	if(garter && !(SLOT_GARTER in obscured))
 		. += "[m3] [garter.get_examine_string(user)] on [m2] waist."
 
-	if(choker && !((extra_obscured & ITEM_SLOT_CHOKER) && (obscured & ITEM_SLOT_EXTRA)))
+	if(choker && !(SLOT_CHOKER in obscured))
 		. += "[m3] [choker.get_examine_string(user)] around [m2] neck."
 
-	if(legwear_socks && !((extra_obscured & ITEM_SLOT_SOCKS) && (obscured & ITEM_SLOT_EXTRA)))
+	if(legwear_socks && !(SLOT_SOCKS in obscured))
 		. += "[m3] [legwear_socks.get_examine_string(user)] on [m2] legs."
 
-	if(earring_l && !((extra_obscured & ITEM_SLOT_EARRING_L) && (obscured & ITEM_SLOT_EXTRA)))
+	if(earring_l && !(SLOT_EARRING_L in obscured))
 		. += "[m3] [earring_l.get_examine_string(user)] in [m2] left ear."
 
-	if(earring_r && !((extra_obscured & ITEM_SLOT_EARRING_R) && (obscured & ITEM_SLOT_EXTRA)))
+	if(earring_r && !(SLOT_EARRING_R in obscured))
 		. += "[m3] [earring_r.get_examine_string(user)] around [m2] right ear."
 
 	//arcyne ward

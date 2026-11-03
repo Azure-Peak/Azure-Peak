@@ -60,17 +60,17 @@
 #define ITEM_SLOT_DENYPOCKET	(1<<22) // this is to deny items with a w_class of WEIGHT_CLASS_SMALL or WEIGHT_CLASS_TINY to fit in pockets.
 #define ITEM_SLOT_BACKPACK		(1<<23)
 
-#define ITEM_SLOT_EXTRA         (1<<24)
+// Flags for /obj/item/extra_slot_flags; independent of slot_flags (24 bits).
 
-#define ITEM_SLOT_UNDER_BOTTOM  (ITEM_SLOT_EXTRA | (1<<0))
-#define ITEM_SLOT_UNDER_TOP     (ITEM_SLOT_EXTRA | (1<<1))
-#define ITEM_SLOT_UNDERSHIRT    (ITEM_SLOT_EXTRA | (1<<2))
-#define ITEM_SLOT_SOCKS         (ITEM_SLOT_EXTRA | (1<<3))
-#define ITEM_SLOT_CHOKER        (ITEM_SLOT_EXTRA | (1<<4))
-#define ITEM_SLOT_GARTER        (ITEM_SLOT_EXTRA | (1<<5))
-#define ITEM_SLOT_EARRING_L     (ITEM_SLOT_EXTRA | (1<<6))
-#define ITEM_SLOT_EARRING_R     (ITEM_SLOT_EXTRA | (1<<7))
-#define ITEM_SLOT_ARMSLEEVES    (ITEM_SLOT_EXTRA | (1<<8))
+#define EXTRA_SLOT_UNDER_BOTTOM  (1<<0)
+#define EXTRA_SLOT_UNDER_TOP     (1<<1)
+#define EXTRA_SLOT_UNDERSHIRT    (1<<2)
+#define EXTRA_SLOT_SOCKS         (1<<3)
+#define EXTRA_SLOT_CHOKER        (1<<4)
+#define EXTRA_SLOT_GARTER        (1<<5)
+#define EXTRA_SLOT_EARRING_L     (1<<6)
+#define EXTRA_SLOT_EARRING_R     (1<<7)
+#define EXTRA_SLOT_ARMSLEEVES    (1<<8)
 
 #define ITEM_SLOT_BACK			(ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R)
 #define ITEM_SLOT_ALL			(ITEM_SLOT_PANTS | ITEM_SLOT_SHIRT | ITEM_SLOT_ARMOR | ITEM_SLOT_SHOES | ITEM_SLOT_GLOVES | ITEM_SLOT_RING | ITEM_SLOT_MOUTH | ITEM_SLOT_HEAD | ITEM_SLOT_CLOAK | ITEM_SLOT_NECK | ITEM_SLOT_MASK | ITEM_SLOT_HANDS | ITEM_SLOT_BELT | ITEM_SLOT_BACK | ITEM_SLOT_INBACK | ITEM_SLOT_HIP | ITEM_SLOT_WRISTS | ITEM_SLOT_OCLOTHING | ITEM_SLOT_ICLOTHING | ITEM_SLOT_POCKET | ITEM_SLOT_BACKPACK)
@@ -97,15 +97,15 @@
 #define SLOT_PANTS			18
 #define SLOT_IN_BACKPACK	19
 #define SLOT_LEGCUFFED		20
-#define SLOT_UNDER_BOTTOM	21
-#define SLOT_UNDER_TOP		22
-#define SLOT_UNDERSHIRT		23
-#define SLOT_ARMSLEEVES		24
-#define SLOT_SOCKS			25
-#define SLOT_CHOKER			26
-#define SLOT_GARTER			27
-#define SLOT_EARRING_L		28
-#define SLOT_EARRING_R		29
+#define SLOT_UNDER_BOTTOM	29
+#define SLOT_UNDER_TOP		30
+#define SLOT_UNDERSHIRT		31
+#define SLOT_ARMSLEEVES		32
+#define SLOT_SOCKS			33
+#define SLOT_CHOKER			34
+#define SLOT_GARTER			35
+#define SLOT_EARRING_L		36
+#define SLOT_EARRING_R		37
 
 #define ALL_ITEM_SLOTS list(,\
 	SLOT_BACK_L,\
@@ -198,24 +198,30 @@
 			. = ITEM_SLOT_BACK_R
 		if(SLOT_CLOAK)
 			. = ITEM_SLOT_CLOAK
+
+/// Convert an additional slot ID to its independent clothing flag.
+/proc/slotdefine2extraslotbit(slotdefine)
+	. = 0
+	switch(slotdefine)
 		if(SLOT_UNDER_BOTTOM)
-			. = ITEM_SLOT_UNDER_BOTTOM
+			. = EXTRA_SLOT_UNDER_BOTTOM
 		if(SLOT_UNDER_TOP)
-			. = ITEM_SLOT_UNDER_TOP
+			. = EXTRA_SLOT_UNDER_TOP
 		if(SLOT_UNDERSHIRT)
-			. = ITEM_SLOT_UNDERSHIRT
+			. = EXTRA_SLOT_UNDERSHIRT
 		if(SLOT_ARMSLEEVES)
-			. = ITEM_SLOT_ARMSLEEVES
+			. = EXTRA_SLOT_ARMSLEEVES
 		if(SLOT_SOCKS)
-			. = ITEM_SLOT_SOCKS
+			. = EXTRA_SLOT_SOCKS
 		if(SLOT_CHOKER)
-			. = ITEM_SLOT_CHOKER
+			. = EXTRA_SLOT_CHOKER
 		if(SLOT_GARTER)
-			. = ITEM_SLOT_GARTER
+			. = EXTRA_SLOT_GARTER
 		if(SLOT_EARRING_L)
-			. = ITEM_SLOT_EARRING_L
+			. = EXTRA_SLOT_EARRING_L
 		if(SLOT_EARRING_R)
-			. = ITEM_SLOT_EARRING_R
+			. = EXTRA_SLOT_EARRING_R
+
 
 //Bit flags for the flags_inv variable, which determine when a piece of clothing hides another. IE a helmet hiding glasses.
 //Make sure to update check_obscured_slots() if you add more.

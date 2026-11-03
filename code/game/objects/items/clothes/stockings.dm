@@ -17,7 +17,8 @@
 	var/covers_breasts = FALSE
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	slot_flags = ITEM_SLOT_MOUTH | ITEM_SLOT_SOCKS
+	slot_flags = ITEM_SLOT_MOUTH
+	extra_slot_flags = EXTRA_SLOT_SOCKS
 	muteinmouth = TRUE
 
 /obj/item/clothing/legwears/attack(mob/M, mob/user, def_zone)
@@ -32,7 +33,7 @@
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, needhand = 1, target = H))
-				H.equip_to_slot_if_possible(src, ITEM_SLOT_SOCKS, disable_warning = TRUE)
+				equip_from_hands(user, H, SLOT_SOCKS)
 
 /obj/item/clothing/legwears/random/Initialize()
 	. = ..()
@@ -56,6 +57,7 @@
 //Silk variants
 
 /obj/item/clothing/legwears/silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk stockings"
 	desc = "A legwear made just for the pure aesthetics. Made out of thin silk. Popular among nobles."
 	icon_state = "silk"
@@ -83,6 +85,7 @@
 //Fishnets
 
 /obj/item/clothing/legwears/fishnet
+	salvage_result = /obj/item/natural/fibers
 	name = "fishnet stockings"
 	desc = "A legwear popular among wenches."
 	icon_state = "fishnet"
@@ -124,6 +127,7 @@
 
 //Thigh-high - Silk
 /obj/item/clothing/legwears/thigh_high_silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk thigh-high stockings"
 	desc = "A legwear popular amongst the aristocracy and wealth burghers. Goes well with any dress!"
 	icon_state = "thigh_silk"
@@ -148,6 +152,7 @@
 
 //Knee-high
 /obj/item/clothing/legwears/knee_high_silk
+	salvage_result = /obj/item/natural/silk
 	name = "knee-high stockings"
 	desc = "A legwear popular amongst wealthy courtesans and people with sense of style."
 	icon_state = "knee_silk"
@@ -158,6 +163,7 @@
 
 //Sleeves - Knee-high
 /obj/item/clothing/legwears/sleeve_knee_silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk knee-high sleeves"
 	desc = "A legwear for those who happen to possess sharp claws."
 	icon_state = "sleeve_k_silk"
@@ -168,6 +174,7 @@
 
 //Sleeves - Knee-high
 /obj/item/clothing/legwears/sleeve_stir_knee_silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk knee-high sleeves (stirrup)"
 	desc = "A legwear for those who happen to possess sharp claws."
 	icon_state = "sleeve_k_silk"
@@ -178,6 +185,7 @@
 
 //Sleeves - Thigh-high
 /obj/item/clothing/legwears/sleeve_stir_thigh_silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk knee-high sleeves (stirrup)"
 	desc = "A legwear for those who happen to possess sharp claws. For the modest types."
 	icon_state = "sleeve_ts_silk"
@@ -188,6 +196,7 @@
 
 //Sleeves - Ankle-high
 /obj/item/clothing/legwears/sleeve_stir_ankle_silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk knee-high sleeves (stirrup)"
 	desc = "A legwear for those who happen to possess sharp claws. Are you even trying at this point?"
 	icon_state = "sleeve_as_silk"

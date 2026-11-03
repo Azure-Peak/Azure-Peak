@@ -9,16 +9,16 @@
 	obj_flags = CAN_BE_HIT
 	max_integrity = 200
 	integrity_failure = 0
-	slot_flags = SLOT_EARRING_L | SLOT_EARRING_R
+	slot_flags = NONE
+	extra_slot_flags = EXTRA_SLOT_EARRING_L | EXTRA_SLOT_EARRING_R
 	gendered = FALSE
 	var/base_icon = "ear_stud"
 
-/obj/item/earring/build_worn_icon(age = AGE_ADULT, default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female, customi, sleeveindex, breast_size = 0, boobed_overlay = FALSE, clip_mask = null)
-	icon_state = base_icon
+/obj/item/earring/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = null)
 	if(default_layer == EARRING_L_LAYER)
-		icon_state = base_icon + "_l"
-	else if (default_layer == EARRING_R_LAYER)
-		icon_state = base_icon + "_r"
+		override_state = base_icon + "_l"
+	else if(default_layer == EARRING_R_LAYER)
+		override_state = base_icon + "_r"
 	. = ..()
 
 /obj/item/earring/dropped(mob/user)

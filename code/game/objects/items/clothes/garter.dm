@@ -15,7 +15,8 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	slot_flags = SLOT_GARTER
+	slot_flags = NONE
+	extra_slot_flags = EXTRA_SLOT_GARTER
 
 /obj/item/clothing/garter/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
@@ -25,4 +26,4 @@
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
-				H.equip_to_slot_if_possible(src, SLOT_GARTER, disable_warning = TRUE)
+				equip_from_hands(user, H, SLOT_GARTER)

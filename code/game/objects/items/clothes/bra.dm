@@ -2,6 +2,7 @@
 	name = "bra"
 	desc = "An absolute necessity, for your chest."
 	icon = 'icons/obj/items/clothes/bra.dmi'
+	gendered = TRUE
 	mob_overlay_icon = 'icons/obj/items/clothes/on_mob/bra.dmi'
 	icon_state = "bra"
 	item_state = "bra"
@@ -16,7 +17,8 @@
 	boob_sized = FALSE
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	slot_flags = SLOT_UNDER_TOP
+	slot_flags = NONE
+	extra_slot_flags = EXTRA_SLOT_UNDER_TOP
 	flags_inv = HIDEBOOB
 
 /obj/item/clothing/bra/attack(mob/M, mob/user, def_zone)
@@ -27,7 +29,7 @@
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
-				H.equip_to_slot_if_possible(src, SLOT_UNDER_TOP, disable_warning = TRUE)
+				equip_from_hands(user, H, SLOT_UNDER_TOP)
 
 /obj/item/clothing/bra/bikini
 	name = "bikini top"

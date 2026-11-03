@@ -304,7 +304,7 @@
 			if(FEMALE in allowed_sex)
 				allowed_sexes -= FEMALE
 				allowed_sexes += MALE
-	if(slot_flags & slotdefine2slotbit(slot))
+	if(fits_slot(slot))
 		if(!length(allowed_sexes) || (M.gender in allowed_sex))
 			if(length(allowed_race) && H)
 				if(H.dna.species.type in allowed_race)
@@ -384,7 +384,7 @@
 	..()
 	if (!istype(user))
 		return
-	if(slot_flags & slotdefine2slotbit(slot)) //Was equipped to a valid slot for this item?
+	if(fits_slot(slot)) //Was equipped to a valid slot for this item?
 		if (LAZYLEN(user_vars_to_edit))
 			for(var/variable in user_vars_to_edit)
 				if(variable in user.vars)
@@ -803,3 +803,15 @@ BLIND		// can't see anything
 		// We make it fit into generic 2x2 aesthetic storage. Warning. May cause weirdness if we start loadoutizing everything all willy-nilly.
 		grid_width = 64
 		grid_height = 64
+
+/// Direct clothing attacks must transfer ownership as well as populate a slot.
+/// The interaction has already waited; validate again before releasing the user's hand.
+/obj/item/clothing/proc/equip_from_hands(mob/user, mob/living/carbon/human/wearer, slot)
+	if(!user.is_holding(src) || !user.Adjacent(wearer) || wearer.is_inventory_slot_obscured(slot))
+		return FALSE
+	if(!mob_can_equip(wearer, user, slot, TRUE, TRUE))
+		return FALSE
+	if(!user.temporarilyRemoveItemFromInventory(src))
+		return FALSE
+	wearer.equip_to_slot(src, slot)
+	return TRUE

@@ -2,6 +2,7 @@
 	name = "briefs"
 	desc = "An absolute necessity."
 	icon = 'icons/obj/items/clothes/underwear.dmi'
+	gendered = TRUE
 	mob_overlay_icon = 'icons/obj/items/clothes/on_mob/underwear.dmi'
 	icon_state = "briefs"
 	item_state = "briefs"
@@ -14,11 +15,15 @@
 	integrity_failure = 0.1
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	var/covers_breasts = FALSE
+	/// Compatibility renderer for accessories retained by old loadouts.
+	var/sprite_acc
+	var/worn_icon_state
 	var/icon_state_base
 	boob_sized = FALSE
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	slot_flags = ITEM_SLOT_MOUTH | ITEM_SLOT_UNDER_BOTTOM
+	slot_flags = ITEM_SLOT_MOUTH
+	extra_slot_flags = EXTRA_SLOT_UNDER_BOTTOM
 	muteinmouth = TRUE
 	flags_inv = HIDECROTCH
 
@@ -34,7 +39,7 @@
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
-				H.equip_to_slot_if_possible(src, ITEM_SLOT_UNDER_BOTTOM, disable_warning = TRUE)
+				equip_from_hands(user, H, SLOT_UNDER_BOTTOM)
 
 /obj/item/clothing/undies/equipped(mob/living/carbon/user, slot)
 	. = ..()
@@ -50,6 +55,7 @@
 	icon_state = icon_state_base
 
 /obj/item/clothing/undies/bikini_bottom
+	worn_icon_state = "bikini"
 	name = "bikini bottom"
 	desc = "A perfect bathing garment."
 	icon_state = "bikini_bottom"
@@ -69,11 +75,16 @@
 	item_state = "braies"
 
 /obj/item/clothing/undies/briefs_eoran
+	sprite_acc = /datum/sprite_accessory/underwear/briefs/eoran
 	name = "eoran briefs"
-	icon_state = "eoran_reg"
-	item_state = "braies"
+	icon_state = "briefs"
+	item_state = "briefs"
 
 /obj/item/undies/bandages
+	icon = 'icons/mob/sprite_accessory/underwear.dmi'
+	sprite_acc = /datum/sprite_accessory/underwear/bandages
+	covers_breasts = TRUE
+	flags_inv = HIDECROTCH | HIDEBOOB
 	name = "bandages"
 	icon_state = "bandages"
 	item_state = "bandages"
@@ -110,3 +121,35 @@
 	result = list(/obj/item/clothing/undies/braies)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 2
+
+// Preserve paths referenced by saved customizers and donor loadouts.
+/obj/item/undies
+	parent_type = /obj/item/clothing/undies
+	sprite_acc = /datum/sprite_accessory/underwear/briefs
+
+/obj/item/undies/bikini
+	name = "bikini"
+	icon_state = "bikini_bottom"
+	sprite_acc = /datum/sprite_accessory/underwear/bikini
+	covers_breasts = TRUE
+	flags_inv = HIDECROTCH | HIDEBOOB
+
+/obj/item/clothing/undies/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = 0)
+	if(worn_icon_state && !isinhands)
+		override_state = worn_icon_state
+	if(!sprite_acc || isinhands)
+		return ..()
+	var/atom/container = loc
+	var/mob/living/carbon/human/wearer = ishuman(container) ? container : container?.loc
+	if(!istype(wearer))
+		return ..()
+	var/obj/item/bodypart/chest = wearer.get_bodypart(BODY_ZONE_CHEST)
+	if(!chest)
+		return ..()
+	var/datum/sprite_accessory/accessory = SPRITE_ACCESSORY(sprite_acc)
+	var/mutable_appearance/standing = mutable_appearance(layer = -default_layer)
+	// Worn clothing must not hide its own accessory through HIDECROTCH/HIDEBOOB.
+	var/list/pieces = accessory.get_overlay(accessory.get_icon_state(null, chest, wearer), color)
+	// update_inv_undie_bot() applies the body-build offset once to the wrapper.
+	standing.add_overlay(pieces)
+	return standing

@@ -740,7 +740,12 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	var/num_arms = H.get_num_arms(FALSE)
 	var/num_legs = H.get_num_legs(FALSE)
 	var/is_taur = !!H.get_taur_tail()
-	var/extra_flags = (I.slot_flags << 1) >> 1 //We "cut off" the 24th bit of the extra slots flag so that the bitwise & can work.
+
+	if(slotdefine2extraslotbit(slot))
+		if(!H.get_bodypart(BODY_ZONE_CHEST))
+			return FALSE
+		if((slot in list(SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS)) && (NO_UNDERWEAR in species_traits))
+			return FALSE
 
 	switch(slot)
 		if(SLOT_HANDS)
@@ -1040,56 +1045,57 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 		if(SLOT_UNDER_BOTTOM)
 			if(H.underwear)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_UNDER_BOTTOM) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_UNDER_TOP)
 			if(H.bra)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_UNDER_TOP) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_UNDERSHIRT)
 			if(H.undershirt)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_UNDERSHIRT) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_GARTER)
 			if(H.garter)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_GARTER) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_CHOKER)
 			if(H.choker)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_CHOKER) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_EARRING_L)
 			if(H.earring_l)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_EARRING_L) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_EARRING_R)
 			if(H.earring_r)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_EARRING_R) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_SOCKS)
 			if(H.legwear_socks)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_SOCKS) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
+			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_ARMSLEEVES)
 			if(H.armsleeves)
 				return FALSE
-			if( !((extra_flags & ITEM_SLOT_ARMSLEEVES) && (I.slot_flags & ITEM_SLOT_EXTRA)) )
-				return equip_delay_self_check(I, H, bypass_equip_delay_self)
+			if(!I.fits_slot(slot))
+				return FALSE
+			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 	return FALSE //Unsupported slot
 
 /datum/species/proc/equip_delay_self_check(obj/item/I, mob/living/carbon/human/H, bypass_equip_delay_self)

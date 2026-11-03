@@ -68,10 +68,10 @@
 	accessory_colors = accessory.get_default_colors(source_key_list)
 
 /obj/item/bodypart/proc/add_bodypart_feature(datum/bodypart_feature/feature)
-	if(feature.bodypart_feature_additem(owner, src))
-		return
 	if(feature.body_zone != body_zone)
 		return FALSE
+	if(feature.bodypart_feature_additem(owner, src))
+		return TRUE
 	if(!bodypart_features)
 		bodypart_features = list()
 	// Remove existing features that occupy this slot

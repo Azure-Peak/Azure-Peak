@@ -2,6 +2,7 @@
 	name = "cloth armsleeve"
 	desc = "Beautiful, form-fitting long armsleeves."
 	icon = 'icons/obj/items/clothes/sleeves_undershirts.dmi'
+	gendered = TRUE
 	mob_overlay_icon = 'icons/obj/items/clothes/on_mob/sleeves_undershirts.dmi'
 	sleeved = 'icons/obj/items/clothes/on_mob/sleeves_undershirts.dmi'
 	sleevetype = "shirt"
@@ -17,7 +18,8 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	slot_flags = ITEM_SLOT_ARMSLEEVES | ITEM_SLOT_WRISTS
+	slot_flags = ITEM_SLOT_WRISTS
+	extra_slot_flags = EXTRA_SLOT_ARMSLEEVES
 
 /obj/item/clothing/armsleeves/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
@@ -29,7 +31,7 @@
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
-				H.equip_to_slot_if_possible(src, ITEM_SLOT_ARMSLEEVES, disable_warning = TRUE)
+				equip_from_hands(user, H, SLOT_ARMSLEEVES)
 
 /obj/item/clothing/armsleeves/solid_half
 	name = "sheer half-armsleeve"

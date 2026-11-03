@@ -1351,11 +1351,7 @@ There are several things that need to be remembered:
 
 	if(underwear)
 		var/datum/species/species = dna?.species
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1370,17 +1366,11 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		if(gender == MALE)
-			if(OFFSET_UNDIES in species.offset_features)
-				underwear_overlay.pixel_x += species.offset_features[OFFSET_UNDIES][1]
-				underwear_overlay.pixel_y += species.offset_features[OFFSET_UNDIES][2]
-		else
-			if(OFFSET_UNDIES_F in species.offset_features)
-				underwear_overlay.pixel_x += species.offset_features[OFFSET_UNDIES_F][1]
-				underwear_overlay.pixel_y += species.offset_features[OFFSET_UNDIES_F][2]
+		apply_offset(underwear_overlay, OFFSET_UNDIES, OFFSET_UNDIES_F)
 
 		overlays_standing[UNDERWEAR_BOT_LAYER] = underwear_overlay
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1393,11 +1383,7 @@ There are several things that need to be remembered:
 	if(bra)
 		var/b_size = 0
 		var/datum/species/species = dna?.species
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1417,17 +1403,11 @@ There are several things that need to be remembered:
 			breast_size = b_size
 		)
 
-		if(gender == MALE)
-			if(OFFSET_BRA in species.offset_features)
-				underwear_overlay.pixel_x += species.offset_features[OFFSET_BRA][1]
-				underwear_overlay.pixel_y += species.offset_features[OFFSET_BRA][2]
-		else
-			if(OFFSET_BRA_F in species.offset_features)
-				underwear_overlay.pixel_x += species.offset_features[OFFSET_BRA_F][1]
-				underwear_overlay.pixel_y += species.offset_features[OFFSET_BRA_F][2]
+		apply_offset(underwear_overlay, OFFSET_BRA, OFFSET_BRA_F)
 
 		overlays_standing[UNDERWEAR_TOP_LAYER] = underwear_overlay
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1442,11 +1422,7 @@ There are several things that need to be remembered:
 		var/b_size = 0
 		var/datum/species/species = dna?.species
 		var/armsindex = get_limbloss_index(ARM_RIGHT, ARM_LEFT)
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1463,17 +1439,11 @@ There are several things that need to be remembered:
 			default_layer = UNDERSHIRT_LAYER,
 			female = use_female_sprites,
 			customi = racecustom,
-			breast_size = b_size
+			breast_size = b_size,
+			boobed_overlay = has_boobed_overlay()
 		)
 
-		if(gender == MALE)
-			if(OFFSET_SHIRT in species.offset_features)
-				undershirt_overlay.pixel_x += species.offset_features[OFFSET_SHIRT][1]
-				undershirt_overlay.pixel_y += species.offset_features[OFFSET_SHIRT][2]
-		else
-			if(OFFSET_SHIRT_F in species.offset_features)
-				undershirt_overlay.pixel_x += species.offset_features[OFFSET_SHIRT_F][1]
-				undershirt_overlay.pixel_y += species.offset_features[OFFSET_SHIRT_F][2]
+		apply_offset(undershirt_overlay, OFFSET_SHIRT, OFFSET_SHIRT_F)
 
 		overlays_standing[UNDERSHIRT_LAYER] = undershirt_overlay
 
@@ -1484,17 +1454,11 @@ There are several things that need to be remembered:
 
 		if(sleeves)
 			for(var/mutable_appearance/S as anything in sleeves)
-				if(gender == MALE)
-					if(OFFSET_SHIRT in species.offset_features)
-						S.pixel_x += species.offset_features[OFFSET_SHIRT][1]
-						S.pixel_y += species.offset_features[OFFSET_SHIRT][2]
-				else
-					if(OFFSET_SHIRT_F in species.offset_features)
-						S.pixel_x += species.offset_features[OFFSET_SHIRT_F][1]
-						S.pixel_y += species.offset_features[OFFSET_SHIRT_F][2]
+				apply_offset(S, OFFSET_SHIRT, OFFSET_SHIRT_F)
 
 			overlays_standing[UNDERSLEEVE_LAYER] = sleeves
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1507,11 +1471,7 @@ There are several things that need to be remembered:
 
 	if(garter)
 		var/datum/species/species = dna?.species
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1526,17 +1486,11 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		if(gender == MALE)
-			if(OFFSET_NECK in species.offset_features)
-				garter_overlay.pixel_x += species.offset_features[OFFSET_NECK][1]
-				garter_overlay.pixel_y += species.offset_features[OFFSET_NECK][2]
-		else
-			if(OFFSET_NECK_F in species.offset_features)
-				garter_overlay.pixel_x += species.offset_features[OFFSET_NECK_F][1]
-				garter_overlay.pixel_y += species.offset_features[OFFSET_NECK_F][2]
+		apply_offset(garter_overlay, OFFSET_NECK, OFFSET_NECK_F)
 
 		overlays_standing[GARTER_LAYER] = garter_overlay
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1548,11 +1502,7 @@ There are several things that need to be remembered:
 
 	if(choker)
 		var/datum/species/species = dna?.species
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1564,17 +1514,11 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		if(gender == MALE)
-			if(OFFSET_NECK in species.offset_features)
-				choker_overlay.pixel_x += species.offset_features[OFFSET_NECK][1]
-				choker_overlay.pixel_y += species.offset_features[OFFSET_NECK][2]
-		else
-			if(OFFSET_NECK_F in species.offset_features)
-				choker_overlay.pixel_x += species.offset_features[OFFSET_NECK_F][1]
-				choker_overlay.pixel_y += species.offset_features[OFFSET_NECK_F][2]
+		apply_offset(choker_overlay, OFFSET_NECK, OFFSET_NECK_F)
 
 		overlays_standing[CHOKER_LAYER] = choker_overlay
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1586,11 +1530,7 @@ There are several things that need to be remembered:
 
 	if(earring_l)
 		var/datum/species/species = dna?.species
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1605,17 +1545,11 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		if(gender == MALE)
-			if(OFFSET_HEAD in species.offset_features)
-				earring_l_overlay.pixel_x += species.offset_features[OFFSET_HEAD][1]
-				earring_l_overlay.pixel_y += species.offset_features[OFFSET_HEAD][2]
-		else
-			if(OFFSET_HEAD_F in species.offset_features)
-				earring_l_overlay.pixel_x += species.offset_features[OFFSET_HEAD_F][1]
-				earring_l_overlay.pixel_y += species.offset_features[OFFSET_HEAD_F][2]
+		apply_offset(earring_l_overlay, OFFSET_HEAD, OFFSET_HEAD_F)
 
 		overlays_standing[EARRING_L_LAYER] = earring_l_overlay
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1627,11 +1561,7 @@ There are several things that need to be remembered:
 
 	if(earring_r)
 		var/datum/species/species = dna?.species
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1646,17 +1576,11 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		if(gender == MALE)
-			if(OFFSET_HEAD in species.offset_features)
-				earring_r_overlay.pixel_x += species.offset_features[OFFSET_HEAD][1]
-				earring_r_overlay.pixel_y += species.offset_features[OFFSET_HEAD][2]
-		else
-			if(OFFSET_HEAD_F in species.offset_features)
-				earring_r_overlay.pixel_x += species.offset_features[OFFSET_HEAD_F][1]
-				earring_r_overlay.pixel_y += species.offset_features[OFFSET_HEAD_F][2]
+		apply_offset(earring_r_overlay, OFFSET_HEAD, OFFSET_HEAD_F)
 
 		overlays_standing[EARRING_R_LAYER] = earring_r_overlay
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1668,11 +1592,7 @@ There are several things that need to be remembered:
 
 	if(legwear_socks)
 		var/datum/species/species = dna?.species
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1684,17 +1604,11 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		if(gender == MALE)
-			if(OFFSET_PANTS in species.offset_features)
-				legwear_socks_overlay.pixel_x += species.offset_features[OFFSET_PANTS][1]
-				legwear_socks_overlay.pixel_y += species.offset_features[OFFSET_PANTS][2]
-		else
-			if(OFFSET_PANTS_F in species.offset_features)
-				legwear_socks_overlay.pixel_x += species.offset_features[OFFSET_PANTS_F][1]
-				legwear_socks_overlay.pixel_y += species.offset_features[OFFSET_PANTS_F][2]
+		apply_offset(legwear_socks_overlay, OFFSET_PANTS, OFFSET_PANTS_F)
 
 		overlays_standing[LEGWEAR_LAYER] = legwear_socks_overlay
 
+	rebuild_obscured_flags()
 	update_body_parts(redraw = TRUE)
 	update_body()
 
@@ -1708,11 +1622,7 @@ There are several things that need to be remembered:
 	if(armsleeves)
 		var/datum/species/species = dna?.species
 		var/armsindex = get_limbloss_index(ARM_RIGHT, ARM_LEFT)
-		var/use_female_sprites = FALSE
-
-		if(species?.sexes)
-			if(species.use_f || (gender == FEMALE && !species.use_m))
-				use_female_sprites = TRUE
+		var/use_female_sprites = !is_bulky_body()
 
 		var/racecustom
 		if(species?.custom_clothes)
@@ -1725,14 +1635,7 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		if(gender == MALE)
-			if(OFFSET_WRISTS in species.offset_features)
-				armsleeves_overlay.pixel_x += species.offset_features[OFFSET_WRISTS][1]
-				armsleeves_overlay.pixel_y += species.offset_features[OFFSET_WRISTS][2]
-		else
-			if(OFFSET_WRISTS_F in species.offset_features)
-				armsleeves_overlay.pixel_x += species.offset_features[OFFSET_WRISTS_F][1]
-				armsleeves_overlay.pixel_y += species.offset_features[OFFSET_WRISTS_F][2]
+		apply_offset(armsleeves_overlay, OFFSET_WRISTS, OFFSET_WRISTS_F)
 
 		overlays_standing[BOTTOM_ARM_LAYER] = armsleeves_overlay
 
@@ -1743,14 +1646,7 @@ There are several things that need to be remembered:
 
 		if(sleeves)
 			for(var/mutable_appearance/S as anything in sleeves)
-				if(gender == MALE)
-					if(OFFSET_WRISTS in species.offset_features)
-						S.pixel_x += species.offset_features[OFFSET_WRISTS][1]
-						S.pixel_y += species.offset_features[OFFSET_WRISTS][2]
-				else
-					if(OFFSET_WRISTS_F in species.offset_features)
-						S.pixel_x += species.offset_features[OFFSET_WRISTS_F][1]
-						S.pixel_y += species.offset_features[OFFSET_WRISTS_F][2]
+				apply_offset(S, OFFSET_WRISTS, OFFSET_WRISTS_F)
 
 			overlays_standing[ARMSLEEVE_LAYER] = sleeves
 
@@ -1897,7 +1793,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 
 */
-/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = 0)
+/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = null)
 	var/t_state
 	var/sleevejazz = sleevetype
 	if(override_state)
@@ -1912,7 +1808,8 @@ generate/load female uniform sprites matching all previously decided variables
 					sleevejazz += "_f"
 			else
 				t_state = icon_state
-	if(breast_size && boob_sized)
+	var/body_state = t_state
+	if(!isinhands && female && !isnull(breast_size) && boob_sized)
 		t_state += "_B[breast_size]"
 	if(customi)
 		t_state += "_[customi]"
@@ -1929,6 +1826,27 @@ generate/load female uniform sprites matching all previously decided variables
 		file2use = mob_overlay_icon
 	if(!file2use)
 		file2use = default_icon_file
+
+	// New clothing sheets do not contain every size/race variant. Fall back to
+	// a real state rather than constructing an invisible appearance.
+	if(extra_slot_flags && !isinhands)
+		var/list/states = icon_states(file2use)
+		if(!(t_state in states))
+			var/without_race = customi ? copytext(t_state, 1, length(t_state) - length(customi)) : t_state
+			if(without_race in states)
+				t_state = without_race
+			else if(female && boob_sized && !isnull(breast_size))
+				for(var/delta in 1 to 6)
+					var/smaller = "[body_state]_B[max(0, breast_size - delta)]"
+					var/larger = "[body_state]_B[min(6, breast_size + delta)]"
+					if(smaller in states)
+						t_state = smaller
+						break
+					if(larger in states)
+						t_state = larger
+						break
+			if(!(t_state in states))
+				t_state = (body_state in states) ? body_state : icon_state
 
 	//Find a valid layer from variables+arguments
 	var/layer2use
@@ -2268,7 +2186,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 	//GENERATE NEW LIMBS
 	var/list/new_limbs = list()
-	var/hiden = FALSE //used to tell if we should hide boobs, basically
+	var/hiden = !!(obscured_flags & HIDEBOOB)
 	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		if(BP.name == BODY_ZONE_CHEST)
 			if(wear_armor)

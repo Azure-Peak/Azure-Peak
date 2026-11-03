@@ -102,24 +102,26 @@
 		/datum/sprite_accessory/legwear/stockings/sleeve_stir_ankle_silk
 		)
 
+/// Convert saved accessories to actual clothing slots, including the character preview dummy.
 /datum/bodypart_feature/underwear/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
-	.=..()
-
-	if(owner)
-		var/datum/sprite_accessory/underwear/u_s = accessory_type
-		var/obj/item/clothing/undies/undie = new u_s.underwear_type
-		owner.equip_to_slot_if_possible(undie, ITEM_SLOT_UNDER_BOTTOM)
-		bp.remove_bodypart_feature(src)
-		return TRUE
-	return FALSE
+	if(!ishuman(owner) || !accessory_type)
+		return FALSE
+	var/datum/sprite_accessory/underwear/accessory = SPRITE_ACCESSORY(accessory_type)
+	var/obj/item/clothing/garment = new accessory.underwear_type(owner)
+	garment.color = accessory_colors
+	var/slot = SLOT_UNDER_BOTTOM
+	if(garment.fits_slot(SLOT_UNDERSHIRT))
+		slot = SLOT_UNDERSHIRT
+	else if(garment.fits_slot(SLOT_UNDER_TOP))
+		slot = SLOT_UNDER_TOP
+	owner.equip_to_slot_or_del(garment, slot, TRUE)
+	return TRUE
 
 /datum/bodypart_feature/legwear/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
-	.=..()
-
-	if(owner)
-		var/datum/sprite_accessory/legwear/l_s = accessory_type
-		var/obj/item/clothing/legwears/sock = new l_s.legwear_type
-		owner.equip_to_slot_if_possible(sock, ITEM_SLOT_SOCKS)
-		bp.remove_bodypart_feature(src)
-		return TRUE
-	return FALSE
+	if(!ishuman(owner) || !accessory_type)
+		return FALSE
+	var/datum/sprite_accessory/legwear/accessory = SPRITE_ACCESSORY(accessory_type)
+	var/obj/item/clothing/legwears/garment = new accessory.legwear_type(owner)
+	garment.color = accessory_colors
+	owner.equip_to_slot_or_del(garment, SLOT_SOCKS, TRUE)
+	return TRUE

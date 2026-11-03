@@ -413,6 +413,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(!slot_priority)
 		slot_priority = list( \
+			SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS,\
+			SLOT_ARMSLEEVES, SLOT_CHOKER, SLOT_GARTER, SLOT_EARRING_L, SLOT_EARRING_R,\
 			SLOT_BACK, SLOT_RING, SLOT_WRISTS,\
 			SLOT_PANTS, SLOT_ARMOR,\
 			SLOT_WEAR_MASK, SLOT_HEAD, SLOT_NECK,\
@@ -702,6 +704,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["item"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["item"])
+		if(is_inventory_slot_obscured(slot))
+			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
+			return
 		var/hand_index = text2num(href_list["hand_index"])
 		var/obj/item/what
 		if(hand_index)
@@ -715,8 +720,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 		else
 			usr.stripPanelEquip(what,src,slot, text2num(href_list["extra_only"]))
 
-	if(href_list["show_storage"])
+	if(href_list["show_storage"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["show_storage"])
+		if(is_inventory_slot_obscured(slot))
+			return
 		var/obj/item/what = get_item_by_slot(slot)
 		SEND_SIGNAL(what, COMSIG_ATOM_ATTACK_HAND, usr)
 
@@ -735,7 +742,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 // The src mob is trying to strip an item from someone
 // Defined in living.dm
-/mob/proc/stripPanelUnequip(obj/item/what, mob/who, extra_only)
+/mob/proc/stripPanelUnequip(obj/item/what, mob/who, where, extra_only)
 	return
 
 // The src mob is trying to strip everything off an unclaimed corpse at once
@@ -745,7 +752,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 // The src mob is trying to place an item on someone
 // Defined in living.dm
-/mob/proc/stripPanelEquip(obj/item/what, mob/who, extra_only)
+/mob/proc/stripPanelEquip(obj/item/what, mob/who, where, extra_only)
 	return
 
 /**
@@ -1398,3 +1405,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 /mob/proc/check_equipment_mood_penalty()
 	return
+
+/mob/proc/is_inventory_slot_obscured(slot)
+	return FALSE
+
+/mob/living/carbon/is_inventory_slot_obscured(slot)
+	return slot in check_obscured_slots(TRUE)

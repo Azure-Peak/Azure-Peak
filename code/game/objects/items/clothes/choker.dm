@@ -15,7 +15,8 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	slot_flags = SLOT_CHOKER | SLOT_NECK
+	slot_flags = ITEM_SLOT_NECK
+	extra_slot_flags = EXTRA_SLOT_CHOKER
 
 /obj/item/clothing/choker/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
@@ -25,4 +26,4 @@
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
-				H.equip_to_slot_if_possible(src, SLOT_CHOKER, disable_warning = TRUE)
+				equip_from_hands(user, H, SLOT_CHOKER)

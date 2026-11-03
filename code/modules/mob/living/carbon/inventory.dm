@@ -49,8 +49,6 @@
 	I.plane = ABOVE_HUD_PLANE
 	I.appearance_flags |= NO_CLIENT_COLOR
 	var/not_handled = FALSE
-	if(slot & ITEM_SLOT_EXTRA)
-		not_handled = TRUE
 	switch(slot)
 		if(SLOT_BACK)
 			if(!backl && (I.slot_flags & ITEM_SLOT_BACK_L))
@@ -135,10 +133,6 @@
 		legcuffed = null
 		if(!QDELETED(src))
 			update_inv_legcuffed()
-	else if(I == underwear)
-		underwear = null
-	else if(I == legwear_socks)
-		legwear_socks = null
 
 //handle stuff to update when a mob equips/unequips a mask.
 /mob/living/proc/wear_mask_update(obj/item/I, toggle_off = 1)

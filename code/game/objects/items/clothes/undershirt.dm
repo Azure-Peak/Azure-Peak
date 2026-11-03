@@ -2,6 +2,7 @@
 	name = "sheer body"
 	desc = "Something to cover yourself with."
 	icon = 'icons/obj/items/clothes/undershirt.dmi'
+	gendered = TRUE
 	mob_overlay_icon = 'icons/obj/items/clothes/on_mob/undershirt.dmi'
 	icon_state = "solid"
 	item_state = "solid"
@@ -15,7 +16,8 @@
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
-	slot_flags = ITEM_SLOT_UNDERSHIRT
+	slot_flags = NONE
+	extra_slot_flags = EXTRA_SLOT_UNDERSHIRT
 	flags_inv = HIDEBOOB
 	boobed = TRUE
 	nodismemsleeves = TRUE
@@ -30,7 +32,7 @@
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
-				H.equip_to_slot_if_possible(src, ITEM_SLOT_UNDERSHIRT, disable_warning = TRUE)
+				equip_from_hands(user, H, SLOT_UNDERSHIRT)
 
 /obj/item/clothing/undershirt/leotard
 	name = "leotard"

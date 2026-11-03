@@ -1506,6 +1506,8 @@
 // The src mob is trying to strip an item from someone
 // Override if a certain type of mob should be behave differently when stripping items (can't, for example)
 /mob/living/stripPanelUnequip(obj/item/what, mob/who, where, extra_only)
+	if(who.is_inventory_slot_obscured(where))
+		return
 	if(!what.canStrip(who))
 		to_chat(src, span_warning("I can't remove \the [what.name], it appears to be stuck!"))
 		return
@@ -1553,7 +1555,7 @@
 				if(what == who.get_item_for_held_index(L[2]))
 					if(what.doStrip(src, who))
 						log_combat(src, who, "stripped [what] off")
-			if(what == who.get_item_by_slot(where))
+			if(what == who.get_item_by_slot(where) && !who.is_inventory_slot_obscured(where))
 				if(what.doStrip(src, who))
 					log_combat(src, who, "stripped [what] off")
 
@@ -1644,6 +1646,8 @@
 // The src mob is trying to place an item on someone
 // Override if a certain mob should be behave differently when placing items (can't, for example)
 /mob/living/stripPanelEquip(obj/item/what, mob/who, where, extra_only)
+	if(who.is_inventory_slot_obscured(where))
+		return
 	what = src.get_active_held_item()
 	if(what && (HAS_TRAIT(what, TRAIT_NODROP)))
 		to_chat(src, span_warning("I can't put \the [what.name] on [who], it's stuck to my hand!"))
@@ -1676,7 +1680,7 @@
 						span_notice("[src] tries to put [what] on you."), null, null, src)
 		to_chat(src, span_notice("I try to put [what] on [who]..."))
 		if(do_mob(src, who, what.equip_delay_other * surrender_mod))
-			if(what && Adjacent(who) && what.mob_can_equip(who, src, final_where, TRUE, TRUE))
+			if(what && Adjacent(who) && is_holding(what) && !who.is_inventory_slot_obscured(final_where) && what.mob_can_equip(who, src, final_where, TRUE, TRUE))
 				if(temporarilyRemoveItemFromInventory(what))
 					if(where_list)
 						if(!who.put_in_hand(what, where_list[2]))
