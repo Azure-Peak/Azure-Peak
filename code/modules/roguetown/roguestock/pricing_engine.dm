@@ -632,6 +632,9 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 		"code/controllers/subsystem/rogue/cooking/cooking_recipes.dm",
 	)
 	for(var/path in source_files)
+		if(!fexists(path))
+			parts += "src:[path]=ABSENT"
+			continue
 		var/hash = rustg_hash_file(RUSTG_HASH_MD5, path)
 		if(!hash)
 			log_world("Pricing engine WARNING: source file [path] could not be hashed. Cache may be stale.")
