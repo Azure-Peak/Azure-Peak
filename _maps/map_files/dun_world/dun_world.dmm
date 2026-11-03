@@ -1,4 +1,12 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aaa" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/cobble/mossy,
+/area/rogue/indoors/cave/west)
+"aab" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/dirt/road,
+/area/rogue/under/underdark/north)
 "aac" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5;
@@ -12,12 +20,29 @@
 /obj/machinery/light/rogue/candle/floorcandle,
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield)
+"aae" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/twig,
+/area/rogue/outdoors/bog/south)
 "aaf" = (
 /obj/structure/glowshroom{
 	color = "#87CEEB"
 	},
 /turf/open/water/ocean/abyssal,
 /area/rogue/under/cave/fishmandungeon)
+"aag" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/grasscold,
+/area/rogue/outdoors/mountains/decap)
+"aah" = (
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter)
+"aai" = (
+/obj/structure/fluff/wallclock/r,
+/obj/effect/landmark/forlorne,
+/turf/open/floor/rogue/ruinedwood,
+/area/rogue/indoors/shelter)
 "aal" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
@@ -166095,7 +166120,7 @@ xYB
 xYB
 xYB
 lUW
-xYB
+aab
 xYB
 xYB
 lUW
@@ -190504,7 +190529,7 @@ rpC
 rpC
 bNW
 rpC
-whG
+aaa
 whG
 tCn
 bYW
@@ -190956,8 +190981,8 @@ rpC
 rpC
 rpC
 rpC
-whG
-whG
+aaa
+aaa
 uNW
 syP
 syP
@@ -381859,9 +381884,9 @@ sxN
 xot
 sxN
 sxN
-xcc
-xcc
-xcc
+aae
+aae
+aae
 aay
 jYu
 jYu
@@ -493823,8 +493848,8 @@ wHp
 kNH
 eMt
 lRZ
-lRZ
-lRZ
+aag
+aag
 eAq
 eAq
 eAq
@@ -494275,7 +494300,7 @@ wHp
 kNH
 kNH
 lRZ
-lRZ
+aag
 lRZ
 eAq
 eAq
@@ -583246,8 +583271,8 @@ tDV
 ddn
 ddn
 uvy
-uZT
-uZT
+aah
+aah
 cjJ
 uZT
 koR
@@ -583698,7 +583723,7 @@ tDV
 rVf
 rVf
 uvy
-uZT
+aai
 mno
 uZT
 uZT
