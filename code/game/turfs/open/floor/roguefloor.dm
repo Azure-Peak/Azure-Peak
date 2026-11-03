@@ -1897,7 +1897,7 @@
 			possible_turfs += T
 		if(!length(possible_turfs))
 			return
-		H.forceMove(pick(possible_turfs))
+		step_towards(H, pick(possible_turfs))
 		to_chat(H, span_warning("I slip on [src]!"))
 
 /turf/open/floor/rogue/frozen_water/deep
