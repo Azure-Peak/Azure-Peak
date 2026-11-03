@@ -170,11 +170,6 @@
 	ui_interact(user)
 	return TRUE
 
-/obj/structure/chessboard/ui_status(mob/user, datum/ui_state/state)
-	if(isobserver(user))
-		return in_range(src, user) ? UI_UPDATE : UI_CLOSE
-	return ..()
-
 /obj/structure/chessboard/ui_interact(mob/user, datum/tgui/ui)
 	mark_viewer_active(user)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -438,7 +433,7 @@
 	update_board_transform()
 
 /obj/structure/chessboard/proc/mark_viewer_active(mob/user)
-	if(!user || !user.ckey || isobserver(user))
+	if(!user || !user.ckey)
 		return
 	if(!active_ui_ckeys)
 		active_ui_ckeys = list()
@@ -2081,7 +2076,14 @@
 				to_rank += step[2]
 		return targets
 
-	for(var/list/step in list(list(1, 1), list(-1, 1), list(1, -1), list(-1, -1)))
+	var/list/dirs = list()
+	if(piece_type == CHECKERS_KING)
+		dirs += list(list(1, 1), list(-1, 1), list(1, -1), list(-1, -1))
+	else
+		var/forward = (color == CHESS_WHITE) ? 1 : -1
+		dirs += list(list(1, forward), list(-1, forward))
+
+	for(var/list/step in dirs)
 		var/mid_file = from_file + step[1]
 		var/mid_rank = from_rank + step[2]
 		var/to_file = from_file + (step[1] * 2)
