@@ -2073,7 +2073,14 @@
 				to_rank += step[2]
 		return targets
 
-	for(var/list/step in list(list(1, 1), list(-1, 1), list(1, -1), list(-1, -1)))
+	var/list/dirs = list()
+	if(piece_type == CHECKERS_KING)
+		dirs += list(list(1, 1), list(-1, 1), list(1, -1), list(-1, -1))
+	else
+		var/forward = (color == CHESS_WHITE) ? 1 : -1
+		dirs += list(list(1, forward), list(-1, forward))
+
+	for(var/list/step in dirs)
 		var/mid_file = from_file + step[1]
 		var/mid_rank = from_rank + step[2]
 		var/to_file = from_file + (step[1] * 2)
