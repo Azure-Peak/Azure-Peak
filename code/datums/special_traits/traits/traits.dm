@@ -179,8 +179,8 @@
 	weight = 100
 
 /datum/special_trait/arsonist/on_apply(mob/living/carbon/human/character, silent)
-	character.mind.special_items["Firebomb One"] = /obj/item/bomb
-	character.mind.special_items["Firebomb Two"] = /obj/item/bomb
+	character.mind.special_items["Firebomb One"] = /obj/item/explosive/fused/bottle
+	character.mind.special_items["Firebomb Two"] = /obj/item/explosive/fused/bottle
 	ADD_TRAIT(character, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 	character.adjust_skillrank_up_to(/datum/skill/craft/alchemy, 1, TRUE)
 

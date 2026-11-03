@@ -322,7 +322,7 @@
 	icon_state = "bomb_trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
-	scraptype = /obj/item/impact_grenade/explosion
+	scraptype = /obj/item/explosive/impact/shrapnel
 
 /obj/structure/trap/bomb/trap_effect(mob/living/L)
 	..()
@@ -334,7 +334,7 @@
 	icon_state = "trap_plate"
 	time_between_triggers = 100
 	max_integrity = 500
-	scraptype = /obj/item/bomb
+	scraptype = /obj/item/explosive/fused/bottle
 
 /obj/structure/trap/flame/trap_effect(mob/living/L)
 	..()

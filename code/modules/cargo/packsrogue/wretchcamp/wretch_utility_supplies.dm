@@ -7,20 +7,20 @@
 	name = "Smoke Bomb III Pack"
 	cost =	20
 	contains = list(
-					/obj/item/bomb/smoke,
-					/obj/item/bomb/smoke,
-					/obj/item/bomb/smoke
+					/obj/item/explosive/impact/smoke/bomb,
+					/obj/item/explosive/impact/smoke/bomb,
+					/obj/item/explosive/impact/smoke/bomb
 				)
 
 /datum/supply_pack/rogue/medical_utility_wretch/bottlebombs
 	name = "Bottle Bomb V Pack"
 	cost = 35
 	contains = list(
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle
 				)
 
 /datum/supply_pack/rogue/medical_utility_wretch/lockpicks
