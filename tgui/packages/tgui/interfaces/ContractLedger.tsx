@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Dialog } from 'tgui-core/components';
+import { Button, Dialog, Icon, Tooltip } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -84,6 +84,7 @@ type ContractLedgerData = {
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   user_is_fellowship_leader: BooleanLike;
+  arrival_scan_range: number;
   pool: Contract[];
   active: ActiveContract[];
   issued: IssuedContract[];
@@ -590,7 +591,15 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       {c.fellowship_reward_rate > 0 && (
         <div className="ContractLedger__CardRow">
-          <span className="ContractLedger__CardLabel">Per extra fellow</span>
+          <span className="ContractLedger__CardLabel">
+            Per extra fellow
+            <Tooltip
+              position="top"
+              content={`Contract scales to the number of fellowship members within ${data.arrival_scan_range} tiles of the writ when it starts.`}
+            >
+              <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
+            </Tooltip>
+          </span>
           <span className="ContractLedger__CardValue">
             +{formatRatioPct(c.fellowship_reward_rate)} pay
             {c.fellowship_threat_rate > 0 &&

@@ -29,6 +29,7 @@ type FellowshipData = {
   user_name: string;
   in_fellowship: BooleanLike;
   max_members: number;
+  arrival_scan_range: number;
   server_time: number;
   // Not in fellowship
   pending_invites?: IncomingInvite[];

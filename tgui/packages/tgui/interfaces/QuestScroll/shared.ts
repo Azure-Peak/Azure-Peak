@@ -53,6 +53,7 @@ export type QuestScrollData = {
   blockade_timer_seconds?: number;
   blockade_armed?: BooleanLike;
   armed?: BooleanLike;
+  arrival_scan_range?: number;
   blockade_failed?: BooleanLike;
   hunt_timer_label?: string;
   hunt_timer_seconds?: number;

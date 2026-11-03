@@ -121,9 +121,7 @@
 	var/list/present = list()
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(bearer)
-		present |= bearer
-		if(bearer.current_fellowship)
-			present |= bearer.current_fellowship.get_members()
+		present |= present_fellowship_members(bearer, landmark)
 	var/turf/center = get_turf(landmark)
 	if(center)
 		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))

@@ -239,17 +239,7 @@
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(!istype(bearer))
 		return
-	var/turf/center = get_turf(quest_scroll_ref?.resolve()) || get_turf(landmark)
-	if(!center)
-		return
-	var/list/present = list(bearer)
-	for(var/mob/living/M as anything in available_fellowship_members(bearer))
-		if(M == bearer || M.stat == DEAD)
-			continue
-		var/turf/T = get_turf(M)
-		if(!T || T.z != center.z || get_dist(T, center) > BLOCKADE_DEFENDER_SCAN_RANGE)
-			continue
-		present += M
+	var/list/present = present_fellowship_members(bearer, landmark)
 	var/before = fellowship_extras
 	fellowship_roster = list()
 	for(var/mob/living/M as anything in present)
@@ -266,6 +256,19 @@
 		announce_to_bearer("<b>[diff] of your fellowship member\s [diff == 1 ? "was" : "were"] absent.</b> The contract has been scaled down.")
 	else
 		announce_to_bearer("<b>[diff] more members than expected were in your fellowship.</b> The contract has been scaled up.")
+
+/datum/quest/kill/proc/present_fellowship_members(mob/living/bearer, obj/effect/landmark/quest_spawner/landmark)
+	. = list(bearer)
+	var/turf/center = get_turf(quest_scroll_ref?.resolve()) || get_turf(landmark)
+	if(!center)
+		return
+	for(var/mob/living/M as anything in available_fellowship_members(bearer))
+		if(M == bearer || M.stat == DEAD)
+			continue
+		var/turf/T = get_turf(M)
+		if(!T || T.z != center.z || get_dist(T, center) > QUEST_ARRIVAL_SCAN_RANGE)
+			continue
+		. += M
 
 /datum/quest/kill/get_target_location()
 	. = ..()

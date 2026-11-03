@@ -139,10 +139,10 @@ const MarginaliaSection = (props: MarginaliaSectionProps) => {
           <i>Travel to the blockade, waves arrives on arrival.</i>
         </div>
       )}
-      {!!data.armed && !data.complete && (
+      {(!!data.armed || !!data.blockade_armed) && !data.complete && (
         <div style={marginaliaLine}>
           <i>
-            Fellows who are not next to you when the contract starts does not count toward its final scaling.
+            Fellows who are not within two screens of you when the contract starts does not count toward its final scaling.
           </i>
         </div>
       )}
