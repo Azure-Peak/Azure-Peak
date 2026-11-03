@@ -1293,6 +1293,7 @@
 	wdefense_wbonus = 3
 	experimental_onhip = TRUE
 	experimental_onback = TRUE
+	can_parry = TRUE
 	brute_attack = TRUE
 	smeltresult = /obj/item/ingot/bronze
 	w_class = WEIGHT_CLASS_NORMAL
