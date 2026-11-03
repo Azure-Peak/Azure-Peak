@@ -3500,7 +3500,6 @@
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\knock.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\meteor_storm.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_aoe\repulse.dm"
-#include "code\modules\spells\spell_types\wizard\invoked_aoe\sundering_lightning.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_single_target\frostbite.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_single_target\raise_deadite.dm"
 #include "code\modules\spells\spell_types\wizard\invoked_single_target\silence.dm"

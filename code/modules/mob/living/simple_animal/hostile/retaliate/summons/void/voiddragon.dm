@@ -37,8 +37,8 @@ It will also call down lightning strikes from the sky, and fling people with it'
 #define SWOOP_DAMAGEABLE 1
 #define SWOOP_INVULNERABLE 2
 
-#define VOID_DRAGON_LIGHTNING_DAMAGE 30
-#define VOID_DRAGON_LIGHTNING_DELAY 1.5 SECONDS
+#define VOID_DRAGON_LIGHTNING_DAMAGE SPELL_DMG(60)
+#define VOID_DRAGON_LIGHTNING_TELEGRAPH TELEGRAPH_AREA_DENIAL
 #define VOID_DRAGON_CHAIN_RANGE 3
 
 /// This proc is called by the HRD-MDE grenade to enrage the megafauna. This should increase the megafaunas attack speed if possible, give it new moves, or disable weak moves. This should be reverseable, and reverses on zlvl change.
@@ -203,8 +203,8 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		if(dist > last_dist)
 			last_dist = dist
 			sleep(2 + min(4 - last_dist, 12) * 0.5) //gets faster
-		new /obj/effect/temp_visual/telegraph/targetlightning(T)
-		addtimer(CALLBACK(src, PROC_REF(lightning_strike), T), VOID_DRAGON_LIGHTNING_DELAY)
+		new /obj/effect/temp_visual/telegraph/thunderstrike(T, VOID_DRAGON_LIGHTNING_TELEGRAPH)
+		addtimer(CALLBACK(src, PROC_REF(lightning_strike), T), VOID_DRAGON_LIGHTNING_TELEGRAPH)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/lightning_strikes(atom/victim, amount, delay = 0.8)
 	if(!victim)
@@ -214,21 +214,33 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		if(QDELETED(victim))
 			break
 		var/turf/T = pick(RANGE_TURFS(enraged ? 2 : 1, victim))
-		new /obj/effect/temp_visual/telegraph/targetlightning(T)
-		addtimer(CALLBACK(src, PROC_REF(lightning_strike), T), VOID_DRAGON_LIGHTNING_DELAY)
+		new /obj/effect/temp_visual/telegraph/thunderstrike(T, VOID_DRAGON_LIGHTNING_TELEGRAPH)
+		addtimer(CALLBACK(src, PROC_REF(lightning_strike), T), VOID_DRAGON_LIGHTNING_TELEGRAPH)
 		amount--
 		SLEEP_CHECK_DEATH(delay)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/lightning_strike(turf/T)
+	new /obj/effect/temp_visual/thunderstrike_actual(T)
 	playsound(T, 'sound/magic/lightning.ogg', 80, TRUE)
-	new /obj/effect/temp_visual/lightning(T)
 	for(var/mob/living/L in T.contents)
 		if(L == src || L.stat == DEAD || faction_check_mob(L))
 			continue
-		if(L.anti_magic_check())
-			continue
-		L.electrocute_act(VOID_DRAGON_LIGHTNING_DAMAGE, "Lightning Bolt", flags = SHOCK_NOGLOVES)
-		to_chat(L, span_userdanger("You're hit by lightning!!!"))
+		shock_victim(L, VOID_DRAGON_LIGHTNING_DAMAGE)
+
+/mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/shock_victim(mob/living/L, damage, spell_name = "Sundering Lightning")
+	if(L.anti_magic_check())
+		L.visible_message(span_warning("The lightning fades away around [L]!"))
+		playsound(get_turf(L), 'sound/magic/magic_nulled.ogg', 100)
+		return FALSE
+	if(ishuman(L))
+		var/static/list/random_zones = list(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
+		if(arcyne_strike(src, L, null, damage, pick(random_zones), BCLASS_BURN, spell_name = spell_name, damage_type = BURN, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+			return FALSE
+	else
+		L.electrocute_act(damage, src, 1, SHOCK_NOGLOVES|SHOCK_NOSTUN)
+	L.electrocute_act(0, src, 1, SHOCK_NOSTUN|SHOCK_VISUAL_ONLY)
+	new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_LIGHTNING, SPELL_IMPACT_HIGH)
+	return TRUE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/swoop_attack(atom/victim)
 	if(stat || swooping || !victim)
@@ -438,19 +450,16 @@ It will also call down lightning strikes from the sky, and fling people with it'
 		move_resist = initial(move_resist)
 		return FALSE
 	visible_message(span_colossus("[src] unleashes a storm of lightning from its maw!"))
-	Bolt(src, target, 30, 5, src)
+	Bolt(src, target, VOID_DRAGON_LIGHTNING_DAMAGE, 5, src)
 	move_resist = initial(move_resist)
 	return TRUE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/Bolt(mob/origin,mob/target,bolt_energy,bounces,mob/user = usr)
 	origin.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
 	var/mob/living/current = target
-	if(current.anti_magic_check())
-		current.visible_message(span_warning("[current] absorbs the spell, remaining unharmed!"), span_danger("I absorb the spell, remaining unharmed!"))
-	else if(bounces < 1)
-		current.electrocute_act(bolt_energy,"Lightning Bolt",flags = SHOCK_NOGLOVES)
-	else
-		current.electrocute_act(bolt_energy,"Lightning Bolt",flags = SHOCK_NOGLOVES)
+	if(!shock_victim(current, bolt_energy, "Chain Lightning"))
+		return
+	if(bounces >= 1)
 		var/list/possible_targets = new
 		for(var/mob/living/M in view(7,target))
 			if(M == user || M == target || M.stat == DEAD || user.faction_check_mob(M) || !los_check(current, M))
@@ -460,7 +469,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 			return
 		var/mob/living/next = pick(possible_targets)
 		if(next)
-			Bolt(current,next,max((bolt_energy-5),5),bounces-1,user)
+			Bolt(current,next,max(bolt_energy - 10, 10),bounces-1,user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/los_check(mob/A,mob/B)
 	//Checks for obstacles from A to B
@@ -504,5 +513,5 @@ It will also call down lightning strikes from the sky, and fling people with it'
 #undef SWOOP_DAMAGEABLE
 #undef SWOOP_INVULNERABLE
 #undef VOID_DRAGON_LIGHTNING_DAMAGE
-#undef VOID_DRAGON_LIGHTNING_DELAY
+#undef VOID_DRAGON_LIGHTNING_TELEGRAPH
 #undef VOID_DRAGON_CHAIN_RANGE
