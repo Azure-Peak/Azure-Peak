@@ -153,13 +153,13 @@
 		fail("The claimant has vanished.")
 		return
 	if(invoker.stat == DEAD)
-		fail("[invoker.real_name] lies dead. The succession cannot be completed.")
+		fail("[invoker.get_unmasked_name()] lies dead. The succession cannot be completed.")
 		return
 	if(invoker.stat != CONSCIOUS)
-		fail("[invoker.real_name] has fallen unconscious before the succession could be completed.")
+		fail("[invoker.get_unmasked_name()] has fallen unconscious before the succession could be completed.")
 		return
 	if(!throne || get_dist(invoker, throne) > RITE_CONTEST_PROXIMITY)
-		fail("The cowardly [invoker.real_name] has abandoned their claim to the throne.")
+		fail("The cowardly [invoker.get_unmasked_name()] has abandoned their claim to the throne.")
 		return
 	stage = RITE_STAGE_COMPLETE
 	on_complete()
@@ -228,7 +228,7 @@
 
 	var/realm = SSticker.realm_name || "Azure Peak"
 	// Imitate the text whenever a new Duke joins the game
-	to_world("<b><span class='notice'><span class='big'>[invoker.real_name] is [SSticker.rulertype] of [realm].</span></span></b>")
+	to_world("<b><span class='notice'><span class='big'>[invoker.get_unmasked_name()] is [SSticker.rulertype] of [realm].</span></span></b>")
 
 /datum/usurpation_rite/proc/fail(reason)
 	on_fail(reason)
@@ -280,9 +280,9 @@
 
 /datum/usurpation_rite/proc/on_counter_claim_started(mob/living/carbon/human/claimant)
 	claimant.visible_message( \
-		span_warning("[claimant.real_name] has taken the throne and declared 'Stop Ascent!' The rite is being contested!"), \
+		span_warning("[claimant.get_unmasked_name()] has taken the throne and declared 'Stop Ascent!' The rite is being contested!"), \
 		span_notice("You have taken the throne. Hold it for [RITE_COUNTER_CLAIM_DURATION / (1 MINUTES)] minute(s) to halt the succession. The rite's timer has been paused."))
-	to_chat(invoker, span_danger("[claimant.real_name] has taken the throne and is attempting to stop the rite! Remove them!"))
+	to_chat(invoker, span_danger("[claimant.get_unmasked_name()] has taken the throne and is attempting to stop the rite! Remove them!"))
 
 /datum/usurpation_rite/proc/cancel_counter_claim()
 	if(!contester)
@@ -302,7 +302,7 @@
 	to_chat(invoker, span_notice("The contester has left the throne."))
 
 /datum/usurpation_rite/proc/on_counter_claim_complete()
-	var/contester_name = contester?.real_name || "another"
+	var/contester_name = contester?.get_unmasked_name() || "another"
 	contester_timer_id = null
 	contester = null
 	fail("The throne has been reclaimed by [contester_name].")

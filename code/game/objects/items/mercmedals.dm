@@ -28,7 +28,7 @@
 				to_chat(user, "<span class='warning'>...have I really stooped so low as to sign my own commendation?</span>")
 				return
 			if(user.mind.assigned_role != "Mercenary") // AZURE: anyone can hire a mercenary
-				signee = user.real_name
+				signee = user.get_unmasked_name()
 				signeejob = user.mind.assigned_role
 				visible_message("<span class='warning'>[user] writes their name down on the token.</span>")
 				playsound(src, 'sound/items/write.ogg', 100, FALSE)

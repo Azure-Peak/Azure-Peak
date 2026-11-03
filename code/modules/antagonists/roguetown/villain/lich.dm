@@ -54,7 +54,8 @@
 		TRAIT_SILVER_WEAK,
 		TRAIT_UNCONVERTIBLE,
 		TRAIT_NOWW,
-		TRAIT_BADTRAINER
+		TRAIT_BADTRAINER,
+		TRAIT_NONAMESTEAL
 		)
 
 /datum/antagonist/lich/get_antag_cap_weight()

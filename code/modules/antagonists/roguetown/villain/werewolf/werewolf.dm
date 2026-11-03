@@ -43,7 +43,8 @@
 		TRAIT_CHUNKYFINGERS, //So they can no longer use weapons at all.
 		TRAIT_UNLYCKERABLE, //Literal archenemy
 		TRAIT_ZOMBIE_IMMUNE,
-		TRAIT_UNCONVERTIBLE // major antag
+		TRAIT_UNCONVERTIBLE, // major antag
+		TRAIT_NONAMESTEAL
 	)
 	confess_lines = list(
 		"THE BEAST INSIDE ME!",
@@ -105,6 +106,9 @@
 	owner.special_role = name
 	if(increase_votepwr)
 		forge_werewolf_objectives()
+
+	if(ishuman(owner.current))
+		disable_vessel(owner.current)
 
 	wolfname = "[pick(GLOB.wolf_prefixes)] [pick(GLOB.wolf_suffixes)]"
 	return ..()

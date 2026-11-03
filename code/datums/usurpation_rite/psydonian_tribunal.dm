@@ -93,9 +93,9 @@
 
 /datum/usurpation_rite/psydonian_tribunal/on_assent_accepted(mob/living/carbon/human/follower)
 	follower.visible_message( \
-		span_notice("[follower.real_name] speaks their assent to the Psydonian Tribunal."), \
+		span_notice("[follower.get_unmasked_name()] speaks their assent to the Psydonian Tribunal."), \
 		span_notice("You speak your assent. Psydon acknowledges your judgment."))
-	to_chat(invoker, span_notice("[follower.real_name] has assented. ([length(assenters)]/[TRIBUNAL_REQUIRED_ASSENTS])"))
+	to_chat(invoker, span_notice("[follower.get_unmasked_name()] has assented. ([length(assenters)]/[TRIBUNAL_REQUIRED_ASSENTS])"))
 
 /datum/usurpation_rite/psydonian_tribunal/check_assent_threshold()
 	if(length(assenters) >= TRIBUNAL_REQUIRED_ASSENTS)
@@ -103,7 +103,7 @@
 
 /datum/usurpation_rite/psydonian_tribunal/on_contesting_started()
 	priority_announce( \
-		"[invoker.real_name] has invoked the Rite of Psydonian Tribunal!\n\n" + \
+		"[invoker.get_unmasked_name()] has invoked the Rite of Psydonian Tribunal!\n\n" + \
 		"In the name of Psydon, the Inquisition passes judgment upon the throne of [SSticker.realm_name].\n\n" + \
 		"The faithful have affirmed this claim.\n\n" + \
 		"The Tribunal's verdict shall fall in [RITE_CONTEST_DURATION / (1 MINUTES)] minutes -- unless the claim is struck down.", \
@@ -114,14 +114,14 @@
 
 /datum/usurpation_rite/psydonian_tribunal/on_complete()
 	var/mob/living/old_ruler = SSticker.rulermob
-	var/old_ruler_name = old_ruler?.real_name || "Their predecessor"
+	var/old_ruler_name = old_ruler?.get_unmasked_name() || "Their predecessor"
 	..()
 	priority_announce( \
 		"There are many gods, but only one who was truly, wholly good.\n\n" + \
-		"The Inquisition, in His name, declares [invoker.real_name] the rightful [SSticker.rulertype] of [SSticker.realm_name], restoring ORDER to this realm.\n\n" + \
+		"The Inquisition, in His name, declares [invoker.get_unmasked_name()] the rightful [SSticker.rulertype] of [SSticker.realm_name], restoring ORDER to this realm.\n\n" + \
 		"[old_ruler_name], unable to contest this judgment, shall be cast to the dustbin of history, " + \
 		"and their authority is hereby annulled.\n\n" + \
-		"Long live [invoker.real_name], [SSticker.rulertype] of [SSticker.realm_name]!", \
+		"Long live [invoker.get_unmasked_name()], [SSticker.rulertype] of [SSticker.realm_name]!", \
 		"A New [SSticker.rulertype] Ascends", \
 		sound_victory)
 	to_chat(invoker, span_notice("The judgment of Psydon is rendered. The throne is yours."))
@@ -141,13 +141,13 @@
 		if(RITE_STAGE_GATHERING)
 			return "The Psydonian Tribunal is underway. [length(assenters)]/[TRIBUNAL_REQUIRED_ASSENTS] voices have spoken their assent."
 		if(RITE_STAGE_CONTESTING)
-			return "The Inquisition has affirmed [invoker?.real_name]'s claim. The Tribunal's verdict approaches."
+			return "The Inquisition has affirmed [invoker?.get_unmasked_name()]'s claim. The Tribunal's verdict approaches."
 	return null
 
 /datum/usurpation_rite/psydonian_tribunal/get_periodic_announcement()
 	switch(stage)
 		if(RITE_STAGE_GATHERING)
-			return "[invoker?.real_name] claims the throne by Psydon's judgment. Faithful, speak your assent -- or stop them. ([length(assenters)]/[TRIBUNAL_REQUIRED_ASSENTS] voices)"
+			return "[invoker?.get_unmasked_name()] claims the throne by Psydon's judgment. Faithful, speak your assent -- or stop them. ([length(assenters)]/[TRIBUNAL_REQUIRED_ASSENTS] voices)"
 		if(RITE_STAGE_CONTESTING)
 			var/remaining = ""
 			if(contest_time_remaining > 0)
@@ -156,5 +156,5 @@
 				remaining = "[round(left / (1 SECONDS))] seconds"
 			else
 				remaining = "moments"
-			return "The Inquisition has spoken. [invoker?.real_name] will ascend in [remaining]. Defend or destroy this claim!"
+			return "The Inquisition has spoken. [invoker?.get_unmasked_name()] will ascend in [remaining]. Defend or destroy this claim!"
 	return null

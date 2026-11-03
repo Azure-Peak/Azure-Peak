@@ -59,7 +59,7 @@
 		"Unknown Man",
 		"Unknown Woman",
 	)
-	if(get_face_name() != real_name)
+	if(get_face_name("U") != get_unmasked_name()) // 'U' is an impossible name to actually enter; thus, setting that as the default will properly differentiate between having the name 'Unknown' and being masked
 		obscure_name = TRUE
 
 	if(observer_privilege)
@@ -659,7 +659,7 @@
 
 	if(show_descriptors)
 		var/list/lines
-		if((get_face_name() != real_name) && !observer_privilege)
+		if((get_face_name("U") != get_unmasked_name()) && !observer_privilege)
 			lines = build_cool_description_unknown(get_mob_descriptors_unknown(obscure_name, user), src)
 		else
 			lines = build_cool_description(get_mob_descriptors(obscure_name, user), src)
@@ -715,7 +715,8 @@
 
 /mob/living/carbon/human/proc/generate_main_examine_body(mob/user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, list/unknown_names)
 	. = list()
-	if(name in unknown_names)
+	var/datum/component/hag_name/HN = GetComponent(/datum/component/hag_name)
+	if((name in unknown_names) && !HN) // the identity datum can set your name to 'unknown' but we do still want full examine unless they're masked
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 		. += deadite_examine()
 		. += get_ssd_examine_text(m3)
@@ -741,7 +742,7 @@
 				used_title = "Ancient Lord"
 		var/display_as_wanderer = FALSE
 		if(observer_privilege)
-			used_name = real_name
+			used_name = get_unmasked_name()
 		if(migrant_type)
 			var/datum/migrant_role/migrant = MIGRANT_ROLE(migrant_type)
 			if(migrant.show_wanderer_examine)
@@ -778,6 +779,9 @@
 				. += (span_info("ø ------------ ø\nThis is <EM>[used_name]</EM>, the [race_name] [used_title]."))
 			else
 				. += (span_info("ø ------------ ø\nThis is the <EM>[used_name]</EM>, the [race_name]."))
+
+		if(HN && HN.identity.name == "Unknown")
+			. += (span_redtext("Surely they must have a name, but... I can't seem to recall it?")) // freaky
 
 		var/pronoun
 		if(!dna.species.use_skin_tone_wording_for_examine)
@@ -1149,6 +1153,10 @@
 		return
 	if(HAS_TRAIT(src, TRAIT_FREEMAN) && HAS_TRAIT(examiner, TRAIT_FREEMAN))
 		heretic_text += "⚖️"
+	if(HAS_TRAIT(src, TRAIT_FEYTOUCHED) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED)))
+		heretic_text += "🌿"
+	if(HAS_TRAIT(src, TRAIT_ANCIENT_HAG) && (HAS_TRAIT(examiner, TRAIT_ANCIENT_HAG) || HAS_TRAIT(examiner, TRAIT_FEYTOUCHED)))
+		heretic_text += "🌳"
 
 	return heretic_text
 

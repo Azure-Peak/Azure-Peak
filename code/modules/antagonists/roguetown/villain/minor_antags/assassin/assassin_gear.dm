@@ -341,6 +341,8 @@
 	if(!user.Adjacent(target))
 		to_chat(user, span_warning("I must be adjacent to my target!"))
 		return FALSE
+	if(HAS_TRAIT(target, TRAIT_ANCIENT_HAG))
+		to_chat(user, span_warning("What... ARE they? I cannot steal this form...?"))
 	return TRUE
 
 /// This proc checks if the user & target both have heads. Returns TRUE if both do. Returns FALSE if either is missing. Handles cases w/ a to_chat.
