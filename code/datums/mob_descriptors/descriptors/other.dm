@@ -30,7 +30,7 @@
 	var/obj/item/organ/penis/penis = H.getorganslot(ORGAN_SLOT_PENIS)
 	if(!penis)
 		return FALSE
-	if(H.underwear)
+	if(H.underwear?.flags_inv & HIDECROTCH)
 		return FALSE
 	if(!get_location_accessible(H, BODY_ZONE_PRECISE_GROIN, check_cosmetics = TRUE))
 		return FALSE
@@ -86,7 +86,7 @@
 	var/obj/item/organ/testicles/testes = H.getorganslot(ORGAN_SLOT_TESTICLES)
 	if(!testes)
 		return FALSE
-	if(H.underwear)
+	if(H.underwear?.flags_inv & HIDECROTCH)
 		return FALSE
 	if(!get_location_accessible(H, BODY_ZONE_PRECISE_GROIN, check_cosmetics = TRUE))
 		return FALSE
@@ -121,7 +121,7 @@
 	var/obj/item/organ/vagina/vagina = H.getorganslot(ORGAN_SLOT_VAGINA)
 	if(!vagina)
 		return FALSE
-	if(H.underwear)
+	if(H.underwear?.flags_inv & HIDECROTCH)
 		return FALSE
 	if(!get_location_accessible(H, BODY_ZONE_PRECISE_GROIN, check_cosmetics = TRUE))
 		return FALSE

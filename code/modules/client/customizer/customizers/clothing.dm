@@ -30,11 +30,11 @@
 	)
 
 /datum/customizer/clothing/undershirt
-	name = "Undershirt / Bodysuit"
+	name = "Undershirt"
 	customizer_choices = list(/datum/customizer_choice/clothing/undershirt)
 
 /datum/customizer_choice/clothing/undershirt
-	name = "Undershirt / Bodysuit"
+	name = "Undershirt"
 	slot = SLOT_UNDERSHIRT
 	sprite_accessories = list(
 		/datum/sprite_accessory/clothing/undershirt,
@@ -103,40 +103,22 @@
 	name = "Earring"
 	sprite_accessories = list(
 		/datum/sprite_accessory/clothing/earring/classic,
-		/datum/sprite_accessory/clothing/earring/classic/silver,
 		/datum/sprite_accessory/clothing/earring/classic/hoop,
-		/datum/sprite_accessory/clothing/earring/classic/hoop/silver,
 		/datum/sprite_accessory/clothing/earring,
-		/datum/sprite_accessory/clothing/earring/glass,
-		/datum/sprite_accessory/clothing/earring/wood,
-		/datum/sprite_accessory/clothing/earring/iron,
-		/datum/sprite_accessory/clothing/earring/steel,
-		/datum/sprite_accessory/clothing/earring/silver,
-		/datum/sprite_accessory/clothing/earring/gold,
-		/datum/sprite_accessory/clothing/earring/platinum,
-		/datum/sprite_accessory/clothing/earring/onyx,
-		/datum/sprite_accessory/clothing/earring/emerald,
-		/datum/sprite_accessory/clothing/earring/amber,
-		/datum/sprite_accessory/clothing/earring/amethyst,
-		/datum/sprite_accessory/clothing/earring/ruby,
-		/datum/sprite_accessory/clothing/earring/sapphire,
-		/datum/sprite_accessory/clothing/earring/diamond,
 		/datum/sprite_accessory/clothing/earring/dangle,
-		/datum/sprite_accessory/clothing/earring/dangle/glass,
-		/datum/sprite_accessory/clothing/earring/dangle/wood,
-		/datum/sprite_accessory/clothing/earring/dangle/iron,
-		/datum/sprite_accessory/clothing/earring/dangle/steel,
-		/datum/sprite_accessory/clothing/earring/dangle/silver,
-		/datum/sprite_accessory/clothing/earring/dangle/gold,
-		/datum/sprite_accessory/clothing/earring/dangle/platinum,
-		/datum/sprite_accessory/clothing/earring/dangle/onyx,
-		/datum/sprite_accessory/clothing/earring/dangle/emerald,
-		/datum/sprite_accessory/clothing/earring/dangle/amber,
-		/datum/sprite_accessory/clothing/earring/dangle/amethyst,
-		/datum/sprite_accessory/clothing/earring/dangle/ruby,
-		/datum/sprite_accessory/clothing/earring/dangle/sapphire,
-		/datum/sprite_accessory/clothing/earring/dangle/diamond,
 	)
+
+/datum/customizer_choice/clothing/earring/validate_entry(datum/preferences/prefs, datum/customizer_entry/entry)
+	// Keep saved shapes and colors when folding material variants into ordinary earrings.
+	if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring/classic/hoop))
+		entry.accessory_type = /datum/sprite_accessory/clothing/earring/classic/hoop
+	else if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring/classic))
+		entry.accessory_type = /datum/sprite_accessory/clothing/earring/classic
+	else if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring/dangle))
+		entry.accessory_type = /datum/sprite_accessory/clothing/earring/dangle
+	else if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring))
+		entry.accessory_type = /datum/sprite_accessory/clothing/earring
+	return ..()
 
 /datum/customizer_choice/clothing/earring/left
 	slot = SLOT_EARRING_L

@@ -51,7 +51,7 @@
 
 /obj/item/clothing/undies/dropped(mob/user)
 	. = ..()
-	flags_inv = HIDECROTCH
+	flags_inv = initial(flags_inv)
 	icon_state = icon_state_base
 
 /obj/item/clothing/undies/bikini_bottom

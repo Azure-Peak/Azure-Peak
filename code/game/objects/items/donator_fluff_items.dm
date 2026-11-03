@@ -4598,8 +4598,8 @@ As Excaliber."
 	desc = "Strange smallclothes from stranger lands, consisting of a thin silk ropes that's decoratively wound across the body's more immodest points."
 	icon = 'icons/mob/sprite_accessory/underwear.dmi'
 	icon_state = "shibariropes"
-	covers_breasts = TRUE
-	flags_inv = HIDECROTCH | HIDEBOOB
+	covers_breasts = FALSE
+	flags_inv = NONE
 	sprite_acc = /datum/sprite_accessory/underwear/bikini/shibari
 
 /datum/sprite_accessory/underwear/bikini/shibari
@@ -4608,7 +4608,7 @@ As Excaliber."
 	icon_state = "female_shibari"
 	preview_states = list("shibari_f_0")
 	underwear_type = /obj/item/undies/bikini/shibari
-	hides_breasts = TRUE
+	hides_breasts = FALSE
 
 /datum/sprite_accessory/underwear/bikini/shibari/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(owner.getorganslot(ORGAN_SLOT_BREASTS))

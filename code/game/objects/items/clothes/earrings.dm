@@ -27,10 +27,10 @@
 
 // Former character accessories, split into independently removable earrings.
 /obj/item/earring/classic
-	name = "gold earring"
-	icon_state = "classic_gold"
-	item_state = "classic_gold"
-	base_icon = "classic_gold"
+	name = "earring"
+	icon_state = "classic_silver"
+	item_state = "classic_silver"
+	base_icon = "classic_silver"
 
 /obj/item/earring/classic/silver
 	name = "silver earring"
@@ -39,10 +39,10 @@
 	base_icon = "classic_silver"
 
 /obj/item/earring/classic/hoop
-	name = "gold hoop earring"
-	icon_state = "classic_hoop_gold"
-	item_state = "classic_hoop_gold"
-	base_icon = "classic_hoop_gold"
+	name = "hoop earring"
+	icon_state = "classic_hoop_silver"
+	item_state = "classic_hoop_silver"
+	base_icon = "classic_hoop_silver"
 
 /obj/item/earring/classic/hoop/silver
 	name = "silver hoop earring"

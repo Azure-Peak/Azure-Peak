@@ -95,102 +95,99 @@
 /datum/sprite_accessory/clothing/earring/dangle
 	item_type = /obj/item/earring/dangle
 
-/datum/sprite_accessory/clothing/earring/glass
-	item_type = /obj/item/earring/glass
-
-/datum/sprite_accessory/clothing/earring/dangle/glass
-	item_type = /obj/item/earring/dangle/glass
-
-/datum/sprite_accessory/clothing/earring/wood
-	item_type = /obj/item/earring/wood
-
-/datum/sprite_accessory/clothing/earring/dangle/wood
-	item_type = /obj/item/earring/dangle/wood
-
-/datum/sprite_accessory/clothing/earring/iron
-	item_type = /obj/item/earring/iron
-
-/datum/sprite_accessory/clothing/earring/dangle/iron
-	item_type = /obj/item/earring/dangle/iron
-
-/datum/sprite_accessory/clothing/earring/steel
-	item_type = /obj/item/earring/steel
-
-/datum/sprite_accessory/clothing/earring/dangle/steel
-	item_type = /obj/item/earring/dangle/steel
-
-/datum/sprite_accessory/clothing/earring/silver
-	item_type = /obj/item/earring/silver
-
-/datum/sprite_accessory/clothing/earring/dangle/silver
-	item_type = /obj/item/earring/dangle/silver
-
-/datum/sprite_accessory/clothing/earring/gold
-	item_type = /obj/item/earring/gold
-
-/datum/sprite_accessory/clothing/earring/dangle/gold
-	item_type = /obj/item/earring/dangle/gold
-
-/datum/sprite_accessory/clothing/earring/platinum
-	item_type = /obj/item/earring/platinum
-
-/datum/sprite_accessory/clothing/earring/dangle/platinum
-	item_type = /obj/item/earring/dangle/platinum
-
-/datum/sprite_accessory/clothing/earring/onyx
-	item_type = /obj/item/earring/onyx
-
-/datum/sprite_accessory/clothing/earring/dangle/onyx
-	item_type = /obj/item/earring/dangle/onyx
-
-/datum/sprite_accessory/clothing/earring/emerald
-	item_type = /obj/item/earring/emerald
-
-/datum/sprite_accessory/clothing/earring/dangle/emerald
-	item_type = /obj/item/earring/dangle/emerald
-
-/datum/sprite_accessory/clothing/earring/amber
-	item_type = /obj/item/earring/amber
-
-/datum/sprite_accessory/clothing/earring/dangle/amber
-	item_type = /obj/item/earring/dangle/amber
-
-/datum/sprite_accessory/clothing/earring/amethyst
-	item_type = /obj/item/earring/amethyst
-
-/datum/sprite_accessory/clothing/earring/dangle/amethyst
-	item_type = /obj/item/earring/dangle/amethyst
-
-/datum/sprite_accessory/clothing/earring/ruby
-	item_type = /obj/item/earring/ruby
-
-/datum/sprite_accessory/clothing/earring/dangle/ruby
-	item_type = /obj/item/earring/dangle/ruby
-
-/datum/sprite_accessory/clothing/earring/sapphire
-	item_type = /obj/item/earring/sapphire
-
-/datum/sprite_accessory/clothing/earring/dangle/sapphire
-	item_type = /obj/item/earring/dangle/sapphire
-
-/datum/sprite_accessory/clothing/earring/diamond
-	item_type = /obj/item/earring/diamond
-
-/datum/sprite_accessory/clothing/earring/dangle/diamond
-	item_type = /obj/item/earring/dangle/diamond
-
 /datum/sprite_accessory/clothing/earring/classic
 	item_type = /obj/item/earring/classic
-	color_disabled = TRUE
-
-/datum/sprite_accessory/clothing/earring/classic/silver
-	item_type = /obj/item/earring/classic/silver
-	color_disabled = FALSE
 
 /datum/sprite_accessory/clothing/earring/classic/hoop
 	item_type = /obj/item/earring/classic/hoop
-	color_disabled = TRUE
+
+// Retired color choices remain readable in savefiles; validation folds them into the four shapes.
+/datum/sprite_accessory/clothing/earring/glass
+	abstract_type = /datum/sprite_accessory/clothing/earring/glass
+
+/datum/sprite_accessory/clothing/earring/dangle/glass
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/glass
+
+/datum/sprite_accessory/clothing/earring/wood
+	abstract_type = /datum/sprite_accessory/clothing/earring/wood
+
+/datum/sprite_accessory/clothing/earring/dangle/wood
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/wood
+
+/datum/sprite_accessory/clothing/earring/iron
+	abstract_type = /datum/sprite_accessory/clothing/earring/iron
+
+/datum/sprite_accessory/clothing/earring/dangle/iron
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/iron
+
+/datum/sprite_accessory/clothing/earring/steel
+	abstract_type = /datum/sprite_accessory/clothing/earring/steel
+
+/datum/sprite_accessory/clothing/earring/dangle/steel
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/steel
+
+/datum/sprite_accessory/clothing/earring/silver
+	abstract_type = /datum/sprite_accessory/clothing/earring/silver
+
+/datum/sprite_accessory/clothing/earring/dangle/silver
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/silver
+
+/datum/sprite_accessory/clothing/earring/gold
+	abstract_type = /datum/sprite_accessory/clothing/earring/gold
+
+/datum/sprite_accessory/clothing/earring/dangle/gold
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/gold
+
+/datum/sprite_accessory/clothing/earring/platinum
+	abstract_type = /datum/sprite_accessory/clothing/earring/platinum
+
+/datum/sprite_accessory/clothing/earring/dangle/platinum
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/platinum
+
+/datum/sprite_accessory/clothing/earring/onyx
+	abstract_type = /datum/sprite_accessory/clothing/earring/onyx
+
+/datum/sprite_accessory/clothing/earring/dangle/onyx
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/onyx
+
+/datum/sprite_accessory/clothing/earring/emerald
+	abstract_type = /datum/sprite_accessory/clothing/earring/emerald
+
+/datum/sprite_accessory/clothing/earring/dangle/emerald
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/emerald
+
+/datum/sprite_accessory/clothing/earring/amber
+	abstract_type = /datum/sprite_accessory/clothing/earring/amber
+
+/datum/sprite_accessory/clothing/earring/dangle/amber
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/amber
+
+/datum/sprite_accessory/clothing/earring/amethyst
+	abstract_type = /datum/sprite_accessory/clothing/earring/amethyst
+
+/datum/sprite_accessory/clothing/earring/dangle/amethyst
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/amethyst
+
+/datum/sprite_accessory/clothing/earring/ruby
+	abstract_type = /datum/sprite_accessory/clothing/earring/ruby
+
+/datum/sprite_accessory/clothing/earring/dangle/ruby
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/ruby
+
+/datum/sprite_accessory/clothing/earring/sapphire
+	abstract_type = /datum/sprite_accessory/clothing/earring/sapphire
+
+/datum/sprite_accessory/clothing/earring/dangle/sapphire
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/sapphire
+
+/datum/sprite_accessory/clothing/earring/diamond
+	abstract_type = /datum/sprite_accessory/clothing/earring/diamond
+
+/datum/sprite_accessory/clothing/earring/dangle/diamond
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/diamond
+
+/datum/sprite_accessory/clothing/earring/classic/silver
+	abstract_type = /datum/sprite_accessory/clothing/earring/classic/silver
 
 /datum/sprite_accessory/clothing/earring/classic/hoop/silver
-	item_type = /obj/item/earring/classic/hoop/silver
-	color_disabled = FALSE
+	abstract_type = /datum/sprite_accessory/clothing/earring/classic/hoop/silver
