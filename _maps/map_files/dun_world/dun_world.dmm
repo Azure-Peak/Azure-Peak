@@ -7340,19 +7340,6 @@
 	},
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
-"bnK" = (
-/obj/effect/decal/cobbleedge{
-	dir = 1;
-	icon_state = "borderfall"
-	},
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Throne Room"
-	},
-/turf/open/floor/rogue/tile/masonic{
-	dir = 1
-	},
-/area/rogue/indoors/town/manor)
 "bnL" = (
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach/forest/north)
@@ -23686,14 +23673,6 @@
 /obj/machinery/light/rogue/candle/l,
 /turf/open/floor/rogue/tile/masonic/inverted,
 /area/rogue/indoors/town/bath)
-"ecB" = (
-/obj/machinery/light/rogue/candle/l,
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Chapel"
-	},
-/turf/open/floor/rogue/tile,
-/area/rogue/under/town/basement/keep)
 "ecC" = (
 /obj/structure/flora/roguegrass/maneater,
 /turf/open/floor/rogue/dirt/road,
@@ -24517,14 +24496,6 @@
 /obj/structure/chair/stool/rogue,
 /turf/open/floor/rogue/church,
 /area/rogue/indoors/town/physician)
-"ekb" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Guest Room III";
-	dir = 1
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/town/basement/keep)
 "ekg" = (
 /obj/structure/roguewindow/openclose/reinforced{
 	dir = 1
@@ -25325,11 +25296,6 @@
 "erB" = (
 /obj/machinery/light/rogue/candle{
 	pixel_y = -32
-	},
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Heir's Apartment I";
-	dir = 1
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/manor)
@@ -26691,13 +26657,6 @@
 /obj/structure/fluff/railing/border/east,
 /turf/open/water/cleanshallow,
 /area/rogue/outdoors/rtfield)
-"eDF" = (
-/obj/structure/standingbell{
-	dir = 1;
-	name = "guild service bell"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/dwarfin)
 "eDG" = (
 /turf/open/water/swamp/deep,
 /area/rogue/outdoors/woods/south)
@@ -27035,14 +26994,6 @@
 	},
 /turf/open/water/swamp/deep,
 /area/rogue/druidsgrove)
-"eGp" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Guest Room II";
-	dir = 1
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/under/town/basement/keep)
 "eGx" = (
 /turf/closed/mineral/random/rogue/med,
 /area/rogue/outdoors/mountains)
@@ -30154,12 +30105,6 @@
 "ffG" = (
 /obj/structure/table/wood/long_table,
 /obj/item/candle/silver/lit,
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Lord's Apartment";
-	dir = 1;
-	pixel_x = -31
-	},
 /turf/open/floor/rogue/carpet/lord/left,
 /area/rogue/indoors/town/manor)
 "ffH" = (
@@ -30927,10 +30872,6 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "flu" = (
-/obj/structure/standingbell{
-	name = "church service bell";
-	specific_location = "Cathedral Nave"
-	},
 /obj/effect/landmark/start/sexton,
 /obj/machinery/light/rogue/candle/l,
 /obj/effect/decal/edge{
@@ -31566,13 +31507,6 @@
 "fqY" = (
 /turf/open/water/swamp/deep,
 /area/rogue/under/underdark/south)
-"frf" = (
-/obj/structure/standingbell{
-	dir = 1;
-	name = "merchant service bell"
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/shop)
 "frg" = (
 /obj/structure/fluff/statue/myth,
 /turf/open/floor/rogue/blocks,
@@ -33697,12 +33631,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/outdoors/town/roofs)
-"fJF" = (
-/obj/structure/standingbell{
-	name = "steward service bell"
-	},
-/turf/open/floor/rogue/herringbone,
-/area/rogue/indoors/town/steward)
 "fJG" = (
 /obj/effect/decal/edge{
 	color = "#3f3f3f"
@@ -42365,20 +42293,6 @@
 	},
 /turf/open/floor/carpet/stellar,
 /area/rogue/indoors/town/manor)
-"hkp" = (
-/obj/effect/decal/cobbleedge{
-	dir = 1;
-	icon_state = "borderfall"
-	},
-/obj/structure/standingbell{
-	dir = 1;
-	name = "servantry service bell";
-	specific_location = "Throne Room"
-	},
-/turf/open/floor/rogue/tile/masonic{
-	dir = 8
-	},
-/area/rogue/indoors/town/manor)
 "hku" = (
 /obj/structure/bars{
 	icon_state = "barsbent";
@@ -46944,14 +46858,6 @@
 "iaa" = (
 /turf/open/floor/rogue/ruinedwood/herringbone,
 /area/rogue/indoors/town/tavern)
-"iab" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Guest Room I";
-	dir = 1
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/under/town/basement/keep)
 "iad" = (
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/under/town/basement/keep)
@@ -48005,17 +47911,6 @@
 /obj/structure/hotspring/border/two,
 /turf/open/floor/rogue/grassred,
 /area/rogue/outdoors/rtfield/abandonedhotsprings)
-"ije" = (
-/obj/structure/standingbell{
-	specific_location = "Infirmary of Pestra";
-	name = "church service bell"
-	},
-/obj/effect/decal/edge{
-	color = "#3f3f3f";
-	dir = 1
-	},
-/turf/open/floor/rogue/hexstone,
-/area/rogue/indoors/town/church/chapel)
 "iji" = (
 /obj/structure/rack/rogue/shelf/big,
 /turf/open/floor/rogue/dirt/road,
@@ -48111,13 +48006,6 @@
 /obj/structure/fermentation_keg/random/water,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
-"ijM" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Meeting Room"
-	},
-/turf/open/floor/carpet/red,
-/area/rogue/indoors/town/manor)
 "ijN" = (
 /obj/structure/stairs,
 /obj/structure/fluff/railing/border/east,
@@ -64042,14 +63930,6 @@
 /obj/structure/fermentation_keg/random/beer,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/minotaurfort)
-"kRs" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Guest Room IV";
-	dir = 1
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/under/town/basement/keep)
 "kRw" = (
 /turf/open/floor/rogue/wood,
 /area/rogue/outdoors/beach/north)
@@ -75671,10 +75551,6 @@
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/exposed/town/keep)
 "mLj" = (
-/obj/structure/standingbell{
-	name = "clinic service bell";
-	dir = 1
-	},
 /obj/effect/decal/edge{
 	color = "#3f3f3f";
 	dir = 8
@@ -83031,14 +82907,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/shop)
-"oaj" = (
-/obj/structure/standingbell{
-	dir = 1;
-	name = "servantry service bell";
-	specific_location = "Meeting Room"
-	},
-/turf/open/floor/rogue/ruinedwood/herringbone,
-/area/rogue/indoors/town/manor)
 "oal" = (
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/beach/forest/south)
@@ -90653,13 +90521,6 @@
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/forest/hamlet)
-"pkQ" = (
-/obj/structure/standingbell{
-	name = "church service bell";
-	specific_location = "Public Kitchen"
-	},
-/turf/open/floor/rogue/wood,
-/area/rogue/indoors/town/church/chapel)
 "pkR" = (
 /obj/structure/flora/roguegrass/bush/wall,
 /turf/open/floor/rogue/grassyel,
@@ -96930,13 +96791,6 @@
 /obj/item/reagent_containers/glass/bucket,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/town/sewer)
-"qmJ" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Ballroom"
-	},
-/turf/open/floor/rogue/tile/harem1,
-/area/rogue/indoors/town/manor)
 "qmR" = (
 /obj/effect/decal/cobbleedge{
 	dir = 5
@@ -99613,10 +99467,6 @@
 /area/rogue/indoors/town/manor)
 "qKq" = (
 /obj/machinery/light/rogue/candle/l,
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "bath"
-	},
 /turf/open/floor/rogue/herringbone,
 /area/rogue/under/town/basement/keep)
 "qKs" = (
@@ -101029,10 +100879,6 @@
 "qXB" = (
 /obj/structure/roguemachine/scomm{
 	scom_tag = "Manor - Outer Gatehouse"
-	},
-/obj/structure/standingbell{
-	name = "garrison service bell";
-	dir = 1
 	},
 /turf/open/floor/rogue/metal{
 	icon_state = "plating2"
@@ -105261,14 +105107,6 @@
 "rHZ" = (
 /turf/closed/wall/mineral/rogue/stone/unbreakable,
 /area/rogue/indoors/shelter/woods)
-"rIa" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Council Office"
-	},
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/manor)
 "rIc" = (
 /obj/structure/fluff/railing/border,
 /obj/structure/fluff/railing/border/east,
@@ -127712,10 +127550,6 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest/north)
 "vsy" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Main Hallway"
-	},
 /obj/structure/roguemachine/atm{
 	location_tag = "Keep Front Gate"
 	},
@@ -137653,13 +137487,6 @@
 /obj/structure/flora/roguegrass/herb/random,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/rtfield)
-"xbp" = (
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Heir's Apartment II"
-	},
-/turf/open/floor/carpet/royalblack,
-/area/rogue/indoors/town/manor)
 "xbq" = (
 /obj/effect/decal/cobbleedge{
 	icon_state = "cobbleedge-n"
@@ -144835,11 +144662,6 @@
 "ylD" = (
 /obj/structure/roguemachine/talkstatue/mercenary{
 	pixel_y = -32
-	},
-/obj/structure/standingbell{
-	name = "servantry service bell";
-	specific_location = "Lord's Apartment";
-	dir = 1
 	},
 /turf/open/floor/rogue/ruinedwood/herringbone_clear,
 /area/rogue/indoors/town/manor)
@@ -207207,7 +207029,7 @@ iad
 nyW
 get
 hOh
-kRs
+cPO
 xWv
 rRz
 tGl
@@ -209015,7 +208837,7 @@ iad
 fZY
 oGY
 hOh
-ekb
+hBU
 qZy
 vii
 tGl
@@ -210823,7 +210645,7 @@ iad
 nyW
 cYp
 hOh
-eGp
+hBU
 cyU
 rRz
 iad
@@ -212631,7 +212453,7 @@ iad
 uZC
 yeI
 hOh
-iab
+cPO
 kDw
 iad
 iad
@@ -296240,7 +296062,7 @@ jlj
 wlv
 mSh
 naa
-ije
+lmZ
 nGb
 nGb
 cWa
@@ -296254,7 +296076,7 @@ kVV
 pPW
 fwK
 fwK
-pkQ
+fwK
 rtk
 tHM
 vJk
@@ -300792,7 +300614,7 @@ iyM
 rtc
 oWi
 rbf
-fJF
+lbd
 iyM
 iyM
 col
@@ -302157,7 +301979,7 @@ mfC
 rkI
 xCc
 oti
-frf
+oti
 oCP
 tvm
 tvm
@@ -305298,7 +305120,7 @@ jWX
 ufu
 smL
 vgo
-eDF
+cbR
 drh
 ehv
 bUt
@@ -319725,7 +319547,7 @@ khy
 iad
 iad
 iad
-ecB
+hof
 bHV
 bHV
 hof
@@ -431831,7 +431653,7 @@ uQS
 xpz
 vxe
 vxe
-qmJ
+xJE
 wTi
 ibw
 uDZ
@@ -432276,7 +432098,7 @@ vxe
 dNj
 msw
 vxe
-rIa
+mcu
 vXD
 hho
 uQS
@@ -437244,7 +437066,7 @@ khy
 khy
 fQU
 ipK
-oaj
+eYb
 eYb
 dPu
 dPu
@@ -437702,7 +437524,7 @@ eYb
 eYb
 eYb
 eYb
-ijM
+fHc
 fHc
 mcQ
 vxe
@@ -439960,7 +439782,7 @@ vxe
 lRg
 ohQ
 syK
-bnK
+ewz
 tCI
 uBe
 lvE
@@ -445384,7 +445206,7 @@ vxe
 pIg
 ohQ
 xnY
-hkp
+xFl
 ruD
 kMx
 kAv
@@ -544834,7 +544656,7 @@ fAA
 vxe
 eaD
 fTj
-xbp
+fAA
 fAA
 vxe
 odE
