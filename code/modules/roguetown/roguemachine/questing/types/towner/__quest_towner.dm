@@ -1,6 +1,7 @@
 GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	TOWNER_POSTING_TIER_MEDIUM = list("cost" = TOWNER_POSTING_COST_MEDIUM, "difficulty" = QUEST_DIFFICULTY_MEDIUM, "reward_cap" = TOWNER_REWARD_CAP_MEDIUM, "flat_bonus" = TOWNER_FLAT_BONUS_MEDIUM),
 	TOWNER_POSTING_TIER_HARD = list("cost" = TOWNER_POSTING_COST_HARD, "difficulty" = QUEST_DIFFICULTY_HARD, "reward_cap" = TOWNER_REWARD_CAP_HARD, "flat_bonus" = TOWNER_FLAT_BONUS_HARD),
+	TOWNER_POSTING_TIER_PERILOUS = list("cost" = TOWNER_POSTING_COST_PERILOUS, "difficulty" = QUEST_DIFFICULTY_INCURSION, "reward_cap" = TOWNER_REWARD_CAP_PERILOUS, "flat_bonus" = TOWNER_FLAT_BONUS_PERILOUS, "fellowship" = QUEST_INCURSION_FELLOWSHIP_REQUIREMENT),
 ))
 
 /proc/get_towner_tier_term(tier, term)
@@ -43,13 +44,29 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	)
 	eligible_regions = list()
 	var/list/postable_advclasses = list()
-	var/list/eligible_factions = list()
 	var/list/tier_tp_budgets = list(
-		TOWNER_POSTING_TIER_MEDIUM = TOWNER_CARAVAN_TP_BUDGET_MEDIUM,
-		TOWNER_POSTING_TIER_HARD = TOWNER_CARAVAN_TP_BUDGET_HARD,
+		TOWNER_POSTING_TIER_MEDIUM = list(TOWNER_CARAVAN_TP_BUDGET_MEDIUM),
+		TOWNER_POSTING_TIER_HARD = list(TOWNER_CARAVAN_TP_BUDGET_HARD),
+		TOWNER_POSTING_TIER_PERILOUS = list(TOWNER_PERILOUS_TP_BUDGET_FIRST, TOWNER_PERILOUS_TP_BUDGET_SECOND),
 	)
 	var/list/varieties = list()
 	var/list/bundle_pools = list()
+	var/list/wave_budgets
+	var/current_wave = 1
+	var/intermission_timer_id
+	var/intermission_warn_id
+
+/datum/quest/kill/recovery/towner/Destroy()
+	clear_intermission_timers()
+	return ..()
+
+/datum/quest/kill/recovery/towner/proc/clear_intermission_timers()
+	if(intermission_timer_id)
+		deltimer(intermission_timer_id)
+		intermission_timer_id = null
+	if(intermission_warn_id)
+		deltimer(intermission_warn_id)
+		intermission_warn_id = null
 
 /datum/quest/kill/recovery/towner/calculate_reward(turf/origin_turf, turf/target_turf)
 	. = ..()
@@ -71,14 +88,20 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	data["towner_intro"] = get_writ_intro()
 	data["towner_seal_note"] = get_writ_seal_note()
 
-/datum/quest/kill/recovery/towner/proc/get_tier_tp_budget()
+/datum/quest/kill/recovery/towner/proc/get_tier_wave_budgets()
 	return tier_tp_budgets[posting_tier] || tier_tp_budgets[TOWNER_POSTING_TIER_MEDIUM]
+
+/datum/quest/kill/recovery/towner/proc/wave_budget(wave)
+	var/datum/threat_region/TR = SSregionthreat.get_region(region)
+	return round(wave_budgets[wave] * (TR ? TR.tp_budget_multiplier : 1))
+
+/datum/quest/kill/recovery/towner/proc/unsent_wave_tp()
+	. = 0
+	for(var/wave in (current_wave + 1) to length(wave_budgets))
+		. += wave_budget(wave)
 
 /datum/quest/kill/recovery/towner/proc/get_tier_flat_bonus()
 	return get_towner_tier_term(posting_tier, "flat_bonus") || 0
-
-/datum/quest/kill/recovery/towner/faction_fits(datum/quest_faction/F)
-	return (F.id in eligible_factions)
 
 /datum/quest/kill/recovery/towner/build_bundle()
 	var/variety = effective_variety()
@@ -131,7 +154,8 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 		return FALSE
 	if(!(landmark.region in eligible_regions))
 		return FALSE
-	tp_budget = get_tier_tp_budget()
+	wave_budgets = get_tier_wave_budgets()
+	tp_budget = wave_budgets[1]
 	return ..()
 
 /datum/quest/kill/recovery/towner/pick_shipment()
@@ -139,7 +163,60 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	return TRUE
 
 /datum/quest/kill/recovery/towner/get_additional_reward(turf/origin_turf, turf/target_turf)
-	return ..() + get_tier_flat_bonus()
+	return ..() + get_tier_flat_bonus() + unsent_wave_tp() * QUEST_KILL_THREAT_MULT
+
+/datum/quest/kill/recovery/towner/on_guardian_killed()
+	if(current_wave >= length(wave_budgets))
+		return ..()
+	if(intermission_timer_id || any_guardians_alive())
+		return
+	clear_hunt_timers()
+	intermission_timer_id = addtimer(CALLBACK(src, PROC_REF(spawn_next_wave)), QUEST_INCURSION_INTERMISSION, TIMER_STOPPABLE)
+	intermission_warn_id = addtimer(CALLBACK(src, PROC_REF(warn_next_wave)), QUEST_INCURSION_INTERMISSION - QUEST_INCURSION_INTERMISSION_WARN, TIMER_STOPPABLE)
+	quest_scroll?.update_quest_text()
+	announce_to_bearer("Reinforcements will arrive in [DisplayTimeText(QUEST_INCURSION_INTERMISSION)].")
+
+/datum/quest/kill/recovery/towner/proc/warn_next_wave()
+	intermission_warn_id = null
+	if(complete || failed)
+		return
+	announce_to_bearer("[DisplayTimeText(QUEST_INCURSION_INTERMISSION_WARN)] remains.")
+
+/datum/quest/kill/recovery/towner/proc/spawn_next_wave()
+	intermission_timer_id = null
+	if(complete || failed)
+		return
+	var/obj/effect/landmark/quest_spawner/landmark = pending_landmark_ref?.resolve()
+	if(QDELETED(landmark))
+		return
+	current_wave++
+	var/saved_budget = tp_budget
+	tp_budget = roll_tp_budget(wave_budget(current_wave))
+	var/list/to_spawn = compose_warband()
+	tp_budget = saved_budget
+	var/spawned = 0
+	for(var/mob_path in to_spawn)
+		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
+		if(!new_mob)
+			continue
+		total_spawned_tp += initial(new_mob.threat_point) || 0
+		spawned++
+		sleep(1)
+	start_hunt_timer(hunt_duration)
+	quest_scroll?.update_quest_text()
+	if(!spawned)
+		on_guardian_killed()
+		return
+	announce_to_bearer("Reinforcements of [spawned] [faction?.name_plural || "foes"] have arrived, you have [DisplayTimeText(hunt_duration)] to dispatch of them.")
+
+/datum/quest/kill/recovery/towner/populate_scroll_ui_data(list/data)
+	if(intermission_timer_id)
+		var/left = timeleft(intermission_timer_id)
+		if(left > 0)
+			data["hunt_timer_label"] = "Next wave arrives in"
+			data["hunt_timer_seconds"] = round(left / 10)
+		return
+	return ..()
 
 /datum/quest/kill/recovery/towner/on_claim(mob/user)
 	. = ..()

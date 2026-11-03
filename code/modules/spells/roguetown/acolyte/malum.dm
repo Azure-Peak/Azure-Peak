@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/malum
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
-	spell_color = GLOW_COLOR_MALUM
+	spell_color = PATRON_COLOR_MALUM
 	sparks_amt = 3 //God of fire
 
 	attunement_school = null
@@ -29,7 +29,7 @@
 /datum/action/cooldown/spell/miracle/ignition/malum
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
-	spell_color = GLOW_COLOR_MALUM
+	spell_color = PATRON_COLOR_MALUM
 	required_items = list(/obj/item/clothing/neck/roguetown/psicross/malum, /obj/item/clothing/neck/roguetown/psicross/undivided, /obj/item/clothing/neck/roguetown/psicross/silver/undivided)
 
 /////////////////////////
@@ -295,7 +295,7 @@
 	animate(alpha = 0, time = 3)
 
 /obj/effect/temp_visual/telegraph/hammerfall
-	light_color = GLOW_COLOR_MALUM
+	light_color = PATRON_COLOR_MALUM
 	duration = 3 SECONDS
 
 /obj/effect/temp_visual/ferramancy_hammer/malum
