@@ -25,6 +25,31 @@
 	icon_state = base_icon
 	. = ..()
 
+// Former character accessories, split into independently removable earrings.
+/obj/item/earring/classic
+	name = "gold earring"
+	icon_state = "classic_gold"
+	item_state = "classic_gold"
+	base_icon = "classic_gold"
+
+/obj/item/earring/classic/silver
+	name = "silver earring"
+	icon_state = "classic_silver"
+	item_state = "classic_silver"
+	base_icon = "classic_silver"
+
+/obj/item/earring/classic/hoop
+	name = "gold hoop earring"
+	icon_state = "classic_hoop_gold"
+	item_state = "classic_hoop_gold"
+	base_icon = "classic_hoop_gold"
+
+/obj/item/earring/classic/hoop/silver
+	name = "silver hoop earring"
+	icon_state = "classic_hoop_silver"
+	item_state = "classic_hoop_silver"
+	base_icon = "classic_hoop_silver"
+
 /obj/item/earring/glass
 	name = "glass stud earring"
 	color = "#00e1ff"

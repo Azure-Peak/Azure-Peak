@@ -38,32 +38,15 @@
 	icon_state = "bikini_top"
 	underwear_type = /obj/item/clothing/bra/bikini
 
-/datum/sprite_accessory/underwear/bikini
-	name = "Bikini"
-	icon_state = "female_bikini"
-	preview_states = list("bikini_f_0")
-	underwear_type = /obj/item/undies/bikini
-	hides_breasts = TRUE
+/datum/sprite_accessory/underwear/bikini_bottom
+	name = "Bikini Bottom"
+	icon = 'icons/obj/items/clothes/on_mob/underwear.dmi'
+	icon_state = "bikini"
+	underwear_type = /obj/item/clothing/undies/bikini_bottom
 
-/datum/sprite_accessory/underwear/bikini/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
-		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
-		var/tag = "bikini_f"
-		if(breasts.breast_size == 0)
-			tag = tag + "_0"
-		if(breasts.breast_size == 1)
-			tag = tag + "_1"
-		if(breasts.breast_size == 2)
-			tag = tag + "_2"
-		if(breasts.breast_size == 3)
-			tag = tag + "_3"
-		if(breasts.breast_size == 4)
-			tag = tag + "_4"
-		if(breasts.breast_size == 5)
-			tag = tag + "_5"
-		return tag
-	else
-		return "bikini_f_0"
+// Saved combined bikinis are migrated to a bottom and a separate bra preference.
+/datum/sprite_accessory/underwear/bikini
+	parent_type = /datum/sprite_accessory/underwear/bikini_bottom
 
 /datum/sprite_accessory/underwear/panties
 	name = "Panties"

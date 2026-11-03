@@ -40,12 +40,14 @@
 	item_state = "leotard"
 	boob_sized = TRUE
 	boobed = FALSE
+	flags_inv = HIDECROTCH | HIDEBOOB
 
 /obj/item/clothing/undershirt/athletic_leotard
 	name = "athletic leotard"
 	icon_state = "athletic_leotard"
 	item_state = "athletic_leotard"
 	boobed = FALSE
+	flags_inv = HIDECROTCH | HIDEBOOB
 
 /obj/item/clothing/undershirt/solid_half
 	name = "sheer half-body"

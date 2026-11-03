@@ -137,10 +137,10 @@
 		character.ensure_not_taur()
 
 	if(icon_updates)
+		character.rebuild_obscured_flags()
 		character.update_body()
 		character.update_hair()
-		// we have to force a redraw at the end because the way we apply underwear
-		// is completely unhinged and causes race conditions with displaying genitals
+		// Redraw against the completed clothing loadout, including genital coverage.
 		character.update_body_parts(redraw = TRUE)
 
 	// Customizers are already applied inside set_species() (both the species-change path via

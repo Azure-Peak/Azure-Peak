@@ -128,11 +128,7 @@
 	sprite_acc = /datum/sprite_accessory/underwear/briefs
 
 /obj/item/undies/bikini
-	name = "bikini"
-	icon_state = "bikini_bottom"
-	sprite_acc = /datum/sprite_accessory/underwear/bikini
-	covers_breasts = TRUE
-	flags_inv = HIDECROTCH | HIDEBOOB
+	parent_type = /obj/item/clothing/undies/bikini_bottom
 
 /obj/item/clothing/undies/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = 0)
 	if(worn_icon_state && !isinhands)

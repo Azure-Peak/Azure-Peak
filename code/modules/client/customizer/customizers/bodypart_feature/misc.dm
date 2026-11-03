@@ -41,10 +41,6 @@
 	feature_type = /datum/bodypart_feature/accessory
 	allows_accessory_color_customization = TRUE
 	sprite_accessories = list(
-		/datum/sprite_accessory/accessory/earrings,
-		/datum/sprite_accessory/accessory/earrings/sil,
-		/datum/sprite_accessory/accessory/earrings/hoop,
-		/datum/sprite_accessory/accessory/earrings/hoop/sil,
 		/datum/sprite_accessory/accessory/eyepierce,
 		/datum/sprite_accessory/accessory/eyepierce/alt,
 		/datum/sprite_accessory/accessory/harlequin,
@@ -52,30 +48,22 @@
 		/datum/sprite_accessory/accessory/warpaint_stripes,
 		)
 
-/datum/customizer/bodypart_feature/accessory
-	name = "Accessory"
-	customizer_choices = list(/datum/customizer_choice/bodypart_feature/accessory)
-	allows_disabling = TRUE
-	default_disabled = TRUE
-
 /datum/customizer/bodypart_feature/underwear
-	name = "Underwear"
+	name = "Underwear Bottom"
 	customizer_choices = list(/datum/customizer_choice/bodypart_feature/underwear)
 	allows_disabling = TRUE
 	default_disabled = TRUE
 
 /datum/customizer_choice/bodypart_feature/underwear
-	name = "Underwear"
+	name = "Underwear Bottom"
 	feature_type = /datum/bodypart_feature/underwear
 	sprite_accessories = list(
-		/datum/sprite_accessory/underwear/athletic_leotard,
-		/datum/sprite_accessory/underwear/leotard,
-		/datum/sprite_accessory/underwear/bandages,
-		/datum/sprite_accessory/underwear/bikini,
 		/datum/sprite_accessory/underwear/panties,
 		/datum/sprite_accessory/underwear/braies,
 		/datum/sprite_accessory/underwear/briefs,
-		/datum/sprite_accessory/underwear/briefs/eoran
+		/datum/sprite_accessory/underwear/briefs/eoran,
+		/datum/sprite_accessory/underwear/bikini_bottom,
+		/datum/sprite_accessory/underwear/bandages,
 		)
 
 /datum/customizer/bodypart_feature/legwear

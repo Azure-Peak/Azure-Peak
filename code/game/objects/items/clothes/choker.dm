@@ -21,9 +21,20 @@
 /obj/item/clothing/choker/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(!H.underwear)
+		if(!H.choker)
 			if(!get_location_accessible(H, BODY_ZONE_PRECISE_NECK))
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
 				equip_from_hands(user, H, SLOT_CHOKER)
+
+/obj/item/clothing/choker/neckband
+	name = "neckband"
+	mob_overlay_icon = 'icons/mob/sprite_accessory/accessory.dmi'
+	gendered = FALSE
+
+/obj/item/clothing/choker/neckband/embroidered
+	name = "embroidered neckband"
+	icon_state = "chokere"
+	item_state = "chokere"
+

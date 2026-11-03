@@ -4599,10 +4599,12 @@ As Excaliber."
 	icon = 'icons/mob/sprite_accessory/underwear.dmi'
 	icon_state = "shibariropes"
 	covers_breasts = TRUE
+	flags_inv = HIDECROTCH | HIDEBOOB
 	sprite_acc = /datum/sprite_accessory/underwear/bikini/shibari
 
 /datum/sprite_accessory/underwear/bikini/shibari
 	name = "shibari ropes"
+	icon = 'icons/mob/sprite_accessory/underwear.dmi'
 	icon_state = "female_shibari"
 	preview_states = list("shibari_f_0")
 	underwear_type = /obj/item/undies/bikini/shibari
