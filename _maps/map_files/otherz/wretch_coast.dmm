@@ -8064,7 +8064,7 @@
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 1
 	},
-/turf/closed/basic,
+/turf/open/floor/rogue/twig,
 /area/rogue/under/cave/inhumen)
 "Hw" = (
 /obj/structure/bed/rogue/shit,
@@ -32457,7 +32457,7 @@ UM
 TN
 Ev
 Ev
-Xm
+Ev
 Xm
 Xm
 wC
