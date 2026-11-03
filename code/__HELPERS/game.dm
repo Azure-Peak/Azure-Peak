@@ -388,51 +388,29 @@
 			candidates -= M
 
 /proc/pollGhostCandidates(Question, jobbanType, gametypeCheck, be_special_flag = 0, poll_time = 300, ignore_category = null, flashwindow = TRUE, poll_width = 350, poll_height = 150)
-	var/list/candidates = list()
-
-	for(var/mob/dead/observer/G in GLOB.player_list)
-		if(isscryeye(G))
-			continue
-		candidates += G
-
-	for(var/mob/living/carbon/spirit/bigchungus in GLOB.player_list)
-		candidates += bigchungus
-
-	for(var/mob/dead/new_player/lobby_nerd in GLOB.player_list)
-		candidates += lobby_nerd
-
-	return pollCandidates(Question, jobbanType, gametypeCheck, be_special_flag, poll_time, ignore_category, flashwindow, candidates, poll_width, poll_height)
+	var/list/result = SSpolling.poll_ghost_candidates(
+		question = Question,
+		role = be_special_flag,
+		check_jobban = jobbanType,
+		poll_time = poll_time,
+		ignore_category = ignore_category,
+		flashwindow = flashwindow,
+		role_name_text = jobbanType,
+	)
+	return result || list()
 
 /proc/pollCandidates(Question, jobbanType, gametypeCheck, be_special_flag = 0, poll_time = 300, ignore_category = null, flashwindow = TRUE, list/group = null, poll_width = 350, poll_height = 150)
-	var/time_passed = world.time
-	if (!Question)
-		Question = "Would you like to be a special role?"
-	var/list/result = list()
-	for(var/m in group)
-		var/mob/M = m
-		if(!M.key || !M.client || (ignore_category && GLOB.poll_ignore[ignore_category] && (M.ckey in GLOB.poll_ignore[ignore_category])))
-			continue
-		if(be_special_flag)
-			if(!(M.client.prefs) || !(be_special_flag in M.client.prefs.be_special))
-				continue
-			if(!age_check(M.client))
-				continue
-		if(jobbanType)
-			if(is_banned_from(M.ckey, list(jobbanType, ROLE_SYNDICATE)) || QDELETED(M))
-				continue
-
-		showCandidatePollWindow(M, poll_time, Question, result, ignore_category, time_passed, flashwindow, poll_width, poll_height)
-		SEND_SOUND(M, 'sound/misc/updatebook.ogg')
-	sleep(poll_time)
-
-	//Check all our candidates, to make sure they didn't log off or get deleted during the wait period.
-	for(var/mob/M in result)
-		if(!M.key || !M.client)
-			result -= M
-
-	listclearnulls(result)
-
-	return result
+	var/list/result = SSpolling.poll_candidates(
+		question = Question,
+		role = be_special_flag,
+		check_jobban = jobbanType,
+		poll_time = poll_time,
+		ignore_category = ignore_category,
+		flash_window = flashwindow,
+		group = group,
+		role_name_text = jobbanType,
+	)
+	return result || list()
 
 /proc/pollCandidatesForMob(Question, jobbanType, gametypeCheck, be_special_flag = 0, poll_time = 300, mob/M, ignore_category = null)
 	var/list/L = pollGhostCandidates(Question, jobbanType, gametypeCheck, be_special_flag, poll_time, ignore_category)
