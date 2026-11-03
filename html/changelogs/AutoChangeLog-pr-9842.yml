@@ -1,0 +1,5 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - bugfix: "Mindlink, message, and howl are now capitalized properly."
+  - bugfix: "Message and how have autopunctuation support."

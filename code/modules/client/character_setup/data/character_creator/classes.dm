@@ -51,6 +51,11 @@
 		data["unavailable"] = JOB_UNAVAILABLE_PQ
 		data["unavailable_details"] = "(Max PQ: [job.max_pq])"
 		return data
+	var/list/restricted_quirks = job.get_quirk_job_lock_names(src)
+	if(length(restricted_quirks))
+		data["unavailable"] = JOB_UNAVAILABLE_VIRTUESVICE
+		data["unavailable_details"] = "(Disallowed by Quirk: [english_list(restricted_quirks)])"
+		return data
 	if(length(job.virtue_restrictions) && length(job.vice_restrictions))
 		var/list/restricted_list = list()
 		if(virtue.type in job.virtue_restrictions)

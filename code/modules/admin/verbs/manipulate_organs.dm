@@ -18,7 +18,7 @@
 			organ = organs[organ]
 			organ = new organ
 			organ.Insert(C)
-			log_admin("[key_name(usr)] has added organ [organ.type] to [key_name(C)]")
+			C.log_message("had organ [organ.name] ([organ.type]) inserted by [key_name(usr)]", LOG_ADMIN)
 			message_admins("[key_name_admin(usr)] has added organ [organ.type] to [ADMIN_LOOKUPFLW(C)]")
 
 		if("drop organ", "remove organ")
@@ -34,7 +34,7 @@
 				return
 			var/obj/item/organ/O
 
-			log_admin("[key_name(usr)] has removed [organ.type] from [key_name(C)]")
+			C.log_message("had organ [organ.name] ([organ.type]) [operation == "remove organ" ? "removed and deleted" : "dropped"] by [key_name(usr)]", LOG_ADMIN)
 			message_admins("[key_name_admin(usr)] has removed [organ.type] from [ADMIN_LOOKUPFLW(C)]")
 
 			if(isorgan(organ))
@@ -43,5 +43,5 @@
 
 			organ.forceMove(get_turf(C))
 
-			if(operation == "remove organ/implant")
+			if(operation == "remove organ")
 				qdel(organ)

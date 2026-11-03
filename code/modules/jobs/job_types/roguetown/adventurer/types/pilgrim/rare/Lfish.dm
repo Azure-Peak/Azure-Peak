@@ -14,6 +14,7 @@
 	age_mod = /datum/class_age_mod/fisher
 
 	category_tags = list(CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_PER = 2,

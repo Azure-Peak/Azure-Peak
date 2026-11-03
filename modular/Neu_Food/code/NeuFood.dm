@@ -46,7 +46,7 @@
 		if(fried_target)
 			. += "<b>Fry</b> it in a pan over a hearth to make [initial(fried_target.name)]."
 	if(deepfried_target)
-		. += "<b>Deep fry</b> it in a pot of tallow over a hearth to make [initial(deepfried_target.name)]."
+		. += "<b>Deep fry</b> it in a pot of oil over a hearth to make [initial(deepfried_target.name)]."
 
 /obj/item/reagent_containers/food/snacks/rogue/examine(mob/user)
 	. = ..()
