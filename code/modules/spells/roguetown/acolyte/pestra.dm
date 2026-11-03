@@ -348,7 +348,7 @@
 				limb.skeletonized = FALSE
 		human_target.update_body()
 	else
-		to_chat(user, span_warning("No bodyparts were attached."))
+		to_chat(user, span_warning("No body parts were attached."))
 
 	return TRUE
 
@@ -561,7 +561,7 @@
 // Cure rot
 /obj/effect/proc_holder/spell/invoked/cure_rot
 	name = "Cure Rot"
-	desc = "Invoke Pestras will though a Psycross to cast out rot from people or regrow their flesh."
+	desc = "Invoke Pestra's will though a Psycross to cast out rot from people or regrow their flesh."
 	overlay_icon = 'icons/mob/actions/pestraspells.dmi'
 	action_icon = 'icons/mob/actions/pestraspells.dmi'
 	overlay_state = "rot"
@@ -585,7 +585,7 @@
 	var/is_lethal = TRUE
 
 /obj/effect/proc_holder/spell/invoked/cure_rot/priest
-	desc = "Burn out the rot by Astratas will."
+	desc = "Burn out the rot by Astrata's will."
 	is_lethal = FALSE
 
 /obj/effect/proc_holder/spell/invoked/cure_rot/cast(list/targets, mob/living/user)
@@ -808,7 +808,7 @@
 	. = ..()
 	if(isliving(targets[1]))
 		var/mob/living/target = targets[1]
-		target.visible_message(span_info("An ethereal, mushroom infested arm carresses [target]!"), span_notice("I feel a caring touch!"))
+		target.visible_message(span_info("An ethereal, mushroom infested arm caresses [target]!"), span_notice("I feel a caring touch!"))
 		target.apply_status_effect(/datum/status_effect/buff/divine_rebirth_healing)
 		SEND_SIGNAL(user, COMSIG_DIVINE_REBIRTH_CAST, target)
 		return TRUE

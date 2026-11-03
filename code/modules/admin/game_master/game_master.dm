@@ -467,6 +467,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 				carried_item.unmark_as_looted()
 
 	if(!spawn_ai)
+		ADD_TRAIT(spawned_mob, TRAIT_AI_DISABLED, ADMIN_TRAIT)
 		if(spawned_mob.ai_controller)
 			QDEL_NULL(spawned_mob.ai_controller)
 

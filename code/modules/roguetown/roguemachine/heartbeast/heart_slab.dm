@@ -102,12 +102,12 @@
 	. = ..()
 	. += span_info("Cures black rot partially. Cures a large amount of black rot.")
 	. += span_info("Black rot can be cured surgically with a knife, by touching calyxes, or by drinking heartblood.")
-	. += span_info("Can be interacted with to heal. Part of the heal is long lasting.")
+	. += span_info("Can be interacted with to heal. Part of the heal is long-lasting.")
 	. += span_info("Can be interacted with once per person.")
 	. += span_info("Provides heartbeast research to echo slabs in the world when used. Research is capped at tier 1 out of 4 tiers")
 	. += span_info("Provides a heartblood vial and some zennies when used.")
 	. += span_info("Holy skill and medicine skill increase the amount of research, zennies, and heartblood generated.")
-	. += span_info("Heartblood can be applied to self or others to restore some blue, or to purify impure lux to make it useable for revival surgery and crafts.")
+	. += span_info("Heartblood can be applied to self or others to restore some blue, or to purify impure lux to make it usable for revival surgery and crafts.")
 
 /obj/structure/roguemachine/chimeric_calyx/attack_hand(mob/user)
 	if(!ishuman(user))
@@ -161,7 +161,7 @@
 			H.apply_status_effect(/datum/status_effect/buff/rot_cleansing, new_total, new_per_tick)
 		to_chat(H, span_good("The calyx's purifying blood flows through you, cleansing the black rot!"))
 
-	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately carressing your head. You have contributed [points_granted] Echoes."))
+	to_chat(H, span_boldnotice("The calyx shudders as tendrils extend to feel up your arms, affectionately caressing your head. You have contributed [points_granted] Echoes."))
 	if(vial_count > 1)
 		to_chat(H, span_notice("Your affinity allows you to coax the creature into giving you an extra vial of blood."))
 	else
@@ -174,7 +174,7 @@
 		playsound(src, 'sound/mobs/abyssal/abyssal_pain.ogg', 100, 1)
 		visible_message(span_userdanger("The calyx, its curiosity unsatisfied, turns its attention towards its assailants one last time before it disappears underground."))
 		spawn(10)
-			visible_message(span_userdanger("Stange vibrations rock through the earth! Something is coming!"))
+			visible_message(span_userdanger("Strange vibrations rock through the earth! Something is coming!"))
 		var/list/possible_targets = get_adjacent_ambush_turfs(loc)
 		if(possible_targets.len)
 			playsound(src, 'sound/misc/jumpscare (4).ogg', 100, 1)

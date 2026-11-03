@@ -91,7 +91,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader
 	name = "surcoat of the golden order"
-	desc = "A regal surcoat, inlined with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
+	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant bears the psicruciformic sigil of the Psydonic and Necran \
 	orders."
 	icon_state = "crusader_surcoat"
@@ -102,43 +102,43 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t
 	name = "surcoat of the silver order"
-	desc = "A noble surcoat, inlined with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
+	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant bears the psicruciformic sigil of the Psydonic and Necran \
 	orders."
 	icon_state = "crusader_surcoatt2"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/astrata
 	name = "surcoat of the golden order"
-	desc = "A regal surcoat, inlined with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
+	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant bears the duocruciformic sigil of the Astratan and Ravoxian \
 	orders."
 	icon_state = "acrusader_surcoat"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t/astrata
 	name = "surcoat of the silver order"
-	desc = "A noble surcoat, inlined with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
+	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant bears the duocruciformic sigil of the Astratan and Ravoxian \
 	orders."
 	icon_state = "acrusader_surcoatt2"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/undivided
 	name = "surcoat of the golden order"
-	desc = "A regal surcoat, inlined with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
+	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant bears the unicruciform sigil of the Undivided and Erranteer \
 	orders."
 	icon_state = "ucrusader_surcoat"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t/undivided
 	name = "surcoat of the silver order"
-	desc = "A noble surcoat, inlined with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
+	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant bears the unicruciform sigil of the Undivided and Erranteer \
 	orders."
 	icon_state = "ucrusader_surcoatt2"
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/bsteel
 	name = "surcoat of the blacksteel order"
-	desc = "A venerated surcoat, inlined with blacksteel threading. The stitchwork tethers it to the Blacksteel Order; an ancient faith-militance whose roots trace \
-	all the way back to Psydonia's first crusaders. Uniquely welcoming to both Psydonic and Undivided patroneers, and irreversably valorant against the dreaded \
+	desc = "A venerated surcoat, inlaid with blacksteel threading. The stitchwork tethers it to the Blacksteel Order; an ancient faith-militance whose roots trace \
+	all the way back to Psydonia's first crusaders. Uniquely welcoming to both Psydonic and Undivided patroneers, and irreversibly valorant against the dreaded \
 	Avantyne Legion. </br>'Happiness must be fought for, lest all hope perish from the face of this world.'"
 	icon_state = "crusader_surcoatb3"
 
@@ -152,7 +152,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/legacy
 	name = "valorian surcoat of the golden order"
-	desc = "A regal surcoat, inlined with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
+	desc = "A regal surcoat, inlaid with golden threading. The stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity. This variant predates them all - stitched by Valorian seamstresses to adorn \
 	the bods of Rockhill's final crusaders. </br>'Into the darkness, unto the light; steel to the heathen, so that their sins may be set right.'"
 	icon_state = "legacy_crusader_surcoat"
@@ -162,7 +162,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/t/legacy
 	name = "valorian surcoat of the silver order"
-	desc = "A noble surcoat, inlined with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
+	desc = "A noble surcoat, inlaid with silver threading. The stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from monsters, deadites, and the ever-looming threat of another calamity. This variant predates them all - stitched by Valorian seamstresses to adorn \
 	the bods of Rockhill's final crusaders. </br>'Lest we forget, before we forgive; silver to the monster, for the Hell they'll relive.'"
 	icon_state = "legacy_crusader_surcoatt2"

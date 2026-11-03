@@ -52,7 +52,7 @@
 	if(complete || failed)
 		return
 	stop_hunt_tick()
-	pay_out_boss(boss_ref?.resolve())
+	release_boss()
 	succour_fallen_hunters()
 	despawn_gang()
 	return ..()
@@ -239,7 +239,7 @@
 	quest_scroll?.update_quest_text()
 	announce_to_bearer("<b>[boss_name] has been warned of you.</b> The reward rises by [NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon.")
 	to_chat(boss, span_danger("You are [boss_name]. Someone signed a writ for your head and the hunting party is on its way."))
-	to_chat(boss, span_danger("You cannot leave this ground. Hold out [NOTORIOUS_BOUNTY_CONTROL_TIME / (1 MINUTES)] minutes or break them to earn [NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH] TRIUMPH. Hiding pays nothing. They have to come at you and fail."))
+	to_chat(boss, span_danger("You cannot leave this ground. Hold out [DisplayTimeText(timeleft(hunt_timer_id), 1)] or break them to earn [NOTORIOUS_BOUNTY_SURVIVAL_TRIUMPH] TRIUMPH. Hiding pays nothing. They have to come at you and fail."))
 	to_chat(boss, span_boldnotice("You may kill them. Do not remove them from the round. Follow escalation rules. You may join any fight your gang has already started."))
 	to_chat(boss, span_boldnotice("Your hunters are marked. [describe_hunting_party()]"))
 	var/turf/boss_turf = get_turf(boss)
@@ -247,7 +247,6 @@
 	var/datum/fellowship/F = bearer?.current_fellowship
 	var/mob/living/party_leader = F?.get_leader()
 	message_admins("[key_name_admin(boss)] has taken over notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]), fighting a fellowship led by [party_leader ? key_name_admin(party_leader) : "an unknown party"].")
-	addtimer(CALLBACK(src, PROC_REF(release_boss)), NOTORIOUS_BOUNTY_CONTROL_TIME)
 
 /datum/quest/kill/notorious_bounty/proc/leash_boss(mob/living/boss)
 	if(boss.stat == DEAD)
@@ -264,7 +263,6 @@
 		return
 	if(!pay_out_boss(boss))
 		to_chat(boss, span_warning("The hunters never came for you."))
-	succour_fallen_hunters()
 	to_chat(boss, span_warning("The hunt is over. You escape to safety."))
 	clear_hunter_marks()
 	clear_boss_marker()

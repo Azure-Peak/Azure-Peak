@@ -36,7 +36,6 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/hunting = SKILL_LEVEL_NOVICE,
 	)
 
@@ -112,7 +111,6 @@
 		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 	)
 
 /datum/outfit/job/roguetown/adventurer/thug/wiseguy/pre_equip(mob/living/carbon/human/H)
@@ -143,7 +141,6 @@
 			H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_EXPERT, TRUE) // i fear not the man that has practiced a thousand moves one time, but the man that has practiced one move a thousand times
 			H.mind.AddSpell(new /datum/action/cooldown/spell/magicians_brick)
 		if("Lockpicking Equipment")
-			H.adjust_skillrank_up_to(/datum/skill/misc/stealing, SKILL_LEVEL_EXPERT, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_EXPERT, TRUE)
 			ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 			r_hand = /obj/item/lockpickring/mundane

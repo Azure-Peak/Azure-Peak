@@ -238,7 +238,7 @@ GLOBAL_VAR(last_connection)
 			return null
 
 		if (C) //user is already connected!.
-			to_chat(C, span_redtext("I are about to get disconnected for matching a sticky ban after you connected. If this turns out to be the ban evasion detection system going haywire, we will automatically detect this and revert the matches. if you feel that this is the case, please wait EXACTLY 6 seconds then reconnect using file -> reconnect to see if the match was automatically reversed."))
+			to_chat(C, span_redtext("I am about to get disconnected for matching a sticky ban after I connected. If this turns out to be the ban evasion detection system going haywire, we will automatically detect this and revert the matches. if you feel that this is the case, please wait EXACTLY 6 seconds then reconnect using file -> reconnect to see if the match was automatically reversed."))
 
 		var/desc = ""
 		. = list("reason" = "Stickyban", "desc" = desc)

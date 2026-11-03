@@ -11,7 +11,7 @@
 
 // While most reskins should be -3 TRI, it's reasonable to make them -1 TRI if the cosmetic change is relatively minor (like swapping out the crossguard on a sword, or simply changing a helmet's palette.)
 
-// Remember that these costs are done on a 'per-round' basis, that all items can still be permenantly lost when withdrawn, and that they should - above all else - encourage people to roll with TRI-rewarding mechanics.
+// Remember that these costs are done on a 'per-round' basis, that all items can still be permanently lost when withdrawn, and that they should - above all else - encourage people to roll with TRI-rewarding mechanics.
 // When pricing, try to keep the costs to a formula of 1 / 3 / 5 / 7 / 9. Formulas of 2 / 4 / 6 / 8 / 10 can work too, but should be rarer.
 // Above all else? Have fun! If you have any questions, let me know.
 

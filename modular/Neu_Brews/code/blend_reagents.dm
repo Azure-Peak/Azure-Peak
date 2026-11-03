@@ -176,7 +176,7 @@ You see the sky from a pit and a palace both."))
 	cuisine = CUISINE_SOUTH_IMPERIAL
 	quality = DRINK_GOOD
 	name = "Kvass"
-	description = "Tis the bread we drink. Mount the saigas then and let us ride. For the steppe waits for no one and our forefather gave us this so we don't have to chew our meal."
+	description = "'Tis the bread we drink. Mount the saigas then and let us ride. For the steppe waits for no one and our forefather gave us this so we don't have to chew our meal."
 	color = "#b78727"
 	taste_description = "astringent-sweet cereals"
 

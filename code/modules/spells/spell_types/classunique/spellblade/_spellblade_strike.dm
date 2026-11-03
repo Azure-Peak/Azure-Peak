@@ -21,11 +21,10 @@
 	blade_class = BCLASS_BLUNT
 	strike_sound = null
 	committed_strike = FALSE
-	strike_intdamage_mult = SPELL_DAMAGE_INTEGRITY_MODIFIER
 
 	var/momentum_cost = 3
 	var/empowered_mult = 2
-	var/blunt_penalty = SPELL_DMG(5)
+	var/blunt_penalty = 5
 	var/momentum_on_hit = 0
 	var/momentum_on_surge = 1
 	var/push_dist = 0

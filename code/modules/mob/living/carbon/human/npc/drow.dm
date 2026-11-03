@@ -167,3 +167,15 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "underdark"
 
+/mob/living/carbon/human/species/elf/dark/drowraider/drider
+	npc_archetype = /datum/npc_archetype/drow/drider
+	resize = 1.3
+
+/mob/living/carbon/human/species/elf/dark/drowraider/drider/after_creation()
+	..()
+	job = "Drow Drider"
+
+/mob/living/carbon/human/species/elf/dark/drowraider/drider/ambush
+	threat_point = THREAT_ELITE
+	ambush_faction = "underdark"
+

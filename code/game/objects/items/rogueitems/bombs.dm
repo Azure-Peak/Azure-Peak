@@ -59,7 +59,7 @@
 
 /obj/item/bomb/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click with a torch, lamptern, flint, or another ignitioneer to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or another source of ignition.")
+	. += span_info("Left-click with a torch, lamptern, flint, or other ignition source to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or other ignition source.")
 	. += span_info("Once lit, most bombs will detonate after a very short period of time.")
 
 /obj/item/bomb/Initialize(mapload)
@@ -1135,7 +1135,7 @@
 
 /obj/item/impact_grenade/smoke
 	name = "gas belcher"
-	desc = "A vented canister, filled with an obfuscating payload. Wisps of charsmoke occassionally escape from its ported maw."
+	desc = "A vented canister, filled with an obfuscating payload. Wisps of charsmoke occasionally escape from its ported maw."
 	dropshrink = 0.6
 	icon_state = "smokeshell_blue"
 	var/datum/effect_system/smoke_spread/smoke_type = /datum/effect_system/smoke_spread
