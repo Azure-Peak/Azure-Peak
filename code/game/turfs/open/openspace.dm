@@ -178,6 +178,37 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 ///LIFEWEB-LIKE CLIMBING, DRAG AND DROP URSELF ONTO AN OPENSPACE TURF CHUDDIE///
 ///////////////////////////////////////////////////////////////////////////////
 
+//Climbing gear now attaches you to nearby walls
+/turf/open/transparent/openspace/Entered(atom/movable/AM) //something entered an openspace
+	if(ishuman(AM)) //lets check its a player
+		var/mob/living/carbon/human/climber = AM
+		if(climber.is_jumping) //u need to be jumping...
+			var/climber_armor_class = climber.highest_ac_worn()
+			var/has_climbing_gear = istype(climber.backr, /obj/item/clothing/climbing_gear) || istype(climber.backl, /obj/item/clothing/climbing_gear)
+			if(has_climbing_gear) //and have climbing gear..
+				var/climbing_skill = max(climber.get_skill_level(/datum/skill/misc/climbing), SKILL_LEVEL_NOVICE)
+				for(var/turf/closed/adjacent_wall in get_adjacent_turfs(src)) //let's check if there are climbable walls around us
+					if(adjacent_wall.wallclimb) //if there are float and climb on the openspace tile we are floating on
+						var/wall_skill_requirement = adjacent_wall.climbdiff
+						if(climbing_skill != 6) //we keep the same checks as for usual climbing
+							wall_skill_requirement += 1
+						if(!(climbing_skill >= wall_skill_requirement)) //if we can normally move along the edge, attach
+							climber.visible_message(span_danger("I am not skilled enough at climbing to attach to the wall!"))
+						else
+							if(!(climber_armor_class <= ARMOR_CLASS_LIGHT)) //unless if we are in fullplate, lose some weight man
+								climber.visible_message(span_danger("The armor prevents me from attaching to the wall!"))
+								break
+							else
+								climber.zfalling = TRUE //we are floating, boss.
+								addtimer(CALLBACK(src, PROC_REF(jump_wallpress), climber), 2) //a wee delay so that we can actually climb the wall
+								break
+	return ..()
+
+/turf/open/transparent/openspace/proc/jump_wallpress(mob/living/carbon/human/climber)
+	if(get_turf(climber) == src) //if we are still on the same turf, climb, other wise no climb.
+		wallpress(climber, TRUE) //tell the proc that we need to quick climb.
+	climber.zfalling = FALSE //climb no climb - no more floaty, if climb - wallpress handles floaty.
+
 /turf/open/transparent/openspace/MouseDrop_T(atom/movable/O, mob/user)
 	. = ..()
 	if(user == O && isliving(O))
@@ -190,7 +221,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			wallpress(L)
 			return
 
-/turf/open/transparent/openspace/proc/wallpress(mob/living/user) // only cardinals, correct chat
+/turf/open/transparent/openspace/proc/wallpress(mob/living/user, quick_climb = FALSE) // only cardinals, correct chat
 	var/turf/climb_target = src
 	var/mob/living/carbon/human/climber = user // https://discord.com/channels/1389349752700928050/1389452066493169765/1413195734441922580
 	if(!(climber.stat != CONSCIOUS))
@@ -233,6 +264,8 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 				var/baseline_stamina_cost = 15
 				if(climber.m_intent == MOVE_INTENT_SNEAK)
 					climb_along_delay = climb_along_delay * 1.5
+				if(quick_climb) //We climb instantly when "jump climbing" with climbing gear
+					climb_along_delay = 1
 				if(!climber.start_climb())
 					return
 				var/climbed = do_after(climber, climb_along_delay, wall_for_message, extra_checks = climber.climb_check_callback())
@@ -251,7 +284,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 					climber.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb) // continious drain of STAMINA and checks to remove the status effect if we are on solid stuff or branches
 					climber.forceMove(climb_target) // while our MOVEMENT TYPE is FLYING, we move onto next tile and can't fall cos of the flying
 					climber.movement_type = GROUND // if we move and it's an empty space tile, we fall. otherwise we either just walk into a wall along which we climb and don't fall, or walk onto a solid turf, like... floor or water
-					if(climber.m_intent != MOVE_INTENT_SNEAK)
+					if(quick_climb) //only used with climbing gear
+						playsound(climber, 'sound/items/garrotegrab.ogg', sfx_vol)
+					else if(climber.m_intent != MOVE_INTENT_SNEAK)
 						playsound(climber, 'sound/foley/climb.ogg', sfx_vol)
 					else
 						playsound(climber, pick(cloth_wipe_sfx), 100, TRUE)
