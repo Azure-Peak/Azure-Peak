@@ -68,6 +68,8 @@
 		var/message = capitalize(sanitize(input(user,"You successfully make a connection! [is_projection ? "What sensory vision are you trying to send into their mind?" : "What are you trying to whisper into their mind?"]")))
 		if(!message)
 			return FALSE
+		if(!user.client?.prefs?.no_autopunctuate)
+			message = autopunct_bare(message)
 
 		if(alert(user, "Send anonymously?", "", "Yes", "No") == "No")
 			identify_difficulty = 0
