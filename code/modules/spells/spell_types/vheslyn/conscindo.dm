@@ -84,6 +84,25 @@ you violently rend it asunder and heal you instead, intended as a finisher to ma
 		return
 	if(!HAS_TRAIT(target, TRAIT_NOPAIN))
 		target.emote("agony")
+	if(HAS_TRAIT(target, TRAIT_LUXHEART))// their lux is contained within their heart, rather than outside of it. Tear the whole fucking thing out.
+		to_chat(user, span_warning("Their heart is armored in ancient alloy... No matter."))
+		user.visible_message(span_alert("[user] tugs with fervor at something within [target]'s ribcage!"))
+		if(do_after(user, tear_time, target = target))
+			user.visible_message(span_alert("[user] tears [target]'s heart from their chest, and crushes it in their hands, to a gout of spectacular flame!"))
+			var/obj/item/organ/heart/heart = target.getorganslot(ORGAN_SLOT_HEART)
+			heart.Remove(target)
+			qdel(heart)
+			playsound(user, 'sound/items/blackmirror_needle.ogg', 60, FALSE, 3)
+			target.add_splatter_floor()
+			target.apply_damage(70, BRUTE, BODY_ZONE_CHEST) //AGAIN, we tore most of their lux apart. THIS will HURT.
+			user.adjust_fire_stacks(10, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
+			user.ignite_mob()
+			user.heal_overall_damage(80, 80) //Very hefty heal
+			user.heal_wounds(30) //Remove a good chunk of your wounds as well.
+			to_chat(target, span_userdanger("[user] tears my [heart] from my very chest! Without it, my artificed innards will surely be unable to function! My death is also possible."))
+		else
+			to_chat(user, span_warning("I wasn't able to tear out their heart!"))
+			return
 	playsound(user, 'sound/items/blackmirror_needle.ogg', 60, FALSE, 3)
 	playsound(user, 'sound/misc/lava_death.ogg', 100, TRUE) //You literally ripped their lux out and tore it apart + melted it to nothing.
 	user.visible_message(span_alert("[user] tears and rends the Lux in [target]'s heart, turning it to violet flames that engulf them and restore their wounds!"))
@@ -103,4 +122,4 @@ you violently rend it asunder and heal you instead, intended as a finisher to ma
 	record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 	record_round_statistic(STATS_LUX_HARVESTED)
 	record_round_statistic(STATS_TORTURES) //Okay Zizo, it technically counts I guess.
-	target.apply_status_effect(/datum/status_effect/debuff/devitalised/greater) //YOUR LUX IS FUCKING TORN TO SHREADS, ITS GOING TO TAKE MORE THAN A SHORT-WHILE
+	target.handle_lux_removal(3, TRUE) //YOUR LUX IS FUCKING TORN TO SHREADS, ITS GOING TO TAKE MORE THAN A SHORT-WHILE

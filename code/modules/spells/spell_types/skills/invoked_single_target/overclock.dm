@@ -26,6 +26,8 @@
 	// Count prosthetic limbs and collect them going with the recommendations on this
 	var/prosthetic_arms = 0
 	var/prosthetic_legs = 0
+	var/gilbranze_arms = 0
+	var/gilbranze_legs = 0
 	var/list/prosthetic_parts = list()
 
 	for(var/obj/item/bodypart/BP in H.bodyparts)
@@ -37,8 +39,12 @@
 		prosthetic_parts += BP
 		if(istype(BP, /obj/item/bodypart/l_arm/prosthetic) || istype(BP, /obj/item/bodypart/r_arm/prosthetic))
 			prosthetic_arms++
+			if(istype(BP, /obj/item/bodypart/l_arm/prosthetic/aalloy) || istype(BP, /obj/item/bodypart/r_arm/prosthetic/aalloy))
+				gilbranze_arms ++
 		else
 			prosthetic_legs++
+			if(istype(BP, /obj/item/bodypart/l_leg/prosthetic/aalloyleft) || istype(BP, /obj/item/bodypart/r_leg/prosthetic/aalloyright))
+				gilbranze_legs ++
 
 	//if we have no prosthetics we notify the user and remove the spell
 	if(!length(prosthetic_parts))
@@ -48,7 +54,7 @@
 		return FALSE
 
 	// a buff is applied based on the number of arms and legs.
-	H.apply_status_effect(/datum/status_effect/buff/overclock, prosthetic_arms, prosthetic_legs)
+	H.apply_status_effect(/datum/status_effect/buff/overclock, prosthetic_arms, prosthetic_legs, gilbranze_arms, gilbranze_legs)
 	H.visible_message(
 		span_warning("[H]'s prosthetic limbs begin to whir and rattle loudly!"),
 		span_notice("I push my prosthetics to their limit — I can feel them vibrating loudly.")
@@ -93,11 +99,15 @@
 		istype(BP, /obj/item/bodypart/r_leg/prosthetic/steel))
 		return 35
 
-	// Gold prosthetics — no overload risk
+	// Gold and Gilbranze prosthetics — no overload risk
 	if(istype(BP, /obj/item/bodypart/l_arm/prosthetic/gold) || \
 		istype(BP, /obj/item/bodypart/r_arm/prosthetic/gold) || \
 		istype(BP, /obj/item/bodypart/l_leg/prosthetic/gold) || \
-		istype(BP, /obj/item/bodypart/r_leg/prosthetic/gold))
+		istype(BP, /obj/item/bodypart/r_leg/prosthetic/gold) || \
+		istype(BP, /obj/item/bodypart/l_arm/prosthetic/aalloy) || \
+		istype(BP, /obj/item/bodypart/r_arm/prosthetic/aalloy) || \
+		istype(BP, /obj/item/bodypart/l_leg/prosthetic/aalloyleft) || \
+		istype(BP, /obj/item/bodypart/r_leg/prosthetic/aalloyright))
 		return 0
 
 	// Wooden or unknown — almost guaranteed overload

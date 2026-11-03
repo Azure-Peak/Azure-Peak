@@ -176,7 +176,7 @@
 /datum/wound/facial/disfigurement/on_mob_loss(mob/living/affected)
 	. = ..()
 	REMOVE_TRAIT(affected, TRAIT_DISFIGURED, "[type]")
-	
+
 /datum/wound/facial/disfigurement/nose
 	name = "rhinotomy"
 	check_name = span_warning("NOSE")
@@ -311,7 +311,7 @@
 		"OH, SHIT!"\
 	)
 	to_chat(affected, span_userdanger(pick(goodbye)))
-	affected.apply_status_effect(/datum/status_effect/debuff/devitalised)
+	affected.handle_lux_removal()
 	if(HAS_TRAIT(owner, TRAIT_SILVER_WEAK) && !owner.has_status_effect(STATUS_EFFECT_ANTIMAGIC))
 		affected.death()
 
@@ -370,7 +370,7 @@
 		bodypart_owner?.dismemberable = FALSE
 		addtimer(CALLBACK(src, PROC_REF(reset_dismemberment_immunity)), immunity_time)
 		playsound(affected?.owner, 'sound/combat/dismemberment/grievous-behead.ogg', 250, FALSE, -1)
-		
+
 /datum/wound/grievous/proc/reset_dismemberment_immunity()
 	if (!bodypart_owner || QDELETED(src))
 		return
@@ -498,4 +498,4 @@
 
 #undef OOZE_UPG_WHPRATE
 #undef OOZE_UPG_PAINRATE
-#undef OOZE_UPG_SELFHEAL 
+#undef OOZE_UPG_SELFHEAL
