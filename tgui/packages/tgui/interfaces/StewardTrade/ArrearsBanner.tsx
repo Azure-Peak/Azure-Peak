@@ -32,10 +32,10 @@ export const ArrearsBanner = (props: { sequestration: SequestrationState }) => {
         ARREARS WITH THE BURGHERS
       </div>
       <div style={{ fontVariant: 'normal', color: INK }}>
-        The Crown owes <b>{sequestration.debt}m</b> to the Burghers of Azuria
-        for the day's interest-free advance. All inflow into the Crown's Purse
-        is skimmed against the debt until it is settled. Should the Crown miss
-        the next dawn's payroll, the realm enters sequestration.
+        The Burghers covered the missed wages, and the Crown owes them{' '}
+        <b>{sequestration.debt}m</b>. Everything paid into the Treasury goes to
+        them until the debt is cleared. Miss the next payroll as well and the
+        realm is sequestered.
       </div>
     </div>
   );

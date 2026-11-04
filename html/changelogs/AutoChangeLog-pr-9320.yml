@@ -1,9 +1,0 @@
-author: "zydras"
-delete-after: True
-changes:
-  - rscadd: "Added Direvolfs! Similar to Direbears, but more canine."
-  - rscadd: "Druids and Dendorites can now Wildshape into Direvolfs. Rawr."
-  - image: "Fixed the shading on the black volf and white volf sprites."
-  - code_imp: "Direvolf will (rarely) be attracted to bloodbait. Be wary!"
-  - code_imp: "Direvolf will now appear in the Northern Coast and the Mount Decapitation."
-  - code_imp: "The Wild Beast contract type now only contains Volf and Direvolf rather than a crock-pot of wildlyfe."

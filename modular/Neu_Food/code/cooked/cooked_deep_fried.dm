@@ -2,13 +2,12 @@
 
 /obj/item/reagent_containers/food/snacks/squiresdelight
 	cuisine = CUISINE_NORTH_IMPERIAL
-	dish_type = DISH_SWEET
+	dish_type = DISH_SWEET|DISH_DAIRY|DISH_EGG|DISH_MEAT|DISH_VEGETABLE
 	name = "squire's delight"
 	desc = "A deep-fried butter stick. Beloved by squires, often stolen by knights."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_deep_fried.dmi'
 	icon_state = "squiresdelight"
 	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTER_NUTRITION * 2)
-	foodtype = DAIRY | GRAIN
 	bitesize = 6 // Consistent with butter
 	faretype = FARE_FINE // Now you can eat butter as a knight...
 	tastes = list("crunchy toastcrumbs" = 1, "molten butter" = 1)
@@ -17,13 +16,13 @@
 
 // Cooked results
 /obj/item/reagent_containers/food/snacks/rogue/meat/nitzel
+	dish_type = DISH_MEAT|DISH_EGG|DISH_VEGETABLE
 	cuisine = CUISINE_NORTH_IMPERIAL
 	name = "nitzel"
 	desc = "A deep-fried nitzel, coated in toastcrumbs and ready to eat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_deep_fried.dmi'
 	icon_state = "nitzel"
 	faretype = FARE_LAVISH
-	foodtype = MEAT | GRAIN
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	bitesize = 5 // If you go through all of the efforts to make this it should have big portion
 	tastes = list("crunchy toastcrumbs" = 1, "tender pork" = 1)
@@ -39,13 +38,13 @@
 	tastes = list("crunchy toastcrumbs" = 1, "tender spidermeat" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/chickentender
+	dish_type = DISH_MEAT|DISH_EGG|DISH_VEGETABLE|DISH_POULTRY
 	cuisine = CUISINE_NORTHERN|CUISINE_SOUTHEASTERN
 	name = "tender frybird"
 	desc = "A deep-fried frybird, coated in toastcrumbs and ready to eat."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_deep_fried.dmi'
 	icon_state = "chickentender"
 	faretype = FARE_LAVISH
-	foodtype = MEAT | GRAIN
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL * 2)
 	bitesize = 5 // If you go through all of the efforts to make this it should have big portion
 	tastes = list("crunchy toastcrumbs" = 1, "tender chicken" = 1)
@@ -54,19 +53,20 @@
 	rotprocess = SHELFLIFE_DECENT
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/nitzel/wiener
+	dish_type = DISH_MEAT|DISH_EGG|DISH_VEGETABLE|DISH_POULTRY|DISH_SEAFOOD
 	name = "wiener nitzel"
 	desc = "A deep-fried wiener, coated in toastcrumbs and ready to eat."
 	icon_state = "wienernitzel"
 	tastes = list("crunchy toastcrumbs" = 1, "tender wiener" = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/griddlewiener
+	dish_type = DISH_MEAT|DISH_EGG|DISH_VEGETABLE|DISH_POULTRY|DISH_SEAFOOD
 	cuisine = CUISINE_NORTH_IMPERIAL
 	name = "griddlewiener"
 	desc = "A deep-fried sausage, tucked into a griddle blanket, beloved by all, especially during the Harvest Festival."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_deep_fried.dmi'
 	icon_state = "griddleweiner"
 	faretype = FARE_LAVISH
-	foodtype = MEAT | GRAIN
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS)
 	bitesize = 4
 	tastes = list("fluffy griddlecake" = 1, "tender wiener" = 1)

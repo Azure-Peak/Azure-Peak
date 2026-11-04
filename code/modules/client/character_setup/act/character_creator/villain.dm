@@ -22,6 +22,38 @@
 			log_game("[user] has set their lich Headshot image to '[html_encode(lich_headshot_link)]'.")
 			return CHARACTER_ACT_DATA_UPDATE
 
+		if("lich_headshot_artist_credit")
+			to_chat(user, span_notice("This space is for the name of the artist who made this headshot; it'll be displayed underneath the headshot in the examine window."))
+			var/new_artist_credit = tgui_input_text(user, "Input the credit for the Lich headshot's artist:", "Lich Headshot", lich_headshot_artist_credit, max_length = MAX_NAME_LEN, encode = TRUE)
+			if(new_artist_credit == null)
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_artist_credit == "")
+				verbose_pref_log_change(user, "notice", "Lich Headshot Credit", lich_headshot_artist_credit, "")
+				lich_headshot_artist_credit = null
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Lich Headshot Credit", lich_headshot_artist_credit, new_artist_credit)
+			lich_headshot_artist_credit = new_artist_credit
+			to_chat(user, span_notice("Successfully updated lich headshot credit"))
+			return CHARACTER_ACT_DATA_UPDATE
+
+		if("lich_headshot_artist_link")
+			to_chat(user, span_notice("If this is set alongside an artist credit, clicking the artist's name will open this link in a browser. It should be used for their website, donation page, or some other way to reach them."))
+			var/new_artist_link = tgui_input_text(user, "Input the link for the Lich headshot's artist:", "Lich Headshot", lich_headshot_artist_link, max_length = MAX_MESSAGE_LEN, encode = FALSE)
+			if(new_artist_link == null)
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_artist_link == "")
+				verbose_pref_log_change(user, "notice", "Lich Headshot Credit Link", lich_headshot_artist_link, "")
+				lich_headshot_artist_link = null
+				return CHARACTER_ACT_DATA_UPDATE
+			if(!valid_link(user, new_artist_link))
+				to_chat(user, span_notice("Invalid credit link."))
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Lich Headshot Credit Link", lich_headshot_artist_link, new_artist_link)
+			lich_headshot_artist_link = new_artist_link
+			log_game("[user] has set their Lich Headshot artist link to '[html_encode(lich_headshot_artist_link)]'.")
+			to_chat(user, span_notice("Successfully updated lich headshot credit link"))
+			return CHARACTER_ACT_DATA_UPDATE
+
 		if("vampire_headshot")
 			to_chat(user, span_notice("Please use a relatively SFW image of the head and shoulder area to maintain immersion level. Lastly, [span_bold("do not use a real life photo or use any image that is less than serious.")]"))
 			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
@@ -39,6 +71,38 @@
 			verbose_pref_log_change(user, "notice", "Vampire Headshot", html_encode(vampire_headshot_link), html_encode(new_vampire_headshot_link))
 			vampire_headshot_link = new_vampire_headshot_link
 			log_game("[user] has set their vampire Headshot image to '[html_encode(vampire_headshot_link)]'.")
+			return CHARACTER_ACT_DATA_UPDATE
+
+		if("vampire_headshot_artist_credit")
+			to_chat(user, span_notice("This space is for the name of the artist who made this headshot; it'll be displayed underneath the headshot in the examine window."))
+			var/new_artist_credit = tgui_input_text(user, "Input the credit for the Vampire headshot's artist:", "Vampire Headshot", vampire_headshot_artist_credit, max_length = MAX_NAME_LEN, encode = TRUE)
+			if(new_artist_credit == null)
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_artist_credit == "")
+				verbose_pref_log_change(user, "notice", "Vampire Headshot Credit", vampire_headshot_artist_credit, "")
+				vampire_headshot_artist_credit = null
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Vampire Headshot Credit", vampire_headshot_artist_credit, new_artist_credit)
+			vampire_headshot_artist_credit = new_artist_credit
+			to_chat(user, span_notice("Successfully updated vampire headshot credit"))
+			return CHARACTER_ACT_DATA_UPDATE
+
+		if("vampire_headshot_artist_link")
+			to_chat(user, span_notice("If this is set alongside an artist credit, clicking the artist's name will open this link in a browser. It should be used for their website, donation page, or some other way to reach them."))
+			var/new_artist_link = tgui_input_text(user, "Input the link for the Vampire headshot's artist:", "Vampire Headshot", vampire_headshot_artist_link, max_length = MAX_MESSAGE_LEN, encode = FALSE)
+			if(new_artist_link == null)
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_artist_link == "")
+				verbose_pref_log_change(user, "notice", "Vampire Headshot Credit Link", vampire_headshot_artist_link, "")
+				vampire_headshot_artist_link = null
+				return CHARACTER_ACT_DATA_UPDATE
+			if(!valid_link(user, new_artist_link))
+				to_chat(user, span_notice("Invalid credit link."))
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Vampire Headshot Credit Link", vampire_headshot_artist_link, new_artist_link)
+			vampire_headshot_artist_link = new_artist_link
+			log_game("[user] has set their Vampire Headshot artist link to '[html_encode(vampire_headshot_artist_link)]'.")
+			to_chat(user, span_notice("Successfully updated vampire headshot credit link"))
 			return CHARACTER_ACT_DATA_UPDATE
 
 		if("vampire_hair")

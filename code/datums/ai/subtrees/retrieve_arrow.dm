@@ -28,6 +28,8 @@
 /datum/ai_planning_subtree/retrieve_arrows/proc/_find_nearby_arrow(mob/living/carbon/human/pawn, obj/item/quiver/Q)
 	var/turf/pawn_turf = get_turf(pawn)
 	for(var/obj/item/ammo_casing/arrow in range(ARCHER_NPC_ARROW_SEARCH_RANGE, pawn_turf))
+		if(!isturf(arrow.loc))
+			continue
 		if(istype(arrow, Q.allowed_ammo_type))
 			return arrow
 	return null
@@ -45,14 +47,14 @@
 	if(!arrow || QDELETED(arrow))
 		controller.clear_blackboard_key(arrow_key)
 		return FALSE
-	controller.current_movement_target = arrow
+	set_movement_target(controller, arrow)
 	return TRUE
 
 /datum/ai_behavior/retrieve_arrow/perform(delta_time, datum/ai_controller/controller, arrow_key)
 	var/mob/living/carbon/human/pawn = controller.pawn
 	var/obj/item/ammo_casing/arrow = controller.blackboard[arrow_key]
 
-	if(!arrow || QDELETED(arrow))
+	if(!arrow || QDELETED(arrow) || !isturf(arrow.loc))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	if(!pawn.CanReach(arrow))

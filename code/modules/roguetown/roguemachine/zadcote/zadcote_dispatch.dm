@@ -13,9 +13,9 @@
 		if(ZAD_CAPACITY_TIER_1)
 			return "1 zad (small / tiny)"
 		if(ZAD_CAPACITY_TIER_2)
-			return "2 zads (normal-sized, pouch)"
+			return "[ZAD_CAPACITY_TIER_2] zads (normal size, pouch)"
 		if(ZAD_CAPACITY_TIER_3)
-			return "3 zads (bulky, large container)"
+			return "[ZAD_CAPACITY_TIER_3] zads (bulky, large container)"
 	return ""
 
 /obj/item/roguemachine/zadcote/proc/scan_payload_items(mob/user)
@@ -50,7 +50,7 @@
 		return FALSE
 	if(cage.current_occupancy)
 		if(operator)
-			to_chat(operator, span_warning("That zadcage is already occupied. Wait for it to return."))
+			to_chat(operator, span_warning("A zad is already in that zadcage. Wait for it to return."))
 		return FALSE
 	if(length(cage.held_payload))
 		if(operator)
@@ -60,7 +60,7 @@
 	bomb_count = clamp(bomb_count, 0, ZAD_CAPACITY_TIER_3)
 	if(bomb_count > 0 && !can_send_bombs())
 		if(operator)
-			to_chat(operator, span_warning("The zads refuse - you may only send a bombs flight every 5 minutes, you maniac."))
+			to_chat(operator, span_warning("The zads refuse. You can only send bombs once every [DisplayTimeText(ZADCOTE_BOMB_COOLDOWN)], you maniac."))
 		return FALSE
 	if(bomb_count > bomb_stock)
 		if(operator)
@@ -88,7 +88,7 @@
 	for(var/obj/item/I in payload_items)
 		if(I.w_class > max_weight)
 			if(operator)
-				to_chat(operator, span_warning("[I] is too heavy for [zad_count] zad\s. Use a larger tier or send a smaller parcel."))
+				to_chat(operator, span_warning("[I] is too heavy for [zad_count] zad\s. Send more zads or a smaller parcel."))
 			return FALSE
 	consume_reserve(zad_count)
 	if(bomb_count > 0)
@@ -148,7 +148,7 @@
 	if(link)
 		link.pending_flight = null
 	pending_outbound -= flight
-	visible_message(span_warning("The zads return to [src] - there was nowhere to land."))
+	visible_message(span_warning("The zads return to [src]. There was nowhere to land."))
 
 /obj/item/roguemachine/zadcote/proc/resolve_arrival(datum/zad_flight/flight)
 	var/datum/zadlink/link = flight.resolve_target_link()
@@ -164,7 +164,7 @@
 	addtimer(CALLBACK(src, PROC_REF(clear_link_pending), link), ZAD_DESCEND_DURATION)
 	var/mob/holder = cage.holder_mob()
 	if(!holder)
-		visible_message(span_warning("[src] chimes. The zads report Zadcage #[link.slot_index] is not on a person."))
+		visible_message(span_warning("[src] chimes. Nobody is carrying Zadcage #[link.slot_index]."))
 
 /obj/item/roguemachine/zadcote/proc/clear_link_pending(datum/zadlink/link)
 	if(link)
@@ -214,7 +214,7 @@
 			else if(lost == flight.zads_used)
 				loss_text = "all [lost] zads perished of exhaustion."
 			else
-				loss_text = "[lost] of [flight.zads_used] zads dropped from the sky, exhausted - [flight.zads_used - lost] returned home."
+				loss_text = "[lost] of [flight.zads_used] zads were too exhausted to fly and dropped from the sky. [flight.zads_used - lost] returned home."
 			visible_message(span_warning("[src] reports [loss_text]"))
 	log_mail(slot_index, sender_label, flight.message_text, item_names, lost, flight.zads_used)
 	if(length(flight.message_text) || length(item_names))
@@ -226,10 +226,10 @@
 			parts += "says: \"[flight.message_text]\""
 		if(length(item_names))
 			parts += "brings: [english_list(item_names)]"
-		visible_message(span_notice("A zad returns to [src] - [parts.Join(" ")]"))
+		visible_message(span_notice("A zad returns to [src]: [parts.Join(" ")]"))
 		playsound(src, 'sound/misc/notice.ogg', 60, FALSE, -1)
 	else if(lost == 0)
-		visible_message(span_notice("A zad returns to [src] - empty-clawed."))
+		visible_message(span_notice("A zad returns to [src] with nothing."))
 
 /obj/item/roguemachine/zadcote/proc/log_mail(slot_index, sender_label, message_text, list/item_names, lost = 0, zads_used = 0)
 	mail_log.Insert(1, list(list(

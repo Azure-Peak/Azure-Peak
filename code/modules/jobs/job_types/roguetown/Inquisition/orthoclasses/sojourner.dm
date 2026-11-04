@@ -34,7 +34,7 @@
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 4, ward = TRUE, "locked_aspects" = list(/datum/magic_aspect/autowardry))
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 5, ward = TRUE, "locked_aspects" = list(/datum/magic_aspect/autowardry))
 	subclass_stashed_items = list(
 		"The Book" = /obj/item/book/rogue/bibble/psy
 	)
@@ -57,6 +57,7 @@
 		H.mind.AddSpell(new /datum/action/cooldown/spell/storm_of_psydon())
 		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/blade_of_psydon())
+		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
 
 	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(momentum)
@@ -77,12 +78,18 @@
 
 	switch(sidearm_selected)
 		if("katar")
-			H.put_in_hands(new /obj/item/rogueweapon/katar/psydon(H))
+			H.put_in_hands(new /obj/item/rogueweapon/katar/silver/psy(H))
 		if("knuckledusters")
-			H.put_in_hands(new /obj/item/rogueweapon/knuckledusters/psy(H))
+			H.put_in_hands(new /obj/item/clothing/gloves/roguetown/knuckles/silver/psy(H))
 
 	head = /obj/item/clothing/head/roguetown/headband/naledi
-	mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
+	if(H.has_flaw(/datum/charflaw/badsight))
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner/inlaid_spectacles
+		var/obj/item/clothing/mask/rogue/oldspecs = H.wear_mask
+		H.dropItemToGround(oldspecs, TRUE, TRUE)
+		qdel(oldspecs)
+	else
+		mask = /obj/item/clothing/mask/rogue/lordmask/naledi/sojourner
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/naledi
 	gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
 	pants = /obj/item/clothing/under/roguetown/trou/leather/pontifex

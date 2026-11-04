@@ -25,7 +25,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
@@ -37,7 +37,7 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/aoe_range = 3
-	displayed_damage = GTSTRIKE_DAMAGE
+	displayed_damage = SPELL_DMG(GTSTRIKE_DAMAGE)
 
 /datum/action/cooldown/spell/greater_thunderstrike/cast(atom/cast_on)
 	. = ..()
@@ -65,7 +65,7 @@
 
 	H.visible_message(span_boldwarning("[H] calls down a massive storm of lightning!"))
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE, 6)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, H, aoe_range, GTSTRIKE_DAMAGE, src, "Greater Thunderstrike"), GTSTRIKE_TELEGRAPH)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, H, aoe_range, SPELL_DMG(GTSTRIKE_DAMAGE), src, "Greater Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), GTSTRIKE_TELEGRAPH)
 	return TRUE
 
 #undef GTSTRIKE_DAMAGE

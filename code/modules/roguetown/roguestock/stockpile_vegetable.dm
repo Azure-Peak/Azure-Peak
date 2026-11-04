@@ -45,7 +45,7 @@
 
 /datum/roguestock/stockpile/mushroom
 	name = "Mushroom"
-	desc = "A fungi that goes well in soups or grilled."
+	desc = "A fungus that goes well in soups or grilled."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/mushroom
 	trade_good_id = TRADE_GOOD_MUSHROOM
 	importexport_amt = 5
@@ -95,7 +95,7 @@
 
 /datum/roguestock/stockpile/turnip
 	name = "Turnip"
-	desc = "A hardy root vegetable suitable for soups. Favored by the poor"
+	desc = "A hardy root vegetable suitable for soups. Favored by the poor."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/vegetable/turnip
 	trade_good_id = TRADE_GOOD_TURNIP
 	importexport_amt = 10
@@ -135,7 +135,7 @@
 
 /datum/roguestock/stockpile/sugar
 	name = "Sugar"
-	desc = "A sweet powder milled from sugarcane"
+	desc = "A sweet powder milled from sugarcane."
 	item_type = /obj/item/reagent_containers/food/snacks/sugar
 	trade_good_id = TRADE_GOOD_SUGAR
 	importexport_amt = 10
@@ -145,7 +145,7 @@
 
 /datum/roguestock/stockpile/coffee
 	name = "Coffee Beans"
-	desc = "The seed of the coffee plant, used to make a stimulating drink."
+	desc = "The seed of the coffee plant. It makes a stimulating drink."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/coffeebeans
 	trade_good_id = TRADE_GOOD_COFFEE
 	importexport_amt = 10
@@ -155,7 +155,7 @@
 
 /datum/roguestock/stockpile/tea
 	name = "Dried Tea Leaves"
-	desc = "Dried tea leaves from the tea plant. Can be grounded and brewed to make tea."
+	desc = "Dried tea leaves from the tea plant. Can be ground and brewed to make tea."
 	item_type = /obj/item/reagent_containers/food/snacks/grown/rogue/tealeaves_dry
 	trade_good_id = TRADE_GOOD_TEA
 	importexport_amt = 10
@@ -180,5 +180,25 @@
 	trade_good_id = TRADE_GOOD_ROCKNUT
 	importexport_amt = 10
 	stockpile_amount = 5
+	stockpile_limit = 50
+	category = "Vegetable"
+
+/datum/roguestock/stockpile/beans
+	name = "Beans"
+	desc = "Red beans from Naledi."
+	item_type = /obj/item/reagent_containers/food/snacks/grown/beans
+	trade_good_id = TRADE_GOOD_BEANS
+	importexport_amt = 10
+	stockpile_amount = 0
+	stockpile_limit = 50
+	category = "Vegetable"
+
+/datum/roguestock/stockpile/lentils
+	name = "Lentils"
+	desc = "Multicolored nutty lentils from Naledi."
+	item_type = /obj/item/reagent_containers/food/snacks/grown/lentils
+	trade_good_id = TRADE_GOOD_LENTILS
+	importexport_amt = 10
+	stockpile_amount = 0
 	stockpile_limit = 50
 	category = "Vegetable"

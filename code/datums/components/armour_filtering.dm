@@ -140,6 +140,10 @@ GLOBAL_DATUM_INIT(armour_filter_effect_generic, /datum/armour_filter_effect, new
 	required_trait = TRAIT_FENCERDEXTERITY
 	reject = TRUE
 
+/datum/armour_filter_effect/freeblade
+	required_trait = TRAIT_FREEBLADEDEXTERITY
+	reject = TRUE
+
 /datum/armour_filter_effect/honorbound
 	required_trait = TRAIT_HONORBOUND
 	reject = TRUE

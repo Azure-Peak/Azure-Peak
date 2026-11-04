@@ -27,7 +27,7 @@ jobs:
     # For example, `Run Tests (runtimestation; 515)`.
     name: Run Tests (${{ inputs.major && format('{0}.{1}; ', inputs.major, inputs.minor) || '' }}${{ inputs.map }}; ${{ inputs.max_required_byond_client }})
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - name: Restore BYOND from Cache
@@ -44,10 +44,7 @@ jobs:
         run: |
           bash tools/ci/install_rust_g.sh
       - name: Install BYOND dependencies
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
-          sudo apt-get install libcurl4-openssl-dev:i386
+        uses: ./.github/actions/install_byond_deps
       - name: Run Tests
         id: run_tests
         run: |

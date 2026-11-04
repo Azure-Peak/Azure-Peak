@@ -249,7 +249,7 @@
 		return
 	var/aimed_zone = def_zone
 	var/list/roll_out = list()
-	def_zone = bullet_hit_accuracy_check(P.get_aim_from(src), def_zone, roll_out)
+	def_zone = bullet_hit_accuracy_check(P.get_aim_from(src), def_zone, roll_out, P)
 	var/armor = run_armor_check(def_zone, P.flag, "", "",armor_penetration = P.armor_penetration, damage = P.damage, intdamfactor = P.intdamfactor, used_weapon = P)
 
 	next_attack_msg.Cut()
@@ -259,7 +259,9 @@
 	if(istype(src, /mob/living/simple_animal))
 		var/mob/living/simple_animal/weakpoint_target = src
 		actual_damage *= weakpoint_target.weakpoint_damage_mod(def_zone)
-		actual_damage *= P.npc_simple_damage_mult
+		actual_damage *= P.antibeast_factor
+		if(P.spell_damage_scaled)
+			actual_damage /= SPELL_DAMAGE_GENERAL_MODIFIER
 	var/nodmg = FALSE
 	if(!P.nodamage && on_hit_state != BULLET_ACT_BLOCK)
 		if(!apply_damage(actual_damage, P.damage_type, def_zone, armor))
@@ -311,7 +313,9 @@
 	return 0
 
 /mob/living/proc/check_projectile_wounding(obj/projectile/P, def_zone)
-	return simple_woundcritroll(P.woundclass, P.damage, null, def_zone, crit_message = TRUE, ranged = TRUE, penfactor = P.armor_penetration)
+	var/mob/living/shooter = P.firer
+	var/part_mult = (istype(shooter) && shooter.is_monster_hunting(src)) ? MONSTER_HUNTER_RANGED_PART_MULT : 1
+	return simple_woundcritroll(P.woundclass, P.damage * P.antibeast_factor, null, def_zone, crit_message = TRUE, ranged = TRUE, penfactor = P.armor_penetration, part_mult = part_mult)
 
 /mob/living/proc/check_projectile_embed(obj/projectile/P, def_zone)
 	// Disable embeds on simples, allowing it to override on complex.
@@ -337,7 +341,10 @@
 			var/armor = run_armor_check(zone, damage_flag, "", "", armor_penetration = I.armor_penetration, damage = I.throwforce, used_weapon = I)
 			next_attack_msg.Cut()
 			var/nodmg = FALSE
-			if(!apply_damage(I.throwforce, I.damtype, zone, armor))
+			var/throw_damage = I.throwforce
+			if(isanimal(src))
+				throw_damage *= I.antibeast_factor
+			if(!apply_damage(throw_damage, I.damtype, zone, armor))
 				nodmg = TRUE
 				next_attack_msg += VISMSG_ARMOR_BLOCKED
 			if(!nodmg)
@@ -578,11 +585,6 @@
 		if(M.incapacitated())
 			return FALSE
 
-		if(ishuman(src))
-			var/mob/living/carbon/human/H = src
-			if(H.has_active_golgatha())
-				H.process_golgatha_rebuke(M)
-
 		if(checkguard(M))
 			return FALSE
 
@@ -601,6 +603,10 @@
 
 /mob/living/proc/checkguard(mob/living/simple_animal/attacker)
 	var/mob/living/carbon/human/target = src
+	if((ishuman(target) && target.has_status_effect(/datum/status_effect/buff/bulwark_of_oil)))
+		var/datum/status_effect/buff/bulwark_of_oil/o = target.has_status_effect(/datum/status_effect/buff/bulwark_of_oil)
+		o.simple_defend(attacker) // I hate this why do we handle simplemob ripostes like this why dont we use signals like every other defense
+		return TRUE
 	if(!(ishuman(target) && target.has_status_effect(/datum/status_effect/buff/clash)))
 		return FALSE
 	var/obj/item/IM = target.get_active_held_item()
@@ -661,8 +667,6 @@
 
 //called when the mob receives a bright flash
 /mob/living/proc/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/flash)
-	if(HAS_TRAIT(src, TRAIT_NOFLASH))
-		return FALSE
 	if(get_eye_protection() < intensity && (override_blindness_check || !(HAS_TRAIT(src, TRAIT_BLIND))))
 		overlay_fullscreen("flash", type)
 		addtimer(CALLBACK(src, PROC_REF(clear_fullscreen), "flash", 25), 25)

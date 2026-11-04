@@ -7,7 +7,7 @@
 	spawn_positions = 0
 	antag_job = TRUE
 
-	tutorial = "Desertation, desperation, rebelious desires, unmeetable quotas, outcast from society or driven to greed, it matters not. In the teachings of Matthios you found solace; liberate yourself from your misfortunes of your past by taking from others."
+	tutorial = "Desertion, desperation, rebellious desires, unmeetable quotas, outcast from society or driven to greed, it matters not. In the teachings of Matthios you found solace; liberate yourself from your misfortunes of your past by taking from others."
 
 	outfit = null
 	outfit_female = null
@@ -28,7 +28,7 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE //no endless stream of bandits, unless the migration waves deem it so
 	job_traits = list(TRAIT_SELF_SUSTENANCE, TRAIT_STEELHEARTED)//Bandits and knaves truly though
-	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/wanted)
+	vice_restrictions = list(/datum/charflaw/mute, /datum/charflaw/wanted, /datum/charflaw/forlorne)
 	same_job_respawn_delay = 1 MINUTES
 	cmode_music = 'sound/music/cmode/antag/combat_deadlyshadows.ogg'
 	job_subclasses = list(

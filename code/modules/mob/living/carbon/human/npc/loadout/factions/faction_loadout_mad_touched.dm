@@ -19,7 +19,7 @@
 
 /datum/npc_archetype/mad_touched/hunter
 	name = "Mad-touched Treasure Hunter"
-	threat_point = THREAT_ELITE
+	threat_point = THREAT_ELITE_PLUS
 	statpack = /datum/npc_statpack/light/t4
 	loadouts = list(
 		/datum/npc_loadout/armor/medium/mad_touched,

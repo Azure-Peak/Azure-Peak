@@ -2,7 +2,6 @@
 	name = "clandestine tube"
 	desc = "A crude pneumatic tube. It seems to connect somewhere nearby."
 	obfuscated = TRUE
-	allow_ghosts = FALSE
 	var/next_send_time = 0
 	var/notify_bathhouse = FALSE
 	/// This tube's identity for pairing
@@ -31,7 +30,7 @@
 	return null
 
 /// Send an item through the tube to the paired tube. Returns TRUE on success.
-/obj/structure/roguemachine/mail/paired_hermes/proc/send_through_tube(obj/item/I, mob/user, sender_name = "Anonymous")
+/obj/structure/roguemachine/mail/paired_hermes/proc/send_through_tube(obj/item/I, mob/user)
 	if(world.time < next_send_time)
 		to_chat(user, span_warning("The tube's mechanism is still resetting."))
 		return FALSE
@@ -40,14 +39,14 @@
 		to_chat(user, span_warning("The tube rumbles but nothing happens. It doesn't seem connected to anything."))
 		return FALSE
 	var/recipient_name = I?.mailedto || target.name
-	var/obj/item/paper/letter = istype(I, /obj/item/paper) ? I : null
+	var/list/record = mail_item_record(I)
 	I.forceMove(target)
 	playsound(target, 'sound/misc/hiss.ogg', 100, FALSE, -1)
-	log_mail_send(user, sender_name, recipient_name, FALSE, letter?.info)
+	log_mail_send(user, recipient_name, record, machine = src, recipient_desc = I?.mailedto ? "[I.mailedto] ([target.name])" : target.name)
 	visible_message(span_warning("[user] sends something."))
 	playsound(loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 	if(target.notify_bathhouse)
-		send_ooc_note("A message from <b>[sender_name]</b> has arrived at the bathhouse terminal.", job = GLOB.bathhouse_positions)
+		send_ooc_note("A message has arrived at the bathhouse terminal.", job = GLOB.bathhouse_positions)
 	next_send_time = world.time + 1 MINUTES
 	return TRUE
 
@@ -58,13 +57,10 @@
 		var/mob/user = usr
 		var/content = params["content"]
 		if(length(content) > 2000)
-			to_chat(user, span_warning("Letter too long."))
+			to_chat(user, span_warning("Your letter is too long."))
 			return TRUE
-		var/obj/item/paper/P = build_sanitized_letter(user, params["sender"], "Clandestine Tube", content)
-		if(!P.mailer)
-			P.mailer = "Anonymous"
-		var/sentfrom = P.mailer
-		if(!send_through_tube(P, user, sentfrom))
+		var/obj/item/paper/P = build_sanitized_letter(user, "Clandestine Tube", content)
+		if(!send_through_tube(P, user))
 			qdel(P)
 		return TRUE
 	return ..()
@@ -85,13 +81,10 @@
 		return
 	if(alert(user, "Send through the tube?",,"YES","NO") != "YES")
 		return
-	var/sentfrom = sanitize(input(user, "Who is this from? (Leave blank to send anonymously)", "ROGUETOWN", null))
-	if(!sentfrom)
-		sentfrom = "Anonymous"
-	P.mailer = sentfrom
+	P.mailer = MAILER_ANONYMOUS
 	P.mailedto = "Clandestine Tube"
 	P.update_icon()
-	send_through_tube(P, user, sentfrom)
+	send_through_tube(P, user)
 
 /obj/structure/roguemachine/mail/paired_hermes/cove
 	name = "clandestine tube"
@@ -106,7 +99,7 @@
 
 /obj/structure/roguemachine/mail/paired_hermes/bathhouse
 	name = "discreet terminal"
-	desc = "A well-maintained pneumatic tube concealed behind lacquered paneling."
+	desc = "A pneumatic tube kept in good repair behind lacquered paneling."
 	tube_id = "smuggler_bathhouse"
 	target_tube_id = "smuggler_cove"
 	notify_bathhouse = TRUE

@@ -110,6 +110,8 @@
 	affected.Paralyze(15)
 	shake_camera(affected, 2, 2)
 	playsound(affected, 'sound/health/burning.ogg', 60, TRUE)
+	if(iscarbon(owner) && owner.mind)
+		affected.apply_status_effect(/datum/status_effect/debuff/critwounded) //apply critically wounded - more energy in cmode cost. Until fixed.
 
 /datum/wound/charring/sew_wound()
 	. = ..()
@@ -133,3 +135,13 @@
 		"The head is engulfed in searing heat!",
 	)
 	mortal = TRUE
+
+/datum/wound/lampcautery
+	name = "cauterized wound"
+	whp = 240
+	bleed_rate = 0
+	clotting_rate = 0
+	clotting_threshold = 0
+	passive_healing = 1
+	woundpain = 100
+	healable_by_miracles = FALSE

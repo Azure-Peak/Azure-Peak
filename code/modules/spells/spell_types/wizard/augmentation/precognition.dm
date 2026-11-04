@@ -1,7 +1,9 @@
 /datum/action/cooldown/spell/augment_buff/precognition
 	name = "Precognition"
-	desc = "Peer a few moments into the future for yourself or an ally, readying them before the moment arrives. Cuts 15 seconds from the remaining cooldown of the target's Defend and Special."
+	desc = "Peer a few moments into the future for an ally, readying them before the moment arrives. Cuts 15 seconds from the remaining cooldown of the target's Defend and Special. Cannot be cast on yourself."
 	button_icon_state = "readomen"
+
+	self_cast_possible = FALSE
 
 	primary_resource_cost = SPELLCOST_UTILITY_BUFF
 
@@ -10,7 +12,6 @@
 
 	charge_required = FALSE
 	cooldown_time = 75 SECONDS
-	other_cast_cooldown_reduction = 0 // Does not benefit from ally-cast cooldown reduction
 
 	point_cost = 2
 

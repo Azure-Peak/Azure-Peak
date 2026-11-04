@@ -1,0 +1,140 @@
+// Outcome colours match the .astrata, .zizo and .xylix chat spans the rest of a roll is written in.
+$roll-good: #f9b362;
+$roll-bad: #b76bff;
+$roll-neutral: #e2ddae;
+
+.RollTooltip {
+  text-align: center;
+}
+
+// Throws sit side by side, a rule between each of them.
+.RollTooltip__throws {
+  // Equal columns, each as wide as the widest throw needs, so the rule between them sits in the
+  // middle and nothing is squeezed. Four shared rows - label, dice, rule, result - that every throw
+  // takes from, so a throw of five dice beside a throw of one still has its rule and its sum on the
+  // same lines as the other.
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  grid-template-rows: auto 1fr auto auto;
+  justify-content: center;
+}
+
+.RollTooltip__throw {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  padding: 0 10px;
+  margin-bottom: 4px;
+
+  & + & {
+    border-left: 1px solid rgba(187, 187, 173, 0.5);
+  }
+}
+
+.RollTooltip__label {
+  color: #bbbbad;
+  margin-bottom: 2px;
+  // A long name wraps at its spaces, or breaks if it has none, rather than pushing the tooltip past
+  // the edge of the chat. The stat and the dice are short enough to stay whole.
+  overflow-wrap: anywhere;
+}
+
+// The tooltip may grow with its throws, but never wider than the chat that shows it.
+.Tooltip:has(.RollTooltip) {
+  max-width: calc(100vw - 20px);
+}
+
+// The line between a throw's dice and its result.
+.RollTooltip__separator {
+  border-top: 1px solid rgba(187, 187, 173, 0.5);
+  margin: 4px 0;
+}
+
+// A sum stays on one line, so the tooltip grows wider rather than breaking before the total.
+.RollTooltip__footer {
+  white-space: nowrap;
+}
+
+.RollTooltip__dice {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  // A throw with fewer dice than its neighbour sits in the middle of the space it is given.
+  align-content: center;
+  gap: 4px;
+}
+
+@mixin die-colour($colour) {
+  .die-bg {
+    fill: #000;
+    stroke: $colour;
+    stroke-width: 4;
+    stroke-linejoin: round;
+  }
+
+  // Softer than the outline, so the edges inside the die read as detail and not as part of its shape.
+  .die-front,
+  .die-edge {
+    fill: none;
+    stroke: $colour;
+    stroke-opacity: 0.5;
+    stroke-width: 3.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .die-pip {
+    r: 8;
+    fill: $colour;
+  }
+
+  // Sized from the die's shape in RollTooltip.tsx, which knows how much room the facing side has.
+  .die-number {
+    fill: $colour;
+    font-weight: bold;
+    text-anchor: middle;
+    // Knocks the lines of a die out from behind its number, which a d100's two overlapping dice need.
+    stroke: #000;
+    stroke-width: 4px;
+    paint-order: stroke;
+    stroke-linejoin: round;
+  }
+}
+
+.RollTooltip__die {
+  &--good {
+    @include die-colour($roll-good);
+  }
+
+  &--bad {
+    @include die-colour($roll-bad);
+  }
+
+  &--neutral {
+    @include die-colour($roll-neutral);
+  }
+
+  // A die that lost or failed, when its colour belongs to an stat rather than the outcome.
+  &--dim {
+    opacity: 0.45;
+  }
+}
+
+// Colors copied from the god spans.
+$stats: (
+  strength: #7a1e30, //ravox
+  perception: #43622e, //dendor
+  intelligence: #9acdff, //noc
+  willpower: #19345e, //graggar
+  constitution: #884610, //malum
+  speed: #e1c457, //matthios
+  fortune: #e2ddae, //xylix
+  charisma: #bb48a9, //baotha
+);
+
+@each $stat, $colour in $stats {
+  .RollTooltip__die--#{$stat} {
+    @include die-colour($colour);
+  }
+}

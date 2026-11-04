@@ -135,9 +135,7 @@
 */
 /datum/action/cooldown/spell/projectile/fireball/mob_ability/watcher/great
 	name = "Eye of Ruin"
-	cooldown_time = 8 SECONDS
-	// Fires point blank on purpose. It is a floating eye - closing on it should not switch it off,
-	// and anything higher whiffs the moment the quarry steps in during the wind-up.
+	cooldown_time = 6.5 SECONDS
 	npc_min_range = 1
 	npc_max_range = 9
 	use_chance = 70

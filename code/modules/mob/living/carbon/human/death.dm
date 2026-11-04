@@ -13,7 +13,7 @@
 /mob/living/carbon/human/spawn_dust(just_ash = FALSE)
 	if(just_ash)
 		for(var/i in 1 to 5)
-			new /obj/item/ash(loc)
+			new /obj/item/natural/ash(loc)
 	else
 		new /obj/effect/decal/remains/human(loc)
 
@@ -200,7 +200,7 @@
 	record_round_statistic(STATS_PEOPLE_GIBBED)
 	for(var/mob/living/carbon/human/CA in viewers(7, src))
 		if(CA != src && !HAS_TRAIT(CA, TRAIT_BLIND))
-			if(HAS_TRAIT(CA, TRAIT_STEELHEARTED))
+			if(HAS_TRAIT(CA, TRAIT_STEELHEARTED) || HAS_TRAIT(CA, TRAIT_NIHILIST))
 				continue
 			if(CA.marriedto == src)
 				CA.adjust_triumphs(-1)

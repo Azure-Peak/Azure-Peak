@@ -34,30 +34,6 @@
 	owner.stuttering = 0
 	..()
 
-/datum/brain_trauma/mild/dumbness
-	name = "Dumbness"
-	desc = ""
-	scan_desc = ""
-	gain_text = span_warning("I feel dumber.")
-	lose_text = span_notice("I feel smart again.")
-
-/datum/brain_trauma/mild/dumbness/on_gain()
-	ADD_TRAIT(owner, TRAIT_DUMB, TRAUMA_TRAIT)
-	..()
-
-/datum/brain_trauma/mild/dumbness/on_life()
-	owner.derpspeech = min(owner.derpspeech + 5, 25)
-	if(prob(3))
-		owner.emote("drool")
-	else if(owner.stat == CONSCIOUS && prob(3))
-		owner.say(pick_list_replacements(BRAIN_DAMAGE_FILE, "brain_damage"), forced = "brain damage")
-	..()
-
-/datum/brain_trauma/mild/dumbness/on_lose()
-	REMOVE_TRAIT(owner, TRAIT_DUMB, TRAUMA_TRAIT)
-	owner.derpspeech = 0
-	..()
-
 /datum/brain_trauma/mild/speech_impediment
 	name = "Speech Impediment"
 	desc = ""
@@ -161,24 +137,6 @@
 
 /datum/brain_trauma/mild/muscle_spasms/on_lose()
 	owner.remove_status_effect(STATUS_EFFECT_SPASMS)
-	..()
-
-/datum/brain_trauma/mild/nervous_cough
-	name = "Nervous Cough"
-	desc = ""
-	scan_desc = ""
-	gain_text = span_warning("My throat itches incessantly...")
-	lose_text = span_notice("My throat stops itching.")
-
-/datum/brain_trauma/mild/nervous_cough/on_life()
-	if(prob(12) && !HAS_TRAIT(owner, TRAIT_SOOTHED_THROAT))
-		if(prob(5))
-			to_chat(owner, "<span notice='warning'>[pick("You have a coughing fit!", "You can't stop coughing!")]</span>")
-			owner.Immobilize(20)
-			owner.emote("cough")
-			addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob, emote), "cough"), 6)
-			addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob, emote), "cough"), 12)
-		owner.emote("cough")
 	..()
 
 /datum/brain_trauma/mild/expressive_aphasia

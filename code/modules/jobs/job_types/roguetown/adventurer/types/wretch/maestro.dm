@@ -10,7 +10,7 @@
 	category_tags		= list(CTAG_WRETCH)
 	traits_applied		= list(TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_INSPIRING_MUSICIAN)
 	extra_context		= "All paths gain Allegro: every 5th landed rhythm restores energy.<br>\
-							Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Stealing, Lockpicking, Climbing, and Knives (Parrying Knife).<br>\
+							Busker gains Empath, Deceiving Meekness, and Light Step, with Expert Sneaking, Lockpicking, Climbing, and Knives (Parrying Knife).<br>\
 							Cacophonist gains a bonus rhythm pick (3 total) and song slot (5 total), with Expert Swords and Whips & Flails (Alloy-tipped whip & Arming Sword).<br>\
 							Boomwhacker gains Expert Pugilist and +1 Strength, with Expert Unarmed and Wrestling (Knuckle dusters & Katar).<br>\
 							Chanter gains T1 miracles (slow Devotion regen), with Journeyman Holy skill.<br>\
@@ -23,7 +23,6 @@
 	subclass_skills = list(
 		/datum/skill/misc/music		= SKILL_LEVEL_MASTER,
 		/datum/skill/misc/sneaking	= SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing	= SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/athletics	= SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/climbing	= SKILL_LEVEL_JOURNEYMAN,
@@ -105,7 +104,6 @@
 
 				ADD_TRAIT(H, TRAIT_LIGHT_STEP, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking,	SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/stealing,	SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/lockpicking, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/misc/climbing,	SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives,	SKILL_LEVEL_EXPERT, TRUE)
@@ -123,7 +121,7 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed,	SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling,	SKILL_LEVEL_EXPERT, TRUE)
 				H.change_stat(STATKEY_STR, 1)
-				gloves = /obj/item/clothing/gloves/roguetown/knuckles
+				backpack_contents[/obj/item/clothing/gloves/roguetown/knuckles] = 1
 				beltl	= /obj/item/rogueweapon/katar
 			if("Chanter")
 				H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -132,7 +130,7 @@
 			if("Cipher")
 				ADD_TRAIT(H, TRAIT_ARCYNE, TRAIT_GENERIC)
 				H.adjust_skillrank_up_to(/datum/skill/magic/arcane, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 5))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 8))
 				r_hand = /obj/item/rogueweapon/spellbook
 				grant_poke_spell(H)
 

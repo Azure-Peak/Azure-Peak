@@ -7,9 +7,9 @@
 // Tome: One-handed, lighter, less durable. Rebinds aspect spells;
 //
 // Tiers:
-//	Lesser	(Toper/Amethyst gems) - 20% refund, lowest durability
-//	Greater (Emerald-Ruby gems)	- 25% refund, mid durability
-//	Grand	(Riddle of Steel)		- 30% refund, highest durability
+//	Lesser	- 50% refund, lowest durability
+//	Greater	- 60% refund, mid durability
+//	Grand	- 70% refund, highest durability
 //
 // Attunement glow: After a spell with an attunement_school is cast through the implement,
 // it takes on the spell's color as a subtle glow. Changes if a different element is cast.
@@ -24,12 +24,56 @@
 	var/implement_tier = 0
 	/// Fraction (0..1) of a spell's resource cost returned by the arcyne refund buff when this item is held.
 	var/implement_refund = 0
+	/// Whether it is exempt from the in hand cast penalty
+	var/is_implement = FALSE
+	var/implement_upgradable = FALSE
 	COOLDOWN_DECLARE(attunement_cd)
 
 /obj/item/rogueweapon/proc/attune_implement(spell_color, spell_name)
 	if(!implement_tier)
 		return
 	apply_attunement_glow(src, spell_color, implement_tier, spell_name)
+
+/proc/implement_refund_for_tier(tier)
+	switch(tier)
+		if(IMPLEMENT_TIER_LESSER)
+			return IMPLEMENT_REFUND_LESSER
+		if(IMPLEMENT_TIER_GREATER)
+			return IMPLEMENT_REFUND_GREATER
+		if(IMPLEMENT_TIER_GRAND)
+			return IMPLEMENT_REFUND_GRAND
+	return 0
+
+/obj/item/rogueweapon/proc/implement_tier_type(tier)
+	return null
+
+/obj/item/rogueweapon/proc/apply_implement_tier(new_tier)
+	var/obj/item/rogueweapon/old_template = implement_tier_type(implement_tier)
+	var/obj/item/rogueweapon/new_template = implement_tier_type(new_tier)
+	implement_tier = new_tier
+	implement_refund = implement_refund_for_tier(new_tier)
+	attuned_color = null
+	COOLDOWN_RESET(src, attunement_cd)
+	remove_filter(IMPLEMENT_GLOW_FILTER)
+	if(!new_template)
+		return
+	var/integrity_ratio = max_integrity ? obj_integrity / max_integrity : 1
+	max_integrity = initial(new_template.max_integrity)
+	obj_integrity = round(max_integrity * integrity_ratio)
+	force = initial(new_template.force)
+	force_wielded = initial(new_template.force_wielded)
+	update_force_dynamic()
+	var/old_price = old_template ? initial(old_template.sellprice) : 0
+	var/quality_ratio = old_price ? sellprice / old_price : 1
+	sellprice = max(1, round(initial(new_template.sellprice) * quality_ratio))
+	if(old_template && base_implement_name == initial(old_template.base_implement_name))
+		base_implement_name = initial(new_template.base_implement_name)
+		name = initial(new_template.name)
+		desc = initial(new_template.desc)
+
+/obj/item/rogueweapon/proc/transfer_implement_state(obj/item/rogueweapon/morphed, mob/user)
+	if(implement_tier > morphed.implement_tier)
+		morphed.apply_implement_tier(implement_tier)
 
 /proc/apply_attunement_glow(obj/item/rogueweapon/implement, spell_color, implement_tier, spell_name)
 	if(implement.attuned_color == spell_color)

@@ -22,8 +22,9 @@
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	damage = 60
+	damage = SPELL_DMG(60)
 	strike_damage_type = BRUTE
+	strike_intdamage_mult = SPELL_DAMAGE_INTEGRITY_MODIFIER
 	blade_class = BCLASS_BLUNT
 	committed_strike = TRUE
 	interruptible = FALSE

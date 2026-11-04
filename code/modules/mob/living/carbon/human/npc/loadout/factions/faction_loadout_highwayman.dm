@@ -16,7 +16,6 @@
 		/datum/npc_loadout/armor/medium/bandit_line,
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/weapon/bandit_melee,
-		list(NPC_NOTHING = 70, /datum/npc_loadout/kit/bandit_bulwark = 30),
 	)
 
 /datum/npc_archetype/highwayman/mount_reaver
@@ -84,7 +83,7 @@
 		/datum/npc_loadout/armor/medium/bandit_line,
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/weapon/bandit_melee,
-		/datum/npc_loadout/kit/bandit_bulwark/tough,
+		/datum/npc_loadout/kit/bandit_bulwark,
 	)
 
 /datum/npc_archetype/highwayman/road_knight
@@ -120,7 +119,7 @@
 	)
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor/sharpshooter,
-		/datum/npc_loadout/armor/heavy/iron_chain/cuirass,
+		/datum/npc_loadout/armor/heavy/iron_chain/cuirass/open_helm,
 		/datum/npc_loadout/weapon/sharpshooter_bow,
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
@@ -184,7 +183,7 @@
 
 // Applied last so it overwrites bandit_flavor's head and neck rolls.
 /datum/npc_loadout/kit/bandit_bulwark
-	statpack = /datum/npc_statpack/heavy/t1
+	statpack = /datum/npc_statpack/heavy/t2
 	clear_slots = list("l_hand", "r_hand")
 	skills = list(/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
@@ -221,10 +220,6 @@
 		list(/obj/item/rogueweapon/mace/cudgel, /obj/item/rogueweapon/shield/tower, 90),
 		list(/obj/item/rogueweapon/flail, /obj/item/rogueweapon/shield/wood, 80),
 	)
-
-// The dedicated bulwark is priced a tier above the sprinkle the base highwayman rolls.
-/datum/npc_loadout/kit/bandit_bulwark/tough
-	statpack = /datum/npc_statpack/heavy/t2
 
 /datum/npc_loadout/kit/bandit_flavor/road_knight
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown

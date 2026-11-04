@@ -22,7 +22,6 @@ SUBSYSTEM_DEF(regionthreat)
 			_delivery_reward_multiplier = 1.0,
 			_kill_target_floor = 4,
 			_evergreen_target = 3,
-			_allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY),
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_GROVE,
@@ -43,7 +42,6 @@ SUBSYSTEM_DEF(regionthreat)
 			_delivery_reward_multiplier = 1.5,
 			_kill_target_floor = 5,
 			_evergreen_target = 3
-			// allowed_quest_types: default (all)
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG,
@@ -61,9 +59,8 @@ SUBSYSTEM_DEF(regionthreat)
 				QUEST_FACTION_FOREST_GOBLIN = 5,
 			),
 			_tp_budget_multiplier = 1.5,
-			_delivery_reward_multiplier = 2.0,
-			_payout_multiplier = 1.3,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_COURIER, QUEST_RETRIEVAL, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
+			_delivery_reward_multiplier = 1.5,
+			_payout_multiplier = 1.1, // Close by, so it is pretty convenient
 			_kill_target_floor = 4,
 			_evergreen_target = 3
 		),
@@ -85,8 +82,8 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.2,
 			_delivery_reward_multiplier = 1.8,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
-			_kill_target_floor = 3,
+			_payout_multiplier = 1.3, // Farther away, higher implicit threat of antag
+			_kill_target_floor = 4,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_COAST
 		),
 		new /datum/threat_region(
@@ -108,8 +105,8 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
-			_kill_target_floor = 3,
+			_payout_multiplier = 1.35,
+			_kill_target_floor = 4,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		),
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
@@ -131,27 +128,20 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.2,
-			_allowed_quest_types = list(QUEST_CLEAR_OUT, QUEST_RAID, QUEST_BOUNTY, QUEST_RECOVERY, QUEST_TOWNER_SMITH_CARAVAN, QUEST_TOWNER_MINER_OREVEIN, QUEST_NOTORIOUS_BOUNTY),
 			_kill_target_floor = 3,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		)
 	)
 
 /datum/controller/subsystem/regionthreat/fire(resumed)
-	// Respects simulated_player_scalar so admin testing can drive it, matching SSeconomy's own checks.
-	var/pop = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : get_active_player_count()
+	var/player_count = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : GLOB.player_list.len
+	var/ishighpop = player_count >= LOWPOP_THRESHOLD
 	for(var/T in threat_regions)
 		var/datum/threat_region/TR = T
-		var/tick
-		if(pop < THREAT_LOWPOP_THRESHOLD)
-			var/tick_mult = clamp(pop / THREAT_LOWPOP_THRESHOLD, THREAT_LOWPOP_TICK_MIN_MULT, 1.0)
-			tick = TR.lowpop_tick * tick_mult
+		if(ishighpop)
+			TR.increase_latent_ambush(TR.highpop_tick)
 		else
-			// Ramps on to highpop_tick by REF_POP instead of snapping to it at THRESHOLD - avoids
-			// a single player crossing the threshold instantly doubling a region's threat gain.
-			var/ramp_frac = clamp((pop - THREAT_LOWPOP_THRESHOLD) / (THREAT_TICK_HIGHPOP_REF_POP - THREAT_LOWPOP_THRESHOLD), 0.0, 1.0)
-			tick = TR.lowpop_tick + (TR.highpop_tick - TR.lowpop_tick) * ramp_frac
-		TR.increase_latent_ambush(tick)
+			TR.increase_latent_ambush(TR.lowpop_tick)
 
 /datum/controller/subsystem/regionthreat/proc/get_region(region_name)
 	for(var/T in threat_regions)
@@ -166,12 +156,13 @@ SUBSYSTEM_DEF(regionthreat)
 		var/datum/threat_region/TR = T
 		if(!TR.allows_quest_type(quest_type))
 			continue
-		var/weight = TR.get_threat_weight()
+		// Threat level is 0 to 1, but pickweight only works with whole numbers, so scale it to 0 to 100.
+		var/weight = round(TR.get_threat_weight() * 100)
 		if(weight <= 0)
 			continue
 		weights[TR] = weight
 	if(!length(weights))
-		// Fall back: any region that allows the type, ignoring fill ratio.
+		// No allowed region has any threat right now, so pick between them evenly.
 		for(var/T in threat_regions)
 			var/datum/threat_region/TR = T
 			if(TR.allows_quest_type(quest_type))

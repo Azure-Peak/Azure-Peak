@@ -36,6 +36,7 @@
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/cornbread
 
 /obj/item/reagent_containers/food/snacks/rogue/corndough_honey
+	dish_type = DISH_HONEY
 	name = "honeyed corn dough"
 	desc = "Corn dough infused with honey, ready for the oven."
 	icon = 'modular/Neu_Food/icons/raw/raw_corn.dmi'

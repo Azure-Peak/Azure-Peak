@@ -4,7 +4,7 @@
 	anatomy_type = /datum/anatomy/quadruped/standard
 	icon = 'icons/roguetown/mob/monster/direvolf.dmi'
 	name = "direvolf"
-	desc = "A large snarling beast of mangy fur and yellowed teeth. Direvolves oft hail from mountaineous areas and are known to attack hapless travelers in the deep forests when prey is scarce."
+	desc = "A large snarling beast of mangy fur and yellowed teeth. Direvolves oft hail from mountainous areas and are known to attack hapless travelers in the deep forests when prey is scarce."
 	icon_state = "direvolf_brown"
 	icon_living = "direvolf_brown_dead"
 	icon_dead = "direvolf_brown_dead"
@@ -58,6 +58,20 @@
 	icon_state = "direvolf_[color]"
 	icon_living = "direvolf_[color]"
 	icon_dead = "direvolf_[color]_dead"
+
+/mob/living/simple_animal/hostile/retaliate/rogue/wolf/dire/get_sound(input)
+	switch(input)
+		if("aggro")
+			return pick('sound/vo/mobs/vw/aggro (1).ogg','sound/vo/mobs/vw/aggro (2).ogg')
+		if("pain")
+			return pick('sound/vo/mobs/vw/pain (1).ogg','sound/vo/mobs/vw/pain (2).ogg','sound/vo/mobs/vw/pain (3).ogg')
+		if("death")
+			return pick('sound/vo/mobs/vw/death (1).ogg','sound/vo/mobs/vw/death (2).ogg','sound/vo/mobs/vw/death (3).ogg','sound/vo/mobs/vw/death (4).ogg','sound/vo/mobs/vw/death (5).ogg')
+		if("idle")
+			return pick('sound/vo/mobs/vw/idle (1).ogg','sound/vo/mobs/vw/idle (2).ogg','sound/vo/mobs/vw/idle (3).ogg','sound/vo/mobs/vw/idle (4).ogg')
+		if("cidle")
+			return pick('sound/vo/mobs/vw/bark (1).ogg','sound/vo/mobs/vw/bark (2).ogg','sound/vo/mobs/vw/bark (3).ogg','sound/vo/mobs/vw/bark (4).ogg','sound/vo/mobs/vw/bark (5).ogg','sound/vo/mobs/vw/bark (6).ogg','sound/vo/mobs/vw/bark (7).ogg')
+
 
 /obj/effect/decal/remains/direwolf
 	name = "remains"

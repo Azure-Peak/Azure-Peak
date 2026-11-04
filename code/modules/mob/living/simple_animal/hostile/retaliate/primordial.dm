@@ -271,16 +271,16 @@
 
 /obj/projectile/magic/spitfire/primordial
 	name = "primordial flame"
-	damage = 20
+	damage = SPELL_DMG(20)
 	arcshot = TRUE
 
 /obj/projectile/magic/frost_shard/primordial
 	name = "primordial frost shard"
-	damage = 18
-	reduced_damage = 5
+	damage = SPELL_DMG(18)
+	reduced_damage = SPELL_DMG(5)
 	arcshot = TRUE
 
 /obj/projectile/magic/greater_arcyne_bolt/primordial
 	name = "primordial gale"
-	damage = 27
+	damage = SPELL_DMG(27)
 	arcshot = TRUE

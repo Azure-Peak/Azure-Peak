@@ -124,9 +124,10 @@
 		var/list/limb_zones = list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG)
 		var/zone = null
 		var/obj/item/bodypart/limb = null
-		var/maneater_armor_damage = 500
+		var/armor_damage_max = 600 - min(((victim.STALUC - 10) * 100), 550)
+		var/maneater_armor_damage = rand(50, armor_damage_max)
 		if(HAS_TRAIT(victim, TRAIT_TOUGH_COOKIE))
-			maneater_armor_damage = 250
+			maneater_armor_damage = (maneater_armor_damage * 0.5)
 		while(length(limb_zones) && !limb)
 			zone = pick(limb_zones)
 			limb_zones -= zone

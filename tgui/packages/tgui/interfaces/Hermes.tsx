@@ -2,9 +2,11 @@ import { useState } from 'react';
 import {
   Box,
   Button,
+  Floating,
   Input,
   Section,
   Stack,
+  Table,
   TextArea,
 } from 'tgui-core/components';
 
@@ -24,6 +26,66 @@ type Data = {
   delay_max?: number;
   letter_count?: number;
 };
+
+const FORMATTING_HELP: [string, string][] = [
+  ['# text', 'Defines a header.'],
+  ['|text|', 'Centers the text.'],
+  ['**text**', 'Makes the text bold.'],
+  ['*text*', 'Makes the text italic.'],
+  ['^text^', 'Increases the size of the text.'],
+  ['((text))', 'Decreases the size of the text.'],
+  ['%s', 'Inserts a signature of your name in a foolproof way.'],
+  [
+    '%f',
+    'Inserts an invisible field which lets you start typing from there. Useful for forms.',
+  ],
+  ['* item', 'An unordered list item.'],
+  ['  * item', 'An unordered list child item.'],
+  ['---', 'Adds a horizontal rule.'],
+  ['-=FFFFFFtext=-', 'Adds a specific colour to text.'],
+];
+
+const FormattingHelp = () => (
+  <Box>
+    <Table>
+      {FORMATTING_HELP.map(([syntax, description], index) => {
+        const divider =
+          index < FORMATTING_HELP.length - 1
+            ? '1px solid rgba(255, 255, 255, 0.1)'
+            : undefined;
+        return (
+          <Table.Row key={syntax}>
+            <Table.Cell
+              collapsing
+              pr={1}
+              style={{
+                fontFamily: 'monospace',
+                whiteSpace: 'pre',
+                borderBottom: divider,
+              }}
+            >
+              {syntax}
+            </Table.Cell>
+            <Table.Cell style={{ borderBottom: divider }}>
+              {description}
+            </Table.Cell>
+          </Table.Row>
+        );
+      })}
+    </Table>
+    <Box
+      mt={1}
+      pt={1}
+      color="label"
+      style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
+    >
+      A name in the From field is appended to the letter as a signature (or to
+      a package's wrapping note). Leave it blank to send anonymously, unsigned.
+    </Box>
+  </Box>
+);
+
+const HERMES_TITLE = `${'\u00A0'.repeat(6)}HERMES`;
 
 const dsToMinutes = (ds: number) => Math.round(ds / 600);
 
@@ -56,6 +118,35 @@ export const Hermes = (props: any, context: any) => {
   const [sender, setSender] = useState('');
   const [letterContent, setLetterContent] = useState('');
 
+  const helpButton = (
+    <Box
+      style={{
+        position: 'fixed',
+        top: '2px',
+        left: '8px',
+        height: '32px',
+        display: 'flex',
+        alignItems: 'center',
+      }}
+    >
+      <Floating
+        hoverOpen
+        placement="bottom-start"
+        content={<FormattingHelp />}
+        contentStyles={{
+          width: '340px',
+          padding: '6px 8px',
+          textAlign: 'left',
+          background: 'rgba(15, 15, 15, 0.97)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
+          borderRadius: '4px',
+        }}
+      >
+        <Button compact icon="question-circle" color="transparent" />
+      </Floating>
+    </Box>
+  );
+
   const isFree = !!free_send_ready;
   const canSendLetter =
     recipient.length > 0 && (isFree || balance >= letter_cost);
@@ -71,7 +162,7 @@ export const Hermes = (props: any, context: any) => {
         : 'some time';
 
     return (
-      <Window title="HERMES" width={400} height={440}>
+      <Window title={HERMES_TITLE} width={400} height={440} buttons={helpButton}>
         <Window.Content>
           <Stack vertical fill>
             <Stack.Item>
@@ -150,7 +241,7 @@ export const Hermes = (props: any, context: any) => {
   }
 
   return (
-    <Window title="HERMES" width={400} height={480}>
+    <Window title={HERMES_TITLE} width={400} height={480} buttons={helpButton}>
       <Window.Content>
         <Stack vertical fill>
           <Stack.Item>
@@ -266,7 +357,6 @@ export const Hermes = (props: any, context: any) => {
                           disabled={!canSendTube}
                           onClick={() =>
                             act('send_tube', {
-                              sender: sender || 'Anonymous',
                               content: letterContent,
                             })
                           }

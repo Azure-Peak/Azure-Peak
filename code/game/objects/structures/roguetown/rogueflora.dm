@@ -23,7 +23,7 @@
 
 /obj/structure/flora/roguetree/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Most trees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+	. += span_info("Most trees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old-fashioned axe.")
 
 /obj/structure/flora/roguetree/attack_right(mob/user)
 	handle_special_items_retrieval(user, src)
@@ -258,7 +258,7 @@
 	if(occupied)
 		to_chat(user, span_warning("Someone is already hiding inside [src]!"))
 		return
-	if(!do_after(user, sneaktime, src))
+	if(!do_after(user, sneaktime, target = src))
 		return
 	user.forceMove(src)
 	occupied = TRUE
@@ -471,7 +471,7 @@
 	if(occupied)
 		to_chat(user, span_warning("Someone is already hiding in [src]!"))
 		return
-	if(!do_after(user, sneaktime, src))
+	if(!do_after(user, sneaktime, target = src))
 		return
 	user.forceMove(src)
 	occupied = TRUE
@@ -497,13 +497,7 @@
 /obj/structure/flora/roguegrass/bush/CanAStarPass(ID, travel_dir, caller)
 	if(occupied)
 		return FALSE
-	if(ismovableatom(caller))
-		var/atom/movable/mover = caller
-		if(mover.pass_flags & PASSGRILLE)
-			return TRUE
-	if(travel_dir == dir)
-		return FALSE // just don't even try, not even if you can climb it
-	return ..()
+	return TRUE
 
 /obj/structure/flora/roguegrass/bush/CanPass(atom/movable/mover, turf/target)
 	if(occupied)
@@ -557,6 +551,20 @@
 
 /obj/structure/flora/roguegrass/bush/wall/update_icon()
 	return
+
+/obj/structure/flora/roguegrass/bush/wall/CanAStarPass(ID, travel_dir, caller)
+	if(occupied)
+		return FALSE
+	if(ismovableatom(caller))
+		var/atom/movable/mover = caller
+		if(mover.pass_flags & PASSGRILLE)
+			return TRUE
+	return !density
+
+/obj/structure/flora/roguegrass/bush/wall/CanPass(atom/movable/mover, turf/target)
+	if(istype(mover) && (mover.pass_flags & PASSGRILLE))
+		return TRUE
+	return !density
 
 /obj/structure/flora/roguegrass/bush/wall/tall
 	icon = 'icons/roguetown/misc/foliagetall.dmi'
@@ -665,7 +673,7 @@
 
 /obj/structure/roguerock
 	name = "rock"
-	desc = "A rock protuding from the ground."
+	desc = "A rock protruding from the ground."
 	icon_state = "rock1"
 	icon = 'icons/roguetown/misc/foliage.dmi'
 	opacity = 0
@@ -901,7 +909,7 @@
 
 /obj/structure/flora/rogueshroom/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Most shroomtrees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old fashioned axe.")
+	. += span_info("Most shroomtrees can be toppled by hitting them with the 'CUT', 'CHOP', or 'REND' intents on bladed weapons. Nothing chops trees and foliage better, or quicker, than a good old-fashioned axe.")
 
 /obj/structure/flora/rogueshroom/happy/Initialize(mapload)
 	. = ..()

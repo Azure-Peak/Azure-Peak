@@ -18,6 +18,8 @@ type TextInputData = {
   title: string;
   spellcheck: BooleanLike;
   bigmodal?: boolean;
+  width?: number;
+  height?: number;
 };
 
 export const sanitizeMultiline = (toSanitize: string) => {
@@ -40,6 +42,8 @@ export const TextInputModal = () => {
     title,
     spellcheck,
     bigmodal,
+    width,
+    height,
   } = data;
 
   const [input, setInput] = useState(placeholder || '');
@@ -64,7 +68,9 @@ export const TextInputModal = () => {
     (visualMultiline ? 75 : 0) +
     (message.length && large_buttons ? 5 : 0);
   if (bigmodal) windowHeight = 425; // Override and just make a big modal for FT / OOC Notes
-  const windowWidth = bigmodal ? 530 : 325;
+  let windowWidth = bigmodal ? 530 : 325;
+  if (width) windowWidth = width;
+  if (height) windowHeight = height;
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
     if (event.key === KEY.Enter && (!visualMultiline || !event.shiftKey)) {

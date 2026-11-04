@@ -107,6 +107,8 @@
 	noble_gossip_cached = null
 
 	headshot_link = null
+	headshot_artist_credit = null
+	headshot_artist_link = null
 	ooc_extra = null
 	song_artist = null
 	song_title = null
@@ -120,8 +122,14 @@
 	vampire_hair = null
 	vampire_ears = null
 	lich_headshot_link = null
+	lich_headshot_artist_credit = null
+	lich_headshot_artist_link = null
 	vampire_headshot_link = null
+	vampire_headshot_artist_credit = null
+	vampire_headshot_artist_link = null
 	werewolf_headshot_link = null
+	werewolf_headshot_artist_credit = null
+	werewolf_headshot_artist_link = null
 	preset_bounty_enabled = FALSE
 	preset_bounty_poster_key = null
 	preset_bounty_severity_key = null

@@ -1,5 +1,5 @@
 /datum/component/skill_blessed
-	dupe_mode = COMPONENT_DUPE_UNIQUE
+	dupe_mode = COMPONENT_DUPE_ALLOWED
 	var/required_trait
 	var/datum/skill/weapon_skill
 	var/skill_amount
@@ -88,7 +88,7 @@
 /datum/component/skill_blessed/proc/remove_skill(mob/user)
 	if(!HAS_TRAIT(user, required_trait))
 		return
-	if(!HAS_TRAIT(original_user, TRAIT_SKILLBLESSED))
+	if(original_user != user || !HAS_TRAIT(user, TRAIT_SKILLBLESSED))
 		return
 
 	var/datum/component/skill_blessed/other_skill

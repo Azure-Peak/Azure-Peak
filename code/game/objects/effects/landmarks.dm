@@ -52,6 +52,19 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 		GLOB.jobspawn_overrides[X] -= src
 	return ..()
 
+/// Possible destinations for the Forlorne vice. Place these around the map.
+/obj/effect/landmark/forlorne
+	name = "forlorne spawn"
+	icon_state = "x4"
+
+/obj/effect/landmark/forlorne/Initialize(mapload)
+	. = ..()
+	GLOB.forlorne_landmarks += src
+
+/obj/effect/landmark/forlorne/Destroy()
+	GLOB.forlorne_landmarks -= src
+	return ..()
+
 /obj/effect/landmark/events/haunts
 	name = "hauntz"
 	icon_state = "generic_event"
@@ -80,7 +93,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 /obj/effect/landmark/start/adventurerlate
 	name = "Adventurerlate"
 	icon_state = "arrow"
-	jobspawn_override = list("Pilgrim", "Adventurer", "Migrant", "Trader")
+	jobspawn_override = list("Pilgrim", "Adventurer", "Migrant", "Trader", "Lamplighter")
 	delete_after_roundstart = FALSE
 
 /obj/effect/landmark/start/mercenarylate
@@ -301,6 +314,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/adventurer
 	name = "Adventurer"
+	icon_state = "arrow"
+
+/obj/effect/landmark/start/lamplighter
+	name = "Lamplighter"
 	icon_state = "arrow"
 
 /obj/effect/landmark/start/trader

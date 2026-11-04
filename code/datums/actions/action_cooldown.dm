@@ -382,7 +382,7 @@
 		if("Spitfire")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/spitfire)
 		if("Frost Bolt")
-			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frost_bolt)
+			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/frostbolt)
 		if("Arc Bolt")
 			user.mind.AddSpell(new /datum/action/cooldown/spell/projectile/arc_bolt)
 		if("Greater Arcyne Bolt")

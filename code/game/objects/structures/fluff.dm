@@ -129,6 +129,8 @@
 	var/pass_throwing = TRUE
 	/// Throwing/Flying non mobs can always exit the turf regardless of other flags
 	var/allow_flying_outwards = TRUE
+	/// Small flying mobs can fly over
+	var/pass_flying = TRUE
 
 /obj/structure/fluff/railing/do_climb(atom/movable/A)
 	var/turf/climber_turf = get_turf(A)
@@ -177,6 +179,8 @@
 		return 1
 	if(isobserver(mover))
 		return 1
+	if(flown_over(mover))
+		return 1
 	if(isliving(mover))
 		var/mob/living/M = mover
 		if(!(M.mobility_flags & MOBILITY_STAND))
@@ -217,6 +221,9 @@
 	if(pass_throwing && leaving.throwing)
 		return
 
+	if(flown_over(leaving))
+		return
+
 	if(pass_crawl && isliving(leaving))
 		var/mob/living/M = leaving
 		if(!(M.mobility_flags & MOBILITY_STAND))
@@ -224,6 +231,29 @@
 
 	leaving.Bump(src)
 	return COMPONENT_ATOM_BLOCK_EXIT
+
+/obj/structure/fluff/railing/Bumped(atom/movable/AM)
+	. = ..()
+	if(!isliving(AM) || !climbable || (dir in CORNERDIRS))
+		return
+	var/mob/living/L = AM
+	if(L.buckled)
+		return
+	if(!HAS_TRAIT(L, TRAIT_KICKED) && !((L.mobility_flags & MOBILITY_STAND) && L.has_status_effect(/datum/status_effect/buff/drunk) && prob(50)))
+		return
+	var/turf/dest = (get_turf(L) == loc) ? get_step(loc, dir) : loc
+	if(!dest || dest.is_blocked_turf(source_atom = L))
+		return
+	L.visible_message(span_danger("[L] tumbles over [src]!"), span_userdanger("I tumble over [src]!"))
+	L.forceMove(dest)
+	L.Knockdown(2 SECONDS)
+	playsound(L, "bodyfall", 100, TRUE)
+
+/obj/structure/fluff/railing/proc/flown_over(atom/movable/mover)
+	if(!pass_flying || !isliving(mover))
+		return FALSE
+	var/mob/living/L = mover
+	return (L.movement_type & FLYING) && L.mob_size <= MOB_SIZE_SMALL
 
 /obj/structure/fluff/railing/OnCrafted(dirin)
 	. = ..()
@@ -296,6 +326,7 @@
 	climbable = FALSE
 	max_integrity = 400
 	pass_crawl = FALSE
+	pass_flying = FALSE
 	climb_offset = 6
 
 /obj/structure/fluff/railing/fence/Initialize(mapload)
@@ -487,7 +518,7 @@
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the passage."))
+		to_chat(user, span_warning("You must use both hands to rename the passage."))
 
 /obj/structure/bars/grille
 	name = "grille"
@@ -554,7 +585,7 @@
 			playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 		return
 	else if(istype(item, /obj/item/rogueweapon/chisel/assembly))
-		to_chat(user, span_warning("You most use both hands to rename the grille."))
+		to_chat(user, span_warning("You must use both hands to rename the grille."))
 
 /obj/structure/bars/pipe
 	name = "bronze pipe"
@@ -774,7 +805,7 @@
 					wrotesign = inputty
 					icon_state = "signwrote"
 		else
-			to_chat(user, span_warning("Alas, this will not work. I could carve words, if I stabbed at this with something posessing a short, sharp point. A knife comes to mind."))
+			to_chat(user, span_warning("Alas, this will not work. I could carve words, if I stabbed at this with something possessing a short, sharp point. A knife comes to mind."))
 			return
 	..()
 
@@ -1305,7 +1336,7 @@
 
 /obj/structure/fluff/statue/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Right-click to access your personal stash. This not only contains the loadout you might've asseembled in the character creation menu, but virtue- and role-specific items as well.")
+	. += span_info("Right-click to access your personal stash. This not only contains the loadout you might've assembled in the character creation menu, but virtue- and role-specific items as well.")
 
 /obj/structure/fluff/statue/Initialize(mapload)
 	. = ..()
@@ -1482,39 +1513,46 @@
 /obj/structure/fluff/statue/tdummy/attackby(obj/item/attacking_weapon, mob/user, params)
 	if(user.cmode || !attacking_weapon.associated_skill || !user.mind || !isliving(user))
 		return ..()
-	if(attacking_weapon.max_blade_int)
-		attacking_weapon.remove_bintegrity(5)
 	if(!ispath(attacking_weapon.associated_skill, /datum/skill/combat))
-		to_chat(user, span_warning("I don't think this weapon's skill cannot be practiced on a dummy..."))
+		to_chat(user, span_warning("I don't think this weapon's skill can be practiced on a dummy..."))
 		return
-	practice(user, attacking_weapon.associated_skill, user.used_intent.animname)
+	practice(user, attacking_weapon.associated_skill, user.used_intent.animname, attacking_weapon)
 
-/obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation)
-	living_mob.changeNext_move(CLICK_CD_MELEE)
-	living_mob.stamina_add(rand(4, 6))
+/obj/structure/fluff/statue/tdummy/proc/can_practice(mob/living/living_mob)
+	return !QDELETED(src) && !QDELETED(living_mob) && living_mob.mind && !living_mob.cmode && (living_mob.mobility_flags & MOBILITY_STAND)
 
-	var/probby = (living_mob.STALUC / 10) * 100
-	probby = min(probby, 99)
-	if(!(living_mob.mobility_flags & MOBILITY_STAND))
-		probby = 0
-	if(living_mob.STAINT < 3)
-		probby = 0
-	if(prob(probby) && !living_mob.buckled)
-		living_mob.do_attack_animation(src, attack_animation)
-		living_mob.visible_message(span_info("[living_mob] trains on [src]!"))
-		var/amt2raise = living_mob.STAINT * 0.35
+/obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation, obj/item/attacking_weapon = null)
+	if(living_mob.doing || !can_practice(living_mob))
+		return
+	living_mob.visible_message(span_notice("[living_mob] begins training on [src]..."))
+	while(do_after(living_mob, 1 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(can_practice), living_mob)))
 		if(!can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
 			to_chat(living_mob, span_warning("I've learned all I can from doing this, it's time for the real thing."))
-			amt2raise = 0
-		if(amt2raise > 0)
-			living_mob.mind.add_sleep_experience(associated_skill, amt2raise, FALSE)
-		playsound(loc, pick('sound/combat/hits/onwood/education1.ogg', 'sound/combat/hits/onwood/education2.ogg', 'sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
-	else
-		living_mob.visible_message(span_danger("[living_mob] trains on [src], but [src] ripostes!"))
-		living_mob.AdjustKnockdown(1)
-		living_mob.throw_at(get_step(living_mob, get_dir(src,living_mob)), 2, 2, living_mob, spin = FALSE)
-		playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
-	flick(pick("p_dummy_smashed", "p_dummy_smashedalt"), src)
+			break
+		if(attacking_weapon?.max_blade_int)
+			attacking_weapon.remove_bintegrity(5)
+		living_mob.changeNext_move(CLICK_CD_MELEE)
+		living_mob.stamina_add(rand(4, 6))
+
+		var/probby = (living_mob.STALUC / 10) * 100
+		probby = min(probby, 99)
+		if(living_mob.STAINT < 3)
+			probby = 0
+		if(prob(probby) && !living_mob.buckled)
+			living_mob.do_attack_animation(src, attack_animation)
+			living_mob.visible_message(span_info("[living_mob] trains on [src]!"))
+			var/amt2raise = living_mob.STAINT * 0.35
+			if(amt2raise > 0)
+				living_mob.mind.add_sleep_experience(associated_skill, amt2raise, FALSE)
+			playsound(loc, pick('sound/combat/hits/onwood/education1.ogg', 'sound/combat/hits/onwood/education2.ogg', 'sound/combat/hits/onwood/education3.ogg'), rand(50,100), FALSE)
+			flick(pick("p_dummy_smashed", "p_dummy_smashedalt"), src)
+		else
+			living_mob.visible_message(span_danger("[living_mob] trains on [src], but [src] ripostes!"))
+			living_mob.AdjustKnockdown(1)
+			living_mob.throw_at(get_step(living_mob, get_dir(src,living_mob)), 2, 2, living_mob, spin = FALSE)
+			playsound(loc, 'sound/combat/hits/kick/stomp.ogg', 100, TRUE, -1)
+			flick(pick("p_dummy_smashed", "p_dummy_smashedalt"), src)
+			break
 
 /obj/structure/fluff/statue/spider
 	name = "mother"
@@ -1566,7 +1604,7 @@
 		/obj/item/clothing/head/roguetown/crown/serpcrown,
 		/obj/item/clothing/head/roguetown/vampire,
 		/obj/item/scomstone,
-		/obj/item/rogueweapon/greatsword/psygsword,
+		/obj/item/rogueweapon/greatsword/silver/psy,
 		/obj/item/clothing/head/roguetown/circlet,
 		/obj/item/carvedgem,	//Some of these aren't particularly worth much, but it'd be REALLY unintuitive for "valuables" to not actually be offerings
 		/obj/item/rogueweapon/huntingknife/combat/jadekukri,
@@ -2110,15 +2148,17 @@
 	if(.)
 		return
 	to_chat(user, span_notice("I take down [src]."))
-	victim.forceMove(drop_location())
-	victim = null
+	if (victim)
+		victim.forceMove(drop_location())
+		victim = null
 	stake.forceMove(drop_location())
 	stake = null
 	qdel(src)
 
 /obj/structure/fluff/headstake/deconstruct()
-	victim.forceMove(drop_location())
-	victim = null
+	if (victim)
+		victim.forceMove(drop_location())
+		victim = null
 	stake.forceMove(drop_location())
 	stake = null
 	qdel(src)
@@ -2149,3 +2189,10 @@
 /obj/effect/wisp/prestidigitation/runelight
 	name = "arcyne mote"
 	desc = "An ethereal ball of pure light, manifested through an arcyne sigil."
+
+/obj/structure/fluff/statue/valmora
+	name = "saint valmora statue"
+	desc = "A statue of Valmora the Sword-Saint, who led the dark elves in the city-state of Llurth Dreir to slaughter the cruel lords and priests of the Arch-Enemy and begin an exodus to the surface. The dark elves of Otava praise her as a redeemer and savior."
+	icon_state = "valmora"
+	icon = 'icons/roguetown/structure/statues/statue_drow.dmi'
+	pixel_x = -16

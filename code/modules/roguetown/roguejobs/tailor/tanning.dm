@@ -17,7 +17,7 @@
 	if(hide)
 		. += span_warning("There is a piece of hide ready to be worked. I might need a knife for this.")
 	if(!anchored)
-		. += span_warning("It is un-anchored and able to be moved.")
+		. += span_warning("It is unanchored and able to be moved.")
 
 /obj/machinery/tanningrack/attack_hand(mob/user, params)
 	if(hide)
@@ -45,6 +45,9 @@
 			var/sound_played = FALSE
 			to_chat(user, span_warning("I begin scraping the hide's skin..."))
 			if(!do_after(user, work_time, target = user))
+				return
+			if(!hide)
+				to_chat(user, span_warning("There is no hide on the rack anymore."))
 				return
 			playsound(src,pick('sound/items/book_open.ogg','sound/items/book_page.ogg'), 100, FALSE)
 			QDEL_NULL(hide)
@@ -80,7 +83,7 @@
 	if(istype(I, /obj/item/grown/log/tree/stake))
 		if(anchored)
 			anchored = FALSE
-			to_chat(user, span_warning("The [src] can now be moved."))
+			to_chat(user, span_warning("[src] can now be moved."))
 		else
 			anchored = TRUE
 			to_chat(user, span_warning("You anchor [src]."))

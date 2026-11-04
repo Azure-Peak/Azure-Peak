@@ -45,7 +45,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/brigandine/gronn
 	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi
 	backr = /obj/item/rogueweapon/shield/atgervi
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	beltr = /obj/item/rogueweapon/stoneaxe/woodcut/steel/atgervi
@@ -78,7 +78,7 @@
 
 /datum/advclass/mercenary/atgervi_shaman
 	name = "Atgervi Shaman"
-	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast Gods through ritualistic violence, rather than idle prayer."
+	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesial Beast Gods through ritualistic violence, rather than idle prayer."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/mercenary/atgervi_shaman
@@ -118,11 +118,11 @@
 
 	head = /obj/item/clothing/head/roguetown/helmet/leather/shaman_hood
 	gloves = /obj/item/clothing/gloves/roguetown/angle/gronnfur
-	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/atgervi
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt
 	pants = /obj/item/clothing/under/roguetown/trou/leather/atgervi
 	wrists = /obj/item/clothing/wrists/roguetown/bracers
-	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/atgervi
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi
 	backr = /obj/item/storage/backpack/rogue/satchel/black
 	belt = /obj/item/storage/belt/rogue/leather
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
@@ -133,7 +133,7 @@
 		if(/datum/patron/inhumen/zizo)
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 		if(/datum/patron/inhumen/graggar)
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
 		if(/datum/patron/inhumen/matthios)
@@ -163,7 +163,7 @@
 	item_state = "atgervi_raider_mail"
 	max_integrity = 400
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/atgervi
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat/atgervi
 	name = "shamanic coat"
 	desc = "A furred, protective coat. Often made by hand, it embodies the second trial of the Iskarn Shamans: To honor the leopard is to desire for more."
 	icon_state = "atgervi_shaman_coat"
@@ -215,7 +215,7 @@
 	experimental_inhand = FALSE
 	experimental_onhip = FALSE
 
-/obj/item/clothing/shoes/roguetown/boots/leather/atgervi
+/obj/item/clothing/shoes/roguetown/boots/leather/reinforced/atgervi
 	name = "atgervi leather boots"
 	desc = "A pair of strong leather boots, designed to endure both the heat of battle and the frigid cold of the Northern Empty."
 	icon_state = "atgervi_boots"
@@ -315,7 +315,7 @@
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn
 	name = "carved talisman" //hadal talisman
-	desc = "'The chaos below, of coldblack pressure and crushing weight. Be the current. Control the waves. Reign your sails and hold fast against the storm, or be washed away onto an odyssey with no end.'	</br>	</br>The Spiraling Kraken is no virtue, but a presence; the homeland's nautical warden, who's tentacled presence is as unpredictable as the oceans it lords over. To embrace the uncertainty of lyfe is to be rewarded with fortune and mercy when it is most needed. Do not embrace such futility, however, lest you are swept away with all the others into the abyss."
+	desc = "'The chaos below, of coldblack pressure and crushing weight. Be the current. Control the waves. Reign your sails and hold fast against the storm, or be washed away onto an odyssey with no end.'	</br>	</br>The Spiraling Kraken is no virtue, but a presence; the homeland's nautical warden, whose tentacled presence is as unpredictable as the oceans it lords over. To embrace the uncertainty of lyfe is to be rewarded with fortune and mercy when it is most needed. Do not embrace such futility, however, lest you are swept away with all the others into the abyss."
 	icon_state = "gronnabyssor"
 
 /obj/item/clothing/neck/roguetown/psicross/abyssor/gronn/get_examine_highlight_status()

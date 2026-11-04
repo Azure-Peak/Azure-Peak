@@ -12,6 +12,8 @@ export const FlavorTextPage = () => {
     ooc_notes,
     ooc_notes_nsfw,
     headshot,
+    artist_credit,
+    artist_link,
     is_naked,
     ooc_extra_image,
     nsfw_ooc_extra_image,
@@ -59,6 +61,17 @@ export const FlavorTextPage = () => {
       <Stack fill vertical>
         <Stack.Item align="center">
           <img src={resolveAsset(headshot)} width="350px" height="350px" />
+        </Stack.Item>
+        <Stack.Item align="center">
+          {artist_credit && (artist_link ?
+            <a href={artist_link}><Button tooltip={artist_link} width="350px">
+              Headshot by {artist_credit}
+            </Button></a>
+            :
+            <Button width="350px">
+              Headshot by {artist_credit}
+            </Button>
+          )}
         </Stack.Item>
         <Stack.Item grow>
           <Stack fill>

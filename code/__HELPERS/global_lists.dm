@@ -84,6 +84,10 @@
 			var/datum/virtue/origin/origin = virtue
 			GLOB.origins[origin.origin_name] = origin.origin_desc
 
+	for(var/path in subtypesof(/datum/quirk))
+		var/datum/quirk/quirk = new path()
+		GLOB.quirks[path] = quirk
+
 	// Loadout items
 	for (var/path in subtypesof(/datum/loadout_item))
 		var/datum/loadout_item/loadout_item = new path()
@@ -106,6 +110,13 @@
 	for(var/path in subtypesof(prototype))
 		if(!is_abstract(path))
 			L += new path()
+	return L
+
+/proc/init_subtypes_w_path_keys(prototype, list/L)
+	if(!istype(L))
+		L = list()
+	for(var/path as anything in subtypesof(prototype))
+		L[path] = new path()
 	return L
 
 //returns a list of paths to every subtype of prototype (excluding prototype)

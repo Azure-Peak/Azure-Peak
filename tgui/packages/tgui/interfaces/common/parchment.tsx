@@ -288,18 +288,18 @@ export const PriceTag = (props: {
         </span>
       )}
       <span style={{ color: hasStrike ? SEAL_GREEN : 'inherit' }}>{price}</span>
+      <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>m</span>
       {hasTariff && (
         <span
-          style={{
-            color: SEAL_AMBER,
-            fontSize: FONT_BODY,
-            marginLeft: '2px',
-          }}
+          style={{ color: INK_SOFT, fontSize: FONT_SMALL, marginLeft: '3px' }}
         >
-          +{tariff}
+          (incl.
+          <span style={{ color: SEAL_AMBER, marginLeft: '2px' }}>
+            {tariff}
+          </span>
+          )
         </span>
       )}
-      <span style={{ color: INK_SOFT, fontSize: FONT_SMALL }}>m</span>
     </div>
   );
 };

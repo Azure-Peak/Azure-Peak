@@ -71,7 +71,6 @@
 	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/big_rat
 	move_base_delay = MOVEMENT_DELAY_SPD_3
-	melee_cooldown = RAT_ATTACK_SPEED
 	stat_attack = UNCONSCIOUS
 	var/undead_rat = FALSE
 

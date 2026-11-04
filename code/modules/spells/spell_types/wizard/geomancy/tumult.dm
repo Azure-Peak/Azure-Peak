@@ -39,7 +39,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	displayed_damage = 40
+	displayed_damage = SPELL_DMG(40)
 
 	var/geo_mode = TUMULT_MODE_ERUPT
 	var/static/list/mode_labels = list(TUMULT_MODE_ERUPT = "CAIRN", TUMULT_MODE_CHARGE = "RAMSTAM")
@@ -56,10 +56,10 @@
 	var/max_tiles = 7
 	var/telegraph_time = 3
 	var/roll_speed = 1
-	var/barrel_damage = 15
+	var/barrel_damage = SPELL_DMG(15)
 	var/knock_dist = 1
 	var/charge_frag_count = 8
-	var/charge_frag_damage = 12
+	var/charge_frag_damage = SPELL_DMG(12)
 	var/crash_structure_damage = 100
 	var/rolling = FALSE
 
@@ -143,8 +143,8 @@
 		if(spell_guard_check(victim, TRUE))
 			victim.visible_message(span_warning("[victim] braces against the eruption!"))
 			continue
-		if(arcyne_strike(caster, victim, null, erupt_direct, target_zone, BCLASS_BLUNT, \
-			spell_name = "Cairn", damage_type = BRUTE, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+		if(arcyne_strike(caster, victim, null, SPELL_DMG(erupt_direct), target_zone, BCLASS_BLUNT, \
+			spell_name = "Cairn", damage_type = BRUTE, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 			continue
 		victim.apply_status_effect(/datum/status_effect/debuff/vulnerable, vuln_duration)
 		to_chat(victim, span_userdanger("Stone erupts beneath me!"))
@@ -163,8 +163,8 @@
 				continue
 			if(spell_guard_check(victim, TRUE))
 				continue
-			if(arcyne_strike(caster, victim, null, erupt_aoe, target_zone, BCLASS_BLUNT, \
-				spell_name = "Cairn", damage_type = BRUTE, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+			if(arcyne_strike(caster, victim, null, SPELL_DMG(erupt_aoe), target_zone, BCLASS_BLUNT, \
+				spell_name = "Cairn", damage_type = BRUTE, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 				continue
 			victim.apply_status_effect(/datum/status_effect/debuff/vulnerable, vuln_duration)
 			var/push_dir = get_dir(T, victim) || get_dir(caster, victim) || pick(GLOB.cardinals)
@@ -322,10 +322,10 @@
 		return
 	if(ishuman(L))
 		if(arcyne_strike(H, L, null, barrel_damage, H.zone_selected || BODY_ZONE_CHEST, BCLASS_BLUNT, \
-			spell_name = "Ramstam", damage_type = BRUTE, skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+			spell_name = "Ramstam", damage_type = BRUTE, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 			return
 	else
-		L.adjustBruteLoss(barrel_damage)
+		L.adjustBruteLoss(SPELL_DMG_VS(L, barrel_damage))
 	new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 	var/knockdir = pick(turn(dir, 90), turn(dir, -90))
 	L.safe_throw_at(get_ranged_target_turf(L, knockdir, knock_dist), knock_dist, 1, H, force = MOVE_FORCE_STRONG)

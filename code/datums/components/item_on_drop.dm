@@ -19,4 +19,6 @@
 /datum/component/item_on_drop/dust
 
 /datum/component/item_on_drop/dust/handle_drop(obj/item/source, mob/user)
+	if(QDELETED(source)) // We guard it so shit doesnt try to delete stuff twice and runtimes.
+		return
 	qdel(source)

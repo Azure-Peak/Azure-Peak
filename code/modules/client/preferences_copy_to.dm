@@ -64,10 +64,14 @@
 	character.dna.real_name = character.real_name
 
 	character.headshot_link = headshot_link
-
+	character.headshot_artist_credit = headshot_artist_credit
+	character.headshot_artist_link = headshot_artist_link
 	character.lich_headshot_link = lich_headshot_link
-
+	character.lich_headshot_artist_credit = lich_headshot_artist_credit
+	character.lich_headshot_artist_link = lich_headshot_artist_link
 	character.vampire_headshot_link = vampire_headshot_link
+	character.vampire_headshot_artist_credit = vampire_headshot_artist_credit
+	character.vampire_headshot_artist_link = vampire_headshot_artist_link
 
 	character.statpack = statpack
 

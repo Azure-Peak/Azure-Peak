@@ -40,13 +40,14 @@
 	var/sheathe_icon = null
 
 	var/datum/special_intent/special
+	var/list/special_picks
 
 	var/malumblessed_w = FALSE
 
 	// whether this is actually a tool, like hoes and hammers, not a weapon proper. used to allow TRAIT_TINYPAWS users to conduct repairs and such
 	var/is_tool = FALSE
 	/// sigh
-	var/hoe_damage = null //the durability damage recieved for every work cycle
+	var/hoe_damage = null //the durability damage received for every work cycle
 	var/work_time = 3 SECONDS // the time it takes to make new soil or till soil
 
 
@@ -55,22 +56,48 @@
 	if(!destroy_message)
 		destroy_message = span_warning("\The [src] shatters!")
 
-	if(ispath(special))
-		special = new special()
-
 	if(!length(materia)) // some weapons will want custom aspects
 		if(is_tool)
 			materia = list(/datum/materia_aspect/tool)
 		else
 			materia = list(/datum/materia_aspect/weapon)
 
+/obj/item/rogueweapon/Destroy()
+	if(!ispath(special))
+		QDEL_NULL(special)
+	return ..()
+
+/obj/item/rogueweapon/proc/get_special()
+	RETURN_TYPE(/datum/special_intent)
+	if(ispath(special))
+		special = new special()
+	return special
+
+/obj/item/rogueweapon/examine(mob/user)
+	. = ..()
+	if(special_picks)
+		. += span_notice("The Special Manoeuvre of this weapon can be changed. Right-click it with a free hand to select one. This can only be done once.")
+
+/obj/item/rogueweapon/attack_right(mob/user)
+	. = ..()
+	if(!special_picks)
+		return
+	var/list/options = list()
+	for(var/datum/special_intent/S as anything in special_picks)
+		options[S::name] = S
+	var/choice = input(user, "Choose the Manoeuvre", "MANOEUVRE") as anything in options
+	if(!choice || !special_picks)
+		return
+	if(!ispath(special))
+		qdel(special)
+	special = options[choice]
+	special_picks = null
+
 /obj/item/rogueweapon/dropped(mob/user, silent)
 	. = ..()
 	if(istype(src, /obj/item/rogueweapon/shield))
 		return
-	if(implement_refund)
-		return
-	if(ispath(associated_skill, /datum/skill/combat/staves) || ispath(associated_skill, /datum/skill/combat/arcyne))
+	if(is_implement)
 		return
 	if(isliving(user))
 		var/mob/living/L = user
@@ -81,12 +108,11 @@
 		AddComponent(\
 			/datum/component/silverbless,\
 			pre_blessed = BLESSING_NONE,\
-			silver_type = SILVER_TENNITE,\
-			added_force = 0,\
-			added_blade_int = 0,\
-			added_int = 25,\
-			added_def = 2,\
+			silver_type = SILVER_TENNITE\
 		)
+
+/obj/item/rogueweapon/proc/on_blessed(blessing_type)
+	return
 
 /obj/item/rogueweapon/get_examine_string(mob/user, thats = FALSE)
 	return "[thats? "That's ":""]<b>[get_examine_name(user)]</b> <font size = 1>[get_blade_dulling_text(src)]</font>"

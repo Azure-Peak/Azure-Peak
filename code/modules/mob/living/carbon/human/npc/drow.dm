@@ -11,7 +11,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/ambush
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "underdark"
 
 // Testing-only subtype: forced whip loadout to verify NPC reach handling on weapons with reach > 1.
@@ -57,7 +57,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 /mob/living/carbon/human/species/elf/dark/drowraider/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/elf/dark/raider)
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+	if(!npc_archetype)
+		addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 
 /mob/living/carbon/human/species/elf/dark/drowraider/after_creation()
@@ -163,6 +164,18 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	npc_archetype = /datum/npc_archetype/drow/archer
 
 /mob/living/carbon/human/species/elf/dark/drowraider/archer/ambush
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "underdark"
+
+/mob/living/carbon/human/species/elf/dark/drowraider/drider
+	npc_archetype = /datum/npc_archetype/drow/drider
+	resize = 1.3
+
+/mob/living/carbon/human/species/elf/dark/drowraider/drider/after_creation()
+	..()
+	job = "Drow Drider"
+
+/mob/living/carbon/human/species/elf/dark/drowraider/drider/ambush
+	threat_point = THREAT_ELITE
 	ambush_faction = "underdark"
 

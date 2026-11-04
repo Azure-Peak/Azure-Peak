@@ -1,7 +1,7 @@
 //a skill to help potters get clay
 /obj/effect/proc_holder/spell/invoked/digclay
 	name = "Dig Clay"
-	desc = "dig for clay on some dirt or mud"
+	desc = "Dig for clay on some dirt or mud."
 	overlay_state = "digclay"
 	overlay_icon = 'icons/mob/actions/townerspells.dmi'
 	action_icon = 'icons/mob/actions/townerspells.dmi'
@@ -30,5 +30,5 @@
 			to_chat(user, span_warning("I need to stay still to dig for clay!"))
 			return FALSE
 	else
-		to_chat(user, span_warning("I need to do this on dirt"))
+		to_chat(user, span_warning("I need to do this on dirt!"))
 		return FALSE

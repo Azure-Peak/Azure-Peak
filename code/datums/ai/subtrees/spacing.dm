@@ -139,7 +139,7 @@
 			our_pawn.Move(give_ground, get_dir(our_pawn, give_ground))
 			our_pawn.face_atom(current_target)
 			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
-	our_pawn.combat_sidestep(current_target, null, TRUE)
+	our_pawn.combat_sidestep(current_target)
 	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /// Take one step away

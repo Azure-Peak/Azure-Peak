@@ -21,6 +21,7 @@
 						var/mob/living/L = target
 						if(istype(L))
 							vv_update_display(target, "real_name", L.real_name || "No real name")
+
 			if(href_list[VV_HK_BASIC_CHANGE])
 				modify_variables(target, target_var, 0)
 			if(href_list[VV_HK_BASIC_MASSEDIT])
@@ -45,8 +46,11 @@
 			usr.client.admin_delete(target)
 			if (isturf(src))	// show the turf that took its place
 				usr.client.debug_variables(src)
+
 	if(href_list[VV_HK_MARK])
 		usr.client.mark_datum(target)
+	if(href_list[VV_HK_TAG])
+		usr.client.tag_datum(target)
 	if(href_list[VV_HK_ADDCOMPONENT])
 		if(!check_rights(NONE))
 			return
@@ -75,5 +79,46 @@
 			target._AddElement(arglist(lst))
 		log_admin("[key_name(usr)] has added [result] [datumname] to [key_name(src)].")
 		message_admins(span_notice("[key_name_admin(usr)] has added [result] [datumname] to [key_name_admin(src)]."))
+	if(href_list[VV_HK_REMOVECOMPONENT] || href_list[VV_HK_MASS_REMOVECOMPONENT])
+		if(!check_rights(NONE))
+			return
+		var/mass_remove = href_list[VV_HK_MASS_REMOVECOMPONENT]
+		var/list/components = target.datum_components.Copy()
+		var/list/names = list()
+		names += "---Components---"
+		if(length(components))
+			names += sort_list(components, GLOBAL_PROC_REF(cmp_typepaths_asc))
+		names += "---Elements---"
+		// We have to list every element here because there is no way to know what element is on this object without doing some sort of hack.
+		names += sort_list(subtypesof(/datum/element), GLOBAL_PROC_REF(cmp_typepaths_asc))
+		var/path = tgui_input_list(usr, "Choose a component/element to remove. All elements listed here may not be on the datum.", "Remove element", names)
+		if(isnull(path))
+			return
+		if(!usr || path == "---Components---" || path == "---Elements---")
+			return
+		if(QDELETED(src))
+			to_chat(usr, "That thing doesn't exist anymore!")
+			return
+		var/list/targets_to_remove_from = list(target)
+		if(mass_remove)
+			var/method = vv_subtype_prompt(target.type)
+			targets_to_remove_from = get_all_of_type(target.type, method)
+
+			if(alert(usr, "Are you sure you want to mass-delete [path] on [target.type]?", "Mass Remove Confirmation", "Yes", "No") == "No")
+				return
+
+		for(var/datum/target_to_remove_from as anything in targets_to_remove_from)
+			if(ispath(path, /datum/element))
+				var/list/lst = get_callproc_args()
+				if(!lst)
+					lst = list()
+				lst.Insert(1, path)
+				target._RemoveElement(lst)
+			else
+				var/list/components_actual = target_to_remove_from.GetComponents(path)
+				for(var/to_delete in components_actual)
+					qdel(to_delete)
+
+		message_admins(span_notice("[key_name_admin(usr)] has [mass_remove? "mass" : ""] removed [path] component from [mass_remove? target.type : key_name_admin(target)]."))
 	if(href_list[VV_HK_CALLPROC])
 		usr.client.callproc_datum(target)

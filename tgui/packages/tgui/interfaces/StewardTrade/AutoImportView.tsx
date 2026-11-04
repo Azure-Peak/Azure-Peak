@@ -36,7 +36,7 @@ export const AutoImportView = (props: { data: Data }) => {
   } = auto_import;
   const aldermanActing = !!props.data.is_alderman_acting;
   const aldermanBlockTitle =
-    "Reserved to the Steward's office - the Alderman has no say in the Crown's stockpile.";
+    "As Alderman, you can't change this.";
 
   const [floorDraft, setFloorDraft] = useState<string>(String(purse_floor));
 
@@ -54,7 +54,7 @@ export const AutoImportView = (props: { data: Data }) => {
 
   return (
     <div>
-      <div style={sectionHeaderStyle}>Standing Imports</div>
+      <div style={sectionHeaderStyle}>Autoimport</div>
 
       <div style={cardStyle}>
         <div
@@ -72,18 +72,18 @@ export const AutoImportView = (props: { data: Data }) => {
               <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
                 {today_spent}m
               </span>{' '}
-              &middot; Goods on standing import:{' '}
+              &middot; Goods on autoimport:{' '}
               <span style={{ fontWeight: 'bold' }}>{activeCount}</span>
             </div>
             <div style={{ fontSize: FONT_BODY, color: INK_SOFT }}>
-              Tops up each good by {batch_size} units every 6 minutes when stock
-              is below {floor_target}, skipping when a unit would cost more than{' '}
-              {max_price_mult}x its base price.
+              Each dawn, any ticked good with fewer than {floor_target} in stock
+              gets {batch_size} more bought in, unless one would cost over{' '}
+              {max_price_mult}x its usual price.
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ color: INK_FAINT, fontSize: FONT_BODY }}>
-              Purse floor:
+              Treasury floor:
             </span>
             <input
               type="number"
@@ -131,7 +131,7 @@ export const AutoImportView = (props: { data: Data }) => {
               title={
                 aldermanActing
                   ? aldermanBlockTitle
-                  : 'Strike every standing import from the ledger at once.'
+                  : 'Remove every good from autoimport at once.'
               }
             >
               Strike All
@@ -166,7 +166,7 @@ export const AutoImportView = (props: { data: Data }) => {
         <div
           style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}
         >
-          No other goods may be placed on standing import at present.
+          No other importable goods.
         </div>
       ) : (
         <>
@@ -209,7 +209,7 @@ export const AutoImportView = (props: { data: Data }) => {
         <div
           style={{ textAlign: 'center', fontStyle: 'italic', color: INK_SOFT }}
         >
-          No auto-import history yet. First tick will record here.
+          Nothing bought yet. Each dawn's purchases will show here.
         </div>
       ) : (
         [...history].reverse().map((entry, idx) => (
@@ -234,7 +234,7 @@ export const AutoImportView = (props: { data: Data }) => {
                   fontStyle: 'italic',
                 }}
               >
-                No auto-import activity.
+                Nothing bought.
               </div>
             ) : (
               <div style={{ fontSize: FONT_BODY, color: INK_SOFT }}>
