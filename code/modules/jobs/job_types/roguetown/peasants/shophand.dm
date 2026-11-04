@@ -23,7 +23,7 @@
 	cmode_music = 'sound/music/cmode/towner/combat_towner.ogg'
 
 	job_traits = list(TRAIT_SEEPRICES)
-	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice) //Commerce role, not a craftsman.
+	virtue_restrictions = list(/datum/virtue/utility/skilled, /datum/virtue/utility/apprentice, /datum/virtue/utility/homesteader, /datum/virtue/utility/granary) //Commerce role, not a craftsman.
 
 	advclass_cat_rolls = list(CTAG_SHOPHAND = 2)
 	job_subclasses = list(
@@ -43,7 +43,6 @@
 	)
 	subclass_skills = list(
 		//worse skills than a normal peasant, generally, with random bad combat skill
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,

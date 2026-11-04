@@ -5,7 +5,6 @@
 	button_icon_state = "primetriangle"
 	invocations = list("Exsurge, sicarius!")
 	summon_noun = "rogue"
-	recoil_energy_floor = 200
 	modes = list(
 		list("name" = "Twin Sabres", "tag" = "SAB", "loadout" = "sabre", "color" = GLOW_COLOR_ARCANE, "invocation" = "Exsurge, sicarius!"),
 		list("name" = "Twin Rapiers", "tag" = "RAP", "loadout" = "rapier", "color" = GLOW_COLOR_ARCANE, "invocation" = "Exsurge, sicarius!"),

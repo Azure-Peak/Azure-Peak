@@ -171,7 +171,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 					playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 					return
 				if (world.time < GLOB.last_crown_announcement_time + 2 MINUTES)
-					say(("Tis not yet time for another announcement my liege."))
+					say(("'Tis not yet time for another announcement my liege."))
 					return
 				if(!SScommunications.can_announce(H))
 					say("I must gather my strength!")
@@ -348,7 +348,7 @@ GLOBAL_VAR_INIT(last_crown_announcement_time, -1000)
 /obj/structure/roguemachine/titan/proc/give_tax_popup(mob/living/carbon/human/user)
 	if(!Adjacent(user))
 		return
-	var/datum/taxsetter/taxsetter = new("The Generous Lord Decrees")
+	var/datum/taxsetter/taxsetter = new()
 	taxsetter.ui_interact(user)
 
 /obj/structure/roguemachine/titan/proc/give_law_popup(mob/living/carbon/human/user)

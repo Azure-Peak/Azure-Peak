@@ -1,6 +1,6 @@
 /datum/crafting_recipe/roguetown/gemcarving
 	abstract_type = /datum/crafting_recipe/roguetown/gemcarving
-	display_category = ITEM_CAT_DECORATION
+	display_category = ITEM_CAT_CARVED
 	skillcraft = /datum/skill/craft/masonry
 	category = "Gem Carving"
 
@@ -200,6 +200,7 @@
 	craftdiff = SKILL_LEVEL_MASTER
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/openclam
+	display_category = ITEM_CAT_DECORATION
 	name = "opened clam"
 	result = list (
 		/obj/item/carvedgem/shell/openoyster,
@@ -210,6 +211,7 @@
 	craftdiff = SKILL_LEVEL_NOVICE
 
 /datum/crafting_recipe/roguetown/gemcarving/shell/rawshell
+	display_category = ITEM_CAT_DECORATION
 	name = "clam shell (x2)"
 	result = list (
 		/obj/item/carvedgem/shell/rawshell,

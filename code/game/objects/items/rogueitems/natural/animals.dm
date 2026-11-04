@@ -226,3 +226,10 @@
 	desc = "A rabbit's foot. A lucky charm."
 	w_class = WEIGHT_CLASS_TINY
 	sellprice = 10
+
+/obj/item/natural/goathorn
+	name = "bundle of goat horns"
+	icon_state = "goat_horn"
+	desc = "Two high quality, ornate looking goat horns bundled together with fiber."
+	w_class = WEIGHT_CLASS_SMALL
+	sellprice = 25

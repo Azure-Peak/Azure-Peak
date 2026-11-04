@@ -654,6 +654,16 @@
 
 /obj/item/chair/stool/bar/rogue/crafted
 
+/datum/crafting_recipe/roguetown/structure/stone_stool
+	name = "stone stool"
+	category = "Seats"
+	result = /obj/item/chair/stool/bar/rogue/stone
+	reqs = list(/obj/item/natural/stone = 2)
+	tools = list(/obj/item/rogueweapon/chisel)
+	verbage_simple = "chisel"
+	verbage = "chisels"
+	skillcraft = /datum/skill/craft/masonry
+
 /datum/crafting_recipe/roguetown/structure/anvil
 	name = "anvil"
 	category = "Misc"
@@ -941,6 +951,16 @@
 	verbage = "constructs"
 	craftdiff = 0
 
+/datum/crafting_recipe/roguetown/structure/haybale
+	name = "hay bale"
+	category = "Misc"
+	result = /obj/structure/haybale
+	reqs = list(/obj/item/natural/chaff/wheat = 3,
+				/obj/item/natural/fibers = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	craftdiff = 0
+
 /datum/crafting_recipe/roguetown/structure/chest
 	name = "chest"
 	category = "Containers"
@@ -1076,7 +1096,7 @@
 	result = /obj/machinery/light/rogue/firebowl/standing/blue
 	reqs = list(/obj/item/natural/stone = 1,
 				/obj/item/rogueore/coal = 1,
-				/obj/item/ash = 1)
+				/obj/item/natural/ash = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
 
@@ -1447,7 +1467,7 @@
 	name = "wall candles (blue)"
 	category = "Lighting"
 	result = /obj/machinery/light/rogue/candle/blue
-	reqs = list(/obj/item/natural/stone = 1, /obj/item/candle/yellow = 1, /obj/item/ash = 1)
+	reqs = list(/obj/item/natural/stone = 1, /obj/item/candle/yellow = 1, /obj/item/natural/ash = 1)
 	verbage_simple = "build"
 	verbage = "builds"
 	skillcraft = /datum/skill/craft/masonry

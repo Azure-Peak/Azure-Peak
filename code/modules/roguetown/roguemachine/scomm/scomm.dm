@@ -320,10 +320,10 @@
 	if(!listening)
 		return
 	if(receive_only)
-		to_chat(speaker, span_warning("This RCOM is receive only!"))
+		to_chat(speaker, span_warning("This RCOM is receive-only!"))
 		return
 	if(last_cheese && (last_cheese + CHEESE_QUIET_TIME >= world.time))
-		to_chat(speaker, span_warning("The rats seems to be busy nibbling on something!"))
+		to_chat(speaker, span_warning("The rats seem to be busy nibbling on something!"))
 		return
 	if(world.time < last_message + NORMAL_SCOM_PER_MESSAGE_DELAY)
 		var/time_remaining = round((last_message + NORMAL_SCOM_PER_MESSAGE_DELAY - world.time) / 10)

@@ -107,6 +107,9 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/Initialize(timeofday)
 	load_mode()
 
+	if(CONFIG_GET(flag/autostart))
+		start_immediately = TRUE
+
 	login_music = pick('sound/music/title.ogg','sound/music/title2.ogg')
 
 	if(!GLOB.syndicate_code_phrase)
@@ -447,10 +450,10 @@ SUBSYSTEM_DEF(ticker)
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/player = i
 		if(!player)
-			message_admins("THERES A FUCKING NULL IN THE NEW_PLAYER_LIST, REPORT IT TO AZURE DEVELOPMENT STAFF NOW!")
+			message_admins("THERE'S A FUCKING NULL IN THE NEW_PLAYER_LIST, REPORT IT TO AZURE DEVELOPMENT STAFF NOW!")
 			continue
 		if(!player.mind)
-			message_admins("THERES A MIND LACKING PLAYER IN THE NEW_PLAYER_LIST, REPORT IT TO AZURE DEVELOPMENT STAFF NOW!")
+			message_admins("THERE'S A MIND LACKING PLAYER IN THE NEW_PLAYER_LIST, REPORT IT TO AZURE DEVELOPMENT STAFF NOW!")
 			continue
 		if(player.ready == PLAYER_READY_TO_PLAY)
 			GLOB.joined_player_list += player.ckey
@@ -511,7 +514,7 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/send_tip_of_the_round(input)
 	if(!input)
 		return
-	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple("[html_encode(input)]"), "tipoftheround"))
+	to_world(fieldset_block(span_purple("<b>Tip of the Round</b>"), span_purple(parse_admin_spans(html_encode(input))), "tipoftheround"))
 
 /datum/controller/subsystem/ticker/proc/check_queue()
 	if(!queued_players.len)

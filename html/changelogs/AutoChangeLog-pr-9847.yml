@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ghost polls, orison conversion and dreamwalker prompt (When re-enabled) now uses a \"new\" TGstation screen alert / chat message based polling system instead of hijacking your window focus."

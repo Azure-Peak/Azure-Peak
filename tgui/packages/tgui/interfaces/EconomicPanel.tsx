@@ -64,7 +64,6 @@ type Dashboard = {
   avg_balance: number;
   held_accounts: number;
   under_50m: number;
-  in_advance: number;
   in_arrears: number;
   debtor_count: number;
   loans_outstanding: number;
@@ -74,7 +73,6 @@ type Dashboard = {
   expected_wage_outlay: number;
   noble_income_total: number;
   tax_rates: Record<string, number>;
-  poll_tax_rates: Record<string, number>;
 };
 
 type PlayerRow = {
@@ -83,12 +81,8 @@ type PlayerRow = {
   job: string;
   category: string | null;
   category_name: string;
-  rate: number;
-  raw_rate: number;
   exempt: BooleanLike;
-  advance: number;
   owed: number;
-  overdue: number;
   balance: number;
   on_person: number;
   has_loan: BooleanLike;
@@ -219,7 +213,6 @@ type Data = {
 const STATUS_LABELS: Record<string, string> = {
   all: 'All',
   arrears: 'In Arrears',
-  advance: 'In Advance',
   debtor: 'Debtor',
   low_balance: 'Low Balance (<50m)',
   exempt: 'Charter-Exempt',
@@ -235,6 +228,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   poll_guilds: 'Guilds',
   poll_merchant: 'Merchant',
   poll_burgher: 'Burgher',
+  poll_scholar: 'Scholar',
   poll_adventurer: 'Adventurer',
   poll_mercenary: 'Mercenary',
   poll_peasant: 'Peasant',
@@ -357,8 +351,6 @@ export const EconomicPanel = () => {
   const [mintAmount, setMintAmount] = useState(100);
   const [burnAmount, setBurnAmount] = useState(100);
   const [favorAmount, setFavorAmount] = useState(500);
-  const [bulkAdvanceDays, setBulkAdvanceDays] = useState(1);
-  const [playerAdvanceDays, setPlayerAdvanceDays] = useState(1);
   const [playerMintAmount, setPlayerMintAmount] = useState(50);
   const [simPop, setSimPop] = useState(simulated_player_scalar);
   const [assemblyTradeCap, setAssemblyTradeCap] = useState(300);
@@ -647,9 +639,6 @@ export const EconomicPanel = () => {
                   </Stack.Item>
                   <Stack.Item grow>
                     <LabeledList>
-                      <LabeledList.Item label="In Advance">
-                        {dashboard.in_advance}
-                      </LabeledList.Item>
                       <LabeledList.Item label="In Arrears">
                         {dashboard.in_arrears}
                       </LabeledList.Item>
@@ -879,7 +868,7 @@ export const EconomicPanel = () => {
             </Stack.Item>
           )}
 
-          {tab === 'solvency' && (
+          {tab === 'dashboard' && (
             <Stack.Item>
               <Section title="Tick Actions">
                 <Stack wrap>
@@ -891,11 +880,6 @@ export const EconomicPanel = () => {
                   <Stack.Item>
                     <Button.Confirm onClick={() => act('fire_rural_tick')}>
                       Fire Rural Tick
-                    </Button.Confirm>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button.Confirm onClick={() => act('fire_poll_tick')}>
-                      Fire Poll Tick
                     </Button.Confirm>
                   </Stack.Item>
                   <Stack.Item>
@@ -933,7 +917,7 @@ export const EconomicPanel = () => {
             </Stack.Item>
           )}
 
-          {tab === 'solvency' && (
+          {tab === 'dashboard' && (
             <Stack.Item>
               <Section title="Simulated Population (economy pop scaling)">
                 <Box mb={1} color="label">
@@ -1391,11 +1375,8 @@ export const EconomicPanel = () => {
                         <Table.Cell>Name</Table.Cell>
                         <Table.Cell>Job</Table.Cell>
                         <Table.Cell>Category</Table.Cell>
-                        <Table.Cell>Rate</Table.Cell>
                         <Table.Cell>Balance</Table.Cell>
-                        <Table.Cell>Advance</Table.Cell>
                         <Table.Cell>Owed</Table.Cell>
-                        <Table.Cell>Overdue</Table.Cell>
                         <Table.Cell>Flags</Table.Cell>
                         <Table.Cell>&nbsp;</Table.Cell>
                       </Table.Row>
@@ -1415,16 +1396,8 @@ export const EconomicPanel = () => {
                             </Table.Cell>
                             <Table.Cell>{p.job}</Table.Cell>
                             <Table.Cell>{p.category_name}</Table.Cell>
-                            <Table.Cell>
-                              {p.rate}m
-                              {p.raw_rate !== p.rate
-                                ? ` (raw ${p.raw_rate}m)`
-                                : ''}
-                            </Table.Cell>
                             <Table.Cell>{p.balance}m</Table.Cell>
-                            <Table.Cell>{p.advance}</Table.Cell>
                             <Table.Cell>{p.owed}m</Table.Cell>
-                            <Table.Cell>{p.overdue}</Table.Cell>
                             <Table.Cell>
                               {p.exempt ? 'E ' : ''}
                               {p.is_debtor ? 'D ' : ''}
@@ -1451,24 +1424,6 @@ export const EconomicPanel = () => {
                           Bulk: Clear debt for all {players.length} filtered
                         </Button.Confirm>
                       </Stack.Item>
-                      <Stack.Item>
-                        <NumberInput
-                          step={1}
-                          minValue={1}
-                          maxValue={30}
-                          value={bulkAdvanceDays}
-                          onChange={(v: number) => setBulkAdvanceDays(v)}
-                        />
-                      </Stack.Item>
-                      <Stack.Item>
-                        <Button.Confirm
-                          onClick={() =>
-                            act('bulk_add_advance', { days: bulkAdvanceDays })
-                          }
-                        >
-                          Bulk: +{bulkAdvanceDays} advance days to all filtered
-                        </Button.Confirm>
-                      </Stack.Item>
                     </Stack>
                   </>
                 )}
@@ -1488,12 +1443,6 @@ export const EconomicPanel = () => {
                   <LabeledList.Item label="Category">
                     {selected.category_name}
                   </LabeledList.Item>
-                  <LabeledList.Item label="Effective Rate">
-                    {selected.rate}m / day
-                    {selected.raw_rate !== selected.rate
-                      ? ` (raw ${selected.raw_rate}m, modified by charter/cap)`
-                      : ''}
-                  </LabeledList.Item>
                   <LabeledList.Item label="Charter-Exempt">
                     {selected.exempt ? 'Yes' : 'No'}
                   </LabeledList.Item>
@@ -1503,11 +1452,8 @@ export const EconomicPanel = () => {
                   <LabeledList.Item label="On-Person Coin">
                     {selected.on_person}m
                   </LabeledList.Item>
-                  <LabeledList.Item label="Advance Days">
-                    {selected.advance}
-                  </LabeledList.Item>
                   <LabeledList.Item label="Arrears">
-                    {selected.owed}m over {selected.overdue} day(s)
+                    {selected.owed}m
                   </LabeledList.Item>
                   <LabeledList.Item label="Debtor Flag">
                     {selected.is_debtor ? 'YES' : 'no'}
@@ -1524,7 +1470,7 @@ export const EconomicPanel = () => {
                         act('player_clear_debt', { ref: selected.ref })
                       }
                     >
-                      Clear poll-tax arrears
+                      Clear poll-levy arrears
                     </Button.Confirm>
                   </Stack.Item>
                   <Stack.Item>
@@ -1565,43 +1511,6 @@ export const EconomicPanel = () => {
                       }
                     >
                       Clear Censure
-                    </Button.Confirm>
-                  </Stack.Item>
-                </Stack>
-
-                <Stack mt={1} align="center">
-                  <Stack.Item>Advance days:</Stack.Item>
-                  <Stack.Item>
-                    <NumberInput
-                      step={1}
-                      minValue={1}
-                      maxValue={999}
-                      value={playerAdvanceDays}
-                      onChange={(v: number) => setPlayerAdvanceDays(v)}
-                    />
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button.Confirm
-                      onClick={() =>
-                        act('player_add_advance', {
-                          ref: selected.ref,
-                          days: playerAdvanceDays,
-                        })
-                      }
-                    >
-                      Add
-                    </Button.Confirm>
-                  </Stack.Item>
-                  <Stack.Item>
-                    <Button.Confirm
-                      onClick={() =>
-                        act('player_remove_advance', {
-                          ref: selected.ref,
-                          days: playerAdvanceDays,
-                        })
-                      }
-                    >
-                      Remove
                     </Button.Confirm>
                   </Stack.Item>
                 </Stack>

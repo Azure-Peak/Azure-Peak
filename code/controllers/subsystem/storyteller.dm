@@ -231,8 +231,7 @@ SUBSYSTEM_DEF(gamemode)
 	/// Whether the player gamemode vote is allowed to fire at the +120s mark. When No, the round is admin-
 	/// controlled (the admin sandbox, unless a specific preset was force-picked) and the slot overrides apply.
 	var/allow_vote = TRUE
-	/// When TRUE, the pool whose preset ran last round is left off the next gamemode vote. Disabled while the
-	/// overdue vote multiplier is being trialled, since it handles rotation between presets instead.
+	/// When TRUE, the pool whose preset ran last round is left off the next gamemode vote.
 	var/exclude_previous_pool = FALSE
 	/// TRUE when an admin explicitly Force-Picked a preset. Stops the admin controls from swapping to the sandbox.
 	var/forced_preset = FALSE
@@ -262,6 +261,8 @@ SUBSYSTEM_DEF(gamemode)
 	/// What is our currently desired/selected roundstart event
 	var/datum/round_event_control/antagonist/solo/current_roundstart_event
 	var/list/last_round_events = list()
+	/// Event type of the last roundstart hard antag rolled
+	var/last_villain
 	/// Has a roundstart event been run
 	var/ran_roundstart = FALSE
 	/// Are we able to run roundstart events
@@ -306,9 +307,15 @@ SUBSYSTEM_DEF(gamemode)
 		if(event.holidayID || event.wizardevent)
 			uncategorized += event
 			continue
+		var/datum/round_event_control/antagonist/solo/antag_event = event
+		var/datum/antagonist/antag_path = istype(antag_event) ? antag_event.antag_datum : null
+		if(event.storyteller_blacklisted || (ispath(antag_path, /datum/antagonist) && initial(antag_path.storyteller_blacklisted)))
+			uncategorized += event
+			continue
 		event_pools[event.track] += event //Add it to the categorized event pools
 
 	load_roundstart_data()
+	last_villain = text2path(trim(file2text(LAST_VILLAIN_FILE)))
 
 	check_roundstart_gods_rankings()
 	. = ..()
@@ -1161,6 +1168,8 @@ SUBSYSTEM_DEF(gamemode)
 	// guarantee a specific hard antag - that is driven by the block flags and the admin-opened slots instead.
 	if(storyteller_blocks_antag(event.storyteller_antag_flags, event.roundstart, storyteller_type))
 		return 0
+	if(event.type == last_villain)
+		return CEILING(base_weight * LAST_VILLAIN_MULT, 1)
 	return base_weight
 
 /datum/controller/subsystem/gamemode/proc/antag_roll_reason(datum/round_event_control/antagonist/solo/event, player_count = null, storyteller_type = null)
@@ -1873,8 +1882,13 @@ SUBSYSTEM_DEF(gamemode)
 					message_admins("[key_name_admin(usr)] has [halted_storyteller ? "HALTED" : "un-halted"] the Storyteller.")
 				if("toggle_dnr_round")
 					dnr_round = !dnr_round
-					message_admins("[key_name_admin(usr)] has turned the DNR round type [dnr_round ? "ON" : "OFF"]. All spawning players will [dnr_round ? "" : "no longer "]receive TRAIT_DNR.")
+					message_admins("[key_name_admin(usr)] has turned the DNR round type [dnr_round ? "ON" : "OFF"]. All spawning players will [dnr_round ? "" : "no longer "]receive TRAIT_DNR, and it has been [dnr_round ? "added to" : "removed from"] everyone currently playing.")
 					log_admin("[key_name(usr)] set DNR round = [dnr_round ? "ON" : "OFF"].")
+					for(var/mob/living/carbon/human/H in GLOB.player_list)
+						if(dnr_round)
+							ADD_TRAIT(H, TRAIT_DNR, MERCILESS_ROUND)
+						else
+							REMOVE_TRAIT(H, TRAIT_DNR, MERCILESS_ROUND)
 					if(dnr_round)
 						to_world(span_boldannounce("This round is <b>MERCILESS</b>. All who walk these lands carry the burden of a final death."))
 					else

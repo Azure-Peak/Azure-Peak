@@ -34,7 +34,6 @@
 		/datum/skill/combat/shields = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 	)
 
@@ -74,7 +73,7 @@
 
 /datum/advclass/grenzel_guard
 	name = "Leibwachter"
-	tutorial = "You are a dilligent soldier in employ of the Envoy for protection and to assure that their mission goes as planned."
+	tutorial = "You are a diligent soldier in employ of the Envoy for protection and to assure that their mission goes as planned."
 	outfit = /datum/outfit/job/roguetown/grenzel/doppel
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_STEELHEARTED)
 	category_tags = list(CTAG_GRENZEL_GUARD)

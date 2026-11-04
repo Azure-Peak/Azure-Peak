@@ -1,6 +1,6 @@
 /obj/item/roguemachine/zadcote/proc/begin_voyeur(datum/zadlink/link, mob/living/carbon/human/operator)
 	if(!allows_voyeur)
-		to_chat(operator, span_warning("This zadcote does not bind for scrying."))
+		to_chat(operator, span_warning("You can't scry from this zadcote."))
 		return FALSE
 	if(!link || link.severed)
 		to_chat(operator, span_warning("That zadlink is severed."))
@@ -10,7 +10,7 @@
 		to_chat(operator, span_warning("That zadlink has no bonded zadcage."))
 		return FALSE
 	if(voyeur_fund < ZAD_VOYEUR_COST_MAMMON)
-		to_chat(operator, span_warning("The zadcote's scrying fund is empty. Feed it mammon coins to scry."))
+		to_chat(operator, span_warning("The scrying fund is empty. Feed at least [ZAD_VOYEUR_COST_MAMMON]m in mammon coins into the zadcote."))
 		return FALSE
 	voyeur_fund -= ZAD_VOYEUR_COST_MAMMON
 	to_chat(operator, span_notice("You whisper into the zadcote. The bonded zad stirs from afar... ([voyeur_fund]m left for scrying.)"))
@@ -36,7 +36,7 @@
 		source_desc = "a zadcage on [broadcaster]"
 	else
 		source_desc = "[broadcaster]"
-	broadcaster.visible_message(span_notice("A strange blue glow emits from [source_desc]."))
+	broadcaster.visible_message(span_notice("A strange blue glow comes from [source_desc]."))
 	add_filter("zad_voyeur_glow", 2, list("type" = "outline", "size" = 1, "color" = "#4488ff"))
 	set_light(2, 2, 2, l_color = "#1b7bf1")
 	var/mob/dead/observer/eye/screye/zadcote_voyeur/S = operator.scry_ghost(/mob/dead/observer/eye/screye/zadcote_voyeur)
@@ -48,11 +48,11 @@
 	if(holder)
 		voyeur_holder = WEAKREF(holder)
 	S.ManualFollow(target)
-	operator.visible_message(span_danger("[operator] stares into the zadcote, [operator.p_their()] eyes rolling back into [operator.p_their()] head."))
-	to_chat(S, span_notice("You see through the zad's eyes. Click <b>Stop Scrying</b> in the IC tab to return early; otherwise the bond breaks on its own after [ZAD_VOYEUR_DURATION / (1 MINUTES)] minute\s."))
+	operator.visible_message(span_danger("[operator] stares into the zadcote as [operator.p_their()] eyes roll back into [operator.p_their()] head."))
+	to_chat(S, span_notice("You see through the zad's eyes. Click <b>Stop Scrying</b> in the IC tab to return early. The bond breaks on its own after [ZAD_VOYEUR_DURATION / (1 MINUTES)] minute\s."))
 	if(holder && holder.stat != DEAD && holder.stat != UNCONSCIOUS)
 		holder.throw_alert("scryingeye", /atom/movable/screen/alert/scryingeye, override = TRUE)
-		to_chat(holder, span_warning("The zad in your zadcage stirs - you feel a pair of eyes peering through it."))
+		to_chat(holder, span_warning("The zad in your zadcage stirs. You feel a pair of eyes peering through it."))
 		holder.balloon_alert_to_viewers("<font color='#b388ff'>scried!</font>")
 		holder.playsound_local(holder, 'sound/magic/scryed_on.ogg', 75, TRUE)
 	addtimer(CALLBACK(src, PROC_REF(finish_voyeur)), ZAD_VOYEUR_DURATION)
@@ -84,7 +84,7 @@
 /mob/dead/observer/eye/screye/zadcote_voyeur/proc/end_zad_voyeur()
 	set category = "IC"
 	set name = "Stop Scrying"
-	set desc = "End the zad-scrying and return to your body."
+	set desc = "Stop scrying through the zad and return to your body."
 	var/obj/item/zadcage/cage = bonded_cage?.resolve()
 	if(cage)
 		cage.finish_voyeur()

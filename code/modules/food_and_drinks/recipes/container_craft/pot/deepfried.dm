@@ -5,8 +5,9 @@
 	crafting_time = 5 SECONDS
 	cook_method = COOK_DEEPFRY
 	synthesize_recipes = TRUE
+	subtype_reagents_allowed = TRUE
 	reagent_requirements = list(
-		/datum/reagent/consumable/oil/tallow = 5
+		/datum/reagent/consumable/oil = 5
 	)
 
 /datum/container_craft/cooking/deepfry/try_craft(obj/item/crafter, list/pathed_items, mob/initiator, datum/callback/on_craft_start, datum/callback/on_craft_failed)
@@ -32,6 +33,10 @@
 /datum/container_craft/cooking/deepfry/jamtallow
 	name = "Blackberry Jam"
 	requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry_sugared = 1)
+	subtype_reagents_allowed = FALSE
+	reagent_requirements = list(
+		/datum/reagent/consumable/oil/tallow = 5
+	)
 	output = /obj/item/reagent_containers/food/snacks/jamtallow
 
 /datum/container_craft/cooking/deepfry/dragee
@@ -46,5 +51,5 @@
 
 /datum/container_craft/cooking/deepfry/skysugarslab
 	name = "Skysugar Slab"
-	requirements = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase = 1)
-	output = /obj/item/reagent_containers/food/snacks/grown/skysugarslab
+	requirements = list(/obj/item/reagent_containers/food/snacks/skysugarbase = 1)
+	output = /obj/item/reagent_containers/food/snacks/skysugarslab

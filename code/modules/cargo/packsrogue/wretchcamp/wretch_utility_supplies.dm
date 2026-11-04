@@ -1,5 +1,5 @@
 /datum/supply_pack/rogue/medical_utility_wretch
-	group = "Illict Utility Supplies"
+	group = "Illicit Utility Supplies"
 	crate_name = "suspicious crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 

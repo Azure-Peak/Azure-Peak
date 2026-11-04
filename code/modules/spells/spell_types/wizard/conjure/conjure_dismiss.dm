@@ -40,7 +40,6 @@
 	var/count = 0
 	var/total_scale = 0
 	var/severity = CONJURE_RECOIL_LIGHT
-	var/energy_floor = 200
 	var/stamina_only = FALSE
 	for(var/datum/action/cooldown/spell/conjure_summon/summon_spell in owner.actions)
 		for(var/mob/living/M in summon_spell.conjured_mobs.Copy())
@@ -50,7 +49,6 @@
 			var/datum/component/conjured_minion/minion = M.GetComponent(/datum/component/conjured_minion)
 			if(minion && minion.recoil_severity > severity)
 				severity = minion.recoil_severity
-				energy_floor = minion.recoil_energy_floor
 			if(minion && minion.recoil_stamina_only)
 				stamina_only = TRUE
 			dismiss_conjured_minion(M)
@@ -58,7 +56,7 @@
 	if(count)
 		to_chat(owner, span_notice("I begin to release my conjured servants back to the leyline."))
 		if(total_scale > 0 && isliving(owner))
-			apply_conjure_recoil(owner, energy_floor, severity, clamp(total_scale, 0, 1), FALSE, stamina_only)
+			apply_conjure_recoil(owner, severity, clamp(total_scale, 0, 1), FALSE, stamina_only)
 	else
 		to_chat(owner, span_warning("I have no conjured servants to dismiss."))
 		reset_spell_cooldown()

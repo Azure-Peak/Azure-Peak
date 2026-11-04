@@ -118,8 +118,7 @@
 
 /obj/item/bodypart/proc/get_specific_markings_overlays(list/specific_markings, aux = FALSE, mob/living/carbon/human/human_owner, override_color)
 	var/list/appearance_list = list()
-//	var/specific_layer = aux ? aux_layer : BODYPARTS_LAYER
-	var/specific_layer = aux_layer ? aux_layer : BODYPARTS_LAYER
+	var/specific_layer = (aux || aux_layer == LEG_PART_LAYER) ? aux_layer : BODYPARTS_LAYER
 	var/specific_render_zone = aux ? aux_zone : body_zone
 
 	for(var/key in specific_markings)

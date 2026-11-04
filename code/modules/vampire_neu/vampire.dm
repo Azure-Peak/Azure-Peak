@@ -7,6 +7,7 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 //	Masquerade		|	2	|	80	|	2	| always 2 (the coven)
 //	Vamp+Werewolf	|	2	|	80	|	4	| 1-79 pop -> 2, 80-159 -> 3, 160+ -> 4
 /datum/antagonist/vampire
+	overrides_forlorne_vice = TRUE
 	name = "Vampire"
 	roundend_category = "Vampires"
 	antagpanel_category = "Vampire"
@@ -105,6 +106,8 @@ GLOBAL_LIST_EMPTY(vampire_objects)
 			if(GENERATION_METHUSELAH)
 				vampdude?.cmode_music = 'sound/music/cmode/combat_ready_to_die.ogg' //LISTEN TO ME WHETHER YOU WANT TO HEAR IT OR NOT, YOU WEREN'T EVEN BORN WHEN THIS HAPPENED
 				vampdude?.adjust_skillrank_up_to(/datum/skill/magic/blood, 6, TRUE)
+				vampdude?.devotion = null //no cleric VL, please.
+				vampdude.mind?.RemoveAllSpells() //no spellblade VL, please.
 				max_thralls = 69
 			if(GENERATION_ANCILLAE)
 				vampdude?.cmode_music = 'sound/music/cmode/antag/combat_thrall.ogg'

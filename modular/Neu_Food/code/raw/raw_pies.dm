@@ -4,6 +4,7 @@ This account for the "BIG PIE", please do not creep this file or the .dmi for sm
 
 /*	........	Pie making	................ */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/piebottom
+	dish_type = DISH_DAIRY
 	name = "pie bottom"
 	desc = "The foundation of the fantastical.."
 	icon = 'modular/Neu_Food/icons/raw/raw_pies.dmi'

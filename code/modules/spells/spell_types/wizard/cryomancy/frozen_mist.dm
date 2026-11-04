@@ -22,7 +22,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
 	hold_drain = 1
@@ -41,7 +41,7 @@
 
 /datum/action/cooldown/spell/frozen_mist/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
-	stats += span_info("Damage: 5-[tick_damage] burn per second (up to [DisplayTimeText(mist_duration)] in the cloud)")
+	stats += span_info("Damage: [SPELL_DMG(5)]-[SPELL_DMG(tick_damage)] burn per second (up to [DisplayTimeText(mist_duration)] in the cloud)")
 	return stats
 
 /datum/action/cooldown/spell/frozen_mist/cast(atom/cast_on)
@@ -142,15 +142,15 @@
 			if(L.anti_magic_check())
 				continue
 			apply_frost_stack(L, 1)
-			var/actual_damage = rand(5, tick_damage)
+			var/actual_damage = SPELL_DMG(rand(5, tick_damage))
 			if(ishuman(L) && ishuman(caster))
 				if(arcyne_strike(caster, L, null, actual_damage, BODY_ZONE_CHEST, \
 					BCLASS_BURN, spell_name = "Frozen Mist", \
 					damage_type = BURN, \
-					skip_animation = TRUE, skip_message = TRUE) == ARCYNE_STRIKE_WARDED)
+					skip_animation = TRUE, skip_message = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
-				L.adjustFireLoss(actual_damage)
+				L.adjustFireLoss(SPELL_DMG_VS(L, actual_damage))
 			new /obj/effect/temp_visual/spell_impact(get_turf(L), GLOW_COLOR_ICE, SPELL_IMPACT_MEDIUM)
 
 /obj/effect/temp_visual/frozen_mist_tile

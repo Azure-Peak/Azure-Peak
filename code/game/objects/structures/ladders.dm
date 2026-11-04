@@ -247,3 +247,13 @@
 		living_user.put_in_hands(rope)
 		living_user.visible_message(span_notice("[living_user] removes the rope ladder from the wall."), span_notice("You remove the rope ladder from the wall."))
 		qdel(src)
+
+// Entirely decorative ladder structure. Does nothing functionally.
+/obj/structure/decorativeladder
+	name = "ladder"
+	desc = "'This would be easier if not for gravity' is what you <b>would</b> think were \
+	you aware of the theory of gravity."
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "ladder11"
+	anchored = TRUE
+	max_integrity = 0

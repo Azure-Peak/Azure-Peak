@@ -8,6 +8,8 @@
 #define TREASURY_TICK_AMOUNT 6 MINUTES
 
 #define HERMES_FREE_COOLDOWN (5 MINUTES)
+/// Stamped on player letters as the seal flag. Letters stamped with it do not show a sender.
+#define MAILER_ANONYMOUS "Anonymous"
 
 #define GHOST_LETTER_DELAY_MIN (5 MINUTES)
 #define GHOST_LETTER_DELAY_MAX (10 MINUTES)
@@ -16,6 +18,8 @@
 #define ESCROW_OPEN_EXPIRY_DAYS 3
 #define ESCROW_CLAIM_EXPIRY_DAYS 1
 #define ESCROW_PARTIAL_HAIRCUT_PERCENT 20
+#define ESCROW_PERCENT_MARGIN_MAX 500
+#define ESCROW_NOTE_MAX_LENGTH 200
 #define ESCROW_DURABILITY_FLOOR 0.8
 
 #define SCRAPPER_BARK_INTERVAL (60 SECONDS)

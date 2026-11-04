@@ -71,6 +71,17 @@
 	. = ..()
 	AddComponent(/datum/component/armour_filtering/negative, TRAIT_FREEBLADEDEXTERITY)
 
+/obj/item/clothing/suit/roguetown/armor/brigandine/pyro
+	name = "darksooted brigandine coat"
+	desc = "A coat-of-plates, concealed underneath layers of soot-anointed leather. It seems to be insulated against flames and acid, due to the supernatural quality of the infernal ashes."
+	armor = ARMOR_INSULATED_BRIGANDINE
+	body_parts_covered = COVERAGE_ALL_BUT_HANDLEGS
+	icon_state = "pyrocoat"
+	item_state = "pyrocoat"
+
+/obj/item/clothing/suit/roguetown/armor/brigandine/pyro/attack_right(mob/user)
+	return
+
 /obj/item/clothing/suit/roguetown/armor/brigandine/light
 	slot_flags = ITEM_SLOT_ARMOR
 	name = "lightweight brigandine"
@@ -150,7 +161,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/banneret
 	name = "knight banneret's brigandine"
-	desc = "A resplendant coat-of-plates, gilded and veiled in dyeable silk. Only the finest of Azuria's Knights has been entrusted with this beautiful article."
+	desc = "A resplendent coat-of-plates, gilded and veiled in dyeable silk. Only the finest of Azuria's Knights has been entrusted with this beautiful article."
 	icon_state = "capplate"
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
@@ -167,7 +178,7 @@
 
 /obj/item/clothing/suit/roguetown/armor/brigandine/haraate
 	name = "hansimhae cuirass"
-	desc = "A more common form of Kazengunite armor, consisting of several interlocking plates of blacksteel-coated steel. Much cheaper than a full set of armor, these are commonly seen on militia forces and standing armies alike."
+	desc = "A piece of armor consisting of the eastern 'accident' of faux-blacksteel, which was an attempt to coat silver on a renowned lord's steel plates, and through the fires of the forge did it make him 'invincible' until he was finally struck down by a crafty rebel. This particular piece didn't make you a western doppelsoldner, but it offers enough protection; in your life of honor, to maintain the Empire. In your life of shame? To help you survive in foreign lands, to turn blood to coin."
 	icon_state = "kazengunmedium"
 	boobed = FALSE
 	item_state = "kazengunmedium"

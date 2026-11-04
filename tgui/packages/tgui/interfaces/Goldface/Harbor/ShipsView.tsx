@@ -24,6 +24,7 @@ const EmptyCard = (props: { children: React.ReactNode }) => (
 
 type Props = {
   docked: HarborShip[];
+  departing: HarborShip[];
   pool: HarborShip[];
   dockSpotsUsed: number;
   dockSpotsMax: number;
@@ -36,6 +37,7 @@ type Props = {
 export const ShipsView = (props: Props) => {
   const {
     docked,
+    departing,
     pool,
     dockSpotsUsed,
     dockSpotsMax,
@@ -71,6 +73,25 @@ export const ShipsView = (props: Props) => {
             />
           ))}
         </div>
+      )}
+
+      {departing.length > 0 && (
+        <>
+          <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>
+            Departing Soon ({departing.length})
+          </div>
+          <div>
+            {departing.map((s) => (
+              <ShipRow
+                key={s.ship_id}
+                ship={s}
+                budget={budget}
+                act={act}
+                realm={realmsById[s.realm_id]}
+              />
+            ))}
+          </div>
+        </>
       )}
 
       <div style={{ ...sectionHeaderStyle, marginTop: '16px' }}>

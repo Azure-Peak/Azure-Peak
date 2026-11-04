@@ -1,6 +1,5 @@
 // Roundstart scaling (storyteller_scale_slots): scaling=2, min_players=25, default_cap=2.
-// The Guaranteed Antag presets raise the cap so werewolves scale with pop - 4 normally, 8 under the
-// aggressive No-Wretch preset (which also doubles the per-population step).
+// High Intensity sets its own cap of 2.
 /datum/antagonist/werewolf
 	name = "Verewolf"
 	roundend_category = "Werewolves"
@@ -11,7 +10,8 @@
 	storyteller_min_players = 25
 	storyteller_slot_scaling = 2
 	storyteller_slot_default_cap = 2
-	storyteller_maxcaps = list(/datum/storyteller/gamemode/guaranteed_antag = 2, /datum/storyteller/gamemode/guaranteed_antag/low_wretch = 3)
+	storyteller_maxcaps = list(/datum/storyteller/gamemode/guaranteed_antag = 2)
+	storyteller_blacklisted = TRUE
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,
@@ -185,9 +185,6 @@
 	if(!wolfy)
 		return
 	if(stat >= DEAD) //do shit the natural way i guess
-		return
-	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && prob(40)) // since WWs are harder to infect, reducing this to just a fraction of the normal chance
-		to_chat(src, span_danger("I feel something churning within my body... No, not again...! Not this time!"))
 		return
 	to_chat(src, span_danger("I feel horrible... REALLY horrible..."))
 	mob_timers["puke"] = world.time

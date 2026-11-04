@@ -13,7 +13,7 @@
  * * encode - Toggling this determines if input is filtered via html_encode. Setting this to FALSE gives raw input.
  * * timeout - The timeout of the textbox, after which the modal will close and qdel itself. Set to zero for no timeout.
  */
-/proc/tgui_input_text(mob/user, message = "", title = "Text Input", default, max_length = MAX_TGUI_INPUT, multiline = FALSE, encode = TRUE, timeout = 0, prevent_enter = FALSE, ui_state = GLOB.tgui_always_state, bigmodal = FALSE) // 130k limit due to chunking limit... if we need longer that needs fixing
+/proc/tgui_input_text(mob/user, message = "", title = "Text Input", default, max_length = MAX_TGUI_INPUT, multiline = FALSE, encode = TRUE, timeout = 0, prevent_enter = FALSE, ui_state = GLOB.tgui_always_state, bigmodal = FALSE, width = 0, height = 0) // 130k limit due to chunking limit... if we need longer that needs fixing
 	if (!user)
 		user = usr
 	if (!istype(user))
@@ -26,7 +26,7 @@
 	if(isnull(user.client))
 		return null
 
-	var/datum/tgui_input_text/text_input = new(user, message, title, default, max_length, multiline, encode, timeout, ui_state, bigmodal)
+	var/datum/tgui_input_text/text_input = new(user, message, title, default, max_length, multiline, encode, timeout, ui_state, bigmodal, width, height)
 	text_input.ui_interact(user)
 	text_input.wait()
 	if (text_input)
@@ -62,10 +62,12 @@
 	var/title
 	// Whether to use a big modal variant for very large text input
 	var/bigmodal
+	var/width
+	var/height
 	/// The TGUI UI state that will be returned in ui_state(). Default: always_state
 	var/datum/ui_state/state
 
-/datum/tgui_input_text/New(mob/user, message, title, default, max_length, multiline, encode, timeout, ui_state, bigmodal)
+/datum/tgui_input_text/New(mob/user, message, title, default, max_length, multiline, encode, timeout, ui_state, bigmodal, width, height)
 	src.default = default
 	src.encode = encode
 	src.max_length = max_length
@@ -74,6 +76,8 @@
 	src.title = title
 	src.state = ui_state
 	src.bigmodal = bigmodal
+	src.width = width
+	src.height = height
 	if (timeout)
 		src.timeout = timeout
 		start_time = world.time
@@ -116,6 +120,8 @@
 	data["title"] = title
 	data["spellcheck"] = FALSE // user.read_preference(/datum/preference/toggle/tgui_use_spellcheck)
 	data["bigmodal"] = bigmodal
+	data["width"] = width
+	data["height"] = height
 	return data
 
 /datum/tgui_input_text/ui_data(mob/user)

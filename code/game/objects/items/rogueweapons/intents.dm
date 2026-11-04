@@ -67,8 +67,9 @@
 	var/item_d_type = "blunt"
 	var/charging_slowdown = 0
 	var/warnoffset = 0
+	/// To make prewarning() respect clickcd!
+	var/last_prewarning_sound = 0
 	var/swingdelay = 0
-
 	var/swingdelay_type = SWINGDELAY_NORMAL
 	/// Causes a return in /attack() but still allows to be used in attackby()
 	var/no_attack = FALSE
@@ -368,9 +369,11 @@
 				chargedloop = new chargedloop(mastermob)
 
 /datum/intent/proc/on_charge_start() //what the fuck is going on here lol
-	if(mastermob.curplaying)
-		mastermob.curplaying.chargedloop.stop()
-		mastermob.curplaying = null
+	if(mastermob.curplaying && mastermob.curplaying != src)
+		mastermob.curplaying.on_mouse_up()
+	mastermob.curplaying = null
+	if(mob_light)
+		QDEL_NULL(mob_light)
 	if(chargedloop)
 		if(!istype(chargedloop, /datum/looping_sound))
 			chargedloop = new chargedloop(mastermob)
@@ -400,7 +403,7 @@
 	if(mastermob?.curplaying == src)
 		mastermob?.curplaying = null
 	if(mob_light)
-		qdel(mob_light)
+		QDEL_NULL(mob_light)
 	if(mob_charge_effect)
 		mastermob?.vis_contents -= mob_charge_effect
 
@@ -699,7 +702,7 @@
 					custom_offset = 23
 					taunt_message = "[user] rudely flips [M] off!"
 
-				else if(L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/paranoid))
+				else if(L.get_stress_amount() > 10 || L.get_flaw(/datum/charflaw/addiction/factionalist))
 					taunticon = "midfinger"
 					custom_offset = 23
 					taunt_message = "[user] flips [M] off!"

@@ -56,14 +56,14 @@
 		carbon_target = target
 		if(target_zone == BODY_ZONE_HEAD && !carbon_target.get_bodypart(BODY_ZONE_HEAD))
 			target_zone = BODY_ZONE_CHEST
-	target.apply_damage(SCORCH_BURN_DAMAGE, BURN, target_zone, 0)
+	target.apply_damage(SPELL_DMG_VS(target, SPELL_DMG(SCORCH_BURN_DAMAGE)), BURN, target_zone, 0)
 	if(carbon_target)
 		var/obj/item/bodypart/affecting = carbon_target.get_bodypart(check_zone(target_zone))
 		if(affecting)
 			var/datum/wound/dynamic/burn/burn_wound = affecting.has_wound(/datum/wound/dynamic/burn)
 			if(!burn_wound)
 				burn_wound = affecting.add_wound(/datum/wound/dynamic/burn)
-			burn_wound?.upgrade(SCORCH_BURN_DAMAGE, 0, FALSE)
+			burn_wound?.upgrade(SPELL_DMG(SCORCH_BURN_DAMAGE), 0, FALSE)
 	var/hit_zone_name = parse_zone(target_zone)
 	target.balloon_alert_to_viewers("<font color='#ff4a2a'>CHARRED!</font>")
 	target.visible_message(

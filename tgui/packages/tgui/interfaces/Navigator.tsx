@@ -121,7 +121,7 @@ export const Navigator = () => {
                     fontStyle: 'italic',
                   }}
                 >
-                  None - the balloon flies dark.
+                  None.
                 </div>
               </div>
             </div>
@@ -186,11 +186,11 @@ export const Navigator = () => {
                   <div style={fieldLabelStyle}>Tally</div>
                   <div style={fieldValueStyle}>
                     <span style={{ color: SEAL_GREEN }}>
-                      Crown paid: {data.duty_collected_here}m
+                      Export duty paid: {data.duty_collected_here}m
                     </span>
                     <span style={{ color: INK_SOFT }}> &middot; </span>
                     <span style={{ color: SEAL_RED }}>
-                      Crown evaded: {data.duty_evaded_here}m
+                      Export duty evaded: {data.duty_evaded_here}m
                     </span>
                     <span style={{ color: INK_SOFT }}> &middot; </span>
                     <span style={{ color: INK }}>

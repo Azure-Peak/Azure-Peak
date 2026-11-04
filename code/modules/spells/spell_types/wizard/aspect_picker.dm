@@ -31,6 +31,8 @@
 	var/list/allowed_majors
 	/// If set, only these minor aspect paths may be attuned. Null/empty = all minors allowed.
 	var/list/allowed_minors
+	/// Class-locked aspect paths this class may attune on top of the normal pool.
+	var/list/unlocked_aspects
 
 /datum/aspect_picker/New(mob/living/new_owner, setup = TRUE, list/aspect_config)
 	owner = new_owner
@@ -50,6 +52,9 @@
 		if(length(aspect_config["allowed_minors"]))
 			var/list/config_minors = aspect_config["allowed_minors"]
 			allowed_minors = config_minors.Copy()
+		if(length(aspect_config["unlocked_aspects"]))
+			var/list/config_unlocked = aspect_config["unlocked_aspects"]
+			unlocked_aspects = config_unlocked.Copy()
 		if(length(aspect_config["locked_aspects"]))
 			for(var/path in aspect_config["locked_aspects"])
 				locked_aspects += path
@@ -230,13 +235,27 @@
 	if(!length(whitelist))
 		return all_paths
 	var/list/out = whitelist.Copy()
+	out |= locked_aspects & all_paths
+	out |= unlocked_aspects & all_paths
 	for(var/datum/magic_aspect/A in attuned)
 		out |= A.type
 	return out
 
+/datum/aspect_picker/proc/can_attune_aspect(path)
+	var/datum/magic_aspect/A = GLOB.magic_aspect_singletons[path]
+	if(!A)
+		return FALSE
+	if((path in locked_aspects) || owner?.mind?.has_aspect(path))
+		return TRUE
+	if(A.class_locked && !(path in unlocked_aspects) && !(allowed_majors && (path in allowed_majors)) && !(allowed_minors && (path in allowed_minors)))
+		return FALSE
+	return A.can_select(owner)
+
 /datum/aspect_picker/proc/build_aspect_list(list/aspect_paths)
 	var/list/result = list()
 	for(var/path in aspect_paths)
+		if(!can_attune_aspect(path))
+			continue
 		var/datum/magic_aspect/A = GLOB.magic_aspect_singletons[path]
 		var/list/entry = list()
 		entry["path"] = "[path]"
@@ -323,13 +342,16 @@
 			// Don't re-select something already live or staged
 			if(owner.mind.has_aspect(path))
 				return
+			if(!can_attune_aspect(path))
+				to_chat(owner, span_warning("My discipline does not permit that aspect."))
+				return
 			// Determine if major or minor
 			var/datum/magic_aspect/temp = GLOB.magic_aspect_singletons[path]
 			var/aspect_type = temp.aspect_type
-			if(aspect_type == ASPECT_MAJOR && length(allowed_majors) && !(path in allowed_majors))
+			if(aspect_type == ASPECT_MAJOR && length(allowed_majors) && !(path in allowed_majors) && !(path in unlocked_aspects))
 				to_chat(owner, span_warning("My discipline does not permit that aspect."))
 				return
-			if(aspect_type == ASPECT_MINOR && length(allowed_minors) && !(path in allowed_minors))
+			if(aspect_type == ASPECT_MINOR && length(allowed_minors) && !(path in allowed_minors) && !(path in unlocked_aspects))
 				to_chat(owner, span_warning("My discipline does not permit that aspect."))
 				return
 			// Count live aspects minus pending unbinds for effective slot usage

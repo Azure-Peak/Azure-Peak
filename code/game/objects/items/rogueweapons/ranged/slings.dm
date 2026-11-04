@@ -23,9 +23,13 @@
 	return TRUE
 
 /datum/intent/swing/sling/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] swings [masteritem]!"))
-		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] swings [masteritem]!"))
+	playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/swing/sling/get_chargetime() //swing length lives on the sling itself so players and NPCs share one curve. damage is in /obj/item/gun/ballistic/revolver/grenadelauncher/sling/process_fire
 	if(mastermob && chargetime)
@@ -52,9 +56,13 @@
 	return TRUE
 
 /datum/intent/arc/sling/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] swings [masteritem] in an arc!"))
-		playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] swings [masteritem] in an arc!"))
+	playsound(mastermob, sling_draw_sound(get_chargetime()), 100, FALSE, channel = CHANNEL_WEAPON_DRAW)
 
 /datum/intent/arc/sling/get_chargetime() //same curve as swing but slower, for throwing through teammates
 	if(mastermob && chargetime)
@@ -222,14 +230,22 @@
 // RESKINS GO BELOW. THIS IS MOSTLY FOR FLAVOR/SOVL. P L E A S E DON'T MAKE THIS ANY DIFFERENT FROM YOUR NORMAL SLING, THANK YOU.
 
 /datum/intent/swing/sling/wood/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
-		playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] draws [masteritem]!"))
+	playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
 
 /datum/intent/arc/sling/wood/prewarning()
-	if(mastermob)
-		mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
-		playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
+	if(!mastermob || mastermob.next_move > world.time)
+		return
+	if(last_prewarning_sound > world.time)
+		return
+	last_prewarning_sound = world.time + clickcd
+	mastermob.visible_message(span_warning("[mastermob] draws [masteritem] in an arc!"))
+	playsound(mastermob, 'sound/combat/Ranged/bow-draw-01.ogg', 100, FALSE)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/sling/wood/update_icon()
 	. = ..()

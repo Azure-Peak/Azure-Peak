@@ -23,8 +23,6 @@ Even though they are of mixed blood and smaller than typical dwarves, most gnome
 	possible_ages = ALL_AGES_LIST
 	default_features = MANDATORY_FEATURE_LIST
 	use_skintones = TRUE
-	disliked_food = NONE
-	liked_food = NONE
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | SLIME_EXTRACT
 	limbs_icon_m = 'icons/roguetown/mob/bodies/m/mgn.dmi'
 	limbs_icon_f = 'icons/roguetown/mob/bodies/f/fd.dmi'

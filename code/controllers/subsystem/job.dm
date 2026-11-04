@@ -150,7 +150,13 @@ SUBSYSTEM_DEF(job)
 			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
-			JobDebug("FOC incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name]")
+			JobDebug("FOC incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name], Virtue 2: [player.client.prefs.virtuetwo?.name]")
+			continue
+		if(length(job.quirk_restrictions) && ((player.client.prefs.quirklesser?.type in job.quirk_restrictions) || (player.client.prefs.quirkgreater?.type in job.quirk_restrictions)))
+			JobDebug("FOC incompatible with quirks, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
+			continue
+		if(length(job.get_quirk_job_lock_names(player.client.prefs)))
+			JobDebug("FOC quirk does not allow job, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
 			continue
 		if(length(job.vice_restrictions))
 			var/has_restricted_vice = FALSE
@@ -235,7 +241,15 @@ SUBSYSTEM_DEF(job)
 			continue
 
 		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
-			JobDebug("GRJ incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name]")
+			JobDebug("GRJ incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name], Virtue 2: [player.client.prefs.virtuetwo?.name]")
+			continue
+
+		if(length(job.quirk_restrictions) && ((player.client.prefs.quirklesser?.type in job.quirk_restrictions) || (player.client.prefs.quirkgreater?.type in job.quirk_restrictions)))
+			JobDebug("GRJ incompatible with quirks, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
+			continue
+
+		if(length(job.get_quirk_job_lock_names(player.client.prefs)))
+			JobDebug("GRJ quirk does not allow job, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
 			continue
 
 		if(length(job.vice_restrictions))
@@ -561,6 +575,10 @@ SUBSYSTEM_DEF(job)
 		JobDebug("DO incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name]")
 		return FALSE
 
+	if(length(job.get_quirk_job_lock_names(player.client.prefs)))
+		JobDebug("DO quirk does not allow job, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
+		return FALSE
+
 	if(length(job.vice_restrictions))
 		for(var/flaw_type in player.client.prefs.charflaws)
 			if(flaw_type in job.vice_restrictions)
@@ -635,6 +653,9 @@ SUBSYSTEM_DEF(job)
 					continue
 
 				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
+					continue
+
+				if(length(job.get_quirk_job_lock_names(player.client.prefs)))
 					continue
 
 				if(length(job.vice_restrictions))
@@ -783,7 +804,7 @@ SUBSYSTEM_DEF(job)
 //		to_chat(M, "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
 //		job.radio_help_message(M)
 ////		if(job.req_admin_notify)
-//			to_chat(M, "<b>I are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
+//			to_chat(M, "<b>I am playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
 //		if(CONFIG_GET(number/minimal_access_threshold))
 //			to_chat(M, span_notice("<B>As this station was initially staffed with a [CONFIG_GET(flag/jobs_have_minimal_access) ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B>"))
 //		if(job.tutorial)

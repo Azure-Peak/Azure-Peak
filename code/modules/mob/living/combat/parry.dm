@@ -24,7 +24,7 @@
 	if(pulledby || pulling)
 		return FALSE
 
-	var/paired_swing = user?.dualwield_twoswing
+	var/paired_swing = user?.dualwield_processing
 	if(!paired_swing && world.time < (last_parry + parrydelay))
 		if(!istype(rmb_intent, /datum/rmb_intent/riposte))
 			return FALSE
@@ -198,6 +198,9 @@
 
 	if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 		prob2defend -= 40
+
+	if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/staggered))
+		prob2defend *= 0.5
 
 	if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/hamstring))
 		prob2defend -= 20

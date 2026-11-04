@@ -34,7 +34,6 @@
 
 /client/proc/check_localhost_command_bar()
 	show_command_bar_button()
-	var/localhost_addresses = list("127.0.0.1", "::1")
-	if(isnull(address) || (address in localhost_addresses))
+	if(is_localhost())
 		set_command_bar_mode(FALSE)
 		to_chat(src, span_notice("Localhost detected — command bar set to <b>COMMAND</b> mode automatically."))

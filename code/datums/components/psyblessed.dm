@@ -5,7 +5,7 @@
 	var/cursed_item_intdamage
 
 /datum/component/silverbless/Initialize(pre_blessed = BLESSING_NONE, silver_type)
-	if(!istype(parent, /obj/item/rogueweapon))
+	if(!istype(parent, /obj/item/rogueweapon) && !istype(parent, /obj/item/clothing/gloves/roguetown/knuckles))
 		return COMPONENT_INCOMPATIBLE
 	src.pre_blessed = pre_blessed
 	src.silver_type = silver_type
@@ -38,6 +38,15 @@
 		examine_list += span_info("<font color = '#46bacf'>This object has been blessed by COMET SYON.</font>")
 	else if(is_blessed == BLESSING_TENNITE)
 		examine_list += span_info("<font color = '#46bacf'>This object has been blessed by THE TEN.</font>")
+
+/datum/component/silverbless/proc/get_int_damage_multiplier()
+	if(!is_blessed)
+		return TRUE
+	if(silver_type & SILVER_PSYDONIAN)
+		return CURSEITEM_INT_DAMAGE_PSY_MULTIPLIER
+	if(silver_type & SILVER_TENNITE)
+		return CURSEITEM_INT_DAMAGE_TEN_MULTIPLIER
+	return TRUE
 
 /datum/component/silverbless/proc/try_bless(blessing_type)
 	if(!is_blessed)

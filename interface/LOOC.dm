@@ -105,7 +105,7 @@
 		else
 			recipient_admin_label = recipient_label
 
-	var/admin_info = " ([s_ckey]) [ADMIN_FLW(S)] <A href='?_src_=holder;[HrefToken()];mute=[s_ckey];mute_type=[MUTE_LOOC]'><font color='[(prefs.muted & MUTE_LOOC) ? "red" : "blue"]'>\[MUTE\]</font></a>"
+	var/admin_info = " ([s_ckey]) [ADMIN_FLW(S)]"
 	var/prefix_text = span_prefix("[pfx]:")
 
 	var/msg_reg = "<font color='#9DCCFF'><b>[prefix_text] <EM>[s_name] → [recipient_label]:</EM> <span class='message'>[msg]</span></b></font>"

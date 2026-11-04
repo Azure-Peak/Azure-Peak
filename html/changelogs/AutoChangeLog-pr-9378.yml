@@ -1,5 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - bugfix: "emote-based invocation spells (that use the new datum/action/cooldown base) should be easier to read as spells and show up on the caster's screen"
-  - code_imp: "datum/action/cooldown/spells no longer have an invocation_emote_self! any future ports of spells from the old system to the new should NOT have a self-invocation and instead use one single invocation."

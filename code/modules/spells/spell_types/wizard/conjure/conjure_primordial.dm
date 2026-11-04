@@ -9,7 +9,7 @@
 	button_icon_state = "primetriangle"
 	invocations = list("Exsurge, primordiale!")
 	summon_noun = "primordial"
-	recoil_energy_floor = 150
+	overload_power = 0.5
 	modes = list(
 		list("name" = "Flame", "tag" = "FIRE", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/primordial/fire, "color" = GLOW_COLOR_FIRE, "invocation" = "Exsurge, ignis!"),
 		list("name" = "Water", "tag" = "WATER", "path" = /mob/living/simple_animal/hostile/retaliate/rogue/primordial/water, "color" = GLOW_COLOR_ICE, "invocation" = "Exsurge, unda!"),

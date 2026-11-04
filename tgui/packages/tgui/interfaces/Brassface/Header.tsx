@@ -76,14 +76,14 @@ export const Header = (props: Props) => {
             {(tariffEvaded > 0 || dodging) && (
               <span style={{ color: SEAL_RED }}>
                 <b>Duty dodged:</b> {tariffEvaded}m
-                {dodging && ' (NOTAX active)'}
+                {dodging && ' (dodging now)'}
               </span>
             )}
           </>
         )}
         {!isProprietor && !ordinanceActive && (
           <span style={{ color: INK_FAINT }}>
-            Prices include Crown import duty.
+            Prices include the import tariff.
           </span>
         )}
       </div>

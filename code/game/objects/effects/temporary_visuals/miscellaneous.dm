@@ -5,6 +5,7 @@
 	randomdir = FALSE
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE_FOV_HIDDEN
+	color = BLOOD_COLOR_RED
 	var/splatter_type = "splatter"
 	var/blood_color
 
@@ -54,6 +55,13 @@
 */
 /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter
 	splatter_type = "xsplatter"
+
+/obj/effect/temp_visual/dir_setting/bloodsplatter/spray
+	layer = ABOVE_MOB_LAYER
+
+/obj/effect/temp_visual/dir_setting/bloodsplatter/spray/Initialize(mapload, set_dir)
+	. = ..()
+	icon_state = pick("splatter_greyscale", "splatterbloodalt_greyscale")
 
 /obj/effect/temp_visual/dir_setting/speedbike_trail
 	name = "speedbike trails"

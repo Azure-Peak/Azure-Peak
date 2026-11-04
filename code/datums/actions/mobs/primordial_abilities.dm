@@ -19,7 +19,7 @@
 	name = "Searing Blast"
 	desc = "Breathes a searing blast of fire across the ground ahead."
 
-	damage = 60
+	damage = SPELL_DMG(60)
 	cone_range = 4
 	push_dist = 2
 	scorch_stacks = 1
@@ -33,7 +33,7 @@
 	telegraph_type = /obj/effect/temp_visual/telegraph/primordial/water
 	telegraph_sound = list('sound/misc/undertow.ogg')
 
-	damage = 25
+	damage = SPELL_DMG(25)
 	strike_damage_type = BRUTE
 	blade_class = BCLASS_BLUNT
 	strike_armor_pen = PEN_NONE
@@ -72,7 +72,7 @@
 	telegraph_type = /obj/effect/temp_visual/telegraph/primordial/air
 	telegraph_sound = list('sound/weather/rain/wind_6.ogg')
 
-	damage = 20
+	damage = SPELL_DMG(20)
 	strike_damage_type = BRUTE
 	blade_class = BCLASS_BLUNT
 	strike_armor_pen = PEN_NONE

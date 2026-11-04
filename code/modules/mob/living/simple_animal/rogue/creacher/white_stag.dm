@@ -46,39 +46,6 @@
 	faction = list("White Stag")
 	icon = 'icons/mob/unique_shapeshifts/white_stag_shape.dmi'
 	icon_state = "stag"
-
-/mob/living/carbon/human/species/wildshape/white_stag/gain_inherent_skills()
-	return FALSE
-
-/mob/living/carbon/human/species/wildshape/white_stag/Initialize(mapload)
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
-
-/mob/living/carbon/human/species/wildshape/white_stag/after_creation()
-	..()
-	AddComponent(/datum/component/ai_aggro_system)
-	// Legendary Stats
-	STASTR = 16
-	STASPD = 18
-	STACON = 20
-	STAPER = 18
-	STAWIL = 15
-	STAINT = 15
-	STALUC = 14
-
-	// Skills
-	adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE) // Legendary level
-	adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
-	adjust_skillrank(/datum/skill/misc/athletics, 6, TRUE)
-
-	// Giving them two in an attempt to prevent them from picking up other weapons. AS FUNNY AS IT IS....
-	for(var/i in 1 to 2)
-		var/obj/item/rogueweapon/stag_antlers/A = new(src)
-		if(!put_in_hands(A, TRUE))
-			qdel(A)
-
-	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/stag_hide
-
 	var/static/list/stag_titles = list(
 		"The White Spectre",
 		"Lord Of The Woods",
@@ -113,6 +80,39 @@
 		"Heart Of Ice",
 		"Bone Stalker"
 	)
+
+/mob/living/carbon/human/species/wildshape/white_stag/gain_inherent_skills()
+	return FALSE
+
+/mob/living/carbon/human/species/wildshape/white_stag/Initialize(mapload)
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+
+/mob/living/carbon/human/species/wildshape/white_stag/after_creation()
+	..()
+	AddComponent(/datum/component/ai_aggro_system)
+	// Legendary Stats
+	STASTR = 16
+	STASPD = 18
+	STACON = 20
+	STAPER = 18
+	STAWIL = 15
+	STAINT = 15
+	STALUC = 14
+
+	// Skills
+	adjust_skillrank(/datum/skill/combat/unarmed, 6, TRUE) // Legendary level
+	adjust_skillrank(/datum/skill/combat/wrestling, 6, TRUE)
+	adjust_skillrank(/datum/skill/misc/athletics, 6, TRUE)
+
+	// Giving them two in an attempt to prevent them from picking up other weapons. AS FUNNY AS IT IS....
+	for(var/i in 1 to 2)
+		var/obj/item/rogueweapon/stag_antlers/A = new(src)
+		if(!put_in_hands(A, TRUE))
+			qdel(A)
+
+	skin_armor = new /obj/item/clothing/suit/roguetown/armor/skin_armor/stag_hide
+
 	real_name = pick(stag_titles)
 	name = real_name
 	AddComponent(/datum/component/white_stag_tracker)
@@ -163,7 +163,7 @@
 	parrysound = list('sound/combat/parry/parrygen.ogg')
 	possible_item_intents = list(/datum/intent/simple/stag_gore)
 	item_flags = DROPDEL
-	special = /datum/special_intent/greatsword_swing/white_stag
+	special = /datum/special_intent/wave_swing/greatsword/white_stag
 	max_blade_int = 8000
 	max_integrity = 8000
 
@@ -172,7 +172,7 @@
 	ADD_TRAIT(src, TRAIT_NODROP, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOEMBED, TRAIT_GENERIC)
 
-/datum/special_intent/greatsword_swing/white_stag
+/datum/special_intent/wave_swing/greatsword/white_stag
 	requires_wielding = FALSE
 	dam = 80
 	cooldown = 25 SECONDS
@@ -355,3 +355,16 @@
 	return ..()
 
 #undef MOVESPEED_ID_WHITE_RUSH
+
+/mob/living/carbon/human/species/wildshape/white_stag/noai
+	ai_controller = null
+
+/mob/living/carbon/human/species/wildshape/white_stag/noai/Initialize(mapload) // we override after_creation, and we want it to have the name immediately
+	. = ..()
+	spawn(1) // do this after dna setup happens
+		real_name = pick(stag_titles)
+		name = real_name
+
+/mob/living/carbon/human/species/wildshape/white_stag/noai/after_creation() // don't call parent here since we don't want this to DO anything
+	visible_message(span_warning("The White Stag fades away, ever-watching..."))
+	qdel(src)

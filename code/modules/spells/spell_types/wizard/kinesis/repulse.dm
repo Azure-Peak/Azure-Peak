@@ -38,8 +38,8 @@
 	var/sparkle_path = /obj/effect/temp_visual/gravpush
 	var/repulse_force = MOVE_FORCE_EXTREMELY_STRONG
 	var/showsparkles = TRUE
-	var/floor_slam_damage = 90
-	displayed_damage = 90
+	var/floor_slam_damage = SPELL_DMG(90)
+	displayed_damage = SPELL_DMG(90)
 	var/push_range = 1
 
 /datum/action/cooldown/spell/repulse/cast(atom/cast_on)
@@ -81,7 +81,7 @@
 				if(arcyne_strike(user, AM, null, floor_slam_damage, BODY_ZONE_CHEST, \
 				BCLASS_BLUNT, spell_name = "Repulse", \
 				damage_type = BRUTE, \
-				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 					continue
 				to_chat(M, span_danger("You're slammed into the floor by [user]!"))
 				new /obj/effect/temp_visual/spell_impact(get_turf(M), spell_color, spell_impact_intensity)

@@ -7,6 +7,24 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 		if (length(initial(R.name)))
 			.[ckey(initial(R.name))] = t
 
+GLOBAL_LIST_INIT(reagents_by_drink_type, build_reagents_by_drink_type())
+
+// This helper help us with "Any type of ale, any type of wine" etc. for religious rituals etc.
+// Alcohol offerings was very common and this should help us build more immersive rituals and other things
+/proc/build_reagents_by_drink_type()
+	. = list()
+	for(var/datum/reagent/consumable/path as anything in subtypesof(/datum/reagent/consumable))
+		var/drink_type = initial(path.drink_type)
+		if(!drink_type)
+			continue
+		for(var/i in 0 to 23)
+			var/bit = 1 << i
+			if(drink_type & bit)
+				LAZYADD(.["[bit]"], path)
+
+/proc/get_reagent_types_by_drink_type(drink_type)
+	return GLOB.reagents_by_drink_type["[drink_type]"] || list()
+
 
 //Various reagents
 //Toxin & acid reagents
@@ -18,7 +36,7 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	var/specific_heat = SPECIFIC_HEAT_DEFAULT		//J/(K*mol)
 	var/taste_description = ""
 	var/scent_description = ""
-	var/taste_mult = 1 //how this taste compares to others. Higher values means it is more noticable
+	var/taste_mult = 1 //how this taste compares to others. Higher values means it is more noticeable
 	var/glass_name = "glass of ...what?" // use for specialty drinks.
 	var/glass_desc = ""
 	var/glass_icon_state = null // Otherwise just sets the icon to a normal glass with the mixture of the reagents in the glass.

@@ -12,7 +12,7 @@
 		span_info("You can now breathe flame, conjuring a line of hellfire in front of you."),
 		span_info("As your flame grows, you can manifest it more violently, surging around you to burn anything unfortunate enough to be nearby.")
 	)
-	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite)
+	inherent_spell = list(/obj/effect/proc_holder/spell/invoked/incendiary_bite, /datum/action/cooldown/spell/earthen_forge/infernal)
 	t1_spell = list(/datum/action/cooldown/spell/matthios/raze/infernal)
 	t2_spell = list(/obj/effect/proc_holder/spell/self/infernal_surge)
 	var/healing_range = 1
@@ -28,6 +28,7 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_NOFALLDAMAGE1,
 		TRAIT_TINYPAWS,
+		TRAIT_PACIFISM,
 		TRAIT_INFINITE_STAMINA,
 		TRAIT_NOMOOD,
 		TRAIT_NOHUNGER,
@@ -103,7 +104,7 @@
 
 /mob/living/carbon/human/species/familiar/infernal/attackby(obj/item/I, mob/living/user, params)
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
-	var/cooktime_divisor = get_cooktime_divisor(cs)
+	var/cooktime_divisor = get_skill_speed_divisor(cs)
 	if(istype(I, /obj/item/reagent_containers/food/snacks))
 		if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/egg))
 			to_chat(user, "<span class='warning'>I wouldn't be able to cook this over the fire...</span>")

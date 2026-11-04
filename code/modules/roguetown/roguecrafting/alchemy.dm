@@ -10,14 +10,14 @@
 	name = "bottle bomb"
 	category = "Table"
 	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/ash = 2, /obj/item/rogueore/coal = 1, /obj/item/natural/cloth = 1)
+	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/natural/ash = 2, /obj/item/rogueore/coal = 1, /obj/item/natural/cloth = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/alchemy/ozium
 	name = "ozium"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/powder/ozium)
-	reqs = list(/obj/item/ash = 2, /datum/reagent/berrypoison = 2, /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 1)
+	reqs = list(/obj/item/natural/ash = 2, /datum/reagent/berrypoison = 2, /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/alchemy/ozium_3x
@@ -26,14 +26,14 @@
 	result = list(/obj/item/reagent_containers/powder/ozium,
 					/obj/item/reagent_containers/powder/ozium,
 					/obj/item/reagent_containers/powder/ozium)
-	reqs = list(/obj/item/ash = 3, /datum/reagent/berrypoison = 3, /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 2)
+	reqs = list(/obj/item/natural/ash = 3, /datum/reagent/berrypoison = 3, /obj/item/reagent_containers/food/snacks/grown/rogue/swampweeddry = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/alchemy/moon
 	name = "moondust"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/powder/moondust)
-	reqs = list(/obj/item/ash = 2, /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1, /datum/reagent/berrypoison = 2)
+	reqs = list(/obj/item/natural/ash = 2, /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 1, /datum/reagent/berrypoison = 2)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/alchemy/moon_3x
@@ -43,7 +43,7 @@
 					/obj/item/reagent_containers/powder/moondust,
 					/obj/item/reagent_containers/powder/moondust
 				)
-	reqs = list(/obj/item/ash = 3, /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 2, /datum/reagent/berrypoison = 3)
+	reqs = list(/obj/item/natural/ash = 3, /obj/item/reagent_containers/food/snacks/grown/rogue/pipeweeddry = 2, /datum/reagent/berrypoison = 3)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/alchemy/moon_purest
@@ -67,7 +67,7 @@
 	name = "spice (compost)"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/powder/spice)
-	reqs = list(/obj/item/ash = 2, /obj/item/compost = 2, /datum/reagent/berrypoison = 2)
+	reqs = list(/obj/item/natural/ash = 2, /obj/item/compost = 2, /datum/reagent/berrypoison = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/alchemy/spice_compost_3x
@@ -77,14 +77,14 @@
 					/obj/item/reagent_containers/powder/spice,
 					/obj/item/reagent_containers/powder/spice
 				)
-	reqs = list(/obj/item/ash = 3, /obj/item/compost = 3, /datum/reagent/berrypoison = 3)
+	reqs = list(/obj/item/natural/ash = 3, /obj/item/compost = 3, /datum/reagent/berrypoison = 3)
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/alchemy/spice_poo
 	name = "spice (nightsoil)"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/powder/spice)
-	reqs = list(/obj/item/ash = 2, /obj/item/natural/poo = 1, /datum/reagent/berrypoison = 2)
+	reqs = list(/obj/item/natural/ash = 2, /obj/item/natural/poo = 1, /datum/reagent/berrypoison = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/alchemy/spice_poo_3x
@@ -94,14 +94,14 @@
 					/obj/item/reagent_containers/powder/spice,
 					/obj/item/reagent_containers/powder/spice
 				)
-	reqs = list(/obj/item/ash = 3, /obj/item/natural/poo = 2, /datum/reagent/berrypoison = 3)
+	reqs = list(/obj/item/natural/ash = 3, /obj/item/natural/poo = 2, /datum/reagent/berrypoison = 3)
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/alchemy/herozium
 	name = "herozium"
 	category = "Table"
 	result = list(/obj/item/reagent_containers/powder/herozium)
-	reqs = list(/obj/item/reagent_containers/powder/ozium = 1, /datum/reagent/buff/strength = 15, /obj/item/ash = 2)
+	reqs = list(/obj/item/reagent_containers/powder/ozium = 1, /datum/reagent/buff/strength = 15, /obj/item/natural/ash = 2)
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/alchemy/herozium_3x
@@ -111,7 +111,7 @@
 					/obj/item/reagent_containers/powder/herozium,
 					/obj/item/reagent_containers/powder/herozium
 				)
-	reqs = list(/obj/item/reagent_containers/powder/ozium = 3, /datum/reagent/buff/strength = 30, /obj/item/ash = 3)
+	reqs = list(/obj/item/reagent_containers/powder/ozium = 3, /datum/reagent/buff/strength = 30, /obj/item/natural/ash = 3)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/alchemy/starsugar
@@ -255,7 +255,7 @@
 /datum/crafting_recipe/roguetown/alchemy/skysugarbase
 	name = "panacea of skysugar"
 	category = "Basic Transmutation"
-	result = list(/obj/item/reagent_containers/food/snacks/grown/fruit/blackberry/skysugarbase = 1)
+	result = list(/obj/item/reagent_containers/food/snacks/skysugarbase = 1)
 	reqs = list(/obj/item/reagent_containers/food/snacks/rogue/raisins/blackberry = 1, /obj/item/reagent_containers/lux_impure = 1, /obj/item/reagent_containers/powder/starsugar = 1)
 	craftdiff = 5 //Better hope you've been practicing!
 	verbage_simple = "transmute"
@@ -266,7 +266,7 @@
 	result = list(/obj/item/reagent_containers/powder/starsugar/skysugar,
 					/obj/item/reagent_containers/powder/starsugar/skysugar,
 					/obj/item/reagent_containers/powder/starsugar/skysugar)
-	reqs = list(/obj/item/reagent_containers/food/snacks/grown/skysugarslab = 1)
+	reqs = list(/obj/item/reagent_containers/food/snacks/skysugarslab = 1)
 	craftdiff = 1 //Hard part's done. Time to break it up!
 	verbage_simple = "transmute"
 
@@ -365,7 +365,7 @@
 	)
 	reqs = list(
 		/obj/item/rogueore/cinnabar = 1,
-		/obj/item/ash = 3
+		/obj/item/natural/ash = 3
 	)
 
 /datum/crafting_recipe/roguetown/alchemy/catalyzation_reagent_pacifist
@@ -377,7 +377,7 @@
 	)
 	reqs = list(
 		/obj/item/rogueore/cinnabar = 1,
-		/obj/item/ash = 3,
+		/obj/item/natural/ash = 3,
 		/obj/item/storage/roguebag = 1
 	)
 
@@ -390,6 +390,6 @@
 	)
 	reqs = list(
 		/obj/item/magic/fae/iridescentscale = 1,
-		/obj/item/ash = 3,
+		/obj/item/natural/ash = 3,
 		/obj/item/storage/roguebag = 1
 	)
