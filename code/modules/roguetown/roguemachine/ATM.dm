@@ -170,7 +170,7 @@
 			SStreasury.burn(SStreasury.discretionary_fund, 20, "Meister drilled - Freefolk", LEDGER_CROWN_EXP_OTHER)
 			record_treasury_expense(TREASURY_FLOW_MISC, "Meister drilled", 20)
 			mammonsiphoned += 20
-			budget2change(20, null, "SILVER")
+			spawn_mammons(20, get_turf(src), COIN_VALUE_SILVER)
 			playsound(src, 'sound/misc/coindispense.ogg', 70, TRUE)
 			drill(src)
 
@@ -249,16 +249,16 @@
 					to_chat(H,span_info("<font color ='red'>Sharp claws dig into your skull. There's a warmth trickling down your head.</font>"))
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 25))
-							var/coins = floor(min(fast_drain, SStreasury.get_balance(H)) / 10)
-							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Covetous Crown - Freefolk"))
+							var/drained = floor(min(fast_drain, SStreasury.get_balance(H)) / 10) * 10
+							if(drained <= 0 || !SStreasury.burn(SStreasury.get_account(H), drained, "Covetous Crown - Freefolk"))
 								playsound(src, 'sound/misc/DrillDone.ogg', 70, TRUE)
 								is_active = FALSE
 								to_chat(H,span_info("<font color ='red'>You feel very drained.</font>"))
 								if(sum)
 									send_ooc_note("A parasite of the Freefolk has siphoned [H.real_name] of [sum] from the Nervemaster's veins.", job = list("Grand Duke", "Steward", "Clerk"))
 								break
-							sum += coins * 10
-							new /obj/item/roguecoin/gold(T, coins)
+							sum += drained
+							spawn_mammons(drained, T)
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.
@@ -285,14 +285,14 @@
 					H.apply_damage(10, BRUTE, head)
 					for(var/i = 1,i<=needed_cycles,i++)
 						if(do_after(user, 10))
-							var/coins = floor(min(slow_drain, SStreasury.get_balance(H)) / 10)
-							if(coins <= 0 || !SStreasury.burn(SStreasury.get_account(H), coins * 10, "Covetous Crown - Freefolk"))
+							var/drained = floor(min(slow_drain, SStreasury.get_balance(H)) / 10) * 10
+							if(drained <= 0 || !SStreasury.burn(SStreasury.get_account(H), drained, "Covetous Crown - Freefolk"))
 								is_active = FALSE
 								if(sum)
 									send_ooc_note("A parasite of the Freefolk has siphoned [H.real_name] of [sum] from the Nervemaster's veins.", job = list("Grand Duke", "Steward", "Clerk"))
 								break
-							sum += coins * 10
-							new /obj/item/roguecoin/gold(T, coins)
+							sum += drained
+							spawn_mammons(drained, T)
 							if(prob(needed_cycles*2))
 								drain_effect_fast(H)
 							if(i == needed_cycles)	//Last cycle.

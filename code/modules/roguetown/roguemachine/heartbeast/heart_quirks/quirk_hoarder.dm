@@ -75,21 +75,11 @@
 	if(!T)
 		return
 
-	var/remaining_mammon = amt
-	var/list/coins_to_spawn = list()
-
-	if(remaining_mammon > 100)
-		var/gold_count = floor(remaining_mammon / 10)
-		coins_to_spawn[ /obj/item/roguecoin/gold ] = gold_count
-		remaining_mammon -= gold_count * 10
-
-	if(remaining_mammon > 20)
-		var/silver_count = floor(remaining_mammon / 5)
-		coins_to_spawn[ /obj/item/roguecoin/silver ] = silver_count
-		remaining_mammon -= silver_count * 5
-
-	if(remaining_mammon >= 1)
-		coins_to_spawn[ /obj/item/roguecoin/copper ] = remaining_mammon
+	var/max_coin_value = COIN_VALUE_COPPER
+	if(amt > 100)
+		max_coin_value = COIN_VALUE_GOLD
+	else if(amt > 20)
+		max_coin_value = COIN_VALUE_SILVER
 
 	var/turf/center_turf = T
 	var/turf/T_left = locate(center_turf.x - 1, center_turf.y - 1, center_turf.z)
@@ -98,13 +88,8 @@
 	var/list/possible_locs = list(T_left, T_center, T_right)
 	var/turf/new_loc = pick(possible_locs)
 
-	// Spawn the stacks and apply the component
-	for(var/coin_type in coins_to_spawn)
-		var/coin_count = coins_to_spawn[coin_type]
-		if(coin_count >= 1)
-			var/obj/item/roguecoin/new_stack = new coin_type(T, coin_count)
-			new_stack.AddComponent(/datum/component/hoarded_item, beast)
-			new_stack.forceMove(new_loc)
+	for(var/obj/item/roguecoin/new_stack as anything in spawn_mammons(amt, new_loc || T, max_coin_value))
+		new_stack.AddComponent(/datum/component/hoarded_item, beast)
 
 	playsound(T, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 

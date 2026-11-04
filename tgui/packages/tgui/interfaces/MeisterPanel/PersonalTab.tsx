@@ -16,22 +16,20 @@ import {
 } from '../common/parchment';
 import type { TabProps } from './types';
 
-const DENOMS = [
-  { id: 'GOLD', label: 'Gold', value: 10 },
-  { id: 'SILVER', label: 'Silver', value: 5 },
-  { id: 'BRONZE', label: 'Bronze', value: 1 },
-];
-
 export const PersonalTab = ({ data, act }: TabProps) => {
+  const denoms = data.coin_denominations;
+  const maxCoins = data.max_coins_per_withdrawal;
   const [denom, setDenom] = useState<string>('GOLD');
   const [coinAmount, setCoinAmount] = useState<string>('');
   const [repayAmount, setRepayAmount] = useState<string>('');
 
   const numericCoins = parseInt(coinAmount, 10) || 0;
-  const denomMod = DENOMS.find((d) => d.id === denom)?.value ?? 1;
+  const denomMod = denoms.find((d) => d.id === denom)?.value ?? 1;
   const totalDraw = numericCoins * denomMod;
   const drawDisabled =
-    numericCoins < 1 || numericCoins > 20 || totalDraw > data.account_balance;
+    numericCoins < 1 ||
+    numericCoins > maxCoins ||
+    totalDraw > data.account_balance;
 
   const numericRepay = parseInt(repayAmount, 10) || 0;
   const loan = data.active_loan;
@@ -56,7 +54,7 @@ export const PersonalTab = ({ data, act }: TabProps) => {
       <div style={fieldRowStyle}>
         <div style={fieldLabelStyle}>Denomination</div>
         <div style={fieldValueStyle}>
-          {DENOMS.map((d) => (
+          {denoms.map((d) => (
             <button
               type="button"
               key={d.id}
@@ -80,13 +78,13 @@ export const PersonalTab = ({ data, act }: TabProps) => {
           <input
             type="number"
             min={1}
-            max={20}
+            max={maxCoins}
             value={coinAmount}
             onChange={(e) => setCoinAmount(e.target.value)}
             style={{ ...inkInputStyle, width: 90 }}
           />
           <span style={{ marginLeft: 6, color: INK_FAINT }}>
-            (max 20; total {totalDraw}m)
+            (max {maxCoins}; total {totalDraw}m)
           </span>
         </div>
       </div>
