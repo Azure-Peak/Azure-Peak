@@ -74,7 +74,7 @@
 		return
 	var/datum/fish_source/preset = GLOB.preset_fish_sources[fishing_datum]
 	if(preset.catalog_description)
-		. += span_info("This looks like [lowertext(preset.catalog_description)].")
+		. += span_info("This looks like [LOWER_TEXT(preset.catalog_description)].")
 	if(HAS_TRAIT(user, TRAIT_EXPERT_FISHER))
 		var/datum/fish_source/source = get_fish_source()
 		. += span_info(source.stock_description())
