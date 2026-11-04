@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - admin: "addition logs for health/loadout/inventory panel."
-  - refactor: "optimises load() for log-viewer."

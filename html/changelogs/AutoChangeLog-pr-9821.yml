@@ -1,4 +1,0 @@
-author: "tmyqlfpir"
-delete-after: True
-changes:
-  - bugfix: "Disable BYOND default verb panel for improved performance (Vanderlin port)"

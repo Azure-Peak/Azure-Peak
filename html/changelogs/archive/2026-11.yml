@@ -92,3 +92,72 @@
   - rscadd: "Added etruscalad, a new v\xE9g\xE9tal meal that can be bolstered with\
       \ vinaigrette and croutons. Thanks to @limetease on Discord for the sprite!"
   - rscadd: Added seed oil, usable in deep-frying and vinaigrette.
+2026-11-04:
+  Etheo:
+  - rscadd: '''Flagtail'' added. A three color customizable tail, designed after a
+      jerboa''s tail.'
+  - image: Sprites for Flagtail added.
+  Ryan180602:
+  - admin: addition logs for health/loadout/inventory panel.
+  - refactor: optimises load() for log-viewer.
+  WeNeedMorePhoron:
+  - rscadd: Removed npc_simple_mob_modifier, and replaced it with an anti_beast_factor.
+      I was never comfortable with the idea of something only applying to !mind mob.
+      Anti_beast_factor multiplies damage vs ALL SIMPLE ANIMALS, cliented or not.
+  - rscadd: Arrows now inherit a 1.5x antibeast modifier instead of 1.0x, making their
+      damage nearly the same as pre nerf
+  - rscadd: Anti-Beast modifier now applies to part damage vs simple animals, previously
+      it only used the base damage (Bug, discovered while testing)
+  - rscadd: Hunter gain leather pants instead of tights, so they have a bit more protection
+  - rscadd: Hunter and Huntmaster gain Monster Hunter trait. This trait grants +20
+      flat accuracy bonus in melee and ranged attacks vs simple animals, 1.5x part
+      damage multiplier in melee, and turns ranged part damage from 0.66x to 1.0x
+      from ranged weapons
+  - rscadd: Hunter lost Hunter's Yell, replaced with Run For It
+  - bugfix: It turns out that for nearly 90% of all simple mobs, part breaking was
+      not working for ranged weapons / ranged attacks. This has been fixed.
+  - rscadd: Implemented the **Run For It** ability, based on Hunter's Yell. It has
+      a 3 minutes cooldown and reset all complex mobs aggro. It gives you a movespeed
+      modifier about equal to a +4 SPD bonus, lasts for 10 seconds, and hit you with
+      -4 Str, Int AND Perception. It is canceled by most attack, spellcasting actions,
+      or being attacked by a complex minded mob. And it grants you temporary immunity
+      to kneestingers and ambushes and maneater while it is active. It is meant as
+      a defensive ability to get you out of an ambush or a bad PVE situation, and
+      can be situationally useful for weaseling out of a PVP situation.
+  - rscadd: 'Run For It is given to all towners that conceivably have reasons to go
+      out into the wild and may encounter PVE they cannot handle currently. This list
+      includes: Hunters (both), Woodworker, Fisher (Master Fisher)'
+  - refactor: Optimized get_advclass_by_name proc
+  borneblood:
+  - bugfix: Fixed an incorrect conditional in PsyNite.
+  - bugfix: Fixed a few unintended Bottlebomb behaviors, and the expected duration
+      of fire tiles.
+  - bugfix: Bomber Expert was not blocking some hazardous interactions with your field
+      effects, and they can now light bombs from their belt's lamptern.
+  - bugfix: Chain Reactions are back now, a bomb will light another into a catastrophic
+      outcome. Keep your bombs safe and unlit.
+  - code_imp: Updated Explosion() to use arcyne_strike(), so now it might be usable
+      again.
+  changelingonberry:
+  - code_imp: Player quality value is now cached instead of reading from disk every
+      time.
+  - bugfix: Cloaks no longer drop their items on being deleted (like far travelling)
+  - bugfix: Admin send to lobby now works the same as far  travelling.
+  - bugfix: Slipping on seasonal ice no longer allows you to teleport into dense objects.
+  - rscadd: 'forlorne vice: gives + 1 TRI and makes you spawn deep on the map randomly'
+  - bugfix: wanted vice is no longer able to be picked by some town jobs
+  - image: Two new ghost UI buttons for HERMES and the Character Creator.
+  - qol: Sending mail to people is diacritic-agnostic now.
+  - bugfix: Parchment now encodes as UTF-8
+  - refactor: Ghost hermes code.
+  - admin: Letters and packages are now logged and viewable through "View HERMES letter
+      log" verb
+  - bugfix: Mindlink, message, and howl are now capitalized properly.
+  - bugfix: Message and how have autopunctuation support.
+  kilozombie:
+  - bugfix: Examining a wood metalizer will no longer falsely claims that it can misfire
+  tmyqlfpir:
+  - bugfix: Disable BYOND default verb panel for improved performance (Vanderlin port)
+  zeskorion:
+  - qol: wrench crafting now uses engineering
+  - bugfix: wrenches can now parry properly
