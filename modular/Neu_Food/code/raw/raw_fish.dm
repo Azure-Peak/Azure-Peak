@@ -54,6 +54,7 @@
 		START_PROCESSING(SSobj, src)
 	apply_traits()
 	update_size_and_weight()
+	RegisterSignal(src, COMSIG_AFTER_STORAGE_REMOVE, PROC_REF(dive))
 
 /obj/item/reagent_containers/food/snacks/fish/initialize_slice(obj/item/reagent_containers/food/snacks/slice, reagents_per_slice)
 	. = ..()
@@ -166,6 +167,10 @@
 
 /obj/item/reagent_containers/food/snacks/fish/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
+	dive()
+
+///check if we're in a valid water tile, and if so, vanish. should only be called if the player does something intentional, like tossing or dumping out a sack, otherwise you'll get frustrating dels
+/obj/item/reagent_containers/food/snacks/fish/proc/dive()
 	if(istype(loc, /turf/open/water))
 		SEND_GLOBAL_SIGNAL(COMSIG_GLOBAL_FISH_RELEASED, type, rarity_rank)
 		visible_message("<span class='warning'>[src] dives into \the [loc] and disappears!</span>")
