@@ -471,7 +471,10 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 	///Multiplier on counted fish only.
 	var/prized_multiplier = 1
 	var/skill_level = fisherman ? min(fisherman.get_skill_level(/datum/skill/labor/fishing), SKILL_LEVEL_LEGENDARY) : SKILL_LEVEL_NONE
-	var/skill_prized_multiplier = fishing_skill_prized_mult(skill_level)
+	var/prized_skill_level = skill_level
+	if(fisherman && HAS_TRAIT(fisherman, TRAIT_EXPERT_FISHER))
+		prized_skill_level += EXPERT_FISHER_PRIZED_LEVEL_BONUS
+	var/skill_prized_multiplier = fishing_skill_prized_mult(prized_skill_level)
 
 	var/list/base_table = get_fish_table(location)
 	var/list/final_table = list()
