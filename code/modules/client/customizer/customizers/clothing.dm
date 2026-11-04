@@ -41,7 +41,7 @@
 	name = "Underwear Top"
 	slot = SLOT_UNDER_TOP
 	sprite_accessories = list(
-		/datum/sprite_accessory/clothing/bikini_top,
+		/datum/sprite_accessory/clothing/underwear_top/bikini,
 	)
 
 /datum/customizer/clothing/undershirt

@@ -75,14 +75,14 @@
 	item_state = "braies"
 
 /obj/item/clothing/underwear_bottom/briefs_eoran
-	sprite_acc = /datum/sprite_accessory/underwear_bottom/briefs/eoran
+	sprite_acc = /datum/sprite_accessory/underwear_bottom_render/briefs/eoran
 	name = "eoran briefs"
 	icon_state = "briefs"
 	item_state = "briefs"
 
 /obj/item/clothing/underwear_bottom/bandages
 	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
-	sprite_acc = /datum/sprite_accessory/underwear_bottom/bandages
+	sprite_acc = /datum/sprite_accessory/underwear_bottom_render/bandages
 	covers_breasts = TRUE
 	flags_inv = HIDECROTCH | HIDEBOOB
 	name = "bandages"

@@ -88,7 +88,7 @@
 	layer = BODY_LAYER
 
 /datum/sprite_accessory/face_detail/burneye_l
-	name = "Burned Eye (l)"
+	name = "Burned Eye (L)"
 	icon_state = "burneye_l"
 	layer = BODY_LAYER
 

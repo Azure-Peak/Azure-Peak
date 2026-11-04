@@ -56,7 +56,7 @@
 /datum/sprite_accessory/pubes/extreme
 	icon_state = "pubes_extreme"
 	preview_states = list("pubes_extreme_h_m")
-	name = "La coupe à la Otavaise"
+	name = "La Coupe à La Otavaise"
 
 /datum/sprite_accessory/pubes/cross
 	icon_state = "pubes_cross"

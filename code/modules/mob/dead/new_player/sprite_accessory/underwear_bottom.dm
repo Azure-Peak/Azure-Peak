@@ -1,5 +1,5 @@
-/datum/sprite_accessory/underwear_bottom
-	abstract_type = /datum/sprite_accessory/underwear_bottom
+/datum/sprite_accessory/underwear_bottom_render
+	abstract_type = /datum/sprite_accessory/underwear_bottom_render
 	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
 	color_key_name = "Underwear"
 	///Whether this underwear includes a top (Because gender = FEMALE doesn't actually apply here.). Hides breasts, nothing more.
@@ -10,61 +10,61 @@
 // so these follow is_bulky_body() the same way worn clothing does.
 // Remaining donor garments select their own states below.
 
-/datum/sprite_accessory/underwear_bottom/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDIES, OFFSET_UNDIES_F)
 
-/datum/sprite_accessory/underwear_bottom/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(hides_breasts)
 		if(is_human_part_visible(owner, HIDECROTCH) || is_human_part_visible(owner, HIDEBOOB))
 			return TRUE
 	return is_human_part_visible(owner, HIDECROTCH)
 
-/datum/sprite_accessory/underwear_bottom/briefs
+/datum/sprite_accessory/underwear_bottom_render/briefs
 	name = "Briefs"
 	icon_state = "male_reg"
 
-/datum/sprite_accessory/underwear_bottom/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(is_species(owner,/datum/species/dwarf))
 		return "maledwarf_reg"
 	if(!owner.is_bulky_body())
 		return "maleelf_reg"
 	return "male_reg"
 
-/datum/sprite_accessory/underwear_bottom/bikini_bottom
+/datum/sprite_accessory/underwear_bottom_render/bikini_bottom
 	name = "Bikini Bottom"
 	icon = 'icons/obj/items/clothes/on_mob/underwear_bottom.dmi'
 	icon_state = "bikini"
 
-/datum/sprite_accessory/underwear_bottom/panties
+/datum/sprite_accessory/underwear_bottom_render/panties
 	name = "Panties"
 	icon_state = "panties"
 
-/datum/sprite_accessory/underwear_bottom/braies
+/datum/sprite_accessory/underwear_bottom_render/braies
 	name = "Braies"
 	icon_state = "braies"
 
-/datum/sprite_accessory/underwear_bottom/braies/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/braies/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(!owner.is_bulky_body())
 		return "braies_f"
 	return "braies"
 
-/datum/sprite_accessory/underwear_bottom/briefs/eoran
+/datum/sprite_accessory/underwear_bottom_render/briefs/eoran
 	name = "Briefs - Eoran"
 	icon_state = "eoran_reg"
 
-/datum/sprite_accessory/underwear_bottom/briefs/eoran/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/briefs/eoran/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(is_species(owner,/datum/species/dwarf))
 		return "eoran_dwarf"
 	if(!owner.is_bulky_body())
 		return "eoran_elf"
 	return "eoran_reg"
 
-/datum/sprite_accessory/underwear_bottom/bandages
+/datum/sprite_accessory/underwear_bottom_render/bandages
 	name = "Bandages"
 	icon_state = "bandages"
 	hides_breasts = TRUE
 
-/datum/sprite_accessory/underwear_bottom/bandages/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/bandages/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(!owner.is_bulky_body())
 		return "bandages_f"
 	return "bandages"
@@ -105,52 +105,52 @@
 	legwear_type = /obj/item/clothing/legwears
 
 /datum/sprite_accessory/legwear/stockings/silk
-	name = "Silk stockings"
+	name = "Silk Stockings"
 	icon_state = "silk"
 	legwear_type = /obj/item/clothing/legwears/silk
 //Fishnets
 /datum/sprite_accessory/legwear/stockings/fishnet
-	name = "Fishnet stockings"
+	name = "Fishnet Stockings"
 	icon_state = "fishnet"
 	legwear_type = /obj/item/clothing/legwears/fishnet
 
 /datum/sprite_accessory/legwear/stockings/thigh_high
-	name = "Thigh-high stockings"
+	name = "Thigh-High Stockings"
 	icon_state = "thigh"
 	legwear_type = /obj/item/clothing/legwears/thigh_high
 
 /datum/sprite_accessory/legwear/stockings/thigh_high_silk
-	name = "Thigh-high stockings - silk"
+	name = "Thigh-High Stockings - Silk"
 	icon_state = "thigh_silk"
 	legwear_type = /obj/item/clothing/legwears/thigh_high_silk
 
 /datum/sprite_accessory/legwear/stockings/knee_high
-	name = "Knee-high stockings"
+	name = "Knee-High Stockings"
 	icon_state = "knee"
 	legwear_type = /obj/item/clothing/legwears/knee_high
 
 /datum/sprite_accessory/legwear/stockings/knee_high_silk
-	name = "Knee-high stockings - silk"
+	name = "Knee-High Stockings - Silk"
 	icon_state = "knee_silk"
 	legwear_type = /obj/item/clothing/legwears/knee_high_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_knee_silk
-	name = "Knee-high sleeves - silk"
+	name = "Knee-High Sleeves - Silk"
 	icon_state = "sleeve_k_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_knee_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_stir_knee_silk
-	name = "Knee-high sleeves (stirrup) - silk"
+	name = "Knee-High Sleeves (Stirrup) - Silk"
 	icon_state = "sleeve_ks_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_stir_knee_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_stir_thigh_silk
-	name = "Thigh-high sleeves (stirrup) - silk"
+	name = "Thigh-High Sleeves (Stirrup) - Silk"
 	icon_state = "sleeve_ts_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_stir_thigh_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_stir_ankle_silk
-	name = "Ankle-high sleeves (stirrup) - silk"
+	name = "Ankle-High Sleeves (Stirrup) - Silk"
 	icon_state = "sleeve_as_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_stir_ankle_silk
 	legwear_type = /obj/item/clothing/legwears/knee_high_silk

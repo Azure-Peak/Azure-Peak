@@ -260,29 +260,29 @@
 	color_key_names = list("Ears", "Inner")
 
 /datum/sprite_accessory/ears/antenna_simple1
-	name = "Insect antenna 1"
+	name = "Insect Antenna 1"
 	icon_state = "antenna_simple1"
 
 /datum/sprite_accessory/ears/antenna_simple2
-	name = "Insect antenna 2"
+	name = "Insect Antenna 2"
 	icon_state = "antenna_simple2"
 
 /datum/sprite_accessory/ears/antenna_simple3
-	name = "Insect antenna 3"
+	name = "Insect Antenna 3"
 	icon_state = "antenna_simple3"
 
 /datum/sprite_accessory/ears/antenna_simple4
-	name = "Insect antenna 4"
+	name = "Insect Antenna 4"
 	icon_state = "antenna_simple4"
 
 /datum/sprite_accessory/ears/antenna_fuzzball1
-	name = "Fuzzball antenna 1"
+	name = "Fuzzball Antenna 1"
 	icon_state = "antenna_fuzzball1"
 	color_keys = 2
 	color_key_names = list("Ears", "Inner")
 
 /datum/sprite_accessory/ears/antenna_fuzzball2
-	name = "Fuzzball antenna 2"
+	name = "Fuzzball Antenna 2"
 	icon_state = "antenna_fuzzball2"
 	color_keys = 2
 	color_key_names = list("Ears", "Inner")

@@ -51,7 +51,7 @@
 			pixel_y = -2
 		return tag
 
-/datum/sprite_accessory/underwear_bottom/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(is_species(owner,/datum/species/dwarf))
 		return "maledwarf_reg"
 	if(owner.gender == FEMALE)
@@ -73,17 +73,17 @@
 	piercing_type = /obj/item/piercings/rings
 
 /datum/sprite_accessory/piercing/rings/emerald
-	name = "Rings (emerald)"
+	name = "Rings (Emerald)"
 	icon_state = "rings-e"
 	piercing_type = /obj/item/piercings/rings/emerald
 
 /datum/sprite_accessory/piercing/rings/gold
-	name = "Rings (gold)"
+	name = "Rings (Gold)"
 	icon_state = "rings-g"
 	piercing_type = /obj/item/piercings/rings/gold
 
 /datum/sprite_accessory/piercing/rings/silver
-	name = "Rings (silver)"
+	name = "Rings (Silver)"
 	icon_state = "rings-s"
 	piercing_type = /obj/item/piercings/rings/silver
 
@@ -94,16 +94,16 @@
 	piercing_type = /obj/item/piercings/beads
 
 /datum/sprite_accessory/piercing/beads/emerald
-	name = "Beads (emerald)"
+	name = "Beads (Emerald)"
 	icon_state = "beads-e"
 	piercing_type = /obj/item/piercings/beads/emerald
 
 /datum/sprite_accessory/piercing/beads/gold
-	name = "Beads (gold)"
+	name = "Beads (Gold)"
 	icon_state = "beads-g"
 	piercing_type = /obj/item/piercings/beads/gold
 
 /datum/sprite_accessory/piercing/beads/silver
-	name = "Beads (silver)"
+	name = "Beads (Silver)"
 	icon_state = "beads-s"
 	piercing_type = /obj/item/piercings/beads/silver

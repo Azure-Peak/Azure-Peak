@@ -281,7 +281,7 @@
 	can_wag = TRUE
 
 /datum/sprite_accessory/tail/sharknofin
-	name = "Shark no fin"
+	name = "Shark No Fin"
 	icon_state = "sharknofin"
 	can_wag = TRUE
 

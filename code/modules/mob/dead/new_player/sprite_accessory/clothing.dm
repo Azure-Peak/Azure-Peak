@@ -35,12 +35,15 @@
 	name = "Bandages"
 	item_type = /obj/item/clothing/underwear_bottom/bandages
 
-/datum/sprite_accessory/clothing/bikini_top
-	name = "Bikini top"
+/datum/sprite_accessory/clothing/underwear_top
+	abstract_type = /datum/sprite_accessory/clothing/underwear_top
+
+/datum/sprite_accessory/clothing/underwear_top/bikini
+	name = "Bikini Top"
 	item_type = /obj/item/clothing/underwear_top/bikini
 
 /datum/sprite_accessory/clothing/undershirt
-	name = "Sheer body"
+	name = "Sheer Body"
 	item_type = /obj/item/clothing/undershirt
 
 /datum/sprite_accessory/clothing/undershirt/leotard
@@ -48,71 +51,71 @@
 	item_type = /obj/item/clothing/undershirt/leotard
 
 /datum/sprite_accessory/clothing/undershirt/athletic_leotard
-	name = "Athletic leotard"
+	name = "Athletic Leotard"
 	item_type = /obj/item/clothing/undershirt/athletic_leotard
 
 /datum/sprite_accessory/clothing/undershirt/solid_half
-	name = "Sheer half-body"
+	name = "Sheer Half-Body"
 	item_type = /obj/item/clothing/undershirt/solid_half
 
 /datum/sprite_accessory/clothing/undershirt/fullbody
-	name = "Full-body suit"
+	name = "Full-Body Suit"
 	item_type = /obj/item/clothing/undershirt/fullbody
 
 /datum/sprite_accessory/clothing/undershirt/silk
-	name = "Silk body"
+	name = "Silk Body"
 	item_type = /obj/item/clothing/undershirt/silk
 
 /datum/sprite_accessory/clothing/undershirt/silk_half
-	name = "Silk half-body"
+	name = "Silk Half-Body"
 	item_type = /obj/item/clothing/undershirt/silk_half
 
 /datum/sprite_accessory/clothing/undershirt/mesh
-	name = "Mesh body"
+	name = "Mesh Body"
 	item_type = /obj/item/clothing/undershirt/mesh
 
 /datum/sprite_accessory/clothing/undershirt/mesh_half
-	name = "Mesh half-body"
+	name = "Mesh Half-Body"
 	item_type = /obj/item/clothing/undershirt/mesh_half
 
 /datum/sprite_accessory/clothing/undershirt/net
-	name = "Net body"
+	name = "Net Body"
 	item_type = /obj/item/clothing/undershirt/net
 
 /datum/sprite_accessory/clothing/undershirt/net_half
-	name = "Net half-body"
+	name = "Net Half-Body"
 	item_type = /obj/item/clothing/undershirt/net_half
 
 /datum/sprite_accessory/clothing/armsleeves
-	name = "Cloth armsleeve"
+	name = "Cloth Armsleeve"
 	item_type = /obj/item/clothing/armsleeves
 
 /datum/sprite_accessory/clothing/armsleeves/solid_half
-	name = "Sheer half-armsleeve"
+	name = "Sheer Half-Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/solid_half
 
 /datum/sprite_accessory/clothing/armsleeves/silk
-	name = "Silk armsleeve"
+	name = "Silk Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/silk
 
 /datum/sprite_accessory/clothing/armsleeves/silk_half
-	name = "Silk half-armsleeve"
+	name = "Silk Half-Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/silk_half
 
 /datum/sprite_accessory/clothing/armsleeves/mesh
-	name = "Mesh armsleeve"
+	name = "Mesh Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/mesh
 
 /datum/sprite_accessory/clothing/armsleeves/mesh_half
-	name = "Mesh half-armsleeve"
+	name = "Mesh Half-Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/mesh_half
 
 /datum/sprite_accessory/clothing/armsleeves/net
-	name = "Net armsleeve"
+	name = "Net Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/net
 
 /datum/sprite_accessory/clothing/armsleeves/net_half
-	name = "Net half-armsleeve"
+	name = "Net Half-Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/net_half
 
 /datum/sprite_accessory/clothing/choker
@@ -125,7 +128,7 @@
 	color_disabled = TRUE
 
 /datum/sprite_accessory/clothing/choker/neckband/embroidered
-	name = "Embroidered neckband"
+	name = "Embroidered Neckband"
 	item_type = /obj/item/clothing/choker/neckband/embroidered
 	color_disabled = TRUE
 

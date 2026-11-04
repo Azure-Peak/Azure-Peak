@@ -4600,16 +4600,16 @@ As Excaliber."
 	icon_state = "shibariropes"
 	covers_breasts = FALSE
 	flags_inv = NONE
-	sprite_acc = /datum/sprite_accessory/underwear_bottom/shibari
+	sprite_acc = /datum/sprite_accessory/underwear_bottom_render/shibari
 
-/datum/sprite_accessory/underwear_bottom/shibari
-	name = "Shibari ropes"
+/datum/sprite_accessory/underwear_bottom_render/shibari
+	name = "shibari ropes"
 	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
 	icon_state = "female_shibari"
 	preview_states = list("shibari_f_0")
 	hides_breasts = FALSE
 
-/datum/sprite_accessory/underwear_bottom/shibari/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom_render/shibari/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
 		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
 		var/tag = "shibari_f"
