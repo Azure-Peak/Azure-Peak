@@ -1318,7 +1318,7 @@
 #include "code\game\objects\items\twirling.dm"
 #include "code\game\objects\items\twstrap.dm"
 #include "code\game\objects\items\weaponry.dm"
-#include "code\game\objects\items\clothes\bra.dm"
+#include "code\game\objects\items\clothes\underwear_top.dm"
 #include "code\game\objects\items\clothes\choker.dm"
 #include "code\game\objects\items\clothes\earrings.dm"
 #include "code\game\objects\items\clothes\garter.dm"

@@ -57,7 +57,7 @@
 /datum/supply_pack/rogue/bath_clothes/bikini_top
 	name = "Bikini Top"
 	cost = 10
-	contains = list(/obj/item/clothing/bra/bikini)
+	contains = list(/obj/item/clothing/underwear_top/bikini)
 
 /datum/supply_pack/rogue/bath_clothes/bikini_bottom
 	name = "Bikini Bottom"

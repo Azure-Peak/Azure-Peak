@@ -12,11 +12,8 @@
 	default_colors = list(initial(garment.color) ? initial(garment.color) : "#FFFFFF")
 	return ..()
 
-/datum/sprite_accessory/clothing/bra
-	item_type = /obj/item/clothing/bra
-
-/datum/sprite_accessory/clothing/bra/bikini
-	item_type = /obj/item/clothing/bra/bikini
+/datum/sprite_accessory/clothing/bikini_top
+	item_type = /obj/item/clothing/underwear_top/bikini
 
 /datum/sprite_accessory/clothing/undershirt
 	item_type = /obj/item/clothing/undershirt
@@ -90,104 +87,35 @@
 	item_type = /obj/item/clothing/garter
 
 /datum/sprite_accessory/clothing/earring
-	item_type = /obj/item/earring
+	abstract_type = /datum/sprite_accessory/clothing/earring
+
+/datum/sprite_accessory/clothing/earring/hoop
+	abstract_type = /datum/sprite_accessory/clothing/earring/hoop
+
+/datum/sprite_accessory/clothing/earring/silver
+	item_type = /obj/item/earring/silver
+
+/datum/sprite_accessory/clothing/earring/gold
+	item_type = /obj/item/earring/gold
+	color_disabled = TRUE
+
+/datum/sprite_accessory/clothing/earring/hoop/silver
+	item_type = /obj/item/earring/hoop/silver
+
+/datum/sprite_accessory/clothing/earring/hoop/gold
+	item_type = /obj/item/earring/hoop/gold
+	color_disabled = TRUE
+
+/datum/sprite_accessory/clothing/earring/stud
+	item_type = /obj/item/earring/stud
+
+/datum/sprite_accessory/clothing/earring/stud/gold
+	item_type = /obj/item/earring/stud/gold
+	color_disabled = TRUE
 
 /datum/sprite_accessory/clothing/earring/dangle
 	item_type = /obj/item/earring/dangle
 
-/datum/sprite_accessory/clothing/earring/classic
-	item_type = /obj/item/earring/classic
-
-/datum/sprite_accessory/clothing/earring/classic/hoop
-	item_type = /obj/item/earring/classic/hoop
-
-// Retired color choices remain readable in savefiles; validation folds them into the four shapes.
-/datum/sprite_accessory/clothing/earring/glass
-	abstract_type = /datum/sprite_accessory/clothing/earring/glass
-
-/datum/sprite_accessory/clothing/earring/dangle/glass
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/glass
-
-/datum/sprite_accessory/clothing/earring/wood
-	abstract_type = /datum/sprite_accessory/clothing/earring/wood
-
-/datum/sprite_accessory/clothing/earring/dangle/wood
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/wood
-
-/datum/sprite_accessory/clothing/earring/iron
-	abstract_type = /datum/sprite_accessory/clothing/earring/iron
-
-/datum/sprite_accessory/clothing/earring/dangle/iron
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/iron
-
-/datum/sprite_accessory/clothing/earring/steel
-	abstract_type = /datum/sprite_accessory/clothing/earring/steel
-
-/datum/sprite_accessory/clothing/earring/dangle/steel
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/steel
-
-/datum/sprite_accessory/clothing/earring/silver
-	abstract_type = /datum/sprite_accessory/clothing/earring/silver
-
-/datum/sprite_accessory/clothing/earring/dangle/silver
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/silver
-
-/datum/sprite_accessory/clothing/earring/gold
-	abstract_type = /datum/sprite_accessory/clothing/earring/gold
-
 /datum/sprite_accessory/clothing/earring/dangle/gold
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/gold
-
-/datum/sprite_accessory/clothing/earring/platinum
-	abstract_type = /datum/sprite_accessory/clothing/earring/platinum
-
-/datum/sprite_accessory/clothing/earring/dangle/platinum
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/platinum
-
-/datum/sprite_accessory/clothing/earring/onyx
-	abstract_type = /datum/sprite_accessory/clothing/earring/onyx
-
-/datum/sprite_accessory/clothing/earring/dangle/onyx
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/onyx
-
-/datum/sprite_accessory/clothing/earring/emerald
-	abstract_type = /datum/sprite_accessory/clothing/earring/emerald
-
-/datum/sprite_accessory/clothing/earring/dangle/emerald
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/emerald
-
-/datum/sprite_accessory/clothing/earring/amber
-	abstract_type = /datum/sprite_accessory/clothing/earring/amber
-
-/datum/sprite_accessory/clothing/earring/dangle/amber
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/amber
-
-/datum/sprite_accessory/clothing/earring/amethyst
-	abstract_type = /datum/sprite_accessory/clothing/earring/amethyst
-
-/datum/sprite_accessory/clothing/earring/dangle/amethyst
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/amethyst
-
-/datum/sprite_accessory/clothing/earring/ruby
-	abstract_type = /datum/sprite_accessory/clothing/earring/ruby
-
-/datum/sprite_accessory/clothing/earring/dangle/ruby
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/ruby
-
-/datum/sprite_accessory/clothing/earring/sapphire
-	abstract_type = /datum/sprite_accessory/clothing/earring/sapphire
-
-/datum/sprite_accessory/clothing/earring/dangle/sapphire
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/sapphire
-
-/datum/sprite_accessory/clothing/earring/diamond
-	abstract_type = /datum/sprite_accessory/clothing/earring/diamond
-
-/datum/sprite_accessory/clothing/earring/dangle/diamond
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle/diamond
-
-/datum/sprite_accessory/clothing/earring/classic/silver
-	abstract_type = /datum/sprite_accessory/clothing/earring/classic/silver
-
-/datum/sprite_accessory/clothing/earring/classic/hoop/silver
-	abstract_type = /datum/sprite_accessory/clothing/earring/classic/hoop/silver
+	item_type = /obj/item/earring/dangle/gold
+	color_disabled = TRUE

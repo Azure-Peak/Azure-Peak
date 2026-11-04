@@ -17,16 +17,15 @@
 		garment.color = colors[1]
 	human.equip_to_slot_or_del(garment, slot, TRUE)
 
-/datum/customizer/clothing/bra
-	name = "Bra"
-	customizer_choices = list(/datum/customizer_choice/clothing/bra)
+/datum/customizer/clothing/underwear_top
+	name = "Underwear Top"
+	customizer_choices = list(/datum/customizer_choice/clothing/underwear_top)
 
-/datum/customizer_choice/clothing/bra
-	name = "Bra"
+/datum/customizer_choice/clothing/underwear_top
+	name = "Underwear Top"
 	slot = SLOT_UNDER_TOP
 	sprite_accessories = list(
-		/datum/sprite_accessory/clothing/bra,
-		/datum/sprite_accessory/clothing/bra/bikini,
+		/datum/sprite_accessory/clothing/bikini_top,
 	)
 
 /datum/customizer/clothing/undershirt
@@ -102,72 +101,18 @@
 	abstract_type = /datum/customizer_choice/clothing/earring
 	name = "Earring"
 	sprite_accessories = list(
-		/datum/sprite_accessory/clothing/earring/classic,
-		/datum/sprite_accessory/clothing/earring/classic/hoop,
-		/datum/sprite_accessory/clothing/earring,
+		/datum/sprite_accessory/clothing/earring/silver,
+		/datum/sprite_accessory/clothing/earring/gold,
+		/datum/sprite_accessory/clothing/earring/hoop/silver,
+		/datum/sprite_accessory/clothing/earring/hoop/gold,
+		/datum/sprite_accessory/clothing/earring/stud,
+		/datum/sprite_accessory/clothing/earring/stud/gold,
 		/datum/sprite_accessory/clothing/earring/dangle,
+		/datum/sprite_accessory/clothing/earring/dangle/gold,
 	)
-
-/datum/customizer_choice/clothing/earring/validate_entry(datum/preferences/prefs, datum/customizer_entry/entry)
-	// Keep saved shapes and colors when folding material variants into ordinary earrings.
-	if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring/classic/hoop))
-		entry.accessory_type = /datum/sprite_accessory/clothing/earring/classic/hoop
-	else if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring/classic))
-		entry.accessory_type = /datum/sprite_accessory/clothing/earring/classic
-	else if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring/dangle))
-		entry.accessory_type = /datum/sprite_accessory/clothing/earring/dangle
-	else if(ispath(entry.accessory_type, /datum/sprite_accessory/clothing/earring))
-		entry.accessory_type = /datum/sprite_accessory/clothing/earring
-	return ..()
 
 /datum/customizer_choice/clothing/earring/left
 	slot = SLOT_EARRING_L
 
 /datum/customizer_choice/clothing/earring/right
 	slot = SLOT_EARRING_R
-
-/// Run before validation replaces accessories that have moved to independent slots.
-/datum/preferences/proc/migrate_clothing_customizers()
-	for(var/datum/customizer_entry/entry as anything in customizer_entries.Copy())
-		if(entry.customizer_type == /datum/customizer/bodypart_feature/underwear)
-			switch(entry.accessory_type)
-				if(/datum/sprite_accessory/underwear/bikini)
-					entry.accessory_type = /datum/sprite_accessory/underwear/bikini_bottom
-					migrate_clothing_entry(entry, /datum/customizer/clothing/bra, /datum/sprite_accessory/clothing/bra/bikini)
-				if(/datum/sprite_accessory/underwear/leotard)
-					migrate_clothing_entry(entry, /datum/customizer/clothing/undershirt, /datum/sprite_accessory/clothing/undershirt/leotard)
-					customizer_entries -= entry
-				if(/datum/sprite_accessory/underwear/athletic_leotard)
-					migrate_clothing_entry(entry, /datum/customizer/clothing/undershirt, /datum/sprite_accessory/clothing/undershirt/athletic_leotard)
-					customizer_entries -= entry
-		else if(entry.customizer_type == /datum/customizer/bodypart_feature/accessory)
-			var/earring_accessory
-			switch(entry.accessory_type)
-				if(/datum/sprite_accessory/accessory/earrings)
-					earring_accessory = /datum/sprite_accessory/clothing/earring/classic
-				if(/datum/sprite_accessory/accessory/earrings/sil)
-					earring_accessory = /datum/sprite_accessory/clothing/earring/classic/silver
-				if(/datum/sprite_accessory/accessory/earrings/hoop)
-					earring_accessory = /datum/sprite_accessory/clothing/earring/classic/hoop
-				if(/datum/sprite_accessory/accessory/earrings/hoop/sil)
-					earring_accessory = /datum/sprite_accessory/clothing/earring/classic/hoop/silver
-				if(/datum/sprite_accessory/accessory/choker)
-					migrate_clothing_entry(entry, /datum/customizer/clothing/choker, /datum/sprite_accessory/clothing/choker/neckband)
-					customizer_entries -= entry
-				if(/datum/sprite_accessory/accessory/chokere)
-					migrate_clothing_entry(entry, /datum/customizer/clothing/choker, /datum/sprite_accessory/clothing/choker/neckband/embroidered)
-					customizer_entries -= entry
-			if(earring_accessory)
-				migrate_clothing_entry(entry, /datum/customizer/clothing/earring_left, earring_accessory)
-				migrate_clothing_entry(entry, /datum/customizer/clothing/earring_right, earring_accessory)
-				customizer_entries -= entry
-
-/datum/preferences/proc/migrate_clothing_entry(datum/customizer_entry/source, customizer_type, accessory_type)
-	if(get_customizer_entry_for_customizer_type(customizer_type))
-		return
-	var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
-	var/datum/customizer_entry/entry = customizer.make_default_customizer_entry(src, FALSE)
-	entry.accessory_type = accessory_type
-	entry.accessory_colors = source.accessory_colors
-	entry.disabled = source.disabled
-	customizer_entries += entry

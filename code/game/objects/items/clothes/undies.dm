@@ -122,7 +122,7 @@
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 2
 
-// Preserve paths referenced by saved customizers and donor loadouts.
+// Smallclothes used by donor loadouts.
 /obj/item/undies
 	parent_type = /obj/item/clothing/undies
 	sprite_acc = /datum/sprite_accessory/underwear/briefs

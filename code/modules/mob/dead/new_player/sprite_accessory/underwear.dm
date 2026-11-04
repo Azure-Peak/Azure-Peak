@@ -8,8 +8,8 @@
 
 // Underwear comes in two cuts: a bulky one (mt/ft_muscular) and a slim one, the latter suffixed _f or named
 // after the elf body it was drawn for. Which cut fits is a question about the body, not the character's gender,
-// so these follow is_bulky_body() the same way worn clothing does. Garments that only exist in one cut — the
-// bikini and the sized leotard — stay driven by the breasts organ, so they remain wearable on any build.
+// so these follow is_bulky_body() the same way worn clothing does.
+// Remaining donor garments select their own states below.
 
 /datum/sprite_accessory/underwear/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDIES, OFFSET_UNDIES_F)
@@ -32,65 +32,20 @@
 		return "maleelf_reg"
 	return "male_reg"
 
-/datum/sprite_accessory/underwear/bikini_top
-	name = "Bikini Top"
-	icon = 'icons/obj/items/clothes/on_mob/bra.dmi'
-	icon_state = "bikini_top"
-	underwear_type = /obj/item/clothing/bra/bikini
-
 /datum/sprite_accessory/underwear/bikini_bottom
 	name = "Bikini Bottom"
 	icon = 'icons/obj/items/clothes/on_mob/underwear.dmi'
 	icon_state = "bikini"
 	underwear_type = /obj/item/clothing/undies/bikini_bottom
 
-// Saved combined bikinis are migrated to a bottom and a separate bra preference.
+// Base for donor bikini variants.
 /datum/sprite_accessory/underwear/bikini
-	parent_type = /datum/sprite_accessory/underwear/bikini_bottom
+	abstract_type = /datum/sprite_accessory/underwear/bikini
 
 /datum/sprite_accessory/underwear/panties
 	name = "Panties"
 	icon_state = "panties"
 	underwear_type = /obj/item/clothing/undies/panties
-
-/datum/sprite_accessory/underwear/leotard
-	name = "Leotard"
-	icon_state = "female_leotard"
-	preview_states = list("female_leotard_0")
-	underwear_type = /obj/item/clothing/undershirt/leotard
-	hides_breasts = TRUE
-
-/datum/sprite_accessory/underwear/leotard/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
-		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
-		var/tag = "female_leotard"
-		if(breasts.breast_size == 0)
-			tag = tag + "_0"
-		if(breasts.breast_size == 1)
-			tag = tag + "_1"
-		if(breasts.breast_size == 2)
-			tag = tag + "_2"
-		if(breasts.breast_size == 3)
-			tag = tag + "_3"
-		if(breasts.breast_size == 4)
-			tag = tag + "_4"
-		if(breasts.breast_size == 5)
-			tag = tag + "_5"
-		return tag
-	else
-		return "male_leotard"
-
-/datum/sprite_accessory/underwear/athletic_leotard
-	name = "Athletic Leotard"
-	icon_state = "female_sleeved_leotard"
-	preview_states = list("female_athletic_leotard")
-	underwear_type = /obj/item/clothing/undershirt/athletic_leotard
-	hides_breasts = TRUE
-
-/datum/sprite_accessory/underwear/athletic_leotard/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.is_bulky_body())
-		return "male_athletic_leotard"
-	return "female_athletic_leotard"
 
 /datum/sprite_accessory/underwear/braies
 	name = "Braies"

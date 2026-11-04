@@ -329,9 +329,9 @@
 	if(SLOT_UNDER_TOP in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else if(bra && (user == src))
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP];extra_only=[extra_only]'>[(bra && !(bra.item_flags & ABSTRACT)) ? bra : "<font color=grey>Bra</font>"]</A> | <tr><td><A href='?src=[REF(src)];show_storage=[SLOT_UNDER_TOP];extra_only=[extra_only]'>["Storage"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP];extra_only=[extra_only]'>[(bra && !(bra.item_flags & ABSTRACT)) ? bra : "<font color=grey>Underwear Top</font>"]</A> | <tr><td><A href='?src=[REF(src)];show_storage=[SLOT_UNDER_TOP];extra_only=[extra_only]'>["Storage"]</A></td></tr>"
 	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP]'>[(bra && !(bra.item_flags & ABSTRACT)) ? bra : "<font color=grey>Bra</font>"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP]'>[(bra && !(bra.item_flags & ABSTRACT)) ? bra : "<font color=grey>Underwear Top</font>"]</A></td></tr>"
 
 	if(SLOT_UNDERSHIRT in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"

@@ -321,7 +321,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	if(/datum/customizer/bodypart_feature/underwear in customizers)
 		customizers = customizers.Copy()
 		customizers |= list(
-			/datum/customizer/clothing/bra,
+			/datum/customizer/clothing/underwear_top,
 			/datum/customizer/clothing/undershirt,
 			/datum/customizer/clothing/armsleeves,
 			/datum/customizer/clothing/choker,
