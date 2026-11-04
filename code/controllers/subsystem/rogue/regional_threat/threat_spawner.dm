@@ -11,17 +11,7 @@
 *	that ambushes spawn enemies. Then it goes on a randomized cooldown again, and the
 *	cycle repeats for the rest of the round.
 *
-*	Spawners only fire at night when they can see the sky, so underground ones run all day.
-*	A lit light source anywhere in range stops a spawner. Killing a spawner's whole wave
-*	removes one band of threat from its region.
 */
-
-GLOBAL_LIST_INIT(threat_spawner_quantities, list(
-	list(1, 2) = 40,
-	list(2, 3) = 15,
-	list(3, 4) = 3,
-	list(4, 6) = 1,
-))
 
 GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 	0.25 = 50,
@@ -39,6 +29,7 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 	var/spawn_range = THREAT_SPAWNER_RANGE
 	var/next_spawn_time = 0
 	var/list/mob/living/our_living_mobs = list()
+	var/wave_tp_spent = 0
 
 /obj/effect/landmark/threatspawner/Initialize()
 	. = ..()
@@ -120,13 +111,17 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 		start_cooldown()
 		return FALSE
 
+	// Budget floor for ambush spawner is determined by the region. It is a random slice of the current threat in the region
+	// It is floored at a share of the maximum so something always spawn
 	var/latent_pool = THREAT_SPAWNER_FALLBACK_LATENT
 	var/budget_pct = AMBUSH_BUDGET_PCT_REGULAR
 	var/chosen_mult = pickweight(GLOB.threat_spawner_budget_mults)
+	var/budget_floor = THREAT_SPAWNER_BUDGET_FLOOR
 	if(TR)
 		latent_pool = TR.latent_ambush
 		budget_pct = TR.ambush_budget_pct
-	var/budget = max(chosen_mult * latent_pool * budget_pct, THREAT_SPAWNER_BUDGET_FLOOR)
+		budget_floor = max(budget_floor, THREAT_SPAWNER_BUDGET_FLOOR_MULT * TR.max_ambush * budget_pct)
+	var/budget = max(chosen_mult * latent_pool * budget_pct, budget_floor)
 
 	var/list/mobs_to_spawn = list()
 	var/list/group_pools = list()
@@ -149,29 +144,27 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 	var/first_tp = max(get_threat_point(first_pick), 1)
 	add_ambush_purchase(first_pick, mobs_to_spawn)
 	budget -= first_tp
+	var/total_tp_spent = first_tp
 
-	var/list/minmax = pickweight(GLOB.threat_spawner_quantities)
-	var/max_num_mobs = rand(minmax[1], minmax[2])
-
-	while(budget > 0 && mobs_to_spawn.len < max_num_mobs)
-		if(!faction_candidates.len)
+	while(budget > 0 && mobs_to_spawn.len < THREAT_SPAWNER_MAX_MOBS)
+		var/list/affordable_now = affordable_ambush_entries(faction_candidates, budget)
+		if(!length(affordable_now))
 			break
-		var/picked = pickweight(faction_candidates)
+		var/picked = pickweight(affordable_now)
 		var/pick_tp = max(get_threat_point(picked), 1)
-		if(pick_tp > budget)
-			break
 		add_ambush_purchase(picked, mobs_to_spawn)
 		budget -= pick_tp
+		total_tp_spent += pick_tp
 
 	if(!mobs_to_spawn.len)
 		return FALSE
-	var/spawnedtype = pick(mobs_to_spawn)
-	for(var/i in 1 to max_num_mobs)
+	wave_tp_spent = total_tp_spent
+	for(var/mob_type in mobs_to_spawn)
 		var/spawnloc = pick(possible_targets)
 		if(!spawnloc)
 			continue
-		var/mob/living/spawnedmob = new spawnedtype(spawnloc)
-		RegisterSignal(spawnedmob, COMSIG_MOB_DEATH, PROC_REF(on_our_mobs_death))
+		var/mob/living/spawnedmob = new mob_type(spawnloc)
+		RegisterSignal(spawnedmob, list(COMSIG_MOB_DEATH, COMSIG_PARENT_QDELETING), PROC_REF(on_our_mobs_death))
 		our_living_mobs.Add(spawnedmob)
 		if(iscarbon(spawnedmob))
 			var/mob/living/carbon/C = spawnedmob
@@ -182,6 +175,9 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 
 /obj/effect/landmark/threatspawner/proc/on_our_mobs_death(mob/living/source)
 	SIGNAL_HANDLER
+	if(!(source in our_living_mobs))
+		return
+	UnregisterSignal(source, list(COMSIG_MOB_DEATH, COMSIG_PARENT_QDELETING))
 	our_living_mobs.Remove(source)
 	if(our_living_mobs.len)
 		return
@@ -189,8 +185,8 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 	var/datum/threat_region/TR = null
 	if(AR?.threat_region)
 		TR = SSregionthreat.get_region(AR.threat_region)
-	if(TR)
-		TR.reduce_latent_ambush(THREAT_POINTS_PER_BAND)
+	if(TR && wave_tp_spent > 0)
+		TR.reduce_latent_ambush(wave_tp_spent)
 		var/list/mobs_to_message = list()
 		var/mob/living/last_hitter = source.lastattacker_weakref?.resolve()
 		if(isliving(last_hitter) && last_hitter.mind)
@@ -199,7 +195,8 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 			if(L.mind && L != last_hitter)
 				mobs_to_message.Add(L)
 		for(var/mob/living/L in mobs_to_message)
-			to_chat(L, span_notice("<b>The road is safer.</b> This last slain stalker of the road drove 1 band of threat out of the region. However, leaving a light here would prevent more stalkers from turning up around here."), MESSAGE_TYPE_INFO)
+			to_chat(L, span_notice("<b>The road is safer.</b> The last member of this band is slain, and the threat upon the region ebbs a little. Leaving a light here would keep more from gathering."), MESSAGE_TYPE_INFO)
+	wave_tp_spent = 0
 	start_cooldown()
 
 /obj/effect/landmark/threatspawner/proc/start_cooldown()
