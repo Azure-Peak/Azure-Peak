@@ -2,7 +2,6 @@
 	abstract_type = /datum/sprite_accessory/underwear_bottom
 	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
 	color_key_name = "Underwear"
-	var/underwear_bottom_type
 	///Whether this underwear includes a top (Because gender = FEMALE doesn't actually apply here.). Hides breasts, nothing more.
 	var/hides_breasts = FALSE
 
@@ -23,7 +22,6 @@
 /datum/sprite_accessory/underwear_bottom/briefs
 	name = "Briefs"
 	icon_state = "male_reg"
-	underwear_bottom_type = /obj/item/clothing/underwear_bottom
 
 /datum/sprite_accessory/underwear_bottom/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(is_species(owner,/datum/species/dwarf))
@@ -36,17 +34,14 @@
 	name = "Bikini Bottom"
 	icon = 'icons/obj/items/clothes/on_mob/underwear_bottom.dmi'
 	icon_state = "bikini"
-	underwear_bottom_type = /obj/item/clothing/underwear_bottom/bikini_bottom
 
 /datum/sprite_accessory/underwear_bottom/panties
 	name = "Panties"
 	icon_state = "panties"
-	underwear_bottom_type = /obj/item/clothing/underwear_bottom/panties
 
 /datum/sprite_accessory/underwear_bottom/braies
 	name = "Braies"
 	icon_state = "braies"
-	underwear_bottom_type = /obj/item/clothing/underwear_bottom/braies
 
 /datum/sprite_accessory/underwear_bottom/braies/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(!owner.is_bulky_body())
@@ -56,7 +51,6 @@
 /datum/sprite_accessory/underwear_bottom/briefs/eoran
 	name = "Briefs - Eoran"
 	icon_state = "eoran_reg"
-	underwear_bottom_type = /obj/item/clothing/underwear_bottom/briefs_eoran
 
 /datum/sprite_accessory/underwear_bottom/briefs/eoran/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(is_species(owner,/datum/species/dwarf))
@@ -68,7 +62,6 @@
 /datum/sprite_accessory/underwear_bottom/bandages
 	name = "Bandages"
 	icon_state = "bandages"
-	underwear_bottom_type = /obj/item/clothing/underwear_bottom/bandages
 	hides_breasts = TRUE
 
 /datum/sprite_accessory/underwear_bottom/bandages/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)

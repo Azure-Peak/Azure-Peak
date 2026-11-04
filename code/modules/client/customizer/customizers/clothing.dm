@@ -17,6 +17,22 @@
 		garment.color = colors[1]
 	human.equip_to_slot_or_del(garment, slot, TRUE)
 
+/datum/customizer/clothing/underwear_bottom
+	name = "Underwear Bottom"
+	customizer_choices = list(/datum/customizer_choice/clothing/underwear_bottom)
+
+/datum/customizer_choice/clothing/underwear_bottom
+	name = "Underwear Bottom"
+	slot = SLOT_UNDER_BOTTOM
+	sprite_accessories = list(
+		/datum/sprite_accessory/clothing/underwear_bottom/panties,
+		/datum/sprite_accessory/clothing/underwear_bottom/braies,
+		/datum/sprite_accessory/clothing/underwear_bottom,
+		/datum/sprite_accessory/clothing/underwear_bottom/briefs_eoran,
+		/datum/sprite_accessory/clothing/underwear_bottom/bikini_bottom,
+		/datum/sprite_accessory/clothing/underwear_bottom/bandages,
+	)
+
 /datum/customizer/clothing/underwear_top
 	name = "Underwear Top"
 	customizer_choices = list(/datum/customizer_choice/clothing/underwear_top)

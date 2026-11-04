@@ -48,24 +48,6 @@
 		/datum/sprite_accessory/accessory/warpaint_stripes,
 		)
 
-/datum/customizer/bodypart_feature/underwear_bottom
-	name = "Underwear Bottom"
-	customizer_choices = list(/datum/customizer_choice/bodypart_feature/underwear_bottom)
-	allows_disabling = TRUE
-	default_disabled = TRUE
-
-/datum/customizer_choice/bodypart_feature/underwear_bottom
-	name = "Underwear Bottom"
-	feature_type = /datum/bodypart_feature/underwear_bottom
-	sprite_accessories = list(
-		/datum/sprite_accessory/underwear_bottom/panties,
-		/datum/sprite_accessory/underwear_bottom/braies,
-		/datum/sprite_accessory/underwear_bottom/briefs,
-		/datum/sprite_accessory/underwear_bottom/briefs/eoran,
-		/datum/sprite_accessory/underwear_bottom/bikini_bottom,
-		/datum/sprite_accessory/underwear_bottom/bandages,
-		)
-
 /datum/customizer/bodypart_feature/legwear
 	name = "Legwear"
 	customizer_choices = list(/datum/customizer_choice/bodypart_feature/legwear)
@@ -89,16 +71,6 @@
 		/datum/sprite_accessory/legwear/stockings/sleeve_stir_thigh_silk,
 		/datum/sprite_accessory/legwear/stockings/sleeve_stir_ankle_silk
 		)
-
-/// Equip selected accessories as real clothing, including the character preview dummy.
-/datum/bodypart_feature/underwear_bottom/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
-	if(!ishuman(owner) || !accessory_type)
-		return FALSE
-	var/datum/sprite_accessory/underwear_bottom/accessory = SPRITE_ACCESSORY(accessory_type)
-	var/obj/item/clothing/underwear_bottom/garment = new accessory.underwear_bottom_type(owner)
-	garment.color = accessory_colors
-	owner.equip_to_slot_or_del(garment, SLOT_UNDER_BOTTOM, TRUE)
-	return TRUE
 
 /datum/bodypart_feature/legwear/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
 	if(!ishuman(owner) || !accessory_type)

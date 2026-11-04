@@ -11,6 +11,30 @@
 	default_colors = list(initial(garment.color) ? initial(garment.color) : "#FFFFFF")
 	return ..()
 
+/datum/sprite_accessory/clothing/underwear_bottom
+	name = "Briefs"
+	item_type = /obj/item/clothing/underwear_bottom
+
+/datum/sprite_accessory/clothing/underwear_bottom/panties
+	name = "Panties"
+	item_type = /obj/item/clothing/underwear_bottom/panties
+
+/datum/sprite_accessory/clothing/underwear_bottom/braies
+	name = "Braies"
+	item_type = /obj/item/clothing/underwear_bottom/braies
+
+/datum/sprite_accessory/clothing/underwear_bottom/briefs_eoran
+	name = "Briefs - Eoran"
+	item_type = /obj/item/clothing/underwear_bottom/briefs_eoran
+
+/datum/sprite_accessory/clothing/underwear_bottom/bikini_bottom
+	name = "Bikini Bottom"
+	item_type = /obj/item/clothing/underwear_bottom/bikini_bottom
+
+/datum/sprite_accessory/clothing/underwear_bottom/bandages
+	name = "Bandages"
+	item_type = /obj/item/clothing/underwear_bottom/bandages
+
 /datum/sprite_accessory/clothing/bikini_top
 	name = "Bikini top"
 	item_type = /obj/item/clothing/underwear_top/bikini

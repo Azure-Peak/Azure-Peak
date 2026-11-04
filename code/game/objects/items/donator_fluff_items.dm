@@ -4607,7 +4607,6 @@ As Excaliber."
 	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
 	icon_state = "female_shibari"
 	preview_states = list("shibari_f_0")
-	underwear_bottom_type = /obj/item/clothing/underwear_bottom/shibari
 	hides_breasts = FALSE
 
 /datum/sprite_accessory/underwear_bottom/shibari/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)

@@ -84,7 +84,7 @@
 		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
-		/datum/customizer/bodypart_feature/underwear_bottom,
+		/datum/customizer/clothing/underwear_bottom,
 		/datum/customizer/clothing/underwear_top,
 		/datum/customizer/clothing/undershirt,
 		/datum/customizer/clothing/armsleeves,
