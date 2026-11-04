@@ -31,7 +31,7 @@ GLOBAL_LIST_INIT(threat_spawner_budget_mults, alist(
 	var/list/mob/living/our_living_mobs = list()
 	var/wave_tp_spent = 0
 
-/obj/effect/landmark/threatspawner/Initialize()
+/obj/effect/landmark/threatspawner/Initialize(mapload = FALSE)
 	. = ..()
 	next_spawn_time = world.time + initial_cooldown
 	START_PROCESSING(SSprocessing, src)
