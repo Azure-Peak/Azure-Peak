@@ -1,8 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - image: "Two new ghost UI buttons for HERMES and the Character Creator."
-  - qol: "Sending mail to people is diacritic-agnostic now."
-  - bugfix: "Parchment now encodes as UTF-8"
-  - refactor: "Ghost hermes code."
-  - admin: "Letters and packages are now logged and viewable through \"View HERMES letter log\" verb"

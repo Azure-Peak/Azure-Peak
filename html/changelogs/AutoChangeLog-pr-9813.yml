@@ -1,5 +1,0 @@
-author: "zeskorion"
-delete-after: True
-changes:
-  - qol: "wrench crafting now uses engineering"
-  - bugfix: "wrenches can now parry properly"
