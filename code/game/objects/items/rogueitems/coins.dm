@@ -3,7 +3,12 @@
 #define CTYPE_COPP "c"
 #define CTYPE_ICOIN "i"
 #define CTYPE_ANCIENT "a"
-#define MAX_COIN_STACK_SIZE 20
+
+GLOBAL_LIST_INIT(coin_denominations, list(
+	/obj/item/roguecoin/gold,
+	/obj/item/roguecoin/silver,
+	/obj/item/roguecoin/copper,
+))
 
 /obj/item/roguecoin
 	name = "coin"
@@ -225,7 +230,7 @@
 	name = "zenar"
 	desc = "A gold coin bearing the symbol of the Taurus and the pre-kingdom psycross. These were in the best condition of the provincial gold mints, the rest were melted down."
 	icon_state = "g1"
-	sellprice = 10
+	sellprice = COIN_VALUE_GOLD
 	base_type = CTYPE_GOLD
 	plural_name = "zenarii"
 	materia = list(/datum/materia_aspect/solar)
@@ -236,7 +241,7 @@
 	name = "ziliqua"
 	desc = "An ancient silver coin still in use due to their remarkable ability to last the ages."
 	icon_state = "s1"
-	sellprice = 5
+	sellprice = COIN_VALUE_SILVER
 	base_type = CTYPE_SILV
 	plural_name = "ziliquae"
 	materia = list(/datum/materia_aspect/lunar)
@@ -246,7 +251,7 @@
 	name = "zenny"
 	desc = "A brand-new bronze coin minted by the capital in an effort to be rid of the financial use of silver."
 	icon_state = "c1"
-	sellprice = 1
+	sellprice = COIN_VALUE_COPPER
 	base_type = CTYPE_COPP
 	plural_name = "zennies"
 	materia = list(/datum/materia_aspect/change)
@@ -281,10 +286,6 @@
 	. = ..()
 	set_quantity(rand(4,19))
 
-/obj/item/roguecoin/silver/pile/readyuppile/Initialize(mapload)
-	. = ..()
-	set_quantity(4) // 20 mammons combine with starting pouch to buy something
-
 /obj/item/roguecoin/silver/pile/wretchpile/Initialize(mapload)
 	. = ..()
 	set_quantity(10) // 50 mammons, to avoid being dead broke when latejoining
@@ -305,10 +306,44 @@
 	. = ..()
 	set_quantity(20) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
 
+/proc/mammons_to_coins(mammons, max_value = COIN_VALUE_GOLD)
+	. = list()
+	mammons = floor(mammons)
+	for(var/obj/item/roguecoin/coin_type as anything in GLOB.coin_denominations)
+		var/value = initial(coin_type.sellprice)
+		if(value > max_value)
+			continue
+		var/count = floor(mammons / value)
+		if(count < 1)
+			continue
+		.[coin_type] = count
+		mammons -= count * value
+
+/proc/spawn_mammons(mammons, atom/destination, max_value = COIN_VALUE_GOLD)
+	. = list()
+	var/list/breakdown = mammons_to_coins(mammons, max_value)
+	for(var/coin_type in breakdown)
+		. += spawn_coin_stacks(coin_type, breakdown[coin_type], destination)
+
+/proc/spawn_coin_stacks(coin_type, count, atom/destination)
+	. = list()
+	if(QDELETED(destination) || count < 1)
+		return
+	var/datum/component/storage/storage = destination.GetComponent(/datum/component/storage)
+	while(count > 0)
+		var/obj/item/roguecoin/stack = SSwardrobe.provide_type(coin_type, storage ? destination.loc : destination)
+		stack.set_quantity(min(count, MAX_COIN_STACK_SIZE))
+		count -= stack.quantity
+		if(storage && !SEND_SIGNAL(destination, COMSIG_TRY_STORAGE_INSERT, stack, null, TRUE, TRUE))
+			var/atom/overflow = destination.drop_location()
+			if(!overflow)
+				SSwardrobe.recycle_object(stack)
+				continue
+			stack.forceMove(overflow)
+		. += stack
 
 #undef CTYPE_GOLD
 #undef CTYPE_SILV
 #undef CTYPE_COPP
 #undef CTYPE_ANCIENT
 #undef CTYPE_ICOIN
-#undef MAX_COIN_STACK_SIZE

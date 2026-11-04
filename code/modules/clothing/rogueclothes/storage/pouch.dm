@@ -19,6 +19,19 @@
 	grid_height = 64
 	grid_width = 32
 	component_type = /datum/component/storage/concrete/roguetown/coin_pouch
+	var/mammon_min = 0
+	var/mammon_max = 0
+	var/mammon_step = 1
+	var/max_coin_value = COIN_VALUE_GOLD
+
+/obj/item/storage/belt/rogue/pouch/PopulateContents()
+	. = ..()
+	populate_mammons()
+
+/obj/item/storage/belt/rogue/pouch/proc/populate_mammons()
+	if(mammon_max <= 0)
+		return
+	spawn_mammons(rand(mammon_min / mammon_step, mammon_max / mammon_step) * mammon_step, src, max_coin_value)
 
 /obj/item/storage/belt/rogue/pouch/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
@@ -47,10 +60,10 @@
 			continue
 
 		// Skip if this stack is already full
-		if(pouch_coin.quantity >= 20)
+		if(pouch_coin.quantity >= MAX_COIN_STACK_SIZE)
 			continue
 
-		var/space_available = 20 - pouch_coin.quantity // Calculate how many coins we can add to this stack
+		var/space_available = MAX_COIN_STACK_SIZE - pouch_coin.quantity // Calculate how many coins we can add to this stack
 		var/coins_to_add = min(coins_to_collect, space_available)
 
 		// Merge coins into the existing stack
@@ -62,7 +75,7 @@
 
 	while(coins_to_collect > 0) // If we still have coins to collect, try to create new stacks in the pouch
 		var/obj/item/roguecoin/new_coin = new target_coin.type() // Create a new coin stack to insert into the pouch
-		var/coins_for_new_stack = min(coins_to_collect, 20)
+		var/coins_for_new_stack = min(coins_to_collect, MAX_COIN_STACK_SIZE)
 		new_coin.set_quantity(coins_for_new_stack)
 		new_coin.heads_tails = target_coin.heads_tails
 
@@ -104,21 +117,11 @@
 	grid_width = 32
 	component_type = /datum/component/storage/concrete/roguetown/coin_pouch/merchant
 
-/obj/item/storage/belt/rogue/pouch/merchant/coins/Initialize(mapload) //Same as coins/rich
-	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = new(loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
-	H = new(loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			qdel(H)
-	if(prob(50))
-		H = new(loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				qdel(H)
+/obj/item/storage/belt/rogue/pouch/merchant/coins
+	mammon_min = 40
+	mammon_max = 245
+	mammon_step = COIN_VALUE_SILVER
+	max_coin_value = COIN_VALUE_SILVER
 
 /obj/item/storage/belt/rogue/pouch/cloth
 	name = "cloth pouch"
@@ -137,138 +140,51 @@
 			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, new_item, null, TRUE, TRUE))
 
 				SSwardrobe.recycle_object(new_item)
+	populate_mammons()
 
 /obj/item/storage/belt/rogue/pouch/coins/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/copper/pile
-	return to_preload
+	. = list()
+	for(var/obj/item/roguecoin/coin_type as anything in GLOB.coin_denominations)
+		if(initial(coin_type.sellprice) <= max_coin_value)
+			. += coin_type
 
-/obj/item/storage/belt/rogue/pouch/coins/mid/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/silver/pile
-	return to_preload
+/obj/item/storage/belt/rogue/pouch/coins/poor
+	mammon_min = 10
+	mammon_max = 27
+	max_coin_value = COIN_VALUE_COPPER
 
-/obj/item/storage/belt/rogue/pouch/coins/mid/PopulateContents()
-	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-	var/obj/item/roguecoin/copper/pile/C = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
-	if(istype(C))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, C, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(C)
+/obj/item/storage/belt/rogue/pouch/coins/mid
+	mammon_min = 24
+	mammon_max = 114
+	max_coin_value = COIN_VALUE_SILVER
 
-/obj/item/storage/belt/rogue/pouch/coins/poor/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/copper/pile
-	return to_preload
+/obj/item/storage/belt/rogue/pouch/coins/rich
+	mammon_min = 40
+	mammon_max = 245
+	mammon_step = COIN_VALUE_SILVER
+	max_coin_value = COIN_VALUE_SILVER
 
-/obj/item/storage/belt/rogue/pouch/coins/poor/PopulateContents()
-	. = ..()
-	var/obj/item/roguecoin/copper/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
-	if(istype(H))
-		if(H.quantity < 10)
-			H.set_quantity(10)
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-	if(prob(50))
-		H = SSwardrobe.provide_type(/obj/item/roguecoin/copper/pile, loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
+/obj/item/storage/belt/rogue/pouch/coins/veryrich
+	mammon_min = 80
+	mammon_max = 495
+	mammon_step = COIN_VALUE_SILVER
 
-/obj/item/storage/belt/rogue/pouch/coins/rich/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/silver/pile
-	return to_preload
+/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch
+	mammon_min = 200
+	mammon_max = 200
 
-/obj/item/storage/belt/rogue/pouch/coins/rich/PopulateContents()
-	. = ..()
-	var/obj/item/roguecoin/silver/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-	H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-	if(prob(50))
-		H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile, loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
+/obj/item/storage/belt/rogue/pouch/coins/bigandfat
+	mammon_min = 800
+	mammon_max = 800
 
-/obj/item/storage/belt/rogue/pouch/coins/veryrich/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/gold/pile
-	return to_preload
+/obj/item/storage/belt/rogue/pouch/coins/virtuepouch
+	mammon_min = 80
+	mammon_max = 120
 
-/obj/item/storage/belt/rogue/pouch/coins/veryrich/PopulateContents()
-	. = ..()
-	var/obj/item/roguecoin/gold/pile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-	H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-	if(prob(50))
-		H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/pile, loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
-
-/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/gold/aspirantpile
-	return to_preload
-
-/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch/PopulateContents()
-	. = ..()
-	var/obj/item/roguecoin/gold/aspirantpile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/aspirantpile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-
-/obj/item/storage/belt/rogue/pouch/coins/bigandfat/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/gold/aspirantpile
-	return to_preload
-
-/obj/item/storage/belt/rogue/pouch/coins/bigandfat/PopulateContents()
-	. = ..()
-	for(var/i in 1 to 4)
-		var/obj/item/roguecoin/gold/aspirantpile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/aspirantpile, loc)
-		if(istype(H))
-			if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-				SSwardrobe.recycle_object(H)
-				break
-
-/obj/item/storage/belt/rogue/pouch/coins/virtuepouch/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/gold/virtuepile
-	return to_preload
-
-/obj/item/storage/belt/rogue/pouch/coins/virtuepouch/PopulateContents()
-	. = ..()
-	var/obj/item/roguecoin/gold/virtuepile/H = SSwardrobe.provide_type(/obj/item/roguecoin/gold/virtuepile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
-
-/obj/item/storage/belt/rogue/pouch/coins/readyuppouch/get_types_to_preload()
-	var/list/to_preload = list()
-	to_preload += /obj/item/roguecoin/silver/pile/readyuppile
-	return to_preload
-
-/obj/item/storage/belt/rogue/pouch/coins/readyuppouch/PopulateContents()
-	. = ..()
-	var/obj/item/roguecoin/silver/pile/readyuppile/H = SSwardrobe.provide_type(/obj/item/roguecoin/silver/pile/readyuppile, loc)
-	if(istype(H))
-		if(!SEND_SIGNAL(src, COMSIG_TRY_STORAGE_INSERT, H, null, TRUE, TRUE))
-			SSwardrobe.recycle_object(H)
+/obj/item/storage/belt/rogue/pouch/coins/readyuppouch
+	mammon_min = 20
+	mammon_max = 20
+	max_coin_value = COIN_VALUE_SILVER
 
 /obj/item/storage/belt/rogue/pouch/coins/aalloy
 
