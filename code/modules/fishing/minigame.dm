@@ -538,7 +538,7 @@ GLOBAL_LIST_EMPTY(fishing_challenges_by_user)
 		line = "This is gonna be a difficult catch."
 	else
 		line = "This one will fight for its life!"
-	user.balloon_alert(user, LOWERT_TEXT(line))
+	user.balloon_alert(user, LOWER_TEXT(line))
 	to_chat(user, span_notice(line))
 
 /datum/fishing_challenge/proc/out_of_time()
