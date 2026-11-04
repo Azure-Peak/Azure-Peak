@@ -310,7 +310,7 @@
 		say("No bounties are currently active.")
 		return
 
-	var/cost = 100
+	var/cost = 50
 	var/choice = alert(user, "Print a continuously updated list of active bounties for [cost] mammon?", "Print Bounty Scroll", "Yes", "No")
 	if(choice != "Yes")
 		return
