@@ -18,7 +18,7 @@ GLOBAL_LIST_INIT(huds, alist(
 
 	var/list/next_time_allowed = list() //mobs associated with the next time this hud can be added to them
 	var/list/queued_to_see = list() //mobs that have triggered the cooldown and are queued to see the hud, but do not yet
-	var/hud_exceptions = list() // huduser = list(ofatomswiththeirhudhidden) - aka everyone hates targeted invisiblity
+	var/hud_exceptions = list() // huduser = list(ofatomswiththeirhudhidden) - aka everyone hates targeted invisibility
 
 /datum/atom_hud/New()
 	GLOB.all_huds += src

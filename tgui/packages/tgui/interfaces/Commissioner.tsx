@@ -40,8 +40,7 @@ export const Commissioner = () => {
         <div style={pageStyle}>
           <div style={titleStyle}>The Commissioner</div>
           <div style={subtitleStyle}>
-            Commission smithing and engineering work. Coin held in escrow until
-            the order is fulfilled.
+            Commission goods from guild smiths and tailors. Orders are backed by your MEISTER account.
           </div>
           <div style={rulerStyle} />
 
@@ -58,19 +57,21 @@ export const Commissioner = () => {
             <span style={{ color: INK, fontWeight: 'bold', marginRight: 12 }}>
               {data.budget}m
             </span>
-            <span style={{ color: SEAL_AMBER }}>Your deposit</span>
+            <span style={{ color: SEAL_AMBER }}>Your balance</span>
             <span style={{ color: INK, fontWeight: 'bold' }}>
-              {data.my_deposit}m
+              {data.has_account ? `${data.my_balance}m` : '-'}
             </span>
-            <span
-              style={{
-                marginLeft: 'auto',
-                fontSize: FONT_BODY,
-                color: INK_SOFT,
-              }}
-            >
-              Insert coins into the machine to deposit.
-            </span>
+            {!data.has_account && (
+              <span
+                style={{
+                  marginLeft: 'auto',
+                  fontSize: FONT_BODY,
+                  color: INK_SOFT,
+                }}
+              >
+                You have no MEISTER account
+              </span>
+            )}
           </div>
 
           <div style={tabBarStyle}>

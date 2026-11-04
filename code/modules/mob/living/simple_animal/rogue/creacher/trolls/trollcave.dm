@@ -17,11 +17,6 @@
 	if(prob(50))
 		src.hide()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/cave/LoseTarget()
-	..()
-	if(stat != DEAD)
-		hide()
-
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/cave/GiveTarget()
 	..()

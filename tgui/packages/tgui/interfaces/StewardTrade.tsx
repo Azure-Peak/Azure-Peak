@@ -54,7 +54,7 @@ export const StewardTrade = () => {
         <div style={pageStyle}>
           <div style={titleStyle}>Market & Stockpile</div>
           <div style={subtitleStyle}>
-            Day {data.day} &middot; Crown's Purse:{' '}
+            Day {data.day} &middot; Treasury:{' '}
             <span style={{ color: SEAL_AMBER, fontWeight: 'bold' }}>
               {data.treasury}m
             </span>
@@ -119,8 +119,8 @@ export const StewardTrade = () => {
                 of {warrant.trade_cap}m remaining today
               </div>
               <div style={{ color: INK_FAINT, fontSize: FONT_BODY }}>
-                Trades beyond the warrant are refused. Crown&apos;s Purse still
-                pays the coin.
+                Trades beyond what your warrant allows are refused. The Treasury
+                still pays for each trade.
               </div>
             </div>
           )}
@@ -150,7 +150,7 @@ export const StewardTrade = () => {
           {tab === 'regions' && (
             <SequesteredOverlay
               active={!!data.sequestration?.active}
-              label="Inter-Regional Trade"
+              label="Regional Trade"
             >
               <RegionsView data={data} />
             </SequesteredOverlay>

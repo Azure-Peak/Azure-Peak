@@ -86,3 +86,12 @@
 	var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
 	to_chat(src, span_boldnotice("A familiar rhythm rises through the roots. The Mossmother remembers what [target.real_name] tried to bury..."))
 	to_chat(src, "<span class='info'>[parsed_secret]</span>")
+/mob/living/carbon/human/proc/remember_fey()
+	set name = "Remember Fey"
+	set category = "RoleUnique.Hag"
+	set desc = "Remember which of your lesser kin walk these lands."
+	var/datum/component/hag_curio_tracker/HCT = src.GetComponent(/datum/component/hag_curio_tracker)
+	if(!HCT)
+		remove_verb(src, /mob/living/carbon/human/proc/remember_fey)
+		return
+	HCT.recognize_fey(ping_feytouched = FALSE)

@@ -11,11 +11,24 @@
 
 // While most reskins should be -3 TRI, it's reasonable to make them -1 TRI if the cosmetic change is relatively minor (like swapping out the crossguard on a sword, or simply changing a helmet's palette.)
 
-// Remember that these costs are done on a 'per-round' basis, that all items can still be permenantly lost when withdrawn, and that they should - above all else - encourage people to roll with TRI-rewarding mechanics.
+// Remember that these costs are done on a 'per-round' basis, that all items can still be permanently lost when withdrawn, and that they should - above all else - encourage people to roll with TRI-rewarding mechanics.
 // When pricing, try to keep the costs to a formula of 1 / 3 / 5 / 7 / 9. Formulas of 2 / 4 / 6 / 8 / 10 can work too, but should be rarer.
 // Above all else? Have fun! If you have any questions, let me know.
 
 // -1 TRI
+
+/datum/loadout_item/shirt/ilamellar
+	name = "Gift - Iron Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/ilamellar
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
+/datum/loadout_item/shirt/blamellar
+	name = "Gift - Bronze Lamellar Armor decoration"
+	path = /obj/item/clothing/suit/roguetown/shirt/blamellar
+	triumph_cost = 1
+	sort_category = "Triumphs"
+
 /datum/loadout_item/psicross/noc/bronze
 	name = "Bronze Amulet of Noc"
 	path = /obj/item/clothing/neck/roguetown/psicross/noc/bronze
@@ -400,6 +413,12 @@
 	name = "Triumph Kit - Brigandine with Plate"
 	path = /obj/item/enchantingkit/triumph_armorkit_heavybrig
 	triumph_cost = 3
+	sort_category = "Triumphs"
+
+/datum/loadout_item/triumph_armorkit_sabatons
+	name = "Triumph Kit - Foot Plates"
+	path = /obj/item/enchantingkit/sabatons
+	triumph_cost = 1
 	sort_category = "Triumphs"
 
 /datum/loadout_item/triumph_armorkit_drow

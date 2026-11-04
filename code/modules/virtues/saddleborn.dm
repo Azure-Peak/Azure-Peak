@@ -62,9 +62,14 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 	overlay_state = "book1"
 	chargedrain = 0
 	chargetime = 0
+	var/vaquero = FALSE // To limit or otherwise alter the vaquero's version of the spell. Currently only prevents sending the mount away.
+	var/choosing = FALSE
 
 /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount/cast(list/targets, mob/living/carbon/human/user = usr)
 	. = ..()
+	if (choosing)
+		to_chat(user, span_warning("I am already calling my steed."))
+		return
 	//list of spells you can learn, it may be good to move this somewhere else eventually
 	var/area/place = get_area(user.loc)
 	if (!place || !place.outdoors)
@@ -73,7 +78,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	var/list/choices = list()
 
-	var/list/mount_choices = GLOB.virtue_mount_choices
+	var/list/mount_choices = GLOB.virtue_mount_choices.Copy()
 	if (HAS_TRAIT(user, TRAIT_NOBLE))
 		to_chat(user, span_info("As an anointed noble, your steed can also come from pedigree stock."))
 		mount_choices += GLOB.virtue_mount_choices_noble
@@ -92,10 +97,12 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	choices = sortList(choices)
 
+	choosing = TRUE
 	var/choice = input(user, "What form does your treasured steed take?") as null|anything in choices
 	var/mob/living/simple_animal/our_chosen_honse = choices[choice]
 
 	if (!our_chosen_honse)
+		choosing = FALSE
 		return
 
 	var/has_name = alert(user, "Have you named your noble steed?", "Saddleborn", "Yes", "No")
@@ -152,8 +159,11 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 			playsound(the_real_honse, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
 
 	// give us all the saddleborn summon/send-away spells and all that jazz
-	user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/sendaway)
-	user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/whistle)
+	if(!vaquero)
+		user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/sendaway)
+		user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/whistle)
+	else
+		user.AddSpell(new /obj/effect/proc_holder/spell/self/saddleborn/whistle/vaquero)
 	QDEL_IN(src, 0)
 
 // dirty subtype for saddleborn spells that handles checking if we can actually do fucking anything at all
@@ -241,7 +251,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		user.visible_message(span_notice("Patting [honse] on the haunches, [user] sends them trotting away."), span_notice("With a brief pat on the haunches, I send [honse] away to fend for themselves."))
 		if (should_heal)
 			honse.apply_status_effect(/datum/status_effect/buff/healing/saddleborn)
-			to_chat(user, span_info("In these surroundings, they should be able to rest and recouperate a little."))
+			to_chat(user, span_info("In these surroundings, they should be able to rest and recuperate a little."))
 		return TRUE
 	else
 		honse.SetImmobilized(0)
@@ -313,7 +323,7 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 
 	if (do_after(user, callback_time))
 		if (!back_from_the_void && honse_place && !honse_place.outdoors)
-			to_chat(user, span_warning("...but nothing comes. They musn't have heard your whistling."))
+			to_chat(user, span_warning("...but nothing comes. They mustn't have heard your whistling."))
 			return TRUE
 
 		honse.forceMove(user.loc)

@@ -17,11 +17,14 @@
 	round_contrib_points = 3
 	cmode_music = 'sound/music/cmode/nobility/combat_spymaster.ogg'
 
-	job_traits = list(TRAIT_SEEPRICES,
+	job_traits = list(
+		TRAIT_SEEPRICES,
 		TRAIT_CICERONE,
 		TRAIT_NUTCRACKER,
 		TRAIT_GOODLOVER,
-		TRAIT_HOMESTEAD_EXPERT)
+		TRAIT_HOMESTEAD_EXPERT,
+		TRAIT_GOOD_MASSEUR
+	)
 
 	advclass_cat_rolls = list(CTAG_BATHMOM = 2)
 	job_subclasses = list(
@@ -37,10 +40,10 @@
 	category_tags = list(CTAG_BATHMOM)
 	subclass_languages = list(/datum/language/thievescant)
 	subclass_stats = list(
-		STATKEY_WIL = 2,
+		STATKEY_WIL = 1,
 		STATKEY_STR = 1,
 		STATKEY_CON = 1,
-		STATKEY_INT = -1
+		STATKEY_INT = 1
 	)
 	subclass_skills = list(
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -48,7 +51,6 @@
 		/datum/skill/combat/whipsflails = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE,

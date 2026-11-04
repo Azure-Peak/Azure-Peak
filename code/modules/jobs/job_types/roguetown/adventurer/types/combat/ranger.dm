@@ -124,7 +124,7 @@
 	tutorial = "Bombs? You've got them. Plenty of them - and the skills to make more. You've spent years training under skilled alchemists and have found the perfect mix to create some chaos - now go blow something up!"
 	outfit = /datum/outfit/job/roguetown/adventurer/bombardier
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander2.ogg'
-	traits_applied = list(TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT) // Bombardier get an exception - alchemy is part of the gimmick.
+	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY, TRAIT_BOMBER_EXPERT) // Bombardier get an exception - alchemy is part of the gimmick.
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_INT = 1,
@@ -152,7 +152,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	head = /obj/item/clothing/head/roguetown/headband/monk
-	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/monk
+	wrists = /obj/item/rogueweapon/scabbard/sheath
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless_leather
 	cloak = /obj/item/clothing/cloak/eastcloak2
 	belt = /obj/item/storage/backpack/rogue/satchel/beltpack
@@ -167,7 +167,7 @@
 			if("Dodge Expert")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
 				beltl = /obj/item/rogueweapon/huntingknife/combat
-				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
+				shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 				pants = /obj/item/clothing/under/roguetown/trou/leather
 				backpack_contents = list(
 					/obj/item/natural/bundle/fibers/full = 1,
@@ -177,6 +177,8 @@
 					/obj/item/flint = 1,
 					)
 				H.change_stat(STATKEY_SPD, 2)
+				H.change_stat(STATKEY_STR, -2)
+				H.change_stat(STATKEY_WIL, 1)
 
 			if("Medium Armor")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)

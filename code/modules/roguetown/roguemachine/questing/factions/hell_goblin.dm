@@ -25,6 +25,6 @@
 	boss_title_templates = list(
 		"%N the Watchful",
 		"%N of the Ember",
-		"%N the Cinder-eyed",
+		"%N the Cinder Eye",
 	)
 	boss_name_file = "strings/rt/names/other/devilm.txt"

@@ -1,4 +1,0 @@
-author: "KatTheFox"
-delete-after: True
-changes:
-  - rscadd: "You can now set an 'artist credit' and 'artist link' for your headshot. The artist credit will be displayed in a box beneath your headshot on examine, if set; if the link is set too, the box will be clickable. Use this for linking to an artist's portfolio/donation page/etc."

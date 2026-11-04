@@ -279,6 +279,37 @@
 	icon_state = "tiyon"
 	sewrepair = TRUE
 
+
+/obj/item/clothing/head/roguetown/doublehennin
+	name = "dual hennin"
+	desc = "A fancy hennin framed by two cones that sit atop ones head. Worn most commonly by the old-fashioned and elderly."
+	icon_state = "hennin_double"
+	sewrepair = TRUE
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/veiledhat
+	name = "veiled hat"
+	desc = "A luxurious, wide-brimmed hat defined by two flanking sheets of cloth sewn under the brim, it frames the face well."
+	icon_state = "veilhat"
+	sewrepair = TRUE
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/flotsam
+	name = "flotsam bonnet"
+	desc = "A flexible cloth bonnet of elven fashion that holds a strong resemblance to a leaf. Worn oft by those who dwell in forests and swamps."
+	icon_state = "flotsam"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/nightcap
+	name = "nitecap"
+	desc = "A simple nightcap, used to keep the baldest of heads warm during the nite."
+	icon_state = "link"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/durag
 	name = "durag"
 	desc = "A fashionable garment worn to protect one's hair."
@@ -287,7 +318,7 @@
 
 /obj/item/clothing/head/roguetown/longveil
 	name = "long veil"
-	desc = "A long, trailing veil made of cloth meant to conceal ones hair. OFten worn by soilbrides and the devout."
+	desc = "A long, trailing veil made of cloth meant to conceal ones hair. Often worn by soilbrides and the devout."
 	icon_state = "headveil"
 	detail_tag = "_detail"
 	detail_color = CLOTHING_CHALK_WHITE
@@ -309,7 +340,7 @@
 
 /obj/item/clothing/head/roguetown/headband/bloodied
 	name = "bloodied headband"
-	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulative properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
+	desc = "A headband that's been soaked in the blood of a terrible nitebeast. The coagulating properties of cursed blood has stiffened the cloth, gifting it a texture not unlike spongy leather. Wearing it emboldens you with determination."
 	icon_state = "headband"
 	item_state = "headband"
 	color = "#851a16"
@@ -370,7 +401,7 @@
 
 /obj/item/clothing/head/roguetown/inqhat
 	name = "inquisitorial hat"
-	desc = "A fine leather slouch, beplumed with a crimson feather and fitted with a hidden steel skull cap. It serves as a reminder that the Holy Otavan Inquisition triumphs in one avenue above all else - fashion. </br>'To keep ones vision away from the heavens, and focused on the sin beneath the soil.'"
+	desc = "A fine leather slouch, beplumed with a crimson feather and fitted with a hidden steel skull cap. It serves as a reminder that the Holy Otavan Inquisition triumphs in one avenue above all else - fashion. </br>\"To keep one's vision away from the heavens, and focused on the sin beneath the soil.\""
 	icon_state = "inqhat"
 	item_state = "inqhat"
 	max_integrity = 200
@@ -779,3 +810,11 @@
 /obj/item/clothing/head/roguetown/rosa/six
 	name = "maroon cap"
 	icon_state = "rosahat6"
+
+/obj/item/clothing/head/roguetown/headband/fur
+	name = "fur headband"
+	desc = "A rough thick fur headband, worn by the more rugged folk."
+	icon_state = "fur_headband"
+	item_state = "fur_headband"
+	body_parts_covered = HEAD|HAIR|EARS
+	salvage_result = /obj/item/natural/hide/cured

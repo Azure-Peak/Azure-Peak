@@ -479,6 +479,28 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		/datum/patron/inhumen/baotha = "Lady of Heartbreak, grant mercy to this wounded soul!" // once more, similar to eora's. emphasizes the "mercy" baotha grants to the broken
 		))
 
+/mob/living/carbon/human/proc/poll_conversion(mob/living/carbon/human/new_convert, convert_message, list/result, list/poll_done)
+	var/list/accepted = SSpolling.poll_candidates(
+		question = convert_message,
+		poll_time = 10 SECONDS,
+		flash_window = FALSE,
+		group = list(new_convert),
+		alert_pic = src,
+		role_name_text = "Conversion",
+		custom_response_messages = list(
+			POLL_RESPONSE_SIGNUP = "You accept the conversion.",
+			POLL_RESPONSE_ALREADY_SIGNED = "You have already accepted.",
+			POLL_RESPONSE_NOT_SIGNED = "You have not accepted.",
+			POLL_RESPONSE_TOO_LATE_TO_UNREGISTER = "It is too late to back out.",
+			POLL_RESPONSE_UNREGISTERED = "You withdraw your acceptance.",
+		),
+		announce_chosen = FALSE,
+		signup_verb = "Convert",
+	)
+	if(length(accepted))
+		result += accepted
+	poll_done += TRUE
+
 /mob/living/carbon/human/proc/convert_other(atom/victim)
 
 	var/mob/living/carbon/human/caster = src
@@ -547,15 +569,16 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 			else // this should not happen but if people add more gods and don't update this it's good to have a fallback
 				convert_message = "[caster.real_name] is trying to convert you to [get_god_name(caster.patron)]. Will you accept?"
 	convert_message += " THIS WILL CHANGE YOUR PATRON."
-	// this is going to look slightly jank, and it is. but this is the best way to get a window that doesn't steal focus, can't intercept your clicks, and can't be meta'd; all concerns people had with alert()
-	var/list/result = list(new_convert)
+	var/list/result = list()
+	var/list/poll_done = list()
 	if(!is_tennite && istype(caster.patron, new_convert.patron.type))
-		result -= new_convert
+		poll_done += TRUE
 	else
-		showCandidatePollWindow(new_convert, 10 SECONDS, convert_message, result, null, world.time, flashwindow = FALSE)
+		INVOKE_ASYNC(src, PROC_REF(poll_conversion), new_convert, convert_message, result, poll_done)
 	if(!do_mob(caster, new_convert, 10 SECONDS, can_move = FALSE) || caster.cmode || new_convert.cmode)
 		to_chat(caster, span_info("I lose focus! The rite fails."))
 		return FALSE
+	UNTIL(length(poll_done))
 	if(!length(result))
 		if(is_tennite)
 			to_chat(caster, span_warning("[new_convert] is not responsive to my proselytizing..."))
@@ -610,9 +633,10 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 		for(var/S in new_convert.devotion.granted_spells)
 			new_convert.mind.RemoveSpell(S)
 
-		// gravemark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; also, necromancers and liches get them through arcyne means
-		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark) && !istype(SSrole_class_handler.get_advclass_by_name(new_convert.advjob), /datum/advclass/wretch/necromancer) && !new_convert.mind.has_antag_datum(/datum/antagonist/lich))
-			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/gravemark)
+		// minion mark and minion order are special, they're given to zizo and ravox only, and zizo only if they're t3 or above; aspect-granted marks are kept
+		var/datum/action/cooldown/spell/mark = new_convert.mind.get_spell(/datum/action/cooldown/spell/minion_mark, TRUE)
+		if(mark && !mark.source_aspect)
+			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_mark)
 			new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/minion_order)
 
 		if(new_convert.mind.has_spell(/datum/action/cooldown/spell/projectile/divine_blast))
@@ -632,21 +656,21 @@ GLOBAL_LIST_INIT(convert_incantations, list(
 	if(!istype(new_convert.patron, /datum/patron/inhumen) && new_convert.mind.has_spell(/datum/action/cooldown/spell/convert_heretic))
 		new_convert.mind.RemoveSpell(/datum/action/cooldown/spell/convert_heretic)
 
-	if(was_cleric && !istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
-		// Grant new devotion
+	if(was_cleric)
 		var/datum/devotion/new_devotion = new /datum/devotion(new_convert, new_convert.patron)
 		new_convert.devotion = new_devotion
-		new_devotion.grant_miracles(new_convert, saved_level, saved_devotion_gain, saved_max_progression)
-		if(had_blast)
-			var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/unholy_blast)
-			new_convert.mind.AddSpell(new blast_to_grant)
-		// why are you like this
-		if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/gravemark))
-			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
-			new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-	else if(was_cleric)
-		// however, they can have TRAIT_PSYDONITE as a treat
-		ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)
+		if(!istype(new_convert.patron, /datum/patron/old_god)) // psydonites don't get new miracles, since psydonite "miracles" don't work like real miracles
+			new_devotion.grant_miracles(new_convert, saved_level, saved_devotion_gain, saved_max_progression)
+			if(had_blast)
+				var/blast_to_grant = (istype(new_convert.patron, /datum/patron/inhumen) ? /datum/action/cooldown/spell/projectile/divine_blast : /datum/action/cooldown/spell/projectile/unholy_blast)
+				new_convert.mind.AddSpell(new blast_to_grant)
+			// why are you like this
+			if(saved_level >= 3 && istype(new_convert.patron, /datum/patron/inhumen/zizo) && !new_convert.mind.has_spell(/datum/action/cooldown/spell/minion_mark))
+				new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
+				new_convert.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
+		else // however, they can have TRAIT_PSYDONITE as a treat; and bootcheck, because why not (this is identical to the effects of the devotee virtue)
+			ADD_TRAIT(new_convert, TRAIT_PSYDONITE, ROUNDSTART_TRAIT)
+			new_devotion.grant_miracles(new_convert, cleric_tier = CLERIC_T0, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = (CLERIC_REQ_1 - 10))
 
 	if(!(ispath(new_patron, /datum/patron/divine) && istype(old_patron, /datum/patron/divine))) // sigh.
 		// give a small mood buff to both parties, identical to prayer; psydonites get the same thing but with more ambiguous wording

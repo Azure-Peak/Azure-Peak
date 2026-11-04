@@ -34,7 +34,7 @@
 		var/mob/living/simple_animal/beast = src
 		if(beast.is_winded())
 			return FALSE
-	var/paired_swing = user?.dualwield_twoswing
+	var/paired_swing = user?.dualwield_processing
 	if(!paired_swing && world.time < last_dodge + dodgetime)
 		return FALSE
 	if(has_status_effect(/datum/status_effect/debuff/riposted))
@@ -228,6 +228,10 @@
 
 		if(HAS_TRAIT(user, TRAIT_CURSE_RAVOX))
 			prob2defend -= 40
+			ignore_DE_bonus = TRUE
+
+		if(!defender.mind && defender.has_status_effect(/datum/status_effect/debuff/staggered))
+			prob2defend *= 0.5
 			ignore_DE_bonus = TRUE
 
 		if(defender.has_status_effect(/datum/status_effect/debuff/hamstring))

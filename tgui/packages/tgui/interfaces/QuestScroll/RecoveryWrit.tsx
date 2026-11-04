@@ -7,6 +7,7 @@ export const RecoveryWrit = (props: {
   circumstance?: string;
   pickupRegion?: string | null;
   fetchItem?: string | null;
+  fetchItemPlural?: string | null;
   fetchCount?: number;
   reward: number;
   levyRate: number;
@@ -22,6 +23,7 @@ export const RecoveryWrit = (props: {
     circumstance,
     pickupRegion,
     fetchItem,
+    fetchItemPlural,
     fetchCount,
     reward,
     levyRate,
@@ -35,7 +37,7 @@ export const RecoveryWrit = (props: {
   const region = pickupRegion || realm;
   const itemLabel =
     fetchItem && fetchCount && fetchCount > 1
-      ? `${fetchCount} ${fetchItem}s`
+      ? `${fetchCount} ${fetchItemPlural || fetchItem}`
       : fetchItem
         ? `a ${fetchItem}`
         : 'goods of the realm';
@@ -46,8 +48,8 @@ export const RecoveryWrit = (props: {
       </p>
       {circumstance && <p style={writParagraph}>{circumstance}</p>}
       <p style={writParagraph}>
-        Whosoever shall recover {itemLabel} from {region} and bring them unto
-        the Contract Ledger shall be paid the bounty of{' '}
+        Whosoever shall recover {itemLabel} from {region} and bring the same
+        unto the Contract Ledger shall be paid the sum of{' '}
         <RewardClause
           reward={reward}
           levyRate={levyRate}
@@ -57,7 +59,7 @@ export const RecoveryWrit = (props: {
         .
       </p>
       <p style={writParagraph}>
-        The writ knows the goods and shall mark itself when the deed is done.
+        This writ shall mark itself when the goods are recovered.
       </p>
       <SealLine
         rulerTitle={rulerTitle}

@@ -451,6 +451,57 @@
 	M.adjustToxLoss(4, 0)
 	. = 1
 
+/obj/item/reagent_containers/food/snacks/skysugarbase
+	name = "panacea of skysugar"
+	desc = "A combination of perplexingly diverse ingredients, that - when specifically boiled in fat - merges together to create an \
+	alchemically pure substance. South of Azuria's border, it's known as 'skysugar'; a Pestran heresy, rumored to've originally been \
+	brewed to cure that which even a quicksilver poultice couldn't mend. Despite its fruity aroma, it probably shouldn't be nibbled at."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_impure_combo"
+	w_class = WEIGHT_CLASS_SMALL
+	faretype = FARE_IMPOVERISHED
+	rotprocess = SHELFLIFE_DECENT
+	eat_effect = /datum/status_effect/debuff/uncookedfood
+	tastes = list("a horrifically bad idea" = 1, "slightly fruity aftertaste" = 1)
+	bitesize = 2
+	list_reagents = list(/datum/reagent/toxin/killersice = 1, /datum/reagent/starsugar = 8, /datum/reagent/water = 7, /datum/reagent/consumable/nutriment = 3) //Feeling a little.. under the weather?
+	sellprice = 23
+
+/obj/item/reagent_containers/food/snacks/skysugarslab
+	dish_type = DISH_MEAT
+	name = "skysugar slab"
+	desc = "A crystalline brick that radiates with an almost-ethereal hue, yet to be broken up at an alchemical lab. They call \
+	it 'luchtblauw' in Old Azurian; alchemically purified starsugar, to a ninth-of-a-hundreth dram. Born of a Pestran heresy, this \
+	mysterious substance is both ludicrously potent and condemned by the Church. Even so, it's worth its weight in gold; and in the \
+	hands of a yeoman willing to 'break bad', it can be sold to an amoral Merchant or Bathmatron for a hefty sum."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_slab"
+	w_class = WEIGHT_CLASS_SMALL
+	gender = PLURAL
+	bitesize = 7
+	faretype = FARE_IMPOVERISHED //Have you ever tried eating a solid chunk of soul-meth, before?
+	tastes = list("a slightly less bad idea" = 1, "shards of fruit-tinged glass" = 1)
+	list_reagents = list(/datum/reagent/starsugar = 16, /datum/reagent/water = 6, /datum/reagent/consumable/nutriment = 6)
+	grind_results = list(/datum/reagent/starsugar = 98) //Add a custom reagent if you wish. I think that'd be pretty cool.
+	sellprice = 137
+	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
+
+/obj/item/reagent_containers/powder/starsugar/skysugar
+	name = "skysugar"
+	desc = "A crystalline powder that radiates with an almost-ethereal hue, and feels deathly cold to the touch. They call \
+	it 'luchtblauw' in Old Azurian; alchemically purified starsugar, to a ninth-of-a-hundreth dram. Born of a Pestran heresy, this \
+	mysterious substance is both ludicrously potent and condemned by the Church. Even so, it's worth its weight in gold; and in the \
+	hands of a yeoman willing to 'break bad', it can be sold to an amoral Merchant or Bathmatron for a hefty sum."
+	icon = 'icons/roguetown/items/produce.dmi'
+	icon_state = "lux_powder"
+	item_state = "lux_powder"
+	possible_transfer_amounts = list()
+	volume = 38
+	list_reagents = list(/datum/reagent/starsugar = 38, /datum/reagent/consumable/nutriment = 38) //Yeah, psyence!
+	grind_results = list(/datum/reagent/starsugar = 38)
+	sellprice = 123 //Tight, tight, tight! Blue, red, green; whatever, man, just bring me more!
+	drop_sound = 'sound/foley/dropsound/glass_drop.ogg'
+
 /datum/reagent/herozium
 	name = "herozium"
 	description = ""

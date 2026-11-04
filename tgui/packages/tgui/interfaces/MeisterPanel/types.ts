@@ -27,10 +27,9 @@ export type ActiveLoan = {
   creditor: string;
 };
 
-export type PollTax = {
-  rate: number;
+export type PollLevy = {
   exempt: boolean;
-  advance_days_held: number;
+  owed: number;
 };
 
 export type FundBalance = {
@@ -69,12 +68,7 @@ export type PatronRoster = {
   patrons: Patron[];
 };
 
-export type PollTaxStatic = {
-  max_advance_days: number;
-  fallback_rate: number;
-};
-
-export type PollTaxUser = {
+export type PollLevyUser = {
   category: string;
   category_label: string;
 };
@@ -93,9 +87,8 @@ export type Data = {
   day: number;
   max_issuance_day: number;
   active_loan: ActiveLoan | null;
-  poll_tax: PollTax;
-  poll_tax_static: PollTaxStatic;
-  poll_tax_user: PollTaxUser;
+  poll_levy: PollLevy;
+  poll_levy_user: PollLevyUser;
   fund_balances: Record<string, FundBalance>;
   institutional_loans: LedgerLoan[];
   institutional_logs: Record<string, LogEntry[]>;
@@ -105,13 +98,19 @@ export type Data = {
   bathhouse_ordinance_active: boolean;
   bathhouse_tithe_round_total: number;
   bathhouse_ordinance_cooldown_seconds: number;
+  bathhouse_ordinance_cooldown_minutes: number;
+  bathhouse_worker_withdraw_limit: number;
+  bathhouse_agent_withdraw_limit: number;
+  bathhouse_worker_withdrawals_suspended: boolean;
+  bathhouse_agent_withdrawals_suspended: boolean;
+  bathhouse_viewer_withdrawal_limit_hit: boolean;
 };
 
 export type TabKey =
   | 'personal'
   | 'institutional'
   | 'patronage'
-  | 'polltax'
+  | 'polllevy'
   | 'ledger';
 
 export type TabProps = {

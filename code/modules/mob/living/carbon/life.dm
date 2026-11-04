@@ -116,13 +116,6 @@
 
 /mob/living/carbon/human/handle_roguebreath()
 	..()
-	if(HAS_TRAIT(src, TRAIT_PSYDONITE))
-		if(!HAS_TRAIT(src, TRAIT_BLACKBLOOD) && !HAS_TRAIT(src, TRAIT_IRONMAN)) //Explicitly incompatible with Blackblood, Constructs have their own healing mechanics + are barred from healing miracles already, which overlaps with the intended weakness of Psydonian healing.
-			var/list/wCount = src.get_wounds()
-			if(wCount.len > 0)
-				heal_wounds(0.4, psydonite = TRUE)
-				if(blood_volume > BLOOD_VOLUME_BAD && !HAS_TRAIT(src, TRAIT_DEATHLESS))
-					heal_wounds(0.6, psydonite = TRUE) //Bulk of the healing is locked behind not having depleted blood and not being deathless
 	if(HAS_TRAIT(src, TRAIT_NOBREATH))
 		return TRUE
 	if(HAS_TRAIT(src, TRAIT_HOLDBREATH))
@@ -157,6 +150,9 @@
 		emote("drown")
 
 	if(istype(onturf, /turf/open/water/sewer) && !HAS_TRAIT(src, TRAIT_HOLDBREATH))
+		add_stress(/datum/stressevent/sewertouched)
+
+	if(istype(onturf, /turf/open/water/swamp) && HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED))
 		add_stress(/datum/stressevent/sewertouched)
 
 	if(istype(onturf, /turf/open/water/bath) && !wear_armor && !wear_shirt && !wear_pants)
@@ -235,7 +231,7 @@ In addition, severe effects won't always trigger unless the drink is poisonously
 All effects don't start immediately, but rather get worse over time; the rate is affected by the imbiber's alcohol tolerance
 
 0: Non-alcoholic
-1-10: Barely classifiable as alcohol - occassional slurring
+1-10: Barely classifiable as alcohol - occasional slurring
 11-20: Slight alcohol content - slurring
 21-30: Below average - imbiber begins to look slightly drunk
 31-40: Just below average - no unique effects
@@ -587,8 +583,12 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			energy_add(5)
 	//Healing while sleeping in a bed
 	if(IsSleeping())
+		dualwield_attack_count = 0
 		if(HAS_TRAIT(src, TRAIT_NOREGEN) || HAS_TRAIT(src, TRAIT_IRONMAN))
 			return
+		if(HAS_TRAIT(src, TRAIT_DEATHLESS) || HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)) // To prevent a softlock involving blood loss.
+			if(blood_volume < BLOOD_VOLUME_BAD)
+				blood_volume += (BLOOD_VOLUME_NORMAL * 0.002)
 		var/sleepy_mod = 0.5
 		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
 		if(HAS_TRAIT(src, TRAIT_BETTER_SLEEP))
@@ -613,6 +613,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					var/obj/structure/flora/newbranch/branch = locate() in loc
 					if(branch)
 						sleepy_mod = 2 // just equivalent to a bedroll
+				if(HAS_TRAIT(src, TRAIT_WATERSLEEP) && istype(loc, /turf/open/water))
+					sleepy_mod = 2 // ditto
 		if(nutrition > 0 || doesnt_hunger)
 			energy_add(sleepy_mod * 15)
 		if(hydration > 0 || doesnt_hunger)
@@ -640,6 +642,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)
 				SEND_SIGNAL(bed, COMSIG_SLEEPING_ON_BED, src)
+				SEND_SIGNAL(src, COMSIG_SLEEPING_ON_BED, src) // send this to both the mob and bed, they're used for different things
 				sleepy_mod = bed.sleepy
 			else
 				sleepy_mod = 1
@@ -647,6 +650,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 					var/obj/structure/flora/newbranch/branch = locate() in loc
 					if(branch)
 						sleepy_mod = 2 //Worse than a bedroll, better than nothing.
+				if(HAS_TRAIT(src, TRAIT_WATERSLEEP) && istype(loc, /turf/open/water))
+					sleepy_mod = 2 // ditto
 		if(sleepy_mod > 0)
 			if(eyesclosed)
 				if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !sleepless_flaw)
@@ -689,6 +694,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						if(!is_asleep) //to not spam chat
 							to_chat(src, span_blue("I've fallen asleep."))
 							is_asleep = TRUE
+						if((sleepy_mod < 3 || !istype(get_area(src), /area/rogue/indoors)) && HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED)) // nobles need good beds and a proper room or they complain
+							add_stress(/datum/stressevent/unlanded_noble_poor_sleep)
+						else if (sleepy_mod>=3 && has_stress_event(/datum/stressevent/unlanded_noble_poor_sleep))
+							remove_stress(/datum/stressevent/unlanded_noble_poor_sleep) // a good night's sleep fixes it
 						// those who have gazed upon zuranus may have... odd dreams.
 						if(has_status_effect(/datum/status_effect/zuranus))
 							var/zizo_dream = has_status_effect(/datum/status_effect/zuranus) // this is stupid im sorry

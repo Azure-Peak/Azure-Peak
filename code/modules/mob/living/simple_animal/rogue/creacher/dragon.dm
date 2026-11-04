@@ -4,7 +4,8 @@
 	attack_aim = MOB_AIM_HIGH
 	icon = 'modular/icons/mob/96x96/ratwood_dragon.dmi'
 	name = "half-drakkyn"
-	desc = "Descendent of descendent of descendent of greatness; degenerated to mortality through diluta of power, blood, and wealth."
+	mob_size = MOB_SIZE_LARGE
+	desc = "Descendant of descendant of descendant of greatness; degenerated to mortality through diluta of power, blood, and wealth."
 	icon_state = "dragon"
 	icon_living = "dragon"
 	icon_dead = "dragon_dead"

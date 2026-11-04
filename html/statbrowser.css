@@ -29,13 +29,13 @@
 	--scrollbar-base: #0a0a0a;
 	--scrollbar-thumb: #3a3a3a;
 
-	--c-str: #b18484;
-	--c-per: #c0ba8d;
-	--c-int: #81adc8;
-	--c-con: #d6858b;
-	--c-wil: #aa83b9;
-	--c-spd: #d6c36b;
-	--c-for: #819e82;
+	--c-str: #7a1e30; /* ravox */
+	--c-per: #43622e; /* dendor */
+	--c-int: #9acdff; /* noc */
+	--c-con: #884610; /* malum */
+	--c-wil: #19345e; /* graggar */
+	--c-spd: #e1c457; /* matthios */
+	--c-for: #e2ddae; /* xylix */
 	--c-vitae: #c44b4b;
 	--c-patron: #f2f2f2;
 }
@@ -70,13 +70,13 @@
 	--scrollbar-base: #332a1e;
 	--scrollbar-thumb: rgba(160, 130, 80, 0.45);
 
-	--c-str: #a04848;
-	--c-per: #b59a5e;
-	--c-int: #5a7ca8;
-	--c-con: #8a3c3c;
-	--c-wil: #9a7ab0;
-	--c-spd: #c8a050;
-	--c-for: #6a9560;
+	--c-str: #7a1e30; /* ravox */
+	--c-per: #43622e; /* dendor */
+	--c-int: #9acdff; /* noc */
+	--c-con: #884610; /* malum */
+	--c-wil: #19345e; /* graggar */
+	--c-spd: #e1c457; /* matthios */
+	--c-for: #e2ddae; /* xylix */
 	--c-vitae: #8a2f2f;
 	--c-patron: #d4c090;
 }

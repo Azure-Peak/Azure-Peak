@@ -108,7 +108,7 @@
 
 /obj/item/clothing/head/roguetown/helmet/kettle/paalloy
 	name = "ancient kettle helmet"
-	desc = "A polished gilbranze helmet which protects the top and sides of the head. Zizo's glare musn't be interceded, when matters of unholy war are at hand. Undead ballistaemen practice a curious method of tying dyed cloth around its rim; can they, too, think and associate?"
+	desc = "A polished gilbranze helmet which protects the top and sides of the head. Zizo's glare mustn't be interceded, when matters of unholy war are at hand. Undead ballistaemen practice a curious method of tying dyed cloth around its rim; can they, too, think and associate?"
 	icon_state = "ancientkettle"
 	smeltresult = /obj/item/ingot/aaslag
 	body_parts_covered = HEAD|HAIR|EARS
@@ -203,7 +203,7 @@
 /obj/item/clothing/head/roguetown/helmet/sallet/iron
 	name = "iron sallet"
 	icon_state = "isallet"
-	desc = "A iron helmet covers most of the head, offeirng superior coverage to the kettle helmet. It comfortably fits atop most padded coifs-and-caps."
+	desc = "An iron helmet covers most of the head, offering superior coverage to the kettle helmet. It comfortably fits atop most padded coifs-and-caps."
 	smeltresult = /obj/item/ingot/iron
 	max_integrity = ARMOR_INT_HELMET_IRON
 

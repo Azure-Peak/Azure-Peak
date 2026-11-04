@@ -99,6 +99,9 @@
 	var/datum/custom_descriptor_entry/entry = described.custom_entry(custom_index)
 	return entry.content_text
 
+/datum/mob_descriptor/body/custom/get_examine_description(mob/living/described)
+	return LOWER_TEXT(get_description(described))
+
 /datum/mob_descriptor/body/custom/seven
 	name = "Custom Body"
 	custom_index = 7

@@ -23,7 +23,7 @@
 	charge_required = TRUE
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_HEAVY
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_HEAVY
 	charge_sound = 'sound/magic/charging.ogg'
@@ -35,8 +35,8 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/telegraph_delay = TELEGRAPH_HIGH_IMPACT
-	var/crush_damage = 60
-	displayed_damage = 60
+	var/crush_damage = SPELL_DMG(60)
+	displayed_damage = SPELL_DMG(60)
 	var/crush_intdamage_factor = 2
 	var/aoe_range = 2 // 5x5
 
@@ -84,7 +84,7 @@
 			if(arcyne_strike(caster, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
 				spell_name = "Mass Crush", damage_type = BRUTE, \
 				skip_animation = TRUE, \
-				intdamage_factor = crush_intdamage_factor) == ARCYNE_STRIKE_WARDED)
+				intdamage_factor = crush_intdamage_factor, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 				continue
 			L.Slowdown(1)
 			to_chat(L, span_userdanger("Gravitational force compresses around me!"))

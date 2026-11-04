@@ -32,6 +32,9 @@
 	. = ui_act_popup_virtue(action, params, ui, state)
 	if(.)
 		return
+	. = ui_act_popup_quirk(action, params, ui, state)
+	if(.)
+		return
 
 /* INSTRUCTIONS FOR DOWNSTREAM:
 Add a new override in your modular folder that looks like this:

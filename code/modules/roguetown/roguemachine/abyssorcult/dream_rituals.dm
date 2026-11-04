@@ -84,13 +84,21 @@
 
 	return discounted_ingredients
 
+/datum/abyssal_ritual/proc/has_amount_var(obj/item/I)
+	var/static/list/amount_types = list()
+	var/cached = amount_types[I.type]
+	if(isnull(cached))
+		cached = hasvar(I, "amount")
+		amount_types[I.type] = cached
+	return cached
+
 /datum/abyssal_ritual/proc/check_ingredients(obj/structure/roguemachine/dream_pool/P)
 	if(!length(required_ingredients))
 		return TRUE
 	var/list/pool_inventory = list()
 	for(var/turf/T in P.get_outer_rim_turfs())
 		for(var/obj/item/I in T)
-			var/count = hasvar(I, "amount") ? I:amount : 1
+			var/count = has_amount_var(I) ? I:amount : 1
 			for(var/req_type in required_ingredients)
 				if(istype(I, req_type))
 					pool_inventory[req_type] += count
@@ -114,7 +122,7 @@
 					continue
 				if(istype(I, req_type))
 					var/needed = to_consume[req_type]
-					if(hasvar(I, "amount"))
+					if(has_amount_var(I))
 						var/stack_amount = I:amount
 						if(stack_amount > needed)
 							I:amount -= needed

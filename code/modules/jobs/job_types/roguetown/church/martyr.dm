@@ -512,7 +512,8 @@
 	//They get those traits during sword activation, anyway.
 	//Dual wielder is there to stand-in for ambidextrous in case they activate their sword in their off-hand.
 	virtue_restrictions = list(/datum/virtue/utility/noble, /datum/virtue/combat/second_chance, /datum/virtue/utility/hollow, /datum/virtue/combat/dualwielder, /datum/virtue/heretic/zchurch_keyholder)
-	vice_restrictions = list(/datum/charflaw/silverweakness)
+	quirk_restrictions = list(/datum/quirk/noble)
+	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted)
 
 	advclass_cat_rolls = list(CTAG_MARTYR = 2)
 	job_subclasses = list(
@@ -578,7 +579,7 @@
 	id = /obj/item/clothing/neck/roguetown/psicross/silver/undivided
 	backpack_contents = list(
 		/obj/item/rope/chain = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/silver = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/silver = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		/obj/item/mini_flagpole/church,
 		)

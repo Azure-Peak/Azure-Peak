@@ -147,7 +147,7 @@ GLOBAL_VAR_INIT(focused_test, focused_test())
 	//Expects a mob to holderize, we have nothing to give
 	ignore += typesof(/obj/item/clothing/head/mob_holder)
 	//Needs cards passed into the initilazation args
-	ignore += typesof(/obj/item/toy/cards/cardhand)
+	ignore += typesof(/obj/item/card_hand)
 	//needs multiple atoms passed
 	ignore += typesof(/obj/effect/buildmode_line)
 	//runtimes without a landmark to spawn on

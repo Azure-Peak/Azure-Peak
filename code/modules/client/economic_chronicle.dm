@@ -138,18 +138,23 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 
 /datum/economic_chronicle/proc/build_treasury_snapshot()
 	var/list/poll = list(
-		"total" = GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED] || 0,
-		"noble" = GLOB.azure_round_stats[STATS_POLL_TAX_NOBLE] || 0,
-		"clergy" = GLOB.azure_round_stats[STATS_POLL_TAX_CLERGY] || 0,
-		"inquisition" = GLOB.azure_round_stats[STATS_POLL_TAX_INQUISITION] || 0,
-		"courtier" = GLOB.azure_round_stats[STATS_POLL_TAX_COURTIER] || 0,
-		"garrison" = GLOB.azure_round_stats[STATS_POLL_TAX_GARRISON] || 0,
-		"guilds" = GLOB.azure_round_stats[STATS_POLL_TAX_GUILDS] || 0,
-		"merchant" = GLOB.azure_round_stats[STATS_POLL_TAX_MERCHANT] || 0,
-		"burgher" = GLOB.azure_round_stats[STATS_POLL_TAX_BURGHER] || 0,
-		"adventurer" = GLOB.azure_round_stats[STATS_POLL_TAX_ADVENTURER] || 0,
-		"mercenary" = GLOB.azure_round_stats[STATS_POLL_TAX_MERCENARY] || 0,
-		"peasant" = GLOB.azure_round_stats[STATS_POLL_TAX_PEASANT] || 0,
+		"total" = GLOB.azure_round_stats[STATS_POLL_LEVY_COLLECTED] || 0,
+		"noble" = GLOB.azure_round_stats[STATS_POLL_LEVY_NOBLE] || 0,
+		"clergy" = GLOB.azure_round_stats[STATS_POLL_LEVY_CLERGY] || 0,
+		"inquisition" = GLOB.azure_round_stats[STATS_POLL_LEVY_INQUISITION] || 0,
+		"courtier" = GLOB.azure_round_stats[STATS_POLL_LEVY_COURTIER] || 0,
+		"garrison" = GLOB.azure_round_stats[STATS_POLL_LEVY_GARRISON] || 0,
+		"guilds" = GLOB.azure_round_stats[STATS_POLL_LEVY_GUILDS] || 0,
+		"merchant" = GLOB.azure_round_stats[STATS_POLL_LEVY_MERCHANT] || 0,
+		"burgher" = GLOB.azure_round_stats[STATS_POLL_LEVY_BURGHER] || 0,
+		"scholar" = GLOB.azure_round_stats[STATS_POLL_LEVY_SCHOLAR] || 0,
+		"adventurer" = GLOB.azure_round_stats[STATS_POLL_LEVY_ADVENTURER] || 0,
+		"mercenary" = GLOB.azure_round_stats[STATS_POLL_LEVY_MERCENARY] || 0,
+		"peasant" = GLOB.azure_round_stats[STATS_POLL_LEVY_PEASANT] || 0,
+		"levies" = GLOB.azure_round_stats[STATS_POLL_LEVIES_ENACTED] || 0,
+		"arrears" = GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS] || 0,
+		"forgiven" = GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS_FORGIVEN] || 0,
+		"recovered" = GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS_RECOVERED] || 0,
 	)
 	var/contract_levy = GLOB.azure_round_stats[STATS_REVENUE_CONTRACT_LEVY] || 0
 	var/headeater_levy = GLOB.azure_round_stats[STATS_REVENUE_HEADEATER_LEVY] || 0
@@ -172,7 +177,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 	var/exempt_import = GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF] || 0
 	var/exempt_export = GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY] || 0
 	var/exempt_fine = GLOB.azure_round_stats[STATS_EXEMPTED_FINE] || 0
-	var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX] || 0
+	var/exempt_poll = GLOB.azure_round_stats[STATS_EXEMPTED_POLL_LEVY] || 0
 	var/exempt_total = exempt_contract + exempt_headeater + exempt_import + exempt_export + exempt_fine + exempt_poll
 	var/list/exempt = list(
 		"total" = exempt_total,
@@ -181,7 +186,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"import" = exempt_import,
 		"export" = exempt_export,
 		"fines" = exempt_fine,
-		"poll_tax" = exempt_poll,
+		"poll_levy" = exempt_poll,
 	)
 	var/list/standing = list(
 		"revenue" = GLOB.azure_round_stats[STATS_STANDING_ORDER_REVENUE] || 0,
@@ -191,8 +196,8 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"petition_pledge_spent" = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT] || 0,
 	)
 	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
-	var/total_revenue = GLOB.treasury_inflow_total
-	var/total_expenses = GLOB.treasury_outflow_total
+	var/total_revenue = SStreasury.purse_inflow_total
+	var/total_expenses = SStreasury.purse_outflow_total
 	var/attributed_expenses = total_treasury_expenses()
 	var/taxable_activity = royal_taxes_total + (GLOB.azure_round_stats[STATS_TAXES_EVADED] || 0)
 	var/effective_tax_rate = taxable_activity > 0 ? round((royal_taxes_total / taxable_activity) * 100, 0.1) : null
@@ -333,7 +338,36 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"mammons_taxed" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_TAXED] || 0,
 		"mammons_forfeited" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_FORFEITED] || 0,
 		"mammons_refunded" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_REFUNDED] || 0,
+		"guild_cut" = GLOB.azure_round_stats[STATS_CONTRACT_MAMMONS_GUILD_CUT] || 0,
+		"lapsed_pool" = GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_POOL] || 0,
+		"lapsed_rumor" = GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_RUMOR] || 0,
+		"lapsed_defense" = GLOB.azure_round_stats[STATS_CONTRACTS_LAPSED_DEFENSE] || 0,
+		"players_total" = count_all_contract_signers(),
+		"types" = build_contract_axis_rows(CONTRACT_AXIS_TYPE, GLOB.quest_prototypes),
+		"regions" = build_contract_axis_rows(CONTRACT_AXIS_REGION, contract_region_order()),
+		"groups" = build_contract_axis_rows(CONTRACT_AXIS_GROUP, contract_group_order()),
 	)
+
+/datum/economic_chronicle/proc/build_contract_axis_rows(axis, list/keys)
+	var/list/rows = list()
+	for(var/key in keys)
+		rows += list(list(
+			"name" = key,
+			"posted" = get_contract_stat(axis, key, CONTRACT_STAT_POSTED),
+			"taken" = get_contract_stat(axis, key, CONTRACT_STAT_TAKEN),
+			"lapsed" = get_contract_stat(axis, key, CONTRACT_STAT_LAPSED),
+			"players" = count_contract_signers(axis, key),
+			"completed" = get_contract_stat(axis, key, CONTRACT_STAT_COMPLETED),
+			"failed" = get_contract_stat(axis, key, CONTRACT_STAT_FAILED),
+			"abandoned" = get_contract_stat(axis, key, CONTRACT_STAT_ABANDONED),
+			"withdrawn" = get_contract_stat(axis, key, CONTRACT_STAT_WITHDRAWN),
+			"paid" = get_contract_stat(axis, key, CONTRACT_STAT_PAID),
+			"wait_ds" = get_contract_stat(axis, key, CONTRACT_STAT_WAIT_DS),
+			"run_ds" = get_contract_stat(axis, key, CONTRACT_STAT_RUN_DS),
+			"party" = get_contract_stat(axis, key, CONTRACT_STAT_PARTY),
+			"deaths" = get_contract_stat(axis, key, CONTRACT_STAT_DEATHS),
+		))
+	return rows
 
 /datum/economic_chronicle/proc/build_royal_favors_snapshot()
 	var/pledge_gen = GLOB.azure_round_stats[STATS_PLEDGE_GENERATED] || 0
@@ -344,7 +378,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"pledge_generated" = pledge_gen,
 		"pledge_consumed" = pledge_con,
 		"pledge_unused" = max(0, pledge_gen - pledge_con),
-		"rumor_generated" = rumor_gen,
-		"rumor_consumed" = rumor_con,
-		"rumor_unused" = max(0, rumor_gen - rumor_con),
+		"rumor_generated" = round(rumor_gen, 1),
+		"rumor_consumed" = round(rumor_con, 1),
+		"rumor_unused" = round(max(0, rumor_gen - rumor_con), 1),
 	)

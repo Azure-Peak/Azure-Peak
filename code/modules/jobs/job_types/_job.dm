@@ -151,6 +151,7 @@
 	var/PQ_boost_divider = 0
 
 	var/list/virtue_restrictions
+	var/list/quirk_restrictions
 	var/list/vice_restrictions
 
 	///The job's stats
@@ -301,6 +302,11 @@
 			if(isnull(H.mind?.special_role) && (MF?.special_role in list(ROLE_VAMPIRE, ROLE_NBEAST, ROLE_BANDIT, ROLE_LICH, ROLE_WRETCH, ROLE_UNBOUND_DEATHKNIGHT)))
 				continue
 			H.mind.i_know_person(MF)
+	if(give_bank_account)
+		for(var/mob/living/carbon/human/MF in GLOB.player_list)
+			if(HAS_TRAIT(MF, TRAIT_WELLKNOWN)) // we have to do this to handle resident virtue and well-known quirk
+				H.mind.person_knows_me(MF)
+				H.mind.i_know_person(MF)
 
 	// Ready up bonus
 	if(H.mind)
@@ -610,6 +616,13 @@
 						var/datum/magic_aspect/A = aspect_path
 						dat += "<b>[initial(A.name)]</b> "
 					dat += "<br>"
+				if(LAZYLEN(aspect_cfg["unlocked_aspects"]))
+					dat += "Unlocked: "
+					var/list/unlocked = aspect_cfg["unlocked_aspects"]
+					for(var/aspect_path in unlocked)
+						var/datum/magic_aspect/A = aspect_path
+						dat += "<b>[initial(A.name)]</b> "
+					dat += "<br>"
 				if(islist(aspect_cfg["variants"]))
 					var/list/overrides = aspect_cfg["variants"]
 					for(var/aspect_path in overrides)
@@ -835,6 +848,23 @@
 		if(!length(subclass.get_prefs_restriction_names(player)))
 			return FALSE
 	return checked_subclass
+
+/// Whether a quirk's allowed_jobs excludes this job. Separate from the job's own quirk_restrictions.
+/datum/job/proc/is_quirk_job_locked(datum/quirk/quirk)
+	if(!quirk || !LAZYLEN(quirk.allowed_jobs))
+		return FALSE
+	return !(title in quirk.allowed_jobs)
+
+/// Names of the quirks in these prefs whose allowed_jobs exclude this job. Only quirks that would actually be applied (have a slot) count.
+/datum/job/proc/get_quirk_job_lock_names(datum/preferences/prefs)
+	. = list()
+	if(!prefs)
+		return
+	var/slots = get_quirk_slots(prefs)
+	if(slots >= 1 && is_quirk_job_locked(prefs.quirklesser))
+		. += prefs.quirklesser.name
+	if(slots >= 2 && is_quirk_job_locked(prefs.quirkgreater))
+		. += prefs.quirkgreater.name
 
 /// Dynamic UI data for TGUI to display these in the prefs menu
 /datum/job/ui_data(mob/user)

@@ -22,7 +22,7 @@ export const ChartersSection = ({ data }: { data: NoticeboardData }) => {
   });
   if (charters.length === 0) {
     return (
-      <EmptyMessage text="No charters of the realm have been put to seal." />
+      <EmptyMessage text="No Charters have been sealed yet." />
     );
   }
   return (

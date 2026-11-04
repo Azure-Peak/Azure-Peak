@@ -51,7 +51,7 @@
 		data = list("status" = "Available", "mob" = user, "message" = "", "nom_de_guerre" = "")
 		wretch_status[user.real_name] = data
 	var/current = data["nom_de_guerre"] || ""
-	var/new_nom = stripped_input(user, "Choose my nom de guerre (max 60 characters). Empty to clear.", "Nom de Guerre", current, 60)
+	var/new_nom = stripped_input(user, "Choose my nom de guerre (max [NOM_DE_GUERRE_MAX_LENGTH] characters). Empty to clear.", "Nom de Guerre", current, NOM_DE_GUERRE_MAX_LENGTH)
 	if(new_nom == null)
 		return
 	if(!Adjacent(user))

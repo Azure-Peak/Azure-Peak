@@ -12,7 +12,7 @@
 					/datum/action/cooldown/spell/conjure_summon/zizo/skeleton_swarm		= CLERIC_T2,
 					/datum/action/cooldown/spell/zizo/bone_cataclysm					= CLERIC_T2,
 					/datum/action/cooldown/spell/minion_order							= CLERIC_T2,
-					/datum/action/cooldown/spell/gravemark								= CLERIC_T2,
+					/datum/action/cooldown/spell/minion_mark							= CLERIC_T2,
 					/datum/action/cooldown/spell/tame_undead/zizo						= CLERIC_T3,
 					/datum/action/cooldown/spell/zizo/rituos							= CLERIC_T3,
 					/datum/action/cooldown/spell/lacrima/zizo							= CLERIC_T4,

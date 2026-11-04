@@ -158,17 +158,22 @@
 /datum/stressevent/parablood
 	timer = 15 SECONDS
 	stressadd = 3
-	desc = span_red("There is far too much blood here! Iron stings my nostrils!")
+	desc = span_red("There is all so much blood - I'm bound to be next!")
 
 /datum/stressevent/parastr
 	timer = 2 MINUTES
 	stressadd = 2
-	desc = span_red("That beast there is stronger than I, and could quite easily kill me...")
+	desc = span_red("That person there is stronger than I, and could quite easily kill me...")
 
 /datum/stressevent/paratalk
 	timer = 2 MINUTES
 	stressadd = 2
 	desc = span_red("They are plotting against me in evil tongues...")
+
+/datum/stressevent/parawhisper
+	timer = 2 MINUTES
+	stressadd = 2
+	desc = span_red("I can just barely hear them whispering, surely it's about me..!")
 
 /datum/stressevent/crowd
 	timer = 2 MINUTES
@@ -303,6 +308,37 @@
 	desc = span_red("Eating such a meal without a table? How churlish!")
 	timer = 2 MINUTES
 
+// 'unlanded noble' penalties, harsher to enforce the archetype
+/datum/stressevent/unlanded_noble_shitty_equipment
+	stressadd = 1
+	desc = span_red("Such poor-quality equipment reflects poorly on me...!")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_bloody_equipment
+	stressadd = 1
+	desc = span_red("I should have better hygiene than this...")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_poor_sleep
+	stressadd = 1
+	desc = span_red("I can't get any decent sleep in such uncomfortable conditions...")
+	timer = 999 MINUTES // removed via code
+
+/datum/stressevent/unlanded_noble_scandal_in_the_making
+	stressadd = 1
+	desc = span_red("This was unwise... what if others find out?")
+	timer = 5 MINUTES // removed via code
+
+/datum/stressevent/nistean
+	stressadd = 2
+	desc = span_red("That dish had meat in it...")
+	timer = 2 MINUTES
+
+/datum/stressevent/vegan
+	stressadd = 2
+	desc = span_red("That dish was made from the living...") // how the fuck do you generalize "i fucked up my vegan diet"
+	timer = 2 MINUTES
+
 /datum/stressevent/graggar_culling_unfinished
 	stressadd = 1
 	desc = span_red("I must eat my opponent's heart before they eat MINE!")
@@ -329,7 +365,7 @@
 	desc = span_red("Putrid stinking water!")
 
 /datum/stressevent/unseemly
-	stressadd = 3
+	stressadd = 0
 	desc = span_red("Their face is unbearable!")
 	timer = 3 MINUTES
 
@@ -468,7 +504,7 @@
 /datum/stressevent/revenant_cross // When a revenant looks at a necran cross that's blessed.
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_boldred("The undermaiden is watching me with disgust!")
+	desc = span_boldred("The Undermaiden is watching me with disgust!")
 
 /datum/stressevent/something_stirs // Psydonites can pray in blood rain. For a price.
 	timer = 5 MINUTES
@@ -508,30 +544,35 @@
 	stressadd = 1
 	desc = list(span_red("Eugh, this brew just doesn't sit right with me.."), span_red("Something about that brew tastes a little funky.."))
 
-/datum/stressevent/pallid_outdoors
+/datum/stressevent/agoraphobia
 	timer = 2 MINUTES
 	stressadd = 3
-	desc = span_red("I long for the shelter of wall and roofs. The sun and moon are too bright for me to bear!")
+	desc = span_red("I long for the shelter of walls and roofs. The open sky is too much for me to bear!")
+
+/datum/stressevent/claustrophobia
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("The walls are pressing in on me. I need to get out under the open sky!")
+
+/datum/stressevent/heliophobia
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("The sun glares down at me. I need to get out of its light!")
+
+/datum/stressevent/selenophobia
+	timer = 2 MINUTES
+	stressadd = 3
+	desc = span_red("The moon watches me. I need to get out of its light!")
 
 /datum/stressevent/sun_sensitivity_dark
 	timer = 2 MINUTES
 	stressadd = 3
 	desc = span_red("<b><i>The sunlight burns my eyes! It's too bright outside!</b></i>")
 
-/datum/stressevent/sun_sensitivity
-	timer = 2 MINUTES
-	stressadd = 10
-	desc = span_red("<b><i>The sunlight burns my eyes and skin! It's too bright outside!</b></i>")
-
 /datum/stressevent/lesser_sun_sensitivity
 	timer = 2 MINUTES
 	stressadd = 1
-	desc = span_red("I'm shielded from the the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
-
-/datum/stressevent/inq_trauma
-	timer = 3 MINUTES
-	stressadd = 4
-	desc = span_red("THE INQUISITION?! BY MY PATRON, NOT THEM!!")
+	desc = span_red("I'm shielded from the sunlight, but still! It's too bright outside!") // always a hater, aren't ya?! shame on u, astrata shames u
 
 /datum/stressevent/water_splashed_noble
 	timer = 30 SECONDS

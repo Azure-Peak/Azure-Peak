@@ -315,7 +315,7 @@ export const ShipRow = (props: Props) => {
           <div style={{ color: INK, fontWeight: 'bold', fontSize: FONT_TITLE }}>
             {!!ship.auto_hailed && (
               <span
-                title="This vessel sailed in unbidden while no Merchant was tending the harbor. Dismiss her freely with no penalty."
+                title="This vessel sailed in unbidden while no Merchant was tending the harbor. Dismiss her freely with no penalty. She earns no favor."
                 style={{
                   marginRight: '6px',
                   padding: '0 4px',
@@ -329,6 +329,24 @@ export const ShipRow = (props: Props) => {
                 }}
               >
                 DRIFTED IN
+              </span>
+            )}
+            {!!ship.departing && (
+              <span
+                title="The vessel will no longer sell but will take deliveries from Fulfillment Crates. The favor will be settled when she departs."
+                style={{
+                  marginRight: '6px',
+                  padding: '0 4px',
+                  border: `1px solid ${INK_SOFT}`,
+                  borderRadius: '6px',
+                  color: INK_SOFT,
+                  fontSize: FONT_BODY,
+                  fontWeight: 'bold',
+                  letterSpacing: '0.5px',
+                  verticalAlign: 'middle',
+                }}
+              >
+                DEPARTING
               </span>
             )}
             {ship.ship_name}
@@ -348,7 +366,8 @@ export const ShipRow = (props: Props) => {
           )}
           {ship.seconds_until_departure !== undefined && (
             <div style={{ color: SEAL_AMBER, fontSize: FONT_LEAD }}>
-              Departs in {formatDuration(ship.seconds_until_departure)}
+              {ship.departing ? 'Leaves in' : 'Departs in'}{' '}
+              {formatDuration(ship.seconds_until_departure)}
             </div>
           )}
         </div>
@@ -362,7 +381,7 @@ export const ShipRow = (props: Props) => {
           }}
         >
           <div
-            title={`Tonnage scales goods on offer and expected favor. 100t baseline = 1.00x, 800t galleon caps at 2.00x. This vessel: ${ship.tonnage_mult.toFixed(2)}x.`}
+            title={`Bigger ships carry more goods and expect more favor. A ${ship.base_tonnage}t ship is the baseline (1.00x), and a galleon of ${ship.cap_tonnage}t gets the most (${ship.cap_mult.toFixed(2)}x). This ship: ${ship.tonnage_mult.toFixed(2)}x.`}
             style={{ position: 'relative' }}
           >
             {realm ? (
@@ -463,7 +482,7 @@ export const ShipRow = (props: Props) => {
           {ship.expected_favor > 0 && (
             <div
               style={{ color: SEAL_AMBER }}
-              title={`Send-off favor: Honored at 100% of target gives you the full delivered value as favor plus a refunded hail. Partial at 50% gives you half delivered value as favor. Below 50% is Dishonored and costs ${Math.round(250 * ship.tonnage_mult)}m favor for this vessel.`}
+              title={`When the ship departs at ${ship.honored_pct}% of her target (Honored), you gain her full delivered value as favor and get a spent hail back. At ${ship.partial_pct}% or more (Partial) you gain ${ship.partial_share_pct}% of it. Below ${ship.partial_pct}% (Dishonored) you lose ${ship.dishonor_penalty} favor.`}
             >
               {!!ship.is_kin && (
                 <span
@@ -483,7 +502,7 @@ export const ShipRow = (props: Props) => {
                   KIN
                 </span>
               )}
-              Favor: {ship.favor_earned}m / {ship.expected_favor}m
+              Favor: {ship.favor_earned} / {ship.expected_favor}
             </div>
           )}
         </div>
@@ -508,7 +527,7 @@ export const ShipRow = (props: Props) => {
               disabled={!ship.can_send_away}
               title={
                 ship.auto_hailed
-                  ? 'This vessel drifted in - dismiss her freely, no penalty.'
+                  ? 'This vessel drifted in. Send her away with no penalty.'
                   : ship.can_send_away
                     ? 'Send this vessel away early.'
                     : 'She has only just docked.'
@@ -615,7 +634,7 @@ export const ShipRow = (props: Props) => {
                   fontStyle: 'italic',
                 }}
               >
-                Nothing on offer.
+                {ship.departing ? 'Departing. No longer selling.' : 'Nothing on offer.'}
               </div>
             )}
           </div>

@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/noc
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
-	spell_color = GLOW_COLOR_NOC
+	spell_color = PATRON_COLOR_NOC
 
 	ignore_armor_penalty = TRUE
 
@@ -208,7 +208,7 @@
 	background_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon = 'icons/mob/actions/nocmiracles.dmi'
 	button_icon_state = "blindness"
-	spell_color = GLOW_COLOR_NOC
+	spell_color = PATRON_COLOR_NOC
 	glow_intensity = GLOW_INTENSITY_LOW
 
 	projectile_type = /obj/projectile/magic/noc_owl
@@ -268,8 +268,6 @@
 			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
 			qdel(src)
 			return BULLET_ACT_BLOCK
-		if(blocked >= 100)
-			return ..()
 		if(!M.mind)
 			M.Immobilize(5 SECONDS)
 			qdel(src)
@@ -309,7 +307,7 @@
 	desc = "Allows you to learn a set of spells. \n \
 	<b>MAGISTER</b>: Greater Arcyne Bolt, Arc Bolt, Phase, Message, Campfire \n \
 	<b>ENCHANTER</b>: Stygian Efflorescence, Geas, Rune Ward, Forcewall, Blood Rush \n \
-	<b>SEER</b>: Attune Giant, Guidance, Attune Haste, Fortitude, Mindlink"
+	<b>SEER</b>: Bestow Ward, Guidance, Precognition, Surge, Mindlink"
 	button_icon_state = "spellpack"
 //Magister = Generic magos, low utility mostly damage; Enchanter = Area denial beast, some utility; Seer = Full support with practically 0 offensive capacity.
 	click_to_activate = FALSE
@@ -338,10 +336,10 @@
 		/datum/action/cooldown/spell/augment_buff/blood_rush,
 	)
 	var/list/seer_bundle = list(
-		/datum/action/cooldown/spell/augment_buff/attune_giant,
+		/datum/action/cooldown/spell/bestow_ward,
 		/datum/action/cooldown/spell/augment_buff/guidance,
-		/datum/action/cooldown/spell/augment_buff/attune_haste,
-		/datum/action/cooldown/spell/augment_buff/fortitude,
+		/datum/action/cooldown/spell/augment_buff/precognition,
+		/datum/action/cooldown/spell/augment_buff/surge,
 		/datum/action/cooldown/spell/mindlink
 	)
 

@@ -83,7 +83,7 @@
 		return FALSE
 	if(!link.allow_summons)
 		if(requester)
-			to_chat(requester, span_warning("The zadcote does not accept summons on this zadlink."))
+			to_chat(requester, span_warning("Summons are blocked on this zadlink."))
 		return FALSE
 	var/obj/item/zadcage/cage = link.resolve_cage()
 	if(!cage)
@@ -94,7 +94,7 @@
 		return FALSE
 	if(cage.current_occupancy)
 		if(requester)
-			to_chat(requester, span_warning("This zadcage is already occupied."))
+			to_chat(requester, span_warning("A zad is already in this zadcage."))
 		return FALSE
 	zad_count = clamp(zad_count, ZAD_CAPACITY_TIER_1, ZAD_CAPACITY_TIER_3)
 	if(reserve < zad_count)
@@ -113,7 +113,7 @@
 	link.pending_flight = WEAKREF(flight)
 	playsound(loc, 'sound/vo/mobs/bird/birdfly.ogg', 65, TRUE, 2)
 	playsound(loc, pick('sound/vo/mobs/bird/CROW_01.ogg','sound/vo/mobs/bird/CROW_02.ogg','sound/vo/mobs/bird/CROW_03.ogg'), 55, TRUE, 2)
-	visible_message(span_notice("[zad_count] zad\s leap from [src], summoned away."))
+	visible_message(span_notice("[zad_count] zad\s answer a summons and leap from [src]."))
 	play_zad_ascend(src, zad_count)
 	log_sent(link.slot_index, link.get_label(), "", list(), zad_count, 0, TRUE)
 	return TRUE
@@ -146,7 +146,7 @@
 	var/datum/zadlink/link = find_free_slot()
 	if(!link)
 		if(user)
-			to_chat(user, span_warning("[src] is full - no free slot to bond this zadcage."))
+			to_chat(user, span_warning("[src] is full. There's no free slot to bond this zadcage."))
 		return FALSE
 	link.attach_cage(cage)
 	cage.bind_to_link(src, link)
@@ -159,7 +159,7 @@
 		return FALSE
 	link.sever()
 	if(operator)
-		to_chat(operator, span_notice("The bond on slot [link.slot_index] withers. The zads will return what is owed, then no more."))
+		to_chat(operator, span_notice("You sever the bond on slot [link.slot_index]. Zads already in flight will still return."))
 	return TRUE
 
 /obj/item/roguemachine/zadcote/proc/consume_reserve(amount)
@@ -184,7 +184,7 @@
 	if(!anchored)
 		return ..()
 	if(!is_operator(user))
-		to_chat(user, span_warning("The zadcote ignores you. Only its owners may operate it."))
+		to_chat(user, span_warning("Only the zadcote's owners can use it."))
 		return
 	ui_interact(user)
 
@@ -280,7 +280,7 @@
 	if(!H.canUseTopic(src, BE_CLOSE))
 		return TRUE
 	if(!is_operator(H))
-		to_chat(H, span_warning("Only the zadcote's faction may operate it."))
+		to_chat(H, span_warning("Only the zadcote's owners can use it."))
 		return TRUE
 	switch(action)
 		if("help")
@@ -355,7 +355,7 @@
 	if(istype(I, /obj/item/zadcage))
 		var/obj/item/zadcage/cage = I
 		if(!is_operator(user))
-			to_chat(user, span_warning("You have no authority to bond a zadcage to this zadcote."))
+			to_chat(user, span_warning("Only the zadcote's owners can bond a zadcage to it."))
 			return
 		if(!cage.is_unbound())
 			to_chat(user, span_warning("This zadcage is already bonded elsewhere."))
@@ -364,7 +364,7 @@
 		return
 	if(istype(I, /obj/item/bomb))
 		if(!is_operator(user))
-			to_chat(user, span_warning("Only the zadcote's owners may use it."))
+			to_chat(user, span_warning("Only the zadcote's owners can use it."))
 			return
 		if(bomb_stock >= ZADCOTE_BOMB_STOCK_CAP)
 			to_chat(user, span_warning("The zadcote's bomb crate is full."))
@@ -391,7 +391,7 @@
 
 /obj/item/roguemachine/zadcote/steward
 	name = "stewardry zadcote"
-	desc = "A zadcote of the stewardry, kept open to any members of the Royal Court."
+	desc = "A zadcote of the stewardry, open to members of the Royal Court."
 	faction = ZADCOTE_FACTION_STEWARD
 	motto = "STEWARDRY ZADCOTE"
 	operator_jobs = list("Grand Duke", "Regent", "Steward", "Clerk", "Councillor", "Hand")
@@ -399,16 +399,16 @@
 
 /obj/item/roguemachine/zadcote/merchant
 	name = "trading zadcote"
-	desc = "An Azurian Trading Company zadcote. The brass plate reads ATC and a tally of late dispatches. The zads are sold exclusively by the Azurian Trading Company (officially), and sourced from the zad training grounds in Rosporth, where elven and humen keepers raise zads and train them to navigate and home in. In the yil 1421, in the nascent yils of the Company during the Actions off Rosporth between the Azurian and Etruscan Trading Company, the Azurian company attempted to use its newly acquired zads to bombard the Etruscan ships. Unfortunately, most of the zads homed back onto the ATC ships, leading to the loss of at least four warships and a hundred men. Since then, ATC has limited the usage of bomb zads to within Azurian territories."
+	desc = "An Azurian Trading Company zadcote. The brass plate reads ATC and a tally of late dispatches. The zads are sold exclusively by the Azurian Trading Company (officially). They come from the zad training grounds in Rosporth, where elven and humen keepers raise zads and train them to navigate and home in. In the yil 1421, in the nascent yils of the Company during the Actions off Rosporth between the Azurian and Etruscan Trading Companies, the Azurian company attempted to use its newly acquired zads to bombard the Etruscan ships. Unfortunately, most of the zads homed back onto the ATC ships. At least four warships and a hundred men were lost. Since then, the ATC has limited the usage of bomb zads to within Azurian territories."
 	faction = ZADCOTE_FACTION_MERCHANT
-	motto = "COMPANY ZADCOTE"
+	motto = "ATC ZADCOTE"
 	operator_jobs = list("Merchant", "Shophand")
 	operator_trait = TRAIT_AGENT_MERCHANT
 	allows_voyeur = TRUE
 
 /obj/item/roguemachine/zadcote/bathhouse
 	name = "bathhouse zadcote"
-	desc = "A bathhouse zadcote. The perches are warm with steam, a faint smell of incense in the air."
+	desc = "A bathhouse zadcote. The perches are warm with steam. A faint smell of incense hangs in the air."
 	faction = ZADCOTE_FACTION_BATHHOUSE
 	motto = "BATHHOUSE ZADCOTE"
 	operator_jobs = list("Bathmaster", "Bathhouse Attendant")

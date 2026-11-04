@@ -38,6 +38,7 @@
 	var/release_drain = 0
 	var/onehanded_draw_mult = 1
 	var/onehanded_arc_draw_mult = 1
+	var/steady_aim = FALSE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/proc/get_draw_time(mob/living/user, arcing = FALSE)
 	if(!user || !draw_base)
@@ -108,6 +109,7 @@
 		return
 	var/level = ranged_skill ? user.get_skill_level(ranged_skill) : 0
 	BB.aim_peak = (ACC_RANGED_BASE + (level * ACC_RANGED_PER_SKILL)) * accfactor
+	BB.steady_aim = steady_aim
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/proc/apply_early_release_penalty(obj/projectile/BB, mob/living/user)
 	if(!BB || !user?.client || user.client.chargedprog >= 100)
@@ -118,6 +120,8 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/get_mechanics_examine(mob/user)
 	. = ..()
+	if(steady_aim)
+		. += span_info("This weapon has <b>steady aim</b>: I can pick out a limb, hand, foot or face as easily as the chest.")
 	if(chambered)
 		. += chambered.get_sweetspot_examine("The loaded [chambered.name]")
 

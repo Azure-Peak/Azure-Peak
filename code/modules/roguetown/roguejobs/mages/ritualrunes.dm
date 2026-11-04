@@ -506,6 +506,7 @@ GLOBAL_LIST_INIT(t4rune_types, generate_t4rune_types())
 				to_chat(user, span_warning("Summoning failed: target has no valid familiar prefs, somehow."))
 				busy = FALSE
 				return
+			chosen.stop_sound_channel(CHANNEL_LOBBYMUSIC)
 			qdel(S)
 			summoned_mob = null
 			var/to_summon = prefs.familiar_species[plane]

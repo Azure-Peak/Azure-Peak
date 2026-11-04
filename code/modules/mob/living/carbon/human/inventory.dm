@@ -427,6 +427,14 @@
 		return
 	var/obj/item/thing = get_active_held_item()
 	var/obj/item/equipped_back = get_item_by_slot(slot_id)
+	if(istype(thing, /obj/item/gun/ballistic/revolver/grenadelauncher) && istype(equipped_back, /obj/item/quiver)) // nock straight from the quiver
+		var/obj/item/quiver/Q = equipped_back
+		var/obj/item/gun/ballistic/revolver/grenadelauncher/launcher = thing
+		if(launcher.chambered)
+			to_chat(src, span_notice("There's already [launcher.cartridge_articles] [launcher.cartridge_wording] in \the [launcher]."))
+			return
+		Q.try_quick_load(launcher, src)
+		return
 	if(equip_scabbard(thing, equipped_back, slot_id))
 		return
 	if(!equipped_back) // We also let you equip a backpack like this

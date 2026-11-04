@@ -31,8 +31,13 @@
 	. = ..()
 	if(!proximity)
 		return
-	if(lit)
+	if(lit && !ismob(A))
 		A.fire_act()
+
+/obj/item/candle/attack(mob/living/M, mob/living/user)
+	if(light_cig(M, user))
+		return TRUE
+	return ..()
 
 /obj/item/candle/Crossed(H as mob|obj)
 	if(ishuman(H)) //i guess carp and shit shouldn't set them off

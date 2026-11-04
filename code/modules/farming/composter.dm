@@ -32,7 +32,7 @@
 		. += span_info("There is some ready compost.")
 	if(show_dry && unflipped_compost >= COMPOST_PER_PRODUCED_ITEM)
 		. += span_warning("The compost requires flipping!")
-		. += span_notice("Flip it by right clicking it with an empty hand.")
+		. += span_notice("Flip it by right-clicking it with an empty hand.")
 
 /obj/structure/composter/update_icon()
 	. = ..()
@@ -128,7 +128,7 @@
 			to_chat(user, span_warning("There's too much compost!"))
 			return
 		var/success
-		for(var/obj/item/bagged_item in attacking_item.contents)
+		for(var/obj/item/bagged_item in attacking_item.held_contents())
 			if(try_handle_adding_compost(bagged_item, user, params))
 				success = TRUE
 				if(get_total_compost() >= MAXIMUM_TOTAL_COMPOST)

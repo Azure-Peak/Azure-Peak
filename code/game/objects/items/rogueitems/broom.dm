@@ -18,7 +18,7 @@
 	wdefense = 4
 	walking_stick = TRUE
 	anvilrepair = /datum/skill/craft/carpentry
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	resistance_flags = FLAMMABLE
 	twirly = SKILL_LEVEL_EXPERT
 	twirl_sound = 'sound/combat/sidesweep_hit.ogg'
@@ -61,7 +61,7 @@
 /obj/item/broom/proc/is_sweep_trash(obj/O)
 	return istype(O, /obj/effect/decal/cleanable/dirt) \
 		|| istype(O, /obj/item/paper/crumpled) \
-		|| istype(O, /obj/item/ash) \
+		|| is_ash_item(O) \
 		|| istype(O, /obj/item/natural/glass_shard) \
 		|| istype(O, /obj/effect/decal/cleanable/debris) \
 		|| istype(O, /obj/effect/decal/remains/human)
@@ -71,7 +71,7 @@
 		|| istype(A, /obj/item/scrap) \
 		|| istype(A, /obj/item/paper/crumpled) \
 		|| istype(A, /obj/item/grown/log/tree/stick) \
-		|| istype(A, /obj/item/ash) \
+		|| is_ash_item(A) \
 		|| istype(A, /obj/item/organ) \
 		|| istype(A, /obj/item/bodypart) \
 		|| istype(A, /obj/item/natural/glass_shard) \

@@ -79,14 +79,31 @@
 	. = ..()
 	icon_state += "-old"
 
-	/obj/effect/decal/cleanable/blood/paint
+/obj/effect/decal/cleanable/paint
 	name = "paint splatter"
 	desc = "splattered paint, what a mess"
+	icon = 'icons/effects/paint.dmi'
+	icon_state = "paintsplat1"
+	random_icon_states = list("paintsplat1", "paintsplat2", "paintsplat3", "paintsplat4", "paintsplat5", "paintsplat6", "paintsplat7", "paintsplat8", "paintsplat9", "paintsplat10")
+	beauty = -100
+	alpha = 200
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	appearance_flags = NO_CLIENT_COLOR
+	mergeable_decal = FALSE
 
-/obj/effect/decal/cleanable/blood/paint/Initialize(mapload, color)
-	if(!color)
-		color = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
-	. = ..(mapload, color)
+/obj/effect/decal/cleanable/paint/Initialize(mapload)
+	. = ..()
+	GLOB.weather_act_upon_list += src
+	color = RANDOM_COLOUR
+
+/obj/effect/decal/cleanable/paint/Destroy()
+	GLOB.weather_act_upon_list -= src
+	return ..()
+
+/obj/effect/decal/cleanable/paint/weather_act_on(weather_trait, severity)
+	if(weather_trait != PARTICLEWEATHER_RAIN)
+		return
+	qdel(src)
 
 /obj/effect/decal/cleanable/chem_pile
 	name = "chemical pile"

@@ -60,7 +60,7 @@
 			if(isliving(AM))
 				var/mob/living/M = AM
 				M.set_resting(TRUE, TRUE)
-				M.adjustBruteLoss(20)
+				M.adjustBruteLoss(SPELL_DMG_VS(M, SPELL_DMG(20)))
 				to_chat(M, "<span class='danger'>You're slammed into the floor by [user]!</span>")
 		else
 			if(showsparkles)

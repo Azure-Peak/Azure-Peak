@@ -8,13 +8,21 @@
 /datum/book_entry/treasury_underground/black_market/inner_book_html(mob/user)
 	return {"
 		<div>
-		<p><b>BLACK MARKET:</b> Merchant letting you down? Stolen 100 cutleries from the Keep and have nothing to do with it but sneed? The Black Market is your friend! Just walk all the way across Azuria's famously safe Grove and Coast to a little island in the northeast, and dump your goods. The Bathmatron and </p>
+		<p><b>BLACK MARKET:</b> Merchant letting you down? Stolen 100 cutleries from
+		the Keep and have nothing to do with it but sneed? The Black Market is your
+		friend! Just walk all the way across Azuria's famously safe Grove and Coast to
+		a little island in the northeast, and dump your goods.</p>
 
 		<h3>Brassface & Contraband Vendor</h3>
 		<ul>
-			<li>The bathhouse-side contraband vendor. Roundstart-locked by the <code>nightman</code> key, which only the Bathmaster and Bathhouse Attendant carry; anyone else needs the key or a successful lockpick.</li>
-			<li>The public reflavor, PURITY, is unlockable and sells only Ordinance-compliant Drugs, Smokes, and Cosmetics. Anything flagged contraband appears on BRASSFACE only, and only to the proprietor jobs.</li>
-			<li>Same shared TGUI as BRASSFACE; the difference is what categories are exposed and whether contraband-flagged packs are filtered.</li>
+			<li>The bathhouse's contraband vendor. Locked at roundstart with the
+			<code>nightman</code> key, which only the Bathmaster and Bathhouse Attendant
+			carry. Anyone else needs the key or a successful lockpick.</li> <li>The
+			public version, PURITY, is unlockable and sells only Drugs, Smokes, and
+			Cosmetics allowed by the Ordinance. Anything flagged contraband appears on
+			BRASSFACE only, and only to the proprietor jobs.</li> <li>Same interface as
+			BRASSFACE. The difference is what categories are exposed and whether packs
+			flagged as contraband are filtered.</li>
 		</ul>
 
 		<h3>The Ordinance</h3>
@@ -27,9 +35,10 @@
 
 		<h3>The Bathhouse Tunnel</h3>
 		<ul>
-			<li>Underground route connecting the bathhouse to the merchant quarter, used to move contraband and wretches without crossing the public street.</li>
-			<li>Bathhouse positions and merchant positions both have access. Patrol roles do not.</li>
-			<li>TODO: document the tunnel's exact endpoints and any door/lock mechanics on the merchant-side entrance once mapped.</li>
+			<li>Underground route connecting the bathhouse to the merchant quarter. It is
+			used to move contraband and wretches without crossing the public street.</li>
+			<li>Bathhouse positions and merchant positions both have access. Patrol roles
+			do not.</li>
 		</ul>
 		</div>
 	"}

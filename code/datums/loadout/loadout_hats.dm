@@ -29,6 +29,26 @@
 	path = /obj/item/clothing/head/roguetown/tiyon
 	sort_category = "Hats"
 
+/datum/loadout_item/veiledhat
+	name = "Veiled Hat"
+	path = /obj/item/clothing/head/roguetown/veiledhat
+	sort_category = "Hats"
+
+/datum/loadout_item/flotsam
+	name = "Flotsam Bonnet"
+	path = /obj/item/clothing/head/roguetown/flotsam
+	sort_category = "Hats"
+
+/datum/loadout_item/nightcap
+	name = "Nitecap"
+	path = /obj/item/clothing/head/roguetown/nightcap
+	sort_category = "Hats"
+
+/datum/loadout_item/doublehennin
+	name = "Dual Hennin"
+	path = /obj/item/clothing/head/roguetown/doublehennin
+	sort_category = "Hats"
+
 /datum/loadout_item/longveil
 	name = "Long Veil"
 	path = /obj/item/clothing/head/roguetown/longveil
@@ -82,6 +102,11 @@
 /datum/loadout_item/furhat
 	name = "Fur Hat"
 	path = /obj/item/clothing/head/roguetown/hatfur
+	sort_category = "Hats"
+
+/datum/loadout_item/furheadband
+	name = "Fur Headband"
+	path = /obj/item/clothing/head/roguetown/headband/fur
 	sort_category = "Hats"
 
 /datum/loadout_item/smokingcap
@@ -148,7 +173,6 @@
 	name = "Gray Flower Crown"
 	path = /obj/item/flowercrown/rosa/dyecrown
 	sort_category = "Hats"
-
 
 /datum/loadout_item/salvia_crown
 	name = "Salvia Crown"
@@ -222,7 +246,7 @@
 
 /datum/loadout_item/turban
 	name = "Turban"
-	path = /obj/item/clothing/head/roguetown/veiled/loudmouth
+	path = /obj/item/clothing/head/roguetown/turban
 	sort_category = "Hats"
 
 /datum/loadout_item/duelisthat

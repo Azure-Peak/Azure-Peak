@@ -35,7 +35,7 @@ SUBSYSTEM_DEF(profiler)
 	DumpFile(reason = "scheduled")
 
 /datum/controller/subsystem/profiler/Shutdown()
-	if(CONFIG_GET(flag/auto_profile) && CONFIG_GET(number/profiler_interval) > 0)
+	if(CONFIG_GET(flag/auto_profile))
 		DumpFile(allow_yield = FALSE, reason = "shutdown")
 		world.Profile(PROFILE_CLEAR, type = "sendmaps")
 	return ..()
