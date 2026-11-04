@@ -29,9 +29,21 @@
 	populate_mammons()
 
 /obj/item/storage/belt/rogue/pouch/proc/populate_mammons()
+	var/mammons = roll_pouch_mammons()
+	if(mammons > 0)
+		spawn_mammons(mammons, src, max_coin_value)
+
+/obj/item/storage/belt/rogue/pouch/proc/roll_pouch_mammons()
 	if(mammon_max <= 0)
-		return
-	spawn_mammons(rand(mammon_min / mammon_step, mammon_max / mammon_step) * mammon_step, src, max_coin_value)
+		return 0
+	return roll_mammons(mammon_min, mammon_max, mammon_step)
+
+/obj/item/storage/belt/rogue/pouch/proc/roll_tier_piles(tier, piles, bonus_pile_chance = 0)
+	. = 0
+	for(var/i in 1 to piles)
+		. += roll_coin_tier(tier)
+	if(prob(bonus_pile_chance))
+		. += roll_coin_tier(tier)
 
 /obj/item/storage/belt/rogue/pouch/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
@@ -117,11 +129,11 @@
 	grid_width = 32
 	component_type = /datum/component/storage/concrete/roguetown/coin_pouch/merchant
 
-/obj/item/storage/belt/rogue/pouch/merchant/coins
-	mammon_min = 40
-	mammon_max = 245
-	mammon_step = COIN_VALUE_SILVER
+/obj/item/storage/belt/rogue/pouch/merchant/coins //Same as coins/rich
 	max_coin_value = COIN_VALUE_SILVER
+
+/obj/item/storage/belt/rogue/pouch/merchant/coins/roll_pouch_mammons()
+	return roll_tier_piles(/obj/effect/spawner/coins/small, 2, 50)
 
 /obj/item/storage/belt/rogue/pouch/cloth
 	name = "cloth pouch"
@@ -149,27 +161,27 @@
 			. += coin_type
 
 /obj/item/storage/belt/rogue/pouch/coins/poor
-	mammon_min = 10
-	mammon_max = 27
 	max_coin_value = COIN_VALUE_COPPER
 
+/obj/item/storage/belt/rogue/pouch/coins/poor/roll_pouch_mammons()
+	return max(roll_coin_tier(/obj/effect/spawner/coins/handful), 10) + roll_tier_piles(/obj/effect/spawner/coins/handful, 0, 50)
+
 /obj/item/storage/belt/rogue/pouch/coins/mid
-	mammon_min = 24
-	mammon_max = 114
 	max_coin_value = COIN_VALUE_SILVER
+
+/obj/item/storage/belt/rogue/pouch/coins/mid/roll_pouch_mammons()
+	return roll_coin_tier(/obj/effect/spawner/coins/small) + roll_coin_tier(/obj/effect/spawner/coins/handful)
 
 /obj/item/storage/belt/rogue/pouch/coins/rich
-	mammon_min = 40
-	mammon_max = 245
-	mammon_step = COIN_VALUE_SILVER
 	max_coin_value = COIN_VALUE_SILVER
 
-/obj/item/storage/belt/rogue/pouch/coins/veryrich
-	mammon_min = 80
-	mammon_max = 495
-	mammon_step = COIN_VALUE_SILVER
+/obj/item/storage/belt/rogue/pouch/coins/rich/roll_pouch_mammons()
+	return roll_tier_piles(/obj/effect/spawner/coins/small, 2, 50)
 
-/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch
+/obj/item/storage/belt/rogue/pouch/coins/veryrich/roll_pouch_mammons()
+	return roll_tier_piles(/obj/effect/spawner/coins/medium, 2, 50)
+
+/obj/item/storage/belt/rogue/pouch/coins/aspirantpouch // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
 	mammon_min = 200
 	mammon_max = 200
 
@@ -180,10 +192,21 @@
 /obj/item/storage/belt/rogue/pouch/coins/virtuepouch
 	mammon_min = 80
 	mammon_max = 120
+	mammon_step = 10
 
-/obj/item/storage/belt/rogue/pouch/coins/readyuppouch
+/obj/item/storage/belt/rogue/pouch/coins/readyuppouch // 20 mammons combine with starting pouch to buy something
 	mammon_min = 20
 	mammon_max = 20
+	max_coin_value = COIN_VALUE_SILVER
+
+/obj/item/storage/belt/rogue/pouch/coins/wretchpouch // 50 mammons, to avoid being dead broke when latejoining
+	mammon_min = 50
+	mammon_max = 50
+	max_coin_value = COIN_VALUE_SILVER
+
+/obj/item/storage/belt/rogue/pouch/coins/munitioneerpouch //for muntineer, exclusely to speed up them aquiring materials w/ out having to benefit town by selling to them or lose the arms race against the guild.
+	mammon_min = 80
+	mammon_max = 80
 	max_coin_value = COIN_VALUE_SILVER
 
 /obj/item/storage/belt/rogue/pouch/coins/aalloy

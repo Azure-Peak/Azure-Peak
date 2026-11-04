@@ -41,7 +41,7 @@
 	)
 	subclass_stashed_items = list(
 		"Armor Plates" =	/obj/item/repair_kit/metal,
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/wretchpouch,
 	)
 
 /datum/outfit/job/roguetown/wretch/deserter_knight/pre_equip(mob/living/carbon/human/H)
@@ -204,7 +204,7 @@
 
 	subclass_stashed_items = list(
 		"Armor Plates" =	/obj/item/repair_kit/metal,
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/wretchpouch,
 	)
 
 	cmode_music = 'sound/music/cmode/antag/combat_cutpurse.ogg' // same as regular bandits

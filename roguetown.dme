@@ -1259,6 +1259,7 @@
 #include "code\game\objects\effects\gods\unassuming_fluff.dm"
 #include "code\game\objects\effects\particles\weather.dm"
 #include "code\game\objects\effects\spawners\clutter_spawner.dm"
+#include "code\game\objects\effects\spawners\coin_spawners.dm"
 #include "code\game\objects\effects\spawners\dungeon_loot_spawner.dm"
 #include "code\game\objects\effects\spawners\equipment_spawners.dm"
 #include "code\game\objects\effects\spawners\gibspawner.dm"

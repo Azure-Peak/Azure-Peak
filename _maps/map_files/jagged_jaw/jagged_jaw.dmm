@@ -3275,7 +3275,7 @@
 /area/rogue/under/cave/scarymaze)
 "atK" = (
 /obj/structure/bed/rogue/inn/wooldouble,
-/obj/item/roguecoin/copper/pile{
+/obj/effect/spawner/coins/handful{
 	pixel_x = -6;
 	pixel_y = 0
 	},
@@ -5098,7 +5098,7 @@
 "aEE" = (
 /obj/machinery/light/rogue/candle/off/r,
 /obj/structure/closet/crate/drawer,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/shelter)
 "aEH" = (
@@ -5125,7 +5125,7 @@
 	pixel_x = -11;
 	pixel_y = 23
 	},
-/obj/item/roguecoin/silver/pile{
+/obj/effect/spawner/coins/small{
 	pixel_x = 16;
 	pixel_y = 3
 	},
@@ -12025,7 +12025,7 @@
 	dir = 10;
 	icon_state = "cobbleedge-e"
 	},
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "buV" = (
@@ -12535,7 +12535,7 @@
 	pixel_x = -5;
 	pixel_y = 15
 	},
-/obj/item/roguecoin/gold/pile{
+/obj/effect/spawner/coins/medium{
 	pixel_x = 8
 	},
 /obj/item/reagent_containers/glass/cup/golden{
@@ -12757,7 +12757,7 @@
 /obj/structure/table/wood/large_table{
 	dir = 10
 	},
-/obj/item/roguecoin/silver/pile{
+/obj/effect/spawner/coins/small{
 	pixel_x = -1;
 	pixel_y = 2
 	},
@@ -14794,7 +14794,7 @@
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/outdoors/mountains/grim)
 "bNX" = (
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /obj/structure/fluff/walldeco/vinez/offset{
 	pixel_y = -32
 	},
@@ -14927,7 +14927,7 @@
 /area/rogue/indoors/shelter)
 "bOG" = (
 /obj/structure/table/wood/large_table/south_east,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
 "bOI" = (
@@ -24957,7 +24957,7 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/shelter/town/grim)
 "cYU" = (
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "cYX" = (
@@ -27040,7 +27040,7 @@
 	pixel_x = 8;
 	pixel_y = 5
 	},
-/obj/item/roguecoin/copper/pile{
+/obj/effect/spawner/coins/handful{
 	pixel_x = -10;
 	pixel_y = 9
 	},
@@ -49012,7 +49012,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "fUt" = (
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grimspyre)
 "fUu" = (
@@ -51193,7 +51193,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/beach/forest/hamlet/grim)
 "giR" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = 12;
 	pixel_y = 8
 	},
@@ -62859,11 +62859,11 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/exposed/under/sewer/grim)
 "hEs" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = 5;
 	pixel_y = 4
 	},
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = -8;
 	pixel_y = -6
 	},
@@ -63315,7 +63315,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/mountains/decap/grim)
 "hHm" = (
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /obj/structure/closet/crate/chest/old_crate,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/grimspyre)
@@ -67279,7 +67279,7 @@
 /area/rogue/under/cave/taricheamanor)
 "iev" = (
 /obj/structure/closet/crate/chest,
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/outdoors/beach/north/grim)
 "iew" = (
@@ -69291,7 +69291,7 @@
 /turf/open/water/swamp,
 /area/rogue/outdoors/beach/forest/south/grim)
 "iqb" = (
-/obj/item/roguecoin/gold/pile{
+/obj/effect/spawner/coins/medium{
 	pixel_x = -3;
 	pixel_y = -6
 	},
@@ -70570,7 +70570,7 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/remains/human,
 /obj/item/roguegem/random,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /obj/structure/fluff/wallclock/vampire,
 /obj/item/roguegem/random,
 /turf/closed/wall/mineral/rogue/stonebrick,
@@ -80724,7 +80724,7 @@
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/woods/grim/southwest)
 "jIj" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = -2;
 	pixel_y = 9
 	},
@@ -92010,7 +92010,7 @@
 /obj/item/reagent_containers/powder/spice,
 /obj/item/reagent_containers/powder/moondust,
 /obj/item/reagent_containers/powder/moondust,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/rogue/churchbrick{
 	icon_state = "concretefloor1"
 	},
@@ -93268,7 +93268,7 @@
 /area/rogue/under/cave/orcdungeon)
 "ljx" = (
 /obj/structure/table/wood/poor,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/abandonedhotsprings/grim)
 "ljy" = (
@@ -94771,8 +94771,8 @@
 "ltK" = (
 /obj/structure/table/wood/long_table/right,
 /obj/effect/spawner/lootdrop/valuable_tableware_spawner,
-/obj/item/roguecoin/gold/pile,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/medium,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/dukecourt/grim)
 "ltL" = (
@@ -95383,7 +95383,7 @@
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/outdoors/woods/grim/south)
 "lxH" = (
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/blocks,
 /area/rogue/indoors/shelter/mountains/decap/grim)
 "lxI" = (
@@ -108615,7 +108615,7 @@
 "ndP" = (
 /obj/structure/closet/crate/roguecloset/inn,
 /obj/machinery/light/rogue/candle/off,
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/indoors/town/grim)
 "ndQ" = (
@@ -110808,7 +110808,7 @@
 /area/rogue/indoors/town/manor/grim)
 "nsj" = (
 /obj/effect/decal/remains/human,
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/blocks,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "nsk" = (
@@ -117705,7 +117705,7 @@
 /area/rogue/indoors/town/church/chapel/grim)
 "okL" = (
 /obj/structure/closet/crate/chest,
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/indoors/cave/central)
 "okM" = (
@@ -119177,7 +119177,7 @@
 /area/rogue/under/underdark/north/grim)
 "otD" = (
 /obj/structure/table/wood/large_table,
-/obj/item/roguecoin/gold/pile{
+/obj/effect/spawner/coins/medium{
 	pixel_x = -1;
 	pixel_y = 9
 	},
@@ -120233,7 +120233,7 @@
 	pixel_x = 11;
 	pixel_y = 20
 	},
-/obj/item/roguecoin/copper/pile{
+/obj/effect/spawner/coins/handful{
 	pixel_x = 6;
 	pixel_y = 6
 	},
@@ -120302,9 +120302,9 @@
 	locked = 1;
 	lockid = "mage"
 	},
-/obj/item/roguecoin/gold/pile,
-/obj/item/roguecoin/silver/pile,
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/medium,
+/obj/effect/spawner/coins/small,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/tile/bluebrick,
 /area/rogue/indoors/town/magician/grim)
 "oAN" = (
@@ -127870,7 +127870,7 @@
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
 "pvo" = (
-/obj/item/roguecoin/gold/pile{
+/obj/effect/spawner/coins/medium{
 	pixel_x = -2;
 	pixel_y = -2
 	},
@@ -132797,7 +132797,7 @@
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "pYE" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = -5;
 	pixel_y = 11
 	},
@@ -132823,7 +132823,7 @@
 /turf/open/floor/rogue/carpet,
 /area/rogue/indoors/town/garrison/grim)
 "pYK" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = 9;
 	pixel_y = 7
 	},
@@ -134592,7 +134592,7 @@
 /area/rogue/under/cave/peace/grim)
 "qjr" = (
 /obj/structure/table/wood/poor,
-/obj/item/roguecoin/silver/pile{
+/obj/effect/spawner/coins/small{
 	pixel_x = -5;
 	pixel_y = 5
 	},
@@ -139979,7 +139979,7 @@
 /turf/closed/wall/mineral/rogue/wooddark/window,
 /area/rogue/under/underdark/north/grim)
 "qRN" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = 5;
 	pixel_y = 5
 	},
@@ -140626,7 +140626,7 @@
 /turf/open/water/bloody,
 /area/rogue/under/cave/taricheamanor)
 "qVC" = (
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/outdoors/mountains/decap/gunduzirak)
 "qVD" = (
@@ -141304,7 +141304,7 @@
 /turf/open/water/river/flow/west,
 /area/rogue/outdoors/woods/grim/northeast)
 "qZJ" = (
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /obj/structure/closet/crate/chest,
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grimspyre)
@@ -147247,7 +147247,7 @@
 "rMQ" = (
 /obj/machinery/light/rogue/candle/blue,
 /obj/structure/table/wood/poor,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/rogue/tile/harem1,
 /area/rogue/indoors/abandonedhotsprings/grim)
 "rMS" = (
@@ -148772,12 +148772,12 @@
 	lockid = "church";
 	name = "Church Tithes"
 	},
-/obj/item/roguecoin/gold/pile,
-/obj/item/roguecoin/copper/pile,
-/obj/item/roguecoin/copper/pile,
-/obj/item/roguecoin/silver/pile,
-/obj/item/roguecoin/silver/pile,
-/obj/item/roguecoin/gold/pile,
+/obj/effect/spawner/coins/medium,
+/obj/effect/spawner/coins/handful,
+/obj/effect/spawner/coins/handful,
+/obj/effect/spawner/coins/small,
+/obj/effect/spawner/coins/small,
+/obj/effect/spawner/coins/medium,
 /turf/open/floor/rogue/tile,
 /area/rogue/indoors/town/church/chapel/grim)
 "rWj" = (
@@ -155029,7 +155029,7 @@
 "sGv" = (
 /obj/structure/bed/rogue/inn/wooldouble,
 /obj/item/bedsheet/rogue/fabric_double,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /obj/structure/fluff/walldeco/vinez/offset,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/cave/dukecourt/grim)
@@ -161728,7 +161728,7 @@
 /area/rogue/outdoors/beach/forest/north/grim)
 "twI" = (
 /obj/structure/table/wood/poor/alt,
-/obj/item/roguecoin/silver/pile{
+/obj/effect/spawner/coins/small{
 	pixel_x = 7;
 	pixel_y = -2
 	},
@@ -162465,9 +162465,9 @@
 	pixel_y = 32
 	},
 /obj/structure/closet/crate/chest/neu_fancy,
-/obj/item/roguecoin/silver/pile,
-/obj/item/roguecoin/gold/pile,
-/obj/item/roguecoin/gold/pile{
+/obj/effect/spawner/coins/small,
+/obj/effect/spawner/coins/medium,
+/obj/effect/spawner/coins/medium{
 	pixel_x = -2;
 	pixel_y = -2
 	},
@@ -163102,7 +163102,7 @@
 	pixel_x = -8;
 	pixel_y = 16
 	},
-/obj/item/roguecoin/copper/pile{
+/obj/effect/spawner/coins/handful{
 	pixel_x = -4
 	},
 /turf/open/floor/rogue/carpet/lord/right,
@@ -164805,7 +164805,7 @@
 "tPd" = (
 /obj/structure/table/church/end,
 /obj/machinery/light/rogue/candle/blue,
-/obj/item/roguecoin/gold/pile{
+/obj/effect/spawner/coins/medium{
 	pixel_x = 2;
 	pixel_y = 11
 	},
@@ -166977,7 +166977,7 @@
 	roundstart_forbid = 1
 	},
 /obj/structure/closet/crate/drawer,
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/grim/hamlet)
 "ubN" = (
@@ -177064,7 +177064,7 @@
 /obj/structure/table/wood/poor,
 /obj/item/storage/backpack/rogue/satchel/short,
 /obj/effect/spawner/lootdrop/cheap_clutter_spawner,
-/obj/item/roguecoin/silver/pile{
+/obj/effect/spawner/coins/small{
 	pixel_x = -5;
 	pixel_y = 9
 	},
@@ -179195,7 +179195,7 @@
 /turf/open/floor/rogue/grass,
 /area/rogue/outdoors/bog/north/grim/ne)
 "vyi" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = 17;
 	pixel_y = 8
 	},
@@ -181842,7 +181842,7 @@
 	pixel_x = -16;
 	pixel_y = 18
 	},
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/cave/water_temple/two)
 "vNG" = (
@@ -184229,7 +184229,7 @@
 /turf/open/water/river/flow/deep/north,
 /area/rogue/under/cave/water_temple/one)
 "wbB" = (
-/obj/item/roguecoin/silver/pile,
+/obj/effect/spawner/coins/small,
 /obj/structure/closet/crate/chest/gold,
 /obj/item/rogue/painting,
 /turf/open/floor/rogue/church,
@@ -191094,7 +191094,7 @@
 	pixel_x = -12;
 	pixel_y = 22
 	},
-/obj/item/roguecoin/silver/pile{
+/obj/effect/spawner/coins/small{
 	pixel_x = 13;
 	pixel_y = 0
 	},
@@ -192409,7 +192409,7 @@
 	pixel_x = 5;
 	pixel_y = 20
 	},
-/obj/item/roguecoin/silver/pile{
+/obj/effect/spawner/coins/small{
 	pixel_x = -9;
 	pixel_y = 4
 	},
@@ -198121,7 +198121,7 @@
 /turf/open/floor/rogue/dirt,
 /area/rogue/outdoors/rtfield/grim/south)
 "xIN" = (
-/obj/item/roguecoin/gold{
+/obj/effect/spawner/coins/tiny{
 	pixel_x = -6;
 	pixel_y = 5
 	},
@@ -200749,7 +200749,7 @@
 /area/rogue/outdoors/bog/south/grim/se)
 "xZg" = (
 /obj/structure/closet/crate/chest,
-/obj/item/roguecoin/copper/pile,
+/obj/effect/spawner/coins/handful,
 /obj/effect/spawner/lootdrop/general_loot_mid/x3,
 /turf/open/floor/rogue/blocks,
 /area/rogue/under/cavewet/bogcaves/north)

@@ -116,7 +116,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	/obj/effect/proc_holder/spell/invoked/chain_lightning_breath)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/no_loot
-	death_loot = list(/obj/item/roguecoin/gold = 4) // Yes I lied, it drops 4 gold coins.
+	death_loot = list(/obj/effect/spawner/coins/tiny = 4) // Yes I lied, it drops 4 gold coins.
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/get_sound(input)
 	switch(input)

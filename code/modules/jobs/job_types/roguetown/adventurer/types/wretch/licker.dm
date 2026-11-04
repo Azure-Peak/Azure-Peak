@@ -14,7 +14,7 @@
 	applies_post_equipment = FALSE
 
 	subclass_stashed_items = list(
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/wretchpouch,
 	)
 
 /datum/outfit/job/roguetown/wretch/licker/pre_equip(mob/living/carbon/human/H)

@@ -35,7 +35,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/wretchpouch,
 	)
 
 /datum/outfit/job/roguetown/wretch/berserker/pre_equip(mob/living/carbon/human/H)

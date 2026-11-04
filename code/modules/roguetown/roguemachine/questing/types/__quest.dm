@@ -312,7 +312,10 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	parcel.preserves_contents = TRUE
 	for(var/path in bundle)
 		for(var/i in 1 to bundle[path])
-			parcel.contained_items += new path(parcel)
+			if(ispath(path, /obj/effect/spawner/coins))
+				parcel.contained_items += spawn_coin_tier(path, parcel)
+			else
+				parcel.contained_items += new path(parcel)
 	if(delivery_area)
 		parcel.delivery_area_type = delivery_area
 		parcel.allowed_jobs = parcel.get_area_jobs(delivery_area)

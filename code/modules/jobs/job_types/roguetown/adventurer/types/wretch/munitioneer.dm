@@ -44,7 +44,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/munitioneerpile, //uniquely gets 75 vs 50 starting funds
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/munitioneerpouch, //uniquely gets 75 vs 50 starting funds
 	)
 /datum/outfit/job/roguetown/wretch/munitioneer/pre_equip(mob/living/carbon/human/H)
 	to_chat(H, span_warning("You are a passable warrior- though weak- but your true strength lies in your ability to bend the resources of Azuria to your will."))

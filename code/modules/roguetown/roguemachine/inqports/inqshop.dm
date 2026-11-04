@@ -46,16 +46,9 @@
 	marquescost = 16
 	maximum = 3
 
-/obj/item/roguecoin/silver/inqpile/Initialize(mapload)
-	. = ..()
-	set_quantity(20)
-
 /obj/structure/closet/crate/chest/inqcrate/supplies/extrafunding/Initialize(mapload)
 	. = ..()
-	new /obj/item/roguecoin/silver/inqpile(src)
-	new /obj/item/roguecoin/silver/inqpile(src)
-	new /obj/item/roguecoin/silver/inqpile(src)
-	new /obj/item/roguecoin/silver/inqpile(src)
+	spawn_mammons(400, src, COIN_VALUE_SILVER)
 
 /datum/inqports/supplies/bullion
 	name = "The Archibishop's Bullion - Blessed Silver Ingots"

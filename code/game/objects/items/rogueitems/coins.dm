@@ -278,33 +278,8 @@ GLOBAL_LIST_INIT(coin_denominations, list(
 	. = ..()
 	set_quantity(rand(8,19)) //Hilarious
 
-/obj/item/roguecoin/copper/pile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(4,19))
-
-/obj/item/roguecoin/silver/pile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(4,19))
-
-/obj/item/roguecoin/silver/pile/wretchpile/Initialize(mapload)
-	. = ..()
-	set_quantity(10) // 50 mammons, to avoid being dead broke when latejoining
-
-/obj/item/roguecoin/silver/pile/munitioneerpile/Initialize(mapload) //for muntineer, exclusely to speed up them aquiring materials w/ out having to benefit town by selling to them or lose the arms race against the guild.
-	. = ..()
-	set_quantity(16) // 80 mammons, to avoid being dead broke when latejoining
-
-/obj/item/roguecoin/gold/pile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(4,19))
-
-/obj/item/roguecoin/gold/virtuepile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(8,12))
-
-/obj/item/roguecoin/gold/aspirantpile/Initialize(mapload)
-	. = ..()
-	set_quantity(20) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
+/proc/roll_mammons(mammon_min, mammon_max, mammon_step = 1)
+	return rand(mammon_min / mammon_step, mammon_max / mammon_step) * mammon_step
 
 /proc/mammons_to_coins(mammons, max_value = COIN_VALUE_GOLD)
 	. = list()
