@@ -4603,7 +4603,7 @@ As Excaliber."
 	sprite_acc = /datum/sprite_accessory/underwear_bottom/shibari
 
 /datum/sprite_accessory/underwear_bottom/shibari
-	name = "shibari ropes"
+	name = "Shibari ropes"
 	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
 	icon_state = "female_shibari"
 	preview_states = list("shibari_f_0")

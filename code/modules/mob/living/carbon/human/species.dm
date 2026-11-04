@@ -318,17 +318,6 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 /datum/species/New()
 	add_marking_sets_to_markings()
-	if(/datum/customizer/bodypart_feature/underwear_bottom in customizers)
-		customizers = customizers.Copy()
-		customizers |= list(
-			/datum/customizer/clothing/underwear_top,
-			/datum/customizer/clothing/undershirt,
-			/datum/customizer/clothing/armsleeves,
-			/datum/customizer/clothing/choker,
-			/datum/customizer/clothing/garter,
-			/datum/customizer/clothing/earring_left,
-			/datum/customizer/clothing/earring_right,
-		)
 	if(!limbs_id)	//if we havent set a limbs id to use, just use our own id
 		limbs_id = name
 	if(!clothes_id)

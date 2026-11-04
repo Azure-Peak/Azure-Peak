@@ -107,57 +107,57 @@
 	return is_human_part_visible(owner, HIDEJUMPSUIT)
 
 /datum/sprite_accessory/legwear/stockings
-	name = "stockings"
+	name = "Stockings"
 	icon_state = "stockings"
 	legwear_type = /obj/item/clothing/legwears
 
 /datum/sprite_accessory/legwear/stockings/silk
-	name = "silk stockings"
+	name = "Silk stockings"
 	icon_state = "silk"
 	legwear_type = /obj/item/clothing/legwears/silk
 //Fishnets
 /datum/sprite_accessory/legwear/stockings/fishnet
-	name = "fishnet stockings"
+	name = "Fishnet stockings"
 	icon_state = "fishnet"
 	legwear_type = /obj/item/clothing/legwears/fishnet
 
 /datum/sprite_accessory/legwear/stockings/thigh_high
-	name = "thigh-high stockings"
+	name = "Thigh-high stockings"
 	icon_state = "thigh"
 	legwear_type = /obj/item/clothing/legwears/thigh_high
 
 /datum/sprite_accessory/legwear/stockings/thigh_high_silk
-	name = "thigh-high stockings - silk"
+	name = "Thigh-high stockings - silk"
 	icon_state = "thigh_silk"
 	legwear_type = /obj/item/clothing/legwears/thigh_high_silk
 
 /datum/sprite_accessory/legwear/stockings/knee_high
-	name = "knee-high stockings"
+	name = "Knee-high stockings"
 	icon_state = "knee"
 	legwear_type = /obj/item/clothing/legwears/knee_high
 
 /datum/sprite_accessory/legwear/stockings/knee_high_silk
-	name = "knee-high stockings - silk"
+	name = "Knee-high stockings - silk"
 	icon_state = "knee_silk"
 	legwear_type = /obj/item/clothing/legwears/knee_high_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_knee_silk
-	name = "knee-high sleeves - silk"
+	name = "Knee-high sleeves - silk"
 	icon_state = "sleeve_k_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_knee_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_stir_knee_silk
-	name = "knee-high sleeves (stirrup) - silk"
+	name = "Knee-high sleeves (stirrup) - silk"
 	icon_state = "sleeve_ks_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_stir_knee_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_stir_thigh_silk
-	name = "thigh-high sleeves (stirrup) - silk"
+	name = "Thigh-high sleeves (stirrup) - silk"
 	icon_state = "sleeve_ts_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_stir_thigh_silk
 
 /datum/sprite_accessory/legwear/stockings/sleeve_stir_ankle_silk
-	name = "ankle-high sleeves (stirrup) - silk"
+	name = "Ankle-high sleeves (stirrup) - silk"
 	icon_state = "sleeve_as_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_stir_ankle_silk
 	legwear_type = /obj/item/clothing/legwears/knee_high_silk

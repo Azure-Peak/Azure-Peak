@@ -38,8 +38,6 @@
 	var/persists_through_skeletonize = FALSE
 
 /datum/sprite_accessory/New()
-	if(name)
-		name = capitalize(name)
 	if(color_keys > 1)
 		if(!color_key_names)
 			stack_trace("Sprite accessory of [type] has more than 1 color key but doesn't have a color key name list")

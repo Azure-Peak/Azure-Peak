@@ -68,42 +68,42 @@
 
 /datum/sprite_accessory/piercing/rings
 	icon = 'modular/icons/mob/sprite_accessory/piercings/rings.dmi'
-	name = "rings"
+	name = "Rings"
 	icon_state = "rings"
 	piercing_type = /obj/item/piercings/rings
 
 /datum/sprite_accessory/piercing/rings/emerald
-	name = "rings (emerald)"
+	name = "Rings (emerald)"
 	icon_state = "rings-e"
 	piercing_type = /obj/item/piercings/rings/emerald
 
 /datum/sprite_accessory/piercing/rings/gold
-	name = "rings (gold)"
+	name = "Rings (gold)"
 	icon_state = "rings-g"
 	piercing_type = /obj/item/piercings/rings/gold
 
 /datum/sprite_accessory/piercing/rings/silver
-	name = "rings (silver)"
+	name = "Rings (silver)"
 	icon_state = "rings-s"
 	piercing_type = /obj/item/piercings/rings/silver
 
 /datum/sprite_accessory/piercing/beads
 	icon = 'modular/icons/mob/sprite_accessory/piercings/beads.dmi'
-	name = "beads"
+	name = "Beads"
 	icon_state = "beads"
 	piercing_type = /obj/item/piercings/beads
 
 /datum/sprite_accessory/piercing/beads/emerald
-	name = "beads (emerald)"
+	name = "Beads (emerald)"
 	icon_state = "beads-e"
 	piercing_type = /obj/item/piercings/beads/emerald
 
 /datum/sprite_accessory/piercing/beads/gold
-	name = "beads (gold)"
+	name = "Beads (gold)"
 	icon_state = "beads-g"
 	piercing_type = /obj/item/piercings/beads/gold
 
 /datum/sprite_accessory/piercing/beads/silver
-	name = "beads (silver)"
+	name = "Beads (silver)"
 	icon_state = "beads-s"
 	piercing_type = /obj/item/piercings/beads/silver

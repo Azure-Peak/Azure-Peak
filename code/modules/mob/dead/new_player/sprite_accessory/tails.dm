@@ -141,7 +141,7 @@
 	icon_state = "insect"
 
 /datum/sprite_accessory/tail/kangaroo
-	name = "kangaroo"
+	name = "Kangaroo"
 	icon_state = "kangaroo"
 
 /datum/sprite_accessory/tail/kitsune

@@ -1,5 +1,5 @@
 /datum/sprite_accessory/tail/skeleton
-	name = "bony tail"
+	name = "Bony tail"
 	icon = 'icons/mob/sprite_accessory/tails/skel_tails.dmi'
 	icon_state = "lizard"
 	persists_through_skeletonize = TRUE

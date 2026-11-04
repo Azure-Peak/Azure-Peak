@@ -222,7 +222,7 @@
 	icon_state = "spider_legs"
 
 /datum/sprite_accessory/wings/wide/robowing
-	name = "mechanical dragon wings"
+	name = "Mechanical dragon wings"
 	icon_state = "robowing"
 
 /datum/sprite_accessory/wings/huge
