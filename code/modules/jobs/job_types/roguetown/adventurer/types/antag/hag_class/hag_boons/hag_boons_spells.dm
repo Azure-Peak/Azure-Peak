@@ -185,7 +185,7 @@
 
 	if(luck_roll >= 20)
 		found_tier = /obj/effect/spawner/coins/medium
-		to_chat(H, span_boldnotice("A hoard of Zenarii!"))
+		to_chat(H, span_boldnotice("A hoard of Ziliquae!"))
 	else if(luck_roll >= 10)
 		found_tier = /obj/effect/spawner/coins/small
 		to_chat(H, span_notice("A collection of Ziliquae. This will buy much."))

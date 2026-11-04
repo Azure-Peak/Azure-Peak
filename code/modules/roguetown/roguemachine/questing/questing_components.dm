@@ -35,7 +35,7 @@
 	if(Q && !Q.complete && isitem(parent))
 		var/obj/item/I = parent
 		I.remove_filter(outline_filter_id)
-		if(Q.quest_type == QUEST_COURIER && (Q.target_delivery_item && istype(I, Q.target_delivery_item)) && !QDELETED(I))
+		if(Q.quest_type == QUEST_COURIER && Q.is_contract_item(I) && !QDELETED(I))
 			Q.target_delivery_item = null
 			qdel(I)
 
@@ -185,7 +185,7 @@
 		Q.on_progress_update()
 		return
 
-	else if(istype(dropped_item, Q.target_delivery_item))
+	else if(Q.is_contract_item(dropped_item))
 		dropped_item.remove_filter(outline_filter_id)
 		Q.progress_current++
 		Q.on_progress_update()

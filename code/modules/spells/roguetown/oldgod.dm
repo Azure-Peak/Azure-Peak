@@ -54,7 +54,7 @@
 	/obj/item/jingle_bells,
 	/obj/item/bouquet/salvia,
 	/obj/item/bouquet/calendula,
-	/obj/item/roguecoin/gold,
+	/obj/effect/spawner/coins/tiny,
 	/obj/item/roguecoin/silver,
 	/obj/item/roguecoin/copper,
 	/obj/item/alch/atropa,
@@ -103,7 +103,8 @@
 
 	var/obj/item/found_thing
 	if(H.get_stress_amount() < 0 && H.STALUC > 10)
-		found_thing = new /obj/item/roguecoin/gold(T)
+		var/list/found_coins = spawn_coin_tier(/obj/effect/spawner/coins/tiny, T)
+		found_thing = found_coins[1]
 	else if(H.STALUC >= 10)
 		found_thing = new /obj/item/roguecoin/silver(T)
 	else
@@ -115,7 +116,12 @@
 
 	if(prob(H.STALUC + H.get_skill_level(associated_skill)))
 		var/path = pick(lootpool)
-		var/obj/item/extra = new path(T)
+		var/obj/item/extra
+		if(ispath(path, /obj/effect/spawner/coins))
+			var/list/extra_coins = spawn_coin_tier(path, T)
+			extra = extra_coins[1]
+		else
+			extra = new path(T)
 		to_chat(H, span_info("Ah, of course! I almost forgot I had this stashed away for a perfect occasion."))
 		if(!H.put_in_hands(extra, FALSE))
 			extra.forceMove(T)

@@ -96,7 +96,7 @@ export const BathhouseOrdinanceSection = ({
             <ul style={{ margin: '0 0 6px 16px', padding: 0 }}>
               <li style={{ marginBottom: 4 }}>
                 {
-                  "To prohibit the sale or trafficking of any physick or smoke stronger than purified moondust and ozium, lest the mind of any guest be so clouded as to forget the Ten's teaching. Violation shall be fined a zilaque."
+                  "To prohibit the sale or trafficking of any physick or smoke stronger than purified moondust and ozium, lest the mind of any guest be so clouded as to forget the Ten's teaching. Violation shall be fined a ziliqua."
                 }
               </li>
               <li style={{ marginBottom: 4 }}>

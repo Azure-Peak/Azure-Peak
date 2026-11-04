@@ -182,7 +182,7 @@
 	name = "ornate grinning cross"
 	category = "Misc"
 	result = /obj/structure/fluff/psycross/matthios/decorated
-	reqs =	list(/obj/item/natural/stone = 3, /obj/item/roguecoin/gold = 4)
+	reqs =	list(/obj/item/natural/stone = 3, /obj/item/roguecoin/silver = 8)
 	verbage_simple = "construct"
 	verbage = "constructs"
 	always_availible = FALSE
