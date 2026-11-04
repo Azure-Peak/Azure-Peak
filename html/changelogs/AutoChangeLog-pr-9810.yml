@@ -1,0 +1,5 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - bugfix: "Cloaks no longer drop their items on being deleted (like far travelling)"
+  - bugfix: "Admin send to lobby now works the same as far  travelling."

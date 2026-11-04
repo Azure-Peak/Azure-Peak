@@ -200,7 +200,7 @@
 					user.do_attack_animation(M, user.used_intent.animname, used_item = src, used_intent = user.used_intent, simplified = TRUE)
 			return
 	var/dualwield_armed = FALSE
-	if(HAS_TRAIT(user, TRAIT_DUALWIELDER) && !user.dualwield_processing && user != M)
+	if(HAS_TRAIT(user, TRAIT_DUALWIELDER) && !user.dualwield_processing && user != M && user.cmode)
 		var/datum/intent/dualwield_cached_intent = user.used_intent
 		dualwield_armed = user.process_dualwield(src) // if we return TRUE, we're primed
 		user.used_intent = dualwield_cached_intent

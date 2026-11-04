@@ -1,4 +1,4 @@
 author: "WeNeedMorePhoron"
 delete-after: True
 changes:
-  - refactor: "Removed a bunch of unreferenced spells"
+  - refactor: "Optimized get_advclass_by_name proc"

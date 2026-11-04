@@ -1,5 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Reclassified some erroneous alcohol classifications: -Norwandine Ale wine -> ale. Lirvas Toper spirit -> cider. Zagul -> Ale. Aurorian Wine -> Ale (It says it is an elven BEER brewed from a herbal gruit). Fireleaf Wine -> Ale. Sourwine None -> Wine. Murkwine None -> Spirit. Nocmash None -> Spirit"
-  - rscdel: "Deleted unused spotted hen, green beer and light beer"
