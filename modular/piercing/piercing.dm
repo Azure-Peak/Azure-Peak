@@ -51,7 +51,7 @@
 			pixel_y = -2
 		return tag
 
-/datum/sprite_accessory/underwear_bottom_render/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
+/datum/sprite_accessory/underwear_bottom/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(is_species(owner,/datum/species/dwarf))
 		return "maledwarf_reg"
 	if(owner.gender == FEMALE)
