@@ -511,10 +511,6 @@
 	starting_reel = /obj/item/fishing/reel/leather
 	starting_hook = /obj/item/fishing/hook/iron
 
-/obj/item/fishingrod/hooked
-	starting_reel = null
-	starting_line = null
-
 /obj/item/fishingrod/bronze
 	name = "bronze fishing rod"
 	desc = "A tool of religious importance, used by wide-brimmed priests who offer wriggling sacrifices to the endless waves beneath."
