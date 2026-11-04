@@ -89,7 +89,7 @@
 	. += span_info("Mammons reign as the primary form of currency within the kingdom, with bargaining and trading as a lesser alternative. There are three types of mammons; ZENNIES, ZILIQUAE, and ZENARII.")
 	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liquor at the inn, or some lesser supplies.")
 	. += span_info("ZILIQUAE, better known as SILVER, are each worth FIVE MAMMONS. A stack of TEN ziliquae can usually afford a freshly-forged longsword of steel, or enough supplies for a dae's adventure.")
-	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usually afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
+	. += span_info("ZENARII, better known as GOLD, are each worth ONE HUNDRED MAMMONS. A single zenar can usually afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
 	. += span_info("Your character almost always spawns with mammons; either in pouches, or inside their MEISTER's account. Earning more can be as simple as laboring, adventuring, or otherwise driving a hard bargain.")
 
 /obj/structure/fluff/walldeco/bsmith
@@ -216,7 +216,7 @@
 	. += span_info("Mammons reign as the primary form of currency within the kingdom, with bargaining and trading as a lesser alternative. There are three types of mammons; ZENNIES, ZILIQUAE, and ZENARII.")
 	. += span_info("ZENNIES, or simply referred to as MAMMONS, are the backbone of the kingdom's economy. A pouch of TEN zennies can usually afford a decent meal with liquor at the inn, or some lesser supplies.")
 	. += span_info("ZILIQUAE, better known as SILVER, are each worth FIVE MAMMONS. A stack of TEN ziliquae can usually afford a freshly-forged longsword of steel, or enough supplies for a dae's adventure.")
-	. += span_info("ZENARII, better known as GOLD, are each worth TEN MAMMONS. A palmful of TEN zenarii can usually afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
+	. += span_info("ZENARII, better known as GOLD, are each worth ONE HUNDRED MAMMONS. A single zenar can usually afford a well-mountable saiga, high-end lodging for the week, or most items on the market.")
 	. += span_info("Your character almost always spawns with mammons; either in pouches, or inside their MEISTER's account. Earning more can be as simple as laboring, adventuring, or otherwise driving a hard bargain.")
 
 /obj/structure/fluff/walldeco/sign/merchantsign/left
