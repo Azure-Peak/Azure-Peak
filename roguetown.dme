@@ -3544,6 +3544,7 @@
 #include "code\modules\spells\spell_types\wizard\utility\rune_ward.dm"
 #include "code\modules\spells\spell_types\wizard\utility\summon_weapon.dm"
 #include "code\modules\spells\spell_types\wizard\utility\woundclosure.dm"
+#include "code\modules\static_threat_spawners\threatspawner.dm"
 #include "code\modules\statpacks\_statpacks.dm"
 #include "code\modules\statpacks\agile.dm"
 #include "code\modules\statpacks\mental.dm"
