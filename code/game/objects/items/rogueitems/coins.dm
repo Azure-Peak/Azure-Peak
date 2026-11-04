@@ -212,7 +212,7 @@ GLOBAL_LIST_INIT(coin_denominations, list(
 //OTAVAN MARQUE - WORTHLESS TO ANYONE BUT INQ.
 /obj/item/roguecoin/inqcoin
 	name = "otavan marque"
-	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by Otava's inquisitorial sects."
+	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-empire Psycross. The Psydonian Holy See has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by Otava's inquisitorial sects."
 	icon_state = "i1"
 	sellprice = 0
 	base_type = CTYPE_ICOIN
@@ -228,7 +228,7 @@ GLOBAL_LIST_INIT(coin_denominations, list(
 //GOLD
 /obj/item/roguecoin/gold
 	name = "zenar"
-	desc = "A gold coin bearing the symbol of the Taurus and the pre-kingdom psycross. These were in the best condition of the provincial gold mints, the rest were melted down."
+	desc = "A gold coin bearing the symbol of the Taurus and the Celestial Empire era psycross. Some dates from before the Sundering, most were smelted and minted after, in imitation of the style of the empire prior."
 	icon_state = "g1"
 	sellprice = COIN_VALUE_GOLD
 	base_type = CTYPE_GOLD
@@ -239,7 +239,7 @@ GLOBAL_LIST_INIT(coin_denominations, list(
 // SILVER
 /obj/item/roguecoin/silver
 	name = "ziliqua"
-	desc = "An ancient silver coin still in use due to their remarkable ability to last the ages."
+	desc = "An ancient silver coin still widely circulated and mimicked due to their reputation for reliability."
 	icon_state = "s1"
 	sellprice = COIN_VALUE_SILVER
 	base_type = CTYPE_SILV
@@ -249,7 +249,7 @@ GLOBAL_LIST_INIT(coin_denominations, list(
 // COPPER
 /obj/item/roguecoin/copper
 	name = "zenny"
-	desc = "A brand-new bronze coin minted by the capital in an effort to be rid of the financial use of silver."
+	desc = "A copper coin minted by the Celestial Empire and now its successors in an effort to be rid of the financial use of silver."
 	icon_state = "c1"
 	sellprice = COIN_VALUE_COPPER
 	base_type = CTYPE_COPP
