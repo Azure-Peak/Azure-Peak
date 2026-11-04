@@ -10,7 +10,7 @@
 	obj_flags = CAN_BE_HIT
 	var/dead = TRUE
 	var/no_rarity_sprite = FALSE // Whether this fish has rarity based sprites. If not, don't change icon states
-	var/sinkable = TRUE
+	var/sinkable = FALSE
 	max_integrity = 50
 	sellprice = FISH_PRICE_GOOD
 	dropshrink = 0.6
@@ -164,9 +164,12 @@
 		STOP_PROCESSING(SSobj, src)
 		return 1
 
-/obj/item/reagent_containers/food/snacks/fish/after_throw(datum/callback/callback)
+/obj/item/reagent_containers/food/snacks/fish/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
-	sinkable = TRUE
+	if(istype(loc, /turf/open/water))
+		SEND_GLOBAL_SIGNAL(COMSIG_GLOBAL_FISH_RELEASED, type, rarity_rank)
+		visible_message("<span class='warning'>[src] dives into \the [loc] and disappears!</span>")
+		qdel(src)
 
 /obj/item/reagent_containers/food/snacks/fish/salmon
 	name = "salmon"
