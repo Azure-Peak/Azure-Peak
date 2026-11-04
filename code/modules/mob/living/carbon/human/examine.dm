@@ -300,11 +300,11 @@
 			str = "[m3] something on [m2] wrists!"
 		. += str
 
-	if(underwear && !(SLOT_UNDER_BOTTOM in obscured))
-		. += "[m3] [underwear.get_examine_string(user)]."
+	if(underwear_bottom && !(SLOT_UNDER_BOTTOM in obscured))
+		. += "[m3] [underwear_bottom.get_examine_string(user)]."
 
-	if(bra && !(SLOT_UNDER_TOP in obscured))
-		. += "[m3] [bra.get_examine_string(user)]."
+	if(underwear_top && !(SLOT_UNDER_TOP in obscured))
+		. += "[m3] [underwear_top.get_examine_string(user)]."
 
 	if(undershirt && !(SLOT_UNDERSHIRT in obscured))
 		. += "[m3] [undershirt.get_examine_string(user)]."

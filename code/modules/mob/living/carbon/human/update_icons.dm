@@ -40,7 +40,7 @@ There are several things that need to be remembered:
 >	There are also these special cases:
 		update_damage_overlays()	//handles damage overlays for brute/burn damage
 		update_body()				//Handles updating your mob's body layer and mutant bodyparts
-									as well as sprite-accessories that didn't really fit elsewhere (underwear, undershirts, socks, lips, eyes)
+									as well as sprite-accessories that didn't really fit elsewhere (underwear_bottom, undershirts, socks, lips, eyes)
 									//NOTE: update_mutantrace() is now merged into this!
 		update_hair()				//Handles updating your hair overlay (used to be update_face, but mouth and
 									eyes were merged into update_body())
@@ -341,8 +341,8 @@ There are several things that need to be remembered:
 		update_inv_pants()
 		update_inv_shirt()
 		update_inv_mouth()
-		update_inv_undie_bot()
-		update_inv_undie_top()
+		update_inv_underwear_bottom()
+		update_inv_underwear_top()
 		update_inv_undershirt()
 		update_inv_garter()
 		update_inv_choker()
@@ -372,8 +372,8 @@ There are several things that need to be remembered:
 	update_inv_pants()
 	update_inv_shirt()
 	update_inv_mouth()
-	update_inv_undie_bot()
-	update_inv_undie_top()
+	update_inv_underwear_bottom()
+	update_inv_underwear_top()
 	update_inv_undershirt()
 	update_inv_garter()
 	update_inv_choker()
@@ -1346,10 +1346,10 @@ There are several things that need to be remembered:
 
 	rebuild_obscured_flags()
 
-/mob/living/carbon/human/update_inv_undie_bot()
+/mob/living/carbon/human/update_inv_underwear_bottom()
 	remove_overlay(UNDERWEAR_BOT_LAYER)
 
-	if(underwear)
+	if(underwear_bottom)
 		var/datum/species/species = dna?.species
 		var/use_female_sprites = !is_bulky_body()
 
@@ -1357,10 +1357,10 @@ There are several things that need to be remembered:
 		if(species?.custom_clothes)
 			racecustom = species.clothes_id
 
-		if(!underwear.gendered)
+		if(!underwear_bottom.gendered)
 			use_female_sprites = FALSE
 
-		var/mutable_appearance/underwear_overlay = underwear.build_worn_icon(
+		var/mutable_appearance/underwear_overlay = underwear_bottom.build_worn_icon(
 			default_layer = UNDERWEAR_BOT_LAYER,
 			female = use_female_sprites,
 			customi = racecustom
@@ -1377,10 +1377,10 @@ There are several things that need to be remembered:
 	apply_overlay(UNDERWEAR_BOT_LAYER)
 
 
-/mob/living/carbon/human/update_inv_undie_top()
+/mob/living/carbon/human/update_inv_underwear_top()
 	remove_overlay(UNDERWEAR_TOP_LAYER)
 
-	if(bra)
+	if(underwear_top)
 		var/b_size = 0
 		var/datum/species/species = dna?.species
 		var/use_female_sprites = !is_bulky_body()
@@ -1393,10 +1393,10 @@ There are several things that need to be remembered:
 		if(boob)
 			b_size = boob.breast_size
 
-		if(!bra.gendered)
+		if(!underwear_top.gendered)
 			use_female_sprites = FALSE
 
-		var/mutable_appearance/underwear_overlay = bra.build_worn_icon(
+		var/mutable_appearance/underwear_overlay = underwear_top.build_worn_icon(
 			default_layer = UNDERWEAR_TOP_LAYER,
 			female = use_female_sprites,
 			customi = racecustom,

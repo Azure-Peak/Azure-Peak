@@ -25,7 +25,7 @@
 /obj/item/clothing/underwear_top/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(!H.bra)
+		if(!H.underwear_top)
 			if(!get_location_accessible(H, BODY_ZONE_CHEST))
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))

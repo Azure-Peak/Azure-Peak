@@ -42,11 +42,11 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 			checkings_owner.temporarilyRemoveItemFromInventory(checking, TRUE) //Clear out of there yeah?
 		SSwardrobe.recycle_object(checking)
 
-	// these aren't ~real~ inventory slots and /datum/bodypart_feature/underwear can't clean up after itself
+	// these aren't ~real~ inventory slots and /datum/bodypart_feature/underwear_bottom can't clean up after itself
 	if(legwear_socks)
 		to_nuke += legwear_socks
-	if(underwear)
-		to_nuke += underwear
+	if(underwear_bottom)
+		to_nuke += underwear_bottom
 
 	for(var/obj/item/delete as anything in to_nuke)
 		qdel(delete)

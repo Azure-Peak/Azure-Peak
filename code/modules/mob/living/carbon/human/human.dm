@@ -36,11 +36,11 @@
 			return
 		if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
 			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-				if(!underwear)
+				if(!underwear_bottom)
 					return
-				src.visible_message(span_notice("[src] begins to take off [underwear]..."))
+				src.visible_message(span_notice("[src] begins to take off [underwear_bottom]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					var/obj/item/garment = underwear
+					var/obj/item/garment = underwear_bottom
 					if(garment && dropItemToGround(garment))
 						put_in_hands(garment)
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
@@ -324,14 +324,14 @@
 	if(SLOT_UNDER_BOTTOM in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_BOTTOM]'>[(underwear && !(underwear.item_flags & ABSTRACT)) ? underwear : "<font color=grey>Underwear</font>"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_BOTTOM]'>[(underwear_bottom && !(underwear_bottom.item_flags & ABSTRACT)) ? underwear_bottom : "<font color=grey>Underwear Bottom</font>"]</A></td></tr>"
 
 	if(SLOT_UNDER_TOP in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else if(bra && (user == src))
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP];extra_only=[extra_only]'>[(bra && !(bra.item_flags & ABSTRACT)) ? bra : "<font color=grey>Underwear Top</font>"]</A> | <tr><td><A href='?src=[REF(src)];show_storage=[SLOT_UNDER_TOP];extra_only=[extra_only]'>["Storage"]</A></td></tr>"
+	else if(underwear_top && (user == src))
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP];extra_only=[extra_only]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A> | <tr><td><A href='?src=[REF(src)];show_storage=[SLOT_UNDER_TOP];extra_only=[extra_only]'>["Storage"]</A></td></tr>"
 	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP]'>[(bra && !(bra.item_flags & ABSTRACT)) ? bra : "<font color=grey>Underwear Top</font>"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A></td></tr>"
 
 	if(SLOT_UNDERSHIRT in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
@@ -1047,7 +1047,7 @@
 	lip_style = target.lip_style
 	lip_color = target.lip_color
 	age = target.age
-	underwear = target.underwear
+	underwear_bottom = target.underwear_bottom
 	shavelevel = target.shavelevel
 	socks = target.socks
 	has_stubble = target.has_stubble

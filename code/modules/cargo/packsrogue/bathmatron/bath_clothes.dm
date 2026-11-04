@@ -52,7 +52,7 @@
 /datum/supply_pack/rogue/bath_clothes/briefs
 	name = "Briefs"
 	cost = 10
-	contains = list(/obj/item/clothing/undies)
+	contains = list(/obj/item/clothing/underwear_bottom)
 
 /datum/supply_pack/rogue/bath_clothes/bikini_top
 	name = "Bikini Top"
@@ -62,12 +62,12 @@
 /datum/supply_pack/rogue/bath_clothes/bikini_bottom
 	name = "Bikini Bottom"
 	cost = 10
-	contains = list(/obj/item/clothing/undies/bikini_bottom)
+	contains = list(/obj/item/clothing/underwear_bottom/bikini_bottom)
 
 /datum/supply_pack/rogue/bath_clothes/panties
 	name = "Panties"
 	cost = 10
-	contains = list(/obj/item/clothing/undies/panties)
+	contains = list(/obj/item/clothing/underwear_bottom/panties)
 
 /datum/supply_pack/rogue/bath_clothes/leotard
 	name = "Leotard"
@@ -82,7 +82,7 @@
 /datum/supply_pack/rogue/bath_clothes/braies
 	name = "Braies"
 	cost = 10
-	contains = list(/obj/item/clothing/undies/braies)
+	contains = list(/obj/item/clothing/underwear_bottom/braies)
 
 /datum/supply_pack/rogue/bath_clothes/collar
 	name = "Collar"

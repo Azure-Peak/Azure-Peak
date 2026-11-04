@@ -91,10 +91,10 @@
 /mob/proc/update_inv_mouth()
 	return
 
-/mob/proc/update_inv_undie_bot()
+/mob/proc/update_inv_underwear_bottom()
 	return
 
-/mob/proc/update_inv_undie_top()
+/mob/proc/update_inv_underwear_top()
 	return
 
 /mob/proc/update_inv_undershirt()

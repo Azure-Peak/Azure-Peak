@@ -21,7 +21,7 @@ GLOBAL_LIST_EMPTY(used_colors)
 			/obj/item/bedroll,
 			/obj/item/flowercrown,
 			/obj/item/clothing/legwears,
-			/obj/item/clothing/undies,
+			/obj/item/clothing/underwear_bottom,
 			/obj/item/natural/cloth,
 			/obj/item/caparison,
 			/obj/item/reagent_containers/glass/bottle/clayvase,

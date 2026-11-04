@@ -522,10 +522,10 @@
 	//CHEST//
 	if(!bodyzone_hit || bodyzone_hit == BODY_ZONE_CHEST)
 		var/obj/item/clothing/chest_clothes = null
-		if(bra)
-			chest_clothes = bra
-		if(underwear)
-			chest_clothes = underwear
+		if(underwear_top)
+			chest_clothes = underwear_top
+		if(underwear_bottom)
+			chest_clothes = underwear_bottom
 		if(undershirt)
 			chest_clothes = undershirt
 		if(wear_pants)

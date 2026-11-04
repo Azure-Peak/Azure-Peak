@@ -47,9 +47,9 @@
 		if(SLOT_PANTS)
 			return wear_pants
 		if(SLOT_UNDER_BOTTOM)
-			return underwear
+			return underwear_bottom
 		if(SLOT_UNDER_TOP)
-			return bra
+			return underwear_top
 		if(SLOT_UNDERSHIRT)
 			return undershirt
 		if(SLOT_GARTER)
@@ -97,8 +97,8 @@
 		beltr,
 		beltl,
 		mouth,
-		underwear,
-		bra,
+		underwear_bottom,
+		underwear_top,
 		legwear_socks,
 		undershirt,
 		armsleeves,
@@ -237,11 +237,11 @@
 				if(SEND_SIGNAL(belt, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
 		if(SLOT_UNDER_BOTTOM)
-			underwear = I
-			update_inv_undie_bot()
+			underwear_bottom = I
+			update_inv_underwear_bottom()
 		if(SLOT_UNDER_TOP)
-			bra = I
-			update_inv_undie_top()
+			underwear_top = I
+			update_inv_underwear_top()
 		if(SLOT_UNDERSHIRT)
 			undershirt = I
 			update_inv_undershirt()
@@ -400,14 +400,14 @@
 		mouth = null
 		if(!QDELETED(src))
 			update_inv_mouth()
-	else if(I == underwear)
-		underwear = null
+	else if(I == underwear_bottom)
+		underwear_bottom = null
 		if(!QDELETED(src))
-			update_inv_undie_bot()
-	else if(I == bra)
-		bra = null
+			update_inv_underwear_bottom()
+	else if(I == underwear_top)
+		underwear_top = null
 		if(!QDELETED(src))
-			update_inv_undie_top()
+			update_inv_underwear_top()
 	else if(I == undershirt)
 		undershirt = null
 		if(!QDELETED(src))

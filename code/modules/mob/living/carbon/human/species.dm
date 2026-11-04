@@ -318,7 +318,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 /datum/species/New()
 	add_marking_sets_to_markings()
-	if(/datum/customizer/bodypart_feature/underwear in customizers)
+	if(/datum/customizer/bodypart_feature/underwear_bottom in customizers)
 		customizers = customizers.Copy()
 		customizers |= list(
 			/datum/customizer/clothing/underwear_top,
@@ -620,9 +620,9 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 
 	C.add_movespeed_modifier(MOVESPEED_ID_SPECIES, TRUE, 100, override=TRUE, multiplicative_slowdown=speedmod, movetypes=(~FLYING))
 
-	if(C.underwear)
-		qdel(C.underwear)
-		C.underwear = null
+	if(C.underwear_bottom)
+		qdel(C.underwear_bottom)
+		C.underwear_bottom = null
 	C.remove_all_bodypart_features()
 	for(var/bodypart_feature_type in bodypart_features)
 		var/datum/bodypart_feature/feature = new bodypart_feature_type()
@@ -1054,13 +1054,13 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 				if(SEND_SIGNAL(H.belt, COMSIG_TRY_STORAGE_CAN_INSERT, I, H, TRUE))
 					return TRUE
 		if(SLOT_UNDER_BOTTOM)
-			if(H.underwear)
+			if(H.underwear_bottom)
 				return FALSE
 			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_UNDER_TOP)
-			if(H.bra)
+			if(H.underwear_top)
 				return FALSE
 			if(!I.fits_slot(slot))
 				return FALSE

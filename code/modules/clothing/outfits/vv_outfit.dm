@@ -42,9 +42,9 @@
 		if(SLOT_R_STORE)
 			r_pocket = item_path
 		if(SLOT_UNDER_BOTTOM)
-			underwear = item_path
+			underwear_bottom = item_path
 		if(SLOT_UNDER_TOP)
-			bra = item_path
+			underwear_top = item_path
 		if(SLOT_UNDERSHIRT)
 			undershirt = item_path
 		if(SLOT_GARTER)

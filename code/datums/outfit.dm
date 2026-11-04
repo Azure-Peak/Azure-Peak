@@ -85,9 +85,9 @@
 
 	var/armor = null
 
-	var/underwear = null
+	var/underwear_bottom = null
 
-	var/bra = null
+	var/underwear_top = null
 
 	var/undershirt = null
 
@@ -240,10 +240,10 @@
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(backl, H), SLOT_BACK_L, TRUE)
 	if(mouth)
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(mouth, H), SLOT_MOUTH, TRUE)
-	if(underwear)
-		H.equip_to_slot_or_del(SSwardrobe.provide_type(underwear, H), SLOT_UNDER_BOTTOM, TRUE)
-	if(bra)
-		H.equip_to_slot_or_del(SSwardrobe.provide_type(bra, H), SLOT_UNDER_TOP, TRUE)
+	if(underwear_bottom)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(underwear_bottom, H), SLOT_UNDER_BOTTOM, TRUE)
+	if(underwear_top)
+		H.equip_to_slot_or_del(SSwardrobe.provide_type(underwear_top, H), SLOT_UNDER_TOP, TRUE)
 	if(undershirt)
 		H.equip_to_slot_or_del(SSwardrobe.provide_type(undershirt, H), SLOT_UNDERSHIRT, TRUE)
 	if(garter)
@@ -392,7 +392,7 @@
 
 /// Return a list of all the types that are required to disguise as this outfit type
 /datum/outfit/proc/get_chameleon_disguise_info()
-	var/list/types = list(uniform, suit, back, belt, gloves, shoes, head, mask, neck, ears, glasses, id, l_pocket, r_pocket, suit_store, r_hand, l_hand, underwear, bra, undershirt, garter, choker, earring_l, earring_r, legwear_socks)
+	var/list/types = list(uniform, suit, back, belt, gloves, shoes, head, mask, neck, ears, glasses, id, l_pocket, r_pocket, suit_store, r_hand, l_hand, underwear_bottom, underwear_top, undershirt, garter, choker, earring_l, earring_r, legwear_socks)
 	types += chameleon_extras
 	listclearnulls(types)
 	return types

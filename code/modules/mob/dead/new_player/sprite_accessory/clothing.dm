@@ -107,14 +107,20 @@
 	color_disabled = TRUE
 
 /datum/sprite_accessory/clothing/earring/stud
-	item_type = /obj/item/earring/stud
+	abstract_type = /datum/sprite_accessory/clothing/earring/stud
+
+/datum/sprite_accessory/clothing/earring/stud/silver
+	item_type = /obj/item/earring/stud/silver
 
 /datum/sprite_accessory/clothing/earring/stud/gold
 	item_type = /obj/item/earring/stud/gold
 	color_disabled = TRUE
 
 /datum/sprite_accessory/clothing/earring/dangle
-	item_type = /obj/item/earring/dangle
+	abstract_type = /datum/sprite_accessory/clothing/earring/dangle
+
+/datum/sprite_accessory/clothing/earring/dangle/silver
+	item_type = /obj/item/earring/dangle/silver
 
 /datum/sprite_accessory/clothing/earring/dangle/gold
 	item_type = /obj/item/earring/dangle/gold

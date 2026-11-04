@@ -1,9 +1,9 @@
-/obj/item/clothing/undies
+/obj/item/clothing/underwear_bottom
 	name = "briefs"
 	desc = "An absolute necessity."
-	icon = 'icons/obj/items/clothes/underwear.dmi'
+	icon = 'icons/obj/items/clothes/underwear_bottom.dmi'
 	gendered = TRUE
-	mob_overlay_icon = 'icons/obj/items/clothes/on_mob/underwear.dmi'
+	mob_overlay_icon = 'icons/obj/items/clothes/on_mob/underwear_bottom.dmi'
 	icon_state = "briefs"
 	item_state = "briefs"
 	w_class = WEIGHT_CLASS_TINY
@@ -27,21 +27,21 @@
 	muteinmouth = TRUE
 	flags_inv = HIDECROTCH
 
-/obj/item/clothing/undies/Initialize(mapload, ...)
+/obj/item/clothing/underwear_bottom/Initialize(mapload, ...)
 	. = ..()
 	icon_state_base = icon_state
 
-/obj/item/clothing/undies/attack(mob/M, mob/user, def_zone)
+/obj/item/clothing/underwear_bottom/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(!H.underwear)
+		if(!H.underwear_bottom)
 			if(!get_location_accessible(H, BODY_ZONE_PRECISE_GROIN))
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
 				equip_from_hands(user, H, SLOT_UNDER_BOTTOM)
 
-/obj/item/clothing/undies/equipped(mob/living/carbon/user, slot)
+/obj/item/clothing/underwear_bottom/equipped(mob/living/carbon/user, slot)
 	. = ..()
 	if(user.mouth == src)
 		flags_inv = null
@@ -49,12 +49,12 @@
 		user.update_body()
 		user.update_body_parts()
 
-/obj/item/clothing/undies/dropped(mob/user)
+/obj/item/clothing/underwear_bottom/dropped(mob/user)
 	. = ..()
 	flags_inv = initial(flags_inv)
 	icon_state = icon_state_base
 
-/obj/item/clothing/undies/bikini_bottom
+/obj/item/clothing/underwear_bottom/bikini_bottom
 	worn_icon_state = "bikini"
 	name = "bikini bottom"
 	desc = "A perfect bathing garment."
@@ -62,75 +62,67 @@
 	item_state = "bikini_bottom"
 	gendered = TRUE
 
-/obj/item/clothing/undies/panties
+/obj/item/clothing/underwear_bottom/panties
 	name = "panties"
 	icon_state = "panties"
 	item_state = "panties"
 	gendered = FALSE
 
-/obj/item/clothing/undies/braies
+/obj/item/clothing/underwear_bottom/braies
 	name = "braies"
 	desc = "A pair of linen underpants; Psydonia's most common."
 	icon_state = "braies"
 	item_state = "braies"
 
-/obj/item/clothing/undies/briefs_eoran
-	sprite_acc = /datum/sprite_accessory/underwear/briefs/eoran
+/obj/item/clothing/underwear_bottom/briefs_eoran
+	sprite_acc = /datum/sprite_accessory/underwear_bottom/briefs/eoran
 	name = "eoran briefs"
 	icon_state = "briefs"
 	item_state = "briefs"
 
-/obj/item/undies/bandages
-	icon = 'icons/mob/sprite_accessory/underwear.dmi'
-	sprite_acc = /datum/sprite_accessory/underwear/bandages
+/obj/item/clothing/underwear_bottom/bandages
+	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
+	sprite_acc = /datum/sprite_accessory/underwear_bottom/bandages
 	covers_breasts = TRUE
 	flags_inv = HIDECROTCH | HIDEBOOB
 	name = "bandages"
 	icon_state = "bandages"
 	item_state = "bandages"
 
-/datum/crafting_recipe/roguetown/sewing/undies
+/datum/crafting_recipe/roguetown/sewing/underwear_bottom
 	name = "briefs"
-	result = list(/obj/item/clothing/undies)
+	result = list(/obj/item/clothing/underwear_bottom)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/sewing/undies_eoran
+/datum/crafting_recipe/roguetown/sewing/underwear_bottom/briefs_eoran
 	name = "briefs - eoran"
-	result = list(/obj/item/clothing/undies/briefs_eoran)
+	result = list(/obj/item/clothing/underwear_bottom/briefs_eoran)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/sewing/bikini_bottom
+/datum/crafting_recipe/roguetown/sewing/underwear_bottom/bikini
 	name = "bikini bottom"
-	result = list(/obj/item/clothing/undies/bikini_bottom)
+	result = list(/obj/item/clothing/underwear_bottom/bikini_bottom)
 	reqs = list(/obj/item/natural/cloth = 2,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/sewing/panties
+/datum/crafting_recipe/roguetown/sewing/underwear_bottom/panties
 	name = "panties"
-	result = list(/obj/item/clothing/undies/panties)
+	result = list(/obj/item/clothing/underwear_bottom/panties)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/sewing/braies
+/datum/crafting_recipe/roguetown/sewing/underwear_bottom/braies
 	name = "braies"
-	result = list(/obj/item/clothing/undies/braies)
+	result = list(/obj/item/clothing/underwear_bottom/braies)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 2
 
-// Smallclothes used by donor loadouts.
-/obj/item/undies
-	parent_type = /obj/item/clothing/undies
-	sprite_acc = /datum/sprite_accessory/underwear/briefs
-
-/obj/item/undies/bikini
-	parent_type = /obj/item/clothing/undies/bikini_bottom
-
-/obj/item/clothing/undies/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = 0)
+/obj/item/clothing/underwear_bottom/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = 0)
 	if(worn_icon_state && !isinhands)
 		override_state = worn_icon_state
 	if(!sprite_acc || isinhands)
@@ -146,6 +138,6 @@
 	var/mutable_appearance/standing = mutable_appearance(layer = -default_layer)
 	// Worn clothing must not hide its own accessory through HIDECROTCH/HIDEBOOB.
 	var/list/pieces = accessory.get_overlay(accessory.get_icon_state(null, chest, wearer), color)
-	// update_inv_undie_bot() applies the body-build offset once to the wrapper.
+	// update_inv_underwear_bottom() applies the body-build offset once to the wrapper.
 	standing.add_overlay(pieces)
 	return standing

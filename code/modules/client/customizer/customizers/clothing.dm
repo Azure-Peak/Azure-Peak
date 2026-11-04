@@ -105,9 +105,9 @@
 		/datum/sprite_accessory/clothing/earring/gold,
 		/datum/sprite_accessory/clothing/earring/hoop/silver,
 		/datum/sprite_accessory/clothing/earring/hoop/gold,
-		/datum/sprite_accessory/clothing/earring/stud,
+		/datum/sprite_accessory/clothing/earring/stud/silver,
 		/datum/sprite_accessory/clothing/earring/stud/gold,
-		/datum/sprite_accessory/clothing/earring/dangle,
+		/datum/sprite_accessory/clothing/earring/dangle/silver,
 		/datum/sprite_accessory/clothing/earring/dangle/gold,
 	)
 
