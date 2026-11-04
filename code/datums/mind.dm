@@ -390,6 +390,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(active || force_key_move)
 
 		new_character.key = key		//now transfer the key to link the client to our new body
+	if(new_character.client)
+		LAZYCLEARLIST(new_character.client.recent_examines)
 	new_character.update_fov_angles()
 
 	SEND_SIGNAL(src, COMSIG_MIND_TRANSFERRED, old_current)
