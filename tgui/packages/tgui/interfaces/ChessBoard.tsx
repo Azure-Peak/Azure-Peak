@@ -116,6 +116,7 @@ type ChessBoardData = {
   can_confirm_reset_request: boolean;
   can_cancel_reset_request: boolean;
   can_flip_board: boolean;
+  can_resign: boolean;
   mode_options: ModeOption[];
   nards: NardsData | null;
 };
@@ -372,6 +373,7 @@ export const ChessBoard = () => {
     to: number;
   } | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [confirmResign, setConfirmResign] = useState(false);
   const [showModePicker, setShowModePicker] = useState(false);
   const [modePickerStep, setModePickerStep] = useState<ModePickerStep>('root');
   const [rollingDiceFaces, setRollingDiceFaces] = useState<
@@ -475,6 +477,10 @@ export const ChessBoard = () => {
   ]);
 
   useEffect(() => {
+    setConfirmResign(false);
+  }, [data.can_resign, data.game_mode, data.result_text]);
+
+  useEffect(() => {
     setShowModePicker(false);
     setModePickerStep('root');
   }, [data.game_mode]);
@@ -575,6 +581,15 @@ export const ChessBoard = () => {
     }
     act('reset_board');
     setConfirmReset(false);
+  };
+
+  const resignGame = () => {
+    if (!confirmResign) {
+      setConfirmResign(true);
+      return;
+    }
+    act('resign_game');
+    setConfirmResign(false);
   };
 
   const handleNardsPointClick = (point: number) => {
@@ -1416,6 +1431,16 @@ export const ChessBoard = () => {
                   >
                     {pauseResumeLabel}
                   </Button>
+                  {!!data.can_resign && (
+                    <Button onClick={resignGame}>
+                      {confirmResign ? 'Confirm resignation' : 'Resign'}
+                    </Button>
+                  )}
+                  {confirmResign && (
+                    <Button onClick={() => setConfirmResign(false)}>
+                      Cancel
+                    </Button>
+                  )}
                   <Button onClick={resetBoard}>
                     {confirmReset ? 'Confirm reset' : 'Reset board'}
                   </Button>

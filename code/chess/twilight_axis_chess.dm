@@ -192,6 +192,7 @@
 	data["turn"] = chess_side_name(match.turn)
 	data["turn_key"] = match.turn
 	data["paused"] = match.paused
+	data["can_resign"] = match.can_resign(user)
 	data["result_text"] = match.result_text
 	data["selected_square"] = selected
 	data["status_text"] = match.get_status_text()
@@ -265,6 +266,15 @@
 			play_notify_sound()
 			if(match.resume_game(user))
 				last_ui_message = "The game has resumed."
+				queue_ui_update()
+				return TRUE
+			return FALSE
+
+		if("resign_game")
+			play_notify_sound()
+			if(match.resign_game(user))
+				clear_all_selections()
+				last_ui_message = null
 				queue_ui_update()
 				return TRUE
 			return FALSE
@@ -726,6 +736,7 @@
 	var/game_mode = BOARD_MODE_NONE
 	var/turn = CHESS_WHITE
 	var/paused = TRUE
+	var/game_started = FALSE
 	var/result_text = null
 
 	var/white_player_ckey = null
@@ -1196,6 +1207,7 @@
 	board.len = 64
 	turn = CHESS_WHITE
 	paused = TRUE
+	game_started = FALSE
 	result_text = null
 	move_history = list()
 	repetition_counts = list()
@@ -1404,6 +1416,26 @@
 	paused = TRUE
 	return TRUE
 
+/datum/chess_match/proc/can_resign(mob/user)
+	if(!game_started || result_text || !side_for_user(user))
+		return FALSE
+
+	var/opponent = opposite(side_for_user(user))
+	var/opponent_ckey = (opponent == CHESS_WHITE) ? white_player_ckey : black_player_ckey
+	return !!opponent_ckey
+
+/datum/chess_match/proc/resign_game(mob/user)
+	if(!can_resign(user))
+		return FALSE
+
+	var/resigning_side = side_for_user(user)
+	var/winning_side = opposite(resigning_side)
+
+	paused = TRUE
+	result_text = "Resignation. [chess_side_name(winning_side)] wins."
+	owner.play_win_loss_sounds(winning_side)
+	return TRUE
+
 /datum/chess_match/proc/resume_game(mob/user)
 	if(result_text)
 		to_chat(user, span_warning("The game has already ended. Reset the board first."))
@@ -1412,6 +1444,7 @@
 		to_chat(user, span_warning("Both seats must be occupied before resuming."))
 		return FALSE
 	paused = FALSE
+	game_started = TRUE
 	return TRUE
 
 /datum/chess_match/proc/reset_game(mob/user)
