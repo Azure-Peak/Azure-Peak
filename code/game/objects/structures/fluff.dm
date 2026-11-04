@@ -941,15 +941,6 @@
 		return
 	for(var/obj/item/alch/catalyst/path as anything in typesof(/obj/item/alch/catalyst))
 		if(path::seed_item && ispath(with.type, path::seed_item))
-			if(istype(with, /obj/item/roguecoin))
-				var/obj/item/roguecoin/coins = with
-				var/seed_amount = initial(path.seed_amount)
-				if(coins.quantity < seed_amount)
-					to_chat(user, span_warning("I need [seed_amount] [coins.plural_name] for this."))
-					return
-				if(coins.quantity > seed_amount)
-					coins.set_quantity(coins.quantity - seed_amount)
-					with = new coins.type(loc, seed_amount)
 			current_recipe=path
 			seed_item = with
 			seed_item.forceMove(src)

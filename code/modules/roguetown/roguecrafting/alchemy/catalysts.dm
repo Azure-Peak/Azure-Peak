@@ -8,7 +8,6 @@
 	var/recipe_base_type		// path to a base recipe that the initialize function will populate the above list with subtypes of
 	var/obj/item/seed_item		// item used to start creating the catalyst. MUST BE UNIQUE (if there are two catalysts with the same seed item one of them will be uncraftable and do not ask this one which will win)
 	var/difficulty = 5			// steps in the process. 5 is default, 4-7 the sane range. any less and it's trivial, any more and it feels unfair
-	var/seed_amount = 1			// coins taken from a seed coin stack
 
 /obj/item/alch/catalyst/Initialize(mapload)
 	. = ..()
@@ -48,8 +47,7 @@
 	desc = "A perfect trapezoid of glittering gold, warm to the touch and soft like putty. A small flick is all that is needed for it to remember what it was, and return to its ideal shape."
 	recipe_base_type = /datum/transmutation_recipe/chrysopoeia
 	materia = list(/datum/materia_aspect/solar, /datum/materia_aspect/malleability)
-	seed_item = /obj/item/roguecoin/silver
-	seed_amount = 2
+	seed_item = /obj/item/alch/solardust
 	difficulty = 6
 
 /obj/item/alch/catalyst/argyropoeia // DO NOT ADD A SEED ITEM TO THIS. IT IS SUPPOSED TO BE UNCRAFTABLE.
