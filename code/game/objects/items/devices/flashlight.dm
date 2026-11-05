@@ -300,7 +300,7 @@
 	name = "fieftorch"
 	desc = "A candleholder of wrought iron, oft-found mounted to the sconces in a castle's hallway."
 	icon_state = "mtorch"
-	light_outer_range = 6
+	light_outer_range = 7
 	force = 10 //Doubled from the regular torch, to reflect its sturdier construction. Classified as an improvised weapon, as it shouldn't scale off any weapon skill.
 	on_damage = 15
 	wdefense = 1 //Metal rod. Offers a pittance-of-a-chance to parry an incoming strike.
@@ -320,7 +320,7 @@
 	name = "iron lamptern"
 	icon_state = "lamp"
 	desc = "A light to guide the way."
-	light_outer_range = 5
+	light_outer_range = 6
 	on = FALSE
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_BACK
@@ -375,7 +375,7 @@
 	icon_state = "bronzelamp"
 	item_state = "bronzelamp"
 	desc = "A marvel of engineering that emits a strange green glow."
-	light_outer_range = 6
+	light_outer_range = 7
 	light_color ="#4ac77e"
 	on = FALSE
 
