@@ -1,4 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - bugfix: "spawned mobs with clients can now regen stam"
