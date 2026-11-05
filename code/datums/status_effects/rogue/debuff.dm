@@ -502,7 +502,7 @@
 /// meaning players have direct control over the consequences of their capture.
 /// At this point, I genuinely cannot make this system any more forgiving without removing any consequences for capture entirely.
 
-// TIER 1 (100-200 mammon bounty)
+// TIER 1 (100-250 mammon bounty)
 /datum/status_effect/debuff/castificot1
 	id = "castificot1"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
@@ -510,7 +510,7 @@
 	duration = -1
 	needs_processing = FALSE
 
-// TIER 2 (200-300 mammon bounty)
+// TIER 2 (250-400 mammon bounty)
 /datum/status_effect/debuff/castificot2
 	id = "castificot2"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
@@ -518,7 +518,7 @@
 	duration = -1
 	needs_processing = FALSE
 
-// TIER 3 (300-400 mammon bounty)
+// TIER 3 (400-500 mammon bounty)
 /datum/status_effect/debuff/castificot3
 	id = "castificot3"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
