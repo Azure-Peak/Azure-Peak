@@ -97,6 +97,7 @@
 		"Sword Skill (JMAN)" = /datum/skill/combat/swords,
 		"Dagger Skill (JMAN)" = /datum/skill/combat/knives,
 		"Unarmed Skill (JMAN)" = /datum/skill/combat/unarmed,
+		"Wrestling Skill (JMAN)" = /datum/skill/combat/wrestling,
 		"Sling Skill (JMAN)" = /datum/skill/combat/slings,
 		"Axe Skill (JMAN)" = /datum/skill/combat/axes,
 		"Whip Skill (JMAN)" = /datum/skill/combat/whipsflails,
