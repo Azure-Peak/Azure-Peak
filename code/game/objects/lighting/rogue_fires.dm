@@ -267,7 +267,7 @@
 	var/torch_off_state = "torchwall0"
 	base_state = "torchwall"
 	density = FALSE
-	light_outer_range = 7 //actually the same as a held torch
+	light_outer_range = 7 // the same as a held torch
 	var/obj/item/flashlight/flare/torch/torchy
 	fueluse = FALSE //we use the torch's fuel
 	no_refuel = TRUE
