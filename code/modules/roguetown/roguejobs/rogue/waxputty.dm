@@ -161,6 +161,7 @@
 /datum/status_effect/debuff/thiefalert
 	id = "thiefalert"
 	mob_effect_icon_state = "eff_thiefalert"
+	mob_effect_offset_y = 30
 	duration = 10 SECONDS
 
 /datum/status_effect/debuff/thiefalert/on_apply()
