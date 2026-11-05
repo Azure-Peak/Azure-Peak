@@ -1773,7 +1773,7 @@
 
 /obj/item/clothing/neck/roguetown/collar/prisoner/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("This cursed collar blocks spellcasting and weakens its wearer according to their bounty amount. A bounty of 500 mammon or more pacifies the wearer instead.")
+	. += span_info("This cursed collar blocks spellcasting and weakens its wearer according to their bounty amount. A bounty over 500 mammon pacifies the wearer instead.")
 	. += span_info("It can be removed using a LIBERTAS machine, a key of liberation, or a key of absolution issued by the same faction.")
 
 /obj/item/clothing/neck/roguetown/collar/prisoner/Initialize(mapload)
@@ -1799,13 +1799,13 @@
 		active_item = TRUE
 		to_chat(user, span_warning("This accursed collar blocks my spellcasting!"))
 		ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
-		if(bounty_amount >= 100 && bounty_amount <= 200)
+		if(bounty_amount >= 100 && bounty_amount <= 250)
 			user.apply_status_effect(/datum/status_effect/debuff/castificot1)
-		else if(bounty_amount <= 300 && bounty_amount > 200)
+		else if(bounty_amount > 250 && bounty_amount <= 400)
 			user.apply_status_effect(/datum/status_effect/debuff/castificot2)
-		else if(bounty_amount > 300 && bounty_amount < 400)
+		else if(bounty_amount > 400 && bounty_amount <= 500)
 			user.apply_status_effect(/datum/status_effect/debuff/castificot3)
-		if(bounty_amount >= 400)
+		if(bounty_amount > 500)
 			to_chat(user, span_warning("The collar's magic overwhelms your body, forcing you into pacifism!"))
 			ADD_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
 		if(HAS_TRAIT(user, TRAIT_RITUALIST))

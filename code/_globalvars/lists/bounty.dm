@@ -8,6 +8,7 @@ GLOBAL_LIST_INIT(wretch_severities, list(
 	"MISDEED" = "Misdeed",
 	"HARM" = "Harm towards lyfe",
 	"ATROCITY" = "Horrific atrocities",
+	"UNFORGIVABLE" = "Unforgivable sins against mankind",
 ))
 
 GLOBAL_LIST_INIT(vagabond_severities, list(
@@ -34,7 +35,7 @@ GLOBAL_LIST_INIT(vagabond_bounty_severities, list(
 		"max" = 200
 	),
 	"HEFTY" = list(
-		"name" = "Hefty", //T2 Debuff
+		"name" = "Hefty", //T1 Debuff
 		"min" = 200,
 		"max" = 250
 	)
@@ -42,36 +43,41 @@ GLOBAL_LIST_INIT(vagabond_bounty_severities, list(
 
 GLOBAL_LIST_INIT(wretch_bounty_severities, list(
 	"MISDEED" = list(
-		"name" = "Misdeed", //T1 - T2 Debuff, random
+		"name" = "Misdeed", //T1 Debuff
 		"min" = 100,
 		"max" = 250
 	),
 	"HARM" = list(
-		"name" = "Harm towards lyfe", //T2 - T3 Debuff, random
+		"name" = "Harm towards lyfe", //T2 Debuff
 		"min" = 250,
-		"max" = 399
+		"max" = 400
 	),
 	"ATROCITY" = list(
-		"name" = "Horrific atrocities", //Pacifism
+		"name" = "Horrific atrocities", //T3 Debuff
 		"min" = 400,
 		"max" = 500
+	),
+	"UNFORGIVABLE" = list(
+		"name" = "Unforgivable sins against mankind", //Pacifism
+		"min" = 501,
+		"max" = 750
 	),
 ))
 
 GLOBAL_LIST_INIT(bandit_bounty_severities, list(
 	"FISH" = list(
-		"name" = "Small Fish", //T2 debuff
-		"min" = 200,
-		"max" = 300
+		"name" = "Small Fish", //T2 Debuff
+		"min" = 250,
+		"max" = 400
 	),
 	"BUTCHER" = list(
 		"name" = "Bay Butcher", //T3 Debuff
-		"min" = 300,
-		"max" = 399
+		"min" = 400,
+		"max" = 500
 	),
 	"BOOGEYMAN" = list(
 		"name" = "Azurean Boogeyman", //Pacifism
-		"min" = 400,
-		"max" = 800
+		"min" = 501,
+		"max" = 1000
 	)
 ))
