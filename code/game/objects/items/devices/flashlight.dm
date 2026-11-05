@@ -375,7 +375,7 @@
 	icon_state = "bronzelamp"
 	item_state = "bronzelamp"
 	desc = "A marvel of engineering that emits a strange green glow."
-	light_outer_range = 7
+	light_outer_range = 8
 	light_color ="#4ac77e"
 	on = FALSE
 
