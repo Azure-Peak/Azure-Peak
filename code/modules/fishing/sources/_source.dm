@@ -580,7 +580,7 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 
 ///returns true if this fishing spot has fish that are shown in the catalog.
 /datum/fish_source/proc/has_known_fishes(atom/location)
-	for(var/reward in get_fish_table(location))
+	for(var/reward in fish_table)
 		if(!ispath(reward, /obj/item/reagent_containers/food/snacks/fish))
 			continue
 		var/obj/item/reagent_containers/food/snacks/fish/prototype = reward
@@ -647,9 +647,28 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 			if(isfish(candidate))
 				release_generated_fish(candidate)
 
-	if(!length(known_fishes))
+	var/list/gone_fishes = list()
+	for(var/reward in fish_table)
+		if(!ispath(reward, /obj/item/reagent_containers/food/snacks/fish) || !is_exhausted(reward))
+			continue
+		var/obj/item/reagent_containers/food/snacks/fish/prototype = reward
+		if(initial(prototype.fish_flags) & FISH_FLAG_SHOW_IN_CATALOG)
+			gone_fishes += capitalize(initial(prototype.name))
+
+	if(!length(known_fishes) && !length(gone_fishes))
 		return
 
-	examine_text += span_info("Fish in these waters: [english_list(known_fishes)].")
-	if(rod)
+	if(length(known_fishes))
+		examine_text += span_info("Fish in these waters: [english_list(known_fishes)].")
+	if(length(gone_fishes))
+		examine_text += span_smallred("Depleted: [english_list(gone_fishes)].")
+	if(HAS_TRAIT(user, TRAIT_EXPERT_FISHER))
+		for(var/reward in fish_table)
+			if(!ispath(reward, /obj/item/reagent_containers/food/snacks/fish) || !is_limited(reward))
+				continue
+			var/obj/item/reagent_containers/food/snacks/fish/prototype = reward
+			if(!(initial(prototype.fish_flags) & FISH_FLAG_SHOW_IN_CATALOG))
+				continue
+			examine_text += span_tinynoticeital("A new [initial(prototype.name)] tends to migrate in every [station_duration_text(fish_count_regen[reward])].")
+	if(rod && length(known_fishes))
 		examine_text += span_tinynoticeital("Bolded are likelier to catch with my current setup, underlined far likelier, italics unlikely.")
