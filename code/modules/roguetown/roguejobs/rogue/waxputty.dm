@@ -23,7 +23,7 @@
 /datum/crafting_recipe/roguetown/stealth/puddy_candles
 	name = "Wax Putty (Candles)"
 	result = list(/obj/item/waxputty)
-	reqs = list(/obj/item/candle = 4)
+	reqs = list(/obj/item/candle = 8)
 	subtype_reqs = TRUE
 	craftdiff = SKILL_LEVEL_EXPERT
 
