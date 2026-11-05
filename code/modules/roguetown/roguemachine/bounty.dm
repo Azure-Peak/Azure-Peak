@@ -201,11 +201,11 @@
 			var/datum/bounty/existing_bounty = get_bounty_for_target_faction(target.real_name, faction)
 			var/amount = text2num(params["amount"])
 			var/minimum_amount = existing_bounty ? 1 : 100
-			if(amount < minimum_amount || amount > 600 || round(amount) != amount)
-				to_chat(user, span_warning("Bounty amount must be a whole number between [minimum_amount] and 600 mammon."))
+			if(amount < minimum_amount || amount > 1000 || round(amount) != amount)
+				to_chat(user, span_warning("Bounty amount must be a whole number between [minimum_amount] and 1000 mammon."))
 				return TRUE
-			if(existing_bounty && existing_bounty.amount + amount > 600)
-				to_chat(user, span_warning("The combined bounty cannot exceed 600 mammon."))
+			if(existing_bounty && existing_bounty.amount + amount > 1000)
+				to_chat(user, span_warning("The combined bounty cannot exceed 1000 mammon."))
 				return TRUE
 			if(!SStreasury.has_account(user))
 				to_chat(user, span_warning("You have no bank account."))
@@ -261,7 +261,7 @@
 	var/resolved_faction = bounty_faction || get_bounty_faction_for_employer(employer_name)
 	var/datum/bounty/existing_bounty = get_bounty_for_target_faction(target_realname, resolved_faction)
 	if(existing_bounty)
-		existing_bounty.amount = min(existing_bounty.amount + amount, 600)
+		existing_bounty.amount = min(existing_bounty.amount + amount, 1000)
 		existing_bounty.reason += "\n[html_encode(reason)]"
 		existing_bounty.unremovable = existing_bounty.unremovable || unremovable
 		existing_bounty.banner = ""
@@ -269,7 +269,7 @@
 		return existing_bounty
 
 	var/datum/bounty/new_bounty = new /datum/bounty
-	new_bounty.amount = min(amount, 600)
+	new_bounty.amount = min(amount, 1000)
 	new_bounty.target = target_realname
 	new_bounty.reason = html_encode(reason)
 	new_bounty.employer = employer_name
@@ -448,7 +448,7 @@
 	if(!M.buckled)
 		say("SUBJECT... NOT PROPERLY SECURED...")
 		return
-	if(!do_after(A, 3 SECONDS, TRUE, M))
+	if(!do_after(A, 5 SECONDS, TRUE, M))
 		return
 
 	playsound(src.loc, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
@@ -479,7 +479,7 @@
 	if(!M.buckled)
 		say("SUBJECT... NOT PROPERLY SECURED...")
 		return
-	if(!do_after(A, 3 SECONDS, TRUE, M))
+	if(!do_after(A, 5 SECONDS, TRUE, M))
 		return
 
 	playsound(src.loc, 'sound/items/pickgood1.ogg', 100, TRUE, -1)
@@ -490,7 +490,10 @@
 		if(istype(old_mask, /obj/item/clothing/neck/roguetown/collar/prisoner))
 			say("COLLAR DISCARDED. FREEDOM, AT LAST...")
 			M.dropItemToGround(old_mask, TRUE)
+			playsound(src.loc, 'sound/misc/chain_snap.ogg', 100, TRUE, -1)
 			M.visible_message(span_warning("The collar's magic flares as it comes free, and [M] crumples, feeling drained."))
+			M.Unconscious(2 SECONDS)
+			sleep(2 SECONDS)
 			M.apply_status_effect(/datum/status_effect/debuff/devitalised)
 			M.apply_status_effect(/datum/status_effect/debuff/permadeath)
 			M.play_permadeath_indicator()

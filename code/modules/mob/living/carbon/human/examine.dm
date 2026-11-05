@@ -882,6 +882,17 @@
 			. += span_userdanger("EXCOMMUNICATED! SHAME!")
 		if(name in GLOB.outlawed_players)
 			. += span_userdanger("OUTLAW!")
+		if(wear_neck && istype(wear_neck, /obj/item/clothing/neck/roguetown/collar/prisoner))
+			var/obj/item/clothing/neck/roguetown/collar/prisoner/castifico_collar = wear_neck
+			var/collar_faction = "unknown"
+			switch(castifico_collar.issuing_faction)
+				if("crown")
+					collar_faction = "the Justiciary of Azuria"
+				if("church")
+					collar_faction = "the Church of the Ten"
+				if("inquisition")
+					collar_faction = "the Otavan Inquisition"
+			. += span_greentext("[m1] wearing a castifico collar with markings belonging to [collar_faction]!")
 
 		. += deadite_examine()
 		. += get_ssd_examine_text(m3)

@@ -70,7 +70,7 @@ export const Bounty = () => {
     (bounty) => bounty.target === target,
   );
   const minimumAmount = existingTargetBounty ? 1 : 100;
-  const maximumAmount = Math.max(0, 600 - (existingTargetBounty?.amount ?? 0));
+  const maximumAmount = Math.max(0, 1000 - (existingTargetBounty?.amount ?? 0));
   const canManageFaction = !!data.can_manage && data.manage_faction === faction;
   const numericAmount = Number(amount);
   const canSubmit =
@@ -230,7 +230,7 @@ export const Bounty = () => {
                   </span>{' '}
                   mammon.
                 </div>
-                <div>Bounty rewards may range between 100 and 600 mammon.</div>
+                <div>Bounty rewards may range between 100 and 1000 mammon.</div>
               </div>
               {data.known_targets.length ? (
                 <>
