@@ -107,7 +107,7 @@
 	// Seeing it on ourselves gives better feedback that it worked / was seen.
 	vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, src, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
 
-/mob/living/proc/play_overhead_private(list/targets, iconstate, custom_offset)
+/mob/living/proc/play_overhead_private(list/targets, iconstate, custom_offset, custom_dur)
 	if(!length(targets))
 		return
 	var/list/offset_list
@@ -122,7 +122,7 @@
 		else
 			offset_list = H.get_offset_features()[OFFSET_HEAD_F]
 	for(var/mob/M in targets)
-		vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane)
+		vis_contents += new /obj/effect/temp_visual/stress_event/invisible(null, M, 'icons/mob/overhead_effects.dmi', iconstate, offset_list, offset, icon_plane, custom_dur)
 
 /obj/effect/temp_visual/stress_event
 	icon = 'icons/mob/overhead_effects.dmi'
@@ -131,7 +131,9 @@
 /obj/effect/temp_visual/stress_event/invisible
 	icon_state = null
 
-/obj/effect/temp_visual/stress_event/invisible/Initialize(mapload, mob/seer, path, iname, list/offsets, y_offset = 12, plane)
+/obj/effect/temp_visual/stress_event/invisible/Initialize(mapload, mob/seer, path, iname, list/offsets, y_offset = 12, plane, custom_dur)
+	if(custom_dur)
+		duration = custom_dur
 	. = ..()
 	var/image/I = image(icon = path, icon_state = iname, layer = ABOVE_MOB_LAYER, loc = src)
 	I.alpha = 255

@@ -5,6 +5,7 @@
 /datum/crafting_recipe/roguetown/stealth
 	abstract_type = /datum/crafting_recipe/roguetown/stealth
 	display_category = ITEM_CAT_MISCELLANEOUS
+	skillcraft = /datum/skill/misc/sneaking
 
 /datum/crafting_recipe/roguetown/stealth/puddy_tallow
 	name = "Wax Putty (Tallow)"
@@ -51,7 +52,7 @@
 	icon = 'icons/roguetown/items/waxpuddy.dmi'
 	icon_state = "waxpuddy_useless"
 
-/obj/item/waxputty/pre_attack(atom/target, mob/user, params)
+/obj/item/waxputty/attack(mob/living/target, mob/living/user)
 	if(!ishuman(target)) //! target == user
 		. = ..()
 		return
@@ -99,7 +100,7 @@
 /obj/item/waxputty/proc/scan_for_targets(mob/living/user)
 	for(var/mob/living/carbon/human/H in get_hearers_in_view(7, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
 		if(H.last_used_keyhash && H.key_imprint_valid_until > world.time)
-			H.play_overhead_private(list(user))
+			H.play_overhead_private(list(user), "eff_validkey", 8, (H.key_imprint_valid_until - world.time))
 	cooldown = world.time + 3 SECONDS
 
 /obj/item/waxputty/attackby(obj/item/I, mob/user, params)
