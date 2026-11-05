@@ -150,7 +150,6 @@
 	desc = "Long, flowing, and modest; a light padding lines the undercarriage, providing milder protection and warmth."
 	icon_state = "patkilt"
 	item_state = "patkilt"
-	armor = ARMOR_PADDED_BAD
 	max_integrity = ARMOR_INT_LEG_LEATHER - 50
 	shiftable = FALSE
 
