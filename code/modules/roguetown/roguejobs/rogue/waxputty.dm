@@ -42,6 +42,7 @@
 	var/state = PUTTY_READY
 	var/held_lockhash
 	var/cooldown //world.time snapshot to prevent spam. changeNext_move would probably work here, pending testing
+	experimental_inhand = FALSE
 	grid_height = 64
 	grid_width = 32
 
