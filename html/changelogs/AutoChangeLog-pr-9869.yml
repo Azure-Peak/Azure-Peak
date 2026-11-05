@@ -1,0 +1,4 @@
+author: "KatTheFox"
+delete-after: True
+changes:
+  - bugfix: "Abyssor's right to arbitrarily rescind your hard-won fish has been revoked (they no longer vanish when doing mundane actions on water tiles; you can still toss them in or dump a sack out)."
