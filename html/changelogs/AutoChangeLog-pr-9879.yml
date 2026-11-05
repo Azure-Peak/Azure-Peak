@@ -1,0 +1,4 @@
+author: "kano-dot"
+delete-after: True
+changes:
+  - bugfix: "Fixed duelist cape detail color not getting applied for female version."
