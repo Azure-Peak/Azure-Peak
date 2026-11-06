@@ -378,7 +378,7 @@
 	reborn purpose; this blade of polished Gilbranze stands as a reborn testament of Progress against the rot that would claim the old, \
 	it menaces with a slightly-more durable and defensive design over that of traditional steel longswords."
 	icon_state = "ancientlongsword"
-	sheathe_icon = "ancientlsword" //ITS A HORRIBLE ICONSTATENAME, LOOK UPON MYNE WORKS THEE MIGHTY AND WEEP
+	sheathe_icon = "ancientlongsword"
 	max_integrity = 130 //uniquely, slightly more durable as its a unique-weapon for unbound DK + Ancient/Lich Spellblades
 	force = 25
 	force_wielded = 28
