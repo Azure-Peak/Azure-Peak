@@ -669,6 +669,6 @@ GLOBAL_LIST_INIT(specific_fish_icons, generate_specific_fish_icons())
 			var/obj/item/reagent_containers/food/snacks/fish/prototype = reward
 			if(!(initial(prototype.fish_flags) & FISH_FLAG_SHOW_IN_CATALOG))
 				continue
-			examine_text += span_tinynoticeital("A new [initial(prototype.name)] tends to migrate in every [station_duration_text(fish_count_regen[reward])].")
+			examine_text += span_tinynoticeital("A new [initial(prototype.name)] tends to migrate in every [station_duration_text(fish_count_regen[reward])] (\"[DisplayTimeText(fish_count_regen[reward])]\").")
 	if(rod && length(known_fishes))
 		examine_text += span_tinynoticeital("Bolded are likelier to catch with my current setup, underlined far likelier, italics unlikely.")
