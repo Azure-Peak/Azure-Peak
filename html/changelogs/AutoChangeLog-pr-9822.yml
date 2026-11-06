@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - refactor: "Optimized get_advclass_by_name proc"

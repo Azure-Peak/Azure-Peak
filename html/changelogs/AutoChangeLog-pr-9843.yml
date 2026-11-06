@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "Slipping on seasonal ice no longer allows you to teleport into dense objects."

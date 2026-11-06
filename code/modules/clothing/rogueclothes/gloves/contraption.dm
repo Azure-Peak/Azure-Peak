@@ -178,7 +178,7 @@
 			continue
 		var/datum/beam/current_beam
 		for(var/x = 1; x <= sprite_changes; x++)
-			current_beam = new(user, C, time = 50 / sprite_changes, beam_icon_state = "lightning[ rand(1,12) ]", btype = /obj/effect/ebeam, maxdistance = 10)
+			current_beam = new(user, C, time = 50 / sprite_changes, icon_state = "lightning[ rand(1,12) ]", beam_type = /obj/effect/ebeam, max_distance = 10)
 			INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 			sleep(delay / sprite_changes)
 

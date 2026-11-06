@@ -1,4 +1,0 @@
-author: "kilozombie"
-delete-after: True
-changes:
-  - bugfix: "Examining a wood metalizer will no longer falsely claims that it can misfire"

@@ -488,7 +488,7 @@
 
 /obj/machinery/light/rogue/hearth/attack_right(mob/user)
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
-	var/cooktime_divisor = get_cooktime_divisor(cs)
+	var/cooktime_divisor = get_skill_speed_divisor(cs)
 	var/fan_time = 2 SECONDS / cooktime_divisor
 	if(!on)
 		to_chat(user, span_notice("[src] is not lit."))
@@ -776,7 +776,7 @@
 
 /obj/machinery/light/rogue/campfire/attack_right(mob/user)
 	var/datum/skill/craft/cooking/cs = user?.get_skill_level(/datum/skill/craft/cooking)
-	var/cooktime_divisor = get_cooktime_divisor(cs)
+	var/cooktime_divisor = get_skill_speed_divisor(cs)
 	var/fan_time = 2 SECONDS / cooktime_divisor
 	if(!on)
 		to_chat(user, span_notice("[src] is not lit."))
