@@ -449,22 +449,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		virtuetwo = new /datum/virtue/none
 
 	if(length(virtue_choices))
-		var/error_found = FALSE
-		for(var/choice in virtue_choices)
-			if(!(choice in virtue.extra_choices))
-				error_found = TRUE
-				break
-		if(!error_found)
-			virtue.picked_choices = virtue_choices.Copy()
+		virtue.picked_choices = virtue_choices & virtue.extra_choices
 
 	if(length(virtuetwo_choices))
-		var/error_found = FALSE
-		for(var/choice in virtuetwo_choices)
-			if(!(choice in virtuetwo.extra_choices))
-				error_found = TRUE
-				break
-		if(!error_found)
-			virtuetwo.picked_choices = virtuetwo_choices.Copy()
+		virtuetwo.picked_choices = virtuetwo_choices & virtuetwo.extra_choices
 
 	virtue.on_load()
 	virtuetwo.on_load()
