@@ -41,6 +41,8 @@
 	feature_type = /datum/bodypart_feature/accessory
 	allows_accessory_color_customization = TRUE
 	sprite_accessories = list(
+		/datum/sprite_accessory/accessory/choker,
+		/datum/sprite_accessory/accessory/chokere,
 		/datum/sprite_accessory/accessory/eyepierce,
 		/datum/sprite_accessory/accessory/eyepierce/alt,
 		/datum/sprite_accessory/accessory/harlequin,

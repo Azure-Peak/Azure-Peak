@@ -52,16 +52,10 @@
 			return underwear_top
 		if(SLOT_UNDERSHIRT)
 			return undershirt
-		if(SLOT_GARTER)
-			return garter
-		if(SLOT_CHOKER)
-			return choker
 		if(SLOT_SOCKS)
 			return legwear_socks
-		if(SLOT_EARRING_L)
-			return earring_l
-		if(SLOT_EARRING_R)
-			return earring_r
+		if(SLOT_EARRINGS)
+			return earrings
 		if(SLOT_ARMSLEEVES)
 			return armsleeves
 		if(SLOT_L_STORE)
@@ -102,7 +96,6 @@
 		legwear_socks,
 		undershirt,
 		armsleeves,
-		garter,
 		)
 
 /mob/living/carbon/human/proc/get_head_slots()
@@ -113,9 +106,7 @@
 		glasses,
 		ears,
 		mouth,
-		earring_l,
-		earring_r,
-		choker,
+		earrings,
 		)
 
 /mob/living/carbon/human/proc/get_storage_slots()
@@ -245,18 +236,9 @@
 		if(SLOT_UNDERSHIRT)
 			undershirt = I
 			update_inv_undershirt()
-		if(SLOT_GARTER)
-			garter = I
-			update_inv_garter()
-		if(SLOT_CHOKER)
-			choker = I
-			update_inv_choker()
-		if(SLOT_EARRING_L)
-			earring_l = I
-			update_inv_earring_l()
-		if(SLOT_EARRING_R)
-			earring_r = I
-			update_inv_earring_r()
+		if(SLOT_EARRINGS)
+			earrings = I
+			update_inv_earrings()
 		if(SLOT_SOCKS)
 			legwear_socks = I
 			update_inv_socks()
@@ -412,22 +394,10 @@
 		undershirt = null
 		if(!QDELETED(src))
 			update_inv_undershirt()
-	else if(I == garter)
-		garter = null
+	else if(I == earrings)
+		earrings = null
 		if(!QDELETED(src))
-			update_inv_garter()
-	else if(I == choker)
-		choker = null
-		if(!QDELETED(src))
-			update_inv_choker()
-	else if(I == earring_l)
-		earring_l = null
-		if(!QDELETED(src))
-			update_inv_earring_l()
-	else if(I == earring_r)
-		earring_r = null
-		if(!QDELETED(src))
-			update_inv_earring_r()
+			update_inv_earrings()
 	else if(I == legwear_socks)
 		legwear_socks = null
 		if(!QDELETED(src))

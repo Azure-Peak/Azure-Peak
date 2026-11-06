@@ -344,10 +344,7 @@ There are several things that need to be remembered:
 		update_inv_underwear_bottom()
 		update_inv_underwear_top()
 		update_inv_undershirt()
-		update_inv_garter()
-		update_inv_choker()
-		update_inv_earring_l()
-		update_inv_earring_r()
+		update_inv_earrings()
 		update_inv_socks()
 		update_inv_armsleeves()
 		update_transform()
@@ -375,10 +372,7 @@ There are several things that need to be remembered:
 	update_inv_underwear_bottom()
 	update_inv_underwear_top()
 	update_inv_undershirt()
-	update_inv_garter()
-	update_inv_choker()
-	update_inv_earring_l()
-	update_inv_earring_r()
+	update_inv_earrings()
 	update_inv_socks()
 	update_inv_armsleeves()
 
@@ -1366,7 +1360,7 @@ There are several things that need to be remembered:
 			customi = racecustom
 		)
 
-		apply_offset(underwear_overlay, OFFSET_UNDIES, OFFSET_UNDIES_F)
+		apply_offset(underwear_overlay, OFFSET_UNDER_BOT, OFFSET_UNDER_BOT_F)
 
 		overlays_standing[UNDERWEAR_BOT_LAYER] = underwear_overlay
 
@@ -1403,7 +1397,7 @@ There are several things that need to be remembered:
 			breast_size = b_size
 		)
 
-		apply_offset(underwear_overlay, OFFSET_BRA, OFFSET_BRA_F)
+		apply_offset(underwear_overlay, OFFSET_UNDER_TOP, OFFSET_UNDER_TOP_F)
 
 		overlays_standing[UNDERWEAR_TOP_LAYER] = underwear_overlay
 
@@ -1466,10 +1460,10 @@ There are several things that need to be remembered:
 	apply_overlay(UNDERSHIRT_LAYER)
 
 
-/mob/living/carbon/human/update_inv_garter()
-	remove_overlay(GARTER_LAYER)
+/mob/living/carbon/human/update_inv_earrings()
+	remove_overlay(EARRINGS_LAYER)
 
-	if(garter)
+	if(earrings)
 		var/datum/species/species = dna?.species
 		var/use_female_sprites = !is_bulky_body()
 
@@ -1477,114 +1471,21 @@ There are several things that need to be remembered:
 		if(species?.custom_clothes)
 			racecustom = species.clothes_id
 
-		if(!garter.gendered)
+		if(!earrings.gendered)
 			use_female_sprites = FALSE
 
-		var/mutable_appearance/garter_overlay = garter.build_worn_icon(
-			default_layer = GARTER_LAYER,
+		var/mutable_appearance/earrings_overlay = earrings.build_worn_icon(
+			default_layer = EARRINGS_LAYER,
 			female = use_female_sprites,
 			customi = racecustom
 		)
 
-		apply_offset(garter_overlay, OFFSET_NECK, OFFSET_NECK_F)
+		apply_offset(earrings_overlay, OFFSET_HEAD, OFFSET_HEAD_F)
 
-		overlays_standing[GARTER_LAYER] = garter_overlay
-
-	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
-
-	apply_overlay(GARTER_LAYER)
+		overlays_standing[EARRINGS_LAYER] = earrings_overlay
 
 
-/mob/living/carbon/human/update_inv_choker()
-	remove_overlay(CHOKER_LAYER)
-
-	if(choker)
-		var/datum/species/species = dna?.species
-		var/use_female_sprites = !is_bulky_body()
-
-		var/racecustom
-		if(species?.custom_clothes)
-			racecustom = species.clothes_id
-
-		var/mutable_appearance/choker_overlay = choker.build_worn_icon(
-			default_layer = CHOKER_LAYER,
-			female = use_female_sprites,
-			customi = racecustom
-		)
-
-		apply_offset(choker_overlay, OFFSET_NECK, OFFSET_NECK_F)
-
-		overlays_standing[CHOKER_LAYER] = choker_overlay
-
-	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
-
-	apply_overlay(CHOKER_LAYER)
-
-
-/mob/living/carbon/human/update_inv_earring_l()
-	remove_overlay(EARRING_L_LAYER)
-
-	if(earring_l)
-		var/datum/species/species = dna?.species
-		var/use_female_sprites = !is_bulky_body()
-
-		var/racecustom
-		if(species?.custom_clothes)
-			racecustom = species.clothes_id
-
-		if(!earring_l.gendered)
-			use_female_sprites = FALSE
-
-		var/mutable_appearance/earring_l_overlay = earring_l.build_worn_icon(
-			default_layer = EARRING_L_LAYER,
-			female = use_female_sprites,
-			customi = racecustom
-		)
-
-		apply_offset(earring_l_overlay, OFFSET_HEAD, OFFSET_HEAD_F)
-
-		overlays_standing[EARRING_L_LAYER] = earring_l_overlay
-
-	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
-
-	apply_overlay(EARRING_L_LAYER)
-
-
-/mob/living/carbon/human/update_inv_earring_r()
-	remove_overlay(EARRING_R_LAYER)
-
-	if(earring_r)
-		var/datum/species/species = dna?.species
-		var/use_female_sprites = !is_bulky_body()
-
-		var/racecustom
-		if(species?.custom_clothes)
-			racecustom = species.clothes_id
-
-		if(!earring_r.gendered)
-			use_female_sprites = FALSE
-
-		var/mutable_appearance/earring_r_overlay = earring_r.build_worn_icon(
-			default_layer = EARRING_R_LAYER,
-			female = use_female_sprites,
-			customi = racecustom
-		)
-
-		apply_offset(earring_r_overlay, OFFSET_HEAD, OFFSET_HEAD_F)
-
-		overlays_standing[EARRING_R_LAYER] = earring_r_overlay
-
-	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
-
-	apply_overlay(EARRING_R_LAYER)
+	apply_overlay(EARRINGS_LAYER)
 
 
 /mob/living/carbon/human/update_inv_socks()

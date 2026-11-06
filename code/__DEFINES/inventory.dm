@@ -66,10 +66,7 @@
 #define EXTRA_SLOT_UNDER_TOP     (1<<1)
 #define EXTRA_SLOT_UNDERSHIRT    (1<<2)
 #define EXTRA_SLOT_SOCKS         (1<<3)
-#define EXTRA_SLOT_CHOKER        (1<<4)
-#define EXTRA_SLOT_GARTER        (1<<5)
-#define EXTRA_SLOT_EARRING_L     (1<<6)
-#define EXTRA_SLOT_EARRING_R     (1<<7)
+#define EXTRA_SLOT_EARRINGS     (1<<6)
 #define EXTRA_SLOT_ARMSLEEVES    (1<<8)
 
 #define ITEM_SLOT_BACK			(ITEM_SLOT_BACK_L | ITEM_SLOT_BACK_R)
@@ -102,10 +99,7 @@
 #define SLOT_UNDERSHIRT		31
 #define SLOT_ARMSLEEVES		32
 #define SLOT_SOCKS			33
-#define SLOT_CHOKER			34
-#define SLOT_GARTER			35
-#define SLOT_EARRING_L		36
-#define SLOT_EARRING_R		37
+#define SLOT_EARRINGS		36
 
 #define ALL_ITEM_SLOTS list(,\
 	SLOT_BACK_L,\
@@ -133,10 +127,7 @@
 	SLOT_UNDERSHIRT,\
 	SLOT_ARMSLEEVES,\
 	SLOT_SOCKS,\
-	SLOT_CHOKER,\
-	SLOT_GARTER,\
-	SLOT_EARRING_L,\
-	SLOT_EARRING_R\
+	SLOT_EARRINGS,\
 )
 
 
@@ -149,7 +140,7 @@
 #define SLOT_S_STORE		26
 #define SLOT_GENERC_DEXTROUS_STORAGE	26
 
-#define SLOTS_AMT			37 // Keep this up to date!
+#define SLOTS_AMT			36 // Keep this up to date!
 
 
 //I hate that this has to exist
@@ -213,16 +204,8 @@
 			. = EXTRA_SLOT_ARMSLEEVES
 		if(SLOT_SOCKS)
 			. = EXTRA_SLOT_SOCKS
-		if(SLOT_CHOKER)
-			. = EXTRA_SLOT_CHOKER
-		if(SLOT_GARTER)
-			. = EXTRA_SLOT_GARTER
-		if(SLOT_EARRING_L)
-			. = EXTRA_SLOT_EARRING_L
-		if(SLOT_EARRING_R)
-			. = EXTRA_SLOT_EARRING_R
-
-
+		if(SLOT_EARRINGS)
+			. = EXTRA_SLOT_EARRINGS
 //Bit flags for the flags_inv variable, which determine when a piece of clothing hides another. IE a helmet hiding glasses.
 //Make sure to update check_obscured_slots() if you add more.
 #define HIDEGLOVES		(1<<0)

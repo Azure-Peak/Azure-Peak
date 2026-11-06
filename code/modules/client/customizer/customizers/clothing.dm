@@ -83,52 +83,20 @@
 		/datum/sprite_accessory/clothing/armsleeves/net_half,
 	)
 
-/datum/customizer/clothing/choker
-	name = "Choker"
-	customizer_choices = list(/datum/customizer_choice/clothing/choker)
+/datum/customizer/clothing/earrings
+	name = "Earrings"
+	customizer_choices = list(/datum/customizer_choice/clothing/earrings)
 
-/datum/customizer_choice/clothing/choker
-	name = "Choker"
-	slot = SLOT_CHOKER
+/datum/customizer_choice/clothing/earrings
+	name = "Earrings"
+	slot = SLOT_EARRINGS
 	sprite_accessories = list(
-		/datum/sprite_accessory/clothing/choker,
-		/datum/sprite_accessory/clothing/choker/neckband,
-		/datum/sprite_accessory/clothing/choker/neckband/embroidered,
+		/datum/sprite_accessory/clothing/earrings,
+		/datum/sprite_accessory/clothing/earrings/silver,
+		/datum/sprite_accessory/clothing/earrings/hoop,
+		/datum/sprite_accessory/clothing/earrings/hoop/silver,
+		/datum/sprite_accessory/clothing/earrings/stud,
+		/datum/sprite_accessory/clothing/earrings/stud/silver,
+		/datum/sprite_accessory/clothing/earrings/dangle,
+		/datum/sprite_accessory/clothing/earrings/dangle/silver,
 	)
-
-/datum/customizer/clothing/garter
-	name = "Garters"
-	customizer_choices = list(/datum/customizer_choice/clothing/garter)
-
-/datum/customizer_choice/clothing/garter
-	name = "Garters"
-	slot = SLOT_GARTER
-	sprite_accessories = list(/datum/sprite_accessory/clothing/garter)
-
-/datum/customizer/clothing/earring_left
-	name = "Left Earring"
-	customizer_choices = list(/datum/customizer_choice/clothing/earring/left)
-
-/datum/customizer/clothing/earring_right
-	name = "Right Earring"
-	customizer_choices = list(/datum/customizer_choice/clothing/earring/right)
-
-/datum/customizer_choice/clothing/earring
-	abstract_type = /datum/customizer_choice/clothing/earring
-	name = "Earring"
-	sprite_accessories = list(
-		/datum/sprite_accessory/clothing/earring/silver,
-		/datum/sprite_accessory/clothing/earring/gold,
-		/datum/sprite_accessory/clothing/earring/hoop/silver,
-		/datum/sprite_accessory/clothing/earring/hoop/gold,
-		/datum/sprite_accessory/clothing/earring/stud/silver,
-		/datum/sprite_accessory/clothing/earring/stud/gold,
-		/datum/sprite_accessory/clothing/earring/dangle/silver,
-		/datum/sprite_accessory/clothing/earring/dangle/gold,
-	)
-
-/datum/customizer_choice/clothing/earring/left
-	slot = SLOT_EARRING_L
-
-/datum/customizer_choice/clothing/earring/right
-	slot = SLOT_EARRING_R

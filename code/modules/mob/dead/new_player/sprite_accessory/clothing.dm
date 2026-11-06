@@ -118,68 +118,42 @@
 	name = "Net Half-Armsleeve"
 	item_type = /obj/item/clothing/armsleeves/net_half
 
-/datum/sprite_accessory/clothing/choker
-	name = "Choker"
-	item_type = /obj/item/clothing/choker
-
-/datum/sprite_accessory/clothing/choker/neckband
-	name = "Neckband"
-	item_type = /obj/item/clothing/choker/neckband
-	color_disabled = TRUE
-
-/datum/sprite_accessory/clothing/choker/neckband/embroidered
-	name = "Embroidered Neckband"
-	item_type = /obj/item/clothing/choker/neckband/embroidered
-	color_disabled = TRUE
-
-/datum/sprite_accessory/clothing/garter
-	name = "Garters"
-	item_type = /obj/item/clothing/garter
-
-/datum/sprite_accessory/clothing/earring
-	abstract_type = /datum/sprite_accessory/clothing/earring
-
-/datum/sprite_accessory/clothing/earring/hoop
-	abstract_type = /datum/sprite_accessory/clothing/earring/hoop
-
-/datum/sprite_accessory/clothing/earring/silver
-	name = "Earrings (S)"
-	item_type = /obj/item/earring/silver
-
-/datum/sprite_accessory/clothing/earring/gold
+/datum/sprite_accessory/clothing/earrings
 	name = "Earrings (G)"
-	item_type = /obj/item/earring/gold
+	item_type = /obj/item/earrings
 	color_disabled = TRUE
 
-/datum/sprite_accessory/clothing/earring/hoop/silver
-	name = "Hoop Earrings (S)"
-	item_type = /obj/item/earring/hoop/silver
+/datum/sprite_accessory/clothing/earrings/silver
+	name = "Earrings (S)"
+	item_type = /obj/item/earrings/silver
+	color_disabled = FALSE
 
-/datum/sprite_accessory/clothing/earring/hoop/gold
+/datum/sprite_accessory/clothing/earrings/hoop
 	name = "Hoop Earrings (G)"
-	item_type = /obj/item/earring/hoop/gold
+	item_type = /obj/item/earrings/hoop
 	color_disabled = TRUE
 
-/datum/sprite_accessory/clothing/earring/stud
-	abstract_type = /datum/sprite_accessory/clothing/earring/stud
+/datum/sprite_accessory/clothing/earrings/hoop/silver
+	name = "Hoop Earrings (S)"
+	item_type = /obj/item/earrings/hoop/silver
+	color_disabled = FALSE
 
-/datum/sprite_accessory/clothing/earring/stud/silver
-	name = "Stud Earrings (S)"
-	item_type = /obj/item/earring/stud/silver
-
-/datum/sprite_accessory/clothing/earring/stud/gold
+/datum/sprite_accessory/clothing/earrings/stud
 	name = "Stud Earrings (G)"
-	item_type = /obj/item/earring/stud/gold
+	item_type = /obj/item/earrings/stud
 	color_disabled = TRUE
 
-/datum/sprite_accessory/clothing/earring/dangle
-	abstract_type = /datum/sprite_accessory/clothing/earring/dangle
+/datum/sprite_accessory/clothing/earrings/stud/silver
+	name = "Stud Earrings (S)"
+	item_type = /obj/item/earrings/stud/silver
+	color_disabled = FALSE
 
-/datum/sprite_accessory/clothing/earring/dangle/silver
-	name = "Dangle Earrings (S)"
-	item_type = /obj/item/earring/dangle/silver
-
-/datum/sprite_accessory/clothing/earring/dangle/gold
+/datum/sprite_accessory/clothing/earrings/dangle
 	name = "Dangle Earrings (G)"
-	item_type = /obj/item/earring/dangle/gold
+	item_type = /obj/item/earrings/dangle
 	color_disabled = TRUE
+
+/datum/sprite_accessory/clothing/earrings/dangle/silver
+	name = "Dangle Earrings (S)"
+	item_type = /obj/item/earrings/dangle/silver
+	color_disabled = FALSE

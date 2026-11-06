@@ -47,14 +47,8 @@
 			underwear_top = item_path
 		if(SLOT_UNDERSHIRT)
 			undershirt = item_path
-		if(SLOT_GARTER)
-			garter = item_path
-		if(SLOT_CHOKER)
-			choker = item_path
-		if(SLOT_EARRING_L)
-			earring_l = item_path
-		if(SLOT_EARRING_R)
-			earring_r = item_path
+		if(SLOT_EARRINGS)
+			earrings = item_path
 		if(SLOT_SOCKS)
 			legwear_socks = item_path
 		if(SLOT_ARMSLEEVES)

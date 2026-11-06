@@ -343,25 +343,10 @@
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_ARMSLEEVES];extra_only=[extra_only]'>[(armsleeves && !(armsleeves.item_flags & ABSTRACT)) ? armsleeves : "<font color=grey>Armsleeves</font>"]</A></td></tr>"
 
-	if(SLOT_GARTER in obscured)
+	if(SLOT_EARRINGS in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_GARTER];extra_only=[extra_only]'>[(garter && !(garter.item_flags & ABSTRACT)) ? garter : "<font color=grey>Garter</font>"]</A></td></tr>"
-
-	if(SLOT_CHOKER in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_CHOKER];extra_only=[extra_only]'>[(choker && !(choker.item_flags & ABSTRACT)) ? choker : "<font color=grey>Choker</font>"]</A></td></tr>"
-
-	if(SLOT_EARRING_L in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRING_L];extra_only=[extra_only]'>[(earring_l && !(earring_l.item_flags & ABSTRACT)) ? earring_l : "<font color=grey>Left Earring</font>"]</A></td></tr>"
-
-	if(SLOT_EARRING_R in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRING_R];extra_only=[extra_only]'>[(earring_r && !(earring_r.item_flags & ABSTRACT)) ? earring_r : "<font color=grey>Right Earring</font>"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRINGS];extra_only=[extra_only]'>[(earrings && !(earrings.item_flags & ABSTRACT)) ? earrings : "<font color=grey>Earrings</font>"]</A></td></tr>"
 
 	if(SLOT_SOCKS in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"

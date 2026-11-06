@@ -48,10 +48,7 @@
 	var/obj/item/clothing/legwears/legwear_socks = null
 	var/obj/item/clothing/undershirt = null
 	var/obj/item/clothing/underwear_top/underwear_top = null
-	var/obj/item/clothing/garter/garter = null
-	var/obj/item/clothing/choker = null
-	var/obj/item/earring_l = null
-	var/obj/item/earring_r = null
+	var/obj/item/earrings = null
 	var/obj/item/clothing/armsleeves = null
 
 	var/datum/dna/dna = null //Carbon

@@ -11,7 +11,7 @@
 // Remaining donor garments select their own states below.
 
 /datum/sprite_accessory/underwear_bottom/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDIES, OFFSET_UNDIES_F)
+	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDER_BOT, OFFSET_UNDER_BOT_F)
 
 /datum/sprite_accessory/underwear_bottom/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(hides_breasts)
