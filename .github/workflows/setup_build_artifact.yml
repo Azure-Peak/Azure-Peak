@@ -12,7 +12,7 @@ jobs:
   setup_build_artifact:
     name: Setup build artifact (${{ format('{0}.{1}', inputs.major, inputs.minor) }})
     runs-on: ubuntu-22.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
@@ -26,10 +26,7 @@ jobs:
           minor: ${{ inputs.minor }}
 
       - name: Install BYOND dependencies
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
-          sudo apt-get install libcurl4-openssl-dev:i386
+        uses: ./.github/actions/install_byond_deps
     
       - name: Compile
         run: |

@@ -47,7 +47,6 @@
 #define LEDGER_CROWN_POLL_RECEIVABLE "crown_poll_receivable"
 #define LEDGER_CROWN_INTEREST_RECEIVABLE "crown_interest_receivable"
 // --- Crown book: liabilities ---
-#define LEDGER_CROWN_POLL_DEFERRED "crown_poll_deferred"
 #define LEDGER_CROWN_ARREARS_ADVANCE "crown_arrears_advance"
 #define LEDGER_CROWN_ATC_LOAN "crown_atc_loan"
 #define LEDGER_CROWN_SEQUESTRATION_DEBT "crown_sequestration_debt"
@@ -62,7 +61,7 @@
 #define LEDGER_CROWN_REV_EXPORT_DUTY "crown_rev_export_duty"
 #define LEDGER_CROWN_REV_SPOILS "crown_rev_spoils"
 #define LEDGER_CROWN_REV_FINES "crown_rev_fines"
-#define LEDGER_CROWN_REV_POLL_TAX "crown_rev_poll_tax"
+#define LEDGER_CROWN_REV_POLL_LEVY "crown_rev_poll_levy"
 #define LEDGER_CROWN_REV_EXPORT_SALES "crown_rev_export_sales"
 #define LEDGER_CROWN_REV_STANDING_ORDERS "crown_rev_standing_orders"
 #define LEDGER_CROWN_REV_STOCKPILE_SALES "crown_rev_stockpile_sales"
@@ -76,7 +75,6 @@
 // --- Crown book: expenses ---
 #define LEDGER_CROWN_EXP_WAGES "crown_exp_wages"
 #define LEDGER_CROWN_EXP_IMPORTS "crown_exp_imports"
-#define LEDGER_CROWN_EXP_POLL_SUBSIDY "crown_exp_poll_subsidy"
 #define LEDGER_CROWN_EXP_BANDITRY "crown_exp_banditry"
 #define LEDGER_CROWN_EXP_CONTRACTS "crown_exp_contracts"
 #define LEDGER_CROWN_EXP_TITHE "crown_exp_tithe"

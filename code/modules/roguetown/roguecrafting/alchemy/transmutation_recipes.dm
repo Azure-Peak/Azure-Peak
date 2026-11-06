@@ -219,7 +219,7 @@
 /datum/transmutation_recipe/nigredo/ash_bulk // nigredo fuels your other experiments' ash needs better than fire
 	name = "Alchemical Combustion (Ash)"
 	input_items = list(/obj/item/natural/bundle)
-	output_items = list(/obj/item/ash = 12) // twice as effective than fire, in fact
+	output_items = list(/obj/item/natural/ash = 12) // twice as effective than fire, in fact
 	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/nigredo/ash_bulk/validate_ingredient(obj/item/I)
@@ -233,7 +233,7 @@
 /datum/transmutation_recipe/nigredo/ash_coal // requested, as coal's chemically similar to ash or w/e
 	name = "Coal Combustion (Ash)"
 	input_items = list(/obj/item/rogueore/coal)
-	output_items = list(/obj/item/ash = 12)
+	output_items = list(/obj/item/natural/ash = 12)
 	allow_output_materia = TRUE
 
 /datum/transmutation_recipe/nigredo/smelt_decomposition
@@ -369,7 +369,7 @@
 
 /datum/transmutation_recipe/albedo/catalyzation_reagent // also you can make not-feydust more efficiently now
 	name = "Ash Harmonization (Catalyzing Reagent)"
-	input_items = list(/obj/item/ash = 3, /obj/item/storage/roguebag = 1)
+	input_items = list(/obj/item/natural/ash = 3, /obj/item/storage/roguebag = 1)
 	output_items = list(/obj/item/storage/roguebag/trans = 1)
 	result_name = "batch of catalyzing reagent"
 	unique_sellable = TRUE // the actual output is... a sack. and the contents are unique items
@@ -391,13 +391,13 @@
 /datum/transmutation_recipe/albedo/salt
 	name = "Fat Salination" // usually means applying salt to something, but also refers to the increase of salt content in soil!
 	materia_aspects = list(/datum/materia_aspect/water)
-	input_items = list(/obj/item/ash = 1, /obj/item/reagent_containers/food/snacks/fat = 1) // this arguably creates value but it's not mass-producable - much less worth your time than selling random things to the navigator
+	input_items = list(/obj/item/natural/ash = 1, /obj/item/reagent_containers/food/snacks/fat = 1) // this arguably creates value but it's not mass-producable - much less worth your time than selling random things to the navigator
 	output_items = list(/obj/item/reagent_containers/powder/salt = 1)
 
 /datum/transmutation_recipe/albedo/altsalt
 	name = "Mince Salination"
 	materia_aspects = list(/datum/materia_aspect/water)
-	input_items = list(/obj/item/ash = 1, /obj/item/reagent_containers/food/snacks/rogue/meat/mince = 1)
+	input_items = list(/obj/item/natural/ash = 1, /obj/item/reagent_containers/food/snacks/rogue/meat/mince = 1)
 	output_items = list(/obj/item/reagent_containers/powder/salt = 1)
 
 // XANTHOSIS: lit 'yellowing'. the third stage of the great work, its recipes folow a theme of enhancement and are irreversable

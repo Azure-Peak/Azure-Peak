@@ -234,7 +234,7 @@
 		<p>A target you have Exposed, made Vulnerable, or held in an aggressive grab is far easier to strike precisely. Someone off their feet is easier to aim at, too. SHORT weapons also aim better, at +[ACC_SHORT_WEAPON_BONUS].</p>
 
 		<h3>Ranged and Spells</h3>
-		<p>Ranged accuracy is simpler than melee. Your weapon skill sets the ceiling, at [ACC_RANGED_BASE] plus [ACC_RANGED_PER_SKILL] per level. Spells read Perception in place of any skill, each point above [ACC_SPELL_PER_BASELINE] worth as much as a level of training - and each point below it costing the same. Some weapons multiply the result.</p>
+		<p>Ranged accuracy is simpler than melee. Your weapon skill sets the ceiling, at [ACC_RANGED_BASE] plus [ACC_RANGED_PER_SKILL] per level. Spells read Perception in place of any skill, each point above [ACC_SPELL_PER_BASELINE] worth as much as a level of training - and each point below it costing the same. Some weapons multiply the result, and some ammunition, sling shot above all, takes a flat amount off it.</p>
 
 		<p>Shoot closer than a projectile's minimum range, or past its maximum, and the shot can only land on the chest. Past [ACC_RANGED_VISUAL_REACH] tiles, about as far as you can see, accuracy falls by [ACC_RANGED_FARSIGHT_PENALTY] for every further tile, so only a practiced shot keeps any of it at that distance. Loosing at a floor above or below costs another [ACC_RANGED_ZCROSS_PENALTY].</p>
 
@@ -392,6 +392,7 @@
 			<li><b>Delay Type</b>: Normal Attack Delay has no effect. DIFFICULT attack delay, also known as YELLOW intent, will reduce your parry / dodge chance drastically. RIGID can be canceled by you being attacked and leave you completely open to being attacked. RIGID Intent usually has powerful effects but is hard to pull off.</li>
 			<li><b>Integrity Modifier</b>: How much integrity and shield damage is multiplied by when attacking armor. Does nothing to flesh damage.</li>
 			<li><b>Demolition Modifier</b>: How much damage is multiplied by when attacking a structure like a door. Only the demolition modifier does anything against a structure. Integrity modifier matters on a shield being parried with, where the higher of the two is taken instead of the two stacking.</li>
+			<li><b>Anti-Beast Modifier</b>: This weapon or ammunition is better versus simple minded beasts and inflicts more damage.</li>
 			<li><b>Cleave</b>: Certain attacks hit more than one tile and will explain its pattern and how many it can hit.</li>
 		</ul>
 		</div>

@@ -278,6 +278,10 @@
 	mode.event_track_points[track] = max(mode.event_track_points[track] - total_cost, 0)
 	message_admins("Storyteller purchased and triggered [bought_event] event, on [track] track, for [total_cost] cost.")
 	if(bought_event.roundstart)
+		if(!mode.ran_roundstart && (bought_event.storyteller_antag_flags & STORYTELLER_ANTAG_VILLAIN))
+			mode.last_villain = bought_event.type
+			fdel(LAST_VILLAIN_FILE)
+			text2file("[bought_event.type]", LAST_VILLAIN_FILE)
 		SSgamemode.ran_roundstart = TRUE
 		SSgamemode.current_roundstart_event = bought_event
 		mode.TriggerEvent(bought_event, forced)

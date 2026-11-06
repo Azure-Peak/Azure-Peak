@@ -692,7 +692,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		to_chat(user, "<span class='notice'>I finish butchering: [butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)].</span>")
 		if(user.mind)
 			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * BUTCHERING_EXP_FINISH)
-		gib()
+		gib(leave_gibs = FALSE)
 
 /mob/living/simple_animal/proc/gib_with_novice_butchery()
 	var/atom/Tsec = drop_location()
@@ -759,7 +759,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 /mob/living/simple_animal/spawn_dust(just_ash = FALSE)
 	if(just_ash || !remains_type)
 		for(var/i in 1 to 5)
-			new /obj/item/ash(loc)
+			new /obj/item/natural/ash(loc)
 	else
 		new remains_type(loc)
 

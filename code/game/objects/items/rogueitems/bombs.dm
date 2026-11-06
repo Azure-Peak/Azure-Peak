@@ -48,16 +48,18 @@
 	var/lit = FALSE
 	var/exploding = FALSE
 	var/prob2fail = 5
-	var/PVE_damage = 75
+	var/PVE_damage = 40
 	var/tripcrit = 0
-	var/spawn_shard = TRUE
+	var/spawn_shard = FALSE
+	/// Radius of the weak fire left behind
+	var/firerange = 3
 	grid_width = 32
 	grid_height = 64
 	var/mob/thrower
 
 /obj/item/bomb/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click with a torch, lamptern, flint, or another ignitioneer to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or another source of ignition.")
+	. += span_info("Left-click with a torch, lamptern, flint, or other ignition source to light its fuse. Alternatively, the fuse can be lit by using it on a hearth, brazier, scone, or other ignition source.")
 	. += span_info("Once lit, most bombs will detonate after a very short period of time.")
 
 /obj/item/bomb/Initialize(mapload)
@@ -174,6 +176,7 @@
 
 	var/turf/T = get_turf(src)
 	if(!T)
+		exploding = FALSE
 		return FALSE
 
 	if(!skipprob && prob(prob2fail))
@@ -190,7 +193,6 @@
 		critbang = min(50, (engineering * 5) + (M.STALUC * 2)) + tripcrit // caps at 50% chance, tripmines are excluded from the cap
 		can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
 
-	qdel(src)
 	playsound(T, 'sound/items/firesnuff.ogg', 100)
 
 	for(var/mob/living/target in range(1, T))
@@ -220,10 +222,8 @@
 
 			else if(was_scorched && prob(critbang))
 				if(!target.can_be_gibbed())
-					target.visible_message(
-						"<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
-						"<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
-					)
+					target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
+						"<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>")
 					playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
 					target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
 					continue
@@ -233,20 +233,24 @@
 				target.gib(TRUE, TRUE, FALSE, TRUE)
 				continue
 
-		apply_scorch_stack(target, 3)
+		apply_scorch_stack(target, 1)
 
-	explosion(T, light_impact_range = 1, smoke = (tripcrit > 0), adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'), bomb_owner = thrower)
+	explosion(T, light_impact_range = 2, smoke = (tripcrit > 0), adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'), bomb_owner = thrower)
+	create_fire_tiles(T)
+	chain_explode(src, T, thrower)
 
+	qdel(src)
 	return TRUE
 
-/obj/item/bomb/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	if(throwingdatum)
-		thrower = throwingdatum.thrower
-	..()
-	sleep(1)
-	if(QDELETED(src))
+/obj/item/bomb/proc/create_fire_tiles(turf/T) // all credits to ryon!!!
+	if(!T)
 		return
-	explode()
+	var/fire_range = lit ? firerange : 1
+	for(var/turf/open/O in dview(fire_range, T))
+		if(istransparentturf(O) || cheap_hypotenuse(O.x, O.y, T.x, T.y) > fire_range || (locate(/obj/effect/curtain_fire) in O))
+			continue
+		var/obj/effect/curtain_fire/weak/F = new(O)
+		F.caster_ref = WEAKREF(thrower)
 
 /obj/item/bomb/process()
 	if(QDELETED(src) || !lit || exploding)
@@ -357,7 +361,6 @@
 	var/obj/item/bomb/bomb = detonation
 	bomb.fuze = HAS_TRAIT(setter, TRAIT_BOMBER_EXPERT) ? 0.25 SECONDS : 1 SECONDS
 	bomb.prob2fail = prob2fail
-	bomb.PVE_damage = PVE_damage + 100
 	bomb.spawn_shard = spawn_shard
 	bomb.tripcrit = tripcrit
 	bomb.thrower = setter
@@ -514,7 +517,7 @@
 	var/datum/effect_system/smoke_spread/smoke = new /datum/effect_system/smoke_spread
 	smoke.set_up(radius, T)
 	smoke.start()
-	new /obj/item/ash(T)
+	new /obj/item/natural/ash(T)
 	qdel(src)
 	return TRUE
 
@@ -531,9 +534,11 @@
 	var/fuze = 50
 	var/lit = FALSE
 	var/prob2fail = 1
-	var/PVE_damage = 160
+	var/PVE_damage = 120
 	var/tripcrit = 0
 	var/spawn_shard = FALSE
+	/// Radius in which mobs take blast damage, falling off with distance
+	var/blast = 3
 	grid_width = 32
 	grid_height = 64
 	var/mob/thrower
@@ -636,10 +641,13 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
-				for(var/mob/living/target in range(4, T))
-					if(!target.mind || istype(target, /mob/living/simple_animal))
-						target.adjustFireLoss(PVE_damage) //fireball damage + 40. That
-				explosion(T, devastation_range = 0, heavy_impact_range = 0, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+				for(var/mob/living/target in dview(blast, T))
+					var/dmg = PVE_damage * (1 - get_dist(target, T) / (blast + 1))
+					var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "blunt", blade_dulling = BCLASS_BLUNT, damage = dmg, no_debuff = TRUE)
+					target.apply_damage(dmg, BRUTE, BODY_ZONE_CHEST, armor_block)
+					target.apply_status_effect(/datum/status_effect/debuff/staggered)
+				explosion(T, heavy_impact_range = 1, light_impact_range = 4, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+				chain_explode(src, T, thrower)
 				qdel(src) //IMPORTANT!! go into walls /turf/closed/wall/ and see /turf/closed/wall/ex_act. Its bounded with /proc/explosion. Same for /obj/structure and /obj/structure/ex_act because if you going to fuck intergity or whatever this shit called players will skin you alive for breaking their equipment and keys
 		else //also /turf/open/floor/ex_act for comment above
 			if(prob(prob2fail))
@@ -724,9 +732,11 @@
 	var/fuze = 50
 	var/lit = FALSE
 	var/prob2fail = 1
-	var/PVE_damage = 300
+	var/PVE_damage = 250
 	var/tripcrit = 0
 	var/spawn_shard = FALSE
+	/// Radius in which mobs and structures take blast damage, falling off with distance
+	var/blast = 6
 	grid_width = 256
 	grid_height = 256
 	var/mob/thrower
@@ -748,7 +758,8 @@
 	fuze = 50
 	lit = FALSE
 	prob2fail = 0
-	PVE_damage = 500
+	PVE_damage = 800
+	blast = 10
 	grid_width = 256
 	grid_height = 256
 
@@ -850,22 +861,21 @@
 			if(!skipprob && prob(prob2fail))
 				snuff()
 			else
+				var/list/seen = dview(blast, T)
+				for(var/mob/living/target in seen)
+					var/dmg = PVE_damage * (1 - get_dist(target, T) / (blast + 1))
+					var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "blunt", blade_dulling = BCLASS_BLUNT, damage = dmg, no_debuff = TRUE)
+					target.apply_damage(dmg, BRUTE, BODY_ZONE_CHEST, armor_block)
+					target.apply_status_effect(/datum/status_effect/debuff/staggered)
+				for(var/obj/structure/S in seen)
+					if(!QDELETED(S))
+						S.take_damage(PVE_damage * 2 * (1 - get_dist(S, T) / (blast + 1)), BRUTE, "blunt", FALSE)
 				if(istype(src, /obj/item/satchel_bomb/mega)) //removing restrictions, may the gods have mercy on you all
-					for(var/mob/living/target in range(3, T))
-						target.adjustFireLoss(PVE_damage) //summary 500
-					for(var/mob/living/target in range(8, T))
-						target.adjustFireLoss(PVE_damage - 100)
-					explosion(T, devastation_range = 10, heavy_impact_range = 15, light_impact_range = 40, adminlog = TRUE, ignorecap = TRUE, flame_range = 10, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg')) //5 times the size
-					qdel(src)
+					explosion(T, extreme_impact_range = 10, heavy_impact_range = 15, light_impact_range = 40, adminlog = TRUE, ignorecap = TRUE, flame_range = 10, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg')) //5 times the size
 				else
-					for(var/mob/living/target in range(3, T))
-						if(!target.mind || istype(target, /mob/living/simple_animal))
-							target.adjustFireLoss(PVE_damage) //summary 500
-					for(var/mob/living/target in range(8, T))
-						if(!target.mind || istype(target, /mob/living/simple_animal))
-							target.adjustFireLoss(PVE_damage - 100)
-					explosion(T, devastation_range = 2, heavy_impact_range = 3, light_impact_range = 8, flame_range = 2, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
-					qdel(src)
+					explosion(T, extreme_impact_range = 3, heavy_impact_range = 5, light_impact_range = 8, flame_range = 5, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+				chain_explode(src, T, thrower)
+				qdel(src)
 
 		else
 			if(prob(prob2fail))
@@ -943,7 +953,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	throwforce = 0
 	throw_speed = 1
-	var/PVE_damage = 160
+	var/PVE_damage = 40
 	var/tripcrit = 0
 	var/spawn_shard = TRUE
 	grid_width = 32
@@ -1038,6 +1048,8 @@
 /obj/item/impact_grenade/explosion
 	name = "impact grenade"
 	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance."
+	/// Number of shrapnel fragments flung outwards on detonation
+	var/shards = 10
 
 /obj/item/impact_grenade/explosion/explodes()
 	STOP_PROCESSING(SSfastprocess, src)
@@ -1056,7 +1068,7 @@
 		critbang = (engineering * 10) + (M.STALUC * 2) + tripcrit
 		can_crit = HAS_TRAIT(M, TRAIT_BOMBER_EXPERT)
 
-	for(var/mob/living/target in range(2, T))
+	for(var/mob/living/target in T)
 		if(target == thrower && can_crit)
 			continue
 
@@ -1065,8 +1077,8 @@
 
 		target.mob_timers[MT_BOMB_HIT] = world.time
 
-		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "fire", blade_dulling = BCLASS_BURN, damage = PVE_damage, no_debuff = TRUE)
-		target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+		var/armor_block = target.run_armor_check(BODY_ZONE_CHEST, "blunt", blade_dulling = BCLASS_BLUNT, damage = PVE_damage, no_debuff = TRUE)
+		target.apply_damage(PVE_damage, BRUTE, BODY_ZONE_CHEST, armor_block)
 		target.apply_status_effect(/datum/status_effect/debuff/staggered)
 
 		if(target.stat != CONSCIOUS)
@@ -1078,7 +1090,7 @@
 					"<span class='crit'><b>Critical hit!</b> The explosive deals devastating damage!</span>",
 				)
 				playsound(get_turf(target), 'sound/combat/tf2crit.ogg', 100, FALSE)
-				target.apply_damage(PVE_damage, BURN, BODY_ZONE_CHEST, armor_block)
+				target.apply_damage(PVE_damage, BRUTE, BODY_ZONE_CHEST, armor_block)
 				continue
 			target.visible_message("<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>",
 				"<span class='crit'><b>Critical hit!</b> The explosive blasts them to [BOMB_CRIT_LEFTOVERS]!</span>")
@@ -1086,12 +1098,30 @@
 			target.gib(TRUE, TRUE, FALSE, TRUE)
 			continue
 
-		if(prob(50))
-			embed_bomb_shrapnel(target, /obj/item/bomb_shrapnel)
+	for(var/i in 1 to shards)
+		var/obj/projectile/bullet/bombshard/P = new(T)
+		if(can_crit)
+			P.firer = thrower
+		P.fire(i * 360 / shards + rand(-10, 10))
 
-	explosion(T, heavy_impact_range = 1, light_impact_range = 3, flame_range = 2, smoke = (tripcrit > 0), adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'), bomb_owner = thrower)
+	explosion(T, heavy_impact_range = 1, light_impact_range = 4, smoke = (tripcrit > 0), adminlog = FALSE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg', 'sound/misc/explode/bottlebomb (2).ogg'), bomb_owner = thrower)
+	chain_explode(src, T, thrower)
 
 	qdel(src)
+
+/obj/projectile/bullet/bombshard
+	name = "shrapnel"
+	damage = 20
+	range = 6
+	woundclass = BCLASS_PIERCE
+	hitsound = 'sound/combat/hits/hi_arrow2.ogg'
+
+/obj/projectile/bullet/bombshard/on_hit(atom/target, blocked = FALSE)
+	if(target == firer && HAS_TRAIT(firer, TRAIT_BOMBER_EXPERT))
+		return
+	. = ..()
+	if(isliving(target) && prob(50))
+		embed_bomb_shrapnel(target, /obj/item/bomb_shrapnel, 1)
 
 /obj/item/smokeshell
 	name = "gas belcher shell"
@@ -1107,7 +1137,7 @@
 
 /obj/item/impact_grenade/smoke
 	name = "gas belcher"
-	desc = "A vented canister, filled with an obfuscating payload. Wisps of charsmoke occassionally escape from its ported maw."
+	desc = "A vented canister, filled with an obfuscating payload. Wisps of charsmoke occasionally escape from its ported maw."
 	dropshrink = 0.6
 	icon_state = "smokeshell_blue"
 	var/datum/effect_system/smoke_spread/smoke_type = /datum/effect_system/smoke_spread
@@ -1190,7 +1220,7 @@
 		new /obj/effect/decal/cleanable/debris/stony(T)
 
 // speshul embed that checks your armor durability percentage and tries to go through it, the more damaged your armor(s), the more likely you'll get shrapnel, and vice versa
-/proc/embed_bomb_shrapnel(mob/living/target, shrapnel_type = /obj/item/natural/glass_shard/shrapnel)
+/proc/embed_bomb_shrapnel(mob/living/target, shrapnel_type = /obj/item/natural/glass_shard/shrapnel, most = 3)
 	if(!target || !iscarbon(target))
 		return FALSE
 
@@ -1205,7 +1235,7 @@
 		return FALSE
 
 	var/hit_any = FALSE
-	var/shrapnel_amount = rand(1, min(3, length(valid_bodyparts)))
+	var/shrapnel_amount = rand(1, min(most, length(valid_bodyparts)))
 
 	for(var/i = 1 to shrapnel_amount)
 		if(!length(valid_bodyparts))
@@ -1241,6 +1271,14 @@
 
 	return hit_any
 
+/obj/effect/curtain_fire/weak
+	name = "spilt flames"
+	desc = "A thin film of burning bottle-fire."
+	icon_state = "1"
+	lifetime = 10 SECONDS
+	tick_damage = 15
+	scorch = 0
+
 /proc/has_tripwire(turf/T)
 	if(!T)
 		return FALSE
@@ -1248,6 +1286,58 @@
 		if(!QDELETED(W))
 			return TRUE
 	return FALSE
+
+/proc/chain_explode(atom/source, turf/T, mob/original_thrower) // look what you FUCKING did you rascal
+	if(!T)
+		return
+
+	var/mob/owner
+	if(isliving(original_thrower) && HAS_TRAIT(original_thrower, TRAIT_BOMBER_EXPERT)) // these guys know what they're doing, but a random joe can kill themselves trying sure
+		owner = original_thrower
+
+	for(var/atom/movable/A in range(2, T))
+		if(A == source || QDELETED(A) || !isturf(A.loc))
+			continue
+
+		if(istype(A, /obj/item/bomb/tripbomb))
+			continue
+
+		if(istype(A, /obj/item/bomb))
+			var/obj/item/bomb/B = A
+			if(B.exploding)
+				continue
+
+			if(owner)
+				B.thrower = owner
+				B.tripcrit = 100
+			B.light()
+			if(!QDELETED(B) && !B.exploding)
+				B.explode(TRUE)
+
+		else if(istype(A, /obj/item/tntstick))
+			var/obj/item/tntstick/B = A
+			if(owner)
+				B.thrower = owner
+				B.tripcrit = 100
+			B.light()
+			if(!QDELETED(B) && B.lit && isturf(B.loc))
+				B.explode(TRUE)
+
+		else if(istype(A, /obj/item/satchel_bomb))
+			var/obj/item/satchel_bomb/B = A
+			if(owner)
+				B.thrower = owner
+				B.tripcrit = 100
+			B.light()
+			if(!QDELETED(B) && B.lit && isturf(B.loc))
+				B.explode(TRUE)
+
+		else if(istype(A, /obj/item/impact_grenade))
+			var/obj/item/impact_grenade/B = A
+			if(owner)
+				B.thrower = owner
+				B.tripcrit = 100
+			B.explodes()
 
 #undef MT_BOMB_HIT
 #undef BOMB_HIT_IMMUNITY_DURATION

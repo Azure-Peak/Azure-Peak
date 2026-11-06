@@ -36,6 +36,7 @@
 				visible_message(span_biginfo("[src] is struck while vulnerable!"))
 				remove_status_effect(/datum/status_effect/debuff/vulnerable)
 			newforce *= weakpoint_damage_mod(selzone)
+			newforce *= I.antibeast_factor
 			apply_damage(newforce, I.damtype, hitlim, armor)
 			I.remove_bintegrity(1)
 			if(I.damtype == BRUTE && !nodmg)
@@ -360,11 +361,11 @@
 		apply_damage(damage, damagetype, bodypart, armorcheck)
 		return TRUE
 
-/mob/living/simple_animal/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+/mob/living/simple_animal/ex_act(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 	..()
 	if(!severity || !epicenter)
 		return
-	var/ddist = devastation_range || 0
+	var/ddist = extreme_impact_range || 0
 	var/hdist = heavy_impact_range || 0
 	var/ldist = light_impact_range || 0
 	var/fdist = flame_range || 0

@@ -255,11 +255,10 @@
 				var/amt = R.payout_price * bundle_amt
 				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
 					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
-					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 					send_ooc_note("<b>MEISTER:</b> The [amt]m for your [R.name] stays in the Treasury under your food stipend.", name = H.real_name)
 					return
 				SStreasury.economic_output += amt
-				SStreasury.give_money_account(amt, H, "+[amt]m from selling [R.name]", expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES)
+				SStreasury.give_money_account(amt, H, "+[amt]m from selling [R.name]", expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES, flow = TREASURY_FLOW_STOCKPILE)
 				if(auto_exported && message)
 					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
 				record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)
@@ -318,7 +317,6 @@
 			if(amt)
 				if(HAS_TRAIT(H, TRAIT_ROYAL_SUBSIDY))
 					SStreasury.log_fund_entry(new /datum/treasury_entry(null, SStreasury.discretionary_fund, SStreasury.discretionary_fund, 0, "Subsidy Deposit: [R.name] by [H.real_name]"))
-					record_round_statistic(STATS_DIRECT_TREASURY_TRANSFERS, amt)
 					send_ooc_note("<b>MEISTER:</b> The [amt]m for your [R.name] stays in the Treasury under your food stipend.", name = H.real_name)
 					return
 				SStreasury.economic_output += true_value
@@ -328,7 +326,7 @@
 					var/seller_sign = seller_delta > 0 ? "+" : ""
 					var/crown_sign = crown_delta > 0 ? "+" : ""
 					bounty_msg = "+[amt]m from selling [R.name] (quality: you [seller_sign][seller_delta]m, Crown [crown_sign][crown_delta]m, against the usual [quality_baseline]m)"
-				SStreasury.give_money_account(amt, H, bounty_msg, expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES)
+				SStreasury.give_money_account(amt, H, bounty_msg, expense_acct = LEDGER_CROWN_EXP_STOCKPILE, income_acct = LEDGER_CITIZEN_SALES, flow = TREASURY_FLOW_STOCKPILE)
 				if(auto_exported && message)
 					say("The [R.name] stockpile is full. The Crown shipped yours abroad. You're still paid.")
 			record_round_statistic(STATS_STOCKPILE_EXPANSES, amt)

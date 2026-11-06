@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - rscadd: "The bag equip hotkey (shift & alt with q & e by default) can now be used to load projectile weapons from quivers, etc."

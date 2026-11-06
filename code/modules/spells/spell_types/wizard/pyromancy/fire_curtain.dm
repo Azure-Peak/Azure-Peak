@@ -134,6 +134,8 @@
 	ai_path_weight = 15
 	var/lifetime = 10 SECONDS
 	var/tick_damage = SPELL_DMG(CURTAIN_TICK_DAMAGE)
+	/// Scorched stacks applied per burn
+	var/scorch = CURTAIN_SCORCH_PER_TICK
 	var/burn_cooldown = 1 SECONDS
 	var/list/burn_times
 	var/datum/weakref/caster_ref
@@ -170,6 +172,9 @@
 	return !!(L.throwing || L.pulledby)
 
 /obj/effect/curtain_fire/proc/burn_occupant(mob/living/L, involuntary = FALSE)
+	var/mob/living/caster = caster_ref?.resolve()
+	if(L == caster && HAS_TRAIT(caster, TRAIT_BOMBER_EXPERT))
+		return
 	if(HAS_TRAIT(L, TRAIT_NOFIRE))
 		return
 	// Grace timer for those who were involuntarily thrown into the fire curtain so that it doesn't instaproc charred in involuntary situation
@@ -186,7 +191,6 @@
 	if(involuntary)
 		L.mob_timers[CURTAIN_GRACE_KEY] = world.time + CURTAIN_THROWN_GRACE
 	var/hit_zone = aim_zone || BODY_ZONE_CHEST
-	var/mob/living/carbon/human/caster = caster_ref?.resolve()
 	if(istype(caster) && !QDELETED(caster))
 		if(arcyne_strike(caster, L, null, tick_damage, hit_zone, BCLASS_BURN, spell_name = "Fire Curtain", damage_type = BURN, skip_animation = TRUE, exact_zone = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 			return
@@ -194,7 +198,8 @@
 		var/fallback_zone = check_zone(hit_zone)
 		var/armor_block = L.run_armor_check(fallback_zone, "fire", blade_dulling = BCLASS_BURN, damage = tick_damage, intdamfactor = SPELL_INTDAM(1), no_debuff = TRUE)
 		L.apply_damage(SPELL_DMG_VS(L, tick_damage), BURN, fallback_zone, armor_block)
-	apply_scorch_stack(L, CURTAIN_SCORCH_PER_TICK, hit_zone)
+	if(scorch)
+		apply_scorch_stack(L, scorch, hit_zone)
 	L.emote("pain", forced = TRUE)
 
 #undef CURTAIN_TICK_DAMAGE

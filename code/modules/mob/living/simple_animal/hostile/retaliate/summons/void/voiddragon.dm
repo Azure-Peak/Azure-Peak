@@ -267,7 +267,7 @@ It will also call down lightning strikes from the sky, and fling people with it'
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/proc/summon_obelisk()
 	var/list/spawnLists = list(/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk,/mob/living/simple_animal/hostile/retaliate/rogue/voidstoneobelisk)
 	var/reinforcement_count = 2
-	src.visible_message(span_cultbigbold("[src] summons abberant obelisks from beneath the ground."))
+	src.visible_message(span_cultbigbold("[src] summons aberrant obelisks from beneath the ground."))
 	summon_cd = world.time + 2000
 	while(reinforcement_count > 0)
 		var/list/turflist = list()
@@ -623,26 +623,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 				return 0
 	qdel(dummy)
 	return 1
-
-/datum/action/cooldown/spell/repulse/voiddragon
-	name = "Tail Sweep"
-	desc = "Throw back attackers with a sweep of your tail."
-	sound = 'sound/misc/tail_swing.ogg'
-	cooldown_time = 15 SECONDS
-	charge_required = FALSE
-	invocation_type = INVOCATION_NONE
-	sparkle_path = /obj/effect/temp_visual/dir_setting/tailsweep
-	button_icon_state = "tailsweep"
-	background_icon_state = "bg_alien"
-	spell_requirements = NONE
-	push_range = 2
-
-/datum/action/cooldown/spell/repulse/voiddragon/cast(atom/cast_on)
-	if(iscarbon(owner))
-		var/mob/living/carbon/C = owner
-		playsound(C.loc, 'sound/combat/hits/punch/punch_hard (3).ogg', 80, TRUE, TRUE)
-		C.spin(6, 1)
-	return ..(cast_on)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/death()
 	..()

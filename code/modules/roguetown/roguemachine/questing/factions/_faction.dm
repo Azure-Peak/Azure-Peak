@@ -7,10 +7,10 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/group_word
 	var/faction_tag
 	var/list/mob_types = list()
-	var/list/allowed_quest_types
 	var/list/boss_mob_types = list()
 	var/list/boss_title_templates = list()
 	var/boss_name_file
+	var/notorious_bounty_amount = 0
 	var/can_blockade = FALSE
 	var/category = FACTION_CAT_HUMANOID
 	var/list/crime_weights
@@ -19,15 +19,6 @@ GLOBAL_LIST_EMPTY(quest_factions)
 /datum/quest_faction/New()
 	if(!id)
 		CRASH("Quest faction created without id: [type]")
-	if(!allowed_quest_types)
-		allowed_quest_types = list(QUEST_KILL_EASY, QUEST_CLEAR_OUT, QUEST_RAID, QUEST_RECOVERY)
-		if(length(boss_mob_types))
-			allowed_quest_types += QUEST_BOUNTY
-		if(length(get_playable_boss_types()))
-			allowed_quest_types += QUEST_NOTORIOUS_BOUNTY
-
-/datum/quest_faction/proc/allows_quest_type(quest_type)
-	return (quest_type in allowed_quest_types)
 
 /datum/quest_faction/proc/pick_boss_mob_type()
 	if(!length(boss_mob_types))

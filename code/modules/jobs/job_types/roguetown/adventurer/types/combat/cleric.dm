@@ -668,7 +668,7 @@
 		if (/datum/patron/divine/eora)
 			backpack_contents[/obj/item/clothing/head/roguetown/eoramask] = 1
 			backpack_contents[/obj/item/reagent_containers/eoran_seed] = 1
-			r_hand = /obj/item/rogueweapon/huntingknife/scissors
+			l_hand = /obj/item/rogueweapon/huntingknife/scissors
 			shoes = /obj/item/clothing/shoes/roguetown/sandals
 			belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 			shirt = /obj/item/clothing/suit/roguetown/armor/vestments_padded

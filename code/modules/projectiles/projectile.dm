@@ -68,6 +68,8 @@
 	var/object_damage_multiplier = 1
 	/// Whether or not our projectile can damage walls
 	var/damages_turf_walls = FALSE
+	/// If true directly targeted turfs can be hit
+	var/can_hit_turfs = FALSE
 	/// Chance for our projectile to break upon impacting a wall for reusable projectiles.
 	var/wall_impact_break_probability = 0
 	/// Hit state used to track whether or not we hit a turf for reusable projectiles.
@@ -108,8 +110,8 @@
 	var/ignore_source_check = FALSE
 
 	var/damage = 10
-	/// Bonus damage vs simple animals. DO NOT EVER SET THIS OUTSIDE THE CROSSBOW / SLURBOW / STAKER AMMO FAMILY. It used to exists on nearly every projectile to get around simple animals being unfun. I don't see a way to make it "viable" in PVE without using this multiplier. DO NOT UNDER ANY CIRCUMSTANCES PROLIFERATE THIS.
-	var/npc_simple_damage_mult = 1
+	/// Damage multiplier against simple animals. Use the ANTIBEAST_* defines.
+	var/antibeast_factor = 1
 	/// Damage was reduced by SPELL_DMG. Simple animals take the unscaled value.
 	var/spell_damage_scaled = FALSE
 	var/damage_type = BRUTE //BRUTE, BURN, TOX, OXY, CLONE are the only things that should be in here
@@ -162,6 +164,8 @@
 	var/poisonfeel
 
 	var/aim_peak = 0
+	/// Flat aim modifier from the ammo itself, added on top of aim_peak
+	var/aim_mod = 0
 	/// Ignores every zone hit penalty and ceiling
 	var/steady_aim = FALSE
 
@@ -201,7 +205,7 @@
 		return ACC_RANGED_FLOOR
 	if(max_range && distance > max_range)
 		return ACC_RANGED_FLOOR
-	var/aim = aim_peak
+	var/aim = aim_peak + aim_mod
 	if(distance > ACC_RANGED_VISUAL_REACH)
 		aim -= (distance - ACC_RANGED_VISUAL_REACH) * ACC_RANGED_FARSIGHT_PENALTY
 	if(crossed_z)
@@ -211,10 +215,10 @@
 //
 /obj/projectile/proc/get_aim_from(atom/target)
 	if(!starting)
-		return aim_peak
+		return aim_peak + aim_mod
 	var/turf/T = get_turf(target)
 	if(!istype(T))
-		return aim_peak
+		return aim_peak + aim_mod
 	return get_aim_at(max(abs(T.x - starting.x), abs(T.y - starting.y)), T.z != starting.z)
 
 /obj/projectile/proc/check_range(turf/T)
@@ -758,13 +762,15 @@
 		var/mob/M = firer
 		if((target == firer) || (target in firer.buckled_mobs) || (istype(M) && (M.buckled == target)))
 			return FALSE
-	if(!ignore_loc && (loc != target.loc))
+	if(!ignore_loc && (loc != target.loc) && !(can_hit_turfs && direct_target && loc == target))
 		return FALSE
 	if(target in passthrough)
 		return FALSE
 	if(target.density)		//This thing blocks projectiles, hit it regardless of layer/mob stuns/etc.
 		return TRUE
 	if(!isliving(target))
+		if(isturf(target))		// non dense turfs
+			return can_hit_turfs && direct_target
 		if(target.layer < PROJECTILE_HIT_THRESHHOLD_LAYER)
 			return FALSE
 	else

@@ -106,15 +106,6 @@
 	)
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf/fried/garlick
 
-// Fried Fish Filet + Pepper -> Pepper Fish
-/datum/food_recipe/pepper_fish
-	name = "pepper fish"
-	base_item = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
-	ingredients = list(
-		/datum/reagent/consumable/blackpepper = 1
-	)
-	result_type = /obj/item/reagent_containers/food/snacks/rogue/pepperfish
-
 // Cooked Sausage + Fried Egg -> Wiener Egg
 /datum/food_recipe/wiener_egg_sausage
 	name = "wiener egg (from sausage)"

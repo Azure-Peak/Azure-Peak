@@ -13,8 +13,8 @@
 
 /obj/item/reagent_containers/proc/update_cooktime(mob/user)
 	if(user.mind)
-		short_cooktime = (initial(short_cooktime) / get_cooktime_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
-		long_cooktime = (initial(long_cooktime) / get_cooktime_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
+		short_cooktime = (initial(short_cooktime) / get_skill_speed_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
+		long_cooktime = (initial(long_cooktime) / get_skill_speed_divisor(user.get_skill_level(/datum/skill/craft/cooking)))
 	else
 		short_cooktime = initial(short_cooktime)
 		long_cooktime = initial(long_cooktime)
@@ -46,7 +46,7 @@
 		if(fried_target)
 			. += "<b>Fry</b> it in a pan over a hearth to make [initial(fried_target.name)]."
 	if(deepfried_target)
-		. += "<b>Deep fry</b> it in a pot of tallow over a hearth to make [initial(deepfried_target.name)]."
+		. += "<b>Deep fry</b> it in a pot of oil over a hearth to make [initial(deepfried_target.name)]."
 
 /obj/item/reagent_containers/food/snacks/rogue/examine(mob/user)
 	. = ..()
@@ -253,9 +253,15 @@
 	var/turf/T = get_turf(src)
 	cut_overlays()
 	for(var/i in 1 to amount)
-		new res_type(T)
+		var/obj/item/reagent_containers/food/snacks/rogue/result = new res_type(T)
+		if(istype(result))
+			result.inherit_recipe_base(src)
 	active_recipe = null
 	qdel(src)
+
+// Helper function, used for things like "Inherit the base recipe's name/quality and boost it up", i.e. fish fillet
+/obj/item/reagent_containers/food/snacks/rogue/proc/inherit_recipe_base(obj/item/reagent_containers/food/snacks/rogue/base)
+	return
 
 /obj/item/reagent_containers/food/snacks/rogue/get_mechanics_examine(mob/user)
 	. = ..()
@@ -264,7 +270,7 @@
 	. += span_info("Rarer foods and drinks, or those made from more expensive recipes, can provide increased bonuses to the indulger's mood and health.")
 	. += span_info("Everyone favours a certain cuisine, dish, and drink. Serving someone Fine or better food or a Nice or better drink that matches one of their tastes lifts their mood.")
 	. += span_info("Those of nobility have much higher standards, when it comes to what - and how - they eat. They prefer to eat plattered meals with proper utensils, while disliking plainer and cheaper food.")
-	. += span_info("Set a recipe on accident? middleclick the item to reset the recipe back to nothing and pick a different one.")
+	. += span_info("Set a recipe on accident? Middle-click the item to reset the recipe back to nothing and pick a different one.")
 
 /obj/item/reagent_containers/food/snacks/rogue/Initialize(mapload)
 	. = ..()
@@ -470,7 +476,7 @@
 	if(is_container && (!R.reagents.has_reagent(/datum/reagent/water, 10)))
 		to_chat(user, "<span class='notice'>Needs more water to work it.</span>")
 		return TRUE
-	to_chat(user, "<span class='notice'>Adding water, now it's time to hand wash it...</span>")
+	to_chat(user, "<span class='notice'>Adding water, now it's time to hand-wash it...</span>")
 	playsound(get_turf(user), 'modular/Neu_Food/sound/splishy.ogg', 100, TRUE, -1)
 	if(do_after(user,2 SECONDS, target = src))
 		add_sleep_experience(user, /datum/skill/craft/cooking, user.STAINT * 0.8)

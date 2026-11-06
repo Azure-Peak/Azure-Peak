@@ -145,7 +145,7 @@
 			override_sound = TRUE
 		if(override_sound)
 			used_sound = 'sound/blank.ogg'
-		if(RSTL)
+		if(RSTL && (humshoes.stepnoise_flag & STEPNOISE_HEELS))
 			RSTL.set_override(override_sound ? FALSE : TRUE)
 
 	var/list/heard = playsound(step_location, used_sound,

@@ -4,7 +4,7 @@
 /*	.................	Hardtack	................... */
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/hardtack_raw
 	name = "crackerdough"
-	desc = "Doughy, soft, unacceptable - such makes it perfect for hardtack. Sprinkling in some sliced chocolate might help make it a little more palletable."
+	desc = "Doughy, soft, unacceptable - such makes it perfect for hardtack. Sprinkling in some sliced chocolate might help make it a little more palatable."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "raw_tack"
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/crackerscooked
@@ -258,7 +258,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD|DISH_MEAT
 	name = "marmaladed bun"
-	desc = "A delicious treat to bring along for those long-and-lonesome hikes through the Azurian forests; doubly-so, if you happen to be a tallow-coated wildkin of the urisine variety."
+	desc = "A delicious treat to bring along for those long-and-lonesome hikes through the Azurian forests; doubly-so, if you happen to be a tallow-coated wildkin of the ursine variety."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	tastes = list("sweet-tarty jamminess" = 1, "a lavish break from the dae's woes" = 1)
 	icon_state = "bun_marmalade"
@@ -307,7 +307,7 @@
 	dish_type = DISH_BREAD
 	name = "crossbun"
 	desc = "Traditionally eaten for breakfast amongst Psydonia's abbeys. Astratans in particular have made it a \
-	practice to add a slice of marmalade to their crossbuns, in reverance of Her golden authority."
+	practice to add a slice of marmalade to their crossbuns, in reverence of Her golden authority."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "crossbun"
 	list_reagents = list(/datum/reagent/consumable/nutriment = SMALLDOUGH_NUTRITION)
@@ -398,7 +398,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD
 	name = "decabun"
-	desc = "A bun bearing the symbol of the Ten, undivided and ever whole. The only thing to possibly seperate them would be a \
+	desc = "A bun bearing the symbol of the Ten, undivided and ever whole. The only thing to possibly separate them would be a \
 	helping of jam or marmalade."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "decabun"
@@ -463,7 +463,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_BREAD|DISH_MEAT|DISH_FRUIT
 	name = "jamtallowed zun"
-	desc = "A zun, cruelly parted to be slathered with a spread of jamtallow. For it's sacrifice of being cut open and its \
+	desc = "A zun, cruelly parted to be slathered with a spread of jamtallow. For its sacrifice of being cut open and its \
 	internals stuffed with jam, it has become far, far more delicious."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "zbun_jamtallow"
@@ -479,7 +479,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL
 	dish_type = DISH_BREAD|DISH_MEAT
 	name = "marmaladed zun"
-	desc = "A zun, cruelly parted to be slathered with a spread of marmalade. For it's sacrifice of being cut open and its \
+	desc = "A zun, cruelly parted to be slathered with a spread of marmalade. For its sacrifice of being cut open and its \
 	internals stuffed with marm, it has become far, far more delicious."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "zbun_marmalade"
@@ -630,7 +630,7 @@
 	cuisine = CUISINE_NORTH_IMPERIAL|CUISINE_SOUTH_IMPERIAL
 	dish_type = DISH_BREAD|DISH_FRUIT
 	name = "apple loaf slice"
-	desc = "Soft and chewy. Nourishing and filling. Simple yet decadant. Certainly a step up from raisins, that's for sure."
+	desc = "Soft and chewy. Nourishing and filling. Simple yet decadent. Certainly a step up from raisins, that's for sure."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "applebread_slice"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_HALF_MEAL)
@@ -805,7 +805,7 @@
 	dish_type = DISH_BREAD|DISH_PIE|DISH_DAIRY|DISH_FRUIT
 	name = "truffled tomatoplate"
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
-	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadant truffles; all it's missing \
+	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadent truffles; all it's missing \
 	is a cold pint of ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "onion_pizza"
@@ -815,7 +815,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_TWO_MEALS + NUTRITION_FULL_MEAL)
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
-	tastes = list("richly smooth and salty tomatoes" = 1, "hot and gooey cheese" = 1, "savory and decadant truffles" = 1)
+	tastes = list("richly smooth and salty tomatoes" = 1, "hot and gooey cheese" = 1, "savory and decadent truffles" = 1)
 	slice_batch = TRUE
 	slice_sound = TRUE
 	rotprocess = SHELFLIFE_EXTREME
@@ -831,7 +831,7 @@
 	faretype = FARE_FINE
 	w_class = WEIGHT_CLASS_NORMAL
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)
-	tastes = list("richly smooth and salty tomatoes" = 1, "hot and gooey cheese" = 1, "savory and decadant truffles" = 1)
+	tastes = list("richly smooth and salty tomatoes" = 1, "hot and gooey cheese" = 1, "savory and decadent truffles" = 1)
 	bitesize = 3
 	rotprocess = SHELFLIFE_EXTREME
 	dropshrink = 0.8
@@ -844,7 +844,7 @@
 	dish_type = DISH_BREAD|DISH_PIE|DISH_DAIRY|DISH_FRUIT
 	name = "truffled tomatoplate" //Like jackberried treats, this is a poisoned variant! For those who don't properly source their truffles.. or simply want to poison others!
 	desc = "A culinary delight from Azuria's shores, purported to've originated from an inflow of Etruscan refugees from long ago. The \
-	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadant truffles; all it's missing \
+	richness of the flatbread's sauced tomatoes is perfectly complemented by its cheesey blanket and decadent truffles; all it's missing \
 	is a cold pint of ale and an ongoing game of lampternball to jeer at."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "truffle_pizza"
@@ -1189,7 +1189,7 @@
 	cuisine = CUISINE_RANESHENI
 	dish_type = DISH_BREAD|DISH_EGG
 	name = "challah loaf"
-	desc = "A Nshkormh loaf of bread, made from leavened dough and egg, the communities of Psydonites in the region continued it's usage even during the Sun Dominion's banning of it's creation for it's 'rejection of Astratan butterness'."
+	desc = "A Nshkormh loaf of bread, made from leavened dough and egg, the communities of Psydonites in the region continued its usage even during the Sun Dominion's banning of its creation for its 'rejection of Astratan butterness'."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
 	icon_state = "challah4"
 	slices_num = 4

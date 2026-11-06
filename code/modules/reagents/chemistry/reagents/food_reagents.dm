@@ -122,6 +122,10 @@
 	name = "molasses"
 	color = "#835c5c"
 
+/datum/reagent/consumable/maizewash
+	name = "maize wash"
+	color = "#7e7d70"
+
 /datum/reagent/consumable/sodiumchloride
 	name = "table salt"
 	description = "A salt made of sodium chloride. Commonly used to season food."
@@ -204,9 +208,43 @@
 		M.adjustToxLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
 	..()
 
+/datum/reagent/consumable/oil
+	name = "oil"
+	nutriment_factor = 20
+	overdose_threshold = null
+	reagent_state = LIQUID
+	hydration_factor = 2
+
+/datum/reagent/consumable/oil/seed
+	name = "seed oil"
+	description = "Tasteless, runny seed oil useful in emulsions, thickening, and deep frying."
+	color = "#FFC380"
+
 /datum/reagent/consumable/oil/tallow
 	name = "tallow"
 	description = "Oil made from rendering animal fat. Used for deep frying."
-	nutriment_factor = 20
-	color = "#A6987B" // rgb: 48, 32, 0
+	color = "#A6987B"
 	taste_description = "rendered fat"
+
+/datum/reagent/consumable/vinaigrette
+	cuisine = CUISINE_ETRUSCAN
+	name = "vinaigrette"
+	description = "A runny salad dressing with a strong vinegary taste."
+	color = "#EBE488"
+	taste_description = "vinegary tang"
+	nutriment_factor = 10
+	hydration_factor = 5
+
+/datum/chemical_reaction/alch/lemon_vinaigrette
+	name = "vinaigrette"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/vinaigrette
+	results = list(/datum/reagent/consumable/vinaigrette = 5)
+	required_reagents = list(/datum/reagent/consumable/oil/seed = 3, /datum/reagent/consumable/juice/lemon = 1)
+
+/datum/chemical_reaction/alch/lime_vinaigrette
+	name = "vinaigrette"
+	mix_sound = 'sound/items/fillbottle.ogg'
+	id = /datum/reagent/consumable/vinaigrette
+	results = list(/datum/reagent/consumable/vinaigrette = 5)
+	required_reagents = list(/datum/reagent/consumable/oil/seed = 3, /datum/reagent/consumable/juice/lime = 1)

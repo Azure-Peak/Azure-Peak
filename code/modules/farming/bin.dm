@@ -184,12 +184,8 @@
 				R.createditem_num--
 				var/obj/item/IT = new crafteditem(used_turf)
 				R.handle_creation(IT)
-				var/newname = IT.name
 				var/newmaxinteg = IT.max_integrity
 				var/newinteg = IT.obj_integrity
-				var/newprice = IT.sellprice
-				var/obj/item/lockpick/L = IT
-				var/newpicklvl = L.picklvl
 				var/obj/item/rogueweapon/W = IT
 				var/newforce = W.force
 				var/newthrow = W.throwforce
@@ -205,12 +201,10 @@
 				while(R.createditem_num)
 					R.createditem_num--
 					var/obj/item/editme = new crafteditem(used_turf)
-					editme.name = newname
+					editme.was_crafted = TRUE
+					R.apply_result_quality(editme)
 					editme.max_integrity = newmaxinteg
 					editme.obj_integrity = newinteg
-					editme.sellprice = newprice
-					if(istype(editme, /obj/item/lockpick))
-						editme.picklvl = newpicklvl
 					if(istype(editme, /obj/item/rogueweapon))
 						editme.force = newforce
 						editme.throwforce = newthrow

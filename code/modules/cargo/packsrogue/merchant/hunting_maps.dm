@@ -17,3 +17,8 @@
 	name = "Goat Map"
 	cost = 25
 	contains = list(/obj/item/hunting_map/goats)
+
+/datum/supply_pack/rogue/hunting_maps/small_map
+	name = "Rabbit Map"
+	cost = 22
+	contains = list(/obj/item/hunting_map/small_game)

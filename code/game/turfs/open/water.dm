@@ -51,18 +51,42 @@
 	/// Anything that shouldn't (moving water, salt water, interiors, flavor turfs) nulls
 	/// this out on its own subtype below, and null also means "never tracked at all".
 	var/freeze_type = /turf/open/floor/rogue/frozen_water
+	/// Fishing element for this specific water tile
+	var/datum/fish_source/fishing_datum = /datum/fish_source/water
 
 /turf/open/water/Initialize(mapload)
 	.	= ..()
 	water_overlay = new(src)
 	water_top_overlay = new(src)
 	update_icon()
+	if(!isnull(fishing_datum))
+		add_lazy_fishing(fishing_datum)
 	if(freeze_type)
 		// Deliberately no runtime catch-up here, unlike /turf/open/floor/rogue/grass. Most
 		// water that appears mid-round in winter appears *because* ice broke or was cut open,
 		// and re-freezing it on the spot would close the hole the moment it was made. Tracked
 		// only, so the next season change picks it up.
 		GLOB.seasonal_water_turfs |= src
+
+/turf/open/water/examine(mob/user)
+	. = ..()
+	if(isnull(fishing_datum))
+		return
+	var/datum/fish_source/preset = GLOB.preset_fish_sources[fishing_datum]
+	if(preset.catalog_description)
+		. += span_info("This looks like [LOWER_TEXT(preset.catalog_description)].")
+	if(HAS_TRAIT(user, TRAIT_EXPERT_FISHER))
+		var/datum/fish_source/source = get_fish_source()
+		. += span_info(source.stock_description())
+		if(source.has_known_fishes(src))
+			. += span_tinynoticeital("This is a fishing spot. You can look again to list its fishes...")
+
+/turf/open/water/examine_more(mob/user)
+	. = ..()
+	if(isnull(fishing_datum) || !HAS_TRAIT(user, TRAIT_EXPERT_FISHER))
+		return
+	var/datum/fish_source/source = get_fish_source()
+	source.get_catchable_fish_names(user, src, .)
 
 /// Lays this turf's ice on top, pushing our own type onto baseturfs so thaw() (a ScrapeAway())
 /// can restore the exact subtype (swamp vs swamp/deep, pond vs cleanshallow) without a lookup
@@ -165,11 +189,15 @@
 	/// Mobs will heavily avoid pathing through this turf if their stamina is too low.
 	var/const/LOW_STAM_PENALTY = 7 // only go through this if we'd have to go offscreen otherwise
 	. = ..()
-	if(isliving(traverser) && !HAS_TRAIT(traverser, TRAIT_INFINITE_STAMINA))
-		var/mob/living/living_traverser = traverser
-		var/remaining_stamina = (living_traverser.max_stamina - living_traverser.stamina)
-		if(remaining_stamina < get_stamina_drain(living_traverser, travel_dir)) // not enough stamina reserved to cross
-			. += LOW_STAM_PENALTY // really want to avoid this unless we don't have any better options
+	if(isliving(traverser) && is_swim_exhausting(traverser, travel_dir))
+		. += LOW_STAM_PENALTY // really want to avoid this unless we don't have any better options
+
+/turf/open/water/proc/is_swim_exhausting(mob/living/swimmer, travel_dir)
+	var/const/STAM_RESERVE_TILES = 3 // enough left over to swim back out
+	if(HAS_TRAIT(swimmer, TRAIT_INFINITE_STAMINA))
+		return FALSE
+	var/remaining_stamina = swimmer.max_stamina - swimmer.stamina
+	return remaining_stamina < get_stamina_drain(swimmer, travel_dir) * STAM_RESERVE_TILES
 
 /turf/open/water/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_flag = "blunt")
 	..()
@@ -198,12 +226,6 @@
 	. = ..()
 	if(platform_atom_count > 0)
 		return
-	if(istype(AM, /obj/item/reagent_containers/food/snacks/fish))
-		var/obj/item/reagent_containers/food/snacks/fish/F = AM
-		if (F.sinkable)
-			SEND_GLOBAL_SIGNAL(COMSIG_GLOBAL_FISH_RELEASED, F.type, F.rarity_rank)
-			F.visible_message("<span class='warning'>[F] dives into \the [src] and disappears!</span>")
-			qdel(F)
 	if(isliving(AM) && !AM.throwing)
 		var/mob/living/L = AM
 		if(HAS_TRAIT(L, TRAIT_CURSE_ABYSSOR))
@@ -391,6 +413,7 @@
 	slowdown = 3
 	water_reagent = /datum/reagent/water/bathwater
 	freeze_type = null // indoors, and the point of it is that it's warm
+	fishing_datum = null
 
 /turf/open/water/bath/Initialize(mapload)
 	.	= ..()
@@ -407,6 +430,7 @@
 	wash_in = FALSE
 	water_reagent = /datum/reagent/water/gross/sewage
 	freeze_type = null // enclosed, and warmer than anything above ground
+	fishing_datum = /datum/fish_source/sewer
 
 /turf/open/water/sewer/Initialize(mapload)
 	icon_state = "paving"
@@ -424,6 +448,7 @@
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
 	freeze_type = /turf/open/floor/rogue/frozen_water/mire
+	fishing_datum = /datum/fish_source/swamp
 
 /turf/open/water/bloody
 	name = "blood"
@@ -436,6 +461,7 @@
 	wash_in = FALSE
 	water_reagent = /datum/reagent/blood/shitty
 	freeze_type = null // set dressing, not weather-driven
+	fishing_datum = null
 
 /turf/open/water/swamp/Initialize(mapload)
 	icon_state = "dirt"
@@ -506,6 +532,7 @@
 	slowdown = 5
 	swim_skill = TRUE
 	freeze_type = /turf/open/floor/rogue/frozen_water/mire/deep
+	fishing_datum = /datum/fish_source/swamp/deep
 
 /turf/open/water/swamp/deep/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
@@ -565,6 +592,7 @@
 	slowdown = 3
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water
+	fishing_datum = /datum/fish_source/cleanshallow
 
 /turf/open/water/cleanshallow/Initialize(mapload)
 	icon_state = "rock"
@@ -598,6 +626,7 @@
 	swim_skill = TRUE
 	swimdir = TRUE
 	freeze_type = null // moving water; freezing it would also stall the SSrivers conveyor
+	fishing_datum = /datum/fish_source/river
 
 /turf/open/water/river/flow
 	icon_state = "rockwd2"
@@ -634,6 +663,7 @@
 	slowdown = 3
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
+	fishing_datum = /datum/fish_source/river/murk
 
 /turf/open/water/river/flow/murk/Initialize(mapload)
 	. = ..()
@@ -761,6 +791,7 @@
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/salty
 	freeze_type = null // salt water, and tidal - subtypes inherit the exemption
+	fishing_datum = /datum/fish_source/ocean
 
 /turf/open/water/ocean/deep
 	name = "salt water"
@@ -772,6 +803,7 @@
 	slowdown = 8
 	swim_skill = TRUE
 	wash_in = TRUE
+	fishing_datum = /datum/fish_source/ocean/deep
 
 /turf/open/water/ocean/deep/dark
 	water_color = "#000211"
@@ -786,6 +818,7 @@
 	slowdown = 8
 	swim_skill = TRUE
 	wash_in = FALSE
+	fishing_datum = /datum/fish_source/ocean/abyssal
 
 /turf/open/water/pond
 	name = "pond"
@@ -799,6 +832,7 @@
 	wash_in = TRUE
 	water_reagent = /datum/reagent/water/gross
 	freeze_type = /turf/open/floor/rogue/frozen_water/deep
+	fishing_datum = /datum/fish_source/pond
 
 /turf/open/water/river/flow/murk/deep
 	name = "deep murk river"

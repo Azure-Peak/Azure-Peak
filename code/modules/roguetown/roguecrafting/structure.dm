@@ -1096,7 +1096,7 @@
 	result = /obj/machinery/light/rogue/firebowl/standing/blue
 	reqs = list(/obj/item/natural/stone = 1,
 				/obj/item/rogueore/coal = 1,
-				/obj/item/ash = 1)
+				/obj/item/natural/ash = 1)
 	verbage_simple = "construct"
 	verbage = "constructs"
 
@@ -1467,7 +1467,7 @@
 	name = "wall candles (blue)"
 	category = "Lighting"
 	result = /obj/machinery/light/rogue/candle/blue
-	reqs = list(/obj/item/natural/stone = 1, /obj/item/candle/yellow = 1, /obj/item/ash = 1)
+	reqs = list(/obj/item/natural/stone = 1, /obj/item/candle/yellow = 1, /obj/item/natural/ash = 1)
 	verbage_simple = "build"
 	verbage = "builds"
 	skillcraft = /datum/skill/craft/masonry
