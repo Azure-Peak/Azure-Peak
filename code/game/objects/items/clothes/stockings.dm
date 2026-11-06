@@ -19,6 +19,22 @@
 	slot_flags = ITEM_SLOT_MOUTH
 	extra_slot_flags = EXTRA_SLOT_SOCKS
 	muteinmouth = TRUE
+	var/gag_icon_state
+
+/obj/item/clothing/legwears/equipped(mob/living/carbon/user, slot)
+	. = ..()
+	if(slot == SLOT_MOUTH)
+		gag_icon_state = icon_state
+		icon_state = null
+		flags_inv = NONE
+		user.update_inv_mouth()
+
+/obj/item/clothing/legwears/dropped(mob/user)
+	. = ..()
+	if(gag_icon_state)
+		icon_state = gag_icon_state
+		gag_icon_state = null
+	flags_inv = initial(flags_inv)
 
 /obj/item/clothing/legwears/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
@@ -26,9 +42,7 @@
 		if(NO_UNDERWEAR in H.dna.species.species_traits)
 			return
 		if(!H.legwear_socks)
-			if(!get_location_accessible(H, BODY_ZONE_PRECISE_L_FOOT))
-				return
-			if(!get_location_accessible(H, BODY_ZONE_PRECISE_R_FOOT))
+			if(H.is_inventory_slot_obscured(SLOT_SOCKS, src))
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, needhand = 1, target = H))
@@ -112,10 +126,11 @@
 //Thigh-high
 
 /obj/item/clothing/legwears/thigh_high
+	flags_inv = HIDECROTCH
 	name = "thigh-high stockings"
 	desc = "A legwear popular among those who plan to venture into colder climates."
-	icon_state = "thigh"
-	item_state = "thigh"
+	icon_state = "thighs"
+	item_state = "thighs"
 
 /obj/item/clothing/legwears/thigh_high/random/Initialize(mapload)
 	. = ..()
@@ -126,11 +141,12 @@
 
 //Thigh-high - Silk
 /obj/item/clothing/legwears/thigh_high_silk
+	flags_inv = HIDECROTCH
 	salvage_result = /obj/item/natural/silk
 	name = "silk thigh-high stockings"
 	desc = "A legwear popular amongst the aristocracy and wealth burghers. Goes well with any dress!"
-	icon_state = "thigh_silk"
-	item_state = "thigh_silk"
+	icon_state = "silk_thighs"
+	item_state = "silk_thighs"
 
 /obj/item/clothing/legwears/thigh_high_silk/white
 	color = "#e6e5e5"
@@ -176,8 +192,8 @@
 	salvage_result = /obj/item/natural/silk
 	name = "silk knee-high sleeves (stirrup)"
 	desc = "A legwear for those who happen to possess sharp claws."
-	icon_state = "sleeve_k_silk"
-	item_state = "sleeve_k_silk"
+	icon_state = "sleeve_ks_silk"
+	item_state = "sleeve_ks_silk"
 
 /obj/item/clothing/legwears/sleeve_stir_knee_silk/white
 	color = "#e6e5e5"
@@ -185,7 +201,7 @@
 //Sleeves - Thigh-high
 /obj/item/clothing/legwears/sleeve_stir_thigh_silk
 	salvage_result = /obj/item/natural/silk
-	name = "silk knee-high sleeves (stirrup)"
+	name = "silk thigh-high sleeves (stirrup)"
 	desc = "A legwear for those who happen to possess sharp claws. For the modest types."
 	icon_state = "sleeve_ts_silk"
 	item_state = "sleeve_ts_silk"
@@ -196,7 +212,7 @@
 //Sleeves - Ankle-high
 /obj/item/clothing/legwears/sleeve_stir_ankle_silk
 	salvage_result = /obj/item/natural/silk
-	name = "silk knee-high sleeves (stirrup)"
+	name = "silk ankle sleeves (stirrup)"
 	desc = "A legwear for those who happen to possess sharp claws. Are you even trying at this point?"
 	icon_state = "sleeve_as_silk"
 	item_state = "sleeve_as_silk"
@@ -420,3 +436,255 @@
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
+
+/obj/item/clothing/legwears/belted
+	name = "belted stockings"
+	icon_state = "stockings_wg"
+	item_state = "stockings_wg"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_belted
+	name = "Belted Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/belted)
+	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/silk/belted
+	name = "silk belted stockings"
+	icon_state = "silk_wg"
+	item_state = "silk_wg"
+	salvage_result = /obj/item/natural/silk
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_silk_belted
+	name = "Silk Belted Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/silk/belted)
+	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/obj/item/clothing/legwears/stirrup
+	name = "stirrup stockings"
+	icon_state = "stockings_sir"
+	item_state = "stockings_sir"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_stirrup
+	name = "Stirrup Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/stirrup)
+	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/silk/stirrup
+	name = "silk stirrup stockings"
+	icon_state = "silk_sir"
+	item_state = "silk_sir"
+	salvage_result = /obj/item/natural/silk
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_silk_stirrup
+	name = "Silk Stirrup Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/silk/stirrup)
+	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/obj/item/clothing/legwears/fishnet/stirrup
+	name = "fishnet stirrup stockings"
+	icon_state = "fishnet_sir"
+	item_state = "fishnet_sir"
+	salvage_result = /obj/item/natural/fibers
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_fishnet_stirrup
+	name = "Fishnet Stirrup Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/fishnet/stirrup)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/thigh_high/fishnet
+	name = "fishnet thigh-high stockings"
+	icon_state = "fishnet_thighs"
+	item_state = "fishnet_thighs"
+	salvage_result = /obj/item/natural/fibers
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_fishnet
+	name = "Fishnet Thigh-High Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/thigh_high/fishnet)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/thigh_high/crotchless
+	name = "crotchless thigh-high stockings"
+	icon_state = "thighs_cl"
+	item_state = "thighs_cl"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_crotchless
+	name = "Crotchless Thigh-High Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/thigh_high/crotchless)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/thigh_high_silk/crotchless
+	name = "silk crotchless thigh-high stockings"
+	icon_state = "silk_thighs_cl"
+	item_state = "silk_thighs_cl"
+	salvage_result = /obj/item/natural/silk
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_silk_crotchless
+	name = "Silk Crotchless Thigh-High Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/thigh_high_silk/crotchless)
+	reqs = list(/obj/item/natural/silk = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/obj/item/clothing/legwears/thigh_high/fishnet/crotchless
+	name = "fishnet crotchless thigh-high stockings"
+	icon_state = "fishnet_thighs_cl"
+	item_state = "fishnet_thighs_cl"
+	salvage_result = /obj/item/natural/fibers
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_fishnet_crotchless
+	name = "Fishnet Crotchless Thigh-High Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/thigh_high/fishnet/crotchless)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/tights
+	name = "tights"
+	icon_state = "nstockings"
+	item_state = "nstockings"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = HIDECROTCH
+
+/datum/crafting_recipe/roguetown/sewing/legwear_tights
+	name = "Tights"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/tights)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/tights/stirrup
+	name = "stirrup tights"
+	icon_state = "stockings_stirups"
+	item_state = "stockings_stirups"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = HIDECROTCH
+
+/datum/crafting_recipe/roguetown/sewing/legwear_tights_stirrup
+	name = "Stirrup Tights"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/tights/stirrup)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/tights/crotchless
+	name = "crotchless tights"
+	icon_state = "stockings_nogroin"
+	item_state = "stockings_nogroin"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_tights_crotchless
+	name = "Crotchless Tights"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/tights/crotchless)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/tights/crotchless/stirrup
+	name = "crotchless stirrup tights"
+	icon_state = "stockings_nogroin_stirups"
+	item_state = "stockings_nogroin_stirups"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_tights_crotchless_stirrup
+	name = "Crotchless Stirrup Tights"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/tights/crotchless/stirrup)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/low
+	name = "low stockings"
+	icon_state = "stockings_low"
+	item_state = "stockings_low"
+	salvage_result = /obj/item/natural/cloth
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_low
+	name = "Low Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/low)
+	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/fishnet/low
+	name = "low fishnet stockings"
+	icon_state = "stockings_mesh_low"
+	item_state = "stockings_mesh_low"
+	salvage_result = /obj/item/natural/fibers
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_fishnet_low
+	name = "Low Fishnet Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/fishnet/low)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/fishnet/low/stirrup
+	name = "low fishnet stirrup stockings"
+	icon_state = "stockings_mesh_low_sir"
+	item_state = "stockings_mesh_low_sir"
+	salvage_result = /obj/item/natural/fibers
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_fishnet_low_stirrup
+	name = "Low Fishnet Stirrup Stockings"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/fishnet/low/stirrup)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/fishnet/crotchless
+	name = "crotchless fishnet tights"
+	icon_state = "stockings_mesh_cl"
+	item_state = "stockings_mesh_cl"
+	salvage_result = /obj/item/natural/fibers
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_fishnet_crotchless
+	name = "Crotchless Fishnet Tights"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/fishnet/crotchless)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/obj/item/clothing/legwears/fishnet/crotchless/stirrup
+	name = "crotchless fishnet stirrup tights"
+	icon_state = "stockings_mesh_sir_cl"
+	item_state = "stockings_mesh_sir_cl"
+	salvage_result = /obj/item/natural/fibers
+	flags_inv = NONE
+
+/datum/crafting_recipe/roguetown/sewing/legwear_fishnet_crotchless_stirrup
+	name = "Crotchless Fishnet Stirrup Tights"
+	category = "Underwear"
+	result = list(/obj/item/clothing/legwears/fishnet/crotchless/stirrup)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3

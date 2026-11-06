@@ -365,7 +365,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/equip_to_slot_if_possible(obj/item/W, slot, qdel_on_fail = FALSE, disable_warning = FALSE, redraw_mob = TRUE, bypass_equip_delay_self = FALSE, initial)
 	if(!istype(W) || QDELETED(W)) //This qdeleted is to prevent stupid behavior with things that qdel during init, like say stacks
 		return FALSE
-	var/blocked_underwear = !initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W)
+	var/blocked_underwear = !initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS)) && is_inventory_slot_obscured(slot, W)
 	if(blocked_underwear || !W.mob_can_equip(src, null, slot, disable_warning, bypass_equip_delay_self))
 		if(qdel_on_fail)
 			qdel(W)
@@ -374,7 +374,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 				to_chat(src, "<span class='warning'>I couldn't equip that.</span>")
 		return FALSE
 	// Equipping may have waited; outer clothing can change during that delay.
-	if(!initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W))
+	if(!initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS)) && is_inventory_slot_obscured(slot, W))
 		if(qdel_on_fail)
 			qdel(W)
 		return FALSE
@@ -729,6 +729,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["item"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["item"])
+		if(!is_strip_panel_slot(slot))
+			return
 		if(is_inventory_slot_obscured(slot, get_item_by_slot(slot) ? null : usr.get_active_held_item()))
 			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
 			return
@@ -747,6 +749,8 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["show_storage"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["show_storage"])
+		if(!is_strip_panel_slot(slot))
+			return
 		if(is_inventory_slot_obscured(slot))
 			return
 		var/obj/item/what = get_item_by_slot(slot)
@@ -1424,6 +1428,10 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/check_equipment_mood_penalty()
 	return
 
+/// Whether this equipment slot is exposed through the stripping panel.
+/mob/proc/is_strip_panel_slot(slot)
+	return TRUE
+
 /mob/proc/is_inventory_slot_obscured(slot, obj/item/equipping)
 	return FALSE
 
@@ -1439,6 +1447,11 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(SLOT_UNDERSHIRT)
 			var/obj/item/clothing/undershirt/garment = equipping ? equipping : undershirt
 			access_zones = istype(garment) ? garment.strip_zones : (CHEST | GROIN)
+		if(SLOT_SOCKS)
+			access_zones = LEGS | FEET
+			var/obj/item/clothing/legwears/garment = equipping ? equipping : legwear_socks
+			if(istype(garment) && (initial(garment.flags_inv) & HIDECROTCH))
+				access_zones |= GROIN
 		else
 			return FALSE
 	for(var/obj/item/covering as anything in get_equipped_items())

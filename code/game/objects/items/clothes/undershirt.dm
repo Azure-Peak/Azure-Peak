@@ -109,6 +109,8 @@
 	strip_zones = CHEST
 
 /obj/item/clothing/undershirt/bandages
+	salvage_result = /obj/item/natural/cloth/bandage
+	salvage_amount = 1
 	name = "body bandages"
 	desc = "Cloth bandages wrapped around the chest and hips."
 	icon_state = "bandages"
