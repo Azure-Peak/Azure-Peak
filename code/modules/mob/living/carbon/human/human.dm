@@ -174,11 +174,11 @@
 	popup.set_content(get_inventory_panel(user))
 	popup.open()
 
-/mob/living/carbon/human/is_strip_panel_slot(slot)
-	return !(slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS))
-
 /mob/living/carbon/human/proc/get_inventory_panel(mob/user)
 	var/list/obscured = check_obscured_slots()
+	for(var/slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS))
+		if(is_inventory_slot_obscured(slot, get_item_by_slot(slot) ? null : user.get_active_held_item()))
+			obscured |= slot
 	var/list/dat = list()
 
 	dat += "<table>"
@@ -334,6 +334,29 @@
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SHOES]'>[(shoes && !(shoes.item_flags & ABSTRACT)) ? shoes : "<font color=grey>Boots</font>"]</A></td></tr>"
+
+#ifdef MATURESERVER
+	dat += "<tr><td><B>UNDERWEAR</B></td></tr>"
+	if(SLOT_UNDERWEAR_BOTTOM in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERWEAR_BOTTOM]'>[(underwear_bottom && !(underwear_bottom.item_flags & ABSTRACT)) ? underwear_bottom : "<font color=grey>Underwear Bottom</font>"]</A></td></tr>"
+
+	if(SLOT_UNDERWEAR_TOP in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERWEAR_TOP]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A></td></tr>"
+
+	if(SLOT_UNDERSHIRT in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERSHIRT]'>[(undershirt && !(undershirt.item_flags & ABSTRACT)) ? undershirt : "<font color=grey>Undershirt</font>"]</A></td></tr>"
+
+	if(SLOT_SOCKS in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SOCKS]'>[(legwear_socks && !(legwear_socks.item_flags & ABSTRACT)) ? legwear_socks : "<font color=grey>Socks</font>"]</A></td></tr>"
+#endif
 
 	dat += "<tr><td><hr></td></tr>"
 	dat += {"</table>"}

@@ -729,8 +729,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["item"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["item"])
-		if(!is_strip_panel_slot(slot))
-			return
 		if(is_inventory_slot_obscured(slot, get_item_by_slot(slot) ? null : usr.get_active_held_item()))
 			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
 			return
@@ -749,8 +747,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["show_storage"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["show_storage"])
-		if(!is_strip_panel_slot(slot))
-			return
 		if(is_inventory_slot_obscured(slot))
 			return
 		var/obj/item/what = get_item_by_slot(slot)
@@ -1428,10 +1424,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/check_equipment_mood_penalty()
 	return
 
-/// Whether this equipment slot is exposed through the stripping panel.
-/mob/proc/is_strip_panel_slot(slot)
-	return TRUE
-
 /mob/proc/is_inventory_slot_obscured(slot, obj/item/equipping)
 	return FALSE
 
@@ -1464,6 +1456,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(slot == SLOT_UNDERSHIRT && (((access_zones & CHEST) && (cover_flags & HIDEBOOB)) || ((access_zones & GROIN) && (cover_flags & HIDECROTCH))))
 			return TRUE
 		// Physical coverage also matters when the garment does not hide anatomy.
-		if(covering.surgery_cover && (covering.body_parts_covered_dynamic & covering.body_parts_covered & access_zones))
+		if(covering.surgery_cover && (covering.body_parts_covered_dynamic & access_zones))
 			return TRUE
 	return FALSE

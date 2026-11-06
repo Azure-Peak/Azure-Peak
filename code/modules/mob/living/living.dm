@@ -1506,8 +1506,6 @@
 // The src mob is trying to strip an item from someone
 // Override if a certain type of mob should be behave differently when stripping items (can't, for example)
 /mob/living/stripPanelUnequip(obj/item/what, mob/who, where)
-	if(!who.is_strip_panel_slot(where))
-		return
 	if(who.is_inventory_slot_obscured(where))
 		return
 	if(!what.canStrip(who))
@@ -1632,14 +1630,14 @@
 			if(target.get_item_by_slot(slot) == I)
 				underwear_slot = slot
 				break
-		if(underwear_slot && (!target.is_strip_panel_slot(underwear_slot) || target.is_inventory_slot_obscured(underwear_slot)))
+		if(underwear_slot && target.is_inventory_slot_obscured(underwear_slot))
 			continue
 		I.add_fingerprint(src)
 		if(!do_after(src, I.strip_delay * get_strip_delay_mult(target, I), TRUE, target))
 			break
 		if(QDELETED(I) || I.loc != target || !target.Adjacent(src))
 			continue
-		if(underwear_slot && (!target.is_strip_panel_slot(underwear_slot) || target.get_item_by_slot(underwear_slot) != I || target.is_inventory_slot_obscured(underwear_slot)))
+		if(underwear_slot && (target.get_item_by_slot(underwear_slot) != I || target.is_inventory_slot_obscured(underwear_slot)))
 			continue
 		if(I.doStrip(src, target))
 			taken++
@@ -1657,8 +1655,6 @@
 // The src mob is trying to place an item on someone
 // Override if a certain mob should be behave differently when placing items (can't, for example)
 /mob/living/stripPanelEquip(obj/item/what, mob/who, where)
-	if(!who.is_strip_panel_slot(where))
-		return
 	what = src.get_active_held_item()
 	if(who.is_inventory_slot_obscured(where, what))
 		return

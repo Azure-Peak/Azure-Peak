@@ -19,22 +19,6 @@
 	slot_flags = ITEM_SLOT_MOUTH
 	extra_slot_flags = EXTRA_SLOT_SOCKS
 	muteinmouth = TRUE
-	var/gag_icon_state
-
-/obj/item/clothing/legwears/equipped(mob/living/carbon/user, slot)
-	. = ..()
-	if(slot == SLOT_MOUTH)
-		gag_icon_state = icon_state
-		icon_state = null
-		flags_inv = NONE
-		user.update_inv_mouth()
-
-/obj/item/clothing/legwears/dropped(mob/user)
-	. = ..()
-	if(gag_icon_state)
-		icon_state = gag_icon_state
-		gag_icon_state = null
-	flags_inv = initial(flags_inv)
 
 /obj/item/clothing/legwears/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
