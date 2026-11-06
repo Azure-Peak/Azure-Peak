@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - qol: "Makes a new toggle on gib() to make it so mobs dont create extra gibs on gibbing. Apply that to butchering animals, big animals still might produce their extra gibs, as intended."

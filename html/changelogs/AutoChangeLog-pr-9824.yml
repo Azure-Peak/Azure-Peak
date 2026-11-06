@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - code_imp: "Player quality value is now cached instead of reading from disk every time."

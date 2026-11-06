@@ -1,0 +1,4 @@
+author: "OrbisAnima"
+delete-after: True
+changes:
+  - qol: "Gives the Feed intent to the mage chalk. Make it so you can only feed it if using the approrpiate intent."

@@ -14,6 +14,10 @@
 #define FARE_FINE 4
 #define FARE_LAVISH 5
 
+// Fare type boost for applying some garnishes to fish filets or the ducal treatment
+#define FARE_BONUS_GARNISH 1
+#define FARE_BONUS_DUCAL 2
+
 // Consuming an item that meets the minimum quality requirements pop a heart and a mood boost
 #define FAVORITE_FOOD_MINFARE FARE_FINE
 #define FAVORITE_DRINK_MINQUALITY DRINK_NICE

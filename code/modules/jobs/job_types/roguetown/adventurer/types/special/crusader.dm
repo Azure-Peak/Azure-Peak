@@ -171,6 +171,7 @@
 
 /obj/item/clothing/cloak/cape/crusader
 	name = "desert cape"
+	color = CLOTHING_ORANGE
 	desc = "Were we to've met in another lyfetime, do you suppose we would've been fonder friends?"
 	icon_state = "crusader_cloak"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'

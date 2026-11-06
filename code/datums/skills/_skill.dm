@@ -30,7 +30,7 @@
 	// Originally designed for Medicine Expert and now used to protect economic roles's niche
 
 /datum/skill/proc/get_skill_speed_modifier(level)
-	return
+	return 1 / get_skill_speed_divisor(level)
 
 /datum/skill/proc/get_dream_cost_for_level(level, mob/living/user)
 	if(length(specific_dream_costs) >= level)

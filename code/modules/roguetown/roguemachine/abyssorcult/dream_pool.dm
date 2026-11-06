@@ -286,7 +286,7 @@
 		active_beams = list()
 		var/turf/pool_turf = get_turf(src)
 		for(var/mob/living/P in active_channelers)
-			active_beams += pool_turf.Beam(P, icon_state = "b_beam", time = phase_time, maxdistance = 10)
+			active_beams += pool_turf.Beam(P, icon_state = "b_beam", time = phase_time, max_distance = 10)
 
 		var/drain_per_phase = 15
 		for(var/mob/living/P in active_channelers)
@@ -296,12 +296,12 @@
 		if(!do_after(leader, phase_time, target = src, extra_checks = CALLBACK(src, PROC_REF(channel_check), leader, outer_rim)))
 			to_chat(leader, span_warning("Your connection falters! The ritual is interrupted."))
 			for(var/datum/beam/B in active_beams)
-				B.End()
+				qdel(B)
 			collapse_ritual()
 			return
 
 		for(var/datum/beam/B in active_beams)
-			B.End()
+			qdel(B)
 
 		if(linked_door?.gate_closed || !R.check_ingredients(src))
 			visible_message(span_warning("The pool's configuration changed mid-ritual! The abyss recoils."))
