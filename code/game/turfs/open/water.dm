@@ -74,7 +74,7 @@
 		return
 	var/datum/fish_source/preset = GLOB.preset_fish_sources[fishing_datum]
 	if(preset.catalog_description)
-		. += span_info("This looks like [lowertext(preset.catalog_description)].")
+		. += span_info("This looks like [LOWER_TEXT(preset.catalog_description)].")
 	if(HAS_TRAIT(user, TRAIT_EXPERT_FISHER))
 		var/datum/fish_source/source = get_fish_source()
 		. += span_info(source.stock_description())
@@ -226,12 +226,6 @@
 	. = ..()
 	if(platform_atom_count > 0)
 		return
-	if(istype(AM, /obj/item/reagent_containers/food/snacks/fish))
-		var/obj/item/reagent_containers/food/snacks/fish/F = AM
-		if (F.sinkable)
-			SEND_GLOBAL_SIGNAL(COMSIG_GLOBAL_FISH_RELEASED, F.type, F.rarity_rank)
-			F.visible_message("<span class='warning'>[F] dives into \the [src] and disappears!</span>")
-			qdel(F)
 	if(isliving(AM) && !AM.throwing)
 		var/mob/living/L = AM
 		if(HAS_TRAIT(L, TRAIT_CURSE_ABYSSOR))

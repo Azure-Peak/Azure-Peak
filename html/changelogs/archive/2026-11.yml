@@ -161,3 +161,123 @@
   zeskorion:
   - qol: wrench crafting now uses engineering
   - bugfix: wrenches can now parry properly
+2026-11-05:
+  Ryan180602:
+  - bugfix: spawned mobs with clients can now regen stam
+  WeNeedMorePhoron:
+  - rscadd: 'Fishing minigame: Now, when you fish, you will wait until a fish bites
+      on the bobber, which starts a minigame where you control a window and overlap
+      it with the fish to catch the fish after the progress bar fills up. The fish
+      will fight for a period of time depending on the difficulty, with higher difficulty
+      giving you less time to win the minigame. If you spend a proportionally high
+      period of time with the fish overlapping your window, you get a higher quality
+      catch. This is ported from 2022 TGstation''s version.'
+  - rscadd: Fishing line can be retracted with right click. Improved the messages
+      for catching a fish so you know what quality fish you got and it prints to chat.
+  - rscadd: Baits are reimplemented, including two types. Live baits are pre-existing
+      ones like worms, grubs, leechtick, reimplemented in the new system. Not using
+      any bait makes for exceptionally poor catch rates. Rolled baits are made out
+      of dough, meat, or various mixtures thereof and need to be spun once in a while
+      for optimal catch rate (this is called lures in the original tg system), and
+      are generally a good idea to use out in the ocean.
+  - rscadd: Doing well on the minigame will color your progress bar gold, and improve
+      the rarity of your fish.
+  - rscadd: Certain baits are designed to last several cycles.
+  - rscadd: Auto reel is slower by design and cannot land prized fish, to encourage
+      you to play the game.
+  - rscadd: When the last of a fish is taken you get a notice that it is depleted.
+  - rscadd: Merchant stocks most fisherman's upgrades.
+  - rscadd: Reused the wicker basket for a new storage container based on the meat
+      satchel called "Fisherman's Creel", which all fishers start with for holding
+      fishes.
+  - rscadd: A fisherman's tackle can be upgraded. You can upgrade your hooks, rods,
+      reel, fishing line, and add a bobber or sinker for improving various aspects
+      of the minigame.
+  - rscadd: Reworked Cautious Fisher to Expert Fisher trait, which all fishers get.
+      It will let them tell whether a body of water is fished out, and they get extra
+      time to react to hostile creatures.
+  - rscadd: Ported examine more from TGstation faithfully. It is used for water examination
+      and bait examination at the moment.
+  - rscadd: Added a fishing guide to the Encyclopedia that introduces the basic mechanics
+      and the different bodies of water.
+  - rscadd: Every fish now has a fare type that corresponds with its price and rarity.
+      Lobster is no longer poor and crabs and oysters are no longer impoverished for
+      some reason, table fish are neutral and certain fish like salmon or sturgeon
+      are worthy of a king.
+  - rscadd: Big fish chop into more fillets. A sturgeon will give a lot of fillets.
+      Fillets and fried fillets will inherit the fish's name and fare and a whole
+      fish will feed more people proportional to the fish's size.
+  - rscadd: Oysters roll for their pearl when opened.
+  - rscadd: All fish now list their length and weight in hands and pounds.
+  - rscadd: Rarity of a fish is now directly correlated to its size, how many fillets
+      are made, and its sell value. This means doing better at the game = better fish
+      that also yield more food.
+  - rscadd: Rewrote every single description of every single raw shellfish and fish
+      to a period correct, immersive tone, and sprinkled some humor and Azurian lore
+      into it.
+  - rscadd: Zizo Aberration renamed murkfang. The unofficial nickname lives on in
+      its description instead.
+  - rscadd: Removed the living fossil fun fact from Sturgeon. Flavor text calls it
+      a royal fish
+  - rscadd: Swordfish ported from Vanderlin with a small force of 14.
+  - rscadd: Certain fish are hidden from the Almanac.
+  - rscadd: Implemented fish pools and depletion by body of water type. Each pool
+      of water has different fish, with common fish having unlimited stock, while
+      prized fish tend to be depleted with time.
+  - rscadd: Implemented regional fish pools instead of global fish pools, so that
+      fishers are encouraged to change their fishing spots instead of sharing one
+      global fishing source between every single fisher in game.
+  - rscadd: Fishing cages catch shellfish only as before, and now do it much slower
+      than before so that rods stay competitive.
+  - rscadd: Fishing Spear uses a legacy system and should suck.
+  - rscadd: Fishers and Master Fishers can post a Fisherman's Wrecked Carriage quest,
+      which allows them to retrieve tackle (Hard one giving them some late game upgrades)
+      or post a quest for baits.
+  - rscadd: 'Enchanted baits are bought from the merchant, or blessed 1 to 18 at a
+      time for a cup of beer (or ale etc.) by an Abyssorite ritualist using the Rite
+      of Sea-grounds aplenty.
+
+      add Adds new fish filets, sunny and plaice with sprites made by @7erracotta.
+      This includes pepper, ducal, potato and onion sunny, pepper and ducal plaice,
+      and onion, potato, pepper, ducal, tomato, jacksberry, honey and cucumber variation
+      of filet.'
+  - rscadd: All fish filet inherits name, varieties and descriptions and added lore,
+      cuisines and tastes profile.
+  - bugfix: You shouldn't be getting ambushed in any of the hot springs anymore, as
+      intended.
+  - rscadd: Ghost polls, orison conversion and dreamwalker prompt (When re-enabled)
+      now uses a "new" TGstation screen alert / chat message based polling system
+      instead of hijacking your window focus.
+  - bugfix: Fix Levy callout to work with custom descriptors
+  - rscadd: Optimized gear painters and dream rituals. Report any oddities.
+  - rscadd: Show / Hide OOC button now actually work and will hide the content of
+      the OOC chatfor you.
+  effyank:
+  - bugfix: Assassins' dagger now also copies over vocal barks and rumors.
+2026-11-06:
+  Dorodomki:
+  - rscadd: 'Added new greyscaled sprites for duelist cloak and desert cloak (crusader
+      cloak)
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Abyssor's right to arbitrarily rescind your hard-won fish has been revoked
+      (they no longer vanish when doing mundane actions on water tiles; you can still
+      toss them in or dump a sack out).
+  OrbisAnima:
+  - qol: Gives the Feed intent to the mage chalk. Make it so you can only feed it
+      if using the approrpiate intent.
+  - bugfix: Adds the missing silver bowl recipe, fixing its price to what it should
+      in the process.
+  - qol: Makes a new toggle on gib() to make it so mobs dont create extra gibs on
+      gibbing. Apply that to butchering animals, big animals still might produce their
+      extra gibs, as intended.
+  WeNeedMorePhoron:
+  - rscadd: Contracts are now scaled to those who are actually present around the
+      contract. Only the leader can sign for size gated contracts.
+  changelingonberry:
+  - image: Bundles noto color emoji as a fallback font.
+  - bugfix: Automatic capitalization no longer breaks multi-byte characters.
+  - bugfix: Jacksberries no longer have errant in-hand pixels.
+  kano-dot:
+  - bugfix: Fixed duelist cape detail color not getting applied for female version.

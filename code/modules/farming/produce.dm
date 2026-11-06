@@ -446,7 +446,7 @@
 		used_state = "berriesc2"
 	if(bitecount == 4)
 		used_state = "berriesc1"
-	var/image/item_overlay = image(used_state)
+	var/image/item_overlay = image(icon, used_state)
 	item_overlay.color = filling_color
 	add_overlay(item_overlay)
 
