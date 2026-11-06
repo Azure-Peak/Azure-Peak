@@ -1505,7 +1505,7 @@
 
 // The src mob is trying to strip an item from someone
 // Override if a certain type of mob should be behave differently when stripping items (can't, for example)
-/mob/living/stripPanelUnequip(obj/item/what, mob/who, where, extra_only)
+/mob/living/stripPanelUnequip(obj/item/what, mob/who, where)
 	if(who.is_inventory_slot_obscured(where))
 		return
 	if(!what.canStrip(who))
@@ -1560,7 +1560,7 @@
 					log_combat(src, who, "stripped [what] off")
 
 	if(Adjacent(who)) //update inventory window
-		who.show_inv(src, extra_only)
+		who.show_inv(src)
 	else
 		src << browse(null,"window=mob[REF(who)]")
 
@@ -1654,7 +1654,7 @@
 
 // The src mob is trying to place an item on someone
 // Override if a certain mob should be behave differently when placing items (can't, for example)
-/mob/living/stripPanelEquip(obj/item/what, mob/who, where, extra_only)
+/mob/living/stripPanelEquip(obj/item/what, mob/who, where)
 	what = src.get_active_held_item()
 	if(who.is_inventory_slot_obscured(where, what))
 		return
@@ -1698,7 +1698,7 @@
 						who.equip_to_slot(what, where, TRUE)
 
 		if(Adjacent(who)) //update inventory window
-			who.show_inv(src, extra_only)
+			who.show_inv(src)
 		else
 			src << browse(null,"window=mob[REF(who)]")
 

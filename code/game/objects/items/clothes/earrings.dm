@@ -13,6 +13,8 @@
 	slot_flags = NONE
 	extra_slot_flags = EXTRA_SLOT_EARRINGS
 	gendered = FALSE
+	// Render above hair, while retaining the dedicated integer overlay cache index.
+	alternate_worn_layer = CUSTOM_HAIR_ABOVE_SNOUT_LAYER - 0.1
 
 /obj/item/earrings/silver
 	name = "silver earrings"

@@ -29,7 +29,6 @@
 		/datum/sprite_accessory/clothing/underwear_bottom/braies,
 		/datum/sprite_accessory/clothing/underwear_bottom,
 		/datum/sprite_accessory/clothing/underwear_bottom/briefs_eoran,
-		/datum/sprite_accessory/clothing/underwear_bottom/bikini_bottom,
 	)
 
 /datum/customizer/clothing/underwear_top
@@ -40,7 +39,7 @@
 	name = "Underwear Top"
 	slot = SLOT_UNDER_TOP
 	sprite_accessories = list(
-		/datum/sprite_accessory/clothing/underwear_top/bikini,
+		/datum/sprite_accessory/clothing/underwear_top/bra,
 	)
 
 /datum/customizer/clothing/undershirt

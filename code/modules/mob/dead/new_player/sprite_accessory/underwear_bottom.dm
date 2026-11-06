@@ -30,11 +30,6 @@
 		return "maleelf_reg"
 	return "male_reg"
 
-/datum/sprite_accessory/underwear_bottom/bikini_bottom
-	name = "Bikini Bottom"
-	icon = 'icons/obj/items/clothes/on_mob/underwear_bottom.dmi'
-	icon_state = "bikini"
-
 /datum/sprite_accessory/underwear_bottom/panties
 	name = "Panties"
 	icon_state = "panties"

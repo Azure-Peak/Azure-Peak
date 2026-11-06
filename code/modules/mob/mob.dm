@@ -724,7 +724,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["refresh"])
 		if(machine && in_range(src, usr))
-			show_inv(machine, text2num(href_list["extra_only"]))
+			show_inv(machine)
 
 
 	if(href_list["item"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
@@ -741,9 +741,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 			what = get_item_by_slot(slot)
 		if(what)
 			if(!(what.item_flags & ABSTRACT))
-				usr.stripPanelUnequip(what,src,slot, text2num(href_list["extra_only"]))
+				usr.stripPanelUnequip(what,src,slot)
 		else
-			usr.stripPanelEquip(what,src,slot, text2num(href_list["extra_only"]))
+			usr.stripPanelEquip(what,src,slot)
 
 	if(href_list["show_storage"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["show_storage"])
@@ -761,13 +761,13 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(usr.machine == src)
 		if(Adjacent(usr))
-			show_inv(usr, text2num(href_list["extra_only"]))
+			show_inv(usr)
 		else
 			usr << browse(null,"window=mob[REF(src)]")
 
 // The src mob is trying to strip an item from someone
 // Defined in living.dm
-/mob/proc/stripPanelUnequip(obj/item/what, mob/who, where, extra_only)
+/mob/proc/stripPanelUnequip(obj/item/what, mob/who, where)
 	return
 
 // The src mob is trying to strip everything off an unclaimed corpse at once
@@ -777,7 +777,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 // The src mob is trying to place an item on someone
 // Defined in living.dm
-/mob/proc/stripPanelEquip(obj/item/what, mob/who, where, extra_only)
+/mob/proc/stripPanelEquip(obj/item/what, mob/who, where)
 	return
 
 /**
@@ -1316,13 +1316,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	pose_text = parsemarkdown_basic(new_pose)
 	to_chat(src, span_notice("I set my pose."))
-
-/mob/living/carbon/human/verb/remove_underwear()
-	set name = "Equip Extra Items"
-	set category = "IC"
-
-	if(!show_inv(src, TRUE))
-		return
 
 ///Adjust the nutrition of a mob
 /mob/proc/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks

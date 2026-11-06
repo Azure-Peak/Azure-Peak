@@ -1460,10 +1460,14 @@ There are several things that need to be remembered:
 	apply_overlay(UNDERSHIRT_LAYER)
 
 
+/mob/living/carbon/human/rebuild_obscured_flags()
+	. = ..()
+	update_inv_earrings()
+
 /mob/living/carbon/human/update_inv_earrings()
 	remove_overlay(EARRINGS_LAYER)
 
-	if(earrings)
+	if(earrings && !(SLOT_EARRINGS in check_obscured_slots()))
 		var/datum/species/species = dna?.species
 		var/use_female_sprites = !is_bulky_body()
 

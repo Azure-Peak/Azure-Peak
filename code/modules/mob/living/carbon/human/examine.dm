@@ -300,19 +300,19 @@
 			str = "[m3] something on [m2] wrists!"
 		. += str
 
-	if(underwear_bottom && !(SLOT_UNDER_BOTTOM in obscured))
+	if(underwear_bottom && is_underwear_visible(SLOT_UNDER_BOTTOM))
 		. += "[m3] [underwear_bottom.get_examine_string(user)]."
 
-	if(underwear_top && !(SLOT_UNDER_TOP in obscured))
+	if(underwear_top && is_underwear_visible(SLOT_UNDER_TOP))
 		. += "[m3] [underwear_top.get_examine_string(user)]."
 
-	if(undershirt && !(SLOT_UNDERSHIRT in obscured))
+	if(undershirt && is_underwear_visible(SLOT_UNDERSHIRT))
 		. += "[m3] [undershirt.get_examine_string(user)]."
 
 	if(armsleeves && !(SLOT_ARMSLEEVES in obscured))
 		. += "[m3] [armsleeves.get_examine_string(user)] on [m2] arms."
 
-	if(legwear_socks && !(SLOT_SOCKS in obscured))
+	if(legwear_socks && is_underwear_visible(SLOT_SOCKS))
 		. += "[m3] [legwear_socks.get_examine_string(user)] on [m2] legs."
 
 	if(earrings && !(SLOT_EARRINGS in obscured))
@@ -1253,3 +1253,36 @@
 		var/heresy_examine_tooltip = I.get_examine_highlight_description(examine_highlight_status) + "<br>" + I.get_examine_highlight_explanation(severity)
 		item_examine_string = SPAN_TOOLTIP_DANGEROUS_HTML(heresy_examine_tooltip, I.get_examine_highlight_labeled_string(severity, item_examine_string))
 	return item_examine_string
+
+/// Clothing can conceal underwear without hiding the underlying anatomy sprite.
+/mob/living/carbon/human/proc/is_underwear_visible(slot)
+	var/obj/item/garment = get_item_by_slot(slot)
+	if(!garment)
+		return FALSE
+	var/covered_zones
+	var/hidden_flags
+	switch(slot)
+		if(SLOT_UNDER_BOTTOM)
+			covered_zones = GROIN
+			hidden_flags = HIDECROTCH | HIDEUNDIEBOT
+		if(SLOT_UNDER_TOP)
+			covered_zones = CHEST
+			hidden_flags = HIDEBOOB | HIDEUNDIETOP
+		if(SLOT_UNDERSHIRT)
+			covered_zones = undershirt.strip_zones
+			hidden_flags = HIDEJUMPSUIT | HIDEBOOB
+			if(covered_zones & GROIN)
+				hidden_flags |= HIDECROTCH
+		if(SLOT_SOCKS)
+			covered_zones = LEGS
+			hidden_flags = HIDEJUMPSUIT
+		else
+			return FALSE
+	for(var/obj/item/covering as anything in get_equipped_items())
+		if(covering == garment || covering == armsleeves || covering == earrings)
+			continue
+		if(slot == SLOT_UNDERSHIRT && (covering == underwear_bottom || covering == underwear_top))
+			continue
+		if((covering.flags_inv & hidden_flags) || (covering.body_parts_covered_dynamic & covered_zones))
+			return FALSE
+	return TRUE

@@ -27,16 +27,12 @@
 	name = "Briefs - Eoran"
 	item_type = /obj/item/clothing/underwear_bottom/briefs_eoran
 
-/datum/sprite_accessory/clothing/underwear_bottom/bikini_bottom
-	name = "Bikini Bottom"
-	item_type = /obj/item/clothing/underwear_bottom/bikini_bottom
-
 /datum/sprite_accessory/clothing/underwear_top
 	abstract_type = /datum/sprite_accessory/clothing/underwear_top
 
-/datum/sprite_accessory/clothing/underwear_top/bikini
-	name = "Bikini Top"
-	item_type = /obj/item/clothing/underwear_top/bikini
+/datum/sprite_accessory/clothing/underwear_top/bra
+	name = "Bra"
+	item_type = /obj/item/clothing/underwear_top/bra
 
 /datum/sprite_accessory/clothing/undershirt
 	name = "Sheer Body"
