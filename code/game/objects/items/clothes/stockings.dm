@@ -174,7 +174,7 @@
 //Sleeves - Knee-high
 /obj/item/clothing/legwears/sleeve_stir_knee_silk
 	salvage_result = /obj/item/natural/silk
-	name = "silk knee-high sleeves (stirrup)"
+	name = "silk knee-high stirrup sleeves"
 	desc = "A legwear for those who happen to possess sharp claws."
 	icon_state = "sleeve_ks_silk"
 	item_state = "sleeve_ks_silk"
@@ -185,7 +185,7 @@
 //Sleeves - Thigh-high
 /obj/item/clothing/legwears/sleeve_stir_thigh_silk
 	salvage_result = /obj/item/natural/silk
-	name = "silk thigh-high sleeves (stirrup)"
+	name = "silk thigh-high stirrup sleeves"
 	desc = "A legwear for those who happen to possess sharp claws. For the modest types."
 	icon_state = "sleeve_ts_silk"
 	item_state = "sleeve_ts_silk"
@@ -196,7 +196,7 @@
 //Sleeves - Ankle-high
 /obj/item/clothing/legwears/sleeve_stir_ankle_silk
 	salvage_result = /obj/item/natural/silk
-	name = "silk ankle sleeves (stirrup)"
+	name = "silk ankle stirrup sleeves"
 	desc = "A legwear for those who happen to possess sharp claws. Are you even trying at this point?"
 	icon_state = "sleeve_as_silk"
 	item_state = "sleeve_as_silk"
@@ -401,21 +401,21 @@
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_stir_knee_silk_white
-	name = "silk sleeves - knee (stirrup)"
+	name = "Silk Knee-High Stirrup Sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_stir_knee_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_thigh_silk_white
-	name = "silk sleeves - thigh (stirrup)"
+	name = "Silk Thigh-High Stirrup Sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_stir_thigh_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_ankle_silk_white
-	name = "silk sleeves - ankle (stirrup)"
+	name = "Silk Ankle Stirrup Sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_stir_ankle_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)

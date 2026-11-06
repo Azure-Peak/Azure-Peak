@@ -181,15 +181,15 @@
 	item_type = /obj/item/clothing/legwears/sleeve_knee_silk
 
 /datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_knee_silk
-	name = "Knee-High Sleeves (Stirrup) - Silk"
+	name = "Silk Knee-High Stirrup Sleeves"
 	item_type = /obj/item/clothing/legwears/sleeve_stir_knee_silk
 
 /datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_thigh_silk
-	name = "Thigh-High Sleeves (Stirrup) - Silk"
+	name = "Silk Thigh-High Stirrup Sleeves"
 	item_type = /obj/item/clothing/legwears/sleeve_stir_thigh_silk
 
 /datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_ankle_silk
-	name = "Ankle-High Sleeves (Stirrup) - Silk"
+	name = "Silk Ankle Stirrup Sleeves"
 	item_type = /obj/item/clothing/legwears/sleeve_stir_ankle_silk
 
 /datum/sprite_accessory/clothing/legwear/stockings/belted

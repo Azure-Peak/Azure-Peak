@@ -1114,17 +1114,17 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	contains = list(/obj/item/clothing/legwears/sleeve_knee_silk/white)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_sleeve_stir_knee_silk_white
-	name = "Silk Knee Sleeves (Stirrup)"
+	name = "Silk Knee-High Stirrup Sleeves"
 	cost = 20
 	contains = list(/obj/item/clothing/legwears/sleeve_stir_knee_silk/white)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_sleeve_stir_thigh_silk_white
-	name = "Silk Thigh Sleeves (Stirrup)"
+	name = "Silk Thigh-High Stirrup Sleeves"
 	cost = 20
 	contains = list(/obj/item/clothing/legwears/sleeve_stir_thigh_silk/white)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_sleeve_stir_ankle_silk_white
-	name = "Silk Ankle Sleeves (Stirrup)"
+	name = "Silk Ankle Stirrup Sleeves"
 	cost = 20
 	contains = list(/obj/item/clothing/legwears/sleeve_stir_ankle_silk/white)
 
