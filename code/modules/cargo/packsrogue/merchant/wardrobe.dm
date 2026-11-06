@@ -946,27 +946,27 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom
 	name = "Briefs"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom)
+	contains = list(/obj/item/clothing/underwear/bottom)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom_panties
 	name = "Panties"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/panties)
+	contains = list(/obj/item/clothing/underwear/bottom/panties)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom_braies
 	name = "Braies"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/braies)
+	contains = list(/obj/item/clothing/underwear/bottom/braies)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom_briefs_eoran
 	name = "Briefs - Eoran"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/briefs_eoran)
+	contains = list(/obj/item/clothing/underwear/bottom/briefs_eoran)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_top_bra
 	name = "Bra"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_top/bra)
+	contains = list(/obj/item/clothing/underwear/top/bra)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_undershirt
 	name = "Sheer Body"

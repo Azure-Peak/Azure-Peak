@@ -52,17 +52,17 @@
 /datum/supply_pack/rogue/bath_clothes/briefs
 	name = "Briefs"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom)
+	contains = list(/obj/item/clothing/underwear/bottom)
 
 /datum/supply_pack/rogue/bath_clothes/bra
 	name = "Bra"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_top/bra)
+	contains = list(/obj/item/clothing/underwear/top/bra)
 
 /datum/supply_pack/rogue/bath_clothes/panties
 	name = "Panties"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/panties)
+	contains = list(/obj/item/clothing/underwear/bottom/panties)
 
 /datum/supply_pack/rogue/bath_clothes/leotard
 	name = "Leotard"
@@ -77,7 +77,7 @@
 /datum/supply_pack/rogue/bath_clothes/braies
 	name = "Braies"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/braies)
+	contains = list(/obj/item/clothing/underwear/bottom/braies)
 
 /datum/supply_pack/rogue/bath_clothes/collar
 	name = "Collar"
@@ -115,7 +115,7 @@
 /datum/supply_pack/rogue/bath_clothes/smallclothes/clothing_underwear_bottom_briefs_eoran
 	name = "Briefs - Eoran"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/briefs_eoran)
+	contains = list(/obj/item/clothing/underwear/bottom/briefs_eoran)
 
 /datum/supply_pack/rogue/bath_clothes/smallclothes/clothing_undershirt
 	name = "Sheer Body"

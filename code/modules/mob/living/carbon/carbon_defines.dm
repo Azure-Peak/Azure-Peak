@@ -44,10 +44,10 @@
 	var/obj/item/clothing/ears = null
 
 	//Extra equipment slots
-	var/obj/item/clothing/underwear_bottom/underwear_bottom = null
+	var/obj/item/clothing/underwear/bottom/underwear_bottom = null
 	var/obj/item/clothing/legwears/legwear_socks = null
 	var/obj/item/clothing/undershirt/undershirt = null
-	var/obj/item/clothing/underwear_top/underwear_top = null
+	var/obj/item/clothing/underwear/top/underwear_top = null
 	var/obj/item/earrings = null
 	var/obj/item/clothing/armsleeves = null
 

@@ -13,26 +13,26 @@
 
 /datum/sprite_accessory/clothing/underwear_bottom
 	name = "Briefs"
-	item_type = /obj/item/clothing/underwear_bottom
+	item_type = /obj/item/clothing/underwear/bottom
 
 /datum/sprite_accessory/clothing/underwear_bottom/panties
 	name = "Panties"
-	item_type = /obj/item/clothing/underwear_bottom/panties
+	item_type = /obj/item/clothing/underwear/bottom/panties
 
 /datum/sprite_accessory/clothing/underwear_bottom/braies
 	name = "Braies"
-	item_type = /obj/item/clothing/underwear_bottom/braies
+	item_type = /obj/item/clothing/underwear/bottom/braies
 
 /datum/sprite_accessory/clothing/underwear_bottom/briefs_eoran
 	name = "Briefs - Eoran"
-	item_type = /obj/item/clothing/underwear_bottom/briefs_eoran
+	item_type = /obj/item/clothing/underwear/bottom/briefs_eoran
 
 /datum/sprite_accessory/clothing/underwear_top
 	abstract_type = /datum/sprite_accessory/clothing/underwear_top
 
 /datum/sprite_accessory/clothing/underwear_top/bra
 	name = "Bra"
-	item_type = /obj/item/clothing/underwear_top/bra
+	item_type = /obj/item/clothing/underwear/top/bra
 
 /datum/sprite_accessory/clothing/undershirt
 	name = "Sheer Body"
