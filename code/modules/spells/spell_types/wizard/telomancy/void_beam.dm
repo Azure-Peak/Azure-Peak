@@ -197,3 +197,7 @@
 	duration = 6
 
 #undef VOID_BEAM_SLOWDOWN_ID
+
+/obj/effect/temp_visual/telegraph/telomancy
+	light_color = GLOW_COLOR_ARCANE
+	duration = 3 SECONDS

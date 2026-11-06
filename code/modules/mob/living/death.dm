@@ -1,6 +1,6 @@
 GLOBAL_LIST_EMPTY(last_words)
 
-/mob/living/gib(no_brain, no_organs, no_bodyparts, drop_items = FALSE)
+/mob/living/gib(no_brain, no_organs, no_bodyparts, drop_items = FALSE, leave_gibs = TRUE)
 	var/prev_lying = lying
 	if(stat != DEAD)
 		death(TRUE)
@@ -21,7 +21,8 @@ GLOBAL_LIST_EMPTY(last_words)
 	if(!no_bodyparts)
 		spread_bodyparts(no_brain, no_organs)
 
-	spawn_gibs(no_bodyparts)
+	if (leave_gibs)
+		spawn_gibs(no_bodyparts)
 	qdel(src)
 
 /mob/living/proc/gib_animation()
@@ -91,7 +92,7 @@ GLOBAL_LIST_EMPTY(last_words)
 	if(contract_spawned)
 		return
 	for(var/i in 1 to 3)
-		new /obj/item/ash(loc)
+		new /obj/item/natural/ash(loc)
 
 
 

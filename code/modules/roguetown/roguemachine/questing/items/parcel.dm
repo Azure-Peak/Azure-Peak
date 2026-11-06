@@ -10,18 +10,12 @@
 	var/list/obj/item/contained_items = list()
 	var/list/allowed_jobs = list()
 	var/delivery_area_type
+	var/sealed_noun = "parcel"
+	var/preserves_contents = FALSE
 	var/datum/proximity_monitor/proximity_monitor
 
 /obj/item/parcel/Initialize(mapload)
 	. = ..()
-	var/datum/component/quest_object/courier_quest = GetComponent(/datum/component/quest_object)
-	if(courier_quest)
-		var/datum/quest/quest = courier_quest.quest_ref?.resolve()
-		if(quest && quest.quest_type == QUEST_COURIER && quest.target_delivery_location)
-			delivery_area_type = quest.target_delivery_location
-			allowed_jobs = get_area_jobs(delivery_area_type)
-			RegisterSignal(courier_quest, COMSIG_PARENT_QDELETING, PROC_REF(on_quest_component_deleted))
-
 	invisibility = INVISIBILITY_OBSERVER
 	proximity_monitor = new(src, 5)
 
@@ -52,21 +46,16 @@
 
 /obj/item/parcel/proc/get_area_jobs(area_type)
 	var/static/list/area_jobs = list(
-		/area/rogue/indoors/town/tavern = list("Innkeeper", "Tapster", "Cook"),
-		/area/rogue/indoors/town/bath = list("Bathhouse Attendant", "Bathmaster"),
-		/area/rogue/indoors/town/church = list("Bishop", "Acolyte", "Templar", "Sexton", "Martyr"),
+		/area/rogue/indoors/town/tavern = GLOB.tavern_positions,
+		/area/rogue/indoors/town/bath = GLOB.bathhouse_positions,
+		/area/rogue/indoors/town/church = GLOB.church_positions,
 		/area/rogue/indoors/town/dwarfin = list("Guildmaster", "Guildsman"),
-		/area/rogue/indoors/town/shop = list("Merchant", "Shophand"),
-		/area/rogue/indoors/town/manor = list("Councillor", "Seneschal", "Servant", "Hand", "Knight", "Prince", "Marshal", "Steward", "Clerk", "Grand Duke"),
+		/area/rogue/indoors/town/shop = GLOB.atc_positions,
+		/area/rogue/indoors/town/manor = GLOB.noble_positions + GLOB.courtier_positions + GLOB.retinue_positions + list("Consort Dowager", "Servant"),
 		/area/rogue/indoors/town/magician = list("Court Magician", "Magicians Associate", "Archivist"),
 		/area/rogue/indoors/town/physician = list("Head Physician", "Apothecary"),
-		/area/rogue/indoors/town = list("Guild Handler")
 	)
 	return area_jobs[area_type] || list("Steward", "Merchant")
-
-/obj/item/parcel/proc/on_quest_component_deleted(datum/source)
-	SIGNAL_HANDLER
-	return
 
 /obj/item/parcel/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/parcel) || I.w_class > WEIGHT_CLASS_BULKY || length(contained_items))
@@ -88,74 +77,12 @@
 	if(!length(contained_items))
 		return
 
-	if(delivery_area_type)
-		var/area/quest_area = delivery_area_type
-		if(ispath(quest_area, /area) && !(user.job in allowed_jobs))
-			to_chat(user, span_warning("This parcel is sealed for delivery to [initial(quest_area.name)] and can only be opened by: [english_list(allowed_jobs)]!"))
-			return FALSE
+	if(!can_open(user))
+		return FALSE
 
 	if(!do_after(user, 2 SECONDS, target = src))
 		return
 
-	playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
-	var/datum/component/quest_object/courier_component = GetComponent(/datum/component/quest_object/courier)
-	var/datum/quest/quest = courier_component?.quest_ref?.resolve()
-	if(length(contained_items) == 1)
-		var/obj/item/only = contained_items[1]
-		to_chat(user, span_notice("You unwrap [only] from the parcel."))
-		user.put_in_hands(only)
-		only.update_icon()
-	else
-		to_chat(user, span_notice("You unwrap [src] and tip out the contents."))
-		var/turf/drop_loc = get_turf(user)
-		for(var/obj/item/I as anything in contained_items)
-			I.forceMove(drop_loc)
-			I.update_icon()
-	if(quest && !quest.complete)
-		quest.progress_current++
-		quest.on_progress_update()
-	contained_items.Cut()
-	qdel(src)
-
-/obj/item/parcel/examine(mob/user)
-	. = ..()
-	if(!delivery_area_type)
-		return
-
-	var/area/delivery_area = delivery_area_type
-	if(!ispath(delivery_area, /area))
-		return
-
-	. += span_info("This parcel is addressed to [initial(delivery_area.name)].")
-	. += (user.job in allowed_jobs) ? \
-		span_notice("As [user.job], you're authorized to open this.") : \
-		span_warning("It's sealed with an official guild mark. Only the people it is addressed to should open it.")
-
-/obj/item/parcel/towner_caravan
-	var/datum/weakref/unlocked_by_owner_ref
-	var/owner_name = ""
-	var/sealed_noun = "strongbox"
-
-/obj/item/parcel/towner_caravan/Initialize(mapload)
-	. = ..()
-	invisibility = initial(invisibility)
-	QDEL_NULL(proximity_monitor)
-
-/obj/item/parcel/towner_caravan/attack_self(mob/user)
-	if(!length(contained_items))
-		return
-	var/mob/owner = unlocked_by_owner_ref?.resolve()
-	if(!owner)
-		to_chat(user, span_warning("The [sealed_noun]'s owner is no longer with us. It cannot be opened."))
-		return FALSE
-	if(owner != user)
-		to_chat(user, span_warning("This [sealed_noun] is magickally sealed to [owner_name]. Only they can open it."))
-		return FALSE
-	if(owner.stat == DEAD)
-		to_chat(user, span_warning("You cannot open it in this state."))
-		return FALSE
-	if(!do_after(user, 2 SECONDS, target = src))
-		return
 	playsound(get_turf(user), 'sound/foley/dropsound/food_drop.ogg', 40, TRUE, -1)
 	var/datum/component/quest_object/courier_component = GetComponent(/datum/component/quest_object/courier)
 	var/datum/quest/quest = courier_component?.quest_ref?.resolve()
@@ -175,6 +102,68 @@
 		quest.on_progress_update()
 	contained_items.Cut()
 	qdel(src)
+
+/obj/item/parcel/proc/can_open(mob/user)
+	var/area/quest_area = delivery_area_type
+	if(ispath(quest_area, /area) && !(user.job in allowed_jobs))
+		to_chat(user, span_warning("This parcel is sealed for delivery to [initial(quest_area.name)] and can only be opened by: [english_list(allowed_jobs)]!"))
+		return FALSE
+	return TRUE
+
+/obj/item/parcel/examine(mob/user)
+	. = ..()
+	if(!delivery_area_type)
+		return
+
+	var/area/delivery_area = delivery_area_type
+	if(!ispath(delivery_area, /area))
+		return
+
+	. += span_info("This parcel is addressed to [initial(delivery_area.name)].")
+	. += (user.job in allowed_jobs) ? \
+		span_notice("As [user.job], you're authorized to open this.") : \
+		span_warning("It's sealed with an official guild mark. Only the people it is addressed to should open it.")
+
+/obj/item/parcel/towner_caravan
+	var/datum/weakref/unlocked_by_owner_ref
+	var/owner_name = ""
+	sealed_noun = "strongbox"
+
+/obj/item/parcel/towner_caravan/Initialize(mapload)
+	. = ..()
+	invisibility = initial(invisibility)
+	QDEL_NULL(proximity_monitor)
+
+/obj/item/parcel/towner_caravan/proc/post_to_owner(obj/structure/roguemachine/mail/hermes, mob/user)
+	if(!owner_name)
+		return
+	if(!user.temporarilyRemoveItemFromInventory(src))
+		return
+	if(!deliver_mail(src, owner_name, user.real_name))
+		user.put_in_hands(src)
+		to_chat(user, span_warning("The master of mails has perished?"))
+		return
+	var/datum/component/quest_object/courier_component = GetComponent(/datum/component/quest_object/courier)
+	var/datum/quest/quest = courier_component?.quest_ref?.resolve()
+	if(quest && !quest.complete)
+		quest.progress_current = quest.progress_required
+		quest.on_progress_update()
+	hermes.visible_message(span_warning("[user] sends something."))
+	playsound(hermes.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+	to_chat(user, span_notice("The [sealed_noun] is posted to [owner_name]. Your contract is fulfilled."))
+
+/obj/item/parcel/towner_caravan/can_open(mob/user)
+	var/mob/owner = unlocked_by_owner_ref?.resolve()
+	if(!owner)
+		to_chat(user, span_warning("The [sealed_noun]'s owner is no longer with us. It cannot be opened."))
+		return FALSE
+	if(owner != user)
+		to_chat(user, span_warning("This [sealed_noun] is magickally sealed to [owner_name]. Only they can open it."))
+		return FALSE
+	if(owner.stat == DEAD)
+		to_chat(user, span_warning("You cannot open it in this state."))
+		return FALSE
+	return TRUE
 
 /obj/item/parcel/towner_caravan/examine(mob/user)
 	. = ..()

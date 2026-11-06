@@ -121,7 +121,6 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 	)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 5, ward = TRUE, "locked_aspects" = list(/datum/magic_aspect/autowardry))
@@ -310,7 +309,7 @@
 		detailcolor = input(H, "Choose a color.", "NALEDIAN COLORPLEX") as anything in naledicolors
 		detailcolor = naledicolors[detailcolor]
 		grant_poke_spell(H)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+		H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep/vizier)
 		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diminish)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/reversion)

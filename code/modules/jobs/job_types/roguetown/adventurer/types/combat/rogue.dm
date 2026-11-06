@@ -28,7 +28,6 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/traps = SKILL_LEVEL_JOURNEYMAN,
 	)
@@ -92,7 +91,6 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_LEGENDARY,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_EXPERT,
-		/datum/skill/misc/stealing = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/traps = SKILL_LEVEL_EXPERT,
 	)
@@ -141,7 +139,6 @@
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_MASTER,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
@@ -221,7 +218,6 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/traps = SKILL_LEVEL_APPRENTICE,
@@ -251,7 +247,7 @@
 
 /datum/advclass/rogue/antiquarian
 	name = "Antiquarian"
-	tutorial = "Your scholarship and connections allow you to find wealth where others do not care to look. You're unpracticed in direct combat, but knowledge and prepation leaves a few tricks up your sleeve."
+	tutorial = "Your scholarship and connections allow you to find wealth where others do not care to look. You're unpracticed in direct combat, but knowledge and preparation leaves a few tricks up your sleeve."
 	outfit = /datum/outfit/job/roguetown/adventurer/antiquarian
 	cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
 	traits_applied = list(TRAIT_SEEPRICES, TRAIT_GRAVEROBBER, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT)
@@ -283,7 +279,7 @@
 
 /datum/outfit/job/roguetown/adventurer/antiquarian/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Your scholarship and connections allow you to find wealth where others do not care to look. You're unpracticed in direct combat, but knowledge and prepation leave a few tricks up your sleeve"))
+	to_chat(H, span_warning("Your scholarship and connections allow you to find wealth where others do not care to look. You're unpracticed in direct combat, but knowledge and preparation leave a few tricks up your sleeve"))
 	pants = /obj/item/clothing/under/roguetown/trou/leather
 	backl = /obj/item/storage/backpack/rogue/backpack
 	belt = /obj/item/storage/belt/rogue/leather

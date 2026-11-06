@@ -72,7 +72,7 @@
 	Whether to hide the wearer's horrifically mutated visage as per the rumors surrounding the enigmatic voice of Abyssor. \
 	Or to hide a less than imposing, dashing dark elf that would undermine the painter's authority. \
 	It doesn't seem to be as sturdy as a dreamwalker's creations. \
-	Somehow it allows the wearer to view through it clearly, though the thin, flakey metal hardly seems protective as a result."
+	Somehow it allows the wearer to view through it clearly, though the thin, flaky metal hardly seems protective as a result."
 	icon = 'icons/roguetown/clothing/special/abyssor.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/abyssor.dmi'
 	icon_state = "leaderhelm"
@@ -168,7 +168,7 @@
 
 /datum/special_intent/ground_smash/paint_line
 	name = "Paint Wave"
-	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are offbalanced and slowed. Converts existing paint trails on hit into spiked traps."
+	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are off-balanced and slowed. Converts existing paint trails on hit into spiked traps."
 	// 6 tiles straight ahead with 0.1s staggering
 	tile_coordinates = list(
 		list(0, 0, 0 SECONDS),
@@ -186,7 +186,7 @@
 	var/paint_apply_to_pulled = FALSE
 
 /datum/special_intent/ground_smash/paint_line/healing
-	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are offbalanced and slowed. Converts existing paint trails on hit into healing paints that can affect even those without paint affinity."
+	desc = "Swings downward, sending a 6-tile line of abyssal paint cascading forward. Struck targets are off-balanced and slowed. Converts existing paint trails on hit into healing paints that can affect even those without paint affinity."
 	paint_payload_buff = /datum/status_effect/buff/umbral_recovery
 	paint_payload_debuff = /datum/status_effect/buff/umbral_recovery
 	paint_consume_buff = TRUE

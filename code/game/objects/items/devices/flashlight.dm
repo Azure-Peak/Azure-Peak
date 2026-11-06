@@ -171,7 +171,7 @@
 
 /obj/item/flashlight/flare/torch/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Ovens, hearths, braziers, scones, candles, bushes, grasspatches, and other certain structures can be set alight by left-clicking them while on the 'USE' intent.")
+	. += span_info("Ovens, hearths, braziers, scones, candles, bushes, grass patches, and other certain structures can be set alight by left-clicking them while on the 'USE' intent.")
 	. += span_info("Standing in front of an unignited light source while sharpening a blade - or striking two stones together - can eventually reignite it.")
 	. += span_info("Click on a person while targeting their mouth zone to light their smoke.")
 
@@ -272,6 +272,17 @@
 			if (times_used >= 8) //amount used before burning out
 				user.visible_message("<span class='warning'>[src] has burnt out and falls apart!</span>")
 				qdel(src)
+
+/obj/item/flashlight/flare/torch/attackby(obj/item/I, mob/user, params)
+	if(on && HAS_TRAIT(user, TRAIT_BOMBER_EXPERT)) // only works if ur a badas!
+		if(istype(I, /obj/item/bomb) && !istype(I, /obj/item/bomb/smoke))
+			var/obj/item/bomb/B = I
+			B.fire_act()
+			return
+		if(istype(I, /obj/item/tntstick) || istype(I, /obj/item/satchel_bomb))
+			I.fire_act()
+			return
+	return ..()
 
 /obj/item/flashlight/flare/torch/spark_act()
 	fire_act()

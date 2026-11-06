@@ -446,7 +446,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	var/turf/T = get_turf(target)
 	if(T)
-		explosion(T, devastation_range = null, heavy_impact_range = null, light_impact_range = 4, flame_range = 8, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+		explosion(T, extreme_impact_range = null, heavy_impact_range = null, light_impact_range = 4, flame_range = 8, smoke = TRUE, soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 
 	for(var/mob/living/M in range(4, target))
 		if(M == target)
@@ -1560,7 +1560,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	icon_state = "matthios"
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK | ITEM_SLOT_RING
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	aura_color = "#ffe761"
 	var/stolen_fyre = FALSE
 	var/grant_chant = FALSE
@@ -1593,7 +1593,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	playsound(user.loc, 'sound/magic/swap.ogg', 25, TRUE, -2)
 	if(findtext(LOWER_TEXT(name), "ruined"))
 		to_chat(user, span_warning("[src] crumbles into ash in your hands."))
-		new /obj/item/ash(get_turf(src))
+		new /obj/item/natural/ash(get_turf(src))
 		qdel(src)
 		return
 	to_chat(user, span_warning(swap_message))
@@ -1644,7 +1644,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 /obj/item/clothing/gloves/roguetown/fingerless_leather/muffle_matthios
 	name = "gilded fingerless gloves"
-	desc = "Those who grasp at Fyre, are bount to be burned."
+	desc = "Those who grasp at Fyre, are bound to be burned."
 	sewrepair = TRUE
 	armor = ARMOR_LEATHER
 	color = "#fce517" // we golden
@@ -1874,7 +1874,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		var/dir = get_dir(T, M)
 		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
 
-	explosion(T,devastation_range = 0,heavy_impact_range = 0,light_impact_range = 4,flame_range = 8,flash_range = 8,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	explosion(T,extreme_impact_range = 0,heavy_impact_range = 0,light_impact_range = 4,flame_range = 8,flash_range = 8,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 
 	qdel(src)
 
@@ -1968,7 +1968,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 		var/dir = get_dir(T, M)
 		M.throw_at(get_edge_target_turf(M, dir), 6, 3)
 
-	explosion(T,devastation_range = 0,heavy_impact_range = 0,light_impact_range = 10,flame_range = 15,flash_range = 15,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
+	explosion(T,extreme_impact_range = 0,heavy_impact_range = 0,light_impact_range = 10,flame_range = 15,flash_range = 15,smoke = TRUE,soundin = pick('sound/misc/explode/bottlebomb (1).ogg','sound/misc/explode/bottlebomb (2).ogg'))
 
 	qdel(src)
 
@@ -2075,7 +2075,7 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	color = "#fdff86"
 	aura_color = "#fff385"
 	matthios_chains = TRUE
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 
 /obj/item/rope/chain/matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)

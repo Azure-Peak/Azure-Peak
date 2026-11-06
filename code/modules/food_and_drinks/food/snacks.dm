@@ -86,7 +86,7 @@ All foods are distributed among various categories. Use common sense.
 	var/fertamount = 50
 
 	drop_sound = 'sound/foley/dropsound/food_drop.ogg'
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 	//Placeholder for effect that trigger on eating that aren't tied to reagents.
 
 	var/cooked_smell
@@ -123,20 +123,32 @@ All foods are distributed among various categories. Use common sense.
 /obj/item/reagent_containers/food/snacks/proc/begin_rotting()
 	START_PROCESSING(SSobj, src)
 
+GLOBAL_LIST_INIT(food_preserving_locs, typecacheof(list(
+	/obj/structure/closet/crate/chest,
+	/obj/item/cooking/platter,
+	/obj/structure/roguemachine/vendor,
+	/obj/item/storage/backpack/rogue/artibackpack,
+	/obj/structure/table/cooling,
+	/obj/machinery/light/rogue/smoker,
+)))
+
+/obj/item/reagent_containers/food/snacks/proc/is_preserved()
+	if(is_type_in_typecache(loc, GLOB.food_preserving_locs))
+		return TRUE
+	var/obj/item/parcel/parcel = loc
+	return istype(parcel) && parcel.preserves_contents
+
 /obj/item/reagent_containers/food/snacks/process()
 	..()
-	if(rotprocess)
-		if(!istype(loc, /obj/structure/closet/crate/chest) && ! istype(loc, /obj/item/cooking/platter)	&& !istype(loc, /obj/structure/roguemachine/vendor) && !istype (loc, /obj/item/storage/backpack/rogue/artibackpack)&& !istype (loc, /obj/structure/table/cooling) && !istype (loc, /obj/machinery/light/rogue/smoker))
-			if(!locate(/obj/structure/table) in loc)
-				warming -= 20 //ssobj processing has a wait of 20
-			else
-				if(locate(/obj/structure/table/cooling) in loc)
-					warming -= 0
-				else
-					warming -= 10
-			if(warming < (-1*rotprocess))
-				if(become_rotten())
-					STOP_PROCESSING(SSobj, src)
+	if(!rotprocess || is_preserved())
+		return
+	if(!locate(/obj/structure/table) in loc)
+		warming -= 20 //ssobj processing has a wait of 20
+	else if(!locate(/obj/structure/table/cooling) in loc)
+		warming -= 10
+	if(warming < (-1*rotprocess))
+		if(become_rotten())
+			STOP_PROCESSING(SSobj, src)
 
 /obj/item/reagent_containers/food/snacks/can_craft_with()
 	if(eat_effect == /datum/status_effect/debuff/rotfood)
@@ -634,7 +646,7 @@ All foods are distributed among various categories. Use common sense.
 	if(chopping_sound)
 		playsound(get_turf(user), 'modular/Neu_Food/sound/chopping_block.ogg', 60, TRUE, -1) // added some choppy sound
 	if(slice_batch)
-		var/cd = get_cooktime_divisor(user.get_skill_level(/datum/skill/craft/cooking))
+		var/cd = get_skill_speed_divisor(user.get_skill_level(/datum/skill/craft/cooking))
 		if(!do_after(user, 1 SECONDS / cd, target = src))
 			return FALSE
 		var/reagents_per_slice = reagents.total_volume/slices_num
@@ -678,6 +690,15 @@ All foods are distributed among various categories. Use common sense.
 //		slice.name = "slice of [name]"
 //	if(desc != initial(desc))
 //		slice.desc = ""
+
+/obj/item/reagent_containers/food/snacks/proc/set_tastes(list/new_tastes)
+	if(!length(new_tastes))
+		return
+	tastes = new_tastes.Copy()
+	if(!reagents)
+		return
+	for(var/datum/reagent/consumable/nutriment/N in reagents.reagent_list)
+		N.data = counterlist_normalise(new_tastes.Copy())
 
 /obj/item/reagent_containers/food/snacks/proc/generate_trash(atom/location)
 	if(trash)

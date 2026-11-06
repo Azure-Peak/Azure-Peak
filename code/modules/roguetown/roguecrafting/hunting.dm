@@ -60,6 +60,18 @@
 		)
 	craftdiff = 2
 
+/datum/crafting_recipe/roguetown/hunting/stockbait
+	name = "stockbait"
+	result = /obj/item/bait/stockbait
+	reqs = list(
+		/obj/item/storage/roguebag = 1,
+		/obj/item/natural/chaff/wheat = 1,
+		/obj/item/reagent_containers/food/snacks/roastseeds = 1,
+		/obj/item/reagent_containers/food/snacks/grown/berries/rogue = 1,
+		/obj/item/natural/cured/essence = 1,
+		)
+	craftdiff = 2
+
 // A little bit of extra value for leveling your butchery
 /datum/crafting_recipe/roguetown/hunting/goat_horn
 	name = "goat horn bundle"

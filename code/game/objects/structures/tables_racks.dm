@@ -116,7 +116,7 @@
 	if(occupied)
 		to_chat(user, span_warning("Someone is already hiding under [src]!"))
 		return
-	if(!do_after(user, sneaktime, src))
+	if(!do_after(user, sneaktime, target = src))
 		return
 	if(!QDELETED(src) && !isturf(loc))//prevents folding tables from nullspacing people
 		return

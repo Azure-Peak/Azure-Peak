@@ -5,7 +5,7 @@
 	name = "Grasp of Psydon"
 	expose_caster_on_deflect = FALSE
 	desc = "Slam your open palm forward, sending forth tendrils of arcyne force to a target area up to 4 paces away on the same level. After a brief telegraph, all targets in the area are yanked toward you. \
-		At 3+ momentum: consumes 3 to deal 32 blunt damage to the aimed bodypart on each yanked target.\n\n\
+		At 3+ momentum: consumes 3 to deal extra blunt damage to the aimed bodypart on each yanked target.\n\n\
 		'Push forth your hand with your conduit open, and imagine, with His will, seizing upon the very object or person you desire within your grasp, then, pull your hand backward. Close, and clench your fist, pushing forward slightly, opening your conduit again, and you shall seize your enemy from afar, and pull them toward you.'"
 	sound = list('sound/combat/wooshes/punch/punchwoosh (1).ogg','sound/combat/wooshes/punch/punchwoosh (2).ogg','sound/combat/wooshes/punch/punchwoosh (3).ogg')
 	spell_color = GLOW_COLOR_DISPLACEMENT
@@ -36,9 +36,14 @@
 	var/area_of_effect = 1
 	var/pull_distance = 7
 	var/telegraph_delay = 0.8 SECONDS
-	var/base_damage = SPELL_DMG(15)
-	var/empowered_damage = SPELL_DMG(40)
+	var/base_damage = 15
+	var/empowered_damage = 40
 	var/momentum_cost = 3
+
+/datum/action/cooldown/spell/grasp_of_psydon/get_spell_statistics(mob/living/user)
+	var/list/stats = ..()
+	stats += span_info("Damage: [base_damage] blunt (+[empowered_damage] at [momentum_cost]+ momentum)")
+	return stats
 
 /datum/action/cooldown/spell/grasp_of_psydon/cast(atom/cast_on)
 	. = ..()
@@ -93,10 +98,10 @@
 			victim.visible_message(span_warning("[victim] breaks free of the tendrils!"))
 			continue
 		var/def_zone = H.zone_selected || BODY_ZONE_CHEST
-		if(arcyne_strike(H, victim, null, base_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon", SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+		if(arcyne_strike(H, victim, null, base_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon") == ARCYNE_STRIKE_WARDED)
 			continue
 		if(empowered)
-			if(arcyne_strike(H, victim, null, empowered_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon (Empowered)", SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+			if(arcyne_strike(H, victim, null, empowered_damage, def_zone, BCLASS_BLUNT, spell_name = "Grasp of Psydon (Empowered)") == ARCYNE_STRIKE_WARDED)
 				continue
 		victim.throw_at(caster_turf, pull_distance, 4)
 

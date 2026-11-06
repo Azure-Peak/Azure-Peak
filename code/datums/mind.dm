@@ -390,6 +390,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(active || force_key_move)
 
 		new_character.key = key		//now transfer the key to link the client to our new body
+	if(new_character.client)
+		LAZYCLEARLIST(new_character.client.recent_examines)
 	new_character.update_fov_angles()
 
 	SEND_SIGNAL(src, COMSIG_MIND_TRANSFERRED, old_current)
@@ -574,6 +576,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		A.on_gain(TRUE)
 	else
 		A.on_gain()
+	if(A.overrides_forlorne_vice)
+		var/datum/charflaw/forlorne/forlorne_vice = current?.get_flaw(/datum/charflaw/forlorne)
+		forlorne_vice?.antag_override(current)
 	log_game("[key_name(src)] has gained antag datum [A.name]([A.type])")
 	var/client/picked_client = current?.client
 	picked_client?.mob?.mind.picking = FALSE
@@ -1007,7 +1012,7 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 
 /datum/mind/proc/show_spell_tip()
 	if(current)
-		to_chat(current, span_nicegreen("Tip: Ctrl-Click any spell button to enter rearrangement mode. Your bar will glow gree, spells cannot be cast and you can drag one button onto another to swap them in place. Ctrl-Click again to lock in and re-enable casting. Hotkeys are bound left to right (Alt 1 to Alt 9 default), matching the numbers shown on the buttons. Shift-click a spell to learn more about it."))
+		to_chat(current, span_nicegreen("Tip: Ctrl-Click any spell button to enter rearrangement mode. Your bar will glow green, spells cannot be cast and you can drag one button onto another to swap them in place. Ctrl-Click again to lock in and re-enable casting. Hotkeys are bound left to right (Alt 1 to Alt 9 default), matching the numbers shown on the buttons. Shift-click a spell to learn more about it."))
 
 /datum/mind/proc/setup_mage_aspects(list/config, grant_attunement = TRUE)
 	mage_aspect_config = config
@@ -1431,8 +1436,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 						user.put_in_hands(I)
 						if(!LI?.triumph_cost)
 							I.special_item = TRUE
-							I.smeltresult = /obj/item/ash
-							I.salvage_result = /obj/item/ash
+							I.smeltresult = /obj/item/natural/ash
+							I.salvage_result = /obj/item/natural/ash
 						var/list/metadata = user.mind.special_items_metadata[base_name]
 						if(islist(metadata))
 							if(metadata["color"])

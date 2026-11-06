@@ -67,6 +67,8 @@
 /mob/living/carbon/human/proc/upgrade_ai_controller(new_controller_type)
 	if(!ispath(new_controller_type, /datum/ai_controller))
 		CRASH("upgrade_ai_controller called with non-controller typepath: [new_controller_type]")
+	if(HAS_TRAIT(src, TRAIT_AI_DISABLED))
+		return
 	if(istype(ai_controller, new_controller_type))
 		return // already on the right controller
 	if(ai_controller)

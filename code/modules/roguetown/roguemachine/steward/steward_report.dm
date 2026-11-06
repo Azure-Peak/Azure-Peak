@@ -215,7 +215,7 @@
 		if(finance["debtors"])
 			credit += "[finance["debtors"]] defaulter\s"
 		if(finance["poll_arrears"])
-			credit += "[finance["poll_arrears"]] in poll tax arrears"
+			credit += "[finance["poll_arrears"]] in poll levy arrears"
 		body += "<b>Credit:</b> [jointext(credit, ", ")].<br>"
 		var/owed_to_crown = round(finance["poll_owed"] + finance["interest_owed"])
 		if(owed_to_crown > 0)

@@ -1,3 +1,19 @@
+/proc/get_skill_speed_divisor(skill_level = SKILL_LEVEL_NONE)
+	switch(skill_level)
+		if(SKILL_LEVEL_NOVICE)
+			return SKILL_SPEED_DIVISOR_NOVICE
+		if(SKILL_LEVEL_APPRENTICE)
+			return SKILL_SPEED_DIVISOR_APPRENTICE
+		if(SKILL_LEVEL_JOURNEYMAN)
+			return SKILL_SPEED_DIVISOR_JOURNEYMAN
+		if(SKILL_LEVEL_EXPERT)
+			return SKILL_SPEED_DIVISOR_EXPERT
+		if(SKILL_LEVEL_MASTER)
+			return SKILL_SPEED_DIVISOR_MASTER
+		if(SKILL_LEVEL_LEGENDARY)
+			return SKILL_SPEED_DIVISOR_LEGENDARY
+	return SKILL_SPEED_DIVISOR_NONE
+
 /proc/get_skill_delay(skill_level, fastest = 0.5, slowest = 5)
 	if(skill_level == SKILL_LEVEL_NONE) //can't divivde by zero
 		return slowest SECONDS
@@ -5,6 +21,42 @@
 		var/percentage = skill_level / SKILL_LEVEL_LEGENDARY // Turns it into a percentage
 		var/result = LERP(slowest, fastest, percentage)
 		return result SECONDS
+
+/proc/skill_quality_floor(skill_level)
+	switch(skill_level)
+		if(SKILL_LEVEL_NONE, SKILL_LEVEL_NOVICE)
+			return ITEM_QUALITY_RUINED
+		if(SKILL_LEVEL_APPRENTICE)
+			return ITEM_QUALITY_CRUDE
+		if(SKILL_LEVEL_JOURNEYMAN)
+			return ITEM_QUALITY_STANDARD
+		if(SKILL_LEVEL_EXPERT)
+			return ITEM_QUALITY_FINE
+		if(SKILL_LEVEL_MASTER)
+			return ITEM_QUALITY_FLAWLESS
+	return ITEM_QUALITY_MASTERWORK
+
+/proc/skill_quality_ceiling(skill_level)
+	switch(skill_level)
+		if(SKILL_LEVEL_NONE)
+			return ITEM_QUALITY_CRUDE
+		if(SKILL_LEVEL_NOVICE)
+			return ITEM_QUALITY_ROUGH
+		if(SKILL_LEVEL_APPRENTICE, SKILL_LEVEL_JOURNEYMAN)
+			return ITEM_QUALITY_STANDARD
+		if(SKILL_LEVEL_EXPERT)
+			return ITEM_QUALITY_FLAWLESS
+	return ITEM_QUALITY_MASTERWORK
+
+/proc/clamp_skill_quality(tier, skill_level)
+	return clamp(tier, skill_quality_floor(skill_level), skill_quality_ceiling(skill_level))
+
+/proc/roll_skill_quality(skill_level)
+	var/tier = max(skill_quality_floor(skill_level), ITEM_QUALITY_CRUDE)
+	var/ceiling = skill_quality_ceiling(skill_level)
+	while(tier < ceiling && prob(ITEM_QUALITY_ROLL_STEP_UP_CHANCE))
+		tier++
+	return tier
 
 // PSEUDORANDOMIZATION PROCS
 // Intended to be uses in loops

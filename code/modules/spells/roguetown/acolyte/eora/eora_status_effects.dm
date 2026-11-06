@@ -109,7 +109,7 @@
 				if(length(valid_parts))
 					var/obj/item/bodypart/BP = pick(valid_parts)
 					BP.add_wound(/datum/wound/slash, FALSE, "looks sickly and ashen.")
-					new /obj/item/ash(owner.loc)
+					new /obj/item/natural/ash(owner.loc)
 					to_chat(owner, span_warning("Your body cracks as a new wound opens, ash spilling forth."))
 
 /datum/status_effect/buff/ashen_aril/on_remove()

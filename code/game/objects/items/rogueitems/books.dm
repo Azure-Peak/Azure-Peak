@@ -261,7 +261,7 @@
 	desc = "'And He weeps. Not for you, not for me, but for it all.' </br>A leatherbound tome, chronicling the \
 	beliefs held by the Orthodoxy; the largest Psydonic denomination in the world. The 'Harlaus Press', a recent \
 	invention by Otava's clergymen, has ensured that no corner of Psydonia would remain unlit by His teachings. Inside \
-	are three seperate testaments, each marked with a velvet strap.. </br>PSALMS - TESTAMENTS OF CLERICAL WISDOM, COMMANDING \
+	are three separate testaments, each marked with a velvet strap.. </br>PSALMS - TESTAMENTS OF CLERICAL WISDOM, COMMANDING \
 	INTERPRETATION. </br>GENESIS - TESTAMENTS OF PSYDONIA'S CREATION, FOR WHAT ONCE WAS. </br>INVOCATIONS - TESTAMENTS OF WILL, TO EXORCISE AND CHANT."
 	icon_state = "psyble_0"
 	base_icon_state = "psyble"
@@ -310,7 +310,7 @@
 
 /obj/item/book/rogue/bibble/psy/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("It can be used in-hand to preach from three seperate testaments.")
+	. += span_info("It can be used in-hand to preach from three separate testaments.")
 	. += span_info("Use middle-mouse button to switch between testaments of the book.")
 
 //Zizonic Bible
@@ -321,7 +321,7 @@
 	chronicling the beliefs held throughout the collective of the Cabal which could mutually agree on the same matters; \
 	such tomes are often considered major contraband in most of Psydonia and oft burned, even by followers of Noc. \
 	Even to this dae its unknown how such tomes keep circulating, presumably from some unknown printing press or two somewhere; \
-	but they are seldom found outside of the black market. Inside are two seperate testaments. </br> \
+	but they are seldom found outside of the black market. Inside are two separate testaments. </br> \
 	</br>PROGRESS - TESTAMENTS OF PROGRESS, HER TRUTH, FAITH. \
 	</br>SACRIFICE - TESTAMENTS OF UNDEATH, NECROMANCY, ASCENSION."
 	icon_state = "zible_0"
@@ -364,7 +364,7 @@
 
 /obj/item/book/rogue/bibble/zizo/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("It can be used in-hand to preach from two seperate testaments.")
+	. += span_info("It can be used in-hand to preach from two separate testaments.")
 	. += span_info("Use middle-mouse button to switch between testaments of the book.")
 
 /obj/item/book/rogue/bibble/zizo/Initialize(mapload)

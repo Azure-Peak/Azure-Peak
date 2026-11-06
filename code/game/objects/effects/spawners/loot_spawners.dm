@@ -11,7 +11,7 @@
 	lootcount = 1
 	loot_value = LOOT_VALUE_GENERAL_LOW
 	junk_loot = list(
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/natural/stone = 3,
 		/obj/item/candle/yellow = 3,
@@ -53,7 +53,7 @@
 		/obj/item/roguecoin/silver/pile = 1,
 		//junk
 		/obj/item/rogue/instrument/flute = 3,
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
@@ -159,7 +159,7 @@
 	lootcount = 1
 	loot_value = LOOT_VALUE_GENERAL_MID
 	junk_loot = list(
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/natural/stone = 3,
 		/obj/item/candle/yellow = 3,
@@ -205,7 +205,7 @@
 		/obj/item/roguecoin/silver/pile = 1,
 		//junk
 		/obj/item/rogue/instrument/flute = 3,
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
@@ -326,7 +326,7 @@
 	lootcount = 1
 	loot_value = LOOT_VALUE_GENERAL_HI
 	junk_loot = list(
-		/obj/item/ash = 3,
+		/obj/item/natural/ash = 3,
 		/obj/item/natural/glass_shard = 3,
 		/obj/item/candle/yellow = 3,
 		/obj/item/rope = 3,

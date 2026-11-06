@@ -461,6 +461,7 @@
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/rogueweapon/contraption/linker)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/bronze/bigbattlewrench
@@ -469,6 +470,7 @@
 	req_bar = /obj/item/ingot/bronze
 	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/bronze)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace/big
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/bronze/whip
@@ -756,6 +758,7 @@
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/rogueweapon/contraption/linker)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace/iron
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/iron/bigbattlewrench
@@ -764,6 +767,7 @@
 	req_bar = /obj/item/ingot/iron
 	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/iron)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace/big/iron
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/iron/spear
@@ -1060,6 +1064,7 @@
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/rogueweapon/contraption/linker)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace/steel
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/steel/bigbattlewrench
@@ -1068,6 +1073,7 @@
 	req_bar = /obj/item/ingot/steel
 	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/steel)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace/big/steel
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/steel/greatsword
@@ -1536,6 +1542,7 @@
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/rogueweapon/contraption/linker)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace/silver
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/silver/bigbattlewrench
@@ -1544,6 +1551,7 @@
 	req_bar = /obj/item/ingot/silver
 	additional_items = list(/obj/item/rogueweapon/contraption/linker, /obj/item/ingot/silver)
 	created_item = /obj/item/rogueweapon/contraption/linker/mace/big/silver
+	appro_skill = /datum/skill/craft/engineering
 	display_category = ITEM_CAT_WEAPONS_MACES
 
 /datum/anvil_recipe/weapons/silver/quarterstaff
@@ -2623,7 +2631,7 @@
 	name = "Blacksteel Flail (+1 Silk)"
 	category = "Blacksteel"
 	req_bar = /obj/item/ingot/blacksteel
-	additional_items = list(/obj/item/ingot/blacksteel, /obj/item/natural/silk)
+	additional_items = list(/obj/item/natural/silk)
 	created_item = /obj/item/rogueweapon/flail/blacksteel
 	display_category = ITEM_CAT_WEAPONS_FLAILS
 

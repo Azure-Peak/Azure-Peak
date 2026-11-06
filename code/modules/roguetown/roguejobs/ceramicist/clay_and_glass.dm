@@ -44,7 +44,7 @@
 		if(cooked_type)
 			result = new cooked_type(A)
 		return result
-	result = new /obj/item/ash(A) // No cooked_type? Pulverized.
+	result = new /obj/item/natural/ash(A) // No cooked_type? Pulverized.
 	return result
 
 /obj/item/natural/clay/burning(input as num) // Overrides the generic /obj/item/proc/burning in snacks.dm

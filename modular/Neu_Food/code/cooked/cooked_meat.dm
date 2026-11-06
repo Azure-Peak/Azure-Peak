@@ -177,7 +177,7 @@
 	eat_effect = null
 	slices_num = 0
 	name = "fried rous"
-	desc = "A small, chewy chunk of rous meat. Certain races loves this, others... Not so much."
+	desc = "A small, chewy chunk of rous meat. Certain races love this, others... Not so much."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "rat"
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = MEATSLAB_NUTRITION)
@@ -258,7 +258,7 @@
 	slices_num = 0
 	name = "fryfilet"
 	desc = "A slab of flaky fish, fried until falling apart."
-	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
+	icon = 'modular/Neu_Food/icons/cooked/cooked_seafood_meal.dmi'
 	icon_state = "cooked_filet"
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_THIRD_MEAL)
 	faretype = FARE_NEUTRAL
@@ -329,7 +329,7 @@
 /*	.............	Cooked Ham	................ */
 /obj/item/reagent_containers/food/snacks/rogue/meat/ham/steamed
 	name = "steamed ham"
-	desc = "Salted cut of meat ready to be torn into further with a knife. You would be hard pressed to find this lacking in a pantry of anyone with modicum of wealth."
+	desc = "Salted cut of meat ready to be torn into further with a knife. You would be hard-pressed to find this lacking in a pantry of anyone with modicum of wealth."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_meat.dmi'
 	icon_state = "ham5"
 	list_reagents = list(/datum/reagent/consumable/nutriment = NUTRITION_FULL_MEAL)

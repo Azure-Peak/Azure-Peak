@@ -139,7 +139,7 @@ export type Subsidiary = {
     remaining_due: number;
     defaulted: BooleanLike;
   }[];
-  poll_arrears: { name: string; job: string; owed: number; days: number }[];
+  poll_arrears: { name: string; job: string; owed: number }[];
   payables: { name: string; balance: number }[];
   receivables: { name: string; balance: number }[];
   inventory: { name: string; units: number; unit_price: number; value: number }[];

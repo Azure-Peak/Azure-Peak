@@ -133,7 +133,7 @@
 					else
 						C.item_flags |= NOT_SHOW_IN_STORAGE
 					to_chat(user, span_info("[C] will be [(C.item_flags & NOT_SHOW_IN_STORAGE) ? "hidden" : "visible"] \the [src]"))
-				user.update_inv_head()
+				user.update_inv_armor()
 
 
 /obj/item/clothing/suit/roguetown/armor/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)

@@ -74,7 +74,7 @@
 
 /obj/effect/decal/remains/mole
 	name = "remains"
-	desc = "This was once a great burrowing mole! Now it is bone and dessicated flesh."
+	desc = "This was once a great burrowing mole! Now it is bone and desiccated flesh."
 	gender = PLURAL
 	icon_state = "mole_bones"
 	icon = 'icons/roguetown/mob/monster/mole.dmi'
