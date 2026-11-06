@@ -103,6 +103,10 @@
 	icon = 'icons/chess/chess.dmi'
 	icon_state = "chessboard_folded"
 
+/obj/item/chessboard_folded/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Use the board in hand to lay it out.")
+
 /obj/item/chessboard_folded/attack_self(mob/user)
 	if(!user)
 		return
@@ -130,6 +134,12 @@
 	var/list/selected_squares = list()
 	var/last_ui_message = null
 	var/list/active_ui_ckeys = list()
+
+/obj/structure/chessboard/get_mechanics_examine(mob/user)
+	. = ..()
+	. += span_info("Left click on the board with an empty hand to open the UI.")
+	. += span_info("Right click the board to rotate it.")
+	. += span_info("Fold the board once more by clicking on PACK BOARD in the board's UI.")
 
 /obj/structure/chessboard/Initialize(mapload)
 	. = ..()
