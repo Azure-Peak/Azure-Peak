@@ -141,11 +141,8 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			var/pulling = user.pulling
 			var/mob/living/carbon/human/climber = user
 			var/baseline_stamina_cost = 30
-			var/climb_gear_bonus = 1
-			if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
-				climb_gear_bonus = 2
 			var/climbing_skill = max(climber.get_skill_level(/datum/skill/misc/climbing), SKILL_LEVEL_NOVICE)
-			var/stamina_cost_final = round(((baseline_stamina_cost / climbing_skill) / climb_gear_bonus), 1)
+			var/stamina_cost_final = round((baseline_stamina_cost / climbing_skill), 1)
 			if(ismob(pulling))
 				user.pulling.forceMove(target)
 			var/climber_armor_class = climber.highest_ac_worn()
@@ -195,7 +192,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 						if(!(climbing_skill >= wall_skill_requirement)) //if we can normally move along the edge, attach
 							climber.visible_message(span_danger("I am not skilled enough at climbing to attach to the wall!"))
 						else
-							if(!(climber_armor_class <= ARMOR_CLASS_LIGHT)) //unless if we are in fullplate, lose some weight man
+							if(!(climber_armor_class <= ARMOR_CLASS_LIGHT)) //no climbing in medium/heavy
 								climber.visible_message(span_danger("The armor prevents me from attaching to the wall!"))
 								break
 							else
@@ -242,7 +239,6 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 			var/turf/wall_for_message
 			var/climbing_skill = max(climber.get_skill_level(/datum/skill/misc/climbing), SKILL_LEVEL_NOVICE)
 			var/adjacent_wall_diff
-			var/climb_gear_bonus = 1 // bonus is defined here, we might use it for calculations still, like giving you +1 effective skill for climbing purposes, but rn it it's only used to halve your stamina costs
 			for(var/turf/closed/adjacent_wall in adjacent_wall_list) // we add any turf that is a wall, aka /turf/closed/...
 				adjacent_wall_diff = adjacent_wall.climbdiff
 				if(!(climbing_skill == 6))
@@ -277,9 +273,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 						climber.visible_message(span_danger("The armor weighs me down!")) // if you can actually shuffle along the wall but wearing heavy armor, you get a grip on it... but fall, as a little treat
 					else
 						climber.movement_type = FLYING // the way this works is that we only really ever fall if we enter the open space turf with GROUND move type, otherwise we can just hover over indefinetely
-					if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
-						climb_gear_bonus = 2
-					var/stamina_cost_final = round(((baseline_stamina_cost / climbing_skill) / climb_gear_bonus), 1)
+					var/stamina_cost_final = round((baseline_stamina_cost / climbing_skill), 1)
 					climber.stamina_add(stamina_cost_final) // eat some of climber's stamina when we move onto the next tile
 					climber.apply_status_effect(/datum/status_effect/debuff/climbing_lfwb) // continious drain of STAMINA and checks to remove the status effect if we are on solid stuff or branches
 					climber.forceMove(climb_target) // while our MOVEMENT TYPE is FLYING, we move onto next tile and can't fall cos of the flying
