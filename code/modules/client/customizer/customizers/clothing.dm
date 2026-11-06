@@ -23,7 +23,7 @@
 
 /datum/customizer_choice/clothing/underwear_bottom
 	name = "Underwear Bottom"
-	slot = SLOT_UNDER_BOTTOM
+	slot = SLOT_UNDERWEAR_BOTTOM
 	sprite_accessories = list(
 		/datum/sprite_accessory/clothing/underwear_bottom/panties,
 		/datum/sprite_accessory/clothing/underwear_bottom/braies,
@@ -37,7 +37,7 @@
 
 /datum/customizer_choice/clothing/underwear_top
 	name = "Underwear Top"
-	slot = SLOT_UNDER_TOP
+	slot = SLOT_UNDERWEAR_TOP
 	sprite_accessories = list(
 		/datum/sprite_accessory/clothing/underwear_top/bra,
 	)
@@ -95,7 +95,5 @@
 		/datum/sprite_accessory/clothing/earrings/hoop,
 		/datum/sprite_accessory/clothing/earrings/hoop/silver,
 		/datum/sprite_accessory/clothing/earrings/stud,
-		/datum/sprite_accessory/clothing/earrings/stud/silver,
 		/datum/sprite_accessory/clothing/earrings/dangle,
-		/datum/sprite_accessory/clothing/earrings/dangle/silver,
 	)

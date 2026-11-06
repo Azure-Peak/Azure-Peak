@@ -39,31 +39,93 @@
 	item_state = "solid-half"
 
 /obj/item/clothing/armsleeves/silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk armsleeve"
 	icon_state = "silk"
 	item_state = "silk"
 
 /obj/item/clothing/armsleeves/silk_half
+	salvage_result = /obj/item/natural/silk
 	name = "silk half-armsleeve"
 	icon_state = "silk-half"
 	item_state = "silk-half"
 
 /obj/item/clothing/armsleeves/mesh
+	salvage_result = /obj/item/natural/fibers
 	name = "mesh armsleeve"
 	icon_state = "mesh"
 	item_state = "mesh"
 
 /obj/item/clothing/armsleeves/mesh_half
+	salvage_result = /obj/item/natural/fibers
 	name = "mesh half-armsleeve"
 	icon_state = "mesh-half"
 	item_state = "mesh-half"
 
 /obj/item/clothing/armsleeves/net
+	salvage_result = /obj/item/natural/fibers
 	name = "net armsleeve"
 	icon_state = "net"
 	item_state = "net"
 
 /obj/item/clothing/armsleeves/net_half
+	salvage_result = /obj/item/natural/fibers
 	name = "net half-armsleeve"
 	icon_state = "net-half"
 	item_state = "net-half"
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves
+	name = "Cloth Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves)
+	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves/solid_half
+	name = "Sheer Half-Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves/solid_half)
+	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves/silk
+	name = "Silk Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves/silk)
+	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves/silk_half
+	name = "Silk Half-Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves/silk_half)
+	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves/mesh
+	name = "Mesh Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves/mesh)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves/mesh_half
+	name = "Mesh Half-Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves/mesh_half)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves/net
+	name = "Net Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves/net)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/armsleeves/net_half
+	name = "Net Half-Armsleeves"
+	category = "Underwear"
+	result = list(/obj/item/clothing/armsleeves/net_half)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3

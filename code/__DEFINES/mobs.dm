@@ -321,8 +321,8 @@
 #define OFFSET_SHIRT "wear_shirt"
 #define OFFSET_ARMOR "wear_armor"
 #define OFFSET_HANDS "hands"
-#define OFFSET_UNDER_BOT "underwear_bottom"
-#define OFFSET_UNDER_TOP "underwear_top"
+#define OFFSET_UNDERWEAR_BOTTOM "underwear_bottom"
+#define OFFSET_UNDERWEAR_TOP "underwear_top"
 
 #define OFFSET_ID_F "wear_ringf"
 #define OFFSET_GLOVES_F "glovesf"
@@ -339,8 +339,8 @@
 #define OFFSET_SHIRT_F "wear_shirtf"
 #define OFFSET_ARMOR_F "wear_armorf"
 #define OFFSET_HANDS_F "handsf"
-#define OFFSET_UNDER_BOT_F "underwear_bottom_f"
-#define OFFSET_UNDER_TOP_F "underwear_top_f"
+#define OFFSET_UNDERWEAR_BOTTOM_F "underwear_bottom_f"
+#define OFFSET_UNDERWEAR_TOP_F "underwear_top_f"
 
 // Body builds: alternate silhouettes a character can be rendered on, independent of their species.
 // Each build owns a limb sprite per gender and one offset table shared by every species offering it,
@@ -364,12 +364,12 @@
 	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
 	OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
 	OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), OFFSET_PANTS = list(0,1), \
-	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDER_BOT = list(0,1), OFFSET_UNDER_TOP = list(0,1), \
+	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDERWEAR_BOTTOM = list(0,1), OFFSET_UNDERWEAR_TOP = list(0,1), \
 	OFFSET_ID_F = list(0,-1), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
 	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-1), OFFSET_HEAD_F = list(0,-1), \
 	OFFSET_FACE_F = list(0,-1), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-1), \
 	OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
-	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDER_BOT_F = list(0,-1), OFFSET_UNDER_TOP_F = list(0,-1), \
+	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDERWEAR_BOTTOM_F = list(0,-1), OFFSET_UNDERWEAR_TOP_F = list(0,-1), \
 	)
 
 // Offset table for the slim build, tuned for the shared mem.dmi/fm.dmi silhouette. The masculine keys come
@@ -381,12 +381,12 @@
 	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,0), OFFSET_HEAD = list(0,0), \
 	OFFSET_FACE = list(0,0), OFFSET_BELT = list(0,0), OFFSET_BACK = list(0,0), \
 	OFFSET_NECK = list(0,0), OFFSET_MOUTH = list(0,0), OFFSET_PANTS = list(0,0), \
-	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_UNDER_BOT = list(0,0), OFFSET_UNDER_TOP = list(0,0), \
+	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_UNDERWEAR_BOTTOM = list(0,0), OFFSET_UNDERWEAR_TOP = list(0,0), \
 	OFFSET_ID_F = list(0,-1), OFFSET_GLOVES_F = list(0,0), OFFSET_WRISTS_F = list(0,0), OFFSET_HANDS_F = list(0,0), \
 	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-1), OFFSET_HEAD_F = list(0,-1), \
 	OFFSET_FACE_F = list(0,-1), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,-1), \
 	OFFSET_NECK_F = list(0,-1), OFFSET_MOUTH_F = list(0,-1), OFFSET_PANTS_F = list(0,0), \
-	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDER_BOT_F = list(0,-1), OFFSET_UNDER_TOP_F = list(0,-1), \
+	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDERWEAR_BOTTOM_F = list(0,-1), OFFSET_UNDERWEAR_TOP_F = list(0,-1), \
 	)
 
 // Offset table for the elven build: the slim table raised a pixel, except on the legs and arms. A raised body lifts
@@ -398,12 +398,12 @@
 	OFFSET_HEAD = list(0,1), OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), \
 	OFFSET_BACK = list(0,1), OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), \
 	OFFSET_PANTS = list(0,0), OFFSET_SHIRT = list(0,2), OFFSET_ARMOR = list(0,2), \
-	OFFSET_UNDER_BOT = list(0,1), OFFSET_UNDER_TOP = list(0,1), OFFSET_ID_F = list(0,0), OFFSET_GLOVES_F = list(0,1), \
+	OFFSET_UNDERWEAR_BOTTOM = list(0,1), OFFSET_UNDERWEAR_TOP = list(0,1), OFFSET_ID_F = list(0,0), OFFSET_GLOVES_F = list(0,1), \
 	OFFSET_WRISTS_F = list(0,1), OFFSET_HANDS_F = list(0,1), OFFSET_CLOAK_F = list(0,1), \
 	OFFSET_FACEMASK_F = list(0,0), OFFSET_HEAD_F = list(0,0), OFFSET_FACE_F = list(0,0), \
 	OFFSET_BELT_F = list(0,1), OFFSET_BACK_F = list(0,0), OFFSET_NECK_F = list(0,0), \
 	OFFSET_MOUTH_F = list(0,0), OFFSET_PANTS_F = list(0,0), OFFSET_SHIRT_F = list(0,1), \
-	OFFSET_ARMOR_F = list(0,1), OFFSET_UNDER_BOT_F = list(0,0), OFFSET_UNDER_TOP_F = list(0,0), \
+	OFFSET_ARMOR_F = list(0,1), OFFSET_UNDERWEAR_BOTTOM_F = list(0,0), OFFSET_UNDERWEAR_TOP_F = list(0,0), \
 	)
 
 //MINOR TWEAKS/MISC

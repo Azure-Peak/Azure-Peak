@@ -300,10 +300,10 @@
 			str = "[m3] something on [m2] wrists!"
 		. += str
 
-	if(underwear_bottom && is_underwear_visible(SLOT_UNDER_BOTTOM))
+	if(underwear_bottom && is_underwear_visible(SLOT_UNDERWEAR_BOTTOM))
 		. += "[m3] [underwear_bottom.get_examine_string(user)]."
 
-	if(underwear_top && is_underwear_visible(SLOT_UNDER_TOP))
+	if(underwear_top && is_underwear_visible(SLOT_UNDERWEAR_TOP))
 		. += "[m3] [underwear_top.get_examine_string(user)]."
 
 	if(undershirt && is_underwear_visible(SLOT_UNDERSHIRT))
@@ -1262,12 +1262,12 @@
 	var/covered_zones
 	var/hidden_flags
 	switch(slot)
-		if(SLOT_UNDER_BOTTOM)
+		if(SLOT_UNDERWEAR_BOTTOM)
 			covered_zones = GROIN
-			hidden_flags = HIDECROTCH | HIDEUNDIEBOT
-		if(SLOT_UNDER_TOP)
+			hidden_flags = HIDECROTCH | HIDE_UNDERWEAR_BOTTOM
+		if(SLOT_UNDERWEAR_TOP)
 			covered_zones = CHEST
-			hidden_flags = HIDEBOOB | HIDEUNDIETOP
+			hidden_flags = HIDEBOOB | HIDE_UNDERWEAR_TOP
 		if(SLOT_UNDERSHIRT)
 			covered_zones = undershirt.strip_zones
 			hidden_flags = HIDEJUMPSUIT | HIDEBOOB

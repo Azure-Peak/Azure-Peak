@@ -46,9 +46,9 @@
 			return wear_armor
 		if(SLOT_PANTS)
 			return wear_pants
-		if(SLOT_UNDER_BOTTOM)
+		if(SLOT_UNDERWEAR_BOTTOM)
 			return underwear_bottom
-		if(SLOT_UNDER_TOP)
+		if(SLOT_UNDERWEAR_TOP)
 			return underwear_top
 		if(SLOT_UNDERSHIRT)
 			return undershirt
@@ -227,10 +227,10 @@
 
 				if(SEND_SIGNAL(belt, COMSIG_TRY_STORAGE_INSERT, I, src, TRUE))
 					not_handled = FALSE
-		if(SLOT_UNDER_BOTTOM)
+		if(SLOT_UNDERWEAR_BOTTOM)
 			underwear_bottom = I
 			update_inv_underwear_bottom()
-		if(SLOT_UNDER_TOP)
+		if(SLOT_UNDERWEAR_TOP)
 			underwear_top = I
 			update_inv_underwear_top()
 		if(SLOT_UNDERSHIRT)

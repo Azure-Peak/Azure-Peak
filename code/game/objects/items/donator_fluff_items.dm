@@ -4601,8 +4601,8 @@ As Excaliber."
 	gendered = FALSE
 	boobed = FALSE
 	flags_inv = NONE
-	worn_offset = OFFSET_UNDER_BOT
-	worn_offset_f = OFFSET_UNDER_BOT_F
+	worn_offset = OFFSET_UNDERWEAR_BOTTOM
+	worn_offset_f = OFFSET_UNDERWEAR_BOTTOM_F
 
 //Guidesa
 /obj/item/rogueweapon/shield/buckler/guidesa_bonebuckler

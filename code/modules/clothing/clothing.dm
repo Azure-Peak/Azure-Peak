@@ -803,15 +803,3 @@ BLIND		// can't see anything
 		// We make it fit into generic 2x2 aesthetic storage. Warning. May cause weirdness if we start loadoutizing everything all willy-nilly.
 		grid_width = 64
 		grid_height = 64
-
-/// Direct clothing attacks must transfer ownership as well as populate a slot.
-/// The interaction has already waited; validate again before releasing the user's hand.
-/obj/item/clothing/proc/equip_from_hands(mob/user, mob/living/carbon/human/wearer, slot)
-	if(!user.is_holding(src) || !user.Adjacent(wearer) || wearer.is_inventory_slot_obscured(slot, src))
-		return FALSE
-	if(!mob_can_equip(wearer, user, slot, TRUE, TRUE))
-		return FALSE
-	if(!user.temporarilyRemoveItemFromInventory(src))
-		return FALSE
-	wearer.equip_to_slot(src, slot)
-	return TRUE

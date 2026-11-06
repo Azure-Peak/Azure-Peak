@@ -1341,7 +1341,7 @@ There are several things that need to be remembered:
 	rebuild_obscured_flags()
 
 /mob/living/carbon/human/update_inv_underwear_bottom()
-	remove_overlay(UNDERWEAR_BOT_LAYER)
+	remove_overlay(UNDERWEAR_BOTTOM_LAYER)
 
 	if(underwear_bottom)
 		var/datum/species/species = dna?.species
@@ -1355,20 +1355,18 @@ There are several things that need to be remembered:
 			use_female_sprites = FALSE
 
 		var/mutable_appearance/underwear_overlay = underwear_bottom.build_worn_icon(
-			default_layer = UNDERWEAR_BOT_LAYER,
+			default_layer = UNDERWEAR_BOTTOM_LAYER,
 			female = use_female_sprites,
 			customi = racecustom
 		)
 
-		apply_offset(underwear_overlay, OFFSET_UNDER_BOT, OFFSET_UNDER_BOT_F)
+		apply_offset(underwear_overlay, OFFSET_UNDERWEAR_BOTTOM, OFFSET_UNDERWEAR_BOTTOM_F)
 
-		overlays_standing[UNDERWEAR_BOT_LAYER] = underwear_overlay
+		overlays_standing[UNDERWEAR_BOTTOM_LAYER] = underwear_overlay
 
 	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
 
-	apply_overlay(UNDERWEAR_BOT_LAYER)
+	apply_overlay(UNDERWEAR_BOTTOM_LAYER)
 
 
 /mob/living/carbon/human/update_inv_underwear_top()
@@ -1397,13 +1395,11 @@ There are several things that need to be remembered:
 			breast_size = b_size
 		)
 
-		apply_offset(underwear_overlay, OFFSET_UNDER_TOP, OFFSET_UNDER_TOP_F)
+		apply_offset(underwear_overlay, OFFSET_UNDERWEAR_TOP, OFFSET_UNDERWEAR_TOP_F)
 
 		overlays_standing[UNDERWEAR_TOP_LAYER] = underwear_overlay
 
 	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
 
 	apply_overlay(UNDERWEAR_TOP_LAYER)
 
@@ -1453,8 +1449,6 @@ There are several things that need to be remembered:
 			overlays_standing[UNDERSLEEVE_LAYER] = sleeves
 
 	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
 
 	apply_overlay(UNDERSLEEVE_LAYER)
 	apply_overlay(UNDERSHIRT_LAYER)
@@ -1462,12 +1456,16 @@ There are several things that need to be remembered:
 
 /mob/living/carbon/human/rebuild_obscured_flags()
 	. = ..()
-	update_inv_earrings()
+	if(!earrings && !overlays_standing[EARRINGS_LAYER])
+		return
+	var/should_show = earrings && get_bodypart(BODY_ZONE_HEAD) && !(SLOT_EARRINGS in check_obscured_slots())
+	if(!!overlays_standing[EARRINGS_LAYER] != !!should_show)
+		update_inv_earrings()
 
 /mob/living/carbon/human/update_inv_earrings()
 	remove_overlay(EARRINGS_LAYER)
 
-	if(earrings && !(SLOT_EARRINGS in check_obscured_slots()))
+	if(earrings && get_bodypart(BODY_ZONE_HEAD) && !(SLOT_EARRINGS in check_obscured_slots()))
 		var/datum/species/species = dna?.species
 		var/use_female_sprites = !is_bulky_body()
 
@@ -1514,8 +1512,6 @@ There are several things that need to be remembered:
 		overlays_standing[LEGWEAR_LAYER] = legwear_socks_overlay
 
 	rebuild_obscured_flags()
-	update_body_parts(redraw = TRUE)
-	update_body()
 
 	apply_overlay(LEGWEAR_LAYER)
 

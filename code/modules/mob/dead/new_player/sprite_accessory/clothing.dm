@@ -135,21 +135,11 @@
 	color_disabled = FALSE
 
 /datum/sprite_accessory/clothing/earrings/stud
-	name = "Stud Earrings (G)"
+	name = "Stud Earrings"
 	item_type = /obj/item/earrings/stud
-	color_disabled = TRUE
-
-/datum/sprite_accessory/clothing/earrings/stud/silver
-	name = "Stud Earrings (S)"
-	item_type = /obj/item/earrings/stud/silver
 	color_disabled = FALSE
 
 /datum/sprite_accessory/clothing/earrings/dangle
-	name = "Dangle Earrings (G)"
+	name = "Dangle Earrings"
 	item_type = /obj/item/earrings/dangle
-	color_disabled = TRUE
-
-/datum/sprite_accessory/clothing/earrings/dangle/silver
-	name = "Dangle Earrings (S)"
-	item_type = /obj/item/earrings/dangle/silver
 	color_disabled = FALSE

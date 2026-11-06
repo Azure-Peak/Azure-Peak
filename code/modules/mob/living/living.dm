@@ -1626,7 +1626,7 @@
 		if(QDELETED(I) || I.loc != target || !I.canStrip(target))
 			continue
 		var/underwear_slot
-		for(var/slot in list(SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT))
+		for(var/slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT))
 			if(target.get_item_by_slot(slot) == I)
 				underwear_slot = slot
 				break

@@ -476,10 +476,10 @@
 		obscured += SLOT_BELT_R
 		obscured += SLOT_BELT_L
 		obscured += SLOT_BELT
-	if(hidden_slots & HIDEUNDIETOP)
-		obscured += SLOT_UNDER_TOP
-	if(hidden_slots & HIDEUNDIEBOT)
-		obscured += SLOT_UNDER_BOTTOM
+	if(hidden_slots & HIDE_UNDERWEAR_TOP)
+		obscured += SLOT_UNDERWEAR_TOP
+	if(hidden_slots & HIDE_UNDERWEAR_BOTTOM)
+		obscured += SLOT_UNDERWEAR_BOTTOM
 	if(hidden_slots & HIDESUITSTORAGE)
 		obscured += SLOT_S_STORE
 
@@ -487,9 +487,9 @@
 		for(var/obj/item/covering as anything in equipped)
 			var/cover_flags = covering.flags_inv | covering.transparent_protection
 			if((cover_flags & HIDECROTCH) && covering != underwear_bottom)
-				obscured |= list(SLOT_UNDER_BOTTOM)
+				obscured |= list(SLOT_UNDERWEAR_BOTTOM)
 			if((cover_flags & HIDEBOOB) && covering != underwear_top)
-				obscured |= SLOT_UNDER_TOP
+				obscured |= SLOT_UNDERWEAR_TOP
 	return obscured
 
 /obj/item/proc/equip_to_best_slot(mob/M)

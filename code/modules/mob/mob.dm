@@ -365,7 +365,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/equip_to_slot_if_possible(obj/item/W, slot, qdel_on_fail = FALSE, disable_warning = FALSE, redraw_mob = TRUE, bypass_equip_delay_self = FALSE, initial)
 	if(!istype(W) || QDELETED(W)) //This qdeleted is to prevent stupid behavior with things that qdel during init, like say stacks
 		return FALSE
-	var/blocked_underwear = !initial && (slot in list(SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W)
+	var/blocked_underwear = !initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W)
 	if(blocked_underwear || !W.mob_can_equip(src, null, slot, disable_warning, bypass_equip_delay_self))
 		if(qdel_on_fail)
 			qdel(W)
@@ -374,7 +374,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 				to_chat(src, "<span class='warning'>I couldn't equip that.</span>")
 		return FALSE
 	// Equipping may have waited; outer clothing can change during that delay.
-	if(!initial && (slot in list(SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W))
+	if(!initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W))
 		if(qdel_on_fail)
 			qdel(W)
 		return FALSE
@@ -419,7 +419,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(!slot_priority)
 		slot_priority = list( \
-			SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS,\
+			SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS,\
 			SLOT_ARMSLEEVES, SLOT_EARRINGS, \
 			SLOT_BACK, SLOT_RING, SLOT_WRISTS,\
 			SLOT_PANTS, SLOT_ARMOR,\
@@ -1432,9 +1432,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 		return TRUE
 	var/access_zones
 	switch(slot)
-		if(SLOT_UNDER_BOTTOM)
+		if(SLOT_UNDERWEAR_BOTTOM)
 			access_zones = GROIN
-		if(SLOT_UNDER_TOP)
+		if(SLOT_UNDERWEAR_TOP)
 			access_zones = CHEST
 		if(SLOT_UNDERSHIRT)
 			var/obj/item/clothing/undershirt/garment = equipping ? equipping : undershirt
