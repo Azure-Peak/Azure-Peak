@@ -587,7 +587,6 @@
 	. = ..()
 	. += span_info("Adds the ability to jump/leap towards a wall and climb it.")
 	. += span_info("Gives you the leaper trait.")
-	. += span_info("Reduces climbing stamina usage.")
 
 /obj/item/clothing/climbing_gear/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
