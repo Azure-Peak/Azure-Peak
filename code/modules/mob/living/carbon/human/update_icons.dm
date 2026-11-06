@@ -1437,7 +1437,7 @@ There are several things that need to be remembered:
 			boobed_overlay = has_boobed_overlay()
 		)
 
-		apply_offset(undershirt_overlay, OFFSET_SHIRT, OFFSET_SHIRT_F)
+		apply_offset(undershirt_overlay, undershirt.worn_offset, undershirt.worn_offset_f)
 
 		overlays_standing[UNDERSHIRT_LAYER] = undershirt_overlay
 
@@ -1448,7 +1448,7 @@ There are several things that need to be remembered:
 
 		if(sleeves)
 			for(var/mutable_appearance/S as anything in sleeves)
-				apply_offset(S, OFFSET_SHIRT, OFFSET_SHIRT_F)
+				apply_offset(S, undershirt.worn_offset, undershirt.worn_offset_f)
 
 			overlays_standing[UNDERSLEEVE_LAYER] = sleeves
 

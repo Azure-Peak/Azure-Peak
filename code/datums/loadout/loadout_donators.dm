@@ -1238,7 +1238,7 @@
 
 /datum/loadout_item/donator/trueterrydactyl_shibari
 	name = "Donator Item - Smallclothes, Shibari"
-	path = /obj/item/clothing/underwear_bottom/shibari
+	path = /obj/item/clothing/undershirt/shibari
 	ckeywhitelist = list("trueterrydactyl")
 
 /datum/loadout_item/donator/guidesa_bonebuckler

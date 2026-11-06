@@ -59,17 +59,6 @@
 		return "eoran_elf"
 	return "eoran_reg"
 
-/datum/sprite_accessory/underwear_bottom/bandages
-	name = "Bandages"
-	icon_state = "bandages"
-	hides_breasts = TRUE
-
-/datum/sprite_accessory/underwear_bottom/bandages/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(!owner.is_bulky_body())
-		return "bandages_f"
-	return "bandages"
-
-
 /datum/sprite_accessory/legwear
 	abstract_type = /datum/sprite_accessory/legwear
 	icon = 'icons/obj/items/clothes/on_mob/stockings.dmi'

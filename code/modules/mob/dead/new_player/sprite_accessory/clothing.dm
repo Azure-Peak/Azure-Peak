@@ -31,10 +31,6 @@
 	name = "Bikini Bottom"
 	item_type = /obj/item/clothing/underwear_bottom/bikini_bottom
 
-/datum/sprite_accessory/clothing/underwear_bottom/bandages
-	name = "Bandages"
-	item_type = /obj/item/clothing/underwear_bottom/bandages
-
 /datum/sprite_accessory/clothing/underwear_top
 	abstract_type = /datum/sprite_accessory/clothing/underwear_top
 
@@ -85,6 +81,10 @@
 /datum/sprite_accessory/clothing/undershirt/net_half
 	name = "Net Half-Body"
 	item_type = /obj/item/clothing/undershirt/net_half
+
+/datum/sprite_accessory/clothing/undershirt/bandages
+	name = "Body Bandages"
+	item_type = /obj/item/clothing/undershirt/bandages
 
 /datum/sprite_accessory/clothing/armsleeves
 	name = "Cloth Armsleeve"

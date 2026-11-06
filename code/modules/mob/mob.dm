@@ -365,12 +365,18 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/equip_to_slot_if_possible(obj/item/W, slot, qdel_on_fail = FALSE, disable_warning = FALSE, redraw_mob = TRUE, bypass_equip_delay_self = FALSE, initial)
 	if(!istype(W) || QDELETED(W)) //This qdeleted is to prevent stupid behavior with things that qdel during init, like say stacks
 		return FALSE
-	if(!W.mob_can_equip(src, null, slot, disable_warning, bypass_equip_delay_self))
+	var/blocked_underwear = !initial && (slot in list(SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W)
+	if(blocked_underwear || !W.mob_can_equip(src, null, slot, disable_warning, bypass_equip_delay_self))
 		if(qdel_on_fail)
 			qdel(W)
 		else
 			if(!disable_warning)
 				to_chat(src, "<span class='warning'>I couldn't equip that.</span>")
+		return FALSE
+	// Equipping may have waited; outer clothing can change during that delay.
+	if(!initial && (slot in list(SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W))
+		if(qdel_on_fail)
+			qdel(W)
 		return FALSE
 	equip_to_slot(W, slot, redraw_mob, initial) //This proc should not ever fail.
 	update_a_intents()
@@ -704,7 +710,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 
 	if(href_list["item"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERITY))
 		var/slot = text2num(href_list["item"])
-		if(is_inventory_slot_obscured(slot))
+		if(is_inventory_slot_obscured(slot, get_item_by_slot(slot) ? null : usr.get_active_held_item()))
 			to_chat(usr, span_warning("I can't reach that! Something is covering it."))
 			return
 		var/hand_index = text2num(href_list["hand_index"])
@@ -1406,8 +1412,33 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/check_equipment_mood_penalty()
 	return
 
-/mob/proc/is_inventory_slot_obscured(slot)
+/mob/proc/is_inventory_slot_obscured(slot, obj/item/equipping)
 	return FALSE
 
-/mob/living/carbon/is_inventory_slot_obscured(slot)
-	return slot in check_obscured_slots(TRUE)
+/mob/living/carbon/is_inventory_slot_obscured(slot, obj/item/equipping)
+	if(slot in check_obscured_slots(TRUE))
+		return TRUE
+	var/access_zones
+	switch(slot)
+		if(SLOT_UNDER_BOTTOM)
+			access_zones = GROIN
+		if(SLOT_UNDER_TOP)
+			access_zones = CHEST
+		if(SLOT_UNDERSHIRT)
+			var/obj/item/clothing/undershirt/garment = equipping ? equipping : undershirt
+			access_zones = istype(garment) ? garment.strip_zones : (CHEST | GROIN)
+		else
+			return FALSE
+	for(var/obj/item/covering as anything in get_equipped_items())
+		if(covering == get_item_by_slot(slot))
+			continue
+		// Tops and bottoms are worn underneath a one-piece undergarment.
+		if(slot == SLOT_UNDERSHIRT && (covering == underwear_top || covering == underwear_bottom))
+			continue
+		var/cover_flags = covering.flags_inv | covering.transparent_protection
+		if(slot == SLOT_UNDERSHIRT && (((access_zones & CHEST) && (cover_flags & HIDEBOOB)) || ((access_zones & GROIN) && (cover_flags & HIDECROTCH))))
+			return TRUE
+		// Physical coverage also matters when the garment does not hide anatomy.
+		if(covering.surgery_cover && (covering.body_parts_covered_dynamic & covering.body_parts_covered & access_zones))
+			return TRUE
+	return FALSE

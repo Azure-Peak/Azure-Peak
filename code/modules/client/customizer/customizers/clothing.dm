@@ -30,7 +30,6 @@
 		/datum/sprite_accessory/clothing/underwear_bottom,
 		/datum/sprite_accessory/clothing/underwear_bottom/briefs_eoran,
 		/datum/sprite_accessory/clothing/underwear_bottom/bikini_bottom,
-		/datum/sprite_accessory/clothing/underwear_bottom/bandages,
 	)
 
 /datum/customizer/clothing/underwear_top
@@ -63,6 +62,7 @@
 		/datum/sprite_accessory/clothing/undershirt/mesh_half,
 		/datum/sprite_accessory/clothing/undershirt/net,
 		/datum/sprite_accessory/clothing/undershirt/net_half,
+		/datum/sprite_accessory/clothing/undershirt/bandages,
 	)
 
 /datum/customizer/clothing/armsleeves

@@ -35,13 +35,13 @@
 		if(get_num_arms(FALSE) < 1)
 			return
 		if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
-			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
+			if(!is_inventory_slot_obscured(SLOT_UNDER_BOTTOM))
 				if(!underwear_bottom)
 					return
+				var/obj/item/garment = underwear_bottom
 				src.visible_message(span_notice("[src] begins to take off [underwear_bottom]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					var/obj/item/garment = underwear_bottom
-					if(garment && dropItemToGround(garment))
+					if(garment && garment == underwear_bottom && !is_inventory_slot_obscured(SLOT_UNDER_BOTTOM) && dropItemToGround(garment))
 						put_in_hands(garment)
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
 			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
