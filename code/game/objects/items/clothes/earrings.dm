@@ -32,33 +32,11 @@
 	item_state = "hoop_silver"
 
 /obj/item/earrings/stud
-	name = "gold stud earrings"
+	name = "stud earrings"
 	icon_state = "stud"
 	item_state = "stud"
-	color = "#edd12f"
-
-/obj/item/earrings/stud/silver
-	name = "silver stud earrings"
-	color = "#d1e6e3"
 
 /obj/item/earrings/dangle
-	name = "gold dangling earrings"
+	name = "dangling earrings"
 	icon_state = "dangle"
 	item_state = "dangle"
-	color = "#edd12f"
-
-/obj/item/earrings/dangle/silver
-	name = "silver dangling earrings"
-	color = "#d1e6e3"
-
-/obj/item/storage/belt/pouch/earrings/stud_silver
-	populate_contents = list(/obj/item/earrings/stud/silver)
-
-/obj/item/storage/belt/pouch/earrings/stud_gold
-	populate_contents = list(/obj/item/earrings/stud)
-
-/obj/item/storage/belt/pouch/earrings/dangle_silver
-	populate_contents = list(/obj/item/earrings/dangle/silver)
-
-/obj/item/storage/belt/pouch/earrings/dangle_gold
-	populate_contents = list(/obj/item/earrings/dangle)
