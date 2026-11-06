@@ -187,10 +187,14 @@
 			L.sprinted_tiles = 0
 
 	. = ..()
-
+	var/scalar = 1
 	if((direct & (direct - 1)) && mob.loc == n) //moved diagonally successfully
+		scalar = 1/sqrt(2)
 		add_delay *= 2
-	mob.set_glide_size(DELAY_TO_GLIDE_SIZE(add_delay))
+		add_delay *= scalar
+	add_delay = round(add_delay, world.tick_lag)
+	mob.set_glide_size(MOVEMENT_ADJUSTED_GLIDE_SIZE(add_delay, scalar))
+
 	move_delay += add_delay
 	if(.) // If mob is null here, we deserve the runtime
 		if(mob.throwing)
