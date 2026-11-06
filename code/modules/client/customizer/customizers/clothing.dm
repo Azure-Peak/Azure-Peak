@@ -97,3 +97,24 @@
 		/datum/sprite_accessory/clothing/earrings/stud,
 		/datum/sprite_accessory/clothing/earrings/dangle,
 	)
+
+/datum/customizer/clothing/legwear
+	name = "Legwear"
+	customizer_choices = list(/datum/customizer_choice/clothing/legwear)
+
+/datum/customizer_choice/clothing/legwear
+	name = "Legwear"
+	slot = SLOT_SOCKS
+	sprite_accessories = list(
+		/datum/sprite_accessory/clothing/legwear/stockings,
+		/datum/sprite_accessory/clothing/legwear/stockings/silk,
+		/datum/sprite_accessory/clothing/legwear/stockings/fishnet,
+		/datum/sprite_accessory/clothing/legwear/stockings/thigh_high,
+		/datum/sprite_accessory/clothing/legwear/stockings/thigh_high_silk,
+		/datum/sprite_accessory/clothing/legwear/stockings/knee_high,
+		/datum/sprite_accessory/clothing/legwear/stockings/knee_high_silk,
+		/datum/sprite_accessory/clothing/legwear/stockings/sleeve_knee_silk,
+		/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_knee_silk,
+		/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_thigh_silk,
+		/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_ankle_silk,
+	)

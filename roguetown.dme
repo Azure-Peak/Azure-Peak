@@ -2525,7 +2525,6 @@
 #include "code\modules\mob\dead\new_player\sprite_accessory\souls.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessory\tail_features.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessory\tails.dm"
-#include "code\modules\mob\dead\new_player\sprite_accessory\legwear.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessory\wings.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessory\skeleton\skel_procs.dm"
 #include "code\modules\mob\dead\new_player\sprite_accessory\skeleton\skel_snouts.dm"

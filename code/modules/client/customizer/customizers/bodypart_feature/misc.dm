@@ -49,36 +49,3 @@
 		/datum/sprite_accessory/accessory/warpaint,
 		/datum/sprite_accessory/accessory/warpaint_stripes,
 		)
-
-/datum/customizer/bodypart_feature/legwear
-	name = "Legwear"
-	customizer_choices = list(/datum/customizer_choice/bodypart_feature/legwear)
-	allows_disabling = TRUE
-	default_disabled = TRUE
-
-/datum/customizer_choice/bodypart_feature/legwear
-	name = "Legwear"
-	feature_type = /datum/bodypart_feature/legwear
-	//default_accessory = /datum/sprite_accessory/legwear/stockings
-	sprite_accessories = list(
-		/datum/sprite_accessory/legwear/stockings,
-		/datum/sprite_accessory/legwear/stockings/silk,
-		/datum/sprite_accessory/legwear/stockings/fishnet,
-		/datum/sprite_accessory/legwear/stockings/thigh_high,
-		/datum/sprite_accessory/legwear/stockings/thigh_high_silk,
-		/datum/sprite_accessory/legwear/stockings/knee_high,
-		/datum/sprite_accessory/legwear/stockings/knee_high_silk,
-		/datum/sprite_accessory/legwear/stockings/sleeve_knee_silk,
-		/datum/sprite_accessory/legwear/stockings/sleeve_stir_knee_silk,
-		/datum/sprite_accessory/legwear/stockings/sleeve_stir_thigh_silk,
-		/datum/sprite_accessory/legwear/stockings/sleeve_stir_ankle_silk
-		)
-
-/datum/bodypart_feature/legwear/bodypart_feature_additem(mob/living/carbon/owner, obj/item/bodypart/bp)
-	if(!ishuman(owner) || !accessory_type)
-		return FALSE
-	var/datum/sprite_accessory/legwear/accessory = SPRITE_ACCESSORY(accessory_type)
-	var/obj/item/clothing/legwears/garment = new accessory.legwear_type(owner)
-	garment.color = accessory_colors
-	owner.equip_to_slot_or_del(garment, SLOT_SOCKS, TRUE)
-	return TRUE

@@ -72,7 +72,7 @@
 		/datum/customizer/clothing/undershirt,
 		/datum/customizer/clothing/armsleeves,
 		/datum/customizer/clothing/earrings,
-		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/clothing/legwear,
 		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/wings/moth,
 		/datum/customizer/organ/antennas/moth,
