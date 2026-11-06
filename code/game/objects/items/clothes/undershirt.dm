@@ -122,83 +122,83 @@
 
 /datum/crafting_recipe/roguetown/sewing/bandages_underwear
 	category = "Underwear"
-	name = "Body Bandages"
+	name = "body bandages"
 	result = list(/obj/item/clothing/undershirt/bandages)
 	reqs = list(/obj/item/natural/cloth/bandage = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/undershirt
-	name = "Sheer Body"
+	name = "sheer body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/leotard
-	name = "Leotard"
+	name = "leotard"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/leotard)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/athletic_leotard
-	name = "Athletic Leotard"
+	name = "athletic leotard"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/athletic_leotard)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/solid_half
-	name = "Sheer Half-Body"
+	name = "sheer half-body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/solid_half)
 	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/fullbody
-	name = "Full-Body Suit"
+	name = "full-body suit"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/fullbody)
 	reqs = list(/obj/item/natural/cloth = 3, /obj/item/natural/fibers = 1)
 	craftdiff = 4
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/silk
-	name = "Silk Body"
+	name = "silk body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/silk)
 	reqs = list(/obj/item/natural/silk = 2, /obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/silk_half
-	name = "Silk Half-Body"
+	name = "silk half-body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/silk_half)
 	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/mesh
-	name = "Mesh Body"
+	name = "mesh body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/mesh)
 	reqs = list(/obj/item/natural/fibers = 3)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/mesh_half
-	name = "Mesh Half-Body"
+	name = "mesh half-body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/mesh_half)
 	reqs = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/net
-	name = "Net Body"
+	name = "net body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/net)
 	reqs = list(/obj/item/natural/fibers = 3)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/undershirt/net_half
-	name = "Net Half-Body"
+	name = "net half-body"
 	category = "Underwear"
 	result = list(/obj/item/clothing/undershirt/net_half)
 	reqs = list(/obj/item/natural/fibers = 2)

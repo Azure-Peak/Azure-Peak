@@ -27,7 +27,7 @@
 	boob_sized = TRUE
 
 /datum/crafting_recipe/roguetown/sewing/underwear_top
-	name = "Bra"
+	name = "bra"
 	category = "Underwear"
 	result = list(/obj/item/clothing/underwear/top/bra)
 	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)

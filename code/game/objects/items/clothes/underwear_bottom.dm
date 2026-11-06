@@ -68,7 +68,7 @@
 	item_state = "briefs"
 
 /datum/crafting_recipe/roguetown/sewing/underwear_bottom
-	name = "Briefs"
+	name = "briefs"
 	category = "Underwear"
 	result = list(/obj/item/clothing/underwear/bottom)
 	reqs = list(/obj/item/natural/cloth = 1,
@@ -76,20 +76,20 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/underwear_bottom/briefs_eoran
-	name = "Eoran Briefs"
+	name = "eoran briefs"
 	result = list(/obj/item/clothing/underwear/bottom/briefs_eoran)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/underwear_bottom/panties
-	name = "Panties"
+	name = "panties"
 	result = list(/obj/item/clothing/underwear/bottom/panties)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/sewing/underwear_bottom/braies
-	name = "Braies"
+	name = "braies"
 	result = list(/obj/item/clothing/underwear/bottom/braies)
 	reqs = list(/obj/item/natural/cloth = 1)
 	craftdiff = 2

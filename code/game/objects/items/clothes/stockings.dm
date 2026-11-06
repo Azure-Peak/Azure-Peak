@@ -346,76 +346,76 @@
 // Craft
 
 /datum/crafting_recipe/roguetown/sewing/stockings_white
-	name = "Stockings"
+	name = "stockings"
 	result = list(/obj/item/clothing/legwears/white)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/stockings_thigh_white
-	name = "Thigh-High Stockings"
+	name = "thigh-high stockings"
 	result = list(/obj/item/clothing/legwears/thigh_high/white)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/stockings_knee_white
-	name = "Knee-High Stockings"
+	name = "knee-high stockings"
 	result = list(/obj/item/clothing/legwears/knee_high)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/stockings_white_silk
-	name = "Silk Stockings"
+	name = "silk stockings"
 	result = list(/obj/item/clothing/legwears/silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/stockings_thigh_silk_white
-	name = "Silk Thigh-High Stockings"
+	name = "silk thigh-high stockings"
 	result = list(/obj/item/clothing/legwears/thigh_high_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/stockings_knee_silk_white
-	name = "Silk Knee-High Stockings"
+	name = "knee-high stockings"
 	result = list(/obj/item/clothing/legwears/knee_high_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/stockings_white_fishnet
-	name = "Fishnet Stockings"
+	name = "fishnet stockings"
 	result = list(/obj/item/clothing/legwears/fishnet/white)
 	reqs = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_knee_silk_white
-	name = "Silk Knee-High Sleeves"
+	name = "silk knee-high sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_knee_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_stir_knee_silk_white
-	name = "Silk Knee-High Stirrup Sleeves"
+	name = "silk knee-high stirrup sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_stir_knee_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_thigh_silk_white
-	name = "Silk Thigh-High Stirrup Sleeves"
+	name = "silk thigh-high stirrup sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_stir_thigh_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_ankle_silk_white
-	name = "Silk Ankle Stirrup Sleeves"
+	name = "silk ankle stirrup sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_stir_ankle_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
@@ -429,7 +429,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_belted
-	name = "Belted Stockings"
+	name = "belted stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/belted)
 	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
@@ -443,7 +443,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_silk_belted
-	name = "Silk Belted Stockings"
+	name = "silk belted stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/silk/belted)
 	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
@@ -457,7 +457,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_stirrup
-	name = "Stirrup Stockings"
+	name = "stirrup stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/stirrup)
 	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
@@ -471,7 +471,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_silk_stirrup
-	name = "Silk Stirrup Stockings"
+	name = "silk stirrup stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/silk/stirrup)
 	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
@@ -485,7 +485,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_fishnet_stirrup
-	name = "Fishnet Stirrup Stockings"
+	name = "fishnet stirrup stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/fishnet/stirrup)
 	reqs = list(/obj/item/natural/fibers = 2)
@@ -499,7 +499,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_fishnet
-	name = "Fishnet Thigh-High Stockings"
+	name = "fishnet thigh-high stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/thigh_high/fishnet)
 	reqs = list(/obj/item/natural/fibers = 2)
@@ -513,7 +513,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_crotchless
-	name = "Crotchless Thigh-High Stockings"
+	name = "crotchless thigh-high stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/thigh_high/crotchless)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
@@ -527,7 +527,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_silk_crotchless
-	name = "Silk Crotchless Thigh-High Stockings"
+	name = "silk crotchless thigh-high stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/thigh_high_silk/crotchless)
 	reqs = list(/obj/item/natural/silk = 2, /obj/item/natural/fibers = 1)
@@ -541,7 +541,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_thigh_high_fishnet_crotchless
-	name = "Fishnet Crotchless Thigh-High Stockings"
+	name = "fishnet crotchless thigh-high stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/thigh_high/fishnet/crotchless)
 	reqs = list(/obj/item/natural/fibers = 2)
@@ -555,7 +555,7 @@
 	flags_inv = HIDECROTCH
 
 /datum/crafting_recipe/roguetown/sewing/legwear_tights
-	name = "Tights"
+	name = "tights"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/tights)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
@@ -569,7 +569,7 @@
 	flags_inv = HIDECROTCH
 
 /datum/crafting_recipe/roguetown/sewing/legwear_tights_stirrup
-	name = "Stirrup Tights"
+	name = "stirrup tights"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/tights/stirrup)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
@@ -583,7 +583,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_tights_crotchless
-	name = "Crotchless Tights"
+	name = "crotchless tights"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/tights/crotchless)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
@@ -597,7 +597,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_tights_crotchless_stirrup
-	name = "Crotchless Stirrup Tights"
+	name = "crotchless stirrup tights"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/tights/crotchless/stirrup)
 	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
@@ -611,7 +611,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_low
-	name = "Low Stockings"
+	name = "low stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/low)
 	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
@@ -625,7 +625,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_fishnet_low
-	name = "Low Fishnet Stockings"
+	name = "low fishnet stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/fishnet/low)
 	reqs = list(/obj/item/natural/fibers = 2)
@@ -639,7 +639,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_fishnet_low_stirrup
-	name = "Low Fishnet Stirrup Stockings"
+	name = "low fishnet stirrup stockings"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/fishnet/low/stirrup)
 	reqs = list(/obj/item/natural/fibers = 2)
@@ -653,7 +653,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_fishnet_crotchless
-	name = "Crotchless Fishnet Tights"
+	name = "crotchless fishnet tights"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/fishnet/crotchless)
 	reqs = list(/obj/item/natural/fibers = 2)
@@ -667,7 +667,7 @@
 	flags_inv = NONE
 
 /datum/crafting_recipe/roguetown/sewing/legwear_fishnet_crotchless_stirrup
-	name = "Crotchless Fishnet Stirrup Tights"
+	name = "crotchless fishnet stirrup tights"
 	category = "Underwear"
 	result = list(/obj/item/clothing/legwears/fishnet/crotchless/stirrup)
 	reqs = list(/obj/item/natural/fibers = 2)
