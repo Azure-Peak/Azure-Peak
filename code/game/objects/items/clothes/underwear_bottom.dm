@@ -17,7 +17,6 @@
 	var/covers_breasts = FALSE
 	/// Compatibility renderer for accessories retained by old loadouts.
 	var/sprite_acc
-	var/worn_icon_state
 	var/icon_state_base
 	boob_sized = FALSE
 	sewrepair = TRUE
@@ -54,14 +53,6 @@
 	flags_inv = initial(flags_inv)
 	icon_state = icon_state_base
 
-/obj/item/clothing/underwear_bottom/bikini_bottom
-	worn_icon_state = "bikini"
-	name = "bikini bottom"
-	desc = "A perfect bathing garment."
-	icon_state = "bikini_bottom"
-	item_state = "bikini_bottom"
-	gendered = TRUE
-
 /obj/item/clothing/underwear_bottom/panties
 	name = "panties"
 	icon_state = "panties"
@@ -94,13 +85,6 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 2
 
-/datum/crafting_recipe/roguetown/sewing/underwear_bottom/bikini
-	name = "bikini bottom"
-	result = list(/obj/item/clothing/underwear_bottom/bikini_bottom)
-	reqs = list(/obj/item/natural/cloth = 2,
-				/obj/item/natural/fibers = 1)
-	craftdiff = 2
-
 /datum/crafting_recipe/roguetown/sewing/underwear_bottom/panties
 	name = "panties"
 	result = list(/obj/item/clothing/underwear_bottom/panties)
@@ -114,8 +98,6 @@
 	craftdiff = 2
 
 /obj/item/clothing/underwear_bottom/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = 0)
-	if(worn_icon_state && !isinhands)
-		override_state = worn_icon_state
 	if(!sprite_acc || isinhands)
 		return ..()
 	var/atom/container = loc

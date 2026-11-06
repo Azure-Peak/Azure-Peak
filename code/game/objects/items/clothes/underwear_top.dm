@@ -5,8 +5,8 @@
 	icon = 'icons/obj/items/clothes/underwear_top.dmi'
 	gendered = TRUE
 	mob_overlay_icon = 'icons/obj/items/clothes/on_mob/underwear_top.dmi'
-	icon_state = "bikini_top"
-	item_state = "bikini_top"
+	icon_state = "bra"
+	item_state = "bra"
 	w_class = WEIGHT_CLASS_TINY
 	resistance_flags = FLAMMABLE
 	obj_flags = CAN_BE_HIT
@@ -32,9 +32,9 @@
 			if(do_after(user, 50, target = H))
 				equip_from_hands(user, H, SLOT_UNDER_TOP)
 
-/obj/item/clothing/underwear_top/bikini
-	name = "bikini top"
+/obj/item/clothing/underwear_top/bra
+	name = "bra"
 	desc = "The centerpiece of a bathing suit."
-	icon_state = "bikini_top"
-	item_state = "bikini_top"
+	icon_state = "bra"
+	item_state = "bra"
 	boob_sized = TRUE

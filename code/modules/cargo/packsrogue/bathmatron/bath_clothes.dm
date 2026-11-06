@@ -54,15 +54,10 @@
 	cost = 10
 	contains = list(/obj/item/clothing/underwear_bottom)
 
-/datum/supply_pack/rogue/bath_clothes/bikini_top
-	name = "Bikini Top"
+/datum/supply_pack/rogue/bath_clothes/bra
+	name = "Bra"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_top/bikini)
-
-/datum/supply_pack/rogue/bath_clothes/bikini_bottom
-	name = "Bikini Bottom"
-	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/bikini_bottom)
+	contains = list(/obj/item/clothing/underwear_top/bra)
 
 /datum/supply_pack/rogue/bath_clothes/panties
 	name = "Panties"

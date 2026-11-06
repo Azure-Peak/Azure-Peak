@@ -454,7 +454,11 @@
 
 	if(hidden_slots & HIDENECK)
 		obscured += SLOT_NECK
-		obscured += SLOT_EARRINGS
+	if(hidden_slots & HIDEEARS)
+		obscured |= SLOT_EARRINGS
+	for(var/obj/item/covering as anything in equipped)
+		if(covering.body_parts_covered_dynamic & EARS)
+			obscured |= SLOT_EARRINGS
 	if(hidden_slots & HIDEMASK)
 		obscured += SLOT_WEAR_MASK
 	if(hidden_slots & HIDEEYES)
