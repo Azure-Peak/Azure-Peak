@@ -346,55 +346,55 @@
 // Craft
 
 /datum/crafting_recipe/roguetown/sewing/stockings_white
-	name = "stockings"
+	name = "Stockings"
 	result = list(/obj/item/clothing/legwears/white)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/stockings_thigh_white
-	name = "stockings - thigh"
+	name = "Thigh-High Stockings"
 	result = list(/obj/item/clothing/legwears/thigh_high/white)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/stockings_knee_white
-	name = "stockings - knee"
+	name = "Knee-High Stockings"
 	result = list(/obj/item/clothing/legwears/knee_high)
 	reqs = list(/obj/item/natural/cloth = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/stockings_white_silk
-	name = "silk stockings"
+	name = "Silk Stockings"
 	result = list(/obj/item/clothing/legwears/silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/stockings_thigh_silk_white
-	name = "silk stockings - thigh"
+	name = "Silk Thigh-High Stockings"
 	result = list(/obj/item/clothing/legwears/thigh_high_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/stockings_knee_silk_white
-	name = "silk stockings - knee"
+	name = "Silk Knee-High Stockings"
 	result = list(/obj/item/clothing/legwears/knee_high_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/stockings_white_fishnet
-	name = "fishnet stockings"
+	name = "Fishnet Stockings"
 	result = list(/obj/item/clothing/legwears/fishnet/white)
 	reqs = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/sleeves_knee_silk_white
-	name = "silk sleeves - knee"
+	name = "Silk Knee-High Sleeves"
 	result = list(/obj/item/clothing/legwears/sleeve_knee_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,
 				/obj/item/natural/fibers = 1)

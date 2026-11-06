@@ -122,7 +122,7 @@
 
 /datum/crafting_recipe/roguetown/sewing/bandages_underwear
 	category = "Underwear"
-	name = "bandages (underwear)"
+	name = "Body Bandages"
 	result = list(/obj/item/clothing/undershirt/bandages)
 	reqs = list(/obj/item/natural/cloth/bandage = 1)
 	craftdiff = 2

@@ -247,7 +247,6 @@
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRINGS]'>[(earrings && !(earrings.item_flags & ABSTRACT)) ? earrings : "<font color=grey>Earrings</font>"]</A></td></tr>"
 
-
 	dat += "<tr><td><hr></td></tr>"
 
 	dat += "<tr><td><B>BACK</B></td></tr>"
@@ -300,7 +299,6 @@
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_ARMSLEEVES]'>[(armsleeves && !(armsleeves.item_flags & ABSTRACT)) ? armsleeves : "<font color=grey>Armsleeves</font>"]</A></td></tr>"
-
 
 	dat += "<tr><td><hr></td></tr>"
 
