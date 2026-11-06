@@ -70,33 +70,39 @@
 	sleevetype = "shirt"
 
 /obj/item/clothing/undershirt/silk
+	salvage_result = /obj/item/natural/silk
 	name = "silk body"
 	icon_state = "silk"
 	item_state = "silk"
 
 /obj/item/clothing/undershirt/silk_half
+	salvage_result = /obj/item/natural/silk
 	name = "silk half-body"
 	icon_state = "silk-half"
 	item_state = "silk-half"
 	strip_zones = CHEST
 
 /obj/item/clothing/undershirt/mesh
+	salvage_result = /obj/item/natural/fibers
 	name = "mesh body"
 	icon_state = "mesh"
 	item_state = "mesh"
 
 /obj/item/clothing/undershirt/mesh_half
+	salvage_result = /obj/item/natural/fibers
 	name = "mesh half-body"
 	icon_state = "mesh-half"
 	item_state = "mesh-half"
 	strip_zones = CHEST
 
 /obj/item/clothing/undershirt/net
+	salvage_result = /obj/item/natural/fibers
 	name = "net body"
 	icon_state = "net"
 	item_state = "net"
 
 /obj/item/clothing/undershirt/net_half
+	salvage_result = /obj/item/natural/fibers
 	name = "net half-body"
 	icon_state = "net-half"
 	item_state = "net-half"
@@ -109,11 +115,89 @@
 	item_state = "bandages"
 	boobed = FALSE
 	flags_inv = HIDECROTCH | HIDEBOOB
-	worn_offset = OFFSET_UNDER_BOT
-	worn_offset_f = OFFSET_UNDER_BOT_F
+	worn_offset = OFFSET_UNDERWEAR_BOTTOM
+	worn_offset_f = OFFSET_UNDERWEAR_BOTTOM_F
 
 /datum/crafting_recipe/roguetown/sewing/bandages_underwear
+	category = "Underwear"
 	name = "bandages (underwear)"
 	result = list(/obj/item/clothing/undershirt/bandages)
 	reqs = list(/obj/item/natural/cloth/bandage = 1)
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/sewing/undershirt
+	name = "Sheer Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/leotard
+	name = "Leotard"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/leotard)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/athletic_leotard
+	name = "Athletic Leotard"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/athletic_leotard)
+	reqs = list(/obj/item/natural/cloth = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/solid_half
+	name = "Sheer Half-Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/solid_half)
+	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/fullbody
+	name = "Full-Body Suit"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/fullbody)
+	reqs = list(/obj/item/natural/cloth = 3, /obj/item/natural/fibers = 1)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/silk
+	name = "Silk Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/silk)
+	reqs = list(/obj/item/natural/silk = 2, /obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/silk_half
+	name = "Silk Half-Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/silk_half)
+	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
+	craftdiff = 5
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/mesh
+	name = "Mesh Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/mesh)
+	reqs = list(/obj/item/natural/fibers = 3)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/mesh_half
+	name = "Mesh Half-Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/mesh_half)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/net
+	name = "Net Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/net)
+	reqs = list(/obj/item/natural/fibers = 3)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/undershirt/net_half
+	name = "Net Half-Body"
+	category = "Underwear"
+	result = list(/obj/item/clothing/undershirt/net_half)
+	reqs = list(/obj/item/natural/fibers = 2)
+	craftdiff = 3

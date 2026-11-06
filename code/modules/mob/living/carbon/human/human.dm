@@ -1,20 +1,11 @@
-#ifdef MATURESERVER
 /mob/living/carbon/human/MiddleClick(mob/user, params)
 	..()
 	if(!user)
 		return
-	var/obj/item/held_item = user.get_active_held_item()
-	if(!held_item && earrings && (user.zone_selected in list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_EARS)))
-		if(is_inventory_slot_obscured(SLOT_EARRINGS) || !user.has_active_hand())
-			return
-		if(user == src)
-			var/obj/item/ornament = earrings
-			if(ornament.canStrip(user, src) && do_after(user, ornament.strip_delay, needhand = TRUE, target = src))
-				if(ornament && earrings == ornament && !is_inventory_slot_obscured(SLOT_EARRINGS) && dropItemToGround(ornament))
-					put_in_hands(ornament)
-		else
-			user.stripPanelUnequip(earrings, src, SLOT_EARRINGS)
+	if(try_remove_earrings(user))
 		return
+#ifdef MATURESERVER
+	var/obj/item/held_item = user.get_active_held_item()
 	if(held_item && (user.zone_selected == BODY_ZONE_PRECISE_MOUTH))
 		if(held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT)
 			if(has_stubble)
@@ -46,13 +37,13 @@
 		if(get_num_arms(FALSE) < 1)
 			return
 		if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
-			if(!is_inventory_slot_obscured(SLOT_UNDER_BOTTOM))
+			if(!is_inventory_slot_obscured(SLOT_UNDERWEAR_BOTTOM))
 				if(!underwear_bottom)
 					return
 				var/obj/item/garment = underwear_bottom
 				src.visible_message(span_notice("[src] begins to take off [underwear_bottom]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					if(garment && garment == underwear_bottom && !is_inventory_slot_obscured(SLOT_UNDER_BOTTOM) && dropItemToGround(garment))
+					if(garment && garment == underwear_bottom && !is_inventory_slot_obscured(SLOT_UNDERWEAR_BOTTOM) && dropItemToGround(garment))
 						put_in_hands(garment)
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
 			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
@@ -331,17 +322,17 @@
 
 #ifdef MATURESERVER
 	dat += "<tr><td><B>UNDERWEAR</B></td></tr>"
-	if(SLOT_UNDER_BOTTOM in obscured)
+	if(SLOT_UNDERWEAR_BOTTOM in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_BOTTOM]'>[(underwear_bottom && !(underwear_bottom.item_flags & ABSTRACT)) ? underwear_bottom : "<font color=grey>Underwear Bottom</font>"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERWEAR_BOTTOM]'>[(underwear_bottom && !(underwear_bottom.item_flags & ABSTRACT)) ? underwear_bottom : "<font color=grey>Underwear Bottom</font>"]</A></td></tr>"
 
-	if(SLOT_UNDER_TOP in obscured)
+	if(SLOT_UNDERWEAR_TOP in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else if(underwear_top && (user == src))
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A> | <tr><td><A href='?src=[REF(src)];show_storage=[SLOT_UNDER_TOP]'>["Storage"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERWEAR_TOP]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A> | <tr><td><A href='?src=[REF(src)];show_storage=[SLOT_UNDERWEAR_TOP]'>["Storage"]</A></td></tr>"
 	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDER_TOP]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERWEAR_TOP]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A></td></tr>"
 
 	if(SLOT_UNDERSHIRT in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"

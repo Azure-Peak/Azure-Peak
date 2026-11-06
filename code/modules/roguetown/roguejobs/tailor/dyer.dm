@@ -18,12 +18,11 @@ GLOBAL_LIST_EMPTY(used_colors)
 	var/mob/preview_viewer
 	var/list/allowed_types = list(
 			/obj/item/clothing,
+			/obj/item/earrings,
 			/obj/item/rogueweapon,
 			/obj/item/storage,
 			/obj/item/bedroll,
 			/obj/item/flowercrown,
-			/obj/item/clothing/legwears,
-			/obj/item/clothing/underwear_bottom,
 			/obj/item/natural/cloth,
 			/obj/item/caparison,
 			/obj/item/reagent_containers/glass/bottle/clayvase,

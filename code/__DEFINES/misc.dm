@@ -30,7 +30,7 @@
 #define BODYPARTS_LAYER 52
 #define BODY_ADJ_LAYER 51
 #define BODY_LAYER 50
-#define UNDERWEAR_BOT_LAYER 49
+#define UNDERWEAR_BOTTOM_LAYER 49
 #define UNDERWEAR_TOP_LAYER 48
 #define UNDERSHIRT_LAYER 47
 #define UNDERSLEEVE_LAYER 46
@@ -105,7 +105,6 @@
 
 //AND -1 MEANS "ABOVE", OK?, OK!?!
 #define ABOVE_SHOES_LAYER			(SHOES_LAYER-1)
-#define ABOVE_CLOAK_LAYER			(CLOAK_LAYER-0.5)	//used by covers_breasts underwear rendering above clothing - see /datum/bodypart_feature/underwear/get_bodypart_overlay()
 #define ABOVE_BODY_FRONT_LAYER		(BODY_FRONT_LAYER-1)
 
 #define OVER_GLOVES_LAYER			(GLOVESLEEVE_LAYER-0.5)

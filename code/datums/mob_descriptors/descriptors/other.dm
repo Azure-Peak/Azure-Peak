@@ -169,7 +169,7 @@
 	var/obj/item/organ/breasts/breasts = H.getorganslot(ORGAN_SLOT_BREASTS)
 	if(!breasts)
 		return FALSE
-	if(H.underwear_bottom && H.underwear_bottom.covers_breasts)
+	if(!is_human_part_visible(H, HIDEBOOB))
 		return FALSE
 	if(!get_location_accessible(H, BODY_ZONE_CHEST, check_cosmetics = TRUE))
 		return FALSE

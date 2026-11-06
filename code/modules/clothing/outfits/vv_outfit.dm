@@ -41,9 +41,9 @@
 			l_pocket = item_path
 		if(SLOT_R_STORE)
 			r_pocket = item_path
-		if(SLOT_UNDER_BOTTOM)
+		if(SLOT_UNDERWEAR_BOTTOM)
 			underwear_bottom = item_path
-		if(SLOT_UNDER_TOP)
+		if(SLOT_UNDERWEAR_TOP)
 			underwear_top = item_path
 		if(SLOT_UNDERSHIRT)
 			undershirt = item_path

@@ -1,67 +1,9 @@
-/datum/sprite_accessory/underwear_bottom
-	abstract_type = /datum/sprite_accessory/underwear_bottom
-	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
-	color_key_name = "Underwear"
-	///Whether this underwear includes a top (Because gender = FEMALE doesn't actually apply here.). Hides breasts, nothing more.
-	var/hides_breasts = FALSE
-
-// Underwear comes in two cuts: a bulky one (mt/ft_muscular) and a slim one, the latter suffixed _f or named
-// after the elf body it was drawn for. Which cut fits is a question about the body, not the character's gender,
-// so these follow is_bulky_body() the same way worn clothing does.
-// Remaining donor garments select their own states below.
-
-/datum/sprite_accessory/underwear_bottom/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDER_BOT, OFFSET_UNDER_BOT_F)
-
-/datum/sprite_accessory/underwear_bottom/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(hides_breasts)
-		if(is_human_part_visible(owner, HIDECROTCH) || is_human_part_visible(owner, HIDEBOOB))
-			return TRUE
-	return is_human_part_visible(owner, HIDECROTCH)
-
-/datum/sprite_accessory/underwear_bottom/briefs
-	name = "Briefs"
-	icon_state = "male_reg"
-
-/datum/sprite_accessory/underwear_bottom/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(is_species(owner,/datum/species/dwarf))
-		return "maledwarf_reg"
-	if(!owner.is_bulky_body())
-		return "maleelf_reg"
-	return "male_reg"
-
-/datum/sprite_accessory/underwear_bottom/panties
-	name = "Panties"
-	icon_state = "panties"
-
-/datum/sprite_accessory/underwear_bottom/braies
-	name = "Braies"
-	icon_state = "braies"
-
-/datum/sprite_accessory/underwear_bottom/braies/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(!owner.is_bulky_body())
-		return "braies_f"
-	return "braies"
-
-/datum/sprite_accessory/underwear_bottom/briefs/eoran
-	name = "Briefs - Eoran"
-	icon_state = "eoran_reg"
-
-/datum/sprite_accessory/underwear_bottom/briefs/eoran/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(is_species(owner,/datum/species/dwarf))
-		return "eoran_dwarf"
-	if(!owner.is_bulky_body())
-		return "eoran_elf"
-	return "eoran_reg"
-
 /datum/sprite_accessory/legwear
 	abstract_type = /datum/sprite_accessory/legwear
 	icon = 'icons/obj/items/clothes/on_mob/stockings.dmi'
 	color_key_name = "Legwear"
 	layer = LEGWEAR_LAYER
 	var/legwear_type
-	//Whether this underwear includes a top (Because gender = FEMALE doesn't actually apply here.). Hides breasts, nothing more.
-	var/hides_breasts = FALSE
 
 /datum/sprite_accessory/legwear/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	var/tag = icon_state
@@ -137,4 +79,3 @@
 	name = "Ankle-High Sleeves (Stirrup) - Silk"
 	icon_state = "sleeve_as_silk"
 	legwear_type = /obj/item/clothing/legwears/sleeve_stir_ankle_silk
-	legwear_type = /obj/item/clothing/legwears/knee_high_silk

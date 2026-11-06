@@ -105,7 +105,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,0), OFFSET_HEAD_F = list(0,0), \
 	OFFSET_FACE_F = list(0,0), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,0), \
 	OFFSET_NECK_F = list(0,0), OFFSET_MOUTH_F = list(0,0), OFFSET_PANTS_F = list(0,0), \
-	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDER_BOT = list(0,0), OFFSET_UNDER_TOP = list(0,0), OFFSET_UNDER_BOT_F = list(0,0), OFFSET_UNDER_TOP_F = list(0,0), )
+	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDERWEAR_BOTTOM = list(0,0), OFFSET_UNDERWEAR_TOP = list(0,0), OFFSET_UNDERWEAR_BOTTOM_F = list(0,0), OFFSET_UNDERWEAR_TOP_F = list(0,0), )
 
 	var/dam_icon
 	var/dam_icon_f
@@ -744,7 +744,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	if(slotdefine2extraslotbit(slot))
 		if(!H.get_bodypart(BODY_ZONE_CHEST))
 			return FALSE
-		if((slot in list(SLOT_UNDER_BOTTOM, SLOT_UNDER_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS)) && (NO_UNDERWEAR in species_traits))
+		if((slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS)) && (NO_UNDERWEAR in species_traits))
 			return FALSE
 
 	switch(slot)
@@ -1042,13 +1042,13 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(H.belt)
 				if(SEND_SIGNAL(H.belt, COMSIG_TRY_STORAGE_CAN_INSERT, I, H, TRUE))
 					return TRUE
-		if(SLOT_UNDER_BOTTOM)
+		if(SLOT_UNDERWEAR_BOTTOM)
 			if(H.underwear_bottom)
 				return FALSE
 			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
-		if(SLOT_UNDER_TOP)
+		if(SLOT_UNDERWEAR_TOP)
 			if(H.underwear_top)
 				return FALSE
 			if(!I.fits_slot(slot))
@@ -1061,6 +1061,8 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
 		if(SLOT_EARRINGS)
+			if(!H.get_bodypart(BODY_ZONE_HEAD))
+				return FALSE
 			if(H.earrings)
 				return FALSE
 			if(!I.fits_slot(slot))

@@ -40,3 +40,28 @@
 	name = "dangling earrings"
 	icon_state = "dangle"
 	item_state = "dangle"
+
+/obj/item/earrings/attack(mob/M, mob/user, def_zone)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(!H.earrings)
+			if(H.is_inventory_slot_obscured(SLOT_EARRINGS, src))
+				return
+			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
+			if(do_after(user, 50, target = H))
+				equip_from_hands(user, H, SLOT_EARRINGS)
+
+/// Return TRUE when this click targets earrings, including when access is blocked.
+/mob/living/carbon/human/proc/try_remove_earrings(mob/user)
+	if(!isliving(user) || !earrings || user.get_active_held_item() || !(user.zone_selected in list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_EARS)))
+		return FALSE
+	if(!user.Adjacent(src) || user.incapacitated() || user.restrained() || !user.has_active_hand() || is_inventory_slot_obscured(SLOT_EARRINGS))
+		return TRUE
+	if(user != src)
+		user.stripPanelUnequip(earrings, src, SLOT_EARRINGS)
+		return TRUE
+	var/obj/item/ornament = earrings
+	if(ornament.canStrip(user, src) && do_after(user, ornament.strip_delay, needhand = TRUE, target = src))
+		if(ornament && earrings == ornament && !is_inventory_slot_obscured(SLOT_EARRINGS) && dropItemToGround(ornament))
+			put_in_hands(ornament)
+	return TRUE

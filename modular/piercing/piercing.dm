@@ -38,32 +38,11 @@
 		var/tag = icon_state + "-1"
 		return tag
 
-/*
-/datum/sprite_accessory/piercing/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
-		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
-		var/tag = icon_state
-		if(is_species(owner,/datum/species/dwarf))
-			tag = tag + "_dwarf"
-			pixel_y = -2
-		if(is_species(owner,/datum/species/elf) && owner.gender == MALE)
-			tag = tag + "_f"
-			pixel_y = -2
-		return tag
 
-/datum/sprite_accessory/underwear_bottom/briefs/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(is_species(owner,/datum/species/dwarf))
-		return "maledwarf_reg"
-	if(owner.gender == FEMALE)
-		return "maleelf_reg"
-	return "male_reg"
-*/
 /datum/sprite_accessory/piercing/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_SUIT, OFFSET_SUIT)
 
 /datum/sprite_accessory/piercing/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.underwear_bottom && owner.underwear_bottom.covers_breasts)
-		return FALSE
 	return is_human_part_visible(owner, HIDEBOOB|HIDEJUMPSUIT)
 
 /datum/sprite_accessory/piercing/rings

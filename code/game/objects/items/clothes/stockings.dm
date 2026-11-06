@@ -14,7 +14,6 @@
 	integrity_failure = GENERIC_INTEG_FAILURE
 	throw_speed = 0.5
 	drop_sound = 'sound/foley/dropsound/cloth_drop.ogg'
-	var/covers_breasts = FALSE
 	sewrepair = TRUE
 	salvage_result = /obj/item/natural/cloth
 	slot_flags = ITEM_SLOT_MOUTH
@@ -35,7 +34,7 @@
 			if(do_after(user, 50, needhand = 1, target = H))
 				equip_from_hands(user, H, SLOT_SOCKS)
 
-/obj/item/clothing/legwears/random/Initialize()
+/obj/item/clothing/legwears/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -63,7 +62,7 @@
 	icon_state = "silk"
 	item_state = "silk"
 
-/obj/item/clothing/legwears/silk/random/Initialize()
+/obj/item/clothing/legwears/silk/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -91,7 +90,7 @@
 	icon_state = "fishnet"
 	item_state = "fishnet"
 
-/obj/item/clothing/legwears/fishnet/random/Initialize()
+/obj/item/clothing/legwears/fishnet/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -118,7 +117,7 @@
 	icon_state = "thigh"
 	item_state = "thigh"
 
-/obj/item/clothing/legwears/thigh_high/random/Initialize()
+/obj/item/clothing/legwears/thigh_high/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -143,7 +142,7 @@
 	icon_state = "knee"
 	item_state = "knee"
 
-/obj/item/clothing/legwears/knee_high/random/Initialize()
+/obj/item/clothing/legwears/knee_high/random/Initialize(mapload)
 	. = ..()
 	color = pick("#e6e5e5", CLOTHING_BLACK, CLOTHING_BLUE, "#6F0000", "#664357")
 
@@ -401,7 +400,7 @@
 				/obj/item/natural/fibers = 1)
 	craftdiff = 5
 
-/datum/crafting_recipe/roguetown/sewing/sleeves_knee_silk_white
+/datum/crafting_recipe/roguetown/sewing/sleeves_stir_knee_silk_white
 	name = "silk sleeves - knee (stirrup)"
 	result = list(/obj/item/clothing/legwears/sleeve_stir_knee_silk/white)
 	reqs = list(/obj/item/natural/silk = 1,

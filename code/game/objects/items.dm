@@ -1236,9 +1236,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		owner.update_inv_pants()
 	if(flags & ITEM_SLOT_CLOAK)
 		owner.update_inv_cloak()
-	if(extra_flags & EXTRA_SLOT_UNDER_BOTTOM)
+	if(extra_flags & EXTRA_SLOT_UNDERWEAR_BOTTOM)
 		owner.update_inv_underwear_bottom()
-	if(extra_flags & EXTRA_SLOT_UNDER_TOP)
+	if(extra_flags & EXTRA_SLOT_UNDERWEAR_TOP)
 		owner.update_inv_underwear_top()
 	if(extra_flags & EXTRA_SLOT_UNDERSHIRT)
 		owner.update_inv_undershirt()
@@ -2069,3 +2069,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(extra_flag)
 		return !!(extra_slot_flags & extra_flag)
 	return !!(slot_flags & slotdefine2slotbit(slot))
+
+/// Direct equipment interactions must transfer ownership as well as populate a slot.
+/// The interaction has already waited; validate again before releasing the user's hand.
+/obj/item/proc/equip_from_hands(mob/user, mob/living/carbon/human/wearer, slot)
+	if(!user.is_holding(src) || !user.Adjacent(wearer) || wearer.is_inventory_slot_obscured(slot, src))
+		return FALSE
+	if(!mob_can_equip(wearer, user, slot, TRUE, TRUE))
+		return FALSE
+	if(!user.temporarilyRemoveItemFromInventory(src))
+		return FALSE
+	wearer.equip_to_slot(src, slot)
+	return TRUE
