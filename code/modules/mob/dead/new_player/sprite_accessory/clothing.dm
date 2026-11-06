@@ -143,3 +143,51 @@
 	name = "Dangle Earrings"
 	item_type = /obj/item/earrings/dangle
 	color_disabled = FALSE
+
+/datum/sprite_accessory/clothing/legwear
+	abstract_type = /datum/sprite_accessory/clothing/legwear
+	color_key_name = "Legwear"
+
+/datum/sprite_accessory/clothing/legwear/stockings
+	name = "Stockings"
+	item_type = /obj/item/clothing/legwears
+
+/datum/sprite_accessory/clothing/legwear/stockings/silk
+	name = "Silk Stockings"
+	item_type = /obj/item/clothing/legwears/silk
+
+/datum/sprite_accessory/clothing/legwear/stockings/fishnet
+	name = "Fishnet Stockings"
+	item_type = /obj/item/clothing/legwears/fishnet
+
+/datum/sprite_accessory/clothing/legwear/stockings/thigh_high
+	name = "Thigh-High Stockings"
+	item_type = /obj/item/clothing/legwears/thigh_high
+
+/datum/sprite_accessory/clothing/legwear/stockings/thigh_high_silk
+	name = "Thigh-High Stockings - Silk"
+	item_type = /obj/item/clothing/legwears/thigh_high_silk
+
+/datum/sprite_accessory/clothing/legwear/stockings/knee_high
+	name = "Knee-High Stockings"
+	item_type = /obj/item/clothing/legwears/knee_high
+
+/datum/sprite_accessory/clothing/legwear/stockings/knee_high_silk
+	name = "Knee-High Stockings - Silk"
+	item_type = /obj/item/clothing/legwears/knee_high_silk
+
+/datum/sprite_accessory/clothing/legwear/stockings/sleeve_knee_silk
+	name = "Knee-High Sleeves - Silk"
+	item_type = /obj/item/clothing/legwears/sleeve_knee_silk
+
+/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_knee_silk
+	name = "Knee-High Sleeves (Stirrup) - Silk"
+	item_type = /obj/item/clothing/legwears/sleeve_stir_knee_silk
+
+/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_thigh_silk
+	name = "Thigh-High Sleeves (Stirrup) - Silk"
+	item_type = /obj/item/clothing/legwears/sleeve_stir_thigh_silk
+
+/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_ankle_silk
+	name = "Ankle-High Sleeves (Stirrup) - Silk"
+	item_type = /obj/item/clothing/legwears/sleeve_stir_ankle_silk

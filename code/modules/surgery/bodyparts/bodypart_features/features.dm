@@ -167,11 +167,6 @@
 	feature_slot = BODYPART_FEATURE_CREST
 	body_zone = BODY_ZONE_HEAD
 
-/datum/bodypart_feature/legwear
-	name = "Legwear"
-	feature_slot = BODYPART_FEATURE_LEGWEAR
-	body_zone = BODY_ZONE_CHEST
-
 /datum/bodypart_feature/pubes
 	name = "Pubic Hair"
 	feature_slot = BODYPART_FEATURE_PUBES

@@ -57,7 +57,7 @@
 		/datum/customizer/clothing/undershirt,
 		/datum/customizer/clothing/armsleeves,
 		/datum/customizer/clothing/earrings,
-		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/clothing/legwear,
 		/datum/customizer/organ/penis/anthro,
 		/datum/customizer/organ/breasts/human,
 		/datum/customizer/organ/vagina/human_anthro,
