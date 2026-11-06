@@ -1,5 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - rscadd: "forlorne vice: gives + 1 TRI and makes you spawn deep on the map randomly"
-  - bugfix: "wanted vice is no longer able to be picked by some town jobs"

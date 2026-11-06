@@ -34971,10 +34971,8 @@
 /turf/open/floor/rogue/cobble,
 /area/rogue/under/cave/his_vault)
 "fUO" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
 /obj/item/bedsheet/rogue/fabric_double,
+/obj/structure/bed/rogue/inn/double,
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/church/chapel)
 "fUQ" = (
@@ -57894,10 +57892,8 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/outdoors/rtfield/eora)
 "jPp" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
 /obj/item/bedsheet/rogue/double_pelt,
+/obj/structure/bed/rogue/inn/double,
 /turf/open/floor/rogue/hexstone,
 /area/rogue/indoors/town/church/chapel)
 "jPs" = (
@@ -74955,10 +74951,8 @@
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/inq/chapel)
 "mEX" = (
-/obj/structure/bed/rogue/inn/double{
-	can_buckle = 0
-	},
 /obj/item/bedsheet/rogue/fabric_double,
+/obj/structure/bed/rogue/inn/double,
 /turf/open/floor/carpet/red,
 /area/rogue/indoors/town/church/chapel)
 "mEY" = (

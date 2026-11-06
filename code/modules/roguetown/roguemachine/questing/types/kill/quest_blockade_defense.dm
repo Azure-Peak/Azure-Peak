@@ -23,7 +23,6 @@
 	var/intermission_bell_id
 	var/datum/weakref/wave_landmark_ref
 	var/datum/weakref/blockade_ref
-	var/armed = FALSE
 	var/current_archetype = BLOCKADE_ARCHETYPE_WARBAND
 	var/wave_boss_name
 
@@ -94,13 +93,6 @@
 			data["blockade_timer_label"] = "Wave [current_wave] ends in"
 			data["blockade_timer_seconds"] = round(left / 10)
 
-/datum/quest/kill/blockade_defense/get_target_location()
-	var/turf/from_mobs = ..()
-	if(from_mobs)
-		return from_mobs
-	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
-	return landmark ? get_turf(landmark) : null
-
 /datum/quest/kill/blockade_defense/calculate_reward(turf/origin_turf, turf/target_turf)
 	return reward_amount
 
@@ -116,26 +108,9 @@
 	if(!landmark)
 		return FALSE
 	wave_landmark_ref = WEAKREF(landmark)
-	armed = TRUE
-	return TRUE
+	return ..()
 
-/datum/quest/kill/blockade_defense/proc/check_arrival(mob/bearer)
-	if(!armed || failed || complete)
-		return
-	if(!bearer)
-		return
-	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
-	if(!landmark)
-		return
-	var/turf/bearer_turf = get_turf(bearer)
-	var/turf/landmark_turf = get_turf(landmark)
-	if(!bearer_turf || !landmark_turf)
-		return
-	if(bearer_turf.z != landmark_turf.z)
-		return
-	if(get_dist(bearer_turf, landmark_turf) > 7)
-		return
-	armed = FALSE
+/datum/quest/kill/blockade_defense/on_arrival(obj/effect/landmark/quest_spawner/landmark)
 	announce_to_bearer("<b>You have reached the blockade.</b> Ready yourselves.")
 	spawn_wave(1)
 
@@ -146,9 +121,7 @@
 	var/list/present = list()
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(bearer)
-		present |= bearer
-		if(bearer.current_fellowship)
-			present |= bearer.current_fellowship.get_members()
+		present |= present_fellowship_members(bearer, landmark)
 	var/turf/center = get_turf(landmark)
 	if(center)
 		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))

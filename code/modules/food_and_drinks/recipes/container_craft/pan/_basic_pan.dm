@@ -11,7 +11,7 @@
 
 /datum/container_craft/pan/get_real_time(atom/host, mob/user, estimated_multiplier)
 	var/real_cooking_time = crafting_time * estimated_multiplier
-	return round(real_cooking_time / get_cooktime_divisor(user?.get_skill_level(used_skill)))
+	return round(real_cooking_time / get_skill_speed_divisor(user?.get_skill_level(used_skill)))
 
 /datum/container_craft/pan/after_craft(atom/created_output, obj/item/crafter, mob/initiator, list/removing_items)
 	. = ..()
