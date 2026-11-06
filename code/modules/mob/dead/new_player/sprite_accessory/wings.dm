@@ -49,9 +49,9 @@
 	name = "Bat"
 	icon_state = "bat"
 
-/datum/sprite_accessory/wings/featheryv2
-	name = "Feathery V2"
-	icon_state = "featheryv2"
+/datum/sprite_accessory/wings/feathery_alt
+	name = "Feathery (Alt)"
+	icon_state = "featheryalt"
 
 /datum/sprite_accessory/wings/dragon/clipped
 	name = "Clipped Dragon"
