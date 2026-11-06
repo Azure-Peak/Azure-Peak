@@ -116,6 +116,7 @@
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //shrug off a certain number of crits.
 
 #define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
+#define TRAIT_ROCKMAN "Geohearted" // basically ironman but not really, used for diff flavor of some things
 
 //Near the above, this makes you silver weak + while-sundered ignore paincrit traits, define another w/ TRAIT_LYCANRESILENCE if you need another silver weak, stun immune exemption that still burns from silver.
 #define TRAIT_SILVER_WEAK "Silver Weakness"
@@ -667,6 +668,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_ROTMAN = span_necrosis("I am partially undead. My heart does not beat."),
 	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance, regardless of my equipment. I am stiff and unthinking, my trait-defining techniques and smarts in lyfe will not always follow me into this undeath, I cannot benefit from woodwalker or falling immunity. <b>My wounds and injuries will passively regenerate away as long as I am not set ablaze.</b>"),
 	TRAIT_IRONMAN = span_info("I am an artificial being with a physiology unlike that of organics and react very little to physical trauma. Minerals, gems and ingots restore my structure, but electrocution is especially fatal to me. When critically damaged, I can be stabilized through sticks or rocks, but I will rapidly decay otherwise if not repaired in time. I can process certain materials on the go, and with empty hands, Combat Mode active, and a STRONG stance, I can mine mineral walls and topple trees by bumping into them."),
+	TRAIT_ROCKMAN = span_info("I am golem-like, a more 'natural' artificial being, compared to others of my kind. My core and internals are made and infused of many magical minerals, which makes repairing me impossible for my physiology is vastly different. I can only be healed by consuming or being infused with minerals and ore. Ever so often I can generate a barrier of granite around my skin, which nullifies the first instance of damage I take."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),
 	TRAIT_NOPAIN = span_info("I feel no pain. I can endure more burns before collapsing."),

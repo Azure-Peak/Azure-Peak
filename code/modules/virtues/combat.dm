@@ -148,8 +148,7 @@
 	add_verb(recipient, /mob/living/carbon/human/proc/emote_ffsalute)
 	add_verb(recipient, /mob/living/carbon/human/proc/toggle_guarded)
 
-
-/datum/virtue/combat/second_chance
+/datum/virtue/combat/rotcured
 	name = "Rotcured"
 	desc = "I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe."
 	custom_text = "Grants Easy Dismember, Painless, Breathless, Deathless, Poison Immune, Deadite Immune and Silver Weakness. You can also eat brains, you don't suffer nausea, and your heart does not beat."
@@ -157,16 +156,14 @@
 	restricted = TRUE
 	races = list(/datum/species/construct/metal, /datum/species/gnoll)
 
-/datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
+/datum/virtue/combat/rotcured/apply_to_human(mob/living/carbon/human/recipient)
 	spawn(80)
 		if(QDELETED(src) || QDELETED(recipient))
 			return
-
 		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
 			to_chat(recipient, "Rotcured cannot be applied to your role, so it has been removed.")
 			QDEL_NULL(src)
 			return
-
 		ADD_TRAIT(recipient, TRAIT_ROTMAN, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_EASYDISMEMBER, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_NOPAIN, TRAIT_VIRTUE)
@@ -175,7 +172,7 @@
 		ADD_TRAIT(recipient, TRAIT_TOXIMMUNE, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-		to_chat(recipient, "You are no longer a rotting corpse, at least not a dying one.")
+		to_chat(recipient, span_necrosis("You are no longer a rotting corpse, at least not a dying one."))
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"
@@ -199,3 +196,23 @@
 
 /datum/virtue/combat/combat_aware/apply_to_human(mob/living/carbon/human/recipient)
 	add_verb(recipient, /mob/living/carbon/human/proc/togglecombatawareness)
+
+/datum/virtue/combat/geoheart
+	name = "Geoheart"
+	desc = "Your core and form weren't made by humen hands, not at all. From dust of the minerals and the whims of creatures older than mankind you came, and to dust you shall never return. Existence shall be your eternal suffering."
+	custom_text = "Additionally, your racial speed malus is removed, you gain the Boon of Natural Communion and can shape your fingers into claws."
+	ui_fa_icon = "biohazard"
+	permitted = TRUE
+	races = list(/datum/species/construct/metal)
+
+/datum/virtue/combat/geoheart/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.apply_status_effect(/datum/status_effect/buff/hag_boon/natural_communion)
+	add_verb(recipient, /mob/living/carbon/human/proc/toggle_claws) // Can shape your fingers into claws to cut the enemy with punches.
+	ADD_TRAIT(recipient, TRAIT_FEYBOUND, TRAIT_VIRTUE) // You're a fey construct, basically.
+	ADD_TRAIT(recipient, TRAIT_ROCKMAN, TRAIT_VIRTUE) // Cannot heal from being repaired. Cannot be resurrected. If you are dead, you will eventually revive after 8 minutes or so, as long as your body's integrity is intact.
+	ADD_TRAIT(recipient, TRAIT_FASTSLEEP, TRAIT_VIRTUE) // Honkshoo.
+	ADD_TRAIT(recipient, TRAIT_SHOCKIMMUNE, TRAIT_VIRTUE) // Electricity isn't a problem for you.
+	ADD_TRAIT(recipient, TRAIT_NORUN, TRAIT_VIRTUE) // Main drawback. No running for you, ser.
+	ADD_TRAIT(recipient, TRAIT_HEAVYSET, TRAIT_VIRTUE) // Second drawback, you take longer to stand up. Way longer. Gives disadvantage on dodge attempts.
+	recipient.change_stat(STATKEY_SPD, 2)
+	to_chat(recipient, span_necrosis("Your core beats to the rhythms of nature, not mankind."))

@@ -23,13 +23,15 @@ GLOBAL_LIST_EMPTY(virtues)
 	var/list/added_stats = list()
 	/// Whether the virtue uses racial restrictions
 	var/restricted = FALSE
+	/// Whether the virtue uses racial restrictions, other way around
+	var/permitted = FALSE
 	/// Whether the origin lets you choose a language freely.
 	var/extra_language = FALSE
 	/// For use in outfits applying origins.
 	var/job_origin
 	/// For use in outfits applying origins.
 	var/datum/virtue/last_origin
-	/// A list of races restricted.
+	/// A list of races restricted. If we're 'permitted', then only races here are allowed.
 	var/list/races = list()
 	/// The cost of the virtue to apply in TRIUMPH points, if any.
 	var/triumph_cost = 0

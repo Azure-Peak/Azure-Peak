@@ -176,6 +176,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		if(V.restricted == TRUE)
 			if((species.type in V.races))
 				return FALSE
+		if(V.permitted == TRUE)
+			if(!(species.type in V.races))
+				return FALSE
 		if(istype(V,/datum/virtue/origin/racial))
 			if(!(species.type in V.races))
 				return FALSE
