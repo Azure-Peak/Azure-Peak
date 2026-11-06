@@ -42,14 +42,14 @@
 	item_state = "dangle"
 
 /obj/item/earrings/attack(mob/M, mob/user, def_zone)
-	if(!ishuman(M))
-		return ..()
-	var/mob/living/carbon/human/wearer = M
-	if(wearer.earrings || wearer.is_inventory_slot_obscured(SLOT_EARRINGS))
-		return
-	user.visible_message(span_notice("[user] tries to put [src] on [wearer]..."))
-	if(do_after(user, equip_delay_other, target = wearer))
-		equip_from_hands(user, wearer, SLOT_EARRINGS)
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(!H.earrings)
+			if(H.is_inventory_slot_obscured(SLOT_EARRINGS, src))
+				return
+			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
+			if(do_after(user, 50, target = H))
+				equip_from_hands(user, H, SLOT_EARRINGS)
 
 /// Return TRUE when this click targets earrings, including when access is blocked.
 /mob/living/carbon/human/proc/try_remove_earrings(mob/user)
