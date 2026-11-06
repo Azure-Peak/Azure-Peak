@@ -4593,41 +4593,16 @@ As Excaliber."
 	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
 
 //TrueTerrydactyl
-/obj/item/clothing/underwear_bottom/shibari
+/obj/item/clothing/undershirt/shibari
 	name = "shibari ropes"
 	desc = "Strange smallclothes from stranger lands, consisting of a thin silk ropes that's decoratively wound across the body's more immodest points."
-	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
-	icon_state = "shibariropes"
-	covers_breasts = FALSE
+	icon_state = "shibari"
+	item_state = "shibari"
+	gendered = FALSE
+	boobed = FALSE
 	flags_inv = NONE
-	sprite_acc = /datum/sprite_accessory/underwear_bottom_render/shibari
-
-/datum/sprite_accessory/underwear_bottom_render/shibari
-	name = "shibari ropes"
-	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
-	icon_state = "female_shibari"
-	preview_states = list("shibari_f_0")
-	hides_breasts = FALSE
-
-/datum/sprite_accessory/underwear_bottom_render/shibari/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.getorganslot(ORGAN_SLOT_BREASTS))
-		var/obj/item/organ/breasts/breasts = owner.getorganslot(ORGAN_SLOT_BREASTS)
-		var/tag = "shibari_f"
-		if(breasts.breast_size == 0)
-			tag = tag + "_0"
-		if(breasts.breast_size == 1)
-			tag = tag + "_0"
-		if(breasts.breast_size == 2)
-			tag = tag + "_0"
-		if(breasts.breast_size == 3)
-			tag = tag + "_0"
-		if(breasts.breast_size == 4)
-			tag = tag + "_0"
-		if(breasts.breast_size == 5)
-			tag = tag + "_0"
-		return tag
-	else
-		return "shibari_f_0"
+	worn_offset = OFFSET_UNDER_BOT
+	worn_offset_f = OFFSET_UNDER_BOT_F
 
 //Guidesa
 /obj/item/rogueweapon/shield/buckler/guidesa_bonebuckler

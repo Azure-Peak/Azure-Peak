@@ -35,13 +35,13 @@
 		if(get_num_arms(FALSE) < 1)
 			return
 		if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
-			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
+			if(!is_inventory_slot_obscured(SLOT_UNDER_BOTTOM))
 				if(!underwear_bottom)
 					return
+				var/obj/item/garment = underwear_bottom
 				src.visible_message(span_notice("[src] begins to take off [underwear_bottom]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					var/obj/item/garment = underwear_bottom
-					if(garment && dropItemToGround(garment))
+					if(garment && garment == underwear_bottom && !is_inventory_slot_obscured(SLOT_UNDER_BOTTOM) && dropItemToGround(garment))
 						put_in_hands(garment)
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
 			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
@@ -343,25 +343,10 @@
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_ARMSLEEVES];extra_only=[extra_only]'>[(armsleeves && !(armsleeves.item_flags & ABSTRACT)) ? armsleeves : "<font color=grey>Armsleeves</font>"]</A></td></tr>"
 
-	if(SLOT_GARTER in obscured)
+	if(SLOT_EARRINGS in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_GARTER];extra_only=[extra_only]'>[(garter && !(garter.item_flags & ABSTRACT)) ? garter : "<font color=grey>Garter</font>"]</A></td></tr>"
-
-	if(SLOT_CHOKER in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_CHOKER];extra_only=[extra_only]'>[(choker && !(choker.item_flags & ABSTRACT)) ? choker : "<font color=grey>Choker</font>"]</A></td></tr>"
-
-	if(SLOT_EARRING_L in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRING_L];extra_only=[extra_only]'>[(earring_l && !(earring_l.item_flags & ABSTRACT)) ? earring_l : "<font color=grey>Left Earring</font>"]</A></td></tr>"
-
-	if(SLOT_EARRING_R in obscured)
-		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
-	else
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRING_R];extra_only=[extra_only]'>[(earring_r && !(earring_r.item_flags & ABSTRACT)) ? earring_r : "<font color=grey>Right Earring</font>"]</A></td></tr>"
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRINGS];extra_only=[extra_only]'>[(earrings && !(earrings.item_flags & ABSTRACT)) ? earrings : "<font color=grey>Earrings</font>"]</A></td></tr>"
 
 	if(SLOT_SOCKS in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"

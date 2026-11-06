@@ -312,20 +312,11 @@
 	if(armsleeves && !(SLOT_ARMSLEEVES in obscured))
 		. += "[m3] [armsleeves.get_examine_string(user)] on [m2] arms."
 
-	if(garter && !(SLOT_GARTER in obscured))
-		. += "[m3] [garter.get_examine_string(user)] on [m2] waist."
-
-	if(choker && !(SLOT_CHOKER in obscured))
-		. += "[m3] [choker.get_examine_string(user)] around [m2] neck."
-
 	if(legwear_socks && !(SLOT_SOCKS in obscured))
 		. += "[m3] [legwear_socks.get_examine_string(user)] on [m2] legs."
 
-	if(earring_l && !(SLOT_EARRING_L in obscured))
-		. += "[m3] [earring_l.get_examine_string(user)] in [m2] left ear."
-
-	if(earring_r && !(SLOT_EARRING_R in obscured))
-		. += "[m3] [earring_r.get_examine_string(user)] around [m2] right ear."
+	if(earrings && !(SLOT_EARRINGS in obscured))
+		. += "[m3] [earrings.get_examine_string(user)] in [m2] ears."
 
 	//arcyne ward
 	if(istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/manual/arcyne_ward))

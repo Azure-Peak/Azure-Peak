@@ -105,7 +105,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,0), OFFSET_HEAD_F = list(0,0), \
 	OFFSET_FACE_F = list(0,0), OFFSET_BELT_F = list(0,0), OFFSET_BACK_F = list(0,0), \
 	OFFSET_NECK_F = list(0,0), OFFSET_MOUTH_F = list(0,0), OFFSET_PANTS_F = list(0,0), \
-	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES = list(0,0), OFFSET_UNDIES_F = list(0,0), OFFSET_BRA = list(0,0), OFFSET_BRA_F = list(0,0),)
+	OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDER_BOT = list(0,0), OFFSET_UNDER_TOP = list(0,0), OFFSET_UNDER_BOT_F = list(0,0), OFFSET_UNDER_TOP_F = list(0,0), )
 
 	var/dam_icon
 	var/dam_icon_f
@@ -1060,26 +1060,8 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(!I.fits_slot(slot))
 				return FALSE
 			return equip_delay_self_check(I, H, bypass_equip_delay_self)
-		if(SLOT_GARTER)
-			if(H.garter)
-				return FALSE
-			if(!I.fits_slot(slot))
-				return FALSE
-			return equip_delay_self_check(I, H, bypass_equip_delay_self)
-		if(SLOT_CHOKER)
-			if(H.choker)
-				return FALSE
-			if(!I.fits_slot(slot))
-				return FALSE
-			return equip_delay_self_check(I, H, bypass_equip_delay_self)
-		if(SLOT_EARRING_L)
-			if(H.earring_l)
-				return FALSE
-			if(!I.fits_slot(slot))
-				return FALSE
-			return equip_delay_self_check(I, H, bypass_equip_delay_self)
-		if(SLOT_EARRING_R)
-			if(H.earring_r)
+		if(SLOT_EARRINGS)
+			if(H.earrings)
 				return FALSE
 			if(!I.fits_slot(slot))
 				return FALSE

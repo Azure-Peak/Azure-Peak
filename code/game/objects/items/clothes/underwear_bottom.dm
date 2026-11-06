@@ -35,7 +35,7 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!H.underwear_bottom)
-			if(!get_location_accessible(H, BODY_ZONE_PRECISE_GROIN))
+			if(H.is_inventory_slot_obscured(SLOT_UNDER_BOTTOM, src))
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
@@ -75,19 +75,10 @@
 	item_state = "braies"
 
 /obj/item/clothing/underwear_bottom/briefs_eoran
-	sprite_acc = /datum/sprite_accessory/underwear_bottom_render/briefs/eoran
+	sprite_acc = /datum/sprite_accessory/underwear_bottom/briefs/eoran
 	name = "eoran briefs"
 	icon_state = "briefs"
 	item_state = "briefs"
-
-/obj/item/clothing/underwear_bottom/bandages
-	icon = 'icons/mob/sprite_accessory/underwear_bottom.dmi'
-	sprite_acc = /datum/sprite_accessory/underwear_bottom_render/bandages
-	covers_breasts = TRUE
-	flags_inv = HIDECROTCH | HIDEBOOB
-	name = "bandages"
-	icon_state = "bandages"
-	item_state = "bandages"
 
 /datum/crafting_recipe/roguetown/sewing/underwear_bottom
 	name = "briefs"

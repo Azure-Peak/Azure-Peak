@@ -807,7 +807,7 @@ BLIND		// can't see anything
 /// Direct clothing attacks must transfer ownership as well as populate a slot.
 /// The interaction has already waited; validate again before releasing the user's hand.
 /obj/item/clothing/proc/equip_from_hands(mob/user, mob/living/carbon/human/wearer, slot)
-	if(!user.is_holding(src) || !user.Adjacent(wearer) || wearer.is_inventory_slot_obscured(slot))
+	if(!user.is_holding(src) || !user.Adjacent(wearer) || wearer.is_inventory_slot_obscured(slot, src))
 		return FALSE
 	if(!mob_can_equip(wearer, user, slot, TRUE, TRUE))
 		return FALSE

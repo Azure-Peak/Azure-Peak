@@ -416,14 +416,8 @@
 		items += underwear_top
 	if(undershirt)
 		items += undershirt
-	if(garter)
-		items += garter
-	if(choker)
-		items += choker
-	if(earring_l)
-		items += earring_l
-	if(earring_r)
-		items += earring_r
+	if(earrings)
+		items += earrings
 	if(include_pockets)
 		if(l_store)
 			items += l_store
@@ -460,9 +454,7 @@
 
 	if(hidden_slots & HIDENECK)
 		obscured += SLOT_NECK
-		obscured += SLOT_CHOKER
-		obscured += SLOT_EARRING_L
-		obscured += SLOT_EARRING_R
+		obscured += SLOT_EARRINGS
 	if(hidden_slots & HIDEMASK)
 		obscured += SLOT_WEAR_MASK
 	if(hidden_slots & HIDEEYES)
@@ -480,7 +472,6 @@
 		obscured += SLOT_BELT_R
 		obscured += SLOT_BELT_L
 		obscured += SLOT_BELT
-		obscured += SLOT_GARTER
 	if(hidden_slots & HIDEUNDIETOP)
 		obscured += SLOT_UNDER_TOP
 	if(hidden_slots & HIDEUNDIEBOT)
@@ -491,8 +482,8 @@
 	if(transparent_protection)
 		for(var/obj/item/covering as anything in equipped)
 			var/cover_flags = covering.flags_inv | covering.transparent_protection
-			if((cover_flags & HIDECROTCH) && covering != underwear_bottom && covering != garter)
-				obscured |= list(SLOT_UNDER_BOTTOM, SLOT_GARTER)
+			if((cover_flags & HIDECROTCH) && covering != underwear_bottom)
+				obscured |= list(SLOT_UNDER_BOTTOM)
 			if((cover_flags & HIDEBOOB) && covering != underwear_top)
 				obscured |= SLOT_UNDER_TOP
 	return obscured

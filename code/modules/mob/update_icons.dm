@@ -100,16 +100,7 @@
 /mob/proc/update_inv_undershirt()
 	return
 
-/mob/proc/update_inv_garter()
-	return
-
-/mob/proc/update_inv_choker()
-	return
-
-/mob/proc/update_inv_earring_l()
-	return
-
-/mob/proc/update_inv_earring_r()
+/mob/proc/update_inv_earrings()
 	return
 
 /mob/proc/update_inv_socks()

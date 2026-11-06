@@ -23,12 +23,16 @@
 	nodismemsleeves = TRUE
 	sleevetype = null
 	sleeved = null
+	/// Areas that must be accessible to put on or remove this one-piece garment.
+	var/strip_zones = CHEST | GROIN
+	var/worn_offset = OFFSET_SHIRT
+	var/worn_offset_f = OFFSET_SHIRT_F
 
 /obj/item/clothing/undershirt/attack(mob/M, mob/user, def_zone)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!H.undershirt)
-			if(!get_location_accessible(H, BODY_ZONE_CHEST))
+			if(H.is_inventory_slot_obscured(SLOT_UNDERSHIRT, src))
 				return
 			user.visible_message(span_notice("[user] tries to put [src] on [H]..."))
 			if(do_after(user, 50, target = H))
@@ -53,6 +57,7 @@
 	name = "sheer half-body"
 	icon_state = "solid-half"
 	item_state = "solid-half"
+	strip_zones = CHEST
 
 /obj/item/clothing/undershirt/fullbody
 	name = "full-body suit"
@@ -73,6 +78,7 @@
 	name = "silk half-body"
 	icon_state = "silk-half"
 	item_state = "silk-half"
+	strip_zones = CHEST
 
 /obj/item/clothing/undershirt/mesh
 	name = "mesh body"
@@ -83,6 +89,7 @@
 	name = "mesh half-body"
 	icon_state = "mesh-half"
 	item_state = "mesh-half"
+	strip_zones = CHEST
 
 /obj/item/clothing/undershirt/net
 	name = "net body"
@@ -93,3 +100,20 @@
 	name = "net half-body"
 	icon_state = "net-half"
 	item_state = "net-half"
+	strip_zones = CHEST
+
+/obj/item/clothing/undershirt/bandages
+	name = "body bandages"
+	desc = "Cloth bandages wrapped around the chest and hips."
+	icon_state = "bandages"
+	item_state = "bandages"
+	boobed = FALSE
+	flags_inv = HIDECROTCH | HIDEBOOB
+	worn_offset = OFFSET_UNDER_BOT
+	worn_offset_f = OFFSET_UNDER_BOT_F
+
+/datum/crafting_recipe/roguetown/sewing/bandages_underwear
+	name = "bandages (underwear)"
+	result = list(/obj/item/clothing/undershirt/bandages)
+	reqs = list(/obj/item/natural/cloth/bandage = 1)
+	craftdiff = 2
