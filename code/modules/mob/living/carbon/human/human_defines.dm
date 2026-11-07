@@ -239,3 +239,9 @@
 
 	/// Guarded Virtue (TRAIT_DECEIVING_MEEKNESS) exclusive variable for filtering out our descriptors from examine.
 	var/show_descriptors = TRUE
+
+	/// Our last used key. Updates whenever we lock / unlock doors.
+	var/last_used_keyhash
+
+	/// world.time snapshot until when our last_used_keyhash can be imprinted in wax putty without any alarm.
+	var/key_imprint_valid_until

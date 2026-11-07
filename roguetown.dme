@@ -3053,6 +3053,7 @@
 #include "code\modules\roguetown\roguejobs\miner\mineroresight.dm"
 #include "code\modules\roguetown\roguejobs\miner\rogueores.dm"
 #include "code\modules\roguetown\roguejobs\miner\tools.dm"
+#include "code\modules\roguetown\roguejobs\rogue\waxputty.dm"
 #include "code\modules\roguetown\roguejobs\tailor\dyer.dm"
 #include "code\modules\roguetown\roguejobs\tailor\loom.dm"
 #include "code\modules\roguetown\roguejobs\tailor\tanning.dm"
