@@ -48,11 +48,9 @@
 	name = "Mess Kit"
 	contains = list(/obj/item/storage/gadget/messkit)
 
-/datum/supply_pack/rogue/adventure_supplies/needles
-	name = "Needles"
-	contains = list(/obj/item/needle,
-					/obj/item/needle,
-					/obj/item/needle)
+/datum/supply_pack/rogue/adventure_supplies/needle
+	name = "Iron Needle"
+	contains = list(/obj/item/needle)
 
 /datum/supply_pack/rogue/adventure_supplies/rationpaper
 	name = "Ration Wrapping Paper"
