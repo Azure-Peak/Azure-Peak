@@ -798,3 +798,520 @@
 		H.grant_language (/datum/language/beast)
 
 	beltr = /obj/item/flashlight/flare/torch/lantern //post-belt application we put this onto your hip
+
+
+/datum/advclass/cleric/zealot
+	name = "Zealot"
+	tutorial = "A fervent servant of the divine, devoted to the mastery of miracles and the art of war. You forsake armor and the safety of evasion, offering your body and soul to the fires of battle. Every wound you suffer is a testament to your faith, and every blow you strike, a lesson to the unbelievers. You shall make your faith known, through holy words or the might of your arms."
+	outfit = /datum/outfit/job/roguetown/adventurer/cleric/zealot
+	traits_applied = list(TRAIT_HOMESTEAD_EXPERT, TRAIT_NOPAINSTUN, TRAIT_BLOOD_RESISTANCE)
+	category_tags = list(CTAG_ADVENTURER, CTAG_COURTAGENT)
+	townie_contract_gate_exempt = TRUE
+	townie_contract_gate_hide_in_list = TRUE
+	class_select_category = CLASS_CAT_CLERIC
+	subclass_stats = list(
+		STATKEY_WIL = 4,
+		STATKEY_SPD = 2,
+		STATKEY_LCK = 1,
+	)
+	subclass_skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/swimming = SKILL_LEVEL_NOVICE,
+		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/athletics = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/misc/reading = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/cooking = SKILL_LEVEL_APPRENTICE,
+	)
+	extra_context = "Zealots start with a skill that allows them to perform a god-based war cry that further emboldens themselves and all allies of the same clerical faction."
+
+/datum/outfit/job/roguetown/adventurer/cleric/zealot
+	allowed_patrons = ALL_PATRONS
+
+/datum/outfit/job/roguetown/adventurer/cleric/zealot/pre_equip(mob/living/carbon/human/H)
+	head = /obj/item/clothing/head/roguetown/headband/monk
+	armor = /obj/item/clothing/suit/roguetown/armor/vestments_padded
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/sandals
+	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
+	backl = /obj/item/storage/backpack/rogue/satchel
+	beltr = /obj/item/flashlight/flare/torch/lantern
+	neck = /obj/item/clothing/neck/roguetown/gorget
+	backpack_contents = list(
+		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/book/rogue/bibble = 1,
+		/obj/item/book/rogue/bibble/psy = 1,
+	)
+
+	if(istype(H.patron, /datum/patron/divine/dendor))
+		H.adjust_skillrank_up_to(/datum/skill/magic/druidic, SKILL_LEVEL_JOURNEYMAN, TRUE)
+
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/sacrifice)
+	H.mind?.AddSpell(new /datum/action/cooldown/spell/preach)
+
+	var/miracle_tier = CLERIC_T2
+	var/weapon_rank = SKILL_LEVEL_JOURNEYMAN
+
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = miracle_tier, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_1)
+
+	var/list/weapon_options = list(
+		"Sword" = list(/datum/skill/combat/swords, /obj/item/rogueweapon/sword/iron),
+		"Greatswords" = list(/datum/skill/combat/swords, /obj/item/rogueweapon/greatsword/iron, /obj/item/rogueweapon/scabbard/gwstrap),
+		"Axes" = list(/datum/skill/combat/axes, /obj/item/rogueweapon/stoneaxe/woodcut),
+		"Maces" = list(/datum/skill/combat/maces, /obj/item/rogueweapon/mace),
+		"Knives" = list(/datum/skill/combat/knives, /obj/item/rogueweapon/huntingknife/combat),
+		"Polearms" = list(/datum/skill/combat/polearms, /obj/item/rogueweapon/spear, /obj/item/rogueweapon/scabbard/gwstrap),
+		"Whips" = list(/datum/skill/combat/whipsflails, /obj/item/rogueweapon/whip),
+		"Quarterstaves" = list(/datum/skill/combat/staves, /obj/item/rogueweapon/woodstaff/quarterstaff/iron),
+	)
+
+	var/weapon_choice = tgui_input_list(H, "Choose a weapon discipline.", "TAKE UP ARMS", weapon_options)
+	if(weapon_choice)
+		var/list/selected_weapon = weapon_options[weapon_choice]
+		H.adjust_skillrank_up_to(selected_weapon[1], weapon_rank, TRUE)
+
+		for(var/i in 2 to length(selected_weapon))
+			var/obj/item/weapon = selected_weapon[i]
+			H.mind?.special_items[capitalize(initial(weapon.name))] = weapon
+
+		to_chat(H, "Weapon added to your STASH!")
+
+	H.cmode_music = 'sound/music/combat_holy.ogg'
+	id = apply_cleric_pre_equip(H)
+
+/datum/action/cooldown/spell/preach
+	name = "Fervorous Prayer"
+	desc = "Proclaim your faith and inspire those who share it, granting +1 CON, +2 WIL, +1 SPD and +2 FOR, a mood buff and also protecting them from panic and heart attacks."
+	fluff_desc = "Raise your voice in prayer, and let the faithful find strength in their shared devotion."
+	button_icon_state = "bcry"
+	sound = 'sound/magic/ravox_withstand.ogg'
+	glow_intensity = GLOW_INTENSITY_VERY_HIGH
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_GROUND
+
+	primary_resource_type = SPELL_COST_DEVOTION
+	primary_resource_cost = 5
+
+	secondary_resource_type = SPELL_COST_STAMINA
+	secondary_resource_cost = SPELLCOST_STAT_BUFF + 20
+
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = TRUE
+	charge_time = 1 SECONDS
+	charge_slowdown = 1
+	charge_swingdelay_type = SWINGDELAY_PENALTY
+	cooldown_time = 10 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/list/patron_invocations = list(
+		/datum/patron/divine/undivided = list(
+			"UNITED WE STAND, TOGETHER WE RIDE!!",
+			"THE TEN STAND AS ONE, AND NONE SHALL BREAK US!!",
+			"OUR FAITH BINDS US, OUR UNITY MAKES US STRONG!!",
+			"STAND SHOULDER TO SHOULDER, AND FEAR NO EVIL!!",
+			"TOGETHER IN FAITH, TOGETHER IN BATTLE!!",
+			"LET NO DIVISION TEAR ASUNDER WHAT THE TEN HAVE UNITED!!",
+		),
+		/datum/patron/divine/astrata = list(
+			"HER RADIANCE SHALL GUIDE US THROUGH ALL!!",
+			"BY THE SUN'S HOLY FIRE, LET OUR ENEMIES BURN!!",
+			"RAISE YOUR HEADS, FOR HER LIGHT SHINES UPON US!!",
+			"NO SHADOW CAN ENDURE THE GLORY OF ASTRATA!!",
+			"LET HER GOLDEN RAYS STEEL OUR HEARTS!!",
+			"IN HER LIGHT, WE SHALL NEVER KNEEL TO DARKNESS!!",
+		),
+		/datum/patron/divine/noc = list(
+			"HIS KNOWLEDGE SHALL GUIDE US THROUGH ALL!!",
+			"UNDER NOC'S WATCH, NO SECRET SHALL LEAD US ASTRAY!!",
+			"LET THE NIGHT HIDE US, AND HIS WISDOM GUIDE US!!",
+			"THE STARS ABOVE BEAR WITNESS TO OUR RESOLVE!!",
+			"IN DARKNESS, WE FIND THE PATH THAT OTHERS FEAR!!",
+			"KEEP YOUR WITS SHARP, FOR NOC SEES WHAT OTHERS MISS!!",
+		),
+		/datum/patron/divine/dendor = list(
+			"CLARITY IN MADNESS, LOOSE YOUR PRIMAL SOUL!!",
+			"LET THE WILD ROOT DEEP WITHIN YOUR HEARTS!!",
+			"TEAR DOWN YOUR FEAR, AND LET NATURE TAKE ITS COURSE!!",
+			"BY THORN AND ROOT, WE SHALL NOT BE CAST ASUNDER!!",
+			"LET THE BEAST WITHIN ROAR LOUDER THAN YOUR DOUBTS!!",
+			"THE WILD DOES NOT YIELD, AND NEITHER SHALL WE!!",
+		),
+		/datum/patron/divine/abyssor = list(
+			"AWAKEN FROM THY DREAM, RAGE AS A STORM!!",
+			"LET THE DEEP RISE AND DROWN OUR FOES!!",
+			"LIKE THE TIDE, WE SHALL RETURN STRONGER THAN BEFORE!!",
+			"FEAR NOT THE STORM, FOR WE ARE ITS WRATH!!",
+			"LET THE ABYSS SHAKE THE EARTH BENEATH THEIR FEET!!",
+			"BY SALT AND SURGING WAVE, WE SHALL RAGE!!",
+		),
+		/datum/patron/divine/ravox = list(
+			"STAND FIRM, STAND TALL! WE ARE JUSTICE!!",
+			"LET NO COWARDICE SOIL THE HONOR OF OUR CAUSE!!",
+			"RAISE YOUR WEAPONS, FOR JUSTICE DOES NOT STRIKE ITSELF!!",
+			"THE RIGHTEOUS SHALL NOT FALTER BEFORE THE UNJUST!!",
+			"LET OUR DEEDS SPEAK LOUDER THAN OUR ENEMIES' LIES!!",
+			"FIGHT WITH HONOR, AND LET THE GUILTY TREMBLE!!",
+			"NEVER SHOW FEAR, NO MATTER THE ODDS!", // (++)larp, (--)the fact it's now 1/6 chance, rip
+		),
+		/datum/patron/divine/necra = list(
+			"THE UNDERMAIDEN IS WITH US!!",
+			"DEATH WAITS FOR ALL, BUT OUR HOUR IS NOT YET!!",
+			"LET THE DEAD REST, AND THE LIVING FIGHT ON!!",
+			"DO NOT FEAR THE GRAVE, FOR ITS MISTRESS KNOWS US ALL!!",
+			"OUR THREADS ARE NOT YET CUT, SO STAND AND FIGHT!!",
+			"THE UNDERMAIDEN HAS NOT CALLED US HOME!!",
+		),
+		/datum/patron/divine/xylix = list(
+			"ROLL THE DICE! FLIP THE TABLE!!",
+			"FORTUNE FAVORS THE BOLD, SO LET US BE BOLD!!",
+			"THE GAME IS NOT OVER UNTIL THE LAST CARD FALLS!!",
+			"LAUGH IN THE FACE OF FATE, AND CHANGE THE RULES!!",
+			"LET CHAOS DEAL THE CARDS, AND COURAGE PLAY THE HAND!!",
+			"ONE MORE THROW, ONE MORE CHANCE! LET US MAKE IT COUNT!!",
+		),
+		/datum/patron/divine/pestra = list(
+			"PAIN IS WEAKNESS LEAVING THE BODY!!",
+			"ENDURE THE HURT, AND LET IT TEACH YOU STRENGTH!!",
+			"NO WOUND SHALL BREAK THE SPIRIT THAT PESTRA SUSTAINS!!",
+			"WE HAVE SUFFERED WORSE, AND WE SHALL SUFFER NO MORE!!",
+			"LET OUR SCARS BE PROOF THAT WE STILL STAND!!",
+			"THROUGH AFFLICTION, WE LEARN THE CURE!!",
+		),
+		/datum/patron/divine/malum = list(
+			"FOR ROCK AND STONE!!", // 1/5 chance is fair ok! :c
+			"LET THE HAMMER FALL, AND LET OUR ENEMIES CRUMBLE!!",
+			"THROUGH FIRE AND LABOR, WE SHALL BE MADE STRONG!!",
+			"NO TASK TOO GREAT, NO BURDEN TOO HEAVY!!",
+			"PUT YOUR BACKS INTO IT, AND MAKE THE WORLD YIELD!!",
+			"LET OUR HANDS BE STEADY AND OUR WILL UNBREAKABLE!!",
+		),
+		/datum/patron/divine/eora = list(
+			"LOVE SHALL SEE US THROUGH!!",
+			"STAND FOR THOSE BESIDE YOU, AND THEY SHALL STAND FOR YOU!!",
+			"LET COMPASSION GIVE US COURAGE, AND COURAGE GIVE US STRENGTH!!",
+			"NO HEART STANDS ALONE WHILE WE STILL DRAW BREATH!!",
+			"PROTECT ONE ANOTHER, FOR THAT IS THE GREATEST ACT OF LOVE!!",
+			"LET KINDNESS STEEL OUR HANDS AGAINST CRUELTY!!",
+		),
+		/datum/patron/inhumen/zizo = list(
+			"HER KNOWLEDGE SHALL GUIDE US THROUGH ALL!!",
+			"WISDOM BELONGS TO THOSE WITH THE WILL TO TAKE IT!!",
+			"LET THE IGNORANT TREMBLE BEFORE WHAT WE KNOW!!",
+			"THROUGH ESOTERICA, WE SHALL TRANSCEND!!",
+			"THE WORLD FEARS WHAT IT CANNOT UNDERSTAND!!",
+			"LET OUR AMBITION OUTLIVE EVERY LAW AND LIMIT!!",
+		),
+		/datum/patron/inhumen/graggar = list(
+			"STAND FIRM, STAND TALL! MIGHT MAKES RIGHT!!",
+			"THE STRONG TAKE WHAT THEY DESERVE!!",
+			"LET OUR FOES LEARN THE PRICE OF WEAKNESS!!",
+			"POWER IS PROVEN IN BLOOD, NOT WORDS!!",
+			"CRUSH THE FEEBLE, AND LET THE STRONG PREVAIL!!",
+			"LET NO CHAIN HOLD THOSE BORN TO CONQUER!!",
+		),
+		/datum/patron/inhumen/matthios = list(
+			"HER RADIANCE SHALL SERVE US THROUGH ALL!!",
+			"TAKE WHAT IS YOURS, AND LET NONE STAND IN YOUR WAY!!",
+			"THE WORLD OWES US NOTHING, SO WE SHALL TAKE EVERYTHING!!",
+			"LET THEIR GOLD FILL OUR PURSES AND THEIR PRIDE FILL OUR GRAVES!!",
+			"EVERY LOCK HAS A KEY, AND EVERY FOOL HAS A PRICE!!",
+			"WHY BEG FOR BLESSINGS WHEN WE CAN STEAL THE FIRE ITSELF!!",
+		),
+		/datum/patron/inhumen/baotha = list(
+			"PASSION SHALL SEE US THROUGH!!",
+			"LET EVERY RESTRAINT BREAK BENEATH THE FORCE OF OUR DESIRES!!",
+			"FEEL EVERYTHING, FEAR NOTHING, AND HOLD NOTHING BACK!!",
+			"LET OUR FERVOR BURN HOTTER THAN THEIR REASON!!",
+			"THE WORLD CANNOT TAME WHAT IT CANNOT CONTROL!!",
+			"CAST OFF YOUR CHAINS, AND LET YOUR TRUE NATURE ROAR!!",
+		),
+		/datum/patron/old_god = list(
+			"THE ALLFATHER'S LIGHT IS MY TORCH!!",
+			"HE GAVE EVERYTHING SO THAT WE MIGHT ENDURE!!",
+			"THOUGH HE ANSWERS NOT, HIS SACRIFICE SHALL NOT BE FORGOTTEN!!",
+			"WE ARE HIS CHILDREN, AND WE SHALL NOT ABANDON HIS LEGACY!!",
+			"LET NO FALSE GOD OUTSHINE THE ONE WHO GAVE HIS ALL!!",
+			"IN HIS SILENCE, WE FIND OUR DUTY; IN HIS SACRIFICE, OUR STRENGTH!!",
+		),
+	)
+
+/datum/action/cooldown/spell/preach/cast(atom/cast_on)
+	. = ..()
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return FALSE
+
+	if(!H.patron)
+		return FALSE
+
+	var/list/valid_patron_groups
+
+	if(H.patron.type in ALL_DIVINE_PATRONS)
+		valid_patron_groups = ALL_DIVINE_PATRONS
+	else if(H.patron.type in ALL_INHUMEN_PATRONS)
+		valid_patron_groups = ALL_INHUMEN_PATRONS
+	else if(H.patron.type in OLD_GOD_PATRON)
+		valid_patron_groups = OLD_GOD_PATRON
+	else
+		return FALSE
+
+	var/invocation
+	for(var/patron_type in patron_invocations)
+		if(istype(H.patron, patron_type))
+			invocation = pick(patron_invocations[patron_type])
+			break
+
+	if(invocation)
+		H.say(invocation)
+
+	var/turf/center = get_turf(H)
+	if(!center)
+		return FALSE
+
+	for(var/mob/living/carbon/target in view(cast_range, center))
+		if(!target.patron)
+			continue
+
+		var/eligible = FALSE
+		for(var/patron_type in valid_patron_groups)
+			if(istype(target.patron, patron_type))
+				eligible = TRUE
+				break
+
+		if(!eligible)
+			continue
+
+		target.apply_status_effect(/datum/status_effect/buff/preach)
+		target.add_stress(/datum/stressevent/zealot_cry)
+
+	return TRUE
+
+/datum/status_effect/buff/preach
+	id = "preach"
+	status_type = STATUS_EFFECT_REFRESH
+	alert_type = /atom/movable/screen/alert/status_effect/buff/preach
+	duration = 3 MINUTES
+	effectedstats = list(STATKEY_CON = 1, STATKEY_WIL = 2, STATKEY_SPD = 1, STATKEY_LCK = 2)
+
+/atom/movable/screen/alert/status_effect/buff/preach
+	name = "Fervorous Prayer"
+	desc = "I am inspired by a crazed madman's war cry! I can do anything!"
+	icon_state = "ten_united"
+
+/datum/status_effect/buff/preach/on_apply()
+	. = ..()
+	to_chat(owner, span_nicegreen("My faith burns bright, and my heart stands firm!"))
+	ADD_TRAIT(owner, TRAIT_RALLIED, "preach")
+	ADD_TRAIT(owner, TRAIT_STEELHEARTED, "preach")
+
+/datum/status_effect/buff/preach/on_remove()
+	. = ..()
+	to_chat(owner, span_notice("The fervor of my prayer fades."))
+	REMOVE_TRAIT(owner, TRAIT_RALLIED, "preach")
+	REMOVE_TRAIT(owner, TRAIT_STEELHEARTED, "preach")
+
+/datum/action/cooldown/spell/sacrifice
+	name = "Sacrifice"
+	desc = "Invoke your faith and empower your next strike. The more wounded you are, the greater the damage you inflict, up to 40 bonus damage."
+	fluff_desc = "Offer your suffering as tribute, and let your wounds become the instrument of your enemy's ruin."
+	button_icon_state = "judgement"
+	sound = 'sound/magic/ravox_withstand.ogg'
+	glow_intensity = GLOW_INTENSITY_HIGH
+
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_CANTRIP
+
+	invocation_type = INVOCATION_SHOUT
+
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
+
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+	var/list/patron_invocations = list(
+		/datum/patron/divine/undivided = list(
+			"LET OUR SUFFERING BIND US, AND OUR ENEMIES BREAK!!",
+			"THE TEN WITNESS OUR SACRIFICE!!",
+		),
+		/datum/patron/divine/astrata = list(
+			"BY HER FLAME, LET MY WOUNDS BURN BRIGHT!!",
+			"SUNLIGHT, CONSUME MY PAIN AND SMITE MY FOES!!",
+			"HALLOWED FLAMES CONSUME YOU!!"
+		),
+		/datum/patron/divine/noc = list(
+			"BY HIS WISDOM, LET MY SUFFERING FIND PURPOSE!!",
+			"FROM THE DARKEST NIGHT, LET JUDGEMENT STRIKE!!",
+			"NIGHT'S VEIL CONSUME YOU!!"
+		),
+		/datum/patron/divine/dendor = list(
+			"LET MY BLOOD FEED THE WILD!!",
+			"BY THORN AND ROOT, LET MY PAIN BECOME WRATH!!",
+			"BREAK LIKE THE PREY YOU ARE!!"
+		),
+		/datum/patron/divine/abyssor = list(
+			"LET THE ABYSS DRINK DEEP OF MY SUFFERING!!",
+			"BY THE RAGING TIDE, LET MY FOES BE SWEPT AWAY!!",
+			"SINK IN A SEA OF YOUR OWN BLOOD!!"
+		),
+		/datum/patron/divine/ravox = list(
+			"JUSTICAR, LET MY WOUNDS DELIVER JUSTICE!!",
+			"MY PAIN IS MY PROOF, MY STRIKE MY JUDGEMENT!!",
+			"FOR JUSTICE!!"
+		),
+		/datum/patron/divine/necra = list(
+			"MY HOUR HAS NOT COME, BUT YOURS MAY!!",
+			"BY THE UNDERMAIDEN, LET DEATH CLAIM ITS DUE!!",
+			"INVITATION TO THE UNDERWORLD!!"
+		),
+		/datum/patron/divine/xylix = list(
+			"LET FATE WAGER WITH MY BLOOD!!",
+			"ONE LAST THROW, AND LET THE DICE RUN RED!!",
+			"EVEN THE ODDS!!"
+		),
+		/datum/patron/divine/pestra = list(
+			"LET EVERY WOUND TEACH MY ENEMIES AGONY!!",
+			"ROTMOTHER! LET SUFFERING BE RETURNED IN FULL!!",
+			"ROT APART AND BE REBORN!!"
+		),
+		/datum/patron/divine/malum = list(
+			"LET MY PAIN TEMPER THE HAMMER OF MY WILL!!",
+			"BY FIRE AND IRON, LET MY FOES CRUMBLE!!",
+			"FOR ROCK AND STONE!!"
+		),
+		/datum/patron/divine/eora = list(
+			"LET MY SUFFERING SHIELD THOSE I LOVE!!",
+			"IN THE NAME OF LOVE, I SHALL PUNISH YOU!!",
+			"FOR LOVE!!"
+		),
+		/datum/patron/inhumen/zizo = list(
+			"DO WHAT IT TAKES, NO SACRIFICE IS TOO SMALL!!",
+			"LET PAIN BE THE PRICE OF TRANSCENDENCE!!",
+			"FOR THE GREAT WORK!!"
+		),
+		/datum/patron/inhumen/graggar = list(
+			"MY WOUNDS PROVE MY STRENGTH, AND MY STRENGTH SHALL CRUSH YOU!!",
+			"LET THE WEAK BLEED BENEATH MY MIGHT!!",
+			"SHATTER MY LIMITS, SHATTER MY BINDS!!"
+		),
+		/datum/patron/inhumen/matthios = list(
+			"NO AGONY SHALL BAR THE FREE!!",
+			"THIS FYRE BURNS FOR MORTALKIND!!",
+			"BURN DOWN THE DOGMA!!"
+		),
+		/datum/patron/inhumen/baotha = list(
+			"LET MY PASSION TURN MY PAIN INTO FURY!!",
+			"NO WOUND SHALL QUENCH THE FIRE WITHIN ME!!",
+			"FALL FOR ME!!"
+		),
+		/datum/patron/old_god = list(
+			"ALLFATHER! ONLY IN DEATH DOES DUTY END!!",
+			"WITH EVERY BROKEN BONE, I NEEDN'T SWEAR, I LIVE!!",
+			"ENDURE THIS!!",
+		),
+	)
+
+/datum/action/cooldown/spell/sacrifice/cast(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H) || !H.patron)
+		return FALSE
+
+	var/invocation
+	for(var/patron_type in patron_invocations)
+		if(istype(H.patron, patron_type))
+			invocation = pick(patron_invocations[patron_type])
+			break
+
+	if(invocation)
+		H.say(invocation)
+
+	H.apply_status_effect(/datum/status_effect/sacrifice, H.get_active_held_item())
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/sacrifice
+	name = "Sacrifice"
+	desc = "My suffering shall fuel my next strike. The more wounded I am, the harder I shall hit."
+	icon_state = "judgement"
+
+/datum/status_effect/sacrifice
+	id = "sacrifice"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sacrifice
+	on_remove_on_mob_delete = TRUE
+
+	var/datum/weakref/buffed_item
+
+/datum/status_effect/sacrifice/on_creation(mob/living/new_owner, obj/item/I)
+	. = ..()
+	if(!.)
+		return
+
+	if(istype(I) && !(I.item_flags & ABSTRACT))
+		buffed_item = WEAKREF(I)
+		RegisterSignal(I, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
+	else
+		RegisterSignal(owner, COMSIG_MOB_ATTACK_HAND, PROC_REF(hand_attack))
+
+/datum/status_effect/sacrifice/on_remove()
+	. = ..()
+	UnregisterSignal(owner, COMSIG_MOB_ATTACK_HAND)
+
+	if(buffed_item)
+		var/obj/item/I = buffed_item.resolve()
+		if(I)
+			UnregisterSignal(I, COMSIG_ITEM_AFTERATTACK)
+
+/datum/status_effect/sacrifice/proc/get_sacrifice_damage(mob/living/carbon/human/H)
+	var/suffering = H.getBruteLoss()
+	suffering += H.getFireLoss()
+	suffering += H.getToxLoss()
+	suffering += H.getOxyLoss()
+	suffering += H.getCloneLoss()
+	suffering += ((BLOOD_VOLUME_NORMAL - H.blood_volume) / 4)
+
+	return min(40, round(suffering * 0.5))
+
+/datum/status_effect/sacrifice/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(!proximity_flag || user != owner || !isliving(target))
+		return
+
+	var/mob/living/carbon/human/H = owner
+	if(!istype(H))
+		return
+
+	var/mob/living/D = target
+	var/bonus_damage = get_sacrifice_damage(H)
+	var/obj/item/I = source
+
+	if(bonus_damage > 0)
+		arcyne_strike(H, D, I, bonus_damage, H.zone_selected, null, null, "Sacrifice", FALSE, FALSE, FALSE, BRUTE, 1, 1)
+		D.visible_message(span_warning("[H]'s suffering fuels a devastating strike against [D]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+
+	qdel(src)
+
+/datum/status_effect/sacrifice/proc/hand_attack(datum/source, mob/living/carbon/human/user, mob/living/carbon/human/D, datum/martial_art/attacker_style)
+	if(user != owner || !istype(user) || !istype(D))
+		return
+	if(!istype(user.used_intent, INTENT_HARM))
+		return
+	var/bonus_damage = get_sacrifice_damage(user)
+	if(bonus_damage > 0)
+		arcyne_strike(user, D, null, bonus_damage, user.zone_selected, BCLASS_BLUNT, 0, "Sacrifice", FALSE, FALSE, FALSE, BRUTE, 1, 1)
+		D.visible_message(span_warning("[user]'s suffering fuels a devastating strike against [D]!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	qdel(src)
