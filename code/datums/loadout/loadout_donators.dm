@@ -1390,18 +1390,18 @@
 	path = /obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman
 	ckeywhitelist = list("mrsaxyman")
 
-/datum/loadout_item/donator/Lockwoodcloak
+/datum/loadout_item/donator/lockwoodcloak
 	name = "Donator Item - Courtly Cloak"
 	path = /obj/item/clothing/cloak/rosa/two
 	ckeywhitelist = list("XLockwoodx")
 
-/datum/loadout_item/donator/Lockwoodjacket
+/datum/loadout_item/donator/lockwoodjacket
 	name = "Donator Item - Sanguine Jacket"
-	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/Lockwood
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
 	ckeywhitelist = list("XLockwoodx")
 
 // Was asked to make this for all donors, dont complain about lack of other gem amulets	
-/datum/loadout_item/donator/universal/Lockwoodamulet
+/datum/loadout_item/donator/universal/lockwoodamulet
 	name = "Donator Item - Onyxa Amulet"
 	path = /obj/item/clothing/neck/roguetown/carved/onyxaamulet
 	ckeywhitelist = list("XLockwoodx")

@@ -5086,5 +5086,9 @@ As Excaliber."
 		return
 	return ..()
 // XLockwoodx
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/Lockwood
-	armor = null
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
+
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/ComponentInitialize
+	. = ..()
+	loadoutize()
