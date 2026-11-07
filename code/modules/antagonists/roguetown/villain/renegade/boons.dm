@@ -265,10 +265,10 @@
 /datum/renegade_boon/sabotage
 	category = "Boons (Sabotage)"
 
-/datum/renegade_boon/sabotage/tripbomb
+/*/datum/renegade_boon/sabotage/tripbomb
 	name = "Trip Bomb"
 	cost = 6
-	contains = list(/obj/item/bomb/tripbomb)
+	contains = list(/obj/item/bomb/tripbomb)*/
 
 /datum/renegade_boon/sabotage/beartrap
 	name = "Bear Trap"
