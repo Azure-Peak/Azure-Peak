@@ -1522,7 +1522,7 @@
 	return !QDELETED(src) && !QDELETED(living_mob) && living_mob.mind && !living_mob.cmode && (living_mob.mobility_flags & MOBILITY_STAND)
 
 /obj/structure/fluff/statue/tdummy/proc/practice(mob/living/living_mob, associated_skill, attack_animation, obj/item/attacking_weapon = null)
-	if(living_mob.doing || !can_practice(living_mob) || !can_train_combat_skill(user, associated_skill, SKILL_LEVEL_APPRENTICE))
+	if(living_mob.doing || !can_practice(living_mob) || !can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
 		return
 	living_mob.visible_message(span_notice("[living_mob] begins training on [src]..."))
 	while(do_after(living_mob, 1 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(can_practice), living_mob)))
