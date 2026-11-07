@@ -12,7 +12,7 @@ passerby may peruse the board, examine a worker's headshot, or send them an offe
 
 #define ROSEWALL_STATUS_AVAILABLE "Available"
 #define ROSEWALL_STATUS_HIRED "Hired"
-#define ROSEWALL_STATUS_DND "Do Not Disturb"
+#define ROSEWALL_STATUS_DND "Do not Disturb"
 
 /obj/structure/roguemachine/rosewall
 	name = "The Rosewall"
