@@ -1,0 +1,5 @@
+author: "fffelinid"
+delete-after: True
+changes:
+  - rscadd: "Added the option to change your status on the Rose Wall when declining an offer."
+  - bugfix: "Fixed overly sanitized Rose Wall text."
