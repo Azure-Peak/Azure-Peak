@@ -1675,7 +1675,7 @@
 	craftdiff = 2
 
 /datum/crafting_recipe/roguetown/structure/shelf_small
-	name = "wooden shelf (wall-mounted, small) (NORTH)"
+	name = "wooden shelf (wall-mounted)"
 	category = "Misc"
 	result = /obj/structure/rack/rogue/shelf/
 	reqs = list(/obj/item/grown/log/tree/stick = 2)
