@@ -915,31 +915,6 @@
 	path = /obj/item/clothing/head/roguetown/decoration/gazelleskull
 	ckeywhitelist = list("shiroseschnee")
 
-/datum/loadout_item/donator/morto_staff
-	name = "Donator Kit - Frozen Vow"
-	path = /obj/item/enchantingkit/morto_staff
-	ckeywhitelist = list("mortosasye")
-
-/datum/loadout_item/donator/mortosasye_deepcutdress
-	name = "Donator Item - Deep Cut Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
-	ckeywhitelist = list("mortosasye")
-
-/datum/loadout_item/donator/mortosasye_sunrisegown
-	name = "Donator Item - Sunrise Gown"
-	path = /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_sunrisegown
-	ckeywhitelist = list("mortosasye")
-
-/datum/loadout_item/donator/mortosasye_goldendiadem
-	name = "Donator Item - Golden Diadem"
-	path = /obj/item/clothing/head/roguetown/circlet/donator_mortosasye_golddiadem
-	ckeywhitelist = list("mortosasye", "flybrokenwings")
-
-/datum/loadout_item/donator/morto_crown
-	name = "Donator Kit - Sun Crown"
-	path = /obj/item/enchantingkit/morto_crown
-	ckeywhitelist = list("mortosasye")
-
 /datum/loadout_item/donator/racobio_staff
 	name = "Donator Kit - Obsidian Tower"
 	path = /obj/item/enchantingkit/racobio_staff
@@ -1400,7 +1375,7 @@
 	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
 	ckeywhitelist = list("XLockwoodx")
 
-// Was asked to make this for all donors, dont complain about lack of other gem amulets	
+// Was asked to make this for all donors, dont complain about lack of other gem amulets
 /datum/loadout_item/donator/universal/lockwoodamulet
 	name = "Donator Item - Onyxa Amulet"
 	path = /obj/item/clothing/neck/roguetown/carved/onyxaamulet
