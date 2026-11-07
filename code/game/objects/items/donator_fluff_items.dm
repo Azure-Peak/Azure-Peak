@@ -5091,6 +5091,14 @@ As Excaliber."
 		return
 	return ..()
 
+// XLockwoodx
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
+	name = "aesthetic sanguine jacket"
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize(mapload)
+	. = ..()
+	loadoutize(
+
 /obj/item/clothing/head/roguetown/decoration/bluelily
 	name = "tufted blue-lily"
 	desc = "Quite an exotic flower, even for the Kazengun isles. Where white lilies symbolize purity, the indigo hue of these were a sign of its loss.<br>\

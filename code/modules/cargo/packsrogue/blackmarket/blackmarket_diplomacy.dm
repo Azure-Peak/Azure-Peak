@@ -6,7 +6,7 @@
 /datum/supply_pack/rogue/blackmarket_diplomacy/smokebomb
 	name = "Smoke Bomb"
 	cost =	15
-	contains = list(/obj/item/bomb/smoke)
+	contains = list(/obj/item/explosive/impact/smoke/bomb)
 
 /datum/supply_pack/rogue/blackmarket_diplomacy/bow
 	name = "Self Bow"
@@ -81,7 +81,7 @@
 /datum/supply_pack/rogue/blackmarket_diplomacy/bomb
 	name = "Bottle Bomb"
 	cost =	30
-	contains = list(/obj/item/bomb)
+	contains = list(/obj/item/explosive/fused/bottle)
 
 /datum/supply_pack/rogue/blackmarket_diplomacy/lockpicks
 	name = "Ring of Lockpicks, III"

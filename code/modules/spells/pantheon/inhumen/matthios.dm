@@ -46,7 +46,7 @@
 	var/list/options = list(
 		//a simple 'blinds u for 1 sec' throwable
 		"Pocket Sand" = list(
-			path = /obj/item/impact_grenade/pocketsand,
+			path = /obj/item/explosive/impact/pocketsand,
 			m_cooldown = 60 SECONDS,
 			m_devotion = 10,
 			m_rank = SKILL_LEVEL_NOVICE,

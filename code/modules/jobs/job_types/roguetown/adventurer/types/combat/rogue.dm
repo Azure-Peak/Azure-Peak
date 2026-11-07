@@ -239,7 +239,7 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	beltr = /obj/item/rogueweapon/sword/cutlass
 	backpack_contents = list(
-		/obj/item/bomb = 1,
+		/obj/item/explosive/fused/bottle = 1,
 		/obj/item/lockpick = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
