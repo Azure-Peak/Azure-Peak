@@ -67,13 +67,13 @@
 	. = ..()
 	if(QDELETED(owner))
 		return FALSE
-		
+
 	var/warning_message = pick(infection_messages)
 	if(prob(10))
 		to_chat(owner, span_userdanger("[warning_message]"))
 	else
 		to_chat(owner, span_danger("[warning_message]"))
-		
+
 	var/mob/living/carbon/human/H = owner
 	if(!H)
 		owner.remove_status_effect(/datum/status_effect/zombie_infection)
@@ -95,7 +95,7 @@
 /mob/living/carbon/human/proc/attempt_zombie_infection(mob/living/carbon/human/source, infection_type, wake_delay = 0)
 	if(!source)
 		return FALSE
-	
+
 	var/datum/antagonist/zombie/zombie_antag = source.mind?.has_antag_datum(/datum/antagonist/zombie)
 	if(!zombie_antag || !zombie_antag.has_turned)
 		return FALSE
@@ -105,8 +105,8 @@
 
 	// Apply status effect with timer
 	apply_status_effect(
-		/datum/status_effect/zombie_infection, 
-		wake_delay, 
+		/datum/status_effect/zombie_infection,
+		wake_delay,
 		infection_type == "wound"
 	)
 
