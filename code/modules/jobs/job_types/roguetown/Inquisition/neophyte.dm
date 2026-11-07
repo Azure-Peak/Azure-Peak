@@ -118,9 +118,10 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/priest
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	shoes = /obj/item/clothing/shoes/roguetown/sandals
-	beltl = /obj/item/rogueweapon/huntingknife/combat/silver
+	beltl = /obj/item/rogueweapon/huntingknife/idagger/steel/silver
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
+	backr = /obj/item/rogueweapon/sword/long/cleric
 	neck = /obj/item/clothing/neck/roguetown/psicross/silver
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
@@ -140,7 +141,7 @@
 	var/determined = "Determined (Enduring, -1 LUC)"
 	var/dexterous = "Dexterous (Dodge Expert, -1 LUC)"
 
-	var/choice = tgui_alert(H, "Choose your path.", "PSYDON PROVIDES", list(devious, devoted, defying, determined, dexterous))
+	var/choice = tgui_input_list(H, "Choose your path.", "PSYDON PROVIDES", list(devious, devoted, defying, determined, dexterous))
 	if(choice == devious)
 		H.change_stat(STATKEY_LCK, 1)
 	else if(choice == devoted)
@@ -207,7 +208,7 @@
 		/obj/item/storage/keyring/neophyte = 1,
 		/obj/item/natural/cloth = 1,
 		/obj/item/inqarticles/inqslip_kit = 1,
-		/obj/item/rogueweapon/huntingknife/combat/silver = 1,
+		/obj/item/rogueweapon/huntingknife/scissors = 1,
 	)
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
