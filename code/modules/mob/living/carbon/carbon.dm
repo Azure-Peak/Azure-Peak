@@ -796,6 +796,8 @@
 	if(lightning_flashing)
 		lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_INVISIBLE)
 
+	lighting_alpha = min(lighting_alpha, LIGHTING_PLANE_ALPHA_BASELINE)
+
 	if(client.eye != src)
 		var/atom/A = client.eye
 		if(A)
