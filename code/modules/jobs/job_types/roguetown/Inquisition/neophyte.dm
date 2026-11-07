@@ -233,46 +233,98 @@
 	slot_flags = ITEM_SLOT_HIP
 	intdamage_factor = 0
 	sellprice = 0
-	var/crafting = FALSE
-	var/craft_progress = 0
+	var/crafting = FALSE // someone is writing on it right now
+	var/craft_progress = 0 // saved on the kit itself, so we pick up where we left off
+	var/craft_steps = 40 // progress needed to finish a document
 	var/craft_type
 
+/obj/item/inqarticles/inqslip_kit/examine(mob/user)
+	. = ..()
+	// Inquisition members and Otavans both know what this is really about
+	var/datum/virtue/origin = user.client?.prefs?.virtue_origin
+	var/from_otava = istype(origin, /datum/virtue/origin/otava)
+	if(HAS_TRAIT(user, TRAIT_INQUISITION) || from_otava)
+		. += span_warning("Of late, the Otavan Inquisition seems to be sending its Neophytes over to Azurea, who come to learn rather than to serve. By arrangement with Otava, these unsalaried aspirants are writ in no ledger, and whatever they request is granted freely, as a courtesy to the order. The slip kit is chief among their tools: with it, a trained hand may draft confessions, accusations and requisitions bearing the weight of the Inquisition's seal. Its proper forms are taught only to those within the order, and a slip badly drawn is worth less than the parchment beneath it. You're almost certain that those aspirants, and this new program, are the ones behind the increased taxes back in Otava.")
+	else
+		. += span_warning("This might have a lot of diplomatic weight, despite your ineptitude to make heads nor tails of it. Maybe in a few months, you could decipher how to falsify those documents?")
+
+	if(!craft_type)
+		if(HAS_TRAIT(user, TRAIT_INQUISITION))
+			. += span_info("Set it down on a table and right-click it to begin writing.")
+		return
+	. += span_notice("There is a [craft_type] in the works, [round(craft_progress / craft_steps * 100)]% done.")
+	if(crafting)
+		. += span_info("Someone is writing on it right now.")
+
+// In hand: scrap whatever is being written
 /obj/item/inqarticles/inqslip_kit/attack_self(mob/user)
 	. = ..()
 	if(!HAS_TRAIT(user, TRAIT_INQUISITION))
 		to_chat(user, span_warning("You have no idea how to use this at all at the present moment."))
 		return
+	if(!craft_type)
+		to_chat(user, span_notice("Nothing is being written. Set it down on a table and right-click it to begin."))
+		return
+	if(crafting)
+		to_chat(user, span_warning("The kit is being used right now."))
+		return
+
+	var/choice = tgui_alert(user, "Scrap the [craft_type]? Its [round(craft_progress / craft_steps * 100)]% of progress will be lost.", "Inquisitorial Slip Kit", list("Yes", "No"))
+	if(choice != "Yes")
+		return
+	if(!do_after(user, 1.5 SECONDS, src))
+		return
+	if(QDELETED(src) || !craft_type) // someone else may have scrapped it meanwhile
+		return
+
+	to_chat(user, span_warning("You scrap the [craft_type]."))
+	craft_type = null
+	craft_progress = 0
+
+// On a table: right-click to start (or keep) writing
+/obj/item/inqarticles/inqslip_kit/attack_right(mob/user)
+	if(!HAS_TRAIT(user, TRAIT_INQUISITION))
+		to_chat(user, span_warning("You have no idea how to use this at all at the present moment."))
+		return TRUE
 	if(crafting)
 		to_chat(user, span_warning("The kit is already being used."))
-		return
-	var/choice = input(user, "What would you like to prepare?", "Inquisitorial Slip Kit") as null|anything in list(
-		"Draft Confession",
-		"Draft Accusation",
-		"Draft INDEXER Requisition"
-	)
-	if(!choice)
-		return
-	switch(choice)
-		if("Draft Confession")
-			craft_type = "confession"
-		if("Draft Accusation")
-			craft_type = "accusation"
-		if("Draft INDEXER Requisition")
-			craft_type = "requisition (INDEXER)"
-		if("Draft SNACKS Requisition")
-			craft_type = "requisition (SNACKS)"
+		return TRUE
+	if(!(isturf(loc) && (locate(/obj/structure/table) in loc)))
+		to_chat(user, span_warning("I need to set this down on a table to do my holy work."))
+		return TRUE
+
+	// First time: decide what to write. Later on we just keep going.
+	if(!craft_type)
+		var/choice = tgui_input_list(user, "What would you like to prepare?", "Inquisitorial Slip Kit", list(
+			"Draft Confession",
+			"Draft Accusation",
+			"Draft INDEXER Requisition",
+			"Draft SNACKS Requisition"
+		))
+		if(!choice)
+			return TRUE
+		switch(choice)
+			if("Draft Confession")
+				craft_type = "confession"
+			if("Draft Accusation")
+				craft_type = "accusation"
+			if("Draft INDEXER Requisition")
+				craft_type = "requisition (INDEXER)"
+			if("Draft SNACKS Requisition")
+				craft_type = "requisition (SNACKS)"
+
 	start_crafting(user)
+	return TRUE
 
 /obj/item/inqarticles/inqslip_kit/proc/start_crafting(mob/user)
-	if(crafting)
+	// Re-checked here because the type prompt above can take a while
+	if(crafting || !craft_type)
 		return FALSE
-	if(!(locate(/obj/structure/table) in get_step(user, user.dir)))
-		to_chat(user, span_warning("I need a table to do my holy work."))
-		craft_type = null
+	if(!(isturf(loc) && (locate(/obj/structure/table) in loc)))
+		to_chat(user, span_warning("I need to set this down on a table to do my holy work."))
 		return FALSE
 
 	crafting = TRUE
-	craft_progress = 0
 
 	// Neophytes are practiced at this, good writers even more so
 	var/duration = 4 SECONDS
@@ -281,40 +333,47 @@
 	if(HAS_TRAIT(user, TRAIT_GOODWRITER))
 		duration = 1 SECONDS
 
-	to_chat(user, span_notice("You begin preparing the [craft_type] with your Inquisitorial Slip Kit..."))
+	to_chat(user, span_notice("You [craft_progress ? "continue" : "begin"] preparing the [craft_type] with your Inquisitorial Slip Kit..."))
+
+	// What the writer has just accomplished, one line per 10 progress
+	var/list/milestones = list(
+		"have set down the title and opening lines of the [craft_type]",
+		"have written the introductory passage and established its purpose",
+		"have filled out the opening account with the necessary particulars",
+		"have laid down the principal body and its supporting details",
+		"have expanded upon the account and cited the relevant passages",
+		"have reviewed the preceding passages and amended their wording",
+		"have written the concluding passage and closing remarks",
+		"have penned the final lines and are ready to affix His Holiest Seal"
+	)
 
 	var/completed = TRUE
-	while(craft_progress < 40)
-		// Scrapped (right click), or the kit / user is gone
-		if(!crafting || QDELETED(src) || QDELETED(user))
+	while(craft_progress < craft_steps)
+		if(QDELETED(src) || QDELETED(user))
 			completed = FALSE
 			break
-		// Make sure they remain at the table while working.
-		if(!(locate(/obj/structure/table) in get_step(user, user.dir)))
-			to_chat(user, span_warning("You get distracted from what you were doing!"))
+		// The kit has to stay on its table the whole time
+		if(!(isturf(loc) && (locate(/obj/structure/table) in loc)))
+			to_chat(user, span_warning("The kit is no longer on a table!"))
 			completed = FALSE
 			break
 		if(!do_after(user, duration, src))
-			to_chat(user, span_warning("You stop preparing the document."))
-			completed = FALSE
-			break
-		if(!crafting) // scrapped while we were working
+			to_chat(user, span_warning("You stop writing. What you wrote so far stays on the kit."))
 			completed = FALSE
 			break
 		craft_progress++
-		if(craft_progress < 40)
-			to_chat(user, span_warning("You continue preparing the [craft_type]... ([craft_progress]/40)."))
+		if(craft_progress % 5 == 0)
+			playsound(src, 'sound/items/write.ogg', 100, FALSE)
+			var/milestone = min(craft_progress / 10, length(milestones))
+			to_chat(user, span_warning("You [milestones[milestone]]. ([round(craft_progress / craft_steps * 100)]%)"))
 
+	crafting = FALSE
 	if(!completed)
-		crafting = FALSE
-		craft_type = null
-		craft_progress = 0
 		return FALSE
 	return finish_crafting(user)
 
 /obj/item/inqarticles/inqslip_kit/proc/finish_crafting(mob/user)
 	if(!user || QDELETED(src))
-		crafting = FALSE
 		craft_type = null
 		craft_progress = 0
 		return FALSE
@@ -352,19 +411,9 @@
 	if(created)
 		to_chat(user, span_notice("You finish preparing the [created.name]."))
 		user.put_in_hands(created)
-	crafting = FALSE
 	craft_type = null
 	craft_progress = 0
 	return !!created
-
-/obj/item/inqarticles/inqslip_kit/attack_right(mob/user)
-	if(crafting)
-		to_chat(user, span_warning("You stop preparing, and scrap the document."))
-		crafting = FALSE
-		craft_type = null
-		craft_progress = 0
-		return TRUE
-	return ..()
 
 /obj/item/inqarticles/requisition
 	name = "Field Requisition"
@@ -376,6 +425,7 @@
 	var/requested // a single item type
 	var/list/requested_pool // or: a list of item types to pick randomly from
 	var/requested_amount = 1 // how many to pick from the pool
+	var/processing = FALSE // true while a HERMES is working on it
 
 /obj/item/inqarticles/requisition/attack_self(mob/user)
 	. = ..()
@@ -383,36 +433,96 @@
 
 /obj/item/inqarticles/requisition/afterattack(atom/target, mob/user, proximity)
 	. = ..()
-	if(!proximity)
+	if(!proximity || processing)
 		return
 	if(!istype(target, /obj/structure/roguemachine/mail))
 		return
 
 	var/obj/structure/roguemachine/mail/H = target
-	user.visible_message(span_notice("[user] sends something."))
-	playsound(H.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 
 	if(!requested && !length(requested_pool))
 		to_chat(user, span_warning("This requisition contains no requested item. What a waste."))
+		user.visible_message(span_notice("[user] sends something."))
+		playsound(H.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
 		qdel(src)
 		return
 
-	var/list/issued = list()
+	// The terminal keeps the document while it processes the request
+	if(!user.transferItemToLoc(src, H, TRUE))
+		return
+	processing = TRUE
+	user.visible_message(span_notice("[user] sends something."))
+	playsound(H.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
+	to_chat(user, span_notice("The HERMES whirs as it receives the requisition. It should be ready shortly..."))
+	addtimer(CALLBACK(src, PROC_REF(deliver), H, user), 12 SECONDS)
+
+/obj/item/inqarticles/requisition/proc/deliver(obj/structure/roguemachine/mail/H, mob/user)
+	// Terminal got destroyed while processing, the document goes with it
+	if(QDELETED(H))
+		qdel(src)
+		return
+
+	// The single requested item, or a random draw without repeats from the pool
+	var/list/to_issue = list()
 	if(requested)
-		issued += new requested(get_turf(H))
+		to_issue += requested
 	else
-		// Pick without repeats
 		var/list/pool = requested_pool.Copy()
 		for(var/i in 1 to min(requested_amount, length(pool)))
 			var/picked = pick(pool)
 			pool -= picked
-			issued += new picked(get_turf(H))
+			to_issue += picked
+	if(!length(to_issue))
+		qdel(src)
+		return
 
-	for(var/obj/item/I as anything in issued)
-		user.put_in_hands(I)
+	// Everything arrives sealed in an Inquisition parcel
+	var/obj/item/parcel/inquisition/delivery = new(get_turf(H))
+	delivery.load_items(to_issue)
 
-	if(length(issued) == 1)
-		to_chat(user, span_notice("The HERMES processes the requisition and issues \the [issued[1]]."))
-	else
-		to_chat(user, span_notice("The HERMES processes the requisition and issues [length(issued)] items."))
+	H.visible_message(span_notice("The HERMES processes the requisition and issues \the [delivery]."))
+	// If whoever sent it is still standing there, hand it over
+	if(!QDELETED(user) && user.Adjacent(H))
+		user.put_in_hands(delivery)
 	qdel(src)
+
+/obj/item/parcel/inquisition
+
+/obj/item/parcel/inquisition/Initialize(mapload)
+	. = ..()
+	// Not a quest parcel: always visible, no reveal proximity monitor
+	invisibility = initial(invisibility)
+	QDEL_NULL(proximity_monitor)
+
+/// Seals the given item types inside, and sizes/names the parcel to match
+/obj/item/parcel/inquisition/proc/load_items(list/item_types)
+	var/large = FALSE
+	for(var/item_type in item_types)
+		var/obj/item/I = new item_type(src)
+		contained_items += I
+		if(I.w_class >= WEIGHT_CLASS_NORMAL)
+			large = TRUE
+
+	if(length(contained_items) == 1)
+		var/obj/item/only = contained_items[1]
+		name = "parcel ([only.name])"
+		desc = "A securely wrapped parcel containing [only.name]."
+	else
+		name = "parcel (assorted goods)"
+		desc = "A securely wrapped parcel containing [length(contained_items)] items."
+	icon_state = large ? "ration_large" : "ration_small"
+	dropshrink = 1
+	update_icon()
+
+/obj/item/parcel/inquisition/can_open(mob/user)
+	if(!HAS_TRAIT(user, TRAIT_INQUISITION))
+		to_chat(user, span_warning("This [sealed_noun] bears the seal of the Inquisition. Only its members may open it."))
+		return FALSE
+	return TRUE
+
+/obj/item/parcel/inquisition/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_INQUISITION))
+		. += span_notice("It bears the seal of the Inquisition. As one of its own, you may open it.")
+	else
+		. += span_warning("It's stamped with the seal of the Inquisition. Only its members should open it.")
