@@ -326,7 +326,7 @@
 
 	crafting = TRUE
 
-	// Neophytes are practiced at this, good writers even more so
+	// Neophytes are practiced at this, Scribes even more so. Inquisitors can draft these, but they're like... "Goddamn, it's been so long? What do I write again?"
 	var/duration = 4 SECONDS
 	if(istype(user.job, /datum/job/roguetown/neophyte) || user.job == "Neophyte")
 		duration = 2 SECONDS
@@ -348,6 +348,7 @@
 	)
 
 	var/completed = TRUE
+	var/milestone_interval = max(1, round(craft_steps / length(milestones))) // progress between milestones (5 with 40 steps and 8 lines)
 	while(craft_progress < craft_steps)
 		if(QDELETED(src) || QDELETED(user))
 			completed = FALSE
@@ -358,13 +359,13 @@
 			completed = FALSE
 			break
 		if(!do_after(user, duration, src))
-			to_chat(user, span_warning("You stop writing. What you wrote so far stays on the kit."))
+			to_chat(user, span_warning("You stop writing, leaving the work still to be done..."))
 			completed = FALSE
 			break
 		craft_progress++
-		if(craft_progress % 5 == 0)
+		if(craft_progress % milestone_interval == 0)
 			playsound(src, 'sound/items/write.ogg', 100, FALSE)
-			var/milestone = min(craft_progress / 10, length(milestones))
+			var/milestone = min(round(craft_progress / milestone_interval), length(milestones))
 			to_chat(user, span_warning("You [milestones[milestone]]. ([round(craft_progress / craft_steps * 100)]%)"))
 
 	crafting = FALSE
