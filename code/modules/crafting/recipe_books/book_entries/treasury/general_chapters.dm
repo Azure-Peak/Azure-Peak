@@ -350,8 +350,9 @@
 		[QUEST_POOL_REGEN_INTERVAL / 600] minutes. Each time, up to
 		[QUEST_KILL_REGEN_PER_TICK] new kill contracts are posted in the regions that
 		need them most. Evergreen contracts (Retrieval, Courier) top up independently
-		to a flat target in each region. The pool starts full at roundstart so work
-		is available from the start.</p>
+		to a flat target in each region. The pool starts at
+		[QUEST_POOL_ROUNDSTART_MULT * 100]% of its usual size at roundstart. The extra
+		contracts are not replaced once they lapse.</p>
 
 		<p>Each region has its own kill target scaled to the number of active people.
 		The pool routes new kill contracts to whichever region is furthest below its
@@ -366,6 +367,10 @@
 		<p>Untaken postings on the Ledger reroll on a timer:</p>
 		<ul>
 			<li><b>Guild contracts</b> - [QUEST_POOL_STALE_THRESHOLD / 600] minutes.</li>
+			<li><b>Roundstart Guild contracts</b> -
+			[(QUEST_POOL_STALE_THRESHOLD + QUEST_POOL_ROUNDSTART_GRACE) / 600] to
+			[(QUEST_POOL_STALE_THRESHOLD + QUEST_POOL_ROUNDSTART_GRACE + QUEST_POOL_ROUNDSTART_JITTER) / 600]
+			minutes after the round begins.</li>
 			<li><b>Steward contracts, Innkeeper rumors and Towner postings</b> -
 			[QUEST_PLAYER_STALE_THRESHOLD / 600] minutes. Paid postings get a longer
 			window to be taken. A posting that lapses refunds its full cost to whoever
