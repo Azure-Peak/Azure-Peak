@@ -28,6 +28,12 @@
 	cost = 15 //Cheaper, because Matthiosian miracles exist
 	contains = list(/obj/item/lockpickring/mundane)
 
+
+/datum/supply_pack/rogue/medical_utility_wretch/castificopick
+	name = "Key of Liberation"
+	cost =	100 //Significantly cheaper than the bath-house because wretches have access to the LIBERTAS.
+	contains = list(/obj/item/castifico_key/liberation)
+
 /datum/supply_pack/rogue/medical_utility_wretch/grapplinghook
 	name =	"Grappling Hook"
 	cost =	200 //Still extremely expensive compared to artificer but considering you need a virtue/soft antagonist to lead you here. IDC anymore.
