@@ -21,7 +21,7 @@
 		/datum/advclass/neophyte/page,
 		/datum/advclass/neophyte/oblate,
 	)
-	job_traits = list(TRAIT_INQUISITION, TRAIT_HOMESTEAD_EXPERT, TRAIT_COMBAT_JMAN, TRAIT_NOSHIELDS)
+	job_traits = list(TRAIT_INQUISITION, TRAIT_HOMESTEAD_EXPERT)
 
 /datum/outfit/job/roguetown/neophyte
 	has_loadout = TRUE
@@ -33,7 +33,7 @@
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
 	virtue_limits = list(/datum/virtue/combat/combat_virtue, /datum/virtue/combat/dualwielder)
-	traits_applied = list(TRAIT_GOODWRITER, TRAIT_KEENEARS, TRAIT_ROYAL_SUBSIDY) // fucking snitch, bro
+	traits_applied = list(TRAIT_GOODWRITER, TRAIT_KEENEARS, TRAIT_SELF_RELIANCE, TRAIT_JACKOFALLTRADES) // fucking snitch, bro
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
@@ -79,6 +79,7 @@
 	)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Inquisition Funding.")
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
 
 /datum/advclass/neophyte/page
 	name = "Page"
@@ -86,7 +87,7 @@
 	outfit = /datum/outfit/job/roguetown/neophyte/page
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_SQUIRE_REPAIR, TRAIT_STEELHEARTED)
+	traits_applied = list(TRAIT_SQUIRE_REPAIR, TRAIT_STEELHEARTED, TRAIT_COMBAT_JMAN, TRAIT_NOSHIELDS)
 	maximum_possible_slots = 1 // one is enough, they wouldn't send too many newbies to the front, the other two don't add to the deathball
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -168,7 +169,8 @@
 	outfit = /datum/outfit/job/roguetown/neophyte/oblate
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_PACIFISM, TRAIT_SILVER_BLESSED, TRAIT_ROYAL_SUBSIDY)
+	virtue_limits = list(/datum/virtue/combat/dualwielder, /datum/virtue/thief, /datum/virtue/items/arsonist)
+	traits_applied = list(TRAIT_PACIFISM, TRAIT_SILVER_BLESSED, TRAIT_MEDICINE_EXPERT, TRAIT_ROYAL_SUBSIDY)
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_SPD = 2,
@@ -177,15 +179,18 @@
 	subclass_skills = list(
 		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/misc/medicine = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/misc/medicine = SKILL_LEVEL_EXPERT,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_NOVICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_NOVICE,
+		/datum/skill/craft/carpentry = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/craft/ceramics = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/craft/masonry = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/sewing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_EXPERT,
 		/datum/skill/craft/crafting = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/farming = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/fishing = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
+		/datum/skill/labor/farming = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/fishing = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/neophyte/oblate/pre_equip(mob/living/carbon/human/H)
@@ -214,6 +219,8 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
 	if(H.mind)
 		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Inquisition Funding.")
+		H.mind.teach_crafting_recipe(/datum/crafting_recipe/roguetown/alchemy/qsabsolution)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 
 /obj/item/inqarticles/inqslip_kit
 	name = "Inquisitorial Slip Kit"
