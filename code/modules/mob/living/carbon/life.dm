@@ -740,14 +740,15 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				if(!fallingas)
 					to_chat(src, span_warning(message))
 
+				var/previous_progress = fallingas
+				fallingas += sleepy_mod
+				if(HAS_TRAIT(src, TRAIT_FASTSLEEP)) // 2x sleep rate here, technically
+					fallingas += sleepy_mod
+
 				// Halfway there we yawn for sovl and also an indicator that we're actually very close to clonking out
 				var/halfway = sleep_threshold / 2
 				if(previous_progress < halfway && fallingas >= halfway && fallingas < sleep_threshold)
 					emote("yawn")
-
-				fallingas += sleepy_mod
-				if(HAS_TRAIT(src, TRAIT_FASTSLEEP)) // 2x sleep rate here, technically
-					fallingas += sleepy_mod
 
 				// The eeper is finally eeping...
 				if(fallingas >= sleep_threshold)
