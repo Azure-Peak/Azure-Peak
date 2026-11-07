@@ -401,6 +401,12 @@
 	stressadd = -3
 	desc = list(span_boldred("I SOAKED IN THE BLOOD OF THE THOUSANDS DEAD! GRAGGAR GRAGGAR GRAGGAR!"))
 
+// Intended to proc upon exposure to Zizo's fog, for Zizites
+/datum/stressevent/zizo_fog
+	timer = 1 MINUTES
+	stressadd = -1
+	desc = list(span_zizo_plain("I feel a familar chill in this mist, forbidden truths faintly whispering through the air and darkness."))
+
 // Intended to proc upon exposure to gentle rain.
 /datum/stressevent/abyssor_rain
 	timer = 1 MINUTES
