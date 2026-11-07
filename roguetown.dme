@@ -542,6 +542,7 @@
 #include "code\controllers\subsystem\rogue\regional_threat\__define.dm"
 #include "code\controllers\subsystem\rogue\regional_threat\regional_threat.dm"
 #include "code\controllers\subsystem\rogue\regional_threat\threat_region.dm"
+#include "code\controllers\subsystem\rogue\regional_threat\threat_spawner.dm"
 #include "code\controllers\subsystem\rogue\role_class_handler\class_register.dm"
 #include "code\controllers\subsystem\rogue\role_class_handler\role_class_handler.dm"
 #include "code\controllers\subsystem\rogue\role_class_handler\class_select_handler\class_select_handler.dm"

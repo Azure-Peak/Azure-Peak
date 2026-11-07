@@ -51030,9 +51030,6 @@
 /obj/item/storage/roguebag,
 /obj/item/flint,
 /obj/item/cooking/pan,
-/obj/item/millstone{
-	pixel_y = 10
-	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/indoors/town/bath)
 "iIg" = (
@@ -59970,8 +59967,7 @@
 "kgE" = (
 /obj/structure/mineral_door/bars{
 	color = "#755f48";
-	name = "rusted iron door";
-	locked = 1
+	name = "rusted iron door"
 	},
 /turf/open/floor/rogue/concrete,
 /area/rogue/under/town/sewer)
@@ -165571,7 +165567,7 @@ jTV
 cqm
 ydF
 bjc
-oxE
+enI
 cqm
 qHj
 qHj
@@ -171897,7 +171893,7 @@ nPv
 rqY
 rqY
 cqm
-oxE
+enI
 bjc
 ydF
 cqm
@@ -177314,7 +177310,7 @@ gBf
 iZp
 iZp
 dlK
-oxE
+enI
 bjc
 xam
 gBf

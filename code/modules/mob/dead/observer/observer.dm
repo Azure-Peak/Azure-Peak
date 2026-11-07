@@ -44,6 +44,8 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 	var/datum/orbit_menu/orbit_menu
 	var/orbiting_ref
 	var/ghostize_time = 0
+	// We want ghost letter to keep the same name
+	var/pen_name
 	move_resist = INFINITY
 
 /mob/dead/observer/admin
@@ -177,6 +179,9 @@ GLOBAL_VAR_CONST(observer_move_delay_multiplier, 0.5)
 				name = random_unique_name(gender)
 
 		mind = body.mind	//we don't transfer the mind but we keep a reference to it.
+		if(ishuman(body))
+			var/mob/living/carbon/human/H = body
+			pen_name = H.pen_name
 
 		set_suicide(body.suiciding) // Transfer whether they committed suicide.
 
