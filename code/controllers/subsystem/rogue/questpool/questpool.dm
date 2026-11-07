@@ -524,6 +524,31 @@ SUBSYSTEM_DEF(questpool)
 		record_round_statistic(STATS_CONTRACT_MAMMONS_FORFEITED, forfeited)
 	log_event("abandon", "[describe_user(user)] forfeited [forfeited] on [Q?.quest_difficulty] [Q?.quest_type]")
 
+/datum/controller/subsystem/questpool/proc/lapse_unattended_scroll(datum/quest/Q)
+	if(QDELETED(Q))
+		return
+	var/label = Q.get_title() || Q.quest_type
+	if(Q.quest_receiver_reference)
+		var/mob/living/bearer = Q.quest_receiver_reference.resolve()
+		var/forfeited = Q.forfeit_deposit()
+		mark_abandoned(bearer, Q, forfeited)
+		var/refund_fraction = Q.has_started() ? REFUND_ON_FAILURE : REFUND_ON_NOT_TAKEN
+		refund_closed_posting(Q, QUEST_ISSUE_STATUS_ABANDONED, refund_fraction, "Abandoned posting refund", "crumbled after [Q.quest_receiver_name] left it unattended")
+		if(bearer)
+			log_quest(bearer.ckey, bearer.mind, bearer, "Unattended lapse [Q.quest_type]")
+			to_chat(bearer, span_warning("Your contract <b>[label]</b> was left unattended and has crumbled to dust.[forfeited > 0 ? " You lose your [forfeited] mammon deposit." : ""]"))
+	else
+		record_contract_stat(Q, CONTRACT_STAT_LAPSED)
+		record_source_statistic(Q, CONTRACT_STAT_LAPSED)
+		if(refund_closed_posting(Q, QUEST_ISSUE_STATUS_LAPSED, REFUND_ON_NOT_TAKEN, "Lapsed posting refund", "crumbled after it was left unattended"))
+			record_round_statistic(STATS_CONTRACTS_LAPSE_REFUNDED)
+		else
+			var/mob/poster = Q.quest_giver_reference?.resolve()
+			if(poster)
+				to_chat(poster, span_notice("Your posting <b>[label]</b> crumbled after it was left unattended."))
+	log_event("unattended", "[Q.source] [Q.quest_type] \"[label]\" (holder [Q.quest_receiver_name || "none"]) crumbled after [QUEST_SCROLL_UNATTENDED_LAPSE / (1 MINUTES)] minutes unattended")
+	qdel(Q)
+
 /datum/controller/subsystem/questpool/proc/record_completion(mob/user, datum/quest/Q, paid, taxed)
 	record_round_statistic(STATS_CONTRACTS_COMPLETED)
 	record_source_statistic(Q, CONTRACT_STAT_COMPLETED)

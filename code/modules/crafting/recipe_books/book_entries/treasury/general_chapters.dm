@@ -377,6 +377,12 @@
 			paid for it.</li> <li><b>Scrolls handed directly to a holder</b> - do not
 			expire on the Ledger timer. Kill scrolls still carry a hunt timer once active.
 			Other types stay valid until completed or abandoned.</li>
+			<li><b>Unattended scrolls</b> - A scroll left off its holder's person for
+			[QUEST_SCROLL_UNATTENDED_LAPSE / 600] minutes crumbles to dust. On the floor, on a
+			table or in a chest all count. A fellowship member carrying it counts as the holder,
+			and the timer resets once the holder has it back. A taken scroll that crumbles counts
+			as abandoned and its deposit is lost. An untaken one refunds its full cost to
+			whoever paid for it.</li>
 		</ul>
 
 		<h3>Withdrawal</h3>
