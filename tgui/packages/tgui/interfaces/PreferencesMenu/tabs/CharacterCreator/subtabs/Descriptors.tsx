@@ -557,9 +557,9 @@ const SECRET_TYPES = [
   },
   {
     value: 'vampire',
-    displayText: 'Vampire (Awestruck)',
-    editorName: 'Awestruck',
-    helpText: `Only Vampires can see this information. Use it to provide a truth that may be uncovered through their supernatural influence over your character.`,
+    displayText: 'Vampire',
+    editorName: 'Vampire',
+    helpText: `Only Vampires can see this information. Use it to provide a truth that may be uncovered through their knowledge or supernatural influence over your character.`,
   },
   {
     value: 'werewolf',

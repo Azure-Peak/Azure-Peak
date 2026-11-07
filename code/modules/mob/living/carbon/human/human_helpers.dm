@@ -101,7 +101,7 @@
 		if("peasant_rebel")
 			return H.mind.has_antag_datum(/datum/antagonist/prebel)
 		if("vampire")
-			return H.mind.has_antag_datum(/datum/antagonist/vampire)
+			return H.mind.has_antag_datum(/datum/antagonist/vampire) || istype(H.mind?.picked_advclass, /datum/advclass/wretch/licker)
 		if("werewolf")
 			return H.mind.has_antag_datum(/datum/antagonist/werewolf)
 		if("wretch")
@@ -167,7 +167,7 @@
 /mob/living/carbon/human/proc/can_access_secret_on_examine(mob/viewer, secret_type)
 	if(!secrets?[secret_type])
 		return FALSE
-	if(secret_type == "assassin" || secret_type == "dreamwalker" || secret_type == "gnoll" || secret_type == "vampire")
+	if(secret_type == "assassin" || secret_type == "dreamwalker" || secret_type == "gnoll")
 		return can_access_secret_remotely(viewer, secret_type)
 	return is_secret_audience(viewer, secret_type)
 

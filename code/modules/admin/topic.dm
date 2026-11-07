@@ -70,7 +70,7 @@
 			"lich" = "Lich",
 			"maniac" = "Maniac",
 			"peasant_rebel" = "Rebel",
-			"vampire" = "Vampire (Awestruck)",
+			"vampire" = "Vampire",
 			"werewolf" = "Werewolf",
 			"wretch" = "Wretch",
 		)

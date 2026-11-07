@@ -487,7 +487,7 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 			"lich" = "Lich",
 			"maniac" = "Maniac",
 			"peasant_rebel" = "Rebel",
-			"vampire" = "Vampire (Awestruck)",
+			"vampire" = "Vampire",
 			"werewolf" = "Werewolf",
 			"wretch" = "Wretch",
 		)
