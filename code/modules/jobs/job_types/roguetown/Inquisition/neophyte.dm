@@ -68,6 +68,9 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
 	neck = /obj/item/clothing/neck/roguetown/psicross/silver
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
+	gloves = /obj/item/clothing/gloves/roguetown/bandages
 	backpack_contents = list(
 		/obj/item/needle = 1,
 		/obj/item/storage/keyring/neophyte = 1,
@@ -75,7 +78,7 @@
 		/obj/item/inqarticles/inqslip_kit = 1,
 	)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Inquisition Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Inquisition Funding.")
 
 /datum/advclass/neophyte/page
 	name = "Page"
@@ -119,6 +122,10 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
 	neck = /obj/item/clothing/neck/roguetown/psicross/silver
+	armor = /obj/item/clothing/suit/roguetown/armor/plate/cuirass/fencer/ornate
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
+	gloves = /obj/item/clothing/gloves/roguetown/bandages
 	backpack_contents = list(
 		/obj/item/needle = 1,
 		/obj/item/storage/keyring/neophyte = 1,
@@ -152,7 +159,7 @@
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Inquisition Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Inquisition Funding.")
 
 /datum/advclass/neophyte/oblate
 	name = "Oblate"
@@ -192,6 +199,9 @@
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backl = /obj/item/storage/backpack/rogue/satchel
 	neck = /obj/item/clothing/neck/roguetown/psicross/silver/anointed
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/cloth/gladiator
+	gloves = /obj/item/clothing/gloves/roguetown/bandages
 	backpack_contents = list(
 		/obj/item/needle = 1,
 		/obj/item/storage/keyring/neophyte = 1,
@@ -202,7 +212,7 @@
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
 	C.grant_miracles(H, cleric_tier = CLERIC_T3, passive_gain = CLERIC_REGEN_MINOR, devotion_limit = CLERIC_REQ_2)
 	if(H.mind)
-		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Inquisition Funding.")
+		SStreasury.give_money_account(ECONOMIC_LOWER_MIDDLE_CLASS, H, "Inquisition Funding.")
 
 /obj/item/inqarticles/inqslip_kit
 	name = "Inquisitorial Slip Kit"
