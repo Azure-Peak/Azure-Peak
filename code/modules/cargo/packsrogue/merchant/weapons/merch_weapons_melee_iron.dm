@@ -1,4 +1,3 @@
-// Pricing principle is approximately 20 per iron ingot. No less than 25.
 /datum/supply_pack/rogue/iron_weapons
 	group = "Weapons (Iron and Shields)"
 	crate_name = "merchant guild's crate"

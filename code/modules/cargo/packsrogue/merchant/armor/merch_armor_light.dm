@@ -1,6 +1,3 @@
-// Light Armor Pack. Only includes the "highest tier" plus a special package of budget armor.
-// Pricing principles - Based on uhh sell price x 1.5 approx lol.
-
 /datum/supply_pack/rogue/light_armor
 	group = "Armor (Light)"
 	crate_name = "merchant guild's crate"

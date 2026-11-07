@@ -1,5 +1,3 @@
-// Steel Weapons - Base price of 35 per steel ingot
-// Minimum price of 40
 /datum/supply_pack/rogue/steel_weapons
 	group = "Weapons (Steel)"
 	crate_name = "merchant guild's crate"

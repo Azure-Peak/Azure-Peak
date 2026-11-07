@@ -1,9 +1,4 @@
 // Steel Armor
-// Iron Ingot is 20 each.
-// Each Steel Ingot is 35 each, 40 minimum price.
-// Cured Leather is 5 each.
-// For Steel Armor, we applies a base 1.25x multiplier AFTER ingot price to account for labor.
-// Then round up to nearest 5.
 
 /datum/supply_pack/rogue/armor_steel
 	group = "Armor (Steel)"

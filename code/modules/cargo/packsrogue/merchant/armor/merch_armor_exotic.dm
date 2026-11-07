@@ -1,5 +1,4 @@
 // Regional or otherwise exclusive armor. NOT for Merc equipment (unless it is deemed so)
-// Pricing Principles is based on vibes, but you don't want reskins worth /less/ than the originals.
 // The Gronn stuff is all-in-one due to laziness, not as a standard.
 
 /datum/supply_pack/rogue/armor_exotic

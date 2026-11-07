@@ -1,5 +1,4 @@
 // Medium / Heavy Armor, including metallic bracers and boots etc.
-// Pricing Principles is based on 20 per iron ingot (Min. 25), 35 per steel ingot (Min. 40).
 
 /datum/supply_pack/rogue/armor_iron
 	group = "Armor (Iron)"
