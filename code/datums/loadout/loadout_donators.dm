@@ -1420,6 +1420,6 @@
 	ckeywhitelist = list("rosysaturniidae")
 
 /datum/loadout_item/donator/rosy/rosecollar
-	name = "Donator Kit - Clasped Rosestone Collar"
-	path = /obj/item/enchantingkit/rosy/rosecollar
+	name = "Donator Item - Clasped Rosestone Collar"
+	path = /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 	ckeywhitelist = list("rosysaturniidae")

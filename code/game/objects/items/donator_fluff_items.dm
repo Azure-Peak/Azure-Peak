@@ -3827,6 +3827,7 @@ As Excaliber."
 	detail_color = CLOTHING_GOLD
 	altdetail_color = CLOTHING_GOLD
 
+//ROSYSATURNIIDAE
 /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 	name = "rosestone clasped collar"
 	desc = "A simple rigid collar fashioned out of rosestone.</br>\
@@ -3834,6 +3835,9 @@ As Excaliber."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "rosecollar"
+
+/obj/item/clothing/neck/roguetown/psicross/eora/rosecollar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_AASIMAR_BINDING)
 
 // NOIRE + CO.
 /obj/item/clothing/cloak/furcloak/woodland
