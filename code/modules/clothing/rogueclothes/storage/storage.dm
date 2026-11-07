@@ -582,9 +582,23 @@
 	inhand_mod = FALSE
 	slot_flags = ITEM_SLOT_BACK
 
+
+/obj/item/clothing/climbing_gear/get_mechanics_examine(mob/living/carbon/human/user)
+	. = ..()
+	. += span_info("Adds the ability to jump/leap towards a wall and climb it.")
+	. += span_info("Gives you the leaper trait.")
+
 /obj/item/clothing/climbing_gear/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
+	if(slot == SLOT_BACK_L || slot == SLOT_BACK_R)
+		ADD_TRAIT(user, TRAIT_LEAPER, REF(src))
+
+/obj/item/clothing/climbing_gear/dropped(mob/living/carbon/human/user)
+	. = ..()
+	REMOVE_TRAIT(user, TRAIT_LEAPER, REF(src))
+
+
 
 /obj/item/clothing/wall_grab
 	name = "wall"

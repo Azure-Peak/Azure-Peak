@@ -955,10 +955,7 @@
 	if(!istype(tile_under_climber, /turf/open/transparent/openspace) || random_shit_under_climber.len)
 		climber.remove_status_effect(/datum/status_effect/debuff/climbing_lfwb)
 		return
-	if((istype(climber.backr, /obj/item/clothing/climbing_gear)) || (istype(climber.backl, /obj/item/clothing/climbing_gear)))
-		stamcost_final = stamcost / 2
-	else
-		stamcost_final = stamcost
+	stamcost_final = stamcost
 	climber.stamina_add(stamcost_final) // every tick interval this much stamina is deducted
 	if(climber.stamina >= climber.max_stamina) // if we run out of green bar stamina, we fall
 		to_chat(climber, span_dead("I can't hold onto the ledge for any longer!"))
