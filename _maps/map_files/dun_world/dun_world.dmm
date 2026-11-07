@@ -49455,7 +49455,9 @@
 /turf/open/floor/rogue/cobble/mossy,
 /area/rogue/outdoors/town)
 "iuA" = (
-/obj/structure/roguemachine/vendor/bathhouse,
+/obj/structure/roguemachine/vendor/bathhouse{
+	keycontrol = "nightmaiden"
+	},
 /turf/closed/wall/mineral/rogue/decostone/cand,
 /area/rogue/indoors/town/bath)
 "iuB" = (
