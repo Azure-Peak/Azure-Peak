@@ -28,6 +28,7 @@
 		"erpprefs_cached" = null,
 		"rumour_cached" = null,
 		"noble_gossip_cached" = null,
+		"secrets" = secrets,
 	)
 
 	if(examine_theme)
