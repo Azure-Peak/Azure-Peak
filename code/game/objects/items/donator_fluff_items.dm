@@ -5097,7 +5097,7 @@ As Excaliber."
 
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize(mapload)
 	. = ..()
-	loadoutize(
+	loadoutize()
 
 /obj/item/clothing/head/roguetown/decoration/bluelily
 	name = "tufted blue-lily"
