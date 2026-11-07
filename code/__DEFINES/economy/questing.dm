@@ -89,7 +89,7 @@
 #define QUEST_POOL_EVERGREEN "evergreen"
 
 // Relative odds of each type to generate within their own pool
-// KILL pool (Kill quests dependent on regional threats to generate).
+// KILL pool (Kill quests dependent on regional threats to generate)
 #define QUEST_POOL_WEIGHT_KILL_EASY 25
 #define QUEST_POOL_WEIGHT_CLEAR_OUT 25
 #define QUEST_POOL_WEIGHT_RAID 30

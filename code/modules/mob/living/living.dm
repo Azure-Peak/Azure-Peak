@@ -1883,8 +1883,10 @@
  * * fire_handler: Current fire status effect that called the proc
  */
 
+
 /mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1
+//	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1 // quarantined for now, someone should have been more diligent with their hot/cold removal PR
+
 
 /**
  * Adjust the amount of fire stacks on a mob
