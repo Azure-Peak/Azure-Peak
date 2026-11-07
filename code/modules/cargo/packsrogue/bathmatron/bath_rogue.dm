@@ -26,6 +26,12 @@
 	cost = 140
 	contains = list(/obj/item/lockpick/goldpin/silver)
 
+/datum/supply_pack/rogue/bath_rogue/castifico_key
+	name = "Key of Liberation"
+	cost = 200
+	contains = list(/obj/item/castifico_key/liberation)
+	contraband = TRUE
+
 /datum/supply_pack/rogue/bath_rogue/smokebomb
 	name = "Smoke Bomb"
 	cost = 25
@@ -86,9 +92,9 @@
 	cost = 150
 	contains = list(/obj/item/clothing/climbing_gear)
 
-// these dont techniiiically count as "roguery" but candles r used in the bathhouse a lot for if a room is 
+// these dont techniiiically count as "roguery" but candles r used in the bathhouse a lot for if a room is
 // busy or whatever. + its cool.
 /datum/supply_pack/rogue/bath_rogue/eoran_candles
 	name = "Eoran Candles"
-	cost = 30 // recipe is super easy. 
+	cost = 30 // recipe is super easy.
 	contains = list(/obj/item/candle/eora, /obj/item/candle/eora, /obj/item/candle/eora)
