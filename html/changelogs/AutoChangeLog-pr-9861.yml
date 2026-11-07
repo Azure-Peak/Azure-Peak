@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Ported static threat spawners from our downstream Ochre Valley. not added to map, yet."
