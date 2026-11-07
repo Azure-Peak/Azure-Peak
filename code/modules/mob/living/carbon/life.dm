@@ -578,66 +578,94 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 	var/datum/charflaw/sleepless/sleepless_flaw = get_flaw()
 	if(!istype(sleepless_flaw, /datum/charflaw/sleepless))
 		sleepless_flaw = null
+
 	if(HAS_TRAIT(src, TRAIT_NOSLEEP))
 		if(!(mobility_flags & MOBILITY_STAND))
 			energy_add(5)
-	//Healing while sleeping in a bed
+
+	// SLEEP HEALING
 	if(IsSleeping())
 		dualwield_attack_count = 0
+
+		// These don't heal when sleeping at all
 		if(HAS_TRAIT(src, TRAIT_NOREGEN) || HAS_TRAIT(src, TRAIT_IRONMAN))
 			return
-		if(HAS_TRAIT(src, TRAIT_DEATHLESS) || HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)) // To prevent a softlock involving blood loss.
+
+		var/is_deathless = HAS_TRAIT(src, TRAIT_DEATHLESS)
+		var/is_zombie_immune = HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)
+		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
+
+		// slow blood regen to prevent a blood loss softlock
+		if(is_deathless || is_zombie_immune)
 			if(blood_volume < BLOOD_VOLUME_BAD)
 				blood_volume += (BLOOD_VOLUME_NORMAL * 0.002)
+
+		// Checked once, before this tick's blood recovery, so the bonus reflects the state we fell asleep in
+		var/critically_low_blood = (blood_volume < BLOOD_VOLUME_SURVIVE)
+
+		// Trait based energy bonuses
 		var/sleepy_mod = 0.5
-		var/doesnt_hunger = HAS_TRAIT(src, TRAIT_NOHUNGER)
 		if(HAS_TRAIT(src, TRAIT_BETTER_SLEEP))
 			energy_add(sleepy_mod * 4)
 		if(HAS_TRAIT(src, TRAIT_MALUMCHOSEN))
 			energy_add(sleepy_mod * 2)
+
+		// Sleep quality goes here, we check where tf we are first for comfort
 		if(buckled?.sleepy)
 			sleepy_mod = buckled.sleepy
+
 		if(HAS_TRAIT(src, TRAIT_REGROW_LIMBS))
-			var/list/limb_list = list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
-			for(var/zone in limb_list)
-				var/obj/item/bodypart/limb = get_bodypart(zone)
-				if(!limb && nutrition > 250)
-					regenerate_limb(zone)
-					nutrition -= 250
+			// Regrow missing limbs at the cost of nutrition for oozes
+			for(var/zone in list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG))
+				if(get_bodypart(zone) || nutrition <= 250)
+					continue
+				regenerate_limb(zone)
+				nutrition -= 250
 		else if(isturf(loc)) //No illegal tech.
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)
 				sleepy_mod = bed.sleepy
 			else
-				if(HAS_TRAIT(src, TRAIT_OUTDOORSMAN))
-					var/obj/structure/flora/newbranch/branch = locate() in loc
-					if(branch)
-						sleepy_mod = 2 // just equivalent to a bedroll
+				// Improvised sleeping spots go here, for the seasoned hobos only
+				if(HAS_TRAIT(src, TRAIT_OUTDOORSMAN) && (locate(/obj/structure/flora/newbranch) in loc))
+					sleepy_mod = 2 // just equivalent to a bedroll
 				if(HAS_TRAIT(src, TRAIT_WATERSLEEP) && istype(loc, /turf/open/water))
 					sleepy_mod = 2 // ditto
+
+		// Energy needs food unless we don't hunger
 		if(nutrition > 0 || doesnt_hunger)
 			energy_add(sleepy_mod * 15)
-		if(hydration > 0 || doesnt_hunger)
+
+		// Blood, wounds and toxins need water (unless we don't hunger, or we're deathless / zombie immune).
+		if(hydration > 0 || doesnt_hunger || is_deathless || is_zombie_immune)
 			if(!bleed_rate)
 				blood_volume = min(blood_volume + (4 * sleepy_mod), BLOOD_VOLUME_NORMAL)
+
 			for(var/obj/item/bodypart/affecting as anything in bodyparts)
-				//for context, it takes 5 small cuts (0.2 x 5) or 3 normal cuts (0.4 x 3) for a bodypart to not be able to heal itself
-				if(affecting.get_bleed_rate() >= 1 && !HAS_TRAIT(src, TRAIT_ZOMBIE_IMMUNE)) // however, if you're undead - and therefore won't deadite - we let you get back up after a VERY long time, bcs otherwise any artery can be an RR
+				// A bodypart can't heal itself once it bleeds >= 1 (5 small cuts at 0.2, or 3 normal cuts at 0.4). To prevent cheese where normal people can just sleep off their bleeds, even though that's practically statistically impossible now due to pain increasing sleep timer
+				if(affecting.get_bleed_rate() >= 1 && !(is_deathless || is_zombie_immune)) // deathless/zimmune needs this to prevent softlocks
 					continue
+
 				if(affecting.heal_damage(sleepy_mod, sleepy_mod, required_status = BODYPART_ORGANIC))
-					src.update_damage_overlays()
+					update_damage_overlays()
+
 				for(var/datum/wound/wound as anything in affecting.wounds)
 					if(!wound.sleep_healing)
 						continue
-					wound.heal_wound(wound.sleep_healing * sleepy_mod)
+					var/heal_amount = wound.sleep_healing * sleepy_mod
+					if(critically_low_blood)
+						heal_amount += wound.whp * 0.05 // 5% of the wound's current whp, every tick, but only after you were totalled
+					wound.heal_wound(heal_amount)
+
 			adjustToxLoss(-sleepy_mod)
+
+	// FALLING ASLEEP
 	else
+		// Sleep quality goes for wherever we buckled first, then the surface we're lying on (which overrides it) for convenience
 		var/sleepy_mod = 0
-		var/sleep_threshold = 30
-		var/message = "I'll fall asleep soon..."
-		var/dream_prob = 2
 		if(buckled?.sleepy)
 			sleepy_mod = buckled.sleepy
+
 		if(isturf(loc) && !(mobility_flags & MOBILITY_STAND))
 			var/obj/structure/bed/rogue/bed = locate() in loc
 			if(bed)
@@ -645,97 +673,124 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				SEND_SIGNAL(src, COMSIG_SLEEPING_ON_BED, src) // send this to both the mob and bed, they're used for different things
 				sleepy_mod = bed.sleepy
 			else
+				// Here we assuming bare floor, or an improv spot
 				sleepy_mod = 1
-				if(HAS_TRAIT(src, TRAIT_OUTDOORSMAN))
-					var/obj/structure/flora/newbranch/branch = locate() in loc
-					if(branch)
-						sleepy_mod = 2 //Worse than a bedroll, better than nothing.
+				if(HAS_TRAIT(src, TRAIT_OUTDOORSMAN) && (locate(/obj/structure/flora/newbranch) in loc))
+					sleepy_mod = 2 // Worse than a bedroll, better than nothing
 				if(HAS_TRAIT(src, TRAIT_WATERSLEEP) && istype(loc, /turf/open/water))
-					sleepy_mod = 2 // ditto
-		if(sleepy_mod > 0)
-			if(eyesclosed)
-				if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !sleepless_flaw)
-					message = "I am completely unable to sleep. I should just get up."
-					if(!fallingas)
-						to_chat(src, span_warning(message))
-					fallingas = TRUE
-					return
-				var/armor_blocked = FALSE
-				if(ishuman(src) && stat == CONSCIOUS)
-					var/mob/living/carbon/human/H = src
-					if(H.head && H.head.armor?.stab > 70)
-						armor_blocked = TRUE
-					if(H.wear_armor && (H.wear_armor.armor_class in list(ARMOR_CLASS_HEAVY, ARMOR_CLASS_MEDIUM)))
-						armor_blocked = TRUE
-					if(armor_blocked && !fallingas)
-						to_chat(src, span_warning("I can't sleep like this. My armor is burdening me."))
-						fallingas = TRUE
-				if(!armor_blocked)
-					if (sleepy_mod > 1)
-						sleep_threshold = 30
-					else
-						sleep_threshold = 45
-						message = "I'll fall asleep soon, although a proper bed would be more comfortable..."
-					if(sleepless_flaw)
-						if(!sleepless_flaw.drugged_up)
-							message = "I am unable to sleep. I should just get up."
-							if(!fallingas)
-								to_chat(src, span_warning(message))
-							fallingas = TRUE
-						else
-							sleep_threshold = 45
-							message = "I'll fall asleep soon, although it's still very hard for me to..."
-					if(!fallingas)
-						to_chat(src, span_warning(message))
-					fallingas += sleepy_mod
-					if(HAS_TRAIT(src, TRAIT_FASTSLEEP))
-						fallingas += sleepy_mod
-					if(fallingas >= sleep_threshold)
-						if(!is_asleep) //to not spam chat
-							to_chat(src, span_blue("I've fallen asleep."))
-							is_asleep = TRUE
-						if((sleepy_mod < 3 || !istype(get_area(src), /area/rogue/indoors)) && HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED)) // nobles need good beds and a proper room or they complain
-							add_stress(/datum/stressevent/unlanded_noble_poor_sleep)
-						else if (sleepy_mod>=3 && has_stress_event(/datum/stressevent/unlanded_noble_poor_sleep))
-							remove_stress(/datum/stressevent/unlanded_noble_poor_sleep) // a good night's sleep fixes it
-						// those who have gazed upon zuranus may have... odd dreams.
-						if(has_status_effect(/datum/status_effect/zuranus))
-							var/zizo_dream = has_status_effect(/datum/status_effect/zuranus) // this is stupid im sorry
-							var/list/evil_dreams = list(
-								span_cultsmall("It's as if all my other memories have been taken. It feels like hours, daes, only blood, only war. No friends. No family. Just war."),
-								span_cultsmall("Every single one of my failures becomes clear to me. I am staring into a river flowing red, and within it is the reflection of everyone I've lost."),
-								span_cultsmall("There is a dark star in the sky. The grassy field turns black. I begin coughing-- I clutch at my chest...")
-							)
-							var/terrible_dreams = TRUE
-							if(istype(src.mouth, /obj/item/roguecoin/aalloy)) // psila will Show You Things. i talked 2 ambrose about this like 2 months ago.
-								evil_dreams = list(
-									span_gamedeadsay("My deft hands rattle along a table, odd machinery laid around me. I fetch my scalpel and begin shoving a rat into a box..."),
-									span_gamedeadsay("I stand over sketches of a chair, swiftly inspeckting vial after vial of a queer green fluid. It's still not ready. Not just yet."),
-									span_gamedeadsay("I speak, but I cannot comprehend my own words. Within a near pitch-black room, a corpse animates... I smile.")
-								)
-								terrible_dreams = FALSE // this sucks so much. free forgive me. please. its for sovl.
-							var/picked_dream = pick(evil_dreams)
-							to_chat(src, picked_dream)
-							src.remove_status_effect(zizo_dream)
-							if(terrible_dreams)
-								src.add_stress(/datum/stressevent/terrible_dreams)
-						if(sleepless_flaw) // If you're sleepless, you have a higher chance of going to a nightmare. Every time you sleep, the chance gets higher for the rest of the round.
-							teleport_to_dream(src, 10000, sleepless_flaw.dream_prob, FALSE)
-							sleepless_flaw.dream_prob += 500
-							sleepless_flaw.drugged_up = FALSE
-							Sleeping(250)
-							SEND_SIGNAL(src, COMSIG_MOB_SLEEP)
-						else
-							teleport_to_dream(src, 10000, dream_prob)
-							Sleeping(300)
-							SEND_SIGNAL(src, COMSIG_MOB_SLEEP)
+					sleepy_mod = 2 // this too, duh
 
-			else
-				is_asleep = FALSE
-				fallingas = FALSE
-				energy_add(sleepy_mod * 10)
-		else if(fallingas)
+		// gotta commit to trying to sleep, if you ever open your eyes you're back to zero
+		if(sleepy_mod <= 0)
 			fallingas = FALSE
+
+		// No eyes closed mean we're just resting for now, good for energy regen but doesn't heal
+		else if(!eyesclosed)
+			is_asleep = FALSE
+			fallingas = FALSE
+			if(!(HAS_TRAIT(src, TRAIT_IRONMAN) || HAS_TRAIT(src, TRAIT_NOREGEN)))
+				energy_add(sleepy_mod * 10)
+
+		// Eyes closed and we try to fall asleep
+		else
+			var/mob/living/carbon/human/H = ishuman(src) ? src : null
+
+			// Heavy headgear or medium/heavy armor stops us from sleeping.
+			var/armor_blocked = FALSE
+			if(H && stat == CONSCIOUS)
+				if(H.head?.armor?.stab > 70)
+					armor_blocked = TRUE
+				if(H.wear_armor && (H.wear_armor.armor_class in list(ARMOR_CLASS_HEAVY, ARMOR_CLASS_MEDIUM)))
+					armor_blocked = TRUE
+
+			// Things that stop us from sleeping (we warn once)
+			if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !sleepless_flaw)
+				if(!fallingas)
+					to_chat(src, span_warning("I am completely unable to sleep. I should just get up."))
+				fallingas = TRUE
+				return
+
+			else if(armor_blocked)
+				if(!fallingas)
+					to_chat(src, span_warning("I can't sleep like this. My armor is burdening me."))
+					fallingas = TRUE
+
+			// Sleepless can't sleep unless drugged up
+			else if(sleepless_flaw && !sleepless_flaw.drugged_up)
+				if(!fallingas)
+					to_chat(src, span_warning("I am completely unable to sleep without the help of drugs..."))
+				fallingas = TRUE
+
+			// Nothing in the way means we make progress towards the eeper
+			else
+				var/sleep_threshold = 30
+				var/message = "I'll fall asleep soon..."
+				if(sleepy_mod <= 1)
+					sleep_threshold = 45
+					message = "I'll fall asleep soon, but I am quite uncomfortable..."
+				if(sleepless_flaw) // drugged up, but still hard
+					sleep_threshold = 45
+					message = "I'll fall asleep soon, but it's still quite difficult to..."
+				// Pain keeps us awake, it takes 2x longer to fall asleep now
+				if(H && !HAS_TRAIT(H, TRAIT_NOPAIN) && !HAS_TRAIT(H, TRAIT_NOPAINSTUN) && H.get_complex_pain() > (H.pain_threshold/2))
+					sleep_threshold *= 2
+					message = "I am struggling to fall asleep, this pain makes it hard to rest..."
+					if(!fallingas)
+						H.emote("whimper")
+
+				if(!fallingas)
+					to_chat(src, span_warning(message))
+
+				var/previous_progress = fallingas
+				fallingas += sleepy_mod
+				if(HAS_TRAIT(src, TRAIT_FASTSLEEP)) // 2x sleep rate here, technically
+					fallingas += sleepy_mod
+
+				// Halfway there we yawn for sovl and also an indicator that we're actually very close to clonking out
+				var/halfway = sleep_threshold / 2
+				if(previous_progress < halfway && fallingas >= halfway && fallingas < sleep_threshold)
+					emote("yawn")
+
+				// The eeper is finally eeping...
+				if(fallingas >= sleep_threshold)
+					if(!is_asleep) // please don't spam chat again ser
+						to_chat(src, span_blue("I've fallen asleep."))
+						is_asleep = TRUE
+
+					// Nobles need a good bed and a proper room, or they will bitch
+					if((sleepy_mod < 3 || !istype(get_area(src), /area/rogue/indoors)) && (HAS_TRAIT(src, TRAIT_NOBLE_UNLANDED) || HAS_TRAIT(src, TRAIT_NOBLE)))
+						add_stress(/datum/stressevent/unlanded_noble_poor_sleep)
+					else if(sleepy_mod >= 3 && has_stress_event(/datum/stressevent/unlanded_noble_poor_sleep))
+						remove_stress(/datum/stressevent/unlanded_noble_poor_sleep) // A good night's sleep in cozy conditions fixes it, ser!
+
+					// those who have gazed upon zuranus may have... odd dreams.
+					if(has_status_effect(/datum/status_effect/zuranus))
+						var/list/dreams
+						var/terrible_dreams = TRUE
+						if(istype(mouth, /obj/item/roguecoin/aalloy)) // Psila will show you things
+							terrible_dreams = FALSE // this sucks so much. free forgive me. please. its for sovl.
+							dreams = list(span_gamedeadsay("My deft hands rattle along a table, odd machinery laid around me. I fetch my scalpel and begin shoving a rat into a box..."),
+								span_gamedeadsay("I stand over sketches of a chair, swiftly inspeckting vial after vial of a queer green fluid. It's still not ready. Not just yet."),
+								span_gamedeadsay("I speak, but I cannot comprehend my own words. Within a near pitch-black room, a corpse animates... I smile."))
+						else
+							dreams = list(span_cultsmall("It's as if all my other memories have been taken. It feels like hours, daes, only blood, only war. No friends. No family. Just war."),
+								span_cultsmall("Every single one of my failures becomes clear to me. I am staring into a river flowing red, and within it is the reflection of everyone I've lost."),
+								span_cultsmall("There is a dark star in the sky. The grassy field turns black. I begin coughing-- I clutch at my chest..."))
+						to_chat(src, pick(dreams))
+						remove_status_effect(/datum/status_effect/zuranus)
+						if(terrible_dreams)
+							add_stress(/datum/stressevent/terrible_dreams)
+
+					var/dream_prob = 2
+					if(sleepless_flaw) // If you're sleepless, you have a higher chance of going to a nightmare. Every time you sleep, the chance gets higher for the rest of the round.
+						teleport_to_dream(src, 10000, sleepless_flaw.dream_prob, FALSE)
+						sleepless_flaw.dream_prob += 500
+						sleepless_flaw.drugged_up = FALSE
+						Sleeping(250)
+					else
+						teleport_to_dream(src, 10000, dream_prob)
+						Sleeping(300)
+					SEND_SIGNAL(src, COMSIG_MOB_SLEEP)
 
 	// Leaning against a wall: slowly regain stamina
 	if(mobility_flags & MOBILITY_STAND && wallpressed && !IsSleeping() && !buckled && !lying && !climbing)
