@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You can now set a pen name which is one of the 3 names (Real, anonymous and pen) you are allowed to sign your letters with. Letter recipient will see your name when they receive a notification. Admins will be aware of any metagamey pen name to blow up anyone who do so."
