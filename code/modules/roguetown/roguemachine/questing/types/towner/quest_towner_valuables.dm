@@ -100,15 +100,15 @@
 			"blurb" = "Stolen coin.",
 			"tiers" = list(
 				TOWNER_POSTING_TIER_MEDIUM = list(
-					list("path" = /obj/item/roguecoin/gold/virtuepile, "min" = 1, "max" = 1, "noun" = "gold pile"),
+					list("path" = /obj/effect/spawner/coins/medium, "min" = 1, "max" = 1, "noun" = "gold pile"),
 				),
 				TOWNER_POSTING_TIER_HARD = list(
-					list("path" = /obj/item/roguecoin/gold/aspirantpile, "min" = 1, "max" = 1, "noun" = "gold pile"),
-					list("path" = /obj/item/roguecoin/silver/pile, "min" = 1, "max" = 1, "noun" = "silver pile"),
+					list("path" = /obj/effect/spawner/coins/large, "min" = 1, "max" = 1, "noun" = "gold pile"),
+					list("path" = /obj/effect/spawner/coins/small, "min" = 1, "max" = 1, "noun" = "silver pile"),
 				),
 				TOWNER_POSTING_TIER_PERILOUS = list(
-					list("path" = /obj/item/roguecoin/gold/aspirantpile, "min" = 1, "max" = 1, "noun" = "gold pile"),
-					list("path" = /obj/item/roguecoin/gold/pile, "min" = 1, "max" = 1, "noun" = "loose gold"),
+					list("path" = /obj/effect/spawner/coins/large, "min" = 1, "max" = 1, "noun" = "gold pile"),
+					list("path" = /obj/effect/spawner/coins/medium, "min" = 1, "max" = 1, "noun" = "loose gold"),
 				),
 			),
 		),

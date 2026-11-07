@@ -57,7 +57,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		list("name" = "fishy healing aids", "item" = /obj/item/reagent_containers/glass/bottle/rogue/healthpot/zarum, "min" = 1, "max" = 2),
 		list("name" = "old surgeon's tools", "item" = /obj/item/storage/belt/rogue/surgery_bag, "min" = 1, "max" = 1),
 		list("name" = "spare verses", "item" = /obj/item/book/rogue/bibble, "min" = 3, "max" = 6),
-		list("name" = "countryside tithes", "item" = /obj/item/roguecoin/copper/pile, "min" = 1, "max" = 2),
+		list("name" = "countryside tithes", "item" = /obj/effect/spawner/coins/handful, "min" = 1, "max" = 2),
 		list("name" = "holy vessels blessed in Grenzelhoft", "item" = /obj/item/reagent_containers/glass/bottle/clayvaseclassic/holy_water, "min" = 1, "max" = 3),
 	),
 	// Physician / Apothecary: herbs and alchemical reagents for healing

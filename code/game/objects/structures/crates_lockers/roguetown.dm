@@ -61,7 +61,7 @@
 		/obj/item/roguegem/violet=4,
 		/obj/item/roguegem/green=6,
 		/obj/item/roguegem/yellow=10,
-		/obj/item/roguecoin/silver/pile=4,
+		/obj/effect/spawner/coins/small=4,
 		/obj/item/rogueweapon/pick=23,
 		/obj/item/riddleofsteel=2,
 		/obj/item/clothing/neck/roguetown/talkstone=2)
@@ -298,7 +298,7 @@
 		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/bronze = 10,
 		/obj/item/clothing/neck/roguetown/psicross/malum/bronze = 10,
 		/obj/item/clothing/neck/roguetown/psicross/astrata/bronze = 10,
-		/obj/item/roguecoin/copper/pile = 5, //Valuables (materials)
+		/obj/effect/spawner/coins/handful = 5, //Valuables (materials)
 		/obj/item/roguecoin/aalloy/pile = 2,
 		/obj/item/roguegem/yellow = 10,
 		/obj/item/roguestatue/bronze = 10,
@@ -340,7 +340,7 @@
 		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
 		/obj/item/clothing/neck/roguetown/psicross/pearl = 10,
 		/obj/item/clothing/neck/roguetown/psicross/g = 15,
-		/obj/item/roguecoin/silver/pile = 5, //Valuables (materials)
+		/obj/effect/spawner/coins/small = 5, //Valuables (materials)
 		/obj/item/roguecoin/aalloy/pile = 2,
 		/obj/item/roguegem/violet = 10,
 		/obj/item/roguestatue/gold/loot = 10,
@@ -376,8 +376,8 @@
 		/obj/item/clothing/ring/gold = 20,
 		/obj/item/clothing/neck/roguetown/ornateamulet = 15,
 		/obj/item/clothing/neck/roguetown/psicross/bpearl = 10,
-		/obj/item/roguecoin/gold/pile = 5, //Valuables (materials)
-		/obj/item/roguecoin/silver/pile = 9,
+		/obj/effect/spawner/coins/medium = 5, //Valuables (materials)
+		/obj/effect/spawner/coins/small = 9,
 		/obj/item/roguegem/random = 10,
 		/obj/item/roguegem/ruby = 5,
 		/obj/item/riddleofsteel = 2,

@@ -912,8 +912,8 @@
 				playsound(owner, 'sound/magic/churn.ogg', 100, TRUE)
 				playsound(owner, 'sound/magic/whiteflame.ogg', 100, TRUE)
 				explosion(get_turf(target), light_impact_range = 1, flame_range = 1, smoke = FALSE)
-				new /obj/item/roguecoin/silver/pile(target.loc)
-				new /obj/item/roguecoin/gold/pile(target.loc)
+				spawn_coin_tier(/obj/effect/spawner/coins/small, target.loc)
+				spawn_coin_tier(/obj/effect/spawner/coins/medium, target.loc)
 				new /obj/item/roguegem/random(target.loc)
 				new /obj/item/roguegem/random(target.loc)
 

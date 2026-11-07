@@ -18,7 +18,7 @@
 /datum/materia_aspect/solar // gold, coinage
 	name = "Solaris"
 	desc = "The solar half of the twinned-aspect of purity; the cleansing heat of sunfyre, the fundament of value. Attracts and conducts arcyne energy."
-	cheapest_known_source = /obj/item/roguecoin/gold
+	cheapest_known_source = /obj/item/alch/solardust
 
 /datum/materia_aspect/lunar // silver, raw essentia
 	name = "Lunae"

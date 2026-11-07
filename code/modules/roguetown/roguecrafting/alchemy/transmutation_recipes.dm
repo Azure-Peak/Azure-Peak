@@ -446,13 +446,13 @@
 
 /datum/transmutation_recipe/xanthosis/gemerald
 	name = "Gemerald Harmonization"
-	input_items = list(/obj/item/roguegem/yellow = 1) // toper sells for 34, gemerald is 42 - adding a minimum of 10 mammons for solaris you're left with a 2 mammon loss
+	input_items = list(/obj/item/roguegem/yellow = 1) // toper sells for 34, gemerald is 42 - adding a minimum of 6 mammons for solaris (solar dust) you're left with a 2 mammon profit
 	materia_aspects = list(/datum/materia_aspect/solar, /datum/materia_aspect/arcyne)
 	output_items = list(/obj/item/roguegem/green = 1)
 
 /datum/transmutation_recipe/xanthosis/saffira
 	name = "Saffira Harmonization"
-	input_items = list(/obj/item/roguegem/green = 1) // gemerald is 42 mammons, saffira 56; add 10 for the cheapest source of solaris, and you're only making 4 mammons at best
+	input_items = list(/obj/item/roguegem/green = 1) // gemerald is 42 mammons, saffira 56; add 6 for the cheapest source of solaris (solar dust), and you're only making 8 mammons at best
 	materia_aspects = list(/datum/materia_aspect/solar, /datum/materia_aspect/arcyne)
 	output_items = list(/obj/item/roguegem/violet = 1)
 

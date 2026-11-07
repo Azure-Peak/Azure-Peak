@@ -39,10 +39,10 @@
 		// Money
 		/obj/item/roguecoin/copper = 5,
 		/obj/item/roguecoin/silver = 5,
-		/obj/item/roguecoin/gold = 5,
-		/obj/item/roguecoin/copper/pile = 3,
-		/obj/item/roguecoin/silver/pile = 2,
-		/obj/item/roguecoin/gold/pile = 1,
+		/obj/effect/spawner/coins/tiny = 5,
+		/obj/effect/spawner/coins/handful = 3,
+		/obj/effect/spawner/coins/small = 2,
+		/obj/effect/spawner/coins/medium = 1,
 
 		// Garbage and Miscellanous
 		/obj/item/rogue/instrument/flute = 3,
@@ -204,10 +204,10 @@
 		// Money
 		/obj/item/roguecoin/copper = 5,
 		/obj/item/roguecoin/silver = 5,
-		/obj/item/roguecoin/gold = 5,
-		/obj/item/roguecoin/copper/pile = 3,
-		/obj/item/roguecoin/silver/pile = 2,
-		/obj/item/roguecoin/gold/pile = 1
+		/obj/effect/spawner/coins/tiny = 5,
+		/obj/effect/spawner/coins/handful = 3,
+		/obj/effect/spawner/coins/small = 2,
+		/obj/effect/spawner/coins/medium = 1
 	)
 	lootcount = 2
 

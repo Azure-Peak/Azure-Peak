@@ -34,8 +34,8 @@
 		// Money
 		/obj/item/roguecoin/copper = 10,
 		/obj/item/roguecoin/silver = 5,
-		/obj/item/roguecoin/gold = 5,
-		/obj/item/roguecoin/copper/pile = 3,
+		/obj/effect/spawner/coins/tiny = 5,
+		/obj/effect/spawner/coins/handful = 3,
 
 		// Garbage and Miscellanous
 		/obj/item/rogue/instrument/flute = 3,

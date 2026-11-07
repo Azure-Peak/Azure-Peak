@@ -40,6 +40,12 @@
 	var/mob/living/carbon/human/H = user
 	var/list/data = list()
 	data["max_issuance_day"] = SStreasury.loan_max_issuance_day
+	data["coin_denominations"] = list(
+		list("id" = "GOLD", "label" = "Gold", "value" = COIN_VALUE_GOLD),
+		list("id" = "SILVER", "label" = "Silver", "value" = COIN_VALUE_SILVER),
+		list("id" = "BRONZE", "label" = "Bronze", "value" = COIN_VALUE_COPPER),
+	)
+	data["max_coins_per_withdrawal"] = MAX_COIN_STACK_SIZE
 	var/poll_category = istype(H) ? SStreasury.get_poll_levy_category(H) : null
 	data["poll_levy_user"] = list(
 		"category" = poll_category || "",
@@ -327,15 +333,15 @@
 		return
 	if(isnull(coin_amt) || coin_amt < 1)
 		return
-	if(coin_amt > 20)
-		to_chat(H, span_warning("Maximum 20 coins per withdrawal."))
+	if(coin_amt > MAX_COIN_STACK_SIZE)
+		to_chat(H, span_warning("Maximum [MAX_COIN_STACK_SIZE] coins per withdrawal."))
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 		return
-	var/mod = 1
+	var/mod = COIN_VALUE_COPPER
 	if(denom == "GOLD")
-		mod = 10
+		mod = COIN_VALUE_GOLD
 	else if(denom == "SILVER")
-		mod = 5
+		mod = COIN_VALUE_SILVER
 	var/total = coin_amt * mod
 	if(SStreasury.get_balance(H) < total)
 		playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)

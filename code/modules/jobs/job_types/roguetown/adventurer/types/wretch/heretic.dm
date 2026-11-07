@@ -32,7 +32,7 @@
 	)
 	subclass_stashed_items = list(
 		"Armor Plates" =	/obj/item/repair_kit/metal,
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/wretchpouch,
 	)
 
 	extra_context = "This subclass gains the Wound Heal miracle."
@@ -367,7 +367,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit,
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/wretchpouch,
 	)
 	extra_context = "This subclass gain the Wound Heal miracle and the Convert Heretic spell."
 	tempo_capable = FALSE

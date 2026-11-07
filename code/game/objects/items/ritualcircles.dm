@@ -1851,18 +1851,14 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 
 	playsound(loc, 'sound/combat/gib (1).ogg', 100, FALSE, -1)
 	loc.visible_message(span_cult("[victim]'s lux pours from their nose, into the rune.. transforming into freshly minted zennies!"))
-	new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
-	new /obj/item/roguecoin/silver/pile(get_turf(src))
-	new /obj/item/roguecoin/silver/pile(get_turf(src))
+	var/payout = roll_mammons(80, 120, 10) + roll_coin_tier(/obj/effect/spawner/coins/small) + roll_coin_tier(/obj/effect/spawner/coins/small)
 	if(victim.mind?.assigned_role in GLOB.noble_positions) // Intentionally stacked with rulermob/regent/prince to get extra payout for royals
-		new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
-		new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
+		for(var/i in 1 to 2)
+			payout += roll_mammons(80, 120, 10)
 	// Draining nobility from the duke or the heirs increases payout and causes CHAOS. Astrata weeps!
 	if((victim == SSticker.rulermob) || (victim == SSticker.regentmob) || (victim.mind?.assigned_role in list ("Prince", "Princess")))
-		new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
-		new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
-		new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
-		new /obj/item/roguecoin/gold/virtuepile(get_turf(src))
+		for(var/i in 1 to 4)
+			payout += roll_mammons(80, 120, 10)
 		// Astrata loses her bearing due to this vile ritual
 		priority_announce("The noble gift of Astrata's birthright was tainted! The Sun, she is weeping!", "Bad Omen", 'sound/misc/evilevent.ogg')
 		var/datum/round_event_control/lightsout/E = new()
@@ -1877,6 +1873,7 @@ More uniquely, her rites always cut out the light in the room, then proc. 10 sec
 		H.min_players = 0
 		if(LAZYLEN(GLOB.hauntstart))
 			H.runEvent()
+	spawn_mammons(payout, get_turf(src))
 
 	victim.Stun(60)
 	victim.Knockdown(60)

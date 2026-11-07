@@ -47,7 +47,7 @@
 	desc = "A perfect trapezoid of glittering gold, warm to the touch and soft like putty. A small flick is all that is needed for it to remember what it was, and return to its ideal shape."
 	recipe_base_type = /datum/transmutation_recipe/chrysopoeia
 	materia = list(/datum/materia_aspect/solar, /datum/materia_aspect/malleability)
-	seed_item = /obj/item/roguecoin/gold
+	seed_item = /obj/item/alch/solardust
 	difficulty = 6
 
 /obj/item/alch/catalyst/argyropoeia // DO NOT ADD A SEED ITEM TO THIS. IT IS SUPPOSED TO BE UNCRAFTABLE.

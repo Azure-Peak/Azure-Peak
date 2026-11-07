@@ -1986,8 +1986,8 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 	playsound(TT, 'sound/magic/whiteflame.ogg', 100, TRUE)
 	explosion(TT, light_impact_range = 1, flame_range = 1, smoke = FALSE)
 
-	new /obj/item/roguecoin/silver/pile(TT)
-	new /obj/item/roguecoin/gold/pile(TT)
+	spawn_coin_tier(/obj/effect/spawner/coins/small, TT)
+	spawn_coin_tier(/obj/effect/spawner/coins/medium, TT)
 	new /obj/item/roguegem/random(TT)
 	new /obj/item/roguegem/random(TT)
 

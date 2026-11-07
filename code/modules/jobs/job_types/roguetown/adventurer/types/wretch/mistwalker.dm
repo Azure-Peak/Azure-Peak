@@ -35,7 +35,7 @@
 	)
 	subclass_stashed_items = list(
 		"Sewing Kit" =	/obj/item/repair_kit, //I am sure you'll find a way to repair your bracers
-		"Stashed Funds" = /obj/item/roguecoin/silver/pile/wretchpile,
+		"Stashed Funds" = /obj/item/storage/belt/rogue/pouch/coins/wretchpouch,
 	)
 	extra_context = "This subclass gains addition stat points from weapon selection, and is race-limited from: Constructs. It may only be picked by characters originating from: Kazengun, Lingyue. This class is incompatible with the following Virtue: Rotcured."
 	adv_stat_ceiling = list(STAT_STRENGTH = 14, STAT_CONSTITUTION = 14, STAT_SPEED = 14) //WIL does basically nothing, so we cap SPD instead

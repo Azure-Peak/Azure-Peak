@@ -580,7 +580,7 @@
 		new path(sack)
 	if(is_leader)
 		// Seed funding for couriers, mantles, and bribes.
-		new /obj/item/roguecoin/gold(sack, REBELLION_LEADER_FUNDS / 10)
+		spawn_mammons(REBELLION_LEADER_FUNDS, sack)
 	if(!H.put_in_hands(sack))
 		to_chat(H, span_notice("I knew this would come to use, somedae."))
 	H.mind.RemoveSpell(/obj/effect/proc_holder/spell/self/rebel_kit)

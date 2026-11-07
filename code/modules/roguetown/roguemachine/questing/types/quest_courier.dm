@@ -26,7 +26,11 @@
 	return QUEST_REWARD_BASE_FETCH
 
 /datum/quest/courier/is_contract_item(obj/item/I)
-	return target_delivery_item && istype(I, target_delivery_item)
+	if(!target_delivery_item)
+		return FALSE
+	if(ispath(target_delivery_item, /obj/effect/spawner/coins))
+		return istype(I, /obj/item/roguecoin)
+	return istype(I, target_delivery_item)
 
 /datum/quest/courier/get_title()
 	if(title)
@@ -91,7 +95,7 @@
 			/obj/item/rogueore/coal,
 		),
 		/area/rogue/indoors/town/shop = list(
-			/obj/item/roguecoin/gold,
+			/obj/effect/spawner/coins/tiny,
 			/obj/item/clothing/ring/silver,
 			/obj/item/scomstone/bad,
 			/obj/item/perfume/random,

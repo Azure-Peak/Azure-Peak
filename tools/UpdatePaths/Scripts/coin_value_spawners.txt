@@ -1,0 +1,6 @@
+/obj/item/roguecoin/copper/pile : /obj/effect/spawner/coins/handful{@OLD}
+/obj/item/roguecoin/silver/pile : /obj/effect/spawner/coins/small{@OLD}
+/obj/item/roguecoin/gold/pile : /obj/effect/spawner/coins/medium{@OLD}
+/obj/item/roguecoin/gold/virtuepile : /obj/effect/spawner/coins/medium{@OLD}
+/obj/item/roguecoin/gold/aspirantpile : /obj/effect/spawner/coins/large{@OLD}
+/obj/item/roguecoin/gold : /obj/effect/spawner/coins/tiny{@OLD}

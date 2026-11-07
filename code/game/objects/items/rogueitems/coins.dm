@@ -3,7 +3,12 @@
 #define CTYPE_COPP "c"
 #define CTYPE_ICOIN "i"
 #define CTYPE_ANCIENT "a"
-#define MAX_COIN_STACK_SIZE 20
+
+GLOBAL_LIST_INIT(coin_denominations, list(
+	/obj/item/roguecoin/gold,
+	/obj/item/roguecoin/silver,
+	/obj/item/roguecoin/copper,
+))
 
 /obj/item/roguecoin
 	name = "coin"
@@ -207,7 +212,7 @@
 //OTAVAN MARQUE - WORTHLESS TO ANYONE BUT INQ.
 /obj/item/roguecoin/inqcoin
 	name = "otavan marque"
-	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-kingdom Psycross. Kingsfield has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by Otava's inquisitorial sects."
+	desc = "A blessed silver coin finished with a unique wash of black dye, bearing the post-empire Psycross. The Psydonian Holy See has denied the existence of such a coin when queried, as such coinage is rumoured to be used internally by Otava's inquisitorial sects."
 	icon_state = "i1"
 	sellprice = 0
 	base_type = CTYPE_ICOIN
@@ -223,9 +228,9 @@
 //GOLD
 /obj/item/roguecoin/gold
 	name = "zenar"
-	desc = "A gold coin bearing the symbol of the Taurus and the pre-kingdom psycross. These were in the best condition of the provincial gold mints, the rest were melted down."
+	desc = "A gold coin bearing the symbol of the Taurus and the Celestial Empire era psycross. Some dates from before the Sundering, most were smelted and minted after, in imitation of the style of the empire prior."
 	icon_state = "g1"
-	sellprice = 10
+	sellprice = COIN_VALUE_GOLD
 	base_type = CTYPE_GOLD
 	plural_name = "zenarii"
 	materia = list(/datum/materia_aspect/solar)
@@ -234,9 +239,9 @@
 // SILVER
 /obj/item/roguecoin/silver
 	name = "ziliqua"
-	desc = "An ancient silver coin still in use due to their remarkable ability to last the ages."
+	desc = "An ancient silver coin still widely circulated and mimicked due to their reputation for reliability."
 	icon_state = "s1"
-	sellprice = 5
+	sellprice = COIN_VALUE_SILVER
 	base_type = CTYPE_SILV
 	plural_name = "ziliquae"
 	materia = list(/datum/materia_aspect/lunar)
@@ -244,9 +249,9 @@
 // COPPER
 /obj/item/roguecoin/copper
 	name = "zenny"
-	desc = "A brand-new bronze coin minted by the capital in an effort to be rid of the financial use of silver."
+	desc = "A copper coin minted by the Celestial Empire and now its successors in an effort to be rid of the financial use of silver."
 	icon_state = "c1"
-	sellprice = 1
+	sellprice = COIN_VALUE_COPPER
 	base_type = CTYPE_COPP
 	plural_name = "zennies"
 	materia = list(/datum/materia_aspect/change)
@@ -273,42 +278,47 @@
 	. = ..()
 	set_quantity(rand(8,19)) //Hilarious
 
-/obj/item/roguecoin/copper/pile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(4,19))
+/proc/roll_mammons(mammon_min, mammon_max, mammon_step = 1)
+	return rand(mammon_min / mammon_step, mammon_max / mammon_step) * mammon_step
 
-/obj/item/roguecoin/silver/pile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(4,19))
+/proc/mammons_to_coins(mammons, max_value = COIN_VALUE_GOLD)
+	. = list()
+	mammons = floor(mammons)
+	for(var/obj/item/roguecoin/coin_type as anything in GLOB.coin_denominations)
+		var/value = initial(coin_type.sellprice)
+		if(value > max_value)
+			continue
+		var/count = floor(mammons / value)
+		if(count < 1)
+			continue
+		.[coin_type] = count
+		mammons -= count * value
 
-/obj/item/roguecoin/silver/pile/readyuppile/Initialize(mapload)
-	. = ..()
-	set_quantity(4) // 20 mammons combine with starting pouch to buy something
+/proc/spawn_mammons(mammons, atom/destination, max_value = COIN_VALUE_GOLD)
+	. = list()
+	var/list/breakdown = mammons_to_coins(mammons, max_value)
+	for(var/coin_type in breakdown)
+		. += spawn_coin_stacks(coin_type, breakdown[coin_type], destination)
 
-/obj/item/roguecoin/silver/pile/wretchpile/Initialize(mapload)
-	. = ..()
-	set_quantity(10) // 50 mammons, to avoid being dead broke when latejoining
-
-/obj/item/roguecoin/silver/pile/munitioneerpile/Initialize(mapload) //for muntineer, exclusely to speed up them aquiring materials w/ out having to benefit town by selling to them or lose the arms race against the guild.
-	. = ..()
-	set_quantity(16) // 80 mammons, to avoid being dead broke when latejoining
-
-/obj/item/roguecoin/gold/pile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(4,19))
-
-/obj/item/roguecoin/gold/virtuepile/Initialize(mapload)
-	. = ..()
-	set_quantity(rand(8,12))
-
-/obj/item/roguecoin/gold/aspirantpile/Initialize(mapload)
-	. = ..()
-	set_quantity(20) // Fixed 200 mammons for aspirants which is a good psychological number to buy 1 merc's service
-
+/proc/spawn_coin_stacks(coin_type, count, atom/destination)
+	. = list()
+	if(QDELETED(destination) || count < 1)
+		return
+	var/datum/component/storage/storage = destination.GetComponent(/datum/component/storage)
+	while(count > 0)
+		var/obj/item/roguecoin/stack = SSwardrobe.provide_type(coin_type, storage ? destination.loc : destination)
+		stack.set_quantity(min(count, MAX_COIN_STACK_SIZE))
+		count -= stack.quantity
+		if(storage && !SEND_SIGNAL(destination, COMSIG_TRY_STORAGE_INSERT, stack, null, TRUE, TRUE))
+			var/atom/overflow = destination.drop_location()
+			if(!overflow)
+				SSwardrobe.recycle_object(stack)
+				continue
+			stack.forceMove(overflow)
+		. += stack
 
 #undef CTYPE_GOLD
 #undef CTYPE_SILV
 #undef CTYPE_COPP
 #undef CTYPE_ANCIENT
 #undef CTYPE_ICOIN
-#undef MAX_COIN_STACK_SIZE

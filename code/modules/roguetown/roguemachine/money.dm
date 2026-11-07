@@ -106,92 +106,41 @@ GLOBAL_VAR(moneymaster)
 			budget2change(budget, user, inputt)
 			switch(inputt)
 				if("GOLD")
-					var/zenars = budget/10
-					if(zenars >= 1)
-						for(var/i in 1 to zenars)
-							budget -= 10
+					budget -= floor(budget / COIN_VALUE_GOLD) * COIN_VALUE_GOLD
 				if("SILVER")
-					var/zenars = budget/5
-					if(zenars >= 1)
-						for(var/i in 1 to zenars)
-							budget -= 5
+					budget -= floor(budget / COIN_VALUE_SILVER) * COIN_VALUE_SILVER
 				if("BRONZE")
-					if(budget >= 1)
-						for(var/i in 1 to budget)
-							budget -= 1
+					budget -= floor(budget / COIN_VALUE_COPPER) * COIN_VALUE_COPPER
 		update_icon()
 
 /proc/budget2change(budget, mob/user, specify, putinhands = TRUE, custom_turf = FALSE)
-	var/turf/T
 	if(!ismob(user) && !custom_turf)
 		CRASH("budget2change called without a valid user or custom turf.")
-	if(custom_turf)
-		T = custom_turf
-	else
-		T = get_turf(user)
+	var/turf/T = custom_turf || get_turf(user)
 	if(!budget || budget <= 0)
 		return
-	budget = floor(budget)
-	var/type_to_put
-	var/zenars_to_put
+	var/list/spawned
 	if(specify)
 		switch(specify)
 			if("GOLD")
-				zenars_to_put = budget/10
-				type_to_put = /obj/item/roguecoin/gold
+				spawned = spawn_coin_stacks(/obj/item/roguecoin/gold, floor(budget / COIN_VALUE_GOLD), T)
 			if("SILVER")
-				zenars_to_put = budget/5
-				type_to_put = /obj/item/roguecoin/silver
+				spawned = spawn_coin_stacks(/obj/item/roguecoin/silver, floor(budget / COIN_VALUE_SILVER), T)
 			if("BRONZE")
-				zenars_to_put = budget
-				type_to_put = /obj/item/roguecoin/copper
+				spawned = spawn_coin_stacks(/obj/item/roguecoin/copper, floor(budget / COIN_VALUE_COPPER), T)
 			if("MARQUE")
-				zenars_to_put = budget
-				type_to_put = /obj/item/roguecoin/inqcoin
+				spawned = spawn_coin_stacks(/obj/item/roguecoin/inqcoin, floor(budget), T)
 	else
-		var/highest_found = FALSE
-		var/zenars = floor(budget/10)
-		if(zenars)
-			budget -= zenars * 10
-			highest_found = TRUE
-			type_to_put = /obj/item/roguecoin/gold
-			zenars_to_put = zenars
-		zenars = floor(budget/5)
-		if(zenars)
-			budget -= zenars * 5
-			if(!highest_found)
-				highest_found = TRUE
-				type_to_put = /obj/item/roguecoin/silver
-				zenars_to_put = zenars
-			else
-				// Create multiple stacks if needed
-				while(zenars > 0)
-					var/stack_size = min(zenars, 20)
-					var/obj/item/roguecoin/silver_stack = new /obj/item/roguecoin/silver(T, stack_size)
-					if(user && zenars == stack_size && putinhands) // Only put first stack in hands
-						user.put_in_hands(silver_stack)
-					zenars -= stack_size
-		if(budget >= 1)
-			if(!highest_found)
-				type_to_put = /obj/item/roguecoin/copper
-				zenars_to_put = budget
-			else
-				// Create multiple stacks if needed
-				while(budget > 0)
-					var/stack_size = min(budget, 20)
-					var/obj/item/roguecoin/copper_stack = new /obj/item/roguecoin/copper(T, stack_size)
-					if(user && budget == stack_size && putinhands) // Only put first stack in hands
-						user.put_in_hands(copper_stack)
-					budget -= stack_size
-	if(!type_to_put || zenars_to_put < 1)
+		spawned = spawn_mammons(budget, T)
+	if(!length(spawned))
 		return
-	// Create multiple stacks if needed for the main type
-	while(zenars_to_put > 0)
-		var/stack_size = min(zenars_to_put, 20)
-		var/obj/item/roguecoin/G = new type_to_put(T, stack_size)
-		if(user && zenars_to_put == stack_size && putinhands) // Only put first stack in hands
-			user.put_in_hands(G)
-		zenars_to_put -= stack_size
+	if(user && putinhands)
+		var/list/handed_types = list()
+		for(var/obj/item/roguecoin/stack as anything in spawned)
+			if(handed_types[stack.type])
+				continue
+			handed_types[stack.type] = TRUE
+			user.put_in_hands(stack)
 	playsound(T, 'sound/misc/coindispense.ogg', 100, FALSE, -1)
 /*
 /obj/structure/roguemachine/money/attack_right(mob/user)

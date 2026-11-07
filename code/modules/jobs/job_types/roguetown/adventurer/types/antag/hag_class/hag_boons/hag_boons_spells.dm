@@ -151,13 +151,12 @@
 	desc = "Heave a heavy stone to reveal the treasures the earth has swallowed."
 	recharge_time = 8 MINUTES
 	var/static/list/treasure_pool = list(
-		/obj/item/roguecoin/gold/pile = 15,
-		/obj/item/roguecoin/silver/pile = 25,
+		/obj/effect/spawner/coins/medium = 19,
+		/obj/effect/spawner/coins/small = 25,
 		/obj/item/roguecoin/aalloy/pile = 10,
 		/obj/item/clothing/neck/roguetown/psicross = 5,
 		/obj/item/clothing/neck/roguetown/collar = 3,
 		/obj/item/reagent_containers/glass/cup/golden = 2,
-		/obj/item/roguecoin/gold/virtuepile = 4,
 		/obj/item/alch/transisdust = 5
 	)
 
@@ -182,24 +181,31 @@
 		return FALSE
 
 	var/luck_roll = H.STALUC + (H.get_stress_amount() < 0 ? 10 : 0)
-	var/obj/item/found_thing
+	var/obj/effect/spawner/coins/found_tier
 
 	if(luck_roll >= 20)
-		found_thing = new /obj/item/roguecoin/gold/pile(T)
-		to_chat(H, span_boldnotice("A hoard of Zenarii!"))
+		found_tier = /obj/effect/spawner/coins/medium
+		to_chat(H, span_boldnotice("A hoard of Ziliquae!"))
 	else if(luck_roll >= 10)
-		found_thing = new /obj/item/roguecoin/silver/pile(T)
+		found_tier = /obj/effect/spawner/coins/small
 		to_chat(H, span_notice("A collection of Ziliquae. This will buy much."))
 	else
-		found_thing = new /obj/item/roguecoin/copper/pile(T)
+		found_tier = /obj/effect/spawner/coins/handful
 		to_chat(H, span_info("A few measly Zennies... better than nothing."))
 
+	var/list/found_coins = spawn_coin_tier(found_tier, T)
+	var/obj/item/found_thing = found_coins[1]
 	if(!H.put_in_hands(found_thing, FALSE))
 		found_thing.forceMove(T)
 
 	if(prob(20 + luck_roll))
 		var/treasure_path = pickweight(treasure_pool)
-		var/obj/item/extra = new treasure_path(T)
+		var/obj/item/extra
+		if(ispath(treasure_path, /obj/effect/spawner/coins))
+			var/list/treasure_coins = spawn_coin_tier(treasure_path, T)
+			extra = treasure_coins[1]
+		else
+			extra = new treasure_path(T)
 
 		to_chat(H, span_boldnotice("Wait... there is something else tucked in the roots!"))
 		if(!H.put_in_hands(extra, FALSE))
