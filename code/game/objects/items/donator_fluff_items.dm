@@ -5089,6 +5089,6 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
 	name = "aesthetic sanguine jacket"
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize()
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize(mapload)
 	. = ..()
 	loadoutize()
