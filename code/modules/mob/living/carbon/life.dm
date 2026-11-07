@@ -688,7 +688,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 		else if(!eyesclosed)
 			is_asleep = FALSE
 			fallingas = FALSE
-			energy_add(sleepy_mod * 10)
+			if(!(HAS_TRAIT(src, TRAIT_IRONMAN) || HAS_TRAIT(src, TRAIT_NOREGEN)))
+				energy_add(sleepy_mod * 10)
 
 		// Eyes closed and we try to fall asleep
 		else
