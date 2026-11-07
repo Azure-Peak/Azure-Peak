@@ -9,7 +9,7 @@
 	allowed_patrons = list(/datum/patron/old_god) // endvre
 	forbidden_races = list(/datum/species/construct/metal)
 	tutorial = "You are a Neophyte, an apprentice, helping hand or aide for the local embassy. Your responsibilities are little, but so are your obligations."
-	outfit = /datum/outfit/job/roguetown/neophyte/
+	outfit = /datum/outfit/job/roguetown/neophyte
 	display_order = JDO_NEOPHYTE
 	give_bank_account = TRUE
 	min_pq = -10
@@ -21,7 +21,7 @@
 		/datum/advclass/neophyte/page,
 		/datum/advclass/neophyte/oblate,
 	)
-	job_traits = list(TRAIT_INQUISITION, TRAIT_HOMESTEAD_EXPERT)
+	job_traits = list(TRAIT_INQUISITION, TRAIT_HOMESTEAD_EXPERT, TRAIT_COMBAT_JMAN, TRAIT_NOSHIELDS)
 
 /datum/outfit/job/roguetown/neophyte
 	has_loadout = TRUE
@@ -33,7 +33,7 @@
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
 	virtue_limits = list(/datum/virtue/combat/combat_virtue, /datum/virtue/combat/dualwielder)
-	traits_applied = list(TRAIT_GOODWRITER, TRAIT_KEENEARS) // fucking snitch, bro
+	traits_applied = list(TRAIT_GOODWRITER, TRAIT_KEENEARS, TRAIT_ROYAL_SUBSIDY) // fucking snitch, bro
 	subclass_stats = list(
 		STATKEY_SPD = 2,
 		STATKEY_PER = 1,
@@ -83,7 +83,7 @@
 	outfit = /datum/outfit/job/roguetown/neophyte/page
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_SQUIRE_REPAIR)
+	traits_applied = list(TRAIT_SQUIRE_REPAIR, TRAIT_STEELHEARTED)
 	maximum_possible_slots = 1 // one is enough, they wouldn't send too many newbies to the front, the other two don't add to the deathball
 	subclass_stats = list(
 		STATKEY_STR = 1,
@@ -92,6 +92,9 @@
 		STATKEY_LCK = -1,
 	)
 	subclass_skills = list(
+		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/maces = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/magic/holy = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/climbing = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_NOVICE,
@@ -102,7 +105,6 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_NOVICE,
 		/datum/skill/labor/farming = SKILL_LEVEL_NOVICE,
 		/datum/skill/craft/carpentry = SKILL_LEVEL_NOVICE,
-		/datum/skill/combat/swords = SKILL_LEVEL_APPRENTICE,
 	)
 
 /datum/outfit/job/roguetown/neophyte/page/pre_equip(mob/living/carbon/human/H)
@@ -123,25 +125,34 @@
 		/obj/item/natural/cloth = 1,
 		/obj/item/inqarticles/inqslip_kit = 1,
 	)
-	var/choice = tgui_alert(H, "Choose your path.", "PSYDON PROVIDES", list(
-		"Devious (+1 LUC for good luck!)",
-		"Devoted (T1 Miracles)",
-		"Determined (Enduring, -2 WIL)",
-		"Dexterous (Dodge Expert, -2 LUC)"
-	))
-	if(choice == "Devoted (T1 Miracles)")
+
+	// ALL THE D's!
+	var/devious = "Devious (+1 LUC)"
+	var/devoted = "Devoted (T1 Miracles)"
+	var/defying = "Defying (Deathless, -1 LUC)"
+	var/determined = "Determined (Enduring, -1 LUC)"
+	var/dexterous = "Dexterous (Dodge Expert, -1 LUC)"
+
+	var/choice = tgui_alert(H, "Choose your path.", "PSYDON PROVIDES", list(devious, devoted, defying, determined, dexterous))
+	if(choice == devious)
+		H.change_stat(STATKEY_LCK, 1)
+	else if(choice == devoted)
 		var/datum/devotion/C = new /datum/devotion(H, H.patron)
 		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)
-	else if(choice == "Determined (Enduring, -2 WIL)")
-		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
-		H.change_stat(STATKEY_WIL, -2)
-	else if(choice == "Dexterous (Dodge Expert, -2 LUC)")
-		ADD_TRAIT(H, TRAIT_STEELHEARTED, TRAIT_GENERIC)
-		ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC)
-		H.change_stat(STATKEY_LCK, -2)
-	else if(choice == "Devious (+1 LUC for good luck!)")
-		H.change_stat(STATKEY_LCK, 1)
+	else if(choice == defying)
+		ADD_TRAIT(H, TRAIT_DEATHLESS, JOB_TRAIT)
+		H.change_stat(STATKEY_LCK, -1)
+	else if(choice == determined)
+		ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
+		H.change_stat(STATKEY_LCK, -1)
+	else if(choice == dexterous)
+		ADD_TRAIT(H, TRAIT_DODGEEXPERT, JOB_TRAIT)
+		H.change_stat(STATKEY_LCK, -1)
+	else
+		var/datum/devotion/C = new /datum/devotion(H, H.patron)
+		C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_DEVOTEE, devotion_limit = CLERIC_REQ_1)
+	if(H.mind)
+		SStreasury.give_money_account(ECONOMIC_LOWER_CLASS, H, "Inquisition Funding.")
 
 /datum/advclass/neophyte/oblate
 	name = "Oblate"
@@ -149,7 +160,7 @@
 	outfit = /datum/outfit/job/roguetown/neophyte/oblate
 	cmode_music = 'sound/music/combat_holy.ogg'
 	category_tags = list(CTAG_NEOPHYTE)
-	traits_applied = list(TRAIT_PACIFISM, TRAIT_SILVER_BLESSED)
+	traits_applied = list(TRAIT_PACIFISM, TRAIT_SILVER_BLESSED, TRAIT_ROYAL_SUBSIDY)
 	subclass_stats = list(
 		STATKEY_INT = 1,
 		STATKEY_SPD = 2,
@@ -230,45 +241,57 @@
 			craft_type = "accusation"
 		if("Draft INDEXER Requisition")
 			craft_type = "requisition (INDEXER)"
+		if("Draft SNACKS Requisition")
+			craft_type = "requisition (SNACKS)"
 	start_crafting(user)
 
 /obj/item/inqarticles/inqslip_kit/proc/start_crafting(mob/user)
 	if(crafting)
 		return FALSE
-	if(!locate(/obj/structure/table) in get_step(user, user.dir))
+	if(!(locate(/obj/structure/table) in get_step(user, user.dir)))
 		to_chat(user, span_warning("I need a table to do my holy work."))
 		craft_type = null
 		return FALSE
+
 	crafting = TRUE
 	craft_progress = 0
-	var/duration = 3 SECONDS
-	if(istype(user.job, /datum/job/roguetown/neophyte))
+
+	// Neophytes are practiced at this, good writers even more so
+	var/duration = 4 SECONDS
+	if(istype(user.job, /datum/job/roguetown/neophyte) || user.job == "Neophyte")
 		duration = 2 SECONDS
 	if(HAS_TRAIT(user, TRAIT_GOODWRITER))
 		duration = 1 SECONDS
+
 	to_chat(user, span_notice("You begin preparing the [craft_type] with your Inquisitorial Slip Kit..."))
+
+	var/completed = TRUE
 	while(craft_progress < 40)
-		if(QDELETED(src) || !user || QDELETED(user))
-			crafting = FALSE
-			craft_type = null
-			craft_progress = 0
-			return FALSE
+		// Scrapped (right click), or the kit / user is gone
+		if(!crafting || QDELETED(src) || QDELETED(user))
+			completed = FALSE
+			break
 		// Make sure they remain at the table while working.
-		if(!locate(/obj/structure/table) in get_step(user, user.dir))
+		if(!(locate(/obj/structure/table) in get_step(user, user.dir)))
 			to_chat(user, span_warning("You get distracted from what you were doing!"))
-			crafting = FALSE
-			craft_type = null
-			craft_progress = 0
-			return FALSE
+			completed = FALSE
+			break
 		if(!do_after(user, duration, src))
 			to_chat(user, span_warning("You stop preparing the document."))
-			crafting = FALSE
-			craft_type = null
-			craft_progress = 0
-			return FALSE
+			completed = FALSE
+			break
+		if(!crafting) // scrapped while we were working
+			completed = FALSE
+			break
 		craft_progress++
 		if(craft_progress < 40)
 			to_chat(user, span_warning("You continue preparing the [craft_type]... ([craft_progress]/40)."))
+
+	if(!completed)
+		crafting = FALSE
+		craft_type = null
+		craft_progress = 0
+		return FALSE
 	return finish_crafting(user)
 
 /obj/item/inqarticles/inqslip_kit/proc/finish_crafting(mob/user)
@@ -277,7 +300,7 @@
 		craft_type = null
 		craft_progress = 0
 		return FALSE
-	var/obj/item/inqarticles/created
+	var/obj/item/created
 	switch(craft_type)
 		if("confession")
 			created = new /obj/item/paper/inqslip/confession(get_turf(user))
@@ -287,6 +310,26 @@
 			var/obj/item/inqarticles/requisition/requisition = new(get_turf(user))
 			requisition.desc += " <i>It seems penned for an INDEXER.</i>"
 			requisition.requested = /obj/item/inqarticles/indexer
+			created = requisition
+		if("requisition (SNACKS)")
+			var/obj/item/inqarticles/requisition/requisition = new(get_turf(user))
+			requisition.desc += " <i>It seems penned for some snacks? How imprudent.</i>"
+			requisition.requested_amount = 3
+			requisition.requested_pool = list(
+				/obj/item/reagent_containers/food/snacks/rogue/psycrossbun_jamtallowed,
+				/obj/item/reagent_containers/food/snacks/rogue/psycrossbun_marmaladed,
+				/obj/item/reagent_containers/food/snacks/rogue/cheesebun,
+				/obj/item/reagent_containers/food/snacks/rogue/bun_raston,
+				/obj/item/reagent_containers/food/snacks/rogue/griddle,
+				/obj/item/reagent_containers/food/snacks/rogue/pastry,
+				/obj/item/reagent_containers/food/snacks/rogue/biscuit,
+				/obj/item/reagent_containers/food/snacks/rogue/chocolatebiscuit,
+				/obj/item/reagent_containers/food/snacks/rogue/plumbiscuit,
+				/obj/item/reagent_containers/food/snacks/rogue/tangerinebiscuit,
+				/obj/item/reagent_containers/food/snacks/rogue/cookie,
+				/obj/item/reagent_containers/food/snacks/rogue/cookied,
+				/obj/item/reagent_containers/food/snacks/rogue/dot_tart,
+			)
 			created = requisition
 	if(created)
 		to_chat(user, span_notice("You finish preparing the [created.name]."))
@@ -312,7 +355,9 @@
 	icon_state = "requisition"
 	w_class = WEIGHT_CLASS_TINY
 	sellprice = 0
-	var/requested
+	var/requested // a single item type
+	var/list/requested_pool // or: a list of item types to pick randomly from
+	var/requested_amount = 1 // how many to pick from the pool
 
 /obj/item/inqarticles/requisition/attack_self(mob/user)
 	. = ..()
@@ -324,16 +369,32 @@
 		return
 	if(!istype(target, /obj/structure/roguemachine/mail))
 		return
+
 	var/obj/structure/roguemachine/mail/H = target
-	var/obj/item/I = new requested(get_turf(H))
-	if(!requested)
-		to_chat(user, span_warning("This requisition contains no requested item. What a waste."))
-		user.visible_message(span_notice("[user] sends something."))
-		playsound(H.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-		qdel(src)
-		return
 	user.visible_message(span_notice("[user] sends something."))
 	playsound(H.loc, 'sound/misc/disposalflush.ogg', 100, FALSE, -1)
-	user.put_in_hands(I)
-	to_chat(user, span_notice("The HERMES processes the requisition and issues \the [I.name]."))
+
+	if(!requested && !length(requested_pool))
+		to_chat(user, span_warning("This requisition contains no requested item. What a waste."))
+		qdel(src)
+		return
+
+	var/list/issued = list()
+	if(requested)
+		issued += new requested(get_turf(H))
+	else
+		// Pick without repeats
+		var/list/pool = requested_pool.Copy()
+		for(var/i in 1 to min(requested_amount, length(pool)))
+			var/picked = pick(pool)
+			pool -= picked
+			issued += new picked(get_turf(H))
+
+	for(var/obj/item/I as anything in issued)
+		user.put_in_hands(I)
+
+	if(length(issued) == 1)
+		to_chat(user, span_notice("The HERMES processes the requisition and issues \the [issued[1]]."))
+	else
+		to_chat(user, span_notice("The HERMES processes the requisition and issues [length(issued)] items."))
 	qdel(src)
