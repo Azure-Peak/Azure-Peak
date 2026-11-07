@@ -1,4 +1,0 @@
-author: "OrbisAnima"
-delete-after: True
-changes:
-  - qol: "Put feeding intents for gems, ores and ingots so constructs dont accidentally eat them. Also placed some messaging to explain why you cannot eat the delicious amethyst."
