@@ -281,3 +281,25 @@
   - bugfix: Jacksberries no longer have errant in-hand pixels.
   kano-dot:
   - bugfix: Fixed duelist cape detail color not getting applied for female version.
+2026-11-07:
+  OrbisAnima:
+  - qol: Put feeding intents for gems, ores and ingots so constructs dont accidentally
+      eat them. Also placed some messaging to explain why you cannot eat the delicious
+      amethyst.
+  Ryan180602:
+  - balance: darkvision is now a seperate trait and no longer under prowler
+  The-Sun-In-Splendour:
+  - image: greyscaled blood pools are less flat
+  WeNeedMorePhoron:
+  - rscadd: Ported static threat spawners from our downstream Ochre Valley. not added
+      to map, yet.
+  - rscadd: You can now set a pen name which is one of the 3 names (Real, anonymous
+      and pen) you are allowed to sign your letters with. Letter recipient will see
+      your name when they receive a notification. Admins will be aware of any metagamey
+      pen name to blow up anyone who do so.
+  - bugfix: Tried to fix a runtime that might cause wintertime map to crash.
+  - rscadd: Move yurt and tent to the tools category
+  fffelinid:
+  - rscadd: Added the option to change your status on the Rose Wall when declining
+      an offer.
+  - bugfix: Fixed overly sanitized Rose Wall text.

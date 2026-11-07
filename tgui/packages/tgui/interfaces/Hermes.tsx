@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   Box,
   Button,
+  Dropdown,
   Floating,
   Input,
   Section,
@@ -25,6 +26,36 @@ type Data = {
   delay_min?: number;
   delay_max?: number;
   letter_count?: number;
+  real_name: string;
+  pen_name: string | null;
+};
+
+type Signature = 'real' | 'pen' | 'anon';
+
+type SignaturePickerProps = {
+  value: Signature;
+  onChange: (value: Signature) => void;
+  realName: string;
+  penName: string | null;
+};
+
+const SignaturePicker = (props: SignaturePickerProps) => {
+  const { value, onChange, realName, penName } = props;
+  const options = [
+    { displayText: `From: ${realName}`, value: 'real' },
+    ...(penName ? [{ displayText: `From: ${penName}`, value: 'pen' }] : []),
+    { displayText: 'From: Anonymous', value: 'anon' },
+  ];
+  const selected = options.find((option) => option.value === value);
+  return (
+    <Dropdown
+      width="100%"
+      options={options}
+      selected={value}
+      displayText={selected?.displayText}
+      onSelected={(picked) => onChange(picked as Signature)}
+    />
+  );
 };
 
 const FORMATTING_HELP: [string, string][] = [
@@ -79,8 +110,9 @@ const FormattingHelp = () => (
       color="label"
       style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
     >
-      A name in the From field is appended to the letter as a signature (or to
-      a package's wrapping note). Leave it blank to send anonymously, unsigned.
+      The From field signs the letter (or a package's wrapping note) with your
+      real name or your pen name. Anonymous letters go out unsigned. A pen name
+      is set in character setup and cannot be changed during the round.
     </Box>
   </Box>
 );
@@ -112,10 +144,12 @@ export const Hermes = (props: any, context: any) => {
     delay_min,
     delay_max,
     letter_count,
+    real_name,
+    pen_name,
   } = data;
 
   const [recipient, setRecipient] = useState('');
-  const [sender, setSender] = useState('');
+  const [signature, setSignature] = useState<Signature>('real');
   const [letterContent, setLetterContent] = useState('');
 
   const helpButton = (
@@ -195,11 +229,11 @@ export const Hermes = (props: any, context: any) => {
                         />
                       </Stack.Item>
                       <Stack.Item grow>
-                        <Input
-                          fluid
-                          placeholder="From: Anonymous"
-                          value={sender}
-                          onChange={(value) => setSender(value)}
+                        <SignaturePicker
+                          value={signature}
+                          onChange={setSignature}
+                          realName={real_name}
+                          penName={pen_name}
                         />
                       </Stack.Item>
                     </Stack>
@@ -223,7 +257,7 @@ export const Hermes = (props: any, context: any) => {
                       onClick={() =>
                         act('send_letter', {
                           recipient: recipient,
-                          sender: sender || 'Anonymous',
+                          signature: signature,
                           content: letterContent,
                         })
                       }
@@ -310,11 +344,11 @@ export const Hermes = (props: any, context: any) => {
                       />
                     </Stack.Item>
                     <Stack.Item grow>
-                      <Input
-                        fluid
-                        placeholder="From: Anonymous"
-                        value={sender}
-                        onChange={(value) => setSender(value)}
+                      <SignaturePicker
+                        value={signature}
+                        onChange={setSignature}
+                        realName={real_name}
+                        penName={pen_name}
                       />
                     </Stack.Item>
                   </Stack>
@@ -340,7 +374,7 @@ export const Hermes = (props: any, context: any) => {
                         onClick={() =>
                           act('send_letter', {
                             recipient: recipient,
-                            sender: sender || 'Anonymous',
+                            signature: signature,
                             content: letterContent,
                           })
                         }
