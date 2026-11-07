@@ -5089,6 +5089,6 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
 
 
-/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/ComponentInitialize
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize()
 	. = ..()
 	loadoutize()
