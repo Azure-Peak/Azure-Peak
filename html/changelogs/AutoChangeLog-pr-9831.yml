@@ -1,5 +1,0 @@
-author: "Etheo"
-delete-after: True
-changes:
-  - rscadd: "'Flagtail' added. A three color customizable tail, designed after a jerboa's tail."
-  - image: "Sprites for Flagtail added."

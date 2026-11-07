@@ -24,7 +24,7 @@
 		box = list()
 		SSroguemachine.ghost_mailboxes[box_key] = box
 	box += new /datum/ghost_letter(sender, recipient, content)
-	to_chat(G, span_biginfo("A new letter has arrived for you. Click the HERMES button on the HUD to read it."))
+	to_chat(G, span_biginfo("[sender == MAILER_ANONYMOUS ? "A new letter has arrived for you." : "New letter from <b>[sender]</b>."] Click the HERMES button on the HUD to read it."))
 	G.playsound_local(G, 'sound/misc/mail.ogg', 100, FALSE, -1)
 	log_game("GHOST MAIL: letter from [sender_log || "unknown sender"] delivered to the ghost [key_name(G, include_name = FALSE)]/([recipient]).")
 	return TRUE
@@ -149,9 +149,12 @@ GLOBAL_DATUM_INIT(ghost_hermes, /datum/ghost_hermes, new)
 	if(length(content) > 2000)
 		to_chat(user, span_warning("Letter too long."))
 		return FALSE
-	var/obj/item/paper/P = build_sanitized_letter(null, params["recipient"], content, params["sender"])
+	var/sender = mail_signature(user, params["signature"])
+	if(!sender)
+		to_chat(user, span_warning("I have no such name to sign with."))
+		return FALSE
+	var/obj/item/paper/P = build_sanitized_letter(null, params["recipient"], content, sender)
 	var/target = P.mailedto
-	var/sender = P.mailer
 	sign_mail(P, sender)
 	if(!mail_exists(target))
 		to_chat(user, span_warning(mail_fail_msg(target)))
@@ -161,7 +164,7 @@ GLOBAL_DATUM_INIT(ghost_hermes, /datum/ghost_hermes, new)
 	SSroguemachine.pending_letters += PM
 	last_post[user.ckey] = world.time
 	PM.sender_desc = key_name(user)
-	PM.link = log_mail_send(user, target, list("content" = P.info), ghost_send = TRUE)
+	PM.link = log_mail_send(user, target, list("content" = P.info), ghost_send = TRUE, signed_as = sender)
 	to_chat(user, span_notice("The letter slips away into the pipes. It will reach them when it reaches them."))
 	return TRUE
 
@@ -189,6 +192,8 @@ GLOBAL_DATUM_INIT(ghost_hermes, /datum/ghost_hermes, new)
 /datum/ghost_hermes/ui_data(mob/user)
 	var/list/data = list()
 	data["letter_count"] = length(mailbox(user))
+	data["real_name"] = user.real_name
+	data["pen_name"] = mail_pen_name(user)
 	return data
 
 /datum/ghost_hermes/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

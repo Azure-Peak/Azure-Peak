@@ -154,22 +154,7 @@
 	lockid = "Vheslie"
 	profit_id = list("Bathmaster") //Hilarious (not you can unlock this)
 	blockade_surcharge = FALSE
-	categories = list(
-		"Apparel (Ascendant Amulets)", //Wretch Exclusive Supplies
-		"Illicit Medical Supplies",
-		"Illicit Utility Supplies",
-		"Apparel", //Now just regular categories
-		"Adventuring Supplies",
-		"Instruments",
-		"Wardrobe",
-		"Alcohols",
-		"Consumable",
-		"Armor (Light)",
-		"Armor (Iron)",
-		"Weapons (Ranged)",
-		"Weapons (Iron and Shields)",
-		"Weapons (Bronze)",
-	)
+	categories = VHESLIE_CATEGORIES
 	categories_gamer = list()
 
 /obj/structure/roguemachine/goldface/Initialize(mapload)

@@ -684,7 +684,6 @@
 /datum/status_effect/buff/campfire_stamina/tick()
 	if(HAS_TRAIT(owner, TRAIT_NOREGEN) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
-	owner.adjust_bodytemperature(8)
 	if(owner.in_combat_until > world.time)
 		return
 	owner.energy_add(healing_on_tick * 2)

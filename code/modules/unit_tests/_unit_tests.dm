@@ -71,6 +71,7 @@
 #include "nodupe_smeltresult.dm"
 #include "reagent_id_typos.dm"
 #include "reagent_recipe_collisions.dm"
+#include "renegade.dm"
 #include "spawn_humans.dm"
 #include "species_whitelists.dm"
 #include "timer_sanity.dm"

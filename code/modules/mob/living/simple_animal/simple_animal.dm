@@ -453,20 +453,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		if((areatemp < minbodytemp) || (areatemp > maxbodytemp))
 			. = FALSE
 
-
-/mob/living/simple_animal/handle_environment()
-	var/atom/A = src.loc
-	if(isturf(A))
-		//ATMO/TURF/TEMPERATURE
-		var/turf/cur_turf = A
-		var/areatemp = cur_turf.temperature
-		if( abs(areatemp - bodytemperature) > 5)
-			var/diff = areatemp - bodytemperature
-			diff = diff / 5
-			adjust_bodytemperature(diff)
-
-	handle_temperature_damage()
-
 /mob/living/simple_animal/proc/handle_temperature_damage()
 	if((bodytemperature < minbodytemp) || (bodytemperature > maxbodytemp))
 		adjustHealth(unsuitable_atmos_damage)
@@ -616,7 +602,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		to_chat(user, "<span class='notice'>I finish butchering: [butcher_summary(botch_count, normal_count, perfect_count, botch_chance, perfect_chance)].</span>")
 		if(user.mind)
 			user.mind.add_sleep_experience(/datum/skill/labor/butchering, user.STAINT * BUTCHERING_EXP_FINISH)
-		gib()
+		gib(leave_gibs = FALSE)
 
 /mob/living/simple_animal/proc/gib_with_novice_butchery()
 	var/atom/Tsec = drop_location()

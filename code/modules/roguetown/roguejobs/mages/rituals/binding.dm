@@ -139,14 +139,14 @@
 		user.say(line, language = /datum/language/common, ignore_spam = TRUE, forced = "cult invocation")
 		// Beams: visually leyline → circle and circle → caster (origin.Beam draws FROM origin)
 		var/turf/leyline_turf = get_turf(leyline)
-		active_beams += leyline_turf.Beam(loc, icon_state = "b_beam", time = 2 SECONDS, maxdistance = 10)
-		active_beams += loc.Beam(user, icon_state = "b_beam", time = 2 SECONDS, maxdistance = 10)
+		active_beams += leyline_turf.Beam(loc, icon_state = "b_beam", time = 2 SECONDS, max_distance = 10)
+		active_beams += loc.Beam(user, icon_state = "b_beam", time = 2 SECONDS, max_distance = 10)
 		// Drain energy from all chanters
 		user.energy_add(-10)
 		if(!do_after(user, 2 SECONDS, target = leyline))
 			to_chat(user, span_warning("The ritual is interrupted!"))
 			for(var/datum/beam/B in active_beams)
-				B.End()
+				qdel(B)
 			qdel(rift)
 			return FALSE
 	qdel(rift)
