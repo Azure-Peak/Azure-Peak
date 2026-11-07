@@ -204,10 +204,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 /turf/open/transparent/openspace/proc/jump_wallpress(mob/living/carbon/human/climber)
 	if(get_turf(climber) == src) //if we are still on the same turf, climb, other wise no climb.
 		wallpress(climber, TRUE) //tell the proc that we need to quick climb.
-		climber.zfalling = FALSE
-	if(!climber.wallpressed) // There is probably a better way to do this, but it fixes climbing gear not working when you pass by multiple walls
-		var/turf/tile_under_climber = climber.loc
-		tile_under_climber.zFall(climber)
+	climber.zfalling = FALSE //climb no climb - no more floaty, if climb - wallpress handles floaty.
 
 /turf/open/transparent/openspace/MouseDrop_T(atom/movable/O, mob/user)
 	. = ..()
