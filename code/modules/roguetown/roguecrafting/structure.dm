@@ -1673,3 +1673,81 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/shelf_small
+	name = "wooden shelf (wall-mounted, small) (NORTH)"
+	category = "Misc"
+	result = /obj/structure/rack/rogue/shelf
+	reqs = list(/obj/item/grown/log/tree/stick = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+	ignoredensity = TRUE
+
+/datum/crafting_recipe/roguetown/structure/shelf_medium
+	name = "wooden shelf (medium)"
+	category = "Misc"
+	result = /obj/structure/rack/rogue/shelf/big
+	reqs = list(/obj/item/grown/log/tree/stick = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+	ignoredensity = TRUE
+
+/datum/crafting_recipe/roguetown/structure/shelf_big
+	name = "wooden shelf (big)"
+	category = "Misc"
+	result = /obj/structure/rack/rogue/shelf/biggest
+	reqs = list(/obj/item/grown/log/tree/stick = 4)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+	ignoredensity = TRUE
+
+/datum/crafting_recipe/roguetown/structure/chest_wood_plain
+	name = "chest (wooden)"
+	category = "Containers"
+	result = /obj/structure/closet/crate/roguecloset/inn/chest
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+
+/datum/crafting_recipe/roguetown/structure/chest_wood_plain_alt
+	name = "chest (wooden, old, alt)"
+	category = "Containers"
+	result = /obj/structure/closet/crate/chest/old_crate
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+
+/datum/crafting_recipe/roguetown/structure/chest_wood_sturdy
+	name = "chest (wooden, sturdy)"
+	category = "Containers"
+	result = /obj/structure/closet/crate/chest/neu
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+
+/datum/crafting_recipe/roguetown/structure/closet_wood_inn
+	name = "closet (wide, inn)"
+	category = "Containers"
+	result = /obj/structure/closet/crate/roguecloset/inn/south
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+
+/datum/crafting_recipe/roguetown/structure/drawer_wood
+	name = "drawaer (small)"
+	category = "Containers"
+	result = /obj/structure/closet/crate/drawer/inn
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
