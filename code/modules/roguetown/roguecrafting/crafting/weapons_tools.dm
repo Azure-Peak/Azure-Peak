@@ -314,6 +314,16 @@
 		)
 	craftdiff = 1
 
+/datum/crafting_recipe/roguetown/survival/scrapsaw
+	name = "crude handsaw"
+	display_category = ITEM_CAT_TOOLS_FIELD
+	category = "Tools"
+	result = /obj/item/rogueweapon/handsaw/crude
+	reqs = list(
+		/obj/item/grown/log/tree/stick = 1,
+		/obj/item/natural/fibers = 2,
+		/obj/item/scrap = 3,
+		)
 
 /datum/crafting_recipe/roguetown/survival/woodclub
 	name = "wood club"
