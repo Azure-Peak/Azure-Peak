@@ -108847,7 +108847,9 @@
 /turf/open/water/cleanshallow,
 /area/rogue/under/cave/his_vault)
 "nfv" = (
-/obj/structure/roguemachine/vendor/bathhouse,
+/obj/structure/roguemachine/vendor/bathhouse{
+	keycontrol = "nightmaiden"
+	},
 /turf/closed/wall/mineral/rogue/craftstone,
 /area/rogue/indoors/town/bath/grim)
 "nfw" = (
