@@ -1084,9 +1084,9 @@
 	name = "ivory dress"
 	desc = "A finely crafted dress adorned with rosas. A common sight among less silver inclined Otavan nobility."
 	icon_state = "rosadress1"
-	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	icon = 'icons/roguetown/clothing/special/rosawood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosawood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosawood.dmi'
 	boobed = FALSE
 
 /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
@@ -1113,9 +1113,9 @@
 	name = "regal coat"
 	desc = "A finely crafted leather coat adorned with rosas. A favorite among the more modest of Otavan nobility, who choose not to clad themselves in silver."
 	icon_state = "rosacoat7"
-	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	icon = 'icons/roguetown/clothing/special/rosawood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosawood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosawood.dmi'
 	salvage_result = /obj/item/natural/hide/cured
 	boobed = FALSE
 

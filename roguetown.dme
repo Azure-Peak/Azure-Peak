@@ -943,6 +943,7 @@
 #include "code\datums\loadout\loadout_caparisons.dm"
 #include "code\datums\loadout\loadout_cloaks.dm"
 #include "code\datums\loadout\loadout_donators.dm"
+#include "code\datums\loadout\loadout_donators_universal.dm"
 #include "code\datums\loadout\loadout_hats.dm"
 #include "code\datums\loadout\loadout_jewelry.dm"
 #include "code\datums\loadout\loadout_miscellaneous.dm"

@@ -792,8 +792,8 @@
 	name = "scarlet hat"
 	desc = "A finely crafted hat of silk and leather, adorned with rosas. It continues the tradition of wide brimmed Otavan hats."
 	icon_state = "rosahat2"
-	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	icon = 'icons/roguetown/clothing/special/rosawood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosawood.dmi'
 
 /obj/item/clothing/head/roguetown/rosa/three
 	name = "velvet hat"

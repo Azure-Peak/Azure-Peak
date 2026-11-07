@@ -202,9 +202,9 @@
 	name = "ivory gloves"
 	desc = "Finely crafted gloves of silk and leather."
 	icon_state = "rosagloves1"
-	icon = 'icons/roguetown/clothing/special/rosewood.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
-	sleeved = 'icons/roguetown/clothing/special/onmob/rosewood.dmi'
+	icon = 'icons/roguetown/clothing/special/rosawood.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/rosawood.dmi'
+	sleeved = 'icons/roguetown/clothing/special/onmob/rosawood.dmi'
 	salvage_result = /obj/item/natural/hide/cured
 
 /obj/item/clothing/gloves/roguetown/rosa/two
