@@ -441,10 +441,10 @@
 /turf/open/floor/rogue/hay,
 /area/rogue/indoors)
 "mJ" = (
-/obj/item/bomb,
-/obj/item/bomb,
-/obj/item/bomb,
-/obj/item/bomb,
+/obj/item/explosive/fused/bottle,
+/obj/item/explosive/fused/bottle,
+/obj/item/explosive/fused/bottle,
+/obj/item/explosive/fused/bottle,
 /turf/open/floor/rogue/blocks/newstone/alt,
 /area/rogue/indoors/town/manor)
 "mL" = (
