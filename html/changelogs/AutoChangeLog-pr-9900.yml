@@ -1,0 +1,4 @@
+author: "borneblood"
+delete-after: True
+changes:
+  - bugfix: "Fixed a problem with someone using lowertext instead of LOWER_TEXT."
