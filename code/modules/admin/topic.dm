@@ -1433,7 +1433,7 @@
 							O = new path(target)
 
 						if(!QDELETED(O))
-							O.flags_1 |= ADMIN_SPAWNED_1
+							O.flags_1 |= ADMIN_SPAWNED_1 | ANTAGOOC_ACCESS_1
 							if(obj_dir)
 								O.setDir(obj_dir)
 							if(obj_quality_set && istype(O, /obj/item))

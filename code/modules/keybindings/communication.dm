@@ -32,3 +32,13 @@
 	var/mob/M = user.mob
 	M.me_big_verb_indicator()
 	return TRUE
+
+/datum/keybinding/client/communication/antagooc
+	hotkey_keys = list("F10")
+	name = "AntagOOC"
+	full_name = "AntagOOC"
+	description = "Talk in the AntagOOC channel."
+
+/datum/keybinding/client/communication/antagooc/down(client/user)
+	user.antagooc()
+	return TRUE
