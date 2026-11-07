@@ -24,6 +24,7 @@
 	var/list/valid_roles = list(
 		"Orthodoxist",
 		"Absolver",
+		"Neophyte",
 		"Templar",
 		"Sergeant",
 		"Men-at-arms",
