@@ -561,14 +561,7 @@
 
 /turf/open/floor/rogue/dirt/get_slowdown(mob/user)
 	. = ..()
-	var/negate_slowdown = FALSE
-
-	if((isliving(user))&&(user?.movement_type == FLYING))
-		negate_slowdown = TRUE
-	if(HAS_TRAIT(user, TRAIT_LONGSTRIDER))
-		negate_slowdown = TRUE
-
-	if(negate_slowdown)
+	if((user.movement_type & FLYING) || HAS_TRAIT(user, TRAIT_LONGSTRIDER))
 		. -= 2
 	return max(., 0)
 
@@ -1845,8 +1838,8 @@
 
 // Chopping or picking a hole in the ice puts the water back for the rest of the round -
 // SSseason only re-freezes on a season change, so a hole you cut stays a hole. This is what
-// keeps the fisher employed in winter: getfishingloot()'s freshwater list wants a real
-// /turf/open/water underfoot, and the thaw-through leaves exactly the subtype that was there.
+// keeps the fisher employed in winter: a fishing spot needs a real /turf/open/water
+// underfoot, and the thaw-through leaves exactly the subtype that was there.
 //
 // (axe/chop, sword/chop, dagger/chop/cleaver, etc), not just axes.
 /turf/open/floor/rogue/frozen_water/attackby(obj/item/C, mob/user, params)
@@ -1897,7 +1890,7 @@
 			possible_turfs += T
 		if(!length(possible_turfs))
 			return
-		H.forceMove(pick(possible_turfs))
+		step_towards(H, pick(possible_turfs))
 		to_chat(H, span_warning("I slip on [src]!"))
 
 /turf/open/floor/rogue/frozen_water/deep

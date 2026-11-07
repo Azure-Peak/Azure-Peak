@@ -295,17 +295,8 @@
 	slices_num = null
 	slice_path = null
 	become_rot_type = null
-	baitpenalty = 10
+	bait_quality = TRAIT_BASIC_QUALITY_BAIT
 	isbait = TRUE
-	fishingMods=list(
-		"commonFishingMod" = 0.8,
-		"rareFishingMod" = 0,
-		"treasureFishingMod" = 0,
-		"trashFishingMod" = 1,
-		"dangerFishingMod" = 0.5,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 1 // Just for the funny gimmick of a higher chance for rats and rouses.
-	)
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddarslice/aged
 	name = "slice of aged cheese"
@@ -315,15 +306,7 @@
 	faretype = FARE_FINE
 	become_rot_type = null
 	rotprocess = null
-	fishingMods=list(
-		"commonFishingMod" = 1,
-		"rareFishingMod" = 0.5,
-		"treasureFishingMod" = 0,
-		"trashFishingMod" = 1,
-		"dangerFishingMod" = 0.5,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 1.5 // Just for the funny gimmick of a higher chance for rats and rouses.
-	)
+	bait_quality = TRAIT_GOOD_QUALITY_BAIT
 
 // -------------- FROSTING -----------------
 /obj/item/reagent_containers/food/snacks/rogue/frosting

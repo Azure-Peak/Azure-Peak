@@ -390,6 +390,8 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 	if(active || force_key_move)
 
 		new_character.key = key		//now transfer the key to link the client to our new body
+	if(new_character.client)
+		LAZYCLEARLIST(new_character.client.recent_examines)
 	new_character.update_fov_angles()
 
 	SEND_SIGNAL(src, COMSIG_MIND_TRANSFERRED, old_current)
@@ -574,6 +576,9 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 		A.on_gain(TRUE)
 	else
 		A.on_gain()
+	if(A.overrides_forlorne_vice)
+		var/datum/charflaw/forlorne/forlorne_vice = current?.get_flaw(/datum/charflaw/forlorne)
+		forlorne_vice?.antag_override(current)
 	log_game("[key_name(src)] has gained antag datum [A.name]([A.type])")
 	var/client/picked_client = current?.client
 	picked_client?.mob?.mind.picking = FALSE

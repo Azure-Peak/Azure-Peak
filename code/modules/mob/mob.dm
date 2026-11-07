@@ -514,6 +514,19 @@ GLOBAL_VAR_INIT(mobids, 1)
 			if(m_intent != MOVE_INTENT_SNEAK)
 				visible_message(span_emote("[message] [target]."))
 
+	if(client)
+		LAZYINITLIST(client.recent_examines)
+		var/ref_to_atom = REF(A)
+		var/examine_time = client.recent_examines[ref_to_atom]
+		if(examine_time && (world.time - examine_time < EXAMINE_MORE_WINDOW))
+			var/list/more = A.examine_more(src)
+			if(!length(more))
+				more += span_notice("<i>I look [A] over again, but find nothing more of interest.</i>")
+			to_chat(src, client.prefs.no_examine_blocks ? more.Join("\n") : examine_block(more.Join("\n")))
+			return
+		client.recent_examines[ref_to_atom] = world.time // set to when we last normal examine'd them
+		addtimer(CALLBACK(src, PROC_REF(clear_from_recent_examines), ref_to_atom), RECENT_EXAMINE_MAX_WINDOW)
+
 	var/list/result = A.examine(src)
 	if(result)
 		var/list/mechanics_result = A.get_mechanics_examine(src)
@@ -535,6 +548,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
 
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
+
+/mob/proc/clear_from_recent_examines(ref_to_clear)
+	SIGNAL_HANDLER
+	if(!client)
+		return
+	LAZYREMOVE(client.recent_examines, ref_to_clear)
 
 ///Can this mob resist (default FALSE)
 /mob/proc/can_resist()

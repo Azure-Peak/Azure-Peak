@@ -279,6 +279,37 @@
 	icon_state = "tiyon"
 	sewrepair = TRUE
 
+
+/obj/item/clothing/head/roguetown/doublehennin
+	name = "dual hennin"
+	desc = "A fancy hennin framed by two cones that sit atop ones head. Worn most commonly by the old-fashioned and elderly."
+	icon_state = "hennin_double"
+	sewrepair = TRUE
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/veiledhat
+	name = "veiled hat"
+	desc = "A luxurious, wide-brimmed hat defined by two flanking sheets of cloth sewn under the brim, it frames the face well."
+	icon_state = "veilhat"
+	sewrepair = TRUE
+	detail_tag = "_detail"
+	color = CLOTHING_WHITE
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/head/roguetown/flotsam
+	name = "flotsam bonnet"
+	desc = "A flexible cloth bonnet of elven fashion that holds a strong resemblance to a leaf. Worn oft by those who dwell in forests and swamps."
+	icon_state = "flotsam"
+	sewrepair = TRUE
+
+/obj/item/clothing/head/roguetown/nightcap
+	name = "nitecap"
+	desc = "A simple nightcap, used to keep the baldest of heads warm during the nite."
+	icon_state = "link"
+	sewrepair = TRUE
+
 /obj/item/clothing/head/roguetown/durag
 	name = "durag"
 	desc = "A fashionable garment worn to protect one's hair."

@@ -198,6 +198,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/minstr_req = FALSE
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
+	/// Damage multiplier against simple animals. Use the ANTIBEAST_* defines.
+	var/antibeast_factor = 1
 
 	var/item_quality = ITEM_QUALITY_STANDARD
 	var/has_item_quality = FALSE
@@ -325,6 +327,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!pixel_x && !pixel_y && !bigboy)
 		pixel_x = rand(-5,5)
 		pixel_y = rand(-5,5)
+
+	if(bait_quality)
+		ADD_TRAIT(src, bait_quality, INNATE_TRAIT)
 
 	if(grid_width <= 0)
 		grid_width = (w_class * world.icon_size)
@@ -596,6 +601,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			output = examine_block(output)
 		to_chat(usr, output)
 
+	if(href_list["explainantibeast"])
+		var/output = span_info("This weapon or ammunition is better versus simple minded beasts and inflicts more damage.")
+		if(!usr.client.prefs.no_examine_blocks)
+			output = examine_block(output)
+		to_chat(usr, output)
+
 	if(href_list["explainshieldcoverage"])
 		var/output = span_info("Chance to passively block incoming projectiles. Only works from the front.\nShields take quarter damage from blocked projectiles and fixed durability damage from melee parries.\nHeavy weapons deal more durability damage to shields — the higher of the attacker's Anti-Object Mod or Integrity Damage is used as a multiplier.")
 		if(!usr.client.prefs.no_examine_blocks)
@@ -718,6 +729,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(intdamage_factor != 1 && force >= 5)
 			inspec += "\n<b>INTEGRITY DAMAGE:</b> [intdamage_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainintdamage=1'>{?}</a></span>"
 
+		if(antibeast_factor != 1 && force >= 5)
+			inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
+
 		if(istype(src, /obj/item/ammo_casing/caseless/rogue))
 			var/obj/item/ammo_casing/caseless/rogue/rog_ammo = src
 			if(rog_ammo.BB.damage)
@@ -729,6 +743,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
 			if(rog_ammo.BB.dam_falloff_factor)
 				inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
+			if(rog_ammo.BB.antibeast_factor != 1)
+				inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
 
 //**** CLOTHING STUFF
 
@@ -1839,6 +1855,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(sellprice > 0)
 		sellprice = max(1, round(sellprice * ITEM_QUALITY_MULT(tier)))
 	return tier
+
+/obj/item/proc/get_stockpile_quality_mult()
+	if(!has_item_quality)
+		return 1
+	return ITEM_QUALITY_MULT(item_quality)
 
 /obj/item/proc/mark_as_looted()
 	if(looted)

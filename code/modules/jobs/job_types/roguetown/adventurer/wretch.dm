@@ -14,6 +14,7 @@
 	show_in_credits = FALSE
 	min_pq = 10
 	max_pq = null
+	vice_restrictions = list(/datum/charflaw/forlorne)
 
 	obfuscated_job = TRUE
 	class_categories = TRUE

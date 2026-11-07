@@ -17,6 +17,8 @@ GLOBAL_LIST_EMPTY(quirks)
 	var/list/allowed_quirks
 	///if present, these virtues will block the quirk from being picked/applied - useful when they overlap
 	var/list/restricted_virtues
+	///if present, ONLY jobs with these titles can be joined while the quirk is selected; the inverse of /datum/job/var/quirk_restrictions
+	var/list/allowed_jobs
 	///if this is a 'greater' quirk only accessible if you take virtuous/fated AND two vices
 	var/greater	= FALSE
 	///traits always applied by the quirk
