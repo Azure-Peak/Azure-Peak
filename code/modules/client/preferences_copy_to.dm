@@ -76,6 +76,7 @@
 	character.statpack = statpack
 
 	character.flavortext = flavortext
+	character.pen_name = pen_name
 	character.ooc_notes = ooc_notes
 	character.nsfwflavortext = nsfwflavortext
 	character.erpprefs = erpprefs

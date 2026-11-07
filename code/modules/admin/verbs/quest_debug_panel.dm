@@ -80,11 +80,11 @@ GLOBAL_LIST_INIT(quest_debug_unissuable_types, list(
 	var/timer_label
 	var/timer_seconds = 0
 	var/timer_id
+	if(KQ?.armed)
+		timer_label = "Awaiting arrival"
 	if(istype(Q, /datum/quest/kill/blockade_defense))
 		var/datum/quest/kill/blockade_defense/BQ = Q
-		if(BQ.armed)
-			timer_label = "Awaiting arrival"
-		else if(BQ.intermission_timer_id)
+		if(BQ.intermission_timer_id)
 			timer_label = "Intermission before wave [BQ.current_wave + 1]"
 			timer_id = BQ.intermission_timer_id
 		else if(BQ.wave_timer_id)
@@ -159,12 +159,12 @@ GLOBAL_LIST_INIT(quest_debug_unissuable_types, list(
 			TQ.clear_intermission_timers()
 			TQ.spawn_next_wave()
 			return "admin ended a towner intermission (wave [TQ.current_wave])"
+	var/datum/quest/kill/KQ = istype(Q, /datum/quest/kill) ? Q : null
+	if(KQ?.armed)
+		KQ.check_arrival()
+		return "admin forced arrival"
 	if(istype(Q, /datum/quest/kill/blockade_defense))
 		var/datum/quest/kill/blockade_defense/BQ = Q
-		if(BQ.armed)
-			BQ.armed = FALSE
-			BQ.spawn_wave(1)
-			return "admin started wave 1"
 		if(BQ.intermission_timer_id)
 			var/next_wave = BQ.current_wave + 1
 			BQ.clear_wave_timers()
@@ -176,14 +176,11 @@ GLOBAL_LIST_INIT(quest_debug_unissuable_types, list(
 			BQ.on_wave_timeout(wave)
 			return "admin fired wave [wave] timeout"
 		return null
-	if(istype(Q, /datum/quest/kill))
-		var/datum/quest/kill/KQ = Q
-		if(!KQ.hunt_timer_id)
-			return null
-		deltimer(KQ.hunt_timer_id)
-		KQ.on_hunt_timeout()
-		return "admin fired hunt timeout"
-	return null
+	if(!KQ?.hunt_timer_id)
+		return null
+	deltimer(KQ.hunt_timer_id)
+	KQ.on_hunt_timeout()
+	return "admin fired hunt timeout"
 
 /datum/quest_debug_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	if(..())

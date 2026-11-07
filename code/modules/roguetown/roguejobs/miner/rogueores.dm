@@ -7,9 +7,10 @@
 	experimental_inhand = TRUE
 	grid_width = 64
 	grid_height = 32
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/rogueore/attack(mob/living/M, mob/user)
-	if(!user.cmode)
+	if(!user.cmode && istype(user.used_intent, /datum/intent/food))
 		if(try_construct_consume(src, M, user))
 			return
 	else
@@ -142,6 +143,7 @@
 	var/datum/anvil_recipe/currecipe
 	grid_width = 64
 	grid_height = 32
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/ingot/examine()
 	. += ..()
@@ -207,7 +209,7 @@
 		A.update_icon()
 
 /obj/item/ingot/attack(mob/living/M, mob/user)
-	if(!user.cmode)
+	if(!user.cmode && istype(user.used_intent, /datum/intent/food))
 		if(try_construct_consume(src, M, user))
 			return
 	return ..()

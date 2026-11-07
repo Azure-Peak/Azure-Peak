@@ -29,6 +29,7 @@ type FellowshipData = {
   user_name: string;
   in_fellowship: BooleanLike;
   max_members: number;
+  arrival_scan_range: number;
   server_time: number;
   // Not in fellowship
   pending_invites?: IncomingInvite[];
@@ -189,7 +190,7 @@ const FellowshipView = () => {
           Any member may turn in a fellow&apos;s completed contract at the Grand
           Contract Ledger, even if the holder has fallen.{' '}
           {split
-            ? 'The reward is split evenly among everyone who was in the fellowship when the contract was signed.'
+            ? 'The reward is split evenly among everyone who was present during the contract when it spawns.'
             : 'The reward is credited to whoever hands it in.'}
         </Section>
       </Stack.Item>

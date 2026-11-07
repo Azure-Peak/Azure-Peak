@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Show / Hide OOC button now actually work and will hide the content of the OOC chatfor you."
