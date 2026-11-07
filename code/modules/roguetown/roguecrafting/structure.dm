@@ -1673,3 +1673,36 @@
 	verbage = "constructs"
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 2
+
+/datum/crafting_recipe/roguetown/structure/shelf_small
+	name = "wooden shelf (wall-mounted, small) (NORTH)"
+	category = "Misc"
+	result = /obj/structure/rack/rogue/shelf
+	reqs = list(/obj/item/grown/log/tree/stick = 2)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+	ignoredensity = TRUE
+
+/datum/crafting_recipe/roguetown/structure/shelf_medium
+	name = "wooden shelf (medium)"
+	category = "Misc"
+	result = /obj/structure/rack/rogue/shelf/big
+	reqs = list(/obj/item/grown/log/tree/stick = 3)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+	ignoredensity = TRUE
+
+/datum/crafting_recipe/roguetown/structure/shelf_big
+	name = "wooden shelf (big)"
+	category = "Misc"
+	result = /obj/structure/rack/rogue/shelf/biggest
+	reqs = list(/obj/item/grown/log/tree/stick = 4)
+	verbage_simple = "construct"
+	verbage = "constructs"
+	skillcraft = /datum/skill/craft/carpentry
+	craftdiff = 0
+	ignoredensity = TRUE
