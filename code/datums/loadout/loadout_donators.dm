@@ -1315,26 +1315,6 @@
 	path = /obj/item/clothing/mask/rogue/facemask/goldmask/radiant
 	ckeywhitelist = list("mystoganzi")
 
-/datum/loadout_item/donator/thedragmeme_scarletglove
-	name = "Donator Gift - Scarlet Gloves"
-	path = /obj/item/clothing/gloves/roguetown/rosa/two
-	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
-
-/datum/loadout_item/donator/thedragmeme_scarlethat
-	name = "Donator Gift - Scarlet Hat"
-	path = /obj/item/clothing/head/roguetown/rosa
-	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
-
-/datum/loadout_item/donator/thedragmeme_scarletshoes
-	name = "Donator Gift - Scarlet Shoes"
-	path = /obj/item/clothing/shoes/roguetown/rosa/two
-	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
-
-/datum/loadout_item/donator/thedragmeme_scarletdress
-	name = "Donator Gift - Scarlet Dress"
-	path = /obj/item/clothing/suit/roguetown/shirt/tunic/rosa/two
-	ckeywhitelist = list("thedragmeme", "witchlilly", "maesune", "koruu")
-
 /datum/loadout_item/donator/lief_ring
 	name = "Donator Item - Blortz Incrusted Blacksteel Ring"
 	path = /obj/item/clothing/ring/lief_ring
