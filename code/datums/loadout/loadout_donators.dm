@@ -1360,7 +1360,6 @@
 	path = /obj/item/clothing/cloak/tabard/limeastratatabard
 	ckeywhitelist = list("limetease")
 
-
 /datum/loadout_item/donator/limetabard
 	name = "Donator Item - Leathery Tabard"
 	path = /obj/item/clothing/cloak/tabard/limetabard
@@ -1414,3 +1413,13 @@
 /datum/loadout_item/donator/universal/dominion_cestus
 	name = "Elixir - Dominion Cestus"
 	path = /obj/item/enchantingkit/dominion_cestus
+
+/datum/loadout_item/donator/rosy/bluelily
+	name = "Donator Item - Tufted Blue-lily"
+	path = /obj/item/clothing/head/roguetown/decoration/bluelily
+	ckeywhitelist = list("rosysaturniidae")
+
+/datum/loadout_item/donator/rosy/rosecollar
+	name = "Donator Item - Clasped Rosestone Collar"
+	path = /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
+	ckeywhitelist = list("rosysaturniidae")
