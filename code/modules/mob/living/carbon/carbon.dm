@@ -21,7 +21,7 @@
 	QDEL_LIST(bodyparts)
 	QDEL_LIST(implants)
 	QDEL_NULL(dna)
-	QDEL_NULL(underwear)
+	QDEL_NULL(underwear_bottom)
 	GLOB.carbon_list -= src
 
 /mob/living/carbon/ZImpactDamage(turf/T, levels)

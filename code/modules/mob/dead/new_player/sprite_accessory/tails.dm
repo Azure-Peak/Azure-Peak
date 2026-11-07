@@ -9,7 +9,7 @@
 	return is_human_part_visible(owner, HIDETAIL)
 
 /datum/sprite_accessory/tail/adjust_appearance_list(list/appearance_list, obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDIES, OFFSET_UNDIES_F)
+	generic_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_UNDERWEAR_BOTTOM, OFFSET_UNDERWEAR_BOTTOM_F)
 
 /datum/sprite_accessory/tail/get_icon_state(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
 	if(!can_wag)
@@ -141,7 +141,7 @@
 	icon_state = "insect"
 
 /datum/sprite_accessory/tail/kangaroo
-	name = "kangaroo"
+	name = "Kangaroo"
 	icon_state = "kangaroo"
 
 /datum/sprite_accessory/tail/kitsune
@@ -281,7 +281,7 @@
 	can_wag = TRUE
 
 /datum/sprite_accessory/tail/sharknofin
-	name = "Shark no fin"
+	name = "Shark No Fin"
 	icon_state = "sharknofin"
 	can_wag = TRUE
 

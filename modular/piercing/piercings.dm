@@ -50,13 +50,6 @@
 	icon_state = "beads-s"
 	sprite_acc = /datum/sprite_accessory/piercing/beads/silver
 
-/obj/item/piercings/beads/emerald
-	name = "emerald bead piercings"
-	desc = "Same as the ear ones, but for your nipples. These are in a shape of beads, made of emerald."
-	icon = 'modular/icons/mob/sprite_accessory/piercings/beads.dmi'
-	icon_state = "beads-e"
-	sprite_acc = /datum/sprite_accessory/piercing/beads/emerald
-
 /obj/item/piercings/rings
 	name = "ring piercings"
 	desc = "Same as the ear ones, but for your nipples. These are in a shape of a ring."
@@ -74,9 +67,3 @@
 	desc = "Same as the ear ones, but for your nipples. These are in a shape of a ring, made of silver."
 	icon_state = "rings-s"
 	sprite_acc = /datum/sprite_accessory/piercing/rings/silver
-
-/obj/item/piercings/rings/emerald
-	name = "emerald ring piercings"
-	desc = "Same as the ear ones, but for your nipples. These are in a shape of a ring, made of emerald."
-	icon_state = "rings-e"
-	sprite_acc = /datum/sprite_accessory/piercing/rings/emerald

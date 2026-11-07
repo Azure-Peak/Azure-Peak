@@ -45038,10 +45038,10 @@
 /obj/item/clothing/suit/roguetown/shirt/dress/silkydress,
 /obj/item/clothing/shoes/roguetown/anklets,
 /obj/item/clothing/shoes/roguetown/anklets,
-/obj/item/legwears/silk,
-/obj/item/legwears/silk,
-/obj/item/legwears/silk/random,
-/obj/item/legwears/silk/random,
+/obj/item/clothing/legwears/silk,
+/obj/item/clothing/legwears/silk,
+/obj/item/clothing/legwears/silk/random,
+/obj/item/clothing/legwears/silk/random,
 /obj/structure/curtain/magenta{
 	alpha = 200
 	},
@@ -71710,10 +71710,10 @@
 /obj/item/clothing/under/roguetown/skirt/random,
 /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut,
 /obj/item/clothing/suit/roguetown/shirt/undershirt/lowcut,
-/obj/item/legwears/fishnet/black,
-/obj/item/legwears/fishnet/black,
-/obj/item/legwears/fishnet/red,
-/obj/item/legwears/fishnet/red,
+/obj/item/clothing/legwears/fishnet/black,
+/obj/item/clothing/legwears/fishnet/black,
+/obj/item/clothing/legwears/fishnet/red,
+/obj/item/clothing/legwears/fishnet/red,
 /obj/structure/closet/crate/roguecloset/inn{
 	lockid = "nightmaiden";
 	name = "Dressing Closet"
@@ -82758,7 +82758,7 @@
 /obj/item/clothing/head/roguetown/duelisthat,
 /obj/item/clothing/cloak/lordcloak/ladycloak,
 /obj/item/clothing/suit/roguetown/shirt/dress/silkdress/weddingdress,
-/obj/item/legwears/silk,
+/obj/item/clothing/legwears/silk,
 /obj/item/clothing/suit/roguetown/shirt/dress/silkydress,
 /obj/item/clothing/suit/roguetown/shirt/dress/courtesan,
 /obj/structure/curtain/magenta{

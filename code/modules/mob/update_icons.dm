@@ -90,3 +90,21 @@
 
 /mob/proc/update_inv_mouth()
 	return
+
+/mob/proc/update_inv_underwear_bottom()
+	return
+
+/mob/proc/update_inv_underwear_top()
+	return
+
+/mob/proc/update_inv_undershirt()
+	return
+
+/mob/proc/update_inv_earrings()
+	return
+
+/mob/proc/update_inv_socks()
+	return
+
+/mob/proc/update_inv_armsleeves()
+	return

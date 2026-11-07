@@ -57,6 +57,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/list/parrysound = "parrywood"
 	var/w_class = WEIGHT_CLASS_NORMAL
 	var/slot_flags = 0		//This is used to determine on which slots an item can fit.
+	/// Clothing slots that do not share the legacy slot_flags bitfield.
+	var/extra_slot_flags = NONE
 	pass_flags = PASSTABLE
 	var/obj/item/master = null
 
@@ -220,6 +222,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/dam_icon = 'icons/effects/item_damage32.dmi'
 	var/dam_icon_state = "itemdamaged"
 	var/boobed = FALSE
+	var/boob_sized
+	/// Whether or not we use gendered onmob sprites
+	var/gendered
 
 	var/firefuel = 0 //add this idiot
 
@@ -992,7 +997,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	item_flags |= IN_INVENTORY
 	if(!initial)
 		if(equip_sound)
-			if(slot_flags & slotdefine2slotbit(slot))
+			if(fits_slot(slot))
 				if(user.m_intent != MOVE_INTENT_SNEAK) // Sneaky sheathing/equipping
 					playsound(src, equip_sound, EQUIP_SOUND_VOLUME, TRUE, ignore_walls = FALSE)
 		if(pickup_sound)
@@ -1204,6 +1209,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(ishuman(owner))
 		H = owner
 	var/flags = slot_flags
+	var/extra_flags = extra_slot_flags
 //	if(flags & ITEM_SLOT_OCLOTHING)
 //		owner.update_inv_wear_suit()
 //	if(flags & ITEM_SLOT_ICLOTHING)
@@ -1230,6 +1236,18 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		owner.update_inv_pants()
 	if(flags & ITEM_SLOT_CLOAK)
 		owner.update_inv_cloak()
+	if(extra_flags & EXTRA_SLOT_UNDERWEAR_BOTTOM)
+		owner.update_inv_underwear_bottom()
+	if(extra_flags & EXTRA_SLOT_UNDERWEAR_TOP)
+		owner.update_inv_underwear_top()
+	if(extra_flags & EXTRA_SLOT_UNDERSHIRT)
+		owner.update_inv_undershirt()
+	if(extra_flags & EXTRA_SLOT_EARRINGS)
+		owner.update_inv_earrings()
+	if(extra_flags & EXTRA_SLOT_SOCKS)
+		owner.update_inv_socks()
+	if(extra_flags & EXTRA_SLOT_ARMSLEEVES)
+		owner.update_inv_armsleeves()
 	if(H)
 		if(flags & ITEM_SLOT_HEAD && H.head == src)
 			owner.update_inv_head()
@@ -2044,3 +2062,22 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 /obj/item/proc/remove_floating() // needed for timers
 	item_flags &= ~FLOATING_ITEM
+
+/// Whether this item belongs in a slot, without mixing flag namespaces.
+/obj/item/proc/fits_slot(slot)
+	var/extra_flag = slotdefine2extraslotbit(slot)
+	if(extra_flag)
+		return !!(extra_slot_flags & extra_flag)
+	return !!(slot_flags & slotdefine2slotbit(slot))
+
+/// Direct equipment interactions must transfer ownership as well as populate a slot.
+/// The interaction has already waited; validate again before releasing the user's hand.
+/obj/item/proc/equip_from_hands(mob/user, mob/living/carbon/human/wearer, slot)
+	if(!user.is_holding(src) || !user.Adjacent(wearer) || wearer.is_inventory_slot_obscured(slot, src))
+		return FALSE
+	if(!mob_can_equip(wearer, user, slot, TRUE, TRUE))
+		return FALSE
+	if(!user.temporarilyRemoveItemFromInventory(src))
+		return FALSE
+	wearer.equip_to_slot(src, slot)
+	return TRUE

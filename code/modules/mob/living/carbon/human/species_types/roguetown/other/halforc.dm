@@ -38,12 +38,12 @@
 	OFFSET_CLOAK = list(0,1), OFFSET_FACEMASK = list(0,1), OFFSET_HEAD = list(0,1), \
 	OFFSET_FACE = list(0,1), OFFSET_BELT = list(0,1), OFFSET_BACK = list(0,1), \
 	OFFSET_NECK = list(0,1), OFFSET_MOUTH = list(0,1), OFFSET_PANTS = list(0,1), \
-	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDIES = list(0,1), \
+	OFFSET_SHIRT = list(0,1), OFFSET_ARMOR = list(0,1), OFFSET_HANDS = list(0,1), OFFSET_UNDERWEAR_BOTTOM = list(0,1), OFFSET_UNDERWEAR_TOP = list(0,1), \
 	OFFSET_ID_F = list(0,1), OFFSET_GLOVES_F = list(0,1), OFFSET_WRISTS_F = list(0,1), OFFSET_HANDS_F = list(0,1), \
 	OFFSET_CLOAK_F = list(0,1), OFFSET_FACEMASK_F = list(0,1), OFFSET_HEAD_F = list(0,1), \
 	OFFSET_FACE_F = list(0,1), OFFSET_BELT_F = list(0,1), OFFSET_BACK_F = list(0,1), \
 	OFFSET_NECK_F = list(0,1), OFFSET_MOUTH_F = list(0,1), OFFSET_PANTS_F = list(0,1), \
-	OFFSET_SHIRT_F = list(0,1), OFFSET_ARMOR_F = list(0,1), OFFSET_UNDIES_F = list(0,1))
+	OFFSET_SHIRT_F = list(0,1), OFFSET_ARMOR_F = list(0,1), OFFSET_UNDERWEAR_BOTTOM_F = list(0,1), OFFSET_UNDERWEAR_TOP_F = list(0,1))
 	race_bonus = list(STAT_STRENGTH = 1)
 	enflamed_icon = "widefire"
 	organs = list(
@@ -84,8 +84,12 @@
 		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
-		/datum/customizer/bodypart_feature/underwear,
-		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/clothing/underwear_bottom,
+		/datum/customizer/clothing/underwear_top,
+		/datum/customizer/clothing/undershirt,
+		/datum/customizer/clothing/armsleeves,
+		/datum/customizer/clothing/earrings,
+		/datum/customizer/clothing/legwear,
 		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/testicles/anthro,
 		/datum/customizer/organ/penis/anthro,

@@ -41,7 +41,18 @@
 			l_pocket = item_path
 		if(SLOT_R_STORE)
 			r_pocket = item_path
-
+		if(SLOT_UNDERWEAR_BOTTOM)
+			underwear_bottom = item_path
+		if(SLOT_UNDERWEAR_TOP)
+			underwear_top = item_path
+		if(SLOT_UNDERSHIRT)
+			undershirt = item_path
+		if(SLOT_EARRINGS)
+			earrings = item_path
+		if(SLOT_SOCKS)
+			legwear_socks = item_path
+		if(SLOT_ARMSLEEVES)
+			armsleeves = item_path
 
 /proc/collect_vv(obj/item/I)
 	//Temporary/Internal stuff, do not copy these.
