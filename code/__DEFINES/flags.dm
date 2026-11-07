@@ -110,6 +110,11 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 /// can't be frozen
 #define FREEZE_PROOF	(1<<7)
 
+///mechanics examine line for torches, lampterns, candles, flint and matches
+#define IGNITER_HINT span_info("Floors, walls and flammable objects only catch fire from this while in combat mode.")
+///mechanics examine line for flammable objects and turfs
+#define FLAMMABLE_HINT span_info("This is flammable, and can be lit in combat mode. Go wild. ")
+
 //tesla_zap
 #define TESLA_MACHINE_EXPLOSIVE		(1<<0)
 #define TESLA_ALLOW_DUPLICATES		(1<<1)

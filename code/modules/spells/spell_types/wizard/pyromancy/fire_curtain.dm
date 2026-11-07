@@ -114,7 +114,7 @@
 	if(QDELETED(src) || QDELETED(owner))
 		return
 	for(var/turf/T in turfs)
-		new /obj/effect/curtain_fire(T, curtain_life, caster, aim_zone)
+		new /obj/effect/curtain_fire(T, curtain_life, caster, aim_zone, 1)
 	playsound(turfs[1], pick('sound/misc/explode/incendiary (1).ogg', 'sound/misc/explode/incendiary (2).ogg'), 120, TRUE, 6)
 
 /obj/effect/temp_visual/telegraph/wall/fire
@@ -141,13 +141,15 @@
 	var/datum/weakref/caster_ref
 	var/aim_zone
 
-/obj/effect/curtain_fire/Initialize(mapload, life, mob/living/new_caster, aimed_zone)
+/obj/effect/curtain_fire/Initialize(mapload, life, mob/living/new_caster, aimed_zone, maxlevel)
 	. = ..()
 	if(life)
 		lifetime = life
 	if(new_caster)
 		caster_ref = WEAKREF(new_caster)
 	aim_zone = aimed_zone
+	var/turf/T = loc
+	T.fire_act(maxlevel = maxlevel)
 	START_PROCESSING(SSobj, src)
 	QDEL_IN(src, lifetime)
 

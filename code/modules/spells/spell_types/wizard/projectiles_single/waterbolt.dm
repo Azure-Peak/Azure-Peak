@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/projectile/waterbolt
 	name = "Water Bolt"
-	desc = "Shoot out a magical bolt of water that extinguishes fires from a distance."
+	desc = "Shoot out a magical bolt of water that extinguishes fires from a distance. Toggle arc mode (Shift+G) while the spell is active to lob it instead, splashing the tiles around where it lands."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "frost_bolt"
 	sound = 'sound/foley/water_land1.ogg'
@@ -20,6 +20,7 @@
 	cooldown_time = 8 SECONDS
 
 	projectile_type = /obj/projectile/energy/waterbolt
+	projectile_type_arc = /obj/projectile/energy/waterbolt/arc
 
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 1
@@ -43,33 +44,46 @@
 	hitsound = null
 	var/zone_aimed = null
 
+/obj/projectile/energy/waterbolt/arc
+	name = "arced water bolt"
+	arcshot = TRUE
+
 /obj/projectile/energy/waterbolt/on_hit(target)
 	..()
-	if(istype(target, /obj/machinery/light/rogue))
-		var/obj/machinery/light/rogue/L = target
-		if(L.on)
-			L.extinguish()
-	else if(isobj(target))
-		var/obj/O = target
-		if((O.resistance_flags & ON_FIRE) && O.extinguishable)
-			O.extinguish()
-	if(ismob(target))
-		var/mob/living/M = target
-		if(M.fire_stacks > 0)
-			M.adjust_fire_stacks(-10)
-			if(M.fire_stacks <= 0)
-				M.extinguish_mob()
-		if(ishuman(M))
-			var/mob/living/carbon/human/H = M
-			if(zone_aimed in list(
-				BODY_ZONE_HEAD,
-				BODY_ZONE_PRECISE_SKULL,
-				BODY_ZONE_PRECISE_EARS,
-				BODY_ZONE_PRECISE_R_EYE,
-				BODY_ZONE_PRECISE_L_EYE,
-				BODY_ZONE_PRECISE_NOSE,
-				BODY_ZONE_PRECISE_MOUTH
-			))
-				if(H.is_noble())
-					H.add_stress(/datum/stressevent/water_splashed_noble)
+	var/list/hit = list(target, get_turf(target))
+	if(arcshot)
+		for(var/turf/T in range(1, get_turf(target)))
+			hit |= T
+			hit |= T.contents
+	for(var/atom/A as anything in hit)
+		if(isturf(A))
+			var/turf/T = A
+			T.quench()
+		else if(istype(A, /obj/machinery/light/rogue))
+			var/obj/machinery/light/rogue/L = A
+			if(L.on)
+				L.extinguish()
+		else if(isobj(A))
+			var/obj/O = A
+			if((O.resistance_flags & ON_FIRE) && O.extinguishable)
+				O.extinguish()
+		else if(isliving(A))
+			var/mob/living/M = A
+			if(M.fire_stacks > 0)
+				M.adjust_fire_stacks(-10)
+				if(M.fire_stacks <= 0)
+					M.extinguish_mob()
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		if(zone_aimed in list(
+			BODY_ZONE_HEAD,
+			BODY_ZONE_PRECISE_SKULL,
+			BODY_ZONE_PRECISE_EARS,
+			BODY_ZONE_PRECISE_R_EYE,
+			BODY_ZONE_PRECISE_L_EYE,
+			BODY_ZONE_PRECISE_NOSE,
+			BODY_ZONE_PRECISE_MOUTH
+		))
+			if(H.is_noble())
+				H.add_stress(/datum/stressevent/water_splashed_noble)
 	return BULLET_ACT_HIT

@@ -12,10 +12,13 @@
 	var/is_infinite = FALSE
 	materia = list(/datum/materia_aspect/water)
 	var/closed = FALSE // DO NOT rely on this, use reagent_flags/spillable instead. Originally from /bottle, moved here to reduce istype() checks.
+	var/widesplash = FALSE
 
 /obj/item/reagent_containers/glass/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Right click on someone to offer your glass to them. If someone else offers a glass to you in response, they'll clink together in celebration!")
+	if(widesplash)
+		. += span_info("Splashing this soaks the target and also wets everything on the tiles around it, putting out fires there.")
 
 /obj/item/reagent_containers/glass/examine(mob/user)
 	. = ..()
@@ -25,6 +28,18 @@
 			return
 		if(is_infinite)
 			. += span_notice("It's been touched by the Lady... it won't run dry, for now.")
+
+/obj/item/reagent_containers/glass/proc/splash(atom/target, mob/user)
+	if(widesplash)
+		for(var/turf/T in range(1, get_turf(target)))
+			if(T != target)
+				reagents.reaction(T, TOUCH, 1/9)
+			for(var/atom/movable/AM as anything in T)
+				if(AM != target && AM != user)
+					reagents.reaction(AM, TOUCH, 1/9)
+	reagents.reaction(target, TOUCH)
+	reagents.clear_reagents()
+
 /obj/item/reagent_containers/glass/proc/reset_infinite()
 	is_infinite = FALSE
 
@@ -73,9 +88,8 @@
 		if(isturf(target) && reagents.reagent_list.len && thrownby)
 			log_combat(thrownby, target, "splashed (thrown) [english_list(reagents.reagent_list)]")
 			message_admins("[ADMIN_LOOKUPFLW(thrownby)] splashed (thrown) [english_list(reagents.reagent_list)] on [target] at [ADMIN_VERBOSEJMP(target)].")
-		reagents.reaction(M, TOUCH)
 		log_combat(user, M, "splashed", R)
-		reagents.clear_reagents()
+		splash(M, user)
 		return
 	else if(user.used_intent.type == INTENT_POUR)
 		if(!canconsume(M, user))
@@ -210,8 +224,7 @@
 		if(reagents.total_volume && user.used_intent.type == INTENT_SPLASH)
 			user.visible_message(span_danger("[user] splashes the contents of [src] onto [target]!"), \
 								span_notice("I splash the contents of [src] onto [target]."))
-			reagents.reaction(target, TOUCH)
-			reagents.clear_reagents()
+			splash(target, user)
 			return
 
 /obj/item/reagent_containers/glass/afterattack(obj/target, mob/user, proximity)
@@ -233,8 +246,7 @@
 		if(reagents.total_volume && user.used_intent.type == INTENT_SPLASH)
 			user.visible_message(span_danger("[user] splashes the contents of [src] onto [target]!"), \
 								span_notice("I splash the contents of [src] onto [target]."))
-			reagents.reaction(target, TOUCH)
-			reagents.clear_reagents()
+			splash(target, user)
 			return
 
 /obj/item/reagent_containers/glass/attackby(obj/item/I, mob/user, params)
@@ -297,6 +309,7 @@
 	reagent_flags = OPENCONTAINER
 	obj_flags = CAN_BE_HIT
 	gripped_intents = list(INTENT_POUR)
+	widesplash = TRUE
 	dropshrink = 0.8
 	slot_flags = null
 	resistance_flags = NONE

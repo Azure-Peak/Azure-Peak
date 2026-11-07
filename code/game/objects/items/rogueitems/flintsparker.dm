@@ -16,6 +16,10 @@
 	grid_height = 32
 	grid_width = 32
 
+/obj/item/flint/get_mechanics_examine(mob/user)
+	. = ..()
+	. += IGNITER_HINT
+
 /obj/item/flint/attack_self(mob/living/user)
 	if(world.time < flintcd + 10)
 		return
@@ -35,6 +39,9 @@
 /obj/item/flint/afterattack(atom/movable/A, mob/user, proximity)
 	. = ..()
 	if(!proximity)
+		return
+	var/obj/O = A
+	if(!user.cmode && (isturf(A) || (isobj(A) && (O.resistance_flags & FLAMMABLE))))
 		return
 	if(world.time < flintcd + 10)
 		return
