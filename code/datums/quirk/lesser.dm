@@ -7,7 +7,7 @@
 	name = "Amphibious"
 	desc = "Through some quirk of my heritage, I can breathe in water just as readily as in air."
 	allowed_species = list(/datum/species/anthromorph, /datum/species/anthromorphsmall, /datum/species/lizardfolk)
-	restricted_virtues = list(/datum/virtue/combat/second_chance) // you're probably already unbreathing
+	restricted_virtues = list(/datum/virtue/combat/rotcured, /datum/virtue/combat/geoheart) // you're probably already unbreathing
 	added_traits = list(TRAIT_WATERBREATHING) // notably NOT breathless
 	ui_fa_icon = "lungs"
 
@@ -22,7 +22,7 @@
 	desc = "No-one can quite seem to decide whether I'm mesmerizing or horrifying."
 	added_traits = list(TRAIT_BEAUTIFUL_UNCANNY)
 	allowed_species = list(/datum/species/aasimar, /datum/species/dullahan, /datum/species/construct/metal, /datum/species/ooze)
-	allowed_virtues = list(/datum/virtue/combat/second_chance, /datum/virtue/utility/feytouched) // hacky, but w/e
+	allowed_virtues = list(/datum/virtue/combat/rotcured, /datum/virtue/utility/feytouched, /datum/virtue/combat/geoheart) // hacky, but w/e
 	allowed_quirks = list(/datum/quirk/feytouched)
 	ui_fa_icon = "person-rays"
 

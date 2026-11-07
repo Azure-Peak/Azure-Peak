@@ -801,59 +801,75 @@
 /mob/proc/get_contents()
 	return
 
+/mob/living/proc/can_use_rest_action()
+	if(has_status_effect(/datum/status_effect/debuff/clickcd))
+		return FALSE
+	apply_status_effect(/datum/status_effect/debuff/clickcd, 1 SECONDS)
+	return TRUE
+
+/mob/living/proc/get_rest_action_time()
+	return HAS_TRAIT(src, TRAIT_HEAVYSET) ? 4 SECONDS : 2 SECONDS
 
 /mob/living/proc/lay_down()
 	set name = "Lay down"
 	set hidden = 1
-	if(stat)
+
+	if(!can_use_rest_action())
 		return
-	if(pulledby)
-		to_chat(src, span_warning("I'm grabbed!"))
+	if(stat || pulledby || resting)
 		return
 	if(world.time < rest_locked_until)
 		to_chat(src, span_warning("I'm too charged with vigor to lie down!"))
 		return
-	if(!resting)
+
+	if(move_after(src, get_rest_action_time(), target = src))
 		set_resting(TRUE, FALSE)
+
 
 /mob/living/proc/stand_up()
 	set name = "Stand up"
 	set hidden = 1
-	if(stat)
+
+	if(!can_use_rest_action())
 		return
-	if(pulledby)
-		to_chat(src, span_warning("I'm grabbed!"))
+	if(stat || pulledby || !resting)
 		return
-	if(resting)
-		if(!IsKnockdown() && !IsStun() && !IsParalyzed())
-			src.visible_message(span_notice("[src] stands up."))
-			if(move_after(src, 20, target = src))
-				set_resting(FALSE, FALSE)
-				return TRUE
-		else
-			src.visible_message(span_warning("[src] tries to stand up."))
-			return FALSE
+	if(IsKnockdown() || IsStun() || IsParalyzed())
+		src.visible_message(span_warning("[src] tries to stand up."))
+		return FALSE
+
+	src.visible_message(span_info("[src] begins to stand up."))
+
+	if(move_after(src, get_rest_action_time(), target = src))
+		set_resting(FALSE, FALSE)
+		src.visible_message(span_notice("[src] stands up."))
+		return TRUE
+
 
 /mob/living/proc/toggle_rest()
 	set name = "Rest/Stand"
 	set hidden = 1
-	if(stat)
+
+	if(!can_use_rest_action())
 		return
-	if(pulledby)
-		to_chat(src, span_warning("I'm grabbed!"))
+	if(stat || pulledby)
 		return
+
 	if(resting)
-		if(!IsKnockdown() && !IsStun() && !IsParalyzed())
-			src.visible_message(span_info("[src] begins to stand up."))
-			if(move_after(src, 20, target = src))
-				set_resting(FALSE, FALSE)
-		else
+		if(IsKnockdown() || IsStun() || IsParalyzed())
 			src.visible_message(span_warning("[src] struggles to stand up."))
+			return FALSE
+
+		src.visible_message(span_info("[src] begins to stand up."))
+		if(move_after(src, get_rest_action_time(), target = src))
+			set_resting(FALSE, FALSE)
 	else
 		if(world.time < rest_locked_until)
 			to_chat(src, span_warning("I'm too charged with vigor to lie down!"))
 			return
-		set_resting(TRUE, FALSE)
+
+		if(move_after(src, get_rest_action_time(), target = src))
+			set_resting(TRUE, FALSE)
 
 /mob/living/proc/set_resting(rest, silent = TRUE)
 	resting = rest
@@ -1884,8 +1900,8 @@
  */
 
 /mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1
-	adjust_bodytemperature(((fire_handler.stacks * 12)) * 0.5 * seconds_per_tick * fire_resist_mult)
+//	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1 // quarantined for now, someone else pls look into this later, removal of this proc is causing some systematic problems I cba to fix. ~ Kunai
+
 
 /**
  * Adjust the amount of fire stacks on a mob

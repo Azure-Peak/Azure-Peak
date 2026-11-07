@@ -422,7 +422,8 @@
 #define TRAIT_CICERONE "Cicerone"
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
 #define TRAIT_NOHUNGER	"Foodless"
-#define TRAIT_LIGHT_STEP	"Light Step"
+#define TRAIT_LIGHT_STEP "Light Step"
+#define TRAIT_HEAVYSET "Heavyset Frame"
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"
@@ -694,6 +695,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AGENT_CHURCH = span_info("I am a Benefactor of the Church of Azuria. The faithful know my name."),
 	TRAIT_ARREARS = span_smallred("I am behind on my poll levy. The Stewardry keeps the tally; the garrison may mark my destitution."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."),
+	TRAIT_HEAVYSET = span_info("I have a lot of bulk to my form. It takes a good while for me to stand up from being prone, and I can't dodge with any form of grace."),
 	TRAIT_HARDSOLE = span_info("My steps are tempered by countless trials. Stepping on glass or sharp objects won't impair me."),
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
 	TRAIT_DETACHED = span_info("Nothing could move me. Any emotion I show is a facade."),

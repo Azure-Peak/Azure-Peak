@@ -71,7 +71,7 @@
 		return list()
 
 	. = pref_species.get_skin_list()
-	if(istype(virtue, /datum/virtue/combat/second_chance) || istype(virtuetwo, /datum/virtue/combat/second_chance))
+	if(istype(virtue, /datum/virtue/combat/rotcured))
 		.["Rotten"] = SKIN_COLOR_ROT
 
 /datum/preferences/proc/ui_data_character_creator_appearance_features(mob/user)

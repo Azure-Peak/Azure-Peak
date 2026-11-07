@@ -206,13 +206,23 @@
 	races = list(/datum/species/construct/metal)
 
 /datum/virtue/combat/geoheart/apply_to_human(mob/living/carbon/human/recipient)
+	if(!recipient.mind)
+		return
 	recipient.apply_status_effect(/datum/status_effect/buff/hag_boon/natural_communion)
-	add_verb(recipient, /mob/living/carbon/human/proc/toggle_claws) // Can shape your fingers into claws to cut the enemy with punches.
+	recipient.mind.AddSpell(new /datum/action/cooldown/spell/mineral_claws) // Can shape your fingers into claws to cut the enemy with punches.
 	ADD_TRAIT(recipient, TRAIT_FEYBOUND, TRAIT_VIRTUE) // You're a fey construct, basically.
 	ADD_TRAIT(recipient, TRAIT_ROCKMAN, TRAIT_VIRTUE) // Cannot heal from being repaired. Cannot be resurrected. If you are dead, you will eventually revive after 8 minutes or so, as long as your body's integrity is intact.
-	ADD_TRAIT(recipient, TRAIT_FASTSLEEP, TRAIT_VIRTUE) // Honkshoo.
-	ADD_TRAIT(recipient, TRAIT_SHOCKIMMUNE, TRAIT_VIRTUE) // Electricity isn't a problem for you.
-	ADD_TRAIT(recipient, TRAIT_NORUN, TRAIT_VIRTUE) // Main drawback. No running for you, ser.
-	ADD_TRAIT(recipient, TRAIT_HEAVYSET, TRAIT_VIRTUE) // Second drawback, you take longer to stand up. Way longer. Gives disadvantage on dodge attempts.
+	ADD_TRAIT(recipient, TRAIT_FASTSLEEP, TRAIT_VIRTUE) // Honkshoo, and twice as fast mimimi.
+	ADD_TRAIT(recipient, TRAIT_SHOCKIMMUNE, TRAIT_VIRTUE) // Electricity isn't a problem for you, however...
+	ADD_TRAIT(recipient, TRAIT_HEAVYSET, TRAIT_VIRTUE) // Main drawback, you take longer to stand up. Way longer. Gives disadvantage on dodge attempts. You're immune to being CON checked, though.
 	recipient.change_stat(STATKEY_SPD, 2)
 	to_chat(recipient, span_necrosis("Your core beats to the rhythms of nature, not mankind."))
+	for(var/mob/living/hag_mob in GLOB.active_hags)
+		var/datum/mind/hag_mind = hag_mob.mind
+		if(!hag_mind)
+			continue
+		hag_mind.i_know_person(recipient)
+		recipient.mind.i_know_person(hag_mind)
+		if(hag_mind.current)
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a Geohearted Construct, is walking the lands this week."))
+	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))

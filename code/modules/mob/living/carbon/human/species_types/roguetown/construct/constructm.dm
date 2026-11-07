@@ -774,3 +774,136 @@
 	timer = 10 MINUTES
 	stressadd = -1
 	desc = span_green("My core has been successfully recalibrated. It feels invigorating.")
+
+/datum/action/cooldown/spell/mineral_claws
+	name = "Mineral Claws"
+	desc = "Deal some damage to your arms and rouse your body to form claws from your fingers. Use again to let them crumble for free."
+	button_icon_state = "claws"
+	sound = null
+	cooldown_time = 2 SECONDS
+	spell_requirements = NONE
+	antimagic_flags = NONE
+	/// Swap these for your mineral claw items if you have them
+	var/claw_type_left = /obj/item/rogueweapon/werewolf_claw/golem/left
+	var/claw_type_right = /obj/item/rogueweapon/werewolf_claw/golem/right
+	/// Tracks the claw in each hand: index 1 = LEFT_HANDS, index 2 = RIGHT_HANDS
+	var/list/extended_claw_record = list(null, null)
+	/// Whether the claws are currently out
+	var/claws_out = FALSE
+
+/datum/action/cooldown/spell/mineral_claws/before_cast(atom/cast_on)
+	. = ..()
+	if(. & SPELL_CANCEL_CAST)
+		return
+	var/mob/living/carbon/human/user = owner
+	if(claws_out)
+		return // always allow retracting
+	if(!user.cmode)
+		to_chat(user, span_warning("I am not roused enough, I need more adrenaline pumping..."))
+		return . | SPELL_CANCEL_CAST // cancelled casts don't burn the cooldown
+
+/datum/action/cooldown/spell/mineral_claws/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	if(claws_out)
+		retract_claws(user)
+		user.emote("growl")
+		user.visible_message(
+			span_necrosis("[user] calms down, the claws become dust..."),
+			span_necrosis("I calm down, my claws disintegrate..."))
+		return
+	extend_claws(user)
+	user.emote("roar")
+	user.visible_message(
+		span_necrosis("[user] roars like a fell creature, claws form from their fingers!"),
+		span_necrosis("I roar, forming my digits into menacing claws!"))
+
+/datum/action/cooldown/spell/mineral_claws/proc/extend_claws(mob/living/carbon/human/user)
+	for(var/hand_index in LEFT_HANDS to RIGHT_HANDS)
+		// don't force a claw into a hand holding something, or into a missing hand
+		if(user.get_item_for_held_index(hand_index))
+			continue
+		if(!user.has_hand_for_held_index(hand_index))
+			continue
+		var/obj/item/new_claw
+		if(hand_index == LEFT_HANDS)
+			new_claw = new claw_type_left(user)
+			user.put_in_l_hand(new_claw)
+		else
+			new_claw = new claw_type_right(user)
+			user.put_in_r_hand(new_claw)
+		extended_claw_record[hand_index] = new_claw
+		RegisterSignal(new_claw, COMSIG_QDELETING, PROC_REF(clear_claw_entry))
+	claws_out = TRUE
+
+/datum/action/cooldown/spell/mineral_claws/proc/retract_claws(mob/living/carbon/human/user)
+	for(var/hand_index in LEFT_HANDS to RIGHT_HANDS)
+		var/obj/item/claw = extended_claw_record[hand_index]
+		if(!claw)
+			continue
+		UnregisterSignal(claw, COMSIG_QDELETING)
+		user.temporarilyRemoveItemFromInventory(claw, force = TRUE)
+		qdel(claw)
+		extended_claw_record[hand_index] = null
+	claws_out = FALSE
+
+/datum/action/cooldown/spell/mineral_claws/proc/clear_claw_entry(datum/source)
+	SIGNAL_HANDLER
+	var/claw_index = extended_claw_record.Find(source)
+	if(claw_index)
+		extended_claw_record[claw_index] = null
+	// if both claws are gone (broken), the toggle resets by itself
+	if(claws_out && !extended_claw_record[LEFT_HANDS] && !extended_claw_record[RIGHT_HANDS])
+		claws_out = FALSE
+
+/// If the virtue is removed while claws are out, clean everything up
+/datum/action/cooldown/spell/mineral_claws/Remove(mob/living/remove_from)
+	if(claws_out && ishuman(remove_from))
+		retract_claws(remove_from)
+	return ..()
+
+/obj/item/rogueweapon/werewolf_claw/golem
+	name = "mineral claw"
+	wdefense = 8 // better defense than gnoll claws, but not as much damage
+	force = 20
+	associated_skill = /datum/skill/combat/arcyne
+	possible_item_intents = list(/datum/intent/simple/gnoll_cut, /datum/intent/mace/strike/gnoll) // limited to cutting and bashing only
+	special = /datum/special_intent/axe_swing
+	/// Brute damage dealt to the hand holding the claw when it shatters
+	var/shatter_damage = 20
+	/// Stops obj_break and obj_destruction from both hurting the wielder
+	var/shattered = FALSE
+
+/obj/item/rogueweapon/werewolf_claw/golem/obj_break(damage_flag, silent)
+	shatter()
+	return ..()
+
+/obj/item/rogueweapon/werewolf_claw/golem/obj_destruction(damage_flag)
+	shatter()
+	return ..()
+
+/obj/item/rogueweapon/werewolf_claw/golem/proc/shatter()
+	if(shattered)
+		return
+	shattered = TRUE
+	var/mob/living/carbon/human/wielder = loc
+	if(!istype(wielder))
+		return
+	var/hand_index = wielder.get_held_index_of_item(src)
+	var/obj/item/bodypart/hand = hand_index ? wielder.hand_bodyparts[hand_index] : null
+	wielder.visible_message(
+		span_danger("[wielder]'s [name] shatters, shards of stone tearing into their arm!"),
+		span_userdanger("My [name] shatters, tearing into my arm!"))
+	wielder.apply_damage(shatter_damage, BRUTE, hand || BODY_ZONE_CHEST)
+	wielder.emote("growl")
+	// the broken claw crumbles; the spell's QDELETING signal clears its record
+	wielder.temporarilyRemoveItemFromInventory(src, force = TRUE)
+	QDEL_IN(src, 1)
+
+/obj/item/rogueweapon/werewolf_claw/golem/right
+	icon_state = "claw_r"
+	wlength = WLENGTH_SHORT
+
+/obj/item/rogueweapon/werewolf_claw/golem/left
+	icon_state = "claw_l"
+	wlength = WLENGTH_SHORT
