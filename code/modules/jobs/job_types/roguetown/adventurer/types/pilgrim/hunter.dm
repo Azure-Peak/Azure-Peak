@@ -67,7 +67,7 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 	if(H.mind)
-		var/weapons = list("Bow","Crossbow")
+		var/weapons = list("Bow","Heavy Crossbow","Light Crossbow")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -75,10 +75,14 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/towner
 				beltl = /obj/item/quiver/arrows
-			if("Crossbow")
+			if("Heavy Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltl = /obj/item/quiver/bolt/standard
+			if("Light Crossbow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+				beltl = /obj/item/quiver/bolt/light
 
 /datum/advclass/hunter/spear
 	name = "Spear-Hunter"
