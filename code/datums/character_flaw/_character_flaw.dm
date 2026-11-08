@@ -59,9 +59,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/proc/on_mob_creation(mob/user)
 	return
 
-/datum/charflaw/proc/on_removal(mob/user)
-	return
-
 /datum/charflaw/proc/apply_post_equipment(mob/user)
 	return
 
