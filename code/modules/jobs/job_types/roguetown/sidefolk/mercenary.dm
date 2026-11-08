@@ -116,6 +116,7 @@
 
 /datum/advclass/mercenary/post_equip(mob/living/carbon/human/H) // has to be here because this is done AFTER subclass selection
 	. = ..()
+	add_verb(H, /mob/living/carbon/human/proc/mercenary_statusupdate)
 	if(istype(SSjob.GetJob(H.job), /datum/job/roguetown/mercenary))
 		grant_merc_contract(H)
 	var/list/subprefs = H.client?.prefs?.job_subprefs

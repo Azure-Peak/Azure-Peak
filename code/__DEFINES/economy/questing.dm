@@ -291,6 +291,9 @@
 #define BLOCKADE_WAVE_WARN_SECOND (5 MINUTES)
 #define BLOCKADE_WAVE_WARN_THIRD (2 MINUTES)
 #define NOM_DE_GUERRE_MAX_LENGTH 60
+#define MERC_STATUE_ADVERT_MIN (2 MINUTES)
+#define MERC_STATUE_ADVERT_MAX (4 MINUTES)
+#define MERC_STATUE_ADVERT_RANGE 7
 
 // Minimum Pledge to call a hoard recovery writ from a fellowship without being the Steward.
 #define HOARD_RECOVERY_PLEDGE 200

@@ -35,6 +35,7 @@ plus talkstatue_tgui.dm (TGUI surface shared across all three roles).
 	var/single_cooldown = 10 MINUTES
 	var/broadcast_cooldown_time = 20 MINUTES
 	var/static/response_id_counter = 0
+	var/next_advert = 0
 
 /obj/structure/roguemachine/talkstatue/church
 	name = "church statue"

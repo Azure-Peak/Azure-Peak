@@ -150,6 +150,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	day_timer_id = addtimer(CALLBACK(src, PROC_REF(on_day_passed)), MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE | TIMER_LOOP)
 	RegisterSignal(F, COMSIG_PARENT_QDELETING, PROC_REF(on_fellowship_deleted))
 	GLOB.merc_contracts += src
+	if(ishuman(merc))
+		SSroguemachine.mercenary_statue?.sync_mercenary_status(merc, "Contracted")
 	if(F.payout_mode != FELLOWSHIP_PAYOUT_SPLIT)
 		F.payout_mode = FELLOWSHIP_PAYOUT_SPLIT
 		F.notify_members("A sellsword is under contract. Contract rewards will now be split evenly among fellowship members.")
@@ -244,6 +246,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(istype(merc))
 		if(cooldown_until && merc.mind)
 			GLOB.merc_contract_cooldowns[merc.mind] = cooldown_until
+		SSroguemachine.mercenary_statue?.sync_mercenary_status(merc, "Available")
 		award_medal(merc)
 		grant_merc_contract(merc)
 	qdel(src)
