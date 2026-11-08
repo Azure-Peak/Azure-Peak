@@ -21,7 +21,6 @@
 #define TRAIT_WILD_EATER "Beastly Digestion" //can eat raw and rotten food and drink murky water
 #define TRAIT_NISTEAN "Nistean" //mood debuff whewn eating meat
 #define TRAIT_VEGAN "Végétal" // ditto, but for meat, seafood, dairy, etc
-#define TRAIT_SANGUIVORE "Sanguivore"
 #define TRAIT_INSPIRING_MUSICIAN "Inspiring Musician" // unlocks bardic inspiration stuff
 #define TRAIT_SPELLCOCKBLOCK "Bewitched" //prevents spellcasting
 #define TRAIT_ANTIMAGIC	"Anti-Magic"
@@ -583,7 +582,6 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_WILD_EATER = span_info("I can eat raw food and drink from dirty water."),
 	TRAIT_NISTEAN = "I refuse to eat the flesh of any land-dwelling beaste.",
 	TRAIT_VEGAN = "I refuse to eat the flesh or byproducts of any living being.",
-	TRAIT_SANGUIVORE = "I can drink blood without retching, though it does little to sate me.",
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
@@ -796,6 +794,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HALFHEAL = span_artery("I have some spiritual oddity to my Lux. Healing magic effectiveness is halved."),
 	TRAIT_SUNLIGHT_SENSITIVE = span_danger("Put on those shades and wave to yesterday, 'cause the sunlight hurts my eyes!"),
 	TRAIT_CAUSTIC = span_info("Touching me is... less than advisable."),
+	TRAIT_HEMOPHAGE = span_warning("Nothing but lyfeblood will sustain me."),
 ))
 
 // trait accessor defines

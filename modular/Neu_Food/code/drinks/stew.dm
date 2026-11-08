@@ -2,6 +2,9 @@
 /datum/reagent/consumable/soup // so you get hydrated without the flavor system messing it up. Works like water with less hydration
 	var/hydration = 6
 /datum/reagent/consumable/soup/on_mob_life(mob/living/carbon/M)
+	if(HAS_TRAIT(M, TRAIT_HEMOPHAGE))
+		M.adjustToxLoss(5)
+		M.add_nausea(8)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))

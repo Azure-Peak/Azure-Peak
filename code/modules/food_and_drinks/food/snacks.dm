@@ -280,6 +280,10 @@ GLOBAL_LIST_INIT(food_preserving_locs, typecacheof(list(
 	if(!eater)
 		return
 
+	if(HAS_TRAIT(eater, TRAIT_HEMOPHAGE))
+		eater.adjustToxLoss(2)
+		return
+
 	var/apply_effect = TRUE
 	// check to see if what we're eating is appropriate fare for our "social class" (aka nobles shouldn't be eating sticks of butter you troglodytes)
 	if (ishuman(eater))

@@ -53,9 +53,17 @@
 		src.adjustToxLoss(tox_drained)
 
 	if(!VDrinker)
-		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER) || HAS_TRAIT(src, TRAIT_SANGUIVORE)))
+		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER) || HAS_TRAIT(src, TRAIT_HEMOPHAGE)))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
+		if(HAS_TRAIT(src, TRAIT_HEMOPHAGE) && ishuman(src))
+			var/mob/living/carbon/human/H = src // better nutrition/hydration from carbon blood than still blood
+			H.adjust_nutrition(40)
+			H.adjust_hydration(40)
+			if(H.reagents)
+				H.reagents.add_reagent(/datum/reagent/medicine/vital_essence, 22)
+			if(H.get_blood_volume() < BLOOD_VOLUME_NORMAL)
+				H.set_blood_volume(min(H.get_blood_volume() + 35, BLOOD_VOLUME_NORMAL))
 		return
 
 	if(VDrinker && istype(victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver) || HAS_TRAIT(victim, TRAIT_SILVER_BLESSED))
