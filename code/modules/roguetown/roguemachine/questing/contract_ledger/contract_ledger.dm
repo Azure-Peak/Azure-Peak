@@ -39,6 +39,7 @@
 	. += span_info("To <b>turn in</b> a completed contract, click the Ledger while holding its scroll.")
 	. += span_info("Items for retrieval contracts should be <b>dropped onto the marked tile</b> in front of the Ledger.")
 	. += span_info("Abandoning or failing a contract forfeits its deposit. If you sign as many contracts as you can hold within [QUEST_TAKE_COOLDOWN / (1 MINUTES)] minutes, you must wait before signing another.")
+	. += span_info("A contract scroll left off its holder's person for [QUEST_SCROLL_UNATTENDED_LAPSE / (1 MINUTES)] minutes crumbles to dust. A fellowship member carrying it counts as the holder. If it was taken, this counts as abandoning it.")
 	. += span_info("Heads from <b>contract targets</b> fetch nothing at a HEADEATER, because the contract's reward already covers them. Heads from beasts and brigands you kill outside a contract still sell there.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here. They spend Rumor Points to seed contracts across the realm.")
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
