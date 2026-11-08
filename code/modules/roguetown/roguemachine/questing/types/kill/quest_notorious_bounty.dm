@@ -15,6 +15,8 @@
 	tp_budget = QUEST_TP_BUDGET_NOTORIOUS_GOONS
 	threat_bands_cleared = QUEST_BANDS_NOTORIOUS
 	required_fellowship_size = 2
+	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	hunt_duration = NOTORIOUS_BOUNTY_HUNT_TIMER
 	var/boss_name
 	var/datum/weakref/boss_ref
@@ -43,6 +45,7 @@
 	clear_boss_marker()
 
 /datum/quest/kill/notorious_bounty/on_first_pop()
+	settle_fellowship_arrival(pending_landmark_ref?.resolve())
 	. = ..()
 	if(complete || hunt_tick_id)
 		return
