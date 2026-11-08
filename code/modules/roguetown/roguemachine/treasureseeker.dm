@@ -9,13 +9,12 @@
 
 /obj/structure/roguemachine/headeater/treasureseeker/examine()
 	. = ..()
-	. += span_info("Left-click with an item to consign it to the Bath House's vault. Right-click to consign every item on the tile beneath its maw.")
 	. += span_smallnotice("Its jaws open only for the Bath House's staff.")
 
 /obj/structure/roguemachine/headeater/treasureseeker/get_mechanics_examine(mob/user)
-	. = list()
-	. += span_info("Items deposited into its maw are sent directly to the Bath House's vault.")
-	. += span_info("Each consignment is entered into the BRASSFACE's hoard ledger, and the hoard pays interest on the vault's treasures.")
+	. = ..()
+	. += span_info("Left-click with an item to consign it to the Bath House's vault. Right-click to consign every item on the tile beneath its maw.")
+	. += span_info("Items deposited into its maw are sent directly to the Bath House's vault. Each consignment is entered into the BRASSFACE's hoard ledger.")
 	. += span_info("Dross is refused - it swallows only what the hoard can turn a profit on, leaving worthless trinkets, loose coin and containers behind.")
 
 /// Only the Bathhouse's own may consign to the hoard
