@@ -13,7 +13,7 @@
 				return CHARACTER_ACT_DATA_UPDATE
 			if(V.restricted == TRUE && (pref_species.type in V.races))
 				return
-			if(istype(V, /datum/virtue/origin/racial) && !(pref_species.type in V.races))
+			if((istype(V, /datum/virtue/origin/racial) || V.permitted) && !(pref_species.type in V.races))
 				return
 
 			V = new V.type()

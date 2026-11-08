@@ -28,6 +28,9 @@
 	if(V.restricted == TRUE)
 		if((pref_species.type in V.races))
 			return CHARACTER_ACT_DATA_UPDATE
+	if(V.permitted == TRUE)
+		if(!(pref_species.type in V.races))
+			return CHARACTER_ACT_DATA_UPDATE
 	if(V.virtuous_only && !statpack.virtuous)
 		return CHARACTER_ACT_DATA_UPDATE
 
