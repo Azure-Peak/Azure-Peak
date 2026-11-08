@@ -126,10 +126,10 @@
 
 /datum/action/cooldown/spell/astrata/sunbrand
 	name = "Sunbrand"
-	desc = "Imbue your next strike with searing sunlight. On hit, the target is branded: they are slowed by 50%, lose 2 SPD and gain a stack of Scorch, and the brand keeps smoldering, adding more Scorch until the flames finally take hold with a CHARRED! burn, ending both effects. Those weak to silver are also set ablaze. If you are out of combat mode, or using a weak intent, you instead tend wounds: with a free hand, your touch cauterizes every bleeding wound on the targeted limb, one second per wound, burning the limb with each seal."
-	fluff_desc = "A sliver of the Sun's judgement, pressed into a weapon or a bare fist. Astrata's light leaves marks on any who oppose you, be them just or otherwise, but the wicked are branded and left to limp from Her sight, their every step heavy as if wading through molten gold. In gentler hands, the same light may sear wounds shut."
+	desc = "Imbue your weapon or hands with heavenly fyre. Your next attack will brand your target, slowly scorching them over time while also reducing their SPD by 2 and slowing them by 50%. If used out of Combat Mode, or with Weak intent, the flames are more \"gentle\", and will try to cauterize open wounds."
+	fluff_desc = "A sliver of the Sun-Tyrant's flames, pressed into a weapon or a bare fist. It is known that Astrata's fire leaves marks on any whom oppose her flock, be them just or unjust, the wicked earn the worst of Her ire. In gentler hands, the same flames may painfully sear wounds shut."
 	button_icon_state = "sunbrand"
-	sound = 'sound/magic/astrata_choir.ogg'
+	sound = 'sound/magic/charging_fire.ogg'
 	glow_intensity = GLOW_INTENSITY_LOW
 	click_to_activate = FALSE
 	cast_range = SPELL_RANGE_ADJACENT
@@ -234,6 +234,7 @@
 	else
 		C.emote("scream")
 	playsound(get_turf(C), 'sound/surgery/cautery2.ogg', 100, TRUE)
+	qdel(src) // only 1 use, greedy fucc
 	return TRUE
 
 /datum/status_effect/sunbrand/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
