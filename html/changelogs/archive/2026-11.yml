@@ -303,3 +303,35 @@
   - rscadd: Added the option to change your status on the Rose Wall when declining
       an offer.
   - bugfix: Fixed overly sanitized Rose Wall text.
+2026-11-08:
+  Blacklist897:
+  - rscadd: Donator Items for lockwood
+  BobProductive:
+  - rscadd: ported board games (chess, checkers, backgammon) from twilight axis
+  GailThePale:
+  - bugfix: hand size to 13
+  Quinalion:
+  - qol: Tree stumps now function as table surfaces.
+  - qol: Tree stumps can now be used for table-based interaction checks.
+  - rscadd: Items and mobs with table pass flags can now be placed and moved over
+      tree stumps.
+  - rscadd: Added table-style interactions to tree stumps.
+  - qol: Tree stumps are now automatically climbable.
+  Ryan180602:
+  - refactor: explosives
+  - rscadd: renegade antagonist gamemode.
+  WeNeedMorePhoron:
+  - bugfix: Aspect-granted spell now refund utility points if you already have them
+      selected
+  Xaytan:
+  - rscdel: Removed legacy temperature handling.
+  borneblood:
+  - bugfix: Linters again.
+  - bugfix: Fixed a problem with someone using lowertext instead of LOWER_TEXT.
+  changelingonberry:
+  - bugfix: Fix admin ooc color not saving & color drifting.
+  radarseas:
+  - bugfix: fixes the ancient dagger sheath sprites not existing, whoops!
+  - bugfix: ancient longsword now has a new sprite added for scabbards so it doesn't
+      look like a steel longsword - Technically image related but i consider it quality
+      control, thuslie its a fix, suffer!

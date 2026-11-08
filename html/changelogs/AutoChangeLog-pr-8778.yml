@@ -1,8 +1,0 @@
-author: "Quinalion"
-delete-after: True
-changes:
-  - qol: "Tree stumps now function as table surfaces."
-  - qol: "Tree stumps can now be used for table-based interaction checks."
-  - rscadd: "Items and mobs with table pass flags can now be placed and moved over tree stumps."
-  - rscadd: "Added table-style interactions to tree stumps."
-  - qol: "Tree stumps are now automatically climbable."
