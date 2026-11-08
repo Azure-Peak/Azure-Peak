@@ -3,8 +3,9 @@
 	var/hydration = 6
 /datum/reagent/consumable/soup/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_HEMOPHAGE))
-		M.adjustToxLoss(5)
+		M.adjustToxLoss(8)
 		M.add_nausea(8)
+		return
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
