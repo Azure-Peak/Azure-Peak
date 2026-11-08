@@ -131,6 +131,7 @@
 	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
 	data["user_fellowship_size"] = F ? length(F.get_members()) : 0
 	data["user_is_fellowship_leader"] = F ? F.is_leader(L) : FALSE
+	data["fellowship_member_locked"] = is_fellowship_signing_locked(user)
 	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
@@ -145,8 +146,8 @@
 	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100)
 	data["blockade_extra_threat_pct"] = round(QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100)
 	data["towner_crown_cost_mult"] = TOWNER_POSTING_CROWN_COST_MULT
-	data["fellowship_bonus_pair"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR
-	data["fellowship_bonus_band"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND
+	data["fellowship_bonus_first"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST
+	data["fellowship_bonus_per_member"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER
 	data["scout_regions"] = SSregionthreat.build_scout_region_rows()
 	data["spoils_tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_RECOVERED_SPOILS)
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
@@ -355,12 +356,17 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	var/datum/fellowship/F = L.current_fellowship
 	if(!F || !F.is_leader(L))
 		return 0
-	var/size = length(F.get_members())
-	if(size >= 3)
-		return QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND
-	if(size >= 2)
-		return QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR
-	return 0
+	var/others = length(F.get_members()) - 1
+	if(others < 1)
+		return 0
+	return QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST + (others - 1) * QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER
+
+/proc/is_fellowship_signing_locked(mob/user)
+	var/mob/living/L = user
+	if(!istype(L))
+		return FALSE
+	var/datum/fellowship/F = L.current_fellowship
+	return F && !F.is_leader(L)
 
 /proc/get_active_quest_cap(mob/user)
 	var/datum/job/J = user?.job ? SSjob.GetJob(user.job) : null

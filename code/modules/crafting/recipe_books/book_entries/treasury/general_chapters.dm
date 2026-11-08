@@ -399,10 +399,10 @@
 
 		<h3>Signing and Active Cap</h3> <p>Each person may hold up to
 		[QUEST_MAX_ACTIVE_PER_PLAYER] active contracts at a time. Some jobs override
-		this cap upward. A fellowship leader gains
-		<b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_PAIR]</b> with one fellow in the band and
-		<b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND]</b> with two or more. A led
-		fellowship of three can run [QUEST_MAX_ACTIVE_PER_PLAYER + QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND] contracts at once.</p>
+		this cap upward. Only a fellowship's leader can sign contracts at the
+		Ledger. The leader gains <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST]</b> for
+		the first member and <b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_PER_MEMBER]</b> for
+		each member after.</p>
 
 		<p>Contract scales to the amount of people who were actually present for the contract. This counts everyone within two screens of the contract when it spawns.</p>
 

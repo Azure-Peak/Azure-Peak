@@ -78,12 +78,13 @@ type ContractLedgerData = {
   active_fellowship_bonus: number;
   townie_gate_remaining: number;
   townie_gate_minutes: number;
-  fellowship_bonus_pair: number;
-  fellowship_bonus_band: number;
+  fellowship_bonus_first: number;
+  fellowship_bonus_per_member: number;
   townie_contract_gate_exempt_jobs: string[];
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   user_is_fellowship_leader: BooleanLike;
+  fellowship_member_locked: BooleanLike;
   arrival_scan_range: number;
   pool: Contract[];
   active: ActiveContract[];
@@ -489,6 +490,7 @@ const ContractCard = (props: { contract: Contract }) => {
   const { act, data } = useBackend<ContractLedgerData>();
   const c = props.contract;
   const noAccount = !data.has_account;
+  const memberLocked = !!data.fellowship_member_locked;
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
   const atCap = data.active_count >= data.active_max;
@@ -502,6 +504,7 @@ const ContractCard = (props: { contract: Contract }) => {
     !data.user_is_fellowship_leader;
   const disabled =
     noAccount ||
+    memberLocked ||
     gateRemaining > 0 ||
     takeCooldown > 0 ||
     atCap ||
@@ -512,7 +515,9 @@ const ContractCard = (props: { contract: Contract }) => {
   const payout = c.projected_reward ?? c.reward;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
-    : gateRemaining > 0
+    : memberLocked
+      ? 'Only your fellowship leader can sign contracts.'
+      : gateRemaining > 0
       ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
       : takeCooldown > 0
         ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
@@ -774,9 +779,10 @@ const ActiveStrip = (props: {
               Open the IC tab to form a fellowship and invite people nearby.
             </div>
             <div style={{ marginBottom: '6px' }}>
-              Lead a fellowship to get more contract slots:{' '}
-              {data.fellowship_bonus_pair} more with two members,{' '}
-              {data.fellowship_bonus_band} more with three or more.
+              Only the fellowship leader can sign contracts. The leader gets{' '}
+              {data.fellowship_bonus_first} more contract slots for the first
+              member and {data.fellowship_bonus_per_member} more for each member
+              after.
             </div>
             <div style={{ marginBottom: '6px' }}>
               Fellowship members can turn in each other&apos;s contracts. The

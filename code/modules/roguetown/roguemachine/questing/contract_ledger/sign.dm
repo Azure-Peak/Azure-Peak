@@ -23,6 +23,11 @@
 		play_reject_sound()
 		return
 
+	if(is_fellowship_signing_locked(user))
+		say("Only your fellowship's leader can sign contracts.")
+		play_reject_sound()
+		return
+
 	if(!is_townie_contract_gate_exempt(user))
 		var/elapsed = world.time - SSticker.round_start_time
 		if(elapsed < CONTRACT_TOWNIE_GATE_TIME)
