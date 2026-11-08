@@ -5061,3 +5061,10 @@ As Excaliber."
 		to_chat(user, span_info("These lenses won't fit in this mask."))
 		return
 	return ..()
+// XLockwoodx
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
+	name = "aesthetic sanguine jacket"
+
+/obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize(mapload)
+	. = ..()
+	loadoutize()

@@ -347,7 +347,7 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rope/chain = 1,
 		/obj/item/flint = 1,
-		/obj/item/bomb = 2 //CHAOS REIGNS
+		/obj/item/explosive/fused/bottle = 2 //CHAOS REIGNS
 		)
 
 //A bunch of motherfuckin' draculas and they're all playin' flute. Buff-class lite duelist, doesn't perform as well as duelist in tradeoff for being able to buff up their teammates with music and perform vicious mockery.
