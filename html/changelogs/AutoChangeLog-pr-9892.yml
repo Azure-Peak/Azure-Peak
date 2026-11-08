@@ -1,5 +1,0 @@
-author: "radarseas"
-delete-after: True
-changes:
-  - bugfix: "fixes the ancient dagger sheath sprites not existing, whoops!"
-  - bugfix: "ancient longsword now has a new sprite added for scabbards so it doesn't look like a steel longsword - Technically image related but i consider it quality control, thuslie its a fix, suffer!"
