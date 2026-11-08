@@ -85,6 +85,7 @@ type ContractLedgerData = {
   user_fellowship_size: number;
   user_is_fellowship_leader: BooleanLike;
   fellowship_member_locked: BooleanLike;
+  claim_barred: BooleanLike;
   arrival_scan_range: number;
   pool: Contract[];
   active: ActiveContract[];
@@ -490,6 +491,7 @@ const ContractCard = (props: { contract: Contract }) => {
   const { act, data } = useBackend<ContractLedgerData>();
   const c = props.contract;
   const noAccount = !data.has_account;
+  const claimBarred = !!data.claim_barred;
   const memberLocked = !!data.fellowship_member_locked;
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
@@ -504,6 +506,7 @@ const ContractCard = (props: { contract: Contract }) => {
     !data.user_is_fellowship_leader;
   const disabled =
     noAccount ||
+    claimBarred ||
     memberLocked ||
     gateRemaining > 0 ||
     takeCooldown > 0 ||
@@ -515,21 +518,23 @@ const ContractCard = (props: { contract: Contract }) => {
   const payout = c.projected_reward ?? c.reward;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
-    : memberLocked
-      ? 'Only your fellowship leader can sign contracts.'
-      : gateRemaining > 0
-      ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
-      : takeCooldown > 0
-        ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
-        : atCap
-          ? `You already hold ${data.active_max} contracts.`
-          : cantAfford
-            ? `You need ${c.deposit} mammon in your account for the deposit.`
-            : fellowshipShort
-              ? `You need a fellowship of ${c.required_fellowship_size}. Yours has ${data.user_fellowship_size || 0}.`
-              : notLeader
-                ? 'Only the fellowship leader can sign this contract.'
-                : undefined;
+    : claimBarred
+      ? 'Your job prevents you from signing contracts.'
+      : memberLocked
+        ? 'Only your fellowship leader can sign contracts.'
+        : gateRemaining > 0
+          ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
+          : takeCooldown > 0
+            ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
+            : atCap
+              ? `You already hold ${data.active_max} contracts.`
+              : cantAfford
+                ? `You need ${c.deposit} mammon in your account for the deposit.`
+                : fellowshipShort
+                  ? `You need a fellowship of ${c.required_fellowship_size}. Yours has ${data.user_fellowship_size || 0}.`
+                  : notLeader
+                    ? 'Only the fellowship leader can sign this contract.'
+                    : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
   if (c.shows_commission_seal)
