@@ -119,8 +119,16 @@
 
 /datum/crafting_recipe/roguetown/woodcarving/gameboard
 	display_category = ITEM_CAT_DECORATION
-	name = "wooden game board"
+	name = "ornamental game table"
 	result = /obj/item/carvedwood/gameboard
+	reqs = list(/obj/item/grown/log/tree/small = 1)
+	tools = list(/obj/item/rogueweapon/huntingknife)
+	craftdiff = SKILL_LEVEL_APPRENTICE
+
+/datum/crafting_recipe/roguetown/woodcarving/chessboard
+	display_category = ITEM_CAT_DECORATION
+	name = "folded chessboard"
+	result = /obj/item/chessboard_folded
 	reqs = list(/obj/item/grown/log/tree/small = 1)
 	tools = list(/obj/item/rogueweapon/huntingknife)
 	craftdiff = SKILL_LEVEL_APPRENTICE
