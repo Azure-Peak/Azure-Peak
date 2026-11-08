@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscadd: "Contracts are now scaled to those who are actually present around the contract. Only the leader can sign for size gated contracts."

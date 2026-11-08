@@ -494,6 +494,43 @@
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_HIGHER_CMODE_DRAIN, id)
 
+/// CASTIFICO DEBUFFS
+
+/// Pacification is reserved for the highest possible bounties, at 500 mammon or more.
+/// All lesser bounties apply a stat debuff scaled to the bounty amount.
+/// The severity of the debuff is entirely determined by the bounty itself,
+/// meaning players have direct control over the consequences of their capture.
+/// At this point, I genuinely cannot make this system any more forgiving without removing any consequences for capture entirely.
+
+// TIER 1 (100-250 mammon bounty)
+/datum/status_effect/debuff/castificot1
+	id = "castificot1"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
+	effectedstats = list(STATKEY_STR = -3, STATKEY_WIL = -3, STATKEY_CON = -3, STATKEY_SPD = -3, STATKEY_LCK = -3)
+	duration = -1
+	needs_processing = FALSE
+
+// TIER 2 (250-400 mammon bounty)
+/datum/status_effect/debuff/castificot2
+	id = "castificot2"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
+	effectedstats = list(STATKEY_STR = -4, STATKEY_WIL = -4, STATKEY_CON = -4, STATKEY_SPD = -4, STATKEY_LCK = -4)
+	duration = -1
+	needs_processing = FALSE
+
+// TIER 3 (400-500 mammon bounty)
+/datum/status_effect/debuff/castificot3
+	id = "castificot3"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/castifico
+	effectedstats = list(STATKEY_STR = -5, STATKEY_WIL = -5, STATKEY_CON = -5, STATKEY_SPD = -5, STATKEY_LCK = -5)
+	duration = -1
+	needs_processing = FALSE
+
+/atom/movable/screen/alert/status_effect/debuff/castifico
+	name = "Weakened"
+	desc = "This accursed collar saps my energy, weakening my body..."
+	icon_state = "collar"
+
 /// RESURRECTION DEBUFFS
 /datum/status_effect/debuff/revived
 	id = "revived" //For revive - your body DIDN'T rot, but it did suffer damage. Unlike being rotted, this one is only timed. Not forever.

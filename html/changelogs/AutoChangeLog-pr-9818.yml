@@ -1,0 +1,4 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - rscadd: "ported board games (chess, checkers, backgammon) from twilight axis"

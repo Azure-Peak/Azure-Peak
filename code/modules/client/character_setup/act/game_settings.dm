@@ -136,7 +136,8 @@
 		if("asaycolor")
 			var/new_asaycolor = tgui_color_picker(user, "Choose your ASAY color:", "ASAY Color", asaycolor)
 			if(new_asaycolor)
-				asaycolor = new_asaycolor
+				asaycolor = sanitize_ooccolor(new_asaycolor)
+				save_preferences()
 			return TRUE
 
 		if("toggle_deadmin_always")
