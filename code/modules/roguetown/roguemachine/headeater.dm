@@ -12,7 +12,7 @@
 /obj/structure/roguemachine/headeater/get_mechanics_examine(mob/user)
 	. = ..()
 	if(!istype(src, /obj/structure/roguemachine/headeater/treasureseeker))
-		. += span_info("Left-click to deposit a head into the machine, and right-click to deposit all heads in front of the machine.")
+		. += span_info("Left-click to deposit a head into the machine. Right-click to deposit all heads in front of the machine.")
 
 /obj/structure/roguemachine/headeater/examine()
 	. = ..()

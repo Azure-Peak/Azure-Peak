@@ -4,18 +4,18 @@
 // contents via the BMtreasury subsystem.
 /obj/structure/roguemachine/headeater/treasureseeker
 	name = "TREASURE SEEKER"
-	desc = "A kin of the HEADEATER, its brass gullet re-tuned by the Bathhouse for gentler appetites. Feed it any trinket and the prize is whisked away - where the hoard remembers its worth. Its jaws open only for the Bathhouse's own."
+	desc = "A kin of the HEADEATER, its brass gullet re-tuned by the Bathhouse for gentler appetites. Feed it any trinket and the prize is whisked away to the hoard."
 	icon_state = "goldeater"
 
 /obj/structure/roguemachine/headeater/treasureseeker/examine()
 	. = ..()
-	. += span_smallnotice("Its jaws open only for the Bath House's staff.")
+	. += span_smallnotice("Its jaws open only for the Bath House's own.")
 
 /obj/structure/roguemachine/headeater/treasureseeker/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("Left-click with an item to consign it to the Bath House's vault. Right-click to consign every item on the tile beneath its maw.")
-	. += span_info("Items deposited into its maw are sent directly to the Bath House's vault. Each consignment is entered into the BRASSFACE's hoard ledger.")
-	. += span_info("Dross is refused - it swallows only what the hoard can turn a profit on, leaving worthless trinkets, loose coin and containers behind.")
+	. += span_info("Left-click to deposit a treasure into the machine. Right-click to deposit all treasures in front of the machine.")
+	. += span_info("Items deposited into its maw are sent directly to the Bath House's vault and logged in the BRASSFACE's hoard ledger.")
+	. += span_info("Dross is refused. It swallows only what the hoard can turn a profit on - leaving worthless trinkets, loose coin, and containers behind.")
 
 /// Only the Bathhouse's own may consign to the hoard
 /obj/structure/roguemachine/headeater/treasureseeker/proc/is_bathhouse_consignor(mob/user)
