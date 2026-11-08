@@ -281,10 +281,10 @@ GLOBAL_LIST_INIT(food_preserving_locs, typecacheof(list(
 		return
 
 	if(HAS_TRAIT(eater, TRAIT_HEMOPHAGE))
-		eater.adjustToxLoss(5)
+		eater.adjustToxLoss(4)
 		if(iscarbon(eater))
 			var/mob/living/carbon/carbon_eater = eater
-			carbon_eater.add_nausea(9)
+			carbon_eater.add_nausea(25)
 		return
 
 	var/apply_effect = TRUE

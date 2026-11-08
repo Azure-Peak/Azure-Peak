@@ -3,14 +3,13 @@
 	var/hydration = 6
 /datum/reagent/consumable/soup/on_mob_life(mob/living/carbon/M)
 	if(HAS_TRAIT(M, TRAIT_HEMOPHAGE))
-		M.adjustToxLoss(8)
-		M.add_nausea(8)
-		return
+		M.adjustToxLoss(0.3)
+		M.add_nausea(5)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
+		if(!HAS_TRAIT(H, TRAIT_NOHUNGER) && !HAS_TRAIT(H, TRAIT_HEMOPHAGE))
 			H.adjust_hydration(hydration)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		if(!HAS_TRAIT(H, TRAIT_HEMOPHAGE) && M.blood_volume < BLOOD_VOLUME_NORMAL)
 			M.blood_volume = min(M.blood_volume+10, BLOOD_VOLUME_NORMAL)
 	..()
 

@@ -131,7 +131,7 @@
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(HAS_TRAIT(H, TRAIT_HEMOPHAGE))
-			M.add_nausea(5)
+			M.add_nausea(3)
 		if(!HAS_TRAIT(H, TRAIT_NOHUNGER) && !HAS_TRAIT(H, TRAIT_HEMOPHAGE))
 			H.adjust_hydration(hydration)
 		if(!HAS_TRAIT(H, TRAIT_HEMOPHAGE) && M.blood_volume < BLOOD_VOLUME_NORMAL)
