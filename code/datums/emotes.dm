@@ -199,11 +199,10 @@
 				modifier = "silenced"
 
 			var/datum/species/S = H.dna.species
-			// Soundpacks may still be typepaths (e.g. species created outside the normal flow). Instantiate and store.
 			if(ispath(S.soundpack_m))
-				S.soundpack_m = new S.soundpack_m()
+				S.soundpack_m = GLOB.voice_packs[S.soundpack_m]
 			if(ispath(S.soundpack_f))
-				S.soundpack_f = new S.soundpack_f()
+				S.soundpack_f = GLOB.voice_packs[S.soundpack_f]
 			var/datum/voicepack/pack_m = S.soundpack_m
 			var/datum/voicepack/pack_f = S.soundpack_f
 
