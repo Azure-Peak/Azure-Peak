@@ -6,9 +6,19 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 			return contract
 	return null
 
-/proc/grant_merc_contract(mob/living/carbon/human/merc)
+/proc/get_fellowship_merc_contract(datum/fellowship/F)
+	for(var/datum/merc_contract/contract as anything in GLOB.merc_contracts)
+		if(contract.fellowship_ref?.resolve() == F)
+			return contract
+	return null
+
+/proc/merc_contract_time_text(real_time)
+	return "[station_duration_text(real_time)] ([DisplayTimeText(real_time, 1)])"
+
+/proc/grant_merc_contract(mob/living/carbon/human/merc, cooldown_until = 0)
 	var/obj/item/merc_contract/item = new(get_turf(merc))
 	item.bind_to(merc)
+	item.cooldown_until = cooldown_until
 	if(!merc.equip_to_slot_if_possible(item, SLOT_IN_BACKPACK, disable_warning = TRUE))
 		merc.put_in_hands(item)
 	return item
@@ -34,7 +44,12 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	src.days = days
 	started_at = world.time
 	term_timer_id = addtimer(CALLBACK(src, PROC_REF(complete_term)), days * MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE)
+	RegisterSignal(F, COMSIG_PARENT_QDELETING, PROC_REF(on_fellowship_deleted))
 	GLOB.merc_contracts += src
+	if(F.payout_mode != FELLOWSHIP_PAYOUT_SPLIT)
+		F.payout_mode = FELLOWSHIP_PAYOUT_SPLIT
+		F.notify_members("A sellsword is under contract. Contract rewards will now be split evenly among fellowship members.")
+		F.push_updates()
 	log_quest(hirer.ckey, hirer.mind, hirer, "Hire mercenary [merc.ckey] \\ [merc_name] for [days] day\s")
 	log_quest(merc.ckey, merc.mind, merc, "Hired by [hirer.ckey] \\ [hirer_name] for [days] day\s")
 
@@ -42,8 +57,43 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	if(term_timer_id)
 		deltimer(term_timer_id)
 		term_timer_id = null
+	var/datum/fellowship/F = fellowship_ref?.resolve()
+	if(F)
+		UnregisterSignal(F, COMSIG_PARENT_QDELETING)
 	GLOB.merc_contracts -= src
+	if(F && !QDELETED(F))
+		F.push_updates()
 	return ..()
+
+/datum/merc_contract/proc/on_fellowship_deleted(datum/source)
+	SIGNAL_HANDLER
+	var/mob/living/merc = merc_ref?.resolve()
+	var/mob/living/hirer = hirer_ref?.resolve()
+	if(merc)
+		to_chat(merc, span_notice("Your fellowship has disbanded. Your contract with [hirer_name] is over."))
+	if(hirer)
+		to_chat(hirer, span_notice("Your fellowship has disbanded. Your contract with [merc_name] is over."))
+	INVOKE_ASYNC(src, PROC_REF(end_contract))
+
+/datum/merc_contract/proc/can_end_early()
+	return world.time - started_at >= MERC_CONTRACT_DAY_LENGTH
+
+/datum/merc_contract/proc/end_early()
+	var/mob/living/merc = merc_ref?.resolve()
+	var/mob/living/hirer = hirer_ref?.resolve()
+	if(merc)
+		to_chat(merc, span_warning("[hirer_name] has ended your contract early. You cannot take a new contract for [merc_contract_time_text(MERC_CONTRACT_DAY_LENGTH)]."))
+		log_quest(merc.ckey, merc.mind, merc, "Contract ended early by [hirer_name]")
+	if(hirer)
+		to_chat(hirer, span_notice("You end your contract with [merc_name]."))
+		log_quest(hirer.ckey, hirer.mind, hirer, "End contract with mercenary [merc_name] early")
+	end_contract(world.time + MERC_CONTRACT_DAY_LENGTH)
+
+/datum/merc_contract/proc/admin_complete()
+	if(term_timer_id)
+		deltimer(term_timer_id)
+	log_admin("[key_name(usr)] completed the mercenary contract of [merc_name] with [hirer_name].")
+	complete_term()
 
 /datum/merc_contract/proc/complete_term()
 	term_timer_id = null
@@ -56,17 +106,19 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 		to_chat(hirer, span_notice("Your contract with [merc_name] is complete."))
 	end_contract()
 
-/datum/merc_contract/proc/end_contract()
+/datum/merc_contract/proc/end_contract(cooldown_until = 0)
+	if(QDELETED(src))
+		return
 	var/obj/item/merc_contract/item = item_ref?.resolve()
 	if(item)
 		qdel(item)
 	var/mob/living/carbon/human/merc = merc_ref?.resolve()
 	if(istype(merc))
-		grant_merc_contract(merc)
+		grant_merc_contract(merc, cooldown_until)
 	qdel(src)
 
 /obj/item/merc_contract
-	name = "mercenary writ"
+	name = "mercenary contract"
 	desc = "An official looking document issued by the Mercenary's Guild for hiring mercenaries. The leadership of a fellowship may sign it to take the sellsword into their fellowship for the amount of days written on it."
 	icon = 'icons/clothing/mercmedals.dmi'
 	icon_state = "merctoken"
@@ -82,6 +134,7 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	var/datum/merc_contract/contract
 	var/datum/weakref/offered_by
 	var/offer_timer_id
+	var/cooldown_until = 0
 
 /obj/item/merc_contract/Destroy()
 	clear_offer()
@@ -104,22 +157,35 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	if(!istype(L))
 		return
 	if(contract)
-		to_chat(L, span_warning("This writ has already been signed."))
+		if(contract.hirer_ref?.resolve() == L)
+			try_end_early(L)
+			return
+		to_chat(L, span_warning("This contract has already been signed."))
 		return
 	if(merc_ref?.resolve() == L)
 		choose_days(L)
 		return
 	try_hire(L)
 
+/obj/item/merc_contract/proc/try_end_early(mob/living/hirer)
+	if(!contract.can_end_early())
+		to_chat(hirer, span_warning("You can end the contract in [merc_contract_time_text(contract.started_at + MERC_CONTRACT_DAY_LENGTH - world.time)]."))
+		return
+	if(tgui_alert(hirer, "End your contract with [merc_name] early?", "Mercenary Contract", list("Yes", "No")) != "Yes")
+		return
+	if(QDELETED(src) || !contract)
+		return
+	contract.end_early()
+
 /obj/item/merc_contract/proc/choose_days(mob/living/merc)
 	var/list/options = list()
 	for(var/i in 1 to MERC_CONTRACT_MAX_DAYS)
 		options += "[i]"
-	var/choice = tgui_input_list(merc, "How many days will you hire yourself out for?", "Mercenary Writ", options, "[days]")
+	var/choice = tgui_input_list(merc, "How many days will you hire yourself out for?", "Mercenary Contract", options, "[days]")
 	if(!choice || contract || QDELETED(src))
 		return
 	days = text2num(choice)
-	to_chat(merc, span_notice("The writ now offers your sword for [days] day\s."))
+	to_chat(merc, span_notice("The contract now offers your sword for [days] day\s."))
 
 /obj/item/merc_contract/proc/try_hire(mob/living/hirer)
 	var/mob/living/carbon/human/merc = merc_ref?.resolve()
@@ -130,7 +196,7 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	if(offered_by)
 		to_chat(hirer, span_warning("Wait for [merc_name] to answer."))
 		return
-	if(tgui_alert(hirer, "Hire [merc_name] for [days] day\s? They will join your fellowship.", "Mercenary Writ", list("Yes", "No")) != "Yes")
+	if(tgui_alert(hirer, "Hire [merc_name] for [days] day\s? They will join your fellowship.", "Mercenary Contract", list("Yes", "No")) != "Yes")
 		return
 	failure = hire_failure_reason(hirer, merc)
 	if(failure)
@@ -146,7 +212,7 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	offer.desc = "[hirer.real_name] wants to hire you for [days] day\s. Click to accept."
 	offered_by = WEAKREF(hirer)
 	offer_timer_id = addtimer(CALLBACK(src, PROC_REF(expire_offer)), MERC_CONTRACT_ACCEPT_TIMEOUT, TIMER_STOPPABLE)
-	to_chat(hirer, span_notice("You offer the writ to [merc_name]."))
+	to_chat(hirer, span_notice("You offer the contract to [merc_name]."))
 	to_chat(merc, span_notice("[hirer.real_name] wants to hire you for [days] day\s. Click the alert to accept."))
 
 /obj/item/merc_contract/proc/expire_offer()
@@ -181,17 +247,19 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 		to_chat(hirer, span_warning("[merc_name] could not join your fellowship."))
 		return
 	contract = new /datum/merc_contract(merc, hirer, F, src, days)
-	name = "signed mercenary writ"
+	name = "signed mercenary contract"
 	to_chat(hirer, span_notice("You hire [merc_name] for [days] day\s."))
 	to_chat(merc, span_notice("[hirer.real_name] has hired you for [days] day\s."))
 
 /obj/item/merc_contract/proc/hire_failure_reason(mob/living/hirer, mob/living/merc)
 	if(contract)
-		return "This writ has already been signed."
+		return "This contract has already been signed."
 	if(QDELETED(merc) || merc.stat == DEAD)
 		return "[merc_name] is dead or gone."
 	if(get_merc_contract(merc))
 		return "[merc_name] is already hired."
+	if(world.time < cooldown_until)
+		return "[merc_name] cannot take a new contract for [merc_contract_time_text(cooldown_until - world.time)]."
 	var/datum/fellowship/F = hirer.current_fellowship
 	if(!F || !F.is_leader(hirer))
 		return "Only a fellowship leader can hire a sellsword."

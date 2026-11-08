@@ -461,7 +461,11 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/list/payees = list()
 	for(var/datum/weakref/W as anything in fellowship_roster)
 		var/mob/living/M = W.resolve()
-		if(M && SStreasury.has_account(M))
+		if(!M)
+			continue
+		if(get_merc_contract(M))
+			fellowship_split_payout = TRUE
+		if(SStreasury.has_account(M))
 			payees |= M
 	if(fallback && !SStreasury.has_account(fallback) && length(payees))
 		fallback = payees[1]
