@@ -342,6 +342,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /obj/item/merc_contract/proc/bind_to(mob/living/merc)
 	merc_ref = WEAKREF(merc)
 	merc_name = merc.real_name
+	name = "mercenary contract: [merc_name]"
 
 /obj/item/merc_contract/examine(mob/user)
 	. = ..()
@@ -353,6 +354,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return
 	. += span_info("Hire mercenary [merc_name] for [days] day\s.")
 	. += span_info("Use it in hand to choose the number of days. Hand it to a fellowship leader to be hired.")
+	. += span_info("While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share.")
 	. += span_info("Pay per day by employer:")
 	for(var/category in GLOB.merc_hirer_categories)
 		var/list/terms = GLOB.merc_hirer_categories[category]
@@ -463,7 +465,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		to_chat(hirer, span_warning("[merc_name] could not join your fellowship."))
 		return
 	contract = new /datum/merc_contract(merc, hirer, F, src, days)
-	name = "signed mercenary contract"
+	name = "signed mercenary contract: [merc_name]"
 	to_chat(hirer, span_notice("You hire [merc_name] for [days] day\s."))
 	to_chat(merc, span_notice("[hirer.real_name] has hired you for [days] day\s."))
 
