@@ -72,6 +72,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/faction_id
 	var/datum/quest_faction/faction
 	var/required_fellowship_size = 0
+	var/solo_at_lowpop = FALSE
 	var/fellowship_threat_rate = 0
 	var/fellowship_reward_rate = 0
 	var/list/fellowship_roster
@@ -404,13 +405,19 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/can_claim(mob/living/user)
 	if(SSquestpool.debug_mode)
 		return TRUE
-	if(required_fellowship_size > 0)
+	var/required = get_signing_fellowship_size()
+	if(required > 0)
 		var/datum/fellowship/F = user?.current_fellowship
 		if(!F || !F.is_leader(user))
 			return FALSE
-		if(length(available_fellowship_members(user)) < required_fellowship_size)
+		if(length(available_fellowship_members(user)) < required)
 			return FALSE
 	return TRUE
+
+/datum/quest/proc/get_signing_fellowship_size()
+	if(solo_at_lowpop && SSeconomy.get_effective_player_count() < QUEST_MEDIUM_SOLO_POP_THRESHOLD)
+		return 0
+	return required_fellowship_size
 
 /datum/quest/proc/available_fellowship_members(mob/living/user)
 	. = list()
@@ -429,6 +436,9 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 /datum/quest/proc/count_fellowship_extras(mob/living/user)
 	return max(0, length(available_fellowship_members(user)) - max(1, required_fellowship_size))
+
+/datum/quest/proc/count_fellowship_missing(mob/living/user)
+	return max(0, required_fellowship_size - length(available_fellowship_members(user)))
 
 /datum/quest/proc/lock_fellowship(mob/living/user)
 	if(fellowship_roster)
@@ -473,23 +483,27 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 /datum/quest/proc/project_fellowship_reward(mob/living/user)
 	var/extras = count_fellowship_extras(user)
-	if(!extras || is_directive || (!fellowship_threat_rate && !fellowship_reward_rate))
+	var/missing = count_fellowship_missing(user)
+	if((!extras && !missing) || is_directive || (!fellowship_threat_rate && !fellowship_reward_rate))
 		return reward_amount
 	var/saved_mult = fellowship_threat_mult
 	var/saved_extras = fellowship_extras
-	fellowship_threat_mult = 1 + fellowship_threat_rate * extras
+	fellowship_threat_mult = 1 + fellowship_threat_rate * (extras - missing)
 	fellowship_extras = extras
 	. = calculate_reward(reward_origin_turf, reward_target_turf)
+	if(missing)
+		. = round(. * (required_fellowship_size - missing) / required_fellowship_size)
 	fellowship_threat_mult = saved_mult
 	fellowship_extras = saved_extras
 
 /datum/quest/proc/claim_failure_reason(mob/living/user)
-	if(required_fellowship_size > 0)
+	var/required = get_signing_fellowship_size()
+	if(required > 0)
 		var/datum/fellowship/F = user?.current_fellowship
 		if(!F)
-			return "This contract needs a fellowship of [required_fellowship_size]."
-		if(length(F.get_members()) < required_fellowship_size)
-			return "Your fellowship is too small. It needs [required_fellowship_size] members."
+			return "This contract needs a fellowship of [required]."
+		if(length(F.get_members()) < required)
+			return "Your fellowship is too small. It needs [required] members."
 		if(!F.is_leader(user))
 			return "Only your fellowship's leader may sign this contract."
 	return "You cannot sign that contract."

@@ -91,6 +91,8 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	)
 	tp_budget = QUEST_TP_BUDGET_RECOVERY
 	threat_bands_cleared = QUEST_BANDS_RECOVERY
+	required_fellowship_size = QUEST_MEDIUM_FELLOWSHIP_REQUIREMENT
+	solo_at_lowpop = TRUE
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_MEDIUM
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	kills_count_progress = FALSE

@@ -32,6 +32,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	takes_destination = FALSE
 	fellowship_threat_rate = 0
 	fellowship_reward_rate = 0
+	required_fellowship_size = 0
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety
 	var/parcel_label = "sealed strongbox"

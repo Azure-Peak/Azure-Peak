@@ -103,7 +103,7 @@
 #define QUEST_POOL_WEIGHT_COURIER 45
 
 // Multipliers applied to the base TP for kill request rewards
-#define QUEST_KILL_THREAT_MULT 1.0
+#define QUEST_KILL_THREAT_MULT 0.8
 // Bounty's main target is further multiplied
 #define QUEST_BOUNTY_THREAT_MULT 1
 // 2x the threat point value is ideal
@@ -118,14 +118,14 @@
 #define QUEST_SPAWN_REVEAL_TIME (6 SECONDS)
 
 #define QUEST_TP_BUDGET_KILL_EASY 35
-#define QUEST_TP_BUDGET_CLEAR_OUT 80
+#define QUEST_TP_BUDGET_CLEAR_OUT 120
 #define QUEST_TP_BUDGET_RAID 150
 #define QUEST_TP_BUDGET_INCURSION_FIRST 200
 #define QUEST_TP_BUDGET_INCURSION_SECOND 150
 #define QUEST_TP_BUDGET_BOUNTY_GOONS 120
 // Small starting escort so the boss isn't alone against ambient mobs and full parties.
 #define QUEST_TP_BUDGET_NOTORIOUS_GOONS 50
-#define QUEST_TP_BUDGET_RECOVERY 80
+#define QUEST_TP_BUDGET_RECOVERY 100
 
 // TP budget variance
 #define QUEST_TP_BUDGET_VARIANCE 0.25
@@ -149,7 +149,7 @@
 
 // Flat bonus layered on by difficulty, on top of the base + tp/distance reward.
 #define QUEST_DIFFICULTY_BONUS_EASY 0
-#define QUEST_DIFFICULTY_BONUS_MEDIUM 0
+#define QUEST_DIFFICULTY_BONUS_MEDIUM 15
 #define QUEST_DIFFICULTY_BONUS_HARD 25
 #define QUEST_DIFFICULTY_BONUS_NOTORIOUS 75
 #define QUEST_DIFFICULTY_BONUS_INCURSION 25
@@ -179,6 +179,9 @@
 #define QUEST_FELLOWSHIP_SCALE_MAX FELLOWSHIP_MAX_MEMBERS
 #define QUEST_ARRIVAL_SCAN_RANGE 14
 
+#define QUEST_MEDIUM_FELLOWSHIP_REQUIREMENT 2
+// At lower pop / lowest pop, we want to allow people to solo because the chance of you being able to group up is low.
+#define QUEST_MEDIUM_SOLO_POP_THRESHOLD 30
 #define QUEST_INCURSION_FELLOWSHIP_REQUIREMENT 3
 #define QUEST_INCURSION_INTERMISSION (2 MINUTES)
 #define QUEST_INCURSION_INTERMISSION_WARN (30 SECONDS)

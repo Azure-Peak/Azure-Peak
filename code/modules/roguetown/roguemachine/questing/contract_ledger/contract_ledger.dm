@@ -327,7 +327,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"shows_commission_seal" = Q.shows_commission_seal,
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
 			"is_standing" = Q.source != QUEST_SOURCE_POOL,
-			"required_fellowship_size" = Q.required_fellowship_size,
+			"required_fellowship_size" = Q.get_signing_fellowship_size(),
 			"lapse_minutes" = lapse_minutes,
 		))
 	return listing

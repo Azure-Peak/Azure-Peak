@@ -16,6 +16,8 @@
 	)
 	tp_budget = QUEST_TP_BUDGET_CLEAR_OUT
 	threat_bands_cleared = QUEST_BANDS_CLEAR_OUT
+	required_fellowship_size = QUEST_MEDIUM_FELLOWSHIP_REQUIREMENT
+	solo_at_lowpop = TRUE
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_MEDIUM
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 
