@@ -91,10 +91,7 @@
 
 	var/undershirt = null
 
-
-
 	var/earrings = null
-
 
 	var/legwear_socks = null
 
