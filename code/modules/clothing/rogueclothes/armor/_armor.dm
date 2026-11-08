@@ -36,7 +36,7 @@
 
 /datum/component/storage/concrete/roguetown/armor/can_be_inserted(obj/item/storing, stop_messages, mob/user, worn_check = FALSE, params, storage_click = FALSE)
 	// we only want aesthetically armor/cloak items, like tabards and shirts, to be addable - undies count too, worn as a peek-over layer
-	if(!(storing.slot_flags & (ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT)) && !istype(storing, /obj/item/clothing/underwear_bottom))
+	if(!(storing.slot_flags & (ITEM_SLOT_CLOAK|ITEM_SLOT_ARMOR|ITEM_SLOT_SHIRT)) && !istype(storing, /obj/item/clothing/underwear/bottom))
 		return FALSE
 	// any sort of armoured item is forbidden, it's aesthetic only
 	if(storing.armor?.stab > 0 || storing.armor?.blunt > 0)
@@ -147,7 +147,7 @@
 					continue
 
 // Clothing used as an armor attachment must render through the same API as worn clothing.
-				if(istype(thing, /obj/item/clothing/underwear_bottom))
+				if(istype(thing, /obj/item/clothing/underwear/bottom))
 					var/mob/living/carbon/human/wearer = loc
 					if(!istype(wearer))
 						continue

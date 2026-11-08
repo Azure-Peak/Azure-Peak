@@ -365,7 +365,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/equip_to_slot_if_possible(obj/item/W, slot, qdel_on_fail = FALSE, disable_warning = FALSE, redraw_mob = TRUE, bypass_equip_delay_self = FALSE, initial)
 	if(!istype(W) || QDELETED(W)) //This qdeleted is to prevent stupid behavior with things that qdel during init, like say stacks
 		return FALSE
-	var/blocked_underwear = !initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W)
+	var/blocked_underwear = !initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS)) && is_inventory_slot_obscured(slot, W)
 	if(blocked_underwear || !W.mob_can_equip(src, null, slot, disable_warning, bypass_equip_delay_self))
 		if(qdel_on_fail)
 			qdel(W)
@@ -374,7 +374,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 				to_chat(src, "<span class='warning'>I couldn't equip that.</span>")
 		return FALSE
 	// Equipping may have waited; outer clothing can change during that delay.
-	if(!initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT)) && is_inventory_slot_obscured(slot, W))
+	if(!initial && (slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS)) && is_inventory_slot_obscured(slot, W))
 		if(qdel_on_fail)
 			qdel(W)
 		return FALSE
@@ -1439,6 +1439,11 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(SLOT_UNDERSHIRT)
 			var/obj/item/clothing/undershirt/garment = equipping ? equipping : undershirt
 			access_zones = istype(garment) ? garment.strip_zones : (CHEST | GROIN)
+		if(SLOT_SOCKS)
+			access_zones = LEGS | FEET
+			var/obj/item/clothing/legwears/garment = equipping ? equipping : legwear_socks
+			if(istype(garment) && (initial(garment.flags_inv) & HIDECROTCH))
+				access_zones |= GROIN
 		else
 			return FALSE
 	for(var/obj/item/covering as anything in get_equipped_items())
@@ -1451,6 +1456,6 @@ GLOBAL_VAR_INIT(mobids, 1)
 		if(slot == SLOT_UNDERSHIRT && (((access_zones & CHEST) && (cover_flags & HIDEBOOB)) || ((access_zones & GROIN) && (cover_flags & HIDECROTCH))))
 			return TRUE
 		// Physical coverage also matters when the garment does not hide anatomy.
-		if(covering.surgery_cover && (covering.body_parts_covered_dynamic & covering.body_parts_covered & access_zones))
+		if(covering.surgery_cover && (covering.body_parts_covered_dynamic & access_zones))
 			return TRUE
 	return FALSE

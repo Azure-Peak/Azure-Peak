@@ -946,27 +946,27 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom
 	name = "Briefs"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom)
+	contains = list(/obj/item/clothing/underwear/bottom)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom_panties
 	name = "Panties"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/panties)
+	contains = list(/obj/item/clothing/underwear/bottom/panties)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom_braies
 	name = "Braies"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/braies)
+	contains = list(/obj/item/clothing/underwear/bottom/braies)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_bottom_briefs_eoran
 	name = "Briefs - Eoran"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_bottom/briefs_eoran)
+	contains = list(/obj/item/clothing/underwear/bottom/briefs_eoran)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_underwear_top_bra
 	name = "Bra"
 	cost = 10
-	contains = list(/obj/item/clothing/underwear_top/bra)
+	contains = list(/obj/item/clothing/underwear/top/bra)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_undershirt
 	name = "Sheer Body"
@@ -1114,17 +1114,17 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	contains = list(/obj/item/clothing/legwears/sleeve_knee_silk/white)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_sleeve_stir_knee_silk_white
-	name = "Silk Knee Sleeves (Stirrup)"
+	name = "Silk Knee-High Stirrup Sleeves"
 	cost = 20
 	contains = list(/obj/item/clothing/legwears/sleeve_stir_knee_silk/white)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_sleeve_stir_thigh_silk_white
-	name = "Silk Thigh Sleeves (Stirrup)"
+	name = "Silk Thigh-High Stirrup Sleeves"
 	cost = 20
 	contains = list(/obj/item/clothing/legwears/sleeve_stir_thigh_silk/white)
 
 /datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_sleeve_stir_ankle_silk_white
-	name = "Silk Ankle Sleeves (Stirrup)"
+	name = "Silk Ankle Stirrup Sleeves"
 	cost = 20
 	contains = list(/obj/item/clothing/legwears/sleeve_stir_ankle_silk/white)
 
@@ -1137,3 +1137,93 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	name = "Strapless Dress (Alt)"
 	cost = 15
 	contains = list(/obj/item/clothing/suit/roguetown/shirt/dress/gen/strapless/alt)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_belted
+	name = "Belted Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/belted)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_silk_belted
+	name = "Silk Belted Stockings"
+	cost = 20
+	contains = list(/obj/item/clothing/legwears/silk/belted)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_stirrup
+	name = "Stirrup Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/stirrup)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_silk_stirrup
+	name = "Silk Stirrup Stockings"
+	cost = 20
+	contains = list(/obj/item/clothing/legwears/silk/stirrup)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_fishnet_stirrup
+	name = "Fishnet Stirrup Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/fishnet/stirrup)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_thigh_high_fishnet
+	name = "Fishnet Thigh-High Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/thigh_high/fishnet)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_thigh_high_crotchless
+	name = "Crotchless Thigh-High Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/thigh_high/crotchless)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_thigh_high_silk_crotchless
+	name = "Silk Crotchless Thigh-High Stockings"
+	cost = 20
+	contains = list(/obj/item/clothing/legwears/thigh_high_silk/crotchless)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_thigh_high_fishnet_crotchless
+	name = "Fishnet Crotchless Thigh-High Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/thigh_high/fishnet/crotchless)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_tights
+	name = "Tights"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/tights)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_tights_stirrup
+	name = "Stirrup Tights"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/tights/stirrup)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_tights_crotchless
+	name = "Crotchless Tights"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/tights/crotchless)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_tights_crotchless_stirrup
+	name = "Crotchless Stirrup Tights"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/tights/crotchless/stirrup)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_low
+	name = "Low Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/low)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_fishnet_low
+	name = "Low Fishnet Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/fishnet/low)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_fishnet_low_stirrup
+	name = "Low Fishnet Stirrup Stockings"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/fishnet/low/stirrup)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_fishnet_crotchless
+	name = "Crotchless Fishnet Tights"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/fishnet/crotchless)
+
+/datum/supply_pack/rogue/wardrobe/smallclothes/clothing_legwears_fishnet_crotchless_stirrup
+	name = "Crotchless Fishnet Stirrup Tights"
+	cost = 10
+	contains = list(/obj/item/clothing/legwears/fishnet/crotchless/stirrup)

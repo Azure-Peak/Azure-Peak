@@ -18,11 +18,12 @@
 	human.equip_to_slot_or_del(garment, slot, TRUE)
 
 /datum/customizer/clothing/underwear_bottom
-	name = "Underwear Bottom"
+	name = "Bottom"
+	ui_group = "Underwear"
 	customizer_choices = list(/datum/customizer_choice/clothing/underwear_bottom)
 
 /datum/customizer_choice/clothing/underwear_bottom
-	name = "Underwear Bottom"
+	name = "Bottom"
 	slot = SLOT_UNDERWEAR_BOTTOM
 	sprite_accessories = list(
 		/datum/sprite_accessory/clothing/underwear_bottom/panties,
@@ -32,11 +33,12 @@
 	)
 
 /datum/customizer/clothing/underwear_top
-	name = "Underwear Top"
+	name = "Top"
+	ui_group = "Underwear"
 	customizer_choices = list(/datum/customizer_choice/clothing/underwear_top)
 
 /datum/customizer_choice/clothing/underwear_top
-	name = "Underwear Top"
+	name = "Top"
 	slot = SLOT_UNDERWEAR_TOP
 	sprite_accessories = list(
 		/datum/sprite_accessory/clothing/underwear_top/bra,
@@ -117,4 +119,22 @@
 		/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_knee_silk,
 		/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_thigh_silk,
 		/datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_ankle_silk,
+		/datum/sprite_accessory/clothing/legwear/stockings/belted,
+		/datum/sprite_accessory/clothing/legwear/stockings/silk/belted,
+		/datum/sprite_accessory/clothing/legwear/stockings/stirrup,
+		/datum/sprite_accessory/clothing/legwear/stockings/silk/stirrup,
+		/datum/sprite_accessory/clothing/legwear/stockings/fishnet/stirrup,
+		/datum/sprite_accessory/clothing/legwear/stockings/thigh_high/fishnet,
+		/datum/sprite_accessory/clothing/legwear/stockings/thigh_high/crotchless,
+		/datum/sprite_accessory/clothing/legwear/stockings/thigh_high_silk/crotchless,
+		/datum/sprite_accessory/clothing/legwear/stockings/thigh_high/fishnet/crotchless,
+		/datum/sprite_accessory/clothing/legwear/stockings/tights,
+		/datum/sprite_accessory/clothing/legwear/stockings/tights/stirrup,
+		/datum/sprite_accessory/clothing/legwear/stockings/tights/crotchless,
+		/datum/sprite_accessory/clothing/legwear/stockings/tights/crotchless/stirrup,
+		/datum/sprite_accessory/clothing/legwear/stockings/low,
+		/datum/sprite_accessory/clothing/legwear/stockings/fishnet/low,
+		/datum/sprite_accessory/clothing/legwear/stockings/fishnet/low/stirrup,
+		/datum/sprite_accessory/clothing/legwear/stockings/fishnet/crotchless,
+		/datum/sprite_accessory/clothing/legwear/stockings/fishnet/crotchless/stirrup,
 	)

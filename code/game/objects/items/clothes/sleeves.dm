@@ -75,56 +75,56 @@
 	item_state = "net-half"
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves
-	name = "Cloth Armsleeves"
+	name = "cloth armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves)
 	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves/solid_half
-	name = "Sheer Half-Armsleeves"
+	name = "sheer half-armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves/solid_half)
 	reqs = list(/obj/item/natural/cloth = 1, /obj/item/natural/fibers = 1)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves/silk
-	name = "Silk Armsleeves"
+	name = "silk armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves/silk)
 	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves/silk_half
-	name = "Silk Half-Armsleeves"
+	name = "silk half-armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves/silk_half)
 	reqs = list(/obj/item/natural/silk = 1, /obj/item/natural/fibers = 1)
 	craftdiff = 5
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves/mesh
-	name = "Mesh Armsleeves"
+	name = "mesh armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves/mesh)
 	reqs = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves/mesh_half
-	name = "Mesh Half-Armsleeves"
+	name = "mesh half-armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves/mesh_half)
 	reqs = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves/net
-	name = "Net Armsleeves"
+	name = "net armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves/net)
 	reqs = list(/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
 /datum/crafting_recipe/roguetown/sewing/armsleeves/net_half
-	name = "Net Half-Armsleeves"
+	name = "net half-armsleeve"
 	category = "Underwear"
 	result = list(/obj/item/clothing/armsleeves/net_half)
 	reqs = list(/obj/item/natural/fibers = 2)

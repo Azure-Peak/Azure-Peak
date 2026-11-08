@@ -2,6 +2,8 @@
 	abstract_type = /datum/customizer
 	/// User facing name of the customizer.
 	var/name = "Customizer"
+	/// Optional appearance-menu group for independent customizers shown together.
+	var/ui_group
 	/// List of all /datum/customizer_choice's that this customizer can pick from.
 	var/list/customizer_choices
 	/// The default choice from among `customizer_choices`.

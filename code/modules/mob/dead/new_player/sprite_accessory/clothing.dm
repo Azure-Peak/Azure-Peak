@@ -13,26 +13,26 @@
 
 /datum/sprite_accessory/clothing/underwear_bottom
 	name = "Briefs"
-	item_type = /obj/item/clothing/underwear_bottom
+	item_type = /obj/item/clothing/underwear/bottom
 
 /datum/sprite_accessory/clothing/underwear_bottom/panties
 	name = "Panties"
-	item_type = /obj/item/clothing/underwear_bottom/panties
+	item_type = /obj/item/clothing/underwear/bottom/panties
 
 /datum/sprite_accessory/clothing/underwear_bottom/braies
 	name = "Braies"
-	item_type = /obj/item/clothing/underwear_bottom/braies
+	item_type = /obj/item/clothing/underwear/bottom/braies
 
 /datum/sprite_accessory/clothing/underwear_bottom/briefs_eoran
 	name = "Briefs - Eoran"
-	item_type = /obj/item/clothing/underwear_bottom/briefs_eoran
+	item_type = /obj/item/clothing/underwear/bottom/briefs_eoran
 
 /datum/sprite_accessory/clothing/underwear_top
 	abstract_type = /datum/sprite_accessory/clothing/underwear_top
 
 /datum/sprite_accessory/clothing/underwear_top/bra
 	name = "Bra"
-	item_type = /obj/item/clothing/underwear_top/bra
+	item_type = /obj/item/clothing/underwear/top/bra
 
 /datum/sprite_accessory/clothing/undershirt
 	name = "Sheer Body"
@@ -181,13 +181,85 @@
 	item_type = /obj/item/clothing/legwears/sleeve_knee_silk
 
 /datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_knee_silk
-	name = "Knee-High Sleeves (Stirrup) - Silk"
+	name = "Silk Knee-High Stirrup Sleeves"
 	item_type = /obj/item/clothing/legwears/sleeve_stir_knee_silk
 
 /datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_thigh_silk
-	name = "Thigh-High Sleeves (Stirrup) - Silk"
+	name = "Silk Thigh-High Stirrup Sleeves"
 	item_type = /obj/item/clothing/legwears/sleeve_stir_thigh_silk
 
 /datum/sprite_accessory/clothing/legwear/stockings/sleeve_stir_ankle_silk
-	name = "Ankle-High Sleeves (Stirrup) - Silk"
+	name = "Silk Ankle Stirrup Sleeves"
 	item_type = /obj/item/clothing/legwears/sleeve_stir_ankle_silk
+
+/datum/sprite_accessory/clothing/legwear/stockings/belted
+	name = "Belted Stockings"
+	item_type = /obj/item/clothing/legwears/belted
+
+/datum/sprite_accessory/clothing/legwear/stockings/silk/belted
+	name = "Silk Belted Stockings"
+	item_type = /obj/item/clothing/legwears/silk/belted
+
+/datum/sprite_accessory/clothing/legwear/stockings/stirrup
+	name = "Stirrup Stockings"
+	item_type = /obj/item/clothing/legwears/stirrup
+
+/datum/sprite_accessory/clothing/legwear/stockings/silk/stirrup
+	name = "Silk Stirrup Stockings"
+	item_type = /obj/item/clothing/legwears/silk/stirrup
+
+/datum/sprite_accessory/clothing/legwear/stockings/fishnet/stirrup
+	name = "Fishnet Stirrup Stockings"
+	item_type = /obj/item/clothing/legwears/fishnet/stirrup
+
+/datum/sprite_accessory/clothing/legwear/stockings/thigh_high/fishnet
+	name = "Fishnet Thigh-High Stockings"
+	item_type = /obj/item/clothing/legwears/thigh_high/fishnet
+
+/datum/sprite_accessory/clothing/legwear/stockings/thigh_high/crotchless
+	name = "Crotchless Thigh-High Stockings"
+	item_type = /obj/item/clothing/legwears/thigh_high/crotchless
+
+/datum/sprite_accessory/clothing/legwear/stockings/thigh_high_silk/crotchless
+	name = "Silk Crotchless Thigh-High Stockings"
+	item_type = /obj/item/clothing/legwears/thigh_high_silk/crotchless
+
+/datum/sprite_accessory/clothing/legwear/stockings/thigh_high/fishnet/crotchless
+	name = "Fishnet Crotchless Thigh-High Stockings"
+	item_type = /obj/item/clothing/legwears/thigh_high/fishnet/crotchless
+
+/datum/sprite_accessory/clothing/legwear/stockings/tights
+	name = "Tights"
+	item_type = /obj/item/clothing/legwears/tights
+
+/datum/sprite_accessory/clothing/legwear/stockings/tights/stirrup
+	name = "Stirrup Tights"
+	item_type = /obj/item/clothing/legwears/tights/stirrup
+
+/datum/sprite_accessory/clothing/legwear/stockings/tights/crotchless
+	name = "Crotchless Tights"
+	item_type = /obj/item/clothing/legwears/tights/crotchless
+
+/datum/sprite_accessory/clothing/legwear/stockings/tights/crotchless/stirrup
+	name = "Crotchless Stirrup Tights"
+	item_type = /obj/item/clothing/legwears/tights/crotchless/stirrup
+
+/datum/sprite_accessory/clothing/legwear/stockings/low
+	name = "Low Stockings"
+	item_type = /obj/item/clothing/legwears/low
+
+/datum/sprite_accessory/clothing/legwear/stockings/fishnet/low
+	name = "Low Fishnet Stockings"
+	item_type = /obj/item/clothing/legwears/fishnet/low
+
+/datum/sprite_accessory/clothing/legwear/stockings/fishnet/low/stirrup
+	name = "Low Fishnet Stirrup Stockings"
+	item_type = /obj/item/clothing/legwears/fishnet/low/stirrup
+
+/datum/sprite_accessory/clothing/legwear/stockings/fishnet/crotchless
+	name = "Crotchless Fishnet Tights"
+	item_type = /obj/item/clothing/legwears/fishnet/crotchless
+
+/datum/sprite_accessory/clothing/legwear/stockings/fishnet/crotchless/stirrup
+	name = "Crotchless Fishnet Stirrup Tights"
+	item_type = /obj/item/clothing/legwears/fishnet/crotchless/stirrup

@@ -52,7 +52,7 @@
 		eyes.Insert(H)
 		H.ambushable = FALSE
 		if(H.underwear_bottom)
-			var/obj/item/clothing/underwear_bottom/garment = H.underwear_bottom
+			var/obj/item/clothing/underwear/bottom/garment = H.underwear_bottom
 			H.temporarilyRemoveItemFromInventory(garment, TRUE)
 			qdel(garment)
 		for(var/datum/charflaw/cf in H.charflaws)
