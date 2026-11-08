@@ -254,3 +254,52 @@
       the OOC chatfor you.
   effyank:
   - bugfix: Assassins' dagger now also copies over vocal barks and rumors.
+2026-11-06:
+  Dorodomki:
+  - rscadd: 'Added new greyscaled sprites for duelist cloak and desert cloak (crusader
+      cloak)
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Abyssor's right to arbitrarily rescind your hard-won fish has been revoked
+      (they no longer vanish when doing mundane actions on water tiles; you can still
+      toss them in or dump a sack out).
+  OrbisAnima:
+  - qol: Gives the Feed intent to the mage chalk. Make it so you can only feed it
+      if using the approrpiate intent.
+  - bugfix: Adds the missing silver bowl recipe, fixing its price to what it should
+      in the process.
+  - qol: Makes a new toggle on gib() to make it so mobs dont create extra gibs on
+      gibbing. Apply that to butchering animals, big animals still might produce their
+      extra gibs, as intended.
+  WeNeedMorePhoron:
+  - rscadd: Contracts are now scaled to those who are actually present around the
+      contract. Only the leader can sign for size gated contracts.
+  changelingonberry:
+  - image: Bundles noto color emoji as a fallback font.
+  - bugfix: Automatic capitalization no longer breaks multi-byte characters.
+  - bugfix: Jacksberries no longer have errant in-hand pixels.
+  kano-dot:
+  - bugfix: Fixed duelist cape detail color not getting applied for female version.
+2026-11-07:
+  OrbisAnima:
+  - qol: Put feeding intents for gems, ores and ingots so constructs dont accidentally
+      eat them. Also placed some messaging to explain why you cannot eat the delicious
+      amethyst.
+  Ryan180602:
+  - balance: darkvision is now a seperate trait and no longer under prowler
+  The-Sun-In-Splendour:
+  - image: greyscaled blood pools are less flat
+  WeNeedMorePhoron:
+  - rscadd: Ported static threat spawners from our downstream Ochre Valley. not added
+      to map, yet.
+  - rscadd: You can now set a pen name which is one of the 3 names (Real, anonymous
+      and pen) you are allowed to sign your letters with. Letter recipient will see
+      your name when they receive a notification. Admins will be aware of any metagamey
+      pen name to blow up anyone who do so.
+  - bugfix: Tried to fix a runtime that might cause wintertime map to crash.
+  - rscadd: Move yurt and tent to the tools category
+  fffelinid:
+  - rscadd: Added the option to change your status on the Rose Wall when declining
+      an offer.
+  - bugfix: Fixed overly sanitized Rose Wall text.
