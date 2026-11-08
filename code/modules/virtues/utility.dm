@@ -458,6 +458,12 @@
 	if(!istype(recipient.patron, /datum/patron/inhumen))
 		ADD_TRAIT(recipient, TRAIT_CAREFULTRIP, TRAIT_VIRTUE)
 
+/datum/virtue/utility/zchurch_keyholder/restricts_job(datum/job/job, datum/preferences/prefs)
+	if(istype(prefs.selected_patron, /datum/patron/inhumen))
+		return null
+	if(length(job.allowed_patrons) || (job.department_flag & (COURTIERS | RETINUE | GARRISON | CHURCHMEN | INQUISITION)))
+		return "non-Ascendant"
+
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.
 // Hags don't get a boon on this person, that's perhaps a choice to add later.

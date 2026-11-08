@@ -246,6 +246,17 @@
 /datum/job/proc/special_job_check(mob/dead/new_player/player)
 	return TRUE
 
+/// Names of the virtues in prefs that bar the character from this job
+/datum/job/proc/get_restricted_virtue_names(datum/preferences/prefs)
+	. = list()
+	for(var/datum/virtue/V in list(prefs.virtue, prefs.virtuetwo, prefs.virtue_origin))
+		if(V.type in virtue_restrictions)
+			. += V.name
+			continue
+		var/reason = V.restricts_job(src, prefs)
+		if(reason)
+			. += "[V.name] ([reason])"
+
 /datum/job/proc/uses_storyteller_slot_caps()
 	return title in list("Wretch", "Gnoll", "Assassin")
 

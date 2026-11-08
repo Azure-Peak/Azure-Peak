@@ -51,12 +51,9 @@
 		data["unavailable"] = JOB_UNAVAILABLE_PQ
 		data["unavailable_details"] = "(Max PQ: [job.max_pq])"
 		return data
-	if(length(job.virtue_restrictions) && length(job.vice_restrictions))
-		var/list/restricted_list = list()
-		if(virtue.type in job.virtue_restrictions)
-			restricted_list.Add(virtue.name)
-		if(virtuetwo?.type in job.virtue_restrictions)
-			restricted_list.Add(virtuetwo.name)
+	var/list/restricted_virtues = job.get_restricted_virtue_names(src)
+	if(length(restricted_virtues) && length(job.vice_restrictions))
+		var/list/restricted_list = restricted_virtues.Copy()
 		for(var/cf_type in charflaws)
 			if(cf_type in job.vice_restrictions)
 				var/datum/charflaw/cf = GLOB.character_flaws_singletons[cf_type]
@@ -66,17 +63,10 @@
 			data["unavailable"] = JOB_UNAVAILABLE_VIRTUESVICE
 			data["unavailable_details"] = "(Disallowed by Virtues / Vice: [restrict_text])"
 			return data
-	if(length(job.virtue_restrictions))
-		var/list/restricted_list = list()
-		if(virtue.type in job.virtue_restrictions)
-			restricted_list.Add(virtue.name)
-		if(virtuetwo?.type in job.virtue_restrictions)
-			restricted_list.Add(virtuetwo.name)
-		if(length(restricted_list))
-			var/restrict_text = english_list(restricted_list)
-			data["unavailable"] = JOB_UNAVAILABLE_VIRTUESVICE
-			data["unavailable_details"] = "(Disallowed by Virtue: [restrict_text])"
-			return data
+	if(length(restricted_virtues))
+		data["unavailable"] = JOB_UNAVAILABLE_VIRTUESVICE
+		data["unavailable_details"] = "(Disallowed by Virtue: [english_list(restricted_virtues)])"
+		return data
 	if(length(job.vice_restrictions))
 		var/list/restricted_list = list()
 		for(var/cf_type in charflaws)
