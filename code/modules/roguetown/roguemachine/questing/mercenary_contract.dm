@@ -3,7 +3,7 @@ GLOBAL_LIST_EMPTY(merc_contract_items)
 GLOBAL_LIST_EMPTY(merc_contract_cooldowns)
 
 GLOBAL_LIST_INIT(merc_hirer_categories, list(
-	MERC_HIRER_TOWNER = list("label" = "Towners", "stipend" = MERC_STIPEND_TOWNER, "payer" = "the Burghers & Merchants of Azuria"),
+	MERC_HIRER_TOWNER = list("label" = "Towners", "stipend" = MERC_STIPEND_TOWNER, "payer" = "the Burghers of the realm"),
 	MERC_HIRER_OUTLAW = list("label" = "Outlaws", "stipend" = MERC_STIPEND_OUTLAW, "payer" = "a Mysterious Benefactor", "by_mail" = TRUE),
 	MERC_HIRER_INQUISITION = list("label" = "The Inquisition", "stipend" = MERC_STIPEND_INQUISITION, "payer" = "Otava"),
 ))
@@ -62,14 +62,29 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal
 
 /proc/mail_merc_cash(mob/living/merc, amount, sender)
+	var/list/coins = list()
 	var/gold = floor(amount / 10)
 	while(gold > 0)
 		var/stack = min(gold, 20)
-		deliver_mail(new /obj/item/roguecoin/gold(null, stack), merc.real_name, sender, "merc contract stipend")
+		coins += new /obj/item/roguecoin/gold(null, stack)
 		gold -= stack
 	var/copper = amount % 10
 	if(copper)
-		deliver_mail(new /obj/item/roguecoin/copper(null, copper), merc.real_name, sender, "merc contract stipend")
+		coins += new /obj/item/roguecoin/copper(null, copper)
+	var/obj/item/storage/belt/rogue/pouch/cloth/pouch = new
+	var/obj/item/smallDelivery/package = new
+	for(var/obj/item/roguecoin/coin as anything in coins)
+		if(!SEND_SIGNAL(pouch, COMSIG_TRY_STORAGE_INSERT, coin, null, TRUE, TRUE))
+			coin.forceMove(package)
+	pouch.forceMove(package)
+	package.name = "[weightclass2text(pouch.w_class)] package"
+	package.w_class = pouch.w_class
+	package.grid_height = pouch.grid_height
+	package.grid_width = pouch.grid_width
+	package.icon_state = "deliverypackage[min(pouch.w_class, 5)]"
+	if(!deliver_mail(package, merc.real_name, sender, "merc contract stipend"))
+		package.forceMove(get_turf(merc))
+		merc.put_in_hands(package)
 
 /proc/get_merc_contract(mob/living/merc)
 	for(var/datum/merc_contract/contract as anything in GLOB.merc_contracts)
@@ -156,6 +171,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	last_presence_check = world.time
 	presence_timer_id = addtimer(CALLBACK(src, PROC_REF(check_presence)), MERC_CONTRACT_PRESENCE_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
 	RegisterSignal(F, COMSIG_PARENT_QDELETING, PROC_REF(on_fellowship_deleted))
+	RegisterSignal(merc, COMSIG_PARENT_QDELETING, PROC_REF(on_merc_deleted))
 	GLOB.merc_contracts += src
 	if(ishuman(merc))
 		SSroguemachine.mercenary_statue?.sync_mercenary_status(merc, "Contracted")
@@ -176,6 +192,9 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/datum/fellowship/F = fellowship_ref?.resolve()
 	if(F)
 		UnregisterSignal(F, COMSIG_PARENT_QDELETING)
+	var/mob/living/merc = merc_ref?.resolve()
+	if(merc)
+		UnregisterSignal(merc, COMSIG_PARENT_QDELETING)
 	GLOB.merc_contracts -= src
 	if(F && !QDELETED(F))
 		F.push_updates()
@@ -191,15 +210,45 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		to_chat(hirer, span_notice("Your fellowship has disbanded. Your contract with [merc_name] is over."))
 	INVOKE_ASYNC(src, PROC_REF(end_contract))
 
+/datum/merc_contract/proc/on_merc_deleted(datum/source)
+	SIGNAL_HANDLER
+	var/mob/living/hirer = hirer_ref?.resolve()
+	if(hirer)
+		to_chat(hirer, span_notice("[merc_name] is gone. Your contract with them is over."))
+		log_quest(hirer.ckey, hirer.mind, hirer, "Contract with mercenary [merc_name] ended, mercenary gone")
+	INVOKE_ASYNC(src, PROC_REF(end_contract))
+
 /datum/merc_contract/proc/on_day_passed()
 	days_served++
 	check_presence()
 	var/presence = get_presence_share()
 	presence_time = 0
 	day_started_at = world.time
-	pay_day(presence)
+	var/mob/living/merc = merc_ref?.resolve()
+	var/mob/living/hirer = hirer_ref?.resolve()
+	var/merc_dead = merc?.stat == DEAD
+	var/hirer_dead = hirer?.stat == DEAD
+	if(merc_dead || hirer_dead)
+		presence = null
 	if(days_served >= days)
+		pay_day(presence)
 		complete_term()
+	else if(merc_dead || hirer_dead)
+		end_by_death(merc_dead ? merc_name : hirer_name)
+	else
+		pay_day(presence)
+
+/datum/merc_contract/proc/end_by_death(dead_name)
+	var/mob/living/merc = merc_ref?.resolve()
+	var/mob/living/hirer = hirer_ref?.resolve()
+	var/message = span_notice("With [dead_name]'s death, the thread of transaction is severed. The contract has been completed early.")
+	if(merc)
+		to_chat(merc, message)
+		log_quest(merc.ckey, merc.mind, merc, "Contract with [hirer_name] completed early by [dead_name]'s death")
+	if(hirer)
+		to_chat(hirer, message)
+	pay_day(null)
+	end_contract()
 
 /datum/merc_contract/proc/check_presence()
 	var/elapsed = world.time - last_presence_check
@@ -239,33 +288,43 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(!stipend || !merc)
 		return
 	var/payer = terms["payer"]
-	var/presence_text = "[round(presence * 100)]% with employer"
-	if(presence < MERC_CONTRACT_PRESENCE_SHARE)
+	var/presence_text = isnull(presence) ? "presence waived on death" : "[round(presence * 100)]% with employer"
+	if(!isnull(presence) && presence < MERC_CONTRACT_PRESENCE_SHARE)
 		to_chat(merc, span_warning("Your stipend from [payer] is not paid. You spent too little of the dae with your employer."))
 		log_quest(merc.ckey, merc.mind, merc, "Contract stipend withheld by [payer], [presence_text] (day [days_served] of [days] with [hirer_name])")
 		return
 	var/datum/fund/account = SStreasury.get_account(merc)
 	if(account && !terms["by_mail"])
 		SStreasury.mint(account, stipend, "Mercenary contract with [hirer_name]", payer, LEDGER_CITIZEN_CONTRACTS)
-		to_chat(merc, span_notice("[capitalize(payer)] deposits [stipend] mammon to your account for your contract with [hirer_name]."))
+		to_chat(merc, span_notice("You receive [stipend] mammon from [payer] for your contract with [hirer_name]."))
 	else
 		mail_merc_cash(merc, stipend, capitalize(payer))
-		to_chat(merc, span_notice("[capitalize(payer)] has sent you [stipend] mammon by HERMES for your contract with [hirer_name]."))
+		to_chat(merc, span_notice("You receive [stipend] mammon by HERMES from [payer] for your contract with [hirer_name]."))
 	log_quest(merc.ckey, merc.mind, merc, "Contract stipend [stipend] from [payer], [presence_text] (day [days_served] of [days] with [hirer_name])")
 
+/datum/merc_contract/proc/is_merc_dead()
+	var/mob/living/merc = merc_ref?.resolve()
+	return !merc || merc.stat == DEAD
+
 /datum/merc_contract/proc/can_end_early()
-	return days_served >= 1
+	return days_served >= 1 || is_merc_dead()
 
 /datum/merc_contract/proc/end_early()
 	var/mob/living/merc = merc_ref?.resolve()
 	var/mob/living/hirer = hirer_ref?.resolve()
+	var/merc_dead = is_merc_dead()
 	if(merc)
-		to_chat(merc, span_warning("[hirer_name] has ended your contract early. You cannot take a new contract for [merc_contract_time_text(MERC_CONTRACT_DAY_LENGTH)]."))
-		log_quest(merc.ckey, merc.mind, merc, "Contract ended early by [hirer_name]")
+		if(merc_dead)
+			to_chat(merc, span_notice("[hirer_name] has ended your contract."))
+		else
+			to_chat(merc, span_warning("[hirer_name] has ended your contract early. You cannot take a new contract for [merc_contract_time_text(MERC_CONTRACT_DAY_LENGTH)]."))
+		log_quest(merc.ckey, merc.mind, merc, "Contract ended early by [hirer_name][merc_dead ? " while dead" : ""]")
 	if(hirer)
 		to_chat(hirer, span_notice("You end your contract with [merc_name]."))
-		log_quest(hirer.ckey, hirer.mind, hirer, "End contract with mercenary [merc_name] early")
-	end_contract(world.time + MERC_CONTRACT_DAY_LENGTH)
+		log_quest(hirer.ckey, hirer.mind, hirer, "End contract with mercenary [merc_name] early[merc_dead ? " while they are dead" : ""]")
+	if(merc_dead)
+		pay_day(null)
+	end_contract(merc_dead ? 0 : world.time + MERC_CONTRACT_DAY_LENGTH)
 
 /datum/merc_contract/proc/admin_complete()
 	if(day_timer_id)
@@ -328,6 +387,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/datum/merc_contract/contract
 	var/datum/weakref/offered_by
 	var/offer_timer_id
+	var/prompt_open = FALSE
 
 /obj/item/merc_contract/Initialize(mapload)
 	. = ..()
@@ -348,7 +408,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. = ..()
 	if(contract)
 		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] day\s.")
-		. += span_info("The hirer can use it in hand to end the contract early once the first day has passed.")
+		. += span_info("The hirer can use it in hand to end the contract early once the first day has passed, or at any time if [merc_name] is dead.")
 		if(contract.hirer_category)
 			. += span_info("[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay.")
 		return
@@ -420,11 +480,45 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return
 	offer.item_ref = WEAKREF(src)
 	var/pay_text = merc_offer_pay_text(hirer)
-	offer.desc = "[hirer.real_name] wants to hire you for [days] day\s.[pay_text] Click to accept."
+	offer.desc = "[hirer.real_name] wants to hire you for [days] day\s.[pay_text] Click to answer."
 	offered_by = WEAKREF(hirer)
 	offer_timer_id = addtimer(CALLBACK(src, PROC_REF(expire_offer)), MERC_CONTRACT_ACCEPT_TIMEOUT, TIMER_STOPPABLE)
 	to_chat(hirer, span_notice("You offer the contract to [merc_name]."))
-	to_chat(merc, span_notice("[hirer.real_name] wants to hire you for [days] day\s.[pay_text] Click the alert to accept."))
+	to_chat(merc, span_notice("[hirer.real_name] wants to hire you for [days] day\s.[pay_text] Click the alert to answer."))
+
+/obj/item/merc_contract/proc/prompt_offer(mob/living/merc)
+	var/mob/living/hirer = offered_by?.resolve()
+	if(prompt_open || !hirer || merc != merc_ref?.resolve())
+		return
+	prompt_open = TRUE
+	var/choice = tgui_alert(merc, "[hirer.real_name] wants to hire you for [days] day\s.[merc_offer_pay_text(hirer)]", "Contract Offer", list("Accept", "Reject"), timeleft(offer_timer_id))
+	prompt_open = FALSE
+	if(QDELETED(src) || offered_by?.resolve() != hirer)
+		return
+	if(choice == "Accept")
+		accept_offer(merc)
+	else if(choice == "Reject")
+		reject_offer(merc)
+
+/obj/item/merc_contract/proc/reject_offer(mob/living/merc)
+	if(merc != merc_ref?.resolve())
+		return
+	var/mob/living/hirer = offered_by?.resolve()
+	clear_offer()
+	if(hirer)
+		to_chat(hirer, span_warning("[merc_name] turns down your offer. The contract returns to them."))
+	to_chat(merc, span_notice("You turn down the offer. The contract returns to you."))
+	return_to_merc()
+
+/obj/item/merc_contract/proc/return_to_merc()
+	var/mob/living/merc = merc_ref?.resolve()
+	if(!merc || contract || loc == merc)
+		return
+	if(ismob(loc))
+		var/mob/holder = loc
+		holder.temporarilyRemoveItemFromInventory(src, force = TRUE)
+	forceMove(get_turf(merc))
+	merc.put_in_hands(src)
 
 /obj/item/merc_contract/proc/merc_offer_pay_text(mob/living/hirer)
 	var/category = get_merc_hirer_category(hirer)
@@ -438,7 +532,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/mob/living/hirer = offered_by?.resolve()
 	clear_offer()
 	if(hirer)
-		to_chat(hirer, span_warning("[merc_name] did not accept."))
+		to_chat(hirer, span_warning("[merc_name] did not accept. The contract returns to them."))
+	return_to_merc()
 
 /obj/item/merc_contract/proc/clear_offer()
 	if(offer_timer_id)
@@ -454,15 +549,18 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/mob/living/hirer = offered_by?.resolve()
 	clear_offer()
 	if(!hirer)
+		return_to_merc()
 		return
 	var/failure = hire_failure_reason(hirer, merc)
 	if(failure)
 		to_chat(merc, span_warning(failure))
 		to_chat(hirer, span_warning(failure))
+		return_to_merc()
 		return
 	var/datum/fellowship/F = hirer.current_fellowship
 	if(merc.current_fellowship != F && !F.add_member(merc))
 		to_chat(hirer, span_warning("[merc_name] could not join your fellowship."))
+		return_to_merc()
 		return
 	contract = new /datum/merc_contract(merc, hirer, F, src, days)
 	name = "signed mercenary contract: [merc_name]"
@@ -494,10 +592,11 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 
 /atom/movable/screen/alert/merc_contract_offer
 	name = "Contract Offer"
-	desc = "Someone wants to hire you. Click to accept."
+	desc = "Someone wants to hire you. Click to answer."
 	var/datum/weakref/item_ref
 
 /atom/movable/screen/alert/merc_contract_offer/Click()
 	var/obj/item/merc_contract/item = item_ref?.resolve()
-	item?.accept_offer(usr)
+	if(item)
+		INVOKE_ASYNC(item, TYPE_PROC_REF(/obj/item/merc_contract, prompt_offer), usr)
 	return TRUE
