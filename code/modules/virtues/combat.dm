@@ -200,7 +200,7 @@
 /datum/virtue/combat/geoheart
 	name = "Geoheart"
 	desc = "Your core and form weren't made by humen hands, not at all. From dust of the minerals and the whims of creatures older than mankind you came, and to dust you shall never return. Existence shall be your eternal suffering."
-	custom_text = "Additionally, your racial speed malus is removed, you gain the Boon of Natural Communion and can shape your fingers into claws."
+	custom_text = "Additionally, your racial speed malus is reduced, and you can shape your minerals into deadly claws."
 	ui_fa_icon = "biohazard"
 	permitted = TRUE
 	races = list(/datum/species/construct/metal)
@@ -208,15 +208,12 @@
 /datum/virtue/combat/geoheart/apply_to_human(mob/living/carbon/human/recipient)
 	if(!recipient.mind)
 		return
-	recipient.apply_status_effect(/datum/status_effect/buff/hag_boon/natural_communion)
-	recipient.mind.AddSpell(new /datum/action/cooldown/spell/mineral_claws) // Can shape your fingers into claws to cut the enemy with punches.
+	recipient.mind.AddSpell(new /datum/action/cooldown/spell/mineral_claws) // Can shape your fingers into claws to cut the enemy instead of punching. This damages you, and while this enables you to parry while unarmored, it'll deal damage directly to your arms. Does not get bonuses from knuckles and such, etc.
 	ADD_TRAIT(recipient, TRAIT_FEYBOUND, TRAIT_VIRTUE) // You're a fey construct, basically.
-	ADD_TRAIT(recipient, TRAIT_ROCKMAN, TRAIT_VIRTUE) // Cannot heal from being repaired. Cannot be resurrected. If you are dead, you will eventually revive after 8 minutes or so, as long as your body's integrity is intact.
-	ADD_TRAIT(recipient, TRAIT_FASTSLEEP, TRAIT_VIRTUE) // Honkshoo, and twice as fast mimimi.
+	ADD_TRAIT(recipient, TRAIT_ROCKMAN, TRAIT_VIRTUE) // Cannot heal from being repaired. Cannot be resurrected by miracles nor by being rewound. All integrity damage you take will absolutely kill you. If you are dead, you will revive around as long as it'd take for a Deathless to come back.
 	ADD_TRAIT(recipient, TRAIT_SHOCKIMMUNE, TRAIT_VIRTUE) // Electricity isn't a problem for you, however...
 	ADD_TRAIT(recipient, TRAIT_HEAVYSET, TRAIT_VIRTUE) // Main drawback, you take longer to stand up. Way longer. Gives disadvantage on dodge attempts. You're immune to being CON checked, though.
-	recipient.change_stat(STATKEY_SPD, 2)
-	to_chat(recipient, span_necrosis("Your core beats to the rhythms of nature, not mankind."))
+	recipient.change_stat(STATKEY_SPD, 1)
 	for(var/mob/living/hag_mob in GLOB.active_hags)
 		var/datum/mind/hag_mind = hag_mob.mind
 		if(!hag_mind)
@@ -224,5 +221,5 @@
 		hag_mind.i_know_person(recipient)
 		recipient.mind.i_know_person(hag_mind)
 		if(hag_mind.current)
-			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a Geohearted Construct, is walking the lands this week."))
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a Construct, has been shaped by the Fae's arts."))
 	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))

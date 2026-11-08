@@ -944,7 +944,9 @@
 	if(HAS_TRAIT(src, TRAIT_NECRAS_VOW))
 		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
 		return FALSE
-
+	if(HAS_TRAIT(src, TRAIT_ROCKMAN))
+		to_chat(user, span_warning("There is nothing. No response. Just peace, at long last."))
+		return FALSE
 	var/obj/item/bodypart/head = get_bodypart("head")
 	var/obj/item/organ/brain/brain = getorganslot(ORGAN_SLOT_BRAIN)
 	var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)

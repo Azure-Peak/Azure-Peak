@@ -152,7 +152,7 @@
 	if(!iscarbon(owner))
 		return
 	var/mob/living/carbon/carbon_owner = owner
-	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig))
+	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig) || !carbon_owner.surrendering)
 		if(world.time >= weakzappy)
 			weakzappy = world.time + rand(20 SECONDS, 40 SECONDS)
 			carbon_owner.electrocute_act(20, carbon_owner)
@@ -190,7 +190,7 @@
 	if(!iscarbon(owner))
 		return
 	var/mob/living/carbon/carbon_owner = owner
-	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig))
+	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig) || !carbon_owner.surrendering)
 		if(world.time >= zoppy)
 			zoppy = world.time + rand(10 SECONDS, 20 SECONDS)
 			carbon_owner.electrocute_act(15, carbon_owner)
@@ -228,7 +228,7 @@
 	if(!iscarbon(owner))
 		return
 	var/mob/living/carbon/carbon_owner = owner
-	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig))
+	if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig) || !carbon_owner.surrendering)
 		if(world.time >= zappy)
 			zappy = world.time + rand(5 SECONDS, 15 SECONDS)
 			carbon_owner.electrocute_act(20, carbon_owner)
@@ -246,7 +246,7 @@
 	sewn_woundpain = 30
 	disabling = TRUE
 
-/datum/wound/integrity/proc/core_meltdown(mob/living/source)
+/datum/wound/proc/core_meltdown(mob/living/source)
 	if(!source)
 		return
 	// look what you FUCKING did!!! D:

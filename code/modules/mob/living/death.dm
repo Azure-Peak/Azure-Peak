@@ -209,6 +209,9 @@ GLOBAL_LIST_EMPTY(last_words)
 				else
 					to_chat(player, span_warning("I feel the faint passage of disjointed life essence as it flees [locale]."))
 
+	if(!gibbed && HAS_TRAIT(src, TRAIT_ROCKMAN) && !HAS_TRAIT(src, TRAIT_DNR))
+		apply_status_effect(/datum/status_effect/geomeltdown)
+
 	return TRUE
 
 /mob/living/proc/prepare_deathsight_message(mob/observer)

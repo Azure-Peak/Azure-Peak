@@ -1,5 +1,48 @@
 // Unarmed base weapon defense equivalents — fed into the same (skill * 20) + (wdef * 10) formula as weapons
 
+/// Share of the parried attack's damage that rattles back into one of our arms
+#define MINERALCLAWS_PARRY_ARM_DAMAGE_FRAC 0.1
+/// Used when the attacker is unarmed and we can't read their punch damage
+#define MINERALCLAWS_UNARMED_FALLBACK_DAMAGE 5
+
+/// Arms that are present and not crippled/disabled
+/mob/living/proc/get_mineral_claw_arms()
+	var/list/usable = list()
+	if(!iscarbon(src))
+		return usable
+	var/mob/living/carbon/C = src
+	for(var/zone in list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+		var/obj/item/bodypart/arm = C.get_bodypart(zone)
+		if(!arm || QDELETED(arm) || arm.disabled != BODYPART_NOT_DISABLED)
+			continue
+		usable += arm
+	return usable
+
+/// Strength of the trait: 0 = no trait or no usable arm, 0.5 = one usable arm, 1 = both
+/mob/living/proc/get_mineral_claw_factor()
+	if(!HAS_TRAIT(src, TRAIT_MINERALCLAWS))
+		return 0
+	return length(get_mineral_claw_arms()) / 2
+
+/// Damage of the attack we just parried
+/mob/living/proc/get_parry_incoming_damage(mob/living/attacker, obj/item/attacker_weapon, blade_dulling)
+	if(attacker_weapon)
+		return get_complex_damage(attacker_weapon, attacker, blade_dulling)
+	if(hascall(attacker, "get_punch_dmg"))
+		return call(attacker, "get_punch_dmg")()
+	return MINERALCLAWS_UNARMED_FALLBACK_DAMAGE
+
+/// The blow rattles through the claws: hurts one usable arm
+/mob/living/proc/mineral_claw_parry_backlash(damage)
+	if(damage <= 0)
+		return
+	var/list/arms = get_mineral_claw_arms()
+	if(!length(arms))
+		return
+	var/obj/item/bodypart/arm = pick(arms)
+	apply_damage(damage * MINERALCLAWS_PARRY_ARM_DAMAGE_FRAC, BRUTE, arm)
+	to_chat(src, span_warning("The blow rattles through my mineral claws, jarring my [arm.name]!"))
+
 /mob/living/proc/attempt_parry(datum/intent/attack_intent, mob/living/user)
 	var/prob2defend = 0
 	var/mob/living/defender = src
@@ -100,6 +143,14 @@
 		unarmed_bandages = hand_item
 	else
 		unarmed_defense = (unarmed_skill * PARRY_PER_SKILL_LEVEL) + (UNARMED_BASE_WDEF_BARE * PARRY_PER_WDEF_POINT)
+
+	// Mineral claws: parry like an expert pugilist always wearing bracers.
+	// Scaled by usable arms (both = full, one = half, none = no effect).
+	var/claw_factor = defender.get_mineral_claw_factor()
+	if(claw_factor > 0)
+		var/claw_skill = max(unarmed_skill, SKILL_LEVEL_EXPERT)
+		var/claw_defense = (claw_skill * PARRY_PER_SKILL_LEVEL) + (UNARMED_BASE_WDEF_EQUIPPED * PARRY_PER_WDEF_POINT)
+		unarmed_defense += max(0, claw_defense - unarmed_defense) * claw_factor
 
 	// If held weapon uses unarmed skill (katar, etc), allow unarmed parry fallback
 	var/allow_unarmed_fallback = FALSE
@@ -377,6 +428,10 @@
 					if(can_train_combat_skill(defender, /datum/skill/combat/unarmed, skill_target))
 						defender.mind?.add_sleep_experience(/datum/skill/combat/unarmed, max(round(STAINT*exp_multi), 0), FALSE)
 
+			// Mineral claws: parrying costs us 10% of the incoming damage on one of our arms
+			if(claw_factor > 0)
+				var/incoming_damage = defender.get_parry_incoming_damage(user, attacker_weapon, used_weapon?.blade_dulling)
+				defender.mineral_claw_parry_backlash(incoming_damage)
 			if(unarmed_bracers)
 				unarmed_bracers.take_damage(INTEG_PARRY_DECAY_NOSHARP, BRUTE)
 			else if(unarmed_knuckles)
