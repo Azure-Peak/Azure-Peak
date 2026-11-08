@@ -1525,7 +1525,7 @@
 	if(living_mob.doing || !can_practice(living_mob))
 		return
 	if(!can_train_combat_skill(living_mob, associated_skill, SKILL_LEVEL_APPRENTICE))
-		to_chat(user, span_warning("I cannot practice this skill."))
+		to_chat(living_mob, span_warning("I cannot practice this skill."))
 		return
 	living_mob.visible_message(span_notice("[living_mob] begins training on [src]..."))
 	while(do_after(living_mob, 1 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(can_practice), living_mob)))
