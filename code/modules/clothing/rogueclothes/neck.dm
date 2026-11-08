@@ -1273,6 +1273,16 @@
 	dropshrink = 0.5
 	salvage_result = null
 
+/obj/item/clothing/neck/roguetown/cravat
+	name = "cravat"
+	desc = "An otavan fashion, a strip of tied cloth that can be donned on the neck to make oneself look more sophisticated."
+	icon_state = "cravat"
+
+/obj/item/clothing/neck/roguetown/ruffle
+	name = "ruffled collar"
+	desc = "A ridiculous lace collar typically worn by jesters."
+	icon_state = "ruffle"
+
 /obj/item/clothing/neck/roguetown/collar/forlorn
 	name = "light forlorn collar"
 	desc = "A old reminder. A lighter version often used more as a status symbol for slaves. Then and now."
@@ -1765,16 +1775,16 @@
 	item_state = "castifico_collar"
 	desc = "A metal collar that seals around the neck, making it impossible to remove. It seems to be enchanted with some kind of vile magic..."
 	var/active_item
-	var/bounty_amount
+	var/issuing_faction
+	var/bounty_amount = 0
 	resistance_flags = FIRE_PROOF
 	slot_flags = ITEM_SLOT_NECK
 	body_parts_covered = NONE //it's not armor
 
 /obj/item/clothing/neck/roguetown/collar/prisoner/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("This cursed collar enforces pacifism and blocks spellcasting.")
-	. += span_info("It will automatically release after a period of penance (5-20 minutes based on bounty amount).")
-	. += span_info("It can only be removed early by a LIBERTAS machine.")
+	. += span_info("This cursed collar blocks spellcasting and weakens its wearer according to their bounty amount. A bounty over 500 mammon pacifies the wearer instead.")
+	. += span_info("It can be removed using a LIBERTAS machine, a key of liberation, or a key of absolution issued by the same faction.")
 
 /obj/item/clothing/neck/roguetown/collar/prisoner/Initialize(mapload)
 	. = ..()
@@ -1784,20 +1794,9 @@
 	. = ..()
 	REMOVE_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
 	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
-	if(QDELETED(src))
-		return
-	qdel(src)
-
-/obj/item/clothing/neck/roguetown/collar/prisoner/proc/timerup(mob/living/carbon/human/user)
-	REMOVE_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
-	REMOVE_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
-	visible_message(span_warning("The castifico collar opens with a click, falling off of [user]'s neck and clambering apart on the ground, their penance complete."))
-	say("YOUR PENANCE IS COMPLETE.")
-	for(var/name in GLOB.outlawed_players)
-		if(user.real_name == name)
-			GLOB.outlawed_players -= user.real_name
-			priority_announce("[user.real_name] has completed their penance. Justice has been served in the eyes of Ravox.", "PENANCE", 'sound/misc/bell.ogg')
-	playsound(src.loc, pick('sound/items/pickgood1.ogg','sound/items/pickgood2.ogg'), 5, TRUE)
+	user.remove_status_effect(/datum/status_effect/debuff/castificot1)
+	user.remove_status_effect(/datum/status_effect/debuff/castificot2)
+	user.remove_status_effect(/datum/status_effect/debuff/castificot3)
 	if(QDELETED(src))
 		return
 	qdel(src)
@@ -1808,26 +1807,23 @@
 		return
 	else if(slot == SLOT_NECK)
 		active_item = TRUE
-		to_chat(user, span_warning("This accursed collar pacifies me!"))
-		ADD_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
+		to_chat(user, span_warning("This accursed collar blocks my spellcasting!"))
 		ADD_TRAIT(user, TRAIT_SPELLCOCKBLOCK, "castificocollar")
+		if(bounty_amount >= 100 && bounty_amount <= 250)
+			user.apply_status_effect(/datum/status_effect/debuff/castificot1)
+		else if(bounty_amount > 250 && bounty_amount <= 400)
+			user.apply_status_effect(/datum/status_effect/debuff/castificot2)
+		else if(bounty_amount > 400 && bounty_amount <= 500)
+			user.apply_status_effect(/datum/status_effect/debuff/castificot3)
+		if(bounty_amount > 500)
+			to_chat(user, span_warning("The collar's magic overwhelms your body, forcing you into pacifism!"))
+			ADD_TRAIT(user, TRAIT_PACIFISM, "castificocollar")
 		if(HAS_TRAIT(user, TRAIT_RITUALIST))
 			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-		var/timer = 5 MINUTES //Base timer is 5 minutes, additional time added per bounty amount
-
-		if(bounty_amount >= 10)
-			var/additional_time = bounty_amount * 0.1 // 10 mammon = 1 minute
-			additional_time = round(additional_time)
-			timer += additional_time MINUTES
-			timer = clamp(timer, 0 MINUTES, 20 MINUTES)
-
-		var/timer_minutes = timer / 600
-
-		addtimer(CALLBACK(src, PROC_REF(timerup), user), timer)
-		say("YOUR PENANCE WILL BE COMPLETE IN [timer_minutes] MINUTES.")
 	return
 
 /obj/item/clothing/neck/roguetown/psicross/liefdonator
 	name = "Aurum's Amulets"
 	desc = "A long gold chain that was double woven for strength. At regular intervals, a gold loop just barely big enough to have something attached to it. Two of the loops had charms dangling from them. Each gold still. One in the shape of a Xylixian mask, the other in the shape of Dendor's claws."
 	icon_state = "lief_amulet"
+

@@ -153,8 +153,11 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 /datum/quest/kill/recovery/materialize(obj/effect/landmark/quest_spawner/landmark)
 	if(!faction)
 		return FALSE
-	. = ..()
-	if(. && !any_guardians_alive())
+	return ..()
+
+/datum/quest/kill/recovery/on_arrival(obj/effect/landmark/quest_spawner/landmark)
+	..()
+	if(!any_guardians_alive())
 		release_parcel(landmark)
 
 /datum/quest/kill/recovery/mark_complete()

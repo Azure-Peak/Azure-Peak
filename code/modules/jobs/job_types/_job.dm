@@ -849,6 +849,23 @@
 			return FALSE
 	return checked_subclass
 
+/// Whether a quirk's allowed_jobs excludes this job. Separate from the job's own quirk_restrictions.
+/datum/job/proc/is_quirk_job_locked(datum/quirk/quirk)
+	if(!quirk || !LAZYLEN(quirk.allowed_jobs))
+		return FALSE
+	return !(title in quirk.allowed_jobs)
+
+/// Names of the quirks in these prefs whose allowed_jobs exclude this job. Only quirks that would actually be applied (have a slot) count.
+/datum/job/proc/get_quirk_job_lock_names(datum/preferences/prefs)
+	. = list()
+	if(!prefs)
+		return
+	var/slots = get_quirk_slots(prefs)
+	if(slots >= 1 && is_quirk_job_locked(prefs.quirklesser))
+		. += prefs.quirklesser.name
+	if(slots >= 2 && is_quirk_job_locked(prefs.quirkgreater))
+		. += prefs.quirkgreater.name
+
 /// Dynamic UI data for TGUI to display these in the prefs menu
 /datum/job/ui_data(mob/user)
 	var/list/data = ..()

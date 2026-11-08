@@ -10,8 +10,8 @@
 
 // Causes any affecting light sources to be queued for a visibility update, for example a door got opened.
 /turf/proc/reconsider_lights()
-	for(var/datum/lighting_corner/corner as anything in get_corners())
-		corner.vis_update()
+	for(var/datum/lighting_corner/corner as anything in corners)
+		corner?.vis_update()
 
 /turf/proc/lighting_clear_overlay()
 	if (lighting_object)
@@ -79,16 +79,6 @@
 				lighting_build_overlay()
 			else
 				lighting_clear_overlay()
-
-/turf/proc/get_corners()
-	if (!IS_DYNAMIC_LIGHTING(src) && !light_sources)
-		return null
-	if (!lighting_corners_initialised)
-		generate_missing_corners()
-	if (opacity || (opaque_atom_count > 0))
-		return null // Since this proc gets used in a for loop, null won't be looped though.
-
-	return corners
 
 /turf/proc/generate_missing_corners()
 	if (!IS_DYNAMIC_LIGHTING(src) && !light_sources)

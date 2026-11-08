@@ -111,6 +111,16 @@
 	path = /obj/item/clothing/neck/roguetown/collar
 	sort_category = "Accessories"
 
+/datum/loadout_item/cravat
+	name = "Cravat"
+	path = /obj/item/clothing/neck/roguetown/cravat
+	sort_category = "Accessories"
+
+/datum/loadout_item/ruffle
+	name = "Ruffled Collar"
+	path = /obj/item/clothing/neck/roguetown/ruffle
+	sort_category = "Accessories"
+
 /datum/loadout_item/forlon_collar
 	name = "Light Forlorn Collar"
 	path = /obj/item/clothing/neck/roguetown/collar/forlorn
