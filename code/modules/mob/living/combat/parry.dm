@@ -32,6 +32,8 @@
 		return call(attacker, "get_punch_dmg")()
 	return MINERALCLAWS_UNARMED_FALLBACK_DAMAGE
 
+#undef MINERALCLAWS_UNARMED_FALLBACK_DAMAGE
+
 /// The blow rattles through the claws: hurts one usable arm
 /mob/living/proc/mineral_claw_parry_backlash(damage)
 	if(damage <= 0)
@@ -42,6 +44,8 @@
 	var/obj/item/bodypart/arm = pick(arms)
 	apply_damage(damage * MINERALCLAWS_PARRY_ARM_DAMAGE_FRAC, BRUTE, arm)
 	to_chat(src, span_warning("The blow rattles through my mineral claws, jarring my [arm.name]!"))
+
+#undef MINERALCLAWS_PARRY_ARM_DAMAGE_FRAC
 
 /mob/living/proc/attempt_parry(datum/intent/attack_intent, mob/living/user)
 	var/prob2defend = 0

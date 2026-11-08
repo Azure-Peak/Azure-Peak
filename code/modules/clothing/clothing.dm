@@ -393,28 +393,31 @@
 		warn_armor_class(user)
 
 /obj/item/clothing/proc/warn_armor_class(mob/living/carbon/human/user, removed = FALSE)
-	if(armor_class <= ARMOR_CLASS_NONE)
+	if(armor_class <= ARMOR_CLASS_NONE || !ishuman(user))
 		return
-	if(!ishuman(user))
-		return
-	// Was this item's armor class actually beyond the user's training?
+
 	var/dominated = FALSE
-	var/can_wear = FALSE
+	var/rockman = HAS_TRAIT(src, TRAIT_ROCKMAN)
+
 	if(armor_class == ARMOR_CLASS_HEAVY && !HAS_TRAIT(user, TRAIT_HEAVYARMOR))
 		dominated = TRUE
-		can_wear = TRUE
 	else if(armor_class == ARMOR_CLASS_MEDIUM && !HAS_TRAIT(user, TRAIT_HEAVYARMOR) && !HAS_TRAIT(user, TRAIT_MEDIUMARMOR))
 		dominated = TRUE
-		can_wear = TRUE
+
+	if(rockman && (armor_class == ARMOR_CLASS_MEDIUM || armor_class == ARMOR_CLASS_HEAVY))
+		dominated = TRUE
+
 	if(!dominated)
 		return
+
 	if(removed)
 		if(user.check_armor_skill())
 			to_chat(user, span_info("I feel lighter and more agile without that armor weighing me down."))
 		else
 			to_chat(user, span_info("I feel the weight lessens, but another piece of armor is still impairing my movements."))
 		return
-	if(HAS_TRAIT(user, TRAIT_ROCKMAN) && can_wear)
+
+	if(rockman)
 		to_chat(user, span_warning("Despite being trained, my form is unfitting for this. My ability to parry, dodge, run and cast spells will be greatly impaired."))
 	else
 		to_chat(user, span_warning("I'm not trained to wear armor of this weight. My ability to parry, dodge, run and cast spells will be greatly impaired."))
