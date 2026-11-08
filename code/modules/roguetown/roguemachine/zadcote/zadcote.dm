@@ -362,7 +362,7 @@
 			return
 		attach_cage(cage, user)
 		return
-	if(istype(I, /obj/item/bomb))
+	if(istype(I, /obj/item/explosive/fused/bottle))
 		if(!is_operator(user))
 			to_chat(user, span_warning("Only the zadcote's owners can use it."))
 			return

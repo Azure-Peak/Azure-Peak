@@ -35,6 +35,6 @@
 		to_chat(user, span_warning("Stuffing cloth down the bottle..."))
 		playsound(src, pick('sound/foley/waterwash (1).ogg','sound/foley/waterwash (2).ogg'), 100, FALSE)
 		if(do_after(user,3 SECONDS, target = src))
-			new /obj/item/bomb(user.loc)
+			new /obj/item/explosive/fused/bottle(user.loc)
 			qdel(src)
 			qdel(I)
