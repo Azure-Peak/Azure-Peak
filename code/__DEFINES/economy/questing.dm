@@ -317,3 +317,11 @@
 #define MERC_CONTRACT_DAY_LENGTH ((24 HOURS) / SSticker.station_time_rate_multiplier)
 #define MERC_CONTRACT_RANGE 7
 #define MERC_CONTRACT_ACCEPT_TIMEOUT (30 SECONDS)
+
+#define MERC_HIRER_TOWNER "towner"
+#define MERC_HIRER_OUTLAW "outlaw"
+#define MERC_HIRER_INQUISITION "inquisition"
+
+#define MERC_STIPEND_TOWNER 125
+#define MERC_STIPEND_OUTLAW 150
+#define MERC_STIPEND_INQUISITION 100

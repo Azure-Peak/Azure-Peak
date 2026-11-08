@@ -1,5 +1,32 @@
 GLOBAL_LIST_EMPTY(merc_contracts)
 
+GLOBAL_LIST_INIT(merc_hirer_categories, list(
+	MERC_HIRER_TOWNER = list("label" = "Towners", "stipend" = MERC_STIPEND_TOWNER, "payer" = "the Burghers & Merchants of Azuria"),
+	MERC_HIRER_OUTLAW = list("label" = "Outlaws", "stipend" = MERC_STIPEND_OUTLAW, "payer" = "a Mysterious Benefactor", "by_mail" = TRUE),
+	MERC_HIRER_INQUISITION = list("label" = "The Inquisition", "stipend" = MERC_STIPEND_INQUISITION, "payer" = "Otava"),
+))
+
+/proc/get_merc_hirer_category(mob/living/hirer)
+	if(HAS_TRAIT(hirer, TRAIT_OUTLAW))
+		return MERC_HIRER_OUTLAW
+	if(HAS_TRAIT(hirer, TRAIT_INQUISITION))
+		return MERC_HIRER_INQUISITION
+	if(hirer.job in GLOB.tavern_positions)
+		return null
+	if((hirer.job in GLOB.burgher_positions) || (hirer.job in GLOB.peasant_positions))
+		return MERC_HIRER_TOWNER
+	return null
+
+/proc/mail_merc_cash(mob/living/merc, amount, sender)
+	var/gold = floor(amount / 10)
+	while(gold > 0)
+		var/stack = min(gold, 20)
+		deliver_mail(new /obj/item/roguecoin/gold(null, stack), merc.real_name, sender, "merc contract stipend")
+		gold -= stack
+	var/copper = amount % 10
+	if(copper)
+		deliver_mail(new /obj/item/roguecoin/copper(null, copper), merc.real_name, sender, "merc contract stipend")
+
 /proc/get_merc_contract(mob/living/merc)
 	for(var/datum/merc_contract/contract as anything in GLOB.merc_contracts)
 		if(contract.merc_ref?.resolve() == merc)
@@ -31,8 +58,9 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	var/merc_name
 	var/hirer_name
 	var/days
-	var/started_at
-	var/term_timer_id
+	var/days_served = 0
+	var/hirer_category
+	var/day_timer_id
 
 /datum/merc_contract/New(mob/living/merc, mob/living/hirer, datum/fellowship/F, obj/item/merc_contract/item, days)
 	merc_ref = WEAKREF(merc)
@@ -42,8 +70,8 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	merc_name = merc.real_name
 	hirer_name = hirer.real_name
 	src.days = days
-	started_at = world.time
-	term_timer_id = addtimer(CALLBACK(src, PROC_REF(complete_term)), days * MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE)
+	hirer_category = get_merc_hirer_category(hirer)
+	day_timer_id = addtimer(CALLBACK(src, PROC_REF(on_day_passed)), MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE | TIMER_LOOP)
 	RegisterSignal(F, COMSIG_PARENT_QDELETING, PROC_REF(on_fellowship_deleted))
 	GLOB.merc_contracts += src
 	if(F.payout_mode != FELLOWSHIP_PAYOUT_SPLIT)
@@ -54,9 +82,9 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	log_quest(merc.ckey, merc.mind, merc, "Hired by [hirer.ckey] \\ [hirer_name] for [days] day\s")
 
 /datum/merc_contract/Destroy()
-	if(term_timer_id)
-		deltimer(term_timer_id)
-		term_timer_id = null
+	if(day_timer_id)
+		deltimer(day_timer_id)
+		day_timer_id = null
 	var/datum/fellowship/F = fellowship_ref?.resolve()
 	if(F)
 		UnregisterSignal(F, COMSIG_PARENT_QDELETING)
@@ -75,8 +103,32 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 		to_chat(hirer, span_notice("Your fellowship has disbanded. Your contract with [merc_name] is over."))
 	INVOKE_ASYNC(src, PROC_REF(end_contract))
 
+/datum/merc_contract/proc/on_day_passed()
+	days_served++
+	pay_day()
+	if(days_served >= days)
+		complete_term()
+
+/datum/merc_contract/proc/pay_day()
+	if(!hirer_category)
+		return
+	var/list/terms = GLOB.merc_hirer_categories[hirer_category]
+	var/stipend = terms?["stipend"]
+	var/mob/living/merc = merc_ref?.resolve()
+	if(!stipend || !merc)
+		return
+	var/payer = terms["payer"]
+	var/datum/fund/account = SStreasury.get_account(merc)
+	if(account && !terms["by_mail"])
+		SStreasury.mint(account, stipend, "Mercenary contract with [hirer_name]", payer, LEDGER_CITIZEN_CONTRACTS)
+		to_chat(merc, span_notice("[capitalize(payer)] deposits [stipend] mammon to your account for your contract with [hirer_name]."))
+	else
+		mail_merc_cash(merc, stipend, capitalize(payer))
+		to_chat(merc, span_notice("[capitalize(payer)] has sent you [stipend] mammon by HERMES for your contract with [hirer_name]."))
+	log_quest(merc.ckey, merc.mind, merc, "Contract stipend [stipend] from [payer] (day [days_served] of [days] with [hirer_name])")
+
 /datum/merc_contract/proc/can_end_early()
-	return world.time - started_at >= MERC_CONTRACT_DAY_LENGTH
+	return days_served >= 1
 
 /datum/merc_contract/proc/end_early()
 	var/mob/living/merc = merc_ref?.resolve()
@@ -90,13 +142,13 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	end_contract(world.time + MERC_CONTRACT_DAY_LENGTH)
 
 /datum/merc_contract/proc/admin_complete()
-	if(term_timer_id)
-		deltimer(term_timer_id)
+	if(day_timer_id)
+		deltimer(day_timer_id)
+		day_timer_id = null
 	log_admin("[key_name(usr)] completed the mercenary contract of [merc_name] with [hirer_name].")
 	complete_term()
 
 /datum/merc_contract/proc/complete_term()
-	term_timer_id = null
 	var/mob/living/merc = merc_ref?.resolve()
 	var/mob/living/hirer = hirer_ref?.resolve()
 	if(merc)
@@ -151,6 +203,11 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] day\s.")
 		return
 	. += span_info("Hire mercenary [merc_name] for [days] day\s.")
+	. += span_info("Pay per day by employer:")
+	for(var/category in GLOB.merc_hirer_categories)
+		var/list/terms = GLOB.merc_hirer_categories[category]
+		. += span_info("- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]")
+	. += span_info("- Anyone else: nothing extra")
 
 /obj/item/merc_contract/attack_self(mob/user)
 	var/mob/living/L = user
@@ -169,7 +226,7 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 
 /obj/item/merc_contract/proc/try_end_early(mob/living/hirer)
 	if(!contract.can_end_early())
-		to_chat(hirer, span_warning("You can end the contract in [merc_contract_time_text(contract.started_at + MERC_CONTRACT_DAY_LENGTH - world.time)]."))
+		to_chat(hirer, span_warning("You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))]."))
 		return
 	if(tgui_alert(hirer, "End your contract with [merc_name] early?", "Mercenary Contract", list("Yes", "No")) != "Yes")
 		return
@@ -209,11 +266,19 @@ GLOBAL_LIST_EMPTY(merc_contracts)
 	if(!offer)
 		return
 	offer.item_ref = WEAKREF(src)
-	offer.desc = "[hirer.real_name] wants to hire you for [days] day\s. Click to accept."
+	var/pay_text = merc_offer_pay_text(hirer)
+	offer.desc = "[hirer.real_name] wants to hire you for [days] day\s.[pay_text] Click to accept."
 	offered_by = WEAKREF(hirer)
 	offer_timer_id = addtimer(CALLBACK(src, PROC_REF(expire_offer)), MERC_CONTRACT_ACCEPT_TIMEOUT, TIMER_STOPPABLE)
 	to_chat(hirer, span_notice("You offer the contract to [merc_name]."))
-	to_chat(merc, span_notice("[hirer.real_name] wants to hire you for [days] day\s. Click the alert to accept."))
+	to_chat(merc, span_notice("[hirer.real_name] wants to hire you for [days] day\s.[pay_text] Click the alert to accept."))
+
+/obj/item/merc_contract/proc/merc_offer_pay_text(mob/living/hirer)
+	var/category = get_merc_hirer_category(hirer)
+	if(!category)
+		return ""
+	var/list/terms = GLOB.merc_hirer_categories[category]
+	return " [capitalize(terms["payer"])] will pay you [terms["stipend"]] mammon a day."
 
 /obj/item/merc_contract/proc/expire_offer()
 	offer_timer_id = null
