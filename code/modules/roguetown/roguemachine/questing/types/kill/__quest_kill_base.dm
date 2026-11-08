@@ -234,7 +234,7 @@
 	quest_scroll?.update_quest_text()
 
 /datum/quest/kill/proc/settle_fellowship_arrival(obj/effect/landmark/quest_spawner/landmark)
-	if(!fellowship_threat_rate && !fellowship_reward_rate)
+	if(!fellowship_threat_rate && !fellowship_reward_rate && required_fellowship_size < 2)
 		return
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(!istype(bearer))
@@ -245,7 +245,15 @@
 	for(var/mob/living/M as anything in present)
 		fellowship_roster += WEAKREF(M)
 	fellowship_extras = max(0, length(present) - max(1, required_fellowship_size))
-	if(fellowship_extras == before)
+	fellowship_missing = max(0, required_fellowship_size - length(present))
+	if(fellowship_missing)
+		fellowship_threat_mult = 1 - fellowship_threat_rate * fellowship_missing
+		fellowship_reward_mult = 1
+		if(!is_directive && (fellowship_threat_rate || fellowship_reward_rate))
+			reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+		scale_for_missing_crew(length(present))
+		return
+	if(fellowship_extras == before || (!fellowship_threat_rate && !fellowship_reward_rate))
 		return
 	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
 	fellowship_reward_mult = group_reward_mult(fellowship_extras)
@@ -256,6 +264,10 @@
 		announce_to_bearer("<b>[diff] of your fellowship member\s [diff == 1 ? "was" : "were"] absent.</b> The contract has been scaled down.")
 	else
 		announce_to_bearer("<b>[diff] more members than expected were in your fellowship.</b> The contract has been scaled up.")
+
+/datum/quest/kill/proc/scale_for_missing_crew(present_count)
+	reward_amount = round(reward_amount * present_count / required_fellowship_size)
+	announce_to_bearer("<b>[fellowship_missing] of the [required_fellowship_size] members this contract needs [fellowship_missing == 1 ? "was" : "were"] absent.</b> The threat and reward has been scaled down.")
 
 /datum/quest/kill/proc/present_fellowship_members(mob/living/bearer, obj/effect/landmark/quest_spawner/landmark)
 	. = list(bearer)

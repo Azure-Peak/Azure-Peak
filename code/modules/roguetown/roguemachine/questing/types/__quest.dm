@@ -76,6 +76,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/fellowship_reward_rate = 0
 	var/list/fellowship_roster
 	var/fellowship_extras = 0
+	var/fellowship_missing = 0
 	var/fellowship_threat_mult = 1
 	var/fellowship_reward_mult = 1
 	var/fellowship_split_payout = FALSE

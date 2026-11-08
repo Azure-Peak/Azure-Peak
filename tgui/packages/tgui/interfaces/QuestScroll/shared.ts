@@ -34,6 +34,7 @@ export type QuestScrollData = {
   reward?: number;
   fellowship_size?: number;
   fellowship_extras?: number;
+  fellowship_missing?: number;
   fellowship_split?: BooleanLike;
   fellowship_threat_pct?: number;
   fellowship_reward_pct?: number;

@@ -303,6 +303,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["reward"] = assigned_quest.reward_amount
 	data["fellowship_size"] = length(assigned_quest.fellowship_roster)
 	data["fellowship_extras"] = assigned_quest.fellowship_extras
+	data["fellowship_missing"] = assigned_quest.fellowship_missing
 	data["fellowship_split"] = assigned_quest.fellowship_split_payout
 	data["fellowship_threat_pct"] = round((assigned_quest.fellowship_threat_mult - 1) * 100)
 	data["fellowship_reward_pct"] = round((assigned_quest.fellowship_reward_mult - 1) * 100)
