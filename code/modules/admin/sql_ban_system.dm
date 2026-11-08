@@ -261,7 +261,7 @@
 			"Otavan Inquisition" = GLOB.inquisition_positions,
 			"Sidefolk" = GLOB.sidefolk_positions,
 			"Wanderers" = GLOB.wanderer_positions,
-			"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER),
+			"Antagonist Positions" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER, ROLE_RENEGADE),
 			"Lesser Antagonst Positions" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE),
 			"Ghost and Other Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT)
 			)
@@ -505,6 +505,7 @@
 	var/target = ban_target_string(player_key, player_ip, player_cid)
 	var/msg = "has created a [isnull(duration) ? "permanent" : "temporary [time_message]"] [applies_to_admins ? "admin " : ""][roles_to_ban[1] == "Server" ? "server ban" : "role ban from [roles_to_ban.len] roles"] for [target]."
 	log_admin_private("[kn] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join(", ")]"] Reason: [reason]")
+	announce_note_change("BANS: [kn] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join(", ")]"] Reason: [reason]")
 	message_admins("[kna] [msg][roles_to_ban[1] == "Server" ? "" : " Roles: [roles_to_ban.Join("\n")]"]\nReason: [reason]")
 	if(applies_to_admins)
 		send2irc("BAN ALERT","[kn] [msg]")

@@ -134,6 +134,10 @@
 
 /proc/try_construct_consume(obj/item/I, mob/living/M, mob/user)
 	if(!HAS_TRAIT(M, TRAIT_IRONMAN))
+		if(M == user)
+			to_chat(user, span_warning("I cannot eat that!"))
+		else
+			to_chat(user, span_warning("[M] doesn't seem capable of eating that."))
 		return FALSE
 
 	if(M.stat == DEAD)

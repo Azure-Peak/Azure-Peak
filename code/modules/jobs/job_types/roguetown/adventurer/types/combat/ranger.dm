@@ -173,7 +173,7 @@
 					/obj/item/natural/bundle/fibers/full = 1,
 					/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
 					/obj/item/flashlight/flare/torch/lantern = 1,
-					/obj/item/bomb = 4,
+					/obj/item/explosive/fused/bottle = 4,
 					/obj/item/flint = 1,
 					)
 				H.change_stat(STATKEY_SPD, 2)
@@ -189,7 +189,7 @@
 					/obj/item/natural/bundle/fibers/full = 1,
 					/obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1,
 					/obj/item/flashlight/flare/torch/lantern = 1,
-					/obj/item/bomb = 4,
+					/obj/item/explosive/fused/bottle = 4,
 					/obj/item/flint = 1,
 					)
 				H.change_stat(STATKEY_CON, 1)

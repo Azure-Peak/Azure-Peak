@@ -80,6 +80,7 @@
 	damage = 20
 	damage_type = BRUTE
 	armor_penetration = PEN_NONE
+	antibeast_factor = ANTIBEAST_DEFAULT
 	icon = 'icons/roguetown/weapons/ranged/arrow_proj.dmi'
 	icon_state = "arrow_proj"
 	ammo_type = /obj/item/ammo_casing/caseless/rogue/arrow

@@ -388,26 +388,36 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		return TRUE
 	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
-		if(!F)
+		if(!F || !F.is_leader(user))
 			return FALSE
-		if(length(F.get_members()) < required_fellowship_size)
+		if(length(available_fellowship_members(user)) < required_fellowship_size)
 			return FALSE
 	return TRUE
 
+/datum/quest/proc/available_fellowship_members(mob/living/user)
+	. = list()
+	if(!user)
+		return
+	. += user
+	var/datum/fellowship/F = user.current_fellowship
+	if(!F)
+		return
+	for(var/mob/living/M as anything in F.get_members())
+		if(length(.) >= QUEST_FELLOWSHIP_SCALE_MAX)
+			break
+		if(M == user)
+			continue
+		. += M
+
 /datum/quest/proc/count_fellowship_extras(mob/living/user)
-	var/datum/fellowship/F = user?.current_fellowship
-	var/size = F ? min(length(F.get_members()), QUEST_FELLOWSHIP_SCALE_MAX) : 1
-	return max(0, size - max(1, required_fellowship_size))
+	return max(0, length(available_fellowship_members(user)) - max(1, required_fellowship_size))
 
 /datum/quest/proc/lock_fellowship(mob/living/user)
 	if(fellowship_roster)
 		return
 	fellowship_roster = list()
 	var/datum/fellowship/F = user?.current_fellowship
-	var/list/members = F ? F.get_members() : list(user)
-	for(var/mob/living/M as anything in members)
-		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
-			break
+	for(var/mob/living/M as anything in available_fellowship_members(user))
 		fellowship_roster += WEAKREF(M)
 	fellowship_split_payout = F?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = count_fellowship_extras(user)
@@ -462,6 +472,8 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 			return "This contract needs a fellowship of [required_fellowship_size]."
 		if(length(F.get_members()) < required_fellowship_size)
 			return "Your fellowship is too small. It needs [required_fellowship_size] members."
+		if(!F.is_leader(user))
+			return "Only your fellowship's leader may sign this contract."
 	return "You cannot sign that contract."
 
 /datum/quest/proc/on_claim(mob/user)
