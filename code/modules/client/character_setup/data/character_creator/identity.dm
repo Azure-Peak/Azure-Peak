@@ -6,6 +6,7 @@
 		"race_bonus" = null,
 
 		"nickname" = nickname,
+		"pen_name" = pen_name,
 		"highlight_color" = highlight_color,
 		"age" = age,
 

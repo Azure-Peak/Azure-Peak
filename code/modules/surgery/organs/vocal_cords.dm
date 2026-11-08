@@ -105,7 +105,7 @@
 	if(!owner)
 		return FALSE
 	if(!owner.can_speak())
-		to_chat(owner, "<span class='warning'>I are unable to speak!</span>")
+		to_chat(owner, "<span class='warning'>I am unable to speak!</span>")
 		return FALSE
 	return TRUE
 
@@ -306,20 +306,6 @@
 			var/mob/living/L = V
 			L.adjust_fire_stacks(1 * power_multiplier)
 			L.ignite_mob()
-
-	//HOT
-	else if((findtext(message, hot_words)))
-		cooldown = COOLDOWN_DAMAGE
-		for(var/V in listeners)
-			var/mob/living/L = V
-			L.adjust_bodytemperature(50 * power_multiplier)
-
-	//COLD
-	else if((findtext(message, cold_words)))
-		cooldown = COOLDOWN_DAMAGE
-		for(var/V in listeners)
-			var/mob/living/L = V
-			L.adjust_bodytemperature(-50 * power_multiplier)
 
 	//REPULSE
 	else if((findtext(message, repulse_words)))

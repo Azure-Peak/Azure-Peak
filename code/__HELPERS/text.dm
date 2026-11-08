@@ -317,7 +317,11 @@
 
 //Returns a string with the first element of the string capitalized.
 /proc/capitalize(t as text)
-	return uppertext(copytext(t, 1, 2)) + copytext(t, 2)
+	return uppertext(copytext_char(t, 1, 2)) + copytext_char(t, 2)
+
+/proc/full_capitalize(input)
+	var/regex/first_letter = new(@"[^A-z]*?([A-z]*)", "g")
+	return replacetext(input, first_letter, /proc/capitalize)
 
 //Centers text by adding spaces to either side of the string.
 /proc/dd_centertext(message, length)
@@ -1048,3 +1052,70 @@ GLOBAL_LIST_INIT(binary, list("0","1"))
 		text2num(semver_regex.group[2]),
 		text2num(semver_regex.group[3]),
 	)
+
+/// Maps accented Latin letters (the 192 to 383 range that reject_bad_name allows) to their plain equivalents.
+GLOBAL_LIST_INIT(diacritic_map, init_diacritic_map())
+
+/proc/init_diacritic_map()
+	var/list/map = list()
+	var/list/groups = list(
+		"A" = "ÀÁÂÃÄÅĀĂĄ",
+		"a" = "àáâãäåāăą",
+		"C" = "ÇĆĈĊČ",
+		"c" = "çćĉċč",
+		"D" = "ĎĐ",
+		"d" = "ďđ",
+		"E" = "ÈÉÊËĒĔĖĘĚ",
+		"e" = "èéêëēĕėęě",
+		"G" = "ĜĞĠĢ",
+		"g" = "ĝğġģ",
+		"H" = "ĤĦ",
+		"h" = "ĥħ",
+		"I" = "ÌÍÎÏĨĪĬĮİ",
+		"i" = "ìíîïĩīĭįı",
+		"J" = "Ĵ",
+		"j" = "ĵ",
+		"K" = "Ķ",
+		"k" = "ķ",
+		"L" = "ĹĻĽĿŁ",
+		"l" = "ĺļľŀł",
+		"N" = "ÑŃŅŇ",
+		"n" = "ñńņň",
+		"O" = "ÒÓÔÕÖØŌŎŐ",
+		"o" = "òóôõöøōŏő",
+		"R" = "ŔŖŘ",
+		"r" = "ŕŗř",
+		"S" = "ŚŜŞŠ",
+		"s" = "śŝşš",
+		"T" = "ŢŤŦ",
+		"t" = "ţťŧ",
+		"U" = "ÙÚÛÜŨŪŬŮŰŲ",
+		"u" = "ùúûüũūŭůűų",
+		"W" = "Ŵ",
+		"w" = "ŵ",
+		"Y" = "ÝŶŸ",
+		"y" = "ýÿŷ",
+		"Z" = "ŹŻŽ",
+		"z" = "źżž"
+	)
+	for(var/plain in groups)
+		var/accented = groups[plain]
+		for(var/i in 1 to length_char(accented))
+			map[copytext_char(accented, i, i + 1)] = plain
+	map["Æ"] = "AE"
+	map["æ"] = "ae"
+	map["Œ"] = "OE"
+	map["œ"] = "oe"
+	map["ß"] = "ss"
+	return map
+
+/// Replaces accented letters with their plain equivalents, so names can be compared without diacritics.
+/proc/strip_diacritics(text)
+	if(!text)
+		return text
+	var/list/map = GLOB.diacritic_map
+	var/out = ""
+	for(var/i in 1 to length_char(text))
+		var/char = copytext_char(text, i, i + 1)
+		out += map[char] || char
+	return out

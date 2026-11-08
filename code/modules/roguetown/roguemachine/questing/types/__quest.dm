@@ -1,6 +1,6 @@
 GLOBAL_LIST_INIT(quest_difficulty_terms, list(
-	QUEST_DIFFICULTY_EASY = list("bonus" = QUEST_DIFFICULTY_BONUS_EASY, "deposit" = QUEST_DEPOSIT_EASY, "threat_pay_mult" = QUEST_KILL_THREAT_MULT_EASY, "group_bonus" = QUEST_FELLOWSHIP_GROUP_BONUS_EASY, "icon" = "scroll_quest_low"),
-	QUEST_DIFFICULTY_MEDIUM = list("bonus" = QUEST_DIFFICULTY_BONUS_MEDIUM, "deposit" = QUEST_DEPOSIT_MEDIUM, "threat_pay_mult" = QUEST_KILL_THREAT_MULT_MEDIUM, "group_bonus" = QUEST_FELLOWSHIP_GROUP_BONUS_MEDIUM, "min_region_tp_mult" = QUEST_MIN_REGION_TP_MULT_MEDIUM, "icon" = "scroll_quest_mid"),
+	QUEST_DIFFICULTY_EASY = list("bonus" = QUEST_DIFFICULTY_BONUS_EASY, "deposit" = QUEST_DEPOSIT_EASY, "icon" = "scroll_quest_low"),
+	QUEST_DIFFICULTY_MEDIUM = list("bonus" = QUEST_DIFFICULTY_BONUS_MEDIUM, "deposit" = QUEST_DEPOSIT_MEDIUM, "min_region_tp_mult" = QUEST_MIN_REGION_TP_MULT_MEDIUM, "icon" = "scroll_quest_mid"),
 	QUEST_DIFFICULTY_HARD = list("bonus" = QUEST_DIFFICULTY_BONUS_HARD, "deposit" = QUEST_DEPOSIT_HARD, "icon" = "scroll_quest_high"),
 	QUEST_DIFFICULTY_NOTORIOUS = list("bonus" = QUEST_DIFFICULTY_BONUS_NOTORIOUS, "deposit" = QUEST_DEPOSIT_NOTORIOUS, "icon" = "scroll_quest_notorious"),
 	QUEST_DIFFICULTY_INCURSION = list("bonus" = QUEST_DIFFICULTY_BONUS_INCURSION, "deposit" = QUEST_DEPOSIT_INCURSION, "icon" = "scroll_quest_high"),
@@ -47,6 +47,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 	var/source
 	var/created_at = 0
+	var/lapse_offset = 0
 	var/issued_day = 0
 
 	var/progress_current = 0
@@ -157,7 +158,22 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 /datum/quest/proc/get_lapse_time()
 	var/window = (source == QUEST_SOURCE_POOL) ? QUEST_POOL_STALE_THRESHOLD : QUEST_PLAYER_STALE_THRESHOLD
-	return created_at + window
+	return max(created_at, SSticker.round_start_time) + window + lapse_offset
+
+/datum/quest/proc/lapses_unattended()
+	return !!quest_receiver_reference || source != QUEST_SOURCE_GM
+
+/datum/quest/proc/may_carry_scroll(mob/living/carrier)
+	if(!quest_receiver_reference)
+		return TRUE
+	var/mob/living/bearer = quest_receiver_reference.resolve()
+	if(!bearer)
+		return FALSE
+	return carrier == bearer || bearer.current_fellowship?.has_member(carrier)
+
+/datum/quest/proc/get_scroll_owner()
+	var/datum/weakref/owner_ref = quest_receiver_reference || quest_giver_reference
+	return owner_ref?.resolve()
 
 /datum/quest/Destroy()
 	var/obj/effect/landmark/quest_spawner/held_landmark = pending_landmark_ref?.resolve()
@@ -337,7 +353,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/group_reward_mult(extras)
 	if(!extras || !fellowship_reward_rate)
 		return 1
-	return (1 + (get_difficulty_term("group_bonus") || 0)) * (1 + fellowship_reward_rate * extras)
+	return 1 + fellowship_reward_rate * extras
 
 /datum/quest/proc/get_difficulty_term(term)
 	var/list/terms = GLOB.quest_difficulty_terms[quest_difficulty]
@@ -388,26 +404,36 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		return TRUE
 	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
-		if(!F)
+		if(!F || !F.is_leader(user))
 			return FALSE
-		if(length(F.get_members()) < required_fellowship_size)
+		if(length(available_fellowship_members(user)) < required_fellowship_size)
 			return FALSE
 	return TRUE
 
+/datum/quest/proc/available_fellowship_members(mob/living/user)
+	. = list()
+	if(!user)
+		return
+	. += user
+	var/datum/fellowship/F = user.current_fellowship
+	if(!F)
+		return
+	for(var/mob/living/M as anything in F.get_members())
+		if(length(.) >= QUEST_FELLOWSHIP_SCALE_MAX)
+			break
+		if(M == user)
+			continue
+		. += M
+
 /datum/quest/proc/count_fellowship_extras(mob/living/user)
-	var/datum/fellowship/F = user?.current_fellowship
-	var/size = F ? min(length(F.get_members()), QUEST_FELLOWSHIP_SCALE_MAX) : 1
-	return max(0, size - max(1, required_fellowship_size))
+	return max(0, length(available_fellowship_members(user)) - max(1, required_fellowship_size))
 
 /datum/quest/proc/lock_fellowship(mob/living/user)
 	if(fellowship_roster)
 		return
 	fellowship_roster = list()
 	var/datum/fellowship/F = user?.current_fellowship
-	var/list/members = F ? F.get_members() : list(user)
-	for(var/mob/living/M as anything in members)
-		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
-			break
+	for(var/mob/living/M as anything in available_fellowship_members(user))
 		fellowship_roster += WEAKREF(M)
 	fellowship_split_payout = F?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = count_fellowship_extras(user)
@@ -462,6 +488,8 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 			return "This contract needs a fellowship of [required_fellowship_size]."
 		if(length(F.get_members()) < required_fellowship_size)
 			return "Your fellowship is too small. It needs [required_fellowship_size] members."
+		if(!F.is_leader(user))
+			return "Only your fellowship's leader may sign this contract."
 	return "You cannot sign that contract."
 
 /datum/quest/proc/on_claim(mob/user)

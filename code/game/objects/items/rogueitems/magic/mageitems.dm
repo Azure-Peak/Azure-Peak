@@ -60,6 +60,7 @@
 	throw_range = 5
 	throwforce = 5
 	damtype = BRUTE
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 	force = 1
 	w_class = WEIGHT_CLASS_TINY
 	var/obj/effect/decal/cleanable/roguerune/rune_to_scribe = null
@@ -67,15 +68,14 @@
 
 /obj/item/chalk/attack(mob/living/target, mob/living/user)
 
-	user.visible_message(span_notice("[user] begins nibbling on [src]."), span_notice("I begin nibbling on [src]."))
-	if(!do_after(user, 2 SECONDS, target = src))
-		return
-	playsound(user.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
-	user.visible_message(span_notice("[user] finishes eating [src]."), span_notice("I finish eating [src]. Yum!"))
-	user.reagents.add_reagent(/datum/reagent/medicine/manapot, 15)
-	qdel(src)
-
-
+	if (istype(user.used_intent, /datum/intent/food))
+		user.visible_message(span_notice("[user] begins nibbling on [src]."), span_notice("I begin nibbling on [src]."))
+		if(!do_after(user, 2 SECONDS, target = src))
+			return
+		playsound(user.loc, 'sound/misc/eat.ogg', rand(30,60), TRUE)
+		user.visible_message(span_notice("[user] finishes eating [src]."), span_notice("I finish eating [src]. Yum!"))
+		user.reagents.add_reagent(/datum/reagent/medicine/manapot, 15)
+		qdel(src)
 
 /obj/item/chalk/attack_self(mob/living/carbon/human/user)
 	if(!HAS_TRAIT(user, TRAIT_LEYLINE_ATTUNEMENT))
@@ -195,7 +195,7 @@
 	if(do_after(user, crafttime, target = src))
 		user.visible_message(
 			span_warning("[user] carves an arcyne rune with [user.p_their()] [name]!"), \
-			span_notice("I finish dragging the blade in symbols and circles, leaving behind an ritual rune")
+			span_notice("I finish dragging the blade in symbols and circles, leaving behind a ritual rune.")
 		)
 		new rune_to_scribe(Turf, chosen_keyword)
 
@@ -276,7 +276,7 @@
 		target = get_turf(src)
 		victim = user
 	else
-		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convinient to use.
+		to_chat(user,span_notice("I stop the [src].")) //Sand magically flows back because that's more convenient to use.
 		stop()
 
 /obj/item/hourglass/temporal/stop()
@@ -315,7 +315,7 @@
 		return
 	if(cooldowny)
 		if(world.time < cooldowny + cdtime)
-			to_chat(user, span_warning("Pulses weakily-! It must still be gathering arcana."))
+			to_chat(user, span_warning("Pulses weakly-! It must still be gathering arcana."))
 			return
 	user.visible_message(span_warning("[user] looks through the [src]!"))
 	if(activate_sound)

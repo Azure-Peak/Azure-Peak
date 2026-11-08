@@ -183,7 +183,7 @@
 
 /obj/item/clothing/shoes/roguetown/sandals/aalloy
 	name = "decrepit sandals"
-	desc = "Rotted metal platforms, curled about to cradle the feet. The beaches that these sandals once treaded are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
+	desc = "Rotted metal platforms, curled about to cradle the feet. The beaches that these sandals once trod are no more; pearly sands, long since turnt to glass from the Comet Syon's impact."
 	icon_state = "ancientsandals"
 	color = "#bb9696"
 	max_integrity = ARMOR_INT_SIDE_DECREPIT
@@ -368,7 +368,7 @@
 	name = "maille boots"
 	desc = "A pair of leather boots, reinforced with smaller steel plates along the feet and ankles. Woven into the top of each boot's cuff is a \
 	thick layer of chainmail, which further protects the wearer's lower legs from harm. A favorite amongst men-at-arms and clerics, alongside the \
-	occassional plucky squire that's a few sizes too short to properly wade in them."
+	occasional plucky squire that's a few sizes too short to properly wade in them."
 	body_parts_covered = FEET
 	icon_state = "shalfplateboots"
 	item_state = "shalfplateboots"
@@ -423,7 +423,7 @@
 
 /obj/item/clothing/shoes/roguetown/boots/armor/gold
 	name = "golden greaves"
-	desc = "Resplendant sabatons of pure gold, adorned with angled greaves that proudly bear the holy sigil. Its besilked cuffs have remained surprisingly bereft of debris - not even a sprig of lint remains to be criticized."
+	desc = "Resplendent sabatons of pure gold, adorned with angled greaves that proudly bear the holy sigil. Its besilked cuffs have remained surprisingly bereft of debris - not even a sprig of lint remains to be criticized."
 	icon_state = "goldgreaves"
 	item_state = "goldgreaves"
 	body_parts_covered = FEET | LEGS
@@ -848,7 +848,7 @@
 
 /obj/item/clothing/shoes/roguetown/horseshoes/bronze
 	name = "bronze horseshoes"
-	desc = "A pair of venerable bronze horsehoes nailed onto thick leather soles. These are ready to be attached to some hooves."
+	desc = "A pair of venerable bronze horseshoes nailed onto thick leather soles. These are ready to be attached to some hooves."
 	icon_state = "bronze_horseshoes"
 	item_state = "bronze_horseshoes"
 	clothing_flags = TAUR_COMPATIBLE

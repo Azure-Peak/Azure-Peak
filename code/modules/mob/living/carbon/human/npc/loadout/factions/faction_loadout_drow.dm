@@ -43,6 +43,21 @@
 		/datum/npc_loadout/weapon/drow_scourge,
 	)
 
+/datum/npc_archetype/drow/drider
+	name = "Drow Drider"
+	job = "Drow Drider"
+	statpack = /datum/npc_statpack/light/t4
+	stat_modifiers = list("strength" = 3, "speed" = 2, "constitution" = 7)
+	traits = list(TRAIT_BADTRAINER)
+	skills = list(/datum/skill/misc/climbing = SKILL_LEVEL_MASTER)
+	taur_type = /obj/item/bodypart/taur/spider/drider
+	taur_colors = list("#0f0463", "#1a1540", "#271633", "#212021", "#361213", "#540305")
+	loadouts = list(
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor/drider,
+		/datum/npc_loadout/weapon/drow_drider,
+	)
+
 //** ARMOR **//
 
 /datum/npc_loadout/armor/light/drow
@@ -89,6 +104,13 @@
 	belt = /obj/item/storage/belt/rogue/leather/black
 	shoes = /obj/item/clothing/shoes/roguetown/boots/maille/iron
 
+/datum/npc_loadout/kit/drow_flavor/drider
+	clear_slots = list("shoes")
+	cloak = null
+	head = null
+	mask = /obj/item/clothing/mask/rogue/facemask/shadowfacemask
+	neck = /obj/item/clothing/neck/roguetown/coif/heavypadding
+
 //** WEAPONS **//
 
 /datum/npc_loadout/weapon/drow_melee
@@ -106,3 +128,11 @@
 
 /datum/npc_loadout/weapon/drow_scourge
 	r_hand = /obj/item/rogueweapon/whip/spiderwhip
+
+/datum/npc_loadout/weapon/drow_drider
+	traits = list(TRAIT_DUALWIELDER)
+	weapons = list(
+		list(/obj/item/rogueweapon/whip/spiderwhip),
+		list(/obj/item/rogueweapon/sword/sabre/stalker, /obj/item/rogueweapon/sword/sabre/stalker, 100),
+		list(/obj/item/rogueweapon/huntingknife/idagger/steel/elvish, /obj/item/rogueweapon/huntingknife/idagger/steel/elvish, 100),
+	)

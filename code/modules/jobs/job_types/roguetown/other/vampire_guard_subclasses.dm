@@ -167,7 +167,7 @@
 
 	cloak = /obj/item/clothing/cloak/tabard/stabard/vamp
 	head = /obj/item/clothing/head/roguetown/roguehood/studded/vamp //Minimal face protection, maximal auramaxxing.
-	mask = /obj/item/clothing/mask/rogue/ragmask/black //less face protection, go guardsman if you want that. Also ominious for aura.
+	mask = /obj/item/clothing/mask/rogue/ragmask/black //less face protection, go guardsman if you want that. Also ominous for aura.
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson //Less protection, due to archery's potental
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/brigandine
@@ -347,13 +347,13 @@
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/rope/chain = 1,
 		/obj/item/flint = 1,
-		/obj/item/bomb = 2 //CHAOS REIGNS
+		/obj/item/explosive/fused/bottle = 2 //CHAOS REIGNS
 		)
 
 //A bunch of motherfuckin' draculas and they're all playin' flute. Buff-class lite duelist, doesn't perform as well as duelist in tradeoff for being able to buff up their teammates with music and perform vicious mockery.
 /datum/advclass/vampbard
 	name = "Vampiric Bard"
-	tutorial = "Betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood, you once told legends and myths of yills untold. One that someone could only dream of lyving, except you; yet now you've a prophecy to fulfil. Your lord's will be done."
+	tutorial = "Betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood, you once told legends and myths of yils untold. One that someone could only dream of lyving, except you; yet now you've a prophecy to fulfil. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampbard
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_DODGEEXPERT, TRAIT_GOODLOVER, TRAIT_EMPATH) //Keeping good lover, its funny.
 	category_tags = list(CTAG_VAMPGUARD)
@@ -374,17 +374,16 @@
 		/datum/skill/misc/reading = SKILL_LEVEL_MASTER, //Dead men tell no tales, fortunately undead ones tell many more.
 		/datum/skill/misc/medicine = SKILL_LEVEL_APPRENTICE, //Keeping captives, alive. We're not a lich's army, we have standards.
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_APPRENTICE, //Worse than adv, intended.
 		/datum/skill/misc/music = SKILL_LEVEL_LEGENDARY, //SOVL NUKE
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_EXPERT, //Keeping it, unironically works perfectly here.
 	)
 
 /datum/outfit/job/roguetown/other/vampbard/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("Betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood, you once told legends and myths of yills untold. One that someone could only dream of lyving, except you; yet now you've a prophecy to fulfil. Your lord's will be done."))
+	to_chat(H, span_warning("Betwixt an occasional visit to a brothel, tavern or flophouse for your thirst for blood, you once told legends and myths of yils untold. One that someone could only dream of lyving, except you; yet now you've a prophecy to fulfil. Your lord's will be done."))
 	head = /obj/item/clothing/head/roguetown/bardhat //Thou hath nae hat then thou art nae bard O' myne.
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
-	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy //Covers head, also semi-noticable
+	neck = /obj/item/clothing/neck/roguetown/chaincoif/paalloy //Covers head, also semi-noticeable
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	mask = /obj/item/clothing/mask/rogue/ragmask/black //Obligary face coverage
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson //Less protection, due to support class.
@@ -435,7 +434,7 @@
 // Despite decent wards, stabbing them w/silver should make them fall over to pain pretty fast or straight dust them on the spot after a few critical sunders. Expect them to lose a fair bit of blue w/ reliance on wards + spam casting.
 /datum/advclass/vampseigemage
 	name = "Vampiric Battlemage"
-	tutorial = "You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruitation. Your lord's will be done."
+	tutorial = "You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruition. Your lord's will be done."
 	outfit = /datum/outfit/job/roguetown/other/vampseigemage
 	traits_applied = list(TRAIT_STEELHEARTED, TRAIT_INTELLECTUAL, TRAIT_ALCHEMY_EXPERT, TRAIT_ARCYNE)
 	subclass_mage_aspects = list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 8, "ward" = TRUE)
@@ -464,7 +463,7 @@
 
 /datum/outfit/job/roguetown/other/vampseigemage/pre_equip(mob/living/carbon/human/H)
 	..()
-	to_chat(H, span_warning("You were a magos of old, ever since the embrace you've never had more time to practice your persuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruitation. Your lord's will be done."))
+	to_chat(H, span_warning("You were a magos of old, ever since the embrace you've never had more time to practice your pursuit of arcayne magicks, let alone revel in your taste for blood; now your master arises once more and your arcayne research shall see fruition. Your lord's will be done."))
 	H.set_blindness(0)
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/wizard] //Every wizzard gotta have the evyl laugh, I don't make the rules, sire.
 	add_verb(H, /mob/proc/haltyell_exhausting) //Halting the charred corpse is too funny, we're keeping it. sovl.
@@ -490,7 +489,7 @@
 		)
 
 /obj/item/clothing/cloak/tabard/stabard/vamp
-	desc = "A checkered pattern of white fabrics and red silks, inlined seamlessly with silks befit for one under a lord with true opulance, not any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
+	desc = "A checkered pattern of white fabrics and red silks, inlaid seamlessly with silks befit for one under a lord with true opulence, not any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
 	color = CLOTHING_WHITE
 	detail_tag = "_quad"
 	detail_color = CLOTHING_RED
@@ -501,7 +500,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/hoodvamp
 	name = "silken magos mantle"
-	desc = "A fashionable Mantle in a checkered pattern of white fabrics and red silks, inlined seamlessly within with silks befit for one under a lord with true opulance, not any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
+	desc = "A fashionable Mantle in a checkered pattern of white fabrics and red silks, inlaid seamlessly within with silks befit for one under a lord with true opulence, not any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
 	color = CLOTHING_WHITE
 	detail_color = CLOTHING_RED
 	detail_tag = "_spl"
@@ -514,7 +513,7 @@
 	detail_color = CLOTHING_RED
 
 /obj/item/clothing/cloak/half/vamp
-	desc = "An opulant half-cloak of silk for one under service to a lord with true fashion, not for any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
+	desc = "An opulent half-cloak of silk for one under service to a lord with true fashion, not for any mere dull-blooded or otherwise, branded with a crest of a forgotten empire."
 	color = CLOTHING_RED
 
 /obj/item/clothing/head/roguetown/roguehood/studded/vamp

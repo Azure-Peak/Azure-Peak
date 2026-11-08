@@ -202,7 +202,7 @@
 	background_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon = 'icons/mob/actions/malummiracles.dmi'
 	button_icon_state = "repair"
-	spell_color = GLOW_COLOR_MALUM
+	spell_color = PATRON_COLOR_MALUM //not actually a malumite-specific thing, but yknow
 
 	invocations = list("Malum, let Thy hammer strike me and grant me shape.")
 	invocation_type = INVOCATION_SHOUT

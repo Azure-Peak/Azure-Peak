@@ -59,6 +59,8 @@
 	for(var/choice_type in pref_species.descriptor_choices)
 		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
 		var/datum/descriptor_entry/entry = get_descriptor_entry_for_choice(choice_type)
+		if(!entry)
+			continue
 		UNTYPED_LIST_ADD(descriptor_data, list(
 			"name" = choice.name,
 			"type" = choice_type,

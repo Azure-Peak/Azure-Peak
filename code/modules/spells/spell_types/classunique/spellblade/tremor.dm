@@ -5,7 +5,7 @@
 	button_icon_state = "tremor"
 	sound = null
 	invocations = list("Tremor!")
-	damage = SPELL_DMG(30)
+	damage = 30
 	empowered_mult = 2
 	sweep_step = 0
 	push_dist = 1

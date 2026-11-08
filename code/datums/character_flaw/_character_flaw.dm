@@ -462,7 +462,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/mob/living/carbon/human/H = user
 	if(logged == FALSE)
 		if(H.name) // If you don't check this, the log entry wont have a name as flaw_on_life is checked at least once before the name is set.
-			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.") // we log this in the same place as hunted because making a seperate log for it would be silly
+			log_hunted("[H.ckey] playing as [H.name] had the targeted flaw by vice.") // we log this in the same place as hunted because making a separate log for it would be silly
 			logged = TRUE
 
 /datum/charflaw/targeted/apply_post_equipment(mob/user)
@@ -626,7 +626,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 			user.emote("yawn", forced = TRUE)
 			next_sleep = world.time + rand(7 SECONDS, 11 SECONDS)
 			if(drugged_up)
-				to_chat(user, span_blue("The drugs keeps me awake, for now..."))
+				to_chat(user, span_blue("The drugs keep me awake, for now..."))
 			else
 				to_chat(user, span_blue("I'm getting drowsy..."))
 
@@ -779,7 +779,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 				var/height = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_HEIGHT), "%DESC1%")
 				var/body = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_BODY), "%DESC1%")
 				var/voice = build_coalesce_description_nofluff(d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%")
-				add_bounty(H.real_name, H.dna.species, H.gender, height, body, voice, rand(100, 200), FALSE, "Failure to pay outstanding debts.", "The Justiciary of Azuria")
+				add_bounty(H.real_name, H.dna.species, H.gender, height, body, voice, rand(100, 200), "Failure to pay outstanding debts.", "The Justiciary of Azuria")
 			bounty_added = TRUE
 
 /datum/charflaw/averse
@@ -902,7 +902,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 
 /datum/charflaw/wanted
 	name = "Wanted (+2 TRI)"
-	desc = "You're a known criminal; your name can be found on the EXCIDIUM. Your crime may have been a misdeed worthy of a fine, or a great offense against the powers at play. Only Adventurers, Pilgrims (Migrants), Traders, Vagabonds and Lunatics may pick this vice and it requires another."
+	desc = "I am a known criminal; my name is found on the EXCIDIUM. My crime may have been a misdeed worthy of a fine, or a great offense against the powers at play. Only Adventurers, Pilgrims (Migrants), Traders, Vagabonds and Lunatics may pick this vice."
 	ui_fa_icon = "handcuffs"
 	needs_extra_vice = TRUE
 
@@ -923,6 +923,43 @@ GLOBAL_LIST_INIT(averse_factions, list(
 		addtimer(CALLBACK(src, PROC_REF(apply_bounty_when_ready), H), 5 SECONDS)
 		return
 	wretch_select_bounty(H)
+
+/datum/charflaw/forlorne
+	name = "Forlorne (+1 TRI)"
+	desc = "I am alone and lost. I must pray to the Gods to find back home. \
+	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
+	ui_fa_icon = "map-location-dot"
+	needs_extra_vice = TRUE
+	var/turf/origin_turf
+	var/turf/forlorne_turf
+	var/triumph_given = FALSE
+
+/datum/charflaw/forlorne/apply_post_equipment(mob/user)
+	. = ..()
+	user.adjust_triumphs(1)
+	triumph_given = TRUE
+	origin_turf = get_turf(user)
+	var/list/spots = list()
+	for(var/obj/effect/landmark/forlorne/L as anything in GLOB.forlorne_landmarks)
+		if(isturf(L.loc))
+			spots += L.loc
+	if(!length(spots))
+		return
+	forlorne_turf = pick(spots)
+	user.forceMove(forlorne_turf)
+	new /obj/item/flashlight/flare/light/forlorne(forlorne_turf)
+	to_chat(user, span_userdanger("I am lost..."))
+	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
+
+/// Becoming certain antagonists cancels this vice: the triumph is refunded and, if they haven't moved yet, they go back to where they would have spawned.
+/datum/charflaw/forlorne/proc/antag_override(mob/living/carbon/human/user)
+	if(triumph_given)
+		user.adjust_triumphs(-1)
+		triumph_given = FALSE
+	if(forlorne_turf && origin_turf && get_turf(user) == forlorne_turf)
+		user.forceMove(origin_turf)
+	user.charflaws -= src
+	qdel(src)
 
 /datum/charflaw/dnr
 	name = "Last Legs"

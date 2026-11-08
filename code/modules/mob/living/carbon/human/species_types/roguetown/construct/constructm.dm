@@ -134,6 +134,10 @@
 
 /proc/try_construct_consume(obj/item/I, mob/living/M, mob/user)
 	if(!HAS_TRAIT(M, TRAIT_IRONMAN))
+		if(M == user)
+			to_chat(user, span_warning("I cannot eat that!"))
+		else
+			to_chat(user, span_warning("[M] doesn't seem capable of eating that."))
 		return FALSE
 
 	if(M.stat == DEAD)
@@ -168,7 +172,7 @@
 				return
 
 		if(M.has_status_effect(/datum/status_effect/debuff/integrity_rig))
-			to_chat(user, span_warning("The jury rigged integrity repairs are still holding, for now... If you nail it with a hammer it might fix something?"))
+			to_chat(user, span_warning("The jury-rigged integrity repairs are still holding, for now... If you nail it with a hammer it might fix something?"))
 			return
 
 		if(I.type == /obj/item/grown/log/tree/stick)
@@ -596,7 +600,7 @@
 	while(src && !QDELETED(src) && density && user && !QDELETED(user) && user.Adjacent(src) && !user.resting && !user.stat)
 		swings++
 		if(swings > IRONMAN_MAX_SWINGS)
-			user.visible_message(span_danger("[user] overheats from excess kinetic force!"),span_danger("I overheat, magic steam exhuding from my limbs..."))
+			user.visible_message(span_danger("[user] overheats from excess kinetic force!"),span_danger("I overheat, magic steam exuding from my limbs..."))
 			user.Stun(50)
 			user.OffBalance(50)
 			user.adjustFireLoss(50)
@@ -736,7 +740,7 @@
 	timer = 999 MINUTES
 
 /atom/movable/screen/alert/status_effect/debuff/integrity_rig
-	name = "Jury Rigged"
+	name = "Jury-Rigged"
 	desc = "Your damaged lattice has been temporarily stabilized, at a heavy cost of your performance."
 	icon_state = "muscles"
 

@@ -42,6 +42,8 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	var/last_z_level_hint = ""
 	var/last_whisper = 0
 	var/opened = FALSE
+	var/unattended_since = 0
+	var/unattended_final_warned = FALSE
 
 /obj/item/quest_writ/Initialize(mapload)
 	. = ..()
@@ -66,9 +68,44 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		icon_state = "[base_icon_state]_closed"
 
 /obj/item/quest_writ/process()
-	if(world.time > last_whisper + WHISPER_COOLDOWN)
-		last_whisper = world.time
-		target_whisper()
+	if(world.time <= last_whisper + WHISPER_COOLDOWN)
+		return
+	last_whisper = world.time
+	if(check_unattended())
+		return
+	target_whisper()
+
+/obj/item/quest_writ/proc/is_attended()
+	var/mob/living/carrier = get(src, /mob/living)
+	return carrier && assigned_quest.may_carry_scroll(carrier)
+
+/obj/item/quest_writ/proc/unattended_time_left()
+	return max(0, unattended_since + QUEST_SCROLL_UNATTENDED_LAPSE - world.time)
+
+/obj/item/quest_writ/proc/check_unattended()
+	if(!assigned_quest?.lapses_unattended() || is_attended())
+		unattended_since = 0
+		unattended_final_warned = FALSE
+		return FALSE
+	if(!unattended_since)
+		unattended_since = world.time
+		warn_unattended()
+		return FALSE
+	var/remaining = unattended_time_left()
+	if(remaining <= 0)
+		SSquestpool.lapse_unattended_scroll(assigned_quest)
+		return TRUE
+	if(!unattended_final_warned && remaining <= QUEST_SCROLL_UNATTENDED_WARN)
+		unattended_final_warned = TRUE
+		warn_unattended()
+	return FALSE
+
+/obj/item/quest_writ/proc/warn_unattended()
+	var/mob/owner = assigned_quest.get_scroll_owner()
+	if(!owner)
+		return
+	var/minutes = max(1, round(unattended_time_left() / (1 MINUTES)))
+	to_chat(owner, span_warning("Your contract scroll <b>[assigned_quest.get_title() || name]</b> is not on you. It will crumble to dust in [minutes] minute\s unless you take it back."))
 
 /obj/item/quest_writ/proc/try_hand_claim(mob/user)
 	if(claim_in_progress)
@@ -125,6 +162,9 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		. += span_notice("\nThis contract is complete! Return it to the Contract Ledger to claim your reward.")
 	else
 		. += span_notice("\nThis contract is still in progress.")
+	if(unattended_since && assigned_quest.lapses_unattended() && !is_attended())
+		var/minutes = max(1, round(unattended_time_left() / (1 MINUTES)))
+		. += span_warning("It has been left unattended. It will crumble to dust in [minutes] minute\s unless its holder takes it back.")
 
 /obj/item/quest_writ/attackby(obj/item/P, mob/living/carbon/human/user, params)
 	if(P.get_sharpness())
@@ -248,6 +288,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["progress_required"] = Q.progress_required
 	data["shows_commission_seal"] = Q.shows_commission_seal
 	data["is_towner"] = Q.source == QUEST_SOURCE_TOWNER
+	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	Q.populate_scroll_ui_static_data(data)
 	return data
 

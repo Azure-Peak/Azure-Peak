@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/levitation
 	name = "Levitation"
-	desc = "Casting this spell allows you to float whimsically (a small amount in the air). Gravity sadly will still effect you, but your footsteps will be silent (You will also be off balanced for the duration that you float)."
+	desc = "Casting this spell allows you to float whimsically (a small amount in the air). Gravity sadly will still affect you, but your footsteps will be silent (You will also be off balanced for the duration that you float)."
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "rune5"
 	sound = 'sound/magic/whiteflame.ogg'
@@ -36,7 +36,7 @@
 	var/hadtrait = FALSE // failsafe for if someone has silent footsteps so we don't remove it when they stop floating
 
 /datum/action/cooldown/spell/levitation/cast(mob/living/user)
-	. = ..()	
+	. = ..()
 	if(floating == FALSE)
 		floating = TRUE
 		original_pixel_y = user.pixel_y

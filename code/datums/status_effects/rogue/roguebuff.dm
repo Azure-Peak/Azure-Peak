@@ -155,7 +155,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/mealbuff
 	name = "Good Meal"
-	desc = "A meal a day keeps the barber away, or at least it makes it slighly easier."
+	desc = "A meal a day keeps the barber away, or at least it makes it slightly easier."
 	icon_state = "foodbuff"
 
 /datum/status_effect/buff/mealbuff/on_creation(mob/living/new_owner)
@@ -684,7 +684,6 @@
 /datum/status_effect/buff/campfire_stamina/tick()
 	if(HAS_TRAIT(owner, TRAIT_NOREGEN) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
-	owner.adjust_bodytemperature(8)
 	if(owner.in_combat_until > world.time)
 		return
 	owner.energy_add(healing_on_tick * 2)
@@ -850,21 +849,20 @@
 /datum/status_effect/buff/psyhealing/tick()
 	if(HAS_TRAIT(owner, TRAIT_NOHEAL) || HAS_TRAIT(owner, TRAIT_IRONMAN))
 		return
+	var/heal = healing_on_tick
 	if(HAS_TRAIT(owner, TRAIT_HALFHEAL))
-		healing_on_tick /= 2
+		heal /= 2
 	var/obj/effect/temp_visual/heal/H = new /obj/effect/temp_visual/psyheal_rogue(get_turf(owner))
 	H.color = "#d3d3d3"
+	owner.adjustOxyLoss(-heal * 2.25, 0)
 	var/list/wCount = owner.get_wounds()
-	if(wCount.len > 0)
-		owner.heal_wounds(healing_on_tick * 2.25)
-		for(var/datum/wound/wound as anything in wCount)
-			if(wound.woundpain)
-				wound.woundpain = max(0, wound.woundpain - healing_on_tick)
-		owner.update_damage_overlays()
-	owner.adjustOxyLoss(-healing_on_tick * 2.25, 0)
-	owner.adjustToxLoss(-healing_on_tick, 0)
-	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, -healing_on_tick)
-	owner.adjustCloneLoss(-healing_on_tick, 0)
+	if(!wCount.len)
+		return
+	for(var/datum/wound/wound as anything in wCount)
+		if(wound.woundpain)
+			wound.woundpain = max(0, wound.woundpain - heal)
+	owner.heal_wounds(heal * 2.25, maxsev = WOUND_SEVERITY_MODERATE)
+	owner.update_damage_overlays()
 
 /datum/status_effect/buff/psyvived
 	id = "psyvived"
@@ -1250,9 +1248,9 @@
 	REMOVE_TRAIT(owner, TRAIT_NOMOOD, MAGIC_TRAIT)
 	//we now check for our removal message.
 	if(HAS_TRAIT(owner, TRAIT_NOMOOD))
-		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds."))
+		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light recedes."))
 	else
-		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light receeds and I feel that vibrant feeling of emotion again."))
+		to_chat(owner, span_warning("Zizo's vision leaves my mynd, the pain from the light recedes and I feel that vibrant feeling of emotion again."))
 
 
 /datum/status_effect/buff/utilityrituos
@@ -1263,7 +1261,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/utilityrituos
 	name = "Progressive Trance"
-	desc = "Zizo's mandate and her absolute truth reshapes my mynd, I learn unnaturally fast and my hands work wrydly fast."
+	desc = "Zizo's mandate and her absolute truth reshapes my mynd, I learn unnaturally fast and my hands work wyrdly fast."
 	icon_state = "rituos_exchange"
 
 
@@ -1411,7 +1409,7 @@
 
 /datum/status_effect/buff/lesserwolf/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("I feel my leg muscles grow taut, my teeth sharp, I am embued with the power of a predator. Branches and brush reach out for my soul..."))
+	to_chat(owner, span_warning("I feel my leg muscles grow taut, my teeth sharp, I am imbued with the power of a predator. Branches and brush reach out for my soul..."))
 	ADD_TRAIT(owner, TRAIT_LONGSTRIDER, id)
 	ADD_TRAIT(owner, TRAIT_STRONGBITE, id)
 
@@ -1433,7 +1431,7 @@
 
 /datum/status_effect/buff/malumritual/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("I feel Malum's persistance envelop me..."))
+	to_chat(owner, span_warning("I feel Malum's persistence envelop me..."))
 	ADD_TRAIT(owner, TRAIT_MALUMCHOSEN , id)
 
 /datum/status_effect/buff/malumritual/on_remove()
@@ -2007,7 +2005,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/adrenaline_rush/psydon
 	name = "Endure"
-	desc = "I suffer in His light; my bleeding comes to a still."
+	desc = "I suffer in His light; my pain dulls and my bleeding slows."
 	icon_state = "adrrush"
 
 /datum/status_effect/buff/adrenaline_rush
@@ -2020,10 +2018,13 @@
 	var/adrenaline_stam = TRUE
 	var/blood_restore = 30
 	var/calmer_rush = FALSE
+	///Grants TRAIT_ADRENALINE_RUSH, which halts all bleeding and halves wound pain
+	var/rushtrait = TRUE
 
 /datum/status_effect/buff/adrenaline_rush/on_apply()
 	. = ..()
-	ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
+	if(rushtrait)
+		ADD_TRAIT(owner, TRAIT_ADRENALINE_RUSH, INNATE_TRAIT)
 	var/mob/living/carbon/human/human = owner
 	if(istype(human))
 		if(!calmer_rush)
@@ -2063,6 +2064,7 @@
 	blood_restore = 0
 	adrenaline_stam = FALSE
 	calmer_rush = TRUE // stops the badumpbadump sound effect, given ENDURE already has its own.
+	rushtrait = FALSE
 	effectedstats = list(STATKEY_WIL = 3) // on pair with graggar, but WIL
 
 /datum/status_effect/buff/nocblessing
@@ -2501,7 +2503,7 @@
 
 
 /atom/movable/screen/alert/status_effect/buff/stagehands_silence
-	name = "Stangehand's Silence"
+	name = "Stagehand's Silence"
 	desc = "The slow quicken. My footsteps are quiet and I can move faster while sneaking."
 
 /datum/status_effect/buff/stagehands_silence/on_apply()
@@ -2582,7 +2584,7 @@
 
 /atom/movable/screen/alert/status_effect/buff/artificerstr
 	name = "Artificer Athletic"
-	desc = "This armor fills me with atheletic power and strength."
+	desc = "This armor fills me with athletic power and strength."
 	icon_state = "buff"
 
 //construct buffing
@@ -2892,7 +2894,7 @@
 
 /datum/status_effect/buff/overclock/on_apply()
 	. = ..()
-	to_chat(owner, span_warning("The interals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
+	to_chat(owner, span_warning("The internals of my prosthetics wind up faster, vibrating as they work harder for a little while."))
 
 /datum/status_effect/buff/overclock/on_remove()
 	. = ..()

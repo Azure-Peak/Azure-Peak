@@ -236,6 +236,7 @@ export type IdentityData = {
   race_bonus: string | null; // null indicates no race bonus
 
   nickname: string;
+  pen_name: string | null; // null indicates unset
   highlight_color: Color;
   age: string;
 

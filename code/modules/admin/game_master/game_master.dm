@@ -467,6 +467,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 				carried_item.unmark_as_looted()
 
 	if(!spawn_ai)
+		ADD_TRAIT(spawned_mob, TRAIT_AI_DISABLED, ADMIN_TRAIT)
 		if(isanimal(spawned_mob))
 			var/mob/living/simple_animal/simple_mob = spawned_mob
 			simple_mob.toggle_ai(AI_OFF)

@@ -30,6 +30,8 @@
 
 /obj/item/clothing/cloak/dropped(mob/living/carbon/human/user)
 	..()
+	if(QDELETED(user)) // Wearer is despawning (far travel etc.), contents go with them.
+		return
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	if(STR)
 		var/list/things = STR.contents()
@@ -366,7 +368,7 @@
 
 /obj/item/clothing/cloak/tabard/abyssorite
 	name = "abyssorite tabard"
-	desc = "A tabard worn by Abyssorite devouts. It reeks of brine."
+	desc = "A tabard worn by Abyssorite devotees. It reeks of brine."
 	color = null
 	icon_state = "abyssortabard"
 	item_state = "abyssortabard"
@@ -428,7 +430,7 @@
 
 /obj/item/clothing/cloak/templar/ravox
 	name = "justice tabard"
-	desc = "An underarmor vestments with a neck cover, worn by templars of Ravox."
+	desc = "An underarmor vestment with a neck cover, worn by templars of Ravox."
 	icon_state = "justicetabard"
 	body_parts_covered = CHEST|GROIN
 	boobed = TRUE
@@ -441,7 +443,7 @@
 
 /obj/item/clothing/cloak/templar/ravoxcleric
 	name = "justice cloak"
-	desc = "A tattered red tabard dyed in the bold colors of Ravox. Its striking crimson fabric stands out on the frontlines, signaling unyielding judgment."
+	desc = "A tattered red tabard dyed in the bold colors of Ravox. Its striking crimson fabric stands out on the front lines, signaling unyielding judgment."
 	icon_state = "justiceclerictabard"
 	boobed = FALSE
 	body_parts_covered = CHEST|GROIN
@@ -881,13 +883,13 @@
 
 /obj/item/clothing/cloak/tabard/stabard/bog/levy
 	name = "levy militia tabard"
-	desc = "A tabard colored in a glorius green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
+	desc = "A tabard colored in a glorious green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
 	color = CLOTHING_GREEN
 	detail_color = CLOTHING_DARK_GREEN
 
 /obj/item/clothing/cloak/tabard/stabard/bog/levy/hood
 	name = "levy militia hood"
-	desc = "A hood colored in a glorius green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
+	desc = "A hood colored in a glorious green of the mighty protectors of the BOG. Except you are not a TRAITOR. Yet."
 	slot_flags = ITEM_SLOT_HEAD|ITEM_SLOT_NECK|ITEM_SLOT_MASK|ITEM_SLOT_CLOAK
 	color = CLOTHING_GREEN
 	detail_color = CLOTHING_DARK_GREEN
@@ -903,7 +905,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/grenzelhoft
 	name = "grenzelhoft mercenary tabard"
-	desc = "A tabard bearing the colors of the Grenzelhoft emperiate mercenary guild."
+	desc = "A tabard bearing the colors of the Grenzelhoft Imperiate mercenary guild."
 	color = CLOTHING_YELLOW
 	detail_color = CLOTHING_RED
 	detail_tag = "_box"
@@ -1200,7 +1202,7 @@
 
 /obj/item/clothing/cloak/raincloak/furcloak/woad
 	name = "Warden's fur cloak"
-	desc = "Usually sewn by the very wardens that wear them, this hue of blue is made to alart denizens of the forest to their presence."
+	desc = "Usually sewn by the very wardens that wear them, this hue of blue is made to alert denizens of the forest to their presence."
 	color = "#597fb9"
 
 /obj/item/clothing/head/hooded/rainhood/furhood
@@ -1275,7 +1277,7 @@
 
 /obj/item/clothing/cloak/cape/inquisitorgold
 	name = "golden order cloak"
-	desc = "A time honored cloak inlined with golden threading, the stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
+	desc = "A time honored cloak inlaid with golden threading, the stitchwork tethers it to the Golden Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from heathens, cultists, and the ever-looming threat of another calamity."
 	icon_state = "inquisitor_cloak"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
@@ -1286,7 +1288,7 @@
 
 /obj/item/clothing/cloak/cape/inquisitorsilver
 	name = "silver order cloak"
-	desc = "A time honored cloak inlined with silver threading, the stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
+	desc = "A time honored cloak inlaid with silver threading, the stitchwork tethers it to the Silver Orders; a catch-all term for the various faith-militances that \
 	ward Psydonia from monsters, creechers, and the ever-looming threat of the Archdevil's return."
 	icon_state = "sinquisitor_cloak"
 	icon = 'icons/roguetown/clothing/cloaks.dmi'
@@ -1529,14 +1531,6 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
-/obj/item/clothing/cloak/wickercloak/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
 /obj/item/clothing/cloak/tribal
 	name = "tribal pelt"
 	desc = "A haphazardly cured pelt of a creecher, thrown on top of one's body or armor, to serve as additional protection against the cold. Itchy."
@@ -1582,7 +1576,7 @@
 
 /obj/item/clothing/cloak/suspenders
 	name = "pouched suspenders"
-	desc = "A pair of suspenders which go over the shoulders. Usually used for keeping one's pants in place in an admittably fashionable style, but this one has a couple of belts for extra storage."
+	desc = "A pair of suspenders which go over the shoulders. Usually used for keeping one's pants in place in an admittedly fashionable style, but this one has a couple of belts for extra storage."
 	icon_state = "suspenders"
 	item_state = "suspenders"
 	icon = 'icons/roguetown/clothing/belts.dmi'
@@ -1612,7 +1606,7 @@
 
 /obj/item/clothing/neck/roguetown/blkknight
 	name = "dragonscale necklace" //Who the hell put a NECKLACE in the CLOAKS file?
-	desc = "A blacksteel chain, laced through a dozen of the Hoardmaster's golden teeth. Atuned to the beating heart of Psydonia's financial systems, its true strength can only be harnessed by those who covet wealth above all else."
+	desc = "A blacksteel chain, laced through a dozen of the Hoardmaster's golden teeth. Attuned to the beating heart of Psydonia's financial systems, its true strength can only be harnessed by those who covet wealth above all else."
 	icon_state = "dragonnecklace"
 	max_integrity = ARMOR_INT_SIDE_IRON //Iron gorget now.
 	armor = ARMOR_PLATE
@@ -1917,7 +1911,7 @@
 
 /obj/item/clothing/cloak/psyaltrist
 	name = "psyalter's stole"
-	desc = "A silk stole embroidered with silver fillagree and with concealed pockets in its back worn over a hymnal-scroll. It is worn as the traditional garb of a graduate of the choir leaders of the cathedrals of Otava and is a symbol of their station."
+	desc = "A silk stole embroidered with silver filagree and with concealed pockets in its back worn over a hymnal-scroll. It is worn as the traditional garb of a graduate of the choir leaders of the cathedrals of Otava and is a symbol of their station."
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	icon_state = "psaltertabard"
 	item_state = "psaltertabard"
@@ -1995,7 +1989,7 @@
 
 /obj/item/clothing/cloak/banneret
 	name = "knight banneret's cape"
-	desc = "A cape with a gold embroided heraldry of Azure."
+	desc = "A cape with a gold embroidered heraldry of Azure."
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/captain.dmi'
@@ -2087,12 +2081,33 @@
 	desc = "A flamboyant red duelists cape that is sure to catch the eye."
 	icon_state = "duelistcape"
 	item_state = "duelistcape"
-	color = null
+	color = CLOTHING_SCARLET
 	nodismemsleeves = TRUE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_GOLD_METALLIC
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
+	sleevetype = "shirt"
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	inhand_mod = FALSE
+
+/obj/item/clothing/cloak/half/duelcape/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/half/duelcape/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/cloak/half/duelcape/Initialize(mapload)
+	. = ..()
+	update_icon()
 
 /obj/item/clothing/cloak/rosa
 	name = "regal cloak"

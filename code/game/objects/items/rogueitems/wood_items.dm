@@ -33,7 +33,7 @@
 
 /obj/item/carvedwood/cameo
 	name = "wooden cameo"
-	desc = "A cameo carved out of wood depicting depicting someone's grandest features in greater detail; a memoir, perhaps."
+	desc = "A cameo carved out of wood depicting someone's grandest features in greater detail; a memoir, perhaps."
 	icon_state = "cameo_wood"
 
 /obj/item/carvedwood/plinth
@@ -88,8 +88,8 @@
 	icon_state = "prism_wood"
 
 /obj/item/carvedwood/gameboard
-	name = "wooden game board"
-	desc = "A versatile game board carved out of wood."
+	name = "ornamental game table"
+	desc = "A ornamental game table carved out of wood. It is far too small to play on."
 	icon_state = "board_wood"
 
 /obj/item/carvedwood/box

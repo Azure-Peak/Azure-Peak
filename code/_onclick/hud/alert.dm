@@ -3,7 +3,7 @@
 //PUBLIC -	call these wherever you want
 
 
-/mob/proc/throw_alert(category, type, severity, obj/new_master, override = FALSE)
+/mob/proc/throw_alert(category, type, severity, obj/new_master, override = FALSE, timeout_override, no_anim = FALSE)
 
 /* Proc to create or update an alert. Returns the alert if the alert is new or updated, 0 if it was thrown already
 	category is a text string. Each mob may only have one alert per category; the previous one will be replaced
@@ -32,6 +32,10 @@
 			clear_alert(category)
 			return .()
 		else if(!severity || severity == thealert.severity)
+			if(thealert.timeout && timeout_override)
+				addtimer(CALLBACK(src, PROC_REF(alert_timeout), thealert, category), timeout_override)
+				thealert.timeout = world.time + timeout_override - world.tick_lag
+				return thealert
 			if(thealert.timeout)
 				clear_alert(category)
 				return .()
@@ -61,8 +65,11 @@
 	alerts[category] = thealert
 	if(client && hud_used)
 		hud_used.reorganize_alerts()
-	thealert.transform = matrix(32, 6, MATRIX_TRANSLATE)
-	animate(thealert, transform = matrix(), time = 2.5, easing = CUBIC_EASING)
+	if(!no_anim)
+		thealert.transform = matrix(32, 6, MATRIX_TRANSLATE)
+		animate(thealert, transform = matrix(), time = 2.5, easing = CUBIC_EASING)
+	if(timeout_override)
+		thealert.timeout = timeout_override
 	if(thealert.timeout)
 		addtimer(CALLBACK(src, PROC_REF(alert_timeout), thealert, category), thealert.timeout)
 		thealert.timeout = world.time + thealert.timeout - world.tick_lag
@@ -528,3 +535,134 @@
 	mob_viewer = null
 	screen_loc = ""
 	return ..()
+
+/atom/movable/screen/alert/poll_alert
+	name = "Looking for candidates"
+	icon_state = "status"
+	timeout = 30 SECONDS
+	/// If true you need to call START_PROCESSING manually
+	var/show_time_left = FALSE
+	/// MA for maptext showing time left for poll
+	var/mutable_appearance/time_left_overlay
+	/// MA for overlay showing that you're signed up to poll
+	var/mutable_appearance/signed_up_overlay
+	/// MA for maptext overlay showing how many polls are stacked together
+	var/mutable_appearance/stacks_overlay
+	/// MA for maptext overlay showing how many candidates are signed up to a poll
+	var/mutable_appearance/candidates_num_overlay
+	/// MA for maptext overlay of poll's role name or question
+	var/mutable_appearance/role_overlay
+	/// If set, on Click() it'll register the player as a candidate
+	var/datum/candidate_poll/poll
+
+/atom/movable/screen/alert/poll_alert/Initialize(mapload)
+	. = ..()
+	signed_up_overlay = mutable_appearance('icons/mob/screen_gen.dmi', icon_state = "selector")
+
+/atom/movable/screen/alert/poll_alert/proc/set_role_overlay()
+	var/role_or_only_question = poll.role || "?"
+	role_overlay = new
+	role_overlay.screen_loc = screen_loc
+	role_overlay.maptext = MAPTEXT("<span style='text-align: right; color: #B3E3FC'>[full_capitalize(role_or_only_question)]</span>")
+	role_overlay.maptext_width = 128
+	role_overlay.transform = role_overlay.transform.Translate(-128, 0)
+	add_overlay(role_overlay)
+
+/atom/movable/screen/alert/poll_alert/Destroy()
+	role_overlay = null
+	time_left_overlay = null
+	stacks_overlay = null
+	candidates_num_overlay = null
+	signed_up_overlay = null
+	if(poll)
+		poll.alert_buttons -= src
+	poll = null
+	return ..()
+
+/atom/movable/screen/alert/poll_alert/process()
+	if(show_time_left)
+		var/timeleft = timeout - world.time
+		if(timeleft <= 0)
+			return PROCESS_KILL
+		cut_overlay(time_left_overlay)
+		time_left_overlay = new
+		time_left_overlay.maptext = MAPTEXT("<span style='color: [(timeleft <= 10 SECONDS) ? "red" : "white"]'><b>[ceil(timeleft / (1 SECONDS))]</b></span>")
+		time_left_overlay.transform = time_left_overlay.transform.Translate(4, 19)
+		add_overlay(time_left_overlay)
+
+/atom/movable/screen/alert/poll_alert/Click(location, control, params)
+	..()
+	if(!usr?.client || usr != mob_viewer || isnull(poll))
+		return
+	var/list/modifiers = params2list(params)
+	if(LAZYACCESS(modifiers, SHIFT_CLICKED))
+		return
+	if(LAZYACCESS(modifiers, ALT_CLICKED) && poll.ignoring_category)
+		set_never_round()
+		return
+	if(LAZYACCESS(modifiers, CTRL_CLICKED) && poll.jump_to_me)
+		jump_to_jump_target()
+		return
+	handle_sign_up()
+
+/atom/movable/screen/alert/poll_alert/proc/handle_sign_up()
+	if(mob_viewer in poll.signed_up)
+		poll.remove_candidate(mob_viewer)
+	else if(!(mob_viewer.ckey in GLOB.poll_ignore[poll.ignoring_category]))
+		poll.sign_up(mob_viewer)
+	update_signed_up_overlay()
+
+/atom/movable/screen/alert/poll_alert/proc/set_never_round()
+	if(!(mob_viewer.ckey in GLOB.poll_ignore[poll.ignoring_category]))
+		poll.do_never_for_this_round(mob_viewer)
+		color = "red"
+		update_signed_up_overlay()
+		return
+	poll.undo_never_for_this_round(mob_viewer)
+	color = initial(color)
+
+/atom/movable/screen/alert/poll_alert/proc/jump_to_jump_target()
+	if(!poll?.jump_to_me || !isobserver(mob_viewer))
+		return
+	var/turf/target_turf = get_turf(poll.jump_to_me)
+	if(target_turf && isturf(target_turf))
+		mob_viewer.forceMove(target_turf)
+
+/atom/movable/screen/alert/poll_alert/Topic(href, href_list)
+	if(href_list["never"])
+		set_never_round()
+		return
+	if(href_list["signup"])
+		handle_sign_up()
+	if(href_list["jump"])
+		jump_to_jump_target()
+		return
+
+/atom/movable/screen/alert/poll_alert/proc/update_signed_up_overlay()
+	if(mob_viewer in poll.signed_up)
+		add_overlay(signed_up_overlay)
+	else
+		cut_overlay(signed_up_overlay)
+
+/atom/movable/screen/alert/poll_alert/proc/update_candidates_number_overlay()
+	cut_overlay(candidates_num_overlay)
+	if(!length(poll.signed_up))
+		return
+	candidates_num_overlay = new
+	candidates_num_overlay.maptext = MAPTEXT("<span style='text-align: right; color: aqua'>[length(poll.signed_up)]</span>")
+	candidates_num_overlay.transform = candidates_num_overlay.transform.Translate(-4, 2)
+	add_overlay(candidates_num_overlay)
+
+/atom/movable/screen/alert/poll_alert/proc/update_stacks_overlay()
+	cut_overlay(stacks_overlay)
+	var/stack_number = 1
+	for(var/datum/candidate_poll/other_poll as anything in SSpolling.currently_polling)
+		if(other_poll != poll && other_poll.poll_key == poll.poll_key && !other_poll.finished)
+			stack_number++
+	if(stack_number <= 1)
+		return
+	stacks_overlay = new
+	stacks_overlay.maptext = MAPTEXT("<span style='color: yellow'>[stack_number]x</span>")
+	stacks_overlay.transform = stacks_overlay.transform.Translate(3, 2)
+	stacks_overlay.layer = layer
+	add_overlay(stacks_overlay)

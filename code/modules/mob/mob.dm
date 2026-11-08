@@ -443,7 +443,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(client)
 		if(A)
 			if(ismovableatom(A))
-				//Set the the thing unless it's us
+				//Set the thing unless it's us
 				if(A != src)
 					client.perspective = EYE_PERSPECTIVE
 					client.eye = A
@@ -514,6 +514,19 @@ GLOBAL_VAR_INIT(mobids, 1)
 			if(m_intent != MOVE_INTENT_SNEAK)
 				visible_message(span_emote("[message] [target]."))
 
+	if(client)
+		LAZYINITLIST(client.recent_examines)
+		var/ref_to_atom = REF(A)
+		var/examine_time = client.recent_examines[ref_to_atom]
+		if(examine_time && (world.time - examine_time < EXAMINE_MORE_WINDOW))
+			var/list/more = A.examine_more(src)
+			if(!length(more))
+				more += span_notice("<i>I look [A] over again, but find nothing more of interest.</i>")
+			to_chat(src, client.prefs.no_examine_blocks ? more.Join("\n") : examine_block(more.Join("\n")))
+			return
+		client.recent_examines[ref_to_atom] = world.time // set to when we last normal examine'd them
+		addtimer(CALLBACK(src, PROC_REF(clear_from_recent_examines), ref_to_atom), RECENT_EXAMINE_MAX_WINDOW)
+
 	var/list/result = A.examine(src)
 	if(result)
 		var/list/mechanics_result = A.get_mechanics_examine(src)
@@ -535,6 +548,12 @@ GLOBAL_VAR_INIT(mobids, 1)
 		to_chat(src, usr.client.prefs.no_examine_blocks ? result.Join("\n") : examine_block(result.Join("\n")))
 
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, A)
+
+/mob/proc/clear_from_recent_examines(ref_to_clear)
+	SIGNAL_HANDLER
+	if(!client)
+		return
+	LAZYREMOVE(client.recent_examines, ref_to_clear)
 
 ///Can this mob resist (default FALSE)
 /mob/proc/can_resist()
@@ -1284,9 +1303,18 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		nutrition = NUTRITION_LEVEL_FULL
+	var/old_nutrition = nutrition
 	nutrition = max(0, nutrition + change)
 	if(nutrition > NUTRITION_LEVEL_FULL)
 		nutrition = NUTRITION_LEVEL_FULL
+	if(old_nutrition < 990 && nutrition >= 990)
+		to_chat(src, span_warning("I can't eat anymore!"))
+	else if(old_nutrition < 950 && nutrition >= 950)
+		to_chat(src, span_warning("I am stuffed."))
+	else if(old_nutrition < 900 && nutrition >= 900)
+		to_chat(src, span_notice("I feel very full."))
+	else if(old_nutrition < 800 && nutrition >= 800)
+		to_chat(src, span_notice("I feel full."))
 
 ///Force set the mob nutrition
 /mob/proc/set_nutrition(change) //Seriously fuck you oldcoders.
@@ -1299,9 +1327,18 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/adjust_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		hydration = HYDRATION_LEVEL_FULL
+	var/old_hydration = hydration
 	hydration = max(0, hydration + change)
 	if(hydration > HYDRATION_LEVEL_FULL)
 		hydration = HYDRATION_LEVEL_FULL
+	if(old_hydration < 990 && hydration >= 990)
+		to_chat(src, span_warning("I can't drink anymore!"))
+	else if(old_hydration < 950 && hydration >= 950)
+		to_chat(src, span_warning("My belly's sloshing."))
+	else if(old_hydration < 900 && hydration >= 900)
+		to_chat(src, span_notice("I had plenty to drink."))
+	else if(old_hydration < 800 && hydration >= 800)
+		to_chat(src, span_notice("I don't feel thirsty anymore."))
 
 /mob/proc/set_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))

@@ -39,6 +39,7 @@
 	. += span_info("To <b>turn in</b> a completed contract, click the Ledger while holding its scroll.")
 	. += span_info("Items for retrieval contracts should be <b>dropped onto the marked tile</b> in front of the Ledger.")
 	. += span_info("Abandoning or failing a contract forfeits its deposit. If you sign as many contracts as you can hold within [QUEST_TAKE_COOLDOWN / (1 MINUTES)] minutes, you must wait before signing another.")
+	. += span_info("A contract scroll left off its holder's person for [QUEST_SCROLL_UNATTENDED_LAPSE / (1 MINUTES)] minutes crumbles to dust. A fellowship member carrying it counts as the holder. If it was taken, this counts as abandoning it.")
 	. += span_info("Heads from <b>contract targets</b> fetch nothing at a HEADEATER, because the contract's reward already covers them. Heads from beasts and brigands you kill outside a contract still sell there.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here. They spend Rumor Points to seed contracts across the realm.")
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
@@ -129,6 +130,8 @@
 	var/mob/living/L = user
 	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
 	data["user_fellowship_size"] = F ? length(F.get_members()) : 0
+	data["user_is_fellowship_leader"] = F ? F.is_leader(L) : FALSE
+	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
 	data["regions"] = build_region_listing()
@@ -313,7 +316,6 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"projected_reward" = Q.project_fellowship_reward(user),
 			"fellowship_threat_rate" = Q.fellowship_threat_rate,
 			"fellowship_reward_rate" = Q.fellowship_reward_rate,
-			"fellowship_group_bonus" = Q.fellowship_reward_rate ? (Q.get_difficulty_term("group_bonus") || 0) : 0,
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,

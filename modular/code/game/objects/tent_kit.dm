@@ -464,31 +464,6 @@
 	roof_covers_doors = TRUE
 	cooldown_duration = 1200
 
-// === CRAFTING ===
-/datum/crafting_recipe/roguetown/sewing/tentkit
-	name = "Small Tent Kit"
-	category = "Misc"
-	tools = list(/obj/item/needle)
-	result = list(/obj/item/tent_kit)
-	reqs = list(/obj/item/natural/cloth = 10, /obj/item/natural/fibers = 6, /obj/item/natural/silk = 6, /obj/item/grown/log/tree/stick = 10)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/gerkit
-	name = "Ger Kit"
-	category = "Misc"
-	tools = list(/obj/item/needle)
-	result = list(/obj/item/tent_kit/ger)
-	reqs = list(/obj/item/natural/cloth = 15, /obj/item/natural/fibers = 6, /obj/item/natural/silk = 6, /obj/item/grown/log/tree/stick = 15)
-	craftdiff = 4
-
-/datum/crafting_recipe/roguetown/sewing/yurtkit
-	name = "Yurt Kit"
-	category = "Misc"
-	tools = list(/obj/item/needle)
-	result = list(/obj/item/tent_kit/yurt)
-	reqs = list(/obj/item/natural/cloth = 20, /obj/item/natural/fibers = 12, /obj/item/natural/silk = 12, /obj/item/grown/log/tree/stick = 20)
-	craftdiff = 5
-
 // === HELPERS ===
 /obj/structure/roguetent
 	parent_type = /obj/structure/tent_component

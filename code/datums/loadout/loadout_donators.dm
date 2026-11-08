@@ -533,21 +533,6 @@
 	path = /obj/item/enchantingkit/zydrasgreataxe
 	ckeywhitelist = list("1ceres")
 
-/datum/loadout_item/donator/eiren
-	name = "Donator Kit - Regret"
-	path = /obj/item/enchantingkit/weapon/eiren
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren2
-	name = "Donator Kit - Lunae"
-	path = /obj/item/enchantingkit/weapon/eirensabre
-	ckeywhitelist = list("eirenxiv")
-
-/datum/loadout_item/donator/eiren3
-	name = "Donator Kit - Cinis"
-	path = /obj/item/enchantingkit/weapon/eirensabre2
-	ckeywhitelist = list("eirenxiv")
-
 /datum/loadout_item/donator/eiren4
 	name = "Donator Kit - Darkwood's Embrace"
 	path = /obj/item/clothing/suit/roguetown/armor/longcoat/eiren
@@ -557,11 +542,6 @@
 	name = "Donator Kit - Glintstone Longsword"
 	path = /obj/item/enchantingkit/weapon/eiren_m
 	ckeywhitelist = list("eirenxiv", "magicalbard", "naorgteine")
-
-/datum/loadout_item/donator/eiren6
-	name = "Donator Kit - Stygian Longsword"
-	path = /obj/item/enchantingkit/weapon/eirensword
-	ckeywhitelist = list("eirenxiv", "muhsollini")
 
 /datum/loadout_item/donator/waff
 	name = "Donator Kit - Weeper's Lathe"
@@ -1409,6 +1389,22 @@
 	name = "Donator Item - Prototype Strange Mask"
 	path = /obj/item/clothing/mask/rogue/facemask/steel/confessor/mrsaxyman
 	ckeywhitelist = list("mrsaxyman")
+
+/datum/loadout_item/donator/lockwoodcloak
+	name = "Donator Item - Courtly Cloak"
+	path = /obj/item/clothing/cloak/rosa/two
+	ckeywhitelist = list("XLockwoodx")
+
+/datum/loadout_item/donator/lockwoodjacket
+	name = "Donator Item - Sanguine Jacket"
+	path = /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
+	ckeywhitelist = list("XLockwoodx")
+
+// Was asked to make this for all donors, dont complain about lack of other gem amulets	
+/datum/loadout_item/donator/universal/lockwoodamulet
+	name = "Donator Item - Onyxa Amulet"
+	path = /obj/item/clothing/neck/roguetown/carved/onyxaamulet
+	ckeywhitelist = list("XLockwoodx")
 
 // Solar Dominion Items
 /datum/loadout_item/donator/universal/dominion_sword

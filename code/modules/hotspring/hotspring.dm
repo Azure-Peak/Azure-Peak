@@ -15,7 +15,7 @@
 	friction = 0.3
 	grow = 0.037
 
-///these were unfortunately requested to not be smoothed. I will likely create a smooth helper version aswell though
+///these were unfortunately requested to not be smoothed. I will likely create a smooth helper version as well though
 ///the issue is they would need atleast a 2x2 to smooth proper.
 /obj/structure/hotspring
 	abstract_type = /obj/structure/hotspring
@@ -27,7 +27,6 @@
 	plane = FLOOR_PLANE
 	blade_dulling = DULLING_BASH
 	max_integrity = 0
-	object_slowdown = 5
 
 	var/edge = FALSE
 
@@ -97,73 +96,71 @@
 
 /obj/structure/hotspring/border
 	icon_state = "hotspring_border_1"
-	object_slowdown = 0
 	edge = TRUE
 
 /obj/structure/hotspring/border/two
 	icon_state = "hotspring_border_2"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/three
 	icon_state = "hotspring_border_3"
-	object_slowdown = 0
 	edge = TRUE
 
 /obj/structure/hotspring/border/four
 	icon_state = "hotspring_border_4"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/five
 	icon_state = "hotspring_border_5"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/six
 	icon_state = "hotspring_border_6"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/seven
 	icon_state = "hotspring_border_7"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/eight
 	icon_state = "hotspring_border_8"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/nine
 	icon_state = "hotspring_border_9"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/ten
 	icon_state = "hotspring_border_10"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/eleven
 	icon_state = "hotspring_border_11"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/twelve
 	icon_state = "hotspring_border_12"
-	object_slowdown = 5
 	edge = FALSE
 
 /obj/structure/hotspring/border/thirteen
 	icon_state = "hotspring_border_13"
-	object_slowdown = 0
 	edge = TRUE
 
 /obj/structure/hotspring/border/fourteen
 	icon_state = "hotspring_border_14"
-	object_slowdown = 0
 	edge = TRUE
+
+/turf/open/floor/rogue/hotspring
+	name = "hot spring"
+	desc = "Wisps of vapour rise delicately from this warm, mineral-rich water."
+	icon = 'icons/obj/structures/hotspring.dmi'
+	icon_state = "hotspring"
+	slowdown = 5
+	footstep = null
+	barefootstep = null
+	clawfootstep = null
+	heavyfootstep = null
+	landsound = 'sound/foley/jumpland/waterland.wav'
 
 /obj/structure/flora/hotspring_rocks
 	name = "large rock"
@@ -196,7 +193,7 @@
 
 /obj/machinery/light/rogue/torchholder/hotspring
 	name = "stone lantern"
-	desc = "A stone lantern, built in Kazengunese style. It is believed these lanterns attracts spirits and guide their way."
+	desc = "A stone lantern, built in Kazengunese style. It is believed these lanterns attract spirits and guide their way."
 	icon = 'icons/obj/structures/hotspring.dmi'
 	icon_state = "stonelantern1"
 	torch_off_state = "stonelantern"

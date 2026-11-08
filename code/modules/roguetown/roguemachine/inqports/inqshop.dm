@@ -193,9 +193,9 @@
 
 /obj/structure/closet/crate/chest/inqcrate/supplies/smokes/Initialize(mapload)
 	. = ..()
-	new /obj/item/bomb/smoke(src)
-	new /obj/item/bomb/smoke(src)
-	new /obj/item/bomb/smoke(src)
+	new /obj/item/explosive/impact/smoke/bomb(src)
+	new /obj/item/explosive/impact/smoke/bomb(src)
+	new /obj/item/explosive/impact/smoke/bomb(src)
 
 /datum/inqports/supplies/bottlebombs
 	name = "3 Bottlebombs"
@@ -204,9 +204,9 @@
 
 /obj/structure/closet/crate/chest/inqcrate/supplies/bottlebombs/Initialize(mapload)
 	. = ..()
-	new /obj/item/bomb(src)
-	new /obj/item/bomb(src)
-	new /obj/item/bomb(src)
+	new /obj/item/explosive/fused/bottle(src)
+	new /obj/item/explosive/fused/bottle(src)
+	new /obj/item/explosive/fused/bottle(src)
 
 /datum/inqports/supplies/tnt
 	name = "3 Blastpowder Sticks"
@@ -216,13 +216,13 @@
 
 /obj/structure/closet/crate/chest/inqcrate/supplies/tnt/Initialize(mapload)
 	. = ..()
-	new /obj/item/tntstick(src)
-	new /obj/item/tntstick(src)
-	new /obj/item/tntstick(src)
+	new /obj/item/explosive/fused/powder/stick(src)
+	new /obj/item/explosive/fused/powder/stick(src)
+	new /obj/item/explosive/fused/powder/stick(src)
 
 /datum/inqports/supplies/tntsatchel
 	name = "1 Blastpowder Satchel"
-	item_type = /obj/item/satchel_bomb
+	item_type = /obj/item/explosive/fused/powder/satchel
 	marquescost = 12
 	maximum = 3
 
@@ -241,7 +241,7 @@
 /datum/inqports/articles/psymaul
 	name = "Relic - The Maul, Evershattering"
 	item_type = /obj/structure/closet/crate/chest/inqreliquary/relic/psymaul/
-	marquescost = 6 //its meant to be easy to aquire, even solo orthodoxist can get it. unique weapon/wall leveling tool, marq shop keeps it from being stolen until you get the thing.
+	marquescost = 6 //its meant to be easy to acquire, even solo orthodoxist can get it. unique weapon/wall leveling tool, marq shop keeps it from being stolen until you get the thing.
 	maximum = 1
 	//it does 15% of max structure integ as damage, get siegebows if you want more leveling walls and faster.
 
