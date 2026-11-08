@@ -1,5 +1,10 @@
 /mob/proc/has_antagooc_access()
-	return LAZYLEN(mind?.antag_datums) || (flags_1 & ANTAGOOC_ACCESS_1)
+	if(flags_1 & ANTAGOOC_ACCESS_1)
+		return TRUE
+	if(!length(mind?.antag_datums))
+		return FALSE
+	// Wretches are gated entirely, even with other antag datums (e.g. Licker vampires).
+	return GLOB.antagooc_wretches || !mind.has_antag_datum(/datum/antagonist/wretch)
 
 /client/proc/can_use_antagooc()
 	if(GLOB.say_disabled)	

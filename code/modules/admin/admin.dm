@@ -587,6 +587,18 @@
 	message_admins("[key_name_admin(usr)] toggled AntagOOC [GLOB.antagooc_allowed ? "on" : "off"].")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle AntagOOC", "[GLOB.antagooc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/datum/admins/proc/toggleantagoocwretches()
+	set category = "Server"
+	set desc = "Toggle whether wretches can use AntagOOC"
+	set name = "Toggle AntagOOC Wretches"
+	GLOB.antagooc_wretches = !GLOB.antagooc_wretches
+	for(var/client/C in GLOB.clients)
+		if(C.mob?.mind?.has_antag_datum(/datum/antagonist/wretch))
+			to_chat(C, "<B>Wretches can [GLOB.antagooc_wretches ? "now" : "no longer"] use AntagOOC.</B>")
+	log_admin("[key_name(usr)] toggled AntagOOC for wretches.")
+	message_admins("[key_name_admin(usr)] toggled AntagOOC for wretches [GLOB.antagooc_wretches ? "on" : "off"].")
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle AntagOOC Wretches", "[GLOB.antagooc_wretches ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
 /datum/admins/proc/startnow()
 	set category = "Server"
 	set desc="Start the round RIGHT NOW"
