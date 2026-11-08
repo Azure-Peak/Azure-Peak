@@ -1884,7 +1884,8 @@
  */
 
 /mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1
+//	var/fire_resist_mult = HAS_TRAIT(src, TRAIT_FIRE_RESIST) ? 0.5 : 1 // quarantined for now, someone else pls look into this later, removal of this proc is causing some systematic problems I cba to fix. ~ Kunai
+
 
 /**
  * Adjust the amount of fire stacks on a mob

@@ -15,6 +15,33 @@
 	var/fresh_meat = FALSE
 	become_rot_type = /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
 	materia = list(/datum/materia_aspect/animal)
+	var/cut_name = "meat"
+	var/fish_name
+	var/list/filet_tastes
+	var/fish_quality_mult = 1
+	var/rarity_rank = FISH_RARITY_COMMON
+	var/rarity_label
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/get_stockpile_quality_mult()
+	if(fish_name)
+		return fish_quality_mult
+	return ..()
+
+/obj/item/reagent_containers/food/snacks/rogue/meat/initialize_cooked_food(obj/item/reagent_containers/food/snacks/S, cooking_efficiency = 1)
+	. = ..()
+	if(!fish_name || (S.type != cooked_type && S.type != fried_type))
+		return
+	if(name != initial(name))
+		S.name = "fried [name]"
+	S.faretype = faretype
+	S.cuisine = cuisine
+	var/obj/item/reagent_containers/food/snacks/rogue/meat/cooked = S
+	if(istype(cooked))
+		cooked.fish_name = fish_name
+		cooked.set_tastes(filet_tastes)
+		cooked.fish_quality_mult = fish_quality_mult
+		cooked.rarity_rank = rarity_rank
+		cooked.rarity_label = rarity_label
 
 /obj/item/reagent_containers/food/snacks/rogue/meat_rotten
 	eat_effect = /datum/status_effect/debuff/rotfood
@@ -203,32 +230,12 @@
 	ingredient_size = 1
 	faretype = FARE_NEUTRAL
 	cooked_smell = /datum/pollutant/food/cooked_fish
-	var/fish_name
-	var/list/filet_tastes
-	var/fish_quality_mult = 1
-	var/rarity_rank = FISH_RARITY_COMMON
-	var/rarity_label
-
-/obj/item/reagent_containers/food/snacks/rogue/meat/fish/get_stockpile_quality_mult()
-	return fish_quality_mult
+	cut_name = "filet"
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish/initialize_cooked_food(obj/item/reagent_containers/food/snacks/S, cooking_efficiency = 1)
 	. = ..()
-	if(S.type != cooked_type && S.type != fried_type)
-		return
-	if(name != initial(name))
-		S.name = "fried [name]"
-	if(fish_name)
+	if(fish_name && (S.type == cooked_type || S.type == fried_type))
 		S.desc = "A filet of [fish_name], fried golden."
-	S.faretype = faretype
-	S.cuisine = cuisine
-	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = S
-	if(istype(filet))
-		filet.fish_name = fish_name
-		filet.set_tastes(filet_tastes)
-		filet.fish_quality_mult = fish_quality_mult
-		filet.rarity_rank = rarity_rank
-		filet.rarity_label = rarity_label
 
 /obj/item/reagent_containers/food/snacks/rogue/meat/fish/salmon
 	name = "salmon filet"

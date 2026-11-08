@@ -1,0 +1,6 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Everyone can now see which region fishing stocks belong to, and the text and mechanics is explained on examine"
+  - rscadd: "Now all fishers at Expert skills or with the Expert Fisher trait can see whether specific fish is depleted and their replenishment rate, in IC time."
+  - rscdel: "Single tile water source and town no longer fishable"

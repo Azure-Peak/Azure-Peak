@@ -262,11 +262,13 @@
 ///We multiply the weight of fish inside the loot table by this value if we are goofy enough to fish without a bait.
 #define FISH_WEIGHT_MULT_WITHOUT_BAIT 0.15
 
-// Expert Fishers find the minigame a little easier, pull prized fish as if two levels higher, read a water's prized stock on examine, are told on cast when it runs low, and get a warning and a moment before a hostile catch surfaces.
+// Expert Fishers find the minigame a little easier, pull prized fish as if two levels higher, are told on cast when a water's prized stock runs low, and get a warning and a moment before a hostile catch surfaces.
 #define EXPERT_FISHER_DIFFICULTY_MOD -5
 #define EXPERT_FISHER_PRIZED_LEVEL_BONUS 2
 #define FISHING_STOCK_TEEMING_RATIO 0.75
 #define FISHING_STOCK_LOW_RATIO 0.35
+// Fishing skill at which a second look at water lists the fish in it. Expert Fishers always get examination text
+#define FISHING_FISH_LIST_SKILL SKILL_LEVEL_EXPERT
 #define FISHING_HOSTILE_WARNING_DELAY (5 SECONDS)
 
 // Each fishing level past Novice fills the minigame bar this percent faster and drains it this percent slower. Below Novice it becomes a penalty.
