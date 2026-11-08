@@ -42,7 +42,7 @@
 
 	if(!(user.mobility_flags & MOBILITY_STAND) && (zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG, BODY_ZONE_PRECISE_R_FOOT, BODY_ZONE_PRECISE_L_FOOT)))
 		chance2hit += ACC_PRONE_ATTACKER_LEG_BONUS
-	chance2hit += target.get_zone_melee_hit_bonus(zone)
+	chance2hit += target.get_zone_melee_hit_bonus(zone, user)
 	chance2hit += accuracy_bonus
 
 	chance2hit = CLAMP(chance2hit, ACC_MIN, ACC_MAX)
@@ -143,7 +143,7 @@
 // Based on the remaining accuracy of the projectile and the aimed zone, return the zone, precise zone or chest
 /mob/living/proc/bullet_hit_accuracy_check(final_accuracy, def_zone = BODY_ZONE_CHEST, list/roll_out, obj/projectile/P)
 	var/zone_type = ranged_zone_difficulty(def_zone)
-	var/chance2hit = final_accuracy + get_zone_ranged_hit_bonus(def_zone)
+	var/chance2hit = final_accuracy + get_zone_ranged_hit_bonus(def_zone, P.firer)
 
 	// We only want these limits vs Players
 	if(zone_type == PRECISE_FACE_ZONE && !mind)

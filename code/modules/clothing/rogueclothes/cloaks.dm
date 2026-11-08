@@ -30,6 +30,8 @@
 
 /obj/item/clothing/cloak/dropped(mob/living/carbon/human/user)
 	..()
+	if(QDELETED(user)) // Wearer is despawning (far travel etc.), contents go with them.
+		return
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	if(STR)
 		var/list/things = STR.contents()
@@ -1529,14 +1531,6 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
-/obj/item/clothing/cloak/wickercloak/dropped(mob/living/carbon/human/user)
-	..()
-	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	if(STR)
-		var/list/things = STR.contents()
-		for(var/obj/item/I in things)
-			STR.remove_from_storage(I, get_turf(src))
-
 /obj/item/clothing/cloak/tribal
 	name = "tribal pelt"
 	desc = "A haphazardly cured pelt of a creecher, thrown on top of one's body or armor, to serve as additional protection against the cold. Itchy."
@@ -2087,12 +2081,33 @@
 	desc = "A flamboyant red duelists cape that is sure to catch the eye."
 	icon_state = "duelistcape"
 	item_state = "duelistcape"
-	color = null
+	color = CLOTHING_SCARLET
 	nodismemsleeves = TRUE
+	detail_tag = "_detail"
+	detail_color = CLOTHING_GOLD_METALLIC
+	sleeved = 'icons/roguetown/clothing/onmob/helpers/sleeves_cloaks.dmi'
+	sleevetype = "shirt"
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	allowed_race = NON_DWARVEN_RACE_TYPES
 	inhand_mod = FALSE
+
+/obj/item/clothing/cloak/half/duelcape/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/cloak/half/duelcape/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/cloak/half/duelcape/Initialize(mapload)
+	. = ..()
+	update_icon()
 
 /obj/item/clothing/cloak/rosa
 	name = "regal cloak"

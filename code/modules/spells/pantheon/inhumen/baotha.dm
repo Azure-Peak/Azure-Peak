@@ -5,7 +5,7 @@
 /datum/action/cooldown/spell/baotha
 	background_icon = 'icons/mob/actions/baothamiracles.dmi'
 	button_icon = 'icons/mob/actions/baothamiracles.dmi'
-	spell_color = GLOW_COLOR_BAOTHA
+	spell_color = PATRON_COLOR_BAOTHA
 	ignore_armor_penalty = TRUE
 	primary_resource_type = SPELL_COST_DEVOTION
 	secondary_resource_type = SPELL_COST_STAMINA

@@ -403,13 +403,13 @@
 						user_informed = TRUE
 				else
 					UH.visible_message(span_warning("Severs the bloodlink from [target]!"))
-					bloodbeam.End()
+					qdel(bloodbeam)
 					return TRUE
 			else
 				UH.visible_message(span_warning("Severs the bloodlink from [target]!"))
-				bloodbeam.End()
+				qdel(bloodbeam)
 				return TRUE
-		bloodbeam.End()
+		qdel(bloodbeam)
 		return TRUE
 	return FALSE
 

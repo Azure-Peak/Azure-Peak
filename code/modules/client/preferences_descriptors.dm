@@ -1,4 +1,13 @@
 /datum/preferences/proc/validate_descriptors()
+	var/list/valid_entries = list()
+	var/list/seen_choice_types = list()
+	for(var/datum/descriptor_entry/entry in descriptor_entries)
+		if(!entry.descriptor_choice_type || seen_choice_types[entry.descriptor_choice_type])
+			continue
+		seen_choice_types[entry.descriptor_choice_type] = TRUE
+		valid_entries += entry
+	descriptor_entries = valid_entries
+
 	for(var/choice_type in pref_species.descriptor_choices)
 		var/datum/descriptor_choice/choice = DESCRIPTOR_CHOICE(choice_type)
 		var/datum/descriptor_entry/entry = get_descriptor_entry_for_choice(choice_type)
@@ -21,10 +30,10 @@
 			else
 				entry.descriptor_type = pick(choice.descriptors)
 	for(var/i in 1 to CUSTOM_DESCRIPTOR_AMOUNT)
-		if(length(custom_descriptors) >= i)
-			continue
-		var/datum/custom_descriptor_entry/custom_entry = new /datum/custom_descriptor_entry()
-		custom_descriptors += custom_entry
+		if(length(custom_descriptors) < i)
+			custom_descriptors += new /datum/custom_descriptor_entry()
+		else if(!istype(custom_descriptors[i], /datum/custom_descriptor_entry))
+			custom_descriptors[i] = new /datum/custom_descriptor_entry()
 	for(var/i in 1 to CUSTOM_DESCRIPTOR_AMOUNT)
 		var/datum/custom_descriptor_entry/custom_entry = custom_descriptors[i]
 		custom_entry.prefix_type = sanitize_integer(custom_entry.prefix_type, 1, CUSTOM_PREFIX_AMOUNT, CUSTOM_PREFIX_HAS_A)

@@ -67,6 +67,8 @@
 	var/storyteller_rumour_name
 	/// Lets events under the same antag datum be handled differently.
 	var/storyteller_slot_key
+	/// To disable a particular antag
+	var/storyteller_blacklisted = FALSE
 
 
 /datum/round_event_control/proc/valid_for_map()

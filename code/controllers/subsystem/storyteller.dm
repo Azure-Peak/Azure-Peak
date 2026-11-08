@@ -251,6 +251,7 @@ SUBSYSTEM_DEF(gamemode)
 		"Masquerade" = null,
 		"Werewolf" = null,
 		"Rebel" = null,
+		"Renegade" = null,
 	)
 
 	/// List of new player minds we currently want to give our roundstart antag to
@@ -261,6 +262,8 @@ SUBSYSTEM_DEF(gamemode)
 	/// What is our currently desired/selected roundstart event
 	var/datum/round_event_control/antagonist/solo/current_roundstart_event
 	var/list/last_round_events = list()
+	/// Event type of the last roundstart hard antag rolled
+	var/last_villain
 	/// Has a roundstart event been run
 	var/ran_roundstart = FALSE
 	/// Are we able to run roundstart events
@@ -305,9 +308,15 @@ SUBSYSTEM_DEF(gamemode)
 		if(event.holidayID || event.wizardevent)
 			uncategorized += event
 			continue
+		var/datum/round_event_control/antagonist/solo/antag_event = event
+		var/datum/antagonist/antag_path = istype(antag_event) ? antag_event.antag_datum : null
+		if(event.storyteller_blacklisted || (ispath(antag_path, /datum/antagonist) && initial(antag_path.storyteller_blacklisted)))
+			uncategorized += event
+			continue
 		event_pools[event.track] += event //Add it to the categorized event pools
 
 	load_roundstart_data()
+	last_villain = text2path(trim(file2text(LAST_VILLAIN_FILE)))
 
 	check_roundstart_gods_rankings()
 	. = ..()
@@ -774,6 +783,7 @@ SUBSYSTEM_DEF(gamemode)
 	apply_storyteller_bonus_roundstart_antags()
 	handle_post_setup_points()
 	enforce_storyteller_soft_antag_slots()
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(renegade_midround)), RENEGADE_MIDROUND_DELAY)
 	roundstart_event_view = FALSE
 	return TRUE
 
@@ -1160,6 +1170,8 @@ SUBSYSTEM_DEF(gamemode)
 	// guarantee a specific hard antag - that is driven by the block flags and the admin-opened slots instead.
 	if(storyteller_blocks_antag(event.storyteller_antag_flags, event.roundstart, storyteller_type))
 		return 0
+	if(event.type == last_villain)
+		return CEILING(base_weight * LAST_VILLAIN_MULT, 1)
 	return base_weight
 
 /datum/controller/subsystem/gamemode/proc/antag_roll_reason(datum/round_event_control/antagonist/solo/event, player_count = null, storyteller_type = null)
@@ -1369,6 +1381,8 @@ SUBSYSTEM_DEF(gamemode)
 		return "Wretch"
 	if(ispath(antag_datum, /datum/antagonist/prebel))
 		return "Rebel"
+	if(ispath(antag_datum, /datum/antagonist/renegade))
+		return "Renegade"
 	return null
 
 /// Switches the round to the permissive Admin sandbox preset when an admin fine-tunes via a toggle or slot
@@ -1397,7 +1411,7 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/opened = list()
 	if(allow_vote)
 		return opened
-	for(var/key in list("Bandit", "Lich", "VL", "Masquerade", "Werewolf", "Rebel"))
+	for(var/key in list("Bandit", "Lich", "VL", "Masquerade", "Werewolf", "Rebel", "Renegade"))
 		if((admin_slots[key] || 0) > 0)
 			opened += key
 	return opened

@@ -65,9 +65,11 @@
 		if(alert(user, "Transmit as a wordlessly projected vision or as a whispered message?", "", "Projection", "Message") == "Projection")
 			is_projection = TRUE
 
-		var/message = sanitize(input(user, "You successfully make a connection! [is_projection ? "What sensory vision are you trying to send into their mind?" : "What are you trying to whisper into their mind?"]"))
+		var/message = capitalize(sanitize(input(user,"You successfully make a connection! [is_projection ? "What sensory vision are you trying to send into their mind?" : "What are you trying to whisper into their mind?"]")))
 		if(!message)
 			return FALSE
+		if(!user.client?.prefs?.no_autopunctuate)
+			message = autopunct_bare(message)
 
 		if(alert(user, "Send anonymously?", "", "Yes", "No") == "No")
 			identify_difficulty = 0

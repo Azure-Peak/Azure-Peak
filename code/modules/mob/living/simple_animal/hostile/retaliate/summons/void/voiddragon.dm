@@ -624,26 +624,6 @@ It will also call down lightning strikes from the sky, and fling people with it'
 	qdel(dummy)
 	return 1
 
-/datum/action/cooldown/spell/repulse/voiddragon
-	name = "Tail Sweep"
-	desc = "Throw back attackers with a sweep of your tail."
-	sound = 'sound/misc/tail_swing.ogg'
-	cooldown_time = 15 SECONDS
-	charge_required = FALSE
-	invocation_type = INVOCATION_NONE
-	sparkle_path = /obj/effect/temp_visual/dir_setting/tailsweep
-	button_icon_state = "tailsweep"
-	background_icon_state = "bg_alien"
-	spell_requirements = NONE
-	push_range = 2
-
-/datum/action/cooldown/spell/repulse/voiddragon/cast(atom/cast_on)
-	if(iscarbon(owner))
-		var/mob/living/carbon/C = owner
-		playsound(C.loc, 'sound/combat/hits/punch/punch_hard (3).ogg', 80, TRUE, TRUE)
-		C.spin(6, 1)
-	return ..(cast_on)
-
 /mob/living/simple_animal/hostile/retaliate/rogue/voiddragon/death()
 	..()
 	update_icon()

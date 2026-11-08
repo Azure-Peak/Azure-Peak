@@ -91,11 +91,18 @@
 			out += n
 	return out
 
-/proc/towner_bearer_summary(tier)
+/proc/towner_bearer_summary(tier, datum/quest/kill/recovery/towner/proto)
+	. = "combat & distance pay"
 	var/bonus = get_towner_tier_term(tier, "flat_bonus") || 0
 	if(bonus > 0)
-		return "combat & distance pay + [bonus]m bonus"
-	return "combat & distance pay"
+		. += " + [bonus]m bonus"
+	if(proto)
+		var/list/waves = proto.tier_tp_budgets[tier]
+		if(length(waves) > 1)
+			. += ", [length(waves)] waves"
+	var/fellowship = get_towner_tier_term(tier, "fellowship")
+	if(fellowship)
+		. += ", needs a fellowship of [fellowship]"
 
 /proc/towner_spec_summary(list/spec)
 	if(!length(spec))
@@ -143,7 +150,7 @@
 		for(var/tier in GLOB.towner_posting_tiers)
 			tiers[tier] = list(
 				"cost" = towner_posting_cost(tier, funder),
-				"bearer_summary" = towner_bearer_summary(tier),
+				"bearer_summary" = towner_bearer_summary(tier, proto),
 			)
 		out += list(list(
 			"type" = posting_type,

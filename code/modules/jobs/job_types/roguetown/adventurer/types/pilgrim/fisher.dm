@@ -7,7 +7,8 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/fisher
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
-	traits_applied = list(TRAIT_CAUTIOUS_FISHER, TRAIT_HOMESTEAD_EXPERT)
+	traits_applied = list(TRAIT_EXPERT_FISHER, TRAIT_HOMESTEAD_EXPERT)
+	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_LCK = 2,
@@ -52,11 +53,13 @@
 		armor = /obj/item/clothing/suit/roguetown/armor/workervest
 		backl = /obj/item/storage/backpack/rogue/satchel
 		belt = /obj/item/storage/belt/rogue/leather
-		backr = /obj/item/fishingrod
+		backr = /obj/item/fishingrod/fisher
 		beltr = /obj/item/cooking/pan
-		beltl = /obj/item/flint
+		beltl = /obj/item/storage/meatbag/creel
 		backpack_contents = list(
 							/obj/item/natural/worms = 2,
+							/obj/item/fishing/bait/dough = 2,
+							/obj/item/flint = 1,
 							/obj/item/rogueweapon/shovel/small = 1,
 							/obj/item/flashlight/flare/torch = 1,
 							/obj/item/rogueweapon/scabbard/sheath = 1,
@@ -70,11 +73,13 @@
 		mouth = /obj/item/rogueweapon/huntingknife
 		backl = /obj/item/storage/backpack/rogue/satchel
 		belt = /obj/item/storage/belt/rogue/leather
-		backr = /obj/item/fishingrod
+		backr = /obj/item/fishingrod/fisher
 		beltr = /obj/item/cooking/pan
-		beltl = /obj/item/flint
+		beltl = /obj/item/storage/meatbag/creel
 		backpack_contents = list(
 							/obj/item/natural/worms = 2,
+							/obj/item/fishing/bait/dough = 2,
+							/obj/item/flint = 1,
 							/obj/item/rogueweapon/shovel/small = 1,
 							/obj/item/flashlight/flare/torch = 1,
 							/obj/item/rogueweapon/scabbard/sheath = 1

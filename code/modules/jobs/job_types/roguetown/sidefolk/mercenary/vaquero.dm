@@ -27,15 +27,10 @@
 		/datum/skill/misc/climbing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/reading = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/misc/sneaking = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/misc/stealing = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/riding = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/lockpicking = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/misc/music = SKILL_LEVEL_EXPERT,
 	)
-
-/datum/advclass/mercenary/vaquero/equipme(mob/living/carbon/human/H, dummy)
-	horse = /mob/living/simple_animal/hostile/retaliate/rogue/saiga/tame/saddled
-	return ..()
 
 /datum/outfit/job/roguetown/mercenary/vaquero/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -99,4 +94,12 @@
 				var/datum/inspiration/I = new /datum/inspiration(H)
 				I.grant_inspiration(H, bard_tier = BARD_T1)
 				H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/vicious_mockery) //I guess all the other bards have it too?
+	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/self/choose_riding_virtue_mount/vaquero)
 	H.merctype = 13
+
+/obj/effect/proc_holder/spell/self/choose_riding_virtue_mount/vaquero
+	desc = "Recall the form of your treasured Vaquero's mount."
+	vaquero = TRUE
+
+/obj/effect/proc_holder/spell/self/saddleborn/whistle/vaquero
+	recharge_time = 30 MINUTES

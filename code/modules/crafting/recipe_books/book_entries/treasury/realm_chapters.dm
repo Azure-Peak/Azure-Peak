@@ -104,7 +104,7 @@
 		draft regardless of region. The scroll pays a base of [BLOCKADE_SCROLL_REWARD]m
 		plus a flat travel stipend based on distance. The waves are the same strength
 		everywhere. The actual threat varies with regional faction composition.
-		Each person in range of the blockade when the first wave starts beyond <b>[BLOCKADE_FELLOWSHIP_REQUIREMENT]</b> will increase the threat and reward by [QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100]% and [QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100]% respectively, up to a maximum of <b>[QUEST_FELLOWSHIP_SCALE_MAX]</b>. This non-linear scaling is meant to encourage you to bring extra friends along for your blockade!
+		Each person in range of the blockade (14 tiles) when the first wave starts beyond <b>[BLOCKADE_FELLOWSHIP_REQUIREMENT]</b> will increase the threat and reward by [QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100]% and [QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100]% respectively, up to a maximum of <b>[QUEST_FELLOWSHIP_SCALE_MAX]</b>. This non-linear scaling is meant to encourage you to bring extra friends along for your blockade!
 		Completing a blockade gives a triumph reward of [BLOCKADE_CLEAR_TRIUMPHS] to all participants in the fellowship.
 		</p>
 

@@ -466,7 +466,7 @@
 	name = "Rune of Storms"
 	desc = "A holy rune of <font color='3769b8'>Abyssor.</font> </br> <i>You sense your mind getting pulled into the drawn spiral.</i>"
 	icon_state = "abyssor_chalky"
-	var/stormrites = list("Rite of the Tides")
+	var/stormrites = list("Rite of the Tides", "Rite of Sea-grounds Aplenty")
 
 /obj/structure/ritualcircle/abyssor_alt
 	name = "Rune of Stirring"
@@ -521,7 +521,7 @@
 	switch(riteselection)
 		if("Rite of the Crystal Spire")
 			if(do_after(user, 50))
-				user.say("Deep Father, hear my call!")
+				user.say("Deepfather, hear my call!")
 				if(do_after(user, 50))
 					user.say("From the Abyss, split the earth!")
 					if(do_after(user, 50))
@@ -630,11 +630,11 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/riteselection = input(user, "Rite of the Tides", src) as null|anything in stormrites
+	var/riteselection = input(user, "Which rite will you perform?", "Rune of Storms") as null|anything in stormrites
 	switch(riteselection)
 		if("Rite of the Tides")
 			if(do_after(user, 50))
-				user.say("Deep Father, hear my call!")
+				user.say("Deepfather, hear my call!")
 				if(do_after(user, 50))
 					user.say("I beg thee! A deluge upon your anointed!")
 					if(do_after(user, 50))
@@ -642,6 +642,57 @@
 						user.say("Let your waters swallow the land!")
 						to_chat(user, span_cultsmall("A crystalline shard forms at the center of the rune, humming with Abyssor's power."))
 						new /obj/item/abyssal_marker/tidal(loc)
+						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+						spawn(240)
+							icon_state = "abyssor_chalky"
+		if("Rite of Sea-grounds Aplenty")
+			var/list/offered = list()
+			for(var/obj/item/fishing/bait/bait in get_turf(src))
+				if(istype(bait, /obj/item/fishing/bait/deluxe))
+					continue
+				offered += bait
+				if(length(offered) >= FISHING_ENCHANT_RITE_BAITS)
+					break
+			if(!length(offered))
+				to_chat(user, span_warning("The rune needs rolled bait laid upon it before the Deepfather will bless it. It takes from one to [FISHING_ENCHANT_RITE_BAITS] at a time."))
+				return
+			to_chat(user, span_notice("The rune will bless up to [FISHING_ENCHANT_RITE_BAITS] rolled baits at once. [length(offered)] [length(offered) == 1 ? "lies" : "lie"] upon it[length(offered) >= FISHING_ENCHANT_RITE_BAITS ? ", any beyond that will be left as they are" : ""]."))
+			var/list/ale_types = get_reagent_types_by_drink_type(DRINKTYPE_ALE)
+			var/list/containers = list()
+			for(var/obj/item/reagent_containers/container in get_turf(src))
+				containers += container
+			var/list/offering = list()
+			if(!find_reagent_containers(containers, ale_types, FISHING_ENCHANT_RITE_ALE, offering))
+				var/ale_found = reagent_volume_in_containers(containers, ale_types)
+				if(!ale_found)
+					to_chat(user, span_warning("There is no ale upon the rune to offer. A full and open cup is needed for the Deepfather to answer."))
+				else
+					to_chat(user, span_warning("There is ale upon the rune, but not a full cup of it. The Deepfather asks [FISHING_ENCHANT_RITE_ALE] measures and I count [ale_found]."))
+				return
+			if(do_after(user, 50))
+				user.say("Hear! Great Deepfather! God of the depths, mover of the seas and lord of the dreams.")
+				if(do_after(user, 50))
+					user.say("Take this offering of ale! And bless us with sea-grounds aplenty, let these morsels carry your blessing!")
+					if(do_after(user, 50))
+						containers = list()
+						for(var/obj/item/reagent_containers/container in get_turf(src))
+							containers += container
+						offering = list()
+						if(!find_reagent_containers(containers, ale_types, FISHING_ENCHANT_RITE_ALE, offering))
+							to_chat(user, span_warning("The ale is no longer upon the rune. He does not answer."))
+							return
+						icon_state = "abyssor_active"
+						user.say("Pour abundance upon your anointed!")
+						playsound(loc, 'sound/foley/footsteps/FTWAT_1.ogg', 100)
+						drain_reagent_from_containers(offering, ale_types, FISHING_ENCHANT_RITE_ALE)
+						var/blessed = 0
+						for(var/obj/item/fishing/bait/bait as anything in offered)
+							if(QDELETED(bait) || get_turf(bait) != get_turf(src))
+								continue
+							qdel(bait)
+							new /obj/item/fishing/bait/deluxe(loc)
+							blessed++
+						to_chat(user, span_cultsmall("A salty fog rolls over the rune. When it clears, the ale has disappeared, and [blessed] [blessed == 1 ? "bait lies" : "baits lie"] glistening with Abyssor's blessing."))
 						user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
 						spawn(240)
 							icon_state = "abyssor_chalky"
