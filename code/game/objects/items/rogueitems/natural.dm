@@ -106,7 +106,7 @@
 	if(item_flags & IN_STORAGE)
 		return
 
-	if(istype(W, /obj/item/bomb) && !istype(W, /obj/item/bomb/tripbomb))
+	if(istype(W, /obj/item/explosive) && !W.anchored)
 		if(!user.cmode || !HAS_TRAIT(user, TRAIT_BOMBER_EXPERT))
 			return
 		W.attackby(src, user)
