@@ -59,7 +59,7 @@
 	water_overlay = new(src)
 	water_top_overlay = new(src)
 	update_icon()
-	if(!isnull(fishing_datum))
+	if(!isnull(fishing_datum) && is_fishable())
 		add_lazy_fishing(fishing_datum)
 	if(freeze_type)
 		// Deliberately no runtime catch-up here, unlike /turf/open/floor/rogue/grass. Most
@@ -70,23 +70,40 @@
 
 /turf/open/water/examine(mob/user)
 	. = ..()
-	if(isnull(fishing_datum))
+	var/datum/fish_source/source = get_fish_source()
+	if(isnull(source))
 		return
 	var/datum/fish_source/preset = GLOB.preset_fish_sources[fishing_datum]
+	var/area/region = get_area(src)
 	if(preset.catalog_description)
-		. += span_info("This looks like [LOWER_TEXT(preset.catalog_description)].")
-	if(HAS_TRAIT(user, TRAIT_EXPERT_FISHER))
-		var/datum/fish_source/source = get_fish_source()
-		. += span_info(source.stock_description())
-		if(source.has_known_fishes(src))
-			. += span_tinynoticeital("This is a fishing spot. You can look again to list its fishes...")
+		. += span_info("This looks like [LOWER_TEXT(preset.catalog_description)], in the waters of [region.name].")
+	else
+		. += span_info("These are the waters of [region.name].")
+	. += span_info("[source.stock_description()] [span_tooltip("Fishing stock is tracked per type of water and region. For example, fishes taken from murky waters in Region A will not affect one in freshwater in Region A, nor murky water in Region B.", "(?)")]")
+	if(can_list_fishes(user) && source.has_known_fishes(src))
+		. += span_tinynoticeital("This is a fishing spot. You can look again to see what fish are in it.")
 
 /turf/open/water/examine_more(mob/user)
 	. = ..()
-	if(isnull(fishing_datum) || !HAS_TRAIT(user, TRAIT_EXPERT_FISHER))
+	if(!can_list_fishes(user))
 		return
 	var/datum/fish_source/source = get_fish_source()
+	if(isnull(source))
+		return
 	source.get_catchable_fish_names(user, src, .)
+
+/turf/open/water/proc/can_list_fishes(mob/user)
+	return HAS_TRAIT(user, TRAIT_EXPERT_FISHER) || user.get_skill_level(/datum/skill/labor/fishing) >= FISHING_FISH_LIST_SKILL
+
+/turf/open/water/proc/is_fishable()
+	var/area/rogue/region = get_area(src)
+	if(istype(region) && region.town_area)
+		return FALSE
+	for(var/direction in GLOB.cardinals)
+		var/turf/neighbor = get_step(src, direction)
+		if(istype(neighbor, /turf/open/water) || istype(neighbor, /turf/open/floor/rogue/frozen_water))
+			return TRUE
+	return FALSE
 
 /// Lays this turf's ice on top, pushing our own type onto baseturfs so thaw() (a ScrapeAway())
 /// can restore the exact subtype (swamp vs swamp/deep, pond vs cleanshallow) without a lookup
@@ -403,6 +420,9 @@
 //	. = ..()
 
 
+/turf/open/water/nofish
+	fishing_datum = null
+
 /turf/open/water/bath
 	name = "water"
 	desc = "Soothing water, with soapy bubbles on the surface."
@@ -469,6 +489,9 @@
 	water_color = pick("#705a43")
 	.	= ..()
 
+/turf/open/water/swamp/nofish
+	fishing_datum = null
+
 /turf/open/water/bloody/Initialize(mapload)
 	icon_state = "dirt"
 	dir = pick(GLOB.cardinals)
@@ -533,6 +556,9 @@
 	swim_skill = TRUE
 	freeze_type = /turf/open/floor/rogue/frozen_water/mire/deep
 	fishing_datum = /datum/fish_source/swamp/deep
+
+/turf/open/water/swamp/deep/nofish
+	fishing_datum = null
 
 /turf/open/water/swamp/deep/Entered(atom/movable/AM, atom/oldLoc)
 	. = ..()
@@ -599,6 +625,9 @@
 	dir = pick(GLOB.cardinals)
 	.	= ..()
 
+/turf/open/water/cleanshallow/nofish
+	fishing_datum = null
+
 /turf/open/water/cleanshallow/deep
 	name = "deep water"
 	desc = "Clear and deep water, beautiful but dangerous should you not know how to swim."
@@ -614,6 +643,9 @@
 	icon_state = "rock"
 	water_color = "#5d7e84"
 	update_icon()
+
+/turf/open/water/cleanshallow/deep/nofish
+	fishing_datum = null
 
 /turf/open/water/river
 	name = "river"
@@ -793,6 +825,9 @@
 	freeze_type = null // salt water, and tidal - subtypes inherit the exemption
 	fishing_datum = /datum/fish_source/ocean
 
+/turf/open/water/ocean/nofish
+	fishing_datum = null
+
 /turf/open/water/ocean/deep
 	name = "salt water"
 	desc = "Deceptively deep, be careful not to find yourself this far out."
@@ -804,6 +839,9 @@
 	swim_skill = TRUE
 	wash_in = TRUE
 	fishing_datum = /datum/fish_source/ocean/deep
+
+/turf/open/water/ocean/deep/nofish
+	fishing_datum = null
 
 /turf/open/water/ocean/deep/dark
 	water_color = "#000211"
@@ -833,6 +871,9 @@
 	water_reagent = /datum/reagent/water/gross
 	freeze_type = /turf/open/floor/rogue/frozen_water/deep
 	fishing_datum = /datum/fish_source/pond
+
+/turf/open/water/pond/nofish
+	fishing_datum = null
 
 /turf/open/water/river/flow/murk/deep
 	name = "deep murk river"

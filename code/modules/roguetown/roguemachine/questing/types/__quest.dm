@@ -47,6 +47,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 	var/source
 	var/created_at = 0
+	var/lapse_offset = 0
 	var/issued_day = 0
 
 	var/progress_current = 0
@@ -157,7 +158,22 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 /datum/quest/proc/get_lapse_time()
 	var/window = (source == QUEST_SOURCE_POOL) ? QUEST_POOL_STALE_THRESHOLD : QUEST_PLAYER_STALE_THRESHOLD
-	return created_at + window
+	return max(created_at, SSticker.round_start_time) + window + lapse_offset
+
+/datum/quest/proc/lapses_unattended()
+	return !!quest_receiver_reference || source != QUEST_SOURCE_GM
+
+/datum/quest/proc/may_carry_scroll(mob/living/carrier)
+	if(!quest_receiver_reference)
+		return TRUE
+	var/mob/living/bearer = quest_receiver_reference.resolve()
+	if(!bearer)
+		return FALSE
+	return carrier == bearer || bearer.current_fellowship?.has_member(carrier)
+
+/datum/quest/proc/get_scroll_owner()
+	var/datum/weakref/owner_ref = quest_receiver_reference || quest_giver_reference
+	return owner_ref?.resolve()
 
 /datum/quest/Destroy()
 	var/obj/effect/landmark/quest_spawner/held_landmark = pending_landmark_ref?.resolve()
