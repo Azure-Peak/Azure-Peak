@@ -6,9 +6,9 @@
 	mob_traits = list(TRAIT_APRICITY)
 	miracles = list(/datum/action/cooldown/spell/touch/orison					= CLERIC_ORI,
 					/datum/action/cooldown/spell/miracle/ignition/astrata		= CLERIC_T0,
-					/datum/action/cooldown/spell/astrata/astrata_gaze			= CLERIC_T0,
 					/datum/action/cooldown/spell/miracle/heal					= CLERIC_T1,
 					/datum/action/cooldown/spell/miracle/bloodmiracle			= CLERIC_T1,
+					/datum/action/cooldown/spell/astrata/astrata_gaze			= CLERIC_T1,
 					/datum/action/cooldown/spell/astrata/sunbrand				= CLERIC_T1,
 					/datum/action/cooldown/spell/projectile/sacred_flame		= CLERIC_T2,
 					/datum/action/cooldown/spell/miracle/fortify/astrata		= CLERIC_T2,
