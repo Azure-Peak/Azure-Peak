@@ -103,12 +103,12 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return 0
 	return max(0, (GLOB.merc_contract_cooldowns[merc.mind] || 0) - world.time)
 
-/proc/grant_merc_contract(mob/living/carbon/human/merc)
+/proc/grant_merc_contract(mob/living/carbon/human/merc, in_hand = FALSE)
 	if(count_held_merc_contracts(merc) >= MERC_CONTRACT_MAX_HELD)
 		return null
 	var/obj/item/merc_contract/item = new(get_turf(merc))
 	item.bind_to(merc)
-	if(!merc.equip_to_slot_if_possible(item, SLOT_IN_BACKPACK, disable_warning = TRUE))
+	if(in_hand || !merc.equip_to_slot_if_possible(item, SLOT_IN_BACKPACK, disable_warning = TRUE))
 		merc.put_in_hands(item)
 	return item
 

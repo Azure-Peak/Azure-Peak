@@ -255,7 +255,7 @@
 /obj/structure/roguemachine/atm/proc/handle_request_merc_contract(mob/living/carbon/human/H)
 	if(!merc_meister_data(H))
 		return
-	if(!grant_merc_contract(H))
+	if(!grant_merc_contract(H, in_hand = TRUE))
 		to_chat(H, span_warning("You already hold [MERC_CONTRACT_MAX_HELD] mercenary contracts."))
 		return
 	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
