@@ -538,12 +538,6 @@
 
 	dualwield_processing = TRUE
 
-/mob/living/proc/fire_dualwield_paired(atom/A, params)
-	if(dualwield_processing || QDELETED(src) || QDELETED(A))
-		return
-
-	dualwield_processing = TRUE
-
 	if(stamina_add(3))
 		var/obj/item/paired_weapon = get_active_held_item()
 		if(paired_weapon || (a_intent?.type == /datum/intent/unarmed/claw))
