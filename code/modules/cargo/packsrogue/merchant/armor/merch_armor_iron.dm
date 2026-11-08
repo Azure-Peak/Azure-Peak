@@ -72,6 +72,7 @@
 
 /datum/supply_pack/rogue/armor_iron/fullplate
 	name = "Full Plate"
+	silverface_markup = SILVERFACE_MARKUP_FULL_PLATE
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/iron)
 
 /datum/supply_pack/rogue/armor_iron/rearbraces

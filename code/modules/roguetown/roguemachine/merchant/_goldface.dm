@@ -194,17 +194,24 @@
 		return SSmerchant_trade.silverface_margin_percent / 100
 	return extra_fee
 
+/obj/structure/roguemachine/goldface/proc/get_pack_cost(datum/supply_pack/rogue/PA)
+	if(is_public)
+		return round(PA.cost * PA.silverface_markup)
+	return PA.cost
+
 /obj/structure/roguemachine/goldface/proc/compute_pack_price(datum/supply_pack/PA, mob/living/carbon/human/H)
-	var/cost = PA.cost + PA.cost * get_effective_fee()
+	var/pack_cost = get_pack_cost(PA)
+	var/cost = pack_cost + pack_cost * get_effective_fee()
 	if(!is_tax_exempt(H))
 		cost += compute_pack_tax(PA)
 	return round(cost)
 
 /obj/structure/roguemachine/goldface/proc/compute_pack_tax(datum/supply_pack/PA)
-	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * PA.cost)
+	return round(SStreasury.get_tax_rate(TAX_CATEGORY_IMPORT_TARIFF) * get_pack_cost(PA))
 
 /obj/structure/roguemachine/goldface/proc/serialize_pack(datum/supply_pack/PA, tariff_active)
-	var/base = round(PA.cost + PA.cost * get_effective_fee())
+	var/pack_cost = get_pack_cost(PA)
+	var/base = round(pack_cost + pack_cost * get_effective_fee())
 	var/tariff = tariff_active ? compute_pack_tax(PA) : 0
 	return list(
 		"ref" = "[PA.type]",
@@ -778,7 +785,7 @@
 				record_round_statistic(STATS_TAXES_EVADED, tax_amt)
 				tariff_evaded_here += tax_amt
 			if(is_public && SSmerchant_trade?.gnome_automation_unlocked)
-				var/margin = round(PA.cost * get_effective_fee())
+				var/margin = round(get_pack_cost(PA) * get_effective_fee())
 				if(margin > 0)
 					SStreasury.mint(SStreasury.merchant_fund, margin, "Company Gnomes margin ([src.name])", null, LEDGER_MERCHANT_MARGIN_IN)
 					SSmerchant_trade.gnome_margin_collected += margin

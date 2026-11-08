@@ -2,6 +2,7 @@
 	var/static_cost = FALSE
 	var/randomprice_factor = 0.07
 	var/derive_cost = FALSE
+	var/silverface_markup = 1
 
 /datum/supply_pack/rogue/New()
 	if(derive_cost)

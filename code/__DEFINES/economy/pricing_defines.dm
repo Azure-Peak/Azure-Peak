@@ -3,6 +3,8 @@
 #define PRICING_ENGINE_DEFAULT_MARKUP 1.2
 #define PRICING_ENGINE_COMMISSIONER_MARKUP 1
 #define SUPPLY_PACK_DERIVED_MARKUP 1.5
+#define SILVERFACE_MARKUP_STEEL 1.5 // Steel gear is the desired upgrade, so Sface (no interaction) should have higher than usual markup
+#define SILVERFACE_MARKUP_FULL_PLATE 2 // Full plate is the most desired upgrade, so extra price
 // Make it 0 or else we are in exploit city
 #define PRICING_ENGINE_MIN_DERIVED_PRICE 0
 #define PRICING_ENGINE_FOOD_RECIPE_MAX_PASSES 6

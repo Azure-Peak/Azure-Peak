@@ -3,6 +3,7 @@
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 	derive_cost = TRUE
+	silverface_markup = SILVERFACE_MARKUP_STEEL
 
 /datum/supply_pack/rogue/steel_weapons/dagger
 	name = "Dagger"

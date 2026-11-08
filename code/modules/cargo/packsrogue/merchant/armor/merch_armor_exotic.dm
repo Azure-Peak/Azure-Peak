@@ -49,10 +49,12 @@
 
 /datum/supply_pack/rogue/armor_exotic/legacyfullplate_steel
 	name = "Valorian Full-Plate, Steel"
+	silverface_markup = SILVERFACE_MARKUP_FULL_PLATE
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/legacy)
 
 /datum/supply_pack/rogue/armor_exotic/legacyfluteplate_steel
 	name = "Valorian Fluted Full-Plate, Steel"
+	silverface_markup = SILVERFACE_MARKUP_FULL_PLATE
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/legacy)
 
 /datum/supply_pack/rogue/armor_exotic/legacycuirass_iron
@@ -65,6 +67,7 @@
 
 /datum/supply_pack/rogue/armor_exotic/legacyfullplate_iron
 	name = "Valorian Full-Plate, Iron"
+	silverface_markup = SILVERFACE_MARKUP_FULL_PLATE
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/iron/legacy)
 
 /datum/supply_pack/rogue/armor_exotic/legacyhelmet_kettle_steel

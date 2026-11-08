@@ -5,6 +5,7 @@
 	crate_name = "merchant guild's crate"
 	crate_type = /obj/structure/closet/crate/chest/merchant
 	derive_cost = TRUE
+	silverface_markup = SILVERFACE_MARKUP_STEEL
 
 // Steel Armor Section. Massive selection here so I am not going to include everything
 /datum/supply_pack/rogue/armor_steel/lightchainmail_steel
@@ -41,10 +42,12 @@
 
 /datum/supply_pack/rogue/armor_steel/fullplate
 	name = "Full Plate"
+	silverface_markup = SILVERFACE_MARKUP_FULL_PLATE
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full)
 
 /datum/supply_pack/rogue/armor_steel/fullplate_fluted
 	name = "Full Plate, Fluted"
+	silverface_markup = SILVERFACE_MARKUP_FULL_PLATE
 	contains = list(/obj/item/clothing/suit/roguetown/armor/plate/full/fluted)
 
 /datum/supply_pack/rogue/armor_steel/coatplates
