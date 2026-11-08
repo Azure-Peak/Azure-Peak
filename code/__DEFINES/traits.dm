@@ -119,6 +119,9 @@
 //Near the above, this makes you silver weak + while-sundered ignore paincrit traits, define another w/ TRAIT_LYCANRESILENCE if you need another silver weak, stun immune exemption that still burns from silver.
 #define TRAIT_SILVER_WEAK "Silver Weakness"
 
+// True Vamp Larp, overwrites eating traits and enforces a blood-only diet
+#define TRAIT_HEMOPHAGE "Hemophage"
+
 //Second Chance related
 #define TRAIT_ROTMAN "Rotman" //No heartbeat + can invoke Zizo ascension/not regular ascensions - Also lets you eat brains
 
