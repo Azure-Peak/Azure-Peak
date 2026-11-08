@@ -21,8 +21,6 @@
 	. = slowdown
 	if(platform_atom_count > 0)
 		return
-	for(var/obj/obj in contents)
-		. += obj.object_slowdown
 	if(active_hotspot)
 		. += 15
 

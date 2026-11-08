@@ -7,13 +7,14 @@
 	forbidden_races = list(RACES_DESPISED)
 
 	outfit = /datum/outfit/job/roguetown/adventurer/fishermaster
-	traits_applied = list(TRAIT_CAUTIOUS_FISHER, TRAIT_HOMESTEAD_EXPERT)
+	traits_applied = list(TRAIT_EXPERT_FISHER, TRAIT_HOMESTEAD_EXPERT)
 
 	maximum_possible_slots = 1
 	pickprob = 5
 	age_mod = /datum/class_age_mod/fisher
 
 	category_tags = list(CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
 	subclass_stats = list(
 		STATKEY_CON = 2,
 		STATKEY_PER = 2,
@@ -57,12 +58,14 @@
 		backr = /obj/item/storage/backpack/rogue/satchel
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 		belt = /obj/item/storage/belt/rogue/leather
-		backl = /obj/item/fishingrod
+		backl = /obj/item/fishingrod/fisher
 		beltr = /obj/item/cooking/pan
 		mouth = /obj/item/rogueweapon/huntingknife
-		beltl = /obj/item/flint
+		beltl = /obj/item/storage/meatbag/creel
 		backpack_contents = list(
 							/obj/item/natural/worms = 2,
+							/obj/item/fishing/bait/dough = 2,
+							/obj/item/flint = 1,
 							/obj/item/rogueweapon/shovel/small=1,
 							/obj/item/flashlight/flare/torch = 1,
 							)
@@ -75,10 +78,12 @@
 		backr = /obj/item/storage/backpack/rogue/satchel
 		armor = /obj/item/clothing/suit/roguetown/armor/leather/vest/sailor
 		belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
-		beltr = /obj/item/fishingrod
-		beltl = /obj/item/rogueweapon/huntingknife
+		beltr = /obj/item/fishingrod/fisher
+		beltl = /obj/item/storage/meatbag/creel
+		mouth = /obj/item/rogueweapon/huntingknife
 		backpack_contents = list(
 			/obj/item/natural/worms = 2,
+			/obj/item/fishing/bait/dough = 2,
 			/obj/item/rogueweapon/shovel/small=1,
 			/obj/item/rogueweapon/scabbard/sheath = 1
 			)

@@ -1,4 +1,0 @@
-author: "Ryumi"
-delete-after: True
-changes:
-  - bugfix: "Adding a card hand to its deck now actually places the card(s) at the bottom of the deck like the emote for it says it does."

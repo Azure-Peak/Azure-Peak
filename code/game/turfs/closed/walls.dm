@@ -51,7 +51,7 @@
 //	if(girder_type)
 //		new /obj/item/stack/sheet/metal(src)
 
-/turf/closed/wall/ex_act(severity, target, epicenter, devastation_range, heavy_impact_range, light_impact_range, flame_range)
+/turf/closed/wall/ex_act(severity, target, epicenter, extreme_impact_range, heavy_impact_range, light_impact_range, flame_range)
 	if(isnull(epicenter))
 		if(target == src)
 			dismantle_wall(1, 1)
@@ -74,7 +74,7 @@
 	if(target == src)
 		dismantle_wall(1, 1)
 		return
-	var/ddist = max(0, devastation_range)
+	var/ddist = max(0, extreme_impact_range)
 	var/hdist = max(0, heavy_impact_range)
 	var/ldist = max(0, light_impact_range)
 	var/fdist = max(0, flame_range)

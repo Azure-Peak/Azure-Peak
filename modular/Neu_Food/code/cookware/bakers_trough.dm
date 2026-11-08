@@ -254,7 +254,7 @@
 	var/cooking_skill = SKILL_LEVEL_NONE
 	if(user && user.mind)
 		cooking_skill = user.get_skill_level(/datum/skill/craft/cooking)
-	return (base_knead_time / get_cooktime_divisor(cooking_skill)) * dough_to_make
+	return (base_knead_time / get_skill_speed_divisor(cooking_skill)) * dough_to_make
 
 /obj/structure/bakers_trough/proc/update_trough_icon()
 	cut_overlays()

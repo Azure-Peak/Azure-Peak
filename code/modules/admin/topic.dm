@@ -29,6 +29,10 @@
 			R.show_letter(usr)
 		return
 
+	if(href_list["letter_log"])
+		show_letter_log()
+		return
+
 	// Open Heal Panel from Player Panel
 	if(href_list["heal_panel"])
 		var/mob/living/M = locate(href_list["heal_panel"])
@@ -49,7 +53,7 @@
 		if(M)
 			M.fully_heal(admin_revive = TRUE)
 			message_admins("[key_name_admin(usr)] fully healed [key_name_admin(M)].")
-			log_admin("[key_name(usr)] fully healed [key_name(M)].")
+			M.log_message("was fully healed by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			show_heal_panel(M)
 		return
 
@@ -58,7 +62,7 @@
 		if(M)
 			M.revive(full_heal = FALSE, admin_revive = TRUE)
 			message_admins("[key_name_admin(usr)] revived [key_name_admin(M)].")
-			log_admin("[key_name(usr)] revived [key_name(M)].")
+			M.log_message("was revived by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			show_heal_panel(M)
 		return
 
@@ -79,9 +83,10 @@
 		var/mob/living/M = locate(href_list["heal_blood_add100"])
 		if(M && ishuman(M))
 			var/mob/living/carbon/human/H = M
+			var/old = H.blood_volume
 			H.blood_volume = min(H.blood_volume + 100, BLOOD_VOLUME_MAXIMUM)
 			message_admins("[key_name_admin(usr)] added 100 blood to [key_name_admin(M)].")
-			log_admin("[key_name(usr)] added 100 blood to [key_name(M)].")
+			M.log_message("had blood volume changed from [old] to [H.blood_volume] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			show_heal_panel(M)
 		return
 
@@ -89,9 +94,10 @@
 		var/mob/living/M = locate(href_list["heal_blood_add50"])
 		if(M && ishuman(M))
 			var/mob/living/carbon/human/H = M
+			var/old = H.blood_volume
 			H.blood_volume = min(H.blood_volume + 50, BLOOD_VOLUME_MAXIMUM)
 			message_admins("[key_name_admin(usr)] added 50 blood to [key_name_admin(M)].")
-			log_admin("[key_name(usr)] added 50 blood to [key_name(M)].")
+			M.log_message("had blood volume changed from [old] to [H.blood_volume] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			show_heal_panel(M)
 		return
 
@@ -99,9 +105,10 @@
 		var/mob/living/M = locate(href_list["heal_blood_sub50"])
 		if(M && ishuman(M))
 			var/mob/living/carbon/human/H = M
+			var/old = H.blood_volume
 			H.blood_volume = max(H.blood_volume - 50, 0)
 			message_admins("[key_name_admin(usr)] removed 50 blood from [key_name_admin(M)].")
-			log_admin("[key_name(usr)] removed 50 blood from [key_name(M)].")
+			M.log_message("had blood volume changed from [old] to [H.blood_volume] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			show_heal_panel(M)
 		return
 
@@ -109,9 +116,10 @@
 		var/mob/living/M = locate(href_list["heal_blood_sub100"])
 		if(M && ishuman(M))
 			var/mob/living/carbon/human/H = M
+			var/old = H.blood_volume
 			H.blood_volume = max(H.blood_volume - 100, 0)
 			message_admins("[key_name_admin(usr)] removed 100 blood from [key_name_admin(M)].")
-			log_admin("[key_name(usr)] removed 100 blood from [key_name(M)].")
+			M.log_message("had blood volume changed from [old] to [H.blood_volume] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			show_heal_panel(M)
 		return
 
@@ -121,9 +129,10 @@
 			var/mob/living/carbon/human/H = M
 			var/new_amount = input(usr, "Set blood volume to:", "Blood Volume", H.blood_volume) as num|null
 			if(new_amount != null)
+				var/old = H.blood_volume
 				H.blood_volume = clamp(new_amount, 0, BLOOD_VOLUME_MAXIMUM)
-				message_admins("[key_name_admin(usr)] set [key_name_admin(M)]'s blood volume to [new_amount].")
-				log_admin("[key_name(usr)] set [key_name(M)]'s blood volume to [new_amount].")
+				message_admins("[key_name_admin(usr)] set [key_name_admin(M)]'s blood volume to [H.blood_volume].")
+				M.log_message("had blood volume set from [old] to [H.blood_volume] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				show_heal_panel(M)
 		return
 
@@ -153,7 +162,7 @@
 				else if(damage_type == "oxy")
 					M.adjustOxyLoss(new_value - current_value)
 				message_admins("[key_name_admin(usr)] set [damage_type] damage to [new_value] on [key_name_admin(M)].")
-				log_admin("[key_name(usr)] set [damage_type] damage to [new_value] on [key_name(M)].")
+				M.log_message("had [damage_type] damage set from [current_value] to [new_value] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				show_heal_panel(M)
 		return
 
@@ -176,7 +185,7 @@
 				else if(damage_type == "oxy")
 					H.setOxyLoss(new_value)
 				message_admins("[key_name_admin(usr)] set [damage_type] damage to [new_value] on [key_name_admin(M)].")
-				log_admin("[key_name(usr)] set [damage_type] damage to [new_value] on [key_name(M)].")
+				M.log_message("had [damage_type] damage set from [current_value] to [new_value] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				show_heal_panel(M)
 		return
 
@@ -200,7 +209,7 @@
 					BP.burn_dam = new_value
 				BP.update_limb()
 				message_admins("[key_name_admin(usr)] set [BP.name] [damage_type] damage to [new_value] on [key_name_admin(M)].")
-				log_admin("[key_name(usr)] set [BP.name] [damage_type] damage to [new_value] on [key_name(M)].")
+				M.log_message("had [BP.name] [damage_type] damage set from [current_value] to [new_value] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				show_heal_panel(M)
 		return
 
@@ -208,11 +217,11 @@
 		var/mob/living/M = locate(href_list["heal_fix_bodypart"])
 		var/obj/item/bodypart/BP = locate(href_list["bodypart"])
 		if(M && BP && ishuman(M))
+			M.log_message("had [BP.name] healed from [BP.brute_dam] brute and [BP.burn_dam] burn by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			BP.brute_dam = 0
 			BP.burn_dam = 0
 			BP.update_limb()
 			message_admins("[key_name_admin(usr)] healed [BP.name] on [key_name_admin(M)].")
-			log_admin("[key_name(usr)] healed [BP.name] on [key_name(M)].")
 			show_heal_panel(M)
 		return
 
@@ -278,7 +287,7 @@
 				var/datum/wound/applied_wound = wound_path
 				var/wound_display_name = initial(applied_wound:name)
 				message_admins("[key_name_admin(usr)] added [wound_display_name] wound to [BP.name] on [key_name_admin(M)].")
-				log_admin("[key_name(usr)] added [wound_display_name] wound to [BP.name] on [key_name(M)].")
+				M.log_message("had a [wound_display_name] wound ([wound_path]) added to [BP.name] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 			show_heal_panel(M)
 		return
 
@@ -291,7 +300,7 @@
 				var/confirm = alert(usr, "Removing the chest will gib [M.name], leaving behind all body parts except the chest. Continue?", "Gib Mob", "Yes", "Cancel")
 				if(confirm == "Yes")
 					message_admins("[key_name_admin(usr)] gibbed [key_name_admin(M)] by removing the chest.")
-					log_admin("[key_name(usr)] gibbed [key_name(M)] by removing the chest.")
+					M.log_message("was gibbed by [key_name(usr)] removing their chest via the heal panel", LOG_ADMIN)
 					M.gib(no_brain = FALSE, no_organs = FALSE, no_bodyparts = FALSE)
 				return
 			// Special case for head - properly remove it
@@ -300,11 +309,11 @@
 				if(removal_type == "Chop")
 					BP.drop_limb()
 					message_admins("[key_name_admin(usr)] chopped off [BP.name] from [key_name_admin(M)].")
-					log_admin("[key_name(usr)] chopped off [BP.name] from [key_name(M)].")
+					M.log_message("had [BP.name] chopped off by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				else if(removal_type == "Safely Amputate")
 					BP.drop_limb()
 					message_admins("[key_name_admin(usr)] safely amputated [BP.name] from [key_name_admin(M)].")
-					log_admin("[key_name(usr)] safely amputated [BP.name] from [key_name(M)].")
+					M.log_message("had [BP.name] safely amputated by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				show_heal_panel(M)
 			// All other limbs
 			else
@@ -313,11 +322,11 @@
 					// Use admin-only dismember that bypasses all armor checks
 					BP.dismember(skip_checks = TRUE)
 					message_admins("[key_name_admin(usr)] chopped off [BP.name] from [key_name_admin(M)].")
-					log_admin("[key_name(usr)] chopped off [BP.name] from [key_name(M)].")
+					M.log_message("had [BP.name] chopped off by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				else if(removal_type == "Safely Amputate")
 					BP.drop_limb()
 					message_admins("[key_name_admin(usr)] safely amputated [BP.name] from [key_name_admin(M)].")
-					log_admin("[key_name(usr)] safely amputated [BP.name] from [key_name(M)].")
+					M.log_message("had [BP.name] safely amputated by [key_name(usr)] via the heal panel", LOG_ADMIN)
 				show_heal_panel(M)
 		return
 
@@ -330,7 +339,7 @@
 				if(W in BP.wounds)
 					BP.remove_wound(W)
 					message_admins("[key_name_admin(usr)] removed wound [W.name] from [key_name_admin(M)].")
-					log_admin("[key_name(usr)] removed wound [W.name] from [key_name(M)].")
+					M.log_message("had a [W.name] wound removed from [BP.name] by [key_name(usr)] via the heal panel", LOG_ADMIN)
 					break
 			show_heal_panel(M)
 		return
@@ -1092,20 +1101,18 @@
 		var/mob/M = locate(href_list["getmob"])
 		usr.client.Getmob(M)
 
-	else if(href_list["increase_skill"])
-		var/mob/M = locate(href_list["increase_skill"])
-		var/datum/skill/skill = href_list["skill"]
-		M.adjust_skillrank(text2path(skill), 1)
-		message_admins(span_danger("Admin [key_name_admin(usr)] increased [key_name_admin(M)]'s [skill]"))
-		log_admin("[usr] increased [M]'s [initial(skill.name)] skill.")
-		show_player_panel_next(M, "skills")
-
-	else if(href_list["decrease_skill"])
-		var/mob/M = locate(href_list["decrease_skill"])
-		var/datum/skill/skill = href_list["skill"]
-		M.adjust_skillrank(text2path(skill), -1)
-		message_admins(span_danger("Admin [key_name_admin(usr)] decreased [key_name_admin(M)]'s [skill]"))
-		log_admin("[usr] decreased [M]'s [initial(skill.name)] skill.")
+	else if(href_list["increase_skill"] || href_list["decrease_skill"])
+		var/up = !!href_list["increase_skill"]
+		var/mob/M = locate(href_list[up ? "increase_skill" : "decrease_skill"])
+		var/skill_path = text2path(href_list["skill"])
+		var/datum/skill/skill = GetSkillRef(skill_path)
+		if(!M || !skill)
+			return
+		var/old = M.get_skill_level(skill_path)
+		M.adjust_skillrank(skill_path, up ? 1 : -1)
+		var/cur = M.get_skill_level(skill_path)
+		message_admins(span_danger("Admin [key_name_admin(usr)] [up ? "increased" : "decreased"] [key_name_admin(M)]'s [skill.name] from [skill_to_string(old)] to [skill_to_string(cur)]"))
+		M.log_message("had [skill.name] [up ? "raised" : "lowered"] from [skill_to_string(old)] ([old]) to [skill_to_string(cur)] ([cur]) by [key_name(usr)] via the player panel", LOG_ADMIN)
 		show_player_panel_next(M, "skills")
 
 	else if(href_list["set_skill"])
@@ -1119,40 +1126,36 @@
 			var/difference = new_level - current_level
 			if(difference != 0)
 				M.adjust_skillrank(skill_path, difference, TRUE)
-				message_admins(span_danger("Admin [key_name_admin(usr)] set [key_name_admin(M)]'s [skill.name] to [new_level] (was [current_level])"))
-				log_admin("[usr] set [M]'s [skill.name] skill to [new_level] (was [current_level]).")
+				var/cur = M.get_skill_level(skill_path)
+				message_admins(span_danger("Admin [key_name_admin(usr)] set [key_name_admin(M)]'s [skill.name] to [skill_to_string(cur)] (was [skill_to_string(current_level)])"))
+				M.log_message("had [skill.name] set from [skill_to_string(current_level)] ([current_level]) to [skill_to_string(cur)] ([cur]) by [key_name(usr)] via the player panel", LOG_ADMIN)
 			show_player_panel_next(M, "skills")
 
-	else if(href_list["add_language"])
-		var/mob/M = locate(href_list["add_language"])
+	else if(href_list["add_language"] || href_list["remove_language"])
+		var/add = !!href_list["add_language"]
+		var/mob/M = locate(href_list[add ? "add_language" : "remove_language"])
 		var/datum/language/lang = text2path(href_list["language"])
-		M.grant_language(lang)
-		message_admins(span_danger("Admin [key_name_admin(usr)] added [lang] to [key_name_admin(M)]"))
-		log_admin("[usr] added [lang] to [M].")
+		if(!M || !lang)
+			return
+		if(add)
+			M.grant_language(lang)
+		else
+			M.remove_language(lang)
+		message_admins(span_danger("Admin [key_name_admin(usr)] [add ? "granted" : "removed"] [initial(lang.name)] [add ? "to" : "from"] [key_name_admin(M)]"))
+		M.log_message("had the [initial(lang.name)] language [add ? "granted" : "removed"] by [key_name(usr)] via the player panel", LOG_ADMIN)
 		show_player_panel_next(M, "languages")
 
-	else if(href_list["remove_language"])
-		var/mob/M = locate(href_list["remove_language"])
-		var/datum/language/lang = text2path(href_list["language"])
-		M.remove_language(lang)
-		message_admins(span_danger("Admin [key_name_admin(usr)] removed [lang] from [key_name_admin(M)]"))
-		log_admin("[usr] removed [lang] to [M].")
-		show_player_panel_next(M, "languages")
-
-	else if(href_list["add_stat"])
-		var/mob/living/M = locate(href_list["add_stat"])
+	else if(href_list["add_stat"] || href_list["lower_stat"])
+		var/up = !!href_list["add_stat"]
+		var/mob/living/M = locate(href_list[up ? "add_stat" : "lower_stat"])
 		var/statkey = href_list["stat"]
-		message_admins(span_danger("Admin [key_name_admin(usr)] added [statkey] to [key_name_admin(M)]"))
-		M.change_stat(statkey, 1)
-		log_admin("[usr] increased [M]'s [statkey].")
-		show_player_panel_next(M, "stats")
-
-	else if(href_list["lower_stat"])
-		var/mob/living/M = locate(href_list["lower_stat"])
-		var/statkey = href_list["stat"]
-		message_admins(span_danger("Admin [key_name_admin(usr)] lowered [statkey] from [key_name_admin(M)]"))
-		M.change_stat(statkey, -1)
-		log_admin("[usr] decreased [M]'s [statkey].")
+		if(!isliving(M) || !(statkey in MOBSTATS))
+			return
+		var/old = M.get_stat(statkey)
+		M.change_stat(statkey, up ? 1 : -1)
+		var/cur = M.get_stat(statkey)
+		message_admins(span_danger("Admin [key_name_admin(usr)] [up ? "raised" : "lowered"] [key_name_admin(M)]'s [statkey] from [old] to [cur]"))
+		M.log_message("had [statkey] [up ? "raised" : "lowered"] from [old] to [cur] by [key_name(usr)] via the player panel", LOG_ADMIN)
 		show_player_panel_next(M, "stats")
 
 	else if(href_list["set_stat"])
@@ -1164,8 +1167,9 @@
 			var/difference = new_value - current_value
 			if(difference != 0)
 				M.change_stat(statkey, difference)
-				message_admins(span_danger("Admin [key_name_admin(usr)] set [key_name_admin(M)]'s [statkey] to [new_value] (was [current_value])"))
-				log_admin("[usr] set [M]'s [statkey] to [new_value] (was [current_value]).")
+				var/cur = M.get_stat(statkey)
+				message_admins(span_danger("Admin [key_name_admin(usr)] set [key_name_admin(M)]'s [statkey] to [cur] (was [current_value])"))
+				M.log_message("had [statkey] set from [current_value] to [cur] by [key_name(usr)] via the player panel", LOG_ADMIN)
 			show_player_panel_next(M, "stats")
 
 	else if(href_list["set_patron"])
@@ -1186,6 +1190,7 @@
 			if(H.devotion)
 				is_divine_caster = TRUE
 
+		var/old = M.patron ? M.patron.name : "none"
 		// Remove old patron bonuses/spells
 		if(M.patron)
 			M.patron.on_loss(M)
@@ -1211,7 +1216,7 @@
 				H.devotion.try_add_spells(silent = FALSE)
 
 		message_admins(span_danger("Admin [key_name_admin(usr)] changed [key_name_admin(M)]'s patron to [initial(M.patron.name)]"))
-		log_admin("[usr] changed [M]'s patron to [initial(M.patron.name)].")
+		M.log_message("had their patron changed from [old] to [M.patron?.name] by [key_name(usr)] via the player panel", LOG_ADMIN)
 		show_player_panel_next(M, "patron")
 
 	else if(href_list["sendmob"])
@@ -1864,3 +1869,28 @@
 	dat += {"<A href='?src=[REF(src)];[HrefToken()];f_secret2=secret'>Random (default)</A><br>"}
 	dat += {"Now: [GLOB.secret_force_mode]"}
 	usr << browse(dat, "window=f_secret")
+
+/datum/admins/proc/show_letter_log()
+	var/list/archive = SSroguemachine.letter_archive
+	var/total = length(archive)
+	if(!total)
+		to_chat(usr, span_notice("No letters or packages have been archived this round."))
+		return
+	var/body = "<b style='font-size:15px'>HERMES Archive &mdash; [total] total</b><hr>"
+	var/show_from = max(1, total - 99)
+	for(var/i = total, i >= show_from, i--)
+		var/datum/letter_record/R = archive[i]
+		var/kind = R.is_package ? "<b>PACKAGE</b> " : ""
+		var/recipient_label = "<b>[R.recipient]</b>"
+		var/link = " <a href='?_src_=holder;[HrefToken()];read_letter=[i]'>\[[R.is_package ? "View Contents" : "Read"]\]</a>"
+		body += "<div>#[i] &mdash; [kind][R.sender_key] &rarr; [recipient_label][link]</div>"
+	usr << browse_rsc('html/book.png')
+	var/page = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+<html><head><style type=\"text/css\">
+body { background-image:url('book.png'); background-repeat: repeat; font-family: Verdana, Arial, sans-serif; font-size: 13px; font-style: normal; color: #1a1208; }
+div { margin: 4px 0; padding: 6px 4px; border-bottom: 1px solid #8a7a5a; }
+a { color: #0b2a6b; font-weight: bold; }
+</style></head><body>"}
+	page += body
+	page += "</body></html>"
+	usr << browse(page, "window=letter_log;size=650x480;can_close=1;can_resize=1;titlebar=1")

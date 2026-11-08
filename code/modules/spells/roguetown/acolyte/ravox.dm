@@ -246,13 +246,13 @@
 
 /obj/projectile/magic/ravox_chain/fire(angle, atom/direct_target)
 	if(firer)
-		chain_beam = firer.Beam(src, icon_state = "chain", time = 10 SECONDS, maxdistance = 15, beam_sleep_time = 1)
+		chain_beam = firer.Beam(src, icon_state = "chain", time = 10 SECONDS, max_distance = 15)
 		expose_caster((range * speed) + 2)
 	return ..()
 
 /obj/projectile/magic/ravox_chain/Destroy()
 	if(chain_beam)
-		chain_beam.End()
+		qdel(chain_beam)
 		chain_beam = null
 	return ..()
 
@@ -262,7 +262,7 @@
 		return
 	var/mob/living/caught = target
 
-	firer.Beam(caught, icon_state = "chain", time = 5, maxdistance = 15, beam_sleep_time = 1)
+	firer.Beam(caught, icon_state = "chain", time = 5, max_distance = 15)
 
 	expose_caster(max(pull_distance, 2))
 

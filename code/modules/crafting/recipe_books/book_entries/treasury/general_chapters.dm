@@ -393,6 +393,8 @@
 		<b>+[QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND]</b> with two or more. A led
 		fellowship of three can run [QUEST_MAX_ACTIVE_PER_PLAYER + QUEST_ACTIVE_FELLOWSHIP_BONUS_BAND] contracts at once.</p>
 
+		<p>Contract scales to the amount of people who were actually present for the contract. This counts everyone within two screens of the contract when it spawns.</p>
+
 		<p>Beyond the active cap, a <b>take cooldown</b> starts once you have signed
 		your cap worth of contracts within [QUEST_TAKE_COOLDOWN / 600] minutes.</p>
 

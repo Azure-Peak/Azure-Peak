@@ -248,6 +248,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["progress_required"] = Q.progress_required
 	data["shows_commission_seal"] = Q.shows_commission_seal
 	data["is_towner"] = Q.source == QUEST_SOURCE_TOWNER
+	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	Q.populate_scroll_ui_static_data(data)
 	return data
 

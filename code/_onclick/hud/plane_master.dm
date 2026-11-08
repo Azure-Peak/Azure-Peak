@@ -79,6 +79,34 @@
 			if(L.has_status_effect(/datum/status_effect/debuff/vampbite))
 				add_filter("druqks_color", 2, color_matrix_filter(list(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1, 0,0,0,0)))
 
+/**
+ * Things placed on this mask the lighting plane. Doesn't render directly.
+ *
+ * Gets masked by blocking plane. Use for things that you want blocked by
+ * mobs, items, etc.
+ */
+/atom/movable/screen/plane_master/emissive
+	name = "emissive plane master"
+	plane = EMISSIVE_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = EMISSIVE_RENDER_TARGET
+
+/atom/movable/screen/plane_master/emissive/Initialize(mapload)
+	. = ..()
+	add_filter("em_block_masking", 1, color_matrix_filter(EM_MASK_MATRIX))
+
+/**
+ * Things placed on this always mask the lighting plane. Doesn't render directly.
+ *
+ * Always masks the light plane, isn't blocked by anything. Use for on mob glows,
+ * magic stuff, etc.
+ */
+/atom/movable/screen/plane_master/emissive_unblockable
+	name = "unblockable emissive plane master"
+	plane = EMISSIVE_UNBLOCKABLE_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = EMISSIVE_UNBLOCKABLE_RENDER_TARGET
+
 /atom/movable/screen/plane_master/lighting
 	name = "lighting plane master"
 	plane = LIGHTING_PLANE
