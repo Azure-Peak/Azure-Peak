@@ -1,4 +1,6 @@
 GLOBAL_LIST_EMPTY(merc_contracts)
+GLOBAL_LIST_EMPTY(merc_contract_items)
+GLOBAL_LIST_EMPTY(merc_contract_cooldowns)
 
 GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	MERC_HIRER_TOWNER = list("label" = "Towners", "stipend" = MERC_STIPEND_TOWNER, "payer" = "the Burghers & Merchants of Azuria"),
@@ -29,6 +31,36 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		to_chat(payee, span_notice("The Mercenary's Guild adds [bonus] mammon to your share."))
 		log_quest(payee.ckey, payee.mind, payee, "Mercenary's Guild bonus [bonus] on [contract_label]")
 
+/proc/get_merc_medal_type(merctype)
+	switch(merctype)
+		if(1)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/atgervi
+		if(2)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/blackoak
+		if(3)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/condottiero
+		if(4)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/desertrider
+		if(5)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/forlorn
+		if(6)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/freifechter
+		if(7)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/grenzelhoft
+		if(8)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/grudgebearer
+		if(10)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/routier
+		if(11)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/steppesman
+		if(12)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/underdweller
+		if(13)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/vaquero
+		if(15)
+			return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal/anthrax
+	return /obj/item/clothing/neck/roguetown/luckcharm/mercmedal
+
 /proc/mail_merc_cash(mob/living/merc, amount, sender)
 	var/gold = floor(amount / 10)
 	while(gold > 0)
@@ -51,16 +83,48 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 			return contract
 	return null
 
+/proc/advance_merc_contracts_one_day()
+	for(var/datum/merc_contract/contract as anything in GLOB.merc_contracts.Copy())
+		contract.on_day_passed()
+	for(var/datum/mind/merc_mind as anything in GLOB.merc_contract_cooldowns)
+		GLOB.merc_contract_cooldowns[merc_mind] -= MERC_CONTRACT_DAY_LENGTH
+
 /proc/merc_contract_time_text(real_time)
 	return "[station_duration_text(real_time)] ([DisplayTimeText(real_time, 1)])"
 
-/proc/grant_merc_contract(mob/living/carbon/human/merc, cooldown_until = 0)
+/proc/count_held_merc_contracts(mob/living/merc)
+	. = 0
+	for(var/obj/item/merc_contract/item as anything in GLOB.merc_contract_items)
+		if(!item.contract && item.merc_ref?.resolve() == merc)
+			. += 1
+
+/proc/merc_contract_cooldown_left(mob/living/merc)
+	if(!merc?.mind)
+		return 0
+	return max(0, (GLOB.merc_contract_cooldowns[merc.mind] || 0) - world.time)
+
+/proc/grant_merc_contract(mob/living/carbon/human/merc)
+	if(count_held_merc_contracts(merc) >= MERC_CONTRACT_MAX_HELD)
+		return null
 	var/obj/item/merc_contract/item = new(get_turf(merc))
 	item.bind_to(merc)
-	item.cooldown_until = cooldown_until
 	if(!merc.equip_to_slot_if_possible(item, SLOT_IN_BACKPACK, disable_warning = TRUE))
 		merc.put_in_hands(item)
 	return item
+
+/proc/merc_meister_data(mob/living/carbon/human/merc)
+	if(!istype(SSjob.GetJob(merc.job), /datum/job/roguetown/mercenary))
+		return null
+	var/datum/merc_contract/contract = get_merc_contract(merc)
+	var/cooldown = merc_contract_cooldown_left(merc)
+	return list(
+		"held" = count_held_merc_contracts(merc),
+		"max_held" = MERC_CONTRACT_MAX_HELD,
+		"hired_by" = contract?.hirer_name,
+		"days" = contract?.days,
+		"days_served" = contract?.days_served,
+		"cooldown_text" = cooldown ? merc_contract_time_text(cooldown) : null,
+	)
 
 /datum/merc_contract
 	var/datum/weakref/merc_ref
@@ -178,8 +242,23 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		qdel(item)
 	var/mob/living/carbon/human/merc = merc_ref?.resolve()
 	if(istype(merc))
-		grant_merc_contract(merc, cooldown_until)
+		if(cooldown_until && merc.mind)
+			GLOB.merc_contract_cooldowns[merc.mind] = cooldown_until
+		award_medal(merc)
+		grant_merc_contract(merc)
 	qdel(src)
+
+/datum/merc_contract/proc/award_medal(mob/living/carbon/human/merc)
+	if(days_served < MERC_CONTRACT_MEDAL_DAYS || merc.tokenclaimed)
+		return
+	merc.tokenclaimed = TRUE
+	merc.adjust_triumphs(MERC_CONTRACT_MEDAL_TRIUMPHS)
+	var/medal_type = get_merc_medal_type(merc.merctype)
+	var/obj/item/medal = new medal_type(get_turf(merc))
+	if(!deliver_mail(medal, merc.real_name, "the Mercenary's Guild", "merc contract medal"))
+		merc.put_in_hands(medal)
+	to_chat(merc, span_notice("The Mercenary's Guild sends you a medal for your service."))
+	log_quest(merc.ckey, merc.mind, merc, "Mercenary medal for [days_served] days with [hirer_name]")
 
 /obj/item/merc_contract
 	name = "mercenary contract"
@@ -198,9 +277,13 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/datum/merc_contract/contract
 	var/datum/weakref/offered_by
 	var/offer_timer_id
-	var/cooldown_until = 0
+
+/obj/item/merc_contract/Initialize(mapload)
+	. = ..()
+	GLOB.merc_contract_items += src
 
 /obj/item/merc_contract/Destroy()
+	GLOB.merc_contract_items -= src
 	clear_offer()
 	contract = null
 	return ..()
@@ -337,8 +420,9 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return "[merc_name] is dead or gone."
 	if(get_merc_contract(merc))
 		return "[merc_name] is already hired."
-	if(world.time < cooldown_until)
-		return "[merc_name] cannot take a new contract for [merc_contract_time_text(cooldown_until - world.time)]."
+	var/cooldown = merc_contract_cooldown_left(merc)
+	if(cooldown)
+		return "[merc_name] cannot take a new contract for [merc_contract_time_text(cooldown)]."
 	var/datum/fellowship/F = hirer.current_fellowship
 	if(!F || !F.is_leader(hirer))
 		return "Only a fellowship leader can hire a sellsword."

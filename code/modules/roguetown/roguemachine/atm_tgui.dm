@@ -193,6 +193,7 @@
 				"patrons" = roster_data,
 			)
 	data["patron_rosters"] = patron_rosters
+	data["merc"] = merc_meister_data(H)
 
 	return data
 
@@ -246,6 +247,19 @@
 			handle_toggle_bathhouse_withdrawals(H, params)
 			SStgui.update_uis(src)
 			return TRUE
+		if("request_merc_contract")
+			handle_request_merc_contract(H)
+			SStgui.update_uis(src)
+			return TRUE
+
+/obj/structure/roguemachine/atm/proc/handle_request_merc_contract(mob/living/carbon/human/H)
+	if(!merc_meister_data(H))
+		return
+	if(!grant_merc_contract(H))
+		to_chat(H, span_warning("You already hold [MERC_CONTRACT_MAX_HELD] mercenary contracts."))
+		return
+	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+	say("A new mercenary contract for [H.real_name].")
 
 /obj/structure/roguemachine/atm/proc/handle_toggle_bathhouse_ordinance(mob/living/carbon/human/H)
 	if(!istype(H))

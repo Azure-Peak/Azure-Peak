@@ -13,6 +13,7 @@ import {
 } from './common/parchment';
 import { InstitutionalTab } from './MeisterPanel/InstitutionalTab';
 import { LedgerTab } from './MeisterPanel/LedgerTab';
+import { MercenaryTab } from './MeisterPanel/MercenaryTab';
 import { PatronageTab } from './MeisterPanel/PatronageTab';
 import { PersonalTab } from './MeisterPanel/PersonalTab';
 import { PollLevyTab } from './MeisterPanel/PollLevyTab';
@@ -77,6 +78,14 @@ export const MeisterPanel = () => {
             >
               Ledger
             </div>
+            {!!data.merc && (
+              <div
+                style={tabStyle(tab === 'mercenary')}
+                onClick={() => setTab('mercenary')}
+              >
+                Mercenary
+              </div>
+            )}
           </div>
 
           {tab === 'personal' && <PersonalTab data={data} act={act} />}
@@ -88,6 +97,9 @@ export const MeisterPanel = () => {
           )}
           {tab === 'polllevy' && <PollLevyTab data={data} act={act} />}
           {tab === 'ledger' && <LedgerTab data={data} act={act} />}
+          {tab === 'mercenary' && !!data.merc && (
+            <MercenaryTab data={data} act={act} />
+          )}
         </div>
       </Window.Content>
     </Window>

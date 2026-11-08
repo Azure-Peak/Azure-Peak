@@ -328,3 +328,7 @@
 
 // Incentivizes Mercenary to be hired out by others to complete contracts
 #define MERC_CONTRACT_SHARE_BONUS 0.25
+
+#define MERC_CONTRACT_MEDAL_DAYS 2
+#define MERC_CONTRACT_MEDAL_TRIUMPHS 3
+#define MERC_CONTRACT_MAX_HELD 2

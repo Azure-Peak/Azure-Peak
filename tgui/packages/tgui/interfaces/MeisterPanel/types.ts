@@ -81,7 +81,17 @@ export type LogEntry = {
   reason: string;
 };
 
+export type MercData = {
+  held: number;
+  max_held: number;
+  hired_by: string | null;
+  days: number | null;
+  days_served: number | null;
+  cooldown_text: string | null;
+};
+
 export type Data = {
+  merc: MercData | null;
   funds: FundEntry[];
   account_balance: number;
   day: number;
@@ -111,7 +121,8 @@ export type TabKey =
   | 'institutional'
   | 'patronage'
   | 'polllevy'
-  | 'ledger';
+  | 'ledger'
+  | 'mercenary';
 
 export type TabProps = {
   data: Data;
