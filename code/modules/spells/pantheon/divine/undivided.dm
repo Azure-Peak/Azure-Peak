@@ -127,7 +127,6 @@
 	if(!owner.cmode)
 		stamheal *= 2
 	owner.energy_add(stamheal)
-	owner.adjust_bodytemperature(8)
 
 /datum/status_effect/buff/recuperation/on_remove()
 	owner.remove_filter(RECUPERATION_BASE_FILTER)

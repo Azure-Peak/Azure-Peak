@@ -90,6 +90,7 @@ export const SubtabIdentityCardInfo = () => {
     clothes_pref,
     highlight_color,
     nickname,
+    pen_name,
     pronouns,
     race_bonus,
     real_name,
@@ -170,6 +171,28 @@ export const SubtabIdentityCardInfo = () => {
                 backgroundColor={highlight_color}
                 tooltip={`Highlight Color: ${ensureColorHash(highlight_color)}`}
                 onClick={() => act('highlight_color')}
+              />
+            </Stack.Item>
+          </Stack>
+        </LabeledGridList.Item>
+        <LabeledGridList.Item label="Pen Name">
+          <Stack>
+            <Stack.Item grow>
+              <Button
+                fluid
+                style={{
+                  wordBreak: 'break-word',
+                  whiteSpace: 'wrap',
+                }}
+                onClick={() => act('pen_name')}
+              >
+                {pen_name || 'None'}
+              </Button>
+            </Stack.Item>
+            <Stack.Item>
+              <Button
+                icon="question-circle"
+                tooltip="You can select this name for sending letters"
               />
             </Stack.Item>
           </Stack>

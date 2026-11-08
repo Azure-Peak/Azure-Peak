@@ -29,7 +29,7 @@
 		return found
 	if(istype(active, /obj/item/zadpack))
 		return found
-	if(istype(active, /obj/item/bomb))
+	if(istype(active, /obj/item/explosive/fused/bottle))
 		return found
 	found += active
 	return found

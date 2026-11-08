@@ -1466,108 +1466,33 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 /obj/item/clothing/shoes/roguetown/boots/muffle_matthios/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_ARMOR) //These were always meant to be valid I don't get why this was forgotten about
 
-/obj/item/impact_grenade/pocketsand
-	name = "pocket sand"
-	desc = "A fistful of fine, irritating sand. Guaranteed to be clawing at the eyes of the unwise."
-	icon_state = "clod1"
-	icon = 'icons/roguetown/items/natural.dmi'
+//THROWABLES
+//I'll leave it as an admin spawnable cause why not, but as is right now there's no way anything can get access to this.
+/obj/item/explosive/impact/truthsnuke
+	name = "TRUTHSNUKE"
+	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. It glows with a divine might, and once again stolen fire."
+	aura_color = "#fbff00"
+	/// Radius in which mobs are judged and the land is razed
+	var/nukerange = 15
+	/// Radius in which mobs are flung outwards
+	var/fling = 12
+	var/lightrange = 10
+	var/flamerange = 15
 
-/obj/item/impact_grenade/pocketsand/explodes()
-	STOP_PROCESSING(SSfastprocess, src)
-	for(var/mob/living/target in get_turf(src))
-		if(!target.mind || istype(target, /mob/living/simple_animal))
-			target.adjustBruteLoss(5)
-		if(iscarbon(target))
-			target.blur_eyes(5)
-			target.adjust_blurriness(10)
-			target.blind_eyes(1.5)
-		target.visible_message(span_warning("[target] is blasted with a cloud of sand!"), span_warning("Sand gets into my eyes! I can't see!"))
-		target.emote("pain")
-		target.apply_status_effect(/datum/status_effect/debuff/clickcd, 3 SECONDS)
-	qdel(src)
+/obj/item/explosive/impact/truthsnuke/lesser
+	name = "Incomplete TRUTHSNUKE"
+	desc = "A fragile canister, filled with an explosive surprise. Shards of flint line its thin sleeve, aching to ignite at the slightest disturbance. The fire of Astrata does not seem to be imbuing it, but..."
+	nukerange = 3
+	fling = 3
+	lightrange = 4
+	flamerange = 8
 
-//MISC
-/obj/item/storage/backpack/rogue/satchel/beltpack/matthios
-	name = "smuggling beltpack"
-	desc = "A lighter satchel that rests against the rump, freeing the shoulders from any weight. It's traditionally worn in place of a belt or cloak."
-	icon_state = "buttpack"
-	item_state = "buttpack"
-	icon = 'icons/roguetown/clothing/storage.dmi'
-	mob_overlay_icon = 'icons/roguetown/clothing/onmob/belts.dmi'
-	slot_flags = ITEM_SLOT_CLOAK|ITEM_SLOT_BELT
-	edelay_type = 1
-	equip_delay_self = 10
-	max_integrity = 300
-	component_type = /datum/component/storage/concrete/roguetown/backpack
-	var/fakename = "beltpack"
+/obj/item/explosive/impact/truthsnuke/blast(turf/T, forced)
+	// Affect mobs
+	for(var/mob/living/target in range(nukerange, T))
 
-/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/equipped(mob/user, slot)
-	. = ..()
-	if(slot == SLOT_BELT || slot == SLOT_CLOAK)
-		name = fakename
-
-/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/dropped(mob/user, silent)
-	. = ..()
-	name = initial(name)
-
-/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/doStrip(mob/stripper, mob/owner)
-	if(ash_unworthy(owner))
-		return FALSE
-	. = ..()
-
-/obj/item/storage/backpack/rogue/satchel/beltpack/matthios/get_examine_highlight_status()
-	if(ismob(loc))
-		return null
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_SUSPICIOUS, HERESYDESC_MATTHIOS_MISC)
-
-/obj/item/mattcoin/pickup(mob/living/user)
-	if(ash_unworthy(user))
-		return FALSE
-	. = ..()
-
-/obj/item/rope/chain/matthios
-	name = "gilded chain"
-	desc = "A heavy, gilded chain that thrums with latent divine power. It resonates negatively with the essence of nobility, as if stirred by divine rebuke."
-	color = "#fdff86"
-	aura_color = "#fff385"
-	matthios_chains = TRUE
-	smeltresult = /obj/item/natural/ash
-
-/obj/item/rope/chain/matthios/get_examine_highlight_status()
-	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_MATTHIOS_RELIC)
-
-/obj/item/flashlight/flare/torch/lantern/malchem
-	name = "malchem fyre"
-	light_color = "#fff4e5"
-	aura_color = "#ffa631"
-	light_outer_range = 10
-	icon_state = "wisp"
-	item_state = "wisp"
-	desc = "A condensed sphere of fyre that neither flickers nor extinguishes. It does not burn as ordinary flame does, but seems to exist as the very concept of fyre given form, scorching only those hands and objects it deems worthy of burning."
-	is_important = TRUE
-
-/obj/item/flashlight/flare/torch/lantern/malchem/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/cursed_item, list(TRAIT_FREEMAN, TRAIT_APRICITY, TRAIT_UNDIVIDED, TRAIT_ASTRATAN_AFFINITY, TRAIT_FORGEBLESSED, TRAIT_XYLIX), "CONDENSED SUNFYRE")
-	spark_act()
-
-/obj/item/flashlight/flare/torch/lantern/malchem/attack_self(mob/user)
-	return
-
-/obj/item/flashlight/flare/torch/lantern/malchem/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
-	. = ..()
-	if(QDELETED(src))
-		return
-	var/turf/impact_turf = get_turf(hit_atom)
-	if(!impact_turf)
-		return
-	playsound(impact_turf, 'sound/magic/fireball.ogg', 100, TRUE)
-	explosion(impact_turf, 0, 0, 0, 1, adminlog = FALSE, flame_range = 1) // Deals no damage, but flashes your face. This is the substitute to the deprecated pocket sand.
-	qdel(src)
-
-//////////////////////
-// Gilded lockpick  //
-//////////////////////
+		if(QDELETED(target))
+			continue
 
 /obj/item/lockpick/gilded
 	name = "gilded lockpick"

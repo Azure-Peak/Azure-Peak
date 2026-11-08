@@ -98,7 +98,7 @@
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena,
 			/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
 			/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
-			/obj/item/bomb,
+			/obj/item/explosive/fused/bottle,
 		),
 		/area/rogue/indoors/town/manor = list(
 			/obj/item/clothing/cloak/raincloak/furcloak,
