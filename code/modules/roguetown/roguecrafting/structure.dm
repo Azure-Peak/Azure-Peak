@@ -1745,7 +1745,7 @@
 	skillcraft = /datum/skill/craft/carpentry
 
 /datum/crafting_recipe/roguetown/structure/drawer_wood
-	name = "drawaer (small)"
+	name = "drawer (small)"
 	category = "Containers"
 	result = /obj/structure/closet/crate/drawer/inn
 	reqs = list(/obj/item/grown/log/tree/small = 1)
