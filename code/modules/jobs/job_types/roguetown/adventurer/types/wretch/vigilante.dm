@@ -90,8 +90,8 @@
 	backl = /obj/item/rogueweapon/woodstaff/quarterstaff/steel //nonlethal takedowns
 	beltr = /obj/item/quiver/sling/iron
 	l_hand = /obj/item/grapplinghook
-	r_hand = /obj/item/bomb/smoke
-	beltl = /obj/item/bomb/smoke
+	r_hand = /obj/item/explosive/impact/smoke/bomb
+	beltl = /obj/item/explosive/impact/smoke/bomb
 	cloak = /obj/item/clothing/cloak/cape/puritan
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/studded
 	mask = /obj/item/clothing/mask/rogue/duelmask

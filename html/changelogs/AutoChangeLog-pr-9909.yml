@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Increased the amount of contracts generated, especially at the start of the game, so there's real choices."
+  - rscadd: "Unattended scrolls now crumble after 30 minutes"

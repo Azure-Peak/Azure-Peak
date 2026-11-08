@@ -88,23 +88,23 @@
 		var/mob/living/carbon/human/H = user
 		H.mind?.has_bomb = FALSE
 		var/bomb_type
-		var/static/list/bomb_type_list = list(/obj/item/tntstick,
-		/obj/item/impact_grenade/explosion,
-		/obj/item/impact_grenade/smoke/poison_gas,
-		/obj/item/impact_grenade/smoke/fire_gas,
-		/obj/item/impact_grenade/smoke/healing_gas,
+		var/static/list/bomb_type_list = list(/obj/item/explosive/fused/powder/stick,
+		/obj/item/explosive/impact/shrapnel,
+		/obj/item/explosive/impact/smoke/poison_gas,
+		/obj/item/explosive/impact/smoke/fire_gas,
+		/obj/item/explosive/impact/smoke/healing_gas,
 		)
 		var/bonus = 0
 		if(H.STALUC > 10)
 			bonus = 10 * (H.STALUC - 10)
 		if(prob(90 - bonus))
-			bomb_type = /obj/item/bomb
+			bomb_type = /obj/item/explosive/fused/bottle
 		else
 			bomb_type = pick(bomb_type_list)
 		var/obj/item/S = new bomb_type(get_turf(H))
 		H.put_in_hands(S)
 		if(HAS_TRAIT(H, TRAIT_BOMBER_EXPERT))	//additional random second bomb.
-			bomb_type_list |= /obj/item/bomb
+			bomb_type_list |= /obj/item/explosive/fused/bottle
 			bomb_type = pick(bomb_type_list)
 			var/obj/item/B = new bomb_type(get_turf(H))
 			H.put_in_hands(B)
