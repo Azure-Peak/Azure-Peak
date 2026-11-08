@@ -234,7 +234,7 @@
 	quest_scroll?.update_quest_text()
 
 /datum/quest/kill/proc/settle_fellowship_arrival(obj/effect/landmark/quest_spawner/landmark)
-	if(!fellowship_threat_rate && !fellowship_reward_rate && required_fellowship_size < 2)
+	if(!fellowship_threat_rate && !fellowship_reward_rate && !(signed_at_ledger && required_fellowship_size > 1))
 		return
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(!istype(bearer))
@@ -245,7 +245,7 @@
 	for(var/mob/living/M as anything in present)
 		fellowship_roster += WEAKREF(M)
 	fellowship_extras = max(0, length(present) - max(1, required_fellowship_size))
-	fellowship_missing = max(0, required_fellowship_size - length(present))
+	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(present)) : 0
 	if(fellowship_missing)
 		fellowship_threat_mult = 1 - fellowship_threat_rate * fellowship_missing
 		fellowship_reward_mult = 1

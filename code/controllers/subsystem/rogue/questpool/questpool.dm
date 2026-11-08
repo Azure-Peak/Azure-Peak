@@ -450,6 +450,7 @@ SUBSYSTEM_DEF(questpool)
 		return FALSE
 	if(!Q.can_claim(user))
 		return FALSE
+	Q.signed_at_ledger = TRUE
 	Q.lock_fellowship(user)
 	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q)
 	if(!landmark)

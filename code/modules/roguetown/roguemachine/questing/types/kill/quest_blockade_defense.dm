@@ -133,7 +133,7 @@
 		fellowship_roster += WEAKREF(M)
 	fellowship_split_payout = bearer?.current_fellowship?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = max(0, length(fellowship_roster) - BLOCKADE_FELLOWSHIP_REQUIREMENT)
-	fellowship_missing = max(0, required_fellowship_size - length(fellowship_roster))
+	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(fellowship_roster)) : 0
 	fellowship_threat_mult = 1 + fellowship_threat_rate * (fellowship_extras - fellowship_missing)
 	fellowship_reward_mult = 1 + fellowship_reward_rate * fellowship_extras
 	reward_amount = round(reward_amount * fellowship_reward_mult)
