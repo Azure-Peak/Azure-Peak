@@ -281,3 +281,57 @@
   - bugfix: Jacksberries no longer have errant in-hand pixels.
   kano-dot:
   - bugfix: Fixed duelist cape detail color not getting applied for female version.
+2026-11-07:
+  OrbisAnima:
+  - qol: Put feeding intents for gems, ores and ingots so constructs dont accidentally
+      eat them. Also placed some messaging to explain why you cannot eat the delicious
+      amethyst.
+  Ryan180602:
+  - balance: darkvision is now a seperate trait and no longer under prowler
+  The-Sun-In-Splendour:
+  - image: greyscaled blood pools are less flat
+  WeNeedMorePhoron:
+  - rscadd: Ported static threat spawners from our downstream Ochre Valley. not added
+      to map, yet.
+  - rscadd: You can now set a pen name which is one of the 3 names (Real, anonymous
+      and pen) you are allowed to sign your letters with. Letter recipient will see
+      your name when they receive a notification. Admins will be aware of any metagamey
+      pen name to blow up anyone who do so.
+  - bugfix: Tried to fix a runtime that might cause wintertime map to crash.
+  - rscadd: Move yurt and tent to the tools category
+  fffelinid:
+  - rscadd: Added the option to change your status on the Rose Wall when declining
+      an offer.
+  - bugfix: Fixed overly sanitized Rose Wall text.
+2026-11-08:
+  Blacklist897:
+  - rscadd: Donator Items for lockwood
+  BobProductive:
+  - rscadd: ported board games (chess, checkers, backgammon) from twilight axis
+  GailThePale:
+  - bugfix: hand size to 13
+  Quinalion:
+  - qol: Tree stumps now function as table surfaces.
+  - qol: Tree stumps can now be used for table-based interaction checks.
+  - rscadd: Items and mobs with table pass flags can now be placed and moved over
+      tree stumps.
+  - rscadd: Added table-style interactions to tree stumps.
+  - qol: Tree stumps are now automatically climbable.
+  Ryan180602:
+  - refactor: explosives
+  - rscadd: renegade antagonist gamemode.
+  WeNeedMorePhoron:
+  - bugfix: Aspect-granted spell now refund utility points if you already have them
+      selected
+  Xaytan:
+  - rscdel: Removed legacy temperature handling.
+  borneblood:
+  - bugfix: Linters again.
+  - bugfix: Fixed a problem with someone using lowertext instead of LOWER_TEXT.
+  changelingonberry:
+  - bugfix: Fix admin ooc color not saving & color drifting.
+  radarseas:
+  - bugfix: fixes the ancient dagger sheath sprites not existing, whoops!
+  - bugfix: ancient longsword now has a new sprite added for scabbards so it doesn't
+      look like a steel longsword - Technically image related but i consider it quality
+      control, thuslie its a fix, suffer!
