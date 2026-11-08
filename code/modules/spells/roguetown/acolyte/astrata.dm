@@ -51,11 +51,11 @@
 
 	secondary_resource_cost = SPELLCOST_UTILITY_BUFF
 
-	invocations = list("Astrata show me true.")
+	invocations = list("Our Radiance, show me true.")
 	invocation_type = INVOCATION_WHISPER
 
 	charge_required = FALSE
-	cooldown_time = 3 MINUTES
+	cooldown_time = 5 MINUTES
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
@@ -74,7 +74,7 @@
 /datum/status_effect/buff/astrata_gaze
 	id = "astratagaze"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/astrata_gaze
-	duration = 40 SECONDS
+	duration = 3 MINUTES
 	var/skill_level = 0
 	status_type = STATUS_EFFECT_REPLACE
 
@@ -119,6 +119,185 @@
 		H.viewcone_override = FALSE
 		H.hide_cone()
 		H.update_cone_show()
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// T1 - Sunbrand - Next strike brands the target, slowing and scorching them. Out of combat or weak intent, it cauterizes instead.//
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/datum/action/cooldown/spell/astrata/sunbrand
+	name = "Sunbrand"
+	desc = "Imbue your next strike with searing sunlight. On hit, the target is branded: they are slowed by 50%, lose 2 SPD and gain a stack of Scorch, and the brand keeps smoldering, adding more Scorch until the flames finally take hold with a CHARRED! burn, ending both effects. Those weak to silver are also set ablaze. If you are out of combat mode, or using a weak intent, you instead tend wounds: with a free hand, your touch cauterizes every bleeding wound on the targeted limb, one second per wound, burning the limb with each seal."
+	fluff_desc = "A sliver of the Sun's judgement, pressed into a weapon or a bare fist. Astrata's light leaves marks on any who oppose you, be them just or otherwise, but the wicked are branded and left to limp from Her sight, their every step heavy as if wading through molten gold. In gentler hands, the same light may sear wounds shut."
+	button_icon_state = "sunbrand"
+	sound = 'sound/magic/astrata_choir.ogg'
+	glow_intensity = GLOW_INTENSITY_LOW
+	click_to_activate = FALSE
+	cast_range = SPELL_RANGE_ADJACENT
+	self_cast_possible = TRUE
+	primary_resource_cost = SPELLCOST_MIRACLE
+	secondary_resource_cost = SPELLCOST_CANTRIP
+	charge_required = FALSE
+	cooldown_time = 1 MINUTES
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
+
+/datum/action/cooldown/spell/astrata/sunbrand/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	if(!istype(user))
+		return FALSE
+	var/gentle = !user.cmode || istype(user.rmb_intent, /datum/rmb_intent/weak)
+	var/obj/item/held = user.get_active_held_item()
+	if(gentle && held)
+		to_chat(user, span_warning("I need a free hand to tend wounds with sunlight."))
+		return FALSE
+	user.say(gentle ? "Endure in Her name!" : "By Her radiance, be purged!", forced = "spell")
+	user.apply_status_effect(/datum/status_effect/sunbrand, held, gentle)
+	return TRUE
+
+/atom/movable/screen/alert/status_effect/buff/sunbrand
+	name = "Sunbrand"
+	desc = "Your next attack brands the target with sunlight, slowing them, lowering their SPD and scorching them over time."
+	icon_state = "sunbrand"
+
+/datum/status_effect/sunbrand
+	id = "sunbrand"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 10 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/buff/sunbrand
+	on_remove_on_mob_delete = TRUE
+	var/datum/weakref/buffed_item
+	var/gentle = FALSE
+	var/tending = FALSE
+
+/datum/status_effect/sunbrand/on_creation(mob/living/new_owner, obj/item/I, gentle_mode = FALSE)
+	. = ..()
+	if(!.)
+		return
+	gentle = gentle_mode
+	if(!gentle && istype(I) && !(I.item_flags & ABSTRACT))
+		buffed_item = WEAKREF(I)
+		if(!I.light_outer_range && I.light_system == STATIC_LIGHT)
+			I.set_light(1)
+		RegisterSignal(I, COMSIG_ITEM_AFTERATTACK, PROC_REF(item_afterattack))
+	else
+		RegisterSignal(owner, COMSIG_MOB_ATTACK_HAND, PROC_REF(hand_attack))
+		if(gentle && linked_alert)
+			linked_alert.desc = "Your next touch cauterizes ALL the bleeding wounds on the limb you are aiming at."
+
+/datum/status_effect/sunbrand/on_remove()
+	. = ..()
+	UnregisterSignal(owner, COMSIG_MOB_ATTACK_HAND)
+	if(buffed_item)
+		var/obj/item/I = buffed_item.resolve()
+		if(istype(I))
+			I.set_light(0)
+			UnregisterSignal(I, COMSIG_ITEM_AFTERATTACK)
+
+/datum/status_effect/sunbrand/proc/brand_combat(mob/living/target, mob/living/attacker, weapon_text)
+	target.apply_status_effect(/datum/status_effect/debuff/sunbrand)
+	target.apply_status_effect(/datum/status_effect/debuff/sunbrand_scorch)
+	apply_scorch_stack(target, 1)
+	if(HAS_TRAIT(target, TRAIT_SILVER_WEAK))
+		target.adjust_fire_stacks(3, /datum/status_effect/fire_handler/fire_stacks/sunder)
+		target.ignite_mob()
+	if(!target.mind && target.stat && ishuman(target))
+		target.apply_status_effect(/datum/status_effect/debuff/sunbrand_pyre)
+	target.visible_message(span_astrata("The strike from [attacker]'s [weapon_text] sears [target] with a brand of sunlight!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	target.emote("pain")
+	playsound(get_turf(target), 'sound/magic/fireball.ogg', 100, TRUE)
+	qdel(src)
+
+/datum/status_effect/sunbrand/proc/cauterize_target(mob/living/target, mob/living/carbon/human/caster)
+	var/mob/living/carbon/C = target
+	if(!istype(C))
+		return FALSE
+	var/zone = check_zone(caster.zone_selected)
+	var/obj/item/bodypart/bodypart = C.get_bodypart(zone)
+	var/damages
+	if(!bodypart)
+		to_chat(caster, span_warning("[C] has no [parse_zone(zone)] to tend."))
+		return FALSE
+	if(!length(bodypart.wounds))
+		to_chat(caster, span_warning("[C]'s [parse_zone(zone)] has no wounds to cauterize."))
+		return FALSE
+	if(!do_after(caster, 2 SECONDS, TRUE, C))
+		to_chat(caster, span_warning("I fail to cauterize them! I need to concentrate..."))
+		return FALSE
+	C.visible_message(span_notice("[caster] presses a hand wreathed in sunlight against [C]'s [parse_zone(zone)], searing the wounds shut."), \
+		span_notice("[caster]'s sunlit touch sears the wounds on my [parse_zone(zone)] shut!"), vision_distance = COMBAT_MESSAGE_RANGE)
+	for(var/datum/wound/bleeder in bodypart.wounds)
+		bleeder.cauterize_wound()
+		damages++
+	bodypart.receive_damage(burn = (15 * damages)) // painful, but the wounds go away, ALSO dmg multiplier per wound, so normal cautery isn't powercrept
+	if(C.has_status_effect(/datum/status_effect/buff/ozium))
+		C.emote("groan")
+	else
+		C.emote("scream")
+	playsound(get_turf(C), 'sound/surgery/cautery2.ogg', 100, TRUE)
+	return TRUE
+
+/datum/status_effect/sunbrand/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
+	if(proximity_flag && isliving(target))
+		brand_combat(target, user, "weapon")
+
+/datum/status_effect/sunbrand/proc/hand_attack(datum/source, mob/living/carbon/human/M, mob/living/carbon/human/H, datum/martial_art/attacker_style)
+	if(!istype(M) || !istype(H))
+		return
+	if(gentle)
+		if(!tending)
+			INVOKE_ASYNC(src, PROC_REF(cauterize_target), H, M)
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+	if(istype(M.used_intent, INTENT_HARM) || M.a_intent == INTENT_HARM)
+		brand_combat(H, M, "fist")
+
+/atom/movable/screen/alert/status_effect/debuff/sunbrand
+	name = "Sunbrand"
+	desc = "Searing light is branded into my flesh, weighing down my every step while the heat builds. It will not fade until the flames finally take hold!"
+	icon_state = "restrained"
+
+/datum/status_effect/debuff/sunbrand
+	id = "sunbrand_debuff"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/sunbrand
+	duration = -1
+	effectedstats = list(STATKEY_SPD = -2)
+
+/datum/status_effect/debuff/sunbrand/on_apply()
+	. = ..()
+	owner.add_movespeed_modifier("sunbrand_slowdown", multiplicative_slowdown = 1.5)
+
+/datum/status_effect/debuff/sunbrand/on_remove()
+	. = ..()
+	owner.remove_movespeed_modifier("sunbrand_slowdown")
+
+/datum/status_effect/debuff/sunbrand_scorch
+	id = "sunbrand_scorch_debuff"
+	alert_type = null
+	duration = 16 SECONDS
+	tick_interval = 4 SECONDS
+
+/datum/status_effect/debuff/sunbrand_scorch/tick()
+	apply_scorch_stack(owner, 1)
+
+/datum/status_effect/debuff/sunbrand_scorch/on_remove()
+	. = ..()
+	owner.remove_status_effect(/datum/status_effect/debuff/sunbrand)
+
+/datum/status_effect/debuff/sunbrand_pyre
+	id = "sunbrand_pyre_debuff"
+	alert_type = null
+	duration = 40 SECONDS // failsafe
+	tick_interval = 2 SECONDS
+	var/stacks_applied = 0
+
+/datum/status_effect/debuff/sunbrand_pyre/tick()
+	if(owner.mind)
+		qdel(src)
+		return
+	owner.adjust_fire_stacks(1)
+	owner.ignite_mob()
+	if(++stacks_applied >= 12)
+		owner.visible_message(span_boldwarning("[owner] is consumed by the sunfire and crumbles to ash!"), vision_distance = COMBAT_MESSAGE_RANGE)
+		owner.dust()
 
 //////////////////////////////////////////////////////////
 // T2 - Sacred Flame - Deals damage and ignites target. //
