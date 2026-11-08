@@ -1,0 +1,5 @@
+author: "fffelinid"
+delete-after: True
+changes:
+  - qol: "Bath-house staff can now lock/unlock their own peddler even if the matron isn't present."
+  - bugfix: "Fixed treasure seeker inheriting some unnecessary examine text from the head eater."
