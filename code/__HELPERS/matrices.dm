@@ -148,6 +148,13 @@ round(cos_inv_third+sqrt3_sin, 0.001), round(cos_inv_third-sqrt3_sin, 0.001), ro
 0,0,0,1,
 0,0,0,0)
 
+//Repaints everything in the given hex colour, keeping only the original brightness. Brightness above 1 brightens the result
+/proc/color_matrix_recolor(hex, brightness = 1)
+	var/list/result = color_matrix_multiply(color_matrix_saturation(0), color_hex2color_matrix(hex))
+	if(brightness == 1)
+		return result
+	return color_matrix_multiply(result, list(brightness,0,0,0, 0,brightness,0,0, 0,0,brightness,0, 0,0,0,1, 0,0,0,0))
+
 //These next three rotate values about one axis only
 //x is the red axis, y is the green axis, z is the blue axis.
 /proc/color_matrix_rotate_x(angle)

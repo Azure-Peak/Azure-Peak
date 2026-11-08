@@ -13,10 +13,5 @@
 		return
 	if(!user.mind)
 		return
-	if(!user.cmode)
-		if(ishuman(user) && ishuman(target))
-			var/mob/living/carbon/human/H = user
-			H.attempt_steal(user, target)
-			return
 	user.try_special(target)
 	. = ..()

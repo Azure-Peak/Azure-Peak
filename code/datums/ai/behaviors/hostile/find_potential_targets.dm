@@ -53,6 +53,9 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob)))
 		if(living_target.stat == DEAD)
 			filtered_targets -= living_target
 			continue
+		if(HAS_TRAIT(living_target, TRAIT_RUN_FOR_IT))
+			filtered_targets -= living_target
+			continue
 		if(!living_target.rogue_sneaking)
 			continue
 		// Don't passively spot sneakers through a floor - matches old _npc.dm carve-out.

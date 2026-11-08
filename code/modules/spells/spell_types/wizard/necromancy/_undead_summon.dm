@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/conjure_summon/undead
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 	secondary_resource_cost = 300
 	recoil_severity = CONJURE_RECOIL_LIGHT
 	reclaim_recoil = FALSE

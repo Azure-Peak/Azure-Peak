@@ -11,6 +11,8 @@
 	html += "<b>Salt</b> - Mined from rock, boiled out of a pot of seawater, or produced by alchemy from ash, water, and either fat or mince.<br>"
 	html += "<b>Pepper</b> - Bought from the merchant, or crafted from a millstone: bake 5 poison jacksberries, grind them into pepper, then craft a pepper mill from a whetstone and log.<br>"
 	html += "<b>Sugar</b> - Grind sugarcane in a millstone. Seeds available from the merchant.<br>"
+	html += "<b>Oils</b> - Render tallow or fat in a pot, OR grind up plant seeds in a mortar and pestle. Some seeds (corn, sunflower, bean, and lentil) will yield much more oil.<br>"
+	html += "<b>Vinaigrette</b> - Mix together one part lemon or lime juice (by grinding up lemons or limes) with three parts seed oil.<br>"
 
 	html += "<h2>Dairy</h2>"
 	html += "<b>Butter</b> - Add 1 salt to 15dr milk in a bucket, then click the bucket with a spoon. Slice with a knife to get butter slices.[describe_item_transforms(/obj/item/reagent_containers/food/snacks/butter)]<br>"

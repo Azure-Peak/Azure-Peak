@@ -34,7 +34,7 @@
 #define TRAIT_SEEDKNOW "Seed Knower"
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
-#define TRAIT_CAUTIOUS_FISHER "Cautious Fisher"
+#define TRAIT_EXPERT_FISHER "Expert Fisher"
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
@@ -276,6 +276,7 @@
 #define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
 #define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
 #define TRAIT_NPC_EXAMINE "NPC Examination" //Mindless NPC examination check, goes through armor.
+#define TRAIT_AI_DISABLED "AI Disabled"
 
 //Temp Traits - Usually Short-Term Buffs
 #define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
@@ -471,6 +472,8 @@
 #define TRAIT_SELF_RELIANCE "Self-Reliance" // Unlocks all gated crafting skills to Jman, only.
 #define TRAIT_MASTERFUL_HUNTER "Masterful Hunter" // Hunting is a specialty skill, this trait should only be granted to select classes.
 #define TRAIT_EXPERT_HUNTER "Expert Hunter" // Ditto, but this one lets you go up to expert instead of legendary
+#define TRAIT_MONSTER_HUNTER "Monster Hunter" // SHOULD BE EXCLUSIVE TO TOWNER HUNTER, Noble Hunters is already a noble and other classes have combat advantage.
+#define TRAIT_RUN_FOR_IT "Running For It"
 #define TRAIT_ENCHANTING_EXPERT "Expert Enchanter" //Engineering, Smelting, Blacksmithing, used for enchanting virtue
 
 
@@ -614,7 +617,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DEEP_DREAMER = span_info("My dreams run deeper than those of my peers, and I often find myself drifting into strange and unknowable places while I sleep. (Grants between 1-2 extra points of Dream per rest)."),
 	TRAIT_LONGSTRIDER = span_info("Each of my steps finds its footing no matter how treacherous the terrain is."),
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
-	TRAIT_CAUTIOUS_FISHER = span_info("I know my way around the dangers of fishing, and know how to avoid unwanted attention from the depths."),
+	TRAIT_EXPERT_FISHER = span_info("I am experienced at fishing, and fish come to my hands more easily than most. I can learn how well stocked a body of water is, and I know ahead of time when something hostile takes the hook."),
 	TRAIT_DEATHSIGHT = span_info("I can feel when someone nearby draws the Undermaiden's attention."),
 	TRAIT_FORGEBLESSED = span_info("Countless long nights spent forging metal have honed my endurance, allowing me to work an anvil far longer than most without tiring."),
 	TRAIT_MALUMCHOSEN = span_info("He guides my hands in my crafts, allowing for feats I'd normally not be able to achieve."),
@@ -743,6 +746,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HOMESTEAD_EXPERT = span_greentext("I'm experienced with the arts of homesteading. Farming, Mining, Cooking, Fishing, Butchering, Lumberjacking, Masonry and Pottery can progress to Legendary levels. Sewing and Skincrafting can progress to Journeyman levels."),
 	TRAIT_MASTERFUL_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a masterful hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
 	TRAIT_EXPERT_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming an expert hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
+	TRAIT_MONSTER_HUNTER = span_greentext("Yils of hunting the creatures of the Azurian wilds have taught much about where to aim on them. My aim against them is more precise, and I will cripple them sooner with my strikes."),
 	TRAIT_ENCHANTING_EXPERT = span_greentext("I'm experienced with the arts of enchanting, with my skills in the arcyne craft Blacksmithing, Engineering, and Smelting can progress to Legendary levels."),
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels. I am also quite savvy at repairing damaged equipment."),
 	TRAIT_SELF_RELIANCE = span_greentext("I've spent enough time standing on my own that I've learned to either adapt or die young. All crafting and labor skills can progress to Journeyman levels."),

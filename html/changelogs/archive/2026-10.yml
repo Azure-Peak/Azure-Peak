@@ -1262,3 +1262,13 @@
   - rscadd: Shields blocking a projectile will no longer delete it.
   - balance: Reverted the 20% damage haircut applied to Spellblades during Mage 3.1
   - rscdel: Removed ALCHEMY EXPERT trait from heretical fiend NPC
+2026-10-31:
+  Ryan180602:
+  - balance: stone/whetstone smash don't knock people back.
+  crekulon:
+  - rscadd: 'Added three new emotes for constructs: tick, creak, and spark.'
+  effyank:
+  - bugfix: Assassins' peculate ability now also (correctly) changes voicepacks and
+      pronouns.
+  eirenxiv:
+  - rscdel: cleaned up my own donor items

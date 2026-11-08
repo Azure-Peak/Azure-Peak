@@ -1,0 +1,4 @@
+author: "Xaytan"
+delete-after: True
+changes:
+  - rscdel: "Removed legacy temperature handling."
