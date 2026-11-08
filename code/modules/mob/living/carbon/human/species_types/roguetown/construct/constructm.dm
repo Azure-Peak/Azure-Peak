@@ -847,7 +847,9 @@
 /datum/intent/unarmed/claw/mineral
 	name = "mineral claw"
 	blade_class = BCLASS_CHOP
-	damfactor = 1.2
+	animname = ATTACK_EFFECT_CLAW
+	damfactor = 1.2 // We get no bonuses from knuckles and so on. This is raw STR.
+	clickcd = CLICK_CD_CHARGED // Slower than normal swings.
 
 /mob/living/carbon/human/do_attack_animation_at(atom/A, visual_effect_icon, wiggle = TRUE, datum/intent/used_intent)
 	if(istype(used_intent, /datum/intent/unarmed/claw/mineral))

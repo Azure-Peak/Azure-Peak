@@ -538,17 +538,26 @@
 
 	dualwield_processing = TRUE
 
+/mob/living/proc/fire_dualwield_paired(atom/A, params)
+	if(dualwield_processing || QDELETED(src) || QDELETED(A))
+		return
+
+	dualwield_processing = TRUE
+
 	if(stamina_add(3))
 		var/obj/item/paired_weapon = get_active_held_item()
-		if(paired_weapon)
+		if(paired_weapon || (a_intent?.type == /datum/intent/unarmed/claw))
 			balloon_alert_to_viewers("<font color='#bb2b2b'>Dual Hit!!</font>")
 			to_chat(src, "<font color='#ffc400'>I strike twice!</font>")
 			to_chat(A, "<font color='#ffc400'>I am hit twice!</font>")
 			sleep(2)
 			if(a_intent)
 				used_intent = a_intent
-			paired_weapon.melee_attack_chain(src, A, params)
-			src.do_attack_animation_at(A, ATTACK_EFFECT_DISARM)
+			if(paired_weapon)
+				paired_weapon.melee_attack_chain(src, A, params)
+			else
+				arcyne_strike(src, A, null, 15, zone_selected, BCLASS_CUT, spell_name = "Claw") // for dualwield claw strikes
+			do_attack_animation_at(A, ATTACK_EFFECT_DISARM)
 		else
 			var/obj/item/gloves_item = get_item_by_slot(SLOT_GLOVES)
 			if(istype(gloves_item, /obj/item/clothing/gloves/roguetown/knuckles))
@@ -558,8 +567,8 @@
 				for(var/i in 1 to 2)
 					if(QDELETED(src) || QDELETED(A))
 						break
-					arcyne_strike(src, A, null, 8, zone_selected, BCLASS_BLUNT, spell_name = "Demolish")
-					src.do_attack_animation_at(A, ATTACK_EFFECT_PUNCH)
+					arcyne_strike(src, A, null, 10, zone_selected, BCLASS_BLUNT, spell_name = "Demolish")
+					do_attack_animation_at(A, ATTACK_EFFECT_PUNCH)
 					if(i < 2)
 						sleep(3)
 			else
@@ -569,8 +578,8 @@
 				for(var/i in 1 to 4)
 					if(QDELETED(src) || QDELETED(A))
 						break
-					arcyne_strike(src, A, null, 4, zone_selected, BCLASS_BLUNT, spell_name = "Flurry of Blows")
-					src.do_attack_animation_at(A, ATTACK_EFFECT_PUNCH)
+					arcyne_strike(src, A, null, 5, zone_selected, BCLASS_BLUNT, spell_name = "Flurry of Blows")
+					do_attack_animation_at(A, ATTACK_EFFECT_PUNCH)
 					if(i < 4)
 						sleep(3)
 

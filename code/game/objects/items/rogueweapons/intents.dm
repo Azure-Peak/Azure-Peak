@@ -759,14 +759,6 @@
 	attack_verb = list("scrapes", "scythes", "rakes")
 	miss_text = "scrape chitinous claws through the air"
 
-/datum/intent/unarmed/claws
-	name = "claws"
-	icon_state = "incut"
-	attack_verb = list("cuts", "claws", "mauls", "rends")
-	miss_text = "claws through the air"
-	blade_class = BCLASS_CHOP
-	animname = ATTACK_EFFECT_CLAW
-
 //Separate from punch so it does not get buffed from gloves and so on, quite smart ngl
 /datum/intent/unarmed/claw
 	name = "claw"
