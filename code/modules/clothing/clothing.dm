@@ -399,10 +399,13 @@
 		return
 	// Was this item's armor class actually beyond the user's training?
 	var/dominated = FALSE
+	var/can_wear = FALSE
 	if(armor_class == ARMOR_CLASS_HEAVY && !HAS_TRAIT(user, TRAIT_HEAVYARMOR))
 		dominated = TRUE
+		can_wear = TRUE
 	else if(armor_class == ARMOR_CLASS_MEDIUM && !HAS_TRAIT(user, TRAIT_HEAVYARMOR) && !HAS_TRAIT(user, TRAIT_MEDIUMARMOR))
 		dominated = TRUE
+		can_wear = TRUE
 	if(!dominated)
 		return
 	if(removed)
@@ -411,7 +414,10 @@
 		else
 			to_chat(user, span_info("I feel the weight lessens, but another piece of armor is still impairing my movements."))
 		return
-	to_chat(user, span_warning("I'm not trained to wear armor of this weight. My ability to parry, dodge, run and cast spells will be greatly impaired."))
+	if(HAS_TRAIT(user, TRAIT_ROCKMAN) && can_wear)
+		to_chat(user, span_warning("Despite being trained, my form is unfitting for this. My ability to parry, dodge, run and cast spells will be greatly impaired."))
+	else
+		to_chat(user, span_warning("I'm not trained to wear armor of this weight. My ability to parry, dodge, run and cast spells will be greatly impaired."))
 
 /obj/item/clothing/examine(mob/user)
 	. = ..()

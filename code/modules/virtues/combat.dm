@@ -210,9 +210,10 @@
 		return
 	recipient.mind.AddSpell(new /datum/action/cooldown/spell/mineral_claws) // Can shape your fingers into claws to cut the enemy instead of punching. This damages you, and while this enables you to parry while unarmored, it'll deal damage directly to your arms. Does not get bonuses from knuckles and such, etc.
 	ADD_TRAIT(recipient, TRAIT_FEYBOUND, TRAIT_VIRTUE) // You're a fey construct, basically.
-	ADD_TRAIT(recipient, TRAIT_ROCKMAN, TRAIT_VIRTUE) // Cannot heal from being repaired. Cannot be resurrected by miracles nor by being rewound. All integrity damage you take will absolutely kill you. If you are dead, you will revive around as long as it'd take for a Deathless to come back.
+	ADD_TRAIT(recipient, TRAIT_ROCKMAN, TRAIT_VIRTUE) // All armor training is negated. Cannot heal from being repaired. Cannot be resurrected by miracles nor by being rewound. All integrity damage you take will absolutely kill you. If you are dead, you will revive around as long as it'd take for a Deathless to come back.
 	ADD_TRAIT(recipient, TRAIT_SHOCKIMMUNE, TRAIT_VIRTUE) // Electricity isn't a problem for you, however...
-	ADD_TRAIT(recipient, TRAIT_HEAVYSET, TRAIT_VIRTUE) // Main drawback, you take longer to stand up. Way longer. Gives disadvantage on dodge attempts. You're immune to being CON checked, though.
+	ADD_TRAIT(recipient, TRAIT_HEAVYSET, TRAIT_VIRTUE) // Main drawback, you take longer to stand up. Way longer. Your dodge is capped at 60%, removes your DExpert bonus.
+	ADD_TRAIT(recipient, TRAIT_HARDDISMEMBER, TRAIT_VIRTUE) // This is mostly so because god, being dismembered on this is pmuch a round remove.
 	recipient.change_stat(STATKEY_SPD, 1)
 	for(var/mob/living/hag_mob in GLOB.active_hags)
 		var/datum/mind/hag_mind = hag_mob.mind

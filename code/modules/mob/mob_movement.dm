@@ -747,6 +747,8 @@
 		return FALSE
 	if(ac == ARMOR_CLASS_MEDIUM && !HAS_TRAIT(src, TRAIT_HEAVYARMOR) && !HAS_TRAIT(src, TRAIT_MEDIUMARMOR))
 		return FALSE
+	if(HAS_TRAIT(src, TRAIT_ROCKMAN) && (ac == ARMOR_CLASS_MEDIUM || ac == ARMOR_CLASS_HEAVY))
+		return FALSE
 	return TRUE
 
 /mob/living/proc/check_dodge_skill(check_trait = TRUE)
