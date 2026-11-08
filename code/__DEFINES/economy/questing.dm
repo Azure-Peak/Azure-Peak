@@ -325,3 +325,6 @@
 #define MERC_STIPEND_TOWNER 125
 #define MERC_STIPEND_OUTLAW 150
 #define MERC_STIPEND_INQUISITION 100
+
+// Incentivizes Mercenary to be hired out by others to complete contracts
+#define MERC_CONTRACT_SHARE_BONUS 0.25

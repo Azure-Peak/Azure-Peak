@@ -17,6 +17,18 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return MERC_HIRER_TOWNER
 	return null
 
+/proc/pay_merc_contract_bonuses(list/shares, contract_label)
+	for(var/mob/living/payee as anything in shares)
+		if(!get_merc_contract(payee))
+			continue
+		var/bonus = round(shares[payee] * MERC_CONTRACT_SHARE_BONUS)
+		var/datum/fund/account = SStreasury.get_account(payee)
+		if(bonus <= 0 || !account)
+			continue
+		SStreasury.mint(account, bonus, "Mercenary's Guild bonus - [contract_label]", "the Mercenary's Guild", LEDGER_CITIZEN_CONTRACTS)
+		to_chat(payee, span_notice("The Mercenary's Guild adds [bonus] mammon to your share."))
+		log_quest(payee.ckey, payee.mind, payee, "Mercenary's Guild bonus [bonus] on [contract_label]")
+
 /proc/mail_merc_cash(mob/living/merc, amount, sender)
 	var/gold = floor(amount / 10)
 	while(gold > 0)
