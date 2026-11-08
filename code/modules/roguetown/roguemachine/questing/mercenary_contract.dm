@@ -201,8 +201,10 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. = ..()
 	if(contract)
 		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] day\s.")
+		. += span_info("The hirer can use it in hand to end the contract early once the first day has passed.")
 		return
 	. += span_info("Hire mercenary [merc_name] for [days] day\s.")
+	. += span_info("Use it in hand to choose the number of days. Hand it to a fellowship leader to be hired.")
 	. += span_info("Pay per day by employer:")
 	for(var/category in GLOB.merc_hirer_categories)
 		var/list/terms = GLOB.merc_hirer_categories[category]

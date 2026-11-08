@@ -575,7 +575,15 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       {c.required_fellowship_size > 0 && (
         <div className="ContractLedger__CardRow">
-          <span className="ContractLedger__CardLabel">Fellowship</span>
+          <span className="ContractLedger__CardLabel">
+            Fellowship
+            <Tooltip
+              position="top"
+              content="If fewer members show up than the contract needs, the threat and reward scales down. Contracts handed to you directly are not affected. In lowpop, Medium contracts can be signed alone for less pay."
+            >
+              <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
+            </Tooltip>
+          </span>
           <span
             className="ContractLedger__CardValue"
             style={{
@@ -793,6 +801,11 @@ const ActiveStrip = (props: {
               Fellowship members can turn in each other&apos;s contracts. The
               reward goes to whoever turns it in. Their levy exemption applies
               if they have one.
+            </div>
+            <div style={{ marginBottom: '6px' }}>
+              Hired sellswords count as members of your fellowship. While one is
+              under contract, rewards are always split evenly and the sellsword
+              cannot be kicked.
             </div>
             <div>
               Threat is increased for each additional fellow, but rewards scale

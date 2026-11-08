@@ -490,6 +490,20 @@
 			back to the original sender through an ephemeral response ID.</li>
 		</ul>
 
+		<h3>Mercenary Contracts</h3>
+		<p>A Mercenary spawns with a "Mercenary Contract", which can be set to 1 to 3 days. They can hand it over to someone who is a leader of a fellowship, and become hired that way. This forces the Mercenary to join their fellowship, forces the fellowship to split contracts proceeds, and make the Mercenary impossible to boot out. Mercenary cannot sign any contracts on their own, unless it is acquired from a contract-issuer (Like Steward, Innkeeper or Towners) directly handing one to them.</p>
+
+		<p>Contract provides two types of benefits. A Mercenary under contract will gets a flat +25% bonus from their share of any contracts completed by the fellowship leader. And if they are hired to certain roles (Inquisition, Towners and Outlaws), they will receive a stipend that is deposited to their account or sent to mail by an off-map faction. The stipend is received daily. A contract can be ended early by the hirer.
+		The hirer can only do so once the first day has passed. A Mercenary let go
+		early must wait a day before they can be hired again.</p>
+
+		<p>While under contract, the Mercenary cannot leave the fellowship and the
+		leader cannot disband it. If the fellowship is destroyed anyway, the contract
+		ends.</p>
+
+		<p>When a contract ends, the Mercenary receives a fresh one. New Mercenary
+		Contract can be acquired from a MEISTER.</p>
+
 		</div>
 	"}
 
