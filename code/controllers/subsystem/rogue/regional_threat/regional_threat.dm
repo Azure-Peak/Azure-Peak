@@ -20,8 +20,8 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 0.75,
 			_delivery_reward_multiplier = 1.0,
-			_kill_target_floor = 4,
-			_evergreen_target = 3,
+			_kill_target_floor = 8,
+			_evergreen_target = 6,
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_AZURE_GROVE,
@@ -40,8 +40,8 @@ SUBSYSTEM_DEF(regionthreat)
 			),
 			_tp_budget_multiplier = 1.0,
 			_delivery_reward_multiplier = 1.5,
-			_kill_target_floor = 5,
-			_evergreen_target = 3
+			_kill_target_floor = 10,
+			_evergreen_target = 6
 		),
 		new /datum/threat_region(
 			_region_name = THREAT_REGION_TERRORBOG,
@@ -61,8 +61,8 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 1.5,
 			_payout_multiplier = 1.1, // Close by, so it is pretty convenient
-			_kill_target_floor = 4,
-			_evergreen_target = 3
+			_kill_target_floor = 8,
+			_evergreen_target = 6
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(
@@ -83,7 +83,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.2,
 			_delivery_reward_multiplier = 1.8,
 			_payout_multiplier = 1.3, // Farther away, higher implicit threat of antag
-			_kill_target_floor = 4,
+			_kill_target_floor = 8,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_COAST
 		),
 		new /datum/threat_region(
@@ -106,7 +106,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.35,
-			_kill_target_floor = 4,
+			_kill_target_floor = 8,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		),
 		// Underdark cannot be tamed — min_ambush is high, keeping the region permanently dangerous.
@@ -128,7 +128,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 2.0,
 			_payout_multiplier = 1.2,
-			_kill_target_floor = 3,
+			_kill_target_floor = 6,
 			_blockade_travel_fee = BLOCKADE_TRAVEL_FEE_MOUNTAIN
 		)
 	)
