@@ -69,8 +69,8 @@
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(12)
 			Hu.adjust_nutrition(12)
-			if(H.get_blood_volume() < BLOOD_VOLUME_NORMAL)
-				H.set_blood_volume(min(H.get_blood_volume()+5, BLOOD_VOLUME_NORMAL)) // water does nothing for hemophages. blood is a replacement
+			if(Hu.blood_volume < BLOOD_VOLUME_NORMAL)
+				Hu.blood_volume = min(Hu.blood_volume+5, BLOOD_VOLUME_NORMAL) // water does nothing for hemophages. blood is a replacement
 		return
 	H.add_nausea(12)
 	H.adjustToxLoss(2)
@@ -90,8 +90,8 @@
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(2)
 			Hu.adjust_nutrition(2)
-			if(H.get_blood_volume() < BLOOD_VOLUME_NORMAL)
-				H.set_blood_volume(min(H.get_blood_volume()+2, BLOOD_VOLUME_NORMAL)) // even less effective than water for normal carbons.
+			if(Hu.blood_volume < BLOOD_VOLUME_NORMAL)
+				Hu.blood_volume = min(Hu.blood_volume+2, BLOOD_VOLUME_NORMAL) // even less effective than water for normal carbons.
 		return
 	H.add_nausea(18) //Do not drink dirty blood!
 	H.adjustToxLoss(4)

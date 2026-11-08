@@ -830,5 +830,25 @@ If you want to expand on poisons theres tons of fun effects TG chemistry has tha
 			break
 		sleep(6) // a bottle will take a full 30 seconds to work so this shouldn't be super combat viable?
 
+/datum/reagent/medicine/vital_essence
+	name = "Vital Essence"
+	description = "A stolen essence of blood that restores flesh, stamina, and thirst."
+	taste_description = "warm vital essence"
+	color = "#7a0000"
+
+/datum/reagent/medicine/vital_essence/on_mob_life(mob/living/carbon/M)
+	var/list/wCount = M.get_wounds()
+	if(wCount.len > 0)
+		M.heal_wounds(3)
+	if(volume > 0.99)
+		M.adjustBruteLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustFireLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOxyLoss(-1, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1	* REAGENTS_EFFECT_MULTIPLIER)
+		M.adjustCloneLoss(-1	* REAGENTS_EFFECT_MULTIPLIER, 0)
+		M.adjustOrganLoss(ORGAN_SLOT_EYES, -1.75 * REAGENTS_EFFECT_MULTIPLIER)
+	if(!HAS_TRAIT(M,TRAIT_INFINITE_STAMINA))
+		M.energy_add(10)
+
 #undef TRAIT_SOURCE_POTION
 #undef REPAIR_ELIXIR_STRENGTH

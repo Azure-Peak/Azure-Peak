@@ -62,8 +62,8 @@
 			H.adjust_hydration(40)
 			if(H.reagents)
 				H.reagents.add_reagent(/datum/reagent/medicine/vital_essence, 22)
-			if(H.get_blood_volume() < BLOOD_VOLUME_NORMAL)
-				H.set_blood_volume(min(H.get_blood_volume() + 35, BLOOD_VOLUME_NORMAL))
+			if(H.blood_volume < BLOOD_VOLUME_NORMAL)
+				H.blood_volume = min(H.blood_volume+35, BLOOD_VOLUME_NORMAL)
 		return
 
 	if(VDrinker && istype(victim.wear_neck, /obj/item/clothing/neck/roguetown/psicross/silver) || HAS_TRAIT(victim, TRAIT_SILVER_BLESSED))

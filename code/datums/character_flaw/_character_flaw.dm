@@ -59,6 +59,9 @@ GLOBAL_LIST_INIT(averse_factions, list(
 /datum/charflaw/proc/on_mob_creation(mob/user)
 	return
 
+/datum/charflaw/proc/on_removal(mob/user)
+	return
+
 /datum/charflaw/proc/apply_post_equipment(mob/user)
 	return
 
@@ -1042,11 +1045,6 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	ui_fa_icon = "droplet"
 	needs_extra_vice = FALSE
 
-/datum/charflaw/hemophage/on_mob_creation(mob/living/carbon/human/vamp_wannabe)
-	ADD_TRAIT(vamp_wannabe, TRAIT_HEMOPHAGE, TRAIT_GENERIC)
-	ADD_TRAIT(vamp_wannabe, TRAIT_VAMPBITE, TRAIT_GENERIC)
-
-/datum/charflaw/hemophage/on_removal(mob/user)
-	..()
-	REMOVE_TRAIT(user, TRAIT_HEMOPHAGE, TRAIT_GENERIC)
-	REMOVE_TRAIT(user, TRAIT_VAMPBITE, TRAIT_GENERIC)
+/datum/charflaw/hemophage/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_HEMOPHAGE, "[type]")
