@@ -335,3 +335,8 @@
 #define MERC_CONTRACT_MEDAL_DAYS 2
 #define MERC_CONTRACT_MEDAL_TRIUMPHS 3
 #define MERC_CONTRACT_MAX_HELD 2
+
+// Cuts out the most egregious case of a Mercenary abusing contract with stipended role to print free money, by requiring them to be present with their hirer for 1/3 of the day to receive the stipend.
+#define MERC_CONTRACT_PRESENCE_INTERVAL (30 SECONDS)
+#define MERC_CONTRACT_PRESENCE_RANGE 14
+#define MERC_CONTRACT_PRESENCE_SHARE (1/3)

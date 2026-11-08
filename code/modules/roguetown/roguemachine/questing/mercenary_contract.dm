@@ -137,6 +137,10 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/days_served = 0
 	var/hirer_category
 	var/day_timer_id
+	var/presence_timer_id
+	var/day_started_at
+	var/last_presence_check
+	var/presence_time = 0
 
 /datum/merc_contract/New(mob/living/merc, mob/living/hirer, datum/fellowship/F, obj/item/merc_contract/item, days)
 	merc_ref = WEAKREF(merc)
@@ -148,6 +152,9 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	src.days = days
 	hirer_category = get_merc_hirer_category(hirer)
 	day_timer_id = addtimer(CALLBACK(src, PROC_REF(on_day_passed)), MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE | TIMER_LOOP)
+	day_started_at = world.time
+	last_presence_check = world.time
+	presence_timer_id = addtimer(CALLBACK(src, PROC_REF(check_presence)), MERC_CONTRACT_PRESENCE_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
 	RegisterSignal(F, COMSIG_PARENT_QDELETING, PROC_REF(on_fellowship_deleted))
 	GLOB.merc_contracts += src
 	if(ishuman(merc))
@@ -163,6 +170,9 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(day_timer_id)
 		deltimer(day_timer_id)
 		day_timer_id = null
+	if(presence_timer_id)
+		deltimer(presence_timer_id)
+		presence_timer_id = null
 	var/datum/fellowship/F = fellowship_ref?.resolve()
 	if(F)
 		UnregisterSignal(F, COMSIG_PARENT_QDELETING)
@@ -183,11 +193,44 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 
 /datum/merc_contract/proc/on_day_passed()
 	days_served++
-	pay_day()
+	check_presence()
+	var/presence = get_presence_share()
+	presence_time = 0
+	day_started_at = world.time
+	pay_day(presence)
 	if(days_served >= days)
 		complete_term()
 
-/datum/merc_contract/proc/pay_day()
+/datum/merc_contract/proc/check_presence()
+	var/elapsed = world.time - last_presence_check
+	last_presence_check = world.time
+	if(is_with_employer())
+		presence_time += elapsed
+
+/datum/merc_contract/proc/get_presence_share()
+	return presence_time / max(world.time - day_started_at, 1)
+
+/datum/merc_contract/proc/is_with_employer()
+	var/mob/living/merc = merc_ref?.resolve()
+	var/turf/merc_turf = get_turf(merc)
+	if(!merc_turf)
+		return FALSE
+	var/mob/living/hirer = hirer_ref?.resolve()
+	if(is_near_merc(hirer, merc_turf))
+		return TRUE
+	var/datum/fellowship/F = fellowship_ref?.resolve()
+	for(var/mob/living/member as anything in F?.get_members())
+		if(member != merc && member != hirer && is_near_merc(member, merc_turf))
+			return TRUE
+	return FALSE
+
+/datum/merc_contract/proc/is_near_merc(mob/living/member, turf/merc_turf)
+	var/turf/member_turf = get_turf(member)
+	if(!member_turf)
+		return FALSE
+	return max(abs(member_turf.x - merc_turf.x), abs(member_turf.y - merc_turf.y)) <= MERC_CONTRACT_PRESENCE_RANGE
+
+/datum/merc_contract/proc/pay_day(presence)
 	if(!hirer_category)
 		return
 	var/list/terms = GLOB.merc_hirer_categories[hirer_category]
@@ -196,6 +239,11 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(!stipend || !merc)
 		return
 	var/payer = terms["payer"]
+	var/presence_text = "[round(presence * 100)]% with employer"
+	if(presence < MERC_CONTRACT_PRESENCE_SHARE)
+		to_chat(merc, span_warning("Your stipend from [payer] is not paid. You spent too little of the dae with your employer."))
+		log_quest(merc.ckey, merc.mind, merc, "Contract stipend withheld by [payer], [presence_text] (day [days_served] of [days] with [hirer_name])")
+		return
 	var/datum/fund/account = SStreasury.get_account(merc)
 	if(account && !terms["by_mail"])
 		SStreasury.mint(account, stipend, "Mercenary contract with [hirer_name]", payer, LEDGER_CITIZEN_CONTRACTS)
@@ -203,7 +251,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	else
 		mail_merc_cash(merc, stipend, capitalize(payer))
 		to_chat(merc, span_notice("[capitalize(payer)] has sent you [stipend] mammon by HERMES for your contract with [hirer_name]."))
-	log_quest(merc.ckey, merc.mind, merc, "Contract stipend [stipend] from [payer] (day [days_served] of [days] with [hirer_name])")
+	log_quest(merc.ckey, merc.mind, merc, "Contract stipend [stipend] from [payer], [presence_text] (day [days_served] of [days] with [hirer_name])")
 
 /datum/merc_contract/proc/can_end_early()
 	return days_served >= 1
@@ -300,6 +348,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(contract)
 		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] day\s.")
 		. += span_info("The hirer can use it in hand to end the contract early once the first day has passed.")
+		if(contract.hirer_category)
+			. += span_info("[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay.")
 		return
 	. += span_info("Hire mercenary [merc_name] for [days] day\s.")
 	. += span_info("Use it in hand to choose the number of days. Hand it to a fellowship leader to be hired.")
@@ -308,6 +358,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		var/list/terms = GLOB.merc_hirer_categories[category]
 		. += span_info("- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]")
 	. += span_info("- Anyone else: nothing extra")
+	. += span_info("To receive the stipend, spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of each dae within [MERC_CONTRACT_PRESENCE_RANGE] tiles of your employer or a member of their fellowship.")
 
 /obj/item/merc_contract/attack_self(mob/user)
 	var/mob/living/L = user
