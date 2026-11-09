@@ -124,7 +124,7 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 		return FALSE
 	Q.lock_fellowship(user)
 	if(!Q.materialized)
-		var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
+		var/obj/effect/landmark/quest_spawner/landmark = SSquestpool.resolve_or_repick_landmark(Q)
 		if(!landmark || !Q.materialize(landmark))
 			to_chat(user, span_warning("Odd. It appears no landmark is available for this contract!"))
 			return FALSE

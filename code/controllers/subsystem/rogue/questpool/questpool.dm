@@ -267,6 +267,8 @@ SUBSYSTEM_DEF(questpool)
 	if(!TR)
 		TR = SSregionthreat.pick_region_for_quest(Q.quest_type)
 	var/obj/effect/landmark/quest_spawner/landmark = find_quest_landmark(Q.quest_type, TR?.region_name, Q)
+	if(!landmark)
+		landmark = bump_pool_quest_for(Q, TR?.region_name)
 	if(!landmark || !Q.preview(landmark))
 		qdel(Q)
 		return null
@@ -276,6 +278,31 @@ SUBSYSTEM_DEF(questpool)
 	Q.reward_target_turf = landmark_turf
 	Q.reward_amount = Q.calculate_reward(origin, landmark_turf)
 	return landmark
+
+/datum/controller/subsystem/questpool/proc/bump_pool_quest_for(datum/quest/Q, region)
+	if(!region || Q.source == QUEST_SOURCE_POOL)
+		return null
+	var/datum/quest/oldest
+	var/obj/effect/landmark/quest_spawner/freed
+	for(var/datum/quest/candidate as anything in pool)
+		if(candidate.source != QUEST_SOURCE_POOL || candidate.region != region)
+			continue
+		if(oldest && candidate.posted_at >= oldest.posted_at)
+			continue
+		var/obj/effect/landmark/quest_spawner/landmark = candidate.pending_landmark_ref?.resolve()
+		if(QDELETED(landmark) || landmark.claimed_by?.resolve() != candidate)
+			continue
+		oldest = candidate
+		freed = landmark
+	if(!oldest)
+		return null
+	remove_from_pool(oldest)
+	log_event("bumped", "[oldest.quest_difficulty] [oldest.quest_type] in [region] gave its landmark to [Q.source] [Q.quest_type]")
+	record_contract_stat(oldest, CONTRACT_STAT_LAPSED)
+	record_source_statistic(oldest, CONTRACT_STAT_LAPSED)
+	qdel(oldest)
+	freed.claimed_by = WEAKREF(Q)
+	return freed
 
 /datum/controller/subsystem/questpool/proc/add_to_pool(datum/quest/Q)
 	pool += Q
@@ -455,7 +482,7 @@ SUBSYSTEM_DEF(questpool)
 	Q.lock_fellowship(user)
 	if(Q.veteran && !Q.is_directive)
 		Q.reward_amount = Q.calculate_reward(Q.reward_origin_turf, Q.reward_target_turf)
-	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q)
+	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q, allow_anywhere = TRUE)
 	if(!landmark)
 		clear_failed_veteran(Q)
 		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")
@@ -483,12 +510,14 @@ SUBSYSTEM_DEF(questpool)
 	if(!Q.is_directive)
 		Q.reward_amount = Q.calculate_reward(Q.reward_origin_turf, Q.reward_target_turf)
 
-/datum/controller/subsystem/questpool/proc/resolve_or_repick_landmark(datum/quest/Q)
+/datum/controller/subsystem/questpool/proc/resolve_or_repick_landmark(datum/quest/Q, allow_anywhere = FALSE)
 	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()
-	if(landmark && !QDELETED(landmark))
+	if(landmark && !QDELETED(landmark) && (Q.materialized || landmark.claimed_by?.resolve() == Q))
 		return landmark
 	landmark = find_quest_landmark(Q.quest_type, Q.region, Q)
 	if(!landmark)
+		landmark = bump_pool_quest_for(Q, Q.region)
+	if(!landmark && allow_anywhere)
 		landmark = find_quest_landmark(Q.quest_type, null, Q)
 	if(landmark)
 		Q.pending_landmark_ref = WEAKREF(landmark)
