@@ -41,6 +41,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/body
 	var/statpack
 	var/patron
+	var/joins_cabal = TRUE
 	var/armor_training = ARMOR_CLASS_NONE
 	var/melee
 	var/brawl
@@ -77,7 +78,9 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		var/trait_source = traits[trait] || INNATE_TRAIT
 		ADD_TRAIT(H, trait, trait_source)
 	if(patron)
-		H.set_patron(patron)
+		H.set_patron(resolve_npc_pick(patron))
+		if(!joins_cabal)
+			H.faction -= FACTION_CABAL
 	if(npc_statpack)
 		npc_statpack.apply(H)
 	apply_skills(H)

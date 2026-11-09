@@ -9,6 +9,13 @@
 	threat_point = THREAT_TOUGH
 	body = /datum/npc_body/northern_commoner/searaider
 	statpack = /datum/npc_statpack/line/t2
+	patron = list(
+		/datum/patron/inhumen/graggar = 40,
+		/datum/patron/inhumen/zizo = 20,
+		/datum/patron/inhumen/matthios = 20,
+		/datum/patron/inhumen/baotha = 20,
+	)
+	joins_cabal = FALSE
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
