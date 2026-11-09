@@ -22,16 +22,20 @@ SUBSYSTEM_DEF(job)
 	if(!occupations.len)
 		SetupOccupations()
 	set_overflow_role(CONFIG_GET(string/overflow_job))
-	build_townie_contract_gate_exempt_cache()
+	build_contract_signing_caches()
 	return ..()
 
 /datum/controller/subsystem/job/var/list/townie_contract_gate_exempt_names = list()
+/datum/controller/subsystem/job/var/list/quest_claim_barred_names = list()
 
-/datum/controller/subsystem/job/proc/build_townie_contract_gate_exempt_cache()
+/datum/controller/subsystem/job/proc/build_contract_signing_caches()
 	townie_contract_gate_exempt_names = list()
+	quest_claim_barred_names = list()
 	for(var/datum/job/J as anything in occupations)
 		if(J.townie_contract_gate_exempt)
 			townie_contract_gate_exempt_names |= J.title
+		if(J.quest_claim_barred)
+			quest_claim_barred_names |= J.title
 	for(var/path in subtypesof(/datum/advclass))
 		var/datum/advclass/AC = path
 		if(!initial(AC.townie_contract_gate_exempt) || !initial(AC.name))
@@ -40,9 +44,13 @@ SUBSYSTEM_DEF(job)
 			continue
 		townie_contract_gate_exempt_names |= initial(AC.name)
 	sortTim(townie_contract_gate_exempt_names, /proc/cmp_text_asc)
+	sortTim(quest_claim_barred_names, /proc/cmp_text_asc)
 
 /datum/controller/subsystem/job/proc/townie_contract_gate_exempt_display_names()
 	return townie_contract_gate_exempt_names
+
+/datum/controller/subsystem/job/proc/quest_claim_barred_display_names()
+	return quest_claim_barred_names
 
 /datum/controller/subsystem/job/proc/set_overflow_role(new_overflow_role)
 	var/datum/job/new_overflow = GetJob(new_overflow_role)

@@ -81,6 +81,7 @@ type ContractLedgerData = {
   fellowship_bonus_first: number;
   fellowship_bonus_per_member: number;
   townie_contract_gate_exempt_jobs: string[];
+  quest_claim_barred_jobs: string[];
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   user_is_fellowship_leader: BooleanLike;
@@ -514,7 +515,6 @@ const ContractCard = (props: { contract: Contract }) => {
     cantAfford ||
     fellowshipShort ||
     notLeader;
-  const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
   const payout = c.projected_reward ?? c.reward;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
@@ -523,7 +523,7 @@ const ContractCard = (props: { contract: Contract }) => {
       : memberLocked
         ? 'Only your fellowship leader can sign contracts.'
         : gateRemaining > 0
-          ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
+          ? `For the first ${data.townie_gate_minutes} minutes, only certain roles can sign contracts. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
           : takeCooldown > 0
             ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
             : atCap
@@ -719,6 +719,7 @@ const ActiveStrip = (props: {
   const { act, data } = useBackend<ContractLedgerData>();
   const [tab, setTab] = useState<StripTab>('contracts');
   const [showFellowshipHelp, setShowFellowshipHelp] = useState(false);
+  const [showSigningHelp, setShowSigningHelp] = useState(false);
   const issued = data.issued || [];
   const stripTab = (id: StripTab, label: string) => (
     <span
@@ -734,13 +735,18 @@ const ActiveStrip = (props: {
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
+  const barredList = (data.quest_claim_barred_jobs || []).join(', ');
+  const claimBarred = !!data.claim_barred;
+  const signingHelp = !!data.has_account && (claimBarred || gateRemaining > 0);
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
-    : gateRemaining > 0
-      ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
-      : takeCooldown > 0
-        ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
-        : null;
+    : claimBarred
+      ? 'Your job prevents you from signing contracts.'
+      : gateRemaining > 0
+        ? `For the first ${data.townie_gate_minutes} minutes, only certain roles can sign contracts:`
+        : takeCooldown > 0
+          ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
+          : null;
   const fellowshipBonus = data.active_fellowship_bonus || 0;
   const fellowshipNote =
     fellowshipBonus > 0
@@ -814,6 +820,27 @@ const ActiveStrip = (props: {
           </div>
         </Dialog>
       )}
+      {showSigningHelp && (
+        <Dialog
+          title="Who can sign contracts"
+          width="420px"
+          onClose={() => setShowSigningHelp(false)}
+        >
+          <div style={{ padding: '10px 14px', fontSize: '0.95em' }}>
+            {gateRemaining > 0 && (
+              <div style={{ marginBottom: '6px' }}>
+                For the first {data.townie_gate_minutes} minutes, only these can
+                sign contracts: {exemptList}. Everyone else can sign in{' '}
+                {Math.ceil(gateRemaining / 60)}m.
+              </div>
+            )}
+            <div>
+              These jobs can never sign contracts: {barredList}. A contract handed
+              to them directly still works.
+            </div>
+          </div>
+        </Dialog>
+      )}
       {tab === 'postings' ? (
         <IssuedContractsView
           entries={issued}
@@ -842,6 +869,16 @@ const ActiveStrip = (props: {
               style={{ color: '#c44', fontWeight: 'bold' }}
             >
               {blockReason}
+              {signingHelp && (
+                <Button
+                  compact
+                  ml={0.5}
+                  icon="question-circle"
+                  selected={showSigningHelp}
+                  tooltip="Who can sign contracts"
+                  onClick={() => setShowSigningHelp(true)}
+                />
+              )}
             </div>
           )}
           {props.active.length === 0 ? (

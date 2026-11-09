@@ -126,6 +126,7 @@
 			gate_remaining = round((CONTRACT_TOWNIE_GATE_TIME - elapsed) / 10)
 	data["townie_gate_remaining"] = gate_remaining
 	data["townie_contract_gate_exempt_jobs"] = SSjob.townie_contract_gate_exempt_display_names()
+	data["quest_claim_barred_jobs"] = SSjob.quest_claim_barred_display_names()
 	data["take_cooldown_remaining"] = round(SSquestpool.take_cooldown_remaining(user) / 10)
 	var/mob/living/L = user
 	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
