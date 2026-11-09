@@ -30,6 +30,13 @@ GLOBAL_LIST_INIT(npc_loadout_slots, list(
 	"r_hand",
 ))
 
+GLOBAL_LIST_INIT(npc_patron_amulets, list(
+	/datum/patron/inhumen/graggar = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar,
+	/datum/patron/inhumen/zizo = /obj/item/clothing/neck/roguetown/psicross/inhumen/iron,
+	/datum/patron/inhumen/matthios = /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios,
+	/datum/patron/inhumen/baotha = /obj/item/clothing/neck/roguetown/psicross/inhumen/baotha,
+))
+
 GLOBAL_LIST_INIT(npc_parts, build_npc_parts())
 
 /proc/build_npc_parts()
@@ -119,6 +126,10 @@ GLOBAL_LIST_INIT(npc_parts, build_npc_parts())
 		var/resolved = resolve_npc_pick(entry)
 		if(resolved == NPC_NOTHING)
 			continue
+		if(resolved == NPC_PATRON_AMULET)
+			resolved = npc_patron_amulet(H)
+			if(!resolved)
+				continue
 		outfit.vars[slot] = resolved
 	apply_weapons(outfit)
 	apply_backpack(outfit)
@@ -126,6 +137,12 @@ GLOBAL_LIST_INIT(npc_parts, build_npc_parts())
 		apply_statpack(H)
 		apply_skills(H)
 		apply_traits(H)
+
+/datum/npc_loadout/proc/npc_patron_amulet(mob/living/carbon/human/H)
+	var/datum/patron/god = H?.patron
+	if(!god)
+		return null
+	return GLOB.npc_patron_amulets[god.type]
 
 /datum/npc_loadout/proc/apply_statpack(mob/living/carbon/human/H)
 	if(!H || !statpack)

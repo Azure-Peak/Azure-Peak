@@ -145,7 +145,7 @@
 		/obj/item/clothing/suit/roguetown/shirt/undershirt/sailor, //We don't want anything that dips below waist, looks bad w/kilt
 	)
 	id = list(
-		/obj/item/clothing/neck/roguetown/psicross/inhumen/graggar = 20, //SHATTER MY BINDS
+		NPC_PATRON_AMULET = 20, //SHATTER MY BINDS
 		NPC_NOTHING = 80,
 	)
 	cloak = list(
