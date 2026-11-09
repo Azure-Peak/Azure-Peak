@@ -3568,6 +3568,7 @@
 #include "code\modules\spells\spell_types\wizard\telomancy\arcyne_volley.dm"
 #include "code\modules\spells\spell_types\wizard\telomancy\circumdatum.dm"
 #include "code\modules\spells\spell_types\wizard\telomancy\seeker_volley.dm"
+#include "code\modules\spells\spell_types\wizard\telomancy\telomancy_npc.dm"
 #include "code\modules\spells\spell_types\wizard\telomancy\void_beam.dm"
 #include "code\modules\spells\spell_types\wizard\utility\create_campfire.dm"
 #include "code\modules\spells\spell_types\wizard\utility\great_shelter.dm"

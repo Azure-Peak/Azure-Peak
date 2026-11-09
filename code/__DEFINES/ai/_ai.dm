@@ -128,6 +128,7 @@
 #define BB_ABILITY_COMMITTED_UNTIL		"ability_committed_until"
 #define BB_CASTER_NEXT_CAST				"caster_next_cast"
 #define BB_CASTER_RESERVE				"caster_stamina_reserve"
+#define BB_CASTER_SPELL_TARGET			"caster_spell_target"
 #define BB_STRAFE_SIDE					"strafe_side"
 #define BB_STRAFE_KEEP_DISTANCE			"strafe_keep_distance"
 #define BB_STRAFE_STEPS_LEFT			"strafe_steps_left"

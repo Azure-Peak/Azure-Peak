@@ -19,23 +19,27 @@
 	if(world.time < controller.blackboard[BB_CASTER_NEXT_CAST])
 		return
 	var/datum/action/cooldown/spell/best
+	var/atom/best_target
 	var/best_score = score_floor
 	for(var/datum/action/cooldown/spell/spell in caster.actions)
-		if(world.time < spell.npc_retry_at || !spell.npc_within_reserve(controller))
+		if(world.time < spell.npc_retry_at || !spell.npc_within_reserve(controller) || !spell.IsAvailable())
 			continue
-		if(!spell.IsAvailable() || !spell.can_use(target))
+		var/atom/spell_target = spell.npc_targets_allies ? spell.npc_pick_ally() : target
+		if(!spell_target || !spell.can_use(spell_target))
 			continue
-		var/score = spell.npc_use_chance(target)
+		var/score = spell.npc_use_chance(spell_target)
 		if(score <= 0)
 			continue
 		score += rand(-score_jitter, score_jitter)
 		if(score > best_score)
 			best = spell
+			best_target = spell_target
 			best_score = score
 	if(!best)
 		return
 	controller.set_blackboard_key(spell_key, best)
-	controller.queue_behavior(cast_behavior, spell_key, target_key)
+	controller.set_blackboard_key(BB_CASTER_SPELL_TARGET, best_target)
+	controller.queue_behavior(cast_behavior, spell_key, BB_CASTER_SPELL_TARGET)
 
 /datum/ai_behavior/targeted_mob_ability/spell_rotation
 	action_cooldown = 1 SECONDS
@@ -90,6 +94,29 @@
 
 /datum/action/cooldown/spell
 	var/npc_aborted = FALSE
+	var/npc_targets_allies = FALSE
+
+/datum/action/cooldown/spell/proc/npc_pick_ally()
+	var/mob/living/caster = owner
+	var/mob/living/best
+	var/best_need = 0
+	for(var/mob/living/carbon/human/ally in view(npc_max_range, caster))
+		if(ally == caster || ally.stat == DEAD || !npc_is_ally(ally))
+			continue
+		var/need = npc_ally_need(ally)
+		if(need > best_need)
+			best = ally
+			best_need = need
+	return best
+
+/datum/action/cooldown/spell/proc/npc_ally_need(mob/living/ally)
+	return 1
+
+/datum/action/cooldown/spell/proc/npc_ally_engaged(mob/living/ally)
+	for(var/mob/living/other in orange(1, ally))
+		if(other.stat != DEAD && !npc_is_ally(other))
+			return TRUE
+	return FALSE
 
 /datum/action/cooldown/spell/proc/npc_impact_turfs(atom/cast_on)
 	return list()
