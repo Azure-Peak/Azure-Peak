@@ -14,7 +14,7 @@ export const MercenaryTab = ({ data, act }: TabProps) => {
   if (!merc) {
     return null;
   }
-  const atCap = merc.held >= merc.max_held;
+  const hired = !!merc.hired_by;
 
   return (
     <div style={cardStyle}>
@@ -27,12 +27,6 @@ export const MercenaryTab = ({ data, act }: TabProps) => {
             : 'Not under contract'}
         </div>
       </div>
-      <div style={fieldRowStyle}>
-        <div style={fieldLabelStyle}>Contracts held</div>
-        <div style={fieldValueStyle}>
-          {merc.held} / {merc.max_held}
-        </div>
-      </div>
       {!!merc.cooldown_text && (
         <div style={fieldRowStyle}>
           <div style={fieldLabelStyle}>Cooldown</div>
@@ -40,17 +34,19 @@ export const MercenaryTab = ({ data, act }: TabProps) => {
         </div>
       )}
       <div style={{ marginTop: 6, color: INK_SOFT }}>
-        PLACEHOLDER: The Meister will issue you a new contract if you have lost
-        yours. You may hold up to {merc.max_held} at once.
+        Print a new contract here once your last one has ended.
+        Printing one voids any unsigned contract you still have, wherever it
+        is.
       </div>
       <div style={{ marginTop: 6, textAlign: 'right' }}>
         <button
           type="button"
-          style={inkButtonStyle({ disabled: atCap })}
-          disabled={atCap}
+          style={inkButtonStyle({ disabled: hired })}
+          disabled={hired}
+          title={hired ? 'You are under contract.' : undefined}
           onClick={() => act('request_merc_contract')}
         >
-          Request a contract
+          Print a contract
         </button>
       </div>
     </div>

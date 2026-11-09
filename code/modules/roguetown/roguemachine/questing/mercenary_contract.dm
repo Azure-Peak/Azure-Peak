@@ -107,11 +107,10 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /proc/merc_contract_time_text(real_time)
 	return "[station_duration_text(real_time)] ([DisplayTimeText(real_time, 1)])"
 
-/proc/count_held_merc_contracts(mob/living/merc)
-	. = 0
-	for(var/obj/item/merc_contract/item as anything in GLOB.merc_contract_items)
+/proc/clear_unsigned_merc_contracts(mob/living/merc)
+	for(var/obj/item/merc_contract/item as anything in GLOB.merc_contract_items.Copy())
 		if(!item.contract && item.merc_ref?.resolve() == merc)
-			. += 1
+			qdel(item)
 
 /proc/merc_contract_cooldown_left(mob/living/merc)
 	if(!merc?.mind)
@@ -119,8 +118,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	return max(0, (GLOB.merc_contract_cooldowns[merc.mind] || 0) - world.time)
 
 /proc/grant_merc_contract(mob/living/carbon/human/merc, in_hand = FALSE)
-	if(count_held_merc_contracts(merc) >= MERC_CONTRACT_MAX_HELD)
-		return null
+	clear_unsigned_merc_contracts(merc)
 	var/obj/item/merc_contract/item = new(get_turf(merc))
 	item.bind_to(merc)
 	if(in_hand || !merc.equip_to_slot_if_possible(item, SLOT_IN_BACKPACK, disable_warning = TRUE))
@@ -133,8 +131,6 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/datum/merc_contract/contract = get_merc_contract(merc)
 	var/cooldown = merc_contract_cooldown_left(merc)
 	return list(
-		"held" = count_held_merc_contracts(merc),
-		"max_held" = MERC_CONTRACT_MAX_HELD,
 		"hired_by" = contract?.hirer_name,
 		"days" = contract?.days,
 		"days_served" = contract?.days_served,
@@ -355,7 +351,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 			GLOB.merc_contract_cooldowns[merc.mind] = cooldown_until
 		SSroguemachine.mercenary_statue?.sync_mercenary_status(merc, "Available")
 		award_medal(merc)
-		grant_merc_contract(merc)
+		to_chat(merc, span_notice("Visit a MEISTER to print a new mercenary contract."))
 	qdel(src)
 
 /datum/merc_contract/proc/award_medal(mob/living/carbon/human/merc)

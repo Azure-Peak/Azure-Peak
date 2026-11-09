@@ -82,8 +82,6 @@ export type LogEntry = {
 };
 
 export type MercData = {
-  held: number;
-  max_held: number;
   hired_by: string | null;
   days: number | null;
   days_served: number | null;

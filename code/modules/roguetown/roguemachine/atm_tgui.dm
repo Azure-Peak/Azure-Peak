@@ -255,9 +255,11 @@
 /obj/structure/roguemachine/atm/proc/handle_request_merc_contract(mob/living/carbon/human/H)
 	if(!merc_meister_data(H))
 		return
-	if(!grant_merc_contract(H, in_hand = TRUE))
-		to_chat(H, span_warning("You already hold [MERC_CONTRACT_MAX_HELD] mercenary contracts."))
+	var/datum/merc_contract/contract = get_merc_contract(H)
+	if(contract)
+		to_chat(H, span_warning("You are under contract with [contract.hirer_name]."))
 		return
+	grant_merc_contract(H, in_hand = TRUE)
 	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 	say("A new mercenary contract for [H.real_name].")
 
