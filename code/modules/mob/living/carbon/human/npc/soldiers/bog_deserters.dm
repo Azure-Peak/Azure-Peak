@@ -67,6 +67,9 @@
 /mob/living/carbon/human/species/human/northern/bog_deserters/caster/geomancer
 	npc_archetype = /datum/npc_archetype/bog_deserter/caster/geomancer
 
+/mob/living/carbon/human/species/human/northern/bog_deserters/caster/cryomancer
+	npc_archetype = /datum/npc_archetype/bog_deserter/caster/cryomancer
+
 /mob/living/carbon/human/species/human/northern/bog_deserters/caster/ferramancer
 	npc_archetype = /datum/npc_archetype/bog_deserter/caster/ferramancer
 

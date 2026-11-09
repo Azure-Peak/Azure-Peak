@@ -142,6 +142,7 @@
 		/datum/npc_archetype/highwayman/caster/fulgurmancer = 1,
 		/datum/npc_archetype/highwayman/caster/geomancer = 1,
 		/datum/npc_archetype/highwayman/caster/telomancer = 1,
+		/datum/npc_archetype/highwayman/caster/cryomancer = 1,
 		/datum/npc_archetype/highwayman/caster/ferramancer = 1,
 	)
 
@@ -177,6 +178,14 @@
 		/datum/npc_loadout/kit/caster/telomancer,
 	)
 
+/datum/npc_archetype/highwayman/caster/cryomancer
+	name = "Highwayman Cryomancer"
+	job = "Highwayman Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/cryomancer,
+	)
+
 /datum/npc_archetype/highwayman/caster/ferramancer
 	name = "Highwayman Ferramancer"
 	job = "Highwayman Ferramancer"
@@ -199,6 +208,7 @@
 			/datum/npc_loadout/kit/caster/fulgurmancer = 1,
 			/datum/npc_loadout/kit/caster/geomancer = 1,
 			/datum/npc_loadout/kit/caster/telomancer = 1,
+			/datum/npc_loadout/kit/caster/cryomancer = 1,
 		),
 		/datum/npc_loadout/kit/caster_magister,
 	)

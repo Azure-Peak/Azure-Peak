@@ -232,6 +232,13 @@
 				return TRUE
 	return FALSE
 
+/datum/action/cooldown/spell/proc/npc_line_obstructed(atom/target)
+	for(var/turf/T in getline(owner, target))
+		for(var/obj/structure/S in T)
+			if(S.density && !S.climbable)
+				return TRUE
+	return FALSE
+
 /datum/action/cooldown/spell/proc/npc_is_ally(mob/living/other)
 	if(other == owner)
 		return TRUE

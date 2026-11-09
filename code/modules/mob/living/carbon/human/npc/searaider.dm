@@ -42,3 +42,6 @@
 
 /mob/living/carbon/human/species/human/northern/searaider/caster/ferramancer
 	npc_archetype = /datum/npc_archetype/searaider/caster/ferramancer
+
+/mob/living/carbon/human/species/human/northern/searaider/caster/cryomancer
+	npc_archetype = /datum/npc_archetype/searaider/caster/cryomancer

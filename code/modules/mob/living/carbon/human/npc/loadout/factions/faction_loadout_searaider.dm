@@ -82,6 +82,7 @@
 	variants = list(
 		/datum/npc_archetype/searaider/caster/pyromancer = 4,
 		/datum/npc_archetype/searaider/caster/ferramancer = 1,
+		/datum/npc_archetype/searaider/caster/cryomancer = 1,
 	)
 
 /datum/npc_archetype/searaider/caster/pyromancer
@@ -89,6 +90,14 @@
 	job = "Sea Raider Pyromancer"
 	loadouts = list(
 		/datum/npc_loadout/kit/caster/pyromancer,
+		/datum/npc_loadout/kit/searaider_flavor/caster,
+	)
+
+/datum/npc_archetype/searaider/caster/cryomancer
+	name = "Sea Raider Cryomancer"
+	job = "Sea Raider Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/cryomancer,
 		/datum/npc_loadout/kit/searaider_flavor/caster,
 	)
 

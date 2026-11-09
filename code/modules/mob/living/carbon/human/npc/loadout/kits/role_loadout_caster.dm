@@ -79,6 +79,21 @@
 		NPC_NOTHING = 40,
 	)
 
+/datum/npc_loadout/kit/caster/cryomancer
+	magic_aspects = list(
+		/datum/magic_aspect/cryomancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
+	)
+	cloak = list(
+		/obj/item/clothing/suit/roguetown/shirt/robe/white = 50,
+		/obj/item/clothing/suit/roguetown/shirt/robe/mageblue = 50,
+	)
+	head = list(
+		/obj/item/clothing/head/roguetown/roguehood/white = 40,
+		/obj/item/clothing/head/roguetown/roguehood/mageblue = 40,
+		NPC_NOTHING = 20,
+	)
+
 /datum/npc_loadout/kit/caster/pyromancer
 	magic_aspects = list(
 		/datum/magic_aspect/pyromancy,

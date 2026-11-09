@@ -3493,6 +3493,7 @@
 #include "code\modules\spells\spell_types\wizard\conjure\transcribe.dm"
 #include "code\modules\spells\spell_types\wizard\cryomancy\_cryomancy_shared.dm"
 #include "code\modules\spells\spell_types\wizard\cryomancy\chill_food.dm"
+#include "code\modules\spells\spell_types\wizard\cryomancy\cryomancy_npc.dm"
 #include "code\modules\spells\spell_types\wizard\cryomancy\fridigitation.dm"
 #include "code\modules\spells\spell_types\wizard\cryomancy\frost_bolt.dm"
 #include "code\modules\spells\spell_types\wizard\cryomancy\frost_shards.dm"

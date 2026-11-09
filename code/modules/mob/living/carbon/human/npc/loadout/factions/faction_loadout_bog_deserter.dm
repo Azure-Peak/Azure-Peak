@@ -135,6 +135,7 @@
 	variants = list(
 		/datum/npc_archetype/bog_deserter/caster/pyromancer = 1,
 		/datum/npc_archetype/bog_deserter/caster/geomancer = 1,
+		/datum/npc_archetype/bog_deserter/caster/cryomancer = 1,
 		/datum/npc_archetype/bog_deserter/caster/ferramancer = 1,
 	)
 
@@ -152,6 +153,14 @@
 	loadouts = list(
 		/datum/npc_loadout/kit/deserter_flavor,
 		/datum/npc_loadout/kit/caster/geomancer,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/cryomancer
+	name = "Bog Cryomancer"
+	job = "Bog Cryomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/cryomancer,
 	)
 
 /datum/npc_archetype/bog_deserter/caster/ferramancer

@@ -54,6 +54,9 @@
 /mob/living/carbon/human/species/human/northern/highwayman/caster/telomancer
 	npc_archetype = /datum/npc_archetype/highwayman/caster/telomancer
 
+/mob/living/carbon/human/species/human/northern/highwayman/caster/cryomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/cryomancer
+
 /mob/living/carbon/human/species/human/northern/highwayman/caster/ferramancer
 	npc_archetype = /datum/npc_archetype/highwayman/caster/ferramancer
 

@@ -41,6 +41,8 @@
 	. = ..()
 	if(!. || !npc_controlled() || !isliving(owner))
 		return .
+	if(npc_line_obstructed(target))
+		return FALSE
 	return !npc_line_blocked(target) || npc_can_fire_past_allies()
 
 /datum/action/cooldown/spell/projectile/proc/npc_can_fire_past_allies()

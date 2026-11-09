@@ -39,7 +39,7 @@
 	if(!isliving(victim))
 		return 0
 	var/sure_hit = npc_target_stationary(victim)
-	var/heave_viable = !npc_line_blocked(victim) && get_dist(owner, victim) <= MENHIR_NPC_HEAVE_REACH
+	var/heave_viable = !npc_line_blocked(victim) && !npc_line_obstructed(victim) && get_dist(owner, victim) <= MENHIR_NPC_HEAVE_REACH
 	set_drop_mode(TRUE)
 	var/list/drop_area = get_impact_turfs(victim)
 	if(!npc_allies_in(drop_area) && (sure_hit || !heave_viable))
@@ -50,7 +50,7 @@
 	return 40
 
 /datum/action/cooldown/spell/menhir/npc_cast_safe(atom/cast_on)
-	if(!is_drop_mode() && npc_line_blocked(cast_on))
+	if(!is_drop_mode() && (npc_line_blocked(cast_on) || npc_line_obstructed(cast_on)))
 		return FALSE
 	return ..()
 
