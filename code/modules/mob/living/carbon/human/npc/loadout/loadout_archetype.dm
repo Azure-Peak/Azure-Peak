@@ -52,7 +52,8 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/list/loadouts
 	var/list/variants
 	var/ai_controller
-	var/magic_aspect
+	var/list/magic_aspects
+	var/default_ward = /datum/action/cooldown/spell/conjure_arcyne_ward
 	var/list/traits
 	var/taur_type
 	var/list/taur_colors
@@ -107,13 +108,20 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	H.recalculate_pain_threshold()
 
 /datum/npc_archetype/proc/grant_magic_aspect(mob/living/carbon/human/H)
-	if(!H || !magic_aspect)
+	if(!H || !length(magic_aspects))
 		return
-	var/datum/magic_aspect/aspect = GLOB.magic_aspect_singletons[magic_aspect]
-	if(!aspect)
-		stack_trace("npc archetype [type] names unknown magic aspect [magic_aspect]")
-		return
-	aspect.grant_npc_spells(H)
+	for(var/aspect_type in magic_aspects)
+		var/datum/magic_aspect/aspect = GLOB.magic_aspect_singletons[aspect_type]
+		if(!aspect)
+			stack_trace("npc archetype [type] names unknown magic aspect [aspect_type]")
+			continue
+		aspect.grant_npc_spells(H, magic_aspects[aspect_type])
+	var/datum/action/cooldown/spell/conjure_arcyne_ward/ward = locate() in H.actions
+	if(!ward && default_ward)
+		ward = new default_ward(H)
+		ward.Grant(H)
+	if(ward && !H.skin_armor)
+		ward.manifest_ward(H)
 
 /datum/npc_archetype/proc/apply_skills(mob/living/carbon/human/H)
 	apply_skill_group(H, GLOB.npc_melee_skills, melee)

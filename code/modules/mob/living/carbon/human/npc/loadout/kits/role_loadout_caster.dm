@@ -1,7 +1,7 @@
 /datum/npc_loadout/kit/pyromancer
-	clear_slots = list("head", "l_hand", "r_hand")
+	clear_slots = list("head", "armor", "cloak", "l_hand", "r_hand")
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
-	armor = list(
+	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageorange = 60,
 		/obj/item/clothing/suit/roguetown/shirt/robe/black = 40,
 	)

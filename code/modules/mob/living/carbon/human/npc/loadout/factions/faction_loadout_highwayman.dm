@@ -139,7 +139,10 @@
 		/datum/npc_loadout/kit/pyromancer,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
-	magic_aspect = /datum/magic_aspect/pyromancy
+	magic_aspects = list(
+		/datum/magic_aspect/pyromancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
+	)
 
 //** BODY **//
 

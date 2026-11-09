@@ -128,14 +128,17 @@
 
 	// Toggle on - conjure ward, no cooldown (button stays available for dismiss)
 	owner.visible_message(span_notice("An arcyne ward shimmers into existence around [owner]!"))
+	manifest_ward(H)
+	reset_spell_cooldown()
+	return TRUE
+
+/datum/action/cooldown/spell/conjure_arcyne_ward/proc/manifest_ward(mob/living/carbon/human/H)
 	conjured_ward = new ward_type(H)
 	H.skin_armor = conjured_ward
 	conjured_ward.setup_ward(H)
 	conjured_ward.linked_spell = src
-	reset_spell_cooldown()
 	// Wake the paired regen button up now that there's a live ward to mend
 	regen_action?.build_all_button_icons()
-	return TRUE
 
 /datum/action/cooldown/spell/conjure_arcyne_ward/Destroy()
 	if(conjured_ward && !QDELETED(conjured_ward))
