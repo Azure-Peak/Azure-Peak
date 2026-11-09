@@ -33,7 +33,7 @@
 		var/score = spell.npc_use_chance(spell_target)
 		if(score <= 0)
 			continue
-		if(world.time < controller.blackboard[BB_CASTER_BIG_READY_AT] && spell.npc_is_big_spell())
+		if(!controller.blackboard[BB_CASTER_MELEE] && world.time < controller.blackboard[BB_CASTER_BIG_READY_AT] && spell.npc_is_big_spell())
 			score -= NPC_BIG_SPELL_PATIENCE
 		score += rand(-score_jitter, score_jitter)
 		if(score > best_score)
@@ -52,7 +52,7 @@
 /datum/ai_behavior/targeted_mob_ability/spell_rotation/perform(seconds_per_tick, datum/ai_controller/controller, ability_key, target_key)
 	var/datum/action/cooldown/ability = controller.blackboard[ability_key]
 	var/atom/target = controller.blackboard[target_key]
-	if(istype(ability, /datum/action/cooldown/spell) && !QDELETED(target))
+	if(istype(ability, /datum/action/cooldown/spell) && !QDELETED(target) && !controller.blackboard[BB_CASTER_MELEE])
 		INVOKE_ASYNC(src, PROC_REF(strafe_while_charging), controller, ability, target)
 	. = ..()
 	var/datum/action/cooldown/spell/spell = ability
@@ -62,7 +62,7 @@
 			spell.apply_cancel_penalty(TRUE)
 	if(. & AI_BEHAVIOR_SUCCEEDED)
 		controller.set_blackboard_key(BB_CASTER_NEXT_CAST, world.time + npc_cast_gap(controller.pawn))
-		if(istype(spell) && spell.npc_is_big_spell())
+		if(!controller.blackboard[BB_CASTER_MELEE] && istype(spell) && spell.npc_is_big_spell())
 			controller.set_blackboard_key(BB_CASTER_BIG_READY_AT, world.time + NPC_BIG_SPELL_SPACING)
 		if(istype(spell) && spell.npc_hold_time() > 0)
 			controller.set_blackboard_key(BB_CASTER_HOLD_UNTIL, world.time + spell.npc_hold_time())
@@ -109,6 +109,12 @@
 /datum/action/cooldown/spell
 	var/npc_aborted = FALSE
 	var/npc_targets_allies = FALSE
+	var/npc_requires_bound_weapon = FALSE
+
+/datum/action/cooldown/spell/can_use(atom/target)
+	if(npc_requires_bound_weapon && (!ishuman(owner) || !arcyne_get_weapon(owner)))
+		return FALSE
+	return ..()
 
 /datum/action/cooldown/spell/proc/npc_pick_ally()
 	var/mob/living/caster = owner
