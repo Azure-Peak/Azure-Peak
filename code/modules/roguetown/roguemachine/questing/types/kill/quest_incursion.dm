@@ -56,7 +56,7 @@
 	. = ..()
 	if(second_wave_sent)
 		return
-	. += scaled_threat_budget(second_wave_budget()) * QUEST_KILL_THREAT_MULT
+	. += kill_tp_reward(scaled_threat_budget(second_wave_budget()))
 
 /datum/quest/kill/incursion/check_completion()
 	return second_wave_sent && ..()

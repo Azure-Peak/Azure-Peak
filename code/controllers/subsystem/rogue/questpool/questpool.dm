@@ -445,15 +445,19 @@ SUBSYSTEM_DEF(questpool)
 		return null
 	return new proto.type()
 
-/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user)
+/datum/controller/subsystem/questpool/proc/claim(datum/quest/Q, mob/user, veteran = FALSE)
 	if(!Q || !(Q in pool))
 		return FALSE
 	if(!Q.can_claim(user))
 		return FALSE
 	Q.signed_at_ledger = TRUE
+	Q.veteran = veteran && Q.can_be_veteran()
 	Q.lock_fellowship(user)
+	if(Q.veteran && !Q.is_directive)
+		Q.reward_amount = Q.calculate_reward(Q.reward_origin_turf, Q.reward_target_turf)
 	var/obj/effect/landmark/quest_spawner/landmark = resolve_or_repick_landmark(Q)
 	if(!landmark)
+		clear_failed_veteran(Q)
 		log_event("claim_failed", "no landmark available for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	pool -= Q
@@ -462,6 +466,7 @@ SUBSYSTEM_DEF(questpool)
 		if(!(Q in pool))
 			pool += Q
 			adjust_region_count(Q, 1)
+		clear_failed_veteran(Q)
 		log_event("claim_failed", "materialize failed for [Q.quest_difficulty] [Q.quest_type]")
 		return FALSE
 	Q.materialized = TRUE
@@ -470,6 +475,13 @@ SUBSYSTEM_DEF(questpool)
 	record_source_statistic(Q, CONTRACT_STAT_TAKEN)
 	log_event("claim", "[describe_user(user)] took [Q.quest_difficulty] [Q.quest_type]")
 	return TRUE
+
+/datum/controller/subsystem/questpool/proc/clear_failed_veteran(datum/quest/Q)
+	if(!Q.veteran)
+		return
+	Q.veteran = FALSE
+	if(!Q.is_directive)
+		Q.reward_amount = Q.calculate_reward(Q.reward_origin_turf, Q.reward_target_turf)
 
 /datum/controller/subsystem/questpool/proc/resolve_or_repick_landmark(datum/quest/Q)
 	var/obj/effect/landmark/quest_spawner/landmark = Q.pending_landmark_ref?.resolve()

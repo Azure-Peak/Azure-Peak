@@ -138,8 +138,8 @@
 	if(!target_mob_type)
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
-	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : tp_budget
-	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT) + (faction?.notorious_bounty_amount || 0)
+	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : round(tp_budget * veteran_threat_mult())
+	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + kill_tp_reward(goon_threat) + (faction?.notorious_bounty_amount || 0)
 
 /datum/quest/kill/notorious_bounty/estimate_mob_count()
 	return 1

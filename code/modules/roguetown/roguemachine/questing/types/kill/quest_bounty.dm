@@ -76,7 +76,7 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
 	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : scaled_threat_budget()
-	return (boss_threat * QUEST_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT)
+	return (boss_threat * QUEST_BOUNTY_THREAT_MULT) + kill_tp_reward(goon_threat)
 
 /datum/quest/kill/bounty/estimate_mob_count()
 	return 1

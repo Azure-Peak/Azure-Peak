@@ -79,6 +79,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/fellowship_extras = 0
 	var/fellowship_missing = 0
 	var/signed_at_ledger = FALSE // Only contracts signed at the ledger should be subject to haircut
+	var/veteran = FALSE
 	var/fellowship_threat_mult = 1
 	var/fellowship_reward_mult = 1
 	var/fellowship_split_payout = FALSE
@@ -499,6 +500,27 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 		. = round(. * (required_fellowship_size - missing) / required_fellowship_size)
 	fellowship_threat_mult = saved_mult
 	fellowship_extras = saved_extras
+
+/datum/quest/proc/can_be_veteran()
+	return FALSE
+
+/datum/quest/proc/veteran_threat_mult()
+	return veteran ? QUEST_VETERAN_THREAT_MULT : 1
+
+/datum/quest/proc/project_veteran_reward(mob/living/user)
+	var/saved_veteran = veteran
+	var/saved_amount = reward_amount
+	veteran = TRUE
+	reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+	. = project_fellowship_reward(user)
+	veteran = saved_veteran
+	reward_amount = saved_amount
+
+/datum/quest/proc/project_veteran_objective(mob/living/user)
+	var/saved_veteran = veteran
+	veteran = TRUE
+	. = project_fellowship_objective(user)
+	veteran = saved_veteran
 
 /datum/quest/proc/claim_failure_reason(mob/living/user)
 	var/required = get_signing_fellowship_size()

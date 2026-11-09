@@ -35,6 +35,9 @@ type Contract = {
   is_standing: BooleanLike;
   required_fellowship_size: number;
   lapse_minutes: number | null;
+  can_veteran: BooleanLike;
+  veteran_reward: number | null;
+  veteran_objective: string | null;
 };
 
 type ActiveContract = {
@@ -47,6 +50,7 @@ type ActiveContract = {
   progress_current: number;
   progress_required: number;
   complete: BooleanLike;
+  veteran: BooleanLike;
 };
 
 type HoardRecoveryRegion = {
@@ -82,6 +86,7 @@ type ContractLedgerData = {
   fellowship_bonus_per_member: number;
   townie_contract_gate_exempt_jobs: string[];
   quest_claim_barred_jobs: string[];
+  veteran_threat_pct: number;
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   user_is_fellowship_leader: BooleanLike;
@@ -515,7 +520,14 @@ const ContractCard = (props: { contract: Contract }) => {
     cantAfford ||
     fellowshipShort ||
     notLeader;
-  const payout = c.projected_reward ?? c.reward;
+  const [veteran, setVeteran] = useState(false);
+  const useVeteran = veteran && !!c.can_veteran;
+  const payout = useVeteran
+    ? (c.veteran_reward ?? c.reward)
+    : (c.projected_reward ?? c.reward);
+  const objective = useVeteran
+    ? c.veteran_objective || c.objective
+    : c.objective;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : claimBarred
@@ -607,6 +619,28 @@ const ContractCard = (props: { contract: Contract }) => {
           )}
         </span>
       </div>
+      {!!c.can_veteran && (
+        <div className="ContractLedger__CardRow">
+          <span className="ContractLedger__CardLabel">
+            Veteran
+            <Tooltip
+              position="top"
+              content={`Increases threat by ${data.veteran_threat_pct}% and rewards by that proportionally.`}
+            >
+              <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
+            </Tooltip>
+          </span>
+          <span className="ContractLedger__CardValue">
+            <Button.Checkbox
+              compact
+              checked={veteran}
+              onClick={() => setVeteran(!veteran)}
+            >
+              {veteran ? 'On' : 'Off'}
+            </Button.Checkbox>
+          </span>
+        </div>
+      )}
       {c.fellowship_reward_rate > 0 && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">
@@ -693,8 +727,8 @@ const ContractCard = (props: { contract: Contract }) => {
           </span>
         </div>
       )}
-      {c.objective && (
-        <div className="ContractLedger__CardObjective">{c.objective}</div>
+      {objective && (
+        <div className="ContractLedger__CardObjective">{objective}</div>
       )}
       <div className="ContractLedger__CardFooter">
         <button
@@ -702,7 +736,9 @@ const ContractCard = (props: { contract: Contract }) => {
           className="ContractLedger__SignButton"
           disabled={disabled}
           title={title}
-          onClick={() => act('sign', { ref: c.ref })}
+          onClick={() =>
+            act('sign', { ref: c.ref, veteran: useVeteran ? 1 : 0 })
+          }
         >
           Sign
         </button>
@@ -894,7 +930,8 @@ const ActiveStrip = (props: {
                   {a.title}
                 </span>
                 <span className="ContractLedger__ActiveRow__Meta">
-                  {a.type} &middot; {a.difficulty} &middot;{' '}
+                  {a.type} &middot; {a.difficulty}
+                  {!!a.veteran && ' (Veteran)'} &middot;{' '}
                   {a.region || a.area || 'Unknown'}
                   {a.progress_required > 1 &&
                     ` - ${a.progress_current}/${a.progress_required}`}

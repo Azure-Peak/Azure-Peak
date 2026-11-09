@@ -109,6 +109,11 @@
 // 2x the threat point value is ideal
 #define QUEST_NOTORIOUS_BOUNTY_THREAT_MULT 2
 
+#define QUEST_VETERAN_THREAT_MULT 1.5
+#define QUEST_VETERAN_THREAT_REWARD_MULT 0.6 // Slightly less efficiency
+#define QUEST_VETERAN_ELITE_BIAS 1
+#define QUEST_VETERAN_RANGED_WEIGHT_MULT 2
+
 // Max mobs for kill request to avoid lagging
 #define QUEST_KILL_MAX_MOBS 20
 // Floor for TP to avoid no TP mob from being spammed
@@ -144,7 +149,7 @@
 
 // Flat reward base
 #define QUEST_REWARD_BASE_FLAT 10
-#define QUEST_REWARD_BASE_FETCH 15
+#define QUEST_REWARD_BASE_FETCH 12
 #define QUEST_REWARD_BASE_RECOVERY 25
 
 // Flat bonus layered on by difficulty, on top of the base + tp/distance reward.
@@ -273,14 +278,14 @@
 #define QUEST_SOURCE_TOWNER "towner"
 #define QUEST_SOURCE_GM "gm"
 
-#define QUEST_DELIVERY_DISTANCE_DIVISOR 8 // Divides the distance for reward calculation
+#define QUEST_DELIVERY_DISTANCE_DIVISOR 10 // Divides the distance for reward calculation
 #define QUEST_DELIVERY_DISTANCE_BONUS 1 // Adds a bonus for longer distances
-#define QUEST_COURIER_BONUS_FLAT 10 // Flat bonus for courier quests, since you gotta wait for a person to open a package
+#define QUEST_COURIER_BONUS_FLAT 7 // Flat bonus for courier quests, since you gotta wait for a person to open a package
 #define QUEST_DELIVERY_PER_ITEM_BONUS 2 // Bonus per item delivered
 // Threat-scaled reward layered on top of distance / item bonuses for retrieval & courier quests.
 // Multiplied by (region's delivery_reward_multiplier - 1.0), so a 1.0× region adds nothing and a
 // 2.0× region (Terrorbog, Mt Decap, Underdark) adds the full amount.
-#define QUEST_DELIVERY_THREAT_BONUS 20
+#define QUEST_DELIVERY_THREAT_BONUS 15
 
 #define BLOCKADE_FELLOWSHIP_REQUIREMENT 3
 #define BLOCKADE_WAVE_TIMER_DS (15 MINUTES)

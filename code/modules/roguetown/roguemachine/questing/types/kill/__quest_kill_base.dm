@@ -195,10 +195,10 @@
 /datum/quest/kill/project_fellowship_objective(mob/living/user)
 	var/extras = count_fellowship_extras(user)
 	var/missing = count_fellowship_missing(user)
-	if((!extras && !missing) || !fellowship_threat_rate || !kills_count_progress)
+	if(!kills_count_progress || (!veteran && ((!extras && !missing) || !fellowship_threat_rate)))
 		return get_objective_text()
 	var/saved_required = progress_required
-	var/scaled = estimate_mob_count(round(tp_budget * (1 + fellowship_threat_rate * (extras - missing))))
+	var/scaled = estimate_mob_count(round(tp_budget * (1 + fellowship_threat_rate * (extras - missing)) * veteran_threat_mult()))
 	progress_required = missing ? scaled : min(max(scaled, estimate_mob_count() + extras), QUEST_KILL_MAX_MOBS)
 	. = get_objective_text()
 	progress_required = saved_required
@@ -358,8 +358,11 @@
 		return 0
 	return weighted_tp / total_weight
 
+/datum/quest/kill/can_be_veteran()
+	return !is_directive && (source == QUEST_SOURCE_POOL || source == QUEST_SOURCE_RUMOR)
+
 /datum/quest/kill/proc/scaled_threat_budget(budget = tp_budget)
-	. = round(budget * fellowship_threat_mult)
+	. = round(budget * fellowship_threat_mult * veteran_threat_mult())
 	var/avg_tp = average_threat_point()
 	if(avg_tp > 0)
 		. = min(., round(QUEST_KILL_MAX_MOBS * avg_tp))
@@ -414,7 +417,27 @@
 	return new_mob
 
 /datum/quest/kill/proc/compose_candidates()
-	return faction.mob_types.Copy()
+	var/list/base = faction.mob_types.Copy()
+	if(!veteran)
+		return base
+	var/avg_tp = average_threat_point()
+	var/list/out = list()
+	for(var/path in base)
+		var/weight = base[path]
+		if(avg_tp > 0)
+			weight *= (max(initial_threat_point(path), 1) / avg_tp) ** QUEST_VETERAN_ELITE_BIAS
+		if(is_ranged_mob_type(path))
+			weight *= QUEST_VETERAN_RANGED_WEIGHT_MULT
+		out[path] = max(1, round(weight))
+	return out
+
+/proc/is_ranged_mob_type(mob_path)
+	if(ispath(mob_path, /mob/living/simple_animal/hostile))
+		var/mob/living/simple_animal/hostile/hostile_path = mob_path
+		return initial(hostile_path.ranged)
+	var/mob/living/living_path = mob_path
+	var/datum/npc_archetype/archetype = initial(living_path.npc_archetype)
+	return ispath(archetype) && ispath(initial(archetype.ai_controller), /datum/ai_controller/human_npc/archer)
 
 /datum/quest/kill/proc/compose_warband()
 	var/list/result = list()
@@ -456,6 +479,12 @@
 
 /datum/quest/kill/get_additional_reward(turf/origin_turf, turf/target_turf)
 	if(total_spawned_tp > 0)
-		return total_spawned_tp * QUEST_KILL_THREAT_MULT
+		return kill_tp_reward(total_spawned_tp)
 	// Preview-time estimate: assume we'll spend the full budget.
-	return scaled_threat_budget() * QUEST_KILL_THREAT_MULT
+	return kill_tp_reward(scaled_threat_budget())
+
+/datum/quest/kill/proc/kill_tp_reward(tp)
+	if(!veteran)
+		return tp * QUEST_KILL_THREAT_MULT
+	var/standard_tp = tp / QUEST_VETERAN_THREAT_MULT
+	return standard_tp * QUEST_KILL_THREAT_MULT + (tp - standard_tp) * QUEST_VETERAN_THREAT_REWARD_MULT

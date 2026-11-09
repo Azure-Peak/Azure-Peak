@@ -143,6 +143,7 @@
 	data["hoard_recovery_fellowship_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
 	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
 	data["townie_gate_minutes"] = CONTRACT_TOWNIE_GATE_TIME / (1 MINUTES)
+	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
 	data["blockade_defender_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
 	data["blockade_defender_max"] = QUEST_FELLOWSHIP_SCALE_MAX
 	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100)
@@ -310,6 +311,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			var/datum/quest/kill/KQ = Q
 			threat_bands = KQ.threat_bands_cleared
 		var/lapse_minutes = Q.lapses ? max(0, round((Q.get_lapse_time() - world.time) / 600, 1)) : null
+		var/can_veteran = Q.can_be_veteran()
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
@@ -332,6 +334,9 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"is_standing" = Q.source != QUEST_SOURCE_POOL,
 			"required_fellowship_size" = Q.get_signing_fellowship_size(),
 			"lapse_minutes" = lapse_minutes,
+			"can_veteran" = can_veteran,
+			"veteran_reward" = can_veteran ? Q.project_veteran_reward(user) : null,
+			"veteran_objective" = can_veteran ? Q.project_veteran_objective(user) : null,
 		))
 	return listing
 
@@ -348,6 +353,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"progress_current" = Q.progress_current,
 			"progress_required" = Q.progress_required,
 			"complete" = Q.complete,
+			"veteran" = Q.veteran,
 		))
 	return listing
 
@@ -391,7 +397,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 		return TRUE
 	switch(action)
 		if("sign")
-			sign_contract(user, params["ref"])
+			sign_contract(user, params["ref"], !!text2num("[params["veteran"]]"))
 			return TRUE
 		if("abandon")
 			abandon_by_ref(user, params["ref"])

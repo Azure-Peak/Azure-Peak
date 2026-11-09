@@ -307,6 +307,8 @@ GLOBAL_LIST_EMPTY(quest_scrolls)
 	data["fellowship_split"] = assigned_quest.fellowship_split_payout
 	data["fellowship_threat_pct"] = round((assigned_quest.fellowship_threat_mult - 1) * 100)
 	data["fellowship_reward_pct"] = round((assigned_quest.fellowship_reward_mult - 1) * 100)
+	data["veteran"] = assigned_quest.veteran
+	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
 	data["progress_current"] = assigned_quest.progress_current
 	data["complete"] = assigned_quest.complete
 	data["levy_exempt"] = assigned_quest.levy_exempt

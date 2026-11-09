@@ -395,6 +395,12 @@ export const QuestScroll = () => {
             />
           )}
 
+          {!!data.veteran && (
+            <div style={{ textAlign: 'center', fontStyle: 'italic' }}>
+              Veteran contract: threat increased by {data.veteran_threat_pct}%.
+            </div>
+          )}
+
           <div style={writBody}>
             <WritBody
               data={data}
