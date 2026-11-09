@@ -331,6 +331,7 @@
 #define BLOCKADE_ARCHETYPE_BIAS_STRENGTH 1.5
 
 #define MERC_CONTRACT_MAX_DAYS 3
+#define MERC_CONTRACT_MAX_RATE 500 // Surely no one will enter this
 #define MERC_CONTRACT_DAY_LENGTH ((24 HOURS) / SSticker.station_time_rate_multiplier)
 #define MERC_CONTRACT_RANGE 7
 #define MERC_CONTRACT_ACCEPT_TIMEOUT (30 SECONDS)
