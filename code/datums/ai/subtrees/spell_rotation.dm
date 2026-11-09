@@ -3,6 +3,9 @@
 #define NPC_STATIONARY_TIME (2 SECONDS)
 #define CASTER_CHARGE_KEEP_DISTANCE 3
 #define CASTER_CHARGE_STRAFE_GRACE (1 SECONDS)
+#define NPC_POKE_COOLDOWN_SLACK (2 SECONDS)
+#define NPC_BIG_SPELL_SPACING (10 SECONDS)
+#define NPC_BIG_SPELL_PATIENCE 40
 
 /datum/ai_planning_subtree/spell_rotation
 	var/target_key = BB_BASIC_MOB_CURRENT_TARGET
@@ -30,6 +33,8 @@
 		var/score = spell.npc_use_chance(spell_target)
 		if(score <= 0)
 			continue
+		if(world.time < controller.blackboard[BB_CASTER_BIG_READY_AT] && spell.npc_is_big_spell())
+			score -= NPC_BIG_SPELL_PATIENCE
 		score += rand(-score_jitter, score_jitter)
 		if(score > best_score)
 			best = spell
@@ -57,6 +62,8 @@
 			spell.apply_cancel_penalty(TRUE)
 	if(. & AI_BEHAVIOR_SUCCEEDED)
 		controller.set_blackboard_key(BB_CASTER_NEXT_CAST, world.time + npc_cast_gap(controller.pawn))
+		if(istype(spell) && spell.npc_is_big_spell())
+			controller.set_blackboard_key(BB_CASTER_BIG_READY_AT, world.time + NPC_BIG_SPELL_SPACING)
 		if(!istype(ability, /datum/action/cooldown/spell/telegraphed_strike))
 			controller.clear_blackboard_key(BB_ABILITY_COMMITTED_UNTIL)
 		return
@@ -120,6 +127,12 @@
 
 /datum/action/cooldown/spell/proc/npc_cast_safe(atom/cast_on)
 	return !npc_allies_in(get_impact_turfs(cast_on))
+
+/datum/action/cooldown/spell/proc/npc_is_poke()
+	return primary_resource_cost <= SPELLCOST_MINOR_PROJECTILE && cooldown_time <= SPELL_COOLDOWN_POKE + NPC_POKE_COOLDOWN_SLACK
+
+/datum/action/cooldown/spell/proc/npc_is_big_spell()
+	return !npc_escape && !npc_targets_allies && !npc_is_poke()
 
 /datum/action/cooldown/spell/proc/npc_stamina_cost()
 	. = 0
@@ -211,3 +224,6 @@
 #undef NPC_STATIONARY_TIME
 #undef CASTER_CHARGE_KEEP_DISTANCE
 #undef CASTER_CHARGE_STRAFE_GRACE
+#undef NPC_POKE_COOLDOWN_SLACK
+#undef NPC_BIG_SPELL_SPACING
+#undef NPC_BIG_SPELL_PATIENCE
