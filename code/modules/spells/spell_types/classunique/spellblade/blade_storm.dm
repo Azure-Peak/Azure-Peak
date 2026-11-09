@@ -2,8 +2,8 @@
 	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Blade Storm"
 	desc = "Mark a patch of ground within reach - a shadow of yourself coalesces there. Then, a mote later, you emerge in a storm of slashes, focusing on whomever is at its center and sweep around them.\
-		Requires 7 Momentum: 4 strikes at 30 damage each. \
-		Overcharged at 10 Momentum: 6 strikes at 30 damage each."
+		Requires 7 Momentum: 4 strikes at 30 damage each on the center, 3 on everyone around it. \
+		Overcharged at 10 Momentum: 11 strikes on the center, 5 on everyone around it."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "blade_storm"
 	sound = 'sound/magic/blink.ogg'
