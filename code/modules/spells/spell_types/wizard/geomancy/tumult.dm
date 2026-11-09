@@ -41,6 +41,7 @@
 
 	displayed_damage = SPELL_DMG(40)
 
+	impact_radius = 1
 	var/geo_mode = TUMULT_MODE_ERUPT
 	var/static/list/mode_labels = list(TUMULT_MODE_ERUPT = "CAIRN", TUMULT_MODE_CHARGE = "RAMSTAM")
 	var/erupt_cooldown = 10 SECONDS
@@ -103,6 +104,21 @@
 		return cast_charge(H, cast_on)
 	return cast_erupt(H, cast_on)
 
+/datum/action/cooldown/spell/tumult/proc/is_erupt_mode()
+	return geo_mode == TUMULT_MODE_ERUPT
+
+/datum/action/cooldown/spell/tumult/proc/cairn_turfs(turf/center)
+	. = list()
+	for(var/turf/T in get_hear(impact_radius, center))
+		. += T
+
+/datum/action/cooldown/spell/tumult/get_impact_turfs(atom/center)
+	var/turf/epicenter = get_turf(center)
+	if(!epicenter || !is_erupt_mode())
+		return list()
+	. = cairn_turfs(epicenter)
+	. -= get_turf(owner)
+
 /datum/action/cooldown/spell/tumult/proc/cast_erupt(mob/living/carbon/human/H, atom/cast_on)
 	var/turf/T = get_turf(cast_on)
 	if(!T)
@@ -152,7 +168,8 @@
 		var/push_dir = get_dir(T, victim) || get_dir(caster, victim) || pick(GLOB.cardinals)
 		victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, erupt_push), erupt_push, 1, caster, force = MOVE_FORCE_STRONG)
 
-	for(var/turf/affected in get_hear(1, T))
+	var/list/cairn = cairn_turfs(T)
+	for(var/turf/affected as anything in cairn)
 		if(affected == T)
 			continue
 		new /obj/effect/temp_visual/kinetic_blast(affected)
@@ -170,7 +187,7 @@
 			var/push_dir = get_dir(T, victim) || get_dir(caster, victim) || pick(GLOB.cardinals)
 			victim.safe_throw_at(get_ranged_target_turf(victim, push_dir, erupt_push), erupt_push, 1, caster, force = MOVE_FORCE_STRONG)
 
-	for(var/turf/struct_turf in get_hear(1, T))
+	for(var/turf/struct_turf as anything in cairn)
 		for(var/obj/structure/S in struct_turf)
 			S.take_damage(erupt_direct, BRUTE, "blunt", object_damage_multiplier = 2)
 

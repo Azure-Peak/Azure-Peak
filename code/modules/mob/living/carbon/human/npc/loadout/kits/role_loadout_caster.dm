@@ -24,6 +24,17 @@
 		NPC_NOTHING = 20,
 	)
 
+/datum/npc_loadout/kit/caster/geomancer
+	cloak = list(
+		/obj/item/clothing/suit/roguetown/shirt/robe/magegreen = 60,
+		/obj/item/clothing/suit/roguetown/shirt/robe/black = 40,
+	)
+	head = list(
+		/obj/item/clothing/head/roguetown/roguehood/darkgreen = 50,
+		/obj/item/clothing/head/roguetown/roguehood/black = 30,
+		NPC_NOTHING = 20,
+	)
+
 /datum/npc_loadout/kit/caster/pyromancer
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageorange = 60,

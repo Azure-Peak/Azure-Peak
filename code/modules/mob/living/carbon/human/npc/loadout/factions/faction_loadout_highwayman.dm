@@ -164,6 +164,26 @@
 		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
 	)
 
+/datum/npc_archetype/highwayman/geomancer
+	name = "Highwayman Geomancer"
+	job = "Highwayman Geomancer"
+	threat_point = THREAT_TOUGH
+	statpack = /datum/npc_statpack/caster/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+	)
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/geomancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+	magic_aspects = list(
+		/datum/magic_aspect/geomancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
+	)
+
 //** BODY **//
 
 /datum/npc_body/northern_commoner/soldier/highwayman

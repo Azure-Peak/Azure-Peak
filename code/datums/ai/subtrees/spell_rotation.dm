@@ -169,6 +169,16 @@
 	var/mob/living/carbon/C = victim
 	return istype(C.get_active_held_item(), /obj/item/gun) || istype(C.get_inactive_held_item(), /obj/item/gun)
 
+/datum/action/cooldown/spell/proc/npc_line_blocked(atom/target)
+	var/mob/living/shooter = owner
+	for(var/turf/T in getline(shooter, target))
+		for(var/mob/living/blocker in T)
+			if(blocker == shooter || blocker == target)
+				continue
+			if(shooter.faction_check_mob(blocker))
+				return TRUE
+	return FALSE
+
 /datum/action/cooldown/spell/proc/npc_is_ally(mob/living/other)
 	if(other == owner)
 		return TRUE

@@ -3509,6 +3509,7 @@
 #include "code\modules\spells\spell_types\wizard\fulgurmancy\levinstroke.dm"
 #include "code\modules\spells\spell_types\wizard\geomancy\_geomancy_shared.dm"
 #include "code\modules\spells\spell_types\wizard\geomancy\geas.dm"
+#include "code\modules\spells\spell_types\wizard\geomancy\geomancy_npc.dm"
 #include "code\modules\spells\spell_types\wizard\geomancy\gravel_blast.dm"
 #include "code\modules\spells\spell_types\wizard\geomancy\magicians_rock.dm"
 #include "code\modules\spells\spell_types\wizard\geomancy\magicians_stone.dm"
