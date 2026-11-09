@@ -389,38 +389,3 @@
 
 /datum/wound/grievous/pre_decapitation_blunt//TODO: Actually add the skull smash at some point.
 	name = "annihilated skull"
-
-/datum/wound/dynamic/ooze
-	name = "membrasion"
-	whp = 5
-	bleed_rate = null
-	clotting_threshold = null
-	sewn_clotting_threshold = null
-	woundpain = 5
-	passive_healing = 1
-	sew_threshold = 50
-	can_sew = FALSE
-	can_cauterize = FALSE
-	passive_healing = 0.5
-	severity_stages = list(
-		"minor" = 20,
-		"moderate" = 60,
-		"big" = 100,
-		"massive" = 140,
-		"immense" = 180,
-	)
-
-#define OOZE_UPG_WHPRATE 1
-#define OOZE_UPG_PAINRATE 1
-#define OOZE_UPG_SELFHEAL 1
-
-/datum/wound/dynamic/ooze/upgrade(dam, armor)
-	whp += (dam * OOZE_UPG_WHPRATE)
-	woundpain += (dam * OOZE_UPG_PAINRATE)
-	passive_healing += OOZE_UPG_SELFHEAL
-	update_stage()
-	..()
-
-#undef OOZE_UPG_WHPRATE
-#undef OOZE_UPG_PAINRATE
-#undef OOZE_UPG_SELFHEAL 
