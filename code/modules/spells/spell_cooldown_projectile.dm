@@ -41,9 +41,9 @@
 	. = ..()
 	if(!. || !npc_controlled() || !isliving(owner))
 		return .
-	return !npc_line_blocked(target) || npc_can_lob()
+	return !npc_line_blocked(target) || npc_can_fire_past_allies()
 
-/datum/action/cooldown/spell/projectile/proc/npc_can_lob()
+/datum/action/cooldown/spell/projectile/proc/npc_can_fire_past_allies()
 	return !!projectile_type_arc
 
 /datum/action/cooldown/spell/projectile/npc_cast_target(atom/target)

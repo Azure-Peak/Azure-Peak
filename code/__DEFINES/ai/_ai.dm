@@ -130,6 +130,7 @@
 #define BB_CASTER_RESERVE				"caster_stamina_reserve"
 #define BB_CASTER_SPELL_TARGET			"caster_spell_target"
 #define BB_CASTER_BIG_READY_AT			"caster_big_ready_at"
+#define BB_CASTER_HOLD_UNTIL			"caster_hold_until"
 #define BB_STRAFE_SIDE					"strafe_side"
 #define BB_STRAFE_KEEP_DISTANCE			"strafe_keep_distance"
 #define BB_STRAFE_STEPS_LEFT			"strafe_steps_left"

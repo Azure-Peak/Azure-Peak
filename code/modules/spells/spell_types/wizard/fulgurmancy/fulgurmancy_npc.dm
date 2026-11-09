@@ -18,7 +18,7 @@
 	npc_min_range = 1
 	npc_max_range = 7
 
-/datum/action/cooldown/spell/projectile/arc_bolt/npc_can_lob()
+/datum/action/cooldown/spell/projectile/arc_bolt/npc_can_fire_past_allies()
 	return TRUE
 
 /datum/action/cooldown/spell/projectile/arc_bolt/proc/npc_set_mode(index)

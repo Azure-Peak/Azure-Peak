@@ -52,6 +52,11 @@
 	threat_point = THREAT_TOUGH
 	ambush_faction = "bandits"
 
+/mob/living/carbon/human/species/human/northern/highwayman/telomancer
+	npc_archetype = /datum/npc_archetype/highwayman/telomancer
+	threat_point = THREAT_TOUGH
+	ambush_faction = "bandits"
+
 /mob/living/carbon/human/species/human/northern/highwayman/light
 	npc_archetype = /datum/npc_archetype/highwayman/light
 	threat_point = THREAT_HIGH

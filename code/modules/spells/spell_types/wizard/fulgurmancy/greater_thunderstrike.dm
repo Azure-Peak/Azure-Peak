@@ -40,7 +40,7 @@
 	displayed_damage = SPELL_DMG(GTSTRIKE_DAMAGE)
 
 /datum/action/cooldown/spell/greater_thunderstrike/get_impact_turfs(atom/center)
-	return thunderstrike_turfs(get_turf(center), impact_radius)
+	return get_visible_area_turfs(get_turf(center), impact_radius)
 
 /datum/action/cooldown/spell/greater_thunderstrike/cast(atom/cast_on)
 	. = ..()

@@ -120,7 +120,7 @@
 		return list()
 	if(current_mode == 1)
 		return list(epicenter)
-	return thunderstrike_turfs(epicenter, ts_radius)
+	return get_visible_area_turfs(epicenter, ts_radius)
 
 /datum/action/cooldown/spell/fulmination/proc/cast_heavens_strike(turf/centerpoint, list/impact)
 	for(var/turf/T as anything in impact)
@@ -163,21 +163,12 @@
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src, "Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), ts_telegraph)
 
-/proc/thunderstrike_turfs(turf/centerpoint, radius)
-	. = list()
-	if(!centerpoint)
-		return
-	var/list/visible = get_hear(radius, centerpoint)
-	for(var/turf/T in range(radius, centerpoint))
-		if(T in visible)
-			. += T
-
 /proc/thunderstrike_erupt(turf/centerpoint, mob/living/carbon/human/caster, radius = 2, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Thunderstrike", intdamage_mult = 1)
 	if(!centerpoint)
 		return
 	playsound(centerpoint, 'sound/magic/lightning.ogg', 100, TRUE, 8)
 	var/static/list/random_zones = list(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-	for(var/turf/T as anything in thunderstrike_turfs(centerpoint, radius))
+	for(var/turf/T as anything in get_visible_area_turfs(centerpoint, radius))
 		new /obj/effect/temp_visual/thunderstrike_actual(T)
 		T.fire_act()
 		for(var/atom/A in T.contents)

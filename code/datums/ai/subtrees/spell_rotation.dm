@@ -64,6 +64,8 @@
 		controller.set_blackboard_key(BB_CASTER_NEXT_CAST, world.time + npc_cast_gap(controller.pawn))
 		if(istype(spell) && spell.npc_is_big_spell())
 			controller.set_blackboard_key(BB_CASTER_BIG_READY_AT, world.time + NPC_BIG_SPELL_SPACING)
+		if(istype(spell) && spell.npc_hold_time() > 0)
+			controller.set_blackboard_key(BB_CASTER_HOLD_UNTIL, world.time + spell.npc_hold_time())
 		if(!istype(ability, /datum/action/cooldown/spell/telegraphed_strike))
 			controller.clear_blackboard_key(BB_ABILITY_COMMITTED_UNTIL)
 		return
@@ -90,6 +92,11 @@
 /datum/ai_planning_subtree/spacing/ranged/caster
 	finish_planning = TRUE
 	commit_distance = 1
+
+/datum/ai_planning_subtree/spacing/ranged/caster/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
+	if(world.time < controller.blackboard[BB_CASTER_HOLD_UNTIL])
+		return SUBTREE_RETURN_FINISH_PLANNING
+	return ..()
 
 /datum/ai_planning_subtree/spacing/ranged/caster/is_ready_to_attack(datum/ai_controller/controller, mob/living/living_pawn)
 	for(var/datum/action/cooldown/spell/spell in living_pawn.actions)
@@ -127,6 +134,9 @@
 
 /datum/action/cooldown/spell/proc/npc_cast_safe(atom/cast_on)
 	return !npc_allies_in(get_impact_turfs(cast_on))
+
+/datum/action/cooldown/spell/proc/npc_hold_time()
+	return 0
 
 /datum/action/cooldown/spell/proc/npc_is_poke()
 	return primary_resource_cost <= SPELLCOST_MINOR_PROJECTILE && cooldown_time <= SPELL_COOLDOWN_POKE + NPC_POKE_COOLDOWN_SLACK

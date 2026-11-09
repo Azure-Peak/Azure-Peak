@@ -818,6 +818,15 @@
 	for(var/turf/affected in range(impact_radius, epicenter))
 		. += affected
 
+/proc/get_visible_area_turfs(turf/center, radius)
+	. = list()
+	if(!center)
+		return
+	var/list/visible = get_hear(radius, center)
+	for(var/turf/T in range(radius, center))
+		if(T in visible)
+			. += T
+
 /**
  * Check if the target we're casting on is a valid target.
  * For self-casted spells, the target being checked (cast_on) is the caster.
