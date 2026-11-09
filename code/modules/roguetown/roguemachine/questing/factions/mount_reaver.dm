@@ -13,6 +13,8 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/crossbowman = 8,
 		/mob/living/carbon/human/species/human/northern/highwayman/light = 12,
 		/mob/living/carbon/human/species/human/northern/highwayman/bulwark = 12,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster = 8,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade = 7,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/human/northern/outlaw_tank = 40,
