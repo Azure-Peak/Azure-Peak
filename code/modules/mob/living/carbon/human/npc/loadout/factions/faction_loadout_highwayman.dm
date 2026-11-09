@@ -136,7 +136,7 @@
 	)
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
-		/datum/npc_loadout/kit/pyromancer,
+		/datum/npc_loadout/kit/caster/pyromancer,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster
 	magic_aspects = list(
