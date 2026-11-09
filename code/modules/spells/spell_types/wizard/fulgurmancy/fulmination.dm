@@ -107,11 +107,10 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	var/list/impact = get_impact_turfs(centerpoint)
 	if(current_mode == 1)
-		cast_heavens_strike(centerpoint, impact)
+		cast_heavens_strike(centerpoint)
 	else
-		cast_thunderstrike(centerpoint, impact)
+		cast_thunderstrike(centerpoint)
 	return TRUE
 
 /datum/action/cooldown/spell/fulmination/get_impact_turfs(atom/center)
@@ -122,43 +121,41 @@
 		return list(epicenter)
 	return get_visible_area_turfs(epicenter, ts_radius)
 
-/datum/action/cooldown/spell/fulmination/proc/cast_heavens_strike(turf/centerpoint, list/impact)
-	for(var/turf/T as anything in impact)
-		new /obj/effect/temp_visual/telegraph/thunderstrike(T, hs_telegraph)
-	addtimer(CALLBACK(src, PROC_REF(heavens_strike_damage), impact), hs_telegraph)
+/datum/action/cooldown/spell/fulmination/proc/cast_heavens_strike(turf/T)
+	new /obj/effect/temp_visual/telegraph/thunderstrike(T, hs_telegraph)
+	addtimer(CALLBACK(src, PROC_REF(heavens_strike_damage), T), hs_telegraph)
 
-/datum/action/cooldown/spell/fulmination/proc/heavens_strike_damage(list/impact)
+/datum/action/cooldown/spell/fulmination/proc/heavens_strike_damage(turf/T)
+	new /obj/effect/temp_visual/thunderstrike_actual(T)
+	playsound(T, 'sound/magic/lightning.ogg', 80)
+	T.fire_act()
+	for(var/atom/A in T.contents)
+		if(!ismob(A))
+			A.fire_act()
 	var/mob/living/carbon/human/caster = owner
 	var/target_zone = caster?.zone_selected || pick(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-	for(var/turf/T as anything in impact)
-		new /obj/effect/temp_visual/thunderstrike_actual(T)
-		playsound(T, 'sound/magic/lightning.ogg', 80)
-		T.fire_act()
-		for(var/atom/A in T.contents)
-			if(!ismob(A))
-				A.fire_act()
-		for(var/mob/living/L in T.contents)
-			if(L.anti_magic_check())
-				L.visible_message(span_warning("The lightning fades away around [L]!"))
-				playsound(T, 'sound/magic/magic_nulled.ogg', 100)
+	for(var/mob/living/L in T.contents)
+		if(L.anti_magic_check())
+			L.visible_message(span_warning("The lightning fades away around [L]!"))
+			playsound(T, 'sound/magic/magic_nulled.ogg', 100)
+			continue
+		if(spell_guard_check(L, TRUE))
+			L.visible_message(span_warning("[L] weathers the lightning strike!"))
+			continue
+		var/actual_damage = hs_damage
+		if(istype(caster) && ishuman(L))
+			if(arcyne_strike(caster, L, null, actual_damage, target_zone, \
+				BCLASS_BURN, spell_name = "Heaven's Strike", \
+				damage_type = BURN, \
+				skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 				continue
-			if(spell_guard_check(L, TRUE))
-				L.visible_message(span_warning("[L] weathers the lightning strike!"))
-				continue
-			var/actual_damage = hs_damage
-			if(istype(caster) && ishuman(L))
-				if(arcyne_strike(caster, L, null, actual_damage, target_zone, \
-					BCLASS_BURN, spell_name = "Heaven's Strike", \
-					damage_type = BURN, \
-					skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
-					continue
-			else
-				L.electrocute_act(actual_damage, src, 1, SHOCK_NOSTUN)
-			L.electrocute_act(0, src, 1, SHOCK_NOSTUN|SHOCK_VISUAL_ONLY)
-			new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
+		else
+			L.electrocute_act(actual_damage, src, 1, SHOCK_NOSTUN)
+		L.electrocute_act(0, src, 1, SHOCK_NOSTUN|SHOCK_VISUAL_ONLY)
+		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 
-/datum/action/cooldown/spell/fulmination/proc/cast_thunderstrike(turf/centerpoint, list/impact)
-	for(var/turf/T as anything in impact)
+/datum/action/cooldown/spell/fulmination/proc/cast_thunderstrike(turf/centerpoint)
+	for(var/turf/T as anything in get_impact_turfs(centerpoint))
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, ts_telegraph)
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src, "Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), ts_telegraph)
