@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - rscdel: "Removed all non servantry service bells from the game to reduce church / apoth / guild / merchant / steward stress level and stop reinforcing these roles as vendor roles subservient to combat roles who is expected to be on call for 3 hours. Use SCOM / Letters and or live with their potential absence."
