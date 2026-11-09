@@ -3,7 +3,7 @@
 	id = "ooze"
 	desc_title = "Murkling"
 	desc = "Murklings possess a peculiar physiology, their bodies formed around a rigid, \
-	bone-like membrane of hardened slime, surrounded in a softer, malleable exterior of living ooze. \
+	bone-like membrane of hardened slime, surrounded in a softer, malleable exterior of living ooze.<br><br>\
 	Few know of their true origins. Ancient records place their beginnings deep within the cold caverns of the Underdark \
 	where primordial ooze infested tunnels and defended its spawning pits with relentless hostility. \
 	For centuries, Dark Elves and Dwarven delvers alike sealed these regions away, leaving the living mire undisturbed. \
@@ -11,12 +11,12 @@
 	pools - crude humanoid figures that could speak and think, an imperfect imitation of man. \
 	As the ancient spawning pools gradually withered, their offspring ventured outwards, forming colonies of their own. \
 	Though born of the violent depths of the Underdark, Murklings remain a young and volatile people, \
-	struggling to understand a world that sees them as monsters.\
+	struggling to understand a world that sees them as monsters.<br><br>\
 	Creatures of remarkable adaptability, their bodies readily changing to reflect the environments in which they settle. \
 	Yet their malleable nature makes them particularly susceptible to intoxicants. \
 	Dusts, spirits, and smoke may leave lasting impressions upon their bodies, sometimes fundamentally altering their composition, \
 	With prolonged exposure, some develop an insatiable dependence upon these substances,  \
-	their bodies eventually learning to produce and secrete the very things they've come to crave. \
+	their bodies eventually learning to produce and secrete the very things they've come to crave.<br><br>\
 	Caught now in the struggles of surface faiths and kingdoms, Murklings search for new purpose beyond their primordial mothers. \
 	Some turn to the gods, using faith to fill the gaps their spawning pools left behind, while others reject them entirely. \
 	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born."
