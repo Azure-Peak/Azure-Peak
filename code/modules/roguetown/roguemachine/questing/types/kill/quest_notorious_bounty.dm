@@ -225,6 +225,7 @@
 	boss.key = chosen.key
 	if(boss.client && boss.ai_controller)
 		QDEL_NULL(boss.ai_controller)
+	temper_player_boss(boss)
 	RegisterSignal(boss, COMSIG_LIVING_DEATH, PROC_REF(on_player_boss_death))
 	// Prevent the mob from getting instaambushed
 	boss.ambushable = FALSE
@@ -250,6 +251,20 @@
 	var/datum/fellowship/F = bearer?.current_fellowship
 	var/mob/living/party_leader = F?.get_leader()
 	message_admins("[key_name_admin(boss)] has taken over notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]), fighting a fellowship led by [party_leader ? key_name_admin(party_leader) : "an unknown party"].")
+
+/datum/quest/kill/notorious_bounty/proc/temper_player_boss(mob/living/carbon/human/boss)
+	for(var/stat_key in MOBSTATS)
+		var/excess = boss.get_stat_level(stat_key) - NOTORIOUS_BOUNTY_PLAYER_STAT_CAP
+		if(excess > 0)
+			boss.change_stat(stat_key, -excess)
+	for(var/skill_type in subtypesof(/datum/skill/combat))
+		var/cap = NOTORIOUS_BOUNTY_PLAYER_COMBAT_SKILL_CAP
+		switch(skill_type)
+			if(/datum/skill/combat/shields)
+				cap = NOTORIOUS_BOUNTY_PLAYER_SHIELD_SKILL_CAP
+			if(/datum/skill/combat/wrestling, /datum/skill/combat/unarmed)
+				cap = NOTORIOUS_BOUNTY_PLAYER_BRAWL_SKILL_CAP
+		boss.adjust_skillrank_down_to(skill_type, cap, TRUE)
 
 /datum/quest/kill/notorious_bounty/proc/leash_boss(mob/living/boss)
 	if(boss.stat == DEAD)
