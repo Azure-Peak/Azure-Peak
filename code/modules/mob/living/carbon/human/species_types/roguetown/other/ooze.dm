@@ -98,10 +98,10 @@
 		ORGAN_SLOT_STOMACH = /obj/item/organ/stomach/ooze,
 		)
 
-	mechanics_explanations = list("Can suffer fractures to the head and chest. Limbs melt away when they would otherwise be fractured, dislocated, or cut off.",
-		"Can regenerate lost limbs by sleeping, or use their Regrow Limb ability while awake.",
+	mechanics_explanations = list("Limbs melt away when they would otherwise be fractured, dislocated, or cut off.",
+		"Can regenerate lost limbs when well-fed.",
 		"Have uniquely colored blood that matches the color of their bodies.",
-		"Gradually shift their body and hair colors toward the most recently metabolized reagent.",
+		"Will gradually shift their body's colors toward the most recently metabolized reagent.",
 		"Can shapeshift and change certain features at will.")
 
 ////// ORGAN SPRITES, provided by VelSlime
