@@ -187,6 +187,22 @@
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 
+/datum/npc_archetype/highwayman/caster/magister
+	name = "Highwayman Magister"
+	job = "Highwayman Magister"
+	threat_point = THREAT_DEADLY
+	statpack = /datum/npc_statpack/caster/t3
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		list(
+			/datum/npc_loadout/kit/caster/pyromancer = 1,
+			/datum/npc_loadout/kit/caster/fulgurmancer = 1,
+			/datum/npc_loadout/kit/caster/geomancer = 1,
+			/datum/npc_loadout/kit/caster/telomancer = 1,
+		),
+		/datum/npc_loadout/kit/caster_magister,
+	)
+
 /datum/npc_archetype/highwayman/spellblade
 	abstract_type = /datum/npc_archetype/highwayman/spellblade
 	threat_point = THREAT_DANGEROUS
@@ -226,6 +242,24 @@
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/spellblade/macebearer,
+	)
+
+/datum/npc_archetype/highwayman/spellblade/champion
+	name = "Highwayman Spellblade Champion"
+	job = "Highwayman Spellblade Champion"
+	threat_point = THREAT_DEADLY
+	statpack = /datum/npc_statpack/spellblade/t3
+	armor_training = ARMOR_CLASS_MEDIUM
+	melee = SKILL_LEVEL_EXPERT
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		list(
+			/datum/npc_loadout/kit/spellblade/blade = 1,
+			/datum/npc_loadout/kit/spellblade/phalangite = 1,
+			/datum/npc_loadout/kit/spellblade/macebearer = 1,
+		),
+		/datum/npc_loadout/kit/spellblade_champion,
 	)
 
 //** BODY **//

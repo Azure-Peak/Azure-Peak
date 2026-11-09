@@ -54,3 +54,10 @@
 		list(/obj/item/rogueweapon/mace/goden),
 		list(/obj/item/rogueweapon/greataxe),
 	)
+
+/datum/npc_loadout/kit/spellblade_champion
+	armor = list(
+		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 50,
+		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron = 50,
+	)
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/iron

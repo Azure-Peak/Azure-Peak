@@ -93,3 +93,12 @@
 		/obj/item/clothing/head/roguetown/roguehood/black = 35,
 		NPC_NOTHING = 15,
 	)
+
+/datum/npc_loadout/kit/caster_magister
+	skills = list(
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
+	)
+	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	neck = /obj/item/clothing/neck/roguetown/coif

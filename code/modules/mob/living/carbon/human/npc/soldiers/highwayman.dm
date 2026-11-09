@@ -57,6 +57,10 @@
 /mob/living/carbon/human/species/human/northern/highwayman/caster/ferramancer
 	npc_archetype = /datum/npc_archetype/highwayman/caster/ferramancer
 
+/mob/living/carbon/human/species/human/northern/highwayman/caster/magister
+	npc_archetype = /datum/npc_archetype/highwayman/caster/magister
+	threat_point = THREAT_DEADLY
+
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/mixed
 	threat_point = THREAT_DANGEROUS
@@ -70,6 +74,10 @@
 
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade/macebearer
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/macebearer
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/champion
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/champion
+	threat_point = THREAT_DEADLY
 
 /mob/living/carbon/human/species/human/northern/highwayman/light
 	npc_archetype = /datum/npc_archetype/highwayman/light

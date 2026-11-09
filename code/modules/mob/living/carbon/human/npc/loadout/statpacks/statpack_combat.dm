@@ -174,6 +174,14 @@
 	perception = 12
 	intelligence = 13
 
+/datum/npc_statpack/caster/t3
+	strength = 12
+	speed = 10
+	constitution = 8
+	willpower = 11
+	perception = 13
+	intelligence = 14
+
 /datum/npc_statpack/spellblade
 	abstract_type = /datum/npc_statpack/spellblade
 
@@ -184,3 +192,11 @@
 	willpower = 9
 	perception = 11
 	intelligence = 11
+
+/datum/npc_statpack/spellblade/t3
+	strength = 13
+	speed = 10
+	constitution = 9
+	willpower = 11
+	perception = 12
+	intelligence = 12
