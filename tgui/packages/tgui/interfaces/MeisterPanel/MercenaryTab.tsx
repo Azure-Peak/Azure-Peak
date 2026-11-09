@@ -23,7 +23,7 @@ export const MercenaryTab = ({ data, act }: TabProps) => {
         <div style={fieldLabelStyle}>Status</div>
         <div style={fieldValueStyle}>
           {merc.hired_by
-            ? `Under contract with ${merc.hired_by}, day ${(merc.days_served || 0) + 1} of ${merc.days}`
+            ? `Under contract with ${merc.hired_by}, dae ${(merc.days_served || 0) + 1} of ${merc.days}`
             : 'Not under contract'}
         </div>
       </div>

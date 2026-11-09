@@ -474,40 +474,113 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /obj/item/merc_contract/examine(mob/user)
 	. = ..()
 	if(contract)
-		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] dae\s.")
-		. += span_info("The contract ends in [merc_contract_time_text(contract.time_left())].")
-		if(contract.rate)
-			. += span_info("[contract.hirer_name] pays [contract.rate] mammon a dae. [contract.held_amount()] mammon is still held for the daes ahead.")
-		. += span_info("The hirer can use it in hand to end the contract early once the first dae has passed, or at any time if [merc_name] is dead.")
-		if(contract.hirer_category)
-			. += span_info("[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay.")
+		for(var/line in signed_lines())
+			. += span_info(line)
 		return
 	. += span_info("Hire mercenary [merc_name] for [terms_text()].")
 	. += span_info("Use it in hand to choose the number of daes and the daily rate. Hand it to a fellowship leader to be hired.")
-	. += span_info("The daily rate is held from the hirer's MEISTER account when the contract is signed, and paid at the end of each dae.")
-	. += span_info("If the contract ends early, the unpaid daes return to the hirer. The dae in progress is still paid, unless the mercenary is the one who leaves.")
-	. += span_info("While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else.")
-	. += span_info("Pay per dae by employer:")
+	for(var/line in rule_lines())
+		. += span_info(line)
+
+/obj/item/merc_contract/proc/signed_lines()
+	. = list()
+	. += "[merc_name] is hired by [contract.hirer_name] for [contract.days] dae\s."
+	. += "The contract ends in [merc_contract_time_text(contract.time_left())]."
+	if(contract.rate)
+		. += "[contract.hirer_name] pays [contract.rate] mammon a dae. [contract.held_amount()] mammon is still held for the daes ahead."
+	. += "The hirer can use it in hand to end the contract early once the first dae has passed, or at any time if [merc_name] is dead."
+	if(contract.hirer_category)
+		. += "[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay."
+
+/obj/item/merc_contract/proc/rule_lines()
+	. = list()
+	. += "The daily rate is held from the hirer's MEISTER account when the contract is signed, and paid at the end of each dae."
+	. += "If the contract ends early, the unpaid daes return to the hirer. The dae in progress is still paid, unless the mercenary is the one who leaves."
+	. += "While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else."
+	. += "Pay per dae by employer:"
 	for(var/category in GLOB.merc_hirer_categories)
 		var/list/terms = GLOB.merc_hirer_categories[category]
-		. += span_info("- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]")
-	. += span_info("- Anyone else: nothing extra")
-	. += span_info("To receive the stipend, spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of each dae within [MERC_CONTRACT_PRESENCE_RANGE] tiles of your employer or a member of their fellowship.")
+		. += "- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]"
+	. += "- Anyone else: nothing extra"
+	. += "To receive the stipend, spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of each dae within [MERC_CONTRACT_PRESENCE_RANGE] tiles of your employer or a member of their fellowship."
+
+/obj/item/merc_contract/proc/offer_lines()
+	. = list("They will join your fellowship.")
+	if(rate)
+		. += "[rate * days] mammon will be held from your MEISTER account and paid out each dae."
 
 /obj/item/merc_contract/attack_self(mob/user)
-	var/mob/living/L = user
-	if(!istype(L))
-		return
+	if(isliving(user))
+		ui_interact(user)
+
+/obj/item/merc_contract/ui_state(mob/user)
+	return GLOB.hands_state
+
+/obj/item/merc_contract/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "MercContract")
+		ui.open()
+
+/obj/item/merc_contract/ui_static_data(mob/user)
+	return list(
+		"merc_name" = merc_name,
+		"max_days" = MERC_CONTRACT_MAX_DAYS,
+		"max_rate" = MERC_CONTRACT_MAX_RATE,
+		"days_prompt" = "How many daes will you hire yourself out for?",
+		"rate_prompt" = "What rate will you ask for per dae? It is held from their MEISTER account every dae. Leave it at 0 to ask for nothing. Asking for a rate will prevent you from being hired by anyone without a MEISTER account.",
+		"rules" = rule_lines(),
+	)
+
+/obj/item/merc_contract/ui_data(mob/user)
+	var/list/data = list()
+	var/mob/living/merc = merc_ref?.resolve()
+	data["signed"] = !!contract
+	data["is_merc"] = user == merc
 	if(contract)
-		if(contract.hirer_ref?.resolve() == L)
-			try_end_early(L)
-			return
-		to_chat(L, span_warning("This contract has already been signed."))
+		data["status_lines"] = signed_lines()
+		data["is_hirer"] = contract.hirer_ref?.resolve() == user
+		data["end_early_wait"] = contract.can_end_early() ? null : "You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))]."
+		return data
+	data["headline"] = "Hire mercenary [merc_name] for [terms_text()]."
+	data["days"] = days
+	data["rate"] = rate
+	data["can_edit"] = can_edit_terms()
+	if(user != merc)
+		var/datum/fund/account = SStreasury.get_account(user)
+		data["balance"] = account?.balance
+		data["offer_lines"] = offer_lines()
+		data["hire_blocker"] = offered_by ? "Wait for [merc_name] to answer." : hire_failure_reason(user, merc)
+	return data
+
+/obj/item/merc_contract/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	if(.)
 		return
-	if(merc_ref?.resolve() == L)
-		choose_terms(L)
+	var/mob/living/user = usr
+	if(!istype(user))
 		return
-	try_hire(L)
+	switch(action)
+		if("set_days")
+			if(user != merc_ref?.resolve() || !can_edit_terms())
+				return
+			days = clamp(round(text2num("[params["days"]]")), 1, MERC_CONTRACT_MAX_DAYS)
+			return TRUE
+		if("set_rate")
+			if(user != merc_ref?.resolve() || !can_edit_terms())
+				return
+			rate = clamp(round(text2num("[params["rate"]]")), 0, MERC_CONTRACT_MAX_RATE)
+			return TRUE
+		if("offer")
+			if(contract || user == merc_ref?.resolve())
+				return
+			try_hire(user)
+			return TRUE
+		if("end_early")
+			if(contract?.hirer_ref?.resolve() != user)
+				return
+			INVOKE_ASYNC(src, PROC_REF(try_end_early), user)
+			return TRUE
 
 /obj/item/merc_contract/proc/try_end_early(mob/living/hirer)
 	if(!contract.can_end_early())
@@ -527,35 +600,9 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /obj/item/merc_contract/proc/can_edit_terms()
 	return !QDELETED(src) && !contract && !offered_by
 
-/obj/item/merc_contract/proc/choose_terms(mob/living/merc)
-	if(!can_edit_terms())
-		return
-	var/list/options = list()
-	for(var/i in 1 to MERC_CONTRACT_MAX_DAYS)
-		options += "[i]"
-	var/choice = tgui_input_list(merc, "How many daes will you hire yourself out for?", "Mercenary Contract", options, "[days]")
-	if(!choice || !can_edit_terms())
-		return
-	var/new_rate = tgui_input_number(merc, "What rate will you ask for per dae? It is held from their MEISTER account every dae. Leave it at 0 to ask for nothing. Asking for a rate will prevent you from being hired by anyone without a MEISTER account.", "Mercenary Contract", rate, MERC_CONTRACT_MAX_RATE, 0)
-	if(isnull(new_rate) || !can_edit_terms())
-		return
-	days = text2num(choice)
-	rate = clamp(round(new_rate), 0, MERC_CONTRACT_MAX_RATE)
-	to_chat(merc, span_notice("The contract now offers your sword for [terms_text()]."))
-
 /obj/item/merc_contract/proc/try_hire(mob/living/hirer)
 	var/mob/living/carbon/human/merc = merc_ref?.resolve()
-	var/failure = hire_failure_reason(hirer, merc)
-	if(failure)
-		to_chat(hirer, span_warning(failure))
-		return
-	if(offered_by)
-		to_chat(hirer, span_warning("Wait for [merc_name] to answer."))
-		return
-	var/hold_text = rate ? " [rate * days] mammon will be held from your MEISTER account and paid out each dae." : ""
-	if(tgui_alert(hirer, "Hire [merc_name] for [terms_text()]? They will join your fellowship.[hold_text]", "Mercenary Contract", list("Yes", "No")) != "Yes")
-		return
-	failure = hire_failure_reason(hirer, merc)
+	var/failure = offered_by ? "Wait for [merc_name] to answer." : hire_failure_reason(hirer, merc)
 	if(failure)
 		to_chat(hirer, span_warning(failure))
 		return
