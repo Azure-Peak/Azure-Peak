@@ -335,3 +335,35 @@
   - bugfix: ancient longsword now has a new sprite added for scabbards so it doesn't
       look like a steel longsword - Technically image related but i consider it quality
       control, thuslie its a fix, suffer!
+2026-11-09:
+  OrbisAnima:
+  - qol: Changes fishing rods category to normal so they can fit in satchels.
+  Ryan180602:
+  - balance: if you have a tail and your nympho procs, it'll wag.
+  WeNeedMorePhoron:
+  - rscadd: Increased the amount of contracts generated, especially at the start of
+      the game, so there's real choices.
+  - rscadd: Unattended scrolls now crumble after 30 minutes
+  - rscadd: Add messages to indicate if you had too much food / water
+  - rscdel: (Openly) Psydonite Grand Dukes are once again no longer allowed. You may
+      still have sympathy or empathy or pretend to be a converso or something.
+  - rscdel: Removed all non servantry service bells from the game to reduce church
+      / apoth / guild / merchant / steward stress level and stop reinforcing these
+      roles as vendor roles subservient to combat roles who is expected to be on call
+      for 3 hours. Use SCOM / Letters and or live with their potential absence.
+  - rscadd: Everyone can now see which region fishing stocks belong to, and the text
+      and mechanics is explained on examine
+  - rscadd: Now all fishers at Expert skills or with the Expert Fisher trait can see
+      whether specific fish is depleted and their replenishment rate, in IC time.
+  - rscdel: Single tile water source and town no longer fishable
+  - rscadd: Folded Chessboard is now craftable. Old game table renamed ornamental
+      game table to reduce confusion
+  changelingonberry:
+  - balance: Lux extraction can be performed with any sharp implement now.
+  fffelinid:
+  - qol: Bath-house staff can now lock/unlock their own peddler even if the matron
+      isn't present.
+  - bugfix: Fixed treasure seeker inheriting some unnecessary examine text from the
+      head eater.
+  zRainbowcat:
+  - bugfix: dodge chance abuse

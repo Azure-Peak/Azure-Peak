@@ -507,6 +507,15 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 			var/datum/species/dullahan/target_species = target.dna?.species
 			if(istype(target_species) && target_species.headless)
 				tocheck = target_species.my_head
+
+			if(target != src && message_mode != MODE_WHISPER && target.has_flaw(/datum/charflaw/addiction/clamorous))
+				var/chance = 5
+				if(Zs_yell)
+					chance += 10
+				if(Zs_all)
+					chance += 20
+				if(prob(chance))
+					target.sate_addiction(/datum/charflaw/addiction/clamorous)
 		if(eavesdrop_range && get_dist(source, tocheck) > message_range+keenears && !(admin_listeners[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, null, spans, message_mode, original_message)
 			heard_message += AM
