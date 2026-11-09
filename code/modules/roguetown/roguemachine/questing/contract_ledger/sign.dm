@@ -18,8 +18,8 @@
 		play_reject_sound()
 		return
 
-	if(is_quest_claim_barred(user))
-		say("Your job prevents you from signing contracts.")
+	if(is_quest_claim_barred(user, Q))
+		say(quest_claim_barred_reason(user))
 		play_reject_sound()
 		return
 

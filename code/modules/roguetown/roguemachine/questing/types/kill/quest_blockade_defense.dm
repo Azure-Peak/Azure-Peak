@@ -131,6 +131,7 @@
 		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
 			break
 		fellowship_roster += WEAKREF(M)
+	roster_fellowship_ref = WEAKREF(bearer?.current_fellowship)
 	fellowship_split_payout = bearer?.current_fellowship?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = max(0, length(fellowship_roster) - BLOCKADE_FELLOWSHIP_REQUIREMENT)
 	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(fellowship_roster)) : 0

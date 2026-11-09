@@ -45,7 +45,7 @@
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
 	. += span_info("You can <b>withdraw</b> any contract or scroll you posted from Your Postings at any time while no one has taken it. Once someone takes it, you must wait [MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)] minutes. You can't withdraw it once the work has begun. Withdrawing refunds [REFUND_ON_NOT_TAKEN * 100]% of the cost, and so does a posting that lapses untaken. If a contract fails, [REFUND_ON_FAILURE * 100]% is refunded automatically. If its holder abandons it, you get [REFUND_ON_NOT_TAKEN * 100]% back before the work begins and [REFUND_ON_FAILURE * 100]% after.")
 	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. The <b>[english_list(GLOB.atc_positions)]</b> can post any of them from the ATC's treasury at [TOWNER_POSTING_COMPANY_COST_MULT] times the price. Only the poster can open what is recovered.")
-	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. The reward goes to whoever turns it in. Their levy exemption applies if they have one.")
+	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. The reward goes to whoever turns it in. Their levy exemption applies if they have one. Split rewards mode splits rewards on contracts turned in after, but not before.")
 	. += span_info("A <b>fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more</b> can put up a stake of <b>[HOARD_RECOVERY_PLEDGE] mammon</b> to call for a <b>Hoard Recovery</b> in a region whose brigand hoard has reached <b>[HOARD_RECOVERY_HOARD_MINIMUM] mammon</b>. It pays the usual blockade reward. The Crown taxes the recovered hoard as <b>Recovered Spoils</b>. Crown officials can also issue a hoard recovery scroll like any other defense scroll.")
 	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon</b>. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b>.")
 	. += span_info("The <b>[english_list(GLOB.contract_proxy_officials)]</b> may turn in any completed contract on the holder's behalf. The reward goes to the holder's own account. They take no cut.")
@@ -127,6 +127,9 @@
 	data["townie_gate_remaining"] = gate_remaining
 	data["townie_contract_gate_exempt_jobs"] = SSjob.townie_contract_gate_exempt_display_names()
 	data["quest_claim_barred_jobs"] = SSjob.quest_claim_barred_display_names()
+	data["quest_claim_towner_jobs"] = SSjob.quest_claim_towner_names
+	data["quest_claim_lowpop_jobs"] = SSjob.quest_claim_lowpop_names
+	data["quest_claim_lowpop_active"] = quest_claim_lowpop_active()
 	data["take_cooldown_remaining"] = round(SSquestpool.take_cooldown_remaining(user) / 10)
 	var/mob/living/L = user
 	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
@@ -134,6 +137,8 @@
 	data["user_is_fellowship_leader"] = F ? F.is_leader(L) : FALSE
 	data["fellowship_member_locked"] = is_fellowship_signing_locked(user)
 	data["claim_barred"] = is_quest_claim_barred(user)
+	data["claim_barred_reason"] = quest_claim_barred_reason(user)
+	data["claim_lowpop_lifted"] = is_quest_claim_lowpop_lifted(user)
 	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
@@ -331,6 +336,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"is_rumor" = Q.source == QUEST_SOURCE_RUMOR,
 			"shows_commission_seal" = Q.shows_commission_seal,
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
+			"claim_barred" = is_quest_claim_barred(user, Q),
 			"is_standing" = Q.source != QUEST_SOURCE_POOL,
 			"required_fellowship_size" = Q.get_signing_fellowship_size(),
 			"lapse_minutes" = lapse_minutes,

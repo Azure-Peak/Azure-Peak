@@ -179,6 +179,8 @@
 
 	///
 	var/quest_claim_barred = FALSE
+	var/quest_claim_towner_allowed = FALSE
+	var/quest_claim_lowpop_allowed = FALSE
 
 	///Whether this class has additional preferences specific to it, like bounties for wretch. Make sure to also put handling for it in the job's /Topic! See wretch.dm for an example. Note that this is true-by-default because the default handler handles advclass selection
 	var/has_subprefs = TRUE
@@ -220,11 +222,32 @@
 	if(winexists(usr, "[JOB_SUBPREFS_WINDOW_ID]"))
 		winset(usr, "[JOB_SUBPREFS_WINDOW_ID]", "focus=true")
 
-/proc/is_quest_claim_barred(mob/user)
+/proc/is_quest_claim_barred(mob/user, datum/quest/Q)
 	if(!user?.mind)
 		return FALSE
 	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
-	return J?.quest_claim_barred ? TRUE : FALSE
+	if(!J?.quest_claim_barred)
+		return FALSE
+	if(J.quest_claim_lowpop_allowed && quest_claim_lowpop_active())
+		return FALSE
+	if(J.quest_claim_towner_allowed && Q?.source == QUEST_SOURCE_TOWNER)
+		return FALSE
+	return TRUE
+
+/proc/quest_claim_lowpop_active()
+	return SSeconomy.get_effective_player_count() < QUEST_MERC_LEDGER_POP_THRESHOLD
+
+/proc/is_quest_claim_lowpop_lifted(mob/user)
+	if(!user?.mind)
+		return FALSE
+	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
+	return J?.quest_claim_barred && J.quest_claim_lowpop_allowed && quest_claim_lowpop_active()
+
+/proc/quest_claim_barred_reason(mob/user)
+	var/datum/job/J = user?.job ? SSjob.GetJob(user.job) : null
+	if(J?.quest_claim_towner_allowed)
+		return "By statute, the Guild's mercenaries may not take any contracts on their own save for towner postings when there are plenty of people seeking employment. Hire yourself out instead."
+	return "Your job prevents you from signing contracts."
 
 /proc/is_townie_contract_gate_exempt(mob/user)
 	if(!user?.mind)

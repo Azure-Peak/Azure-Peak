@@ -14,6 +14,9 @@
 	max_pq = null
 	round_contrib_points = 1
 	quest_claim_barred = TRUE
+	quest_claim_towner_allowed = TRUE
+	quest_claim_lowpop_allowed = TRUE
+	townie_contract_gate_exempt = TRUE
 	outfit = null	//Handled by classes
 	outfit_female = null
 	advclass_cat_rolls = list(CTAG_MERCENARY = 20)

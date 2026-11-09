@@ -32,6 +32,7 @@ type Contract = {
   is_rumor: BooleanLike;
   shows_commission_seal: BooleanLike;
   is_towner: BooleanLike;
+  claim_barred: BooleanLike;
   is_standing: BooleanLike;
   required_fellowship_size: number;
   lapse_minutes: number | null;
@@ -86,12 +87,17 @@ type ContractLedgerData = {
   fellowship_bonus_per_member: number;
   townie_contract_gate_exempt_jobs: string[];
   quest_claim_barred_jobs: string[];
+  quest_claim_towner_jobs: string[];
+  quest_claim_lowpop_jobs: string[];
+  quest_claim_lowpop_active: BooleanLike;
   veteran_threat_pct: number;
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   user_is_fellowship_leader: BooleanLike;
   fellowship_member_locked: BooleanLike;
   claim_barred: BooleanLike;
+  claim_barred_reason: string;
+  claim_lowpop_lifted: BooleanLike;
   arrival_scan_range: number;
   pool: Contract[];
   active: ActiveContract[];
@@ -497,7 +503,7 @@ const ContractCard = (props: { contract: Contract }) => {
   const { act, data } = useBackend<ContractLedgerData>();
   const c = props.contract;
   const noAccount = !data.has_account;
-  const claimBarred = !!data.claim_barred;
+  const claimBarred = !!c.claim_barred;
   const memberLocked = !!data.fellowship_member_locked;
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
@@ -531,7 +537,7 @@ const ContractCard = (props: { contract: Contract }) => {
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
     : claimBarred
-      ? 'Your job prevents you from signing contracts.'
+      ? data.claim_barred_reason
       : memberLocked
         ? 'Only your fellowship leader can sign contracts.'
         : gateRemaining > 0
@@ -772,12 +778,15 @@ const ActiveStrip = (props: {
   const takeCooldown = data.take_cooldown_remaining || 0;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
   const barredList = (data.quest_claim_barred_jobs || []).join(', ');
+  const townerList = (data.quest_claim_towner_jobs || []).join(', ');
+  const lowpopList = (data.quest_claim_lowpop_jobs || []).join(', ');
   const claimBarred = !!data.claim_barred;
+  const lowpopLifted = !!data.has_account && !!data.claim_lowpop_lifted;
   const signingHelp = !!data.has_account && (claimBarred || gateRemaining > 0);
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
     : claimBarred
-      ? 'Your job prevents you from signing contracts.'
+      ? data.claim_barred_reason
       : gateRemaining > 0
         ? `For the first ${data.townie_gate_minutes} minutes, only certain roles can sign contracts:`
         : takeCooldown > 0
@@ -842,7 +851,8 @@ const ActiveStrip = (props: {
             <div style={{ marginBottom: '6px' }}>
               Fellowship members can turn in each other&apos;s contracts. The
               reward goes to whoever turns it in. Their levy exemption applies
-              if they have one.
+              if they have one. Split rewards mode splits rewards on contracts
+              turned in after, but not before.
             </div>
             <div style={{ marginBottom: '6px' }}>
               Hired sellswords count as members of your fellowship. While one is
@@ -874,6 +884,19 @@ const ActiveStrip = (props: {
               These jobs can never sign contracts: {barredList}. A contract handed
               to them directly still works.
             </div>
+            {!!townerList && (
+              <div style={{ marginTop: '6px' }}>
+                These jobs may only sign towner postings: {townerList}.
+              </div>
+            )}
+            {!!lowpopList && (
+              <div style={{ marginTop: '6px' }}>
+                In lowpop, these jobs can sign any contracts: {lowpopList}.{' '}
+                {data.quest_claim_lowpop_active
+                  ? 'Lowpop is in effect now.'
+                  : 'Lowpop is not in effect now.'}
+              </div>
+            )}
           </div>
         </Dialog>
       )}
@@ -915,6 +938,24 @@ const ActiveStrip = (props: {
                   onClick={() => setShowSigningHelp(true)}
                 />
               )}
+            </div>
+          )}
+          {lowpopLifted && (
+            <div
+              className="ContractLedger__ActiveRow"
+              style={{ color: '#2a6b2a', fontWeight: 'bold' }}
+            >
+              The town is quiet todae. You are allowed to take on ledger
+              contracts as a Mercenary. Medium contracts are open to everyone
+              seeking employment.
+              <Button
+                compact
+                ml={0.5}
+                icon="question-circle"
+                selected={showSigningHelp}
+                tooltip="Who can sign contracts"
+                onClick={() => setShowSigningHelp(true)}
+              />
             </div>
           )}
           {props.active.length === 0 ? (

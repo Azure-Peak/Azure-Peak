@@ -83,6 +83,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/fellowship_threat_mult = 1
 	var/fellowship_reward_mult = 1
 	var/fellowship_split_payout = FALSE
+	var/datum/weakref/roster_fellowship_ref
 	var/turf/reward_origin_turf
 	var/turf/reward_target_turf
 	var/issuer_may_claim = FALSE
@@ -448,6 +449,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/datum/fellowship/F = user?.current_fellowship
 	for(var/mob/living/M as anything in available_fellowship_members(user))
 		fellowship_roster += WEAKREF(M)
+	roster_fellowship_ref = WEAKREF(F)
 	fellowship_split_payout = F?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = count_fellowship_extras(user)
 	if(!fellowship_extras || (!fellowship_threat_rate && !fellowship_reward_rate))
@@ -457,8 +459,17 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	if(!is_directive)
 		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
 
+/datum/quest/proc/holder_fellowship_splits()
+	var/mob/living/holder = quest_receiver_reference?.resolve()
+	var/datum/fellowship/F = holder?.current_fellowship
+	if(!F || F != roster_fellowship_ref?.resolve())
+		return FALSE
+	return F.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
+
 /datum/quest/proc/fellowship_shares(amount, mob/living/fallback)
 	. = list()
+	if(holder_fellowship_splits())
+		fellowship_split_payout = TRUE
 	var/list/payees = list()
 	for(var/datum/weakref/W as anything in fellowship_roster)
 		var/mob/living/M = W.resolve()

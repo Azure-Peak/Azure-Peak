@@ -245,6 +245,7 @@
 	fellowship_roster = list()
 	for(var/mob/living/M as anything in present)
 		fellowship_roster += WEAKREF(M)
+	roster_fellowship_ref = WEAKREF(bearer.current_fellowship)
 	fellowship_extras = max(0, length(present) - max(1, required_fellowship_size))
 	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(present)) : 0
 	if(fellowship_missing)
