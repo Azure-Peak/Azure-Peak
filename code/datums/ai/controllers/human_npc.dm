@@ -35,6 +35,7 @@
 		/datum/ai_planning_subtree/flee_target,
 		/datum/ai_planning_subtree/tree_climb,
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/stamina_disengage,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/leap_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
@@ -123,6 +124,7 @@
 		/datum/ai_planning_subtree/retrieve_arrows, // Archer only
 		/datum/ai_planning_subtree/ranged_attack_subtree, // Archer only
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/stamina_disengage,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/leap_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
@@ -150,6 +152,7 @@
 
 		BB_CASTER_NEXT_CAST = 0,
 		BB_CASTER_RESERVE = 0.75,
+		BB_NPC_WINDED_AT = 0.65,
 	)
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/being_a_minion,
@@ -164,6 +167,7 @@
 		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/spell_rotation,
+		/datum/ai_planning_subtree/stamina_disengage/caster,
 		/datum/ai_planning_subtree/spacing/ranged/caster,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 	)
@@ -186,7 +190,7 @@
 		BB_HUMAN_NPC_HARASS_COOLDOWN = 0,
 
 		BB_CASTER_NEXT_CAST = 0,
-		BB_CASTER_RESERVE = 1,
+		BB_CASTER_RESERVE = 0.65,
 		BB_CASTER_MELEE = TRUE,
 	)
 	planning_subtrees = list(
@@ -202,6 +206,7 @@
 		/datum/ai_planning_subtree/aggro_find_target,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/spell_rotation,
+		/datum/ai_planning_subtree/stamina_disengage,
 		/datum/ai_planning_subtree/leap_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 	)
@@ -219,6 +224,7 @@
 		/datum/ai_planning_subtree/flee_target,
 		/datum/ai_planning_subtree/tree_climb,
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/stamina_disengage,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/spacing/ranged/thrower,
 		/datum/ai_planning_subtree/leap_attack,

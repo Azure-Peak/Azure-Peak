@@ -6,6 +6,10 @@
 #define NPC_POKE_COOLDOWN_SLACK (2 SECONDS)
 #define NPC_BIG_SPELL_SPACING (10 SECONDS)
 #define NPC_BIG_SPELL_PATIENCE 40
+#define CASTER_PRESSED_RESERVE 0.5
+#define CASTER_FINISHER_RESERVE 0.9
+#define CASTER_TIRED_RATIO 0.4
+#define CASTER_TIRED_CAST_GAP (4 SECONDS)
 
 /datum/ai_planning_subtree/spell_rotation
 	var/target_key = BB_BASIC_MOB_CURRENT_TARGET
@@ -21,10 +25,13 @@
 		return
 	if(world.time < controller.blackboard[BB_CASTER_NEXT_CAST])
 		return
+	var/winded = npc_is_winded(controller)
 	var/datum/action/cooldown/spell/best
 	var/atom/best_target
 	var/best_score = score_floor
 	for(var/datum/action/cooldown/spell/spell in caster.actions)
+		if(winded && !spell.npc_escape)
+			continue
 		if(world.time < spell.npc_retry_at || !spell.npc_within_reserve(controller) || !spell.IsAvailable())
 			continue
 		var/atom/spell_target = spell.npc_targets_allies ? spell.npc_pick_ally() : target
@@ -90,7 +97,9 @@
 /proc/npc_cast_gap(mob/living/caster)
 	if(!isliving(caster))
 		return 5 SECONDS
-	return clamp(5 SECONDS - (caster.STAINT - 8) * (0.5 SECONDS), 2 SECONDS, 5 SECONDS)
+	. = clamp(5 SECONDS - (caster.STAINT - 8) * (0.5 SECONDS), 2 SECONDS, 5 SECONDS)
+	if(caster.stamina >= caster.max_stamina * CASTER_TIRED_RATIO)
+		. = max(., CASTER_TIRED_CAST_GAP)
 
 /datum/ai_planning_subtree/spacing/ranged/caster
 	finish_planning = TRUE
@@ -102,6 +111,8 @@
 	return ..()
 
 /datum/ai_planning_subtree/spacing/ranged/caster/is_ready_to_attack(datum/ai_controller/controller, mob/living/living_pawn)
+	if(npc_is_winded(controller))
+		return FALSE
 	for(var/datum/action/cooldown/spell/spell in living_pawn.actions)
 		if(spell.npc_escape || spell.npc_max_range <= 1)
 			continue
@@ -173,6 +184,10 @@
 	if(!isliving(caster))
 		return FALSE
 	var/reserve = controller.blackboard[BB_CASTER_RESERVE] || CASTER_DEFAULT_RESERVE
+	if(npc_min_momentum())
+		reserve = max(reserve, CASTER_FINISHER_RESERVE)
+	else if(!controller.blackboard[BB_CASTER_MELEE] && npc_hostiles_in(npc_turfs_around(get_turf(caster), 1)))
+		reserve = min(reserve, CASTER_PRESSED_RESERVE)
 	return caster.stamina + npc_stamina_cost() <= caster.max_stamina * reserve
 
 /datum/action/cooldown/spell/proc/npc_strafes_while_charging()
@@ -252,3 +267,7 @@
 #undef NPC_POKE_COOLDOWN_SLACK
 #undef NPC_BIG_SPELL_SPACING
 #undef NPC_BIG_SPELL_PATIENCE
+#undef CASTER_PRESSED_RESERVE
+#undef CASTER_FINISHER_RESERVE
+#undef CASTER_TIRED_RATIO
+#undef CASTER_TIRED_CAST_GAP
