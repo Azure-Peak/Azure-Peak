@@ -35,6 +35,7 @@
 			continue
 		if(!controller.blackboard[BB_CASTER_MELEE] && world.time < controller.blackboard[BB_CASTER_BIG_READY_AT] && spell.npc_is_big_spell())
 			score -= NPC_BIG_SPELL_PATIENCE
+		score += spell.npc_momentum_adjust()
 		score += rand(-score_jitter, score_jitter)
 		if(score > best_score)
 			best = spell
@@ -66,6 +67,8 @@
 			controller.set_blackboard_key(BB_CASTER_BIG_READY_AT, world.time + NPC_BIG_SPELL_SPACING)
 		if(istype(spell) && spell.npc_hold_time() > 0)
 			controller.set_blackboard_key(BB_CASTER_HOLD_UNTIL, world.time + spell.npc_hold_time())
+		if(istype(spell))
+			spell.npc_after_cast(controller)
 		if(!istype(ability, /datum/action/cooldown/spell/telegraphed_strike))
 			controller.clear_blackboard_key(BB_ABILITY_COMMITTED_UNTIL)
 		return
@@ -112,6 +115,9 @@
 	var/npc_requires_bound_weapon = FALSE
 
 /datum/action/cooldown/spell/proc/npc_on_spawn(mob/living/carbon/human/H)
+	return
+
+/datum/action/cooldown/spell/proc/npc_after_cast(datum/ai_controller/controller)
 	return
 
 /datum/action/cooldown/spell/can_use(atom/target)

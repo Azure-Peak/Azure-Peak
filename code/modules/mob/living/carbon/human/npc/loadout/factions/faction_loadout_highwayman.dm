@@ -221,6 +221,21 @@
 		/datum/magic_aspect/aegiscraft,
 	)
 
+/datum/npc_archetype/highwayman/phalangite
+	name = "Highwayman Phalangite"
+	job = "Highwayman Phalangite"
+	threat_point = THREAT_DANGEROUS
+	statpack = /datum/npc_statpack/spellblade/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	melee = SKILL_LEVEL_JOURNEYMAN
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/spellblade/phalangite,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	spellblade_chant = "phalangite"
+
 //** BODY **//
 
 /datum/npc_body/northern_commoner/soldier/highwayman

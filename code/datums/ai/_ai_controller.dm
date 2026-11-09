@@ -560,7 +560,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			if(iscarbon(moving_pawn) && isliving(current_movement_target))
 				var/mob/living/carbon/carbon_pawn = moving_pawn
 				var/intent_reach = carbon_pawn.used_intent?.reach || 1
-				if(intent_reach > effective_required_distance)
+				if(intent_reach > effective_required_distance && world.time >= blackboard[BB_MELEE_CLOSE_IN_UNTIL])
 					effective_required_distance = intent_reach
 			if(((can_reach && effective_required_distance >= get_dist(moving_pawn, current_movement_target))) || failed_sneak_check > 4) ///Are we close
 				if(ai_movement.moving_controllers[src] == current_movement_target) //We are close enough, if we're moving stop.

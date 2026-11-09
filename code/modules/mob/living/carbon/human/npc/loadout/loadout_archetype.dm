@@ -54,6 +54,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/ai_controller
 	var/list/magic_aspects
 	var/default_ward = /datum/action/cooldown/spell/conjure_arcyne_ward
+	var/spellblade_chant
 	var/list/traits
 	var/taur_type
 	var/list/taur_colors
@@ -89,6 +90,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	if(taur_type)
 		H.Taurize(taur_type, length(taur_colors) ? pick(taur_colors) : "#ffffff")
 	H.equipOutfit(build_outfit())
+	grant_spellblade_chant(H)
 	grant_magic_aspect(H)
 	apply_stat_modifiers(H)
 	if(npc_body)
@@ -106,6 +108,15 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	H.STAPER += stat_modifiers["perception"]
 	H.STAINT += stat_modifiers["intelligence"]
 	H.recalculate_pain_threshold()
+
+/datum/npc_archetype/proc/grant_spellblade_chant(mob/living/carbon/human/H)
+	if(!H || !spellblade_chant)
+		return
+	var/datum/spellblade_chant/chant = GLOB.spellblade_chants[spellblade_chant]
+	if(!chant)
+		stack_trace("npc archetype [type] names unknown spellblade chant [spellblade_chant]")
+		return
+	chant.apply_npc_chant(H)
 
 /datum/npc_archetype/proc/grant_magic_aspect(mob/living/carbon/human/H)
 	if(!H || !length(magic_aspects))

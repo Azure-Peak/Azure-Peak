@@ -132,6 +132,7 @@
 #define BB_CASTER_BIG_READY_AT			"caster_big_ready_at"
 #define BB_CASTER_HOLD_UNTIL			"caster_hold_until"
 #define BB_CASTER_MELEE					"caster_melee"
+#define BB_MELEE_CLOSE_IN_UNTIL			"melee_close_in_until"
 #define BB_STRAFE_SIDE					"strafe_side"
 #define BB_STRAFE_KEEP_DISTANCE			"strafe_keep_distance"
 #define BB_STRAFE_STEPS_LEFT			"strafe_steps_left"
