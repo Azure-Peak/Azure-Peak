@@ -22,6 +22,7 @@
 
 	click_to_activate = TRUE
 	cast_range = SPELL_RANGE_GROUND
+	impact_radius = 0
 
 	primary_resource_type = SPELL_COST_STAMINA
 	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
@@ -73,26 +74,26 @@
 	new /obj/effect/temp_visual/spell_impact(target_turf, spell_color, spell_impact_intensity)
 	new /obj/effect/temp_visual/dragonfire(target_turf)
 
-	target_turf.fire_act()
-	for(var/atom/A in target_turf)
-		if(ismob(A))
-			continue
-		A.fire_act()
-
-	for(var/mob/living/L in target_turf)
-		if(L.anti_magic_check())
-			L.visible_message(span_warning("The flames sputter out around [L]!"))
-			playsound(target_turf, 'sound/magic/magic_nulled.ogg', 100)
-			continue
-		if(spell_guard_check(L, TRUE))
-			L.visible_message(span_warning("[L] shrugs off the flames!"))
-			continue
-		if(istype(caster) && ishuman(L))
-			if(arcyne_strike(caster, L, null, strike_damage, def_zone, BCLASS_BURN, spell_name = "Ultio", damage_type = BURN, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+	for(var/turf/T as anything in get_impact_turfs(target_turf))
+		T.fire_act()
+		for(var/atom/A in T)
+			if(ismob(A))
 				continue
-		else
-			L.adjustFireLoss(SPELL_DMG_VS(L, strike_damage))
-		apply_scorch_stack(L, scorch_stacks, def_zone)
+			A.fire_act()
+		for(var/mob/living/L in T)
+			if(L.anti_magic_check())
+				L.visible_message(span_warning("The flames sputter out around [L]!"))
+				playsound(T, 'sound/magic/magic_nulled.ogg', 100)
+				continue
+			if(spell_guard_check(L, TRUE))
+				L.visible_message(span_warning("[L] shrugs off the flames!"))
+				continue
+			if(istype(caster) && ishuman(L))
+				if(arcyne_strike(caster, L, null, strike_damage, def_zone, BCLASS_BURN, spell_name = "Ultio", damage_type = BURN, skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
+					continue
+			else
+				L.adjustFireLoss(SPELL_DMG_VS(L, strike_damage))
+			apply_scorch_stack(L, scorch_stacks, def_zone)
 
 /obj/effect/temp_visual/telegraph/wall/fire/ultio
 	duration = TELEGRAPH_SKILLSHOT

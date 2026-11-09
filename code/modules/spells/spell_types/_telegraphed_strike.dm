@@ -50,6 +50,9 @@
 /datum/action/cooldown/spell/telegraphed_strike/ai_commit_time()
 	return get_strike_duration()
 
+/datum/action/cooldown/spell/telegraphed_strike/get_impact_turfs(atom/center)
+	return get_pattern_turfs(owner, get_cardinal(owner.dir))
+
 /datum/action/cooldown/spell/telegraphed_strike/can_use(atom/target)
 	. = ..()
 	if(!. || !require_target_in_pattern || !npc_controlled() || QDELETED(target) || target == owner)

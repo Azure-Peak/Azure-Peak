@@ -32,10 +32,6 @@
 	npc_min_range = 1
 	npc_max_range = 7
 
-/datum/action/cooldown/spell/ultio/npc_impact_turfs(atom/cast_on)
-	var/turf/center = get_turf(cast_on)
-	return center ? list(center) : list()
-
 /datum/action/cooldown/spell/ultio/npc_use_chance(atom/target)
 	var/mob/living/victim = target
 	if(!isliving(victim))
@@ -87,10 +83,6 @@
 /datum/action/cooldown/spell/fire_curtain/npc_strafes_while_charging()
 	return FALSE
 
-/datum/action/cooldown/spell/fire_curtain/npc_impact_turfs(atom/cast_on)
-	var/turf/center = get_turf(cast_on)
-	return center ? get_curtain_turfs(center, owner.dir) : list()
-
 /datum/action/cooldown/spell/fire_curtain/proc/npc_curtain_center(atom/target)
 	var/facing = npc_face_dir(owner, target)
 	var/turf/victim_turf = get_turf(target)
@@ -135,13 +127,6 @@
 	npc_min_range = 2
 	npc_max_range = 9
 
-/datum/action/cooldown/spell/projectile/fireball/barrage/npc_impact_turfs(atom/cast_on)
-	var/radius = pillar_radius
-	if(!modes[current_mode]["ground"])
-		var/obj/projectile/magic/aoe/fireball/rogue/ball = (arc_mode && projectile_type_arc) ? projectile_type_arc : projectile_type
-		radius = initial(ball.arcyne_aoe_radius)
-	return npc_turfs_around(get_turf(cast_on), radius)
-
 /datum/action/cooldown/spell/projectile/fireball/barrage/set_ai_aim_lock(turf/locked_turf)
 	if(modes[current_mode]["ground"])
 		aim_locked_turf = null
@@ -160,7 +145,7 @@
 	if(wanted != current_mode)
 		current_mode = wanted
 		apply_mode(current_mode)
-	var/list/blast = npc_impact_turfs(victim)
+	var/list/blast = get_impact_turfs(victim)
 	if(npc_allies_in(blast))
 		return 0
 	var/hostiles = npc_hostiles_in(blast)

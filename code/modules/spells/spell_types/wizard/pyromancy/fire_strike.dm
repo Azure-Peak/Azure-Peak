@@ -33,7 +33,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/blast_radius = 2
+	impact_radius = 2
 	var/impact_delay = 2 SECONDS
 	var/structural_damage = 600
 	var/mob_damage = SPELL_DMG(110)
@@ -52,7 +52,7 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	for(var/turf/T in range(blast_radius, center))
+	for(var/turf/T as anything in get_impact_turfs(center))
 		new /obj/effect/temp_visual/telegraph/wall/fire(T)
 	center.visible_message(span_boldwarning("The air above ignites - something is coming down!"))
 	addtimer(CALLBACK(src, PROC_REF(drop_fireball), center), impact_delay)
@@ -70,7 +70,7 @@
 	playsound(center, 'sound/magic/fireball.ogg', 100, TRUE, 6)
 	new /obj/effect/temp_visual/spell_impact(center, spell_color, spell_impact_intensity)
 
-	for(var/turf/T in range(blast_radius, center))
+	for(var/turf/T as anything in get_impact_turfs(center))
 		for(var/obj/structure/S in T.contents)
 			S.take_damage(structural_damage, BRUTE, "blunt", object_damage_multiplier = 2)
 		T.take_damage(structural_damage, BRUTE, "blunt", object_damage_multiplier = 2)
@@ -87,7 +87,7 @@
 			apply_scorch_stack(L, 2)
 			L.Knockdown(3)
 
-	for(var/turf/T in range(blast_radius, center))
+	for(var/turf/T as anything in get_impact_turfs(center))
 		new /obj/effect/curtain_fire(T, curtain_life, owner)
 
 	var/datum/effect_system/smoke_spread/smoke = new

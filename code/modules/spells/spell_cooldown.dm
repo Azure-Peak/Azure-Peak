@@ -130,6 +130,7 @@
 	var/self_cast_possible = TRUE
 	/// The casting range of our spell.
 	var/cast_range = 7
+	var/impact_radius
 	/// If TRUE, this spell may be cast at a target on a different Z-level. Defaults FALSE; only projectile spells opt in.
 	var/allow_cross_z = FALSE
 	/// Variable dictating if the spell will use turf based aim assist.
@@ -808,6 +809,14 @@
 				return FALSE
 
 	return TRUE
+
+/datum/action/cooldown/spell/proc/get_impact_turfs(atom/center)
+	. = list()
+	var/turf/epicenter = get_turf(center)
+	if(!epicenter || isnull(impact_radius))
+		return
+	for(var/turf/affected in range(impact_radius, epicenter))
+		. += affected
 
 /**
  * Check if the target we're casting on is a valid target.
