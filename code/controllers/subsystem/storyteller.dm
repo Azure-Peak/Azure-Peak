@@ -451,6 +451,9 @@ SUBSYSTEM_DEF(gamemode)
 			if(!(candidate.client.prefs) || !(be_special in candidate.client.prefs.be_special))
 				continue
 
+		if(job_ban && is_banned_from(candidate.ckey, list(job_ban, ROLE_SYNDICATE)))
+			continue
+
 		//if(midround_antag_pref)
 			//continue
 
