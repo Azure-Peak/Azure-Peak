@@ -243,7 +243,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	lastchangelog		= sanitize_text(lastchangelog, initial(lastchangelog))
 	preferred_ui_language = sanitize_preferred_ui_language(preferred_ui_language)
 
-	if(parent && is_banned_from(parent.ckey, ROLE_SYNDICATE))
+	if(parent && is_banned_from(parent.ckey, ROLE_ANTAGONIST))
 		be_special = list()
 	verify_keybindings_valid()
 
