@@ -19,6 +19,10 @@
 		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 30,
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 30,
 	)
+	variant_chances = list(
+		/datum/quest_faction_variant/rogue_coven = 5,
+		/datum/quest_faction_variant/rogue_azurcaephan = 5,
+	)
 	boss_title_templates = list(
 		"%N the Ironclad",
 		"%N Stonebreaker",

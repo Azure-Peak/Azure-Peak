@@ -323,7 +323,8 @@
 		weights[id] = TR.faction_weights[id]
 	if(!length(weights))
 		return null
-	return get_quest_faction(pickweight(weights))
+	var/datum/quest_faction/picked = get_quest_faction(pickweight(weights))
+	return picked?.roll_variant()
 
 /datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
 	return TRUE
