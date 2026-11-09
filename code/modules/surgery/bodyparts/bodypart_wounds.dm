@@ -68,8 +68,9 @@
 	if(isooze(owner) && wound.severity >= WOUND_SEVERITY_MODERATE) // Handles wounds for murklings.
 		if(ispath(wound, /datum/wound))
 			wound = new wound()
-		if(is_ooze_wound(wound))
-			handle_ooze_wounds(wound, silent, crit_message)
+		var/can_suffer_ooze_fracture = istype(wound, /datum/wound/fracture) && (istype(src, /obj/item/bodypart/head) || istype(src, /obj/item/bodypart/chest))
+		if(is_ooze_wound(wound) && !can_suffer_ooze_fracture && !istype(src, /obj/item/bodypart/head))
+			handle_ooze_wounds(wound, crit_message)
 			return
 	if(ispath(wound, /datum/wound))
 		var/datum/wound/primordial_wound = GLOB.primordial_wounds[wound]
@@ -830,17 +831,13 @@
 		// Iterate stack by 1 and then see if we can crit this hit
 		return !crit_resist_tracker_actual.try_crit()
 
-/obj/item/bodypart/proc/handle_ooze_wounds(datum/wound/wound, silent = FALSE, crit_message = FALSE)
+/obj/item/bodypart/proc/handle_ooze_wounds(datum/wound/wound, crit_message = FALSE)
 	if(!wound.handle_ooze_wound(src))
 		return
-	if(!istype(src, /obj/item/bodypart/head/))
-		if(crit_message)
-			var/message = "<span class='crit'><b>Critical hit!</b> The [src] melts apart into goop!</span>"
-			if(message)
-				owner.next_attack_msg += " [message]"
-		src.dismember()
-	else
-		if(has_wound(/datum/wound/slime/knockout))
-			add_wound(/datum/wound/slime/paralyze, silent, crit_message)
-		else
-			add_wound(/datum/wound/slime/knockout, silent, crit_message)
+	if(istype(src, /obj/item/bodypart/head))
+		return
+	if(crit_message)
+		var/message = "<span class='crit'><b>Critical hit!</b> The [src] melts apart into goop!</span>"
+		if(message)
+			owner.next_attack_msg += " [message]"
+	src.dismember()

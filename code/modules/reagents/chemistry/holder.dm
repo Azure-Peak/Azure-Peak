@@ -326,6 +326,7 @@
 				if(!R.metabolizing)
 					R.metabolizing = TRUE
 					R.on_mob_metabolize(C)
+					SEND_SIGNAL(C, COMSIG_MOB_REAGENT_METABOLIZED, R)
 				if(can_overdose)
 					if(R.overdose_threshold)
 						if(R.volume >= R.overdose_threshold && !R.overdosed)
