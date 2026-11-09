@@ -16,6 +16,7 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 8,
 		/mob/living/carbon/human/species/human/northern/militia/deserter = 10,
 		/mob/living/carbon/human/species/human/northern/searaider/caster = 7,
+		/mob/living/carbon/human/species/human/northern/searaider/shaman = 5,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/human/northern/outlaw_tank = 40,

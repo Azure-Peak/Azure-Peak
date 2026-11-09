@@ -47,6 +47,10 @@ All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Dr
 
 Spellblades come in the player chants: Blade, Phalangite and Macebearer fight with a bound weapon, and Spellfist fights with a katar or knuckles. Like the player class, they take no ward, except the Spellfist, who takes the base Arcyne Ward like the player Spellfist. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. Finally, the spellblade vs spellblade duel I have been looking for
 
+Clerics start at T2 and uses their patron's real miracles. (I might implement Paladin equivalence later). Gronn raiders will follow one of the 4 gods with a bias toward Graggar. They will not gain the Cabal trait so undead can fight them. Shaman will ALWAYS belong to Graggar.
+
+Clerics also start at T2 and use their patron's real miracles. Gronn raiders follow one of the four inhumen gods, mostly Graggar, without joining Zizo's cabal. Their Shaman is always Graggar's, fights with claws in light leathers and uses Graggar's miracles up to T2.
+
 ## Faction Modifier
 
 Modifiers applied on top of whatever statpacks they have for factional flavor. These may exceed the STR and PER caps.

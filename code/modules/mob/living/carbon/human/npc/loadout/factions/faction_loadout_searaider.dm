@@ -73,6 +73,18 @@
 		/datum/npc_loadout/weapon/searaider_greatsword,
 	)
 
+/datum/npc_archetype/searaider/shaman
+	name = "Sea Raider Shaman"
+	job = "Sea Raider Shaman"
+	threat_point = THREAT_DANGEROUS
+	patron = /datum/patron/inhumen/graggar
+	armor_training = ARMOR_CLASS_LIGHT
+	loadouts = list(
+		/datum/npc_loadout/kit/searaider_flavor,
+		/datum/npc_loadout/kit/searaider_shaman,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
 /datum/npc_archetype/searaider/caster
 	abstract_type = /datum/npc_archetype/searaider/caster
 	threat_point = THREAT_DANGEROUS
@@ -144,7 +156,7 @@
 		/obj/item/clothing/suit/roguetown/shirt/undershirt/vagrant,
 		/obj/item/clothing/suit/roguetown/shirt/undershirt/sailor, //We don't want anything that dips below waist, looks bad w/kilt
 	)
-	id = list(
+	beltr = list(
 		NPC_PATRON_AMULET = 20, //SHATTER MY BINDS
 		NPC_NOTHING = 80,
 	)
@@ -170,6 +182,33 @@
 /datum/npc_loadout/kit/searaider_flavor/huscarl
 	shoes = /obj/item/clothing/shoes/roguetown/boots/maille/iron
 	cloak = /obj/item/clothing/cloak/raincloak/furcloak/brown
+
+/datum/npc_loadout/kit/searaider_shaman
+	miracle_tier = CLERIC_T2
+	traits = list(TRAIT_CIVILIZEDBARBARIAN, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_NOPAINSTUN)
+	skills = list(
+		/datum/skill/magic/holy = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/wrestling = SKILL_LEVEL_EXPERT,
+	)
+	beltr = NPC_PATRON_AMULET
+	armor = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/hide = 50,
+		/obj/item/clothing/suit/roguetown/armor/leather/heavy/coat = 50,
+	)
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	gloves = /obj/item/clothing/gloves/roguetown/leather
+	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
+	neck = /obj/item/clothing/neck/roguetown/coif
+	head = list(
+		/obj/item/clothing/head/roguetown/helmet/leather/volfhelm = 60,
+		/obj/item/clothing/head/roguetown/helmet/leather = 40,
+	)
+	weapons = list(
+		list(/obj/item/rogueweapon/handclaw),
+		list(/obj/item/rogueweapon/handclaw/ironclaw),
+		list(/obj/item/rogueweapon/handclaw/ironclaw/blunt),
+	)
 
 //** WEAPONS **//
 
