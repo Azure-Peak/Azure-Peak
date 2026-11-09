@@ -43,7 +43,7 @@ Caster trades for Int, Per and Wil, caster stats. Spells will not be rebalanced 
 
 Caster archetypes list their aspects in `magic_aspects`, and an aspect can name its choice spell (`/datum/magic_aspect/autowardry = .../conjure_arcyne_ward/dragonhide`). All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Autowardry's Dragonhide, every other school takes Crystalhide.
 
-Spellblade archetypes set `spellblade_chant` ("blade", "phalangite" or "macebearer"). They get the chant's spells and bind the first held weapon that matches the chant. Like the player class, they take no ward.
+Spellblade archetypes set `spellblade_chant` ("blade", "phalangite" or "macebearer"). They get the chant's spells and bind the first held weapon that matches the chant. Like the player class, they take no ward. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. Finally, the spellblade vs spellblade duel I have been looking for
 
 ## Faction Modifier
 
