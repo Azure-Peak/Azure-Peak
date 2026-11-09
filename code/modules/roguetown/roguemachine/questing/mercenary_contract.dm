@@ -172,7 +172,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(rate)
 		take_hold(hirer)
 	hirer_category = get_merc_hirer_category(hirer)
-	day_timer_id = addtimer(CALLBACK(src, PROC_REF(on_day_passed)), MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE | TIMER_LOOP)
+	day_timer_id = addtimer(CALLBACK(src, PROC_REF(on_day_passed)), MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE | TIMER_LOOP | TIMER_DELETE_ME)
 	day_started_at = world.time
 	last_presence_check = world.time
 	presence_timer_id = addtimer(CALLBACK(src, PROC_REF(check_presence)), MERC_CONTRACT_PRESENCE_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
