@@ -120,8 +120,8 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	if(!ward && default_ward)
 		ward = new default_ward(H)
 		ward.Grant(H)
-	if(ward && !H.skin_armor)
-		ward.manifest_ward(H)
+	for(var/datum/action/cooldown/spell/spell in H.actions)
+		spell.npc_on_spawn(H)
 
 /datum/npc_archetype/proc/apply_skills(mob/living/carbon/human/H)
 	apply_skill_group(H, GLOB.npc_melee_skills, melee)

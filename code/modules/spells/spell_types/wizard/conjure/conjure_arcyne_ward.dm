@@ -132,6 +132,10 @@
 	reset_spell_cooldown()
 	return TRUE
 
+/datum/action/cooldown/spell/conjure_arcyne_ward/npc_on_spawn(mob/living/carbon/human/H)
+	if(!H.skin_armor)
+		manifest_ward(H)
+
 /datum/action/cooldown/spell/conjure_arcyne_ward/proc/manifest_ward(mob/living/carbon/human/H)
 	conjured_ward = new ward_type(H)
 	H.skin_armor = conjured_ward

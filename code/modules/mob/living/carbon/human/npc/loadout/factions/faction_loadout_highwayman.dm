@@ -204,6 +204,20 @@
 		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 	)
 
+/datum/npc_archetype/highwayman/ferramancer
+	name = "Highwayman Ferramancer"
+	job = "Highwayman Ferramancer"
+	threat_point = THREAT_TOUGH
+	statpack = /datum/npc_statpack/caster/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/ferramancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+	magic_aspects = list(/datum/magic_aspect/ferramancy)
+
 //** BODY **//
 
 /datum/npc_body/northern_commoner/soldier/highwayman

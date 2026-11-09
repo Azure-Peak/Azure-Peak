@@ -111,6 +111,9 @@
 	var/npc_targets_allies = FALSE
 	var/npc_requires_bound_weapon = FALSE
 
+/datum/action/cooldown/spell/proc/npc_on_spawn(mob/living/carbon/human/H)
+	return
+
 /datum/action/cooldown/spell/can_use(atom/target)
 	if(npc_requires_bound_weapon && (!ishuman(owner) || !arcyne_get_weapon(owner)))
 		return FALSE

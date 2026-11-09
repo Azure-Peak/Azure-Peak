@@ -102,6 +102,7 @@
 
 GLOBAL_LIST_INIT(npc_skipped_spells, list(
 	/datum/action/cooldown/spell/arcyne_forge,
+	/datum/action/cooldown/spell/bind_armament,
 ))
 
 /datum/magic_aspect/proc/grant_npc_spells(mob/living/target, choice_spell)

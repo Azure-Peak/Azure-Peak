@@ -3497,6 +3497,7 @@
 #include "code\modules\spells\spell_types\wizard\ferramancy\blade_dance.dm"
 #include "code\modules\spells\spell_types\wizard\ferramancy\blade_form_spells.dm"
 #include "code\modules\spells\spell_types\wizard\ferramancy\blade_forms.dm"
+#include "code\modules\spells\spell_types\wizard\ferramancy\ferramancy_npc.dm"
 #include "code\modules\spells\spell_types\wizard\ferramancy\ferramancy_strikes.dm"
 #include "code\modules\spells\spell_types\wizard\ferramancy\form_hammer.dm"
 #include "code\modules\spells\spell_types\wizard\ferramancy\stygian_efflorescence.dm"

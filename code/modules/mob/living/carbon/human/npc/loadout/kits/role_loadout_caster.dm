@@ -1,5 +1,6 @@
 /datum/npc_loadout/kit/caster
 	clear_slots = list("head", "armor", "cloak", "l_hand", "r_hand")
+	skills = list(/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/black = 60,
@@ -44,6 +45,22 @@
 		/obj/item/clothing/head/roguetown/roguehood/white = 40,
 		/obj/item/clothing/head/roguetown/roguehood/black = 40,
 		NPC_NOTHING = 20,
+	)
+
+/datum/npc_loadout/kit/caster/ferramancer
+	r_hand = null
+	armor = list(
+		/obj/item/clothing/suit/roguetown/armor/leather/studded = 60,
+		/obj/item/clothing/suit/roguetown/armor/leather = 40,
+	)
+	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
+	cloak = list(
+		/obj/item/clothing/suit/roguetown/shirt/robe/black = 60,
+		/obj/item/clothing/suit/roguetown/shirt/robe/courtmage = 40,
+	)
+	head = list(
+		/obj/item/clothing/head/roguetown/roguehood/black = 60,
+		NPC_NOTHING = 40,
 	)
 
 /datum/npc_loadout/kit/caster/pyromancer
