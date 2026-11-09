@@ -141,7 +141,9 @@
 	var/mob/living/best
 	var/best_need = 0
 	for(var/mob/living/carbon/human/ally in view(npc_max_range, caster))
-		if(ally == caster || ally.stat == DEAD || !npc_is_ally(ally))
+		if(ally == caster && !self_targetable)
+			continue
+		if(ally.stat == DEAD || !npc_is_ally(ally))
 			continue
 		var/need = npc_ally_need(ally)
 		if(need > best_need)
@@ -211,6 +213,13 @@
 	if(world.time - victim.last_move_time > 1 SECONDS)
 		return FALSE
 	return !!(get_dir(victim, owner) & victim.last_move)
+
+/datum/action/cooldown/spell/proc/npc_target_fleeing(mob/living/victim)
+	if(!isliving(victim) || !victim.last_move)
+		return FALSE
+	if(world.time - victim.last_move_time > 1 SECONDS)
+		return FALSE
+	return !!(get_dir(owner, victim) & victim.last_move)
 
 /datum/action/cooldown/spell/proc/npc_target_shooting(mob/living/victim)
 	if(!isliving(victim))

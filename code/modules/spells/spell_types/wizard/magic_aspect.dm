@@ -105,6 +105,8 @@ GLOBAL_LIST_INIT(npc_skipped_spells, list(
 	/datum/action/cooldown/spell/bind_armament,
 	/datum/action/cooldown/spell/bind_weapon,
 	/datum/action/cooldown/spell/fridigitation,
+	/datum/action/cooldown/spell/touch/orison,
+	/datum/action/cooldown/spell/miracle/bloodmiracle,
 ))
 
 /datum/magic_aspect/proc/grant_npc_spells(mob/living/target, choice_spell)

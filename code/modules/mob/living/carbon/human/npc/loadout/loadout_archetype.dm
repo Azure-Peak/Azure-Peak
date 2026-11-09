@@ -94,6 +94,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	H.equipOutfit(outfit)
 	grant_spellblade_chant(H, outfit.loadouts)
 	grant_magic_aspect(H, outfit.loadouts)
+	grant_npc_miracles(H, outfit.loadouts)
 	apply_stat_modifiers(H)
 	if(npc_body)
 		npc_body.apply_appearance(H)
@@ -149,6 +150,37 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		ward.Grant(H)
 	for(var/datum/action/cooldown/spell/spell in H.actions)
 		spell.npc_on_spawn(H)
+
+/datum/npc_archetype/proc/grant_npc_miracles(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
+		return
+	var/tier
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(isnull(loadout?.miracle_tier))
+			continue
+		tier = isnull(tier) ? loadout.miracle_tier : max(tier, loadout.miracle_tier)
+	if(isnull(tier))
+		return
+	var/datum/patron/god = H.patron
+	if(!length(god?.miracles))
+		stack_trace("npc archetype [type] grants miracles but its patron has none")
+		return
+	var/datum/devotion/devotion = H.devotion || new /datum/devotion(H, god)
+	devotion.level = tier
+	devotion.max_devotion = tier >= CLERIC_T3 ? CLERIC_REQ_2 : CLERIC_REQ_1
+	devotion.devotion = devotion.max_devotion
+	devotion.passive_devotion_gain = CLERIC_REGEN_WEAK
+	START_PROCESSING(SSobj, devotion)
+	for(var/spell_type in god.miracles)
+		if(god.miracles[spell_type] > tier || !ispath(spell_type, /datum/action/cooldown/spell))
+			continue
+		if((spell_type in GLOB.utility_spells) || (spell_type in GLOB.npc_skipped_spells))
+			continue
+		if(locate(spell_type) in H.actions)
+			continue
+		var/datum/action/cooldown/spell/miracle = new spell_type(H)
+		miracle.Grant(H)
 
 /datum/npc_archetype/proc/apply_skills(mob/living/carbon/human/H)
 	apply_skill_group(H, GLOB.npc_melee_skills, melee)

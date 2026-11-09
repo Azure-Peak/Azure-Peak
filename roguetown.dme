@@ -3315,6 +3315,7 @@
 #include "code\modules\spells\roguetown\acolyte\dendor.dm"
 #include "code\modules\spells\roguetown\acolyte\eora.dm"
 #include "code\modules\spells\roguetown\acolyte\general.dm"
+#include "code\modules\spells\roguetown\acolyte\general_npc.dm"
 #include "code\modules\spells\roguetown\acolyte\malum.dm"
 #include "code\modules\spells\roguetown\acolyte\necra.dm"
 #include "code\modules\spells\roguetown\acolyte\noc.dm"
