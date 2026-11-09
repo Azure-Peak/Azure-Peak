@@ -28,7 +28,29 @@
 	maximum_distance = 6
 
 	need_los = TRUE // this means that simple ranged mobs will seek out their targets - probably at their own peril
+	var/strafe_behavior = /datum/ai_behavior/strafe_target
+	var/finish_planning = FALSE
+	var/honor_commit = TRUE
 
+/datum/ai_planning_subtree/spacing/ranged/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
+	var/atom/target = controller.blackboard[target_key]
+	var/mob/living/living_pawn = controller.pawn
+	if(!isliving(target) || !isliving(living_pawn))
+		return
+	var/range = get_dist(living_pawn, target)
+	if(honor_commit && world.time < controller.blackboard[BB_ABILITY_COMMITTED_UNTIL])
+		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, target_key, minimum_distance)
+	else if(range <= 1)
+		return
+	else if(!can_see(living_pawn, target, view_distance))
+		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, target_key, 1)
+	else if(range > maximum_distance)
+		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, target_key, maximum_distance)
+	else
+		controller.set_blackboard_key(BB_STRAFE_KEEP_DISTANCE, is_ready_to_attack(controller, living_pawn) ? minimum_distance : maximum_distance)
+		controller.queue_behavior(strafe_behavior, target_key)
+	if(finish_planning)
+		return SUBTREE_RETURN_FINISH_PLANNING
 
 /datum/ai_planning_subtree/spacing/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
@@ -83,6 +105,9 @@
 	permanently ready and advanced to minimum range forever instead of ever falling back.
 */
 /datum/ai_planning_subtree/spacing/ranged/is_ready_to_attack(datum/ai_controller/controller, mob/living/living_pawn)
+	var/mob/living/simple_animal/hostile/shooter = living_pawn
+	if(istype(shooter) && shooter.ranged && shooter.ranged_cooldown <= world.time)
+		return TRUE
 	for(var/datum/action/cooldown/special in living_pawn.actions)
 		if(special.npc_max_range > 1 && special.IsAvailable())
 			return TRUE
@@ -141,6 +166,83 @@
 			return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 	our_pawn.combat_sidestep(current_target)
 	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+
+#define STRAFE_OFF_FACING_DELAY 2
+#define STRAFE_RUN_MIN 2
+#define STRAFE_RUN_MAX 4
+#define STRAFE_PAUSE_MIN (0.6 SECONDS)
+#define STRAFE_PAUSE_MAX (1.4 SECONDS)
+
+/datum/ai_behavior/strafe_target
+	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION | AI_BEHAVIOR_EXECUTE_ALONGSIDE
+	required_distance = 0
+	action_cooldown = 0.2 SECONDS
+
+/datum/ai_behavior/strafe_target/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+	var/atom/target = controller.blackboard[target_key]
+	if(QDELETED(target))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+	if(COOLDOWN_FINISHED(controller, movement_cooldown))
+		ai_strafe_step(controller, target, controller.blackboard[BB_STRAFE_KEEP_DISTANCE] || 0)
+	return AI_BEHAVIOR_DELAY
+
+/proc/npc_face_dir(atom/origin, atom/towards)
+	var/dx = towards.x - origin.x
+	var/dy = towards.y - origin.y
+	if(abs(dx) < abs(dy))
+		return dy > 0 ? NORTH : SOUTH
+	return dx > 0 ? EAST : WEST
+
+/proc/ai_strafe_step(datum/ai_controller/controller, atom/target, keep_distance)
+	var/mob/living/strafer = controller.pawn
+	if(!isliving(strafer) || QDELETED(target) || !controller.can_move())
+		return FALSE
+	var/facing = npc_face_dir(strafer, target)
+	var/side = controller.blackboard[BB_STRAFE_SIDE] || pick(-1, 1)
+	if(get_dist(strafer, target) < keep_distance)
+		if(ai_strafe_move(controller, strafer, target, turn(facing, 180)))
+			return TRUE
+	else if(world.time < controller.blackboard[BB_STRAFE_RESUME_AT])
+		return FALSE
+	if(!ai_strafe_move(controller, strafer, target, turn(facing, 90 * side)))
+		if(!ai_strafe_move(controller, strafer, target, turn(facing, -90 * side)))
+			return FALSE
+		side = -side
+	var/steps_left = controller.blackboard[BB_STRAFE_STEPS_LEFT] || rand(STRAFE_RUN_MIN, STRAFE_RUN_MAX)
+	steps_left--
+	if(steps_left <= 0)
+		steps_left = rand(STRAFE_RUN_MIN, STRAFE_RUN_MAX)
+		controller.set_blackboard_key(BB_STRAFE_RESUME_AT, world.time + rand(STRAFE_PAUSE_MIN, STRAFE_PAUSE_MAX))
+		if(prob(50))
+			side = -side
+	controller.set_blackboard_key(BB_STRAFE_SIDE, side)
+	controller.set_blackboard_key(BB_STRAFE_STEPS_LEFT, steps_left)
+	return TRUE
+
+/proc/ai_strafe_move(datum/ai_controller/controller, mob/living/strafer, atom/target, move_dir)
+	var/turf/destination = get_step(strafer, move_dir)
+	if(!strafer.check_dodge_turf(destination))
+		return FALSE
+	strafer.face_atom(target)
+	var/was_tempfixeye = strafer.tempfixeye
+	var/was_nodirchange = strafer.nodirchange
+	strafer.tempfixeye = TRUE
+	strafer.nodirchange = TRUE
+	var/moved = strafer.Move(destination, move_dir)
+	strafer.tempfixeye = was_tempfixeye
+	strafer.nodirchange = was_nodirchange
+	if(!moved)
+		return FALSE
+	var/step_delay = controller.movement_delay + STRAFE_OFF_FACING_DELAY
+	COOLDOWN_START(controller, movement_cooldown, step_delay)
+	strafer.set_glide_size(DELAY_TO_GLIDE_SIZE(step_delay))
+	return TRUE
+
+#undef STRAFE_OFF_FACING_DELAY
+#undef STRAFE_RUN_MIN
+#undef STRAFE_RUN_MAX
+#undef STRAFE_PAUSE_MIN
+#undef STRAFE_PAUSE_MAX
 
 /// Take one step away
 /datum/ai_behavior/step_away

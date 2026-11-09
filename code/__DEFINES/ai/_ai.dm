@@ -126,6 +126,12 @@
 #define BB_HUMAN_BEG_TARGET "human_beg_target"
 #define BB_HUMAN_NPC_SWINGS_TAKEN		"human_npc_swings_taken"
 #define BB_ABILITY_COMMITTED_UNTIL		"ability_committed_until"
+#define BB_CASTER_NEXT_CAST				"caster_next_cast"
+#define BB_CASTER_RESERVE				"caster_stamina_reserve"
+#define BB_STRAFE_SIDE					"strafe_side"
+#define BB_STRAFE_KEEP_DISTANCE			"strafe_keep_distance"
+#define BB_STRAFE_STEPS_LEFT			"strafe_steps_left"
+#define BB_STRAFE_RESUME_AT				"strafe_resume_at"
 /// Last time anything landed a hit on us, melee included. Written by on_pawn_attacked.
 #define BB_LAST_HIT_TIME					"bb_last_hit_time"
 /// Swings thrown since we last repositioned.

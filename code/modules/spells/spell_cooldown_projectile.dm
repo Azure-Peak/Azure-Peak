@@ -41,14 +41,22 @@
 	. = ..()
 	if(!. || !npc_controlled() || !isliving(owner))
 		return .
+	return !npc_line_blocked(target) || !!projectile_type_arc
+
+/datum/action/cooldown/spell/projectile/npc_cast_target(atom/target)
+	if(projectile_type_arc)
+		arc_mode = npc_line_blocked(target)
+	return target
+
+/datum/action/cooldown/spell/projectile/proc/npc_line_blocked(atom/target)
 	var/mob/living/shooter = owner
 	for(var/turf/T in getline(shooter, target))
 		for(var/mob/living/blocker in T)
 			if(blocker == shooter || blocker == target)
 				continue
 			if(shooter.faction_check_mob(blocker))
-				return FALSE
-	return TRUE
+				return TRUE
+	return FALSE
 
 /datum/action/cooldown/spell/projectile/ai_commit_time()
 	return charge_required ? charge_time : 0

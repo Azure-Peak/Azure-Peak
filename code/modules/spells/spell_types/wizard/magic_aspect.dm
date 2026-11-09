@@ -100,6 +100,30 @@
 	if(choice_spell && !target.has_spell(choice_spell, specific = TRUE))
 		grant_choice_spell(target, choice_spell)
 
+/datum/magic_aspect/proc/grant_npc_spells(mob/living/target, choice_spell)
+	if(!isliving(target))
+		return
+	if(!choice_spell)
+		var/list/options = choice_spells - mastery_choice_spells
+		if(length(options))
+			choice_spell = pick(options)
+	var/list/paths = list()
+	for(var/entry in spell_order)
+		if(entry == ASPECT_CHOICE)
+			if(choice_spell)
+				paths |= choice_spell
+		else if(entry != ASPECT_POINTBUY)
+			paths |= entry
+	paths |= fixed_spells
+	if(choice_spell)
+		paths |= choice_spell
+	for(var/spell_path in paths)
+		if(spell_path in GLOB.utility_spells)
+			continue
+		var/datum/action/cooldown/spell/new_spell = new spell_path(target)
+		mark_aspect_spell(new_spell)
+		new_spell.Grant(target)
+
 /// Apply a named variant's spell swaps. T4 casters automatically get "mastery".
 /datum/magic_aspect/proc/apply_variant(datum/mind/target, variant_name)
 	if(!variant_name || !length(variants) || !(variant_name in variants))

@@ -124,6 +124,23 @@
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
 
+/datum/npc_archetype/highwayman/pyromancer
+	name = "Highwayman Pyromancer"
+	job = "Highwayman Pyromancer"
+	threat_point = THREAT_DEADLY
+	statpack = /datum/npc_statpack/caster/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+	)
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/pyromancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+	magic_aspect = /datum/magic_aspect/pyromancy
+
 //** BODY **//
 
 /datum/npc_body/northern_commoner/soldier/highwayman

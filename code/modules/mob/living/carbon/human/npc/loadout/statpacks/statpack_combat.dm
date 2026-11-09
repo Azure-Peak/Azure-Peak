@@ -154,3 +154,22 @@
 	willpower = 14
 	perception = 11
 	intelligence = 11
+
+/datum/npc_statpack/caster
+	abstract_type = /datum/npc_statpack/caster
+
+/datum/npc_statpack/caster/t1
+	strength = 8
+	speed = 10
+	constitution = 4
+	willpower = 8
+	perception = 10
+	intelligence = 12
+
+/datum/npc_statpack/caster/t2
+	strength = 10
+	speed = 10
+	constitution = 6
+	willpower = 10
+	perception = 11
+	intelligence = 13
