@@ -332,32 +332,21 @@
 	var/list/weights = list()
 	for(var/id in TR.faction_weights)
 		var/datum/quest_faction/F = get_quest_faction(id)
-		if(!F || !faction_fits(F))
+		if(!F || !faction_fits(F, TR))
 			continue
 		weights[id] = TR.faction_weights[id]
 	if(!length(weights))
 		return null
 	return get_quest_faction(pickweight(weights))
 
-/datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
+/datum/quest/kill/proc/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return TRUE
 
 /datum/quest/kill/fits_region(datum/threat_region/TR)
 	return ..() && !!pick_region_faction_for(TR)
 
 /datum/quest/kill/proc/average_threat_point()
-	if(!faction || !length(faction.mob_types))
-		return 0
-	var/total_weight = 0
-	var/weighted_tp = 0
-	for(var/mob_path in faction.mob_types)
-		var/weight = faction.mob_types[mob_path]
-		var/tp = initial_threat_point(mob_path)
-		total_weight += weight
-		weighted_tp += weight * tp
-	if(total_weight <= 0 || weighted_tp <= 0)
-		return 0
-	return weighted_tp / total_weight
+	return faction ? faction.average_threat_point() : 0
 
 /datum/quest/kill/can_be_veteran()
 	return !is_directive && (source == QUEST_SOURCE_POOL || source == QUEST_SOURCE_RUMOR)

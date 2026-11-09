@@ -124,6 +124,8 @@
 #define QUEST_SPAWN_REVEAL_TIME (6 SECONDS)
 
 #define QUEST_TP_BUDGET_KILL_EASY 35
+// Easy only rolls factions whose average mob costs at most this share of its region-scaled budget
+#define QUEST_EASY_MAX_FACTION_TP_SHARE 0.65
 #define QUEST_TP_BUDGET_CLEAR_OUT 120
 #define QUEST_TP_BUDGET_RAID 180
 #define QUEST_TP_BUDGET_INCURSION_FIRST 200

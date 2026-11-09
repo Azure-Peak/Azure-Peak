@@ -8,6 +8,10 @@
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,
+		THREAT_REGION_TERRORBOG,
+		THREAT_REGION_AZUREAN_COAST,
+		THREAT_REGION_MOUNT_DECAP,
+		THREAT_REGION_UNDERDARK,
 	)
 	tp_budget = QUEST_TP_BUDGET_KILL_EASY
 	min_mobs = 2
@@ -15,6 +19,9 @@
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_EASY
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA_EASY
 	objective_verb = "Slay"
+
+/datum/quest/kill/easy/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
+	return ..() && F.average_threat_point() <= QUEST_TP_BUDGET_KILL_EASY * TR.tp_budget_multiplier * QUEST_EASY_MAX_FACTION_TP_SHARE
 
 /datum/quest/kill/easy/get_title()
 	if(title)

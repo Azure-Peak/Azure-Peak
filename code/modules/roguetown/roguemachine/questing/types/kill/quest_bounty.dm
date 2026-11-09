@@ -122,5 +122,5 @@ GLOBAL_LIST_INIT(quest_bounty_goblin_goons, list(
 		if(goon)
 			total_spawned_tp += initial(goon.threat_point) || 0
 
-/datum/quest/kill/bounty/faction_fits(datum/quest_faction/F)
+/datum/quest/kill/bounty/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return ..() && length(F.boss_mob_types)

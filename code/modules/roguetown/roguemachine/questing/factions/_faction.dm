@@ -58,6 +58,17 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		return null
 	return pickweight(mob_types)
 
+/datum/quest_faction/proc/average_threat_point()
+	var/total_weight = 0
+	var/weighted_tp = 0
+	for(var/mob_path in mob_types)
+		var/weight = mob_types[mob_path]
+		total_weight += weight
+		weighted_tp += weight * initial_threat_point(mob_path)
+	if(total_weight <= 0 || weighted_tp <= 0)
+		return 0
+	return weighted_tp / total_weight
+
 /datum/quest_faction/proc/pick_crimes(count = 3)
 	if(!length(crime_weights) || count <= 0)
 		return list()

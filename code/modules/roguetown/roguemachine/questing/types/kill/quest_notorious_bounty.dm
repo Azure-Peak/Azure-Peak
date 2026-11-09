@@ -426,5 +426,5 @@
 	message_admins("[key_name_admin(boss)] outlasted notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]).")
 	return TRUE
 
-/datum/quest/kill/notorious_bounty/faction_fits(datum/quest_faction/F)
+/datum/quest/kill/notorious_bounty/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return ..() && length(F.get_playable_boss_types())
