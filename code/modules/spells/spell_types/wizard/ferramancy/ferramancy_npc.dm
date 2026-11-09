@@ -1,4 +1,3 @@
-#define FERRA_EXTRA_HOSTILE_BONUS 15
 #define FERRA_HAMMER_STILL_BONUS 30
 #define FERRA_LANCE_STILL_BONUS 35
 #define FERRA_REARM_SCORE 90
@@ -6,15 +5,6 @@
 /datum/action/cooldown/spell/ferramancy_strike
 	require_target_in_pattern = TRUE
 	track_target = TRUE
-
-/datum/action/cooldown/spell/ferramancy_strike/proc/npc_strike_score(atom/target, base)
-	var/mob/living/victim = target
-	if(!isliving(victim))
-		return 0
-	var/list/turfs = get_pattern_turfs(owner, npc_face_dir(owner, victim))
-	if(npc_allies_in(turfs))
-		return 0
-	return base + FERRA_EXTRA_HOSTILE_BONUS * max(0, npc_hostiles_in(turfs) - 1)
 
 /datum/action/cooldown/spell/ferramancy_strike/falling_crescent
 	npc_max_range = 3
@@ -59,7 +49,6 @@
 			return 0
 	return FERRA_REARM_SCORE
 
-#undef FERRA_EXTRA_HOSTILE_BONUS
 #undef FERRA_HAMMER_STILL_BONUS
 #undef FERRA_LANCE_STILL_BONUS
 #undef FERRA_REARM_SCORE

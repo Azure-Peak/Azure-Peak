@@ -174,6 +174,13 @@
 		var/obj/effect/temp_visual/blade_cut/V = new(center)
 		V.dir = get_dir(user, victim)
 
+/datum/action/cooldown/spell/blade_storm/get_impact_turfs(atom/center)
+	var/turf/T = get_turf(center)
+	if(!T)
+		return list()
+	. = list(T) + get_hollow_ring(T)
+	. -= get_turf(owner)
+
 /datum/action/cooldown/spell/blade_storm/proc/get_hollow_ring(turf/center)
 	var/list/ring = list()
 	for(var/dx in -1 to 1)

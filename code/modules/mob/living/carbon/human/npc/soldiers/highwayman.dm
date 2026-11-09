@@ -39,33 +39,42 @@
 
 /mob/living/carbon/human/species/human/northern/highwayman/pyromancer
 	npc_archetype = /datum/npc_archetype/highwayman/pyromancer
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/highwayman/fulgurmancer
 	npc_archetype = /datum/npc_archetype/highwayman/fulgurmancer
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/highwayman/geomancer
 	npc_archetype = /datum/npc_archetype/highwayman/geomancer
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/highwayman/telomancer
 	npc_archetype = /datum/npc_archetype/highwayman/telomancer
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/highwayman/ferramancer
 	npc_archetype = /datum/npc_archetype/highwayman/ferramancer
-	threat_point = THREAT_TOUGH
-	ambush_faction = "bandits"
-
-/mob/living/carbon/human/species/human/northern/highwayman/phalangite
-	npc_archetype = /datum/npc_archetype/highwayman/phalangite
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/mixed
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/blade
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/blade
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/phalangite
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/phalangite
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/macebearer
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/macebearer
 
 /mob/living/carbon/human/species/human/northern/highwayman/light
 	npc_archetype = /datum/npc_archetype/highwayman/light

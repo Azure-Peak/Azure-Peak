@@ -127,7 +127,7 @@
 /datum/npc_archetype/highwayman/pyromancer
 	name = "Highwayman Pyromancer"
 	job = "Highwayman Pyromancer"
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(
@@ -147,7 +147,7 @@
 /datum/npc_archetype/highwayman/fulgurmancer
 	name = "Highwayman Fulgurmancer"
 	job = "Highwayman Fulgurmancer"
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(
@@ -167,7 +167,7 @@
 /datum/npc_archetype/highwayman/geomancer
 	name = "Highwayman Geomancer"
 	job = "Highwayman Geomancer"
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(
@@ -187,7 +187,7 @@
 /datum/npc_archetype/highwayman/telomancer
 	name = "Highwayman Telomancer"
 	job = "Highwayman Telomancer"
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(
@@ -207,7 +207,7 @@
 /datum/npc_archetype/highwayman/ferramancer
 	name = "Highwayman Ferramancer"
 	job = "Highwayman Ferramancer"
-	threat_point = THREAT_TOUGH
+	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
@@ -221,20 +221,49 @@
 		/datum/magic_aspect/aegiscraft,
 	)
 
-/datum/npc_archetype/highwayman/phalangite
-	name = "Highwayman Phalangite"
-	job = "Highwayman Phalangite"
+/datum/npc_archetype/highwayman/spellblade
+	abstract_type = /datum/npc_archetype/highwayman/spellblade
 	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/spellblade/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	melee = SKILL_LEVEL_JOURNEYMAN
 	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
+/datum/npc_archetype/highwayman/spellblade/mixed
+	name = "Highwayman Spellblade"
+	variants = list(
+		/datum/npc_archetype/highwayman/spellblade/blade = 1,
+		/datum/npc_archetype/highwayman/spellblade/phalangite = 1,
+		/datum/npc_archetype/highwayman/spellblade/macebearer = 1,
+	)
+
+/datum/npc_archetype/highwayman/spellblade/blade
+	name = "Highwayman Spellblade (Blade)"
+	job = "Highwayman Spellblade"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/spellblade/blade,
+	)
+	spellblade_chant = "blade"
+
+/datum/npc_archetype/highwayman/spellblade/phalangite
+	name = "Highwayman Spellblade (Phalangite)"
+	job = "Highwayman Phalangite"
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/spellblade/phalangite,
 	)
-	ai_controller = /datum/ai_controller/human_npc/caster/melee
 	spellblade_chant = "phalangite"
+
+/datum/npc_archetype/highwayman/spellblade/macebearer
+	name = "Highwayman Spellblade (Macebearer)"
+	job = "Highwayman Macebearer"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/spellblade/macebearer,
+	)
+	spellblade_chant = "macebearer"
 
 //** BODY **//
 

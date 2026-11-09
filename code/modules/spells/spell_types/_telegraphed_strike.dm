@@ -62,6 +62,15 @@
 		return FALSE
 	return (goal in get_pattern_turfs(owner, telegraph_cardinal(get_dir(owner, target))))
 
+/datum/action/cooldown/spell/telegraphed_strike/proc/npc_strike_score(atom/target, base, extra_hostile_bonus = 15)
+	var/mob/living/victim = target
+	if(!isliving(victim))
+		return 0
+	var/list/turfs = get_pattern_turfs(owner, npc_face_dir(owner, victim))
+	if(npc_allies_in(turfs))
+		return 0
+	return base + extra_hostile_bonus * max(0, npc_hostiles_in(turfs) - 1)
+
 /datum/action/cooldown/spell/telegraphed_strike/get_spell_statistics(mob/living/user)
 	var/list/stats = ..()
 	if(damage > 0)
