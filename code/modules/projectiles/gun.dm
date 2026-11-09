@@ -123,6 +123,8 @@
 /obj/item/gun/proc/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	add_fingerprint(user)
 	SEND_SIGNAL(src, COMSIG_ITEM_GUN_PROCESS_FIRE, user, target)
+	if(user)
+		SEND_SIGNAL(user, COMSIG_MOB_FIRED_GUN, src, target, params, zone_override)
 	var/sprd = 0
 	var/randomized_gun_spread = 0
 	if(spread)

@@ -2,6 +2,10 @@
 // T0 - Aquatic Compulsion - Target a water tile to compel a fish towards you. //
 /////////////////////////////////////////////////////////////////////////////////
 
+#define COMPULSION_BASE_DELAY 15
+#define COMPULSION_MIN_DELAY 10
+#define COMPULSION_MAX_DELAY 15
+
 /obj/effect/proc_holder/spell/invoked/aquatic_compulsion
 	name = "Aquatic Compulsion"
 	desc = "Compel a random fish to leap out from targeted water tile and towards you. Standing still may yield you continuously, as long as your Devotion and stamina holds. Costs will increase over time."
@@ -20,15 +24,6 @@
 	miracle = TRUE
 	devotion_cost = 10
 	var/channeling
-	//Horrendous carry-over from fishing code
-	var/list/fishingMods = list(
-		"commonFishingMod" = 0.8,
-		"rareFishingMod" = 1,
-		"treasureFishingMod" = 0,
-		"trashFishingMod" = 0,
-		"dangerFishingMod" = 0.1,
-		"ceruleanFishingMod" = 0 // 1 on cerulean aril, 0 on everything else
-	)
 
 /proc/abyssor_fish_arc(atom/movable/AF, turf/T, mob/user)
 	var/turf/user_turf = get_turf(user)
@@ -131,7 +126,7 @@
 
 	channeling = TRUE
 	var/streak = 0
-	var/delay = clamp(((10 - miracleskill) + streak), 5, 10)
+	var/delay = clamp(((COMPULSION_BASE_DELAY - miracleskill) + streak), COMPULSION_MIN_DELAY, COMPULSION_MAX_DELAY)
 
 //	to_chat(user, "Initial delay: [delay]")
 
@@ -144,8 +139,9 @@
 		revert_cast()
 		return FALSE
 
-	var/A = getfishingloot(user, fishingMods.Copy(), T, 0.5)
-	if(!A)
+	var/datum/fish_source/source = T.get_fish_source()
+	var/A = source ? source.roll_compelled_reward(T) : FISHING_DUD
+	if(A == FISHING_DUD)
 //		to_chat(user, "FAIL: no loot roll")
 		to_chat(user, span_warning("The waters remain still."))
 		channeling = FALSE
@@ -154,8 +150,15 @@
 
 //	to_chat(user, "First pull success: [A]")
 
-	var/atom/movable/AF = new A(T)
-	if(!AF)
+	var/atom/movable/AF
+	if(ispath(A, /mob/living))
+		if(!source.spend_reward_count(A))
+			channeling = FALSE
+			revert_cast()
+			return FALSE
+	else
+		AF = source.simple_dispense_reward(A, T, T)
+	if(!AF && !ispath(A, /mob/living))
 //		to_chat(user, "FAIL: spawn failed")
 		channeling = FALSE
 		revert_cast()
@@ -190,7 +193,7 @@
 		if(!user || !user.client)
 			break // me when I gib myself and crash the server, on god
 
-		delay = clamp(((10 - miracleskill) + streak), 5, 10)
+		delay = clamp(((COMPULSION_BASE_DELAY - miracleskill) + streak), COMPULSION_MIN_DELAY, COMPULSION_MAX_DELAY)
 //		to_chat(user, "Loop start | streak=[streak] delay=[delay] devotion=[H.devotion?.devotion]")
 
 		if(!H || !H.devotion || H.devotion.devotion < devotion_cost)
@@ -206,16 +209,21 @@
 
 //		to_chat(user, "do_after success")
 
-		var/A2 = getfishingloot(user, fishingMods.Copy(), T, 0.5)
-		if(!A2)
+		var/A2 = source.roll_compelled_reward(T)
+		if(A2 == FISHING_DUD)
 //			to_chat(user, "BREAK: no loot roll")
 			to_chat(user, span_warning("The waters remain still."))
 			break
 
 //		to_chat(user, "Loop pull success: [A2]")
 
-		var/atom/movable/AF2 = new A2(T)
-		if(!AF2)
+		var/atom/movable/AF2
+		if(ispath(A2, /mob/living))
+			if(!source.spend_reward_count(A2))
+				break
+		else
+			AF2 = source.simple_dispense_reward(A2, T, T)
+		if(!AF2 && !ispath(A2, /mob/living))
 //			to_chat(user, "BREAK: spawn failed")
 			break
 
@@ -245,6 +253,10 @@
 
 	channeling = FALSE
 	return TRUE
+
+#undef COMPULSION_BASE_DELAY
+#undef COMPULSION_MIN_DELAY
+#undef COMPULSION_MAX_DELAY
 
 ////////////////////////////////////////////////////////////////////
 // T0 - Second Wind - Stands the character up, if they can stand. //
