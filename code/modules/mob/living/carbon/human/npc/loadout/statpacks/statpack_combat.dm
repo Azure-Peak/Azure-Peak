@@ -162,14 +162,14 @@
 	strength = 8
 	speed = 10
 	constitution = 4
-	willpower = 8
-	perception = 10
+	willpower = 7
+	perception = 11
 	intelligence = 12
 
 /datum/npc_statpack/caster/t2
 	strength = 10
 	speed = 10
 	constitution = 6
-	willpower = 10
-	perception = 11
+	willpower = 9
+	perception = 12
 	intelligence = 13
