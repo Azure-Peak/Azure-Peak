@@ -497,7 +497,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. += "The daily rate is held from the hirer's MEISTER account when the contract is signed, and paid at the end of each dae."
 	. += "If the contract ends early, the unpaid daes return to the hirer. The dae in progress is still paid, unless the mercenary is the one who leaves."
 	. += "While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else."
-	. += "Pay per dae by employer:"
+	. += "Certain roles give you a stipend from an external funder."
+	. += "Stipend per dae by employer:"
 	for(var/category in GLOB.merc_hirer_categories)
 		var/list/terms = GLOB.merc_hirer_categories[category]
 		. += "- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]"
