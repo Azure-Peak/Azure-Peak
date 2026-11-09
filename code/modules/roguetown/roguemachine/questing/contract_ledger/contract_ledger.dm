@@ -45,7 +45,7 @@
 	. += span_info("The <b>[english_list(GLOB.crown_authority_roles)]</b> can issue defense scrolls here. Scrolls are paid from the Burgher Pledge or the Treasury. A scroll can also go out as an unpaid Request. If the Pledge runs short, the Treasury can make up the difference. A Regent ruling in the Grand Duke's absence can issue scrolls while they rule.")
 	. += span_info("You can <b>withdraw</b> any contract or scroll you posted from Your Postings at any time while no one has taken it. Once someone takes it, you must wait [MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST / (1 MINUTES)] minutes. You can't withdraw it once the work has begun. Withdrawing refunds [REFUND_ON_NOT_TAKEN * 100]% of the cost, and so does a posting that lapses untaken. If a contract fails, [REFUND_ON_FAILURE * 100]% is refunded automatically. If its holder abandons it, you get [REFUND_ON_NOT_TAKEN * 100]% back before the work begins and [REFUND_ON_FAILURE * 100]% after.")
 	. += span_info("Some <b>townsfolk</b> can post contracts of their own and pay for them with their own money, up to [TOWNER_MAX_ACTIVE_POSTINGS] at a time. They can pin them to the Ledger or hand them over in person. The <b>[english_list(GLOB.crown_authority_roles)]</b> can post any of them. The Treasury pays [TOWNER_POSTING_CROWN_COST_MULT] times the price. The <b>[english_list(GLOB.atc_positions)]</b> can post any of them from the ATC's treasury at [TOWNER_POSTING_COMPANY_COST_MULT] times the price. Only the poster can open what is recovered.")
-	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. The reward goes to whoever turns it in. Their levy exemption applies if they have one. Split rewards mode splits rewards on contracts turned in after, but not before.")
+	. += span_info("Your <b>fellowship</b> can turn in contracts you hold if you fall in battle. By default the reward is split evenly between everyone in the fellowship when the contract was taken. Each member's levy exemption applies to their own share. The leader can switch to paying whoever turns it in. Contracts taken while rewards were split stay split.")
 	. += span_info("A <b>fellowship of [BLOCKADE_FELLOWSHIP_REQUIREMENT] or more</b> can put up a stake of <b>[HOARD_RECOVERY_PLEDGE] mammon</b> to call for a <b>Hoard Recovery</b> in a region whose brigand hoard has reached <b>[HOARD_RECOVERY_HOARD_MINIMUM] mammon</b>. It pays the usual blockade reward. The Crown taxes the recovered hoard as <b>Recovered Spoils</b>. Crown officials can also issue a hoard recovery scroll like any other defense scroll.")
 	. += span_info("A ghost may take up a <b>Notorious Bounty</b> and play the outlaw fighting against you. Its reward then rises by <b>[NOTORIOUS_BOUNTY_PLAYER_BONUS] mammon</b>. If no one answers, it rises by <b>[NOTORIOUS_BOUNTY_NPC_BONUS]</b>.")
 	. += span_info("The <b>[english_list(GLOB.contract_proxy_officials)]</b> may turn in any completed contract on the holder's behalf. The reward goes to the holder's own account. They take no cut.")
@@ -119,6 +119,7 @@
 	data["active_max_base"] = active_base
 	data["active_fellowship_bonus"] = active_bonus
 	data["active_count"] = count_user_active_contracts(user)
+	data["fellows_active_count"] = count_fellows_active_contracts(user)
 	var/gate_remaining = 0
 	if(!is_townie_contract_gate_exempt(user))
 		var/elapsed = world.time - SSticker.round_start_time
@@ -386,6 +387,25 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 	var/datum/job/J = user?.job ? SSjob.GetJob(user.job) : null
 	var/base = J?.max_active_quests || QUEST_MAX_ACTIVE_PER_PLAYER
 	return base + get_active_quest_fellowship_bonus(user)
+
+/proc/count_fellows_active_contracts(mob/user)
+	. = 0
+	var/mob/living/L = user
+	if(!istype(L))
+		return
+	var/datum/fellowship/F = L.current_fellowship
+	if(!F || !F.is_leader(L))
+		return
+	var/list/fellow_refs = list()
+	for(var/mob/living/M as anything in F.get_members())
+		if(M != L)
+			fellow_refs[WEAKREF(M)] = TRUE
+	if(!length(fellow_refs))
+		return
+	for(var/obj/item/quest_writ/scroll as anything in GLOB.quest_scrolls)
+		var/datum/quest/Q = scroll.assigned_quest
+		if(Q?.quest_receiver_reference && !Q.complete && fellow_refs[Q.quest_receiver_reference])
+			.++
 
 /obj/structure/roguemachine/contractledger/proc/count_user_active_contracts(mob/user)
 	var/count = 0

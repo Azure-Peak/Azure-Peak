@@ -37,8 +37,12 @@
 			return
 
 	var/active_cap = get_active_quest_cap(user)
-	if(count_user_active_contracts(user) >= active_cap)
-		say("You already hold [active_cap] contracts. Finish one before signing another.")
+	var/fellows_held = count_fellows_active_contracts(user)
+	if(count_user_active_contracts(user) + fellows_held >= active_cap)
+		if(fellows_held)
+			say("Your fellowship already holds [active_cap] contracts. Finish one before signing another.")
+		else
+			say("You already hold [active_cap] contracts. Finish one before signing another.")
 		play_reject_sound()
 		return
 

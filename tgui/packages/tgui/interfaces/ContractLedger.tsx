@@ -78,6 +78,7 @@ type ContractLedgerData = {
   balance: number;
   has_account: BooleanLike;
   active_count: number;
+  fellows_active_count: number;
   active_max: number;
   active_max_base: number;
   active_fellowship_bonus: number;
@@ -507,7 +508,8 @@ const ContractCard = (props: { contract: Contract }) => {
   const memberLocked = !!data.fellowship_member_locked;
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
-  const atCap = data.active_count >= data.active_max;
+  const fellowsHeld = data.fellows_active_count || 0;
+  const atCap = data.active_count + fellowsHeld >= data.active_max;
   const cantAfford = data.balance < c.deposit;
   const fellowshipShort =
     c.required_fellowship_size > 0 &&
@@ -545,7 +547,9 @@ const ContractCard = (props: { contract: Contract }) => {
           : takeCooldown > 0
             ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
             : atCap
-              ? `You already hold ${data.active_max} contracts.`
+              ? fellowsHeld > 0
+                ? `Your fellowship already holds ${data.active_max} contracts.`
+                : `You already hold ${data.active_max} contracts.`
               : cantAfford
                 ? `You need ${c.deposit} mammon in your account for the deposit.`
                 : fellowshipShort
@@ -793,9 +797,10 @@ const ActiveStrip = (props: {
           ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
           : null;
   const fellowshipBonus = data.active_fellowship_bonus || 0;
+  const fellowsHeld = data.fellows_active_count || 0;
   const fellowshipNote =
     fellowshipBonus > 0
-      ? `+${fellowshipBonus} from leading your fellowship`
+      ? `+${fellowshipBonus} from leading your fellowship${fellowsHeld > 0 ? `, ${fellowsHeld} held by your fellows` : ''}`
       : 'Form a fellowship for more benefits.';
   return (
     <div className="ContractLedger__ActiveStrip">
@@ -849,10 +854,12 @@ const ActiveStrip = (props: {
               after.
             </div>
             <div style={{ marginBottom: '6px' }}>
-              Fellowship members can turn in each other&apos;s contracts. The
-              reward goes to whoever turns it in. Their levy exemption applies
-              if they have one. Split rewards mode splits rewards on contracts
-              turned in after, but not before.
+              Fellowship members can turn in each other&apos;s contracts. By
+              default the reward is split evenly between everyone in the
+              fellowship when the contract was taken. Each member&apos;s levy
+              exemption applies to their own share. The leader can switch to
+              paying whoever turns it in. Contracts taken while rewards were
+              split stay split.
             </div>
             <div style={{ marginBottom: '6px' }}>
               Hired sellswords count as members of your fellowship. While one is
