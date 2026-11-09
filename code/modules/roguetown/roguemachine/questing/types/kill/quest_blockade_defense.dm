@@ -402,7 +402,7 @@
 				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m."))
 			else
 				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m.")
-		pay_merc_contract_bonuses(shares, quest_type)
+		pay_merc_contract_bonuses(src, shares)
 		var/leftover = payout - paid_out
 		var/mob/living/sink = fellowship_leftover_sink(shares, lead)
 		if(leftover > 0)

@@ -128,7 +128,7 @@
 		guild_fee_paid += payee_fee
 		nets[payee] = shares[payee] - payee_tax - payee_fee
 		paid_out += shares[payee]
-	pay_merc_contract_bonuses(shares, completed_quest.quest_type)
+	pay_merc_contract_bonuses(completed_quest, shares)
 	var/leftover = base_reward - paid_out
 	var/mob/living/sink = completed_quest.fellowship_leftover_sink(shares, beneficiary)
 	if(leftover > 0 && sink)

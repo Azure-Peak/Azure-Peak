@@ -20,9 +20,13 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return MERC_HIRER_TOWNER
 	return null
 
-/proc/pay_merc_contract_bonuses(list/shares, contract_label)
+/proc/pay_merc_contract_bonuses(datum/quest/Q, list/shares)
+	var/contract_label = Q.quest_type
+	var/mob/living/holder = Q.quest_receiver_reference?.resolve()
 	for(var/mob/living/payee as anything in shares)
 		if(!get_merc_contract(payee))
+			continue
+		if(payee == holder || payee.real_name == Q.quest_receiver_name)
 			continue
 		var/bonus = round(shares[payee] * MERC_CONTRACT_SHARE_BONUS)
 		var/datum/fund/account = SStreasury.get_account(payee)
@@ -419,7 +423,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return
 	. += span_info("Hire mercenary [merc_name] for [days] day\s.")
 	. += span_info("Use it in hand to choose the number of days. Hand it to a fellowship leader to be hired.")
-	. += span_info("While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share.")
+	. += span_info("While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else.")
 	. += span_info("Pay per day by employer:")
 	for(var/category in GLOB.merc_hirer_categories)
 		var/list/terms = GLOB.merc_hirer_categories[category]
