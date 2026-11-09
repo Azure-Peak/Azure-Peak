@@ -28,6 +28,7 @@ Each roles trade stats for specialization, using the conventional statweight of 
 | light    | 2 STR -> 2 SPD, and 2 Con -> 2 INT  |
 | marksman | 1 STR -> 2 PER                      |
 | heavy    | 2 SPD, 2 PER -> 1 STR, 2 Con, 2 Wil |
+| caster   | 2 STR, 2 Con -> 4 INT, 2 Wil        |
 
 Archetype:
 
@@ -36,6 +37,10 @@ Archetype:
 - Heavy trades 2 SPD, 2 PER for 1 STR, 2 Con, 2 Wil.
 
 PER is capped at 15. INT 8 is the minimum for NPC specials and tactics, INT 10 or above gives feint resistance only and should be present on Light usually.
+
+Caster trades for Int and Wil, caster stats. Spells will not be rebalanced for NPC, and instead they have "smarter" AI.
+
+Caster archetypes list their aspects in `magic_aspects`, and an aspect can name its choice spell (`/datum/magic_aspect/autowardry = .../conjure_arcyne_ward/dragonhide`). All NPCs mages should gain a ward.
 
 ## Faction Modifier
 
