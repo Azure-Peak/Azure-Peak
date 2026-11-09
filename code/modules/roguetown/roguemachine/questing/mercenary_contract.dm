@@ -1,6 +1,7 @@
 GLOBAL_LIST_EMPTY(merc_contracts)
 GLOBAL_LIST_EMPTY(merc_contract_items)
 GLOBAL_LIST_EMPTY(merc_contract_cooldowns)
+GLOBAL_LIST_EMPTY(merc_days_served)
 
 GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	MERC_HIRER_TOWNER = list("label" = "Towners", "stipend" = MERC_STIPEND_TOWNER, "payer" = "the Burghers of the realm"),
@@ -216,6 +217,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 
 /datum/merc_contract/proc/on_day_passed()
 	days_served++
+	credit_served_day()
 	check_presence()
 	var/presence = get_presence_share()
 	presence_time = 0
@@ -350,12 +352,19 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		if(cooldown_until && merc.mind)
 			GLOB.merc_contract_cooldowns[merc.mind] = cooldown_until
 		SSroguemachine.mercenary_statue?.sync_mercenary_status(merc, "Available")
-		award_medal(merc)
 		to_chat(merc, span_notice("Visit a MEISTER to print a new mercenary contract."))
 	qdel(src)
 
+/datum/merc_contract/proc/credit_served_day()
+	var/mob/living/carbon/human/merc = merc_ref?.resolve()
+	if(!istype(merc) || !merc.mind)
+		return
+	GLOB.merc_days_served[merc.mind] = (GLOB.merc_days_served[merc.mind] || 0) + 1
+	award_medal(merc)
+
 /datum/merc_contract/proc/award_medal(mob/living/carbon/human/merc)
-	if(days_served < MERC_CONTRACT_MEDAL_DAYS || merc.tokenclaimed)
+	var/total_days = GLOB.merc_days_served[merc.mind] || 0
+	if(total_days < MERC_CONTRACT_MEDAL_DAYS || merc.tokenclaimed)
 		return
 	merc.tokenclaimed = TRUE
 	merc.adjust_triumphs(MERC_CONTRACT_MEDAL_TRIUMPHS)
@@ -364,7 +373,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(!deliver_mail(medal, merc.real_name, "the Mercenary's Guild", "merc contract medal"))
 		merc.put_in_hands(medal)
 	to_chat(merc, span_notice("The Mercenary's Guild sends you a medal for your service."))
-	log_quest(merc.ckey, merc.mind, merc, "Mercenary medal for [days_served] days with [hirer_name]")
+	log_quest(merc.ckey, merc.mind, merc, "Mercenary medal for [total_days] days served in total")
 
 /obj/item/merc_contract
 	name = "mercenary contract"
