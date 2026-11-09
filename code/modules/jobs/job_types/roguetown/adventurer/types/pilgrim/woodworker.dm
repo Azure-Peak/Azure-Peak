@@ -10,7 +10,10 @@
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
-	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/self/run_for_it,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	subclass_stats = list(
 		STATKEY_STR = 2,
 		STATKEY_WIL = 1,
