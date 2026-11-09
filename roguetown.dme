@@ -3503,6 +3503,7 @@
 #include "code\modules\spells\spell_types\wizard\fulgurmancy\_fulgurmancy_shared.dm"
 #include "code\modules\spells\spell_types\wizard\fulgurmancy\arc_bolt.dm"
 #include "code\modules\spells\spell_types\wizard\fulgurmancy\bolt_of_lightning.dm"
+#include "code\modules\spells\spell_types\wizard\fulgurmancy\fulgurmancy_npc.dm"
 #include "code\modules\spells\spell_types\wizard\fulgurmancy\fulmination.dm"
 #include "code\modules\spells\spell_types\wizard\fulgurmancy\greater_thunderstrike.dm"
 #include "code\modules\spells\spell_types\wizard\fulgurmancy\levinstroke.dm"

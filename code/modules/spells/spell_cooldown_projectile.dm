@@ -41,7 +41,10 @@
 	. = ..()
 	if(!. || !npc_controlled() || !isliving(owner))
 		return .
-	return !npc_line_blocked(target) || !!projectile_type_arc
+	return !npc_line_blocked(target) || npc_can_lob()
+
+/datum/action/cooldown/spell/projectile/proc/npc_can_lob()
+	return !!projectile_type_arc
 
 /datum/action/cooldown/spell/projectile/npc_cast_target(atom/target)
 	if(projectile_type_arc)

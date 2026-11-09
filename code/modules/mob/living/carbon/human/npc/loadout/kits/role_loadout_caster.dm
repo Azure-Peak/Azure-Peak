@@ -13,6 +13,17 @@
 	gloves = /obj/item/clothing/gloves/roguetown/leather
 	r_hand = /obj/item/rogueweapon/woodstaff/implement
 
+/datum/npc_loadout/kit/caster/fulgurmancer
+	cloak = list(
+		/obj/item/clothing/suit/roguetown/shirt/robe/mageblue = 50,
+		/obj/item/clothing/suit/roguetown/shirt/robe/mageyellow = 50,
+	)
+	head = list(
+		/obj/item/clothing/head/roguetown/roguehood/mageblue = 50,
+		/obj/item/clothing/head/roguetown/roguehood/black = 30,
+		NPC_NOTHING = 20,
+	)
+
 /datum/npc_loadout/kit/caster/pyromancer
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageorange = 60,

@@ -127,7 +127,7 @@
 /datum/npc_archetype/highwayman/pyromancer
 	name = "Highwayman Pyromancer"
 	job = "Highwayman Pyromancer"
-	threat_point = THREAT_DEADLY
+	threat_point = THREAT_TOUGH
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(
@@ -141,6 +141,26 @@
 	ai_controller = /datum/ai_controller/human_npc/caster
 	magic_aspects = list(
 		/datum/magic_aspect/pyromancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
+	)
+
+/datum/npc_archetype/highwayman/fulgurmancer
+	name = "Highwayman Fulgurmancer"
+	job = "Highwayman Fulgurmancer"
+	threat_point = THREAT_TOUGH
+	statpack = /datum/npc_statpack/caster/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+	)
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		/datum/npc_loadout/kit/caster/fulgurmancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+	magic_aspects = list(
+		/datum/magic_aspect/fulgurmancy,
 		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
 	)
 

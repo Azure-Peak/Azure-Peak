@@ -39,7 +39,12 @@
 
 /mob/living/carbon/human/species/human/northern/highwayman/pyromancer
 	npc_archetype = /datum/npc_archetype/highwayman/pyromancer
-	threat_point = THREAT_DEADLY
+	threat_point = THREAT_TOUGH
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/highwayman/fulgurmancer
+	npc_archetype = /datum/npc_archetype/highwayman/fulgurmancer
+	threat_point = THREAT_TOUGH
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/highwayman/light

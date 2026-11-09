@@ -40,7 +40,7 @@ PER is capped at 15. INT 8 is the minimum for NPC specials and tactics, INT 10 o
 
 Caster trades for Int and Wil, caster stats. Spells will not be rebalanced for NPC, and instead they have "smarter" AI.
 
-Caster archetypes list their aspects in `magic_aspects`, and an aspect can name its choice spell (`/datum/magic_aspect/autowardry = .../conjure_arcyne_ward/dragonhide`). All NPCs mages should gain a ward.
+Caster archetypes list their aspects in `magic_aspects`, and an aspect can name its choice spell (`/datum/magic_aspect/autowardry = .../conjure_arcyne_ward/dragonhide`). All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Autowardry's Dragonhide, every other school takes Crystalhide.
 
 ## Faction Modifier
 

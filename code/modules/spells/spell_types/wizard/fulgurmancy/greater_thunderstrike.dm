@@ -36,8 +36,11 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/aoe_range = 3
+	impact_radius = 3
 	displayed_damage = SPELL_DMG(GTSTRIKE_DAMAGE)
+
+/datum/action/cooldown/spell/greater_thunderstrike/get_impact_turfs(atom/center)
+	return thunderstrike_turfs(get_turf(center), impact_radius)
 
 /datum/action/cooldown/spell/greater_thunderstrike/cast(atom/cast_on)
 	. = ..()
@@ -58,14 +61,12 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	for(var/turf/T in range(aoe_range, centerpoint))
-		if(!(T in get_hear(aoe_range, centerpoint)))
-			continue
+	for(var/turf/T as anything in get_impact_turfs(centerpoint))
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, GTSTRIKE_TELEGRAPH)
 
 	H.visible_message(span_boldwarning("[H] calls down a massive storm of lightning!"))
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE, 6)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, H, aoe_range, SPELL_DMG(GTSTRIKE_DAMAGE), src, "Greater Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), GTSTRIKE_TELEGRAPH)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, H, impact_radius, SPELL_DMG(GTSTRIKE_DAMAGE), src, "Greater Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), GTSTRIKE_TELEGRAPH)
 	return TRUE
 
 #undef GTSTRIKE_DAMAGE
