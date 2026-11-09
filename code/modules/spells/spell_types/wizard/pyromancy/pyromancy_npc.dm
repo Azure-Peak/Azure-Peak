@@ -109,9 +109,17 @@
 	if(!isliving(victim))
 		return 0
 	var/list/turfs = get_pattern_turfs(owner, npc_face_dir(owner, victim))
-	if(npc_allies_in(turfs))
+	if(npc_allies_in(turfs) || npc_allies_in(npc_turfs_around(get_turf(victim), 1) - get_turf(owner)))
 		return 0
-	. = get_dist(owner, victim) <= 2 ? 70 : 35
+	var/dist = get_dist(owner, victim)
+	if(dist <= 2)
+		. = 75
+	else if(dist == 3)
+		. = 60
+	else
+		. = 40
+	if(npc_target_closing(victim))
+		. += 10
 	. += 15 * max(0, npc_hostiles_in(turfs) - 1)
 	. += pyro_npc_scorch_bonus(victim, scorch_stacks)
 

@@ -48,6 +48,8 @@
 	. = ..()
 	if(. & AI_BEHAVIOR_SUCCEEDED)
 		controller.set_blackboard_key(BB_CASTER_NEXT_CAST, world.time + npc_cast_gap(controller.pawn))
+		if(!istype(ability, /datum/action/cooldown/spell/telegraphed_strike))
+			controller.clear_blackboard_key(BB_ABILITY_COMMITTED_UNTIL)
 		return
 	if(!QDELETED(ability))
 		ability.npc_retry_at = world.time + NPC_SPELL_RETRY_DELAY
@@ -71,7 +73,7 @@
 
 /datum/ai_planning_subtree/spacing/ranged/caster
 	finish_planning = TRUE
-	honor_commit = FALSE
+	commit_distance = 1
 
 /datum/ai_planning_subtree/spacing/ranged/caster/is_ready_to_attack(datum/ai_controller/controller, mob/living/living_pawn)
 	for(var/datum/action/cooldown/spell/spell in living_pawn.actions)

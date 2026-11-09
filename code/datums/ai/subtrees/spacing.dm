@@ -31,6 +31,7 @@
 	var/strafe_behavior = /datum/ai_behavior/strafe_target
 	var/finish_planning = FALSE
 	var/honor_commit = TRUE
+	var/commit_distance
 
 /datum/ai_planning_subtree/spacing/ranged/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	var/atom/target = controller.blackboard[target_key]
@@ -39,7 +40,7 @@
 		return
 	var/range = get_dist(living_pawn, target)
 	if(honor_commit && world.time < controller.blackboard[BB_ABILITY_COMMITTED_UNTIL])
-		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, target_key, minimum_distance)
+		controller.queue_behavior(/datum/ai_behavior/pursue_to_range, target_key, isnull(commit_distance) ? minimum_distance : commit_distance)
 	else if(range <= 1)
 		return
 	else if(!can_see(living_pawn, target, view_distance))
