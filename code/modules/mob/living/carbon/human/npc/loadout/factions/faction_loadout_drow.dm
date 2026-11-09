@@ -58,6 +58,54 @@
 		/datum/npc_loadout/weapon/drow_drider,
 	)
 
+/datum/npc_archetype/drow/caster
+	abstract_type = /datum/npc_archetype/drow/caster
+	threat_point = THREAT_DANGEROUS
+	statpack = /datum/npc_statpack/caster/t2
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/drow/caster/mixed
+	name = "Drow Mage"
+	variants = list(
+		/datum/npc_archetype/drow/caster/telomancer = 1,
+		/datum/npc_archetype/drow/caster/geomancer = 1,
+	)
+
+/datum/npc_archetype/drow/caster/telomancer
+	name = "Drow Telomancer"
+	job = "Drow Telomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/telomancer,
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor,
+	)
+
+/datum/npc_archetype/drow/caster/geomancer
+	name = "Drow Geomancer"
+	job = "Drow Geomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/geomancer,
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor,
+	)
+
+/datum/npc_archetype/drow/spellblade
+	name = "Drow Spellblade"
+	job = "Drow Spellblade"
+	threat_point = THREAT_DANGEROUS
+	statpack = /datum/npc_statpack/spellblade/t2
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
+	loadouts = list(
+		/datum/npc_loadout/kit/spellblade/blade/drow,
+		/datum/npc_loadout/armor/light/drow,
+		/datum/npc_loadout/kit/drow_flavor,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
 //** ARMOR **//
 
 /datum/npc_loadout/armor/light/drow

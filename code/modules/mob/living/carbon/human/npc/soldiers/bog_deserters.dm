@@ -55,3 +55,22 @@
 /mob/living/carbon/human/species/human/northern/bog_deserters/marshal/ambush
 	threat_point = THREAT_ELITE
 	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/caster
+	npc_archetype = /datum/npc_archetype/bog_deserter/caster/mixed
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/caster/pyromancer
+	npc_archetype = /datum/npc_archetype/bog_deserter/caster/pyromancer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/caster/geomancer
+	npc_archetype = /datum/npc_archetype/bog_deserter/caster/geomancer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/caster/ferramancer
+	npc_archetype = /datum/npc_archetype/bog_deserter/caster/ferramancer
+
+/mob/living/carbon/human/species/human/northern/bog_deserters/phalangite
+	npc_archetype = /datum/npc_archetype/bog_deserter/phalangite
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"

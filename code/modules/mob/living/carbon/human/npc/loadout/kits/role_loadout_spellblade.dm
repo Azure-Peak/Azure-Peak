@@ -33,6 +33,13 @@
 		list(/obj/item/rogueweapon/sword/long/iron),
 	)
 
+/datum/npc_loadout/kit/spellblade/blade/drow
+	traits = list(TRAIT_DUALWIELDER)
+	weapons = list(
+		list(/obj/item/rogueweapon/sword/falx/stalker, /obj/item/rogueweapon/sword/falx/stalker, 100),
+		list(/obj/item/rogueweapon/huntingknife/idagger/steel/stalker, /obj/item/rogueweapon/huntingknife/idagger/steel/stalker, 100),
+	)
+
 /datum/npc_loadout/kit/spellblade/phalangite
 	spellblade_chant = "phalangite"
 	skills = list(/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN)

@@ -66,6 +66,42 @@
 		/datum/npc_loadout/weapon/searaider_greatsword,
 	)
 
+/datum/npc_archetype/searaider/caster
+	abstract_type = /datum/npc_archetype/searaider/caster
+	threat_point = THREAT_DANGEROUS
+	statpack = /datum/npc_statpack/caster/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/searaider/caster/mixed
+	name = "Sea Raider Mage"
+	variants = list(
+		/datum/npc_archetype/searaider/caster/pyromancer = 4,
+		/datum/npc_archetype/searaider/caster/ferramancer = 1,
+	)
+
+/datum/npc_archetype/searaider/caster/pyromancer
+	name = "Sea Raider Pyromancer"
+	job = "Sea Raider Pyromancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/pyromancer,
+		/datum/npc_loadout/kit/searaider_flavor/caster,
+	)
+
+/datum/npc_archetype/searaider/caster/ferramancer
+	name = "Sea Raider Ferramancer"
+	job = "Sea Raider Ferramancer"
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
+	loadouts = list(
+		/datum/npc_loadout/kit/caster/ferramancer,
+		/datum/npc_loadout/kit/searaider_flavor/caster,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
 //** BODY **//
 
 /datum/npc_body/northern_commoner/searaider
@@ -111,6 +147,9 @@
 	shirt = /obj/item/clothing/suit/roguetown/shirt/tunic
 	pants = /obj/item/clothing/under/roguetown/tights
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
+
+/datum/npc_loadout/kit/searaider_flavor/caster
+	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 
 /datum/npc_loadout/kit/searaider_flavor/huscarl
 	shoes = /obj/item/clothing/shoes/roguetown/boots/maille/iron

@@ -41,9 +41,9 @@ PER is capped at 15. INT 8 is the minimum for NPC specials and tactics, INT 10 o
 
 Caster trades for Int, Per and Wil, caster stats. Spells will not be rebalanced for NPC, and instead they have "smarter" AI.
 
-Casters and spellblades start at T2. Magic is strong enough on its own, so there is no T1 caster, and only the harder factions field them. T3 adds an overlay kit on top of the school or chant kit: casters get a greater staff and Arcyne Armament Expert; spellblades get medium armour training with iron chain or a cuirass.
+Casters and spellblades start at T2. Magic is strong enough on its own, so there is no T1 caster, and only the harder factions field them, T3 adds medium armor / better staff and arcyne armament expert.
 
-The school and chant live on the kit, not the archetype, so one school kit serves every faction. Caster kits list their aspects in `magic_aspects`, and an aspect can name its choice spell (`/datum/magic_aspect/autowardry = .../conjure_arcyne_ward/dragonhide`). All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Autowardry's Dragonhide, every other school takes Crystalhide.
+Caster kits list their aspects in `magic_aspects`, and an aspect can name its choice spell (`/datum/magic_aspect/autowardry = .../conjure_arcyne_ward/dragonhide`). All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Autowardry's Dragonhide, every other school takes Crystalhide.
 
 Spellblade weapon kits set `spellblade_chant` ("blade", "phalangite" or "macebearer"). They get the chant's spells and bind the first held weapon that matches the chant. Like the player class, they take no ward. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. Finally, the spellblade vs spellblade duel I have been looking for
 

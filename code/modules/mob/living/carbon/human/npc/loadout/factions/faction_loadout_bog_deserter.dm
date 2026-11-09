@@ -120,6 +120,62 @@
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
 
+/datum/npc_archetype/bog_deserter/caster
+	abstract_type = /datum/npc_archetype/bog_deserter/caster
+	statpack = /datum/npc_statpack/caster/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/bog_deserter/caster/mixed
+	name = "Bog Mage"
+	variants = list(
+		/datum/npc_archetype/bog_deserter/caster/pyromancer = 1,
+		/datum/npc_archetype/bog_deserter/caster/geomancer = 1,
+		/datum/npc_archetype/bog_deserter/caster/ferramancer = 1,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/pyromancer
+	name = "Bog Pyromancer"
+	job = "Bog Pyromancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/pyromancer,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/geomancer
+	name = "Bog Geomancer"
+	job = "Bog Geomancer"
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/geomancer,
+	)
+
+/datum/npc_archetype/bog_deserter/caster/ferramancer
+	name = "Bog Ferramancer"
+	job = "Bog Ferramancer"
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
+	loadouts = list(
+		/datum/npc_loadout/kit/deserter_flavor,
+		/datum/npc_loadout/kit/caster/ferramancer,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
+/datum/npc_archetype/bog_deserter/phalangite
+	name = "Bog Phalangite"
+	job = "Bog Phalangite"
+	statpack = /datum/npc_statpack/spellblade/t2
+	armor_training = ARMOR_CLASS_LIGHT
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
+	loadouts = list(
+		/datum/npc_loadout/kit/spellblade/phalangite,
+		/datum/npc_loadout/kit/deserter_flavor,
+	)
+	ai_controller = /datum/ai_controller/human_npc/caster/melee
+
 //** BODY **//
 
 /datum/npc_body/northern_commoner/soldier/bog_deserter
