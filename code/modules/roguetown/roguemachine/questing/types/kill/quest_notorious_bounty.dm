@@ -253,6 +253,8 @@
 	message_admins("[key_name_admin(boss)] has taken over notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]), fighting a fellowship led by [party_leader ? key_name_admin(party_leader) : "an unknown party"].")
 
 /datum/quest/kill/notorious_bounty/proc/temper_player_boss(mob/living/carbon/human/boss)
+	if(istype(boss, /mob/living/carbon/human/species/goblin/npc/large))
+		return
 	for(var/stat_key in MOBSTATS)
 		var/excess = boss.get_stat_level(stat_key) - NOTORIOUS_BOUNTY_PLAYER_STAT_CAP
 		if(excess > 0)
