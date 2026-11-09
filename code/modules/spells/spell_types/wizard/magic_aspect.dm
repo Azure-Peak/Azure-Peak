@@ -100,6 +100,10 @@
 	if(choice_spell && !target.has_spell(choice_spell, specific = TRUE))
 		grant_choice_spell(target, choice_spell)
 
+GLOBAL_LIST_INIT(npc_skipped_spells, list(
+	/datum/action/cooldown/spell/arcyne_forge,
+))
+
 /datum/magic_aspect/proc/grant_npc_spells(mob/living/target, choice_spell)
 	if(!isliving(target))
 		return
@@ -118,7 +122,7 @@
 	if(choice_spell)
 		paths |= choice_spell
 	for(var/spell_path in paths)
-		if(spell_path in GLOB.utility_spells)
+		if((spell_path in GLOB.utility_spells) || (spell_path in GLOB.npc_skipped_spells))
 			continue
 		var/datum/action/cooldown/spell/new_spell = new spell_path(target)
 		mark_aspect_spell(new_spell)

@@ -46,6 +46,11 @@
 	if(istype(ability, /datum/action/cooldown/spell) && !QDELETED(target))
 		INVOKE_ASYNC(src, PROC_REF(strafe_while_charging), controller, ability, target)
 	. = ..()
+	var/datum/action/cooldown/spell/spell = ability
+	if(istype(spell) && spell.npc_aborted)
+		spell.npc_aborted = FALSE
+		if(spell.is_cancel_penalized())
+			spell.apply_cancel_penalty(TRUE)
 	if(. & AI_BEHAVIOR_SUCCEEDED)
 		controller.set_blackboard_key(BB_CASTER_NEXT_CAST, world.time + npc_cast_gap(controller.pawn))
 		if(!istype(ability, /datum/action/cooldown/spell/telegraphed_strike))
@@ -82,6 +87,15 @@
 		if(spell.npc_within_reserve(controller) && spell.IsAvailable())
 			return TRUE
 	return FALSE
+
+/datum/action/cooldown/spell
+	var/npc_aborted = FALSE
+
+/datum/action/cooldown/spell/proc/npc_impact_turfs(atom/cast_on)
+	return list()
+
+/datum/action/cooldown/spell/proc/npc_cast_safe(atom/cast_on)
+	return !npc_allies_in(npc_impact_turfs(cast_on))
 
 /datum/action/cooldown/spell/proc/npc_stamina_cost()
 	. = 0

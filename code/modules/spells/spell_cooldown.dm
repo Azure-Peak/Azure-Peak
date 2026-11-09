@@ -997,6 +997,10 @@
 		if(channel_cast)
 			charged = FALSE
 
+	if(!(sig_return & SPELL_CANCEL_CAST) && npc_controlled() && !npc_cast_safe(cast_on))
+		npc_aborted = TRUE
+		sig_return |= SPELL_CANCEL_CAST
+
 	return sig_return
 
 /datum/action/cooldown/spell/proc/do_after_checks(mob/owner, atom/cast_on)
