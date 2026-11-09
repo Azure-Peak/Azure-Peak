@@ -78,6 +78,9 @@
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade/macebearer
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/macebearer
 
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/spellfist
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/spellfist
+
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade/champion
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/champion
 	threat_point = THREAT_DEADLY

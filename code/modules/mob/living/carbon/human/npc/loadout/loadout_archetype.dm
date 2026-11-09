@@ -118,7 +118,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 			chant_name = loadout.spellblade_chant
 	if(!chant_name)
 		return
-	var/datum/spellblade_chant/chant = GLOB.spellblade_chants[chant_name]
+	var/datum/spellblade_chant/chant = GLOB.npc_spellblade_chants[chant_name]
 	if(!chant)
 		stack_trace("npc archetype [type] names unknown spellblade chant [chant_name]")
 		return

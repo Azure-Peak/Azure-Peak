@@ -14,8 +14,8 @@
 		M = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
 	if(!M)
 		return
-	M.chant = name
-	for(var/spell_path in subclass_spells + base_spells)
+	M.set_chant(name)
+	for(var/spell_path in chant_spells())
 		if((spell_path in GLOB.utility_spells) || (spell_path in GLOB.npc_skipped_spells))
 			continue
 		var/datum/action/cooldown/spell/new_spell = new spell_path(H)

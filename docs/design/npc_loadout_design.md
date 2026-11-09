@@ -43,9 +43,9 @@ Caster trades for Int, Per and Wil, caster stats. Spells will not be rebalanced 
 
 Casters and spellblades start at T2. Magic is strong enough on its own, so there is no T1 caster, and only the harder factions field them, T3 adds medium armor / better staff and arcyne armament expert.
 
-Caster kits list their aspects in `magic_aspects`, and an aspect can name its choice spell (`/datum/magic_aspect/autowardry = .../conjure_arcyne_ward/dragonhide`). All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Autowardry's Dragonhide, every other school takes Crystalhide.
+All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Dragonhide, every other school takes Crystalhide.
 
-Spellblade weapon kits set `spellblade_chant` ("blade", "phalangite" or "macebearer"). They get the chant's spells and bind the first held weapon that matches the chant. Like the player class, they take no ward. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. Finally, the spellblade vs spellblade duel I have been looking for
+Spellblades come in the player chants: Blade, Phalangite and Macebearer fight with a bound weapon, and Spellfist fights with a katar or knuckles. Like the player class, they take no ward, except the Spellfist, who takes the base Arcyne Ward like the player Spellfist. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. Finally, the spellblade vs spellblade duel I have been looking for
 
 ## Faction Modifier
 

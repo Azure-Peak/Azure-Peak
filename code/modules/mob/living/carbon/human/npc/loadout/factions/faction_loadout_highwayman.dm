@@ -228,6 +228,7 @@
 		/datum/npc_archetype/highwayman/spellblade/blade = 1,
 		/datum/npc_archetype/highwayman/spellblade/phalangite = 1,
 		/datum/npc_archetype/highwayman/spellblade/macebearer = 1,
+		/datum/npc_archetype/highwayman/spellblade/spellfist = 1,
 	)
 
 /datum/npc_archetype/highwayman/spellblade/blade
@@ -254,6 +255,17 @@
 		/datum/npc_loadout/kit/spellblade/macebearer,
 	)
 
+/datum/npc_archetype/highwayman/spellblade/spellfist
+	name = "Highwayman Spellblade (Spellfist)"
+	job = "Highwayman Spellfist"
+	loadouts = list(
+		/datum/npc_loadout/kit/bandit_flavor,
+		list(
+			/datum/npc_loadout/kit/spellblade/spellfist/katar = 1,
+			/datum/npc_loadout/kit/spellblade/spellfist/knuckles = 1,
+		),
+	)
+
 /datum/npc_archetype/highwayman/spellblade/champion
 	name = "Highwayman Spellblade Champion"
 	job = "Highwayman Spellblade Champion"
@@ -265,9 +277,11 @@
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		list(
-			/datum/npc_loadout/kit/spellblade/blade = 1,
-			/datum/npc_loadout/kit/spellblade/phalangite = 1,
-			/datum/npc_loadout/kit/spellblade/macebearer = 1,
+			/datum/npc_loadout/kit/spellblade/blade = 2,
+			/datum/npc_loadout/kit/spellblade/phalangite = 2,
+			/datum/npc_loadout/kit/spellblade/macebearer = 2,
+			/datum/npc_loadout/kit/spellblade/spellfist/katar/expert = 1,
+			/datum/npc_loadout/kit/spellblade/spellfist/knuckles/expert = 1,
 		),
 		/datum/npc_loadout/kit/spellblade_champion,
 	)

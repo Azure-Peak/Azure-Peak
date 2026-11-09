@@ -62,6 +62,36 @@
 		list(/obj/item/rogueweapon/greataxe),
 	)
 
+/datum/npc_loadout/kit/spellblade/spellfist
+	abstract_type = /datum/npc_loadout/kit/spellblade/spellfist
+	spellblade_chant = "unarmed"
+	magic_aspects = list(/datum/magic_aspect/pseudo/wards)
+	traits = list(TRAIT_CIVILIZEDBARBARIAN)
+	skills = list(
+		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
+	)
+
+/datum/npc_loadout/kit/spellblade/spellfist/katar
+	weapons = list(
+		list(/obj/item/rogueweapon/katar/bronze),
+	)
+
+/datum/npc_loadout/kit/spellblade/spellfist/knuckles
+	gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze
+
+/datum/npc_loadout/kit/spellblade/spellfist/katar/expert
+	skills = list(
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
+	)
+
+/datum/npc_loadout/kit/spellblade/spellfist/knuckles/expert
+	skills = list(
+		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
+	)
+
 /datum/npc_loadout/kit/spellblade_champion
 	armor = list(
 		/obj/item/clothing/suit/roguetown/armor/chainmail/iron = 50,

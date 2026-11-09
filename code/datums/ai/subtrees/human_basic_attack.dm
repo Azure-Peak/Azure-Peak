@@ -34,7 +34,7 @@
 	if(istype(pawn))
 		// If we're disarmed and a weapon is reachable nearby, skip melee planning so find_weapon
 		// can run (it's the next subtree). Otherwise we'd just punch the target empty-handed forever.
-		if(!ai_npc_has_weapon(pawn))
+		if(!ai_npc_has_weapon(pawn) && !ai_npc_fights_unarmed(pawn) && !controller.blackboard[BB_CASTER_MELEE])
 			for(var/obj/item/rogueweapon/nearby_weapon in view(7, pawn))
 				if(!isturf(nearby_weapon.loc))
 					continue
@@ -91,7 +91,7 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
+	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun) && !ai_npc_fights_unarmed(pawn))
 		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 			if(!isturf(candidate.loc))
 				continue

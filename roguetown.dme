@@ -3420,6 +3420,7 @@
 #include "code\modules\spells\spell_types\classunique\spellfist\fist_of_psydon.dm"
 #include "code\modules\spells\spell_types\classunique\spellfist\grasp_of_psydon.dm"
 #include "code\modules\spells\spell_types\classunique\spellfist\shadowstep.dm"
+#include "code\modules\spells\spell_types\classunique\spellfist\spellfist_npc.dm"
 #include "code\modules\spells\spell_types\classunique\spellfist\storm_of_psydon.dm"
 #include "code\modules\spells\spell_types\classunique\vizier\acceleration.dm"
 #include "code\modules\spells\spell_types\classunique\vizier\diminish.dm"
