@@ -3,7 +3,7 @@
 	id = "ooze"
 	desc_title = "Murkling"
 	desc = "Murklings possess a peculiar physiology, their bodies formed around a rigid, \
-	bone-like membrane of hardened slime, surrounded in a softer, malleable exterior of living ooze.<br><br>\
+	translucent bone-like membrane of hardened slime, surrounded in a softer, malleable exterior of living ooze.<br><br>\
 	Few know of their true origins. Ancient records place their beginnings deep within the cold caverns of the Underdark \
 	where primordial ooze infested tunnels and defended its spawning pits with relentless hostility. \
 	For centuries, Dark Elves and Dwarven delvers alike sealed these regions away, leaving the living mire undisturbed. \
