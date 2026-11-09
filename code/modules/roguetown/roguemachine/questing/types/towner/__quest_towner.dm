@@ -27,6 +27,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
 	guild_cut_rate = 0
+	reward_bonus_mult = TOWNER_REWARD_MULT
 	charges_deposit = FALSE
 	lapses = FALSE
 	takes_destination = FALSE
