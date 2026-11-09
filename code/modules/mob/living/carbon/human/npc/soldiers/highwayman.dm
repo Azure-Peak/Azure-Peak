@@ -37,30 +37,25 @@
 	threat_point = THREAT_DEADLY
 	ambush_faction = "bandits"
 
-/mob/living/carbon/human/species/human/northern/highwayman/pyromancer
-	npc_archetype = /datum/npc_archetype/highwayman/pyromancer
+/mob/living/carbon/human/species/human/northern/highwayman/caster
+	npc_archetype = /datum/npc_archetype/highwayman/caster/mixed
 	threat_point = THREAT_DANGEROUS
 	ambush_faction = "bandits"
 
-/mob/living/carbon/human/species/human/northern/highwayman/fulgurmancer
-	npc_archetype = /datum/npc_archetype/highwayman/fulgurmancer
-	threat_point = THREAT_DANGEROUS
-	ambush_faction = "bandits"
+/mob/living/carbon/human/species/human/northern/highwayman/caster/pyromancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/pyromancer
 
-/mob/living/carbon/human/species/human/northern/highwayman/geomancer
-	npc_archetype = /datum/npc_archetype/highwayman/geomancer
-	threat_point = THREAT_DANGEROUS
-	ambush_faction = "bandits"
+/mob/living/carbon/human/species/human/northern/highwayman/caster/fulgurmancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/fulgurmancer
 
-/mob/living/carbon/human/species/human/northern/highwayman/telomancer
-	npc_archetype = /datum/npc_archetype/highwayman/telomancer
-	threat_point = THREAT_DANGEROUS
-	ambush_faction = "bandits"
+/mob/living/carbon/human/species/human/northern/highwayman/caster/geomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/geomancer
 
-/mob/living/carbon/human/species/human/northern/highwayman/ferramancer
-	npc_archetype = /datum/npc_archetype/highwayman/ferramancer
-	threat_point = THREAT_DANGEROUS
-	ambush_faction = "bandits"
+/mob/living/carbon/human/species/human/northern/highwayman/caster/telomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/telomancer
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/ferramancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/ferramancer
 
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/mixed

@@ -52,9 +52,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/list/loadouts
 	var/list/variants
 	var/ai_controller
-	var/list/magic_aspects
 	var/default_ward = /datum/action/cooldown/spell/conjure_arcyne_ward
-	var/spellblade_chant
 	var/list/traits
 	var/taur_type
 	var/list/taur_colors
@@ -89,9 +87,10 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	// Before the outfit, as Taurize drops worn shoes
 	if(taur_type)
 		H.Taurize(taur_type, length(taur_colors) ? pick(taur_colors) : "#ffffff")
-	H.equipOutfit(build_outfit())
-	grant_spellblade_chant(H)
-	grant_magic_aspect(H)
+	var/datum/outfit/npc/outfit = build_outfit()
+	H.equipOutfit(outfit)
+	grant_spellblade_chant(H, outfit.loadouts)
+	grant_magic_aspect(H, outfit.loadouts)
 	apply_stat_modifiers(H)
 	if(npc_body)
 		npc_body.apply_appearance(H)
@@ -109,24 +108,38 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	H.STAINT += stat_modifiers["intelligence"]
 	H.recalculate_pain_threshold()
 
-/datum/npc_archetype/proc/grant_spellblade_chant(mob/living/carbon/human/H)
-	if(!H || !spellblade_chant)
+/datum/npc_archetype/proc/grant_spellblade_chant(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
 		return
-	var/datum/spellblade_chant/chant = GLOB.spellblade_chants[spellblade_chant]
+	var/chant_name
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(loadout?.spellblade_chant)
+			chant_name = loadout.spellblade_chant
+	if(!chant_name)
+		return
+	var/datum/spellblade_chant/chant = GLOB.spellblade_chants[chant_name]
 	if(!chant)
-		stack_trace("npc archetype [type] names unknown spellblade chant [spellblade_chant]")
+		stack_trace("npc archetype [type] names unknown spellblade chant [chant_name]")
 		return
 	chant.apply_npc_chant(H)
 
-/datum/npc_archetype/proc/grant_magic_aspect(mob/living/carbon/human/H)
-	if(!H || !length(magic_aspects))
+/datum/npc_archetype/proc/grant_magic_aspect(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
 		return
-	for(var/aspect_type in magic_aspects)
+	var/list/aspects = list()
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		for(var/aspect_type in loadout?.magic_aspects)
+			aspects[aspect_type] = loadout.magic_aspects[aspect_type]
+	if(!length(aspects))
+		return
+	for(var/aspect_type in aspects)
 		var/datum/magic_aspect/aspect = GLOB.magic_aspect_singletons[aspect_type]
 		if(!aspect)
 			stack_trace("npc archetype [type] names unknown magic aspect [aspect_type]")
 			continue
-		aspect.grant_npc_spells(H, magic_aspects[aspect_type])
+		aspect.grant_npc_spells(H, aspects[aspect_type])
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/ward = locate() in H.actions
 	if(!ward && default_ward)
 		ward = new default_ward(H)

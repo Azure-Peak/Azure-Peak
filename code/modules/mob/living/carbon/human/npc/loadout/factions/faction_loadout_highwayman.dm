@@ -124,9 +124,8 @@
 	)
 	ai_controller = /datum/ai_controller/human_npc/archer
 
-/datum/npc_archetype/highwayman/pyromancer
-	name = "Highwayman Pyromancer"
-	job = "Highwayman Pyromancer"
+/datum/npc_archetype/highwayman/caster
+	abstract_type = /datum/npc_archetype/highwayman/caster
 	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
@@ -134,92 +133,59 @@
 		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
 		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
 	)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/highwayman/caster/mixed
+	name = "Highwayman Mage"
+	variants = list(
+		/datum/npc_archetype/highwayman/caster/pyromancer = 1,
+		/datum/npc_archetype/highwayman/caster/fulgurmancer = 1,
+		/datum/npc_archetype/highwayman/caster/geomancer = 1,
+		/datum/npc_archetype/highwayman/caster/telomancer = 1,
+		/datum/npc_archetype/highwayman/caster/ferramancer = 1,
+	)
+
+/datum/npc_archetype/highwayman/caster/pyromancer
+	name = "Highwayman Pyromancer"
+	job = "Highwayman Pyromancer"
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/caster/pyromancer,
 	)
-	ai_controller = /datum/ai_controller/human_npc/caster
-	magic_aspects = list(
-		/datum/magic_aspect/pyromancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
-	)
 
-/datum/npc_archetype/highwayman/fulgurmancer
+/datum/npc_archetype/highwayman/caster/fulgurmancer
 	name = "Highwayman Fulgurmancer"
 	job = "Highwayman Fulgurmancer"
-	threat_point = THREAT_DANGEROUS
-	statpack = /datum/npc_statpack/caster/t2
-	armor_training = ARMOR_CLASS_LIGHT
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-	)
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/caster/fulgurmancer,
 	)
-	ai_controller = /datum/ai_controller/human_npc/caster
-	magic_aspects = list(
-		/datum/magic_aspect/fulgurmancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
-	)
 
-/datum/npc_archetype/highwayman/geomancer
+/datum/npc_archetype/highwayman/caster/geomancer
 	name = "Highwayman Geomancer"
 	job = "Highwayman Geomancer"
-	threat_point = THREAT_DANGEROUS
-	statpack = /datum/npc_statpack/caster/t2
-	armor_training = ARMOR_CLASS_LIGHT
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-	)
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/caster/geomancer,
 	)
-	ai_controller = /datum/ai_controller/human_npc/caster
-	magic_aspects = list(
-		/datum/magic_aspect/geomancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
-	)
 
-/datum/npc_archetype/highwayman/telomancer
+/datum/npc_archetype/highwayman/caster/telomancer
 	name = "Highwayman Telomancer"
 	job = "Highwayman Telomancer"
-	threat_point = THREAT_DANGEROUS
-	statpack = /datum/npc_statpack/caster/t2
-	armor_training = ARMOR_CLASS_LIGHT
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-	)
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/caster/telomancer,
 	)
-	ai_controller = /datum/ai_controller/human_npc/caster
-	magic_aspects = list(
-		/datum/magic_aspect/telomancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
-	)
 
-/datum/npc_archetype/highwayman/ferramancer
+/datum/npc_archetype/highwayman/caster/ferramancer
 	name = "Highwayman Ferramancer"
 	job = "Highwayman Ferramancer"
-	threat_point = THREAT_DANGEROUS
-	statpack = /datum/npc_statpack/caster/t2
-	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/caster/ferramancer,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
-	magic_aspects = list(
-		/datum/magic_aspect/ferramancy,
-		/datum/magic_aspect/aegiscraft,
-	)
 
 /datum/npc_archetype/highwayman/spellblade
 	abstract_type = /datum/npc_archetype/highwayman/spellblade
@@ -245,7 +211,6 @@
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/spellblade/blade,
 	)
-	spellblade_chant = "blade"
 
 /datum/npc_archetype/highwayman/spellblade/phalangite
 	name = "Highwayman Spellblade (Phalangite)"
@@ -254,7 +219,6 @@
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/spellblade/phalangite,
 	)
-	spellblade_chant = "phalangite"
 
 /datum/npc_archetype/highwayman/spellblade/macebearer
 	name = "Highwayman Spellblade (Macebearer)"
@@ -263,7 +227,6 @@
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/spellblade/macebearer,
 	)
-	spellblade_chant = "macebearer"
 
 //** BODY **//
 

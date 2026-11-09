@@ -20,6 +20,7 @@
 	)
 
 /datum/npc_loadout/kit/spellblade/blade
+	spellblade_chant = "blade"
 	skills = list(
 		/datum/skill/combat/swords = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN,
@@ -33,6 +34,7 @@
 	)
 
 /datum/npc_loadout/kit/spellblade/phalangite
+	spellblade_chant = "phalangite"
 	skills = list(/datum/skill/combat/polearms = SKILL_LEVEL_JOURNEYMAN)
 	weapons = list(
 		list(/obj/item/rogueweapon/spear/spellblade, /obj/item/rogueweapon/shield/wood),
@@ -40,6 +42,7 @@
 	)
 
 /datum/npc_loadout/kit/spellblade/macebearer
+	spellblade_chant = "macebearer"
 	skills = list(
 		/datum/skill/combat/maces = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/axes = SKILL_LEVEL_JOURNEYMAN,

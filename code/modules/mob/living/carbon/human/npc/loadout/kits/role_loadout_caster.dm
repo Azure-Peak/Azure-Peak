@@ -15,6 +15,10 @@
 	r_hand = /obj/item/rogueweapon/woodstaff/implement
 
 /datum/npc_loadout/kit/caster/fulgurmancer
+	magic_aspects = list(
+		/datum/magic_aspect/fulgurmancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
+	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageblue = 50,
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageyellow = 50,
@@ -26,6 +30,10 @@
 	)
 
 /datum/npc_loadout/kit/caster/geomancer
+	magic_aspects = list(
+		/datum/magic_aspect/geomancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
+	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/magegreen = 60,
 		/obj/item/clothing/suit/roguetown/shirt/robe/black = 40,
@@ -37,6 +45,10 @@
 	)
 
 /datum/npc_loadout/kit/caster/telomancer
+	magic_aspects = list(
+		/datum/magic_aspect/telomancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
+	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/courtmage = 50,
 		/obj/item/clothing/suit/roguetown/shirt/robe/white = 50,
@@ -48,6 +60,10 @@
 	)
 
 /datum/npc_loadout/kit/caster/ferramancer
+	magic_aspects = list(
+		/datum/magic_aspect/ferramancy,
+		/datum/magic_aspect/aegiscraft,
+	)
 	r_hand = null
 	armor = list(
 		/obj/item/clothing/suit/roguetown/armor/leather/studded = 60,
@@ -64,6 +80,10 @@
 	)
 
 /datum/npc_loadout/kit/caster/pyromancer
+	magic_aspects = list(
+		/datum/magic_aspect/pyromancy,
+		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
+	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageorange = 60,
 		/obj/item/clothing/suit/roguetown/shirt/robe/black = 40,
