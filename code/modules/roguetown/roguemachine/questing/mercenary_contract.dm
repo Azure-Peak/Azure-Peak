@@ -311,6 +311,9 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /datum/merc_contract/proc/can_end_early()
 	return days_served >= 1 || is_merc_dead()
 
+/datum/merc_contract/proc/time_left()
+	return max(0, timeleft(day_timer_id)) + max(0, days - days_served - 1) * MERC_CONTRACT_DAY_LENGTH
+
 /datum/merc_contract/proc/end_early()
 	var/mob/living/merc = merc_ref?.resolve()
 	var/mob/living/hirer = hirer_ref?.resolve()
@@ -417,6 +420,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. = ..()
 	if(contract)
 		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] day\s.")
+		. += span_info("The contract ends in [merc_contract_time_text(contract.time_left())].")
 		. += span_info("The hirer can use it in hand to end the contract early once the first day has passed, or at any time if [merc_name] is dead.")
 		if(contract.hirer_category)
 			. += span_info("[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay.")
