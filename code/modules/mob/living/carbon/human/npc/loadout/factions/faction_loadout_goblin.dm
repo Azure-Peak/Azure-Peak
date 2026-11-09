@@ -61,6 +61,7 @@
 	name = "Goblin Pyromancer"
 	job = "Goblin Pyromancer"
 	loadouts = list(/datum/npc_loadout/kit/goblin_bombs)
+	ai_controller = /datum/ai_controller/human_npc/bomber
 
 /datum/npc_archetype/goblin/bomber/moon
 	stat_modifiers = list("perception" = -2, "intelligence" = 1)

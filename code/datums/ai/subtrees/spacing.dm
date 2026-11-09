@@ -184,7 +184,7 @@
 	if(QDELETED(target))
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 	if(COOLDOWN_FINISHED(controller, movement_cooldown))
-		ai_strafe_step(controller, target, controller.blackboard[BB_STRAFE_KEEP_DISTANCE] || 0)
+		ai_strafe_step(controller, target, controller.blackboard[BB_STRAFE_KEEP_DISTANCE] || 0, !!controller.blackboard[BB_THROW_WINDUP_UNTIL])
 	return AI_BEHAVIOR_DELAY
 
 /proc/npc_face_dir(atom/origin, atom/towards)
@@ -194,7 +194,7 @@
 		return dy > 0 ? NORTH : SOUTH
 	return dx > 0 ? EAST : WEST
 
-/proc/ai_strafe_step(datum/ai_controller/controller, atom/target, keep_distance)
+/proc/ai_strafe_step(datum/ai_controller/controller, atom/target, keep_distance, keep_running = FALSE)
 	var/mob/living/strafer = controller.pawn
 	if(!isliving(strafer) || QDELETED(target) || !controller.can_move())
 		return FALSE
@@ -203,7 +203,7 @@
 	if(get_dist(strafer, target) < keep_distance)
 		if(ai_strafe_move(controller, strafer, target, turn(facing, 180)))
 			return TRUE
-	else if(world.time < controller.blackboard[BB_STRAFE_RESUME_AT])
+	else if(!keep_running && world.time < controller.blackboard[BB_STRAFE_RESUME_AT])
 		return FALSE
 	if(!ai_strafe_move(controller, strafer, target, turn(facing, 90 * side)))
 		if(!ai_strafe_move(controller, strafer, target, turn(facing, -90 * side)))
@@ -211,7 +211,7 @@
 		side = -side
 	var/steps_left = controller.blackboard[BB_STRAFE_STEPS_LEFT] || rand(STRAFE_RUN_MIN, STRAFE_RUN_MAX)
 	steps_left--
-	if(steps_left <= 0)
+	if(steps_left <= 0 && !keep_running)
 		steps_left = rand(STRAFE_RUN_MIN, STRAFE_RUN_MAX)
 		controller.set_blackboard_key(BB_STRAFE_RESUME_AT, world.time + rand(STRAFE_PAUSE_MIN, STRAFE_PAUSE_MAX))
 		if(prob(50))

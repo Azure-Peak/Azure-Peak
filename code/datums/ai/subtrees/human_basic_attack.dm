@@ -28,6 +28,8 @@
 	end_planning = TRUE
 
 /datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc/SelectBehaviors(datum/ai_controller/controller, delta_time)
+	if(controller.blackboard[BB_THROW_WINDUP_UNTIL])
+		return SUBTREE_RETURN_FINISH_PLANNING
 	var/mob/living/carbon/human/pawn = controller.pawn
 	if(istype(pawn))
 		// If we're disarmed and a weapon is reachable nearby, skip melee planning so find_weapon

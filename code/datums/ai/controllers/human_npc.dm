@@ -168,6 +168,28 @@
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 	)
 
+/datum/ai_controller/human_npc/bomber
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/being_a_minion,
+		/datum/ai_planning_subtree/call_for_help,
+		/datum/ai_planning_subtree/generic_break_restraints,
+		/datum/ai_planning_subtree/use_throwable,
+		/datum/ai_planning_subtree/generic_wield,
+		/datum/ai_planning_subtree/kick_attack,
+		/datum/ai_planning_subtree/generic_resist,
+		/datum/ai_planning_subtree/generic_stand,
+		/datum/ai_planning_subtree/flee_target,
+		/datum/ai_planning_subtree/tree_climb,
+		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/spacing/ranged/thrower,
+		/datum/ai_planning_subtree/leap_attack,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
+		/datum/ai_planning_subtree/find_weapon,
+		/datum/ai_planning_subtree/equip_item,
+		/datum/ai_planning_subtree/loot,
+	)
+
 
 /proc/npc_technique_cd(mob/living/user, base_cd)
 	if(HAS_TRAIT(user, TRAIT_CONJURED_SUMMON))
