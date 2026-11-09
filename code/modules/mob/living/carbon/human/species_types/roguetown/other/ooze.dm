@@ -152,11 +152,15 @@
 	if(ishuman(C))
 		C.AddComponent(/datum/component/ooze_color_shift)
 		add_verb(C, /mob/living/carbon/human/proc/toggle_ooze_color_shifting)
+		var/datum/action/cooldown/spell/murkling_shapeshift/shapeshift = new()
+		shapeshift.Grant(C)
 
 /datum/species/ooze/on_species_loss(mob/living/carbon/C)
 	. = ..()
 	remove_verb(C, /mob/living/carbon/human/proc/toggle_ooze_color_shifting)
 	qdel(C.GetComponent(/datum/component/ooze_color_shift))
+	for(var/datum/action/cooldown/spell/murkling_shapeshift/shapeshift in C.actions)
+		qdel(shapeshift)
 
 /mob/living/carbon/human/proc/toggle_ooze_color_shifting()
 	set name = "Toggle Color Shifting"
