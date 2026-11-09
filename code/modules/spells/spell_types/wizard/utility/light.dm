@@ -1,3 +1,24 @@
+/// Tints the Light orb can be shifted between (use the orb in hand). Name -> light colour.
+/// These are the lighter counterparts of the magelight mote's tints (see mote_light_tints in prestidigitation.dm).
+GLOBAL_LIST_INIT(orb_light_tints, list(
+	"white" = "#ffffff",
+	"salt-gold" = "#ffe9a8",
+	"copper-green" = "#b8f0c8",
+	"tin-blue" = "#cfe8ff",
+	"cinnabar-rose" = "#ffd0ca",
+	"manganese-violet" = "#e4d0ff"
+))
+
+/// What the wielder sees when the orb shifts to each tint. Name -> message.
+GLOBAL_LIST_INIT(orb_tint_messages, list(
+	"white" = "The orb settles into a plain, pure white glow.",
+	"salt-gold" = "Flecks of salt-gold drift through the orb, warming its glow.",
+	"copper-green" = "A verdigris sheen creeps across the orb, turning its glow a soft copper-green.",
+	"tin-blue" = "The orb cools to a pale tin-blue, like frost catching the light.",
+	"cinnabar-rose" = "The orb blushes a pale cinnabar-rose.",
+	"manganese-violet" = "A lilac haze gathers in the orb, tinging its glow with manganese-violet."
+))
+
 /datum/action/cooldown/spell/light
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	name = "Light"
@@ -34,6 +55,8 @@
 	var/obj/item/item
 	var/item_type = /obj/item/flashlight/flare/light
 	var/delete_old = TRUE
+	/// Index into GLOB.orb_light_tints. Remembered between casts so a recast keeps your chosen glow.
+	var/tint_index = 1
 
 /datum/action/cooldown/spell/light/cast(atom/cast_on)
 	. = ..()
@@ -42,6 +65,9 @@
 		return FALSE
 
 	if(delete_old && item && !QDELETED(item))
+		var/obj/item/flashlight/flare/light/old_orb = item
+		if(istype(old_orb))
+			tint_index = old_orb.tint_index
 		QDEL_NULL(item)
 	if(user.dropItemToGround(user.get_active_held_item()))
 		user.put_in_hands(make_item(), TRUE)
@@ -55,8 +81,12 @@
 
 /datum/action/cooldown/spell/light/proc/make_item()
 	item = new item_type
-	var/mutable_appearance/magic_overlay = mutable_appearance('icons/obj/projectiles.dmi', "gumball")
-	item.add_overlay(magic_overlay)
+	var/obj/item/flashlight/flare/light/orb = item
+	if(istype(orb))
+		orb.set_tint(tint_index)
+	else
+		var/mutable_appearance/magic_overlay = mutable_appearance('icons/obj/projectiles.dmi', "gumball")
+		item.add_overlay(magic_overlay)
 	return item
 
 /obj/item/flashlight/flare/light
@@ -79,6 +109,34 @@
 	var/datum/looping_sound/torchloop/soundloop
 	max_integrity = 200
 	fuel = 10 MINUTES
+	/// Index into GLOB.orb_light_tints.
+	var/tint_index = 1
+	/// Orbs that must keep a fixed look (e.g. the Forlorne wisp) set this to FALSE.
+	var/can_retint = TRUE
+	var/mutable_appearance/orb_overlay
+
+/// Sets the orb's glow (and the tint of its sprite) to the given entry of GLOB.orb_light_tints. Returns the tint's name.
+/obj/item/flashlight/flare/light/proc/set_tint(index)
+	var/list/tints = GLOB.orb_light_tints
+	tint_index = WRAP(index, 1, length(tints) + 1)
+	var/tint_name = tints[tint_index]
+	var/tint_color = tints[tint_name]
+	set_light_color(tint_color)
+	if(orb_overlay)
+		cut_overlay(orb_overlay)
+	orb_overlay = mutable_appearance('icons/obj/projectiles.dmi', "gumball")
+	orb_overlay.color = tint_color
+	add_overlay(orb_overlay)
+	return tint_name
+
+/// Using the orb in hand shifts it to the next tint.
+/obj/item/flashlight/flare/light/attack_self(mob/user)
+	if(!can_retint)
+		return ..()
+	var/tint_name = set_tint(tint_index + 1)
+	var/message = GLOB.orb_tint_messages[tint_name] || "The orb shifts to a [tint_name] glow."
+	to_chat(user, span_notice(message))
+	return TRUE
 
 /obj/item/flashlight/flare/light5e/getonmobprop(tag)
 	. = ..()
@@ -96,6 +154,7 @@
 	light_outer_range = 3
 	light_power = 0.6
 	light_color = "#a0a0a0"
+	can_retint = FALSE
 	var/lifetime = 180 SECONDS
 
 /obj/item/flashlight/flare/light/forlorne/Initialize(mapload)
