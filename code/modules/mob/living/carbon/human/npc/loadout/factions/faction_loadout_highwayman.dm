@@ -216,7 +216,10 @@
 		/datum/npc_loadout/kit/caster/ferramancer,
 	)
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
-	magic_aspects = list(/datum/magic_aspect/ferramancy)
+	magic_aspects = list(
+		/datum/magic_aspect/ferramancy,
+		/datum/magic_aspect/aegiscraft,
+	)
 
 //** BODY **//
 

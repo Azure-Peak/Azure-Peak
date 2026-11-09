@@ -54,8 +54,9 @@
 		return 0
 	if(conjured_weapon && !QDELETED(conjured_weapon) && H.is_holding(conjured_weapon))
 		return 0
-	if(isweapon(H.get_active_held_item()) || isweapon(H.get_inactive_held_item()))
-		return 0
+	for(var/obj/item/held in list(H.get_active_held_item(), H.get_inactive_held_item()))
+		if(isweapon(held) && !istype(held, /obj/item/rogueweapon/shield))
+			return 0
 	return FERRA_REARM_SCORE
 
 #undef FERRA_EXTRA_HOSTILE_BONUS
