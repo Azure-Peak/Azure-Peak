@@ -438,7 +438,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 
 /obj/item/merc_contract
 	name = "mercenary contract"
-	desc = "An official looking document issued by the Mercenary's Guild for hiring mercenaries. The leadership of a fellowship may sign it to take the sellsword into their fellowship for the amount of days written on it."
+	desc = "An official looking document issued by the Mercenary's Guild for hiring mercenaries. The leadership of a fellowship may sign it to take the sellsword into their fellowship for the amount of daes written on it."
 	icon = 'icons/clothing/mercmedals.dmi'
 	icon_state = "merctoken"
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
@@ -474,11 +474,11 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /obj/item/merc_contract/examine(mob/user)
 	. = ..()
 	if(contract)
-		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] day\s.")
+		. += span_info("[merc_name] is hired by [contract.hirer_name] for [contract.days] dae\s.")
 		. += span_info("The contract ends in [merc_contract_time_text(contract.time_left())].")
 		if(contract.rate)
 			. += span_info("[contract.hirer_name] pays [contract.rate] mammon a dae. [contract.held_amount()] mammon is still held for the daes ahead.")
-		. += span_info("The hirer can use it in hand to end the contract early once the first day has passed, or at any time if [merc_name] is dead.")
+		. += span_info("The hirer can use it in hand to end the contract early once the first dae has passed, or at any time if [merc_name] is dead.")
 		if(contract.hirer_category)
 			. += span_info("[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay.")
 		return
@@ -487,7 +487,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. += span_info("The daily rate is held from the hirer's MEISTER account when the contract is signed, and paid at the end of each dae.")
 	. += span_info("If the contract ends early, the unpaid daes return to the hirer. The dae in progress is still paid, unless the mercenary is the one who leaves.")
 	. += span_info("While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else.")
-	. += span_info("Pay per day by employer:")
+	. += span_info("Pay per dae by employer:")
 	for(var/category in GLOB.merc_hirer_categories)
 		var/list/terms = GLOB.merc_hirer_categories[category]
 		. += span_info("- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]")
@@ -533,7 +533,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/list/options = list()
 	for(var/i in 1 to MERC_CONTRACT_MAX_DAYS)
 		options += "[i]"
-	var/choice = tgui_input_list(merc, "How many days will you hire yourself out for?", "Mercenary Contract", options, "[days]")
+	var/choice = tgui_input_list(merc, "How many daes will you hire yourself out for?", "Mercenary Contract", options, "[days]")
 	if(!choice || !can_edit_terms())
 		return
 	var/new_rate = tgui_input_number(merc, "What rate will you ask for per dae? It is held from their MEISTER account every dae. Leave it at 0 to ask for nothing. Asking for a rate will prevent you from being hired by anyone without a MEISTER account.", "Mercenary Contract", rate, MERC_CONTRACT_MAX_RATE, 0)
@@ -612,7 +612,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(!category)
 		return ""
 	var/list/terms = GLOB.merc_hirer_categories[category]
-	return " [capitalize(terms["payer"])] will pay you [terms["stipend"]] mammon a day."
+	return " [capitalize(terms["payer"])] will pay you [terms["stipend"]] mammon a dae."
 
 /obj/item/merc_contract/proc/expire_offer()
 	offer_timer_id = null
