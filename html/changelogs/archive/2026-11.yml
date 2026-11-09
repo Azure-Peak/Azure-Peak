@@ -303,3 +303,67 @@
   - rscadd: Added the option to change your status on the Rose Wall when declining
       an offer.
   - bugfix: Fixed overly sanitized Rose Wall text.
+2026-11-08:
+  Blacklist897:
+  - rscadd: Donator Items for lockwood
+  BobProductive:
+  - rscadd: ported board games (chess, checkers, backgammon) from twilight axis
+  GailThePale:
+  - bugfix: hand size to 13
+  Quinalion:
+  - qol: Tree stumps now function as table surfaces.
+  - qol: Tree stumps can now be used for table-based interaction checks.
+  - rscadd: Items and mobs with table pass flags can now be placed and moved over
+      tree stumps.
+  - rscadd: Added table-style interactions to tree stumps.
+  - qol: Tree stumps are now automatically climbable.
+  Ryan180602:
+  - refactor: explosives
+  - rscadd: renegade antagonist gamemode.
+  WeNeedMorePhoron:
+  - bugfix: Aspect-granted spell now refund utility points if you already have them
+      selected
+  Xaytan:
+  - rscdel: Removed legacy temperature handling.
+  borneblood:
+  - bugfix: Linters again.
+  - bugfix: Fixed a problem with someone using lowertext instead of LOWER_TEXT.
+  changelingonberry:
+  - bugfix: Fix admin ooc color not saving & color drifting.
+  radarseas:
+  - bugfix: fixes the ancient dagger sheath sprites not existing, whoops!
+  - bugfix: ancient longsword now has a new sprite added for scabbards so it doesn't
+      look like a steel longsword - Technically image related but i consider it quality
+      control, thuslie its a fix, suffer!
+2026-11-09:
+  OrbisAnima:
+  - qol: Changes fishing rods category to normal so they can fit in satchels.
+  Ryan180602:
+  - balance: if you have a tail and your nympho procs, it'll wag.
+  WeNeedMorePhoron:
+  - rscadd: Increased the amount of contracts generated, especially at the start of
+      the game, so there's real choices.
+  - rscadd: Unattended scrolls now crumble after 30 minutes
+  - rscadd: Add messages to indicate if you had too much food / water
+  - rscdel: (Openly) Psydonite Grand Dukes are once again no longer allowed. You may
+      still have sympathy or empathy or pretend to be a converso or something.
+  - rscdel: Removed all non servantry service bells from the game to reduce church
+      / apoth / guild / merchant / steward stress level and stop reinforcing these
+      roles as vendor roles subservient to combat roles who is expected to be on call
+      for 3 hours. Use SCOM / Letters and or live with their potential absence.
+  - rscadd: Everyone can now see which region fishing stocks belong to, and the text
+      and mechanics is explained on examine
+  - rscadd: Now all fishers at Expert skills or with the Expert Fisher trait can see
+      whether specific fish is depleted and their replenishment rate, in IC time.
+  - rscdel: Single tile water source and town no longer fishable
+  - rscadd: Folded Chessboard is now craftable. Old game table renamed ornamental
+      game table to reduce confusion
+  changelingonberry:
+  - balance: Lux extraction can be performed with any sharp implement now.
+  fffelinid:
+  - qol: Bath-house staff can now lock/unlock their own peddler even if the matron
+      isn't present.
+  - bugfix: Fixed treasure seeker inheriting some unnecessary examine text from the
+      head eater.
+  zRainbowcat:
+  - bugfix: dodge chance abuse
