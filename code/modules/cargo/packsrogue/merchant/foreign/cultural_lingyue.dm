@@ -32,20 +32,6 @@
 	ship_qty_min = 1
 	ship_qty_max = 4
 
-/datum/supply_pack/rogue/lingyue/nodachi
-	name = "Nodachi"
-	cost = 150
-	contains = list(/obj/item/rogueweapon/greatsword/nodachi)
-	ship_qty_min = 1
-	ship_qty_max = 2
-
-/datum/supply_pack/rogue/lingyue/inodachi
-	name = "Iron Nodachi"
-	cost = 70
-	contains = list(/obj/item/rogueweapon/greatsword/nodachi/iron)
-	ship_qty_min = 1
-	ship_qty_max = 4
-
 /datum/supply_pack/rogue/lingyue/rumahwando
 	name = "Ruma Hwando"
 	cost = 1250
