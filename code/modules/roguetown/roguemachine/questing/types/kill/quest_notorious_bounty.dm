@@ -174,7 +174,7 @@
 			continue
 		grant_darkvision(goon)
 		goon_refs += WEAKREF(goon)
-		total_spawned_tp += initial(goon.threat_point) || 0
+		total_spawned_tp += initial_threat_point(goon.type)
 
 /datum/quest/kill/notorious_bounty/proc/spawn_reinforcements()
 	var/obj/effect/landmark/quest_spawner/landmark = pending_landmark_ref?.resolve()

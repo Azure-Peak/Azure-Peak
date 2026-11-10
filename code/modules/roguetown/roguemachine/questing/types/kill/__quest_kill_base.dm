@@ -374,7 +374,7 @@
 		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
 		if(!new_mob)
 			continue
-		total_spawned_tp += initial(new_mob.threat_point) || 0
+		total_spawned_tp += initial_threat_point(new_mob.type)
 		spawned++
 		sleep(1)
 	if(spawned > 0 && kills_count_progress)

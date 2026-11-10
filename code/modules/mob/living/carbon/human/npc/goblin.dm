@@ -64,9 +64,11 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	ambush_faction = "goblins"
 
 /mob/living/carbon/human/species/goblin/npc/archer
+	threat_point = THREAT_LOW
 	npc_archetype = /datum/npc_archetype/goblin/archer
 
 /mob/living/carbon/human/species/goblin/npc/slinger
+	threat_point = THREAT_LOW
 	npc_archetype = /datum/npc_archetype/goblin/slinger
 
 /mob/living/carbon/human/species/goblin/npc/archer/cave
@@ -456,6 +458,7 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 
 /mob/living/carbon/human/species/goblin/npc/bomber
 	name = "goblin pyromancer"
+	threat_point = THREAT_MODERATE
 	npc_archetype = /datum/npc_archetype/goblin/bomber
 
 /mob/living/carbon/human/species/goblin/npc/bomber/after_creation()

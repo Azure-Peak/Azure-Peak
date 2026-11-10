@@ -11,4 +11,6 @@
 		/mob/living/carbon/human/species/skeleton/npc/easy = 35,
 		/mob/living/carbon/human/species/skeleton/npc/medium = 10,
 		/mob/living/carbon/human/species/skeleton/npc/archer = 20,
+		/mob/living/carbon/human/species/skeleton/npc/hard = 10,
+		/mob/living/simple_animal/hostile/retaliate/rogue/saiga/undead = 5,
 	)
