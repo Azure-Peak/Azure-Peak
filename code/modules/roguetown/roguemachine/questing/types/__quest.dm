@@ -109,6 +109,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/deposit_paid = 0
 	var/posted_at = 0
 	var/signer_group
+	var/list/datum/weakref/contracted_mercs
 
 /datum/quest/New()
 	. = ..()
@@ -553,6 +554,14 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	record_contract_stat(src, CONTRACT_STAT_TAKEN)
 	record_contract_stat(src, CONTRACT_STAT_WAIT_DS, max(0, world.time - posted_at))
 	record_contract_signer(src, user.ckey)
+	record_contracted_mercs(user)
+
+/datum/quest/proc/record_contracted_mercs(mob/living/user)
+	if(!istype(user))
+		return
+	for(var/mob/living/member as anything in user.current_fellowship?.get_members())
+		if(get_merc_contract(member))
+			LAZYADD(contracted_mercs, WEAKREF(member))
 
 /datum/quest/proc/get_party_size()
 	if(fellowship_roster)

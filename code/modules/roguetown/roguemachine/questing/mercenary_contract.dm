@@ -24,7 +24,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/contract_label = Q.quest_type
 	var/mob/living/holder = Q.quest_receiver_reference?.resolve()
 	for(var/mob/living/payee as anything in shares)
-		if(!get_merc_contract(payee))
+		if(!get_merc_contract(payee) && !(WEAKREF(payee) in Q.contracted_mercs))
 			continue
 		if(payee == holder || payee.real_name == Q.quest_receiver_name)
 			continue

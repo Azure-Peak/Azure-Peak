@@ -330,7 +330,7 @@
 #define BLOCKADE_ARCHETYPE_PIVOT_TP 20
 #define BLOCKADE_ARCHETYPE_BIAS_STRENGTH 1.5
 
-#define MERC_CONTRACT_MAX_DAYS 3
+#define MERC_CONTRACT_MAX_DAYS 6
 #define MERC_CONTRACT_MAX_RATE 500 // Surely no one will enter this
 #define MERC_CONTRACT_DAY_LENGTH ((24 HOURS) / SSticker.station_time_rate_multiplier)
 #define MERC_CONTRACT_RANGE 7
