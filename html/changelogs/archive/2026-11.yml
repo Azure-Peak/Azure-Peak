@@ -367,3 +367,38 @@
       head eater.
   zRainbowcat:
   - bugfix: dodge chance abuse
+2026-11-10:
+  FreeStylaLT:
+  - bugfix: Fixed Clamorous not being satisfied by surrounding speech.
+  NonQueueingMatt:
+  - rscadd: Changed a line you receive when you've almost drank too much.
+  OrbisAnima:
+  - balance: Added the light crossbow option to the bow hunter.
+  Ryan180602:
+  - balance: Psydonic Plate-n-Maille is now 400 integ.
+  - balance: Psydonic Half-plate covers arms/chest/groin at 450 integ.
+  - balance: Psydonic Full-plate is now 450 integ.
+  - bugfix: Psydonic Half-plate inherits steel fluff traits (like walk sounds and
+      such)
+  - bugfix: Let the apostle/robe donor kits not turn the psy plates into steel.
+  Sauna38:
+  - bugfix: Fireplaces can now be placed on ANY wall - not just north-facing ones!
+  - rscadd: 'The Shelvening: adds all three types of shelves to the Crafting menu.
+      You can also move them by left-clicking with a stake while in combat mode.'
+  - rscadd: 'The Chestening and the Closeting: also adds three new chests types, one
+      closet, and one bed-side drawer to the crafting menu.'
+  WeNeedMorePhoron:
+  - rscadd: Moat in town is no longer fishable. Abyssorite water should always be
+      fishable.
+  - rscadd: Squire adventurer and aristocrat can no longer issue the Personal Valuables
+      TOWNER QUEST
+  - rscadd: You may now cancel targeted emotes like bow
+  changelingonberry:
+  - rscadd: The defiled keyholder virtue is now pickable with any patron, but non-ascendants
+      cannot use the travel tiles while being observed. It also allows you to claim
+      wretch houses.
+  - balance: Non-ascendants with defiled keyholder cannot take courtier, retinue,
+      garrison, church, inquisition or other patron-locked jobs.
+  - admin: 'Added a new smite: Bolt to the neck.'
+  radarseas:
+  - balance: Tennite heretics can now access T4 miracles again.
