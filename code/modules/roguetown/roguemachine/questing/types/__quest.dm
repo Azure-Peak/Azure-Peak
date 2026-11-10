@@ -72,9 +72,9 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/faction_id
 	var/datum/quest_faction/faction
 	var/required_fellowship_size = 0
-	var/solo_at_lowpop = FALSE
 	var/fellowship_threat_rate = 0
 	var/fellowship_reward_rate = 0
+	var/fellowship_threat_rate_first
 	var/list/fellowship_roster
 	var/fellowship_extras = 0
 	var/fellowship_missing = 0
@@ -320,11 +320,20 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	return 0
 
 /datum/quest/proc/calculate_delivery_reward(turf/origin_turf, turf/target_turf)
+	return calculate_distance_reward(origin_turf, target_turf) + region_delivery_bonus()
+
+/datum/quest/proc/calculate_distance_reward(turf/origin_turf, turf/target_turf)
 	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
-	. = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
+	return (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
+
+/datum/quest/proc/region_delivery_bonus()
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
-	if(TR)
-		. += max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
+	if(!TR)
+		return 0
+	return max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
+
+/datum/quest/proc/region_scale(datum/threat_region/TR)
+	return TR.delivery_reward_multiplier
 
 /datum/quest/proc/spawn_parcel(obj/effect/landmark/quest_spawner/landmark, parcel_type, list/bundle, parcel_name, parcel_desc, area/delivery_area)
 	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
@@ -357,9 +366,15 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	return round((base + additional + (get_difficulty_term("bonus") || 0)) * payout_mult)
 
 /datum/quest/proc/group_reward_mult(extras)
-	if(!extras || !fellowship_reward_rate)
-		return 1
-	return 1 + fellowship_reward_rate * extras
+	return min((1 + fellowship_reward_rate) ** extras, QUEST_FELLOWSHIP_REWARD_MULT_CAP)
+
+/datum/quest/proc/group_threat_mult(extras)
+	return 1 + fellowship_scale_bonus(extras, fellowship_threat_rate_first, fellowship_threat_rate)
+
+/proc/fellowship_scale_bonus(count, first_rate, rate)
+	if(count > 0 && !isnull(first_rate))
+		return first_rate + rate * (count - 1)
+	return rate * count
 
 /datum/quest/proc/get_difficulty_term(term)
 	var/list/terms = GLOB.quest_difficulty_terms[quest_difficulty]
@@ -408,19 +423,13 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/can_claim(mob/living/user)
 	if(SSquestpool.debug_mode)
 		return TRUE
-	var/required = get_signing_fellowship_size()
-	if(required > 0)
+	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
 		if(!F || !F.is_leader(user))
 			return FALSE
-		if(length(available_fellowship_members(user)) < required)
+		if(length(available_fellowship_members(user)) < required_fellowship_size)
 			return FALSE
 	return TRUE
-
-/datum/quest/proc/get_signing_fellowship_size()
-	if(solo_at_lowpop && SSeconomy.get_effective_player_count() < QUEST_MEDIUM_SOLO_POP_THRESHOLD)
-		return 0
-	return required_fellowship_size
 
 /datum/quest/proc/available_fellowship_members(mob/living/user)
 	. = list()
@@ -455,7 +464,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	fellowship_extras = count_fellowship_extras(user)
 	if(!fellowship_extras || (!fellowship_threat_rate && !fellowship_reward_rate))
 		return
-	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
+	fellowship_threat_mult = group_threat_mult(fellowship_extras)
 	fellowship_reward_mult = group_reward_mult(fellowship_extras)
 	if(!is_directive)
 		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
@@ -499,19 +508,42 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	return get_objective_text()
 
 /datum/quest/proc/project_fellowship_reward(mob/living/user)
-	var/extras = count_fellowship_extras(user)
-	var/missing = count_fellowship_missing(user)
-	if((!extras && !missing) || is_directive || (!fellowship_threat_rate && !fellowship_reward_rate))
-		return reward_amount
-	var/saved_mult = fellowship_threat_mult
-	var/saved_extras = fellowship_extras
-	fellowship_threat_mult = 1 + fellowship_threat_rate * (extras - missing)
-	fellowship_extras = extras
-	. = calculate_reward(reward_origin_turf, reward_target_turf)
+	return project_reward(count_fellowship_extras(user), count_fellowship_missing(user))
+
+/datum/quest/proc/project_reward(extras, missing)
+	. = reward_amount
+	if(!is_directive && (extras || missing) && (fellowship_threat_rate || fellowship_reward_rate))
+		var/saved_mult = fellowship_threat_mult
+		var/saved_extras = fellowship_extras
+		fellowship_threat_mult = group_threat_mult(extras - missing)
+		fellowship_extras = extras
+		. = calculate_reward(reward_origin_turf, reward_target_turf)
+		fellowship_threat_mult = saved_mult
+		fellowship_extras = saved_extras
 	if(missing)
 		. = round(. * (required_fellowship_size - missing) / required_fellowship_size)
-	fellowship_threat_mult = saved_mult
-	fellowship_extras = saved_extras
+
+/datum/quest/proc/scales_with_group()
+	return !is_directive && (fellowship_threat_rate || fellowship_reward_rate || required_fellowship_size > 1)
+
+/datum/quest/proc/build_size_table(as_veteran = FALSE)
+	var/saved_veteran = veteran
+	var/saved_amount = reward_amount
+	if(as_veteran)
+		veteran = TRUE
+		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+	. = list()
+	for(var/size in 1 to QUEST_FELLOWSHIP_SCALE_MAX)
+		var/extras = max(0, size - max(1, required_fellowship_size))
+		var/missing = max(0, required_fellowship_size - size)
+		. += list(list(
+			"size" = size,
+			"threat_pct" = round(group_threat_mult(extras - missing) * veteran_threat_mult() * 100, 1),
+			"reward" = project_reward(extras, missing),
+			"short" = missing > 0,
+		))
+	veteran = saved_veteran
+	reward_amount = saved_amount
 
 /datum/quest/proc/can_be_veteran()
 	return FALSE
@@ -535,13 +567,12 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	veteran = saved_veteran
 
 /datum/quest/proc/claim_failure_reason(mob/living/user)
-	var/required = get_signing_fellowship_size()
-	if(required > 0)
+	if(required_fellowship_size > 0)
 		var/datum/fellowship/F = user?.current_fellowship
 		if(!F)
-			return "This contract needs a fellowship of [required]."
-		if(length(F.get_members()) < required)
-			return "Your fellowship is too small. It needs [required] members."
+			return "This contract needs a fellowship of [required_fellowship_size]."
+		if(length(F.get_members()) < required_fellowship_size)
+			return "Your fellowship is too small. It needs [required_fellowship_size] members."
 		if(!F.is_leader(user))
 			return "Only your fellowship's leader may sign this contract."
 	return "You cannot sign that contract."

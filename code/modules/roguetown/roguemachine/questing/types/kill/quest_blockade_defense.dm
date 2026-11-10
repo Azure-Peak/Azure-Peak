@@ -11,7 +11,7 @@
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE
 	required_fellowship_size = 0
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE
-	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 
 	var/current_wave = 0
 	var/wave_timer_id
@@ -135,8 +135,8 @@
 	fellowship_split_payout = bearer?.current_fellowship?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = max(0, length(fellowship_roster) - BLOCKADE_FELLOWSHIP_REQUIREMENT)
 	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(fellowship_roster)) : 0
-	fellowship_threat_mult = 1 + fellowship_threat_rate * (fellowship_extras - fellowship_missing)
-	fellowship_reward_mult = 1 + fellowship_reward_rate * fellowship_extras
+	fellowship_threat_mult = group_threat_mult(fellowship_extras - fellowship_missing)
+	fellowship_reward_mult = group_reward_mult(fellowship_extras)
 	reward_amount = round(reward_amount * fellowship_reward_mult)
 	if(fellowship_missing)
 		scale_for_missing_crew(length(fellowship_roster))

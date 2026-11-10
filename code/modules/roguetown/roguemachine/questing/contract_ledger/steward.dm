@@ -88,16 +88,16 @@
 		names += (fund == SStreasury.burgher_pledge_fund) ? "the Pledge" : fund.name
 	return "from [english_list(names)]"
 
-/obj/structure/roguemachine/contractledger/proc/build_region_tp_multipliers()
+/obj/structure/roguemachine/contractledger/proc/build_region_scales_by_type()
 	var/list/out = list()
-	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		out[TR.region_name] = TR.tp_budget_multiplier
-	return out
-
-/obj/structure/roguemachine/contractledger/proc/build_region_delivery_multipliers()
-	var/list/out = list()
-	for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
-		out[TR.region_name] = TR.delivery_reward_multiplier
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(!proto.defense_cost && !proto.rumor_cost)
+			continue
+		var/list/scales = list()
+		for(var/datum/threat_region/TR as anything in SSregionthreat.threat_regions)
+			scales[TR.region_name] = proto.region_scale(TR)
+		out[qtype] = scales
 	return out
 
 /obj/structure/roguemachine/contractledger/proc/add_defense_types(list/data)

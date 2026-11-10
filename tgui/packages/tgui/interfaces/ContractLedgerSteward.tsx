@@ -26,7 +26,7 @@ type StewardData = {
   defense_costs: Record<string, number>;
   defense_regions_by_type: Record<string, string[]>;
   blockade_region_labels: Record<string, string>;
-  region_tp_multipliers: Record<string, number>;
+  region_scales_by_type: Record<string, Record<string, number>>;
   defense_log: DefenseLogEntry[];
   active_writ_regions: string[];
   bonus_pay_light_mult: number;
@@ -335,7 +335,7 @@ const ComposeView = () => {
                 : '- pick a region -'}
           </option>
           {regionsForType.map((r) => {
-            const mult = data.region_tp_multipliers?.[r];
+            const mult = data.region_scales_by_type?.[type]?.[r];
             // Only annotate non-writ regions - blockade rows route through economic
             // regions, which don't carry a TP multiplier, and writ rewards are flat.
             const suffix =
@@ -360,7 +360,7 @@ const ComposeView = () => {
         (() => {
           const flavor = regionRewardFlavor(
             region,
-            data.region_tp_multipliers?.[region],
+            data.region_scales_by_type?.[type]?.[region],
           );
           if (!flavor) return null;
           return (

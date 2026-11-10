@@ -69,6 +69,11 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		return 0
 	return weighted_tp / total_weight
 
+/datum/quest_faction/proc/max_threat_point()
+	. = 0
+	for(var/mob_path in mob_types)
+		. = max(., initial_threat_point(mob_path))
+
 /datum/quest_faction/proc/pick_crimes(count = 3)
 	if(!length(crime_weights) || count <= 0)
 		return list()

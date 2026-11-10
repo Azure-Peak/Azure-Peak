@@ -150,9 +150,10 @@
 	data["hoard_recovery_hoard_min"] = HOARD_RECOVERY_HOARD_MINIMUM
 	data["townie_gate_minutes"] = CONTRACT_TOWNIE_GATE_TIME / (1 MINUTES)
 	data["veteran_threat_pct"] = round((QUEST_VETERAN_THREAT_MULT - 1) * 100)
+	data["fellowship_reward_cap_pct"] = round((QUEST_FELLOWSHIP_REWARD_MULT_CAP - 1) * 100)
 	data["blockade_defender_min"] = BLOCKADE_FELLOWSHIP_REQUIREMENT
 	data["blockade_defender_max"] = QUEST_FELLOWSHIP_SCALE_MAX
-	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE * 100)
+	data["blockade_extra_defender_pct"] = round(QUEST_FELLOWSHIP_REWARD_PER_EXTRA * 100)
 	data["blockade_extra_threat_pct"] = round(QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE * 100)
 	data["towner_crown_cost_mult"] = TOWNER_POSTING_CROWN_COST_MULT
 	data["fellowship_bonus_first"] = QUEST_ACTIVE_FELLOWSHIP_BONUS_FIRST
@@ -160,8 +161,7 @@
 	data["scout_regions"] = SSregionthreat.build_scout_region_rows()
 	data["spoils_tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_RECOVERED_SPOILS)
 	data["tax_rate"] = SStreasury.get_tax_rate(TAX_CATEGORY_CONTRACT_LEVY)
-	data["region_tp_multipliers"] = build_region_tp_multipliers()
-	data["region_delivery_multipliers"] = build_region_delivery_multipliers()
+	data["region_scales_by_type"] = build_region_scales_by_type()
 	data["can_proxy_turnin"] = (user.job in GLOB.contract_proxy_officials)
 	data["can_admin_complete"] = can_admin_complete(user)
 	data["issued"] = build_issued_listing(user)
@@ -318,6 +318,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			threat_bands = KQ.threat_bands_cleared
 		var/lapse_minutes = Q.lapses ? max(0, round((Q.get_lapse_time() - world.time) / 600, 1)) : null
 		var/can_veteran = Q.can_be_veteran()
+		var/scales = Q.scales_with_group()
 		listing += list(list(
 			"ref" = REF(Q),
 			"title" = Q.title || "Unnamed Contract",
@@ -325,8 +326,9 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"difficulty" = Q.quest_difficulty,
 			"reward" = Q.reward_amount,
 			"projected_reward" = Q.project_fellowship_reward(user),
-			"fellowship_threat_rate" = Q.fellowship_threat_rate,
 			"fellowship_reward_rate" = Q.fellowship_reward_rate,
+			"size_table" = scales ? Q.build_size_table() : null,
+			"veteran_size_table" = (scales && can_veteran) ? Q.build_size_table(TRUE) : null,
 			"deposit" = Q.deposit_amount,
 			"area" = Q.target_spawn_area,
 			"region" = Q.region,
@@ -339,7 +341,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
 			"claim_barred" = is_quest_claim_barred(user, Q),
 			"is_standing" = Q.source != QUEST_SOURCE_POOL,
-			"required_fellowship_size" = Q.get_signing_fellowship_size(),
+			"required_fellowship_size" = Q.required_fellowship_size,
 			"lapse_minutes" = lapse_minutes,
 			"can_veteran" = can_veteran,
 			"veteran_reward" = can_veteran ? Q.project_veteran_reward(user) : null,

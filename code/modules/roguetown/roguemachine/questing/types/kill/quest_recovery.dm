@@ -90,19 +90,16 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 		THREAT_REGION_UNDERDARK,
 	)
 	tp_budget = QUEST_TP_BUDGET_RECOVERY
+	max_region_tp_mult = QUEST_MEDIUM_MAX_REGION_TP_MULT
 	threat_bands_cleared = QUEST_BANDS_RECOVERY
-	required_fellowship_size = QUEST_MEDIUM_FELLOWSHIP_REQUIREMENT
-	solo_at_lowpop = TRUE
-	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_MEDIUM
+	fellowship_threat_rate_first = QUEST_SOLO_SCALE_THREAT_FIRST
+	fellowship_threat_rate = QUEST_SOLO_SCALE_THREAT_AFTER
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	kills_count_progress = FALSE
 	takes_destination = TRUE
 	var/shipment_name
 	var/shipment_count = 0
 	var/parcel_released = FALSE
-
-/datum/quest/kill/recovery/get_base_reward()
-	return QUEST_REWARD_BASE_RECOVERY
 
 /datum/quest/kill/recovery/roll_circumstance()
 	if(faction?.category in list(FACTION_CAT_UNDEAD, FACTION_CAT_BEAST, FACTION_CAT_ELEMENTAL))
@@ -150,7 +147,7 @@ GLOBAL_LIST_INIT(quest_recovery_shipments, list(
 	return "Recover [shipment_name] and deliver the sealed parcel to [dest_name]."
 
 /datum/quest/kill/recovery/get_additional_reward(turf/origin_turf, turf/target_turf)
-	return ROUND_UP(..() + calculate_delivery_reward(origin_turf, target_turf))
+	return ROUND_UP(..() + calculate_distance_reward(origin_turf, target_turf))
 
 /datum/quest/kill/recovery/materialize(obj/effect/landmark/quest_spawner/landmark)
 	if(!faction)

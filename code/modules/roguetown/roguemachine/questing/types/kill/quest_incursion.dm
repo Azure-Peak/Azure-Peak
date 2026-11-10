@@ -17,7 +17,7 @@
 	threat_bands_cleared = QUEST_BANDS_INCURSION
 	required_fellowship_size = QUEST_INCURSION_FELLOWSHIP_REQUIREMENT
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_INCURSION
-	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA_INCURSION
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	objective_verb = "Rout"
 	var/second_wave_sent = FALSE
 	var/intermission_timer_id

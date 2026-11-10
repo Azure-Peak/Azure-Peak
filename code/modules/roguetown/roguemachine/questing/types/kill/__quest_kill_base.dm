@@ -1,6 +1,7 @@
 /datum/quest/kill
 	abstract_type = /datum/quest/kill
 	var/tp_budget = 0
+	var/max_region_tp_mult
 	var/min_mobs = 1
 	var/threat_bands_cleared = 0
 	var/total_spawned_tp = 0
@@ -198,7 +199,7 @@
 	if(!kills_count_progress || (!veteran && ((!extras && !missing) || !fellowship_threat_rate)))
 		return get_objective_text()
 	var/saved_required = progress_required
-	var/scaled = estimate_mob_count(round(tp_budget * (1 + fellowship_threat_rate * (extras - missing)) * veteran_threat_mult()))
+	var/scaled = estimate_mob_count(round(tp_budget * group_threat_mult(extras - missing) * veteran_threat_mult()))
 	progress_required = missing ? scaled : min(max(scaled, estimate_mob_count() + extras), QUEST_KILL_MAX_MOBS)
 	. = get_objective_text()
 	progress_required = saved_required
@@ -249,7 +250,7 @@
 	fellowship_extras = max(0, length(present) - max(1, required_fellowship_size))
 	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(present)) : 0
 	if(fellowship_missing)
-		fellowship_threat_mult = 1 - fellowship_threat_rate * fellowship_missing
+		fellowship_threat_mult = group_threat_mult(-fellowship_missing)
 		fellowship_reward_mult = 1
 		if(!is_directive && (fellowship_threat_rate || fellowship_reward_rate))
 			reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
@@ -257,7 +258,7 @@
 		return
 	if(fellowship_extras == before || (!fellowship_threat_rate && !fellowship_reward_rate))
 		return
-	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
+	fellowship_threat_mult = group_threat_mult(fellowship_extras)
 	fellowship_reward_mult = group_reward_mult(fellowship_extras)
 	if(!is_directive)
 		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
@@ -311,7 +312,7 @@
 		return FALSE
 	faction_id = faction.id
 	// Scale by regional danger, then roll per-quest variance so two same-difficulty quests differ.
-	tp_budget = roll_tp_budget(tp_budget, TR.tp_budget_multiplier)
+	tp_budget = roll_tp_budget(tp_budget, region_scale(TR))
 	target_mob_type = faction.pick_mob_type()
 	if(!target_mob_type)
 		return FALSE
@@ -320,6 +321,11 @@
 		band_leader_name = faction.generate_boss_name()
 	finalize_preview_title()
 	return TRUE
+
+/datum/quest/kill/region_scale(datum/threat_region/TR)
+	if(max_region_tp_mult)
+		return min(TR.tp_budget_multiplier, max_region_tp_mult)
+	return TR.tp_budget_multiplier
 
 /datum/quest/kill/proc/roll_tp_budget(base_budget, region_mult = 1.0)
 	if(base_budget <= 0)
@@ -353,9 +359,9 @@
 
 /datum/quest/kill/proc/scaled_threat_budget(budget = tp_budget)
 	. = round(budget * fellowship_threat_mult * veteran_threat_mult())
-	var/avg_tp = average_threat_point()
-	if(avg_tp > 0)
-		. = min(., round(QUEST_KILL_MAX_MOBS * avg_tp))
+	var/max_tp = faction?.max_threat_point()
+	if(max_tp > 0)
+		. = min(., round(QUEST_KILL_MAX_MOBS * max_tp))
 
 /datum/quest/kill/proc/estimate_mob_count(budget = tp_budget)
 	if(budget <= 0)
@@ -455,6 +461,8 @@
 				break
 		result += picked
 		budget -= cost
+	if(budget > 0 && length(result) >= QUEST_KILL_MAX_MOBS)
+		upgrade_warband(result, candidates, budget)
 	// Top up to min_mobs even if budget is spent — ensures e.g. Easy Kill always has ≥2 targets.
 	while(length(result) < min_mobs && length(result) < QUEST_KILL_MAX_MOBS)
 		var/picked = pickweight(candidates)
@@ -466,6 +474,26 @@
 		while(length(result) < floor_count)
 			result += pickweight(candidates)
 	return result
+
+/datum/quest/kill/proc/upgrade_warband(list/result, list/candidates, budget)
+	while(budget > 0)
+		var/cheapest_index = 0
+		var/cheapest_cost = INFINITY
+		for(var/i in 1 to length(result))
+			var/cost = initial_threat_point(result[i])
+			if(cost < cheapest_cost)
+				cheapest_cost = cost
+				cheapest_index = i
+		var/list/upgrades = list()
+		for(var/path in candidates)
+			var/cost = initial_threat_point(path)
+			if(cost > cheapest_cost && cost - cheapest_cost <= budget)
+				upgrades[path] = candidates[path]
+		if(!length(upgrades))
+			return
+		var/picked = pickweight(upgrades)
+		budget -= initial_threat_point(picked) - cheapest_cost
+		result[cheapest_index] = picked
 
 /datum/quest/kill/get_additional_reward(turf/origin_turf, turf/target_turf)
 	if(total_spawned_tp > 0)

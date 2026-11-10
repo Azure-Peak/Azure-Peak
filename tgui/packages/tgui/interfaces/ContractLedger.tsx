@@ -13,6 +13,68 @@ import {
 import { StewardDefensePanel } from './ContractLedgerSteward';
 import { TownerPostingPanel } from './ContractLedgerTowner';
 
+type SizeRow = {
+  size: number;
+  threat_pct: number;
+  reward: number;
+  short: BooleanLike;
+};
+
+const SizeTable = (props: {
+  rows: SizeRow[];
+  mySize: number;
+  levyRate: number;
+  guildRate: number;
+  scanRange: number;
+  capPct: number;
+}) => {
+  const { rows, mySize, levyRate, guildRate, scanRange, capPct } = props;
+  const cell = { padding: '1px 6px', textAlign: 'right' } as const;
+  return (
+    <div>
+      <table style={{ borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={cell}>Size</th>
+            <th style={cell}>Foes</th>
+            <th style={cell}>Pay</th>
+            <th style={cell}>Each</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => {
+            const net =
+              r.reward -
+              Math.round(r.reward * levyRate) -
+              Math.round(r.reward * guildRate);
+            return (
+              <tr
+                key={r.size}
+                style={{
+                  fontWeight: r.size === mySize ? 'bold' : undefined,
+                  color: r.short ? '#e08080' : undefined,
+                }}
+              >
+                <td style={cell}>
+                  {r.size}
+                  {r.short ? ' (short)' : ''}
+                  {r.size === mySize ? ' ◀' : ''}
+                </td>
+                <td style={cell}>{r.threat_pct}%</td>
+                <td style={cell}>{r.reward}</td>
+                <td style={cell}>{Math.floor(net / r.size)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div style={{ marginTop: '4px', maxWidth: '260px' }}>
+        {`Estimates from this contract's rolled threat. Foes are relative to the listed threat. Members count only if within ${scanRange} tiles of the contract when it starts. Pay from extra members stops at +${capPct}%, but foes keep scaling and still count. This assumes an even split after cut.`}
+      </div>
+    </div>
+  );
+};
+
 type Contract = {
   ref: string;
   title: string;
@@ -20,8 +82,9 @@ type Contract = {
   difficulty: string;
   reward: number;
   projected_reward: number;
-  fellowship_threat_rate: number;
   fellowship_reward_rate: number;
+  size_table: SizeRow[] | null;
+  veteran_size_table: SizeRow[] | null;
   deposit: number;
   area: string;
   region: string;
@@ -100,6 +163,7 @@ type ContractLedgerData = {
   claim_barred_reason: string;
   claim_lowpop_lifted: BooleanLike;
   arrival_scan_range: number;
+  fellowship_reward_cap_pct: number;
   pool: Contract[];
   active: ActiveContract[];
   issued: IssuedContract[];
@@ -601,7 +665,7 @@ const ContractCard = (props: { contract: Contract }) => {
             Fellowship
             <Tooltip
               position="top"
-              content="If fewer members show up than the contract needs, the threat and reward scales down. Contracts handed to you directly are not affected. In lowpop, Medium contracts can be signed alone for less pay."
+              content="If fewer members show up than the contract needs, the threat and reward scales down. Contracts handed to you directly are not affected."
             >
               <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
             </Tooltip>
@@ -651,32 +715,47 @@ const ContractCard = (props: { contract: Contract }) => {
           </span>
         </div>
       )}
-      {c.fellowship_reward_rate > 0 && (
-        <div className="ContractLedger__CardRow">
-          <span className="ContractLedger__CardLabel">
-            Per extra fellow
-            <Tooltip
-              position="top"
-              content={`Contract scales to the number of fellowship members within ${data.arrival_scan_range} tiles of the writ when it starts.`}
-            >
-              <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
-            </Tooltip>
-          </span>
-          <span className="ContractLedger__CardValue">
-            +{formatRatioPct(c.fellowship_reward_rate)} pay
-            {c.fellowship_threat_rate > 0 &&
-              `, +${formatRatioPct(c.fellowship_threat_rate)} foes`}
-          </span>
-        </div>
-      )}
       {(() => {
         const levyRate = c.levy_exempt ? 0 : data.tax_rate;
         const guildRate = c.guild_cut_rate || 0;
         const levy = Math.round(payout * levyRate);
         const guild = Math.round(payout * guildRate);
         const purse = payout - levy - guild;
+        const sizeRows =
+          (useVeteran && c.veteran_size_table) || c.size_table;
+        const mySize = Math.min(
+          Math.max(data.user_fellowship_size || 1, 1),
+          sizeRows?.length || 1,
+        );
         return (
           <>
+            {!!sizeRows && (
+              <div className="ContractLedger__CardRow">
+                <span className="ContractLedger__CardLabel">
+                  By group size
+                  <Tooltip
+                    position="top"
+                    content={
+                      <SizeTable
+                        rows={sizeRows}
+                        mySize={mySize}
+                        levyRate={levyRate}
+                        guildRate={guildRate}
+                        scanRange={data.arrival_scan_range}
+                        capPct={data.fellowship_reward_cap_pct}
+                      />
+                    }
+                  >
+                    <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
+                  </Tooltip>
+                </span>
+                <span className="ContractLedger__CardValue">
+                  {c.fellowship_reward_rate > 0
+                    ? `+${formatRatioPct(c.fellowship_reward_rate)} per member`
+                    : 'Cut if short'}
+                </span>
+              </div>
+            )}
             {!c.levy_exempt && data.tax_rate > 0 && (
               <div className="ContractLedger__CardRow">
                 <span className="ContractLedger__CardLabel">
