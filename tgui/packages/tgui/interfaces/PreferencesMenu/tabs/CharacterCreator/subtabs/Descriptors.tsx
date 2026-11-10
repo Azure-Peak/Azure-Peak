@@ -579,7 +579,7 @@ type SecretType = (typeof SECRET_TYPES)[number]['value'];
 
 const SecretsEditor = () => {
   const { act, data } = useBackendStrict<DescriptorData>();
-  const { secrets } = data;
+  const { secrets, secrets_cached } = data;
 
   const [selectedSecretType, setSelectedSecretType] =
     useState<SecretType>('assassin');
@@ -639,7 +639,7 @@ const SecretsEditor = () => {
           sharedStatePreview={`preview_secrets_${selectedSecretType}`}
           maxLength={400}
           value={selectedSecret}
-          preview={null}
+          preview={secrets_cached?.[selectedSecretType] ?? null}
           onSave={(value) =>
             act('save_markdown_text', {
               type: 'save_secret',

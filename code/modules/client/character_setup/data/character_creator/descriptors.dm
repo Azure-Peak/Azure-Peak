@@ -29,6 +29,7 @@
 		"rumour_cached" = null,
 		"noble_gossip_cached" = null,
 		"secrets" = secrets,
+		"secrets_cached" = list(),
 	)
 
 	if(examine_theme)
@@ -52,6 +53,13 @@
 
 	if(LAZYACCESS(tgui_shared_states, "preview_gossip"))
 		data["noble_gossip_cached"] = noble_gossip_cached
+
+	if(islist(secrets))
+		for(var/secret_type in secrets)
+			if(LAZYACCESS(tgui_shared_states, "preview_secrets_[secret_type]"))
+				var/secret = secrets[secret_type]
+				if(secret)
+					data["secrets_cached"][secret_type] = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
 
 	return data
 

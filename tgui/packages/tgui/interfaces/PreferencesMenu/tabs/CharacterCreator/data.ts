@@ -211,6 +211,7 @@ export type ExamineData = {
   rumour: string | null; // null indicates unset
   noble_gossip: string | null; // null indicates unset
   secrets: Record<string, string | null>; // null indicates unset
+  secrets_cached: Record<string, TrustedHTML | null>;
 
   flavortext_cached: TrustedHTML | null; // null indicates unset
   nsfwflavortext_cached: TrustedHTML | null; // null indicates unset
