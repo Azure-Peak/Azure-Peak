@@ -681,6 +681,30 @@
 	// These aren't dense, so they shouldn't have an offset!
 	climb_offset = 0
 	pixel_y = 32
+	
+/obj/structure/rack/rogue/shelf/wall
+	icon = 'icons/roguetown/misc/structure.dmi'
+	icon_state = "shelf"
+	density = FALSE
+	climbable = FALSE
+	dir = SOUTH
+	// These aren't dense, so they shouldn't have an offset!
+	climb_offset = 0
+	pixel_y = 32
+	
+/obj/structure/rack/rogue/shelf/wall/OnCrafted(dirin)
+	pixel_x = 0
+	pixel_y = 0
+	switch(dirin)
+		if(NORTH)
+			pixel_y = 32
+		if(SOUTH)
+			pixel_y = -32
+		if(EAST)
+			pixel_x = 32
+		if(WEST)
+			pixel_x = -32
+	. = ..()
 
 /obj/structure/rack/rogue/shelf/big
 	icon = 'icons/roguetown/misc/structure.dmi'

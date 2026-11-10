@@ -1,0 +1,6 @@
+author: "Sauna38"
+delete-after: True
+changes:
+  - bugfix: "Fireplaces can now be placed on ANY wall - not just north-facing ones!"
+  - rscadd: "The Shelvening: adds all three types of shelves to the Crafting menu. You can also move them by left-clicking with a stake while in combat mode."
+  - rscadd: "The Chestening and the Closeting: also adds three new chests types, one closet, and one bed-side drawer to the crafting menu."
