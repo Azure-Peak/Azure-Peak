@@ -11,6 +11,7 @@ SUBSYSTEM_DEF(questpool)
 	var/list/registered_ledgers = list()
 	var/list/kill_count_by_region = list()
 	var/list/evergreen_count_by_region = list()
+	var/list/type_count_by_region = list()
 	var/list/landmarks_by_region = list()
 	var/list/pool_weights = list()
 	var/debug_mode = FALSE
@@ -70,6 +71,15 @@ SUBSYSTEM_DEF(questpool)
 /datum/controller/subsystem/questpool/proc/adjust_region_count(datum/quest/Q, delta)
 	if(!Q?.region || !delta)
 		return
+	var/list/types = type_count_by_region[Q.region]
+	if(!types)
+		types = list()
+		type_count_by_region[Q.region] = types
+	var/new_type_count = (types[Q.quest_type] || 0) + delta
+	if(new_type_count <= 0)
+		types -= Q.quest_type
+	else
+		types[Q.quest_type] = new_type_count
 	if(Q.pool_kind == QUEST_POOL_KILL)
 		var/new_count = (kill_count_by_region[Q.region] || 0) + delta
 		if(new_count <= 0)
@@ -192,11 +202,20 @@ SUBSYSTEM_DEF(questpool)
 
 /datum/controller/subsystem/questpool/proc/pick_pool_type_for(datum/threat_region/TR, pool_kind)
 	var/list/weights = list()
+	var/total_weight = 0
 	for(var/qtype in pool_weights[pool_kind])
 		if(TR.allows_quest_type(qtype))
 			weights[qtype] = pool_weights[pool_kind][qtype]
+			total_weight += weights[qtype]
 	if(!length(weights))
 		return null
+	var/list/have = type_count_by_region[TR.region_name]
+	var/on_board = 0
+	for(var/qtype in weights)
+		on_board += have?[qtype] || 0
+	for(var/qtype in weights)
+		if((have?[qtype] || 0) < weights[qtype] / total_weight * (on_board + 1))
+			weights[qtype] *= QUEST_POOL_UNDERSTOCK_WEIGHT_MULT
 	return pickweight(weights)
 
 /datum/controller/subsystem/questpool/proc/reroll_stale()

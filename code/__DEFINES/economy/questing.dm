@@ -104,6 +104,8 @@
 #define QUEST_POOL_WEIGHT_RETRIEVAL 55
 #define QUEST_POOL_WEIGHT_COURIER 45
 
+#define QUEST_POOL_UNDERSTOCK_WEIGHT_MULT 10
+
 // Multipliers applied to the base TP for kill request rewards
 #define QUEST_KILL_THREAT_MULT 0.8
 // Bounty's main target is further multiplied
