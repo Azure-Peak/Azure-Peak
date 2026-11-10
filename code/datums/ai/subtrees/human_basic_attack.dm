@@ -91,7 +91,7 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun) && !ai_npc_fights_unarmed(pawn))
+	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
 		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 			if(!isturf(candidate.loc))
 				continue
