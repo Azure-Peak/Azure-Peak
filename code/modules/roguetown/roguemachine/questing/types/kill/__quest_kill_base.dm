@@ -5,6 +5,7 @@
 	var/threat_bands_cleared = 0
 	var/total_spawned_tp = 0
 	var/kills_count_progress = TRUE
+	var/rolls_faction_variants = TRUE
 	var/objective_verb = "Eliminate"
 	var/failed = FALSE
 	var/armed = FALSE
@@ -324,6 +325,8 @@
 	if(!length(weights))
 		return null
 	var/datum/quest_faction/picked = get_quest_faction(pickweight(weights))
+	if(!rolls_faction_variants)
+		return picked
 	return picked?.roll_variant()
 
 /datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
