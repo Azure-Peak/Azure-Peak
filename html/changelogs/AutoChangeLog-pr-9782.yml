@@ -1,0 +1,5 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - rscadd: "The defiled keyholder virtue is now pickable with any patron, but non-ascendants cannot use the travel tiles while being observed. It also allows you to claim wretch houses."
+  - balance: "Non-ascendants with defiled keyholder cannot take courtier, retinue, garrison, church, inquisition or other patron-locked jobs."
