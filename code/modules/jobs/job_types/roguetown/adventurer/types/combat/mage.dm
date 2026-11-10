@@ -235,7 +235,7 @@
 				if("Greataxe")
 					r_hand = granted_weapon = /obj/item/rogueweapon/greataxe
 					backr = /obj/item/rogueweapon/scabbard/gwstrap
-	if(granted_weapon)The
+	if(granted_weapon)
 		H.adjust_skillrank_up_to(granted_weapon::associated_skill, SKILL_LEVEL_JOURNEYMAN, TRUE)
 
 	H.cmode_music = 'sound/music/cmode/adventurer/combat_outlander3.ogg'
