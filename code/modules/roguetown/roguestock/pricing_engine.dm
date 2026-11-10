@@ -324,36 +324,13 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	text2file(jointext(lines, "\n"), "pricing_engine_category_audit.csv")
 
 /proc/derived_pass(list/audit_lines, list/missing_materials, list/trade_good_lookup)
-	var/new_derivations = 0
+	var/list/pending = list()
 	for(var/datum/anvil_recipe/AR as anything in GLOB.anvil_recipes)
 		if(AR.hides_from_books || !AR.created_item || !AR.req_bar)
 			continue
 		if(trade_good_lookup && trade_good_lookup[AR.created_item])
 			continue
-		var/category = AR.display_category
-		var/cat_missing = FALSE
-		if(!category)
-			category = ITEM_CAT_SMITHING_MISC
-			cat_missing = TRUE
-		var/list/local_missing = list()
-		var/list/breakdown = list()
-		var/material_cost = build_input_breakdown(AR.req_bar, 1, local_missing, breakdown)
-		if(islist(AR.additional_items))
-			for(var/path in AR.additional_items)
-				material_cost += build_input_breakdown(path, 1, local_missing, breakdown)
-		if(missing_materials)
-			for(var/m in local_missing)
-				if(!(m in missing_materials))
-					missing_materials += m
-		var/yield = max(1, AR.createditem_num)
-		var/derived = derive_price_from_cost(material_cost, category, yield)
-		var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
-		if(audit_lines)
-			audit_lines += csv_row(list("anvil", AR.name, "[AR.created_item]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "[yield]", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
-		if(derived <= 0)
-			continue
-		if(register_derived_price(AR.created_item, derived, category))
-			new_derivations++
+		pending[AR] = AR.created_item
 	for(var/datum/crafting_recipe/CR as anything in GLOB.crafting_recipes)
 		if(CR.hides_from_books)
 			continue
@@ -362,38 +339,7 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 			continue
 		if(trade_good_lookup && trade_good_lookup[result_path])
 			continue
-		var/category = CR.display_category
-		var/cat_missing = FALSE
-		if(!category)
-			category = ITEM_CAT_MISCELLANEOUS
-			cat_missing = TRUE
-		var/material_cost = 0
-		var/list/local_missing = list()
-		var/list/breakdown = list()
-		if(islist(CR.reqs))
-			for(var/path in CR.reqs)
-				var/qty = CR.reqs[path]
-				if(!isnum(qty))
-					qty = 1
-				material_cost += build_input_breakdown(path, qty, local_missing, breakdown)
-		if(missing_materials)
-			for(var/m in local_missing)
-				if(!(m in missing_materials))
-					missing_materials += m
-		var/recipe_yield = recipe_result_yield(CR, result_path)
-		var/derived = derive_price_from_cost(material_cost, category, recipe_yield)
-		var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
-		if(audit_lines)
-			audit_lines += csv_row(list("crafting", CR.name, "[result_path]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "[recipe_yield]", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
-		if(derived <= 0)
-			continue
-		if(register_derived_price(result_path, derived, category))
-			new_derivations++
-		if(ispath(result_path, /obj/item/natural/clay))
-			var/obj/item/natural/clay/raw_proto = result_path
-			var/cooked_path = initial(raw_proto.cooked_type)
-			if(cooked_path && register_derived_price(cooked_path, derived, category))
-				new_derivations++
+		pending[CR] = result_path
 	for(var/datum/transmutation_recipe/TR as anything in GLOB.transmutation_recipes)
 		if(!TR.unique_sellable)
 			continue
@@ -402,49 +348,168 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 			continue
 		if(trade_good_lookup && trade_good_lookup[result_path])
 			continue
-		var/category = TR.category
-		var/cat_missing = FALSE
-		if(!category)
-			category = ITEM_CAT_MISCELLANEOUS
-			cat_missing = TRUE
-		var/material_cost = 0
-		var/list/local_missing = list()
-		var/list/breakdown = list()
+		pending[TR] = result_path
+	var/list/inputs_by_recipe = list()
+	var/list/deps_by_recipe = list()
+	var/list/outputs_by_recipe = list()
+	var/list/producers = list()
+	for(var/datum/R as anything in pending)
+		var/list/inputs = derived_recipe_inputs(R)
+		inputs_by_recipe[R] = inputs
+		var/list/deps = list()
+		for(var/path in inputs)
+			if(!recipe_material_cost_for(path))
+				deps += path
+		deps_by_recipe[R] = deps
+		var/list/outputs = derived_recipe_outputs(R, pending[R])
+		outputs_by_recipe[R] = outputs
+		for(var/out in outputs)
+			var/list/makers = producers[out]
+			if(!makers)
+				makers = list()
+				producers[out] = makers
+			makers += R
+	var/new_derivations = 0
+	while(length(pending))
+		var/resolved_any = FALSE
+		for(var/datum/R as anything in pending.Copy())
+			if(derived_recipe_blocker(deps_by_recipe[R], producers))
+				continue
+			new_derivations += resolve_derived_recipe(R, pending, producers, inputs_by_recipe[R], outputs_by_recipe[R], audit_lines, missing_materials)
+			resolved_any = TRUE
+		if(!resolved_any)
+			var/datum/cycle_member = find_derived_cycle_member(pending, deps_by_recipe, producers)
+			new_derivations += resolve_derived_recipe(cycle_member, pending, producers, inputs_by_recipe[cycle_member], outputs_by_recipe[cycle_member], audit_lines, missing_materials)
+	new_derivations += food_recipe_derive_pass(audit_lines, missing_materials, trade_good_lookup)
+	return new_derivations
+
+/proc/derived_recipe_inputs(datum/recipe)
+	var/list/inputs = list()
+	if(istype(recipe, /datum/anvil_recipe))
+		var/datum/anvil_recipe/AR = recipe
+		inputs[AR.req_bar] = 1
+		if(islist(AR.additional_items))
+			for(var/path in AR.additional_items)
+				inputs[path] = (inputs[path] || 0) + 1
+	else if(istype(recipe, /datum/crafting_recipe))
+		var/datum/crafting_recipe/CR = recipe
+		if(islist(CR.reqs))
+			for(var/path in CR.reqs)
+				var/qty = CR.reqs[path]
+				if(!isnum(qty))
+					qty = 1
+				inputs[path] = (inputs[path] || 0) + qty
+	else if(istype(recipe, /datum/transmutation_recipe))
+		var/datum/transmutation_recipe/TR = recipe
 		if(islist(TR.input_items))
 			for(var/path in TR.input_items)
 				var/qty = TR.input_items[path]
 				if(!isnum(qty))
 					qty = 1
-				material_cost += build_input_breakdown(path, qty, local_missing, breakdown)
-		if(islist(TR.materia_aspects))
-			for(var/datum/materia_aspect/path as anything in TR.materia_aspects)
-				var/obj/item/minsrc = path::cheapest_known_source
-				if(minsrc::sellprice)
-					material_cost += minsrc::sellprice
-				else if(GLOB.derived_sellprices[minsrc])
-					material_cost += GLOB.derived_sellprices[minsrc]
-				else
-					material_cost += lookup_derived_subtype_price(minsrc)
-		if(missing_materials)
-			for(var/m in local_missing)
-				if(!(m in missing_materials))
-					missing_materials += m
-		var/recipe_yield = trans_result_yield(TR, result_path)
-		var/derived = derive_price_from_cost(material_cost, category, recipe_yield)
-		var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
-		if(audit_lines)
-			audit_lines += csv_row(list("transmutation", TR.name, "[result_path]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "[recipe_yield]", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
-		if(derived <= 0)
-			continue
-		if(register_derived_price(result_path, derived, category))
-			new_derivations++
-		if(ispath(result_path, /obj/item/natural/clay))
-			var/obj/item/natural/clay/raw_proto = result_path
-			var/cooked_path = initial(raw_proto.cooked_type)
-			if(cooked_path && register_derived_price(cooked_path, derived, category))
-				new_derivations++
-	new_derivations += food_recipe_derive_pass(audit_lines, missing_materials, trade_good_lookup)
-	return new_derivations
+				inputs[path] = (inputs[path] || 0) + qty
+	return inputs
+
+/proc/derived_recipe_outputs(datum/recipe, result_path)
+	var/list/outputs = list(result_path)
+	if(istype(recipe, /datum/anvil_recipe))
+		return outputs
+	if(ispath(result_path, /obj/item/natural/clay))
+		var/obj/item/natural/clay/raw_proto = result_path
+		var/cooked_path = initial(raw_proto.cooked_type)
+		if(cooked_path)
+			outputs += cooked_path
+	return outputs
+
+/proc/derived_recipe_blocker(list/deps, list/producers)
+	for(var/path in deps)
+		var/list/makers = producers[path]
+		if(length(makers))
+			return path
+	return null
+
+/proc/find_derived_cycle_member(list/pending, list/deps_by_recipe, list/producers)
+	var/datum/current = pending[1]
+	var/list/seen = list()
+	while(!seen[current])
+		seen[current] = TRUE
+		var/blocker = derived_recipe_blocker(deps_by_recipe[current], producers)
+		if(!blocker)
+			return current
+		var/list/makers = producers[blocker]
+		current = makers[1]
+	return current
+
+/proc/resolve_derived_recipe(datum/recipe, list/pending, list/producers, list/inputs, list/outputs, list/audit_lines, list/missing_materials)
+	var/result_path = pending[recipe]
+	pending -= recipe
+	for(var/out in outputs)
+		var/list/makers = producers[out]
+		if(makers)
+			makers -= recipe
+	var/kind
+	var/recipe_name
+	var/category
+	var/yield = 1
+	var/default_category = ITEM_CAT_MISCELLANEOUS
+	if(istype(recipe, /datum/anvil_recipe))
+		var/datum/anvil_recipe/AR = recipe
+		kind = "anvil"
+		recipe_name = AR.name
+		category = AR.display_category
+		default_category = ITEM_CAT_SMITHING_MISC
+		yield = max(1, AR.createditem_num)
+	else if(istype(recipe, /datum/crafting_recipe))
+		var/datum/crafting_recipe/CR = recipe
+		kind = "crafting"
+		recipe_name = CR.name
+		category = CR.display_category
+		yield = recipe_result_yield(CR, result_path)
+	else
+		var/datum/transmutation_recipe/TR = recipe
+		kind = "transmutation"
+		recipe_name = TR.name
+		category = TR.category
+		yield = trans_result_yield(TR, result_path)
+	var/cat_missing = FALSE
+	if(!category)
+		category = default_category
+		cat_missing = TRUE
+	var/list/local_missing = list()
+	var/list/breakdown = list()
+	var/material_cost = 0
+	for(var/path in inputs)
+		material_cost += build_input_breakdown(path, inputs[path], local_missing, breakdown, TRUE)
+	if(kind == "transmutation")
+		material_cost += transmutation_materia_cost(recipe)
+	if(missing_materials)
+		for(var/m in local_missing)
+			if(!(m in missing_materials))
+				missing_materials += m
+	var/derived = derive_price_from_cost(material_cost, category, yield)
+	var/markup = GLOB.item_cat_markups[category] || PRICING_ENGINE_DEFAULT_MARKUP
+	if(audit_lines)
+		audit_lines += csv_row(list(kind, recipe_name, "[result_path]", category, cat_missing ? "MISSING" : "", "[material_cost]", "[markup]", "[yield]", "[derived]", jointext(breakdown, " + "), jointext(local_missing, ",")))
+	if(derived <= 0)
+		return 0
+	var/count = 0
+	for(var/out in outputs)
+		if(register_derived_price(out, derived, category))
+			count++
+	return count
+
+/proc/transmutation_materia_cost(datum/transmutation_recipe/TR)
+	var/total = 0
+	if(!islist(TR.materia_aspects))
+		return 0
+	for(var/datum/materia_aspect/path as anything in TR.materia_aspects)
+		var/obj/item/minsrc = path::cheapest_known_source
+		if(minsrc::sellprice)
+			total += minsrc::sellprice
+		else if(GLOB.derived_sellprices[minsrc])
+			total += GLOB.derived_sellprices[minsrc]
+		else
+			total += lookup_derived_subtype_price(minsrc)
+	return total
 
 /proc/food_recipe_derive_pass(list/audit_lines, list/missing_materials, list/trade_good_lookup)
 	var/total_new = 0
@@ -492,8 +557,8 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 			break
 	return total_new
 
-/proc/build_input_breakdown(path, qty, list/missing_materials_log, list/breakdown)
-	var/unit_cost = recipe_material_cost_for(path, missing_materials_log)
+/proc/build_input_breakdown(path, qty, list/missing_materials_log, list/breakdown, use_derived = FALSE)
+	var/unit_cost = use_derived ? recipe_input_cost_for(path, missing_materials_log) : recipe_material_cost_for(path, missing_materials_log)
 	var/atom/A = path
 	var/short_name = initial(A.name) || "[path]"
 	if(unit_cost <= 0)
@@ -522,6 +587,17 @@ GLOBAL_LIST_EMPTY(bulk_trade_item_types)
 	for(var/known_path in GLOB.material_baseline_prices)
 		if(ispath(path, known_path))
 			return GLOB.material_baseline_prices[known_path]
+	if(missing_materials_log && !("[path]" in missing_materials_log))
+		missing_materials_log += "[path]"
+	return 0
+
+/proc/recipe_input_cost_for(path, list/missing_materials_log)
+	var/cost = recipe_material_cost_for(path)
+	if(cost)
+		return cost
+	cost = GLOB.derived_sellprices[path]
+	if(cost)
+		return cost
 	if(missing_materials_log && !("[path]" in missing_materials_log))
 		missing_materials_log += "[path]"
 	return 0
