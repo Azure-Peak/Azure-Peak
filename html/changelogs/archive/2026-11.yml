@@ -335,3 +335,70 @@
   - bugfix: ancient longsword now has a new sprite added for scabbards so it doesn't
       look like a steel longsword - Technically image related but i consider it quality
       control, thuslie its a fix, suffer!
+2026-11-09:
+  OrbisAnima:
+  - qol: Changes fishing rods category to normal so they can fit in satchels.
+  Ryan180602:
+  - balance: if you have a tail and your nympho procs, it'll wag.
+  WeNeedMorePhoron:
+  - rscadd: Increased the amount of contracts generated, especially at the start of
+      the game, so there's real choices.
+  - rscadd: Unattended scrolls now crumble after 30 minutes
+  - rscadd: Add messages to indicate if you had too much food / water
+  - rscdel: (Openly) Psydonite Grand Dukes are once again no longer allowed. You may
+      still have sympathy or empathy or pretend to be a converso or something.
+  - rscdel: Removed all non servantry service bells from the game to reduce church
+      / apoth / guild / merchant / steward stress level and stop reinforcing these
+      roles as vendor roles subservient to combat roles who is expected to be on call
+      for 3 hours. Use SCOM / Letters and or live with their potential absence.
+  - rscadd: Everyone can now see which region fishing stocks belong to, and the text
+      and mechanics is explained on examine
+  - rscadd: Now all fishers at Expert skills or with the Expert Fisher trait can see
+      whether specific fish is depleted and their replenishment rate, in IC time.
+  - rscdel: Single tile water source and town no longer fishable
+  - rscadd: Folded Chessboard is now craftable. Old game table renamed ornamental
+      game table to reduce confusion
+  changelingonberry:
+  - balance: Lux extraction can be performed with any sharp implement now.
+  fffelinid:
+  - qol: Bath-house staff can now lock/unlock their own peddler even if the matron
+      isn't present.
+  - bugfix: Fixed treasure seeker inheriting some unnecessary examine text from the
+      head eater.
+  zRainbowcat:
+  - bugfix: dodge chance abuse
+2026-11-10:
+  FreeStylaLT:
+  - bugfix: Fixed Clamorous not being satisfied by surrounding speech.
+  NonQueueingMatt:
+  - rscadd: Changed a line you receive when you've almost drank too much.
+  OrbisAnima:
+  - balance: Added the light crossbow option to the bow hunter.
+  Ryan180602:
+  - balance: Psydonic Plate-n-Maille is now 400 integ.
+  - balance: Psydonic Half-plate covers arms/chest/groin at 450 integ.
+  - balance: Psydonic Full-plate is now 450 integ.
+  - bugfix: Psydonic Half-plate inherits steel fluff traits (like walk sounds and
+      such)
+  - bugfix: Let the apostle/robe donor kits not turn the psy plates into steel.
+  Sauna38:
+  - bugfix: Fireplaces can now be placed on ANY wall - not just north-facing ones!
+  - rscadd: 'The Shelvening: adds all three types of shelves to the Crafting menu.
+      You can also move them by left-clicking with a stake while in combat mode.'
+  - rscadd: 'The Chestening and the Closeting: also adds three new chests types, one
+      closet, and one bed-side drawer to the crafting menu.'
+  WeNeedMorePhoron:
+  - rscadd: Moat in town is no longer fishable. Abyssorite water should always be
+      fishable.
+  - rscadd: Squire adventurer and aristocrat can no longer issue the Personal Valuables
+      TOWNER QUEST
+  - rscadd: You may now cancel targeted emotes like bow
+  changelingonberry:
+  - rscadd: The defiled keyholder virtue is now pickable with any patron, but non-ascendants
+      cannot use the travel tiles while being observed. It also allows you to claim
+      wretch houses.
+  - balance: Non-ascendants with defiled keyholder cannot take courtier, retinue,
+      garrison, church, inquisition or other patron-locked jobs.
+  - admin: 'Added a new smite: Bolt to the neck.'
+  radarseas:
+  - balance: Tennite heretics can now access T4 miracles again.
