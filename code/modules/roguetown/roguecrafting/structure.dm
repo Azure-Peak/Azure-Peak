@@ -1677,7 +1677,7 @@
 /datum/crafting_recipe/roguetown/structure/shelf_small
 	name = "wooden shelf (wall-mounted)"
 	category = "Misc"
-	result = /obj/structure/rack/rogue/shelf/
+	result = /obj/structure/rack/rogue/shelf/wall
 	reqs = list(/obj/item/grown/log/tree/stick = 2)
 	verbage_simple = "construct"
 	verbage = "constructs"
