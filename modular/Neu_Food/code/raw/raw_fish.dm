@@ -10,7 +10,7 @@
 	obj_flags = CAN_BE_HIT
 	var/dead = TRUE
 	var/no_rarity_sprite = FALSE // Whether this fish has rarity based sprites. If not, don't change icon states
-	var/sinkable = TRUE
+	var/sinkable = FALSE
 	max_integrity = 50
 	sellprice = FISH_PRICE_GOOD
 	dropshrink = 0.6
@@ -54,30 +54,39 @@
 		START_PROCESSING(SSobj, src)
 	apply_traits()
 	update_size_and_weight()
+	RegisterSignal(src, COMSIG_AFTER_STORAGE_REMOVE, PROC_REF(dive))
 
 /obj/item/reagent_containers/food/snacks/fish/initialize_slice(obj/item/reagent_containers/food/snacks/slice, reagents_per_slice)
 	. = ..()
-	slice.name = "[rarity_rank > FISH_RARITY_COMMON ? "[rarity_label] " : ""][initial(name)] filet"
-	slice.desc = filet_desc || "A filet cut from a [initial(name)]."
 	slice.faretype = faretype
 	slice.cuisine = cuisine
-	var/obj/item/reagent_containers/food/snacks/rogue/meat/fish/filet = slice
-	if(istype(filet))
-		filet.fish_name = initial(name)
-		filet.filet_tastes = filet_tastes
-		filet.fish_quality_mult = get_stockpile_quality_mult()
-		filet.rarity_rank = rarity_rank
-		filet.rarity_label = rarity_label
+	var/obj/item/reagent_containers/food/snacks/rogue/meat/cut = slice
+	if(!istype(cut))
+		return
+	cut.name = "[rarity_rank > FISH_RARITY_COMMON ? "[rarity_label] " : ""][initial(name)] [cut.cut_name]"
+	if(filet_desc)
+		cut.desc = filet_desc
+	else if(istype(cut, /obj/item/reagent_containers/food/snacks/rogue/meat/fish))
+		cut.desc = "A filet cut from a [initial(name)]."
+	cut.fish_name = initial(name)
+	cut.filet_tastes = filet_tastes
+	cut.fish_quality_mult = get_stockpile_quality_mult()
+	cut.rarity_rank = rarity_rank
+	cut.rarity_label = rarity_label
 
 /obj/item/reagent_containers/food/snacks/fish/initialize_cooked_food(obj/item/reagent_containers/food/snacks/S, cooking_efficiency = 1)
 	. = ..()
 	if(S.type != cooked_type && S.type != fried_type)
 		return
+	var/obj/item/reagent_containers/food/snacks/rogue/meat/fried_cut = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
+	var/obj/item/reagent_containers/food/snacks/rogue/meat/raw_cut = slice_path
+	if(ispath(raw_cut, /obj/item/reagent_containers/food/snacks/rogue/meat) && initial(raw_cut.fried_type))
+		fried_cut = initial(raw_cut.fried_type)
 	S.slices_num = slices_num
-	S.slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/fish/fried
+	S.slice_path = fried_cut
 	S.slice_bclass = slice_bclass
 	var/label = rarity_rank > FISH_RARITY_COMMON ? "[rarity_label] " : ""
-	S.slice_name = "fried [label][initial(name)] filet"
+	S.slice_name = "fried [label][initial(name)] [initial(fried_cut.cut_name)]"
 	S.name = "[label][initial(S.name)]"
 	S.cuisine = cuisine
 	var/obj/item/reagent_containers/food/snacks/rogue/fryfish/cooked = S
@@ -164,9 +173,16 @@
 		STOP_PROCESSING(SSobj, src)
 		return 1
 
-/obj/item/reagent_containers/food/snacks/fish/after_throw(datum/callback/callback)
+/obj/item/reagent_containers/food/snacks/fish/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
 	. = ..()
-	sinkable = TRUE
+	dive()
+
+///check if we're in a valid water tile, and if so, vanish. should only be called if the player does something intentional, like tossing or dumping out a sack, otherwise you'll get frustrating dels
+/obj/item/reagent_containers/food/snacks/fish/proc/dive()
+	if(istype(loc, /turf/open/water))
+		SEND_GLOBAL_SIGNAL(COMSIG_GLOBAL_FISH_RELEASED, type, rarity_rank)
+		visible_message("<span class='warning'>[src] dives into \the [loc] and disappears!</span>")
+		qdel(src)
 
 /obj/item/reagent_containers/food/snacks/fish/salmon
 	name = "salmon"

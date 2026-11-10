@@ -317,7 +317,7 @@
 
 //Returns a string with the first element of the string capitalized.
 /proc/capitalize(t as text)
-	return uppertext(copytext(t, 1, 2)) + copytext(t, 2)
+	return uppertext(copytext_char(t, 1, 2)) + copytext_char(t, 2)
 
 /proc/full_capitalize(input)
 	var/regex/first_letter = new(@"[^A-z]*?([A-z]*)", "g")

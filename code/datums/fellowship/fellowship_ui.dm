@@ -43,6 +43,7 @@
 	data["user_name"] = holder.real_name
 	data["max_members"] = FELLOWSHIP_MAX_MEMBERS
 	data["invite_expiry_ds"] = FELLOWSHIP_INVITE_EXPIRY
+	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	var/datum/fellowship/F = holder.current_fellowship
 	if(!F)
 		data["in_fellowship"] = FALSE

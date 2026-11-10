@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - bugfix: "You shouldn't be getting ambushed in any of the hot springs anymore, as intended."

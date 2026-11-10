@@ -625,6 +625,33 @@
 	skillcraft = /datum/skill/craft/carpentry
 	craftdiff = 3
 
+/datum/crafting_recipe/roguetown/sewing/tentkit
+	name = "Small Tent Kit"
+	display_category = ITEM_CAT_TOOLS_FIELD
+	category = "Misc"
+	tools = list(/obj/item/needle)
+	result = list(/obj/item/tent_kit)
+	reqs = list(/obj/item/natural/cloth = 10, /obj/item/natural/fibers = 6, /obj/item/natural/silk = 6, /obj/item/grown/log/tree/stick = 10)
+	craftdiff = 3
+
+/datum/crafting_recipe/roguetown/sewing/gerkit
+	name = "Ger Kit"
+	display_category = ITEM_CAT_TOOLS_FIELD
+	category = "Misc"
+	tools = list(/obj/item/needle)
+	result = list(/obj/item/tent_kit/ger)
+	reqs = list(/obj/item/natural/cloth = 15, /obj/item/natural/fibers = 6, /obj/item/natural/silk = 6, /obj/item/grown/log/tree/stick = 15)
+	craftdiff = 4
+
+/datum/crafting_recipe/roguetown/sewing/yurtkit
+	name = "Yurt Kit"
+	display_category = ITEM_CAT_TOOLS_FIELD
+	category = "Misc"
+	tools = list(/obj/item/needle)
+	result = list(/obj/item/tent_kit/yurt)
+	reqs = list(/obj/item/natural/cloth = 20, /obj/item/natural/fibers = 12, /obj/item/natural/silk = 12, /obj/item/grown/log/tree/stick = 20)
+	craftdiff = 5
+
 /datum/crafting_recipe/roguetown/survival/mortar
 	name = "alchemical mortar"
 	result = /obj/item/reagent_containers/glass/mortar

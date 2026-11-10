@@ -162,7 +162,7 @@
 /datum/supply_pack/rogue/Things/smokebomb
 	name = "Smoke Bomb"
 	cost = 30
-	contains = list(/obj/item/bomb/smoke)
+	contains = list(/obj/item/explosive/impact/smoke/bomb)
 
 /datum/supply_pack/rogue/Things/clotchkit
 	name = "Sewing Kit"

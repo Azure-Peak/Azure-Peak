@@ -56,7 +56,7 @@
 	. = ..()
 	if(second_wave_sent)
 		return
-	. += round(second_wave_budget() * fellowship_threat_mult) * QUEST_KILL_THREAT_MULT
+	. += scaled_threat_budget(second_wave_budget()) * QUEST_KILL_THREAT_MULT
 
 /datum/quest/kill/incursion/check_completion()
 	return second_wave_sent && ..()
