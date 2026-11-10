@@ -21,6 +21,7 @@
 	var/lock_direction = FALSE
 	/// Makes the AI Caster keep facing their target during the windup
 	var/track_target = FALSE
+	var/track_cutoff = 0
 	var/redraw_interval = 2
 	var/sweep_step = 1
 	/// If TRUE, a guard deflection aborts the remaining bands instead of just sparing that victim.
@@ -114,7 +115,7 @@
 	for(var/i in 1 to iterations)
 		if(QDELETED(H) || H.stat != CONSCIOUS || strike_disrupted(H))
 			break
-		if(track_target && !QDELETED(cast_on) && cast_on != H)
+		if(track_target && !QDELETED(cast_on) && cast_on != H && (iterations - i) * redraw_interval >= track_cutoff)
 			H.face_atom(cast_on)
 		var/facing = locked_facing || get_cardinal(H.dir)
 		if(get_turf(H) != last_turf || facing != last_facing)

@@ -4,11 +4,14 @@
 #define MACE_CHARGE_MIN_GAIN 3
 #define MACE_CATACLYSM_SCORE 70
 #define MACE_EXTRA_HOSTILE_BONUS 15
+#define MACE_STILL_BONUS 15
+#define MACE_TRACK_CUTOFF 4
 
 /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter
 	npc_max_range = 3
 	require_target_in_pattern = TRUE
 	track_target = TRUE
+	track_cutoff = MACE_TRACK_CUTOFF
 
 /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter/npc_use_chance(atom/target)
 	return npc_strike_score(target, MACE_SHATTER_SCORE, MACE_EXTRA_HOSTILE_BONUS)
@@ -17,6 +20,7 @@
 	npc_max_range = 1
 	require_target_in_pattern = TRUE
 	track_target = TRUE
+	track_cutoff = MACE_TRACK_CUTOFF
 
 /datum/action/cooldown/spell/telegraphed_strike/spellblade/tremor/npc_use_chance(atom/target)
 	return npc_strike_score(target, MACE_TREMOR_SCORE, MACE_EXTRA_HOSTILE_BONUS)
@@ -58,7 +62,12 @@
 	var/list/footprint = get_impact_turfs(target)
 	if(npc_allies_in(footprint))
 		return 0
-	return MACE_CATACLYSM_SCORE + MACE_EXTRA_HOSTILE_BONUS * max(0, npc_hostiles_in(footprint) - 1)
+	. = MACE_CATACLYSM_SCORE + MACE_EXTRA_HOSTILE_BONUS * max(0, npc_hostiles_in(footprint) - 1)
+	if(npc_target_stationary(target))
+		. += MACE_STILL_BONUS
+
+/datum/action/cooldown/spell/cataclysm/npc_cast_target(atom/target)
+	return npc_lead_turf(target, charge_time + delay)
 
 #undef MACE_SHATTER_SCORE
 #undef MACE_TREMOR_SCORE
@@ -66,3 +75,5 @@
 #undef MACE_CHARGE_MIN_GAIN
 #undef MACE_CATACLYSM_SCORE
 #undef MACE_EXTRA_HOSTILE_BONUS
+#undef MACE_STILL_BONUS
+#undef MACE_TRACK_CUTOFF

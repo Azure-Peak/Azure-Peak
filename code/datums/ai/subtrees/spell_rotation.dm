@@ -10,6 +10,7 @@
 #define CASTER_FINISHER_RESERVE 0.9
 #define CASTER_TIRED_RATIO 0.4
 #define CASTER_TIRED_CAST_GAP (4 SECONDS)
+#define NPC_LEAD_MOVE_WINDOW (1 SECONDS)
 
 /datum/ai_planning_subtree/spell_rotation
 	var/target_key = BB_BASIC_MOB_CURRENT_TARGET
@@ -221,6 +222,24 @@
 		return FALSE
 	return !!(get_dir(owner, victim) & victim.last_move)
 
+/datum/action/cooldown/spell/proc/npc_lead_turf(atom/target, impact_delay)
+	var/turf/current = get_turf(target)
+	var/mob/living/caster = owner
+	var/mob/living/victim = target
+	if(!current || !isliving(caster) || !isliving(victim))
+		return current
+	if(!victim.last_move || world.time - victim.last_move_time > NPC_LEAD_MOVE_WINDOW)
+		return current
+	var/turf/aim = current
+	if(victim.cached_multiplicative_slowdown > 0)
+		var/lead = CLAMP(round(impact_delay / victim.cached_multiplicative_slowdown, 1), 0, ARCHER_NPC_MAX_LEAD)
+		if(lead)
+			aim = get_ranged_target_turf(current, victim.last_move, lead) || current
+	var/error_chance = caster.get_ranged_lead_error(1, caster.STAINT)
+	if(!prob(error_chance))
+		return aim
+	return caster.scatter_aim_turf(aim, current, ARCHER_NPC_MISS_OFFSET_TILES + (prob(error_chance) ? 1 : 0))
+
 /datum/action/cooldown/spell/proc/npc_target_shooting(mob/living/victim)
 	if(!isliving(victim))
 		return FALSE
@@ -287,3 +306,4 @@
 #undef CASTER_FINISHER_RESERVE
 #undef CASTER_TIRED_RATIO
 #undef CASTER_TIRED_CAST_GAP
+#undef NPC_LEAD_MOVE_WINDOW

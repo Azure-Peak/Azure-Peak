@@ -2,6 +2,8 @@
 #define BLADE_AIR_SCORE 40
 #define BLADE_STORM_SCORE 70
 #define BLADE_EXTRA_HOSTILE_BONUS 15
+#define BLADE_STILL_BONUS 15
+#define BLADE_AIR_RESOLVE_DELAY 2
 #define BLADE_ANCHOR_SCORE 30
 #define BLADE_ANCHOR_RANGE 3
 #define BLADE_ANCHOR_HEALTH 0.7
@@ -39,9 +41,11 @@
 	return BLADE_CAEDO_SCORE + BLADE_EXTRA_HOSTILE_BONUS * (best_count - 1)
 
 /datum/action/cooldown/spell/caedo/npc_cast_target(atom/target)
-	var/atom/line_target = npc_line_ref?.resolve()
+	var/atom/line_target = npc_line_ref?.resolve() || target
 	npc_line_ref = null
-	return line_target || target
+	if(isliving(line_target))
+		return find_landing_turf(owner, npc_lead_turf(line_target, charge_time))
+	return get_turf(line_target)
 
 /datum/action/cooldown/spell/air_strike
 	npc_max_range = 4
@@ -69,7 +73,9 @@
 			npc_intent = intent
 	if(!npc_intent)
 		return 0
-	return BLADE_AIR_SCORE + BLADE_EXTRA_HOSTILE_BONUS * max(0, best_count - 1)
+	. = BLADE_AIR_SCORE + BLADE_EXTRA_HOSTILE_BONUS * max(0, best_count - 1)
+	if(npc_target_stationary(victim))
+		. += BLADE_STILL_BONUS
 
 /datum/action/cooldown/spell/air_strike/npc_cast_target(atom/target)
 	var/mob/living/L = owner
@@ -77,7 +83,7 @@
 		L.a_intent = npc_intent
 		L.used_intent = npc_intent
 	npc_intent = null
-	return target
+	return npc_lead_turf(target, charge_time + BLADE_AIR_RESOLVE_DELAY)
 
 /datum/action/cooldown/spell/leyline_anchor
 	npc_escape = TRUE
@@ -115,12 +121,19 @@
 	var/list/footprint = get_impact_turfs(target)
 	if(npc_allies_in(footprint))
 		return 0
-	return BLADE_STORM_SCORE + BLADE_EXTRA_HOSTILE_BONUS * max(0, npc_hostiles_in(footprint) - 1)
+	. = BLADE_STORM_SCORE + BLADE_EXTRA_HOSTILE_BONUS * max(0, npc_hostiles_in(footprint) - 1)
+	if(npc_target_stationary(target))
+		. += BLADE_STILL_BONUS
+
+/datum/action/cooldown/spell/blade_storm/npc_cast_target(atom/target)
+	return npc_lead_turf(target, charge_time + telegraph_delay)
 
 #undef BLADE_CAEDO_SCORE
 #undef BLADE_AIR_SCORE
 #undef BLADE_STORM_SCORE
 #undef BLADE_EXTRA_HOSTILE_BONUS
+#undef BLADE_STILL_BONUS
+#undef BLADE_AIR_RESOLVE_DELAY
 #undef BLADE_ANCHOR_SCORE
 #undef BLADE_ANCHOR_RANGE
 #undef BLADE_ANCHOR_HEALTH

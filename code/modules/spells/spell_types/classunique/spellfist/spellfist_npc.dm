@@ -41,6 +41,9 @@
 	if(npc_target_stationary(victim))
 		. += FIST_STILL_BONUS
 
+/datum/action/cooldown/spell/fist_of_psydon/npc_cast_target(atom/target)
+	return npc_lead_turf(target, charge_time + telegraph_delay)
+
 /datum/action/cooldown/spell/grasp_of_psydon
 	npc_min_range = 2
 	npc_max_range = 5
@@ -60,6 +63,9 @@
 		. += GRASP_SHOOTER_BONUS
 	if(npc_target_stationary(victim))
 		. += GRASP_STILL_BONUS
+
+/datum/action/cooldown/spell/grasp_of_psydon/npc_cast_target(atom/target)
+	return npc_lead_turf(target, charge_time + telegraph_delay)
 
 /datum/action/cooldown/spell/storm_of_psydon
 	npc_max_range = 7

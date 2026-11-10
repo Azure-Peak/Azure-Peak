@@ -90,6 +90,9 @@
 	if(npc_target_stationary(victim))
 		. += PHAL_ADVANCE_STILL_BONUS
 
+/datum/action/cooldown/spell/advance/npc_cast_target(atom/target)
+	return npc_lead_turf(target, charge_time + leap_range * step_delay)
+
 #undef PHAL_GATE_SCORE
 #undef PHAL_PHALANX_SCORE
 #undef PHAL_EXTRA_HOSTILE_BONUS
