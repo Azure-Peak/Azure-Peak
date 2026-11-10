@@ -1,0 +1,8 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - balance: "Psydonic Plate-n-Maille is now 400 integ."
+  - balance: "Psydonic Half-plate covers arms/chest/groin at 450 integ."
+  - balance: "Psydonic Full-plate is now 450 integ."
+  - bugfix: "Psydonic Half-plate inherits steel fluff traits (like walk sounds and such)"
+  - bugfix: "Let the apostle/robe donor kits not turn the psy plates into steel."
