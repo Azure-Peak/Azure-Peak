@@ -53,6 +53,16 @@
 	cost = 5
 	contains = list(/obj/item/quiver)
 
+/datum/supply_pack/rogue/ranged_weapons/mechquiver_bow
+	name = "Mechanized Bow Quiver"
+	derive_cost = TRUE
+	contains = list(/obj/item/quiver/mechanized/bow)
+
+/datum/supply_pack/rogue/ranged_weapons/mechquiver_crossbow
+	name = "Mechanized Bolt Quiver"
+	derive_cost = TRUE
+	contains = list(/obj/item/quiver/mechanized/crossbow)
+
 /datum/supply_pack/rogue/ranged_weapons/quivers/arrows
 	name = "Quiver of Arrows"
 	cost = 35 // 2 Iron Ingots
@@ -72,6 +82,28 @@
 	name = "Quiver of Bolts"
 	cost = 35 // 2 Iron Ingots
 	contains = list(/obj/item/quiver/bolt/standard)
+
+/datum/supply_pack/rogue/ranged_weapons/bronzebolts
+	name = "Bronze Bolts"
+	derive_cost = TRUE
+	contains = list(
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+					/obj/item/ammo_casing/caseless/rogue/bolt/bronze,
+				)
 
 /datum/supply_pack/rogue/ranged_weapons/quivers/lightbolts
 	name = "Quiver of Light Bolts"
