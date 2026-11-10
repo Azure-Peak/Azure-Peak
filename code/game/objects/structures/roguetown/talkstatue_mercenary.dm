@@ -16,7 +16,23 @@
 	next_advert = world.time + rand(MERC_STATUE_ADVERT_MIN, MERC_STATUE_ADVERT_MAX)
 	advertise()
 
+/obj/structure/roguemachine/talkstatue/mercenary/examine(mob/user)
+	. = ..()
+	if(mutable)
+		. += span_info("Right click to [muted ? "unmute" : "mute"] its calls for hire.")
+
+/obj/structure/roguemachine/talkstatue/mercenary/attack_right(mob/user)
+	user.changeNext_move(CLICK_CD_INTENTCAP)
+	if(!mutable)
+		to_chat(user, span_warning("This statue cannot be muted."))
+		return
+	muted = !muted
+	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
+	to_chat(user, span_info("I [muted ? "mute" : "unmute"] the statue."))
+
 /obj/structure/roguemachine/talkstatue/mercenary/proc/advertise()
+	if(muted)
+		return
 	var/has_listener = FALSE
 	for(var/mob/living/L in hearers(MERC_STATUE_ADVERT_RANGE, src))
 		if(L.client)

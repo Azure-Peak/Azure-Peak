@@ -94598,7 +94598,7 @@
 /area/rogue/outdoors/rtfield/abandonedhotsprings/grim)
 "lsI" = (
 /obj/structure/table/finestone,
-/obj/structure/roguemachine/talkstatue/mercenary{
+/obj/structure/roguemachine/talkstatue/mercenary/tavern{
 	pixel_y = -32
 	},
 /obj/structure/roguemachine/contractledger/south,

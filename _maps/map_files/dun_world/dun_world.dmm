@@ -25397,7 +25397,7 @@
 	layer = 3;
 	pixel_x = -4
 	},
-/obj/structure/roguemachine/talkstatue/mercenary{
+/obj/structure/roguemachine/talkstatue/mercenary/tavern{
 	pixel_y = 32
 	},
 /turf/open/floor/rogue/wood,
@@ -112300,7 +112300,7 @@
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/town/magician)
 "sPh" = (
-/obj/structure/roguemachine/talkstatue/mercenary{
+/obj/structure/roguemachine/talkstatue/mercenary/tavern{
 	pixel_x = -32
 	},
 /turf/open/floor/rogue/ruinedwood/spiral,
