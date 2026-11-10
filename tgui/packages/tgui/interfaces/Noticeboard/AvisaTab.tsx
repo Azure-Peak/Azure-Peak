@@ -36,16 +36,9 @@ type SectionMeta = {
 
 const SECTIONS: SectionMeta[] = [
   {
-    key: 'charters',
-    label: 'Charters',
-    blurb:
-      "The Crown's standing edicts and whether each is in force.",
-  },
-  {
     key: 'trade_orders',
     label: 'Trade Orders',
-    blurb:
-      "What the realm's merchants and stockpiles still need.",
+    blurb: "What the realm's merchants and stockpiles still need.",
   },
   {
     key: 'harbor',
@@ -72,13 +65,17 @@ const SECTIONS: SectionMeta[] = [
   {
     key: 'assembly',
     label: 'Assembly',
-    blurb:
-      'The business of the City Assembly.',
+    blurb: 'The business of the City Assembly.',
+  },
+  {
+    key: 'charters',
+    label: 'Charters',
+    blurb: "The Crown's standing edicts and whether each is in force.",
   },
 ];
 
 export const AvisaTab = ({ data, act }: TabProps) => {
-  const [section, setSection] = useState<AvisaSection>('charters');
+  const [section, setSection] = useState<AvisaSection>('trade_orders');
   const active = SECTIONS.find((s) => s.key === section) ?? SECTIONS[0];
 
   return (

@@ -179,7 +179,7 @@
 	. = ..()
 	hangry_meter += 1
 	if(hangry_meter > 9)
-		to_chat(M, "<span class='notice'>The pig squeals in anger. Its sulking and refusing to work until it gets delicious truffles.</span>")
+		to_chat(M, "<span class='notice'>The pig squeals in anger. It's sulking and refusing to work until it gets delicious truffles.</span>")
 		playsound(get_turf(src), 'modular/Creechers/sound/pighangry.ogg', 150, TRUE, -1)
 		return
 	if(M.used_intent.type == INTENT_HELP)

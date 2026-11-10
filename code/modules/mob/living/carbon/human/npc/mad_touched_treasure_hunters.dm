@@ -12,7 +12,7 @@
 	npc_archetype = /datum/npc_archetype/mad_touched/hunter
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/ambush
-	threat_point = THREAT_ELITE
+	threat_point = THREAT_ELITE_PLUS
 	ambush_faction = "treasure_hunters"
 
 /mob/living/carbon/human/species/human/northern/mad_touched_treasure_hunter/Initialize(mapload)

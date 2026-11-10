@@ -30,7 +30,7 @@
 		SKILLED_TAILOR	= "Grants Expert Clothier. Butchering, Tanning raised to Apprentice. Sewing raised to Journeyman. Stashed Needle & Scissors.",
 		SKILLED_HUNTER	= "Grants Expert Survivalist. Trapping, Tracking, Butchering, Sewing, Hunting, Cooking and Tanning raised to Apprentice.",
 		SKILLED_PHYS	= "Grants Expert Physicker and Alchemist. Alchemy and Medicine raised to Apprentice. Grants secular diagnose, a stashed medicine pouch and an improvised surgery kit.",
-		SKILLED_COOK	= "Grants Homesteader, Cicerone and Seed Known. Cooking and Fishing are raised by three and two levels respectively, then Farming, Butchering raised to Apprentice. Stashed hoe and bag with food, fishing rod and frying pan.",
+		SKILLED_COOK	= "Grants Homesteader, Cicerone and Seed Known. Cooking and Fishing are raised by three and two levels respectively, then Farming, Butchering raised to Apprentice. Stashed hoe, frying pan, and pot.",
 		SKILLED_ARTIF	= "Grants Expert Forgehand. Carpentry, Masonry, Engineering, Smelting and Ceramics raised to Apprentice. Stashed Hammer, Chisel and Hand Saw.",
 		SKILLED_ENCHANT = "Grants Expert Enchanter and Alchemist. Allows you to do magical rituals. Alchemy, Engineering, Smelting, Blacksmithing and Arcane raised to Apprentice. Stashed Chalk, Mortar, and Pestle."
 	)
@@ -83,13 +83,14 @@
 				recipient.mind?.special_items["Medicine Pouch"] = /obj/item/storage/belt/rogue/pouch/medicine
 				recipient.mind?.special_items["Improv. Surgery Kit"] = /obj/item/storage/belt/rogue/surgery_bag/full/bad
 			if(SKILLED_COOK)
-				added_skills.Add(list(list(/datum/skill/craft/cooking, 3, 6)))
-				added_skills.Add(list(list(/datum/skill/labor/fishing, 2, 6)))
+				added_skills.Add(list(list(/datum/skill/craft/cooking, 3, 3)))
+				added_skills.Add(list(list(/datum/skill/labor/fishing, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/labor/farming, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/labor/butchering, 2, 2)))
 				added_traits.Add(TRAIT_HOMESTEAD_EXPERT, TRAIT_CICERONE, TRAIT_SEEDKNOW)
 				recipient.mind?.special_items["Trusty Hoe"] = /obj/item/rogueweapon/hoe
-				recipient.mind?.special_items["Bag of Food"] = /obj/item/storage/roguebag/food
+				recipient.mind?.special_items["Skillet"] = /obj/item/cooking/pan
+				recipient.mind?.special_items["Iron Pot"] = /obj/item/reagent_containers/glass/bucket/pot
 			if(SKILLED_ARTIF)
 				added_skills.Add(list(list(/datum/skill/craft/carpentry, 2, 2)))
 				added_skills.Add(list(list(/datum/skill/craft/masonry, 2, 2)))

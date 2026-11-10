@@ -39,6 +39,8 @@
 	backl = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/lantern,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	H.set_blindness(0)
 	if(H.mind)
@@ -95,7 +97,9 @@
 	backr = /obj/item/storage/backpack/rogue/satchel
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
-		/obj/item/bomb/smoke = 3,
+		/obj/item/explosive/impact/smoke/bomb = 3,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	neck = /obj/item/storage/belt/rogue/pouch/coins/poor
 	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun
@@ -206,6 +210,10 @@
 	head = /obj/item/clothing/head/roguetown/roguehood/shalal/hijab/black
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	mask = /obj/item/clothing/mask/rogue/lordmask/tarnished
+	backpack_contents = list(
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
 
 	var/paths = list("Refugee (Default)", "Seminary Dropout (Hierophant)", "Wandering Yogi (Vizier)")
 	var/path = input(H, "Choose your past.", "WHAT DID WAR TAKE FROM YOU?") as anything in paths
@@ -244,7 +252,7 @@
 			ADD_TRAIT(H, TRAIT_ALCHEMY_EXPERT, TRAIT_GENERIC)
 
 			if(H.mind)
-				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 4))
+				H.mind.setup_mage_aspects(list("mastery" = FALSE, "major" = 1, "minor" = 2, "utilities" = 5))
 				H.mind.AddSpell(new /datum/action/cooldown/spell/ley_lines)
 
 		if("Wandering Yogi (Vizier)")
@@ -277,12 +285,12 @@
 
 			if(H.mind)
 				grant_poke_spell(H)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/blink/shadowstep/vizier)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/restoration/lesser)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/vizier/acceleration)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/bestow_ward)
 				H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
-				H.mind.setup_mage_aspects(list("ward" = TRUE, "mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 6, "locked_aspects" = list(/datum/magic_aspect/lesser_augmentation)))
+				H.mind.setup_mage_aspects(list("ward" = TRUE, "mastery" = FALSE, "major" = 0, "minor" = 1, "utilities" = 8, "locked_aspects" = list(/datum/magic_aspect/augmentation)))
 
 /datum/advclass/foreigner/slaver
 	name = "Ranesheni Slaver"
@@ -449,6 +457,8 @@
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/natural/bundle/cloth/bandage/full = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
 /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/hierophant/civilian
@@ -645,7 +655,7 @@
 				shirt = /obj/item/clothing/suit/roguetown/armor/manual/resting/body/gladiator //a gambeson
 				pants = /obj/item/clothing/under/roguetown/loincloth/brown
 				belt = /obj/item/storage/belt/rogue/leather/battleskirt/breechcloth/red
-				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo untill someone figures out how to grant it.
+				//shirt = /obj/item/clothing/suit/roguetown/shirt/tribalrag/gladiator //no empty hands to put this in, and cannot seem to 'pre-load' the cosmetic slot of a skin armor. Can hang in limbo until someone figures out how to grant it.
 			if("Shieldbearer - Well-Armored & Maille Training")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				head = /obj/item/clothing/head/roguetown/helmet/heavy/bronze
@@ -799,7 +809,7 @@
 	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/cut, /datum/intent/spear/cut/bardiche/cleave, /datum/intent/spear/cut/glaive/sweep)
 	name = "autumned elvish bardiche"
 	desc = "A cleaving polearm, hewn from the branch of an Azurian elk tree and tipped with a wide blade of faeiron. The \
-	tapered edge can thrust through an oppressor's armor at the right range, while its wide sweeps can dispell even the \
+	tapered edge can thrust through an oppressor's armor at the right range, while its wide sweeps can dispel even the \
 	rowdiest of lumberfoots."
 	icon_state = "aebardiche"
 	max_blade_int = 200
@@ -892,7 +902,7 @@
 	name = "autumnwoad elven boots"
 	desc = "A pair of mossboots that ache with the sounds of living nature, and teem with the colors \
 	of perpetual autumnage. It is said that a Black Oak's armor will only fully blossom once they've \
-	earned the mantle of guardianship; to forsake one's oath to nature is to dispell the ancient songs, \
+	earned the mantle of guardianship; to forsake one's oath to nature is to dispel the ancient songs, \
 	and to let the bark wither away. </br>'..those fallen leaves lie undisturbed now, 'cause you're not here!'"
 
 	icon = 'icons/roguetown/clothing/special/race_armor.dmi'

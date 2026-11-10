@@ -214,7 +214,7 @@
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/paalloy/heavy
 	name = "ancient plate-and-maille"
 	desc = "Polished gilbranze rings and silk, woven together to form a sleeved maille-atekon; one that's been uncomfortably tucked \
-	beneath a matching cuirass. It eminates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
+	beneath a matching cuirass. It emanates an unfamiliar sensation, rarely seen amongst rot-and-undeath - elegance. In the worlds to \
 	come, do you suppose Her death knights would bear such a mantle?"
 	slot_flags = ITEM_SLOT_ARMOR
 	icon_state = "ancientcuirasshauberk"
@@ -242,7 +242,7 @@
 	arrows and bolts, these interlinked layers are superb at warding off the blows of inhumen claws and axes."
 	icon_state = "ornatehauberk"
 	item_state = "ornatehauberk"
-	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON + 50
+	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
 	smeltresult = /obj/item/ingot/silverblessed
 
 /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate/get_mechanics_examine(mob/user)

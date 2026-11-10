@@ -993,9 +993,18 @@
 	faction = target.faction
 	deathsound = target.deathsound
 	gender = target.gender
+	pronouns = target.pronouns
 	real_name = target.real_name
+	vocal_bark = target.vocal_bark
+	vocal_bark_id = target.vocal_bark_id
+	vocal_current_bark = target.vocal_current_bark
+	vocal_pitch = target.vocal_pitch
+	vocal_pitch_range = target.vocal_pitch_range
+	vocal_speed = target.vocal_speed
+	vocal_volume = target.vocal_volume
 	voice_color = target.voice_color
 	voice_pitch = target.voice_pitch
+	voice_type = target.voice_type
 	detail_color = target.detail_color
 	skin_tone = target.skin_tone
 	lip_style = target.lip_style
@@ -1014,8 +1023,15 @@
 	if(flavortext_cached)
 		// this might be a bad idea. i dont know.
 		flavortext_cached = target.flavortext_cached
+	if(target.rumour)
+		rumour = target.rumour
+	if(target.rumour_cached)
+		rumour_cached = target.rumour_cached
+	if(noble_gossip)
+		noble_gossip = target.noble_gossip
+	if(noble_gossip_cached)
+		noble_gossip_cached = target.noble_gossip_cached
 	copy_descriptors(target)
-
 	var/obj/item/bodypart/head/target_head = target.get_bodypart(BODY_ZONE_HEAD)
 	if(!isnull(target_head))
 		var/obj/item/bodypart/head/user_head = get_bodypart(BODY_ZONE_HEAD)

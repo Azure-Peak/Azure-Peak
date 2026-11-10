@@ -15,6 +15,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	requires_power = FALSE
 //	var/previous_ambient = ""
 	var/town_area = FALSE
+	var/town_waters = FALSE
 	var/keep_area = FALSE
 	var/tavern_area = FALSE
 	var/warden_area = FALSE
@@ -373,7 +374,7 @@ GLOBAL_LIST_INIT(roguetown_areas_typecache, typecacheof(list(/area/rogue/indoors
 	droning_sound = 'sound/music/area/underworlddrone.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
-	first_time_text = "The Forest of Repentence"
+	first_time_text = "The Forest of Repentance"
 
 /area/rogue/underworld/dream
 	name = "dream realm"

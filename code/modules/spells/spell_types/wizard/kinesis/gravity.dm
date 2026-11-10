@@ -2,7 +2,7 @@
 	button_icon = 'icons/mob/actions/mage_kinesis.dmi'
 	name = "Gravity"
 	expose_caster_on_deflect = FALSE
-	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced. Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against conseuctive hit."
+	desc = "Weighten space around someone, crushing them and knocking them to the floor. Stronger opponents will resist and be off-balanced. Target can adapt to gravity for 15 seconds after being knocked down, making them stand firm against consecutive hits."
 	button_icon_state = "gravity"
 	sound = 'sound/magic/gravity.ogg'
 	spell_color = GLOW_COLOR_KINESIS
@@ -30,16 +30,16 @@
 	associated_skill = /datum/skill/magic/arcane
 	spell_tier = 2
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM
-	displayed_damage = 60
+	displayed_damage = SPELL_DMG(60)
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	/// Ticks of warning before the crush lands
 	var/telegraph_delay = TELEGRAPH_SKILLSHOT
 	/// Damage dealt to targets whose STR is at or below the threshold
-	var/crush_damage = 60
+	var/crush_damage = SPELL_DMG(60)
 	/// Damage dealt to targets who resist via STR
-	var/resisted_damage = 15
+	var/resisted_damage = SPELL_DMG(15)
 	/// Knockdown duration (in ticks) for targets who don't resist
 	var/knockdown_time = 5
 	/// Off-balance duration (in ticks) for targets who resist
@@ -91,7 +91,7 @@
 		if(L.STASTR <= str_threshold)
 			if(arcyne_strike(owner, L, null, crush_damage, target_zone, BCLASS_BLUNT, \
 				spell_name = "Gravity", damage_type = BRUTE, \
-				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 				continue
 			if(!adapted)
 				L.Knockdown(knockdown_time)
@@ -102,12 +102,12 @@
 		else
 			if(arcyne_strike(owner, L, null, resisted_damage, target_zone, BCLASS_BLUNT, \
 				spell_name = "Gravity", damage_type = BRUTE, \
-				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 				continue
 			if(!adapted)
 				L.OffBalance(offbalance_time)
 				L.mob_timers[MT_GRAVITY_ADAPTATION] = world.time
-				to_chat(L, span_userdanger("I'm magically weighed down, but my strength resist!"))
+				to_chat(L, span_userdanger("I'm magically weighed down, but my strength resists!"))
 			else
 				to_chat(L, span_userdanger("The gravity crushes me, but I keep my footing!"))
 		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)

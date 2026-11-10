@@ -13,6 +13,9 @@
 /proc/cmp_name_asc(atom/a, atom/b)
 	return sorttext(b.name, a.name)
 
+/proc/cmp_init_name_asc(atom/a, atom/b)
+	return sorttext(initial(b.name), initial(a.name))
+
 /proc/cmp_name_dsc(atom/a, atom/b)
 	return sorttext(a.name, b.name)
 
@@ -126,3 +129,6 @@ GLOBAL_VAR_INIT(cmp_field, "name")
 
 /proc/cmp_skills_for_display(datum/skill/A, datum/skill/B)
 	return sorttext("[B.abstract_type]", "[A.abstract_type]") || sorttext(B.name, A.name)
+
+/proc/cmp_quest_chronicle_order(datum/quest/A, datum/quest/B)
+	return A.chronicle_order - B.chronicle_order

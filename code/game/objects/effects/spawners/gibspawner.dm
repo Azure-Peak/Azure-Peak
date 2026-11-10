@@ -72,6 +72,16 @@
 /obj/effect/gibspawner/generic/animal
 	gib_mob_type = /mob/living/simple_animal/pet
 
+/obj/effect/gibspawner/beast
+	gibtypes = list(/obj/effect/decal/cleanable/blood/gibs/beast, /obj/effect/decal/cleanable/blood/gibs/beast, /obj/effect/decal/cleanable/blood/gibs/beast/head, /obj/effect/decal/cleanable/blood/gibs/beast/core)
+	gibamounts = list(2, 2, 1, 1)
+	sound_vol = 50
+
+/obj/effect/gibspawner/beast/Initialize(mapload)
+	if(!gibdirections.len)
+		gibdirections = list(list(WEST, NORTHWEST, SOUTHWEST, NORTH), list(EAST, NORTHEAST, SOUTHEAST, SOUTH), GLOB.alldirs, list())
+	return ..()
+
 
 
 /obj/effect/gibspawner/human

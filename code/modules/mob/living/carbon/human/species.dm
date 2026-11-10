@@ -1350,9 +1350,6 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			user.bad_guard(span_suicide("I tried to strike while focused on defense whole! It drains me!"), cheesy = TRUE)
 			return
 
-		var/mob/living/carbon/human/H = target
-		H.process_golgatha_rebuke(user)
-
 		if(user.mob_biotypes & MOB_UNDEAD)
 			if(target.has_status_effect(/datum/status_effect/buff/necras_vow))
 				if(isnull(user.mind))
@@ -1536,7 +1533,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			else
 				target.Move(target_shove_turf, shove_dir)
 				if(get_turf(target) == target_oldturf)
-					target_table = locate(/obj/structure/table) in target_shove_turf.contents
+					target_table = has_table_surface(target_shove_turf.contents)
 	//				target_disposal_bin = locate(/obj/machinery/disposal/bin) in target_shove_turf.contents
 					if(target_table)
 						shove_blocked = TRUE
@@ -1754,11 +1751,13 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(stander)
 				shove_blocked = TRUE
 
+		ADD_TRAIT(target, TRAIT_KICKED, "kick")
 		target.Move(target_shove_turf, shove_dir)
+		REMOVE_TRAIT(target, TRAIT_KICKED, "kick")
 
 		if(get_turf(target) == target_oldturf)
 			if(stander)
-				target_table = locate(/obj/structure/table) in target_shove_turf.contents
+				target_table = has_table_surface(target_shove_turf.contents)
 				shove_blocked = TRUE
 		else
 			if(HAS_TRAIT(user, TRAIT_STRONGKICK))
@@ -2055,9 +2054,9 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 			if(prob(I.force * 2) || bloody)	//blood spatter!
 				bloody = 1
 				var/turf/location = H.loc
-				var/splatter_dir = get_dir(H, user)
-				var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(H.loc, splatter_dir)
-				splatter.set_blood_color(H.get_blood_color())
+				if(!(bladec in GLOB.gore_bclasses))
+					var/obj/effect/temp_visual/dir_setting/bloodsplatter/splatter = new(H.loc, get_dir(H, user))
+					splatter.set_blood_color(H.get_blood_color())
 				if(istype(location))
 					H.add_splatter_floor(location)
 					H.add_splatter_wall(location, force = I.force)
@@ -2252,76 +2251,6 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	if(HAS_TRAIT(H, TRAIT_NOBREATH))
 		return TRUE
 
-
-/datum/species/proc/handle_environment(mob/living/carbon/human/H)
-
-	//ATMO/TURF/TEMPERATURE
-	var/turf/cur_turf = get_turf(H)
-	var/loc_temp = cur_turf.temperature
-
-	//Body temperature is adjusted in two parts: first there my body tries to naturally preserve homeostasis (shivering/sweating), then it reacts to the surrounding environment
-	//Thermal protection (insulation) has mixed benefits in two situations (hot in hot places, cold in hot places)
-	if(!H.on_fire) //If you're on fire, you do not heat up or cool down based on surrounding gases
-		var/natural = 0
-		if(H.stat != DEAD)
-			natural = H.natural_bodytemperature_stabilization()
-		var/thermal_protection = 1
-		if(loc_temp < H.bodytemperature) //Place is colder than we are
-			thermal_protection -= H.get_cold_protection(loc_temp) //This returns a 0 - 1 value, which corresponds to the percentage of protection based on what you're wearing and what you're exposed to.
-			if(H.bodytemperature < BODYTEMP_NORMAL) //we're cold, insulation helps us retain body heat and will reduce the heat we lose to the environment
-				H.adjust_bodytemperature((thermal_protection+1)*natural + max(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_COLD_DIVISOR, BODYTEMP_COOLING_MAX))
-			else //we're sweating, insulation hinders our ability to reduce heat - and it will reduce the amount of cooling you get from the environment
-				H.adjust_bodytemperature(natural*(1/(thermal_protection+1)) + max((thermal_protection * (loc_temp - H.bodytemperature) + BODYTEMP_NORMAL - H.bodytemperature) / BODYTEMP_COLD_DIVISOR , BODYTEMP_COOLING_MAX)) //Extra calculation for hardsuits to bleed off heat
-	if (loc_temp > H.bodytemperature) //Place is hotter than we are
-		var/natural = 0
-		if(H.stat != DEAD)
-			natural = H.natural_bodytemperature_stabilization()
-		var/thermal_protection = 1
-		thermal_protection -= H.get_heat_protection(loc_temp) //This returns a 0 - 1 value, which corresponds to the percentage of protection based on what you're wearing and what you're exposed to.
-		if(H.bodytemperature < BODYTEMP_NORMAL) //and we're cold, insulation enhances our ability to retain body heat but reduces the heat we get from the environment
-			H.adjust_bodytemperature((thermal_protection+1)*natural + min(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_HEAT_DIVISOR, BODYTEMP_HEATING_MAX))
-		else //we're sweating, insulation hinders out ability to reduce heat - but will reduce the amount of heat we get from the environment
-			H.adjust_bodytemperature(natural*(1/(thermal_protection+1)) + min(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_HEAT_DIVISOR, BODYTEMP_HEATING_MAX))
-
-	// +/- 50 degrees from 310K is the 'safe' zone, where no damage is dealt.
-	if(H.bodytemperature > BODYTEMP_HEAT_DAMAGE_LIMIT && !HAS_TRAIT(H, TRAIT_RESISTHEAT))
-		//Body temperature is too hot.
-
-		H.remove_movespeed_modifier(MOVESPEED_ID_COLD)
-		var/burn_damage = round(max(log(2, (H.bodytemperature - BODYTEMP_NORMAL)) - 5, 0))
-		if(HAS_TRAIT(H, TRAIT_FIRE_RESIST))
-			burn_damage *= 0.5
-		if (burn_damage)
-			switch(burn_damage)
-				if(0 to 2)
-					H.throw_alert("temp", /atom/movable/screen/alert/hot, 1)
-				if(2 to 4)
-					H.throw_alert("temp", /atom/movable/screen/alert/hot, 2)
-				else
-					H.throw_alert("temp", /atom/movable/screen/alert/hot, 3)
-		burn_damage = burn_damage * heatmod * H.physiology.heat_mod
-		if (H.stat < UNCONSCIOUS && (prob(burn_damage) * 10) / 4) //40% for level 3 damage on humans
-			H.emote("pain")
-		H.apply_damage(burn_damage, BURN, spread_damage = TRUE)
-
-	else if(H.bodytemperature < BODYTEMP_COLD_DAMAGE_LIMIT && !HAS_TRAIT(H, TRAIT_RESISTCOLD))
-		//Sorry for the nasty oneline but I don't want to assign a variable on something run pretty frequently
-		H.add_movespeed_modifier(MOVESPEED_ID_COLD, override = TRUE, multiplicative_slowdown = ((BODYTEMP_COLD_DAMAGE_LIMIT - H.bodytemperature) / COLD_SLOWDOWN_FACTOR), blacklisted_movetypes = FLOATING)
-		switch(H.bodytemperature)
-			if(200 to BODYTEMP_COLD_DAMAGE_LIMIT)
-				H.throw_alert("temp", /atom/movable/screen/alert/cold, 1)
-				H.apply_damage(COLD_DAMAGE_LEVEL_1*coldmod*H.physiology.cold_mod, BURN)
-			if(120 to 200)
-				H.throw_alert("temp", /atom/movable/screen/alert/cold, 2)
-				H.apply_damage(COLD_DAMAGE_LEVEL_2*coldmod*H.physiology.cold_mod, BURN)
-			else
-				H.throw_alert("temp", /atom/movable/screen/alert/cold, 3)
-				H.apply_damage(COLD_DAMAGE_LEVEL_3*coldmod*H.physiology.cold_mod, BURN)
-
-	else
-		H.clear_alert("temp")
-		H.remove_movespeed_modifier(MOVESPEED_ID_COLD)
-
 // A general-purpose proc used to centralise checks to skip turf, movement, step, etc.
 // For if a mob is floating, flying, intangible, etc.
 /datum/species/proc/is_floor_hazard_immune(mob/living/carbon/human/owner)
@@ -2489,7 +2418,7 @@ GLOBAL_LIST_INIT(body_builds, init_body_builds())
 	if(H.buckled)
 		buckled_obj = H.buckled
 
-	to_chat(H, span_notice("My wings spazz out and launch you!"))
+	to_chat(H, span_notice("My wings spasm wildly and launch me!"))
 
 	playsound(H.loc, 'sound/blank.ogg', 100, TRUE, -3)
 

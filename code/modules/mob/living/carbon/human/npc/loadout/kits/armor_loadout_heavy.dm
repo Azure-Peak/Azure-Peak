@@ -36,7 +36,7 @@
 
 /datum/npc_loadout/armor/heavy/iron_chain/mixed_plate
 	armor = list(
-		/obj/item/clothing/suit/roguetown/armor/brigandine/light,
+		/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/iron,
 		/obj/item/clothing/suit/roguetown/armor/plate/cuirass/iron,
 		/obj/item/clothing/suit/roguetown/armor/plate/scale,
 	)

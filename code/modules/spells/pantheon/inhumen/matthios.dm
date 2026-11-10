@@ -3,7 +3,7 @@
 /datum/action/cooldown/spell/matthios
 	background_icon = 'icons/mob/actions/matthiosmiracles.dmi'
 	button_icon = 'icons/mob/actions/matthiosmiracles.dmi'
-	spell_color = GLOW_COLOR_MATTHIOS
+	spell_color = PATRON_COLOR_MATTHIOS
 	ignore_armor_penalty = TRUE
 	attunement_school = null
 	primary_resource_type = SPELL_COST_DEVOTION
@@ -46,7 +46,7 @@
 	var/list/options = list(
 		//a simple 'blinds u for 1 sec' throwable
 		"Pocket Sand" = list(
-			path = /obj/item/impact_grenade/pocketsand,
+			path = /obj/item/explosive/impact/pocketsand,
 			m_cooldown = 60 SECONDS,
 			m_devotion = 10,
 			m_rank = SKILL_LEVEL_NOVICE,

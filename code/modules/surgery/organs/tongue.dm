@@ -71,6 +71,11 @@
 	icon_state = "tongue-con"
 	say_mod = "crackles"
 	taste_sensitivity = 30 //It's dead, jim.
+	emote_verbs = list(
+		/mob/living/carbon/human/proc/emote_construct_tick,
+		/mob/living/carbon/human/proc/emote_construct_creak,
+		/mob/living/carbon/human/proc/emote_construct_spark,
+	)
 
 /obj/item/organ/tongue/lizard
 	name = "forked tongue"

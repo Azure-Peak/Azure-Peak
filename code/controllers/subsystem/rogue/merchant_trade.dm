@@ -44,6 +44,7 @@ SUBSYSTEM_DEF(merchant_trade)
 	var/auto_hailer_timer_id
 	var/last_merchant_activity = 0
 	var/auto_hail_used_day = -1
+	var/send_for_ship_used_day = -1
 	var/auto_hail_timer_id
 	var/list/hails_by_realm = list()
 	var/list/dock_durations_by_realm = list()
@@ -360,9 +361,13 @@ SUBSYSTEM_DEF(merchant_trade)
 
 /datum/controller/subsystem/merchant_trade/proc/expire_undocked_ships()
 	for(var/datum/trade_ship/ship in all_ships)
-		if(ship.dock_state == TRADE_SHIP_STATE_AVAILABLE)
-			all_ships -= ship
-			qdel(ship)
+		if(ship.dock_state != TRADE_SHIP_STATE_AVAILABLE)
+			continue
+		if(ship.sent_for)
+			ship.sent_for = FALSE
+			continue
+		all_ships -= ship
+		qdel(ship)
 
 /datum/controller/subsystem/merchant_trade/proc/get_realm(realm_id)
 	return realms[realm_id]
@@ -565,6 +570,27 @@ SUBSYSTEM_DEF(merchant_trade)
 		return FALSE
 	auto_hailer_unlocked = TRUE
 	return TRUE
+
+/datum/controller/subsystem/merchant_trade/proc/realm_has_available_ship(realm_id)
+	for(var/datum/trade_ship/ship in all_ships)
+		if(ship.realm_id == realm_id && ship.dock_state == TRADE_SHIP_STATE_AVAILABLE)
+			return TRUE
+	return FALSE
+
+/datum/controller/subsystem/merchant_trade/proc/send_for_ship(realm_id)
+	if(!(realm_id in realms))
+		return "no_realm"
+	if(send_for_ship_used_day == GLOB.dayspassed)
+		return "used_today"
+	if(realm_id == current_kinship_realm || realm_has_available_ship(realm_id))
+		return "already_available"
+	if(!spend_merchant_favor(SEND_FOR_SHIP_FAVOR))
+		return "no_favor"
+	send_for_ship_used_day = GLOB.dayspassed
+	var/datum/trade_ship/ship = generate_ship(realm_id)
+	ship.sent_for = TRUE
+	broadcast_market_change()
+	return "ok"
 
 /datum/controller/subsystem/merchant_trade/proc/toggle_auto_hailer()
 	if(!auto_hailer_unlocked)

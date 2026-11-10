@@ -48,7 +48,6 @@
 	desc = "Delicious fattiness, fit for elevating meals-a-plenty."
 	icon_state = "butter6"
 	list_reagents = list(/datum/reagent/consumable/nutriment = BUTTER_NUTRITION)
-	foodtype = DAIRY
 	faretype = FARE_IMPOVERISHED
 	slice_path = /obj/item/reagent_containers/food/snacks/butterslice
 	slices_num = 6
@@ -95,11 +94,10 @@
 	name = "butter"
 	desc = "A portion of milky paradise. Kneading it into dough is necessary to prepare many of Psydonia's pastries, though the more humble-hearted prefer to simply doll up a slice of toast with it."
 	faretype = FARE_IMPOVERISHED
-	foodtype = DAIRY
 	list_reagents = list(/datum/reagent/consumable/nutriment = 2)
 
 /obj/item/reagent_containers/food/snacks/butterslice/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	update_cooktime(user)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/sugar))
 		if(isturf(loc)&& (found_table))
@@ -132,7 +130,7 @@
 
 /*	............	Making cheese wheel	................ */
 /obj/item/natural/cloth/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
 		if(isturf(loc)&& (found_table))
 			user.visible_message(span_info("[user] starts packing the cloth with fresh cheese..."))
@@ -159,7 +157,7 @@
 	var/mature_proc = PROC_REF(maturing_done)
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/cheesewheel/attackby(obj/item/I, mob/living/user, params)
-	var/found_table = locate(/obj/structure/table) in (loc)
+	var/found_table = has_table_surface(loc)
 	update_cooktime(user)
 	if(istype(I, /obj/item/reagent_containers/food/snacks/rogue/cheese))
 		if(isturf(loc) && found_table)
@@ -207,7 +205,6 @@
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("cheese" = 1)
 	faretype = FARE_POOR
-	foodtype = GRAIN
 	eat_effect = null
 	rotprocess = SHELFLIFE_DECENT
 	become_rot_type = null
@@ -240,7 +237,7 @@
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddar/get_mechanics_examine(mob/user)
 	. = ..()
-	. += span_info("If left undisturbed for long enough, cheese wheels will eventually age into a more decadant and delicious result.")
+	. += span_info("If left undisturbed for long enough, cheese wheels will eventually age into a more decadent and delicious result.")
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddar/aged
 	name = "wheel of aged cheese"
@@ -298,17 +295,8 @@
 	slices_num = null
 	slice_path = null
 	become_rot_type = null
-	baitpenalty = 10
+	bait_quality = TRAIT_BASIC_QUALITY_BAIT
 	isbait = TRUE
-	fishingMods=list(
-		"commonFishingMod" = 0.8,
-		"rareFishingMod" = 0,
-		"treasureFishingMod" = 0,
-		"trashFishingMod" = 1,
-		"dangerFishingMod" = 0.5,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 1 // Just for the funny gimmick of a higher chance for rats and rouses.
-	)
 
 /obj/item/reagent_containers/food/snacks/rogue/cheddarslice/aged
 	name = "slice of aged cheese"
@@ -318,19 +306,11 @@
 	faretype = FARE_FINE
 	become_rot_type = null
 	rotprocess = null
-	fishingMods=list(
-		"commonFishingMod" = 1,
-		"rareFishingMod" = 0.5,
-		"treasureFishingMod" = 0,
-		"trashFishingMod" = 1,
-		"dangerFishingMod" = 0.5,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 1.5 // Just for the funny gimmick of a higher chance for rats and rouses.
-	)
+	bait_quality = TRAIT_GOOD_QUALITY_BAIT
 
 // -------------- FROSTING -----------------
 /obj/item/reagent_containers/food/snacks/rogue/frosting
-	dish_type = DISH_DAIRY
+	dish_type = DISH_DAIRY|DISH_SWEET
 	name = "frosting"
 	desc = "Butter mixed with sugar and whipped into a delicious frosting."
 	icon = 'modular/Neu_Food/icons/others/dairy.dmi'
@@ -340,5 +320,4 @@
 	w_class = WEIGHT_CLASS_TINY
 	tastes = list("sugary frosting"=1)
 	faretype = FARE_NEUTRAL
-	foodtype = DAIRY | SUGAR
 	eat_effect = /datum/status_effect/buff/sweet

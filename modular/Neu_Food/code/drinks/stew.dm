@@ -227,61 +227,6 @@
 	metabolization_rate = 4
 	alpha = 222
 
-/datum/reagent/consumable/soup/lemon
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of lemon"
-	color = "#FFE88F"
-	taste_description = "puckeringly bright lemoniness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/lime
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of lime"
-	color = "#BAE88F"
-	taste_description = "puckeringly bright limeyness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/pear
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of pear"
-	color = "#BAAE8F"
-	taste_description = "pleasantly crisp peariness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/apple
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of apple"
-	color = "#E0BE6D"
-	taste_description = "pleasantly crisp appleness"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
-/datum/reagent/consumable/soup/tangerine_marmalade
-	cuisine = CUISINE_SOUTHEASTERN
-	drink_type = DRINKTYPE_JUICE
-	name = "juice of tangerine"
-	color = "#f0935d"
-	taste_description = "extremely sweet tangerines"
-	hydration = 8
-	nutriment_factor = 8
-	metabolization_rate = 1.2
-	quality = DRINK_NICE
-
 /datum/reagent/consumable/soup/bone_broth
 	name = "bone broth"
 	color = "#7F6556"
@@ -366,7 +311,7 @@
 /datum/reagent/consumable/soup/stew/thickcheese
 	cuisine = CUISINE_OTAVAIS
 	name = "fondue"
-	description = "A ridiculously thick cheese soup. Creamy, comforting, and decadant."
+	description = "A ridiculously thick cheese soup. Creamy, comforting, and decadent."
 	color = "#c4be70"
 	taste_description = "velvety cheese"
 	nutriment_factor = 30 //You're throwing an entire wheel of cheese into this thing. It'd be criminal if you didn't get something in return!
@@ -384,7 +329,7 @@
 /datum/reagent/consumable/soup/stew/thickparmesan
 	cuisine = CUISINE_OTAVAIS
 	name = "aged fondue"
-	description = "A ridiculously thick aged cheese soup. Creamy, comforting, and decadant."
+	description = "A ridiculously thick aged cheese soup. Creamy, comforting, and decadent."
 	color = "#A8AA70"
 	taste_description = "velvety aged cheese"
 	metabolization_rate = 0.6
@@ -673,7 +618,7 @@
 /datum/reagent/consumable/soup/stew/seafoodbroil
 	name = "seabroil chowder"
 	color = "#FFA74F"
-	taste_description = "creamy shellfish with the occassional crunch"
+	taste_description = "creamy shellfish with the occasional crunch"
 	nutriment_factor = 25
 	alpha = 200
 

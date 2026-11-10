@@ -2,12 +2,13 @@
 
 #define PRICING_ENGINE_DEFAULT_MARKUP 1.2
 #define PRICING_ENGINE_COMMISSIONER_MARKUP 1
+#define SUPPLY_PACK_DERIVED_MARKUP 1.5
+#define SILVERFACE_MARKUP_STEEL 1.5 // Steel gear is the desired upgrade, so Sface (no interaction) should have higher than usual markup
+#define SILVERFACE_MARKUP_FULL_PLATE 2 // Full plate is the most desired upgrade, so extra price
 // Make it 0 or else we are in exploit city
 #define PRICING_ENGINE_MIN_DERIVED_PRICE 0
 #define PRICING_ENGINE_FOOD_RECIPE_MAX_PASSES 6
 
-
-#define COMMISSIONER_CURED_LEATHER_PRICE 10
 
 // Toggle on CSV dump for pricing engine audit. Use this to help find out the reasons for odd auto pricing.
 // #define PRICING_ENGINE_DUMP_AUDITS
@@ -25,7 +26,7 @@
 #define MARKUP_ARMOR_BRACERS 1.5
 #define MARKUP_ARMOR_BELTS 1.5
 #define MARKUP_ARMOR_BARDING 1.5
-#define MARKUP_ARMOR_LIGHT 2.0 // Slightly higher than metallic armor so tailor can make some decent money
+#define MARKUP_ARMOR_LIGHT 1.5
 
 #define MARKUP_WEAPONS_SWORDS 1.5
 #define MARKUP_WEAPONS_DAGGERS 1.5
@@ -91,6 +92,8 @@
 #define INGOT_DROW_MULT 1.0
 
 #define MATERIAL_PLANK_FROM_WOOD 0.5
+#define MATERIAL_CLOTH_FROM_FIBERS 2
+#define MATERIAL_ROPE_FROM_FIBERS 3
 #define MATERIAL_ROGUEGEAR_FROM_BRONZE 0.6
 
 // ----- ATC WAREHOUSE MARKET POOLS -----
@@ -100,8 +103,9 @@
 #define MARKET_POOL_TIER_STANDARD 250
 
 #define NAVIGATOR_BUCKET_WEAPONS "Weapons"
-#define NAVIGATOR_BUCKET_ARMOR_LIGHT "Light Armor"
-#define NAVIGATOR_BUCKET_ARMOR_HEAVY "Heavy Armor"
+#define NAVIGATOR_BUCKET_ARMOR_FABRIC "Fabric Armor"
+#define NAVIGATOR_BUCKET_ARMOR_METAL "Metal Armor"
+#define NAVIGATOR_BUCKET_ARMOR_HEAVY_METAL "Heavy Metal Armor"
 #define NAVIGATOR_BUCKET_GARMENT_COMMON "Common Garments"
 #define NAVIGATOR_BUCKET_GARMENT_FINELUX "Fine Garments"
 #define NAVIGATOR_BUCKET_ENGINEERING "Engineering"
@@ -121,8 +125,9 @@
 #define NAVIGATOR_BUCKET_REFUSED_BULK "refused_bulk"
 
 #define NAVIGATOR_BUCKET_POOL_WEAPONS 500
-#define NAVIGATOR_BUCKET_POOL_ARMOR_LIGHT 200
-#define NAVIGATOR_BUCKET_POOL_ARMOR_HEAVY 400
+#define NAVIGATOR_BUCKET_POOL_ARMOR_FABRIC 200
+#define NAVIGATOR_BUCKET_POOL_ARMOR_METAL 300
+#define NAVIGATOR_BUCKET_POOL_ARMOR_HEAVY_METAL 250
 #define NAVIGATOR_BUCKET_POOL_GARMENT_COMMON 400
 #define NAVIGATOR_BUCKET_POOL_GARMENT_FINELUX 600
 #define NAVIGATOR_BUCKET_POOL_ENGINEERING 300

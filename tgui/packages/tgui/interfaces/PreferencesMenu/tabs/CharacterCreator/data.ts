@@ -236,6 +236,7 @@ export type IdentityData = {
   race_bonus: string | null; // null indicates no race bonus
 
   nickname: string;
+  pen_name: string | null; // null indicates unset
   highlight_color: Color;
   age: string;
 
@@ -324,6 +325,8 @@ export type CharFlaw = {
   name: string;
   type: Path;
   warning: BooleanLike;
+  max_choices: number;
+  picked_choices: { index: number; choice: string }[];
 };
 
 // --------------- VillainData ---------------

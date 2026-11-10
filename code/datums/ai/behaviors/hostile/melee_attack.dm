@@ -19,11 +19,6 @@
 	set_movement_target(controller, target)
 
 /datum/ai_behavior/basic_melee_attack/perform(delta_time, datum/ai_controller/controller, target_key, targetting_datum_key, hiding_location_key)
-	if (isliving(controller.pawn))
-		var/mob/living/pawn = controller.pawn
-		if (world.time < pawn.melee_cooldown)
-			return AI_BEHAVIOR_INSTANT
-
 	var/mob/living/simple_animal/basic_mob = controller.pawn
 	//targetting datum will kill the action if not real anymore
 	var/atom/target = controller.blackboard[target_key]
@@ -47,6 +42,8 @@
 	var/atom/swing_at = resolve_swing_target(controller, basic_mob, target, target_key, hiding_target)
 	if(!swing_at)
 		return AI_BEHAVIOR_DELAY
+	if(world.time >= basic_mob.next_move && !basic_mob.claim_pack_swing(target))
+		return AI_BEHAVIOR_DELAY
 	basic_mob.ClickOn(swing_at, list())
 
 	if(sidesteps_after && prob(sidestep_chance))
@@ -66,44 +63,60 @@
 /datum/ai_behavior/basic_melee_attack/proc/resolve_swing_target(datum/ai_controller/controller, mob/living/pawn, atom/target, target_key, atom/hiding_target)
 	var/turf/locked_turf = get_turf(target)
 	// Hates using sleep but it works, timer spam is worse anyway
-	sleep(max(MELEE_NPC_REACTION_TIME_MIN, MELEE_NPC_REACTION_TIME_BASE - round((pawn.STAPER + pawn.STAINT) / MELEE_NPC_REACTION_PER_STAT_POINT)))
+	sleep(pawn.npc_reaction_time())
 
 	if(QDELETED(pawn) || QDELETED(target) || QDELETED(controller) || controller.pawn != pawn)
 		return null
 
-	var/swing_reach = pawn.used_intent?.reach || 1
-	if(!pawn.CanReach(target, pawn.get_active_held_item()) && locked_turf && get_dist(pawn, locked_turf) > swing_reach)
+	. = pawn.pick_swing_target(target, locked_turf, hiding_target)
+	if(!.)
 		finish_action(controller, FALSE, target_key)
+
+/mob/living/proc/npc_reaction_time()
+	return max(MELEE_NPC_REACTION_TIME_MIN, MELEE_NPC_REACTION_TIME_BASE - round((STAPER + STAINT) / MELEE_NPC_REACTION_PER_STAT_POINT))
+
+/mob/living/proc/pick_swing_target(atom/target, turf/locked_turf, atom/hiding_target)
+	var/swing_reach = used_intent?.reach || 1
+	if(!CanReach(target, get_active_held_item()) && locked_turf && get_dist(src, locked_turf) > swing_reach)
 		return null
 
 	if(hiding_target)
 		return hiding_target
-	if(!locked_turf || get_dist(pawn, locked_turf) > swing_reach)
+	if(!locked_turf || get_dist(src, locked_turf) > swing_reach)
 		return target
 
 	if(get_turf(target) != locked_turf)
-		if(AI_INT_SCALE_PROB(pawn, MELEE_NPC_TRACK_CEILING_CHANCE))
-			AI_THINK(pawn, "WHIFF: target moved but we tracked - hit anyway")
+		if(AI_INT_SCALE_PROB(src, MELEE_NPC_TRACK_CEILING_CHANCE))
+			AI_THINK(src, "WHIFF: target moved but we tracked - hit anyway")
 			return target
-		AI_THINK(pawn, "WHIFF: target stepped off [locked_turf], swinging at empty tile")
+		AI_THINK(src, "WHIFF: target stepped off [locked_turf], swinging at empty tile")
 		return locked_turf
 
-	if(AI_INT_SCALE_PROB(pawn, 100 - MELEE_NPC_WHIFF_FLOOR_CHANCE))
+	if(AI_INT_SCALE_PROB(src, 100 - MELEE_NPC_WHIFF_FLOOR_CHANCE))
 		return target
 
 	var/list/nearby = list()
 	for(var/turf/candidate in range(1, locked_turf))
 		if(candidate == locked_turf || candidate.density)
 			continue
-		if(get_dist(pawn, candidate) > swing_reach)
+		if(get_dist(src, candidate) > swing_reach)
 			continue
 		nearby += candidate
 	if(!length(nearby))
 		return target
 
 	var/turf/sloppy = pick(nearby)
-	AI_THINK(pawn, "WHIFF: sloppy swing, hit [sloppy] instead of target")
+	AI_THINK(src, "WHIFF: sloppy swing, hit [sloppy] instead of target")
 	return sloppy
+
+/mob/living/proc/claim_pack_swing(atom/target)
+	if(!isliving(target))
+		return TRUE
+	var/mob/living/victim = target
+	if(world.time < victim.pack_swing_ready_at)
+		return FALSE
+	victim.pack_swing_ready_at = world.time + PACK_SWING_SPACING
+	return TRUE
 
 /datum/ai_behavior/basic_ranged_attack
 	action_cooldown = 0.6 SECONDS

@@ -76,7 +76,7 @@
 		S.set_up(1, 1, front)
 		S.start()
 		if((max_stored_charge - current_charge) < charge_per_source) //checking if there's too much charge
-			to_chat(user, span_info("I try to insert the [I.name] but theres already \a [initial(accepted_power_source.name)] inside!"))
+			to_chat(user, span_info("I try to insert the [I.name] but there's already \a [initial(accepted_power_source.name)] inside!"))
 			playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 			shake_camera(user, 1, 1)
 		else
@@ -90,7 +90,7 @@
 		S.start()
 		if((max_stored_charge - current_charge) < charge_per_prime) //checking if there's too much charge with a prime source
 			if((max_stored_charge - current_charge) < charge_per_source) //if there's too much for prime, we give it the standard charge
-				to_chat(user, span_info("I try to insert the [I.name] but theres already \a [initial(accepted_power_source.name)] inside!"))
+				to_chat(user, span_info("I try to insert the [I.name] but there's already \a [initial(accepted_power_source.name)] inside!"))
 				playsound(src, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
 				shake_camera(user, 1, 1)
 			else
@@ -178,7 +178,7 @@
 			continue
 		var/datum/beam/current_beam
 		for(var/x = 1; x <= sprite_changes; x++)
-			current_beam = new(user, C, time = 50 / sprite_changes, beam_icon_state = "lightning[ rand(1,12) ]", btype = /obj/effect/ebeam, maxdistance = 10)
+			current_beam = new(user, C, time = 50 / sprite_changes, icon_state = "lightning[ rand(1,12) ]", beam_type = /obj/effect/ebeam, max_distance = 10)
 			INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 			sleep(delay / sprite_changes)
 

@@ -48,6 +48,23 @@
 					to_chat(user, span_warning("Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,."))
 			return CHARACTER_ACT_DATA_UPDATE
 
+		if("pen_name")
+			var/new_pen_name = tgui_input_text(user, "Input a pen name to sign HERMES letters with. It cannot be changed once the round begins:", "Pen Name", pen_name, max_length = MAX_NAME_LEN, encode = FALSE)
+			if(isnull(new_pen_name))
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_pen_name == "")
+				verbose_pref_log_change(user, "notice", "Pen Name", pen_name, "")
+				pen_name = null
+				return CHARACTER_ACT_DATA_UPDATE
+			new_pen_name = reject_bad_name(new_pen_name, max_length = MAX_NAME_LEN)
+			if(!new_pen_name || LOWER_TEXT(new_pen_name) == LOWER_TEXT(MAILER_ANONYMOUS))
+				to_chat(user, span_warning("That pen name is not allowed."))
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Pen Name", pen_name, new_pen_name)
+			pen_name = new_pen_name
+			log_game("[user] has set their pen name to '[new_pen_name]'.")
+			return CHARACTER_ACT_DATA_UPDATE
+
 		if("highlight_color")
 			var/new_color = tgui_color_picker(user, "Choose your character's nickname highlight color:", "Highlight Color", highlight_color)
 			if(new_color)
@@ -205,6 +222,9 @@
 				verbose_pref_log_change(user, "notice", "Averse Chosen Faction", averse_chosen_faction, choice)
 				averse_chosen_faction = choice
 			return CHARACTER_ACT_DATA_UPDATE
+
+		if("charflaw_subchoice")
+			return ui_act_character_creator_identity_subcharflaw(params, user)
 
 		if("open_loadout")
 			var/datum/loadout_menu/LM = new(user.client)
@@ -395,5 +415,36 @@
 				var/old = relevant_virtue.picked_choices.Join(", ")
 				relevant_virtue.picked_choices.Remove(v_to_remove)
 				verbose_pref_log_change(user, "notice", "[relevant_virtue.name] strength removed", old, relevant_virtue.picked_choices.Join(", "))
+
+	return CHARACTER_ACT_DATA_UPDATE
+
+/datum/preferences/proc/ui_act_character_creator_identity_subcharflaw(list/params, mob/user)
+	var/cf_type = text2path(params["flaw"])
+	if(!(cf_type in charflaws))
+		return CHARACTER_ACT_DATA_UPDATE
+	var/datum/charflaw/cf = GLOB.character_flaws_singletons[cf_type]
+	if(!cf || !cf.max_choices)
+		return CHARACTER_ACT_DATA_UPDATE
+
+	if(!islist(charflaw_choices[cf_type]))
+		charflaw_choices[cf_type] = list()
+	var/list/picked = charflaw_choices[cf_type]
+
+	switch(params["task"])
+		if("add")
+			if(length(picked) < cf.max_choices)
+				var/list/options = cf.extra_choices.Copy()
+				options -= picked
+				var/result = tgui_input_list(user, "Choose an option:", "[uppertext(cf.name)]", options)
+				if(result && (result in options))
+					var/old = picked.Join(", ")
+					picked += result
+					verbose_pref_log_change(user, "notice", "[cf.name] choice added", old, picked.Join(", "))
+		if("remove")
+			var/index = text2num(params["index"])
+			if(index && (index >= 1) && (index <= length(picked)))
+				var/old = picked.Join(", ")
+				picked.Cut(index, index + 1)
+				verbose_pref_log_change(user, "notice", "[cf.name] choice removed", old, picked.Join(", "))
 
 	return CHARACTER_ACT_DATA_UPDATE

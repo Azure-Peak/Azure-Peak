@@ -11,7 +11,7 @@
 /obj/structure/roguemachine/withdraw/get_mechanics_examine(mob/user)
 	. = ..()
 	. += span_info("Left-click with an open hand to open the vomitorium. Put in mammon to fund purchases, then buy or import goods from the local stockpile.")
-	. += span_info("Withdrawals are cheapest. Imports cost more because of a markup. The markup pays for shipping. While Royal Custom is in force, it goes to the Treasury instead.")
+	. += span_info("Withdrawals are cheapest. Imports cost more to pay for shipping. While Royal Custom is in force, it goes to the Treasury instead.")
 	. += span_info("The vomitorium does not buy goods. Take deposits to a stockpile instead.")
 
 /obj/structure/roguemachine/withdraw/Initialize(mapload)

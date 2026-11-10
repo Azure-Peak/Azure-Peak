@@ -160,6 +160,9 @@
 	var/datum/custom_descriptor_entry/entry = described.custom_descriptors[custom_index]
 	return entry.content_text
 
+/datum/mob_descriptor/skin/custom/get_examine_description(mob/living/described)
+	return LOWER_TEXT(get_description(described))
+
 /datum/mob_descriptor/skin/custom/eight
 	name = "Custom Skin"
 	custom_index = 8

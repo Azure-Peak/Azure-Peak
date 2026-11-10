@@ -9,7 +9,7 @@
 	min_pq = null //no pq
 	max_pq = null
 	announce_latejoin = FALSE
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted, /datum/charflaw/forlorne)
 
 	//Unlike most roles of skeletons, these ones just dust. Rids you instantly out of the round so you can respawn.
 	//These are exclusive to skeleton sieges, they're a threat in numbers but advs can usually kill them with some effort solo by design.
@@ -58,7 +58,7 @@
 
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
 	H.choose_name_popup("Decrepit Feral")
-	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stir some conflict! Remember to roleplay where possible."))
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -144,7 +144,7 @@
 
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
 	H.choose_name_popup("Decrepit Feral")
-	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stir some conflict! Remember to roleplay where possible."))
 
 	ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 
@@ -203,7 +203,7 @@
 
 	H.become_skeleton() //Ensures no matter what, we become a skeleton correctly.
 	H.choose_name_popup("Decrepit Feral")
-	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stirr some conflict! Remember to roleplay where possible."))
+	to_chat(H, span_danger("You are a disposable antagonist, expect to die rather quickly. Now go cause problems and stir some conflict! Remember to roleplay where possible."))
 
 	ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 

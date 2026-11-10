@@ -264,6 +264,11 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 	cost = 30
 	contains = list(/obj/item/clothing/cloak/tabard/stabard/surcoat/short)
 
+/datum/supply_pack/rogue/wardrobe/cloaks/saigatabard
+	name = "Saiga Tabard"
+	cost = 30
+	contains = list(/obj/item/clothing/cloak/tabard/saiga)
+
 /datum/supply_pack/rogue/wardrobe/cloaks/halfcloak
 	name = "Halfcloak"
 	cost = 30
@@ -521,7 +526,7 @@ A LITTLE MORE CONSISTENT IN HERE. PLEASE DO YOUR BEST. THANKS.
 				)
 
 /datum/supply_pack/rogue/wardrobe/shirt/undervestements
-	name = "Undervestements"
+	name = "Undervestments"
 	cost = 15
 	contains = list(
 					/obj/item/clothing/suit/roguetown/shirt/undershirt/priest

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from 'tgui-core/components';
 import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
@@ -28,16 +29,40 @@ export const issueStatusSuffix = (status?: string, refund?: string) => {
   return refund ? ` · ${label}, refunded ${refund}` : ` · ${label}`;
 };
 
+export const LedgerSubTabBar = <T extends string>(props: {
+  tabs: { id: T; label: string }[];
+  active: T;
+  onSelect: (t: T) => void;
+}) => (
+  <div className="ContractLedger__InnkeeperSubTabBar">
+    {props.tabs.map((t) => (
+      <div
+        key={t.id}
+        className={
+          'ContractLedger__InnkeeperSubTab' +
+          (t.id === props.active
+            ? ' ContractLedger__InnkeeperSubTab--active'
+            : '')
+        }
+        onClick={() => props.onSelect(t.id)}
+      >
+        {t.label}
+      </div>
+    ))}
+  </div>
+);
+
 const CANCEL_DEBOUNCE_MS = 500;
 
 export const IssuedContractsView = (props: {
   entries: IssuedContract[];
   windowMinutes: number;
-  emptyText: string;
+  notTakenPct: number;
+  failurePct: number;
 }) => {
   const { act } = useBackend();
   const [inflight, setInflight] = useState<string | null>(null);
-  const { entries, windowMinutes, emptyText } = props;
+  const { entries, windowMinutes, notTakenPct, failurePct } = props;
 
   const cancel = (ref: string) => {
     setInflight(ref);
@@ -47,48 +72,49 @@ export const IssuedContractsView = (props: {
 
   return (
     <>
-      <div className="ContractLedger__InnkeeperFlavor">
-        You can withdraw a contract no one has taken at any time. Once someone
-        takes it, you must wait {windowMinutes} minutes. You can't withdraw it
-        once the work has begun. The full cost is refunded. A Request's daily
-        slot is not restored.
+      <div className="ContractLedger__ActiveRow">
+        <span className="ContractLedger__ActiveRow__Meta">
+          You can withdraw a contract no one has taken at any time. Once someone
+          takes it, you must wait {windowMinutes} minutes. You can&apos;t
+          withdraw it once the work has begun. {notTakenPct}% of the cost is
+          refunded. If the contract fails, {failurePct}% is refunded
+          automatically. If its holder abandons it, you get {notTakenPct}% back
+          before the work begins and {failurePct}% after. A Request&apos;s daily
+          slot is not restored.
+        </span>
       </div>
       {entries.length === 0 ? (
-        <div className="ContractLedger__InnkeeperEmpty">{emptyText}</div>
-      ) : (
-        <div className="ContractLedger__InnkeeperHistory">
-          {entries.map((c) => (
-            <div key={c.ref} className="ContractLedger__IssuedRow">
-              <div className="ContractLedger__IssuedInfo">
-                <span className="ContractLedger__InnkeeperHistoryTitle">
-                  {c.title}
-                </span>
-                <span className="ContractLedger__InnkeeperHistoryMeta">
-                  {c.type} &middot; {c.region} &middot; by{' '}
-                  {c.issued_by || 'unknown'} &middot; {c.minutes_elapsed}m
-                  elapsed &middot;{' '}
-                  {c.is_directive ? 'Request' : `${c.reward}m reward`}
-                </span>
-                <span className="ContractLedger__InnkeeperHistoryMeta">
-                  {c.status}
-                  {c.cancel_blocker
-                    ? ` · locked: ${c.cancel_blocker}`
-                    : c.refund
-                      ? ` · refunds ${c.refund}`
-                      : ''}
-                </span>
-              </div>
-              <button
-                type="button"
-                className="ContractLedger__SignButton"
-                disabled={!!c.cancel_blocker || inflight === c.ref}
-                onClick={() => cancel(c.ref)}
-              >
-                Withdraw
-              </button>
-            </div>
-          ))}
+        <div className="ContractLedger__ActiveRow">
+          <span className="ContractLedger__ActiveRow__Meta">
+            You have no postings in circulation.
+          </span>
         </div>
+      ) : (
+        entries.map((c) => (
+          <div key={c.ref} className="ContractLedger__ActiveRow">
+            <span className="ContractLedger__ActiveRow__Title">{c.title}</span>
+            <span className="ContractLedger__ActiveRow__Meta">
+              {c.type} &middot; {c.region} &middot; by{' '}
+              {c.issued_by || 'unknown'} &middot; {c.minutes_elapsed}m elapsed
+              &middot; {c.is_directive ? 'Request' : `${c.reward}m reward`}{' '}
+              &middot; {c.status}
+              {c.cancel_blocker
+                ? ` · locked: ${c.cancel_blocker}`
+                : c.refund
+                  ? ` · refunds ${c.refund}`
+                  : ''}
+            </span>
+            <Button
+              icon="undo"
+              color="bad"
+              disabled={!!c.cancel_blocker || inflight === c.ref}
+              tooltip={c.cancel_blocker || undefined}
+              onClick={() => cancel(c.ref)}
+            >
+              Withdraw
+            </Button>
+          </div>
+        ))
       )}
     </>
   );

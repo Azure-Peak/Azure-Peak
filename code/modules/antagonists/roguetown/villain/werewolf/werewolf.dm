@@ -11,6 +11,7 @@
 	storyteller_slot_scaling = 2
 	storyteller_slot_default_cap = 2
 	storyteller_maxcaps = list(/datum/storyteller/gamemode/guaranteed_antag = 2)
+	storyteller_blacklisted = TRUE
 	var/list/inherent_traits = list(
 		TRAIT_IGNORESLOWDOWN,
 		TRAIT_IGNOREDAMAGESLOWDOWN,
@@ -184,9 +185,6 @@
 	if(!wolfy)
 		return
 	if(stat >= DEAD) //do shit the natural way i guess
-		return
-	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD) && prob(40)) // since WWs are harder to infect, reducing this to just a fraction of the normal chance
-		to_chat(src, span_danger("I feel something churning within my body... No, not again...! Not this time!"))
 		return
 	to_chat(src, span_danger("I feel horrible... REALLY horrible..."))
 	mob_timers["puke"] = world.time

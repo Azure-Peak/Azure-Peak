@@ -103,9 +103,13 @@
 	out += chronicle_kv("	Import tariff", "[GLOB.azure_round_stats[STATS_REVENUE_IMPORT_TARIFF]]")
 	out += chronicle_kv("	Export duty", "[GLOB.azure_round_stats[STATS_REVENUE_EXPORT_DUTY]]")
 	out += chronicle_kv("	Recovered spoils", "[GLOB.azure_round_stats[STATS_REVENUE_RECOVERED_SPOILS]]")
-	out += chronicle_kv("Poll tax collected", "[GLOB.azure_round_stats[STATS_POLL_TAX_COLLECTED]]")
+	out += chronicle_kv("Poll levy collected", "[GLOB.azure_round_stats[STATS_POLL_LEVY_COLLECTED]]")
+	out += chronicle_kv("	Levies raised", "[GLOB.azure_round_stats[STATS_POLL_LEVIES_ENACTED]]")
+	out += chronicle_kv("	Arrears incurred", "[GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS]]")
+	out += chronicle_kv("	Arrears forgiven", "[GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS_FORGIVEN]]")
+	out += chronicle_kv("	Arrears recovered", "[GLOB.azure_round_stats[STATS_POLL_LEVY_ARREARS_RECOVERED]]")
 	out += chronicle_kv("Taxes evaded", "[GLOB.azure_round_stats[STATS_TAXES_EVADED]]")
-	var/exempt_total = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF] + GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY] + GLOB.azure_round_stats[STATS_EXEMPTED_FINE] + GLOB.azure_round_stats[STATS_EXEMPTED_POLL_TAX]
+	var/exempt_total = GLOB.azure_round_stats[STATS_EXEMPTED_CONTRACT_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_HEADEATER_LEVY] + GLOB.azure_round_stats[STATS_EXEMPTED_IMPORT_TARIFF] + GLOB.azure_round_stats[STATS_EXEMPTED_EXPORT_DUTY] + GLOB.azure_round_stats[STATS_EXEMPTED_FINE] + GLOB.azure_round_stats[STATS_EXEMPTED_POLL_LEVY]
 	out += chronicle_kv("Forgone revenue (exemptions)", "[exempt_total]")
 	out += chronicle_kv("Wages paid", "[GLOB.azure_round_stats[STATS_WAGES_PAID]]")
 	out += chronicle_kv("Fines income", "[GLOB.azure_round_stats[STATS_FINES_INCOME]]")
@@ -248,7 +252,7 @@
 	var/list/out = list()
 	out += chronicle_section_header("Contracts by Type")
 	out += "	[chronicle_pad_right("Contract", 18)] | Posted | Taken | Lapsed | Players | Done | Failed | Aband | Withdr | Open | Done% | Wait | Run | Party | Deaths | Paid\n"
-	for(var/quest_type in GLOB.contract_stat_type_order)
+	for(var/quest_type in GLOB.quest_prototypes)
 		out += chronicle_contract_row(CONTRACT_AXIS_TYPE, quest_type)
 	out += chronicle_kv("Distinct signers (all types)", "[count_all_contract_signers()]")
 	out += "\n"

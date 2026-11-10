@@ -37,7 +37,7 @@
 	// Allows prayer near psycross
 	for(var/obj/structure/fluff/psycross/cross in view(4, get_turf(follower)))
 		if(cross.divine == FALSE)
-			to_chat(follower, span_danger("That defiled cross interupts my prayers!"))
+			to_chat(follower, span_danger("That defiled cross interrupts my prayers!"))
 			return FALSE
 		return TRUE
 	// Allows prayer in the druid tower + houses in the forest
@@ -51,7 +51,7 @@
 		return TRUE
 	for(var/obj/structure/flora/roguetree/wise in view(4, get_turf(follower)))
 		return TRUE
-	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Pantheon Cross for the Treefather to hear my prays..."))
+	to_chat(follower, span_danger("I must either be in Dendor's wilds, the Grove, near a wise tree, or near a Pantheon Cross for the Treefather to hear my prayers..."))
 	return FALSE
 
 /datum/patron/divine/dendor/on_gain(mob/living/H)

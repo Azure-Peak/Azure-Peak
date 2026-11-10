@@ -93,7 +93,7 @@
 			visible_message(span_notice("[src] looks too full to eat \the [tasty]!"))
 			message_cooldown = world.time + 5 SECONDS
 		return
-	if (tasty.foodtype & GROSS)
+	if (tasty.food_quality & GROSS)
 		visible_message(span_notice("[src] hungrily gobbles up \the [tasty]!"))
 		tasty.forceMove(src)
 		playsound(src,'sound/blank.ogg', 70, TRUE)

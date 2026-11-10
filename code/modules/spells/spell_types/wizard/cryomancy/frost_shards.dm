@@ -1,7 +1,7 @@
 #define MT_FROST_SHARD "frost_shard"
 #define FROST_SHARD_DR_DURATION 1 SECONDS
 
-/datum/action/cooldown/spell/projectile/frost_bolt
+/datum/action/cooldown/spell/projectile/frost_shards
 	button_icon = 'icons/mob/actions/mage_cryomancy.dmi'
 	name = "Frost Shards"
 	desc = "Loose a concentrated spray of frozen shards. The shards lose damage and efffects past 4 paces . \
@@ -24,8 +24,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
-	charge_swingdelay_duration = 6 SECONDS
+	charge_swingdelay_type = SWINGDELAY_NORMAL
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_POKE
 	hold_drain = 1
@@ -41,7 +40,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-/datum/action/cooldown/spell/projectile/frost_bolt/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
+/datum/action/cooldown/spell/projectile/frost_shards/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()
 	var/base_angle = to_fire.Angle
 	if(isnull(base_angle))
@@ -53,7 +52,7 @@
 	name = "frost shard"
 	expose_caster_on_deflect = TRUE
 	icon_state = "ice_2"
-	damage = 35
+	damage = SPELL_DMG(35)
 	damage_type = BURN
 	woundclass = BCLASS_BURN
 	flag = "fire"
@@ -62,13 +61,15 @@
 	suppress_effects_past_range = TRUE
 	speed = MAGE_PROJ_FAST
 	nodamage = FALSE
-	var/reduced_damage = 9
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
+	var/reduced_damage = SPELL_DMG(9)
 	var/repeat_hit = FALSE
 
 /obj/projectile/magic/frost_shard/arc
 	name = "arced frost shard"
-	damage = 30
-	reduced_damage = 8
+	damage = SPELL_DMG(30)
+	reduced_damage = SPELL_DMG(8)
 	arcshot = TRUE
 
 /obj/projectile/magic/frost_shard/prehit(atom/target)
@@ -94,54 +95,6 @@
 			return BULLET_ACT_BLOCK
 		if(isliving(target) && !repeat_hit && !out_of_effective_range() && blocked < 100)
 			var/mob/living/L = target
-			if(L.on_fire)
-				L.adjust_fire_stacks(-1)
-				L.visible_message(span_warning("The frost dampens the flames on [L]!"))
-			apply_frost_stack(L)
-			playsound(get_turf(L), pick('sound/combat/fracture/fracturedry (1).ogg', 'sound/combat/fracture/fracturedry (2).ogg', 'sound/combat/fracture/fracturedry (3).ogg'), 80, TRUE)
-			new /obj/effect/temp_visual/snap_freeze(get_turf(L))
-	else if(isobj(target))
-		var/obj/O = target
-		O.extinguish()
-		var/turf/target_turf = get_turf(target)
-		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in target_turf)
-		if(hotspot)
-			new /obj/effect/temp_visual/small_smoke(target_turf)
-			qdel(hotspot)
-	qdel(src)
-
-/obj/projectile/magic/frostbolt
-	name = "frost bolt"
-	expose_caster_on_deflect = TRUE
-	icon_state = "ice_2"
-	damage = 30
-	damage_type = BURN
-	woundclass = BCLASS_BURN
-	flag = "fire"
-	range = SPELL_RANGE_PROJECTILE
-	speed = MAGE_PROJ_FAST
-	nodamage = FALSE
-
-/obj/projectile/magic/frostbolt/arc
-	name = "arced frost bolt"
-	damage = 23
-	arcshot = TRUE
-
-/obj/projectile/magic/frostbolt/on_hit(target, blocked = FALSE)
-	. = ..()
-	if(ismob(target))
-		var/mob/M = target
-		if(M.anti_magic_check())
-			visible_message(span_warning("[src] fizzles on contact with \the [target]!"))
-			playsound(get_turf(target), 'sound/magic/magic_nulled.ogg', 100)
-			qdel(src)
-			return BULLET_ACT_BLOCK
-		if(isliving(target))
-			var/mob/living/L = target
-			if(out_of_effective_range())
-				return
-			if(blocked >= 100)
-				return
 			if(L.on_fire)
 				L.adjust_fire_stacks(-1)
 				L.visible_message(span_warning("The frost dampens the flames on [L]!"))

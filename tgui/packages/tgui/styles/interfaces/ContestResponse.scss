@@ -4,17 +4,23 @@
 
 @use '../base';
 
+// The close button takes 45px on the right of the title bar, so the same amount on the left keeps
+// the title on the true centre of the window rather than of the space left beside the button.
+.ContestResponse__Title .TitleBar__title {
+  text-align: center;
+  padding-left: base.rem(45px);
+}
+
 .ContestResponse__Stat {
   display: block;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: base.rem(2px);
+  // letter-spacing also trails the last glyph, so pad the start by the same amount to keep the word on the true centre.
+  padding-left: base.rem(2px);
   font-size: base.rem(22px);
   font-weight: bold;
   color: #e2ddae;
-  text-shadow:
-    0 0 2px currentColor,
-    0 0 6px currentColor;
   margin-bottom: base.rem(8px);
 }
 
@@ -52,6 +58,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
+
+  &--wide {
+    grid-column: 1 / -1;
+  }
 }
 
 // One colour per stat, matching the chat spans of the god who watches over it. Declared last

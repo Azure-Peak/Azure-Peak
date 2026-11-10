@@ -3,11 +3,7 @@ import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { formatRatioPct } from './common/format';
-import {
-  type IssuedContract,
-  IssuedContractsView,
-  issueStatusSuffix,
-} from './ContractLedgerIssued';
+import { issueStatusSuffix, LedgerSubTabBar } from './ContractLedgerIssued';
 
 type RumorLogEntry = {
   title: string;
@@ -29,14 +25,12 @@ type InnkeeperData = {
   rumor_destinations: string[];
   rumor_log: RumorLogEntry[];
   rumor_lucrative_mult: number;
-  rumor_issued: IssuedContract[];
-  issuer_cancel_window_minutes: number;
   region_tp_multipliers: Record<string, number>;
   region_delivery_multipliers: Record<string, number>;
 };
 
 type DispatchMode = 'board' | 'hands';
-type SubTab = 'compose' | 'issued' | 'history';
+type SubTab = 'compose' | 'history';
 const RECOVERY_TYPE = 'Recovery';
 const DISPATCH_DEBOUNCE_MS = 500;
 
@@ -104,37 +98,6 @@ const ModeRadio = (props: {
     &nbsp;{props.label}
   </label>
 );
-
-const SubTabBar = (props: {
-  active: SubTab;
-  onSelect: (t: SubTab) => void;
-  issuedCount: number;
-  historyCount: number;
-}) => {
-  const tabs: { id: SubTab; label: string }[] = [
-    { id: 'compose', label: 'Compose' },
-    { id: 'issued', label: `Issued (${props.issuedCount})` },
-    { id: 'history', label: `History (${props.historyCount})` },
-  ];
-  return (
-    <div className="ContractLedger__InnkeeperSubTabBar">
-      {tabs.map((t) => (
-        <div
-          key={t.id}
-          className={
-            'ContractLedger__InnkeeperSubTab' +
-            (t.id === props.active
-              ? ' ContractLedger__InnkeeperSubTab--active'
-              : '')
-          }
-          onClick={() => props.onSelect(t.id)}
-        >
-          {t.label}
-        </div>
-      ))}
-    </div>
-  );
-};
 
 const HistoryView = (props: { log: RumorLogEntry[] }) => {
   if (!props.log.length) {
@@ -375,21 +338,19 @@ export const InnkeeperRumorPanel = () => {
         </div>
       </div>
 
-      <SubTabBar
+      <LedgerSubTabBar
+        tabs={[
+          { id: 'compose', label: 'Compose' },
+          {
+            id: 'history',
+            label: `History (${(data.rumor_log || []).length})`,
+          },
+        ]}
         active={subTab}
         onSelect={setSubTab}
-        issuedCount={(data.rumor_issued || []).length}
-        historyCount={(data.rumor_log || []).length}
       />
 
       {subTab === 'compose' && <ComposeView />}
-      {subTab === 'issued' && (
-        <IssuedContractsView
-          entries={data.rumor_issued || []}
-          windowMinutes={data.issuer_cancel_window_minutes}
-          emptyText="No rumors are abroad."
-        />
-      )}
       {subTab === 'history' && <HistoryView log={data.rumor_log || []} />}
     </div>
   );

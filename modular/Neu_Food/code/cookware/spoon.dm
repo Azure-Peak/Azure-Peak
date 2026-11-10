@@ -3,7 +3,15 @@
 	desc = "Traditional utensil for shoveling soup into your mouth, or to churn butter with."
 	icon = 'modular/Neu_Food/icons/cookware/spoon.dmi'
 	icon_state = "spoon"
-	force = 0
+	force = 5
+	throwforce = 5
+	w_class = WEIGHT_CLASS_TINY
+	max_blade_int = 40
+	max_integrity = 40
+	wbalance = WBALANCE_SWIFT
+	thrown_bclass = BCLASS_STAB
+	flags_1 = CONDUCT_1
+	possible_item_intents = list(/datum/intent/use, /datum/intent/dagger/thrust/cutlery)
 	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/kitchen/spoon/get_mechanics_examine(mob/user)

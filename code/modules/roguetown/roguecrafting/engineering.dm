@@ -1033,7 +1033,7 @@
 	name = "blastpowder stick"
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = /obj/item/tntstick
+	result = /obj/item/explosive/fused/powder/stick
 	reqs = list(
 		/obj/item/paper = 2,
 		/obj/item/alch/coaldust = 1,
@@ -1048,10 +1048,10 @@
 	name = "blastpowder satchel"
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = /obj/item/satchel_bomb
+	result = /obj/item/explosive/fused/powder/satchel
 	reqs = list(
 		/obj/item/storage/backpack/rogue/satchel = 1,
-		/obj/item/tntstick = 3,
+		/obj/item/explosive/fused/powder/stick = 3,
 		/obj/item/alch/firedust = 1,
 		/obj/item/natural/fibers = 1,
 	)
@@ -1065,9 +1065,9 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/impact_grenade/explosion,
-		/obj/item/impact_grenade/explosion,
-		/obj/item/impact_grenade/explosion,
+		/obj/item/explosive/impact/shrapnel,
+		/obj/item/explosive/impact/shrapnel,
+		/obj/item/explosive/impact/shrapnel,
 	)
 	reqs = list(
 		/obj/item/natural/clay = 1,
@@ -1085,14 +1085,14 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/impact_grenade/smoke,
-		/obj/item/impact_grenade/smoke,
-		/obj/item/impact_grenade/smoke,
+		/obj/item/explosive/impact/smoke,
+		/obj/item/explosive/impact/smoke,
+		/obj/item/explosive/impact/smoke,
 	)
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/datum/reagent/water = 48,
 	)
 	structurecraft = /obj/structure/artificer_table
@@ -1104,14 +1104,14 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/impact_grenade/smoke/poison_gas,
-		/obj/item/impact_grenade/smoke/poison_gas,
-		/obj/item/impact_grenade/smoke/poison_gas,
+		/obj/item/explosive/impact/smoke/poison_gas,
+		/obj/item/explosive/impact/smoke/poison_gas,
+		/obj/item/explosive/impact/smoke/poison_gas,
 	)
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/datum/reagent/berrypoison = 5,
 		/obj/item/alch/airdust = 1,
 		/datum/reagent/water = 48,
@@ -1125,14 +1125,14 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/impact_grenade/smoke/fire_gas,
-		/obj/item/impact_grenade/smoke/fire_gas,
-		/obj/item/impact_grenade/smoke/fire_gas,
+		/obj/item/explosive/impact/smoke/fire_gas,
+		/obj/item/explosive/impact/smoke/fire_gas,
+		/obj/item/explosive/impact/smoke/fire_gas,
 	)
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 2,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/alch/firedust = 1,
 		/obj/item/alch/solardust = 1,
 		/datum/reagent/water = 48,
@@ -1146,14 +1146,14 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/impact_grenade/smoke/blind_gas,
-		/obj/item/impact_grenade/smoke/blind_gas,
-		/obj/item/impact_grenade/smoke/blind_gas,
+		/obj/item/explosive/impact/smoke/blind_gas,
+		/obj/item/explosive/impact/smoke/blind_gas,
+		/obj/item/explosive/impact/smoke/blind_gas,
 	)
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced = 1,
 		/obj/item/natural/dirtclod = 1,
 		/datum/reagent/water = 48,
@@ -1167,14 +1167,14 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/impact_grenade/smoke/mute_gas,
-		/obj/item/impact_grenade/smoke/mute_gas,
-		/obj/item/impact_grenade/smoke/mute_gas,
+		/obj/item/explosive/impact/smoke/mute_gas,
+		/obj/item/explosive/impact/smoke/mute_gas,
+		/obj/item/explosive/impact/smoke/mute_gas,
 	)
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/alch/irondust = 1,
 		/obj/item/rogueore/cinnabar = 1,
 		/datum/reagent/water = 48,
@@ -1188,14 +1188,14 @@
 	category = "Explosives"
 	display_category = ITEM_CAT_ENG_COMBAT
 	result = list(
-		/obj/item/impact_grenade/smoke/healing_gas,
-		/obj/item/impact_grenade/smoke/healing_gas,
-		/obj/item/impact_grenade/smoke/healing_gas,
+		/obj/item/explosive/impact/smoke/healing_gas,
+		/obj/item/explosive/impact/smoke/healing_gas,
+		/obj/item/explosive/impact/smoke/healing_gas,
 	)
 	reqs = list(
 		/obj/item/smokeshell = 3,
 		/obj/item/alch/coaldust = 1,
-		/obj/item/ash = 1,
+		/obj/item/natural/ash = 1,
 		/obj/item/alch/viscera = 2,
 		/obj/item/alch/bonemeal = 2,
 		/datum/reagent/water = 48,
@@ -1272,7 +1272,7 @@
 		/obj/item/roguegear = 1,
 		/obj/item/natural/clay = 1,
 		/obj/item/roguegem/amethyst = 1,
-		/obj/item/impact_grenade/explosion = 1,
+		/obj/item/explosive/impact/shrapnel = 1,
 	)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 6
@@ -1282,8 +1282,8 @@
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/dirtclod = 3, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1292,8 +1292,8 @@
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/glass_shard = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1302,8 +1302,8 @@
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/bomb)
-	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/ash = 2, /obj/item/natural/fibers = 2)
+	result = list(/obj/item/explosive/fused/bottle)
+	reqs = list(/obj/item/natural/glass_shard/shrapnel = 1, /obj/item/natural/ash = 2, /obj/item/natural/fibers = 2)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
 
@@ -1312,7 +1312,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/impact_grenade/explosion)
+	result = list(/obj/item/explosive/impact/shrapnel)
 	reqs = list(/obj/item/scrap = 1, /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius = 1, /obj/item/natural/fibers = 3)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1322,7 +1322,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/impact_grenade/explosion)
+	result = list(/obj/item/explosive/impact/shrapnel)
 	reqs = list(/obj/item/scrap = 1, /obj/item/magic/infernal/ash = 1, /obj/item/natural/fibers = 3)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4
@@ -1332,7 +1332,7 @@
 	category = "Explosives"
 	required_trait = TRAIT_BOMBER_EXPERT
 	display_category = ITEM_CAT_ENG_COMBAT
-	result = list(/obj/item/impact_grenade/explosion)
+	result = list(/obj/item/explosive/impact/shrapnel)
 	reqs = list(/obj/item/scrap = 1, /obj/item/alch/coaldust = 1, /obj/item/natural/fibers = 3)
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 4

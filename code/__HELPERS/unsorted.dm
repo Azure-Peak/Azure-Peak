@@ -21,6 +21,17 @@
 	textb = num2hex(255 - b, 2)
 	return text("#[][][]", textr, textg, textb)
 
+/proc/get_angle_raw(start_x, start_y, start_pixel_x, start_pixel_y, end_x, end_y, end_pixel_x, end_pixel_y)
+	var/dy = (32 * end_y + end_pixel_y) - (32 * start_y + start_pixel_y)
+	var/dx = (32 * end_x + end_pixel_x) - (32 * start_x + start_pixel_x)
+	if(!dy)
+		return (dx >= 0) ? 90 : 270
+	. = arctan(dx/dy)
+	if(dy < 0)
+		. += 180
+	else if(dx < 0)
+		. += 360
+
 /proc/Get_Angle(atom/movable/start,atom/movable/end)//For beams.
 	if(!start || !end)
 		return 0
@@ -706,6 +717,10 @@ will handle it, but:
 		if(H.cloak)
 			wash_obj(H.cloak, clean)
 			H.update_inv_cloak()
+
+		for(var/obj/item/I in list(H.wear_wrists, H.backr, H.backl, H.beltr, H.beltl, H.mouth, H.wear_ring))
+			wash_obj(I, clean)
+			I.update_slot_icon()
 
 		SEND_SIGNAL(H, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
 	else

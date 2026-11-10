@@ -70,7 +70,7 @@
 /obj/effect/proc_holder/spell/self/sapperbomb
 	name = "Calcic Obliteration"
 	desc = "Explode in a wonderful arcayne blast of osseous shrapnel, specially prepared to tear down the walls and buildings \
-	that would halt the advance of your fellow legionnaries and violently sunder anything caught in the blast. \
+	that would halt the advance of your fellow legionnaires and violently sunder anything caught in the blast. \
 	takes more time to explode compared to regular calic outburst and will weaken your vessel to blows, cannot be triggered manually by your Exarch."
 	overlay_state = "firewalk"
 	chargedrain = 0
@@ -110,7 +110,7 @@
 
 /obj/effect/proc_holder/spell/proc/sapper_explode(mob/living/user)
 
-	explosion(get_turf(user), devastation_range = 3, heavy_impact_range = 4, light_impact_range = 5, flash_range = 5, flame_range = 3, smoke = TRUE, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and absolutely FUCK UP people nearby.
+	explosion(get_turf(user), extreme_impact_range = 3, heavy_impact_range = 4, light_impact_range = 5, flash_range = 5, flame_range = 3, smoke = TRUE, soundin = 'sound/misc/explode/incendiary (1).ogg') //This will destroy walls and absolutely FUCK UP people nearby.
 	playsound(get_turf(user), 'sound/magic/soulshot.ogg', 100) //Extra AURA
 
 	user.gib(no_brain = TRUE, no_organs = TRUE)

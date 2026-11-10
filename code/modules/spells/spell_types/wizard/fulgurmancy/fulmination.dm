@@ -35,10 +35,10 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
 
-	var/hs_damage = 80
+	var/hs_damage = SPELL_DMG(80)
 	var/hs_telegraph = TELEGRAPH_SKILLSHOT
 
-	var/ts_damage = 60
+	var/ts_damage = SPELL_DMG(60)
 	var/ts_radius = 2
 	var/ts_telegraph = TELEGRAPH_AREA_DENIAL
 
@@ -139,7 +139,7 @@
 			if(arcyne_strike(caster, L, null, actual_damage, target_zone, \
 				BCLASS_BURN, spell_name = "Heaven's Strike", \
 				damage_type = BURN, \
-				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 				continue
 		else
 			L.electrocute_act(actual_damage, src, 1, SHOCK_NOSTUN)
@@ -152,9 +152,9 @@
 			continue
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, ts_telegraph)
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src), ts_telegraph)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src, "Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), ts_telegraph)
 
-/proc/thunderstrike_erupt(turf/centerpoint, mob/living/carbon/human/caster, radius = 2, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Thunderstrike")
+/proc/thunderstrike_erupt(turf/centerpoint, mob/living/carbon/human/caster, radius = 2, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Thunderstrike", intdamage_mult = 1)
 	if(!centerpoint)
 		return
 	playsound(centerpoint, 'sound/magic/lightning.ogg', 100, TRUE, 8)
@@ -179,7 +179,7 @@
 				if(arcyne_strike(caster, L, null, damage, pick(random_zones), \
 					BCLASS_BURN, spell_name = spell_name, \
 					damage_type = BURN, \
-					skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+					skip_animation = TRUE, intdamage_mult = intdamage_mult) == ARCYNE_STRIKE_WARDED)
 					continue
 			else
 				L.electrocute_act(damage, caster, 1, SHOCK_NOSTUN)

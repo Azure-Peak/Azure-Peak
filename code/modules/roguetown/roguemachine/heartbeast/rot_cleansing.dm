@@ -1,5 +1,5 @@
 /atom/movable/screen/alert/status_effect/buff/rot_cleansing
-	name = "Rot cleansing"
+	name = "Rot Cleansing"
 	desc = "My body is fighting off the black rot. Being hit by more sources may diminish the effect, I should avoid exposure whilst I heal."
 	icon_state = "rotcleanse"
 
@@ -42,7 +42,7 @@
 
 /datum/status_effect/buff/rot_cleansing/tick()
 	var/datum/status_effect/black_rot/rot = owner.has_status_effect(/datum/status_effect/black_rot)
-	
+
 	if(!rot || total_to_cleanse <= currently_cleansed)
 		owner.remove_status_effect(src)
 		return

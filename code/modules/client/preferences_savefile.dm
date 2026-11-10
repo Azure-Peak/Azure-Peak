@@ -161,6 +161,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["combat_toggles"]		>> combat_toggles
 	S["ghost_toggles"]		>> ghost_toggles
 	S["admin_chat_toggles"]	>> admin_chat_toggles
+	S["admin_ghost_icon"]	>> admin_ghost_icon
 	S["clientfps"]			>> clientfps
 	S["ambientocclusion"]	>> ambientocclusion
 	S["auto_fit_viewport"]	>> auto_fit_viewport
@@ -215,6 +216,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	combat_toggles		= sanitize_integer(combat_toggles, 0, INFINITY, initial(combat_toggles))
 	ghost_toggles		= sanitize_integer(ghost_toggles, 0, INFINITY, initial(ghost_toggles))
 	admin_chat_toggles	= sanitize_integer(admin_chat_toggles, 0, INFINITY, initial(admin_chat_toggles))
+	if(admin_ghost_icon && !isicon(admin_ghost_icon))
+		admin_ghost_icon = null
 	chat_toggles		= sanitize_integer(chat_toggles, 0, INFINITY, initial(chat_toggles))
 	clientfps			= sanitize_integer(clientfps, 0, 1000, initial(clientfps))
 	musicvol			= sanitize_integer(musicvol, 0, 100, initial(musicvol))
@@ -329,6 +332,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["combat_toggles"], combat_toggles)
 	WRITE_FILE(S["ghost_toggles"], ghost_toggles)
 	WRITE_FILE(S["admin_chat_toggles"], admin_chat_toggles)
+	WRITE_FILE(S["admin_ghost_icon"], admin_ghost_icon)
 	WRITE_FILE(S["clientfps"], clientfps)
 	WRITE_FILE(S["ambientocclusion"], ambientocclusion)
 	WRITE_FILE(S["auto_fit_viewport"], auto_fit_viewport)
@@ -373,6 +377,19 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(!LAZYLEN(charflaws))
 		charflaws = list(/datum/charflaw/noflaw)
+
+/datum/preferences/proc/validate_charflaw_choices()
+	for(var/cf_type in charflaw_choices)
+		var/datum/charflaw/cf = GLOB.character_flaws_singletons[cf_type]
+		var/list/picked = charflaw_choices[cf_type]
+		if(!cf || !islist(picked) || !(cf_type in charflaws))
+			charflaw_choices -= cf_type
+			continue
+		for(var/choice in picked)
+			if(!(choice in cf.extra_choices))
+				picked -= choice
+		if(length(picked) > cf.max_choices)
+			picked.Cut(cf.max_choices + 1)
 
 /datum/preferences/proc/_load_culinary_preferences(S)
 	S["favorite_cuisine"] >> favorite_cuisine
@@ -432,22 +449,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		virtuetwo = new /datum/virtue/none
 
 	if(length(virtue_choices))
-		var/error_found = FALSE
-		for(var/choice in virtue_choices)
-			if(!(choice in virtue.extra_choices))
-				error_found = TRUE
-				break
-		if(!error_found)
-			virtue.picked_choices = virtue_choices.Copy()
+		virtue.picked_choices = virtue_choices & virtue.extra_choices
 
 	if(length(virtuetwo_choices))
-		var/error_found = FALSE
-		for(var/choice in virtuetwo_choices)
-			if(!(choice in virtuetwo.extra_choices))
-				error_found = TRUE
-				break
-		if(!error_found)
-			virtuetwo.picked_choices = virtuetwo_choices.Copy()
+		virtuetwo.picked_choices = virtuetwo_choices & virtuetwo.extra_choices
 
 	virtue.on_load()
 	virtuetwo.on_load()
@@ -633,14 +638,17 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	S["qsr"] 					>> qsr_pref
 	S["flavortext"]				>> flavortext
+	S["pen_name"]				>> pen_name
 	S["ooc_notes"]				>> ooc_notes
 	S["ooc_extra"]				>> ooc_extra
 	S["rumour"]					>> rumour
 	S["noble_gossip"]			>> noble_gossip
 	S["averse_chosen_faction"]	>> averse_chosen_faction
+	S["charflaw_choices"]		>> charflaw_choices
 	S["song_artist"]			>> song_artist
 	S["song_title"]				>> song_title
 	S["nsfwflavortext"]			>> nsfwflavortext
+	S["show_nsfw_clothed"]		>> show_nsfw_clothed
 	S["erpprefs"]				>> erpprefs
 
 	S["preset_bounty_enabled"]			>> preset_bounty_enabled
@@ -770,6 +778,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	custom_descriptors = SANITIZE_LIST(custom_descriptors)
 	validate_descriptors()
 
+	charflaw_choices = SANITIZE_LIST(charflaw_choices)
+	validate_charflaw_choices()
+
 	var/list/valid_skin_tones = pref_species.get_skin_list()
 	var/list/valid_skin_colors = list()
 	for(var/skin_tone in valid_skin_tones)
@@ -857,6 +868,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["skin_tone"]			, skin_tone)
 	WRITE_FILE(S["species"]				, pref_species.name)
 	WRITE_FILE(S["charflaws"]			, charflaws)
+
 	WRITE_FILE(S["feature_mcolor"]		, features["mcolor"])
 	WRITE_FILE(S["feature_mcolor2"]		, features["mcolor2"])
 	WRITE_FILE(S["feature_mcolor3"]		, features["mcolor3"])
@@ -924,11 +936,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["preset_bounty_severity_v_key"] , preset_bounty_severity_v_key)
 	WRITE_FILE(S["preset_bounty_crime"] , preset_bounty_crime)
 	WRITE_FILE(S["flavortext"] , html_decode(flavortext))
+	WRITE_FILE(S["pen_name"] , pen_name)
 	WRITE_FILE(S["ooc_notes"] , html_decode(ooc_notes))
 	WRITE_FILE(S["ooc_extra"] ,	ooc_extra)
 	WRITE_FILE(S["rumour"] , html_decode(rumour))
 	WRITE_FILE(S["noble_gossip"] , html_decode(noble_gossip))
 	WRITE_FILE(S["averse_chosen_faction"] , html_decode(averse_chosen_faction))
+	WRITE_FILE(S["charflaw_choices"], charflaw_choices)
 	WRITE_FILE(S["song_artist"] , song_artist)
 	WRITE_FILE(S["song_title"] , song_title)
 	WRITE_FILE(S["examine_theme"] , examine_theme)
@@ -950,6 +964,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["body_size"] , features["body_size"])
 	WRITE_FILE(S["body_build"] , features["body_build"])
 	WRITE_FILE(S["nsfwflavortext"] , html_decode(nsfwflavortext))
+	WRITE_FILE(S["show_nsfw_clothed"], show_nsfw_clothed)
 	WRITE_FILE(S["erpprefs"] , html_decode(erpprefs))
 	WRITE_FILE(S["img_gallery"] , img_gallery)
 	WRITE_FILE(S["nsfw_img_gallery"] , nsfw_img_gallery)

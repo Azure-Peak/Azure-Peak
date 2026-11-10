@@ -17,7 +17,7 @@
 // Rhythm system (on-hit melee effects for bards)
 #define RHYTHM_COOLDOWN 7 SECONDS // Shared cooldown after a rhythm successfully procs
 #define RHYTHM_WINDOW 8 SECONDS // Time to land a hit after activating rhythm
-#define RHYTHM_ACTIVATION_COST 10 // Stamina cost to activate rhythm
+#define RHYTHM_ACTIVATION_COST 5 // Stamina cost to activate rhythm
 #define CRESCENDO_STACKS 3 // Rhythm procs needed to unlock Crescendo
 #define CRESCENDO_DECAY 20 SECONDS // Time before Crescendo stacks decay
 

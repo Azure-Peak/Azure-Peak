@@ -23,7 +23,7 @@
 		STATKEY_CON = 1,
 		STATKEY_WIL = 2, // With 2 Wil they should not be struggling
 	)
-	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 6) // Mama Zizo said you get 2 more points on Utility!!!
+	subclass_mage_aspects = list("mastery" = FALSE, "major" = 0, "minor" = 0, "utilities" = 8) // Mama Zizo said you get 2 more points on Utility!!!
 	subclass_skills = list(
 		/datum/skill/combat/shields = SKILL_LEVEL_JOURNEYMAN,
 		/datum/skill/combat/wrestling = SKILL_LEVEL_JOURNEYMAN,
@@ -43,15 +43,7 @@
 	)
 
 /datum/outfit/job/roguetown/wretch/heretic_spellblade
-	var/subclass_selected
-
-/datum/outfit/job/roguetown/wretch/heretic_spellblade/Topic(href, href_list)
-	. = ..()
-	if(href_list["subclass"])
-		subclass_selected = href_list["subclass"]
-	else if(href_list["close"])
-		if(!subclass_selected)
-			subclass_selected = "blade"
+	var/tmp/eastern = FALSE // alt outfit for naginata + discretion
 
 /datum/outfit/job/roguetown/wretch/heretic_spellblade/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -75,7 +67,6 @@
 
 	to_chat(H, span_warning("You start with Bind Weapon. Remember to Bind your weapon so you can use your abilities and build up Arcyne Momentum."))
 
-	subclass_selected = null
 	// Determine faction and patron-specific weapon for chant display
 	var/chant_faction = "zizite"
 	var/extra_blade_weapon
@@ -83,44 +74,75 @@
 		extra_blade_weapon = "Avantyne Arming Sword"
 	else if(istype(H.patron, /datum/patron/divine/noc))
 		chant_faction = "noccite"
-	var/selection_html = get_spellblade_chant_html(src, H, chant_faction, extra_blade_weapon)
-	H << browse(selection_html, "window=spellblade_chant;size=1100x900")
-	onclose(H, "spellblade_chant", src)
+	var/spellblade_chant_selected = prompt_spellblade_choice(H, get_spellblade_chant_html(src, H, chant_faction, extra_blade_weapon))
+	var/datum/spellblade_chant/chant = GLOB.spellblade_chants[spellblade_chant_selected]
+	chant.apply_chant(H)
 
-	var/open_time = world.time
-	while(!subclass_selected && world.time - open_time < 5 MINUTES)
-		stoplag(1)
-	H << browse(null, "window=spellblade_chant")
-
-	if(!subclass_selected)
-		subclass_selected = "blade"
-
-	var/datum/status_effect/buff/arcyne_momentum/momentum = H.apply_status_effect(/datum/status_effect/buff/arcyne_momentum)
-	if(momentum)
-		momentum.chant = subclass_selected
-
-	if(H.mind)
-		switch(subclass_selected)
-			if("blade")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/caedo)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/air_strike)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/leyline_anchor)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/blade_storm)
-			if("phalangite")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/azurean_phalanx)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/projectile/azurean_pilum)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/advance)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/gate_of_reckoning)
-			if("macebearer")
-				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/shatter)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/telegraphed_strike/spellblade/tremor)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/charge)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/cataclysm)
-
-		H.mind.AddSpell(new /datum/action/cooldown/spell/recall_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/empower_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/bind_weapon)
-		H.mind.AddSpell(new /datum/action/cooldown/spell/mending)
+	// used to handle skill assignment automatically
+	var/obj/item/rogueweapon/granted_weapon = null
+	backr = /obj/item/rogueweapon/shield/heater
+	switch(spellblade_chant_selected)
+		if("blade")
+			var/list/weapons = list("Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger")
+			// Inject patron-specific weapon
+			if(istype(H.patron, /datum/patron/inhumen/zizo))
+				weapons.Insert(1, "Avantyne Arming Sword")
+			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+			beltr = /obj/item/rogueweapon/scabbard/sword
+			switch(weapon_choice)
+				if("Avantyne Arming Sword")
+					r_hand = granted_weapon = /obj/item/rogueweapon/sword/zizo
+				if("Kriegmesser")
+					r_hand = granted_weapon = /obj/item/rogueweapon/sword/long/kriegmesser
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+				if("Longsword")
+					r_hand = granted_weapon = /obj/item/rogueweapon/sword/long
+				if("Rapier")
+					r_hand = granted_weapon = /obj/item/rogueweapon/sword/rapier
+				if("Sabre")
+					r_hand = granted_weapon = /obj/item/rogueweapon/sword/sabre
+				if("Steel Arming Sword")
+					r_hand = granted_weapon = /obj/item/rogueweapon/sword
+				if("Steel Greatsword")
+					r_hand = granted_weapon = /obj/item/rogueweapon/greatsword
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+				if("Steel Dagger")
+					beltr = granted_weapon = /obj/item/rogueweapon/huntingknife/idagger/steel
+		if("phalangite")
+			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory", "Naginata")
+			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
+			backr = /obj/item/rogueweapon/scabbard/gwstrap
+			switch(polearm_choice)
+				if("Halberd")
+					r_hand = granted_weapon = /obj/item/rogueweapon/halberd
+				if("Bardiche")
+					r_hand = granted_weapon = /obj/item/rogueweapon/halberd/bardiche
+				if("Boar Spear")
+					r_hand = granted_weapon = /obj/item/rogueweapon/spear/boar
+				if("Dory")
+					r_hand = granted_weapon = /obj/item/rogueweapon/spear/spellblade
+					backr = /obj/item/rogueweapon/shield/heater
+				if("Naginata")
+					r_hand = granted_weapon = /obj/item/rogueweapon/spear/naginata
+					eastern = TRUE
+		if("macebearer")
+			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
+			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
+			switch(mace_choice)
+				if("Steel Mace")
+					r_hand = granted_weapon = /obj/item/rogueweapon/mace/steel
+				if("Steel Warhammer")
+					r_hand = granted_weapon = /obj/item/rogueweapon/mace/warhammer/steel
+				if("Grand Mace")
+					r_hand = granted_weapon = /obj/item/rogueweapon/mace/goden/steel
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+				if("Battle Axe")
+					r_hand = granted_weapon = /obj/item/rogueweapon/stoneaxe/battle
+				if("Steel Greataxe")
+					r_hand = granted_weapon = /obj/item/rogueweapon/greataxe/steel
+					backr = /obj/item/rogueweapon/scabbard/gwstrap
+	if(granted_weapon)
+		H.adjust_skillrank_up_to(granted_weapon::associated_skill, SKILL_LEVEL_EXPERT, TRUE)
 
 	// Armor choice: Discretion (light, like adventurer) vs Progress (medium armor set with helmet)
 	var/armor_style = list("Discretion (Spellblade Disguise)", "Confrontation (Medium Armor)")
@@ -128,7 +150,10 @@
 	switch(armor_choice)
 		if("Discretion (Spellblade Disguise)")
 			head = /obj/item/clothing/head/roguetown/roguehood
-			armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
+			if(eastern)
+				armor = /obj/item/clothing/suit/roguetown/armor/basiceast
+			else
+				armor = /obj/item/clothing/suit/roguetown/armor/leather/heavy/coat
 		if("Confrontation (Medium Armor)")
 			armor = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 			shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy
@@ -142,13 +167,13 @@
 				"Bucket Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/bucket,
 				"Knight Helmet"			= /obj/item/clothing/head/roguetown/helmet/heavy/knight,
 				"Armet"					= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet,
-				"Snouted Armet"					= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted,
+				"Snouted Armet"			= /obj/item/clothing/head/roguetown/helmet/heavy/knight/armet/snouted,
 				"Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored,
-				"Snouted Visored Sallet"		= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
+				"Snouted Visored Sallet"= /obj/item/clothing/head/roguetown/helmet/sallet/visored/snouted,
 				"Klappvisier Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/etruscan,
 				"Hounskull Bascinet"	= /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/hounskull,
 				"Slitted Kettle"		= /obj/item/clothing/head/roguetown/helmet/heavy/knight/skettle,
-				"Volfskulle Bascinet"		= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
+				"Volfskulle Bascinet"	= /obj/item/clothing/head/roguetown/helmet/heavy/volfplate,
 				"None"
 			)
 			if(istype(H.patron, /datum/patron/divine/noc))
@@ -156,83 +181,6 @@
 			var/helmchoice = input(H, "Choose your Helm.", "LIGHT SHINES THROUGH") as anything in helmets
 			if(helmchoice != "None")
 				head = helmets[helmchoice]
-
-	backr = /obj/item/rogueweapon/shield/heater
-
-	switch(subclass_selected)
-		if("blade")
-			var/list/weapons = list("Kriegmesser", "Longsword", "Rapier", "Sabre", "Steel Arming Sword", "Steel Greatsword", "Steel Dagger")
-			// Inject patron-specific weapon
-			if(istype(H.patron, /datum/patron/inhumen/zizo))
-				weapons.Insert(1, "Avantyne Arming Sword")
-			var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
-			beltr = /obj/item/rogueweapon/scabbard/sword
-			switch(weapon_choice)
-				if("Avantyne Arming Sword")
-					r_hand = /obj/item/rogueweapon/sword/zizo
-				if("Kriegmesser")
-					r_hand = /obj/item/rogueweapon/sword/long/kriegmesser
-					backr = /obj/item/rogueweapon/scabbard/gwstrap
-				if("Longsword")
-					r_hand = /obj/item/rogueweapon/sword/long
-				if("Rapier")
-					r_hand = /obj/item/rogueweapon/sword/rapier
-				if("Sabre")
-					r_hand = /obj/item/rogueweapon/sword/sabre
-				if("Steel Arming Sword")
-					r_hand = /obj/item/rogueweapon/sword
-				if("Steel Greatsword")
-					r_hand = /obj/item/rogueweapon/greatsword
-					backr = /obj/item/rogueweapon/scabbard/gwstrap
-				if("Steel Dagger")
-					beltr = /obj/item/rogueweapon/huntingknife/idagger/steel
-			if(weapon_choice == "Steel Dagger")
-				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
-			else
-				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
-		if("phalangite")
-			var/polearm_weapons = list("Halberd", "Bardiche", "Boar Spear", "Dory", "Naginata")
-			var/polearm_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in polearm_weapons
-			backr = /obj/item/rogueweapon/scabbard/gwstrap
-			switch(polearm_choice)
-				if("Halberd")
-					r_hand = /obj/item/rogueweapon/halberd
-				if("Bardiche")
-					r_hand = /obj/item/rogueweapon/halberd/bardiche
-				if("Boar Spear")
-					r_hand = /obj/item/rogueweapon/spear/boar
-				if("Dory")
-					r_hand = /obj/item/rogueweapon/spear/spellblade
-					backr = /obj/item/rogueweapon/shield/heater
-				if("Naginata")
-					r_hand = /obj/item/rogueweapon/spear/naginata
-					if(armor_choice == "Discretion (Spellblade Disguise)")
-						armor = /obj/item/clothing/suit/roguetown/armor/basiceast
-			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_EXPERT, TRUE)
-		if("macebearer")
-			var/mace_weapons = list("Steel Mace", "Steel Warhammer", "Grand Mace", "Battle Axe", "Steel Greataxe")
-			var/mace_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in mace_weapons
-			var/picked_axe = FALSE
-			switch(mace_choice)
-				if("Steel Mace")
-					r_hand = /obj/item/rogueweapon/mace/steel
-				if("Steel Warhammer")
-					r_hand = /obj/item/rogueweapon/mace/warhammer/steel
-				if("Grand Mace")
-					r_hand = /obj/item/rogueweapon/mace/goden/steel
-					backr = /obj/item/rogueweapon/scabbard/gwstrap
-				if("Battle Axe")
-					r_hand = /obj/item/rogueweapon/stoneaxe/battle
-					picked_axe = TRUE
-				if("Steel Greataxe")
-					r_hand = /obj/item/rogueweapon/greataxe/steel
-					backr = /obj/item/rogueweapon/scabbard/gwstrap
-					picked_axe = TRUE
-			if(picked_axe)
-				H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_EXPERT, TRUE)
-			else
-				H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_EXPERT, TRUE)
-
 	// Patron-specific bonuses
 	H.cmode_music = 'sound/music/combat_heretic.ogg'
 	switch(H.patron?.type)

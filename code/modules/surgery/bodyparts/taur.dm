@@ -29,6 +29,10 @@
 	var/color_blend_mode = BLEND_ADD
 	var/taur_color = null
 
+	// If set, this taur type has barding/tabard/saddlebag overlay sprites in icons/roguetown/clothing/onmob/64x32/[taur_clothing_category]_barding.dmi
+	// prefixed with "[taur_clothing_category]_", eg "saiga_barding_plate", "saiga_tabard_quad", "saiga_bags"
+	var/taur_clothing_category = null
+
 	// Clip Masks allow you to apply a clipping filter to some other parts of human rendering to avoid anything overlapping the tail.
 	// Specifically: update_inv_cloak, update_inv_shirt, update_inv_armor, and update_inv_pants.
 	var/icon/clip_mask_icon = 'icons/mob/taurs.dmi'
@@ -83,12 +87,24 @@ GLOBAL_LIST_INIT(taur_types, subtypesof(/obj/item/bodypart/taur))
 
 	has_taur_color = TRUE
 
+/obj/item/bodypart/taur/spider/drider
+	max_damage = 400 // Makes them tougher so it don't die in 1 hit
+	max_stamina_damage = 150
+
+// Severed bodies can be implanted on players, so they lose the NPC toughness
+/obj/item/bodypart/taur/spider/drider/drop_limb(special)
+	. = ..()
+	var/obj/item/bodypart/taur/spider/plain = /obj/item/bodypart/taur/spider
+	max_damage = initial(plain.max_damage)
+	max_stamina_damage = initial(plain.max_stamina_damage)
+
 /obj/item/bodypart/taur/horse
 	name = "Saiga Body"
 
 	offset_x = -16
 	taur_icon_state = "saiga_s"
 	clip_mask_state = "clip_mask_saiga"
+	taur_clothing_category = "saiga"
 
 	has_taur_color = TRUE
 

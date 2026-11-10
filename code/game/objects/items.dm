@@ -147,7 +147,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/list/secondary_skills
 
 	var/list/possible_item_intents = list(/datum/intent/use)
-	var/saved_intent_index = 1 // Stores the last selected intent index when item is dropped
+	var/alist/saved_intents = alist(
+		UNWIELDED_INTENT = 1,
+		WIELDED_INTENT = 1,
+		ALTGRIP_ONE_INTENT = 1,
+		ALTGRIP_TWO_INTENT = 1,
+		ALTGRIP_THREE_INTENT = 1,
+	) // Stores the last selected intent index when item is dropped
 
 	var/bigboy = FALSE //used to center screen_loc when in hand
 	var/wielded = FALSE
@@ -192,6 +198,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/minstr_req = FALSE
 	/// %-age of our raw damage that is dealt to armor or weapon on hit / parry / clip.
 	var/intdamage_factor = 1
+	/// Damage multiplier against simple animals. Use the ANTIBEAST_* defines.
+	var/antibeast_factor = 1
 
 	var/item_quality = ITEM_QUALITY_STANDARD
 	var/has_item_quality = FALSE
@@ -319,6 +327,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!pixel_x && !pixel_y && !bigboy)
 		pixel_x = rand(-5,5)
 		pixel_y = rand(-5,5)
+
+	if(bait_quality)
+		ADD_TRAIT(src, bait_quality, INNATE_TRAIT)
 
 	if(grid_width <= 0)
 		grid_width = (w_class * world.icon_size)
@@ -590,6 +601,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			output = examine_block(output)
 		to_chat(usr, output)
 
+	if(href_list["explainantibeast"])
+		var/output = span_info("This weapon or ammunition is better versus simple minded beasts and inflicts more damage.")
+		if(!usr.client.prefs.no_examine_blocks)
+			output = examine_block(output)
+		to_chat(usr, output)
+
 	if(href_list["explainshieldcoverage"])
 		var/output = span_info("Chance to passively block incoming projectiles. Only works from the front.\nShields take quarter damage from blocked projectiles and fixed durability damage from melee parries.\nHeavy weapons deal more durability damage to shields — the higher of the attacker's Anti-Object Mod or Integrity Damage is used as a multiplier.")
 		if(!usr.client.prefs.no_examine_blocks)
@@ -703,7 +720,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		if(istype(src, /obj/item/rogueweapon))
 			var/obj/item/rogueweapon/W = src
 			if(W.special)
-				inspec += "[W.special.get_examine()]"
+				inspec += "[W.get_special().get_examine()]"
 
 		if(istype(src, /obj/item/rogueweapon/shield))
 			var/obj/item/rogueweapon/shield/S = src
@@ -711,6 +728,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(intdamage_factor != 1 && force >= 5)
 			inspec += "\n<b>INTEGRITY DAMAGE:</b> [intdamage_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainintdamage=1'>{?}</a></span>"
+
+		if(antibeast_factor != 1 && force >= 5)
+			inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
 
 		if(istype(src, /obj/item/ammo_casing/caseless/rogue))
 			var/obj/item/ammo_casing/caseless/rogue/rog_ammo = src
@@ -723,6 +743,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				inspec += "\n<b>MAXIMUM EFFECTIVE RANGE:</b> [rog_ammo.BB.max_range] tile(s)"
 			if(rog_ammo.BB.dam_falloff_factor)
 				inspec += "\n<b>DAMAGE FALLOFF:</b> [get_falloff_string(rog_ammo.BB.dam_falloff_factor)]"
+			if(rog_ammo.BB.antibeast_factor != 1)
+				inspec += "\n<b>ANTI-BEAST MODIFIER:</b> [rog_ammo.BB.antibeast_factor * 100]% <span class='info'><a href='?src=[REF(src)];explainantibeast=1'>{?}</a></span>"
 
 //**** CLOTHING STUFF
 
@@ -880,6 +902,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!isturf(loc))
 		return FALSE
 	for(var/obj/structure/table/T in loc)
+		return TRUE
+	for(var/obj/structure/flora/roguetree/stump/S in loc)
 		return TRUE
 	for(var/obj/machinery/anvil/A in loc)
 		return TRUE
@@ -1320,12 +1344,12 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/burn(amount = 1)
 	if(!QDELETED(src))
 		var/turf/T = get_turf(src)
-		var/ash_type = /obj/item/ash
+		var/ash_type = /obj/item/natural/ash
 		if(w_class == WEIGHT_CLASS_HUGE || w_class == WEIGHT_CLASS_GIGANTIC)
-			ash_type = /obj/item/ash
+			ash_type = /obj/item/natural/ash
 		// Override for children that want more than 1 ash per item (Bundle as pseudo-stack)
 		for(var/i in 1 to amount)
-			var/obj/item/ash/A = new ash_type(T)
+			var/obj/item/natural/ash/A = new ash_type(T)
 			A.desc += "\nLooks like this used to be \an [name] some time ago."
 		..()
 
@@ -1802,46 +1826,10 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!isnull(forced_tier))
 		tier = forced_tier
 	else
-		var/skill_level = 0
+		var/skill_level = SKILL_LEVEL_NONE
 		if(crafter && skill_path)
 			skill_level = crafter.get_skill_level(skill_path)
-		var/roll = rand(1, 100)
-		switch(skill_level)
-			if(SKILL_LEVEL_NONE, SKILL_LEVEL_NOVICE)
-				if(roll <= 60)
-					tier = ITEM_QUALITY_CRUDE
-				else if(roll <= 95)
-					tier = ITEM_QUALITY_ROUGH
-				else
-					tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_APPRENTICE)
-				if(roll <= 20)
-					tier = ITEM_QUALITY_CRUDE
-				else if(roll <= 75)
-					tier = ITEM_QUALITY_ROUGH
-				else
-					tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_JOURNEYMAN)
-				tier = ITEM_QUALITY_STANDARD
-			if(SKILL_LEVEL_EXPERT)
-				if(roll <= 70)
-					tier = ITEM_QUALITY_FINE
-				else if(roll <= 95)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
-			if(SKILL_LEVEL_MASTER)
-				if(roll <= 30)
-					tier = ITEM_QUALITY_FINE
-				else if(roll <= 80)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
-			else
-				if(roll <= 40)
-					tier = ITEM_QUALITY_FLAWLESS
-				else
-					tier = ITEM_QUALITY_MASTERWORK
+		tier = roll_skill_quality(skill_level)
 	item_quality = tier
 	var/prefix
 	switch(tier)
@@ -1869,6 +1857,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(sellprice > 0)
 		sellprice = max(1, round(sellprice * ITEM_QUALITY_MULT(tier)))
 	return tier
+
+/obj/item/proc/get_stockpile_quality_mult()
+	if(!has_item_quality)
+		return 1
+	return ITEM_QUALITY_MULT(item_quality)
 
 /obj/item/proc/mark_as_looted()
 	if(looted)

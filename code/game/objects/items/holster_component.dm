@@ -43,7 +43,7 @@
 	RegisterSignal(parent, COMSIG_ATOM_UPDATE_ICON, PROC_REF(update_icon))
 	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(update_sheathed_ref))
 
-// through some manner of unforseen tomfoolery (or admin intervention), our sheathed blade has left our contents without clearing our sheathed ref
+// through some manner of unforeseen tomfoolery (or admin intervention), our sheathed blade has left our contents without clearing our sheathed ref
 // let's fix that and update the icon so that people don't try to draw a sword that isn't there, yes?
 /datum/component/holster/proc/update_sheathed_ref(datum/source, atom/movable/thing, newloc)
 	if(!sheathed || (thing != sheathed))
@@ -154,7 +154,7 @@
 	var/is_in_slot = TRUE
 	if(ishuman(user))
 		var/mob/living/carbon/human/human = user
-		is_in_slot = (I in (list(human.backl, human.backr, human.beltl, human.beltr) + human.get_inactive_held_item()))
+		is_in_slot = (I in (list(human.backl, human.backr, human.beltl, human.beltr, human.wear_wrists, human.shoes) + human.get_inactive_held_item()))
 	if(sheathed && is_in_slot)
 		puke_sword(user)
 		return COMPONENT_NO_ATTACK_HAND

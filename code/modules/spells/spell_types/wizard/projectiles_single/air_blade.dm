@@ -63,7 +63,9 @@
 	icon_state = "air_blade_cut"
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	damage = 40
+	damage = SPELL_DMG(40)
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
 	flag = "slash"
 	woundclass = BCLASS_CUT
 	nodamage = FALSE
@@ -75,7 +77,7 @@
 	icon_state = "air_blade_blunt"
 	flag = "blunt"
 	woundclass = BCLASS_BLUNT
-	intdamfactor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+	intdamfactor = SPELL_INTDAM(BLUNT_DEFAULT_INT_DAMAGEFACTOR)
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg' // Different sound for blunt
 
 /obj/projectile/energy/airblade/stab

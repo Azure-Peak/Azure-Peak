@@ -11,6 +11,10 @@
 	phase_sound = 'sound/magic/shadowstep.ogg'
 	phase_beam = null
 	charge_slowdown = 0
+	cooldown_time = 16 SECONDS
+
+/datum/action/cooldown/spell/blink/shadowstep/vizier
+	cooldown_time = 24 SECONDS
 
 /obj/effect/temp_visual/blink/shadowstep
 	icon_state = "curse"

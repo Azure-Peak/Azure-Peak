@@ -10,17 +10,20 @@ $roll-neutral: #e2ddae;
 // Throws sit side by side, a rule between each of them.
 .RollTooltip__throws {
   // Equal columns, each as wide as the widest throw needs, so the rule between them sits in the
-  // middle and nothing is squeezed. The throws are as tall as the tallest, so their dice,
-  // separators and results line up.
+  // middle and nothing is squeezed. Four shared rows - label, dice, rule, result - that every throw
+  // takes from, so a throw of five dice beside a throw of one still has its rule and its sum on the
+  // same lines as the other.
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
+  grid-template-rows: auto 1fr auto auto;
   justify-content: center;
 }
 
 .RollTooltip__throw {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
   padding: 0 10px;
   margin-bottom: 4px;
 
@@ -32,10 +35,14 @@ $roll-neutral: #e2ddae;
 .RollTooltip__label {
   color: #bbbbad;
   margin-bottom: 2px;
-  // Each line stays a line - the tooltip grows wider instead of wrapping a name or number onto the next.
-  white-space: nowrap;
-  // Takes up whatever the shorter throws are missing, so the dice below it sit at the same height.
-  flex-grow: 1;
+  // A long name wraps at its spaces, or breaks if it has none, rather than pushing the tooltip past
+  // the edge of the chat. The stat and the dice are short enough to stay whole.
+  overflow-wrap: anywhere;
+}
+
+// The tooltip may grow with its throws, but never wider than the chat that shows it.
+.Tooltip:has(.RollTooltip) {
+  max-width: calc(100vw - 20px);
 }
 
 // The line between a throw's dice and its result.
@@ -44,10 +51,17 @@ $roll-neutral: #e2ddae;
   margin: 4px 0;
 }
 
+// A sum stays on one line, so the tooltip grows wider rather than breaking before the total.
+.RollTooltip__footer {
+  white-space: nowrap;
+}
+
 .RollTooltip__dice {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  // A throw with fewer dice than its neighbour sits in the middle of the space it is given.
+  align-content: center;
   gap: 4px;
 }
 
@@ -56,7 +70,7 @@ $roll-neutral: #e2ddae;
     fill: #000;
     stroke: $colour;
     stroke-width: 4;
-    rx: 12px;
+    stroke-linejoin: round;
   }
 
   // Softer than the outline, so the edges inside the die read as detail and not as part of its shape.
@@ -75,25 +89,16 @@ $roll-neutral: #e2ddae;
     fill: $colour;
   }
 
+  // Sized from the die's shape in RollTooltip.tsx, which knows how much room the facing side has.
   .die-number {
     fill: $colour;
-    font-size: 44px;
     font-weight: bold;
     text-anchor: middle;
-
-    // The facing triangle of an icosahedron is small, so its number is too.
-    &--icosahedron {
-      font-size: 38px;
-    }
-
-    // Three digits don't fit at full size.
-    &--long {
-      font-size: 32px;
-
-      &.die-number--icosahedron {
-        font-size: 27px;
-      }
-    }
+    // Knocks the lines of a die out from behind its number, which a d100's two overlapping dice need.
+    stroke: #000;
+    stroke-width: 4px;
+    paint-order: stroke;
+    stroke-linejoin: round;
   }
 }
 
