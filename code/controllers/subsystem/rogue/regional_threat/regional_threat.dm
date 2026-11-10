@@ -61,8 +61,7 @@ SUBSYSTEM_DEF(regionthreat)
 			_tp_budget_multiplier = 1.5,
 			_delivery_reward_multiplier = 1.5,
 			_payout_multiplier = 1.1, // Close by, so it is pretty convenient
-			_kill_target_floor = 8,
-			_evergreen_target = 6
+			_kill_target_floor = 8
 		),
 		// Coast & Decap stay somewhat dangerous no matter what
 		new /datum/threat_region(

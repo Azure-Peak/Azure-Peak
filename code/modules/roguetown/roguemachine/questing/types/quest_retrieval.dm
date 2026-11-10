@@ -7,7 +7,6 @@
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,
-		THREAT_REGION_TERRORBOG,
 	)
 	writ_type = WRIT_TYPE_RECOVERY
 	var/list/fetch_items = list(
