@@ -66,7 +66,7 @@
 
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/mixed
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
 	ambush_faction = "bandits"
 
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade/blade
@@ -83,7 +83,7 @@
 
 /mob/living/carbon/human/species/human/northern/highwayman/spellblade/champion
 	npc_archetype = /datum/npc_archetype/highwayman/spellblade/champion
-	threat_point = THREAT_DEADLY
+	threat_point = THREAT_DEADLY + THREAT_SPELLBLADE_PREMIUM
 
 /mob/living/carbon/human/species/human/northern/highwayman/light
 	npc_archetype = /datum/npc_archetype/highwayman/light

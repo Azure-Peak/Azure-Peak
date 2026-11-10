@@ -96,7 +96,7 @@
 /datum/npc_archetype/drow/spellblade
 	name = "Drow Spellblade"
 	job = "Drow Spellblade"
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
 	statpack = /datum/npc_statpack/spellblade/t2
 	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
 	loadouts = list(

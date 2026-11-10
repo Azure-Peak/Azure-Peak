@@ -75,5 +75,5 @@
 
 /mob/living/carbon/human/species/human/northern/bog_deserters/phalangite
 	npc_archetype = /datum/npc_archetype/bog_deserter/phalangite
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
 	ambush_faction = "bandits"

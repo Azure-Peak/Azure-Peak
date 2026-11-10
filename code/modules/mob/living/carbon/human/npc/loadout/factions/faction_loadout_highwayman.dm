@@ -215,7 +215,7 @@
 
 /datum/npc_archetype/highwayman/spellblade
 	abstract_type = /datum/npc_archetype/highwayman/spellblade
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
 	statpack = /datum/npc_statpack/spellblade/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	melee = SKILL_LEVEL_JOURNEYMAN
@@ -269,7 +269,7 @@
 /datum/npc_archetype/highwayman/spellblade/champion
 	name = "Highwayman Spellblade Champion"
 	job = "Highwayman Spellblade Champion"
-	threat_point = THREAT_DEADLY
+	threat_point = THREAT_DEADLY + THREAT_SPELLBLADE_PREMIUM
 	statpack = /datum/npc_statpack/spellblade/t3
 	armor_training = ARMOR_CLASS_MEDIUM
 	melee = SKILL_LEVEL_EXPERT

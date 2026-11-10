@@ -45,7 +45,7 @@ Casters and spellblades start at T2. Magic is strong enough on its own, so there
 
 All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Dragonhide, every other school takes Crystalhide.
 
-Spellblades come in the player chants: Blade, Phalangite and Macebearer fight with a bound weapon, and Spellfist fights with a katar or knuckles. Like the player class, they take no ward, except the Spellfist, who takes the base Arcyne Ward like the player Spellfist. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. Finally, the spellblade vs spellblade duel I have been looking for
+Spellblades come in the player chants: Blade, Phalangite and Macebearer fight with a bound weapon, and Spellfist fights with a katar or knuckles. Like the player class, they take no ward, except the Spellfist, who takes the base Arcyne Ward like the player Spellfist. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. They are worth 5 more threat than a mage of the same tier. Finally, the spellblade vs spellblade duel I have been looking for
 
 Clerics start at T2 and uses their patron's real miracles. (I might implement Paladin equivalence later). Gronn raiders will follow one of the 4 gods with a bias toward Graggar. They will not gain the Cabal trait so undead can fight them. Shaman will ALWAYS belong to Graggar.
 

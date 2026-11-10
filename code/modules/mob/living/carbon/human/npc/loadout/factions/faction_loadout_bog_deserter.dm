@@ -176,6 +176,7 @@
 /datum/npc_archetype/bog_deserter/phalangite
 	name = "Bog Phalangite"
 	job = "Bog Phalangite"
+	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
 	statpack = /datum/npc_statpack/spellblade/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
