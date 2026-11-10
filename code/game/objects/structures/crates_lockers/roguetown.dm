@@ -167,7 +167,6 @@
 	close_sound = 'sound/misc/chestclose.ogg'
 	keylock = FALSE
 	locked = FALSE
-	sellprice = 1
 	max_integrity = 50
 	blade_dulling = DULLING_BASHCHOP
 	mob_storage_capacity = 1

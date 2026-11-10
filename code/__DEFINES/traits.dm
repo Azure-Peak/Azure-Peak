@@ -82,6 +82,7 @@
 #define TRAIT_HEAVYARMOR "Plate Training"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
 #define TRAIT_COMBAT_JMAN "Specialised Training"
+#define TRAIT_COMBAT_NONEWSKILLS "Rigid Training"
 
 //Combat Buff Conditionals
 #define TRAIT_JOURNEYS_END "Journey's End"
@@ -531,6 +532,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_STRONGKICK = span_info("My kicks knock people down and back a step, consistently. There's no need for obstacles."),
 	TRAIT_COMBAT_JMAN = span_info("My training was too specialised, leaving me with little time or ability to learn combat skills beyond Journeyman."),
 	TRAIT_NOSHIELDS = span_info("My specialised training has left me without the ability to handle a shield at all. I cannot, or will not, learn to use one."),
+	TRAIT_COMBAT_NONEWSKILLS = span_info("I have no need or desire to learn combat skills beyond those that I already know. I will not gain EXP in any skills that I have no levels in."),
 	TRAIT_IGNORESLOWDOWN = span_info("Nothing stops this carriage!"),
 	TRAIT_IGNOREDAMAGESLOWDOWN = span_info("Hits slow me down no longer."),
 	TRAIT_NOBLE = span_blue("I'm of noble blood."),
