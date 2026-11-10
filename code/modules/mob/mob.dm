@@ -1303,9 +1303,18 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/adjust_nutrition(change) //Honestly FUCK the oldcoders for putting nutrition on /mob someone else can move it up because holy hell I'd have to fix SO many typechecks
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		nutrition = NUTRITION_LEVEL_FULL
+	var/old_nutrition = nutrition
 	nutrition = max(0, nutrition + change)
 	if(nutrition > NUTRITION_LEVEL_FULL)
 		nutrition = NUTRITION_LEVEL_FULL
+	if(old_nutrition < 990 && nutrition >= 990)
+		to_chat(src, span_warning("I can't eat anymore!"))
+	else if(old_nutrition < 950 && nutrition >= 950)
+		to_chat(src, span_warning("I am stuffed."))
+	else if(old_nutrition < 900 && nutrition >= 900)
+		to_chat(src, span_notice("I feel very full."))
+	else if(old_nutrition < 800 && nutrition >= 800)
+		to_chat(src, span_notice("I feel full."))
 
 ///Force set the mob nutrition
 /mob/proc/set_nutrition(change) //Seriously fuck you oldcoders.
@@ -1318,9 +1327,18 @@ GLOBAL_VAR_INIT(mobids, 1)
 /mob/proc/adjust_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
 		hydration = HYDRATION_LEVEL_FULL
+	var/old_hydration = hydration
 	hydration = max(0, hydration + change)
 	if(hydration > HYDRATION_LEVEL_FULL)
 		hydration = HYDRATION_LEVEL_FULL
+	if(old_hydration < 990 && hydration >= 990)
+		to_chat(src, span_warning("I can't drink anymore!"))
+	else if(old_hydration < 950 && hydration >= 950)
+		to_chat(src, span_warning("I'm almost at my limit for drinking."))
+	else if(old_hydration < 900 && hydration >= 900)
+		to_chat(src, span_notice("I had plenty to drink."))
+	else if(old_hydration < 800 && hydration >= 800)
+		to_chat(src, span_notice("I don't feel thirsty anymore."))
 
 /mob/proc/set_hydration(change)
 	if(HAS_TRAIT(src, TRAIT_NOHUNGER))
