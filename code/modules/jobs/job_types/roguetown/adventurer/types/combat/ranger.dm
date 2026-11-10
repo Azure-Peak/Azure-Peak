@@ -191,6 +191,7 @@
 					/obj/item/flashlight/flare/torch/lantern = 1,
 					/obj/item/explosive/fused/bottle = 4,
 					/obj/item/flint = 1,
+					/obj/item/rogueweapon/huntingknife = 1,
 					)
 				H.change_stat(STATKEY_CON, 1)
 
