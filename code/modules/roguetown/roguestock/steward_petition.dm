@@ -135,7 +135,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 	var/label = cat["templates"][template]
 	var/cost = cat["cost"]
 	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	if(!SStreasury.burn(SStreasury.burgher_pledge_fund, cost, "Steward petition - [label] in [region.name]"))
+	if(!SStreasury.burn(SStreasury.burgher_pledge_fund, cost, "Steward petition - [label] in [region.name]", ledger_acct(LEDGER_BOOK_PLEDGE, LEDGER_KEY_EXPENSE)))
 		if(user)
 			to_chat(user, span_warning("Petition refused: the Burgher Pledge could not cover the cost."))
 		return FALSE
@@ -153,7 +153,7 @@ GLOBAL_LIST_INIT(petition_categories, build_petition_categories())
 	else
 		O = instantiate_standing_order(template, region, order_size_mult, petitioned = TRUE)
 	if(!O)
-		SStreasury.mint(SStreasury.burgher_pledge_fund, cost, "Steward petition refund - no order found")
+		SStreasury.mint(SStreasury.burgher_pledge_fund, cost, "Steward petition refund - no order found", null, ledger_acct(LEDGER_BOOK_PLEDGE, LEDGER_KEY_EXPENSE))
 		record_round_statistic(STATS_PLEDGE_CONSUMED, -cost)
 		record_round_statistic(STATS_PETITION_PLEDGE_SPENT, -cost)
 		petitions_today--

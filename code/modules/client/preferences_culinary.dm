@@ -23,6 +23,7 @@ GLOBAL_LIST_INIT(culinary_dishes, list(
 	"Sweet" = DISH_SWEET,
 	"Egg" = DISH_EGG,
 	"Noodles" = DISH_NOODLES,
+	"Honey" = DISH_HONEY,
 ))
 
 GLOBAL_LIST_INIT(culinary_drinks, list(

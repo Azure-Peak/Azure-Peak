@@ -81,6 +81,8 @@
 #define ADMIN_PUNISHMENT_DIVINE_WRATH "Divine Wrath"
 #define ADMIN_PUNISHMENT_CHANDELIER "Chandelier'd"
 #define ADMIN_PUNISHMENT_ANNOYING_VOICE "Annoying Voice"
+#define ADMIN_PUNISHMENT_NECKBOLT "Bolt to the Neck"
+#define ADMIN_PUNISHMENT_NECKBOLT_LETHAL "Bolt to the Neck (Lethal)"
 
 
 #define AHELP_ACTIVE 1

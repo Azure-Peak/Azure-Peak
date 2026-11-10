@@ -118,19 +118,9 @@
 
 /obj/item/storage/roguebag/ash
 	populate_contents = list(
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-		/obj/item/ash,
-	/obj/item/ash
+		/obj/item/natural/bundle/ash/full,
+		/obj/item/natural/bundle/ash,
+		/obj/item/natural/ash,
 	)
 
 /obj/item/storage/roguebag/leechbait

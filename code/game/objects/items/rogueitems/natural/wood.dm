@@ -130,7 +130,7 @@
 	firefuel = 20 MINUTES
 	twohands_required = FALSE
 	gripped_intents = null
-	w_class = WEIGHT_CLASS_BULKY
+	w_class = WEIGHT_CLASS_NORMAL
 	smeltresult = /obj/item/rogueore/coal/charcoal
 	lumber_amount = 0
 
@@ -512,7 +512,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	sellprice = 1
 	bundletype = /obj/item/natural/bundle/plank
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash
 
 
 /obj/item/natural/bundle/plank
@@ -537,4 +537,4 @@
 	icon1step = 3
 	icon2 = "plankbundle3"
 	icon2step = 5
-	smeltresult = /obj/item/ash
+	smeltresult = /obj/item/natural/ash

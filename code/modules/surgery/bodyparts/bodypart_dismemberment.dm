@@ -196,7 +196,7 @@
 	var/turf/location = C.loc
 	if(istype(location))
 		C.add_splatter_floor(location)
-		C.add_splatter_wall(user, location, force = 2, spill_amount = 3) //Garunteed at least 2 tile distance of blood spattering on the walls, and up to 3 walls to splat.
+		C.add_splatter_wall(location, force = 2, spill_amount = 3) //Garunteed at least 2 tile distance of blood spattering on the walls, and up to 3 walls to splat.
 	var/direction = pick(GLOB.cardinals)
 	var/t_range = rand(2,max(throw_range/2, 2))
 	var/turf/target_turf = get_turf(src)
@@ -346,7 +346,7 @@
 /obj/item/bodypart/r_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
@@ -367,7 +367,7 @@
 /obj/item/bodypart/l_arm/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.handcuffed)
@@ -387,7 +387,7 @@
 /obj/item/bodypart/r_leg/drop_limb(special)
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
@@ -403,7 +403,7 @@
 /obj/item/bodypart/l_leg/drop_limb(special) //copypasta
 	var/mob/living/carbon/C = owner
 	. = ..()
-	if(isooze(C))
+	if(isooze(C) && !is_prosthetic_limb())
 		qdel(src)
 	if(C && !special)
 		if(C.legcuffed)
@@ -597,11 +597,11 @@
 
 	if(has_prosthetic && !already_has_spell)
 		H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
-		to_chat(H, span_notice("AS the prosthetic attachs I can feel I can push them beyond their limits if I focus."))
+		to_chat(H, span_notice("As the prosthetic attaches, I can feel I can push it beyond its limits if I focus."))
 	else if(!has_prosthetic && already_has_spell)
 		H.mind?.RemoveSpell(new /obj/effect/proc_holder/spell/invoked/overlock)
 		H.remove_status_effect(/datum/status_effect/buff/overclock)
-		to_chat(H, span_warning("Without any prosthetics, I can no longer overclock them."))
+		to_chat(H, span_warning("Without any prosthetics, there is nothing left to overclock."))
 
 
 //adding this in seperate to add the overclock skill if we add an attachment

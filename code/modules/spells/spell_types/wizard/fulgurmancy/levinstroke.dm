@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/levinstroke
 	button_icon = 'icons/mob/actions/mage_fulgurmancy.dmi'
 	name = "Levinstroke"
-	desc = "Transform yourself briefly into a bolt of lightning toward a target location, inflicting 60 burn damage to any living things in your path."
+	desc = "Transform yourself briefly into a bolt of lightning toward a target location, inflicting 48 burn damage to any living things in your path."
 	button_icon_state = "levinstroke"
 	sound = 'sound/magic/lightning.ogg'
 	spell_color = GLOW_COLOR_LIGHTNING
@@ -17,7 +17,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	charge_swingdelay_type = SWINGDELAY_CANCEL
+	charge_swingdelay_type = SWINGDELAY_PENALTY
 	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MINOR
 	hold_drain = 1
@@ -31,8 +31,8 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
 	var/max_range = 5
-	var/strike_damage = 60
-	displayed_damage = 60
+	var/strike_damage = SPELL_DMG(60)
+	displayed_damage = SPELL_DMG(60)
 
 /datum/action/cooldown/spell/levinstroke/cast(atom/cast_on)
 	. = ..()
@@ -116,7 +116,7 @@
 		if(ishuman(victim))
 			if(arcyne_strike(user, victim, null, strike_damage, def_zone, BCLASS_BURN, \
 				spell_name = "Levinstroke", damage_type = BURN, \
-				skip_animation = TRUE) == ARCYNE_STRIKE_WARDED)
+				skip_animation = TRUE, SPELL_STRIKE_SCALING) == ARCYNE_STRIKE_WARDED)
 				continue
 		else
 			victim.electrocute_act(strike_damage, src, 1, SHOCK_NOSTUN)

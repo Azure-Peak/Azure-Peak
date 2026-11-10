@@ -10,6 +10,7 @@
 	materia = list(/datum/materia_aspect/plant)
 
 /obj/item/reagent_containers/food/snacks/rogue/fruit/pumpkin_sliced
+	dish_type = DISH_VEGETABLE
 	name = "pumpkin slice"
 	icon = 'modular/Neu_Food/icons/raw/raw_fruit.dmi'
 	icon_state = "pumpkin_sliced"

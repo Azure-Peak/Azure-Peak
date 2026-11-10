@@ -170,7 +170,7 @@
 		to_chat(user, span_boldnotice("Only those of noble blood can inherit this house."))
 		return FALSE
 	if(require_wretch_trait && !HAS_TRAIT(user, TRAIT_ZURCH))
-		to_chat(user, span_boldnotice("Only a lowlyfe wretch can inherit this house."))
+		to_chat(user, span_boldnotice("Only a lowlyfe can inherit this house."))
 		return FALSE
 	var/mob/living/carbon/human/human = user
 	if(human.received_resident_key)
@@ -431,7 +431,7 @@
 				playsound(user, 'sound/misc/wood_saw.ogg', 100, TRUE)
 			return
 		else if(istype(I, /obj/item/rogueweapon/chisel/assembly))
-			to_chat(user, span_warning("You most use both hands to rename doors."))
+			to_chat(user, span_warning("You must use both hands to rename doors."))
 		else
 			return ..()
 
@@ -1047,8 +1047,13 @@
 	require_noble_trait = TRUE
 
 /obj/structure/mineral_door/wood/towner/generic/two_keys/wretch
-	resident_role = /datum/job/roguetown/wretch
+	resident_role = null
 	require_wretch_trait = TRUE
+
+/obj/structure/mineral_door/wood/towner/generic/vagabond
+	resident_role = /datum/job/roguetown/vagabond
+	icon_state = "wcg"
+	resident_key_type = /obj/item/roguekey/sewer
 
 /obj/structure/mineral_door/wood/towner/blacksmith
 	resident_advclass = list(/datum/advclass/blacksmith, /datum/advclass/masterblacksmith)
@@ -1100,3 +1105,8 @@
 
 /obj/structure/mineral_door/wood/bath/courtesan
 	resident_advclass = list(/datum/advclass/bathworker/harlot, /datum/advclass/bathworker/courtesan)
+
+/obj/structure/table/wood/decorativefolding
+	name = "wooden table"
+	icon = 'icons/roguetown/misc/gadgets.dmi'
+	icon_state = "foldingtableDeployed"

@@ -125,11 +125,11 @@
 
 	if(ishuman(holder))
 		var/mob/living/carbon/human/holder_human = holder
-		if(!(holder_human.wear_armor && holder_human.wear_armor.flags_inv) && !(holder_human.wear_shirt && holder_human.wear_shirt.flags_inv))
+		if((!(holder_human.wear_armor && holder_human.wear_armor.flags_inv) && !(holder_human.wear_shirt && holder_human.wear_shirt.flags_inv)) || holder_human.client?.prefs?.show_nsfw_clothed)
 			is_naked = TRUE
 		obscured = ((!override_visible) && ((!isobserver(user)) && !holder_human.client?.prefs?.masked_examine) && ((holder_human.wear_mask && (holder_human.wear_mask.flags_inv & HIDEFACE)) || (holder_human.head && (holder_human.head.flags_inv & HIDEFACE))))
-		flavor_text = obscured ? "Obscured" : holder_human.flavortext_cached
-		flavor_text_nsfw = obscured ? "Obscured" : holder_human.nsfwflavortext_cached
+		flavor_text = (obscured && !holder_human.client?.prefs?.show_nsfw_clothed) ? "Obscured" : holder_human.flavortext_cached
+		flavor_text_nsfw = (obscured && !holder_human.client?.prefs?.show_nsfw_clothed) ? "Obscured" : holder_human.nsfwflavortext_cached
 		ooc_notes += holder_human.ooc_notes_cached
 		ooc_notes_nsfw += holder_human.erpprefs_cached
 		char_name = (override_visible ? holder_human.real_name : holder_human.name)

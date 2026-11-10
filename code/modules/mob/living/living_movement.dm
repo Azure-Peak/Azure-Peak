@@ -62,15 +62,11 @@
 			mod = CONFIG_GET(number/movedelay/run_delay)
 		if(MOVE_INTENT_SNEAK)
 			var/base_walk = CONFIG_GET(number/movedelay/walk_delay)
-			var/default_delay
-			if(HAS_TRAIT(src, TRAIT_LIGHT_STEP))
-				default_delay = base_walk * 1.3
-			else
-				default_delay = 6
+			var/has_light_step = HAS_TRAIT(src, TRAIT_LIGHT_STEP)
 			var/skill = src.get_skill_level(/datum/skill/misc/sneaking)
-			var/skill_mod = 1.6 - (skill * 0.1)
+			var/skill_mod = max(1,1.6 - (skill * 0.1) - (has_light_step * 0.2))
 			var/skill_delay = base_walk * skill_mod
-			mod = min(default_delay, skill_delay)
+			mod = min(6, skill_delay) // Really no idea why tf 6, but original code had 6. I hate magic numbers.
 
 	var/spdchange = (10-get_effective_speed())*SPEED_MOVSPD_MOD
 	//spdchange = clamp(spdchange, -0.5, 1)	//Previous clamp when MOVSPD_MOD was at 0.1
@@ -87,7 +83,7 @@
 		if(!HAS_TRAIT(src, TRAIT_TRAM_MOVER))
 			usedslow = T.get_slowdown(src)
 		if(usedslow != 0)
-			add_movespeed_modifier(MOVESPEED_ID_LIVING_TURF_SPEEDMOD, update=TRUE, priority=100, multiplicative_slowdown=usedslow, movetypes=GROUND)
+			add_movespeed_modifier(MOVESPEED_ID_LIVING_TURF_SPEEDMOD, update=TRUE, priority=100, override=TRUE, multiplicative_slowdown=usedslow, movetypes=GROUND)
 		else
 			remove_movespeed_modifier(MOVESPEED_ID_LIVING_TURF_SPEEDMOD)
 	else

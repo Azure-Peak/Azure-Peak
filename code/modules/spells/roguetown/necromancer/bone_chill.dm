@@ -4,7 +4,7 @@
 	background_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon = 'icons/mob/actions/zizomiracles.dmi'
 	button_icon_state = "bonechill"
-	spell_color = GLOW_COLOR_ZIZO
+	spell_color = PATRON_COLOR_ZIZO
 
 	cast_range = 7
 	sound = 'sound/magic/whiteflame.ogg'
@@ -36,5 +36,5 @@
 	if(iscarbon(target))
 		target.apply_status_effect(/datum/status_effect/debuff/chilled)
 	else
-		target.adjustBruteLoss(20)
+		target.adjustBruteLoss(SPELL_DMG_VS(target, SPELL_DMG(20)))
 	return TRUE

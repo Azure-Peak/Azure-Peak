@@ -65,7 +65,7 @@
 /obj/item/roguemachine/navigator/smuggler/examine(mob/user)
 	. = ..()
 	. += span_notice("The rates here are disastrous. A facilitator from the bathhouse nearby brings them up to 100%.")
-	. += span_notice("The handler asks no questions about provenance. Goods the legitimate market refuses to mint move through here all the same.")
+	. += span_notice("Goods that cannot be sold at the legitimate market can be sold here.")
 	if(fixed_tax <= 0)
 		. += span_notice("A facilitator is present. Current handler's fee: [fixed_tax * 100]%.")
 	else
@@ -423,10 +423,10 @@
 		merchant_net = 0
 	if(pay_taxes)
 		if(duty_on_gross > 0)
-			SStreasury.mint(SStreasury.discretionary_fund, duty_on_gross, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])")
+			SStreasury.mint(SStreasury.discretionary_fund, duty_on_gross, "[TAX_CATEGORY_EXPORT_DUTY] ([src.name])", null, LEDGER_CROWN_REV_EXPORT_DUTY)
 			SStreasury.apply_concordat_tithe(gross, TAX_CATEGORY_EXPORT_DUTY, "[src.name]")
 		if(duty_on_levy > 0)
-			SStreasury.mint(SStreasury.discretionary_fund, duty_on_levy, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, [src.name])")
+			SStreasury.mint(SStreasury.discretionary_fund, duty_on_levy, "[TAX_CATEGORY_EXPORT_DUTY] (levy income, [src.name])", null, LEDGER_CROWN_REV_EXPORT_DUTY)
 			SStreasury.apply_concordat_tithe(levy, TAX_CATEGORY_EXPORT_DUTY, "levy income ([src.name])")
 		if(total_duty > 0)
 			record_round_statistic(STATS_TAXES_COLLECTED, total_duty)
@@ -439,7 +439,7 @@
 			record_round_statistic(STATS_TAXES_EVADED, total_duty)
 			duty_evaded_here += total_duty
 	if(merchant_net > 0)
-		SStreasury.mint(SStreasury.merchant_fund, merchant_net, "Merchant's levy ([src.name])")
+		SStreasury.mint(SStreasury.merchant_fund, merchant_net, "Merchant's levy ([src.name])", null, LEDGER_MERCHANT_LEVY_IN)
 		levy_collected_here += merchant_net
 		if(SSmerchant_trade)
 			SSmerchant_trade.merchant_levy_collected += merchant_net

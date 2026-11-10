@@ -294,8 +294,9 @@
 		return
 
 	// Prompt ghost
-	to_chat(occupant, span_ghostalert("You sense powerful energies attempting to pull you back to your body!"))
-	var/alert_result = alert(occupant, "They are calling for you. Are you ready?", "LIGHTNING, GIFTING GRACE TO THE GRACELESS.", "I need to wake up!", "Don't let me go..")
+	var/mob/dead/observer/underworld_spirit = occupant.get_spirit()
+	to_chat(underworld_spirit || occupant, span_ghostalert("You sense powerful energies attempting to pull you back to your body!"))
+	var/alert_result = alert(underworld_spirit || occupant, "They are calling for you. Are you ready?", "LIGHTNING, GIFTING GRACE TO THE GRACELESS.", "I need to wake up!", "Don't let me go..")
 
 	// Verify occupant is still valid
 	if(occupant.stat != DEAD || occupant.loc != get_turf(src) || !occupant.buckled)

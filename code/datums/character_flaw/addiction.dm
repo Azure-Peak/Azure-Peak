@@ -279,11 +279,12 @@
 // This bit is just an easter egg. Feel free to remove at your discretion.
 /datum/status_effect/debuff/addiction/nympho/on_creation(mob/living/new_owner, ...)
 	. = ..()
-	if(new_owner)
-		if(!HAS_TRAIT(new_owner, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(new_owner, TRAIT_NOMOOD))
-			if(ishuman(new_owner) && (iself(new_owner) || ishalfelf(new_owner) || istiefling(new_owner) || isdarkelf(new_owner) || issunelf(new_owner)))
-				var/mob/living/carbon/human/H = new_owner
-				H.emote("eflick", intentional = TRUE)
+	if(ishuman(new_owner) && !HAS_TRAIT(new_owner, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(new_owner, TRAIT_NOMOOD))
+		var/mob/living/carbon/human/H = new_owner
+		if(iself(H) || ishalfelf(H) || istiefling(H) || isdarkelf(H) || issunelf(H))
+			H.emote("eflick", intentional = TRUE)
+		else if(H.dna?.species?.can_wag_tail(H) && !H.dna.species.is_wagging_tail(H))
+			H.emote("wag", intentional = TRUE)
 
 /atom/movable/screen/alert/status_effect/debuff/addiction/nympho
 	name = "Nymphomania"
@@ -309,8 +310,8 @@
 	debuff = null
 	partial_sating = FALSE
 
-/datum/charflaw/addiction/paranoid
-	name = "Paranoid"
+/datum/charflaw/addiction/factionalist
+	name = "Factionalist"
 	desc = "I only feel comfortable around one of my own kind."
 	ui_fa_icon = "user-tag"
 	time = ADDICT_TIME_OFTEN
@@ -319,10 +320,10 @@
 	partial_sating = FALSE
 	var/chosen_faction
 
-/datum/charflaw/addiction/paranoid/apply_post_equipment(mob/user)
+/datum/charflaw/addiction/factionalist/apply_post_equipment(mob/user)
 	assign_faction(user)
 
-/datum/charflaw/addiction/paranoid/proc/assign_faction(mob/user)
+/datum/charflaw/addiction/factionalist/proc/assign_faction(mob/user)
 	var/datum/job/J = SSjob.GetJob(user.job)
 	if(!J)
 		CRASH("[user] had an invalid job datum associated with their job: [user.job]")
@@ -331,7 +332,7 @@
 	else
 		chosen_faction = J.department_flag
 
-/datum/charflaw/addiction/paranoid/proc/check_faction(mob/living/target)
+/datum/charflaw/addiction/factionalist/proc/check_faction(mob/living/target)
 	var/datum/job/J = SSjob.GetJob(target.job)
 	if(J)
 		if(chosen_faction & J.department_flag)

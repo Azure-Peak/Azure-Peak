@@ -55,7 +55,6 @@
 	/datum/skill/misc/climbing,
 	/datum/skill/misc/reading,
 	/datum/skill/misc/swimming,
-	/datum/skill/misc/stealing,
 	/datum/skill/misc/sneaking,
 	/datum/skill/misc/lockpicking,
 	/datum/skill/misc/riding,
@@ -90,7 +89,7 @@
 					return // cannot teach the same student twice
 				if(L.get_skill_level(item) < SKILL_LEVEL_JOURNEYMAN)
 					to_chat(L, span_warning("I don't have enough skill in [item.name] to sacrifice it."))
-					to_chat(usr, span_warning("I try teaching [L] [item.name] but my student couldnt grasp the lesson!"))
+					to_chat(usr, span_warning("I try teaching [L] [item.name] but my student couldn't grasp the lesson!"))
 					return // some basic skill will not require you novice level
 				else
 					to_chat(L, span_notice("[usr] starts teach me how to refocus my efforts, I slowly lose my grasp on [item.name]!"))

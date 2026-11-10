@@ -30,7 +30,7 @@
 	// Originally designed for Medicine Expert and now used to protect economic roles's niche
 
 /datum/skill/proc/get_skill_speed_modifier(level)
-	return
+	return 1 / get_skill_speed_divisor(level)
 
 /datum/skill/proc/get_dream_cost_for_level(level, mob/living/user)
 	if(length(specific_dream_costs) >= level)
@@ -42,6 +42,8 @@
 	// Malum worshippers (with TRAIT_FORGEBLESSED) spend fewer dream points on craft skills
 	if(user && HAS_TRAIT(user, TRAIT_FORGEBLESSED) && (istype(src, /datum/skill/craft) || (istype(src, /datum/skill/craft/sewing))))
 		cost = max(1, FLOOR(cost * 0.5, 1)) // 50% reduction, minimum cost of 1
+	else if(HAS_TRAIT(user, TRAIT_TRAINED_SMITH) && (istype(src, /datum/skill/craft/armorsmithing) || istype(src, /datum/skill/craft/engineering) || istype(src, /datum/skill/craft/weaponsmithing) || istype(src, /datum/skill/craft/blacksmithing)))
+		cost = max(1, FLOOR(cost * 0.5, 1)) // ditto for metalworkers, specifically for metalworking skills
 	else if(user && HAS_TRAIT(user, TRAIT_JACKOFALLTRADES))
 		cost = max(1, FLOOR(cost * 0.5, 1)) // Ditto for Homesteader towners
 	return cost

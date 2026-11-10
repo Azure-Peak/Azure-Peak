@@ -52,8 +52,8 @@
 		victim.adjustToxLoss(-tox_drained)
 		src.adjustToxLoss(tox_drained)
 
-	if(!(VDrinker || HAS_TRAIT(src, TRAIT_BLACKBLOOD)))
-		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER)))
+	if(!VDrinker)
+		if(!(HAS_TRAIT(src, TRAIT_HORDE) || HAS_TRAIT(src, TRAIT_NASTY_EATER) || HAS_TRAIT(src, TRAIT_SANGUIVORE)))
 			to_chat(src, span_warning("I'm going to puke..."))
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
@@ -66,7 +66,7 @@
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(1 SECONDS, 2 SECONDS))
 		return
 
-	if(HAS_TRAIT(victim, TRAIT_BLACKBLOOD) || victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
+	if(victim.mind?.has_antag_datum(/datum/antagonist/werewolf) || (victim.stat != DEAD && victim.mind?.has_antag_datum(/datum/antagonist/zombie)))
 		to_chat(src, span_danger("I'm going to puke..."))
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/carbon, vomit), 0, TRUE), rand(8 SECONDS, 15 SECONDS))
 		return
@@ -83,8 +83,6 @@
 	if(B)
 		B.data = victim.get_blood_data()
 	temp.trans_to(src, blood_amount, TRUE, TRUE, FALSE, src, FALSE, INGEST)
-	if(HAS_TRAIT(src, TRAIT_BLACKBLOOD))
-		return
 
 	if(VVictim)
 		to_chat(src, span_userdanger("<b>YOU TRY TO COMMIT DIABLERIE ON [uppertext(victim)].</b>"))
@@ -140,11 +138,11 @@
 
 	if(!victim.clan && victim.mind && ishuman(victim) && VDrinker.generation > GENERATION_THINBLOOD && victim.blood_volume <= BLOOD_VOLUME_BAD)
 		var/datum/antagonist/vampire/vdrinker = mind?.has_antag_datum(/datum/antagonist/vampire)
-		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation <= GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, incase they get past the last check by leveling up off others
+		if((vdrinker.max_thralls <= 0) || (isnull(vdrinker.max_thralls || VDrinker.generation <= GENERATION_THINBLOOD))) //thin bloods or low level vampires can't make thralls, in case they get past the last check by leveling up off others
 			to_chat(src, span_warning("I cannot sire thralls, my blood is too weak!"))
 		else
 			if(vdrinker.thrall_count >= vdrinker.max_thralls) //you've hit your max
-				to_chat(src, span_warning("I cannot sire anymore thralls.."))
+				to_chat(src, span_warning("I cannot sire any more thralls.."))
 			else
 				if(alert(src, "Would you like to sire a new spawn?", "THE CURSE OF ASTRATA", "MAKE IT SO", "I RESCIND") != "MAKE IT SO")
 					to_chat(src, span_warning("I decide [victim] is unworthy."))

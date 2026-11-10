@@ -796,6 +796,27 @@ h2.alert {
     0 0 2px currentColor,
     0 0 6px currentColor;
 }
+// The gods again without the glow, in their usual colours.
+$plain-gods: (
+  astrata: #f9b362,
+  dendor: #43622e,
+  malum: #884610,
+  noc: #9acdff,
+  ravox: #7a1e30,
+  xylix: #e2ddae,
+  baotha: #bb48a9,
+  graggar: #19345e,
+  matthios: #e1c457,
+  zizo: #b76bff,
+);
+
+@each $god, $colour in $plain-gods {
+  .#{$god}_plain {
+    color: $colour;
+    font-weight: bold;
+  }
+}
+
 .vheslyn {
   background: linear-gradient(90deg, #ffa600, #ff0099);
   background-clip: text;

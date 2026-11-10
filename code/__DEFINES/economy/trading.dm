@@ -73,6 +73,7 @@
 #define AUTO_HAILER_FAVOR 500
 #define ROSAWOOD_ARSENAL_FAVOR 750
 #define UNDERDARK_CARAVAN_FAVOR 500
+#define SEND_FOR_SHIP_FAVOR 250
 #define CATALOG_KIN_BUY_MULT 0.8
 
 #define AUTO_HAILER_TICK_INTERVAL (5 MINUTES)
@@ -165,6 +166,22 @@
 #define NAVIGATOR_SMUGGLER_FEE 0.5
 #define NAVIGATOR_SMUGGLER_FACILITATOR_RANGE 7
 #define GOLDFACE_PUBLIC_FEE 0.5
+#define VHESLIE_CATEGORIES list(\
+	"Apparel (Ascendant Amulets)",\
+	"Illicit Medical Supplies",\
+	"Illicit Utility Supplies",\
+	"Apparel",\
+	"Adventuring Supplies",\
+	"Instruments",\
+	"Wardrobe",\
+	"Alcohols",\
+	"Consumable",\
+	"Armor (Light)",\
+	"Armor (Iron)",\
+	"Weapons (Ranged)",\
+	"Weapons (Iron and Shields)",\
+	"Weapons (Bronze)",\
+)
 #define ESCROW_DEFAULT_PERCENT_MARGIN 70
 #define ESCROW_DEFAULT_FLAT_MARGIN 5
 #define SCRAPPER_SEED_BUDGET 50

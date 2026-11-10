@@ -90,6 +90,7 @@ export const SubtabIdentityCardInfo = () => {
     clothes_pref,
     highlight_color,
     nickname,
+    pen_name,
     pronouns,
     race_bonus,
     real_name,
@@ -170,6 +171,28 @@ export const SubtabIdentityCardInfo = () => {
                 backgroundColor={highlight_color}
                 tooltip={`Highlight Color: ${ensureColorHash(highlight_color)}`}
                 onClick={() => act('highlight_color')}
+              />
+            </Stack.Item>
+          </Stack>
+        </LabeledGridList.Item>
+        <LabeledGridList.Item label="Pen Name">
+          <Stack>
+            <Stack.Item grow>
+              <Button
+                fluid
+                style={{
+                  wordBreak: 'break-word',
+                  whiteSpace: 'wrap',
+                }}
+                onClick={() => act('pen_name')}
+              >
+                {pen_name || 'None'}
+              </Button>
+            </Stack.Item>
+            <Stack.Item>
+              <Button
+                icon="question-circle"
+                tooltip="You can select this name for sending letters"
               />
             </Stack.Item>
           </Stack>
@@ -781,14 +804,44 @@ export const SubtabIdentityCardVices = () => {
   return (
     <Section title="Vices" className="PreferencesMenu__Section__Vices">
       {charflaws.map((flaw) => (
-        <Button
-          key={flaw.type}
-          fluid
-          onClick={() => act('toggle_charflaw', { flaw: flaw.type })}
-        >
-          {flaw.name}
-          {flaw.warning ? ' (Requires Extra Vice!)' : null}
-        </Button>
+        <Box key={flaw.type}>
+          <Button
+            fluid
+            onClick={() => act('toggle_charflaw', { flaw: flaw.type })}
+          >
+            {flaw.name}
+            {flaw.warning ? ' (Requires Extra Vice!)' : null}
+          </Button>
+          {flaw.picked_choices.map((choice) => (
+            <Button
+              key={choice.choice}
+              fluid
+              ml={2}
+              mt={1}
+              onClick={() =>
+                act('charflaw_subchoice', {
+                  flaw: flaw.type,
+                  task: 'remove',
+                  index: choice.index,
+                })
+              }
+            >
+              {choice.choice}
+            </Button>
+          ))}
+          {flaw.picked_choices.length < flaw.max_choices ? (
+            <Button
+              fluid
+              ml={2}
+              mt={1}
+              onClick={() =>
+                act('charflaw_subchoice', { flaw: flaw.type, task: 'add' })
+              }
+            >
+              Pick Option
+            </Button>
+          ) : null}
+        </Box>
       ))}
       <Button fluid icon="bars" ml={4} onClick={() => setPopupId('CharFlaw')}>
         Open Menu

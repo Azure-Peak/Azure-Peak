@@ -495,28 +495,28 @@
 /obj/item/storage/belt/rogue/leather/knifebelt/black/silver/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/silver/K = new()
+		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/silver_blessed/Initialize(mapload)
+/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/preblessed/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/silver/preblessed/K = new()
+		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/preblessed/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/psydon/Initialize(mapload)
+/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/psydon/K = new()
+		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy/K = new()
 		knives += K
 	update_icon()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/psydon_blessed/Initialize(mapload)
+/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/preblessed/Initialize(mapload)
 	. = ..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/psydon/preblessed/K = new()
+		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy/preblessed/K = new()
 		knives += K
 	update_icon()
 
@@ -733,7 +733,7 @@
 
 /obj/item/storage/belt/rogue/leather/suspenders
 	name = "suspenders"
-	desc = "A pair of suspenders which go over the shoulders. Used for keeping one's pants in place in an admittably fashionable style."
+	desc = "A pair of suspenders which go over the shoulders. Used for keeping one's pants in place in an admittedly fashionable style."
 	icon_state = "suspenders"
 	alternate_worn_layer = ARMOR_LAYER
 

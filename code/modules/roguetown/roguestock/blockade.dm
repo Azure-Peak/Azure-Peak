@@ -5,7 +5,6 @@ GLOBAL_LIST_EMPTY(active_blockades)
 	var/threat_region_name
 	var/faction_id
 	var/day_started = 0
-	var/roundstart = FALSE
 	var/datum/weakref/active_scroll_ref
 	var/datum/weakref/active_quest_ref
 

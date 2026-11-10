@@ -2,7 +2,7 @@
 These mirror the species.dm melee attack flow (armor check -> apply_damage -> bodypart_attacked_by)
 without going through the click pipeline, so spells can deliver weapon-style strikes. */
 
-/proc/arcyne_strike(mob/living/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, intdamage_factor, exact_zone = FALSE)
+/proc/arcyne_strike(mob/living/user, mob/living/target, obj/item/weapon, damage, def_zone, blade_class_override, armor_penetration = 0, spell_name = "Arcyne Strike", skip_animation = FALSE, skip_message = FALSE, allow_shield_check = FALSE, damage_type = BRUTE, intdamage_factor, exact_zone = FALSE, intdamage_mult = 1)
 	if(!user || !target || QDELETED(user) || QDELETED(target))
 		return FALSE
 
@@ -87,13 +87,16 @@ without going through the click pipeline, so spells can deliver weapon-style str
 			// Shield eats the hit but takes integrity damage, matching projectile behavior
 			for(var/obj/item/I in H.held_items)
 				if(I.block_chance > 0)
-					I.take_damage(floor(damage / 4))
+					I.take_damage(floor(damage * intdamage_mult / 4))
 					break
 			return ARCYNE_STRIKE_WARDED
 
 	// Default intdamage factor: blunt gets 1.6x (same as melee blunt), others get 1.0
 	if(isnull(intdamage_factor))
 		intdamage_factor = (blade_class == BCLASS_BLUNT) ? BLUNT_DEFAULT_INT_DAMAGEFACTOR : 1
+	intdamage_factor *= intdamage_mult
+	if(isanimal(target))
+		damage *= intdamage_mult
 	var/armor_block = target.run_armor_check(def_zone, attack_flag, blade_dulling = blade_class, armor_penetration = armor_penetration, damage = damage, intdamfactor = intdamage_factor, no_debuff = TRUE)
 	var/damage_dealt = target.apply_damage(damage, damage_type, def_zone, armor_block)
 	SEND_SIGNAL(target, COMSIG_ATOM_WAS_ATTACKED, user, damage)

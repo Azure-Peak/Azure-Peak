@@ -1,56 +1,8 @@
-/datum/action/cooldown/spell/projectile/seeker_volley
-	button_icon = 'icons/mob/actions/mage_telomancy.dmi'
-	name = "Seeker Volley"
-	desc = "Lock onto a single target and loose a flight of slow arcyne orbs that pursue them relentlessly. \
-	Each orb deals trivial damage but slows the chosen quarry to a crawl. The orbs phase harmlessly through any creature that is not their fated mark, \
-	but they can still be deflected by a guard, blocked by a shield, shrugged off by warding - or reflected outright by counterspell."
-	button_icon_state = "seeker_volley"
-	sound = 'sound/magic/vlightning.ogg'
-	spell_color = GLOW_COLOR_ARCANE
-	glow_intensity = GLOW_INTENSITY_LOW
-
-	projectile_type = /obj/projectile/magic/seeker_orb
-	cast_range = SPELL_RANGE_PROJECTILE
-	projectiles_per_fire = 3
-	click_to_activate = TRUE
-
-	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
-
-	invocations = list("Sequere, Telum!")
-	invocation_type = INVOCATION_SHOUT
-
-	charge_required = TRUE
-	weapon_cast_penalized = TRUE
-	charge_time = CHARGETIME_POKE
-	charge_swingdelay_type = SWINGDELAY_PENALTY
-	hold_drain = 1
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
-	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 12 SECONDS
-
-	associated_skill = /datum/skill/magic/arcane
-	spell_tier = 2
-	attunement_school = ASPECT_NAME_TELOMANCY
-	spell_impact_intensity = SPELL_IMPACT_LOW
-
-	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN
-
-/datum/action/cooldown/spell/projectile/seeker_volley/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
-	. = ..()
-	if(istype(to_fire, /obj/projectile/magic/seeker_orb))
-		var/obj/projectile/magic/seeker_orb/orb = to_fire
-		orb.set_homing_target(target)
-		orb.Angle += ((iteration - (projectiles_per_fire + 1) / 2) * 60)
-		// Only the center orb can roll for blunt crit/knockout
-		if(iteration != (projectiles_per_fire + 1) / 2)
-			orb.woundclass = null
-
 /obj/projectile/magic/seeker_orb
 	name = "seeker orb"
 	icon = 'icons/obj/magic_projectiles.dmi'
 	icon_state = "seeker_orb"
-	damage = 5
+	damage = SPELL_DMG(5)
 	damage_type = BRUTE
 	nodamage = FALSE
 	woundclass = BCLASS_BLUNT
@@ -59,7 +11,8 @@
 	speed = MAGE_PROJ_SLOW
 	guard_deflectable = TRUE
 	expose_caster_on_deflect = TRUE
-	intdamfactor = 1
+	intdamfactor = SPELL_INTDAM(1)
+	spell_damage_scaled = TRUE
 	hitsound = 'sound/combat/hits/blunt/shovel_hit2.ogg'
 	homing_turn_speed = 35
 	homing_inaccuracy_max = 12

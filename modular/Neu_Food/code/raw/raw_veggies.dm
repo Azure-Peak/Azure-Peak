@@ -3,6 +3,7 @@
 // please don't include fruits that's in raw_fruits.dm
 
 /obj/item/reagent_containers/food/snacks/rogue/veg/onion_sliced
+	dish_type = DISH_VEGETABLE
 	name = "sliced onion"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "onion_sliced"
@@ -11,6 +12,7 @@
 	cooked_smell = /datum/pollutant/food/fried_onion
 
 /obj/item/reagent_containers/food/snacks/rogue/veg/cabbage_sliced
+	dish_type = DISH_VEGETABLE
 	name = "shredded cabbage"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "cabbage_sliced"
@@ -19,6 +21,7 @@
 	cooked_smell = /datum/pollutant/food/fried_cabbage
 
 /obj/item/reagent_containers/food/snacks/rogue/veg/potato_sliced
+	dish_type = DISH_VEGETABLE
 	name = "potato cuts"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "potato_sliced"
@@ -36,6 +39,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1)
 
 /obj/item/reagent_containers/food/snacks/rogue/veg/garlick_clove
+	dish_type = DISH_VEGETABLE
 	name = "garlick clove"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "garlic_clove"
@@ -45,6 +49,7 @@
 	list_reagents = list(/datum/reagent/consumable/nutriment = 1, /datum/reagent/water/blessed = 2)
 
 /obj/item/reagent_containers/food/snacks/veg/turnip_sliced
+	dish_type = DISH_VEGETABLE
 	name = "cleaned turnip"
 	icon = 'modular/Neu_Food/icons/raw/raw_veggies.dmi'
 	icon_state = "turnip_sliced"

@@ -123,7 +123,7 @@
 				return
 
 			if(H.mind.has_antag_datum(/datum/antagonist/vampire/lord) || H.mind.has_antag_datum(/datum/antagonist/lich) || H.mind.has_antag_datum(/datum/antagonist/dreamwalker)) //(prevents exploits w/ the rod like muting a lich/dreamwalker or shocking a pre-ascension VL)
-				to_chat(user, span_danger("[H] doesn't seem remotely suspectable to the rod's influence!"))
+				to_chat(user, span_danger("[H] doesn't seem remotely susceptible to the rod's influence!"))
 				return
 
 			if(!COOLDOWN_FINISHED(src, scepter))
@@ -379,21 +379,20 @@
 	icon = 'icons/roguetown/weapons/special/freifechter32.dmi'
 	possible_item_intents = list(/datum/intent/dagger/thrust, /datum/intent/dagger/thrust/pick, /datum/intent/mace/smash)
 
-/obj/item/rogueweapon/katar/psydon
+/obj/item/rogueweapon/katar/silver/psy
 	name = "psydonic katar"
 	desc = "An exotic weapon taken from the hands of wandering monks, an esoteric design to the Otavan Orthodoxy. Special care was taken into account towards the user's knuckles: silver-tipped steel from tip to edges, and His holy cross reinforcing the heart of the weapon, with curved shoulders to allow its user to deflect incoming blows - provided they lead it in with the blade."
 	icon_state = "psykatar"
-	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/rogueweapon/katar/psydon/ComponentInitialize()
+/obj/item/rogueweapon/katar/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/katar/psydon/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/katar/silver/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -519,6 +518,7 @@
 	wdefense = 6
 	max_blade_int = 140
 	associated_skill = /datum/skill/combat/polearms
+	is_implement = FALSE
 	special = /datum/special_intent/polearm_backstep
 
 /obj/item/rogueweapon/woodstaff/militia/getonmobprop(tag)
@@ -1117,8 +1117,10 @@
 	GLOB.lordcolor += src
 
 /obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
-	detail_tag = "_det"
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
 	detail_color = primary
+	altdetail_color = secondary
 	update_icon()
 
 /obj/item/rogueweapon/spear/keep_standard/Destroy()

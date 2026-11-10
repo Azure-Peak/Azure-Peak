@@ -95,6 +95,7 @@
 	// merk custom texts
 	flavortext = null
 	flavortext_cached = null
+	pen_name = null
 	ooc_notes = null
 	ooc_notes_cached = null
 	nsfwflavortext = null

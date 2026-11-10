@@ -3,6 +3,7 @@
 	anatomy_type = /datum/anatomy/quadruped/standard
 	icon = 'icons/roguetown/mob/monster/direbear.dmi'
 	name = "direbear"
+	mob_size = MOB_SIZE_LARGE
 	desc = "Renowned as a symbol of strength and rebirth by followers of Dendor, these mighty beasts are said to sleep for months on end without ever starving. While highly sought for their furs and hides, these claim as many hunters as they are claimed by."
 	icon_state = "direbear"
 	icon_living = "direbear"
@@ -33,7 +34,7 @@
 									/obj/item/natural/bone = 4)
 	head_butcher = /obj/item/natural/head/direbear
 	faction = list(FACTION_BEARS)		//This mf will kill undead - swapped to its own faction, doesn't trigger ambushes
-	threat_point = THREAT_DEADLY
+	threat_point = THREAT_DANGEROUS
 	ambush_faction = "wildlife"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!

@@ -85,12 +85,4 @@
 /datum/supply_pack/rogue/rawmats/ash
 	name = "Ash"
 	cost = 20
-	contains = list(/obj/item/ash,
-	/obj/item/ash,
-	/obj/item/ash,
-	/obj/item/ash,
-	/obj/item/ash,
-	/obj/item/ash,
-	/obj/item/ash,
-	/obj/item/ash,
-	/obj/item/ash)
+	contains = list(/obj/item/natural/bundle/ash/full)

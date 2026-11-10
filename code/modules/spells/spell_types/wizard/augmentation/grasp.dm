@@ -15,7 +15,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = FALSE
-	cooldown_time = 45 SECONDS
+	cooldown_time = 34 SECONDS
 
 	point_cost = 1
 	spell_impact_intensity = SPELL_IMPACT_MEDIUM

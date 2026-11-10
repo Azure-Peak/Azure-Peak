@@ -165,7 +165,7 @@
 
 /obj/item/rogueweapon/flail/aflail
 	name = "decrepit flail"
-	desc = "A spiked ball of rotted metal, chained to a rotwooden handle. The chains groan with every twirl, strained by forces it hadn't felt in millenia; swing it a bit too hard, and there's a chance that the flailhead might completely fly off."
+	desc = "A spiked ball of rotted metal, chained to a rotwooden handle. The chains groan with every twirl, strained by forces it hadn't felt in millennia; swing it a bit too hard, and there's a chance that the flailhead might completely fly off."
 	icon_state = "aflail"
 	force = 22
 	max_integrity = 75
@@ -200,7 +200,7 @@
 	name = "anointed flail"
 	icon_state = "crusaderflail"
 	desc = "A crusader's morning star, adorned with a head of cold iron and blessed to smite evil. Though this blessed alloy lacks the strength to \
-	sunder those who bear greater curses, it nevertheless channels enough power to dispell the lesser curses of mindless fiends-and-foes."
+	sunder those who bear greater curses, it nevertheless channels enough power to dispel the lesser curses of mindless fiends-and-foes."
 	possible_item_intents = list(/datum/intent/flail/strike, /datum/intent/flail/smash/ranged, /datum/intent/flail/bash)
 	max_integrity = 200 //+50
 	minstr = 12
@@ -235,28 +235,27 @@
 		silver_type = SILVER_TENNITE\
 	)
 
-/obj/item/rogueweapon/flail/sflail/psyflail
+/obj/item/rogueweapon/flail/sflail/silver/psy
 	name = "psydonic flail"
 	desc = "An ornate flail, plated in a ceremonial veneer of silver. Its flanged head can crumple even the toughest of darksteel-maille."
 	icon_state = "psyflail"
-	is_silver = TRUE
 	smeltresult = /obj/item/ingot/silverblessed
 
-/obj/item/rogueweapon/flail/sflail/psyflail/ComponentInitialize()
+/obj/item/rogueweapon/flail/sflail/silver/psy/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_NONE,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/flail/sflail/psyflail/preblessed/ComponentInitialize()
+/obj/item/rogueweapon/flail/sflail/silver/psy/preblessed/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
 		silver_type = SILVER_PSYDONIAN\
 	)
 
-/obj/item/rogueweapon/flail/sflail/psyflail/relic
+/obj/item/rogueweapon/flail/sflail/silver/psy/relic
 	name = "\"Consecratia\""
 	desc = "The weight of His anguish, His pain, His hope and His love for humenkind - all hanging on the ornamental silver-steel head chained to this arm. <br><br>A declaration of love for all that Psydon lives for, and a crushing reminder to the arch-nemesis that they will not triumph as long as He endures."
 	icon_state = "psymorningstar"
@@ -265,7 +264,7 @@
 	minstr = 11
 	max_integrity = 250
 
-/obj/item/rogueweapon/flail/sflail/psyflail/relic/ComponentInitialize()
+/obj/item/rogueweapon/flail/sflail/silver/psy/relic/ComponentInitialize()
 	AddComponent(\
 		/datum/component/silverbless,\
 		pre_blessed = BLESSING_PSYDONIAN,\
@@ -310,7 +309,7 @@
 
 /obj/item/rogueweapon/flail/peasantwarflail/iron
 	name = "greatflail"
-	desc = "The lucerne's ungaitly cousin, favoring a 'ball-and-chain' design that - once spun - can devastate anything caught in its way; a trait that makes it dearly beloved by both peasantry and knights alike."
+	desc = "The lucerne's ungainly cousin, favoring a 'ball-and-chain' design that - once spun - can devastate anything caught in its way; a trait that makes it dearly beloved by both peasantry and knights alike."
 	icon_state = "greatflail"
 	wdefense = 6
 	minstr = 12

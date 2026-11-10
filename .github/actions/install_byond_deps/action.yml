@@ -1,0 +1,34 @@
+name: Install BYOND dependencies
+description: Install the 32-bit libraries BYOND needs, reusing cached .deb files while the package versions are unchanged
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve package versions
+      id: resolve
+      shell: bash
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        source /etc/os-release
+        HASH=$(sudo apt-get install -y --print-uris -qq libcurl4-openssl-dev:i386 | awk '{print $2}' | sort | sha256sum | cut -c1-16)
+        echo "prefix=byond-deps-$VERSION_CODENAME-" >> $GITHUB_OUTPUT
+        echo "key=byond-deps-$VERSION_CODENAME-$HASH" >> $GITHUB_OUTPUT
+    - name: Restore package cache
+      id: restore
+      uses: actions/cache/restore@v4
+      with:
+        path: ~/apt-cache/*.deb
+        key: ${{ steps.resolve.outputs.key }}
+        restore-keys: ${{ steps.resolve.outputs.prefix }}
+    - name: Install packages
+      shell: bash
+      run: |
+        mkdir -p ~/apt-cache/partial
+        sudo apt-get install -y -o Dir::Cache::Archives="$HOME/apt-cache" -o APT::Keep-Downloaded-Packages=true libcurl4-openssl-dev:i386
+    - name: Save package cache
+      if: steps.restore.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ~/apt-cache/*.deb
+        key: ${{ steps.resolve.outputs.key }}

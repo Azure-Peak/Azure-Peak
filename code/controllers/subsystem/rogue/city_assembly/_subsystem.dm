@@ -96,11 +96,6 @@ SUBSYSTEM_DEF(city_assembly)
 	summary["results"]["defense_auth"] = defense_result
 	apply_defense_authorization(defense_result)
 
-	// Poll tax disabled pending anti-dodge design (see docs/design/estates_general_stage1.md).
-	// var/list/poll_result = resolve_bracket_motion(S, ASSEMBLY_MOTION_POLL_TAX, ASSEMBLY_POLL_BRACKETS)
-	// summary["results"]["poll_tax"] = poll_result
-	// apply_poll_tax(poll_result)
-
 	if(resolve_get_alderman())
 		var/list/recall_result = resolve_yae_motion(S, ASSEMBLY_MOTION_RECALL, ASSEMBLY_RECALL_THRESHOLD_PCT)
 		summary["results"]["recall"] = recall_result
@@ -199,8 +194,6 @@ SUBSYSTEM_DEF(city_assembly)
 			return validate_bracket_choice(choice, ASSEMBLY_TRADE_BRACKETS)
 		if(ASSEMBLY_MOTION_DEFENSE_AUTH)
 			return validate_bracket_choice(choice, ASSEMBLY_DEFENSE_BRACKETS)
-		if(ASSEMBLY_MOTION_POLL_TAX)
-			return validate_bracket_choice(choice, ASSEMBLY_POLL_BRACKETS)
 		if(ASSEMBLY_MOTION_RECALL, ASSEMBLY_MOTION_CENSURE)
 			return (choice == ASSEMBLY_YAE || choice == ASSEMBLY_NAY || choice == ASSEMBLY_ABS)
 	return FALSE

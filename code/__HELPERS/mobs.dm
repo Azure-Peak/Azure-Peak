@@ -677,6 +677,8 @@ GLOBAL_LIST_EMPTY(species_list)
 	for(var/obj/item/thing as anything in equipped_items)
 		if (thing.flags_inv)
 			new_flags |= thing.flags_inv
+			if((thing.flags_inv & HIDE_HEADTOP) && !(thing.flags_inv & SHOWHORNS))
+				new_flags |= HIDEHORNS
 
 	if(new_flags == obscured_flags)
 		return

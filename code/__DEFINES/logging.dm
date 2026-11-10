@@ -59,12 +59,6 @@
 
 #define LOGSRC_CLIENT "Client"
 #define LOGSRC_MOB "Mob"
-/// The number of entries to store per category, don't make this too large or you'll start to see performance issues
-#define CONFIG_MAX_CACHED_LOG_ENTRIES 1000
-
-/// The number of *minimum* ticks between each log re-render, making this small will cause performance issues
-/// Admins can still manually request a re-render
-#define LOG_UPDATE_TIMEOUT 5 SECONDS
 
 // Log entry keys
 #define LOG_ENTRY_KEY_TIMESTAMP "ts"
@@ -111,6 +105,7 @@
 #define LOG_CATEGORY_GAME "game"
 #define LOG_CATEGORY_GAME_ACCESS "game-access"
 #define LOG_CATEGORY_GAME_EMOTE "game-emote"
+#define LOG_CATEGORY_GAME_GHOST_POLLS "game-ghost-polls"
 #define LOG_CATEGORY_GAME_LOOC "game-looc"
 #define LOG_CATEGORY_GAME_OOC "game-ooc"
 #define LOG_CATEGORY_GAME_PAPER "game-paper"

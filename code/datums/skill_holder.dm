@@ -99,6 +99,14 @@
 	// may simultaneously be someone's trade apprentice and a Knight's protégé.
 	var/mob/living/carbon/human/knight_lord = null
 	var/mob/living/carbon/human/my_squire = null
+	/// Last crafting recipe attempted by this holder
+	var/datum/crafting_recipe/last_recipe = null
+	/// Current pseudorandomized craft chance float
+	var/pseudo_craft_chance = 0
+	/// Counter of low skill failures. Reset upon failure, if higher than 10, can cause crafting failures.
+	var/craft_failure_count = 0
+	/// Counter of how many times a failure has causes materials to be wasted. Used to enforce a pity mechanic where failing becomes less likely the higher this number is.
+	var/craft_waste_count = 0
 
 /datum/skill_holder/New()
 	. = ..()
@@ -405,3 +413,7 @@
 		var/datum/stressevent/event = stressors[event_type]
 		bonus += event.quality_modifier
 	return bonus
+
+/datum/skill_holder/proc/reset_pseudo_chance()
+	pseudo_craft_chance = 0
+	last_recipe = null

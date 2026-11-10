@@ -8,6 +8,7 @@
 	anchored = TRUE
 	blade_dulling = DULLING_BASHCHOP
 	CanAtmosPass = ATMOS_PASS_NO
+	plane = GAME_PLANE_UPPER
 	attacked_sound = list("sound/combat/hits/onmetal/metalimpact (1).ogg", "sound/combat/hits/onmetal/metalimpact (2).ogg")
 
 /obj/structure/plasticflaps/opaque

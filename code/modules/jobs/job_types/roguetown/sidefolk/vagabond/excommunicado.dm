@@ -46,4 +46,4 @@
 		if (istype (H.patron, /datum/patron/inhumen/zizo))
 			if(H.mind)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
-				H.mind.AddSpell(new /datum/action/cooldown/spell/gravemark)
+				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)

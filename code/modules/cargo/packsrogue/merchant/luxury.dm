@@ -59,7 +59,7 @@
 /datum/supply_pack/rogue/luxury/silverdagger
 	name = "Silver Dagger"
 	cost = 250 //Note that the Merchant's abode always spawns with a free silver dagger.
-	contains = list(/obj/item/rogueweapon/huntingknife/idagger/silver)
+	contains = list(/obj/item/rogueweapon/huntingknife/idagger/steel/silver)
 
 /datum/supply_pack/rogue/luxury/nomag
 	name = "Ring of Null Magic"

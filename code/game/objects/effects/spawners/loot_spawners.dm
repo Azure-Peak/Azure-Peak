@@ -11,7 +11,7 @@
 	lootcount = 1
 	loot_value = LOOT_VALUE_GENERAL_LOW
 	junk_loot = list(
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/natural/stone = 3,
 		/obj/item/candle/yellow = 3,
@@ -53,7 +53,7 @@
 		/obj/item/roguecoin/silver/pile = 1,
 		//junk
 		/obj/item/rogue/instrument/flute = 3,
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
@@ -159,7 +159,7 @@
 	lootcount = 1
 	loot_value = LOOT_VALUE_GENERAL_MID
 	junk_loot = list(
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/natural/stone = 3,
 		/obj/item/candle/yellow = 3,
@@ -205,7 +205,7 @@
 		/obj/item/roguecoin/silver/pile = 1,
 		//junk
 		/obj/item/rogue/instrument/flute = 3,
-		/obj/item/ash = 5,
+		/obj/item/natural/ash = 5,
 		/obj/item/natural/glass_shard = 5,
 		/obj/item/candle/yellow = 3,
 		/obj/item/flashlight/flare/torch = 3,
@@ -326,7 +326,7 @@
 	lootcount = 1
 	loot_value = LOOT_VALUE_GENERAL_HI
 	junk_loot = list(
-		/obj/item/ash = 3,
+		/obj/item/natural/ash = 3,
 		/obj/item/natural/glass_shard = 3,
 		/obj/item/candle/yellow = 3,
 		/obj/item/rope = 3,
@@ -381,7 +381,7 @@
 		/obj/item/rogueweapon/huntingknife/idagger/steel = 4,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying = 3,
 		/obj/item/rogueweapon/huntingknife/idagger/steel/parrying/vaquero = 2,
-		/obj/item/rogueweapon/huntingknife/idagger/silver/elvish = 1,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/silver/elvish = 1,
 		/obj/item/rogueweapon/huntingknife/idagger/navaja = 3,
 		/obj/item/rogueweapon/sword = 2,
 		/obj/item/rogueweapon/sword/long = 2,
@@ -404,12 +404,12 @@
 		/obj/item/rogueweapon/mace/steel/silver = 1,
 		/obj/item/rogueweapon/greataxe/steel/knight/silver = 1,
 		/obj/item/rogueweapon/flail/sflail/silver = 1,
-		/obj/item/rogueweapon/huntingknife/idagger/silver = 3,
+		/obj/item/rogueweapon/huntingknife/idagger/steel/silver = 3,
 		/obj/item/rogueweapon/mace/warhammer/steel/silver = 1,
-		/obj/item/rogueweapon/stoneaxe/woodcut/silver = 1,
+		/obj/item/rogueweapon/stoneaxe/battle/silver = 1,
 		/obj/item/rogueweapon/spear/silver = 1,
 		/obj/item/rogueweapon/sword/long/silver = 1,
-		/obj/item/rogueweapon/sword/long/kriegmesser/silver = 1,
+		/obj/item/rogueweapon/sword/long/broadsword/silver = 1,
 		/obj/item/rogueweapon/sword/short/silver = 1,
 		/obj/item/rogueweapon/sword/rapier/silver = 1,
 		/obj/item/rogueweapon/katar/silver = 1,
@@ -417,7 +417,7 @@
 		/obj/item/rogueweapon/sword/long/exe/silver = 1,
 		/obj/item/rogueweapon/greatsword/silver = 1,
 		/obj/item/rogueweapon/whip/silver = 1,
-		/obj/item/rogueweapon/woodstaff/quarterstaff/silver = 1,
+		/obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver = 1,
 		//tools
 		/obj/item/rogueweapon/shovel/silver = 1,
 		/obj/item/rogueweapon/shovel = 2,

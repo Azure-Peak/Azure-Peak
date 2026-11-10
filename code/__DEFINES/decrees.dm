@@ -14,8 +14,6 @@
 
 /// Balance-rate cap applied to Golden-Bull-protected subjects when fined or levied.
 #define GOLDEN_BULL_BURGHER_CAP 0.25
-/// Absolute mammon ceiling on any single fine levied against a Bull-protected subject.
-#define GOLDEN_BULL_DAILY_FINE_CAP 50
 
 #define PATRONAGE_CAP_BENEFACTOR 20
 #define PATRONAGE_CAP_WRIT 5

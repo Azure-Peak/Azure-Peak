@@ -1,4 +1,5 @@
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/nitzel
+	dish_type = DISH_MEAT
 	name = "unfinished nitzel"
 	desc = "Tenderized meat, awaiting a coating of toastcrumbs and a hot oil bath."
 	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
@@ -6,6 +7,7 @@
 	cooked_smell = /datum/pollutant/food/fried_meat
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/schnitzel
+	dish_type = DISH_MEAT
 	name = "schnitzel"
 	desc = "Tenderized spider meat, awaiting a coating of toastcrumbs and a hot oil bath."
 	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
@@ -14,6 +16,7 @@
 
 // Squire's delight (deep fried butter)
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/squires_delight
+	dish_type = DISH_DAIRY|DISH_EGG|DISH_MEAT
 	name = "unfinished squire's delight"
 	desc = "A butter stick with an egg cracked over it. It awaits toastcrumbs and a hot oil bath."
 	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
@@ -21,6 +24,7 @@
 	cooked_smell = /datum/pollutant/food/fried_butter
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/chickentender
+	dish_type = DISH_POULTRY
 	name = "unfinished tender frybird"
 	desc = "Tenderized meat, awaiting a coating of toastcrumbs and a hot oil bath."
 	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
@@ -28,6 +32,7 @@
 	cooked_smell = /datum/pollutant/food/fried_chicken
 
 /obj/item/reagent_containers/food/snacks/rogue/foodbase/wienernitzel
+	dish_type = DISH_MEAT|DISH_POULTRY|DISH_SEAFOOD
 	name = "unfinished wiener nitzel"
 	desc = "Tenderized meat, awaiting a coating of toastcrumbs and a hot oil bath."
 	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'
@@ -35,6 +40,7 @@
 	cooked_smell = /datum/pollutant/food/fried_sausage
 
 /obj/item/reagent_containers/food/snacks/rogue/wienerstick
+	dish_type = DISH_MEAT|DISH_POULTRY|DISH_SEAFOOD
 	name = "wiener on a stick"
 	desc = "Delicious flesh stuffed in a intestine casing, impaled onto a stick, enjoyed both at circuses and on the march by Grenzelhoft soldiers."
 	icon = 'modular/Neu_Food/icons/raw/raw_deep_fried.dmi'

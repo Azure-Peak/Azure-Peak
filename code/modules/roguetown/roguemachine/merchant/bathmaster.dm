@@ -323,10 +323,10 @@
 	if(SStreasury.bathhouse_ordinance_active)
 		var/bathhouse_tithe = SStreasury.compute_bathhouse_tithe(cost, BATHHOUSE_BRASSFACE_TITHE_RATE)
 		if(bathhouse_tithe > 0)
-			SStreasury.mint(SStreasury.church_fund, bathhouse_tithe, "Ordinance of the Baths tithe ([src.name])")
+			SStreasury.mint(SStreasury.church_fund, bathhouse_tithe, "Ordinance of the Baths tithe ([src.name])", null, LEDGER_CHURCH_TITHE_IN)
 			church_tithe_collected_here += bathhouse_tithe
 		return
-	SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])")
+	SStreasury.mint(SStreasury.discretionary_fund, tax_amt, "[TAX_CATEGORY_IMPORT_TARIFF] ([src.name])", null, LEDGER_CROWN_REV_IMPORT_TARIFF)
 	record_featured_stat(FEATURED_STATS_TAX_PAYERS, buyer, tax_amt)
 	record_round_statistic(STATS_TAXES_COLLECTED, tax_amt)
 	record_round_statistic(STATS_REVENUE_IMPORT_TARIFF, tax_amt)
@@ -402,7 +402,7 @@
 	recent_payments = 0
 	last_payout = world.time
 	if(amt > 0)
-		SStreasury.mint(SStreasury.bathhouse_fund, amt, "PURITY margin")
+		SStreasury.mint(SStreasury.bathhouse_fund, amt, "PURITY margin", null, LEDGER_BATHHOUSE_MARGIN_IN)
 	send_ooc_note("<b>Income from PURITY (deposited to Bathhouse Fund):</b> [amt]", job = "Bathmaster")
 
 /obj/structure/roguemachine/bathvend/public/obj_break(damage_flag)
@@ -492,9 +492,9 @@ SUBSYSTEM_DEF(BMtreasury)
 	var/tithe = SStreasury.compute_bathhouse_tithe(amt_to_generate, BATHHOUSE_VAULT_TITHE_RATE)
 	if(tithe > 0 && SStreasury.church_fund)
 		amt_to_generate -= tithe
-		SStreasury.church_fund.balance += tithe
-	if(SStreasury.bathhouse_fund)
-		SStreasury.bathhouse_fund.balance += amt_to_generate
+		SStreasury.mint(SStreasury.church_fund, tithe, "Bathhouse vault tithe", null, LEDGER_CHURCH_TITHE_IN)
+	if(SStreasury.bathhouse_fund && amt_to_generate > 0)
+		SStreasury.mint(SStreasury.bathhouse_fund, amt_to_generate, "Bathhouse vault income", null, LEDGER_BATHHOUSE_MARGIN_IN)
 	send_ooc_note("Regular income to the Bathhouse Fund: +[amt_to_generate][tithe > 0 ? " (after [tithe]m tithe to the Church)" : ""]", job = "Bathmaster")
 	if(amt_to_generate > 0)
 		add_hoard_log("payout", "Income from smuggling hoard", amt_to_generate)

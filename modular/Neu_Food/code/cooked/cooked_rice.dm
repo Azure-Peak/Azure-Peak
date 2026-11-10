@@ -177,7 +177,6 @@
 	tastes = list("savoury and earthy sweetness, layered with a wholesome filling mouthfeel" = 1)
 	rotprocess = SHELFLIFE_LONG
 	eat_effect = /datum/status_effect/buff/mealbuff
-	foodtype = GRAIN | VEGETABLES
 
 /obj/item/reagent_containers/food/snacks/rogue/mujadara_meal
 	cuisine = CUISINE_NALEDI
@@ -191,4 +190,3 @@
 	tastes = list("savoury, earthy-warm sweetness, layered with a nutty wholesomeness" = 1)
 	rotprocess = SHELFLIFE_EXTREME
 	eat_effect = /datum/status_effect/buff/greatmealbuff
-	foodtype = GRAIN | VEGETABLES

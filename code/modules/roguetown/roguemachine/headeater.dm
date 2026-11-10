@@ -9,10 +9,15 @@
 	pixel_y = 32
 	var/topay = 0
 
+/obj/structure/roguemachine/headeater/get_mechanics_examine(mob/user)
+	. = ..()
+	if(!istype(src, /obj/structure/roguemachine/headeater/treasureseeker))
+		. += span_info("Left-click to deposit a head into the machine. Right-click to deposit all heads in front of the machine.")
+
 /obj/structure/roguemachine/headeater/examine()
 	. = ..()
-	. += span_info("Left-click to deposit a head into the machine, and right-click to deposit all heads in front of the machine.")
-	. += span_smallnotice("Crown's Headeater Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
+	if(!istype(src, /obj/structure/roguemachine/headeater/treasureseeker))
+		. += span_smallnotice("Crown's Headeater Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
 
 /obj/structure/roguemachine/headeater/attackby(obj/item/H, mob/user, params)
 	. = ..()
@@ -30,7 +35,7 @@
 	var/datum/fund/account = SStreasury.get_account(user)
 	if(!account)
 		return 0
-	SStreasury.mint(account, gross, "headeater bounty ([src.name])")
+	SStreasury.mint(account, gross, "headeater bounty ([src.name])", null, LEDGER_CITIZEN_CONTRACTS)
 	var/tax_amt = SStreasury.apply_tax(account, gross, TAX_CATEGORY_HEADEATER_LEVY, src.name)
 	if(tax_amt > 0)
 		record_featured_stat(FEATURED_STATS_TAX_PAYERS, user, tax_amt)

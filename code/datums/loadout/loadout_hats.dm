@@ -29,6 +29,26 @@
 	path = /obj/item/clothing/head/roguetown/tiyon
 	sort_category = "Hats"
 
+/datum/loadout_item/veiledhat
+	name = "Veiled Hat"
+	path = /obj/item/clothing/head/roguetown/veiledhat
+	sort_category = "Hats"
+
+/datum/loadout_item/flotsam
+	name = "Flotsam Bonnet"
+	path = /obj/item/clothing/head/roguetown/flotsam
+	sort_category = "Hats"
+
+/datum/loadout_item/nightcap
+	name = "Nitecap"
+	path = /obj/item/clothing/head/roguetown/nightcap
+	sort_category = "Hats"
+
+/datum/loadout_item/doublehennin
+	name = "Dual Hennin"
+	path = /obj/item/clothing/head/roguetown/doublehennin
+	sort_category = "Hats"
+
 /datum/loadout_item/longveil
 	name = "Long Veil"
 	path = /obj/item/clothing/head/roguetown/longveil

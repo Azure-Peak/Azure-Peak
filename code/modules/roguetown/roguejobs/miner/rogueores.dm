@@ -7,9 +7,10 @@
 	experimental_inhand = TRUE
 	grid_width = 64
 	grid_height = 32
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/rogueore/attack(mob/living/M, mob/user)
-	if(!user.cmode)
+	if(!user.cmode && istype(user.used_intent, /datum/intent/food))
 		if(try_construct_consume(src, M, user))
 			return
 	else
@@ -109,7 +110,6 @@
 	color = "#929292"
 	firefuel = 15 MINUTES
 	smeltresult = /obj/item/rogueore/coal/charcoal
-	sellprice = 1
 
 /obj/item/rogueore/cinnabar
 	name = "cinnabar"
@@ -143,6 +143,7 @@
 	var/datum/anvil_recipe/currecipe
 	grid_width = 64
 	grid_height = 32
+	possible_item_intents = list(/datum/intent/use, /datum/intent/food)
 
 /obj/item/ingot/examine()
 	. += ..()
@@ -208,7 +209,7 @@
 		A.update_icon()
 
 /obj/item/ingot/attack(mob/living/M, mob/user)
-	if(!user.cmode)
+	if(!user.cmode && istype(user.used_intent, /datum/intent/food))
 		if(try_construct_consume(src, M, user))
 			return
 	return ..()
@@ -301,7 +302,7 @@
 
 /obj/item/ingot/blacksteel
 	name = "blacksteel bar"
-	desc = "This ingot is both mythical and mysterious; stronger - and more expensive - than any alloy currently known to Psydonia's masses. It thrumbs with an eerie blue glow, catchable for only a blink's tyme. </br>'Sacrificing the holy elements of silver for raw strength, this strange and powerful ingot's origin carries dark rumors.'"
+	desc = "This ingot is both mythical and mysterious; stronger - and more expensive - than any alloy currently known to Psydonia's masses. It thrums with an eerie blue glow, catchable for only a blink's tyme. </br>'Sacrificing the holy elements of silver for raw strength, this strange and powerful ingot's origin carries dark rumors.'"
 	icon_state = "ingotblacksteel"
 	smeltresult = /obj/item/ingot/blacksteel
 	sellprice = 100

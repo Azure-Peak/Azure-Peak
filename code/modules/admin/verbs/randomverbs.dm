@@ -781,6 +781,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		ADMIN_PUNISHMENT_DIVINE_WRATH,
 		ADMIN_PUNISHMENT_CHANDELIER,
 		ADMIN_PUNISHMENT_ANNOYING_VOICE,
+		ADMIN_PUNISHMENT_NECKBOLT,
+		ADMIN_PUNISHMENT_NECKBOLT_LETHAL,
 	)
 
 	var/punishment = input(usr, "Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
@@ -918,9 +920,70 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				to_chat(usr,span_warning("Target must be human!"))
 				return
 			var/mob/living/carbon/human/humie = target
-			humie.reagents.add_reagent(/datum/reagent/medicine/trait/negative/funnyvoice, 2000)
-			message_admins("[humie] has been given an annoying voice through 2000 units of funnyvoice serum.")
+			var/datum/component/annoying_voice/prev_voice = humie.GetComponent(/datum/component/annoying_voice)
+			if(prev_voice)
+				qdel(prev_voice)
+				message_admins("[humie] has been freed from their annoying voice!")
+				return
+			humie.AddComponent(/datum/component/annoying_voice)
+			message_admins("[humie] has been given an annoying voice!")
+		if(ADMIN_PUNISHMENT_NECKBOLT, ADMIN_PUNISHMENT_NECKBOLT_LETHAL)
+			var/angle = rand(0, 359)
+			var/dx = sin(angle)
+			var/dy = cos(angle)
+			var/dist = 8 / max(abs(dx), abs(dy)) // one tile past the 15x15 view edge
+			var/turf/start = locate(CLAMP(target.x + round(dx * dist), 1, world.maxx), CLAMP(target.y + round(dy * dist), 1, world.maxy), target.z)
+			var/obj/projectile/bullet/reusable/bolt/smite/bolt = new(start)
+			bolt.lethal = (punishment == ADMIN_PUNISHMENT_NECKBOLT_LETHAL)
+			bolt.def_zone = BODY_ZONE_PRECISE_NECK
+			bolt.preparePixelProjectile(target, start)
+			bolt.fire()
 	punish_log(target, punishment)
+
+/obj/projectile/bullet/reusable/bolt/smite
+	armor_penetration = PEN_BSTEEL
+	pass_flags = PASSTABLE | PASSMOB
+	steady_aim = TRUE
+	aim_peak = 110 // offsets the -10 farsight penalty at 8 tiles
+	var/lethal = FALSE
+
+// Phase through walls, doors and anything else that isn't the target
+/obj/projectile/bullet/reusable/bolt/smite/Bump(atom/A)
+	if(A == original)
+		return ..()
+	trajectory_ignore_forcemove = TRUE
+	forceMove(trajectory.return_turf())
+	trajectory_ignore_forcemove = FALSE
+	if(can_hit_target(original, permutated))
+		return ..(original)
+
+/obj/projectile/bullet/reusable/bolt/smite/on_hit(atom/target, blocked = FALSE)
+	. = ..()
+	if(lethal && target == original && isliving(target))
+		var/mob/living/L = target
+		L.death()
+
+// ANNOYING VOICE DATUM TO HANDLE ANNOYING VOICE.
+/datum/component/annoying_voice
+	var/sans_or_papyrus
+
+/datum/component/annoying_voice/Initialize()
+	sans_or_papyrus = rand(0,1) // 1 = sans 0 = payprus
+	RegisterSignal(parent, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+	ADD_TRAIT(parent, TRAIT_ANNOYINGVOICE, ADMIN_TRAIT)
+
+
+/datum/component/annoying_voice/Destroy()
+	UnregisterSignal(parent, COMSIG_MOB_SAY)
+	if(HAS_TRAIT_FROM(parent, TRAIT_ANNOYINGVOICE, ADMIN_TRAIT))
+		REMOVE_TRAIT(parent, TRAIT_ANNOYINGVOICE, ADMIN_TRAIT)
+	return ..()
+
+/datum/component/annoying_voice/proc/handle_speech(mob/living/speaker, list/speech_args)
+	if(sans_or_papyrus)
+		speech_args[SPEECH_SPANS] |= SPAN_SANS
+	else
+		speech_args[SPEECH_SPANS] |= SPAN_PAPYRUS
 
 /client/proc/punish_log(whom, punishment)
 	var/msg = "[key_name_admin(usr)] punished [key_name_admin(whom)] with [punishment]."

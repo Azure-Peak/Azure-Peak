@@ -1,12 +1,14 @@
 /datum/action/cooldown/spell/augment_buff/enlarge
 	name = "Enlarge Person"
-	desc = "For a time, enlarges your target to a giant hulking version of themselves capable of bashing into doors. Does not work on folk who are already large. Can only be used on members of your fellowship."
+	desc = "For a time, enlarges your target to a giant hulking version of themselves capable of bashing into doors. Does not work on folk who are already large. Can only be used on members of your fellowship. Cannot be cast on yourself."
 	fluff_desc = "Despite its lack of practical combat utility, the spell of Enlarge is surprisingly popular and over 70% of male mages are known to be able to recite its incantation rapidly even if it is not prepared for the dae, according to a survey of the Grenzelhoftian Celestial War Academy's student body."
 	button_icon_state = "enlarge"
 
+	self_cast_possible = FALSE
+
 	invocations = list("Dilatare!")
 	invocation_type = INVOCATION_SHOUT
-	cooldown_time = 2 MINUTES
+	cooldown_time = 90 SECONDS
 
 	point_cost = 1
 
@@ -21,7 +23,7 @@
 		return FALSE
 
 	var/mob/living/carbon/target = cast_on
-	if(target != H && !shares_fellowship(H, target))
+	if(!shares_fellowship(H, target))
 		to_chat(H, span_warning("[target] is not of my fellowship!"))
 		return FALSE
 

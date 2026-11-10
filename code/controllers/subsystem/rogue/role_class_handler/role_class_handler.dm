@@ -36,6 +36,7 @@ SUBSYSTEM_DEF(role_class_handler)
 		CTAG_ALLCLASS = list(every single class datum that exists outside of the parent)
 */
 	var/list/sorted_class_categories = list()
+	var/list/classes_by_name = list()
 
 
 	/// Whether bandits have been injected in the game
@@ -69,6 +70,8 @@ SUBSYSTEM_DEF(role_class_handler)
 
 	//Time to sort these classes, and sort them we shall.
 	for(var/datum/advclass/class in all_classes)
+		if(!classes_by_name[class.name])
+			classes_by_name[class.name] = class
 		for(var/ctag in class.category_tags)
 			if(!sorted_class_categories[ctag]) // New cat
 				sorted_class_categories[ctag] = list()
@@ -195,12 +198,7 @@ SUBSYSTEM_DEF(role_class_handler)
 					found_menu.rolled_class_is_full(target_datum) //	inform the datum of its error.
 
 /datum/controller/subsystem/role_class_handler/proc/get_advclass_by_name(advclass_name)
-	for(var/category in sorted_class_categories)
-		for(var/datum/advclass/class as anything in sorted_class_categories[category])
-			if(class.name != advclass_name)
-				continue
-			return class
-	return null
+	return classes_by_name[advclass_name]
 
 
 /datum/controller/subsystem/role_class_handler/proc/get_class_register(register_id)

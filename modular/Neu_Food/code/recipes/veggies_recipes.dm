@@ -107,3 +107,29 @@
 	result_type = /obj/item/reagent_containers/food/snacks/rogue/pesto
 	result_amount = 2
 	time_per_step = 3 SECONDS
+
+// Sliced Cabbage + Sliced Tomato -> Etruscalad
+/datum/food_recipe/etruscalad
+	name = "etruscalad"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/veg/cabbage_sliced
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/grown/fruit/tomato_sliced
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/etruscalad
+
+// Etruscalad + Vinaigrette (5dr) -> Dressed Etruscalad
+/datum/food_recipe/dressed_etruscalad
+	name = "dressed etruscalad"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/etruscalad
+	ingredients = list(/datum/reagent/consumable/vinaigrette = 5)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/dressed_etruscalad
+
+// Dressed Etruscalad + Toast (x2) -> Royal Etruscalad
+/datum/food_recipe/royal_etruscalad
+	name = "royal etruscalad"
+	base_item = /obj/item/reagent_containers/food/snacks/rogue/dressed_etruscalad
+	ingredients = list(
+		/obj/item/reagent_containers/food/snacks/rogue/breadslice/toast,
+		/obj/item/reagent_containers/food/snacks/rogue/breadslice/toast
+	)
+	result_type = /obj/item/reagent_containers/food/snacks/rogue/royal_etruscalad

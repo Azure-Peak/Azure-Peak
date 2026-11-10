@@ -125,6 +125,7 @@
 		var/response = tgui_alert(user, "You already have a vision. Override it?", "Vision Active", list("Yes", "No"))
 		if(response != "Yes")
 			return
+		reclaim_quest_parchment(user, existing_quest)
 
 	if(!cached_choices)
 		cached_choices = list()
@@ -265,3 +266,24 @@
 
 	var/datum/tgui_module/vision_quest_selection/module = new(selection)
 	module.ui_interact(user)
+
+/obj/structure/roguemachine/ritual_rune/proc/reclaim_quest_parchment(mob/living/carbon/human/user, datum/component/vision_quest_tracker/existing_quest)
+	if(!linked_pool || !existing_quest)
+		return
+	var/datum/vision_quest/Q = existing_quest.quest
+	if(!Q)
+		return
+	var/parchment_path
+	switch(Q.required_tier)
+		if(1)
+			parchment_path = /obj/item/dream_material/parchment_silver
+		if(2)
+			parchment_path = /obj/item/dream_material/parchment_gold
+		if(3)
+			parchment_path = /obj/item/dream_material/parchment_dream
+		else
+			return
+	var/obj/item/parchment = new parchment_path(get_turf(user))
+	linked_pool.store_parchment(parchment)
+	to_chat(user, span_notice("The abyss reclaims your abandoned vision's parchment..."))
+	qdel(existing_quest)

@@ -99,11 +99,7 @@
 		var/datum/migrant_wave/wave = MIGRANT_WAVE(wave_type)
 		if(wave.hidden || !wave.can_roll || wave.is_raid)
 			continue
-		var/maxed = FALSE
-		if(!isnull(wave.max_spawns))
-			var/used_wave_type = wave.shared_wave_type ? wave.shared_wave_type : wave.type
-			if(SSmigrants.spawned_waves[used_wave_type] && SSmigrants.spawned_waves[used_wave_type] >= wave.max_spawns)
-				maxed = TRUE
+		var/maxed = SSmigrants.is_wave_maxed(wave)
 		var/locked_until = 0
 		if(wave.min_round_time && (world.time - SSticker.round_start_time) < wave.min_round_time)
 			locked_until = SSticker.round_start_time + wave.min_round_time
@@ -119,6 +115,7 @@
 			"triumph_threshold" = wave.triumph_threshold,
 			"my_contribution" = client ? (wave.triumph_contributions[client.ckey] || 0) : 0,
 			"maxed" = maxed,
+			"forming" = !isnull(SSmigrants.get_forming_track(wave)),
 			"locked_until" = locked_until,
 			"queued" = (queued_wave == wave_type),
 			"min_optional_fills" = wave.min_optional_fills,
@@ -198,6 +195,12 @@
 		return
 	var/datum/migrant_wave/wave = MIGRANT_WAVE(wave_type)
 	if(!wave || wave.hidden || !wave.can_roll || wave.is_raid)
+		return
+	if(SSmigrants.is_wave_maxed(wave))
+		to_chat(client, span_warning("[wave.name] has already arrived this round."))
+		return
+	if(SSmigrants.get_forming_track(wave))
+		to_chat(client, span_warning("[wave.name] is already forming."))
 		return
 	var/current_triumph = SStriumphs.get_triumphs(client.ckey)
 	if(current_triumph <= 0)

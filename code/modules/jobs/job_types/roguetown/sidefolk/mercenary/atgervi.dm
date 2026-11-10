@@ -78,7 +78,7 @@
 
 /datum/advclass/mercenary/atgervi_shaman
 	name = "Atgervi Shaman"
-	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesical Beast Gods through ritualistic violence, rather than idle prayer."
+	tutorial = "You are a Shaman of the Fjall, The Northern Empty. Shamans are savage combatants who commune with the Ecclesial Beast Gods through ritualistic violence, rather than idle prayer."
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/mercenary/atgervi_shaman
@@ -133,7 +133,7 @@
 		if(/datum/patron/inhumen/zizo)
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/gronn
 			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_order)
-			H.mind?.AddSpell(new /datum/action/cooldown/spell/gravemark)
+			H.mind?.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 		if(/datum/patron/inhumen/graggar)
 			id = /obj/item/clothing/neck/roguetown/psicross/inhumen/graggar/gronn
 		if(/datum/patron/inhumen/matthios)

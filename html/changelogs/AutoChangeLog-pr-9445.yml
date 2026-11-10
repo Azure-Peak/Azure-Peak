@@ -1,7 +1,0 @@
-author: "Ryumi"
-delete-after: True
-changes:
-  - rscadd: "Cards decks and how they function have been completely reworked! Now featuring better card hand functionality, rendering of your entire hands, the ability to scry card decks, and more! Examine a card deck for more details on how to use them."
-  - rscadd: "Tarot cards can be reversed. Their chance to be reversed is determined by a coin flip per card when tarot decks are shuffled."
-  - code_imp: "Card decks can now be easily given variable sizes that allow coders to make card decks that are double-sized, triple sized, etc."
-  - image: "The card deck icon file have been split and re-organized entirely. Card icon files are now organized by the card deck they're intended for. This allows easier creation of new card decks, or even easy reskins of pre-existing ones."
