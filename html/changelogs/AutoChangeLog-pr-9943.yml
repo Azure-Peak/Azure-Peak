@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added hunting knife to adventurer classes missing a knife, and as far as I know, wasn't missing it on purpose: All Clerics, several foreigner classes, Spellblade, Spellsinger, Aristocrat, Knight Errant, Bombardier, Antiquarian, Duelist, Ironclad, Exorcist"
