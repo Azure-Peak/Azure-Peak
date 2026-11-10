@@ -129,14 +129,14 @@
 #define QUEST_TP_BUDGET_KILL_EASY 35
 // Easy only rolls factions whose average mob costs at most this share of its region-scaled budget
 #define QUEST_EASY_MAX_FACTION_TP_SHARE 0.65
-#define QUEST_TP_BUDGET_CLEAR_OUT 80
+#define QUEST_TP_BUDGET_CLEAR_OUT 90
 #define QUEST_TP_BUDGET_RAID 180
 #define QUEST_TP_BUDGET_INCURSION_FIRST 200
 #define QUEST_TP_BUDGET_INCURSION_SECOND 150
 #define QUEST_TP_BUDGET_BOUNTY_GOONS 150
 // Small starting escort so the boss isn't alone against ambient mobs and full parties.
 #define QUEST_TP_BUDGET_NOTORIOUS_GOONS 50
-#define QUEST_TP_BUDGET_RECOVERY 90
+#define QUEST_TP_BUDGET_RECOVERY 100
 
 // TP budget variance
 #define QUEST_TP_BUDGET_VARIANCE 0.25
