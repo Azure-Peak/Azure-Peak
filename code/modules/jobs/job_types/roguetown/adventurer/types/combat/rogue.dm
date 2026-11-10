@@ -293,7 +293,9 @@
 	backpack_contents = list(
 		/obj/item/lockpick = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
-		/obj/item/skillbook/unfinished = 1
+		/obj/item/skillbook/unfinished = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 
 	if(H.mind)
