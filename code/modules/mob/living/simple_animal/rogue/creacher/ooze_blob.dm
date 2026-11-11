@@ -219,6 +219,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/examine(mob/user)
 	var/list/examine_text = ..()
+	if(!client)
+		examine_text += "<span class='big' style='color: #B0C4DE;'>The eyes look empty and soulless.</span>"
 	if(familiar_headshot_link && user.client?.prefs.chatheadshot && valid_headshot_link(src, familiar_headshot_link, TRUE))
 		examine_text.Insert(2, "<img src=[familiar_headshot_link] width=100 height=100/>")
 	if(flavortext_cached || ooc_notes_cached || familiar_headshot_link)
