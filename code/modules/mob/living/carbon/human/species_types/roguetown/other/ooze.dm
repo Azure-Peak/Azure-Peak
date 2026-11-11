@@ -266,6 +266,7 @@
 	body.visible_message(span_infection("[body]'s corpse liquefies into a glistening puddle. It gathers itself into a formless, moving blob of pure ooze!"))
 	playsound(spawn_turf, 'sound/combat/gib (2).ogg', 50, TRUE)
 	body.mind.transfer_to(pure_form)
+	pure_form.enable_undercommon_only()
 	body.moveToNullspace()
 	to_chat(pure_form, span_userdanger("My body has reformed into a blob of formless ooze. I can move, speak, and emote, but cannot interact with the world."))
 
@@ -282,6 +283,7 @@
 	playsound(ooze.loc, 'sound/combat/gib (1).ogg', 50, TRUE)
 	ooze.visible_message(span_warningbig("The shapeless ooze splashes apart, and [body]'s body reforms from the mass of slime!"))
 	body.forceMove(get_turf(ooze))
+	ooze.restore_language_holder()
 	if(ooze.mind)
 		ooze.mind.transfer_to(body)
 	body.update_body()

@@ -1,5 +1,10 @@
 //Sprites contributed by VelSlime
 
+/datum/language_holder/pure_ooze
+	languages = list(/datum/language/undercommon)
+	only_speaks_language = /datum/language/undercommon
+	selected_default_language = /datum/language/undercommon
+
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob
 	threat_point = THREAT_LOW
 	anatomy_type = /datum/anatomy/amorphous
@@ -128,6 +133,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
 	name = "pure ooze"
 	desc = "An amorphous remnant of a Murkling, formed from a lifeless body. Splash it with blessed water or red and watch as the body reforms."
+	initial_language_holder = /datum/language_holder/pure_ooze
 	icon = 'icons/roguetown/mob/ooze_blob.dmi'
 	hud_type = /datum/hud/dextrous/oozeling
 	rot_type = null
@@ -154,11 +160,29 @@
 	var/ooc_notes_cached
 	var/headshot_artist_credit
 	var/headshot_artist_link
+	var/list/previous_languages
+	var/previous_only_speaks_language
+	var/previous_default_language
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_PACIFISM, "[type]")
 	ADD_TRAIT(src, TRAIT_SPELLCOCKBLOCK, "[type]")
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/enable_undercommon_only()
+	var/datum/language_holder/language_holder = get_language_holder()
+	previous_languages = language_holder.languages.Copy()
+	previous_only_speaks_language = language_holder.only_speaks_language
+	previous_default_language = language_holder.selected_default_language
+	language_holder.grant_language(/datum/language/undercommon)
+	language_holder.only_speaks_language = /datum/language/undercommon
+	language_holder.selected_default_language = /datum/language/undercommon
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/restore_language_holder()
+	var/datum/language_holder/language_holder = get_language_holder()
+	language_holder.languages = previous_languages.Copy()
+	language_holder.only_speaks_language = previous_only_speaks_language
+	language_holder.selected_default_language = previous_default_language
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/Destroy()
 	REMOVE_TRAIT(src, TRAIT_PACIFISM, "[type]")
