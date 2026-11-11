@@ -402,7 +402,7 @@
 
 /datum/component/ooze_color_shift/proc/on_reagent_metabolized(mob/living/carbon/human/ooze, datum/reagent/reagent)
 	SIGNAL_HANDLER
-	if(!enabled)
+	if(!enabled || istype(reagent, /datum/reagent/water) || istype(reagent, /datum/reagent/consumable/nutriment))
 		return
 	var/new_target = sanitize_hexcolor(reagent.color, 6, FALSE, null, TRUE)
 	if(!new_target)
