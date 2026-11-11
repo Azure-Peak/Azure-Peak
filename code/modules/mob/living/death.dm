@@ -220,9 +220,8 @@ GLOBAL_LIST_EMPTY(last_words)
 	for(var/obj/item/I as anything in get_equipped_items())
 		if(!(I.smeltresult in luxplate_results))
 			continue
-		var/result_type = I.smeltresult
 		qdel(I)
-		new result_type(T)
+		new /obj/item/natural/ash(T)
 		new /obj/item/natural/ash(T)
 		consumed++
 
