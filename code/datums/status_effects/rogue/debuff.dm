@@ -1361,6 +1361,7 @@
 /datum/status_effect/debuff/luxplate_curse // This is removed by a Bishop, Golgatha or Quicksilver
 	id = "luxplate_curse"
 	duration = 45 MINUTES
+	tick_interval = 10 SECONDS
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/luxplate_curse
 	effectedstats = list(STATKEY_STR = -2, STATKEY_WIL = -2, STATKEY_SPD = -2, STATKEY_LCK = -2)
 
@@ -1377,3 +1378,7 @@
 	. = ..()
 	owner.remove_stress(/datum/stressevent/luxcursed)
 	REMOVE_TRAIT(owner, TRAIT_PSYCHOSIS, "luxplate_curse")
+
+/datum/status_effect/debuff/luxplate_curse/tick()
+	if(owner.hallucination < 69) // nice
+		owner.hallucination += 3

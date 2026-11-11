@@ -234,7 +234,7 @@ GLOBAL_LIST_EMPTY(last_words)
 		if(witness == src)
 			continue
 		var/same_pantheon = FALSE
-		if(witness in GLOB.apostasy_players || witness in GLOB.cursed_players || witness in GLOB.excommunicated_players || witness in GLOB.heretical_players || witness.job == "Wretch")
+		if((witness in GLOB.apostasy_players) || (witness in GLOB.cursed_players) || (witness in GLOB.excommunicated_players) || (witness in GLOB.heretical_players) || witness.job == "Wretch")
 			same_pantheon = TRUE
 		else
 			for(var/list/pantheon as anything in pantheons)
