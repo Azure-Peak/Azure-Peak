@@ -542,9 +542,8 @@
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/needle/thorn/cleric = 1,
 		/obj/item/reagent_containers/glass/bottle/alchemical/healthpot = 1,
-		/obj/item/rogueweapon/huntingknife = 1,
-		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
+	beltl = /obj/item/rogueweapon/huntingknife
 	H.cmode_music = 'sound/music/cmode/church/combat_acolyte.ogg' // our cleric pre_equip handles cmode music
 	switch(H.patron?.type)
 		if(/datum/patron/old_god)

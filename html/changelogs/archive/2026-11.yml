@@ -402,3 +402,9 @@
   - admin: 'Added a new smite: Bolt to the neck.'
   radarseas:
   - balance: Tennite heretics can now access T4 miracles again.
+2026-11-11:
+  WeNeedMorePhoron:
+  - rscadd: 'Added hunting knife to adventurer classes missing a knife, and as far
+      as I know, wasn''t missing it on purpose: All Clerics, several foreigner classes,
+      Spellblade, Spellsinger, Aristocrat, Knight Errant, Bombardier, Antiquarian,
+      Duelist, Ironclad, Exorcist'
