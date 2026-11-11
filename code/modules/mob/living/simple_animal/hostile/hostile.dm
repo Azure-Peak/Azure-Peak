@@ -260,6 +260,11 @@
 	if(isturf(the_target) || !the_target || the_target.type == /atom/movable/lighting_object) // bail out on invalids
 		return FALSE
 
+	if(istype(the_target, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form))
+		var/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/ooze = the_target
+		if(world.time < ooze.hostile_grace_until)
+			return FALSE // Grace period, mobs won't target player oozes for 15 seconds after their revival transformation.
+
 	if(binded)
 		return FALSE
 

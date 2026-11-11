@@ -230,10 +230,10 @@
 		if(reform_time_remaining > 0 && reform_time_remaining <= next_reform_message)
 			var/list/reform_messages = list(
 				"[body]'s corpse twitches faintly, something rippling within...",
-				"[body]'s limbs shift slightly, as though a current moves through the lifeless form...",
+				"[body]'s limbs shift slightly, as though a current moves through their lifeless form...",
 				"A slick sheen spreads across [body]'s skin before quickly receding...",
 				"[body]'s body gives a soft, unnatural shudder...",
-				"The shape of [body]'s corpse briefly softens, then settles back into place..."
+				"The shape of [body]'s corpse briefly wobbles, then settles back into place..."
 			)
 			body.visible_message(span_warningbig(pick(reform_messages)))
 			next_reform_message -= 1 MINUTES
@@ -253,6 +253,7 @@
 		return
 
 	pure_form = new(spawn_turf)
+	pure_form.hostile_grace_until = world.time + 15 SECONDS
 	pure_form.origin_body = body
 	pure_form.name = body.real_name
 	if(body.dna?.features)
@@ -269,6 +270,9 @@
 	body.mind.transfer_to(pure_form)
 	body.moveToNullspace()
 	to_chat(pure_form, span_userdanger("My body has reformed into a blob of formless ooze. I can move, speak, and emote, but cannot interact with the world."))
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
+	var/hostile_grace_until
 
 /datum/component/murkling_afterlife/proc/reconstitute_body(mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/ooze)
 	var/mob/living/carbon/human/body = parent
