@@ -1,6 +1,8 @@
 GLOBAL_VAR_INIT(ambush_chance_pct, 20) // Please don't raise this over 100 admins :')
 GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 2 MINUTES) // Cooldown for each individual mob being considered for an ambush
 
+#define AMBUSH_FIGHT_RANGE 9
+
 GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	/datum/skill/combat/swords, \
 	/datum/skill/combat/axes, \
@@ -141,6 +143,8 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			return FALSE
 		if(world.time > last_client_interact + 0.3 SECONDS)
 			return FALSE // unmoving afks can't trigger random ambushes i.e. when being pulled/kicked/etc
+		if(ambush_blocked_by_fight())
+			return FALSE
 	if(get_will_block_ambush())
 		return FALSE
 	if(mob_timers["ambush_check"] && !ignore_cooldown)
@@ -308,6 +312,24 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	if(campfires > 0)
 		return TRUE
 
+/mob/living/proc/ambush_blocked_by_fight()
+	if(locate(/obj/effect/quest_spawn) in range(AMBUSH_FIGHT_RANGE, src))
+		return TRUE
+	for(var/mob/living/L in range(AMBUSH_FIGHT_RANGE, src))
+		if(L == src || L.stat == DEAD)
+			continue
+		if(L.contract_spawned)
+			return TRUE
+		var/mob/living/fighting
+		if(istype(L.ai_controller, /datum/ai_controller))
+			fighting = L.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+		var/mob/living/simple_animal/hostile/hostile = L
+		if(!fighting && istype(hostile))
+			fighting = hostile.target
+		if(isliving(fighting) && fighting.mind)
+			return TRUE
+	return FALSE
+
 /mob/living/proc/get_possible_ambush_spawn(min_dist = 2, max_dist = 7)
 	var/list/possible_targets = list()
 	for(var/obj/structure/flora/roguetree/RT in orange(max_dist, src))
@@ -339,3 +361,5 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			continue
 		adjacent += AT
 	return adjacent
+
+#undef AMBUSH_FIGHT_RANGE
