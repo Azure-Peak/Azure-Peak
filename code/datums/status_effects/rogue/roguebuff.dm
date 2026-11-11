@@ -2935,3 +2935,13 @@
 	return TRUE
 
 #undef SAPPERGLOW_FILTER
+
+/datum/status_effect/buff/luxplate_blessing
+	id = "luxplate_blessing"
+	duration = 5 MINUTES
+	alert_type = /atom/movable/screen/alert/status_effect/buff/luxplate_blessing
+	effectedstats = list(STATKEY_CON = 5, STATKEY_WIL = 5, STATKEY_LCK = 2)
+
+/atom/movable/screen/alert/status_effect/buff/luxplate_blessing
+	name = "Departing Favor"
+	desc = "A dying vessel of righteous essence has blessed me! Their death shall not be in vain!"

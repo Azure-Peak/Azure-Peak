@@ -106,6 +106,16 @@
 	if(ishuman(A))
 		var/mob/living/carbon/human/H = A
 
+		if(H.has_status_effect(/datum/status_effect/debuff/luxplate_curse))
+			playsound(user, 'sound/magic/censercharging.ogg', 100)
+			user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
+			if(do_after(user, 50, target = A))
+				H.remove_status_effect(/datum/status_effect/debuff/luxplate_curse)
+				playsound(H, 'sound/magic/holyshield.ogg', 100)
+				new /obj/effect/temp_visual/censer_dust(get_turf(H))
+				user.visible_message(span_blue("[user] purges the foul curse upon [H]!"))
+				return
+
 		if(H.has_status_effect(/datum/status_effect/buff/blessed) || H.has_stress_event(/datum/stressevent/blessed_evil) || H.has_stress_event(/datum/stressevent/blessed_neutral))
 			to_chat(user, span_warning("[H] has already been blessed."))
 			return

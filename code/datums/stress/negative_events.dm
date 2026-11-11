@@ -609,3 +609,8 @@
 	timer = 5 MINUTES
 	stressadd = 1
 	desc = list(span_artery("Even I found no satisfaction in striking someone so meek."), span_artery("They denied me the thrill of a real fight."), span_artery("Their refusal to resist leaves a bitter taste."), span_artery("There was no struggle... only acceptance. That's insane."), span_artery("I expected fear, hatred, anything... but not acceptance."), span_artery("A defenseless victim is hardly worth remembering, yet the thought lingers."), span_artery("Why won't the image of their helplessness leave my mind?"))
+
+/datum/stressevent/luxcursed
+	timer = -1
+	stressadd = 10
+	desc = span_artery("<i>I AM CURSED! I SEE THINGS IS SHOULD NOT, I HEAR THINGS I SHOULD NOT! MY HEAD IS SPLITTING APART! MAKE IT STOP!</i>")

@@ -455,9 +455,16 @@ Inquisitorial armory down here
 	if(ishuman(A) && on && (user.used_intent.type == /datum/intent/bless))
 		var/mob/living/carbon/human/H = A
 		if(!user.mind?.assigned_role == "Absolver")
-			to_chat(user, span_warning("The Golgatha feels... heavier than it should. Why? Why would I do this? Did He not suffer enough?"))
-			user.emote("cry")
+			to_chat(user, span_warning("I am far too impure to be worthy of brandishing the Creator's dying light."))
 			return
+		if(H.has_status_effect(/datum/status_effect/debuff/luxplate_curse))
+			playsound(user, 'sound/magic/censercharging.ogg', 100)
+			user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
+			if(do_after(user, 50, target = A))
+				H.remove_status_effect(/datum/status_effect/debuff/luxplate_curse)
+				playsound(H, 'sound/magic/holyshield.ogg', 100)
+				new /obj/effect/temp_visual/censer_dust(get_turf(H))
+				return
 		if(!H.has_status_effect(/datum/status_effect/buff/censerbuff) || !H.has_stress_event(/datum/stressevent/psycenser))
 			playsound(user, 'sound/magic/censercharging.ogg', 100)
 			user.visible_message(span_info("[user] holds \the [src] over \the [A].."))
