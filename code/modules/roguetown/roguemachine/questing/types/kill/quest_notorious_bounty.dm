@@ -18,6 +18,7 @@
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	hunt_duration = NOTORIOUS_BOUNTY_HUNT_TIMER
+	hunt_overtime_max = 0
 	var/boss_name
 	var/datum/weakref/boss_ref
 	var/turf/leash_origin

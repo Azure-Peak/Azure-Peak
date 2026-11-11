@@ -441,7 +441,11 @@
 		[QUEST_KILL_HUNT_TIMER / (1 MINUTES)] minutes, with warnings at
 		[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)] and
 		[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)] left. If
-		the timer runs out, the scroll crumbles and any live wave mobs despawn. This
+		the timer runs out while you are still fighting, it is extended by
+		[DisplayTimeText(QUEST_KILL_HUNT_OVERTIME)], up to [QUEST_KILL_HUNT_OVERTIME_MAX] times. You count as
+		fighting if a target died in the last [DisplayTimeText(QUEST_KILL_HUNT_OVERTIME_RECENT_KILL)] or someone
+		is within [QUEST_KILL_HUNT_OVERTIME_RANGE] tiles of a living target. Otherwise
+		the scroll crumbles and any live wave mobs despawn. This
 		starts when the mobs in question spawn at the target location. Blockade Scrolls
 		use a longer timer for each wave. See <i>Defense and Blockades</i>.</p>
 

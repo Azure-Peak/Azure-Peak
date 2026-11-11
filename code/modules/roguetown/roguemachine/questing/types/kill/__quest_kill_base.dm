@@ -16,6 +16,9 @@
 	var/hunt_timer_label = "Quarry slips away in"
 	var/hunt_warn_text = "before your targets scatter"
 	var/hunt_timeout_text = "<b>Your targets have scattered.</b> The scroll crumbles to ash in your hand."
+	var/hunt_overtime_max = QUEST_KILL_HUNT_OVERTIME_MAX
+	var/hunt_overtime_used = 0
+	var/last_guardian_kill = 0
 	var/leash_tick_id
 	var/list/leash_strayed_since = list()
 
@@ -45,6 +48,7 @@
 
 /datum/quest/kill/proc/start_hunt_timer(duration)
 	clear_hunt_timers()
+	hunt_overtime_used = 0
 	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), duration, TIMER_STOPPABLE)
 	hunt_warn_2m_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_EARLY)]"), duration - QUEST_KILL_HUNT_WARN_EARLY, TIMER_STOPPABLE)
 	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), duration - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
@@ -65,11 +69,36 @@
 		return
 	announce_to_bearer("<b>[label] left</b> [hunt_warn_text].")
 
-/datum/quest/kill/proc/on_hunt_timeout()
+/datum/quest/kill/proc/on_hunt_timeout(force = FALSE)
 	if(complete)
 		return
 	hunt_timer_id = null
+	if(!force && try_hunt_overtime())
+		return
 	fail_hunt(hunt_timeout_text)
+
+/datum/quest/kill/proc/try_hunt_overtime()
+	if(failed || hunt_overtime_used >= hunt_overtime_max)
+		return FALSE
+	if(!hunt_still_contested())
+		return FALSE
+	clear_hunt_timers()
+	hunt_overtime_used++
+	hunt_timer_id = addtimer(CALLBACK(src, PROC_REF(on_hunt_timeout)), QUEST_KILL_HUNT_OVERTIME, TIMER_STOPPABLE)
+	hunt_warn_30s_id = addtimer(CALLBACK(src, PROC_REF(warn_hunt_time_left), "[DisplayTimeText(QUEST_KILL_HUNT_WARN_FINAL)]"), QUEST_KILL_HUNT_OVERTIME - QUEST_KILL_HUNT_WARN_FINAL, TIMER_STOPPABLE)
+	announce_to_bearer("<b>You're still fighting.</b> You have [DisplayTimeText(QUEST_KILL_HUNT_OVERTIME)] more [hunt_warn_text].")
+	quest_scroll?.update_quest_text()
+	return TRUE
+
+/datum/quest/kill/proc/hunt_still_contested()
+	var/recent_kill = last_guardian_kill && (world.time - last_guardian_kill <= QUEST_KILL_HUNT_OVERTIME_RECENT_KILL)
+	for(var/datum/weakref/W in tracked_atoms)
+		var/mob/living/M = W.resolve()
+		if(!istype(M) || QDELETED(M) || M.stat == DEAD)
+			continue
+		if(recent_kill || player_watching(get_turf(M), QUEST_KILL_HUNT_OVERTIME_RANGE))
+			return TRUE
+	return FALSE
 
 /datum/quest/kill/proc/fail_hunt(message)
 	if(complete || failed)
@@ -144,14 +173,14 @@
 		leash_strayed_since -= W
 		return_guardian_home(M, landmark)
 
-/datum/quest/kill/proc/player_watching(turf/T)
+/datum/quest/kill/proc/player_watching(turf/T, range = QUEST_GUARDIAN_LEASH_WATCH_RANGE)
 	if(!T)
 		return FALSE
 	for(var/mob/living/L in GLOB.player_list)
 		if(L.stat == DEAD)
 			continue
 		var/turf/LT = get_turf(L)
-		if(LT && LT.z == T.z && get_dist(LT, T) <= QUEST_GUARDIAN_LEASH_WATCH_RANGE)
+		if(LT && LT.z == T.z && get_dist(LT, T) <= range)
 			return TRUE
 	return FALSE
 

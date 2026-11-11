@@ -235,7 +235,12 @@
 // After a quest reroll is generated it is locked for this long to prevent regen
 #define QUEST_LANDMARK_COOLDOWN (5 MINUTES)
 
-#define QUEST_KILL_HUNT_TIMER (15 MINUTES)
+#define QUEST_KILL_HUNT_TIMER (20 MINUTES)
+#define QUEST_KILL_HUNT_OVERTIME (2 MINUTES)
+#define QUEST_KILL_HUNT_OVERTIME_MAX 5
+#define QUEST_KILL_HUNT_OVERTIME_RECENT_KILL (3 MINUTES)
+#define QUEST_KILL_HUNT_OVERTIME_RANGE 15
+// This means that the real ceiling is 30 minutes, so long as you are actively fighting
 #define QUEST_RECOVERY_DELIVERY_TIMER (30 MINUTES)
 #define QUEST_GUARDIAN_LEASH_RANGE 40
 #define QUEST_GUARDIAN_LEASH_GRACE (2 MINUTES)
