@@ -181,6 +181,9 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/ClickOn(atom/A, params)
+	var/list/modifiers = params2list(params)
+	if(modifiers["shift"] && modifiers["left"] && !modifiers["right"] && !modifiers["middle"] && !modifiers["alt"] && !modifiers["ctrl"])
+		ShiftClickOn(A)
 	return TRUE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/attackby(obj/item/item, mob/user, params)
