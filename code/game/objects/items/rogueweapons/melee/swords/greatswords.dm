@@ -135,6 +135,7 @@
 	force = 14
 	force_wielded = 35
 	sheathe_icon = "nodachisteel"
+	alt_grips = list()
 
 /obj/item/rogueweapon/greatsword/nodachi/getonmobprop(tag)
 	. = ..()
