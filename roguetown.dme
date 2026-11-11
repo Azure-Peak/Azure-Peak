@@ -1345,6 +1345,7 @@
 #include "code\game\objects\items\rogueitems\barding.dm"
 #include "code\game\objects\items\rogueitems\basket.dm"
 #include "code\game\objects\items\rogueitems\bells.dm"
+#include "code\game\objects\items\rogueitems\bog_cream.dm"
 #include "code\game\objects\items\rogueitems\bombs.dm"
 #include "code\game\objects\items\rogueitems\books.dm"
 #include "code\game\objects\items\rogueitems\bouquet.dm"
