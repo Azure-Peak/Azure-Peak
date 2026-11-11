@@ -80,13 +80,15 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/ai_retaliate)
-	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
+	if(ai_controller)
+		AddElement(/datum/element/ai_retaliate)
+		AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
 	gender = MALE
 	if(prob(33))
 		gender = FEMALE
 	update_icon()
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	if(ai_controller)
+		ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/death(gibbed)
 	..()
@@ -132,12 +134,11 @@
 	melee_damage_lower = 0
 	melee_damage_upper = 0
 	aggressive = FALSE
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
+	faction = list()
+	ai_controller = null
 	dextrous = FALSE
 	mobility_flags = MOBILITY_MOVE
 	move_base_delay = 8
-	move_to_delay = 8
 	speak_chance = 0
 	emote_see = null
 	emote_hear = null
