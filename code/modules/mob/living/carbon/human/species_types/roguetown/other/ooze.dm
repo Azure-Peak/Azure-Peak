@@ -270,6 +270,7 @@
 	pure_form.name = body.real_name
 	if(body.dna?.features)
 		pure_form.color = "#[body.dna.features["mcolor"]]"
+		pure_form.blood_color = pure_form.color
 	pure_form.familiar_flavortext = body.flavortext
 	pure_form.flavortext_cached = body.flavortext_cached
 	pure_form.familiar_ooc_notes = body.ooc_notes
