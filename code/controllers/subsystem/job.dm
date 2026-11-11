@@ -29,12 +29,14 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/var/list/quest_claim_barred_names = list()
 /datum/controller/subsystem/job/var/list/quest_claim_towner_names = list()
 /datum/controller/subsystem/job/var/list/quest_claim_lowpop_names = list()
+/datum/controller/subsystem/job/var/list/quest_claim_solo_names = list()
 
 /datum/controller/subsystem/job/proc/build_contract_signing_caches()
 	townie_contract_gate_exempt_names = list()
 	quest_claim_barred_names = list()
 	quest_claim_towner_names = list()
 	quest_claim_lowpop_names = list()
+	quest_claim_solo_names = list()
 	for(var/datum/job/J as anything in occupations)
 		if(J.townie_contract_gate_exempt)
 			townie_contract_gate_exempt_names |= J.title
@@ -44,7 +46,9 @@ SUBSYSTEM_DEF(job)
 			quest_claim_towner_names |= J.title
 		if(J.quest_claim_lowpop_allowed)
 			quest_claim_lowpop_names |= J.title
-		if(!J.quest_claim_towner_allowed && !J.quest_claim_lowpop_allowed)
+		if(J.quest_claim_solo_allowed)
+			quest_claim_solo_names |= J.title
+		if(!J.quest_claim_towner_allowed && !J.quest_claim_lowpop_allowed && !J.quest_claim_solo_allowed)
 			quest_claim_barred_names |= J.title
 	for(var/path in subtypesof(/datum/advclass))
 		var/datum/advclass/AC = path
@@ -57,6 +61,7 @@ SUBSYSTEM_DEF(job)
 	sortTim(quest_claim_barred_names, /proc/cmp_text_asc)
 	sortTim(quest_claim_towner_names, /proc/cmp_text_asc)
 	sortTim(quest_claim_lowpop_names, /proc/cmp_text_asc)
+	sortTim(quest_claim_solo_names, /proc/cmp_text_asc)
 
 /datum/controller/subsystem/job/proc/townie_contract_gate_exempt_display_names()
 	return townie_contract_gate_exempt_names

@@ -7,6 +7,8 @@ SUBSYSTEM_DEF(questpool)
 
 	var/list/datum/quest/pool = list()
 	var/list/recent_takes = list()
+	var/list/solo_signs = list()
+	var/list/solo_sign_quests = list()
 	var/list/event_log = list()
 	var/list/registered_ledgers = list()
 	var/list/kill_count_by_region = list()
@@ -577,6 +579,42 @@ SUBSYSTEM_DEF(questpool)
 		takes = list()
 		recent_takes[user.ckey] = takes
 	takes += world.time
+
+/datum/controller/subsystem/questpool/proc/solo_sign_cooldown_remaining(mob/user)
+	if(!user?.ckey)
+		return 0
+	var/last_sign = solo_signs[user.ckey]
+	if(isnull(last_sign))
+		return 0
+	return max(0, last_sign + QUEST_SOLO_SIGN_COOLDOWN - world.time)
+
+/datum/controller/subsystem/questpool/proc/holds_solo_signed(mob/user)
+	if(!user?.ckey)
+		return FALSE
+	var/datum/weakref/quest_ref = solo_sign_quests[user.ckey]
+	var/datum/quest/Q = quest_ref?.resolve()
+	if(QDELETED(Q))
+		solo_sign_quests -= user.ckey
+		return FALSE
+	return !Q.complete
+
+/datum/controller/subsystem/questpool/proc/is_solo_sign_ready(mob/user)
+	return !solo_sign_cooldown_remaining(user) && !holds_solo_signed(user)
+
+/datum/controller/subsystem/questpool/proc/mark_solo_signed(mob/user, datum/quest/Q)
+	if(!user?.ckey)
+		return
+	solo_signs[user.ckey] = world.time
+	solo_sign_quests[user.ckey] = WEAKREF(Q)
+	var/mob/living/signer = user
+	var/datum/fellowship/F = istype(signer) ? signer.current_fellowship : null
+	if(!F)
+		return
+	for(var/mob/living/member as anything in F.get_members())
+		if(member == signer || !member.ckey)
+			continue
+		if(has_quest_claim_solo_allowance(member))
+			solo_signs[member.ckey] = world.time
 
 /datum/controller/subsystem/questpool/proc/mark_abandoned(mob/user, datum/quest/Q, forfeited)
 	record_round_statistic(STATS_CONTRACTS_ABANDONED)

@@ -23,6 +23,12 @@
 		play_reject_sound()
 		return
 
+	var/uses_solo_allowance = quest_claim_uses_solo_allowance(user, Q)
+	if(uses_solo_allowance && !SSquestpool.is_solo_sign_ready(user))
+		say(quest_solo_limit_reason(user))
+		play_reject_sound()
+		return
+
 	if(is_fellowship_signing_locked(user))
 		say("Only your fellowship's leader can sign contracts.")
 		play_reject_sound()
@@ -69,6 +75,8 @@
 		return
 
 	SSquestpool.mark_taken(user)
+	if(uses_solo_allowance)
+		SSquestpool.mark_solo_signed(user, Q)
 
 	Q.bind_new_scroll(user, get_turf(src))
 	log_quest(user.ckey, user.mind, user, "Sign [Q.veteran ? "Veteran " : ""][Q.quest_type]")

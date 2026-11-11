@@ -96,6 +96,7 @@ type Contract = {
   shows_commission_seal: BooleanLike;
   is_towner: BooleanLike;
   claim_barred: BooleanLike;
+  solo_limited: BooleanLike;
   is_standing: BooleanLike;
   required_fellowship_size: number;
   lapse_minutes: number | null;
@@ -162,6 +163,12 @@ type ContractLedgerData = {
   claim_barred: BooleanLike;
   claim_barred_reason: string;
   claim_lowpop_lifted: BooleanLike;
+  solo_limit_applies: BooleanLike;
+  solo_limit_ready: BooleanLike;
+  solo_limit_reason: string;
+  solo_limit_minutes: number;
+  solo_limit_fellowship_lifts: BooleanLike;
+  quest_claim_solo_jobs: string[];
   arrival_scan_range: number;
   fellowship_reward_cap_pct: number;
   pool: Contract[];
@@ -569,6 +576,7 @@ const ContractCard = (props: { contract: Contract }) => {
   const c = props.contract;
   const noAccount = !data.has_account;
   const claimBarred = !!c.claim_barred;
+  const soloLimited = !!c.solo_limited;
   const memberLocked = !!data.fellowship_member_locked;
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
@@ -587,6 +595,7 @@ const ContractCard = (props: { contract: Contract }) => {
     claimBarred ||
     memberLocked ||
     gateRemaining > 0 ||
+    soloLimited ||
     takeCooldown > 0 ||
     atCap ||
     cantAfford ||
@@ -608,7 +617,9 @@ const ContractCard = (props: { contract: Contract }) => {
         ? 'Only your fellowship leader can sign contracts.'
         : gateRemaining > 0
           ? `For the first ${data.townie_gate_minutes} minutes, only certain roles can sign contracts. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
-          : takeCooldown > 0
+          : soloLimited
+            ? data.solo_limit_reason
+            : takeCooldown > 0
             ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
             : atCap
               ? fellowsHeld > 0
@@ -864,15 +875,34 @@ const ActiveStrip = (props: {
   const townerList = (data.quest_claim_towner_jobs || []).join(', ');
   const lowpopList = (data.quest_claim_lowpop_jobs || []).join(', ');
   const claimBarred = !!data.claim_barred;
+  const soloList = (data.quest_claim_solo_jobs || []).join(', ');
   const lowpopLifted = !!data.has_account && !!data.claim_lowpop_lifted;
-  const signingHelp = !!data.has_account && (claimBarred || gateRemaining > 0);
+  const soloApplies =
+    !!data.has_account &&
+    !claimBarred &&
+    gateRemaining <= 0 &&
+    !!data.solo_limit_applies &&
+    !data.fellowship_member_locked;
+  const soloLowpopLifted =
+    !!data.has_account &&
+    !claimBarred &&
+    gateRemaining <= 0 &&
+    !!data.quest_claim_lowpop_active &&
+    !lowpopLifted &&
+    (data.user_fellowship_size || 0) < 2;
+  const soloReady = soloApplies && !!data.solo_limit_ready;
+  const soloLimited = soloApplies && !data.solo_limit_ready;
+  const signingHelp =
+    !!data.has_account && (claimBarred || gateRemaining > 0 || soloLimited);
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
     : claimBarred
       ? data.claim_barred_reason
       : gateRemaining > 0
         ? `For the first ${data.townie_gate_minutes} minutes, only certain roles can sign contracts:`
-        : takeCooldown > 0
+        : soloLimited
+          ? data.solo_limit_reason
+          : takeCooldown > 0
           ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
           : null;
   const fellowshipBonus = data.active_fellowship_bonus || 0;
@@ -967,12 +997,28 @@ const ActiveStrip = (props: {
               </div>
             )}
             <div>
-              These jobs can never sign contracts: {barredList}. A contract handed
-              to them directly still works.
+              These jobs can never sign contracts: {barredList}.
             </div>
             {!!townerList && (
               <div style={{ marginTop: '6px' }}>
-                These jobs may only sign towner postings: {townerList}.
+                These jobs can always sign towner postings: {townerList}.
+              </div>
+            )}
+            <div style={{ marginTop: '6px' }}>
+              Outside a fellowship, you can sign one contract every{' '}
+              {data.solo_limit_minutes} minutes and must finish it before
+              signing the next. Courier, retrieval and towner contracts do not
+              count. The leader of a fellowship of two or more may sign as many as they want. The
+              limit is lifted in lowpop.
+            </div>
+            {!!soloList && (
+              <div style={{ marginTop: '6px' }}>
+                These jobs are always limited to one contract every{' '}
+                {data.solo_limit_minutes} minutes, even when leading a
+                fellowship: {soloList}. Courier and retrieval contracts are
+                included in the cooldown. When one of them signs a contract, any
+                other player with the same job will also count as a solo signer.
+                Find a fellowship leader with another job to avoid this.
               </div>
             )}
             {!!lowpopList && (
@@ -983,6 +1029,10 @@ const ActiveStrip = (props: {
                   : 'Lowpop is not in effect now.'}
               </div>
             )}
+            <div style={{ marginTop: '6px' }}>
+              A contract handed to you directly always works. None of these
+              limits apply to it.
+            </div>
           </div>
         </Dialog>
       )}
@@ -1034,6 +1084,43 @@ const ActiveStrip = (props: {
               The town is quiet todae. You are allowed to take on ledger
               contracts as a Mercenary. Medium contracts are open to everyone
               seeking employment.
+              <Button
+                compact
+                ml={0.5}
+                icon="question-circle"
+                selected={showSigningHelp}
+                tooltip="Who can sign contracts"
+                onClick={() => setShowSigningHelp(true)}
+              />
+            </div>
+          )}
+          {soloLowpopLifted && (
+            <div
+              className="ContractLedger__ActiveRow"
+              style={{ color: '#2a6b2a', fontWeight: 'bold' }}
+            >
+              The town is quiet todae. The limit of one solo contract every{' '}
+              {data.solo_limit_minutes} minutes is lifted.
+              <Button
+                compact
+                ml={0.5}
+                icon="question-circle"
+                selected={showSigningHelp}
+                tooltip="Who can sign contracts"
+                onClick={() => setShowSigningHelp(true)}
+              />
+            </div>
+          )}
+          {soloReady && (
+            <div
+              className="ContractLedger__ActiveRow"
+              style={{ color: '#2a6b2a', fontWeight: 'bold' }}
+            >
+              You may only sign one contract on your own every{' '}
+              {data.solo_limit_minutes} minutes.{' '}
+              {data.solo_limit_fellowship_lifts
+                ? 'Courier, retrieval and towner contracts do not count. Lead a fellowship to sign freely.'
+                : 'Towner postings do not count.'}
               <Button
                 compact
                 ml={0.5}

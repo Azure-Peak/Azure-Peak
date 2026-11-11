@@ -409,12 +409,18 @@
 		<p>Beyond the active cap, a <b>take cooldown</b> starts once you have signed
 		your cap worth of contracts within [QUEST_TAKE_COOLDOWN / 600] minutes.</p>
 
+		<p><b>Solo contracts</b> - Outside a fellowship, you can sign one contract every
+		[QUEST_SOLO_SIGN_COOLDOWN / 600] minutes, and must finish it before signing the
+		next. Courier, retrieval and towner contracts do not count. The leader of a
+		fellowship of two or more may sign as many as they want. The limit is lifted during lowpop. Contracts
+		handed to you directly do not count either.</p>
+
 		<h3>Towner Gate</h3> <p>Town members cannot sign Guild contracts during the
 		first [CONTRACT_TOWNIE_GATE_TIME / 600] minutes of the round. Adventuring jobs
 		(Mercenary, Adventurer, and similar) are exempt and may sign immediately. The
 		Ledger shows how long the gate remains and the exempt job list. Contracts
-		handed to you directly by Steward or Innkeeper are not affected by this or by
-		the fellowship requirement.</p>
+		handed to you directly are not affected by this, by the fellowship requirement
+		or by the solo contract limit.</p>
 
 		<h3>Deposits</h3>
 		<p>Most contracts require a small deposit on signing, scaled by difficulty:
@@ -495,7 +501,7 @@
 		</ul>
 
 		<h3>Mercenary Contracts</h3>
-		<p>A Mercenary spawns with a "Mercenary Contract", which can be set to 1 to [MERC_CONTRACT_MAX_DAYS] days. They can hand it over to someone who is a leader of a fellowship, and become hired that way. This forces the Mercenary to join their fellowship, forces the fellowship to split contracts proceeds, and make the Mercenary impossible to boot out. Mercenary cannot sign any contracts on their own, except towner postings or during lowpop.</p>
+		<p>A Mercenary spawns with a "Mercenary Contract", which can be set to 1 to [MERC_CONTRACT_MAX_DAYS] days. They can hand it over to someone who is a leader of a fellowship, and become hired that way. This forces the Mercenary to join their fellowship, forces the fellowship to split contracts proceeds, and make the Mercenary impossible to boot out. A Mercenary is bound by the signing alone limit of one contract every [QUEST_SOLO_SIGN_COOLDOWN / 600] minutes even when leading a fellowship. When a Mercenary leading a fellowship signs this way, every other Mercenary in it waits as well. For a Mercenary only towner postings do not count toward this. The limit is lifted during lowpop.</p>
 
 		<p>Contract provides two types of benefits. A Mercenary under contract will gets a flat +25% bonus from their share of any contracts completed by the fellowship leader. And if they are hired to certain roles (Inquisition, Outlaws, and Burghers and Peasants except the Innkeeper, Tapster and Cook), they will receive a stipend that is deposited to their account or sent to mail by an off-map faction. The stipend is received daily. To receive your stipend from stipended role, you must spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of the preceding day close to them or a member of their fellowship. Specifically, within [MERC_CONTRACT_PRESENCE_RANGE] tiles (not counting z level differences). A contract can be ended early by the hirer.
 		The hirer can only do so once the first day has passed. A Mercenary let go

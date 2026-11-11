@@ -39,6 +39,7 @@
 	. += span_info("To <b>turn in</b> a completed contract, click the Ledger while holding its scroll.")
 	. += span_info("Items for retrieval contracts should be <b>dropped onto the marked tile</b> in front of the Ledger.")
 	. += span_info("Abandoning or failing a contract forfeits its deposit. If you sign as many contracts as you can hold within [QUEST_TAKE_COOLDOWN / (1 MINUTES)] minutes, you must wait before signing another.")
+	. += span_info("Outside a fellowship you can sign one contract every [QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)] minutes, and must finish it before signing the next. Courier, retrieval and towner contracts do not count.")
 	. += span_info("A contract scroll left off its holder's person for [QUEST_SCROLL_UNATTENDED_LAPSE / (1 MINUTES)] minutes crumbles to dust. A fellowship member carrying it counts as the holder. If it was taken, this counts as abandoning it.")
 	. += span_info("Heads from <b>contract targets</b> fetch nothing at a HEADEATER, because the contract's reward already covers them. Heads from beasts and brigands you kill outside a contract still sell there.")
 	. += span_info("The <b>Innkeeper and their tavern staff</b> (Cook, Tapster) may compose rumor contracts here. They spend Rumor Points to seed contracts across the realm.")
@@ -140,6 +141,12 @@
 	data["claim_barred"] = is_quest_claim_barred(user)
 	data["claim_barred_reason"] = quest_claim_barred_reason(user)
 	data["claim_lowpop_lifted"] = is_quest_claim_lowpop_lifted(user)
+	data["solo_limit_applies"] = quest_claim_uses_solo_allowance(user)
+	data["solo_limit_ready"] = SSquestpool.is_solo_sign_ready(user)
+	data["solo_limit_reason"] = quest_solo_limit_reason(user)
+	data["solo_limit_minutes"] = QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)
+	data["solo_limit_fellowship_lifts"] = !has_quest_claim_solo_allowance(user)
+	data["quest_claim_solo_jobs"] = SSjob.quest_claim_solo_names
 	data["arrival_scan_range"] = QUEST_ARRIVAL_SCAN_RANGE
 	data["pool"] = build_pool_listing(user)
 	data["active"] = build_active_listing(user)
@@ -340,6 +347,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"shows_commission_seal" = Q.shows_commission_seal,
 			"is_towner" = Q.source == QUEST_SOURCE_TOWNER,
 			"claim_barred" = is_quest_claim_barred(user, Q),
+			"solo_limited" = is_quest_solo_limited(user, Q),
 			"is_standing" = Q.source != QUEST_SOURCE_POOL,
 			"required_fellowship_size" = Q.required_fellowship_size,
 			"lapse_minutes" = lapse_minutes,
