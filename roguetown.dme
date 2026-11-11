@@ -2626,6 +2626,7 @@
 #include "code\modules\mob\living\carbon\human\npc\conjured_peasant.dm"
 #include "code\modules\mob\living\carbon\human\npc\deadite.dm"
 #include "code\modules\mob\living\carbon\human\npc\deranged_knight.dm"
+#include "code\modules\mob\living\carbon\human\npc\doppelganger.dm"
 #include "code\modules\mob\living\carbon\human\npc\drow.dm"
 #include "code\modules\mob\living\carbon\human\npc\dwarfskeleton.dm"
 #include "code\modules\mob\living\carbon\human\npc\goblin.dm"

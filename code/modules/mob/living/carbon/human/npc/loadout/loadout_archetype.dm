@@ -162,25 +162,29 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		tier = isnull(tier) ? loadout.miracle_tier : max(tier, loadout.miracle_tier)
 	if(isnull(tier))
 		return
-	var/datum/patron/god = H.patron
-	if(!length(god?.miracles))
+	if(!H.grant_npc_miracle_tier(tier))
 		stack_trace("npc archetype [type] grants miracles but its patron has none")
-		return
-	var/datum/devotion/devotion = H.devotion || new /datum/devotion(H, god)
-	devotion.level = tier
-	devotion.max_devotion = tier >= CLERIC_T3 ? CLERIC_REQ_2 : CLERIC_REQ_1
-	devotion.devotion = devotion.max_devotion
-	devotion.passive_devotion_gain = CLERIC_REGEN_WEAK
-	START_PROCESSING(SSobj, devotion)
+
+/mob/living/carbon/human/proc/grant_npc_miracle_tier(tier)
+	var/datum/patron/god = patron
+	if(!length(god?.miracles))
+		return FALSE
+	var/datum/devotion/holder = devotion || new /datum/devotion(src, god)
+	holder.level = tier
+	holder.max_devotion = tier >= CLERIC_T3 ? CLERIC_REQ_2 : CLERIC_REQ_1
+	holder.devotion = holder.max_devotion
+	holder.passive_devotion_gain = CLERIC_REGEN_WEAK
+	START_PROCESSING(SSobj, holder)
 	for(var/spell_type in god.miracles)
 		if(god.miracles[spell_type] > tier || !ispath(spell_type, /datum/action/cooldown/spell))
 			continue
 		if((spell_type in GLOB.utility_spells) || (spell_type in GLOB.npc_skipped_spells))
 			continue
-		if(locate(spell_type) in H.actions)
+		if(locate(spell_type) in actions)
 			continue
-		var/datum/action/cooldown/spell/miracle = new spell_type(H)
-		miracle.Grant(H)
+		var/datum/action/cooldown/spell/miracle = new spell_type(src)
+		miracle.Grant(src)
+	return TRUE
 
 /datum/npc_archetype/proc/apply_skills(mob/living/carbon/human/H)
 	apply_skill_group(H, GLOB.npc_melee_skills, melee)
