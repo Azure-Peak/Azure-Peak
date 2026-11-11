@@ -295,6 +295,7 @@
 
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
+#define TRAIT_AMORPHOUS_LANDING "Amorphous Landing"
 
 #define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
@@ -586,6 +587,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SANGUIVORE = "I can drink blood without retching, though it does little to sate me.",
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
+	TRAIT_AMORPHOUS_LANDING = span_warning("I flatten into a puddle of ooze when I land from a fall."),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
 	TRAIT_DISFIGURED = span_warning("No one can recognize me..."),
 	TRAIT_MISSING_NOSE = span_warning("I struggle to breathe."),

@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/murkling_shapeshift
 	name = "Murkling Shapeshift"
-	desc = "Reshape your hair, ears, tail, or genitals."
+	desc = "Reshape your body, molding your outer layer of ooze anew."
 	button_icon = 'icons/mob/actions/mage_augmentation.dmi'
 	button_icon_state = "mirror"
 	click_to_activate = FALSE

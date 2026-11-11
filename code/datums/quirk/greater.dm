@@ -3,6 +3,19 @@
  * You need to give up your statpack AND take a second vice to get access so they get to be _slightly_ stronger.
 */
 
+/datum/quirk/amorphous_landing
+	name = "Amorphous Landing"
+	desc = "My body yields to impact, spreading into a puddle before slowly reforming."
+	mechdesc = "Prevents fall damage, but falling still stuns you. After landing, you flatten into ooze for five seconds and suffer a brief knockdown as you reform."
+	added_traits = list(TRAIT_AMORPHOUS_LANDING, TRAIT_NOFALLDAMAGE2)
+	allowed_species = list(/datum/species/ooze)
+	greater = TRUE
+	ui_fa_icon = "droplet"
+
+/datum/quirk/amorphous_landing/apply_to_human(mob/living/carbon/human/recipient)
+	. = ..()
+	recipient.AddComponent(/datum/component/amorphous_landing)
+
 /datum/quirk/noble
 	name = "Unlanded Noble"
 	desc = "By birth or deeds, I've a high place in Astrata's order. My holdings, however, are too small or too far away to grant much benefit beyond a title."
