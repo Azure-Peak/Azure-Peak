@@ -38,6 +38,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 	var/spawn_dust_leave_head = FALSE
 	var/spawn_dust_delete_gear = FALSE
 	var/spawn_spread = TRUE
+	var/spawn_deadite = FALSE
 	var/spawn_click_intercept = FALSE
 	var/quest_open = FALSE
 	var/datum/gm_quest_draft/quest_draft
@@ -153,6 +154,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 	data["spawn_dust_leave_head"] = spawn_dust_leave_head
 	data["spawn_dust_delete_gear"] = spawn_dust_delete_gear
 	data["spawn_spread"] = spawn_spread
+	data["spawn_deadite"] = spawn_deadite
 	data["spawn_click_intercept"] = spawn_click_intercept
 
 	data["selected_view"] = selected_view
@@ -285,6 +287,10 @@ GLOBAL_LIST_EMPTY(game_masters)
 
 		if("toggle_spawn_spread")
 			spawn_spread = !spawn_spread
+			return TRUE
+
+		if("toggle_spawn_deadite")
+			spawn_deadite = !spawn_deadite
 			return TRUE
 
 		if("toggle_click_spawn")
@@ -465,6 +471,8 @@ GLOBAL_LIST_EMPTY(game_masters)
 		if(!spawn_taints_loot)
 			for(var/obj/item/carried_item in spawned_human.get_equipped_items(TRUE) + spawned_human.held_items)
 				carried_item.unmark_as_looted()
+		if(spawn_deadite) // after the 1 second after_creation that sets up NPC species and gear
+			addtimer(CALLBACK(spawned_human, TYPE_PROC_REF(/mob/living/carbon/human, make_deadite)), 2 SECONDS)
 
 	if(!spawn_ai)
 		ADD_TRAIT(spawned_mob, TRAIT_AI_DISABLED, ADMIN_TRAIT)

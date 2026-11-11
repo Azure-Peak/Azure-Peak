@@ -96,8 +96,11 @@
 	if(!source)
 		return FALSE
 	
-	var/datum/antagonist/zombie/zombie_antag = source.mind?.has_antag_datum(/datum/antagonist/zombie)
-	if(!zombie_antag || !zombie_antag.has_turned)
+	if(source.mind)
+		var/datum/antagonist/zombie/zombie_antag = source.mind.has_antag_datum(/datum/antagonist/zombie)
+		if(!zombie_antag || !zombie_antag.has_turned)
+			return FALSE
+	else if(!HAS_TRAIT(source, TRAIT_DEADITE)) // NPC deadites have no mind to hold the antag datum
 		return FALSE
 
 	if(HAS_TRAIT(src, TRAIT_DNR) || mind?.has_antag_datum(/datum/antagonist/zombie))
