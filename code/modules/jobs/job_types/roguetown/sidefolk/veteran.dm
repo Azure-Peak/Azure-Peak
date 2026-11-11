@@ -676,7 +676,7 @@
 	beltl = /obj/item/rogueweapon/whip
 	beltr = /obj/item/flashlight/flare/torch/lantern
 	backr = /obj/item/storage/backpack/rogue/satchel/black
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/iron
 	cloak = /obj/item/clothing/cloak/raincloak/mortus
 	backpack_contents = list(
 		/obj/item/rogueweapon/huntingknife/idagger/steel/silver/elvish = 1,
