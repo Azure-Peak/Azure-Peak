@@ -1,0 +1,9 @@
+author: "Guidesu"
+delete-after: True
+changes:
+  - rscadd: "Quarterstaves now have two stances you can switch to with the alt-grip key at Journeyman staves. Half-staff (close quarters) has rapid strike, joint strike, shaft clinch and the staff's signature move. Long guard (at range) has long swing, a 3-tile long thrust, levering smash and an armor-cracking overhead strike."
+  - rscadd: "Each quarterstaff material now has its own signature move: disarm for wooden, leg sweep for iron, and a dazing counterweight strike for steel and heavier staves."
+  - rscadd: "Steel and heavier quarterstaves now smash at 2 tiles of reach."
+  - balance: "Quarterstaff weight now depends on material: wooden staves are swift, iron is normal, and steel and gold are heavy."
+  - balance: "One-handed quarterstaff bash now does 0.8x damage, up from 0.6x."
+  - bugfix: "The quarterstaff jab no longer does half damage to adjacent targets. It now attacks at normal speed and counts as blunt."
