@@ -257,10 +257,12 @@ Make decree.
 Set laws.
 Dwarves.
 Dwarves like to blow stuff up!
+Gnomes like to burn things down!
 You are a knave!
 It's a tough fight ahead, but happiness has to be fought for.
 The Duchy of Azuria beat back the Hammerholdian Border Reivers in 1430 at a great cost. Some still lurk in the forests, biding their tyme.
 You now face divine judgement. May it extend eternally.
+IT'S NOT THE MONSTER UNDER YOUR BED YOU NEED TO WORRY ABOUT. IT'S THE RANDOM CONFESSOR... SAME THING, REALLY.
 BAITING is a suboptimal combat strategy. Never use it. Instead, stab your foe in the chest until they perish.
 BEWARE those who venerate the ARCHDEVIL. The INSANE, the BROKEN, the SADISTIC, and YOU.
 BEWARE those who venerate the WEEPER. The INSANE, the ZEALOUS, the FOOLISH, and YOU.
@@ -360,7 +362,8 @@ SOME STRANGE FOLK claim to have "BEEN THE DUKE THE OTHER WEEK". They are doppelg
 MY LAST NITE AS A MAN. MY FIRST NITE AS A BEAST.
 THE ONLY PROPER WAY TO DANCE IS TO KEEP YOUR HANDS AT YOUR SIDE AND YOUR EYES ON THE GROUND. THEN SHUFFLE BACK AND FORTH WHILE SMOKING A ZIGARETTE.
 SHE AROSE FULLY FORMED FROM THE SHATTERED SHELL OF A BLACK EGG. SHE APPEARS AS A SPECTRE, WEARING BLACK, WEARING WHITE, WEARING RED.
-Followers of Graggar are known to strike their chests with a bare first like one beats a shield. This "BEAT UNCEASING" a call for perpetual violence.
+NOC has a face. Look up. He is smiling at you right now.
+NOC does not have a face. Anyone who claims this is a raving luantic.
 I AM REASON DISSOLVED. I AM MADNESS EVOLVED. I AM HUNGER AND NEED. I AM RAVISHING GREED.
 I'M HIDING IN THE SHADOWS AND I SEE YOU STANDING THERE.
 WIZARD, YOUR LIFE-FORCE IS RUNNING OUT! ALL YOUR POWERS WILL BE LOST!
