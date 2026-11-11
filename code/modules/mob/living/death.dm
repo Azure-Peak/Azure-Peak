@@ -234,10 +234,13 @@ GLOBAL_LIST_EMPTY(last_words)
 		if(witness == src)
 			continue
 		var/same_pantheon = FALSE
-		for(var/list/pantheon as anything in pantheons)
-			if((patron?.type in pantheon) && (witness.patron?.type in pantheon))
-				same_pantheon = TRUE
-				break
+		if(witness in GLOB.apostasy_players || witness in GLOB.cursed_players || witness in GLOB.excommunicated_players || witness in GLOB.heretical_players || witness.job == "Wretch")
+			same_pantheon = TRUE
+		else
+			for(var/list/pantheon as anything in pantheons)
+				if((patron?.type in pantheon) && (witness.patron?.type in pantheon))
+					same_pantheon = TRUE
+					break
 		if(same_pantheon)
 			witness.apply_status_effect(/datum/status_effect/buff/luxplate_blessing)
 			to_chat(witness, span_boldgreen("The departing essence washes over me, like a warm mantle..."))
