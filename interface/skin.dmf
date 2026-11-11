@@ -150,6 +150,36 @@ window "outputwindow"
 		command = "toggle-command-bar-button"
 		is-visible = false
 		button-type = pushbox
+	elem "cmdinput"
+		type = INPUT
+		pos = 0,445
+		size = 588x25
+		anchor1 = 0,100
+		anchor2 = 92,100
+		font-size = 12
+		text-color = #e0b85a
+		background-color = #140d05
+		border = line
+		saved-params = ""
+		command = "player-command-bar"
+		is-visible = false
+	elem "cmdbarbutton"
+		type = BUTTON
+		pos = 590,445
+		size = 50x25
+		anchor1 = 100,100
+		anchor2 = 100,100
+		font-family = "Arial"
+		font-size = 9
+		font-style = "bold"
+		text-color = #e0b85a
+		background-color = #1a1208
+		border = raised
+		saved-params = ""
+		text = "Say"
+		command = "toggle-player-command-bar"
+		is-visible = false
+		button-type = pushbox
 
 window "output_legacy"
 	elem "output_legacy"

@@ -117,6 +117,9 @@
 	set_hotkeys_preference()
 	set_hotkeys_button(TRUE)
 
+	if(player_command_bar_active)
+		set_player_command_bar_tab_macro(TRUE)
+
 /proc/keybind_modifier_permutation(key, alt = FALSE, ctrl = FALSE, shift = FALSE, self = TRUE)
 	var/list/permutations = list()
 	if(!shift)
