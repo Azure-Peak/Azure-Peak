@@ -417,6 +417,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	..()
 	update_damage_overlays()
 	show_damage_stage()
+	if(istype(hud_used, /datum/hud/dextrous/oozeling))
+		var/datum/hud/dextrous/oozeling/oozeling_hud = hud_used
+		oozeling_hud.update_health_indicator(src)
 
 /mob/living/simple_animal/hostile
 	var/retreating

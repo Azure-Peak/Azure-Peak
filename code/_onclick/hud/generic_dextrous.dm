@@ -344,3 +344,92 @@
 	if(dextrous)
 		hud_type = dextrous_hud_type
 	return ..()
+
+/atom/movable/screen/oozeling_placeholder
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
+/datum/hud/dextrous/oozeling/New(mob/living/owner)
+	..()
+
+	action_intent.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
+	static_inventory -= quad_intents
+	QDEL_NULL(quad_intents)
+	var/atom/movable/screen/oozeling_placeholder/placeholder = new
+	placeholder.icon = 'icons/mob/roguehud.dmi'
+	placeholder.icon_state = "mmbintents0"
+	placeholder.screen_loc = rogueui_quad
+	placeholder.hud = src
+	static_inventory += placeholder
+
+	static_inventory -= def_intent
+	QDEL_NULL(def_intent)
+	placeholder = new
+	placeholder.icon = 'icons/mob/roguehud.dmi'
+	placeholder.icon_state = "def1n"
+	placeholder.screen_loc = rogueui_def
+	placeholder.hud = src
+	static_inventory += placeholder
+
+	placeholder = new
+	placeholder.icon = 'icons/mob/roguehud.dmi'
+	placeholder.icon_state = "rmbintent"
+	placeholder.screen_loc = rogueui_rmbintents
+	placeholder.hud = src
+	static_inventory += placeholder
+
+	var/atom/movable/screen/oozeling_placeholder/weak_intent = new
+	weak_intent.icon = 'icons/mob/roguehud.dmi'
+	weak_intent.icon_state = "rmbweak_x"
+	weak_intent.screen_loc = rogueui_rmbintents
+	weak_intent.layer += 0.01
+	weak_intent.hud = src
+	static_inventory += weak_intent
+
+	placeholder = new
+	placeholder.icon = 'icons/mob/roguehud.dmi'
+	placeholder.icon_state = "combat0"
+	placeholder.screen_loc = rogueui_cmode
+	placeholder.hud = src
+	cmode_button = placeholder
+	static_inventory += placeholder
+
+	stressies = new /atom/movable/screen/stress
+	stressies.hud = src
+	stressies.screen_loc = rogueui_stress
+	stressies.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	static_inventory += stressies
+
+	update_health_indicator(owner)
+
+/datum/hud/dextrous/oozeling/proc/update_health_indicator(mob/living/simple_animal/oozeling)
+	if(!bloods || !oozeling)
+		return
+
+	var/health_percent = oozeling.maxHealth > 0 ? CLAMP(oozeling.health / oozeling.maxHealth * 100, 0, 100) : 0
+	var/damage_percent = 100 - health_percent
+	var/damage_state = round(damage_percent, 10)
+	bloods.icon_state = damage_state <= 80 ? "dam[damage_state]" : "damelse"
+
+/datum/hud/dextrous/oozeling/build_hand_slots()
+	for(var/hand_index in hand_slots)
+		var/atom/movable/screen/old_hand = hand_slots[hand_index]
+		static_inventory -= old_hand
+		qdel(old_hand)
+	if(hand_slots)
+		hand_slots.Cut()
+	else
+		hand_slots = list()
+
+	for(var/i in 1 to 2)
+		var/atom/movable/screen/oozeling_placeholder/hand = new
+		hand.name = mymob.get_held_index_name(i)
+		hand.icon = ui_style
+		hand.icon_state = "hand_[mymob.held_index_to_dir(i)]"
+		hand.screen_loc = ui_hand_position(i)
+		hand.hud = src
+		hand_slots["[i]"] = hand
+		static_inventory += hand
+
+	if(ismob(mymob) && mymob.hud_used == src)
+		show_hud(hud_version)

@@ -127,8 +127,9 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
 	name = "pure ooze"
-	desc = "An amorphous remnant of a Murkling, formed from a lifeless body. Splash them with blessed water or red and watch as their body reforms."
+	desc = "An amorphous remnant of a Murkling, formed from a lifeless body. Splash it with blessed water or red and watch as the body reforms."
 	icon = 'icons/roguetown/mob/ooze_blob.dmi'
+	hud_type = /datum/hud/dextrous/oozeling
 	rot_type = null
 	botched_butcher_results = null
 	butcher_results = null
