@@ -182,6 +182,7 @@
 	var/reform_timer
 	var/reform_time_remaining
 	var/next_reform_message
+	var/datum/mind/reforming_mind
 	var/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/pure_form
 
 /datum/component/murkling_afterlife/Initialize()
@@ -203,6 +204,7 @@
 	SIGNAL_HANDLER
 	if(gibbed || !body.mind || HAS_TRAIT(body, TRAIT_DNR) || !body.get_bodypart(BODY_ZONE_HEAD))
 		return
+	reforming_mind = body.mind
 	if(reform_timer)
 		deltimer(reform_timer)
 	reform_time_remaining = 5 MINUTES
@@ -215,12 +217,14 @@
 		deltimer(reform_timer)
 		reform_timer = null
 	reform_time_remaining = 0
+	reforming_mind = null
 
 /datum/component/murkling_afterlife/proc/tick_reform_timer()
 	reform_timer = null
 	var/mob/living/carbon/human/body = parent
-	if(!body || QDELETED(body) || body.stat != DEAD || !body.mind || HAS_TRAIT(body, TRAIT_DNR) || !body.get_bodypart(BODY_ZONE_HEAD))
+	if(!body || QDELETED(body) || body.stat != DEAD || !reforming_mind || reforming_mind.current != body || HAS_TRAIT(body, TRAIT_DNR) || !body.get_bodypart(BODY_ZONE_HEAD))
 		reform_time_remaining = 0
+		reforming_mind = null
 		return
 
 	if(!body.buried && !istype(get_area(body), /area/rogue/indoors))
@@ -244,7 +248,7 @@
 /datum/component/murkling_afterlife/proc/reform_as_pure_ooze()
 	reform_timer = null
 	var/mob/living/carbon/human/body = parent
-	if(!body || QDELETED(body) || body.stat != DEAD || !body.mind || HAS_TRAIT(body, TRAIT_DNR))
+	if(!body || QDELETED(body) || body.stat != DEAD || !reforming_mind || reforming_mind.current != body || HAS_TRAIT(body, TRAIT_DNR))
 		return
 	var/turf/spawn_turf = get_turf(body)
 	if(!spawn_turf)
@@ -265,7 +269,8 @@
 	pure_form.headshot_artist_link = body.headshot_artist_link
 	body.visible_message(span_infection("[body]'s corpse liquefies into a glistening puddle. It gathers itself into a formless, moving blob of pure ooze!"))
 	playsound(spawn_turf, 'sound/combat/gib (2).ogg', 50, TRUE)
-	body.mind.transfer_to(pure_form)
+	reforming_mind.transfer_to(pure_form)
+	reforming_mind = null
 	pure_form.enable_undercommon_only()
 	body.moveToNullspace()
 	to_chat(pure_form, span_userdanger("My body has reformed into a blob of formless ooze. I can move, speak, and emote, but cannot interact with the world."))
