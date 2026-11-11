@@ -18,9 +18,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/volf)
 	botched_butcher_results = list(/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/alch/waterdust = 2,
@@ -35,11 +33,7 @@
 	maxHealth = OOZE_BLOB_HEALTH
 	melee_damage_lower = 19
 	melee_damage_upper = 29
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks,
 					//obj/item/bodypart,
@@ -53,19 +47,14 @@
 	STASPD = 9
 	simple_detect_bonus = 20
 	deaggroprob = 0
-	del_on_deaggro = 44 SECONDS
-	retreat_health = 0.3
 	food = 0
 	attack_sound = list('sound/gore/flesh_eat_01.ogg','sound/gore/flesh_eat_02.ogg','sound/gore/flesh_eat_03.ogg')
 	dodgetime = 30
 	aggressive = 1
-//	stat_attack = UNCONSCIOUS
 	remains_type = null
 	eat_forever = TRUE
 	var/chomp_cd = 0
 	var/chomp_roll = 0
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/volf
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 	color = "#88ff7d"
@@ -120,15 +109,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
 	name = "pure ooze"

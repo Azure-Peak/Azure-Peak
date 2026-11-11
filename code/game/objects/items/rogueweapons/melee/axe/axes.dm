@@ -262,6 +262,7 @@
 	desc = "Once, a ceremonial rendition of the handaxes that Psydonia's ancestors built the first civilizations \
 	with. Now, an uncommon - but very much lethal - alternative to the tossblade, well-weighted for slashing and throwing."
 	icon_state = "tomahawk_silver"
+	throwforce = 30
 	thrown_damage_flag = "piercing"
 	smeltresult = /obj/item/ingot/silver
 	is_tool = FALSE

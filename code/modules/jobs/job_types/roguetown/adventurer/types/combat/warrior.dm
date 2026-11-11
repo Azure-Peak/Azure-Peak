@@ -222,6 +222,7 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1
 		)
 
@@ -428,6 +429,8 @@
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
 		/obj/item/repair_kit/metal/bad = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/warrior]
 	H.set_blindness(0)
@@ -648,7 +651,7 @@
 				head = /obj/item/clothing/head/roguetown/puritan
 				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
-				belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver
+				belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver
 			if("Orthodoxist - Cuirass & Plate Training (+I CON / -I SPD)")
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC) //'Templar' archetype. Blessings protect from the Rot, while opening the opportunity for heavy armor usage. Well-protected and resilient, but slower and visibly identifiable as a prioritable threat.
@@ -684,6 +687,9 @@
 						head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface
 					if("Snouted Roundface Bascinet")
 						head = /obj/item/clothing/head/roguetown/helmet/bascinet/pigface/roundface/snouted
+		if(r_hand == /obj/item/rogueweapon/stoneaxe/handaxe/silver && belt == /obj/item/storage/belt/rogue/leather/black)
+			r_hand = null
+			belt = /obj/item/storage/belt/rogue/leather/tossbelt/tomahawk/black/silver
 
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	pants = /obj/item/clothing/under/roguetown/tights/puritan
@@ -694,6 +700,7 @@
 	backpack_contents = list(
 		/obj/item/flashlight/flare/torch/metal = 1,
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 

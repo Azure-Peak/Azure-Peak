@@ -25,6 +25,19 @@
 	target_key = BB_BASIC_MOB_FLEE_TARGET
 	hiding_place_key = BB_BASIC_MOB_FLEE_TARGET_HIDING_LOCATION
 
+/datum/ai_planning_subtree/random_retaliate
+	var/chance_per_second = 2.5
+	var/vision_range = 9
+
+/datum/ai_planning_subtree/random_retaliate/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
+	if(controller.blackboard_key_exists(BB_BASIC_MOB_CURRENT_TARGET) || !SPT_PROB(chance_per_second, seconds_per_tick))
+		return
+	var/mob/living/pawn = controller.pawn
+	var/datum/targetting_datum/targetting_datum = controller.blackboard[BB_TARGETTING_DATUM]
+	for(var/mob/living/victim in oview(vision_range, pawn))
+		if(targetting_datum.can_attack(pawn, victim))
+			controller.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, victim)
+
 /**
  * Picks a target from a provided list of atoms who have been pissing you off
  * You will probably need /datum/element/ai_retaliate to take advantage of this unless you're populating the blackboard yourself
