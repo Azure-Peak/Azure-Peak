@@ -27,7 +27,7 @@
 									/obj/item/alch/waterdust = 3,
 									/obj/item/alch/viscera = 3)
 	head_butcher = null
-	faction = list("zombie")
+	faction = list(FACTION_OOZE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = OOZE_BLOB_HEALTH
 	maxHealth = OOZE_BLOB_HEALTH
@@ -134,7 +134,6 @@
 	melee_damage_lower = 0
 	melee_damage_upper = 0
 	aggressive = FALSE
-	faction = list()
 	ai_controller = null
 	dextrous = FALSE
 	mobility_flags = MOBILITY_MOVE
