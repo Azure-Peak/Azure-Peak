@@ -17,6 +17,9 @@
 		return
 	next_player_command_bar_use = world.time + PLAYER_COMMAND_BAR_COOLDOWN
 
+	hide_player_command_bar_suggestions()
+	player_command_bar_cycle = null
+
 	command = trim(copytext(command, 1, MAX_MESSAGE_LEN))
 	if(!length(command))
 		return
@@ -58,12 +61,12 @@
 	return visible
 
 /client/proc/find_player_command_bar_verb(command)
-	var/lowered = lowertext(command)
+	var/lowered = LOWER_TEXT(command)
 	var/procpath/best_verb
 	var/best_length = 0
 
 	for(var/procpath/candidate as anything in get_player_command_bar_verbs())
-		var/spaced_name = lowertext(candidate.name)
+		var/spaced_name = LOWER_TEXT(candidate.name)
 		var/hyphen_name = replacetext(spaced_name, " ", "-")
 		for(var/form in list(spaced_name, hyphen_name))
 			var/form_length = length(form)
@@ -107,6 +110,8 @@
 		complete_player_command_bar(current_text)
 		return
 
+	hide_player_command_bar_suggestions()
+
 	switch(winget(src, "mainwindow", "macro"))
 		if(SKIN_MACROSET_CLASSIC_INPUT)
 			winset(src, null, "mainwindow.macro=[SKIN_MACROSET_CLASSIC_HOTKEYS];map.focus=true")
@@ -122,6 +127,7 @@
 	if(length(player_command_bar_cycle) > 1 && current_text == player_command_bar_last_completion)
 		player_command_bar_cycle_index = (player_command_bar_cycle_index % length(player_command_bar_cycle)) + 1
 		set_player_command_bar_text("[player_command_bar_cycle[player_command_bar_cycle_index]] ")
+		show_player_command_bar_suggestions()
 		return
 
 	player_command_bar_cycle = null
@@ -129,47 +135,85 @@
 
 	var/typed = trim(current_text)
 	if(findtext(typed, " ") && find_player_command_bar_verb(typed))
+		hide_player_command_bar_suggestions()
 		return
 
-	var/prefix = lowertext(replacetext(typed, " ", "-"))
+	var/prefix = LOWER_TEXT(replacetext(typed, " ", "-"))
 	var/prefix_length = length(prefix)
 	var/list/matches = list()
 	for(var/procpath/candidate as anything in get_player_command_bar_verbs())
 		var/hyphen_name = replacetext(candidate.name, " ", "-")
-		if(lowertext(copytext(hyphen_name, 1, prefix_length + 1)) == prefix)
+		if(LOWER_TEXT(copytext(hyphen_name, 1, prefix_length + 1)) == prefix)
 			matches |= hyphen_name
 
 	if(!length(matches))
+		hide_player_command_bar_suggestions()
 		return
 
 	sortTim(matches, GLOBAL_PROC_REF(cmp_text_asc))
 
 	if(length(matches) == 1)
+		hide_player_command_bar_suggestions()
 		set_player_command_bar_text("[matches[1]] ")
 		return
 
+	player_command_bar_cycle = matches
+
 	var/common = matches[1]
 	for(var/match in matches)
-		while(length(common) && lowertext(copytext(match, 1, length(common) + 1)) != lowertext(common))
+		while(length(common) && LOWER_TEXT(copytext(match, 1, length(common) + 1)) != LOWER_TEXT(common))
 			common = copytext(common, 1, length(common))
 	if(length(common) > prefix_length)
+		player_command_bar_cycle_index = 0
 		set_player_command_bar_text(common)
-		show_player_command_bar_matches(matches)
+		show_player_command_bar_suggestions()
 		return
 
-	player_command_bar_cycle = matches
 	player_command_bar_cycle_index = 1
-	show_player_command_bar_matches(matches)
 	set_player_command_bar_text("[matches[1]] ")
+	show_player_command_bar_suggestions()
 
 /client/proc/set_player_command_bar_text(new_text)
 	player_command_bar_last_completion = new_text
 	winset(src, "outputwindow.cmdinput", list2params(list("text" = new_text, "focus" = "true")))
 
-/client/proc/show_player_command_bar_matches(list/matches)
-	var/list/shown = matches.Copy(1, min(length(matches), 20) + 1)
-	var/extra = length(matches) - length(shown)
-	to_chat(src, span_notice("Commands: [html_encode(jointext(shown, ", "))][extra > 0 ? " (+[extra] more)" : ""]"))
+/client/proc/show_player_command_bar_suggestions()
+	var/list/rows = list()
+	for(var/i in 1 to length(player_command_bar_cycle))
+		var/name = player_command_bar_cycle[i]
+		var/selected = (i == player_command_bar_cycle_index) ? " class='sel'" : ""
+		rows += "<a href='byond://?player_command_bar_pick=[url_encode(name)]'[selected]>[html_encode(name)]</a>"
+
+	var/html = {"<html><head><meta charset='utf-8'><style>
+		html, body {margin: 0; padding: 0; background: #140d05; overflow-x: hidden;}
+		body {border: 1px solid #6b5326; font: 12px Verdana, sans-serif;}
+		a {display: block; padding: 1px 6px; height: 16px; color: #e0b85a; text-decoration: none; white-space: nowrap;}
+		a:hover, a.sel {background: #3a2a10; color: #fff3d0;}
+		</style></head><body>[jointext(rows, "")]
+		<script>var s = document.querySelector('.sel'); if(s) s.scrollIntoView({block: 'nearest'});</script>
+		</body></html>"}
+	src << browse(html, "window=cmdsuggest")
+
+	var/height = min(length(rows), 8) * 18 + 2
+	var/list/input_pos = splittext(winget(src, "outputwindow.cmdinput", "pos"), ",")
+	var/x = text2num(input_pos[1]) || 0
+	var/y = (length(input_pos) > 1 ? text2num(input_pos[2]) : 0) - height
+	winset(src, "outputwindow.cmdsuggest", "pos=[x],[max(y, 0)];size=240x[height];is-visible=true")
+
+/client/proc/hide_player_command_bar_suggestions()
+	winset(src, "outputwindow.cmdsuggest", "is-visible=false")
+
+/client/proc/pick_player_command_bar_suggestion(name)
+	if(!player_command_bar_active || !istext(name))
+		return
+	for(var/procpath/candidate as anything in get_player_command_bar_verbs())
+		var/hyphen_name = replacetext(candidate.name, " ", "-")
+		if(hyphen_name == name)
+			player_command_bar_cycle = null
+			player_command_bar_cycle_index = 0
+			hide_player_command_bar_suggestions()
+			set_player_command_bar_text("[hyphen_name] ")
+			return
 
 /client/proc/set_player_command_bar_tab_macro(active)
 	var/list/macro_sets = list(
@@ -198,6 +242,7 @@
 	player_command_bar_active = active
 	player_command_bar_cycle = null
 	player_command_bar_last_completion = null
+	hide_player_command_bar_suggestions()
 	if(active != was_active)
 		set_player_command_bar_tab_macro(active)
 	if(active)

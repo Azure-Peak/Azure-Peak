@@ -163,6 +163,10 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 
+	if(href_list["player_command_bar_pick"])
+		pick_player_command_bar_suggestion(href_list["player_command_bar_pick"])
+		return
+
 	switch(href_list["_src_"])
 		if("holder")
 			hsrc = holder

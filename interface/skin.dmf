@@ -180,6 +180,15 @@ window "outputwindow"
 		command = "toggle-player-command-bar"
 		is-visible = false
 		button-type = pushbox
+	elem "cmdsuggest"
+		type = BROWSER
+		pos = 0,325
+		size = 240x120
+		anchor1 = 0,100
+		anchor2 = 0,100
+		background-color = #140d05
+		saved-params = ""
+		is-visible = false
 
 window "output_legacy"
 	elem "output_legacy"
