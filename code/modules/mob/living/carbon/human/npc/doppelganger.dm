@@ -1,7 +1,7 @@
 #define DOPPEL_CLONE_RANGE 15
 #define DOPPEL_AUDIENCE_RANGE 7
-#define DOPPEL_CHATTER_CHANCE 3
-#define DOPPEL_LAUGH_CHANCE 35
+#define DOPPEL_CHATTER_CHANCE 8 // Should makes masked Doppel more obviouss
+#define DOPPEL_LAUGH_CHANCE 50
 #define DOPPEL_MIRACLE_TIER_CAP CLERIC_T3
 #define DOPPEL_NAME_PREFIX "Wyrd"
 
