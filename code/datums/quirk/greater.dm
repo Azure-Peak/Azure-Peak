@@ -6,7 +6,7 @@
 /datum/quirk/amorphous_landing
 	name = "Amorphous Landing"
 	desc = "My body yields to impact, spreading into a puddle before slowly reforming."
-	mechdesc = "Prevents fall damage, but falling still stuns you. After landing, you flatten into ooze for five seconds and suffer a brief knockdown as you reform."
+	mechdesc = "After landing, you flatten into ooze and are knocked down. Prevents fall damage, but stuns you. The 'Acrobatic' virtue halves this stun time."
 	added_traits = list(TRAIT_AMORPHOUS_LANDING, TRAIT_NOFALLDAMAGE2)
 	allowed_species = list(/datum/species/ooze)
 	greater = TRUE

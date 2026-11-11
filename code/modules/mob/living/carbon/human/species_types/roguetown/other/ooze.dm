@@ -293,7 +293,7 @@
 	var/datum/component/amorphous_landing/landing = GetComponent(/datum/component/amorphous_landing)
 	if(landing)
 		if(!isgroundlessturf(T))
-			landing.amorphous_landing()
+			landing.amorphous_landing(levels)
 		return
 	return ..()
 
@@ -314,10 +314,15 @@
 		restore_landing_sprite()
 	return ..()
 
-/datum/component/amorphous_landing/proc/amorphous_landing()
+/datum/component/amorphous_landing/proc/amorphous_landing(levels)
 	var/mob/living/carbon/human/owner = parent
 	if(!owner)
 		return
+	var/fall_levels = max(levels - 1, 1) // zImpact starts at level 1 and increments before the first drop.
+	var/landing_duration = min(fall_levels * 5 SECONDS, 15 SECONDS)
+	var/has_acrobatics = HAS_TRAIT(owner, TRAIT_LEAPER)
+	if(has_acrobatics)
+		landing_duration /= 2
 	if(landing_timer)
 		deltimer(landing_timer)
 	else
@@ -326,14 +331,14 @@
 		original_color = owner.color
 
 	is_landing = TRUE
-	owner.Stun(5 SECONDS, ignore_canstun = TRUE)
+	owner.Stun(landing_duration, ignore_canstun = TRUE)
 	owner.regenerate_icons()
 	owner.visible_message(
 		span_warning("[owner] splats against the ground, flattening into a puddle of ooze!"),
 		span_warning("I splat against the ground, my body flattening!"),
 	)
 	playsound(owner.loc, 'sound/magic/splat.ogg', 50, TRUE)
-	landing_timer = addtimer(CALLBACK(src, PROC_REF(finish_landing)), 5 SECONDS, TIMER_STOPPABLE)
+	landing_timer = addtimer(CALLBACK(src, PROC_REF(finish_landing)), landing_duration, TIMER_STOPPABLE)
 
 /datum/component/amorphous_landing/proc/finish_landing()
 	landing_timer = null
