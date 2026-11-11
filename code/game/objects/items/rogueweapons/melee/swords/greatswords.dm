@@ -159,7 +159,7 @@
 	desc = "A single-edged blade of great length, from the overseas land of Kazengun that has seen better days... It may take two swings to properly cut down an enemy."
 	icon_state = "nodachi"
 	smeltresult = /obj/item/ingot/iron
-	max_blade_int = 300
+	max_blade_int = 200
 	force_wielded = 30
 	wdefense = 5
 
