@@ -507,6 +507,15 @@
 		The hirer can only do so once the first day has passed. A Mercenary let go
 		early must wait a day before they can be hired again.</p>
 
+		<p>A mercenary can end their own contract with the "End Mercenary Contract"
+		verb once the first day has passed. They give up their rate and stipend for
+		the day in progress, but do not have to wait to be hired again.</p>
+
+		<p>A Mercenary may ask for a daily rate from the hirer, it is held from the
+		hirer's MEISTER account one day at a time at the start of each day, and paid
+		at the end of the day. If the hirer cannot cover the next day, the Mercenary
+		is told and can end the contract immediately without penalty.</p>
+
 		<p>While under contract, the Mercenary cannot leave the fellowship and the
 		leader cannot disband it. If the fellowship is destroyed anyway, the contract
 		ends.</p>

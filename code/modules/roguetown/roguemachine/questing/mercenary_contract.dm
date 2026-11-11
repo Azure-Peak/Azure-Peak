@@ -156,6 +156,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/days_served = 0
 	var/rate = 0
 	var/datum/fund/hold
+	var/unpaid = FALSE
 	var/hirer_category
 	var/day_timer_id
 	var/presence_timer_id
@@ -178,7 +179,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	day_timer_id = addtimer(CALLBACK(src, PROC_REF(on_day_passed)), MERC_CONTRACT_DAY_LENGTH, TIMER_STOPPABLE | TIMER_LOOP | TIMER_DELETE_ME)
 	day_started_at = world.time
 	last_presence_check = world.time
-	presence_timer_id = addtimer(CALLBACK(src, PROC_REF(check_presence)), MERC_CONTRACT_PRESENCE_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
+	presence_timer_id = addtimer(CALLBACK(src, PROC_REF(on_presence_tick)), MERC_CONTRACT_PRESENCE_INTERVAL, TIMER_STOPPABLE | TIMER_LOOP)
 	RegisterSignal(F, COMSIG_PARENT_QDELETING, PROC_REF(on_fellowship_deleted))
 	RegisterSignal(merc, COMSIG_PARENT_QDELETING, PROC_REF(on_merc_deleted))
 	GLOB.merc_contracts += src
@@ -253,6 +254,12 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		end_by_death(merc_dead ? merc_name : hirer_name)
 	else
 		pay_day(presence)
+		refresh_hold()
+
+/datum/merc_contract/proc/on_presence_tick()
+	check_presence()
+	if(unpaid)
+		refresh_hold()
 
 /datum/merc_contract/proc/end_by_death(dead_name)
 	var/mob/living/merc = merc_ref?.resolve()
@@ -319,14 +326,43 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	log_quest(merc.ckey, merc.mind, merc, "Contract stipend [stipend] from [payer], [presence_text] (day [days_served] of [days] with [hirer_name])")
 
 /datum/merc_contract/proc/take_hold(mob/living/hirer)
-	var/datum/fund/account = SStreasury.get_account(hirer)
-	var/total = rate * days
 	hold = new /datum/fund("[merc_name] contract hold", null, 0, CURRENCY_MAMMON)
 	SStreasury.register_auxiliary_fund(hold)
-	if(!SStreasury.transfer(account, hold, total, "Mercenary contract hold - [merc_name]", SStreasury.escrow_account(account), LEDGER_CITIZEN_ESCROW))
+	if(!hold_next_day())
 		rate = 0
+
+/datum/merc_contract/proc/hold_next_day()
+	if(!hold)
+		return FALSE
+	var/needed = rate - hold.balance
+	if(needed <= 0)
+		return TRUE
+	var/mob/living/hirer = hirer_ref?.resolve()
+	var/datum/fund/account = SStreasury.get_account(hirer)
+	if(!account || !SStreasury.transfer(account, hold, needed, "Mercenary contract hold - [merc_name]", SStreasury.escrow_account(account), LEDGER_CITIZEN_ESCROW))
+		return FALSE
+	to_chat(hirer, span_notice("[needed] mammon is held from your MEISTER account for [merc_name]'s rate this dae."))
+	return TRUE
+
+/datum/merc_contract/proc/refresh_hold()
+	if(!rate)
 		return
-	to_chat(hirer, span_notice("[total] mammon is held from your MEISTER account for [merc_name]'s rate."))
+	var/was_unpaid = unpaid
+	unpaid = !hold_next_day()
+	if(unpaid == was_unpaid)
+		return
+	var/mob/living/merc = merc_ref?.resolve()
+	var/mob/living/hirer = hirer_ref?.resolve()
+	if(unpaid)
+		if(merc)
+			to_chat(merc, span_warning("[hirer_name] cannot cover your rate for this dae. You can end the contract now with End Mercenary Contract."))
+			log_quest(merc.ckey, merc.mind, merc, "Contract rate [rate] not covered by [hirer_name] (day [days_served + 1] of [days])")
+		if(hirer)
+			to_chat(hirer, span_warning("Your MEISTER account cannot cover [merc_name]'s rate for this dae. They can end the contract until it is covered."))
+		return
+	if(merc)
+		to_chat(merc, span_notice("[hirer_name] has covered your rate for this dae."))
+		log_quest(merc.ckey, merc.mind, merc, "Contract rate [rate] covered late by [hirer_name] (day [days_served + 1] of [days])")
 
 /datum/merc_contract/proc/pay_rate()
 	var/mob/living/merc = merc_ref?.resolve()
@@ -363,6 +399,21 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 
 /datum/merc_contract/proc/can_end_early()
 	return days_served >= 1 || is_merc_dead()
+
+/datum/merc_contract/proc/can_merc_end_early()
+	return unpaid || days_served >= 1
+
+/datum/merc_contract/proc/end_early_by_merc()
+	var/mob/living/merc = merc_ref?.resolve()
+	var/mob/living/hirer = hirer_ref?.resolve()
+	var/was_unpaid = unpaid
+	if(merc)
+		to_chat(merc, span_notice("You end your contract with [hirer_name]. The dae in progress is not paid."))
+		log_quest(merc.ckey, merc.mind, merc, "End contract with [hirer_name] early[was_unpaid ? " while unpaid" : ""]")
+	if(hirer)
+		to_chat(hirer, span_warning("[merc_name] has ended your contract early."))
+		log_quest(hirer.ckey, hirer.mind, hirer, "Contract ended early by mercenary [merc_name][was_unpaid ? " while unpaid" : ""]")
+	end_contract()
 
 /datum/merc_contract/proc/held_amount()
 	return hold?.balance || 0
@@ -490,15 +541,20 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. += "[merc_name] is hired by [contract.hirer_name] for [contract.days] dae\s."
 	. += "The contract ends in [merc_contract_time_text(contract.time_left())]."
 	if(contract.rate)
-		. += "[contract.hirer_name] pays [contract.rate] mammon a dae. [contract.held_amount()] mammon is still held for the daes ahead."
+		. += "[contract.hirer_name] pays [contract.rate] mammon a dae. [contract.held_amount()] mammon is held for this dae."
+		if(contract.unpaid)
+			. += "[contract.hirer_name] has not covered this dae's rate. [merc_name] can end the contract now."
 	. += "The hirer can use it in hand to end the contract early once the first dae has passed, or at any time if [merc_name] is dead."
+	. += "[merc_name] can end it with End Mercenary Contract once the first dae has passed, or at any time while a dae's rate is not covered."
 	if(contract.hirer_category)
 		. += "[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay."
 
 /obj/item/merc_contract/proc/rule_lines()
 	. = list()
-	. += "The daily rate is held from the hirer's MEISTER account when the contract is signed, and paid at the end of each dae."
-	. += "If the contract ends early, the unpaid daes return to the hirer. The dae in progress is still paid, unless the mercenary is the one who leaves."
+	. += "A mercenary may ask for a daily rate from the hirer. It is held from the hirer's MEISTER account one dae at a time at the start of each dae, and paid at the end of the dae."
+	. += "If the hirer cannot cover the next dae, the mercenary is told and can end the contract immediately without penalty."
+	. += "A mercenary can end their own contract with the \"End Mercenary Contract\" verb once the first dae has passed. They give up their rate and stipend for the dae in progress, but do not have to wait to be hired again."
+	. += "If the hirer ends the contract early, the dae in progress is still paid."
 	. += "While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else."
 	. += "Certain roles give you a stipend from an external funder."
 	. += "Stipend per dae by employer:"
@@ -511,7 +567,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /obj/item/merc_contract/proc/offer_lines()
 	. = list("They will join your fellowship.")
 	if(rate)
-		. += "[rate * days] mammon will be held from your MEISTER account and paid out each dae."
+		. += "[rate] mammon will be held from your MEISTER account at the start of each dae, and paid at the end of it."
+		. += "If you cannot cover a dae, [merc_name] can end the contract."
 
 /obj/item/merc_contract/attack_self(mob/user)
 	if(isliving(user))
@@ -726,13 +783,30 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		if(HAS_TRAIT(hirer, TRAIT_OUTLAW))
 			return "An outlaw cannot pay through the MEISTER."
 		var/datum/fund/account = SStreasury.get_account(hirer)
-		if(!account || account.balance < rate * days)
-			return "[hirer.real_name] needs [rate * days] mammon in a MEISTER account to cover [merc_name]'s rate."
+		if(!account || account.balance < rate)
+			return "[hirer.real_name] needs [rate] mammon in a MEISTER account to cover the first dae of [merc_name]'s rate."
 	var/turf/hirer_turf = get_turf(hirer)
 	var/turf/merc_turf = get_turf(merc)
 	if(!hirer_turf || !merc_turf || hirer_turf.z != merc_turf.z || get_dist(hirer_turf, merc_turf) > MERC_CONTRACT_RANGE)
 		return "[merc_name] needs to be nearby."
 	return null
+
+/mob/living/carbon/human/proc/mercenary_end_contract()
+	set name = "End Mercenary Contract"
+	set category = "RoleUnique.Mercenary"
+	set desc = "End the contract you are hired under."
+	var/datum/merc_contract/contract = get_merc_contract(src)
+	if(!contract)
+		to_chat(src, span_warning("You are not under contract."))
+		return
+	if(!contract.can_merc_end_early())
+		to_chat(src, span_warning("You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))]."))
+		return
+	if(tgui_alert(src, "End your contract with [contract.hirer_name] early? You give up the rate and the stipend for the dae in progress.", "Mercenary Contract", list("Yes", "No")) != "Yes")
+		return
+	if(QDELETED(contract) || !contract.can_merc_end_early())
+		return
+	contract.end_early_by_merc()
 
 /atom/movable/screen/alert/merc_contract_offer
 	name = "Contract Offer"

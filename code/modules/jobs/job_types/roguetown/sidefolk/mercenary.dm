@@ -122,6 +122,7 @@
 	. = ..()
 	add_verb(H, /mob/living/carbon/human/proc/mercenary_statusupdate)
 	if(istype(SSjob.GetJob(H.job), /datum/job/roguetown/mercenary))
+		add_verb(H, /mob/living/carbon/human/proc/mercenary_end_contract)
 		grant_merc_contract(H)
 	var/list/subprefs = H.client?.prefs?.job_subprefs
 	if(!subprefs)
