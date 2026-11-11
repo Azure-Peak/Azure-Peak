@@ -225,7 +225,7 @@
 		reform_time_remaining = 0
 		return
 
-	if(!istype(get_area(body), /area/rogue/indoors))
+	if(!body.buried && !istype(get_area(body), /area/rogue/indoors))
 		reform_time_remaining -= 1 SECONDS
 		if(reform_time_remaining > 0 && reform_time_remaining <= next_reform_message)
 			var/list/reform_messages = list(
