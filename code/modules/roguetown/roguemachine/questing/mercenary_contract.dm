@@ -7,6 +7,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	MERC_HIRER_TOWNER = list("label" = "Burghers and Peasants, except the Innkeeper, Tapster and Cook","stipend" = MERC_STIPEND_TOWNER, "payer" = "the Burghers of the realm"),
 	MERC_HIRER_OUTLAW = list("label" = "Outlaws", "stipend" = MERC_STIPEND_OUTLAW, "payer" = "a Mysterious Benefactor", "by_mail" = TRUE),
 	MERC_HIRER_INQUISITION = list("label" = "The Inquisition", "stipend" = MERC_STIPEND_INQUISITION, "payer" = "Otava"),
+	MERC_HIRER_UNIVERSITY = list("label" = "The University ([english_list(POLL_LEVY_SCHOLAR_JOBS)])", "stipend" = MERC_STIPEND_UNIVERSITY, "payer" = "the University of Azuria"),
 ))
 
 /proc/get_merc_hirer_category(mob/living/hirer)
@@ -14,6 +15,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return MERC_HIRER_OUTLAW
 	if(HAS_TRAIT(hirer, TRAIT_INQUISITION))
 		return MERC_HIRER_INQUISITION
+	if(hirer.job in POLL_LEVY_SCHOLAR_JOBS)
+		return MERC_HIRER_UNIVERSITY
 	if(hirer.job in GLOB.tavern_positions)
 		return null
 	if((hirer.job in GLOB.burgher_positions) || (hirer.job in GLOB.peasant_positions))
