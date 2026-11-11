@@ -1,5 +1,7 @@
 #define DOPPEL_CLONE_RANGE 15
 #define DOPPEL_AUDIENCE_RANGE 7
+#define DOPPEL_TAKE_FORM_RANGE 14
+#define DOPPEL_UNSEEN_TIME (10 HOURS)
 #define DOPPEL_CHATTER_CHANCE 8 // Should makes masked Doppel more obviouss
 #define DOPPEL_LAUGH_CHANCE 50
 #define DOPPEL_MIRACLE_TIER_CAP CLERIC_T3
@@ -22,7 +24,15 @@
 /mob/living/carbon/human/species/human/northern/doppelganger/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/human/northern)
+	don_shroud()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/don_shroud()
+	if(cloned_target || length(get_equipped_items(TRUE)))
+		return
+	equipOutfit(new /datum/outfit/doppelganger_shroud)
+	for(var/obj/item/shroud_item in get_equipped_items(TRUE))
+		shroud_item.AddComponent(/datum/component/item_on_drop/dust)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/after_creation()
 	..()
@@ -49,7 +59,7 @@
 
 /mob/living/carbon/human/species/human/northern/doppelganger/Life()
 	. = ..()
-	if(stat == DEAD)
+	if(stat == DEAD || client)
 		return
 	if(!cloned_target)
 		if(clone_ready)
@@ -81,16 +91,104 @@
 	if(!target.dna?.species)
 		return FALSE
 	cloned_target = TRUE
+	return_to_sight()
+	for(var/obj/item/shroud_item in get_equipped_items(TRUE) + held_items)
+		qdel(shroud_item)
 	mirror_body(target)
 	mirror_gear(target)
 	var/controller_type = mirror_magic(target)
 	for(var/obj/item/equipped_item in get_equipped_items(TRUE) + held_items)
 		equipped_item.AddComponent(/datum/component/item_on_drop/dust)
-	for(var/obj/item/held_item in held_items)
-		ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
-	if(controller_type)
-		upgrade_ai_controller(controller_type)
+	if(!client)
+		for(var/obj/item/held_item in held_items)
+			ADD_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+		if(controller_type)
+			upgrade_ai_controller(controller_type)
 	regenerate_icons()
+	return TRUE
+
+/mob/living/carbon/human/species/human/northern/doppelganger/Login()
+	. = ..()
+	if(!client)
+		return
+	if(istype(ai_controller))
+		QDEL_NULL(ai_controller)
+	for(var/obj/item/held_item in held_items)
+		REMOVE_TRAIT(held_item, TRAIT_NODROP, TRAIT_GENERIC)
+	if(cloned_target)
+		to_chat(src, span_notice("You are a doppelganger wearing the form of [copied_name]."))
+		return
+	if(!(locate(/datum/action/cooldown/doppel_take_form) in actions))
+		var/datum/action/cooldown/doppel_take_form/take_form = new(src)
+		take_form.Grant(src)
+	don_shroud()
+	fade_from_sight()
+	to_chat(src, span_notice("You are a doppelganger. You are unseen until you attack, are struck or take a form. Use Take Form to pick someone within [DOPPEL_TAKE_FORM_RANGE] paces and copy them. You get one form."))
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/fade_from_sight()
+	mob_timers[MT_INVISIBILITY] = world.time + DOPPEL_UNSEEN_TIME
+	rogue_sneaking = TRUE
+	alpha = 0
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/return_to_sight()
+	if(mob_timers[MT_INVISIBILITY] <= world.time)
+		return
+	mob_timers[MT_INVISIBILITY] = world.time
+	update_sneak_invis(TRUE)
+
+/datum/outfit/doppelganger_shroud
+	head = /obj/item/clothing/head/roguetown/roguehood/black
+	mask = /obj/item/clothing/mask/rogue/ragmask/black
+	armor = /obj/item/clothing/suit/roguetown/shirt/robe/black
+	gloves = /obj/item/clothing/gloves/roguetown/leather/black
+	pants = /obj/item/clothing/under/roguetown/trou/leather
+	shoes = /obj/item/clothing/shoes/roguetown/boots/leather
+
+/datum/action/cooldown/doppel_take_form
+	name = "Take Form"
+	desc = "Copy the body, gear and magic of someone nearby. Works once."
+	var/choosing = FALSE
+
+/datum/action/cooldown/doppel_take_form/proc/can_copy(mob/living/carbon/human/species/human/northern/doppelganger/doppel, mob/living/carbon/human/victim)
+	if(QDELETED(victim) || victim == doppel || victim.stat == DEAD)
+		return FALSE
+	if(istype(victim, /mob/living/carbon/human/species/human/northern/doppelganger))
+		return FALSE
+	return victim.z == doppel.z && get_dist(doppel, victim) <= DOPPEL_TAKE_FORM_RANGE
+
+/datum/action/cooldown/doppel_take_form/Activate(atom/target)
+	var/mob/living/carbon/human/species/human/northern/doppelganger/doppel = owner
+	if(!istype(doppel) || doppel.cloned_target || choosing)
+		return FALSE
+	var/list/choices = list()
+	for(var/mob/living/carbon/human/candidate in range(DOPPEL_TAKE_FORM_RANGE, doppel))
+		if(!can_copy(doppel, candidate))
+			continue
+		var/label = candidate.real_name
+		var/copies = 1
+		while(choices[label])
+			copies++
+			label = "[candidate.real_name] ([copies])"
+		choices[label] = candidate
+	if(!length(choices))
+		to_chat(doppel, span_warning("There is no one near enough to copy."))
+		return FALSE
+	choosing = TRUE
+	var/picked = tgui_input_list(doppel, "Whose form will you take?", "Take Form", choices)
+	choosing = FALSE
+	if(QDELETED(src) || QDELETED(doppel) || !picked || doppel.cloned_target)
+		return FALSE
+	var/mob/living/carbon/human/victim = choices[picked]
+	if(!can_copy(doppel, victim))
+		to_chat(doppel, span_warning("[picked] is no longer near enough."))
+		return FALSE
+	if(!doppel.become(victim))
+		to_chat(doppel, span_warning("I cannot copy that."))
+		return FALSE
+	log_game("[key_name(doppel)] took the form of [key_name(victim)] as a doppelganger.")
+	message_admins("[key_name_admin(doppel)] took the form of [key_name_admin(victim)] as a doppelganger.")
+	to_chat(doppel, span_notice("I take the form of [victim.real_name]."))
+	QDEL_IN(src, 1)
 	return TRUE
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/mirror_body(mob/living/carbon/human/target)
@@ -317,7 +415,7 @@
 /mob/living/carbon/human/species/human/northern/doppelganger/death(gibbed, nocutscene = FALSE)
 	if(stat == DEAD)
 		return ..()
-	if(cloned_target)
+	if(cloned_target && !client)
 		say(doppel_voiceline(TRUE), forced = TRUE, npc_speech = TRUE)
 	if(!gibbed)
 		new /obj/item/doppel_heart(get_turf(src))
@@ -335,6 +433,8 @@
 
 #undef DOPPEL_CLONE_RANGE
 #undef DOPPEL_AUDIENCE_RANGE
+#undef DOPPEL_TAKE_FORM_RANGE
+#undef DOPPEL_UNSEEN_TIME
 #undef DOPPEL_CHATTER_CHANCE
 #undef DOPPEL_LAUGH_CHANCE
 #undef DOPPEL_MIRACLE_TIER_CAP
