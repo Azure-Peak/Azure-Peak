@@ -153,12 +153,15 @@
 			if("onback")
 				return list("shrink" = 0.6,"sx" = -1,"sy" = 1,"nx" = 0,"ny" = 1,"wx" = 2,"wy" = 0,"ex" = 0,"ey" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 70,"eturn" = 15,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
+// Iron GS stats
 /obj/item/rogueweapon/greatsword/nodachi/iron
 	name = "chipped nodachi"
 	desc = "A single-edged blade of great length, from the overseas land of Kazengun that has seen better days... It may take two swings to properly cut down an enemy."
 	icon_state = "nodachi"
 	smeltresult = /obj/item/ingot/iron
-	max_blade_int = 220
+	max_blade_int = 300
+	force_wielded = 30
+	wdefense = 5
 
 // - ZWEIHANDER LIKE SWORDS END
 
