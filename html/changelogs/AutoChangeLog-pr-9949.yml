@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Cleric now spawn with knife on belt instead of in backpack to avoid crowding"

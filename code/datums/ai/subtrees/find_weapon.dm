@@ -4,6 +4,8 @@
 /proc/ai_npc_has_weapon(mob/living/carbon/human/pawn)
 	if(!istype(pawn))
 		return FALSE
+	if(HAS_TRAIT(pawn, TRAIT_CHUNKYFINGERS)) // A deadite does not concern itself with weapons.
+		return TRUE
 	for(var/obj/item/held in pawn.held_items)
 		if(istype(held, /obj/item/rogueweapon/shield))
 			continue
