@@ -98,7 +98,7 @@
 
 	mechanics_explanations = list("Limbs melt away when they would otherwise be fractured, dislocated, or cut off.",
 		"Can regenerate lost limbs when well-fed.",
-		"Instead of zombifying: reform as a mobile, non-interactive pure ooze. Decapitation prevents this transformation. A splash of 30 units of health potion, strong health potion, or blessed water restores your body, though still deceased.",
+		"Instead of zombifying: reform as a shapeless, pure ooze. A splash of 30 units of red or blessed water restores your former body for revival.",
 		"Have uniquely colored blood that matches the color of their bodies.",
 		"Will gradually shift their body's colors toward the most recently metabolized reagent.",
 		"Can shapeshift and change certain features at will.")
@@ -287,7 +287,7 @@
 		runechat_message = "melts into ooze!",
 		log_seen = SEEN_LOG_EMOTE
 	)
-	to_chat(pure_form, span_userdanger("My body has reformed into a blob of formless ooze. I can move, speak, and emote, but cannot interact with the world."))
+	to_chat(pure_form, span_userdanger("My body has regressed into a shapeless blob of ooze. I can move and speak in my ancestral tongue, but lack the required appendages to interact with the world."))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
 	var/hostile_grace_until
