@@ -182,6 +182,7 @@
 	var/reform_timer
 	var/reform_time_remaining
 	var/next_reform_message
+	var/list/used_reform_messages = list()
 	var/datum/mind/reforming_mind
 	var/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/pure_form
 
@@ -209,6 +210,7 @@
 		deltimer(reform_timer)
 	reform_time_remaining = 5 MINUTES
 	next_reform_message = 4 MINUTES
+	used_reform_messages.Cut()
 	reform_timer = addtimer(CALLBACK(src, PROC_REF(tick_reform_timer)), 1 SECONDS, TIMER_STOPPABLE)
 
 /datum/component/murkling_afterlife/proc/on_body_revive(mob/living/carbon/human/body)
@@ -237,7 +239,15 @@
 				"[body]'s body gives a soft, unnatural shudder...",
 				"The shape of [body]'s corpse briefly wobbles, then settles back into place..."
 			)
-			body.visible_message(span_warningbig(pick(reform_messages)))
+			for(var/used_message in used_reform_messages)
+				reform_messages -= used_message
+			var/reform_message = pick(reform_messages)
+			used_reform_messages += reform_message
+			body.visible_message(
+				span_warningbig(reform_message),
+				runechat_message = "twitches.",
+				log_seen = SEEN_LOG_EMOTE
+			)
 			next_reform_message -= 1 MINUTES
 
 	if(reform_time_remaining <= 0)
@@ -267,12 +277,16 @@
 	pure_form.familiar_headshot_link = body.headshot_link
 	pure_form.headshot_artist_credit = body.headshot_artist_credit
 	pure_form.headshot_artist_link = body.headshot_artist_link
-	body.visible_message(span_infection("[body]'s corpse liquefies into a glistening puddle. It gathers itself into a formless, moving blob of pure ooze!"))
 	playsound(spawn_turf, 'sound/combat/gib (2).ogg', 50, TRUE)
 	reforming_mind.transfer_to(pure_form)
 	reforming_mind = null
 	pure_form.enable_undercommon_only()
 	body.moveToNullspace()
+	pure_form.visible_message(
+		span_infection("[body]'s corpse liquefies into a glistening puddle. It gathers itself into a formless, moving blob of pure ooze!"),
+		runechat_message = "melts into ooze!",
+		log_seen = SEEN_LOG_EMOTE
+	)
 	to_chat(pure_form, span_userdanger("My body has reformed into a blob of formless ooze. I can move, speak, and emote, but cannot interact with the world."))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
