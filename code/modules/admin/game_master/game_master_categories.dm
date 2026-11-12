@@ -64,6 +64,7 @@ GLOBAL_LIST_INIT(gm_category_rules, list(
 	/mob/living/simple_animal/hostile/retaliate/rogue/goatmale = FACTION_GOATS,
 	/mob/living/simple_animal/hostile/retaliate/rogue/cow = FACTION_COWS,
 	/mob/living/simple_animal/hostile/retaliate/rogue/chicken = FACTION_CHICKENS,
+	/mob/living/simple_animal/hostile/retaliate/rogue/chick = FACTION_CHICKENS,
 	/mob/living/simple_animal/hostile/lizard = FACTION_LIZARDS,
 	/mob/living/simple_animal/pet = FACTION_NEUTRAL,
 
