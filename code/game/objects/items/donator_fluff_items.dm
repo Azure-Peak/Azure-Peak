@@ -3846,8 +3846,8 @@ As Excaliber."
 // ROSYSATURNIIDAE
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
 	name = "beaked mask"
-	desc = "A plated steel mask made to resemble a bird's beak.<br> \
-	While similar to the long masks of Pestra's faithful, this is designed to protect against far less insidious dangers. Namely, bladed weapons.<br> \
+	desc = "A plated steel mask made to resemble a bird's beak.<br>\
+	While similar to the long masks of Pestra's faithful, this is designed to protect against far less insidious dangers. Namely, bladed weapons.<br>\
 	<font color='3399FF'>'The magpie's song, a fleeting flight, guides the heart through the encroaching night.'</font>"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
@@ -3870,12 +3870,17 @@ As Excaliber."
 	detail_color = CLOTHING_GOLD
 	altdetail_color = CLOTHING_GOLD
 
+//ROSYSATURNIIDAE
 /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 	name = "rosestone clasped collar"
-	desc = "<font color='FFCCFF'>'To love someone is to choose to let them own a part of your spirit, and to own a part of theirs in return.'</font>"
+	desc = "A simple rigid collar fashioned out of rosestone.</br>\
+	<font color='FFCCFF'>'She's a giver, and a giver's even worse for folks like me...'</font>"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "rosecollar"
+
+/obj/item/clothing/neck/roguetown/psicross/eora/rosecollar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_AASIMAR_BINDING)
 
 // NOIRE + CO.
 /obj/item/clothing/cloak/furcloak/woodland
@@ -5128,6 +5133,7 @@ As Excaliber."
 		to_chat(user, span_info("These lenses won't fit in this mask."))
 		return
 	return ..()
+
 // XLockwoodx
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
 	name = "aesthetic sanguine jacket"
@@ -5135,3 +5141,12 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize(mapload)
 	. = ..()
 	loadoutize()
+
+/obj/item/clothing/head/roguetown/decoration/bluelily
+	name = "tufted blue-lily"
+	desc = "Quite an exotic flower, even for the Kazengun isles. Where white lilies symbolize purity, the indigo hue of these were a sign of its loss.<br>\
+	Thus, across the city of Tateshira, these were commonly used by people to indicate that they were a bathworker or prostitute.<br>\
+	Particularly, those with allegiance to or under the employ of <font color='5E50E9'>house Takahashi</font>, for their extensive connections to the sexual underbelly of the city."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "bluelily"
