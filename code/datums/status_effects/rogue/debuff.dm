@@ -1204,14 +1204,13 @@
 	. = ..()
 	if(!ishuman(owner))
 		return
+	var/mob/living/carbon/human/H = owner
 	for(var/trait in realm_traits)
 		REMOVE_TRAIT(owner, trait, id)
 	REMOVE_TRAIT(owner, TRAIT_SLEEPIMMUNE, id)
-	if(!HAS_TRAIT(owner, TRAIT_SOUL_EXAMINE))
-		var/mob/living/carbon/human/H = owner
-		H.remove_movespeed_modifier("deathsdoor_slowdown")
-		H.remove_stress(/datum/stressevent/death_yearning)
-		H.remove_stress(/datum/stressevent/death_awareness)
+	H.remove_movespeed_modifier("deathsdoor_slowdown")
+	H.remove_stress(/datum/stressevent/death_yearning)
+	H.remove_stress(/datum/stressevent/death_awareness)
 
 /datum/status_effect/debuff/no_coom_cheating //Gets triggered when someone sets their arousal, prevents orgasms from sating vice/giving mood boosts
 	id = "nocoomcheating"
