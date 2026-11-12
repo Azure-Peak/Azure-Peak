@@ -582,7 +582,7 @@
 
 //* Updates a mob's sneaking status, rendering them invisible or visible in accordance to their status. TODO:Fix people bypassing the sneak fade by turning, and add a proc var to have a timer after resetting visibility.
 /mob/living/update_sneak_invis(reset = FALSE) //Why isn't this in mob/living/living_movements.dm? Why, I'm glad you asked!
-	if(in_combat_until > world.time && !reset)
+	if(src.is_in_combat() && !reset)
 		return
 	if(!reset && world.time < mob_timers[MT_INVISIBILITY]) // Check if the mob is affected by the invisibility spell
 		rogue_sneaking = TRUE
@@ -706,7 +706,7 @@
 					to_chat(src, span_warning("I can't sneak while flying!"))
 				else
 					m_intent = MOVE_INTENT_SNEAK
-					if(L.in_combat_until < world.time)
+					if(!L.is_in_combat())
 						update_sneak_invis()
 
 			if(MOVE_INTENT_WALK)
