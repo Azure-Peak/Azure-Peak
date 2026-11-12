@@ -392,15 +392,15 @@
 	icon_state = "necratabard"
 
 /obj/item/clothing/cloak/templar/necrancleric
+	name = "necran cloak"
+	desc = "A dark, battle-worn cloak secured with a silver buckle. Marked with the somber symbols of Necra, its frayed hem bears testament to endless skirmishes with death."
+	icon_state = "necraclerictabard"
+	boobed = FALSE
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	alternate_worn_layer = CLOAK_BEHIND_LAYER
 	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	sleevetype = "shirt"
-	name = "necran cloak"
-	desc = "A dark, battle-worn cloak secured with a silver buckle. Marked with the somber symbols of Necra, its frayed hem bears testament to endless skirmishes with death."
-	icon_state = "necraclerictabard"
-	boobed = FALSE
 
 /obj/item/clothing/cloak/templar/pestran
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
@@ -936,6 +936,7 @@
 	the bods of paladin-errants, priests, and pilgrims across Psydonia's more intemperate climates."
 	icon_state = "priest_surcoat"
 	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/cloaks.dmi'
 	custom_design = TRUE
 
 ////////////////
