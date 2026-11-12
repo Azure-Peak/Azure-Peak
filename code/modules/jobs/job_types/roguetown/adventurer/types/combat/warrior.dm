@@ -633,7 +633,7 @@
 			if("Blessed Silver Shovel")
 				l_hand = /obj/item/rogueweapon/shovel/silver/preblessed //Unlocks the secret 'Shovel Knight' subclass. No dagger skills if you take this. Doesn't scale off anything, I think. Raw style.
 
-		var/discipline = list("Sanguine - Silverblooded (+I INT)", "Swiftfooted - Dodgemaster (+I SPD)", "Stalwart - Plated (+I CON / -I SPD)")
+		var/discipline = list("Sanguine - Silverblooded (+I INT)", "Swiftfooted - Dodgemaster (+I SPD)", "Stalwart - Platearmorable (+I CON / -I SPD)")
 		var/discipline_choice = input(H, "Choose your DISCIPLINE.", "FACE YOUR NIGHTMARE.") as anything in discipline
 		switch(discipline_choice)
 			if("Sanguine - Silverblooded (+I INT)")
@@ -652,7 +652,7 @@
 				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
 				belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver
-			if("Stalwart - Plated (+I CON / -I SPD)")
+			if("Stalwart - Platearmorable (+I CON / -I SPD)")
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC) //'Templar' archetype. Blessings protect from the Rot, while opening the opportunity for heavy armor usage. Well-protected and resilient, but slower and visibly identifiable as a prioritable threat.
 				H.change_stat(STATKEY_CON, 1)
