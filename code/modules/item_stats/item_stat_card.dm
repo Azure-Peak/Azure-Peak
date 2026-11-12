@@ -43,8 +43,30 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 	GLOB.item_preview.show(user, valid)
 	return TRUE
 
-/proc/stat_card_row(label, value, tier, max_tier)
+/proc/stat_hint_penfactor()
+	return "Armor Penetration determines how much of this attack goes through armor.\n\
+	Each armor piece has a blocking tier (Light, Medium, Heavy, Blacksteel).\n\
+	Penetration below the armor tier: fully blocked.\n\
+	Penetration at or above the armor tier: Only a portion go through, and the armor absorbs the rest as integrity damage.\n\
+	The wider the gap between your penetration and the armor tier, the more damage gets through. Strength is used to determine how much of the penetration go through. Swift Balance weapon may use Speed instead.\n\
+	A dulled weapon penetrates worse, and a chunked one cannot penetrate at all.\n\
+	Piercing damage (arrows, bolts) ignores those modifiers and uses fixed amounts based on whether penetration matches or exceeds the tier.\n\
+	All attacks go through armor with no protection of that type, including attacks with no armor penetration.\n\
+	Blunt and Burn attacks bypass this system entirely and use damage reduction instead."
+
+/proc/stat_hint_absorb()
+	return "Each tier increases effective HP of the armor by 20%. Absorbed attacks never reach HP. The armor must be broken first."
+
+/proc/stat_hint_reduce()
+	return "Each tier reduces damage by 20% of base. Reduced damage still reaches HP. Armor absorbs what was blocked."
+
+/proc/stat_hint_block()
+	return "Blocks attacks below this tier (Armor takes all damage). Same tier penetrates 20% (80% goes to armor). Exceeding tier penetrates fully."
+
+/proc/stat_card_row(label, value, tier, max_tier, hint)
 	var/list/row = list("label" = label)
+	if(hint)
+		row["hint"] = hint
 	if(!isnull(value))
 		row["value"] = "[value]"
 	if(!isnull(tier))
@@ -95,7 +117,7 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 		if(intent.damfactor != 1)
 			rows += list(stat_card_row("Damage", intent.damfactor))
 		if(intent.penfactor > PEN_NONE)
-			rows += list(stat_card_row("Armor Penetration", uppertext(intent.item_d_type), clamp(intent.penfactor, 0, 4), 4))
+			rows += list(stat_card_row("Armor Penetration", uppertext(intent.item_d_type), clamp(intent.penfactor, 0, 4), 4, stat_hint_penfactor()))
 		if(intent.get_chargetime())
 			rows += list(stat_card_row("Charge Time"))
 		if(intent.movement_interrupt)
@@ -140,6 +162,12 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 				if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
 					delay_text += " | Type: Rigid"
 			rows += list(stat_card_row("Attack Delay", delay_text))
+		else
+			switch(intent.swingdelay_type)
+				if(SWINGDELAY_PENALTY)
+					rows += list(stat_card_row("Type", "Difficult"))
+				if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
+					rows += list(stat_card_row("Type", "Rigid"))
 		var/pattern = null
 		var/datum/cleave_pattern/cleave = intent.cleave
 		if(istype(cleave))
@@ -290,9 +318,9 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 	var/datum/armor/rating = armor
 	if(istype(rating) && (rating.blunt || rating.slash || rating.stab || rating.piercing))
 		var/list/armor_rows = list()
-		armor_rows += list(stat_card_row("ABSORB", "BLUNT", clamp(rating.blunt, 0, 5), 5))
-		armor_rows += list(stat_card_row("REDUCE", "BURN", clamp(rating.fire, 0, 5), 5))
-		armor_rows += list(stat_card_row("BLOCK", "SLASH", clamp(rating.slash, 0, 4), 4))
+		armor_rows += list(stat_card_row("ABSORB", "BLUNT", clamp(rating.blunt, 0, 5), 5, stat_hint_absorb()))
+		armor_rows += list(stat_card_row("REDUCE", "BURN", clamp(rating.fire, 0, 5), 5, stat_hint_reduce()))
+		armor_rows += list(stat_card_row("BLOCK", "SLASH", clamp(rating.slash, 0, 4), 4, stat_hint_block()))
 		armor_rows += list(stat_card_row("", "STAB", clamp(rating.stab, 0, 4), 4))
 		armor_rows += list(stat_card_row("", "PIERCING", clamp(rating.piercing, 0, 4), 4))
 		card["armor"] = armor_rows
@@ -328,7 +356,7 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 	if(BB.damage)
 		stats += list(stat_card_row("PROJECTILE DAMAGE", BB.damage))
 	if(BB.armor_penetration > PEN_NONE)
-		stats += list(stat_card_row("Armor Penetration", uppertext("[BB.flag]"), clamp(BB.armor_penetration, 0, 4), 4))
+		stats += list(stat_card_row("Armor Penetration", uppertext("[BB.flag]"), clamp(BB.armor_penetration, 0, 4), 4, stat_hint_penfactor()))
 	else
 		stats += list(stat_card_row("Armor Penetration", "NONE"))
 	if(BB.min_range)

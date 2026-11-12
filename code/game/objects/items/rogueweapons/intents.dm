@@ -140,8 +140,7 @@
 	return ..()
 
 /datum/intent/proc/examine(mob/user)
-	var/list/inspec = list("----------------------")
-	inspec += "<br><span class='notice'><b>[name]</b> intent</span>"
+	var/list/inspec = list("<span class='notice'><b>[name]</b> intent</span>")
 	if(desc)
 		inspec += "\n[desc]"
 	if(reach != 1)
@@ -162,9 +161,10 @@
 		inspec += "\n<b>Effective Range:</b> [suffix] [effective_range] paces"
 	if(damfactor != 1)
 		inspec += "\n<b>Damage:</b> [damfactor]"
-	inspec += "\n<b>Armor Penetration:</b> [penfactor > PEN_NONE ? colorgrade_rating(uppertext(item_d_type), penfactor) : "<font color='#808080'>NONE</font>"]"
-	if(masteritem)
-		inspec += " <span class='info'><a href='?src=[REF(masteritem)];explainpenfactor=1'>{?}</a></span>"
+	if(penfactor > PEN_NONE)
+		inspec += "\n<b>Armor Penetration:</b> [colorgrade_rating(uppertext(item_d_type), penfactor)]"
+		if(masteritem)
+			inspec += " <span class='info'><a href='?src=[REF(masteritem)];explainpenfactor=1'>{?}</a></span>"
 	if(get_chargetime())
 		inspec += "\n<b>Charge Time</b>"
 	if(movement_interrupt)
@@ -175,25 +175,27 @@
 		inspec += "\n<b>Drain While Charged:</b> [chargedrain]"
 		if(hold_grace)
 			inspec += "\n<b>Free Hold:</b> [DisplayTimeText(get_hold_grace())]"
-	if(releasedrain)
+	if(releasedrain && releasedrain != 1)
 		inspec += "\n<b>Drain On Release:</b> [releasedrain]"
-	if(misscost)
+	if(misscost && misscost != 1)
 		inspec += "\n<b>Drain On Miss:</b> [misscost]"
-	inspec += "\n<b>Attack Speed:</b> "
+	var/speed_text
 	if(clickcd <= CLICK_CD_FAST)
-		inspec += "<font color='#4af'>Very Quick</font>"
+		speed_text = "<font color='#4af'>Very Quick</font>"
 	else if(clickcd <= CLICK_CD_QUICK)
-		inspec += "<font color='#8f8'>Quick</font>"
+		speed_text = "<font color='#8f8'>Quick</font>"
 	else if(clickcd <= CLICK_CD_MELEE)
-		inspec += "Normal"
+		speed_text = null
 	else if(clickcd <= CLICK_CD_CHARGED)
-		inspec += "<font color='#fa4'>Sluggish</font>"
+		speed_text = "<font color='#fa4'>Sluggish</font>"
 	else if(clickcd <= CLICK_CD_HEAVY)
-		inspec += "<font color='#f44'>Very Sluggish</font>"
+		speed_text = "<font color='#f44'>Very Sluggish</font>"
 	else if(clickcd <= CLICK_CD_MASSIVE)
-		inspec += "<font color='#f22'>Extremely Sluggish</font>"
+		speed_text = "<font color='#f22'>Extremely Sluggish</font>"
 	else
-		inspec += "<font color='#d11'>Glacial</font>"
+		speed_text = "<font color='#d11'>Glacial</font>"
+	if(speed_text)
+		inspec += "\n<b>Attack Speed:</b> [speed_text]"
 	if(!allow_offhand)
 		inspec += "\nThis intent requires a free off-hand."
 	if(blade_class == BCLASS_EFFECT)
@@ -215,9 +217,6 @@
 			inspec += " <span class='info'><a href='?src=[REF(masteritem)];explaindemolitionmod=1'>{?}</a></span>"
 	if(sharpness_penalty)
 		inspec += "\nThis intent will cost some sharpness for every attack made."
-	if(unarmed)
-		inspec += "\n<b>Swift:</b> Harder to parry or dodge when faster than your opponent."
-		inspec += "\n<b>Short Reach:</b> More accurate at striking specific body parts."
 	if(swingdelay > 0)
 		inspec += "\n<b>Attack Delay:</b> "
 		if(swingdelay <= 4)
@@ -226,11 +225,9 @@
 			inspec += "<font color='#f44'>Significant</font>"
 		else
 			inspec += "<font color='#f22'>Heavy</font>"
-	if(swingdelay_type)
-		inspec += " | Type: "
+	if(swingdelay_type && swingdelay_type != SWINGDELAY_NORMAL)
+		inspec += swingdelay > 0 ? " | Type: " : "\n<b>Type:</b> "
 		switch(swingdelay_type)
-			if(SWINGDELAY_NORMAL)
-				inspec += SPAN_TOOLTIP("The attack has no additional effects or drawbacks.", "<font color='#e6e6e6'><u>Normal</u></font>")
 			if(SWINGDELAY_PENALTY)
 				inspec += SPAN_TOOLTIP("The attack significantly reduces my ability to dodge or parry while performing it.", "<font color='#dab141'><u>Difficult</u></font>")
 			if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
@@ -242,7 +239,6 @@
 		if(cleave.diagonal_desc)
 			inspec += "\n	[cleave.diagonal_desc]"
 		inspec += "\n<tt>[cleave.get_pattern_display()]</tt>"
-	inspec += "<br>----------------------"
 
 	to_chat(user, "[inspec.Join()]")
 

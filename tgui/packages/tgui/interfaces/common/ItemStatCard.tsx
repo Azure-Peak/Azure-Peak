@@ -21,6 +21,7 @@ export type StatRow = {
   value?: string;
   tier?: number;
   max_tier?: number;
+  hint?: string;
 };
 
 export type StatIntent = {
@@ -91,7 +92,20 @@ const Rows = (props: { rows: StatRow[] }) => (
       return (
         <div key={`${row.label}-${i}`} style={fieldRowStyle}>
           <div style={labelOnly ? wideLabelStyle : narrowLabelStyle}>
-            {row.label}
+            {row.hint ? (
+              <span
+                title={row.hint}
+                style={{
+                  cursor: 'help',
+                  textDecoration: 'underline dotted',
+                  textUnderlineOffset: '3px',
+                }}
+              >
+                {row.label}
+              </span>
+            ) : (
+              row.label
+            )}
           </div>
           {!labelOnly && (
             <div style={fieldValueStyle}>
