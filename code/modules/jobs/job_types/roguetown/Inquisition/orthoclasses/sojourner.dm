@@ -50,6 +50,7 @@
 
 /datum/outfit/job/roguetown/sojourner/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
+	has_loadout = TRUE
 	if(H.mind)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/fist_of_psydon)
 		H.mind.AddSpell(new /datum/action/cooldown/spell/grasp_of_psydon())
@@ -100,16 +101,6 @@
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backl = /obj/item/storage/backpack/rogue/satchel/black
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt
-	var/list/armor_choices = list("Light Armor", "Bare Skin (Sewing repair)", "Bare Skin (Meditation repair)")
-	var/armor_choice = input(H,"Choose your DEFENSE.", "How will you ENDURE.") as anything in armor_choices
-	switch(armor_choice)
-		if("Light Armor")
-			armor = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex
-			shirt = /obj/item/clothing/suit/roguetown/shirt/robe/pointfex //Yes, the item is spelled this way in the code.
-		if("Bare Skin (Sewing repair)") //does not get a chest-only skin layer, as ward layers there and is superior.
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/disciple //a heavy gambeson.
-		if("Bare Skin (Meditation repair)")
-			armor = /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/disciple //Identical to other skin option aside from repair method.
 	var/naledi_book = pick(/obj/item/book/rogue/naledi1, /obj/item/book/rogue/naledi2, /obj/item/book/rogue/naledi3, /obj/item/book/rogue/naledi4)
 	backpack_contents = list(
 		/obj/item/roguekey/inquisitionmanor = 1,
@@ -123,4 +114,16 @@
 	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)
 
 	change_origin(H, /datum/virtue/origin/naledi, "Holy order")//These are Naledi we make them actually Naledi
-	H.grant_language(/datum/language/celestial)
+
+/datum/outfit/job/roguetown/sojourner/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/list/armor_choices = list("Light Armor", "Bare Skin (Sewing Repair)", "Bare Skin (Meditation Repair)")
+	var/armor_choice = input(H,"Choose your DEFENSE.", "HOW WILL YOU ENDURE?") as anything in armor_choices
+	switch(armor_choice)
+		if("Light Armor")
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/pontifex, SLOT_ARMOR, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/shirt/robe/pointfex, SLOT_SHIRT, TRUE) //Yes, the item is spelled this way in the code.
+		if("Bare Skin (Sewing Repair)") //does not get a chest-only skin layer, as ward layers there and is superior.
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/disciple, SLOT_ARMOR, TRUE) //a heavy gambeson.
+		if("Bare Skin (Meditation Repair)")
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/disciple, SLOT_ARMOR, TRUE) //Identical to other skin option aside from repair method.

@@ -7,14 +7,7 @@
 	icon_dead = "revenant"
 	mob_biotypes = MOB_UNDEAD | MOB_BEAST
 
-	turns_per_move = 3
-	move_to_delay = 3
 	see_in_dark = 6
-	vision_range = 7
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
-	retreat_health = 0.3
 
 	health = WOLF_HEALTH
 	maxHealth = WOLF_HEALTH

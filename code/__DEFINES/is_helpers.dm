@@ -115,8 +115,6 @@ GLOBAL_LIST_INIT(our_forest_sex, typecacheof(list(
 
 #define ismouse(A) (istype(A, /mob/living/simple_animal/mouse))
 
-#define iscow(A) (istype(A, /mob/living/simple_animal/cow))
-
 #define isslime(A) (istype(A, /mob/living/simple_animal/slime))
 
 #define iscat(A) (istype(A, /mob/living/simple_animal/pet/cat))
