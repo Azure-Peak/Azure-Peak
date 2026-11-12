@@ -243,34 +243,21 @@
 	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
 	return J?.quest_claim_barred && J.quest_claim_solo_allowed
 
-/proc/is_quest_solo_limit_exempt(datum/quest/Q)
-	if(!Q)
-		return FALSE
-	return Q.source == QUEST_SOURCE_TOWNER || Q.quest_type == QUEST_RETRIEVAL || Q.quest_type == QUEST_COURIER
-
 /proc/quest_claim_uses_solo_allowance(mob/user, datum/quest/Q)
 	if(!user?.mind)
 		return FALSE
 	if(quest_claim_lowpop_active())
 		return FALSE
 	var/datum/job/J = user.job ? SSjob.GetJob(user.job) : null
-	if(J?.quest_claim_barred)
-		if(!J.quest_claim_solo_allowed)
-			return FALSE
-		return !(J.quest_claim_towner_allowed && Q?.source == QUEST_SOURCE_TOWNER)
-	if(is_quest_solo_limit_exempt(Q))
+	if(!J?.quest_claim_barred || !J.quest_claim_solo_allowed)
 		return FALSE
-	var/mob/living/L = user
-	var/datum/fellowship/F = istype(L) ? L.current_fellowship : null
-	return !F || length(F.get_members()) < 2
+	return !(J.quest_claim_towner_allowed && Q?.source == QUEST_SOURCE_TOWNER)
 
 /proc/is_quest_solo_limited(mob/user, datum/quest/Q)
 	return quest_claim_uses_solo_allowance(user, Q) && !SSquestpool.is_solo_sign_ready(user)
 
 /proc/quest_solo_limit_reason(mob/user)
-	var/still_open = "You may still take Courier, Retrieval or Towner contracts, or sign as the leader of a fellowship."
-	if(has_quest_claim_solo_allowance(user))
-		still_open = "Towner postings are still open to you, or you can hire yourself out."
+	var/still_open = "Towner postings are still open to you, or you can hire yourself out."
 	var/remaining = SSquestpool.solo_sign_cooldown_remaining(user)
 	if(remaining > 0)
 		return "You can sign one contract on your own every [QUEST_SOLO_SIGN_COOLDOWN / (1 MINUTES)] minutes. You can sign another in [CEILING(remaining / (1 MINUTES), 1)]m. [still_open]"

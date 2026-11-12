@@ -167,7 +167,6 @@ type ContractLedgerData = {
   solo_limit_ready: BooleanLike;
   solo_limit_reason: string;
   solo_limit_minutes: number;
-  solo_limit_fellowship_lifts: BooleanLike;
   quest_claim_solo_jobs: string[];
   arrival_scan_range: number;
   fellowship_reward_cap_pct: number;
@@ -883,13 +882,6 @@ const ActiveStrip = (props: {
     gateRemaining <= 0 &&
     !!data.solo_limit_applies &&
     !data.fellowship_member_locked;
-  const soloLowpopLifted =
-    !!data.has_account &&
-    !claimBarred &&
-    gateRemaining <= 0 &&
-    !!data.quest_claim_lowpop_active &&
-    !lowpopLifted &&
-    (data.user_fellowship_size || 0) < 2;
   const soloReady = soloApplies && !!data.solo_limit_ready;
   const soloLimited = soloApplies && !data.solo_limit_ready;
   const signingHelp =
@@ -1004,21 +996,16 @@ const ActiveStrip = (props: {
                 These jobs can always sign towner postings: {townerList}.
               </div>
             )}
-            <div style={{ marginTop: '6px' }}>
-              Outside a fellowship, you can sign one contract every{' '}
-              {data.solo_limit_minutes} minutes and must finish it before
-              signing the next. Courier, retrieval and towner contracts do not
-              count. The leader of a fellowship of two or more may sign as many as they want. The
-              limit is lifted in lowpop.
-            </div>
             {!!soloList && (
               <div style={{ marginTop: '6px' }}>
-                These jobs are always limited to one contract every{' '}
-                {data.solo_limit_minutes} minutes, even when leading a
-                fellowship: {soloList}. Courier and retrieval contracts are
-                included in the cooldown. When one of them signs a contract, any
-                other player with the same job will also count as a solo signer.
-                Find a fellowship leader with another job to avoid this.
+                These jobs are limited to one contract every{' '}
+                {data.solo_limit_minutes} minutes and must finish it before
+                signing the next, even when leading a fellowship: {soloList}.
+                Courier and retrieval contracts are included in the cooldown.
+                When one of them signs a contract, any other player with the
+                same job in their fellowship waits as well. Find a fellowship
+                leader with another job to avoid this. The limit is lifted in
+                lowpop.
               </div>
             )}
             {!!lowpopList && (
@@ -1094,33 +1081,13 @@ const ActiveStrip = (props: {
               />
             </div>
           )}
-          {soloLowpopLifted && (
-            <div
-              className="ContractLedger__ActiveRow"
-              style={{ color: '#2a6b2a', fontWeight: 'bold' }}
-            >
-              The town is quiet todae. The limit of one solo contract every{' '}
-              {data.solo_limit_minutes} minutes is lifted.
-              <Button
-                compact
-                ml={0.5}
-                icon="question-circle"
-                selected={showSigningHelp}
-                tooltip="Who can sign contracts"
-                onClick={() => setShowSigningHelp(true)}
-              />
-            </div>
-          )}
           {soloReady && (
             <div
               className="ContractLedger__ActiveRow"
               style={{ color: '#2a6b2a', fontWeight: 'bold' }}
             >
               You may only sign one contract on your own every{' '}
-              {data.solo_limit_minutes} minutes.{' '}
-              {data.solo_limit_fellowship_lifts
-                ? 'Courier, retrieval and towner contracts do not count. Lead a fellowship to sign freely.'
-                : 'Towner postings do not count.'}
+              {data.solo_limit_minutes} minutes. Towner postings do not count.
               <Button
                 compact
                 ml={0.5}

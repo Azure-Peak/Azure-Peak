@@ -409,12 +409,6 @@
 		<p>Beyond the active cap, a <b>take cooldown</b> starts once you have signed
 		your cap worth of contracts within [QUEST_TAKE_COOLDOWN / 600] minutes.</p>
 
-		<p><b>Solo contracts</b> - Outside a fellowship, you can sign one contract every
-		[QUEST_SOLO_SIGN_COOLDOWN / 600] minutes, and must finish it before signing the
-		next. Courier, retrieval and towner contracts do not count. The leader of a
-		fellowship of two or more may sign as many as they want. The limit is lifted during lowpop. Contracts
-		handed to you directly do not count either.</p>
-
 		<h3>Towner Gate</h3> <p>Town members cannot sign Guild contracts during the
 		first [CONTRACT_TOWNIE_GATE_TIME / 600] minutes of the round. Adventuring jobs
 		(Mercenary, Adventurer, and similar) are exempt and may sign immediately. The
