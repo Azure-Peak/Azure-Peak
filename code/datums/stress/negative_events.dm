@@ -609,3 +609,13 @@
 	timer = 5 MINUTES
 	stressadd = 1
 	desc = list(span_artery("Even I found no satisfaction in striking someone so meek."), span_artery("They denied me the thrill of a real fight."), span_artery("Their refusal to resist leaves a bitter taste."), span_artery("There was no struggle... only acceptance. That's insane."), span_artery("I expected fear, hatred, anything... but not acceptance."), span_artery("A defenseless victim is hardly worth remembering, yet the thought lingers."), span_artery("Why won't the image of their helplessness leave my mind?"))
+
+/datum/stressevent/death_yearning
+	timer = 4 HOURS
+	stressadd = 1
+	desc = span_blue("<i>So tired... I should close my eyes and sleep...</i>")
+
+/datum/stressevent/death_awareness
+	timer = 4 HOURS
+	stressadd = 99
+	desc = span_artery("<b><i>L E T  M E  O U T  O F  H E R E !</i></b>")

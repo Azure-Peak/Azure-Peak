@@ -1126,95 +1126,92 @@
 		var/mob/living/carbon/C = owner
 		C.remove_movespeed_modifier(MOVESPEED_ID_DAMAGE_SLOWDOWN)
 
-
-/datum/status_effect/debuff/necrandeathdoorwilloss
-	id = "Necran Deathly Calm"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/necranwilloss
-	effectedstats = list(STATKEY_WIL = -4)
-	var/blimmune = FALSE
-	var/nobreath = FALSE
-
-/datum/status_effect/debuff/necrandeathdoorwilloss/on_apply()
-	. = ..()
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		H.add_movespeed_modifier(MOVESPEED_ID_BULKY_DRAGGING, multiplicative_slowdown = PULL_PRONE_SLOWDOWN)
-		if(HAS_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE))
-			blimmune = TRUE
-		else
-			ADD_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE, STATUS_EFFECT_TRAIT)
-		if(HAS_TRAIT(H, TRAIT_NOBREATH))
-			nobreath = TRUE
-		else
-			ADD_TRAIT(H, TRAIT_NOBREATH, STATUS_EFFECT_TRAIT)
-
-/datum/status_effect/debuff/necrandeathdoorwilloss/on_remove()
-	. = ..()
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		H.remove_movespeed_modifier(MOVESPEED_ID_BULKY_DRAGGING)
-		if(!blimmune)
-			REMOVE_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE, STATUS_EFFECT_TRAIT)
-		if(!nobreath)
-			REMOVE_TRAIT(H, TRAIT_NOBREATH, STATUS_EFFECT_TRAIT)
-
-/datum/status_effect/debuff/necrandeathdoorwilloss/process()
-	.=..()
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		H.energy_add(-1)	//being in death's edge drains energy from people
-		var/area/rogue/our_area = get_area(H)
-		if(!(our_area.necra_area))
-			owner.remove_status_effect(/datum/status_effect/debuff/necrandeathdoorwilloss)
-
-/atom/movable/screen/alert/status_effect/debuff/necranwilloss
-	name = "Necran Deathly Calm"
-	desc = "I am on the edge of my lady's realm. My motivation slackens with such deathly tranquility."
+/atom/movable/screen/alert/status_effect/debuff/deathly_calm
+	name = "Yearning for Death"
+	desc = "I am on the edge of lyfe and death... My soul yearns freedom from this mortal husk. To join such... tranquility."
 	icon_state = "necravow"
 	color ="#af9f9f"
 
-/datum/status_effect/debuff/deathdoorwilloss
-	id = "Deathly Calm"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/deathdoorwilloss
-	effectedstats = list(STATKEY_WIL = -8)
-	var/blimmune = FALSE
-	var/nobreath = FALSE
+/datum/status_effect/debuff/deathly_calm
+	id = "death_realm"
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/deathly_calm
+	duration = -1
+	tick_interval = 5 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+	var/peace_offered = FALSE // only once you're given the chance to leave your body and never return
+	var/static/list/realm_traits = list(TRAIT_BLOODLOSS_IMMUNE, TRAIT_NOBREATH, TRAIT_TOXIMMUNE, TRAIT_DEATHLESS, TRAIT_FASTSLEEP)
 
-/datum/status_effect/debuff/deathdoorwilloss/on_apply()
+/datum/status_effect/debuff/deathly_calm/on_creation(mob/living/new_owner, ...)
 	. = ..()
+	if(linked_alert && HAS_TRAIT(new_owner, TRAIT_SOUL_EXAMINE))
+		linked_alert.name = "Deathly Comfort"
+		linked_alert.desc = "I am within the edge of my Lady's realm... This reassuring silence comforts both body and soul."
+
+/datum/status_effect/debuff/deathly_calm/on_apply()
+	. = ..()
+	if(!ishuman(owner))
+		return
+	for(var/trait in realm_traits)
+		ADD_TRAIT(owner, trait, id)
+	if(!HAS_TRAIT(owner, TRAIT_SOUL_EXAMINE))
+		var/mob/living/carbon/human/H = owner
+		H.add_movespeed_modifier("deathsdoor_slowdown", multiplicative_slowdown = PULL_PRONE_SLOWDOWN)
+		H.add_stress(/datum/stressevent/death_yearning)
+
+/datum/status_effect/debuff/deathly_calm/tick()
+	. = ..()
+	if(!ishuman(owner))
+		return
 	var/mob/living/carbon/human/H = owner
-	H.add_movespeed_modifier(MOVESPEED_ID_BULKY_DRAGGING, multiplicative_slowdown = PULL_PRONE_SLOWDOWN)
-	if(HAS_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE))
-		blimmune = TRUE
-	else
-		ADD_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE, STATUS_EFFECT_TRAIT)
-	if(HAS_TRAIT(H, TRAIT_NOBREATH))
-		nobreath = TRUE
-	else
-		ADD_TRAIT(H, TRAIT_NOBREATH, STATUS_EFFECT_TRAIT)
-
-/datum/status_effect/debuff/deathdoorwilloss/on_remove()
-	. = ..()
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		H.remove_movespeed_modifier(MOVESPEED_ID_BULKY_DRAGGING)
-		if(!blimmune)
-			REMOVE_TRAIT(H, TRAIT_BLOODLOSS_IMMUNE, STATUS_EFFECT_TRAIT)
-		if(!nobreath)
-			REMOVE_TRAIT(H, TRAIT_NOBREATH, STATUS_EFFECT_TRAIT)
-
-/datum/status_effect/debuff/deathdoorwilloss/process()
-	.=..()
-	owner.energy_add(-1)	//being in death's edge drains energy from people
-	var/area/rogue/our_area = get_area(owner)
+	var/area/rogue/our_area = get_area(H)
 	if(!(our_area.necra_area))
-		owner.remove_status_effect(/datum/status_effect/debuff/deathdoorwilloss)
+		qdel(src)
+	H.energy_add(HAS_TRAIT(H, TRAIT_SOUL_EXAMINE) ? 1 : -5)
+	if(!peace_offered && H.IsSleeping())
+		peace_offered = TRUE
+		INVOKE_ASYNC(src, PROC_REF(offer_peace))
 
-/atom/movable/screen/alert/status_effect/debuff/deathdoorwilloss
-	name = "Deathly Calm"
-	desc = "I am on the edge of Death's realm. It is hard to feel motivated with such deathly tranquility."
-	icon_state = "necravow"
-	color ="#af9f9f"
+/datum/status_effect/debuff/deathly_calm/proc/offer_peace()
+	var/static/list/questions = list("Do you wish to find true peace?", "Will you finally lay your burden down?", "Would you rest here, and never wake?", "The silence is gentle. Will you stay in it?", "Is it not time to stop running?")
+	var/static/list/yield_labels = list("So tired...", "Let me rest...", "I just want it to end...", "Yes... peace...")
+	var/static/list/resist_labels = list("No! I need to wake up!", "Not yet! Let me wake!", "I can't stay here!", "I won't give in!")
+	var/yield_label = pick(yield_labels)
+	var/choice = tgui_alert(owner, pick(questions), "Absolution... She beckons you...", shuffle(list(yield_label, pick(resist_labels))), 15 SECONDS)
+	if(QDELETED(src) || QDELETED(owner) || owner.stat == DEAD || !owner.IsSleeping())
+		return
+	if(choice == yield_label)
+		owner.visible_message(span_purple("<i>Countless ghastly hands rise from below the ground and cradle a sleeping [owner], before gently reaping their soul out under... What remains, crumbles to a pale dust.</i>"))
+		to_chat(owner, span_userdanger("I let go. It is so... quiet here..."))
+		owner.dust(TRUE)
+		return
+	owner.visible_message(span_purple("<i>Countless ghastly hands rise from below the ground and cradle a sleeping [owner], but are repelled back into the ground along a ghastly screech as their prey jolt awake!</i>"))
+	ADD_TRAIT(owner, TRAIT_SLEEPIMMUNE, id)
+	owner.remove_status_effect(/datum/status_effect/incapacitating/sleeping)
+	if(owner.eyesclosed)
+		owner.eyesclosed = 0
+		owner.cure_blind("eyelids")
+	var/mob/living/carbon/human/H = owner
+	H.freakout_hud_skew()
+	playsound(owner, pick('sound/vo/mobs/ghost/aggro (1).ogg', 'sound/vo/mobs/ghost/aggro (2).ogg', 'sound/vo/mobs/ghost/aggro (3).ogg', 'sound/vo/mobs/ghost/aggro (4).ogg', 'sound/vo/mobs/ghost/aggro (5).ogg', 'sound/vo/mobs/ghost/aggro (6).ogg'), 100, FALSE)
+	to_chat(owner, span_userdanger("WHAT WAS THAT?!"))
+	owner.emote("firescream", forced = TRUE)
+	owner.remove_stress(/datum/stressevent/death_yearning)
+	owner.add_stress(/datum/stressevent/death_awareness)
+	owner.Jitter(100)
+	owner.stuttering += 100
+
+/datum/status_effect/debuff/deathly_calm/on_remove()
+	. = ..()
+	if(!ishuman(owner))
+		return
+	for(var/trait in realm_traits)
+		REMOVE_TRAIT(owner, trait, id)
+	REMOVE_TRAIT(owner, TRAIT_SLEEPIMMUNE, id)
+	if(!HAS_TRAIT(owner, TRAIT_SOUL_EXAMINE))
+		var/mob/living/carbon/human/H = owner
+		H.remove_movespeed_modifier("deathsdoor_slowdown")
+		H.remove_stress(/datum/stressevent/death_yearning)
+		H.remove_stress(/datum/stressevent/death_awareness)
 
 /datum/status_effect/debuff/no_coom_cheating //Gets triggered when someone sets their arousal, prevents orgasms from sating vice/giving mood boosts
 	id = "nocoomcheating"
