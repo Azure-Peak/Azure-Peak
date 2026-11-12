@@ -1,4 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - bugfix: "The ghost orbit menu has been re-ordered and now remembers your expanded categories."

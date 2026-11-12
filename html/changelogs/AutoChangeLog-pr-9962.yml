@@ -1,4 +1,0 @@
-author: "chaoko99"
-delete-after: True
-changes:
-  - bugfix: "added missing planes to the eye blurring system."
