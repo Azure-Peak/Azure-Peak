@@ -164,7 +164,7 @@
 	force_wielded = 30
 	wdefense = 5
 
-// - ZWEIHANDER LIKE SWORDS END
+// - ZWEIHANDER LIKE SWORDS END -
 
 /obj/item/rogueweapon/greatsword/grenz/flamberge
 	name = "flamberge"
