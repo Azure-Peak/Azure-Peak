@@ -6,6 +6,8 @@
 #define DOPPEL_LAUGH_CHANCE 50
 #define DOPPEL_MIRACLE_TIER_CAP CLERIC_T3
 #define DOPPEL_NAME_PREFIX "Wyrd"
+#define DOPPEL_SIZE_UP_TIME (4 SECONDS)
+#define DOPPEL_FRESH_FACE_PATIENCE (12 SECONDS)
 
 /mob/living/carbon/human/species/human/northern/doppelganger
 	ai_controller = /datum/ai_controller/human_npc
@@ -16,6 +18,26 @@
 	var/cloned_target = FALSE
 	var/clone_ready = FALSE
 	var/copied_name
+	var/first_sighting = 0
+	var/form_registered = FALSE
+	var/static/list/forms_worn = list()
+
+/mob/living/carbon/human/species/human/northern/doppelganger/Destroy()
+	release_form()
+	return ..()
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/release_form()
+	if(!form_registered)
+		return
+	form_registered = FALSE
+	forms_worn -= copied_name
+
+/mob/living/carbon/human/species/human/northern/doppelganger/proc/times_worn(form_name)
+	var/count = 0
+	for(var/worn in forms_worn)
+		if(worn == form_name)
+			count++
+	return count
 
 /mob/living/carbon/human/species/human/northern/doppelganger/ambush
 	threat_point = THREAT_DEADLY // Ochre had it at 20, let's go for 40
@@ -72,20 +94,34 @@
 	else
 		say(doppel_voiceline(FALSE), forced = TRUE, npc_speech = TRUE)
 
+// A party tends to enter staggered, so copying the closest player meant it would copy only one person, and sometimes it is the least deadly. So, we wait a moment to spread it out.
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/find_clone_target()
-	var/mob/living/carbon/human/closest
-	var/closest_dist = DOPPEL_CLONE_RANGE + 1
+	var/list/freshest = list()
+	var/fewest_copies = INFINITY
 	for(var/mob/living/carbon/human/candidate in GLOB.player_list)
 		if(candidate.stat == DEAD || candidate.z != z)
 			continue
 		if(istype(candidate, /mob/living/carbon/human/species/human/northern/doppelganger))
 			continue
-		var/dist = get_dist(src, candidate)
-		if(dist < closest_dist)
-			closest = candidate
-			closest_dist = dist
-	if(closest)
-		become(closest)
+		if(get_dist(src, candidate) > DOPPEL_CLONE_RANGE)
+			continue
+		var/copies = times_worn(candidate.real_name)
+		if(copies < fewest_copies)
+			fewest_copies = copies
+			freshest = list(candidate)
+		else if(copies == fewest_copies)
+			freshest += candidate
+	if(!length(freshest))
+		first_sighting = 0
+		return
+	if(!first_sighting)
+		first_sighting = world.time
+	var/waited = world.time - first_sighting
+	if(waited < DOPPEL_SIZE_UP_TIME)
+		return
+	if(fewest_copies > 0 && waited < DOPPEL_FRESH_FACE_PATIENCE)
+		return
+	become(pick(freshest))
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/become(mob/living/carbon/human/target)
 	if(!target.dna?.species)
@@ -95,6 +131,8 @@
 	for(var/obj/item/shroud_item in get_equipped_items(TRUE) + held_items)
 		qdel(shroud_item)
 	mirror_body(target)
+	forms_worn += copied_name
+	form_registered = TRUE
 	mirror_gear(target)
 	var/controller_type = mirror_magic(target)
 	for(var/obj/item/equipped_item in get_equipped_items(TRUE) + held_items)
@@ -417,6 +455,7 @@
 		return ..()
 	if(cloned_target && !client)
 		say(doppel_voiceline(TRUE), forced = TRUE, npc_speech = TRUE)
+	release_form()
 	if(!gibbed)
 		new /obj/item/doppel_heart(get_turf(src))
 	. = ..()
@@ -439,3 +478,5 @@
 #undef DOPPEL_LAUGH_CHANCE
 #undef DOPPEL_MIRACLE_TIER_CAP
 #undef DOPPEL_NAME_PREFIX
+#undef DOPPEL_SIZE_UP_TIME
+#undef DOPPEL_FRESH_FACE_PATIENCE
