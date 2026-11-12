@@ -241,7 +241,7 @@ GLOBAL_LIST_EMPTY(last_words)
 					same_pantheon = TRUE
 					break
 		if(same_pantheon)
-			witness.apply_status_effect(/datum/status_effect/buff/luxplate_blessing)
+			witness.apply_status_effect(/datum/status_effect/buff/recuperation)
 			to_chat(witness, span_boldgreen("The departing essence washes over me, like a warm mantle..."))
 		else
 			witness.apply_status_effect(/datum/status_effect/debuff/luxplate_curse)
