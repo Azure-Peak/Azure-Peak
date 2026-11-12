@@ -337,8 +337,8 @@
 				recipient.AddComponent(/datum/component/alter_ego)
 
 /datum/virtue/utility/nighteye
-	name = "Natural Darksight"
-	desc = "For one reason or another, my eyes are capable of seeing through cloying darkness, rather than not at all."
+	name = "Night Eye"
+	desc = "My eyes are able to see through cloying darkness."
 	custom_text = "Grants a verb to enhance your darksight at the cost of seeing colors, but if you have Colorblindness as a vice, you cannot toggle this off."
 	ui_fa_icon = "eye"
 	added_traits = list(TRAIT_DARKVISION)
