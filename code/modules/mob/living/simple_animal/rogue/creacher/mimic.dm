@@ -16,9 +16,6 @@
 	mob_biotypes = NONE
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2, /obj/effect/spawner/lootdrop/valuable_jewelry_spawner = 1)
-	retreat_distance = 0
-	minimum_distance = 0
-	aggro_vision_range = 2
 	see_in_dark = 6
 
 	harm_intent_damage = 5
@@ -33,9 +30,6 @@
 	speak_emote = list("clatters")
 
 	faction = list(FACTION_MIMIC, FACTION_HOSTILE)
-	stop_automated_movement = 1
-	wander = 0
-	stat_attack = UNCONSCIOUS
 
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat, /obj/item/bodypart, /obj/item/organ)
 	food = 0
@@ -47,8 +41,6 @@
 
 	ai_controller = /datum/ai_controller/mimic
 	move_base_delay = MOVEMENT_DELAY_SLOW
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	/// The typepath of the chest this mimic is mimicking.
 	var/obj/structure/closet/crate/chest/mimicking_chest = /obj/structure/closet/crate/chest
 	var/spooked = FALSE
@@ -70,21 +62,17 @@
 	if(mimicking_chest::desc)
 		. += span_info("[mimicking_chest::desc]")
 
-/mob/living/simple_animal/hostile/retaliate/rogue/mimic/find_food()
-	. = ..()
-	if(!.)
-		return eat_bodies()
+/mob/living/simple_animal/hostile/retaliate/rogue/mimic/food_tempted(obj/item/O, mob/user)
+	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/attack_hand(mob/user)
 	..()
-	Retaliate(user)
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mimic/proc/disguise()
 	if(stat)

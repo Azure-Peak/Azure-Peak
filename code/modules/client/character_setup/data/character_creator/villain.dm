@@ -1,6 +1,6 @@
 /datum/preferences/proc/ui_data_character_creator_villain(mob/user)
 	var/list/data = list(
-		"antag_banned" = is_banned_from(user.ckey, ROLE_SYNDICATE),
+		"antag_banned" = is_banned_from(user.ckey, ROLE_ANTAGONIST),
 
 		"lich_headshot_link" = lich_headshot_link,
 		"lich_headshot_artist_credit" = lich_headshot_artist_credit,

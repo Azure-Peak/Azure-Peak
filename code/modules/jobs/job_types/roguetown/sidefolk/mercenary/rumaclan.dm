@@ -229,7 +229,7 @@
 			if("Kodachi, Tanto, & Tossblades") //Melee and a touch of ranged versatility, but not much spare belt-room.
 				H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_EXPERT, TRUE)
 				H.adjust_skillrank_up_to(/datum/skill/combat/knives, SKILL_LEVEL_EXPERT, TRUE)
-				belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun //uses iron throwing stars for now, no sprite for steel ones.
+				belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/kazengun //uses iron throwing stars for now, no sprite for steel ones.
 				r_hand = /obj/item/rogueweapon/sword/short/kazengun
 				backl = /obj/item/rogueweapon/scabbard/sword/kazengun/kodachi
 				beltr = /obj/item/rogueweapon/scabbard/sheath/kazengun
