@@ -38,6 +38,16 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+/datum/action/cooldown/spell/fridigitation/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(cast_on.get_filter("fridigitation_glow"))
+		if(owner)
+			to_chat(owner, span_warning("[cast_on] is already frozen."))
+		return FALSE
+	return TRUE
+
 /datum/action/cooldown/spell/fridigitation/cast(atom/cast_on, mob/user = usr)
 	. = ..()
 	if(istype(cast_on, /obj/item/reagent_containers/food/snacks/rogue))
