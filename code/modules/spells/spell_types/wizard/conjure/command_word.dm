@@ -1,5 +1,5 @@
 #define CONJURE_TAUNT_TELEGRAPH (1.5 SECONDS)
-#define CONJURE_OVERLOAD_WINDUP (3.5 SECONDS) e
+#define CONJURE_OVERLOAD_WINDUP (3.5 SECONDS)
 
 /obj/effect/temp_visual/telegraph/conjure_taunt
 	duration = CONJURE_TAUNT_TELEGRAPH
