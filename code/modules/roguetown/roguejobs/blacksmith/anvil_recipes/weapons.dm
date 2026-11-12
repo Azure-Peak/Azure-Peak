@@ -1763,16 +1763,6 @@
 	createditem_num = BOLT_SMITH_BATCH
 	i_type = "Ammo"
 
-/datum/anvil_recipe/weapons/iron/bolts/light
-	name = "Light Slurbow Bolts (+1 Stick) (x16)"
-	category = "Iron"
-	req_bar = /obj/item/ingot/iron
-	additional_items = list(/obj/item/grown/log/tree/stick)
-	created_item = /obj/item/ammo_casing/caseless/rogue/bolt/light
-	display_category = ITEM_CAT_WEAPONS_AMMO
-	createditem_num = BOLT_SMITH_BATCH
-	i_type = "Ammo"
-
 /datum/anvil_recipe/weapons/bronze/bolts
 	name = "Hastequilled Bolts, Bronze (+2 Stick) (x16)"
 	category = "Bronze"

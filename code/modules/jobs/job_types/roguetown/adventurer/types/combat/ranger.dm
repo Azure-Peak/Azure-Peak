@@ -159,7 +159,7 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/jacket/artijacket
 	backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 	backl = /obj/item/twstrap/bombstrap/firebomb
-	beltr = /obj/item/quiver/bolt/light
+	beltr = /obj/item/quiver/bolt/standard
 
 	if(H.mind)
 		var/defense_choice = input(H, "Choose your defensive training.", "DEFENSIVE TRAINING") as anything in list("Dodge Expert", "Medium Armor")

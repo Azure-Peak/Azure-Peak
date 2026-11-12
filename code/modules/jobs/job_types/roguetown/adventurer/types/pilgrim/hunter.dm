@@ -82,7 +82,7 @@
 			if("Light Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-				beltl = /obj/item/quiver/bolt/light
+				beltl = /obj/item/quiver/bolt/standard
 
 /datum/advclass/hunter/spear
 	name = "Spear-Hunter"

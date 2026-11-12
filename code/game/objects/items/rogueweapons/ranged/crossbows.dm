@@ -321,7 +321,6 @@
 	icon_state = "slurbow0"
 	item_state = "slurbow"
 	possible_item_intents = list(/datum/intent/shoot/crossbow/slurbow, /datum/intent/arc/crossbow/slurbow, /datum/intent/buttstroke)
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/slurbow
 	draw_base = SLURBOW_DRAW_BASE
 	draw_floor = SLURBOW_DRAW_FLOOR
 	draw_per_skill = SLURBOW_DRAW_PER_SKILL
@@ -329,6 +328,9 @@
 	damfactor = 0.6
 	accfactor = 1.3
 	reloadtime = 20
+	min_range_mod = -1 // point blank given it goes to 1
+	max_range_mod = -1
+	projectile_speed_mult = 2 // so half speed.
 	force = 10
 	hasloadedsprite = TRUE
 	movingreload = TRUE
@@ -337,12 +339,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	wdefense = 2
 	max_integrity = 80
-
-/obj/item/ammo_box/magazine/internal/shot/slurbow
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/light
-	caliber = "lightbolt"
-	max_ammo = 1
-	start_empty = TRUE
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/heavy
 	name = "siegebow"

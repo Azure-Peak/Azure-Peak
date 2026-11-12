@@ -211,11 +211,6 @@
 	cost = 100
 	contains = list(/obj/item/quiver/bolt/pyro)
 
-/datum/supply_pack/rogue/Knave/quivers/bolts/light
-	name = "Quiver of Bolts - Light"
-	cost = 30
-	contains = list(/obj/item/quiver/bolt/light)
-
 /datum/supply_pack/rogue/Knave/runicflask
 	name = "Runic Tincture Flask"
 	cost = 50
