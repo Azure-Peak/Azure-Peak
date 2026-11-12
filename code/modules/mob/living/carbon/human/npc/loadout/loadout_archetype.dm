@@ -93,6 +93,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/datum/outfit/npc/outfit = build_outfit()
 	H.equipOutfit(outfit)
 	grant_spellblade_chant(H, outfit.loadouts)
+	grant_loadout_spells(H, outfit.loadouts)
 	grant_magic_aspect(H, outfit.loadouts)
 	grant_npc_miracles(H, outfit.loadouts)
 	apply_stat_modifiers(H)
@@ -127,6 +128,19 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		stack_trace("npc archetype [type] names unknown spellblade chant [chant_name]")
 		return
 	chant.apply_npc_chant(H)
+
+/datum/npc_archetype/proc/grant_loadout_spells(mob/living/carbon/human/H, list/loadout_types)
+	if(!H)
+		return
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		for(var/spell_type in loadout?.spells)
+			var/copies = loadout.spells[spell_type]
+			if(!isnum(copies))
+				copies = 1
+			for(var/i in 1 to copies)
+				var/datum/action/cooldown/spell/spell = new spell_type(H)
+				spell.Grant(H)
 
 /datum/npc_archetype/proc/grant_magic_aspect(mob/living/carbon/human/H, list/loadout_types)
 	if(!H)

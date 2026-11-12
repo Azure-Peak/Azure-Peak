@@ -69,6 +69,40 @@
 /datum/npc_archetype/goblin/bomber/hell
 	stat_modifiers = list("perception" = -2, "intelligence" = -3, "constitution" = 2)
 
+/datum/npc_archetype/goblin/brickomancer
+	name = "Goblin Brickomancer"
+	job = "Goblin Brickomancer"
+	statpack = /datum/npc_statpack/caster/t1
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_APPRENTICE,
+	)
+	loadouts = list(/datum/npc_loadout/kit/goblin_brick)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/goblin/brickomancer/moon
+	stat_modifiers = list("perception" = -2, "intelligence" = 1)
+
+/datum/npc_archetype/goblin/brickomancer/hell
+	stat_modifiers = list("perception" = -2, "intelligence" = -3, "constitution" = 2)
+
+/datum/npc_archetype/goblin/knifomancer
+	name = "Goblin Knifomancer"
+	job = "Goblin Knifomancer"
+	statpack = /datum/npc_statpack/caster/t1
+	skills = list(
+		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
+		/datum/skill/combat/arcyne = SKILL_LEVEL_APPRENTICE,
+	)
+	loadouts = list(/datum/npc_loadout/kit/goblin_aetherknife)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/goblin/knifomancer/moon
+	stat_modifiers = list("perception" = -2, "intelligence" = 1)
+
+/datum/npc_archetype/goblin/knifomancer/hell
+	stat_modifiers = list("perception" = -2, "intelligence" = -3, "constitution" = 2)
+
 /datum/npc_archetype/goblin/siege //smarter + deadlier than NPCs in the wilds
 	name = "Goblin Soldier" //we getting serious here
 	loadouts = list(/datum/npc_loadout/kit/goblin_siege)
@@ -166,6 +200,14 @@
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	r_hand = /obj/item/rogueweapon/huntingknife/stoneknife
 	neck = /obj/item/storage/belt/rogue/pouch/bombs
+
+/datum/npc_loadout/kit/goblin_brick
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	spells = list(/datum/action/cooldown/spell/magicians_brick = 2)
+
+/datum/npc_loadout/kit/goblin_aetherknife
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	spells = list(/datum/action/cooldown/spell/aetherknife)
 
 //** HOBGOBLIN **//
 

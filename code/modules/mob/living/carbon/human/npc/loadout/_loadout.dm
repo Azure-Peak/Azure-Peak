@@ -79,6 +79,7 @@ GLOBAL_LIST_INIT(npc_parts, build_npc_parts())
 	var/list/clear_slots
 	var/list/backpack_contents
 	var/list/magic_aspects
+	var/list/spells
 	var/spellblade_chant
 	var/miracle_tier
 

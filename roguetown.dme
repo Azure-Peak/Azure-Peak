@@ -3557,6 +3557,7 @@
 #include "code\modules\spells\spell_types\wizard\misc\lesser_knock.dm"
 #include "code\modules\spells\spell_types\wizard\misc\levitation.dm"
 #include "code\modules\spells\spell_types\wizard\misc\magicians_brick.dm"
+#include "code\modules\spells\spell_types\wizard\misc\magicians_brick_npc.dm"
 #include "code\modules\spells\spell_types\wizard\misc\phase.dm"
 #include "code\modules\spells\spell_types\wizard\necromancy\_undead_summon.dm"
 #include "code\modules\spells\spell_types\wizard\necromancy\bone_shard.dm"

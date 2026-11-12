@@ -9,6 +9,24 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	"IGNA SFERA BOMBADA!",
 ))
 
+GLOBAL_LIST_INIT(goblin_brickomancer_aggro, list(
+	"VALTAREM!",
+	"VALTA... BRICK!",
+	"BRICK!",
+	"MAGIC BRICK!",
+	"ME WIZARD!",
+	"EAT BRICK!",
+))
+
+GLOBAL_LIST_INIT(goblin_knifomancer_aggro, list(
+	"DESPERTA FERRO!",
+	"DESPERTA... KNIFE!",
+	"BRICK IS FOR STUPID!",
+	"ME SMART WIZARD!",
+	"MAGIC KNIFE!",
+	"CATCH KNIFE!",
+))
+
 /mob/living/carbon/human/species/goblin
 	name = "goblin"
 	npc_archetype = /datum/npc_archetype/goblin/warrior
@@ -466,6 +484,50 @@ GLOBAL_LIST_INIT(goblin_pyromancer_aggro, list(
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_pyromancer_aggro, TRUE)
 	name = "goblin pyromancer"
 	real_name = "goblin pyromancer"
+
+/mob/living/carbon/human/species/goblin/npc/brickomancer
+	name = "goblin brickomancer"
+	threat_point = THREAT_LOW
+	npc_archetype = /datum/npc_archetype/goblin/brickomancer
+
+/mob/living/carbon/human/species/goblin/npc/brickomancer/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_brickomancer_aggro, TRUE)
+	name = "goblin brickomancer"
+	real_name = "goblin brickomancer"
+
+/mob/living/carbon/human/species/goblin/npc/brickomancer/cave
+	race = /datum/species/goblin/cave
+/mob/living/carbon/human/species/goblin/npc/brickomancer/sea
+	race = /datum/species/goblin/sea
+/mob/living/carbon/human/species/goblin/npc/brickomancer/moon
+	npc_archetype = /datum/npc_archetype/goblin/brickomancer/moon
+	race = /datum/species/goblin/moon
+/mob/living/carbon/human/species/goblin/npc/brickomancer/hell
+	npc_archetype = /datum/npc_archetype/goblin/brickomancer/hell
+	race = /datum/species/goblin/hell
+
+/mob/living/carbon/human/species/goblin/npc/knifomancer
+	name = "goblin knifomancer"
+	threat_point = THREAT_LOW
+	npc_archetype = /datum/npc_archetype/goblin/knifomancer
+
+/mob/living/carbon/human/species/goblin/npc/knifomancer/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_knifomancer_aggro, TRUE)
+	name = "goblin knifomancer"
+	real_name = "goblin knifomancer"
+
+/mob/living/carbon/human/species/goblin/npc/knifomancer/cave
+	race = /datum/species/goblin/cave
+/mob/living/carbon/human/species/goblin/npc/knifomancer/sea
+	race = /datum/species/goblin/sea
+/mob/living/carbon/human/species/goblin/npc/knifomancer/moon
+	npc_archetype = /datum/npc_archetype/goblin/knifomancer/moon
+	race = /datum/species/goblin/moon
+/mob/living/carbon/human/species/goblin/npc/knifomancer/hell
+	npc_archetype = /datum/npc_archetype/goblin/knifomancer/hell
+	race = /datum/species/goblin/hell
 
 ////////////////// NAME SELF SPELL /////////////////
 //Designed so that you don't get spammed w/ this during spawning in
