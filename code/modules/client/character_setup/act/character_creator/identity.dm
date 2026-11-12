@@ -48,6 +48,23 @@
 					to_chat(user, span_warning("Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ', . and ,."))
 			return CHARACTER_ACT_DATA_UPDATE
 
+		if("pen_name")
+			var/new_pen_name = tgui_input_text(user, "Input a pen name to sign HERMES letters with. It cannot be changed once the round begins:", "Pen Name", pen_name, max_length = MAX_NAME_LEN, encode = FALSE)
+			if(isnull(new_pen_name))
+				return CHARACTER_ACT_DATA_UPDATE
+			if(new_pen_name == "")
+				verbose_pref_log_change(user, "notice", "Pen Name", pen_name, "")
+				pen_name = null
+				return CHARACTER_ACT_DATA_UPDATE
+			new_pen_name = reject_bad_name(new_pen_name, max_length = MAX_NAME_LEN)
+			if(!new_pen_name || LOWER_TEXT(new_pen_name) == LOWER_TEXT(MAILER_ANONYMOUS))
+				to_chat(user, span_warning("That pen name is not allowed."))
+				return CHARACTER_ACT_DATA_UPDATE
+			verbose_pref_log_change(user, "notice", "Pen Name", pen_name, new_pen_name)
+			pen_name = new_pen_name
+			log_game("[user] has set their pen name to '[new_pen_name]'.")
+			return CHARACTER_ACT_DATA_UPDATE
+
 		if("highlight_color")
 			var/new_color = tgui_color_picker(user, "Choose your character's nickname highlight color:", "Highlight Color", highlight_color)
 			if(new_color)

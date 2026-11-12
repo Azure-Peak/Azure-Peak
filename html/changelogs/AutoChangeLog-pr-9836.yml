@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - refactor: "Refactored dozens of mobs and fixed some bugs with existing animals. Report any odd or new behaviors."

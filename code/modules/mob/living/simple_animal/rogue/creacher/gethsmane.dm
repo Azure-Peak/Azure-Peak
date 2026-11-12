@@ -4,12 +4,8 @@
 	maxHealth = GETHSMANE_HEALTH
 	STASTR = 8
 	STASPD = 13
-	retreat_health = 0
 	color = "#485775"
-	attack_same = 0
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/fretensis
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 

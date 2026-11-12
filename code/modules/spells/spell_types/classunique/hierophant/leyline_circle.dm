@@ -195,7 +195,7 @@
 	for(var/obj/effect/phantom_leyline/L in phantom_leylines)
 		if(QDELETED(L))
 			continue
-		var/datum/beam/B = L.Beam(owner, icon_state = "medbeam", time = 35 SECONDS, maxdistance = 10)
+		var/datum/beam/B = L.Beam(owner, icon_state = "medbeam", time = 35 SECONDS, max_distance = 10)
 		if(B)
 			active_beams += B
 

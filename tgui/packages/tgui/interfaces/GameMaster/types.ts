@@ -102,6 +102,7 @@ export type GameMasterData = {
   spawn_dust_leave_head: boolean;
   spawn_dust_delete_gear: boolean;
   spawn_spread: boolean;
+  spawn_deadite: boolean;
   spawn_click_intercept: boolean;
   selectable_mobs: string[];
   spawn_filters: string[];

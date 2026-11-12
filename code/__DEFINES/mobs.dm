@@ -239,24 +239,6 @@
 #define SENTIENCE_MINEBOT 4
 #define SENTIENCE_BOSS 5
 
-//Mob AI Status
-
-//Hostile simple animals
-//If you add a new status, be sure to add a list for it to the simple_animals global in _globalvars/lists/mobs.dm
-#define AI_ON		1
-#define AI_IDLE		2
-#define AI_OFF		3
-#define AI_Z_OFF	4
-
-// these are exclusively for hostile humantype mobs
-#define NPC_AI_OFF		0
-#define NPC_AI_IDLE		1
-#define NPC_AI_COMBAT	2
-#define NPC_AI_RETREAT	3
-#define NPC_AI_HUNT		4
-#define NPC_AI_FLEE		5
-#define NPC_AI_SLEEP	6
-
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
 #define ENVIRONMENT_SMASH_STRUCTURES	(1<<0)	//crates, lockers, ect
@@ -291,6 +273,12 @@
 #define MEGAFAUNA_DEFAULT_RECOVERY_TIME 5
 
 #define SHADOW_SPECIES_LIGHT_THRESHOLD 0.2
+
+// recent examine defines
+/// How long it takes for an examined atom to be removed from recent_examines. Should be the max of the below time windows
+#define RECENT_EXAMINE_MAX_WINDOW (2 SECONDS)
+/// If you examine the same atom twice in this timeframe, we call examine_more() instead of examine()
+#define EXAMINE_MORE_WINDOW (1 SECONDS)
 
 // Offsets defines
 

@@ -239,6 +239,7 @@ GENERAL_PROTECT_DATUM(/datum/log_round)
 	others = list()
 	read_dir("")
 	read_dir("secret/")
+	read_dir("profiler/")
 	sources = sortList(sources)
 
 /datum/log_round/proc/read_dir(sub)

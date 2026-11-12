@@ -1,0 +1,5 @@
+author: "mumblemancer"
+delete-after: True
+changes:
+  - bugfix: "gargoyles (should) now change with your character's gender in most situations where it changes. PLEASE REPORT ON BUG-REPORTS if ANYTHING GOES WRONG!!!"
+  - bugfix: "sui dust can now make ur body type masculine instead of Just feminine (it was broken this whole time)"

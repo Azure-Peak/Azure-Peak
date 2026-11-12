@@ -373,9 +373,9 @@
 /obj/item/storage/belt/rogue/pouch/bombs
 
 	populate_contents = list(
-	/obj/item/bomb/noshard,
-	/obj/item/bomb/noshard,
-	/obj/item/bomb/noshard
+	/obj/item/explosive/fused/bottle,
+	/obj/item/explosive/fused/bottle,
+	/obj/item/explosive/fused/bottle
 	)
 
 /obj/item/storage/belt/rogue/pouch/tailorscrap

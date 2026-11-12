@@ -25,6 +25,7 @@
 #define QUEST_TOWNER_CHEESEMAKER_CARAVAN "Cheesemaker Caravan"
 #define QUEST_TOWNER_BUILDING_SUPPLIES "Building Supplies"
 #define QUEST_TOWNER_VALUABLES "Valuables"
+#define QUEST_TOWNER_FISHER_CARRIAGE "Fisher Carriage"
 #define QUEST_NOTORIOUS_BOUNTY "Notorious Bounty"
 #define QUEST_GM_KILL "Special Hunt"
 #define QUEST_GM_RECOVERY "Special Recovery"
@@ -176,6 +177,7 @@
 #define QUEST_FELLOWSHIP_THREAT_PER_EXTRA_INCURSION 0.10
 #define QUEST_FELLOWSHIP_REWARD_PER_EXTRA_INCURSION 0.33
 #define QUEST_FELLOWSHIP_SCALE_MAX FELLOWSHIP_MAX_MEMBERS
+#define QUEST_ARRIVAL_SCAN_RANGE 14
 
 #define QUEST_INCURSION_FELLOWSHIP_REQUIREMENT 3
 #define QUEST_INCURSION_INTERMISSION (2 MINUTES)
@@ -184,19 +186,26 @@
 // Townie cannot sign contract within the first hour
 #define CONTRACT_TOWNIE_GATE_TIME (1 HOURS)
 
-#define QUEST_KILL_FRACTION 0.10
-#define QUEST_KILL_CEILING_OFFSET 3
+#define QUEST_KILL_FRACTION 0.20
+#define QUEST_KILL_CEILING_OFFSET 6
 
 // Each tick generates up to this many kill quests across all regions; evergreen quests top up
 // independently to their flat per-region targets.
 #define QUEST_POOL_REGEN_INTERVAL (5 MINUTES)
-#define QUEST_KILL_REGEN_PER_TICK 2
+#define QUEST_KILL_REGEN_PER_TICK 4
 
 // Unclaimed listings past this threshold are rerolled in place, bypassing the per-tick cap.
 #define QUEST_POOL_STALE_THRESHOLD (20 MINUTES)
 #define QUEST_POOL_STALE_JITTER (10 MINUTES)
 // Player-issued listings (rumor/defense) get a longer window before reroll.
 #define QUEST_PLAYER_STALE_THRESHOLD (30 MINUTES)
+#define QUEST_SCROLL_UNATTENDED_LAPSE (30 MINUTES)
+#define QUEST_SCROLL_UNATTENDED_WARN (5 MINUTES)
+
+#define QUEST_POOL_ROUNDSTART_MULT 1.5
+#define QUEST_POOL_ROUNDSTART_GRACE (10 MINUTES)
+#define QUEST_POOL_ROUNDSTART_JITTER (30 MINUTES)
+#define QUEST_POOL_LANDMARK_RESERVE 2
 
 #define MIN_TIME_BEFORE_CANCEL_TAKEN_QUEST (30 MINUTES)
 

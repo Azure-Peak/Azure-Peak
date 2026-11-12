@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Antagonist bans should be respected properly by dreamwalker and storyteller now."

@@ -7,26 +7,32 @@
 	name = "Smoke Bomb III Pack"
 	cost =	20
 	contains = list(
-					/obj/item/bomb/smoke,
-					/obj/item/bomb/smoke,
-					/obj/item/bomb/smoke
+					/obj/item/explosive/impact/smoke/bomb,
+					/obj/item/explosive/impact/smoke/bomb,
+					/obj/item/explosive/impact/smoke/bomb
 				)
 
 /datum/supply_pack/rogue/medical_utility_wretch/bottlebombs
 	name = "Bottle Bomb V Pack"
 	cost = 35
 	contains = list(
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb,
-					/obj/item/bomb
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle,
+					/obj/item/explosive/fused/bottle
 				)
 
 /datum/supply_pack/rogue/medical_utility_wretch/lockpicks
 	name = "Ring of Lockpicks, III"
 	cost = 15 //Cheaper, because Matthiosian miracles exist
 	contains = list(/obj/item/lockpickring/mundane)
+
+
+/datum/supply_pack/rogue/medical_utility_wretch/castificopick
+	name = "Key of Liberation"
+	cost =	100 //Significantly cheaper than the bath-house because wretches have access to the LIBERTAS.
+	contains = list(/obj/item/castifico_key/liberation)
 
 /datum/supply_pack/rogue/medical_utility_wretch/grapplinghook
 	name =	"Grappling Hook"
