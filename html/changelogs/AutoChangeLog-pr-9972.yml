@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "You no longer get an examine more text to spam your chat when there's no examine more text."
