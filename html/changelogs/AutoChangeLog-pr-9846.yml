@@ -1,0 +1,4 @@
+author: "saltprjak"
+delete-after: True
+changes:
+  - bugfix: "Magician's Brick and Aetherknife melee damage now properly scale with INT. Heavy is the hand that holds the brick."
