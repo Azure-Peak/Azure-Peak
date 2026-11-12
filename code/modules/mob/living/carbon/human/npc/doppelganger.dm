@@ -464,10 +464,10 @@
 
 /obj/item/doppel_heart
 	name = "doppel heart"
-	desc = "A chalky white heart. It is still beating."
+	desc = "A chalky white heart. It is still beating. The HEADEATER pays a bounty for it."
 	icon = 'icons/roguetown/items/doppel_heart.dmi'
 	icon_state = "doppel"
-	sellprice = 150
+	sellprice = 100
 	dropshrink = 0.7
 
 #undef DOPPEL_CLONE_RANGE
