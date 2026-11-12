@@ -103,6 +103,20 @@
 /datum/npc_archetype/goblin/knifomancer/hell
 	stat_modifiers = list("perception" = -2, "intelligence" = -3, "constitution" = 2)
 
+/datum/npc_archetype/goblin/magos
+	name = "Goblin Magos"
+	job = "Goblin Magos"
+	statpack = /datum/npc_statpack/caster/t1
+	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE)
+	loadouts = list(/datum/npc_loadout/kit/goblin_bolt)
+	ai_controller = /datum/ai_controller/human_npc/caster
+
+/datum/npc_archetype/goblin/magos/moon
+	stat_modifiers = list("perception" = -2, "intelligence" = 1)
+
+/datum/npc_archetype/goblin/magos/hell
+	stat_modifiers = list("perception" = -2, "intelligence" = -3, "constitution" = 2)
+
 /datum/npc_archetype/goblin/siege //smarter + deadlier than NPCs in the wilds
 	name = "Goblin Soldier" //we getting serious here
 	loadouts = list(/datum/npc_loadout/kit/goblin_siege)
@@ -204,6 +218,11 @@
 /datum/npc_loadout/kit/goblin_brick
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
 	spells = list(/datum/action/cooldown/spell/magicians_brick = 2)
+
+/datum/npc_loadout/kit/goblin_bolt
+	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin
+	r_hand = /obj/item/rogueweapon/woodstaff/implement
+	spells = list(/datum/action/cooldown/spell/projectile/greater_arcyne_bolt)
 
 /datum/npc_loadout/kit/goblin_aetherknife
 	armor = /obj/item/clothing/suit/roguetown/armor/leather/hide/goblin

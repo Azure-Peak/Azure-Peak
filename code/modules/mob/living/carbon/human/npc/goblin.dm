@@ -27,6 +27,15 @@ GLOBAL_LIST_INIT(goblin_knifomancer_aggro, list(
 	"CATCH KNIFE!",
 ))
 
+GLOBAL_LIST_INIT(goblin_magos_aggro, list(
+	"MAGICAE SAGITTA!",
+	"MAGICAY SAGEETA!",
+	"SAGITTA! SAGITTA! SAGITTA!",
+	"ONE SPELL RULE WORLD!",
+	"YOU PRACTICE BLADE! ME PRACTICE BOLT!",
+	"BOLT!",
+))
+
 /mob/living/carbon/human/species/goblin
 	name = "goblin"
 	npc_archetype = /datum/npc_archetype/goblin/warrior
@@ -527,6 +536,28 @@ GLOBAL_LIST_INIT(goblin_knifomancer_aggro, list(
 	race = /datum/species/goblin/moon
 /mob/living/carbon/human/species/goblin/npc/knifomancer/hell
 	npc_archetype = /datum/npc_archetype/goblin/knifomancer/hell
+	race = /datum/species/goblin/hell
+
+/mob/living/carbon/human/species/goblin/npc/magos
+	name = "goblin magos"
+	threat_point = THREAT_MODERATE
+	npc_archetype = /datum/npc_archetype/goblin/magos
+
+/mob/living/carbon/human/species/goblin/npc/magos/after_creation()
+	..()
+	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.goblin_magos_aggro, TRUE)
+	name = "goblin magos"
+	real_name = "goblin magos"
+
+/mob/living/carbon/human/species/goblin/npc/magos/cave
+	race = /datum/species/goblin/cave
+/mob/living/carbon/human/species/goblin/npc/magos/sea
+	race = /datum/species/goblin/sea
+/mob/living/carbon/human/species/goblin/npc/magos/moon
+	npc_archetype = /datum/npc_archetype/goblin/magos/moon
+	race = /datum/species/goblin/moon
+/mob/living/carbon/human/species/goblin/npc/magos/hell
+	npc_archetype = /datum/npc_archetype/goblin/magos/hell
 	race = /datum/species/goblin/hell
 
 ////////////////// NAME SELF SPELL /////////////////

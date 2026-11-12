@@ -84,6 +84,17 @@
 /datum/action/cooldown/spell/aetherknife/npc_after_cast(datum/ai_controller/controller)
 	npc_queue_conjured_throw(controller)
 
+/datum/action/cooldown/spell/projectile/greater_arcyne_bolt
+	npc_min_range = 1
+	npc_max_range = 9
+
+/datum/action/cooldown/spell/projectile/greater_arcyne_bolt/npc_use_chance(atom/target)
+	if(!isliving(target))
+		return 0
+	. = 45
+	if(get_dist(owner, target) >= 3)
+		. += 10
+
 #undef CONJURE_THROW_NPC_SCORE
 #undef CONJURE_THROW_NPC_WINDUP
 #undef CONJURE_THROW_NPC_VOLLEY_GAP
