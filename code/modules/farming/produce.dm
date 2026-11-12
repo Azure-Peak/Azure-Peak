@@ -579,7 +579,6 @@
 //pyroclastic flowers - stonekeep port
 /obj/item/reagent_containers/food/snacks/grown/rogue/fyritius
 	name = "fyritius flower"
-	seed = /obj/item/herbseed/fyritius //you are an herb now
 	desc = "A delicate orange flower that radiates warmth."
 	icon_state = "fyritius"
 	mob_overlay_icon = 'icons/roguetown/clothing/onmob/head_items.dmi'
