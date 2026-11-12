@@ -899,6 +899,7 @@
 	attachable = FALSE
 
 /obj/item/clothing/mask/rogue/spectacles/duelist/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
 /obj/item/clothing/mask/rogue/spectacles/duelist/steel
@@ -931,6 +932,7 @@
 	smeltresult = /obj/item/ash
 
 /obj/item/clothing/mask/rogue/facemask/padded/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
 /obj/item/clothing/mask/rogue/facemask/leather
@@ -949,6 +951,7 @@
 	smeltresult = /obj/item/ash
 
 /obj/item/clothing/mask/rogue/facemask/leather/ComponentInitialize()
+	AddComponent(/datum/component/armour_filtering/positive, TRAIT_FENCERDEXTERITY)
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, 'sound/foley/equip/rummaging-03.ogg', null, (UPD_HEAD|UPD_MASK))	//Standard mask
 
 //chainmaille masks = pretty much like a normal mask except is made to protect against cutting damage instead of blunt damage.
