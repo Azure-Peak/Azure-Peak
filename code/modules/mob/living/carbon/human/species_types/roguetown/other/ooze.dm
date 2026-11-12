@@ -14,11 +14,11 @@
 	struggling to understand a world that sees them as monsters.<br><br>\
 	Creatures of remarkable adaptability, their bodies readily changing to reflect the environments in which they settle. \
 	Yet their malleable nature makes them particularly susceptible to intoxicants. \
-	Dusts, spirits, and smoke may leave lasting impressions upon their bodies, sometimes fundamentally altering their composition, \
-	With prolonged exposure, some develop an insatiable dependence upon these substances,  \
+	Dusts, spirits, and smoke may leave lasting impressions upon their bodies, sometimes fundamentally altering their composition. \
+	With prolonged exposure, some develop an insatiable dependence upon these substances, \
 	their bodies eventually learning to produce and secrete the very things they've come to crave.<br><br>\
 	Caught now in the struggles of surface faiths and kingdoms, Murklings search for new purpose beyond their primordial mothers. \
-	Some turn to the gods, using faith to fill the gaps their spawning pools left behind, while others reject them entirely. \
+	Some turn to the gods, using faith to fill the gaps their spawning pools left behind, while others reject mankind's deities entirely. \
 	Yet all carry the memory of the deep: the silent, all-encompassing love and will from which they were born."
 	blood_color = "#00FFFF" //Defaults to blue, but we recolor this later to match the slime person's body color.
 	origin_default = /datum/virtue/origin/racial/underdark
