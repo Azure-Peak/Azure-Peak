@@ -310,7 +310,7 @@
 		if(M == bearer || M.stat == DEAD)
 			continue
 		var/turf/T = get_turf(M)
-		if(!T || T.z != center.z || get_dist(T, center) > QUEST_ARRIVAL_SCAN_RANGE)
+		if(!T || !is_in_zweb(T.z, center.z) || get_dist(T, center) > QUEST_ARRIVAL_SCAN_RANGE)
 			continue
 		. += M
 

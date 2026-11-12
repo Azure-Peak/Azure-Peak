@@ -122,11 +122,6 @@
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(bearer)
 		present |= present_fellowship_members(bearer, landmark)
-	var/turf/center = get_turf(landmark)
-	if(center)
-		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
-			if(L.client && L.stat != DEAD)
-				present |= L
 	for(var/mob/living/M as anything in present)
 		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
 			break
@@ -240,12 +235,6 @@
 			for(var/mob/living/M as anything in bearer.current_fellowship.get_members())
 				if(!QDELETED(M))
 					defenders |= M
-	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
-	var/turf/center = landmark ? get_turf(landmark) : null
-	if(center)
-		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
-			if(L.client && L.stat != DEAD)
-				defenders |= L
 	return defenders
 
 /datum/quest/kill/blockade_defense/proc/announce_to_defenders(msg)
