@@ -110,6 +110,7 @@
 		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/necras_sight)
 		to_chat(user, span_notice("A cold clarity fills my vision as Necra opens my sight."))
 	new /obj/structure/deaths_door_portal(T, user)
+	playsound(owner, 'sound/misc/deadbell.ogg', 100, FALSE, 0)
 	return TRUE
 
 /*

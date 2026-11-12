@@ -183,15 +183,16 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		return
 
 	if(M.mob_biotypes & MOB_UNDEAD)
-		to_chat(user, span_danger("The Undermaiden churns the undead!"))
+		to_chat(user, span_danger("The Undermaiden rebukes the undead!"))
+		var/turf/target_turf = get_turf(M)
+		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 		explosion(get_turf(M), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 		return
 
 	enter_portal(M, user)
 
-	user.visible_message(
-		span_warning("[user] drags [M] into Death's Door!")
-	)
+	user.visible_message(span_warning("[user] drags [M] into Death's Door!"))
 
 /obj/structure/deaths_door_portal/proc/enter_portal(mob/living/target, mob/living/forcer)
 	if(!destination)
