@@ -29,6 +29,8 @@ type Data = {
   status_lines?: string[];
   is_hirer?: BooleanLike;
   end_early_wait?: string | null;
+  agreed_end_terms?: string;
+  agreed_end_pending?: BooleanLike;
   headline?: string;
   days?: number;
   rate?: number;
@@ -51,6 +53,7 @@ const Lines = ({ lines }: { lines?: string[] }) => (
 const SignedView = () => {
   const { act, data } = useBackend<Data>();
   const waiting = !!data.end_early_wait;
+  const pending = !!data.agreed_end_pending;
   return (
     <>
       <Lines lines={data.status_lines} />
@@ -68,6 +71,19 @@ const SignedView = () => {
             onClick={() => act('end_early')}
           >
             End contract early
+          </button>
+          <div style={{ color: INK_SOFT, marginTop: 10, marginBottom: 6 }}>
+            {pending
+              ? `Waiting for ${data.merc_name} to answer.`
+              : data.agreed_end_terms}
+          </div>
+          <button
+            type="button"
+            style={inkButtonStyle({ disabled: pending })}
+            disabled={pending}
+            onClick={() => act('propose_end')}
+          >
+            Ask to end by agreement
           </button>
         </div>
       )}

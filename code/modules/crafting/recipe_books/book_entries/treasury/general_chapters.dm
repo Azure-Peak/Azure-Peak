@@ -511,6 +511,12 @@
 		verb once the first day has passed. They give up their rate and stipend for
 		the day in progress, but do not have to wait to be hired again.</p>
 
+		<p>The hirer and the Mercenary can also agree to end the contract at any
+		time. The hirer asks with the contract in hand, the Mercenary with the "End
+		Mercenary Contract" verb, and the other accepts. The rate for the day in
+		progress is paid, but not the stipend, and the Mercenary does not have to
+		wait to be hired again.</p>
+
 		<p>A Mercenary may ask for a daily rate from the hirer, it is held from the
 		hirer's MEISTER account one day at a time at the start of each day, and paid
 		at the end of the day. If the hirer cannot cover the next day, the Mercenary
