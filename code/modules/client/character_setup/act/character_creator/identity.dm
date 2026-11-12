@@ -57,7 +57,7 @@
 				pen_name = null
 				return CHARACTER_ACT_DATA_UPDATE
 			new_pen_name = reject_bad_name(new_pen_name, max_length = MAX_NAME_LEN)
-			if(!new_pen_name || LOWER_TEXT(new_pen_name) == LOWER_TEXT(MAILER_ANONYMOUS))
+			if(!new_pen_name || lowertext(new_pen_name) == lowertext(MAILER_ANONYMOUS))
 				to_chat(user, span_warning("That pen name is not allowed."))
 				return CHARACTER_ACT_DATA_UPDATE
 			verbose_pref_log_change(user, "notice", "Pen Name", pen_name, new_pen_name)
