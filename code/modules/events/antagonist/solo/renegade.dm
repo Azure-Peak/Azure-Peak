@@ -37,7 +37,7 @@
 		return
 	var/list/candidates = SSgamemode.get_candidates(ROLE_RENEGADE, ROLE_RENEGADE, FALSE, FALSE, TRUE, midround_antag_pref = TRUE, restricted_roles = RENEGADE_BLACKLISTED_ROLES)
 	for(var/mob/living/carbon/human/H in candidates)
-		if(H.stat == DEAD || H.advsetup || H.client?.is_afk() || is_banned_from(H.ckey, list(ROLE_SYNDICATE, ROLE_RENEGADE)))
+		if(H.stat == DEAD || H.advsetup || H.client?.is_afk() || is_banned_from(H.ckey, ROLE_RENEGADE))
 			candidates -= H
 	if(!length(candidates))
 		log_storyteller("Renegade midround check found no valid candidates.")

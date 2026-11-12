@@ -124,7 +124,7 @@
 	for(var/atom/A in T.contents)
 		if(!ismob(A))
 			A.fire_act()
-	var/mob/living/carbon/human/caster = owner
+	var/mob/living/caster = owner
 	var/target_zone = caster?.zone_selected || pick(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	for(var/mob/living/L in T.contents)
 		if(L.anti_magic_check())
@@ -135,7 +135,7 @@
 			L.visible_message(span_warning("[L] weathers the lightning strike!"))
 			continue
 		var/actual_damage = hs_damage
-		if(istype(caster) && ishuman(L))
+		if(!QDELETED(caster) && ishuman(L))
 			if(arcyne_strike(caster, L, null, actual_damage, target_zone, \
 				BCLASS_BURN, spell_name = "Heaven's Strike", \
 				damage_type = BURN, \
@@ -154,7 +154,7 @@
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src, "Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), ts_telegraph)
 
-/proc/thunderstrike_erupt(turf/centerpoint, mob/living/carbon/human/caster, radius = 2, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Thunderstrike", intdamage_mult = 1)
+/proc/thunderstrike_erupt(turf/centerpoint, mob/living/caster, radius = 2, damage = 50, datum/action/cooldown/spell/guard_source, spell_name = "Thunderstrike", intdamage_mult = 1)
 	if(!centerpoint)
 		return
 	playsound(centerpoint, 'sound/magic/lightning.ogg', 100, TRUE, 8)
@@ -175,7 +175,7 @@
 			if(guard_source && !QDELETED(guard_source) && guard_source.spell_guard_check(L, TRUE))
 				L.visible_message(span_warning("[L] weathers the lightning strike!"))
 				continue
-			if(istype(caster) && !QDELETED(caster) && ishuman(L))
+			if(!QDELETED(caster) && ishuman(L))
 				if(arcyne_strike(caster, L, null, damage, pick(random_zones), \
 					BCLASS_BURN, spell_name = spell_name, \
 					damage_type = BURN, \
