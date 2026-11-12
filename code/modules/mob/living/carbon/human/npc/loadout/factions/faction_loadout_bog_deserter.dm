@@ -10,6 +10,7 @@
 	armor_training = ARMOR_CLASS_HEAVY
 	traits = list(TRAIT_STEELHEARTED)
 	melee = SKILL_LEVEL_EXPERT
+	magic = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
 	survival = SKILL_LEVEL_APPRENTICE
 	athletics = SKILL_LEVEL_JOURNEYMAN
@@ -122,12 +123,9 @@
 
 /datum/npc_archetype/bog_deserter/caster
 	abstract_type = /datum/npc_archetype/bog_deserter/caster
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-	)
 	ai_controller = /datum/ai_controller/human_npc/caster
 
 /datum/npc_archetype/bog_deserter/caster/mixed
@@ -166,7 +164,6 @@
 /datum/npc_archetype/bog_deserter/caster/ferramancer
 	name = "Bog Ferramancer"
 	job = "Bog Ferramancer"
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
 	loadouts = list(
 		/datum/npc_loadout/kit/deserter_flavor,
 		/datum/npc_loadout/kit/caster/ferramancer,
@@ -176,10 +173,9 @@
 /datum/npc_archetype/bog_deserter/phalangite
 	name = "Bog Phalangite"
 	job = "Bog Phalangite"
-	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
 	statpack = /datum/npc_statpack/spellblade/t2
 	armor_training = ARMOR_CLASS_LIGHT
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
 	loadouts = list(
 		/datum/npc_loadout/kit/spellblade/phalangite,
 		/datum/npc_loadout/kit/deserter_flavor,

@@ -8,6 +8,7 @@
 	// Elven quickness, and hardier than the light role assumes since they raid rather than skirmish.
 	stat_modifiers = list("speed" = 1, "constitution" = 2)
 	melee = SKILL_LEVEL_EXPERT
+	magic = SKILL_LEVEL_EXPERT
 	brawl = SKILL_LEVEL_EXPERT
 	survival = SKILL_LEVEL_APPRENTICE
 
@@ -60,12 +61,9 @@
 
 /datum/npc_archetype/drow/caster
 	abstract_type = /datum/npc_archetype/drow/caster
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM
 	statpack = /datum/npc_statpack/caster/t2
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-	)
+	armor_training = ARMOR_CLASS_LIGHT
 	ai_controller = /datum/ai_controller/human_npc/caster
 
 /datum/npc_archetype/drow/caster/mixed
@@ -96,9 +94,9 @@
 /datum/npc_archetype/drow/spellblade
 	name = "Drow Spellblade"
 	job = "Drow Spellblade"
-	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
 	statpack = /datum/npc_statpack/spellblade/t2
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
+	armor_training = ARMOR_CLASS_LIGHT
 	loadouts = list(
 		/datum/npc_loadout/kit/spellblade/blade/drow,
 		/datum/npc_loadout/armor/light/drow,

@@ -9,6 +9,7 @@
 	stat_modifiers = list("speed" = -2, "perception" = -2, "intelligence" = -3)
 	melee = SKILL_LEVEL_APPRENTICE
 	brawl = SKILL_LEVEL_APPRENTICE
+	magic = SKILL_LEVEL_APPRENTICE
 	survival = SKILL_LEVEL_APPRENTICE
 	crafting = SKILL_LEVEL_NOVICE //player gobs exist, enough to do something
 
@@ -73,10 +74,6 @@
 	name = "Goblin Brickomancer"
 	job = "Goblin Brickomancer"
 	statpack = /datum/npc_statpack/caster/t1
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_APPRENTICE,
-	)
 	loadouts = list(/datum/npc_loadout/kit/goblin_brick)
 	ai_controller = /datum/ai_controller/human_npc/caster
 
@@ -90,10 +87,6 @@
 	name = "Goblin Knifomancer"
 	job = "Goblin Knifomancer"
 	statpack = /datum/npc_statpack/caster/t1
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_APPRENTICE,
-	)
 	loadouts = list(/datum/npc_loadout/kit/goblin_aetherknife)
 	ai_controller = /datum/ai_controller/human_npc/caster
 
@@ -107,7 +100,6 @@
 	name = "Goblin Magos"
 	job = "Goblin Magos"
 	statpack = /datum/npc_statpack/caster/t1
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_APPRENTICE)
 	loadouts = list(/datum/npc_loadout/kit/goblin_bolt)
 	ai_controller = /datum/ai_controller/human_npc/caster
 

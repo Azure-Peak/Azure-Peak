@@ -34,12 +34,12 @@
 
 /mob/living/carbon/human/species/human/northern/searaider/shaman
 	npc_archetype = /datum/npc_archetype/searaider/shaman
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
 	ambush_faction = "raiders"
 
 /mob/living/carbon/human/species/human/northern/searaider/caster
 	npc_archetype = /datum/npc_archetype/searaider/caster/mixed
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
 	ambush_faction = "raiders"
 
 /mob/living/carbon/human/species/human/northern/searaider/caster/pyromancer

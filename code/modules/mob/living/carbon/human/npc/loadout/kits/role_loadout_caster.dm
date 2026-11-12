@@ -1,6 +1,5 @@
 /datum/npc_loadout/kit/caster
 	clear_slots = list("head", "armor", "cloak", "l_hand", "r_hand")
-	skills = list(/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN)
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/light
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/black = 60,
@@ -110,10 +109,6 @@
 	)
 
 /datum/npc_loadout/kit/caster_magister
-	skills = list(
-		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_EXPERT,
-	)
 	r_hand = /obj/item/rogueweapon/woodstaff/implement/greater
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/leather
 	neck = /obj/item/clothing/neck/roguetown/coif

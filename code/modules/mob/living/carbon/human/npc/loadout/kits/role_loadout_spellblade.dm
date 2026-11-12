@@ -67,10 +67,7 @@
 	spellblade_chant = "unarmed"
 	magic_aspects = list(/datum/magic_aspect/pseudo/wards)
 	traits = list(TRAIT_CIVILIZEDBARBARIAN)
-	skills = list(
-		/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_JOURNEYMAN,
-	)
+	skills = list(/datum/skill/combat/unarmed = SKILL_LEVEL_JOURNEYMAN)
 
 /datum/npc_loadout/kit/spellblade/spellfist/katar
 	weapons = list(
@@ -81,16 +78,10 @@
 	gloves = /obj/item/clothing/gloves/roguetown/knuckles/bronze
 
 /datum/npc_loadout/kit/spellblade/spellfist/katar/expert
-	skills = list(
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
-	)
+	skills = list(/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT)
 
 /datum/npc_loadout/kit/spellblade/spellfist/knuckles/expert
-	skills = list(
-		/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/arcyne = SKILL_LEVEL_EXPERT,
-	)
+	skills = list(/datum/skill/combat/unarmed = SKILL_LEVEL_EXPERT)
 
 /datum/npc_loadout/kit/spellblade_champion
 	armor = list(

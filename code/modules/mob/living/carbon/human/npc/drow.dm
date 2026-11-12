@@ -183,7 +183,7 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /mob/living/carbon/human/species/elf/dark/drowraider/caster
 	npc_archetype = /datum/npc_archetype/drow/caster/mixed
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM
 	ambush_faction = "underdark"
 
 /mob/living/carbon/human/species/elf/dark/drowraider/caster/telomancer
@@ -194,5 +194,5 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 
 /mob/living/carbon/human/species/elf/dark/drowraider/spellblade
 	npc_archetype = /datum/npc_archetype/drow/spellblade
-	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
 	ambush_faction = "underdark"

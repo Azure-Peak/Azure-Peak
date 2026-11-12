@@ -14,6 +14,12 @@ GLOBAL_LIST_INIT(npc_brawl_skills, list(
 	/datum/skill/combat/wrestling,
 ))
 
+GLOBAL_LIST_INIT(npc_magic_skills, list(
+	/datum/skill/magic/arcane,
+	/datum/skill/combat/arcyne,
+	/datum/skill/combat/staves,
+))
+
 GLOBAL_LIST_INIT(npc_survival_skills, list(
 	/datum/skill/misc/swimming,
 	/datum/skill/misc/climbing,
@@ -45,6 +51,7 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	var/armor_training = ARMOR_CLASS_NONE
 	var/melee
 	var/brawl
+	var/magic
 	var/survival
 	var/athletics
 	var/crafting
@@ -92,6 +99,8 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 		H.Taurize(taur_type, length(taur_colors) ? pick(taur_colors) : "#ffffff")
 	var/datum/outfit/npc/outfit = build_outfit()
 	H.equipOutfit(outfit)
+	if(loadouts_grant_magic(outfit.loadouts))
+		apply_skill_group(H, GLOB.npc_magic_skills, magic)
 	grant_spellblade_chant(H, outfit.loadouts)
 	grant_loadout_spells(H, outfit.loadouts)
 	grant_magic_aspect(H, outfit.loadouts)
@@ -112,6 +121,15 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 	H.STAPER += stat_modifiers["perception"]
 	H.STAINT += stat_modifiers["intelligence"]
 	H.recalculate_pain_threshold()
+
+/datum/npc_archetype/proc/loadouts_grant_magic(list/loadout_types)
+	for(var/path in loadout_types)
+		var/datum/npc_loadout/loadout = get_npc_part(path)
+		if(!loadout)
+			continue
+		if(length(loadout.magic_aspects) || length(loadout.spells) || loadout.spellblade_chant)
+			return TRUE
+	return FALSE
 
 /datum/npc_archetype/proc/grant_spellblade_chant(mob/living/carbon/human/H, list/loadout_types)
 	if(!H)

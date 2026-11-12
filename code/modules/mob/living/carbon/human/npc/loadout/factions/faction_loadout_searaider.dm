@@ -18,6 +18,7 @@
 	joins_cabal = FALSE
 	armor_training = ARMOR_CLASS_HEAVY
 	melee = SKILL_LEVEL_JOURNEYMAN
+	magic = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_JOURNEYMAN
 	survival = SKILL_LEVEL_APPRENTICE
 	loadouts = list(
@@ -76,7 +77,7 @@
 /datum/npc_archetype/searaider/shaman
 	name = "Sea Raider Shaman"
 	job = "Sea Raider Shaman"
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
 	patron = /datum/patron/inhumen/graggar
 	armor_training = ARMOR_CLASS_LIGHT
 	loadouts = list(
@@ -87,13 +88,9 @@
 
 /datum/npc_archetype/searaider/caster
 	abstract_type = /datum/npc_archetype/searaider/caster
-	threat_point = THREAT_DANGEROUS
+	threat_point = THREAT_TOUGH + THREAT_CASTER_PREMIUM
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-	)
 	ai_controller = /datum/ai_controller/human_npc/caster
 
 /datum/npc_archetype/searaider/caster/mixed
@@ -123,7 +120,6 @@
 /datum/npc_archetype/searaider/caster/ferramancer
 	name = "Sea Raider Ferramancer"
 	job = "Sea Raider Ferramancer"
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
 	loadouts = list(
 		/datum/npc_loadout/kit/caster/ferramancer,
 		/datum/npc_loadout/kit/searaider_flavor/caster,

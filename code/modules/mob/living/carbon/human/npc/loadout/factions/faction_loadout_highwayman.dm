@@ -10,6 +10,7 @@
 	statpack = /datum/npc_statpack/line/t1
 	armor_training = ARMOR_CLASS_MEDIUM
 	melee = SKILL_LEVEL_APPRENTICE
+	magic = SKILL_LEVEL_JOURNEYMAN
 	brawl = SKILL_LEVEL_APPRENTICE
 	survival = SKILL_LEVEL_APPRENTICE
 	loadouts = list(
@@ -129,10 +130,6 @@
 	threat_point = THREAT_DANGEROUS
 	statpack = /datum/npc_statpack/caster/t2
 	armor_training = ARMOR_CLASS_LIGHT
-	skills = list(
-		/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT,
-		/datum/skill/combat/staves = SKILL_LEVEL_JOURNEYMAN,
-	)
 	ai_controller = /datum/ai_controller/human_npc/caster
 
 /datum/npc_archetype/highwayman/caster/mixed
@@ -189,7 +186,6 @@
 /datum/npc_archetype/highwayman/caster/ferramancer
 	name = "Highwayman Ferramancer"
 	job = "Highwayman Ferramancer"
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		/datum/npc_loadout/kit/caster/ferramancer,
@@ -201,6 +197,7 @@
 	job = "Highwayman Magister"
 	threat_point = THREAT_DEADLY
 	statpack = /datum/npc_statpack/caster/t3
+	magic = SKILL_LEVEL_EXPERT
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		list(
@@ -219,7 +216,6 @@
 	statpack = /datum/npc_statpack/spellblade/t2
 	armor_training = ARMOR_CLASS_LIGHT
 	melee = SKILL_LEVEL_JOURNEYMAN
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_JOURNEYMAN)
 	ai_controller = /datum/ai_controller/human_npc/caster/melee
 
 /datum/npc_archetype/highwayman/spellblade/mixed
@@ -273,7 +269,7 @@
 	statpack = /datum/npc_statpack/spellblade/t3
 	armor_training = ARMOR_CLASS_MEDIUM
 	melee = SKILL_LEVEL_EXPERT
-	skills = list(/datum/skill/magic/arcane = SKILL_LEVEL_EXPERT)
+	magic = SKILL_LEVEL_EXPERT
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,
 		list(
