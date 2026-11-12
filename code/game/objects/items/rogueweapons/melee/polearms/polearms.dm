@@ -420,7 +420,6 @@
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	randomize_blade_int_on_init = TRUE
 
 /obj/item/rogueweapon/spear/paalloy
 	name = "ancient spear"
@@ -880,7 +879,6 @@
 	color = "#bb9696"
 	smeltresult = /obj/item/ingot/aaslag
 	anvilrepair = null
-	randomize_blade_int_on_init = TRUE
 
 /obj/item/rogueweapon/halberd/bardiche/paalloy
 	name = "ancient bardiche"

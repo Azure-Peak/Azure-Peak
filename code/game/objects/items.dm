@@ -458,15 +458,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		AddComponent(/datum/component/butchering, 80 * toolspeed)
 
 	if(max_blade_int)
-		if(randomize_blade_int_on_init)
-			//set blade integrity to randomized 60% to 100% if not already set
-			if(!blade_int)
-				blade_int = max_blade_int + rand(-(max_blade_int * 0.4), 0)
-			//set dismemberment integrity to max_blade_int if not already set
-			if(!dismember_blade_int)
-				dismember_blade_int = max_blade_int
-		else
-			blade_int = max_blade_int
+		blade_int = max_blade_int
 
 /obj/item/Destroy()
 	item_flags &= ~DROPDEL	//prevent reqdels
@@ -1281,16 +1273,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!get_sharpness() || !affecting.can_dismember(src))
 		return 0
 
-	var/total_dam = affecting.get_damage()
 	var/nuforce = get_complex_damage(src, user)
-	var/pristine_blade = TRUE
-	if(max_blade_int && dismember_blade_int)
-		var/blade_int_modifier = (blade_int / dismember_blade_int)
-		//blade is about as sharp as a brick it won't dismember shit
-		if(blade_int_modifier <= 0.15)
-			return 0
-		nuforce *= blade_int_modifier
-		pristine_blade = (blade_int >= (dismember_blade_int * 0.95))
 
 	if(user)
 		if(istype(user.rmb_intent, /datum/rmb_intent/weak))
@@ -1300,10 +1283,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(user.used_intent.blade_class == BCLASS_CHOP) //chopping attacks always attempt dismembering
 			nuforce *= 1.1
-		else if(user.used_intent.blade_class == BCLASS_CUT)
-			if(!pristine_blade && (total_dam < affecting.max_damage * 0.8))
-				return 0
-		else
+		else if(user.used_intent.blade_class != BCLASS_CUT)
 			return 0
 
 	return affecting.dismemberment_chance_from_force(nuforce, zone_sel)
