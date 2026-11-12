@@ -96,8 +96,6 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 			rows += list(stat_card_row("Damage", intent.damfactor))
 		if(intent.penfactor > PEN_NONE)
 			rows += list(stat_card_row("Armor Penetration", uppertext(intent.item_d_type), clamp(intent.penfactor, 0, 4), 4))
-		else
-			rows += list(stat_card_row("Armor Penetration", "NONE"))
 		if(intent.get_chargetime())
 			rows += list(stat_card_row("Charge Time"))
 		if(intent.movement_interrupt)
@@ -108,11 +106,13 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 			rows += list(stat_card_row("Drain While Charged", intent.chargedrain))
 			if(intent.hold_grace)
 				rows += list(stat_card_row("Free Hold", DisplayTimeText(intent.get_hold_grace())))
-		if(intent.releasedrain)
+		if(intent.releasedrain && intent.releasedrain != 1)
 			rows += list(stat_card_row("Drain On Release", intent.releasedrain))
-		if(intent.misscost)
+		if(intent.misscost && intent.misscost != 1)
 			rows += list(stat_card_row("Drain On Miss", intent.misscost))
-		rows += list(stat_card_row("Attack Speed", stat_card_speed(intent.clickcd)))
+		var/speed_text = stat_card_speed(intent.clickcd)
+		if(speed_text != "Normal")
+			rows += list(stat_card_row("Attack Speed", speed_text))
 		if(!intent.allow_offhand)
 			rows += list(stat_card_row("This intent requires a free off-hand."))
 		if(intent.blade_class == BCLASS_EFFECT)
@@ -135,8 +135,6 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 			else if(intent.swingdelay <= 8)
 				delay_text = "Significant"
 			switch(intent.swingdelay_type)
-				if(SWINGDELAY_NORMAL)
-					delay_text += " | Type: Normal"
 				if(SWINGDELAY_PENALTY)
 					delay_text += " | Type: Difficult"
 				if(SWINGDELAY_CANCEL, SWINGDELAY_CANCELSLOW)
@@ -147,7 +145,6 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 		if(istype(cleave))
 			rows += list(stat_card_row("Cleave", cleave.desc))
 			rows += list(stat_card_row("Max additional targets", cleave.max_targets ? cleave.max_targets : "Unlimited"))
-			rows += list(stat_card_row("Prioritizes living targets over dead."))
 			if(cleave.diagonal_desc)
 				rows += list(stat_card_row(cleave.diagonal_desc))
 			pattern = cleave.get_pattern_display()
@@ -189,13 +186,13 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 	if(can_parry)
 		stats += list(stat_card_row("DEFENSE", wdefense_dynamic))
 	if(max_blade_int)
-		stats += list(stat_card_row("SHARPNESS", "100% ([max_blade_int])"))
+		stats += list(stat_card_row("SHARPNESS", max_blade_int))
 	if(intdamage_factor != 1 && force >= 5)
 		stats += list(stat_card_row("INTEGRITY DAMAGE", "[intdamage_factor * 100]%"))
 	if(antibeast_factor != 1 && force >= 5)
 		stats += list(stat_card_row("ANTI-BEAST MODIFIER", "[antibeast_factor * 100]%"))
 	if(max_integrity)
-		stats += list(stat_card_row("DURABILITY", "100% ([floor(max_integrity - (max_integrity * integrity_failure))])"))
+		stats += list(stat_card_row("DURABILITY", floor(max_integrity - (max_integrity * integrity_failure))))
 	card["stats"] = stats
 
 	var/list/skills = list()
@@ -244,8 +241,12 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 		if(grip_skilltype)
 			notes += "\[[uppertext(initial(grip_skilltype.name))] ([grip.skill_factor(src, grip_skilltype)]x)\]"
 		notes += "Hands: [grip.is_two_handed(src) ? "Two-handed" : "One-handed"]"
-		notes += "Required Trait: [trait_text ? trait_text : "None"]"
-		var/list/changes = splittext(format_altgrip_stats(grip, grip.get_var_overrides(src)), "<br>")
+		if(trait_text)
+			notes += "Required Trait: [trait_text]"
+		var/list/changes = list()
+		var/changes_text = format_altgrip_stats(grip, grip.get_var_overrides(src))
+		if(changes_text != "No direct weapon stat changes.")
+			changes = splittext(changes_text, "<br>")
 		groups += list(list(
 			"title" = grip.name,
 			"note" = jointext(notes, " | "),
@@ -302,7 +303,7 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 		for(var/zone in body_parts_covered2organ_names(body_parts_covered))
 			coverage += capitalize(zone)
 	card["coverage"] = coverage
-	var/class_text = "None"
+	var/class_text
 	var/speed_cap
 	switch(armor_class)
 		if(ARMOR_CLASS_LIGHT)
@@ -314,8 +315,9 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 		if(ARMOR_CLASS_HEAVY)
 			class_text = "Heavy"
 			speed_cap = AC_HEAVY_SPDCAP
-	stats += list(stat_card_row("ARMOR CLASS", class_text))
-	stats += list(stat_card_row("MOVEMENT SPD CAP", speed_cap ? speed_cap : "None"))
+	if(class_text)
+		stats += list(stat_card_row("ARMOR CLASS", class_text))
+		stats += list(stat_card_row("MOVEMENT SPD CAP", speed_cap))
 	return card
 
 /obj/item/ammo_casing/caseless/rogue/build_stat_card()
