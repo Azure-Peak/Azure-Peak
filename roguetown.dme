@@ -2171,6 +2171,7 @@
 #include "code\modules\holiday\holidays.dm"
 #include "code\modules\hotspring\falling_leaves.dm"
 #include "code\modules\hotspring\hotspring.dm"
+#include "code\modules\item_stats\item_stat_card.dm"
 #include "code\modules\jobs\access.dm"
 #include "code\modules\jobs\job_exp.dm"
 #include "code\modules\jobs\jobs.dm"
