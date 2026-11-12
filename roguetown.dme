@@ -714,6 +714,7 @@
 #include "code\datums\ai\subtrees\call_for_help.dm"
 #include "code\datums\ai\subtrees\call_reinforcements.dm"
 #include "code\datums\ai\subtrees\climb_tree.dm"
+#include "code\datums\ai\subtrees\descend_tree.dm"
 #include "code\datums\ai\subtrees\eat_body.dm"
 #include "code\datums\ai\subtrees\eat_food.dm"
 #include "code\datums\ai\subtrees\equip_item.dm"
