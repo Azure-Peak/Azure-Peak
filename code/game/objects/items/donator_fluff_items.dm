@@ -3874,7 +3874,7 @@ As Excaliber."
 /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 	name = "rosestone clasped collar"
 	desc = "A simple rigid collar fashioned out of rosestone.</br>\
-	<font color='FFCCFF'>'To love someone is to choose to let them own a part of your spirit, and to own a part of theirs in return.'</font>"
+	<font color='FFCCFF'>'She's a giver, and a giver's even worse for folks like me...'</font>"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "rosecollar"
@@ -5146,7 +5146,7 @@ As Excaliber."
 	name = "tufted blue-lily"
 	desc = "Quite an exotic flower, even for the Kazengun isles. Where white lilies symbolize purity, the indigo hue of these were a sign of its loss.<br>\
 	Thus, across the city of Tateshira, these were commonly used by people to indicate that they were a bathworker or prostitute.<br>\
-	Particularly, those with allegiance to or under the employ of house Takahashi, for their extensive connections to the sexual underbelly of the city."
+	Particularly, those with allegiance to or under the employ of <font color='5E50E9'>house Takahashi</font>, for their extensive connections to the sexual underbelly of the city."
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "bluelily"
