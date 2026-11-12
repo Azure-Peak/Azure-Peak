@@ -1038,7 +1038,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define REVERSE_BEAR_TRAP_TRAIT "reverse-bear-trap"
 #define HOT_POTATO_TRAIT "hot-potato"
 #define HUGBOX_TRAIT "hugbox"
-#define ADVENTURER_TRAIT "adventurer"
 #define GRAGGAR_ASSASSINATED "graggar_assassinated"
 #define CONTRACT_SPAWN_TRAIT "contract-spawn"
 

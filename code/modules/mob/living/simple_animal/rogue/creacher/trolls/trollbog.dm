@@ -4,8 +4,6 @@
 	pixel_x = -16
 	threat_point = THREAT_DANGEROUS
 
-	wander = FALSE		// bog trolls are ambush predators
-	turns_per_move = 4
 	see_in_dark = 10
 
 	melee_damage_lower = 30
@@ -22,6 +20,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_KNEESTINGER_IMMUNITY, TRAIT_GENERIC)	// bogtroll does not mind kneestingers
+	RegisterSignal(src, COMSIG_AI_BLACKBOARD_KEY_SET(BB_BASIC_MOB_CURRENT_TARGET), PROC_REF(ambush))
 	if(prob(50))
 		src.hide()
 
@@ -33,10 +32,6 @@
 		QDEL_NULL(eyes)
 	eyes = new /obj/item/organ/eyes/night_vision/nightmare
 	eyes.Insert(src)
-
-/mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/GiveTarget()
-	..()
-	ambush()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/bog/Moved()
 	ambush()
