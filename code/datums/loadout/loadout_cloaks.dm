@@ -161,7 +161,7 @@
 
 /datum/loadout_item/surcoatheavy
 	name = "Surcoat, Overvestments"
-	path = /obj/item/clothing/cloak/tabard/stabard/crusader/heavy
+	path = /obj/item/clothing/cloak/tabard/stabard/overvestments
 	sort_category = "Cloaks"
 
 /datum/loadout_item/surcoatgoldenorder

@@ -930,6 +930,12 @@
 		var/mob/L = loc
 		L.update_inv_cloak()
 
+/obj/item/clothing/cloak/tabard/stabard/overvestments
+	name = "overvestments"
+	desc = "A heavy surcoat that offers complete modesty and protection against the weather, but leaves the thinner-framed with sorer shoulders. Commonly seen upon \
+	the bods of paladin-errants, priests, and pilgrims across Psydonia's more intemperate climates."
+	icon_state = "priest_surcoat"
+	custom_design = TRUE
 
 ////////////////
 /// SURCOATS ///
@@ -1282,7 +1288,7 @@
 
 /obj/item/clothing/cloak/cape/puritan/silver
 	name = "silver order cloak"
-	desc = "A time-honored cloak inlaid with silver threading, worn by those who wward Psydonia from monsters, creechers, and archdevils-yet-revived."
+	desc = "A time-honored cloak inlaid with silver threading, worn by those who ward Psydonia from monsters, creechers, and archdevils-yet-revived."
 	icon_state = "sinquisitor_cloak"
 
 /obj/item/clothing/cloak/cape/rogue

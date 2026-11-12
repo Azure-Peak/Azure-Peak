@@ -689,7 +689,7 @@
 /datum/crafting_recipe/roguetown/sewing/stabardheavy
 	name = "surcoat, overvestments"
 	category = "Tabards"
-	result = list(/obj/item/clothing/cloak/tabard/stabard/crusader/heavy)
+	result = list(/obj/item/clothing/cloak/tabard/stabard/overvestments)
 	reqs = list(/obj/item/natural/cloth = 3,
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
