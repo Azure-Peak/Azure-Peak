@@ -298,6 +298,14 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	if(COS)
 		COS.change_range()
 
+/mob/living/carbon/human/proc/toggle_oresight_mode()
+	set name = "Toggle (Ore Sight Mode)"
+	set category = "RoleUnique.Virtue"
+
+	var/datum/component/ore_sight/COS = GetComponent(/datum/component/ore_sight)
+	if(COS)
+		COS.toggle_mode()
+
 /datum/devotion/proc/handle_abyssor_paths(silent = FALSE)
 	if(!holder || !patron)
 		return

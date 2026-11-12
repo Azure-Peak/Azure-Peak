@@ -34,6 +34,7 @@
 	)
 	var/is_active = FALSE
 	var/safety_count = 0
+	var/veinmode = TRUE //default to seeing veins
 
 /datum/component/ore_sight/Initialize(mapload)
 	if(!ismob(parent))
@@ -47,6 +48,7 @@
 		var/mob/living/carbon/human/H = M
 		add_verb(H, /mob/living/carbon/human/proc/toggle_oresight)
 		add_verb(H, /mob/living/carbon/human/proc/range_oresight)
+		add_verb(H, /mob/living/carbon/human/proc/toggle_oresight_mode)
 
 
 /datum/component/ore_sight/process()
@@ -61,31 +63,39 @@
 	for(var/turf/closed/mineral/T in RANGE_TURFS(range, origin))
 		if(T)
 			var/obj/effect/temp_visual/fxtype
-			switch(T.type)
-				if(/turf/closed/mineral/random/rogue/med, /turf/closed/mineral/rogue/copper, /turf/closed/mineral/rogue/tin, /turf/closed/mineral/rogue/coal)
-					fxtype = /obj/effect/temp_visual/medqualityore
-				if(/turf/closed/mineral/random/rogue/high, /turf/closed/mineral/rogue/cinnabar, /turf/closed/mineral/rogue/iron, /turf/closed/mineral/rogue/gold, /turf/closed/mineral/rogue/silver)
-					fxtype = /obj/effect/temp_visual/highqualityore
-				if(/turf/closed/mineral/rogue/gem)
-					fxtype = /obj/effect/temp_visual/gemqualityore
-				if(/turf/closed/mineral/rogue/bedrock)
-					fxtype = /obj/effect/temp_visual/bedrockore
+			if(veinmode) //Vein mode just shows where good quality rock is, not actual ores
+				switch(T.type)
+					if(/turf/closed/mineral/random/rogue/med)
+						fxtype = /obj/effect/temp_visual/medqualityore
+					if(/turf/closed/mineral/random/rogue/high)
+						fxtype = /obj/effect/temp_visual/highqualityore
+					if(/turf/closed/mineral/rogue/bedrock)
+						fxtype = /obj/effect/temp_visual/bedrockore
+			else //Ores mode just shows us where materials actually are
+				switch(T.type)
+					if(/turf/closed/mineral/rogue/copper, /turf/closed/mineral/rogue/tin, /turf/closed/mineral/rogue/coal)
+						fxtype = /obj/effect/temp_visual/medqualityore
+					if(/turf/closed/mineral/rogue/cinnabar, /turf/closed/mineral/rogue/iron, /turf/closed/mineral/rogue/gold, /turf/closed/mineral/rogue/silver)
+						fxtype = /obj/effect/temp_visual/highqualityore
+					if(/turf/closed/mineral/rogue/gem)
+						fxtype = /obj/effect/temp_visual/gemqualityore
 			if(fxtype)
 				stuff_found = TRUE
 				new fxtype(get_turf(T))
-	for(var/obj/item/natural/rock/boulder in get_hear(range, origin))	// We detect boulders and their contents, too.
-		if(boulder)
-			var/obj/effect/temp_visual/fxtype
-			switch(boulder.type)
-				if(/obj/item/natural/rock/copper, /obj/item/natural/rock/tin, /obj/item/natural/rock/coal)
-					fxtype = /obj/effect/temp_visual/medqualityore
-				if(/obj/item/natural/rock/cinnabar, /obj/item/natural/rock/iron)
-					fxtype = /obj/effect/temp_visual/highqualityore
-				if(/obj/item/natural/rock/gold, /obj/item/natural/rock/silver, /obj/item/natural/rock/gem)
-					fxtype = /obj/effect/temp_visual/gemqualityore
-			if(fxtype)
-				stuff_found = TRUE
-				new fxtype(get_turf(boulder))
+	if(!veinmode) //If we're in vein mode, we don't need to check for boulders
+		for(var/obj/item/natural/rock/boulder in get_hear(range, origin))	// We detect boulders and their contents, too.
+			if(boulder)
+				var/obj/effect/temp_visual/fxtype
+				switch(boulder.type)
+					if(/obj/item/natural/rock/copper, /obj/item/natural/rock/tin, /obj/item/natural/rock/coal)
+						fxtype = /obj/effect/temp_visual/medqualityore
+					if(/obj/item/natural/rock/cinnabar, /obj/item/natural/rock/iron)
+						fxtype = /obj/effect/temp_visual/highqualityore
+					if(/obj/item/natural/rock/gold, /obj/item/natural/rock/silver, /obj/item/natural/rock/gem)
+						fxtype = /obj/effect/temp_visual/gemqualityore
+				if(fxtype)
+					stuff_found = TRUE
+					new fxtype(get_turf(boulder))
 
 	if(!stuff_found)
 		safety_count++
@@ -131,6 +141,17 @@
 	else
 		L.remove_status_effect(/datum/status_effect/buff/oresight)
 		STOP_PROCESSING(SSdcs, src)
+
+/datum/component/ore_sight/proc/toggle_mode()
+	var/msg
+	if(veinmode)
+		veinmode = FALSE
+		msg = "Switching to ores mode, you will see where materials are"
+	else
+		veinmode = TRUE
+		msg = "Switching to veins mode, you will see the general quality of the rock around you"
+	var/mob/M = parent
+	to_chat(M, span_notice(msg))
 
 /obj/effect/temp_visual/medqualityore
 	icon = 'icons/effects/effects.dmi'
