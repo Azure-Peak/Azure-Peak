@@ -292,6 +292,10 @@
 //MAKE DEADITE - TODO make this work for all NPCs + forcefully change their AI//
 
 /mob/living/carbon/human/proc/make_deadite()
+	if(mob_biotypes & MOB_UNDEAD) //Already a deadite, or undead of another kind like skeletons.
+		return
+
+	drop_all_held_items() //Clear weapons from spawned NPCs, players should already be dead.
 
 	blood_toll_bucket = STATS_KILLED_DEADITES //change to deadite kills
 
@@ -370,6 +374,7 @@
 	src.STAPER = 12 //1 less than players
 
 	//Give the body deadite AI - Override the AI too.
+	QDEL_NULL(ai_controller) //upgrade_ai_controller would keep subtypes like archer
 	upgrade_ai_controller(/datum/ai_controller/human_npc) //TODO someone kill this for custom AI
 	src.d_intent = INTENT_DODGE //To simulate that deadites CANNOT parry
 	src.dodgetime = 10

@@ -254,3 +254,199 @@
       the OOC chatfor you.
   effyank:
   - bugfix: Assassins' dagger now also copies over vocal barks and rumors.
+2026-11-06:
+  Dorodomki:
+  - rscadd: 'Added new greyscaled sprites for duelist cloak and desert cloak (crusader
+      cloak)
+
+      :cl:'
+  KatTheFox:
+  - bugfix: Abyssor's right to arbitrarily rescind your hard-won fish has been revoked
+      (they no longer vanish when doing mundane actions on water tiles; you can still
+      toss them in or dump a sack out).
+  OrbisAnima:
+  - qol: Gives the Feed intent to the mage chalk. Make it so you can only feed it
+      if using the approrpiate intent.
+  - bugfix: Adds the missing silver bowl recipe, fixing its price to what it should
+      in the process.
+  - qol: Makes a new toggle on gib() to make it so mobs dont create extra gibs on
+      gibbing. Apply that to butchering animals, big animals still might produce their
+      extra gibs, as intended.
+  WeNeedMorePhoron:
+  - rscadd: Contracts are now scaled to those who are actually present around the
+      contract. Only the leader can sign for size gated contracts.
+  changelingonberry:
+  - image: Bundles noto color emoji as a fallback font.
+  - bugfix: Automatic capitalization no longer breaks multi-byte characters.
+  - bugfix: Jacksberries no longer have errant in-hand pixels.
+  kano-dot:
+  - bugfix: Fixed duelist cape detail color not getting applied for female version.
+2026-11-07:
+  OrbisAnima:
+  - qol: Put feeding intents for gems, ores and ingots so constructs dont accidentally
+      eat them. Also placed some messaging to explain why you cannot eat the delicious
+      amethyst.
+  Ryan180602:
+  - balance: darkvision is now a seperate trait and no longer under prowler
+  The-Sun-In-Splendour:
+  - image: greyscaled blood pools are less flat
+  WeNeedMorePhoron:
+  - rscadd: Ported static threat spawners from our downstream Ochre Valley. not added
+      to map, yet.
+  - rscadd: You can now set a pen name which is one of the 3 names (Real, anonymous
+      and pen) you are allowed to sign your letters with. Letter recipient will see
+      your name when they receive a notification. Admins will be aware of any metagamey
+      pen name to blow up anyone who do so.
+  - bugfix: Tried to fix a runtime that might cause wintertime map to crash.
+  - rscadd: Move yurt and tent to the tools category
+  fffelinid:
+  - rscadd: Added the option to change your status on the Rose Wall when declining
+      an offer.
+  - bugfix: Fixed overly sanitized Rose Wall text.
+2026-11-08:
+  Blacklist897:
+  - rscadd: Donator Items for lockwood
+  BobProductive:
+  - rscadd: ported board games (chess, checkers, backgammon) from twilight axis
+  GailThePale:
+  - bugfix: hand size to 13
+  Quinalion:
+  - qol: Tree stumps now function as table surfaces.
+  - qol: Tree stumps can now be used for table-based interaction checks.
+  - rscadd: Items and mobs with table pass flags can now be placed and moved over
+      tree stumps.
+  - rscadd: Added table-style interactions to tree stumps.
+  - qol: Tree stumps are now automatically climbable.
+  Ryan180602:
+  - refactor: explosives
+  - rscadd: renegade antagonist gamemode.
+  WeNeedMorePhoron:
+  - bugfix: Aspect-granted spell now refund utility points if you already have them
+      selected
+  Xaytan:
+  - rscdel: Removed legacy temperature handling.
+  borneblood:
+  - bugfix: Linters again.
+  - bugfix: Fixed a problem with someone using lowertext instead of LOWER_TEXT.
+  changelingonberry:
+  - bugfix: Fix admin ooc color not saving & color drifting.
+  radarseas:
+  - bugfix: fixes the ancient dagger sheath sprites not existing, whoops!
+  - bugfix: ancient longsword now has a new sprite added for scabbards so it doesn't
+      look like a steel longsword - Technically image related but i consider it quality
+      control, thuslie its a fix, suffer!
+2026-11-09:
+  OrbisAnima:
+  - qol: Changes fishing rods category to normal so they can fit in satchels.
+  Ryan180602:
+  - balance: if you have a tail and your nympho procs, it'll wag.
+  WeNeedMorePhoron:
+  - rscadd: Increased the amount of contracts generated, especially at the start of
+      the game, so there's real choices.
+  - rscadd: Unattended scrolls now crumble after 30 minutes
+  - rscadd: Add messages to indicate if you had too much food / water
+  - rscdel: (Openly) Psydonite Grand Dukes are once again no longer allowed. You may
+      still have sympathy or empathy or pretend to be a converso or something.
+  - rscdel: Removed all non servantry service bells from the game to reduce church
+      / apoth / guild / merchant / steward stress level and stop reinforcing these
+      roles as vendor roles subservient to combat roles who is expected to be on call
+      for 3 hours. Use SCOM / Letters and or live with their potential absence.
+  - rscadd: Everyone can now see which region fishing stocks belong to, and the text
+      and mechanics is explained on examine
+  - rscadd: Now all fishers at Expert skills or with the Expert Fisher trait can see
+      whether specific fish is depleted and their replenishment rate, in IC time.
+  - rscdel: Single tile water source and town no longer fishable
+  - rscadd: Folded Chessboard is now craftable. Old game table renamed ornamental
+      game table to reduce confusion
+  changelingonberry:
+  - balance: Lux extraction can be performed with any sharp implement now.
+  fffelinid:
+  - qol: Bath-house staff can now lock/unlock their own peddler even if the matron
+      isn't present.
+  - bugfix: Fixed treasure seeker inheriting some unnecessary examine text from the
+      head eater.
+  zRainbowcat:
+  - bugfix: dodge chance abuse
+2026-11-10:
+  FreeStylaLT:
+  - bugfix: Fixed Clamorous not being satisfied by surrounding speech.
+  NonQueueingMatt:
+  - rscadd: Changed a line you receive when you've almost drank too much.
+  OrbisAnima:
+  - balance: Added the light crossbow option to the bow hunter.
+  Ryan180602:
+  - balance: Psydonic Plate-n-Maille is now 400 integ.
+  - balance: Psydonic Half-plate covers arms/chest/groin at 450 integ.
+  - balance: Psydonic Full-plate is now 450 integ.
+  - bugfix: Psydonic Half-plate inherits steel fluff traits (like walk sounds and
+      such)
+  - bugfix: Let the apostle/robe donor kits not turn the psy plates into steel.
+  Sauna38:
+  - bugfix: Fireplaces can now be placed on ANY wall - not just north-facing ones!
+  - rscadd: 'The Shelvening: adds all three types of shelves to the Crafting menu.
+      You can also move them by left-clicking with a stake while in combat mode.'
+  - rscadd: 'The Chestening and the Closeting: also adds three new chests types, one
+      closet, and one bed-side drawer to the crafting menu.'
+  WeNeedMorePhoron:
+  - rscadd: Moat in town is no longer fishable. Abyssorite water should always be
+      fishable.
+  - rscadd: Squire adventurer and aristocrat can no longer issue the Personal Valuables
+      TOWNER QUEST
+  - rscadd: You may now cancel targeted emotes like bow
+  changelingonberry:
+  - rscadd: The defiled keyholder virtue is now pickable with any patron, but non-ascendants
+      cannot use the travel tiles while being observed. It also allows you to claim
+      wretch houses.
+  - balance: Non-ascendants with defiled keyholder cannot take courtier, retinue,
+      garrison, church, inquisition or other patron-locked jobs.
+  - admin: 'Added a new smite: Bolt to the neck.'
+  radarseas:
+  - balance: Tennite heretics can now access T4 miracles again.
+2026-11-11:
+  WeNeedMorePhoron:
+  - rscadd: 'Added hunting knife to adventurer classes missing a knife, and as far
+      as I know, wasn''t missing it on purpose: All Clerics, several foreigner classes,
+      Spellblade, Spellsinger, Aristocrat, Knight Errant, Bombardier, Antiquarian,
+      Duelist, Ironclad, Exorcist'
+2026-11-12:
+  Guidesu:
+  - rscadd: Quarterstaves now have two stances you can switch to with the alt-grip
+      key at Journeyman staves. Half-staff (close quarters) has rapid strike, joint
+      strike, shaft clinch and the staff's signature move. Long guard (at range) has
+      long swing, a 3-tile long thrust, levering smash and an armor-cracking overhead
+      strike.
+  - rscadd: 'Each quarterstaff material now has its own signature move: disarm for
+      wooden, leg sweep for iron, and a dazing counterweight strike for steel and
+      heavier staves.'
+  - rscadd: Steel and heavier quarterstaves now smash at 2 tiles of reach.
+  - balance: 'Quarterstaff weight now depends on material: wooden staves are swift,
+      iron is normal, and steel and gold are heavy.'
+  - balance: One-handed quarterstaff bash now does 0.8x damage, up from 0.6x.
+  - bugfix: The quarterstaff jab no longer does half damage to adjacent targets. It
+      now attacks at normal speed and counts as blunt.
+  WeNeedMorePhoron:
+  - rscadd: Antagonist bans should be respected properly by dreamwalker and storyteller
+      now.
+  - bugfix: Cleric now spawn with knife on belt instead of in backpack to avoid crowding
+  - refactor: Refactored dozens of mobs and fixed some bugs with existing animals.
+      Report any odd or new behaviors.
+  changelingonberry:
+  - bugfix: The ghost orbit menu has been re-ordered and now remembers your expanded
+      categories.
+  - rscadd: All carbon NPCs can now be spawned in as deadites.
+  - balance: Deadite NPCs should behave better. They no longer grab weapons, can bite
+      through masks, and always bite prone players.
+  - bugfix: OOC color now sanitizes correctly to be light instead of dark.
+  - bugfix: Reapply preferences no longer renames the character or makes them drop
+      their gloves.
+  chaoko99:
+  - bugfix: added missing planes to the eye blurring system.
+  mumblemancer:
+  - bugfix: gargoyles (should) now change with your character's gender in most situations
+      where it changes. PLEASE REPORT ON BUG-REPORTS if ANYTHING GOES WRONG!!!
+  - bugfix: sui dust can now make ur body type masculine instead of Just feminine
+      (it was broken this whole time)
+  radarseas:
+  - bugfix: Violating the entire Geneva conventions over several-dozen tymelines in
+      advance no longer means you aren't branded for this (T4 wretch bounties now
+      properly OUTLAW!/HERETIC! you like the unforgivable lunatic you are!)
