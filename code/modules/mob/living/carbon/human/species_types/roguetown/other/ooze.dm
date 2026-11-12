@@ -288,7 +288,7 @@
 		runechat_message = "melts into ooze!",
 		log_seen = SEEN_LOG_EMOTE
 	)
-	to_chat(pure_form, span_userdanger("My body has regressed into a shapeless blob of ooze. I can move and speak in my ancestral tongue, but lack the required appendages to interact with the world."))
+	to_chat(pure_form, span_userdanger("In a last ditch effort to keep me alive, my body has regressed into a primal, pure state. I am vulnerable in this form, and lack the appendages needed to attack others or interact with the world at large. I should travel with caution and seek aid from others."))
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
 	var/hostile_grace_until

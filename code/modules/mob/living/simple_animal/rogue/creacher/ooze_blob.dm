@@ -155,6 +155,7 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_PACIFISM, "[type]")
 	ADD_TRAIT(src, TRAIT_SPELLCOCKBLOCK, "[type]")
+	ADD_TRAIT(src, TRAIT_DARKVISION, "[type]")
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/enable_undercommon_only()
 	var/datum/language_holder/language_holder = get_language_holder()
@@ -174,6 +175,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/Destroy()
 	REMOVE_TRAIT(src, TRAIT_PACIFISM, "[type]")
 	REMOVE_TRAIT(src, TRAIT_SPELLCOCKBLOCK, "[type]")
+	REMOVE_TRAIT(src, TRAIT_DARKVISION, "[type]")
 	. = ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/death(gibbed)
