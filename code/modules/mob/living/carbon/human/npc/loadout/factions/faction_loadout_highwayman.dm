@@ -141,7 +141,7 @@
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/rope = 90,
-		/obj/item/storage/belt/rogue/leather/knifebelt/iron = 10,
+		/obj/item/storage/belt/rogue/leather/tossbelt/blade/iron = 10,
 	)
 	neck = list(
 		/obj/item/clothing/neck/roguetown/coif = 49,
@@ -178,7 +178,7 @@
 	shoes = /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	belt = list(
 		/obj/item/storage/belt/rogue/leather/rope = 77,
-		/obj/item/storage/belt/rogue/leather/knifebelt/iron = 23,
+		/obj/item/storage/belt/rogue/leather/tossbelt/blade/iron = 23,
 	)
 
 // Applied last so it overwrites bandit_flavor's head and neck rolls.

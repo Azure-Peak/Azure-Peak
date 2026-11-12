@@ -15,19 +15,14 @@
 	base_intents = list(/datum/intent/simple/dragger)
 	gender = FEMALE
 	speak_chance = 0
-	turns_per_move = 5
 	response_help_continuous = "passes through"
 	response_help_simple = "pass through"
 	maxHealth = DRAGGER_HEALTH
 	health = DRAGGER_HEALTH
-	stat_attack = UNCONSCIOUS
-	robust_searching = 1
-	move_to_delay = 5 //delay for the automated movement.
 	harm_intent_damage = 1
 	obj_damage = 1
 	melee_damage_lower = 30
 	melee_damage_upper = 45
-	attack_same = FALSE
 	attack_sound = 'sound/combat/wooshes/bladed/wooshmed (1).ogg'
 	dodge_sound = 'sound/combat/dodge.ogg'
 	parry_sound = "bladedmedium"
@@ -40,10 +35,7 @@
 	minbodytemp = 0
 	faction = list(FACTION_UNDEAD)
 	footstep_type = null
-	retreat_health = null
 
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/dragger
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
 
@@ -51,7 +43,7 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/rogue/dragger/taunted(mob/user)
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/rogue/dragger/Initialize(mapload)

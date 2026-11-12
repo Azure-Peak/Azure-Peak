@@ -22,11 +22,7 @@
 	verb_exclaim = "roars"
 	verb_yell = "roars"
 
-	turns_per_move = 2
 	see_in_dark = 10
-	move_to_delay = 7
-	vision_range = 6
-	aggro_vision_range = 6
 	botched_butcher_results = list (
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak/troll = 2,
 		/obj/item/natural/bundle/bone/full = 1,
@@ -67,19 +63,12 @@
 	STASPD = 2
 	STAWIL = 17
 
-	retreat_distance = 0
-	minimum_distance = 0
 	deaggroprob = 0
-	del_on_deaggro = 99 SECONDS
-	retreat_health = 0
 	food = 0
 	dodgetime = 20
 	aggressive = TRUE
-//	stat_attack = UNCONSCIOUS
 	remains_type = /obj/effect/decal/remains/troll
 
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/troll
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
@@ -113,15 +102,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/troll/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 	if(has_status_effect(/datum/status_effect/fire_handler))
 		adjustHealth(-rand(20,35))
 
