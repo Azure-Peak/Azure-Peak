@@ -193,7 +193,7 @@
 
 /datum/loadout_item/knifebelt // comes empty
 	name = "Tossblade Belt"
-	path = /obj/item/storage/belt/rogue/leather/knifebelt/black
+	path = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black
 	sort_category = "Accessories"
 
 /datum/loadout_item/blackbelt

@@ -25,6 +25,7 @@
 #define ROLE_UNBOUND_DEATHKNIGHT "Unbound Death Knight"
 #define ROLE_DARK_ITINERANT "Dark Itinerant"
 #define ROLE_RENEGADE			"Renegade"
+#define ROLE_ANTAGONIST			"Antagonist"
 
 #define ROLE_SYNDICATE			"Syndicate"
 #define ROLE_TRAITOR			"Traitor"
@@ -75,6 +76,14 @@ GLOBAL_LIST_INIT(special_roles_rogue, list(
 	ROLE_ASSASSIN = /datum/antagonist/assassin,
 	ROLE_HAG = /datum/antagonist/hag,
 	ROLE_RENEGADE = /datum/antagonist/renegade,
+))
+
+//ADD BACK DARK ELF AND MANIAC TO THE LIST IF THEY ARE EVER REENABLED
+GLOBAL_LIST_INIT(antagonist_ban_groups, list(
+	"All Antagonists" = list(ROLE_ANTAGONIST),
+	"Major Antagonists" = list(ROLE_ASCENDANT, ROLE_ASPIRANT, ROLE_BANDIT, ROLE_HAG, ROLE_NBEAST, ROLE_WEREWOLF, ROLE_LICH, ROLE_PREBEL, ROLE_REBEL_LEADER, ROLE_RENEGADE),
+	"Lesser Antagonists" = list(ROLE_WRETCH, ROLE_DREAMWALKER, ROLE_GNOLL, ROLE_VAMPIRE, ROLE_ASSASSIN),
+	"Antagonist Ghost Roles" = list(ROLE_NECRO_SKELETON, ROLE_LICH_SKELETON, ROLE_UNBOUND_DEATHKNIGHT, ROLE_DARK_ITINERANT, ROLE_VAMPIRE_SUMMON, ROLE_NOTORIOUS_BOUNTY),
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

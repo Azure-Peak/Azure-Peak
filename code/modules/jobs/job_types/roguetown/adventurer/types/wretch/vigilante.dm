@@ -35,7 +35,7 @@
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson
 	backr = /obj/item/storage/backpack/rogue/satchel
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/steel
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel
 	gloves = /obj/item/clothing/gloves/roguetown/plate
 	shoes = /obj/item/clothing/shoes/roguetown/boots/armor/iron
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/jackchain
