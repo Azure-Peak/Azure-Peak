@@ -218,6 +218,8 @@ GLOBAL_LIST_EMPTY(last_words)
 		return FALSE
 	var/consumed = 0
 	for(var/obj/item/I as anything in get_equipped_items())
+		if(istype(I, /obj/item/rogueweapon))
+			continue
 		if(!(I.smeltresult in luxplate_results))
 			continue
 		qdel(I)
