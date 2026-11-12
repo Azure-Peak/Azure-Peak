@@ -1,8 +1,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae
 	obj_damage = 75
 	blood_toll_bucket = STATS_KILLED_FAE
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/Initialize(mapload)
 	. = ..()
@@ -16,8 +14,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fae/attackby(obj/item/I, mob/living/carbon/human/user, params)
 	if(istype(I, /obj/item/magic))

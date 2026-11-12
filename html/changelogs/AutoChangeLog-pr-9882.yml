@@ -1,5 +1,0 @@
-author: "changelingonberry"
-delete-after: True
-changes:
-  - rscadd: "All carbon NPCs can now be spawned in as deadites."
-  - balance: "Deadite NPCs should behave better. They no longer grab weapons, can bite through masks, and always bite prone players."
