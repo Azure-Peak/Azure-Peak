@@ -44,18 +44,32 @@
 		return
 	chosen_spell = spell_path
 	if(target.has_spell(spell_path, specific = TRUE))
+		claim_utility_spell(target, spell_path)
 		return
 	var/datum/new_spell = new spell_path
 	mark_aspect_spell(new_spell)
 	target.AddSpell(new_spell)
 
 /datum/magic_aspect/proc/grant_fixed_one(datum/mind/target, spell_path)
-	if(!spell_path || target.has_spell(spell_path, specific = TRUE))
+	if(!spell_path)
+		return null
+	if(target.has_spell(spell_path, specific = TRUE))
+		claim_utility_spell(target, spell_path)
 		return null
 	var/datum/new_spell = new spell_path
 	mark_aspect_spell(new_spell)
 	target.AddSpell(new_spell)
 	return new_spell
+
+/datum/magic_aspect/proc/claim_utility_spell(datum/mind/target, spell_path)
+	var/datum/action/cooldown/spell/existing = target.get_spell(spell_path, specific = TRUE)
+	if(!istype(existing) || !existing.utility_learned)
+		return FALSE
+	existing.utility_learned = FALSE
+	mark_aspect_spell(existing)
+	if(target.current)
+		to_chat(target.current, span_notice("[name] grants [existing.name], so its utility points are refunded."))
+	return TRUE
 
 /datum/magic_aspect/proc/grant_spells(datum/mind/target)
 	var/list/granted = list()

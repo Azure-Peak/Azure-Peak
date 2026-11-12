@@ -7,6 +7,7 @@
 	var/kills_count_progress = TRUE
 	var/objective_verb = "Eliminate"
 	var/failed = FALSE
+	var/armed = FALSE
 	var/hunt_duration = QUEST_KILL_HUNT_TIMER
 	var/hunt_timer_id
 	var/hunt_warn_2m_id
@@ -177,6 +178,7 @@
 	return
 
 /datum/quest/kill/populate_scroll_ui_data(list/data)
+	data["armed"] = armed
 	if(!hunt_timer_id)
 		return
 	var/left = timeleft(hunt_timer_id)
@@ -203,8 +205,77 @@
 /datum/quest/kill/materialize(obj/effect/landmark/quest_spawner/landmark)
 	if(!landmark)
 		return FALSE
-	spawn_kill_mobs(landmark)
+	var/turf/T = get_turf(landmark)
+	if(!T)
+		return FALSE
+	var/obj/effect/quest_spawn/sentinel/S = new(T)
+	S.quest_ref = WEAKREF(src)
+	register_spawner(S)
+	armed = TRUE
 	return TRUE
+
+/datum/quest/kill/proc/check_arrival()
+	if(!armed || failed || complete)
+		return
+	var/obj/effect/landmark/quest_spawner/landmark = SSquestpool.resolve_or_repick_landmark(src)
+	if(!landmark)
+		return
+	armed = FALSE
+	for(var/datum/weakref/ref in spawners.Copy())
+		var/obj/effect/quest_spawn/sentinel/S = ref.resolve()
+		if(istype(S))
+			spawners -= ref
+			qdel(S)
+	on_arrival(landmark)
+
+/datum/quest/kill/proc/on_arrival(obj/effect/landmark/quest_spawner/landmark)
+	settle_fellowship_arrival(landmark)
+	spawn_kill_mobs(landmark)
+	quest_scroll?.update_quest_text()
+
+/datum/quest/kill/proc/settle_fellowship_arrival(obj/effect/landmark/quest_spawner/landmark)
+	if(!fellowship_threat_rate && !fellowship_reward_rate)
+		return
+	var/mob/living/bearer = quest_receiver_reference?.resolve()
+	if(!istype(bearer))
+		return
+	var/list/present = present_fellowship_members(bearer, landmark)
+	var/before = fellowship_extras
+	fellowship_roster = list()
+	for(var/mob/living/M as anything in present)
+		fellowship_roster += WEAKREF(M)
+	fellowship_extras = max(0, length(present) - max(1, required_fellowship_size))
+	if(fellowship_extras == before)
+		return
+	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
+	fellowship_reward_mult = group_reward_mult(fellowship_extras)
+	if(!is_directive)
+		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+	var/diff = abs(fellowship_extras - before)
+	if(fellowship_extras < before)
+		announce_to_bearer("<b>[diff] of your fellowship member\s [diff == 1 ? "was" : "were"] absent.</b> The contract has been scaled down.")
+	else
+		announce_to_bearer("<b>[diff] more members than expected were in your fellowship.</b> The contract has been scaled up.")
+
+/datum/quest/kill/proc/present_fellowship_members(mob/living/bearer, obj/effect/landmark/quest_spawner/landmark)
+	. = list(bearer)
+	var/turf/center = get_turf(quest_scroll_ref?.resolve()) || get_turf(landmark)
+	if(!center)
+		return
+	for(var/mob/living/M as anything in available_fellowship_members(bearer))
+		if(M == bearer || M.stat == DEAD)
+			continue
+		var/turf/T = get_turf(M)
+		if(!T || T.z != center.z || get_dist(T, center) > QUEST_ARRIVAL_SCAN_RANGE)
+			continue
+		. += M
+
+/datum/quest/kill/get_target_location()
+	. = ..()
+	if(.)
+		return
+	var/obj/effect/landmark/quest_spawner/landmark = pending_landmark_ref?.resolve()
+	return landmark ? get_turf(landmark) : null
 
 /datum/quest/kill/proc/announce_to_bearer(msg)
 	var/mob/bearer = quest_receiver_reference?.resolve()
@@ -260,9 +331,9 @@
 /datum/quest/kill/fits_region(datum/threat_region/TR)
 	return ..() && !!pick_region_faction_for(TR)
 
-/datum/quest/kill/proc/estimate_mob_count(budget = tp_budget)
-	if(!faction || !length(faction.mob_types) || budget <= 0)
-		return 1
+/datum/quest/kill/proc/average_threat_point()
+	if(!faction || !length(faction.mob_types))
+		return 0
 	var/total_weight = 0
 	var/weighted_tp = 0
 	for(var/mob_path in faction.mob_types)
@@ -271,8 +342,21 @@
 		total_weight += weight
 		weighted_tp += weight * tp
 	if(total_weight <= 0 || weighted_tp <= 0)
+		return 0
+	return weighted_tp / total_weight
+
+/datum/quest/kill/proc/scaled_threat_budget(budget = tp_budget)
+	. = round(budget * fellowship_threat_mult)
+	var/avg_tp = average_threat_point()
+	if(avg_tp > 0)
+		. = min(., round(QUEST_KILL_MAX_MOBS * avg_tp))
+
+/datum/quest/kill/proc/estimate_mob_count(budget = tp_budget)
+	if(budget <= 0)
 		return 1
-	var/avg_tp = weighted_tp / total_weight
+	var/avg_tp = average_threat_point()
+	if(avg_tp <= 0)
+		return 1
 	// Match compose_warband's min/max so the preview count and the actual spawn agree.
 	return clamp(round(budget / avg_tp), min_mobs, QUEST_KILL_MAX_MOBS)
 
@@ -323,7 +407,7 @@
 	var/list/result = list()
 	if(!faction || !length(faction.mob_types) || tp_budget <= 0)
 		return result
-	var/budget = round(tp_budget * fellowship_threat_mult)
+	var/budget = scaled_threat_budget()
 	var/list/candidates = compose_candidates()
 	if(!length(candidates))
 		return result
@@ -361,4 +445,4 @@
 	if(total_spawned_tp > 0)
 		return total_spawned_tp * QUEST_KILL_THREAT_MULT
 	// Preview-time estimate: assume we'll spend the full budget.
-	return round(tp_budget * fellowship_threat_mult) * QUEST_KILL_THREAT_MULT
+	return scaled_threat_budget() * QUEST_KILL_THREAT_MULT

@@ -7,14 +7,8 @@
 	icon_dead = "revenant"
 	mob_biotypes = MOB_UNDEAD | MOB_BEAST
 
-	turns_per_move = 2
-	move_to_delay = 3
 	see_in_dark = 10
-	vision_range = 10
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
-	retreat_health = 0
+	move_base_delay = MOVEMENT_DELAY_SPD_17
 
 	health = MIRESPIDER_CRAWLER_HEALTH
 	maxHealth = MIRESPIDER_CRAWLER_HEALTH
@@ -43,10 +37,8 @@
 	pixel_x = -4
 	mob_biotypes = MOB_UNDEAD | MOB_BEAST
 
-	move_to_delay = 3
-	retreat_distance = 0
-	minimum_distance = 1
-	retreat_health = 0
+	move_base_delay = MOVEMENT_DELAY_SPD_17
+	ai_controller = /datum/ai_controller/revenant/lurker
 
 	health = MIRESPIDER_LURKER_HEALTH
 	maxHealth = MIRESPIDER_LURKER_HEALTH

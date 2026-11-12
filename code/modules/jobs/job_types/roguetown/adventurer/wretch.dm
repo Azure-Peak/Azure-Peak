@@ -29,7 +29,7 @@
 	always_show_on_latechoices = TRUE
 	job_reopens_slots_on_death = FALSE
 	same_job_respawn_delay = 1 MINUTES
-	virtue_restrictions = list(/datum/virtue/heretic/zchurch_keyholder) //all wretch classes automatically get this ///
+	virtue_restrictions = list(/datum/virtue/utility/zchurch_keyholder) //all wretch classes automatically get this ///
 	job_traits = list(TRAIT_STEELHEARTED, TRAIT_OUTLAW, TRAIT_HERESIARCH, TRAIT_SELF_SUSTENANCE, TRAIT_ZURCH)
 	job_subclasses = list(
 		/datum/advclass/wretch/licker,
@@ -173,7 +173,7 @@
 
 	var/list/sev_data = GLOB.wretch_bounty_severities[bounty_severity_key]
 	var/bounty_total = rand(sev_data["min"], sev_data["max"])
-	if(bounty_severity_key == "ATROCITY")
+	if(bounty_severity_key == "ATROCITY" || bounty_severity_key == "UNFORGIVABLE")
 		if(bounty_poster_key == "AZURIA")
 			GLOB.outlawed_players += H.real_name
 		else
@@ -196,7 +196,7 @@
 	var/descriptor_voice = build_coalesce_description_nofluff(
 		d_list, H, list(MOB_DESCRIPTOR_SLOT_VOICE), "%DESC1%"
 	)
-	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, FALSE, my_crime, bounty_poster)
+	add_bounty(H.real_name, race, gender, descriptor_height, descriptor_body, descriptor_voice, bounty_total, my_crime, bounty_poster, null, TRUE)
 	if(H.has_flaw(/datum/charflaw/wanted))
 		to_chat(H, span_danger("You are wanted; you have a price on your head. Expect conflict to find you whether you seek it or not."))
 	else
