@@ -520,10 +520,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 		var/examine_time = client.recent_examines[ref_to_atom]
 		if(examine_time && (world.time - examine_time < EXAMINE_MORE_WINDOW))
 			var/list/more = A.examine_more(src)
-			if(!length(more))
-				more += span_notice("<i>I look [A] over again, but find nothing more of interest.</i>")
-			to_chat(src, client.prefs.no_examine_blocks ? more.Join("\n") : examine_block(more.Join("\n")))
-			return
+			if(length(more))
+				to_chat(src, client.prefs.no_examine_blocks ? more.Join("\n") : examine_block(more.Join("\n")))
+				return
 		client.recent_examines[ref_to_atom] = world.time // set to when we last normal examine'd them
 		addtimer(CALLBACK(src, PROC_REF(clear_from_recent_examines), ref_to_atom), RECENT_EXAMINE_MAX_WINDOW)
 
