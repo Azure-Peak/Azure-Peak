@@ -89,3 +89,9 @@
 		return FALSE
 
 	return TRUE // It's in our way, let's get it out of our way
+
+/datum/ai_planning_subtree/attack_obstacle_in_path/walls
+	attack_behaviour = /datum/ai_behavior/attack_obstructions/walls
+
+/datum/ai_behavior/attack_obstructions/walls
+	can_attack_turfs = TRUE

@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "You may rub dirt into polished / shiny armor to make them not shiny anymore"

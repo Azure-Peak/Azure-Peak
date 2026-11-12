@@ -402,3 +402,51 @@
   - admin: 'Added a new smite: Bolt to the neck.'
   radarseas:
   - balance: Tennite heretics can now access T4 miracles again.
+2026-11-11:
+  WeNeedMorePhoron:
+  - rscadd: 'Added hunting knife to adventurer classes missing a knife, and as far
+      as I know, wasn''t missing it on purpose: All Clerics, several foreigner classes,
+      Spellblade, Spellsinger, Aristocrat, Knight Errant, Bombardier, Antiquarian,
+      Duelist, Ironclad, Exorcist'
+2026-11-12:
+  Guidesu:
+  - rscadd: Quarterstaves now have two stances you can switch to with the alt-grip
+      key at Journeyman staves. Half-staff (close quarters) has rapid strike, joint
+      strike, shaft clinch and the staff's signature move. Long guard (at range) has
+      long swing, a 3-tile long thrust, levering smash and an armor-cracking overhead
+      strike.
+  - rscadd: 'Each quarterstaff material now has its own signature move: disarm for
+      wooden, leg sweep for iron, and a dazing counterweight strike for steel and
+      heavier staves.'
+  - rscadd: Steel and heavier quarterstaves now smash at 2 tiles of reach.
+  - balance: 'Quarterstaff weight now depends on material: wooden staves are swift,
+      iron is normal, and steel and gold are heavy.'
+  - balance: One-handed quarterstaff bash now does 0.8x damage, up from 0.6x.
+  - bugfix: The quarterstaff jab no longer does half damage to adjacent targets. It
+      now attacks at normal speed and counts as blunt.
+  WeNeedMorePhoron:
+  - rscadd: Antagonist bans should be respected properly by dreamwalker and storyteller
+      now.
+  - bugfix: Cleric now spawn with knife on belt instead of in backpack to avoid crowding
+  - refactor: Refactored dozens of mobs and fixed some bugs with existing animals.
+      Report any odd or new behaviors.
+  changelingonberry:
+  - bugfix: The ghost orbit menu has been re-ordered and now remembers your expanded
+      categories.
+  - rscadd: All carbon NPCs can now be spawned in as deadites.
+  - balance: Deadite NPCs should behave better. They no longer grab weapons, can bite
+      through masks, and always bite prone players.
+  - bugfix: OOC color now sanitizes correctly to be light instead of dark.
+  - bugfix: Reapply preferences no longer renames the character or makes them drop
+      their gloves.
+  chaoko99:
+  - bugfix: added missing planes to the eye blurring system.
+  mumblemancer:
+  - bugfix: gargoyles (should) now change with your character's gender in most situations
+      where it changes. PLEASE REPORT ON BUG-REPORTS if ANYTHING GOES WRONG!!!
+  - bugfix: sui dust can now make ur body type masculine instead of Just feminine
+      (it was broken this whole time)
+  radarseas:
+  - bugfix: Violating the entire Geneva conventions over several-dozen tymelines in
+      advance no longer means you aren't branded for this (T4 wretch bounties now
+      properly OUTLAW!/HERETIC! you like the unforgivable lunatic you are!)
