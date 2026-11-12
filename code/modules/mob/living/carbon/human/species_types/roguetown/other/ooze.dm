@@ -273,6 +273,7 @@
 		pure_form.blood_color = pure_form.color
 	pure_form.familiar_flavortext = body.flavortext
 	pure_form.flavortext_cached = body.flavortext_cached
+	pure_form.examine_theme = body.examine_theme
 	pure_form.familiar_ooc_notes = body.ooc_notes
 	pure_form.ooc_notes_cached = body.ooc_notes_cached
 	pure_form.familiar_headshot_link = body.headshot_link

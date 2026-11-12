@@ -147,6 +147,7 @@
 	var/ooc_notes_cached
 	var/headshot_artist_credit
 	var/headshot_artist_link
+	var/examine_theme
 	var/list/previous_languages
 	var/previous_only_speaks_language
 	var/previous_default_language
@@ -197,25 +198,27 @@
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"] && modifiers["left"] && !modifiers["right"] && !modifiers["middle"] && !modifiers["alt"] && !modifiers["ctrl"])
 		ShiftClickOn(A)
+	else if(modifiers["shift"] && modifiers["right"] && !modifiers["middle"] && !modifiers["alt"] && !modifiers["ctrl"])
+		ShiftRightClickOn(A, params)
 	return TRUE
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/attackby(obj/item/item, mob/user, params)
-	if(istype(item, /obj/item/reagent_containers/glass/bottle))
-		var/obj/item/reagent_containers/glass/bottle/bottle = item
-		if(bottle.closed || !bottle.spillable)
-			to_chat(user, span_warning("[bottle] is corked."))
+	if(istype(item, /obj/item/reagent_containers/glass))
+		var/obj/item/reagent_containers/glass/container = item
+		if(!container.spillable)
+			to_chat(user, span_warning("[container] is closed."))
 			return
-		user.visible_message(span_notice("[user] begins carefully splashing [bottle] onto [src]..."), span_notice("I begin carefully splashing [bottle] onto [src]..."))
+		user.visible_message(span_notice("[user] begins carefully splashing [container] onto [src]..."), span_notice("I begin carefully splashing [container] onto [src]..."))
 		if(!do_after(user, 3 SECONDS, target = src))
 			return
-		if(QDELETED(bottle) || bottle.closed || !bottle.spillable)
-			to_chat(user, span_warning("The bottle must remain uncorked."))
+		if(QDELETED(container) || !container.spillable)
+			to_chat(user, span_warning("The container must remain open."))
 			return
-		user.visible_message(span_danger("[user] splashes [bottle] onto [src]!"), span_danger("[user] splashes [bottle] onto you!"))
-		if(!reconstitute_from_bottle(bottle))
+		user.visible_message(span_danger("[user] splashes [container] onto [src]!"), span_danger("[user] splashes [container] onto you!"))
+		if(!reconstitute_from_container(container))
 			to_chat(user, span_warning("The ooze needs at least 30 units of health potion, strong health potion, holy water, or blessed water to reform."))
 			return
-		bottle.reagents.clear_reagents()
+		container.reagents.clear_reagents()
 		return
 	return ..()
 
@@ -240,12 +243,12 @@
 		return
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/reconstitute_from_bottle(obj/item/reagent_containers/glass/bottle/bottle)
-	if(!bottle?.reagents || !origin_body)
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/reconstitute_from_container(obj/item/reagent_containers/glass/container)
+	if(!container?.reagents || !origin_body)
 		return FALSE
 
 	var/has_enough_reagent = FALSE
-	for(var/datum/reagent/reagent as anything in bottle.reagents.reagent_list)
+	for(var/datum/reagent/reagent as anything in container.reagents.reagent_list)
 		if(reagent.volume < 30)
 			continue
 		if(istype(reagent, /datum/reagent/medicine/healthpot) \
