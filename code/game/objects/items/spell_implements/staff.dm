@@ -162,7 +162,7 @@
 	name = "shock associate"
 	desc = "Discipline an associate with a shocking bolt while they are within range of your staff. Can only be used by the Court Magos."
 	blade_class = null
-	icon_state = "inuse"
+	icon_state = "inshock"
 	tranged = TRUE
 	noaa = TRUE
 
