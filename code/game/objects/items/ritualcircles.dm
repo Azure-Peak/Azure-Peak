@@ -1216,30 +1216,41 @@
 	var/mob/living/carbon/human/target = input(user, "Choose a supplicant") as null|anything in folksonrune
 	if(!target)
 		return
+//	if((!target.key && !target.get_ghost(FALSE, TRUE)) || HAS_TRAIT(target, TRAIT_DNR) || HAS_TRAIT(target, TRAIT_NECRAS_VOW))
+//		to_chat(user, span_warning("You cannot sense [target]'s soul anywhere in this realm or the between-realm."))
+//		return
+	for(var/obj/item/bodypart/bodypart as anything in target.bodyparts)
+		if(bodypart.rotted || bodypart.skeletonized)
+			to_chat(user, span_warning("[target]'s vessel cannot host a soul, for it is too decayed."))
+			return
 	var/datum/necra_toll_anim/anim = new(src, user, target)
 	anim.open_rift()
 	loc.visible_message(span_warning("[user] draws spectral strands of Lux up through the air, tearing the veil between lyfe and death!"))
 	playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
 	if(!do_after(user, 60, target = src))
+		loc.visible_message(span_warning("The rite falters..."))
 		anim.abort()
 		return
+	loc.visible_message(span_warning("A batch of apparitions manifest from it, as [user] restrains them with the samesake strings!"))
 	anim.release_souls()
 	playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
 	if(!do_after(user, 60, target = src))
+		loc.visible_message(span_warning("The rite falters..."))
 		anim.abort()
 		return
-	loc.visible_message(span_warning("[user] moves their lips but no words can be heard, speaking to a massive spectral figure on the other side!"))
+	loc.visible_message(span_warning("[user] moves their lips but no words can be heard, speaking to a massive spectral figure on the other side of the rift!"))
 	playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
 	if(!do_after(user, 20, target = src))
+		loc.visible_message(span_warning("The rite falters..."))
 		anim.abort()
 		return
 	// re-validate everything after the long channel
 	if(!coinslot || QDELETED(target) || target.stat != DEAD || get_dist(target, src) > 1)
-		to_chat(user, span_warning("The rite falters... the supplicant or the toll is no longer there."))
+		to_chat(user, span_warning("The rite falters... either the supplicant or the toll are no longer there?"))
 		anim.abort()
 		return
 	icon_state = "necra_active"
-	to_chat(user,span_cultsmall("I grasp the strands of Lux and attempt to pull a soul through the rift!"))
+	to_chat(user,span_cultsmall("The Ferryman guides my sight, as I tetter the right soul to the deceased body!"))
 	var/success = thetoll(target, user)
 	anim.resolve(success)
 	spawn(120)

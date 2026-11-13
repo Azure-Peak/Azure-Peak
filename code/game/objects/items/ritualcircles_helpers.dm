@@ -7,41 +7,62 @@
 
 /obj/structure/ritualcircle/necra/proc/thetoll(mob/living/carbon/human/target, mob/living/user)
 	var/revive_pq = PQ_GAIN_REVIVE
-	if(!target.mind) // run the revive, but in ritual form!
-		to_chat(user, "This one is inert.")
-		return
-	if(!target.mind.active)
-		to_chat(user, "Necra is not done with [target], yet.")
-		return
-	if(HAS_TRAIT(target, TRAIT_DNR))
-		to_chat(user, span_danger("None of the divine have them. Their only chance is spent. Where did they go?"))
-		return
-	if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
-		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
-		return
-	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
-			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
-			return FALSE
-		target.visible_message(span_danger("[target] ravaged by wrathful spirits!"), span_userdanger("Holy power tears my undead form apart!"))
-		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
-		target.gib(no_organs = TRUE)
-		return TRUE
+	if(target.mob_biotypes & MOB_UNDEAD)
+		var/choice
+		if(user.real_name in GLOB.excommunicated_players)
+			choice = tgui_alert(user, "[target]'s body rattles and seizes under the divine force. You may unmake them or blaspheme against the divine order to restore their soul. What is your choice?", "Divine Revival", list("Unmake Them", "Blaspheme and Revive", "Cancel"), 15 SECONDS)
+			if(isnull(choice))
+				to_chat(user, span_notice("The rite falters before a decision can be made."))
+				return FALSE
+			switch(choice)
+				if("Unmake Them")
+					to_chat(user, span_danger("You condemn [target] to Her gaze, and retribution comes swiftly..."))
+					target.visible_message(span_danger("[target] is ravaged by wrathful spirits!"), span_userdanger("Holy power tears my undead form apart!"))
+					playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+					target.gib(no_organs = TRUE)
+					return TRUE
+				if("Blaspheme and Revive")
+					to_chat(user, span_warning("You conceal Necra's eyes from this, and attempt to restore [target]'s soul."))
+				if("Cancel")
+					to_chat(user, span_notice("You halt the rite."))
+					return FALSE
+		else
+			choice = tgui_alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", list("PURGE THE UNCLEAN!", "Stop"), 15 SECONDS)
+			if(choice != "PURGE THE UNCLEAN!")
+				to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
+				return FALSE
+			target.visible_message(span_danger("[target] is ravaged by wrathful spirits!"), span_userdanger("Holy power tears my undead form apart!"))
+			playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
+			target.gib(no_organs = TRUE)
+			return TRUE
 
 	var/mob/dead/observer/underworld_spirit = target.get_spirit()
-	if(alert(underworld_spirit || target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-		target.visible_message(span_notice("Nothing happens. They are not being let go."))
-		return
-	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
+	var/choice = tgui_alert(underworld_spirit || target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", list("I need to wake up", "Don't let me go"), 15 SECONDS)
+
+	if(isnull(choice))
+		target.visible_message(span_notice("The tetter falters as the soul is distracted."))
+		return FALSE
+
+	if(choice == "Don't let me go")
+		target.visible_message(span_warning("The soul forcefully breaks the tetter, they don't wish to come back."))
+		return FALSE
+
+	target.adjustOxyLoss(-target.getOxyLoss()) // Ye Olde CPR
 	if(!target.revive(full_heal = FALSE))
 		to_chat(user, span_warning("Nothing happens."))
-		return
+		return FALSE
 	user.say("For this toll, a soul!!")
+	target.remove_status_effect(/datum/status_effect/incapacitating/sleeping)
+	if(target.eyesclosed)
+		target.eyesclosed = 0
+		target.cure_blind("eyelids")
+	var/mob/living/carbon/human/H = target
+	H.freakout_hud_skew()
 	target.grab_ghost(force = TRUE)
-	target.emote("breathgasp")
+	target.emote("superagony")
 	target.Jitter(100)
 	target.update_body()
-	target.visible_message(span_notice("[target] JUMPS AWAKE! Spirits nearly break free from their shackles as they look for a exit in [target]!"), span_green("I BARELY MANAGED TO GET PAST OTHER DESPERATE SPIRITS TO MY EMPTY BODY... IT IS SO COLD"))
+	target.visible_message(span_notice("[target] jumps awake, looking around frenetically while screaming like a deranged madman!"), span_green("I BARELY MANAGED TO GET PAST OTHER DESPERATE SPIRITS TO MY EMPTY BODY... IT IS SO COLD!"))
 	if(revive_pq && !HAS_TRAIT(target, TRAIT_IWASREVIVED) && user?.ckey)
 		adjust_playerquality(revive_pq, user.ckey)
 		ADD_TRAIT(target, TRAIT_IWASREVIVED, "[type]")
@@ -53,8 +74,9 @@
 		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
 		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
 	target.add_stress(/datum/stressevent/necrarevive)
-	src.coinslot -= 1 // -1 coin, please insert more coins.
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended) // only after a successful revive
+	src.coinslot -= 1
+	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+	return TRUE
 
 /obj/structure/ritualcircle/necra/proc/dagger_screams(obj/item/dagger, timeout)
 	set waitfor = FALSE
@@ -159,7 +181,6 @@
 	animate(src, pixel_y = float_y + 4, time = 10, loop = -1, easing = SINE_EASING)
 	animate(pixel_y = float_y, time = 10, easing = SINE_EASING)
 
-
 /datum/necra_toll_anim
 	var/obj/structure/ritualcircle/necra/rune
 	var/mob/living/user
@@ -171,6 +192,9 @@
 	var/resolving = FALSE
 	var/beam_icon = 'icons/effects/beam.dmi'
 	var/beam_state = "b_beam"
+	var/tetter_icon = 'icons/effects/beam.dmi'
+	var/tetter_state = "fishing_line"
+	var/tetter_color = "#c300ff"
 
 /datum/necra_toll_anim/New(obj/structure/ritualcircle/necra/rune, mob/living/user, mob/living/carbon/human/target)
 	src.rune = rune
