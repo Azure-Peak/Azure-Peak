@@ -354,6 +354,10 @@
 		original_color = owner.color
 
 	is_landing = TRUE
+	var/datum/component/ooze_color_shift/color_shift = owner.GetComponent(/datum/component/ooze_color_shift)
+	if(color_shift?.shifting)
+		color_shift.update_shift_colors()
+	color_shift?.clear_visuals()
 	owner.Stun(landing_duration, ignore_canstun = TRUE)
 	owner.regenerate_icons()
 	owner.visible_message(
@@ -407,17 +411,26 @@
 	if(color_shift.enabled)
 		to_chat(src, span_notice("My body will shift its colors as I metabolize reagents."))
 	else
-		STOP_PROCESSING(SSfastprocess, color_shift)
+		color_shift.stop_shift()
 		to_chat(src, span_notice("My body will hold its current colors."))
+
+/obj/effect/overlay/ooze_color
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	anchored = TRUE
+	vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE | VIS_INHERIT_ID
 
 /datum/component/ooze_color_shift
 	var/target_color
 	var/start_body_color
 	var/list/start_accessory_colors
-	var/elapsed_time = 0
-	var/last_visual_update = 0
+	var/list/accessory_start_times
+	var/list/accessory_start_types
+	var/shift_started
 	var/shift_duration = 30 SECONDS
 	var/enabled = TRUE
+	var/shifting = FALSE
+	var/list/visual_roots = list()
+	var/list/visuals = list()
 
 /datum/component/ooze_color_shift/Initialize()
 	if(!ishuman(parent))
@@ -427,7 +440,8 @@
 
 /datum/component/ooze_color_shift/Destroy()
 	UnregisterSignal(parent, COMSIG_MOB_REAGENT_METABOLIZED)
-	STOP_PROCESSING(SSfastprocess, src)
+	STOP_PROCESSING(SSprocessing, src)
+	clear_visuals()
 	return ..()
 
 /datum/component/ooze_color_shift/proc/on_reagent_metabolized(mob/living/carbon/human/ooze, datum/reagent/reagent)
@@ -437,6 +451,8 @@
 	var/new_target = sanitize_hexcolor(reagent.color, 6, FALSE, null, TRUE)
 	if(!new_target)
 		return
+	if(shifting)
+		update_shift_colors()
 	var/list/target_hsl = rgb2hsl(
 		hex2num(copytext(new_target, 1, 3)),
 		hex2num(copytext(new_target, 3, 5)),
@@ -446,29 +462,145 @@
 	var/list/target_rgb = hsl2rgb(arglist(target_hsl))
 	target_color = "[num2hex(target_rgb[1], 2)][num2hex(target_rgb[2], 2)][num2hex(target_rgb[3], 2)]"
 	start_body_color = sanitize_hexcolor(ooze.dna.features["mcolor"], 6, FALSE)
+	shift_started = world.time
 	start_accessory_colors = get_accessory_color_snapshot(ooze)
-	elapsed_time = 0
-	last_visual_update = 0
-	START_PROCESSING(SSfastprocess, src)
+	accessory_start_times = list()
+	accessory_start_types = list()
+	for(var/datum/holder as anything in start_accessory_colors)
+		accessory_start_times[holder] = shift_started
+		if(istype(holder, /datum/bodypart_feature))
+			var/datum/bodypart_feature/feature = holder
+			accessory_start_types[holder] = feature.accessory_type
+		else if(istype(holder, /obj/item/organ))
+			var/obj/item/organ/organ = holder
+			accessory_start_types[holder] = organ.accessory_type
+	shifting = TRUE
+	var/datum/component/amorphous_landing/landing = ooze.GetComponent(/datum/component/amorphous_landing)
+	if(!landing?.is_landing)
+		ooze.update_body_parts(TRUE)
+	START_PROCESSING(SSprocessing, src)
 
-/datum/component/ooze_color_shift/process(seconds_per_tick)
+/datum/component/ooze_color_shift/process()
+	if(!shifting)
+		return
 	var/mob/living/carbon/human/ooze = parent
 	if(!ooze.dna || !istype(ooze.dna.species, /datum/species/ooze))
 		qdel(src)
 		return
-	elapsed_time = min(elapsed_time + seconds_per_tick, shift_duration)
-	if(elapsed_time < shift_duration && elapsed_time - last_visual_update < 1)
-		return
-	last_visual_update = elapsed_time
-	var/progress = elapsed_time / shift_duration
+	update_shift_colors()
+	var/datum/component/amorphous_landing/landing = ooze.GetComponent(/datum/component/amorphous_landing)
+	if(landing?.is_landing)
+		ooze.color = "#[ooze.dna.features["mcolor"]]"
+	if(world.time >= shift_started + shift_duration)
+		stop_shift()
+
+/datum/component/ooze_color_shift/proc/update_shift_colors()
+	var/mob/living/carbon/human/ooze = parent
+	// Preserve pending appearance changes while keeping color-only changes out of the redraw key.
+	var/key_is_current = ooze.icon_render_key == ooze.generate_icon_render_key()
+	var/progress = clamp((world.time - shift_started) / shift_duration, 0, 1)
 	ooze.dna.features["mcolor"] = interpolate_color(start_body_color, target_color, progress)
 	ooze.dna.species.blood_color = "#[ooze.dna.features["mcolor"]]"
-	update_accessory_colors(start_accessory_colors, progress)
+	update_accessory_colors(start_accessory_colors)
+	if(key_is_current)
+		ooze.icon_render_key = ooze.generate_icon_render_key()
+
+/datum/component/ooze_color_shift/proc/stop_shift()
+	if(!shifting)
+		return
+	var/mob/living/carbon/human/ooze = parent
+	update_shift_colors()
+	shifting = FALSE
+	STOP_PROCESSING(SSprocessing, src)
+	clear_visuals()
 	var/datum/component/amorphous_landing/landing = ooze.GetComponent(/datum/component/amorphous_landing)
-	if(!landing || !landing.is_landing)
+	if(landing?.is_landing)
+		ooze.color = "#[ooze.dna.features["mcolor"]]"
+	else if(!QDELETED(ooze))
 		ooze.update_body_parts(TRUE)
-	if(elapsed_time >= shift_duration)
-		STOP_PROCESSING(SSfastprocess, src)
+
+/datum/component/ooze_color_shift/proc/clear_visuals()
+	var/mob/living/carbon/human/ooze = parent
+	ooze.vis_contents -= visual_roots
+	visual_roots.Cut()
+	for(var/obj/effect/overlay/ooze_color/visual as anything in visuals)
+		visual.vis_contents.Cut()
+	QDEL_LIST(visuals)
+
+/datum/component/ooze_color_shift/proc/new_visual(mutable_appearance/appearance, root = FALSE)
+	var/obj/effect/overlay/ooze_color/visual = new
+	if(appearance)
+		visual.appearance = appearance
+	visual.vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE | VIS_INHERIT_ID
+	visual.mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	visuals += visual
+	if(root)
+		var/mob/living/carbon/human/ooze = parent
+		visual_roots += visual
+		ooze.vis_contents += visual
+	return visual
+
+/datum/component/ooze_color_shift/proc/add_body_visual(image/appearance)
+	// The animated source is hidden; its regular overlay participates in clothing layer sorting.
+	var/obj/effect/overlay/ooze_color/visual = new_visual(appearance, TRUE)
+	visual.pixel_x = 0
+	visual.pixel_y = 0
+	visual.layer = FLOAT_LAYER
+	visual.alpha = 255
+	visual.appearance_flags |= KEEP_TOGETHER
+	visual.render_target = "*ooze-color-[REF(visual)]"
+	var/mutable_appearance/overlay = new
+	overlay.appearance = appearance
+	overlay.color = null
+	overlay.render_source = visual.render_target
+	animate(visual, color = "#[target_color]", time = max(shift_started + shift_duration - world.time, 0), space = COLORSPACE_RGB)
+	return overlay
+
+/datum/component/ooze_color_shift/proc/prepare_accessory(datum/holder, accessory_type, colors)
+	if(!accessory_type || !colors)
+		return FALSE
+	if(start_accessory_colors[holder] && accessory_start_types[holder] == accessory_type)
+		return TRUE
+	var/list/normalized_colors = get_normalized_accessory_colors(colors)
+	if(!length(normalized_colors))
+		return FALSE
+	start_accessory_colors[holder] = normalized_colors
+	accessory_start_times[holder] = world.time
+	accessory_start_types[holder] = accessory_type
+	return TRUE
+
+/datum/component/ooze_color_shift/proc/add_accessory_visuals(datum/sprite_accessory/accessory, obj/item/bodypart/bodypart, obj/item/organ/organ, list/appearances, colors)
+	var/mob/living/carbon/human/ooze = parent
+	var/state = accessory.get_icon_state(organ, bodypart, ooze)
+	var/list/color_list = color_string_to_list(accessory.sanitize_color_string(colors))
+	var/layer_count = accessory.relevant_layers ? length(accessory.relevant_layers) : 1
+	for(var/layer_index in 1 to layer_count)
+		var/mutable_appearance/appearance = appearances[layer_index]
+		var/state_for_layer = state
+		if(accessory.relevant_layers)
+			state_for_layer += "_[accessory.get_layer_suffix(accessory.relevant_layers[layer_index])]"
+		var/obj/effect/overlay/ooze_color/group = new_visual(null, TRUE)
+		group.icon = 'icons/effects/effects.dmi'
+		group.icon_state = "nothing"
+		group.layer = FLOAT_LAYER
+		group.appearance_flags |= KEEP_TOGETHER
+		group.render_target = "*ooze-color-[REF(group)]"
+		appearance.render_source = group.render_target
+		for(var/color_index in 1 to accessory.color_keys)
+			var/obj/effect/overlay/ooze_color/color_layer = new_visual()
+			color_layer.icon = accessory.icon
+			color_layer.icon_state = accessory.color_keys == 1 ? state_for_layer : "[state_for_layer]_[color_index]"
+			color_layer.layer = FLOAT_LAYER
+			color_layer.color = color_list[color_index]
+			group.vis_contents += color_layer
+			animate(color_layer, color = "#[target_color]", time = max(shift_started + shift_duration - world.time, 0), space = COLORSPACE_RGB)
+		if(accessory.extra_state)
+			var/obj/effect/overlay/ooze_color/extra = new_visual()
+			extra.icon = accessory.icon
+			extra.icon_state = "[state_for_layer]_extra"
+			extra.layer = FLOAT_LAYER
+			group.vis_contents += extra
+	return appearances
 
 /datum/component/ooze_color_shift/proc/get_accessory_color_snapshot(mob/living/carbon/human/ooze)
 	var/list/color_snapshot = list()
@@ -496,14 +628,27 @@
 		normalized_colors += normalized_color
 	return normalized_colors
 
-/datum/component/ooze_color_shift/proc/update_accessory_colors(list/color_snapshot, progress)
+/datum/component/ooze_color_shift/proc/update_accessory_colors(list/color_snapshot)
+	var/mob/living/carbon/human/ooze = parent
 	for(var/datum/accessory_holder as anything in color_snapshot)
 		if(QDELETED(accessory_holder))
 			continue
+		if(istype(accessory_holder, /datum/bodypart_feature))
+			var/datum/bodypart_feature/feature = accessory_holder
+			var/obj/item/bodypart/bodypart = ooze.get_bodypart(feature.body_zone)
+			if(!bodypart || !(feature in bodypart.bodypart_features) || feature.accessory_type != accessory_start_types[feature])
+				continue
+		else if(istype(accessory_holder, /obj/item/organ))
+			var/obj/item/organ/organ = accessory_holder
+			if(organ.owner != ooze || organ.accessory_type != accessory_start_types[organ])
+				continue
 		var/list/start_colors = color_snapshot[accessory_holder]
 		var/list/updated_colors = list()
+		var/start_time = accessory_start_times[accessory_holder]
+		var/remaining_duration = shift_started + shift_duration - start_time
+		var/accessory_progress = remaining_duration > 0 ? clamp((world.time - start_time) / remaining_duration, 0, 1) : 1
 		for(var/start_color in start_colors)
-			updated_colors += "#[interpolate_color(start_color, target_color, progress)]"
+			updated_colors += "#[interpolate_color(start_color, target_color, accessory_progress)]"
 		if(istype(accessory_holder, /datum/bodypart_feature))
 			var/datum/bodypart_feature/feature = accessory_holder
 			feature.accessory_colors = color_list_to_string(updated_colors)

@@ -1825,12 +1825,21 @@ generate/load female uniform sprites matching all previously decided variables
 					break
 
 /mob/living/carbon/human/update_body_parts(redraw = FALSE)
+	var/datum/component/ooze_color_shift/color_shift = GetComponent(/datum/component/ooze_color_shift)
+	if(color_shift?.shifting)
+		color_shift.update_shift_colors()
+		var/datum/component/amorphous_landing/landing = GetComponent(/datum/component/amorphous_landing)
+		if(landing?.is_landing)
+			return
 	//CHECK FOR UPDATE
 	var/oldkey = icon_render_key
 	icon_render_key = generate_icon_render_key()
 	if(oldkey == icon_render_key && !redraw)
 		return
 
+	if(color_shift?.shifting)
+		color_shift.clear_visuals()
+		redraw = TRUE
 	remove_overlay(BODYPARTS_LAYER)
 
 	for(var/obj/item/bodypart/BP as anything in bodyparts)
@@ -1869,7 +1878,8 @@ generate/load female uniform sprites matching all previously decided variables
 
 	if(length(new_limbs))
 		overlays_standing[BODYPARTS_LAYER] = new_limbs
-		limb_icon_cache[icon_render_key] = new_limbs
+		if(!color_shift?.shifting)
+			limb_icon_cache[icon_render_key] = new_limbs
 
 	apply_overlay(BODYPARTS_LAYER)
 	update_damage_overlays()
