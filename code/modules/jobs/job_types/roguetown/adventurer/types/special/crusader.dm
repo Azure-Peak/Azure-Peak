@@ -91,7 +91,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader
 	name = "surcoat of the golden order"
-	desc = "A regal surcoat; inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-forseen."
+	desc = "A regal surcoat; inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-foreseen."
 	icon_state = "crusader_surcoat"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
@@ -129,7 +129,7 @@
 
 /obj/item/clothing/cloak/tabard/stabard/crusader/legacy
 	name = "valorian surcoat of the golden order"
-	desc = "A regal surcoat; inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-forseen. Older in stitchwork, \
+	desc = "A regal surcoat; inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-foreseen. Older in stitchwork, \
 	surcoats like these are seldom seen beyond the nostalgic and departed."
 	icon_state = "legacy_crusader_surcoat"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
