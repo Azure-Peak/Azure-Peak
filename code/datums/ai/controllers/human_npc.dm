@@ -240,6 +240,33 @@
 		return base_cd / 1.5
 	return base_cd
 
+/proc/npc_spend_input(mob/living/pawn, cost)
+	var/datum/ai_controller/controller = pawn?.ai_controller
+	if(!controller || pawn.client)
+		return
+	if(isnull(cost))
+		cost = pawn.npc_reaction_time()
+	var/free_at = max(controller.blackboard[BB_NPC_INPUT_FREE_AT] || 0, world.time + cost)
+	controller.set_blackboard_key(BB_NPC_INPUT_FREE_AT, free_at)
+	pawn.next_click = max(pawn.next_click, free_at)
+
+/proc/npc_attack_intents(mob/living/pawn)
+	. = list()
+	for(var/datum/intent/intent as anything in pawn.possible_a_intents)
+		if(istype(intent, /datum/intent/unarmed/help) || istype(intent, /datum/intent/unarmed/shove) || istype(intent, /datum/intent/unarmed/grab))
+			continue
+		. += intent
+
+/proc/npc_select_intent(mob/living/pawn, datum/intent/intent)
+	if(!intent || pawn.a_intent == intent)
+		return FALSE
+	var/index = pawn.possible_a_intents.Find(intent)
+	if(!index)
+		return FALSE
+	pawn.rog_intent_change(index)
+	npc_spend_input(pawn)
+	return TRUE
+
 // Make it so that every other human NPC in view attacking the same target inherits the cooldown, so that they cannot be chained.
 /proc/propagate_technique_cd(mob/living/user, atom/target, bb_key, cd_end, specialcd_duration = 0)
 	if(!target)

@@ -4,6 +4,7 @@
 #define BLADE_EXTRA_HOSTILE_BONUS 15
 #define BLADE_STILL_BONUS 15
 #define BLADE_AIR_RESOLVE_DELAY 2
+#define BLADE_AIR_SWITCH_LOCKOUT (3 SECONDS)
 #define BLADE_ANCHOR_SCORE 30
 #define BLADE_ANCHOR_RANGE 3
 #define BLADE_ANCHOR_HEALTH 0.7
@@ -49,40 +50,42 @@
 
 /datum/action/cooldown/spell/air_strike
 	npc_max_range = 4
-	var/datum/intent/npc_intent
+	var/npc_switched_at = 0
 
 /datum/action/cooldown/spell/air_strike/npc_use_chance(atom/target)
 	var/mob/living/L = owner
 	var/mob/living/victim = target
-	npc_intent = null
 	if(!istype(L) || !isliving(victim))
 		return 0
 	var/turf/origin = get_turf(victim)
 	var/facing = get_dir(get_turf(L), origin) || L.dir
+	var/datum/intent/best_intent
 	var/best_value = 0
-	var/best_count = 0
+	var/current_value = 0
+	var/current_count = 0
 	for(var/datum/intent/intent in L.possible_a_intents)
 		var/list/turfs = strike_turfs(origin, facing, intent.blade_class)
 		if(npc_allies_in(turfs))
 			continue
 		var/count = npc_hostiles_in(turfs)
 		var/value = count * strike_damage(intent.blade_class)
+		if(intent == L.a_intent)
+			current_value = value
+			current_count = count
 		if(value > best_value)
 			best_value = value
-			best_count = count
-			npc_intent = intent
-	if(!npc_intent)
+			best_intent = intent
+	if(best_intent && best_value > current_value && world.time >= npc_switched_at + BLADE_AIR_SWITCH_LOCKOUT)
+		npc_switched_at = world.time
+		npc_select_intent(L, best_intent)
 		return 0
-	. = BLADE_AIR_SCORE + BLADE_EXTRA_HOSTILE_BONUS * max(0, best_count - 1)
+	if(!current_value)
+		return 0
+	. = BLADE_AIR_SCORE + BLADE_EXTRA_HOSTILE_BONUS * max(0, current_count - 1)
 	if(npc_target_stationary(victim))
 		. += BLADE_STILL_BONUS
 
 /datum/action/cooldown/spell/air_strike/npc_cast_target(atom/target)
-	var/mob/living/L = owner
-	if(istype(L) && npc_intent && (npc_intent in L.possible_a_intents))
-		L.a_intent = npc_intent
-		L.used_intent = npc_intent
-	npc_intent = null
 	return npc_lead_turf(target, charge_time + BLADE_AIR_RESOLVE_DELAY)
 
 /datum/action/cooldown/spell/leyline_anchor
@@ -134,6 +137,7 @@
 #undef BLADE_EXTRA_HOSTILE_BONUS
 #undef BLADE_STILL_BONUS
 #undef BLADE_AIR_RESOLVE_DELAY
+#undef BLADE_AIR_SWITCH_LOCKOUT
 #undef BLADE_ANCHOR_SCORE
 #undef BLADE_ANCHOR_RANGE
 #undef BLADE_ANCHOR_HEALTH

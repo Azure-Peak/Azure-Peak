@@ -155,6 +155,8 @@
 #define BB_HUMAN_NPC_TECHNIQUE_CD		"human_npc_technique_cd"
 #define BB_HUMAN_NPC_SPECIAL_EVAL_AT		"human_npc_special_eval_at"
 #define BB_HUMAN_NPC_STAND_UP_AT			"human_npc_stand_up_at"
+#define BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT	"human_npc_attack_intent_swings_left"
+#define BB_NPC_INPUT_FREE_AT				"npc_input_free_at"
 #define NPC_STAND_UP_DELAY_MIN			(2 SECONDS)
 #define NPC_STAND_UP_DELAY_MAX			(4 SECONDS)
 #define BB_AI_ALERT_MODE_UNTIL			"ai_alert_mode_until"

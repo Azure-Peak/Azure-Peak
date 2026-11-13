@@ -23,4 +23,6 @@
 		to_wield = inactive
 	if(to_wield)
 		to_wield.wield(living_pawn)
+		if(to_wield.wielded)
+			npc_spend_input(living_pawn)
 	return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_SUCCEEDED

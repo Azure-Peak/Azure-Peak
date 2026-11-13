@@ -26,6 +26,8 @@
 		return
 	if(world.time < controller.blackboard[BB_CASTER_NEXT_CAST])
 		return
+	if(world.time < controller.blackboard[BB_NPC_INPUT_FREE_AT])
+		return
 	var/winded = npc_is_winded(controller)
 	var/datum/action/cooldown/spell/best
 	var/atom/best_target
@@ -49,7 +51,7 @@
 			best = spell
 			best_target = spell_target
 			best_score = score
-	if(!best)
+	if(!best || world.time < controller.blackboard[BB_NPC_INPUT_FREE_AT])
 		return
 	controller.set_blackboard_key(spell_key, best)
 	controller.set_blackboard_key(BB_CASTER_SPELL_TARGET, best_target)
