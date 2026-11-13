@@ -466,7 +466,7 @@
 	update_accessory_colors(start_accessory_colors, progress)
 	var/datum/component/amorphous_landing/landing = ooze.GetComponent(/datum/component/amorphous_landing)
 	if(!landing || !landing.is_landing)
-		ooze.update_body_parts()
+		ooze.update_body_parts(TRUE)
 	if(elapsed_time >= shift_duration)
 		STOP_PROCESSING(SSfastprocess, src)
 
