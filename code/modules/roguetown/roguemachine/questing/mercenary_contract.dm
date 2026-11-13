@@ -133,16 +133,38 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		merc.put_in_hands(item)
 	return item
 
-/proc/merc_meister_data(mob/living/carbon/human/merc)
-	if(!istype(SSjob.GetJob(merc.job), /datum/job/roguetown/mercenary))
+/proc/is_mercenary_job(mob/living/user)
+	return istype(SSjob.GetJob(user.job), /datum/job/roguetown/mercenary)
+
+/proc/merc_meister_data(mob/living/carbon/human/user)
+	var/is_merc = is_mercenary_job(user)
+	var/hired = FALSE
+	var/list/contracts = list()
+	for(var/datum/merc_contract/contract as anything in GLOB.merc_contracts)
+		var/is_hirer = contract.hirer_ref?.resolve() == user
+		var/is_hired = contract.merc_ref?.resolve() == user
+		if(!is_hirer && !is_hired)
+			continue
+		if(is_hired)
+			hired = TRUE
+		var/can_end = is_hirer ? contract.can_end_early() : contract.can_merc_end_early()
+		contracts += list(list(
+			"ref" = REF(contract),
+			"title" = is_hirer ? "[contract.merc_name], hired by you" : "Hired by [contract.hirer_name]",
+			"lines" = contract.status_lines(),
+			"end_wait" = can_end ? null : "You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))].",
+			"end_note" = is_hirer ? "If you end it early, the dae in progress is still paid." : "If you end it yourself, you give up the rate and the stipend for the dae in progress.",
+			"agreed_end_terms" = contract.agreed_end_terms(user),
+			"agreed_end_pending" = !!contract.end_proposed_by,
+		))
+	if(!is_merc && !length(contracts))
 		return null
-	var/datum/merc_contract/contract = get_merc_contract(merc)
-	var/cooldown = merc_contract_cooldown_left(merc)
+	var/cooldown = merc_contract_cooldown_left(user)
 	return list(
-		"hired_by" = contract?.hirer_name,
-		"days" = contract?.days,
-		"days_served" = contract?.days_served,
+		"is_merc" = is_merc,
+		"hired" = hired,
 		"cooldown_text" = cooldown ? merc_contract_time_text(cooldown) : null,
+		"contracts" = contracts,
 	)
 
 /datum/merc_contract
@@ -160,6 +182,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	var/datum/weakref/end_proposed_by
 	var/end_proposal_timer_id
 	var/end_prompt_open = FALSE
+	var/list/end_ask_ready_at = list()
 	var/hirer_category
 	var/day_timer_id
 	var/presence_timer_id
@@ -285,6 +308,44 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 
 /datum/merc_contract/proc/get_presence_share()
 	return presence_time / max(world.time - day_started_at, 1)
+
+/datum/merc_contract/proc/get_day_presence_share()
+	return min(1, presence_time / MERC_CONTRACT_DAY_LENGTH)
+
+/datum/merc_contract/proc/status_lines()
+	. = list()
+	. += "[merc_name] is hired by [hirer_name] for [days] dae\s."
+	. += "The contract ends in [merc_contract_time_text(time_left())]."
+	if(rate)
+		. += "[hirer_name] pays [rate] mammon a dae. [held_amount()] mammon is held for this dae."
+		if(unpaid)
+			. += "[hirer_name] has not covered this dae's rate. [merc_name] can end the contract now."
+	. += "The hirer can end the contract early once the first dae has passed, or at any time if [merc_name] is dead."
+	. += "[merc_name] can end it once the first dae has passed, or at any time while a dae's rate is not covered."
+	. += "Either can end it with the contract in hand, at a MEISTER, or with the \"End Mercenary Contract\" verb."
+	if(hirer_category)
+		var/share = get_day_presence_share()
+		var/enough = share >= MERC_CONTRACT_PRESENCE_SHARE ? " This is enough." : ""
+		. += "[merc_name] has spent [round(share * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's stipend.[enough]"
+
+/datum/merc_contract/proc/try_end_early(mob/living/user)
+	var/is_hirer = user == hirer_ref?.resolve()
+	if(!is_hirer && user != merc_ref?.resolve())
+		return
+	if(!(is_hirer ? can_end_early() : can_merc_end_early()))
+		to_chat(user, span_warning("You can end the contract in [merc_contract_time_text(timeleft(day_timer_id))]."))
+		return
+	var/prompt = "End your contract with [hirer_name] early? You give up the rate and the stipend for the dae in progress."
+	if(is_hirer)
+		prompt = "End your contract with [merc_name] early?"
+	if(tgui_alert(user, prompt, "Mercenary Contract", list("Yes", "No")) != "Yes")
+		return
+	if(QDELETED(src) || !(is_hirer ? can_end_early() : can_merc_end_early()))
+		return
+	if(is_hirer)
+		end_early()
+	else
+		end_early_by_merc()
 
 /datum/merc_contract/proc/is_with_employer()
 	var/mob/living/merc = merc_ref?.resolve()
@@ -419,9 +480,10 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		log_quest(hirer.ckey, hirer.mind, hirer, "Contract ended early by mercenary [merc_name][was_unpaid ? " while unpaid" : ""]")
 	end_contract()
 
-/datum/merc_contract/proc/agreed_end_terms()
+/datum/merc_contract/proc/agreed_end_terms(mob/living/reader)
 	var/rate_text = rate ? "The rate for the dae in progress is paid. " : ""
-	return "[rate_text]No stipend is paid for the dae in progress, and [merc_name] can be hired again at once."
+	var/who = reader && reader == merc_ref?.resolve() ? "you" : merc_name
+	return "[rate_text]No stipend is paid for the dae in progress, and [who] can be hired again at once."
 
 /datum/merc_contract/proc/propose_agreed_end(mob/living/proposer)
 	var/mob/living/merc = merc_ref?.resolve()
@@ -433,18 +495,22 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		return
 	var/mob/living/other = proposer == merc ? hirer : merc
 	var/other_name = proposer == merc ? hirer_name : merc_name
-	if(!other || other.stat == DEAD || !other.client)
-		to_chat(proposer, span_warning("[other_name] cannot answer right now."))
+	var/ask_key = proposer == merc ? "merc" : "hirer"
+	var/ask_wait = (end_ask_ready_at[ask_key] || 0) - world.time
+	if(ask_wait > 0)
+		to_chat(proposer, span_warning("You can ask again in [DisplayTimeText(ask_wait, 1)]."))
 		return
-	var/atom/movable/screen/alert/merc_contract_end/request = other.throw_alert("merc_contract_end", /atom/movable/screen/alert/merc_contract_end, timeout_override = MERC_CONTRACT_ACCEPT_TIMEOUT)
-	if(!request)
-		return
-	request.contract_ref = WEAKREF(src)
-	request.desc = "[proposer.real_name] asks to end the contract now. Click to answer."
+	end_ask_ready_at[ask_key] = world.time + MERC_CONTRACT_END_ASK_COOLDOWN
 	end_proposed_by = WEAKREF(proposer)
 	end_proposal_timer_id = addtimer(CALLBACK(src, PROC_REF(expire_end_proposal)), MERC_CONTRACT_ACCEPT_TIMEOUT, TIMER_STOPPABLE)
 	to_chat(proposer, span_notice("You ask [other_name] to end the contract now."))
-	to_chat(other, span_notice("[proposer.real_name] asks to end the contract now. Click the alert to answer."))
+	if(!other)
+		return
+	var/atom/movable/screen/alert/merc_contract_end/request = other.throw_alert("merc_contract_end", /atom/movable/screen/alert/merc_contract_end, timeout_override = MERC_CONTRACT_ACCEPT_TIMEOUT)
+	if(request)
+		request.contract_ref = WEAKREF(src)
+		request.desc = "[proposer.real_name] is asking to end your mercenary contract early now. Click to answer."
+	to_chat(other, span_notice("[proposer.real_name] is asking to end your mercenary contract early now. Click the alert to answer."))
 
 /datum/merc_contract/proc/prompt_end_proposal(mob/living/answerer)
 	var/mob/living/proposer = end_proposed_by?.resolve()
@@ -453,7 +519,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(answerer != merc_ref?.resolve() && answerer != hirer_ref?.resolve())
 		return
 	end_prompt_open = TRUE
-	var/choice = tgui_alert(answerer, "[proposer.real_name] asks to end the contract now. [agreed_end_terms()]", "Mercenary Contract", list("Accept", "Reject"), timeleft(end_proposal_timer_id))
+	var/choice = tgui_alert(answerer, "[proposer.real_name] is asking to end your mercenary contract early now. [agreed_end_terms(answerer)]", "Mercenary Contract", list("Accept", "Reject"), timeleft(end_proposal_timer_id))
 	end_prompt_open = FALSE
 	if(QDELETED(src) || end_proposed_by?.resolve() != proposer)
 		return
@@ -607,7 +673,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /obj/item/merc_contract/examine(mob/user)
 	. = ..()
 	if(contract)
-		for(var/line in signed_lines())
+		for(var/line in contract.status_lines())
 			. += span_info(line)
 		return
 	. += span_info("Hire mercenary [merc_name] for [terms_text()].")
@@ -615,26 +681,14 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	for(var/line in rule_lines())
 		. += span_info(line)
 
-/obj/item/merc_contract/proc/signed_lines()
-	. = list()
-	. += "[merc_name] is hired by [contract.hirer_name] for [contract.days] dae\s."
-	. += "The contract ends in [merc_contract_time_text(contract.time_left())]."
-	if(contract.rate)
-		. += "[contract.hirer_name] pays [contract.rate] mammon a dae. [contract.held_amount()] mammon is held for this dae."
-		if(contract.unpaid)
-			. += "[contract.hirer_name] has not covered this dae's rate. [merc_name] can end the contract now."
-	. += "The hirer can use it in hand to end the contract early once the first dae has passed, or at any time if [merc_name] is dead."
-	. += "[merc_name] can end it with End Mercenary Contract once the first dae has passed, or at any time while a dae's rate is not covered."
-	if(contract.hirer_category)
-		. += "[merc_name] has spent [round(contract.get_presence_share() * 100)]% of this dae with their employer. [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% is needed for the dae's pay."
-
 /obj/item/merc_contract/proc/rule_lines()
 	. = list()
 	. += "A mercenary may ask for a daily rate from the hirer. It is held from the hirer's MEISTER account one dae at a time at the start of each dae, and paid at the end of the dae."
 	. += "If the hirer cannot cover the next dae, the mercenary is told and can end the contract immediately without penalty."
 	. += "A mercenary can end their own contract with the \"End Mercenary Contract\" verb once the first dae has passed. They give up their rate and stipend for the dae in progress, but do not have to wait to be hired again."
 	. += "If the hirer ends the contract early, the dae in progress is still paid."
-	. += "The hirer and the mercenary can agree to end the contract at any time. The hirer asks with the contract in hand, the mercenary with the \"End Mercenary Contract\" verb. The rate for the dae in progress is paid, but not the stipend, and the mercenary does not have to wait to be hired again."
+	. += "The hirer and the mercenary can both see the contract and end it from the Mercenary tab of a MEISTER."
+	. += "The hirer and the mercenary can agree to end the contract at any time. The hirer asks with the contract in hand, the mercenary with the \"End Mercenary Contract\" verb, and either can ask at a MEISTER. The rate for the dae in progress is paid, but not the stipend, and the mercenary does not have to wait to be hired again."
 	. += "While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else."
 	. += "Certain roles give you a stipend from an external funder."
 	. += "Stipend per dae by employer:"
@@ -643,6 +697,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		. += "- [terms["label"]]: [terms["stipend"]] mammon from [terms["payer"]]"
 	. += "- Anyone else: nothing extra"
 	. += "To receive the stipend, spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of each dae within [MERC_CONTRACT_PRESENCE_RANGE] tiles of your employer or a member of their fellowship."
+	. += "The hirer's daily rate and the Guild's share bonus are always paid no matter where you spend the dae. Any pay negotiated outside of the contract is also unaffected by the presence requirements. Only the stipend are."
 
 /obj/item/merc_contract/proc/offer_lines()
 	. = list("They will join your fellowship.")
@@ -679,10 +734,10 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	data["signed"] = !!contract
 	data["is_merc"] = user == merc
 	if(contract)
-		data["status_lines"] = signed_lines()
+		data["status_lines"] = contract.status_lines()
 		data["is_hirer"] = contract.hirer_ref?.resolve() == user
 		data["end_early_wait"] = contract.can_end_early() ? null : "You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))]."
-		data["agreed_end_terms"] = contract.agreed_end_terms()
+		data["agreed_end_terms"] = contract.agreed_end_terms(user)
 		data["agreed_end_pending"] = !!contract.end_proposed_by
 		return data
 	data["headline"] = "Hire mercenary [merc_name] for [terms_text()]."
@@ -722,23 +777,13 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		if("end_early")
 			if(contract?.hirer_ref?.resolve() != user)
 				return
-			INVOKE_ASYNC(src, PROC_REF(try_end_early), user)
+			INVOKE_ASYNC(contract, TYPE_PROC_REF(/datum/merc_contract, try_end_early), user)
 			return TRUE
 		if("propose_end")
 			if(contract?.hirer_ref?.resolve() != user)
 				return
 			contract.propose_agreed_end(user)
 			return TRUE
-
-/obj/item/merc_contract/proc/try_end_early(mob/living/hirer)
-	if(!contract.can_end_early())
-		to_chat(hirer, span_warning("You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))]."))
-		return
-	if(tgui_alert(hirer, "End your contract with [merc_name] early?", "Mercenary Contract", list("Yes", "No")) != "Yes")
-		return
-	if(QDELETED(src) || !contract)
-		return
-	contract.end_early()
 
 /obj/item/merc_contract/proc/terms_text()
 	if(rate)
@@ -893,7 +938,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	if(contract.can_merc_end_early())
 		options = list(end_alone, end_agreed)
 		alone_text = "If you end it yourself, you give up the rate and the stipend for the dae in progress."
-	var/choice = tgui_input_list(src, "[alone_text] If [contract.hirer_name] agrees to end it: [contract.agreed_end_terms()]", "Mercenary Contract", options)
+	var/choice = tgui_input_list(src, "[alone_text] If [contract.hirer_name] agrees to end it: [contract.agreed_end_terms(src)]", "Mercenary Contract", options)
 	if(!choice || QDELETED(contract))
 		return
 	if(choice == end_agreed)

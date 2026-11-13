@@ -497,7 +497,7 @@
 		<h3>Mercenary Contracts</h3>
 		<p>A Mercenary spawns with a "Mercenary Contract", which can be set to 1 to [MERC_CONTRACT_MAX_DAYS] days. They can hand it over to someone who is a leader of a fellowship, and become hired that way. This forces the Mercenary to join their fellowship, forces the fellowship to split contracts proceeds, and make the Mercenary impossible to boot out. A Mercenary is bound by the signing alone limit of one contract every [QUEST_SOLO_SIGN_COOLDOWN / 600] minutes even when leading a fellowship. When a Mercenary leading a fellowship signs this way, every other Mercenary in it waits as well. For a Mercenary only towner postings do not count toward this. The limit is lifted during lowpop.</p>
 
-		<p>Contract provides two types of benefits. A Mercenary under contract will gets a flat +25% bonus from their share of any contracts completed by the fellowship leader. And if they are hired to certain roles (Inquisition, Outlaws, the University, and Burghers and Peasants except the Innkeeper, Tapster and Cook), they will receive a stipend that is deposited to their account or sent to mail by an off-map faction. The stipend is received daily. To receive your stipend from stipended role, you must spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of the preceding day close to them or a member of their fellowship. Specifically, within [MERC_CONTRACT_PRESENCE_RANGE] tiles (not counting z level differences). A contract can be ended early by the hirer.
+		<p>Contract provides two types of benefits. A Mercenary under contract will gets a flat +25% bonus from their share of any contracts completed by the fellowship leader. And if they are hired to certain roles (Inquisition, Outlaws, the University, and Burghers and Peasants except the Innkeeper, Tapster and Cook), they will receive a stipend that is deposited to their account or sent to mail by an off-map faction. The stipend is received daily. To receive your stipend from stipended role, you must spend at least [round(MERC_CONTRACT_PRESENCE_SHARE * 100)]% of the preceding day close to them or a member of their fellowship. Specifically, within [MERC_CONTRACT_PRESENCE_RANGE] tiles (not counting z level differences). The hirer's daily rate and the Guild's share bonus are always paid no matter where you spend the day. Any pay negotiated outside of the contract is also unaffected by the presence requirements. Only the stipend are. A contract can be ended early by the hirer.
 		The hirer can only do so once the first day has passed. A Mercenary let go
 		early must wait a day before they can be hired again.</p>
 
@@ -510,6 +510,9 @@
 		Mercenary Contract" verb, and the other accepts. The rate for the day in
 		progress is paid, but not the stipend, and the Mercenary does not have to
 		wait to be hired again.</p>
+
+		<p>The hirer and the Mercenary can both see the contract and end it from the
+		Mercenary tab of a MEISTER.</p>
 
 		<p>A Mercenary may ask for a daily rate from the hirer, it is held from the
 		hirer's MEISTER account one day at a time at the start of each day, and paid

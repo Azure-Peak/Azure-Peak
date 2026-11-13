@@ -1,4 +1,5 @@
 import type { sendAct } from 'tgui/events/act';
+import type { BooleanLike } from 'tgui-core/react';
 
 export type FundEntry = {
   id: string;
@@ -81,11 +82,21 @@ export type LogEntry = {
   reason: string;
 };
 
+export type MercContractEntry = {
+  ref: string;
+  title: string;
+  lines: string[];
+  end_wait: string | null;
+  end_note: string;
+  agreed_end_terms: string;
+  agreed_end_pending: BooleanLike;
+};
+
 export type MercData = {
-  hired_by: string | null;
-  days: number | null;
-  days_served: number | null;
+  is_merc: BooleanLike;
+  hired: BooleanLike;
   cooldown_text: string | null;
+  contracts: MercContractEntry[];
 };
 
 export type Data = {
