@@ -16,7 +16,6 @@
 /datum/npc_loadout/kit/caster/fulgurmancer
 	magic_aspects = list(
 		/datum/magic_aspect/fulgurmancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
 	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageblue = 50,
@@ -31,7 +30,6 @@
 /datum/npc_loadout/kit/caster/geomancer
 	magic_aspects = list(
 		/datum/magic_aspect/geomancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/magegreen = 60,
@@ -46,7 +44,6 @@
 /datum/npc_loadout/kit/caster/telomancer
 	magic_aspects = list(
 		/datum/magic_aspect/telomancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/courtmage = 50,
@@ -81,7 +78,6 @@
 /datum/npc_loadout/kit/caster/cryomancer
 	magic_aspects = list(
 		/datum/magic_aspect/cryomancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/crystalhide,
 	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/white = 50,
@@ -96,7 +92,6 @@
 /datum/npc_loadout/kit/caster/pyromancer
 	magic_aspects = list(
 		/datum/magic_aspect/pyromancy,
-		/datum/magic_aspect/autowardry = /datum/action/cooldown/spell/conjure_arcyne_ward/dragonhide,
 	)
 	cloak = list(
 		/obj/item/clothing/suit/roguetown/shirt/robe/mageorange = 60,

@@ -124,7 +124,7 @@
 /datum/npc_archetype/bog_deserter/caster
 	abstract_type = /datum/npc_archetype/bog_deserter/caster
 	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM
-	statpack = /datum/npc_statpack/caster/t2
+	statpack = /datum/npc_statpack/caster/t1
 	armor_training = ARMOR_CLASS_LIGHT
 	ai_controller = /datum/ai_controller/human_npc/caster
 

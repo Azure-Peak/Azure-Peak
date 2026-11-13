@@ -96,6 +96,12 @@
 	npc_min_range = 2
 	npc_max_range = 7
 
+/datum/action/cooldown/spell/arcyne_burst
+	npc_commits_aim = TRUE
+
+/datum/action/cooldown/spell/arcyne_burst/npc_aim_delay()
+	return blast_delay
+
 /datum/action/cooldown/spell/arcyne_burst/npc_is_big_spell()
 	return FALSE
 

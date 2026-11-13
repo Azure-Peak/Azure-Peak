@@ -18,6 +18,10 @@
 /datum/action/cooldown/spell/tumult
 	npc_min_range = 2
 	npc_max_range = 7
+	npc_commits_aim = TRUE
+
+/datum/action/cooldown/spell/tumult/npc_aim_delay()
+	return telegraph_delay
 
 /datum/action/cooldown/spell/tumult/npc_use_chance(atom/target)
 	var/mob/living/victim = target
@@ -33,6 +37,10 @@
 /datum/action/cooldown/spell/menhir
 	npc_min_range = 2
 	npc_max_range = 7
+	npc_commits_aim = TRUE
+
+/datum/action/cooldown/spell/menhir/npc_aim_delay()
+	return is_drop_mode() ? drop_telegraph_time : 0
 
 /datum/action/cooldown/spell/menhir/npc_use_chance(atom/target)
 	var/mob/living/victim = target
@@ -58,6 +66,10 @@
 	npc_min_range = 2
 	npc_max_range = 7
 	npc_escape = TRUE
+	npc_commits_aim = TRUE
+
+/datum/action/cooldown/spell/geas/npc_aim_delay()
+	return delay
 
 /datum/action/cooldown/spell/geas/npc_use_chance(atom/target)
 	var/mob/living/victim = target

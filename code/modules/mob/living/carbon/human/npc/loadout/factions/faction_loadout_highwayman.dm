@@ -128,7 +128,7 @@
 /datum/npc_archetype/highwayman/caster
 	abstract_type = /datum/npc_archetype/highwayman/caster
 	threat_point = THREAT_DANGEROUS
-	statpack = /datum/npc_statpack/caster/t2
+	statpack = /datum/npc_statpack/caster/t1
 	armor_training = ARMOR_CLASS_LIGHT
 	ai_controller = /datum/ai_controller/human_npc/caster
 
@@ -196,7 +196,7 @@
 	name = "Highwayman Magister"
 	job = "Highwayman Magister"
 	threat_point = THREAT_DEADLY
-	statpack = /datum/npc_statpack/caster/t3
+	statpack = /datum/npc_statpack/caster/t2
 	magic = SKILL_LEVEL_EXPERT
 	loadouts = list(
 		/datum/npc_loadout/kit/bandit_flavor,

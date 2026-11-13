@@ -61,6 +61,7 @@
 /datum/action/cooldown/spell/verglas
 	npc_min_range = 5
 	npc_max_range = 7
+	npc_commits_aim = TRUE
 
 /datum/action/cooldown/spell/verglas/npc_use_chance(atom/target)
 	var/mob/living/victim = target

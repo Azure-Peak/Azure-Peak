@@ -176,6 +176,12 @@ GLOBAL_LIST_INIT(npc_crafting_skills, list(
 			stack_trace("npc archetype [type] names unknown magic aspect [aspect_type]")
 			continue
 		aspect.grant_npc_spells(H, aspects[aspect_type])
+	if(default_ward)
+		for(var/datum/action/cooldown/spell/conjure_arcyne_ward/upgraded in H.actions)
+			if(upgraded.type == default_ward)
+				continue
+			upgraded.Remove(H)
+			qdel(upgraded)
 	var/datum/action/cooldown/spell/conjure_arcyne_ward/ward = locate() in H.actions
 	if(!ward && default_ward)
 		ward = new default_ward(H)

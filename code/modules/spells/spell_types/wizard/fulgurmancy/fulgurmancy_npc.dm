@@ -57,6 +57,10 @@
 /datum/action/cooldown/spell/fulmination
 	npc_min_range = 2
 	npc_max_range = 6
+	npc_commits_aim = TRUE
+
+/datum/action/cooldown/spell/fulmination/npc_aim_delay()
+	return current_mode == FULMINATION_MODE_STORM ? ts_telegraph : hs_telegraph
 
 /datum/action/cooldown/spell/fulmination/proc/npc_set_mode(index)
 	if(index != current_mode)

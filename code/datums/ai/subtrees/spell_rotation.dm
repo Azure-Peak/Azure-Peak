@@ -125,6 +125,19 @@
 	var/npc_aborted = FALSE
 	var/npc_targets_allies = FALSE
 	var/npc_requires_bound_weapon = FALSE
+	var/npc_commits_aim = FALSE
+
+/datum/action/cooldown/spell/proc/npc_aim_delay()
+	return 0
+
+/datum/action/cooldown/spell/npc_cast_target(atom/target)
+	if(!npc_commits_aim || !isliving(target) || target == owner)
+		return ..()
+	var/turf/current = get_turf(target)
+	var/turf/aim = npc_lead_turf(target, (charge_required ? charge_time : 0) + npc_aim_delay())
+	if(!aim || aim.density || !(aim in get_hear(cast_range, get_turf(owner))))
+		return current
+	return aim
 
 /datum/action/cooldown/spell/proc/npc_on_spawn(mob/living/carbon/human/H)
 	return
