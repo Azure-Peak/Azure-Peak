@@ -1285,7 +1285,7 @@
 
 /obj/item/clothing/cloak/cape/puritan/gold
 	name = "golden order cloak"
-	desc = "A time-honored cloak inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-forseen."
+	desc = "A time-honored cloak inlaid with golden threading, worn by those who ward Psydonia from heathens, cultists, and calamities-yet-foreseen."
 	icon_state = "inquisitor_cloak"
 
 /obj/item/clothing/cloak/cape/puritan/silver
