@@ -1,10 +1,40 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aaa" = (
+/obj/structure/giantfur/small{
+	layer = 2
+	},
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_y = 0;
+	pixel_x = -32
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/town/grim)
+"aab" = (
+/obj/structure/rack/rogue,
+/obj/item/quiver/arrows{
+	pixel_x = -10;
+	pixel_y = 3
+	},
+/obj/item/storage/roguebag,
+/obj/item/storage/roguebag,
+/obj/item/needle/thorn{
+	pixel_x = 14
+	},
+/obj/machinery/light/rogue/candle/l,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/grim)
 "aac" = (
 /obj/structure/bars/pipe{
 	dir = 10
 	},
 /turf/open/floor/rogue/dirt/road,
 /area/rogue/under/cave/dungeon1/gethsmane/inner)
+"aad" = (
+/obj/structure/roguemachine/withdraw{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/grim)
 "aae" = (
 /obj/structure/lever/wall{
 	name = "Front Door Bars";
@@ -36,9 +66,47 @@
 /obj/structure/flora/roguegrass/bush/wall/tall,
 /turf/open/floor/rogue/grassyel,
 /area/rogue/outdoors/beach/forest/hamlet/grim)
+"aaj" = (
+/obj/structure/table/wood/long_table,
+/obj/structure/fermentation_keg/water{
+	icon_state = "barrel_tapless_ready";
+	pixel_x = 12;
+	pixel_y = 16;
+	density = 0
+	},
+/obj/structure/fermentation_keg/water{
+	icon_state = "barrel_tapless_ready";
+	pixel_x = -5;
+	pixel_y = 16;
+	density = 0;
+	layer = 3
+	},
+/obj/item/storage/bag/tray{
+	pixel_x = 3;
+	pixel_y = -3
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/grim)
 "aak" = (
 /turf/open/floor/rogue/naturalstone,
 /area/rogue/under/cave/grim)
+"aal" = (
+/obj/item/reagent_containers/peppermill{
+	pixel_y = 15;
+	pixel_x = -2
+	},
+/obj/structure/table/wood/long_table/right,
+/obj/item/millstone{
+	pixel_y = 21;
+	pixel_x = 9
+	},
+/obj/item/rogueweapon/huntingknife/chefknife{
+	pixel_x = 13;
+	pixel_y = 0
+	},
+/obj/machinery/light/rogue/candle,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town/grim)
 "aam" = (
 /obj/structure/bookcase/random/archive,
 /turf/open/floor/rogue/hexstone,
@@ -30151,12 +30219,6 @@
 /obj/structure/fluff/walldeco/vinez/l,
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/bog/south/grim/se)
-"dEn" = (
-/obj/structure/giantfur/small{
-	layer = 2
-	},
-/turf/open/floor/rogue/twig,
-/area/rogue/indoors/town/grim)
 "dEv" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -92631,21 +92693,6 @@
 	},
 /turf/open/floor/rogue/tile/brownbrick/browner,
 /area/rogue/indoors/town/church/grim/infirmary)
-"lft" = (
-/obj/item/reagent_containers/peppermill{
-	pixel_y = 7;
-	pixel_x = -1
-	},
-/obj/structure/table/wood/long_table/right,
-/obj/item/storage/bag/tray,
-/obj/item/millstone{
-	pixel_y = 16;
-	pixel_x = 6
-	},
-/obj/item/rogueweapon/huntingknife/chefknife,
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/grim)
 "lfw" = (
 /obj/item/reagent_containers/food/snacks/smallrat,
 /turf/open/floor/rogue/ruinedwood,
@@ -112312,13 +112359,6 @@
 	icon_state = "plating2"
 	},
 /area/rogue/under/cave/water_temple/one)
-"nBk" = (
-/obj/structure/rack/rogue,
-/obj/item/quiver/arrows,
-/obj/item/quiver/arrows,
-/obj/machinery/light/rogue/candle/l,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/grim)
 "nBm" = (
 /obj/machinery/light/rogue/candle,
 /obj/structure/table/wood,
@@ -131652,23 +131692,6 @@
 /obj/structure/fluff/railing/border/north,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/town/grim)
-"pRL" = (
-/obj/structure/table/wood/long_table,
-/obj/structure/fermentation_keg/water{
-	icon_state = "barrel_tapless_ready";
-	pixel_x = 12;
-	pixel_y = 16;
-	density = 0
-	},
-/obj/structure/fermentation_keg/water{
-	icon_state = "barrel_tapless_ready";
-	pixel_x = -5;
-	pixel_y = 16;
-	density = 0;
-	layer = 3
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/grim)
 "pRM" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/rogue/grass,
@@ -144846,13 +144869,6 @@
 "rxe" = (
 /turf/open/floor/rogue/cobblerock,
 /area/rogue/indoors/inq/embassy)
-"rxg" = (
-/obj/structure/rack/rogue,
-/obj/item/storage/roguebag,
-/obj/item/storage/roguebag,
-/obj/item/needle/thorn,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town/grim)
 "rxl" = (
 /obj/structure/bed/rogue/shit{
 	pixel_x = 0;
@@ -486460,7 +486476,7 @@ pMH
 pMH
 nuD
 nuD
-kqz
+pdv
 kqz
 kqz
 kqz
@@ -502603,7 +502619,7 @@ iPR
 oOx
 mDI
 aTh
-eyT
+aWJ
 fzS
 aTh
 mDI
@@ -502983,11 +502999,11 @@ oqW
 jXj
 oOx
 oOx
-eyT
+aWJ
 yeE
 sVt
 xnz
-nBk
+aab
 mDI
 bQx
 bQx
@@ -503366,10 +503382,10 @@ uNY
 iPR
 iPR
 aTh
-pRL
+aaj
 xnz
 xnz
-rxg
+aad
 mDI
 mDI
 iPR
@@ -503748,7 +503764,7 @@ jXj
 iPR
 sLc
 nuD
-lft
+aal
 fvq
 hhv
 jxg
@@ -504135,7 +504151,7 @@ tJW
 pFk
 tEx
 gUf
-eyT
+aWJ
 iPR
 bQx
 oOx
@@ -505661,7 +505677,7 @@ mDI
 aTh
 vak
 aTh
-eyT
+aWJ
 aTh
 mDI
 wlZ
@@ -625990,8 +626006,8 @@ uox
 jTx
 nUS
 urL
-urL
 veT
+urL
 qsK
 hPO
 stq
@@ -626755,7 +626771,7 @@ jTx
 nUS
 uwr
 urL
-dEn
+aaa
 urL
 scE
 nuD
