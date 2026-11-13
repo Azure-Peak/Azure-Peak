@@ -290,7 +290,7 @@
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_GRONN)
 
 /obj/item/clothing/neck/roguetown/psicross/inhumen/matthios/gronn
-	name = "starving talisman" //starving talisman //that's right baby it's the starving talisman linter pls work
+	name = "starving talisman" //starving talisman
 	desc = "'“The hunger, the destruction, the impending frost, the enemy of my enemy. Feed the Bear, or be consumed.'	</br>	</br>The Starving Bear embodies not a virtue, but the necessity to thrive above all else. Avarice is not a sin, but a virtue; to ensure that the homeland never suffers from poverty nor starvation again. Pillage, plunder, and perforate the wealth that others would keep from you, but do not forget that every choice begets consequences."
 	icon_state = "gronnmatthios"
 
