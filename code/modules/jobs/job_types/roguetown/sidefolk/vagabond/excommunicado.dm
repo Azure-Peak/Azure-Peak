@@ -49,5 +49,5 @@
 				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
 		if(istype(H.patron, /datum/patron/divine/necra))
 			if(H.mind)
-				ADD_TRAIT(H, TRAIT_RITUALIST, JOB_TRAIT)
+				ADD_TRAIT(H, TRAIT_LESSER_RITUALIST, JOB_TRAIT)
 				l_hand = /obj/item/ritechalk // don't eat it, ser
