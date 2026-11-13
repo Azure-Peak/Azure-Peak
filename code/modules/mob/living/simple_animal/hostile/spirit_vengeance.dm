@@ -42,7 +42,7 @@
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal, death), TRUE), 25 SECONDS)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal, death), TRUE), 15 SECONDS)
 
 /datum/targetting_datum/vengeful_spirit/can_attack(mob/living/living_mob, atom/the_target, vision_range)
 	var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/spirit = living_mob
@@ -58,7 +58,7 @@
 	ai_controller = /datum/ai_controller/spirit_vengeance/avenging
 	var/datum/weakref/chase_target_ref
 	var/crow_form = FALSE
-	var/lifespan = 25 SECONDS
+	var/lifespan = 15 SECONDS
 	var/latched = FALSE
 
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/Initialize(mapload, mob/living/summoner, crow)
@@ -92,6 +92,8 @@
 
 /mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/Bump(atom/bumped)
 	. = ..()
+	if(prob(50)) // bit of a reaction time mercy, these things are vicious
+		return
 	if(try_latch(bumped))
 		return
 	if(!latched && isliving(bumped))

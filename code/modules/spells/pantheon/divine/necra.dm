@@ -1133,7 +1133,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	duration = 30 SECONDS
 	tick_interval = 2 SECONDS
 	alert_type = null // managed manually below cause of a runtime
-	var/tick_damage = 2 // this is like 4 hybrid damage over time PER CROW, so 12 damage over time holy shit
+	var/tick_damage = 1 // don't make this any higher than 1, please. This is 2 hybrid damage over time, per stack, for 30 seconds. Dispelled by RIPOSTE.
 	var/crow_form = FALSE
 	var/obj/effect/vengeful_orbiter/orbiter
 
@@ -1152,12 +1152,13 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	if(owner.stat == DEAD)
 		qdel(src)
 		return
-	if(owner.has_status_effect(/datum/status_effect/buff/clash)) // putting up riposte cleanses this
-		owner.visible_message(span_warning("[owner] backhands the malevolence clinging to [owner.p_them()] away!"), span_notice("I backhand the spirits clinging to me away!"))
-		playsound(owner.loc, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
-		for(var/datum/status_effect/debuff/vengeful_spirit/spirit in owner.status_effects.Copy())
+	var/mob/living/victim = owner
+	if(victim.has_status_effect(/datum/status_effect/buff/clash)) // putting up riposte cleanses this
+		victim.visible_message(span_warning("[victim] backhands the malevolence clinging to [victim.p_them()] away!"), span_notice("I backhand the spirits clinging to me away!"))
+		playsound(victim.loc, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
+		victim.remove_status_effect(/datum/status_effect/buff/clash)
+		for(var/datum/status_effect/debuff/vengeful_spirit/spirit in victim.status_effects.Copy())
 			spirit.disperse()
-		owner.remove_status_effect(/datum/status_effect/buff/clash)
 		return
 	var/aimloc = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, PEN_LIGHT, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, null)
