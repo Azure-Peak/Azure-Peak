@@ -1449,30 +1449,6 @@
 				/obj/item/natural/fibers = 2)
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/sewing/cape/puritan
-	name = "cape, formal"
-	category = "Cloaks"
-	result = list(/obj/item/clothing/cloak/cape/puritan)
-	reqs = list(/obj/item/natural/cloth = 4,
-				/obj/item/natural/silk = 2)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/cape/goldenorder
-	name = "cape, golden order"
-	category = "Cloaks"
-	result = list(/obj/item/clothing/cloak/cape/puritan/gold)
-	reqs = list(/obj/item/natural/cloth = 4,
-				/obj/item/natural/silk = 2)
-	craftdiff = 3
-
-/datum/crafting_recipe/roguetown/sewing/cape/silverorder
-	name = "cape, silver order"
-	category = "Cloaks"
-	result = list(/obj/item/clothing/cloak/cape/puritan/silver)
-	reqs = list(/obj/item/natural/cloth = 4,
-				/obj/item/natural/silk = 2)
-	craftdiff = 3
-
 /datum/crafting_recipe/roguetown/sewing/cape/rider
 	name = "rider cloak"
 	category = "Cloaks"
