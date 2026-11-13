@@ -413,6 +413,8 @@
 	else
 		color_shift.stop_shift()
 		to_chat(src, span_notice("My body will hold its current colors."))
+	if(!color_shift.save_preference(client))
+		to_chat(src, span_warning("My color shifting preference could not be saved for future rounds."))
 
 /obj/effect/overlay/ooze_color
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
@@ -428,6 +430,8 @@
 	var/shift_started
 	var/shift_duration = 30 SECONDS
 	var/enabled = TRUE
+	var/preference_ckey
+	var/preference_slot
 	var/shifting = FALSE
 	var/list/visual_roots = list()
 	var/list/visuals = list()
@@ -443,6 +447,37 @@
 	STOP_PROCESSING(SSprocessing, src)
 	clear_visuals()
 	return ..()
+
+/datum/component/ooze_color_shift/proc/apply_preferences(datum/preferences/prefs)
+	enabled = prefs.ooze_color_shifting
+	if(!enabled)
+		stop_shift()
+	preference_ckey = prefs.parent?.ckey
+	preference_slot = prefs.default_slot
+
+/datum/component/ooze_color_shift/proc/save_preference(client/player)
+	if(!player || player.ckey != preference_ckey || !preference_slot)
+		return FALSE
+	var/datum/preferences/prefs = player.prefs
+	if(!prefs)
+		return FALSE
+	return prefs.save_ooze_color_shifting(preference_slot, enabled)
+
+/datum/preferences/proc/save_ooze_color_shifting(slot, enabled)
+	if(!path || savefile_write_locked)
+		return FALSE
+	var/savefile/S = new /savefile(path)
+	if(!S)
+		return FALSE
+	S.cd = "/"
+	if(!S.dir.Find("character[slot]"))
+		return FALSE
+	S.cd = "/character[slot]"
+	WRITE_FILE(S["ooze_color_shifting"], enabled)
+	S.Flush()
+	if(default_slot == slot)
+		ooze_color_shifting = enabled
+	return TRUE
 
 /datum/component/ooze_color_shift/proc/on_reagent_metabolized(mob/living/carbon/human/ooze, datum/reagent/reagent)
 	SIGNAL_HANDLER
