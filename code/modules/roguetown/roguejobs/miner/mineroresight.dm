@@ -63,14 +63,16 @@
 	for(var/turf/closed/mineral/T in RANGE_TURFS(range, origin))
 		if(T)
 			var/obj/effect/temp_visual/fxtype
-			if(veinmode) //Vein mode just shows where good quality rock is, not actual ores
+			if(veinmode) //Vein mode uses the old behavior
 				switch(T.type)
-					if(/turf/closed/mineral/random/rogue/med)
-						fxtype = /obj/effect/temp_visual/medqualityore
-					if(/turf/closed/mineral/random/rogue/high)
-						fxtype = /obj/effect/temp_visual/highqualityore
-					if(/turf/closed/mineral/rogue/bedrock)
-						fxtype = /obj/effect/temp_visual/bedrockore
+				if(/turf/closed/mineral/random/rogue/med, /turf/closed/mineral/rogue/copper, /turf/closed/mineral/rogue/tin, /turf/closed/mineral/rogue/coal)
+					fxtype = /obj/effect/temp_visual/medqualityore
+				if(/turf/closed/mineral/random/rogue/high, /turf/closed/mineral/rogue/cinnabar, /turf/closed/mineral/rogue/iron, /turf/closed/mineral/rogue/gold, /turf/closed/mineral/rogue/silver)
+					fxtype = /obj/effect/temp_visual/highqualityore
+				if(/turf/closed/mineral/rogue/gem)
+					fxtype = /obj/effect/temp_visual/gemqualityore
+				if(/turf/closed/mineral/rogue/bedrock)
+					fxtype = /obj/effect/temp_visual/bedrockore
 			else //Ores mode just shows us where materials actually are
 				switch(T.type)
 					if(/turf/closed/mineral/rogue/copper, /turf/closed/mineral/rogue/tin, /turf/closed/mineral/rogue/coal)
