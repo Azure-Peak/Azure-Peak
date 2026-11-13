@@ -16,7 +16,7 @@
 	strength = 10
 	speed = 10
 	constitution = 6
-	willpower = 6
+	willpower = 5
 	perception = 10
 	intelligence = 8
 
@@ -24,7 +24,7 @@
 	strength = 12
 	speed = 10
 	constitution = 8
-	willpower = 8
+	willpower = 7
 	perception = 11
 	intelligence = 9
 
@@ -32,7 +32,7 @@
 	strength = 14
 	speed = 10
 	constitution = 10
-	willpower = 10
+	willpower = 9
 	perception = 12
 	intelligence = 10
 
@@ -40,7 +40,7 @@
 	strength = 14
 	speed = 10
 	constitution = 12
-	willpower = 12
+	willpower = 11
 	perception = 13
 	intelligence = 11
 
@@ -53,7 +53,7 @@
 	strength = 8
 	speed = 12
 	constitution = 4
-	willpower = 6
+	willpower = 5
 	perception = 10
 	intelligence = 10
 
@@ -61,7 +61,7 @@
 	strength = 10
 	speed = 12
 	constitution = 6
-	willpower = 8
+	willpower = 7
 	perception = 11
 	intelligence = 11
 
@@ -69,7 +69,7 @@
 	strength = 11
 	speed = 13
 	constitution = 8
-	willpower = 10
+	willpower = 9
 	perception = 12
 	intelligence = 12
 
@@ -77,7 +77,7 @@
 	strength = 12
 	speed = 12
 	constitution = 10
-	willpower = 12
+	willpower = 11
 	perception = 13
 	intelligence = 13
 
@@ -98,7 +98,7 @@
 	strength = 9
 	speed = 10
 	constitution = 6
-	willpower = 6
+	willpower = 5
 	perception = 12
 	intelligence = 8
 
@@ -106,7 +106,7 @@
 	strength = 11
 	speed = 10
 	constitution = 8
-	willpower = 8
+	willpower = 7
 	perception = 13
 	intelligence = 9
 
@@ -114,7 +114,7 @@
 	strength = 12
 	speed = 10
 	constitution = 10
-	willpower = 10
+	willpower = 9
 	perception = 15
 	intelligence = 11
 
@@ -127,7 +127,7 @@
 	strength = 11
 	speed = 8
 	constitution = 8
-	willpower = 8
+	willpower = 7
 	perception = 8
 	intelligence = 8
 
@@ -135,7 +135,7 @@
 	strength = 13
 	speed = 8
 	constitution = 10
-	willpower = 10
+	willpower = 9
 	perception = 9
 	intelligence = 9
 
@@ -143,7 +143,7 @@
 	strength = 14
 	speed = 8
 	constitution = 12
-	willpower = 12
+	willpower = 11
 	perception = 10
 	intelligence = 10
 
@@ -151,7 +151,7 @@
 	strength = 14
 	speed = 8
 	constitution = 14
-	willpower = 14
+	willpower = 13
 	perception = 11
 	intelligence = 11
 
@@ -162,7 +162,7 @@
 	strength = 8
 	speed = 10
 	constitution = 4
-	willpower = 7
+	willpower = 6
 	perception = 11
 	intelligence = 12
 
@@ -170,7 +170,7 @@
 	strength = 10
 	speed = 10
 	constitution = 6
-	willpower = 9
+	willpower = 8
 	perception = 12
 	intelligence = 13
 
@@ -178,7 +178,7 @@
 	strength = 12
 	speed = 10
 	constitution = 8
-	willpower = 11
+	willpower = 10
 	perception = 13
 	intelligence = 14
 
@@ -189,7 +189,7 @@
 	strength = 11
 	speed = 10
 	constitution = 7
-	willpower = 9
+	willpower = 8
 	perception = 11
 	intelligence = 11
 
@@ -197,6 +197,6 @@
 	strength = 13
 	speed = 10
 	constitution = 9
-	willpower = 11
+	willpower = 10
 	perception = 12
 	intelligence = 12
