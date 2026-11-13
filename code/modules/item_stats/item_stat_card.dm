@@ -380,10 +380,13 @@ GLOBAL_DATUM(item_preview, /datum/item_preview)
 
 /datum/item_preview/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "ItemPreview", "Item Properties")
-		ui.open()
-		ui.set_autoupdate(FALSE)
+	if(ui)
+		if(ui.window?.id)
+			winset(user, ui.window.id, "focus=true")
+		return
+	ui = new(user, src, "ItemPreview", "Item Properties")
+	ui.open()
+	ui.set_autoupdate(FALSE)
 
 /datum/item_preview/ui_state(mob/user)
 	return GLOB.always_state
