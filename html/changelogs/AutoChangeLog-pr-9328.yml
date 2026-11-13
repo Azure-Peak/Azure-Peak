@@ -1,6 +1,0 @@
-author: "mumblemancer"
-delete-after: True
-changes:
-  - code_imp: "is_in_combat() proc now available for coders to use"
-  - balance: "cheeles give 1 blood max if infusing on someone incombat"
-  - bugfix: "leeches drain blood again. cheeles will also fill again."

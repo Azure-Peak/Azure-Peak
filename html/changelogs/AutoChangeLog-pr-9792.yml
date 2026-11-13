@@ -1,5 +1,0 @@
-author: "Ryan180602"
-delete-after: True
-changes:
-  - rscadd: "protege system for veteran."
-  - bugfix: "give mercenary veteran bad trainer as i should've."

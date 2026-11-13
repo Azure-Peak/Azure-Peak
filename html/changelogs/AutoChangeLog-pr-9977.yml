@@ -1,4 +1,0 @@
-author: "Ollanius"
-delete-after: True
-changes:
-  - qol: "The subclass names for the Exorcist are now agnostic and have a stronger correlation to the attached option. 'Traditionalist' is now 'Sanguine', 'Reformist' is now 'Swiftfooted', and 'Orthodoxist' is now 'Stalwart'."
