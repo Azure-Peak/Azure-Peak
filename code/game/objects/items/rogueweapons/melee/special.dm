@@ -50,17 +50,44 @@
 
 /datum/intent/lord_electrocute
 	name = "electrocute"
+	desc = "Punish someone in the manor with a shocking bolt while they are within range of your rod. They must hold a Meister account. Can only be used by the Grand Duke."
 	blade_class = null
 	icon_state = "inshock"
 	tranged = TRUE
 	noaa = TRUE
 
+/datum/intent/lord_electrocute/on_afterattack(atom/target, mob/living/user, proximity_flag, params)
+	var/obj/item/rogueweapon/lordscepter/rod = masteritem
+	if(!istype(rod))
+		return
+	var/mob/living/carbon/human/H = rod.get_rod_target(target, user)
+	if(!H)
+		return
+	user.visible_message(span_warning("[user] electrocutes [H] with [rod]."))
+	user.Beam(H, icon_state = "lightning[rand(1,12)]", time = 5)
+	H.electrocute_act(5, rod)
+	COOLDOWN_START(rod, scepter, 20 SECONDS)
+	to_chat(H, span_danger("I'm electrocuted by the scepter!"))
+
 /datum/intent/lord_silence
 	name = "silence"
+	desc = "Silence someone in the manor for twenty seconds while they are within range of your rod. They must hold a Meister account. Can only be used by the Grand Duke."
 	blade_class = null
 	icon_state = "insilence"
 	tranged = TRUE
 	noaa = TRUE
+
+/datum/intent/lord_silence/on_afterattack(atom/target, mob/living/user, proximity_flag, params)
+	var/obj/item/rogueweapon/lordscepter/rod = masteritem
+	if(!istype(rod))
+		return
+	var/mob/living/carbon/human/H = rod.get_rod_target(target, user)
+	if(!H)
+		return
+	user.visible_message(span_warning("[user] silences [H] with [rod]."))
+	H.set_silence(20 SECONDS)
+	COOLDOWN_START(rod, scepter, 10 SECONDS)
+	to_chat(H, span_danger("I'm silenced by the scepter!"))
 
 /// INTENT DATUMS	^
 
@@ -97,61 +124,33 @@
 			if("wielded")
 				return list("shrink" = 0.6,"sx" = 0,"sy" = 2,"nx" = 1,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 4,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
 
-/obj/item/rogueweapon/lordscepter/afterattack(atom/target, mob/user, flag)
-	. = ..()
-	if(get_dist(user, target) > 7)
-		return
-
+/obj/item/rogueweapon/lordscepter/proc/get_rod_target(atom/target, mob/living/user)
+	if(!ishuman(user) || get_dist(user, target) > 7)
+		return null
 	user.changeNext_move(CLICK_CD_MELEE)
-
-	if(ishuman(user))
-		var/mob/living/carbon/human/HU = user
-
-		if(HU.job != "Grand Duke")
-			to_chat(user, span_danger("The rod doesn't obey me."))
-			return
-
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			var/area/target_area = get_area(H)
-
-			if(!istype(target_area, /area/rogue/indoors/town/manor))
-				to_chat(user, span_danger("The rod cannot be used on targets outside of the manor!"))
-				return
-
-			if(H == HU)
-				return
-
-			if(H.mind.has_antag_datum(/datum/antagonist/vampire/lord) || H.mind.has_antag_datum(/datum/antagonist/lich) || H.mind.has_antag_datum(/datum/antagonist/dreamwalker)) //(prevents exploits w/ the rod like muting a lich/dreamwalker or shocking a pre-ascension VL)
-				to_chat(user, span_danger("[H] doesn't seem remotely susceptible to the rod's influence!"))
-				return
-
-			if(!COOLDOWN_FINISHED(src, scepter))
-				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, scepter) / 10, 1)] seconds left!"))
-				return
-
-			if(H.anti_magic_check())
-				to_chat(user, span_danger("Something is disrupting the rod's power!"))
-				return
-
-			if(!SStreasury.has_account(H))
-				to_chat(user, span_danger("The target must have a Meister account!"))
-				return
-
-			if(istype(user.used_intent, /datum/intent/lord_electrocute))
-				HU.visible_message(span_warning("[HU] electrocutes [H] with the [src]."))
-				user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
-				H.electrocute_act(5, src)
-				COOLDOWN_START(src, scepter, 20 SECONDS)
-				to_chat(H, span_danger("I'm electrocuted by the scepter!"))
-				return
-
-			if(istype(user.used_intent, /datum/intent/lord_silence))
-				HU.visible_message("<span class='warning'>[HU] silences [H] with \the [src].</span>")
-				H.set_silence(20 SECONDS)
-				COOLDOWN_START(src, scepter, 10 SECONDS)
-				to_chat(H, "<span class='danger'>I'm silenced by the scepter!</span>")
-				return
+	var/mob/living/carbon/human/HU = user
+	if(HU.job != "Grand Duke")
+		to_chat(HU, span_danger("The rod doesn't obey me."))
+		return null
+	if(!ishuman(target) || target == HU)
+		return null
+	var/mob/living/carbon/human/H = target
+	if(!istype(get_area(H), /area/rogue/indoors/town/manor))
+		to_chat(HU, span_danger("The rod cannot be used on targets outside of the manor!"))
+		return null
+	if(H.mind?.has_antag_datum(/datum/antagonist/vampire/lord) || H.mind?.has_antag_datum(/datum/antagonist/lich) || H.mind?.has_antag_datum(/datum/antagonist/dreamwalker)) //(prevents exploits w/ the rod like muting a lich/dreamwalker or shocking a pre-ascension VL)
+		to_chat(HU, span_danger("[H] doesn't seem remotely susceptible to the rod's influence!"))
+		return null
+	if(!SStreasury.has_account(H))
+		to_chat(HU, span_danger("The target must have a Meister account!"))
+		return null
+	if(!COOLDOWN_FINISHED(src, scepter))
+		to_chat(HU, span_danger("\The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, scepter) / 10, 1)] seconds left!"))
+		return null
+	if(H.anti_magic_check())
+		to_chat(HU, span_danger("Something is disrupting the rod's power!"))
+		return null
+	return H
 
 /obj/item/rogueweapon/mace/stunmace
 	force = 15
