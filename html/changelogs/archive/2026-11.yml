@@ -450,3 +450,37 @@
   - bugfix: Violating the entire Geneva conventions over several-dozen tymelines in
       advance no longer means you aren't branded for this (T4 wretch bounties now
       properly OUTLAW!/HERETIC! you like the unforgivable lunatic you are!)
+2026-11-13:
+  KatTheFox:
+  - rscadd: '''One-Chance'' round type, an alternative to merciless that gives each
+      character one revive before they get DNR applied.'
+  Ollanius:
+  - qol: The subclass names for the Exorcist are now agnostic and have a stronger
+      correlation to the attached option. 'Traditionalist' is now 'Sanguine', 'Reformist'
+      is now 'Swiftfooted', and 'Orthodoxist' is now 'Stalwart'.
+  RosySaturniidae:
+  - bugfix: fur collar is no longer strangely offset
+  Ryan180602:
+  - rscadd: protege system for veteran.
+  - bugfix: give mercenary veteran bad trainer as i should've.
+  WeNeedMorePhoron:
+  - rscadd: You may rub dirt into polished / shiny armor to make them not shiny anymore
+  - rscdel: You no longer get an examine more text to spam your chat when there's
+      no examine more text.
+  - bugfix: Chickens lay eggs again. Readd accidentally deleted chick mob.
+  - rscdel: Removed the origin lock on Grand Duke and Heirs. This is unenforced and
+      frankly, not quite supported by current nor future lore or administrative actions
+      or lack thereof.
+  changelingonberry:
+  - bugfix: Wanted vice can no longer be picked by marshall, assassin or court agent.
+  kilozombie:
+  - balance: Padded masks, padded leather masks, and duelist goggles now work with
+      Fencer's Dexterity
+  mumblemancer:
+  - code_imp: is_in_combat() proc now available for coders to use
+  - balance: cheeles give 1 blood max if infusing on someone incombat
+  - bugfix: leeches drain blood again. cheeles will also fill again.
+  - rscadd: more timechange quotes
+  saltprjak:
+  - bugfix: Magician's Brick and Aetherknife melee damage now properly scale with
+      INT. Heavy is the hand that holds the brick.
