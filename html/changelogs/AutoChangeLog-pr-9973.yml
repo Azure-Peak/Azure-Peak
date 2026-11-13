@@ -1,0 +1,4 @@
+author: "kilozombie"
+delete-after: True
+changes:
+  - balance: "Padded masks, padded leather masks, and duelist goggles now work with Fencer's Dexterity"
