@@ -1,5 +1,22 @@
 #define CHURN_FILTER "churn_glow"
 
+/datum/action/cooldown/spell/necra
+	background_icon = 'icons/mob/actions/necramiracles.dmi'
+	button_icon = 'icons/mob/actions/necramiracles.dmi'
+	spell_color = PATRON_COLOR_NECRA
+	ignore_armor_penalty = TRUE
+	attunement_school = null
+	primary_resource_type = SPELL_COST_DEVOTION
+	secondary_resource_type = SPELL_COST_STAMINA
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	point_cost = 0
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/necra, /obj/item/clothing/neck/roguetown/psicross/necra/g)
+
 // T1: Avert End (channel on an adjacent target to slowly spend devotion to grant them NODEATH and ticks of oxyloss healing)
 
 /obj/effect/proc_holder/spell/invoked/avert
@@ -1013,54 +1030,224 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	to_chat(user, span_info("I whisper a name and mark the grave for later use..."))
 	marked_objects[O] = label
 
-/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance
+/proc/get_vengeful_form_icon(crow)
+	if(crow)
+		return list('icons/roguetown/mob/monster/crow.dmi', "crow_flying")
+	return list('icons/mob/spirit_vengeance.dmi', "spirit_vengeance")
+
+/datum/action/cooldown/spell/necra/vengeful_spirits
 	name = "Avenging Spirits"
-	desc = "Summon rancorous spirits to tear at an opponent!"
-	range = 7
-	sound = list('sound/magic/magnet.ogg')
-	req_items = list(/obj/item/clothing/neck/roguetown/psicross)
-	releasedrain = 40
-	chargetime = 30
-	warnie = "spellwarning"
-	no_early_release = TRUE
-	charging_slowdown = 1
-	chargedloop = /datum/looping_sound/invokeholy
-	gesture_required = TRUE
-	associated_skill = /datum/skill/magic/holy
-	recharge_time = 90 SECONDS
-	hide_charge_effect = TRUE
-	miracle = TRUE
-	devotion_cost = 50
-	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
-	overlay_state = "vengeful_spirit"
-	action_icon_state = "vengeful_spirit"
-	action_icon = 'icons/mob/actions/necramiracles.dmi'
+	desc = "Summon rancorous spirits. Cast on an enemy, they hunt them down and latch on, tearing at them over time. Cast on yourself, they circle you and latch onto whoever strikes you instead. A target ready to Clash can backhand them away. \
+	Toggle alternate cast mode (Shift+G) while the spell is active to summon crows instead of ghosts. This is purely visual."
+	button_icon_state = "vengeful_spirit"
+	charge_required = TRUE
+	charge_time = 1.5 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	sound = 'sound/magic/magnet.ogg'
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 60 SECONDS
+	cast_range = 7
+	primary_resource_cost = 50
 	invocations = list("Awaken, rancor!!")
-	invocation_type = "shout"
+	invocation_type = INVOCATION_SHOUT
+	var/crow_mode = FALSE
 
+/datum/action/cooldown/spell/necra/vengeful_spirits/toggle_alt_mode(mob/user)
+	crow_mode = !crow_mode
+	to_chat(user, span_notice("[name]: [crow_mode ? "crows" : "ghosts"] mode."))
+	update_mode_maptext()
+	return TRUE
 
+/datum/action/cooldown/spell/necra/vengeful_spirits/proc/update_mode_maptext()
+	var/tag = crow_mode ? "CROWS" : "SPIRITS"
+	for(var/datum/hud/hud as anything in viewers)
+		var/atom/movable/screen/movable/action_button/B = viewers[hud]
+		var/atom/movable/screen/arc_maptext_holder/holder
+		for(var/atom/movable/screen/arc_maptext_holder/existing in B.vis_contents)
+			holder = existing
+			break
+		if(!holder)
+			holder = new(B)
+			B.vis_contents.Add(holder)
+		holder.maptext = MAPTEXT(tag)
+		holder.color = "#b8c4d9"
 
-/obj/effect/proc_holder/spell/invoked/raise_spirits_vengeance/cast(list/targets, mob/living/user)
+/datum/action/cooldown/spell/necra/vengeful_spirits/Grant(mob/grant_to)
 	. = ..()
+	update_mode_maptext()
 
-	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
-		to_chat(user, span_userdanger("I reach for outer help, but something rebukes me! This challenge is only for me to overcome!"))
-		revert_cast()
+/datum/action/cooldown/spell/necra/vengeful_spirits/get_spell_statistics(mob/living/user)
+	. = ..() || list()
+	. += span_info("Alternate cast mode (Shift+G): Shift between invoking Spirits or Crows. (Visual effects only)")
+
+/datum/action/cooldown/spell/necra/vengeful_spirits/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	if(!istype(user))
 		return FALSE
-
-	if(isliving(targets[1]))
-		var/mob/living/target = targets[1]
-		if(user.dir == SOUTH || user.dir == NORTH)
-			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_turf(user),user)
-			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_step(user, EAST),user)
-			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_step(user, WEST),user)
-		else
-			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_turf(user),user)
-			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_step(user, NORTH),user)
-			new /mob/living/simple_animal/hostile/rogue/spirit_vengeance(get_step(user, SOUTH),user)
-		for(var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/swarm in view(2, user))
-			swarm.ai_controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
+	if(!isliving(cast_on))
+		to_chat(user, span_warning("The spirits need a living soul to gather around."))
+		return FALSE
+	var/mob/living/target = cast_on
+	if(target.stat == DEAD)
+		to_chat(user, span_warning("The dead should be left to rest. You know what to do."))
+		return FALSE
+	if(target == user)
+		if(user.has_status_effect(/datum/status_effect/buff/vengeful_ward))
+			to_chat(user, span_warning("The spirits already circle me."))
+			return FALSE
+		user.apply_status_effect(/datum/status_effect/buff/vengeful_ward, crow_mode)
 		return TRUE
-	revert_cast()
-	return FALSE
+	play_summon_sound(user, crow_mode)
+	for(var/turf/T as anything in get_spawn_turfs(user))
+		var/mob/living/simple_animal/hostile/rogue/spirit_vengeance/avenging/spirit = new(T, user, crow_mode)
+		spirit.assign_target(target)
+	return TRUE
 
+/datum/action/cooldown/spell/necra/vengeful_spirits/proc/play_summon_sound(mob/living/user, crow)
+	var/summon_sound
+	if(crow)
+		playsound(user, 'sound/vo/mobs/bird/birdfly.ogg', 100, TRUE)
+		summon_sound = pick('sound/vo/mobs/bird/CROW_01.ogg', 'sound/vo/mobs/bird/CROW_03.ogg')
+	else
+		summon_sound = pick('sound/vo/mobs/ghost/aggro (1).ogg', 'sound/vo/mobs/ghost/aggro (2).ogg', 'sound/vo/mobs/ghost/aggro (3).ogg', 'sound/vo/mobs/ghost/aggro (4).ogg', 'sound/vo/mobs/ghost/aggro (5).ogg', 'sound/vo/mobs/ghost/aggro (6).ogg')
+	playsound(user, summon_sound, 100, TRUE)
+
+/datum/action/cooldown/spell/necra/vengeful_spirits/proc/get_spawn_turfs(mob/living/user)
+	var/turf/center = get_turf(user)
+	var/list/turfs = list(center)
+	var/list/sides = (user.dir == NORTH || user.dir == SOUTH) ? list(EAST, WEST) : list(NORTH, SOUTH)
+	for(var/side in sides)
+		var/turf/T = get_step(user, side)
+		turfs += (T && !T.density) ? T : center
+	return turfs
+
+/atom/movable/screen/alert/status_effect/debuff/vengeful_spirit
+	name = "Vengeful Spirit"
+	desc = "Rancorous spirits cling to me, tearing at my body from inside-out a little more with every passing moment."
+
+/datum/status_effect/debuff/vengeful_spirit
+	id = "vengeful_spirit"
+	status_type = STATUS_EFFECT_MULTIPLE
+	duration = 30 SECONDS
+	tick_interval = 2 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/debuff/vengeful_spirit
+	var/tick_damage = 5
+	var/crow_form = FALSE
+	var/obj/effect/vengeful_orbiter/orbiter
+
+/datum/status_effect/debuff/vengeful_spirit/on_creation(mob/living/new_owner, crow)
+	crow_form = crow
+	return ..()
+
+/datum/status_effect/debuff/vengeful_spirit/on_apply()
+	. = ..()
+	orbiter = new(get_turf(owner), crow_form)
+	orbiter.start_orbit(owner)
+	return TRUE
+
+/datum/status_effect/debuff/vengeful_spirit/tick()
+	if(owner.stat == DEAD)
+		qdel(src)
+		return
+	var/aimloc = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD)
+	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, PEN_LIGHT, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, null)
+	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BURN, PEN_LIGHT, "spirit rancor", TRUE, TRUE, FALSE, BURN, PUNCH_INT_DAMAGEFACTOR, null, null)
+
+/datum/status_effect/debuff/vengeful_spirit/on_remove()
+	QDEL_NULL(orbiter)
+	if(owner)
+		for(var/datum/status_effect/debuff/vengeful_spirit/other in owner.status_effects)
+			if(other != src)
+				owner.throw_alert(id, alert_type)
+				break
+	return ..()
+
+/atom/movable/screen/alert/status_effect/buff/vengeful_ward
+	name = "Avenging Spirits"
+	desc = "Vengeful spirits circle me. Anyone who strikes me has one of them torn loose and latched onto them instead."
+
+/datum/status_effect/buff/vengeful_ward
+	id = "vengeful_ward"
+	duration = 30 SECONDS
+	tick_interval = -1
+	alert_type = /atom/movable/screen/alert/status_effect/buff/vengeful_ward
+	var/crow_form = FALSE
+	var/spirit_count = 3
+	var/spirits_per_transfer = 1
+	var/list/obj/effect/vengeful_orbiter/orbiters = list()
+
+/datum/status_effect/buff/vengeful_ward/on_creation(mob/living/new_owner, crow)
+	crow_form = crow
+	return ..()
+
+/datum/status_effect/buff/vengeful_ward/on_apply()
+	. = ..()
+	for(var/i in 1 to spirit_count)
+		var/obj/effect/vengeful_orbiter/spirit = new(get_turf(owner), crow_form)
+		spirit.start_orbit(owner)
+		orbiters += spirit
+	RegisterSignal(owner, COMSIG_PARENT_ATTACKBY, PROC_REF(on_attackby))
+	RegisterSignal(owner, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_attack_hand))
+	return TRUE
+
+/datum/status_effect/buff/vengeful_ward/on_remove()
+	UnregisterSignal(owner, list(COMSIG_PARENT_ATTACKBY, COMSIG_ATOM_ATTACK_HAND))
+	QDEL_LIST(orbiters)
+	return ..()
+
+/datum/status_effect/buff/vengeful_ward/proc/on_attackby(datum/source, obj/item/weapon, mob/living/attacker)
+	SIGNAL_HANDLER
+	transfer_to(attacker)
+
+/datum/status_effect/buff/vengeful_ward/proc/on_attack_hand(datum/source, mob/living/attacker)
+	SIGNAL_HANDLER
+	transfer_to(attacker)
+
+/datum/status_effect/buff/vengeful_ward/proc/transfer_to(mob/living/attacker)
+	if(!istype(attacker) || attacker == owner || attacker.stat == DEAD || !length(orbiters))
+		return
+	for(var/i in 1 to spirits_per_transfer)
+		if(!length(orbiters))
+			break
+		var/obj/effect/vengeful_orbiter/spent = orbiters[length(orbiters)]
+		orbiters -= spent
+		qdel(spent)
+		attacker.apply_status_effect(/datum/status_effect/debuff/vengeful_spirit, crow_form)
+	attacker.visible_message(span_warning("A spirit tears free of [owner] and clings to [attacker]!"), span_userdanger("A vengeful spirit latches onto me!"))
+	if(!length(orbiters))
+		qdel(src)
+
+/obj/effect/vengeful_orbiter
+	name = "vengeful spirit"
+	anchored = TRUE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	layer = ABOVE_ALL_MOB_LAYER
+	var/nudge_x = 0
+	var/nudge_y = 0
+	var/direction_fix = 10
+	var/radius_min = 12
+	var/radius_max = 26
+	var/speed_min = 10
+	var/speed_max = 32
+	var/center_offset_x = 0
+	var/center_offset_y = 0
+
+/obj/effect/vengeful_orbiter/Initialize(mapload, crow)
+	. = ..()
+	var/list/icon_data = get_vengeful_form_icon(crow)
+	icon = icon_data[1]
+	icon_state = icon_data[2]
+	var/icon/measured = icon(icon, icon_state)
+	center_offset_x = -((measured.Width() - world.icon_size) / 2) + nudge_x
+	center_offset_y = -((measured.Height() - world.icon_size) / 2) + nudge_y
+
+/obj/effect/vengeful_orbiter/proc/start_orbit(atom/movable/center)
+	var/radius = rand(radius_min, radius_max)
+	var/clockwise = prob(50)
+	var/rotation_speed = rand(speed_min, speed_max)
+	orbit(center, radius, clockwise, rotation_speed, 36)
+	pixel_x = center_offset_x + (clockwise ? -direction_fix : direction_fix)
+	pixel_y = center_offset_y
+	plane = center.plane
+	layer = ABOVE_ALL_MOB_LAYER
