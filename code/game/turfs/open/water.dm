@@ -738,7 +738,7 @@
 		if(!A.anchored)
 			found_movable = TRUE
 			if((A.loc == src))
-					A.set_glide_size(MOVEMENT_ADJUSTED_GLIDE_SIZE(SSrivers.wait, 1))
+				A.set_glide_size(MOVEMENT_ADJUSTED_GLIDE_SIZE(SSrivers.wait, 1))
 				A.ConveyorMove(dir)
 
 	// stop processing once there's nothing left to move
