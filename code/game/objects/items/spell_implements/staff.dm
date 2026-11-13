@@ -160,10 +160,38 @@
 
 /datum/intent/magos_electrocute
 	name = "shock associate"
+	desc = "Discipline an associate with a shocking bolt while they are within range of your staff. Can only be used by the Court Magos."
 	blade_class = null
 	icon_state = "inuse"
 	tranged = TRUE
 	noaa = TRUE
+
+/datum/intent/magos_electrocute/on_afterattack(atom/target, mob/living/user, proximity_flag, params)
+	var/obj/item/rogueweapon/woodstaff/implement/grand/magos/staff = masteritem
+	if(!istype(staff) || !ishuman(user) || get_dist(user, target) > 7)
+		return
+	user.changeNext_move(CLICK_CD_MELEE)
+	var/mob/living/carbon/human/HU = user
+	if(HU.job != "Court Magician")
+		to_chat(HU, span_danger("The staff doesn't obey me."))
+		return
+	if(!ishuman(target) || target == HU)
+		return
+	var/mob/living/carbon/human/H = target
+	if(H.job != "Magicians Associate")
+		to_chat(HU, span_danger("The target must be one of my associates!"))
+		return
+	if(!COOLDOWN_FINISHED(staff, magosstaff))
+		to_chat(HU, span_danger("\The [staff] is not ready yet! [round(COOLDOWN_TIMELEFT(staff, magosstaff) / 10, 1)] seconds left!"))
+		return
+	if(H.anti_magic_check())
+		to_chat(HU, span_danger("Their magic protection has interrupted my cast!"))
+		return
+	HU.visible_message(span_warning("[HU] electrocutes [H] with [staff]."))
+	HU.Beam(H, icon_state = "lightning[rand(1,12)]", time = 5)
+	H.electrocute_act(5, staff)
+	COOLDOWN_START(staff, magosstaff, 20 SECONDS)
+	to_chat(H, span_danger("I'm electrocuted by the Court Magos!"))
 
 /obj/item/rogueweapon/woodstaff/implement/grand/magos
 	base_implement_name = null
@@ -172,37 +200,6 @@
 	possible_item_intents = list(/datum/intent/spear/bash/staff/onehand, /datum/intent/magos_electrocute)
 	gripped_intents = list(/datum/intent/spear/bash/staff, /datum/intent/mace/smash/wood/ranged, /datum/intent/magos_electrocute)
 	COOLDOWN_DECLARE(magosstaff)
-
-/obj/item/rogueweapon/woodstaff/implement/grand/magos/afterattack(atom/target, mob/user, flag)
-	. = ..()
-	if(get_dist(user, target) > 7)
-		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	if(ishuman(user))
-		var/mob/living/carbon/human/HU = user
-		if(HU.job != "Court Magician")
-			to_chat(user, span_danger("The staff doesn't obey me."))
-			return
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
-			if(H == HU)
-				return
-			if(!COOLDOWN_FINISHED(src, magosstaff))
-				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, magosstaff) / 10, 1)] seconds left!"))
-				return
-			if(H.anti_magic_check())
-				to_chat(user, span_danger("Their magic protection has interrupted my cast!"))
-				return
-			if(H.job != "Magicians Associate")
-				to_chat(user, span_danger("The target must one of my associates!"))
-				return
-			if(istype(user.used_intent, /datum/intent/magos_electrocute))
-				HU.visible_message(span_warning("[HU] electrocutes [H] with the [src]."))
-				user.Beam(target,icon_state="lightning[rand(1,12)]",time=5)
-				H.electrocute_act(5, src)
-				COOLDOWN_START(src, magosstaff, 20 SECONDS)
-				to_chat(H, span_danger("I'm electrocuted by the Court Magos!"))
-				return
 
 /obj/item/rogueweapon/woodstaff/implement/greater/blacksteel
 	base_implement_name = "blacksteel staff"
