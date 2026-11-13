@@ -1331,6 +1331,7 @@
 #include "code\game\objects\items\random_loot.dm"
 #include "code\game\objects\items\ritechalk.dm"
 #include "code\game\objects\items\ritualcircles.dm"
+#include "code\game\objects\items\ritualcircles_helpers.dm"
 #include "code\game\objects\items\scabbard.dm"
 #include "code\game\objects\items\scrolls.dm"
 #include "code\game\objects\items\sharpener.dm"
