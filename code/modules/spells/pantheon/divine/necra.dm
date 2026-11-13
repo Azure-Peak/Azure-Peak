@@ -1037,12 +1037,13 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 
 /datum/action/cooldown/spell/necra/vengeful_spirits
 	name = "Avenging Spirits"
-	desc = "Summon rancorous spirits. Cast on an enemy, they hunt them down and latch on, tearing at them over time. Cast on yourself, they circle you and latch onto whoever strikes you instead. A target ready to Clash can backhand them away. \
-	Toggle alternate cast mode (Shift+G) while the spell is active to summon crows instead of ghosts. This is purely visual."
+	desc = "Summon rancorous spirits. Cast on an enemy, they hunt them down and latch on, tearing at them over time. Cast on yourself, they circle you and latch onto whoever strikes you instead. A target ready to Riposte can backhand them away at any time. \
+	<br><br>Toggle alternate cast mode (Shift+G) while the spell is active to summon crows instead of ghosts. This is purely visual."
+	fluff_desc = "As a herald of Necra, it is your sacred duty to ensure that the dead are not denied their passage into the afterlife. Through this miracle, you summon the lingering spirits of the departed, unleashing their resentment upon the living. They descend upon your chosen target in a frenzy of spectral wrath, finding brief reprieve in vengeance before finally passing beyond the veil. Some Necrans say crows can also be as vindictive..."
 	button_icon_state = "vengeful_spirit"
 	charge_required = TRUE
-	charge_time = 1.5 SECONDS
-	charge_slowdown = CHARGING_SLOWDOWN_SMALL
+	charge_time = 2 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_NONE
 	sound = 'sound/magic/magnet.ogg'
 	charge_sound = 'sound/magic/chargingold.ogg'
 	cooldown_time = 60 SECONDS
@@ -1086,7 +1087,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	if(!istype(user))
 		return FALSE
 	if(!isliving(cast_on))
-		to_chat(user, span_warning("The spirits need a living soul to gather around."))
+		to_chat(user, span_warning("The spirits need a target to gather around."))
 		return FALSE
 	var/mob/living/target = cast_on
 	if(target.stat == DEAD)
@@ -1131,8 +1132,8 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	status_type = STATUS_EFFECT_MULTIPLE
 	duration = 30 SECONDS
 	tick_interval = 2 SECONDS
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/vengeful_spirit
-	var/tick_damage = 5
+	alert_type = null // managed manually below cause of a runtime
+	var/tick_damage = 2 // this is like 4 hybrid damage over time PER CROW, so 12 damage over time holy shit
 	var/crow_form = FALSE
 	var/obj/effect/vengeful_orbiter/orbiter
 
@@ -1142,25 +1143,42 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 
 /datum/status_effect/debuff/vengeful_spirit/on_apply()
 	. = ..()
-	orbiter = new(get_turf(owner), crow_form)
+	orbiter = new(null, crow_form)
 	orbiter.start_orbit(owner)
+	owner.throw_alert(id, /atom/movable/screen/alert/status_effect/debuff/vengeful_spirit)
 	return TRUE
 
 /datum/status_effect/debuff/vengeful_spirit/tick()
 	if(owner.stat == DEAD)
 		qdel(src)
 		return
-	var/aimloc = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD)
+	if(owner.has_status_effect(/datum/status_effect/buff/clash)) // putting up riposte cleanses this
+		owner.visible_message(span_warning("[owner] backhands the malevolence clinging to [owner.p_them()] away!"), span_notice("I backhand the spirits clinging to me away!"))
+		playsound(owner.loc, 'sound/combat/rend_hit.ogg', 75, FALSE, 0, 3)
+		for(var/datum/status_effect/debuff/vengeful_spirit/spirit in owner.status_effects.Copy())
+			spirit.disperse()
+		owner.remove_status_effect(/datum/status_effect/buff/clash)
+		return
+	var/aimloc = pick(BODY_ZONE_CHEST, BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
 	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BITE, PEN_LIGHT, "spirit ravage", TRUE, TRUE, FALSE, BRUTE, PUNCH_INT_DAMAGEFACTOR, null, null)
 	arcyne_strike(owner, owner, null, tick_damage, aimloc, BCLASS_BURN, PEN_LIGHT, "spirit rancor", TRUE, TRUE, FALSE, BURN, PUNCH_INT_DAMAGEFACTOR, null, null)
+
+/datum/status_effect/debuff/vengeful_spirit/proc/disperse()
+	if(orbiter)
+		orbiter.disperse()
+		orbiter = null // so on_remove doesn't delete it mid-animation
+	qdel(src)
 
 /datum/status_effect/debuff/vengeful_spirit/on_remove()
 	QDEL_NULL(orbiter)
 	if(owner)
+		var/others_left = FALSE
 		for(var/datum/status_effect/debuff/vengeful_spirit/other in owner.status_effects)
 			if(other != src)
-				owner.throw_alert(id, alert_type)
+				others_left = TRUE
 				break
+		if(!others_left)
+			owner.clear_alert(id)
 	return ..()
 
 /atom/movable/screen/alert/status_effect/buff/vengeful_ward
@@ -1184,7 +1202,7 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 /datum/status_effect/buff/vengeful_ward/on_apply()
 	. = ..()
 	for(var/i in 1 to spirit_count)
-		var/obj/effect/vengeful_orbiter/spirit = new(get_turf(owner), crow_form)
+		var/obj/effect/vengeful_orbiter/spirit = new(null, crow_form)
 		spirit.start_orbit(owner)
 		orbiters += spirit
 	RegisterSignal(owner, COMSIG_PARENT_ATTACKBY, PROC_REF(on_attackby))
@@ -1223,15 +1241,18 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	anchored = TRUE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	layer = ABOVE_ALL_MOB_LAYER
+	vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE
 	var/nudge_x = 0
 	var/nudge_y = 0
-	var/direction_fix = 10
 	var/radius_min = 12
 	var/radius_max = 26
 	var/speed_min = 10
 	var/speed_max = 32
+	var/orbit_segments = 12
 	var/center_offset_x = 0
 	var/center_offset_y = 0
+	var/mob/living/attached_to
+	var/dispersing = FALSE
 
 /obj/effect/vengeful_orbiter/Initialize(mapload, crow)
 	. = ..()
@@ -1242,12 +1263,33 @@ GLOBAL_DATUM_INIT(_corpse_sort_ref, /mob, null)
 	center_offset_x = -((measured.Width() - world.icon_size) / 2) + nudge_x
 	center_offset_y = -((measured.Height() - world.icon_size) / 2) + nudge_y
 
-/obj/effect/vengeful_orbiter/proc/start_orbit(atom/movable/center)
+/obj/effect/vengeful_orbiter/proc/disperse()
+	if(dispersing)
+		return
+	dispersing = TRUE
+	var/scatter_angle = rand(0, 359)
+	var/scatter_dist = rand(24, 40)
+	animate(src, pixel_x = center_offset_x + scatter_dist * cos(scatter_angle), pixel_y = center_offset_y + scatter_dist * sin(scatter_angle), alpha = 0, transform = matrix() * 1.5, time = 4, easing = QUAD_EASING | EASE_OUT)
+	QDEL_IN(src, 5)
+
+/obj/effect/vengeful_orbiter/Destroy()
+	if(attached_to)
+		attached_to.vis_contents -= src
+		attached_to = null
+	return ..()
+
+/obj/effect/vengeful_orbiter/proc/start_orbit(mob/living/center)
+	attached_to = center
+	center.vis_contents += src
 	var/radius = rand(radius_min, radius_max)
-	var/clockwise = prob(50)
-	var/rotation_speed = rand(speed_min, speed_max)
-	orbit(center, radius, clockwise, rotation_speed, 36)
-	pixel_x = center_offset_x + (clockwise ? -direction_fix : direction_fix)
-	pixel_y = center_offset_y
-	plane = center.plane
-	layer = ABOVE_ALL_MOB_LAYER
+	var/direction = prob(50) ? 1 : -1 // +1 counter-clockwise, -1 clockwise
+	var/seg_time = rand(speed_min, speed_max) / orbit_segments
+	var/start_angle = rand(0, 359)
+	pixel_x = center_offset_x + radius * cos(start_angle)
+	pixel_y = center_offset_y + radius * sin(start_angle)
+	for(var/i in 1 to orbit_segments)
+		var/angle = start_angle + direction * i * (360 / orbit_segments)
+		if(i == 1)
+			animate(src, pixel_x = center_offset_x + radius * cos(angle), pixel_y = center_offset_y + radius * sin(angle), time = seg_time, easing = LINEAR_EASING, loop = -1)
+		else
+			animate(pixel_x = center_offset_x + radius * cos(angle), pixel_y = center_offset_y + radius * sin(angle), time = seg_time, easing = LINEAR_EASING)
