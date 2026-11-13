@@ -140,7 +140,8 @@
 	return ..()
 
 /datum/intent/proc/examine(mob/user)
-	var/list/inspec = list("<span class='notice'><b>[name]</b> intent</span>")
+	var/list/inspec = list("----------------------")
+	inspec += "<br><span class='notice'><b>[name]</b> intent</span>"
 	if(desc)
 		inspec += "\n[desc]"
 	if(reach != 1)
@@ -217,6 +218,9 @@
 			inspec += " <span class='info'><a href='?src=[REF(masteritem)];explaindemolitionmod=1'>{?}</a></span>"
 	if(sharpness_penalty)
 		inspec += "\nThis intent will cost some sharpness for every attack made."
+	if(unarmed)
+		inspec += "\n<b>Swift:</b> Harder to parry or dodge when faster than your opponent."
+		inspec += "\n<b>Short Reach:</b> More accurate at striking specific body parts."
 	if(swingdelay > 0)
 		inspec += "\n<b>Attack Delay:</b> "
 		if(swingdelay <= 4)
@@ -239,6 +243,7 @@
 		if(cleave.diagonal_desc)
 			inspec += "\n	[cleave.diagonal_desc]"
 		inspec += "\n<tt>[cleave.get_pattern_display()]</tt>"
+	inspec += "<br>----------------------"
 
 	to_chat(user, "[inspec.Join()]")
 
