@@ -20,7 +20,7 @@
 /datum/reagent/blood/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
-		if(C.get_blood_id() == /datum/reagent/blood && (method == INJECT || (method == INGEST && C.dna && C.dna.species && (DRINKSBLOOD in C.dna.species.species_traits))))
+		if(C.get_blood_id() == /datum/reagent/blood && (method == INJECT || (method == INGEST && C.dna && C.dna.species && (DRINKSBLOOD in C.dna.species.species_traits || HAS_TRAIT(C, TRAIT_HEMOPHAGE)))))
 			if(!data || !(data["blood_type"] in get_safe_blood(C.dna.blood_type)) || !HAS_TRAIT(C,TRAIT_NASTY_EATER))
 				C.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.5)
 			else
@@ -29,7 +29,7 @@
 /datum/reagent/blood/shitty/reaction_mob(mob/living/L, method=TOUCH, reac_volume)
 	if(iscarbon(L))
 		var/mob/living/carbon/C = L
-		if(C.get_blood_id() == /datum/reagent/blood && (method == INJECT || (method == INGEST && C.dna && C.dna.species && (DRINKSBLOOD in C.dna.species.species_traits))))
+		if(C.get_blood_id() == /datum/reagent/blood && (method == INJECT || (method == INGEST && C.dna && C.dna.species && (DRINKSBLOOD in C.dna.species.species_traits || HAS_TRAIT(C, TRAIT_HEMOPHAGE)))))
 			if(!data || !(data["blood_type"] in get_safe_blood(C.dna.blood_type)) || !(HAS_TRAIT(C, TRAIT_NASTY_EATER) && HAS_TRAIT(C, TRAIT_WILD_EATER)))
 				C.reagents.add_reagent(/datum/reagent/toxin, reac_volume * 0.8)
 			else
@@ -64,7 +64,13 @@
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(8)
 		return
-	if(HAS_TRAIT(H, TRAIT_SANGUIVORE))
+	if(HAS_TRAIT(H, TRAIT_HEMOPHAGE))
+		if(ishuman(H))
+			var/mob/living/carbon/human/Hu = H
+			Hu.adjust_hydration(12)
+			Hu.adjust_nutrition(12)
+			if(Hu.blood_volume < BLOOD_VOLUME_NORMAL)
+				Hu.blood_volume = min(Hu.blood_volume+5, BLOOD_VOLUME_NORMAL) // water does nothing for hemophages. blood is a replacement
 		return
 	H.add_nausea(12)
 	H.adjustToxLoss(2)
@@ -79,7 +85,13 @@
 			var/mob/living/carbon/human/Hu = H
 			Hu.adjust_hydration(12) // hydrates, but does not restore blood nor has any other special effect
 		return
-	if(HAS_TRAIT(H, TRAIT_SANGUIVORE))
+	if(HAS_TRAIT(H, TRAIT_HEMOPHAGE)) // stale blood, less effective for hemophages
+		if(ishuman(H))
+			var/mob/living/carbon/human/Hu = H
+			Hu.adjust_hydration(2)
+			Hu.adjust_nutrition(2)
+			if(Hu.blood_volume < BLOOD_VOLUME_NORMAL)
+				Hu.blood_volume = min(Hu.blood_volume+2, BLOOD_VOLUME_NORMAL) // even less effective than water for normal carbons.
 		return
 	H.add_nausea(18) //Do not drink dirty blood!
 	H.adjustToxLoss(4)
@@ -118,9 +130,11 @@
 /datum/reagent/water/on_mob_life(mob/living/carbon/M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(!HAS_TRAIT(H, TRAIT_NOHUNGER))
+		if(HAS_TRAIT(H, TRAIT_HEMOPHAGE))
+			M.add_nausea(3)
+		if(!HAS_TRAIT(H, TRAIT_NOHUNGER) && !HAS_TRAIT(H, TRAIT_HEMOPHAGE))
 			H.adjust_hydration(hydration)
-		if(M.blood_volume < BLOOD_VOLUME_NORMAL)
+		if(!HAS_TRAIT(H, TRAIT_HEMOPHAGE) && M.blood_volume < BLOOD_VOLUME_NORMAL)
 			M.blood_volume = min(M.blood_volume+WATER_BLOOD_RESTORE, BLOOD_VOLUME_NORMAL)
 	..()
 #undef WATER_BLOOD_RESTORE

@@ -1034,3 +1034,14 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	desc = "Something lingers in my blood that the Inquisition's instruments are quick to mistake for a curse."
 	ui_fa_icon = "vial"
 	needs_extra_vice = TRUE
+
+/datum/charflaw/hemophage
+	name = "Hemophage"
+	desc = "By some foul curse, blood is the only thing that can sustain me. Normal sources of nutrition and hydration will make me ill. <br>\
+	<small>Any element of a virtue that modifies eating will be canceled out by Hemophage.</small>"
+	ui_fa_icon = "droplet"
+	needs_extra_vice = FALSE
+
+/datum/charflaw/hemophage/on_mob_creation(mob/user)
+	. = ..()
+	ADD_TRAIT(user, TRAIT_HEMOPHAGE, "[type]")
