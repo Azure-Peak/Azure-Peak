@@ -36,6 +36,7 @@
 #define FRESH_FOOD_ITEM			(1<<14) // Currently only used for fresh meat from butchering to differentiate it from stockpile magic meat.
 #define HAG_ITEM				(1<<15) // Wyrd hag items, they self repair when on grass tiles!
 #define FLOATING_ITEM			(1<<16) // Prevents falling through z-levels. Applied temporarily to items being retrieved from storage.
+#define INHANDS_INVISIBLE		(1<<17)	// Items that do not appear on examine and don't show enlarged transition animations between containers.
 
 // Flags for the clothing_flags var on /obj/item/clothing
 

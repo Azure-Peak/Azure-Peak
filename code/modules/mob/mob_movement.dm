@@ -676,6 +676,18 @@
 
 ///Checked whenever a mob tries to change their movement intent
 /mob/proc/toggle_rogmove_intent(intent, silent = FALSE)
+
+	// If we've been caught as a thief (this is incredibly detached from /mob/ this should be moved)
+	// We don't get to sneak OR sprint.
+	if(isliving(src))	// ugh
+		var/mob/living/L = src
+		if(L.has_status_effect(/datum/status_effect/debuff/thiefalert) && m_intent != MOVE_INTENT_WALK)
+			m_intent = MOVE_INTENT_WALK
+			if(hud_used?.static_inventory) //Update UI
+				for(var/atom/movable/screen/rogmove/selector in hud_used.static_inventory)
+					selector.update_icon()
+			return
+
 	var/is_mounted = FALSE
 	if(buckled && intent != MOVE_INTENT_SNEAK)
 		if(is_type_in_list(buckled, list(/mob/living/simple_animal/hostile/retaliate/rogue/saiga, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast)))
