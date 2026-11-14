@@ -453,7 +453,7 @@ GLOBAL_LIST_EMPTY(game_masters)
 
 /datum/game_master/proc/spawn_gm_mob(mob/living/spawning_type, turf/spawn_turf)
 	var/mob/living/spawned_mob = new spawning_type(spawn_turf)
-	spawned_mob.flags_1 |= ADMIN_SPAWNED_1
+	spawned_mob.flags_1 |= ADMIN_SPAWNED_1 | ANTAGOOC_ACCESS_1
 
 	if(selected_faction)
 		spawned_mob.faction = list(selected_faction)

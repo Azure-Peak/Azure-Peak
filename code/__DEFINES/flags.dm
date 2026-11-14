@@ -56,6 +56,8 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define PREVENT_CONTENTS_EXPLOSION_1 (1<<14)
 #define HOARDMASTER_SPAWNED_1		(1<<15)
 // figure out if thing came from a hoardmaster
+/// Grants AntagOOC access. Not ADMIN_SPAWNED_1, as var edits and conjure spells set that too.
+#define ANTAGOOC_ACCESS_1			(1<<16)
 
 //turf-only flags
 #define NOJAUNT_1					(1<<0)
