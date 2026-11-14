@@ -25,7 +25,6 @@
 	var/list/excluded_jobs = list("Wretch","Vagabond","Adventurer")
 	var/list/daily_payments = list()
 	var/residency_print_cooldown = 0
-	var/list/last_trade_quote = list()
 	var/list/ledger_view = list()
 	var/list/petition_view = list()
 	COOLDOWN_DECLARE(fulfill_retry_cooldown)
@@ -133,13 +132,6 @@
 		record_treasury_expense(TREASURY_FLOW_IMPORT, treasury_role_of(usr), amt)
 		D.raise_demand()
 		addtimer(CALLBACK(src, PROC_REF(do_import), D.type), 10 SECONDS)
-	if(href_list["export"])
-		var/datum/roguestock/D = locate(href_list["export"]) in SStreasury.stockpile_datums
-		if(!D)
-			return
-		if(!SStreasury.do_export(D))
-			say("Not enough in the stockpile.")
-			return
 	if(href_list["givemoney"])
 		var/X = locate(href_list["givemoney"])
 		if(!X)
@@ -361,208 +353,6 @@
 		return
 
 	return attack_hand(usr)
-
-/obj/structure/roguemachine/steward/proc/quote_trade(mob/user, side, region_id, good_id, quantity)
-	. = list(
-		"ok" = FALSE,
-		"reason" = "",
-	)
-	if(!user_can_act(user))
-		.["reason"] = "out of reach"
-		return
-	if(locked)
-		.["reason"] = "machine locked"
-		return
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!region || !tg)
-		.["reason"] = "unknown region or good"
-		return
-	quantity = clamp(round(quantity), 1, TRADE_MAX_BULK_UNITS)
-	var/daily_pace
-	var/used_today
-	if(side == "import")
-		daily_pace = region.produces[good_id] || 0
-		used_today = daily_pace - (region.produces_today[good_id] || 0)
-	else
-		daily_pace = region.demands[good_id] || 0
-		used_today = daily_pace - (region.demands_today[good_id] || 0)
-	if(daily_pace <= 0)
-		.["reason"] = side == "import" ? "region does not produce this" : "region does not demand this"
-		return
-	var/starting_index = max(0, used_today)
-	// Base portion = units priced inside daily capacity (overshoot = 0).
-	// Escalation portion = units priced past capacity.
-	var/base_unit_price = side == "import" \
-		? SSeconomy.compute_import_unit_price(good_id, region, 1) \
-		: SSeconomy.compute_export_unit_price(good_id, region, 1)
-	var/base_subtotal = 0
-	var/escalation_subtotal = 0
-	for(var/i in 1 to quantity)
-		var/idx = starting_index + i
-		var/unit
-		if(side == "import")
-			unit = SSeconomy.compute_import_unit_price(good_id, region, idx)
-		else
-			unit = SSeconomy.compute_export_unit_price(good_id, region, idx)
-		if(idx <= daily_pace)
-			base_subtotal += unit
-		else
-			// Per overshoot unit: import surcharge (unit > base) or export shortfall (unit < base).
-			// Server ships escalation_subtotal as a positive magnitude; the client adds + or −
-			// based on side. total uses the signed delta directly.
-			escalation_subtotal += abs(unit - base_unit_price)
-			base_subtotal += base_unit_price
-	base_subtotal = round(base_subtotal, STOCKPILE_PRICE_STEP)
-	escalation_subtotal = round(escalation_subtotal, STOCKPILE_PRICE_STEP)
-	var/total
-	if(side == "import")
-		total = base_subtotal + escalation_subtotal
-	else
-		total = base_subtotal - escalation_subtotal
-	total = round(total, STOCKPILE_PRICE_STEP)
-	var/balance = SStreasury.discretionary_fund.balance
-	var/can_afford = side == "import" ? (balance >= total) : TRUE
-	var/datum/roguestock/stockpile_entry = SSeconomy.find_stockpile_by_trade_good(good_id)
-	var/royal_stock = stockpile_entry?.royal_stock || 0
-	. = list(
-		"ok" = TRUE,
-		"reason" = "",
-		"side" = side,
-		"region_id" = region_id,
-		"good_id" = good_id,
-		"region_name" = region.name,
-		"good_name" = tg.name,
-		"quantity" = quantity,
-		"max_units" = TRADE_MAX_BULK_UNITS,
-		"daily_pace" = daily_pace,
-		"batch_capacity" = region.get_batch_capacity(good_id, side == "import"),
-		"capacity_today" = region.get_day_capacity(good_id, side == "import"),
-		"capacity_total" = region.get_day_capacity_total(good_id, side == "import"),
-		"base_unit_price" = base_unit_price,
-		"base_subtotal" = base_subtotal,
-		"escalation_subtotal" = escalation_subtotal,
-		"total" = total,
-		"balance" = balance,
-		"balance_after" = round(side == "import" ? balance - total : balance + total, STOCKPILE_PRICE_STEP),
-		"is_blockaded" = region.is_region_blockaded ? 1 : 0,
-		"can_afford" = can_afford ? 1 : 0,
-		"stockpile_amount" = royal_stock,
-		"stockpile_after" = side == "import" ? royal_stock + quantity : max(0, royal_stock - quantity),
-	)
-
-/obj/structure/roguemachine/steward/proc/handle_trade_import(mob/user, region_id, good_id, quantity)
-	if(!user_can_act(user))
-		return
-	if(locked)
-		return
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!region || !tg)
-		return
-	quantity = clamp(round(quantity), 1, TRADE_MAX_BULK_UNITS)
-	if(quantity < 1)
-		return
-	var/daily_pace = region.produces[good_id] || 0
-	if(daily_pace <= 0)
-		to_chat(user, span_warning("[region.name] does not produce [tg.name]."))
-		return
-	var/produces_today = region.produces_today[good_id] || 0
-	var/starting_index = max(0, daily_pace - produces_today)
-	var/total = 0
-	for(var/i in 1 to quantity)
-		total += SSeconomy.compute_import_unit_price(good_id, region, starting_index + i)
-	var/spent = SSeconomy.manual_import(user, region_id, good_id, quantity)
-	if(spent > 0)
-		record_treasury_expense(TREASURY_FLOW_IMPORT, treasury_role_of(user), spent)
-		say("Azure Peak imports [quantity] [tg.name] from [region.name] for [spent] mammon.")
-		playsound(src, 'sound/misc/coininsert.ogg', 100, FALSE, -1)
-	SStgui.update_uis(src)
-
-/obj/structure/roguemachine/steward/proc/handle_trade_export(mob/user, region_id, good_id, quantity)
-	if(!user_can_act(user))
-		return
-	if(locked)
-		return
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!region || !tg)
-		return
-	quantity = clamp(round(quantity), 1, TRADE_MAX_BULK_UNITS)
-	if(quantity < 1)
-		return
-	var/daily_pace = region.demands[good_id] || 0
-	if(daily_pace <= 0)
-		to_chat(user, span_warning("[region.name] does not demand [tg.name]."))
-		return
-	var/datum/roguestock/entry = SSeconomy.find_stockpile_by_trade_good(good_id)
-	if(!entry || entry.royal_stock < quantity)
-		to_chat(user, span_warning("Not enough [tg.name] in the stockpile. You have [entry?.royal_stock || 0] and need [quantity]."))
-		return
-	var/demands_today = region.demands_today[good_id] || 0
-	var/starting_index = max(0, daily_pace - demands_today)
-	var/total = 0
-	for(var/i in 1 to quantity)
-		total += SSeconomy.compute_export_unit_price(good_id, region, starting_index + i)
-	var/gained = SSeconomy.manual_export(user, region_id, good_id, quantity)
-	if(gained > 0)
-		say("Azure Peak exports [quantity] [tg.name] to [region.name] for [gained] mammon.")
-		playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	SStgui.update_uis(src)
-
-/obj/structure/roguemachine/steward/proc/handle_trade_region_import(mob/user, region_id)
-	if(!user_can_act(user))
-		return
-	if(locked)
-		return
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	if(!region)
-		return
-	var/list/options = list()
-	for(var/good_id in region.produces)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(!tg || !tg.importable)
-			continue
-		options["[tg.name]"] = good_id
-	if(!length(options))
-		to_chat(user, span_warning("[region.name] has no goods to import."))
-		return
-	var/pick_name = input(user, "Import what from [region.name]?", src) as null|anything in options
-	if(!pick_name)
-		return
-	var/good_id = options[pick_name]
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	var/quantity = input(user, "How many [tg.name] to import from [region.name]? (max [TRADE_MAX_BULK_UNITS])", src, 1) as null|num
-	if(!quantity || quantity < 1)
-		return
-	handle_trade_import(user, region_id, good_id, quantity)
-
-/obj/structure/roguemachine/steward/proc/handle_trade_region_export(mob/user, region_id)
-	if(!user.canUseTopic(src, BE_CLOSE))
-		return
-	if(locked)
-		return
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	if(!region)
-		return
-	var/list/options = list()
-	for(var/good_id in region.demands)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(!tg)
-			continue
-		options["[tg.name]"] = good_id
-	if(!length(options))
-		to_chat(user, span_warning("[region.name] has no demand for any goods."))
-		return
-	var/pick_name = input(user, "Export what to [region.name]?", src) as null|anything in options
-	if(!pick_name)
-		return
-	var/good_id = options[pick_name]
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	var/quantity = input(user, "How many [tg.name] to export to [region.name]? (max [TRADE_MAX_BULK_UNITS])", src, 1) as null|num
-	if(!quantity || quantity < 1)
-		return
-	handle_trade_export(user, region_id, good_id, quantity)
 
 /obj/structure/roguemachine/steward/proc/do_import(datum/crown_import/D, number)
 	if(!D)
@@ -786,11 +576,7 @@
 			// Trade (two-column, mixed)
 			contents += "<b><font color='#c0b283'>TRADE</font></b>"
 			contents += "<table width='100%' cellspacing='0' cellpadding='2'>"
-			contents += "<tr><td>Stockpile Exports</td><td align='right'><font color='#5cb85c'>[SStreasury.total_export]m</font></td>"
-			contents += "<td>Stockpile Imports</td><td align='right'><font color='#d9534f'>-[SStreasury.total_import]m</font></td></tr>"
-			var/trade_bal = SStreasury.total_export - SStreasury.total_import
-			var/trade_col = trade_bal >= 0 ? "#5cb85c" : "#d9534f"
-			contents += "<tr><td>Trade Balance</td><td align='right'><font color='[trade_col]'>[trade_bal]m</font></td>"
+			contents += "<tr><td>Stockpile Imports</td><td align='right'><font color='#d9534f'>-[SStreasury.total_import]m</font></td>"
 			contents += "<td>Economic Output</td><td align='right'>[SStreasury.economic_output]m</td></tr>"
 			contents += "</table><br>"
 

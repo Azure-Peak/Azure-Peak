@@ -4,8 +4,6 @@
 	item_type = /obj/item/grown/log/tree/small
 	trade_good_id = TRADE_GOOD_WOOD
 	royal_stock = 10
-	importexport_amt = 10
-	stockpile_limit = 50
 
 /datum/roguestock/stockpile/coal
 	name = "Coal"
@@ -13,8 +11,6 @@
 	item_type = /obj/item/rogueore/coal
 	trade_good_id = TRADE_GOOD_COAL
 	royal_stock = 10
-	importexport_amt = 10
-	stockpile_limit = 50
 
 /datum/roguestock/stockpile/stone
 	name = "Stone"
@@ -22,8 +18,6 @@
 	item_type = /obj/item/natural/stone
 	trade_good_id = TRADE_GOOD_STONE
 	royal_stock = 10
-	importexport_amt = 10
-	stockpile_limit = 50 // Allow a small amount of stones to be sold for chiselling
 
 /datum/roguestock/stockpile/clay
 	name = "Clay"
@@ -31,8 +25,6 @@
 	item_type = /obj/item/natural/clay
 	trade_good_id = TRADE_GOOD_CLAY
 	royal_stock = 10
-	importexport_amt = 10
-	stockpile_limit = 50
 
 /datum/roguestock/stockpile/salt//Comes from rocks not a farm
 	name = "Salt"
@@ -40,8 +32,6 @@
 	item_type = /obj/item/reagent_containers/powder/salt
 	trade_good_id = TRADE_GOOD_SALT
 	royal_stock = 2
-	importexport_amt = 5
-	stockpile_limit = 25
 
 /datum/roguestock/stockpile/glass
 	name = "Glass Batch"	//'Raw' glass
@@ -49,8 +39,6 @@
 	item_type = /obj/item/natural/glassbatch
 	trade_good_id = TRADE_GOOD_GLASS_BATCH
 	royal_stock = 5
-	importexport_amt = 5
-	stockpile_limit = 25
 
 /datum/roguestock/stockpile/iron
 	name = "Raw Iron"
@@ -58,8 +46,6 @@
 	item_type = /obj/item/rogueore/iron
 	trade_good_id = TRADE_GOOD_IRON_ORE
 	royal_stock = 15
-	importexport_amt = 10
-	stockpile_limit = 50
 
 /datum/roguestock/stockpile/copper
 	name = "Raw Copper"
@@ -67,8 +53,6 @@
 	item_type = /obj/item/rogueore/copper
 	trade_good_id = TRADE_GOOD_COPPER_ORE
 	royal_stock = 12
-	importexport_amt = 10
-	stockpile_limit = 25
 
 /datum/roguestock/stockpile/tin
 	name = "Raw Tin"
@@ -76,8 +60,6 @@
 	item_type = /obj/item/rogueore/tin
 	trade_good_id = TRADE_GOOD_TIN_ORE
 	royal_stock = 12
-	importexport_amt = 10
-	stockpile_limit = 25
 
 /datum/roguestock/stockpile/gold
 	name = "Raw Gold"
@@ -86,8 +68,6 @@
 	trade_good_id = TRADE_GOOD_GOLD_ORE
 	market_target = MARKET_TARGET_RARE
 	royal_stock = 4
-	stockpile_limit = 50
-	importexport_amt = 10
 
 /datum/roguestock/stockpile/silver
 	name = "Raw Silver"
@@ -97,8 +77,6 @@
 	market_target = MARKET_TARGET_RARE
 	royal_stock = 0 // Explicitly empty - players must produce their own silver.
 	market_never_supplies = TRUE
-	stockpile_limit = 25
-	importexport_amt = 5
 
 /datum/roguestock/stockpile/cinnabar
 	name = "Cinnabar"
@@ -106,8 +84,6 @@
 	item_type = /obj/item/rogueore/cinnabar
 	trade_good_id = TRADE_GOOD_CINNABAR
 	royal_stock = 20
-	stockpile_limit = 50
-	importexport_amt = 5
 
 /datum/roguestock/stockpile/cloth
 	name = "Cloth"
@@ -115,8 +91,6 @@
 	item_type = /obj/item/natural/cloth
 	trade_good_id = TRADE_GOOD_CLOTH
 	royal_stock = 10
-	importexport_amt = 10
-	stockpile_limit = 100
 
 /datum/roguestock/stockpile/fibers
 	name = "Fibers"
@@ -124,16 +98,12 @@
 	item_type = /obj/item/natural/fibers
 	trade_good_id = TRADE_GOOD_FIBERS
 	royal_stock = 10
-	importexport_amt = 10
-	stockpile_limit = 50
 
 /datum/roguestock/stockpile/silk
 	name = "Silk"
 	desc = "Strands of spider silk used to make exotic clothes."
 	item_type = /obj/item/natural/silk
 	trade_good_id = TRADE_GOOD_SILK
-	importexport_amt = 5
-	stockpile_limit = 25
 
 //natural/hide/cured must be defined/populated in sstreasury before natural/hide, for istype stockpile check to work
 /datum/roguestock/stockpile/cured
@@ -142,8 +112,6 @@
 	item_type = /obj/item/natural/hide/cured
 	trade_good_id = TRADE_GOOD_CURED_LEATHER
 	royal_stock = 15
-	importexport_amt = 10
-	stockpile_limit = 50
 
 /datum/roguestock/stockpile/hide
 	name = "Hide"
@@ -151,8 +119,6 @@
 	item_type = /obj/item/natural/hide
 	trade_good_id = TRADE_GOOD_HIDE
 	royal_stock = 10
-	importexport_amt = 5
-	stockpile_limit = 50
 
 /datum/roguestock/stockpile/fur
 	name = "Fur"
@@ -160,5 +126,3 @@
 	item_type = /obj/item/natural/fur
 	trade_good_id = TRADE_GOOD_FUR
 	royal_stock = 10
-	importexport_amt = 5
-	stockpile_limit = 25

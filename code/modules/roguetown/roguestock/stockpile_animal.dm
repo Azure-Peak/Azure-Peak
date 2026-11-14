@@ -3,9 +3,7 @@
 	desc = "Edible flesh harvested from most animals."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/steak
 	trade_good_id = TRADE_GOOD_MEAT
-	importexport_amt = 10
 	royal_stock = 5
-	stockpile_limit = 50
 	category = "Animal"
 
 /datum/roguestock/stockpile/rat
@@ -13,9 +11,7 @@
 	desc = "Barely edible flesh harvested from rous."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rat
 	trade_good_id = TRADE_GOOD_LESSER_MEAT
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/deer
@@ -23,9 +19,7 @@
 	desc = "Delicious and edible flesh harvested from saiga or deer."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga
 	trade_good_id = TRADE_GOOD_VENISON
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/deerribs
@@ -33,9 +27,7 @@
 	desc = "Luxuriously edible flesh on-the-bone harvested from saiga."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/saiga_ribs
 	trade_good_id = TRADE_GOOD_VENISON_RIBS
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/volf
@@ -43,9 +35,7 @@
 	desc = "Barely edible flesh harvested from volfs."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/wolf
 	trade_good_id = TRADE_GOOD_BUSHMEAT
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/bear
@@ -53,9 +43,7 @@
 	desc = "Barely edible flesh harvested from bears."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/bear
 	trade_good_id = TRADE_GOOD_GREATER_BUSHMEAT
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/spider
@@ -63,9 +51,7 @@
 	desc = "Barely edible flesh harvested from mirelurkers."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/spider
 	trade_good_id = TRADE_GOOD_BOGMEAT
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/crabbo
@@ -73,9 +59,7 @@
 	desc = "Edible flesh harvested from crabs."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/crab
 	trade_good_id = TRADE_GOOD_CRAB_MEAT
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Seafood"
 
 /datum/roguestock/stockpile/poultry
@@ -83,9 +67,7 @@
 	desc = "Edible flesh harvested from birds and fowl."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/poultry
 	trade_good_id = TRADE_GOOD_POULTRY
-	importexport_amt = 5
 	royal_stock = 2
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/rabbit
@@ -93,9 +75,7 @@
 	desc = "Edible flesh harvested from cabbits."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/rabbit
 	trade_good_id = TRADE_GOOD_RABBIT
-	importexport_amt = 5
 	royal_stock = 2
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/pork
@@ -104,8 +84,6 @@
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fatty
 	trade_good_id = TRADE_GOOD_PORK
 	royal_stock = 2
-	importexport_amt = 5
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/ham
@@ -113,8 +91,6 @@
 	desc = "A prime cut of swine flesh, raw and ready for steaming."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham
 	trade_good_id = TRADE_GOOD_HAM
-	importexport_amt = 5
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/ham/check_item(obj/item/I)
@@ -127,9 +103,7 @@
 	desc = "Delicious flesh carved from a wild boar, perfect for smoking or steaming."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/ham/boar
 	trade_good_id = TRADE_GOOD_BOAR_HAM
-	importexport_amt = 5
 	royal_stock = 0
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/pork_belly
@@ -137,8 +111,6 @@
 	desc = "A fatty slab of swine belly, raw and ready to be cured into bacon."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/pork_belly
 	trade_good_id = TRADE_GOOD_PORK_BELLY
-	importexport_amt = 5
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/bones
@@ -147,8 +119,6 @@
 	item_type = /obj/item/natural/bone
 	trade_good_id = TRADE_GOOD_BONES
 	royal_stock = 0
-	importexport_amt = 0
-	stockpile_limit = 50
 	category = "Animal"
 
 /datum/roguestock/stockpile/fat
@@ -157,8 +127,6 @@
 	item_type = /obj/item/reagent_containers/food/snacks/fat
 	trade_good_id = TRADE_GOOD_FAT
 	royal_stock = 10
-	importexport_amt = 5
-	stockpile_limit = 50
 	category = "Animal"
 
 /datum/roguestock/stockpile/tallow
@@ -166,8 +134,6 @@
 	desc = "Shelf-stabilized fatty tissue."
 	item_type = /obj/item/reagent_containers/food/snacks/tallow
 	trade_good_id = TRADE_GOOD_TALLOW
-	importexport_amt = 5
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/honey
@@ -176,8 +142,6 @@
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/honey
 	trade_good_id = TRADE_GOOD_HONEY
 	royal_stock = 1
-	importexport_amt = 5
-	stockpile_limit = 15
 	category = "Animal"
 
 /datum/roguestock/stockpile/egg
@@ -186,8 +150,6 @@
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/egg
 	trade_good_id = TRADE_GOOD_EGG
 	royal_stock = 4
-	importexport_amt = 5
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/butter
@@ -195,9 +157,7 @@
 	desc = "The product of milk and salt."
 	item_type = /obj/item/reagent_containers/food/snacks/butter
 	trade_good_id = TRADE_GOOD_BUTTER
-	importexport_amt = 5
 	royal_stock = 5
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/cheese
@@ -206,8 +166,6 @@
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/cheese
 	trade_good_id = TRADE_GOOD_CHEESE
 	royal_stock = 5
-	importexport_amt = 5
-	stockpile_limit = 25
 	category = "Animal"
 
 /datum/roguestock/stockpile/salumoi
@@ -215,8 +173,6 @@
 	desc = "Dwarven smoked sausage cured to keep for ten yils."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/salami
 	trade_good_id = TRADE_GOOD_SALUMOI
-	importexport_amt = 3
-	stockpile_limit = 20
 	category = "Animal"
 
 /datum/roguestock/stockpile/sausage
@@ -224,6 +180,4 @@
 	desc = "Cooked meat stuffed into a casing. It keeps for the season."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/sausage/cooked
 	trade_good_id = TRADE_GOOD_SAUSAGE
-	importexport_amt = 3
-	stockpile_limit = 20
 	category = "Animal"

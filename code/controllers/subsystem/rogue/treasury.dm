@@ -31,7 +31,6 @@ SUBSYSTEM_DEF(treasury)
 		TAX_CATEGORY_FINE = 1.0,
 	)
 	var/trade_spread = 0.10
-	var/autoexport_percentage = AUTOEXPORT_DEFAULT_PERCENTAGE
 	var/list/bank_accounts = list()
 	var/datum/fund/discretionary_fund
 	var/datum/fund/burgher_pledge_fund
@@ -101,7 +100,6 @@ SUBSYSTEM_DEF(treasury)
 	var/total_rural_tax = 0
 	var/total_noble_income = 0
 	var/total_import = 0
-	var/total_export = 0
 	var/obj/structure/roguemachine/steward/steward_machine
 	var/initial_payment_done = FALSE
 	var/list/loans = list()
@@ -113,16 +111,9 @@ SUBSYSTEM_DEF(treasury)
 	/// Steward-settable floor. The Royal Subsidy stops paying from the Treasury when the Crown's Purse would drop below this.
 	var/stockpile_purchase_floor = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT
 	var/list/royal_subsidy_spent = list()
-	/// A feature for the Steward to unlock once the Crown's trade volume reaches 10k
-	/// Basically help automate the import, fitting in line with my idea of active trade
-	/// Converting to passive convenience later. Later on I might gate it through a
-	/// Total trade volumes converting into multiple chooseable upgrades
-	var/royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE
 	var/list/cached_market_rows = null
 	var/list/cached_region_rows = null
 	var/market_view_dirty = TRUE
-	var/list/cached_auto_import_data = null
-	var/auto_import_view_dirty = TRUE
 	var/rumor_points = RUMOR_POINTS_START
 	var/list/rumor_log = list()
 	var/list/rumor_issued_today = list()
@@ -133,7 +124,6 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/Initialize(mapload)
 	var/roundstart_pop = get_active_player_count()
 	var/seed = STOCKPILE_CROWN_PURCHASE_FLOOR_DEFAULT + rand(500, 1500) + (roundstart_pop * CROWN_PURSE_SEED_PER_PLAYER)
-	royal_custom_threshold = ROYAL_CUSTOM_VOLUME_BASE + (roundstart_pop * ROYAL_CUSTOM_VOLUME_PER_POP)
 	init_chart_of_accounts()
 	discretionary_fund = new("Treasury", null, seed, CURRENCY_MAMMON)
 	discretionary_fund.ledger_book = LEDGER_BOOK_CROWN
@@ -155,7 +145,6 @@ SUBSYSTEM_DEF(treasury)
 		stockpile_datums += D
 		if(D.trade_good_id)
 			stockpile_by_trade_good[D.trade_good_id] = D
-	autoset_stockpile_limits()
 	revalue_stockpile_inventory(opening = TRUE)
 	return ..()
 
@@ -168,22 +157,6 @@ SUBSYSTEM_DEF(treasury)
 /datum/controller/subsystem/treasury/proc/royal_subsidy_treasury_covers(amount)
 	return mammon_round(discretionary_fund.balance - amount) >= stockpile_purchase_floor
 
-/datum/controller/subsystem/treasury/proc/autoset_stockpile_limits()
-	var/effective_pop = (SSeconomy && SSeconomy.simulated_player_scalar > 0) ? SSeconomy.simulated_player_scalar : get_active_player_count()
-	var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (effective_pop * REGION_POP_SCALE_PER_PLAYER))
-	for(var/datum/roguestock/D as anything in stockpile_datums)
-		if(!D.trade_good_id)
-			D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
-			continue
-		var/total_demand = 0
-		for(var/region_id in GLOB.economic_regions)
-			var/datum/economic_region/region = GLOB.economic_regions[region_id]
-			total_demand += region.demands[D.trade_good_id] || 0
-		if(total_demand <= 0)
-			D.stockpile_limit = max(STOCKPILE_LIMIT_MIN, D.stockpile_limit)
-			continue
-		D.stockpile_limit = clamp(ceil(total_demand * pop_mult * STOCKPILE_AUTO_LIMIT_DAYS), STOCKPILE_LIMIT_MIN, STOCKPILE_LIMIT_MAX)
-
 /datum/controller/subsystem/treasury/fire(resumed = 0)
 	if(world.time > next_treasury_check)
 		next_treasury_check = world.time + TREASURY_TICK_AMOUNT
@@ -195,8 +168,6 @@ SUBSYSTEM_DEF(treasury)
 		for(var/obj/structure/roguemachine/vaultbank/VB in A)
 			if(istype(VB))
 				VB.update_icon()
-
-		auto_export()
 
 	if(ledger_closed_day < GLOB.dayspassed - 1)
 		// Value the stockpile before the totals are frozen so the day closes with it included.
@@ -231,10 +202,6 @@ SUBSYSTEM_DEF(treasury)
 // View as needing rebuild on next read.
 /datum/controller/subsystem/treasury/proc/dirty_market_view()
 	market_view_dirty = TRUE
-	auto_import_view_dirty = TRUE
-
-/datum/controller/subsystem/treasury/proc/dirty_auto_import_view()
-	auto_import_view_dirty = TRUE
 
 /datum/controller/subsystem/treasury/proc/get_expected_wage_outlay()
 	if(!steward_machine || !steward_machine.daily_payments)
@@ -555,75 +522,6 @@ SUBSYSTEM_DEF(treasury)
 	if(guild_bonus > 0)
 		mint(burgher_pledge_fund, guild_bonus, "Guild of Arms tribute (Charter of Arms)", null, ledger_acct(LEDGER_BOOK_PLEDGE, LEDGER_KEY_GRANTS))
 	record_round_statistic(STATS_PLEDGE_GENERATED, refill + guild_bonus)
-
-/datum/controller/subsystem/treasury/proc/do_export(datum/roguestock/D, silent = FALSE)
-	if(D.royal_stock < D.importexport_amt)
-		return FALSE
-	var/amt = D.get_export_price()
-	D.royal_stock -= D.importexport_amt
-	record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_LOCAL_EXPORT, D.item_type, D.importexport_amt, amt)
-	dirty_market_view()
-
-	mint(discretionary_fund, amt, "exported [D.name]", null, LEDGER_CROWN_REV_EXPORT_SALES)
-	SStreasury.total_export += amt
-	economic_output += amt
-	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, amt)
-	return amt
-
-/datum/controller/subsystem/treasury/proc/auto_export()
-	var/total_value_exported = 0
-	// Legacy non-trade-good entries: keep the old profitability guard. Trade-good entries
-	// (the bulk of the warehouse) flow through mass_export_surplus() below.
-	for(var/datum/roguestock/D in stockpile_datums)
-		if(!D.importexport_amt || D.trade_good_id)
-			continue
-		if(D.autoexport_disabled)
-			continue
-		if((autoexport_percentage * D.stockpile_limit) >= D.royal_stock)
-			continue
-		if(D.get_export_price() <= (D.payout_price * D.importexport_amt))
-			continue
-		if(D.royal_stock >= D.importexport_amt)
-			total_value_exported += do_export(D, TRUE)
-	var/list/surplus_result = mass_export_surplus(silent = TRUE)
-	total_value_exported += surplus_result["revenue"]
-
-/datum/controller/subsystem/treasury/proc/mass_export_surplus(silent = FALSE)
-	var/total_revenue = 0
-	var/total_units = 0
-	var/list/lines = list()
-	for(var/datum/roguestock/D in stockpile_datums)
-		if(!D.trade_good_id)
-			continue
-		if(D.autoexport_disabled)
-			continue
-		if(!D.importexport_amt)
-			continue
-		var/keep = round(autoexport_percentage * D.stockpile_limit)
-		if(is_auto_import_active(D.trade_good_id))
-			keep = max(keep, AUTO_IMPORT_FLOOR)
-		var/surplus = D.royal_stock - keep
-		if(surplus <= 0)
-			continue
-		var/list/best = SSeconomy.get_best_export_region(D.trade_good_id)
-		if(!best || !best["region_id"])
-			continue
-		var/datum/economic_region/region = GLOB.economic_regions[best["region_id"]]
-		if(!region)
-			continue
-		var/remaining_demand = region.demands_today[D.trade_good_id] || 0
-		if(remaining_demand <= 0)
-			continue
-		var/export_qty = min(surplus, remaining_demand)
-		var/revenue = SSeconomy.manual_export(null, region.region_id, D.trade_good_id, export_qty)
-		if(!revenue)
-			continue
-		total_revenue += revenue
-		total_units += export_qty
-		record_material_flow(MATERIAL_FLOW_OUT, MATERIAL_SOURCE_LOCAL_EXPORT, D.item_type, export_qty, revenue)
-		if(!silent)
-			lines += "[export_qty] [D.name] to [region.name] for [revenue]m"
-	return list("revenue" = total_revenue, "units" = total_units, "lines" = lines)
 
 /datum/controller/subsystem/treasury/proc/remove_person(mob/living/person)
 	retire_fund(bank_accounts[person])

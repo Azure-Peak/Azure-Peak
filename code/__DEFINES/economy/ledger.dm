@@ -62,7 +62,6 @@
 #define LEDGER_CROWN_REV_SPOILS "crown_rev_spoils"
 #define LEDGER_CROWN_REV_FINES "crown_rev_fines"
 #define LEDGER_CROWN_REV_POLL_LEVY "crown_rev_poll_levy"
-#define LEDGER_CROWN_REV_EXPORT_SALES "crown_rev_export_sales"
 #define LEDGER_CROWN_REV_STANDING_ORDERS "crown_rev_standing_orders"
 #define LEDGER_CROWN_REV_STOCKPILE_SALES "crown_rev_stockpile_sales"
 #define LEDGER_CROWN_REV_QUALITY "crown_rev_quality"

@@ -195,7 +195,7 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"petitioned" = GLOB.azure_round_stats[STATS_STANDING_ORDERS_PETITIONED] || 0,
 		"petition_pledge_spent" = GLOB.azure_round_stats[STATS_PETITION_PLEDGE_SPENT] || 0,
 	)
-	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
+	var/itemised_revenue = (GLOB.azure_round_stats[STATS_RURAL_TAXES_COLLECTED] || 0) + royal_taxes_total + (GLOB.azure_round_stats[STATS_FINES_INCOME] || 0) + poll["total"] + (GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0) + standing["revenue"]
 	var/total_revenue = SStreasury.purse_inflow_total
 	var/total_expenses = SStreasury.purse_outflow_total
 	var/attributed_expenses = total_treasury_expenses()
@@ -210,7 +210,6 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"royal" = royal,
 		"exempt" = exempt,
 		"fines_income" = GLOB.azure_round_stats[STATS_FINES_INCOME] || 0,
-		"stockpile_exports" = GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0,
 		"stockpile_revenue" = GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE] || 0,
 		"stockpile_direct_imports" = GLOB.azure_round_stats[STATS_STOCKPILE_DIRECT_IMPORTS] || 0,
 		"standing" = standing,
@@ -228,7 +227,6 @@ GLOBAL_DATUM(economic_chronicle, /datum/economic_chronicle)
 		"other_income" = max(0, total_revenue - itemised_revenue),
 		"unattributed_expenses" = max(0, total_expenses - attributed_expenses),
 		"net_treasury" = total_revenue - total_expenses,
-		"trade_balance" = (GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE] || 0) - (GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE] || 0),
 		"foreign_trade_volume" = (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_EXPORTED_BM] || 0) + (GLOB.azure_round_stats[STATS_TRADE_VALUE_IMPORTED] || 0),
 		"effective_tax_rate" = effective_tax_rate,
 		"exemption_share" = exemption_share,

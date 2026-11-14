@@ -11,8 +11,6 @@ SUBSYSTEM_DEF(economy)
 	var/blockade_replenish_spent = 0
 	var/list/gathering_blockades = list()
 	var/list/event_path_cooldowns = list()
-	var/list/goods_with_producers = list()
-	var/list/goods_with_demand = list()
 
 
 /datum/controller/subsystem/economy/proc/get_effective_player_count()
@@ -21,14 +19,6 @@ SUBSYSTEM_DEF(economy)
 	return get_active_player_count()
 
 /datum/controller/subsystem/economy/Initialize(mapload)
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		for(var/good_id in region.produces)
-			if(region.produces[good_id])
-				goods_with_producers[good_id] = TRUE
-		for(var/good_id in region.demands)
-			if(region.demands[good_id])
-				goods_with_demand[good_id] = TRUE
 	reset_region_capacities()
 	daily_report_diff = list(
 		"day" = GLOB.dayspassed,
@@ -101,11 +91,6 @@ SUBSYSTEM_DEF(economy)
 	tick_blockade_replenish()
 	run_market_day()
 	tick_banditry_drain()
-
-	// Runs after events/blockades so auto-import sees the day's fresh price_mods, blockade
-	// flags, and produces_today values. Happens before standing-order rolls - the rolls
-	// don't consult produces_today, so order matters only for bookkeeping ordering.
-	SStreasury.run_auto_import_tick()
 
 	if(GLOB.standing_order_pool.len < STANDING_ORDERS_POOL_CAP)
 		var/total_to_roll = min(STANDING_ORDERS_MAX_PER_DAY, STANDING_ORDERS_BASE_PER_DAY + round(effective_pop * STANDING_ORDERS_PER_ACTIVE_PLAYER))
@@ -314,31 +299,6 @@ SUBSYSTEM_DEF(economy)
 		var/datum/standing_order/urgent/O = E.urgent_order_ref?.resolve()
 		if(O && !O.is_fulfilled)
 			GLOB.standing_order_pool -= O
-
-/datum/controller/subsystem/economy/proc/compute_import_unit_price(good_id, datum/economic_region/region, unit_index)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !region)
-		return 0
-	var/daily_pace = max(1, region.produces[good_id] || 0)
-	var/overshoot = max(0, (unit_index - daily_pace) / daily_pace)
-	var/blockade_mult = region.is_region_blockaded ? BLOCKADE_IMPORT_MULT : 1.0
-	var/unit_price = tg.base_price * (1 + overshoot * TRADE_ESCALATION_SLOPE) * tg.global_price_mod * blockade_mult
-	return stockpile_price(unit_price)
-
-/datum/controller/subsystem/economy/proc/compute_export_unit_price(good_id, datum/economic_region/region, unit_index)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !region)
-		return 0
-	var/daily_pace = max(1, region.demands[good_id] || 0)
-	// Oversupply DECAY (not the import-side escalation). When the Steward floods a region past
-	// its daily demand, each additional unit fetches a diminishing price: price is divided by
-	// (1 + overshoot * slope). At demand = 3 and exported = 12, overshoot = 3 -> unit price
-	// falls to 1/4. low_price floor still applies via the max() below.
-	var/overshoot = max(0, (unit_index - daily_pace) / daily_pace)
-	var/oversupply_mult = 1 / (1 + overshoot * TRADE_ESCALATION_SLOPE)
-	var/blockade_mult = region.is_region_blockaded ? BLOCKADE_EXPORT_MULT : 1.0
-	var/export_price = tg.base_price * tg.global_price_mod * oversupply_mult * (1 - IMPORT_EXPORT_SPREAD) * blockade_mult
-	return max(round(export_price, STOCKPILE_PRICE_STEP), tg.low_price)
 
 /datum/controller/subsystem/economy/proc/compute_good_unit_payout(datum/standing_order/order, good_id)
 	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
@@ -737,106 +697,6 @@ SUBSYSTEM_DEF(economy)
 		return null
 	return SStreasury.stockpile_by_trade_good[good_id]
 
-/datum/controller/subsystem/economy/proc/manual_import(mob/user, region_id, good_id, quantity)
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	if(!region)
-		return 0
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !tg.importable)
-		if(user)
-			to_chat(user, span_warning("That good can't be imported."))
-		return 0
-	if(quantity <= 0)
-		return 0
-
-	var/daily_pace = region.produces[good_id] || 0
-	if(daily_pace <= 0)
-		if(user)
-			to_chat(user, span_warning("[region.name] does not produce [tg.name]."))
-		return 0
-
-	var/produces_today = region.produces_today[good_id] || 0
-	var/starting_index = max(0, daily_pace - produces_today)
-
-	var/total_cost = 0
-	for(var/i in 1 to quantity)
-		total_cost += compute_import_unit_price(good_id, region, starting_index + i)
-	total_cost = round(total_cost, STOCKPILE_PRICE_STEP)
-
-	if(SStreasury.discretionary_fund.balance < total_cost)
-		if(user)
-			to_chat(user, span_warning("The Treasury can't afford this import. It has [format_mammon(SStreasury.discretionary_fund.balance)]m and needs [format_mammon(total_cost)]m."))
-		return 0
-
-	var/actor_suffix = user ? " by [user.real_name]" : ""
-	var/import_label = user ? "Manual Import" : "Autoimport"
-
-	if(quantity > 1)
-		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [quantity] [tg.name] from [region.name][actor_suffix]", LEDGER_CROWN_EXP_IMPORTS)
-	else
-		SStreasury.burn(SStreasury.discretionary_fund, total_cost, "[import_label]: [tg.name] from [region.name][actor_suffix]", LEDGER_CROWN_EXP_IMPORTS)
-
-	region.produces_today[good_id] = produces_today - quantity
-	var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-	if(stockpile_entry)
-		stockpile_entry.royal_stock += quantity
-	SStreasury.total_import += total_cost
-	SStreasury.economic_output += total_cost
-	SStreasury.dirty_market_view()
-	record_round_statistic(STATS_STOCKPILE_IMPORTS_VALUE, total_cost)
-
-	if(user)
-		log_game("MANUAL IMPORT by [user.ckey]: [quantity] [tg.name] from [region.name] (cost [total_cost]m)")
-	return total_cost
-
-/datum/controller/subsystem/economy/proc/manual_export(mob/user, region_id, good_id, quantity)
-	var/datum/economic_region/region = GLOB.economic_regions[region_id]
-	if(!region)
-		return 0
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg)
-		if(user)
-			to_chat(user, span_warning("That isn't a known trade good."))
-		return 0
-	if(quantity <= 0)
-		return 0
-
-	var/daily_pace = region.demands[good_id] || 0
-	if(daily_pace <= 0)
-		if(user)
-			to_chat(user, span_warning("[region.name] does not demand [tg.name]."))
-		return 0
-
-	var/datum/roguestock/stockpile_entry = find_stockpile_by_trade_good(good_id)
-	if(!stockpile_entry || stockpile_entry.royal_stock < quantity)
-		if(user)
-			to_chat(user, span_warning("Not enough [tg.name] in the stockpile: you have [stockpile_entry?.royal_stock || 0] and need [quantity]."))
-		return 0
-
-	var/demands_today = region.demands_today[good_id] || 0
-	var/starting_index = max(0, daily_pace - demands_today)
-
-	var/total_revenue = 0
-	for(var/i in 1 to quantity)
-		total_revenue += compute_export_unit_price(good_id, region, starting_index + i)
-	total_revenue = round(total_revenue, STOCKPILE_PRICE_STEP)
-
-	stockpile_entry.royal_stock -= quantity
-	region.demands_today[good_id] = demands_today - quantity
-	var/actor_suffix = user ? " by [user.real_name]" : ""
-	var/export_label = user ? "Manual Export" : "Autoexport"
-	SStreasury.dirty_market_view()
-	SStreasury.mint(SStreasury.discretionary_fund, total_revenue, "[export_label]: [quantity] [tg.name] to [region.name][actor_suffix]", null, LEDGER_CROWN_REV_EXPORT_SALES)
-	SStreasury.total_export += total_revenue
-	SStreasury.economic_output += total_revenue
-	// do_export records this too; every other export route (manual, mass, autoexport) lands here instead.
-	record_round_statistic(STATS_STOCKPILE_EXPORTS_VALUE, total_revenue)
-	credit_economic_event_saturation(good_id, quantity)
-
-	if(user)
-		log_game("MANUAL EXPORT by [user.ckey]: [quantity] [tg.name] to [region.name] (revenue [total_revenue]m)")
-	return total_revenue
-
 /datum/controller/subsystem/economy/proc/sell_to_market(mob/user, good_id, quantity)
 	var/datum/roguestock/D = find_stockpile_by_trade_good(good_id)
 	if(!D)
@@ -886,106 +746,3 @@ SUBSYSTEM_DEF(economy)
 	log_game("MARKET PURCHASE by [user.ckey]: [quantity] [D.name] (cost [cost]m)")
 	to_chat(user, span_notice("Bought [quantity] [D.name] from the market for [format_mammon(cost)]m."))
 	return cost
-
-/datum/controller/subsystem/economy/proc/get_best_import_region(good_id, exclude_blockaded = TRUE)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg || !tg.importable)
-		return null
-
-	var/best_region_id = null
-	var/best_price = INFINITY
-	var/best_blockaded = FALSE
-	var/nominal_region_id = null
-	var/nominal_price = INFINITY
-
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		var/daily_pace = region.produces[good_id] || 0
-		if(daily_pace <= 0)
-			continue
-		var/produces_today = region.produces_today[good_id] || 0
-		var/starting_index = max(0, daily_pace - produces_today)
-		var/unit_price = compute_import_unit_price(good_id, region, starting_index + 1)
-
-		if(unit_price < nominal_price)
-			nominal_price = unit_price
-			nominal_region_id = region_id
-
-		if(exclude_blockaded && region.is_region_blockaded)
-			continue
-		if(unit_price < best_price)
-			best_price = unit_price
-			best_region_id = region_id
-			best_blockaded = region.is_region_blockaded
-
-	// Fallback: cheapest blockaded region if no non-blockaded producer exists.
-	if(!best_region_id && nominal_region_id)
-		best_region_id = nominal_region_id
-		best_price = nominal_price
-		best_blockaded = TRUE
-
-	if(!best_region_id)
-		return null
-
-	var/list/result = list(
-		"region_id" = best_region_id,
-		"unit_price" = round(best_price, STOCKPILE_PRICE_STEP),
-		"is_blockaded" = best_blockaded,
-		"fallback_region_id" = null,
-		"fallback_price" = null,
-	)
-	if(nominal_region_id && nominal_region_id != best_region_id)
-		result["fallback_region_id"] = nominal_region_id
-		result["fallback_price"] = round(nominal_price, STOCKPILE_PRICE_STEP)
-	return result
-
-/datum/controller/subsystem/economy/proc/get_best_export_region(good_id, exclude_blockaded = TRUE)
-	var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-	if(!tg)
-		return null
-
-	var/best_region_id = null
-	var/best_price = -1
-	var/best_blockaded = FALSE
-	var/nominal_region_id = null
-	var/nominal_price = -1
-
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		var/daily_pace = region.demands[good_id] || 0
-		if(daily_pace <= 0)
-			continue
-		var/demands_today = region.demands_today[good_id] || 0
-		var/starting_index = max(0, daily_pace - demands_today)
-		var/unit_price = compute_export_unit_price(good_id, region, starting_index + 1)
-
-		if(unit_price > nominal_price)
-			nominal_price = unit_price
-			nominal_region_id = region_id
-
-		if(exclude_blockaded && region.is_region_blockaded)
-			continue
-		if(unit_price > best_price)
-			best_price = unit_price
-			best_region_id = region_id
-			best_blockaded = region.is_region_blockaded
-
-	if(!best_region_id && nominal_region_id)
-		best_region_id = nominal_region_id
-		best_price = nominal_price
-		best_blockaded = TRUE
-
-	if(!best_region_id)
-		return null
-
-	var/list/result = list(
-		"region_id" = best_region_id,
-		"unit_price" = round(best_price, STOCKPILE_PRICE_STEP),
-		"is_blockaded" = best_blockaded,
-		"fallback_region_id" = null,
-		"fallback_price" = null,
-	)
-	if(nominal_region_id && nominal_region_id != best_region_id)
-		result["fallback_region_id"] = nominal_region_id
-		result["fallback_price"] = round(nominal_price, STOCKPILE_PRICE_STEP)
-	return result

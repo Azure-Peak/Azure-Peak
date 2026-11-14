@@ -217,7 +217,6 @@
 	out += chronicle_kv("Mammons circulating", "[GLOB.azure_round_stats[STATS_MAMMONS_HELD]]")
 	out += chronicle_kv("Mammons deposited", "[GLOB.azure_round_stats[STATS_MAMMONS_DEPOSITED]]")
 	out += chronicle_kv("Mammons withdrawn", "[GLOB.azure_round_stats[STATS_MAMMONS_WITHDRAWN]]")
-	out += chronicle_kv("Stockpile exports value", "[GLOB.azure_round_stats[STATS_STOCKPILE_EXPORTS_VALUE]]")
 	out += chronicle_kv("Stockpile imports value", "[GLOB.azure_round_stats[STATS_STOCKPILE_IMPORTS_VALUE]]")
 	out += chronicle_kv("Stockpile revenue", "[GLOB.azure_round_stats[STATS_STOCKPILE_REVENUE]]")
 	out += chronicle_kv("Stockpile expanses (sold to)", "[GLOB.azure_round_stats[STATS_STOCKPILE_EXPANSES]]")

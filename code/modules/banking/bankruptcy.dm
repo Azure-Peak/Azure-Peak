@@ -76,7 +76,6 @@
 	treasury_state = TREASURY_BANKRUPTCY
 
 	suspend_charters_for_bankruptcy()
-	override_trade_for_bankruptcy()
 	suspend_wages_for_bankruptcy()
 
 	priority_announce(
@@ -183,18 +182,6 @@
 		D.bankruptcy_suspended = TRUE
 		bankruptcy_suspended_decree_ids += decree_id
 	steward_machine?.enforce_wage_floors()
-
-/// Force every importable good onto standing import and pin auto-export at the sequestration
-/// ratio. Not snapshotted - the Steward must re-tune by hand on recovery.
-/datum/controller/subsystem/treasury/proc/override_trade_for_bankruptcy()
-	autoexport_percentage = BANKRUPTCY_AUTOEXPORT_PERCENTAGE
-	auto_import_disabled.Cut()
-	for(var/good_id in GLOB.trade_goods)
-		var/datum/trade_good/tg = GLOB.trade_goods[good_id]
-		if(tg && tg.importable)
-			auto_import_standing[good_id] = TRUE
-	dirty_auto_import_view()
-	dirty_market_view()
 
 /// Cooldown-free restore of a bankruptcy-suspended charter. Returns TRUE on success.
 /datum/controller/subsystem/treasury/proc/restore_charter_via_concession(decree_id)

@@ -70,9 +70,6 @@
 	for(var/datum/roguestock/stockpile/R in SStreasury.stockpile_datums)
 		R.refresh_auto_price()
 		var/list/shortage = R.get_shortage_progress()
-		var/export_unit_price = 0
-		if(R.importexport_amt > 0)
-			export_unit_price = round(R.get_export_price() / R.importexport_amt, STOCKPILE_PRICE_STEP)
 		rows += list(list(
 			"ref" = "\ref[R]",
 			"name" = R.name,
@@ -89,7 +86,6 @@
 			"market_label" = market_step_label(R.market_step(R.market_stock)),
 			"withdraw_price" = R.market_ask(1),
 			"deposit_price" = R.market_bid(1),
-			"export_price" = export_unit_price,
 			"event_tag" = R.get_event_label(),
 			"shortage_progress" = shortage ? shortage["progress"] : 0,
 			"shortage_target" = shortage ? shortage["target"] : 0,

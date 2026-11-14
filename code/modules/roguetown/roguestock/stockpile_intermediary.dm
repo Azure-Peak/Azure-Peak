@@ -3,8 +3,6 @@
 	desc = "A smelted bar of iron for forging."
 	item_type = /obj/item/ingot/iron
 	trade_good_id = TRADE_GOOD_IRON_INGOT
-	importexport_amt = 5
-	stockpile_limit = 15
 	category = "Refined"
 
 /datum/roguestock/stockpile/copper_ingot
@@ -12,8 +10,6 @@
 	desc = "A smelted bar of copper for alloying."
 	item_type = /obj/item/ingot/copper
 	trade_good_id = TRADE_GOOD_COPPER_INGOT
-	importexport_amt = 5
-	stockpile_limit = 10
 	category = "Refined"
 
 /datum/roguestock/stockpile/tin_ingot
@@ -21,8 +17,6 @@
 	desc = "A smelted bar of tin for alloying."
 	item_type = /obj/item/ingot/tin
 	trade_good_id = TRADE_GOOD_TIN_INGOT
-	importexport_amt = 5
-	stockpile_limit = 10
 	category = "Refined"
 
 /datum/roguestock/stockpile/steel_ingot
@@ -30,8 +24,6 @@
 	desc = "A smelted bar of steel for forging fine weapons and armor."
 	item_type = /obj/item/ingot/steel
 	trade_good_id = TRADE_GOOD_STEEL_INGOT
-	importexport_amt = 5
-	stockpile_limit = 15
 	category = "Refined"
 
 /datum/roguestock/stockpile/gold_ingot
@@ -40,8 +32,6 @@
 	item_type = /obj/item/ingot/gold
 	trade_good_id = TRADE_GOOD_GOLD_INGOT
 	market_target = MARKET_TARGET_RARE
-	importexport_amt = 5
-	stockpile_limit = 8
 	category = "Refined"
 
 /datum/roguestock/stockpile/silver_ingot
@@ -50,8 +40,6 @@
 	item_type = /obj/item/ingot/silver
 	trade_good_id = TRADE_GOOD_SILVER_INGOT
 	market_target = MARKET_TARGET_RARE
-	importexport_amt = 5
-	stockpile_limit = 8
 	category = "Refined"
 	market_never_supplies = TRUE
 
@@ -60,6 +48,4 @@
 	desc = "A smelted bar of bronze for making gadgets and contraptions."
 	item_type = /obj/item/ingot/bronze
 	trade_good_id = TRADE_GOOD_BRONZE_INGOT
-	importexport_amt = 5
-	stockpile_limit = 10
 	category = "Refined"

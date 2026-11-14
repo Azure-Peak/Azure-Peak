@@ -162,7 +162,6 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 	bankruptcy["operating_floor"] = BANKRUPTCY_OPERATING_FLOOR
 	bankruptcy["arrears_loan_floor"] = TREASURY_ARREARS_LOAN
 	bankruptcy["recovery_reset"] = BANKRUPTCY_RECOVERY_RESET
-	bankruptcy["autoexport_override"] = round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)
 	var/list/suspended = list()
 	for(var/decree_id in SStreasury.bankruptcy_suspended_decree_ids)
 		var/datum/decree/D = SStreasury.get_decree(decree_id)

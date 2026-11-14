@@ -118,100 +118,6 @@
 	"}
 
 
-/datum/book_entry/treasury_realm/trade
-	name = "03. Regional Trade"
-
-/datum/book_entry/treasury_realm/trade/inner_book_html(mob/user)
-	return {"
-		<div>
-		<p>The Crown trades with dozens of internal regions. Trade and stockpile both work through the Nerve Master's "Trade and Stockpile" interface.</p>
-
-		<h3>Trade Pricing</h3>
-		<ul>
-			<li>Each region has daily production and demand for specific goods. Volumes
-			scale with the number of active people.</li> <li><b>Import</b> price rises
-			sharply once purchases exceed daily production. Repeat imports of the same
-			good in one day carry a further surcharge.</li> <li><b>Export</b> price falls
-			sharply once sales exceed daily demand.</li> <li><b>Export</b> price is
-			always [IMPORT_EXPORT_SPREAD * 100]% less than the matching import price.
-			Buying and reselling on the same day is always a loss.</li>
-			<li><b>Blockade</b>: Blockade does not block import or export outright. It
-			multiplies cost to make trade unwise: Import Price x[BLOCKADE_IMPORT_MULT],
-			Export Revenue x[BLOCKADE_EXPORT_MULT].</li> <li><b>Economic events</b> apply
-			a further multiplier. See Supply and Demand.</li> <li>Each Trade action is
-			capped at [TRADE_MAX_BULK_UNITS] units per click. The trade modal shows a
-			live quote with base subtotal, escalation surcharge, and total before
-			commit.</li>
-		</ul>
-
-		<h3>Stockpile Limit</h3> <p>The formula is <b>total daily demand across all regions x pop
-		multiplier x [STOCKPILE_AUTO_LIMIT_DAYS] days of headroom</b>. Goods with no
-		demand line (gems, treasures) get a floor of [STOCKPILE_LIMIT_MIN] units.</p>
-
-		<h3>Surplus Exports</h3> <p>Each stockpile entry has a daily <b>surplus
-		floor</b>: <code>floor = limit x threshold</code>. Stock above the floor is
-		surplus. Each dawn, Autoexport sells it to the best paying region until that
-		region's demand runs out. The threshold defaults to
-		[round(AUTOEXPORT_DEFAULT_PERCENTAGE * 100)]% and is set globally. Lower it to
-		make the Crown more aggressive about turning hoarded stock into mammon. Raise
-		it to keep more stock on hand for citizens and standing orders.</p> <p>The
-		Steward may also press <b>Export Surplus</b> on the Market Scroll (or the
-		button for one category). Once a region has no demand left, nothing more can
-		be exported there until the next dawn. Pressing it again does nothing.</p>
-
-		<h3>Imports and the Stockpile</h3> <p>Regional imports enter the Crown's
-		stockpile and feed standing orders and the city's economy at large.</p>
-		</div>
-	"}
-
-
-/datum/book_entry/treasury_realm/auto_import
-	name = "04. Autoimport"
-
-/datum/book_entry/treasury_realm/auto_import/inner_book_html(mob/user)
-	return {"
-		<div>
-		<p>Autoimport buys essential goods each dawn. The Steward doesn't have to
-		import the same basics by hand every day. Goods stay on the list until
-		removed.</p>
-
-		<h3>Essentials</h3>
-		<p>Seven goods are on Autoimport by default: <b>coal, wood, grain, iron ore,
-		hide, fur, and fat</b>. The Steward may remove any of them from the
-		<b>Autoimport</b> tab and add them back later.</p>
-
-		<h3>Adding Other Goods</h3> <p>Any importable good with an active producing
-		region may be put on Autoimport. The Steward marks them in the same tab,
-		grouped by category.</p>
-
-		<h3>Rules</h3>
-		<p>Each dawn, for each good on the list:</p>
-		<ul>
-			<li>If the stockpile already holds [AUTO_IMPORT_FLOOR] or more units, no
-			import is made.</li> <li>Otherwise, the Crown buys [AUTO_IMPORT_BATCH] units
-			from the cheapest producing region.</li> <li>The import is skipped if any
-			unit would cost more than [AUTO_IMPORT_MAX_PRICE_MULT]x the good's base
-			price. Shortages can push prices past this. Autoimport then skips the good
-			instead of draining the Treasury.</li> <li>The import is skipped if it would
-			drop the Treasury below the Steward's <b>Treasury floor</b> (default
-			[AUTO_IMPORT_PURSE_FLOOR_DEFAULT]m, adjustable from the tab).</li>
-		</ul>
-
-		<h3>Visibility</h3>
-		<p>Successful imports announce on the Nerve Master with an <i>(auto)</i> tag.
-		Skipped days (stockpile full, price spike, Treasury floor) leave a note in the
-		Tally readout. The panel retains the last [AUTO_IMPORT_HISTORY_DAYS] days of
-		activity.</p>
-
-		<h3>Kill Switch</h3> <p><b>Strike All</b> in the tab takes every good off
-		Autoimport at once, essentials included. Goods can be enabled again one at a
-		time.</p>
-
-		<p>Autoimport spends from the Treasury only.</p>
-		</div>
-	"}
-
-
 /datum/book_entry/treasury_realm/standing_orders
 	name = "05. Of Standing Orders"
 
@@ -326,11 +232,7 @@
 			sequestration lifts.</li> <li><b>All Charters but the Golden Bull are
 			suspended</b>. They cannot be restored until sequestration lifts (see below).
 			The Golden Bull cannot be revoked.</li> <li><b>The Steward's commerce
-			controls are locked</b>. Every importable good is put on Autoimport, and the
-			surplus threshold is set to [round(BANKRUPTCY_AUTOEXPORT_PERCENTAGE * 100)]%
-			of the limit. Manual import/export, stockpile pricing, and bulk price
-			multipliers are all disabled. The Steward's earlier settings are <b>not</b>
-			restored on recovery and must be retuned by hand.</li>
+			controls are locked</b>.</li>
 		</ul>
 
 		<p>The skim continues during sequestration. The Treasury may still refill up
@@ -356,11 +258,6 @@
 
 		<p>The Grand Duke or Regent can then restore the suspended Charters at the
 		throne by speaking <b>revise charter</b>, one per day.</p>
-
-
-		<p>Trade configuration does <b>not</b> reset on recovery: the Autoimport list
-		and the surplus threshold stay where sequestration left them. Retune them by
-		hand.</p>
 
 		<h3>Repeat Sequestrations</h3> <p>The realm may enter sequestration multiple
 		times in the same round. There is no protection against repeat failure. Each

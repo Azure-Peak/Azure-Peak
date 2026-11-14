@@ -121,14 +121,6 @@ GLOBAL_LIST_INIT(economic_regions, init_economic_regions())
 		resting += pool
 	return resting
 
-/datum/economic_region/proc/tribute_units(good_id, value)
-	if(is_region_blockaded || !produces_day_start[good_id])
-		return 0
-	var/price = SSeconomy.compute_import_unit_price(good_id, src, 1)
-	if(!price)
-		return 0
-	return round(value / price)
-
 /datum/economic_region/proc/day_units(volume, pop_mult, season_mult)
 	if(season_mult <= 0)
 		return 0

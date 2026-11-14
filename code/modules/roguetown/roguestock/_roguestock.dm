@@ -11,9 +11,6 @@
 	var/market_never_supplies = FALSE
 	var/payout_price = 1
 	var/withdraw_price = 1
-	var/autoexport_disabled = FALSE
-	var/stockpile_limit = 100
-	var/importexport_amt = 10
 	var/category = "Raw Materials"
 	var/trade_good_id
 
@@ -336,15 +333,3 @@
 			continue
 		return " <font color='[color]'><b>([label])</b></font>"
 	return ""
-
-/datum/roguestock/proc/get_export_price()
-	if(trade_good_id && SSeconomy)
-		var/list/best = SSeconomy.get_best_export_region(trade_good_id)
-		if(best && best["unit_price"])
-			return round(best["unit_price"] * importexport_amt, STOCKPILE_PRICE_STEP)
-	return payout_price * importexport_amt
-
-/datum/roguestock/proc/get_import_price()
-	return withdraw_price * importexport_amt
-
-

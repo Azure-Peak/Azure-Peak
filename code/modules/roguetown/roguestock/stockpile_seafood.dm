@@ -3,8 +3,6 @@
 	desc = "Descaled and ground fish meat."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/mince/fish
 	trade_good_id = TRADE_GOOD_FISH_MINCE
-	importexport_amt = 10
-	stockpile_limit = 50
 	category = "Seafood"
 
 /datum/roguestock/stockpile/fishfilet
@@ -12,8 +10,6 @@
 	desc = "Descaled fish meat."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/fish
 	trade_good_id = TRADE_GOOD_FISH_FILET
-	importexport_amt = 10
-	stockpile_limit = 50
 	category = "Seafood"
 
 /datum/roguestock/stockpile/dried_fish
@@ -21,8 +17,6 @@
 	desc = "Fish cured in salt for the fleet's long voyages."
 	item_type = /obj/item/reagent_containers/food/snacks/rogue/meat/driedfishfilet
 	trade_good_id = TRADE_GOOD_DRIED_FISH
-	importexport_amt = 5
-	stockpile_limit = 30
 	category = "Seafood"
 
 /datum/roguestock/stockpile/salmon
@@ -30,8 +24,6 @@
 	desc = "Whole slab of salmon."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/salmon
 	trade_good_id = TRADE_GOOD_SALMON
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/bass
@@ -39,8 +31,6 @@
 	desc = "Whole slab of bass."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/bass
 	trade_good_id = TRADE_GOOD_BASS
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/carp
@@ -48,8 +38,6 @@
 	desc = "Whole slab of carp."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/carp
 	trade_good_id = TRADE_GOOD_CARP
-	importexport_amt = 10
-	stockpile_limit = 15
 	category = "Seafood"
 
 /datum/roguestock/stockpile/sole
@@ -57,8 +45,6 @@
 	desc = "Whole slab of sole."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/sole
 	trade_good_id = TRADE_GOOD_SOLE
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/cod
@@ -66,8 +52,6 @@
 	desc = "Whole slab of cod."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/cod
 	trade_good_id = TRADE_GOOD_COD
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/crab
@@ -75,8 +59,6 @@
 	desc = "Whole slab of crab."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/crab
 	trade_good_id = TRADE_GOOD_CRAB
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/clam
@@ -84,8 +66,6 @@
 	desc = "Whole slab of clam."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/clam
 	trade_good_id = TRADE_GOOD_CLAM
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/lobster
@@ -93,8 +73,6 @@
 	desc = "Whole slab of lobster."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/lobster
 	trade_good_id = TRADE_GOOD_LOBSTER
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/shrimp
@@ -102,8 +80,6 @@
 	desc = "A handful of whole shrimp."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/shrimp
 	trade_good_id = TRADE_GOOD_SHRIMP
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/mudskipper
@@ -111,8 +87,6 @@
 	desc = "Whole slab of mudskipper."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/mudskipper
 	trade_good_id = TRADE_GOOD_MUDSKIPPER
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/swamp_shrimp
@@ -120,8 +94,6 @@
 	desc = "A handful of whole swamp shrimp."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/swamp_shrimp
 	trade_good_id = TRADE_GOOD_SWAMP_SHRIMP
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/swamp_mother
@@ -129,8 +101,6 @@
 	desc = "Whole slab of swamp mother."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/swamp_mother
 	trade_good_id = TRADE_GOOD_SWAMP_MOTHER
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/eel
@@ -138,8 +108,6 @@
 	desc = "Whole slab of eel."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/eel
 	trade_good_id = TRADE_GOOD_EEL
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/black_bass
@@ -147,8 +115,6 @@
 	desc = "Whole slab of black bass."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/black_bass
 	trade_good_id = TRADE_GOOD_BLACK_BASS
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/flounder
@@ -156,8 +122,6 @@
 	desc = "Whole slab of flounder."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/flounder
 	trade_good_id = TRADE_GOOD_FLOUNDER
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/mackerel
@@ -165,8 +129,6 @@
 	desc = "Whole slab of mackerel."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/mackerel
 	trade_good_id = TRADE_GOOD_MACKEREL
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"
 
 /datum/roguestock/stockpile/plaice
@@ -174,6 +136,4 @@
 	desc = "Whole slab of plaice."
 	item_type = /obj/item/reagent_containers/food/snacks/fish/plaice
 	trade_good_id = TRADE_GOOD_PLAICE
-	importexport_amt = 10
-	stockpile_limit = 10
 	category = "Seafood"

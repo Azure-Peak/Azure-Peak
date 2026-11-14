@@ -79,10 +79,6 @@
 
 
 
-// Trade Escalation slope is the rate at which prices increase / decrease as it is oversold / overbought. Import / Export spread is an enforced differences between Buy / Sell price. By design, goods price is global for AP's internal regions, representing supply and demand and also preventing any same day arbitrage profit which does not generate meaningful gameplay but just reward you for reading and clicking the same damn buttons.
-#define TRADE_ESCALATION_SLOPE 1.0
-#define IMPORT_EXPORT_SPREAD 0.25
-
 #define STOCKPILE_BID_RATIO 0.75
 #define ROYAL_SUBSIDY_DAILY_ALLOWANCE 100
 #define STOCKPILE_PRICE_STEP 0.1
@@ -130,17 +126,8 @@
 
 // Blockade region are tradeable but at a punitive rate.
 #define BLOCKADE_IMPORT_MULT 2.0
-#define BLOCKADE_EXPORT_MULT 0.5
 
 #define TRADE_STOCKPILE_BUY_DISCOUNT 0.75
-
-#define STOCKPILE_AUTO_LIMIT_DAYS 2
-#define STOCKPILE_LIMIT_MIN 5
-#define STOCKPILE_LIMIT_MAX 40
-#define STEWARD_POLICY_EXPORT_VERSION 1
-#define STEWARD_POLICY_IMPORT_MAX_LEN 16384
-#define STEWARD_POLICY_WINDOW_WIDTH 900
-#define STEWARD_POLICY_WINDOW_HEIGHT 700
 
 // Buying the same import = escalating price
 #define CROWN_IMPORT_ELASTICITY 0.25
