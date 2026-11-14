@@ -46,7 +46,6 @@
 /mob/living/carbon/human/species/human/northern/doppelganger/Initialize(mapload)
 	. = ..()
 	set_species(/datum/species/human/northern)
-	don_shroud()
 	addtimer(CALLBACK(src, PROC_REF(after_creation)), 1 SECONDS)
 
 /mob/living/carbon/human/species/human/northern/doppelganger/proc/don_shroud()
@@ -58,6 +57,7 @@
 
 /mob/living/carbon/human/species/human/northern/doppelganger/after_creation()
 	..()
+	don_shroud()
 	AddComponent(/datum/component/ai_aggro_system)
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
