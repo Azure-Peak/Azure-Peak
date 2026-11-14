@@ -84,7 +84,7 @@
 
 /datum/reagent/consumable/milk
 	name = "milk"
-	description = "An opaque white liquid produced by the mammary glands of mammals."
+	description = "Ichor of the udder."
 	color = "#DFDFDF" // rgb: 223, 223, 223
 	taste_description = "milk"
 	glass_icon_state = "glass_white"
@@ -122,7 +122,7 @@
 	color = "#FFFF00"
 	quality = DRINK_NICE
 	cuisine = CUISINE_ETRUSCAN
-	taste_description = "citrussed sweetness"
+	taste_description = "citrused sweetness"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
 	hydration_factor = 8
 
@@ -132,7 +132,7 @@
 	color = "#00FF00"
 	quality = DRINK_NICE
 	cuisine = CUISINE_RANESHENI
-	taste_description = "citrussed tartness"
+	taste_description = "citrused tartness"
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
 	hydration_factor = 8
 
