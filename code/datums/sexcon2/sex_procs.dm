@@ -40,6 +40,9 @@
 /mob/living/proc/start_sex_session(mob/living/target)
 	if(!target)
 		return
+	if(cmode && (client?.prefs?.combat_toggles & CMODE_ERP_BLOCK))
+		to_chat(src, span_warning("There's a time and place for everything, but not in middle of a fight."))
+		return
 	var/datum/sex_session/old_session = get_sex_session(src, target)
 	if(old_session)
 		old_session.ui_interact(src)
@@ -96,7 +99,8 @@
 		return
 
 	if(!user.start_sex_session(target))
-		to_chat(user, "<span class='warning'>I'm already sexing.</span>")
+		if(!user.cmode)
+			to_chat(user, "<span class='warning'>I'm already sexing.</span>")
 		return
 
 /proc/get_sex_session(mob/giver, mob/taker)

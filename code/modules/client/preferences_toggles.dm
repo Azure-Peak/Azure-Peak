@@ -233,6 +233,15 @@
 		prefs.save_preferences()
 	to_chat(src, "You will [prefs.combat_toggles & CMODE_STRIPPING ? "" : "not"] be able to open the strip menu in combat mode.")
 
+/client/verb/cmode_erp()
+	set name = "Combat Mode ERP"
+	set category = "Preferences.Options"
+	set desc = ""
+	if(prefs)
+		prefs.combat_toggles ^= CMODE_ERP_BLOCK
+		prefs.save_preferences()
+	to_chat(src, "You will[prefs.combat_toggles & CMODE_ERP_BLOCK ? " not" : ""] be able to open the ERP panel in combat mode.")
+
 /client/verb/antighost()
 	set name = "Toggle Antighost"
 	set category = "Preferences.Options"
