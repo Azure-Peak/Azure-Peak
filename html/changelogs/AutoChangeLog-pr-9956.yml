@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Templars / Acolytes / Sexton have access to the institutional fund of the Church subject to the same minimum balance limit, up to 50m a day by default."
