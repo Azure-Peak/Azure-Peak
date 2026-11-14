@@ -8,6 +8,10 @@
 	outfit = /datum/outfit/job/roguetown/adventurer/peasant
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/targeted/blesscrop/secular,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	subclass_stats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = -1
@@ -72,4 +76,3 @@
 			else
 				r_hand = seeds[seed_choice]
 		H.set_blindness(0)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/blesscrop/secular)
