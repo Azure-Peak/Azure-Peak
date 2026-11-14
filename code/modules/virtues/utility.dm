@@ -339,15 +339,16 @@
 /datum/virtue/utility/nighteye
 	name = "Night Eye"
 	desc = "My eyes are able to see through cloying darkness."
-	custom_text = "Adds a button to toggle colourblindness to aid seeing in the dark. Taking this with the Colorblind vice will permanently colourblind you."
+	custom_text = "Grants a verb to enhance your darksight at the cost of seeing colors, but if you have Colorblindness as a vice, you cannot toggle this off."
 	ui_fa_icon = "eye"
 	added_traits = list(TRAIT_DARKVISION)
 
 /datum/virtue/utility/nighteye/apply_to_human(mob/living/carbon/human/recipient)
 	if(recipient.has_flaw(/datum/charflaw/colorblind))
-		to_chat(recipient, "Your eyes have become permanently colourblind.")
+		to_chat(recipient, "Your eyes have become permanently colorblind.")
+		ADD_TRAIT(recipient, TRAIT_NITEVISION, "monochrome_sight")
 	else if(recipient.charflaws.len)
-		add_verb(recipient, /mob/living/carbon/human/proc/toggleblindness)
+		add_verb(recipient, /mob/living/carbon/human/proc/toggle_nitesight)
 
 // Grim fandango
 /datum/virtue/utility/granary
@@ -453,11 +454,23 @@
 	ui_fa_icon = "tree"
 	added_traits = list(TRAIT_WOODWALKER, TRAIT_OUTDOORSMAN)
 
-/datum/virtue/heretic/zchurch_keyholder
+/datum/virtue/utility/zchurch_keyholder
 	name = "Defiled Keyholder"
-	desc = "The 'Holy' See has their blood-stained grounds, and so do we. Underneath their noses, we pray to the true gods - I know the location of the local heretic conclave. Secrecy is paramount. If found out, I will surely be killed."
+	desc = "The 'Holy' See has their blood-stained grounds, and so does the conclave. Underneath their noses, prayers and ritual are afoot. I have been initiated; secrecy is paramount. I won't risk entering their grounds observed, if I don't swear allegiance to the Four. The local safe-houses are open to me."
 	ui_fa_icon = "mask"
 	added_traits = list(TRAIT_ZURCH)
+
+/datum/virtue/utility/zchurch_keyholder/apply_to_human(mob/living/carbon/human/recipient)
+	..()
+	// Non-Ascendant followers can only walk the secret paths unobserved.
+	if(!istype(recipient.patron, /datum/patron/inhumen))
+		ADD_TRAIT(recipient, TRAIT_CAREFULTRIP, TRAIT_VIRTUE)
+
+/datum/virtue/utility/zchurch_keyholder/restricts_job(datum/job/job, datum/preferences/prefs)
+	if(istype(prefs.selected_patron, /datum/patron/inhumen))
+		return null
+	if(length(job.allowed_patrons) || (job.department_flag & (COURTIERS | RETINUE | GARRISON | CHURCHMEN | INQUISITION)))
+		return "non-Ascendant"
 
 // AUTHOR NOTE - Probably remove this from court, leader and inquisition roles later since the barrier to roleplaying this correctly as those roles is extremely high.
 // Mostly meant as a virtue for strange fey creatures, or people roleplaying as if they have been influenced by hags positively in the past, following an active pact to avoid vengeance.

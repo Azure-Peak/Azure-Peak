@@ -396,46 +396,60 @@
 	item_state = "stewardbelt"
 
 //Knifeblade belts, act as quivers mixed with belts. Lower storage size of a belt, but holds knives without taking space.
-/obj/item/storage/belt/rogue/leather/knifebelt
-	name = "tossblade belt"
-	desc = "A five-slotted belt meant for tossblades. Little room left over."
+/obj/item/storage/belt/rogue/leather/tossbelt
+	name = "tossbelt"
+	desc = "A belt with loops for hanging throwing weapons. Little room left over."
 	icon_state = "knife"
 	item_state = "knife"
 	strip_delay = STRIP_DELAY_FAST
 	var/max_storage = 5		//Javelin bag is 4 and they can't hold items. So, more fair having it like this since these are pretty decent weapons.
-	var/list/knives = list()
+	var/list/held = list()
+	///Types this belt slots in place of normal storage.
+	var/list/accepts = list()
+	///Type the belt spawns full of, if any.
+	var/fill
 	sewrepair = TRUE
-	component_type = /datum/component/storage/concrete/roguetown/belt/knife_belt
+	component_type = /datum/component/storage/concrete/roguetown/belt/tossbelt
 
-/obj/item/storage/belt/rogue/leather/knifebelt/attack_turf(turf/T, mob/living/user)
-	if(knives.len >= max_storage)
+/obj/item/storage/belt/rogue/leather/tossbelt/Initialize(mapload)
+	. = ..()
+	if(!fill)
+		return
+	for(var/i in 1 to max_storage)
+		held += new fill()
+	update_icon()
+
+/obj/item/storage/belt/rogue/leather/tossbelt/attack_turf(turf/T, mob/living/user)
+	if(held.len >= max_storage)
 		to_chat(user, span_warning("Your [src.name] is full!"))
 		return
 	to_chat(user, span_notice("You begin to gather the ammunition..."))
-	for(var/obj/item/rogueweapon/huntingknife/throwingknife/K in T.contents)
+	for(var/obj/item/K in T.contents)
+		if(!is_type_in_list(K, accepts))
+			continue
 		if(do_after(user, 5))
-			if(!eatknife(K))
+			if(!stow(K))
 				break
 
-/obj/item/storage/belt/rogue/leather/knifebelt/proc/eatknife(obj/A)
-	if(A.type in typesof(/obj/item/rogueweapon/huntingknife/throwingknife))
-		if(knives.len < max_storage)
+/obj/item/storage/belt/rogue/leather/tossbelt/proc/stow(obj/A)
+	if(is_type_in_list(A, accepts))
+		if(held.len < max_storage)
 			A.forceMove(src)
-			knives += A
+			held += A
 			update_icon()
 			return TRUE
 		else
 			return FALSE
 
-/obj/item/storage/belt/rogue/leather/knifebelt/attackby(obj/A, loc, params)
-	if(A.type in typesof(/obj/item/rogueweapon/huntingknife/throwingknife))
-		if(knives.len < max_storage)
+/obj/item/storage/belt/rogue/leather/tossbelt/attackby(obj/A, loc, params)
+	if(is_type_in_list(A, accepts))
+		if(held.len < max_storage)
 			if(ismob(loc))
 				var/mob/M = loc
 				M.doUnEquip(A, TRUE, src, TRUE, silent = TRUE)
 			else
 				A.forceMove(src)
-			knives += A
+			held += A
 			update_icon()
 			to_chat(usr, span_notice("I discreetly slip [A] into [src]."))
 		else
@@ -443,89 +457,81 @@
 		return
 	..()
 
-/obj/item/storage/belt/rogue/leather/knifebelt/attack_right(mob/user)
-	if(knives.len)
-		var/obj/O = knives[knives.len]
-		knives -= O
+/obj/item/storage/belt/rogue/leather/tossbelt/attack_right(mob/user)
+	if(held.len)
+		var/obj/O = held[held.len]
+		held -= O
 		O.forceMove(user.loc)
 		user.put_in_hands(O)
 		update_icon()
 		return TRUE
 
-/obj/item/storage/belt/rogue/leather/knifebelt/examine(mob/user)
+/obj/item/storage/belt/rogue/leather/tossbelt/examine(mob/user)
 	. = ..()
-	if(knives.len)
-		. += span_notice("[knives.len] inside.")
+	if(held.len)
+		. += span_notice("[held.len] inside.")
 
-/obj/item/storage/belt/rogue/leather/knifebelt/ai_get_custom_inventory()
-	return knives
+/obj/item/storage/belt/rogue/leather/tossbelt/ai_get_custom_inventory()
+	return held
 
-/obj/item/storage/belt/rogue/leather/knifebelt/ai_withdraw_item(obj/item/it, mob/living/user)
-	if(it in knives)
-		knives -= it
+/obj/item/storage/belt/rogue/leather/tossbelt/ai_withdraw_item(obj/item/it, mob/living/user)
+	if(it in held)
+		held -= it
 		update_icon()
 		return TRUE
 	return FALSE
 
-/obj/item/storage/belt/rogue/leather/knifebelt/iron/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade
+	name = "tossblade belt"
+	desc = "A seven-slotted belt meant for tossblades. Little room left over."
+	max_storage = 7
+	accepts = list(/obj/item/rogueweapon/huntingknife/throwingknife)
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/iron
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife
+
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black
 	icon_state = "blackknife"
 	item_state = "blackknife"
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/iron/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/iron
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/steel/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife/steel
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife/steel/silver
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/preblessed/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/preblessed/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/preblessed
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/preblessed
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/psy
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/preblessed/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy/preblessed/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/psy/preblessed
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife/steel/silver/psy/preblessed
 
-/obj/item/storage/belt/rogue/leather/knifebelt/black/kazengun/Initialize(mapload)
-	. = ..()
-	for(var/i in 1 to max_storage)
-		var/obj/item/rogueweapon/huntingknife/throwingknife/kazengun/K = new()
-		knives += K
-	update_icon()
+/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/kazengun
+	fill = /obj/item/rogueweapon/huntingknife/throwingknife/kazengun
+
+/obj/item/storage/belt/rogue/leather/tossbelt/tomahawk
+	name = "tomahawk belt"
+	desc = "A four-slotted belt with leather loops for hanging tomahawks. Little room left over."
+	icon_state = "tomahawk"
+	item_state = "tomahawk"
+	max_storage = 4
+	accepts = list(/obj/item/rogueweapon/stoneaxe/handaxe/silver, /obj/item/rogueweapon/stoneaxe/woodcut/steel/graggar)
+
+/obj/item/storage/belt/rogue/leather/tossbelt/tomahawk/black
+	icon_state = "blacktomahawk"
+	item_state = "blacktomahawk"
+
+/obj/item/storage/belt/rogue/leather/tossbelt/tomahawk/black/silver
+	fill = /obj/item/rogueweapon/stoneaxe/handaxe/silver
+
+/obj/item/storage/belt/rogue/leather/tossbelt/tomahawk/black/psy
+	fill = /obj/item/rogueweapon/stoneaxe/handaxe/silver/psy
 
 /obj/item/storage/belt/rogue/leather/silkbelt
 	name = "giltsilk belt"
@@ -582,9 +588,23 @@
 	inhand_mod = FALSE
 	slot_flags = ITEM_SLOT_BACK
 
+
+/obj/item/clothing/climbing_gear/get_mechanics_examine(mob/living/carbon/human/user)
+	. = ..()
+	. += span_info("Adds the ability to jump/leap towards a wall and climb it.")
+	. += span_info("Gives you the leaper trait.")
+
 /obj/item/clothing/climbing_gear/equipped(mob/living/carbon/human/user, slot)
 	. = ..()
 	playsound(loc, 'sound/items/garrotegrab.ogg', 100, TRUE)
+	if(slot == SLOT_BACK_L || slot == SLOT_BACK_R)
+		ADD_TRAIT(user, TRAIT_LEAPER, REF(src))
+
+/obj/item/clothing/climbing_gear/dropped(mob/living/carbon/human/user)
+	. = ..()
+	REMOVE_TRAIT(user, TRAIT_LEAPER, REF(src))
+
+
 
 /obj/item/clothing/wall_grab
 	name = "wall"

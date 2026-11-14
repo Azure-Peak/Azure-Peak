@@ -14,6 +14,10 @@
 		// No hunting, as it's a specialty skill.
 	)
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/invoked/diagnose/secular,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	adaptive_name = TRUE
 	subclass_stats = list(
 		STATKEY_INT = 3,	//This guy's here to grind = baby.
@@ -159,13 +163,11 @@
 		H.mind.special_items["Barber's Innocuous Bag"] = /obj/item/storage/belt/rogue/surgery_bag/full
 		H.mind.special_items["Trusty Pick"] = /obj/item/rogueweapon/pick/bronze
 		H.mind.special_items["Tuneful Instrument"] = pick(subtypesof(/obj/item/rogue/instrument))
-		H.mind.special_items["Fishing Rod"] = /obj/item/fishingrod/crafted
+		H.mind.special_items["Fishing Rod"] = /obj/item/fishingrod
 		H.mind.special_items["Pan for Frying"] = /obj/item/cooking/pan
 
 		H.adaptive_name_title = "Homesteader"
 		add_verb(H, /datum/advclass/homesteader/proc/choose_homesteader_title)
-
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/diagnose/secular)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 

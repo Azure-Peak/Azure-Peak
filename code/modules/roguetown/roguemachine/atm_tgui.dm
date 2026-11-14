@@ -158,18 +158,27 @@
 	data["personal_log"] = build_log_entries(H.real_name)
 	data["bathhouse_ordinance_active"] = SStreasury.bathhouse_ordinance_active ? TRUE : FALSE
 	data["bathhouse_tithe_round_total"] = SStreasury.round_bathhouse_tithe_total
-	data["bathhouse_worker_withdraw_limit"] = SStreasury.bathhouse_worker_daily_withdraw_limit
-	data["bathhouse_agent_withdraw_limit"] = SStreasury.bathhouse_agent_daily_withdraw_limit
-	data["bathhouse_worker_withdrawals_suspended"] = SStreasury.bathhouse_worker_withdrawals_suspended
-	data["bathhouse_agent_withdrawals_suspended"] = SStreasury.bathhouse_agent_withdrawals_suspended
-	data["bathhouse_viewer_withdrawal_limit_hit"] = FALSE
-	var/obj/structure/roguemachine/vaultbank/BH = SStreasury.find_jawbank_for_fund_id("bathhouse")
-	if(istype(BH, /obj/structure/roguemachine/vaultbank/bathhouse))
-		var/obj/structure/roguemachine/vaultbank/bathhouse/bathhouse_bank = BH
-		if(!bathhouse_bank.can_issue_loan(H) && bathhouse_bank.has_capped_access(H) \
-			&& !bathhouse_bank.are_withdrawals_suspended(H) \
-			&& bathhouse_bank.get_withdrawal_remaining(H) <= 0)
-			data["bathhouse_viewer_withdrawal_limit_hit"] = TRUE
+	var/list/fund_allowances = list()
+	for(var/fid in ALL_FUND_IDS)
+		var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id(fid)
+		var/datum/fund/F = SStreasury.resolve_fund_by_id(fid)
+		if(!V || !F || !length(V.allowance_groups) || !V.can_view(user))
+			continue
+		var/list/groups = list()
+		for(var/group in V.allowance_groups)
+			groups += list(list(
+				"id" = group,
+				"label" = V.allowance_groups[group],
+				"limit" = LAZYACCESS(F.allowance_limits, group) || 0,
+				"suspended" = LAZYACCESS(F.allowance_suspended, group) ? TRUE : FALSE,
+			))
+		var/limit_hit = V.draws_on_allowance(H) && !V.are_withdrawals_suspended(H) && V.get_withdrawal_remaining(H) <= 0
+		fund_allowances[fid] = list(
+			"header" = V.allowance_header,
+			"groups" = groups,
+			"viewer_limit_hit" = limit_hit ? TRUE : FALSE,
+		)
+	data["fund_allowances"] = fund_allowances
 	var/bh_cooldown_left_ds = max(0, SStreasury.bathhouse_ordinance_next_toggle_time - world.time)
 	data["bathhouse_ordinance_cooldown_seconds"] = round(bh_cooldown_left_ds / 10)
 	data["bathhouse_ordinance_cooldown_minutes"] = BATHHOUSE_ORDINANCE_TOGGLE_COOLDOWN / (1 MINUTES)
@@ -238,12 +247,12 @@
 			handle_toggle_bathhouse_ordinance(H)
 			SStgui.update_uis(src)
 			return TRUE
-		if("set_bathhouse_withdraw_limit")
-			handle_set_bathhouse_withdraw_limit(H, params)
+		if("set_withdraw_limit")
+			handle_set_withdraw_limit(H, params)
 			SStgui.update_uis(src)
 			return TRUE
-		if("toggle_bathhouse_withdrawals")
-			handle_toggle_bathhouse_withdrawals(H, params)
+		if("toggle_withdrawals")
+			handle_toggle_withdrawals(H, params)
 			SStgui.update_uis(src)
 			return TRUE
 
@@ -276,48 +285,44 @@
 	log_admin("ORDINANCE OF THE BATHS: [key_name(H)] toggled to [now_active ? "IN FORCE" : "BROKEN"].")
 	message_admins("[key_name_admin(H)] toggled the Ordinance of the Baths to [now_active ? "IN FORCE" : "BROKEN"].")
 
-/obj/structure/roguemachine/atm/proc/handle_set_bathhouse_withdraw_limit(mob/living/carbon/human/H, list/params)
-	if(H.job != "Bathmaster")
-		to_chat(H, span_warning("Only the Bathmaster may set the Bathhouse's withdrawal terms."))
-		return
+/obj/structure/roguemachine/atm/proc/handle_set_withdraw_limit(mob/living/carbon/human/H, list/params)
+	var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id("[params["fund_id"]]")
+	var/datum/fund/F = V?.get_linked_fund()
 	var/group = "[params["group"]]"
-	if(group != "worker" && group != "agent")
+	if(!F || !(group in V.allowance_groups))
+		return
+	if(!V.can_issue_loan(H))
+		to_chat(H, span_warning("Only [V.get_authority_label()] may set [V.get_faction_label()]'s withdrawal terms."))
 		return
 	if(isnull(params["amount"]))
-		to_chat(H, span_warning("Set a daily withdrawal limit between 0 and 10000m."))
+		to_chat(H, span_warning("Set a daily withdrawal limit between 0 and [ALLOWANCE_LIMIT_MAX]m."))
 		return
 	var/limit = round(text2num("[params["amount"]]"))
-	if(limit < 0 || limit > 10000)
-		to_chat(H, span_warning("A daily withdrawal limit must be between 0 and 10000m."))
+	if(limit < 0 || limit > ALLOWANCE_LIMIT_MAX)
+		to_chat(H, span_warning("A daily withdrawal limit must be between 0 and [ALLOWANCE_LIMIT_MAX]m."))
 		return
-	if(group == "worker")
-		SStreasury.bathhouse_worker_daily_withdraw_limit = limit
-	else
-		SStreasury.bathhouse_agent_daily_withdraw_limit = limit
-	SSBMtreasury.add_hoard_log("policy", "[group == "worker" ? "Worker" : "Agent"] daily withdrawal limit set to [limit]m", 0, H.real_name)
+	LAZYSET(F.allowance_limits, group, limit)
+	V.log_allowance_policy("[capitalize(group)] daily withdrawal limit set to [limit]m", H)
 	playsound(src, 'sound/misc/beep.ogg', 60, FALSE, -1)
-	log_admin("BATHHOUSE WITHDRAWAL LIMIT: [key_name(H)] set the [group] daily limit to [limit]m.")
-	message_admins("[key_name_admin(H)] set the Bathhouse [group] daily withdrawal limit to [limit]m.")
+	log_admin("WITHDRAWAL LIMIT: [key_name(H)] set the [F.name] [group] daily limit to [limit]m.")
+	message_admins("[key_name_admin(H)] set the [F.name] [group] daily withdrawal limit to [limit]m.")
 
-/obj/structure/roguemachine/atm/proc/handle_toggle_bathhouse_withdrawals(mob/living/carbon/human/H, list/params)
-	if(H.job != "Bathmaster")
-		to_chat(H, span_warning("Only the Bathmaster may suspend Bathhouse withdrawals."))
-		return
+/obj/structure/roguemachine/atm/proc/handle_toggle_withdrawals(mob/living/carbon/human/H, list/params)
+	var/obj/structure/roguemachine/vaultbank/V = SStreasury.find_jawbank_for_fund_id("[params["fund_id"]]")
+	var/datum/fund/F = V?.get_linked_fund()
 	var/group = "[params["group"]]"
-	if(group != "worker" && group != "agent")
+	if(!F || !(group in V.allowance_groups))
 		return
-	var/is_suspended
-	if(group == "worker")
-		SStreasury.bathhouse_worker_withdrawals_suspended = !SStreasury.bathhouse_worker_withdrawals_suspended
-		is_suspended = SStreasury.bathhouse_worker_withdrawals_suspended
-	else
-		SStreasury.bathhouse_agent_withdrawals_suspended = !SStreasury.bathhouse_agent_withdrawals_suspended
-		is_suspended = SStreasury.bathhouse_agent_withdrawals_suspended
+	if(!V.can_issue_loan(H))
+		to_chat(H, span_warning("Only [V.get_authority_label()] may suspend [V.get_faction_label()]'s withdrawals."))
+		return
+	var/is_suspended = !LAZYACCESS(F.allowance_suspended, group)
+	LAZYSET(F.allowance_suspended, group, is_suspended)
 	var/state_text = is_suspended ? "suspended" : "resumed"
-	SSBMtreasury.add_hoard_log("policy", "Withdrawals for [group]s [state_text]", 0, H.real_name)
+	V.log_allowance_policy("Withdrawals for [group]s [state_text]", H)
 	playsound(src, 'sound/misc/beep.ogg', 60, FALSE, -1)
-	log_admin("BATHHOUSE WITHDRAWALS: [key_name(H)] [state_text] [group] withdrawals.")
-	message_admins("[key_name_admin(H)] [state_text] Bathhouse [group] withdrawals.")
+	log_admin("WITHDRAWALS: [key_name(H)] [state_text] [F.name] [group] withdrawals.")
+	message_admins("[key_name_admin(H)] [state_text] [F.name] [group] withdrawals.")
 
 /obj/structure/roguemachine/atm/proc/handle_withdraw_personal(mob/living/carbon/human/H, list/params)
 	var/coin_amt = round(text2num("[params["amount"]]"))
@@ -381,12 +386,7 @@
 	if(!V)
 		to_chat(H, span_warning("That institution has no fund to draw from."))
 		return
-	if(!V.can_withdraw(H))
-		if(istype(V, /obj/structure/roguemachine/vaultbank/bathhouse))
-			var/obj/structure/roguemachine/vaultbank/bathhouse/BH = V
-			if(BH.has_capped_access(H))
-				BH.disburse(H, params)
-				return
+	if(!V.can_withdraw(H) && !V.draws_on_allowance(H))
 		to_chat(H, span_warning("You are not authorised to withdraw from [V.get_patron_label() || V.get_faction_label()]."))
 		return
 	V.disburse(H, params)

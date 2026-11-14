@@ -11,6 +11,13 @@
 
 #define HUMAN_NPC_INTENT_SWITCH_CHANCE			25
 
+#define HUMAN_NPC_ATTACK_INTENT_SWINGS_MIN		4
+#define HUMAN_NPC_ATTACK_INTENT_SWINGS_MAX		8
+#define HUMAN_NPC_ATTACK_INTENT_REEVAL_CHANCE	50
+#define HUMAN_NPC_PRIMARY_INTENT_WEIGHT			20
+#define HUMAN_NPC_OTHER_INTENT_WEIGHT			10
+#define HUMAN_NPC_INTENT_ARMOR_BLOCKED_MULT		0.15
+
 #define HUMAN_NPC_RMB_ATTEMPT_CHANCE			25
 #define HUMAN_NPC_MIN_INT_FOR_TACTICS		8
 
@@ -28,11 +35,13 @@
 	end_planning = TRUE
 
 /datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc/SelectBehaviors(datum/ai_controller/controller, delta_time)
+	if(controller.blackboard[BB_THROW_WINDUP_UNTIL])
+		return SUBTREE_RETURN_FINISH_PLANNING
 	var/mob/living/carbon/human/pawn = controller.pawn
 	if(istype(pawn))
 		// If we're disarmed and a weapon is reachable nearby, skip melee planning so find_weapon
 		// can run (it's the next subtree). Otherwise we'd just punch the target empty-handed forever.
-		if(!ai_npc_has_weapon(pawn))
+		if(!ai_npc_has_weapon(pawn) && !ai_npc_fights_unarmed(pawn) && !controller.blackboard[BB_CASTER_MELEE])
 			for(var/obj/item/rogueweapon/nearby_weapon in view(7, pawn))
 				if(!isturf(nearby_weapon.loc))
 					continue
@@ -58,23 +67,24 @@
 		var/obj/item/offhand = pawn.get_inactive_held_item()
 		if(isweapon(offhand) && !istype(offhand, /obj/item/rogueweapon/shield))
 			pawn.swap_hand()
+			npc_spend_input(pawn)
 	else if(istype(held_item, /obj/item/gun))
 		if(controller.blackboard[BB_ARCHER_NPC_STASHED_WEAPON])
 			_restore_stashed_weapon(controller, pawn)
 	else if(!isweapon(held_item))
 		pawn.swap_hand()
+		if(isweapon(pawn.get_active_held_item()))
+			npc_spend_input(pawn)
 		if(pawn.belt)
 			for(var/slot in list(SLOT_BELT_R, SLOT_BELT_L))
 				if(!pawn.get_item_by_slot(slot) && pawn.equip_to_slot_if_possible(held_item, slot, disable_warning = TRUE, bypass_equip_delay_self = TRUE))
 					break
 
-	var/list/possible_intents = list()
-	for(var/datum/intent/intent as anything in pawn.possible_a_intents)
-		if(istype(intent, /datum/intent/unarmed/help) || istype(intent, /datum/intent/unarmed/shove) || istype(intent, /datum/intent/unarmed/grab))
-			continue
-		possible_intents |= intent
+	var/list/possible_intents = npc_attack_intents(pawn)
 	if(length(possible_intents))
-		pawn.a_intent = pick(possible_intents)
+		if(!(pawn.a_intent in possible_intents) || controller.blackboard[BB_HUMAN_NPC_SWINGS_TARGET] != target)
+			npc_select_intent(pawn, _pick_attack_intent(pawn, target, possible_intents))
+			controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT, rand(HUMAN_NPC_ATTACK_INTENT_SWINGS_MIN, HUMAN_NPC_ATTACK_INTENT_SWINGS_MAX))
 		pawn.used_intent = pawn.a_intent
 
 	if(prob(HUMAN_NPC_WEAKPOINT_SCAN_CHANCE) && isliving(target))
@@ -89,7 +99,7 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
+	if(!HAS_TRAIT(pawn, TRAIT_CHUNKYFINGERS) && !istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
 		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 			if(!isturf(candidate.loc))
 				continue
@@ -109,7 +119,8 @@
 	controller.set_blackboard_key(hiding_location_key, hiding_target)
 
 	pawn.face_atom(target)
-	_choose_attack_zone(controller, pawn, target)
+	var/swing_ready = _swing_ready(pawn)
+	_choose_attack_zone(controller, pawn, target, swing_ready)
 
 	if(!pawn.CanReach(target, pawn.get_active_held_item()))
 		AI_THINK(pawn, "ATTACK: can't reach [target]")
@@ -121,7 +132,9 @@
 		if(attacks_done >= 2 && _try_weapon_special(controller))
 			return AI_BEHAVIOR_DELAY
 
-	_update_combat_intent(controller, pawn, target)
+	if(swing_ready)
+		_update_attack_intent(controller, pawn, target)
+		_update_combat_intent(controller, pawn, target)
 	var/list/modifiers = list()
 	if(pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS && AI_INT_SCALE_PROB(pawn, HUMAN_NPC_RMB_ATTEMPT_CHANCE))
 		#ifdef NPC_THINK_DEBUG
@@ -147,6 +160,9 @@
 	if(!swing_at)
 		return AI_BEHAVIOR_DELAY
 
+	if(HAS_TRAIT(pawn, TRAIT_DEADITE) && isliving(swing_at) && pawn.Adjacent(swing_at) && pawn.next_move <= world.time && !pawn.incapacitated() && pawn.do_deadite_attack(swing_at))
+		return AI_BEHAVIOR_DELAY
+
 	controller.ai_interact(swing_at, TRUE, TRUE, modifiers)
 
 	if(pawn.next_click < world.time)
@@ -167,6 +183,48 @@
 	. = ..()
 	var/mob/living/carbon/human/pawn = controller.pawn
 	SEND_SIGNAL(pawn, COMSIG_COMBAT_TARGET_SET, FALSE)
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_swing_ready(mob/living/carbon/human/pawn)
+	var/swing_at = world.time + pawn.npc_reaction_time()
+	return swing_at > pawn.next_click && swing_at >= pawn.next_move
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_update_attack_intent(datum/ai_controller/controller, mob/living/carbon/human/pawn, atom/target)
+	var/swings_left = controller.blackboard[BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT]
+	if(swings_left > 0)
+		controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT, swings_left - 1)
+		return
+	controller.set_blackboard_key(BB_HUMAN_NPC_ATTACK_INTENT_SWINGS_LEFT, rand(HUMAN_NPC_ATTACK_INTENT_SWINGS_MIN, HUMAN_NPC_ATTACK_INTENT_SWINGS_MAX))
+	if(!AI_INT_SCALE_PROB(pawn, HUMAN_NPC_ATTACK_INTENT_REEVAL_CHANCE))
+		return
+	var/list/possible_intents = npc_attack_intents(pawn)
+	if(length(possible_intents) < 2)
+		return
+	if(npc_select_intent(pawn, _pick_attack_intent(pawn, target, possible_intents)))
+		AI_THINK(pawn, "INTENT: switched attack intent to [pawn.a_intent]")
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_pick_attack_intent(mob/living/carbon/human/pawn, atom/target, list/possible_intents)
+	var/reads_armor = ishuman(target) && pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS && pawn.get_wskill(pawn.get_active_held_item()) >= SKILL_LEVEL_NOVICE
+	var/zone = pawn.zone_selected || BODY_ZONE_CHEST
+	var/list/weighted = list()
+	for(var/datum/intent/intent as anything in possible_intents)
+		var/weight = (intent == possible_intents[1]) ? HUMAN_NPC_PRIMARY_INTENT_WEIGHT : HUMAN_NPC_OTHER_INTENT_WEIGHT
+		weight *= max(intent.damfactor, 0.1)
+		if(reads_armor && _intent_armor_blocked(intent, target, zone))
+			weight *= HUMAN_NPC_INTENT_ARMOR_BLOCKED_MULT
+		weighted[intent] = max(1, round(weight))
+	return pickweight(weighted)
+
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_intent_armor_blocked(datum/intent/intent, mob/living/carbon/human/target, zone)
+	var/d_type = intent.item_d_type
+	var/obj/item/clothing/worn = target.get_best_worn_armor(zone, d_type)
+	if(!worn)
+		return FALSE
+	var/tier = worn.armor.getRating(d_type)
+	if(tier <= 0)
+		return FALSE
+	if(d_type in ARMOR_DR_TYPES)
+		return TRUE
+	return intent.penfactor < tier
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_update_combat_intent(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target)
 	var/attacks_left = controller.blackboard[BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT]
@@ -228,7 +286,7 @@
 	controller.set_blackboard_key(BB_HUMAN_NPC_CURRENT_INTENT_ATTACKS_LEFT, rand(3, 6))
 
 
-/datum/ai_behavior/basic_melee_attack/human_npc/proc/_choose_attack_zone(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target)
+/datum/ai_behavior/basic_melee_attack/human_npc/proc/_choose_attack_zone(datum/ai_controller/controller, mob/living/carbon/human/pawn, mob/living/target, swing_ready = TRUE)
 	// Every path below is one swing, and the special opener doesn't care which zone we picked,
 	// so account for it once here instead of in each branch. Zeroing on a target change is what
 	// keeps "don't open with a special" meaning per fight rather than per mob lifetime.
@@ -236,7 +294,8 @@
 		controller.set_blackboard_key(BB_HUMAN_NPC_SWINGS_TARGET, target)
 		controller.set_blackboard_key(BB_HUMAN_NPC_SWINGS_TAKEN, 0)
 		controller.set_blackboard_key(BB_HUMAN_NPC_ZONE_COMMIT_COUNTER, 0)
-	controller.set_blackboard_key(BB_HUMAN_NPC_SWINGS_TAKEN, controller.blackboard[BB_HUMAN_NPC_SWINGS_TAKEN] + 1)
+	if(swing_ready)
+		controller.set_blackboard_key(BB_HUMAN_NPC_SWINGS_TAKEN, controller.blackboard[BB_HUMAN_NPC_SWINGS_TAKEN] + 1)
 
 	var/forced_zone = controller.blackboard[BB_FORCED_ATTACK_ZONE]
 	if(forced_zone)
@@ -251,6 +310,9 @@
 		// zone every attack, which is the whole reason a cached weakpoint looked like noise.
 		pawn.aimheight_change(wp[4])
 		AI_THINK(pawn, "ZONE: hitting cached weakpoint [wp[1]] (aim [wp[4]])")
+		return
+
+	if(!swing_ready)
 		return
 
 	var/skill_level = pawn.get_wskill(pawn.get_active_held_item())
@@ -570,6 +632,12 @@ GLOBAL_LIST_INIT(npc_weakpoint_zone_weights, list(
 #undef HUMAN_NPC_WEAPON_SPECIAL_CHANCE
 #undef HUMAN_NPC_SPECIAL_EVAL_INTERVAL
 #undef HUMAN_NPC_INTENT_SWITCH_CHANCE
+#undef HUMAN_NPC_ATTACK_INTENT_SWINGS_MIN
+#undef HUMAN_NPC_ATTACK_INTENT_SWINGS_MAX
+#undef HUMAN_NPC_ATTACK_INTENT_REEVAL_CHANCE
+#undef HUMAN_NPC_PRIMARY_INTENT_WEIGHT
+#undef HUMAN_NPC_OTHER_INTENT_WEIGHT
+#undef HUMAN_NPC_INTENT_ARMOR_BLOCKED_MULT
 #undef HUMAN_NPC_RMB_ATTEMPT_CHANCE
 #undef HUMAN_NPC_MIN_INT_FOR_TACTICS
 #undef HUMAN_NPC_FEINT_COOLDOWN

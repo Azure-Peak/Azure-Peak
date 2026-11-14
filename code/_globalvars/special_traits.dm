@@ -43,6 +43,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		apply_dnr_trait(character, player, TRAIT_GENERIC)
 	if(SSgamemode?.dnr_round)
 		apply_dnr_trait(character, player, MERCILESS_ROUND)
+	if(SSgamemode?.lastlegs_round)
+		apply_lastlegs_trait(character, player, MERCILESS_ROUND)
 	if(player.prefs.qsr_pref)
 		apply_qsr_trait(character, player)
 	character.mind.triumph_discount_remaining = is_donator(player.ckey) ? 3 : 0 // donators get first 3 triumph points free, spent on retrieval
@@ -95,11 +97,7 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 		return
 
 	var/virtuous = FALSE
-	var/heretic = FALSE
 	var/species = character.dna.species
-
-	if(istype(player.prefs.selected_patron, /datum/patron/inhumen))
-		heretic = TRUE
 
 	if(player.prefs.statpack.virtuous)
 		virtuous = TRUE
@@ -109,12 +107,12 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	var/datum/virtue/origin_type = player.prefs.virtue_origin
 	var/language_type = player.prefs.extra_language
 	if(virtue_type)
-		if(virtue_check(virtue_type, heretic, species))
+		if(virtue_check(virtue_type, species))
 			apply_virtue(character, virtue_type)
 		else
 			to_chat(character, "Incorrect Virtue parameters! It will not be applied.")
 	if(virtuetwo_type && virtuous)
-		if(virtue_check(virtuetwo_type, heretic, species))
+		if(virtue_check(virtuetwo_type, species))
 			apply_virtue(character, virtuetwo_type)
 		else
 			to_chat(character, "Incorrect Second Virtue parameters! It will not be applied.")
@@ -220,10 +218,8 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 	if(bonus in GLOB.roguetraits)
 		ADD_TRAIT(character, bonus, SPECIES_TRAIT)
 
-/proc/virtue_check(datum/virtue/V, heretic = FALSE, datum/species/species)
+/proc/virtue_check(datum/virtue/V, datum/species/species)
 	if(V)
-		if(istype(V,/datum/virtue/heretic) && !heretic)
-			return FALSE
 		if(V.restricted)
 			if((species.type in V.races))
 				return FALSE
@@ -268,6 +264,9 @@ GLOBAL_LIST_INIT(special_traits, build_special_traits())
 
 /proc/apply_dnr_trait(mob/living/carbon/human/character, client/player, source = TRAIT_GENERIC)
 	ADD_TRAIT(player.mob, TRAIT_DNR, source)
+
+/proc/apply_lastlegs_trait(mob/living/carbon/human/character, client/player, source = TRAIT_GENERIC)
+	ADD_TRAIT(player.mob, TRAIT_LASTLEGS, source)
 
 /proc/apply_qsr_trait(mob/living/carbon/human/character, client/player)
 	ADD_TRAIT(player.mob, TRAIT_QUICKSILVERRESISTANT, TRAIT_GENERIC)

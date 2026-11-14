@@ -64,7 +64,7 @@
 	if(!center)
 		return FALSE
 
-	var/list/affected_turfs = get_curtain_turfs(center, H.dir)
+	var/list/affected_turfs = get_impact_turfs(center)
 
 	for(var/turf/T in affected_turfs)
 		new /obj/effect/temp_visual/telegraph/wall/fire(T)
@@ -74,6 +74,10 @@
 
 	addtimer(CALLBACK(src, PROC_REF(spawn_curtain), affected_turfs, H, H.zone_selected), telegraph_time)
 	return TRUE
+
+/datum/action/cooldown/spell/fire_curtain/get_impact_turfs(atom/center)
+	var/turf/epicenter = get_turf(center)
+	return epicenter ? get_curtain_turfs(epicenter, owner.dir) : list()
 
 /datum/action/cooldown/spell/fire_curtain/proc/get_curtain_turfs(turf/center, facing)
 	var/list/row_turfs = list(center)

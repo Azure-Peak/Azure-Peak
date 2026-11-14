@@ -437,6 +437,38 @@ have ways of interacting with a specific atom and control it. They posses a blac
 	blackboard[BB_AI_ALERT_MODE_UNTIL] = world.time + 30 SECONDS
 	set_ai_status(AI_STATUS_ON)
 
+/datum/ai_controller/proc/force_aggro(mob/living/target, threat = AGGRO_THREAT_TAUNT)
+	if(QDELETED(target) || target == pawn)
+		return FALSE
+	insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, target)
+	var/datum/component/ai_aggro_system/aggro = pawn.GetComponent(/datum/component/ai_aggro_system)
+	if(aggro)
+		aggro.add_threat_to_mob(target, threat)
+		return TRUE
+	if(blackboard[BB_BASIC_MOB_CURRENT_TARGET] == target)
+		return TRUE
+	set_blackboard_key(BB_HIGHEST_THREAT_MOB, target)
+	set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, target)
+	wake_for_combat()
+	CancelActions()
+	return TRUE
+
+/datum/ai_controller/proc/has_aggro(atom/towards)
+	var/list/retaliate_list = blackboard[BB_BASIC_MOB_RETALIATE_LIST]
+	var/list/aggro_table = blackboard[BB_MOB_AGGRO_TABLE]
+	if(towards)
+		return (towards in retaliate_list) || aggro_table?[towards]
+	return length(retaliate_list) || length(aggro_table)
+
+/datum/ai_controller/proc/clear_aggro()
+	clear_blackboard_key(BB_BASIC_MOB_RETALIATE_LIST)
+	clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)
+	clear_blackboard_key(BB_BASIC_MOB_FLEE_TARGET)
+	clear_blackboard_key(BB_HIGHEST_THREAT_MOB)
+	if(blackboard[BB_MOB_AGGRO_TABLE])
+		blackboard[BB_MOB_AGGRO_TABLE] = list()
+	CancelActions()
+
 /// Sets the AI on or off based on current conditions, call to reset after you've manually disabled it somewhere
 /datum/ai_controller/proc/reset_ai_status()
 	set_ai_status(get_expected_ai_status())
@@ -500,6 +532,10 @@ have ways of interacting with a specific atom and control it. They posses a blac
 		var/mob/living/living_pawn = pawn
 		if(living_pawn.stat >= UNCONSCIOUS)
 			return FALSE
+	if(isanimal(pawn))
+		var/mob/living/simple_animal/animal_pawn = pawn
+		if(animal_pawn.tame && animal_pawn.has_buckled_mobs())
+			return FALSE
 	return TRUE
 
 /// Generates a plan and see if our existing one is still valid.
@@ -560,7 +596,7 @@ have ways of interacting with a specific atom and control it. They posses a blac
 			if(iscarbon(moving_pawn) && isliving(current_movement_target))
 				var/mob/living/carbon/carbon_pawn = moving_pawn
 				var/intent_reach = carbon_pawn.used_intent?.reach || 1
-				if(intent_reach > effective_required_distance)
+				if(intent_reach > effective_required_distance && world.time >= blackboard[BB_MELEE_CLOSE_IN_UNTIL])
 					effective_required_distance = intent_reach
 			if(((can_reach && effective_required_distance >= get_dist(moving_pawn, current_movement_target))) || failed_sneak_check > 4) ///Are we close
 				if(ai_movement.moving_controllers[src] == current_movement_target) //We are close enough, if we're moving stop.

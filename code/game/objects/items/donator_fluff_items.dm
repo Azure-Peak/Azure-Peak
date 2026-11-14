@@ -2994,63 +2994,6 @@ As Excaliber."
 	grid_width = 64
 	bigboy = TRUE
 
-// MORTOSASYE
-/obj/item/rogueweapon/woodstaff/implement/morto
-	base_implement_name = null
-	name = "Frozen Vow"
-	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
-	icon_state = "mystralstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/rogueweapon/woodstaff/implement/grand/magos/morto
-	base_implement_name = null
-	name = "Frozen Vow"
-	desc = "A magic staff sheathed in dark ice and crowned with flawless blortz gems of exceptional purity. Each crystalline facet drinks in the arcane energy that would otherwise dissipate into the air with every spell, preserving it within the frozen metal before returning it to its wielder. Extremely cold to the touch."
-	icon_state = "mystralstaff"
-	icon = 'icons/obj/items/donor_weapons_64.dmi'
-
-/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_deepcutdress
-	name = "deep cut dress"
-	desc = "A daring dress with a deep V-cut neckline, secured at the sides by sleek, fitted fabric straps. It is tailored to its owner specific measurements. It seems to have a light coat of frost."
-	icon_state = "mortosasye_deepcutdress"
-	item_state = "mortosasye_deepcutdress"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-	color = null
-	allowed_sex = list(FEMALE)
-
-/obj/item/clothing/suit/roguetown/shirt/dress/silkdress/donator_mortosasye_sunrisegown
-	name = "sunrise gown"
-	desc = "A beautiful gown that seems to shimmer with the light of a rising sun, almost abnormally radiant."
-	icon_state = "mortosasye_sunrisegown"
-	item_state = "mortosasye_sunrisegown"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
-	color = null
-	allowed_sex = list(FEMALE)
-
-/obj/item/clothing/head/roguetown/crown/serpcrown/mortosuncrown
-	name = "sun crown"
-	article = null // prevents it becoming the sun crown.
-	desc = "A far too extravagant crown made of gold, sporting a rontz at the center. The metal has been shaped to resemble sunrays."
-	replace_existing_roguemachine_crown = TRUE
-	icon_state = "mortosasye_suncrown"
-	item_state = "mortosasye_suncrown"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
-	worn_x_dimension = 64
-	worn_y_dimension = 64
-
-/obj/item/clothing/head/roguetown/circlet/donator_mortosasye_golddiadem
-	name = "gold diadem"
-	desc = "A simple diadem sporting a diamond-shape at the center, made of gold. It is a simple, yet elegant piece of jewelry - passed down through generations of the Xulu noble house."
-	icon_state = "mortosasye_golddiadem"
-	item_state = "mortosasye_golddiadem"
-	icon = 'icons/clothing/donor_clothes.dmi'
-	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes64.dmi'
-	worn_x_dimension = 64
-	worn_y_dimension = 64
-
 // RACOBIO
 /obj/item/rogueweapon/woodstaff/implement/racobio
 
@@ -3657,6 +3600,106 @@ As Excaliber."
 			pic.color = get_detail_color()
 		add_overlay(pic)
 
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/apostle
+	name = "apostolic cuirass"
+	desc = "The one whom repents, whom has faith. </br> They whom remain unshaken, by the darkness of the world. </br> \
+	They are whom shall know true peace."
+	icon_state = "apostlecuirass"
+	item_state = "apostlecuirass"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/robed
+	name = "\improper Knight-Apostle's raiment"
+	desc = "The one whom repents, whom has faith. </br> They whom remain unshaken, by the darkness of the world. </br> \
+	They are whom shall know true peace."
+	icon_state = "robedcuirass"
+	item_state = "robedcuirass"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	detail_tag = "_detail"
+	boobed_detail = FALSE
+	color = null
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/robed/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/plate/cuirass/fluted/ornate/robed/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/apostle
+	name = "apostolic plate armor"
+	desc = "Let thy blade pass upon mine flesh. </br>Let mine blood be spill't 'pon the ground. </br>\
+	Let my cries touch the hearts of those I stand a'fore. </br>Let mine be the last sacrifice."
+	icon_state = "apostleplate"
+	item_state = "apostleplate"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/robed
+	name = "\improper Knight-Apostle's heavy raiment"
+	desc = "Let thy blade pass upon mine flesh. </br>Let mine blood be spill't 'pon the ground. </br>\
+	Let my cries touch the hearts of those I stand a'fore. </br>Let mine be the last sacrifice."
+	item_state = "robedplate"
+	icon_state = "robedplate"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	detail_tag = "_detail"
+	boobed_detail = FALSE
+	color = null
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/robed/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/robed/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate/robed
+	name = "\improper Knight-Apostle's heavy raiment"
+	desc = "Let thy blade pass upon mine flesh. </br>Let mine blood be spill't 'pon the ground. </br>\
+	Let my cries touch the hearts of those I stand a'fore. </br>Let mine be the last sacrifice."
+	item_state = "robedplate"
+	icon_state = "robedplate"
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	sleeved = 'icons/clothing/onmob/donor_sleeves_armor.dmi'
+	detail_tag = "_detail"
+	boobed_detail = FALSE
+	color = null
+	detail_color = CLOTHING_WHITE
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate/robed/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/clothing/suit/roguetown/armor/chainmail/hauberk/ornate/robed/update_icon()
+	cut_overlays()
+	if(get_detail_tag())
+		var/mutable_appearance/pic = mutable_appearance(icon(icon, "[icon_state][detail_tag]"))
+		pic.appearance_flags = RESET_COLOR
+		if(get_detail_color())
+			pic.color = get_detail_color()
+		add_overlay(pic)
+
 /obj/item/clothing/head/roguetown/helmet/bascinet/apostle
 	name = "\improper Knight-Apostle's heavy burgonet" //Note; rebuilding these helmets were the only way - to my knowledge - to make these custom details work.
 	desc = "O' Father, hear my cry! Seat me by Your side as my death comes! </br> \
@@ -3803,8 +3846,8 @@ As Excaliber."
 // ROSYSATURNIIDAE
 /obj/item/clothing/mask/rogue/facemask/steel/maille/birdmask
 	name = "beaked mask"
-	desc = "A plated steel mask made to resemble a bird's beak.<br> \
-	While similar to the long masks of Pestra's faithful, this is designed to protect against far less insidious dangers. Namely, bladed weapons.<br> \
+	desc = "A plated steel mask made to resemble a bird's beak.<br>\
+	While similar to the long masks of Pestra's faithful, this is designed to protect against far less insidious dangers. Namely, bladed weapons.<br>\
 	<font color='3399FF'>'The magpie's song, a fleeting flight, guides the heart through the encroaching night.'</font>"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
@@ -3827,12 +3870,17 @@ As Excaliber."
 	detail_color = CLOTHING_GOLD
 	altdetail_color = CLOTHING_GOLD
 
+//ROSYSATURNIIDAE
 /obj/item/clothing/neck/roguetown/psicross/eora/rosecollar
 	name = "rosestone clasped collar"
-	desc = "<font color='FFCCFF'>'To love someone is to choose to let them own a part of your spirit, and to own a part of theirs in return.'</font>"
+	desc = "A simple rigid collar fashioned out of rosestone.</br>\
+	<font color='FFCCFF'>'She's a giver, and a giver's even worse for folks like me...'</font>"
 	icon = 'icons/clothing/donor_clothes.dmi'
 	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
 	icon_state = "rosecollar"
+
+/obj/item/clothing/neck/roguetown/psicross/eora/rosecollar/get_examine_highlight_status()
+	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ODD, HERESYDESC_AASIMAR_BINDING)
 
 // NOIRE + CO.
 /obj/item/clothing/cloak/furcloak/woodland
@@ -5061,6 +5109,7 @@ As Excaliber."
 		to_chat(user, span_info("These lenses won't fit in this mask."))
 		return
 	return ..()
+
 // XLockwoodx
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood
 	name = "aesthetic sanguine jacket"
@@ -5068,3 +5117,12 @@ As Excaliber."
 /obj/item/clothing/suit/roguetown/armor/leather/heavy/jacket/courtphysician/female/lockwood/Initialize(mapload)
 	. = ..()
 	loadoutize()
+
+/obj/item/clothing/head/roguetown/decoration/bluelily
+	name = "tufted blue-lily"
+	desc = "Quite an exotic flower, even for the Kazengun isles. Where white lilies symbolize purity, the indigo hue of these were a sign of its loss.<br>\
+	Thus, across the city of Tateshira, these were commonly used by people to indicate that they were a bathworker or prostitute.<br>\
+	Particularly, those with allegiance to or under the employ of <font color='5E50E9'>house Takahashi</font>, for their extensive connections to the sexual underbelly of the city."
+	icon = 'icons/clothing/donor_clothes.dmi'
+	mob_overlay_icon = 'icons/clothing/onmob/donor_clothes.dmi'
+	icon_state = "bluelily"

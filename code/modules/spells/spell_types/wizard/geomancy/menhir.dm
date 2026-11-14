@@ -40,6 +40,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
+	impact_radius = 1
 	var/boulder_mode = BOULDER_MODE_HEAVE
 	var/heave_damage = SPELL_DMG(90)
 	var/drop_damage = 90
@@ -74,6 +75,22 @@
 		holder.maptext = MAPTEXT(label)
 		holder.maptext_x = 5
 		holder.color = GLOW_COLOR_EARTHEN
+
+/datum/action/cooldown/spell/menhir/proc/is_drop_mode()
+	return boulder_mode == BOULDER_MODE_DROP
+
+/datum/action/cooldown/spell/menhir/proc/set_drop_mode(drop)
+	var/wanted = drop ? BOULDER_MODE_DROP : BOULDER_MODE_HEAVE
+	if(boulder_mode == wanted)
+		return
+	boulder_mode = wanted
+	update_mode_maptext()
+
+/datum/action/cooldown/spell/menhir/get_impact_turfs(atom/center)
+	if(is_drop_mode())
+		return ..()
+	var/turf/epicenter = get_turf(center)
+	return epicenter ? list(epicenter) : list()
 
 /datum/action/cooldown/spell/menhir/cast(atom/cast_on)
 	. = ..()
@@ -123,7 +140,7 @@
 		S.take_damage(drop_damage, BRUTE, "blunt", object_damage_multiplier = 2)
 	for(var/mob/living/L in target)
 		strike_mob(H, L, SPELL_DMG(drop_damage))
-	for(var/turf/T in range(1, target))
+	for(var/turf/T in range(impact_radius, target))
 		if(T == target)
 			continue
 		for(var/mob/living/L in T)

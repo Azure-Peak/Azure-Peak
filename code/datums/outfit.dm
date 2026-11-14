@@ -121,6 +121,12 @@
 		*/
 	var/list/backpack_contents = null
 
+	///Items to go in the armour decor slot.
+	var/list/chest_decor = null
+
+	///Items to go in the head armour's decor slot.
+	var/list/head_decor = null
+
 	/// Internals box. Will be inserted at the start of backpack_contents
 	var/box
 
@@ -258,6 +264,8 @@
 			U.attach_accessory(SSwardrobe.provide_type(accessory, H))
 		else
 			WARNING("Unable to equip accessory [accessory] in outfit [name]. No uniform present!")
+	decorate(H, H.wear_armor, chest_decor, visualsOnly)
+	decorate(H, H.head, head_decor, visualsOnly)
 
 	if(!visualsOnly)
 		// gives a 50/50 chance for hands to be swapped
@@ -319,11 +327,22 @@
 	H.update_body()
 	return TRUE
 
-/datum/outfit/proc/move_storage(obj/item/new_item, turf/T)
+/datum/outfit/proc/move_storage(obj/item/new_item, atom/dest)
+	var/turf/T = get_turf(dest)
 	if(!new_item || !T || QDELETED(new_item))
 		return FALSE
 	new_item.forceMove(T)
 	return TRUE
+
+/datum/outfit/proc/decorate(mob/living/carbon/human/H, obj/item/worn, list/paths, visualsOnly)
+	for(var/path in paths)
+		var/obj/item/decor = SSwardrobe.provide_type(path, H)
+		if(worn && SEND_SIGNAL(worn, COMSIG_TRY_STORAGE_CAN_INSERT, decor, null, TRUE) && SEND_SIGNAL(worn, COMSIG_TRY_STORAGE_INSERT, decor, null, TRUE))
+			continue
+		if(visualsOnly)
+			qdel(decor)
+			continue
+		addtimer(CALLBACK(src, PROC_REF(move_storage), decor, H), 3 SECONDS)
 
 /client/proc/test_spawn_outfits()
 	for(var/path in subtypesof(/datum/outfit/job/roguetown))
@@ -505,6 +524,8 @@
 				num_to_load = 1
 			for(var/i in 1 to num_to_load)
 				preload += type_to_load
+	preload += chest_decor
+	preload += head_decor
 
 	return preload
 

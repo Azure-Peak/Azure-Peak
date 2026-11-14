@@ -130,6 +130,7 @@
 	var/self_cast_possible = TRUE
 	/// The casting range of our spell.
 	var/cast_range = 7
+	var/impact_radius
 	/// If TRUE, this spell may be cast at a target on a different Z-level. Defaults FALSE; only projectile spells opt in.
 	var/allow_cross_z = FALSE
 	/// Variable dictating if the spell will use turf based aim assist.
@@ -809,6 +810,23 @@
 
 	return TRUE
 
+/datum/action/cooldown/spell/proc/get_impact_turfs(atom/center)
+	. = list()
+	var/turf/epicenter = get_turf(center)
+	if(!epicenter || isnull(impact_radius))
+		return
+	for(var/turf/affected in range(impact_radius, epicenter))
+		. += affected
+
+/proc/get_visible_area_turfs(turf/center, radius)
+	. = list()
+	if(!center)
+		return
+	var/list/visible = get_hear(radius, center)
+	for(var/turf/T in range(radius, center))
+		if(T in visible)
+			. += T
+
 /**
  * Check if the target we're casting on is a valid target.
  * For self-casted spells, the target being checked (cast_on) is the caster.
@@ -987,15 +1005,24 @@
 		charge_started_at = world.time
 		charge_target_time = charge_time
 		apply_charge_intent()
+		var/kick_cancels = npc_controlled()
+		if(kick_cancels)
+			RegisterSignal(owner, COMSIG_MOB_KICKED_SUCCESSFUL, PROC_REF(signal_cancel), TRUE)
 		var/success = TRUE
 		if(!do_after(owner, charge_time, needhand = FALSE, extra_checks = CALLBACK(src, PROC_REF(do_after_checks), owner, cast_on), no_interrupt = !require_no_move, allow_movement = !require_no_move))
 			success = FALSE
 			sig_return |= SPELL_CANCEL_CAST
+		if(kick_cancels && owner)
+			UnregisterSignal(owner, COMSIG_MOB_KICKED_SUCCESSFUL)
 
 		if(currently_charging) // in case charging was interrupted elsewhere
 			on_end_charge(success)
 		if(channel_cast)
 			charged = FALSE
+
+	if(!(sig_return & SPELL_CANCEL_CAST) && npc_controlled() && !npc_cast_safe(cast_on))
+		npc_aborted = TRUE
+		sig_return |= SPELL_CANCEL_CAST
 
 	return sig_return
 

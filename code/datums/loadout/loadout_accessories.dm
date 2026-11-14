@@ -193,7 +193,7 @@
 
 /datum/loadout_item/knifebelt // comes empty
 	name = "Tossblade Belt"
-	path = /obj/item/storage/belt/rogue/leather/knifebelt/black
+	path = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black
 	sort_category = "Accessories"
 
 /datum/loadout_item/blackbelt
@@ -259,4 +259,9 @@
 /datum/loadout_item/belthooks
 	name = "Belt Hooks"
 	path = /obj/item/storage/belt/rogue/leather/belthooks
+	sort_category = "Accessories"
+
+/datum/loadout_item/bandithood
+	name = "Bandit Hood"
+	path = /obj/item/clothing/head/roguetown/menacing/bandit
 	sort_category = "Accessories"

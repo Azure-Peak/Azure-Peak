@@ -463,15 +463,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		AddComponent(/datum/component/butchering, 80 * toolspeed)
 
 	if(max_blade_int)
-		if(randomize_blade_int_on_init)
-			//set blade integrity to randomized 60% to 100% if not already set
-			if(!blade_int)
-				blade_int = max_blade_int + rand(-(max_blade_int * 0.4), 0)
-			//set dismemberment integrity to max_blade_int if not already set
-			if(!dismember_blade_int)
-				dismember_blade_int = max_blade_int
-		else
-			blade_int = max_blade_int
+		blade_int = max_blade_int
 
 /obj/item/Destroy()
 	item_flags &= ~DROPDEL	//prevent reqdels
@@ -619,15 +611,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		to_chat(usr, output)
 
 	if(href_list["explainpenfactor"])
-		var/output = span_info("Armor Penetration determines how much of this attack goes through armor.\n\
-		Each armor piece has a blocking tier (Light, Medium, Heavy, Blacksteel).\n\
-		Penetration below the armor tier: fully blocked.\n\
-		Penetration at or above the armor tier: Only a portion go through, and the armor absorbs the rest as integrity damage.\n\
-		The wider the gap between your penetration and the armor tier, the more damage gets through. Strength is used to determine how much of the penetration go through. Swift Balance weapon may use Speed instead.\n\
-		A dulled weapon penetrates worse, and a chunked one cannot penetrate at all.\n\
-		Piercing damage (arrows, bolts) ignores those modifiers and uses fixed amounts based on whether penetration matches or exceeds the tier.\n\
-		All attacks go through armor with no protection of that type, including attacks with no armor penetration.\n\
-		Blunt and Burn attacks bypass this system entirely and use damage reduction instead.")
+		var/output = span_info(stat_hint_penfactor())
 		if(!usr.client.prefs.no_examine_blocks)
 			output = examine_block(output)
 		to_chat(usr, output)
@@ -1299,16 +1283,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	if(!get_sharpness() || !affecting.can_dismember(src))
 		return 0
 
-	var/total_dam = affecting.get_damage()
 	var/nuforce = get_complex_damage(src, user)
-	var/pristine_blade = TRUE
-	if(max_blade_int && dismember_blade_int)
-		var/blade_int_modifier = (blade_int / dismember_blade_int)
-		//blade is about as sharp as a brick it won't dismember shit
-		if(blade_int_modifier <= 0.15)
-			return 0
-		nuforce *= blade_int_modifier
-		pristine_blade = (blade_int >= (dismember_blade_int * 0.95))
 
 	if(user)
 		if(istype(user.rmb_intent, /datum/rmb_intent/weak))
@@ -1318,10 +1293,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(user.used_intent.blade_class == BCLASS_CHOP) //chopping attacks always attempt dismembering
 			nuforce *= 1.1
-		else if(user.used_intent.blade_class == BCLASS_CUT)
-			if(!pristine_blade && (total_dam < affecting.max_damage * 0.8))
-				return 0
-		else
+		else if(user.used_intent.blade_class != BCLASS_CUT)
 			return 0
 
 	return affecting.dismemberment_chance_from_force(nuforce, zone_sel)
@@ -1733,11 +1705,11 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 			if(!def_armor.blunt && !def_armor.slash && !def_armor.stab && !def_armor.piercing)
 				str += "<b>NO ARMOR!</b>"
 			else
-				var/defense = "[SPAN_TOOLTIP("Each tier increases effective HP of the armor by 20%. Absorbed attacks never reach HP. The armor must be broken first.", "<u><b>ABSORB:</b></u>")] [colorgrade_rating("BLUNT", def_armor.blunt, elaborate = TRUE, max_tier = 5)]"
+				var/defense = "[SPAN_TOOLTIP(stat_hint_absorb(), "<u><b>ABSORB:</b></u>")] [colorgrade_rating("BLUNT", def_armor.blunt, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
-				defense += "[SPAN_TOOLTIP("Each tier reduces damage by 20% of base. Reduced damage still reaches HP. Armor absorbs what was blocked.", "<u><b>REDUCE:</b></u>")] [colorgrade_rating("BURN", def_armor.fire, elaborate = TRUE, max_tier = 5)]"
+				defense += "[SPAN_TOOLTIP(stat_hint_reduce(), "<u><b>REDUCE:</b></u>")] [colorgrade_rating("BURN", def_armor.fire, elaborate = TRUE, max_tier = 5)]"
 				defense += "<br>"
-				defense += "[SPAN_TOOLTIP("Blocks attacks below this tier (Armor takes all damage). Same tier penetrates 20% (80% goes to armor). Exceeding tier penetrates fully.", "<u><b>BLOCK:</b></u>")] "
+				defense += "[SPAN_TOOLTIP(stat_hint_block(), "<u><b>BLOCK:</b></u>")] "
 				defense += "[colorgrade_rating("SLASH", def_armor.slash, elaborate = TRUE)] | "
 				defense += "[colorgrade_rating("STAB", def_armor.stab, elaborate = TRUE)] | "
 				defense += "[colorgrade_rating("PIERCING", def_armor.piercing, elaborate = TRUE)]"

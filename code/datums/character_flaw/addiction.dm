@@ -258,6 +258,7 @@
 	icon_state = "masochist"
 
 /datum/charflaw/addiction/masochist/on_mob_creation(mob/living/living)
+	. = ..()
 	living.pain_threshold += 10
 
 /// LOVEFIEND

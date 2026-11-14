@@ -192,8 +192,7 @@
 					spawn(random_delay SECONDS)
 						var/mob_type = pickweight(vengeance_mobs)
 						var/mob/living/simple_animal/hostile/vengeance_mob = new mob_type(spawnloc)
-						vengeance_mob.attack_same = FALSE
-						vengeance_mob.del_on_deaggro = 45 SECONDS
+						vengeance_mob.AddComponent(/datum/component/deaggro_despawn, 45 SECONDS)
 						vengeance_mob.faction += "ambush"
 						playsound(spawnloc, 'sound/mobs/abyssal/abyssal_pain.ogg', 50, 1)
 		var/random_curiosity_reward = rand(2,max(3, 6 - calyx_uses))

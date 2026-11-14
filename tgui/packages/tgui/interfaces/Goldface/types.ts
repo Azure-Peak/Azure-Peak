@@ -206,6 +206,7 @@ export type VendingPack = {
   price: number;
   price_base: number;
   price_tariff: number;
+  has_stats?: BooleanLike;
 };
 
 export type VendingData = {

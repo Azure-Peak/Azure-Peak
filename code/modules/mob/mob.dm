@@ -528,10 +528,9 @@ GLOBAL_VAR_INIT(mobids, 1)
 		var/examine_time = client.recent_examines[ref_to_atom]
 		if(examine_time && (world.time - examine_time < EXAMINE_MORE_WINDOW))
 			var/list/more = A.examine_more(src)
-			if(!length(more))
-				more += span_notice("<i>I look [A] over again, but find nothing more of interest.</i>")
-			to_chat(src, client.prefs.no_examine_blocks ? more.Join("\n") : examine_block(more.Join("\n")))
-			return
+			if(length(more))
+				to_chat(src, client.prefs.no_examine_blocks ? more.Join("\n") : examine_block(more.Join("\n")))
+				return
 		client.recent_examines[ref_to_atom] = world.time // set to when we last normal examine'd them
 		addtimer(CALLBACK(src, PROC_REF(clear_from_recent_examines), ref_to_atom), RECENT_EXAMINE_MAX_WINDOW)
 
@@ -1352,7 +1351,7 @@ GLOBAL_VAR_INIT(mobids, 1)
 	if(old_hydration < 990 && hydration >= 990)
 		to_chat(src, span_warning("I can't drink anymore!"))
 	else if(old_hydration < 950 && hydration >= 950)
-		to_chat(src, span_warning("My belly's sloshing."))
+		to_chat(src, span_warning("I'm almost at my limit for drinking."))
 	else if(old_hydration < 900 && hydration >= 900)
 		to_chat(src, span_notice("I had plenty to drink."))
 	else if(old_hydration < 800 && hydration >= 800)

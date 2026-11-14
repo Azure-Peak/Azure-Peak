@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "All towner roles will now have the Take Apprentice Spell. Take a merc along on your fishing trip."

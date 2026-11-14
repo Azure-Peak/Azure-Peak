@@ -1,0 +1,4 @@
+author: "kilozombie"
+delete-after: True
+changes:
+  - balance: "Gronnic talismans now have different names from each other, letting you tell them apart at a glance (without giving away the meaning of each)"

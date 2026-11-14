@@ -124,6 +124,13 @@
 		categories.Insert(1, "All")
 	return categories
 
+/proc/recipe_icon_html(path, mob/user)
+	if(!ispath(path, /atom))
+		return ""
+	var/atom/sample = new path()
+	. = icon2html(sample, user)
+	qdel(sample)
+
 /proc/generate_recipe_detail_html(path, mob/user)
 	if(istext(path) && SScooking?.auto_single_lookup[path])
 		var/datum/food_recipe/single_cook/auto = SScooking.auto_single_lookup[path]
