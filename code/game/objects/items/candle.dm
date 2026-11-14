@@ -31,7 +31,8 @@
 	. = ..()
 	if(!proximity)
 		return
-	if(lit && !ismob(A))
+	var/obj/O = A
+	if(lit && !ismob(A) && (user.cmode || !(isturf(A) || (isobj(A) && (O.resistance_flags & FLAMMABLE)))))
 		A.fire_act()
 
 /obj/item/candle/attack(mob/living/M, mob/living/user)
@@ -54,6 +55,10 @@
 
 /obj/item/candle/spark_act()
 	fire_act()
+
+/obj/item/candle/get_mechanics_examine(mob/user)
+	. = ..()
+	. += IGNITER_HINT
 
 /obj/item/candle/get_temperature()
 	return lit * heat

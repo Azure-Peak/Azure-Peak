@@ -74,6 +74,9 @@
 //	smooth = SMOOTH_MORE
 //	canSmoothWith = list(/turf/closed/mineral/rogue, /turf/closed/mineral, /turf/closed/wall/mineral/rogue/stonebrick, /turf/closed/wall/mineral/rogue/wood, /turf/closed/wall/mineral/rogue/wooddark, /turf/closed/wall/mineral/rogue/decowood, /turf/closed/wall/mineral/rogue/decostone, /turf/closed/wall/mineral/rogue/stone, /turf/closed/wall/mineral/rogue/stone/moss, /turf/open/floor/rogue/cobble, /turf/open/floor/rogue/dirt, /turf/open/floor/rogue/grass)
 	neighborlay = "dirtedge"
+	burn_power = 30
+	spread_chance = 2
+	burnthrough = TRUE
 
 /turf/open/floor/rogue/ruinedwood/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -112,6 +115,9 @@
 	tiled_dirt = FALSE
 	landsound = 'sound/foley/jumpland/grassland.wav'
 	slowdown = 0
+	burn_power = 16
+	spread_chance = 10
+	burnthrough = TRUE
 
 /turf/open/floor/rogue/twig
 	name = "twig flooring"
@@ -123,6 +129,9 @@
 	tiled_dirt = FALSE
 	landsound = 'sound/foley/jumpland/grassland.wav'
 	slowdown = 0
+	burn_power = 16
+	spread_chance = 6
+	burnthrough = TRUE
 
 /turf/open/floor/rogue/twig/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -151,6 +160,9 @@
 	smooth = SMOOTH_MORE
 	landsound = 'sound/foley/jumpland/woodland.wav'
 	canSmoothWith = list(/turf/open/floor/rogue/wood,/turf/open/floor/carpet)
+	burn_power = 30
+	spread_chance = 2
+	burnthrough = TRUE
 
 /turf/open/floor/rogue/wood/nosmooth //these are here so we can put wood floors next to each other but not have them smooth
 	name = "wooden floorboards"
@@ -168,6 +180,9 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+	burn_power = 30
+	spread_chance = 2
+	burnthrough = TRUE
 
 /turf/open/floor/rogue/woodturned/nosmooth
 	name = "wooden floorboards"
@@ -185,6 +200,9 @@
 	clawfootstep = FOOTSTEP_WOOD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
+	burn_power = 30
+	spread_chance = 2
+	burnthrough = TRUE
 
 /turf/open/floor/rogue/rooftop/north
 	dir = 1
@@ -285,7 +303,6 @@
 	canSmoothWith = list(/turf/open/floor/rogue/snow,
 						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowedge"
-	spread_chance = 0
 	snowy = TRUE
 
 /turf/open/floor/rogue/snow/Initialize(mapload)
@@ -332,7 +349,6 @@
 	canSmoothWith = list(/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/frozen_water,)
 	neighborlay = "snowroughedge"
-	spread_chance = 0
 
 /turf/open/floor/rogue/snowrough/Initialize(mapload)
 	dir = pick(GLOB.cardinals)
@@ -489,9 +505,8 @@
 						/turf/open/floor/rogue/snowrough,
 						/turf/open/floor/rogue/frozen_water) // one-sided, see dirt/winter
 	neighborlay = "grassedge"
-
-	spread_chance = 15
 	burn_power = 6
+	spread_chance = 5
 
 /turf/open/floor/rogue/grass/Initialize(mapload)
 	dir = pick(GLOB.cardinals)

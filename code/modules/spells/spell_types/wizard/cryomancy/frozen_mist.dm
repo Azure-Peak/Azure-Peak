@@ -134,10 +134,7 @@
 		// Extinguish burning objects and hotspots in the mist
 		for(var/obj/O in T.contents)
 			O.extinguish()
-		var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
-		if(hotspot)
-			new /obj/effect/temp_visual/small_smoke(T)
-			qdel(hotspot)
+		T.quench()
 		for(var/mob/living/L in T.contents)
 			if(L.anti_magic_check())
 				continue
