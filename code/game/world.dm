@@ -6,6 +6,8 @@ GLOBAL_VAR(restart_counter)
 //https://github.com/Cyberboss/tgstation/blob/1afa69d66adfc810ab68c45a4fa5985c780ba6ff/code/game/world.dm#L10
 //But note that not all of this necessarily applies to us(particularly proccalls)
 
+#define USE_BYOND_TRACY
+
 /world/proc/Genesis(tracy_initialized = FALSE)
 	#ifdef USE_BYOND_TRACY
 	#warn USE_BYOND_TRACY is enabled
