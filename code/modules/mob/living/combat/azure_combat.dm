@@ -238,7 +238,7 @@
 	if(has_status_effect(/datum/status_effect/buff/clash) || has_status_effect(/datum/status_effect/debuff/clashcd) || has_status_effect(/datum/status_effect/buff/clash/limbguard))
 		return FALSE
 	if(!get_active_held_item())
-		if(get_skill_level(/datum/skill/combat/unarmed) < 3)
+		if(get_skill_level(/datum/skill/combat/unarmed) < 3 && !(HAS_TRAIT(src, TRAIT_MINERALCLAWS)))
 			to_chat(src, span_warning("I'm not skilled enough in the art of unarmed combat to guard without a weapon!"))
 			return FALSE
 	if(r_grab || l_grab || length(grabbedby))

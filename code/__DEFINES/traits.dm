@@ -117,6 +117,7 @@
 #define TRAIT_CRITICAL_RESISTANCE "Critical Resistance" //shrug off a certain number of crits.
 
 #define TRAIT_IRONMAN "Construct" // basically rotman but not really, used for diff flavor of some things
+#define TRAIT_ROCKMAN "Geohearted" // basically ironman but not really, used for diff flavor of some things
 
 //Near the above, this makes you silver weak + while-sundered ignore paincrit traits, define another w/ TRAIT_LYCANRESILENCE if you need another silver weak, stun immune exemption that still burns from silver.
 #define TRAIT_SILVER_WEAK "Silver Weakness"
@@ -187,6 +188,7 @@
 
 // ROGUEspecialTRAITS (description when rmb skills button)
 #define TRAIT_CIVILIZEDBARBARIAN "Expert Pugilist"
+#define TRAIT_MINERALCLAWS "Mineral Claws"
 #define TRAIT_ANNOYINGVOICE "Annoying Voice"
 #define TRAIT_WATERBREATHING "Water Breathing"
 
@@ -423,7 +425,8 @@
 #define TRAIT_CICERONE "Cicerone"
 #define TRAIT_FACELESS_KNOWN "Faceless but Known" //recognizable despite having no face (skeletonized head - for skeleton) — does NOT bypass TRAIT_DISFIGURED
 #define TRAIT_NOHUNGER	"Foodless"
-#define TRAIT_LIGHT_STEP	"Light Step"
+#define TRAIT_LIGHT_STEP "Light Step"
+#define TRAIT_HEAVYSET "Heavyset Frame"
 #define TRAIT_STRENGTH_UNCAPPED "Strength Unbound"	//ignores the STR softcap.
 #define TRAIT_NECRAS_VOW "Necra's Vow"
 #define TRAIT_PESTRAS_BLESSING "Pestra's blessing"
@@ -612,6 +615,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PERFECT_TRACKER = span_info("I am a master at pursuing those I hunt. I can discern every last detail within a spotted track, and any attempts to hide said-tracks will fail to deceive me."),//Hearthstone port.
 	TRAIT_ZIZOSIGHT = span_info("Zizo blesses my eyes to be unburdened by the night. I can also somewhat judge if a corpse can be reanimated or not."), //Hearthstone change.
 	TRAIT_CIVILIZEDBARBARIAN = span_info("My rigorous training in the martial arts has turned me into a living weapon. No limb is out of reach for my fists and feet, and my unarmed strikes are now stronger (+4 Unarmed Damage). My parrying with bracers, knuckles, or bandages is significantly more effective."),
+	TRAIT_MINERALCLAWS = span_info("My unarmed strikes are now stronger (+4 Unarmed Damage) and they can now cut down my foes. My parrying is also more effective, although parrying will cause minor recoil damage to my arms."),
 	TRAIT_ANNOYINGVOICE = span_sans("I am cursed with an odd voice."),
 	TRAIT_SQUIRE_REPAIR = span_info("Trained at my Master's side, I can restore any kind of gears with time and polish them until they gleam like new."),
 	TRAIT_WATERBREATHING = span_info("I do not drown in bodies of water."),
@@ -669,7 +673,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_BETTER_SLEEP = span_info("I recover more energy when sleeping."),
 	TRAIT_ROTMAN = span_necrosis("I am partially undead. My heart does not beat."),
 	TRAIT_DEADITE = span_necrosis("I am a feral deadite, anyone can tell at a glance, regardless of my equipment. I am stiff and unthinking, my trait-defining techniques and smarts in lyfe will not always follow me into this undeath, I cannot benefit from woodwalker or falling immunity. <b>My wounds and injuries will passively regenerate away as long as I am not set ablaze.</b>"),
-	TRAIT_IRONMAN = span_info("I am an artificial being with a physiology unlike that of organics and react very little to physical trauma. Minerals, gems and ingots restore my structure, but electrocution is especially fatal to me. When critically damaged, I can be stabilized through sticks or rocks, but I will rapidly decay otherwise if not repaired in time. I can process certain materials on the go, and with empty hands, Combat Mode active, and a STRONG stance, I can mine mineral walls and topple trees by bumping into them."),
+	TRAIT_IRONMAN = span_info("I am an artificial being, wired different from organics. I cannot be healed by natural nor miraculous means, but I can be repaired with a hammer or arcyne. I don't react much to pain, but still feel it. I can consume minerals and ore to heal, and electrocution can be quite fatal to me."),
+	TRAIT_ROCKMAN = span_info("My core is made of a 'Geoheart', which makes my physiology more 'golem-like', compared to the usual Construct. I cannot be repaired by any means, but if I take fatal damage, I can eventually bounce back as long as my body's current integrity can sustain my lyfe."),
 	TRAIT_EASYDISMEMBER = span_info("My limbs are frail and fragile. They can be dismembered with greater ease, including my neck."),
 	TRAIT_HARDDISMEMBER = span_info("My body is strong and endurant. My limbs are not easily dismembered."),
 	TRAIT_NOPAIN = span_info("I feel no pain. I can endure more burns before collapsing."),
@@ -695,6 +700,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_AGENT_CHURCH = span_info("I am a Benefactor of the Church of Azuria. The faithful know my name."),
 	TRAIT_ARREARS = span_smallred("I am behind on my poll levy. The Stewardry keeps the tally; the garrison may mark my destitution."),
 	TRAIT_LIGHT_STEP = span_info("My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker."),
+	TRAIT_HEAVYSET = span_info("I have a lot of bulk to my form. It takes a good while for me to stand up from being prone, and I can't dodge with any form of grace."),
 	TRAIT_HARDSOLE = span_info("My steps are tempered by countless trials. Stepping on glass or sharp objects won't impair me."),
 	TRAIT_NOMOOD = span_info("I feel no sorrow, no joy, and no stress."),
 	TRAIT_DETACHED = span_info("Nothing could move me. Any emotion I show is a facade."),

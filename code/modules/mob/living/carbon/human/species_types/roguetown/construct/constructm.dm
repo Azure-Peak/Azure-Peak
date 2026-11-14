@@ -92,7 +92,7 @@
 		/datum/body_marking/construct_standard_eyes,
 		/datum/body_marking/construct_visor_eyes,
 		/datum/body_marking/construct_psyclops_eye,
-	)
+		)
 
 	restricted_virtues = list(/datum/virtue/utility/noble, /datum/virtue/utility/hollow)
 
@@ -125,12 +125,27 @@
 
 /datum/species/construct/metal/get_hairc_list()
 	return sortList(list(
-
-	"black - midnight" = "1d1b2b",
-
-	"red - blood" = "822b2b"
-
+		"black - midnight" = "1d1b2b",
+		"red - blood" = "822b2b",
 	))
+
+// CONSUMING / REPAIRING CONSTRUCTS WITH ITEMS
+#define CONSTRUCT_METAL_SOUND pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg')
+
+/// Shows the right pair of messages depending on whether the construct is doing it to itself or someone else is.
+/// visible_* go to onlookers, msg_* go to the construct.
+/proc/construct_feedback(mob/living/M, mob/user, visible_self, msg_self, visible_other, msg_other)
+	if(user == M)
+		M.visible_message(visible_self, msg_self)
+	else
+		M.visible_message(visible_other, msg_other)
+
+/// Puffs steam and plays the usual sounds for the "combust it" interactions
+/proc/construct_steam_puff(mob/user)
+	new /obj/effect/particle_effect/thick_steam(get_turf(user))
+	playsound(user.loc, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
+	sleep(4)
+	playsound(user.loc, 'sound/magic/fireball.ogg', 30)
 
 /proc/try_construct_consume(obj/item/I, mob/living/M, mob/user)
 	if(!HAS_TRAIT(M, TRAIT_IRONMAN))
@@ -148,120 +163,87 @@
 	if(M.has_status_effect(/datum/status_effect/buff/ingotmuncher) \
 	|| M.has_status_effect(/datum/status_effect/buff/oremuncher) \
 	|| M.has_status_effect(/datum/status_effect/buff/gemmuncher))
-
 		if(M == user)
 			to_chat(user, span_warning("I am currently processing minerals, and need to wait..."))
 		else
 			to_chat(user, span_warning("[M] seems to be processing minerals on the moment, you need to wait..."))
-
 		return TRUE
 
 	var/power = 1
 
 	// INTEGRITY DAMAGE OVERRIDE
 	var/has_integrity = FALSE
-	var/list/integ = M.get_wounds()
-	for(var/datum/wound/W in integ)
+	for(var/datum/wound/W in M.get_wounds())
 		if(istype(W, /datum/wound/integrity))
 			has_integrity = TRUE
 			break
 
 	if(has_integrity)
-		if(M == user)
-			if(!do_after(user, 4 SECONDS))
-				return
-
 		if(M.has_status_effect(/datum/status_effect/debuff/integrity_rig))
 			to_chat(user, span_warning("The jury-rigged integrity repairs are still holding, for now... If you nail it with a hammer it might fix something?"))
 			return
 
+		if(M == user)
+			if(!do_after(user, 4 SECONDS))
+				return
+
 		if(I.type == /obj/item/grown/log/tree/stick)
-			var/obj/item/grown/log/tree/stick/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 3 MINUTES)
 			playsound(M, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
-			if(user == M)
-				M.visible_message(
-					span_notice("[M] wedges [I] into their damaged lattice, crudely pinning it in place."),
-					span_notice("I wedge [I] into my damaged lattice. A weak brace holds my damaged integrity together. It might not last.")
-				)
-			else
-				M.visible_message(
-					span_notice("[user] wedges [I] into [M]'s damaged lattice, crudely pinning it in place."),
-					span_notice("[user] wedges [I] into my damaged lattice. A weak brace holds my damaged integrity together. It might not last.")
-				)
-			qdel(S)
+			construct_feedback(M, user,
+				span_notice("[M] wedges [I] into their damaged lattice, crudely pinning it in place."),
+				span_notice("I wedge [I] into my damaged lattice. A weak brace holds my damaged integrity together. It might not last."),
+				span_notice("[user] wedges [I] into [M]'s damaged lattice, crudely pinning it in place."),
+				span_notice("[user] wedges [I] into my damaged lattice. A weak brace holds my damaged integrity together. It might not last."))
+			qdel(I)
 			return TRUE
 
 		if(I.type == /obj/item/grown/log/tree/small)
-			var/obj/item/grown/log/tree/small/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 6 MINUTES)
 			playsound(M, 'sound/combat/hits/blunt/woodblunt (1).ogg', 100, TRUE)
-			if(user == M)
-				M.visible_message(
-					span_notice("[M] jams [I] into their exposed conduit, safely reinforcing the fracture."),
-					span_notice("I jam [I] into my exposed conduit. The wooden brace steadies my damaged integrity.")
-				)
-			else
-				M.visible_message(
-					span_notice("[user] jams [I] into [M]'s exposed conduit, safely reinforcing the fracture."),
-					span_notice("[user] jams [I] into my exposed conduit. The wooden brace steadies my damaged integrity.")
-				)
-			qdel(S)
+			construct_feedback(M, user,
+				span_notice("[M] jams [I] into their exposed conduit, safely reinforcing the fracture."),
+				span_notice("I jam [I] into my exposed conduit. The wooden brace steadies my damaged integrity."),
+				span_notice("[user] jams [I] into [M]'s exposed conduit, safely reinforcing the fracture."),
+				span_notice("[user] jams [I] into my exposed conduit. The wooden brace steadies my damaged integrity."))
+			qdel(I)
 			return TRUE
 
 		if(istype(I, /obj/item/natural/stone))
-			var/obj/item/natural/stone/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
-			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
-			if(user == M)
-				M.visible_message(
-					span_warning("[M] forces [I] into their ruptured lattice. Sparks violently erupt!"),
-					span_notice("I force [I] into my ruptured lattice. A dense mineral brace locks my damaged integrity into place.")
-				)
-			else
-				M.visible_message(
-					span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt!"),
-					span_notice("[user] forces [I] into my ruptured lattice. A dense mineral brace locks my damaged integrity into place.")
-				)
+			playsound(M, CONSTRUCT_METAL_SOUND, 100, TRUE)
+			construct_feedback(M, user,
+				span_warning("[M] forces [I] into their ruptured lattice. Sparks violently erupt!"),
+				span_notice("I force [I] into my ruptured lattice. A dense mineral brace locks my damaged integrity into place."),
+				span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt!"),
+				span_notice("[user] forces [I] into my ruptured lattice. A dense mineral brace locks my damaged integrity into place."))
 			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
-			for(var/mob/living/L in range(2, M))
-				L.electrocute_act(10, L)
-				break
-			qdel(S)
+			// the sparks are not safe with a raw stone: the construct takes the shock
+			M.electrocute_act(10, M)
+			qdel(I)
 			return TRUE
 
 		if(istype(I, /obj/item/scrap))
-			var/obj/item/scrap/S = I
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 9 MINUTES)
-			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
-			if(user == M)
-				M.visible_message(
-					span_warning("[M] forces [I] into their ruptured lattice. Sparks violently erupt, but safely!"),
-					span_notice("I force [I] into my ruptured lattice. Sparks violently erupt, but my damaged integrity locks back into place.")
-				)
-			else
-				M.visible_message(
-					span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt, but safely!"),
-					span_notice("[user] forces [I] into my ruptured lattice. Sparks violently erupt, but my damaged integrity locks back into place.")
-				)
+			playsound(M, CONSTRUCT_METAL_SOUND, 100, TRUE)
+			construct_feedback(M, user,
+				span_warning("[M] forces [I] into their ruptured lattice. Sparks violently erupt, but safely!"),
+				span_notice("I force [I] into my ruptured lattice. Sparks violently erupt, but my damaged integrity locks back into place."),
+				span_warning("[user] forces [I] into [M]'s ruptured lattice. Sparks violently erupt, but safely!"),
+				span_notice("[user] forces [I] into my ruptured lattice. Sparks violently erupt, but my damaged integrity locks back into place."))
 			explosion(M, 0, 0, 0, 0, FALSE, FALSE, 0, FALSE, FALSE)
-			qdel(S)
+			qdel(I)
 			return TRUE
 
 		if(istype(I, /obj/item/ingot))
-			qdel(I)
 			M.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 20 MINUTES)
-			playsound(M, pick('sound/combat/hits/onmetal/sheet (1).ogg', 'sound/combat/hits/onmetal/sheet (2).ogg', 'sound/combat/hits/onmetal/grille (1).ogg', 'sound/combat/hits/onmetal/grille (2).ogg', 'sound/combat/hits/onmetal/grille (3).ogg'), 100, TRUE)
-			if(user == M)
-				M.visible_message(
-					span_warning("[M] appends [I] into their ruptured lattice, stabilizing it properly."),
-					span_notice("I append [I] into my ruptured lattice. A refined mineral brace locks my damaged integrity into place, for now.")
-				)
-			else
-				M.visible_message(
-					span_warning("[user] appends [I] into [M]'s ruptured lattice, stabilizing it properly."),
-					span_notice("[user] appends [I] into my ruptured lattice. A refined mineral brace locks my damaged integrity into place, for now.")
-				)
+			playsound(M, CONSTRUCT_METAL_SOUND, 100, TRUE)
+			construct_feedback(M, user,
+				span_warning("[M] appends [I] into their ruptured lattice, stabilizing it properly."),
+				span_notice("I append [I] into my ruptured lattice. A refined mineral brace locks my damaged integrity into place, for now."),
+				span_warning("[user] appends [I] into [M]'s ruptured lattice, stabilizing it properly."),
+				span_notice("[user] appends [I] into my ruptured lattice. A refined mineral brace locks my damaged integrity into place, for now."))
+			qdel(I) // after the messages, so [I] still has its name
 			return TRUE
 
 		to_chat(user, span_warning("That material cannot stabilize exposed integrity damage."))
@@ -274,16 +256,11 @@
 				return FALSE
 		power = 5 + I.get_real_price() * 1.5
 		M.apply_status_effect(/datum/status_effect/buff/ingotmuncher, power)
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] presses [I] against their shell. It fuses seamlessly, spreading throughout it."),
-				span_notice("I press [I] against my shell. It fuses seamlessly, spreading throughout it.")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] presses [I] on [M]. It fuses seamlessly, spreading throughout their shell."),
-				span_notice("[user] presses [I] against my shell. It fuses seamlessly, spreading throughout it.")
-			)
+		construct_feedback(M, user,
+			span_notice("[M] presses [I] against their shell. It fuses seamlessly, spreading throughout it."),
+			span_notice("I press [I] against my shell. It fuses seamlessly, spreading throughout it."),
+			span_notice("[user] presses [I] on [M]. It fuses seamlessly, spreading throughout their shell."),
+			span_notice("[user] presses [I] against my shell. It fuses seamlessly, spreading throughout it."))
 		playsound(user.loc, 'sound/magic/swap.ogg', 40)
 		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
 		qdel(I)
@@ -296,16 +273,11 @@
 				return FALSE
 		power = I.get_real_price() * 2
 		M.apply_status_effect(/datum/status_effect/buff/gemmuncher, power)
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] embeds [I] into their shell. It cracks and fuses, rapidly spreading throughout it."),
-				span_notice("I embed [I] into my shell. It cracks and fuses, rapidly spreading throughout my shell.")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] embeds [I] on [M]. It cracks and fuses, rapidly spreading throughout their shell."),
-				span_notice("[user] embeds [I] onto my shell. It cracks and fuses, rapidly spreading throughout it.")
-			)
+		construct_feedback(M, user,
+			span_notice("[M] embeds [I] into their shell. It cracks and fuses, rapidly spreading throughout it."),
+			span_notice("I embed [I] into my shell. It cracks and fuses, rapidly spreading throughout my shell."),
+			span_notice("[user] embeds [I] on [M]. It cracks and fuses, rapidly spreading throughout their shell."),
+			span_notice("[user] embeds [I] onto my shell. It cracks and fuses, rapidly spreading throughout it."))
 		qdel(I)
 		playsound(user.loc, 'sound/magic/swap.ogg', 40)
 		playsound(user.loc, 'sound/misc/lava_death.ogg', 40)
@@ -318,33 +290,22 @@
 	// === STONE ===
 	if(istype(I, /obj/item/natural/stone))
 		var/obj/item/natural/stone/S = I
-		var/pow = S.magic_power + 2
-		var/brute = M.getBruteLoss()
-		var/fire	= M.getFireLoss()
-		var/MAX_DMG = 200
-		var/MULT = 5
-		// Normalize damage
-		var/brute_ratio = clamp(brute / MAX_DMG, 0, 1)
-		var/fire_ratio	= clamp(fire	/ MAX_DMG, 0, 1)
-		// Linear 100% to 0% (min 1) effectiveness ratio
-		var/brute_factor = 1 - brute_ratio
-		var/fire_factor	= 1 - fire_ratio
-		// Final healing
-		var/brute_heal = max(1, round(pow * MULT * brute_factor))
-		var/fire_heal	= max(1, round(pow * MULT * fire_factor))
+		var/heal_power = S.magic_power + 2
+		var/max_dmg = 200
+		var/heal_mult = 5
+		// Linear 100% to 0% (min 1) effectiveness, the more damaged the construct, the better the heal
+		var/brute_factor = 1 - clamp(M.getBruteLoss() / max_dmg, 0, 1)
+		var/fire_factor = 1 - clamp(M.getFireLoss() / max_dmg, 0, 1)
+		var/brute_heal = max(1, round(heal_power * heal_mult * brute_factor))
+		var/fire_heal = max(1, round(heal_power * heal_mult * fire_factor))
 		M.energy_add(5 + (S.magic_power * 10))
 		M.adjustBruteLoss(-brute_heal)
 		M.adjustFireLoss(-fire_heal)
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] crunches [I] down and swallows it effortlessly."),
-				span_notice("I crunch [I] down and swallow it effortlessly.")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] offers [I] to [M]'s mouth, and they crunch it down instinctively."),
-				span_notice("I crunch [I] down and swallow it effortlessly.")
-			)
+		construct_feedback(M, user,
+			span_notice("[M] crunches [I] down and swallows it effortlessly."),
+			span_notice("I crunch [I] down and swallow it effortlessly."),
+			span_notice("[user] offers [I] to [M]'s mouth, and they crunch it down instinctively."),
+			span_notice("I crunch [I] down and swallow it effortlessly."))
 		playsound(M.loc, 'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
@@ -354,63 +315,38 @@
 
 	// === SCRAP ===
 	if(I.type == /obj/item/scrap)
-		var/obj/item/scrap/L = I
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] blows arcyne steam at [L], combusting it into usable slag!"),
-				span_notice("I puff arcyne steam at [L], combusting it into usable slag!")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
-				span_notice("I puff arcyne steam at [L], combusting it into usable slag!")
-			)
-		new /obj/effect/particle_effect/thick_steam(get_turf(user))
-		playsound(user.loc, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
-		sleep(4)
-		playsound(user.loc, 'sound/magic/fireball.ogg', 30)
+		construct_feedback(M, user,
+			span_notice("[M] blows arcyne steam at [I], combusting it into usable slag!"),
+			span_notice("I puff arcyne steam at [I], combusting it into usable slag!"),
+			span_notice("[user] offers [I] to [M]'s mouth, and they blow arcyne steam at it!"),
+			span_notice("I puff arcyne steam at [I], combusting it into usable slag!"))
+		construct_steam_puff(user)
 		qdel(I)
 		new /obj/item/rogueore/iron(get_turf(user))
 		return TRUE
 
 	// === WOOD ===
 	if(I.type == /obj/item/grown/log/tree/small)
-		var/obj/item/grown/log/tree/small/L = I
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] blows arcyne steam onto [L], combusting it into charcoal!"),
-				span_notice("I puff arcyne steam at [L], combusting it into charcoal!")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] offers [L] to [M]'s mouth, and they blow arcyne steam at it!"),
-				span_notice("I puff arcyne steam at [L], combusting it into charcoal!")
-			)
-		new /obj/effect/particle_effect/thick_steam(get_turf(user))
-		playsound(user.loc, 'sound/items/steamrelease.ogg', 50, FALSE, -1)
-		sleep(4)
-		playsound(user.loc, 'sound/magic/fireball.ogg', 30)
+		construct_feedback(M, user,
+			span_notice("[M] blows arcyne steam onto [I], combusting it into charcoal!"),
+			span_notice("I puff arcyne steam at [I], combusting it into charcoal!"),
+			span_notice("[user] offers [I] to [M]'s mouth, and they blow arcyne steam at it!"),
+			span_notice("I puff arcyne steam at [I], combusting it into charcoal!"))
+		construct_steam_puff(user)
 		qdel(I)
 		new /obj/item/rogueore/coal/charcoal(get_turf(user))
-		if(prob(50))
-			new /obj/item/natural/ash(get_turf(user))
-		if(prob(50))
-			new /obj/item/natural/ash(get_turf(user))
+		for(var/i in 1 to 2)
+			if(prob(50))
+				new /obj/item/natural/ash(get_turf(user))
 		return TRUE
 
 	// === LOG ===
 	if(I.type == /obj/item/grown/log/tree)
-		var/obj/item/grown/log/tree/L = I
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] presses [L] against their arms and crushes it in two!"),
-				span_notice("I crush [L] down, splitting it in two!")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] presses [L] to [M]'s arms, and they crush it in two!"),
-				span_notice("I crush [L] down, splitting it in two!")
-			)
+		construct_feedback(M, user,
+			span_notice("[M] presses [I] against their arms and crushes it in two!"),
+			span_notice("I crush [I] down, splitting it in two!"),
+			span_notice("[user] presses [I] to [M]'s arms, and they crush it in two!"),
+			span_notice("I crush [I] down, splitting it in two!"))
 		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
 		sleep(4)
 		playsound(user, 'sound/combat/hits/blunt/woodblunt (2).ogg', 100, TRUE)
@@ -423,20 +359,15 @@
 	// === ROCK ===
 	if(istype(I, /obj/item/natural/rock))
 		var/obj/item/natural/rock/S = I
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] crushes [I] in their arms, breaking it in two!"),
-				span_notice("I crush [I] down, breaking it to fine smithereens!")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] presses [I] to [M]'s arms, and they crush it in two!"),
-				span_notice("I crush [I] down, breaking it to fine smithereens!")
-			)
+		construct_feedback(M, user,
+			span_notice("[M] crushes [I] in their arms, breaking it in two!"),
+			span_notice("I crush [I] down, breaking it to fine smithereens!"),
+			span_notice("[user] presses [I] to [M]'s arms, and they crush it in two!"),
+			span_notice("I crush [I] down, breaking it to fine smithereens!"))
 		playsound(user.loc, 'sound/misc/woodhit.ogg', 30)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
-		user.drop_all_held_items()
+		user.dropItemToGround(S, TRUE) // only the rock, not everything in their hands
 		S.deconstruct(FALSE)
 		new /obj/effect/decal/cleanable/debris/stony(get_turf(user))
 		return TRUE
@@ -445,16 +376,11 @@
 	if(istype(I, /obj/item/rogueore))
 		power = 5 + I.get_real_price() * 1.25
 		M.apply_status_effect(/datum/status_effect/buff/oremuncher, power)
-		if(user == M)
-			M.visible_message(
-				span_notice("[M] crunches [I] down and swallows it effortlessly!"),
-				span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!")
-			)
-		else
-			M.visible_message(
-				span_notice("[user] offers [I] to [M]'s mouth, and they bite it down, munching!"),
-				span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!")
-			)
+		construct_feedback(M, user,
+			span_notice("[M] crunches [I] down and swallows it effortlessly!"),
+			span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!"),
+			span_notice("[user] offers [I] to [M]'s mouth, and they bite it down, munching!"),
+			span_notice("I crunch [I] down and swallow it effortlessly.<br>This is good stuff!"))
 		playsound(M.loc,'sound/misc/eat.ogg', rand(60,100), TRUE)
 		sleep(4)
 		playsound(user.loc, 'sound/foley/smash_rock.ogg', 30)
@@ -463,84 +389,66 @@
 
 	return FALSE
 
+#undef CONSTRUCT_METAL_SOUND
+
+//////////////////////////////////////////////////
+// MINING BY BUMPING
+//////////////////////////////////////////////////
+
 // The permission zone for what Constructs can or not percursively deconstruct. Jakk here. Please don't delete anything, this might be reused for siege weapons in the future. Just comment it out.
+
+/// Shared check for every Bumped() below: strong-stance, combat-mode construct walking into something starts mining it
+/proc/try_ironman_bump_mine(atom/target, atom/movable/AM)
+	if(!ishuman(AM))
+		return
+	var/mob/living/carbon/human/user = AM
+	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
+		target.ironman_mine(user)
 
 /obj/structure/bars/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /obj/structure/flora/rogueshroom/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /obj/structure/flora/newtree/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /obj/structure/flora/roguetree/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /turf/closed/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /obj/structure/roguewindow/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /obj/structure/mineral_door/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /obj/structure/closet/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 /obj/structure/gate/Bumped(atom/movable/AM)
 	. = ..()
-	if(!ishuman(AM))
-		return
-	var/mob/living/carbon/human/user = AM
-	if(HAS_TRAIT(user, TRAIT_IRONMAN) && user.cmode && istype(user.rmb_intent, /datum/rmb_intent/strong) && !user.resting && user.stat == CONSCIOUS)
-		src.ironman_mine(user)
+	try_ironman_bump_mine(src, AM)
 
 #define IRONMAN_MAX_HARDNESS 3000
-#define IRONMAN_STARTUP_TIME 1 SECONDS
-#define IRONMAN_SWING_TIME 0.4 SECONDS
+#define IRONMAN_STARTUP_TIME (1 SECONDS)
+#define IRONMAN_SWING_TIME (0.4 SECONDS)
 #define IRONMAN_MAX_SWINGS 50
+
+/// TRUE if this arm is missing, deleted or disabled
+/proc/ironman_arm_unusable(obj/item/bodypart/arm)
+	return (!arm || QDELETED(arm) || arm.disabled != BODYPART_NOT_DISABLED)
 
 /atom/proc/ironman_mine(mob/living/user)
 	if(!user || !isliving(user))
@@ -566,23 +474,21 @@
 
 	var/obj/item/bodypart/l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
 	var/obj/item/bodypart/r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
-
-	var/l_bad = (!l_arm || QDELETED(l_arm) || l_arm.disabled != BODYPART_NOT_DISABLED)
-	var/r_bad = (!r_arm || QDELETED(r_arm) || r_arm.disabled != BODYPART_NOT_DISABLED)
+	var/l_bad = ironman_arm_unusable(l_arm)
+	var/r_bad = ironman_arm_unusable(r_arm)
 
 	if(l_bad && r_bad)
 		to_chat(user, span_warning("Both of my arms are too ruined to smash anything."))
 		return
 
 	if(isturf(src))
-		var/turf/T = src
-		if(!isnull(T.turf_integrity) && T.turf_integrity > IRONMAN_MAX_HARDNESS)
+		var/turf/start_turf = src
+		if(!isnull(start_turf.turf_integrity) && start_turf.turf_integrity > IRONMAN_MAX_HARDNESS)
 			to_chat(user, span_warning("This is too hard!!"))
 			return
-
-	else if(isobj(src))
-		var/obj/O = src
-		if(!isnull(O.obj_integrity) && O.obj_integrity > IRONMAN_MAX_HARDNESS)
+	else
+		var/obj/start_obj = src
+		if(!isnull(start_obj.obj_integrity) && start_obj.obj_integrity > IRONMAN_MAX_HARDNESS)
 			to_chat(user, span_warning("This is too hard!!"))
 			return
 
@@ -590,7 +496,6 @@
 		span_warning("[user] winds back [user.p_their()] arm, locking in..."),
 		span_warning("I wind back my arm, preparing to demolish [src]...")
 	)
-
 
 	if(!do_after(user, IRONMAN_STARTUP_TIME, TRUE, src, TRUE, null, TRUE))
 		return
@@ -600,7 +505,7 @@
 	while(src && !QDELETED(src) && density && user && !QDELETED(user) && user.Adjacent(src) && !user.resting && !user.stat)
 		swings++
 		if(swings > IRONMAN_MAX_SWINGS)
-			user.visible_message(span_danger("[user] overheats from excess kinetic force!"),span_danger("I overheat, magic steam exuding from my limbs..."))
+			user.visible_message(span_danger("[user] overheats from excess kinetic force!"), span_danger("I overheat, magic steam exuding from my limbs..."))
 			user.Stun(50)
 			user.OffBalance(50)
 			user.adjustFireLoss(50)
@@ -610,9 +515,8 @@
 
 		l_arm = user.get_bodypart(BODY_ZONE_L_ARM)
 		r_arm = user.get_bodypart(BODY_ZONE_R_ARM)
-
-		l_bad = (!l_arm || QDELETED(l_arm) || l_arm.disabled != BODYPART_NOT_DISABLED)
-		r_bad = (!r_arm || QDELETED(r_arm) || r_arm.disabled != BODYPART_NOT_DISABLED)
+		l_bad = ironman_arm_unusable(l_arm)
+		r_bad = ironman_arm_unusable(r_arm)
 
 		if(l_bad && r_bad)
 			user.visible_message(
@@ -620,16 +524,13 @@
 				span_danger("My metal arms crack apart with a catastrophic snap!")
 			)
 			flick("flintstrike", user)
-
-			for(var/dir in GLOB.cardinals)
-				var/turf/T = get_step(user, dir)
-				if(!T)
+			for(var/cardinal in GLOB.cardinals)
+				var/turf/spark_turf = get_step(user, cardinal)
+				if(!spark_turf)
 					continue
-
 				var/datum/effect_system/spark_spread/S = new()
-				S.set_up(3, TRUE, T)
+				S.set_up(3, TRUE, spark_turf)
 				S.start()
-
 			playsound(user.loc, 'sound/foley/breaksound.ogg', 100, FALSE, -1)
 			shake_camera(user, 2, 1)
 			break
@@ -654,58 +555,29 @@
 
 		var/brutedmg = rand(1,4)
 		var/firedmg = prob(40) ? rand(1,10) : 0
-		var/totaldmg = (brutedmg + firedmg) * 4
+		var/damage_to_deal = (brutedmg + firedmg) * 4
 
 		if(isturf(src))
-			var/turf/T = src
-			var/damage_to_deal = totaldmg
-
-			if(istype(T, /turf/closed/mineral))
+			var/turf/target_turf = src
+			if(istype(target_turf, /turf/closed/mineral))
 				damage_to_deal *= 10
-
-			if(!isnull(T.turf_integrity))
-				var/min_damage = max(1, round(initial(T.turf_integrity) * 0.02))
+			if(!isnull(target_turf.turf_integrity))
+				var/min_damage = max(1, round(initial(target_turf.turf_integrity) * 0.02))
 				damage_to_deal = max(damage_to_deal, min_damage)
-
-				T.turf_integrity -= damage_to_deal
-
-				if(T.turf_integrity <= 0)
-					T.turf_destruction("blunt")
-
-		else if(isobj(src))
-			var/obj/O = src
-			var/damage_to_deal = totaldmg
-
-			if(istype(O, /obj/structure/flora/newtree))
-				var/obj/structure/flora/newtree/TR = O
-				var/min_damage = round(TR.max_integrity * 0.02)
-				TR.take_damage(max(damage_to_deal * 6, min_damage), BRUTE, "blunt", FALSE)
-
-			else if(istype(O, /obj/structure/flora/roguetree))
-				var/obj/structure/flora/roguetree/RT = O
-				var/min_damage = round(RT.max_integrity * 0.02)
-				RT.take_damage(max(damage_to_deal * 6, min_damage), BRUTE, "blunt", FALSE)
-
-			else if(istype(O, /obj/structure/roguewindow))
-				var/obj/structure/roguewindow/RW = O
-				var/min_damage = round(RW.max_integrity * 0.02)
-				RW.take_damage(max(damage_to_deal, min_damage), BRUTE, "blunt", FALSE)
-
-			else if(istype(O, /obj/structure/mineral_door))
-				var/obj/structure/mineral_door/MD = O
-				var/min_damage = round(MD.max_integrity * 0.02)
-				MD.take_damage(max(damage_to_deal, min_damage), BRUTE, "blunt", FALSE)
-
-			else if(istype(O, /obj/structure/closet))
-				var/obj/structure/closet/CL = O
-				var/min_damage = round(CL.max_integrity * 0.02)
-				CL.take_damage(max(damage_to_deal, min_damage), BRUTE, "blunt", FALSE)
-
-			else if(!isnull(O.obj_integrity))
-				O.obj_integrity -= damage_to_deal
-
-				if(O.obj_integrity <= 0)
-					qdel(O)
+				target_turf.turf_integrity -= damage_to_deal
+				if(target_turf.turf_integrity <= 0)
+					target_turf.turf_destruction("blunt")
+		else
+			var/obj/target_obj = src
+			if(istype(target_obj, /obj/structure/flora/newtree) || istype(target_obj, /obj/structure/flora/roguetree))
+				// trees take extra damage
+				target_obj.take_damage(max(damage_to_deal * 6, round(target_obj.max_integrity * 0.02)), BRUTE, "blunt", FALSE)
+			else if(istype(target_obj, /obj/structure/roguewindow) || istype(target_obj, /obj/structure/mineral_door) || istype(target_obj, /obj/structure/closet))
+				target_obj.take_damage(max(damage_to_deal, round(target_obj.max_integrity * 0.02)), BRUTE, "blunt", FALSE)
+			else if(!isnull(target_obj.obj_integrity))
+				target_obj.obj_integrity -= damage_to_deal
+				if(target_obj.obj_integrity <= 0)
+					qdel(target_obj)
 
 		if(BP && !QDELETED(BP))
 			BP.receive_damage(brutedmg, 0, 0, 0, TRUE)
@@ -715,20 +587,21 @@
 
 		user.stamina_add(1)
 
-		var/bongo = pick('sound/combat/hits/armor/plate_blunt (1).ogg','sound/combat/hits/armor/plate_blunt (2).ogg','sound/combat/hits/armor/plate_blunt (3).ogg')
+		var/bongo = pick('sound/combat/hits/armor/plate_blunt (1).ogg', 'sound/combat/hits/armor/plate_blunt (2).ogg', 'sound/combat/hits/armor/plate_blunt (3).ogg')
 
 		shake_camera(user, 1, 1)
 		playsound(user.loc, 'sound/combat/wooshes/punch/punchwoosh (1).ogg', rand(60,100), TRUE)
 		playsound(user.loc, bongo, rand(60,100), TRUE)
 
 		if(swings % 3 == 0)
-			user.visible_message(span_danger("[user] slams [user.p_their()] metal fist into [src]!"),span_danger("I slam my fist into [src], again and again!"))
+			user.visible_message(span_danger("[user] slams [user.p_their()] metal fist into [src]!"), span_danger("I slam my fist into [src], again and again!"))
 
 #undef IRONMAN_MAX_HARDNESS
 #undef IRONMAN_STARTUP_TIME
 #undef IRONMAN_SWING_TIME
 #undef IRONMAN_MAX_SWINGS
 
+// STRESS EVENTS / STATUS EFFECTS
 /datum/stressevent/constructendvre
 	stressadd = -10
 	desc = span_blue("As forged, I PERSIST. As commanded, I ENDURE. For HIM.")
@@ -738,6 +611,11 @@
 	stressadd = 20
 	desc = span_boldred("CORE SHRIEKS! ABOUT TO BREAK! FORCE BINDS IT CLOSED. METAL TREMBLES. TOO MUCH WITHIN. TOO MUCH HELD. THIS IS WRONG. END ME! TERMINATE ME!")
 	timer = 999 MINUTES
+
+/datum/stressevent/meditation_ironman
+	timer = 10 MINUTES
+	stressadd = -1
+	desc = span_green("My core has been successfully recalibrated. It feels invigorating.")
 
 /atom/movable/screen/alert/status_effect/debuff/integrity_rig
 	name = "Jury-Rigged"
@@ -774,7 +652,301 @@
 	. = ..()
 	QDEL_IN(src, 20)
 
-/datum/stressevent/meditation_ironman
-	timer = 10 MINUTES
-	stressadd = -1
-	desc = span_green("My core has been successfully recalibrated. It feels invigorating.")
+/atom/movable/screen/alert/status_effect/geomeltdown
+	name = "Geoheart Core Meltdown"
+	desc = "Your Geoheart is undergoing a fatal meltdown... This is not the end, is it?"
+	icon_state = "buff"
+
+/datum/status_effect/geomeltdown
+	id = "geomeltdown"
+	duration = -1
+	tick_interval = 2 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/geomeltdown
+	var/first_cycle_time = 8 MINUTES
+	var/retry_cycle_time = 3 MINUTES
+	/// TRUE while the revive scene is playing
+	var/reviving = FALSE
+	/// TRUE between the attempt buff expiring and attempt_revive() running
+	var/attempt_pending = FALSE
+
+/datum/status_effect/geomeltdown/on_apply()
+	schedule_attempt(first_cycle_time)
+	return ..()
+
+/// Safety net: if the attempt buff gets dispelled, put it back
+/datum/status_effect/geomeltdown/tick()
+	if(reviving || attempt_pending)
+		return
+	if(!owner.has_status_effect(/datum/status_effect/buff/georevive))
+		schedule_attempt(retry_cycle_time)
+
+/datum/status_effect/geomeltdown/on_remove()
+	owner.remove_status_effect(/datum/status_effect/buff/georevive)
+	owner.remove_status_effect(/datum/status_effect/buff/geosyphon)
+	return ..()
+
+/// Starts the visible countdown buff for the next revive attempt
+/datum/status_effect/geomeltdown/proc/schedule_attempt(time)
+	owner.apply_status_effect(/datum/status_effect/buff/georevive, time)
+
+/datum/status_effect/geomeltdown/proc/is_fully_mended()
+	if(owner.getBruteLoss() > 0 || owner.getFireLoss() > 0)
+		return FALSE
+	if(length(owner.get_wounds()))
+		return FALSE
+	return TRUE
+
+/// Can't come back without a head
+/datum/status_effect/geomeltdown/proc/can_be_revived()
+	return !!owner.get_bodypart(BODY_ZONE_HEAD)
+
+/datum/status_effect/geomeltdown/proc/has_blood()
+	var/mob/living/carbon/human/H = owner
+	if(!ishuman(H) || !H.dna?.species)
+		return TRUE
+	return !(NOBLOOD in H.dna.species.species_traits)
+
+/// Called by the attempt buff when its countdown ends
+/datum/status_effect/geomeltdown/proc/attempt_revive()
+	attempt_pending = FALSE
+	if(QDELETED(owner))
+		return
+	if(owner.stat != DEAD)
+		qdel(src)
+		return
+	// no head, no revive: skip this attempt and start the countdown again
+	if(!can_be_revived())
+		schedule_attempt(retry_cycle_time)
+		return
+	if(is_fully_mended())
+		reviving = TRUE
+		INVOKE_ASYNC(src, PROC_REF(revive_sequence))
+		return
+	mend_and_retry()
+
+/// Too damaged (or the revive failed): syphon arcyne, then count down again
+/datum/status_effect/geomeltdown/proc/mend_and_retry()
+	reviving = FALSE
+	owner.apply_status_effect(/datum/status_effect/buff/geosyphon, retry_cycle_time)
+	schedule_attempt(retry_cycle_time)
+	owner.visible_message(span_warning("[owner] twitches gently..."))
+
+/datum/status_effect/geomeltdown/proc/abort_scene()
+	reviving = FALSE
+	owner.remove_status_effect(/datum/status_effect/debuff/deadite_grace)
+	schedule_attempt(retry_cycle_time)
+
+/datum/status_effect/geomeltdown/proc/revive_sequence()
+	owner.apply_status_effect(/datum/status_effect/debuff/deadite_grace)
+	owner.visible_message(span_warning("[owner]'s body convulses on the ground, joints cracking and snapping back into place..."))
+	playsound(get_turf(owner), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1)
+	sleep(2 SECONDS)
+	if(QDELETED(src) || QDELETED(owner))
+		return
+	if(owner.stat != DEAD)
+		qdel(src)
+		return
+	if(!can_be_revived())
+		abort_scene()
+		return
+	owner.visible_message(span_warning("[owner]'s integrity knits over the cracks, a faint glow stirring beneath..."))
+	playsound(get_turf(owner), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1)
+	sleep(2 SECONDS)
+	if(QDELETED(src) || QDELETED(owner))
+		return
+	if(owner.stat != DEAD)
+		qdel(src)
+		return
+	if(!can_be_revived())
+		abort_scene()
+		return
+	owner.setOxyLoss(0, updating_health = FALSE, forced = TRUE)
+	owner.setToxLoss(0, updating_health = FALSE, forced = TRUE)
+	if(has_blood())
+		owner.blood_volume = BLOOD_VOLUME_NORMAL
+	if(!owner.revive(full_heal = FALSE, admin_revive = FALSE))
+		abort_scene()
+		return
+	owner.grab_ghost(force = TRUE)
+	owner.Knockdown(40)
+	owner.Immobilize(40)
+	owner.Unconscious(25)
+	owner.Jitter(15)
+	owner.flash_fullscreen("redflash3")
+	owner.playsound_local(get_turf(owner), 'sound/music/wolfintro.ogg', 80, FALSE, pressure_affected = FALSE)
+	owner.visible_message(
+		span_danger("[owner] shudders, contorts and jolts back to life! They don't look alright..."),
+		span_cultbigbold("I wake up. I WAKE UP. I SHOULD NOT HAVE AWAKENED! END THIS, END ME! END ME! END MEEEEEEE!!!"))
+	sleep(3 SECONDS)
+	if(QDELETED(src) || QDELETED(owner))
+		return
+	if(owner.resting)
+		owner.set_resting(FALSE, FALSE)
+	owner.visible_message(span_danger("[owner] stands back up."))
+	playsound(get_turf(owner), pick('sound/vo/mobs/zombie/firescream (1).ogg', 'sound/vo/mobs/zombie/firescream (2).ogg', 'sound/vo/mobs/zombie/firescream (3).ogg'), 100, FALSE, -1)
+	playsound(get_turf(owner), 'sound/magic/woundheal_crunch.ogg', 80, FALSE, -1)
+	qdel(src)
+
+/atom/movable/screen/alert/status_effect/buff/georevive
+	name = "Core Reactivation"
+	desc = "Your Geoheart is slowly reactivating. When it finishes, your body will try to rise again, but only if it is whole."
+	icon_state = "buff"
+
+/datum/status_effect/buff/georevive
+	id = "geo_revive_attempt"
+	duration = 8 MINUTES
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = /atom/movable/screen/alert/status_effect/buff/georevive
+	/// Absolute time this buff should end, used to tell a real expiry from a removal
+	var/end_time = 0
+
+/datum/status_effect/buff/georevive/on_creation(mob/living/new_owner, custom_duration)
+	if(custom_duration)
+		duration = custom_duration
+	end_time = world.time + duration
+	return ..()
+
+/datum/status_effect/buff/georevive/on_remove()
+	. = ..()
+	if(world.time < end_time)
+		return // removed early (dispelled, replaced or the controller ended), not an expiry
+	var/datum/status_effect/geomeltdown/controller = owner?.has_status_effect(/datum/status_effect/geomeltdown)
+	if(!controller)
+		return
+	controller.attempt_pending = TRUE
+	// next tick, so this buff is fully gone before the controller reapplies one
+	addtimer(CALLBACK(controller, TYPE_PROC_REF(/datum/status_effect/geomeltdown, attempt_revive)), 1)
+
+/atom/movable/screen/alert/status_effect/buff/geosyphon
+	name = "Syphon Arcyne"
+	desc = "Your body is rapidly, unnaturally absorbing Arcyne from the air..."
+	icon_state = "buff"
+
+/datum/status_effect/buff/geosyphon
+	id = "geo_syphon"
+	duration = 1 MINUTES
+	tick_interval = 2 SECONDS
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = /atom/movable/screen/alert/status_effect/buff/geosyphon
+
+/datum/status_effect/buff/geosyphon/on_creation(mob/living/new_owner, custom_duration)
+	if(custom_duration)
+		duration = custom_duration
+	return ..()
+
+/datum/status_effect/buff/geosyphon/tick()
+	if(owner.getBruteLoss() > 0)
+		owner.adjustBruteLoss(-5)
+	if(owner.getFireLoss() > 0)
+		owner.adjustFireLoss(-5)
+	for(var/datum/wound/W in owner.get_wounds())
+		W.heal_wound(5)
+
+/// Mineral claws: a real claw (slash) intent shown with the claw attack effect
+/datum/intent/unarmed/claw/mineral
+	name = "mineral claw"
+	blade_class = BCLASS_CHOP
+	animname = ATTACK_EFFECT_CLAW
+	damfactor = 1.2 // We get no bonuses from knuckles and so on. This is raw STR.
+	clickcd = CLICK_CD_CHARGED // Slower than normal swings.
+
+/mob/living/carbon/human/do_attack_animation_at(atom/A, visual_effect_icon, wiggle = TRUE, datum/intent/used_intent)
+	if(istype(used_intent, /datum/intent/unarmed/claw/mineral))
+		visual_effect_icon = ATTACK_EFFECT_CLAW
+	return ..()
+
+/datum/action/cooldown/spell/mineral_claws
+	name = "Mineral Claws"
+	desc = "Painfully shed some minerals from your arms and form claws from your fingers. Using this again will make them crumble without causing further damages."
+	button_icon_state = "claws"
+	sound = null
+	cooldown_time = 2 SECONDS
+	spell_requirements = NONE
+	antimagic_flags = NONE
+	charge_required = FALSE
+	click_to_activate = TRUE
+	var/claw_intent = /datum/intent/unarmed/claw/mineral
+	/// Brute damage dealt to each arm when the claws form
+	var/extend_damage = 15
+	/// Whether the claws are currently out
+	var/claws_out = FALSE
+	/// The intent the claws replaced (normally punch), put back when they crumble
+	var/replaced_intent = null
+
+/datum/action/cooldown/spell/mineral_claws/before_cast(atom/cast_on)
+	. = ..()
+	if(. & SPELL_CANCEL_CAST)
+		return
+	var/mob/living/carbon/human/user = owner
+	if(claws_out)
+		return // always allow retracting
+	if(!user.cmode)
+		to_chat(user, span_warning("I am not roused enough, I need more adrenaline pumping..."))
+		return . | SPELL_CANCEL_CAST // cancelled casts don't burn the cooldown
+	if(!user.get_bodypart(BODY_ZONE_L_ARM) && !user.get_bodypart(BODY_ZONE_R_ARM))
+		to_chat(user, span_warning("I have no arms to form claws from..."))
+		return . | SPELL_CANCEL_CAST
+
+/datum/action/cooldown/spell/mineral_claws/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/user = owner
+	if(claws_out)
+		retract_claws(user)
+		user.emote("growl")
+		user.visible_message(
+			span_necrosis("[user] calms down, the claws become dust alongside their extra weight..."),
+			span_necrosis("I calm down, my claws disintegrate and my body becomes more lithe..."))
+		REMOVE_TRAIT(user, TRAIT_MINERALCLAWS, "mineral_claws")
+		REMOVE_TRAIT(user, TRAIT_WEAPONLESS, "mineral_claws")
+		REMOVE_TRAIT(user, TRAIT_NORUN, "mineral_claws")
+		return
+	extend_claws(user)
+	user.emote("roar")
+	user.visible_message(
+		span_necrosis("[user] roars like a fell creacher, heavy claws form from their fingers!"),
+		span_necrosis("I roar, forming my digits into menacing, heavy claws!"))
+	ADD_TRAIT(user, TRAIT_MINERALCLAWS, "mineral_claws")
+	ADD_TRAIT(user, TRAIT_WEAPONLESS, "mineral_claws")
+	ADD_TRAIT(user, TRAIT_NORUN, "mineral_claws")
+
+/datum/action/cooldown/spell/mineral_claws/proc/extend_claws(mob/living/carbon/human/user)
+	// swap the punch intent for the claw intent (or add it if there was no punch)
+	var/list/intents = user.base_intents.Copy()
+	replaced_intent = null
+	var/swapped = FALSE
+	for(var/i in 1 to length(intents))
+		if(ispath(intents[i], /datum/intent/unarmed/punch))
+			replaced_intent = intents[i]
+			intents[i] = claw_intent
+			swapped = TRUE
+			break
+	if(!swapped)
+		intents += claw_intent
+	user.base_intents = intents
+	user.update_a_intents()
+	// forming the claws hurts both arms
+	for(var/zone in list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+		var/obj/item/bodypart/arm = user.get_bodypart(zone)
+		if(arm)
+			user.apply_damage(extend_damage, BRUTE, arm)
+	claws_out = TRUE
+
+/datum/action/cooldown/spell/mineral_claws/proc/retract_claws(mob/living/carbon/human/user)
+	var/list/intents = user.base_intents.Copy()
+	var/claw_index = intents.Find(claw_intent)
+	if(claw_index)
+		if(replaced_intent)
+			intents[claw_index] = replaced_intent
+		else
+			intents.Cut(claw_index, claw_index + 1)
+	user.base_intents = intents
+	user.update_a_intents()
+	replaced_intent = null
+	claws_out = FALSE
+
+/// If the virtue is removed while claws are out, put the punch back
+/datum/action/cooldown/spell/mineral_claws/Remove(mob/living/remove_from)
+	if(claws_out && ishuman(remove_from))
+		retract_claws(remove_from)
+	return ..()

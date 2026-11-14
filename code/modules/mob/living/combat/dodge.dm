@@ -258,6 +258,10 @@
 		if(defender.STASPD <= 9)
 			ignore_DE_bonus = TRUE
 
+		if(HAS_TRAIT(user, TRAIT_HEAVYSET)) // chud
+			prob2defend = clamp(prob2defend, 5, 60)
+			ignore_DE_bonus = TRUE
+
 		if(attacker_weapon && defender_mainhand)	//Skilldiff applies extra stamloss, tentative
 			drained += (attacker_human.get_wskill(attacker_weapon) - defender_human.get_wskill(defender_mainhand)) * 2
 

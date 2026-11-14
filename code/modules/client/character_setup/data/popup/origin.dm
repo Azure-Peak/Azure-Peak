@@ -16,8 +16,12 @@
 		if(V.restricted == TRUE)
 			if(pref_species.type in V.races)
 				continue
+		// Permitted uses races as a white
+		if(V.permitted == TRUE)
+			if(pref_species.type in V.races)
+				continue
 		// Racial uses races as a whitelist
-		if(istype(V, /datum/virtue/origin/racial))
+		if(istype(V, /datum/virtue/origin/racial) || V.permitted)
 			if(!(pref_species.type in V.races))
 				continue
 		UNTYPED_LIST_ADD(available_origins, V.type)

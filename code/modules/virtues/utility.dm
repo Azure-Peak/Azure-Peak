@@ -481,9 +481,9 @@
 	ui_fa_icon = "ghost"
 	added_stats = list(STATKEY_INT = -1, STATKEY_STR = -2)
 	added_traits = list(TRAIT_FEYBOUND)
-	added_skills = list(list(/datum/skill/misc/medicine, 1, 4),
-						list(/datum/skill/craft/alchemy, 1, 4)
-	)
+	restricted = TRUE
+	races = list(/datum/species/construct/metal) // Geoheart does the trick for that.
+	added_skills = list(list(/datum/skill/misc/medicine, 1, 4), list(/datum/skill/craft/alchemy, 1, 4))
 	added_stashed_items = list("Bag of Leechbait" = /obj/item/storage/roguebag/leechbait)
 
 /datum/virtue/utility/feytouched/apply_to_human(mob/living/carbon/human/recipient)

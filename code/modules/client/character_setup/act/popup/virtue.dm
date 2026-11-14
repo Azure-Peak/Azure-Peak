@@ -26,6 +26,9 @@
 	if(V.restricted == TRUE)
 		if((pref_species.type in V.races))
 			return CHARACTER_ACT_DATA_UPDATE
+	if(V.permitted == TRUE)
+		if(!(pref_species.type in V.races))
+			return CHARACTER_ACT_DATA_UPDATE
 	if(V.virtuous_only && !statpack.virtuous)
 		return CHARACTER_ACT_DATA_UPDATE
 
@@ -38,7 +41,7 @@
 	if(skin_tone == SKIN_COLOR_ROT)
 		var/list/all_virtues = get_all_virtues()
 		var/should_rot = FALSE
-		for(var/datum/virtue/combat/second_chance/R in all_virtues)
+		for(var/datum/virtue/combat/rotcured/R in all_virtues)
 			should_rot = TRUE
 			break
 		if(!should_rot)

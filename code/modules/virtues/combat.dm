@@ -148,8 +148,7 @@
 	add_verb(recipient, /mob/living/carbon/human/proc/emote_ffsalute)
 	add_verb(recipient, /mob/living/carbon/human/proc/toggle_guarded)
 
-
-/datum/virtue/combat/second_chance
+/datum/virtue/combat/rotcured
 	name = "Rotcured"
 	desc = "I was once afflicted with the accursed rot, and was cured. It has left me changed: my limbs are weaker, but I feel no pain and have no need to breathe."
 	custom_text = "Grants Easy Dismember, Painless, Breathless, Deathless, Poison Immune, Deadite Immune and Silver Weakness. You can also eat brains, you don't suffer nausea, and your heart does not beat."
@@ -157,16 +156,14 @@
 	restricted = TRUE
 	races = list(/datum/species/construct/metal, /datum/species/gnoll)
 
-/datum/virtue/combat/second_chance/apply_to_human(mob/living/carbon/human/recipient)
+/datum/virtue/combat/rotcured/apply_to_human(mob/living/carbon/human/recipient)
 	spawn(80)
 		if(QDELETED(src) || QDELETED(recipient))
 			return
-
 		if(recipient.mind.has_antag_datum(/datum/antagonist/skeleton) || recipient.mind.has_antag_datum(/datum/antagonist/lich) || recipient.mind.has_antag_datum(/datum/antagonist/vampire) || recipient.mind.has_antag_datum(/datum/antagonist/vampire/lord) || recipient.mind.has_antag_datum(/datum/antagonist/werewolf) || recipient.mind.has_antag_datum(/datum/antagonist/zombie))
 			to_chat(recipient, "Rotcured cannot be applied to your role, so it has been removed.")
 			QDEL_NULL(src)
 			return
-
 		ADD_TRAIT(recipient, TRAIT_ROTMAN, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_EASYDISMEMBER, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_NOPAIN, TRAIT_VIRTUE)
@@ -175,7 +172,7 @@
 		ADD_TRAIT(recipient, TRAIT_TOXIMMUNE, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_ZOMBIE_IMMUNE, TRAIT_VIRTUE)
 		ADD_TRAIT(recipient, TRAIT_SILVER_WEAK, TRAIT_VIRTUE)
-		to_chat(recipient, "You are no longer a rotting corpse, at least not a dying one.")
+		to_chat(recipient, span_necrosis("You are no longer a rotting corpse, at least not a dying one."))
 
 /datum/virtue/combat/dualwielder
 	name = "Dual Wielder"
@@ -199,3 +196,31 @@
 
 /datum/virtue/combat/combat_aware/apply_to_human(mob/living/carbon/human/recipient)
 	add_verb(recipient, /mob/living/carbon/human/proc/togglecombatawareness)
+
+/datum/virtue/combat/geoheart
+	name = "Geoheart"
+	desc = "Your core and form weren't made by humen hands, not at all. From dust of the minerals and the whims of creatures older than mankind you came, and to dust you shall never return. Existence shall be your eternal suffering."
+	custom_text = "Additionally, your racial speed malus is reduced, and you can shape your minerals into deadly claws."
+	ui_fa_icon = "biohazard"
+	permitted = TRUE
+	races = list(/datum/species/construct/metal)
+
+/datum/virtue/combat/geoheart/apply_to_human(mob/living/carbon/human/recipient)
+	if(!recipient.mind)
+		return
+	recipient.mind.AddSpell(new /datum/action/cooldown/spell/mineral_claws) // Can shape your fingers into claws to cut the enemy instead of punching. This damages you, and while this enables you to parry while unarmored, it'll deal damage directly to your arms. Does not get bonuses from knuckles and such, etc.
+	ADD_TRAIT(recipient, TRAIT_FEYBOUND, TRAIT_VIRTUE) // You're a fey construct, basically.
+	ADD_TRAIT(recipient, TRAIT_ROCKMAN, TRAIT_VIRTUE) // All armor training is negated. Cannot heal from being repaired. Cannot be resurrected by miracles nor by being rewound. All integrity damage you take will absolutely kill you. If you are dead, you will revive around as long as it'd take for a Deathless to come back.
+	ADD_TRAIT(recipient, TRAIT_SHOCKIMMUNE, TRAIT_VIRTUE) // Electricity isn't a problem for you, however...
+	ADD_TRAIT(recipient, TRAIT_HEAVYSET, TRAIT_VIRTUE) // Main drawback, you take longer to stand up. Way longer. Your dodge is capped at 60%, removes your DExpert bonus.
+	ADD_TRAIT(recipient, TRAIT_HARDDISMEMBER, TRAIT_VIRTUE) // This is mostly so because god, being dismembered on this is pmuch a round remove.
+	recipient.change_stat(STATKEY_SPD, 1)
+	for(var/mob/living/hag_mob in GLOB.active_hags)
+		var/datum/mind/hag_mind = hag_mob.mind
+		if(!hag_mind)
+			continue
+		hag_mind.i_know_person(recipient)
+		recipient.mind.i_know_person(hag_mind)
+		if(hag_mind.current)
+			to_chat(hag_mind.current, span_boldnotice("A familiar rhythm pulses in the roots... [recipient.real_name], a Construct, has been shaped by the Fae's arts."))
+	to_chat(recipient, span_boldnotice("The Mossmother's gaze lingers upon you. You are recognized by her daughters."))

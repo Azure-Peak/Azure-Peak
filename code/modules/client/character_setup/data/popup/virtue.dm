@@ -17,6 +17,9 @@
 		if(V.restricted == TRUE)
 			if((pref_species.type in V.races))
 				unavailable = "Restricted from species \"[pref_species.name]\"."
+		if(V.permitted == TRUE)
+			if(!(pref_species.type in V.races))
+				unavailable = "Restricted from species \"[pref_species.name]\"."
 		if(V.virtuous_only && !statpack.virtuous)
 			unavailable = "Must have a Virtuous statpack."
 		UNTYPED_LIST_ADD(virtue_availability, list(

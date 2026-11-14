@@ -743,6 +743,8 @@
 	if(worn_ac_dirty)
 		update_worn_ac_cache()
 	var/ac = max(cached_body_ac, cached_head_ac)
+	if(HAS_TRAIT(src, TRAIT_ROCKMAN) && (ac == ARMOR_CLASS_MEDIUM || ac == ARMOR_CLASS_HEAVY))
+		return FALSE
 	if(ac == ARMOR_CLASS_HEAVY && !HAS_TRAIT(src, TRAIT_HEAVYARMOR))
 		return FALSE
 	if(ac == ARMOR_CLASS_MEDIUM && !HAS_TRAIT(src, TRAIT_HEAVYARMOR) && !HAS_TRAIT(src, TRAIT_MEDIUMARMOR))

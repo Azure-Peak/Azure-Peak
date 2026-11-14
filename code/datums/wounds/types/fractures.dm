@@ -156,6 +156,23 @@
 	)
 	paralysis = TRUE
 	shatter_wound = TRUE
+	var/weakzappy
+
+/datum/wound/fracture/head/shatter/on_life()
+	. = ..()
+	if(HAS_TRAIT(owner, TRAIT_IRONMAN))
+		if(!iscarbon(owner))
+			return
+		var/mob/living/carbon/carbon_owner = owner
+		if(!carbon_owner.has_status_effect(/datum/status_effect/debuff/integrity_rig) || !carbon_owner.surrendering)
+			if(world.time >= weakzappy)
+				weakzappy = world.time + rand(20 SECONDS, 40 SECONDS)
+				carbon_owner.electrocute_act(20, carbon_owner)
+				if(HAS_TRAIT(carbon_owner, TRAIT_ROCKMAN))
+					carbon_owner.adjustBruteLoss(15)
+				if(carbon_owner.getFireLoss() > 450 || carbon_owner.getBruteLoss() > 500)
+					core_meltdown(carbon_owner)
+					carbon_owner.death()
 
 /datum/wound/fracture/head/brain
 	name = "depressed cranial fracture"

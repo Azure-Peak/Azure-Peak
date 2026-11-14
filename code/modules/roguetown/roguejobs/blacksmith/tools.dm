@@ -210,7 +210,11 @@
 					if(W.severity >= WOUND_SEVERITY_CRITICAL)
 						qdel(W)
 						break
-			hammerheal(M, user)
+			if(HAS_TRAIT(M, TRAIT_ROCKMAN))
+				playsound(M.loc, 'sound/misc/bonk.ogg', 100, FALSE, -1)
+				M.visible_message(span_notice("[M] cannot be repaired by this, or any engineer at all."), span_notice("Ow! That smarts!"))
+			else
+				hammerheal(M, user)
 	else
 		. = ..() //normal hit
 

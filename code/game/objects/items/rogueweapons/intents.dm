@@ -759,18 +759,21 @@
 	attack_verb = list("scrapes", "scythes", "rakes")
 	miss_text = "scrape chitinous claws through the air"
 
+//Separate from punch so it does not get buffed from gloves and so on, quite smart ngl
 /datum/intent/unarmed/claw
 	name = "claw"
-	//icon_state
-	attack_verb = list("mauls", "scratches", "claws")
+	icon_state = "incut"
+	attack_verb = list("mauls", "slashes", "claws", "rends")
 	chargetime = 0
-	animname = "cut"
-	hitsound = list('sound/combat/hits/punch/punch (1).ogg', 'sound/combat/hits/punch/punch (2).ogg', 'sound/combat/hits/punch/punch (3).ogg')
+	animname = ATTACK_EFFECT_CLAW
+	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
 	misscost = 1
-	releasedrain = 1	//More than punch cus pen factor.
+	releasedrain = 1
 	swingdelay = 0
-	penfactor = PEN_NONE
-	rmb_ranged = TRUE //for taunt sovl
+	clickcd = CLICK_CD_FAST
+	penfactor = PEN_LIGHT
+	rmb_ranged = TRUE
+	noaa = FALSE
 	candodge = TRUE
 	canparry = TRUE
 	blade_class = BCLASS_CUT

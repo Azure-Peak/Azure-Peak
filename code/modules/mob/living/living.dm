@@ -801,59 +801,75 @@
 /mob/proc/get_contents()
 	return
 
+/mob/living/proc/can_use_rest_action()
+	if(has_status_effect(/datum/status_effect/debuff/clickcd))
+		return FALSE
+	apply_status_effect(/datum/status_effect/debuff/clickcd, 1 SECONDS)
+	return TRUE
+
+/mob/living/proc/get_rest_action_time()
+	return HAS_TRAIT(src, TRAIT_HEAVYSET) ? 4 SECONDS : 2 SECONDS
 
 /mob/living/proc/lay_down()
 	set name = "Lay down"
 	set hidden = 1
-	if(stat)
+
+	if(!can_use_rest_action())
 		return
-	if(pulledby)
-		to_chat(src, span_warning("I'm grabbed!"))
+	if(stat || pulledby || resting)
 		return
 	if(world.time < rest_locked_until)
 		to_chat(src, span_warning("I'm too charged with vigor to lie down!"))
 		return
-	if(!resting)
+
+	if(move_after(src, get_rest_action_time(), target = src))
 		set_resting(TRUE, FALSE)
+
 
 /mob/living/proc/stand_up()
 	set name = "Stand up"
 	set hidden = 1
-	if(stat)
+
+	if(!can_use_rest_action())
 		return
-	if(pulledby)
-		to_chat(src, span_warning("I'm grabbed!"))
+	if(stat || pulledby || !resting)
 		return
-	if(resting)
-		if(!IsKnockdown() && !IsStun() && !IsParalyzed())
-			src.visible_message(span_notice("[src] stands up."))
-			if(move_after(src, 20, target = src))
-				set_resting(FALSE, FALSE)
-				return TRUE
-		else
-			src.visible_message(span_warning("[src] tries to stand up."))
-			return FALSE
+	if(IsKnockdown() || IsStun() || IsParalyzed())
+		src.visible_message(span_warning("[src] tries to stand up."))
+		return FALSE
+
+	src.visible_message(span_info("[src] begins to stand up."))
+
+	if(move_after(src, get_rest_action_time(), target = src))
+		set_resting(FALSE, FALSE)
+		src.visible_message(span_notice("[src] stands up."))
+		return TRUE
+
 
 /mob/living/proc/toggle_rest()
 	set name = "Rest/Stand"
 	set hidden = 1
-	if(stat)
+
+	if(!can_use_rest_action())
 		return
-	if(pulledby)
-		to_chat(src, span_warning("I'm grabbed!"))
+	if(stat || pulledby)
 		return
+
 	if(resting)
-		if(!IsKnockdown() && !IsStun() && !IsParalyzed())
-			src.visible_message(span_info("[src] begins to stand up."))
-			if(move_after(src, 20, target = src))
-				set_resting(FALSE, FALSE)
-		else
+		if(IsKnockdown() || IsStun() || IsParalyzed())
 			src.visible_message(span_warning("[src] struggles to stand up."))
+			return FALSE
+
+		src.visible_message(span_info("[src] begins to stand up."))
+		if(move_after(src, get_rest_action_time(), target = src))
+			set_resting(FALSE, FALSE)
 	else
 		if(world.time < rest_locked_until)
 			to_chat(src, span_warning("I'm too charged with vigor to lie down!"))
 			return
-		set_resting(TRUE, FALSE)
+
+		if(move_after(src, get_rest_action_time(), target = src))
+			set_resting(TRUE, FALSE)
 
 /mob/living/proc/set_resting(rest, silent = TRUE)
 	resting = rest
@@ -928,7 +944,9 @@
 	if(HAS_TRAIT(src, TRAIT_NECRAS_VOW))
 		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
 		return FALSE
-
+	if(HAS_TRAIT(src, TRAIT_ROCKMAN))
+		to_chat(user, span_warning("There is nothing. No response. Just peace, at long last."))
+		return FALSE
 	var/obj/item/bodypart/head = get_bodypart("head")
 	var/obj/item/organ/brain/brain = getorganslot(ORGAN_SLOT_BRAIN)
 	var/obj/item/organ/heart/heart = getorganslot(ORGAN_SLOT_HEART)

@@ -72,7 +72,7 @@
 		for(var/mob/living/carbon/human/H in T.contents)
 			if(!istype(H.dna?.species, /datum/species/construct))
 				continue
-			if(!HAS_TRAIT(H, TRAIT_IRONMAN))
+			if(!HAS_TRAIT(H, TRAIT_IRONMAN) || HAS_TRAIT(H, TRAIT_ROCKMAN))
 				continue
 			if(H.stat == DEAD)
 				continue
