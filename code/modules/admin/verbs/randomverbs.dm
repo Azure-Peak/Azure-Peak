@@ -781,6 +781,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		ADMIN_PUNISHMENT_DIVINE_WRATH,
 		ADMIN_PUNISHMENT_CHANDELIER,
 		ADMIN_PUNISHMENT_ANNOYING_VOICE,
+		ADMIN_PUNISHMENT_NECKBOLT,
+		ADMIN_PUNISHMENT_NECKBOLT_LETHAL,
 	)
 
 	var/punishment = input(usr, "Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
@@ -925,7 +927,41 @@ Traitors and the like can also be revived with the previous role mostly intact.
 				return
 			humie.AddComponent(/datum/component/annoying_voice)
 			message_admins("[humie] has been given an annoying voice!")
+		if(ADMIN_PUNISHMENT_NECKBOLT, ADMIN_PUNISHMENT_NECKBOLT_LETHAL)
+			var/angle = rand(0, 359)
+			var/dx = sin(angle)
+			var/dy = cos(angle)
+			var/dist = 8 / max(abs(dx), abs(dy)) // one tile past the 15x15 view edge
+			var/turf/start = locate(CLAMP(target.x + round(dx * dist), 1, world.maxx), CLAMP(target.y + round(dy * dist), 1, world.maxy), target.z)
+			var/obj/projectile/bullet/reusable/bolt/smite/bolt = new(start)
+			bolt.lethal = (punishment == ADMIN_PUNISHMENT_NECKBOLT_LETHAL)
+			bolt.def_zone = BODY_ZONE_PRECISE_NECK
+			bolt.preparePixelProjectile(target, start)
+			bolt.fire()
 	punish_log(target, punishment)
+
+/obj/projectile/bullet/reusable/bolt/smite
+	armor_penetration = PEN_BSTEEL
+	pass_flags = PASSTABLE | PASSMOB
+	steady_aim = TRUE
+	aim_peak = 110 // offsets the -10 farsight penalty at 8 tiles
+	var/lethal = FALSE
+
+// Phase through walls, doors and anything else that isn't the target
+/obj/projectile/bullet/reusable/bolt/smite/Bump(atom/A)
+	if(A == original)
+		return ..()
+	trajectory_ignore_forcemove = TRUE
+	forceMove(trajectory.return_turf())
+	trajectory_ignore_forcemove = FALSE
+	if(can_hit_target(original, permutated))
+		return ..(original)
+
+/obj/projectile/bullet/reusable/bolt/smite/on_hit(atom/target, blocked = FALSE)
+	. = ..()
+	if(lethal && target == original && isliving(target))
+		var/mob/living/L = target
+		L.death()
 
 // ANNOYING VOICE DATUM TO HANDLE ANNOYING VOICE.
 /datum/component/annoying_voice

@@ -1,15 +1,19 @@
 GLOBAL_LIST_INIT_TYPED(spellblade_chants, /datum/spellblade_chant, build_spellblade_chants())
-/proc/build_spellblade_chants()
+GLOBAL_LIST_INIT_TYPED(npc_spellblade_chants, /datum/spellblade_chant, build_spellblade_chants(TRUE))
+/proc/build_spellblade_chants(include_npc_only = FALSE)
 	. = list()
 	for(var/path in subtypesof(/datum/spellblade_chant))
 		if(is_abstract(path))
 			continue
 		var/datum/spellblade_chant/new_chant = new path
+		if(new_chant.npc_only && !include_npc_only)
+			continue
 		.[new_chant.name] = new_chant
 
 /datum/spellblade_chant
 	abstract_type = /datum/spellblade_chant
 	var/name
+	var/npc_only = FALSE
 	var/static/list/base_spells = list(
 		/datum/action/cooldown/spell/recall_weapon,
 		/datum/action/cooldown/spell/empower_weapon,
@@ -18,8 +22,11 @@ GLOBAL_LIST_INIT_TYPED(spellblade_chants, /datum/spellblade_chant, build_spellbl
 	)
 	var/list/subclass_spells = list()
 
+/datum/spellblade_chant/proc/chant_spells()
+	return subclass_spells + base_spells
+
 /datum/spellblade_chant/proc/add_spells(datum/mind/mind)
-	for(var/spell in subclass_spells + base_spells)
+	for(var/spell in chant_spells())
 		mind.AddSpell(new spell())
 
 /datum/spellblade_chant/proc/apply_chant(mob/living/carbon/human/H)

@@ -11,9 +11,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 2
 	see_in_dark = 10
-	move_to_delay = 3
 
 	faction = list(FACTION_ZOMBIE, FACTION_SPIDERS)
 	threat_point = THREAT_TRASH
@@ -37,22 +35,15 @@
 	maxHealth = MIRESPIDER_CRAWLER_HEALTH
 	melee_damage_lower = 17
 	melee_damage_upper = 26
-	vision_range = 10
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 
 	STACON = 7
 	STASTR = 7
 	STASPD = 13
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	retreat_health = 0
 	food = 0
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
@@ -97,15 +88,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/mirespider/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /mob/living/simple_animal/hostile/rogue/mirespider_lurker
 	anatomy_type = /datum/anatomy/spider/spitter
@@ -153,14 +142,11 @@
 	STAPER = 15
 	pixel_x = -4
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_lurker
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 	projectiletype = /obj/projectile/bullet/spider
 
 	ranged = 1
-	minimum_distance = 1
 	ranged_cooldown_time = 100
 	check_friendly_fire = 1
 
@@ -279,8 +265,6 @@
 	STASPD = 12
 	STAPER = 7
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/mirespider_paralytic
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 

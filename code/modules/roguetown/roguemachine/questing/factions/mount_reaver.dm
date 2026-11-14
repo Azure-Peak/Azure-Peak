@@ -13,11 +13,20 @@
 		/mob/living/carbon/human/species/human/northern/highwayman/crossbowman = 8,
 		/mob/living/carbon/human/species/human/northern/highwayman/light = 12,
 		/mob/living/carbon/human/species/human/northern/highwayman/bulwark = 12,
+		/mob/living/carbon/human/species/human/northern/highwayman/caster = 8,
+		/mob/living/carbon/human/species/human/northern/highwayman/spellblade = 7,
+		/mob/living/carbon/human/species/human/northern/highwayman/road_knight = 8,
+		/mob/living/carbon/human/species/human/northern/highwayman/sharpshooter = 8,
+		/mob/living/carbon/human/species/human/northern/doppelganger/ambush = 3,
 	)
 	boss_mob_types = list(
 		/mob/living/carbon/human/species/human/northern/outlaw_tank = 40,
 		/mob/living/carbon/human/species/human/northern/outlaw_ranger = 30,
 		/mob/living/carbon/human/species/human/northern/outlaw_duelist = 30,
+	)
+	variant_chances = list(
+		/datum/quest_faction_variant/rogue_coven = 10,
+		/datum/quest_faction_variant/rogue_azurcaephan = 10,
 	)
 	boss_title_templates = list(
 		"%N the Ironclad",

@@ -234,14 +234,20 @@ GLOBAL_LIST_EMPTY(miracle_tiers)
 	to_chat(src, "<font color='purple'>I gained [prayersesh] devotion!</font>")
 	return TRUE
 
-/mob/living/carbon/human/proc/toggleblindness()
-	set name = "Toggle Colorblindness"
+/mob/living/carbon/human/proc/toggle_nitesight()
+	set name = "Toggle Nightvision"
 	set category = "RoleUnique.Virtue"
 
 	if(!get_client_color(/datum/client_colour/monochrome))
 		add_client_colour(/datum/client_colour/monochrome)
+		ADD_TRAIT(src, TRAIT_NITEVISION, "monochrome_sight")
+		visible_message(span_warning("[src]'s pupils sharpen into slits..."),
+			span_warning("My pupils sharpen into slits..."))
 	else
 		remove_client_colour(/datum/client_colour/monochrome)
+		REMOVE_TRAIT(src, TRAIT_NITEVISION, "monochrome_sight")
+		visible_message(span_warning("[src]'s pupils dilate back to normal."),
+			span_warning("My pupils dilate back to normal."))
 
 /mob/living/carbon/human/proc/togglecombatawareness()
 	set name = "Toggle Combat Awareness"

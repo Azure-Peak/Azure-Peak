@@ -948,6 +948,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	forlorne_turf = pick(spots)
 	user.forceMove(forlorne_turf)
 	new /obj/item/flashlight/flare/light/forlorne(forlorne_turf)
+	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
 	to_chat(user, span_userdanger("I am lost..."))
 	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
 

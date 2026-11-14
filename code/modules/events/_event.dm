@@ -116,11 +116,11 @@
 // Checks if the event can be spawned. Used by event controller and "false alarm" event.
 // Admin-created events override this.
 /datum/round_event_control/proc/canSpawnEvent(players_amt, gamemode, fake_check = FALSE)
-	if(SSgamemode.current_storyteller?.disable_distribution || SSgamemode.halted_storyteller)
+	if(SSgamemode.halted_storyteller)
 		return FALSE
 	if(event_group && !GLOB.event_groups[event_group].can_run())
 		return FALSE
-	if(roundstart && (!SSgamemode.can_run_roundstart || (SSgamemode.ran_roundstart && !fake_check && !SSgamemode.current_storyteller?.ignores_roundstart)))
+	if(roundstart && (!SSgamemode.can_run_roundstart || (SSgamemode.ran_roundstart && !fake_check)))
 		return FALSE
 	if(occurrences >= max_occurrences)
 		return FALSE

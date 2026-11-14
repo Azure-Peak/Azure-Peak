@@ -95,9 +95,9 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 .cult					{color: #960000;}
 .cultlarge				{color: #960000;	font-weight: bold;	font-size: 3;}
 .cultsmall				{color: #960000;	font-size: 75%;}
-.narsie					{color: #960000;	font-weight: bold;	font-size: 12;}
-.narsiesmall			{color: #960000;	font-weight: bold;	font-size: 6;}
-.colossus				{color: #7F282A;	font-size: 5;}
+.narsie					{color: #960000;	font-weight: bold;}
+.narsiesmall			{color: #960000;	font-weight: bold;	font-size: 310%;}
+.colossus				{color: #7F282A;	font-size: 310%;}
 .hierophant				{color: #660099;	font-weight: bold;	font-style: italic;}
 .hierophant_warning		{color: #660099;	font-style: italic;}
 .purple					{color: #5e2d79;}

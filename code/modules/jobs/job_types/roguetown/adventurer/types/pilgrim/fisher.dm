@@ -8,7 +8,10 @@
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
 	traits_applied = list(TRAIT_EXPERT_FISHER, TRAIT_HOMESTEAD_EXPERT)
-	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/self/run_for_it,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_LCK = 2,

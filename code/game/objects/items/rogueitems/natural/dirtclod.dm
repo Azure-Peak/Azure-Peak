@@ -32,6 +32,23 @@
 			return
 	..()
 
+/obj/item/natural/dirtclod/attack_obj(obj/O, mob/living/user)
+	if(!isitem(O))
+		return ..()
+	var/obj/item/thing = O
+	if(thing.polished != 4 || thing.polish_dulled)
+		return ..()
+	to_chat(user, span_info("I start rubbing dirt onto \the [thing]..."))
+	if(!do_after(user, 2 SECONDS, target = thing))
+		return
+	if(being_deleted || QDELETED(src) || QDELETED(thing))
+		return
+	if(thing.dull_polish())
+		playsound(get_turf(user), 'sound/foley/jumpland/dirtland.wav', 60, TRUE)
+		to_chat(user, span_info("\The [thing] no longer shines."))
+		being_deleted = TRUE
+		qdel(src)
+
 /obj/item/natural/dirtclod/Entered(atom/newloc)
 	..()
 	if(being_deleted || QDELETED(src))

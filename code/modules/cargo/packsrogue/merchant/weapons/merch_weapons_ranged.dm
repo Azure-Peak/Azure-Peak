@@ -6,12 +6,12 @@
 /datum/supply_pack/rogue/ranged_weapons/tossbladeiron
 	name = "Tossblade Belt, Iron"
 	cost = 25
-	contains = list(/obj/item/storage/belt/rogue/leather/knifebelt/black/iron)
+	contains = list(/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/iron)
 
 /datum/supply_pack/rogue/ranged_weapons/tossbladesteel
 	name = "Tossblade Belt, Steel"
 	cost = 45
-	contains = list(/obj/item/storage/belt/rogue/leather/knifebelt/black/steel)
+	contains = list(/obj/item/storage/belt/rogue/leather/tossbelt/blade/black/steel)
 
 /datum/supply_pack/rogue/ranged_weapons/javeliniron
 	name = "Javelins, Iron"

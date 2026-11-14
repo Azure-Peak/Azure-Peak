@@ -2,6 +2,7 @@ import { memo } from 'react';
 import { Box, DmIcon, Section } from 'tgui-core/components';
 
 import { useBackend } from '../backend';
+import { ItemStatCard, type ItemStatCardData } from './common/ItemStatCard';
 
 // ---- Shared icon shape ----
 
@@ -287,10 +288,11 @@ const StewEntry = ({ data }: { data: StewEntryData }) => {
 type Props = {
   html: string;
   entryData?: RecipeEntryData | null;
+  statCard?: ItemStatCardData | null;
 };
 
 export const RecipeBookEntry = memo((props: Props) => {
-  const { html, entryData } = props;
+  const { html, entryData, statCard } = props;
 
   if (entryData) {
     return (
@@ -327,8 +329,16 @@ export const RecipeBookEntry = memo((props: Props) => {
       <Box
         className="recipe-detail"
         dangerouslySetInnerHTML={{ __html: html }}
-        style={{ textAlign: 'left', padding: '4px 8px 24px 8px' }}
+        style={{
+          textAlign: 'left',
+          padding: statCard ? '4px 8px 8px 8px' : '4px 8px 24px 8px',
+        }}
       />
+      {!!statCard && (
+        <Box style={{ textAlign: 'left', padding: '0 8px 24px 8px' }}>
+          <ItemStatCard card={statCard} hideHeader />
+        </Box>
+      )}
     </Section>
   );
 });

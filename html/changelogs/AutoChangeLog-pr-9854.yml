@@ -1,0 +1,8 @@
+author: "OMEGATHERION"
+delete-after: True
+changes:
+  - rscadd: "more emote sounds in gnoll voicepack.dm"
+  - rscadd: "Track *sniffs if you aren't sneaking"
+  - bugfix: "pouch items spawning in one slot for zigboxes and healing pouches"
+  - bugfix: "gnoll shaman's rite chalk spawning on the ground instead of their hand"
+  - bugfix: "gnoll knight's default cmode music"

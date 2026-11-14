@@ -25,12 +25,14 @@
 	droning_sound_night = null
 	ambientrain = RAIN_SEWER
 	soundenv = 5
+	town_waters = TRUE
 	converted_type = /area/rogue/outdoors/exposed/under/sewer
 /area/rogue/outdoors/exposed/under/sewer
 	icon_state = "sewer"
 	droning_sound = 'sound/music/area/sewers.ogg'
 	droning_sound_dusk = null
 	droning_sound_night = null
+	town_waters = TRUE
 
 /area/rogue/under/town/caverogue
 	name = "miningcave (roguetown)"

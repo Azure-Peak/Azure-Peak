@@ -42,6 +42,13 @@
 	tutorial = "The Archivist meticulously preserves and organizes ancient scrolls and tomes, safeguarding the collective knowledge of the realm for generations to come. Nobles and Peasants alike often seek your expertise on matters of history and fact, and your keenly-kept records on the events of this week will likely stand a testament to your Duke's benevolence and their realm's prosperity...or not. After all, you hold the true power: \
 	The power to dictate how the future generations will look back on these coming days."
 	outfit = /datum/outfit/job/roguetown/archivist/basic
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/invoked/teach,
+		/obj/effect/proc_holder/spell/invoked/refocusstudies,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+		/obj/effect/proc_holder/spell/invoked/learn,
+		/obj/effect/proc_holder/spell/invoked/silence/archivist_silence,
+	)
 	subclass_languages = list(
 		/datum/language/oldazurian,//YOU LIVE HERE
 		/datum/language/elvish,
@@ -110,11 +117,5 @@
 		/obj/item/rogueweapon/spellbook
 	)
 
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/teach)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/refocusstudies)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/takeapprentice)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/learn)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/silence/archivist_silence)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_UPPER_CLASS, H)

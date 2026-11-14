@@ -51,7 +51,7 @@
 	wrists = /obj/item/clothing/neck/roguetown/psicross/silver
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/preblessed
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/psy/preblessed
 	beltr = /obj/item/storage/belt/rogue/pouch/coins/mid
 	id = /obj/item/clothing/ring/signet/psy
 	backpack_contents = list(
@@ -71,9 +71,11 @@
 
 /datum/outfit/job/roguetown/psyaltrist/choose_loadout(mob/living/carbon/human/H)
 	. = ..()
-	var/instruments = list("Lute", "Accordion", "Guitar", "Hurdy-Gurdy", "Viola", "Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
+	var/instruments = list("Harp", "Lute", "Accordion", "Guitar", "Hurdy-Gurdy", "Viola", "Vocal Talisman", "Psyaltery", "Flute", "Drum", "Shamisen")
 	var/instrument_choice = input(H, "Choose your INSTRUMENT.", "TAKE UP PSYDON'S SOLEMNITY.") as anything in instruments
 	switch(instrument_choice)
+		if("Harp")
+			H.equip_to_slot_or_del(new /obj/item/rogue/instrument/harp, SLOT_BACK_R, TRUE)
 		if("Lute")
 			H.equip_to_slot_or_del(new /obj/item/rogue/instrument/lute, SLOT_BACK_R, TRUE)
 		if("Accordion")

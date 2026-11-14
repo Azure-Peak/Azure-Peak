@@ -1,0 +1,7 @@
+author: "Ryan180602"
+delete-after: True
+changes:
+  - code_imp: "Clean up vote/god code."
+  - code_imp: "High Intensity rolled on low pop now rolls Standard."
+  - bugfix: "Masq Lite rolls again on Medium."
+  - code_imp: "Add Renegade lite on Medium."

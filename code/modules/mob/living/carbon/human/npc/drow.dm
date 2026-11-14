@@ -65,7 +65,8 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	..()
 	AddComponent(/datum/component/ai_aggro_system)
 	SEND_SIGNAL(src, COMSIG_MOB_MODIFY_AGGRO_LINES, GLOB.drowraider_aggro, TRUE)
-	job = "Drow Raider"
+	var/datum/npc_archetype/archetype = get_npc_part(npc_archetype)
+	job = archetype?.job || "Drow Raider"
 	ADD_TRAIT(src, TRAIT_NOMOOD, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_LEECHIMMUNE, INNATE_TRAIT)
@@ -179,3 +180,19 @@ GLOBAL_LIST_INIT(drowraider_aggro, world.file2list("strings/rt/drowaggrolines.tx
 	threat_point = THREAT_ELITE
 	ambush_faction = "underdark"
 
+
+/mob/living/carbon/human/species/elf/dark/drowraider/caster
+	npc_archetype = /datum/npc_archetype/drow/caster/mixed
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM
+	ambush_faction = "underdark"
+
+/mob/living/carbon/human/species/elf/dark/drowraider/caster/telomancer
+	npc_archetype = /datum/npc_archetype/drow/caster/telomancer
+
+/mob/living/carbon/human/species/elf/dark/drowraider/caster/geomancer
+	npc_archetype = /datum/npc_archetype/drow/caster/geomancer
+
+/mob/living/carbon/human/species/elf/dark/drowraider/spellblade
+	npc_archetype = /datum/npc_archetype/drow/spellblade
+	threat_point = THREAT_DANGEROUS + THREAT_CASTER_PREMIUM + THREAT_SPELLBLADE_PREMIUM
+	ambush_faction = "underdark"

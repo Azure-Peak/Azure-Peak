@@ -179,7 +179,7 @@
 	var/mob/living/boss = spawn_hidden_mob(landmark, boss_type)
 	if(!boss)
 		return
-	total_spawned_tp += initial(boss.threat_point) || 0
+	total_spawned_tp += initial_threat_point(boss.type)
 	progress_required += 1
 	if(faction.boss_name_file)
 		wave_boss_name = faction.generate_boss_name()

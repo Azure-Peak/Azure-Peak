@@ -1,0 +1,4 @@
+author: "?."
+delete-after: True
+changes:
+  - code_imp: "Necran Excommunicated can do lesser Necran rituals now, and spawn with a chalk."

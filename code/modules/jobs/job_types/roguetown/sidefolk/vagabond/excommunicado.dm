@@ -43,7 +43,11 @@
 		H.adjust_skillrank(/datum/skill/craft/cooking, rand(1,4), TRUE)
 		H.STAWIL = rand(8, 20) //Many fall in the face of chaos, but not this one, not today.
 		H.STACON = rand(5, 10)
-		if (istype (H.patron, /datum/patron/inhumen/zizo))
+		if(istype (H.patron, /datum/patron/inhumen/zizo))
 			if(H.mind)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_order)
 				H.mind.AddSpell(new /datum/action/cooldown/spell/minion_mark)
+		if(istype(H.patron, /datum/patron/divine/necra))
+			if(H.mind)
+				ADD_TRAIT(H, TRAIT_LESSER_RITUALIST, JOB_TRAIT)
+				l_hand = /obj/item/ritechalk // don't eat it, ser

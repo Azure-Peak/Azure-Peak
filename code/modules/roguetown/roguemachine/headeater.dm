@@ -21,7 +21,7 @@
 
 /obj/structure/roguemachine/headeater/attackby(obj/item/H, mob/user, params)
 	. = ..()
-	if(!istype(H, /obj/item/natural/head) && !istype(H, /obj/item/bodypart/head))
+	if(!istype(H, /obj/item/natural/head) && !istype(H, /obj/item/bodypart/head) && !istype(H, /obj/item/doppel_heart))
 		to_chat(user, span_danger("It seems uninterested in [H]."))
 		return
 	if(!SStreasury.has_account(user))
@@ -52,6 +52,8 @@
 	else if(istype(H, /obj/item/natural/head))
 		var/obj/item/natural/head/A = H
 		sellprice = A.sellprice
+	else if(istype(H, /obj/item/doppel_heart))
+		sellprice = H.sellprice
 	else
 		return
 	if(sellprice <= 0)
@@ -77,6 +79,8 @@
 			if(istype(I, /obj/item/natural/head))
 				eathead(I, user, TRUE, FALSE)
 			if(istype(I, /obj/item/bodypart/head))
+				eathead(I, user, TRUE, FALSE)
+			if(istype(I, /obj/item/doppel_heart))
 				eathead(I, user, TRUE, FALSE)
 	if(topay > 0)
 		var/net = payout(user, topay)

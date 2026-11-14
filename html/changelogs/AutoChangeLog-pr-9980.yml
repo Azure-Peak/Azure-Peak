@@ -1,0 +1,4 @@
+author: "string-thing"
+delete-after: True
+changes:
+  - rscadd: "Added axe skill to shovels"
