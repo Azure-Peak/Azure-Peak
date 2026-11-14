@@ -57,6 +57,7 @@
 		/obj/item/rogueweapon/huntingknife/throwingknife/triumph = 1,
 		/obj/item/signal_horn = 1,
 		/obj/item/paper/vinegar_healpot_recipe = 1,
+		/obj/item/bog_cream = 1,
 	)
 
 	to_chat(H, span_notice("<b>THE WEAPON I COULD SCROUNGE UP:</b>"))
