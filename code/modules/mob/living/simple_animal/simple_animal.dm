@@ -110,6 +110,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	var/run_multiplier = SIMPLEMOB_RUN_MULTIPLIER
 	var/sneak_multiplier = SIMPLEMOB_SNEAK_MULTIPLIER
 	var/ride_move_delay = 3
+	var/gallops = FALSE
 
 	///Hot simple_animal baby making vars.
 	var/list/childtype = null
@@ -200,12 +201,26 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/get_mechanics_examine(mob/user)
 	. = ..()
-	if(can_buckle && max_buckled_mobs)
-		. += span_info("This can carry up to [max_buckled_mobs] rider[max_buckled_mobs == 1 ? "" : "s"].")
-		. += span_info("To mount an incapacitated or tied up mob, a rider must be present on the mount.")
-		. += span_info("To dismount an incapacitated or tied up mob, all riders must dismount, first.")
-		if(ssaddle)
-			. += span_info("Use middle-mouse button on the mount to open its inventory.")
+	var/datum/component/riding/R = GetComponent(/datum/component/riding)
+	if(!R || !can_buckle || !max_buckled_mobs)
+		return
+	. += span_info("This can carry up to [max_buckled_mobs] rider[max_buckled_mobs == 1 ? "" : "s"].")
+	. += span_info("Drag yourself onto the mount to ride it, and press the 'RESIST' hotkey to get off. Riding skill shortens mounting, and Expert riders mount instantly.")
+	. += span_info("The first conscious rider takes the reins. If the driver gets off, passengers keep their seats, and a passenger who steers takes the empty reins.")
+	. += span_info("Mounts start slow and reach full speed after [R.ramp] tiles of travel. Turning sheds speed, and turning around or running into something loses all of it.")
+	. += span_info("Riders can parry, but cannot dodge.")
+	. += span_info("Riders below Journeyman in Riding may be thrown off whenever they or their mount take damage. The harder the hit and the lower the skill, the likelier the fall.")
+	. += span_info("Riding a mount that is not bonded to you counts your Riding skill as Apprentice at most. Feeding a mount until it takes to you bonds it to you.")
+	. += span_info("Riding through a door that is not wide enough throws off anyone without the Saddleborn virtue.")
+	if(gallops)
+		. += span_info("Activate the 'RUN' button to gallop after a short wind-up that skill shortens. Galloping riders below Master are thrown off when they or their mount are hurt.")
+		. += span_info("A person can own only one steed at a time. Taming a new one is only possible once the old one has died, and it eases the grief of a lost Saddleborn mount.")
+	. += span_info("Drag an incapacitated or tied up mob onto the mount to load them as a passenger.")
+	. += span_info("Click the mount on help intent to pull an incapacitated or tied up passenger off.")
+	if(ssaddle)
+		. += span_info("Use middle-mouse button on the mount to open its inventory.")
+	if(owner && user != owner)
+		. += span_warning("This mount belongs to [owner.real_name].")
 
 /mob/living/simple_animal/get_blood_color()
 	return blood_color
@@ -266,6 +281,10 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 			food = min(food + 30, 100)
 			adjustHealth(-rand(10,20))
 			if(tame && owner == user)
+				return
+			var/mob/living/simple_animal/steed = user.mind?.steed?.resolve()
+			if(gallops && steed && steed != src && steed.stat != DEAD)
+				to_chat(user, span_warning("I already have a steed in [steed]."))
 				return
 			var/realchance = tame_chance
 			if(realchance)
@@ -364,7 +383,9 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	INVOKE_ASYNC(src, PROC_REF(emote), "lower_head", null, null, null, TRUE)
 	tame = TRUE
 	if(user)
-		owner = user
+		claim(user)
+		if(gallops)
+			user.remove_stress(/datum/stressevent/precious_mob_died)
 		SEND_SIGNAL(user, COMSIG_ANIMAL_TAMED, src)
 	pet_passive = TRUE
 
@@ -718,6 +739,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 		new i(loc)
 
 /mob/living/simple_animal/death(gibbed)
+	unbuckle_all_mobs()
+	free_steed()
 	movement_type &= ~FLYING
 	if(nest)
 		nest.spawned_mobs -= src
@@ -934,10 +957,31 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 //ANIMAL RIDING
 
+/datum/mind
+	/// The steed this player tamed. A player may only keep one at a time
+	var/datum/weakref/steed
+
+/mob/living/simple_animal/proc/ride_skill(mob/living/M)
+	. = M.get_skill_level(/datum/skill/misc/riding)
+	if(owner != M)
+		. = min(., SKILL_LEVEL_APPRENTICE)
+
+/mob/living/simple_animal/proc/claim(mob/user)
+	if(owner != user)
+		free_steed()
+	owner = user
+	if(gallops && user.mind)
+		user.mind.steed = WEAKREF(src)
+
+/mob/living/simple_animal/proc/free_steed()
+	var/datum/mind/M = owner?.mind
+	if(M?.steed?.resolve() == src)
+		M.steed = null
+
 /mob/living/simple_animal/proc/get_mount_time(mob/living/M, default_fail)
 	var/time2mount = 12
 	if(M.mind)
-		var/amt = M.get_skill_level(/datum/skill/misc/riding)
+		var/amt = ride_skill(M)
 		if(amt)
 			if(amt > 3)
 				return 0
@@ -949,11 +993,8 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(!can_buckle)
 		return
 	var/datum/component/riding/D = LoadComponent(/datum/component/riding/no_ocean)
-	D.set_riding_offsets(RIDING_OFFSET_ALL, riding_offsets)
-	D.set_vehicle_dir_layer(SOUTH, south_layer)
-	D.set_vehicle_dir_layer(NORTH, north_layer)
-	D.set_vehicle_dir_layer(EAST, east_layer)
-	D.set_vehicle_dir_layer(WEST, west_layer)
+	D.riding_offsets[RIDING_OFFSET_ALL] = riding_offsets
+	D.directional_vehicle_layers = list(TEXT_NORTH = north_layer, TEXT_SOUTH = south_layer, TEXT_EAST = east_layer, TEXT_WEST = west_layer)
 
 /mob/living/simple_animal/proc/add_saddleicon(saddle_above_state, saddle_state, overlay_layer = 4.3)
 	if(!ssaddle)
@@ -977,7 +1018,7 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	if(driver?.m_intent == MOVE_INTENT_RUN)
 		delay -= 1
 	if(driver?.mind)
-		var/amt = driver.get_skill_level(/datum/skill/misc/riding)
+		var/amt = ride_skill(driver)
 		if(amt)
 			delay -= 5 + amt/6
 		else
@@ -986,129 +1027,91 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 
 /mob/living/simple_animal/user_unbuckle_mob(mob/living/M, mob/user)
 	if(user != M)
-		return
-	var/time2mount = get_mount_time(M, 30)
-	if(ssaddle)
-		playsound(src, 'sound/foley/saddledismount.ogg', 100, TRUE)
-	if(!move_after(M,time2mount, target = src))
-		M.Paralyze(50)
-		M.Stun(50)
-		playsound(src.loc, 'sound/foley/zfall.ogg', 100, FALSE)
-		M.visible_message(span_danger("[M] falls off [src]!"))
-	..()
+		if(!M.restrained(TRUE) && !M.incapacitated(FALSE, TRUE))
+			to_chat(user, span_warning("[M] keeps [M.p_their()] seat on [src]."))
+			return
+	else
+		if(ssaddle)
+			playsound(src, 'sound/foley/saddledismount.ogg', 100, TRUE)
+		if(!move_after(M, get_mount_time(M, 30), target = src))
+			M.Paralyze(50)
+			M.Stun(50)
+			playsound(src.loc, 'sound/foley/zfall.ogg', 100, FALSE)
+			M.visible_message(span_danger("[M] falls off [src]!"))
+	. = ..()
 	update_icon()
 
 /mob/living/simple_animal/user_buckle_mob(mob/living/M, mob/user)
+	if(!GetComponent(/datum/component/riding) || M == src)
+		return FALSE
 	if(user != M)
-		return ..()
-
-	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
-	if(!riding_datum)
-		return
-	var/time2mount = get_mount_time(M, 50)
-	riding_datum.vehicle_move_delay = adjust_speed(M)
-	if(!move_after(M,time2mount, target = src))
-		return
-	if(user.incapacitated())
-		return
-	M.forceMove(get_turf(src))
-	if(ssaddle)
-		playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
-	..()
-	update_icon()
-
-/mob/living/simple_animal/hostile/user_buckle_mob(mob/living/M, mob/user)
-	if(user != M)
-		if(!has_buckled_mobs())
-			return FALSE
-		var/mob/living/driver = buckled_mobs[1]
-		if(driver == user)
-			to_chat(user, span_warning("I need someone else's help to hoist [M]!"))
-			return FALSE
-		if(buckled_mobs.len >= max_buckled_mobs)
-			to_chat(user, span_warning("[src] has no more room!"))
-			return FALSE
-		if(!M || M == src)
-			return FALSE
-		if(!in_range(M, src))
+		if(!in_range(user, src) || !in_range(M, src) || user.incapacitated() || M.buckled || M.anchored)
 			return FALSE
 		if(!M.restrained(TRUE) && !M.incapacitated(FALSE, TRUE))
 			to_chat(user, span_warning("[M] needs to be incapacitated or chained!"))
 			return FALSE
-		if(M.buckled || M.anchored)
+		if(length(buckled_mobs) >= max_buckled_mobs)
+			to_chat(user, span_warning("[src] has no more room!"))
 			return FALSE
-		if(M.loc != loc)
-			var/turf/T = get_turf(src)
-			if(!T)
-				return FALSE
-			M.forceMove(T)
-		if(!buckle_mob(M, FALSE, FALSE))
+		M.forceMove(loc)
+		if(!buckle_mob(M, check_loc = FALSE))
 			return FALSE
-		M.visible_message(span_warning("[user] hoists [M] onto [src]!"),\
-			span_warning("[user] hoists me onto [src]!"))
+		M.visible_message(span_warning("[user] hoists [M] onto [src]!"), span_warning("[user] hoists me onto [src]!"))
+		update_icon()
 		return TRUE
-	return ..()
-
-/mob/living/simple_animal/hostile/proc/dismount_incap()
-	if(!has_buckled_mobs())
-		return
-	if(LAZYLEN(buckled_mobs) != 1)
-		return
-	var/mob/living/L = buckled_mobs[1]
-	if(!istype(L))
-		return
-	if(!L.restrained(TRUE) && !L.incapacitated(FALSE, TRUE))
-		return
-	unbuckle_mob(L, TRUE)
-
-/mob/living/simple_animal/hostile/post_buckle_mob(mob/living/M)
+	if(!move_after(M, get_mount_time(M, 50), target = src) || M.incapacitated())
+		return FALSE
+	M.forceMove(get_turf(src))
+	if(ssaddle)
+		playsound(src, 'sound/foley/saddlemount.ogg', 100, TRUE)
 	. = ..()
-	dismount_incap()
-
-/mob/living/simple_animal/hostile/post_unbuckle_mob(mob/living/M)
-	. = ..()
-	dismount_incap()
+	update_icon()
 
 /mob/living/simple_animal/relaymove(mob/user, direction)
-	if (stat == DEAD)
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
+	if(stat == DEAD || !tame || !riding_datum)
 		return
 	var/oldloc = loc
-	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding/no_ocean)
-	if(!tame || !riding_datum)
+	riding_datum.vehicle_move_delay = adjust_speed(user)
+	if(!riding_datum.handle_ride(user, direction) || loc == oldloc)
 		return
-
-	var/mob/living/driver = null
-	if(buckled_mobs && buckled_mobs.len)
-		driver = buckled_mobs[1]
-	if(!driver || user != driver)
-		return
-
-	riding_datum.vehicle_move_delay = adjust_speed(driver)
-	if(riding_datum.handle_ride(driver, direction))
-		riding_datum.vehicle_move_delay = adjust_speed(driver)
-		if(driver && user == driver && driver.m_intent == MOVE_INTENT_RUN)
-			if(loc != oldloc)
-				var/turf/open/T = loc
-				if(!do_footstep && T.footstep)
-					do_footstep = TRUE
-					playsound(loc,pick('sound/foley/footsteps/hoof/horserun (1).ogg','sound/foley/footsteps/hoof/horserun (2).ogg','sound/foley/footsteps/hoof/horserun (3).ogg'), 100, TRUE)
-				else
-					do_footstep = FALSE
+	var/turf/open/T = loc
+	if(do_footstep || !T.footstep)
+		do_footstep = FALSE
+	else
+		do_footstep = TRUE
+		if(user.m_intent == MOVE_INTENT_RUN)
+			playsound(loc, pick('sound/foley/footsteps/hoof/horserun (1).ogg','sound/foley/footsteps/hoof/horserun (2).ogg','sound/foley/footsteps/hoof/horserun (3).ogg'), 100, TRUE)
 		else
-			if(loc != oldloc)
-				var/turf/open/T = loc
-				if(!do_footstep && T.footstep)
-					do_footstep = TRUE
-					playsound(loc,pick('sound/foley/footsteps/hoof/horsewalk (1).ogg','sound/foley/footsteps/hoof/horsewalk (2).ogg','sound/foley/footsteps/hoof/horsewalk (3).ogg'), 100, TRUE)
-				else
-					do_footstep = FALSE
-		if(loc != oldloc)
-			var/obj/structure/mineral_door/MD = locate() in loc
-			if(MD && !MD.ridethrough)
-				for(var/mob/living/carbon/mountee in buckled_mobs)
-					if(HAS_TRAIT(mountee, TRAIT_EQUESTRIAN))
-						continue
-					violent_dismount(mountee)
+			playsound(loc, pick('sound/foley/footsteps/hoof/horsewalk (1).ogg','sound/foley/footsteps/hoof/horsewalk (2).ogg','sound/foley/footsteps/hoof/horsewalk (3).ogg'), 100, TRUE)
+	var/obj/structure/mineral_door/MD = locate() in loc
+	if(MD && !MD.ridethrough)
+		for(var/mob/living/carbon/mountee in buckled_mobs)
+			if(!HAS_TRAIT(mountee, TRAIT_EQUESTRIAN))
+				violent_dismount(mountee)
+
+/mob/living/simple_animal/proc/rider_hurt(mob/living/source, damage)
+	SIGNAL_HANDLER
+	for(var/mob/living/carbon/human/rider in buckled_mobs)
+		if(rider.restrained(TRUE) || rider.incapacitated(FALSE, TRUE))
+			continue
+		var/skill = ride_skill(rider)
+		if(gallops && rider.m_intent == MOVE_INTENT_RUN && skill < SKILL_LEVEL_MASTER)
+			violent_dismount(rider)
+		else if((source == src || source == rider) && skill < SKILL_LEVEL_JOURNEYMAN && prob(min(damage, 25) * (SKILL_LEVEL_JOURNEYMAN - skill)))
+			violent_dismount(rider)
+
+/mob/living/simple_animal/post_buckle_mob(mob/living/M)
+	. = ..()
+	RegisterSignal(M, COMSIG_MOB_APPLY_DAMGE, PROC_REF(rider_hurt))
+	if(length(buckled_mobs) == 1)
+		RegisterSignal(src, COMSIG_MOB_APPLY_DAMGE, PROC_REF(rider_hurt))
+
+/mob/living/simple_animal/post_unbuckle_mob(mob/living/M)
+	. = ..()
+	UnregisterSignal(M, COMSIG_MOB_APPLY_DAMGE)
+	if(!has_buckled_mobs())
+		UnregisterSignal(src, COMSIG_MOB_APPLY_DAMGE)
 
 /mob/living/simple_animal/proc/violent_dismount(mob/living/user)
 	if(!isliving(user))
@@ -1122,10 +1125,6 @@ GLOBAL_VAR_INIT(farm_animals, FALSE)
 	L.visible_message(span_danger("[L] falls off [src]!"))
 
 	return TRUE
-
-/mob/living/simple_animal/buckle_mob(mob/living/buckled_mob, force = 0, check_loc = 1)
-	. = ..()
-	LoadComponent(/datum/component/riding)
 
 /mob/living/simple_animal/Move(NewLoc, Dir, step_x, step_y)
 	if(binded)

@@ -121,7 +121,7 @@
 		if((animal.mob_biotypes & MOB_UNDEAD))
 			continue
 		if(faction_check(animal.faction, beast_tameable_factions))
-			animal.tamed(TRUE)
+			animal.tamed()
 			animal.aggressive = FALSE
 			if(animal.ai_controller)
 				animal.ai_controller.clear_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET)

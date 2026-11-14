@@ -15,6 +15,8 @@
 		return // This return the parent's value. Do not change to explicit FALSE!
 	if(!can_buckle || !has_buckled_mobs())
 		return FALSE
+	if(ismob(src) && user.used_intent?.type != INTENT_HELP)
+		return FALSE
 	if(user.buckled == src)
 		user_unbuckle_mob(user, user)
 		return TRUE

@@ -1,25 +1,25 @@
 /datum/component/riding
-	var/last_vehicle_move = 0 //used for move delays
-	var/last_move_diagonal = FALSE
 	var/vehicle_move_delay = 4 //tick delay between movements, lower = faster, higher = slower
 	var/keytype
 	var/riding_xp_move_counter = 0 //Plays with the new EXP-obtaining mechanic, courtesy of PR #768 from Ophaq.
 
-	var/slowed = FALSE
-	var/slowvalue = 1
-
 	var/list/riding_offsets = list()	//position_of_user = list(dir = list(px, py)), or RIDING_OFFSET_ALL for a generic one.
 	var/list/directional_vehicle_layers = list()	//["[DIRECTION]"] = layer. Don't set it for a direction for default, set a direction to null for no change.
-	var/list/directional_vehicle_offsets = list()	//same as above but instead of layer you have a list(px, py)
 	var/list/allowed_turf_typecache
 	var/list/forbid_turf_typecache					//allow typecache for only certain turfs, forbid to allow all but those. allow only certain turfs will take precedence.
 	var/allow_one_away_from_valid_turf = TRUE		//allow moving one tile away from a valid turf but not more.
-	var/drive_verb = "drive"
-	var/ride_check_rider_incapacitated = FALSE
-	var/ride_check_rider_restrained = FALSE
-	var/ride_check_ridden_incapacitated = FALSE
 
-	var/del_on_unbuckle_all = FALSE
+	var/mob/living/driver
+	/// world.time the driver may next move
+	var/nextmove = 0
+	/// Tiles of momentum built up
+	var/momentum = 0
+	/// Tiles of travel needed to reach full speed
+	var/ramp = 4
+	/// Move delay multiplier when starting from a standstill
+	var/startmult = 2
+	/// Direction of the last successful move
+	var/heading
 
 /datum/component/riding/Initialize(mapload)
 	if(!ismovableatom(parent))
@@ -32,159 +32,86 @@
 	. = ..()
 	forbid_turf_typecache = typecacheof(/turf/open/water/ocean/deep)
 
-/datum/component/riding/proc/vehicle_mob_unbuckle(datum/source, mob/living/M, force = FALSE)
-	var/atom/movable/AM = parent
-	restore_position(M)
-	unequip_buckle_inhands(M)
-	M.updating_glide_size = TRUE
-	if(del_on_unbuckle_all && !AM.has_buckled_mobs())
-		qdel(src)
-
 /datum/component/riding/proc/vehicle_mob_buckle(datum/source, mob/living/M, force = FALSE)
 	var/atom/movable/AM = parent
 	M.set_glide_size(AM.glide_size)
 	M.updating_glide_size = FALSE
+	if(!driver && !M.incapacitated())
+		driver = M
+	handle_vehicle_layer()
 	handle_vehicle_offsets()
+
+/datum/component/riding/proc/vehicle_mob_unbuckle(datum/source, mob/living/M, force = FALSE)
+	var/atom/movable/AM = parent
+	M.reset_offsets("riding")
+	M.updating_glide_size = TRUE
+	if(M == driver)
+		driver = null
+	if(AM.has_buckled_mobs())
+		handle_vehicle_offsets()
+		return
+	var/mob/living/L = AM
+	if(!istype(L) || !L.lying)
+		AM.layer = initial(AM.layer)
 
 /datum/component/riding/proc/handle_vehicle_layer()
 	var/atom/movable/AM = parent
+	if(!AM.has_buckled_mobs())
+		return
 	var/static/list/defaults = list(TEXT_NORTH = OBJ_LAYER, TEXT_SOUTH = ABOVE_MOB_LAYER, TEXT_EAST = ABOVE_MOB_LAYER, TEXT_WEST = ABOVE_MOB_LAYER)
-	. = defaults["[AM.dir]"]
-	if(directional_vehicle_layers["[AM.dir]"])
-		. = directional_vehicle_layers["[AM.dir]"]
-	if(isnull(.))	//you can set it to null to not change it.
-		. = AM.layer
-	AM.layer = .
-
-/datum/component/riding/proc/set_vehicle_dir_layer(dir, layer)
-	directional_vehicle_layers["[dir]"] = layer
+	var/newlayer = directional_vehicle_layers["[AM.dir]"] || defaults["[AM.dir]"]
+	if(newlayer)
+		AM.layer = newlayer
 
 /datum/component/riding/proc/vehicle_moved(datum/source)
 	var/atom/movable/AM = parent
-	AM.set_glide_size(DELAY_TO_GLIDE_SIZE(vehicle_move_delay))
-	for(var/mob/M in AM.buckled_mobs)
-		if(!istype(M, /mob/living))
-			continue
-		var/mob/living/rider = M
-		ride_check(M)
-		M.set_glide_size(AM.glide_size)
-		if(rider.m_intent == MOVE_INTENT_RUN)
-			riding_xp_move_counter++
-			if(riding_xp_move_counter >= 5)					// Determines how many steps are needed before Riding-type EXP is rewarded. In this case, you obtain EXP every time you travel five tiles while riding a mount.
-				var/xp_amt = rider.STAINT * 0.1				// Scales the amount of Riding-type EXP that's rewarded, based on your character's INT. Same as every other skill.
-				rider.mind && rider.mind.add_sleep_experience(/datum/skill/misc/riding, xp_amt)
-				riding_xp_move_counter = 0
-		else
-			riding_xp_move_counter = 0							// Resets the counter if you're not running while riding.
+	if(!AM.has_buckled_mobs())
+		return
+	if(driver?.m_intent == MOVE_INTENT_RUN)
+		riding_xp_move_counter++
+		if(riding_xp_move_counter >= 5)					// Determines how many steps are needed before Riding-type EXP is rewarded. In this case, you obtain EXP every time you travel five tiles while riding a mount.
+			driver.mind?.add_sleep_experience(/datum/skill/misc/riding, driver.STAINT * 0.1)	// Scales the amount of Riding-type EXP that's rewarded, based on your character's INT. Same as every other skill.
+			riding_xp_move_counter = 0
+	else
+		riding_xp_move_counter = 0							// Resets the counter if you're not running while riding.
 	handle_vehicle_offsets()
 	handle_vehicle_layer()
 
-/datum/component/riding/proc/ride_check(mob/living/M)
-	var/atom/movable/AM = parent
-	var/mob/AMM = AM
-	if((ride_check_rider_restrained && M.restrained(TRUE)) || (ride_check_rider_incapacitated && M.incapacitated(FALSE, TRUE)) || (ride_check_ridden_incapacitated && istype(AMM) && AMM.incapacitated(FALSE, TRUE)))
-		M.visible_message(span_warning("[M] falls off of [AM]!"), \
-						span_warning("I fall off of [AM]!"))
-		AM.unbuckle_mob(M)
-	return TRUE
-
-/datum/component/riding/proc/force_dismount(mob/living/M)
-	var/atom/movable/AM = parent
-	AM.unbuckle_mob(M)
-
 /datum/component/riding/proc/handle_vehicle_offsets()
 	var/atom/movable/AM = parent
-	var/AM_dir = "[AM.dir]"
-	var/passindex = 0
-	var/has_fixedeye = FALSE
-	if(AM.has_buckled_mobs())
-		for(var/m in AM.buckled_mobs)
-			if(ishuman(m))
-				var/mob/living/carbon/human/H = m
-				if(H.fixedeye)
-					has_fixedeye = TRUE
-			passindex++
-			var/mob/living/buckled_mob = m
-			var/list/offsets = get_offsets(passindex)
-			var/rider_dir = get_rider_dir(passindex)
-			if(!has_fixedeye)
-				buckled_mob.setDir(rider_dir)
-				dir_loop:
-					for(var/offsetdir in offsets)
-						if(offsetdir == AM_dir)
-							var/list/diroffsets = offsets[offsetdir]
-							var/x2off
-							var/y2off
-							x2off = diroffsets[1]
-							if(diroffsets.len >= 2)
-								y2off = diroffsets[2]
-							if(passindex > 1)
-								if(AM.dir == EAST)
-									x2off -= 10
-								else if(AM.dir == WEST)
-									x2off += 10
-							if(passindex == 1 && length(AM.buckled_mobs) > 1)
-								if(AM.dir == EAST)
-									x2off += 2
-								else if(AM.dir == WEST)
-									x2off -= 2
-							if(diroffsets.len == 3)
-								buckled_mob.layer = diroffsets[3]
-							else
-								if(AM.dir == SOUTH)
-									// South: passenger < rider < mount
-									if(passindex == 1)
-										buckled_mob.layer = MOB_LAYER
-									else
-										buckled_mob.layer = BELOW_MOB_LAYER
-								else if(AM.dir == NORTH)
-									// North: driver > mount, passenger > driver
-									if(passindex == 1)
-										buckled_mob.layer = ABOVE_MOB_LAYER
-									else
-										buckled_mob.layer = ABOVE_ALL_MOB_LAYER
-								else
-									// East/West: driver > passenger
-									if(passindex == 1)
-										buckled_mob.layer = ABOVE_MOB_LAYER
-									else
-										buckled_mob.layer = MOB_LAYER
-							buckled_mob.set_mob_offsets("riding", _x = x2off, _y = y2off)
-							break dir_loop
-	var/static/list/default_vehicle_pixel_offsets = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
-
-/datum/component/riding/proc/set_vehicle_dir_offsets(dir, x, y)
-	directional_vehicle_offsets["[dir]"] = list(x, y)
+	var/dirtext = "[AM.dir]"
+	var/side = AM.dir == EAST ? 1 : (AM.dir == WEST ? -1 : 0)
+	var/count = length(AM.buckled_mobs)
+	var/passengers = AM.max_buckled_mobs > 1
+	for(var/mob/living/rider as anything in AM.buckled_mobs)
+		var/seat = rider == driver ? 1 : ++passengers
+		if(!rider.fixedeye)
+			rider.setDir(AM.dir)
+		var/list/offsets = get_offsets(seat)[dirtext]
+		if(!offsets)
+			continue
+		var/xoff = offsets[1]
+		var/yoff = length(offsets) >= 2 ? offsets[2] : 0
+		if(seat > 1)
+			xoff -= side * 10
+		else if(count > 1)
+			xoff += side * 2
+		if(length(offsets) == 3)
+			rider.layer = offsets[3]
+		else
+			switch(AM.dir)
+				if(SOUTH)
+					rider.layer = seat == 1 ? MOB_LAYER : BELOW_MOB_LAYER
+				if(NORTH)
+					rider.layer = seat == 1 ? ABOVE_MOB_LAYER : ABOVE_ALL_MOB_LAYER
+				else
+					rider.layer = seat == 1 ? ABOVE_MOB_LAYER : MOB_LAYER
+		rider.set_mob_offsets("riding", _x = xoff, _y = yoff)
 
 //Override this to set my vehicle's various pixel offsets
 /datum/component/riding/proc/get_offsets(pass_index) // list(dir = x, y, layer)
-	. = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
-	if(riding_offsets["[pass_index]"])
-		. = riding_offsets["[pass_index]"]
-	else if(riding_offsets["[RIDING_OFFSET_ALL]"])
-		. = riding_offsets["[RIDING_OFFSET_ALL]"]
-
-/datum/component/riding/proc/set_riding_offsets(index, list/offsets)
-	if(!islist(offsets))
-		return FALSE
-	riding_offsets["[index]"] = offsets
-
-//Override this to set the passengers/riders dir based on which passenger they are.
-//ie: rider facing the vehicle's dir, but passenger 2 facing backwards, etc.
-/datum/component/riding/proc/get_rider_dir(pass_index)
-	var/atom/movable/AM = parent
-	return AM.dir
-
-//KEYS
-/datum/component/riding/proc/keycheck(mob/user)
-	return !keytype || user.is_holding_item_of_type(keytype)
-
-//BUCKLE HOOKS
-/datum/component/riding/proc/restore_position(mob/living/buckled_mob)
-	if(buckled_mob)
-		buckled_mob.reset_offsets("riding")
-		if(buckled_mob.client)
-			buckled_mob.client.change_view(CONFIG_GET(string/default_view))
+	var/static/list/zero = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
+	return riding_offsets["[pass_index]"] || riding_offsets[RIDING_OFFSET_ALL] || zero
 
 //MOVEMENT
 /datum/component/riding/proc/turf_check(turf/next, turf/current)
@@ -194,78 +121,78 @@
 		return (allow_one_away_from_valid_turf && !forbid_turf_typecache[current.type])
 	return TRUE
 
-/datum/component/riding/proc/handle_ride(mob/user, direction)
+/datum/component/riding/proc/handle_ride(mob/living/user, direction)
 	var/atom/movable/AM = parent
+	if(user != driver)
+		if((driver && !driver.incapacitated()) || user.incapacitated())
+			return
+		driver = user
+		handle_vehicle_offsets()
 	if(user.incapacitated())
-		Unbuckle(user)
+		user.visible_message(span_warning("[user] falls off of [AM]!"), span_warning("I fall off of [AM]!"))
+		AM.unbuckle_mob(user)
 		return
-
-	if(world.time < last_vehicle_move + ((last_move_diagonal? 2 : 1) * vehicle_move_delay))
+	if(world.time < nextmove)
 		return
-	last_vehicle_move = world.time
-
-	if(!keycheck(user))
-		to_chat(user, span_warning("You'll need the keys in one of my hands to [drive_verb] [AM]."))
-		return TRUE
+	var/turf/current = AM.loc
 	var/turf/next = get_step(AM, direction)
-	var/turf/current = get_turf(AM)
-	if(!istype(next) || !istype(current))
+	if(!isturf(current) || !next)
 		return
+	if(keytype && !user.is_holding_item_of_type(keytype))
+		var/obj/item/key = keytype
+		to_chat(user, span_warning("I need \a [initial(key.name)] in hand to steer [AM]."))
+		nextmove = world.time + vehicle_move_delay
+		momentum = 0
+		return TRUE
 	if(!turf_check(next, current))
-		to_chat(user, span_warning("My [AM] can not go onto [next]!"))
+		to_chat(user, span_warning("[AM] can't go onto [next]!"))
+		nextmove = world.time + vehicle_move_delay
+		momentum = 0
 		return
-	if(!isturf(AM.loc))
-		return
+
+	if(world.time > nextmove + 0.5 SECONDS)
+		momentum = 0
+	else if(heading && direction != heading)
+		var/turn = abs(dir2angle(direction) - dir2angle(heading))
+		momentum = max(momentum - ramp * min(turn, 360 - turn) / 180, 0)
+	var/delay = vehicle_move_delay
+	if(ramp)
+		delay *= 1 + (startmult - 1) * (1 - momentum / ramp)
+	if(ISDIAGONALDIR(direction))
+		delay *= 2
+	nextmove = world.time + delay
+	AM.set_glide_size(DELAY_TO_GLIDE_SIZE(delay))
+
 	step(AM, direction)
-	if((direction & (direction - 1)) && (AM.loc == next))
-		last_move_diagonal = TRUE
-	else
-		last_move_diagonal = FALSE
-	handle_vehicle_layer()
-	handle_vehicle_offsets()
+	if(AM.loc == current)
+		momentum = 0
+		handle_vehicle_layer()
+		handle_vehicle_offsets()
+		return TRUE
+	heading = get_dir(current, AM.loc)
+	momentum = min(momentum + 1, ramp)
 	return TRUE
-
-/datum/component/riding/proc/Unbuckle(atom/movable/M)
-	addtimer(CALLBACK(parent, TYPE_PROC_REF(/atom/movable, unbuckle_mob), M), 0, TIMER_UNIQUE)
-
-/datum/component/riding/proc/account_limbs(mob/living/M)
-	if(M.get_num_legs() < 2 && !slowed)
-		vehicle_move_delay = vehicle_move_delay + slowvalue
-		slowed = TRUE
-	else if(slowed)
-		vehicle_move_delay = vehicle_move_delay - slowvalue
-		slowed = FALSE
 
 ///////Yes, I said humans. No, this won't end well...//////////
 /datum/component/riding/human
-	del_on_unbuckle_all = TRUE
-
-/datum/component/riding/human/Initialize(mapload)
-	. = ..()
-	RegisterSignal(parent, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_host_unarmed_melee))
 
 /datum/component/riding/human/vehicle_mob_unbuckle(datum/source, mob/living/M, force = FALSE)
 	var/mob/living/carbon/human/H = parent
 	H.remove_movespeed_modifier(MOVESPEED_ID_HUMAN_CARRYING)
 	. = ..()
+	if(!H.has_buckled_mobs())
+		qdel(src)
 
 /datum/component/riding/human/vehicle_mob_buckle(datum/source, mob/living/M, force = FALSE)
 	. = ..()
 	var/mob/living/carbon/human/H = parent
 	var/amt2use = HUMAN_CARRY_SLOWDOWN
 	var/reqstrength = 10
-	if(H.r_grab && H.l_grab)
-		if(H.r_grab.grabbed == M)
-			if(H.l_grab.grabbed == M)
-				reqstrength -= 2
+	if(H.r_grab?.grabbed == M && H.l_grab?.grabbed == M)
+		reqstrength -= 2
 	if(H.STASTR < reqstrength)
 		amt2use += 2
 	H.add_movespeed_modifier(MOVESPEED_ID_HUMAN_CARRYING, multiplicative_slowdown = amt2use)
-
-/datum/component/riding/human/proc/on_host_unarmed_melee(atom/target)
-	var/mob/living/carbon/human/H = parent
-	if(H.used_intent.type == INTENT_DISARM && (target in H.buckled_mobs))
-		force_dismount(target)
 
 /datum/component/riding/human/handle_vehicle_layer()
 	var/atom/movable/AM = parent
@@ -297,119 +224,9 @@
 	else
 		return list(TEXT_NORTH = list(0, 6), TEXT_SOUTH = list(0, 6), TEXT_EAST = list(-6, 4), TEXT_WEST = list(6, 4))
 
-
-/datum/component/riding/human/force_dismount(mob/living/user)
+/datum/component/riding/human/proc/force_dismount(mob/living/user)
 	var/atom/movable/AM = parent
 	AM.unbuckle_mob(user)
 	user.Paralyze(60)
 	user.visible_message(span_warning("[AM] pushes [user] off of [AM.p_them()]!"), \
 						span_warning("[AM] pushes me off of [AM.p_them()]!"))
-
-/datum/component/riding/cyborg
-	del_on_unbuckle_all = TRUE
-
-/datum/component/riding/cyborg/ride_check(mob/user)
-	var/atom/movable/AM = parent
-	if(user.incapacitated())
-		var/kick = TRUE
-		if(kick)
-			to_chat(user, span_danger("I fall off of [AM]!"))
-			Unbuckle(user)
-			return
-	if(iscarbon(user))
-		var/mob/living/carbon/carbonuser = user
-		if(!carbonuser.get_num_arms())
-			Unbuckle(user)
-			to_chat(user, span_warning("I can't grab onto [AM] with no hands!"))
-			return
-
-/datum/component/riding/cyborg/handle_vehicle_layer()
-	var/atom/movable/AM = parent
-	if(AM.has_buckled_mobs())
-		if(AM.dir == SOUTH)
-			AM.layer = ABOVE_MOB_LAYER
-		else
-			AM.layer = OBJ_LAYER
-	else
-		AM.layer = MOB_LAYER
-
-/datum/component/riding/cyborg/get_offsets(pass_index) // list(dir = x, y, layer)
-	return list(TEXT_NORTH = list(0, 4), TEXT_SOUTH = list(0, 4), TEXT_EAST = list(-6, 3), TEXT_WEST = list( 6, 3))
-
-/datum/component/riding/cyborg/handle_vehicle_offsets()
-	var/atom/movable/AM = parent
-	if(AM.has_buckled_mobs())
-		for(var/mob/living/M in AM.buckled_mobs)
-			M.setDir(AM.dir)
-			..()
-
-/datum/component/riding/cyborg/force_dismount(mob/living/M)
-	var/atom/movable/AM = parent
-	AM.unbuckle_mob(M)
-	var/turf/target = get_edge_target_turf(AM, AM.dir)
-	var/turf/targetm = get_step(get_turf(AM), AM.dir)
-	M.Move(targetm)
-	M.visible_message(span_warning("[M] is thrown clear of [AM]!"), \
-					span_warning("You're thrown clear of [AM]!"))
-	M.throw_at(target, 14, 5, AM)
-	M.Paralyze(60)
-
-/datum/component/riding/proc/equip_buckle_inhands(mob/living/carbon/human/user, amount_required = 1, riding_target_override = null)
-	var/atom/movable/AM = parent
-	var/amount_equipped = 0
-	for(var/amount_needed = amount_required, amount_needed > 0, amount_needed--)
-		var/obj/item/riding_offhand/inhand = new /obj/item/riding_offhand(user)
-		if(!riding_target_override)
-			inhand.rider = user
-		else
-			inhand.rider = riding_target_override
-		inhand.parent = AM
-		if(user.put_in_hands(inhand, TRUE))
-			amount_equipped++
-		else
-			break
-	if(amount_equipped >= amount_required)
-		return TRUE
-	else
-		unequip_buckle_inhands(user)
-		return FALSE
-
-/datum/component/riding/proc/unequip_buckle_inhands(mob/living/carbon/user)
-	var/atom/movable/AM = parent
-	for(var/obj/item/riding_offhand/O in user.contents)
-		if(O.parent != AM)
-			stack_trace("RIDING OFFHAND ON WRONG MOB")
-			continue
-		if(O.selfdeleting)
-			continue
-		else
-			qdel(O)
-	return TRUE
-
-/obj/item/riding_offhand
-	name = "offhand"
-	icon = 'icons/obj/items_and_weapons.dmi'
-	icon_state = "offhand"
-	w_class = WEIGHT_CLASS_HUGE
-	item_flags = ABSTRACT | DROPDEL | NOBLUDGEON
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
-	var/mob/living/carbon/rider
-	var/mob/living/parent
-	var/selfdeleting = FALSE
-
-/obj/item/riding_offhand/dropped()
-	selfdeleting = TRUE
-	. = ..()
-
-/obj/item/riding_offhand/equipped()
-	if(loc != rider && loc != parent)
-		selfdeleting = TRUE
-		qdel(src)
-	. = ..()
-
-/obj/item/riding_offhand/Destroy()
-	var/atom/movable/AM = parent
-	if(selfdeleting)
-		if(rider in AM.buckled_mobs)
-			AM.unbuckle_mob(rider)
-	. = ..()

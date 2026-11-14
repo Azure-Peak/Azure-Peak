@@ -7,8 +7,8 @@
 	wildshape_icon = 'icons/roguetown/mob/monster/saiga.dmi'
 	wildshape_icon_state = "saiga"
 
-/mob/living/carbon/human/species/wildshape/night_saiga/buckle_mob(mob/living/target, force = TRUE, check_loc = TRUE, lying_buckle = FALSE, hands_needed = 0, target_hands_needed = 0)
-	. = ..(target, force, check_loc, lying_buckle, hands_needed, target_hands_needed)
+/mob/living/carbon/human/species/wildshape/night_saiga/buckle_mob(mob/living/target, force = TRUE, check_loc = TRUE, lying_buckle = FALSE)
+	. = ..(target, force, check_loc, lying_buckle)
 
 /mob/living/carbon/human/species/wildshape/night_saiga/gain_inherent_skills()
 	if(src.mind)

@@ -1,8 +1,8 @@
 /datum/virtue/utility/riding
 	name = "Saddleborn"
-	desc = "I am skilled at riding animals of all kinds, and have an especially strong bond with one, allowing me to call it from afar and send it away as needed. Should my treasured companion ever die, my mood will not recover."
+	desc = "I am skilled at riding animals of all kinds, and have an especially strong bond with one, allowing me to call it from afar and send it away as needed. Should my treasured companion ever die, my mood will not recover until I tame another steed."
 	ui_fa_icon = "horse"
-	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -5 to mood for the rest of the round (cannot be recovered from in any circumstance)."
+	custom_text = "Provides an ability that allows you to select a type of mount to call to your side, and additionally name. Noble characters are able to choose horses. Gains two abilities to send the mount away and call it back as needed (outdoors only). If the chosen mount dies, -5 to mood until you tame another saiga or fogbeast."
 	added_skills = list(list(/datum/skill/misc/riding, 1, SKILL_LEVEL_EXPERT))
 	added_traits = list(TRAIT_EQUESTRIAN)
 
@@ -110,53 +110,55 @@ GLOBAL_LIST_INIT(virtue_mount_choices_anthrax, (list(
 		has_name = "No"
 
 	//spawn in our creature and set it up
-	var/mob/living/simple_animal/the_real_honse
+	var/mob/living/simple_animal/original_mount
 	if(ispath(our_chosen_honse, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
 		var/fogbeast_color_choice = input(user, "What color is your trusty steed?") as null|anything in GLOB.valid_fogbeast_colors
-		the_real_honse = new our_chosen_honse(user.loc, fogbeast_color_choice)
+		original_mount = new our_chosen_honse(user.loc, fogbeast_color_choice)
 	else
-		the_real_honse = new our_chosen_honse(user.loc)
-	the_real_honse.AddComponent(/datum/component/precious_creature, user)
-	user.saddleborn_mount = WEAKREF(the_real_honse)
-	if(istype(the_real_honse, /mob/living/simple_animal/hostile))
-		var/mob/living/simple_animal/hostile/friendly_horse = the_real_honse
+		original_mount = new our_chosen_honse(user.loc)
+	original_mount.AddComponent(/datum/component/precious_creature, user)
+	user.saddleborn_mount = WEAKREF(original_mount)
+	original_mount.claim(user)
+	user.mind?.steed = WEAKREF(original_mount)
+	if(istype(original_mount, /mob/living/simple_animal/hostile))
+		var/mob/living/simple_animal/hostile/friendly_horse = original_mount
 		friendly_horse.friends += user
 
 	if (has_name == "Yes")
 		var/honse_name = sanitize(input(user, "What is your steed's name?", "Saddleborn"))
 		if (honse_name)
-			the_real_honse.name = honse_name
-			the_real_honse.real_name = honse_name
+			original_mount.name = honse_name
+			original_mount.real_name = honse_name
 
-	if(istype(the_real_honse, /mob/living/simple_animal/hostile/retaliate/rogue/saiga))
+	if(istype(original_mount, /mob/living/simple_animal/hostile/retaliate/rogue/saiga))
 		var/saiga_barding = list("None","Padded Barding","Chainmail Barding")
 		var/saiga_barding_choice = input(user, "What protection have you acquired for your steed?", "Saddleborn") as anything in saiga_barding
 		switch(saiga_barding_choice)
 			if("Padded Barding")
-				the_real_honse.bbarding = new /obj/item/clothing/barding()
-				the_real_honse.update_icon()
+				original_mount.bbarding = new /obj/item/clothing/barding()
+				original_mount.update_icon()
 			if("Chainmail Barding")
-				the_real_honse.bbarding = new /obj/item/clothing/barding/chain()
-				the_real_honse.update_icon()
-	else if(istype(the_real_honse, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
+				original_mount.bbarding = new /obj/item/clothing/barding/chain()
+				original_mount.update_icon()
+	else if(istype(original_mount, /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast))
 		var/fogbeast_barding = list("None","Padded Barding","Chainmail Barding")
 		var/fogbeast_barding_choice = input(user, "What protection have you acquired for your steed?", "Saddleborn") as anything in fogbeast_barding
 		switch(fogbeast_barding_choice)
 			if("Padded Barding")
-				the_real_honse.bbarding = new /obj/item/clothing/barding/fogbeast()
-				the_real_honse.update_icon()
+				original_mount.bbarding = new /obj/item/clothing/barding/fogbeast()
+				original_mount.update_icon()
 			if("Chainmail Barding")
-				the_real_honse.bbarding = new /obj/item/clothing/barding/fogbeast/chain()
-				the_real_honse.update_icon()
+				original_mount.bbarding = new /obj/item/clothing/barding/fogbeast/chain()
+				original_mount.update_icon()
 
-	user.visible_message(span_info("[user] whistles sharply, and [the_real_honse] pads up from afar to their side."), span_notice("With a trusty whistle, my treasured steed returns to my side."))
+	user.visible_message(span_info("[user] whistles sharply, and [original_mount] pads up from afar to their side."), span_notice("With a trusty whistle, my treasured steed returns to my side."))
 	playsound(user, 'sound/magic/saddleborn-call.ogg', 150, FALSE, 5)
 	if (!user.buckled)
-		the_real_honse.buckle_mob(user, TRUE)
-		if(istype(the_real_honse, /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame/saddled))
-			playsound(the_real_honse, 'sound/vo/mobs/spider/speak (3).ogg', 100, FALSE, 2)
+		original_mount.buckle_mob(user, TRUE)
+		if(istype(original_mount, /mob/living/simple_animal/hostile/retaliate/rogue/drider/tame/saddled))
+			playsound(original_mount, 'sound/vo/mobs/spider/speak (3).ogg', 100, FALSE, 2)
 		else
-			playsound(the_real_honse, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
+			playsound(original_mount, 'sound/magic/saddleborn-summoned.ogg', 100, FALSE, 2)
 
 	// give us all the saddleborn summon/send-away spells and all that jazz
 	if(!vaquero)
