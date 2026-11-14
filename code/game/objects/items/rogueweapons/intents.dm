@@ -410,6 +410,9 @@
 /datum/intent/proc/on_mmb(atom/target, mob/living/user, params)
 	return
 
+/datum/intent/proc/on_afterattack(atom/target, mob/living/user, proximity_flag, params)
+	return
+
 // Do something special when this intent is applied to a living target, H being the receiver and user being the attacker
 /datum/intent/proc/spec_on_apply_effect(mob/living/H, mob/living/user, params)
 	return
