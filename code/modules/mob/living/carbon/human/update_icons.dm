@@ -40,7 +40,7 @@ There are several things that need to be remembered:
 >	There are also these special cases:
 		update_damage_overlays()	//handles damage overlays for brute/burn damage
 		update_body()				//Handles updating your mob's body layer and mutant bodyparts
-									as well as sprite-accessories that didn't really fit elsewhere (underwear, undershirts, socks, lips, eyes)
+									as well as sprite-accessories that didn't really fit elsewhere (underwear_bottom, undershirts, socks, lips, eyes)
 									//NOTE: update_mutantrace() is now merged into this!
 		update_hair()				//Handles updating your hair overlay (used to be update_face, but mouth and
 									eyes were merged into update_body())
@@ -345,6 +345,12 @@ There are several things that need to be remembered:
 		update_inv_pants()
 		update_inv_shirt()
 		update_inv_mouth()
+		update_inv_underwear_bottom()
+		update_inv_underwear_top()
+		update_inv_undershirt()
+		update_inv_earrings()
+		update_inv_socks()
+		update_inv_armsleeves()
 		update_transform()
 		//damage overlays
 		update_damage_overlays()
@@ -370,6 +376,12 @@ There are several things that need to be remembered:
 	update_inv_pants()
 	update_inv_shirt()
 	update_inv_mouth()
+	update_inv_underwear_bottom()
+	update_inv_underwear_top()
+	update_inv_undershirt()
+	update_inv_earrings()
+	update_inv_socks()
+	update_inv_armsleeves()
 
 /* --------------------------------------- */
 //vvvvvv UPDATE_INV PROCS vvvvvv
@@ -1335,6 +1347,220 @@ There are several things that need to be remembered:
 
 	rebuild_obscured_flags()
 
+/mob/living/carbon/human/update_inv_underwear_bottom()
+	remove_overlay(UNDERWEAR_BOTTOM_LAYER)
+
+	if(underwear_bottom)
+		var/datum/species/species = dna?.species
+		var/use_female_sprites = !is_bulky_body()
+
+		var/racecustom
+		if(species?.custom_clothes)
+			racecustom = species.clothes_id
+
+		if(!underwear_bottom.gendered)
+			use_female_sprites = FALSE
+
+		var/mutable_appearance/underwear_overlay = underwear_bottom.build_worn_icon(
+			default_layer = UNDERWEAR_BOTTOM_LAYER,
+			female = use_female_sprites,
+			customi = racecustom
+		)
+
+		apply_offset(underwear_overlay, OFFSET_UNDERWEAR_BOTTOM, OFFSET_UNDERWEAR_BOTTOM_F)
+
+		overlays_standing[UNDERWEAR_BOTTOM_LAYER] = underwear_overlay
+
+	rebuild_obscured_flags()
+
+	apply_overlay(UNDERWEAR_BOTTOM_LAYER)
+
+
+/mob/living/carbon/human/update_inv_underwear_top()
+	remove_overlay(UNDERWEAR_TOP_LAYER)
+
+	if(underwear_top)
+		var/b_size = 0
+		var/datum/species/species = dna?.species
+		var/use_female_sprites = !is_bulky_body()
+
+		var/racecustom
+		if(species?.custom_clothes)
+			racecustom = species.clothes_id
+
+		var/obj/item/organ/breasts/boob = getorganslot(ORGAN_SLOT_BREASTS)
+		if(boob)
+			b_size = boob.breast_size
+
+		if(!underwear_top.gendered)
+			use_female_sprites = FALSE
+
+		var/mutable_appearance/underwear_overlay = underwear_top.build_worn_icon(
+			default_layer = UNDERWEAR_TOP_LAYER,
+			female = use_female_sprites,
+			customi = racecustom,
+			breast_size = b_size
+		)
+
+		apply_offset(underwear_overlay, OFFSET_UNDERWEAR_TOP, OFFSET_UNDERWEAR_TOP_F)
+
+		overlays_standing[UNDERWEAR_TOP_LAYER] = underwear_overlay
+
+	rebuild_obscured_flags()
+
+	apply_overlay(UNDERWEAR_TOP_LAYER)
+
+
+/mob/living/carbon/human/update_inv_undershirt()
+	remove_overlay(UNDERSHIRT_LAYER)
+	remove_overlay(UNDERSLEEVE_LAYER)
+
+	if(undershirt)
+		var/b_size = 0
+		var/datum/species/species = dna?.species
+		var/armsindex = get_limbloss_index(ARM_RIGHT, ARM_LEFT)
+		var/use_female_sprites = !is_bulky_body()
+
+		var/racecustom
+		if(species?.custom_clothes)
+			racecustom = species.clothes_id
+
+		var/obj/item/organ/breasts/boob = getorganslot(ORGAN_SLOT_BREASTS)
+		if(boob)
+			b_size = boob.breast_size
+
+		if(!undershirt.gendered)
+			use_female_sprites = FALSE
+
+		var/mutable_appearance/undershirt_overlay = undershirt.build_worn_icon(
+			default_layer = UNDERSHIRT_LAYER,
+			female = use_female_sprites,
+			customi = racecustom,
+			breast_size = b_size,
+			boobed_overlay = has_boobed_overlay()
+		)
+
+		apply_offset(undershirt_overlay, undershirt.worn_offset, undershirt.worn_offset_f)
+
+		overlays_standing[UNDERSHIRT_LAYER] = undershirt_overlay
+
+		var/list/sleeves = list()
+
+		if(undershirt.sleeved && armsindex > 0)
+			sleeves = get_sleeves_layer(undershirt, armsindex, UNDERSLEEVE_LAYER)
+
+		if(sleeves)
+			for(var/mutable_appearance/S as anything in sleeves)
+				apply_offset(S, undershirt.worn_offset, undershirt.worn_offset_f)
+
+			overlays_standing[UNDERSLEEVE_LAYER] = sleeves
+
+	rebuild_obscured_flags()
+
+	apply_overlay(UNDERSLEEVE_LAYER)
+	apply_overlay(UNDERSHIRT_LAYER)
+
+
+/mob/living/carbon/human/rebuild_obscured_flags()
+	. = ..()
+	if(!earrings && !overlays_standing[EARRINGS_LAYER])
+		return
+	var/should_show = earrings && get_bodypart(BODY_ZONE_HEAD) && !(SLOT_EARRINGS in check_obscured_slots())
+	if(!!overlays_standing[EARRINGS_LAYER] != !!should_show)
+		update_inv_earrings()
+
+/mob/living/carbon/human/update_inv_earrings()
+	remove_overlay(EARRINGS_LAYER)
+
+	if(earrings && get_bodypart(BODY_ZONE_HEAD) && !(SLOT_EARRINGS in check_obscured_slots()))
+		var/datum/species/species = dna?.species
+		var/use_female_sprites = !is_bulky_body()
+
+		var/racecustom
+		if(species?.custom_clothes)
+			racecustom = species.clothes_id
+
+		if(!earrings.gendered)
+			use_female_sprites = FALSE
+
+		var/mutable_appearance/earrings_overlay = earrings.build_worn_icon(
+			default_layer = EARRINGS_LAYER,
+			female = use_female_sprites,
+			customi = racecustom
+		)
+
+		apply_offset(earrings_overlay, OFFSET_HEAD, OFFSET_HEAD_F)
+
+		overlays_standing[EARRINGS_LAYER] = earrings_overlay
+
+
+	apply_overlay(EARRINGS_LAYER)
+
+
+/mob/living/carbon/human/update_inv_socks()
+	remove_overlay(LEGWEAR_LAYER)
+
+	if(legwear_socks)
+		var/datum/species/species = dna?.species
+		var/use_female_sprites = !is_bulky_body()
+
+		var/racecustom
+		if(species?.custom_clothes)
+			racecustom = species.clothes_id
+
+		var/mutable_appearance/legwear_socks_overlay = legwear_socks.build_worn_icon(
+			default_layer = LEGWEAR_LAYER,
+			female = use_female_sprites,
+			customi = racecustom
+		)
+
+		apply_offset(legwear_socks_overlay, OFFSET_PANTS, OFFSET_PANTS_F)
+
+		overlays_standing[LEGWEAR_LAYER] = legwear_socks_overlay
+
+	rebuild_obscured_flags()
+
+	apply_overlay(LEGWEAR_LAYER)
+
+
+/mob/living/carbon/human/update_inv_armsleeves()
+	remove_overlay(BOTTOM_ARM_LAYER)
+	remove_overlay(ARMSLEEVE_LAYER)
+
+	if(armsleeves)
+		var/datum/species/species = dna?.species
+		var/armsindex = get_limbloss_index(ARM_RIGHT, ARM_LEFT)
+		var/use_female_sprites = !is_bulky_body()
+
+		var/racecustom
+		if(species?.custom_clothes)
+			racecustom = species.clothes_id
+
+		var/mutable_appearance/armsleeves_overlay = armsleeves.build_worn_icon(
+			default_layer = BOTTOM_ARM_LAYER,
+			female = use_female_sprites,
+			sleeveindex = armsindex,
+			customi = racecustom
+		)
+
+		apply_offset(armsleeves_overlay, OFFSET_WRISTS, OFFSET_WRISTS_F)
+
+		overlays_standing[BOTTOM_ARM_LAYER] = armsleeves_overlay
+
+		var/list/sleeves = list()
+
+		if(armsleeves.sleeved && armsindex > 0)
+			sleeves = get_sleeves_layer(armsleeves, armsindex, ARMSLEEVE_LAYER)
+
+		if(sleeves)
+			for(var/mutable_appearance/S as anything in sleeves)
+				apply_offset(S, OFFSET_WRISTS, OFFSET_WRISTS_F)
+
+			overlays_standing[ARMSLEEVE_LAYER] = sleeves
+
+	apply_overlay(BOTTOM_ARM_LAYER)
+	apply_overlay(ARMSLEEVE_LAYER)
+
 /mob/living/carbon/human/proc/update_inv_armor_special()
 	remove_overlay(ARMOR_LAYER)
 
@@ -1475,7 +1701,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 
 */
-/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null)
+/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, female = FALSE, customi = null, sleeveindex, boobed_overlay = FALSE, icon/clip_mask = null, breast_size = null)
 	var/t_state
 	var/sleevejazz = sleevetype
 	if(override_state)
@@ -1490,6 +1716,9 @@ generate/load female uniform sprites matching all previously decided variables
 					sleevejazz += "_f"
 			else
 				t_state = icon_state
+	var/body_state = t_state
+	if(!isinhands && female && !isnull(breast_size) && boob_sized)
+		t_state += "_B[breast_size]"
 	if(customi)
 		t_state += "_[customi]"
 		if(sleevejazz)
@@ -1505,6 +1734,27 @@ generate/load female uniform sprites matching all previously decided variables
 		file2use = mob_overlay_icon
 	if(!file2use)
 		file2use = default_icon_file
+
+	// New clothing sheets do not contain every size/race variant. Fall back to
+	// a real state rather than constructing an invisible appearance.
+	if(extra_slot_flags && !isinhands)
+		var/list/states = icon_states(file2use)
+		if(!(t_state in states))
+			var/without_race = customi ? copytext(t_state, 1, length(t_state) - length(customi)) : t_state
+			if(without_race in states)
+				t_state = without_race
+			else if(female && boob_sized && !isnull(breast_size))
+				for(var/delta in 1 to 6)
+					var/smaller = "[body_state]_B[max(0, breast_size - delta)]"
+					var/larger = "[body_state]_B[min(6, breast_size + delta)]"
+					if(smaller in states)
+						t_state = smaller
+						break
+					if(larger in states)
+						t_state = larger
+						break
+			if(!(t_state in states))
+				t_state = (body_state in states) ? body_state : icon_state
 
 	//Find a valid layer from variables+arguments
 	var/layer2use
@@ -1844,7 +2094,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 	//GENERATE NEW LIMBS
 	var/list/new_limbs = list()
-	var/hiden = FALSE //used to tell if we should hide boobs, basically
+	var/hiden = !!(obscured_flags & HIDEBOOB)
 	for(var/obj/item/bodypart/BP as anything in bodyparts)
 		if(BP.name == BODY_ZONE_CHEST)
 			if(wear_armor)

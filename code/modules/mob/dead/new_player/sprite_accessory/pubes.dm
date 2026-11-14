@@ -31,8 +31,6 @@
 	small_race_aware_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_BELT, OFFSET_BELT_F)
 
 /datum/sprite_accessory/pubes/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.underwear)
-		return FALSE
 	return is_human_part_visible(owner, HIDEJUMPSUIT|HIDECROTCH)
 
 /datum/sprite_accessory/pubes/hairy
@@ -58,7 +56,7 @@
 /datum/sprite_accessory/pubes/extreme
 	icon_state = "pubes_extreme"
 	preview_states = list("pubes_extreme_h_m")
-	name = "La coupe à la Otavaise"
+	name = "La Coupe à La Otavaise"
 
 /datum/sprite_accessory/pubes/cross
 	icon_state = "pubes_cross"
@@ -92,8 +90,6 @@
 	small_race_aware_gender_feature_adjust(appearance_list, organ, bodypart, owner, OFFSET_ID, OFFSET_ID_F)
 
 /datum/sprite_accessory/pits/is_visible(obj/item/organ/organ, obj/item/bodypart/bodypart, mob/living/carbon/owner)
-	if(owner.underwear && owner.underwear.covers_breasts)
-		return FALSE
 	return is_human_part_visible(owner, HIDEBOOB|HIDEJUMPSUIT)
 
 /datum/sprite_accessory/pits/trim

@@ -1,8 +1,10 @@
-#ifdef MATURESERVER
 /mob/living/carbon/human/MiddleClick(mob/user, params)
 	..()
 	if(!user)
 		return
+	if(try_remove_earrings(user))
+		return
+#ifdef MATURESERVER
 	var/obj/item/held_item = user.get_active_held_item()
 	if(held_item && (user.zone_selected == BODY_ZONE_PRECISE_MOUTH))
 		if(held_item.get_sharpness() && held_item.wlength == WLENGTH_SHORT)
@@ -35,27 +37,23 @@
 		if(get_num_arms(FALSE) < 1)
 			return
 		if(user.zone_selected == BODY_ZONE_PRECISE_GROIN)
-			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-				if(!underwear)
+			if(!is_inventory_slot_obscured(SLOT_UNDERWEAR_BOTTOM))
+				if(!underwear_bottom)
 					return
-				src.visible_message(span_notice("[src] begins to take off [underwear]..."))
+				var/obj/item/garment = underwear_bottom
+				src.visible_message(span_notice("[src] begins to take off [underwear_bottom]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-					chest.remove_bodypart_feature(underwear.undies_feature)
-					underwear.forceMove(get_turf(src))
-					src.put_in_hands(underwear)
-					underwear = null
+					if(garment && garment == underwear_bottom && !is_inventory_slot_obscured(SLOT_UNDERWEAR_BOTTOM) && dropItemToGround(garment))
+						put_in_hands(garment)
 		if((user.zone_selected == BODY_ZONE_L_LEG) || (user.zone_selected == BODY_ZONE_R_LEG))
-			if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
+			if(!is_inventory_slot_obscured(SLOT_SOCKS))
 				if(!legwear_socks)
 					return
+				var/obj/item/garment = legwear_socks
 				src.visible_message(span_notice("[src] begins to take off [legwear_socks]..."))
 				if(do_after(user, 30, needhand = 1, target = src))
-					var/obj/item/bodypart/chest = get_bodypart(BODY_ZONE_CHEST)
-					chest.remove_bodypart_feature(legwear_socks.legwears_feature)
-					legwear_socks.forceMove(get_turf(src))
-					src.put_in_hands(legwear_socks)
-					legwear_socks = null
+					if(garment && garment == legwear_socks && !is_inventory_slot_obscured(SLOT_SOCKS) && dropItemToGround(garment))
+						put_in_hands(garment)
 		if(user.zone_selected == BODY_ZONE_CHEST)
 			if(!piercings_item)
 				return
@@ -173,10 +171,28 @@
 
 /mob/living/carbon/human/show_inv(mob/user)
 	user.set_machine(src)
+	var/datum/browser/popup = new(user, "mob[REF(src)]", "[src]", 220, 690)
+	popup.set_content(get_inventory_panel(user))
+	popup.open()
+
+/mob/living/carbon/human/proc/get_inventory_panel(mob/user)
 	var/list/obscured = check_obscured_slots()
+	for(var/slot in list(SLOT_UNDERWEAR_BOTTOM, SLOT_UNDERWEAR_TOP, SLOT_UNDERSHIRT, SLOT_SOCKS))
+		if(is_inventory_slot_obscured(slot, get_item_by_slot(slot) ? null : user.get_active_held_item()))
+			obscured |= slot
 	var/list/dat = list()
 
 	dat += "<table>"
+	if(handcuffed)
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'>Remove [handcuffed]</A></td></tr>"
+	if(legcuffed)
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'>Remove [legcuffed]</A></td></tr>"
+
+	dat += "<tr><td><hr></td></tr>"
+
+	for(var/i in 1 to held_items.len)
+		var/obj/item/I = get_item_for_held_index(i)
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDS];hand_index=[i]'>[(I && !(I.item_flags & ABSTRACT)) ? I : "<font color=grey>[get_held_index_name(i)]</font>"]</a></td></tr>"
 
 	if(is_unclaimed_corpse())
 		var/has_fabric = FALSE
@@ -195,28 +211,18 @@
 			dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_FABRIC]'>Loot Fabric</A></td></tr>"
 		if(has_smelt)
 			dat += "<tr><td><A href='?src=[REF(src)];strip_all=[LOOT_FILTER_SMELT]'>Loot Smeltable</A></td></tr>"
-		dat += "<tr><td><hr></td></tr>"
-
-	if(handcuffed)
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDCUFFED]'>Remove [handcuffed]</A></td></tr>"
-	if(legcuffed)
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_LEGCUFFED]'>Remove [legcuffed]</A></td></tr>"
 
 	if(handcuffed || legcuffed)
 		dat += "<tr><td><hr></td></tr>"
-
-	for(var/i in 1 to held_items.len)
-		var/obj/item/I = get_item_for_held_index(i)
-		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_HANDS];hand_index=[i]'>[(I && !(I.item_flags & ABSTRACT)) ? I : "<font color=grey>[get_held_index_name(i)]</font>"]</a></td></tr>"
 
 	dat += "<tr><td><hr></td></tr>"
 
 //	if(has_breathable_mask && istype(back, /obj/item/tank))
 //		dat += "&nbsp;<A href='?src=[REF(src)];internal=[SLOT_BACK]'>[internal ? "Disable Internals" : "Set Internals"]</A>"
 
-//	dat += "<tr><td><B>HEAD</B></td></tr>"
+	dat += "<tr><td><B>HEAD</B></td></tr>"
 
-	//head
+//head
 	if(SLOT_HEAD in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
 	else
@@ -237,9 +243,14 @@
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_NECK]'>[(wear_neck && !(wear_neck.item_flags & ABSTRACT)) ? wear_neck : "<font color=grey>Neck</font>"]</A></td></tr>"
 
+	if(SLOT_EARRINGS in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_EARRINGS]'>[(earrings && !(earrings.item_flags & ABSTRACT)) ? earrings : "<font color=grey>Earrings</font>"]</A></td></tr>"
+
 	dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>BACK</B></td></tr>"
+	dat += "<tr><td><B>BACK</B></td></tr>"
 
 	if(SLOT_CLOAK in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
@@ -258,7 +269,7 @@
 
 	dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>TORSO</B></td></tr>"
+	dat += "<tr><td><B>TORSO</B></td></tr>"
 
 	if(SLOT_ARMOR in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
@@ -285,9 +296,14 @@
 	else
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_WRISTS]'>[(wear_wrists && !(wear_wrists.item_flags & ABSTRACT)) ? wear_wrists : "<font color=grey>Wrists</font>"]</A></td></tr>"
 
+	if(SLOT_ARMSLEEVES in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_ARMSLEEVES]'>[(armsleeves && !(armsleeves.item_flags & ABSTRACT)) ? armsleeves : "<font color=grey>Armsleeves</font>"]</A></td></tr>"
+
 	dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>WAIST</B></td></tr>"
+	dat += "<tr><td><B>WAIST</B></td></tr>"
 
 	if(SLOT_BELT in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
@@ -306,7 +322,7 @@
 
 	dat += "<tr><td><hr></td></tr>"
 
-//	dat += "<tr><td><B>LEGS</B></td></tr>"
+	dat += "<tr><td><B>LEGS</B></td></tr>"
 
 	if(SLOT_PANTS in obscured)
 		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
@@ -319,17 +335,32 @@
 		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SHOES]'>[(shoes && !(shoes.item_flags & ABSTRACT)) ? shoes : "<font color=grey>Boots</font>"]</A></td></tr>"
 
 #ifdef MATURESERVER
-	if(get_location_accessible(src, BODY_ZONE_PRECISE_GROIN, skipundies = TRUE))
-		dat += "<tr><td><hr></td></tr>"
-		dat += "<tr><td><B>Underwear:</B> <A href='?src=[REF(src)];undiesthing=1'>[!underwear ? "Nothing" : "Remove"]</A></td></tr>"
-		dat += "<tr><td><B>Legwear:</B> <A href='?src=[REF(src)];legwearsthing=1'>[!legwear_socks ? "Nothing" : "Remove"]</A></td></tr>"
+	dat += "<tr><td><B>UNDERWEAR</B></td></tr>"
+	if(SLOT_UNDERWEAR_BOTTOM in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERWEAR_BOTTOM]'>[(underwear_bottom && !(underwear_bottom.item_flags & ABSTRACT)) ? underwear_bottom : "<font color=grey>Underwear Bottom</font>"]</A></td></tr>"
+
+	if(SLOT_UNDERWEAR_TOP in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERWEAR_TOP]'>[(underwear_top && !(underwear_top.item_flags & ABSTRACT)) ? underwear_top : "<font color=grey>Underwear Top</font>"]</A></td></tr>"
+
+	if(SLOT_UNDERSHIRT in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_UNDERSHIRT]'>[(undershirt && !(undershirt.item_flags & ABSTRACT)) ? undershirt : "<font color=grey>Undershirt</font>"]</A></td></tr>"
+
+	if(SLOT_SOCKS in obscured)
+		dat += "<tr><td><font color=grey>Obscured</font></td></tr>"
+	else
+		dat += "<tr><td><A href='?src=[REF(src)];item=[SLOT_SOCKS]'>[(legwear_socks && !(legwear_socks.item_flags & ABSTRACT)) ? legwear_socks : "<font color=grey>Socks</font>"]</A></td></tr>"
 #endif
 
+	dat += "<tr><td><hr></td></tr>"
 	dat += {"</table>"}
 
-	var/datum/browser/popup = new(user, "mob[REF(src)]", "[src]", 220, 690)
-	popup.set_content(dat.Join())
-	popup.open()
+	return dat.Join()
 
 // called when something steps onto a human
 // this could be made more general, but for now just handle mulebot
@@ -1011,7 +1042,7 @@
 	lip_style = target.lip_style
 	lip_color = target.lip_color
 	age = target.age
-	underwear = target.underwear
+	underwear_bottom = target.underwear_bottom
 	shavelevel = target.shavelevel
 	socks = target.socks
 	has_stubble = target.has_stubble

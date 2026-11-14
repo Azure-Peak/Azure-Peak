@@ -45,7 +45,7 @@ Even though they are of mixed blood and smaller than typical dwarves, most gnome
 		OFFSET_CLOAK_F = list(0,0), OFFSET_FACEMASK_F = list(0,-5), OFFSET_HEAD_F = list(0,-5), \
 		OFFSET_FACE_F = list(0,-5), OFFSET_BELT_F = list(0,-5), OFFSET_BACK_F = list(0,-5), \
 		OFFSET_NECK_F = list(0,-5), OFFSET_MOUTH_F = list(0,-5), OFFSET_PANTS_F = list(0,0), \
-		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDIES = list(0,-4), OFFSET_UNDIES_F = list(0,-4), \
+		OFFSET_SHIRT_F = list(0,0), OFFSET_ARMOR_F = list(0,0), OFFSET_UNDERWEAR_BOTTOM = list(0,-4), OFFSET_UNDERWEAR_TOP = list(0,-4), OFFSET_UNDERWEAR_BOTTOM_F = list(0,-4), OFFSET_UNDERWEAR_TOP_F = list(0,-4), \
 		)
 	race_bonus = list( STAT_INTELLIGENCE = 1, STAT_PERCEPTION = 1,)// STAT_CONSTITUTION = -1, ) //leaving off the negative con for now, if inteligence and perception is too strong together, I can put it back in
 	enflamed_icon = "widefire"
@@ -67,8 +67,12 @@ Even though they are of mixed blood and smaller than typical dwarves, most gnome
 		/datum/customizer/bodypart_feature/hair/facial/humanoid,
 		/datum/customizer/bodypart_feature/accessory,
 		/datum/customizer/bodypart_feature/face_detail,
-		/datum/customizer/bodypart_feature/underwear,
-		/datum/customizer/bodypart_feature/legwear,
+		/datum/customizer/clothing/underwear_bottom,
+		/datum/customizer/clothing/underwear_top,
+		/datum/customizer/clothing/undershirt,
+		/datum/customizer/clothing/armsleeves,
+		/datum/customizer/clothing/earrings,
+		/datum/customizer/clothing/legwear,
 		/datum/customizer/bodypart_feature/piercing,
 		/datum/customizer/organ/testicles/anthro,
 		/datum/customizer/organ/penis/anthro,

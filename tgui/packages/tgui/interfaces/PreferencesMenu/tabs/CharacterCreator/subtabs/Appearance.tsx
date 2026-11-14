@@ -17,7 +17,7 @@ import {
   Stack,
   Tooltip,
 } from 'tgui-core/components';
-import type { AppearanceData, Marking } from '../data';
+import type { AppearanceData, Customizer, Marking } from '../data';
 import { FeatureChoice } from './Appearance/FeatureChoice';
 
 export const SubtabAppearance = () => {
@@ -75,10 +75,7 @@ const SubtabAppearanceCardBody = () => {
       <LabeledGridList>
         <LabeledGridList.Item label="Body Type">
           {Object.keys(body_type_options).length ? (
-            <BodyTypeSelection
-              options={body_type_options}
-              value={body_type}
-            />
+            <BodyTypeSelection options={body_type_options} value={body_type} />
           ) : (
             <Button fluid onClick={() => act('bodytype')}>
               Other
@@ -242,45 +239,75 @@ const SkinToneSelection = () => {
 };
 
 const SubtabAppearanceCardFeatures = () => {
-  const { act, data } = useBackendStrict<AppearanceData>();
-  const { customizers } = data;
+  const { data } = useBackendStrict<AppearanceData>();
+  const groups = new Map<string, Customizer[]>();
+
+  for (const customizer of data.customizers) {
+    const key = customizer.group || customizer.type;
+    const entries = groups.get(key);
+    if (entries) {
+      entries.push(customizer);
+    } else {
+      groups.set(key, [customizer]);
+    }
+  }
 
   return (
     <Section>
       <Box className="PreferencesMenu__Grid PreferencesMenu__Features">
-        {customizers.map((c) => (
-          <Section
-            key={c.name}
-            title={c.name}
-            buttons={
-              <Button.Checkbox
-                inline
-                checked={!c.disabled}
-                selected={!c.disabled}
-                style={
-                  c.allows_disabling
-                    ? undefined
-                    : {
-                        visibility: 'hidden',
-                      }
-                }
-                onClick={() =>
-                  act('change_customizer', {
-                    customizer: c.type,
-                    customizer_task: 'toggle_missing',
-                  })
-                }
-              />
-            }
-          >
-            {c.disabled ? (
-              <Box>Disabled</Box>
-            ) : (
-              <FeatureChoice customizer={c} />
-            )}
-          </Section>
-        ))}
+        {Array.from(groups, ([key, entries]) =>
+          entries[0].group ? (
+            <Section key={key} title={entries[0].group}>
+              <Stack vertical>
+                {entries.map((customizer) => (
+                  <Stack.Item key={customizer.type}>
+                    <CustomizerFeature customizer={customizer} />
+                  </Stack.Item>
+                ))}
+              </Stack>
+            </Section>
+          ) : (
+            <CustomizerFeature key={key} customizer={entries[0]} />
+          ),
+        )}
       </Box>
+    </Section>
+  );
+};
+
+const CustomizerFeature = (props: { customizer: Customizer }) => {
+  const { act } = useBackendStrict<AppearanceData>();
+  const { customizer } = props;
+
+  return (
+    <Section
+      title={customizer.name}
+      buttons={
+        <Button.Checkbox
+          inline
+          checked={!customizer.disabled}
+          selected={!customizer.disabled}
+          style={
+            customizer.allows_disabling
+              ? undefined
+              : {
+                  visibility: 'hidden',
+                }
+          }
+          onClick={() =>
+            act('change_customizer', {
+              customizer: customizer.type,
+              customizer_task: 'toggle_missing',
+            })
+          }
+        />
+      }
+    >
+      {customizer.disabled ? (
+        <Box>Disabled</Box>
+      ) : (
+        <FeatureChoice customizer={customizer} />
+      )}
     </Section>
   );
 };

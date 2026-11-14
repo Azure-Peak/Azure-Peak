@@ -18,11 +18,11 @@
 	icon_state = null
 
 /datum/sprite_accessory/hair/head/shorthaireighties
-	name = "80s-style Hair"
+	name = "80s-Style Hair"
 	icon_state = "80s"
 
 /datum/sprite_accessory/hair/head/shorthaireighties_alt
-	name = "80s-style Hair (Alt)"
+	name = "80s-Style Hair (Alt)"
 	icon_state = "80s_alt"
 
 /datum/sprite_accessory/hair/head/afro
@@ -330,15 +330,15 @@
 	icon_state = "gentle"
 
 /datum/sprite_accessory/hair/head/halfbang
-	name = "Half-banged Hair"
+	name = "Half-Banged Hair"
 	icon_state = "halfbang"
 
 /datum/sprite_accessory/hair/head/halfbang2
-	name = "Half-banged Hair 2"
+	name = "Half-Banged Hair 2"
 	icon_state = "halfbang2"
 
 /datum/sprite_accessory/hair/head/halfshaved
-	name = "Half-shaved"
+	name = "Half-Shaved"
 	icon_state = "halfshaved"
 
 /datum/sprite_accessory/hair/head/hedgehog
@@ -635,7 +635,7 @@
 	icon_state = "rosa"
 
 /datum/sprite_accessory/hair/head/shoulderlength
-	name = "Shoulder-length Hair"
+	name = "Shoulder-Length Hair"
 	icon_state = "shoulder"
 
 /datum/sprite_accessory/hair/head/sidecut
@@ -751,7 +751,7 @@
 	icon_state = "veryshortovereyealternate"
 
 /datum/sprite_accessory/hair/head/longestalt
-	name = "Very Long with Fringe"
+	name = "Very Long With Fringe"
 	icon_state = "vlongfringe"
 
 /datum/sprite_accessory/hair/head/volaju
@@ -1219,7 +1219,7 @@
 	icon_state = "dual_twists"
 
 /datum/sprite_accessory/hair/head/twistbun
-	name = "Dual Twists (with bun)"
+	name = "Dual Twists (With Bun)"
 	icon_state = "twists_bun"
 
 /datum/sprite_accessory/hair/head/kandake
@@ -1819,23 +1819,23 @@
 	icon_state = "volaju"
 
 /datum/sprite_accessory/hair/facial/threeoclock
-	name = "Beard (Three o Clock Shadow)"
+	name = "Beard (Three O Clock Shadow)"
 	icon_state = "3oclock"
 
 /datum/sprite_accessory/hair/facial/fiveoclock
-	name = "Beard (Five o Clock Shadow)"
+	name = "Beard (Five O Clock Shadow)"
 	icon_state = "5oclock"
 
 /datum/sprite_accessory/hair/facial/fiveoclockm
-	name = "Beard (Five o Clock Moustache)"
+	name = "Beard (Five O Clock Moustache)"
 	icon_state = "5oclock_moustache"
 
 /datum/sprite_accessory/hair/facial/sevenoclock
-	name = "Beard (Seven o Clock Shadow)"
+	name = "Beard (Seven O Clock Shadow)"
 	icon_state = "7oclock"
 
 /datum/sprite_accessory/hair/facial/sevenoclockm
-	name = "Beard (Seven o Clock Moustache)"
+	name = "Beard (Seven O Clock Moustache)"
 	icon_state = "7oclock_moustache"
 
 /datum/sprite_accessory/hair/facial/stubble
@@ -1863,7 +1863,7 @@
 	icon_state = "moustache"
 
 /datum/sprite_accessory/hair/facial/fiveoclockmoustache
-	name = "Moustache (Five o Clock)"
+	name = "Moustache (Five O Clock)"
 	icon_state = "5oclockmoustache"
 
 /datum/sprite_accessory/hair/facial/pencilstache

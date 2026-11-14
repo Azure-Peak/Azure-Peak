@@ -493,7 +493,7 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 				chest.skeletonized = TRUE
 				if(ishuman(src))
 					var/mob/living/carbon/human/H = src
-					qdel(H.underwear)
+					qdel(H.underwear_bottom)
 				should_update_body = TRUE
 				if(dna && dna.species)
 					if(dna && dna.species && !(NOBLOOD in dna.species.species_traits))

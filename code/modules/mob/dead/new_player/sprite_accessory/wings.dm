@@ -49,9 +49,9 @@
 	name = "Bat"
 	icon_state = "bat"
 
-/datum/sprite_accessory/wings/featheryv2
-	name = "Feathery v2"
-	icon_state = "featheryv2"
+/datum/sprite_accessory/wings/feathery_alt
+	name = "Feathery (Alt)"
+	icon_state = "featheryalt"
 
 /datum/sprite_accessory/wings/dragon/clipped
 	name = "Clipped Dragon"
@@ -165,15 +165,15 @@
 	extra_state = TRUE
 
 /datum/sprite_accessory/wings/wide/dragon_synth
-	name = "Dragon (synthetic alt)"
+	name = "Dragon (Synthetic Alt)"
 	icon_state = "dragonsynth"
 
 /datum/sprite_accessory/wings/wide/dragon_alt1
-	name = "Dragon (alt 1)"
+	name = "Dragon (Alt 1)"
 	icon_state = "dragonalt1"
 
 /datum/sprite_accessory/wings/wide/dragon_alt2
-	name = "Dragon (alt 2)"
+	name = "Dragon (Alt 2)"
 	icon_state = "dragonalt2"
 
 /datum/sprite_accessory/wings/wide/harpywings
@@ -182,7 +182,7 @@
 	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/harpywingsalt1
-	name = "Harpy (alt 1)"
+	name = "Harpy (Alt 1)"
 	icon_state = "harpyalt"
 	can_hide = TRUE
 
@@ -198,7 +198,7 @@
 	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/harpywingsalt1_top
-	name = "Harpy (alt 1) (Top)"
+	name = "Harpy (Alt 1) (Top)"
 	icon_state = "harpyalt_top"
 	relevant_layers = list(BODY_FRONT_LAYER)
 	can_hide = TRUE
@@ -210,19 +210,19 @@
 	can_hide = TRUE
 
 /datum/sprite_accessory/wings/wide/low_wings
-	name = "Low wings"
+	name = "Low Wings"
 	icon_state = "low"
 
 /datum/sprite_accessory/wings/wide/low_wings_top
-	name = "Low wings (Top)"
+	name = "Low Wings (Top)"
 	icon_state = "low_top"
 
 /datum/sprite_accessory/wings/wide/spider
-	name = "Spider legs"
+	name = "Spider Legs"
 	icon_state = "spider_legs"
 
 /datum/sprite_accessory/wings/wide/robowing
-	name = "mechanical dragon wings"
+	name = "Mechanical Dragon Wings"
 	icon_state = "robowing"
 
 /datum/sprite_accessory/wings/huge
