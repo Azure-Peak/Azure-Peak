@@ -33,7 +33,6 @@ type StockRow = {
   limit: number;
   withdraw_price: number;
   deposit_price: number;
-  export_price: number;
   royal_amount: number;
   never_supplied: BooleanLike;
   sold_out: BooleanLike;

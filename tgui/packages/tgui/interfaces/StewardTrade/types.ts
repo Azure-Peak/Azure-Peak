@@ -4,7 +4,6 @@ import type { BooleanLike } from 'tgui-core/react';
 
 export type GoodCatalogEntry = {
   name: string;
-  importable: BooleanLike;
   category: string;
 };
 
@@ -241,19 +240,9 @@ export type BanditryProjection = {
   hoard_total: number;
 };
 
-export type MarketRegionOption = {
-  region_id: string;
-  unit_price: number;
-  capacity_today: number;
-  capacity_total: number;
-  batch_capacity: number;
-  is_blockaded: BooleanLike;
-};
-
 export type MarketRow = {
   good_id: string;
   stock: number;
-  stock_limit: number;
   market_stock: number;
   market_target: number;
   market_label: string;
@@ -262,11 +251,6 @@ export type MarketRow = {
   never_supplied: BooleanLike;
   sold_out: BooleanLike;
   event_tag: string;
-  // Sorted: import_regions ascending by unit_price (best buy first),
-  // export_regions descending (best sell first). Entry [0] is the auto-routed default.
-  import_regions: MarketRegionOption[];
-  export_regions: MarketRegionOption[];
-  autoexport_disabled: BooleanLike;
 };
 
 export type RegionFlow = {
@@ -280,55 +264,6 @@ export type RegionRow = {
   blockaded: BooleanLike;
   produces: RegionFlow[];
   demands: RegionFlow[];
-};
-
-export type AutoImportRow = {
-  good_id: string;
-  active: BooleanLike;
-  stock: number;
-};
-
-export type AutoImportHistoryEntry = {
-  day: number;
-  spent: number;
-  lines: string[];
-};
-
-export type AutoImportData = {
-  today_spent: number;
-  purse_floor: number;
-  floor_target: number;
-  batch_size: number;
-  max_price_mult: number;
-  essentials: AutoImportRow[];
-  others: AutoImportRow[];
-  history: AutoImportHistoryEntry[];
-};
-
-export type TradeQuote = {
-  ok: BooleanLike;
-  reason: string;
-  side: 'import' | 'export';
-  region_id: string;
-  good_id: string;
-  region_name: string;
-  good_name: string;
-  quantity: number;
-  max_units: number;
-  daily_pace: number;
-  batch_capacity: number;
-  capacity_today: number;
-  capacity_total: number;
-  base_unit_price: number;
-  base_subtotal: number;
-  escalation_subtotal: number;
-  total: number;
-  balance: number;
-  balance_after: number;
-  is_blockaded: BooleanLike;
-  can_afford: BooleanLike;
-  stockpile_amount: number;
-  stockpile_after: number;
 };
 
 export type PetitionTemplate = {
@@ -389,11 +324,6 @@ export type Data = StaticData & {
   active_orders: Order[];
   market_rows: MarketRow[];
   region_rows: RegionRow[];
-  auto_import: AutoImportData;
-  trade_quote: TradeQuote | null;
-  autoexport_percentage: number;
-  autoexport_barred: number;
-  shortage_goods_open: number;
   petition_categories: PetitionCategory[];
   petition_tax_pct: number;
   petitions_per_day: number;
@@ -402,11 +332,4 @@ export type Data = StaticData & {
   atc_loan: AtcLoanState;
 };
 
-export type TabKey =
-  | 'orders'
-  | 'market'
-  | 'regions'
-  | 'auto_import'
-  | 'petition'
-  | 'ledger'
-  | 'advanced';
+export type TabKey = 'orders' | 'market' | 'regions' | 'petition' | 'ledger';

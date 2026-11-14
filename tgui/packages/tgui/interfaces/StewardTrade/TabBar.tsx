@@ -59,22 +59,10 @@ export const TabBar = (props: {
         Regions
       </div>
       <div
-        style={tabStyle(tab === 'auto_import')}
-        onClick={() => onSwitch('auto_import')}
-      >
-        Autoimport
-      </div>
-      <div
         style={tabStyle(tab === 'petition')}
         onClick={() => onSwitch('petition')}
       >
         Petition
-      </div>
-      <div
-        style={tabStyle(tab === 'advanced')}
-        onClick={() => onSwitch('advanced')}
-      >
-        Advanced
       </div>
     </div>
   );

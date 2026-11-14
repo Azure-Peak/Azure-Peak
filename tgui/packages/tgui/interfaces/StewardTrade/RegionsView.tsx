@@ -1,13 +1,11 @@
 import { useState } from 'react';
 
-import { useBackend } from '../../backend';
 import {
   badgeStyle,
   cardStyle,
   FONT_BODY,
   INK_FAINT,
   INK_SOFT,
-  inkButtonStyle,
   PARCHMENT_SHADOW,
   SEAL_BLUE,
   SEAL_GREEN,
@@ -38,7 +36,6 @@ export const RegionsView = (props: { data: Data }) => {
 };
 
 const RegionCard = (props: { region: RegionRow; data: Data }) => {
-  const { act } = useBackend<Data>();
   const { region, data } = props;
   const meta = data.region_catalog[region.region_id];
   const regionName = meta?.name ?? region.region_id;
@@ -115,37 +112,6 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
               flows={region.demands}
               data={data}
             />
-          </div>
-          <div
-            style={{
-              marginTop: '8px',
-              marginLeft: '16px',
-              display: 'flex',
-              gap: '6px',
-            }}
-          >
-            {producesCount > 0 && (
-              <button
-                type="button"
-                style={inkButtonStyle({ color: SEAL_BLUE })}
-                onClick={() =>
-                  act('trade_region_import', { region_id: region.region_id })
-                }
-              >
-                Import from {regionName}
-              </button>
-            )}
-            {demandsCount > 0 && (
-              <button
-                type="button"
-                style={inkButtonStyle({ color: SEAL_GREEN })}
-                onClick={() =>
-                  act('trade_region_export', { region_id: region.region_id })
-                }
-              >
-                Export to {regionName}
-              </button>
-            )}
           </div>
         </>
       )}

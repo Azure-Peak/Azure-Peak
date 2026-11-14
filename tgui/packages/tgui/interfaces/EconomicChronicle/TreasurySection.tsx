@@ -80,7 +80,6 @@ const CommerceColumn = (props: { t: TreasurySnapshot }) => {
       <div style={columnSubheadStyle}>Commerce</div>
       <table style={twoColTable}>
         <tbody>
-          <Row label="Stockpile Exports" value={t.stockpile_exports} />
           <Row label="Bought from Stockpile" value={t.stockpile_revenue} />
           <Row label="Direct Imports" value={t.stockpile_direct_imports} />
           <Row label="Standing Order Revenue" value={t.standing.revenue} />
@@ -94,7 +93,6 @@ const CommerceColumn = (props: { t: TreasurySnapshot }) => {
       <table style={twoColTable}>
         <tbody>
           <Row label="Shortages Ended Early" value={t.shortages_ended} />
-          <Row label="Trade Balance" value={formatSigned(t.trade_balance)} color={signColor(t.trade_balance)} />
           <Row label="Foreign Trade Volume" value={t.foreign_trade_volume} />
         </tbody>
       </table>

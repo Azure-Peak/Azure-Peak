@@ -11,10 +11,8 @@ import {
   subtitleStyle,
   titleStyle,
 } from './common/parchment';
-import { AdvancedView } from './StewardTrade/AdvancedView';
 import { ArrearsBanner } from './StewardTrade/ArrearsBanner';
 import { ATCLoanBanner } from './StewardTrade/ATCLoanBanner';
-import { AutoImportView } from './StewardTrade/AutoImportView';
 import { BanditryBanner } from './StewardTrade/BanditryBanner';
 import { BlockadeBanner } from './StewardTrade/BlockadeBanner';
 import { EventsBanner } from './StewardTrade/EventsBanner';
@@ -26,16 +24,12 @@ import { RegionsView } from './StewardTrade/RegionsView';
 import { SequesteredOverlay } from './StewardTrade/SequesteredOverlay';
 import { SequestrationBanner } from './StewardTrade/SequestrationBanner';
 import { TabBar } from './StewardTrade/TabBar';
-import { TradeModal, type TradeModalRequest } from './StewardTrade/TradeModal';
 import type { Data, TabKey } from './StewardTrade/types';
 import { formatMammon } from './common/format';
 
 export const StewardTrade = () => {
   const { data, act } = useBackend<Data>();
   const [tab, setTab] = useState<TabKey>('orders');
-  const [tradeRequest, setTradeRequest] = useState<TradeModalRequest | null>(
-    null,
-  );
 
   useEffect(() => {
     if (tab === 'ledger') {
@@ -106,40 +100,13 @@ export const StewardTrade = () => {
               active={!!data.sequestration?.active}
               label="Market & Stockpile"
             >
-              <MarketView data={data} onTrade={setTradeRequest} />
+              <MarketView data={data} />
             </SequesteredOverlay>
           )}
-          {tab === 'regions' && (
-            <SequesteredOverlay
-              active={!!data.sequestration?.active}
-              label="Regional Trade"
-            >
-              <RegionsView data={data} />
-            </SequesteredOverlay>
-          )}
-          {tab === 'auto_import' && (
-            <SequesteredOverlay
-              active={!!data.sequestration?.active}
-              label="Imports"
-            >
-              <AutoImportView data={data} />
-            </SequesteredOverlay>
-          )}
+          {tab === 'regions' && <RegionsView data={data} />}
           {tab === 'petition' && <PetitionView data={data} />}
           {tab === 'ledger' && <LedgerView data={data} />}
-          {tab === 'advanced' && (
-            <SequesteredOverlay
-              active={!!data.sequestration?.active}
-              label="Advanced"
-            >
-              <AdvancedView data={data} />
-            </SequesteredOverlay>
-          )}
         </div>
-        <TradeModal
-          request={tradeRequest}
-          onClose={() => setTradeRequest(null)}
-        />
       </Window.Content>
     </Window>
   );

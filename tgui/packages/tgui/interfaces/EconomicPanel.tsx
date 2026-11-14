@@ -177,7 +177,6 @@ type Bankruptcy = {
   operating_floor: number;
   arrears_loan_floor: number;
   recovery_reset: number;
-  autoexport_override: number;
   suspended_charters: SuspendedCharter[];
   atc_loan_min: number;
   atc_loan_max: number;
@@ -441,9 +440,6 @@ export const EconomicPanel = () => {
                       </LabeledList.Item>
                       <LabeledList.Item label="Recovery Reset">
                         {bankruptcy.recovery_reset}m
-                      </LabeledList.Item>
-                      <LabeledList.Item label="Sequestration Auto-Export">
-                        {bankruptcy.autoexport_override}%
                       </LabeledList.Item>
                       <LabeledList.Item label="ATC Loans This Round">
                         {bankruptcy.atc_loans_drawn}
