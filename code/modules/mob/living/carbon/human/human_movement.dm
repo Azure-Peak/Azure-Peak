@@ -120,38 +120,14 @@
 
 // ===== MOUNTING PONIES =====
 
-/mob/living/carbon/human/buckle_mob(mob/living/M, force = FALSE, check_loc = TRUE)
-	if(!force && !HAS_TRAIT(src, TRAIT_MOUNTABLE))
-		return FALSE
-
-	if(..()) // call parent buckle
-		var/datum/component/riding/human/riding_datum = LoadComponent(/datum/component/riding/human)
-		if(!buckled_mobs || buckled_mobs.Find(M) == 1)
-			riding_datum.vehicle_move_delay = 2
-			if(M.mind)
-				var/riding_skill = M.get_skill_level(/datum/skill/misc/riding)
-				if(riding_skill)
-					riding_datum.vehicle_move_delay = max(1, 2 - (riding_skill * 0.2))
-		return TRUE
-	return FALSE
-
 /mob/living/carbon/human/post_buckle_mob(mob/living/M)
-	var/datum/component/riding/human/riding_datum = LoadComponent(/datum/component/riding/human)
-	riding_datum.handle_vehicle_layer()
-	riding_datum.handle_vehicle_offsets()
+	return
 
 /mob/living/carbon/human/relaymove(mob/user, direction)
-	if(HAS_TRAIT(src, TRAIT_MOUNTABLE))
-		var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
-		if(riding_datum)
-			// one rider
-			var/mob/living/driver = null
-			if(buckled_mobs && buckled_mobs.len)
-				driver = buckled_mobs[1]
-			if(!driver || user != driver)
-				return
-			return riding_datum.handle_ride(driver, direction)
-	return ..()
+	if(!HAS_TRAIT(src, TRAIT_MOUNTABLE) || buckle_lying > 0)
+		return ..()
+	var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
+	return riding_datum?.handle_ride(user, direction)
 
 /mob/living/carbon/human/Knockdown(amount, updating = TRUE)
 	. = ..() // parent Knockdown

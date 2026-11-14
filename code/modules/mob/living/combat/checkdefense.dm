@@ -37,9 +37,9 @@
 		return FALSE
 	if(user == src)
 		return FALSE
-	if(!(mobility_flags & MOBILITY_MOVE))
+	var/mounted = ismob(buckled) && buckled.buckle_lying <= 0
+	if(mounted ? incapacitated() : !(mobility_flags & MOBILITY_MOVE))
 		return FALSE
-
 
 	if(is_drawing_ranged())
 		return FALSE
@@ -67,7 +67,8 @@
 		if(INTENT_PARRY)
 			return attempt_parry(attack_intent, user)
 		if(INTENT_DODGE)
-			return attempt_dodge(attack_intent, user)
+			if(!mounted)
+				return attempt_dodge(attack_intent, user)
 
 /mob/living/proc/start_climb()
 	if(doing || mid_climb)

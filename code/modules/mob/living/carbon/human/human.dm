@@ -884,7 +884,7 @@
 		if(do_after(src, carrydelay, TRUE, target))
 			//Second check to make sure they're still valid to be carried
 			if(can_be_firemanned(target) && !incapacitated(FALSE, TRUE))
-				buckle_mob(target, TRUE, TRUE, 90, 0, 0)
+				buckle_mob(target, TRUE, TRUE, 90)
 				return
 	to_chat(src, span_warning("I fail to carry [target]."))
 
@@ -896,48 +896,23 @@
 				if(target.incapacitated(FALSE, TRUE) || incapacitated(FALSE, TRUE))
 					to_chat(target, span_warning("I can't piggyback ride [src]."))
 					return
-				if(buckle_mob(target, TRUE, TRUE, FALSE, 0, 0) && HAS_TRAIT(src, TRAIT_MOUNTABLE))
-					var/datum/component/riding/human/riding_datum = LoadComponent(/datum/component/riding/human)
-					riding_datum.vehicle_move_delay = 4
-					if(target.mind)
-						var/riding_skill = target.get_skill_level(/datum/skill/misc/riding)
-						if(riding_skill)
-							riding_datum.vehicle_move_delay = max(1, 3 - (riding_skill * 0.2))
+				buckle_mob(target, TRUE, TRUE, FALSE)
 	else
 		to_chat(target, span_warning("I can't piggyback ride [src]."))
 
-/mob/living/carbon/human/buckle_mob(mob/living/target, force = FALSE, check_loc = TRUE, lying_buckle = FALSE, hands_needed = 0, target_hands_needed = 0)
+/mob/living/carbon/human/buckle_mob(mob/living/target, force = FALSE, check_loc = TRUE, lying_buckle = FALSE)
 	if(!force)//humans are only meant to be ridden through piggybacking and special cases
-		return
+		return FALSE
 	if(!is_type_in_typecache(target, can_ride_typecache))
 		target.visible_message(span_warning("[target] really can't seem to mount [src]..."))
-		return
+		return FALSE
+	if(buckled || target.buckled || LAZYLEN(buckled_mobs) >= max_buckled_mobs)
+		return FALSE
 	buckle_lying = lying_buckle
 	var/datum/component/riding/human/riding_datum = LoadComponent(/datum/component/riding/human)
-	if(target_hands_needed)
-		riding_datum.ride_check_rider_restrained = TRUE
-	if(buckled_mobs && ((target in buckled_mobs) || (buckled_mobs.len >= max_buckled_mobs)) || buckled)
-		return
-	var/equipped_hands_self
-	var/equipped_hands_target
-	if(hands_needed)
-		equipped_hands_self = riding_datum.equip_buckle_inhands(src, hands_needed, target)
-	if(target_hands_needed)
-		equipped_hands_target = riding_datum.equip_buckle_inhands(target, target_hands_needed)
-
-	if(hands_needed || target_hands_needed)
-		if(hands_needed && !equipped_hands_self)
-			src.visible_message(span_warning("[src] can't get a grip on [target] because their hands are full!"),
-				span_warning("I can't get a grip on [target] because your hands are full!"))
-			return
-		else if(target_hands_needed && !equipped_hands_target)
-			target.visible_message(span_warning("[target] can't get a grip on [src] because their hands are full!"),
-				span_warning("I can't get a grip on [src] because your hands are full!"))
-			return
-
-	//stop_pulling()
-	riding_datum.handle_vehicle_layer()
 	. = ..(target, force, check_loc)
+	if(. && riding_datum.driver == target)
+		riding_datum.vehicle_move_delay = max(1, 2 - target.get_skill_level(/datum/skill/misc/riding) * 0.2)
 
 /mob/living/carbon/human/proc/is_shove_knockdown_blocked() //If you want to add more things that block shove knockdown, extend this
 	var/list/body_parts = list(head, wear_mask, wear_armor, wear_pants, back, gloves, shoes, belt, s_store, glasses, ears, wear_ring) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
