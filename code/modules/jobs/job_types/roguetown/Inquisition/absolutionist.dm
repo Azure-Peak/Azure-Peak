@@ -14,6 +14,7 @@
 	min_pq = 3
 	max_pq = null
 	round_contrib_points = 2
+	quest_claim_barred = TRUE // You're a pacifist
 	wanderer_examine = FALSE
 	advjob_examine = FALSE
 	give_bank_account = 15

@@ -193,6 +193,7 @@
 				"patrons" = roster_data,
 			)
 	data["patron_rosters"] = patron_rosters
+	data["merc"] = merc_meister_data(H)
 
 	return data
 
@@ -246,6 +247,37 @@
 			handle_toggle_bathhouse_withdrawals(H, params)
 			SStgui.update_uis(src)
 			return TRUE
+		if("request_merc_contract")
+			handle_request_merc_contract(H)
+			SStgui.update_uis(src)
+			return TRUE
+		if("merc_end_contract")
+			handle_merc_end_contract(H, params, FALSE)
+			return TRUE
+		if("merc_propose_end")
+			handle_merc_end_contract(H, params, TRUE)
+			SStgui.update_uis(src)
+			return TRUE
+
+/obj/structure/roguemachine/atm/proc/handle_merc_end_contract(mob/living/carbon/human/H, list/params, agreed)
+	var/datum/merc_contract/contract = locate(params["ref"])
+	if(!istype(contract) || !(contract in GLOB.merc_contracts))
+		return
+	if(agreed)
+		contract.propose_agreed_end(H)
+		return
+	INVOKE_ASYNC(contract, TYPE_PROC_REF(/datum/merc_contract, try_end_early), H)
+
+/obj/structure/roguemachine/atm/proc/handle_request_merc_contract(mob/living/carbon/human/H)
+	if(!is_mercenary_job(H))
+		return
+	var/datum/merc_contract/contract = get_merc_contract(H)
+	if(contract)
+		to_chat(H, span_warning("You are under contract with [contract.hirer_name]."))
+		return
+	grant_merc_contract(H, in_hand = TRUE)
+	playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
+	say("A new mercenary contract for [H.real_name].")
 
 /obj/structure/roguemachine/atm/proc/handle_toggle_bathhouse_ordinance(mob/living/carbon/human/H)
 	if(!istype(H))

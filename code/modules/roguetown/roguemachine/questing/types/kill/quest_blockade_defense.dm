@@ -11,7 +11,7 @@
 	threat_bands_cleared = QUEST_BANDS_BLOCKADE
 	required_fellowship_size = 0
 	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_BLOCKADE
-	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA_BLOCKADE
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 
 	var/current_wave = 0
 	var/wave_timer_id
@@ -122,20 +122,19 @@
 	var/mob/living/bearer = quest_receiver_reference?.resolve()
 	if(bearer)
 		present |= present_fellowship_members(bearer, landmark)
-	var/turf/center = get_turf(landmark)
-	if(center)
-		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
-			if(L.client && L.stat != DEAD)
-				present |= L
 	for(var/mob/living/M as anything in present)
 		if(length(fellowship_roster) >= QUEST_FELLOWSHIP_SCALE_MAX)
 			break
 		fellowship_roster += WEAKREF(M)
+	roster_fellowship_ref = WEAKREF(bearer?.current_fellowship)
 	fellowship_split_payout = bearer?.current_fellowship?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = max(0, length(fellowship_roster) - BLOCKADE_FELLOWSHIP_REQUIREMENT)
-	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
-	fellowship_reward_mult = 1 + fellowship_reward_rate * fellowship_extras
+	fellowship_missing = signed_at_ledger ? max(0, required_fellowship_size - length(fellowship_roster)) : 0
+	fellowship_threat_mult = group_threat_mult(fellowship_extras - fellowship_missing)
+	fellowship_reward_mult = group_reward_mult(fellowship_extras)
 	reward_amount = round(reward_amount * fellowship_reward_mult)
+	if(fellowship_missing)
+		scale_for_missing_crew(length(fellowship_roster))
 
 /datum/quest/kill/blockade_defense/proc/award_defender_triumphs(region_name)
 	for(var/datum/weakref/W as anything in fellowship_roster)
@@ -236,12 +235,6 @@
 			for(var/mob/living/M as anything in bearer.current_fellowship.get_members())
 				if(!QDELETED(M))
 					defenders |= M
-	var/obj/effect/landmark/quest_spawner/landmark = wave_landmark_ref?.resolve()
-	var/turf/center = landmark ? get_turf(landmark) : null
-	if(center)
-		for(var/mob/living/L in range(BLOCKADE_DEFENDER_SCAN_RANGE, center))
-			if(L.client && L.stat != DEAD)
-				defenders |= L
 	return defenders
 
 /datum/quest/kill/blockade_defense/proc/announce_to_defenders(msg)
@@ -399,6 +392,7 @@
 				to_chat(payee, span_notice("The final wave breaks. Your share of the reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m."))
 			else
 				announce_to_bearer("The final wave breaks. Your reward has been paid to your account. Gross: [share]m. Tax: [share_tax]m. Net: [share - share_tax]m.")
+		pay_merc_contract_bonuses(src, shares)
 		var/leftover = payout - paid_out
 		var/mob/living/sink = fellowship_leftover_sink(shares, lead)
 		if(leftover > 0)

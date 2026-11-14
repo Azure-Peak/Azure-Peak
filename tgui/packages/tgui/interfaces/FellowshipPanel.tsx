@@ -37,6 +37,7 @@ type FellowshipData = {
   fellowship_name?: string;
   is_leader?: BooleanLike;
   payout_mode?: string;
+  payout_locked?: BooleanLike;
   debug_local?: BooleanLike;
   leader_name?: string | null;
   leader_present?: BooleanLike;
@@ -180,7 +181,12 @@ const FellowshipView = () => {
           buttons={
             <Button
               icon={split ? 'users' : 'user'}
-              disabled={!isLeader}
+              disabled={!isLeader || !!data.payout_locked}
+              tooltip={
+                data.payout_locked
+                  ? 'Rewards must be split while a sellsword is under contract.'
+                  : undefined
+              }
               onClick={() => act('payout_mode')}
             >
               {split ? 'Split evenly' : 'Whoever turns in'}

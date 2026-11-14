@@ -15,7 +15,10 @@
 	tp_budget = QUEST_TP_BUDGET_NOTORIOUS_GOONS
 	threat_bands_cleared = QUEST_BANDS_NOTORIOUS
 	required_fellowship_size = 2
+	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_HARD
+	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	hunt_duration = NOTORIOUS_BOUNTY_HUNT_TIMER
+	hunt_overtime_max = 0
 	var/boss_name
 	var/datum/weakref/boss_ref
 	var/turf/leash_origin
@@ -43,6 +46,7 @@
 	clear_boss_marker()
 
 /datum/quest/kill/notorious_bounty/on_first_pop()
+	settle_fellowship_arrival(pending_landmark_ref?.resolve())
 	. = ..()
 	if(complete || hunt_tick_id)
 		return
@@ -135,8 +139,8 @@
 	if(!target_mob_type)
 		return 0
 	var/boss_threat = initial(target_mob_type.threat_point) || 0
-	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : tp_budget
-	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + (goon_threat * QUEST_KILL_THREAT_MULT) + (faction?.notorious_bounty_amount || 0)
+	var/goon_threat = (total_spawned_tp > 0) ? total_spawned_tp : round(tp_budget * veteran_threat_mult())
+	return (boss_threat * QUEST_NOTORIOUS_BOUNTY_THREAT_MULT) + kill_tp_reward(goon_threat) + (faction?.notorious_bounty_amount || 0)
 
 /datum/quest/kill/notorious_bounty/estimate_mob_count()
 	return 1
@@ -222,6 +226,7 @@
 	boss.key = chosen.key
 	if(boss.client && boss.ai_controller)
 		QDEL_NULL(boss.ai_controller)
+	temper_player_boss(boss)
 	RegisterSignal(boss, COMSIG_LIVING_DEATH, PROC_REF(on_player_boss_death))
 	// Prevent the mob from getting instaambushed
 	boss.ambushable = FALSE
@@ -247,6 +252,22 @@
 	var/datum/fellowship/F = bearer?.current_fellowship
 	var/mob/living/party_leader = F?.get_leader()
 	message_admins("[key_name_admin(boss)] has taken over notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]), fighting a fellowship led by [party_leader ? key_name_admin(party_leader) : "an unknown party"].")
+
+/datum/quest/kill/notorious_bounty/proc/temper_player_boss(mob/living/carbon/human/boss)
+	if(istype(boss, /mob/living/carbon/human/species/goblin/npc/large))
+		return
+	for(var/stat_key in MOBSTATS)
+		var/excess = boss.get_stat_level(stat_key) - NOTORIOUS_BOUNTY_PLAYER_STAT_CAP
+		if(excess > 0)
+			boss.change_stat(stat_key, -excess)
+	for(var/skill_type in subtypesof(/datum/skill/combat))
+		var/cap = NOTORIOUS_BOUNTY_PLAYER_COMBAT_SKILL_CAP
+		switch(skill_type)
+			if(/datum/skill/combat/shields)
+				cap = NOTORIOUS_BOUNTY_PLAYER_SHIELD_SKILL_CAP
+			if(/datum/skill/combat/wrestling, /datum/skill/combat/unarmed)
+				cap = NOTORIOUS_BOUNTY_PLAYER_BRAWL_SKILL_CAP
+		boss.adjust_skillrank_down_to(skill_type, cap, TRUE)
 
 /datum/quest/kill/notorious_bounty/proc/leash_boss(mob/living/boss)
 	if(boss.stat == DEAD)
@@ -423,5 +444,5 @@
 	message_admins("[key_name_admin(boss)] outlasted notorious bounty '[boss_name]' at [ADMIN_COORDJMP(boss_turf)] ([region]).")
 	return TRUE
 
-/datum/quest/kill/notorious_bounty/faction_fits(datum/quest_faction/F)
+/datum/quest/kill/notorious_bounty/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
 	return ..() && length(F.get_playable_boss_types())

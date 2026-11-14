@@ -74,11 +74,16 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/required_fellowship_size = 0
 	var/fellowship_threat_rate = 0
 	var/fellowship_reward_rate = 0
+	var/fellowship_threat_rate_first
 	var/list/fellowship_roster
 	var/fellowship_extras = 0
+	var/fellowship_missing = 0
+	var/signed_at_ledger = FALSE // Only contracts signed at the ledger should be subject to haircut
+	var/veteran = FALSE
 	var/fellowship_threat_mult = 1
 	var/fellowship_reward_mult = 1
 	var/fellowship_split_payout = FALSE
+	var/datum/weakref/roster_fellowship_ref
 	var/turf/reward_origin_turf
 	var/turf/reward_target_turf
 	var/issuer_may_claim = FALSE
@@ -104,6 +109,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/deposit_paid = 0
 	var/posted_at = 0
 	var/signer_group
+	var/list/datum/weakref/contracted_mercs
 
 /datum/quest/New()
 	. = ..()
@@ -314,11 +320,20 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	return 0
 
 /datum/quest/proc/calculate_delivery_reward(turf/origin_turf, turf/target_turf)
+	return calculate_distance_reward(origin_turf, target_turf) + region_delivery_bonus()
+
+/datum/quest/proc/calculate_distance_reward(turf/origin_turf, turf/target_turf)
 	var/distance = CLAMP(get_dist(origin_turf, target_turf), 0, 200)
-	. = (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
+	return (distance / QUEST_DELIVERY_DISTANCE_DIVISOR) * QUEST_DELIVERY_DISTANCE_BONUS
+
+/datum/quest/proc/region_delivery_bonus()
 	var/datum/threat_region/TR = SSregionthreat.get_region(region)
-	if(TR)
-		. += max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
+	if(!TR)
+		return 0
+	return max(0, (TR.delivery_reward_multiplier - 1.0) * QUEST_DELIVERY_THREAT_BONUS)
+
+/datum/quest/proc/region_scale(datum/threat_region/TR)
+	return TR.delivery_reward_multiplier
 
 /datum/quest/proc/spawn_parcel(obj/effect/landmark/quest_spawner/landmark, parcel_type, list/bundle, parcel_name, parcel_desc, area/delivery_area)
 	var/turf/spawn_turf = landmark.get_safe_spawn_turf()
@@ -351,9 +366,15 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	return round((base + additional + (get_difficulty_term("bonus") || 0)) * payout_mult)
 
 /datum/quest/proc/group_reward_mult(extras)
-	if(!extras || !fellowship_reward_rate)
-		return 1
-	return 1 + fellowship_reward_rate * extras
+	return min((1 + fellowship_reward_rate) ** extras, QUEST_FELLOWSHIP_REWARD_MULT_CAP)
+
+/datum/quest/proc/group_threat_mult(extras)
+	return 1 + fellowship_scale_bonus(extras, fellowship_threat_rate_first, fellowship_threat_rate)
+
+/proc/fellowship_scale_bonus(count, first_rate, rate)
+	if(count > 0 && !isnull(first_rate))
+		return first_rate + rate * (count - 1)
+	return rate * count
 
 /datum/quest/proc/get_difficulty_term(term)
 	var/list/terms = GLOB.quest_difficulty_terms[quest_difficulty]
@@ -428,6 +449,9 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 /datum/quest/proc/count_fellowship_extras(mob/living/user)
 	return max(0, length(available_fellowship_members(user)) - max(1, required_fellowship_size))
 
+/datum/quest/proc/count_fellowship_missing(mob/living/user)
+	return max(0, required_fellowship_size - length(available_fellowship_members(user)))
+
 /datum/quest/proc/lock_fellowship(mob/living/user)
 	if(fellowship_roster)
 		return
@@ -435,21 +459,35 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/datum/fellowship/F = user?.current_fellowship
 	for(var/mob/living/M as anything in available_fellowship_members(user))
 		fellowship_roster += WEAKREF(M)
+	roster_fellowship_ref = WEAKREF(F)
 	fellowship_split_payout = F?.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
 	fellowship_extras = count_fellowship_extras(user)
 	if(!fellowship_extras || (!fellowship_threat_rate && !fellowship_reward_rate))
 		return
-	fellowship_threat_mult = 1 + fellowship_threat_rate * fellowship_extras
+	fellowship_threat_mult = group_threat_mult(fellowship_extras)
 	fellowship_reward_mult = group_reward_mult(fellowship_extras)
 	if(!is_directive)
 		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
 
+/datum/quest/proc/holder_fellowship_splits()
+	var/mob/living/holder = quest_receiver_reference?.resolve()
+	var/datum/fellowship/F = holder?.current_fellowship
+	if(!F || F != roster_fellowship_ref?.resolve())
+		return FALSE
+	return F.payout_mode == FELLOWSHIP_PAYOUT_SPLIT
+
 /datum/quest/proc/fellowship_shares(amount, mob/living/fallback)
 	. = list()
+	if(holder_fellowship_splits())
+		fellowship_split_payout = TRUE
 	var/list/payees = list()
 	for(var/datum/weakref/W as anything in fellowship_roster)
 		var/mob/living/M = W.resolve()
-		if(M && SStreasury.has_account(M))
+		if(!M)
+			continue
+		if(get_merc_contract(M))
+			fellowship_split_payout = TRUE
+		if(SStreasury.has_account(M))
 			payees |= M
 	if(fallback && !SStreasury.has_account(fallback) && length(payees))
 		fallback = payees[1]
@@ -470,16 +508,63 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	return get_objective_text()
 
 /datum/quest/proc/project_fellowship_reward(mob/living/user)
-	var/extras = count_fellowship_extras(user)
-	if(!extras || is_directive || (!fellowship_threat_rate && !fellowship_reward_rate))
-		return reward_amount
-	var/saved_mult = fellowship_threat_mult
-	var/saved_extras = fellowship_extras
-	fellowship_threat_mult = 1 + fellowship_threat_rate * extras
-	fellowship_extras = extras
-	. = calculate_reward(reward_origin_turf, reward_target_turf)
-	fellowship_threat_mult = saved_mult
-	fellowship_extras = saved_extras
+	return project_reward(count_fellowship_extras(user), count_fellowship_missing(user))
+
+/datum/quest/proc/project_reward(extras, missing)
+	. = reward_amount
+	if(!is_directive && (extras || missing) && (fellowship_threat_rate || fellowship_reward_rate))
+		var/saved_mult = fellowship_threat_mult
+		var/saved_extras = fellowship_extras
+		fellowship_threat_mult = group_threat_mult(extras - missing)
+		fellowship_extras = extras
+		. = calculate_reward(reward_origin_turf, reward_target_turf)
+		fellowship_threat_mult = saved_mult
+		fellowship_extras = saved_extras
+	if(missing)
+		. = round(. * (required_fellowship_size - missing) / required_fellowship_size)
+
+/datum/quest/proc/scales_with_group()
+	return !is_directive && (fellowship_threat_rate || fellowship_reward_rate || required_fellowship_size > 1)
+
+/datum/quest/proc/build_size_table(as_veteran = FALSE)
+	var/saved_veteran = veteran
+	var/saved_amount = reward_amount
+	if(as_veteran)
+		veteran = TRUE
+		reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+	. = list()
+	for(var/size in 1 to QUEST_FELLOWSHIP_SCALE_MAX)
+		var/extras = max(0, size - max(1, required_fellowship_size))
+		var/missing = max(0, required_fellowship_size - size)
+		. += list(list(
+			"size" = size,
+			"threat_pct" = round(group_threat_mult(extras - missing) * veteran_threat_mult() * 100, 1),
+			"reward" = project_reward(extras, missing),
+			"short" = missing > 0,
+		))
+	veteran = saved_veteran
+	reward_amount = saved_amount
+
+/datum/quest/proc/can_be_veteran()
+	return FALSE
+
+/datum/quest/proc/veteran_threat_mult()
+	return veteran ? QUEST_VETERAN_THREAT_MULT : 1
+
+/datum/quest/proc/project_veteran_reward(mob/living/user)
+	var/saved_veteran = veteran
+	var/saved_amount = reward_amount
+	veteran = TRUE
+	reward_amount = calculate_reward(reward_origin_turf, reward_target_turf)
+	. = project_fellowship_reward(user)
+	veteran = saved_veteran
+	reward_amount = saved_amount
+
+/datum/quest/proc/project_veteran_objective(mob/living/user)
+	var/saved_veteran = veteran
+	veteran = TRUE
+	. = project_fellowship_objective(user)
+	veteran = saved_veteran
 
 /datum/quest/proc/claim_failure_reason(mob/living/user)
 	if(required_fellowship_size > 0)
@@ -500,6 +585,14 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	record_contract_stat(src, CONTRACT_STAT_TAKEN)
 	record_contract_stat(src, CONTRACT_STAT_WAIT_DS, max(0, world.time - posted_at))
 	record_contract_signer(src, user.ckey)
+	record_contracted_mercs(user)
+
+/datum/quest/proc/record_contracted_mercs(mob/living/user)
+	if(!istype(user))
+		return
+	for(var/mob/living/member as anything in user.current_fellowship?.get_members())
+		if(get_merc_contract(member))
+			LAZYADD(contracted_mercs, WEAKREF(member))
 
 /datum/quest/proc/get_party_size()
 	if(fellowship_roster)

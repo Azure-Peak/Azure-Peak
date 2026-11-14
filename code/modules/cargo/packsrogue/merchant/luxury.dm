@@ -111,11 +111,6 @@
 			/obj/item/reagent_containers/food/snacks/grown/manabloom,
 			)
 
-/datum/supply_pack/rogue/luxury/merctoken
-	name = "Writ of Commendation"
-	cost = 80
-	contains = list(/obj/item/merctoken)
-
 /datum/supply_pack/rogue/luxury/canvas
 	name = "Canvas"
 	cost = 30

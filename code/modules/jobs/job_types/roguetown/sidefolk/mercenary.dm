@@ -13,6 +13,10 @@
 	min_pq = 2		//Will be handled by classes if PQ limiting is needed. --But Until then, learn escalation, mercs.
 	max_pq = null
 	round_contrib_points = 1
+	quest_claim_barred = TRUE
+	quest_claim_towner_allowed = TRUE
+	quest_claim_lowpop_allowed = TRUE
+	quest_claim_solo_allowed = TRUE
 	townie_contract_gate_exempt = TRUE
 	outfit = null	//Handled by classes
 	outfit_female = null
@@ -116,6 +120,10 @@
 
 /datum/advclass/mercenary/post_equip(mob/living/carbon/human/H) // has to be here because this is done AFTER subclass selection
 	. = ..()
+	add_verb(H, /mob/living/carbon/human/proc/mercenary_statusupdate)
+	if(istype(SSjob.GetJob(H.job), /datum/job/roguetown/mercenary))
+		add_verb(H, /mob/living/carbon/human/proc/mercenary_end_contract)
+		grant_merc_contract(H)
 	var/list/subprefs = H.client?.prefs?.job_subprefs
 	if(!subprefs)
 		return

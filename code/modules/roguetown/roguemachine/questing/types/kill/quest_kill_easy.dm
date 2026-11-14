@@ -12,9 +12,13 @@
 	tp_budget = QUEST_TP_BUDGET_KILL_EASY
 	min_mobs = 2
 	threat_bands_cleared = QUEST_BANDS_KILL_EASY
-	fellowship_threat_rate = QUEST_FELLOWSHIP_THREAT_PER_EXTRA_EASY
+	fellowship_threat_rate_first = QUEST_SOLO_SCALE_THREAT_FIRST
+	fellowship_threat_rate = QUEST_SOLO_SCALE_THREAT_AFTER
 	fellowship_reward_rate = QUEST_FELLOWSHIP_REWARD_PER_EXTRA
 	objective_verb = "Slay"
+
+/datum/quest/kill/easy/faction_fits(datum/quest_faction/F, datum/threat_region/TR)
+	return ..() && F.average_threat_point() <= QUEST_TP_BUDGET_KILL_EASY * TR.tp_budget_multiplier * QUEST_EASY_MAX_FACTION_TP_SHARE
 
 /datum/quest/kill/easy/get_title()
 	if(title)

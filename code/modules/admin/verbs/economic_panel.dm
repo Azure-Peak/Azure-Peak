@@ -323,6 +323,7 @@ GLOBAL_DATUM_INIT(economic_panel, /datum/economic_panel, new)
 					continue
 				I.next_alimony = 0
 				I.calculate_childsupport(H)
+			advance_merc_contracts_one_day()
 			admin_log_fiscal("advanced the day to [GLOB.dayspassed] (full daily tick)", "Advance Day")
 			return TRUE
 		if("fire_rural_tick")

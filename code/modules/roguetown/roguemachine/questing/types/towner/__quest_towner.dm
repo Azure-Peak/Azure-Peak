@@ -27,11 +27,15 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	writ_type = WRIT_TYPE_TOWNER
 	levy_exempt = TRUE
 	guild_cut_rate = 0
+	reward_bonus_mult = TOWNER_REWARD_MULT
+	max_region_tp_mult = null
 	charges_deposit = FALSE
 	lapses = FALSE
 	takes_destination = FALSE
 	fellowship_threat_rate = 0
 	fellowship_reward_rate = 0
+	fellowship_threat_rate_first = null
+	required_fellowship_size = 0
 	var/posting_tier = TOWNER_POSTING_TIER_MEDIUM
 	var/loadout_variety
 	var/parcel_label = "sealed strongbox"
@@ -67,6 +71,9 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	if(intermission_warn_id)
 		deltimer(intermission_warn_id)
 		intermission_warn_id = null
+
+/datum/quest/kill/recovery/towner/get_base_reward()
+	return TOWNER_REWARD_BASE
 
 /datum/quest/kill/recovery/towner/calculate_reward(turf/origin_turf, turf/target_turf)
 	. = ..()
@@ -168,7 +175,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 	return TRUE
 
 /datum/quest/kill/recovery/towner/get_additional_reward(turf/origin_turf, turf/target_turf)
-	return ..() + get_tier_flat_bonus() + unsent_wave_tp() * QUEST_KILL_THREAT_MULT
+	return ..() + region_delivery_bonus() + get_tier_flat_bonus() + unsent_wave_tp() * QUEST_KILL_THREAT_MULT
 
 /datum/quest/kill/recovery/towner/on_guardian_killed()
 	if(current_wave >= length(wave_budgets))

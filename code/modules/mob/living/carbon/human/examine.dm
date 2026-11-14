@@ -750,8 +750,8 @@
 		var/display_as_wanderer = FALSE
 		if(observer_privilege)
 			used_name = real_name
-		if(migrant_type)
-			var/datum/migrant_role/migrant = MIGRANT_ROLE(migrant_type)
+		var/datum/migrant_role/migrant = migrant_type ? MIGRANT_ROLE(migrant_type) : null
+		if(migrant?.job_type == /datum/job/roguetown/migrant)
 			if(migrant.show_wanderer_examine)
 				display_as_wanderer = TRUE
 		else if(job)

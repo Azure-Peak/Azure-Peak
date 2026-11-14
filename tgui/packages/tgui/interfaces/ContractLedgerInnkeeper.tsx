@@ -25,8 +25,7 @@ type InnkeeperData = {
   rumor_destinations: string[];
   rumor_log: RumorLogEntry[];
   rumor_lucrative_mult: number;
-  region_tp_multipliers: Record<string, number>;
-  region_delivery_multipliers: Record<string, number>;
+  region_scales_by_type: Record<string, Record<string, number>>;
 };
 
 type DispatchMode = 'board' | 'hands';
@@ -209,10 +208,7 @@ const ComposeView = () => {
               : '- pick a region -'}
           </option>
           {regionsForType.map((r) => {
-            const mult =
-              type === RECOVERY_TYPE
-                ? data.region_delivery_multipliers?.[r]
-                : data.region_tp_multipliers?.[r];
+            const mult = data.region_scales_by_type?.[type]?.[r];
             const suffix =
               typeof mult === 'number' && mult !== 1
                 ? ` (×${mult} reward)`
@@ -229,10 +225,7 @@ const ComposeView = () => {
 
       {region &&
         (() => {
-          const mult =
-            type === RECOVERY_TYPE
-              ? data.region_delivery_multipliers?.[region]
-              : data.region_tp_multipliers?.[region];
+          const mult = data.region_scales_by_type?.[type]?.[region];
           const flavor = regionRewardFlavor(region, mult);
           if (!flavor) return null;
           return (

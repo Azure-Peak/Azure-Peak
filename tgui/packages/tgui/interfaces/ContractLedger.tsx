@@ -13,6 +13,68 @@ import {
 import { StewardDefensePanel } from './ContractLedgerSteward';
 import { TownerPostingPanel } from './ContractLedgerTowner';
 
+type SizeRow = {
+  size: number;
+  threat_pct: number;
+  reward: number;
+  short: BooleanLike;
+};
+
+const SizeTable = (props: {
+  rows: SizeRow[];
+  mySize: number;
+  levyRate: number;
+  guildRate: number;
+  scanRange: number;
+  capPct: number;
+}) => {
+  const { rows, mySize, levyRate, guildRate, scanRange, capPct } = props;
+  const cell = { padding: '1px 6px', textAlign: 'right' } as const;
+  return (
+    <div>
+      <table style={{ borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={cell}>Size</th>
+            <th style={cell}>Foes</th>
+            <th style={cell}>Pay</th>
+            <th style={cell}>Each</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => {
+            const net =
+              r.reward -
+              Math.round(r.reward * levyRate) -
+              Math.round(r.reward * guildRate);
+            return (
+              <tr
+                key={r.size}
+                style={{
+                  fontWeight: r.size === mySize ? 'bold' : undefined,
+                  color: r.short ? '#e08080' : undefined,
+                }}
+              >
+                <td style={cell}>
+                  {r.size}
+                  {r.short ? ' (short)' : ''}
+                  {r.size === mySize ? ' ◀' : ''}
+                </td>
+                <td style={cell}>{r.threat_pct}%</td>
+                <td style={cell}>{r.reward}</td>
+                <td style={cell}>{Math.floor(net / r.size)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <div style={{ marginTop: '4px', maxWidth: '260px' }}>
+        {`Estimates from this contract's rolled threat. Foes are relative to the listed threat. Members count only if within ${scanRange} tiles of the contract when it starts. Pay from extra members stops at +${capPct}%, but foes keep scaling and still count. This assumes an even split after cut.`}
+      </div>
+    </div>
+  );
+};
+
 type Contract = {
   ref: string;
   title: string;
@@ -20,8 +82,9 @@ type Contract = {
   difficulty: string;
   reward: number;
   projected_reward: number;
-  fellowship_threat_rate: number;
   fellowship_reward_rate: number;
+  size_table: SizeRow[] | null;
+  veteran_size_table: SizeRow[] | null;
   deposit: number;
   area: string;
   region: string;
@@ -32,9 +95,14 @@ type Contract = {
   is_rumor: BooleanLike;
   shows_commission_seal: BooleanLike;
   is_towner: BooleanLike;
+  claim_barred: BooleanLike;
+  solo_limited: BooleanLike;
   is_standing: BooleanLike;
   required_fellowship_size: number;
   lapse_minutes: number | null;
+  can_veteran: BooleanLike;
+  veteran_reward: number | null;
+  veteran_objective: string | null;
 };
 
 type ActiveContract = {
@@ -47,6 +115,7 @@ type ActiveContract = {
   progress_current: number;
   progress_required: number;
   complete: BooleanLike;
+  veteran: BooleanLike;
 };
 
 type HoardRecoveryRegion = {
@@ -73,18 +142,34 @@ type ContractLedgerData = {
   balance: number;
   has_account: BooleanLike;
   active_count: number;
+  fellows_active_count: number;
   active_max: number;
   active_max_base: number;
   active_fellowship_bonus: number;
   townie_gate_remaining: number;
   townie_gate_minutes: number;
-  fellowship_bonus_pair: number;
-  fellowship_bonus_band: number;
+  fellowship_bonus_first: number;
+  fellowship_bonus_per_member: number;
   townie_contract_gate_exempt_jobs: string[];
+  quest_claim_barred_jobs: string[];
+  quest_claim_towner_jobs: string[];
+  quest_claim_lowpop_jobs: string[];
+  quest_claim_lowpop_active: BooleanLike;
+  veteran_threat_pct: number;
   take_cooldown_remaining: number;
   user_fellowship_size: number;
   user_is_fellowship_leader: BooleanLike;
+  fellowship_member_locked: BooleanLike;
+  claim_barred: BooleanLike;
+  claim_barred_reason: string;
+  claim_lowpop_lifted: BooleanLike;
+  solo_limit_applies: BooleanLike;
+  solo_limit_ready: BooleanLike;
+  solo_limit_reason: string;
+  solo_limit_minutes: number;
+  quest_claim_solo_jobs: string[];
   arrival_scan_range: number;
+  fellowship_reward_cap_pct: number;
   pool: Contract[];
   active: ActiveContract[];
   issued: IssuedContract[];
@@ -489,9 +574,13 @@ const ContractCard = (props: { contract: Contract }) => {
   const { act, data } = useBackend<ContractLedgerData>();
   const c = props.contract;
   const noAccount = !data.has_account;
+  const claimBarred = !!c.claim_barred;
+  const soloLimited = !!c.solo_limited;
+  const memberLocked = !!data.fellowship_member_locked;
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
-  const atCap = data.active_count >= data.active_max;
+  const fellowsHeld = data.fellows_active_count || 0;
+  const atCap = data.active_count + fellowsHeld >= data.active_max;
   const cantAfford = data.balance < c.deposit;
   const fellowshipShort =
     c.required_fellowship_size > 0 &&
@@ -502,29 +591,46 @@ const ContractCard = (props: { contract: Contract }) => {
     !data.user_is_fellowship_leader;
   const disabled =
     noAccount ||
+    claimBarred ||
+    memberLocked ||
     gateRemaining > 0 ||
+    soloLimited ||
     takeCooldown > 0 ||
     atCap ||
     cantAfford ||
     fellowshipShort ||
     notLeader;
-  const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
-  const payout = c.projected_reward ?? c.reward;
+  const [veteran, setVeteran] = useState(false);
+  const useVeteran = veteran && !!c.can_veteran;
+  const payout = useVeteran
+    ? (c.veteran_reward ?? c.reward)
+    : (c.projected_reward ?? c.reward);
+  const objective = useVeteran
+    ? c.veteran_objective || c.objective
+    : c.objective;
   const title = noAccount
     ? 'No bank account. Register with a Meister first.'
-    : gateRemaining > 0
-      ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
-      : takeCooldown > 0
-        ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
-        : atCap
-          ? `You already hold ${data.active_max} contracts.`
-          : cantAfford
-            ? `You need ${c.deposit} mammon in your account for the deposit.`
-            : fellowshipShort
-              ? `You need a fellowship of ${c.required_fellowship_size}. Yours has ${data.user_fellowship_size || 0}.`
-              : notLeader
-                ? 'Only the fellowship leader can sign this contract.'
-                : undefined;
+    : claimBarred
+      ? data.claim_barred_reason
+      : memberLocked
+        ? 'Only your fellowship leader can sign contracts.'
+        : gateRemaining > 0
+          ? `For the first ${data.townie_gate_minutes} minutes, only certain roles can sign contracts. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
+          : soloLimited
+            ? data.solo_limit_reason
+            : takeCooldown > 0
+            ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
+            : atCap
+              ? fellowsHeld > 0
+                ? `Your fellowship already holds ${data.active_max} contracts.`
+                : `You already hold ${data.active_max} contracts.`
+              : cantAfford
+                ? `You need ${c.deposit} mammon in your account for the deposit.`
+                : fellowshipShort
+                  ? `You need a fellowship of ${c.required_fellowship_size}. Yours has ${data.user_fellowship_size || 0}.`
+                  : notLeader
+                    ? 'Only the fellowship leader can sign this contract.'
+                    : undefined;
   const stamps: { label: string; modifier: string }[] = [];
   if (c.is_rumor) stamps.push({ label: 'RUMORED!', modifier: 'rumor' });
   if (c.shows_commission_seal)
@@ -565,7 +671,15 @@ const ContractCard = (props: { contract: Contract }) => {
       </div>
       {c.required_fellowship_size > 0 && (
         <div className="ContractLedger__CardRow">
-          <span className="ContractLedger__CardLabel">Fellowship</span>
+          <span className="ContractLedger__CardLabel">
+            Fellowship
+            <Tooltip
+              position="top"
+              content="If fewer members show up than the contract needs, the threat and reward scales down. Contracts handed to you directly are not affected."
+            >
+              <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
+            </Tooltip>
+          </span>
           <span
             className="ContractLedger__CardValue"
             style={{
@@ -589,21 +703,25 @@ const ContractCard = (props: { contract: Contract }) => {
           )}
         </span>
       </div>
-      {c.fellowship_reward_rate > 0 && (
+      {!!c.can_veteran && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">
-            Per extra fellow
+            Veteran
             <Tooltip
               position="top"
-              content={`Contract scales to the number of fellowship members within ${data.arrival_scan_range} tiles of the writ when it starts.`}
+              content={`Increases threat by ${data.veteran_threat_pct}% and rewards by that proportionally.`}
             >
               <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
             </Tooltip>
           </span>
           <span className="ContractLedger__CardValue">
-            +{formatRatioPct(c.fellowship_reward_rate)} pay
-            {c.fellowship_threat_rate > 0 &&
-              `, +${formatRatioPct(c.fellowship_threat_rate)} foes`}
+            <Button.Checkbox
+              compact
+              checked={veteran}
+              onClick={() => setVeteran(!veteran)}
+            >
+              {veteran ? 'On' : 'Off'}
+            </Button.Checkbox>
           </span>
         </div>
       )}
@@ -613,8 +731,41 @@ const ContractCard = (props: { contract: Contract }) => {
         const levy = Math.round(payout * levyRate);
         const guild = Math.round(payout * guildRate);
         const purse = payout - levy - guild;
+        const sizeRows =
+          (useVeteran && c.veteran_size_table) || c.size_table;
+        const mySize = Math.min(
+          Math.max(data.user_fellowship_size || 1, 1),
+          sizeRows?.length || 1,
+        );
         return (
           <>
+            {!!sizeRows && (
+              <div className="ContractLedger__CardRow">
+                <span className="ContractLedger__CardLabel">
+                  By group size
+                  <Tooltip
+                    position="top"
+                    content={
+                      <SizeTable
+                        rows={sizeRows}
+                        mySize={mySize}
+                        levyRate={levyRate}
+                        guildRate={guildRate}
+                        scanRange={data.arrival_scan_range}
+                        capPct={data.fellowship_reward_cap_pct}
+                      />
+                    }
+                  >
+                    <Icon name="question-circle" ml={0.4} color="#7a6a4a" />
+                  </Tooltip>
+                </span>
+                <span className="ContractLedger__CardValue">
+                  {c.fellowship_reward_rate > 0
+                    ? `+${formatRatioPct(c.fellowship_reward_rate)} per member`
+                    : 'Cut if short'}
+                </span>
+              </div>
+            )}
             {!c.levy_exempt && data.tax_rate > 0 && (
               <div className="ContractLedger__CardRow">
                 <span className="ContractLedger__CardLabel">
@@ -675,8 +826,8 @@ const ContractCard = (props: { contract: Contract }) => {
           </span>
         </div>
       )}
-      {c.objective && (
-        <div className="ContractLedger__CardObjective">{c.objective}</div>
+      {objective && (
+        <div className="ContractLedger__CardObjective">{objective}</div>
       )}
       <div className="ContractLedger__CardFooter">
         <button
@@ -684,7 +835,9 @@ const ContractCard = (props: { contract: Contract }) => {
           className="ContractLedger__SignButton"
           disabled={disabled}
           title={title}
-          onClick={() => act('sign', { ref: c.ref })}
+          onClick={() =>
+            act('sign', { ref: c.ref, veteran: useVeteran ? 1 : 0 })
+          }
         >
           Sign
         </button>
@@ -701,6 +854,7 @@ const ActiveStrip = (props: {
   const { act, data } = useBackend<ContractLedgerData>();
   const [tab, setTab] = useState<StripTab>('contracts');
   const [showFellowshipHelp, setShowFellowshipHelp] = useState(false);
+  const [showSigningHelp, setShowSigningHelp] = useState(false);
   const issued = data.issued || [];
   const stripTab = (id: StripTab, label: string) => (
     <span
@@ -716,17 +870,38 @@ const ActiveStrip = (props: {
   const gateRemaining = data.townie_gate_remaining || 0;
   const takeCooldown = data.take_cooldown_remaining || 0;
   const exemptList = (data.townie_contract_gate_exempt_jobs || []).join(', ');
+  const barredList = (data.quest_claim_barred_jobs || []).join(', ');
+  const townerList = (data.quest_claim_towner_jobs || []).join(', ');
+  const lowpopList = (data.quest_claim_lowpop_jobs || []).join(', ');
+  const claimBarred = !!data.claim_barred;
+  const soloList = (data.quest_claim_solo_jobs || []).join(', ');
+  const lowpopLifted = !!data.has_account && !!data.claim_lowpop_lifted;
+  const soloApplies =
+    !!data.has_account &&
+    !claimBarred &&
+    gateRemaining <= 0 &&
+    !!data.solo_limit_applies &&
+    !data.fellowship_member_locked;
+  const soloReady = soloApplies && !!data.solo_limit_ready;
+  const soloLimited = soloApplies && !data.solo_limit_ready;
+  const signingHelp =
+    !!data.has_account && (claimBarred || gateRemaining > 0 || soloLimited);
   const blockReason = !data.has_account
     ? 'You have no bank account. Register with a Meister before signing any contract.'
-    : gateRemaining > 0
-      ? `For the first ${data.townie_gate_minutes} minutes, only these can sign contracts: ${exemptList}. Everyone else can sign in ${Math.ceil(gateRemaining / 60)}m.`
-      : takeCooldown > 0
-        ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
-        : null;
+    : claimBarred
+      ? data.claim_barred_reason
+      : gateRemaining > 0
+        ? `For the first ${data.townie_gate_minutes} minutes, only certain roles can sign contracts:`
+        : soloLimited
+          ? data.solo_limit_reason
+          : takeCooldown > 0
+          ? `You've signed too many contracts recently. Wait ${takeCooldown}s before signing another.`
+          : null;
   const fellowshipBonus = data.active_fellowship_bonus || 0;
+  const fellowsHeld = data.fellows_active_count || 0;
   const fellowshipNote =
     fellowshipBonus > 0
-      ? `+${fellowshipBonus} from leading your fellowship`
+      ? `+${fellowshipBonus} from leading your fellowship${fellowsHeld > 0 ? `, ${fellowsHeld} held by your fellows` : ''}`
       : 'Form a fellowship for more benefits.';
   return (
     <div className="ContractLedger__ActiveStrip">
@@ -774,18 +949,76 @@ const ActiveStrip = (props: {
               Open the IC tab to form a fellowship and invite people nearby.
             </div>
             <div style={{ marginBottom: '6px' }}>
-              Lead a fellowship to get more contract slots:{' '}
-              {data.fellowship_bonus_pair} more with two members,{' '}
-              {data.fellowship_bonus_band} more with three or more.
+              Only the fellowship leader can sign contracts. The leader gets{' '}
+              {data.fellowship_bonus_first} more contract slots for the first
+              member and {data.fellowship_bonus_per_member} more for each member
+              after.
             </div>
             <div style={{ marginBottom: '6px' }}>
-              Fellowship members can turn in each other&apos;s contracts. The
-              reward goes to whoever turns it in. Their levy exemption applies
-              if they have one.
+              Fellowship members can turn in each other&apos;s contracts. By
+              default the reward is split evenly between everyone in the
+              fellowship when the contract was taken. Each member&apos;s levy
+              exemption applies to their own share. The leader can switch to
+              paying whoever turns it in. Contracts taken while rewards were
+              split stay split.
+            </div>
+            <div style={{ marginBottom: '6px' }}>
+              Hired sellswords count as members of your fellowship. While one is
+              under contract, rewards are always split evenly and the sellsword
+              cannot be kicked.
             </div>
             <div>
               Threat is increased for each additional fellow, but rewards scale
               up even more.
+            </div>
+          </div>
+        </Dialog>
+      )}
+      {showSigningHelp && (
+        <Dialog
+          title="Who can sign contracts"
+          width="420px"
+          onClose={() => setShowSigningHelp(false)}
+        >
+          <div style={{ padding: '10px 14px', fontSize: '0.95em' }}>
+            {gateRemaining > 0 && (
+              <div style={{ marginBottom: '6px' }}>
+                For the first {data.townie_gate_minutes} minutes, only these can
+                sign contracts: {exemptList}. Everyone else can sign in{' '}
+                {Math.ceil(gateRemaining / 60)}m.
+              </div>
+            )}
+            <div>
+              These jobs can never sign contracts: {barredList}.
+            </div>
+            {!!townerList && (
+              <div style={{ marginTop: '6px' }}>
+                These jobs can always sign towner postings: {townerList}.
+              </div>
+            )}
+            {!!soloList && (
+              <div style={{ marginTop: '6px' }}>
+                These jobs are limited to one contract every{' '}
+                {data.solo_limit_minutes} minutes and must finish it before
+                signing the next, even when leading a fellowship: {soloList}.
+                Courier and retrieval contracts are included in the cooldown.
+                When one of them signs a contract, any other player with the
+                same job in their fellowship waits as well. Find a fellowship
+                leader with another job to avoid this. The limit is lifted in
+                lowpop.
+              </div>
+            )}
+            {!!lowpopList && (
+              <div style={{ marginTop: '6px' }}>
+                In lowpop, these jobs can sign any contracts: {lowpopList}.{' '}
+                {data.quest_claim_lowpop_active
+                  ? 'Lowpop is in effect now.'
+                  : 'Lowpop is not in effect now.'}
+              </div>
+            )}
+            <div style={{ marginTop: '6px' }}>
+              A contract handed to you directly always works. None of these
+              limits apply to it.
             </div>
           </div>
         </Dialog>
@@ -818,6 +1051,51 @@ const ActiveStrip = (props: {
               style={{ color: '#c44', fontWeight: 'bold' }}
             >
               {blockReason}
+              {signingHelp && (
+                <Button
+                  compact
+                  ml={0.5}
+                  icon="question-circle"
+                  selected={showSigningHelp}
+                  tooltip="Who can sign contracts"
+                  onClick={() => setShowSigningHelp(true)}
+                />
+              )}
+            </div>
+          )}
+          {lowpopLifted && (
+            <div
+              className="ContractLedger__ActiveRow"
+              style={{ color: '#2a6b2a', fontWeight: 'bold' }}
+            >
+              The town is quiet todae. You are allowed to take on ledger
+              contracts as a Mercenary. Medium contracts are open to everyone
+              seeking employment.
+              <Button
+                compact
+                ml={0.5}
+                icon="question-circle"
+                selected={showSigningHelp}
+                tooltip="Who can sign contracts"
+                onClick={() => setShowSigningHelp(true)}
+              />
+            </div>
+          )}
+          {soloReady && (
+            <div
+              className="ContractLedger__ActiveRow"
+              style={{ color: '#2a6b2a', fontWeight: 'bold' }}
+            >
+              You may only sign one contract on your own every{' '}
+              {data.solo_limit_minutes} minutes. Towner postings do not count.
+              <Button
+                compact
+                ml={0.5}
+                icon="question-circle"
+                selected={showSigningHelp}
+                tooltip="Who can sign contracts"
+                onClick={() => setShowSigningHelp(true)}
+              />
             </div>
           )}
           {props.active.length === 0 ? (
@@ -833,7 +1111,8 @@ const ActiveStrip = (props: {
                   {a.title}
                 </span>
                 <span className="ContractLedger__ActiveRow__Meta">
-                  {a.type} &middot; {a.difficulty} &middot;{' '}
+                  {a.type} &middot; {a.difficulty}
+                  {!!a.veteran && ' (Veteran)'} &middot;{' '}
                   {a.region || a.area || 'Unknown'}
                   {a.progress_required > 1 &&
                     ` - ${a.progress_current}/${a.progress_required}`}
