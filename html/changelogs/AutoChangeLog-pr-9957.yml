@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscdel: "Removed the shipping fluctuation event which was causing one or two random supply pack to goes utterly overpriced. We're in a new economic era, babe."
