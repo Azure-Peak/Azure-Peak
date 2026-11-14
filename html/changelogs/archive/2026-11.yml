@@ -402,3 +402,85 @@
   - admin: 'Added a new smite: Bolt to the neck.'
   radarseas:
   - balance: Tennite heretics can now access T4 miracles again.
+2026-11-11:
+  WeNeedMorePhoron:
+  - rscadd: 'Added hunting knife to adventurer classes missing a knife, and as far
+      as I know, wasn''t missing it on purpose: All Clerics, several foreigner classes,
+      Spellblade, Spellsinger, Aristocrat, Knight Errant, Bombardier, Antiquarian,
+      Duelist, Ironclad, Exorcist'
+2026-11-12:
+  Guidesu:
+  - rscadd: Quarterstaves now have two stances you can switch to with the alt-grip
+      key at Journeyman staves. Half-staff (close quarters) has rapid strike, joint
+      strike, shaft clinch and the staff's signature move. Long guard (at range) has
+      long swing, a 3-tile long thrust, levering smash and an armor-cracking overhead
+      strike.
+  - rscadd: 'Each quarterstaff material now has its own signature move: disarm for
+      wooden, leg sweep for iron, and a dazing counterweight strike for steel and
+      heavier staves.'
+  - rscadd: Steel and heavier quarterstaves now smash at 2 tiles of reach.
+  - balance: 'Quarterstaff weight now depends on material: wooden staves are swift,
+      iron is normal, and steel and gold are heavy.'
+  - balance: One-handed quarterstaff bash now does 0.8x damage, up from 0.6x.
+  - bugfix: The quarterstaff jab no longer does half damage to adjacent targets. It
+      now attacks at normal speed and counts as blunt.
+  WeNeedMorePhoron:
+  - rscadd: Antagonist bans should be respected properly by dreamwalker and storyteller
+      now.
+  - bugfix: Cleric now spawn with knife on belt instead of in backpack to avoid crowding
+  - refactor: Refactored dozens of mobs and fixed some bugs with existing animals.
+      Report any odd or new behaviors.
+  changelingonberry:
+  - bugfix: The ghost orbit menu has been re-ordered and now remembers your expanded
+      categories.
+  - rscadd: All carbon NPCs can now be spawned in as deadites.
+  - balance: Deadite NPCs should behave better. They no longer grab weapons, can bite
+      through masks, and always bite prone players.
+  - bugfix: OOC color now sanitizes correctly to be light instead of dark.
+  - bugfix: Reapply preferences no longer renames the character or makes them drop
+      their gloves.
+  chaoko99:
+  - bugfix: added missing planes to the eye blurring system.
+  mumblemancer:
+  - bugfix: gargoyles (should) now change with your character's gender in most situations
+      where it changes. PLEASE REPORT ON BUG-REPORTS if ANYTHING GOES WRONG!!!
+  - bugfix: sui dust can now make ur body type masculine instead of Just feminine
+      (it was broken this whole time)
+  radarseas:
+  - bugfix: Violating the entire Geneva conventions over several-dozen tymelines in
+      advance no longer means you aren't branded for this (T4 wretch bounties now
+      properly OUTLAW!/HERETIC! you like the unforgivable lunatic you are!)
+2026-11-13:
+  KatTheFox:
+  - rscadd: '''One-Chance'' round type, an alternative to merciless that gives each
+      character one revive before they get DNR applied.'
+  Ollanius:
+  - qol: The subclass names for the Exorcist are now agnostic and have a stronger
+      correlation to the attached option. 'Traditionalist' is now 'Sanguine', 'Reformist'
+      is now 'Swiftfooted', and 'Orthodoxist' is now 'Stalwart'.
+  RosySaturniidae:
+  - bugfix: fur collar is no longer strangely offset
+  Ryan180602:
+  - rscadd: protege system for veteran.
+  - bugfix: give mercenary veteran bad trainer as i should've.
+  WeNeedMorePhoron:
+  - rscadd: You may rub dirt into polished / shiny armor to make them not shiny anymore
+  - rscdel: You no longer get an examine more text to spam your chat when there's
+      no examine more text.
+  - bugfix: Chickens lay eggs again. Readd accidentally deleted chick mob.
+  - rscdel: Removed the origin lock on Grand Duke and Heirs. This is unenforced and
+      frankly, not quite supported by current nor future lore or administrative actions
+      or lack thereof.
+  changelingonberry:
+  - bugfix: Wanted vice can no longer be picked by marshall, assassin or court agent.
+  kilozombie:
+  - balance: Padded masks, padded leather masks, and duelist goggles now work with
+      Fencer's Dexterity
+  mumblemancer:
+  - code_imp: is_in_combat() proc now available for coders to use
+  - balance: cheeles give 1 blood max if infusing on someone incombat
+  - bugfix: leeches drain blood again. cheeles will also fill again.
+  - rscadd: more timechange quotes
+  saltprjak:
+  - bugfix: Magician's Brick and Aetherknife melee damage now properly scale with
+      INT. Heavy is the hand that holds the brick.

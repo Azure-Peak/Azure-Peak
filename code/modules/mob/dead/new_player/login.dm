@@ -56,6 +56,8 @@
 
 	if(SSgamemode?.dnr_round)
 		to_chat(src, span_danger("<b>Merciless Mode:</b> Death is permanent this round. Do not expect revival."))
+	if(SSgamemode?.lastlegs_round)
+		to_chat(src, span_danger("<b>One-Chance Mode:</b> Revival is one-per-character, this round. Do not expect a third chance."))
 
 	var/spc = CONFIG_GET(number/soft_popcap)
 	if(spc && living_player_count() >= spc)

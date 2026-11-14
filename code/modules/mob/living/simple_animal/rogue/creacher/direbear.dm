@@ -39,8 +39,6 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	melee_damage_lower = 50		// Ey, bo-bo!
 	melee_damage_upper = 60		// We're gonna take his pick-in-ick basket!
-	vision_range = 6
-	aggro_vision_range = 8
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES // silly furniture won't stop our boy
 	milkies = FALSE
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
@@ -57,18 +55,14 @@
 	STASPD = 9
 	simple_detect_bonus = 40	//No sneaking by our boy..
 	deaggroprob = 0
-	del_on_deaggro = FALSE //we dont despawn, our boy chills
 	food = 0
 	remains_type = /obj/effect/decal/remains/bear
 	attack_sound = list('sound/vo/mobs/direbear/direbear_attack1.ogg','sound/vo/mobs/direbear/direbear_attack2.ogg','sound/vo/mobs/direbear/direbear_attack3.ogg')
 	dodgetime = 30
 	aggressive = 1
-	stat_attack = UNCONSCIOUS	//You falling unconcious won't save you, little one..
 	eat_forever = TRUE
 
 //new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/direbear
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 

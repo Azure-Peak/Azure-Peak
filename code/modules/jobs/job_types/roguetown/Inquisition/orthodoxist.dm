@@ -26,5 +26,6 @@
 		/datum/advclass/disciple,
 		/datum/advclass/sojourner,
 		/datum/advclass/confessor,
+		/datum/advclass/chasseur,
 		/datum/advclass/psyaltrist
 	)

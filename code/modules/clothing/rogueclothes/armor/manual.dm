@@ -441,7 +441,7 @@
 	if(!ishuman(H) || !worn_on_body(H) || obj_integrity >= max_integrity)
 		resting_since = 0
 		return
-	if(!H.resting || H.cmode || (H.in_combat_until > world.time) || !rest_on_valid_bed(H))
+	if(!H.resting || H.cmode || H.is_in_combat() || !rest_on_valid_bed(H))
 		resting_since = 0
 		return
 	if(!resting_since)

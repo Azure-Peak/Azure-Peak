@@ -1012,6 +1012,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define CRIT_TRAIT "crit"
 #define ROUNDSTART_TRAIT "roundstart" //cannot be removed without admin intervention
 #define JOB_TRAIT "job"
+/// Bad trainer given by being taken as a veteran's protégé
+#define PROTEGE_TRAIT "protege"
 #define ADMIN_TRAIT "admin" // (B)admins only.
 #define CULT_TRAIT "cult"
 #define CURSED_ITEM_TRAIT "cursed-item" // The item is magically cursed
@@ -1032,7 +1034,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define REVERSE_BEAR_TRAP_TRAIT "reverse-bear-trap"
 #define HOT_POTATO_TRAIT "hot-potato"
 #define HUGBOX_TRAIT "hugbox"
-#define ADVENTURER_TRAIT "adventurer"
 #define GRAGGAR_ASSASSINATED "graggar_assassinated"
 #define CONTRACT_SPAWN_TRAIT "contract-spawn"
 
