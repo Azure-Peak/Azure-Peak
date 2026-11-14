@@ -58,6 +58,10 @@
 	in_combat_until = world.time + num
 	hud_used?.defdelay?.mark_dirty()
 
+/// Returns TRUE if the mob's in_combat_until has not expired. It returns FALSE otherwise.
+/mob/living/proc/is_in_combat(combat_expire_time = world.time)
+	return src.in_combat_until > combat_expire_time
+
 /mob/living/proc/changeMaxDodge(num, clamp = FALSE)
 	if(num < 0)
 		if(max_dodge <= MAX_DODGE_FLOOR)

@@ -35,6 +35,7 @@
 		/datum/ai_planning_subtree/flee_target,
 		/datum/ai_planning_subtree/tree_climb,
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/stamina_disengage,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
 		/datum/ai_planning_subtree/leap_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
@@ -123,7 +124,109 @@
 		/datum/ai_planning_subtree/retrieve_arrows, // Archer only
 		/datum/ai_planning_subtree/ranged_attack_subtree, // Archer only
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/stamina_disengage,
 		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/leap_attack,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
+		/datum/ai_planning_subtree/find_weapon,
+		/datum/ai_planning_subtree/equip_item,
+		/datum/ai_planning_subtree/loot,
+	)
+
+/datum/ai_controller/human_npc/caster
+	blackboard = list(
+		BB_WEAPON_TYPE = /obj/item/rogueweapon,
+		BB_ARMOR_CLASS = 2,
+		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+		BB_PET_TARGETING_DATUM = new /datum/targetting_datum/basic/not_friends(),
+
+		BB_HUMAN_NPC_SWINGS_TAKEN = 0,
+		BB_HUMAN_NPC_SWINGS_TARGET = null,
+		BB_HUMAN_NPC_ZONE_COMMIT_COUNTER = 0,
+		BB_HUMAN_NPC_LAST_ATTACK_ZONE = null,
+		BB_HUMAN_NPC_WEAKPOINT = null,
+		BB_HUMAN_NPC_JUMP_COOLDOWN = 0,
+		BB_HUMAN_NPC_HARASS_MODE = FALSE,
+		BB_HUMAN_NPC_HARASS_RETREATING = FALSE,
+		BB_HUMAN_NPC_HARASS_COOLDOWN = 0,
+
+		BB_CASTER_NEXT_CAST = 0,
+		BB_CASTER_RESERVE = 0.75,
+		BB_NPC_WINDED_AT = 0.65,
+	)
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/being_a_minion,
+		/datum/ai_planning_subtree/call_for_help,
+		/datum/ai_planning_subtree/generic_break_restraints,
+		/datum/ai_planning_subtree/generic_wield,
+		/datum/ai_planning_subtree/kick_attack,
+		/datum/ai_planning_subtree/generic_resist,
+		/datum/ai_planning_subtree/generic_stand,
+		/datum/ai_planning_subtree/flee_target,
+		/datum/ai_planning_subtree/tree_climb,
+		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/spell_rotation,
+		/datum/ai_planning_subtree/stamina_disengage/caster,
+		/datum/ai_planning_subtree/spacing/ranged/caster,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
+	)
+
+/datum/ai_controller/human_npc/caster/melee
+	blackboard = list(
+		BB_WEAPON_TYPE = /obj/item/rogueweapon,
+		BB_ARMOR_CLASS = 2,
+		BB_TARGETTING_DATUM = new /datum/targetting_datum/basic(),
+		BB_PET_TARGETING_DATUM = new /datum/targetting_datum/basic/not_friends(),
+
+		BB_HUMAN_NPC_SWINGS_TAKEN = 0,
+		BB_HUMAN_NPC_SWINGS_TARGET = null,
+		BB_HUMAN_NPC_ZONE_COMMIT_COUNTER = 0,
+		BB_HUMAN_NPC_LAST_ATTACK_ZONE = null,
+		BB_HUMAN_NPC_WEAKPOINT = null,
+		BB_HUMAN_NPC_JUMP_COOLDOWN = 0,
+		BB_HUMAN_NPC_HARASS_MODE = FALSE,
+		BB_HUMAN_NPC_HARASS_RETREATING = FALSE,
+		BB_HUMAN_NPC_HARASS_COOLDOWN = 0,
+
+		BB_CASTER_NEXT_CAST = 0,
+		BB_CASTER_RESERVE = 0.65,
+		BB_CASTER_MELEE = TRUE,
+	)
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/being_a_minion,
+		/datum/ai_planning_subtree/call_for_help,
+		/datum/ai_planning_subtree/generic_break_restraints,
+		/datum/ai_planning_subtree/generic_wield,
+		/datum/ai_planning_subtree/kick_attack,
+		/datum/ai_planning_subtree/generic_resist,
+		/datum/ai_planning_subtree/generic_stand,
+		/datum/ai_planning_subtree/flee_target,
+		/datum/ai_planning_subtree/tree_climb,
+		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/spell_rotation,
+		/datum/ai_planning_subtree/stamina_disengage,
+		/datum/ai_planning_subtree/leap_attack,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
+	)
+
+/datum/ai_controller/human_npc/bomber
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/being_a_minion,
+		/datum/ai_planning_subtree/call_for_help,
+		/datum/ai_planning_subtree/generic_break_restraints,
+		/datum/ai_planning_subtree/use_throwable,
+		/datum/ai_planning_subtree/generic_wield,
+		/datum/ai_planning_subtree/kick_attack,
+		/datum/ai_planning_subtree/generic_resist,
+		/datum/ai_planning_subtree/generic_stand,
+		/datum/ai_planning_subtree/flee_target,
+		/datum/ai_planning_subtree/tree_climb,
+		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/stamina_disengage,
+		/datum/ai_planning_subtree/attack_obstacle_in_path,
+		/datum/ai_planning_subtree/spacing/ranged/thrower,
 		/datum/ai_planning_subtree/leap_attack,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree/human_npc,
 		/datum/ai_planning_subtree/find_weapon,
@@ -136,6 +239,33 @@
 	if(HAS_TRAIT(user, TRAIT_CONJURED_SUMMON))
 		return base_cd / 1.5
 	return base_cd
+
+/proc/npc_spend_input(mob/living/pawn, cost)
+	var/datum/ai_controller/controller = pawn?.ai_controller
+	if(!controller || pawn.client)
+		return
+	if(isnull(cost))
+		cost = pawn.npc_reaction_time()
+	var/free_at = max(controller.blackboard[BB_NPC_INPUT_FREE_AT] || 0, world.time + cost)
+	controller.set_blackboard_key(BB_NPC_INPUT_FREE_AT, free_at)
+	pawn.next_click = max(pawn.next_click, free_at)
+
+/proc/npc_attack_intents(mob/living/pawn)
+	. = list()
+	for(var/datum/intent/intent as anything in pawn.possible_a_intents)
+		if(istype(intent, /datum/intent/unarmed/help) || istype(intent, /datum/intent/unarmed/shove) || istype(intent, /datum/intent/unarmed/grab))
+			continue
+		. += intent
+
+/proc/npc_select_intent(mob/living/pawn, datum/intent/intent)
+	if(!intent || pawn.a_intent == intent)
+		return FALSE
+	var/index = pawn.possible_a_intents.Find(intent)
+	if(!index)
+		return FALSE
+	pawn.rog_intent_change(index)
+	npc_spend_input(pawn)
+	return TRUE
 
 // Make it so that every other human NPC in view attacking the same target inherits the cooldown, so that they cannot be chained.
 /proc/propagate_technique_cd(mob/living/user, atom/target, bb_key, cd_end, specialcd_duration = 0)

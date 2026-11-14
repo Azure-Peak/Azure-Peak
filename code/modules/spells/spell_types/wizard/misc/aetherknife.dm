@@ -48,6 +48,7 @@
 		R.force = R.force + int_scaling
 		R.throwforce = R.throwforce + int_scaling * 2
 		R.name = "aetherknife +[int_scaling]"
+		R.update_force_dynamic()
 	user.put_in_hands(R)
 	src.conjured_knife = R
 	return TRUE

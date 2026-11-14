@@ -15,10 +15,25 @@ GLOBAL_LIST_EMPTY(quest_factions)
 	var/category = FACTION_CAT_HUMANOID
 	var/list/crime_weights
 	var/progress_noun = "malefactors"
+	var/list/variant_chances
+	var/list/variant_factions
 
 /datum/quest_faction/New()
 	if(!id)
 		CRASH("Quest faction created without id: [type]")
+
+/datum/quest_faction/proc/build_variants()
+	for(var/variant_type in variant_chances)
+		var/datum/quest_faction_variant/variant = new variant_type()
+		LAZYSET(variant_factions, variant_type, variant.make_faction(src))
+
+/datum/quest_faction/proc/roll_variant()
+	var/roll = rand(1, 100)
+	for(var/variant_type in variant_factions)
+		roll -= variant_chances[variant_type]
+		if(roll <= 0)
+			return variant_factions[variant_type]
+	return src
 
 /datum/quest_faction/proc/pick_boss_mob_type()
 	if(!length(boss_mob_types))
@@ -119,6 +134,7 @@ GLOBAL_LIST_EMPTY(quest_factions)
 		if(GLOB.quest_factions[F.id])
 			CRASH("Duplicate quest_faction id: [F.id]")
 		GLOB.quest_factions[F.id] = F
+		F.build_variants()
 
 /proc/get_quest_faction(id)
 	return GLOB.quest_factions[id]

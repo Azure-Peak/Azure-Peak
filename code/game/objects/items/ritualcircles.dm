@@ -1110,7 +1110,7 @@
 	if((user.patron?.type) != /datum/patron/divine/necra)
 		to_chat(user,span_warning("I hear angered whispering...I probably shouldn't touch this."))
 		return
-	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+	if(!(HAS_TRAIT(user, TRAIT_RITUALIST) || HAS_TRAIT(user, TRAIT_LESSER_RITUALIST)))
 		to_chat(user,span_warning("I don't know the proper rites for this..."))
 		return
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
@@ -1119,6 +1119,8 @@
 	var/list/current_rites = deathrites
 	if(SSevent_scheduler.fog_scheduled)
 		current_rites += "Hollow the Mist"
+	if(HAS_TRAIT(user, TRAIT_LESSER_RITUALIST)) // only The Toll for you, ser.
+		current_rites = "The Toll"
 	var/riteselection = input(user, "Rituals of Death", src) as null|anything in current_rites
 	switch(riteselection) // put ur rite selection here
 		if("Hollow the Mist")

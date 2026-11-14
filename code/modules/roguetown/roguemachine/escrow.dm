@@ -396,11 +396,24 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 			"price" = recipe_price(R),
 			"ingot" = ingot_name,
 			"materials" = recipe_materials(R),
+			"has_stats" = item_has_stat_card(recipe_result_path(R)) ? TRUE : FALSE,
 		))
 	cached_catalog_data = catalog_data
 	cached_categories = cats
 	cached_ingots = ingots
 	catalog_view_dirty = FALSE
+
+/obj/structure/roguemachine/escrow/proc/recipe_result_path(datum/recipe)
+	if(istype(recipe, /datum/anvil_recipe))
+		var/datum/anvil_recipe/AR = recipe
+		return AR.created_item
+	if(istype(recipe, /datum/crafting_recipe))
+		var/datum/crafting_recipe/CR = recipe
+		if(islist(CR.result))
+			var/list/results = CR.result
+			return length(results) ? results[1] : null
+		return CR.result
+	return null
 
 /obj/structure/roguemachine/escrow/proc/recipe_name(datum/recipe)
 	if(istype(recipe, /datum/anvil_recipe))
@@ -817,6 +830,11 @@ GLOBAL_LIST_EMPTY(escrow_machines)
 				return FALSE
 
 	switch(action)
+		if("preview")
+			var/datum/R = locate(params["ref"]) in catalog
+			if(R && usr.can_read(src, TRUE))
+				show_item_stats(usr, recipe_result_path(R))
+			return FALSE
 		if("manifest_inc")
 			var/datum/R = locate(params["ref"]) in catalog
 			if(R)

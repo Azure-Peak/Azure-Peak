@@ -1,0 +1,10 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Added mage NPC including all 3 variants of spellblades and 6 schools to all complex mobs NPC factions. Aiming formula were tweaked to feel more human like with higher possibility of missing."
+  - rscadd: "Added Graggarite Cleric NPC"
+  - bugfix: "Fixes goblin pyromancers and all throwing weapons using NPCs, which has been broken for months."
+  - rscadd: "Added higher threat mobs to several factions lacking them. Added proper threat to goblin faction subtypes of mob so reward scales properly."
+  - rscadd: "Ambush now check for any ongoing PVE fight nearby in 9 tiles and block itself from spawning if there's one ongoing already."
+  - rscadd: "Ported Ochre Valley's doppelganger mob, with the doppel heart given as a sellable rewards on death. They do not give any yield or such."
+  - rscadd: "Adjusted NPC kick, intent switching and other logic to add in a delay that imitate human reaction time and delay, so that they subtly feels a bit fairer."

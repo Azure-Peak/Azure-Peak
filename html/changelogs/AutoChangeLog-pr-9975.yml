@@ -1,0 +1,11 @@
+author: "Ollanius"
+delete-after: True
+changes:
+  - bugfix: "(I'm baaa-a-aaack!) - Overvestments no longer have a mysterious white cloak hanging over them."
+  - bugfix: "Padded undervestments no longer have flickering sleeves when facing to the right."
+  - bugfix: "Cloaks of the Silver- and Gold-type Orders now function again, solving the month-long case of Late Stage Back!Norwoodism."
+  - code_imp: "Repathed the Overvestments and Cloaks to 'stabard/overvestments' and 'cape/puritan/silver + /gold', respectively."
+  - code_imp: "Reduced the girth of the Ordered Surcoat's descriptions. The Loadout's Cloak section should be much more tidy, now."
+  - rscadd: "Dedicated smallfolk sprites for the Puritan Cape. Dwarves and rousladies, fear no more!"
+  - rscadd: "Puritan capes are now craftable (under the listing of 'formal')."
+  - code_imp: "Puritan capes require two silk threads to craft, which has been added to the Cloak-forked recipes as well."

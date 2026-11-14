@@ -1,0 +1,6 @@
+author: "jinxynii"
+delete-after: True
+changes:
+  - rscadd: "The Light orb can now be tinted. Use it in hand to cycle between white, salt-gold, copper-green, tin-blue, cinnabar-rose and manganese-violet. Your choice carries over when you recast."
+  - rscadd: "The Prestidigitation magelight mote can be tinted the same way. With Light selected and the mote released, use the hand in hand to cycle arcyne-blue, salt-gold, copper-green, cinnabar-rose and manganese-violet."
+  - image: "Added recoloured wisp sprites for each magelight mote tint, and tinted the Light orb sprite to match its glow."

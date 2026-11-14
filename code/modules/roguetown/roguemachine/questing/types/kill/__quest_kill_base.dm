@@ -5,6 +5,7 @@
 	var/threat_bands_cleared = 0
 	var/total_spawned_tp = 0
 	var/kills_count_progress = TRUE
+	var/rolls_faction_variants = TRUE
 	var/objective_verb = "Eliminate"
 	var/failed = FALSE
 	var/armed = FALSE
@@ -323,7 +324,10 @@
 		weights[id] = TR.faction_weights[id]
 	if(!length(weights))
 		return null
-	return get_quest_faction(pickweight(weights))
+	var/datum/quest_faction/picked = get_quest_faction(pickweight(weights))
+	if(!rolls_faction_variants)
+		return picked
+	return picked?.roll_variant()
 
 /datum/quest/kill/proc/faction_fits(datum/quest_faction/F)
 	return TRUE
@@ -373,7 +377,7 @@
 		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
 		if(!new_mob)
 			continue
-		total_spawned_tp += initial(new_mob.threat_point) || 0
+		total_spawned_tp += initial_threat_point(new_mob.type)
 		spawned++
 		sleep(1)
 	if(spawned > 0 && kills_count_progress)

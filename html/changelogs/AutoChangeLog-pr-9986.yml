@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Masochist should fire its timer properly and Sadist / Masochist are more easily satisfied by beating / being beaten now."

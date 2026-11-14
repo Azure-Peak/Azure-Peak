@@ -164,6 +164,8 @@
 
 	if(dist > ARCHER_NPC_KITE_RANGE)
 		controller.ai_movement.stop_moving_towards(controller) // in the pocket (kite < dist <= shoot) - hold and loose
+		if(!controller.blackboard[BB_ARCHER_NPC_AIM_RELEASE] && COOLDOWN_FINISHED(controller, movement_cooldown) && ai_strafe_step(controller, target, ARCHER_NPC_KITE_RANGE + 1))
+			set_movement_target(controller, get_turf(pawn))
 		return AI_BEHAVIOR_DELAY
 	var/turf/retreat = _archer_retreat_turf(pawn, target)
 	if(retreat)

@@ -99,11 +99,20 @@ export type Data = {
   bathhouse_tithe_round_total: number;
   bathhouse_ordinance_cooldown_seconds: number;
   bathhouse_ordinance_cooldown_minutes: number;
-  bathhouse_worker_withdraw_limit: number;
-  bathhouse_agent_withdraw_limit: number;
-  bathhouse_worker_withdrawals_suspended: boolean;
-  bathhouse_agent_withdrawals_suspended: boolean;
-  bathhouse_viewer_withdrawal_limit_hit: boolean;
+  fund_allowances: Record<string, FundAllowance>;
+};
+
+export type AllowanceGroup = {
+  id: string;
+  label: string;
+  limit: number;
+  suspended: boolean;
+};
+
+export type FundAllowance = {
+  header: string;
+  groups: AllowanceGroup[];
+  viewer_limit_hit: boolean;
 };
 
 export type TabKey =

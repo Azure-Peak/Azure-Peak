@@ -1,0 +1,5 @@
+author: "changelingonberry"
+delete-after: True
+changes:
+  - balance: "Forlorne can be taken by gnolls and wretches now."
+  - bugfix: "Forlorne gives you a 30 second immunity to ambushes on spawn."

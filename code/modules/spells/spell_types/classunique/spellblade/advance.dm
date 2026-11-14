@@ -184,3 +184,29 @@
 		step(H, halves[2])
 		return get_turf(H) == destination
 	return FALSE
+
+/datum/action/cooldown/spell/advance/get_impact_turfs(atom/center)
+	. = list()
+	var/turf/start = get_turf(owner)
+	var/turf/aim = get_turf(center)
+	if(!start || !aim)
+		return
+	var/facing = get_dir(start, aim)
+	if(!facing)
+		return
+	var/diagonal = facing & (facing - 1)
+	var/max_steps = diagonal ? max(1, round(leap_range / sqrt(2), 1)) : leap_range
+	var/turf/landing = start
+	for(var/i in 1 to max_steps)
+		var/turf/next = get_step(landing, facing)
+		if(!can_leap_into(next))
+			break
+		if(diagonal && !can_leap_into(get_step(landing, facing & (NORTH|SOUTH))) && !can_leap_into(get_step(landing, facing & (EAST|WEST))))
+			break
+		landing = next
+	if(landing == start)
+		return
+	. += landing
+	var/turf/jab = get_step(landing, facing)
+	if(jab)
+		. += jab

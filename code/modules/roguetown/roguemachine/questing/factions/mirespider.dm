@@ -9,4 +9,6 @@
 		/mob/living/simple_animal/hostile/retaliate/rogue/spider = 70,
 		/mob/living/simple_animal/hostile/retaliate/rogue/spider/mutated = 20,
 		/mob/living/simple_animal/hostile/retaliate/rogue/drider = 10,
+		/mob/living/simple_animal/hostile/rogue/mirespider_lurker = 5,
+		/mob/living/simple_animal/hostile/rogue/mirespider_paralytic = 5,
 	)

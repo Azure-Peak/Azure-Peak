@@ -2,12 +2,11 @@
 	name = "Gnoll Knight"
 	tutorial = "You were forged in the fires of the volcano, burn marks have long since healed, but the armor hammered against your muscle isn't so fleeting."
 	allowed_sexes = list(MALE, FEMALE)
-	
+
 	outfit = /datum/outfit/job/roguetown/gnoll/knight
 	category_tags = list(CTAG_GNOLL)
 	traits_applied = list(TRAIT_HEAVYARMOR, TRAIT_UNCONVERTIBLE) // Flavoring
-	
-	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
+
 	reset_stats = TRUE
 	subclass_stats = list(
 		STATKEY_WIL = 5,
@@ -28,7 +27,7 @@
 		/datum/skill/labor/butchering = SKILL_LEVEL_APPRENTICE,
 		/datum/skill/craft/cooking = SKILL_LEVEL_NOVICE,
 	)
-	cmode_music = 'sound/music/combat_graggar.ogg'
+	cmode_music = 'sound/music/cmode/antag/combat_thewall.ogg'
 
 /datum/outfit/job/roguetown/gnoll/knight
 	vamp_armor_type = /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/knight

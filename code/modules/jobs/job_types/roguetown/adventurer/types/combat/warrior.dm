@@ -633,10 +633,10 @@
 			if("Blessed Silver Shovel")
 				l_hand = /obj/item/rogueweapon/shovel/silver/preblessed //Unlocks the secret 'Shovel Knight' subclass. No dagger skills if you take this. Doesn't scale off anything, I think. Raw style.
 
-		var/discipline = list("Traditionalist - Hauberk & Silver-Blood (+I INT)", "Reformist - Chainmaille & Dodge Expert (+I SPD)", "Orthodoxist - Cuirass & Plate Training (+I CON / -I SPD)")
+		var/discipline = list("Sanguine - Silverblooded (+I INT)", "Swiftfooted - Dodgemaster (+I SPD)", "Stalwart - Platearmorable (+I CON / -I SPD)")
 		var/discipline_choice = input(H, "Choose your DISCIPLINE.", "FACE YOUR NIGHTMARE.") as anything in discipline
 		switch(discipline_choice)
-			if("Traditionalist - Hauberk & Silver-Blood (+I INT)")
+			if("Sanguine - Silverblooded (+I INT)")
 				ADD_TRAIT(H, TRAIT_MEDIUMARMOR, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_SILVER_BLESSED, TRAIT_GENERIC) //'Witcher' archetype. Well-rounded, and vamp immune, but not exceptional in any particular field.
 				H.change_stat(STATKEY_INT, 1)
@@ -644,7 +644,7 @@
 				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/hauberk
 				belt = /obj/item/storage/belt/rogue/leather/black
-			if("Reformist - Chainmaille & Dodge Expert (+I SPD)")
+			if("Swiftfooted - Dodgemaster (+I SPD)")
 				ADD_TRAIT(H, TRAIT_DODGEEXPERT, TRAIT_GENERIC) //'Puritan' archetype. Closer to the Roguetown-era Inquisitor in portrayal. No armor training, but overprepared with silver throwing daggers and excellent evasive maneuvers.
 				H.change_stat(STATKEY_SPD, 1)
 				H.adjust_skillrank_up_to(/datum/skill/misc/sneaking, SKILL_LEVEL_JOURNEYMAN, TRUE)
@@ -652,7 +652,7 @@
 				armor = /obj/item/clothing/suit/roguetown/shirt/undershirt/puritan
 				shirt = /obj/item/clothing/suit/roguetown/armor/chainmail/besilked
 				belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver
-			if("Orthodoxist - Cuirass & Plate Training (+I CON / -I SPD)")
+			if("Stalwart - Platearmorable (+I CON / -I SPD)")
 				ADD_TRAIT(H, TRAIT_HEAVYARMOR, TRAIT_GENERIC)
 				ADD_TRAIT(H, TRAIT_ZOMBIE_IMMUNE, TRAIT_GENERIC) //'Templar' archetype. Blessings protect from the Rot, while opening the opportunity for heavy armor usage. Well-protected and resilient, but slower and visibly identifiable as a prioritable threat.
 				H.change_stat(STATKEY_CON, 1)
