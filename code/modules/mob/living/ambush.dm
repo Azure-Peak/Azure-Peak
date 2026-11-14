@@ -109,7 +109,7 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		return FALSE
 	if(!mind)
 		return FALSE
-	if(HAS_TRAIT(src, TRAIT_RUN_FOR_IT))
+	if(HAS_TRAIT(src, TRAIT_RUN_FOR_IT) || HAS_TRAIT(src, TRAIT_NO_AMBUSH))
 		return FALSE
 	return ambushable
 
