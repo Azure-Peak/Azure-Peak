@@ -28,6 +28,8 @@ Each roles trade stats for specialization, using the conventional statweight of 
 | light    | 2 STR -> 2 SPD, and 2 Con -> 2 INT  |
 | marksman | 1 STR -> 2 PER                      |
 | heavy    | 2 SPD, 2 PER -> 1 STR, 2 Con, 2 Wil |
+| caster   | 2 STR, 2 Con -> 4 INT, 1 Per, 1 Wil |
+| spellblade | 1 STR, 1 Con -> 2 INT, 1 Wil      |
 
 Archetype:
 
@@ -36,6 +38,18 @@ Archetype:
 - Heavy trades 2 SPD, 2 PER for 1 STR, 2 Con, 2 Wil.
 
 PER is capped at 15. INT 8 is the minimum for NPC specials and tactics, INT 10 or above gives feint resistance only and should be present on Light usually.
+
+Caster trades for Int, Per and Wil, caster stats. Spells will not be rebalanced for NPC, and instead they have "smarter" AI.
+
+Casters and spellblades start at T2. Magic is strong enough on its own, so there is no T1 caster, and only the harder factions field them, T3 adds medium armor / better staff and arcyne armament expert.
+
+All NPCs mages should gain a ward. Burn schools (Pyromancy, Fulgurmancy) take Dragonhide, every other school takes Crystalhide.
+
+Spellblades come in the player chants: Blade, Phalangite and Macebearer fight with a bound weapon, and Spellfist fights with a katar or knuckles. Like the player class, they take no ward, except the Spellfist, who takes the base Arcyne Ward like the player Spellfist. Unlike the player outfit, they wear at least one armour layer on every zone, face included, so the AI isn't trivial to beat. They are worth 5 more threat than a mage of the same tier. Finally, the spellblade vs spellblade duel I have been looking for
+
+Clerics start at T2 and uses their patron's real miracles. (I might implement Paladin equivalence later). Gronn raiders will follow one of the 4 gods with a bias toward Graggar. They will not gain the Cabal trait so undead can fight them. Shaman will ALWAYS belong to Graggar.
+
+Clerics also start at T2 and use their patron's real miracles. Gronn raiders follow one of the four inhumen gods, mostly Graggar, without joining Zizo's cabal. Their Shaman is always Graggar's, fights with claws in light leathers and uses Graggar's miracles up to T2.
 
 ## Faction Modifier
 

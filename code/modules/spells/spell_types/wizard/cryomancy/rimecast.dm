@@ -57,6 +57,21 @@
 	apply_mode(current_mode)
 	to_chat(user, span_notice("[name]: [modes[current_mode]["name"]] mode."))
 
+/datum/action/cooldown/spell/projectile/rimecast/get_impact_turfs(atom/center)
+	. = list()
+	var/turf/start = get_turf(owner)
+	var/turf/epicenter = get_turf(center)
+	if(!start || !epicenter || start == epicenter)
+		return
+	var/obj/projectile/magic/ice_burst/burst = modes[current_mode]["proj"]
+	if(ispath(burst, /obj/projectile/magic/ice_burst))
+		for(var/turf/T in range(initial(burst.aoe_radius), epicenter))
+			. += T
+		return
+	epicenter = get_turf_in_angle(Get_Angle(start, epicenter), start, cast_range) || epicenter
+	. = getline(start, epicenter)
+	. -= start
+
 /datum/action/cooldown/spell/projectile/rimecast/proc/update_mode_maptext(tag)
 	for(var/datum/hud/hud as anything in viewers)
 		var/atom/movable/screen/movable/action_button/B = viewers[hud]

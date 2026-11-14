@@ -88,6 +88,14 @@
 	RegisterSignal(candidate, COMSIG_PARENT_QDELETING, PROC_REF(on_container_delete), override = TRUE)
 	if(candidate.GetComponent(/datum/component/storage))
 		RegisterSignal(candidate, COMSIG_STORAGE_ADDED, PROC_REF(on_storage_added), override = TRUE)
+		addtimer(CALLBACK(src, PROC_REF(_late_appraise), slot_flag, candidate), 1)
+
+/datum/component/ai_inventory_manager/proc/_late_appraise(slot_flag, obj/item/container)
+	if(QDELETED(container) || container_refs[slot_flag] != container)
+		return
+	var/datum/component/storage/STR = container.GetComponent(/datum/component/storage)
+	if(STR)
+		_appraise_storage(STR, slot_flag)
 
 /datum/component/ai_inventory_manager/proc/on_storage_added(datum/source, obj/item/inserted)
 	SIGNAL_HANDLER

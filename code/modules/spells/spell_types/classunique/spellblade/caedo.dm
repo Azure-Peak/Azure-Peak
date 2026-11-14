@@ -108,6 +108,17 @@
 
 	return TRUE
 
+/datum/action/cooldown/spell/caedo/get_impact_turfs(atom/center)
+	var/turf/start = get_turf(owner)
+	var/turf/dest = isliving(center) ? find_landing_turf(owner, center) : get_turf(center)
+	if(!start || !dest || dest.z != start.z)
+		return list()
+	dest = arcyne_find_max_blink_dest(owner, dest, max_range)
+	if(!dest)
+		return list()
+	. = getline(start, dest)
+	. -= start
+
 /datum/action/cooldown/spell/caedo/proc/find_landing_turf(mob/living/user, mob/living/target_mob)
 	var/approach_dir = get_dir(user, target_mob)
 	var/turf/far_side = get_step(target_mob, approach_dir)

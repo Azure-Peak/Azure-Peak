@@ -40,5 +40,6 @@
 
 		/datum/ai_planning_subtree/being_a_minion,
 		/datum/ai_planning_subtree/aggro_find_target,
+		/datum/ai_planning_subtree/spacing/ranged,
 		/datum/ai_planning_subtree/basic_ranged_attack_subtree,
 	)

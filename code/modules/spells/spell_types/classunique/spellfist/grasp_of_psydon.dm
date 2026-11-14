@@ -45,6 +45,15 @@
 	stats += span_info("Damage: [base_damage] blunt (+[empowered_damage] at [momentum_cost]+ momentum)")
 	return stats
 
+/datum/action/cooldown/spell/grasp_of_psydon/get_impact_turfs(atom/center)
+	. = list()
+	var/turf/epicenter = get_turf(center)
+	if(!epicenter)
+		return
+	for(var/turf/affected in range(area_of_effect, epicenter))
+		. += affected
+	. -= get_turf(owner)
+
 /datum/action/cooldown/spell/grasp_of_psydon/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/carbon/human/H = owner
