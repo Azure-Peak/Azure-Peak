@@ -31,6 +31,13 @@
 	drop_sound = 'sound/foley/dropsound/shovel_drop.ogg'
 	smeltresult = /obj/item/ingot/iron
 
+/obj/item/rogueweapon/handsaw/crude
+	name = "crude handsaw"
+	desc = "A crude handsaw, made from scrap iron and wood. Some teeth are missing and dull, but it can still cut through soft woods."
+	icon_state = "scrapsaw"
+	max_blade_int = 100
+	smeltresult = /obj/item/ingot/iron
+
 /obj/item/rogueweapon/handsaw/bronze
 	name = "bronze handsaw"
 	desc = "The serrated half of a bronzen pair, keen to saw away at its problems."

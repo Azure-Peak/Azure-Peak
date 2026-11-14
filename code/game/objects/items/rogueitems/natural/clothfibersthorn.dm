@@ -553,6 +553,17 @@
 			S.pixel_y = rand(-3, 3)
 		return
 
+//Wood dowel subtype
+/obj/item/natural/bundle/stick/dowel
+	name = "bundle of wood dowels"
+	icon_state = "dowelbundle1"
+	desc = "A bundle of wood dowels. You know where to stick em'."
+	stacktype = /obj/item/grown/log/tree/stick/dowel
+	stackname = "dowels"
+	icon1 = "dowelbundle1"
+	icon2 = "dowelbundle2"
+	icon3 = "dowelbundle3"
+
 /obj/item/natural/bundle/bone
 	name = "stack of bones"
 	icon_state = "bonestack1"
