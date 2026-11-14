@@ -5,15 +5,12 @@
 	var/list/demands = list()
 	var/list/seasonal_produces = list()
 	var/list/seasonal_demands = list()
-	var/list/rotating_demands = list()
-	var/rotating_picks = 0
 	var/list/standing_orders = list()
 
 /datum/region_type/New()
 	. = ..()
 	produces = expand_trade_good_groups(produces)
 	demands = expand_trade_good_groups(demands)
-	rotating_demands = expand_trade_good_groups(rotating_demands)
 	for(var/season in seasonal_produces)
 		if(islist(seasonal_produces[season]))
 			seasonal_produces[season] = expand_trade_good_groups(seasonal_produces[season])

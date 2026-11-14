@@ -19,7 +19,6 @@ SUBSYSTEM_DEF(economy)
 	return get_active_player_count()
 
 /datum/controller/subsystem/economy/Initialize(mapload)
-	reset_region_capacities()
 	daily_report_diff = list(
 		"day" = GLOB.dayspassed,
 		"events_fired" = list(),
@@ -35,14 +34,6 @@ SUBSYSTEM_DEF(economy)
 	roundstart_events()
 	roundstart_blockades()
 	return ..()
-
-/datum/controller/subsystem/economy/proc/reset_region_capacities()
-	var/pop_mult = min(REGION_POP_SCALE_MAX, 1.0 + (get_effective_player_count() * REGION_POP_SCALE_PER_PLAYER))
-	var/season = get_current_season()
-	for(var/region_id in GLOB.economic_regions)
-		var/datum/economic_region/region = GLOB.economic_regions[region_id]
-		region.reset_day_capacity(pop_mult, season)
-	SStreasury.dirty_market_view()
 
 /datum/controller/subsystem/economy/proc/daily_tick()
 	if(GLOB.dayspassed <= last_processed_day)
@@ -65,10 +56,8 @@ SUBSYSTEM_DEF(economy)
 		)
 	daily_report_diff["day"] = GLOB.dayspassed
 
-	// Pop-scaled daily reset: larger rounds have proportionally more commerce.
 	var/effective_pop = get_effective_player_count()
 	var/order_size_mult = min(STANDING_ORDER_POP_SCALE_MAX, 1.0 + (effective_pop * STANDING_ORDER_POP_SCALE_PER_PLAYER))
-	reset_region_capacities()
 
 	var/list/expired = list()
 	for(var/datum/standing_order/O as anything in GLOB.standing_order_pool)

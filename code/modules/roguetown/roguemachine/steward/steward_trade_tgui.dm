@@ -352,8 +352,6 @@
 				continue
 			produces += list(list(
 				"good_id" = good_id,
-				"total" = region.get_day_capacity_total(good_id, TRUE),
-				"today" = region.get_day_capacity(good_id, TRUE),
 			))
 		var/list/demands = list()
 		for(var/good_id in region.demands)
@@ -361,8 +359,6 @@
 				continue
 			demands += list(list(
 				"good_id" = good_id,
-				"total" = region.get_day_capacity_total(good_id, FALSE),
-				"today" = region.get_day_capacity(good_id, FALSE),
 			))
 		region_rows += list(list(
 			"region_id" = region_id,

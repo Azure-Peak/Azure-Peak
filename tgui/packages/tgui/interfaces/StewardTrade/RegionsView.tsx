@@ -7,8 +7,6 @@ import {
   INK_FAINT,
   INK_SOFT,
   PARCHMENT_SHADOW,
-  SEAL_BLUE,
-  SEAL_GREEN,
   SEAL_RED,
   sectionHeaderStyle,
 } from '../common/parchment';
@@ -100,18 +98,8 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
               marginLeft: '16px',
             }}
           >
-            <FlowColumn
-              title="Produces"
-              color={SEAL_GREEN}
-              flows={region.produces}
-              data={data}
-            />
-            <FlowColumn
-              title="Demands"
-              color={SEAL_BLUE}
-              flows={region.demands}
-              data={data}
-            />
+            <FlowColumn title="Produces" flows={region.produces} data={data} />
+            <FlowColumn title="Demands" flows={region.demands} data={data} />
           </div>
         </>
       )}
@@ -121,11 +109,10 @@ const RegionCard = (props: { region: RegionRow; data: Data }) => {
 
 const FlowColumn = (props: {
   title: string;
-  color: string;
   flows: RegionFlow[];
   data: Data;
 }) => {
-  const { title, color, flows, data } = props;
+  const { title, flows, data } = props;
   if (!flows.length) {
     return (
       <div>
@@ -181,16 +168,10 @@ const FlowColumn = (props: {
               key={f.good_id}
               style={{
                 fontSize: FONT_BODY,
-                display: 'flex',
-                justifyContent: 'space-between',
                 padding: '1px 4px',
               }}
             >
-              <span>{data.good_catalog[f.good_id]?.name ?? f.good_id}</span>
-              <span>
-                <span style={{ color }}>{f.total}/day</span>
-                <span style={{ color: INK_FAINT }}> ({f.today})</span>
-              </span>
+              {data.good_catalog[f.good_id]?.name ?? f.good_id}
             </div>
           ))}
         </div>

@@ -255,8 +255,6 @@ export type MarketRow = {
 
 export type RegionFlow = {
   good_id: string;
-  total: number;
-  today: number;
 };
 
 export type RegionRow = {
