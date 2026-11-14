@@ -15,12 +15,6 @@
 	force = 10
 	slot_flags = ITEM_SLOT_HIP|ITEM_SLOT_MOUTH
 
-/obj/item/ammo_casing/caseless/rogue/bolt/light
-	name = "light bolt"
-	desc = "A lighter, far less sturdier bolt. Made for smaller crossbows."
-	icon_state = "light_bolt"
-	caliber = "lightbolt"
-	projectile_type = /obj/projectile/bullet/reusable/bolt/light
 
 /obj/item/ammo_casing/caseless/rogue/bolt/aalloy
 	name = "decrepit bolt"
@@ -60,30 +54,6 @@
 	caliber = "regbolt"
 	icon_state = "bolt_holywater"
 
-/obj/item/ammo_casing/caseless/rogue/bolt/lightholy
-	name = "light sunderbolt"
-	desc = "A compact silver-tipped bolt, containing a small vial of holy water. Though it inflicts lesser wounds on living flesh, it exceeds when \
-	employed against the unholy; a snap and a crack, followed by a fiery surprise. </br>'One baptism for the remission of sins.'"
-	projectile_type = /obj/projectile/bullet/reusable/bolt/light/holy //Most of the effectiveness comes from the debuffs, rather than the damage itself. Simple, but sweet.
-	possible_item_intents = list(/datum/intent/dagger/cut, /datum/intent/dagger/thrust)
-	caliber = "lightbolt"
-	icon_state = "light_bolt_holywater"
-
-/obj/projectile/bullet/reusable/bolt/light/holy
-	name = "light sunderbolt"
-	damage = 35
-	icon_state = "bolthwater_proj"
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/lightholy
-	embedchance = 100
-	poisontype = /datum/reagent/water/blessed
-	poisonamount = 7
-	is_silver_proj = TRUE
-	antibeast_factor = ANTIBEAST_EXCEPTIONAL
-	speed = 0.8
-	min_range = MIN_BOLT_RANGE - 1
-	max_range = MAX_BOLT_RANGE - 1
-	dam_falloff_factor = DAM_FALLOFF_BOLT
-
 /obj/projectile/bullet/reusable/bolt
 	name = "bolt"
 	damage = 70
@@ -118,14 +88,6 @@
 			skill_multiplier = 4
 	if(skill_multiplier && can_train_combat_skill(L, /datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT))
 		L.mind.add_sleep_experience(/datum/skill/combat/crossbows, L.STAINT * skill_multiplier)
-
-/obj/projectile/bullet/reusable/bolt/light
-	name = "light bolt"
-	ammo_type = /obj/item/ammo_casing/caseless/rogue/bolt/light
-	speed = 0.8
-	min_range = MIN_BOLT_RANGE - 1 // pointblank
-	max_range = MAX_BOLT_RANGE - 1
-	dam_falloff_factor = DAM_FALLOFF_BOLT
 
 /obj/projectile/bullet/reusable/bolt/aalloy
 	damage = 40

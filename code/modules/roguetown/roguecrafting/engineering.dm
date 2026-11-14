@@ -472,36 +472,6 @@
 	skillcraft = /datum/skill/craft/engineering
 	craftdiff = 3
 
-/datum/crafting_recipe/roguetown/engineering/lightbolts_sixteen
-	name = "light slurbow bolt (x16)"
-	category = "Ammo"
-	display_category = ITEM_CAT_ENG_COMBAT
-	reqs = list(
-		/obj/item/natural/wood/plank = 3,
-		/obj/item/ingot/iron = 1,
-	)
-	result = list(
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-		/obj/item/ammo_casing/caseless/rogue/bolt/light,
-	)
-	structurecraft = /obj/structure/artificer_table
-	skillcraft = /datum/skill/craft/engineering
-	craftdiff = 3
-
 //pyro bolts crafting
 /datum/crafting_recipe/roguetown/engineering/pyrobolt_one
 	name = "pyroclastic bolt"

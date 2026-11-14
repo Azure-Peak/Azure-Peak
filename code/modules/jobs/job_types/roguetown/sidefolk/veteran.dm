@@ -565,7 +565,7 @@
 			beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/longbow
 		if("Slurbow")
 			beltr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-			beltl = /obj/item/quiver/bolt/light
+			beltl = /obj/item/quiver/bolt/standard
 		if("Crossbow")
 			H.put_in_hands(new /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
 			beltl = /obj/item/quiver/bolt/standard

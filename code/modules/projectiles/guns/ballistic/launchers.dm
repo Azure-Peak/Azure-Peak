@@ -14,6 +14,9 @@
 	var/accfactor = 1 // Multiplier for projectile accuracy. Used by bows and crossbows.
 	var/penfactor = 0 // Additive modifier for projectile PEN tier. Slurbow uses -1 to reduce bolt pen by one tier.
 	var/npc_force_arc = FALSE // Set by AI to force arc shot over allies
+	var/min_range_mod = 0 // Added to the projectile's min_range. Slurbow uses -1 for point-blank.
+	var/max_range_mod = 0 // Added to the projectile's max_range.
+	var/projectile_speed_mult = 1 // Multiplies projectile.speed. Higher is slower, so 2 = half speed.
 	var/uses_draw_curve = FALSE
 	var/quickloading = FALSE
 	var/ranged_skill = null
@@ -108,6 +111,12 @@
 	if(!BB || !user)
 		return
 	var/level = ranged_skill ? user.get_skill_level(ranged_skill) : 0
+	if(BB.min_range)
+		BB.min_range = max(0, initial(BB.min_range) + min_range_mod)
+	if(BB.max_range)
+		BB.max_range = max(0, initial(BB.max_range) + max_range_mod)
+	if(projectile_speed_mult != 1)
+		BB.speed = initial(BB.speed) * projectile_speed_mult
 	BB.aim_peak = (ACC_RANGED_BASE + (level * ACC_RANGED_PER_SKILL)) * accfactor
 	BB.steady_aim = steady_aim
 

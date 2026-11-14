@@ -376,11 +376,6 @@
 	maximum = 5
 	marquescost = 8
 
-/datum/inqports/supplies/blessedlightbolts
-	name = "1 Quiver of Light Sunderbolts"
-	item_type = /obj/item/quiver/bolt/lightholy
-	marquescost = 6
-
 /datum/inqports/supplies/blessedbolts
 	name = "1 Quiver of Sunderbolts"
 	item_type = /obj/item/quiver/bolt/holy

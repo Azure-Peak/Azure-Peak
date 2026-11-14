@@ -80,7 +80,7 @@
 		switch(rangedweapon_choice)
 			if("Slurbow")
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
-				beltr = /obj/item/quiver/bolt/light
+				beltr = /obj/item/quiver/bolt/standard
 			if("Crossbow")
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltr = /obj/item/quiver/bolt/standard
