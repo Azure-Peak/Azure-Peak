@@ -6,7 +6,7 @@
 	icon = 'icons/roguetown/misc/lighting.dmi'
 	icon_state = "stonefire1"
 	bulb_colour = "#ffa35c"
-	brightness = 12
+	brightness = 14
 	density = TRUE
 //	pixel_y = 10
 	base_state = "stonefire"
@@ -281,7 +281,7 @@
 	var/torch_off_state = "torchwall0"
 	base_state = "torchwall"
 	density = FALSE
-	light_outer_range = 5 //same as the held torch, if you put a torch into a sconce, it shouldn't magically become twice as bright, it's inconsistent.
+	light_outer_range = 7 // the same as a held torch
 	var/obj/item/flashlight/flare/torch/torchy
 	fueluse = FALSE //we use the torch's fuel
 	no_refuel = TRUE
