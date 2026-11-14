@@ -36,7 +36,6 @@
 	wdefense = 4
 	grid_width = 32
 	grid_height = 64
-
 	equip_delay_self = 1.5 SECONDS
 	unequip_delay_self = 1.5 SECONDS
 	inv_storage_delay = 1.5 SECONDS
