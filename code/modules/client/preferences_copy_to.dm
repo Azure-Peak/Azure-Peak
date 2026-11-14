@@ -75,9 +75,10 @@
 	character.ooc_notes = ooc_notes
 	character.nsfwflavortext = nsfwflavortext
 	character.erpprefs = erpprefs
-	// Rumours / Noble gossip
+	// Rumours / Noble gossip / Secrets
 	character.rumour = rumour
 	character.noble_gossip = noble_gossip
+	character.secrets = secrets?.Copy()
 
 	// Copy the cached version
 	character.flavortext_cached = flavortext_cached

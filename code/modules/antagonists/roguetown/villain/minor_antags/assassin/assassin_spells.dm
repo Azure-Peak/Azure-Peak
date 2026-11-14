@@ -31,9 +31,9 @@
 	for(var/mob/living/L in GLOB.player_list)
 		if(L == assassin || istype(L, /mob/living/carbon/human/dummy))
 			continue
-		var/is_hunted = L.has_flaw(/datum/charflaw/targeted)
+		var/is_targeted = L.has_flaw(/datum/charflaw/targeted)
 		var/is_trapped = HAS_TRAIT(L, TRAIT_CLAIMED_BY_DARKSTAR)
-		var/is_valid_prey = is_hunted && !is_trapped
+		var/is_valid_prey = is_targeted && !is_trapped
 
 		if(is_valid_prey)
 			var/entry_name = "[L.real_name]"
@@ -149,6 +149,85 @@
 	// in the long term it is (probably) for the best if assassins get a spot on the wretch-map w/ some sort of idol where they can recall
 	// their dagger if it's in any of these areas.
 
+/datum/action/cooldown/spell/assassin/consult_dagger
+	name = "Consult Dagger"
+	desc = "Recall what your profane dagger knows about your targets."
+	click_to_activate = FALSE
+	sound = null
+	ignore_can_speak = TRUE
+	spell_requirements = SPELL_REQUIRES_HUMAN
+	charge_required = FALSE
+	cooldown_time = 10 SECONDS
+	button_icon_state = "consult_dagger"
+
+/datum/action/cooldown/spell/assassin/consult_dagger/cast(atom/cast_on)
+	. = ..()
+
+	var/mob/living/carbon/human/assassin = owner
+	if(!assassin)
+		return
+
+	var/datum/antagonist/assassin/assassin_datum = assassin.mind?.has_antag_datum(/datum/antagonist/assassin)
+	if(!assassin_datum)
+		to_chat(assassin, span_warning("I am not an assassin!"))
+		return
+	if(!assassin_datum.my_dagger)
+		to_chat(assassin, span_warning("My dagger is unbound, missing, or destroyed!"))
+		return
+
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/evil_dagger = assassin_datum.my_dagger
+	var/list/possible_targets = list()
+
+	// Living targets.
+	for(var/mob/living/carbon/human/L in GLOB.player_list)
+		if(L == assassin || istype(L, /mob/living/carbon/human/dummy))
+			continue
+
+		var/is_targeted = L.has_flaw(/datum/charflaw/targeted)
+		var/is_trapped = HAS_TRAIT(L, TRAIT_CLAIMED_BY_DARKSTAR)
+		if(is_targeted && !is_trapped)
+			var/entry_name = "[L.real_name]"
+			var/target_job = L.get_role_title()
+			if(target_job)
+				entry_name += " - [target_job]"
+			else
+				entry_name += " - Unknown"
+			possible_targets[entry_name] = L
+
+	// Slain targets whose souls are trapped within the dagger.
+	for(var/datum/profane_soul_data/soul in evil_dagger.stored_souls)
+		var/mob/living/carbon/human/target = soul.body
+		if(!target || QDELETED(target))
+			continue
+
+		var/entry_name = "[soul.name]"
+		var/target_job = target.get_role_title()
+		if(target_job)
+			entry_name += " - [target_job]"
+		else
+			entry_name += " - Unknown"
+		possible_targets[entry_name] = target
+	if(!length(possible_targets))
+		to_chat(assassin, span_warning("The dagger remembers no one."))
+		return
+
+	var/selection = tgui_input_list(assassin, "Whose secret(s) do you wish to recall?", "Consult the Profane Dagger", possible_targets)
+	if(!selection)
+		return
+
+	var/mob/living/carbon/human/selected_target = possible_targets[selection]
+	if(!selected_target)
+		to_chat(assassin, span_warning("The dagger's memory slips away..."))
+		return
+
+	var/secret = selected_target.get_secret_for(assassin, "assassin")
+	if(!secret)
+		to_chat(assassin, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"I remember nothing of them...\"</i>"))
+		return
+
+	var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+	to_chat(assassin, "<span style='color:#3F5C6D'>The profane dagger</span> whispers, " + span_cult("<i>\"I remember what I know of [selected_target.real_name]...\"</i>"))
+	to_chat(assassin, "<span class='info'>[parsed_secret]</span>")
 
 /datum/action/cooldown/spell/assassin/get_dagger
 	name = "Summon Dagger"
@@ -195,8 +274,10 @@
 	if(owner)
 		var/datum/action/cooldown/spell/assassin/get_targets/A = new
 		var/datum/action/cooldown/spell/assassin/find_dagger/B = new
+		var/datum/action/cooldown/spell/assassin/consult_dagger/C = new
 		A.Grant(owner)
 		B.Grant(owner)
+		C.Grant(owner)
 
 // This spell just lets you find the dagger that's attached to your datum. Significantly less cooldown.
 /datum/action/cooldown/spell/assassin/find_dagger

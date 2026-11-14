@@ -29,7 +29,7 @@
 		"Absolver" = TRUE,
 		"Templar" = TRUE,
 		"Sergeant" = TRUE,
-		"Men-at-arms" = TRUE,
+		"Man at Arms" = TRUE,
 		"Knight" = TRUE,
 		"Squire" = TRUE,
 		"Mercenary" = TRUE,
@@ -91,7 +91,7 @@
 		shown_hunt_disclaimer = TRUE
 
 	tracked_target = possible_targets[selection]
-	to_chat(user, span_notice("You focus your senses on [tracked_target.real_name]."))
+	to_chat(user, span_notice("You focus your senses on [tracked_target.real_name]. (<a href='?src=[REF(user)];task=gnoll_recall_secret;secret_target=[REF(tracked_target)]'>Recall Secrets</a>)"))
 	give_tracking_directions(user)
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/proc/give_tracking_directions(mob/user)
@@ -129,6 +129,34 @@
 	if(!L || QDELETED(L) || L.stat == DEAD)
 		return FALSE
 	return TRUE
+
+/mob/living/carbon/human/proc/gnoll_recall_tracked_secret(mob/living/secret_target)
+	var/obj/effect/proc_holder/spell/invoked/gnoll_sniff/sniff_spell = \
+		src.HasSpell(/obj/effect/proc_holder/spell/invoked/gnoll_sniff)
+	if(!sniff_spell)
+		to_chat(src, span_warning("I cannot remember my prey."))
+		return
+	if(!secret_target || QDELETED(secret_target) || secret_target.stat == DEAD)
+		to_chat(src, span_warning("My prey is gone..."))
+		return
+
+	var/mob/living/tracked_target = sniff_spell.tracked_target
+	if(secret_target != tracked_target)
+		to_chat(src, span_warning("I must track [secret_target.real_name] again if I wish to recall their secret(s)."))
+		return
+	if(!ishuman(secret_target))
+		to_chat(src, span_warning("I recall nothing secret about my mark."))
+		return
+
+	var/mob/living/carbon/human/H = secret_target
+	var/secret = H.get_secret_for(src, "gnoll")
+	if(!secret)
+		to_chat(src, span_warning("I recall nothing secret about my mark."))
+		return
+	to_chat(src, span_warning("I recall my mark's secret(s) with blessed foreknowledge..."))
+
+	var/parsed_secret = parsemarkdown_basic(html_encode(secret), hyperlink = TRUE)
+	to_chat(src, "<span class='info'>[parsed_secret]</span>")
 
 /obj/effect/proc_holder/spell/invoked/abduct
 	name = "Abduct"
