@@ -43,7 +43,8 @@
 
 /obj/effect/proc_holder/spell/invoked/gnoll_sniff/cast(list/targets, mob/user)
 	var/mob/living/target = targets[1]
-
+	if(user.m_intent != MOVE_INTENT_SNEAK)
+		user.emote("sniff")
 	if(!tracked_target || QDELETED(tracked_target) || tracked_target.stat == DEAD || target == user)
 		select_new_target(user)
 	else
