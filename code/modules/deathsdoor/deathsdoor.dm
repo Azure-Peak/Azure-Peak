@@ -131,6 +131,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	anchored = TRUE
 	density = FALSE
 	var/turf/destination
+	var/list/reaching = list()
 
 /obj/structure/deaths_door_portal/Initialize(mapload, mob/living/_caster)
 	. = ..()
@@ -140,7 +141,7 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		return
 
 	destination = pick(dests)
-	addtimer(CALLBACK(src, PROC_REF(expire)), 15 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(expire)), 20 SECONDS)
 
 /obj/structure/deaths_door_portal/proc/expire()
 	if(QDELETED(src))
@@ -150,12 +151,20 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 	qdel(src)
 
 /obj/structure/deaths_door_portal/attack_hand(mob/living/user)
+	if(user in reaching)
+		return
+	reaching += user
 	playsound(get_turf(src), 'sound/misc/carriage2.ogg', 50, TRUE, -2, ignore_walls = TRUE)
 	to_chat(user, span_notice("You reach for the glowing portal..."))
-	if(!do_after(user, 4 SECONDS, src))
+	var/completed = do_after(user, 4 SECONDS, src)
+	reaching -= user // always release, whether it finished or was interrupted
+	if(!completed)
 		return
 	if(user.mob_biotypes & MOB_UNDEAD)
-		to_chat(user, span_danger("The Undermaiden churns the undead!"))
+		to_chat(user, span_danger("The Undermaiden rebukes the undead!"))
+		var/turf/target_turf = get_turf(user)
+		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 		explosion(get_turf(user), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 		return
 	enter_portal(user)
@@ -174,15 +183,16 @@ GLOBAL_VAR(deaths_door_exit)//turf at necra's shrine on each map
 		return
 
 	if(M.mob_biotypes & MOB_UNDEAD)
-		to_chat(user, span_danger("The Undermaiden churns the undead!"))
+		to_chat(user, span_danger("The Undermaiden rebukes the undead!"))
+		var/turf/target_turf = get_turf(M)
+		new /obj/effect/temp_visual/thunderstrike_actual(target_turf)
+		playsound(target_turf, 'sound/magic/lightning.ogg', 50)
 		explosion(get_turf(M), light_impact_range = 1, flame_range = 1, smoke = FALSE)
 		return
 
 	enter_portal(M, user)
 
-	user.visible_message(
-		span_warning("[user] drags [M] into Death's Door!")
-	)
+	user.visible_message(span_warning("[user] drags [M] into Death's Door!"))
 
 /obj/structure/deaths_door_portal/proc/enter_portal(mob/living/target, mob/living/forcer)
 	if(!destination)

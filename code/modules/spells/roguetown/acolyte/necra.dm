@@ -1,3 +1,20 @@
+/datum/action/cooldown/spell/necra
+	background_icon = 'icons/mob/actions/necramiracles.dmi'
+	button_icon = 'icons/mob/actions/necramiracles.dmi'
+	spell_color = PATRON_COLOR_NECRA
+	ignore_armor_penalty = TRUE
+	attunement_school = null
+	primary_resource_type = SPELL_COST_DEVOTION
+	secondary_resource_type = SPELL_COST_STAMINA
+	has_visual_effects = FALSE
+	spell_impact_intensity = SPELL_IMPACT_NONE
+	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC
+	associated_stat = null
+	associated_skill = /datum/skill/magic/holy
+	spell_tier = 0
+	point_cost = 0
+	required_items = list(/obj/item/clothing/neck/roguetown/psicross, /obj/item/clothing/neck/roguetown/psicross/necra, /obj/item/clothing/neck/roguetown/psicross/necra/g)
+
 /obj/effect/proc_holder/spell/targeted/churn
 	name = "Churn Undead"
 	desc = "Stuns and explodes undead."
@@ -57,50 +74,43 @@
 	return TRUE
 
 
-/*
-	DEATH'S DOOR
-*/
+///////////////////////
+// T4 - DEATH'S DOOR //
+///////////////////////
+// Open a portal to Necra's dimension, which can let you use to keep fresh corpses safe from decay and transport them (or yourself) to safety.
 
-
-/obj/effect/proc_holder/spell/invoked/deaths_door
+/datum/action/cooldown/spell/necra/deaths_door
 	name = "Death's Door"
-	desc = "Opens a one-way portal into a realm on the edge of death, People can be dragged into the portal to prevent their decay. Undead with be set aflame. Those whom enter the domain will find their Will to continue heavily weaken. <br>Necra's domain can be left through a portal within to a shrine, or a grave/psycross marked with necra's sight."
-	range = 6
-	no_early_release = TRUE
-	chargedrain = 0
-	action_icon = 'icons/mob/actions/necramiracles.dmi'
-	overlay_icon = 'icons/mob/actions/necramiracles.dmi'
-	overlay_state = "deathdoor"
-	charging_slowdown = 1
-	chargetime = 2 SECONDS
-	recharge_time = 30 SECONDS
-	antimagic_allowed = TRUE
+	desc = "Opens a one-way portal to Necra's domain at a targeted location within range. Those who enter are transported to the realm, where their will to continue is weakened. Undead are set aflame. The domain can only be left through its designated portal, or a grave or psycross marked with Necra's Sight.<br><br>\"Whatever you do. Do NOT fall asleep.\""
+	fluff_desc = "There is a place between the final breath and the silence that follows, where the living have no business lingering and the dead have yet to find their rest. It is here that Necra's dominion touches the mortal world. Through her grace, the faithful may part the veil and open a passage into her realm, a place where the dying are spared the indignity of decay, and where all who trespass are reminded how frail their will to live truly is. Yet this passage is not freely given. Once across its threshold, only Necra's appointed ways may lead one home."
+	button_icon_state = "deathdoor"
+	charge_required = TRUE
+	weapon_cast_penalized = FALSE
+	charge_time = 2 SECONDS
+	charge_slowdown = CHARGING_SLOWDOWN_SMALL
 	sound = 'sound/misc/deadbell.ogg'
-	invocations = list("Necra, show me my destination!")
-	invocation_type = "shout"
-	miracle = TRUE
-	devotion_cost = 30
+	charge_sound = 'sound/magic/chargingold.ogg'
+	cooldown_time = 30 SECONDS
+	cast_range = 6
+	invocations = list("Rend the veil, and grant me passage...")
 
-/obj/effect/proc_holder/spell/invoked/deaths_door/cast(list/targets, mob/living/user)
-	var/turf/T = get_turf(targets[1])
-	if(!isopenturf(T))
+/datum/action/cooldown/spell/necra/deaths_door/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/user = owner
+	var/turf/T = get_turf(cast_on)
+	if(!user || !T || !isopenturf(T))
 		return FALSE
-
 	if(istype(get_area(user), /area/rogue/indoors/ravoxarena))
 		to_chat(user, span_userdanger("I tried to escape, but something rebukes me! There's no escape until the end of the challenge!"))
-		revert_cast()
 		return FALSE
-
 	if(locate(/obj/structure/deaths_door_portal) in T)
 		to_chat(user, span_warning("A gate already stands here."))
 		return FALSE
-
-	// Ensure the caster has Necra's Sight so they can mark graves/psycrosses
-	if(user && user.mind && !user.mind?.has_spell(/obj/effect/proc_holder/spell/invoked/necras_sight))
-		user.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/necras_sight)
-		to_chat(user, span_notice("A cold clarity fills your vision as Necra opens your sight."))
-
+	if(user.mind && !user.mind.has_spell(/obj/effect/proc_holder/spell/invoked/necras_sight))
+		user.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/necras_sight)
+		to_chat(user, span_notice("A cold clarity fills my vision as Necra opens my sight."))
 	new /obj/structure/deaths_door_portal(T, user)
+	playsound(owner, 'sound/misc/deadbell.ogg', 100, FALSE, 0)
 	return TRUE
 
 /*
