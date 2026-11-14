@@ -43,9 +43,77 @@
 /obj/effect/landmark/forlorne,
 /turf/open/floor/rogue/ruinedwood,
 /area/rogue/indoors/shelter)
+"aaj" = (
+/obj/machinery/light/rogue/campfire/fireplace{
+	pixel_y = 0;
+	pixel_x = -32
+	},
+/turf/open/floor/rogue/twig,
+/area/rogue/indoors/town)
+"aak" = (
+/obj/structure/rack/rogue,
+/obj/item/quiver/arrows{
+	pixel_x = -10;
+	pixel_y = 3
+	},
+/obj/item/storage/roguebag,
+/obj/item/storage/roguebag,
+/obj/item/needle/thorn{
+	pixel_x = 14
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town)
 "aal" = (
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/under/town/basement/keep)
+"aam" = (
+/obj/structure/roguemachine/withdraw{
+	pixel_y = -32
+	},
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town)
+"aan" = (
+/obj/structure/table/wood/long_table,
+/obj/structure/fermentation_keg/water{
+	icon_state = "barrel_tapless_ready";
+	pixel_x = 12;
+	pixel_y = 16;
+	density = 0
+	},
+/obj/structure/fermentation_keg/water{
+	icon_state = "barrel_tapless_ready";
+	pixel_x = -5;
+	pixel_y = 16;
+	density = 0;
+	layer = 3
+	},
+/obj/item/storage/bag/tray,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town)
+"aao" = (
+/obj/item/reagent_containers/peppermill{
+	pixel_y = 15;
+	pixel_x = -5
+	},
+/obj/structure/table/wood/long_table/right,
+/obj/item/millstone{
+	pixel_y = 22;
+	pixel_x = 10
+	},
+/obj/item/rogueweapon/huntingknife/chefknife{
+	pixel_x = -12;
+	pixel_y = 4
+	},
+/obj/machinery/light/rogue/candle,
+/turf/open/floor/rogue/cobble,
+/area/rogue/indoors/town)
+"aap" = (
+/obj/effect/decal/cobbleedge{
+	dir = 6
+	},
+/obj/machinery/light/rogue/campfire/fireplace,
+/turf/open/floor/rogue/ruinedwood/spiral,
+/area/rogue/indoors/town)
 "aaq" = (
 /obj/structure/mineral_door/wood/deadbolt{
 	dir = 1
@@ -8859,12 +8927,6 @@
 	},
 /turf/open/floor/rogue/blocks/stonered/tiny,
 /area/rogue/under/cave/menageriedeep)
-"bAX" = (
-/obj/structure/rack/rogue,
-/obj/item/quiver/arrows,
-/obj/item/quiver/arrows,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town)
 "bAY" = (
 /obj/effect/decal/mossy{
 	dir = 4
@@ -31418,13 +31480,6 @@
 /obj/effect/spawner/lootdrop/heavy_armor_spawner,
 /turf/open/floor/rogue/churchrough,
 /area/rogue/under/cave/scarymaze)
-"fpG" = (
-/obj/structure/rack/rogue,
-/obj/item/storage/roguebag,
-/obj/item/storage/roguebag,
-/obj/item/needle/thorn,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town)
 "fpH" = (
 /obj/effect/decal/cobbleedge{
 	dir = 10;
@@ -34935,21 +34990,6 @@
 /obj/effect/spawner/lootdrop/roguetown/sewers,
 /turf/open/floor/rogue/volcanic,
 /area/rogue/outdoors/mountains/decap/stepbelow)
-"fUo" = (
-/obj/item/reagent_containers/peppermill{
-	pixel_y = 7;
-	pixel_x = -1
-	},
-/obj/structure/table/wood/long_table/right,
-/obj/item/storage/bag/tray,
-/obj/item/millstone{
-	pixel_y = 16;
-	pixel_x = 6
-	},
-/obj/item/rogueweapon/huntingknife/chefknife,
-/obj/machinery/light/rogue/candle,
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town)
 "fUp" = (
 /obj/effect/decal/cobbleedge{
 	dir = 6;
@@ -41928,23 +41968,6 @@
 /obj/structure/bookcase,
 /turf/open/floor/rogue/ruinedwood/spiral,
 /area/rogue/indoors/shelter)
-"hgL" = (
-/obj/structure/table/wood/long_table,
-/obj/structure/fermentation_keg/water{
-	icon_state = "barrel_tapless_ready";
-	pixel_x = 12;
-	pixel_y = 16;
-	density = 0
-	},
-/obj/structure/fermentation_keg/water{
-	icon_state = "barrel_tapless_ready";
-	pixel_x = -5;
-	pixel_y = 16;
-	density = 0;
-	layer = 3
-	},
-/turf/open/floor/rogue/cobble,
-/area/rogue/indoors/town)
 "hgM" = (
 /mob/living/carbon/human/species/skeleton/npc/pirate,
 /turf/open/floor/rogue/cobble,
@@ -71188,12 +71211,6 @@
 	},
 /turf/open/floor/rogue/wood/nosmooth,
 /area/rogue/outdoors/beach/forest/south)
-"lXI" = (
-/obj/effect/decal/cobbleedge{
-	dir = 6
-	},
-/turf/open/floor/rogue/ruinedwood/spiral,
-/area/rogue/indoors/town)
 "lXN" = (
 /mob/living/carbon/human/species/skeleton/npc/easy,
 /turf/open/floor/rogue/ruinedwood,
@@ -316895,8 +316912,8 @@ bsL
 cDX
 uBc
 uBc
-uBc
-flT
+oHD
+cDX
 cDX
 cDX
 bsL
@@ -317348,7 +317365,7 @@ uBc
 xLR
 nNK
 uys
-bAX
+aak
 cDX
 cDX
 bsL
@@ -317797,10 +317814,10 @@ sNZ
 sNZ
 fzO
 uBc
-hgL
+aan
 jdu
 jdu
-fpG
+aam
 cDX
 cDX
 sNZ
@@ -318249,7 +318266,7 @@ sNZ
 sNZ
 eKH
 eKH
-fUo
+aao
 wwr
 wwr
 ozA
@@ -320512,7 +320529,7 @@ cDX
 uBc
 vmB
 uBc
-flT
+oHD
 uBc
 cDX
 bNa
@@ -433511,8 +433528,8 @@ aBB
 xWK
 gKh
 iBM
-iBM
 qbl
+iBM
 iEv
 kJO
 dpx
@@ -434416,7 +434433,7 @@ xWK
 gKh
 qzD
 glU
-iBM
+aaj
 iBM
 acy
 dpx
@@ -441141,7 +441158,7 @@ aBB
 aBB
 eKH
 eKH
-lXI
+aap
 kIL
 aJg
 uBc
