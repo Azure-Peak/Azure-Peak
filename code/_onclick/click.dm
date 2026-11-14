@@ -1002,21 +1002,9 @@ GLOBAL_LIST_EMPTY(reach_dummy_pool)
 		last_dir_change = world.time
 		sprinted_tiles = 0
 		if(length(buckled_mobs))
-			face_atom_buckled_mobs(A)
-
-/mob/living/proc/face_atom_buckled_mobs(atom/A)
-	for(var/mob/mob in buckled_mobs)
-		mob.setDir(dir)
-	var/datum/component/riding/riding_datum = LoadComponent(/datum/component/riding)
-	riding_datum.handle_vehicle_layer()
-	riding_datum.handle_vehicle_offsets()
-
-/mob/living/carbon/human/face_atom_buckled_mobs(atom/A)
-	for(var/mob/mob in buckled_mobs)
-		mob.setDir(dir)
-	var/datum/component/riding/human/riding_datum = LoadComponent(/datum/component/riding/human)
-	riding_datum.handle_vehicle_layer()
-	riding_datum.handle_vehicle_offsets()
+			var/datum/component/riding/riding_datum = GetComponent(/datum/component/riding)
+			riding_datum?.handle_vehicle_layer()
+			riding_datum?.handle_vehicle_offsets()
 
 //debug
 /atom/movable/screen/proc/scale_to(x1,y1)

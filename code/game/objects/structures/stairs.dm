@@ -156,7 +156,7 @@
 		else
 			L.start_pulling(pulling, supress_message = TRUE)
 		if(was_pulled_buckled) // Assume this was a fireman carry since piggybacking is not a thing
-			L.buckle_mob(pulling, TRUE, TRUE, 90, 0, 0)
+			L.buckle_mob(pulling, TRUE, TRUE, 90)
 
 #undef STAIR_TERMINATOR_AUTOMATIC
 #undef STAIR_TERMINATOR_NO
