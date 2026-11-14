@@ -217,6 +217,17 @@
 			to_chat(user, span_warning("I don't understand these scribbly black lines."))
 			return
 		var/mob/living/to_bless = M
+
+		if(to_bless.has_status_effect(/datum/status_effect/debuff/luxplate_curse))
+			playsound(user, 'sound/magic/censercharging.ogg', 100)
+			user.visible_message(span_info("[user] holds \the [src] over \the [to_bless].."))
+			if(do_after(user, 50, target = to_bless))
+				to_bless.remove_status_effect(/datum/status_effect/debuff/luxplate_curse)
+				playsound(to_bless, 'sound/magic/holyshield.ogg', 100)
+				new /obj/effect/temp_visual/censer_dust(get_turf(M))
+				user.visible_message(span_blue("[user] purges the foul curse upon [to_bless]!"))
+				return
+
 		to_bless.apply_status_effect(/datum/status_effect/buff/blessed)
 		to_bless.add_stress(/datum/stressevent/blessed)
 		user.visible_message(span_notice("[user] blesses [M]."))

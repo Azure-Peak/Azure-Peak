@@ -998,8 +998,8 @@
 	name = "bless"
 	icon_state = "inbless"
 	no_attack = TRUE
-	candodge = TRUE
-	canparry = TRUE
+	candodge = FALSE
+	canparry = FALSE
 
 /datum/intent/weep
 	name = "weep"

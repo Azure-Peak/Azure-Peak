@@ -170,31 +170,7 @@ GLOBAL_LIST_EMPTY(last_words)
 	clear_typing_indicator()
 
 	if(HAS_TRAIT(src, TRAIT_UNFORGIVABLE))
-		flash_fullscreen("redflash3")
-		visible_message(span_danger("[src] explodes violently as they are unmade in unholy fire!"))
-
-		for(var/mob/living/carbon/stresstarget in view(7, src))
-			if(HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE))
-				continue
-
-			if(HAS_TRAIT(stresstarget, TRAIT_INQUISITION))
-				stresstarget.add_stress(/datum/stressevent/witnessvheslyninquis)
-			else
-				stresstarget.add_stress(/datum/stressevent/witnessvheslyn)
-
-		for(var/mob/living/flame_victim in view(3, src))
-			flame_victim.adjust_fire_stacks(8, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
-			flame_victim.ignite_mob()
-
-			if(HAS_TRAIT(flame_victim, TRAIT_UNFORGIVABLE))
-				to_chat(flame_victim, span_notice("you are set ablaze in <b>restoring fire!</b>"))
-			else
-				to_chat(flame_victim, span_userdanger("you are violently set ablaze in <b>unholy fire!</b>"))
-
-		explosion(get_turf(src), heavy_impact_range = 0, light_impact_range = 1, flash_range = 2, smoke = FALSE, soundin = 'sound/misc/explode/incendiary (2).ogg')
-		playsound(src, 'sound/magic/soulshot.ogg', 60, FALSE)
-		gib()
-		return TRUE
+		return unforgivable_death()
 
 	if(client && !contract_spawned && !gibbed)
 		if(!mind?.has_antag_datum(/datum/antagonist/skeleton) && !HAS_TRAIT(src, TRAIT_SECONDLIFE) && !HAS_TRAIT(src, TRAIT_IWASROTCURED) && !HAS_TRAIT(src, TRAIT_UNFORGIVABLE))
@@ -209,6 +185,79 @@ GLOBAL_LIST_EMPTY(last_words)
 				else
 					to_chat(player, span_warning("I feel the faint passage of disjointed life essence as it flees [locale]."))
 
+	has_luxplate()
+
+	return TRUE
+
+/mob/living/proc/unforgivable_death()
+	flash_fullscreen("redflash3")
+	visible_message(span_danger("[src] explodes violently as they are unmade in unholy fire!"))
+	for(var/mob/living/carbon/stresstarget in view(7, src))
+		if(HAS_TRAIT(stresstarget, TRAIT_UNFORGIVABLE))
+			continue
+		if(HAS_TRAIT(stresstarget, TRAIT_INQUISITION))
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyninquis)
+		else
+			stresstarget.add_stress(/datum/stressevent/witnessvheslyn)
+	for(var/mob/living/flame_victim in view(3, src))
+		flame_victim.adjust_fire_stacks(8, /datum/status_effect/fire_handler/fire_stacks/vheslyn)
+		flame_victim.ignite_mob()
+		if(HAS_TRAIT(flame_victim, TRAIT_UNFORGIVABLE))
+			to_chat(flame_victim, span_notice("you are set ablaze in <b>restoring fire!</b>"))
+		else
+			to_chat(flame_victim, span_userdanger("you are violently set ablaze in <b>unholy fire!</b>"))
+	explosion(get_turf(src), heavy_impact_range = 0, light_impact_range = 1, flash_range = 2, smoke = FALSE, soundin = 'sound/misc/explode/incendiary (2).ogg')
+	playsound(src, 'sound/magic/soulshot.ogg', 60, FALSE)
+	gib()
+	return TRUE
+
+/mob/living/proc/has_luxplate()
+	var/static/list/luxplate_results = list(/obj/item/ingot/component/zizo, /obj/item/ingot/component/matthios, /obj/item/ingot/component/baotha, /obj/item/ingot/component/graggar)
+	var/turf/T = get_turf(src)
+	if(!T)
+		return FALSE
+	var/consumed = 0
+	for(var/obj/item/I as anything in get_equipped_items())
+		if(istype(I, /obj/item/rogueweapon))
+			continue
+		if(!(I.smeltresult in luxplate_results))
+			continue
+		qdel(I)
+		new /obj/item/natural/ash(T)
+		new /obj/item/natural/ash(T)
+		consumed++
+
+	if(!consumed)
+		return FALSE
+
+	var/list/pantheons = list(ALL_DIVINE_PATRONS, ALL_INHUMEN_PATRONS, OLD_GOD_PATRON)
+	for(var/mob/living/witness in view(7, src))
+		if(witness == src)
+			continue
+		var/same_pantheon = FALSE
+		if((witness in GLOB.apostasy_players) || (witness in GLOB.cursed_players) || (witness in GLOB.excommunicated_players) || (witness in GLOB.heretical_players) || witness.job == "Wretch")
+			same_pantheon = TRUE
+		else
+			for(var/list/pantheon as anything in pantheons)
+				if((patron?.type in pantheon) && (witness.patron?.type in pantheon))
+					same_pantheon = TRUE
+					break
+		if(same_pantheon)
+			witness.apply_status_effect(/datum/status_effect/buff/recuperation)
+			to_chat(witness, span_boldgreen("The departing essence washes over me, like a warm mantle..."))
+		else
+			witness.apply_status_effect(/datum/status_effect/debuff/luxplate_curse)
+			to_chat(witness, span_boldred("The tearing essence lashes out at me. I feel cursed..."))
+
+	if(HAS_TRAIT(src, TRAIT_DNR))
+		visible_message(span_artery("[src]'s supernatural plating ruptures with a deafening shriek. A blinding surge of essence tears through [p_their()] body, ripping [p_their()] soul from its mortal vessel. Flesh blackens, bones crumble, and the entirety of [p_their()] remains is reduced to drifting ash."),
+			span_artery("<i>The heraldry of my patron burns away, and with it, all that remains of me. My soul is claimed, my body surrendered. Let there be no grave for me, no remains to mourn. I have given everything, and I die a MARTYR to my beliefs!</i>"))
+		dust(TRUE, TRUE)
+	else
+		visible_message(span_artery("[src]'s supernatural plating fractures violently, its pieces bursting apart as the essence sustaining [p_them()] escapes in a violent torrent. The heraldry of [p_their()] patron lies shattered alongside [p_their()] broken body."),
+			span_artery("<i>The heraldry of my patron burns away, and with it, all that remains of my pride...</i>"))
+	playsound(src, 'sound/magic/soulshot.ogg', 60, FALSE)
+	playsound(src, 'sound/misc/lava_death.ogg', 100, FALSE)
 	return TRUE
 
 /mob/living/proc/prepare_deathsight_message(mob/observer)

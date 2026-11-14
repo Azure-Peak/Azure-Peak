@@ -1802,6 +1802,7 @@
 	sleevetype = "shirt"
 	nodismemsleeves = TRUE
 	inhand_mod = TRUE
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/clothing/cloak/graggar/Initialize(mapload)
 	. = ..()
@@ -1814,6 +1815,7 @@
 	name = "vicious halfcloak"
 	desc = "Sorrow begets spite; and when one has nothing else to lose, spite is all that's needed for Man to defy God."
 	icon_state = "graggarcloak_heavy"
+	smeltresult = /obj/item/ingot/component/graggar
 
 /obj/item/clothing/cloak/graggar/Initialize(mapload)
 	. = ..()
