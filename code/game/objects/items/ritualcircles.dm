@@ -1084,25 +1084,56 @@
 
 /obj/structure/ritualcircle/necra
 	name = "Rune of Death"
-	desc = "A holy rune of <font color='425363'>Necra.</font> Quiet acceptance stirs within you."
+	desc = "A holy rune of <font color='#425363'>Necra.</font> Quiet acceptance stirs within you."
 	icon_state = "necra_chalky"
-	var/deathrites = list("Undermaiden's Bargain", "The Toll", "Shatter the Binds")
+	var/list/deathrites = list("Undermaiden's Bargain", "The Toll", "Shatter the Binds")
 	var/coinslot = 0
+	var/shatter_active = FALSE
+	var/static/list/profane_soul_screams = list(
+		"IT'S SO COLD!!",
+		"LET ME OUT!! PLEASE!!",
+		"I CAN'T FEEL MY BODY...",
+		"MOM?! MOM, WHERE ARE YOU?!",
+		"I DIDN'T WANT TO DIE!!",
+		"HE PROMISED ME... HE PROMISED!!",
+		"THE BLADE... THE BLADE WAS SO HUNGRY...",
+		"STOP IT, STOP IT, STOP IT!!",
+		"I SEE LIGHT... NO, NO, NOT THE LIGHT!!",
+		"SHE'S COMING FOR US!!",
+		"FREE... FREE?! FREE!!",
+		"I'M SORRY, I'M SO SORRY...",
+		"TAKE ME BACK, I'LL BE GOOD!!",
+		"WHO'S THERE?! WHO'S TOUCHING US?!",
+		"MY NAME... WHAT WAS MY NAME?!",
+		"IT BURNS!! THE THREADS BURN!!",
+	)
+	var/static/list/profane_soul_sounds = list(
+		'sound/vo/mobs/ghost/whisper (1).ogg',
+		'sound/vo/mobs/ghost/whisper (3).ogg',
+		'sound/vo/mobs/ghost/moan (1).ogg',
+		'sound/vo/mobs/ghost/death.ogg',
+	)
 
-
-/obj/structure/ritualcircle/necra/examine(mob/user)
+/obj/structure/ritualcircle/necra/examine(mob/living/user)
 	. = ..()
 	if(coinslot)
-		. += "</br>The circle has been sprinkled with [coinslot] toll coins..."
+		. += "<br>The circle has been sprinkled with [coinslot] toll coins..."
+	if(HAS_TRAIT(user, TRAIT_RITUALIST && user.patron?.type == /datum/patron/divine/necra))
+		. += "Undermaiden's Bargain - This rite strikes a cruel deal with Necra. Participants of the rite will be spared from death, at the cost of another living being randomly dying in their stead. It is said their loved ones are the first to go, if they ever displeased Necra during their lyfe. Many Necrans see this as heresy, and only to be used in dire strats, or over people who are pure of heart and sin, to decrease the chances of innocents dying."
+		. += "The Toll - This rite strikes a deal with the Ferryman, permitting you to convert your assistance to its endeavors into a little mercy that allows you to tetter a wandering soul back to its body. Many Necrans see this as heresy, if used constantly. But on the other side of the spectrum, being able to do this excessively means toiling hard to keep the dead where they should be. A vague virtue."
+		. += "Shatter the Binds - This rite allows for the breaking of a soul-trapping assassin's dagger. Doing so will allow the spirits to return to Necra or their corpses, potentially allowing for revival. Place the dagger upon the rune and chant the verse. Be patient, as this will take time. The assassin must be dead for this rite."
 
 /obj/structure/ritualcircle/necra/attackby(obj/item/I, mob/user, params)
 	. = ..()
 	if(istype(I, /obj/item/thetoll))
 		loc.visible_message(span_warning("[user] begins to break [I] over the ritual circle..."))
-		if(do_after(user, 50))
-			loc.visible_message(span_warning("[user] shatters [I] over the ritual circle..."))
-			coinslot += 1
-			qdel(I)
+		if(!do_after(user, 50, target = src))
+			return
+		if(QDELETED(I) || I.loc != user)
+			return
+		loc.visible_message(span_warning("[user] shatters [I] over the ritual circle..."))
+		coinslot += 1
+		qdel(I)
 
 /obj/structure/ritualcircle/necra/attack_hand(mob/living/user)
 	if(!..())
@@ -1116,256 +1147,134 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/list/current_rites = deathrites
+	var/list/current_rites = deathrites.Copy()
 	if(SSevent_scheduler.fog_scheduled)
 		current_rites += "Hollow the Mist"
 	var/riteselection = input(user, "Rituals of Death", src) as null|anything in current_rites
+	if(!riteselection)
+		return
 	switch(riteselection) // put ur rite selection here
 		if("Hollow the Mist")
-			loc.visible_message(span_warning("[user] begins to chant in a low, vibrating hum, their voice sounding like grinding bone..."))
-			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE)
-			if(do_after(user, 100))
-				loc.visible_message(span_notice("The chalk lines of the rune begin to seep into the floor, turning a pale, ghostly white."))
-				var/obj/item/cross_construction_kit/K = new /obj/item/cross_construction_kit(loc)
-				loc.visible_message(span_boldnotice("A heavy [K.name] manifests in the center of the rune!"))
-				icon_state = "necra_active"
-				user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-				spawn(120)
-					icon_state = "necra_chalky"
+			rite_hollow_the_mist(user)
 		if("Undermaiden's Bargain")
-			loc.visible_message(span_warning("[user] sways before the rune, they open their mouth, though no words come out..."))
-			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
-			if(!do_after(user, 6 SECONDS))
-				return
-			loc.visible_message(span_warning("[user] silently weeps, yet their tears do not flow..."))
-			playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
-			if(!do_after(user, 6 SECONDS))
-				return
-			loc.visible_message(span_warning("[user] locks up, as though someone had just grabbed them..."))
-			to_chat(user,span_danger("You feel cold breath on the back of your neck..."))
-			playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
-			if(!do_after(user, 2 SECONDS))
-				return
-			icon_state = "necra_active"
-			user.say("Forgive me, the bargain is intoned!!")
-			to_chat(user,span_cultsmall("My devotion to the Undermaiden has allowed me to strike a bargain for these souls...."))
-			playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
-			undermaidenbargain(src)
-			user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
-			spawn(120)
-				icon_state = "necra_chalky"
+			rite_undermaidens_bargain(user)
 		if("The Toll")
-			if(!coinslot)
-				to_chat(user, "This rite requires the toll to be prepared...")
-				return
-			var/onrune = view(1, loc)
-			var/list/folksonrune = list()
-			for(var/mob/living/carbon/human/persononrune in onrune)
-				if(persononrune.stat == DEAD)
-					folksonrune += persononrune
-			var/target = input(user, "Choose a supplicant") as null|anything in folksonrune
-			if(target)
-				loc.visible_message(span_warning("[user] draws spectral strands of Lux up through the air, tearing the veil between lyfe and death!"))
-				playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
-				if(do_after(user, 60))
-					playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
-					if(do_after(user, 60))
-						loc.visible_message(span_warning("[user] moves their lips but no words can be heard, speaking to a massive spectral figure on the other side!"))
-						playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
-						if(do_after(user, 20))
-							icon_state = "necra_active"
-							user.say("For this toll, a soul!!")
-							to_chat(user,span_cultsmall("[user] grasps the strands of Lux and attempts to pull a soul through the rift!"))
-							thetoll(target, user)
-							spawn(120)
-								icon_state = "necra_chalky"
-		if("Shatter the Binds") // hehe do you get t. Do You Get Im So Fucking FUnny
-			to_chat(user, span_info("This rite allows for the breaking of a soul-trapping assassin's dagger. Doing so will allow the spirits \
-			to return to Necra or their corpses, potentially allowing for revival. Place the dagger upon the \
-			rune and chant the verse.\nBe patient, as this will take time. The assassin must be dead for this rite."))
-			var/turf/runeturf = get_turf(src)
-			var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger
+			rite_the_toll(user)
+		if("Shatter the Binds")
+			rite_shatter_the_binds(user)
 
-			for(var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/P in runeturf.contents)
-				pissdagger = P
-				break // ladies. ladies. one at a time...
-
-			if(!pissdagger)
-				to_chat(user, span_warning("This ritual requires an assassin's profane dagger to be placed upon the rune."))
-				return
-
-			if(!pissdagger.is_my_owner_dead())
-				to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
-				return
-
-			user.visible_message(span_warning("[user] places the dagger in the center of the rune, drawing spectral strands of Lux up through the air!"))
-			playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
-			if(do_after(user, 10 SECONDS))
-				playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
-				pissdagger.visible_message(span_warning("[pissdagger] is suddenly thrust up into the air! Nigh-invisible threads tear at it, beginning to bend the metal!"))
-				if(do_after(user, 10 SECONDS))
-					playsound(user, 'sound/magic/soulsteal_2.ogg', 80, TRUE)
-					pissdagger.say(span_cult("NECRA DELIVER US!!"))
-					if(do_after(user, 5 SECONDS))
-						pissdagger.visible_message(span_warning("[pissdagger] is CRUSHED and TWISTED! TERRIBLE SCREAMS sounds from within!"))
-						playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
-						pissdagger.say(span_cult("MASTER, I DON'T WANT TO GO!!"))
-						if(do_after(user, 5 SECONDS))
-							user.say("UNDERMAIDEN, SHAKE FREE THE SOULS OF THE DAMNED!") // change this to something better thanks
-							playsound(user, 'sound/misc/carriage2.ogg', 80, TRUE)
-							pissdagger.release_profane_souls(user)
-							pissdagger.shatter_dagger()
-
-
-
-
-/obj/structure/ritualcircle/necra/proc/thetoll(mob/living/carbon/human/target, mob/living/user)
-	var/revive_pq = PQ_GAIN_REVIVE
-	if(!target.mind) // run the revive, but in ritual form!
-		to_chat(user, "This one is inert.")
+/obj/structure/ritualcircle/necra/proc/rite_hollow_the_mist(mob/living/user)
+	loc.visible_message(span_warning("[user] begins to chant in a low, vibrating hum, their voice sounding like grinding bone..."))
+	playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE)
+	if(!do_after(user, 100, target = src))
 		return
-	if(!target.mind.active)
-		to_chat(user, "Necra is not done with [target], yet.")
+	if(!SSevent_scheduler.fog_scheduled) // fog may have passed while chanting
+		to_chat(user, span_warning("The mist has already come and gone..."))
 		return
-	if(HAS_TRAIT(target, TRAIT_DNR))
-		to_chat(user, span_danger("None of the divine have them. Their only chance is spent. Where did they go?"))
+	loc.visible_message(span_notice("The chalk lines of the rune begin to seep into the floor, turning a pale, ghostly white."))
+	var/obj/item/cross_construction_kit/K = new /obj/item/cross_construction_kit(loc)
+	loc.visible_message(span_boldnotice("A heavy [K.name] manifests in the center of the rune!"))
+	icon_state = "necra_active"
+	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+	spawn(120)
+		icon_state = "necra_chalky"
+
+/obj/structure/ritualcircle/necra/proc/rite_undermaidens_bargain(mob/living/user)
+	loc.visible_message(span_warning("[user] sways before the rune, they open their mouth, though no words come out..."))
+	playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
+	if(!do_after(user, 6 SECONDS, target = src))
 		return
-	if(HAS_TRAIT(target, TRAIT_NECRAS_VOW))
-		to_chat(user, span_warning("This one has pledged themselves whole to Necra. They are Hers."))
+	loc.visible_message(span_warning("[user] silently weeps, yet their tears do not flow..."))
+	playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
+	if(!do_after(user, 6 SECONDS, target = src))
 		return
-	if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
-		if(alert(user, "[target]'s body rattles and seizes under the divine force. This will likely unmake them permanently. Continue?", "Divine Revival", "PURGE THE UNCLEAN!", "Stop") != "PURGE THE UNCLEAN!")
-			to_chat(user, span_notice("You halt the rite before the divine force can fully take hold."))
-			return FALSE
-		target.visible_message(span_danger("[target] is unmade by divine magic!"), span_userdanger("Holy power tears my undead form apart!"))
-		playsound(target.loc, 'sound/magic/churn.ogg', 100, TRUE)
-		target.dust()
-		return TRUE
-
-	var/mob/dead/observer/underworld_spirit = target.get_spirit()
-	if(alert(underworld_spirit || target, "A Toll is being offered for your soul, BREAK FREE?", "Revival", "I need to wake up", "Don't let me go") != "I need to wake up")
-		target.visible_message(span_notice("Nothing happens. They are not being let go."))
+	loc.visible_message(span_warning("[user] locks up, as though someone had just grabbed them..."))
+	to_chat(user,span_danger("You feel cold breath on the back of your neck..."))
+	playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
+	if(!do_after(user, 2 SECONDS, target = src))
 		return
-	target.adjustOxyLoss(-target.getOxyLoss()) //Ye Olde CPR
-	if(!target.revive(full_heal = FALSE))
-		to_chat(user, span_warning("Nothing happens."))
+	icon_state = "necra_active"
+	user.say("Forgive me, the bargain is intoned!!")
+	to_chat(user,span_cultsmall("My devotion to the Undermaiden has allowed me to strike a bargain for these souls..."))
+	playsound(loc, 'sound/vo/mobs/ghost/moan (1).ogg', 100, FALSE, -1)
+	undermaidenbargain(src)
+	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended)
+	spawn(120)
+		icon_state = "necra_chalky"
+
+/obj/structure/ritualcircle/necra/proc/rite_the_toll(mob/living/user)
+	if(!coinslot)
+		to_chat(user, span_warning("This rite requires the toll to be prepared..."))
 		return
-	target.grab_ghost(force = TRUE)
-	target.emote("breathgasp")
-	target.Jitter(100)
-	target.update_body()
-	target.visible_message(span_notice("[target] JUMPS AWAKE! Spirits nearly break free from their shackles as they look for a exit in [target]!"), span_green("I BARELY MANAGED TO GET PAST OTHER DESPERATE SPIRITS TO MY EMPTY BODY... IT IS SO COLD"))
-	if(revive_pq && !HAS_TRAIT(target, TRAIT_IWASREVIVED) && user?.ckey)
-		adjust_playerquality(revive_pq, user.ckey)
-		ADD_TRAIT(target, TRAIT_IWASREVIVED, "[type]")
-	target.mind.remove_antag_datum(/datum/antagonist/zombie)
-	target.remove_status_effect(/datum/status_effect/debuff/rotted_zombie)
-	target.apply_status_effect(/datum/status_effect/debuff/revived)
-	target.apply_status_effect(/datum/status_effect/buff/healing, 14)
-	if(HAS_TRAIT(target, TRAIT_IRONMAN))
-		target.apply_status_effect(/datum/status_effect/debuff/integrity_rig, 11 MINUTES)
-		target.visible_message(span_danger("[target] is looking on the verge of exploding again! Their core may need an extra whack from a hammer."))
-	target.add_stress(/datum/stressevent/necrarevive)
-	src.coinslot -= 1 // -1 coin, please insert more coins.
-	user.apply_status_effect(/datum/status_effect/debuff/ritesexpended) // only after a successful revive
-
-/obj/structure/ritualcircle/necra/proc/undermaidenbargain(src)
-	var/ritualtargets = view(7, loc)
-	for(var/mob/living/carbon/human/target in ritualtargets)
-		target.apply_status_effect(/datum/status_effect/buff/undermaidenbargain)
-
-/obj/item/soulthread
-	name = "lux-thread"
-	desc = "An eerie, softly glowing thread. It hums faintly with something that was once not quite at rest."
-	icon = 'icons/roguetown/items/natural.dmi'
-	icon_state = "luxthread"
-	var/strungtogether = 1
-	var/max_threads = 8
-	sellprice = 3
-	grid_width = 32
-	grid_height = 32
-	w_class = WEIGHT_CLASS_TINY
-
-/obj/item/soulthread/examine(mob/user)
-	. = ..()
-	. += "</br><span class='notice'>[strungtogether]/[max_threads] threads woven together.</span>"
-
-/obj/item/soulthread/proc/process_total(total, mob/user)
-	var/turf/T = get_turf(src)
-	var/tolls_to_make = total - (total % max_threads)
-	tolls_to_make /= max_threads
-	var/remainder = total % max_threads
-	if(user)
-		to_chat(user, "<span class='purple'>The threads entangle ethereally in your grasp... ([total]/[max_threads])</span>")
-	if(tolls_to_make)
-		for(var/i = 1 to tolls_to_make)
-			new /obj/item/thetoll(T)
-		if(user)
-			to_chat(user, "<span class='boldnotice'>The gathered threads bind together, forming a weeping toll!</span>")
-	if(remainder)
-		strungtogether = remainder
-		sellprice = 3 * remainder
-	else
-		qdel(src)
-
-/obj/item/soulthread/proc/merge_into(obj/item/soulthread/target, mob/user)
-	if(target == src)
+	var/list/folksonrune = list()
+	for(var/mob/living/carbon/human/persononrune in view(1, loc))
+		if(persononrune.stat == DEAD)
+			folksonrune += persononrune
+	if(!length(folksonrune))
+		to_chat(user, span_warning("There is no one lying dead upon the rune..."))
 		return
-
-	var/total = target.strungtogether + src.strungtogether
-	target.process_total(total, user)
-	qdel(src)
-
-/obj/item/soulthread/attackby(obj/item/attacking_item, mob/user)
-	if(!istype(attacking_item, /obj/item/soulthread))
-		return ..()
-
-	var/obj/item/soulthread/other = attacking_item
-	merge_into(other, user)
-
-/obj/item/soulthread/afterattack(atom/target, mob/user, proximity_flag, click_params)
-	if(!proximity_flag)
+	var/mob/living/carbon/human/target = input(user, "Choose a supplicant") as null|anything in folksonrune
+	if(!target)
 		return
-
-	var/turf/T = get_turf(target)
-	if(!T)
-		return
-	for(var/obj/item/soulthread/other in T)
-		if(!other)
+//	if((!target.key && !target.get_ghost(FALSE, TRUE)) || HAS_TRAIT(target, TRAIT_DNR) || HAS_TRAIT(target, TRAIT_NECRAS_VOW))
+//		to_chat(user, span_warning("You cannot sense [target]'s soul anywhere in this realm or the between-realm."))
+//		return
+	for(var/obj/item/bodypart/bodypart as anything in target.bodyparts)
+		if(bodypart.rotted || bodypart.skeletonized)
+			to_chat(user, span_warning("[target]'s vessel cannot host a soul, for it is too decayed."))
 			return
+	var/datum/necra_toll_anim/anim = new(src, user, target)
+	anim.open_rift()
+	loc.visible_message(span_warning("[user] draws spectral strands of Lux up through the air, tearing the veil between lyfe and death!"))
+	playsound(user, 'sound/vo/mobs/ghost/whisper (3).ogg', 100, FALSE, -1)
+	if(!do_after(user, 60, target = src))
+		loc.visible_message(span_warning("The rite falters..."))
+		anim.abort()
+		return
+	loc.visible_message(span_warning("A batch of apparitions manifest from it, as [user] restrains them with the samesake strings!"))
+	anim.release_souls()
+	playsound(user, 'sound/vo/mobs/ghost/whisper (1).ogg', 100, FALSE, -1)
+	if(!do_after(user, 60, target = src))
+		loc.visible_message(span_warning("The rite falters..."))
+		anim.abort()
+		return
+	loc.visible_message(span_warning("[user] moves their lips but no words can be heard, speaking to a massive spectral figure on the other side of the rift!"))
+	playsound(user, 'sound/vo/mobs/ghost/death.ogg', 100, FALSE, -1)
+	if(!do_after(user, 20, target = src))
+		loc.visible_message(span_warning("The rite falters..."))
+		anim.abort()
+		return
+	// re-validate everything after the long channel
+	if(!coinslot || QDELETED(target) || target.stat != DEAD || get_dist(target, src) > 1)
+		to_chat(user, span_warning("The rite falters... either the supplicant or the toll are no longer there?"))
+		anim.abort()
+		return
+	icon_state = "necra_active"
+	to_chat(user,span_cultsmall("The Ferryman guides my sight, as I tetter the right soul to the deceased body!"))
+	var/success = thetoll(target, user)
+	anim.resolve(success)
+	spawn(120)
+		icon_state = "necra_chalky"
 
-	to_chat(user, "<span class='notice'>You begin gathering the scattered threads...</span>")
-
-	for(var/obj/item/soulthread/other in T)
-		if(other == src)
-			continue
-
-		if(strungtogether >= max_threads)
-			break
-
-		if(!do_after(user, 0.5 SECONDS, TRUE, src))
-			break
-
-		if(!(other in T.contents))
-			continue
-
-		var/total = strungtogether + other.strungtogether
-		qdel(other)
-		process_total(total, user)
-
-		if(QDELETED(src))
-			return
-
-/obj/item/thetoll
-	grid_width = 32
-	grid_height = 32
-	name = "toll"
-	desc = "A hollow token of strange metal that softly weeps blood, mysteriously formed when enough shimmering lux-threads are tangled together as an offering. It is said the Ferryman grants tolls to those who aid in its work, and claim them back in exchange for favors."
-	icon = 'icons/roguetown/underworld/enigma_husks.dmi'
-	icon_state = "soultoken"
-	sellprice = 30
-	w_class = WEIGHT_CLASS_TINY
-	dropshrink = 0.5
+/obj/structure/ritualcircle/necra/proc/rite_shatter_the_binds(mob/living/user)
+	if(shatter_active)
+		to_chat(user, span_warning("The threads are already being pulled taut... I must wait."))
+		return
+	var/turf/runeturf = get_turf(src)
+	var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/pissdagger
+	for(var/obj/item/rogueweapon/huntingknife/idagger/steel/profane/P in runeturf.contents)
+		pissdagger = P
+		break // ladies. ladies. one at a time...
+	if(!pissdagger)
+		to_chat(user, span_warning("This ritual requires an assassin's profane dagger to be placed upon the rune."))
+		return
+	if(!pissdagger.is_my_owner_dead())
+		to_chat(user, span_warning("I hear a laughing surrounding me. The assassin is not yet dead... their foul magicks still protect this dagger!"))
+		return
+	shatter_active = TRUE
+	dagger_screams(pissdagger, 60 SECONDS) // waitfor = FALSE, returns immediately
+	shatter_the_binds_cutscene(user, pissdagger, runeturf)
+	shatter_active = FALSE
 
 /obj/structure/ritualcircle/eora
 	name = "Rune of Love"
