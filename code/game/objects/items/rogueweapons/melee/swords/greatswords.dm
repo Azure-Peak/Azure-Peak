@@ -293,6 +293,7 @@
 	wdefense = 3
 	wdefense_wbonus = 6
 	smelt_bar_num = 2
+	special = /datum/special_intent/piercing_lunge
 
 /obj/item/rogueweapon/estoc/getonmobprop(tag)
 	. = ..()

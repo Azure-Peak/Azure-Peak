@@ -483,13 +483,14 @@
 
 /datum/intent/sword/thrust/estoc
 	name = "thrust"
+	icon_state = "thrust"
 	penfactor = PEN_HEAVY	// Penetrates mail/plate at same-tier 20%. Estoc's purpose — point blank, telegraphed.
 	damfactor = 1.2
 	swingdelay = 0.5 SECONDS
 
 /datum/intent/sword/thrust/estoc/lunge
 	name = "lunge"
-	icon_state = "inlance"
+	icon_state = "inlunge"
 	attack_verb = list("lunges")
 	penfactor = PEN_LIGHT	// Fast attrition thrust — light pen, no swingdelay, quick clickcd.
 	damfactor = 1.1
