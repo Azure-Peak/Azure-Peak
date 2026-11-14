@@ -12,6 +12,7 @@ export type CatalogEntry = {
   price: number;
   ingot: string;
   materials: RecipeMaterial[];
+  has_stats?: BooleanLike;
 };
 
 export type ManifestLine = {
