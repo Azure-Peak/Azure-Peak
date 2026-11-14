@@ -1931,6 +1931,7 @@
 #include "code\modules\client\verbs\ghost.dm"
 #include "code\modules\client\verbs\ooc.dm"
 #include "code\modules\client\verbs\ping.dm"
+#include "code\modules\client\verbs\player_command_bar.dm"
 #include "code\modules\client\verbs\suicide.dm"
 #include "code\modules\client\verbs\typing.dm"
 #include "code\modules\client\verbs\who.dm"

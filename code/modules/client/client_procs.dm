@@ -163,6 +163,10 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 
+	if(href_list["player_command_bar_pick"])
+		pick_player_command_bar_suggestion(href_list["player_command_bar_pick"])
+		return
+
 	switch(href_list["_src_"])
 		if("holder")
 			hsrc = holder
@@ -344,6 +348,7 @@ GLOBAL_LIST_EMPTY(external_rsc_urls)
 			var/datum/admin_rank/localhost_rank = new("!localhost!", R_EVERYTHING, R_DBRANKS, R_EVERYTHING) //+EVERYTHING -DBRANKS *EVERYTHING
 			new /datum/admins(localhost_rank, ckey, 1, 1)
 	check_localhost_command_bar()
+	show_player_command_bar_button()
 
 	//preferences datum - also holds some persistent data for the client (because we may as well keep these datums to a minimum)
 	prefs = GLOB.preferences_datums[ckey]
