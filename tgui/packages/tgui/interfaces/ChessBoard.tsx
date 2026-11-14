@@ -2,123 +2,93 @@ import {
   type CSSProperties,
   type ReactNode,
   useEffect,
-  useMemo,
+  useRef,
   useState,
 } from 'react';
-
-import { Button, Section } from 'tgui-core/components';
+import { Button } from 'tgui-core/components';
+import type { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import {
+  badgeStyle,
+  cardStyle,
+  FONT_SMALL,
+  FONT_TITLE,
+  INK,
+  INK_FAINT,
+  INK_SOFT,
+  SEAL_AMBER,
+  SEAL_GREEN,
+  SEAL_RED,
+  SERIF,
+  TITLE,
+  TITLE_FONT,
+} from './common/parchment';
 
-type ChessSquare = {
-  index: number;
-  file: number;
-  rank: number;
-  piece: string | null;
-  light: boolean;
-  selected: boolean;
-  lastmove: boolean;
-  target: boolean;
-  pose?: string | null;
-  offset_x?: number;
-  offset_y?: number;
-  angle?: number;
+type Side = 'w' | 'b';
+type Mode = 'chess' | 'checkers' | 'nards';
+
+type Seat = {
+  name: string | null;
+  mine: BooleanLike;
+  away: BooleanLike;
 };
 
-type ChessHistoryRow = {
-  turn: number;
-  white: string | null;
-  black: string | null;
-};
-
-type ModeOption = {
-  key: 'chess' | 'checkers' | 'nards';
-  label: string;
-};
-
-type ModePickerStep = 'root' | 'checkers_rules' | 'nards_rules';
-
-type NardsPointData = {
-  point: number;
-  color: 'w' | 'b' | null;
-  count: number;
-};
-
-type NardsScatterPiece = {
-  color: 'w' | 'b';
-  pose?: string | null;
-  left: number;
-  top: number;
-  angle?: number;
-  z?: number;
-};
-
-type NardsScatterDie = {
-  face: number;
-  left: number;
-  top: number;
-  angle?: number;
-  z?: number;
+type GridData = {
+  cells: (string | null)[];
+  selected: number;
+  targets: number[];
+  last: [number, number];
+  check?: number;
+  scatter: ([number, number, number, number] | null)[] | null;
 };
 
 type NardsData = {
-  points: NardsPointData[];
-  bar_white: number;
-  bar_black: number;
-  off_white: number;
-  off_black: number;
-  die_one: number;
-  die_two: number;
-  roll_nonce: number;
-  can_roll: boolean;
-  selected_point: number;
-  selected_bar: boolean;
-  legal_targets: number[];
-  can_select_bar: boolean;
-  available_rolls: number[];
-  is_long_rules?: boolean;
-  overturned?: boolean;
-  scatter?: NardsScatterPiece[];
-  scatter_dice?: NardsScatterDie[];
+  points: number[];
+  bar: [number, number];
+  off: [number, number];
+  dice: [number, number];
+  nonce: number;
+  rolls: number[];
+  can_roll: BooleanLike;
+  selected: number;
+  targets: number[];
+  scatter: [Side, number, number, number, number][] | null;
+  scatter_dice: [number, number, number, number][] | null;
 };
 
-type ChessBoardData = {
-  board_title: string;
-  white_player_name: string;
-  black_player_name: string;
-  my_side: string;
-  my_side_key: string | null;
-  turn: string;
-  turn_key: string;
-  paused: boolean;
-  result_text: string | null;
-  selected_square: number;
-  status_text: string;
-  last_message: string | null;
-  can_resume: boolean;
-  can_pack: boolean;
-  board: ChessSquare[];
-  history: ChessHistoryRow[];
-  promotion_choices: string[];
-  game_mode: 'none' | 'chess' | 'checkers' | 'nards';
-  game_mode_label: string;
-  current_rules_text: string | null;
-  checkers_flying_kings: boolean;
-  nards_long_rules: boolean;
-  switch_mode_target_key: 'chess' | 'checkers' | 'nards';
-  switch_mode_target_label: string;
-  mode_switch_pending: boolean;
-  mode_switch_pending_text: string | null;
-  can_confirm_mode_switch: boolean;
-  can_cancel_mode_switch: boolean;
-  reset_pending_text: string | null;
-  can_confirm_reset_request: boolean;
-  can_cancel_reset_request: boolean;
-  can_flip_board: boolean;
-  can_resign: boolean;
-  mode_options: ModeOption[];
-  nards: NardsData | null;
+type Data = {
+  mode: Mode | null;
+  label: string | null;
+  rules: string | null;
+  variant: BooleanLike;
+  seats: [Seat, Seat];
+  side: Side | null;
+  solo: BooleanLike;
+  turn: Side | null;
+  live: BooleanLike;
+  started: BooleanLike;
+  result: string | null;
+  status: string;
+  message: string | null;
+  history: [string, string | null][];
+  pending_label: string | null;
+  pending_mode: Mode | null;
+  pending_variant: BooleanLike;
+  mode_name: string | null;
+  can_answer_mode: BooleanLike;
+  can_cancel_mode: BooleanLike;
+  reset_name: string | null;
+  reset_left: number;
+  can_answer_reset: BooleanLike;
+  can_cancel_reset: BooleanLike;
+  can_start: BooleanLike;
+  can_pause: BooleanLike;
+  can_resign: BooleanLike;
+  can_pack: BooleanLike;
+  can_flip: BooleanLike;
+  board: GridData | NardsData | null;
 };
 
 const CHESS_IMAGES: Record<string, string> = {
@@ -141,28 +111,6 @@ const CHECKERS_IMAGES: Record<string, string> = {
   bm: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAANVJREFUOI1jYBjygBGboLy85n9cGh4+vI6ihwWZ42jl9J+BgYEhNKOQ4fC+vdhN2M/wH9kgRmTNyBpf3LrEwMDAwCChpsdg6+TMwMDAgGLosf07GR4+vM7ICHNyeXMXVs3IwNbJGcMQJhgHm5NhBsHA6hn9GGrgLlCSlkSxEV0zuote3LrEcO/pc0QghmYUMqye0Q9XhO58XAajxAIswLA5FVkNsiEsDNAo6awt+2/l6E607feePkfEAgzAEpCStCROF9x7+pyBAVs6wGYQNoCeEgceAABj7mGQJr3UowAAAABJRU5ErkJggg==',
   wk: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAQhJREFUOI3Fk6FuAkEQhr+lfQBM9QYSBKoKQ1IBFXUkTTA4ZB2nqCIhqQLVOh6CpEndCThBcqYKdYI016UPslVLZ7m9UkHSP1kx2Z1v/5nMKAIaDCObJnHoCmMyJWMvGAwjC/Dy/MDybRcEzCZjD6RkskzcrFcA3HRv6fcaAB50NhljTKYUgNZN+759DSZL9XuNAqTigpBlB3IaRYvCmwuAavVqaqmga3UAdK3OPs8B2Of54UhHm/WKr88PvBJG0aJg+zdXaRJzKS9dw0JW5RsJOQBkD8pcHPfEA5z6uQxynhKMyVTr+t4+Ps3/XEKaxD+D5KR10wK0O3elDtyOFEY5BArpeJn+X99Ty3/UCob+KgAAAABJRU5ErkJggg==',
   wm: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAO5JREFUOI3VkiELwkAcxX+bfgCLeSgYTCaLYFCDbSBYbEabS5oGgkmTtn0IQbAZnEGwmEwGkTn9ILN4486dYhMfXPjfvffu3f3/8PcwdJuWVYzeCcLwpGiUotN1IoD5rMdiddYaTNyBYmTIYlm48zcAVOsN2nYBQDGduAPC8GQYIvLhuNSKZbTtQsLEFIUusjAS6DtegpMCyGSyowgTK5cHwMrluQUBALcgiJecaOdvuF8vKE/oO14i9qdU++2atHwoPkwXVebIJmmeLSmXWtFwPI1J39wed0FADFCl1nybYL9dg24OdEY6vE7i7/EARwBtEydM/q4AAAAASUVORK5CYII=',
-};
-
-const CHESS_LABELS: Record<string, string> = {
-  bk: 'K',
-  bq: 'Q',
-  br: 'R',
-  bb: 'B',
-  bn: 'N',
-  bp: 'P',
-  wk: 'K',
-  wq: 'Q',
-  wr: 'R',
-  wb: 'B',
-  wn: 'N',
-  wp: 'P',
-};
-
-const CHECKERS_LABELS: Record<string, string> = {
-  bk: 'D',
-  bm: 'M',
-  wk: 'D',
-  wm: 'M',
 };
 
 const NARDS_CHECKERS_IMAGES: Record<'w' | 'b', string> = {
@@ -188,916 +136,654 @@ const NARDS_DICE_ROLL: Record<number, string> = {
   6: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAByDd+UAAAAAXNSR0IArs4c6QAAASRJREFUSInNlu0NhCAMhothA1yLIZiMHWCtdgbvF6by2XJecm9iovLCU7BIDSjlnLv4MxEZTX+RuYaMJIEPDTNIjBEAAEIIariVQhDxvs85N+/O8xwGzOF2BuIDriSBE5E5aliMERBRBevBEfFeeg4+apj3fhtUy3vfQG/gCla+27fQY+quYBroyNsAc84P887MZgEePeNIku+7GmO5pAWyk0y9Pl1gbdTAVgHanvlbzcYRZembWmbpT4Ez0FtBvLbxpQEts1QykOZPpMrSXrt2qV/d+KJt5Zy7ypVSuiRKKT28s34ppYszHjMMIWxl42hmOeem7rFEZPipzw27p35dYhQRkbHAipy63OAdV/ARBHpFVK9hBi8nuBTC9T+FsBSuLfU/bYEIIPW9qCkAAAAASUVORK5CYII=',
 };
 
-const NARDS_MODE_FALLBACK: ModeOption[] = [
-  { key: 'chess', label: 'Chess' },
-  { key: 'checkers', label: 'Checkers' },
-  { key: 'nards', label: 'Backgammon' },
+const SQUARE = 48;
+const LIGHT = '#f0d9b5';
+const DARK = '#b58863';
+const MARK_LAST = 'rgba(205, 190, 70, 0.5)';
+const MARK_PICK = 'rgba(59, 106, 53, 0.55)';
+const MARK_MOVE = 'rgba(59, 106, 53, 0.65)';
+const MARK_CHECK =
+  'radial-gradient(circle, rgba(190, 30, 20, 0.9) 0%, rgba(190, 30, 20, 0.4) 45%, transparent 75%)';
+
+const NARDS_W = 372;
+const NARDS_H = 392;
+
+const SIDE_NAME: Record<Side, string> = { w: 'White', b: 'Black' };
+
+/// Width, height and vertical nudge of each chess sprite on its square
+const PIECE_SIZE: Record<string, [number, number, number]> = {
+  p: [29, 29, 0],
+  r: [35, 35, 0],
+  n: [39, 39, -3],
+  b: [41, 43, -7],
+  q: [44, 46, -8],
+  k: [44, 46, -10],
+};
+
+const PROMOTIONS = ['q', 'r', 'b', 'n'];
+
+const MODES: {
+  key: Mode;
+  name: string;
+  blurb: string;
+  variants: string[];
+}[] = [
+  {
+    key: 'chess',
+    name: 'Chess',
+    blurb: 'The game of kings. Checkmate the enemy king.',
+    variants: ['Set up'],
+  },
+  {
+    key: 'checkers',
+    name: 'Checkers',
+    blurb: 'Jump and capture across the dark squares.',
+    variants: ['Short kings', 'Flying kings'],
+  },
+  {
+    key: 'nards',
+    name: 'Backgammon',
+    blurb: 'Race your checkers home by the roll of the dice.',
+    variants: ['Short rules', 'Long rules'],
+  },
 ];
 
-const PROMOTION_LABELS: Record<string, string> = {
-  queen: 'Queen',
-  rook: 'Rook',
-  bishop: 'Bishop',
-  knight: 'Knight',
+const range = (from: number, to: number) => {
+  const step = from <= to ? 1 : -1;
+  const out: number[] = [];
+  for (let i = from; i !== to + step; i += step) {
+    out.push(i);
+  }
+  return out;
 };
 
-const boardWrapStyle: CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(8, 48px)',
-  gridTemplateRows: 'repeat(8, 48px)',
-  gap: '0',
-  border: '2px solid rgba(255, 255, 255, 0.12)',
-  width: '384px',
-};
-
-const panelStyle: CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: '412px minmax(300px, 1fr)',
-  gap: '12px',
-  alignItems: 'start',
-};
-
-const buttonGroupStyle: CSSProperties = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '6px',
-};
-
-const pieceImageBaseStyle: CSSProperties = {
+const sprite = (url: string, style: CSSProperties): CSSProperties => ({
+  position: 'absolute',
+  backgroundImage: `url(${url})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'contain',
+  backgroundPosition: 'center bottom',
   imageRendering: 'pixelated',
   pointerEvents: 'none',
+  ...style,
+});
+
+const fill: CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  pointerEvents: 'none',
+};
+
+const frameStyle: CSSProperties = {
+  position: 'relative',
+  alignSelf: 'center',
+  padding: '20px',
+  background: 'linear-gradient(135deg, #5d3b20 0%, #4a2e18 55%, #3a2312 100%)',
+  borderRadius: '4px',
+  boxShadow:
+    '0 3px 10px rgba(40, 20, 5, 0.45), inset 0 0 0 1px rgba(255, 220, 160, 0.15)',
+};
+
+const coordStyle: CSSProperties = {
+  position: 'absolute',
+  color: '#e6cfa3',
+  fontSize: '11px',
+  textAlign: 'center',
   userSelect: 'none',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center bottom',
-  backgroundSize: 'contain',
 };
 
-const appendTransform = (
-  baseTransform: string | undefined,
-  extraTransform: string,
-) => {
-  if (!baseTransform) {
-    return extraTransform;
-  }
-  return `${baseTransform} ${extraTransform}`;
+const capsStyle: CSSProperties = {
+  fontSize: FONT_SMALL,
+  color: INK_FAINT,
+  letterSpacing: '1px',
+  textTransform: 'uppercase',
 };
 
-const getPieceImageStyle = (
-  piece: string | null,
-  mode: 'chess' | 'checkers',
-  pose?: string | null,
-  offsetX = 0,
-  offsetY = 0,
-  angle = 0,
-): CSSProperties => {
-  let style: CSSProperties;
+const panelCard: CSSProperties = { ...cardStyle, marginBottom: 0 };
 
-  if (!piece) {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '32px',
-      height: '32px',
-    };
-  } else if (mode === 'checkers') {
-    if (piece.endsWith('k')) {
-      style = {
-        ...pieceImageBaseStyle,
-        width: '34px',
-        height: '34px',
-        transform: 'translate(-1px, 3px)',
-      };
-    } else {
-      style = {
-        ...pieceImageBaseStyle,
-        width: '32px',
-        height: '32px',
-        transform: 'translate(-1px, 3px)',
-      };
-    }
-  } else if (piece.endsWith('p')) {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '29px',
-      height: '29px',
-    };
-  } else if (piece.endsWith('r')) {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '35px',
-      height: '35px',
-    };
-  } else if (piece.endsWith('n')) {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '39px',
-      height: '39px',
-      transform: 'translateY(-3px)',
-    };
-  } else if (piece.endsWith('b')) {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '41px',
-      height: '43px',
-      transform: 'translateY(-7px)',
-    };
-  } else if (piece.endsWith('q')) {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '44px',
-      height: '46px',
-      transform: 'translateY(-8px)',
-    };
-  } else if (piece.endsWith('k')) {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '44px',
-      height: '46px',
-      transform: 'translateY(-10px)',
-    };
-  } else {
-    style = {
-      ...pieceImageBaseStyle,
-      width: '35px',
-      height: '35px',
-    };
-  }
+const requestCard: CSSProperties = {
+  ...panelCard,
+  background: 'rgba(196, 140, 40, 0.18)',
+  borderColor: SEAL_AMBER,
+};
 
-  if (pose === 'fallen_left') {
-    style = {
-      ...style,
-      transform: appendTransform(
-        style.transform as string | undefined,
-        'rotate(-90deg)',
-      ),
-      transformOrigin: 'center center',
-    };
-  } else if (pose === 'fallen_right') {
-    style = {
-      ...style,
-      transform: appendTransform(
-        style.transform as string | undefined,
-        'rotate(90deg)',
-      ),
-      transformOrigin: 'center center',
-    };
-  }
-
-  if (offsetX || offsetY) {
-    style = {
-      ...style,
-      transform: appendTransform(
-        style.transform as string | undefined,
-        `translate(${offsetX}px, ${offsetY}px)`,
-      ),
-    };
-  }
-
-  if (angle) {
-    style = {
-      ...style,
-      transform: appendTransform(
-        style.transform as string | undefined,
-        `rotate(${angle}deg)`,
-      ),
-      transformOrigin: 'center center',
-    };
-  }
-
-  return style;
+const rowStyle: CSSProperties = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '4px',
+  marginTop: '6px',
 };
 
 export const ChessBoard = () => {
-  const { act, data } = useBackend<ChessBoardData>();
-  const [pendingPromotion, setPendingPromotion] = useState<{
-    from: number;
-    to: number;
-  } | null>(null);
-  const [confirmReset, setConfirmReset] = useState(false);
-  const [confirmResign, setConfirmResign] = useState(false);
-  const [showModePicker, setShowModePicker] = useState(false);
-  const [modePickerStep, setModePickerStep] = useState<ModePickerStep>('root');
-  const [rollingDiceFaces, setRollingDiceFaces] = useState<
-    [number, number] | null
-  >(null);
-  const [modePickerCheckersFlyingKings, setModePickerCheckersFlyingKings] =
-    useState(!!data.checkers_flying_kings);
-  const [modePickerNardsLongRules, setModePickerNardsLongRules] = useState(
-    !!data.nards_long_rules,
+  const { data } = useBackend<Data>();
+  const [picker, setPicker] = useState(false);
+  const flip = data.side === 'b' && !data.solo;
+  const myTurn = !!data.live && !!data.side && data.side === data.turn;
+
+  useEffect(() => setPicker(false), [data.mode, data.variant]);
+
+  return (
+    <Window width={800} height={650} title="Chessboard" theme="parchment">
+      <Window.Content scrollable>
+        <div
+          style={{
+            display: 'flex',
+            gap: '14px',
+            padding: '12px 14px',
+            height: '100%',
+            boxSizing: 'border-box',
+            fontFamily: SERIF,
+            color: INK,
+          }}
+        >
+          <div
+            style={{
+              width: '424px',
+              flexShrink: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
+            }}
+          >
+            <SeatBar side={flip ? 'w' : 'b'} />
+            {data.mode === 'nards' ? (
+              <NardsBoard flip={flip} myTurn={myTurn} />
+            ) : (
+              <GridBoard flip={flip} myTurn={myTurn} />
+            )}
+            <SeatBar side={flip ? 'b' : 'w'} />
+          </div>
+          <SidePanel myTurn={myTurn} openPicker={() => setPicker(true)} />
+        </div>
+        {(picker || !data.mode) && (
+          <ModePicker
+            onClose={data.mode ? () => setPicker(false) : undefined}
+          />
+        )}
+      </Window.Content>
+    </Window>
   );
+};
 
-  const board = data.board || [];
-  const history = data.history || [];
-  const promotionChoices = data.promotion_choices || [];
-  const modeOptions = data.mode_options?.length
-    ? data.mode_options
-    : NARDS_MODE_FALLBACK;
-  const nards = data.nards;
-  const hasMode = data.game_mode !== 'none';
+const SeatBar = (props: { side: Side }) => {
+  const { act, data } = useBackend<Data>();
+  const { side } = props;
+  const seat = data.seats[side === 'w' ? 0 : 1];
+  const active = !!data.live && data.turn === side;
+  const nards = data.mode === 'nards' ? (data.board as NardsData) : null;
 
-  const boardByIndex = useMemo(() => {
-    const lookup = new Map<number, ChessSquare>();
-    for (const square of board) {
-      lookup.set(square.index, square);
-    }
-    return lookup;
-  }, [board]);
+  let button: ReactNode = null;
+  if (!seat.name) {
+    button = (
+      <Button icon="chair" onClick={() => act('sit', { side })}>
+        Sit
+      </Button>
+    );
+  } else if (seat.mine) {
+    button = (
+      <Button icon="sign-out-alt" onClick={() => act('stand', { side })}>
+        Get up
+      </Button>
+    );
+  } else if (seat.away) {
+    button = (
+      <Button
+        icon="user-slash"
+        tooltip="They have walked away from the board."
+        onClick={() => act('stand', { side })}
+      >
+        Clear seat
+      </Button>
+    );
+  }
 
-  const interactive =
-    !!data.my_side_key &&
-    !data.paused &&
-    !data.result_text &&
-    data.turn_key === data.my_side_key;
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        height: '38px',
+        padding: '0 6px 0 8px',
+        background: active ? 'rgba(196, 140, 40, 0.22)' : 'var(--p-card-bg)',
+        border: `1px solid ${active ? SEAL_AMBER : INK_FAINT}`,
+        borderLeft: `4px solid ${active ? SEAL_AMBER : INK_FAINT}`,
+        borderRadius: '2px',
+      }}
+    >
+      <span
+        style={{
+          width: '14px',
+          height: '14px',
+          flexShrink: 0,
+          borderRadius: '50%',
+          background: side === 'w' ? '#f6ecd4' : '#2b1d10',
+          border: `1px solid ${INK}`,
+        }}
+      />
+      <div style={{ flex: 1, minWidth: 0, lineHeight: 1.2 }}>
+        <div
+          style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            fontWeight: seat.name ? 'bold' : 'normal',
+            fontStyle: seat.name ? 'normal' : 'italic',
+            color: seat.name ? INK : INK_FAINT,
+          }}
+        >
+          {seat.name || 'Empty seat'}
+          {!!seat.mine && <span style={badgeStyle(SEAL_GREEN)}>You</span>}
+          {!!seat.away && !seat.mine && (
+            <span style={badgeStyle(INK_FAINT)}>Away</span>
+          )}
+        </div>
+        <div style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>
+          {SIDE_NAME[side]}
+          {active && ' · to move'}
+          {nards && ` · ${nards.off[side === 'w' ? 0 : 1]}/15 borne off`}
+        </div>
+      </div>
+      {button}
+    </div>
+  );
+};
 
-  const nardsInteractive = interactive && data.game_mode === 'nards';
+const GridBoard = (props: { flip: boolean; myTurn: boolean }) => {
+  const { act, data } = useBackend<Data>();
+  const { flip, myTurn } = props;
+  const grid = data.board as GridData | null;
+  const selected = grid?.selected || 0;
+  const [promo, setPromo] = useState(0);
 
-  const imageMap =
-    data.game_mode === 'checkers' ? CHECKERS_IMAGES : CHESS_IMAGES;
-  const labelMap =
-    data.game_mode === 'checkers' ? CHECKERS_LABELS : CHESS_LABELS;
+  useEffect(() => setPromo(0), [selected]);
 
-  const isBlackPerspective = data.my_side_key === 'b';
-  const displayedBoard = isBlackPerspective ? [...board].reverse() : board;
-  const fileLabels = isBlackPerspective
-    ? ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a']
-    : ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  const rankLabels = isBlackPerspective
-    ? ['1', '2', '3', '4', '5', '6', '7', '8']
-    : ['8', '7', '6', '5', '4', '3', '2', '1'];
+  const cells = grid?.cells || [];
+  const targets = grid?.targets || [];
+  const scatter = grid?.scatter;
+  const checkers = data.mode === 'checkers';
+  const images = checkers ? CHECKERS_IMAGES : CHESS_IMAGES;
+  const ranks = flip ? range(1, 8) : range(8, 1);
+  const files = flip ? range(8, 1) : range(1, 8);
 
-  const whiteSeatButtonLabel =
-    data.white_player_name === 'Available'
-      ? 'Join as White'
-      : 'Leave White seat';
-  const blackSeatButtonLabel =
-    data.black_player_name === 'Available'
-      ? 'Join as Black'
-      : 'Leave Black seat';
-
-  const handleWhiteSeatButton = () => {
-    if (data.white_player_name === 'Available') {
-      act('claim_side', { color: 'w' });
+  const click = (idx: number) => {
+    if (!myTurn) {
       return;
     }
-    act('release_side', { color: 'w' });
+    const rank = Math.ceil(idx / 8);
+    if (
+      data.mode === 'chess' &&
+      targets.includes(idx) &&
+      cells[selected - 1]?.[1] === 'p' &&
+      (rank === 1 || rank === 8)
+    ) {
+      setPromo(idx);
+      return;
+    }
+    act('square', { square: idx });
   };
 
-  const handleBlackSeatButton = () => {
-    if (data.black_player_name === 'Available') {
-      act('claim_side', { color: 'b' });
-      return;
+  const renderPiece = (idx: number, piece: string) => {
+    let [w, h, dy] = PIECE_SIZE[piece[1]] || [35, 35, 0];
+    let dx = 0;
+    if (checkers) {
+      w = h = piece[1] === 'k' ? 34 : 32;
+      dx = -1;
+      dy = 3;
     }
-    act('release_side', { color: 'b' });
-  };
-
-  const pauseResumeLabel = data.paused ? 'Resume' : 'Pause';
-  const pauseResumeDisabled =
-    !hasMode || (data.paused ? !data.can_resume : false);
-
-  const handlePauseResume = () => {
-    if (data.paused) {
-      act('resume_game');
-      return;
-    }
-    act('pause_game');
-  };
-
-  useEffect(() => {
-    if (!data.selected_square) {
-      setPendingPromotion(null);
-    }
-  }, [data.selected_square]);
-
-  useEffect(() => {
-    setConfirmReset(false);
-  }, [
-    data.game_mode,
-    data.result_text,
-    data.last_message,
-    data.reset_pending_text,
-  ]);
-
-  useEffect(() => {
-    setConfirmResign(false);
-  }, [data.can_resign, data.game_mode, data.result_text]);
-
-  useEffect(() => {
-    setShowModePicker(false);
-    setModePickerStep('root');
-  }, [data.game_mode]);
-
-  useEffect(() => {
-    setModePickerCheckersFlyingKings(!!data.checkers_flying_kings);
-    setModePickerNardsLongRules(!!data.nards_long_rules);
-  }, [data.checkers_flying_kings, data.nards_long_rules]);
-
-  useEffect(() => {
-    if (!nards?.roll_nonce) {
-      return;
-    }
-
-    setRollingDiceFaces([
-      1 + Math.floor(Math.random() * 6),
-      1 + Math.floor(Math.random() * 6),
-    ]);
-
-    let ticks = 0;
-    const handle = window.setInterval(() => {
-      ticks += 1;
-      setRollingDiceFaces([
-        1 + Math.floor(Math.random() * 6),
-        1 + Math.floor(Math.random() * 6),
-      ]);
-      if (ticks >= 8) {
-        window.clearInterval(handle);
-        setRollingDiceFaces(null);
-      }
-    }, 90);
-
-    return () => window.clearInterval(handle);
-  }, [nards?.roll_nonce]);
-
-  const requiresPromotion = (fromIndex: number, toIndex: number) => {
-    if (data.game_mode !== 'chess') {
-      return false;
-    }
-
-    const fromSquare = boardByIndex.get(fromIndex);
-    const toSquare = boardByIndex.get(toIndex);
-    if (!fromSquare || !toSquare || !fromSquare.piece) {
-      return false;
-    }
-    if (!fromSquare.piece.endsWith('p')) {
-      return false;
+    let transform = `translate(${dx}px, ${dy}px)`;
+    const fall = scatter?.[idx - 1];
+    if (fall) {
+      transform += ` translate(${fall[1]}px, ${fall[2]}px) rotate(${fall[0] + fall[3]}deg)`;
     }
     return (
-      (fromSquare.piece.startsWith('w') && toSquare.rank === 8) ||
-      (fromSquare.piece.startsWith('b') && toSquare.rank === 1)
+      <div
+        style={sprite(images[piece], {
+          width: `${w}px`,
+          height: `${h}px`,
+          left: `${(SQUARE - w) / 2}px`,
+          bottom: '1px',
+          transform,
+          zIndex: 2,
+        })}
+      />
     );
   };
 
-  const handleSquareClick = (square: ChessSquare) => {
-    if (pendingPromotion || data.game_mode === 'nards') {
-      return;
-    }
-
-    const selected = data.selected_square;
-    const piece = square.piece;
-    const ownPiece =
-      !!piece && !!data.my_side_key && piece.startsWith(data.my_side_key);
-
-    if (!selected || ownPiece || square.index === selected || !interactive) {
-      act('select_square', { square: square.index });
-      return;
-    }
-
-    if (square.target) {
-      if (requiresPromotion(selected, square.index)) {
-        setPendingPromotion({ from: selected, to: square.index });
-        return;
-      }
-      act('move_piece', { from: selected, to: square.index });
-      return;
-    }
-
-    act('select_square', { square: square.index });
-  };
-
-  const submitPromotion = (promotion: string) => {
-    if (!pendingPromotion) {
-      return;
-    }
-    act('move_piece', {
-      from: pendingPromotion.from,
-      to: pendingPromotion.to,
-      promotion,
-    });
-    setPendingPromotion(null);
-  };
-
-  const resetBoard = () => {
-    if (!confirmReset) {
-      setConfirmReset(true);
-      return;
-    }
-    act('reset_board');
-    setConfirmReset(false);
-  };
-
-  const resignGame = () => {
-    if (!confirmResign) {
-      setConfirmResign(true);
-      return;
-    }
-    act('resign_game');
-    setConfirmResign(false);
-  };
-
-  const handleNardsPointClick = (point: number) => {
-    if (!nardsInteractive || !nards) {
-      return;
-    }
-
-    if (nards.legal_targets?.includes(point)) {
-      act('move_nards_checker', { to_point: point, to_off: 0 });
-      return;
-    }
-
-    act('select_nards_point', { point });
-  };
-
-  const handleNardsBarClick = () => {
-    if (!nardsInteractive || !nards?.can_select_bar) {
-      return;
-    }
-    act('select_nards_bar');
-  };
-
-  const handleNardsBearOffClick = () => {
-    if (!nardsInteractive || !nards?.legal_targets?.includes(0)) {
-      return;
-    }
-    act('move_nards_checker', { to_point: 0, to_off: 1 });
-  };
-
-  const requestModeSwitch = (
-    mode: 'chess' | 'checkers' | 'nards',
-    overrides?: {
-      checkersFlyingKings?: boolean;
-      nardsLongRules?: boolean;
-    },
-  ) => {
-    const checkersFlyingKings =
-      overrides?.checkersFlyingKings ?? modePickerCheckersFlyingKings;
-    const nardsLongRules =
-      overrides?.nardsLongRules ?? modePickerNardsLongRules;
-
-    act('request_mode_switch', {
-      mode,
-      checkers_flying_kings: checkersFlyingKings ? 1 : 0,
-      nards_long_rules: nardsLongRules ? 1 : 0,
-    });
-    setShowModePicker(false);
-    setModePickerStep('root');
-  };
-
-  const openModePicker = () => {
-    setModePickerCheckersFlyingKings(!!data.checkers_flying_kings);
-    setModePickerNardsLongRules(!!data.nards_long_rules);
-    setModePickerStep('root');
-    setShowModePicker(true);
-  };
-
-  const closeModePicker = () => {
-    setShowModePicker(false);
-    setModePickerStep('root');
-  };
-
-  const isSameModeSelection = (mode: 'chess' | 'checkers' | 'nards') => {
-    if (mode !== data.game_mode) {
-      return false;
-    }
-    if (mode === 'checkers') {
-      return !!data.checkers_flying_kings === modePickerCheckersFlyingKings;
-    }
-    if (mode === 'nards') {
-      return !!data.nards_long_rules === modePickerNardsLongRules;
-    }
-    return true;
-  };
-
-  const renderModePicker = () => {
-    if (!showModePicker) {
-      return null;
-    }
-
-    const chessLabel =
-      modeOptions.find((option) => option.key === 'chess')?.label || 'Chess';
-    const checkersLabel =
-      modeOptions.find((option) => option.key === 'checkers')?.label ||
-      'Checkers';
-    const nardsLabel =
-      modeOptions.find((option) => option.key === 'nards')?.label ||
-      'Backgammon';
-
-    let title = 'Choose a mode';
-    let description = 'Select a game mode for this board.';
-
-    if (modePickerStep === 'checkers_rules') {
-      title = 'Checkers rules';
-      description = 'Choose how kings can move.';
-    } else if (modePickerStep === 'nards_rules') {
-      title = 'Backgammon rules';
-      description = 'Choose long or short backgammon.';
-    }
-
+  const renderSquare = (idx: number, light: boolean) => {
+    const piece = cells[idx - 1];
+    const target = targets.includes(idx);
+    const own = !!piece && piece[0] === data.side;
+    const last = !scatter && (grid?.last[0] === idx || grid?.last[1] === idx);
     return (
       <div
+        key={idx}
+        onClick={() => click(idx)}
         style={{
-          position: 'fixed',
-          inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.45)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 50,
+          position: 'relative',
+          width: `${SQUARE}px`,
+          height: `${SQUARE}px`,
+          background: light ? LIGHT : DARK,
+          cursor: myTurn && (own || target) ? 'pointer' : 'default',
         }}
       >
-        <div
-          style={{
-            minWidth: '340px',
-            maxWidth: '420px',
-            border: '1px solid rgba(255, 255, 255, 0.16)',
-            backgroundColor: '#200607',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
-            padding: '14px',
-            display: 'grid',
-            gap: '10px',
-          }}
-        >
-          <div style={{ fontSize: '18px' }}>{title}</div>
-          <div style={{ opacity: 0.85 }}>{description}</div>
-
-          {modePickerStep === 'root' && (
-            <>
-              <Button
-                disabled={isSameModeSelection('chess')}
-                onClick={() => requestModeSwitch('chess')}
-              >
-                {chessLabel}
-              </Button>
-              <Button onClick={() => setModePickerStep('checkers_rules')}>
-                {checkersLabel}
-              </Button>
-              <Button onClick={() => setModePickerStep('nards_rules')}>
-                {nardsLabel}
-              </Button>
-              <Button onClick={closeModePicker}>Close</Button>
-            </>
-          )}
-
-          {modePickerStep === 'checkers_rules' && (
-            <>
-              <Button
-                disabled={
-                  data.game_mode === 'checkers' && !data.checkers_flying_kings
-                }
-                onClick={() => {
-                  setModePickerCheckersFlyingKings(false);
-                  requestModeSwitch('checkers', { checkersFlyingKings: false });
-                }}
-              >
-                Short-range kings
-              </Button>
-              <Button
-                disabled={
-                  data.game_mode === 'checkers' && !!data.checkers_flying_kings
-                }
-                onClick={() => {
-                  setModePickerCheckersFlyingKings(true);
-                  requestModeSwitch('checkers', { checkersFlyingKings: true });
-                }}
-              >
-                Flying kings
-              </Button>
-              <Button onClick={() => setModePickerStep('root')}>Back</Button>
-            </>
-          )}
-
-          {modePickerStep === 'nards_rules' && (
-            <>
-              <Button
-                disabled={data.game_mode === 'nards' && !data.nards_long_rules}
-                onClick={() => {
-                  setModePickerNardsLongRules(false);
-                  requestModeSwitch('nards', { nardsLongRules: false });
-                }}
-              >
-                Short backgammon
-              </Button>
-              <Button
-                disabled={data.game_mode === 'nards' && !!data.nards_long_rules}
-                onClick={() => {
-                  setModePickerNardsLongRules(true);
-                  requestModeSwitch('nards', { nardsLongRules: true });
-                }}
-              >
-                Long backgammon
-              </Button>
-              <Button onClick={() => setModePickerStep('root')}>Back</Button>
-            </>
-          )}
-        </div>
+        {last && <div style={{ ...fill, background: MARK_LAST }} />}
+        {idx === selected && <div style={{ ...fill, background: MARK_PICK }} />}
+        {idx === grid?.check && (
+          <div style={{ ...fill, background: MARK_CHECK }} />
+        )}
+        {!!piece && renderPiece(idx, piece)}
+        {target && (
+          <div
+            style={{
+              ...fill,
+              zIndex: 3,
+              background: piece
+                ? `radial-gradient(circle, transparent 62%, ${MARK_MOVE} 64%)`
+                : `radial-gradient(circle, ${MARK_MOVE} 18%, transparent 20%)`,
+            }}
+          />
+        )}
       </div>
     );
   };
 
-  const renderClassicBoard = () => (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '16px 384px',
-        gap: '4px',
-        alignItems: 'start',
-      }}
-    >
+  return (
+    <div style={frameStyle}>
       <div
         style={{
           display: 'grid',
-          gridTemplateRows: 'repeat(8, 48px)',
-          fontSize: '11px',
-          opacity: 0.7,
-          marginTop: '2px',
+          gridTemplateColumns: `repeat(8, ${SQUARE}px)`,
+          boxShadow: '0 0 0 2px #2c1a0c',
         }}
       >
-        {rankLabels.map((rank) => (
-          <div
-            key={rank}
-            style={{
-              height: '48px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            {rank}
-          </div>
-        ))}
+        {ranks.map((rank) =>
+          files.map((file) =>
+            renderSquare((rank - 1) * 8 + file, (file + rank) % 2 === 1),
+          ),
+        )}
       </div>
-
-      <div>
-        <div style={boardWrapStyle}>
-          {displayedBoard.map((square) => {
-            const piece = square.piece;
-            const pieceImage = piece ? imageMap[piece] : null;
-            const pieceLabel = piece ? labelMap[piece] || '' : '';
-            const pieceRenderStyle = getPieceImageStyle(
-              piece,
-              data.game_mode as 'chess' | 'checkers',
-              square.pose,
-              square.offset_x || 0,
-              square.offset_y || 0,
-              square.angle || 0,
-            );
-
-            let border = '1px solid rgba(0, 0, 0, 0.3)';
-            if (square.lastmove) {
-              border = '2px solid rgba(105, 180, 255, 0.85)';
-            }
-            if (square.target) {
-              border = '2px solid rgba(90, 210, 120, 0.95)';
-            }
-            if (square.selected) {
-              border = '2px solid rgba(255, 220, 90, 1)';
-            }
-
-            return (
-              <Button
-                key={square.index}
-                onClick={() => handleSquareClick(square)}
-                style={{
-                  width: '48px',
-                  minWidth: '48px',
-                  height: '48px',
-                  margin: 0,
-                  padding: 0,
-                  borderRadius: 0,
-                  border,
-                  backgroundColor: square.light ? '#f0d9b5' : '#b58863',
-                  color: '#111111',
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  justifyContent: 'center',
-                  paddingBottom: '1px',
-                  boxShadow: 'none',
-                  overflow: 'visible',
-                  position: 'relative',
-                }}
-              >
-                {pieceImage ? (
-                  <div
-                    style={{
-                      ...pieceRenderStyle,
-                      backgroundImage: `url(${pieceImage})`,
-                      zIndex: 2,
-                    }}
-                  />
-                ) : (
-                  pieceLabel || ' '
-                )}
-              </Button>
-            );
-          })}
-        </div>
-
+      {files.map((file, i) => (
         <div
+          key={`f${file}`}
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(8, 48px)',
-            marginTop: '4px',
-            fontSize: '11px',
-            opacity: 0.7,
+            ...coordStyle,
+            left: `${20 + i * SQUARE}px`,
+            bottom: '3px',
+            width: `${SQUARE}px`,
           }}
         >
-          {fileLabels.map((file) => (
-            <div key={file} style={{ textAlign: 'center' }}>
-              {file}
-            </div>
-          ))}
+          {'abcdefgh'[file - 1]}
         </div>
-      </div>
-    </div>
-  );
-
-  const renderNardsBoard = () => {
-    const points = nards?.points || [];
-    const pointMap = new Map<number, NardsPointData>();
-    for (const point of points) {
-      pointMap.set(point.point, point);
-    }
-
-    const legalTargets = nards?.legal_targets || [];
-    const selectedPoint = nards?.selected_point || 0;
-    const selectedBar = !!nards?.selected_bar;
-    const nardsOverturned =
-      !!nards?.overturned ||
-      (data.game_mode === 'nards' &&
-        !!data.result_text &&
-        data.result_text.includes('The board has been flipped'));
-    const scatterPieces = nards?.scatter || [];
-    const scatterDice = nards?.scatter_dice || [];
-
-    const topPoints = isBlackPerspective
-      ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-      : [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
-    const bottomPoints = isBlackPerspective
-      ? [24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13]
-      : [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-
-    const getPointX = (idx: number) => {
-      if (idx < 6) {
-        return 8 + idx * 28;
-      }
-      return 8 + 6 * 28 + 20 + (idx - 6) * 28;
-    };
-
-    const renderPointHotspot = (
-      pointNumber: number,
-      idx: number,
-      isTop: boolean,
-    ) => {
-      const selected = selectedPoint === pointNumber;
-      const target = legalTargets.includes(pointNumber);
-      const left = getPointX(idx);
-      const top = isTop ? 8 : 240;
-
-      return (
+      ))}
+      {ranks.map((rank, i) => (
         <div
-          key={`hot-${pointNumber}`}
-          onClick={() => handleNardsPointClick(pointNumber)}
+          key={`r${rank}`}
+          style={{
+            ...coordStyle,
+            top: `${20 + i * SQUARE}px`,
+            left: 0,
+            width: '20px',
+            lineHeight: `${SQUARE}px`,
+          }}
+        >
+          {rank}
+        </div>
+      ))}
+      {!!promo && (
+        <div
           style={{
             position: 'absolute',
-            left: `${left}px`,
-            top: `${top + 4}px`,
-            width: '28px',
-            height: '144px',
-            cursor: nardsInteractive ? 'pointer' : 'default',
-            backgroundColor: selected
-              ? 'rgba(255, 220, 90, 0.18)'
-              : target
-                ? 'rgba(90, 210, 120, 0.14)'
-                : 'transparent',
-            outline: selected
-              ? '2px solid rgba(255, 220, 90, 0.95)'
-              : target
-                ? '2px solid rgba(90, 210, 120, 0.85)'
-                : 'none',
-            zIndex: 40,
+            inset: 0,
+            zIndex: 10,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(30, 18, 6, 0.55)',
+            borderRadius: '4px',
           }}
-        />
-      );
-    };
-
-    const renderPointStack = (
-      pointNumber: number,
-      idx: number,
-      isTop: boolean,
-    ) => {
-      const point = pointMap.get(pointNumber);
-      if (!point?.color || !point?.count) {
-        return null;
-      }
-
-      const nodes: ReactNode[] = [];
-      const visibleCount = Math.min(point.count, 15);
-      const checkerSize =
-        visibleCount >= 13 ? 24 : visibleCount >= 10 ? 26 : 32;
-      const stackSpan = 144 - checkerSize;
-      const naturalStep = Math.max(8, checkerSize - 10);
-      const naturalHeight =
-        checkerSize + naturalStep * Math.max(0, visibleCount - 1);
-      const stackStep =
-        visibleCount <= 1
-          ? 22
-          : naturalHeight <= 144
-            ? naturalStep
-            : Math.max(6, Math.floor(stackSpan / (visibleCount - 1)));
-      const pieceLeft = getPointX(idx) + Math.floor((28 - checkerSize) / 2);
-
-      for (let i = 0; i < visibleCount; i++) {
-        const top = isTop
-          ? 8 + i * stackStep
-          : 392 - 8 - checkerSize - i * stackStep;
-        nodes.push(
+        >
           <div
-            key={`${pointNumber}-${i}`}
             style={{
-              position: 'absolute',
-              left: `${pieceLeft}px`,
-              top: `${top}px`,
-              width: `${checkerSize}px`,
-              height: `${checkerSize}px`,
-              backgroundImage: `url(${NARDS_CHECKERS_IMAGES[point.color]})`,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              imageRendering: 'pixelated',
-              zIndex: 10 + i,
-              pointerEvents: 'none',
-            }}
-          />,
-        );
-      }
-
-      if (point.count > 5) {
-        const badgeTop = isTop
-          ? Math.min(
-              8 +
-                (visibleCount - 1) * stackStep +
-                Math.max(12, checkerSize - 8),
-              152,
-            )
-          : Math.max(
-              392 - 8 - checkerSize - (visibleCount - 1) * stackStep - 6,
-              226,
-            );
-
-        nodes.push(
-          <div
-            key={`${pointNumber}-count`}
-            style={{
-              position: 'absolute',
-              left: `${getPointX(idx) + 10}px`,
-              top: `${badgeTop}px`,
-              minWidth: '18px',
-              height: '14px',
-              padding: '0 4px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '10px',
-              fontWeight: 700,
-              backgroundColor: 'rgba(0, 0, 0, 0.72)',
-              color: '#fff',
-              borderRadius: '7px',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
-              zIndex: 40,
-              pointerEvents: 'none',
+              ...panelCard,
+              background: 'var(--p-bg)',
+              textAlign: 'center',
             }}
           >
-            {point.count}
-          </div>,
-        );
+            <div style={{ fontWeight: 'bold', marginBottom: '6px' }}>
+              Promote the pawn
+            </div>
+            <div style={{ display: 'flex', gap: '6px' }}>
+              {PROMOTIONS.map((kind) => {
+                const [w, h] = PIECE_SIZE[kind];
+                return (
+                  <div
+                    key={kind}
+                    onClick={() => {
+                      act('square', { square: promo, promote: kind });
+                      setPromo(0);
+                    }}
+                    style={{
+                      position: 'relative',
+                      width: '52px',
+                      height: '58px',
+                      cursor: 'pointer',
+                      background: LIGHT,
+                      border: `1px solid ${INK_FAINT}`,
+                      borderRadius: '2px',
+                    }}
+                  >
+                    <div
+                      style={sprite(CHESS_IMAGES[`${data.side}${kind}`], {
+                        width: `${w}px`,
+                        height: `${h}px`,
+                        left: `${(52 - w) / 2}px`,
+                        bottom: '4px',
+                      })}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <Button mt={1} icon="times" onClick={() => setPromo(0)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const pointX = (i: number) => (i < 6 ? 8 + i * 28 : 196 + (i - 6) * 28);
+
+const NardsBoard = (props: { flip: boolean; myTurn: boolean }) => {
+  const { act, data } = useBackend<Data>();
+  const { flip, myTurn } = props;
+  const nards = data.board as NardsData | null;
+  const [rolling, setRolling] = useState<[number, number] | null>(null);
+  const seenNonce = useRef(nards?.nonce);
+
+  useEffect(() => {
+    const nonce = nards?.nonce;
+    if (!nonce || nonce === seenNonce.current) {
+      seenNonce.current = nonce;
+      return;
+    }
+    seenNonce.current = nonce;
+    const face = () => 1 + Math.floor(Math.random() * 6);
+    let ticks = 0;
+    setRolling([face(), face()]);
+    const handle = window.setInterval(() => {
+      ticks += 1;
+      if (ticks >= 8) {
+        window.clearInterval(handle);
+        setRolling(null);
+        return;
       }
+      setRolling([face(), face()]);
+    }, 90);
+    return () => window.clearInterval(handle);
+  }, [nards?.nonce]);
 
-      return nodes;
-    };
+  if (!nards) {
+    return null;
+  }
 
-    const diceFaces = rollingDiceFaces || [
-      nards?.die_one || 0,
-      nards?.die_two || 0,
-    ];
-    const diceImageMap = rollingDiceFaces ? NARDS_DICE_ROLL : NARDS_DICE_FLAT;
-    const availableRollsText = nards?.available_rolls?.length
-      ? nards.available_rolls.join(', ')
-      : '—';
+  const flipped = !!nards.scatter;
+  const topRow = flip ? range(1, 12) : range(13, 24);
+  const bottomRow = flip ? range(24, 13) : range(12, 1);
+  const faces = rolling || nards.dice;
+  const diceImages = rolling ? NARDS_DICE_ROLL : NARDS_DICE_FLAT;
 
+  const renderStack = (point: number, i: number, top: boolean) => {
+    const value = nards.points[point - 1];
+    const count = Math.abs(value);
+    if (!count) {
+      return null;
+    }
+    const url = NARDS_CHECKERS_IMAGES[value > 0 ? 'w' : 'b'];
+    const shown = Math.min(count, 15);
+    const size = shown >= 13 ? 24 : shown >= 10 ? 26 : 32;
+    const natural = Math.max(8, size - 10);
+    const step =
+      shown <= 1
+        ? 0
+        : size + natural * (shown - 1) <= 144
+          ? natural
+          : Math.max(6, Math.floor((144 - size) / (shown - 1)));
+    const left = pointX(i) + Math.floor((28 - size) / 2);
+    const y = (n: number) =>
+      top ? 8 + n * step : NARDS_H - 8 - size - n * step;
+    const nodes: ReactNode[] = [];
+    for (let n = 0; n < shown; n++) {
+      nodes.push(
+        <div
+          key={`${point}-${n}`}
+          style={sprite(url, {
+            left: `${left}px`,
+            top: `${y(n)}px`,
+            width: `${size}px`,
+            height: `${size}px`,
+            zIndex: 10 + n,
+          })}
+        />,
+      );
+    }
+    if (count > 5) {
+      nodes.push(
+        <div
+          key={`${point}-count`}
+          style={{
+            position: 'absolute',
+            left: `${pointX(i) + 4}px`,
+            top: `${y(shown - 1) + size / 2 - 7}px`,
+            width: '20px',
+            height: '14px',
+            lineHeight: '14px',
+            textAlign: 'center',
+            fontSize: '10px',
+            fontWeight: 'bold',
+            color: '#fff',
+            background: 'rgba(0, 0, 0, 0.7)',
+            borderRadius: '7px',
+            zIndex: 30,
+            pointerEvents: 'none',
+          }}
+        >
+          {count}
+        </div>,
+      );
+    }
+    return nodes;
+  };
+
+  const mark = (on: boolean, picked: boolean): CSSProperties => {
+    if (picked) {
+      return {
+        background: 'rgba(196, 140, 40, 0.22)',
+        outline: '2px solid rgba(196, 140, 40, 0.95)',
+      };
+    }
+    if (on) {
+      return {
+        background: 'rgba(59, 106, 53, 0.2)',
+        outline: '2px solid rgba(59, 106, 53, 0.9)',
+      };
+    }
+    return {};
+  };
+
+  const renderHotspot = (point: number, i: number, top: boolean) => (
+    <div
+      key={`hot-${point}`}
+      onClick={() => myTurn && act('point', { point })}
+      style={{
+        position: 'absolute',
+        left: `${pointX(i)}px`,
+        top: top ? '8px' : '240px',
+        width: '28px',
+        height: '144px',
+        cursor: myTurn ? 'pointer' : 'default',
+        zIndex: 40,
+        ...mark(nards.targets.includes(point), nards.selected === point),
+      }}
+    />
+  );
+
+  const renderBarStack = (side: Side, upper: boolean) => {
+    const count = nards.bar[side === 'w' ? 0 : 1];
+    if (!count || flipped) {
+      return null;
+    }
+    const top = upper ? 120 : 248;
     return (
-      <div>
+      <>
+        <div
+          style={sprite(NARDS_CHECKERS_IMAGES[side], {
+            left: '174px',
+            top: `${top}px`,
+            width: '24px',
+            height: '24px',
+            zIndex: 20,
+          })}
+        />
+        {count > 1 && (
+          <div
+            style={{
+              ...coordStyle,
+              left: '172px',
+              top: `${top + 26}px`,
+              width: '28px',
+              fontWeight: 'bold',
+              zIndex: 20,
+            }}
+          >
+            ×{count}
+          </div>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div style={frameStyle}>
         <div
           style={{
-            width: '372px',
-            height: '392px',
             position: 'relative',
-            border: '2px solid rgba(255, 255, 255, 0.12)',
-            background: '#d9bf96',
+            width: `${NARDS_W}px`,
+            height: `${NARDS_H}px`,
             overflow: 'hidden',
+            boxShadow: '0 0 0 2px #2c1a0c',
           }}
         >
           <svg
-            width="372"
-            height="392"
+            width={NARDS_W}
+            height={NARDS_H}
             style={{ position: 'absolute', inset: 0 }}
           >
-            <rect x="0" y="0" width="372" height="392" fill="#caa173" />
+            <rect width={NARDS_W} height={NARDS_H} fill="#caa173" />
             <rect
               x="6"
               y="6"
@@ -1108,468 +794,457 @@ export const ChessBoard = () => {
               strokeWidth="2"
             />
             <rect x="176" y="6" width="20" height="380" fill="#9f6f43" />
-            <rect x="6" y="194" width="360" height="4" fill="#8f6239" />
-            {Array.from({ length: 12 }).map((_, idx) => {
-              const x = getPointX(idx);
-              const color = idx % 2 === 0 ? '#b58863' : '#f0d9b5';
+            {range(0, 11).map((i) => {
+              const x = pointX(i);
+              const colour = i % 2 ? LIGHT : DARK;
               return (
-                <g key={`tri-${idx}`}>
+                <g key={i}>
                   <polygon
                     points={`${x},8 ${x + 28},8 ${x + 14},152`}
-                    fill={color}
+                    fill={colour}
                   />
                   <polygon
                     points={`${x},384 ${x + 28},384 ${x + 14},240`}
-                    fill={color}
+                    fill={colour}
                   />
                 </g>
               );
             })}
           </svg>
-
-          {!nardsOverturned &&
-            topPoints.map((pointNumber, idx) =>
-              renderPointHotspot(pointNumber, idx, true),
-            )}
-          {!nardsOverturned &&
-            bottomPoints.map((pointNumber, idx) =>
-              renderPointHotspot(pointNumber, idx, false),
-            )}
-
-          {!nardsOverturned && (
-            <div
-              onClick={handleNardsBarClick}
-              style={{
-                position: 'absolute',
-                left: '170px',
-                top: '8px',
-                width: '32px',
-                height: '376px',
-                cursor:
-                  nardsInteractive && nards?.can_select_bar
-                    ? 'pointer'
-                    : 'default',
-                backgroundColor: selectedBar
-                  ? 'rgba(255, 220, 90, 0.18)'
-                  : 'transparent',
-                outline: selectedBar
-                  ? '2px solid rgba(255, 220, 90, 0.95)'
-                  : 'none',
-                zIndex: 6,
-              }}
-            />
-          )}
-
-          {!nardsOverturned &&
-            topPoints.map((pointNumber, idx) =>
-              renderPointStack(pointNumber, idx, true),
-            )}
-          {!nardsOverturned &&
-            bottomPoints.map((pointNumber, idx) =>
-              renderPointStack(pointNumber, idx, false),
-            )}
-
-          {nardsOverturned &&
-            scatterPieces.map((piece, index) => {
-              let transform = `rotate(${piece.angle || 0}deg)`;
-              if (piece.pose === 'fallen_left') {
-                transform = `rotate(${(piece.angle || 0) - 90}deg)`;
-              } else if (piece.pose === 'fallen_right') {
-                transform = `rotate(${(piece.angle || 0) + 90}deg)`;
-              }
-
-              return (
-                <div
-                  key={`scatter-${index}`}
-                  style={{
-                    position: 'absolute',
-                    left: `${piece.left}px`,
-                    top: `${piece.top}px`,
-                    width: '32px',
-                    height: '32px',
-                    backgroundImage: `url(${NARDS_CHECKERS_IMAGES[piece.color]})`,
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    imageRendering: 'pixelated',
-                    transform,
-                    transformOrigin: 'center center',
-                    zIndex: piece.z || 25,
-                    pointerEvents: 'none',
-                  }}
-                />
-              );
-            })}
-
-          {nardsOverturned &&
-            scatterDice.map((die, index) => (
+          {!flipped && (
+            <>
+              {topRow.map((point, i) => renderStack(point, i, true))}
+              {bottomRow.map((point, i) => renderStack(point, i, false))}
+              {topRow.map((point, i) => renderHotspot(point, i, true))}
+              {bottomRow.map((point, i) => renderHotspot(point, i, false))}
               <div
-                key={`scatter-die-${index}`}
+                onClick={() => myTurn && act('point', { point: 25 })}
                 style={{
                   position: 'absolute',
-                  left: `${die.left}px`,
-                  top: `${die.top}px`,
-                  width: '28px',
-                  height: '28px',
-                  backgroundImage: `url(${NARDS_DICE_FLAT[Math.max(1, Math.min(6, die.face || 1))]})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  imageRendering: 'pixelated',
-                  transform: `rotate(${die.angle || 0}deg)`,
-                  transformOrigin: 'center center',
-                  zIndex: die.z || 240,
-                  pointerEvents: 'none',
+                  left: '170px',
+                  top: '8px',
+                  width: '32px',
+                  height: '376px',
+                  cursor: myTurn ? 'pointer' : 'default',
+                  zIndex: 25,
+                  ...mark(false, nards.selected === 25),
                 }}
               />
-            ))}
-
-          <div
-            style={{
-              position: 'absolute',
-              left: '170px',
-              top: '124px',
-              width: '32px',
-              height: '140px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              color: 'rgba(255,255,255,0.92)',
-              fontSize: '12px',
-              fontWeight: 700,
-              lineHeight: 0.95,
-              letterSpacing: '0.5px',
-              textShadow: '0 1px 1px rgba(0,0,0,0.45)',
-              zIndex: 30,
-              pointerEvents: 'none',
-            }}
-          >
-            {['B', 'A', 'R'].map((letter, index) => (
-              <div key={`tav-${index}`}>{letter}</div>
-            ))}
-          </div>
-
-          {!nardsOverturned && !!nards?.bar_white && (
-            <div
-              style={{
-                position: 'absolute',
-                left: '178px',
-                bottom: '10px',
-                color: '#fff',
-                fontSize: '12px',
-                zIndex: 30,
-              }}
-            >
-              W:{nards.bar_white}
-            </div>
+            </>
           )}
-          {!nardsOverturned && !!nards?.bar_black && (
+          {renderBarStack(flip ? 'w' : 'b', true)}
+          {renderBarStack(flip ? 'b' : 'w', false)}
+          {(nards.scatter || []).map(([side, tilt, left, top, angle], i) => (
             <div
-              style={{
-                position: 'absolute',
-                left: '178px',
-                top: '10px',
-                color: '#fff',
-                fontSize: '12px',
-                zIndex: 30,
-              }}
-            >
-              B:{nards.bar_black}
-            </div>
-          )}
-        </div>
-
-        <div
-          style={{
-            marginTop: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Button
-            disabled={!nards?.can_roll}
-            onClick={() => act('roll_nards_dice')}
-          >
-            Roll dice
-          </Button>
-          <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-            {diceFaces[0] ? (
-              <div
-                style={{
-                  width: '28px',
-                  height: '28px',
-                  backgroundImage: `url(${diceImageMap[diceFaces[0]]})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  imageRendering: 'pixelated',
-                }}
-              />
-            ) : null}
-            {diceFaces[1] ? (
-              <div
-                style={{
-                  width: '28px',
-                  height: '28px',
-                  backgroundImage: `url(${diceImageMap[diceFaces[1]]})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  imageRendering: 'pixelated',
-                }}
-              />
-            ) : null}
-          </div>
-          <div style={{ fontSize: '12px', opacity: 0.8 }}>
-            Available dice: {availableRollsText}
-          </div>
-          <div style={{ fontSize: '12px', opacity: 0.8 }}>
-            White borne off: {nards?.off_white || 0}
-          </div>
-          <div style={{ fontSize: '12px', opacity: 0.8 }}>
-            Black borne off: {nards?.off_black || 0}
-          </div>
-          <Button
-            disabled={!nards?.legal_targets?.includes(0)}
-            onClick={handleNardsBearOffClick}
-          >
-            Bear off
-          </Button>
+              key={`s${i}`}
+              style={sprite(NARDS_CHECKERS_IMAGES[side], {
+                left: `${left}px`,
+                top: `${top}px`,
+                width: '32px',
+                height: '32px',
+                transform: `rotate(${tilt + angle}deg)`,
+                zIndex: 10 + i,
+              })}
+            />
+          ))}
+          {(nards.scatter_dice || []).map(([face, left, top, angle], i) => (
+            <div
+              key={`d${i}`}
+              style={sprite(NARDS_DICE_FLAT[face], {
+                left: `${left}px`,
+                top: `${top}px`,
+                width: '28px',
+                height: '28px',
+                transform: `rotate(${angle}deg)`,
+                zIndex: 100 + i,
+              })}
+            />
+          ))}
         </div>
       </div>
-    );
-  };
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Button
+          icon="dice"
+          disabled={!nards.can_roll}
+          onClick={() => act('roll')}
+        >
+          Roll
+        </Button>
+        {faces.map((face, i) =>
+          face ? (
+            <div
+              key={i}
+              style={{ position: 'relative', width: '28px', height: '28px' }}
+            >
+              <div
+                style={sprite(diceImages[face], {
+                  inset: 0,
+                })}
+              />
+            </div>
+          ) : null,
+        )}
+        <div style={{ flex: 1, fontSize: FONT_SMALL, color: INK_SOFT }}>
+          {nards.rolls.length > 0 && `Left to play: ${nards.rolls.join(', ')}`}
+        </div>
+        <Button
+          icon="sign-out-alt"
+          disabled={!myTurn || !nards.targets.includes(0)}
+          onClick={() => act('point', { point: 0 })}
+        >
+          Bear off
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const SidePanel = (props: { myTurn: boolean; openPicker: () => void }) => {
+  const { act, data } = useBackend<Data>();
+  const { myTurn, openPicker } = props;
+  const log = useRef<HTMLDivElement>(null);
+  const history = data.history || [];
+
+  useEffect(() => {
+    log.current?.scrollTo(0, log.current.scrollHeight);
+  }, [history.length]);
+
+  let tone = INK_SOFT;
+  if (data.result || data.status.includes('Check')) {
+    tone = SEAL_RED;
+  } else if (myTurn) {
+    tone = SEAL_GREEN;
+  }
+
+  let startHint: string | undefined;
+  if (!data.can_start) {
+    startHint = data.side
+      ? 'Both seats must be filled.'
+      : 'Sit down to start the game.';
+  }
 
   return (
-    <Window width={920} height={780} title={data.board_title || 'Chessboard'}>
-      <Window.Content scrollable>
-        <div style={{ position: 'relative' }}>
-          {renderModePicker()}
-          <div style={panelStyle}>
-            <div>
-              <Section title="Board">
-                <div
-                  style={{
-                    marginBottom: '8px',
-                    fontSize: '13px',
-                    opacity: 0.9,
-                  }}
-                >
-                  <div>
-                    <b>Mode:</b> {data.game_mode_label}
-                  </div>
-                  {!!data.current_rules_text && (
-                    <div>
-                      <b>Rules:</b> {data.current_rules_text}
-                    </div>
-                  )}
-                  <div>
-                    <b>White:</b> {data.white_player_name}
-                  </div>
-                  <div>
-                    <b>Black:</b> {data.black_player_name}
-                  </div>
-                  <div>
-                    <b>You:</b> {data.my_side}
-                  </div>
-                  <div>
-                    <b>Turn:</b> {data.turn}
-                  </div>
-                </div>
-                {data.game_mode === 'nards'
-                  ? renderNardsBoard()
-                  : renderClassicBoard()}
-                {!hasMode && (
-                  <div
-                    style={{ marginTop: '8px', fontSize: '12px', opacity: 0.8 }}
-                  >
-                    No game mode selected. Use the mode switch button.
-                  </div>
-                )}
-              </Section>
-            </div>
-
-            <div>
-              <Section title="Status">
-                <div style={{ marginBottom: '8px' }}>{data.status_text}</div>
-                {!!data.result_text && (
-                  <div style={{ marginBottom: '8px', color: '#ff9f9f' }}>
-                    <b>{data.result_text}</b>
-                  </div>
-                )}
-                {!!data.last_message && (
-                  <div style={{ marginBottom: '8px', color: '#d5efb3' }}>
-                    {data.last_message}
-                  </div>
-                )}
-                {!!data.mode_switch_pending_text && (
-                  <div style={{ marginBottom: '8px', color: '#ffd985' }}>
-                    {data.mode_switch_pending_text}
-                  </div>
-                )}
-                {!!data.reset_pending_text && (
-                  <div style={{ marginBottom: '8px', color: '#ffd985' }}>
-                    {data.reset_pending_text}
-                  </div>
-                )}
-              </Section>
-
-              <Section title="Seats and controls">
-                <div style={buttonGroupStyle}>
-                  <Button onClick={handleWhiteSeatButton}>
-                    {whiteSeatButtonLabel}
-                  </Button>
-                  <Button onClick={handleBlackSeatButton}>
-                    {blackSeatButtonLabel}
-                  </Button>
-                </div>
-
-                <div style={{ ...buttonGroupStyle, marginTop: '8px' }}>
-                  <Button
-                    disabled={pauseResumeDisabled}
-                    onClick={handlePauseResume}
-                  >
-                    {pauseResumeLabel}
-                  </Button>
-                  {!!data.can_resign && (
-                    <Button onClick={resignGame}>
-                      {confirmResign ? 'Confirm resignation' : 'Resign'}
-                    </Button>
-                  )}
-                  {confirmResign && (
-                    <Button onClick={() => setConfirmResign(false)}>
-                      Cancel
-                    </Button>
-                  )}
-                  <Button onClick={resetBoard}>
-                    {confirmReset ? 'Confirm reset' : 'Reset board'}
-                  </Button>
-                  {confirmReset && (
-                    <Button onClick={() => setConfirmReset(false)}>
-                      Cancel
-                    </Button>
-                  )}
-                  {!!data.can_confirm_reset_request && (
-                    <Button onClick={() => act('confirm_reset_board')}>
-                      Confirm reset
-                    </Button>
-                  )}
-                  {!!data.can_cancel_reset_request && (
-                    <Button onClick={() => act('cancel_reset_board')}>
-                      Cancel reset request
-                    </Button>
-                  )}
-                  <Button
-                    disabled={!data.can_pack}
-                    onClick={() => act('pack_board')}
-                  >
-                    Pack board
-                  </Button>
-                  <Button
-                    disabled={!data.can_flip_board}
-                    onClick={() => act('flip_board')}
-                  >
-                    Flip board
-                  </Button>
-                </div>
-
-                <div style={{ ...buttonGroupStyle, marginTop: '8px' }}>
-                  <Button onClick={openModePicker}>Change mode</Button>
-                  {!!data.can_confirm_mode_switch && (
-                    <Button onClick={() => act('confirm_mode_switch')}>
-                      Confirm mode change
-                    </Button>
-                  )}
-                  {!!data.can_cancel_mode_switch && (
-                    <Button onClick={() => act('cancel_mode_switch')}>
-                      Cancel request
-                    </Button>
-                  )}
-                </div>
-
-                <div
-                  style={{ marginTop: '8px', fontSize: '12px', opacity: 0.8 }}
-                >
-                  During an active game, pause before changing players. Changing
-                  modes after a game has started requires both players' consent.
-                </div>
-              </Section>
-
-              {!!pendingPromotion && data.game_mode === 'chess' && (
-                <Section title="Pawn promotion">
-                  <div style={{ marginBottom: '8px' }}>
-                    Choose a piece to promote the pawn to.
-                  </div>
-                  <div style={buttonGroupStyle}>
-                    {promotionChoices.map((choice) => (
-                      <Button
-                        key={choice}
-                        onClick={() => submitPromotion(choice)}
-                      >
-                        {PROMOTION_LABELS[choice] || choice}
-                      </Button>
-                    ))}
-                    <Button onClick={() => setPendingPromotion(null)}>
-                      Cancel
-                    </Button>
-                  </div>
-                </Section>
-              )}
-
-              <Section title="Move history">
-                {!history.length && <div>No moves have been made yet.</div>}
-                {!!history.length && (
-                  <table
-                    style={{
-                      width: '100%',
-                      borderCollapse: 'collapse',
-                      fontSize: '13px',
-                    }}
-                  >
-                    <thead>
-                      <tr>
-                        <th style={{ textAlign: 'left', paddingBottom: '4px' }}>
-                          #
-                        </th>
-                        <th style={{ textAlign: 'left', paddingBottom: '4px' }}>
-                          White
-                        </th>
-                        <th style={{ textAlign: 'left', paddingBottom: '4px' }}>
-                          Black
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {history.map((row) => (
-                        <tr key={row.turn}>
-                          <td
-                            style={{ padding: '2px 0', verticalAlign: 'top' }}
-                          >
-                            {row.turn}.
-                          </td>
-                          <td
-                            style={{
-                              padding: '2px 4px 2px 0',
-                              verticalAlign: 'top',
-                            }}
-                          >
-                            {row.white || ''}
-                          </td>
-                          <td
-                            style={{ padding: '2px 0', verticalAlign: 'top' }}
-                          >
-                            {row.black || ''}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </Section>
+    <div
+      style={{
+        flex: 1,
+        minWidth: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '8px',
+      }}
+    >
+      <div style={panelCard}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={capsStyle}>Game</div>
+            <div
+              style={{ fontFamily: TITLE_FONT, color: TITLE, fontSize: '18px' }}
+            >
+              {data.label || 'None chosen'}
             </div>
           </div>
+          <Button icon="chess-board" onClick={openPicker}>
+            Change
+          </Button>
         </div>
-      </Window.Content>
-    </Window>
+        {!!data.rules && (
+          <div
+            style={{
+              fontSize: FONT_SMALL,
+              color: INK_SOFT,
+              fontStyle: 'italic',
+              marginTop: '2px',
+            }}
+          >
+            {data.rules}
+          </div>
+        )}
+      </div>
+
+      <div style={{ ...panelCard, borderLeft: `4px solid ${tone}` }}>
+        <div style={{ fontWeight: 'bold', fontSize: FONT_TITLE, color: tone }}>
+          {data.status}
+        </div>
+        {!!data.message && data.message !== data.status && (
+          <div
+            style={{
+              fontSize: FONT_SMALL,
+              color: INK_SOFT,
+              fontStyle: 'italic',
+              marginTop: '2px',
+            }}
+          >
+            {data.message}
+          </div>
+        )}
+        {!!data.mode && !data.result && (
+          <div style={rowStyle}>
+            {!data.live && (
+              <Button
+                icon="play"
+                disabled={!data.can_start}
+                tooltip={startHint}
+                onClick={() => act('start')}
+              >
+                {data.started ? 'Resume' : 'Start game'}
+              </Button>
+            )}
+            {!!data.can_pause && (
+              <Button icon="pause" onClick={() => act('pause')}>
+                Pause
+              </Button>
+            )}
+            {!!data.can_resign && (
+              <Button.Confirm
+                icon="flag"
+                confirmContent="Really resign?"
+                onClick={() => act('resign')}
+              >
+                Resign
+              </Button.Confirm>
+            )}
+          </div>
+        )}
+      </div>
+
+      {!!data.pending_label && (
+        <div style={requestCard}>
+          <div>
+            <b>{data.mode_name}</b> proposes switching to{' '}
+            <b>{data.pending_label}</b>.
+          </div>
+          <div style={rowStyle}>
+            {!!data.can_answer_mode && (
+              <Button
+                icon="check"
+                onClick={() =>
+                  act('mode', {
+                    mode: data.pending_mode,
+                    variant: data.pending_variant ? 1 : 0,
+                  })
+                }
+              >
+                Agree
+              </Button>
+            )}
+            {!!data.can_cancel_mode && (
+              <Button icon="times" onClick={() => act('cancel_mode')}>
+                {data.can_answer_mode ? 'Decline' : 'Withdraw'}
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {!!data.reset_name && (
+        <div style={requestCard}>
+          <div>
+            <b>{data.reset_name}</b>
+            {data.reset_left
+              ? ` will reset the board and clear the seats in ${data.reset_left}s.`
+              : ' asks to reset the board.'}
+          </div>
+          <div style={rowStyle}>
+            {!!data.can_answer_reset && (
+              <Button icon="check" onClick={() => act('reset')}>
+                Agree
+              </Button>
+            )}
+            {!!data.can_cancel_reset && (
+              <Button icon="times" onClick={() => act('cancel_reset')}>
+                {data.can_answer_reset ? 'Decline' : 'Cancel'}
+              </Button>
+            )}
+          </div>
+        </div>
+      )}
+
+      <div
+        style={{
+          ...panelCard,
+          flex: 1,
+          minHeight: '80px',
+          padding: 0,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <div
+          style={{
+            ...capsStyle,
+            padding: '5px 10px',
+            borderBottom: `1px solid ${INK_FAINT}`,
+          }}
+        >
+          Moves
+        </div>
+        <div ref={log} style={{ flex: 1, overflowY: 'auto', padding: '2px 0' }}>
+          {history.length ? (
+            history.map(([white, black], i) => (
+              <div
+                key={i}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '30px 1fr 1fr',
+                  gap: '4px',
+                  padding: '1px 10px',
+                  fontSize: FONT_SMALL,
+                  background: i % 2 ? 'transparent' : 'rgba(122, 86, 22, 0.08)',
+                }}
+              >
+                <span style={{ color: INK_FAINT }}>{i + 1}.</span>
+                <span>{white}</span>
+                <span>{black}</span>
+              </div>
+            ))
+          ) : (
+            <div
+              style={{
+                padding: '6px 10px',
+                color: INK_FAINT,
+                fontStyle: 'italic',
+                fontSize: FONT_SMALL,
+              }}
+            >
+              No moves yet.
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+        <Button.Confirm
+          icon="undo"
+          disabled={!data.mode}
+          confirmContent="Reset the board?"
+          tooltip="Set the pieces back up. Mid-match, the other player must agree."
+          onClick={() => act('reset')}
+        >
+          Reset
+        </Button.Confirm>
+        <Button.Confirm
+          icon="random"
+          disabled={!data.can_flip}
+          confirmContent="Flip it?"
+          onClick={() => act('flip')}
+        >
+          Flip board
+        </Button.Confirm>
+        <Button
+          icon="box"
+          disabled={!data.can_pack}
+          tooltip={
+            data.can_pack ? undefined : 'Finish or reset the game first.'
+          }
+          onClick={() => act('pack')}
+        >
+          Pack up
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const ModePicker = (props: { onClose?: () => void }) => {
+  const { act, data } = useBackend<Data>();
+  const { onClose } = props;
+  const midgame = data.history.length > 0 && !data.result;
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 50,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'rgba(40, 24, 8, 0.55)',
+        fontFamily: SERIF,
+        color: INK,
+      }}
+    >
+      <div
+        style={{
+          ...panelCard,
+          width: '430px',
+          padding: '14px 18px',
+          background: 'var(--p-bg)',
+          boxShadow: '0 8px 28px rgba(30, 15, 0, 0.55)',
+        }}
+      >
+        <div
+          style={{
+            fontFamily: TITLE_FONT,
+            color: TITLE,
+            fontSize: '20px',
+            textAlign: 'center',
+          }}
+        >
+          Set up the board
+        </div>
+        <div
+          style={{
+            textAlign: 'center',
+            color: INK_SOFT,
+            fontStyle: 'italic',
+            fontSize: FONT_SMALL,
+            marginBottom: '8px',
+          }}
+        >
+          {midgame
+            ? 'A match is under way, so your opponent must agree to a change.'
+            : 'Pick a game to lay out.'}
+        </div>
+        {MODES.map((mode) => (
+          <div
+            key={mode.key}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              padding: '8px 0',
+              borderTop: `1px dashed ${INK_FAINT}`,
+            }}
+          >
+            <div style={{ flex: 1 }}>
+              <div style={{ fontWeight: 'bold' }}>{mode.name}</div>
+              <div style={{ fontSize: FONT_SMALL, color: INK_SOFT }}>
+                {mode.blurb}
+              </div>
+            </div>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}
+            >
+              {mode.variants.map((label, variant) => {
+                const current =
+                  data.mode === mode.key && !!data.variant === !!variant;
+                return (
+                  <Button
+                    key={label}
+                    fluid
+                    selected={current}
+                    disabled={current}
+                    onClick={() => {
+                      act('mode', { mode: mode.key, variant });
+                      onClose?.();
+                    }}
+                  >
+                    {label}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+        {!!onClose && (
+          <div style={{ textAlign: 'center', marginTop: '6px' }}>
+            <Button icon="times" onClick={onClose}>
+              Close
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
