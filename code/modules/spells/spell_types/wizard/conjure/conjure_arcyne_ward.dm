@@ -369,7 +369,8 @@
 	if(has_real_armor(H.wear_shirt) && has_real_armor(H.wear_armor))
 		new_coverage &= ~(CHEST | GROIN | VITALS)
 
-	if(has_real_armor(H.wear_armor, ARM_LEFT | ARM_RIGHT) || has_real_armor(H.wear_shirt, ARM_LEFT | ARM_RIGHT))
+	// Arms only yield to a real piece in the wrist slot (bracers) now.
+	if(has_real_armor(H.wear_wrists, ARM_LEFT | ARM_RIGHT))
 		new_coverage &= ~(ARM_LEFT | ARM_RIGHT)
 
 	if(has_real_armor(H.gloves))
