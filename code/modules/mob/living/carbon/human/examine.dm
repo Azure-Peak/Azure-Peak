@@ -1074,6 +1074,10 @@
 			if(L.STAINT > 9 && L.STAPER > 9)
 				. += span_redtext("<i>[m1] critically fragile!</i>")
 
+	if((HAS_TRAIT(src, TRAIT_PACIFISM) && HAS_TRAIT(src, TRAIT_NODEF)) && (!HAS_TRAIT(src, TRAIT_DECEIVING_MEEKNESS)))
+		if(isliving(user))
+			. += span_redtext("<i>[m1] completely harmless!</i>")
+
 	var/medical_text = ""
 	if(Adjacent(user))
 		if(observer_privilege)
