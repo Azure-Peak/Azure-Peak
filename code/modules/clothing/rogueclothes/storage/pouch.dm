@@ -37,6 +37,9 @@
 	if(!storage_comp)
 		return
 
+	if(target_coin.loc == storage_comp.real_location())
+		return
+
 	var/original_target_quantity = target_coin.quantity	// Store original quantity for verification
 	var/coins_to_collect = original_target_quantity
 
