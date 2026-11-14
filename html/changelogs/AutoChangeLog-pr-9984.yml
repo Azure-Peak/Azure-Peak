@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Refactored and fixed some grammar / typos on Master's Rod and Court Magician's staff. The shock intent on the CM's staff now reuse the SHOCK icon. Also added description."
