@@ -1,0 +1,6 @@
+author: "BobProductive"
+delete-after: True
+changes:
+  - rscadd: "Climbing gear now lets you attach to walls via jumping/leaping"
+  - rscadd: "Climbing gear now gives you leaper"
+  - rscdel: "Removed the stamina reduction when climbing with climbing gear"
