@@ -11,13 +11,9 @@
 	emote_hear = list("squeaks.")
 	emote_see = list("cleans its nose.")
 	speak_chance = 1
-	turns_per_move = 3
 	see_in_dark = 6
-	move_to_delay = 5
 	pixel_x = -16
 	pixel_y = -8
-	vision_range = 5
-	aggro_vision_range = 9
 	base_intents = list(/datum/intent/simple/bite/bigrat)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rat = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/rat = 1,
@@ -44,8 +40,6 @@
 	melee_damage_lower = 17
 	melee_damage_upper = 21
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks,
 //					/obj/item/bodypart,
@@ -58,8 +52,6 @@
 	STASTR = 9
 	STASPD = 10
 	deaggroprob = 0
-	attack_same = 1
-	retreat_health = 0.3
 	aggressive = 1
 
 
@@ -67,11 +59,8 @@
 	eat_forever = TRUE
 
 //new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/big_rat
 	move_base_delay = MOVEMENT_DELAY_SPD_3
-	stat_attack = UNCONSCIOUS
 	var/undead_rat = FALSE
 
 /obj/effect/decal/remains/bigrat
@@ -126,15 +115,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/bigrat/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 
 /datum/intent/simple/bite/bigrat

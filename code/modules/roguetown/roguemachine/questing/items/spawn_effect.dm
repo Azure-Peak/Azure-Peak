@@ -52,6 +52,26 @@
 	// Pop every spawner this quest owns at once so the whole encounter materializes together.
 	quest.pop_all_spawners()
 
+/obj/effect/quest_spawn/sentinel
+	var/datum/weakref/quest_ref
+
+/obj/effect/quest_spawn/sentinel/HasProximity(mob/nearby)
+	if(!isliving(nearby))
+		return
+	var/datum/quest/kill/quest = quest_ref?.resolve()
+	if(!istype(quest))
+		qdel(src)
+		return
+	var/turf/our_turf = get_turf(src)
+	var/turf/scroll_turf = get_turf(quest.quest_scroll_ref?.resolve())
+	if(!our_turf || !scroll_turf)
+		return
+	if(our_turf.z != scroll_turf.z)
+		return
+	if(get_dist(our_turf, scroll_turf) > prox_range)
+		return
+	INVOKE_ASYNC(quest, TYPE_PROC_REF(/datum/quest/kill, check_arrival))
+
 /obj/effect/quest_spawn/proc/reveal_contained()
 	if(!contained_atom || revealing)
 		return

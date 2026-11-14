@@ -8,7 +8,7 @@
 	icon_dead = "goose_dead"
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	speak_chance = 0
-	turns_per_move = 5
+	ai_controller = /datum/ai_controller/goose
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 2)
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
@@ -28,20 +28,15 @@
 	attack_sound = "goose"
 	speak_emote = list("honks")
 	faction = list(FACTION_NEUTRAL)
-	attack_same = TRUE
 	gold_core_spawnable = HOSTILE_SPAWN
-	var/random_retaliate = TRUE
 	var/icon_vomit_start = "vomit_start"
 	var/icon_vomit = "vomit"
 	var/icon_vomit_end = "vomit_end"
 	var/message_cooldown = 0
 
-/mob/living/simple_animal/hostile/retaliate/goose/handle_automated_movement()
+/mob/living/simple_animal/hostile/retaliate/goose/Initialize(mapload)
 	. = ..()
-	if (stat == DEAD)
-		return
-	if(prob(5) && random_retaliate == TRUE)
-		Retaliate()
+	AddElement(/datum/element/ai_retaliate)
 
 /mob/living/simple_animal/hostile/retaliate/goose/vomit
 	name = "Birdboat"
@@ -55,7 +50,7 @@
 	response_harm_continuous = "kicks"
 	response_harm_simple = "kick"
 	gold_core_spawnable = NO_SPAWN
-	random_retaliate = FALSE
+	ai_controller = /datum/ai_controller/goose/birdboat
 	var/vomiting = FALSE
 	var/vomitCoefficient = 1
 	var/vomitTimeBonus = 0
@@ -175,7 +170,7 @@
 
 /// A proc to make it easier for admins to make the goose playable by deadchat.
 /mob/living/simple_animal/hostile/retaliate/goose/vomit/proc/deadchat_plays_goose()
-	stop_automated_movement = TRUE
+	QDEL_NULL(ai_controller)
 	AddComponent(/datum/component/deadchat_control, ANARCHY_MODE, list(
 		"up" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), src, NORTH),
 		"down" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), src, SOUTH),

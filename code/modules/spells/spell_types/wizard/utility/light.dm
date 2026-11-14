@@ -61,9 +61,9 @@
 
 /obj/item/flashlight/flare/light
 	name = "condensed light"
-	desc = "An orb of condensed light."
-	w_class = WEIGHT_CLASS_NORMAL
-	light_outer_range = 10
+	desc = "An orb of condensed light. (Right click to turn off.)"
+	w_class = WEIGHT_CLASS_SMALL
+	light_outer_range = 8
 	light_color = LIGHT_COLOR_WHITE
 	force = 10
 	icon = 'icons/roguetown/rav/obj/cult.dmi'
@@ -88,6 +88,27 @@
 				return list("shrink" = 0.7,"sx" = -9,"sy" = 3,"nx" = 12,"ny" = 4,"wx" = -6,"wy" = 5,"ex" = 3,"ey" = 6,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 2,"sturn" = 2,"wturn" = -2,"eturn" = -2,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
 			if("onbelt")
 				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/flashlight/flare/light/attack_right(obj/item/i, mob/living/user)
+	turn_off()
+	. = ..()
+
+/// Dim, short-lived orb dropped at the feet of those with the Forlorne vice.
+/obj/item/flashlight/flare/light/forlorne
+	name = "fading light"
+	desc = "A faint wisp of condensed light. Your last hope to get home."
+	light_outer_range = 3
+	light_power = 0.6
+	light_color = "#a0a0a0"
+	var/lifetime = 180 SECONDS
+
+/obj/item/flashlight/flare/light/forlorne/Initialize(mapload)
+	. = ..()
+	// The Light spell adds this overlay in make_item(); that's the orb's actual sprite
+	var/mutable_appearance/orb = mutable_appearance('icons/obj/projectiles.dmi', "gumball")
+	orb.color = "#a0a0a0"
+	add_overlay(orb)
+	QDEL_IN(src, lifetime)
 
 /obj/item/flashlight/flare/light/Initialize(mapload)
 	. = ..()

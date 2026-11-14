@@ -149,11 +149,14 @@ SUBSYSTEM_DEF(job)
 		if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
 			JobDebug("FOC incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
-		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
+		if(length(job.get_restricted_virtue_names(player.client.prefs)))
 			JobDebug("FOC incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name], Virtue 2: [player.client.prefs.virtuetwo?.name]")
 			continue
 		if(length(job.quirk_restrictions) && ((player.client.prefs.quirklesser?.type in job.quirk_restrictions) || (player.client.prefs.quirkgreater?.type in job.quirk_restrictions)))
 			JobDebug("FOC incompatible with quirks, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
+			continue
+		if(length(job.get_quirk_job_lock_names(player.client.prefs)))
+			JobDebug("FOC quirk does not allow job, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
 			continue
 		if(length(job.vice_restrictions))
 			var/has_restricted_vice = FALSE
@@ -237,12 +240,16 @@ SUBSYSTEM_DEF(job)
 			JobDebug("GRJ incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 			continue
 
-		if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
+		if(length(job.get_restricted_virtue_names(player.client.prefs)))
 			JobDebug("GRJ incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name], Virtue 2: [player.client.prefs.virtuetwo?.name]")
 			continue
 
 		if(length(job.quirk_restrictions) && ((player.client.prefs.quirklesser?.type in job.quirk_restrictions) || (player.client.prefs.quirkgreater?.type in job.quirk_restrictions)))
 			JobDebug("GRJ incompatible with quirks, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
+			continue
+
+		if(length(job.get_quirk_job_lock_names(player.client.prefs)))
+			JobDebug("GRJ quirk does not allow job, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
 			continue
 
 		if(length(job.vice_restrictions))
@@ -564,8 +571,12 @@ SUBSYSTEM_DEF(job)
 		JobDebug("DO incompatible with patron, Player: [player], Job: [job.title], Race: [player.client.prefs.pref_species.name]")
 		return FALSE
 
-	if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
+	if(length(job.get_restricted_virtue_names(player.client.prefs)))
 		JobDebug("DO incompatible with virtues, Player: [player], Job: [job.title], Virtue 1: [player.client.prefs.virtue?.name]")
+		return FALSE
+
+	if(length(job.get_quirk_job_lock_names(player.client.prefs)))
+		JobDebug("DO quirk does not allow job, Player: [player], Job: [job.title], Quirk 1: [player.client.prefs.quirklesser?.name], Quirk 2: [player.client.prefs.quirkgreater?.name]")
 		return FALSE
 
 	if(length(job.vice_restrictions))
@@ -641,7 +652,10 @@ SUBSYSTEM_DEF(job)
 				if(length(job.allowed_patrons) && !(player.client.prefs.selected_patron?.type in job.allowed_patrons))
 					continue
 
-				if(length(job.virtue_restrictions) && ((player.client.prefs.virtue?.type in job.virtue_restrictions) || (player.client.prefs.virtuetwo?.type in job.virtue_restrictions) || (player.client.prefs.virtue_origin?.type in job.virtue_restrictions)))
+				if(length(job.get_restricted_virtue_names(player.client.prefs)))
+					continue
+
+				if(length(job.get_quirk_job_lock_names(player.client.prefs)))
 					continue
 
 				if(length(job.vice_restrictions))

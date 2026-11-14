@@ -34,7 +34,7 @@
 #define TRAIT_SEEDKNOW "Seed Knower"
 #define TRAIT_SQUIRE_REPAIR "Squire Knowledge"
 #define TRAIT_TRAINED_SMITH "Trained Smith"
-#define TRAIT_CAUTIOUS_FISHER "Cautious Fisher"
+#define TRAIT_EXPERT_FISHER "Expert Fisher"
 #define TRAIT_FROZEN_STAMINA "Frozen Stamina"
 #define TRAIT_DEATHBARGAIN "Death Bargain" // Used by UNDERMAIDEN'S BARGAIN
 #define TRAIT_RITUALIST "Ritualist"	// Allows use of ritual chalk
@@ -82,6 +82,7 @@
 #define TRAIT_HEAVYARMOR "Plate Training"
 #define TRAIT_DODGEEXPERT "Expert Dodger"
 #define TRAIT_COMBAT_JMAN "Specialised Training"
+#define TRAIT_COMBAT_NONEWSKILLS "Rigid Training"
 
 //Combat Buff Conditionals
 #define TRAIT_JOURNEYS_END "Journey's End"
@@ -276,6 +277,7 @@
 #define TRAIT_DODGE_NO_MOVE "Dodge No Move" // Dodge rolls still happen but the mob doesn't physically move
 #define TRAIT_VENDETTA "Vendetta" // Trait for xylixan opponent and caster, allows for clashing in the azure_combat file similar to Dulist Rings
 #define TRAIT_NPC_EXAMINE "NPC Examination" //Mindless NPC examination check, goes through armor.
+#define TRAIT_AI_DISABLED "AI Disabled"
 
 //Temp Traits - Usually Short-Term Buffs
 #define TRAIT_ADRENALINE_RUSH "Adrenaline Rush"
@@ -374,6 +376,7 @@
 #define TRAIT_VAMPMANSION "vampiremansion" //Access to the vampire manor on the wretchcoast Z level
 #define TRAIT_LICHLAIR "lichlair" //Access to the lich's lair on the CentCom Z level.
 #define TRAIT_ZURCH	"Hidden Domiciles" //allows entry to ascendant church
+#define TRAIT_CAREFULTRIP "Careful Interloper" // allows entry to wretch z-level only when unobserved
 
 //Conversion Antag Related
 #define TRAIT_SILVER_BLESSED "Silverblessed"
@@ -471,6 +474,8 @@
 #define TRAIT_SELF_RELIANCE "Self-Reliance" // Unlocks all gated crafting skills to Jman, only.
 #define TRAIT_MASTERFUL_HUNTER "Masterful Hunter" // Hunting is a specialty skill, this trait should only be granted to select classes.
 #define TRAIT_EXPERT_HUNTER "Expert Hunter" // Ditto, but this one lets you go up to expert instead of legendary
+#define TRAIT_MONSTER_HUNTER "Monster Hunter" // SHOULD BE EXCLUSIVE TO TOWNER HUNTER, Noble Hunters is already a noble and other classes have combat advantage.
+#define TRAIT_RUN_FOR_IT "Running For It"
 #define TRAIT_ENCHANTING_EXPERT "Expert Enchanter" //Engineering, Smelting, Blacksmithing, used for enchanting virtue
 
 
@@ -528,6 +533,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_STRONGKICK = span_info("My kicks knock people down and back a step, consistently. There's no need for obstacles."),
 	TRAIT_COMBAT_JMAN = span_info("My training was too specialised, leaving me with little time or ability to learn combat skills beyond Journeyman."),
 	TRAIT_NOSHIELDS = span_info("My specialised training has left me without the ability to handle a shield at all. I cannot, or will not, learn to use one."),
+	TRAIT_COMBAT_NONEWSKILLS = span_info("I have no need or desire to learn combat skills beyond those that I already know. I will not gain EXP in any skills that I have no levels in."),
 	TRAIT_IGNORESLOWDOWN = span_info("Nothing stops this carriage!"),
 	TRAIT_IGNOREDAMAGESLOWDOWN = span_info("Hits slow me down no longer."),
 	TRAIT_NOBLE = span_blue("I'm of noble blood."),
@@ -614,7 +620,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DEEP_DREAMER = span_info("My dreams run deeper than those of my peers, and I often find myself drifting into strange and unknowable places while I sleep. (Grants between 1-2 extra points of Dream per rest)."),
 	TRAIT_LONGSTRIDER = span_info("Each of my steps finds its footing no matter how treacherous the terrain is."),
 	TRAIT_TRAINED_SMITH = span_info("I've spent long training, and with some more, I will be able to smith legendary items."),
-	TRAIT_CAUTIOUS_FISHER = span_info("I know my way around the dangers of fishing, and know how to avoid unwanted attention from the depths."),
+	TRAIT_EXPERT_FISHER = span_info("I am experienced at fishing, and fish come to my hands more easily than most. I can tell which fishes swim in a body of water at a glance, and I know ahead of time when something hostile takes the hook."),
 	TRAIT_DEATHSIGHT = span_info("I can feel when someone nearby draws the Undermaiden's attention."),
 	TRAIT_FORGEBLESSED = span_info("Countless long nights spent forging metal have honed my endurance, allowing me to work an anvil far longer than most without tiring."),
 	TRAIT_MALUMCHOSEN = span_info("He guides my hands in my crafts, allowing for feats I'd normally not be able to achieve."),
@@ -712,8 +718,9 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_PESTRAS_BLESSING = span_infection("The sacred black rot of Pestra burns within me. Should intelligent foes try to harm me, they will feel her greatest plague."),
 	TRAIT_HERESIARCH = span_warning("I've been touched by the truth of Psydonia. Lyfe as we understand cannot persist under the Ten or the pretense of Psydon. Something must change."),
 	TRAIT_HALLOWED = span_notice("I'm closer to the gods than most. I can utilize my miracles, regardless of if I bear an amulet or not."),
-	TRAIT_ZURCH = span_warning("I know of sacred sites of worship where followers of the Ascendants convene, and the path to the nearest conclave is etched into my memory."),
+	TRAIT_ZURCH = span_warning("I know of sacred sites of worship where the dredges of Azuria reside. I can claim safe-houses around the land."),
 	TRAIT_CAVEDWELLER = span_info("The mountains are my home. I prefer to live beneath the surface away from the sun's gaze and know the caves of this land like the back of my hand."),
+	TRAIT_CAREFULTRIP = span_warning("I am extremely careful and paranoid about leaving tracks behind when I try to travel to secret locations. I must always be alone, or with other people who share my knowledge, no exceptions."),
 	TRAIT_CURSE_ASTRATA = span_warning("I am forsaken by the Sun. I will find no rest under Her unwavering gaze."),
 	TRAIT_CURSE_NOC = span_warning("I am forsaken by the Moon. I will find no salvation in His grace."),
 	TRAIT_CURSE_DENDOR = span_warning("I am forsaken by the Treefather. Reason and common sense abandon me."),
@@ -743,6 +750,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_HOMESTEAD_EXPERT = span_greentext("I'm experienced with the arts of homesteading. Farming, Mining, Cooking, Fishing, Butchering, Lumberjacking, Masonry and Pottery can progress to Legendary levels. Sewing and Skincrafting can progress to Journeyman levels."),
 	TRAIT_MASTERFUL_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming a masterful hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
 	TRAIT_EXPERT_HUNTER = span_greentext("To hunt well, is to know the land. I have an advantage in becoming an expert hunter here, for I know about the various watering holes, the feeding grounds, which thickets are bent by animal flanks."),
+	TRAIT_MONSTER_HUNTER = span_greentext("Yils of hunting the creatures of the Azurian wilds have taught much about where to aim on them. My aim against them is more precise, and I will cripple them sooner with my strikes."),
 	TRAIT_ENCHANTING_EXPERT = span_greentext("I'm experienced with the arts of enchanting, with my skills in the arcyne craft Blacksmithing, Engineering, and Smelting can progress to Legendary levels."),
 	TRAIT_SELF_SUSTENANCE = span_greentext("Yils of experience running from the law and living off the land have made me a jack of all trades. All crafting and labor skills can progress to Journeyman levels. I am also quite savvy at repairing damaged equipment."),
 	TRAIT_SELF_RELIANCE = span_greentext("I've spent enough time standing on my own that I've learned to either adapt or die young. All crafting and labor skills can progress to Journeyman levels."),
@@ -1004,6 +1012,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define CRIT_TRAIT "crit"
 #define ROUNDSTART_TRAIT "roundstart" //cannot be removed without admin intervention
 #define JOB_TRAIT "job"
+/// Bad trainer given by being taken as a veteran's protégé
+#define PROTEGE_TRAIT "protege"
 #define ADMIN_TRAIT "admin" // (B)admins only.
 #define CULT_TRAIT "cult"
 #define CURSED_ITEM_TRAIT "cursed-item" // The item is magically cursed
@@ -1024,7 +1034,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define REVERSE_BEAR_TRAP_TRAIT "reverse-bear-trap"
 #define HOT_POTATO_TRAIT "hot-potato"
 #define HUGBOX_TRAIT "hugbox"
-#define ADVENTURER_TRAIT "adventurer"
 #define GRAGGAR_ASSASSINATED "graggar_assassinated"
 #define CONTRACT_SPAWN_TRAIT "contract-spawn"
 

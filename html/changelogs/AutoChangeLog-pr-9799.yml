@@ -1,4 +1,0 @@
-author: "WeNeedMorePhoron"
-delete-after: True
-changes:
-  - refactor: "Removed a bunch of unreferenced spells"

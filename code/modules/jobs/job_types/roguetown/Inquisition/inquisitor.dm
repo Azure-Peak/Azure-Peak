@@ -22,7 +22,7 @@
 	min_pq = 10
 	max_pq = null
 	round_contrib_points = 2
-	vice_restrictions = list(/datum/charflaw/silverweakness)
+	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted)
 	job_subclasses = list(
 		/datum/advclass/inquisitor/inspector,
 		/datum/advclass/inquisitor/ordinator
@@ -86,12 +86,8 @@
 /datum/outfit/job/roguetown/inquisitor/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
-	add_verb(H, /mob/living/carbon/human/proc/faith_test)
-	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/preblessed
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/psy/preblessed
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
@@ -118,6 +114,11 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	else
 		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels
+
+	add_verb(H, /mob/living/carbon/human/proc/faith_test)
+	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
@@ -224,10 +225,6 @@
 /datum/outfit/job/roguetown/inquisitor/ordinator/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
-	add_verb(H, /mob/living/carbon/human/proc/faith_test)
-	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
@@ -253,6 +250,11 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	else
 		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels
+
+	add_verb(H, /mob/living/carbon/human/proc/faith_test)
+	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 

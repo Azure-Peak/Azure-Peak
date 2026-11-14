@@ -289,9 +289,9 @@
 			if(ispath(attacker_skilltype, /datum/skill/combat) && ispath(defender_skilltype, /datum/skill/combat))
 				if ((mobility_flags & MOBILITY_STAND) && !isanimal(attacker))
 					var/skill_target = attacker_skill
-					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER))
+					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER) || HAS_TRAIT_FROM(attacker, TRAIT_BADTRAINER, PROTEGE_TRAIT))
 						skill_target -= SKILL_LEVEL_NOVICE
-					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER))
+					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER) && !HAS_TRAIT_FROM(src, TRAIT_BADTRAINER, REF(attacker)))
 						skill_target -= SKILL_LEVEL_NOVICE
 					if (can_train_combat_skill(src, defender_skilltype, skill_target))
 						mind.add_sleep_experience(defender_skilltype, max(round(STAINT*exp_multi*defender_factor), 0), FALSE)
@@ -300,9 +300,9 @@
 				if(attacker.mind && !isanimal(attacker))
 					if ((mobility_flags & MOBILITY_STAND))
 						var/skill_target = defender_skill
-						if(!HAS_TRAIT(src, TRAIT_GOODTRAINER))
+						if(!HAS_TRAIT(src, TRAIT_GOODTRAINER) || HAS_TRAIT_FROM(src, TRAIT_BADTRAINER, PROTEGE_TRAIT))
 							skill_target -= SKILL_LEVEL_NOVICE
-						if(HAS_TRAIT(src, TRAIT_BADTRAINER))
+						if(HAS_TRAIT(src, TRAIT_BADTRAINER) && !HAS_TRAIT_FROM(attacker, TRAIT_BADTRAINER, REF(src)))
 							skill_target -= SKILL_LEVEL_NOVICE
 						if (can_train_combat_skill(attacker, attacker_skilltype, skill_target))
 							attacker.mind.add_sleep_experience(attacker_skilltype, max(round(STAINT*exp_multi*attacker_factor), 0), FALSE)
@@ -370,9 +370,9 @@
 			if(ispath(attacker_skilltype, /datum/skill/combat))
 				if((mobility_flags & MOBILITY_STAND) && !isanimal(attacker))
 					var/skill_target = attacker_skill
-					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER))
+					if(!HAS_TRAIT(attacker, TRAIT_GOODTRAINER) || HAS_TRAIT_FROM(attacker, TRAIT_BADTRAINER, PROTEGE_TRAIT))
 						skill_target -= SKILL_LEVEL_NOVICE
-					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER))
+					if(HAS_TRAIT(attacker, TRAIT_BADTRAINER) && !HAS_TRAIT_FROM(defender, TRAIT_BADTRAINER, REF(attacker)))
 						skill_target -= SKILL_LEVEL_NOVICE
 					if(can_train_combat_skill(defender, /datum/skill/combat/unarmed, skill_target))
 						defender.mind?.add_sleep_experience(/datum/skill/combat/unarmed, max(round(STAINT*exp_multi), 0), FALSE)

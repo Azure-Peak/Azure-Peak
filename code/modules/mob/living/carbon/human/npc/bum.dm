@@ -77,7 +77,7 @@ GLOBAL_LIST_INIT(bum_aggro, world.file2list("strings/rt/bumaggrolines.txt"))
 			if(10)
 				l_hand = /obj/item/rogueweapon/spear
 	if(prob(1))
-		belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+		belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/iron
 	if(prob(20))
 		head = /obj/item/clothing/head/roguetown/knitcap
 

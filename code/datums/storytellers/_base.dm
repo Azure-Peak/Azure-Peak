@@ -100,6 +100,8 @@
 	var/hard_mult = 1
 	/// Whether the Dreamwalker roundstart event is allowed to roll under this preset.
 	var/allow_dreamwalker = FALSE
+	/// Whether the midround Renegade check may hand out the role under this preset.
+	var/allow_renegade = FALSE
 	/// How many Hag slots this preset opens (0 or 1).
 	var/hag_slots = 0
 	/// If TRUE, all hard (villain) antags are blocked at roundstart.

@@ -713,15 +713,23 @@
 		. += span_userdanger("DEADITE!")
 		. += span_warning("Uneasy steps, the sound of profane flesh and bone knitting itself and a stench of rot. A walking corpse!")
 
+/// Black Oaks recognize each other on sight, even behind masks.
+/mob/living/carbon/human/proc/blackoak_examine(mob/user)
+	. = list()
+	if(user != src && HAS_TRAIT(user, TRAIT_BLACKOAK) && HAS_TRAIT(src, TRAIT_BLACKOAK))
+		. += span_nicegreen("A member of the enclave.")
+
 /mob/living/carbon/human/proc/generate_main_examine_body(mob/user, m1, m2, m3, obscure_name, race_name, origin_name, observer_privilege, list/unknown_names)
 	. = list()
 	if(name in unknown_names)
 		. += span_info("ø ------------ ø\nThis is <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += blackoak_examine(user)
 		. += get_ssd_examine_text(m3)
 	else if(obscure_name && !client?.prefs?.masked_examine)
 		. += span_info("ø ------------ ø\nThis is an unknown <EM>[name]</EM>.")
 		. += deadite_examine()
+		. += blackoak_examine(user)
 		. += get_ssd_examine_text(m3)
 	else
 		on_examine_face(user)
@@ -754,6 +762,9 @@
 			display_as_wanderer = FALSE
 		if(src.mind?.has_antag_datum(/datum/antagonist/vampire/lord) && SSticker.rulermob != src && SSticker.regentmob != src)
 			display_as_wanderer = TRUE
+		if(fake_title)
+			used_title = fake_title
+			display_as_wanderer = FALSE
 		var/displayed_headshot
 		var/datum/antagonist/vampire/vampireplayer = src.mind?.has_antag_datum(/datum/antagonist/vampire)
 		var/datum/antagonist/lich/lichplayer = src.mind?.has_antag_datum(/datum/antagonist/lich)
@@ -840,6 +851,11 @@
 		if(HAS_TRAIT(src, TRAIT_AGENT_MERCHANT))
 			. += span_notice("An agent of the Azurian Trading Company.")
 
+		if(HAS_TRAIT_FROM(src, TRAIT_BADTRAINER, REF(user)))
+			. += span_nicegreen("This is my protégé.")
+		else if(HAS_TRAIT_FROM(user, TRAIT_BADTRAINER, REF(src)))
+			. += span_nicegreen("This is my mentor.")
+
 		// only bath-house workers and other bath-house agents can recognize bath-house agents
 		if(HAS_TRAIT(src, TRAIT_AGENT_BATHHOUSE) && ishuman(user))
 			var/mob/living/carbon/human/bath_viewer = user
@@ -882,6 +898,17 @@
 			. += span_userdanger("EXCOMMUNICATED! SHAME!")
 		if(name in GLOB.outlawed_players)
 			. += span_userdanger("OUTLAW!")
+		if(wear_neck && istype(wear_neck, /obj/item/clothing/neck/roguetown/collar/prisoner))
+			var/obj/item/clothing/neck/roguetown/collar/prisoner/castifico_collar = wear_neck
+			var/collar_faction = "unknown"
+			switch(castifico_collar.issuing_faction)
+				if("crown")
+					collar_faction = "the Justiciary of Azuria"
+				if("church")
+					collar_faction = "the Church of the Ten"
+				if("inquisition")
+					collar_faction = "the Otavan Inquisition"
+			. += span_greentext("[m1] wearing a castifico collar with markings belonging to [collar_faction]!")
 
 		. += deadite_examine()
 		. += get_ssd_examine_text(m3)
@@ -898,6 +925,8 @@
 
 		if((HAS_TRAIT(user, TRAIT_BLACKOAK) && !(src.dna.species.name == "Elf" || src.dna.species.name == "Dark Elf" || src.dna.species.name == "Half-Elf")))
 			. += span_phobia("An invader...")
+
+		. += blackoak_examine(user)
 
 		if(length(GLOB.tennite_schisms))
 			var/datum/tennite_schism/S = GLOB.tennite_schisms[1]

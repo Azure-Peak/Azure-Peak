@@ -171,7 +171,7 @@
 
 /datum/anvil_recipe/proc/item_added(mob/user)
 	needed_item = null
-	user.visible_message(span_info("[user] adds [needed_item_text]"))
+	user.visible_message(span_info("[user] adds [needed_item_text]."))
 	needed_item_text = null
 
 /datum/anvil_recipe/proc/handle_creation(obj/item/I)
@@ -320,6 +320,9 @@
 
 		if(bookweapon.intdamage_factor != 1 && bookweapon.force >= 5)
 			html += "\n<b>INTEGRITY DAMAGE:</b> [bookweapon.intdamage_factor * 100]%<br>"
+
+		if(bookweapon.antibeast_factor != 1 && bookweapon.force >= 5)
+			html += "\n<b>ANTI-BEAST MODIFIER:</b> [bookweapon.antibeast_factor * 100]%<br>"
 
 
 	if(craftdiff > 0)

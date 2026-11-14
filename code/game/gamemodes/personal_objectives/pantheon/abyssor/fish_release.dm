@@ -3,7 +3,7 @@
 	triumph_count = 0
 	var/released_count = 0
 	var/required_count = 1
-	var/required_rarity_rank = 1
+	var/required_rarity_rank = FISH_RARITY_RARE
 
 /datum/objective/release_fish/on_creation()
 	. = ..()

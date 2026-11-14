@@ -1,3 +1,4 @@
+GLOBAL_VAR_INIT(chicken_count, 0)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken
 	icon = 'icons/roguetown/mob/monster/chicken.dmi'
@@ -14,7 +15,6 @@
 	density = FALSE
 	base_intents = list(/datum/intent/simple/claw)
 	speak_chance = 2
-	turns_per_move = 5
 	faction = list(FACTION_CHICKENS)
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/rogue/meat/poultry = 1)
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/fat = 1,
@@ -54,7 +54,6 @@
 	mob_size = MOB_SIZE_SMALL
 	var/list/layMessage = EGG_LAYING_MESSAGES
 	var/list/validColors = list("brown","black","white")
-	var/static/chicken_count = 0
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	STACON = 6
 	STASTR = 6
@@ -62,8 +61,6 @@
 	tame = TRUE
 
 //new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
 	move_base_delay = MOVEMENT_DELAY_SLOW
 
@@ -126,15 +123,15 @@
 	icon_dead = "[icon_prefix]_[body_color]_dead"
 	pixel_x = rand(-6, 6)
 	pixel_y = rand(0, 10)
-	++chicken_count
+	++GLOB.chicken_count
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Destroy()
-	--chicken_count
+	--GLOB.chicken_count
 	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/chicken/Life()
 	..()
-	if(!stat && (production > 29) && egg_type && isturf(loc) && !enemies.len)
+	if(!stat && (production > 29) && egg_type && isturf(loc) && !ai_controller?.has_aggro())
 
 		if(locate(/obj/structure/fluff/nest) in loc)
 			visible_message(span_alertalien("[src] [pick(layMessage)]"))
@@ -143,9 +140,9 @@
 			E.pixel_x = rand(-6,6)
 			E.pixel_y = rand(-6,6)
 			if(eggsFertile)
-				if(chicken_count < MAX_CHICKENS && prob(50))
+				if(GLOB.chicken_count < MAX_CHICKENS && prob(50))
 					E.fertile = TRUE
-		else if(!stop_automated_movement)
+		else if(!ai_controller?.is_timed_traveling())
 			//look for nests
 			var/list/foundnests = list()
 			for(var/obj/structure/fluff/nest/N in oview(src))
@@ -172,14 +169,63 @@
 					for(var/obj/item/grown/log/tree/stick/S in oview(src))
 						foundchaff += S
 				if(foundchaff.len)
-					stop_automated_movement = TRUE
-					Goto(pick(foundchaff))
-					addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
+					ai_controller?.travel_for(get_turf(pick(foundchaff)), 15 SECONDS)
 			else
-				stop_automated_movement = TRUE
-				Goto(pick(foundnests))
-				addtimer(CALLBACK(src, PROC_REF(return_action)), 15 SECONDS)
+				ai_controller?.travel_for(get_turf(pick(foundnests)), 15 SECONDS)
 
+
+/mob/living/simple_animal/hostile/retaliate/rogue/chick
+	icon = 'icons/roguetown/mob/monster/chicken.dmi'
+	name = "\improper chick"
+	desc = "A newly hatched chicken. It will be grown before long."
+	icon_state = "chick"
+	icon_living = "chick"
+	icon_dead = "chick_dead"
+	gender = FEMALE
+	blood_toll_bucket = STATS_KILLED_LIVESTOCK
+	emote_see = list("pecks at the ground.","flaps its tiny wings.")
+	density = FALSE
+	speak_chance = 2
+	faction = list(FACTION_CHICKENS)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/fat = 1)
+	health = 3
+	maxHealth = 3
+	ventcrawler = VENTCRAWLER_ALWAYS
+	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB
+	mob_size = MOB_SIZE_TINY
+	footstep_type = FOOTSTEP_MOB_BAREFOOT
+	STACON = 3
+	STASTR = 3
+	STASPD = 1
+	tame = TRUE
+	adult_growth = /mob/living/simple_animal/hostile/retaliate/rogue/chicken
+	ai_controller = /datum/ai_controller/generic/critter
+	move_base_delay = MOVEMENT_DELAY_SLOW
+
+/mob/living/simple_animal/hostile/retaliate/rogue/chick/get_sound(input)
+	switch(input)
+		if("pain")
+			return pick('sound/vo/mobs/chikn/pain (1).ogg','sound/vo/mobs/chikn/pain (2).ogg','sound/vo/mobs/chikn/pain (3).ogg')
+		if("death")
+			return 'sound/vo/mobs/chikn/death.ogg'
+		if("idle")
+			return pick('sound/vo/mobs/chikn/idle (1).ogg','sound/vo/mobs/chikn/idle (2).ogg','sound/vo/mobs/chikn/idle (3).ogg','sound/vo/mobs/chikn/idle (4).ogg','sound/vo/mobs/chikn/idle (5).ogg','sound/vo/mobs/chikn/idle (6).ogg')
+
+/mob/living/simple_animal/hostile/retaliate/rogue/chick/Initialize(mapload)
+	. = ..()
+	pixel_x = rand(-6, 6)
+	pixel_y = rand(0, 10)
+	++GLOB.chicken_count
+
+/mob/living/simple_animal/hostile/retaliate/rogue/chick/Destroy()
+	--GLOB.chicken_count
+	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/chick/Life()
+	. = ..()
+	if(!. || QDELETED(src) || ai_controller?.has_aggro())
+		return
+	growth_prog += 1
 
 /obj/structure/fluff/nest
 	name = "nest"

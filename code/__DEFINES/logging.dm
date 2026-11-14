@@ -105,6 +105,7 @@
 #define LOG_CATEGORY_GAME "game"
 #define LOG_CATEGORY_GAME_ACCESS "game-access"
 #define LOG_CATEGORY_GAME_EMOTE "game-emote"
+#define LOG_CATEGORY_GAME_GHOST_POLLS "game-ghost-polls"
 #define LOG_CATEGORY_GAME_LOOC "game-looc"
 #define LOG_CATEGORY_GAME_OOC "game-ooc"
 #define LOG_CATEGORY_GAME_PAPER "game-paper"

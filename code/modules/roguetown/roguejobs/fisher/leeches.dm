@@ -6,16 +6,7 @@
 	dropshrink = 0.8
 	icon = 'icons/roguetown/items/surgery.dmi'
 	icon_state = "leech"
-	baitpenalty = 0
-	fishingMods=list(
-		"commonFishingMod" = 0.7,
-		"rareFishingMod" = 1.3,
-		"treasureFishingMod" = 1,
-		"trashFishingMod" = 1,
-		"dangerFishingMod" = 1.1,
-		"ceruleanFishingMod" = 0, // 1 on cerulean aril, 0 on everything else
-		"cheeseFishingMod" = 0 // Just for the funny gimmick of a chance for rats and rouses.
-	)
+	bait_quality = TRAIT_GOOD_QUALITY_BAIT
 	baitresilience = 3
 
 	embedding = list(
@@ -78,6 +69,8 @@
 	var/obj/item/bodypart/bp = loc
 	if(giving)
 		var/blood_given = min(BLOOD_VOLUME_MAXIMUM - host.blood_volume, blood_storage, blood_sucking)
+		if(host.is_in_combat()) // inb4 we get a thickblooded smartass who puts on multiple of these little shits
+			blood_given = min(blood_given, 1)
 		host.blood_volume += blood_given
 		blood_storage = max(blood_storage - blood_given, 0)
 		if((blood_storage <= 0) || (host.blood_volume >= BLOOD_VOLUME_MAXIMUM))

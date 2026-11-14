@@ -88,6 +88,7 @@
 	name = "Huntmaster"
 	tutorial = "Formerly a commoner, or perhaps you just like spending time in the woods too much. Organizing the hunt for their lordship is difficult, and you may not be as rich as your peers, but you'll make it work."
 	outfit = /datum/outfit/job/roguetown/councillor/huntmaster
+	traits_applied = list(TRAIT_MONSTER_HUNTER) // They're literally the Huntsmaster, so getting the damage boost makes sense. Keep the rest of the traits off them though.
 	category_tags = list(CTAG_COUNCILLOR)
 	// Slightly worse than bow hunters
 	subclass_stats = list(
