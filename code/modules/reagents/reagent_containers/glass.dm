@@ -64,6 +64,18 @@
 		return
 	if(user.used_intent.type == INTENT_SPLASH)
 		var/R
+		if(istype(M, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form))
+			if(!spillable)
+				to_chat(user, span_warning("[src] is closed!"))
+				return
+			var/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/ooze = M
+			user.visible_message(span_danger("[user] splashes [src] onto [ooze]!"), span_danger("[user] splashes [src] onto you!"))
+			if(!ooze.reconstitute_from_container(src))
+				to_chat(user, span_warning("The ooze needs at least 30 units of health potion, strong health potion, holy water, or blessed water to reform."))
+				return
+			reagents.clear_reagents()
+			return
+
 		M.visible_message(span_danger("[user] splashes the contents of [src] onto [M]!"), \
 						span_danger("[user] splashes the contents of [src] onto you!"))
 		if(reagents)

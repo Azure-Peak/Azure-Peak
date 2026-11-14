@@ -1,5 +1,10 @@
 //Sprites contributed by VelSlime
 
+/datum/language_holder/pure_ooze
+	languages = list(/datum/language/undercommon)
+	only_speaks_language = /datum/language/undercommon
+	selected_default_language = /datum/language/undercommon
+
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob
 	threat_point = THREAT_LOW
 	anatomy_type = /datum/anatomy/amorphous
@@ -22,7 +27,7 @@
 									/obj/item/alch/waterdust = 3,
 									/obj/item/alch/viscera = 3)
 	head_butcher = null
-	faction = list("zombie")
+	faction = list(FACTION_OOZE)
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	health = OOZE_BLOB_HEALTH
 	maxHealth = OOZE_BLOB_HEALTH
@@ -75,13 +80,15 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/ai_retaliate)
-	AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
+	if(ai_controller)
+		AddElement(/datum/element/ai_retaliate)
+		AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
 	gender = MALE
 	if(prob(33))
 		gender = FEMALE
 	update_icon()
-	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
+	if(ai_controller)
+		ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_type)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/death(gibbed)
 	..()
@@ -112,3 +119,145 @@
 	if(pulledby)
 		ai_controller?.force_aggro(pulledby)
 
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form
+	name = "pure ooze"
+	desc = "An amorphous remnant of a Murkling, formed from a lifeless body. Splash it with blessed water or red and watch as the body reforms."
+	initial_language_holder = /datum/language_holder/pure_ooze
+	icon = 'icons/roguetown/mob/ooze_blob.dmi'
+	hud_type = /datum/hud/dextrous/oozeling
+	rot_type = null
+	botched_butcher_results = null
+	butcher_results = null
+	perfect_butcher_results = null
+	guaranteed_butcher_results = null
+	head_butcher = null
+	melee_damage_lower = 0
+	melee_damage_upper = 0
+	aggressive = FALSE
+	ai_controller = null
+	dextrous = FALSE
+	mobility_flags = MOBILITY_MOVE
+	move_base_delay = 8
+	speak_chance = 0
+	emote_see = null
+	emote_hear = null
+
+	var/mob/living/carbon/human/origin_body
+	var/flavortext_cached
+	var/ooc_notes_cached
+	var/headshot_artist_credit
+	var/headshot_artist_link
+	var/examine_theme
+	var/list/previous_languages
+	var/previous_only_speaks_language
+	var/previous_default_language
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_PACIFISM, "[type]")
+	ADD_TRAIT(src, TRAIT_SPELLCOCKBLOCK, "[type]")
+	ADD_TRAIT(src, TRAIT_DARKVISION, "[type]")
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/enable_undercommon_only()
+	var/datum/language_holder/language_holder = get_language_holder()
+	previous_languages = language_holder.languages.Copy()
+	previous_only_speaks_language = language_holder.only_speaks_language
+	previous_default_language = language_holder.selected_default_language
+	language_holder.grant_language(/datum/language/undercommon)
+	language_holder.only_speaks_language = /datum/language/undercommon
+	language_holder.selected_default_language = /datum/language/undercommon
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/restore_language_holder()
+	var/datum/language_holder/language_holder = get_language_holder()
+	language_holder.languages = previous_languages.Copy()
+	language_holder.only_speaks_language = previous_only_speaks_language
+	language_holder.selected_default_language = previous_default_language
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/Destroy()
+	REMOVE_TRAIT(src, TRAIT_PACIFISM, "[type]")
+	REMOVE_TRAIT(src, TRAIT_SPELLCOCKBLOCK, "[type]")
+	REMOVE_TRAIT(src, TRAIT_DARKVISION, "[type]")
+	. = ..()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/death(gibbed)
+	icon_state = icon_dead
+	if(client)
+		update_cone()
+	. = ..()
+	update_icon()
+	playsound(src, 'sound/magic/splat.ogg', 50, TRUE)
+	qdel(GetComponent(/datum/component/deadite_animal_reanimation))
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/butcher(mob/living/user, on_meathook = FALSE)
+	return FALSE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/gib(no_brain = FALSE, no_organs = FALSE, no_bodyparts = FALSE, drop_items = FALSE, leave_gibs = TRUE)
+	return FALSE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/ClickOn(atom/A, params)
+	var/list/modifiers = params2list(params)
+	if(modifiers["shift"] && modifiers["left"] && !modifiers["right"] && !modifiers["middle"] && !modifiers["alt"] && !modifiers["ctrl"])
+		ShiftClickOn(A)
+	else if(modifiers["shift"] && modifiers["right"] && !modifiers["middle"] && !modifiers["alt"] && !modifiers["ctrl"])
+		ShiftRightClickOn(A, params)
+	return TRUE
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/attackby(obj/item/item, mob/user, params)
+	if(istype(item, /obj/item/reagent_containers/glass))
+		var/obj/item/reagent_containers/glass/container = item
+		if(!container.spillable)
+			to_chat(user, span_warning("[container] is closed."))
+			return
+		user.visible_message(span_notice("[user] begins carefully splashing [container] onto [src]..."), span_notice("I begin carefully splashing [container] onto [src]..."))
+		if(!do_after(user, 3 SECONDS, target = src))
+			return
+		if(QDELETED(container) || !container.spillable)
+			to_chat(user, span_warning("The container must remain open."))
+			return
+		user.visible_message(span_danger("[user] splashes [container] onto [src]!"), span_danger("[user] splashes [container] onto you!"))
+		if(!reconstitute_from_container(container))
+			to_chat(user, span_warning("The ooze needs at least 30 units of health potion, strong health potion, holy water, or blessed water to reform."))
+			return
+		container.reagents.clear_reagents()
+		return
+	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/examine(mob/user)
+	var/list/examine_text = ..()
+	if(!client)
+		examine_text += "<span class='big' style='color: #c71d76;'>The eyes look empty and soulless.</span>"
+	if(familiar_headshot_link && user.client?.prefs.chatheadshot && valid_headshot_link(src, familiar_headshot_link, TRUE))
+		examine_text.Insert(2, "<img src=[familiar_headshot_link] width=100 height=100/>")
+	if(flavortext_cached || ooc_notes_cached || familiar_headshot_link)
+		examine_text.Insert(examine_text.len - 1, "<a href='?src=[REF(src)];task=view_pure_ooze'>Examine closer</a>")
+	return examine_text
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/Topic(href, href_list)
+	if(href_list["task"] == "view_pure_ooze")
+		if(!ismob(usr))
+			return
+		var/datum/examine_panel/examine_panel = new(src)
+		examine_panel.holder = src
+		examine_panel.viewing = usr
+		examine_panel.ui_interact(usr)
+		return
+	return ..()
+
+/mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form/proc/reconstitute_from_container(obj/item/reagent_containers/glass/container)
+	if(!container?.reagents || !origin_body)
+		return FALSE
+
+	var/has_enough_reagent = FALSE
+	for(var/datum/reagent/reagent as anything in container.reagents.reagent_list)
+		if(reagent.volume < 30)
+			continue
+		if(istype(reagent, /datum/reagent/medicine/healthpot) \
+			|| istype(reagent, /datum/reagent/medicine/stronghealth) \
+			|| istype(reagent, /datum/reagent/water/blessed))
+			has_enough_reagent = TRUE
+			break
+	if(!has_enough_reagent)
+		return FALSE
+
+	var/datum/component/murkling_afterlife/afterlife = origin_body.GetComponent(/datum/component/murkling_afterlife)
+	return afterlife?.reconstitute_body(src)

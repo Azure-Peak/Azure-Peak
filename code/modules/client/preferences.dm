@@ -136,6 +136,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/list/customizer_entries = list()
 	var/list/list/body_markings = list()
 	var/update_mutant_colors = TRUE // if TRUE, resets accessory and marking colors when mutant colors change
+	var/ooze_color_shifting = TRUE
 
 	///direct link to a headshot image on a whitelisted site. it would rather these 3 fields be a list, but that's actually less efficient at runtime
 	var/headshot_link

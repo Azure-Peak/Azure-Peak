@@ -296,6 +296,7 @@
 
 #define TRAIT_NOFALLDAMAGE1 "Fall Damage Reduction"
 #define TRAIT_NOFALLDAMAGE2 "Fall Damage Immunity"
+#define TRAIT_AMORPHOUS_LANDING "Amorphous Landing"
 
 #define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
@@ -589,6 +590,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_SANGUIVORE = "I can drink blood without retching, though it does little to sate me.",
 	TRAIT_NOFALLDAMAGE1 = span_warning("I can easily handle minor falls."),
 	TRAIT_NOFALLDAMAGE2 = span_warning("I can handle a fall from any height."),
+	TRAIT_AMORPHOUS_LANDING = span_warning("I flatten into a puddle of ooze when I land from a fall."),
 	TRAIT_GRABIMMUNE = span_warning("My great strength, or slippery agility, prevents others from getting ahold of me!"),
 	TRAIT_DISFIGURED = span_warning("No one can recognize me..."),
 	TRAIT_MISSING_NOSE = span_warning("I struggle to breathe."),
@@ -793,7 +795,7 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_DUSTRUNNER = span_info("I run dust for the Thieves' Guild. Those in the trade know how to spot one of their own."),
 	TRAIT_INK_AFFINITY = span_info("I can thread sacred abyssorite paint splotches safely, and benefit from them."),
 	TRAIT_BLEED_PAINT = span_info("I bleed sacred abyssorite paint when I'm injured, as long as I can bleed."),
-	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs in my sleep, but doing so will make me hungry."),
+	TRAIT_REGROW_LIMBS = span_info("I can regrow my limbs, either by falling asleep or concetrating while awake. Doing so will make me hungry."),
 	TRAIT_MUSES_GRACE = span_info("I feel a sudden and powerful urge to break out into song."),
 	TRAIT_NOHEAL = span_artery("I cannot be healed by supernatural means. Healing magic has no effect."),
 	TRAIT_NOREGEN = span_artery("I cannot be healed by natural means. Rest and potions have no effect."),

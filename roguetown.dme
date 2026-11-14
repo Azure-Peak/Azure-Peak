@@ -3583,6 +3583,7 @@
 #include "code\modules\spells\spell_types\wizard\utility\message.dm"
 #include "code\modules\spells\spell_types\wizard\utility\mindlink.dm"
 #include "code\modules\spells\spell_types\wizard\utility\mirror_transform.dm"
+#include "code\modules\spells\spell_types\wizard\utility\murkling_shapeshift.dm"
 #include "code\modules\spells\spell_types\wizard\utility\prestidigitation.dm"
 #include "code\modules\spells\spell_types\wizard\utility\rune_ward.dm"
 #include "code\modules\spells\spell_types\wizard\utility\summon_weapon.dm"
