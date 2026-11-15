@@ -398,6 +398,15 @@
 
 /obj/structure/mineral_door/attackby(obj/item/I, mob/user, autobump = FALSE)
 	user.changeNext_move(CLICK_CD_FAST)
+
+	if(jammed)
+		process_jam(user, I)
+		return
+
+	if(istype(I, /obj/item/waxputty))
+		attempt_jam(user, I)
+		return
+
 	if(istype(I, /obj/item/roguekey) || istype(I, /obj/item/storage/keyring))
 		if(!locked)
 			TryToSwitchState(user) //try to open/close
@@ -442,7 +451,16 @@
 		else
 			return ..()
 
-/obj/structure/mineral_door/attacked_by(obj/item/I, mob/living/user)
+/obj/structure/mineral_door/proc/attempt_jam(mob/living/user, obj/item/I)
+	if(lockhash && jammed < JAM_TIER_PUDDY)
+		if(do_after(user, 2.5 SECONDS, TRUE))
+			visible_message(span_alert("[user] stuffs \the [I] into the keyhole, jamming it!"))
+			playsound(src, 'sound/effects/wax_jam.ogg', 100, TRUE)
+			jam(JAM_TIER_PUDDY)
+			qdel(I)
+			return
+
+/obj/structure/mineral_door/proc/process_jam(mob/living/user, obj/item/I)
 	if(jammed)
 		var/cyclecount = (jammed == JAM_TIER_BROKENKEY) ? 10 : 100
 		if(user.used_intent.item_d_type == "stab")
@@ -479,7 +497,7 @@
 							to_chat(user, span_info("Jam cleared."))
 							unjam()
 
-
+/obj/structure/mineral_door/attacked_by(obj/item/I, mob/living/user)
 	var/turf/T = get_turf(src)
 	..()
 	if(obj_broken || obj_destroyed)
@@ -546,7 +564,7 @@
 	playsound(src, 'sound/effects/jam_cleared.ogg', 100, TRUE)
 	jammed = FALSE
 
-/obj/structure/mineral_door/proc/trykeylock(obj/item/I, mob/user, autobump = FALSE)
+/obj/structure/mineral_door/proc/trykeylock(obj/item/I, mob/user, autobump = FALSE, circumstance)
 	if(door_opened || isSwitchingStates)
 		return
 	if(!keylock)
@@ -570,7 +588,7 @@
 				if(!do_after(user, 10, TRUE, src))
 					break
 			if(K.lockhash == lockhash)
-				lock_toggle(user)
+				lock_toggle(user, circumstance)
 				if(!K.on_use())
 					jam(JAM_TIER_BROKENKEY)
 				if(autobump && !locked)
@@ -588,6 +606,8 @@
 		var/obj/item/roguekey/K = I
 		if(K.lockhash == lockhash || istype(K, /obj/item/roguekey/lord) || istype(K, /obj/item/roguekey/skeleton)) //master key cares not for lockhashes
 			lock_toggle(user, LOCK_HAND)
+			if(!K.on_use())
+				jam(JAM_TIER_BROKENKEY)
 			if(autobump)
 				src.Open()
 				addtimer(CALLBACK(src, PROC_REF(Close), FALSE, TRUE), 25)
@@ -699,8 +719,21 @@
 
 	// Check if user has a key in hand or belt slots
 	var/obj/item/key_item = find_key_for_door(user)
+
+	// Incredibly annoying that this seems to be necessary to account for rclicking the door with a keyring / empty hand with a key ring in inactive hand.
+	var/direct_interaction = FALSE // We are doing it directly -- via key or keyring, accounting for empty-hand rclicks with item in inactive hand.
 	if(key_item)
-		trykeylock(key_item, user, LOCK_BELT)
+		var/active_hand = user.get_active_held_item()
+		var/inactive_hand = user.get_inactive_held_item()
+		if(istype(active_hand, /obj/item/roguekey) || istype(active_hand, /obj/item/storage/keyring))
+			direct_interaction = TRUE
+		if(!direct_interaction)
+			if(istype(inactive_hand, /obj/item/roguekey) || istype(inactive_hand, /obj/item/storage/keyring))
+				direct_interaction = TRUE
+		if(direct_interaction)
+			user.changeNext_move(CLICK_CD_RANGE)
+	if(key_item)
+		trykeylock(key_item, user, autobump = FALSE, circumstance = (direct_interaction ? LOCK_HAND : LOCK_BELT))
 		return
 
 	// If no key found, fall back to parent behavior
@@ -772,7 +805,7 @@
 
 	return FALSE
 
-/obj/structure/mineral_door/trykeylock(obj/item/I, mob/user, autobump = FALSE)
+/obj/structure/mineral_door/trykeylock(obj/item/I, mob/user, autobump = FALSE, circumstance)
 	// Handle belt items that contain keys
 	if(I.contents && I.contents.len && !istype(I, /obj/item/storage/keyring))
 		var/obj/item/found_key = null
@@ -789,7 +822,7 @@
 
 		if(found_key)
 			// Use the found key instead of the belt
-			trykeylock(found_key, user, autobump)
+			trykeylock(found_key, user, autobump, circumstance)
 			return
 		else
 			to_chat(user, span_warning("No matching key found in [I]."))
@@ -859,9 +892,13 @@
 		H.last_used_keyhash = lockhash
 		switch(circumstance)
 			if(LOCK_BELT)
-				H.key_imprint_valid_until = world.time + 10 SECONDS
+				var/newtime = world.time + 10 SECONDS
+				if(newtime > H.key_imprint_valid_until)
+					H.key_imprint_valid_until = world.time + 10 SECONDS
 			if(LOCK_HAND)
-				H.key_imprint_valid_until = world.time + 3 SECONDS
+				var/newtime = world.time + 3 SECONDS
+				if(newtime > H.key_imprint_valid_until)
+					H.key_imprint_valid_until = world.time + 3 SECONDS
 
 /obj/structure/mineral_door/setAnchored(anchorvalue) //called in default_unfasten_wrench() chain
 	. = ..()

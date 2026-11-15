@@ -742,7 +742,7 @@
 /datum/component/storage/proc/mob_item_insertion_feedback(mob/user, mob/M, obj/item/I, override = FALSE)
 	if(!length(is_using))
 		SEND_SIGNAL(parent, COMSIG_STORAGE_CLOSED, M)
-	if(silent && !override)
+	if((silent && !override) || (I.item_flags & INHANDS_INVISIBLE))
 		return
 	if(rustle_sound)
 		playsound(parent, "rustle", 50, TRUE, -5)
