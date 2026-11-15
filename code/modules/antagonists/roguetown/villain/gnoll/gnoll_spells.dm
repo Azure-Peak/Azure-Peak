@@ -487,11 +487,11 @@
 	H.energy_add(heal_amt * 4)
 
 /datum/action/cooldown/spell/gnoll/consume/proc/restore_armor_integrity(mob/living/carbon/human/H, percent)
-	/*if(!H)
+	if(!H)
 		return
 
-	if(H.wear_shirt && H.wear_armor)
-		return*/
+	if(!H.wear_shirt && !H.wear_armor)
+		return
 
 	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/chest = H.wear_armor
 	var/heal_chest_amount = round(chest.max_integrity * (percent / 100))
