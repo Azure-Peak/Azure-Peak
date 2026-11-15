@@ -76,37 +76,52 @@
 	. += span_info("Lockpicks offer a quieter alternative to bypassing doors, but can still be heard by anyone within viewing range, regardless of whatever level they're on.")
 
 /obj/structure/mineral_door/onkick(mob/user)
-	if(isSwitchingStates)
+	if(isSwitchingStates || brokenstate)
 		return
-	if(brokenstate)
-		return
+
 	if(door_opened)
 		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
 		user.visible_message(span_warning("[user] kicks [src] shut!"), \
 			span_notice("I kick [src] shut!"))
 		force_closed()
+		return
+
+	if(HAS_TRAIT(user, TRAIT_SUPER_FBIKICK) || HAS_TRAIT(user, TRAIT_STRONGKICK))
+		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
+		user.visible_message(span_danger("[user] obliterates [src] with a kick!"), \
+			span_danger("I obliterate [src] with a kick!"))
+		obj_integrity -= max_integrity * 0.9
+		take_damage(10, BRUTE, "blunt", FALSE)
+		return
+
+	if(HAS_TRAIT(user, TRAIT_FBIKICK))
+		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
+		user.visible_message(span_warning("[user] kicks open [src]!"), \
+			span_notice("I kick open [src]!"))
+		locked = FALSE
+		force_open()
+		return
+
+	if(locked)
+		if(isliving(user))
+			var/mob/living/L = user
+			if(L.STASTR >= initial(kickthresh))
+				kickthresh--
+			if((prob(L.STASTR * 0.5) || kickthresh == 0) && (L.STASTR >= initial(kickthresh)))
+				playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
+				user.visible_message(span_warning("[user] kicks open [src]!"), \
+					span_notice("I kick open [src]!"))
+				locked = FALSE
+				force_open()
+			else
+				playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
+				user.visible_message(span_warning("[user] kicks [src]!"), \
+					span_notice("I kick [src]!"))
 	else
-		if(locked)
-			if(isliving(user))
-				var/mob/living/L = user
-				if(L.STASTR >= initial(kickthresh))
-					kickthresh--
-				if((prob(L.STASTR * 0.5) || kickthresh == 0) && (L.STASTR >= initial(kickthresh)))
-					playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-					user.visible_message(span_warning("[user] kicks open [src]!"), \
-						span_notice("I kick open [src]!"))
-					locked = 0
-					force_open()
-				else
-					playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-					user.visible_message(span_warning("[user] kicks [src]!"), \
-						span_notice("I kick [src]!"))
-			//try to kick open, destroy lock
-		else
-			playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
-			user.visible_message(span_warning("[user] kicks open [src]!"), \
-				span_notice("I kick open [src]!"))
-			force_open()
+		playsound(src, 'sound/combat/hits/onwood/woodimpact (1).ogg', 100)
+		user.visible_message(span_warning("[user] kicks open [src]!"), \
+			span_notice("I kick open [src]!"))
+		force_open()
 
 /obj/structure/mineral_door/proc/force_open()
 	isSwitchingStates = TRUE

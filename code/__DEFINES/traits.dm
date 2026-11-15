@@ -303,6 +303,8 @@
 
 #define TRAIT_STRONGBITE "Strong Bite" //Higher critrate + damage
 #define TRAIT_STRONGKICK "Strong Kick" //Knockdown to the floor guarrenteed if it hits + knockback a tile
+#define TRAIT_FBIKICK "Full-Body Impact Kick" // FBI! Open up!
+#define TRAIT_SUPER_FBIKICK "Blessed Full-Body Impact Kick" // This one will outright destroy the door.
 #define TRAIT_ARMOR_NOSPDCAP "Armour Unburdened" //Armor slowdowns do not apply.
 #define TRAIT_ANTISCRYING "Non-Detection"
 
@@ -536,6 +538,8 @@ GLOBAL_LIST_INIT(roguetraits, list(
 	TRAIT_STRONGBITE = span_info("Stronger bites, critical bite attacks."),
 	TRAIT_VAMPBITE = span_info("Victims of your bite will feel immense pleasure."),
 	TRAIT_STRONGKICK = span_info("My kicks knock people down and back a step, consistently. There's no need for obstacles."),
+	TRAIT_FBIKICK = span_info("A technique known to few others. My kicks are guaranteed to open doors."),
+	TRAIT_SUPER_FBIKICK = span_info("A technique known to few others. My kicks are guaranteed to bust down doors."),
 	TRAIT_COMBAT_JMAN = span_info("My training was too specialised, leaving me with little time or ability to learn combat skills beyond Journeyman."),
 	TRAIT_NOSHIELDS = span_info("My specialised training has left me without the ability to handle a shield at all. I cannot, or will not, learn to use one."),
 	TRAIT_COMBAT_NONEWSKILLS = span_info("I have no need or desire to learn combat skills beyond those that I already know. I will not gain EXP in any skills that I have no levels in."),
