@@ -235,6 +235,16 @@
 	stressadd = 2
 	desc = span_red("I'm tired.")
 
+/datum/stressevent/sleepytimet2
+	timer = 40 MINUTES
+	stressadd = 3
+	desc = span_red("I'm REALLY tired.")
+
+/datum/stressevent/sleepytimet3
+	timer = 40 MINUTES
+	stressadd = 4
+	desc = span_boldred("I'm RIDICULOUSLY tired.")
+
 /datum/stressevent/tortured
 	stressadd = 3
 	max_stacks = 5

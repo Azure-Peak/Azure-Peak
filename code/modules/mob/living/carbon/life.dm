@@ -638,6 +638,11 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						sleepy_mod = 2 //Worse than a bedroll, better than nothing.
 				if(HAS_TRAIT(src, TRAIT_WATERSLEEP) && istype(loc, /turf/open/water))
 					sleepy_mod = 2 // ditto
+			if(has_status_effect(/datum/status_effect/debuff/sleepytime/t2)) //about time...
+				sleepy_mod++
+			if(has_status_effect(/datum/status_effect/debuff/sleepytime/t3)) //falling immidiately unconcious after 3 days just makes sense
+				sleepy_mod++
+				sleepy_mod++
 		if(sleepy_mod > 0)
 			if(eyesclosed)
 				if(HAS_TRAIT(src, TRAIT_NOSLEEP) && !sleepless_flaw)
@@ -653,6 +658,8 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 						armor_blocked = TRUE
 					if(H.wear_armor && (H.wear_armor.armor_class in list(ARMOR_CLASS_HEAVY, ARMOR_CLASS_MEDIUM)))
 						armor_blocked = TRUE
+					if(H.has_status_effect(/datum/status_effect/debuff/sleepytime/t3))
+						armor_blocked = FALSE
 					if(armor_blocked && !fallingas)
 						to_chat(src, span_warning("I can't sleep like this. My armor is burdening me."))
 						fallingas = TRUE

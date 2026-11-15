@@ -543,6 +543,10 @@
 				msg += "[capitalize(m2)] eyes are closed."
 			else if(has_status_effect(/datum/status_effect/debuff/sleepytime))
 				msg += "[m1] looking a little tired."
+			else if(has_status_effect(/datum/status_effect/debuff/sleepytime/t2))
+				msg += "[m1] looking pretty tired."
+			else if(has_status_effect(/datum/status_effect/debuff/sleepytime/t3))
+				msg += "[m1] looking ridiculously tired."
 	else
 		msg += "[m1] unconscious."
 
