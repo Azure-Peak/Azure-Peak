@@ -113,6 +113,7 @@
 		qdel(src)
 
 /obj/item/waxputty/proc/scan_for_targets(mob/living/user)
+	to_chat(span_notice("I peer around, looking for people with loose keyrings."))
 	for(var/mob/living/carbon/human/H in get_hearers_in_view(7, user, RECURSIVE_CONTENTS_CLIENT_MOBS))
 		if(H.last_used_keyhash && H.key_imprint_valid_until > world.time)
 			H.key_imprint_valid_until += 2 SECONDS

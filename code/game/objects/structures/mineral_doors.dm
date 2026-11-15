@@ -574,7 +574,7 @@
 	user.changeNext_move(CLICK_CD_INTENTCAP)
 
 	if(jammed)
-		to_chat(user, span_warning("The keyhole has something stuck inside it. The exact key or something sharp could scrape it out."))
+		to_chat(user, span_notice("The keyhole has something stuck inside it. The exact key or something sharp could scrape it out."))
 		door_rattle()
 		return
 
