@@ -142,7 +142,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/meditation/body/disciple //alternative repair option for sojourner.
 	name = "enduring skin"
 	desc = "It's far more than just an oath. \
-	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
+	</br>Aeon, Psydon, Syon. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
@@ -295,7 +295,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/monke
 	name = "trained skin"
 	desc = "They say I've taken the first step on a path older than memory.\
-	</br>Aeon, Psydon, Adonai… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
+	</br>Aeon, Psydon, Syon… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
 	</br>The world is said to be held together by His sacrifice. I can't imagine something like that, but the Disciples say it is true.\
 	</br>I came here because I wanted purpose, something solid to believe in.\
 	</br>They tell me doubt is natural, and that understanding comes with time.\
@@ -304,7 +304,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/disciple
 	name = "enduring skin"
 	desc = "It's far more than just an oath. \
-	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
+	</br>Aeon, Psydon, Syon. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
@@ -327,7 +327,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/monke
 	name = "trained chest"
 	desc = "They say I've taken the first step on a path older than memory.\
-	</br>Aeon, Psydon, Adonai… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
+	</br>Aeon, Psydon, Syon… I don't fully understand what those names mean yet, but I repeat them as I was taught.\
 	</br>The world is said to be held together by His sacrifice. I can't imagine something like that, but the Disciples say it is true.\
 	</br>I came here because I wanted purpose, something solid to believe in.\
 	</br>They tell me doubt is natural, and that understanding comes with time.\
@@ -336,7 +336,7 @@
 /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/disciple
 	name = "enduring chest"
 	desc = "It's far more than just an oath. \
-	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
+	</br>Aeon, Psydon, Syon. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \

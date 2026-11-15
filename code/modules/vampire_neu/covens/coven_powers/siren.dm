@@ -1,6 +1,6 @@
 /datum/coven/siren
 	name = "Siren Blessing"
-	desc = "Typically found in vampires who frequent the seas of Enigma, they've developed the ability to adapt much like sirens. Use your voice to INCAPACITATE your foes."
+	desc = "Typically found in vampires who frequent the seas of Psydonia, they've developed the ability to adapt much like sirens. Use your voice to INCAPACITATE your foes."
 	icon_state = "melpominee"
 	power_type = /datum/coven_power/siren
 

@@ -191,7 +191,7 @@
 /obj/item/clothing/suit/roguetown/armor/regenerating/skin/disciple
 	name = "enduring skin" //Now only a parent for the Lirvan tithebound; the jobs use the manual sewable version.
 	desc = "It's far more than just an oath. \
-	</br>Aeon, Psydon, Adonai. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
+	</br>Aeon, Psydon, Syon. Entropy, Humenity, Divinity; a trinity known to all, yet forgotten to tyme. \
 	</br>A corpse. I am living on a fucking corpse. He is the world, and the world is rotting away. \
 	</br>To give into despair and hopelessness, however, is to rob all meaning from His sacrifice. \
 	</br>Heaven's gate closed to us long ago, yet His children persist; as as long as they do, so must I. \
