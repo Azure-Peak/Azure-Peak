@@ -92,6 +92,8 @@
 				attempt_imprint(user, H, keyhash, forced_success = TRUE)
 			else
 				attempt_imprint(user, H, keyhash)
+		else
+			to_chat(user, span_warning("They haven't used any key yet."))
 
 /obj/item/waxputty/interact(mob/user)
 	. = ..()
