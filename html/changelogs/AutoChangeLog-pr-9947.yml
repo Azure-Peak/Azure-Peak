@@ -1,0 +1,4 @@
+author: "Ketrai"
+delete-after: True
+changes:
+  - rscadd: "Added Nodachi as a kazengun weapon option to eastern warrior, mercenary gun-in & kouken, mistwalkers, disgraced knight, kazengun trading ships and the merchant silverface."

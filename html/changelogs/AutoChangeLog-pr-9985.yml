@@ -1,0 +1,4 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Narsie font (Vampire Telepathy) text is no longer insanely large"

@@ -113,6 +113,14 @@
 		cast_thunderstrike(centerpoint)
 	return TRUE
 
+/datum/action/cooldown/spell/fulmination/get_impact_turfs(atom/center)
+	var/turf/epicenter = get_turf(center)
+	if(!epicenter)
+		return list()
+	if(current_mode == 1)
+		return list(epicenter)
+	return get_visible_area_turfs(epicenter, ts_radius)
+
 /datum/action/cooldown/spell/fulmination/proc/cast_heavens_strike(turf/T)
 	new /obj/effect/temp_visual/telegraph/thunderstrike(T, hs_telegraph)
 	addtimer(CALLBACK(src, PROC_REF(heavens_strike_damage), T), hs_telegraph)
@@ -147,9 +155,7 @@
 		new /obj/effect/temp_visual/spell_impact(get_turf(L), spell_color, spell_impact_intensity)
 
 /datum/action/cooldown/spell/fulmination/proc/cast_thunderstrike(turf/centerpoint)
-	for(var/turf/T in range(ts_radius, centerpoint))
-		if(!(T in get_hear(ts_radius, centerpoint)))
-			continue
+	for(var/turf/T as anything in get_impact_turfs(centerpoint))
 		new /obj/effect/temp_visual/telegraph/pillar/fadein(T, ts_telegraph)
 	playsound(centerpoint, 'sound/magic/charging.ogg', 80, TRUE)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(thunderstrike_erupt), centerpoint, owner, ts_radius, ts_damage, src, "Thunderstrike", SPELL_DAMAGE_INTEGRITY_MODIFIER), ts_telegraph)
@@ -159,9 +165,7 @@
 		return
 	playsound(centerpoint, 'sound/magic/lightning.ogg', 100, TRUE, 8)
 	var/static/list/random_zones = list(BODY_ZONE_HEAD, BODY_ZONE_L_ARM, BODY_ZONE_R_ARM)
-	for(var/turf/T in range(radius, centerpoint))
-		if(!(T in get_hear(radius, centerpoint)))
-			continue
+	for(var/turf/T as anything in get_visible_area_turfs(centerpoint, radius))
 		new /obj/effect/temp_visual/thunderstrike_actual(T)
 		T.fire_act()
 		for(var/atom/A in T.contents)

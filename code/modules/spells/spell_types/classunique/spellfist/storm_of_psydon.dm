@@ -188,6 +188,23 @@
 	StartCooldown(get_adjusted_cooldown())
 	return TRUE
 
+/datum/action/cooldown/spell/storm_of_psydon/proc/dash_reaches(atom/target)
+	var/turf/current = get_turf(owner)
+	var/turf/goal = get_turf(target)
+	if(!current || !goal || current.z != goal.z)
+		return FALSE
+	for(var/i in 1 to dash_range)
+		if(get_dist(current, goal) <= 1)
+			return TRUE
+		var/turf/next = get_step(current, get_dir(current, goal))
+		if(!next || next.density)
+			return FALSE
+		for(var/obj/structure/S in next.contents)
+			if(S.density && !S.climbable)
+				return FALSE
+		current = next
+	return get_dist(current, goal) <= 1
+
 /datum/action/cooldown/spell/storm_of_psydon/proc/release_momentum(mob/living/carbon/human/H, datum/status_effect/buff/arcyne_momentum/M, stacks)
 	if(M)
 		M.consume_all_stacks()

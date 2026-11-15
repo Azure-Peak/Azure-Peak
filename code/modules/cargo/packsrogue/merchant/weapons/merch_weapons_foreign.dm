@@ -60,6 +60,16 @@
 	cost = 140
 	contains = list(/obj/item/rogueweapon/spear/naginata)
 
+/datum/supply_pack/rogue/merc_weapons/nodachi
+	name = "Nodachi"
+	cost = 150
+	contains = list(/obj/item/rogueweapon/greatsword/nodachi)
+
+/datum/supply_pack/rogue/merc_weapons/inodachi
+	name = "Nodachi (iron)"
+	cost = 70
+	contains = list(/obj/item/rogueweapon/greatsword/nodachi/iron)
+
 /datum/supply_pack/rogue/merc_weapons/hookblade
 	name = "Hook Sword"
 	cost = 150

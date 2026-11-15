@@ -32,13 +32,10 @@
 	// an attacking intent. Pick one (excluding help/shove/grab) before we click.
 	if(ishuman(basic_mob))
 		var/mob/living/carbon/human/human_pawn = basic_mob
-		var/list/possible_intents = list()
-		for(var/datum/intent/intent as anything in human_pawn.possible_a_intents)
-			if(istype(intent, /datum/intent/unarmed/help) || istype(intent, /datum/intent/unarmed/shove) || istype(intent, /datum/intent/unarmed/grab))
-				continue
-			possible_intents |= intent
+		var/list/possible_intents = npc_attack_intents(human_pawn)
 		if(length(possible_intents))
-			human_pawn.a_intent = pick(possible_intents)
+			if(!(human_pawn.a_intent in possible_intents))
+				npc_select_intent(human_pawn, possible_intents[1])
 			human_pawn.used_intent = human_pawn.a_intent
 	var/atom/target = controller.blackboard[target_key]
 

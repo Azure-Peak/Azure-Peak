@@ -11,6 +11,7 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 	var/list/cached_book_recipes = list()
 	/// Reverse map: recipe type path string -> book_entry assoc list
 	var/list/recipe_to_book = list()
+	var/list/cached_stat_paths = list()
 
 /datum/recipe_wiki/New()
 	. = ..()
@@ -148,9 +149,11 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 		data["current_recipe"] = null
 		data["recipe_detail_html"] = ""
 		data["recipe_entry_data"] = null
+		data["recipe_stat_card"] = null
 		return data
 
 	var/list/state = user_states[ckey]
+	data["recipe_stat_card"] = get_item_stat_card(get_stat_item_path(state["recipe"]))
 	data["page"] = state["page"] || "library"
 	data["current_book"] = state["book_path"]
 	data["current_book_title"] = state["title"] || "Guidebook"
@@ -227,6 +230,29 @@ GLOBAL_DATUM(recipe_wiki, /datum/recipe_wiki)
 		if("clear_recipe")
 			ustate["recipe"] = null
 			return TRUE
+
+/datum/recipe_wiki/proc/get_stat_item_path(path)
+	if(!ispath(path))
+		return null
+	var/path_key = "[path]"
+	var/cached = cached_stat_paths[path_key]
+	if(!isnull(cached))
+		return cached || null
+	var/result
+	if(ispath(path, /datum/anvil_recipe))
+		var/datum/anvil_recipe/anvil = path
+		result = initial(anvil.created_item)
+	else if(ispath(path, /datum/crafting_recipe))
+		var/datum/crafting_recipe/crafting = new path()
+		result = crafting.result
+		if(islist(result))
+			var/list/results = result
+			result = length(results) ? results[1] : null
+		qdel(crafting)
+	if(!item_has_stat_card(result))
+		result = null
+	cached_stat_paths[path_key] = result || FALSE
+	return result
 
 /// Build sorted recipe list data for a given set of types.
 /datum/recipe_wiki/proc/build_recipe_list(list/types)

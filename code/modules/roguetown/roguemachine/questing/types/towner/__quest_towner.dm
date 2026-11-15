@@ -204,7 +204,7 @@ GLOBAL_LIST_INIT(towner_posting_tiers, list(
 		var/mob/living/new_mob = spawn_hidden_mob(landmark, mob_path)
 		if(!new_mob)
 			continue
-		total_spawned_tp += initial(new_mob.threat_point) || 0
+		total_spawned_tp += initial_threat_point(new_mob.type)
 		spawned++
 		sleep(1)
 	start_hunt_timer(hunt_duration)

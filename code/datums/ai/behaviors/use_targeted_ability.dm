@@ -14,7 +14,7 @@
 	var/mob/pawn = controller.pawn
 	pawn.face_atom(target)
 	ability.set_ai_aim_lock(get_turf(target))
-	var/result = ability.Trigger(target = target)
+	var/result = ability.Trigger(target = ability.npc_cast_target(target))
 	if(result)
 		var/commit = ability.ai_commit_time()
 		if(commit > 0)

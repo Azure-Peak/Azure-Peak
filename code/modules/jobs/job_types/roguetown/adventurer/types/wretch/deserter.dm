@@ -70,6 +70,7 @@
 			"Lance + Kite Shield",
 			"Samshir",
 			"Ssangsudo",
+			"Nodachi",
 			"Shashka + Shield",
 			"Steel Poleaxe",
 			"Steel Flameberge",
@@ -109,6 +110,9 @@
 			if("Ssangsudo")
 				r_hand = /obj/item/rogueweapon/sword/long/kriegmesser/ssangsudo
 				beltr = /obj/item/rogueweapon/scabbard/sword/kazengun/noparry
+			if("Nodachi")
+				r_hand = /obj/item/rogueweapon/greatsword/nodachi
+				backr = /obj/item/rogueweapon/scabbard/gwstrap/nodachi
 			if("Shashka + Shield")
 				r_hand = /obj/item/rogueweapon/sword/sabre/steppesman
 				beltr = /obj/item/rogueweapon/scabbard/sword
