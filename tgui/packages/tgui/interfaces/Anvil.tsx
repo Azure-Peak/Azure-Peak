@@ -10,7 +10,7 @@ import {
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
-import { type PinMap, pinGlyph, pinTitle } from './common/pins';
+import { type PinMap, pinGlyph, pinTitle, usePinSync } from './common/pins';
 
 type Recipe = {
   name: string;
@@ -25,6 +25,7 @@ type Recipe = {
 type Data = {
   hingot_type?: string | null;
   pins?: PinMap;
+  pin_key?: string | null;
   recipes: Recipe[];
 };
 
@@ -85,6 +86,7 @@ export const RecipeDisplay = () => {
 
   const { recipes, hingot_type } = data;
   const pins = data.pins || {};
+  const cyclePin = usePinSync(act, 'anvil', data.pin_key, pins);
 
   const availableRecipes = recipes
     .filter((recipe) => {
@@ -132,7 +134,7 @@ export const RecipeDisplay = () => {
             <Button
               tooltip={pinTitle(pins[recipe.path])}
               color={pins[recipe.path] ? 'good' : 'transparent'}
-              onClick={() => act('cycle_pin', { path: recipe.path })}
+              onClick={() => cyclePin(recipe.path)}
             >
               {pinGlyph(pins[recipe.path])}
             </Button>

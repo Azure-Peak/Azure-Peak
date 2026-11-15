@@ -24,7 +24,7 @@ import {
   SERIF,
   TITLE,
 } from './common/parchment';
-import { type PinMap, pinGlyph, pinTitle } from './common/pins';
+import { type PinMap, pinGlyph, pinTitle, usePinSync } from './common/pins';
 
 type Recipe = {
   name: string;
@@ -47,6 +47,7 @@ type Data = {
   showonlycraftable: number;
   craftability: Record<string, number>;
   pins: PinMap;
+  pin_key?: string | null;
   crafting_recipes: Record<string, Record<string, Recipe>>;
 };
 
@@ -86,8 +87,9 @@ const CraftingRecipe = (props: {
   craftable: boolean;
   pin?: string;
   act: ActFn;
+  cyclePin: (path: string) => void;
 }) => {
-  const { recipe, craftable, pin, act } = props;
+  const { recipe, craftable, pin, act, cyclePin } = props;
   const [open, setOpen] = useState(false);
 
   const craft = (extra: Record<string, unknown>) =>
@@ -120,7 +122,7 @@ const CraftingRecipe = (props: {
           type="button"
           style={inkButtonStyle({ color: pin ? SEAL_AMBER : INK_FAINT })}
           title={pinTitle(pin)}
-          onClick={() => act('cycle_pin', { path: recipe.path })}
+          onClick={() => cyclePin(recipe.path)}
         >
           {pinGlyph(pin)}
         </button>
@@ -213,6 +215,7 @@ const CraftingCategory = (props: {
   pins: PinMap;
   defaultOpen?: boolean;
   act: ActFn;
+  cyclePin: (path: string) => void;
 }) => {
   const {
     title,
@@ -223,6 +226,7 @@ const CraftingCategory = (props: {
     pins,
     defaultOpen,
     act,
+    cyclePin,
   } = props;
   const [open, setOpen] = useState(!!defaultOpen);
 
@@ -285,6 +289,7 @@ const CraftingCategory = (props: {
               craftable={isCraftable(craftability, recipe.name)}
               pin={pins[recipe.path]}
               act={act}
+              cyclePin={cyclePin}
             />
           ))}
         </div>
@@ -305,6 +310,7 @@ export const MiaCraft = () => {
   }, []);
 
   const pins = data.pins || {};
+  const cyclePin = usePinSync(act, 'crafting', data.pin_key, pins);
 
   // Every pinned recipe, gathered from all categories
   const pinnedRecipes = useMemo(() => {
@@ -388,6 +394,7 @@ export const MiaCraft = () => {
             pins={pins}
             defaultOpen
             act={act}
+            cyclePin={cyclePin}
           />
 
           {categories.map(([title, recipes]) => (
@@ -400,6 +407,7 @@ export const MiaCraft = () => {
               searchText={searchText}
               pins={pins}
               act={act}
+              cyclePin={cyclePin}
             />
           ))}
         </div>
