@@ -81,6 +81,8 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/Initialize(mapload)
 	. = ..()
+	if(!istype(src, /mob/living/simple_animal/hostile/retaliate/rogue/ooze_blob/pure_form))
+		color = pick("#4B7BEC", "#59B368", "#E74C3C", "#E77CA9", "#F1C40F")
 	if(ai_controller)
 		AddElement(/datum/element/ai_retaliate)
 		AddElement(/datum/element/ai_flee_while_injured, 0.75, 0.4)
