@@ -141,7 +141,6 @@
 	var/slots = max(0, scaling["final_slots"])
 	gnoll_job.total_positions = max(gnoll_job.current_positions, slots)
 	gnoll_job.spawn_positions = max(gnoll_job.current_positions, slots)
-	GA.Topic(null, list("inspect" = "1"), src)
 
 /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair()
 	set name = "Toggle Pelt Repair From Shards"
