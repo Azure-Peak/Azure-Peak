@@ -191,6 +191,7 @@
 
 	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
 	data["pins"] = pinned ? pinned.pins["anvil"] : list()
+	data["pin_key"] = pinned?.pin_key
 
 	return data
 
@@ -226,6 +227,11 @@
 		if("cycle_pin")
 			var/datum/recipe_pins/pinned = user.get_recipe_pins()
 			pinned?.cycle("anvil", params["path"])
+			return TRUE
+
+		if("import_pins")
+			var/datum/recipe_pins/pinned = user.get_recipe_pins()
+			pinned?.import_saved("anvil", params["paths"])
 			return TRUE
 
 		if("choose_recipe")

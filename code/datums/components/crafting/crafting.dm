@@ -666,6 +666,7 @@
 	data["showonlycraftable"] = showonlycraftable
 	var/datum/recipe_pins/pinned = user?.get_recipe_pins()
 	data["pins"] = pinned ? pinned.pins["crafting"] : list()
+	data["pin_key"] = pinned?.pin_key
 
 	var/list/surroundings = get_surroundings(user)
 	var/new_hash = list2params(surroundings["other"])
@@ -746,6 +747,10 @@
 		if("cycle_pin")
 			var/datum/recipe_pins/pinned = usr.get_recipe_pins()
 			pinned?.cycle("crafting", params["path"])
+			return TRUE
+		if("import_pins")
+			var/datum/recipe_pins/pinned = usr.get_recipe_pins()
+			pinned?.import_saved("crafting", params["paths"])
 			return TRUE
 
 
