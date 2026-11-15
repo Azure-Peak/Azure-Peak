@@ -18,21 +18,23 @@
 
 .ContractLedger__HeaderMode {
   cursor: pointer;
-  color: rgba(200, 170, 100, 0.3);
+  color: rgba(200, 170, 100, 0.6);
   transition: color 0.2s;
   user-select: none;
 
   &:hover {
-    color: rgba(240, 220, 170, 0.7);
+    color: rgba(240, 220, 170, 0.95);
   }
 
   &--active {
-    color: rgba(200, 170, 100, 0.75);
+    color: rgba(240, 215, 150, 1);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 }
 
 .ContractLedger__HeaderSep {
-  color: rgba(200, 170, 100, 0.25);
+  color: rgba(200, 170, 100, 0.45);
   margin: 0 14px;
 }
 

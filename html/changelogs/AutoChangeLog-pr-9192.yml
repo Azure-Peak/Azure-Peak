@@ -1,0 +1,7 @@
+author: "Fi"
+delete-after: True
+changes:
+  - rscadd: "Added a new feature, alongside a few mechanics related to it and tweaks to existing ones, called \"Secrets\" within the Character Creator that is very similar to \"Rumours & Noble Gossip\". Players can input secrets for their characters that their correlative antagonists can read, some of which from afar."
+  - bugfix: "Fixed a missing space between the \"Flavor Text\" and its vertical bar in the Player Panel."
+  - bugfix: "Fixed a few classes' mechanics being unable to target the Man at Arms role."
+  - bugfix: "Man at Arms is now a properly restricted role from the Assassin event. (It was prior but wasn't titled properly.)"

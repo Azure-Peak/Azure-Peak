@@ -1,7 +1,7 @@
 /obj/structure/roguemachine/contractledger/proc/play_reject_sound()
 	playsound(src, 'sound/misc/machineno.ogg', 80, FALSE, -1)
 
-/obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref)
+/obj/structure/roguemachine/contractledger/proc/sign_contract(mob/user, ref, veteran = FALSE)
 	if(!ref)
 		return
 	if(!SStreasury.has_account(user))
@@ -18,8 +18,19 @@
 		play_reject_sound()
 		return
 
-	if(is_quest_claim_barred(user))
-		say("Your office forbids you from signing contracts.")
+	if(is_quest_claim_barred(user, Q))
+		say(quest_claim_barred_reason(user))
+		play_reject_sound()
+		return
+
+	var/uses_solo_allowance = quest_claim_uses_solo_allowance(user, Q)
+	if(uses_solo_allowance && !SSquestpool.is_solo_sign_ready(user))
+		say(quest_solo_limit_reason(user))
+		play_reject_sound()
+		return
+
+	if(is_fellowship_signing_locked(user))
+		say("Only your fellowship's leader can sign contracts.")
 		play_reject_sound()
 		return
 
@@ -32,8 +43,12 @@
 			return
 
 	var/active_cap = get_active_quest_cap(user)
-	if(count_user_active_contracts(user) >= active_cap)
-		say("You already hold [active_cap] contracts. Finish one before signing another.")
+	var/fellows_held = count_fellows_active_contracts(user)
+	if(count_user_active_contracts(user) + fellows_held >= active_cap)
+		if(fellows_held)
+			say("Your fellowship already holds [active_cap] contracts. Finish one before signing another.")
+		else
+			say("You already hold [active_cap] contracts. Finish one before signing another.")
 		play_reject_sound()
 		return
 
@@ -54,15 +69,17 @@
 		play_reject_sound()
 		return
 
-	if(!SSquestpool.claim(Q, user))
+	if(!SSquestpool.claim(Q, user, veteran))
 		say("That contract can't be signed right now. Try another.")
 		play_reject_sound()
 		return
 
 	SSquestpool.mark_taken(user)
+	if(uses_solo_allowance)
+		SSquestpool.mark_solo_signed(user, Q)
 
 	Q.bind_new_scroll(user, get_turf(src))
-	log_quest(user.ckey, user.mind, user, "Sign [Q.quest_type]")
+	log_quest(user.ckey, user.mind, user, "Sign [Q.veteran ? "Veteran " : ""][Q.quest_type]")
 	Q.take_deposit(SStreasury.get_account(user))
 
 /obj/structure/roguemachine/contractledger/proc/resolve_turnin_mode(mob/user, obj/item/quest_writ/scroll, mob/living/holder)
@@ -123,6 +140,7 @@
 		guild_fee_paid += payee_fee
 		nets[payee] = shares[payee] - payee_tax - payee_fee
 		paid_out += shares[payee]
+	pay_merc_contract_bonuses(completed_quest, shares)
 	var/leftover = base_reward - paid_out
 	var/mob/living/sink = completed_quest.fellowship_leftover_sink(shares, beneficiary)
 	if(leftover > 0 && sink)
