@@ -304,7 +304,7 @@
 	choice_costs = list(0, 0, 0)
 	stackable = TRUE	//It's OK to take Virtuous and get everything here.
 	choice_tooltips = list(
-		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker.",
+		"Light Steps" = "My steps are light and swift. I make less noise while sneaking and wearing armor, and can sneak much quicker. I can toggle this in the Virtue tab.",
 		"Alter Ego" = "I am me, yet I crave to be someone else. I can adjust my voice and physical posture at will - though the latter will need me to cover myself. (RoleUnique tab)."
 	)
 	extra_choices = list(
@@ -321,6 +321,8 @@
 		for(var/choice in picked_choices)
 			if(extra_choices[choice] in GLOB.roguetraits)
 				ADD_TRAIT(recipient, extra_choices[choice], TRAIT_VIRTUE)
+				if(extra_choices[choice] == TRAIT_LIGHT_STEP)
+					add_verb(recipient, /mob/living/carbon/human/proc/toggle_light_steps)
 			else if(ispath(extra_choices[choice], /datum/skill))
 				if(extra_choices[choice] == /datum/skill/misc/sneaking)
 					recipient.adjust_skillrank(extra_choices[choice], SKILL_LEVEL_APPRENTICE, silent = TRUE)
