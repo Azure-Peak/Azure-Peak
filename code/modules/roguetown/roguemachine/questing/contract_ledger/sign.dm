@@ -143,10 +143,14 @@
 	pay_merc_contract_bonuses(completed_quest, shares)
 	var/leftover = base_reward - paid_out
 	var/mob/living/sink = completed_quest.fellowship_leftover_sink(shares, beneficiary)
+	var/leftover_net = 0
 	if(leftover > 0 && sink)
 		var/datum/fund/sink_account = SStreasury.get_account(sink)
-		tax_amt += completed_quest.pay_reward(sink_account, sink, leftover, "Contract Reward (No account leftover) - [src.name]", src.name)
-		guild_fee_paid += pay_innkeeper_referral_fees(sink_account, completed_quest, leftover)
+		var/leftover_tax = completed_quest.pay_reward(sink_account, sink, leftover, "Contract Reward (No account leftover) - [src.name]", src.name)
+		var/leftover_fee = pay_innkeeper_referral_fees(sink_account, completed_quest, leftover)
+		tax_amt += leftover_tax
+		guild_fee_paid += leftover_fee
+		leftover_net = leftover - leftover_tax - leftover_fee
 	var/unbanked = split_ways ? split_ways - length(shares) : 0
 	var/take_home = base_reward - tax_amt - guild_fee_paid
 	SSquestpool.record_completion(user, completed_quest, take_home, tax_amt)
@@ -161,7 +165,7 @@
 	var/deductions_clause = length(deductions) ? ", less [english_list(deductions)]" : ""
 	var/deposit_clause = deposit_return > 0 ? " The deposit of [deposit_return] mammon is also returned." : ""
 	if(split_ways)
-		var/leftover_clause = unbanked > 0 ? " Because [unbanked] member[unbanked == 1 ? " does" : "s do"] not have an account, the remaining sum of [leftover] mammon is deposited into [sink.real_name]'s account." : ""
+		var/leftover_clause = unbanked > 0 ? " Because [unbanked] member[unbanked == 1 ? " does" : "s do"] not have an account, the remaining sum of [leftover_net] mammon is deposited into [sink.real_name]'s account." : ""
 		var/list/net_values = list()
 		for(var/mob/living/payee as anything in nets)
 			net_values |= nets[payee]
