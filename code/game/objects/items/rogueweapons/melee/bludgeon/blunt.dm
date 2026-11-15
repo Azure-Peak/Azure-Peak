@@ -191,24 +191,35 @@
 
 // Warhammers. Otherwise known as 'the Cudgel-slash-Flanged Mace's nihilistic older brother.'
 /obj/item/rogueweapon/mace/warhammer
-	force = 20
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab/lesser)
-	gripped_intents = null //Warhammers are purpose-made to kill. Smaller maceheads lock them out from the 'Dislocate' intent and 'Smash' intent's full knockback. Still, their boon comes from being a 'jack of all trades'.
 	name = "warhammer"
 	desc = "A one-handed derivative of the mace, purpose-made to defeat armored opponents in battle. Paired nicely with a mug of Azuria's finest zenny-liquor and a heater shield."
 	icon_state = "iwarhammer"
+	force = 20
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab/lesser)
+	gripped_intents = null //Warhammers are purpose-made to kill. Smaller maceheads lock them out from the 'Dislocate' intent and 'Smash' intent's full knockback. Still, their boon comes from being a 'jack of all trades'.
 	wbalance = WBALANCE_HEAVY
 	smeltresult = /obj/item/ingot/iron
 	wdefense = 3
 	max_integrity = 200
 	special = /datum/special_intent/warhammer_swing
 
+/obj/item/rogueweapon/mace/warhammer/getonmobprop(tag)
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.5,"sx" = -9,"sy" = -8,"nx" = 9,"ny" = -7,"wx" = -7,"wy" = -8,"ex" = 3,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.6,"sx" = 3,"sy" = -7,"nx" = -6,"ny" = -3,"wx" = 3,"wy" = -4,"ex" = 4,"ey" = -3,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -44,"sturn" = 45,"wturn" = 47,"eturn" = 33,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.4,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+	return ..()
+
 /obj/item/rogueweapon/mace/warhammer/bronze
-	force = 25
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
 	name = "bronze warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with bronze. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "bronzeclub"
+	force = 25
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/sword/cut, /datum/intent/mace/warhammer/pick, /datum/intent/mace/smash/lesser)
 	max_blade_int = 150
 	wbalance = WBALANCE_HEAVY
 	throwforce = 25
@@ -219,10 +230,10 @@
 	sharpness = IS_SHARP
 
 /obj/item/rogueweapon/mace/warhammer/bronze/iron
-	force = 20 //just a tad weaker than the bronze to balance it out, this weapon has some versatile intents and i dont want it to be TOO strong.
 	name = "iron warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with iron. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "iclub"
+	force = 20 //just a tad weaker than the bronze to balance it out, this weapon has some versatile intents and i dont want it to be TOO strong.
 	max_blade_int = 100
 	throwforce = 20 // still hurts, just less
 	smeltresult = /obj/item/ingot/iron
@@ -230,10 +241,10 @@
 	max_integrity = 120
 
 /obj/item/rogueweapon/mace/warhammer/bronze/steel
-	force = 28 //just a little better than the bronze club but barely
 	name = "steel warclub"
 	desc = "The warhammer's ancestral link, carved from a weightsome log and studded with steel. Elven natureguards carry it to both honor their forefathers, and as a way to sunder those who'd ravage Dendor's bounties without thought-or-restraint; a toss from afar turns into a sundering hurlbat."
 	icon_state = "steelclub"
+	force = 28 //just a little better than the bronze club but barely
 	max_blade_int = 175
 	throwforce = 25
 	smeltresult = /obj/item/ingot/steel
@@ -275,24 +286,13 @@
 	anvilrepair = null
 
 /obj/item/rogueweapon/mace/warhammer/steel
-	force = 25
-	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
 	name = "steel warhammer"
 	desc = "A one-handed lucerne with a steel hammerhead, perfectly balanced for a gauntlet's grasp. The unique hook-shaped spike sprouting from its rear is better known as a 'saigaman's pick', which excels at gouging wounds through the gaps in an armored opponent's maille."
 	icon_state = "swarhammer"
+	force = 25
+	possible_item_intents = list(/datum/intent/mace/strike, /datum/intent/mace/smash/lesser, /datum/intent/mace/warhammer/pick, /datum/intent/mace/warhammer/stab)
 	smeltresult = /obj/item/ingot/steel
 	wdefense = 4
-
-/obj/item/rogueweapon/mace/warhammer/getonmobprop(tag)
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.5,"sx" = -9,"sy" = -8,"nx" = 9,"ny" = -7,"wx" = -7,"wy" = -8,"ex" = 3,"ey" = -8,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.6,"sx" = 3,"sy" = -7,"nx" = -6,"ny" = -3,"wx" = 3,"wy" = -4,"ex" = 4,"ey" = -3,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -44,"sturn" = 45,"wturn" = 47,"eturn" = 33,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.4,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
-	return ..()
 
 /obj/item/rogueweapon/mace/warhammer/steel/paalloy
 	name = "ancient alloy warhammer"
