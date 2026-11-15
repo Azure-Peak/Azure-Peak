@@ -552,8 +552,6 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 
 	busy = TRUE
 	switch(choice)
-		if("Borrow The Flame")
-			resolve_flame(user)
 		if("Morph Serum")
 			resolve_serum(user)
 		if("Return as Stones")
@@ -564,16 +562,6 @@ GLOBAL_LIST_INIT(da_bubbles, list('sound/foley/bubb (1).ogg','sound/foley/bubb (
 				resolve_coinage(user)
 	if(!QDELETED(src))
 		busy = FALSE
-
-/obj/item/matthios_canister/firstlaw/proc/resolve_flame(mob/user)
-	if(stored_value < flame_cost)
-		to_chat(user, span_warning("There is not enough stored entropic dust to create this. ([flame_cost] required)"))
-		return
-	stored_value -= flame_cost
-	give_item(user, new /obj/item/flashlight/flare/torch/lantern/malchem(get_turf(user)))
-	playsound(loc, 'sound/magic/swap.ogg', 100, TRUE, -2)
-	to_chat(user, span_notice("The draught condenses [flame_cost] entropic dust into a Malchem Fyre. (Remaining Value: [stored_value])"))
-	update_icon()
 
 /obj/item/matthios_canister/firstlaw/proc/resolve_serum(mob/user)
 	if(stored_value < serum_cost)
