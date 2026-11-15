@@ -80,10 +80,12 @@
 	max_integrity = 700
 	armor = ARMOR_GNOLL_STRONG
 
-/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/impure
+/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/extremities/impure
 	icon_state = null
 	max_integrity = 400
 	armor = ARMOR_GNOLL_WEAK
+	body_parts_covered = FULL_BODY
+	body_parts_inherent = FULL_BODY
 
 /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/templar
 	icon_state = "templar"
