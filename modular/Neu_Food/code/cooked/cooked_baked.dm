@@ -366,7 +366,7 @@
 	cuisine = CUISINE_OTAVAIS
 	dish_type = DISH_BREAD|DISH_MEAT|DISH_FRUIT
 	name = "jamtallowed psycrossbun"
-	desc = "A particularly favorite treat amonst the Otavan, especially during the \
+	desc = "A particularly favorite treat amongst the Otavan, especially during the \
 	holidaes that pay reverance to Psydon's sacrifice. The jamtallow is said to represent the Weeping God's \
 	tears, though the spiritual implication tends to be lost on more eager-minded children."
 	icon = 'modular/Neu_Food/icons/cooked/cooked_baked.dmi'
