@@ -2,6 +2,7 @@
 	quest_type = QUEST_BLOCKADE_DEFENSE
 	chronicle_order = QUEST_CHRONICLE_ORDER_BLOCKADE_DEFENSE
 	defense_cost = BLOCKADE_SCROLL_PLEDGE_COST
+	veteran_allowed = FALSE
 	guild_cut_rate = 0
 	charges_deposit = FALSE
 	shows_commission_seal = TRUE

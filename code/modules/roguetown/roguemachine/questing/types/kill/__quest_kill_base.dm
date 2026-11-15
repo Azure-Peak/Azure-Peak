@@ -1,5 +1,6 @@
 /datum/quest/kill
 	abstract_type = /datum/quest/kill
+	veteran_allowed = TRUE
 	var/tp_budget = 0
 	var/max_region_tp_mult
 	var/min_mobs = 1
@@ -22,6 +23,7 @@
 	var/last_guardian_kill = 0
 	var/leash_tick_id
 	var/list/leash_strayed_since = list()
+	var/last_trigger_block_warning = 0
 
 /datum/quest/kill/Destroy()
 	clear_hunt_timers()
@@ -46,6 +48,41 @@
 	start_leash_tick()
 	start_hunt_timer(hunt_duration)
 	announce_to_bearer("<b>The hunt has begun.</b> You have [DisplayTimeText(hunt_duration)] to kill them before they scatter and the contract fails.")
+
+/datum/quest/kill/may_trigger(turf/scroll_turf)
+	if(engaged)
+		return TRUE
+	var/mob/living/carrier = get(quest_scroll_ref?.resolve(), /mob/living)
+	var/mob/living/receiver = quest_receiver_reference?.resolve()
+	for(var/obj/item/quest_writ/other as anything in GLOB.quest_scrolls)
+		var/datum/quest/other_quest = other.assigned_quest
+		if(!other_quest || other_quest == src)
+			continue
+		if(!(carrier && get(other, /mob/living) == carrier) && !(receiver && other_quest.quest_receiver_reference?.resolve() == receiver))
+			continue
+		if(!other_quest.fight_underway_near(scroll_turf))
+			continue
+		warn_trigger_blocked(carrier || receiver, other_quest)
+		return FALSE
+	return TRUE
+
+/datum/quest/kill/fight_underway_near(turf/T)
+	if(!T || !engaged || complete || failed)
+		return FALSE
+	for(var/datum/weakref/W in tracked_atoms)
+		var/mob/living/M = W.resolve()
+		if(!istype(M) || M.stat == DEAD)
+			continue
+		var/turf/MT = get_turf(M)
+		if(MT && MT.z == T.z && get_dist(MT, T) <= QUEST_TRIGGER_BLOCK_RANGE)
+			return TRUE
+	return FALSE
+
+/datum/quest/kill/proc/warn_trigger_blocked(mob/living/target, datum/quest/blocker)
+	if(!target || world.time < last_trigger_block_warning + QUEST_TRIGGER_BLOCK_WARN_COOLDOWN)
+		return
+	last_trigger_block_warning = world.time
+	to_chat(target, span_warning("You have another contract underway nearby. Finish <b>[blocker.get_title()]</b> before <b>[get_title()]</b> can begin."))
 
 /datum/quest/kill/proc/start_hunt_timer(duration)
 	clear_hunt_timers()
@@ -386,9 +423,6 @@
 
 /datum/quest/kill/proc/average_threat_point()
 	return faction ? faction.average_threat_point() : 0
-
-/datum/quest/kill/can_be_veteran()
-	return !is_directive && (source == QUEST_SOURCE_POOL || source == QUEST_SOURCE_RUMOR)
 
 /datum/quest/kill/proc/scaled_threat_budget(budget = tp_budget)
 	. = round(budget * fellowship_threat_mult * veteran_threat_mult())

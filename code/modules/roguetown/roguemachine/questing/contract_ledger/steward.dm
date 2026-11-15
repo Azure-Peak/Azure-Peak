@@ -231,7 +231,8 @@
 	var/in_hands = params["in_hands"] ? TRUE : FALSE
 	if(is_directive)
 		in_hands = TRUE
-	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_DEFENSE, chosen_region, null, in_hands, steward)
+	var/veteran = (params["veteran"] && !is_directive) ? TRUE : FALSE
+	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_DEFENSE, chosen_region, null, in_hands, steward, veteran)
 	if(!dispatched)
 		refund_commission_draws(draws, "Defense contract refund (landmark failure)")
 		// Restore the Alderman's warrant too - it was consumed above but the commission never issued.
@@ -246,13 +247,14 @@
 		dispatched.warrant_consumed = cost
 	var/levy_exempt = apply_commission_terms(dispatched, params, cost, draws, funding, is_directive, bonus_pay_level, is_alderman_acting, chosen_region.region_name, in_hands)
 	var/bonus_label_text = get_commission_bonus_pay_label(bonus_pay_level)
-	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned [dispatched.quest_difficulty] [chosen_type] in [chosen_region.region_name] for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""][in_hands ? " (in hand)" : ""]")
+	SSquestpool.log_event("defense_issue", "[steward.real_name] commissioned [dispatched.quest_difficulty] [chosen_type] in [chosen_region.region_name] for [cost]m ([funding])[levy_exempt ? " (levy-exempt)" : ""][bonus_label_text ? " ([bonus_label_text])" : ""][dispatched.veteran ? " (veteran)" : ""][in_hands ? " (in hand)" : ""]")
 	var/source_label = commission_source_label(is_directive, draws)
 	var/bonus_label =bonus_label_text ? " - <i>[bonus_label_text]</i>" : ""
+	var/veteran_label = dispatched.veteran ? " - <i>veteran</i>" : ""
 	if(in_hands)
-		to_chat(steward, span_notice("Contract issued [source_label] and placed in your hand: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy exempt</i>" : ""][bonus_label]."))
+		to_chat(steward, span_notice("Contract issued [source_label] and placed in your hand: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy exempt</i>" : ""][bonus_label][veteran_label]."))
 	else
-		to_chat(steward, span_notice("Contract posted [source_label]: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy exempt</i>" : ""][bonus_label]."))
+		to_chat(steward, span_notice("Contract posted [source_label]: <b>[dispatched.title || dispatched.quest_type]</b> in [chosen_region.region_name][levy_exempt ? " - <i>levy exempt</i>" : ""][bonus_label][veteran_label]."))
 
 /obj/structure/roguemachine/contractledger/proc/commission_blockade_defense(mob/living/carbon/human/steward, list/params, cost, list/draws, funding, is_directive,bonus_pay_level = COMMISSION_BONUS_PAY_NONE, is_alderman_acting = FALSE)
 	var/region_name = params["region"]

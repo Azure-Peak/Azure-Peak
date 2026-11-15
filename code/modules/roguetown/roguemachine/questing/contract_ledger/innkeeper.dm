@@ -80,7 +80,8 @@
 	SStreasury.rumor_points -= cost
 	record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, cost)
 	var/in_hands = params["in_hands"] ? TRUE : FALSE
-	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_RUMOR, chosen_region, chosen_destination, in_hands, innkeeper)
+	var/veteran = params["veteran"] ? TRUE : FALSE
+	var/datum/quest/dispatched = SSquestpool.issue_player_quest(chosen_type, QUEST_SOURCE_RUMOR, chosen_region, chosen_destination, in_hands, innkeeper, veteran)
 	if(!dispatched)
 		SStreasury.rumor_points += cost
 		record_round_statistic(STATS_RUMOR_POINTS_CONSUMED, -cost)
@@ -97,12 +98,13 @@
 		"region" = chosen_region.region_name,
 		"in_hands" = in_hands,
 		"lucrative" = lucrative,
+		"veteran" = dispatched.veteran,
 		"day" = GLOB.dayspassed,
 	)
 	SStreasury.rumor_log += list(log_entry)
 	dispatched.issue_log_entry = log_entry
 	playsound(src, 'sound/misc/coindispense.ogg', 60, FALSE, -1)
-	var/lucrative_tail = lucrative ? " - <i>lucrative</i>" : ""
+	var/lucrative_tail = "[lucrative ? " - <i>lucrative</i>" : ""][dispatched.veteran ? " - <i>veteran</i>" : ""]"
 	if(in_hands)
 		to_chat(innkeeper, span_notice("The rumor's scroll is placed in your hands: <b>[dispatched.title || dispatched.quest_type]</b>[lucrative_tail]. Give it to whoever you choose."))
 	else

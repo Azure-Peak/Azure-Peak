@@ -39,6 +39,8 @@ type StewardData = {
   blockade_defender_max: number;
   blockade_extra_defender_pct: number;
   blockade_extra_threat_pct: number;
+  veteran_types: string[];
+  veteran_threat_pct: number;
 };
 
 type FundingSource = 'pledge' | 'crown' | 'directive';
@@ -191,6 +193,7 @@ const ComposeView = () => {
   const [bonusPayLevel, setBonusPayLevel] = useState<0 | 1 | 2>(0);
   const [funding, setFunding] = useState<FundingSource>('pledge');
   const [crownTopup, setCrownTopup] = useState<boolean>(false);
+  const [veteran, setVeteran] = useState<boolean>(false);
   const [inflight, setInflight] = useState<boolean>(false);
 
   const aldermanActing = !!data.is_alderman_acting;
@@ -199,6 +202,11 @@ const ComposeView = () => {
   const isBlockade = type === BLOCKADE_TYPE;
   const isHoardRecovery = type === HOARD_RECOVERY_TYPE;
   const isWrit = isBlockade || isHoardRecovery;
+  const canVeteran =
+    !isWrit &&
+    funding !== 'directive' &&
+    (data.veteran_types || []).includes(type);
+  const useVeteran = canVeteran && veteran;
   const regionHasActiveWrit =
     isWrit && !!region && (data.active_writ_regions || []).includes(region);
   const directivesRemaining =
@@ -288,6 +296,7 @@ const ComposeView = () => {
       bonus_pay_level: effectiveLevel,
       funding,
       crown_topup: topupActive ? 1 : 0,
+      veteran: useVeteran ? 1 : 0,
     });
     setTimeout(() => setInflight(false), DISPATCH_DEBOUNCE_MS);
   };
@@ -479,6 +488,20 @@ const ComposeView = () => {
               sublabel={`x${bonusFullMult}`}
             />
           </div>
+        </FormRow>
+      )}
+
+      {canVeteran && (
+        <FormRow label="Veteran">
+          <label>
+            <input
+              type="checkbox"
+              checked={veteran}
+              onChange={(e) => setVeteran(e.target.checked)}
+            />
+            &nbsp;Increases threat by {data.veteran_threat_pct}% and rewards by
+            that proportionally.
+          </label>
         </FormRow>
       )}
 

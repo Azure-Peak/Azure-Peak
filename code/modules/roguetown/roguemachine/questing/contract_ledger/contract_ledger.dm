@@ -176,6 +176,8 @@
 	var/list/dynamic_roles = resolve_dynamic_roles(user)
 	data["dynamic_roles"] = dynamic_roles
 	data["dynamic_role"] = length(dynamic_roles) ? dynamic_roles[1] : null
+	if(("innkeeper" in dynamic_roles) || ("steward" in dynamic_roles))
+		data["veteran_types"] = build_veteran_types()
 	if("innkeeper" in dynamic_roles)
 		data["rumor_points"] = round(SStreasury.rumor_points, 0.1)
 		data["rumor_refill_base"] = RUMOR_POINTS_BASE_REFILL
@@ -322,7 +324,7 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			var/datum/quest/kill/KQ = Q
 			threat_bands = KQ.threat_bands_cleared
 		var/lapse_minutes = Q.lapses ? max(0, round((Q.get_lapse_time() - world.time) / 600, 1)) : null
-		var/can_veteran = Q.can_be_veteran()
+		var/can_veteran = !Q.veteran && Q.can_be_veteran()
 		var/scales = Q.scales_with_group()
 		listing += list(list(
 			"ref" = REF(Q),
@@ -350,10 +352,18 @@ GLOBAL_LIST_INIT(contract_proxy_officials, list(
 			"required_fellowship_size" = Q.required_fellowship_size,
 			"lapse_minutes" = lapse_minutes,
 			"can_veteran" = can_veteran,
+			"veteran" = Q.veteran,
 			"veteran_reward" = can_veteran ? Q.project_veteran_reward(user) : null,
 			"veteran_objective" = can_veteran ? Q.project_veteran_objective(user) : null,
 		))
 	return listing
+
+/obj/structure/roguemachine/contractledger/proc/build_veteran_types()
+	. = list()
+	for(var/qtype in GLOB.quest_prototypes)
+		var/datum/quest/proto = GLOB.quest_prototypes[qtype]
+		if(proto.veteran_allowed)
+			. += qtype
 
 /obj/structure/roguemachine/contractledger/proc/build_active_listing(mob/user)
 	var/list/listing = list()

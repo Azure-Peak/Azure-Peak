@@ -80,6 +80,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	var/fellowship_missing = 0
 	var/signed_at_ledger = FALSE // Only contracts signed at the ledger should be subject to haircut
 	var/veteran = FALSE
+	var/veteran_allowed = FALSE
 	var/fellowship_threat_mult = 1
 	var/fellowship_reward_mult = 1
 	var/fellowship_split_payout = FALSE
@@ -271,6 +272,12 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 
 /datum/quest/proc/on_first_pop()
 	return
+
+/datum/quest/proc/may_trigger(turf/scroll_turf)
+	return TRUE
+
+/datum/quest/proc/fight_underway_near(turf/T)
+	return FALSE
 
 /datum/quest/proc/materialize(obj/effect/landmark/quest_spawner/landmark)
 	return TRUE
@@ -546,7 +553,7 @@ GLOBAL_LIST_INIT(quest_prototypes, build_quest_prototypes())
 	reward_amount = saved_amount
 
 /datum/quest/proc/can_be_veteran()
-	return FALSE
+	return veteran_allowed && !is_directive && (source == QUEST_SOURCE_POOL || source == QUEST_SOURCE_RUMOR)
 
 /datum/quest/proc/veteran_threat_mult()
 	return veteran ? QUEST_VETERAN_THREAT_MULT : 1

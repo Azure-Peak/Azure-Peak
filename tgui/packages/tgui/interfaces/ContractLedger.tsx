@@ -101,6 +101,7 @@ type Contract = {
   required_fellowship_size: number;
   lapse_minutes: number | null;
   can_veteran: BooleanLike;
+  veteran: BooleanLike;
   veteran_reward: number | null;
   veteran_objective: string | null;
 };
@@ -703,7 +704,7 @@ const ContractCard = (props: { contract: Contract }) => {
           )}
         </span>
       </div>
-      {!!c.can_veteran && (
+      {(!!c.can_veteran || !!c.veteran) && (
         <div className="ContractLedger__CardRow">
           <span className="ContractLedger__CardLabel">
             Veteran
@@ -715,13 +716,17 @@ const ContractCard = (props: { contract: Contract }) => {
             </Tooltip>
           </span>
           <span className="ContractLedger__CardValue">
-            <Button.Checkbox
-              compact
-              checked={veteran}
-              onClick={() => setVeteran(!veteran)}
-            >
-              {veteran ? 'On' : 'Off'}
-            </Button.Checkbox>
+            {c.veteran ? (
+              'On'
+            ) : (
+              <Button.Checkbox
+                compact
+                checked={veteran}
+                onClick={() => setVeteran(!veteran)}
+              >
+                {veteran ? 'On' : 'Off'}
+              </Button.Checkbox>
+            )}
           </span>
         </div>
       )}
