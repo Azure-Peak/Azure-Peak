@@ -39,6 +39,11 @@
 	)
 	output = /obj/item/reagent_containers/food/snacks/jamtallow
 
+/datum/container_craft/cooking/deepfry/murkling_jelly
+	name = "Primordial Jelly"
+	requirements = list(/obj/item/organ/heart/ooze = 1)
+	output = /obj/item/reagent_containers/food/snacks/rogue/murkling_jelly
+
 /datum/container_craft/cooking/deepfry/dragee
 	name = "Dragee"
 	requirements = list(/obj/item/reagent_containers/food/snacks/grown/nut_sugared = 1)

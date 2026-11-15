@@ -101,12 +101,14 @@
 		"Instead of zombifying: reform as a shapeless, pure ooze. A splash of 30 units of red or blessed water restores your former body for revival.",
 		"Have uniquely colored blood that matches the color of their bodies.",
 		"Will gradually shift their body's colors toward the most recently metabolized reagent.",
+		"Can eat primordial jelly to restore their original body color.",
 		"Can shapeshift and change certain features at will.")
 
 ////// ORGAN SPRITES, provided by VelSlime
 /obj/item/organ/brain/ooze
 	name = "Ooze Neural Core"
 	icon = 'icons/obj/velslime.dmi'
+	desc = "A dense knot of concentrated ooze, serving as the central processing hub for the creature's thoughts, memories, and instincts. Despite its seemingly primitive composition, it is capable of remarkably complex cognition."
 	organ_flags = ORGAN_ORGANIC
 	decoy_override = TRUE
 
@@ -114,31 +116,38 @@
 	name = "Ooze Breathing Sac"
 	icon = 'icons/obj/velslime.dmi'
 	icon_state = "liver" //No lungs sprite, re-using the liver sprite instead.
+	desc = "A porous, gelatinous sac that absorbs and processes gases through its permeable membrane. Its internal structure constantly shifts and contracts to facilitate respiration."
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/heart/ooze
 	name = "Ooze Fluid Pump"
 	icon = 'icons/obj/velslime.dmi'
+	desc = "A pulsing mass of dense, viscous fluid that circulates nutrients and vital compounds throughout the body. Its rhythmic contractions keep the creature's amorphous form alive and cohesive."
+	icon_state = "heart"
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/eyes/ooze
 	name = "Ooze Ocular Sensors"
 	icon = 'icons/obj/velslime.dmi'
+	desc = "Clusters of light-sensitive cells suspended within a translucent gelatinous membrane. They allow the creature to perceive its surroundings, though their appearance bears little resemblance to conventional eyes."
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/tongue/wild_tongue/ooze
 	name = "Ooze Taste Buds"
 	icon = 'icons/obj/velslime.dmi'
+	desc = "A small collection of specialized sensory cells capable of detecting and distinguishing a wide variety of tastes."
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/stomach/ooze
 	name = "Ooze Digestive Chamber"
 	icon = 'icons/obj/velslime.dmi'
+	desc = "A remarkably elastic chamber capable of dissolving and breaking down ingested matter within a bath of digestive fluids. Its walls continually reshape themselves to accommodate whatever the creature happens to consume."
 	organ_flags = ORGAN_ORGANIC
 
 /obj/item/organ/liver/ooze
 	name = "Ooze Detoxification Organelle"
 	icon = 'icons/obj/velslime.dmi'
+	desc = "A dense, sponge-like organelle responsible for filtering harmful substances and processing toxins throughout the body."
 	organ_flags = ORGAN_ORGANIC
 
 /datum/species/ooze/check_roundstart_eligible()
@@ -421,7 +430,14 @@
 	anchored = TRUE
 	vis_flags = VIS_INHERIT_DIR | VIS_INHERIT_PLANE | VIS_INHERIT_ID
 
+/datum/reagent/consumable/murkling_color_restore
+	name = "primordial jelly"
+	description = "A taste of the spawning pools, said to return a Murkling to its first hue."
+	taste_description = "a cool, sweet jelly"
+	color = "#8ED8B0"
+
 /datum/component/ooze_color_shift
+	var/original_body_color
 	var/target_color
 	var/start_body_color
 	var/list/start_accessory_colors
@@ -439,6 +455,9 @@
 /datum/component/ooze_color_shift/Initialize()
 	if(!ishuman(parent))
 		return COMPONENT_INCOMPATIBLE
+	var/mob/living/carbon/human/ooze = parent
+	if(ooze.dna?.features)
+		original_body_color = sanitize_hexcolor(ooze.dna.features["mcolor"], 6, FALSE)
 	RegisterSignal(parent, COMSIG_MOB_REAGENT_METABOLIZED, PROC_REF(on_reagent_metabolized))
 	return ..()
 
@@ -481,21 +500,24 @@
 
 /datum/component/ooze_color_shift/proc/on_reagent_metabolized(mob/living/carbon/human/ooze, datum/reagent/reagent)
 	SIGNAL_HANDLER
-	if(!enabled || istype(reagent, /datum/reagent/water) || istype(reagent, /datum/reagent/consumable/nutriment) || istype(reagent, /datum/reagent/blood))
+	var/is_color_restore = istype(reagent, /datum/reagent/consumable/murkling_color_restore)
+	if(!is_color_restore && (!enabled || istype(reagent, /datum/reagent/water) || istype(reagent, /datum/reagent/consumable/nutriment) || istype(reagent, /datum/reagent/blood)))
 		return
-	var/new_target = sanitize_hexcolor(reagent.color, 6, FALSE, null, TRUE)
+	var/new_target = is_color_restore ? original_body_color : sanitize_hexcolor(reagent.color, 6, FALSE, null, TRUE)
 	if(!new_target)
 		return
 	if(shifting)
 		update_shift_colors()
-	var/list/target_hsl = rgb2hsl(
-		hex2num(copytext(new_target, 1, 3)),
-		hex2num(copytext(new_target, 3, 5)),
-		hex2num(copytext(new_target, 5, 7)),
-	)
-	target_hsl[2] = min(target_hsl[2], 0.45)
-	var/list/target_rgb = hsl2rgb(arglist(target_hsl))
-	target_color = "[num2hex(target_rgb[1], 2)][num2hex(target_rgb[2], 2)][num2hex(target_rgb[3], 2)]"
+	if(!is_color_restore)
+		var/list/target_hsl = rgb2hsl(
+			hex2num(copytext(new_target, 1, 3)),
+			hex2num(copytext(new_target, 3, 5)),
+			hex2num(copytext(new_target, 5, 7)),
+		)
+		target_hsl[2] = min(target_hsl[2], 0.45)
+		var/list/target_rgb = hsl2rgb(arglist(target_hsl))
+		new_target = "[num2hex(target_rgb[1], 2)][num2hex(target_rgb[2], 2)][num2hex(target_rgb[3], 2)]"
+	target_color = new_target
 	start_body_color = sanitize_hexcolor(ooze.dna.features["mcolor"], 6, FALSE)
 	shift_started = world.time
 	start_accessory_colors = get_accessory_color_snapshot(ooze)

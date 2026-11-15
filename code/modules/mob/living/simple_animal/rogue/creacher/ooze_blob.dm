@@ -22,7 +22,8 @@
 	base_intents = list(/datum/intent/simple/bite/volf)
 	botched_butcher_results = list(/obj/item/alch/viscera = 1)
 	butcher_results = list(/obj/item/alch/waterdust = 2,
-							/obj/item/alch/viscera = 2)
+							/obj/item/alch/viscera = 2,
+							/obj/item/organ/heart/ooze = 1)
 	perfect_butcher_results = list(/obj/item/reagent_containers/lux_impure = 1,
 									/obj/item/alch/waterdust = 3,
 									/obj/item/alch/viscera = 3)
