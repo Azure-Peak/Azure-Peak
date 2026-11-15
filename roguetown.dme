@@ -862,6 +862,7 @@
 #include "code\datums\components\container_craft\craft_operation_datum.dm"
 #include "code\datums\components\container_craft\recipes\_base.dm"
 #include "code\datums\components\crafting\crafting.dm"
+#include "code\datums\components\crafting\recipe_pins.dm"
 #include "code\datums\components\crafting\recipes.dm"
 #include "code\datums\components\decals\blood.dm"
 #include "code\datums\components\druids\wise_tree.dm"
