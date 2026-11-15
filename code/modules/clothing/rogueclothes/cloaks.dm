@@ -2149,3 +2149,19 @@
 		if(get_altdetail_color())
 			pic2.color = get_altdetail_color()
 		add_overlay(pic2)
+
+/obj/item/clothing/cloak/mountaineer
+	name = "mountaineer cloak"
+	desc = "A traditional cloak favored by those who dwell high in the mountains. Warm, practical, and it brings a little color into an otherwise dreary landscape."
+	icon_state = "mountaineer"
+	item_state = "mountaineer"
+	alternate_worn_layer = CLOAK_BEHIND_LAYER
+	slot_flags = ITEM_SLOT_BACK_R|ITEM_SLOT_CLOAK
+	sleeved = 'icons/roguetown/clothing/onmob/cloaks.dmi'
+	sleevetype = "shirt"
+	nodismemsleeves = TRUE
+	inhand_mod = TRUE
+	resistance_flags = FIRE_PROOF
+	detail_tag = "_detail"
+	detail_color = "#772821"
+	color = "#747435"
