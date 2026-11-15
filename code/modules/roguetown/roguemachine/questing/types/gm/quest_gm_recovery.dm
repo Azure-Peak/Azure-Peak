@@ -7,6 +7,7 @@
 	rumor_cost = 0
 	eligible_regions = list()
 	lapses = FALSE
+	required_fellowship_size = 0
 	var/list/quest_mobs = list()
 	var/list/quest_items = list()
 	var/objective_text

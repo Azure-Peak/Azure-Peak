@@ -1086,7 +1086,7 @@
 	name = "Rune of Death"
 	desc = "A holy rune of <font color='425363'>Necra.</font> Quiet acceptance stirs within you."
 	icon_state = "necra_chalky"
-	var/deathrites = list("Undermaiden's Bargain", "The Toll", "Shatter the Binds")
+	var/list/deathrites = list("Undermaiden's Bargain", "The Toll", "Shatter the Binds")
 	var/coinslot = 0
 
 
@@ -1116,12 +1116,14 @@
 	if(user.has_status_effect(/datum/status_effect/debuff/ritesexpended))
 		to_chat(user,span_warning("I have performed enough rituals for the day... I must rest before communing more."))
 		return
-	var/list/current_rites = deathrites
+	var/list/current_rites = deathrites.Copy()
 	if(SSevent_scheduler.fog_scheduled)
 		current_rites += "Hollow the Mist"
 	if(HAS_TRAIT(user, TRAIT_LESSER_RITUALIST)) // only The Toll for you, ser.
-		current_rites = "The Toll"
+		current_rites = list("The Toll")
 	var/riteselection = input(user, "Rituals of Death", src) as null|anything in current_rites
+	if(!riteselection)
+		return
 	switch(riteselection) // put ur rite selection here
 		if("Hollow the Mist")
 			loc.visible_message(span_warning("[user] begins to chant in a low, vibrating hum, their voice sounding like grinding bone..."))
@@ -1158,7 +1160,7 @@
 				icon_state = "necra_chalky"
 		if("The Toll")
 			if(!coinslot)
-				to_chat(user, "This rite requires the toll to be prepared...")
+				to_chat(user, span_warning("This rite requires the toll to be prepared..."))
 				return
 			var/onrune = view(1, loc)
 			var/list/folksonrune = list()

@@ -99,7 +99,7 @@
 		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
 
 	var/obj/item/held_weapon = pawn.get_active_held_item()
-	if(!HAS_TRAIT(pawn, TRAIT_CHUNKYFINGERS) && !istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
+	if(!HAS_TRAIT(pawn, TRAIT_CHUNKYFINGERS) && !ai_npc_fights_unarmed(pawn) && !istype(held_weapon, /obj/item/rogueweapon) && !istype(held_weapon, /obj/item/gun))
 		for(var/obj/item/rogueweapon/candidate in range(1, pawn))
 			if(!isturf(candidate.loc))
 				continue
@@ -199,8 +199,9 @@
 	var/list/possible_intents = npc_attack_intents(pawn)
 	if(length(possible_intents) < 2)
 		return
-	if(npc_select_intent(pawn, _pick_attack_intent(pawn, target, possible_intents)))
-		AI_THINK(pawn, "INTENT: switched attack intent to [pawn.a_intent]")
+	if(!npc_select_intent(pawn, _pick_attack_intent(pawn, target, possible_intents)))
+		return
+	AI_THINK(pawn, "INTENT: switched attack intent to [pawn.a_intent]")
 
 /datum/ai_behavior/basic_melee_attack/human_npc/proc/_pick_attack_intent(mob/living/carbon/human/pawn, atom/target, list/possible_intents)
 	var/reads_armor = ishuman(target) && pawn.STAINT >= HUMAN_NPC_MIN_INT_FOR_TACTICS && pawn.get_wskill(pawn.get_active_held_item()) >= SKILL_LEVEL_NOVICE

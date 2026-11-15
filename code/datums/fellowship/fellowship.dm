@@ -6,7 +6,7 @@
 	// pending_invites[real_name] = list(expires_at_world_time, /datum/weakref of target mob)
 	var/list/pending_invites = list()
 	var/list/active_contracts = list()
-	var/payout_mode = FELLOWSHIP_PAYOUT_LEADER
+	var/payout_mode = FELLOWSHIP_PAYOUT_SPLIT
 	var/created_time
 
 /datum/fellowship/New(mob/living/founder, chosen_name)
@@ -93,6 +93,11 @@
 	var/datum/weakref/W = find_member_ref(user)
 	if(!W)
 		return FALSE
+	if(reason == FELLOWSHIP_REASON_LEFT)
+		var/datum/merc_contract/contract = get_merc_contract(user)
+		if(contract?.fellowship_ref?.resolve() == src)
+			to_chat(user, span_warning("You are under contract with [contract.hirer_name] and cannot leave."))
+			return FALSE
 	members -= W
 	strip_fellowship_from(user)
 	switch(reason)
@@ -163,6 +168,13 @@
 	return FALSE
 
 /datum/fellowship/proc/disband(reason = "leader")
+	if(reason == "leader")
+		var/datum/merc_contract/contract = get_fellowship_merc_contract(src)
+		if(contract)
+			var/mob/living/leader_mob = get_leader()
+			if(leader_mob)
+				to_chat(leader_mob, span_warning("You cannot disband the fellowship while [contract.merc_name] is under contract."))
+			return FALSE
 	notify_members("The fellowship '[name]' has been disbanded.")
 	var/list/affected = get_members()
 	for(var/invitee_name in pending_invites)
@@ -271,6 +283,10 @@
 	if(target == kicker)
 		return FALSE
 	if(!has_member(target))
+		return FALSE
+	var/datum/merc_contract/contract = get_merc_contract(target)
+	if(contract?.fellowship_ref?.resolve() == src)
+		to_chat(kicker, span_warning("[target.real_name] is under contract and cannot be removed."))
 		return FALSE
 	return remove_member(target, reason = FELLOWSHIP_REASON_KICKED)
 
