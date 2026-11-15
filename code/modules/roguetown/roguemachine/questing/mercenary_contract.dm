@@ -151,7 +151,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 		contracts += list(list(
 			"ref" = REF(contract),
 			"title" = is_hirer ? "[contract.merc_name], hired by you" : "Hired by [contract.hirer_name]",
-			"lines" = contract.status_lines(),
+			"lines" = contract.status_lines(user),
 			"end_wait" = can_end ? null : "You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))].",
 			"end_note" = is_hirer ? "If you end it early, the dae in progress is still paid." : "If you end it yourself, you give up the rate and the stipend for the dae in progress.",
 			"agreed_end_terms" = contract.agreed_end_terms(user),
@@ -312,10 +312,12 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /datum/merc_contract/proc/get_day_presence_share()
 	return min(1, presence_time / MERC_CONTRACT_DAY_LENGTH)
 
-/datum/merc_contract/proc/status_lines()
+/datum/merc_contract/proc/status_lines(mob/viewer)
 	. = list()
 	. += "[merc_name] is hired by [hirer_name] for [days] dae\s."
 	. += "The contract ends in [merc_contract_time_text(time_left())]."
+	if(viewer && viewer == merc_ref?.resolve())
+		. += MERC_CONTRACT_SHARE_BONUS_LINE
 	if(rate)
 		. += "[hirer_name] pays [rate] mammon a dae. [held_amount()] mammon is held for this dae."
 		if(unpaid)
@@ -673,7 +675,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 /obj/item/merc_contract/examine(mob/user)
 	. = ..()
 	if(contract)
-		for(var/line in contract.status_lines())
+		for(var/line in contract.status_lines(user))
 			. += span_info(line)
 		return
 	. += span_info("Hire mercenary [merc_name] for [terms_text()].")
@@ -689,7 +691,8 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	. += "If the hirer ends the contract early, the dae in progress is still paid."
 	. += "The hirer and the mercenary can both see the contract and end it from the Mercenary tab of a MEISTER."
 	. += "The hirer and the mercenary can agree to end the contract at any time. The hirer asks with the contract in hand, the mercenary with the \"End Mercenary Contract\" verb, and either can ask at a MEISTER. The rate for the dae in progress is paid, but not the stipend, and the mercenary does not have to wait to be hired again."
-	. += "While hired, contract rewards are split evenly among the fellowship, and the Mercenary's Guild adds [round(MERC_CONTRACT_SHARE_BONUS * 100)]% to your share of contracts held by someone else."
+	. += "While hired, contract rewards are split evenly among the fellowship."
+	. += MERC_CONTRACT_SHARE_BONUS_LINE
 	. += "Certain roles give you a stipend from an external funder."
 	. += "Stipend per dae by employer:"
 	for(var/category in GLOB.merc_hirer_categories)
@@ -734,7 +737,7 @@ GLOBAL_LIST_INIT(merc_hirer_categories, list(
 	data["signed"] = !!contract
 	data["is_merc"] = user == merc
 	if(contract)
-		data["status_lines"] = contract.status_lines()
+		data["status_lines"] = contract.status_lines(user)
 		data["is_hirer"] = contract.hirer_ref?.resolve() == user
 		data["end_early_wait"] = contract.can_end_early() ? null : "You can end the contract in [merc_contract_time_text(timeleft(contract.day_timer_id))]."
 		data["agreed_end_terms"] = contract.agreed_end_terms(user)
