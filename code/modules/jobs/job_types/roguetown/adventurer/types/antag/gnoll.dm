@@ -67,7 +67,6 @@
 		if(H.mind && !H.mind.has_antag_datum(/datum/antagonist/gnoll))
 			var/datum/antagonist/new_antag = new /datum/antagonist/gnoll()
 			H.mind.add_antag_datum(new_antag)
-			add_verb(H, /mob/living/carbon/human/proc/gnoll_inspect_skin)
 			add_verb(H, /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair)
 
 /datum/outfit/job/roguetown/gnoll/proc/don_pelt(mob/living/carbon/human/H)
@@ -142,15 +141,6 @@
 	var/slots = max(0, scaling["final_slots"])
 	gnoll_job.total_positions = max(gnoll_job.current_positions, slots)
 	gnoll_job.spawn_positions = max(gnoll_job.current_positions, slots)
-
-/mob/living/carbon/human/proc/gnoll_inspect_skin()
-	set name = "Inspect Pelt"
-	set category = "RoleUnique.Gnoll"
-	set desc = "Examine your gnoll skin armor"
-	if(!istype(skin_armor, /obj/item/clothing/suit/roguetown/armor/vampiric/gnoll))
-		to_chat(src, span_warning("You don't have any gnoll skin armor to inspect!"))
-		return
-	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/GA = skin_armor
 	GA.Topic(null, list("inspect" = "1"), src)
 
 /mob/living/carbon/human/proc/gnoll_toggle_pelt_repair()
