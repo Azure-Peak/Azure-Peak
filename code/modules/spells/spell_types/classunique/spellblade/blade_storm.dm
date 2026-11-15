@@ -2,8 +2,8 @@
 	source_aspect = /datum/magic_aspect/pseudo/spellblade
 	name = "Blade Storm"
 	desc = "Mark a patch of ground within reach - a shadow of yourself coalesces there. Then, a mote later, you emerge in a storm of slashes, focusing on whomever is at its center and sweep around them.\
-		Requires 7 Momentum: 4 strikes at 30 damage each. \
-		Overcharged at 10 Momentum: 6 strikes at 30 damage each."
+		Requires 7 Momentum: 4 strikes at 30 damage each on the center, 3 on everyone around it. \
+		Overcharged at 10 Momentum: 11 strikes on the center, 5 on everyone around it."
 	button_icon = 'icons/mob/actions/classuniquespells/spellblade.dmi'
 	button_icon_state = "blade_storm"
 	sound = 'sound/magic/blink.ogg'
@@ -173,6 +173,13 @@
 		arcyne_strike(user, victim, weapon, p_dmg, def_zone, spell_name = "Blade Storm (Strike [strike_num])", skip_animation = TRUE)
 		var/obj/effect/temp_visual/blade_cut/V = new(center)
 		V.dir = get_dir(user, victim)
+
+/datum/action/cooldown/spell/blade_storm/get_impact_turfs(atom/center)
+	var/turf/T = get_turf(center)
+	if(!T)
+		return list()
+	. = list(T) + get_hollow_ring(T)
+	. -= get_turf(owner)
 
 /datum/action/cooldown/spell/blade_storm/proc/get_hollow_ring(turf/center)
 	var/list/ring = list()

@@ -10,6 +10,7 @@
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 	subclass_stats = list(
 		STATKEY_INT = 2,
 		STATKEY_CON = 2,//Cheeese diet

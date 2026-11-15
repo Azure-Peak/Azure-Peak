@@ -1,0 +1,5 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - bugfix: "Ranged Conjuration NPCS' weapon no longer disappear in hands"
+  - bugfix: "Ranged Conjuration NPC is not disarmable, like their melee counterpart"

@@ -28,6 +28,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	var/ui_fa_icon = null // FontAwesome icon to use in the pref menu, null gives a question mark
 	var/ephemeral = FALSE // This flaw is currently disabled and will not process
 	var/needs_extra_vice = FALSE
+	var/relocates_owner = FALSE
 	/// For voyeur vice examines only. Format is "[name] is " + this + "...", leave blank to use the flaw's name.
 	/// Intended for addiction types only.
 	var/voyeur_descriptor
@@ -930,6 +931,7 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	\nNO HEALS WILL BE GIVEN OUT FOR UNLUCKY SPAWNS. USE AT YOUR OWN PERIL."
 	ui_fa_icon = "map-location-dot"
 	needs_extra_vice = TRUE
+	relocates_owner = TRUE
 	var/turf/origin_turf
 	var/turf/forlorne_turf
 	var/triumph_given = FALSE
@@ -948,6 +950,8 @@ GLOBAL_LIST_INIT(averse_factions, list(
 	forlorne_turf = pick(spots)
 	user.forceMove(forlorne_turf)
 	new /obj/item/flashlight/flare/light/forlorne(forlorne_turf)
+	ADD_TRAIT(user, TRAIT_NO_AMBUSH, "forlorne")
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(___TraitRemove), user, TRAIT_NO_AMBUSH, "forlorne"), 30 SECONDS)
 	to_chat(user, span_userdanger("I am lost..."))
 	to_chat(user, span_warning("No heals will be given out for unlucky spawns."))
 

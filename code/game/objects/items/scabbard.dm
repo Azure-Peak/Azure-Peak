@@ -805,3 +805,74 @@
 					"eastabove" = 0,
 					"westabove" = 0
 				)
+
+/obj/item/rogueweapon/scabbard/gwstrap/nodachi
+	name = "saya"
+	desc = "A well maintained strap connected to a lacquered wood scabbard with a metal finish. It appears designed to hold an exceptionally long blade."
+
+	icon_state = "nodachi0"
+	item_state = "nodachi0"
+	valid_blade = /obj/item/rogueweapon/greatsword/nodachi
+	experimental_onback = TRUE
+
+/obj/item/rogueweapon/scabbard/gwstrap/nodachi/ComponentInitialize()
+	AddComponent(/datum/component/holster, valid_blade, null, null, sheathe_time)
+
+/obj/item/rogueweapon/scabbard/gwstrap/nodachi/getonmobprop(tag)
+	..()
+	if(!hol_comp)
+		return
+	if(!hol_comp.sheathed)
+		return
+	if(istype(hol_comp.sheathed, /obj/item/rogueweapon/estoc) || istype(hol_comp.sheathed, /obj/item/rogueweapon/greatsword))
+		switch(tag)
+			if("onback")
+				return list(
+					"shrink" = 0.6,
+					"sx" = -1,
+					"sy" = 2,
+					"nx" = 0,
+					"ny" = 2,
+					"wx" = 2,
+					"wy" = 1,
+					"ex" = 0,
+					"ey" = 1,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = -70,
+					"eturn" = -15,
+					"nflip" = 0,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 1,
+					"southabove" = 0,
+					"eastabove" = 0,
+					"westabove" = 0
+				)
+	else
+		switch(tag)
+			if("onback")
+				return list(
+					"shrink" = 0.7,
+					"sx" = 1,
+					"sy" = -1,
+					"nx" = 1,
+					"ny" = -1,
+					"wx" = 4,
+					"wy" = -1,
+					"ex" = -1,
+					"ey" = -1,
+					"nturn" = 0,
+					"sturn" = 0,
+					"wturn" = 0,
+					"eturn" = 0,
+					"nflip" = 8,
+					"sflip" = 0,
+					"wflip" = 0,
+					"eflip" = 0,
+					"northabove" = 1,
+					"southabove" = 0,
+					"eastabove" = 0,
+					"westabove" = 0
+				)

@@ -11,6 +11,7 @@
 	maximum_possible_slots = 1
 	pickprob = 5
 	category_tags = list(CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 	traits_applied = list(TRAIT_DARKVISION, TRAIT_SMITHING_EXPERT, TRAIT_MASTER_MASON)
 	subclass_stats = list(
 		STATKEY_LCK = 4,

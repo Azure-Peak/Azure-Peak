@@ -21,6 +21,8 @@
 		/datum/npc_warband/duo_treasure_hunter = 3,
 		/datum/npc_warband/medium_skeleton_party = 14,
 		/datum/npc_warband/heavy_skeleton_party = 7,
+		/datum/npc_warband/doppelganger = 2,
+		/datum/npc_warband/doppelgangers = 1,
 	)
 	droning_sound = 'sound/music/area/decap.ogg'
 	droning_sound_dusk = null
@@ -65,6 +67,7 @@
 		/datum/npc_warband/duo_treasure_hunter = 2,
 		/datum/npc_warband/medium_skeleton_party = 48,
 		/datum/npc_warband/heavy_skeleton_party = 24,
+		/datum/npc_warband/doppelganger = 1,
 	)
 	droning_sound = 'sound/music/area/decap_deeper.ogg'
 	droning_sound_dusk = null

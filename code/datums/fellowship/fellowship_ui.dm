@@ -35,6 +35,7 @@
 	return list(
 		"server_time" = world.time,
 		"payout_mode" = F?.payout_mode,
+		"payout_locked" = !!(F && get_fellowship_merc_contract(F)),
 		"debug_local" = !!holder.client?.is_localhost(),
 	)
 
@@ -166,6 +167,9 @@
 /datum/fellowship_ui/proc/handle_payout_mode()
 	var/datum/fellowship/F = holder.current_fellowship
 	if(!F || !F.is_leader(holder))
+		return TRUE
+	if(get_fellowship_merc_contract(F))
+		to_chat(holder, span_warning("Rewards must be split while a sellsword is under contract."))
 		return TRUE
 	F.payout_mode = (F.payout_mode == FELLOWSHIP_PAYOUT_SPLIT) ? FELLOWSHIP_PAYOUT_LEADER : FELLOWSHIP_PAYOUT_SPLIT
 	if(F.payout_mode == FELLOWSHIP_PAYOUT_SPLIT)

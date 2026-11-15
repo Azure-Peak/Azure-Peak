@@ -57,6 +57,10 @@
 
 	if(f["say"])
 		invocations = list(f["say"])
+	manifest_form(H, weapon_type)
+	return TRUE
+
+/datum/action/cooldown/spell/form_blade/proc/manifest_form(mob/living/carbon/human/H, weapon_type)
 	var/obj/item/W = new weapon_type(H.drop_location())
 	if(W.max_integrity)
 		W.max_integrity = round(W.max_integrity * 0.5)
@@ -64,7 +68,7 @@
 	W.AddComponent(/datum/component/conjured_item, "#5c7cff", FALSE, H, src)
 	H.put_in_hands(W)
 	conjured_weapon = W
-	return TRUE
+	return W
 
 /datum/action/cooldown/spell/form_blade/Grant(mob/grant_to)
 	. = ..()

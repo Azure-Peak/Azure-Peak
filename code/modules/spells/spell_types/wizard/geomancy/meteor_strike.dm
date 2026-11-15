@@ -32,7 +32,7 @@
 
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC | SPELL_REQUIRES_HUMAN | SPELL_REQUIRES_SAME_Z
 
-	var/blast_radius = 2
+	impact_radius = 2
 	var/impact_delay = 2 SECONDS
 	var/structural_damage = 1000
 	var/head_damage = SPELL_DMG(150)
@@ -50,7 +50,7 @@
 		to_chat(H, span_warning("I can't cast where I can't see!"))
 		return FALSE
 
-	for(var/turf/T in range(blast_radius, center))
+	for(var/turf/T as anything in get_impact_turfs(center))
 		new /obj/effect/temp_visual/telegraph/meteor(T)
 	center.visible_message(span_boldwarning("The sky darkens - a meteor plummets down!"))
 	addtimer(CALLBACK(src, PROC_REF(drop_meteor), center), impact_delay)
@@ -68,7 +68,7 @@
 	playsound(center, 'sound/combat/hits/onstone/stonedeath.ogg', 100, TRUE, 6)
 	new /obj/effect/temp_visual/spell_impact(center, spell_color, spell_impact_intensity)
 
-	for(var/turf/T in range(blast_radius, center))
+	for(var/turf/T as anything in get_impact_turfs(center))
 		for(var/obj/structure/S in T.contents)
 			S.take_damage(structural_damage, BRUTE, "blunt", object_damage_multiplier = 2)
 		T.take_damage(structural_damage, BRUTE, "blunt", object_damage_multiplier = 2)

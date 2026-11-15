@@ -8,7 +8,7 @@
 	dropshrink = 0.6
 
 /obj/item/ritechalk/attack_self(mob/living/user)
-	if(!HAS_TRAIT(user, TRAIT_RITUALIST))
+	if(!user.get_skill_level(/datum/skill/magic/holy)) // be at least a devotee to go grafitting around
 		to_chat(user, span_warning("I don't know what I'm doing with this..."))
 		return
 
@@ -17,7 +17,7 @@
 		if(/datum/patron/inhumen/graggar)
 			ritechoices+="Rune of Violence"
 		if(/datum/patron/inhumen/zizo)
-			ritechoices+="Rune of Zizo" 
+			ritechoices+="Rune of Zizo"
 		if(/datum/patron/inhumen/matthios)
 			ritechoices+="Rune of Transaction"
 		if(/datum/patron/inhumen/baotha)
