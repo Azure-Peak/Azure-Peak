@@ -72,7 +72,7 @@
 	force = 27
 	throwforce = 20
 	max_integrity = 125
-	meltresult = /obj/item/ingot/bronze
+	smeltresult = /obj/item/ingot/bronze
 	minstr = 7
 
 /obj/item/rogueweapon/flail/sflail
