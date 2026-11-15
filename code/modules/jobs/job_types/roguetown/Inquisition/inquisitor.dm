@@ -23,6 +23,7 @@
 	max_pq = null
 	round_contrib_points = 2
 	vice_restrictions = list(/datum/charflaw/silverweakness, /datum/charflaw/wanted, /datum/charflaw/hemophage)
+	quest_claim_barred = TRUE
 	job_subclasses = list(
 		/datum/advclass/inquisitor/inspector,
 		/datum/advclass/inquisitor/ordinator
@@ -86,12 +87,8 @@
 /datum/outfit/job/roguetown/inquisitor/inspector/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
-	add_verb(H, /mob/living/carbon/human/proc/faith_test)
-	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 	shirt = /obj/item/clothing/suit/roguetown/armor/gambeson/heavy/inq
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/black/silver/psy/preblessed
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/silver/psy/preblessed
 	neck = /obj/item/clothing/neck/roguetown/gorget/steel
 	pants = /obj/item/clothing/under/roguetown/heavy_leather_pants/otavan
 	backr = /obj/item/storage/backpack/rogue/satchel/otavan
@@ -118,6 +115,11 @@
 		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots
 	else
 		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels
+
+	add_verb(H, /mob/living/carbon/human/proc/faith_test)
+	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T1, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T1 miracles.
 
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
@@ -224,10 +226,6 @@
 /datum/outfit/job/roguetown/inquisitor/ordinator/pre_equip(mob/living/carbon/human/H)
 	..()
 	has_loadout = TRUE
-	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
-	add_verb(H, /mob/living/carbon/human/proc/faith_test)
-	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
 	shirt = /obj/item/clothing/suit/roguetown/armor/leather/studded/cuirbouilli
 	armor = /obj/item/clothing/suit/roguetown/armor/plate/full/fluted/ornate/ordinator
 	belt = /obj/item/storage/belt/rogue/leather/steel/tasset
@@ -254,6 +252,11 @@
 	else
 		shoes = /obj/item/clothing/shoes/roguetown/boots/otavan/inqboots/heels
 
+	add_verb(H, /mob/living/carbon/human/proc/faith_test)
+	add_verb(H, /mob/living/carbon/human/proc/torture_victim)
+	var/datum/devotion/C = new /datum/devotion(H, H.patron)
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
+
 	change_origin(H, /datum/virtue/origin/otava, "Holy order")
 
 /datum/outfit/job/roguetown/inquisitor/ordinator/choose_loadout(mob/living/carbon/human/H)
@@ -267,8 +270,8 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 		if("Relic, 'Creed & Covenant' (Broadsword + Greatshield)")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/broadsword/silver/psy/forgotten/relic(H))
-			H.put_in_hands(new /obj/item/rogueweapon/shield/tower/metal/psy(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_L, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/shield/tower/metal/psy, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
 		if("Relic, 'Consecratia & Covenant' (Flail + Greatshield)")
@@ -289,7 +292,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/shields, SKILL_LEVEL_EXPERT, TRUE)
 		if("Psydonic Broadsword")
 			H.put_in_hands(new /obj/item/rogueweapon/sword/long/broadsword/silver/psy(H))
-			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BACK_R, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/sword/noble, SLOT_BELT_L, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/swords, SKILL_LEVEL_MASTER, TRUE)
 		if("Psydonic Poleaxe")
 			H.put_in_hands(new /obj/item/rogueweapon/greataxe/steel/knight/silver/psy(H))
@@ -297,6 +300,7 @@
 			H.adjust_skillrank_up_to(/datum/skill/combat/axes, SKILL_LEVEL_MASTER, TRUE)
 		if("Psydonic Grand Mace")
 			H.put_in_hands(new /obj/item/rogueweapon/mace/goden/psy(H))
+			H.equip_to_slot_or_del(new /obj/item/rogueweapon/scabbard/gwstrap, SLOT_BACK_R, TRUE)
 			H.adjust_skillrank_up_to(/datum/skill/combat/maces, SKILL_LEVEL_MASTER, TRUE)
 
 /mob/living/carbon/human/proc/faith_test()

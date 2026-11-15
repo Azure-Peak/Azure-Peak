@@ -1,6 +1,8 @@
 GLOBAL_VAR_INIT(ambush_chance_pct, 20) // Please don't raise this over 100 admins :')
 GLOBAL_VAR_INIT(ambush_mobconsider_cooldown, 2 MINUTES) // Cooldown for each individual mob being considered for an ambush
 
+#define AMBUSH_FIGHT_RANGE 9
+
 GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	/datum/skill/combat/swords, \
 	/datum/skill/combat/axes, \
@@ -109,7 +111,7 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		return FALSE
 	if(!mind)
 		return FALSE
-	if(HAS_TRAIT(src, TRAIT_RUN_FOR_IT))
+	if(HAS_TRAIT(src, TRAIT_RUN_FOR_IT) || HAS_TRAIT(src, TRAIT_NO_AMBUSH))
 		return FALSE
 	return ambushable
 
@@ -141,6 +143,8 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			return FALSE
 		if(world.time > last_client_interact + 0.3 SECONDS)
 			return FALSE // unmoving afks can't trigger random ambushes i.e. when being pulled/kicked/etc
+		if(ambush_blocked_by_fight())
+			return FALSE
 	if(get_will_block_ambush())
 		return FALSE
 	if(mob_timers["ambush_check"] && !ignore_cooldown)
@@ -259,10 +263,8 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 		var/mob/spawnedmob = new mob_type(spawnloc)
 		if(istype(spawnedmob, /mob/living/simple_animal/hostile))
 			var/mob/living/simple_animal/hostile/M = spawnedmob
-			M.attack_same = FALSE
-			M.del_on_deaggro = 44 SECONDS
+			M.AddComponent(/datum/component/deaggro_despawn, 44 SECONDS)
 			M.faction += "ambush"
-			M.GiveTarget(aggro_target)
 		if(istype(spawnedmob, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = spawnedmob
 			H.faction += "ambush"
@@ -277,18 +279,9 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 	return TRUE
 
 /proc/apply_ambush_aggro(mob/living/ambusher, mob/living/victim)
-	if(QDELETED(ambusher) || QDELETED(victim) || ambusher.stat == DEAD)
+	if(QDELETED(ambusher) || ambusher.stat == DEAD)
 		return
-	var/datum/ai_controller/controller = ambusher.ai_controller
-	if(!istype(controller))
-		return
-	var/datum/component/ai_aggro_system/aggro_comp = ambusher.GetComponent(/datum/component/ai_aggro_system)
-	if(aggro_comp)
-		aggro_comp.add_threat_to_mob(victim, AMBUSH_AGGRO_THREAT)
-		return
-	controller.set_blackboard_key(BB_BASIC_MOB_CURRENT_TARGET, victim)
-	controller.wake_for_combat()
-	controller.CancelActions()
+	ambusher.ai_controller?.force_aggro(victim, AMBUSH_AGGRO_THREAT)
 
 /proc/add_ambush_purchase(entry, list/mobs_to_spawn)
 	if(ispath(entry, /mob/living))
@@ -307,6 +300,24 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			campfires++
 	if(campfires > 0)
 		return TRUE
+
+/mob/living/proc/ambush_blocked_by_fight()
+	if(locate(/obj/effect/quest_spawn) in range(AMBUSH_FIGHT_RANGE, src))
+		return TRUE
+	for(var/mob/living/L in range(AMBUSH_FIGHT_RANGE, src))
+		if(L == src || L.stat == DEAD)
+			continue
+		if(L.contract_spawned)
+			return TRUE
+		var/mob/living/fighting
+		if(istype(L.ai_controller, /datum/ai_controller))
+			fighting = L.ai_controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
+		var/mob/living/simple_animal/hostile/hostile = L
+		if(!fighting && istype(hostile))
+			fighting = hostile.target
+		if(isliving(fighting) && fighting.mind)
+			return TRUE
+	return FALSE
 
 /mob/living/proc/get_possible_ambush_spawn(min_dist = 2, max_dist = 7)
 	var/list/possible_targets = list()
@@ -339,3 +350,5 @@ GLOBAL_LIST_INIT(melee_combat_skills, list( \
 			continue
 		adjacent += AT
 	return adjacent
+
+#undef AMBUSH_FIGHT_RANGE

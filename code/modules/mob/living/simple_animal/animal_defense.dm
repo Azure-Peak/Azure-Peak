@@ -169,7 +169,7 @@
 					else
 						target.Move(target_shove_turf, shove_dir)
 						if(get_turf(target) == target_oldturf)
-							target_table = locate(/obj/structure/table) in target_shove_turf.contents
+							target_table = has_table_surface(target_shove_turf.contents)
 							if(target_table)
 								shove_blocked = TRUE
 

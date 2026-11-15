@@ -54,8 +54,6 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/primordial
 	anatomy_type = /datum/anatomy/construct/primordial
 	icon = 'icons/roguetown/mob/monster/primordial.dmi'
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	faction = list(FACTION_NEUTRAL)
 	var/next_heal_time = 0
 	var/datum/weakref/summoner_ref
@@ -89,20 +87,14 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	emote_hear = null
 	emote_see = null
-	turns_per_move = 6
 	see_in_dark = 10
-	move_to_delay = 3
 
 	base_intents = list(/datum/intent/simple/claw/primordial)
 	health = 550
 	maxHealth = 550
 	melee_damage_lower = 30
 	melee_damage_upper = 40
-	vision_range = 10
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	ranged = 1
 	ranged_cooldown_time = 4 SECONDS
 	projectiletype = /obj/projectile/magic/spitfire/primordial
@@ -111,7 +103,6 @@
 	STASTR = 10
 	STASPD = 13
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	retreat_health = 0
 	food = 0
 	ai_controller = /datum/ai_controller/primordial
 	move_base_delay = MOVEMENT_DELAY_SPD_17
@@ -133,9 +124,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 6
 	see_in_dark = 10
-	move_to_delay = 3
 
 	attack_sound = list('sound/misc/undertow.ogg')
 
@@ -145,11 +134,7 @@
 	maxHealth = 800
 	melee_damage_lower = 25
 	melee_damage_upper = 35
-	vision_range = 10
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	ranged = 1
 	ranged_cooldown_time = 4 SECONDS
 	projectiletype = /obj/projectile/magic/frost_shard/primordial
@@ -159,7 +144,6 @@
 	STASTR = 10
 	STASPD = 8
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	retreat_health = 0
 	food = 0
 
 	ai_controller = /datum/ai_controller/primordial
@@ -210,9 +194,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 2
 	see_in_dark = 10
-	move_to_delay = 3
 
 	attack_sound = list('sound/combat/wooshes/bladed/wooshmed (1).ogg','sound/combat/wooshes/bladed/wooshmed (2).ogg','sound/combat/wooshes/bladed/wooshmed (3).ogg')
 
@@ -222,11 +204,7 @@
 	maxHealth = 400
 	melee_damage_lower = 35
 	melee_damage_upper = 45
-	vision_range = 10
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	ranged = 1
 	ranged_cooldown_time = 4 SECONDS
 	projectiletype = /obj/projectile/magic/greater_arcyne_bolt/primordial
@@ -236,7 +214,6 @@
 	STASTR = 10
 	STASPD = 13
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
-	retreat_health = 0
 	food = 0
 
 	ai_controller = /datum/ai_controller/primordial

@@ -47,7 +47,7 @@
 	pants	= /obj/item/clothing/under/roguetown/heavy_leather_pants
 	shoes	= /obj/item/clothing/shoes/roguetown/boots/leather/reinforced
 	gloves = /obj/item/clothing/gloves/roguetown/fingerless
-	belt	= /obj/item/storage/belt/rogue/leather/knifebelt/black/iron
+	belt	= /obj/item/storage/belt/rogue/leather/tossbelt/blade/black/iron
 	beltr	= /obj/item/rogueweapon/huntingknife/idagger/steel
 	backl	= /obj/item/storage/backpack/rogue/satchel
 	mask	= /obj/item/clothing/mask/rogue/duelmask

@@ -9,14 +9,19 @@
 	pixel_y = 32
 	var/topay = 0
 
+/obj/structure/roguemachine/headeater/get_mechanics_examine(mob/user)
+	. = ..()
+	if(!istype(src, /obj/structure/roguemachine/headeater/treasureseeker))
+		. += span_info("Left-click to deposit a head into the machine. Right-click to deposit all heads in front of the machine.")
+
 /obj/structure/roguemachine/headeater/examine()
 	. = ..()
-	. += span_info("Left-click to deposit a head into the machine, and right-click to deposit all heads in front of the machine.")
-	. += span_smallnotice("Crown's Headeater Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
+	if(!istype(src, /obj/structure/roguemachine/headeater/treasureseeker))
+		. += span_smallnotice("Crown's Headeater Levy: [round(SStreasury.get_tax_rate(TAX_CATEGORY_HEADEATER_LEVY) * 100)]%")
 
 /obj/structure/roguemachine/headeater/attackby(obj/item/H, mob/user, params)
 	. = ..()
-	if(!istype(H, /obj/item/natural/head) && !istype(H, /obj/item/bodypart/head))
+	if(!istype(H, /obj/item/natural/head) && !istype(H, /obj/item/bodypart/head) && !istype(H, /obj/item/doppel_heart))
 		to_chat(user, span_danger("It seems uninterested in [H]."))
 		return
 	if(!SStreasury.has_account(user))
@@ -47,6 +52,8 @@
 	else if(istype(H, /obj/item/natural/head))
 		var/obj/item/natural/head/A = H
 		sellprice = A.sellprice
+	else if(istype(H, /obj/item/doppel_heart))
+		sellprice = H.sellprice
 	else
 		return
 	if(sellprice <= 0)
@@ -72,6 +79,8 @@
 			if(istype(I, /obj/item/natural/head))
 				eathead(I, user, TRUE, FALSE)
 			if(istype(I, /obj/item/bodypart/head))
+				eathead(I, user, TRUE, FALSE)
+			if(istype(I, /obj/item/doppel_heart))
 				eathead(I, user, TRUE, FALSE)
 	if(topay > 0)
 		var/net = payout(user, topay)

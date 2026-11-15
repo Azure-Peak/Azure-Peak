@@ -1,3 +1,5 @@
+import { atomWithTguiStorage } from 'common/storage';
+import { useAtom } from 'jotai';
 import { memo, useCallback, useMemo, useState } from 'react';
 import {
   Button,
@@ -69,13 +71,18 @@ const UNASSIGNED_ROLE_LABEL = 'Unassigned';
 const TRAILING_MASKED_DESCRIPTOR_REGEX = / \[[^\]]+\]$/;
 const TRAILING_DUPLICATE_SUFFIX_REGEX = / \(\d+\)$/;
 const EMPTY_TARGETS: OrbitTarget[] = [];
+const openSectionsAtom = atomWithTguiStorage<Partial<Record<string, boolean>>>(
+  'orbit-open-sections',
+  {},
+);
 const ALIVE_NORMAL_GROUP_ORDER = [
   'Noblemen',
   'Courtiers',
+  'Retinue',
   'Garrison',
   'Church',
   'Inquisition',
-  'Yeomen',
+  'Burghers',
   'Peasants',
   'Sidefolk',
   'Wanderers',
@@ -424,6 +431,7 @@ export const Orbit = () => {
   const { act, data } = useBackend<OrbitData>();
   const [query, setQuery] = useState('');
   const [colorMode, setColorMode] = useState<'role' | 'health'>('role');
+  const [openSections, setOpenSections] = useAtom(openSectionsAtom);
   const orbitRef = data.orbiting_ref;
   const isRoleColorMode = colorMode === 'role';
   const aliveTargets = data.alive || EMPTY_TARGETS;
@@ -532,8 +540,17 @@ export const Orbit = () => {
               )}
 
               {sections.map((section) => (
+                // Collapsible only reads `open` on mount and our onClick replaces
+                // its toggle, so remount it whenever the stored state changes.
                 <Collapsible
-                  key={section.key}
+                  key={`${section.key}-${!!openSections[section.key]}`}
+                  open={!!openSections[section.key]}
+                  onClick={() =>
+                    setOpenSections({
+                      ...openSections,
+                      [section.key]: !openSections[section.key],
+                    })
+                  }
                   title={`${section.title} - (${section.items.length})`}
                 >
                   {section.key === 'ghosts' ? (

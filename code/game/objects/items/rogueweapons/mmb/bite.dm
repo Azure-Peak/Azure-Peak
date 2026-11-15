@@ -370,6 +370,8 @@
 				var/datum/antagonist/zombie/existing_zombie = C.mind?.has_antag_datum(/datum/antagonist/zombie) //If the bite target is a zombie
 				if(!existing_zombie && caused_wound?.zombie_infect_attempt(user))	// infect_attempt on wound
 					to_chat(user, span_danger("You feel your gift trickling into [C]'s wound...")) //message to the zombie they infected the target
+		else if(caused_wound && C.mind && HAS_TRAIT(user, TRAIT_DEADITE) && !HAS_TRAIT(C, TRAIT_ZOMBIE_IMMUNE) && prob(LERP(25, 2.5, (clamp(C.STALUC, 1, 20) - 1) / 19))) // NPC deadite: with the attempt's own 20% roll, 5% per wound at 1 fortune down to 0.5% at 20
+			caused_wound.zombie_infect_attempt(user)
 /*
 	Code below is for a zombie smashing the brains of unit. The code expects the brain to be part of the head which is not the case with AP. Kept for posterity in case it's used in an overhaul.
 */

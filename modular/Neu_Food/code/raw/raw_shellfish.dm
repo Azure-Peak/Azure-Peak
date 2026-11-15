@@ -48,6 +48,7 @@
 	sellprice = FISH_PRICE_FINE
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/clam
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
 	cooked_smell = /datum/pollutant/food/fried_shellfish
 
 /obj/item/reagent_containers/food/snacks/fish/lobster
@@ -102,6 +103,7 @@
 	sellprice = FISH_PRICE_FAIR
 	fried_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp
 	cooked_type = /obj/item/reagent_containers/food/snacks/rogue/fryfish/shrimp
+	slice_path = /obj/item/reagent_containers/food/snacks/rogue/meat/shellfish
 	cooked_smell = /datum/pollutant/food/fried_shellfish
 
 /obj/item/reagent_containers/food/snacks/fish/oyster

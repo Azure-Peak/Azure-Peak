@@ -130,17 +130,21 @@
 		return FALSE
 	if(L.pulledby)
 		return FALSE
+	if(has_caretrip_observer(L))
+		return FALSE
 	to_chat(L, "<b>[travel_message]</b>")
 	if(do_after(L, travel_time, needhand = FALSE, target = src))
 		if(L.pulledby)
 			to_chat(L, span_warning("I can't go, something's holding onto me."))
+			return FALSE
+		if(has_caretrip_observer(L))
 			return FALSE
 		perform_travel(T, L)
 		return TRUE
 	return FALSE
 
 /obj/structure/fluff/traveltile/proc/perform_travel(obj/structure/fluff/traveltile/T, mob/living/L)
-	if(watchable && !L.restrained(ignore_grab = TRUE) && length(required_traits)) // heavy-handedly prevents using prisoners to metagame camp locations. pulledby would stop this but prisoners can also be kicked/thrown into the tile repeatedly
+	if(watchable && !HAS_TRAIT(L, TRAIT_CAREFULTRIP) && !L.restrained(ignore_grab = TRUE) && length(required_traits)) // heavy-handedly prevents using prisoners to metagame camp locations. pulledby would stop this but prisoners can also be kicked/thrown into the tile repeatedly
 		var/watch_trait = required_traits[1]
 		for(var/mob/living/carbon/human/H in hearers(6,src))
 			if(H == L)
@@ -192,6 +196,22 @@
 		if(world.time > L.last_client_interact + 0.3 SECONDS)
 			return FALSE
 	return TRUE
+
+/obj/structure/fluff/traveltile/proc/has_caretrip_observer(mob/living/L)
+	if(!HAS_TRAIT(L, TRAIT_CAREFULTRIP))
+		return FALSE
+
+	for(var/mob/living/carbon/human/H in viewers(14, L))
+		if(H == L || H.stat == DEAD)
+			continue
+		if(has_access(H))
+			continue
+
+		message_admins("[ADMIN_LOOKUPFLW(L)] attempted to travel through [src] while [ADMIN_LOOKUPFLW(H)] was nearby without access.")
+		to_chat(L, span_warning("Someone nearby could discover the path. I cannot risk travelling."))
+		return TRUE
+
+	return FALSE
 
 /obj/structure/fluff/traveltile/examine(mob/user)
 	. = ..()

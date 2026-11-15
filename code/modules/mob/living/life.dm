@@ -100,8 +100,6 @@
 	if(QDELETED(src)) // diseases can qdel the mob via transformations
 		return
 
-	handle_environment()
-
 	//Random events (vomiting etc)
 	handle_random_events()
 
@@ -187,9 +185,6 @@
 		handle_inwater(loc)
 
 /mob/living/proc/handle_random_events()
-	return
-
-/mob/living/proc/handle_environment()
 	return
 
 /mob/living/proc/handle_wounds()

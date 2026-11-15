@@ -8,7 +8,7 @@
 	sharpness = IS_BLUNT
 	wlength = WLENGTH_NORMAL
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
-	w_class = WEIGHT_CLASS_BULKY
+	w_class = WEIGHT_CLASS_NORMAL
 
 	grid_height = 96
 	grid_width = 32

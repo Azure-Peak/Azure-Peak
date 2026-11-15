@@ -1,4 +1,4 @@
-#define MAX_HAND_SIZE 10
+#define MAX_HAND_SIZE 13
 #define SHOW_ERROR_HAND_FULL(user) to_chat(user, span_warning("It can't hold any more cards."))
 #define SHOW_ERROR_CARDS_FROM_DIFFERENT_DECK(user) to_chat(user, span_warning("These cards come from a different deck. I can't mix them."))
 #define SHOW_ERROR_WHERES_YOUR_FUCKING_ARMS(user) to_chat(user, span_danger("WITH WHAT ARMS?"))

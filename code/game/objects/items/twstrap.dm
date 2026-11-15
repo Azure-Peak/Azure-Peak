@@ -177,9 +177,9 @@
 	max_storage = 15
 	var/list/fill_list = list() //use for custome fill that
 	storable_types = list(
-		/obj/item/bomb,
-		/obj/item/tntstick,
-		/obj/item/impact_grenade
+		/obj/item/explosive/fused/bottle,
+		/obj/item/explosive/fused/powder/stick,
+		/obj/item/explosive/impact
 	)
 
 
@@ -189,13 +189,13 @@
 		return
 	to_chat(user, span_notice("I begin to gather the ammunition..."))
 	for(var/obj/item/bomb in T.contents)
-		if(istype(bomb, /obj/item/bomb) || istype(bomb, /obj/item/tntstick) || istype(bomb, /obj/item/impact_grenade))
+		if(is_type_in_list(bomb, storable_types))
 			if(do_after(user, 5))
 				if(!eatbomb(bomb))
 					break
 
 /obj/item/twstrap/bombstrap/proc/eatbomb(obj/A)
-	if(istype(A, /obj/item/bomb) || istype(A, /obj/item/tntstick) || istype(A, /obj/item/impact_grenade))
+	if(is_type_in_list(A, storable_types))
 		if(tweps.len < max_storage)
 			A.forceMove(src)
 			tweps += A
@@ -211,7 +211,7 @@
 		return
 	to_chat(user, span_warning("I begin to take out the ammunition from [src], one by one..."))
 	for(var/obj/item/bomb in tweps)
-		if(istype(bomb, /obj/item/bomb) || istype(bomb, /obj/item/tntstick) || istype(bomb, /obj/item/impact_grenade))
+		if(is_type_in_list(bomb, storable_types))
 			if(!do_after(user, 0.5 SECONDS))
 				return
 			bomb.forceMove(user.loc)
@@ -237,16 +237,16 @@
 
 /obj/item/twstrap/bombstrap/bomb_and_fire/Initialize(mapload)
 	..()
-	fill_list = list(/obj/item/bomb,
-	/obj/item/bomb,
-	/obj/item/bomb,
-	/obj/item/bomb,
-	/obj/item/tntstick,
-	/obj/item/tntstick,
-	/obj/item/impact_grenade/explosion,
-	/obj/item/impact_grenade/explosion,
-	/obj/item/impact_grenade/smoke/fire_gas,
-	/obj/item/impact_grenade/smoke/fire_gas,
+	fill_list = list(/obj/item/explosive/fused/bottle,
+	/obj/item/explosive/fused/bottle,
+	/obj/item/explosive/fused/bottle,
+	/obj/item/explosive/fused/bottle,
+	/obj/item/explosive/fused/powder/stick,
+	/obj/item/explosive/fused/powder/stick,
+	/obj/item/explosive/impact/shrapnel,
+	/obj/item/explosive/impact/shrapnel,
+	/obj/item/explosive/impact/smoke/fire_gas,
+	/obj/item/explosive/impact/smoke/fire_gas,
 	)
 	for(var/i in 1 to max_storage)
 		var/pickitem = pick(fill_list)
@@ -260,7 +260,7 @@
 /obj/item/twstrap/bombstrap/firebomb/Initialize(mapload)
 	..()
 	for(var/i in 1 to max_storage)
-		var/obj/item/bomb/I = new(src)
+		var/obj/item/explosive/fused/bottle/I = new(src)
 		I.forceMove(src)
 		tweps += I
 	update_icon()

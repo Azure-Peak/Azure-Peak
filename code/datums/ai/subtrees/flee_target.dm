@@ -25,6 +25,9 @@
 	target_key = BB_BASIC_MOB_FLEE_TARGET
 	hiding_place_key = BB_BASIC_MOB_FLEE_TARGET_HIDING_LOCATION
 
+/datum/ai_planning_subtree/flee_target/from_flee_key/retaliation
+	bb_key = BB_BASIC_MOB_FLEE_TARGET
+
 
 /// Try to escape from your current target, without performing any other actions.
 /// Reads from some fleeing-specific targetting keys rather than the current mob target.

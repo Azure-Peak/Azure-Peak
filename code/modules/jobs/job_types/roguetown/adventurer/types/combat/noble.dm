@@ -399,6 +399,10 @@
 				//No darkvision, you're not /amazing/ at this vs a proper specialist
 				H.grant_language(/datum/language/thievescant)
 				to_chat(H, span_warning("You are a traveling noble visiting foreign lands. Perhaps sent as a spy, a liaison, a part of a smuggling network or perhaps simply a hand to some small-time court, tread lightly however as your skills in espionage never covered escape, lest you meet a grisly end."))
+	backpack_contents |= list(
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
+		)
 
 /datum/advclass/noble/knighte
 	name = "Knight Errant"
@@ -484,6 +488,8 @@
 	beltl = /obj/item/flashlight/flare/torch/lantern
 	backpack_contents = list(
 		/obj/item/storage/belt/rogue/pouch/coins/poor = 1,
+		/obj/item/rogueweapon/huntingknife = 1,
+		/obj/item/rogueweapon/scabbard/sheath = 1,
 		)
 	H.dna.species.soundpack_m = GLOB.voice_packs[/datum/voicepack/male/knight]
 	H.set_blindness(0)

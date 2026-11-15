@@ -258,6 +258,7 @@
 	icon_state = "masochist"
 
 /datum/charflaw/addiction/masochist/on_mob_creation(mob/living/living)
+	. = ..()
 	living.pain_threshold += 10
 
 /// LOVEFIEND
@@ -279,11 +280,12 @@
 // This bit is just an easter egg. Feel free to remove at your discretion.
 /datum/status_effect/debuff/addiction/nympho/on_creation(mob/living/new_owner, ...)
 	. = ..()
-	if(new_owner)
-		if(!HAS_TRAIT(new_owner, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(new_owner, TRAIT_NOMOOD))
-			if(ishuman(new_owner) && (iself(new_owner) || ishalfelf(new_owner) || istiefling(new_owner) || isdarkelf(new_owner) || issunelf(new_owner)))
-				var/mob/living/carbon/human/H = new_owner
-				H.emote("eflick", intentional = TRUE)
+	if(ishuman(new_owner) && !HAS_TRAIT(new_owner, TRAIT_DECEIVING_MEEKNESS) && !HAS_TRAIT(new_owner, TRAIT_NOMOOD))
+		var/mob/living/carbon/human/H = new_owner
+		if(iself(H) || ishalfelf(H) || istiefling(H) || isdarkelf(H) || issunelf(H))
+			H.emote("eflick", intentional = TRUE)
+		else if(H.dna?.species?.can_wag_tail(H) && !H.dna.species.is_wagging_tail(H))
+			H.emote("wag", intentional = TRUE)
 
 /atom/movable/screen/alert/status_effect/debuff/addiction/nympho
 	name = "Nymphomania"

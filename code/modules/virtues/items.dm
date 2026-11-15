@@ -5,7 +5,7 @@
 	custom_text = "Guaranteed Journeyman for Trapmaking."
 	added_skills = list(list(/datum/skill/craft/alchemy, 1, 6), list(/datum/skill/craft/traps, 3, 3))
 	added_traits = list(TRAIT_ALCHEMY_EXPERT, TRAIT_EXPLOSIVE_SUPPLY) // Kaboom
-	added_stashed_items = list("Firebomb #1" = /obj/item/bomb,
-								"Firebomb #2" = /obj/item/bomb,
+	added_stashed_items = list("Firebomb #1" = /obj/item/explosive/fused/bottle,
+								"Firebomb #2" = /obj/item/explosive/fused/bottle,
 								"Flint" = /obj/item/flint
 	)

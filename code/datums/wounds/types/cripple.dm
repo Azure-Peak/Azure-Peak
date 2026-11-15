@@ -135,22 +135,28 @@
 
 /datum/wound/cripple/skull/on_mob_gain(mob/living/affected)
 	. = ..()
-	if(istype(affected, /mob/living/simple_animal/hostile))
-		var/mob/living/simple_animal/hostile/hostile_affected = affected
-		removed_vision = min(vision_penalty, max(0, hostile_affected.vision_range - 1))
-		removed_aggro = min(vision_penalty, max(0, hostile_affected.aggro_vision_range - 1))
-		hostile_affected.vision_range = max(1, hostile_affected.vision_range - removed_vision)
-		hostile_affected.aggro_vision_range = max(1, hostile_affected.aggro_vision_range - removed_aggro)
+	if(istype(affected, /mob/living/simple_animal/hostile) && affected.ai_controller)
+		var/datum/ai_controller/controller = affected.ai_controller
+		var/aggro_range = controller.blackboard[BB_AGGRO_RANGE]
+		var/maintain_range = controller.blackboard[BB_AGGRO_MAINTAIN_RANGE]
+		if(aggro_range)
+			removed_vision = min(vision_penalty, max(0, aggro_range - 1))
+			controller.set_blackboard_key(BB_AGGRO_RANGE, aggro_range - removed_vision)
+		if(maintain_range)
+			removed_aggro = min(vision_penalty, max(0, maintain_range - 1))
+			controller.set_blackboard_key(BB_AGGRO_MAINTAIN_RANGE, maintain_range - removed_aggro)
 	affected.Knockdown(10)
 	if(mortal_break)
 		ADD_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS, "[type]")
 
 /datum/wound/cripple/skull/on_mob_loss(mob/living/affected)
 	. = ..()
-	if(istype(affected, /mob/living/simple_animal/hostile))
-		var/mob/living/simple_animal/hostile/hostile_affected = affected
-		hostile_affected.vision_range += removed_vision
-		hostile_affected.aggro_vision_range += removed_aggro
+	var/datum/ai_controller/controller = affected.ai_controller
+	if(controller)
+		if(removed_vision)
+			controller.set_blackboard_key(BB_AGGRO_RANGE, controller.blackboard[BB_AGGRO_RANGE] + removed_vision)
+		if(removed_aggro)
+			controller.set_blackboard_key(BB_AGGRO_MAINTAIN_RANGE, controller.blackboard[BB_AGGRO_MAINTAIN_RANGE] + removed_aggro)
 	if(mortal_break)
 		REMOVE_TRAIT(affected, TRAIT_CRITICAL_WEAKNESS, "[type]")
 

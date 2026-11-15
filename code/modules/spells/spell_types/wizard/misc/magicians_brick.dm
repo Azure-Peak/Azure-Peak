@@ -47,6 +47,7 @@
 		R.force = R.force + int_scaling
 		R.throwforce = R.throwforce + int_scaling * 2 // 2x scaling for throwing. Let's go.
 		R.name = "magician's brick +[int_scaling]"
+		R.update_force_dynamic()
 	user.put_in_hands(R)
 	src.conjured_brick = R
 	return TRUE

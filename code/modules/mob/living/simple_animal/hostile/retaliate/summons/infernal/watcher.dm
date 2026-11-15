@@ -14,9 +14,7 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 6
 	see_in_dark = 6
-	move_to_delay = 5
 	base_intents = list(/datum/intent/simple/bite)
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/infernal/core = 1)
@@ -26,12 +24,8 @@
 	maxHealth = 600
 	melee_damage_lower = 20
 	melee_damage_upper = 30
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 	simple_detect_bonus = 20
-	retreat_distance = 2
-	minimum_distance = 1
 	food_type = list()
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	pooptype = null
@@ -41,13 +35,10 @@
 	simple_detect_bonus = 20
 	deaggroprob = 0
 	canparry = TRUE
-	// del_on_deaggro = 44 SECONDS
-	retreat_health = 0
 	food = 0
 	attack_sound = list('sound/misc/lava_death.ogg')
 	dodgetime = 30
 	aggressive = 1
-//	stat_attack = UNCONSCIOUS
 	ai_controller = /datum/ai_controller/infernal/harasser
 	move_base_delay = MOVEMENT_DELAY_SPD_10
 

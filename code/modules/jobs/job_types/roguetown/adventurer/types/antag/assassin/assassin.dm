@@ -50,7 +50,7 @@
 		/datum/advclass/assassin_hitman,
 	)
 
-	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted)
+	vice_restrictions = list(/datum/charflaw/hunted, /datum/charflaw/targeted, /datum/charflaw/wanted)
 
 /datum/outfit/job/roguetown/assassin/post_equip(mob/living/carbon/human/H)
 	..()

@@ -5,6 +5,7 @@
 
 	outfit = /datum/outfit/job/roguetown/adventurer/witch
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(/obj/effect/proc_holder/spell/invoked/takeapprentice)
 	traits_applied = list(TRAIT_DEATHSIGHT, TRAIT_WITCH, TRAIT_ALCHEMY_EXPERT)
 	townie_contract_gate_exempt = TRUE
 	subclass_stats = list(
@@ -282,7 +283,6 @@
 	STACON = 5
 	melee_damage_lower = 9
 	melee_damage_upper = 14
-	del_on_deaggro = null
 	defprob = 70
 
 /mob/living/simple_animal/pet/cat/witch_shifted
@@ -316,7 +316,6 @@
 	STACON = 4
 	melee_damage_lower = 8
 	melee_damage_upper = 12
-	del_on_deaggro = null
 	defprob = 70
 
 /mob/living/simple_animal/hostile/retaliate/smallrat/witch_shifted

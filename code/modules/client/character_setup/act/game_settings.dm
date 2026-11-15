@@ -11,7 +11,7 @@
 			if(be_special_type in be_special)
 				be_special -= be_special_type
 			else
-				if(be_special_type in GLOB.special_roles_rogue)
+				if((be_special_type in GLOB.special_roles_rogue) && !is_banned_from(user.ckey, be_special_type))
 					be_special += be_special_type
 			return TRUE
 		// these are fine because the other one is in ui_act_character_creator and that's
@@ -136,7 +136,8 @@
 		if("asaycolor")
 			var/new_asaycolor = tgui_color_picker(user, "Choose your ASAY color:", "ASAY Color", asaycolor)
 			if(new_asaycolor)
-				asaycolor = new_asaycolor
+				asaycolor = sanitize_ooccolor(new_asaycolor)
+				save_preferences()
 			return TRUE
 
 		if("toggle_deadmin_always")

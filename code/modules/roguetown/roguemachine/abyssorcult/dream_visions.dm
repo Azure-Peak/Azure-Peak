@@ -26,7 +26,7 @@
 		"Absolver",
 		"Templar",
 		"Sergeant",
-		"Men-at-arms",
+		"Man at Arms",
 		"Knight",
 		"Squire",
 		"Mercenary",

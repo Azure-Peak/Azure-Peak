@@ -45,6 +45,7 @@
 #define HERESYDESC_GRONN "A symbol of the North's archaic beliefs. Those of a theological understanding greater than the common man would know these to be heretical."
 #define HERESYDESC_GILBRANZE_ARTIFICE "A blade of polished gilbranze in extraordinary quality. Someone's Artifice..?" // ATICIUS DONOR
 #define HERESYDESC_WEEPING_CROSS "It is ensnared in a perpetual state of half-coagulation, the alloy cracked and bleeding"
+#define HERESYDESC_AASIMAR_BINDING "It is of a design associated with the divine bindings of the Aasimari" //hopefully generic enough for other use cases
 
 // Vampire Lord Items - General theme is mysterious but a bad omen
 #define HERESYDESC_VAMPIRE "An unnatural enchanted armor piece of solid gilbranze that crackles with strange energies"

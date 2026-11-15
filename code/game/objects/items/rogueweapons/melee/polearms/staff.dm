@@ -16,14 +16,192 @@
 
 /datum/intent/spear/bash/ranged/quarterstaff
 	damfactor = 1
+	intent_intdamage_factor = 1
+
+/datum/intent/spear/bash/quarterstaff
+	damfactor = 0.8
+	intent_intdamage_factor = 1
 
 /datum/intent/spear/thrust/quarterstaff
+	name = "jab"
+	desc = "A quick, light jab with the end of the staff. Weaker than a bash, but faster. Unlike a spear's thrust, it has no sweet spot to find."
 	blade_class = BCLASS_BLUNT
+	attack_verb = list("jabs", "prods")
 	hitsound = list('sound/combat/hits/blunt/bluntsmall (1).ogg', 'sound/combat/hits/blunt/bluntsmall (2).ogg')
 	penfactor = PEN_NONE
-	damfactor = 1.3 // Adds up to be slightly stronger than an unenhanced ebeak strike.
+	damfactor = 0.9
+	clickcd = CLICK_CD_QUICK
+	item_d_type = "blunt"
+	effective_range = null
+	effective_range_type = EFF_RANGE_NONE
+	intent_intdamage_factor = 1
+
+/datum/intent/mace/smash/quarterstaff
+	reach = 2
+
+/datum/intent/sword/disarm/quarterstaff
+	desc = "Slip the light shaft against the target's weapon and lever it away. While it deals no damage on its own, successfully striking the target while they're off-balanced will disarm them."
+	attack_verb = list("hooks", "pries")
+	reach = 2
+
+/datum/intent/effect/hobble/quarterstaff
+	name = "leg sweep"
+	desc = "A low, sweeping strike at the legs with the iron-shod end of the staff, hobbling the target's movement."
+	attack_verb = list("sweeps", "hobbles")
+	reach = 2
+	damfactor = 0.6
+
+/datum/intent/effect/daze/quarterstaff
+	name = "counterweight strike"
+	desc = "Whip the metal-weighted butt of the staff up into the target's head, dazing them."
+	attack_verb = list("cracks", "dazes")
+	intent_intdamage_factor = 1
+
+/datum/intent/spear/bash/quarterstaff/rapid
+	name = "rapid strike"
+	desc = "Short, quick blows from a choked-up grip. Keeps pressure on lightly armored foes."
+	attack_verb = list("raps", "strikes", "cracks")
+	damfactor = 0.85
+	clickcd = CLICK_CD_MELEE
+
+/datum/intent/mace/strike/dislocate/quarterstaff
+	name = "joint strike"
+	desc = "Drive the shaft into an elbow or knee from up close. </br>Deals TWIST damage instead of BLUNT damage. Critical hits cause DISLOCATIONS, instead of FRACTURES. </br>DISLOCATED ARMS and HANDS cannot wield, grab, or use anything. </br>DISLOCATED LEGS and FEET prevent the target from standing."
+	attack_verb = list("jams", "levers", "cracks")
+	damfactor = 1.1
+
+/datum/intent/effect/daze/longsword/clinch/quarterstaff
+	name = "shaft clinch"
+	desc = "Step inside your opponent's guard and drive the middle of the shaft into their face. Very briefly reduces opponent's strength, making it easier to escape a grab."
+	attack_verb = list("clinches and bars")
+	intent_intdamage_factor = 1
+	hitsound = list('sound/combat/hits/blunt/woodblunt (1).ogg', 'sound/combat/hits/blunt/woodblunt (2).ogg')
+
+/datum/intent/spear/bash/quarterstaff/long
+	name = "long swing"
+	desc = "A wide, heavy swing from the very end of the staff, trading speed for leverage."
+	attack_verb = list("swings at", "clubs", "wallops")
+	reach = 2
+	damfactor = 1.25
+	swingdelay = 4
 	clickcd = CLICK_CD_CHARGED
 	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
+
+/datum/intent/spear/thrust/quarterstaff/long
+	name = "long thrust"
+	desc = "Thrust from the butt of the staff to keep a foe at the furthest possible length. Only effective at three paces."
+	reach = 3
+	damfactor = 1.15
+	effective_range = 3
+	effective_range_type = EFF_RANGE_EXACT
+	clickcd = CLICK_CD_CHARGED
+	swingdelay = 1.5
+
+/datum/intent/mace/smash/quarterstaff/long
+	name = "levering smash"
+	desc = "Swing the full length of the staff to drive a foe back. Delivers Strength-scaling knockback and slowdown to the target, ranging from X (1 tile) to XIII (3 tiles). </br>Cannot inflict any knockback or slowdown if your Strength is below X. </br>Cannot be used consecutively more than every 5 seconds on the same target. </br>Prone targets halve the knockback distance. </br>Not fully charging the attack limits knockback to 1 tile."
+	maxrange = 3
+
+/datum/intent/spear/bash/quarterstaff/overhead
+	name = "overhead crack"
+	desc = "A charged, two-handed overhead blow from the end of the staff, meant to batter armor rather than flesh."
+	icon_state = "instrike"
+	attack_verb = list("cracks down on", "batters")
+	reach = 2
+	damfactor = 1
+	chargetime = 8
+	chargedrain = 1
+	clickcd = CLICK_CD_HEAVY
+	intent_intdamage_factor = 1.5
+
+/datum/alt_grip/quarterstaff
+	two_handed = TRUE
+	skill_req = SKILL_LEVEL_JOURNEYMAN
+
+/datum/alt_grip/quarterstaff/half
+	name = "half-staff"
+	grip_intents = list(
+		/datum/intent/spear/bash/quarterstaff/rapid,
+		/datum/intent/mace/strike/dislocate/quarterstaff,
+		/datum/intent/effect/daze/longsword/clinch/quarterstaff,
+	)
+	onmobprop_overrides = list(
+		"altgrip" = list(
+			"shrink" = 0.6,
+			"sx" = 1,
+			"sy" = 2,
+			"nx" = 0,
+			"ny" = 2,
+			"wx" = -3,
+			"wy" = 2,
+			"ex" = 1,
+			"ey" = 2,
+			"northabove" = 0,
+			"southabove" = 1,
+			"eastabove" = 1,
+			"westabove" = 0,
+			"nturn" = 45,
+			"sturn" = -45,
+			"wturn" = 50,
+			"eturn" = -55,
+			"nflip" = 8,
+			"sflip" = 0,
+			"wflip" = 8,
+			"eflip" = 0,
+		),
+	)
+	var_overrides = list(
+		"wlength" = WLENGTH_NORMAL
+	)
+	additive_var_overrides = list(
+		"wdefense" = 1
+	)
+
+/datum/alt_grip/quarterstaff/half/get_grip_intents(obj/item/source)
+	. = ..()
+	var/obj/item/rogueweapon/woodstaff/quarterstaff/staff = source
+	if(istype(staff) && staff.signature_intent)
+		. += staff.signature_intent
+
+/datum/alt_grip/quarterstaff/long
+	name = "long guard"
+	grip_intents = list(
+		/datum/intent/spear/bash/quarterstaff/long,
+		/datum/intent/spear/thrust/quarterstaff/long,
+		/datum/intent/mace/smash/quarterstaff/long,
+		/datum/intent/spear/bash/quarterstaff/overhead,
+	)
+	onmobprop_overrides = list(
+		"altgrip" = list(
+			"shrink" = 0.6,
+			"sx" = 6,
+			"sy" = -5,
+			"nx" = -5,
+			"ny" = -4,
+			"wx" = -8,
+			"wy" = -4,
+			"ex" = 7,
+			"ey" = -4,
+			"northabove" = 0,
+			"southabove" = 1,
+			"eastabove" = 1,
+			"westabove" = 0,
+			"nturn" = -25,
+			"sturn" = 25,
+			"wturn" = -55,
+			"eturn" = 60,
+			"nflip" = 8,
+			"sflip" = 0,
+			"wflip" = 8,
+			"eflip" = 0,
+		),
+	)
+	var_overrides = list(
+		"wlength" = WLENGTH_GREAT
+	)
+	additive_var_overrides = list(
+		"wdefense" = -3
+	)
 
 /obj/item/rogueweapon/woodstaff
 	force = 10
@@ -237,33 +415,45 @@
 	name = "wooden quarterstaff"
 	desc = "A staff that makes any journey easier. Durable and swift, capable of bludgeoning stray volves and ruffians alike. The prodigious length \
 	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
-	force = 15
-	force_wielded = 20
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
+	force = 16
+	force_wielded = 22
+	possible_item_intents = list(/datum/intent/spear/bash/quarterstaff)
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged, /datum/intent/sword/disarm/quarterstaff)
+	alt_grips = list(/datum/alt_grip/quarterstaff/half, /datum/alt_grip/quarterstaff/long)
 	icon_state = "quarterstaff"
 	associated_skill = /datum/skill/combat/staves
 	is_implement = FALSE
-	max_integrity = 150
+	max_integrity = 175
 	wdefense = 5
-	wdefense_wbonus = 5	// 90% in a same-skill matchup, 80% in a one-skill-below matchup.
+	wdefense_wbonus = 6
+	wbalance = WBALANCE_SWIFT
 	smeltresult = /obj/item/natural/ash
+	/// The material-specific intent this staff keeps in its half-staff stance.
+	var/signature_intent = /datum/intent/sword/disarm/quarterstaff
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/virtue
 	name = "shepherd's quarterstaff" //Reskinned iron quarterstaff without the smeltability-into-ingotry.
-	force = 16
-	force_wielded = 22
-	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/wood/ranged)
+	force = 17
+	force_wielded = 23
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/quarterstaff, /datum/intent/effect/hobble/quarterstaff)
+	signature_intent = /datum/intent/effect/hobble/quarterstaff
+	wbalance = WBALANCE_NORMAL
 	icon_state = "quarterstaff_virtue"
-	max_integrity = 200
+	max_integrity = 250
+	wdefense_wbonus = 5
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/iron
 	name = "iron quarterstaff"
 	desc = "A quarterstaff reinforced with iron studdings and counterweights. The prodigious length \
 	permits it to both incapacitate the villainous with blunted strikes, and to keep snarling foes at staff's length."
-	force = 16
-	force_wielded = 22
+	force = 17
+	force_wielded = 23
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash/quarterstaff, /datum/intent/effect/hobble/quarterstaff)
+	signature_intent = /datum/intent/effect/hobble/quarterstaff
+	wbalance = WBALANCE_NORMAL
 	icon_state = "quarterstaff_iron"
-	max_integrity = 200
+	max_integrity = 250
+	wdefense_wbonus = 5
 	smeltresult = /obj/item/ingot/iron
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/steel
@@ -273,8 +463,13 @@
 	very own tools."
 	force = 18
 	force_wielded = 25
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash, /datum/intent/effect/daze/quarterstaff)
+	signature_intent = /datum/intent/effect/daze/quarterstaff
+	wbalance = WBALANCE_HEAVY
 	icon_state = "quarterstaff_steel"
 	max_integrity = 200
+	wdefense = 4
+	wdefense_wbonus = 5
 	smeltresult = /obj/item/ingot/steel
 
 /obj/item/rogueweapon/woodstaff/quarterstaff/steel/holysee
@@ -302,6 +497,9 @@
 	who'd traditionally wield such a weapon; then again, who are we to judge?"
 	force = 20
 	force_wielded = 30
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash, /datum/intent/effect/daze/quarterstaff)
+	signature_intent = /datum/intent/effect/daze/quarterstaff
+	wbalance = WBALANCE_NORMAL
 	icon_state = "quarterstaff_blacksteel"
 	max_integrity = 350
 	smeltresult = /obj/item/ingot/blacksteel
@@ -351,6 +549,11 @@
 	icon_state = "quarterstaff_gold"
 	force = 23
 	force_wielded = 30
+	wdefense = 4
+	wdefense_wbonus = 5
+	gripped_intents = list(/datum/intent/spear/bash/ranged/quarterstaff, /datum/intent/spear/thrust/quarterstaff, /datum/intent/mace/smash, /datum/intent/effect/daze/quarterstaff)
+	signature_intent = /datum/intent/effect/daze/quarterstaff
+	wbalance = WBALANCE_HEAVY
 	special = /datum/special_intent/gilded_dragon_sweep
 	sellprice = 80
 	no_loot_taint = TRUE

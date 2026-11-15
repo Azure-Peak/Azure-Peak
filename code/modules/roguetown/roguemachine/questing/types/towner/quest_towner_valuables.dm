@@ -35,8 +35,6 @@
 		/datum/advclass/merchant,
 		/datum/advclass/trader/jeweler,
 		/datum/advclass/veteran/calvaryman,
-		/datum/advclass/noble,
-		/datum/advclass/noble/squire,
 		/datum/advclass/heartfelt/lord/lord,
 		/datum/advclass/heartfelt/lord/archmage,
 		/datum/advclass/heartfelt/lord/chief,

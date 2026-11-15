@@ -239,24 +239,6 @@
 #define SENTIENCE_MINEBOT 4
 #define SENTIENCE_BOSS 5
 
-//Mob AI Status
-
-//Hostile simple animals
-//If you add a new status, be sure to add a list for it to the simple_animals global in _globalvars/lists/mobs.dm
-#define AI_ON		1
-#define AI_IDLE		2
-#define AI_OFF		3
-#define AI_Z_OFF	4
-
-// these are exclusively for hostile humantype mobs
-#define NPC_AI_OFF		0
-#define NPC_AI_IDLE		1
-#define NPC_AI_COMBAT	2
-#define NPC_AI_RETREAT	3
-#define NPC_AI_HUNT		4
-#define NPC_AI_FLEE		5
-#define NPC_AI_SLEEP	6
-
 //determines if a mob can smash through it
 #define ENVIRONMENT_SMASH_NONE			0
 #define ENVIRONMENT_SMASH_STRUCTURES	(1<<0)	//crates, lockers, ect

@@ -6,7 +6,10 @@
 
 	outfit = /datum/outfit/job/roguetown/adventurer/hunter
 	traits_applied = list(TRAIT_OUTDOORSMAN, TRAIT_SURVIVAL_EXPERT, TRAIT_MASTERFUL_HUNTER, TRAIT_MONSTER_HUNTER)
-	subclass_spells = list(/obj/effect/proc_holder/spell/self/run_for_it)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/self/run_for_it,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	townie_contract_gate_exempt = TRUE
 	cmode_music = 'sound/music/cmode/towner/combat_towner2.ogg'
 
@@ -67,7 +70,7 @@
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)
 	if(H.mind)
-		var/weapons = list("Bow","Crossbow")
+		var/weapons = list("Bow","Heavy Crossbow","Light Crossbow")
 		var/weapon_choice = input(H, "Choose your weapon.", "TAKE UP ARMS") as anything in weapons
 		H.set_blindness(0)
 		switch(weapon_choice)
@@ -75,10 +78,14 @@
 				H.adjust_skillrank_up_to(/datum/skill/combat/bows, SKILL_LEVEL_EXPERT, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/bow/towner
 				beltl = /obj/item/quiver/arrows
-			if("Crossbow")
+			if("Heavy Crossbow")
 				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
 				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow
 				beltl = /obj/item/quiver/bolt/standard
+			if("Light Crossbow")
+				H.adjust_skillrank_up_to(/datum/skill/combat/crossbows, SKILL_LEVEL_EXPERT, TRUE)
+				backr = /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
+				beltl = /obj/item/quiver/bolt/light
 
 /datum/advclass/hunter/spear
 	name = "Spear-Hunter"

@@ -60,7 +60,7 @@
 			. = TRUE
 	var/mob/living/simple_animal/hostile/hostile_beast = src
 	if(istype(hostile_beast) && hostile_beast.target == target)
-		hostile_beast.LoseTarget()
+		hostile_beast.ai_controller.clear_aggro()
 		. = TRUE
 
 /atom/movable/screen/alert/status_effect/buff/run_for_it

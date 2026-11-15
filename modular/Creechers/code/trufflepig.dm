@@ -89,11 +89,8 @@
 	gender = MALE
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	emote_see = list("eyes the surroundings.", "flicks its ears.")
-	stop_automated_movement_when_pulled = TRUE
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
-	move_to_delay = 7
 	animal_species = /mob/living/simple_animal/hostile/retaliate/rogue/trufflepig
 	botched_butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/fatty = 2,
@@ -132,7 +129,6 @@
 	attack_verb_simple = "bites"
 	melee_damage_lower = 8
 	melee_damage_upper = 14
-	minimum_distance = 1
 	STASPD = 2
 	STACON = 8
 	STASTR = 12
@@ -145,8 +141,6 @@
 	var/hangry_meter = 0
 
 	//new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
 
 
@@ -164,7 +158,6 @@
 				walk_towards(src, M, 1)
 				sleep(3)
 				visible_message("<span class='notice'>The pig devours the vulnerable truffles!</span>")
-				stop_automated_movement = 0
 				hangry_meter = 0
 				playsound(src,'sound/misc/eat.ogg', rand(30,60), TRUE)
 				qdel(M)

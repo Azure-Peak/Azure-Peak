@@ -17,10 +17,8 @@
 	emote_hear = null
 	emote_see = null
 	speak_chance = 1
-	turns_per_move = 3
 	speak_emote = list("growls")
 	see_in_dark = 6
-	move_to_delay = 3
 	base_intents = list(/datum/intent/simple/bite/dragon_bite)
 	minbodytemp = 0
 	maxbodytemp = INFINITY
@@ -43,11 +41,7 @@
 	maxHealth = DRAGON_HEALTH
 	melee_damage_lower = 50
 	melee_damage_upper = 70
-	vision_range = 7
-	aggro_vision_range = 9
 	environment_smash = ENVIRONMENT_SMASH_NONE
-	retreat_distance = 0
-	minimum_distance = 0
 	milkies = FALSE
 	food_type = list(/obj/item/reagent_containers/food/snacks/rogue/meat,
 					/obj/item/bodypart,
@@ -59,20 +53,15 @@
 	STASTR = 20
 	STASPD = 13
 	deaggroprob = 0
-	del_on_deaggro = 9999 SECONDS
-	retreat_health = 0.05
 	food = 0
 	attack_sound = list('sound/combat/hits/blunt/genblunt (1).ogg','sound/combat/hits/blunt/genblunt (2).ogg','sound/combat/hits/blunt/genblunt (3).ogg','sound/combat/hits/blunt/flailhit.ogg')
 	dodgetime = 30
 	aggressive = 1
 
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/dragon
 	move_base_delay = MOVEMENT_DELAY_SPD_17
 
 	limb_destroyer = TRUE
-//	stat_attack = UNCONSCIOUS
 
 	var/breath_ability = /datum/action/cooldown/spell/telegraphed_strike/dragons_breath/mob_ability/drakkyn
 	var/fireball_ability = /datum/action/cooldown/spell/projectile/fireball/mob_ability/drakkyn
@@ -141,15 +130,13 @@
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 	return
 
 /mob/living/simple_animal/hostile/retaliate/rogue/dragon/Life()
 	..()
 	if(pulledby)
-		Retaliate()
-		GiveTarget(pulledby)
+		ai_controller?.force_aggro(pulledby)
 
 /datum/intent/simple/bite/dragon_bite //the model/hitbox is too big so it never got to attack. Increase reach
 	reach = 2
@@ -176,7 +163,6 @@
 	threat_point = THREAT_LEGENDARY
 	health = DRAGON_BROODMOTHER_HEALTH
 	maxHealth = DRAGON_BROODMOTHER_HEALTH
-	retreat_health = 0.05
 	name = "drakkyn aspirant"
 	desc = "Want-to-be True Drakkyn. Primordial wealth has crawled and infused into this one's scales in reverence of ancestor-was and will-be. Minaret of gilded power starburst from a firmament torn thousands of years ago. Although True Drakkyn are immortal, these are not; not after a hundred-hundred offspring "
 	icon_state = "dragon_cool"

@@ -9,7 +9,7 @@
 /datum/crafting_recipe/roguetown/alchemy/bbomb
 	name = "bottle bomb"
 	category = "Table"
-	result = list(/obj/item/bomb)
+	result = list(/obj/item/explosive/fused/bottle)
 	reqs = list(/obj/item/reagent_containers/glass/bottle = 1, /obj/item/natural/ash = 2, /obj/item/rogueore/coal = 1, /obj/item/natural/cloth = 1)
 	craftdiff = 2
 

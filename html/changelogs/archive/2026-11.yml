@@ -303,3 +303,280 @@
   - rscadd: Added the option to change your status on the Rose Wall when declining
       an offer.
   - bugfix: Fixed overly sanitized Rose Wall text.
+2026-11-08:
+  Blacklist897:
+  - rscadd: Donator Items for lockwood
+  BobProductive:
+  - rscadd: ported board games (chess, checkers, backgammon) from twilight axis
+  GailThePale:
+  - bugfix: hand size to 13
+  Quinalion:
+  - qol: Tree stumps now function as table surfaces.
+  - qol: Tree stumps can now be used for table-based interaction checks.
+  - rscadd: Items and mobs with table pass flags can now be placed and moved over
+      tree stumps.
+  - rscadd: Added table-style interactions to tree stumps.
+  - qol: Tree stumps are now automatically climbable.
+  Ryan180602:
+  - refactor: explosives
+  - rscadd: renegade antagonist gamemode.
+  WeNeedMorePhoron:
+  - bugfix: Aspect-granted spell now refund utility points if you already have them
+      selected
+  Xaytan:
+  - rscdel: Removed legacy temperature handling.
+  borneblood:
+  - bugfix: Linters again.
+  - bugfix: Fixed a problem with someone using lowertext instead of LOWER_TEXT.
+  changelingonberry:
+  - bugfix: Fix admin ooc color not saving & color drifting.
+  radarseas:
+  - bugfix: fixes the ancient dagger sheath sprites not existing, whoops!
+  - bugfix: ancient longsword now has a new sprite added for scabbards so it doesn't
+      look like a steel longsword - Technically image related but i consider it quality
+      control, thuslie its a fix, suffer!
+2026-11-09:
+  OrbisAnima:
+  - qol: Changes fishing rods category to normal so they can fit in satchels.
+  Ryan180602:
+  - balance: if you have a tail and your nympho procs, it'll wag.
+  WeNeedMorePhoron:
+  - rscadd: Increased the amount of contracts generated, especially at the start of
+      the game, so there's real choices.
+  - rscadd: Unattended scrolls now crumble after 30 minutes
+  - rscadd: Add messages to indicate if you had too much food / water
+  - rscdel: (Openly) Psydonite Grand Dukes are once again no longer allowed. You may
+      still have sympathy or empathy or pretend to be a converso or something.
+  - rscdel: Removed all non servantry service bells from the game to reduce church
+      / apoth / guild / merchant / steward stress level and stop reinforcing these
+      roles as vendor roles subservient to combat roles who is expected to be on call
+      for 3 hours. Use SCOM / Letters and or live with their potential absence.
+  - rscadd: Everyone can now see which region fishing stocks belong to, and the text
+      and mechanics is explained on examine
+  - rscadd: Now all fishers at Expert skills or with the Expert Fisher trait can see
+      whether specific fish is depleted and their replenishment rate, in IC time.
+  - rscdel: Single tile water source and town no longer fishable
+  - rscadd: Folded Chessboard is now craftable. Old game table renamed ornamental
+      game table to reduce confusion
+  changelingonberry:
+  - balance: Lux extraction can be performed with any sharp implement now.
+  fffelinid:
+  - qol: Bath-house staff can now lock/unlock their own peddler even if the matron
+      isn't present.
+  - bugfix: Fixed treasure seeker inheriting some unnecessary examine text from the
+      head eater.
+  zRainbowcat:
+  - bugfix: dodge chance abuse
+2026-11-10:
+  FreeStylaLT:
+  - bugfix: Fixed Clamorous not being satisfied by surrounding speech.
+  NonQueueingMatt:
+  - rscadd: Changed a line you receive when you've almost drank too much.
+  OrbisAnima:
+  - balance: Added the light crossbow option to the bow hunter.
+  Ryan180602:
+  - balance: Psydonic Plate-n-Maille is now 400 integ.
+  - balance: Psydonic Half-plate covers arms/chest/groin at 450 integ.
+  - balance: Psydonic Full-plate is now 450 integ.
+  - bugfix: Psydonic Half-plate inherits steel fluff traits (like walk sounds and
+      such)
+  - bugfix: Let the apostle/robe donor kits not turn the psy plates into steel.
+  Sauna38:
+  - bugfix: Fireplaces can now be placed on ANY wall - not just north-facing ones!
+  - rscadd: 'The Shelvening: adds all three types of shelves to the Crafting menu.
+      You can also move them by left-clicking with a stake while in combat mode.'
+  - rscadd: 'The Chestening and the Closeting: also adds three new chests types, one
+      closet, and one bed-side drawer to the crafting menu.'
+  WeNeedMorePhoron:
+  - rscadd: Moat in town is no longer fishable. Abyssorite water should always be
+      fishable.
+  - rscadd: Squire adventurer and aristocrat can no longer issue the Personal Valuables
+      TOWNER QUEST
+  - rscadd: You may now cancel targeted emotes like bow
+  changelingonberry:
+  - rscadd: The defiled keyholder virtue is now pickable with any patron, but non-ascendants
+      cannot use the travel tiles while being observed. It also allows you to claim
+      wretch houses.
+  - balance: Non-ascendants with defiled keyholder cannot take courtier, retinue,
+      garrison, church, inquisition or other patron-locked jobs.
+  - admin: 'Added a new smite: Bolt to the neck.'
+  radarseas:
+  - balance: Tennite heretics can now access T4 miracles again.
+2026-11-11:
+  WeNeedMorePhoron:
+  - rscadd: 'Added hunting knife to adventurer classes missing a knife, and as far
+      as I know, wasn''t missing it on purpose: All Clerics, several foreigner classes,
+      Spellblade, Spellsinger, Aristocrat, Knight Errant, Bombardier, Antiquarian,
+      Duelist, Ironclad, Exorcist'
+2026-11-12:
+  Guidesu:
+  - rscadd: Quarterstaves now have two stances you can switch to with the alt-grip
+      key at Journeyman staves. Half-staff (close quarters) has rapid strike, joint
+      strike, shaft clinch and the staff's signature move. Long guard (at range) has
+      long swing, a 3-tile long thrust, levering smash and an armor-cracking overhead
+      strike.
+  - rscadd: 'Each quarterstaff material now has its own signature move: disarm for
+      wooden, leg sweep for iron, and a dazing counterweight strike for steel and
+      heavier staves.'
+  - rscadd: Steel and heavier quarterstaves now smash at 2 tiles of reach.
+  - balance: 'Quarterstaff weight now depends on material: wooden staves are swift,
+      iron is normal, and steel and gold are heavy.'
+  - balance: One-handed quarterstaff bash now does 0.8x damage, up from 0.6x.
+  - bugfix: The quarterstaff jab no longer does half damage to adjacent targets. It
+      now attacks at normal speed and counts as blunt.
+  WeNeedMorePhoron:
+  - rscadd: Antagonist bans should be respected properly by dreamwalker and storyteller
+      now.
+  - bugfix: Cleric now spawn with knife on belt instead of in backpack to avoid crowding
+  - refactor: Refactored dozens of mobs and fixed some bugs with existing animals.
+      Report any odd or new behaviors.
+  changelingonberry:
+  - bugfix: The ghost orbit menu has been re-ordered and now remembers your expanded
+      categories.
+  - rscadd: All carbon NPCs can now be spawned in as deadites.
+  - balance: Deadite NPCs should behave better. They no longer grab weapons, can bite
+      through masks, and always bite prone players.
+  - bugfix: OOC color now sanitizes correctly to be light instead of dark.
+  - bugfix: Reapply preferences no longer renames the character or makes them drop
+      their gloves.
+  chaoko99:
+  - bugfix: added missing planes to the eye blurring system.
+  mumblemancer:
+  - bugfix: gargoyles (should) now change with your character's gender in most situations
+      where it changes. PLEASE REPORT ON BUG-REPORTS if ANYTHING GOES WRONG!!!
+  - bugfix: sui dust can now make ur body type masculine instead of Just feminine
+      (it was broken this whole time)
+  radarseas:
+  - bugfix: Violating the entire Geneva conventions over several-dozen tymelines in
+      advance no longer means you aren't branded for this (T4 wretch bounties now
+      properly OUTLAW!/HERETIC! you like the unforgivable lunatic you are!)
+2026-11-13:
+  KatTheFox:
+  - rscadd: '''One-Chance'' round type, an alternative to merciless that gives each
+      character one revive before they get DNR applied.'
+  Ollanius:
+  - qol: The subclass names for the Exorcist are now agnostic and have a stronger
+      correlation to the attached option. 'Traditionalist' is now 'Sanguine', 'Reformist'
+      is now 'Swiftfooted', and 'Orthodoxist' is now 'Stalwart'.
+  RosySaturniidae:
+  - bugfix: fur collar is no longer strangely offset
+  Ryan180602:
+  - rscadd: protege system for veteran.
+  - bugfix: give mercenary veteran bad trainer as i should've.
+  WeNeedMorePhoron:
+  - rscadd: You may rub dirt into polished / shiny armor to make them not shiny anymore
+  - rscdel: You no longer get an examine more text to spam your chat when there's
+      no examine more text.
+  - bugfix: Chickens lay eggs again. Readd accidentally deleted chick mob.
+  - rscdel: Removed the origin lock on Grand Duke and Heirs. This is unenforced and
+      frankly, not quite supported by current nor future lore or administrative actions
+      or lack thereof.
+  changelingonberry:
+  - bugfix: Wanted vice can no longer be picked by marshall, assassin or court agent.
+  kilozombie:
+  - balance: Padded masks, padded leather masks, and duelist goggles now work with
+      Fencer's Dexterity
+  mumblemancer:
+  - code_imp: is_in_combat() proc now available for coders to use
+  - balance: cheeles give 1 blood max if infusing on someone incombat
+  - bugfix: leeches drain blood again. cheeles will also fill again.
+  - rscadd: more timechange quotes
+  saltprjak:
+  - bugfix: Magician's Brick and Aetherknife melee damage now properly scale with
+      INT. Heavy is the hand that holds the brick.
+2026-11-15:
+  ?.:
+  - code_imp: Necran Excommunicated can do lesser Necran rituals now, and spawn with
+      a chalk.
+  BobProductive:
+  - rscadd: Climbing gear now lets you attach to walls via jumping/leaping
+  - rscadd: Climbing gear now gives you leaper
+  - rscdel: Removed the stamina reduction when climbing with climbing gear
+  Ketrai:
+  - rscadd: Added Nodachi as a kazengun weapon option to eastern warrior, mercenary
+      gun-in & kouken, mistwalkers, disgraced knight, kazengun trading ships and the
+      merchant silverface.
+  OMEGATHERION:
+  - rscadd: more emote sounds in gnoll voicepack.dm
+  - rscadd: Track *sniffs if you aren't sneaking
+  - bugfix: pouch items spawning in one slot for zigboxes and healing pouches
+  - bugfix: gnoll shaman's rite chalk spawning on the ground instead of their hand
+  - bugfix: gnoll knight's default cmode music
+  Ollanius:
+  - bugfix: (I'm baaa-a-aaack!) - Overvestments no longer have a mysterious white
+      cloak hanging over them.
+  - bugfix: Padded undervestments no longer have flickering sleeves when facing to
+      the right.
+  - bugfix: Cloaks of the Silver- and Gold-type Orders now function again, solving
+      the month-long case of Late Stage Back!Norwoodism.
+  - code_imp: Repathed the Overvestments and Cloaks to 'stabard/overvestments' and
+      'cape/puritan/silver + /gold', respectively.
+  - code_imp: Reduced the girth of the Ordered Surcoat's descriptions. The Loadout's
+      Cloak section should be much more tidy, now.
+  - rscadd: Dedicated smallfolk sprites for the Puritan Cape. Dwarves and rousladies,
+      fear no more!
+  - rscadd: Puritan capes are now craftable (under the listing of 'formal').
+  - code_imp: Puritan capes require two silk threads to craft, which has been added
+      to the Cloak-forked recipes as well.
+  Ryan180602:
+  - code_imp: Clean up vote/god code.
+  - code_imp: High Intensity rolled on low pop now rolls Standard.
+  - bugfix: Masq Lite rolls again on Medium.
+  - code_imp: Add Renegade lite on Medium.
+  ToasterStrudes:
+  - rscadd: Added a new donator item for Toasterstrudes
+  - rscdel: Deprecated donator item for Toasterstrudes
+  WeNeedMorePhoron:
+  - rscadd: Added mage NPC including all 3 variants of spellblades and 6 schools to
+      all complex mobs NPC factions. Aiming formula were tweaked to feel more human
+      like with higher possibility of missing.
+  - rscadd: Added Graggarite Cleric NPC
+  - bugfix: Fixes goblin pyromancers and all throwing weapons using NPCs, which has
+      been broken for months.
+  - rscadd: Added higher threat mobs to several factions lacking them. Added proper
+      threat to goblin faction subtypes of mob so reward scales properly.
+  - rscadd: Ambush now check for any ongoing PVE fight nearby in 9 tiles and block
+      itself from spawning if there's one ongoing already.
+  - rscadd: Ported Ochre Valley's doppelganger mob, with the doppel heart given as
+      a sellable rewards on death. They do not give any yield or such.
+  - rscadd: Adjusted NPC kick, intent switching and other logic to add in a delay
+      that imitate human reaction time and delay, so that they subtly feels a bit
+      fairer.
+  - bugfix: Masochist should fire its timer properly and Sadist / Masochist are more
+      easily satisfied by beating / being beaten now.
+  - bugfix: Narsie font (Vampire Telepathy) text is no longer insanely large
+  - rscdel: Removed the shipping fluctuation event which was causing one or two random
+      supply pack to goes utterly overpriced. We're in a new economic era, babe.
+  - bugfix: Pouch can no longer collect and delete coin inside of itself
+  - rscadd: Refactored and fixed some grammar / typos on Master's Rod and Court Magician's
+      staff. The shock intent on the CM's staff now reuse the SHOCK icon. Also added
+      description.
+  - rscadd: Templars / Acolytes / Sexton have access to the institutional fund of
+      the Church subject to the same minimum balance limit, up to 50m a day by default.
+  - bugfix: Fix Beam Runtime.
+  - rscadd: All towner roles will now have the Take Apprentice Spell. Take a merc
+      along on your fishing trip.
+  - rscadd: Added item stats and intents preview to Commissioner / Silverface / Goldface
+      / Encyclopedia. Cleaned up intents examine to show less useless stats.
+  borneblood:
+  - balance: Colorblind toggle for Darksight virtue lets you actually see better in
+      the dark.
+  changelingonberry:
+  - balance: Forlorne can be taken by gnolls and wretches now.
+  - bugfix: Forlorne gives you a 30 second immunity to ambushes on spawn.
+  - bugfix: Items that can be repaired both via needle and hammer can now be repaired
+      via their respective kits too.
+  jinxynii:
+  - rscadd: The Light orb can now be tinted. Use it in hand to cycle between white,
+      salt-gold, copper-green, tin-blue, cinnabar-rose and manganese-violet. Your
+      choice carries over when you recast.
+  - rscadd: The Prestidigitation magelight mote can be tinted the same way. With Light
+      selected and the mote released, use the hand in hand to cycle arcyne-blue, salt-gold,
+      copper-green, cinnabar-rose and manganese-violet.
+  - image: Added recoloured wisp sprites for each magelight mote tint, and tinted
+      the Light orb sprite to match its glow.
+  kilozombie:
+  - balance: Gronnic talismans now have different names from each other, letting you
+      tell them apart at a glance (without giving away the meaning of each)
+  string-thing:
+  - rscadd: Added axe skill to shovels

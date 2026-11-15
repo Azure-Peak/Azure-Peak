@@ -67,7 +67,7 @@
 	)
 	belt = list(
 		/obj/item/storage/belt/rogue/leather,
-		/obj/item/storage/belt/rogue/leather/knifebelt/black,
+		/obj/item/storage/belt/rogue/leather/tossbelt/blade/black,
 		/obj/item/storage/belt/rogue/leather/black,
 		/obj/item/storage/belt/rogue/leather/rope,
 	)

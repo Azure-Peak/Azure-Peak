@@ -1,0 +1,17 @@
+author: "WeNeedMorePhoron"
+delete-after: True
+changes:
+  - rscadd: "Mercenaries may now only take on one contract on their own every 30 minutes. They may still take towner postings without restriction or manually handed over contracts. This restriction is lifted at 30 pop or below. They must take and split contracts with a non-mercenary led fellowship."
+  - rscadd: "Added Mercenary contract mechanics which allows you to sign a contract as a Mercenary with someone. With certain roles that have no good source of funding being funded by an external funder who gives you a stipend. This stipend depends on a presence check to avoid the most egregious exploit. Mercenary contracts forces you into their fellowship, split pay, and ensure they cannot kick you. It can be ended in the MEISTER. Mercenary gives +25% bonus to their split pay when they finish a quest while under contract (Also count if the contract expired afterward but was active during). Mercenary Contract can also hold a day of pay and set daily rate on top of stipend, if any."
+  - rscadd: "Removed the old writ of commendation which needs to be bought from the Merchant and then signed for a triumphg bonus. As a mercenary, if you have served more than 2 days under contract, you will automatically receive the triumphs and the medal in the mail instead. This should be a far more visible mechanic now."
+  - rscadd: "University, Inquisition, Church and Upper Duchy members may no longer take contracts under any circumstances."
+  - rscadd: "Adjusted, and lowered contract rewards scaling. Increased difficulty on some contracts."
+  - rscadd: "Only fellowship leader make take on contracts now to avoid exploits and make the group scaling works properly. Now the scaling is +2 for first member and +1 after."
+  - rscadd: "Added preview for how group scaling works. Added \"Veteran\" difficulty which adds +50% threat points and slightly more rewards to all quests."
+  - rscadd: "Ported Mercenary statue advertisement and remote Update Mercenary Status verb from Ochre Valley. Statues outside of tavern can be muted."
+  - balance: "Notorious Contracts mob are nerfed to Expert skills and 13 stats or below if a player take them over."
+  - rscadd: "When a human issued contract is made, and there's no available landmark, it will \"bump\" an auto-generated contract out of its way and take over the landmark. This should reduce the amount of \"No Available Landmark\" issues occurring by a lot."
+  - rscadd: "Made migrant mercenary actually the mercenary job and added a framework for doing so for future migration wave. This should resolve a lot of janky issues associated with the old wave."
+  - rscadd: "Only a fellowship's leader can take on contracts now to avoid epxloit"
+  - rscadd: "Increased time limit on non blockade kill quest to 20 minutes. Added an overtime mechanic to extend it to 30 minutes as long as a kill was made recently or one or more enemy is close to one of the participant."
+  - rscadd: "Improved contract scaling to fellowship to be consistently scaling to fellowship only in Blockade. Increased range from 14 to 21. It is now z-level insensitive."

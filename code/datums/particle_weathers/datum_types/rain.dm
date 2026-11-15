@@ -41,7 +41,6 @@
 	if(HAS_TRAIT(L, TRAIT_ABYSSOR_SWIM))
 		L.add_stress(/datum/stressevent/abyssor_rain)
 
-	L.adjust_bodytemperature(-rand(3,9))
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
 	wash_atom(L, CLEAN_WEAK)
@@ -68,8 +67,6 @@
 	// Abyssorites like storms even more than they like rain!
 	if(HAS_TRAIT(L, TRAIT_ABYSSOR_SWIM))
 		L.add_stress(/datum/stressevent/abyssor_storm)
-
-	L.adjust_bodytemperature(-rand(9,15))
 	L.adjust_fire_stacks(-100)
 	L.SoakMob(FULL_BODY)
 	wash_atom(L,CLEAN_STRONG)

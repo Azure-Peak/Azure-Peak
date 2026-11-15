@@ -6,7 +6,7 @@
 	cant_hold = list(
 		/obj/item/storage,
 		/obj/item/rogueweapon,
-		/obj/item/bomb,
+		/obj/item/explosive/fused/bottle,
 		/obj/item/flashlight,
 		/obj/item/recipe_book,
 	)

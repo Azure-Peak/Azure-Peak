@@ -9,6 +9,10 @@
 	traits_applied = list(TRAIT_HOMESTEAD_EXPERT)
 
 	category_tags = list(CTAG_PILGRIM, CTAG_TOWNER)
+	subclass_spells = list(
+		/obj/effect/proc_holder/spell/invoked/digclay,
+		/obj/effect/proc_holder/spell/invoked/takeapprentice,
+	)
 	subclass_stats = list(
 		STATKEY_PER = 2,
 		STATKEY_WIL = 2,
@@ -56,7 +60,5 @@
 	// Clay and glassBatch are raw materials
 	// Coal so he can build an ore furnace for glass blowing
 	// Coggers so he can build a potter's wheel.
-	if(H.mind)
-		H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/digclay)
 	if(H.mind)
 		SStreasury.grant_savings(ECONOMIC_LOWER_CLASS, H)

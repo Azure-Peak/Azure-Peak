@@ -206,6 +206,30 @@
 		arcyne_strike(H, victim, weapon, damage, def_zone, BCLASS_BLUNT, spell_name = "Air Strike (Blunt)")
 	H.visible_message(span_danger("[H] slams [weapon.name] down, focusing all arcyne force into [victim]!"))
 
+/datum/action/cooldown/spell/air_strike/get_impact_turfs(atom/center)
+	var/turf/origin = get_turf(center)
+	var/mob/living/L = owner
+	if(!origin || !istype(L))
+		return list()
+	var/datum/intent/current_intent = L.a_intent
+	return strike_turfs(origin, get_dir(get_turf(L), origin) || L.dir, current_intent?.blade_class)
+
+/datum/action/cooldown/spell/air_strike/proc/strike_turfs(turf/origin, facing, blade_class)
+	switch(blade_class)
+		if(BCLASS_STAB, BCLASS_PICK)
+			return get_forward_line(origin, facing, 3)
+		if(BCLASS_BLUNT, BCLASS_SMASH)
+			return list(origin)
+	return get_perpendicular_line(origin, facing)
+
+/datum/action/cooldown/spell/air_strike/proc/strike_damage(blade_class)
+	switch(blade_class)
+		if(BCLASS_STAB, BCLASS_PICK)
+			return stab_damage
+		if(BCLASS_BLUNT, BCLASS_SMASH)
+			return blunt_damage
+	return cut_damage
+
 /datum/action/cooldown/spell/air_strike/proc/get_perpendicular_line(turf/center, facing)
 	var/list/turfs = list()
 	turfs += center

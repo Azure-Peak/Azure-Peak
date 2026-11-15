@@ -35,8 +35,6 @@
 		L.add_stress(/datum/stressevent/parasol_snow)
 		return
 
-	L.adjust_bodytemperature(-rand(5,10))
-
 
 /datum/particle_weather/snow_storm
 	name = "Rain"
@@ -53,7 +51,3 @@
 	immunity_type = TRAIT_SNOWSTORM_IMMUNE
 	probability = 10
 	target_trait = PARTICLEWEATHER_SNOW
-
-//Makes you a lot little chilly
-/datum/particle_weather/snow_storm/weather_act(mob/living/L)
-	L.adjust_bodytemperature(-rand(10,25))

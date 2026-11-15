@@ -10,5 +10,5 @@
 //** THROWING KNIVES **//
 
 /datum/npc_loadout/kit/throwing_knives
-	belt = /obj/item/storage/belt/rogue/leather/knifebelt/iron
+	belt = /obj/item/storage/belt/rogue/leather/tossbelt/blade/iron
 	skills = list(/datum/skill/combat/knives = SKILL_LEVEL_JOURNEYMAN)

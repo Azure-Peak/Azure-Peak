@@ -246,9 +246,9 @@
 		else
 			saturation = range/(2-max-min)
 
-		var/dred = ((max-red)/(6*max)) + 0.5
-		var/dgreen = ((max-green)/(6*max)) + 0.5
-		var/dblue = ((max-blue)/(6*max)) + 0.5
+		var/dred = ((max-red)/(6*range)) + 0.5
+		var/dgreen = ((max-green)/(6*range)) + 0.5
+		var/dblue = ((max-blue)/(6*range)) + 0.5
 
 		if(max==red)
 			hue = dblue - dgreen
@@ -266,7 +266,7 @@
 /proc/hsl2rgb(hue, saturation, lightness)
 	var/red;var/green;var/blue;
 	if(saturation == 0)
-		red = lightness * 255
+		red = round(lightness * 255, 1)
 		green = red
 		blue = red
 	else
@@ -277,9 +277,9 @@
 			b = (lightness+saturation) - (saturation*lightness)
 		a = 2*lightness - b
 
-		red = round(255 * hue2rgb(a, b, hue+(1/3)))
-		green = round(255 * hue2rgb(a, b, hue))
-		blue = round(255 * hue2rgb(a, b, hue-(1/3)))
+		red = round(255 * hue2rgb(a, b, hue+(1/3)), 1)
+		green = round(255 * hue2rgb(a, b, hue), 1)
+		blue = round(255 * hue2rgb(a, b, hue-(1/3)), 1)
 
 	return list(red, green, blue)
 

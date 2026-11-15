@@ -17,6 +17,7 @@
 	min_pq = 1 //A step above sexton, should funnel new players to the sexton role to learn miracles at a more sedate pace
 	max_pq = null
 	round_contrib_points = 5
+	quest_claim_barred = TRUE
 
 	//No nobility for you, being a member of the clergy means you gave UP your nobility. It says this in many of the church tutorial texts.
 	virtue_restrictions = list(/datum/virtue/utility/noble)

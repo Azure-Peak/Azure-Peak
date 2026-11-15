@@ -7,9 +7,6 @@
 	icon_dead = "zard_guard_mage_dead"
 	gender = FEMALE
 	mob_biotypes = MOB_HUMANOID
-	robust_searching = 1
-	turns_per_move = 1
-	move_to_delay = 3
 	STACON = 10
 	STASTR = 10
 	STASPD = 10
@@ -22,19 +19,12 @@
 	ranged_message = "casts a spell"
 	ranged_cooldown = 0
 	ranged_cooldown_time = 45
-	ranged_ignores_vision = TRUE
-	vision_range = 7
-	aggro_vision_range = 9
-	retreat_distance = 0
-	minimum_distance = 0
 	limb_destroyer = 1
 	d_intent = INTENT_PARRY
 	faction = list(FACTION_PSY_VAULT_GUARD)
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = FALSE
 
-	can_have_ai = FALSE //disable native ai
-	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/skeleton_ranged/event
 	move_base_delay = MOVEMENT_DELAY_SPD_3
 

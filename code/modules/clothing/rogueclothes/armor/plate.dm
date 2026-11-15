@@ -339,11 +339,12 @@
 	battle."
 	icon_state = "ornatehalfplate"
 	smeltresult = /obj/item/ingot/silverblessed
-	body_parts_covered = COVERAGE_ALL_BUT_HANDFEET // Less durability than proper plate, more expensive to manufacture, and accurate to the sprite.
+	body_parts_covered = CHEST | VITALS | ARMS
 
-	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
+	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON + 50
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate/ComponentInitialize()
+	. = ..()
 	AddComponent(/datum/component/armour_filtering/positive, TRAIT_PSYDONIAN_GRIT, "ornate_plate")
 
 /obj/item/clothing/suit/roguetown/armor/plate/fluted/ornate/get_mechanics_examine(mob/user)
@@ -445,7 +446,7 @@
 	icon_state = "ornateplate"
 	smeltresult = /obj/item/ingot/silverblessed
 
-	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
+	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON + 50
 
 	/// Whether the user has the Heavy Armour Trait prior to donning.
 	var/traited = FALSE
@@ -1073,7 +1074,7 @@
 	equip_delay_self = 8 SECONDS
 	armor_class = ARMOR_CLASS_HEAVY
 	armor = ARMOR_PLATE
-	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON
+	max_integrity = ARMOR_INT_CHEST_PLATE_PSYDON + 50
 	is_silver = TRUE
 	is_lesser_silver = TRUE
 

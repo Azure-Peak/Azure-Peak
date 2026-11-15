@@ -16,7 +16,6 @@
 	faction = list(FACTION_NEUTRAL)
 	see_in_dark = 5
 	speak_chance = 1
-	turns_per_move = 10
 	var/turns_since_scan = 0
 	var/obj/movement_target
 
@@ -32,16 +31,13 @@
 			turns_since_scan = 0
 			if((movement_target) && !(isturf(movement_target.loc) || ishuman(movement_target.loc) ))
 				movement_target = null
-				stop_automated_movement = 0
 			if( !movement_target || !(movement_target.loc in oview(src, 3)) )
 				movement_target = null
-				stop_automated_movement = 0
 				for(var/obj/item/reagent_containers/food/snacks/S in oview(src,3))
 					if(isturf(S.loc) || ishuman(S.loc))
 						movement_target = S
 						break
 			if(movement_target)
-				stop_automated_movement = 1
 				step_to(src,movement_target,1)
 				sleep(3)
 				step_to(src,movement_target,1)
@@ -377,7 +373,6 @@
 		icon_living = "old_corgi"
 		icon_dead = "old_corgi_dead"
 		desc = "" //RIP
-		turns_per_move = 20
 
 /mob/living/simple_animal/pet/dog/corgi/Ian/Life()
 	if(!stat && SSticker.current_state == GAME_STATE_FINISHED && !memory_saved)
@@ -550,37 +545,6 @@
 	unsuitable_atmos_damage = 0
 	minbodytemp = TCMB
 	maxbodytemp = T0C + 40
-
-//LISA! SQUEEEEEEEEE~
-/mob/living/simple_animal/pet/dog/corgi/Lisa
-	name = "Lisa"
-	real_name = "Lisa"
-	gender = FEMALE
-	desc = ""
-	gold_core_spawnable = NO_SPAWN
-	unique_pet = TRUE
-	icon_state = "lisa"
-	icon_living = "lisa"
-	icon_dead = "lisa_dead"
-	response_help_continuous = "pets"
-	response_help_simple = "pet"
-	response_disarm_continuous = "bops"
-	response_disarm_simple = "bop"
-	response_harm_continuous = "kicks"
-	response_harm_simple = "kick"
-	var/puppies = 0
-
-//Lisa already has a cute bow!
-/mob/living/simple_animal/pet/dog/corgi/Lisa/Topic(href, href_list)
-	if(href_list["remove_inv"] || href_list["add_inv"])
-		to_chat(usr, "<span class='warning'>[src] already has a cute bow!</span>")
-		return
-	..()
-
-/mob/living/simple_animal/pet/dog/corgi/Lisa/Life()
-	..()
-
-	make_babies()
 
 /mob/living/simple_animal/pet/dog/attack_hand(mob/living/carbon/human/M)
 	. = ..()

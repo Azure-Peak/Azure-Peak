@@ -8,7 +8,6 @@
 	eligible_regions = list(
 		THREAT_REGION_AZURE_BASIN,
 		THREAT_REGION_AZURE_GROVE,
-		THREAT_REGION_TERRORBOG,
 	)
 	writ_type = WRIT_TYPE_CARRIAGE
 	var/list/target_delivery_locations = list(
@@ -98,7 +97,7 @@
 			/obj/item/reagent_containers/glass/bottle/rogue/beer/voddena,
 			/obj/item/reagent_containers/food/snacks/rogue/meat/coppiette,
 			/obj/item/reagent_containers/food/snacks/rogue/raisinbread,
-			/obj/item/bomb,
+			/obj/item/explosive/fused/bottle,
 		),
 		/area/rogue/indoors/town/manor = list(
 			/obj/item/clothing/cloak/raincloak/furcloak,

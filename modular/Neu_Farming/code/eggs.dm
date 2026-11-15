@@ -12,6 +12,19 @@
 	rotprocess = SHELFLIFE_SHORT
 
 	var/fertile = FALSE
+	var/amount_grown = 0
+	var/hatch_type = /mob/living/simple_animal/hostile/retaliate/rogue/chick
+
+/obj/item/reagent_containers/food/snacks/rogue/egg/process()
+	..()
+	if(QDELETED(src) || !fertile || !isturf(loc))
+		return
+	amount_grown += rand(1, 2)
+	if(amount_grown < 100)
+		return
+	visible_message(span_notice("[src] hatches with a quiet cracking sound."))
+	new hatch_type(loc)
+	qdel(src)
 
 /obj/item/reagent_containers/food/snacks/rogue/egg/become_rotten()
 	. = ..()

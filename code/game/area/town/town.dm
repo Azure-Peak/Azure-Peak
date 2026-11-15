@@ -23,6 +23,7 @@
 	droning_sound_dusk = 'sound/music/area/septimus.ogg'
 	droning_sound_night = 'sound/music/area/sleeping.ogg'
 	fog_protected = TRUE
+	town_area = TRUE
 
 /area/rogue/outdoors/exposed/town/keep
 	name = "Keep"

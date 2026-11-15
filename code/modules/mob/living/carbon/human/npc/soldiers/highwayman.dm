@@ -37,6 +37,54 @@
 	threat_point = THREAT_DEADLY
 	ambush_faction = "bandits"
 
+/mob/living/carbon/human/species/human/northern/highwayman/caster
+	npc_archetype = /datum/npc_archetype/highwayman/caster/mixed
+	threat_point = THREAT_DANGEROUS
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/pyromancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/pyromancer
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/fulgurmancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/fulgurmancer
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/geomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/geomancer
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/telomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/telomancer
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/cryomancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/cryomancer
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/ferramancer
+	npc_archetype = /datum/npc_archetype/highwayman/caster/ferramancer
+
+/mob/living/carbon/human/species/human/northern/highwayman/caster/magister
+	npc_archetype = /datum/npc_archetype/highwayman/caster/magister
+	threat_point = THREAT_DEADLY
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/mixed
+	threat_point = THREAT_DANGEROUS + THREAT_SPELLBLADE_PREMIUM
+	ambush_faction = "bandits"
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/blade
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/blade
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/phalangite
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/phalangite
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/macebearer
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/macebearer
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/spellfist
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/spellfist
+
+/mob/living/carbon/human/species/human/northern/highwayman/spellblade/champion
+	npc_archetype = /datum/npc_archetype/highwayman/spellblade/champion
+	threat_point = THREAT_DEADLY + THREAT_SPELLBLADE_PREMIUM
+
 /mob/living/carbon/human/species/human/northern/highwayman/light
 	npc_archetype = /datum/npc_archetype/highwayman/light
 	threat_point = THREAT_HIGH

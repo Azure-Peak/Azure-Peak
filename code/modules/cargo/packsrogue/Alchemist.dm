@@ -130,47 +130,47 @@
 /datum/supply_pack/rogue/Alchemist/botbomb
 	name = "Bottle bomb"
 	cost = 20
-	contains = list(/obj/item/bomb)
+	contains = list(/obj/item/explosive/fused/bottle)
 
 /datum/supply_pack/rogue/Alchemist/tntstick
 	name = "Blastsand sticks"
 	cost = 35
-	contains = list(/obj/item/tntstick)
+	contains = list(/obj/item/explosive/fused/powder/stick)
 
 /datum/supply_pack/rogue/Alchemist/satchel_bomb
 	name = "Blastsand satchel"
 	cost = 90
-	contains = list(/obj/item/satchel_bomb)
+	contains = list(/obj/item/explosive/fused/powder/satchel)
 
 /datum/supply_pack/rogue/Alchemist/explosion
 	name = "Explosive grenade"
 	cost = 30
-	contains = list(/obj/item/impact_grenade/explosion)
+	contains = list(/obj/item/explosive/impact/shrapnel)
 
 /datum/supply_pack/rogue/Alchemist/poison_gas
 	name = "Poison smoke grenade"
 	cost = 30
-	contains = list(/obj/item/impact_grenade/smoke/poison_gas)
+	contains = list(/obj/item/explosive/impact/smoke/poison_gas)
 
 /datum/supply_pack/rogue/Alchemist/fire_gas
 	name = "Conflagaration smoke grenade"
 	cost = 30
-	contains = list(/obj/item/impact_grenade/smoke/fire_gas)
+	contains = list(/obj/item/explosive/impact/smoke/fire_gas)
 
 /datum/supply_pack/rogue/Alchemist/blind_gas
 	name = "Blinding smoke grenade"
 	cost = 30
-	contains = list(/obj/item/impact_grenade/smoke/blind_gas)
+	contains = list(/obj/item/explosive/impact/smoke/blind_gas)
 
 /datum/supply_pack/rogue/Alchemist/mute_gas
 	name = "Mute smoke grenade"
 	cost = 30
-	contains = list(/obj/item/impact_grenade/smoke/mute_gas)
+	contains = list(/obj/item/explosive/impact/smoke/mute_gas)
 
 /datum/supply_pack/rogue/Alchemist/healing_gas
 	name = "Healing smoke grenade"
 	cost = 50
-	contains = list(/obj/item/impact_grenade/smoke/healing_gas)
+	contains = list(/obj/item/explosive/impact/smoke/healing_gas)
 
 /////////////
 // UTILITY //

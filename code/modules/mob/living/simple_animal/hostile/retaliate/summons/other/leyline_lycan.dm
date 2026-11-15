@@ -1,6 +1,7 @@
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/Initialize(mapload, obj/structure/portal)
 	. = ..()
 	source = portal
+	AddComponent(/datum/component/ai_aggro_system)
 	ADD_TRAIT(src, TRAIT_NOBREATH, TRAIT_GENERIC)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, TRAIT_GENERIC)
 
@@ -15,10 +16,8 @@
 	faction = list(FACTION_LEYLINE)
 	emote_hear = null
 	emote_see = null
-	turns_per_move = 8
 	see_in_dark = 9
-	vision_range = 9
-	aggro_vision_range = 9
+	ai_controller = /datum/ai_controller/leyline_lycan
 
 	butcher_results = list()
 	death_loot = list(/obj/item/magic/leyline = 1)
@@ -36,53 +35,10 @@
 	STASTR = 8
 	STASPD = 15
 
-	simple_detect_bonus = 20
-	retreat_distance = 0
-	minimum_distance = 0
-	deaggroprob = 0
-	retreat_health = 0
 	food = 0
 	dodgetime = 30
-	aggressive = 1
 	var/teleport_cooldown
 	var/obj/structure/leyline/source
-
-/mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/MoveToTarget(list/possible_targets)
-	stop_automated_movement = 1
-	if(!target || !CanAttack(target))
-		LoseTarget()
-		return 0
-	if(binded)
-		return 0
-	if(target in possible_targets)
-		var/target_distance = get_dist(targets_from,target)
-		if(target_distance > 4 && world.time >= teleport_cooldown)
-			leyline_teleport(target)
-		if(ranged) //We ranged? Shoot at em
-			if(!target.Adjacent(targets_from) && ranged_cooldown <= world.time) //But make sure they're not in range for a melee attack and our range attack is off cooldown
-				OpenFire(target)
-		if(retreat_distance != null) //If we have a retreat distance, check if we need to run from our target
-			if(target_distance <= retreat_distance) //If target's closer than our retreat distance, run
-				walk_away(src, target, retreat_distance, cached_multiplicative_slowdown)
-			else
-				Goto(target, minimum_distance) //Otherwise, get to our minimum distance so we chase them
-		else
-			Goto(target, minimum_distance)
-		if(target)
-			if(targets_from && isturf(targets_from.loc) && target.Adjacent(targets_from)) //If they're next to us, attack
-				MeleeAction()
-			else
-				if(rapid_melee > 1 && target_distance <= melee_queue_distance)
-					MeleeAction(FALSE)
-				in_melee = FALSE //If we're just preparing to strike do not enter sidestep mode
-			return 1
-		return 0
-	else
-		if(ranged_ignores_vision && ranged_cooldown <= world.time) //we can't see our target... but we can fire at them!
-			OpenFire(target)
-		Goto(target, minimum_distance)
-		FindHidden()
-		return 1
 
 /mob/living/simple_animal/hostile/retaliate/rogue/leylinelycan/simple_add_wound(datum/wound/wound, silent = FALSE, crit_message = FALSE)	//No wounding the lycan.
 	return

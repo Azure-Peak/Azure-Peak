@@ -56,7 +56,6 @@ GLOBAL_LIST_INIT(deadite_animal_migration_points, list())
 	
 	var/turf/start_turf = migration_turfs[2]
 	var/turf/spawn_turf = migration_turfs[1]
-	var/turf/end_turf = migration_turfs[migration_turfs.len]
 	var/players_amt = get_active_player_count(alive_check = 1, afk_check = 1, human_check = 1)
 	//Scale amount with pop.
 	var/lower_limit = 3 + ROUND_UP(players_amt / 10)
@@ -79,9 +78,6 @@ GLOBAL_LIST_INIT(deadite_animal_migration_points, list())
 			created.ai_controller.set_blackboard_key(BB_DEADITE_MIGRATION_PATH, migration_path)
 			created.ai_controller.set_blackboard_key(BB_DEADITE_MIGRATION_TARGET, start_turf)
 			created.ai_controller.set_blackboard_key(BB_DEADITE_TRAVEL_TARGET, start_turf)
-		else
-			//Fallback in cast a mob doesn't have an AI controller. This is bad, they should always have one if used here.
-			created.GiveTarget(end_turf)
 		//Stagger the mobs.
 		sleep(rand(1 SECONDS, 3 SECONDS))
 

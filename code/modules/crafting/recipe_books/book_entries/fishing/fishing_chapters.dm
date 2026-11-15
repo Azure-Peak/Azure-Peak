@@ -40,6 +40,8 @@
 
 		<h3>Sources and Stocks</h3>
 		<p>Fishing sources are counted per region and water type. For example, murky water and deep water have different distributions of fishes, and the north coast and south coast deepwater share different pools. Moving around semi frequently is a good idea to maximize the value of your catches.</p>
+		<p>Fishing stock is tracked by region and types of waters. For example, murky water in region A do not overlap with region B and is an independent stock, and murky water in region A is a separate stock from freshwater in the same region.</p>
+		<p>Looking at a body of water tells anyone how well stocked it is with prized fishes. Fishers of Expert skill and Expert Fishers can look again to list the exact stock. Expert Fishers also see the expected replenishment rate.</p>
 
 		<h3>Other Ways to Fish</h3>
 		<ul>
@@ -49,7 +51,7 @@
 
 		<h3>Trivia</h3>
 		<ul>
-			<li>Expert Fishers have an easier time landing a catch, can tell the stock of a body of water is by looking at it, are warned when it runs low, and get a moment's notice before something hostile surfaces.</li>
+			<li>Expert Fishers have an easier time landing a catch, can list a water's stock by looking at it regardless of skill, can tell how often it replenishes, are warned on cast when it runs low, and get a moment's notice before something hostile surfaces.</li>
 		</ul>
 		</div>
 	"}

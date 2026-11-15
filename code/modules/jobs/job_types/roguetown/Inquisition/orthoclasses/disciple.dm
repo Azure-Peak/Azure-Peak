@@ -4,8 +4,8 @@
 	allowed_sexes = list(MALE, FEMALE)
 
 	outfit = /datum/outfit/job/roguetown/disciple
-	subclass_languages = list(/datum/language/otavan)
 	category_tags = list(CTAG_ORTHODOXIST)
+	subclass_languages = list(/datum/language/otavan)
 	traits_applied = list(
 		TRAIT_CIVILIZEDBARBARIAN
 	)
@@ -39,41 +39,7 @@
 
 /datum/outfit/job/roguetown/disciple/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
-	if(H.mind)
-		var/weapons = list("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling", "Pugilist - Master Athletics, Pain Resistance", "Quarterstaff - Expert Staves, +I PER", "Katar", "Knuckledusters")
-		var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
-		switch(weapon_choice)
-			if("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling")
-				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
-				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
-				ADD_TRAIT(H, TRAIT_WEAPONLESS, TRAIT_GENERIC)
-				ADD_TRAIT(H, TRAIT_STRONGBITE, TRAIT_GENERIC)
-				H.change_stat(STATKEY_INT, 1)
-				H.change_stat(STATKEY_SPD, 1)
-			if("Pugilist - Master Athletics, Pain Resistance")
-				H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-				gloves = /obj/item/clothing/gloves/roguetown/bandages/pugilist
-				ADD_TRAIT(H, TRAIT_NOPAINSTUN, TRAIT_GENERIC)
-			if("Quarterstaff - Expert Staves, +I PER")
-				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
-				H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
-				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy
-				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-				H.change_stat(STATKEY_PER, 1)
-			if("Katar")
-				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-				r_hand = /obj/item/rogueweapon/katar/silver/psy
-				gloves = /obj/item/clothing/gloves/roguetown/bandages/weighted
-			if("Knuckledusters")
-				H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
-				gloves = /obj/item/clothing/gloves/roguetown/knuckles/silver/psy
-
+	has_loadout = TRUE
 	head = /obj/item/clothing/head/roguetown/roguehood/psydon
 	mask = /obj/item/clothing/head/roguetown/helmet/blacksteel/psythorns
 	backl = /obj/item/storage/backpack/rogue/satchel/otavan
@@ -81,16 +47,54 @@
 	wrists = /obj/item/clothing/wrists/roguetown/bracers/psythorns
 	neck = /obj/item/clothing/neck/roguetown/psicross/silver
 	id = /obj/item/clothing/ring/signet/psy
-
 	shoes = /obj/item/clothing/shoes/roguetown/boots/psydonboots
-	armor = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/disciple //a leather armor.
-	shirt = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/disciple //a heavy gambeson.
-
-	backpack_contents = list(/obj/item/roguekey/inquisitionmanor = 1,
-	/obj/item/paper/inqslip/arrival/ortho = 1)
+	armor = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/chest/disciple //A leather armor.
+	shirt = /obj/item/clothing/suit/roguetown/armor/manual/tool/needle/body/disciple //A heavy gambeson.
+	backpack_contents = list(
+		/obj/item/roguekey/inquisitionmanor = 1,
+		/obj/item/paper/inqslip/arrival/ortho = 1
+		)
 	belt = /obj/item/storage/belt/rogue/leather/rope/upgraded
 	beltl = /obj/item/storage/belt/rogue/pouch/coins/mid
 	cloak = /obj/item/clothing/cloak/tabard/psydontabard/alt
 
 	var/datum/devotion/C = new /datum/devotion(H, H.patron)
-	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1)	//Capped to T2 miracles.
+	C.grant_miracles(H, cleric_tier = CLERIC_T2, passive_gain = CLERIC_REGEN_WEAK, devotion_limit = CLERIC_REQ_1) //Capped to T2 miracles.
+
+	change_origin(H, /datum/virtue/origin/otava, "Holy order")
+
+/datum/outfit/job/roguetown/disciple/choose_loadout(mob/living/carbon/human/H)
+	. = ..()
+	var/weapons = list("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling", "Pugilist - Master Athletics, Pain Resistance", "Quarterstaff - Expert Staves, +I PER", "Katar", "Knuckledusters")
+	var/weapon_choice = input(H,"Choose your WEAPON.", "TAKE UP PSYDON'S ARMS.") as anything in weapons
+	switch(weapon_choice)
+		if("Abboteer - Pugilist with Master Unarmed, Weaponless Oath & No Wrestling")
+			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/misc/swimming, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/unarmed, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/magic/holy, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/bandages/pugilist, SLOT_GLOVES, TRUE)
+			ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
+			ADD_TRAIT(H, TRAIT_WEAPONLESS, JOB_TRAIT)
+			ADD_TRAIT(H, TRAIT_STRONGBITE, JOB_TRAIT)
+			H.change_stat(STATKEY_INT, 1)
+			H.change_stat(STATKEY_SPD, 1)
+		if("Pugilist - Master Athletics, Pain Resistance")
+			H.adjust_skillrank_up_to(/datum/skill/misc/athletics, SKILL_LEVEL_MASTER, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/bandages/pugilist, SLOT_GLOVES, TRUE)
+			ADD_TRAIT(H, TRAIT_NOPAINSTUN, JOB_TRAIT)
+		if("Quarterstaff - Expert Staves, +I PER")
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/staves, SKILL_LEVEL_EXPERT, TRUE)
+			H.adjust_skillrank_up_to(/datum/skill/combat/polearms, SKILL_LEVEL_JOURNEYMAN, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/woodstaff/quarterstaff/steel/silver/psy)
+			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/bandages/weighted, SLOT_GLOVES, TRUE)
+			H.change_stat(STATKEY_PER, 1)
+		if("Katar")
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+			H.put_in_hands(new /obj/item/rogueweapon/katar/silver/psy)
+			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/bandages/weighted, SLOT_GLOVES, TRUE)
+		if("Knuckledusters")
+			H.adjust_skillrank_up_to(/datum/skill/combat/wrestling, SKILL_LEVEL_EXPERT, TRUE)
+			H.equip_to_slot_or_del(new /obj/item/clothing/gloves/roguetown/knuckles/silver/psy, SLOT_GLOVES, TRUE)

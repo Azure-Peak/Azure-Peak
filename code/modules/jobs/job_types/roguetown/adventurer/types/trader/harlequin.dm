@@ -34,7 +34,7 @@
 	head = /obj/item/clothing/head/roguetown/jester
 	neck = /obj/item/storage/belt/rogue/pouch/coins/mid
 	backpack_contents = list(
-		/obj/item/bomb/smoke = 3,
+		/obj/item/explosive/impact/smoke/bomb = 3,
 		/obj/item/storage/pill_bottle/dice = 1,
 		/obj/item/deck/playing_cards = 1,
 		/obj/item/rogueweapon/scabbard/sheath = 1

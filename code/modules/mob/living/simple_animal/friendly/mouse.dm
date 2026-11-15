@@ -9,7 +9,7 @@
 	emote_hear = list("squeaks.")
 	emote_see = list("runs in a circle.", "shakes.")
 	speak_chance = 1
-	turns_per_move = 5
+	ai_controller = /datum/ai_controller/generic/critter
 	see_in_dark = 6
 	maxHealth = 5
 	health = 5
@@ -63,34 +63,6 @@
 			var/mob/M = AM
 			to_chat(M, span_notice("[icon2html(src, M)] Squeak!"))
 	..()
-
-/*
- * Mouse types
- */
-
-/mob/living/simple_animal/mouse/white
-	body_color = "white"
-	icon_state = "mouse_white"
-
-/mob/living/simple_animal/mouse/gray
-	body_color = "gray"
-	icon_state = "mouse_gray"
-
-/mob/living/simple_animal/mouse/brown
-	body_color = "brown"
-	icon_state = "mouse_brown"
-
-//TOM IS ALIVE! SQUEEEEEEEE~K :)
-/mob/living/simple_animal/mouse/brown/Tom
-	name = "Tom"
-	desc = ""
-	response_help_continuous = "pets"
-	response_help_simple = "pet"
-	response_disarm_continuous = "gently pushes aside"
-	response_disarm_simple = "gently push aside"
-	response_harm_continuous = "splats"
-	response_harm_simple = "splat"
-	gold_core_spawnable = NO_SPAWN
 
 /obj/item/reagent_containers/food/snacks/deadmouse
 	dish_type = DISH_MEAT

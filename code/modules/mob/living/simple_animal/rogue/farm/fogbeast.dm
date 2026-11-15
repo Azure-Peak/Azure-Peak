@@ -12,9 +12,8 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	blood_toll_bucket = STATS_KILLED_LIVESTOCK
 	emote_see = list("looks around.", "chews some leaves.", "neighs")
 	speak_chance = 1
-	turns_per_move = 5
 	see_in_dark = 6
-	move_to_delay = 8
+	ride_move_delay = 8
 	butcher_results = list(
 		/obj/item/reagent_containers/food/snacks/rogue/meat/steak = 4,
 		/obj/item/reagent_containers/food/snacks/fat = 2,
@@ -35,8 +34,6 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	attack_verb_simple = "kicks"
 	melee_damage_lower = 50
 	melee_damage_upper = 70
-	retreat_distance = 0
-	minimum_distance = 10
 	milkies = FALSE
 	STASPD = 15
 	STACON = 8
@@ -52,13 +49,16 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	buckle_lying = 0
 	can_saddle = TRUE
 	max_buckled_mobs = 2
-	aggressive = TRUE
 	remains_type = /obj/effect/decal/remains/saiga
+
+	ai_controller = /datum/ai_controller/generic/retaliate
 
 	var/fogbeast_color
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/Initialize(mapload, set_fogbeast_color)
 	. = ..()
+	AddElement(/datum/element/ai_retaliate)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_typecache)
 	fogbeast_color = set_fogbeast_color
 	if(!fogbeast_color)
 		fogbeast_color = pick(GLOB.valid_fogbeast_colors)
@@ -95,12 +95,11 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/taunted(mob/user)
 	emote("aggro")
-	Retaliate()
-	GiveTarget(user)
+	ai_controller?.force_aggro(user)
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/tamed()
 	..()
-	deaggroprob = 20
+	ai_controller?.set_blackboard_key(BB_BASIC_MOB_TAMED, TRUE)
 	setup_mount()
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/death()
@@ -217,7 +216,7 @@ GLOBAL_LIST_INIT(valid_fogbeast_colors, list("White" = COLOR_WHITE, "Gray" = COL
 	tame = TRUE
 	can_buckle = FALSE
 	can_saddle = FALSE
-	aggressive = TRUE
+	ai_controller = /datum/ai_controller/generic/skittish
 
 /mob/living/simple_animal/hostile/retaliate/rogue/fogbeast/kid/male
 	name = "fogbeast colt"

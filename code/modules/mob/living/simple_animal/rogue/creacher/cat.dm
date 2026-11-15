@@ -13,7 +13,6 @@
 	emote_hear = list("meows", "mews")
 	emote_see = list("shakes its head", "shivers")
 	speak_chance = 1
-	turns_per_move = 5
 
 	// Combat setup
 	health = CAT_HEALTH
@@ -35,18 +34,13 @@
 	pass_flags = PASSTABLE
 	mobility_flags = MOBILITY_FLAGS_DEFAULT
 	move_resist = MOVE_FORCE_WEAK
-	retreat_distance = 3
-	minimum_distance = 1
 
 	// Behavior
 	faction = list(FACTION_ROGUEANIMAL)
 	deaggroprob = 15
 	dodgetime = 10
-	del_on_deaggro = 99 SECONDS
 
 	//new ai, old ai off
-	AIStatus = AI_OFF
-	can_have_ai = FALSE
 	ai_controller = /datum/ai_controller/generic
 	move_base_delay = MOVEMENT_DELAY_LUMBERING
 

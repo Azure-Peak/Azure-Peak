@@ -88,12 +88,20 @@
     background-color: #374048;
 }
 
-.ghostandotherroles {
+.antagonistghostroles {
     background-color: #2e0073;
 }
 
-.antagonistpositions {
+.allantagonists {
+    background-color: #6b1414;
+}
+
+.majorantagonists {
     background-color: #361f1f;
+}
+
+.lesserantagonists {
+    background-color: #2b2323;
 }
 
 .inputbox {

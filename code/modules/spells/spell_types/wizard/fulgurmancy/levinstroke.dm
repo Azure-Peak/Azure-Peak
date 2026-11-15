@@ -62,12 +62,8 @@
 		to_chat(H, span_warning("I need somewhere to surge to!"))
 		return FALSE
 
-	var/list/full_path = getline(start, dest)
-
 	var/list/mobs_in_path = list()
-	for(var/turf/path_turf in full_path)
-		if(path_turf == start)
-			continue
+	for(var/turf/path_turf as anything in levin_path(start, dest))
 		for(var/mob/living/M in path_turf)
 			if(M != H && M.stat != DEAD)
 				mobs_in_path += M
@@ -92,6 +88,20 @@
 		addtimer(CALLBACK(src, PROC_REF(execute_path_strikes), H, mobs_in_path, locked_zone), 5)
 
 	return TRUE
+
+/datum/action/cooldown/spell/levinstroke/get_impact_turfs(atom/center)
+	var/turf/start = get_turf(owner)
+	var/turf/dest = isliving(center) ? find_landing_turf(owner, center) : get_turf(center)
+	if(!start || !dest || dest.z != start.z)
+		return list()
+	dest = arcyne_find_max_blink_dest(owner, dest, max_range)
+	if(!dest)
+		return list()
+	return levin_path(start, dest)
+
+/datum/action/cooldown/spell/levinstroke/proc/levin_path(turf/start, turf/dest)
+	. = getline(start, dest)
+	. -= start
 
 /datum/action/cooldown/spell/levinstroke/proc/find_landing_turf(mob/living/user, mob/living/target_mob)
 	var/approach_dir = get_dir(user, target_mob)

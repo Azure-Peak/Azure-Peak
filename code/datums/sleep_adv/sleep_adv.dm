@@ -420,11 +420,15 @@
 	var/level_diff = target_skill_level - user_skill_level
 	if(level_diff <= 0)
 		return FALSE
-	if(HAS_TRAIT(user, TRAIT_COMBAT_JMAN) && ispath(skill_type, /datum/skill/combat))
-		if(user_skill_level >= SKILL_LEVEL_JOURNEYMAN)
-			return FALSE
-		if(level_diff >= 1)
-			if(user_skill_level == SKILL_LEVEL_APPRENTICE && user.mind.sleep_adv.enough_sleep_xp_to_advance(skill_type, 1))
+	if(ispath(skill_type, /datum/skill/combat))
+		if(HAS_TRAIT(user, TRAIT_COMBAT_JMAN))
+			if(user_skill_level >= SKILL_LEVEL_JOURNEYMAN)
+				return FALSE
+			if(level_diff >= 1)
+				if(user_skill_level == SKILL_LEVEL_APPRENTICE && user.mind.sleep_adv.enough_sleep_xp_to_advance(skill_type, 1))
+					return FALSE
+		if(HAS_TRAIT(user, TRAIT_COMBAT_NONEWSKILLS))
+			if(user_skill_level < SKILL_LEVEL_NOVICE)
 				return FALSE
 	if(HAS_TRAIT(user, TRAIT_NOSHIELDS) && ispath(skill_type, /datum/skill/combat/shields))
 		return FALSE
