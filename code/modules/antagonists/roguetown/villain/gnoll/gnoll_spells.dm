@@ -494,16 +494,14 @@
 		return
 
 	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/chest = H.wear_armor
-	var/heal_chest_amount = round(chest.max_integrity * (percent / 100))
 	var/obj/item/clothing/suit/roguetown/armor/vampiric/gnoll/extremities = H.wear_shirt
-	var/heal_limb_amount = round(extremities.max_integrity * (percent / 100))
+	var/list/to_restore = list(chest, extremities)
 
-	chest.obj_integrity = min(chest.obj_integrity + heal_chest_amount, chest.max_integrity)
+	for(var/obj/I in to_restore)
+		var/heal_amount = round(I.max_integrity * (percent / 100))
 
-	if(chest.obj_broken && chest.obj_integrity > 0)
-		chest.obj_fix(null, FALSE)
+		I.obj_integrity = min(I.obj_integrity + heal_amount, I.max_integrity)
 
-	extremities.obj_integrity = min(extremities.obj_integrity + heal_limb_amount, extremities.max_integrity)
+		if(I.obj_broken && I.obj_integrity > 0)
+			I.obj_fix(null, FALSE)
 
-	if(extremities.obj_broken && extremities.obj_integrity > 0)
-		extremities.obj_fix(null, FALSE)
