@@ -198,7 +198,7 @@
 	H.adjust_skillrank(/datum/skill/misc/sneaking, SKILL_LEVEL_JOURNEYMAN, TRUE)
 	H.adjust_skillrank(/datum/skill/misc/tracking, SKILL_LEVEL_JOURNEYMAN, TRUE)
 	//You also get a smoke bomb because let's be real, you're screwed if you're caught.
-	l_hand = /obj/item/bomb/smoke
+	l_hand = /obj/item/explosive/impact/smoke/bomb
 	//Similar to your sibling above, if danger breathes your way, start praying.
 	H.change_stat(STATKEY_CON, -2)
 	H.change_stat(STATKEY_SPD, 1)
