@@ -327,10 +327,10 @@
 		anti_spam = FALSE
 		return FALSE
 
-//	if(GLOB.tod != "night")
-//		to_chat(user, span_warning("The radiance of the Elder Sister interferes in your communion with Noc."))
-//		anti_spam = FALSE
-//		return FALSE
+	if(GLOB.tod != "night")
+		to_chat(user, span_warning("The radiance of the Elder Sister interferes in your communion with Noc."))
+		anti_spam = FALSE
+		return FALSE
 
 	var/choice = tgui_input_list(user, "The moon gazes at you. What do you see of it?", "Spell Pack", list("Light Side", "Half Side", "Dark Side"))
 	if(!choice)
