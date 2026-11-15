@@ -892,13 +892,13 @@
 		H.last_used_keyhash = lockhash
 		switch(circumstance)
 			if(LOCK_BELT)
-				var/newtime = world.time + 10 SECONDS
+				var/newtime = world.time + 13 SECONDS
 				if(newtime > H.key_imprint_valid_until)
-					H.key_imprint_valid_until = world.time + 10 SECONDS
+					H.key_imprint_valid_until = world.time + 13 SECONDS
 			if(LOCK_HAND)
-				var/newtime = world.time + 3 SECONDS
+				var/newtime = world.time + 5 SECONDS
 				if(newtime > H.key_imprint_valid_until)
-					H.key_imprint_valid_until = world.time + 3 SECONDS
+					H.key_imprint_valid_until = world.time + 5 SECONDS
 
 /obj/structure/mineral_door/setAnchored(anchorvalue) //called in default_unfasten_wrench() chain
 	. = ..()
