@@ -792,7 +792,7 @@
 				r_hand = /obj/item/rogueweapon/woodstaff
 			if("Quarterstaff")
 				r_hand = /obj/item/rogueweapon/woodstaff/quarterstaff/iron
-	if(istype(H.patron, /datum/patron/divine))
+	if(istype(H.patron, /datum/patron/divine) && !istype(H.patron, /datum/patron/divine/noc))
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/divine_blast)
 	if(istype(H.patron, /datum/patron/inhumen))
 		H.mind?.AddSpell(new /datum/action/cooldown/spell/projectile/unholy_blast)
