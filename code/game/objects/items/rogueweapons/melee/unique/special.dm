@@ -1,96 +1,3 @@
-/// INTENT DATUMS	v
-/datum/intent/katar/cut
-	name = "cut"
-	icon_state = "incut"
-	attack_verb = list("cuts", "slashes")
-	animname = "cut"
-	blade_class = BCLASS_CUT
-	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	penfactor = PEN_LIGHT
-	chargetime = 0
-	swingdelay = 0
-	damfactor = 1.2
-	clickcd = CLICK_CD_QUICK
-	item_d_type = "slash"
-
-/datum/intent/katar/thrust
-	name = "thrust"
-	icon_state = "instab"
-	attack_verb = list("thrusts")
-	animname = "stab"
-	blade_class = BCLASS_STAB
-	hitsound = list('sound/combat/hits/bladed/genstab (1).ogg', 'sound/combat/hits/bladed/genstab (2).ogg', 'sound/combat/hits/bladed/genstab (3).ogg')
-	penfactor = PEN_MEDIUM // This make them good vs other light armor users
-	// So they don't need extra bonus damage on top
-	chargetime = 0
-	clickcd = CLICK_CD_QUICK
-	item_d_type = "stab"
-
-/datum/intent/axe/chop/arbelos
-	damfactor = 1.3
-	clickcd = CLICK_CD_QUICK //Quicker than a conventional axe, but slower than a katar.
-
-/datum/intent/axe/cut/arbelos
-	damfactor = 1.15
-	clickcd = CLICK_CD_QUICK //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
-
-/datum/intent/katar/thrust/arbelos
-	penfactor = PEN_LIGHT
-	damfactor = 0.8
-	clickcd = CLICK_CD_QUICK //Slower than a regular thrust, with slightly less penetration and damage. Inverse to the katar.
-
-/datum/intent/lordbash
-	name = "bash"
-	blade_class = BCLASS_BLUNT
-	icon_state = "inbash"
-	attack_verb = list("bashes", "strikes")
-	penfactor = PEN_NONE
-	item_d_type = "blunt"
-	intent_intdamage_factor = BLUNT_DEFAULT_INT_DAMAGEFACTOR
-
-/datum/intent/lord_electrocute
-	name = "electrocute"
-	desc = "Punish someone in the manor with a shocking bolt while they are within range of your rod. They must hold a Meister account. Can only be used by the Grand Duke."
-	blade_class = null
-	icon_state = "inshock"
-	tranged = TRUE
-	noaa = TRUE
-
-/datum/intent/lord_electrocute/on_afterattack(atom/target, mob/living/user, proximity_flag, params)
-	var/obj/item/rogueweapon/lordscepter/rod = masteritem
-	if(!istype(rod))
-		return
-	var/mob/living/carbon/human/H = rod.get_rod_target(target, user)
-	if(!H)
-		return
-	user.visible_message(span_warning("[user] electrocutes [H] with [rod]."))
-	user.Beam(H, icon_state = "lightning[rand(1,12)]", time = 5)
-	H.electrocute_act(5, rod)
-	COOLDOWN_START(rod, scepter, 20 SECONDS)
-	to_chat(H, span_danger("I'm electrocuted by the scepter!"))
-
-/datum/intent/lord_silence
-	name = "silence"
-	desc = "Silence someone in the manor for twenty seconds while they are within range of your rod. They must hold a Meister account. Can only be used by the Grand Duke."
-	blade_class = null
-	icon_state = "insilence"
-	tranged = TRUE
-	noaa = TRUE
-
-/datum/intent/lord_silence/on_afterattack(atom/target, mob/living/user, proximity_flag, params)
-	var/obj/item/rogueweapon/lordscepter/rod = masteritem
-	if(!istype(rod))
-		return
-	var/mob/living/carbon/human/H = rod.get_rod_target(target, user)
-	if(!H)
-		return
-	user.visible_message(span_warning("[user] silences [H] with [rod]."))
-	H.set_silence(20 SECONDS)
-	COOLDOWN_START(rod, scepter, 10 SECONDS)
-	to_chat(H, span_danger("I'm silenced by the scepter!"))
-
-/// INTENT DATUMS	^
-
 /obj/item/rogueweapon/lordscepter
 	name = "master's rod"
 	desc = "Bend the knee. Can't be used outside of the manor."
@@ -259,14 +166,15 @@
 		update_icon()
 		playsound(src, pick('sound/items/stunmace_toggle (1).ogg','sound/items/stunmace_toggle (2).ogg','sound/items/stunmace_toggle (3).ogg'), 100, TRUE)
 
+// Katars.
 /obj/item/rogueweapon/katar
-	slot_flags = ITEM_SLOT_HIP
-	force = 24
-	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust)
 	name = "katar"
 	desc = "A steel blade that sits above the user's fist. Commonly used by those proficient at unarmed fighting."
 	icon_state = "katar"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	slot_flags = ITEM_SLOT_HIP
+	force = 24
+	possible_item_intents = list(/datum/intent/katar/cut, /datum/intent/katar/thrust)
 	gripsprite = FALSE
 	wlength = WLENGTH_SHORT
 	w_class = WEIGHT_CLASS_SMALL
@@ -342,19 +250,6 @@
 	max_blade_int = 150 // Reduced sharpness, however, as a result. Such a weapon is built for gladitorial combat, not the rigors of the wilderness. Keep it sharpened
 	possible_item_intents = list(/datum/intent/axe/chop/arbelos, /datum/intent/axe/cut/arbelos, /datum/intent/katar/thrust/arbelos)
 	thrown_bclass = BCLASS_CHOP
-
-/datum/intent/axe/chop/arbelos
-	damfactor = 1.3
-	clickcd = CLICK_CD_QUICK //Quicker than a conventional axe, but slower than a katar.
-
-/datum/intent/axe/cut/arbelos
-	damfactor = 1.15
-	clickcd = CLICK_CD_FAST //Same speed as a katar, but with reduced penetration and half-damage. Main appeal's the chopper.
-
-/datum/intent/katar/thrust/arbelos
-	penfactor = PEN_LIGHT
-	damfactor = 0.8
-	clickcd = CLICK_CD_QUICK //Slower than a regular thrust, with slightly less penetration and damage. Inverse to the katar.
 
 /obj/item/rogueweapon/katar/punchdagger
 	name = "punch dagger"
@@ -457,14 +352,101 @@
 /obj/item/rogueweapon/handclaw/steel/graggarblunt/get_examine_highlight_status()
 	return list(EXAMINEHIGHLIGHT_HERESYSEVERITY_ALARMING, HERESYDESC_GRAGGAR_WEAPON)
 
-// non evyl version of unarmed weapons, nerfed to be more balanced for general use, alternatives to steel & bronze claws, but not as good as the gronn special claws
+
+// Claws.
+/obj/item/rogueweapon/handclaw
+	name = "iron hound claws"
+	desc = "A pair of heavily curved claws, styled after beasts of the wilds for rending bare flesh, \
+			A show of the continual worship and veneration of beasts of strength in Gronn."
+	icon_state = "ironclaws"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 3
+	force = 25
+	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
+	wbalance = WBALANCE_NORMAL
+	slot_flags = ITEM_SLOT_HIP
+	max_blade_int = 150
+	max_integrity = 200
+	gripsprite = FALSE
+	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
+	swingsound = list('sound/combat/wooshes/bladed/wooshmed (1).ogg','sound/combat/wooshes/bladed/wooshmed (2).ogg','sound/combat/wooshes/bladed/wooshmed (3).ogg')
+	swingsound = BLADEWOOSH_SMALL
+	wlength = WLENGTH_NORMAL
+	w_class = WEIGHT_CLASS_NORMAL
+	associated_skill = /datum/skill/combat/unarmed
+	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'
+	throwforce = 12
+	thrown_bclass = BCLASS_CUT
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/iron
+	grid_height = 96
+	grid_width = 32
+
+/obj/item/rogueweapon/handclaw/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.4,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -3,"wy" = -4,"ex" = 1,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 110,"sturn" = -110,"wturn" = -110,"eturn" = 110,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("onbelt")
+				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+
+/obj/item/rogueweapon/handclaw/steel
+	name = "steel mantis claws"
+	desc = "A pair of steel claws. An uncommon sight in Gronn as they do not forge their own steel, \
+			Their longer blades offer a superior defence option but their added weight slows them down."
+	icon_state = "steelclaws"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 6
+	force = 35
+	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
+	wbalance = WBALANCE_HEAVY
+	max_blade_int = 180
+	max_integrity = 200
+	smeltresult = /obj/item/ingot/steel
+	sharpness_mod = 2
+
+/obj/item/rogueweapon/handclaw/gronn
+	name = "gronn beast claws"
+	desc = "A pair of uniquely reinforced iron claws forged with the addition of bone by the Iskarn shamans of the Northern Empty. \
+			Their bone-weighted edges bite deep into hide and leather, and their light weight supports rapid aggressive slashes. \
+			</br>'To see the claws of the four, Is to see the true danger of the north. Not man, Not land but beast. We are all prey in their eyes.'"
+	icon_state = "gronnclaws"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 4
+	force = 25
+	possible_item_intents = list(/datum/intent/claw/cut/gronn, /datum/intent/claw/chop/gronn, /datum/intent/claw/rend)
+	wbalance = WBALANCE_SWIFT
+	max_blade_int = 200
+	max_integrity = 200
+
+/obj/item/rogueweapon/handclaw/gronn/silver
+	name = "silver ravager claws"
+	desc = "A trinity of silver claws, forged in defiant reverence of the Old Ways that still permeate throughout the Northern Empty. \
+			The psicruciformic edge shreds through the hide of thralls; resurrected corpses from Gronnic antiquity, said to've been born through faithlessness and despair. \
+			Few shamen hold the strength to wield it, and fewer will speak of what they, alone, know - the true fate of the Weeping Father. \
+			</br>'Here we stand, to turn and face the odds; sacrifice yourself, or bow to lesser gods!'"
+	smeltresult = /obj/item/ingot/silver
+	icon_state = "silverclaws"
+	wdefense = 3
+	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
+	wbalance = WBALANCE_NORMAL
+	max_blade_int = 150
+	is_silver = TRUE
+
+/obj/item/rogueweapon/handclaw/gronn/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
 
 /obj/item/rogueweapon/handclaw/ironclaw
-	slot_flags = ITEM_SLOT_HIP
 	name = "iron fighting claws"
 	desc = "A pair of heavily curved claws, styled after beasts and used in combat by some of the more uncivilized warriors who try to mimic the fighting styles of the wild, or by anyone who thinks they can actually do that."
 	icon_state = "ironclaw"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	slot_flags = ITEM_SLOT_HIP
 	wdefense = 3 // this is not a katar?
 	force = 20
 	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
@@ -489,7 +471,7 @@
 
 /obj/item/rogueweapon/handclaw/ironclaw/blunt
 	name = "iron grip club"
-	desc = "A sturdy handle of iron with a solid spiked bludgeon on the end. It is a simple weapon, alternative to a cudgel or mace for those who prefer to fight with a different grip."
+	desc = "A sturdy handle of iron with a solid spiked bludgeon on the end. It is a simple weapon; an alternative to a cudgel or mace for those who prefer to fight with a different grip."
 	icon_state = "ironblunt"
 	icon = 'icons/roguetown/weapons/unarmed32.dmi'
 	wdefense = 3
@@ -498,8 +480,143 @@
 	wbalance = WBALANCE_NORMAL
 	swingsound = BLUNTWOOSH_MED
 
-///Peasantry / Militia Weapon Pack///
+/obj/item/rogueweapon/handclaw/blacksteel
+	name = "blacksteel eagle claws"
+	desc = "A magnificent pair of blacksteel claws. While the Northern Empty is unfamiliar with blacksteel, they are familiar with an alloy of \
+			startingly similar repute; blacker-than-black, impossibly strong, and purported to've been the remains of divine matter. Such were wielded by \
+			a legendary champion of the Fjall - one whose valor, though forgotten by tyme, still echoes throughout the world they saved. \
+			</br>'Here in the wake, I know when the noose was set, but the truth is that I regret what I have left!'"
+	icon_state = "bskatarclaw"
+	icon = 'icons/roguetown/weapons/unarmed32.dmi'
+	wdefense = 1
+	force = 35
+	possible_item_intents = list(/datum/intent/claw/cut/gronn, /datum/intent/claw/chop/gronn, /datum/intent/claw/rend)
+	wbalance = WBALANCE_HEAVY
+	max_blade_int = 350
+	smeltresult = /obj/item/ingot/blacksteel
+	sharpness_mod = 2
 
+// Scythes.
+/obj/item/rogueweapon/scythe
+	name = "scythe"
+	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe."
+	icon_state = "peasantscythe"
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	force = 15
+	force_wielded = 25
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/cut/scythe, SPEAR_BASH, MACE_STRIKE)
+	pixel_y = -16
+	pixel_x = -16
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
+	bigboy = TRUE
+	gripsprite = TRUE
+	wlength = WLENGTH_GREAT
+	w_class = WEIGHT_CLASS_BULKY
+	minstr = 8
+	max_blade_int = 120
+	anvilrepair = /datum/skill/craft/carpentry
+	smeltresult = /obj/item/rogueore/coal
+	associated_skill = /datum/skill/labor/farming
+	walking_stick = TRUE
+	wdefense = 6
+	thrown_bclass = BCLASS_BLUNT
+	throwforce = 10
+	resistance_flags = FLAMMABLE
+
+/obj/item/rogueweapon/scythe/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.7,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+			if("wielded")
+				return list("shrink" = 0.7,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
+
+
+/obj/item/rogueweapon/scythe/militia
+	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe. This one has been reinforced."
+	name = "militia scythe"
+	smeltresult = /obj/item/ingot/iron
+	force = 18
+	force_wielded = 28
+
+/obj/item/rogueweapon/scythe/silver
+	name = "silver scythe"
+	is_silver = TRUE
+	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe. This one is made of silver."
+	icon_state = "silverpeasantscythe"
+	smeltresult = /obj/item/ingot/silver
+
+/obj/item/rogueweapon/scythe/silver/ComponentInitialize()
+	AddComponent(\
+		/datum/component/silverbless,\
+		pre_blessed = BLESSING_NONE,\
+		silver_type = SILVER_TENNITE\
+	)
+
+// Picks.
+/obj/item/rogueweapon/pick/militia
+	name = "militia warpick"
+	desc = "At the end of the dae, a knight's bascinet isn't much different than a particularly large stone. After all, both tend to rupture with sobering ease when introduced to a sharpened pickend."
+	force = 20
+	force_wielded = 25
+	possible_item_intents = list(/datum/intent/pick/bad)
+	gripped_intents = list(/datum/intent/pick, /datum/intent/stab/militia)
+	icon_state = "milpick"
+	icon = 'icons/roguetown/weapons/misc32.dmi'
+	sharpness = IS_SHARP
+	wlength = WLENGTH_SHORT
+	max_blade_int = 140
+	max_integrity = 400
+	slot_flags = ITEM_SLOT_HIP
+	associated_skill = /datum/skill/labor/mining
+	anvilrepair = /datum/skill/craft/carpentry
+	smeltresult = /obj/item/ingot/iron
+	wdefense = 2
+	wdefense_wbonus = 4
+	wbalance = WBALANCE_NORMAL
+
+/obj/item/rogueweapon/pick/militia/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+
+/obj/item/rogueweapon/pick/militia/steel
+	name = "militia steel warpick"
+	desc = "At the end of the dae, a knight's bascinet isn't much different than a particularly large stone. After all, both tend to rupture with sobering ease when introduced to a sharpened pickend. This one is honed out of steel parts."
+	icon_state = "milsteelpick"
+	force = 25
+	force_wielded = 30
+	max_blade_int = 180
+	max_integrity = 600
+	associated_skill = /datum/skill/combat/axes
+	anvilrepair = /datum/skill/craft/weaponsmithing
+	smeltresult = /obj/item/ingot/steel
+	wdefense = 3
+	wdefense_wbonus = 5
+	wbalance = WBALANCE_HEAVY
+
+/obj/item/rogueweapon/pick/militia/steel/getonmobprop(tag)
+	. = ..()
+	if(tag)
+		switch(tag)
+			if("gen")
+				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
+
+/obj/item/rogueweapon/pick/militia/steel/warpick
+	name = "dwarven warpick" //Dwarvish warpick. Unobtanium outside of Grudgebearer. Do not change that.
+	desc = "A hardy repurposed dwarven mining warpick. Made to handle the dwellers above and below, both clad in rock and forged rock."
+	icon_state = "dwarpick"
+	possible_item_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike)
+	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)
+	max_blade_int = 200 //10% increase over the steel pick
+	max_integrity = 660
+
+// Ignitables.
 /obj/item/rogueweapon/spear/militia
 	name = "militia spear"
 	desc = "Pitchforks and hoes traditionally till the soil. In tymes of peril, however, it isn't uncommon for a militiaman to pound them into polearms."
@@ -635,7 +752,6 @@
 		I.override_state = null
 		I.update_icon()
 
-
 /datum/component/ignitable/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	var/ignited = FALSE
 	if(user.used_intent?.reach >= get_dist(target, user))
@@ -665,281 +781,67 @@
 /datum/component/ignitable/proc/on_examine(datum/source, mob/user, list/examine_list)
 	return
 
-// Scythes.
-/obj/item/rogueweapon/scythe
-	name = "scythe"
-	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe."
-	icon_state = "peasantscythe"
-	icon = 'icons/roguetown/weapons/polearms64.dmi'
+// Standards.
+/obj/item/rogueweapon/spear/keep_standard
+	name = "ducal standard" // Big ol' flag that they keep to give bonuses, used by the manorguard standard bearer.
+	desc = "The local lord's banner, fashioned to a blacksteel pike and turned into a deadly instrument of war. \
+	The man who wields this is said to bring great fortune to his house, and those who keep him safe. \
+	<small>Runes glow near the head of the pike. A sure sign of the arcyne.</small>"
 	force = 15
-	force_wielded = 25
-	possible_item_intents = list(SPEAR_BASH)
-	gripped_intents = list(/datum/intent/spear/cut/scythe, SPEAR_BASH, MACE_STRIKE)
-	pixel_y = -16
-	pixel_x = -16
-	inhand_x_dimension = 64
-	inhand_y_dimension = 64
-	bigboy = TRUE
-	gripsprite = TRUE
-	wlength = WLENGTH_GREAT
-	w_class = WEIGHT_CLASS_BULKY
-	minstr = 8
-	max_blade_int = 120
-	anvilrepair = /datum/skill/craft/carpentry
-	smeltresult = /obj/item/rogueore/coal
-	associated_skill = /datum/skill/labor/farming
-	walking_stick = TRUE
-	wdefense = 6
-	thrown_bclass = BCLASS_BLUNT
-	throwforce = 10
-	resistance_flags = FLAMMABLE
-
-/obj/item/rogueweapon/scythe/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.7,"sx" = -7,"sy" = 2,"nx" = 7,"ny" = 3,"wx" = -2,"wy" = 1,"ex" = 1,"ey" = 1,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = -38,"sturn" = 37,"wturn" = 30,"eturn" = -30,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("wielded")
-				return list("shrink" = 0.7,"sx" = 5,"sy" = -3,"nx" = -5,"ny" = -2,"wx" = -5,"wy" = -1,"ex" = 3,"ey" = -2,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 7,"sturn" = -7,"wturn" = 16,"eturn" = -22,"nflip" = 8,"sflip" = 0,"wflip" = 8,"eflip" = 0)
-
-
-/obj/item/rogueweapon/scythe/militia
-	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe. This one has been reinforced."
-	name = "militia scythe"
-	smeltresult = /obj/item/ingot/iron
-	force = 18
-	force_wielded = 28
-
-/obj/item/rogueweapon/scythe/silver
-	name = "silver scythe"
-	is_silver = TRUE
-	desc = "The bane of fields, the trimmer of grass, the harvester of wheat, and - depending on who you ask - the shepherd of souls to the afterlyfe. This one is made of silver."
-	icon_state = "silverpeasantscythe"
-	smeltresult = /obj/item/ingot/silver
-
-/obj/item/rogueweapon/scythe/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-// Picks.
-/obj/item/rogueweapon/pick/militia
-	name = "militia warpick"
-	desc = "At the end of the dae, a knight's bascinet isn't much different than a particularly large stone. After all, both tend to rupture with sobering ease when introduced to a sharpened pickend."
-	force = 20
-	force_wielded = 25
-	possible_item_intents = list(/datum/intent/pick/bad)
-	gripped_intents = list(/datum/intent/pick, /datum/intent/stab/militia)
-	icon_state = "milpick"
-	icon = 'icons/roguetown/weapons/misc32.dmi'
-	sharpness = IS_SHARP
-	wlength = WLENGTH_SHORT
-	max_blade_int = 140
-	max_integrity = 400
-	slot_flags = ITEM_SLOT_HIP
-	associated_skill = /datum/skill/labor/mining
-	anvilrepair = /datum/skill/craft/carpentry
-	smeltresult = /obj/item/ingot/iron
-	wdefense = 2
-	wdefense_wbonus = 4
-	wbalance = WBALANCE_NORMAL
-
-/obj/item/rogueweapon/pick/militia/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-
-/obj/item/rogueweapon/pick/militia/steel
-	name = "militia steel warpick"
-	desc = "At the end of the dae, a knight's bascinet isn't much different than a particularly large stone. After all, both tend to rupture with sobering ease when introduced to a sharpened pickend. This one is honed out of steel parts."
-	icon_state = "milsteelpick"
-	force = 25
 	force_wielded = 30
-	max_blade_int = 180
-	max_integrity = 600
-	associated_skill = /datum/skill/combat/axes
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	smeltresult = /obj/item/ingot/steel
-	wdefense = 3
-	wdefense_wbonus = 5
-	wbalance = WBALANCE_HEAVY
-
-/obj/item/rogueweapon/pick/militia/steel/getonmobprop(tag)
-	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.6,"sx" = -11,"sy" = -10,"nx" = 13,"ny" = -9,"wx" = -7,"wy" = -9,"ex" = 7,"ey" = -11,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 90,"sturn" = -90,"wturn" = -90,"eturn" = 90,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-
-/obj/item/rogueweapon/pick/militia/steel/warpick
-	name = "dwarven warpick" //Dwarvish warpick. Unobtanium outside of Grudgebearer. Do not change that.
-	desc = "A hardy repurposed dwarven mining warpick. Made to handle the dwellers above and below, both clad in rock and forged rock."
-	icon_state = "dwarpick"
-	possible_item_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike)
-	gripped_intents = list(/datum/intent/pick/heavy, /datum/intent/mace/strike, /datum/intent/stab/militia)
-	max_blade_int = 200 //10% increase over the steel pick
-	max_integrity = 660
-
-//Claws.
-/obj/item/rogueweapon/handclaw
-	slot_flags = ITEM_SLOT_HIP
-	name = "iron hound claws"
-	desc = "A pair of heavily curved claws, styled after beasts of the wilds for rending bare flesh, \
-			A show of the continual worship and veneration of beasts of strength in Gronn."
-	icon_state = "ironclaws"
-	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 3
-	force = 25
-	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
-	wbalance = WBALANCE_NORMAL
-	max_blade_int = 150
-	max_integrity = 200
-	gripsprite = FALSE
-	parrysound = list('sound/combat/parry/bladed/bladedthin (1).ogg', 'sound/combat/parry/bladed/bladedthin (2).ogg', 'sound/combat/parry/bladed/bladedthin (3).ogg')
-	swingsound = list('sound/combat/wooshes/bladed/wooshmed (1).ogg','sound/combat/wooshes/bladed/wooshmed (2).ogg','sound/combat/wooshes/bladed/wooshmed (3).ogg')
-	swingsound = BLADEWOOSH_SMALL
-	wlength = WLENGTH_NORMAL
-	w_class = WEIGHT_CLASS_NORMAL
-	associated_skill = /datum/skill/combat/unarmed
-	pickup_sound = 'sound/foley/equip/swordsmall2.ogg'
-	throwforce = 12
-	thrown_bclass = BCLASS_CUT
-	anvilrepair = /datum/skill/craft/weaponsmithing
-	smeltresult = /obj/item/ingot/iron
-	grid_height = 96
-	grid_width = 32
-
-/obj/item/rogueweapon/handclaw/steel
-	name = "steel mantis claws"
-	desc = "A pair of steel claws. An uncommon sight in Gronn as they do not forge their own steel, \
-			Their longer blades offer a superior defence option but their added weight slows them down."
-	icon_state = "steelclaws"
-	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 6
-	force = 35
-	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
-	wbalance = WBALANCE_HEAVY
-	max_blade_int = 180
-	max_integrity = 200
-	smeltresult = /obj/item/ingot/steel
-	sharpness_mod = 2
-
-/obj/item/rogueweapon/handclaw/gronn
-	name = "gronn beast claws"
-	desc = "A pair of uniquely reinforced iron claws forged with the addition of bone by the Iskarn shamans of the Northern Empty. \
-			Their bone-weighted edges bite deep into hide and leather, and their light weight supports rapid aggressive slashes. \
-			</br>'To see the claws of the four, Is to see the true danger of the north. Not man, Not land but beast. We are all prey in their eyes.'"
-	icon_state = "gronnclaws"
-	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 4
-	force = 25
-	possible_item_intents = list(/datum/intent/claw/cut/gronn, /datum/intent/claw/chop/gronn, /datum/intent/claw/rend)
-	wbalance = WBALANCE_SWIFT
+	throwforce = 10 //No
+	possible_item_intents = list(SPEAR_BASH)
+	gripped_intents = list(/datum/intent/spear/thrust, /datum/intent/spear/bash/ranged, /datum/intent/mace/smash/eaglebeak) // GET THEM OFF OF ME!!! OOOUGH!!!
+	icon = 'icons/roguetown/weapons/polearms64.dmi'
+	icon_state = "standard"
 	max_blade_int = 200
-	max_integrity = 200
-
-/obj/item/rogueweapon/handclaw/gronn/silver
-	name = "silver ravager claws"
-	desc = "A trinity of silver claws, forged in defiant reverence of the Old Ways that still permeate throughout the Northern Empty. \
-			The psicruciformic edge shreds through the hide of thralls; resurrected corpses from Gronnic antiquity, said to've been born through faithlessness and despair. \
-			Few shamen hold the strength to wield it, and fewer will speak of what they, alone, know - the true fate of the Weeping Father. \
-			</br>'Here we stand, to turn and face the odds; sacrifice yourself, or bow to lesser gods!'"
-	smeltresult = /obj/item/ingot/silver
-	icon_state = "silverclaws"
-	wdefense = 3
-	possible_item_intents = list(/datum/intent/claw/cut, /datum/intent/claw/chop)
-	wbalance = WBALANCE_NORMAL
-	max_blade_int = 150
-	is_silver = TRUE
-
-/obj/item/rogueweapon/handclaw/gronn/silver/ComponentInitialize()
-	AddComponent(\
-		/datum/component/silverbless,\
-		pre_blessed = BLESSING_NONE,\
-		silver_type = SILVER_TENNITE\
-	)
-
-/obj/item/rogueweapon/handclaw/blacksteel
-	name = "blacksteel eagle claws"
-	desc = "A magnificent pair of blacksteel claws. While the Northern Empty is unfamiliar with blacksteel, they are familiar with an alloy of \
-			startingly similar repute; blacker-than-black, impossibly strong, and purported to've been the remains of divine matter. Such were wielded by \
-			a legendary champion of the Fjall - one whose valor, though forgotten by tyme, still echoes throughout the world they saved. \
-			</br>'Here in the wake, I know when the noose was set, but the truth is that I regret what I have left!'"
-	icon_state = "bskatarclaw"
-	icon = 'icons/roguetown/weapons/unarmed32.dmi'
-	wdefense = 1
-	force = 35
-	possible_item_intents = list(/datum/intent/claw/cut/gronn, /datum/intent/claw/chop/gronn, /datum/intent/claw/rend)
-	wbalance = WBALANCE_HEAVY
-	max_blade_int = 350
+	max_integrity = 250
 	smeltresult = /obj/item/ingot/blacksteel
-	sharpness_mod = 2
+	resistance_flags = FIRE_PROOF
+	var/active_item = FALSE
 
-/obj/item/rogueweapon/handclaw/getonmobprop(tag)
+/obj/item/rogueweapon/spear/keep_standard/equipped(mob/living/user)
 	. = ..()
-	if(tag)
-		switch(tag)
-			if("gen")
-				return list("shrink" = 0.4,"sx" = -7,"sy" = -4,"nx" = 7,"ny" = -4,"wx" = -3,"wy" = -4,"ex" = 1,"ey" = -4,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0,"nturn" = 110,"sturn" = -110,"wturn" = -110,"eturn" = 110,"nflip" = 0,"sflip" = 8,"wflip" = 8,"eflip" = 0)
-			if("onbelt")
-				return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
+	if(active_item)
+		return
+	active_item = TRUE
+	if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
+		to_chat(user, span_suppradio("The standard's runes pulse, accepting me as its <b>master</b>."))
+		user.add_stress(/datum/stressevent/keep_standard)
+		add_verb(user, /mob/proc/standard_position)
+		add_verb(user, /mob/proc/standard_rally)
+	else
+		to_chat(user, span_suicide("The standard's runes pulse, rejecting me as its <b>master</b>."))
 
-/datum/intent/claw/chop
-	name = "chop"
-	icon_state = "inchop"
-	attack_verb = list("chops", "hacks")
-	animname = "chop"
-	blade_class = BCLASS_CHOP
-	hitsound = list('sound/combat/hits/bladed/genchop (1).ogg', 'sound/combat/hits/bladed/genchop (2).ogg', 'sound/combat/hits/bladed/genchop (3).ogg')
-	item_d_type = "slash"
-	penfactor = PEN_MEDIUM
-	damfactor = 1.1
-	swingdelay = 10
-	clickcd = CLICK_CD_HEAVY
+/obj/item/rogueweapon/spear/keep_standard/dropped(mob/living/user)
+	..()
+	if(!active_item)
+		return
+	active_item = FALSE
+	if(HAS_TRAIT(user, TRAIT_STANDARD_BEARER))
+		to_chat(user, span_monkeyhive("The standard's runes pulse, rhythmically, as if sad to see you release your control."))
+		user.remove_stress(/datum/stressevent/keep_standard)
+		remove_verb(user, /mob/proc/standard_position)
+		remove_verb(user, /mob/proc/standard_rally)
+	else
+		to_chat(user, span_suicide("The standard's runes pulse, as if sighing in relief once I let go."))
 
-/datum/intent/claw/chop/gronn
-	penfactor = PEN_NONE
-	damfactor = 0.7
-	intent_intdamage_factor = 3
-	swingdelay = 11
-	clickcd = CLICK_CD_MELEE
+/obj/item/rogueweapon/spear/keep_standard/update_icon() //Shameless copy of how clothes handle it.
+	refresh_detail_overlay()
 
-/datum/intent/claw/cut
-	name = "cut"
-	icon_state = "incut"
-	attack_verb = list("cuts", "slashes")
-	animname = "cut"
-	blade_class = BCLASS_CUT
-	hitsound = list('sound/combat/hits/bladed/smallslash (1).ogg', 'sound/combat/hits/bladed/smallslash (2).ogg', 'sound/combat/hits/bladed/smallslash (3).ogg')
-	item_d_type = "slash"
-	penfactor = PEN_LIGHT
-	damfactor = 0.8
-	clickcd = CLICK_CD_MELEE
+/obj/item/rogueweapon/spear/keep_standard/Initialize(mapload)
+	. = ..()
+	if(GLOB.lordprimary)
+		lordcolor(GLOB.lordprimary, GLOB.lordsecondary)
+	GLOB.lordcolor += src
 
-/datum/intent/claw/cut/gronn
-	damfactor = 0.6
-	intent_intdamage_factor = 0.5
-	clickcd = CLICK_CD_QUICK
+/obj/item/rogueweapon/spear/keep_standard/lordcolor(primary, secondary)
+	detail_tag = "_detail"
+	altdetail_tag = "_detailalt"
+	detail_color = primary
+	altdetail_color = secondary
+	update_icon()
 
-/datum/intent/claw/rend
-	name = "rend"
-	icon_state = "inrend"
-	attack_verb = list("rends")
-	animname = "cut"
-	blade_class = BCLASS_CHOP
-	reach = 1
-	penfactor = PEN_NONE
-	swingdelay = 20
-	damfactor = 2.5
-	clickcd = CLICK_CD_HEAVY
-	no_early_release = TRUE
-	hitsound = list('sound/combat/hits/bladed/genslash (1).ogg', 'sound/combat/hits/bladed/genslash (2).ogg', 'sound/combat/hits/bladed/genslash (3).ogg')
-	item_d_type = "slash"
-	misscost = 10
-	intent_intdamage_factor = 0.05
-	demolition_mod = 0.05
+/obj/item/rogueweapon/spear/keep_standard/Destroy()
+	GLOB.lordcolor -= src
+	return ..()
