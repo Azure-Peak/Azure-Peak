@@ -15,7 +15,7 @@
 
 /datum/migrant_wave/evil_knight
 	name = "The Unknightly Journey"
-	track = MIGRANT_TRACK_EVENT
+	track = MIGRANT_TRACK_SPECIAL
 	max_spawns = 1
 	shared_wave_type = /datum/migrant_wave/evil_knight
 	weight = 8
