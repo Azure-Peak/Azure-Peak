@@ -90,3 +90,4 @@
 		for(var/path_text in saved_paths)
 			if(valid_path(menu, path_text) && length(pins[menu]) < max_pins)
 				pins[menu][path_text] = "saved"
+
