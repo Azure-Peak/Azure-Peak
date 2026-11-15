@@ -4,7 +4,7 @@
 /datum/action/cooldown/spell/projectile/stygian_efflorescence
 	button_icon = 'icons/mob/actions/mage_ferramancy.dmi'
 	name = "Stygian Efflorescence"
-	desc = "Charge up, then loose a volley of five sharpened obsidian shards in a wide spread, blasting out in the direction you face. The first shard can cause a critical wound, but shards on the same target deal greatly reduced damage (5.6 damage) and cannot crit. Projectile effectiveness decreases after 5 tiles."
+	desc = "Charge up, then loose a volley of three sharpened obsidian shards in a wide spread toward your target. The first shard can cause a critical wound, but shards on the same target deal reduced damage (14.4 damage) and cannot crit. Projectile effectiveness decreases after 5 tiles."
 	fluff_desc = "Before the first men learned to refine metal, men fought with sharpened stones - particularly obsidian from the foot of volcanos. \
 	It is said that Mount Golgotha had the best obsidian in all the world, sharp enough to cut flesh with ease. \
 	Malice, energy, and the imagination of the Magi cutting someone apart with Obsidian. \
@@ -16,27 +16,23 @@
 
 	projectile_type = /obj/projectile/energy/stygian
 	cast_range = SPELL_RANGE_PROJECTILE
-	projectiles_per_fire = 5
+	projectiles_per_fire = 3
 	point_cost = 3
 
-	click_to_activate = FALSE
-	cardinal_aim = TRUE
-	shared_cooldown = "ferramancy_strike"
-
 	primary_resource_type = SPELL_COST_STAMINA
-	primary_resource_cost = SPELLCOST_MAJOR_PROJECTILE // It is a big ass shotgun now
+	primary_resource_cost = SPELLCOST_MINOR_PROJECTILE
 
 	invocations = list("Golgothae Acies!")
 	invocation_type = INVOCATION_SHOUT
 
 	charge_required = TRUE
-	weapon_cast_penalized = TRUE // Use it with an arcyne armament noob 
+	weapon_cast_penalized = TRUE
 	charge_time = CHARGETIME_MINOR
 	charge_swingdelay_type = SWINGDELAY_PENALTY
 	hold_drain = 1
 	charge_slowdown = CHARGING_SLOWDOWN_MEDIUM
 	charge_sound = 'sound/magic/charging.ogg'
-	cooldown_time = 20 SECONDS // Not meant to be the thing you relies on for damage or a staple poke spell, it is something to be mixed in in melee
+	cooldown_time = 10 SECONDS // No longer used by true mage, only the Enchanter package, so a lower CD is warranted but not to the degree of old Ferra DPS
 	attunement_school = ASPECT_NAME_FERRAMANCY
 
 	associated_skill = /datum/skill/magic/arcane
@@ -74,7 +70,7 @@
 	speed = MAGE_PROJ_VERY_SLOW
 	flag = "stab"
 	hitsound = 'sound/combat/hits/bladed/genstab (1).ogg'
-	var/reduced_damage = SPELL_DMG(7) // 34 + 7 * 4 = 62. A point blank is gonna be as much damage as most of your melee Ferramantic attack, on purpose as a ranged pressure tool as not as a replacement to compete with your fancy NotSpecial
+	var/reduced_damage = SPELL_DMG(18) // 34 + 18 * 2 = 70. A point blank is gonna be as much damage as most of your melee Ferramantic attack, on purpose as a ranged pressure tool as not as a replacement to compete with your fancy NotSpecial
 
 /obj/projectile/energy/stygian/prehit(atom/target)
 	if(ismob(target))
